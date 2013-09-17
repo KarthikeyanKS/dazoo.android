@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- declare-styleable name must have the same name as the class -->
+    <!-- all attr-name must be globally unique -->
+    <declare-styleable name="FontButton">
+        <attr name="fontbutton" format="string" />
+    </declare-styleable>
+    <declare-styleable name="FontEditText">
+        <attr name="fontedittext" format="string" />
+    </declare-styleable>
+    <declare-styleable name="FontTextView">
+        <attr name="fonttextview" format="string" />
+    </declare-styleable>
+   
+
+</resources>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Dazoo</string>
+
+    <!-- HOMEPAGE : TABS -->
+    <string name="tab_tv_guide">TV Guide</string>
+    <string name="tab_activity">Activity</string>
+    <string name="tab_me">Me</string>
+
+    <!-- HOMEPAGE : FILTERING BY DAY -->
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+
+    <string-array name="weekday_names">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
+    <string-array name="categories_names">
+        <item>All categories</item>
+        <item>Movie</item>
+        <item>Serier</item>
+        <item>Barn</item>
+        <item>Sport</item>
+    </string-array>
+
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+
+    <!-- HOMEPAGE : FILTER BY CATEGORY -->
+    <string name="filter_by">Filter by</string>
+    <string name="all">All</string>
+
+    <!-- CONTENT DESCRIPTION -->
+    <string name="tv_guide_rating_icon">TV Guide content rating image</string>
+    <string name="event_is_live_indicator">LIVE</string>
+
+    <!-- LAYOUT RESPONSES -->
+    <string name="no_content_layout_title">No content</string>
+    <string name="no_content_layout_message">There are no content available in this category.</string>
+
+    <!-- GENERAL ERRORS -->
+    <string name="connection_failed_title">Could not connect to the network</string>
+    <string name="connection_failed_message">Please try again later</string>
+    <string name="general_error_message_title">Oops</string>
+    <string name="general_error_message_message">Dazoo is unable to load the content.\nPlease try again later.</string>
+    <string name="general_error_message_button">Try again</string>
+    <string name="general_no_content_available">No content is available</string>
+
+    <!-- CONTENT ERRORS -->
+    <string name="product_view_content_expired">This content is no longer available</string>
+
+    <!-- ACTIVITY PAGE -->
+    <string name="activity_page_title">Activity</string>
+
+    <!-- ME PAGE -->
+    <string name="me_page_title">My Profile</string>
+
+</resources>

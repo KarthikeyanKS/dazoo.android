@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/white" >
+
+        <LinearLayout
+            android:id="@+id/tab_selector_container"
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:paddingBottom="2dp" >
+
+            <com.millicom.secondscreen.customviews.FontButton
+                android:id="@+id/show_tvguide"
+                style="@style/homepage_tab_selector"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:paddingBottom="2dp"
+                android:text="@string/tab_tv_guide"
+                android:textSize="15sp" />
+
+            <com.millicom.secondscreen.customviews.FontButton
+                android:id="@+id/show_activity"
+                style="@style/homepage_tab_selector"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:paddingBottom="2dp"
+                android:text="@string/tab_activity"
+                android:textSize="15sp" />
+
+            <com.millicom.secondscreen.customviews.FontButton
+                android:id="@+id/show_me"
+                style="@style/homepage_tab_selector"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:paddingBottom="2dp"
+                android:text="@string/tab_me"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@id/tab_selector_container"
+            android:fillViewport="true" >
+
+            <FrameLayout
+                android:id="@+id/homepage_contentframe"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
+        </ScrollView>
+    </RelativeLayout>
+
+</RelativeLayout><!--
+TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@android:id/tabhost"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@android:id/tabs"
+            android:layout_alignParentTop="true" />
+
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true" >
+
+            <Button
+                android:id="@+id/tab1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:tag="tab1"
+                android:text="This is a button" >
+            </Button>
+        </TabWidget>
+    </RelativeLayout>
+
+</TabHost
+-->

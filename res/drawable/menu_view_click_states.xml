@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+	
+    <!-- PRESSED -->
+    <item android:state_pressed="true" android:drawable="@color/gray"/>
+     
+	<!-- NORMAL -->
+    <item>
+		<shape>
+		<solid android:color="#00000000"/>
+		</shape>
+	</item>
+</selector>
