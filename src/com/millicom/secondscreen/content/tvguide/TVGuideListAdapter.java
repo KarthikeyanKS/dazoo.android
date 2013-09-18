@@ -20,7 +20,7 @@ import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.utilities.DateUtilities;
-import com.millicom.secondscreen.utilities.ImageDownloadThreadCache;
+import com.millicom.secondscreen.utilities.ImageLoader;
 
 public class TVGuideListAdapter extends BaseAdapter {
 
@@ -30,12 +30,12 @@ public class TVGuideListAdapter extends BaseAdapter {
 	private Activity					mActivity;
 	private ArrayList<Guide>			mGuide;
 
-	private ImageDownloadThreadCache	imageLoader;
-
+	private ImageLoader mImageLoader;
+	
 	public TVGuideListAdapter(Activity mActivity, ArrayList<Guide> mGuide) {
 		this.mGuide = mGuide;
 		this.mActivity = mActivity;
-		imageLoader = new ImageDownloadThreadCache(mActivity);
+		this.mImageLoader = new com.millicom.secondscreen.utilities.ImageLoader(mActivity, R.drawable.loadimage);
 	}
 
 	@Override
@@ -75,7 +75,9 @@ public class TVGuideListAdapter extends BaseAdapter {
 		if (guide.getLogoLHref() != null) {
 			// ImageDownloadThread getChannelIconTask = new ImageDownloadThread(holder.mChannelIconIv, holder.mProgressBar);
 			// getChannelIconTask.execute(guide.getLogoHref());
-			imageLoader.displayImage(guide.getLogoLHref(), mActivity, holder.mChannelIconIv);
+			//imageLoader.displayImage(guide.getLogoLHref(), mActivity, holder.mChannelIconIv);
+			mImageLoader.displayImage(guide.getLogoLHref(),holder.mChannelIconIv, ImageLoader.IMAGE_TYPE.POSTER);
+			
 		} else {
 			holder.mChannelIconIv.setImageResource(R.drawable.loadimage_2x);
 		}

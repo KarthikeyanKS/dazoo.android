@@ -27,6 +27,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.Toast;
 
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.Consts;
@@ -232,21 +233,22 @@ public class TVGuideFragment extends SSPageFragment {
 
 		// compute the item index for given event position belongs to
 		int itemPosition = (int) (sideIndexY / pixelPerIndexItem);
-
-		if (itemPosition < 0) {
-			itemPosition = 0;
-		} else if (itemPosition >= dealList.size()) {
-			itemPosition = dealList.size() - 1;
-		}
-
-		int listLocation = dealList.get(itemPosition) + itemPosition;
-
-		if (listLocation > totalListSize) {
-			listLocation = totalListSize;
-		}
-
 		
-		mTvGuideListView.setSelection(listLocation);
+		Toast.makeText(mActivity, Integer.toString(itemPosition), Toast.LENGTH_SHORT).show();
+		
+		//if (itemPosition < 0) {
+		//	itemPosition = 0;
+		//} else if (itemPosition >= dealList.size()) {
+		//	itemPosition = dealList.size() - 1;
+		//}
+		//
+		//int listLocation = dealList.get(itemPosition) + itemPosition;
+		//
+		//if (listLocation > totalListSize) {
+		//	listLocation = totalListSize;
+		//}
+		//
+		//mTvGuideListView.setSelection(listLocation);
 	}
 
 	private ArrayList<Object[]> getListArrayIndex(int[] intArr) {
@@ -369,8 +371,7 @@ public class TVGuideFragment extends SSPageFragment {
 			public boolean onTouch(View v, MotionEvent event) {
 				sideIndexX = event.getX();
 				sideIndexY = event.getY();
-				
-				
+			
 				// TODO
 				displayListItem();
 

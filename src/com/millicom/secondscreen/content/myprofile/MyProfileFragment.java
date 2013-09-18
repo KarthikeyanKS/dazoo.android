@@ -10,7 +10,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.millicom.secondscreen.R;
-import com.millicom.secondscreen.utilities.ImageDownloadThread;
 
 public class MyProfileFragment extends Fragment {
 
@@ -36,12 +35,7 @@ public class MyProfileFragment extends Fragment {
 		mAvatarProgressBar = (ProgressBar) mRootView.findViewById(R.id.mepage_avatar_progressbar);
 		mNameTextView = (TextView) mRootView.findViewById(R.id.mepage_name_tv);
 
-		// if ( avatarUrl != null) {
-		// ImageDownloadThread getavatar = new ImageDownloadThread(mAvatarImageView, mAvatarProgressBar);
-		// getavatar.execute(avatarUrl);
-		// } else {
 		mAvatarImageView.setImageResource(R.drawable.loadimage_2x);
-		// }
 
 		mNameTextView.setText("Erik Per Sven Ericsson");
 
