@@ -65,5 +65,9 @@
 
     <!-- ME PAGE -->
     <string name="me_page_title">My Profile</string>
+    <string name="reminders">Reminders</string>
+    <string name="likes">Likes</string>
+    <string name="my_channels">My Channels</string>
+    <string name="settings">Settings</string>
 
 </resources>

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.content.model.TvDate;
+import com.millicom.secondscreen.utilities.DateUtilities;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -75,7 +76,12 @@ public class ActionBarDropDownDateListAdapter extends BaseAdapter implements Spi
 
 		Drawable res = context.getResources().getDrawable(R.drawable.ic_launcher);
 		imageView.setImageDrawable(res);
-		txtTitle.setText(tvDate.getName() + " " + tvDate.getDate());
+		try {
+			txtTitle.setText(tvDate.getName() + " " + DateUtilities.tvDateStringToDatePickerString(tvDate.getDate()));
+		} catch (Exception e) {
+			e.printStackTrace();
+			txtTitle.setText("");
+		}
 		return row;
 	}
 }

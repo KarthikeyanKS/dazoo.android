@@ -105,8 +105,8 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 		if (isDateData == true) {
 			final Spinner daySpinner = (Spinner) findViewById(R.id.actionbar_homepage_day_spinner);
 			daySpinner.setVisibility(View.VISIBLE);
-
-			ActionBarDropDownDateListAdapter dayAdapter = new ActionBarDropDownDateListAdapter(this, mFilterByDayTitles);
+			
+			ActionBarDropDownDateListAdapter dayAdapter = new ActionBarDropDownDateListAdapter(this, mFilterByDayTitles);	
 			daySpinner.setAdapter(dayAdapter);
 
 			daySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {

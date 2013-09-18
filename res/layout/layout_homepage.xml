@@ -24,6 +24,7 @@
             android:id="@+id/tab_selector_container"
             android:layout_width="fill_parent"
             android:layout_height="60dp"
+            android:background="@color/light_gray"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal"
             android:paddingBottom="2dp" >

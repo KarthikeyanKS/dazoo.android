@@ -22,7 +22,7 @@
             android:cacheColorHint="@null"
             android:divider="@null"
             android:paddingRight="4dip" />
-
+        
         <LinearLayout
             android:id="@+id/side_clock_index"
             android:layout_width="30dip"

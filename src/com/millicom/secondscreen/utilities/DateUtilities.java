@@ -11,6 +11,22 @@ import java.util.TimeZone;
 import com.millicom.secondscreen.Consts;
 
 public class DateUtilities {
+	
+	/**
+	 * Converts a TvDate date string YYYY-MM-DD to the user-friendly format DD/MM
+	 */
+	public static String tvDateStringToDatePickerString(String date) throws ParseException {
+		long time = 0;
+		if (date != null && !date.equals("")) {
+			SimpleDateFormat dfmInput = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+			time = dfmInput.parse(date).getTime();
+		}
+		SimpleDateFormat dfmOutput = new SimpleDateFormat("dd/MM", Locale.getDefault());
+		String output = dfmOutput.format(time);
+		return output;
+	}
+	
+	
 	/**
 	 * Converts a iso-string to unix time
 	 * 
