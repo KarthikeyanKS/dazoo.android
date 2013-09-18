@@ -1,4 +1,4 @@
-package com.millicom.seconscreen.http;
+package com.millicom.secondscreen.http;
 
 
 public abstract class SSHttpClientGetResultCallback implements SSHttpClientCallback <SSHttpClientGetResult> {

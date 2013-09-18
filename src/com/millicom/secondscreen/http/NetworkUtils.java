@@ -1,4 +1,4 @@
-package com.millicom.seconscreen.http;
+package com.millicom.secondscreen.http;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -75,7 +75,7 @@ public class ActionBarDropDownDateListAdapter extends BaseAdapter implements Spi
 
 		Drawable res = context.getResources().getDrawable(R.drawable.ic_launcher);
 		imageView.setImageDrawable(res);
-		txtTitle.setText(tvDate.getDate());
+		txtTitle.setText(tvDate.getName() + " " + tvDate.getDate());
 		return row;
 	}
 }

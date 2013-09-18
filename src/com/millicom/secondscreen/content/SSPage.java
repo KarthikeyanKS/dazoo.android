@@ -10,10 +10,10 @@ import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Link;
 import com.millicom.secondscreen.content.model.ProgramType;
 import com.millicom.secondscreen.content.model.TvDate;
+import com.millicom.secondscreen.http.SSHttpClient;
+import com.millicom.secondscreen.http.SSHttpClientCallback;
+import com.millicom.secondscreen.http.SSHttpClientGetResult;
 import com.millicom.secondscreen.manager.ContentParser;
-import com.millicom.seconscreen.http.SSHttpClient;
-import com.millicom.seconscreen.http.SSHttpClientCallback;
-import com.millicom.seconscreen.http.SSHttpClientGetResult;
 
 public abstract class SSPage {
 

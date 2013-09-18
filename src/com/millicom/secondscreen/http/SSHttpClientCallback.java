@@ -1,4 +1,4 @@
-package com.millicom.seconscreen.http;
+package com.millicom.secondscreen.http;
 
 
 public  interface SSHttpClientCallback <T_Result> {

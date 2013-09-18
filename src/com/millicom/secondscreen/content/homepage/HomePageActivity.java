@@ -291,8 +291,6 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 			Log.d(TAG, "No programTypes are available");
 		}
 		if (super.requestIsSuccesfull(status)) {
-			Log.d(TAG,"SHOW TV GUIDE");
-			
 			mTabSelectorContainerView.setVisibility(View.VISIBLE);
 			showTVGuide();
 		}
