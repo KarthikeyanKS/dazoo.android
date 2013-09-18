@@ -10,7 +10,6 @@ import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.content.model.Link;
 import com.millicom.secondscreen.content.model.ProgramType;
 import com.millicom.secondscreen.content.model.TvDate;
-import com.millicom.secondscreen.session.SSResponseCode;
 
 public class SSProgramTypePage extends SSPage{
 
@@ -18,7 +17,6 @@ public static final String TAG = "SSProgramTypePage";
 	
 	private static SSProgramTypePage	sInstance;
 	public String 				mProgramTypesPageUrl;
-	private SSResponseCode		responseCode;
 
 	public static SSProgramTypePage getInstance() {
 		if (sInstance == null) sInstance = new SSProgramTypePage();
@@ -58,17 +56,17 @@ public static final String TAG = "SSProgramTypePage";
 		}
 	}
 	
-	protected void handleGetStartPageUriResult(SSResponseCode aResponseCode) {
+	protected void handleGetStartPageUriResult() {
 		Log.d(TAG, "handleGetStartPageUriResult");
 
 		// If get start page uri failed or get start page fails
-		if (!aResponseCode.isSuccess() || !getPage(mPageCallback)) {
+		if (!getPage(mPageCallback)) {
 			Log.d(TAG, "Get dates page uri or get dates page failed");
 
 			// If we have a callback
 			if (mPageCallback != null) {
 				// Tell our callback about it
-				SSPageGetResult pageGetResult = new SSPageGetResult(this, aResponseCode);
+				SSPageGetResult pageGetResult = new SSPageGetResult(this);
 				mPageCallback.onGetPageResult(pageGetResult);
 			}
 		}

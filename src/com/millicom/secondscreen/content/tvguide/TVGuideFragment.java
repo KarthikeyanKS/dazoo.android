@@ -57,10 +57,11 @@ public class TVGuideFragment extends SSPageFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootView = inflater.inflate(R.layout.layout_tvguide, container, false);
-		super.initRequestCallbackLayouts(mRootView);
 		mTvGuideContainerLayout = (RelativeLayout) mRootView.findViewById(R.id.tvguide_list_container);
 		mTvGuideListView = (ListView) mRootView.findViewById(R.id.listview);
 
+		super.initRequestCallbackLayouts(mRootView);	
+		
 		// Forced reload will be loaded in onResume
 		if (!shouldForceReload()) loadPage();
 		return mRootView;
@@ -111,12 +112,7 @@ public class TVGuideFragment extends SSPageFragment {
 			@Override
 			public void onGetPageResult(SSPageGetResult aPageGetResult) {
 
-				if (!aPageGetResult.getResponseCode().isSuccess() || !pageHoldsData()) {
-
-					Log.d(TAG, "==============RESPONSES============");
-					Log.d(TAG, "getResponseCode():" + aPageGetResult.getResponseCode().isSuccess());
-					Log.d(TAG, "pageHoldsData():" + pageHoldsData());
-
+				if (!pageHoldsData()) {
 					// // Request failed
 					updateUI(REQUEST_STATUS.FAILED);
 					Log.d(TAG, "loadStartPage - failed");
@@ -127,7 +123,6 @@ public class TVGuideFragment extends SSPageFragment {
 
 	@Override
 	protected void loadPage() {
-		mTvGuideContainerLayout.setVisibility(View.GONE);
 		updateUI(Consts.REQUEST_STATUS.LOADING);
 
 		if (!pageHoldsData()) {
@@ -146,8 +141,6 @@ public class TVGuideFragment extends SSPageFragment {
 				Log.d(TAG, "pageHoldsData: Failed");
 			} else {
 				updateUI(REQUEST_STATUS.SUCCESFUL);
-
-				Log.d(TAG, "Guide size:" + mGuide.size());
 				Log.d(TAG, "pageHoldsData: Successful");
 			}
 			result = true;
@@ -159,7 +152,6 @@ public class TVGuideFragment extends SSPageFragment {
 	protected void updateUI(REQUEST_STATUS status) {
 		Log.d(TAG, "update UI :" + status);
 		if (super.requestIsSuccesfull(status)) {
-			mTvGuideContainerLayout.setVisibility(View.VISIBLE);
 			mTvGuideListAdapter = new TVGuideListAdapter(mActivity, mGuide);
 			mTvGuideListView.setAdapter(mTvGuideListAdapter);
 		}

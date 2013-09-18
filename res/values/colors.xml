@@ -11,6 +11,8 @@
     <color name="white">#faf6f6</color>
     <color name="transparent">#00000000</color>
        
+    <color name="hallon">#FFD6E4</color>
+    
     <!-- TVGuide -->
     <color name="tvguide_program_line_color">#666666</color>
     

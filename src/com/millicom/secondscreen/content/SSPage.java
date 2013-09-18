@@ -3,23 +3,17 @@ package com.millicom.secondscreen.content;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
-import com.millicom.secondscreen.content.model.Broadcast;
-import com.millicom.secondscreen.content.model.Category;
-import com.millicom.secondscreen.content.model.Channel;
+import android.util.Log;
+
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Link;
 import com.millicom.secondscreen.content.model.ProgramType;
 import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.manager.ContentParser;
-import com.millicom.secondscreen.session.SSResponseCode;
 import com.millicom.seconscreen.http.SSHttpClient;
 import com.millicom.seconscreen.http.SSHttpClientCallback;
 import com.millicom.seconscreen.http.SSHttpClientGetResult;
-
-import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 
 public abstract class SSPage {
 
@@ -79,43 +73,24 @@ public abstract class SSPage {
 	
 	protected SSPageGetResult handleHttpGetResult(SSHttpClientGetResult aHttpClientGetResult) {
 		Log.d(TAG, "In onHandleHttpGetResult");
-		//JSONObject jsonObject = aHttpClientGetResult.getJson();
 		JSONArray jsonArray = aHttpClientGetResult.getJsonArray();
 		Log.d(TAG,"JSONArray is not null: " + (jsonArray !=null));
 		
-		// Create a page get result with the received response code
-		//SSPageGetResult pageGetResult = new SSPageGetResult(aHttpClientGetResult.getUri(), null, createResponseCode(jsonObject));
-		SSPageGetResult pageGetResult = new SSPageGetResult(aHttpClientGetResult.getUri(), null, createResponseCode(jsonArray));
+		SSPageGetResult pageGetResult = new SSPageGetResult(aHttpClientGetResult.getUri(), null);
 		
 		try {
-			// If it is a success
-			//if (pageGetResult.getResponseCode().isSuccess()) {
-
-				// Parse common links
-				//parseLinks(jsonObject);
-
 				Log.d(TAG, "Let sibling parse json result");
 
 				// Let sibling parse the json result in background
 				//parseGetPageResult(jsonObject, pageGetResult);
 				parseGetPageResult(jsonArray, pageGetResult);
-			//}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-			pageGetResult.getResponseCode().setFailed();
 		}
 		return pageGetResult;
 	}
 	
-	//protected SSResponseCode createResponseCode(JSONObject aJsonObject) {
-	//	// Create a response code from the given json object
-	//	return new SSResponseCode(aJsonObject);
-	//}
-
-	protected SSResponseCode createResponseCode(JSONArray jsonArray){
-		return new SSResponseCode(jsonArray);
-	}
-
 	// DATA PARSING
 
 	public void parseTvDates(JSONArray jsonArray) throws Exception {

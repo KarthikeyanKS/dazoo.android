@@ -2,56 +2,170 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:layout_height="wrap_content" 
+    android:background="@color/white">
 
     <LinearLayout
         android:id="@+id/tvguide_list_container"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@color/white"
-        android:orientation="horizontal" >
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white" >
 
         <RelativeLayout
             android:id="@+id/tvguide_channel_icon_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0.3"
             android:background="@color/white" >
 
             <ImageView
                 android:id="@+id/tvguide_channel_iv"
-                android:layout_width="70dp"
-                android:layout_height="50dp"
+                android:layout_width="150dp"
+                android:layout_height="105dp"
                 android:layout_margin="10dp"
-                android:scaleType="centerCrop" />
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY" />
 
-            <RelativeLayout
+            <ProgressBar
+                android:id="@+id/tvguide_channel_progressbar"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-
-                <ProgressBar
-                    android:id="@+id/tvguide_channel_progressbar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:visibility="gone" />
-            </RelativeLayout>
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone" />
         </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/tvguide_program_list_container"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:orientation="vertical" >
-        </LinearLayout>
+            android:layout_weight="0.7"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
+
+            <!-- LIVE NOW -->
+
+            <RelativeLayout
+                android:id="@+id/tvguide_program_line_live_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <com.millicom.secondscreen.customviews.FontTextView
+                    android:id="@+id/tvguide_program_line_live_time_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_gravity="left"
+                    android:layout_margin="5dp"
+                    android:textColor="@color/tvguide_program_line_color"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/tvguide_program_line_live_icon_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_toRightOf="@id/tvguide_program_line_live_time_tv"
+                    android:contentDescription="@string/tv_guide_rating_icon"
+                    android:visibility="gone" />
+
+                <com.millicom.secondscreen.customviews.FontTextView
+                    android:id="@+id/tvguide_program_line_live_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_toRightOf="@id/tvguide_program_line_live_icon_iv"
+                    android:textColor="@color/tvguide_program_line_color"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <!-- NEXT 1 -->
+
+            <RelativeLayout
+                android:id="@+id/tvguide_program_line_next_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvguide_program_line_live_container" >
+
+                <com.millicom.secondscreen.customviews.FontTextView
+                    android:id="@+id/tvguide_program_line_next_time_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_gravity="left"
+                    android:layout_margin="5dp"
+                    android:textColor="@color/tvguide_program_line_color"
+                    android:textSize="16sp"
+                    android:textStyle="italic" />
+
+                <ImageView
+                    android:id="@+id/tvguide_program_line_next_icon_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_toRightOf="@id/tvguide_program_line_next_time_tv"
+                    android:contentDescription="@string/tv_guide_rating_icon"
+                    android:visibility="gone" />
+
+                <com.millicom.secondscreen.customviews.FontTextView
+                    android:id="@+id/tvguide_program_line_next_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="5dp"
+                    android:layout_toRightOf="@id/tvguide_program_line_next_icon_iv"
+                    android:textColor="@color/tvguide_program_line_color"
+                    android:textSize="16sp"
+                    android:textStyle="" />
+            </RelativeLayout>
+
+            <!-- LAST -->
+
+            <RelativeLayout
+                android:id="@+id/tvguide_program_line_last_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvguide_program_line_next_container" >
+
+                <com.millicom.secondscreen.customviews.FontTextView
+                    android:id="@+id/tvguide_program_line_last_time_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_gravity="left"
+                    android:layout_margin="5dp"
+                    android:textColor="@color/tvguide_program_line_color"
+                    android:textSize="16sp"
+                    android:textStyle="italic" />
+
+                <ImageView
+                    android:id="@+id/tvguide_program_line_last_icon_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_toRightOf="@id/tvguide_program_line_last_time_tv"
+                    android:contentDescription="@string/tv_guide_rating_icon"
+                    android:visibility="gone" />
+
+                <com.millicom.secondscreen.customviews.FontTextView
+                    android:id="@+id/tvguide_program_line_last_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="5dp"
+                    android:layout_toRightOf="@id/tvguide_program_line_last_icon_iv"
+                    android:textColor="@color/tvguide_program_line_color"
+                    android:textSize="16sp"
+                    android:textStyle="" />
+            </RelativeLayout>
+        </RelativeLayout>
     </LinearLayout>
 
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:background="@color/gray" />
+        android:background="@color/light_gray" 
+        />
 
 </RelativeLayout>

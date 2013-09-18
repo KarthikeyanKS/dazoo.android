@@ -108,6 +108,7 @@ public abstract class SSPageFragment extends Fragment {
 				break;
 
 			case SUCCESFUL:
+				Log.d(TAG,"SUCCESSFUL!");
 				return true;
 			}
 		}
