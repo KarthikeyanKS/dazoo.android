@@ -1,4 +1,4 @@
-package com.millicom.secondscreen.content.fragments;
+package com.millicom.secondscreen.content;
 
 import java.util.ArrayList;
 

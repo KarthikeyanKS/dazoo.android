@@ -20,7 +20,7 @@ public class ActivityFragment extends Fragment{
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRootView = inflater.inflate(R.layout.layout_body_activitypage, container, false);
+		mRootView = inflater.inflate(R.layout.layout_body_activitypage_fragment, container, false);
 		
 		return mRootView;
 	}

@@ -48,7 +48,7 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.layout_homepage);
+		setContentView(R.layout.layout_homepage_activity);
 
 		initViews();
 

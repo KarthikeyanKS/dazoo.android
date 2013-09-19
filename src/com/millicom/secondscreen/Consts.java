@@ -19,10 +19,9 @@ public abstract class Consts {
 	public static enum REQUEST_STATUS {
 		LOADING, FAILED, SUCCESFUL, EMPTY_RESPONSE
 	};
-	
+
 	// Date iso format
-	public static final String ISO_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZZZ";
-	
+	public static final String	ISO_DATE_FORMAT						= "yyyy-MM-dd'T'HH:mm:ssZZZ";
 
 	// Activity page content block types
 	public static final String	BLOCK_TYPE_PRODUCT_TV				= "com.millicom.secondscreen.content.product.tv";
@@ -43,11 +42,16 @@ public abstract class Consts {
 	// data extra intents
 	public static final String	INTENT_EXTRA_SECTION				= "com.millicom.secondscreen.intent.extra.section";
 	public static final String	INTENT_EXTRA_GUIDE					= "com.millicom.secondscreen.intent.extra.guide";
-	
-	// TVGuide 
-	public static final int  TV_GUIDE_NEXT_PROGRAMS_NUMBER = 3; 
-	
-	public static final String	IMAGE_MACHINE_SECURITY_KEY				= "24567hright";
-	
+
+	// TVGuide
+	public static final int		TV_GUIDE_NEXT_PROGRAMS_NUMBER		= 3;
+
+	public static final String	IMAGE_MACHINE_SECURITY_KEY			= "24567hright";
+
+	// activity's requests to update calling fragment
+	public static final int		INFO_UPDATE_REMINDERS				= 1;
+	public static final int		INFO_UPDATE_LIKES					= 11;
+	public static final int		INFO_NO_UPDATE_REMINDERS			= 0;
+	public static final int		INFO_NO_UPDATE_LIKES				= 10;
 
 }

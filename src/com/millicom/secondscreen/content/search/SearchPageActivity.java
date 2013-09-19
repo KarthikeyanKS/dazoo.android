@@ -13,7 +13,7 @@ public class SearchPageActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.layout_searchpage);
+		setContentView(R.layout.layout_searchpage_activity);
 		
 		initViews();
 	}

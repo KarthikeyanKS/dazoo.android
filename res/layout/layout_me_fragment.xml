@@ -56,9 +56,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/mepage_person_container"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
             android:background="@color/light_gray"
             android:orientation="horizontal" >
 
@@ -66,17 +66,15 @@
                 android:id="@+id/mepage_reminders_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:gravity="center_vertical"
-                android:layout_margin="10dp"
+                android:layout_centerVertical="true"
+                android:padding="3dp"
                 android:src="@drawable/ic_launcher" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/mepage_reminders_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="10dp"
+                android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/mepage_reminders_icon"
                 android:text="@string/reminders"
                 android:textSize="18sp"
@@ -86,14 +84,13 @@
                 android:id="@+id/mepage_reminders_button_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/ic_action_search"
-                android:gravity="center_vertical"
-                android:layout_margin="10dp" />
+                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_action_search" />
         </RelativeLayout>
-        
-        
-         <!-- LIKES BAR -->
+
+        <!-- LIKES BAR -->
 
         <RelativeLayout
             android:id="@+id/mepage_likes_container"
@@ -110,16 +107,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:gravity="center_vertical"
-                android:layout_margin="10dp"
+                android:layout_centerVertical="true"
+                android:padding="3dp"
                 android:src="@drawable/ic_launcher" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/mepage_likes_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="10dp"
+                android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/mepage_likes_icon"
                 android:text="@string/likes"
                 android:textSize="18sp"
@@ -130,12 +126,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/ic_action_search"
-                android:gravity="center_vertical"
-                android:layout_margin="10dp" />
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_action_search" />
         </RelativeLayout>
-        
-         <!-- MY CHANNELS BAR -->
+
+        <!-- MY CHANNELS BAR -->
 
         <RelativeLayout
             android:id="@+id/mepage_my_channels_container"
@@ -152,16 +148,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:gravity="center_vertical"
-                android:layout_margin="10dp"
+                android:layout_centerVertical="true"
+                android:padding="3dp"
                 android:src="@drawable/ic_launcher" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/mepage_my_channels_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="10dp"
+                android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/mepage_my_channels_icon"
                 android:text="@string/my_channels"
                 android:textSize="18sp"
@@ -171,12 +166,12 @@
                 android:id="@+id/mepage_my_channels_button_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/ic_action_search"
-                android:gravity="center_vertical"
-                android:layout_margin="10dp" />
+                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_action_search" />
         </RelativeLayout>
-        
+
         <!-- SETTINGS BAR -->
 
         <RelativeLayout
@@ -194,16 +189,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:gravity="center_vertical"
-                android:layout_margin="10dp"
+                android:layout_centerVertical="true"
+                android:padding="3dp"
                 android:src="@drawable/ic_launcher" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/mepage_settings_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="10dp"
+                android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/mepage_settings_icon"
                 android:text="@string/settings"
                 android:textSize="18sp"
@@ -214,9 +208,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/ic_action_search"
-                android:gravity="center_vertical"
-                android:layout_margin="10dp" />
-        </RelativeLayout> 
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_action_search" />
+        </RelativeLayout>
     </RelativeLayout>
+
 </ScrollView>

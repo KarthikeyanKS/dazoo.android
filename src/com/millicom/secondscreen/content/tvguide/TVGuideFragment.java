@@ -33,10 +33,10 @@ import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.content.SSPageCallback;
+import com.millicom.secondscreen.content.SSPageFragment;
 import com.millicom.secondscreen.content.SSPageGetResult;
 import com.millicom.secondscreen.content.SSStartPage;
 import com.millicom.secondscreen.content.SSTvDatePage;
-import com.millicom.secondscreen.content.fragments.SSPageFragment;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.GuideTime;
@@ -108,7 +108,7 @@ public class TVGuideFragment extends SSPageFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRootView = inflater.inflate(R.layout.layout_tvguide, container, false);
+		mRootView = inflater.inflate(R.layout.layout_tvguide_fragment, container, false);
 		mTvGuideContainerLayout = (RelativeLayout) mRootView.findViewById(R.id.tvguide_list_container);
 		mTvGuideListView = (ListView) mRootView.findViewById(R.id.listview);
 		mClockIndexView = (LinearLayout) mRootView.findViewById(R.id.side_clock_index);

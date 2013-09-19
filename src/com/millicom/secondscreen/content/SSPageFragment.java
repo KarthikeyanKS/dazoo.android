@@ -1,4 +1,4 @@
-package com.millicom.secondscreen.content.fragments;
+package com.millicom.secondscreen.content;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
