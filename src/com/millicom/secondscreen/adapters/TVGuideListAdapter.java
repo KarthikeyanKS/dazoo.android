@@ -1,4 +1,4 @@
-package com.millicom.secondscreen.content.tvguide;
+package com.millicom.secondscreen.adapters;
 
 import java.util.ArrayList;
 
@@ -35,7 +35,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 	public TVGuideListAdapter(Activity mActivity, ArrayList<Guide> mGuide) {
 		this.mGuide = mGuide;
 		this.mActivity = mActivity;
-		this.mImageLoader = new com.millicom.secondscreen.utilities.ImageLoader(mActivity, R.drawable.loadimage);
+		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage);
 	}
 
 	@Override

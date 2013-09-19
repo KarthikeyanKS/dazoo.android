@@ -1,5 +1,7 @@
 package com.millicom.secondscreen.content.myprofile;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -17,6 +19,10 @@ import android.widget.TextView;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.adapters.RemindersListAdapter;
+import com.millicom.secondscreen.content.model.Broadcast;
+import com.millicom.secondscreen.content.model.Channel;
+import com.millicom.secondscreen.content.model.Program;
 
 public class RemindersActivity extends ActionBarActivity {
 
@@ -24,6 +30,7 @@ public class RemindersActivity extends ActionBarActivity {
 	private ActionBar			mActionBar;
 	private boolean				isChange	= false;
 	private ListView mListView;
+	private RemindersListAdapter mAdapter;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -53,7 +60,24 @@ public class RemindersActivity extends ActionBarActivity {
 	}
 	
 	private void initLayout(){
+		ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
+		Channel channel = new Channel();
+		channel.setLogoSUrl("http://api.gitrgitr.com/logos/ae.gif");
+		channel.setName("A&E MUNDO");
+		Program program = new Program();
+		program.setTitle("¿Quién da má$?");
+		program.setEpisode("Episode 1");
+		program.setSeason("Season 1");
+		program.setPosterMUrl("http://api.gitrgitr.com/images/quien_da_mas_8.gif");
+		Broadcast broadcast = new Broadcast();
+		broadcast.setBeginTime("2013-09-17T06:00:00+00:00");
+		broadcast.setChannel(channel);
+		broadcast.setProgram(program);
+		broadcasts.add(broadcast);
+		
 		mListView = (ListView) findViewById(R.id.listview);
+		mAdapter = new RemindersListAdapter(this, broadcasts);
+		mListView.setAdapter(mAdapter);
 	}
 
 	@Override

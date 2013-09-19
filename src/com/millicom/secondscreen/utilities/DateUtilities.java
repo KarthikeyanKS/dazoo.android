@@ -104,6 +104,26 @@ public class DateUtilities {
 		String output = dfmOutput.format(time);
 		return output;
 	}
+	
+	/**
+	 * Converts a iso-string to date and time
+	 * 
+	 * @param date
+	 *            string in "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" format
+	 * @return date string in "EEE MMMM d, y HH:mm" format
+	 * @throws ParseException
+	 */
+	public static String isoStringToDateShortAndTimeString(String date) throws ParseException {
+		long time = 0;
+		if (date != null && !date.equals("")) {
+			SimpleDateFormat dfmInput = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
+			time = dfmInput.parse(date).getTime();
+		}
+		SimpleDateFormat dfmOutput = new SimpleDateFormat("EEE dd/MM, y HH:mm", Locale.getDefault());
+
+		String output = dfmOutput.format(time);
+		return output;
+	}
 
 	/**
 	 * Converts a iso-string to long
