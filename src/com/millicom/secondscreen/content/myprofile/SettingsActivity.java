@@ -54,7 +54,6 @@ public class SettingsActivity extends ActionBarActivity{
 	private void initLayout(){
 	}
 
-	// if the attendee was marked/unmarked as favorite - update the list layout by displaying the star at his entry in the list
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();

@@ -130,6 +130,7 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 				// move to the search page
 				Intent toSearchPage = new Intent(HomePageActivity.this, SearchPageActivity.class);
 				startActivity(toSearchPage);
+				overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			}
 		});
 	}
@@ -153,6 +154,7 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 				// move to the search page
 				Intent toSearchPage = new Intent(HomePageActivity.this, SearchPageActivity.class);
 				startActivity(toSearchPage);
+				overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			}
 		});
 	}
@@ -175,6 +177,7 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 				// move to the search page
 				Intent toSearchPage = new Intent(HomePageActivity.this, SearchPageActivity.class);
 				startActivity(toSearchPage);
+				overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			}
 		});
 	}

@@ -14,15 +14,20 @@
         android:orientation="horizontal"
         android:paddingLeft="5dip" >
 
-        <ListView
+        <com.handmark.pulltorefresh.library.PullToRefreshListView
             android:id="@+id/listview"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_weight="1"
             android:cacheColorHint="@null"
             android:divider="@null"
-            android:paddingRight="4dip" />
-        
+            android:fadingEdge="none"
+            android:fastScrollEnabled="false"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            android:paddingRight="4dip"
+            android:smoothScrollbar="true" />
+
         <LinearLayout
             android:id="@+id/side_clock_index"
             android:layout_width="30dip"

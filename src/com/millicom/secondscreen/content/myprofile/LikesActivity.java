@@ -55,7 +55,6 @@ public class LikesActivity extends ActionBarActivity{
 		
 	}
 
-	// if the attendee was marked/unmarked as favorite - update the list layout by displaying the star at his entry in the list
 	@Override
 	public void onBackPressed() {
 		Intent returnIntent = new Intent();

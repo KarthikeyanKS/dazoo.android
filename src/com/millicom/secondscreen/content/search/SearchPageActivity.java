@@ -2,6 +2,8 @@ package com.millicom.secondscreen.content.search;
 
 import com.millicom.secondscreen.R;
 
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -14,7 +16,7 @@ public class SearchPageActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_searchpage_activity);
-		
+
 		initViews();
 	}
 
@@ -26,9 +28,22 @@ public class SearchPageActivity extends ActionBarActivity {
 		actionBar.setDisplayUseLogoEnabled(false);
 		actionBar.setDisplayShowHomeEnabled(false);
 		actionBar.setCustomView(R.layout.layout_actionbar_searchpage);
-		
+
 		final int actionBarColor = getResources().getColor(R.color.lightblue);
 		actionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
-		
+
+	}
+
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		overridePendingTransition(R.anim.push_right_out, R.anim.push_right_in);
+		finish();
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 }

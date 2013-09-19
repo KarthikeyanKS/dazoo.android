@@ -9,10 +9,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Display;
 import android.view.GestureDetector;
@@ -29,6 +31,11 @@ import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.Toast;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
@@ -48,7 +55,10 @@ public class TVGuideFragment extends SSPageFragment {
 	private static final String	TAG				= "TVGuideFragment";
 	private View				mRootView;
 	private RelativeLayout		mTvGuideContainerLayout;
-	private ListView			mTvGuideListView;
+	//private ListView			mTvGuideListView;
+	private PullToRefreshListView mTvGuideListView;
+	private ListView actualListView; 
+	
 	private LinearLayout		mClockIndexView;
 
 	private TVGuideListAdapter	mTvGuideListAdapter;
@@ -110,7 +120,36 @@ public class TVGuideFragment extends SSPageFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootView = inflater.inflate(R.layout.layout_tvguide_fragment, container, false);
 		mTvGuideContainerLayout = (RelativeLayout) mRootView.findViewById(R.id.tvguide_list_container);
-		mTvGuideListView = (ListView) mRootView.findViewById(R.id.listview);
+		//mTvGuideListView = (ListView) mRootView.findViewById(R.id.listview);
+		mTvGuideListView = (PullToRefreshListView) mRootView.findViewById(R.id.listview);
+		// Set a listener to be invoked when the list should be refreshed.
+		mTvGuideListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
+			@Override
+			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+				String label = DateUtils.formatDateTime(mActivity.getApplicationContext(), System.currentTimeMillis(),
+						DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
+
+				// Update the LastUpdatedLabel
+				refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
+
+				// Do work to refresh the list here.
+				new GetDataTask().execute();
+			}
+		});
+		
+		// Add an end-of-list listener
+		mTvGuideListView.setOnLastItemVisibleListener(new OnLastItemVisibleListener() {
+
+			@Override
+			public void onLastItemVisible() {
+				Toast.makeText(mActivity, "End of List!", Toast.LENGTH_SHORT).show();
+			}
+		});
+		
+		mTvGuideListView.setMode(mTvGuideListView.getMode() == Mode.BOTH ? Mode.PULL_FROM_START
+				: Mode.BOTH);
+		
+		
 		mClockIndexView = (LinearLayout) mRootView.findViewById(R.id.side_clock_index);
 	
 		super.initRequestCallbackLayouts(mRootView);
@@ -203,9 +242,17 @@ public class TVGuideFragment extends SSPageFragment {
 	protected void updateUI(REQUEST_STATUS status) {
 		Log.d(TAG, "update UI :" + status);
 		if (super.requestIsSuccesfull(status)) {
+			
+			actualListView = mTvGuideListView.getRefreshableView();
+			
 			mTvGuideListAdapter = new TVGuideListAdapter(mActivity, mGuide);
-			mTvGuideListView.setAdapter(mTvGuideListAdapter);
+			//mTvGuideListView.setAdapter(mTvGuideListAdapter);
+			
 			getDisplayListOnChange();
+			
+			
+			actualListView.setAdapter(mTvGuideListAdapter);
+			actualListView.invalidate();
 		}
 	}
 
@@ -407,5 +454,29 @@ public class TVGuideFragment extends SSPageFragment {
             return super.onScroll(e1, e2, distanceX, distanceY);
         }
     }
+    
+    
+    private class GetDataTask extends AsyncTask<Void, Void, ArrayList<Guide>> {
+
+		@Override
+		protected ArrayList<Guide> doInBackground(Void... params) {
+			// Simulates a background job.
+			try {
+				Thread.sleep(4000);
+			} catch (InterruptedException e) {
+			}
+			return mGuide;
+		}
+
+		@Override
+		protected void onPostExecute(ArrayList<Guide> result) {
+			mTvGuideListAdapter.notifyDataSetChanged();
+
+			// Call onRefreshComplete when the list has been refreshed.
+			mTvGuideListView.onRefreshComplete();
+
+			super.onPostExecute(result);
+		}
+	}
     
 }
