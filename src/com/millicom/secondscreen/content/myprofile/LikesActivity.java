@@ -1,7 +1,11 @@
 package com.millicom.secondscreen.content.myprofile;
 
+import java.util.ArrayList;
+
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.adapters.LikesListAdapter;
+import com.millicom.secondscreen.content.model.Program;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -22,6 +26,8 @@ public class LikesActivity extends ActionBarActivity{
 	private static final String	TAG			= "LikesActivity";
 	private ActionBar			mActionBar;
 	private boolean				isChange	= false;
+	private ListView mListView;
+	private LikesListAdapter mAdapter;
 
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -52,7 +58,16 @@ public class LikesActivity extends ActionBarActivity{
 	}
 	
 	private void initLayout(){
+		ArrayList<Program> programs = new ArrayList<Program>();
+		Program program = new Program();
+		program.setTitle("Mad Men");
+		program.setPosterMUrl("http://api.gitrgitr.com/images/quien_da_mas_8.gif");
+		programs.add(program);
 		
+		mListView = (ListView) findViewById(R.id.listview);
+		mAdapter = new LikesListAdapter(this, programs);
+		
+		mListView.setAdapter(mAdapter);
 	}
 
 	@Override
