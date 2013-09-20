@@ -117,6 +117,8 @@
 
     <!-- ACTIVITY PAGE -->
     <string name="activity_page_title">Activity</string>
+    <string name="like">Like</string>
+    <string name="share">Share</string>
 
     <!-- ME PAGE -->
     <string name="me_page_title">My Profile</string>
