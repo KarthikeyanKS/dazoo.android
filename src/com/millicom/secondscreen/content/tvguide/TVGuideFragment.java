@@ -1,7 +1,10 @@
 package com.millicom.secondscreen.content.tvguide;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import android.app.Activity;
@@ -45,71 +48,63 @@ import com.millicom.secondscreen.content.SSPageFragment;
 import com.millicom.secondscreen.content.SSPageGetResult;
 import com.millicom.secondscreen.content.SSStartPage;
 import com.millicom.secondscreen.content.SSTvDatePage;
+import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
+import com.millicom.secondscreen.content.model.ChannelHour;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.GuideTime;
 import com.millicom.secondscreen.content.model.ProgramType;
 import com.millicom.secondscreen.content.model.TvDate;
+import com.millicom.secondscreen.utilities.DateUtilities;
 
 public class TVGuideFragment extends SSPageFragment {
 
-	private static final String	TAG				= "TVGuideFragment";
-	private View				mRootView;
-	private RelativeLayout		mTvGuideContainerLayout;
-	//private ListView			mTvGuideListView;
-	private PullToRefreshListView mTvGuideListView;
-	private ListView actualListView; 
+	private static final String		TAG				= "TVGuideFragment";
+	private View					mRootView;
+	private RelativeLayout			mTvGuideContainerLayout;
+	// private ListView mTvGuideListView;
+	private PullToRefreshListView	mTvGuideListView;
+	private ListView				actualListView;
+
+	private LinearLayout			mClockIndexView;
+
+	private TVGuideListAdapter		mTvGuideListAdapter;
+	private SSStartPage				mPage;
+	private ArrayList<Guide>		mGuide;
+
+	private Activity				mActivity;
+
+	protected GestureDetector		mGestureDetector;
+
+	protected Vector<GuideTime>		timeVector;
+
+	protected int					totalListSize	= 0;
+
+	// list with items for side index
+	private ArrayList<Object[]>		indexList		= null;
+
+	// list with row number for side index
+	protected List<Integer>			dealList		= new ArrayList<Integer>();
+
+	// height of left side index
+	protected int					sideIndexHeight;
+
+	// number of items in the side index
+	private int						indexListSize;
+
+	// x and y coordinates within our side index
+	protected static float			sideIndexX;
+	protected static float			sideIndexY;
 	
-	private LinearLayout		mClockIndexView;
-
-	private TVGuideListAdapter	mTvGuideListAdapter;
-	private SSStartPage			mPage;
-	private ArrayList<Guide>	mGuide;
-
-	private Activity			mActivity;
-
-	protected GestureDetector	mGestureDetector;
-
-	protected Vector<GuideTime>	timeVector;
-
-	protected int				totalListSize	= 0;
-
-	/**
-	 * list with items for side index
-	 */
-	private ArrayList<Object[]>	indexList		= null;
-
-	/**
-	 * list with row number for side index
-	 */
-	protected List<Integer>		dealList		= new ArrayList<Integer>();
-
-	/**
-	 * height of left side index
-	 */
-	protected int				sideIndexHeight;
-
-	/**
-	 * number of items in the side index
-	 */
-	private int					indexListSize;
-
-	/**
-	 * x and y coordinates within our side index
-	 */
-	protected static float		sideIndexX;
-	protected static float		sideIndexY;
+	// map of channels and broadcasts spread by 24 hours
+	private HashMap<Channel, ArrayList<ChannelHour>> channelBroadcastsMap;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
-
 		timeVector = getIndexedTime();
-		
-		mGestureDetector = new GestureDetector(mActivity,
-                new ListIndexGestureListener());
-
+		mGestureDetector = new GestureDetector(mActivity, new ListIndexGestureListener());
 		mActivity = getActivity();
 		mPage = SSStartPage.getInstance();
 
@@ -121,14 +116,14 @@ public class TVGuideFragment extends SSPageFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootView = inflater.inflate(R.layout.layout_tvguide_fragment, container, false);
 		mTvGuideContainerLayout = (RelativeLayout) mRootView.findViewById(R.id.tvguide_list_container);
-		//mTvGuideListView = (ListView) mRootView.findViewById(R.id.listview);
+		// mTvGuideListView = (ListView) mRootView.findViewById(R.id.listview);
 		mTvGuideListView = (PullToRefreshListView) mRootView.findViewById(R.id.listview);
 		// Set a listener to be invoked when the list should be refreshed.
 		mTvGuideListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-				String label = DateUtils.formatDateTime(mActivity.getApplicationContext(), System.currentTimeMillis(),
-						DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
+				String label = DateUtils.formatDateTime(mActivity.getApplicationContext(), System.currentTimeMillis(), DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE
+						| DateUtils.FORMAT_ABBREV_ALL);
 
 				// Update the LastUpdatedLabel
 				refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
@@ -137,7 +132,7 @@ public class TVGuideFragment extends SSPageFragment {
 				new GetDataTask().execute();
 			}
 		});
-		
+
 		// Add an end-of-list listener
 		mTvGuideListView.setOnLastItemVisibleListener(new OnLastItemVisibleListener() {
 
@@ -146,13 +141,10 @@ public class TVGuideFragment extends SSPageFragment {
 				Toast.makeText(mActivity, "End of List!", Toast.LENGTH_SHORT).show();
 			}
 		});
-		
-		mTvGuideListView.setMode(mTvGuideListView.getMode() == Mode.BOTH ? Mode.PULL_FROM_START
-				: Mode.BOTH);
-		
-		
+
+		mTvGuideListView.setMode(mTvGuideListView.getMode() == Mode.BOTH ? Mode.PULL_FROM_START : Mode.BOTH);
 		mClockIndexView = (LinearLayout) mRootView.findViewById(R.id.side_clock_index);
-	
+
 		super.initRequestCallbackLayouts(mRootView);
 
 		// Forced reload will be loaded in onResume
@@ -243,17 +235,22 @@ public class TVGuideFragment extends SSPageFragment {
 	protected void updateUI(REQUEST_STATUS status) {
 		Log.d(TAG, "update UI :" + status);
 		if (super.requestIsSuccesfull(status)) {
-			
+
 			actualListView = mTvGuideListView.getRefreshableView();
-			
+
 			mTvGuideListAdapter = new TVGuideListAdapter(mActivity, mGuide);
-			//mTvGuideListView.setAdapter(mTvGuideListAdapter);
-			
+
+			// mTvGuideListView.setAdapter(mTvGuideListAdapter);
+
 			getDisplayListOnChange();
-			
-			
+
 			actualListView.setAdapter(mTvGuideListAdapter);
 			actualListView.invalidate();
+			
+			//ArrayList<ChannelHour> channelHoursForFirst = putBroadcastsInHours(mGuide.get(0).getBroadcasts());
+			//Log.d(TAG,"channelHoursForFirst:" + channelHoursForFirst);
+			channelBroadcastsMap = new HashMap<Channel, ArrayList<ChannelHour>>();
+			channelBroadcastsMap = mapChannelsWithBroadcasts(mGuide);
 		}
 	}
 
@@ -266,13 +263,12 @@ public class TVGuideFragment extends SSPageFragment {
 			time.setTimeOfDay(i);
 			v.add(time);
 		}
-		
+
 		return v;
 	}
 
 	/**
-	 * TODO
-	 * displayListItem is method used to display the row from the list on scrool or touch.
+	 * TODO displayListItem is method used to display the row from the list on scrool or touch.
 	 */
 	public void displayListItem() {
 
@@ -281,22 +277,24 @@ public class TVGuideFragment extends SSPageFragment {
 
 		// compute the item index for given event position belongs to
 		int itemPosition = (int) (sideIndexY / pixelPerIndexItem);
-		
+
 		Toast.makeText(mActivity, Integer.toString(itemPosition), Toast.LENGTH_SHORT).show();
+
+		 if (itemPosition < 0) {
+		 itemPosition = 0;
+		 } else if (itemPosition >= dealList.size()) {
+		 itemPosition = dealList.size() - 1;
+		 }
 		
-		//if (itemPosition < 0) {
-		//	itemPosition = 0;
-		//} else if (itemPosition >= dealList.size()) {
-		//	itemPosition = dealList.size() - 1;
-		//}
-		//
-		//int listLocation = dealList.get(itemPosition) + itemPosition;
-		//
-		//if (listLocation > totalListSize) {
-		//	listLocation = totalListSize;
-		//}
-		//
-		//mTvGuideListView.setSelection(listLocation);
+		 int listLocation = dealList.get(itemPosition) + itemPosition;
+		
+		 if (listLocation > totalListSize) {
+		 listLocation = totalListSize;
+		 }
+		
+		// mTvGuideListView.setSelection(listLocation);
+		 actualListView.setSelection(listLocation);
+		 
 	}
 
 	private ArrayList<Object[]> getListArrayIndex(int[] intArr) {
@@ -356,14 +354,10 @@ public class TVGuideFragment extends SSPageFragment {
 
 		mClockIndexView.removeAllViews();
 
-		/**
-		 * temporary TextView for every visible item
-		 */
+		// temporary TextView for every visible item
 		TextView tmpTV = null;
 
-		/**
-		 * we will create the index list
-		 */
+		// we will create the index list
 		// String[] strArr = new String[timeVector.size()];
 		int[] intArr = new int[timeVector.size()];
 
@@ -380,9 +374,7 @@ public class TVGuideFragment extends SSPageFragment {
 		 */
 		indexListSize = indexList.size();
 
-		/**
-		 * maximal number of item, which could be displayed
-		 */
+		// maximal number of item, which could be displayed
 		int indexMaxSize = (int) Math.floor(sideIndexHeight / 25);
 
 		int tmpIndexListSize = indexListSize;
@@ -395,9 +387,7 @@ public class TVGuideFragment extends SSPageFragment {
 		// tmpIndexListSize = tmpIndexListSize / 2;
 		// }
 
-		/**
-		 * computing delta (only a part of items will be displayed to save a place, without compact
-		 */
+		// computing delta (only a part of items will be displayed to save a place, without compact
 		double delta = indexListSize / tmpIndexListSize;
 
 		String tmpLetter = null;
@@ -419,7 +409,7 @@ public class TVGuideFragment extends SSPageFragment {
 			public boolean onTouch(View v, MotionEvent event) {
 				sideIndexX = event.getX();
 				sideIndexY = event.getY();
-			
+
 				// TODO
 				displayListItem();
 
@@ -427,45 +417,45 @@ public class TVGuideFragment extends SSPageFragment {
 			}
 		});
 	}
-	  
-    /**
-     * ListIndexGestureListener method gets the list on scroll.
-     */
-    private class ListIndexGestureListener extends
-            GestureDetector.SimpleOnGestureListener {
-        @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2,
-                float distanceX, float distanceY) {
 
-            /**
-             * we know already coordinates of first touch we know as well a
-             * scroll distance
-             */
-            sideIndexX = sideIndexX - distanceX;
-            sideIndexY = sideIndexY - distanceY;
+	// ListIndexGestureListener method gets the list on scroll
+	private class ListIndexGestureListener extends GestureDetector.SimpleOnGestureListener {
+		@Override
+		public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
 
-            /**
-             * when the user scrolls within our side index, we can show for
-             * every position in it a proper item in the list
-             */
-            if (sideIndexX >= 0 && sideIndexY >= 0) {
-                displayListItem();
-            }
+			// we know already coordinates of first touch we know as well a scroll distance
+			sideIndexX = sideIndexX - distanceX;
+			sideIndexY = sideIndexY - distanceY;
 
-            return super.onScroll(e1, e2, distanceX, distanceY);
-        }
-    }
-    
-    
-    private class GetDataTask extends AsyncTask<Void, Void, ArrayList<Guide>> {
+			// when the user scrolls within our side index, we can show for every position in it a proper item in the list
+			if (sideIndexX >= 0 && sideIndexY >= 0) {
+				displayListItem();
+			}
+
+			return super.onScroll(e1, e2, distanceX, distanceY);
+		}
+	}
+
+	private class GetDataTask extends AsyncTask<Void, Void, ArrayList<Guide>> {
 
 		@Override
 		protected ArrayList<Guide> doInBackground(Void... params) {
 			// Simulates a background job.
 			try {
-				Thread.sleep(4000);
+				mPage.getPage(new SSPageCallback() {
+
+					@Override
+					public void onGetPageResult(SSPageGetResult aPageGetResult) {
+
+						mGuide = mPage.getGuide();
+					}
+				});
+
+				Thread.sleep(2000);
+
 			} catch (InterruptedException e) {
 			}
+
 			return mGuide;
 		}
 
@@ -479,5 +469,52 @@ public class TVGuideFragment extends SSPageFragment {
 			super.onPostExecute(result);
 		}
 	}
-    
+	
+	private ArrayList<ChannelHour> putBroadcastsInHours(ArrayList<Broadcast> broadcastsOfTheChannel){
+		ArrayList<ChannelHour> channelHours = new ArrayList<ChannelHour>();
+		
+		String[] hoursArray = mActivity.getResources().getStringArray(R.array.twenty_four_hours_in_strings);
+		
+		for(int i=0; i<hoursArray.length; i++){
+			ChannelHour channelHour = new ChannelHour();
+			channelHour.setHour(hoursArray[i]);
+			
+			ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
+			Channel channel = new Channel();
+			
+			for(int j=0; j < broadcastsOfTheChannel.size(); j++){
+				String beginHour = "";
+				try {
+					beginHour = DateUtilities.isoStringToHourString(broadcastsOfTheChannel.get(j).getBeginTime());
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if (hoursArray[i].equals(beginHour)){
+					broadcasts.add(broadcastsOfTheChannel.get(j));
+				}
+			}
+			channelHour.setChannel(channel);
+			channelHour.setBroadcasts(broadcasts);
+			channelHours.add(channelHour);
+		}
+		return channelHours;
+	}
+	
+	private HashMap<Channel, ArrayList<ChannelHour>> mapChannelsWithBroadcasts(ArrayList<Guide> guide){
+		for(int i=0; i<guide.size(); i++){
+			Channel channel = new Channel();
+			channel.setId(guide.get(i).getId());
+			channel.setName(guide.get(i).getName());
+			channel.setLogoSUrl(guide.get(i).getLogoSHref());
+			channel.setLogoMUrl(guide.get(i).getLogoMHref());
+			channel.setLogoLUrl(guide.get(i).getLogoLHref());
+			channel.setChannelPageUrl(guide.get(i).getHref());
+			
+			ArrayList<ChannelHour> channelHours = putBroadcastsInHours(guide.get(i).getBroadcasts());		
+			channelBroadcastsMap.put(channel, channelHours);
+		}		
+		return channelBroadcastsMap;
+	}
+
 }

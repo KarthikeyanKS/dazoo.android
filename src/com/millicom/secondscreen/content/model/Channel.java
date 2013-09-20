@@ -7,11 +7,12 @@ import android.os.Parcelable;
 
 public class Channel implements Parcelable {
 
-	private String channelId;
-	private String name;
-	private String logoSUrl;
-	private String logoMUrl;
-	private String logoLUrl;
+	private String channelId = "";
+	private String name = "";
+	private String logoSUrl = "";
+	private String logoMUrl = "";
+	private String logoLUrl = "";
+	private String channelPageUrl = "";
 	
 	public Channel(){		
 	}
@@ -56,6 +57,13 @@ public class Channel implements Parcelable {
 		return this.logoLUrl;
 	}
 	
+	public void setChannelPageUrl(String channelPageUrl){
+		this.channelId = channelId;
+	}
+	
+	public String getChannelPageUrl(){
+		return this.channelId;
+	}
 	
 	public Channel(Parcel in){
 		channelId = in.readString();
@@ -63,6 +71,7 @@ public class Channel implements Parcelable {
 		logoSUrl = in.readString();
 		logoMUrl = in.readString();
 		logoLUrl = in.readString();
+		channelPageUrl = in.readString();
 	}
 	
 	@Override
@@ -77,6 +86,7 @@ public class Channel implements Parcelable {
 		dest.writeString(logoSUrl);
 		dest.writeString(logoMUrl);	
 		dest.writeString(logoLUrl);
+		dest.writeString(channelPageUrl);
 		}
 	
 	@Override

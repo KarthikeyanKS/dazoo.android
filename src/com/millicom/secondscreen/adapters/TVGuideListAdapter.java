@@ -1,6 +1,12 @@
 package com.millicom.secondscreen.adapters;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,6 +24,7 @@ import android.widget.TextView;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.content.model.Broadcast;
+import com.millicom.secondscreen.content.model.ChannelHour;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
@@ -115,22 +122,6 @@ public class TVGuideListAdapter extends BaseAdapter {
 				}
 				
 			}
-
-
-			/*
-			 * for (int k = 0; k < counter; k++) { if (k == 0) { View child = mLayoutInflater.inflate(R.layout.row_tvguide_broadcast_live_item, null);
-			 * 
-			 * ImageView childIcon = (ImageView) child.findViewById(R.id.tvguide_program_line_live_icon_iv);
-			 * 
-			 * TextView childName = (TextView) child.findViewById(R.id.tvguide_program_line_live_name_tv); childName.setText(broadcasts.get(k).getProgram().getTitle()); TextView childTime = (TextView) child.findViewById(R.id.tvguide_program_line_live_time_tv); try {
-			 * childTime.setText((DateUtilities.isoStringToTimeString(broadcasts.get(k).getBeginTime()))); } catch (Exception e) { e.printStackTrace(); childTime.setText(""); } holder.mBroadcastItemLl.addView(child); } else { View child =
-			 * mLayoutInflater.inflate(R.layout.row_tvguide_broadcast_next_item, null);
-			 * 
-			 * ImageView childIcon = (ImageView) child.findViewById(R.id.tvguide_program_line_next_icon_iv); TextView childName = (TextView) child.findViewById(R.id.tvguide_program_line_next_name_tv); TextView childTime = (TextView) child.findViewById(R.id.tvguide_program_line_next_time_tv);
-			 * 
-			 * if (k < broadcasts.size()) { childName.setText(broadcasts.get(k).getProgram().getTitle()); try { childTime.setText((DateUtilities.isoStringToTimeString(broadcasts.get(k).getBeginTime()))); } catch (Exception e) { e.printStackTrace(); childTime.setText(""); } } else {
-			 * childName.setText(""); childTime.setText(""); } holder.mBroadcastItemLl.addView(child); } }
-			 */
 		}
 		return rowView;
 	}
@@ -182,5 +173,22 @@ public class TVGuideListAdapter extends BaseAdapter {
 	public long getItemId(int arg0) {
 		return -1;
 	}
-
+	
+	private String getHourClosestToCurrent(String dateString){
+		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
+		TimeZone tz = TimeZone.getTimeZone("UTC");
+		df.setTimeZone(tz);
+		String dateNow = df.format(new Date());
+		String hourNow = DateUtilities.getCurrentHourString();
+		try {
+			String broadcastHour = DateUtilities.isoStringToHourString(dateString);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		return hourNow;
+		// TODO
+		
+	}
 }

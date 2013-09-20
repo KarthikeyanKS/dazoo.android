@@ -1,5 +1,10 @@
 package com.millicom.secondscreen.content.model;
 
+import java.text.ParseException;
+import java.util.Comparator;
+
+import com.millicom.secondscreen.utilities.DateUtilities;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -94,4 +99,29 @@ public class Broadcast implements Parcelable{
 		dest.writeString(channelUrl);
 	}
 
+	public static class BroadcastComparatorByTime implements Comparator<Broadcast> {
+
+		@Override
+		public int compare(Broadcast lhs, Broadcast rhs) {
+			long left = 0, right = 0;
+			try{
+				left = DateUtilities.isoStringToLong(lhs.getBeginTime());
+				right = DateUtilities.isoStringToLong(rhs.getBeginTime());
+			} catch (ParseException e){
+				e.printStackTrace();
+			}
+			
+			if(left > right){
+				return 1;
+			} else if (left > right){
+				return -1;
+			} else {
+				String leftChannel = lhs.getChannel().getName();
+				String rightChannel = rhs.getChannel().getName();
+				return leftChannel.compareTo(rightChannel);
+			}
+		}
+	}
+
+	
 }
