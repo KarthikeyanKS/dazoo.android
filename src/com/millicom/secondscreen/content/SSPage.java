@@ -111,8 +111,8 @@ public abstract class SSPage {
 		return mProgramTypes;
 	}
 	
-	public void parseGuide(JSONArray jsonArray) throws Exception{
-		this.mGuide = mContentParser.parseGuide(jsonArray);
+	public void parseGuide(JSONArray jsonArray, String programTypeKey) throws Exception{
+		this.mGuide = mContentParser.parseGuide(jsonArray, programTypeKey);
 	}
 
 	public ArrayList<Guide> getGuide() {

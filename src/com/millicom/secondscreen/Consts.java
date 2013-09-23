@@ -14,12 +14,12 @@ public abstract class Consts {
 	public static final String	MILLICOM_SECONDSCREEN_PROGRAM_TYPES_PAGE_API				= "http://api.gitrgitr.com/programTypes";
 	public static final String	MILLICOM_SECONDSCREEN_DATES_PAGE_API						= "http://api.gitrgitr.com/dates";
 	public static final String	MILLICOM_SECONDSCREEN_CHANNELS_PAGE_API						= "http://api.gitrgitr.com/channels";
-	
+
 	// api request strings
-	public static final String MILLICOM_SECONDSCREEN_API_CHANNEL_ID = "channelId=";
+	public static final String	MILLICOM_SECONDSCREEN_API_CHANNEL_ID						= "channelId=";
 
 	public static final int		MILLICOM_SECONDSCREEN_TVGUIDE_NUMBER_OF_ITEMS_PER_CHANNEL	= 3;
-	public static final int MILLICOM_SECONDSCREEN_TVGUIDE_NUMBER_OF_CHANNELS_PER_PAGE = 10;
+	public static final int		MILLICOM_SECONDSCREEN_TVGUIDE_NUMBER_OF_CHANNELS_PER_PAGE	= 10;
 
 	public static enum REQUEST_STATUS {
 		LOADING, FAILED, SUCCESFUL, EMPTY_RESPONSE
@@ -47,16 +47,23 @@ public abstract class Consts {
 	// data extra intents
 	public static final String	INTENT_EXTRA_SECTION				= "com.millicom.secondscreen.intent.extra.section";
 	public static final String	INTENT_EXTRA_GUIDE					= "com.millicom.secondscreen.intent.extra.guide";
+	public static final String	INTENT_EXTRA_TVGUIDE_SORTING		= "com.millicom.secondscreen.intent.extra.tvguide.sorting";
+	public static final String	INTENT_EXTRA_TVGUIDE_SORTING_VALUE	= "com.millicom.secondscreen.intent.extra.tvguide.sorting.value";
+	public static final String	INTENT_EXTRA_TVGUIDE_SORTING_TYPE	= "com.millicom.secondscreen.intent.extra,tvguide.sorting.type";
+
+	// custom data types
+	public static final String	VALUE_TYPE_PROGRAMTYPE				= "com.millicom.secondscreen.value.type.programtype";
+	public static final String	VALUE_TYPE_TVDATE					= "com.millicom.seconscreen.value.type.tvdate";
 
 	// TVGuide
 	public static final int		TV_GUIDE_NEXT_PROGRAMS_NUMBER		= 3;
 
 	public static final String	IMAGE_MACHINE_SECURITY_KEY			= "24567hright";
-	
+
 	// Parcelable bundles
-	public static final String PARCELABLE_CHANNELS_LIST = "com.parcelable.channels.list";
-	public static final String PARCELABLE_TV_DATES_LIST = "com.parcelable.dates.list";
-	public static final String PARCELABLE_PROGRAM_TYPES_LIST = "com.parcelable.categories.list";
+	public static final String	PARCELABLE_CHANNELS_LIST			= "com.parcelable.channels.list";
+	public static final String	PARCELABLE_TV_DATES_LIST			= "com.parcelable.dates.list";
+	public static final String	PARCELABLE_PROGRAM_TYPES_LIST		= "com.parcelable.categories.list";
 
 	// activity's requests to update calling fragment
 	public static final int		INFO_UPDATE_REMINDERS				= 1;

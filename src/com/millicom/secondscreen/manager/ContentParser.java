@@ -18,7 +18,7 @@ public class ContentParser {
 
 	private static final String	TAG	= "ContentParser";
 
-	public ArrayList<Guide> parseGuide(JSONArray mainArray) throws Exception {
+	public ArrayList<Guide> parseGuide(JSONArray mainArray, String programTypeKey) throws Exception {
 		ArrayList<Guide> guides = new ArrayList<Guide>();
 
 		for (int i = 0; i < mainArray.length(); i++) {
@@ -29,24 +29,25 @@ public class ContentParser {
 			guide.setHref(jsonGuide.optString("href"));
 			guide.setId(jsonGuide.optString("channelId"));
 			guide.setName(jsonGuide.optString("name"));
-			
+
 			JSONObject logosJson = jsonGuide.optJSONObject("logo");
-			if(logosJson != null){
+			if (logosJson != null) {
 				guide.setLogoSHref(logosJson.optString("small"));
 				guide.setLogoMHref(logosJson.optString("medium"));
 				guide.setLogoLHref(logosJson.optString("large"));
 			}
-			
-			Log.d(TAG, "Name:" + guide.getName());
-			
+
 			JSONArray broadcastsJson = jsonGuide.optJSONArray("broadcasts");
-			Log.d(TAG,"NUMBER OF BROADCASTS:" + broadcastsJson.length());
 			if (broadcastsJson != null) {
 				ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
 				for (int j = 0; j < broadcastsJson.length(); j++) {
 					JSONObject jsonBroadcast = broadcastsJson.optJSONObject(j);
 					if (jsonBroadcast != null) {
-						broadcasts.add(parseBroadcast(jsonBroadcast));
+						if(programTypeKey !=null){
+						broadcasts.add(parseBroadcastProgramKey(jsonBroadcast, programTypeKey));
+						} else {
+							broadcasts.add(parseBroadcastAll(jsonBroadcast));
+						}
 					}
 				}
 				guide.setBroadcasts(broadcasts);
@@ -95,17 +96,17 @@ public class ContentParser {
 
 	public ArrayList<Channel> parseChannels(JSONArray mainArray) throws Exception {
 		ArrayList<Channel> channels = new ArrayList<Channel>();
-		
-		for(int i=0; i<mainArray.length(); i++){
+
+		for (int i = 0; i < mainArray.length(); i++) {
 			JSONObject jsonChannel = mainArray.getJSONObject(i);
-			if(jsonChannel != null){
+			if (jsonChannel != null) {
 				channels.add(parseChannel(jsonChannel));
 			}
 		}
-		
+
 		return channels;
 	}
-	
+
 	public Channel parseChannel(JSONObject jsonChannel) throws Exception {
 		Channel channel = new Channel();
 		channel.setId(jsonChannel.optString("channelId"));
@@ -120,7 +121,7 @@ public class ContentParser {
 		return channel;
 	}
 
-	public Broadcast parseBroadcast(JSONObject jsonBroadcast) throws Exception {
+	public Broadcast parseBroadcastAll(JSONObject jsonBroadcast) throws Exception {
 		Broadcast broadcast = new Broadcast();
 		broadcast.setBroadcastId(jsonBroadcast.optString("broadcastId"));
 		broadcast.setBeginTime(jsonBroadcast.optString("beginTime"));
@@ -128,19 +129,39 @@ public class ContentParser {
 
 		JSONObject jsonChannel = jsonBroadcast.optJSONObject("channel");
 		if (jsonChannel != null) {
-	
-			//broadcast.setChannel(parseChannel(jsonChannel));
+
+			// broadcast.setChannel(parseChannel(jsonChannel));
 			broadcast.setChannelUrl(jsonChannel.optString("href"));
 		}
 
 		JSONObject jsonProgram = jsonBroadcast.optJSONObject("program");
 		if (jsonProgram != null) {
-			broadcast.setProgram(parseProgram(jsonProgram));
+			broadcast.setProgram(parseProgramAll(jsonProgram));
 		}
 		return broadcast;
 	}
 
-	public Program parseProgram(JSONObject jsonProgram) throws Exception {
+	public Broadcast parseBroadcastProgramKey(JSONObject jsonBroadcast, String programTypeKey) throws Exception {
+		Broadcast broadcast = new Broadcast();
+		broadcast.setBroadcastId(jsonBroadcast.optString("broadcastId"));
+		broadcast.setBeginTime(jsonBroadcast.optString("beginTime"));
+		broadcast.setEndTime(jsonBroadcast.optString("endTime"));
+
+		JSONObject jsonChannel = jsonBroadcast.optJSONObject("channel");
+		if (jsonChannel != null) {
+
+			// broadcast.setChannel(parseChannel(jsonChannel));
+			broadcast.setChannelUrl(jsonChannel.optString("href"));
+		}
+
+		JSONObject jsonProgram = jsonBroadcast.optJSONObject("program");
+		if (jsonProgram != null) {
+			if (parseProgramKey(jsonProgram, programTypeKey) != null) broadcast.setProgram(parseProgramKey(jsonProgram, programTypeKey));
+		}
+		return broadcast;
+	}
+
+	public Program parseProgramAll(JSONObject jsonProgram) throws Exception {
 		Program program = new Program();
 		program.setProgramId(jsonProgram.optString("programId"));
 		program.setProgramTypeId(jsonProgram.optString("programTypeId"));
@@ -170,6 +191,41 @@ public class ContentParser {
 		program.setEpisode(jsonProgram.optString("episode"));
 		program.setDescription(jsonProgram.optString("description"));
 		return program;
+	}
+
+	public Program parseProgramKey(JSONObject jsonProgram, String programTypeKey) throws Exception {
+		if (programTypeKey.equals(jsonProgram.optString("programTypeId")) == true) {
+			Program program = new Program();
+			program.setProgramId(jsonProgram.optString("programId"));
+			program.setProgramTypeId(jsonProgram.optString("programTypeId"));
+
+			program.setTitle(jsonProgram.optString("title"));
+
+			JSONObject jsonPoster = jsonProgram.optJSONObject("poster");
+			if (jsonPoster != null) {
+				program.setPosterSUrl(jsonPoster.optString("small"));
+				program.setPosterMUrl(jsonPoster.optString("medium"));
+				program.setPosterLUrl(jsonPoster.optString("large"));
+			}
+
+			program.setCast(jsonProgram.optString("cast"));
+			program.setYear(jsonProgram.optString("year"));
+			program.setRuntime(jsonProgram.optString("runtime"));
+
+			JSONArray jsonGenres = jsonProgram.optJSONArray("genres");
+			if (jsonGenres != null) {
+				ArrayList<String> genres = new ArrayList<String>();
+				for (int k = 0; k < jsonGenres.length(); k++) {
+					genres.add(jsonGenres.getString(k));
+				}
+				program.setGenres(genres);
+			}
+
+			program.setSeason(jsonProgram.optString("season"));
+			program.setEpisode(jsonProgram.optString("episode"));
+			program.setDescription(jsonProgram.optString("description"));
+			return program;
+		} else return null;
 	}
 
 	public TvDate parseTvDate(JSONObject jsonTvDate) throws Exception {

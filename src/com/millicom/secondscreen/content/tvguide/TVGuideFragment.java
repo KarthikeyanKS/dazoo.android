@@ -72,14 +72,17 @@ public class TVGuideFragment extends SSPageFragment {
 	private SSStartPage									mPage;
 
 	// data arraylists
-	private ArrayList<Guide>							mGuide;
+	private ArrayList<Guide>							mGuide					= new ArrayList<Guide>();
 	private ArrayList<TvDate>							mTvDates;
 	private ArrayList<ProgramType>						mProgramTypes;
 	private ArrayList<Channel>							mChannels;
 	private ArrayList<String>							mChannelIds;
 
-	private String										mStartPageUrl;
-	private String										mTodayDate;
+	// broadcast receiver to update the page of sorting selection
+	BroadcastReceiver									mBroadcastReceiver;
+
+	private String										mStartPageUrl, mDate, mProgramType, mSortingType;
+
 	private int											mChannelsNum			= 0;
 	private int											numOfChannelsShownNow	= 0;
 
@@ -119,11 +122,12 @@ public class TVGuideFragment extends SSPageFragment {
 		mProgramTypes = bundle.getParcelableArrayList(Consts.PARCELABLE_PROGRAM_TYPES_LIST);
 		mChannels = bundle.getParcelableArrayList(Consts.PARCELABLE_CHANNELS_LIST);
 
-		
 		// show the tv guide for today's date at the start
 		if (mTvDates != null) {
-			mTodayDate = mTvDates.get(0).getDate().toString();
+			mDate = mTvDates.get(0).getDate().toString();
 		}
+
+		mProgramType = null;
 
 		// get channel ids available to be shown at the tv guide
 		getAvailableChannelsIds();
@@ -131,16 +135,42 @@ public class TVGuideFragment extends SSPageFragment {
 		if (mChannelIds != null) {
 			mChannelsNum = mChannelIds.size();
 		}
-		
-		mStartPageUrl = getPageUrl(0, mChannelsNum, mTodayDate);
 
 		timeVector = getIndexedTime();
 		mGestureDetector = new GestureDetector(mActivity, new ListIndexGestureListener());
 		mActivity = getActivity();
-		mPage = SSStartPage.getInstance();
 
 		// Register for when a child selects a new sorting
-		// LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mSortingUpdatedReceiver, new IntentFilter(mSectionId));
+		mBroadcastReceiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				mSortingType = intent.getStringExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_TYPE);
+				if (Consts.VALUE_TYPE_PROGRAMTYPE.equals(mSortingType)) {
+					mProgramType = intent.getStringExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE);
+					Toast.makeText(mActivity, "Program Type CHOSEN: " + mProgramType, Toast.LENGTH_LONG).show();
+				} else if (Consts.VALUE_TYPE_TVDATE.equals(mSortingType)) {
+					mDate = intent.getStringExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE);
+					Toast.makeText(mActivity, "Date CHOSEN: " + mDate, Toast.LENGTH_LONG).show();
+				}
+
+				numOfChannelsShownNow = 0;
+				mStartPageUrl = getPageUrl(numOfChannelsShownNow, mChannelsNum, mDate);
+				mPage = SSStartPage.getInstance();
+				mPage.getPage(mProgramType, mStartPageUrl, new SSPageCallback() {
+
+					@Override
+					public void onGetPageResult(SSPageGetResult aPageGetResult) {
+
+						if (!pageHoldsData()) {
+							// // Request failed
+							updateUI(REQUEST_STATUS.FAILED);
+						}
+					}
+				});
+			}
+		};
+
+		LocalBroadcastManager.getInstance(mActivity).registerReceiver(mBroadcastReceiver, new IntentFilter(Consts.INTENT_EXTRA_TVGUIDE_SORTING));
 	}
 
 	@Override
@@ -153,11 +183,11 @@ public class TVGuideFragment extends SSPageFragment {
 		mTvGuideListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-				String label = DateUtils.formatDateTime(mActivity.getApplicationContext(), System.currentTimeMillis(), DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE
-						| DateUtils.FORMAT_ABBREV_ALL);
+				//String label = DateUtils.formatDateTime(mActivity.getApplicationContext(), System.currentTimeMillis(), DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE
+				//		| DateUtils.FORMAT_ABBREV_ALL);
 
 				// Update the LastUpdatedLabel
-				refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
+				//refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
 
 				// Do work to refresh the list here.
 				new GetDataTask().execute();
@@ -177,9 +207,7 @@ public class TVGuideFragment extends SSPageFragment {
 		mClockIndexView = (LinearLayout) mRootView.findViewById(R.id.side_clock_index);
 
 		super.initRequestCallbackLayouts(mRootView);
-
-		// Forced reload will be loaded in onResume
-		if (!shouldForceReload()) loadPage();
+		// loadPage();
 		return mRootView;
 	}
 
@@ -188,7 +216,7 @@ public class TVGuideFragment extends SSPageFragment {
 		super.onDestroy();
 
 		// Stop listening to broadcast events
-		// LocalBroadcastManager.getInstance(mActivity).unregisterReceiver(mSortingUpdatedReceiver);
+		LocalBroadcastManager.getInstance(mActivity).unregisterReceiver(mBroadcastReceiver);
 	}
 
 	@Override
@@ -199,31 +227,8 @@ public class TVGuideFragment extends SSPageFragment {
 		mPage.cancelGetPage();
 	}
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		Log.d(TAG, "Should Force Reload : " + shouldForceReload());
-		if (shouldForceReload()) {
-
-			// Create a new page
-			// mPage = new VPSectionPage((VPSection) getArguments().getParcelable(VPConsts.INTENT_EXTRA_SECTION));
-
-			// Reload the new page
-			loadPage();
-		}
-	}
-
-	BroadcastReceiver	mSortingUpdatedReceiver	= new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-
-			// Reload the page with new sorting
-			// TODO
-		}
-	};
-
 	private void getPage() {
-		mPage.getPage(mStartPageUrl, new SSPageCallback() {
+		mPage.getPage(mProgramType, mStartPageUrl, new SSPageCallback() {
 
 			@Override
 			public void onGetPageResult(SSPageGetResult aPageGetResult) {
@@ -248,13 +253,12 @@ public class TVGuideFragment extends SSPageFragment {
 	@Override
 	protected boolean pageHoldsData() {
 		boolean result = false;
+		mGuide = new ArrayList<Guide>();
 		mGuide = mPage.getGuide();
 		if (mGuide != null) {
 			if (mGuide.isEmpty()) {
 				updateUI(REQUEST_STATUS.FAILED);
-				Log.d(TAG, "pageHoldsData: Failed");
 			} else {
-				Log.d(TAG, "PageHoldsData: Guide size: " + mGuide.size());
 				updateUI(REQUEST_STATUS.SUCCESFUL);
 			}
 			result = true;
@@ -280,8 +284,8 @@ public class TVGuideFragment extends SSPageFragment {
 
 			// ArrayList<ChannelHour> channelHoursForFirst = putBroadcastsInHours(mGuide.get(0).getBroadcasts());
 			// Log.d(TAG,"channelHoursForFirst:" + channelHoursForFirst);
-			channelBroadcastsMap = new HashMap<Channel, ArrayList<ChannelHour>>();
-			channelBroadcastsMap = mapChannelsWithBroadcasts(mGuide);
+			// channelBroadcastsMap = new HashMap<Channel, ArrayList<ChannelHour>>();
+			// channelBroadcastsMap = mapChannelsWithBroadcasts(mGuide);
 		}
 	}
 
@@ -483,16 +487,16 @@ public class TVGuideFragment extends SSPageFragment {
 			// Simulates a background job.
 			try {
 				if (numOfChannelsShownNow < mChannelsNum) {
-					
-					mStartPageUrl = getPageUrl(numOfChannelsShownNow, mChannelsNum, mTodayDate);
-					
-					mPage.getPage(mStartPageUrl, new SSPageCallback() {
+
+					mStartPageUrl = getPageUrl(numOfChannelsShownNow, mChannelsNum, mDate);
+
+					mPage.getPage(mProgramType, mStartPageUrl, new SSPageCallback() {
 
 						@Override
 						public void onGetPageResult(SSPageGetResult aPageGetResult) {
 
 							ArrayList<Guide> mGuideUpdate = mPage.getGuide();
-							mGuide.addAll(0,mGuideUpdate);
+							mGuide.addAll(0, mGuideUpdate);
 						}
 					});
 					Thread.sleep(2000);
@@ -504,7 +508,7 @@ public class TVGuideFragment extends SSPageFragment {
 
 		@Override
 		protected void onPostExecute(ArrayList<Guide> result) {
-			
+
 			mTvGuideListAdapter.notifyDataSetChanged();
 
 			// Call onRefreshComplete when the list has been refreshed.
@@ -513,14 +517,14 @@ public class TVGuideFragment extends SSPageFragment {
 			super.onPostExecute(result);
 		}
 	}
-	
-	private String getPageUrl(int startPosition, int maxSize, String date){
+
+	private String getPageUrl(int startPosition, int maxSize, String date) {
 		StringBuilder sB = new StringBuilder();
 		sB.append(Consts.MILLICOM_SECONDSCREEN_GUIDE_PAGE_API);
-		
+
 		sB.append("/");
 		sB.append(date);
-		
+
 		sB.append("?");
 		for (int i = startPosition; i < maxSize && i < startPosition + Consts.MILLICOM_SECONDSCREEN_TVGUIDE_NUMBER_OF_CHANNELS_PER_PAGE; i++) {
 			if (i > 0) {
@@ -533,6 +537,7 @@ public class TVGuideFragment extends SSPageFragment {
 			}
 			numOfChannelsShownNow++;
 		}
+		Log.d(TAG, "Page Url:" + sB.toString());
 		return sB.toString();
 	}
 

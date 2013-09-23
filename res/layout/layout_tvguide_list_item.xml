@@ -57,7 +57,7 @@
                     android:layout_gravity="left"
                     android:layout_margin="5dp"
                     android:textColor="@color/tvguide_program_line_color"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <ImageView
@@ -76,7 +76,7 @@
                     android:layout_margin="5dp"
                     android:layout_toRightOf="@id/tvguide_program_line_live_icon_iv"
                     android:textColor="@color/tvguide_program_line_color"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
             </RelativeLayout>
 
@@ -96,7 +96,7 @@
                     android:layout_gravity="left"
                     android:layout_margin="5dp"
                     android:textColor="@color/tvguide_program_line_color"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="italic" />
 
                 <ImageView
@@ -116,7 +116,7 @@
                     android:layout_margin="5dp"
                     android:layout_toRightOf="@id/tvguide_program_line_next_icon_iv"
                     android:textColor="@color/tvguide_program_line_color"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="" />
             </RelativeLayout>
 
@@ -136,7 +136,7 @@
                     android:layout_gravity="left"
                     android:layout_margin="5dp"
                     android:textColor="@color/tvguide_program_line_color"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="italic" />
 
                 <ImageView
@@ -156,7 +156,7 @@
                     android:layout_margin="5dp"
                     android:layout_toRightOf="@id/tvguide_program_line_last_icon_iv"
                     android:textColor="@color/tvguide_program_line_color"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="" />
             </RelativeLayout>
         </RelativeLayout>

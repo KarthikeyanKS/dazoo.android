@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.View;
@@ -54,9 +55,12 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_homepage_activity);
-
+		
 		initViews();
 
+		mTvDatePage = SSTvDatePage.getInstance();
+		mProgramTypePage = SSProgramTypePage.getInstance();
+		mChannelPage = SSChannelPage.getInstance();
 		loadPage();
 	}
 
@@ -97,7 +101,10 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 			categorySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 				@Override
 				public void onItemSelected(AdapterView<?> parentView, View view, int position, long id) {
-					ProgramType categoryItem = (ProgramType) categorySpinner.getItemAtPosition(position);
+					ProgramType programTypeItem = (ProgramType) categorySpinner.getItemAtPosition(position);
+					LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(new Intent(Consts.INTENT_EXTRA_TVGUIDE_SORTING).
+																							putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE, programTypeItem.getId())
+																							.putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_TYPE, Consts.VALUE_TYPE_PROGRAMTYPE));
 				}
 
 				@Override
@@ -118,7 +125,9 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 				@Override
 				public void onItemSelected(AdapterView<?> parentView, View view, int position, long id) {
 					TvDate tvDateItem = (TvDate) daySpinner.getItemAtPosition(position);
-
+					LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(new Intent(Consts.INTENT_EXTRA_TVGUIDE_SORTING).
+																				putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE, tvDateItem.getDate())
+																				.putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_TYPE, Consts.VALUE_TYPE_TVDATE));
 				}
 
 				@Override
@@ -253,9 +262,6 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 	protected void loadPage() {
 		// The the initial state to be loading
 		updateUI(REQUEST_STATUS.LOADING);
-		mTvDatePage = SSTvDatePage.getInstance();
-		mProgramTypePage = SSProgramTypePage.getInstance();
-		mChannelPage = SSChannelPage.getInstance();
 
 		mTvDatePage.getPage(new SSPageCallback() {
 			@Override
@@ -306,6 +312,14 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 			Log.d(TAG, "No dates are available");
 		}
 		if (mProgramTypes != null) {
+
+			//mocking of "All categories type";
+			ProgramType programTypeAll = new ProgramType();
+			programTypeAll.setAlias("all_categories");
+			programTypeAll.setId(null);
+			programTypeAll.setName("All categories");
+			
+			mProgramTypes.add(0,programTypeAll);
 			isProgramTypesData = true;
 		} else {
 			Log.d(TAG, "No programTypes are available");
