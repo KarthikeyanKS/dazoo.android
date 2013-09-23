@@ -93,12 +93,25 @@ public class ContentParser {
 		return tvDates;
 	}
 
+	public ArrayList<Channel> parseChannels(JSONArray mainArray) throws Exception {
+		ArrayList<Channel> channels = new ArrayList<Channel>();
+		
+		for(int i=0; i<mainArray.length(); i++){
+			JSONObject jsonChannel = mainArray.getJSONObject(i);
+			if(jsonChannel != null){
+				channels.add(parseChannel(jsonChannel));
+			}
+		}
+		
+		return channels;
+	}
+	
 	public Channel parseChannel(JSONObject jsonChannel) throws Exception {
 		Channel channel = new Channel();
 		channel.setId(jsonChannel.optString("channelId"));
 		channel.setName(jsonChannel.optString("name"));
 
-		JSONObject jsonPoster = jsonChannel.getJSONObject("poster");
+		JSONObject jsonPoster = jsonChannel.getJSONObject("logo");
 		if (jsonPoster != null) {
 			channel.setLogoSUrl(jsonPoster.optString("small"));
 			channel.setLogoMUrl(jsonPoster.optString("medium"));

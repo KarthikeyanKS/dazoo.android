@@ -3,53 +3,49 @@ package com.millicom.secondscreen.content;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import android.util.Log;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.content.model.Channel;
-import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Link;
 
-public class SSStartPage extends SSPage {
+public class SSChannelPage extends SSPage{
 
-	public static final String	TAG			= "SSStartPage";
-	private static SSStartPage	sInstance;
-	public String				mStartPageUrl;
-	public String 				mProgramTypesPageUrl;
-	public String 				mTvDatesPageUrl;
+	private static final String TAG = "SSChannelPage";
+	
+	private static SSChannelPage	sInstance;
+	public String 				mChannelsPageUrl;
 
-	public static SSStartPage getInstance() {
-		if (sInstance == null) sInstance = new SSStartPage();
+	public static SSChannelPage getInstance() {
+		if (sInstance == null) sInstance = new SSChannelPage();
 		return sInstance;
 	}
 
-	public boolean getPage(String url, SSPageCallback pageCallback) {
+	public boolean getPage(SSPageCallback pageCallback) {
 		Log.d(TAG, "getPage");
 
 		// Remember the callback
 		super.mPageCallback = pageCallback;
-		mStartPageUrl = url;
-		Link startPageLink = new Link();
-		startPageLink.setUrl(mStartPageUrl);
+		mChannelsPageUrl = Consts.MILLICOM_SECONDSCREEN_CHANNELS_PAGE_API;
+		Link programTypesPageLink = new Link();
+		programTypesPageLink.setUrl(mChannelsPageUrl);
 		
-		super.getPage(startPageLink, pageCallback);
+		super.getPage(programTypesPageLink, pageCallback);
 		return true;
 	}
-
-	public ArrayList<Guide> getGuide() {
-		Log.d(TAG, "get Guide");
-		return super.getGuide();
+	
+	public ArrayList<Channel> getChannels(){
+		Log.d(TAG,"get Channels");
+		return super.getChannels();
 	}
-
+	
 	@Override
-	//protected void parseGetPageResult(JSONObject aJsonObject, SSPageGetResult aVPPageGetResult) {
 	protected void parseGetPageResult(JSONArray jsonArray, SSPageGetResult pageGetResult){	
 	Log.d(TAG, "parseGetPageResult");
 		try {
-			super.parseGuide(jsonArray);
-			
+			super.parseChannels(jsonArray);
+
 			// The resulting page is this
 			pageGetResult.setPage(this);
 			
@@ -57,19 +53,16 @@ public class SSStartPage extends SSPage {
 			e.printStackTrace();
 		}
 	}
-
+	
 	protected void handleGetStartPageUriResult() {
-
 		Log.d(TAG, "handleGetStartPageUriResult");
 
 		// If get start page uri failed or get start page fails
-		if (!getPage(mStartPageUrl, mPageCallback)) {
-
-			Log.d(TAG, "Get start page uri or get start page failed");
+		if (!getPage(mPageCallback)) {
+			Log.d(TAG, "Get dates page uri or get dates page failed");
 
 			// If we have a callback
 			if (mPageCallback != null) {
-
 				// Tell our callback about it
 				SSPageGetResult pageGetResult = new SSPageGetResult(this);
 				mPageCallback.onGetPageResult(pageGetResult);

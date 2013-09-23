@@ -6,6 +6,7 @@ import org.json.JSONArray;
 
 import android.util.Log;
 
+import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Link;
 import com.millicom.secondscreen.content.model.ProgramType;
@@ -26,6 +27,7 @@ public abstract class SSPage {
 	private ArrayList<Guide>	mGuide;
 	private ArrayList<ProgramType> mProgramTypes;
 	private ArrayList<TvDate> mTvDates;
+	private ArrayList<Channel> mChannels;
 
 	public void cancelGetPage() {
 		// Tell http client to cancel any request
@@ -115,5 +117,13 @@ public abstract class SSPage {
 
 	public ArrayList<Guide> getGuide() {
 		return mGuide;
+	}
+
+	public void parseChannels(JSONArray jsonArray) throws Exception {
+		this.mChannels = mContentParser.parseChannels(jsonArray);
+	}
+	
+	public ArrayList<Channel> getChannels(){
+		return mChannels;
 	}
 }

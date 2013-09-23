@@ -91,7 +91,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 
 		ArrayList<Broadcast> broadcasts = guide.getBroadcasts();
 
-		if (broadcasts != null) {
+		if (broadcasts != null && broadcasts.size() > 0) {
 			int counter = Consts.TV_GUIDE_NEXT_PROGRAMS_NUMBER;
 
 			for (int k = 0; k < counter; k++) {

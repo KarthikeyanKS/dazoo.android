@@ -59,50 +59,81 @@ import com.millicom.secondscreen.utilities.DateUtilities;
 
 public class TVGuideFragment extends SSPageFragment {
 
-	private static final String		TAG				= "TVGuideFragment";
-	private View					mRootView;
-	private RelativeLayout			mTvGuideContainerLayout;
+	private static final String							TAG						= "TVGuideFragment";
+	private View										mRootView;
+	private RelativeLayout								mTvGuideContainerLayout;
 	// private ListView mTvGuideListView;
-	private PullToRefreshListView	mTvGuideListView;
-	private ListView				actualListView;
+	private PullToRefreshListView						mTvGuideListView;
+	private ListView									actualListView;
 
-	private LinearLayout			mClockIndexView;
+	private LinearLayout								mClockIndexView;
 
-	private TVGuideListAdapter		mTvGuideListAdapter;
-	private SSStartPage				mPage;
-	private ArrayList<Guide>		mGuide;
+	private TVGuideListAdapter							mTvGuideListAdapter;
+	private SSStartPage									mPage;
 
-	private Activity				mActivity;
+	// data arraylists
+	private ArrayList<Guide>							mGuide;
+	private ArrayList<TvDate>							mTvDates;
+	private ArrayList<ProgramType>						mProgramTypes;
+	private ArrayList<Channel>							mChannels;
+	private ArrayList<String>							mChannelIds;
 
-	protected GestureDetector		mGestureDetector;
+	private String										mStartPageUrl;
+	private String										mTodayDate;
+	private int											mChannelsNum			= 0;
+	private int											numOfChannelsShownNow	= 0;
 
-	protected Vector<GuideTime>		timeVector;
+	private Activity									mActivity;
 
-	protected int					totalListSize	= 0;
+	protected GestureDetector							mGestureDetector;
+
+	protected Vector<GuideTime>							timeVector;
+
+	protected int										totalListSize			= 0;
 
 	// list with items for side index
-	private ArrayList<Object[]>		indexList		= null;
+	private ArrayList<Object[]>							indexList				= null;
 
 	// list with row number for side index
-	protected List<Integer>			dealList		= new ArrayList<Integer>();
+	protected List<Integer>								dealList				= new ArrayList<Integer>();
 
 	// height of left side index
-	protected int					sideIndexHeight;
+	protected int										sideIndexHeight;
 
 	// number of items in the side index
-	private int						indexListSize;
+	private int											indexListSize;
 
 	// x and y coordinates within our side index
-	protected static float			sideIndexX;
-	protected static float			sideIndexY;
-	
+	protected static float								sideIndexX;
+	protected static float								sideIndexY;
+
 	// map of channels and broadcasts spread by 24 hours
-	private HashMap<Channel, ArrayList<ChannelHour>> channelBroadcastsMap;
+	private HashMap<Channel, ArrayList<ChannelHour>>	channelBroadcastsMap;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
+		Bundle bundle = getArguments();
+		mTvDates = bundle.getParcelableArrayList(Consts.PARCELABLE_TV_DATES_LIST);
+		mProgramTypes = bundle.getParcelableArrayList(Consts.PARCELABLE_PROGRAM_TYPES_LIST);
+		mChannels = bundle.getParcelableArrayList(Consts.PARCELABLE_CHANNELS_LIST);
+
+		
+		// show the tv guide for today's date at the start
+		if (mTvDates != null) {
+			mTodayDate = mTvDates.get(0).getDate().toString();
+		}
+
+		// get channel ids available to be shown at the tv guide
+		getAvailableChannelsIds();
+
+		if (mChannelIds != null) {
+			mChannelsNum = mChannelIds.size();
+		}
+		
+		mStartPageUrl = getPageUrl(0, mChannelsNum, mTodayDate);
+
 		timeVector = getIndexedTime();
 		mGestureDetector = new GestureDetector(mActivity, new ListIndexGestureListener());
 		mActivity = getActivity();
@@ -138,11 +169,11 @@ public class TVGuideFragment extends SSPageFragment {
 
 			@Override
 			public void onLastItemVisible() {
-				Toast.makeText(mActivity, "End of List!", Toast.LENGTH_SHORT).show();
+
 			}
 		});
 
-		mTvGuideListView.setMode(mTvGuideListView.getMode() == Mode.BOTH ? Mode.PULL_FROM_START : Mode.BOTH);
+		mTvGuideListView.setMode(Mode.PULL_FROM_START);
 		mClockIndexView = (LinearLayout) mRootView.findViewById(R.id.side_clock_index);
 
 		super.initRequestCallbackLayouts(mRootView);
@@ -192,7 +223,7 @@ public class TVGuideFragment extends SSPageFragment {
 	};
 
 	private void getPage() {
-		mPage.getPage(new SSPageCallback() {
+		mPage.getPage(mStartPageUrl, new SSPageCallback() {
 
 			@Override
 			public void onGetPageResult(SSPageGetResult aPageGetResult) {
@@ -218,12 +249,12 @@ public class TVGuideFragment extends SSPageFragment {
 	protected boolean pageHoldsData() {
 		boolean result = false;
 		mGuide = mPage.getGuide();
-		Log.d(TAG, "Guide : " + mGuide);
 		if (mGuide != null) {
 			if (mGuide.isEmpty()) {
 				updateUI(REQUEST_STATUS.FAILED);
 				Log.d(TAG, "pageHoldsData: Failed");
 			} else {
+				Log.d(TAG, "PageHoldsData: Guide size: " + mGuide.size());
 				updateUI(REQUEST_STATUS.SUCCESFUL);
 			}
 			result = true;
@@ -246,11 +277,20 @@ public class TVGuideFragment extends SSPageFragment {
 
 			actualListView.setAdapter(mTvGuideListAdapter);
 			actualListView.invalidate();
-			
-			//ArrayList<ChannelHour> channelHoursForFirst = putBroadcastsInHours(mGuide.get(0).getBroadcasts());
-			//Log.d(TAG,"channelHoursForFirst:" + channelHoursForFirst);
+
+			// ArrayList<ChannelHour> channelHoursForFirst = putBroadcastsInHours(mGuide.get(0).getBroadcasts());
+			// Log.d(TAG,"channelHoursForFirst:" + channelHoursForFirst);
 			channelBroadcastsMap = new HashMap<Channel, ArrayList<ChannelHour>>();
 			channelBroadcastsMap = mapChannelsWithBroadcasts(mGuide);
+		}
+	}
+
+	private void getAvailableChannelsIds() {
+		if (mChannels != null) {
+			mChannelIds = new ArrayList<String>();
+			for (int i = 0; i < mChannels.size(); i++) {
+				mChannelIds.add(mChannels.get(i).getChannelId());
+			}
 		}
 	}
 
@@ -280,21 +320,21 @@ public class TVGuideFragment extends SSPageFragment {
 
 		Toast.makeText(mActivity, Integer.toString(itemPosition), Toast.LENGTH_SHORT).show();
 
-		 if (itemPosition < 0) {
-		 itemPosition = 0;
-		 } else if (itemPosition >= dealList.size()) {
-		 itemPosition = dealList.size() - 1;
-		 }
-		
-		 int listLocation = dealList.get(itemPosition) + itemPosition;
-		
-		 if (listLocation > totalListSize) {
-		 listLocation = totalListSize;
-		 }
-		
+		if (itemPosition < 0) {
+			itemPosition = 0;
+		} else if (itemPosition >= dealList.size()) {
+			itemPosition = dealList.size() - 1;
+		}
+
+		int listLocation = dealList.get(itemPosition) + itemPosition;
+
+		if (listLocation > totalListSize) {
+			listLocation = totalListSize;
+		}
+
 		// mTvGuideListView.setSelection(listLocation);
-		 actualListView.setSelection(listLocation);
-		 
+		actualListView.setSelection(listLocation);
+
 	}
 
 	private ArrayList<Object[]> getListArrayIndex(int[] intArr) {
@@ -442,25 +482,29 @@ public class TVGuideFragment extends SSPageFragment {
 		protected ArrayList<Guide> doInBackground(Void... params) {
 			// Simulates a background job.
 			try {
-				mPage.getPage(new SSPageCallback() {
+				if (numOfChannelsShownNow < mChannelsNum) {
+					
+					mStartPageUrl = getPageUrl(numOfChannelsShownNow, mChannelsNum, mTodayDate);
+					
+					mPage.getPage(mStartPageUrl, new SSPageCallback() {
 
-					@Override
-					public void onGetPageResult(SSPageGetResult aPageGetResult) {
+						@Override
+						public void onGetPageResult(SSPageGetResult aPageGetResult) {
 
-						mGuide = mPage.getGuide();
-					}
-				});
-
-				Thread.sleep(2000);
-
+							ArrayList<Guide> mGuideUpdate = mPage.getGuide();
+							mGuide.addAll(0,mGuideUpdate);
+						}
+					});
+					Thread.sleep(2000);
+				}
 			} catch (InterruptedException e) {
 			}
-
 			return mGuide;
 		}
 
 		@Override
 		protected void onPostExecute(ArrayList<Guide> result) {
+			
 			mTvGuideListAdapter.notifyDataSetChanged();
 
 			// Call onRefreshComplete when the list has been refreshed.
@@ -470,19 +514,41 @@ public class TVGuideFragment extends SSPageFragment {
 		}
 	}
 	
-	private ArrayList<ChannelHour> putBroadcastsInHours(ArrayList<Broadcast> broadcastsOfTheChannel){
+	private String getPageUrl(int startPosition, int maxSize, String date){
+		StringBuilder sB = new StringBuilder();
+		sB.append(Consts.MILLICOM_SECONDSCREEN_GUIDE_PAGE_API);
+		
+		sB.append("/");
+		sB.append(date);
+		
+		sB.append("?");
+		for (int i = startPosition; i < maxSize && i < startPosition + Consts.MILLICOM_SECONDSCREEN_TVGUIDE_NUMBER_OF_CHANNELS_PER_PAGE; i++) {
+			if (i > 0) {
+				sB.append("&");
+				sB.append(Consts.MILLICOM_SECONDSCREEN_API_CHANNEL_ID);
+				sB.append(mChannelIds.get(i));
+			} else {
+				sB.append(Consts.MILLICOM_SECONDSCREEN_API_CHANNEL_ID);
+				sB.append(mChannelIds.get(i));
+			}
+			numOfChannelsShownNow++;
+		}
+		return sB.toString();
+	}
+
+	private ArrayList<ChannelHour> putBroadcastsInHours(ArrayList<Broadcast> broadcastsOfTheChannel) {
 		ArrayList<ChannelHour> channelHours = new ArrayList<ChannelHour>();
-		
+
 		String[] hoursArray = mActivity.getResources().getStringArray(R.array.twenty_four_hours_in_strings);
-		
-		for(int i=0; i<hoursArray.length; i++){
+
+		for (int i = 0; i < hoursArray.length; i++) {
 			ChannelHour channelHour = new ChannelHour();
 			channelHour.setHour(hoursArray[i]);
-			
+
 			ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
 			Channel channel = new Channel();
-			
-			for(int j=0; j < broadcastsOfTheChannel.size(); j++){
+
+			for (int j = 0; j < broadcastsOfTheChannel.size(); j++) {
 				String beginHour = "";
 				try {
 					beginHour = DateUtilities.isoStringToHourString(broadcastsOfTheChannel.get(j).getBeginTime());
@@ -490,7 +556,7 @@ public class TVGuideFragment extends SSPageFragment {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				if (hoursArray[i].equals(beginHour)){
+				if (hoursArray[i].equals(beginHour)) {
 					broadcasts.add(broadcastsOfTheChannel.get(j));
 				}
 			}
@@ -500,9 +566,9 @@ public class TVGuideFragment extends SSPageFragment {
 		}
 		return channelHours;
 	}
-	
-	private HashMap<Channel, ArrayList<ChannelHour>> mapChannelsWithBroadcasts(ArrayList<Guide> guide){
-		for(int i=0; i<guide.size(); i++){
+
+	private HashMap<Channel, ArrayList<ChannelHour>> mapChannelsWithBroadcasts(ArrayList<Guide> guide) {
+		for (int i = 0; i < guide.size(); i++) {
 			Channel channel = new Channel();
 			channel.setId(guide.get(i).getId());
 			channel.setName(guide.get(i).getName());
@@ -510,10 +576,10 @@ public class TVGuideFragment extends SSPageFragment {
 			channel.setLogoMUrl(guide.get(i).getLogoMHref());
 			channel.setLogoLUrl(guide.get(i).getLogoLHref());
 			channel.setChannelPageUrl(guide.get(i).getHref());
-			
-			ArrayList<ChannelHour> channelHours = putBroadcastsInHours(guide.get(i).getBroadcasts());		
+
+			ArrayList<ChannelHour> channelHours = putBroadcastsInHours(guide.get(i).getBroadcasts());
 			channelBroadcastsMap.put(channel, channelHours);
-		}		
+		}
 		return channelBroadcastsMap;
 	}
 

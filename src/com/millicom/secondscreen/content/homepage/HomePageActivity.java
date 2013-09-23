@@ -15,16 +15,19 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.adapters.ActionBarDropDownCategoryListAdapter;
 import com.millicom.secondscreen.adapters.ActionBarDropDownDateListAdapter;
+import com.millicom.secondscreen.content.SSChannelPage;
 import com.millicom.secondscreen.content.SSPageCallback;
 import com.millicom.secondscreen.content.SSPageFragmentActivity;
 import com.millicom.secondscreen.content.SSPageGetResult;
 import com.millicom.secondscreen.content.SSProgramTypePage;
 import com.millicom.secondscreen.content.SSTvDatePage;
 import com.millicom.secondscreen.content.activity.ActivityFragment;
+import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.ProgramType;
 import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.myprofile.MyProfileFragment;
@@ -37,13 +40,15 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 	private TextView				mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed, mTxtTabMore;
 	private View					mTabSelectorContainerView;
 	private Fragment				mActiveFragment;
-	private ArrayList<TvDate>		mFilterByDayTitles			= new ArrayList<TvDate>();
-	private ArrayList<ProgramType>	mFilterByProgramTypeTitles	= new ArrayList<ProgramType>();
+	private ArrayList<TvDate>		mTvDates			= new ArrayList<TvDate>();
+	private ArrayList<ProgramType>	mProgramTypes	= new ArrayList<ProgramType>();
+	private ArrayList<Channel> mChannels = new ArrayList<Channel>();
 
 	private ActionBar				mActionBar;
 	private boolean					isDateData					= false, isProgramTypesData = false;
 	private SSTvDatePage			mTvDatePage;
 	private SSProgramTypePage		mProgramTypePage;
+	private SSChannelPage mChannelPage;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +91,7 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 			final Spinner categorySpinner = (Spinner) findViewById(R.id.actionbar_homepage_category_spinner);
 			categorySpinner.setVisibility(View.VISIBLE);
 
-			ActionBarDropDownCategoryListAdapter programTypeAdapter = new ActionBarDropDownCategoryListAdapter(this, mFilterByProgramTypeTitles);
+			ActionBarDropDownCategoryListAdapter programTypeAdapter = new ActionBarDropDownCategoryListAdapter(this, mProgramTypes);
 			categorySpinner.setAdapter(programTypeAdapter);
 
 			categorySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -106,7 +111,7 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 			final Spinner daySpinner = (Spinner) findViewById(R.id.actionbar_homepage_day_spinner);
 			daySpinner.setVisibility(View.VISIBLE);
 			
-			ActionBarDropDownDateListAdapter dayAdapter = new ActionBarDropDownDateListAdapter(this, mFilterByDayTitles);	
+			ActionBarDropDownDateListAdapter dayAdapter = new ActionBarDropDownDateListAdapter(this, mTvDates);	
 			daySpinner.setAdapter(dayAdapter);
 
 			daySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -192,6 +197,11 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 		mTxtTabFeed.setTextColor(getResources().getColor(R.color.gray));
 
 		mActiveFragment = new TVGuideFragment();
+		Bundle bundle = new Bundle();
+		bundle.putParcelableArrayList(Consts.PARCELABLE_CHANNELS_LIST, mChannels);
+		bundle.putParcelableArrayList(Consts.PARCELABLE_TV_DATES_LIST, mTvDates);
+		bundle.putParcelableArrayList(Consts.PARCELABLE_PROGRAM_TYPES_LIST, mProgramTypes);
+		mActiveFragment.setArguments(bundle);
 		getSupportFragmentManager().beginTransaction().replace(R.id.homepage_contentframe, mActiveFragment).commit();
 	}
 
@@ -245,24 +255,31 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 		updateUI(REQUEST_STATUS.LOADING);
 		mTvDatePage = SSTvDatePage.getInstance();
 		mProgramTypePage = SSProgramTypePage.getInstance();
+		mChannelPage = SSChannelPage.getInstance();
 
 		mTvDatePage.getPage(new SSPageCallback() {
 			@Override
 			public void onGetPageResult(SSPageGetResult aPageGetResult) {
 
-				mFilterByDayTitles = mTvDatePage.getTvDates();
+				mTvDates = mTvDatePage.getTvDates();
 				mProgramTypePage.getPage(new SSPageCallback() {
 					@Override
 					public void onGetPageResult(SSPageGetResult aPageGetResult) {
-						mFilterByProgramTypeTitles = mProgramTypePage.getProgramTypes();
+						mProgramTypes = mProgramTypePage.getProgramTypes();
 
-						if (!pageHoldsData()) {
-							// Request failed
-							updateUI(REQUEST_STATUS.FAILED);
-						}
+						mChannelPage.getPage(new SSPageCallback(){
+							@Override
+							public void onGetPageResult(SSPageGetResult aPageGetResult) {
+								
+								mChannels = mChannelPage.getChannels();
+								if (!pageHoldsData()) {
+									// Request failed
+									updateUI(REQUEST_STATUS.FAILED);
+								}
+							}
+						});	
 					}
 				});
-
 			}
 		});
 	}
@@ -270,8 +287,8 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 	@Override
 	protected boolean pageHoldsData() {
 		boolean result = false;
-		if (mFilterByDayTitles != null || mFilterByProgramTypeTitles != null) {
-			if (mFilterByDayTitles.isEmpty() || mFilterByProgramTypeTitles.isEmpty()) {
+		if (mTvDates != null || mProgramTypes != null) {
+			if (mTvDates.isEmpty() || mProgramTypes.isEmpty()) {
 				updateUI(REQUEST_STATUS.FAILED);
 			} else {
 				updateUI(REQUEST_STATUS.SUCCESFUL);
@@ -283,12 +300,12 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
-		if (mFilterByDayTitles != null) {
+		if (mTvDates != null) {
 			isDateData = true;
 		} else {
 			Log.d(TAG, "No dates are available");
 		}
-		if (mFilterByProgramTypeTitles != null) {
+		if (mProgramTypes != null) {
 			isProgramTypesData = true;
 		} else {
 			Log.d(TAG, "No programTypes are available");
