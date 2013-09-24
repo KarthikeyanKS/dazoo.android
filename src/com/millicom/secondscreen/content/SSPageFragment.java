@@ -107,7 +107,7 @@ public abstract class SSPageFragment extends Fragment {
 				if (mRequestLoadingLayout != null) mRequestLoadingLayout.setVisibility(View.VISIBLE);
 				break;
 
-			case SUCCESFUL:
+			case SUCCESSFUL:
 				Log.d(TAG,"SUCCESSFUL!");
 				return true;
 			}

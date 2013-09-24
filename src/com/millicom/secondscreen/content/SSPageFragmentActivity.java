@@ -19,10 +19,11 @@ import com.millicom.secondscreen.R;
 
 public abstract class SSPageFragmentActivity extends ActionBarActivity {
 
-	private View		mRequestFailedLayout;
-	private View		mRequestLoadingLayout;
-	private Button		mRequestFailedButton;
-	
+	private View	mRequestEmptyLayout;
+	private View	mRequestFailedLayout;
+	private View	mRequestLoadingLayout;
+	private Button	mRequestFailedButton;
+
 	protected abstract void loadPage();
 
 	protected abstract boolean pageHoldsData();
@@ -55,6 +56,8 @@ public abstract class SSPageFragmentActivity extends ActionBarActivity {
 
 			switch (status) {
 			case EMPTY_RESPONSE:
+				mRequestEmptyLayout.setVisibility(View.VISIBLE);
+				break;
 			case FAILED:
 				mRequestFailedLayout.setVisibility(View.VISIBLE);
 				break;
@@ -63,7 +66,7 @@ public abstract class SSPageFragmentActivity extends ActionBarActivity {
 				mRequestLoadingLayout.setVisibility(View.VISIBLE);
 				break;
 
-			case SUCCESFUL:
+			case SUCCESSFUL:
 				return true;
 			}
 		}
@@ -76,13 +79,14 @@ public abstract class SSPageFragmentActivity extends ActionBarActivity {
 	}
 
 	public void initCallbackLayouts() {
-		
+
 		mRequestFailedLayout = (RelativeLayout) findViewById(R.id.request_failed_main_layout);
 		mRequestFailedButton = (Button) findViewById(R.id.request_failed_reload_button);
 		mRequestFailedButton.setOnClickListener(mOnRequestFailedClickListener);
 
 		mRequestLoadingLayout = (RelativeLayout) findViewById(R.id.request_loading_main_layout);
-
+		
+		mRequestEmptyLayout = (RelativeLayout) findViewById(R.id.request_empty_main_layout);
 	}
 
 	OnClickListener	mOnRequestFailedClickListener	= new OnClickListener() {
@@ -93,7 +97,6 @@ public abstract class SSPageFragmentActivity extends ActionBarActivity {
 			switch (v.getId()) {
 			case R.id.request_failed_reload_button:
 				loadPage();
-
 				break;
 			}
 		}

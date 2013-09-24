@@ -25,7 +25,7 @@ public abstract class Consts {
 	public static final int		MILLICOM_SECONDSCREEN_TVGUIDE_NUMBER_OF_CHANNELS_PER_PAGE	= 10;
 
 	public static enum REQUEST_STATUS {
-		LOADING, FAILED, SUCCESFUL, EMPTY_RESPONSE
+		LOADING, FAILED, EMPTY_RESPONSE, SUCCESSFUL
 	};
 
 	// Date iso format

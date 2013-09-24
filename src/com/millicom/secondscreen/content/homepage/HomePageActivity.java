@@ -83,6 +83,7 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
 
 		mActionBar.hide();
+		super.initCallbackLayouts();
 	}
 
 	private void initActionBarTvGuide(boolean isDateData, boolean isProgramTypesData) {
@@ -299,7 +300,7 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 			if (mTvDates.isEmpty() || mProgramTypes.isEmpty()) {
 				updateUI(REQUEST_STATUS.FAILED);
 			} else {
-				updateUI(REQUEST_STATUS.SUCCESFUL);
+				updateUI(REQUEST_STATUS.SUCCESSFUL);
 			}
 			result = true;
 		}

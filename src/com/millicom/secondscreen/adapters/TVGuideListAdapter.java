@@ -95,8 +95,6 @@ public class TVGuideListAdapter extends BaseAdapter {
 			int counter = Consts.TV_GUIDE_NEXT_PROGRAMS_NUMBER;
 
 			for (int k = 0; k < counter; k++) {
-				// check if the program meeting criteria exists
-				if (k < broadcasts.size() && broadcasts.get(k).getProgram() != null) {
 					if (k == 0) {
 						holder.mLiveProgramNameTv.setText(broadcasts.get(k).getProgram().getTitle());
 						try {
@@ -122,8 +120,15 @@ public class TVGuideListAdapter extends BaseAdapter {
 							holder.mLastProgramTimeTv.setText("");
 						}
 					}
-				}	
 			}
+		}
+		else{
+			holder.mLiveProgramNameTv.setText("");
+			holder.mLiveProgramTimeTv.setText("");
+			holder.mNextProgramNameTv.setText("");
+			holder.mNextProgramTimeTv.setText("");
+			holder.mLastProgramNameTv.setText("");
+			holder.mLastProgramTimeTv.setText("");
 		}
 		return rowView;
 	}

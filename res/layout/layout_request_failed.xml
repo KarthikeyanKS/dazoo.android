@@ -27,7 +27,7 @@
         android:textColor="@color/black"
         android:textSize="14sp" />
 
-    <!-- Button
+    <Button
         android:id="@+id/request_failed_reload_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,8 +35,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:minWidth="250dp"
-        android:background="@drawable/standard_button"
         android:text="@string/general_error_message_button"
-        android:textColor="@color/main_text_color" /-->
+        android:textColor="@color/black" />
 
 </RelativeLayout>

@@ -26,7 +26,7 @@ public class SSStartPage extends SSPage {
 
 	public boolean getPage(String programType, String url, SSPageCallback pageCallback) {
 		Log.d(TAG, "getPage");
-
+		Log.d(TAG,"Program Type:" + programType);
 		// Remember the callback
 		super.mPageCallback = pageCallback;
 		mStartPageUrl = url;
