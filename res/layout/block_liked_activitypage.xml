@@ -8,7 +8,7 @@
     android:orientation="vertical" >
 
     <RelativeLayout
-        android:id="@+id/block_popular_container"
+        android:id="@+id/block_liked_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -17,7 +17,7 @@
         <!-- CONTENT LABEL -->
 
         <com.millicom.secondscreen.customviews.FontTextView
-            android:id="@+id/block_popular_content_class_tv"
+            android:id="@+id/block_liked_content_class_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -28,10 +28,10 @@
         <!-- PRODUCT IMAGE -->
 
         <FrameLayout
-            android:id="@+id/block_popular_content_image_frame"
+            android:id="@+id/block_liked_content_image_frame"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/block_popular_content_class_tv"
+            android:layout_below="@id/block_liked_content_class_tv"
             android:layout_margin="10dp" >
 
             <RelativeLayout
@@ -40,14 +40,14 @@
                 android:orientation="horizontal" >
 
                 <ImageView
-                    android:id="@+id/block_popular_content_iv"
+                    android:id="@+id/block_liked_content_iv"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
                     android:scaleType="centerCrop" />
 
                 <ProgressBar
-                    android:id="@+id/block_popular_content_iv_progressbar"
+                    android:id="@+id/block_liked_content_iv_progressbar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -55,7 +55,7 @@
             </RelativeLayout>
 
             <com.millicom.secondscreen.customviews.FontTextView
-                android:id="@+id/block_popular_content_name_tv"
+                android:id="@+id/block_liked_content_name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -67,14 +67,14 @@
         <!-- CONTENT DETAILS -->
 
         <RelativeLayout
-            android:id="@+id/block_popular_content_details_container"
+            android:id="@+id/block_liked_content_details_container"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:orientation="horizontal" >
 
             <ImageView
-                android:id="@+id/block_popular_content_details_icon"
+                android:id="@+id/block_liked_content_details_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -82,17 +82,17 @@
                 android:visibility="gone" />
 
             <com.millicom.secondscreen.customviews.FontTextView
-                android:id="@+id/block_popular_content_details_time_tv"
+                android:id="@+id/block_liked_content_details_time_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/block_popular_content_details_icon"
+                android:layout_toRightOf="@id/block_liked_content_details_icon"
                 android:gravity="right"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
             <com.millicom.secondscreen.customviews.FontTextView
-                android:id="@+id/block_popular_content_details_episode_tv"
+                android:id="@+id/block_liked_content_details_episode_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -103,7 +103,7 @@
         <!-- ACTION BUTTONS -->
 
         <RelativeLayout
-            android:id="@+id/block_popular_buttons_container"
+            android:id="@+id/block_liked_buttons_container"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
@@ -111,7 +111,7 @@
             <!-- LIKE BUTTON -->
 
             <RelativeLayout
-                android:id="@+id/block_popular_like_button_container"
+                android:id="@+id/block_liked_like_button_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -121,7 +121,7 @@
                 android:orientation="horizontal" >
 
                 <ImageView
-                    android:id="@+id/block_popular_like_button_iv"
+                    android:id="@+id/block_liked_like_button_iv"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_alignParentLeft="true"
@@ -130,23 +130,23 @@
                     android:src="@drawable/ic_launcher" />
 
                 <com.millicom.secondscreen.customviews.FontTextView
-                    android:id="@+id/block_popular_like_button_tv"
+                    android:id="@+id/block_liked_like_button_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-                    android:layout_toRightOf="@id/block_popular_like_button_iv"
+                    android:layout_toRightOf="@id/block_liked_like_button_iv"
                     android:text="@string/like"
                     android:textSize="14sp" />
             </RelativeLayout>
             
             <!-- SHARE BUTTON -->
             <RelativeLayout
-                android:id="@+id/block_popular_share_button_container"
+                android:id="@+id/block_liked_share_button_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/block_popular_like_button_container"
+                android:layout_toRightOf="@id/block_liked_like_button_container"
                 android:layout_gravity="center_vertical"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
@@ -154,7 +154,7 @@
                 android:orientation="horizontal" >
 
                 <ImageView
-                    android:id="@+id/block_popular_share_button_iv"
+                    android:id="@+id/block_liked_share_button_iv"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_alignParentLeft="true"
@@ -163,20 +163,20 @@
                     android:src="@drawable/ic_launcher" />
 
                 <com.millicom.secondscreen.customviews.FontTextView
-                    android:id="@+id/block_popular_share_button_tv"
+                    android:id="@+id/block_liked_share_button_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-                    android:layout_toRightOf="@id/block_popular_share_button_iv"
+                    android:layout_toRightOf="@id/block_liked_share_button_iv"
                     android:text="@string/share"
                     android:textSize="14sp" />
             </RelativeLayout>
             
             <!-- REMIND BUTTON -->
             <RelativeLayout
-                android:id="@+id/block_popular_remind_button_container"
+                android:id="@+id/block_liked_remind_button_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -187,7 +187,7 @@
                 android:orientation="horizontal" >
 
                 <ImageView
-                    android:id="@+id/block_popular_remind_button_iv"
+                    android:id="@+id/block_liked_remind_button_iv"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_alignParentLeft="true"
