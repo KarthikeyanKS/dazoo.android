@@ -110,4 +110,8 @@ public class Channel implements Parcelable {
 		}
 	};
 
+	@Override
+	public String toString() {
+	    return "Id: " + channelId + "\n name: " + name + "\n logoSUrl: " + logoSUrl + "\n logoMUrl: " + logoMUrl + "\n logoLUrl: " + logoLUrl + "\n channelPageUrl" + channelPageUrl; 
+	}
 }

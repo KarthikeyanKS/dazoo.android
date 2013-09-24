@@ -43,8 +43,10 @@ public class ContentParser {
 				for (int j = 0; j < broadcastsJson.length(); j++) {
 					JSONObject jsonBroadcast = broadcastsJson.optJSONObject(j);
 					if (jsonBroadcast != null) {
-						if(programTypeKey !=null){
-						broadcasts.add(parseBroadcastProgramKey(jsonBroadcast, programTypeKey));
+						if ("ALL_CATEGORIES".equals(programTypeKey) == false) {
+							if(programTypeKey.equals(jsonBroadcast.optJSONObject("program").optString("programTypeId")) == true){		
+								broadcasts.add(parseBroadcastProgramKey(jsonBroadcast, programTypeKey));
+							}
 						} else {
 							broadcasts.add(parseBroadcastAll(jsonBroadcast));
 						}
@@ -156,7 +158,7 @@ public class ContentParser {
 
 		JSONObject jsonProgram = jsonBroadcast.optJSONObject("program");
 		if (jsonProgram != null) {
-			if (parseProgramKey(jsonProgram, programTypeKey) != null) broadcast.setProgram(parseProgramKey(jsonProgram, programTypeKey));
+				broadcast.setProgram(parseProgramKey(jsonProgram, programTypeKey));
 		}
 		return broadcast;
 	}
@@ -166,6 +168,7 @@ public class ContentParser {
 		program.setProgramId(jsonProgram.optString("programId"));
 		program.setProgramTypeId(jsonProgram.optString("programTypeId"));
 		program.setTitle(jsonProgram.optString("title"));
+		program.setSubtitle(jsonProgram.optString("subtitle"));
 
 		JSONObject jsonPoster = jsonProgram.optJSONObject("poster");
 		if (jsonPoster != null) {
@@ -194,12 +197,21 @@ public class ContentParser {
 	}
 
 	public Program parseProgramKey(JSONObject jsonProgram, String programTypeKey) throws Exception {
-		if (programTypeKey.equals(jsonProgram.optString("programTypeId")) == true) {
 			Program program = new Program();
 			program.setProgramId(jsonProgram.optString("programId"));
 			program.setProgramTypeId(jsonProgram.optString("programTypeId"));
 
-			program.setTitle(jsonProgram.optString("title"));
+			if (jsonProgram.optString("title").length() > 0) {
+				program.setTitle(jsonProgram.optString("title"));
+			} else {
+				program.setTitle("");
+			}
+			
+			if(jsonProgram.optString("subtitle").length() >0){
+				program.setSubtitle(jsonProgram.optString("subtitle"));
+			} else {
+				program.setSubtitle("");
+			}
 
 			JSONObject jsonPoster = jsonProgram.optJSONObject("poster");
 			if (jsonPoster != null) {
@@ -221,11 +233,23 @@ public class ContentParser {
 				program.setGenres(genres);
 			}
 
-			program.setSeason(jsonProgram.optString("season"));
-			program.setEpisode(jsonProgram.optString("episode"));
-			program.setDescription(jsonProgram.optString("description"));
+			if (jsonProgram.optString("season").length() > 0) {
+				program.setSeason(jsonProgram.optString("season"));
+			} else {
+				program.setSeason("");
+			}
+			if (jsonProgram.optString("episode").length() > 0) {
+				program.setEpisode(jsonProgram.optString("episode"));
+			} else {
+				program.setEpisode("");
+			}
+
+			if (jsonProgram.optString("description").length() > 0) {
+				program.setDescription(jsonProgram.optString("description"));
+			} else {
+				program.setDescription("");
+			}
 			return program;
-		} else return null;
 	}
 
 	public TvDate parseTvDate(JSONObject jsonTvDate) throws Exception {

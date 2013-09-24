@@ -123,5 +123,8 @@ public class Broadcast implements Parcelable{
 		}
 	}
 
-	
+	@Override
+	public String toString() {
+	    return "Id: " + broadcastId + "\n beginTime: " + beginTime + "\n endTime: " + endTime + "\n channel: " + channel + "\n program: " + program + "\n channelUrl" + channelUrl; 
+	}
 }

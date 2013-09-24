@@ -117,6 +117,9 @@ public class TVGuideFragment extends SSPageFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
+		
+		mActivity = getActivity();
+		
 		Bundle bundle = getArguments();
 		mTvDates = bundle.getParcelableArrayList(Consts.PARCELABLE_TV_DATES_LIST);
 		mProgramTypes = bundle.getParcelableArrayList(Consts.PARCELABLE_PROGRAM_TYPES_LIST);
@@ -126,9 +129,7 @@ public class TVGuideFragment extends SSPageFragment {
 		if (mTvDates != null) {
 			mDate = mTvDates.get(0).getDate().toString();
 		}
-
-		mProgramType = null;
-
+		
 		// get channel ids available to be shown at the tv guide
 		getAvailableChannelsIds();
 
@@ -138,7 +139,7 @@ public class TVGuideFragment extends SSPageFragment {
 
 		timeVector = getIndexedTime();
 		mGestureDetector = new GestureDetector(mActivity, new ListIndexGestureListener());
-		mActivity = getActivity();
+		
 
 		// Register for when a child selects a new sorting
 		mBroadcastReceiver = new BroadcastReceiver() {
@@ -244,7 +245,6 @@ public class TVGuideFragment extends SSPageFragment {
 	@Override
 	protected void loadPage() {
 		updateUI(Consts.REQUEST_STATUS.LOADING);
-
 		if (!pageHoldsData()) {
 			getPage();
 		}
@@ -259,6 +259,7 @@ public class TVGuideFragment extends SSPageFragment {
 			if (mGuide.isEmpty()) {
 				updateUI(REQUEST_STATUS.FAILED);
 			} else {
+				Log.d(TAG,"GUIDE SIZE: " + mGuide.size());
 				updateUI(REQUEST_STATUS.SUCCESFUL);
 			}
 			result = true;
@@ -455,7 +456,7 @@ public class TVGuideFragment extends SSPageFragment {
 				sideIndexY = event.getY();
 
 				// TODO
-				displayListItem();
+				//displayListItem();
 
 				return false;
 			}
@@ -522,13 +523,13 @@ public class TVGuideFragment extends SSPageFragment {
 		StringBuilder sB = new StringBuilder();
 		sB.append(Consts.MILLICOM_SECONDSCREEN_GUIDE_PAGE_API);
 
-		sB.append("/");
+		sB.append(Consts.REQUEST_QUERY_SEPARATOR);
 		sB.append(date);
 
-		sB.append("?");
+		sB.append(Consts.REQUEST_PARAMETER_SEPARATOR);
 		for (int i = startPosition; i < maxSize && i < startPosition + Consts.MILLICOM_SECONDSCREEN_TVGUIDE_NUMBER_OF_CHANNELS_PER_PAGE; i++) {
 			if (i > 0) {
-				sB.append("&");
+				sB.append(Consts.REQUEST_QUERY_AND);
 				sB.append(Consts.MILLICOM_SECONDSCREEN_API_CHANNEL_ID);
 				sB.append(mChannelIds.get(i));
 			} else {
@@ -537,7 +538,6 @@ public class TVGuideFragment extends SSPageFragment {
 			}
 			numOfChannelsShownNow++;
 		}
-		Log.d(TAG, "Page Url:" + sB.toString());
 		return sB.toString();
 	}
 
@@ -558,7 +558,6 @@ public class TVGuideFragment extends SSPageFragment {
 				try {
 					beginHour = DateUtilities.isoStringToHourString(broadcastsOfTheChannel.get(j).getBeginTime());
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				if (hoursArray[i].equals(beginHour)) {

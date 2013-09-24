@@ -17,6 +17,9 @@ public abstract class Consts {
 
 	// api request strings
 	public static final String	MILLICOM_SECONDSCREEN_API_CHANNEL_ID						= "channelId=";
+	public static final String	REQUEST_QUERY_AND											= "&";
+	public static final String	REQUEST_QUERY_SEPARATOR										= "/";
+	public static final String	REQUEST_PARAMETER_SEPARATOR									= "?";
 
 	public static final int		MILLICOM_SECONDSCREEN_TVGUIDE_NUMBER_OF_ITEMS_PER_CHANNEL	= 3;
 	public static final int		MILLICOM_SECONDSCREEN_TVGUIDE_NUMBER_OF_CHANNELS_PER_PAGE	= 10;

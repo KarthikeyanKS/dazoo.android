@@ -26,30 +26,34 @@
             android:theme="@style/Theme.AppCompat.Light" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <activity android:name="com.millicom.secondscreen.content.search.SearchPageActivity" 
-            android:theme="@style/Theme.AppCompat.Light"/>
-        
-        <activity android:name="com.millicom.secondscreen.content.myprofile.LikesActivity" 
-            android:theme="@style/Theme.AppCompat.Light"/>
-        
-        <activity android:name="com.millicom.secondscreen.content.myprofile.MyChannelsActivity" 
-            android:theme="@style/Theme.AppCompat.Light"/>
-        
-        <activity android:name="com.millicom.secondscreen.content.myprofile.RemindersActivity" 
-            android:theme="@style/Theme.AppCompat.Light"/>
-        
-        <activity android:name="com.millicom.secondscreen.content.myprofile.SettingsActivity" 
-            android:theme="@style/Theme.AppCompat.Light"/>
-       
-        
-       
-       
-        
+        <activity
+            android:name="com.millicom.secondscreen.content.search.SearchPageActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light" />
+        <activity
+            android:name="com.millicom.secondscreen.content.myprofile.LikesActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light" />
+        <activity
+            android:name="com.millicom.secondscreen.content.myprofile.MyChannelsActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light" />
+        <activity
+            android:name="com.millicom.secondscreen.content.myprofile.RemindersActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light" />
+        <activity
+            android:name="com.millicom.secondscreen.content.myprofile.SettingsActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light" />
     </application>
 
 </manifest>

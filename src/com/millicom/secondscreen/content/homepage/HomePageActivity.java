@@ -3,6 +3,8 @@ package com.millicom.secondscreen.content.homepage;
 import java.util.ArrayList;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -37,25 +39,25 @@ import com.millicom.secondscreen.content.tvguide.TVGuideFragment;
 
 public class HomePageActivity extends SSPageFragmentActivity implements View.OnClickListener {
 
-	private static final String		TAG							= "HomePageActivity";
+	private static final String		TAG				= "HomePageActivity";
 	private TextView				mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed, mTxtTabMore;
 	private View					mTabSelectorContainerView;
 	private Fragment				mActiveFragment;
-	private ArrayList<TvDate>		mTvDates			= new ArrayList<TvDate>();
+	private ArrayList<TvDate>		mTvDates		= new ArrayList<TvDate>();
 	private ArrayList<ProgramType>	mProgramTypes	= new ArrayList<ProgramType>();
-	private ArrayList<Channel> mChannels = new ArrayList<Channel>();
+	private ArrayList<Channel>		mChannels		= new ArrayList<Channel>();
 
 	private ActionBar				mActionBar;
-	private boolean					isDateData					= false, isProgramTypesData = false;
+	private boolean					isDateData		= false, isProgramTypesData = false;
 	private SSTvDatePage			mTvDatePage;
 	private SSProgramTypePage		mProgramTypePage;
-	private SSChannelPage mChannelPage;
+	private SSChannelPage			mChannelPage;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_homepage_activity);
-		
+
 		initViews();
 
 		mTvDatePage = SSTvDatePage.getInstance();
@@ -102,9 +104,9 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 				@Override
 				public void onItemSelected(AdapterView<?> parentView, View view, int position, long id) {
 					ProgramType programTypeItem = (ProgramType) categorySpinner.getItemAtPosition(position);
-					LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(new Intent(Consts.INTENT_EXTRA_TVGUIDE_SORTING).
-																							putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE, programTypeItem.getId())
-																							.putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_TYPE, Consts.VALUE_TYPE_PROGRAMTYPE));
+					LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(
+							new Intent(Consts.INTENT_EXTRA_TVGUIDE_SORTING).putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE, programTypeItem.getId()).putExtra(
+									Consts.INTENT_EXTRA_TVGUIDE_SORTING_TYPE, Consts.VALUE_TYPE_PROGRAMTYPE));
 				}
 
 				@Override
@@ -117,17 +119,17 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 		if (isDateData == true) {
 			final Spinner daySpinner = (Spinner) findViewById(R.id.actionbar_homepage_day_spinner);
 			daySpinner.setVisibility(View.VISIBLE);
-			
-			ActionBarDropDownDateListAdapter dayAdapter = new ActionBarDropDownDateListAdapter(this, mTvDates);	
+
+			ActionBarDropDownDateListAdapter dayAdapter = new ActionBarDropDownDateListAdapter(this, mTvDates);
 			daySpinner.setAdapter(dayAdapter);
 
 			daySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 				@Override
 				public void onItemSelected(AdapterView<?> parentView, View view, int position, long id) {
 					TvDate tvDateItem = (TvDate) daySpinner.getItemAtPosition(position);
-					LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(new Intent(Consts.INTENT_EXTRA_TVGUIDE_SORTING).
-																				putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE, tvDateItem.getDate())
-																				.putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_TYPE, Consts.VALUE_TYPE_TVDATE));
+					LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(
+							new Intent(Consts.INTENT_EXTRA_TVGUIDE_SORTING).putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE, tvDateItem.getDate()).putExtra(
+									Consts.INTENT_EXTRA_TVGUIDE_SORTING_TYPE, Consts.VALUE_TYPE_TVDATE));
 				}
 
 				@Override
@@ -273,17 +275,17 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 					public void onGetPageResult(SSPageGetResult aPageGetResult) {
 						mProgramTypes = mProgramTypePage.getProgramTypes();
 
-						mChannelPage.getPage(new SSPageCallback(){
+						mChannelPage.getPage(new SSPageCallback() {
 							@Override
 							public void onGetPageResult(SSPageGetResult aPageGetResult) {
-								
+
 								mChannels = mChannelPage.getChannels();
 								if (!pageHoldsData()) {
 									// Request failed
 									updateUI(REQUEST_STATUS.FAILED);
 								}
 							}
-						});	
+						});
 					}
 				});
 			}
@@ -311,22 +313,28 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 		} else {
 			Log.d(TAG, "No dates are available");
 		}
-		if (mProgramTypes != null) {
 
-			//mocking of "All categories type";
-			ProgramType programTypeAll = new ProgramType();
-			programTypeAll.setAlias("all_categories");
-			programTypeAll.setId(null);
-			programTypeAll.setName("All categories");
-			
-			mProgramTypes.add(0,programTypeAll);
-			isProgramTypesData = true;
-		} else {
-			Log.d(TAG, "No programTypes are available");
+		if(mProgramTypes == null){
+			Log.d(TAG,"No separate categories are available");
 		}
+		
+		ProgramType programTypeAll = new ProgramType();
+		programTypeAll.setAlias(getResources().getString(R.string.all_categories_alias));
+		programTypeAll.setId(getResources().getString(R.string.all_categories_id));
+		programTypeAll.setName(getResources().getString(R.string.all_categories_name));
+
+		mProgramTypes.add(0, programTypeAll);
+		isProgramTypesData = true;
+
 		if (super.requestIsSuccesfull(status)) {
 			mTabSelectorContainerView.setVisibility(View.VISIBLE);
 			showTVGuide();
 		}
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 }

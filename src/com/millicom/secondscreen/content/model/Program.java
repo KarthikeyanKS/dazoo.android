@@ -198,4 +198,9 @@ public class Program implements Parcelable {
 		}
 	};
 	
+	@Override
+	public String toString() {
+	    return "Id: " + programId + "\n programTypeId: " + programTypeId + "\n title: " + title + "\n subtitle: " + subtitle + "\n posterSUrl:" + posterSUrl + "\n posterMUrl" + posterMUrl 
+	    		+ "\n posterLUrl" + posterLUrl + "\n cast" + cast + "\n year: " + year + "\n runtime: " + runtime + "\n season: " + season + "\n episode:" + episode + "\n description" + description;  
+	}
 }
