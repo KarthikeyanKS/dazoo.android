@@ -49,7 +49,7 @@ public class ChannelPageActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_channelpage_activity);
 
-		mImageLoader = new ImageLoader(this, R.drawable.loadimage);
+		mImageLoader = new ImageLoader(this, R.drawable.loadimage_2x);
 
 		// get the info about the individual channel guide to be displayed from tv-guide listview
 		Intent intent = getIntent();

@@ -13,9 +13,12 @@ import com.millicom.secondscreen.utilities.DateUtilities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 public class Broadcast implements Parcelable{
 
+	private static final String TAG = "Broadcast";
+	
 	private String broadcastId;
 	private String beginTime;
 	private String endTime;
@@ -171,8 +174,6 @@ public class Broadcast implements Parcelable{
 
 		// get the time now
 		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
-		TimeZone tz = TimeZone.getTimeZone("UTC");
-		df.setTimeZone(tz);
 		String timeNowStr = df.format(new Date());
 		long timeNow = 0;
 		try {
@@ -180,7 +181,7 @@ public class Broadcast implements Parcelable{
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-
+		
 		int nearestIndex = -1;
 		long bestDistanceFoundYet = Long.MAX_VALUE;
 		for (int i = 0; i < broadcastList.size(); i++) {
@@ -199,7 +200,7 @@ public class Broadcast implements Parcelable{
 		}
 
 		// get the selection of upcoming broadcasts
-		for (int j = nearestIndex; j < numberOfClosest; j++) {
+		for (int j = nearestIndex; j < nearestIndex + numberOfClosest; j++) {
 			if (j < broadcastList.size()) {
 				nextBroadcasts.add(broadcastList.get(j));
 			}

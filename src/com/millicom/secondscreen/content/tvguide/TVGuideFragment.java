@@ -238,7 +238,6 @@ public class TVGuideFragment extends SSPageFragment {
 
 				if (!pageHoldsData()) {
 					// // Request failed
-					Log.d(TAG, "FROM HERE!!");
 					updateUI(REQUEST_STATUS.FAILED);
 				}
 			}
@@ -259,7 +258,7 @@ public class TVGuideFragment extends SSPageFragment {
 		mGuide = new ArrayList<Guide>();
 		mGuide = mPage.getGuide();
 
-		mTvGuideListAdapter = new TVGuideListAdapter(mActivity, mGuide);
+		
 
 		if (mGuide != null) {
 			if (mGuide.isEmpty()) {
@@ -278,6 +277,8 @@ public class TVGuideFragment extends SSPageFragment {
 		Log.d(TAG, "update UI :" + status);
 
 		if (super.requestIsSuccesfull(status)) {
+			mTvGuideListAdapter = new TVGuideListAdapter(mActivity, mGuide);
+			
 			actualListView = mTvGuideListView.getRefreshableView();
 			
 			// mTvGuideListView.setAdapter(mTvGuideListAdapter);

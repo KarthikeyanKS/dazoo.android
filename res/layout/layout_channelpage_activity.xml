@@ -11,10 +11,8 @@
     <RelativeLayout
         android:id="@+id/channelpage_channel_icon_container"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:layout_alignParentTop="true"
-        android:orientation="vertical" >
+        android:layout_height="100dp"
+        android:background="@color/hallon" >
 
         <ImageView
             android:id="@+id/channelpage_channel_icon_iv"
@@ -31,6 +29,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/channelpage_channel_icon_container"
+        android:background="@color/light_gray"
         android:layout_margin="10dp" >
 
         <RelativeLayout

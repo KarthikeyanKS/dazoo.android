@@ -110,6 +110,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 			/* get the nearest broadcasts*/
 			
 			ArrayList<Broadcast> nextBroadcasts = Broadcast.getClosestBroadcasts(broadcasts, Consts.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
+			Log.d(TAG,"NEXT SIZE: " + nextBroadcasts.size());
 			for (int j = 0; j < nextBroadcasts.size(); j++) {
 				if (j == 0) {
 					holder.mLiveProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getTitle());
