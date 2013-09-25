@@ -69,8 +69,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_margin="10dp"
-            android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textColor="@color/red"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <com.millicom.secondscreen.customviews.FontTextView
@@ -80,8 +80,8 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@id/channelpage_broadcast_details_time_tv"
-            android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textColor="@color/red"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <ProgressBar
@@ -89,7 +89,6 @@
             style="@android:style/Widget.Holo.ProgressBar.Horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:progressDrawable="@drawable/broadcast_horizontal_progressbar" 
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_below="@id/channelpage_broadcast_details_time_tv"/>

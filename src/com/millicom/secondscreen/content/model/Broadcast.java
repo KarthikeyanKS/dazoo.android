@@ -22,6 +22,8 @@ public class Broadcast implements Parcelable{
 	private Channel channel;
 	private Program program;
 	private String channelUrl;
+	private int durationInMinutes;
+	private long beginTimeMillis;
 	
 	public Broadcast(){
 	}
@@ -70,6 +72,22 @@ public class Broadcast implements Parcelable{
 		return this.channelUrl;
 	}
 	
+	public void setDurationInMinutes(int durationInMinutes){
+		this.durationInMinutes = durationInMinutes;
+	}
+	
+	public int getDurationInMinutes(){
+		return this.durationInMinutes;
+	}
+	
+	public void setBeginTimeMillis(long beginTimeMillis){
+		this.beginTimeMillis = beginTimeMillis;
+	}
+	
+	public long getBeginTimeMillis(){
+		return this.beginTimeMillis;
+	}
+	
 	@Override
 	public int describeContents() {
 		return 0;
@@ -93,6 +111,8 @@ public class Broadcast implements Parcelable{
 		channel = (Channel)in.readParcelable(Channel.class.getClassLoader());
 		program = (Program)in.readParcelable(Program.class.getClassLoader());
 		channelUrl = in.readString();
+		durationInMinutes = in.readInt();
+		beginTimeMillis = in.readLong();
 	}
 
 	@Override
@@ -103,6 +123,8 @@ public class Broadcast implements Parcelable{
 		dest.writeParcelable(channel, flags);
 		dest.writeParcelable(program, flags);	
 		dest.writeString(channelUrl);
+		dest.writeInt(durationInMinutes);
+		dest.writeLong(beginTimeMillis);
 	}
 
 	public static class BroadcastComparatorByTime implements Comparator<Broadcast> {

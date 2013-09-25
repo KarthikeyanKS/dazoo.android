@@ -128,6 +128,8 @@ public class ContentParser {
 		broadcast.setBroadcastId(jsonBroadcast.optString("broadcastId"));
 		broadcast.setBeginTime(jsonBroadcast.optString("beginTime"));
 		broadcast.setEndTime(jsonBroadcast.optString("endTime"));
+		broadcast.setDurationInMinutes(jsonBroadcast.optInt("durationInMinutes"));
+		broadcast.setBeginTimeMillis(jsonBroadcast.optLong("beginTimeMillis"));
 
 		JSONObject jsonChannel = jsonBroadcast.optJSONObject("channel");
 		if (jsonChannel != null) {
@@ -148,7 +150,9 @@ public class ContentParser {
 		broadcast.setBroadcastId(jsonBroadcast.optString("broadcastId"));
 		broadcast.setBeginTime(jsonBroadcast.optString("beginTime"));
 		broadcast.setEndTime(jsonBroadcast.optString("endTime"));
-
+		broadcast.setDurationInMinutes(jsonBroadcast.optInt("durationInMinutes"));
+		broadcast.setBeginTimeMillis(jsonBroadcast.optLong("beginTimeMillis"));
+		
 		JSONObject jsonChannel = jsonBroadcast.optJSONObject("channel");
 		if (jsonChannel != null) {
 

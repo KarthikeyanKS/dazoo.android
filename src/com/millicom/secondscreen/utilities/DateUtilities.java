@@ -9,10 +9,13 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.millicom.secondscreen.Consts;
 
 public class DateUtilities {
+	
+	private static final String TAG = "DateUtilities";
 
 	/**
 	 * Converts a TvDate date string YYYY-MM-DD to the user-friendly format DD/MM
@@ -243,8 +246,8 @@ public class DateUtilities {
 	 */
 	public static String getCurrentHourString() {
 		SimpleDateFormat df = new SimpleDateFormat("HH", Locale.getDefault());
-		TimeZone tz = TimeZone.getTimeZone("UTC");
-		df.setTimeZone(tz);
+		//TimeZone tz = TimeZone.getTimeZone("UTC");
+		//df.setTimeZone(tz);
 		String dateNow = df.format(new Date());
 		return dateNow;
 	}
@@ -262,8 +265,8 @@ public class DateUtilities {
 		} else {
 			dfmInput = new SimpleDateFormat("HH a", Locale.getDefault());
 		}
-		TimeZone tz = TimeZone.getTimeZone("UTC");
-		dfmInput.setTimeZone(tz);
+		//TimeZone tz = TimeZone.getTimeZone("UTC");
+		//dfmInput.setTimeZone(tz);
 		String hourNow = dfmInput.format(new Date());
 		time = dfmInput.parse(hourNow).getTime();
 		return time;
@@ -282,10 +285,48 @@ public class DateUtilities {
 		} else {
 			dfmInput = new SimpleDateFormat("HH:mm a", Locale.getDefault());
 		}
-		TimeZone tz = TimeZone.getTimeZone("UTC");
-		dfmInput.setTimeZone(tz);
+		//TimeZone tz = TimeZone.getTimeZone("UTC");
+		//dfmInput.setTimeZone(tz);
 		String hourNow = dfmInput.format(new Date());
 		time = dfmInput.parse(hourNow).getTime();
 		return time;
+	}
+	
+	/**
+	 * Get the difference in minutes between current time and submitted
+	 * 
+	 * @return number of minutes as integer
+	 */
+	public static int getDifferenceInMinutes(String submittedTime) throws ParseException{
+		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
+		//TimeZone tz = TimeZone.getTimeZone("UTC");
+		//df.setTimeZone(tz);
+		String dateNow = df.format(new Date());
+		
+		long timeSubmitted = DateUtilities.isoStringToLong(submittedTime);
+		long timeCurrent = DateUtilities.isoStringToLong(dateNow);
+		
+		long difference = timeCurrent - timeSubmitted; 
+		
+		int days = (int) (difference / (1000*60*60*24));  
+		int hours = (int) ((difference - (1000*60*60*24*days)) / (1000*60*60)); 
+		return (int) (difference - (1000*60*60*24*days) - (1000*60*60*hours)) / (1000*60);
+	}
+	
+	/**
+	 * Get the absolute difference in time units between current time and submitted
+	 * 
+	 * @return time difference as long
+	 */
+	public static long getAbsoluteTimeDifference(String submittedTime) throws ParseException{
+		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
+		//TimeZone tz = TimeZone.getTimeZone("UTC");
+		//df.setTimeZone(tz);
+		String dateNow = df.format(new Date());
+		
+		long timeSubmitted = DateUtilities.isoStringToLong(submittedTime);
+		long timeCurrent = DateUtilities.isoStringToLong(dateNow);
+		
+		return(timeCurrent - timeSubmitted); 
 	}
 }
