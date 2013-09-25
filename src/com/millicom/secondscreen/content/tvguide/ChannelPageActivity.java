@@ -1,9 +1,14 @@
 package com.millicom.secondscreen.content.tvguide;
 
+import java.util.ArrayList;
+
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.adapters.ChannelPageListAdapter;
+import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
+import com.millicom.secondscreen.content.model.Guide;
+import com.millicom.secondscreen.utilities.ImageLoader;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -21,6 +26,8 @@ import android.widget.Toast;
 
 public class ChannelPageActivity extends ActionBarActivity {
 
+	private static final String TAG = "ChannelPageActivity";
+	
 	private ActionBar mActionBar;
 	private ImageView mChannelIconIv, mChannelBroadcastLiveIv;
 	private ProgressBar mChannelBroadcastLiveIvPrB, mDurationProgressBar;
@@ -28,28 +35,31 @@ public class ChannelPageActivity extends ActionBarActivity {
 	private ListView mFollowingBroadcastsLv;
 	private ChannelPageListAdapter mFollowingBroadcastsListAdapter;
 	
+	private Guide mChannelGuide;
+	private ArrayList<Broadcast> mBroadcasts, mFollowingBroadcasts;
+	
+	private ImageLoader			mImageLoader;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_channelpage_activity);
 		
-		// get the info about the channel to be displayed from tv-guide listview
+		mImageLoader = new ImageLoader(this,  R.drawable.loadimage);
+		
+		// get the info about the individual channel guide to be displayed from tv-guide listview
 		Intent intent = getIntent(); 
-		String channelPageLink = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_PAGE_LINK);
+		mChannelGuide = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHANNEL_GUIDE);
+		mBroadcasts = mChannelGuide.getBroadcasts();
 		
-		//parse individual channel page
-		//TODO
-		
-		//Channel channel = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHANNEL);
-		//String channelName = channel.getName();
-		//Toast.makeText(this, "Channel " + channelName + " is to be shown" , Toast.LENGTH_LONG).show();
+		Toast.makeText(this, mChannelGuide.getName(), Toast.LENGTH_LONG).show();
 		
 		initViews();
+		populateViews();
 	}
 
 	private void initViews() {
-		// styling the Action Bar
 		mActionBar = getSupportActionBar();
 		mActionBar.setDisplayShowTitleEnabled(false);
 		mActionBar.setDisplayShowCustomEnabled(true);
@@ -70,10 +80,18 @@ public class ChannelPageActivity extends ActionBarActivity {
 		mBroadcastLiveTextTv = (TextView) findViewById(R.id.channelpage_broadcast_details_text_tv);
 		
 		mFollowingBroadcastsLv = (ListView) findViewById(R.id.listview);
+	}
+	
+	private void populateViews(){
+		mImageLoader.displayImage(mChannelGuide.getLogoLHref(), mChannelIconIv, ImageLoader.IMAGE_TYPE.THUMBNAIL);
 		
-		// TODO: INITIALIZE ADAPTER WITH DATA
-		
+		mFollowingBroadcasts = Broadcast.getClosestBroadcasts(mBroadcasts, mBroadcasts.size());
+
+		mImageLoader.displayImage(mFollowingBroadcasts.get(0).getProgram().getPosterLUrl(), mChannelBroadcastLiveIv, ImageLoader.IMAGE_TYPE.LANDSCAPE);
+
+		mFollowingBroadcastsListAdapter = new ChannelPageListAdapter(this, mFollowingBroadcasts);
 		mFollowingBroadcastsLv.setAdapter(mFollowingBroadcastsListAdapter);
+
 	}
 
 	@Override

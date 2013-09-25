@@ -1,8 +1,14 @@
 package com.millicom.secondscreen.content.model;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
+import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.utilities.DateUtilities;
 
 import android.os.Parcel;
@@ -123,8 +129,60 @@ public class Broadcast implements Parcelable{
 		}
 	}
 
+	public static final Parcelable.Creator<Broadcast>	CREATOR	= new Parcelable.Creator<Broadcast>() {
+		public Broadcast createFromParcel(Parcel in) {
+			return new Broadcast(in);
+		}
+
+		public Broadcast[] newArray(int size) {
+			return new Broadcast[size];
+		}
+	};
+	
 	@Override
 	public String toString() {
 	    return "Id: " + broadcastId + "\n beginTime: " + beginTime + "\n endTime: " + endTime + "\n channel: " + channel + "\n program: " + program + "\n channelUrl" + channelUrl; 
+	}
+	
+	public static ArrayList<Broadcast> getClosestBroadcasts(ArrayList<Broadcast> broadcastList, int numberOfClosest) {
+		ArrayList<Broadcast> nextBroadcasts = new ArrayList<Broadcast>();
+
+		// get the time now
+		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
+		TimeZone tz = TimeZone.getTimeZone("UTC");
+		df.setTimeZone(tz);
+		String timeNowStr = df.format(new Date());
+		long timeNow = 0;
+		try {
+			timeNow = DateUtilities.isoStringToLong(timeNowStr);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		int nearestIndex = -1;
+		long bestDistanceFoundYet = Long.MAX_VALUE;
+		for (int i = 0; i < broadcastList.size(); i++) {
+			long timeBroadcast = 0;
+			try {
+				timeBroadcast = DateUtilities.isoStringToLong(broadcastList.get(i).getBeginTime());
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+
+			long d = Math.abs(timeNow - timeBroadcast);
+			if (d < bestDistanceFoundYet) {
+				nearestIndex = i;
+				bestDistanceFoundYet = d;
+			}
+		}
+
+		// get the selection of upcoming broadcasts
+		for (int j = nearestIndex; j < numberOfClosest; j++) {
+			if (j < broadcastList.size()) {
+				nextBroadcasts.add(broadcastList.get(j));
+			}
+		}
+		
+		return nextBroadcasts;
 	}
 }

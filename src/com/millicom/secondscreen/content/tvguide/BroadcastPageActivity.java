@@ -13,6 +13,8 @@ import com.millicom.secondscreen.R;
 
 public class BroadcastPageActivity extends ActionBarActivity {
 
+	private static final String TAG = "BroadcastPageActivity";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

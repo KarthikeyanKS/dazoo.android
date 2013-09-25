@@ -13,6 +13,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
+        android:layout_alignParentTop="true"
         android:orientation="vertical" >
 
         <ImageView
@@ -117,5 +118,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/channelpage_broadcast_details_container"
         android:cacheColorHint="@null"
-        android:divider="@null" />
+        android:divider="@null" 
+        android:dividerHeight="0dp"/>
 </RelativeLayout>

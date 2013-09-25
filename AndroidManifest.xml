@@ -54,6 +54,16 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light" />
+        <activity 
+            android:name="com.millicom.secondscreen.content.tvguide.BroadcastPageActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light"/>
+        <activity 
+            android:name="com.millicom.secondscreen.content.tvguide.ChannelPageActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light"/>        
     </application>
 
 </manifest>

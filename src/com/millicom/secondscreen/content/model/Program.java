@@ -154,10 +154,10 @@ public class Program implements Parcelable {
 		dest.writeString(cast);
 		dest.writeString(year);	
 		dest.writeString(runtime);
-		dest.writeStringList(genres);
 		dest.writeString(season);
 		dest.writeString(episode);
 		dest.writeString(description);
+		dest.writeSerializable(genres);
 	}
 	
 	public Program(Parcel in){
@@ -171,10 +171,10 @@ public class Program implements Parcelable {
 		cast = in.readString();
 		year = in.readString();
 		runtime = in.readString();
-		genres = (ArrayList<String>)in.readSerializable();
 		season = in.readString();
 		episode = in.readString();
 		description = in.readString();
+		genres = (ArrayList<String>) in.readSerializable();
 	}
 
 	@Override

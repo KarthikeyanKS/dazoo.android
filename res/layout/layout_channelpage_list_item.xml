@@ -2,17 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:orientation="horizontal" >
+    android:layout_height="fill_parent"
+    android:background="@color/white" >
 
     <com.millicom.secondscreen.customviews.FontTextView
         android:id="@+id/channelpage_list_item_time_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_gravity="left"
-        android:layout_margin="5dp"
+        android:layout_centerVertical="true"
+        android:layout_margin="15dp"
         android:textColor="@color/black"
         android:textSize="14sp"
         android:textStyle="bold" />
@@ -21,7 +20,10 @@
         android:id="@+id/channelpage_list_item_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_centerVertical="true"
         android:layout_toRightOf="@id/channelpage_list_item_time_tv"
         android:contentDescription="@string/content_rating_icon"
         android:visibility="gone" />
@@ -30,10 +32,17 @@
         android:id="@+id/channelpage_list_item_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_centerVertical="true"
         android:layout_toRightOf="@id/channelpage_list_item_iv"
         android:textColor="@color/black"
         android:textSize="14sp"
         android:textStyle="bold" />
 
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray"/>
 </RelativeLayout>
