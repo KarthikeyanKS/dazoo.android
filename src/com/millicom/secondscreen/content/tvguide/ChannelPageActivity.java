@@ -2,6 +2,7 @@ package com.millicom.secondscreen.content.tvguide;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.adapters.ChannelPageListAdapter;
 import com.millicom.secondscreen.content.model.Channel;
 
 import android.app.Activity;
@@ -12,10 +13,22 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ChannelPageActivity extends ActionBarActivity {
 
+	private ActionBar mActionBar;
+	private ImageView mChannelIconIv, mChannelBroadcastLiveIv;
+	private ProgressBar mChannelBroadcastLiveIvPrB, mDurationProgressBar;
+	private TextView mBroadcastLiveTimeTv, mBroadcastLiveTitleTv, mBroadcastLiveTextTv;
+	private ListView mFollowingBroadcastsLv;
+	private ChannelPageListAdapter mFollowingBroadcastsListAdapter;
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,15 +50,30 @@ public class ChannelPageActivity extends ActionBarActivity {
 
 	private void initViews() {
 		// styling the Action Bar
-		final ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.setDisplayShowCustomEnabled(true);
-		actionBar.setDisplayUseLogoEnabled(false);
-		actionBar.setDisplayShowHomeEnabled(false);
-		actionBar.setCustomView(R.layout.layout_actionbar_channelpage);
+		mActionBar = getSupportActionBar();
+		mActionBar.setDisplayShowTitleEnabled(false);
+		mActionBar.setDisplayShowCustomEnabled(true);
+		mActionBar.setDisplayUseLogoEnabled(false);
+		mActionBar.setDisplayShowHomeEnabled(false);
+		mActionBar.setCustomView(R.layout.layout_actionbar_channelpage);
 
 		final int actionBarColor = getResources().getColor(R.color.lightblue);
-		actionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
+		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
+		
+		mChannelIconIv = (ImageView) findViewById(R.id.channelpage_channel_icon_iv);
+		mChannelBroadcastLiveIv = (ImageView) findViewById(R.id.channelpage_broadcast_iv);
+		mChannelBroadcastLiveIvPrB = (ProgressBar) findViewById(R.id.channelpage_broadcast_iv_progressbar);
+		
+		mBroadcastLiveTimeTv = (TextView) findViewById(R.id.channelpage_broadcast_details_time_tv);
+		mBroadcastLiveTitleTv = (TextView) findViewById(R.id.channelpage_broadcast_details_title_tv);
+		mDurationProgressBar = (ProgressBar) findViewById(R.id.channelpage_broadcast_details_progressbar);
+		mBroadcastLiveTextTv = (TextView) findViewById(R.id.channelpage_broadcast_details_text_tv);
+		
+		mFollowingBroadcastsLv = (ListView) findViewById(R.id.listview);
+		
+		// TODO: INITIALIZE ADAPTER WITH DATA
+		
+		mFollowingBroadcastsLv.setAdapter(mFollowingBroadcastsListAdapter);
 	}
 
 	@Override

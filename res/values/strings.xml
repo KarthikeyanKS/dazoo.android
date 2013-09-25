@@ -101,6 +101,7 @@
 
     <!-- CONTENT DESCRIPTION -->
     <string name="tv_guide_rating_icon">TV Guide content rating image</string>
+    <string name="content_rating_icon">Content rating icon</string>
     <string name="event_is_live_indicator">LIVE</string>
 
     <!-- LAYOUT RESPONSES -->

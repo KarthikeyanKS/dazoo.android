@@ -11,12 +11,12 @@ import android.support.v7.app.ActionBarActivity;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 
-public class ProgramPageActivity extends ActionBarActivity {
+public class BroadcastPageActivity extends ActionBarActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.layout_programpage_activity);
+		setContentView(R.layout.layout_broadcastpage_activity);
 		
 		// get the info about the program to be displayed from tv-guide listview
 		Intent intent = getIntent(); 

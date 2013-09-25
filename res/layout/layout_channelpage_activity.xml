@@ -5,4 +5,117 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical" >
+
+    <!-- CHANNEL ICON CONTAINER -->
+
+    <RelativeLayout
+        android:id="@+id/channelpage_channel_icon_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/channelpage_channel_icon_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:padding="10dp" />
+    </RelativeLayout>
+
+    <!-- BROADCAST ON AIR POSTER -->
+
+    <FrameLayout
+        android:id="@+id/channelpage_broadcast_image_frame"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/channelpage_channel_icon_container"
+        android:layout_margin="10dp" >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/channelpage_broadcast_iv"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY" />
+
+            <ProgressBar
+                android:id="@+id/channelpage_broadcast_iv_progressbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </FrameLayout>
+
+    <!-- BROADCAST ON AIR DETAILS -->
+
+    <RelativeLayout
+        android:id="@+id/channelpage_broadcast_details_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <com.millicom.secondscreen.customviews.FontTextView
+            android:id="@+id/channelpage_broadcast_details_time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="10dp"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <com.millicom.secondscreen.customviews.FontTextView
+            android:id="@+id/channelpage_broadcast_details_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/channelpage_broadcast_details_time_tv"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <ProgressBar
+            android:id="@+id/channelpage_broadcast_details_progressbar"
+            style="@android:style/Widget.Holo.ProgressBar.Horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:progressDrawable="@drawable/broadcast_horizontal_progressbar" 
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_below="@id/channelpage_broadcast_details_time_tv"/>
+        
+        <com.millicom.secondscreen.customviews.FontTextView
+            android:id="@+id/channelpage_broadcast_details_text_tv"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_below="@id/channelpage_broadcast_details_progressbar"
+            android:maxLines="3"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="normal"/>
+        
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/light_gray"/>
+    </RelativeLayout>
+    
+    <!-- LIST OF FOLLOWING UP BROADCASTS -->
+     <ListView
+        android:id="@+id/listview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/channelpage_broadcast_details_container"
+        android:cacheColorHint="@null"
+        android:divider="@null" />
 </RelativeLayout>
