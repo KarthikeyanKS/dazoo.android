@@ -29,16 +29,18 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.damnhandy.uri.template.UriTemplate;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.SecondScreenApplication;
 
 public class ImageLoader {
-	
-	private static final String TAG = "ImageLoader";
+
+	private static final String		TAG								= "ImageLoader";
 
 	static MemoryCache				memoryCache						= new MemoryCache();
 	private Context					context;
@@ -98,13 +100,11 @@ public class ImageLoader {
 
 				width = "" + SecondScreenApplication.sImageSizePosterWidth;
 				height = "" + SecondScreenApplication.sImageSizePosterHeight;
-			}
-			else if (type == IMAGE_TYPE.LANDSCAPE) {
+			} else if (type == IMAGE_TYPE.LANDSCAPE) {
 
 				width = "" + SecondScreenApplication.sImageSizeLandscapeWidth;
 				height = "" + SecondScreenApplication.sImageSizeLandscapeHeight;
-			}
-			else if (type == IMAGE_TYPE.THUMBNAIL) {
+			} else if (type == IMAGE_TYPE.THUMBNAIL) {
 
 				width = "" + SecondScreenApplication.sImageSizeThumbnailWidth;
 				height = "" + SecondScreenApplication.sImageSizeThumbnailHeight;
@@ -125,8 +125,7 @@ public class ImageLoader {
 			template.set("token", hashedString);
 
 			url = template.expand();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -137,11 +136,76 @@ public class ImageLoader {
 
 			imageView.setImageBitmap(bitmap);
 
-		}
-		else {
+		} else {
 			queuePhoto(url, imageView);
 
 			if (usePlaceholder) imageView.setImageResource(placeholder);
+		}
+	}
+
+	// displays image in the same fashion as the previous method but also contains a progress bar
+	public void displayImage(String url, ImageView imageView, ProgressBar progressBar, IMAGE_TYPE type) {
+		try {
+			Matcher m = pattern.matcher(url);
+			String project = "";
+			String imageURL = "";
+
+			while (m.find()) {
+				project = m.group(2);
+				imageURL = m.group(3);
+			}
+
+			String width = null;
+			String height = null;
+
+			if (type == IMAGE_TYPE.POSTER) {
+
+				width = "" + SecondScreenApplication.sImageSizePosterWidth;
+				height = "" + SecondScreenApplication.sImageSizePosterHeight;
+			} else if (type == IMAGE_TYPE.LANDSCAPE) {
+
+				width = "" + SecondScreenApplication.sImageSizeLandscapeWidth;
+				height = "" + SecondScreenApplication.sImageSizeLandscapeHeight;
+			} else if (type == IMAGE_TYPE.THUMBNAIL) {
+
+				width = "" + SecondScreenApplication.sImageSizeThumbnailWidth;
+				height = "" + SecondScreenApplication.sImageSizeThumbnailHeight;
+			}
+
+			else if (type == IMAGE_TYPE.GALLERY) {
+
+				width = "" + SecondScreenApplication.sImageSizeGalleryWidth;
+				height = "" + SecondScreenApplication.sImageSizeGalleryHeight;
+			}
+
+			String hashedString = md5((imageURL + project + width + height + Consts.IMAGE_MACHINE_SECURITY_KEY)).substring(0, 8);
+
+			UriTemplate template = UriTemplate.fromTemplate(url);
+
+			template.set("width", width);
+			template.set("height", height);
+			template.set("token", hashedString);
+
+			url = template.expand();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		imageViews.put(imageView, url);
+		progressBar.setVisibility(View.VISIBLE);
+		Bitmap bitmap = memoryCache.get(url);
+
+		if (bitmap != null) {
+			progressBar.setVisibility(View.GONE);
+			imageView.setImageBitmap(bitmap);
+		} else {
+			queuePhoto(url, imageView);
+
+			if (usePlaceholder) {
+				imageView.setImageResource(placeholder);
+				progressBar.setVisibility(View.GONE);
+			}
+
 		}
 	}
 
@@ -159,7 +223,7 @@ public class ImageLoader {
 			Bitmap bitmap = null;
 			URL imageUrl = new URL(url);
 			HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
-			
+
 			conn.setConnectTimeout(IMAGELOADING_CONNECTION_TIMEOUT);
 			conn.setReadTimeout(IMAGELOADING_CONNECTION_TIMEOUT);
 			conn.setInstanceFollowRedirects(true);
@@ -167,20 +231,19 @@ public class ImageLoader {
 			OutputStream os = new FileOutputStream(f);
 			Utils.CopyStream(is, os);
 			os.close();
-			
-			//bitmap = decodeFile(f);
-			
-            HttpClient client = new DefaultHttpClient();
-            URI imageURI = new URI(url);
-            HttpGet req = new HttpGet();
-            req.setURI(imageURI);
-            HttpResponse response = client.execute(req);
 
-            bitmap = BitmapFactory.decodeStream(response.getEntity().getContent());
-			
+			// bitmap = decodeFile(f);
+
+			HttpClient client = new DefaultHttpClient();
+			URI imageURI = new URI(url);
+			HttpGet req = new HttpGet();
+			req.setURI(imageURI);
+			HttpResponse response = client.execute(req);
+
+			bitmap = BitmapFactory.decodeStream(response.getEntity().getContent());
+
 			return bitmap;
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 			return null;
 		}
@@ -190,8 +253,7 @@ public class ImageLoader {
 	private Bitmap decodeFile(File f) {
 		try {
 			return BitmapFactory.decodeStream(new FileInputStream(f));
-		}
-		catch (FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
 		}
 		return null;
 	}
@@ -247,8 +309,7 @@ public class ImageLoader {
 			if (bitmap != null) {
 				if (useLayoutAnimation) photoToLoad.imageView.startAnimation(AnimationUtils.loadAnimation(context, android.R.anim.fade_in));
 				photoToLoad.imageView.setImageBitmap(bitmap);
-			}
-			else {
+			} else {
 				photoToLoad.imageView.setImageResource(placeholder);
 			}
 		}
@@ -267,8 +328,7 @@ public class ImageLoader {
 				hash = hash + hextable[(di >> 4) & 0xF] + hextable[di & 0xF];
 			}
 			return hash;
-		}
-		catch (NoSuchAlgorithmException e) {
+		} catch (NoSuchAlgorithmException e) {
 		}
 
 		return "";

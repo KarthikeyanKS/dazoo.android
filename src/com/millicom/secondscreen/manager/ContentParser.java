@@ -197,6 +197,8 @@ public class ContentParser {
 		program.setSeason(jsonProgram.optString("season"));
 		program.setEpisode(jsonProgram.optString("episode"));
 		program.setDescription(jsonProgram.optString("description"));
+		program.setSynopsisShort(jsonProgram.optString("synopsisShort"));
+		program.setSynopsisLong(jsonProgram.optString("synopsisLong"));
 		return program;
 	}
 
@@ -253,6 +255,10 @@ public class ContentParser {
 			} else {
 				program.setDescription("");
 			}
+			
+			program.setSynopsisShort(jsonProgram.optString("synopsisShort"));
+			program.setSynopsisLong(jsonProgram.optString("synopsisLong"));
+			
 			return program;
 	}
 

@@ -21,6 +21,8 @@ public class Program implements Parcelable {
 	private String season;
 	private String episode;
 	private String description;
+	private String synopsisShort;
+	private String synopsisLong;
 	
 	public Program(){
 	}
@@ -137,6 +139,22 @@ public class Program implements Parcelable {
 		return this.description;
 	}
 	
+	public void setSynopsisShort(String synopsisShort){
+		this.synopsisShort = synopsisShort;
+	}
+	
+	public String getSynopsisShort(){
+		return this.synopsisShort;
+	}
+	
+	public void setSynopsisLong(String synopsisLong){
+		this.synopsisLong = synopsisLong;
+	}
+	
+	public String getSynopsisLong(){
+		return this.synopsisLong;
+	}
+	
 	@Override
 	public int describeContents() {
 		return 0;
@@ -158,6 +176,8 @@ public class Program implements Parcelable {
 		dest.writeString(episode);
 		dest.writeString(description);
 		dest.writeSerializable(genres);
+		dest.writeString(synopsisShort);
+		dest.writeString(synopsisLong);
 	}
 	
 	public Program(Parcel in){
@@ -175,6 +195,8 @@ public class Program implements Parcelable {
 		episode = in.readString();
 		description = in.readString();
 		genres = (ArrayList<String>) in.readSerializable();
+		synopsisShort = in.readString();
+		synopsisLong = in.readString();
 	}
 
 	@Override
@@ -201,6 +223,7 @@ public class Program implements Parcelable {
 	@Override
 	public String toString() {
 	    return "Id: " + programId + "\n programTypeId: " + programTypeId + "\n title: " + title + "\n subtitle: " + subtitle + "\n posterSUrl:" + posterSUrl + "\n posterMUrl" + posterMUrl 
-	    		+ "\n posterLUrl" + posterLUrl + "\n cast" + cast + "\n year: " + year + "\n runtime: " + runtime + "\n season: " + season + "\n episode:" + episode + "\n description" + description;  
+	    		+ "\n posterLUrl" + posterLUrl + "\n cast" + cast + "\n year: " + year + "\n runtime: " + runtime + "\n season: " + season + "\n episode:" + episode + 
+	    		"\n synopsisShort" + synopsisShort + "\n synopsisLong" + synopsisLong;  
 	}
 }

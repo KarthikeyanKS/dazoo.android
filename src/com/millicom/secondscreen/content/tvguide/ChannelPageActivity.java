@@ -56,8 +56,6 @@ public class ChannelPageActivity extends ActionBarActivity {
 		mChannelGuide = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHANNEL_GUIDE);
 		mBroadcasts = mChannelGuide.getBroadcasts();
 
-		Toast.makeText(this, mChannelGuide.getName(), Toast.LENGTH_LONG).show();
-
 		initViews();
 		populateViews();
 	}
@@ -90,7 +88,7 @@ public class ChannelPageActivity extends ActionBarActivity {
 
 		mFollowingBroadcasts = Broadcast.getClosestBroadcasts(mBroadcasts, mBroadcasts.size());
 
-		mImageLoader.displayImage(mFollowingBroadcasts.get(0).getProgram().getPosterLUrl(), mChannelBroadcastLiveIv, ImageLoader.IMAGE_TYPE.LANDSCAPE);
+		mImageLoader.displayImage(mFollowingBroadcasts.get(0).getProgram().getPosterLUrl(), mChannelBroadcastLiveIv, mChannelBroadcastLiveIvPrB, ImageLoader.IMAGE_TYPE.LANDSCAPE);
 		try {
 			mBroadcastLiveTimeTv.setText(DateUtilities.isoStringToTimeString(mFollowingBroadcasts.get(0).getBeginTime()));
 		} catch (ParseException e) {
@@ -139,8 +137,8 @@ public class ChannelPageActivity extends ActionBarActivity {
 				handler.postDelayed(this, 60 * 1000);
 			}
 		}, 60 * 1000);
-
-		mBroadcastLiveTextTv.setText(mFollowingBroadcasts.get(0).getProgram().getDescription());
+		
+		mBroadcastLiveTextTv.setText(mFollowingBroadcasts.get(0).getProgram().getSynopsisShort());
 
 		mFollowingBroadcastsListAdapter = new ChannelPageListAdapter(this, mFollowingBroadcasts);
 		mFollowingBroadcastsLv.setAdapter(mFollowingBroadcastsListAdapter);
