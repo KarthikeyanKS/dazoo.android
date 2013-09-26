@@ -108,7 +108,8 @@ public class TVGuideListAdapter extends BaseAdapter {
 		if (broadcasts != null && broadcasts.size() > 0) {
 
 			/* get the nearest broadcasts */
-			ArrayList<Broadcast> nextBroadcasts = Broadcast.getClosestBroadcasts(broadcasts, Consts.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
+			int indexOfNearestBroadcast = Broadcast.getClosestBroadcastIndex(broadcasts);
+			ArrayList<Broadcast> nextBroadcasts = Broadcast.getBroadcastsStartingFromPosition(indexOfNearestBroadcast, broadcasts, Consts.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
 			for (int j = 0; j < nextBroadcasts.size(); j++) {
 				if (j == 0) {
 					holder.mLiveProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getTitle());
