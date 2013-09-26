@@ -24,6 +24,7 @@ import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.content.SSBroadcastBlockPopulator;
+import com.millicom.secondscreen.content.SSCastCrewBlockPopulator;
 import com.millicom.secondscreen.content.SSSocialInteractionPanelCreator;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
@@ -82,6 +83,11 @@ public class BroadcastPageActivity extends ActionBarActivity {
 		//add the button block
 		SSSocialInteractionPanelCreator socialPanelCreator = new SSSocialInteractionPanelCreator(this, mBlockContainer);
 		socialPanelCreator.createPanel();
+		
+		//add the cast and crew block
+		//SSCastCrewBlockPopulator castCrewBlockPopulator = new SSCastCrewBlockPopulator(this, mBlockContainer);
+		//castCrewBlockPopulator.createBlock(mCast);
+		
 	}
 
 	@Override

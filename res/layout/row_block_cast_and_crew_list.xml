@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/listview_item_selector" >
+
+    <LinearLayout
+        android:id="@+id/row_block_cast_and_crew_list_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:background="@color/white" >
+
+        <RelativeLayout
+            android:id="@+id/row_block_cast_and_crew_list_poster_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:background="@color/white" >
+
+            <ImageView
+                android:id="@+id/row_block_cast_and_crew_list_iv"
+                android:layout_width="130dp"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY" />
+
+            <ProgressBar
+                android:id="@+id/row_block_cast_and_crew_list_progressbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/row_block_cast_and_crew_list_details_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="0.7"
+            android:orientation="vertical" >
+
+            <com.millicom.secondscreen.customviews.FontTextView
+                android:id="@+id/row_block_cast_and_crew_list_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_gravity="left"
+                android:layout_margin="5dp"
+                android:textColor="@color/tvguide_program_line_color"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <com.millicom.secondscreen.customviews.FontTextView
+                android:id="@+id/row_block_cast_and_crew_list_details_character_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/row_block_cast_and_crew_list_name_tv"
+                android:layout_gravity="left"
+                android:layout_margin="5dp"
+                android:textColor="@color/tvguide_program_line_color"
+                android:textSize="16sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>
