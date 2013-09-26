@@ -35,6 +35,15 @@ public class SSCastCrewBlockPopulator {
 		CastCrewListAdapter castCrewListAdapter = new CastCrewListAdapter(mActivity, cast);
 		listview.setAdapter(castCrewListAdapter);
 		
+		button.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO 
+				// open detail view for cast and crew
+			}
+		});
+		
 		mContainerView.addView(contentView);
 	}
 

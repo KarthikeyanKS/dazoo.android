@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.content.model.Broadcast;
+import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.ChannelHour;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.myprofile.RemindersActivity;
@@ -39,11 +40,13 @@ public class TVGuideListAdapter extends BaseAdapter {
 	private LayoutInflater		mLayoutInflater;
 	private Activity			mActivity;
 	private ArrayList<Guide>	mGuide;
+	private ArrayList<Channel> mChannels;
 
 	private ImageLoader			mImageLoader;
 
-	public TVGuideListAdapter(Activity mActivity, ArrayList<Guide> mGuide) {
+	public TVGuideListAdapter(Activity mActivity, ArrayList<Guide> mGuide, ArrayList<Channel> mChannels) {
 		this.mGuide = mGuide;
+		this.mChannels = mChannels;
 		this.mActivity = mActivity;
 		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage);
 	}
@@ -96,7 +99,18 @@ public class TVGuideListAdapter extends BaseAdapter {
 
 			@Override
 			public void onClick(View v) {
+				
+				Channel channel = null;
+				for(int i=0;i<mChannels.size(); i++){
+					if(guide.getId().equals(mChannels.get(i).getChannelId())){
+						channel = mChannels.get(i);
+					}
+				}
+				final Channel channeltoSend = channel;
+				
+				
 				Intent intent = new Intent(mActivity, ChannelPageActivity.class);
+				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL, channeltoSend);
 				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_GUIDE, guide);
 				mActivity.startActivity(intent);
 				mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);

@@ -43,6 +43,7 @@ public class ChannelPageActivity extends ActionBarActivity {
 	private ChannelPageListAdapter	mFollowingBroadcastsListAdapter;
 
 	private Guide					mChannelGuide;
+	private Channel mChannel;
 	private ArrayList<Broadcast>	mBroadcasts, mFollowingBroadcasts;
 
 	private ImageLoader				mImageLoader;
@@ -57,6 +58,7 @@ public class ChannelPageActivity extends ActionBarActivity {
 		// get the info about the individual channel guide to be displayed from tv-guide listview
 		Intent intent = getIntent();
 		mChannelGuide = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHANNEL_GUIDE);
+		mChannel = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHANNEL);
 		mBroadcasts = mChannelGuide.getBroadcasts();
 
 		initViews();
