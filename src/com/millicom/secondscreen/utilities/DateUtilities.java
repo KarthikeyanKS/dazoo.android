@@ -251,7 +251,42 @@ public class DateUtilities {
 		String dateNow = df.format(new Date());
 		return dateNow;
 	}
+	
+	/**
+	 * Get the date as a name string
+	 * 
+	 * @return name of day of week
+	 */
+	public static String isoStringToDayOfWeek(String date) throws ParseException{
+		long time = 0;
+		if (date != null && !date.equals("")) {
+			SimpleDateFormat dfmInput = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
+			time = dfmInput.parse(date).getTime();
+		}
+		SimpleDateFormat dfmOutput = new SimpleDateFormat("EEEE", Locale.getDefault());
 
+		String output = dfmOutput.format(time);
+		return output;
+	}
+	
+	/**
+	 * Get the date as a name string and day/month digits
+	 * 
+	 *  @return date in format "EEEE DD/MM"
+	 */
+	public static String isoStringToDayOfWeekAndDate(String date) throws ParseException{
+		long time = 0;
+		if (date != null && !date.equals("")) {
+			SimpleDateFormat dfmInput = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
+			time = dfmInput.parse(date).getTime();
+		}
+		SimpleDateFormat dfmOutput = new SimpleDateFormat("EEEE dd/MM", Locale.getDefault());
+
+		String output = dfmOutput.format(time);
+		return output;
+	}
+	
+	
 	/**
 	 * Get the current hour as a long
 	 * 

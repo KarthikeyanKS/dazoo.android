@@ -22,6 +22,9 @@ import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -143,7 +146,17 @@ public class ChannelPageActivity extends ActionBarActivity {
 
 		mFollowingBroadcastsListAdapter = new ChannelPageListAdapter(this, mFollowingBroadcasts);
 		mFollowingBroadcastsLv.setAdapter(mFollowingBroadcastsListAdapter);
-
+		
+		mFollowingBroadcastsLv.setOnItemClickListener(new OnItemClickListener() {
+		      public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+		
+				// open the detail view for the individual broadcast
+				Intent intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
+				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_BROADCAST, mFollowingBroadcasts.get(position));
+				startActivity(intent);
+				overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+		      }                 
+		});
 	}
 
 	@Override

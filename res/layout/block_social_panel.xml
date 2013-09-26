@@ -1,0 +1,90 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
+    android:id="@+id/block_social_panel_container"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="@color/hallon"
+    android:orientation="horizontal" >
+
+    <!-- LIKE BUTTON -->
+
+    <RelativeLayout
+        android:id="@+id/block_social_panel_like_button_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="10dp"
+        android:background="@color/light_gray"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/block_social_panel_like_button_iv"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:src="@drawable/ic_launcher" />
+
+        <com.millicom.secondscreen.customviews.FontTextView
+            android:id="@+id/block_social_panel_like_button_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@id/block_social_panel_like_button_iv"
+            android:text="@string/like"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <!-- SHARE BUTTON -->
+
+    <RelativeLayout
+        android:id="@+id/block_social_panel_share_button_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/block_social_panel_like_button_container"
+        android:background="@color/light_gray"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/block_social_panel_share_button_iv"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:src="@drawable/ic_launcher" />
+    </RelativeLayout>
+
+    <!-- REMIND BUTTON -->
+
+    <RelativeLayout
+        android:id="@+id/block_social_panel_remind_button_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="center_vertical"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/light_gray"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/block_social_panel_remind_button_iv"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:src="@drawable/ic_launcher" />
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -50,6 +50,10 @@ public class Broadcast implements Parcelable {
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
+	
+	public String getEndTime(){
+		return this.endTime;
+	}
 
 	public void setChannel(Channel channel) {
 		this.channel = channel;

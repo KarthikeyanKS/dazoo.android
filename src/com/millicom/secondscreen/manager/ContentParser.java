@@ -134,7 +134,7 @@ public class ContentParser {
 		JSONObject jsonChannel = jsonBroadcast.optJSONObject("channel");
 		if (jsonChannel != null) {
 
-			// broadcast.setChannel(parseChannel(jsonChannel));
+			//broadcast.setChannel(parseChannel(jsonChannel));
 			broadcast.setChannelUrl(jsonChannel.optString("href"));
 		}
 
@@ -156,7 +156,7 @@ public class ContentParser {
 		JSONObject jsonChannel = jsonBroadcast.optJSONObject("channel");
 		if (jsonChannel != null) {
 
-			// broadcast.setChannel(parseChannel(jsonChannel));
+			//broadcast.setChannel(parseChannel(jsonChannel));
 			broadcast.setChannelUrl(jsonChannel.optString("href"));
 		}
 

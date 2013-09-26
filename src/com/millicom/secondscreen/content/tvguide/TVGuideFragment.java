@@ -183,10 +183,10 @@ public class TVGuideFragment extends SSPageFragment {
 				mSortingType = intent.getStringExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_TYPE);
 				if (Consts.VALUE_TYPE_PROGRAMTYPE.equals(mSortingType)) {
 					mProgramType = intent.getStringExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE);
-					Toast.makeText(mActivity, "Program Type CHOSEN: " + mProgramType, Toast.LENGTH_LONG).show();
+					//Toast.makeText(mActivity, "Program Type CHOSEN: " + mProgramType, Toast.LENGTH_LONG).show();
 				} else if (Consts.VALUE_TYPE_TVDATE.equals(mSortingType)) {
 					mDate = intent.getStringExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE);
-					Toast.makeText(mActivity, "Date CHOSEN: " + mDate, Toast.LENGTH_LONG).show();
+					//Toast.makeText(mActivity, "Date CHOSEN: " + mDate, Toast.LENGTH_LONG).show();
 				}
 
 				numOfChannelsShownNow = 0;
