@@ -3,7 +3,8 @@
     xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/listview_item_selector" >
+    android:background="@drawable/listview_item_selector" 
+    android:padding="10dp">
 
     <LinearLayout
         android:id="@+id/block_broadcastpage_main_content_container"
