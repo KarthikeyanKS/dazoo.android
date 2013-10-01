@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Dazoo</string>
+    <string name="app_id">556250164430374</string>
 
     <!-- HOMEPAGE : TABS -->
     <string name="tab_tv_guide">TV Guide</string>
