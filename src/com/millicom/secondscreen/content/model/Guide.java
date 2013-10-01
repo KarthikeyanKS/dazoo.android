@@ -81,7 +81,7 @@ public class Guide implements Parcelable{
 		logoSHref = in.readString();
 		logoMHref = in.readString();
 		logoLHref = in.readString();
-		broadcasts = (ArrayList<Broadcast>)in.readArrayList(Broadcast.class.getClassLoader());
+		in.readTypedList(broadcasts, Broadcast.CREATOR);
 	}
 	
 	@Override

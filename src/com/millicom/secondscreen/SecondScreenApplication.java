@@ -97,9 +97,6 @@ public class SecondScreenApplication extends Application {
 		
 		sImageSizePosterWidth = (int) Math.ceil(sImageSizeGalleryWidth / POSTER_WIDTH_DIVIDER);
 		sImageSizePosterHeight = (int) Math.ceil(sImageSizePosterWidth * IMAGE_HEIGHT_COEFFICIENT_POSTER);
-
-		Log.d(TAG, "Width : " + sImageSizeGalleryWidth);
-		Log.d(TAG, "Height : " + sImageSizeGalleryHeight);
 	}
 	
 	// Add a activity to list of running activities

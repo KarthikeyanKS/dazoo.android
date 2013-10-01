@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tvguide_program_line_next_container"
-    android:layout_width="wrap_content"
-    android:layout_height="30dp"
-    android:orientation="horizontal" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
     <com.millicom.secondscreen.customviews.FontTextView
         android:id="@+id/tvguide_program_line_next_time_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
+        android:layout_alignParentLeft="true"
         android:layout_margin="5dp"
         android:textColor="@color/tvguide_program_line_color"
-        android:textSize="14sp" />
+        android:textSize="14sp" 
+        android:textStyle="italic"/>
 
     <ImageView
         android:id="@+id/tvguide_program_line_next_icon_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
+        android:layout_toRightOf="@id/tvguide_program_line_next_time_tv"
         android:contentDescription="@string/tv_guide_rating_icon"
         android:visibility="gone" />
 
@@ -28,8 +30,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
+        android:layout_toRightOf="@id/tvguide_program_line_next_icon_iv"
         android:layout_margin="5dp"
         android:textColor="@color/tvguide_program_line_color"
-        android:textSize="14sp" />
-
-</LinearLayout>
+        android:textSize="14sp" 
+        android:textStyle=""/>
+</RelativeLayout>
