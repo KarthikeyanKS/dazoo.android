@@ -79,8 +79,6 @@ public class ImageLoader {
 	 * 
 	 *            The hashed string is created by first splitting the image URL to a Project and ImageURL String.
 	 * 
-	 *            https://doc.viaplay.tv/display/viaconnect/ImageMachine+Tokens
-	 * 
 	 * */
 	public void displayImage(String url, ImageView imageView, IMAGE_TYPE type) {
 		try {
@@ -156,8 +154,6 @@ public class ImageLoader {
 	 *            The type of image to display, this can be either gallery (large) or thumbnail (small) image.
 	 * 
 	 *            The hashed string is created by first splitting the image URL to a Project and ImageURL String.
-	 * 
-	 *            https://doc.viaplay.tv/display/viaconnect/ImageMachine+Tokens
 	 * 
 	 * */
 	public void displayImage(String url, ImageView imageView, ProgressBar progressBar, IMAGE_TYPE type) {

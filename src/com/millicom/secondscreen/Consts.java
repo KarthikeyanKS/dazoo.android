@@ -29,8 +29,11 @@ public abstract class Consts {
 	public static final String	REQUEST_QUERY_SEPARATOR										= "/";
 	public static final String	REQUEST_PARAMETER_SEPARATOR									= "?";
 
+	// restrictions
 	public static final int		MILLICOM_SECONDSCREEN_TVGUIDE_NUMBER_OF_ITEMS_PER_CHANNEL	= 3;
 	public static final int		MILLICOM_SECONDSCREEN_TVGUIDE_NUMBER_OF_CHANNELS_PER_PAGE	= 10;
+	public static final int     MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MIN = 6;
+	public static final int 	MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MAX = 20;
 
 	public static enum REQUEST_STATUS {
 		LOADING, FAILED, EMPTY_RESPONSE, SUCCESSFUL

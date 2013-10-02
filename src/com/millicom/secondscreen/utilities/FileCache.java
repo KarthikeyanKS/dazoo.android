@@ -11,7 +11,7 @@ public class FileCache {
 
 	public FileCache(Context context) {
 		if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-			cacheDir = new File(Environment.getExternalStorageDirectory(), "ViaplayImagecache");
+			cacheDir = new File(Environment.getExternalStorageDirectory(), "MillicomImageCache");
 		} else {
 			cacheDir = context.getCacheDir();
 		}

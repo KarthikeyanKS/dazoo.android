@@ -14,4 +14,48 @@
         android:padding="10dp"
         android:text="@string/login_with_facebook" />
 
+    <com.millicom.secondscreen.customviews.FontEditText
+        android:id="@+id/login_activity_dazoo_email_edittext"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_activity_facebook_login_button"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/gray"
+        android:hint="@string/hint_email"
+        android:inputType="textPassword"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/light_gray"
+        android:textSize="16sp"
+        font:fonttextview="Avenir.ttc" />
+
+    <com.millicom.secondscreen.customviews.FontEditText
+        android:id="@+id/login_activity_dazoo_password_edittext"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_activity_dazoo_email_edittext"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/gray"
+        android:hint="@string/hint_password"
+        android:inputType="textEmailAddress"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/light_gray"
+        android:textSize="16sp" />
+
+    <com.millicom.secondscreen.customviews.FontButton
+        android:id="@+id/login_activity_dazoo_login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_activity_dazoo_password_edittext"
+        android:background="@color/light_gray"
+        android:padding="10dp"
+        android:text="@string/login_with_dazoo" />
+
 </RelativeLayout>
