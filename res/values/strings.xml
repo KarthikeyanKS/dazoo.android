@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Dazoo</string>
-    <string name="app_id">556250164430374</string>
+    <string name="app_id"></string>
 
     <!-- HOMEPAGE : TABS -->
     <string name="tab_tv_guide">TV Guide</string>
@@ -134,4 +134,7 @@
     <string name="cast_and_crew">Cast &amp; Crews</string>
     <string name="view_full_cast_and_crew">View full cast &amp; crew</string>
 
+    <!-- LOGIN PAGE -->
+    <string name="login_with_facebook">Login with Facebook</string>
+    
 </resources>

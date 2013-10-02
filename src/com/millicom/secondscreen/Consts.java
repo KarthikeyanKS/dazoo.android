@@ -14,9 +14,17 @@ public abstract class Consts {
 	public static final String	MILLICOM_SECONDSCREEN_PROGRAM_TYPES_PAGE_API				= "http://api.gitrgitr.com/programTypes";
 	public static final String	MILLICOM_SECONDSCREEN_DATES_PAGE_API						= "http://api.gitrgitr.com/dates";
 	public static final String	MILLICOM_SECONDSCREEN_CHANNELS_PAGE_API						= "http://api.gitrgitr.com/channels";
+	public static final String	MILLICOM_SECONDSCREEN_FACEBOOK_TOKEN_URL					= "http://api.gitrgitr.com/login/facebook";
+	public static final String	MILLICOM_SECONDSCREEN_DAZOO_LOGIN_URL						= "http://api.gitrgitr.com/login/dazoo";
+	public static final String  MILLICOM_SECONDSCREEN_DAZOO_USER_ID_URL						= "http://api.gitrgitr.com/token";
 
 	// api request strings
 	public static final String	MILLICOM_SECONDSCREEN_API_CHANNEL_ID						= "channelId=";
+	public static final String	MILLICOM_SECONDSCREEN_API_FACEBOOK_TOKEN					= "facebookToken";
+	public static final String	MILLICOM_SECONDSCREEN_API_TOKEN								= "token";
+	public static final String	MILLICOM_SECONDSCREEN_API_USER_ID							= "userId";
+	public static final String	MILLICOM_SECONDSCREEN_API_EMAIL								= "email";
+	public static final String	MILLICOM_SECONDSCREEN_API_PASSWORD							= "password";
 	public static final String	REQUEST_QUERY_AND											= "&";
 	public static final String	REQUEST_QUERY_SEPARATOR										= "/";
 	public static final String	REQUEST_PARAMETER_SEPARATOR									= "?";
@@ -77,5 +85,9 @@ public abstract class Consts {
 	public static final int		INFO_UPDATE_LIKES					= 11;
 	public static final int		INFO_NO_UPDATE_REMINDERS			= 0;
 	public static final int		INFO_NO_UPDATE_LIKES				= 10;
+
+	// Response codes
+	public static final int		GOOD_RESPONSE						= 200;
+	public static final int		BAD_RESPONSE						= 400;
 
 }

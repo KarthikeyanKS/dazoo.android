@@ -23,6 +23,7 @@ import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.adapters.ActionBarDropDownCategoryListAdapter;
 import com.millicom.secondscreen.adapters.ActionBarDropDownDateListAdapter;
+import com.millicom.secondscreen.authentication.FacebookLoginActivity;
 import com.millicom.secondscreen.content.SSChannelPage;
 import com.millicom.secondscreen.content.SSPageCallback;
 import com.millicom.secondscreen.content.SSPageFragmentActivity;
@@ -191,9 +192,14 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 
 			@Override
 			public void onClick(View arg0) {
-				// move to the search page
-				Intent toSearchPage = new Intent(HomePageActivity.this, SearchPageActivity.class);
-				startActivity(toSearchPage);
+			//	// move to the search page
+			//	Intent toSearchPage = new Intent(HomePageActivity.this, SearchPageActivity.class);
+			//	startActivity(toSearchPage);
+			//	overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+				
+				// move to login page for test purpose
+				Intent toLoginPage = new Intent(HomePageActivity.this, FacebookLoginActivity.class);
+				startActivity(toLoginPage);
 				overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			}
 		});
