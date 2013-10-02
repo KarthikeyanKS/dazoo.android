@@ -110,6 +110,5 @@ public class SecondScreenApplication extends Application {
 				if (a != null) a.finish();
 			}
 		}
-
 }
 

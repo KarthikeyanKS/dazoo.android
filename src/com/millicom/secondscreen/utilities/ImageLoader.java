@@ -143,7 +143,23 @@ public class ImageLoader {
 		}
 	}
 
-	// displays image in the same fashion as the previous method but also contains a progress bar
+	/**
+	 * Creates a tokenized URL an displays image.
+	 * 
+	 * @param url
+	 *            The URL of the image.
+	 * @param imageView
+	 *            The ImageView to display the image in.
+	 * @param progressBar
+	 * 			  The ProgressBar to display while the image is loading
+	 * @param type
+	 *            The type of image to display, this can be either gallery (large) or thumbnail (small) image.
+	 * 
+	 *            The hashed string is created by first splitting the image URL to a Project and ImageURL String.
+	 * 
+	 *            https://doc.viaplay.tv/display/viaconnect/ImageMachine+Tokens
+	 * 
+	 * */
 	public void displayImage(String url, ImageView imageView, ProgressBar progressBar, IMAGE_TYPE type) {
 		try {
 			Matcher m = pattern.matcher(url);
