@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -35,11 +37,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.facebook.*;
+import com.facebook.Session.StatusCallback;
+import com.facebook.android.Facebook;
+import com.facebook.model.GraphUser;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.utilities.PatternCheck;
@@ -47,42 +53,26 @@ import com.millicom.secondscreen.utilities.PatternCheck;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.Signature;
 
-public class LoginActivity extends FragmentActivity implements OnClickListener {
+public class LoginActivity extends Activity implements OnClickListener {
 
-	private static final String		TAG			= "LoginActivity";
+	private static final String	TAG	= "LoginActivity";
 
-	private Button					mFacebookLoginButton, mDazooLoginButton;
-	private String					facebookToken	= "", facebookSessionToken = "", dazooToken = "", userToken = "", userId = "", userEmail, userPassword;
-	private EditText				mEmailEditText, mPasswordEditText;
-
-	private static final int		SPLASH			= 0;
-	private static final int		SELECTION		= 1;
-	private static final int		FRAGMENT_COUNT	= SELECTION + 1;
-	private Fragment[]				fragments		= new Fragment[FRAGMENT_COUNT];
-
-	// flag to indicate a visible activity. It is used to enable session state change checks
-	private boolean					isResumed		= false;
-
-	// use the UiLifecycleHelper to track the session and trigger a session state change listener
-	private UiLifecycleHelper		uiHelper;
-
-	private Session.StatusCallback	callback		= new Session.StatusCallback() {
-		@Override
-		public void call(Session session, SessionState state, Exception exception) {
-			onSessionStateChange(session, state, exception);
-		}
-	};
+	private Button				mFacebookLoginButton, mDazooLoginButton;
+	private String				facebookToken	= "", facebookSessionToken = "", dazooToken = "", userToken = "", userId = "", userEmail, userPassword;
+	private EditText			mEmailEditText, mPasswordEditText;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.layout_login_activity);
-
-		uiHelper = new UiLifecycleHelper(this, callback);
-		uiHelper.onCreate(savedInstanceState);
 
 		mFacebookLoginButton = (Button) findViewById(R.id.login_activity_facebook_login_button);
 		mFacebookLoginButton.setOnClickListener(this);
@@ -91,80 +81,12 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
 		mEmailEditText = (EditText) findViewById(R.id.login_activity_dazoo_email_edittext);
 		mPasswordEditText = (EditText) findViewById(R.id.login_activity_dazoo_password_edittext);
 
-		// FragmentManager fm = getSupportFragmentManager();
-		// fragments[SPLASH] = fm.findFragmentById(R.id.layout_facebook_login_splash_fragment);
-		// fragments[SELECTION] = fm.findFragmentById(R.id.layout_facebook_login_selection_fragment);
-
-		// FragmentTransaction transaction = fm.beginTransaction();
-		// for(int i = 0; i < fragments.length; i++) {
-		// transaction.hide(fragments[i]);
-		// }
-		// transaction.commit();
 	}
-
-	// method to show the relevant fragment based on the person's authenticated state.
-	// Only handle UI changes when activity is visible by making use of the isResumed flag.
-	// The fragment back stack is first cleared before the showFragment() method is called with the appropriate fragment info
-	private void onSessionStateChange(Session session, SessionState state, Exception exception) {
-		// // Only make changes if the activity is visible
-		// if (isResumed) {
-		// FragmentManager manager = getSupportFragmentManager();
-		// // Get the number of entries in the back stack
-		// int backStackSize = manager.getBackStackEntryCount();
-		// // Clear the back stack
-		// for (int i = 0; i < backStackSize; i++) {
-		// manager.popBackStack();
-		// }
-		// if (state.isOpened()) {
-		// // If the session state is open:
-		// // Show the authenticated fragment
-		// showFragment(SELECTION, false);
-		// } else if (state.isClosed()) {
-		// // If the session state is closed:
-		// // Show the login fragment
-		// showFragment(SPLASH, false);
-		// }
-		// }
-	}
-
-	// handle the case where fragments are newly instantiated and the authenticated versus nonauthenticated UI needs to be properly set.
-	// onResumeFragments() method to handle the session changes
-	// @Override
-	// protected void onResumeFragments() {
-	// super.onResumeFragments();
-	// Session session = Session.getActiveSession();
-	//
-	// if (session != null && session.isOpened()) {
-	// // if the session is already open,
-	// // try to show the selection fragment
-	// showFragment(SELECTION, false);
-	// } else {
-	// // otherwise present the splash screen
-	// // and ask the person to login.
-	// showFragment(SPLASH, false);
-	// }
-	// }
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		uiHelper.onActivityResult(requestCode, resultCode, data);
 		Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
-	}
-
-	@Override
-	public void onResume() {
-		final Session session = Session.getActiveSession();
-		// If the session is open, make an API call to get user data and define new callback to handle the response
-		if (session != null && session.isOpened()) {
-			facebookSessionToken = session.getAccessToken();
-			Log.d(TAG, "sessionToken: " + session.getAccessToken());
-			Log.d(TAG, "sessionTokenDueDate: " + session.getExpirationDate().toLocaleString());
-		}
-
-		super.onResume();
-		// uiHelper.onResume();
-		// isResumed = true;
 	}
 
 	private boolean verifyUserInput() {
@@ -181,15 +103,20 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
 		int id = v.getId();
 		switch (id) {
 		case R.id.login_activity_facebook_login_button:
-
+			/*
+			 * PackageInfo info; try { info = getPackageManager().getPackageInfo("com.millicom.secondscreen", PackageManager.GET_SIGNATURES); for (Signature signature : info.signatures) { MessageDigest md = MessageDigest.getInstance("SHA"); md.update(signature.toByteArray()); Log.d("KeyHash:",
+			 * Base64.encodeToString(md.digest(), Base64.DEFAULT)); } } catch (NameNotFoundException e1) { // TODO Auto-generated catch block e1.printStackTrace(); } catch (NoSuchAlgorithmException e) { // TODO Auto-generated catch block e.printStackTrace(); }
+			 */
 			// start Facebook Login
 			Session.openActiveSession(this, true, new Session.StatusCallback() {
 
 				// callback when session changes state
 				@Override
 				public void call(Session session, SessionState state, Exception exception) {
-					if (session.isOpened()) {
+					Log.d(TAG, "Session state: " + session.isOpened() + "   " + session.getState());
+					if (session.isOpened() && session != null) {
 						facebookSessionToken = session.getAccessToken();
+						Log.d(TAG, "FacebookSessionToken:" + facebookSessionToken);
 					}
 				}
 			});
@@ -358,39 +285,4 @@ public class LoginActivity extends FragmentActivity implements OnClickListener {
 			return "";
 		}
 	}
-
-	// @Override
-	// public void onPause() {
-	// super.onPause();
-	// uiHelper.onPause();
-	// isResumed = false;
-	// }
-
-	// @Override
-	// public void onDestroy() {
-	// super.onDestroy();
-	// uiHelper.onDestroy();
-	// }
-
-	// @Override
-	// protected void onSaveInstanceState(Bundle outState) {
-	// super.onSaveInstanceState(outState);
-	// uiHelper.onSaveInstanceState(outState);
-	// }
-
-	// private void showFragment(int fragmentIndex, boolean addToBackStack) {
-	// FragmentManager fm = getSupportFragmentManager();
-	// FragmentTransaction transaction = fm.beginTransaction();
-	// for (int i = 0; i < fragments.length; i++) {
-	// if (i == fragmentIndex) {
-	// transaction.show(fragments[i]);
-	// } else {
-	// transaction.hide(fragments[i]);
-	// }
-	// }
-	// if (addToBackStack) {
-	// transaction.addToBackStack(null);
-	// }
-	// transaction.commit();
-	// }
 }
