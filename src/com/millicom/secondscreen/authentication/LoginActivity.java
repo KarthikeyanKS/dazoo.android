@@ -60,6 +60,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
 
+import com.millicom.secondscreen.SecondScreenApplication;
+
 public class LoginActivity extends Activity implements OnClickListener {
 
 	private static final String	TAG	= "LoginActivity";
@@ -112,6 +114,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 					Log.d(TAG, "Session state: " + session.isOpened() + "   " + session.getState());
 					if (session.isOpened() && session != null) {
 						facebookSessionToken = session.getAccessToken();
+						Toast.makeText(getApplicationContext(), "FacebookSessionToken:" + facebookSessionToken, Toast.LENGTH_LONG).show();
 						Log.d(TAG, "FacebookSessionToken:" + facebookSessionToken);
 					}
 				}
@@ -120,7 +123,15 @@ public class LoginActivity extends Activity implements OnClickListener {
 			FacebookLoginTask facebookLoginTask = new FacebookLoginTask();
 			try {
 				facebookToken = facebookLoginTask.execute(facebookSessionToken).get();
-				Log.d(TAG,"FacebookTokenFrånBackend: " + facebookToken);
+				Log.d(TAG, "FacebookTokenFrånBackend: " + facebookToken);
+
+				if (facebookToken.isEmpty() != true && facebookToken.length() > 0) {
+					// save access token in the application
+					((SecondScreenApplication) getApplicationContext()).setAccessToken(facebookToken);
+				} else {
+					Toast.makeText(getApplicationContext(), "Error! Something went wrong while authorization via Facebook. Please, try again!", Toast.LENGTH_LONG).show();
+				}
+
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			} catch (ExecutionException e) {
@@ -134,7 +145,20 @@ public class LoginActivity extends Activity implements OnClickListener {
 				mEmailEditText.setEnabled(false);
 				mPasswordEditText.setEnabled(false);
 				DazooLoginTask dazooLoginTask = new DazooLoginTask();
-				dazooLoginTask.execute(userEmail, userPassword);
+				try {
+					dazooToken = dazooLoginTask.execute(userEmail, userPassword).get();
+					if(dazooToken.isEmpty() != true && dazooToken.length() > 0){
+						
+					} else {
+						Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with us. Please, try again later!", Toast.LENGTH_LONG).show();
+					}
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ExecutionException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			} else {
 				Toast.makeText(getApplicationContext(), "check if email/password were input right", Toast.LENGTH_LONG).show();
 				mEmailEditText.setEnabled(true);
@@ -142,44 +166,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 			}
 			break;
 		}
-	}
-
-	private class GetUserIdTask extends AsyncTask<String, Void, Boolean> {
-
-		@Override
-		protected Boolean doInBackground(String... params) {
-			try {
-				HttpClient httpClient = new DefaultHttpClient();
-				HttpGet httpGet = new HttpGet();
-
-				httpGet.setURI(new URI(params[1]));
-				HttpResponse response = httpClient.execute(httpGet);
-				if (response.getStatusLine().getStatusCode() == Consts.GOOD_RESPONSE) {
-					HttpEntity entityHttp = response.getEntity();
-					InputStream inputStream = entityHttp.getContent();
-					BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"), 8);
-					StringBuilder sb = new StringBuilder();
-					String line = null;
-					while ((line = reader.readLine()) != null) {
-						sb.append(line + "\n");
-					}
-					inputStream.close();
-					JSONObject jObj = new JSONObject(sb.toString());
-					Log.d(TAG, "JSONresponse: " + jObj);
-					userToken = jObj.getString(Consts.MILLICOM_SECONDSCREEN_API_TOKEN);
-					userId = jObj.getString(Consts.MILLICOM_SECONDSCREEN_API_USER_ID);
-				}
-
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			} catch (ClientProtocolException e) {
-				e.printStackTrace();
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-			return true;
-		}
-
 	}
 
 	private class DazooLoginTask extends AsyncTask<String, Void, String> {
@@ -194,7 +180,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 				SchemeRegistry registry = new SchemeRegistry();
 				SSLSocketFactory socketFactory = SSLSocketFactory.getSocketFactory();
 				socketFactory.setHostnameVerifier((X509HostnameVerifier) hostnameVerifier);
-				registry.register(new Scheme("http", socketFactory, 443));
+				registry.register(new Scheme("https", socketFactory, 443));
 				SingleClientConnManager mgr = new SingleClientConnManager(client.getParams(), registry);
 				DefaultHttpClient httpClient = new DefaultHttpClient(mgr, client.getParams());
 
@@ -246,7 +232,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 				SchemeRegistry registry = new SchemeRegistry();
 				SSLSocketFactory socketFactory = SSLSocketFactory.getSocketFactory();
 				socketFactory.setHostnameVerifier((X509HostnameVerifier) hostnameVerifier);
-				registry.register(new Scheme("http", socketFactory, 443));
+				registry.register(new Scheme("https", socketFactory, 443));
 				SingleClientConnManager mgr = new SingleClientConnManager(client.getParams(), registry);
 				DefaultHttpClient httpClient = new DefaultHttpClient(mgr, client.getParams());
 

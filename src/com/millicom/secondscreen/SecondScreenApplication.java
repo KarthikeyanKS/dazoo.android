@@ -3,11 +3,13 @@ package com.millicom.secondscreen;
 import java.util.ArrayList;
 
 import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.utilities.ObscuredSharedPreferences;
 
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.util.Log;
 import android.view.Display;
@@ -18,7 +20,7 @@ public class SecondScreenApplication extends Application {
 	private static final String				TAG								= "SecondScreenApplication";
 
 	private static SecondScreenApplication	sInstance						= null;
-
+	
 	public static int						sImageSizeThumbnailWidth		= 0;
 	public static int						sImageSizeThumbnailHeight		= 0;
 
@@ -43,7 +45,8 @@ public class SecondScreenApplication extends Application {
 
 	// SharedPreferences used to save stuffs
 	private static SharedPreferences		sSharedPreferences;
-
+	private static Editor editor;
+	
 	public SecondScreenApplication() {
 	}
 
@@ -51,7 +54,6 @@ public class SecondScreenApplication extends Application {
 		if (sInstance == null) {
 			sInstance = new SecondScreenApplication();
 		}
-
 		return sInstance;
 	}
 
@@ -65,10 +67,60 @@ public class SecondScreenApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		sInstance = this;
-		sSharedPreferences = getSharedPreferences(Consts.SHARED_PREFS_MAIN_NAME, Context.MODE_PRIVATE);
-
+		//sSharedPreferences = getSharedPreferences(Consts.SHARED_PREFS_MAIN_NAME, Context.MODE_PRIVATE);
+		sSharedPreferences = new ObscuredSharedPreferences(this, this.getSharedPreferences(Consts.SHARED_PREFS_MAIN_NAME, Context.MODE_PRIVATE));
+		
 		calculateSizes();
 	}
+	
+	/**
+	 * Store user account access token
+	 */
+	public void setAccessToken(String token){
+		editor = sSharedPreferences.edit();
+		editor.putString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_ACCESS_TOKEN, token);
+		editor.commit();
+	}
+	
+	/**
+	 * Retrieve user account access token
+	 */
+	public String getAccessToken(){
+		return sSharedPreferences.getString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_ACCESS_TOKEN, "");
+	}
+	
+	/**
+	 * Store user email
+	 */
+	public void setUserEmail(String email){
+		editor = sSharedPreferences.edit();
+		editor.putString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_EMAIL, email);
+		editor.commit();
+	}
+	
+	/**
+	 * Get user email
+	 */
+	public String getUserEmail(){
+		return sSharedPreferences.getString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_EMAIL, "");
+	}
+	
+	/**
+	 * Store user password
+	 */
+	public void setUserPassword(String password){
+		editor = sSharedPreferences.edit();
+		editor.putString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_PASSWORD, password);
+		editor.commit();
+	}
+	
+	/**
+	 * Get user password
+	 */
+	public String getUserPassword(){
+		return sSharedPreferences.getString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_PASSWORD, "");
+	}
+	
 	
 	/**
 	 * Calculate the sizes of the image thumbnails that are used across the app.

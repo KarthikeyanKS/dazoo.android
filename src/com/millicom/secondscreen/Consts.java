@@ -8,15 +8,18 @@ public abstract class Consts {
 
 	// Shared preferences
 	public static final String	SHARED_PREFS_MAIN_NAME										= "com.millicom.secondscreen.shared.prefs";
+	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_ACCESS_TOKEN				= "com.millicom.secondscreen.user.account.access.token";
+	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_EMAIL					= "com.millicom.secondscreen.user.account.email";
+	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_PASSWORD					= "com.millicom.secondscreen.user.account.password";
 
 	// api urls
 	public static final String	MILLICOM_SECONDSCREEN_GUIDE_PAGE_API						= "http://api.gitrgitr.com/guide";
 	public static final String	MILLICOM_SECONDSCREEN_PROGRAM_TYPES_PAGE_API				= "http://api.gitrgitr.com/programTypes";
 	public static final String	MILLICOM_SECONDSCREEN_DATES_PAGE_API						= "http://api.gitrgitr.com/dates";
 	public static final String	MILLICOM_SECONDSCREEN_CHANNELS_PAGE_API						= "http://api.gitrgitr.com/channels";
-	public static final String	MILLICOM_SECONDSCREEN_FACEBOOK_TOKEN_URL					= "http://api.gitrgitr.com/login/facebook";
-	public static final String	MILLICOM_SECONDSCREEN_DAZOO_LOGIN_URL						= "http://api.gitrgitr.com/login/dazoo";
-	public static final String  MILLICOM_SECONDSCREEN_DAZOO_USER_ID_URL						= "http://api.gitrgitr.com/token";
+	public static final String	MILLICOM_SECONDSCREEN_FACEBOOK_TOKEN_URL					= "https://api.gitrgitr.com/login/facebook";
+	public static final String	MILLICOM_SECONDSCREEN_DAZOO_LOGIN_URL						= "https://api.gitrgitr.com/login/dazoo";
+	public static final String	MILLICOM_SECONDSCREEN_DAZOO_USER_ID_URL						= "http://api.gitrgitr.com/token";
 
 	// api request strings
 	public static final String	MILLICOM_SECONDSCREEN_API_CHANNEL_ID						= "channelId=";
@@ -32,8 +35,8 @@ public abstract class Consts {
 	// restrictions
 	public static final int		MILLICOM_SECONDSCREEN_TVGUIDE_NUMBER_OF_ITEMS_PER_CHANNEL	= 3;
 	public static final int		MILLICOM_SECONDSCREEN_TVGUIDE_NUMBER_OF_CHANNELS_PER_PAGE	= 10;
-	public static final int     MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MIN = 6;
-	public static final int 	MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MAX = 20;
+	public static final int		MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MIN					= 6;
+	public static final int		MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MAX					= 20;
 
 	public static enum REQUEST_STATUS {
 		LOADING, FAILED, EMPTY_RESPONSE, SUCCESSFUL
