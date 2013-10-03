@@ -16,12 +16,23 @@
         android:background="@color/light_gray"
         android:padding="10dp"
         android:text="@string/login_with_facebook" />
+    
+    <com.millicom.secondscreen.customviews.FontButton
+        android:id="@+id/login_activity_facebook_logout_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/light_gray"
+        android:padding="10dp"
+        android:text="@string/logout_from_facebook" />
 
     <com.millicom.secondscreen.customviews.FontEditText
         android:id="@+id/login_activity_dazoo_email_edittext"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/login_activity_facebook_login_button"
+        android:layout_below="@id/login_activity_facebook_logout_button"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="45dp"

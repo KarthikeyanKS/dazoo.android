@@ -29,10 +29,12 @@ import com.millicom.secondscreen.content.SSPageCallback;
 import com.millicom.secondscreen.content.SSPageFragmentActivity;
 import com.millicom.secondscreen.content.SSPageGetResult;
 import com.millicom.secondscreen.content.SSProgramTypePage;
+import com.millicom.secondscreen.content.SSTagsPage;
 import com.millicom.secondscreen.content.SSTvDatePage;
 import com.millicom.secondscreen.content.activity.ActivityFragment;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.ProgramType;
+import com.millicom.secondscreen.content.model.Tag;
 import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.myprofile.MyProfileFragment;
 import com.millicom.secondscreen.content.search.SearchPageActivity;
@@ -40,19 +42,23 @@ import com.millicom.secondscreen.content.tvguide.TVGuideFragment;
 
 public class HomePageActivity extends SSPageFragmentActivity implements View.OnClickListener {
 
-	private static final String		TAG				= "HomePageActivity";
-	private TextView				mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed, mTxtTabMore;
-	private View					mTabSelectorContainerView;
-	private Fragment				mActiveFragment;
-	private ArrayList<TvDate>		mTvDates		= new ArrayList<TvDate>();
-	private ArrayList<ProgramType>	mProgramTypes	= new ArrayList<ProgramType>();
-	private ArrayList<Channel>		mChannels		= new ArrayList<Channel>();
+	private static final String	TAG			= "HomePageActivity";
+	private TextView			mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed, mTxtTabMore;
+	private View				mTabSelectorContainerView;
+	private Fragment			mActiveFragment;
+	private ArrayList<TvDate>	mTvDates	= new ArrayList<TvDate>();
+	// private ArrayList<ProgramType> mProgramTypes = new ArrayList<ProgramType>();
+	private ArrayList<Channel>	mChannels	= new ArrayList<Channel>();
+	private ArrayList<Tag>		mTags		= new ArrayList<Tag>();
 
-	private ActionBar				mActionBar;
-	private boolean					isDateData		= false, isProgramTypesData = false;
-	private SSTvDatePage			mTvDatePage;
-	private SSProgramTypePage		mProgramTypePage;
-	private SSChannelPage			mChannelPage;
+	private ActionBar			mActionBar;
+	private boolean				isDateData	= false,
+			// isProgramTypesData = false,
+			isTagsData = false;
+	private SSTvDatePage		mTvDatePage;
+	// private SSProgramTypePage mProgramTypePage;
+	private SSChannelPage		mChannelPage;
+	private SSTagsPage			mTagsPage;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +68,9 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 		initViews();
 
 		mTvDatePage = SSTvDatePage.getInstance();
-		mProgramTypePage = SSProgramTypePage.getInstance();
+		// mProgramTypePage = SSProgramTypePage.getInstance();
 		mChannelPage = SSChannelPage.getInstance();
+		mTagsPage = SSTagsPage.getInstance();
 		loadPage();
 	}
 
@@ -84,7 +91,7 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
 
 		mActionBar.hide();
-		//super.initCallbackLayouts();
+		// super.initCallbackLayouts();
 	}
 
 	private void initActionBarTvGuide(boolean isDateData, boolean isProgramTypesData) {
@@ -99,16 +106,21 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 			final Spinner categorySpinner = (Spinner) findViewById(R.id.actionbar_homepage_category_spinner);
 			categorySpinner.setVisibility(View.VISIBLE);
 
-			ActionBarDropDownCategoryListAdapter programTypeAdapter = new ActionBarDropDownCategoryListAdapter(this, mProgramTypes);
-			categorySpinner.setAdapter(programTypeAdapter);
+			// ActionBarDropDownCategoryListAdapter programTypeAdapter = new ActionBarDropDownCategoryListAdapter(this, mProgramTypes);
+			// categorySpinner.setAdapter(programTypeAdapter);
+			ActionBarDropDownCategoryListAdapter tagsAdapter = new ActionBarDropDownCategoryListAdapter(this, mTags);
 
 			categorySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 				@Override
 				public void onItemSelected(AdapterView<?> parentView, View view, int position, long id) {
-					ProgramType programTypeItem = (ProgramType) categorySpinner.getItemAtPosition(position);
+					// ProgramType programTypeItem = (ProgramType) categorySpinner.getItemAtPosition(position);
+					// LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(
+					// new Intent(Consts.INTENT_EXTRA_TVGUIDE_SORTING).putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE, programTypeItem.getId()).putExtra(
+					// Consts.INTENT_EXTRA_TVGUIDE_SORTING_TYPE, Consts.VALUE_TYPE_PROGRAMTYPE));
+					Tag tagItem = (Tag) categorySpinner.getItemAtPosition(position);
 					LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(
-							new Intent(Consts.INTENT_EXTRA_TVGUIDE_SORTING).putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE, programTypeItem.getId()).putExtra(
-									Consts.INTENT_EXTRA_TVGUIDE_SORTING_TYPE, Consts.VALUE_TYPE_PROGRAMTYPE));
+							new Intent(Consts.INTENT_EXTRA_TVGUIDE_SORTING).putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE, tagItem.getId()).putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_TYPE,
+									Consts.VALUE_TYPE_TAG));
 				}
 
 				@Override
@@ -192,11 +204,11 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 
 			@Override
 			public void onClick(View arg0) {
-			//	// move to the search page
-			//	Intent toSearchPage = new Intent(HomePageActivity.this, SearchPageActivity.class);
-			//	startActivity(toSearchPage);
-			//	overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-				
+				// // move to the search page
+				// Intent toSearchPage = new Intent(HomePageActivity.this, SearchPageActivity.class);
+				// startActivity(toSearchPage);
+				// overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+
 				// move to login page for test purpose
 				Intent toLoginPage = new Intent(HomePageActivity.this, LoginActivity.class);
 				startActivity(toLoginPage);
@@ -206,8 +218,9 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 	}
 
 	void showTVGuide() {
-		initActionBarTvGuide(isDateData, isProgramTypesData);
-
+		//initActionBarTvGuide(isDateData, isProgramTypesData);
+		initActionBarTvGuide(isDateData, isTagsData);
+			
 		// mTabSelectorContainerView.setBackgroundResource();
 
 		mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.black));
@@ -218,7 +231,8 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 		Bundle bundle = new Bundle();
 		bundle.putParcelableArrayList(Consts.PARCELABLE_CHANNELS_LIST, mChannels);
 		bundle.putParcelableArrayList(Consts.PARCELABLE_TV_DATES_LIST, mTvDates);
-		bundle.putParcelableArrayList(Consts.PARCELABLE_PROGRAM_TYPES_LIST, mProgramTypes);
+		// bundle.putParcelableArrayList(Consts.PARCELABLE_PROGRAM_TYPES_LIST, mProgramTypes);
+		bundle.putParcelableArrayList(Consts.PARCELABLE_TAGS_LIST, mTags);
 		mActiveFragment.setArguments(bundle);
 		getSupportFragmentManager().beginTransaction().replace(R.id.homepage_contentframe, mActiveFragment).commit();
 	}
@@ -277,10 +291,12 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 			public void onGetPageResult(SSPageGetResult aPageGetResult) {
 
 				mTvDates = mTvDatePage.getTvDates();
-				mProgramTypePage.getPage(new SSPageCallback() {
+				// mProgramTypePage.getPage(new SSPageCallback() {
+				mTagsPage.getPage(new SSPageCallback() {
 					@Override
 					public void onGetPageResult(SSPageGetResult aPageGetResult) {
-						mProgramTypes = mProgramTypePage.getProgramTypes();
+						// mProgramTypes = mProgramTypePage.getProgramTypes();
+						mTags = mTagsPage.getTags();
 
 						mChannelPage.getPage(new SSPageCallback() {
 							@Override
@@ -302,8 +318,10 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 	@Override
 	protected boolean pageHoldsData() {
 		boolean result = false;
-		if (mTvDates != null || mProgramTypes != null) {
-			if (mTvDates.isEmpty() || mProgramTypes.isEmpty()) {
+		// if (mTvDates != null || mProgramTypes != null) {
+		// if (mTvDates.isEmpty() || mProgramTypes.isEmpty()) {
+		if (mTvDates != null || mTags != null) {
+			if (mTvDates.isEmpty() || mTags.isEmpty()) {
 				updateUI(REQUEST_STATUS.FAILED);
 			} else {
 				updateUI(REQUEST_STATUS.SUCCESSFUL);
@@ -321,18 +339,28 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 			Log.d(TAG, "No dates are available");
 		}
 
-		if(mProgramTypes == null){
-			Log.d(TAG,"No separate categories are available");
+		// if (mProgramTypes == null) {
+		// Log.d(TAG, "No separate categories are available");
+		// }
+		//
+		// ProgramType programTypeAll = new ProgramType();
+		// programTypeAll.setAlias(getResources().getString(R.string.all_categories_alias));
+		// programTypeAll.setId(getResources().getString(R.string.all_categories_id));
+		// programTypeAll.setName(getResources().getString(R.string.all_categories_name));
+		//
+		// mProgramTypes.add(0, programTypeAll);
+		// isProgramTypesData = true;
+
+		if(mTags == null){
+			Log.d(TAG,"No specific categories are available");
 		}
 		
-		ProgramType programTypeAll = new ProgramType();
-		programTypeAll.setAlias(getResources().getString(R.string.all_categories_alias));
-		programTypeAll.setId(getResources().getString(R.string.all_categories_id));
-		programTypeAll.setName(getResources().getString(R.string.all_categories_name));
-
-		mProgramTypes.add(0, programTypeAll);
-		isProgramTypesData = true;
-
+		Tag tagAll = new Tag();
+		tagAll.setId(getResources().getString(R.string.all_categories_id));
+		tagAll.setName(getResources().getString(R.string.all_categories_name));
+		mTags.add(0, tagAll);
+		isTagsData = true;
+		
 		if (super.requestIsSuccesfull(status)) {
 			mTabSelectorContainerView.setVisibility(View.VISIBLE);
 			showTVGuide();

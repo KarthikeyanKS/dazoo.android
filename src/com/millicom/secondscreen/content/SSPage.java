@@ -10,6 +10,7 @@ import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Link;
 import com.millicom.secondscreen.content.model.ProgramType;
+import com.millicom.secondscreen.content.model.Tag;
 import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.http.SSHttpClient;
 import com.millicom.secondscreen.http.SSHttpClientCallback;
@@ -28,6 +29,7 @@ public abstract class SSPage {
 	private ArrayList<ProgramType> mProgramTypes;
 	private ArrayList<TvDate> mTvDates;
 	private ArrayList<Channel> mChannels;
+	private ArrayList<Tag> mTags;
 
 	public void cancelGetPage() {
 		// Tell http client to cancel any request
@@ -126,4 +128,13 @@ public abstract class SSPage {
 	public ArrayList<Channel> getChannels(){
 		return mChannels;
 	}
+
+	public void parseTags(JSONArray jsonArray) throws Exception {
+		this.mTags = mContentParser.parseTags(jsonArray);
+	}
+	
+	public ArrayList<Tag> getTags() {
+		return mTags;
+	}
+	
 }

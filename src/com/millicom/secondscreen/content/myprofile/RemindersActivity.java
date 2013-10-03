@@ -67,7 +67,7 @@ public class RemindersActivity extends ActionBarActivity {
 		Program program = new Program();
 		program.setTitle("¿Quién da má$?");
 		program.setEpisode("Episode 1");
-		program.setSeason("Season 1");
+		//program.setSeason("Season 1");
 		program.setPosterMUrl("http://api.gitrgitr.com/images/quien_da_mas_8.gif");
 		Broadcast broadcast = new Broadcast();
 		broadcast.setBeginTime("2013-09-17T06:00:00+00:00");

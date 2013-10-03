@@ -18,11 +18,12 @@ public class Program implements Parcelable {
 	private String year;
 	private String runtime;
 	private ArrayList<String> tags = new ArrayList<String>();
-	private String season;
+	private Season season;
 	private String episode;
 	private String description;
 	private String synopsisShort;
 	private String synopsisLong;
+	private Series series;
 	
 	public Program(){
 	}
@@ -115,11 +116,11 @@ public class Program implements Parcelable {
 		return this.tags;
 	}
 	
-	public void setSeason(String season){
+	public void setSeason(Season season){
 		this.season = season;
 	}
 	
-	public String getSeason(){
+	public Season getSeason(){
 		return this.season;
 	}
 	
@@ -155,6 +156,14 @@ public class Program implements Parcelable {
 		return this.synopsisLong;
 	}
 	
+	public void setSeries(Series series){
+		this.series = series;
+	}
+	
+	public Series getSeries(){
+		return this.series;
+	}
+	
 	@Override
 	public int describeContents() {
 		return 0;
@@ -172,12 +181,13 @@ public class Program implements Parcelable {
 		dest.writeString(cast);
 		dest.writeString(year);	
 		dest.writeString(runtime);
-		dest.writeString(season);
+		dest.writeParcelable(season, flags);
 		dest.writeString(episode);
 		dest.writeString(description);
 		dest.writeSerializable(tags);
 		dest.writeString(synopsisShort);
 		dest.writeString(synopsisLong);
+		dest.writeParcelable(series, flags);
 	}
 	
 	public Program(Parcel in){
@@ -191,12 +201,13 @@ public class Program implements Parcelable {
 		cast = in.readString();
 		year = in.readString();
 		runtime = in.readString();
-		season = in.readString();
+		season = (Season) in.readParcelable(Season.class.getClassLoader());
 		episode = in.readString();
 		description = in.readString();
 		tags = (ArrayList<String>) in.readSerializable();
 		synopsisShort = in.readString();
 		synopsisLong = in.readString();
+		series = (Series) in.readParcelable(Series.class.getClassLoader());
 	}
 
 	@Override

@@ -74,10 +74,10 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 
 	private static final String	TAG	= "LoginActivity";
 
-	private Button				mFacebookLoginButton, mDazooLoginButton;
+	private Button				mFacebookLoginButton, mDazooLoginButton, mFacebookLogoutButton;
 	private String				facebookToken	= "", facebookSessionToken = "", dazooToken = "", userToken = "", userId = "", userEmail, userPassword;
 	private EditText			mEmailEditText, mPasswordEditText;
-	private ActionBar mActionBar;
+	private ActionBar			mActionBar;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -87,11 +87,13 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 
 		mFacebookLoginButton = (Button) findViewById(R.id.login_activity_facebook_login_button);
 		mFacebookLoginButton.setOnClickListener(this);
+		mFacebookLogoutButton = (Button) findViewById(R.id.login_activity_facebook_logout_button);
+		mFacebookLogoutButton.setOnClickListener(this);
 		mDazooLoginButton = (Button) findViewById(R.id.login_activity_dazoo_login_button);
 		mDazooLoginButton.setOnClickListener(this);
 		mEmailEditText = (EditText) findViewById(R.id.login_activity_dazoo_email_edittext);
 		mPasswordEditText = (EditText) findViewById(R.id.login_activity_dazoo_password_edittext);
-		
+
 		mActionBar = getSupportActionBar();
 		SpannableString s = new SpannableString(getResources().getString(R.string.login));
 		// s.setSpan(new TypefaceSpan(this, "AvenirBlack"),0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -117,7 +119,7 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 		super.onActivityResult(requestCode, resultCode, data);
 		Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
@@ -140,6 +142,27 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 		} else return false;
 	}
 
+	private void getDazooToken() {
+		if (facebookSessionToken.length() > 0) {
+			FacebookLoginTask facebookLoginTask = new FacebookLoginTask();
+			try {
+				facebookToken = facebookLoginTask.execute(facebookSessionToken).get();
+				Log.d(TAG, "FacebookTokenFrånBackend: " + facebookToken);
+
+				if (facebookToken.isEmpty() != true && facebookToken.length() > 0) {
+					// save access token in the application
+					((SecondScreenApplication) getApplicationContext()).setAccessToken(facebookToken);
+				} else {
+					// Toast.makeText(getApplicationContext(), "Error! Something went wrong while authorization via Facebook. Please, try again!", Toast.LENGTH_LONG).show();
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();
@@ -156,27 +179,12 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 						facebookSessionToken = session.getAccessToken();
 						Toast.makeText(getApplicationContext(), "FacebookSessionToken:" + facebookSessionToken, Toast.LENGTH_LONG).show();
 						Log.d(TAG, "FacebookSessionToken:" + facebookSessionToken);
+						getDazooToken();
+					} else {
+						Toast.makeText(getApplicationContext(), "Public Facebook profile is not available!", Toast.LENGTH_LONG).show();
 					}
 				}
 			});
-
-			FacebookLoginTask facebookLoginTask = new FacebookLoginTask();
-			try {
-				facebookToken = facebookLoginTask.execute(facebookSessionToken).get();
-				Log.d(TAG, "FacebookTokenFrånBackend: " + facebookToken);
-
-				if (facebookToken.isEmpty() != true && facebookToken.length() > 0) {
-					// save access token in the application
-					((SecondScreenApplication) getApplicationContext()).setAccessToken(facebookToken);
-				} else {
-					Toast.makeText(getApplicationContext(), "Error! Something went wrong while authorization via Facebook. Please, try again!", Toast.LENGTH_LONG).show();
-				}
-
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (ExecutionException e) {
-				e.printStackTrace();
-			}
 
 			break;
 		case R.id.login_activity_dazoo_login_button:
@@ -187,8 +195,8 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 				DazooLoginTask dazooLoginTask = new DazooLoginTask();
 				try {
 					dazooToken = dazooLoginTask.execute(userEmail, userPassword).get();
-					if(dazooToken.isEmpty() != true && dazooToken.length() > 0){
-						
+					if (dazooToken.isEmpty() != true && dazooToken.length() > 0) {
+						((SecondScreenApplication) getApplicationContext()).setAccessToken(dazooToken);
 					} else {
 						Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with us. Please, try again later!", Toast.LENGTH_LONG).show();
 					}
@@ -204,6 +212,14 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 				mEmailEditText.setEnabled(true);
 				mPasswordEditText.setEnabled(true);
 			}
+			break;
+		case R.id.login_activity_facebook_logout_button:
+			((SecondScreenApplication) getApplicationContext()).setAccessToken("");
+			Session session = Session.getActiveSession();
+			session.closeAndClearTokenInformation();
+			startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+			// clear the activity stack
+			finish();
 			break;
 		}
 	}
