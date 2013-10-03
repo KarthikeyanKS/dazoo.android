@@ -103,10 +103,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 		int id = v.getId();
 		switch (id) {
 		case R.id.login_activity_facebook_login_button:
-			/*
-			 * PackageInfo info; try { info = getPackageManager().getPackageInfo("com.millicom.secondscreen", PackageManager.GET_SIGNATURES); for (Signature signature : info.signatures) { MessageDigest md = MessageDigest.getInstance("SHA"); md.update(signature.toByteArray()); Log.d("KeyHash:",
-			 * Base64.encodeToString(md.digest(), Base64.DEFAULT)); } } catch (NameNotFoundException e1) { // TODO Auto-generated catch block e1.printStackTrace(); } catch (NoSuchAlgorithmException e) { // TODO Auto-generated catch block e.printStackTrace(); }
-			 */
 			// start Facebook Login
 			Session.openActiveSession(this, true, new Session.StatusCallback() {
 
@@ -124,6 +120,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 			FacebookLoginTask facebookLoginTask = new FacebookLoginTask();
 			try {
 				facebookToken = facebookLoginTask.execute(facebookSessionToken).get();
+				Log.d(TAG,"FacebookTokenFrånBackend: " + facebookToken);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			} catch (ExecutionException e) {

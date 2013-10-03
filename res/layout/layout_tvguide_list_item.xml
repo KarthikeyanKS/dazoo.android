@@ -23,7 +23,7 @@
                 android:layout_width="130dp"
                 android:layout_height="100dp"
                 android:layout_margin="10dp"
-                android:focusableInTouchMode="true"
+                android:focusableInTouchMode="false"
                 android:clickable="true"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY" />

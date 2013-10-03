@@ -43,7 +43,7 @@ public class ChannelPageActivity extends ActionBarActivity {
 	private ChannelPageListAdapter	mFollowingBroadcastsListAdapter;
 
 	private Guide					mChannelGuide;
-	private Channel mChannel;
+	private Channel					mChannel;
 	private ArrayList<Broadcast>	mBroadcasts, mFollowingBroadcasts;
 
 	private ImageLoader				mImageLoader;
@@ -92,73 +92,76 @@ public class ChannelPageActivity extends ActionBarActivity {
 		mImageLoader.displayImage(mChannelGuide.getLogoLHref(), mChannelIconIv, ImageLoader.IMAGE_TYPE.POSTER);
 
 		final int indexOfNearestBroadcast = Broadcast.getClosestBroadcastIndex(mBroadcasts);
-		mFollowingBroadcasts = Broadcast.getBroadcastsStartingFromPosition(indexOfNearestBroadcast + 1, mBroadcasts, mBroadcasts.size());
+		if (indexOfNearestBroadcast >= 0) {
 
-		mImageLoader.displayImage(mBroadcasts.get(indexOfNearestBroadcast).getProgram().getPosterLUrl(), mChannelBroadcastLiveIv, mChannelBroadcastLiveIvPrB, ImageLoader.IMAGE_TYPE.LANDSCAPE);
-		try {
-			mBroadcastLiveTimeTv.setText(DateUtilities.isoStringToTimeString(mBroadcasts.get(indexOfNearestBroadcast).getBeginTime()));
-		} catch (ParseException e) {
-			e.printStackTrace();
-			mBroadcastLiveTimeTv.setText("");
-		}
-		mBroadcastLiveTitleTv.setText(mBroadcasts.get(indexOfNearestBroadcast).getProgram().getTitle());
+			mFollowingBroadcasts = Broadcast.getBroadcastsStartingFromPosition(indexOfNearestBroadcast + 1, mBroadcasts, mBroadcasts.size());
 
-		int duration = mBroadcasts.get(indexOfNearestBroadcast).getDurationInMinutes();
-		mDurationProgressBar.setMax(duration);
-
-		int initialProgress = 0;
-		long difference = 0;
-
-		try {
-			difference = DateUtilities.getAbsoluteTimeDifference(mBroadcasts.get(indexOfNearestBroadcast).getBeginTime());
-		} catch (ParseException e1) {
-			e1.printStackTrace();
-		}
-
-		if (difference < 0) {
-			initialProgress = 0;
-			mDurationProgressBar.setProgress(0);
-		} else {
+			mImageLoader.displayImage(mBroadcasts.get(indexOfNearestBroadcast).getProgram().getPosterLUrl(), mChannelBroadcastLiveIv, mChannelBroadcastLiveIvPrB, ImageLoader.IMAGE_TYPE.LANDSCAPE);
 			try {
-				initialProgress = DateUtilities.getDifferenceInMinutes(mBroadcasts.get(indexOfNearestBroadcast).getBeginTime());
+				mBroadcastLiveTimeTv.setText(DateUtilities.isoStringToTimeString(mBroadcasts.get(indexOfNearestBroadcast).getBeginTime()));
 			} catch (ParseException e) {
 				e.printStackTrace();
+				mBroadcastLiveTimeTv.setText("");
 			}
-			mDurationProgressBar.setProgress(initialProgress);
-		}
+			mBroadcastLiveTitleTv.setText(mBroadcasts.get(indexOfNearestBroadcast).getProgram().getTitle());
 
-		// update progress bar value every minute
-		final Handler handler = new Handler();
-		handler.postDelayed(new Runnable() {
+			int duration = mBroadcasts.get(indexOfNearestBroadcast).getDurationInMinutes();
+			mDurationProgressBar.setMax(duration);
 
-			@Override
-			public void run() {
+			int initialProgress = 0;
+			long difference = 0;
+
+			try {
+				difference = DateUtilities.getAbsoluteTimeDifference(mBroadcasts.get(indexOfNearestBroadcast).getBeginTime());
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			}
+
+			if (difference < 0) {
+				initialProgress = 0;
+				mDurationProgressBar.setProgress(0);
+			} else {
 				try {
-					if (DateUtilities.getDifferenceInMinutes(mBroadcasts.get(indexOfNearestBroadcast).getBeginTime()) > 0) {
-						mDurationProgressBar.incrementProgressBy(1);
-					}
+					initialProgress = DateUtilities.getDifferenceInMinutes(mBroadcasts.get(indexOfNearestBroadcast).getBeginTime());
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-				handler.postDelayed(this, 60 * 1000);
+				mDurationProgressBar.setProgress(initialProgress);
 			}
-		}, 60 * 1000);
-		
-		mBroadcastLiveTextTv.setText(mBroadcasts.get(indexOfNearestBroadcast).getProgram().getSynopsisShort());
 
-		mFollowingBroadcastsListAdapter = new ChannelPageListAdapter(this, mFollowingBroadcasts);
-		mFollowingBroadcastsLv.setAdapter(mFollowingBroadcastsListAdapter);
-		
-		mFollowingBroadcastsLv.setOnItemClickListener(new OnItemClickListener() {
-		      public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-		
-				// open the detail view for the individual broadcast
-				Intent intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
-				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_BROADCAST, mFollowingBroadcasts.get(position));
-				startActivity(intent);
-				overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-		      }                 
-		});
+			// update progress bar value every minute
+			final Handler handler = new Handler();
+			handler.postDelayed(new Runnable() {
+
+				@Override
+				public void run() {
+					try {
+						if (DateUtilities.getDifferenceInMinutes(mBroadcasts.get(indexOfNearestBroadcast).getBeginTime()) > 0) {
+							mDurationProgressBar.incrementProgressBy(1);
+						}
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					handler.postDelayed(this, 60 * 1000);
+				}
+			}, 60 * 1000);
+
+			mBroadcastLiveTextTv.setText(mBroadcasts.get(indexOfNearestBroadcast).getProgram().getSynopsisShort());
+
+			mFollowingBroadcastsListAdapter = new ChannelPageListAdapter(this, mFollowingBroadcasts);
+			mFollowingBroadcastsLv.setAdapter(mFollowingBroadcastsListAdapter);
+
+			mFollowingBroadcastsLv.setOnItemClickListener(new OnItemClickListener() {
+				public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+
+					// open the detail view for the individual broadcast
+					Intent intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_BROADCAST, mFollowingBroadcasts.get(position));
+					startActivity(intent);
+					overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+				}
+			});
+		}
 	}
 
 	@Override
