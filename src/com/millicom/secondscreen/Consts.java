@@ -13,13 +13,13 @@ public abstract class Consts {
 	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_PASSWORD					= "com.millicom.secondscreen.user.account.password";
 
 	// api urls
-	 public static final String MILLICOM_SECONDSCREEN_GUIDE_PAGE_API = "http://epg.gitrgitr.com/guide";
-	 public static final String MILLICOM_SECONDSCREEN_PROGRAM_TYPES_PAGE_API = "http://epg.gitrgitr.com/programTypes";
-	 public static final String MILLICOM_SECONDSCREEN_DATES_PAGE_API = "http://epg.gitrgitr.com/dates";
-	 public static final String MILLICOM_SECONDSCREEN_CHANNELS_PAGE_API = "http://epg.gitrgitr.com/channels";
-	 public static final String MILLICOM_SECONDSCREEN_FACEBOOK_TOKEN_URL = "https://epg.gitrgitr.com/login/facebook";
-	 public static final String MILLICOM_SECONDSCREEN_DAZOO_LOGIN_URL = "https://epg.gitrgitr.com/login/dazoo";
-	 public static final String MILLICOM_SECONDSCREEN_TAGS_PAGE_API = "http://epg.gitrgitr.com/tags/visible";
+	public static final String	MILLICOM_SECONDSCREEN_GUIDE_PAGE_API						= "http://epg.gitrgitr.com/guide";
+	public static final String	MILLICOM_SECONDSCREEN_PROGRAM_TYPES_PAGE_API				= "http://epg.gitrgitr.com/programTypes";
+	public static final String	MILLICOM_SECONDSCREEN_DATES_PAGE_API						= "http://epg.gitrgitr.com/dates";
+	public static final String	MILLICOM_SECONDSCREEN_CHANNELS_PAGE_API						= "http://epg.gitrgitr.com/channels";
+	public static final String	MILLICOM_SECONDSCREEN_FACEBOOK_TOKEN_URL					= "https://epg.gitrgitr.com/login/facebook";
+	public static final String	MILLICOM_SECONDSCREEN_DAZOO_LOGIN_URL						= "https://epg.gitrgitr.com/login/dazoo";
+	public static final String	MILLICOM_SECONDSCREEN_TAGS_PAGE_API							= "http://epg.gitrgitr.com/tags/visible";
 
 	// api request strings
 	public static final String	MILLICOM_SECONDSCREEN_API_CHANNEL_ID						= "channelId=";
@@ -129,7 +129,8 @@ public abstract class Consts {
 
 	// CHANNEL fields
 	public static final String	DAZOO_CHANNEL_HREF					= "href";
-	public static final String	DAZOO_CHANNEL_ID					= "channelId";
+	public static final String	DAZOO_CHANNEL_CHANNEL_ID			= "channelId";
+	public static final String	DAZOO_CHANNEL_ID					= "_id";
 	public static final String	DAZOO_CHANNEL_NAME					= "name";
 	public static final String	DAZOO_CHANNEL_LOGO					= "logo";
 

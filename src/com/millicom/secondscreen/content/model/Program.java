@@ -187,7 +187,7 @@ public class Program implements Parcelable {
 		dest.writeSerializable(tags);
 		dest.writeString(synopsisShort);
 		dest.writeString(synopsisLong);
-		dest.writeParcelable(series, flags);
+		//dest.writeParcelable(series, flags);
 	}
 	
 	public Program(Parcel in){
@@ -207,7 +207,7 @@ public class Program implements Parcelable {
 		tags = (ArrayList<String>) in.readSerializable();
 		synopsisShort = in.readString();
 		synopsisLong = in.readString();
-		series = (Series) in.readParcelable(Series.class.getClassLoader());
+		//series = (Series) in.readParcelable(Series.class.getClassLoader());
 	}
 
 	@Override

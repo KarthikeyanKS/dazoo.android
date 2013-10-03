@@ -118,6 +118,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 		});
 
 		ArrayList<Broadcast> broadcasts = guide.getBroadcasts();
+		Log.d(TAG,"Broadcasts: " + broadcasts.size());
 
 		if (broadcasts != null && broadcasts.size() > 0) {
 

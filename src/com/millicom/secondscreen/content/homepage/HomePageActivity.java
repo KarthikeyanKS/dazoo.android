@@ -320,8 +320,9 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 		boolean result = false;
 		// if (mTvDates != null || mProgramTypes != null) {
 		// if (mTvDates.isEmpty() || mProgramTypes.isEmpty()) {
-		if (mTvDates != null || mTags != null) {
-			if (mTvDates.isEmpty() || mTags.isEmpty()) {
+		if (mTvDates != null ) {
+			if (mTvDates.isEmpty()) {
+				Log.d(TAG,"TvDates: " + mTvDates.size() + "mTags: " + mTags.size());
 				updateUI(REQUEST_STATUS.FAILED);
 			} else {
 				updateUI(REQUEST_STATUS.SUCCESSFUL);

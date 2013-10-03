@@ -59,11 +59,14 @@ public class ContentParser {
 									tags.add(jsonTags.getString(k));
 								}
 							}
-
-							if (tags.contains(programTypeKey)) {
+							
+// TODO: when tags are available - uncomment the check
+							
+							//if (tags.size() > 0 && tags.contains(programTypeKey)) {
 								//broadcasts.add(parseBroadcastProgramKey(jsonBroadcast, programTypeKey));
 								broadcasts.add(parseBroadcast(jsonBroadcast));
-							}
+								
+							//}
 
 						} else {
 							//broadcasts.add(parseBroadcastAll(jsonBroadcast));
@@ -150,6 +153,7 @@ public class ContentParser {
 	public Channel parseChannel(JSONObject jsonChannel) throws Exception {
 		Channel channel = new Channel();
 		channel.setId(jsonChannel.optString(Consts.DAZOO_CHANNEL_ID));
+		channel.setChannelId(jsonChannel.optString(Consts.DAZOO_CHANNEL_CHANNEL_ID));
 		channel.setName(jsonChannel.optString(Consts.DAZOO_CHANNEL_NAME));
 
 		JSONObject jsonPoster = jsonChannel.getJSONObject(Consts.DAZOO_CHANNEL_LOGO);

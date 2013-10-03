@@ -7,6 +7,7 @@ import android.os.Parcelable;
 
 public class Channel implements Parcelable {
 
+	private String id = "";
 	private String channelId = "";
 	private String name = "";
 	private String logoSUrl = "";
@@ -17,7 +18,15 @@ public class Channel implements Parcelable {
 	public Channel(){		
 	}
 	
-	public void setId(String channelId){
+	public void setId(String id){
+		this.id = id;
+	}
+	
+	public String getId(){
+		return this.id;
+	}
+	
+	public void setChannelId(String channelId){
 		this.channelId = channelId;
 	}
 	
