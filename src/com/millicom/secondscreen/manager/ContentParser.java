@@ -47,7 +47,7 @@ public class ContentParser {
 				for (int j = 0; j < broadcastsJson.length(); j++) {
 					JSONObject jsonBroadcast = broadcastsJson.optJSONObject(j);
 					if (jsonBroadcast != null) {
-						if ("ALL_CATEGORIES".equals(programTypeKey) == false) {
+						if ("All categories".equals(programTypeKey) == false) {
 							// if (programTypeKey.equals(jsonBroadcast.optJSONObject(Consts.DAZOO_BROADCAST_PROGRAM).optString(Consts.DAZOO_PROGRAM_ID)) == true) {
 							// broadcasts.add(parseBroadcastProgramKey(jsonBroadcast, programTypeKey));
 							// }
@@ -59,14 +59,10 @@ public class ContentParser {
 									tags.add(jsonTags.getString(k));
 								}
 							}
-							
-// TODO: when tags are available - uncomment the check
-							
-							//if (tags.size() > 0 && tags.contains(programTypeKey)) {
-								//broadcasts.add(parseBroadcastProgramKey(jsonBroadcast, programTypeKey));
+							//broadcasts.add(parseBroadcastProgramKey(jsonBroadcast, programTypeKey));
 								broadcasts.add(parseBroadcast(jsonBroadcast));
 								
-							//}
+							}
 
 						} else {
 							//broadcasts.add(parseBroadcastAll(jsonBroadcast));

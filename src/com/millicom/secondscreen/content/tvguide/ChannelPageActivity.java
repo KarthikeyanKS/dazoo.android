@@ -46,6 +46,9 @@ public class ChannelPageActivity extends ActionBarActivity {
 	private Channel					mChannel;
 	private ArrayList<Broadcast>	mBroadcasts, mFollowingBroadcasts;
 
+	String closestBroadcastStartTime, closestBroadcastEndTime;
+	int duration = 0;
+	
 	private ImageLoader				mImageLoader;
 
 	@Override
@@ -98,14 +101,22 @@ public class ChannelPageActivity extends ActionBarActivity {
 
 			mImageLoader.displayImage(mBroadcasts.get(indexOfNearestBroadcast).getProgram().getPosterLUrl(), mChannelBroadcastLiveIv, mChannelBroadcastLiveIvPrB, ImageLoader.IMAGE_TYPE.LANDSCAPE);
 			try {
+				
 				mBroadcastLiveTimeTv.setText(DateUtilities.isoStringToTimeString(mBroadcasts.get(indexOfNearestBroadcast).getBeginTime()));
+				closestBroadcastStartTime = mBroadcasts.get(indexOfNearestBroadcast).getBeginTime();
+				closestBroadcastEndTime = mBroadcasts.get(indexOfNearestBroadcast).getEndTime();
+				
+				duration = Math.abs(DateUtilities.getDifferenceInMinutes(closestBroadcastEndTime, closestBroadcastStartTime));
+				Log.d(TAG,"Duration: " + duration);
+				
 			} catch (ParseException e) {
 				e.printStackTrace();
 				mBroadcastLiveTimeTv.setText("");
 			}
 			mBroadcastLiveTitleTv.setText(mBroadcasts.get(indexOfNearestBroadcast).getProgram().getTitle());
 
-			int duration = mBroadcasts.get(indexOfNearestBroadcast).getDurationInMinutes();
+			//int duration = mBroadcasts.get(indexOfNearestBroadcast).getDurationInMinutes();
+			
 			mDurationProgressBar.setMax(duration);
 
 			int initialProgress = 0;
@@ -118,6 +129,7 @@ public class ChannelPageActivity extends ActionBarActivity {
 			}
 
 			if (difference < 0) {
+				mDurationProgressBar.setVisibility(View.GONE);
 				initialProgress = 0;
 				mDurationProgressBar.setProgress(0);
 			} else {
@@ -127,6 +139,7 @@ public class ChannelPageActivity extends ActionBarActivity {
 					e.printStackTrace();
 				}
 				mDurationProgressBar.setProgress(initialProgress);
+				mDurationProgressBar.setVisibility(View.VISIBLE);
 			}
 
 			// update progress bar value every minute
@@ -137,6 +150,7 @@ public class ChannelPageActivity extends ActionBarActivity {
 				public void run() {
 					try {
 						if (DateUtilities.getDifferenceInMinutes(mBroadcasts.get(indexOfNearestBroadcast).getBeginTime()) > 0) {
+							mDurationProgressBar.setVisibility(View.VISIBLE);
 							mDurationProgressBar.incrementProgressBy(1);
 						}
 					} catch (ParseException e) {

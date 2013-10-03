@@ -181,12 +181,14 @@ public class TVGuideFragment extends SSPageFragment {
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				mSortingType = intent.getStringExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_TYPE);
-				if (Consts.VALUE_TYPE_PROGRAMTYPE.equals(mSortingType)) {
+				
+				// if (Consts.VALUE_TYPE_PROGRAMTYPE.equals(mSortingType)) {
+				if (Consts.VALUE_TYPE_TAG.equals(mSortingType)) {
 					mProgramType = intent.getStringExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE);
-					//Toast.makeText(mActivity, "Program Type CHOSEN: " + mProgramType, Toast.LENGTH_LONG).show();
+					// Toast.makeText(mActivity, "Program Type CHOSEN: " + mProgramType, Toast.LENGTH_LONG).show();
 				} else if (Consts.VALUE_TYPE_TVDATE.equals(mSortingType)) {
 					mDate = intent.getStringExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE);
-					//Toast.makeText(mActivity, "Date CHOSEN: " + mDate, Toast.LENGTH_LONG).show();
+					// Toast.makeText(mActivity, "Date CHOSEN: " + mDate, Toast.LENGTH_LONG).show();
 				}
 
 				numOfChannelsShownNow = 0;
@@ -258,8 +260,6 @@ public class TVGuideFragment extends SSPageFragment {
 		mGuide = new ArrayList<Guide>();
 		mGuide = mPage.getGuide();
 
-		
-
 		if (mGuide != null) {
 			if (mGuide.isEmpty()) {
 				updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
@@ -278,9 +278,9 @@ public class TVGuideFragment extends SSPageFragment {
 
 		if (super.requestIsSuccesfull(status)) {
 			mTvGuideListAdapter = new TVGuideListAdapter(mActivity, mGuide, mChannels);
-			
+
 			actualListView = mTvGuideListView.getRefreshableView();
-			
+
 			// mTvGuideListView.setAdapter(mTvGuideListAdapter);
 
 			actualListView.setAdapter(mTvGuideListAdapter);
@@ -512,7 +512,7 @@ public class TVGuideFragment extends SSPageFragment {
 
 		@Override
 		protected void onPostExecute(ArrayList<Guide> result) {
-			
+
 			mTvGuideListAdapter.notifyDataSetChanged();
 
 			// Call onRefreshComplete when the list has been refreshed.

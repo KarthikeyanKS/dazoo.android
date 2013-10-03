@@ -109,7 +109,8 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 			// ActionBarDropDownCategoryListAdapter programTypeAdapter = new ActionBarDropDownCategoryListAdapter(this, mProgramTypes);
 			// categorySpinner.setAdapter(programTypeAdapter);
 			ActionBarDropDownCategoryListAdapter tagsAdapter = new ActionBarDropDownCategoryListAdapter(this, mTags);
-
+			categorySpinner.setAdapter(tagsAdapter);
+			
 			categorySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 				@Override
 				public void onItemSelected(AdapterView<?> parentView, View view, int position, long id) {
@@ -119,7 +120,8 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 					// Consts.INTENT_EXTRA_TVGUIDE_SORTING_TYPE, Consts.VALUE_TYPE_PROGRAMTYPE));
 					Tag tagItem = (Tag) categorySpinner.getItemAtPosition(position);
 					LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(
-							new Intent(Consts.INTENT_EXTRA_TVGUIDE_SORTING).putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE, tagItem.getId()).putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_TYPE,
+							new Intent(Consts.INTENT_EXTRA_TVGUIDE_SORTING).putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE, tagItem.getName()).putExtra(
+									Consts.INTENT_EXTRA_TVGUIDE_SORTING_TYPE,
 									Consts.VALUE_TYPE_TAG));
 				}
 

@@ -93,7 +93,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_below="@id/channelpage_broadcast_details_title_tv"/>
+            android:layout_below="@id/channelpage_broadcast_details_title_tv"
+            android:visibility="gone"/>
         
         <com.millicom.secondscreen.customviews.FontTextView
             android:id="@+id/channelpage_broadcast_details_text_tv"

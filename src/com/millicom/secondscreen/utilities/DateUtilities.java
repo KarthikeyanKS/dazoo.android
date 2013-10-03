@@ -328,6 +328,25 @@ public class DateUtilities {
 	}
 	
 	/**
+	 * Get the difference in minutes between two submitted time values
+	 * 
+	 * @return number of minutes as integer
+	 */
+	public static int getDifferenceInMinutes(String timeOne, String timeTwo) throws ParseException {
+		Log.d(TAG,"Time One: " + timeOne);
+		Log.d(TAG,"Time Two: "  + timeTwo);
+		long timeSubmitted = DateUtilities.isoStringToLong(timeOne);
+		long timeCurrent = DateUtilities.isoStringToLong(timeTwo);
+
+		long difference = timeCurrent - timeSubmitted; 
+		
+		int days = (int) (difference / (1000*60*60*24));  
+		int hours = (int) ((difference - (1000*60*60*24*days)) / (1000*60*60)); 
+		return (int) (difference - (1000*60*60*24*days) - (1000*60*60*hours)) / (1000*60);
+	}
+	
+	
+	/**
 	 * Get the difference in minutes between current time and submitted
 	 * 
 	 * @return number of minutes as integer
