@@ -9,6 +9,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.PagerTabStrip;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.View;
@@ -45,6 +48,11 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 	private static final String	TAG			= "HomePageActivity";
 	private TextView			mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed, mTxtTabMore;
 	private View				mTabSelectorContainerView;
+	
+	private ViewPager mViewPager;
+	private PagerTabStrip mPagerTabStrip;
+	private PagerAdapter  pagerAdapter;
+	
 	private Fragment			mActiveFragment;
 	private ArrayList<TvDate>	mTvDates	= new ArrayList<TvDate>();
 	// private ArrayList<ProgramType> mProgramTypes = new ArrayList<ProgramType>();
@@ -91,6 +99,10 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
 
 		mActionBar.hide();
+		
+		mViewPager = (ViewPager) findViewById(R.id.pager);
+		mPagerTabStrip = (PagerTabStrip) findViewById(R.id.pager_header);
+		
 		// super.initCallbackLayouts();
 	}
 
@@ -101,7 +113,11 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 		mActionBar.setDisplayUseLogoEnabled(false);
 		mActionBar.setDisplayShowHomeEnabled(false);
 		mActionBar.setCustomView(R.layout.layout_actionbar_homepage);
-
+		
+		mViewPager.setVisibility(View.VISIBLE);
+		
+		
+		
 		if (isProgramTypesData == true) {
 			final Spinner categorySpinner = (Spinner) findViewById(R.id.actionbar_homepage_category_spinner);
 			categorySpinner.setVisibility(View.VISIBLE);

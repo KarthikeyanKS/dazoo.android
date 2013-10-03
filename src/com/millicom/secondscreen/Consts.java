@@ -79,6 +79,7 @@ public abstract class Consts {
 
 	// TVGuide
 	public static final int		TV_GUIDE_NEXT_PROGRAMS_NUMBER		= 3;
+	public static final String	TV_GUIDE_PAGE_NUMBER				= "com.millicom.secondscreen.tvguide.page.number";
 
 	public static final String	IMAGE_MACHINE_SECURITY_KEY			= "24567hright";
 

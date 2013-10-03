@@ -59,13 +59,15 @@ public class ContentParser {
 									tags.add(jsonTags.getString(k));
 								}
 							}
-							//broadcasts.add(parseBroadcastProgramKey(jsonBroadcast, programTypeKey));
+
+							if (tags.size() > 0 && tags.contains(programTypeKey)) {
+								// broadcasts.add(parseBroadcastProgramKey(jsonBroadcast, programTypeKey));
 								broadcasts.add(parseBroadcast(jsonBroadcast));
-								
+
 							}
 
 						} else {
-							//broadcasts.add(parseBroadcastAll(jsonBroadcast));
+							// broadcasts.add(parseBroadcastAll(jsonBroadcast));
 							broadcasts.add(parseBroadcast(jsonBroadcast));
 						}
 					}
@@ -106,7 +108,7 @@ public class ContentParser {
 
 	public ArrayList<Tag> parseTags(JSONArray mainArray) throws Exception {
 		ArrayList<Tag> tags = new ArrayList<Tag>();
-		
+
 		for (int i = 0; i < mainArray.length(); i++) {
 			JSONObject jsonProgramType = mainArray.getJSONObject(i);
 			if (jsonProgramType != null) {
@@ -115,7 +117,7 @@ public class ContentParser {
 		}
 		return tags;
 	}
-	
+
 	public ArrayList<TvDate> parseDates(JSONArray mainArray) throws Exception {
 		ArrayList<TvDate> tvDates = new ArrayList<TvDate>();
 
@@ -162,154 +164,69 @@ public class ContentParser {
 	}
 
 	/*
-	public Broadcast parseBroadcastAll(JSONObject jsonBroadcast) throws Exception {
-		Broadcast broadcast = new Broadcast();
-		// broadcast.setBroadcastId(jsonBroadcast.optString("broadcastId"));
-		broadcast.setBeginTime(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_BEGIN_TIME));
-		broadcast.setEndTime(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_END_TIME));
-		broadcast.setDurationInMinutes(jsonBroadcast.optInt(Consts.DAZOO_BROADCAST_DURATION_IN_MINUTES));
-		broadcast.setBeginTimeMillis(jsonBroadcast.optLong(Consts.DAZOO_BROADCAST_BEGIN_TIME_MILLIS));
+	 * public Broadcast parseBroadcastAll(JSONObject jsonBroadcast) throws Exception { Broadcast broadcast = new Broadcast(); // broadcast.setBroadcastId(jsonBroadcast.optString("broadcastId")); broadcast.setBeginTime(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_BEGIN_TIME));
+	 * broadcast.setEndTime(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_END_TIME)); broadcast.setDurationInMinutes(jsonBroadcast.optInt(Consts.DAZOO_BROADCAST_DURATION_IN_MINUTES)); broadcast.setBeginTimeMillis(jsonBroadcast.optLong(Consts.DAZOO_BROADCAST_BEGIN_TIME_MILLIS));
+	 * 
+	 * JSONObject jsonChannel = jsonBroadcast.optJSONObject(Consts.DAZOO_BROADCAST_CHANNEL); if (jsonChannel != null) {
+	 * 
+	 * // broadcast.setChannel(parseChannel(jsonChannel)); broadcast.setChannelUrl(jsonChannel.optString(Consts.DAZOO_CHANNEL_HREF)); }
+	 * 
+	 * JSONObject jsonProgram = jsonBroadcast.optJSONObject(Consts.DAZOO_BROADCAST_PROGRAM); if (jsonProgram != null) { broadcast.setProgram(parseProgramAll(jsonProgram)); } return broadcast; }
+	 * 
+	 * public Broadcast parseBroadcastProgramKey(JSONObject jsonBroadcast, String programTypeKey) throws Exception { Broadcast broadcast = new Broadcast(); // broadcast.setBroadcastId(jsonBroadcast.optString("id")); broadcast.setBeginTime(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_BEGIN_TIME));
+	 * broadcast.setEndTime(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_END_TIME)); broadcast.setDurationInMinutes(jsonBroadcast.optInt(Consts.DAZOO_BROADCAST_DURATION_IN_MINUTES)); broadcast.setBeginTimeMillis(jsonBroadcast.optLong(Consts.DAZOO_BROADCAST_BEGIN_TIME_MILLIS));
+	 * 
+	 * JSONObject jsonChannel = jsonBroadcast.optJSONObject(Consts.DAZOO_BROADCAST_CHANNEL); if (jsonChannel != null) {
+	 * 
+	 * // broadcast.setChannel(parseChannel(jsonChannel)); broadcast.setChannelUrl(jsonChannel.optString(Consts.DAZOO_CHANNEL_HREF)); }
+	 * 
+	 * JSONObject jsonProgram = jsonBroadcast.optJSONObject(Consts.DAZOO_BROADCAST_PROGRAM); if (jsonProgram != null) { broadcast.setProgram(parseProgramKey(jsonProgram, programTypeKey)); } return broadcast; }
+	 * 
+	 * public Program parseProgramAll(JSONObject jsonProgram) throws Exception { Program program = new Program(); program.setProgramId(jsonProgram.optString(Consts.DAZOO_PROGRAM_ID)); program.setProgramTypeId(jsonProgram.optString(Consts.DAZOO_PROGRAM_TYPE_ID));
+	 * program.setTitle(jsonProgram.optString(Consts.DAZOO_PROGRAM_TITLE)); program.setSubtitle(jsonProgram.optString(Consts.DAZOO_PROGRAM_SUBTITLE));
+	 * 
+	 * JSONObject jsonPoster = jsonProgram.optJSONObject(Consts.DAZOO_PROGRAM_POSTER); if (jsonPoster != null) { program.setPosterSUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_SMALL)); program.setPosterMUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_MEDIUM));
+	 * program.setPosterLUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_LARGE)); }
+	 * 
+	 * program.setCast(jsonProgram.optString(Consts.DAZOO_PROGRAM_CAST)); program.setYear(jsonProgram.optString(Consts.DAZOO_PROGRAM_YEAR)); program.setRuntime(jsonProgram.optString(Consts.DAZOO_PROGRAM_RUNTIME));
+	 * 
+	 * JSONArray jsonTags = jsonProgram.optJSONArray(Consts.DAZOO_PROGRAM_TAGS); if (jsonTags != null) { ArrayList<String> tags = new ArrayList<String>(); for (int k = 0; k < jsonTags.length(); k++) { tags.add(jsonTags.getString(k)); } program.setTags(tags); }
+	 * 
+	 * program.setSeason(jsonProgram.optString("season")); program.setEpisode(jsonProgram.optString("episode")); program.setDescription(jsonProgram.optString("description")); program.setSynopsisShort(jsonProgram.optString("synopsisShort"));
+	 * program.setSynopsisLong(jsonProgram.optString("synopsisLong")); return program; }
+	 * 
+	 * public Program parseProgramKey(JSONObject jsonProgram, String programTypeKey) throws Exception { Program program = new Program(); program.setProgramId(jsonProgram.optString(Consts.DAZOO_PROGRAM_ID)); program.setProgramTypeId(jsonProgram.optString(Consts.DAZOO_PROGRAM_TYPE_ID));
+	 * 
+	 * String temp = jsonProgram.optString(Consts.DAZOO_PROGRAM_TITLE); if (temp.length() > 0) { program.setTitle(temp); } else { program.setTitle(""); }
+	 * 
+	 * temp = jsonProgram.optString(Consts.DAZOO_PROGRAM_SUBTITLE); if (temp.length() > 0) { program.setSubtitle(temp); } else { program.setSubtitle(""); }
+	 * 
+	 * JSONObject jsonPoster = jsonProgram.optJSONObject(Consts.DAZOO_PROGRAM_POSTER); if (jsonPoster != null) { program.setPosterSUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_SMALL)); program.setPosterMUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_MEDIUM));
+	 * program.setPosterLUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_LARGE)); }
+	 * 
+	 * program.setCast(jsonProgram.optString(Consts.DAZOO_PROGRAM_CAST)); program.setYear(jsonProgram.optString(Consts.DAZOO_PROGRAM_YEAR)); program.setRuntime(jsonProgram.optString(Consts.DAZOO_PROGRAM_RUNTIME));
+	 * 
+	 * JSONArray jsonTags = jsonProgram.optJSONArray(Consts.DAZOO_PROGRAM_TAGS); if (jsonTags != null) { ArrayList<String> tags = new ArrayList<String>(); for (int k = 0; k < jsonTags.length(); k++) { tags.add(jsonTags.getString(k)); } program.setTags(tags); }
+	 * 
+	 * temp = jsonProgram.optString(Consts.DAZOO_PROGRAM_SEASON); if (temp.length() > 0) program.setSeason(temp); else program.setSeason("");
+	 * 
+	 * temp = jsonProgram.optString(Consts.DAZOO_PROGRAM_EPISODE); if (temp.length() > 0) program.setEpisode(temp); else program.setEpisode("");
+	 * 
+	 * temp = jsonProgram.optString(Consts.DAZOO_PROGRAM_DESCRIPTION); if (temp.length() > 0) program.setDescription(temp); else program.setDescription("");
+	 * 
+	 * temp = jsonProgram.optString(Consts.DAZOO_PROGRAM_SYNOPSIS_SHORT); if (temp.length() > 0) program.setSynopsisShort(temp); else program.setSynopsisShort("");
+	 * 
+	 * temp = jsonProgram.optString(Consts.DAZOO_PROGRAM_SYNOPSISS_LONG); if (temp.length() > 0) program.setSynopsisLong(temp); else program.setSynopsisShort("");
+	 * 
+	 * return program; }
+	 */
 
-		JSONObject jsonChannel = jsonBroadcast.optJSONObject(Consts.DAZOO_BROADCAST_CHANNEL);
-		if (jsonChannel != null) {
-
-			// broadcast.setChannel(parseChannel(jsonChannel));
-			broadcast.setChannelUrl(jsonChannel.optString(Consts.DAZOO_CHANNEL_HREF));
-		}
-
-		JSONObject jsonProgram = jsonBroadcast.optJSONObject(Consts.DAZOO_BROADCAST_PROGRAM);
-		if (jsonProgram != null) {
-			broadcast.setProgram(parseProgramAll(jsonProgram));
-		}
-		return broadcast;
-	}
-
-	public Broadcast parseBroadcastProgramKey(JSONObject jsonBroadcast, String programTypeKey) throws Exception {
-		Broadcast broadcast = new Broadcast();
-		// broadcast.setBroadcastId(jsonBroadcast.optString("id"));
-		broadcast.setBeginTime(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_BEGIN_TIME));
-		broadcast.setEndTime(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_END_TIME));
-		broadcast.setDurationInMinutes(jsonBroadcast.optInt(Consts.DAZOO_BROADCAST_DURATION_IN_MINUTES));
-		broadcast.setBeginTimeMillis(jsonBroadcast.optLong(Consts.DAZOO_BROADCAST_BEGIN_TIME_MILLIS));
-
-		JSONObject jsonChannel = jsonBroadcast.optJSONObject(Consts.DAZOO_BROADCAST_CHANNEL);
-		if (jsonChannel != null) {
-
-			// broadcast.setChannel(parseChannel(jsonChannel));
-			broadcast.setChannelUrl(jsonChannel.optString(Consts.DAZOO_CHANNEL_HREF));
-		}
-
-		JSONObject jsonProgram = jsonBroadcast.optJSONObject(Consts.DAZOO_BROADCAST_PROGRAM);
-		if (jsonProgram != null) {
-			broadcast.setProgram(parseProgramKey(jsonProgram, programTypeKey));
-		}
-		return broadcast;
-	}
-
-	public Program parseProgramAll(JSONObject jsonProgram) throws Exception {
-		Program program = new Program();
-		program.setProgramId(jsonProgram.optString(Consts.DAZOO_PROGRAM_ID));
-		program.setProgramTypeId(jsonProgram.optString(Consts.DAZOO_PROGRAM_TYPE_ID));
-		program.setTitle(jsonProgram.optString(Consts.DAZOO_PROGRAM_TITLE));
-		program.setSubtitle(jsonProgram.optString(Consts.DAZOO_PROGRAM_SUBTITLE));
-
-		JSONObject jsonPoster = jsonProgram.optJSONObject(Consts.DAZOO_PROGRAM_POSTER);
-		if (jsonPoster != null) {
-			program.setPosterSUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_SMALL));
-			program.setPosterMUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_MEDIUM));
-			program.setPosterLUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_LARGE));
-		}
-
-		program.setCast(jsonProgram.optString(Consts.DAZOO_PROGRAM_CAST));
-		program.setYear(jsonProgram.optString(Consts.DAZOO_PROGRAM_YEAR));
-		program.setRuntime(jsonProgram.optString(Consts.DAZOO_PROGRAM_RUNTIME));
-
-		JSONArray jsonTags = jsonProgram.optJSONArray(Consts.DAZOO_PROGRAM_TAGS);
-		if (jsonTags != null) {
-			ArrayList<String> tags = new ArrayList<String>();
-			for (int k = 0; k < jsonTags.length(); k++) {
-				tags.add(jsonTags.getString(k));
-			}
-			program.setTags(tags);
-		}
-		
-		 program.setSeason(jsonProgram.optString("season"));
-        program.setEpisode(jsonProgram.optString("episode"));
-        program.setDescription(jsonProgram.optString("description"));
-        program.setSynopsisShort(jsonProgram.optString("synopsisShort"));
-        program.setSynopsisLong(jsonProgram.optString("synopsisLong"));
-        return program;
-        }
-		
-		public Program parseProgramKey(JSONObject jsonProgram, String programTypeKey) throws Exception {
-		Program program = new Program();
-		program.setProgramId(jsonProgram.optString(Consts.DAZOO_PROGRAM_ID));
-		program.setProgramTypeId(jsonProgram.optString(Consts.DAZOO_PROGRAM_TYPE_ID));
-
-		String temp = jsonProgram.optString(Consts.DAZOO_PROGRAM_TITLE);
-		if (temp.length() > 0) {
-			program.setTitle(temp);
-		} else {
-			program.setTitle("");
-		}
-
-		temp = jsonProgram.optString(Consts.DAZOO_PROGRAM_SUBTITLE);
-		if (temp.length() > 0) {
-			program.setSubtitle(temp);
-		} else {
-			program.setSubtitle("");
-		}
-
-		JSONObject jsonPoster = jsonProgram.optJSONObject(Consts.DAZOO_PROGRAM_POSTER);
-		if (jsonPoster != null) {
-			program.setPosterSUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_SMALL));
-			program.setPosterMUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_MEDIUM));
-			program.setPosterLUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_LARGE));
-		}
-
-		program.setCast(jsonProgram.optString(Consts.DAZOO_PROGRAM_CAST));
-		program.setYear(jsonProgram.optString(Consts.DAZOO_PROGRAM_YEAR));
-		program.setRuntime(jsonProgram.optString(Consts.DAZOO_PROGRAM_RUNTIME));
-
-		JSONArray jsonTags = jsonProgram.optJSONArray(Consts.DAZOO_PROGRAM_TAGS);
-		if (jsonTags != null) {
-			ArrayList<String> tags = new ArrayList<String>();
-			for (int k = 0; k < jsonTags.length(); k++) {
-				tags.add(jsonTags.getString(k));
-			}
-			program.setTags(tags);
-		}
-
-		temp = jsonProgram.optString(Consts.DAZOO_PROGRAM_SEASON);
-		if (temp.length() > 0) program.setSeason(temp);
-		else program.setSeason("");
-
-		temp = jsonProgram.optString(Consts.DAZOO_PROGRAM_EPISODE);
-		if (temp.length() > 0) program.setEpisode(temp);
-		else program.setEpisode("");
-
-		temp = jsonProgram.optString(Consts.DAZOO_PROGRAM_DESCRIPTION);
-		if (temp.length() > 0) program.setDescription(temp);
-		else program.setDescription("");
-
-		temp = jsonProgram.optString(Consts.DAZOO_PROGRAM_SYNOPSIS_SHORT);
-		if (temp.length() > 0) program.setSynopsisShort(temp);
-		else program.setSynopsisShort("");
-
-		temp = jsonProgram.optString(Consts.DAZOO_PROGRAM_SYNOPSISS_LONG);
-		if (temp.length() > 0) program.setSynopsisLong(temp);
-		else program.setSynopsisShort("");
-
-		return program;
-	}	
-		*/
-	
 	public Broadcast parseBroadcast(JSONObject jsonBroadcast) throws Exception {
 		Broadcast broadcast = new Broadcast();
 		// broadcast.setBroadcastId(jsonBroadcast.optString("broadcastId"));
 		broadcast.setBeginTime(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_BEGIN_TIME));
 		broadcast.setEndTime(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_END_TIME));
-		//broadcast.setDurationInMinutes(jsonBroadcast.optInt(Consts.DAZOO_BROADCAST_DURATION_IN_MINUTES));
+		// broadcast.setDurationInMinutes(jsonBroadcast.optInt(Consts.DAZOO_BROADCAST_DURATION_IN_MINUTES));
 		broadcast.setBeginTimeMillis(jsonBroadcast.optLong(Consts.DAZOO_BROADCAST_BEGIN_TIME_MILLIS));
 
 		JSONObject jsonChannel = jsonBroadcast.optJSONObject(Consts.DAZOO_BROADCAST_CHANNEL);
@@ -354,7 +271,7 @@ public class ContentParser {
 
 		program.setCast(jsonProgram.optString(Consts.DAZOO_PROGRAM_CAST));
 		program.setYear(jsonProgram.optString(Consts.DAZOO_PROGRAM_YEAR));
-		//program.setRuntime(jsonProgram.optString(Consts.DAZOO_PROGRAM_RUNTIME));
+		// program.setRuntime(jsonProgram.optString(Consts.DAZOO_PROGRAM_RUNTIME));
 
 		JSONArray jsonTags = jsonProgram.optJSONArray(Consts.DAZOO_PROGRAM_TAGS);
 		if (jsonTags != null) {
@@ -367,12 +284,12 @@ public class ContentParser {
 
 		JSONObject seasonJSON = jsonProgram.optJSONObject(Consts.DAZOO_PROGRAM_SEASON);
 		program.setSeason(parseSeason(seasonJSON));
-		//if (temp.length() > 0) program.setSeason(temp);
-		//else program.setSeason("");
+		// if (temp.length() > 0) program.setSeason(temp);
+		// else program.setSeason("");
 
 		JSONObject seriesJSON = jsonProgram.optJSONObject(Consts.DAZOO_PROGRAM_SERIES);
 		program.setSeries(parseSeries(seriesJSON));
-		
+
 		temp = jsonProgram.optString(Consts.DAZOO_PROGRAM_EPISODE);
 		if (temp.length() > 0) program.setEpisode(temp);
 		else program.setEpisode("");
@@ -391,18 +308,18 @@ public class ContentParser {
 
 		return program;
 	}
-	
-	public Series parseSeries(JSONObject jsonSeries) throws Exception{
+
+	public Series parseSeries(JSONObject jsonSeries) throws Exception {
 		Series series = new Series();
 		return series;
 	}
 
-	public Season parseSeason(JSONObject jsonSeason) throws Exception{
+	public Season parseSeason(JSONObject jsonSeason) throws Exception {
 		Season season = new Season();
 		season.setNumber(jsonSeason.optString(Consts.DAZOO_SEASON_NUMBER));
 		return season;
 	}
-	
+
 	public TvDate parseTvDate(JSONObject jsonTvDate) throws Exception {
 		TvDate tvDate = new TvDate();
 		tvDate.setId(jsonTvDate.optString(Consts.DAZOO_DATE_ID));
