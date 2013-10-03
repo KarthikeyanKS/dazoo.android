@@ -17,7 +17,7 @@ public class Program implements Parcelable {
 	private String cast; 			// TODO
 	private String year;
 	private String runtime;
-	private ArrayList<String> genres = new ArrayList<String>();
+	private ArrayList<String> tags = new ArrayList<String>();
 	private String season;
 	private String episode;
 	private String description;
@@ -107,12 +107,12 @@ public class Program implements Parcelable {
 		return runtime;
 	}
 	
-	public void setGenres(ArrayList<String> genres){
-		this.genres = genres;
+	public void setTags(ArrayList<String> tags){
+		this.tags = tags;
 	}
 	
-	public ArrayList<String> getGenres(){
-		return this.genres;
+	public ArrayList<String> getTags(){
+		return this.tags;
 	}
 	
 	public void setSeason(String season){
@@ -175,7 +175,7 @@ public class Program implements Parcelable {
 		dest.writeString(season);
 		dest.writeString(episode);
 		dest.writeString(description);
-		dest.writeSerializable(genres);
+		dest.writeSerializable(tags);
 		dest.writeString(synopsisShort);
 		dest.writeString(synopsisLong);
 	}
@@ -194,7 +194,7 @@ public class Program implements Parcelable {
 		season = in.readString();
 		episode = in.readString();
 		description = in.readString();
-		genres = (ArrayList<String>) in.readSerializable();
+		tags = (ArrayList<String>) in.readSerializable();
 		synopsisShort = in.readString();
 		synopsisLong = in.readString();
 	}

@@ -95,5 +95,61 @@ public abstract class Consts {
 	// Response codes
 	public static final int		GOOD_RESPONSE						= 200;
 	public static final int		BAD_RESPONSE						= 400;
-
+	
+	// CONTENT
+	
+	// PROGRAM fields:
+	public static final String DAZOO_PROGRAM_HREF = "href";
+	public static final String DAZOO_PROGRAM_ID = "programId";
+	public static final String DAZOO_PROGRAM_TITLE = "title";
+	public static final String DAZOO_PROGRAM_TYPE_ID = "programTypeId";
+	public static final String DAZOO_PROGRAM_TAGS = "tags";
+	public static final String DAZOO_PROGRAM_SYNOPSIS_SHORT = "synopsisShort";
+	public static final String DAZOO_PROGRAM_SYNOPSISS_LONG = "synopsisLong";
+	public static final String DAZOO_PROGRAM_POSTER = "poster";
+	public static final String DAZOO_PROGRAM_EPISODE = "episode";
+	public static final String DAZOO_PROGRAM_SEASON = "season";
+	public static final String DAZOO_PROGRAM_DESCRIPTION = "description";
+	public static final String DAZOO_PROGRAM_CAST = "cast";
+	public static final String DAZOO_PROGRAM_RUNTIME = "runtime";
+	public static final String DAZOO_PROGRAM_SUBTITLE = "subtitle";
+	public static final String DAZOO_PROGRAM_YEAR = "year";
+	
+	// BROADCAST fields
+	public static final String DAZOO_BROADCAST_HREF = "href";
+	public static final String DAZOO_BROADCAST_PROGRAM = "program";
+	public static final String DAZOO_BROADCAST_CHANNEL = "channel";
+	public static final String DAZOO_BROADCAST_BEGIN_TIME = "beginTime";
+	public static final String DAZOO_BROADCAST_END_TIME = "endTime";
+	public static final String DAZOO_BROADCAST_DURATION_IN_MINUTES = "durationInMinutes";
+	public static final String DAZOO_BROADCAST_BEGIN_TIME_MILLIS = "beginTimeMillis";
+	
+	// CHANNEL fields
+	public static final String DAZOO_CHANNEL_HREF = "href";
+	public static final String DAZOO_CHANNEL_ID = "channelId";
+	public static final String DAZOO_CHANNEL_NAME = "name";
+	public static final String DAZOO_CHANNEL_LOGO = "logo";
+	
+	// IMAGE fields
+	public static final String DAZOO_IMAGE_SMALL = "small";
+	public static final String DAZOO_IMAGE_MEDIUM = "medium";
+	public static final String DAZOO_IMAGE_LARGE = "large";
+	
+	// TAG fields
+	public static final String DAZOO_TAG_ID = "id";
+	public static final String DAZOO_TAG_NAME = "name";
+	public static final String DAZOO_TAG_ALIAS = "alias";
+	
+	// DATE fields
+	public static final String DAZOO_DATE_ID = "id";
+	public static final String DAZOO_DATE_NAME = "name";
+	public static final String DAZOO_DATE_ALIAS = "alias";
+	public static final String DAZOO_DATE_DATE = "date";
+	
+	// GUIDE fields
+	public static final String DAZOO_GUIDE_HREF = "href";
+	public static final String DAZOO_GUIDE_CHANNEL_ID = "channelId";
+	public static final String DAZOO_GUIDE_NAME = "name";
+	public static final String DAZOO_GUIDE_LOGO = "logo";
+	public static final String DAZOO_GUIDE_BROADCASTS = "broadcasts";
 }

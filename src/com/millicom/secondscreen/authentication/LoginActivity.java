@@ -37,6 +37,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.text.SpannableString;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -52,23 +55,29 @@ import com.millicom.secondscreen.utilities.PatternCheck;
 
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
+import android.content.res.Configuration;
+import android.graphics.drawable.ColorDrawable;
 
 import com.millicom.secondscreen.SecondScreenApplication;
 
-public class LoginActivity extends Activity implements OnClickListener {
+public class LoginActivity extends ActionBarActivity implements OnClickListener {
 
 	private static final String	TAG	= "LoginActivity";
 
 	private Button				mFacebookLoginButton, mDazooLoginButton;
 	private String				facebookToken	= "", facebookSessionToken = "", dazooToken = "", userToken = "", userId = "", userEmail, userPassword;
 	private EditText			mEmailEditText, mPasswordEditText;
+	private ActionBar mActionBar;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -82,6 +91,24 @@ public class LoginActivity extends Activity implements OnClickListener {
 		mDazooLoginButton.setOnClickListener(this);
 		mEmailEditText = (EditText) findViewById(R.id.login_activity_dazoo_email_edittext);
 		mPasswordEditText = (EditText) findViewById(R.id.login_activity_dazoo_password_edittext);
+		
+		mActionBar = getSupportActionBar();
+		SpannableString s = new SpannableString(getResources().getString(R.string.login));
+		// s.setSpan(new TypefaceSpan(this, "AvenirBlack"),0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+		final int actionBarColor = getResources().getColor(R.color.lightblue);
+		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
+		mActionBar.setDisplayShowTitleEnabled(false);
+		mActionBar.setDisplayShowCustomEnabled(true);
+		mActionBar.setDisplayUseLogoEnabled(false);
+		mActionBar.setDisplayShowHomeEnabled(false);
+		mActionBar.setCustomView(R.layout.layout_actionbar_mepage);
+
+		final TextView title = (TextView) findViewById(R.id.actionbar_mepage_title_tv);
+		title.setText(s);
+
+		final ImageView searchButton = (ImageView) findViewById(R.id.actionbar_mepage_search_icon);
+		searchButton.setVisibility(View.GONE);
 
 	}
 
@@ -89,6 +116,19 @@ public class LoginActivity extends Activity implements OnClickListener {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+	}
+	
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		overridePendingTransition(R.anim.push_right_out, R.anim.push_right_in);
+		finish();
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 
 	private boolean verifyUserInput() {

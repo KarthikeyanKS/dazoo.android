@@ -139,4 +139,5 @@
     <string name="login_with_dazoo">Login with Dazoo</string>
     <string name="hint_password">\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022</string>
     <string name="hint_email">e-mail</string>
+    <string name="login">Login</string>
 </resources>
