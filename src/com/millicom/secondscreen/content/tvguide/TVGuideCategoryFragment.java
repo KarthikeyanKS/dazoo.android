@@ -67,8 +67,7 @@ public class TVGuideCategoryFragment extends SSPageFragment {
 		bundle.putParcelableArrayList(Consts.PARCELABLE_CHANNELS_LIST, channels);
 		bundle.putString(Consts.INTENT_EXTRA_TVGUIDE_TVDATE, tvDate);
 		bundle.putString(Consts.INTENT_EXTRA_TAG, tag.getName());
-		Log.d(TAG,"TAG:" + tag.getName());
-		
+
 		fragment.setArguments(bundle);
 		return fragment;
 	}
@@ -76,13 +75,11 @@ public class TVGuideCategoryFragment extends SSPageFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// setRetainInstance(true);
 
 		Bundle bundle = getArguments();
 		mChannels = bundle.getParcelableArrayList(Consts.PARCELABLE_CHANNELS_LIST);
 		mDate = bundle.getString(Consts.INTENT_EXTRA_TVGUIDE_TVDATE);
-		Log.d(TAG,"mDate:" + mDate);
-		
+
 		mTagName = bundle.getString(Consts.INTENT_EXTRA_TAG);
 		getAvailableChannelsIds();
 
@@ -90,21 +87,19 @@ public class TVGuideCategoryFragment extends SSPageFragment {
 			mChannelsNum = mChannelIds.size();
 		}
 
-		// register a broadcast manager to respond to the new filtering choice
-		LocalBroadcastManager.getInstance(mActivity).registerReceiver(mBroadcastReceiver, new IntentFilter(Consts.INTENT_EXTRA_TVGUIDE_SORTING));
-		
+		// LocalBroadcastManager.getInstance(mActivity).registerReceiver(mBroadcastReceiver, new IntentFilter(Consts.INTENT_EXTRA_TVGUIDE_SORTING));
+
 		mPage = SSStartPage.getInstance();
 		mPageUrl = getPageUrl(numOfChannelsShownNow, mChannelsNum, mDate);
-
 	}
 
-	BroadcastReceiver	mBroadcastReceiver	= new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			mDate = intent.getStringExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE);
-			// RELOAD PAGE HERE!!
-		}
-	};
+	// BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+	// @Override
+	// public void onReceive(Context context, Intent intent) {
+	// mDate = intent.getStringExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE);
+	// loadPage();
+	// }
+	// };
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -143,7 +138,7 @@ public class TVGuideCategoryFragment extends SSPageFragment {
 		mClockIndexView = (LinearLayout) mRootView.findViewById(R.id.side_clock_index);
 
 		super.initRequestCallbackLayouts(mRootView);
-	
+
 		loadPage();
 
 		return mRootView;
@@ -202,9 +197,6 @@ public class TVGuideCategoryFragment extends SSPageFragment {
 				}
 			});
 		}
-		else {
-			Log.d(TAG,"Page holds data");
-		}		
 	}
 
 	@Override
@@ -231,8 +223,8 @@ public class TVGuideCategoryFragment extends SSPageFragment {
 	protected void updateUI(REQUEST_STATUS status) {
 		Log.d(TAG, "update UI :" + status);
 
-		//if (super.requestIsSuccesfull(status)) {
-		if(mGuide!=null){
+		// if (super.requestIsSuccesfull(status)) {
+		if (mGuide != null) {
 			mTvGuideListAdapter = new TVGuideListAdapter(mActivity, mGuide, mChannels);
 
 			actualListView = mTvGuideListView.getRefreshableView();
@@ -249,15 +241,15 @@ public class TVGuideCategoryFragment extends SSPageFragment {
 		}
 	}
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-
-		Log.d(TAG, "onDestroy");
-
-		// Stop listening to broadcast events
-		LocalBroadcastManager.getInstance(mActivity).unregisterReceiver(mBroadcastReceiver);
-	};
+	// @Override
+	// public void onDestroy() {
+	// super.onDestroy();
+	//
+	// Log.d(TAG, "onDestroy");
+	//
+	// // Stop listening to broadcast events
+	// LocalBroadcastManager.getInstance(mActivity).unregisterReceiver(mBroadcastReceiver);
+	// };
 
 	@Override
 	public void onPause() {

@@ -77,7 +77,6 @@ public class ContentParser {
 					}
 				}
 				guide.setBroadcasts(broadcasts);
-				Log.d(TAG, "BROADCASTS SIZE: " + broadcasts.size());
 			}
 			guides.add(guide);
 		}

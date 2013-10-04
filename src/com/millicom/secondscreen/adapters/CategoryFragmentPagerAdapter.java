@@ -5,11 +5,12 @@ import java.util.ArrayList;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
-public abstract class CategoryFragmentPagerAdapter extends FragmentPagerAdapter {
+public abstract class CategoryFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
 	private static final String TAG = "CategoryFragmentPagerAdapter";
 	
