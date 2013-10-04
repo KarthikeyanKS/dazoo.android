@@ -42,16 +42,13 @@ import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.myprofile.MyProfileFragment;
 import com.millicom.secondscreen.content.search.SearchPageActivity;
 import com.millicom.secondscreen.content.tvguide.TVGuideFragment;
+import com.millicom.secondscreen.content.tvguide.TVGuideFragmentContainer;
 
 public class HomePageActivity extends SSPageFragmentActivity implements View.OnClickListener {
 
 	private static final String	TAG			= "HomePageActivity";
 	private TextView			mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed, mTxtTabMore;
 	private View				mTabSelectorContainerView;
-	
-	private ViewPager mViewPager;
-	private PagerTabStrip mPagerTabStrip;
-	private PagerAdapter  pagerAdapter;
 	
 	private Fragment			mActiveFragment;
 	private ArrayList<TvDate>	mTvDates	= new ArrayList<TvDate>();
@@ -100,8 +97,6 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 
 		mActionBar.hide();
 		
-		mViewPager = (ViewPager) findViewById(R.id.pager);
-		mPagerTabStrip = (PagerTabStrip) findViewById(R.id.pager_header);
 		
 		// super.initCallbackLayouts();
 	}
@@ -114,10 +109,7 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 		mActionBar.setDisplayShowHomeEnabled(false);
 		mActionBar.setCustomView(R.layout.layout_actionbar_homepage);
 		
-		mViewPager.setVisibility(View.VISIBLE);
-		
-		
-		
+		/*
 		if (isProgramTypesData == true) {
 			final Spinner categorySpinner = (Spinner) findViewById(R.id.actionbar_homepage_category_spinner);
 			categorySpinner.setVisibility(View.VISIBLE);
@@ -147,6 +139,7 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 				}
 			});
 		}
+		*/
 
 		if (isDateData == true) {
 			final Spinner daySpinner = (Spinner) findViewById(R.id.actionbar_homepage_day_spinner);
@@ -160,8 +153,7 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 				public void onItemSelected(AdapterView<?> parentView, View view, int position, long id) {
 					TvDate tvDateItem = (TvDate) daySpinner.getItemAtPosition(position);
 					LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(
-							new Intent(Consts.INTENT_EXTRA_TVGUIDE_SORTING).putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE, tvDateItem.getDate()).putExtra(
-									Consts.INTENT_EXTRA_TVGUIDE_SORTING_TYPE, Consts.VALUE_TYPE_TVDATE));
+							new Intent(Consts.INTENT_EXTRA_TVGUIDE_SORTING).putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE, tvDateItem.getDate()));
 				}
 
 				@Override
@@ -245,12 +237,15 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 		mTxtTabPopular.setTextColor(getResources().getColor(R.color.gray));
 		mTxtTabFeed.setTextColor(getResources().getColor(R.color.gray));
 
-		mActiveFragment = new TVGuideFragment();
+		//mActiveFragment = new TVGuideFragment();
+		mActiveFragment = new TVGuideFragmentContainer();
+		
 		Bundle bundle = new Bundle();
 		bundle.putParcelableArrayList(Consts.PARCELABLE_CHANNELS_LIST, mChannels);
 		bundle.putParcelableArrayList(Consts.PARCELABLE_TV_DATES_LIST, mTvDates);
 		// bundle.putParcelableArrayList(Consts.PARCELABLE_PROGRAM_TYPES_LIST, mProgramTypes);
 		bundle.putParcelableArrayList(Consts.PARCELABLE_TAGS_LIST, mTags);
+			
 		mActiveFragment.setArguments(bundle);
 		getSupportFragmentManager().beginTransaction().replace(R.id.homepage_contentframe, mActiveFragment).commit();
 	}
@@ -336,11 +331,8 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 	@Override
 	protected boolean pageHoldsData() {
 		boolean result = false;
-		// if (mTvDates != null || mProgramTypes != null) {
-		// if (mTvDates.isEmpty() || mProgramTypes.isEmpty()) {
 		if (mTvDates != null ) {
 			if (mTvDates.isEmpty()) {
-				Log.d(TAG,"TvDates: " + mTvDates.size() + "mTags: " + mTags.size());
 				updateUI(REQUEST_STATUS.FAILED);
 			} else {
 				updateUI(REQUEST_STATUS.SUCCESSFUL);
@@ -357,18 +349,6 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 		} else {
 			Log.d(TAG, "No dates are available");
 		}
-
-		// if (mProgramTypes == null) {
-		// Log.d(TAG, "No separate categories are available");
-		// }
-		//
-		// ProgramType programTypeAll = new ProgramType();
-		// programTypeAll.setAlias(getResources().getString(R.string.all_categories_alias));
-		// programTypeAll.setId(getResources().getString(R.string.all_categories_id));
-		// programTypeAll.setName(getResources().getString(R.string.all_categories_name));
-		//
-		// mProgramTypes.add(0, programTypeAll);
-		// isProgramTypesData = true;
 
 		if(mTags == null){
 			Log.d(TAG,"No specific categories are available");

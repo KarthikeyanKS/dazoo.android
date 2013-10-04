@@ -18,8 +18,6 @@ public class SSBlockCreator {
 	protected RelativeLayout.LayoutParams	mPortraitParams;
 	protected RelativeLayout.LayoutParams	mLandscapeParams;
 
-	//abstract View getPopulatedBlock(VPBlock block);
-
 	public SSBlockCreator(Activity activity) {
 
 		this.mActivity = activity;

@@ -72,7 +72,6 @@ public abstract class SSPage {
 	//}
 
 	// Implemented by siblings to parse the json result for the page, called on the background thread
-	//protected abstract void parseGetPageResult(JSONObject aJsonObject, SSPageGetResult aVPPageGetResult);
 	protected abstract void parseGetPageResult(JSONArray jsonArray, SSPageGetResult pageGetResult);
 	
 	protected SSPageGetResult handleHttpGetResult(SSHttpClientGetResult aHttpClientGetResult) {

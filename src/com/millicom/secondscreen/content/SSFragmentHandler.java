@@ -16,7 +16,7 @@ import android.util.Log;
 public class SSFragmentHandler {
 	private static SSFragmentHandler	mInstance;
 
-	private final String				TAG	= "VPFragmentHandler";
+	private final String				TAG	= "SSFragmentHandler";
 
 	public static SSFragmentHandler getInstance() {
 		if (mInstance == null) mInstance = new SSFragmentHandler();

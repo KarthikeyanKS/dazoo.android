@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 public class SSBlockHandler {
 	private Activity			mActivity;
 
-	private static final String	TAG	= "VPSectionBlockCreator";
+	private static final String	TAG	= "SSBlockHandler";
 
 	public SSBlockHandler(Activity activity) {
 		this.mActivity = activity;

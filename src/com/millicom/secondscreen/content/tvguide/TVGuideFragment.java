@@ -588,13 +588,4 @@ public class TVGuideFragment extends SSPageFragment {
 		}
 		return channelBroadcastsMap;
 	}
-
-	public static TVGuideFragment newInstance(int page) {
-		TVGuideFragment tvGuideFragment = new TVGuideFragment();
-		Bundle arguments = new Bundle();
-		arguments.putInt(Consts.TV_GUIDE_PAGE_NUMBER, page);
-		tvGuideFragment.setArguments(arguments);
-		return tvGuideFragment;
-	}
-
 }

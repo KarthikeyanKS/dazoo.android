@@ -23,10 +23,14 @@ public class ContentParser {
 	private static final String	TAG	= "ContentParser";
 
 	public ArrayList<Guide> parseGuide(JSONArray mainArray, String programTypeKey) throws Exception {
+		Log.d(TAG, "parseGuide with key:" + programTypeKey);
+
 		ArrayList<Guide> guides = new ArrayList<Guide>();
 
 		for (int i = 0; i < mainArray.length(); i++) {
 			JSONObject jsonGuide = mainArray.getJSONObject(i);
+
+			// Log.d(TAG,"jsonGuide" + jsonGuide);
 
 			// get the overall channel info
 			Guide guide = new Guide();
@@ -42,6 +46,7 @@ public class ContentParser {
 			}
 
 			JSONArray broadcastsJson = jsonGuide.optJSONArray(Consts.DAZOO_GUIDE_BROADCASTS);
+
 			if (broadcastsJson != null) {
 				ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
 				for (int j = 0; j < broadcastsJson.length(); j++) {
@@ -63,7 +68,6 @@ public class ContentParser {
 							if (tags.size() > 0 && tags.contains(programTypeKey)) {
 								// broadcasts.add(parseBroadcastProgramKey(jsonBroadcast, programTypeKey));
 								broadcasts.add(parseBroadcast(jsonBroadcast));
-
 							}
 
 						} else {
@@ -73,6 +77,7 @@ public class ContentParser {
 					}
 				}
 				guide.setBroadcasts(broadcasts);
+				Log.d(TAG, "BROADCASTS SIZE: " + broadcasts.size());
 			}
 			guides.add(guide);
 		}

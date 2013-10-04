@@ -42,7 +42,6 @@ public class SSTvDatePage extends SSPage{
 	}
 	
 	@Override
-	//protected void parseGetPageResult(JSONObject aJsonObject, SSPageGetResult aVPPageGetResult) {
 	protected void parseGetPageResult(JSONArray jsonArray, SSPageGetResult pageGetResult){	
 	Log.d(TAG, "parseGetPageResult");
 		try {

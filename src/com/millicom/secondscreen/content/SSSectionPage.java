@@ -31,9 +31,6 @@ public class SSSectionPage extends SSPage{
 		return mSection.getId();
 	}
 
-	// Implemented by siblings of VPPage to parse the json result for the page, called on the background thread
-	@Override
-//	protected void parseGetPageResult(JSONObject aJsonObject, SSPageGetResult aVPPageGetResult) {
 	protected void parseGetPageResult(JSONArray aJsonArray, SSPageGetResult aSSPageGetResult){
 	
 		Log.d(TAG, "parseGetPageResult");

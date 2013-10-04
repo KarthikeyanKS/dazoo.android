@@ -71,6 +71,9 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_TVGUIDE_SORTING		= "com.millicom.secondscreen.intent.extra.tvguide.sorting";
 	public static final String	INTENT_EXTRA_TVGUIDE_SORTING_VALUE	= "com.millicom.secondscreen.intent.extra.tvguide.sorting.value";
 	public static final String	INTENT_EXTRA_TVGUIDE_SORTING_TYPE	= "com.millicom.secondscreen.intent.extra,tvguide.sorting.type";
+	public static final String	INTENT_EXTRA_TAG					= "com.millicom.secondscreen.intent.tag";
+	public static final String	INTENT_EXTRA_TVGUIDE_PAGE_URL		= "com.millicom.secondscreen.intent.extra.tvguide.page.url";
+	public static final String	INTENT_EXTRA_TVGUIDE_TVDATE			= "com.millicom.secondscreen.intent.extra.tvguide.tvdate";
 
 	// custom data types
 	public static final String	VALUE_TYPE_PROGRAMTYPE				= "com.millicom.secondscreen.value.type.programtype";
