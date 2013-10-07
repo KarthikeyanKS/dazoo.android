@@ -19,6 +19,9 @@ public class SSStartPage extends SSPage {
 	public String				mStartPageUrl;
 	public String mProgramTypeKey;
 
+	public SSStartPage(){
+	}
+	
 	public static SSStartPage getInstance() {
 		if (sInstance == null) sInstance = new SSStartPage();
 		return sInstance;

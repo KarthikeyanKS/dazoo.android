@@ -49,21 +49,21 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 	private static final String	TAG			= "HomePageActivity";
 	private TextView			mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed, mTxtTabMore;
 	private View				mTabSelectorContainerView;
-	
+
 	private Fragment			mActiveFragment;
 	private ArrayList<TvDate>	mTvDates	= new ArrayList<TvDate>();
 	// private ArrayList<ProgramType> mProgramTypes = new ArrayList<ProgramType>();
 	private ArrayList<Channel>	mChannels	= new ArrayList<Channel>();
-	private ArrayList<Tag>		mTags		= new ArrayList<Tag>();
+	//private ArrayList<Tag>		mTags		= new ArrayList<Tag>();
 
 	private ActionBar			mActionBar;
-	private boolean				isDateData	= false,
+	private boolean				isDateData	= false;
 			// isProgramTypesData = false,
-			isTagsData = false;
+			//isTagsData = false;
 	private SSTvDatePage		mTvDatePage;
 	// private SSProgramTypePage mProgramTypePage;
 	private SSChannelPage		mChannelPage;
-	private SSTagsPage			mTagsPage;
+	//private SSTagsPage			mTagsPage;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +75,7 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 		mTvDatePage = SSTvDatePage.getInstance();
 		// mProgramTypePage = SSProgramTypePage.getInstance();
 		mChannelPage = SSChannelPage.getInstance();
-		mTagsPage = SSTagsPage.getInstance();
+		//mTagsPage = SSTagsPage.getInstance();
 		loadPage();
 	}
 
@@ -96,50 +96,33 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
 
 		mActionBar.hide();
-		
-		
-		// super.initCallbackLayouts();
+
+		 super.initCallbackLayouts();
 	}
 
-	private void initActionBarTvGuide(boolean isDateData, boolean isProgramTypesData) {
+	//private void initActionBarTvGuide(boolean isDateData, boolean isProgramTypesData) {
+	private void initActionBarTvGuide(boolean isDateData){
 		mActionBar.show();
 		mActionBar.setDisplayShowTitleEnabled(false);
 		mActionBar.setDisplayShowCustomEnabled(true);
 		mActionBar.setDisplayUseLogoEnabled(false);
 		mActionBar.setDisplayShowHomeEnabled(false);
 		mActionBar.setCustomView(R.layout.layout_actionbar_homepage);
-		
+
 		/*
-		if (isProgramTypesData == true) {
-			final Spinner categorySpinner = (Spinner) findViewById(R.id.actionbar_homepage_category_spinner);
-			categorySpinner.setVisibility(View.VISIBLE);
-
-			// ActionBarDropDownCategoryListAdapter programTypeAdapter = new ActionBarDropDownCategoryListAdapter(this, mProgramTypes);
-			// categorySpinner.setAdapter(programTypeAdapter);
-			ActionBarDropDownCategoryListAdapter tagsAdapter = new ActionBarDropDownCategoryListAdapter(this, mTags);
-			categorySpinner.setAdapter(tagsAdapter);
-			
-			categorySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-				@Override
-				public void onItemSelected(AdapterView<?> parentView, View view, int position, long id) {
-					// ProgramType programTypeItem = (ProgramType) categorySpinner.getItemAtPosition(position);
-					// LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(
-					// new Intent(Consts.INTENT_EXTRA_TVGUIDE_SORTING).putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE, programTypeItem.getId()).putExtra(
-					// Consts.INTENT_EXTRA_TVGUIDE_SORTING_TYPE, Consts.VALUE_TYPE_PROGRAMTYPE));
-					Tag tagItem = (Tag) categorySpinner.getItemAtPosition(position);
-					LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(
-							new Intent(Consts.INTENT_EXTRA_TVGUIDE_SORTING).putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE, tagItem.getName()).putExtra(
-									Consts.INTENT_EXTRA_TVGUIDE_SORTING_TYPE,
-									Consts.VALUE_TYPE_TAG));
-				}
-
-				@Override
-				public void onNothingSelected(AdapterView<?> anAdapterView) {
-					// do nothing
-				}
-			});
-		}
-		*/
+		 * if (isProgramTypesData == true) { final Spinner categorySpinner = (Spinner) findViewById(R.id.actionbar_homepage_category_spinner); categorySpinner.setVisibility(View.VISIBLE);
+		 * 
+		 * // ActionBarDropDownCategoryListAdapter programTypeAdapter = new ActionBarDropDownCategoryListAdapter(this, mProgramTypes); // categorySpinner.setAdapter(programTypeAdapter); ActionBarDropDownCategoryListAdapter tagsAdapter = new ActionBarDropDownCategoryListAdapter(this, mTags);
+		 * categorySpinner.setAdapter(tagsAdapter);
+		 * 
+		 * categorySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+		 * 
+		 * @Override public void onItemSelected(AdapterView<?> parentView, View view, int position, long id) { // ProgramType programTypeItem = (ProgramType) categorySpinner.getItemAtPosition(position); // LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast( // new
+		 * Intent(Consts.INTENT_EXTRA_TVGUIDE_SORTING).putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE, programTypeItem.getId()).putExtra( // Consts.INTENT_EXTRA_TVGUIDE_SORTING_TYPE, Consts.VALUE_TYPE_PROGRAMTYPE)); Tag tagItem = (Tag) categorySpinner.getItemAtPosition(position);
+		 * LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast( new Intent(Consts.INTENT_EXTRA_TVGUIDE_SORTING).putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE, tagItem.getName()).putExtra( Consts.INTENT_EXTRA_TVGUIDE_SORTING_TYPE, Consts.VALUE_TYPE_TAG)); }
+		 * 
+		 * @Override public void onNothingSelected(AdapterView<?> anAdapterView) { // do nothing } }); }
+		 */
 
 		if (isDateData == true) {
 			final Spinner daySpinner = (Spinner) findViewById(R.id.actionbar_homepage_day_spinner);
@@ -228,24 +211,25 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 	}
 
 	void showTVGuide() {
-		//initActionBarTvGuide(isDateData, isProgramTypesData);
-		initActionBarTvGuide(isDateData, isTagsData);
-			
+		// initActionBarTvGuide(isDateData, isProgramTypesData);
+		//initActionBarTvGuide(isDateData, isTagsData);
+		initActionBarTvGuide(isDateData);
+		
 		// mTabSelectorContainerView.setBackgroundResource();
 
 		mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.black));
 		mTxtTabPopular.setTextColor(getResources().getColor(R.color.gray));
 		mTxtTabFeed.setTextColor(getResources().getColor(R.color.gray));
 
-		//mActiveFragment = new TVGuideFragment();
+		// mActiveFragment = new TVGuideFragment();
 		mActiveFragment = new TVGuideFragmentContainer();
-		
+
 		Bundle bundle = new Bundle();
 		bundle.putParcelableArrayList(Consts.PARCELABLE_CHANNELS_LIST, mChannels);
 		bundle.putParcelableArrayList(Consts.PARCELABLE_TV_DATES_LIST, mTvDates);
 		// bundle.putParcelableArrayList(Consts.PARCELABLE_PROGRAM_TYPES_LIST, mProgramTypes);
-		bundle.putParcelableArrayList(Consts.PARCELABLE_TAGS_LIST, mTags);
-			
+		//bundle.putParcelableArrayList(Consts.PARCELABLE_TAGS_LIST, mTags);
+
 		mActiveFragment.setArguments(bundle);
 		getSupportFragmentManager().beginTransaction().replace(R.id.homepage_contentframe, mActiveFragment).commit();
 	}
@@ -305,25 +289,26 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 
 				mTvDates = mTvDatePage.getTvDates();
 				// mProgramTypePage.getPage(new SSPageCallback() {
-				mTagsPage.getPage(new SSPageCallback() {
+				// mTagsPage.getPage(new SSPageCallback() {
+				// @Override
+				// public void onGetPageResult(SSPageGetResult aPageGetResult) {
+				// mProgramTypes = mProgramTypePage.getProgramTypes();
+				// mTags = mTagsPage.getTags();
+
+				mChannelPage.getPage(new SSPageCallback() {
 					@Override
 					public void onGetPageResult(SSPageGetResult aPageGetResult) {
-						// mProgramTypes = mProgramTypePage.getProgramTypes();
-						mTags = mTagsPage.getTags();
 
-						mChannelPage.getPage(new SSPageCallback() {
-							@Override
-							public void onGetPageResult(SSPageGetResult aPageGetResult) {
-
-								mChannels = mChannelPage.getChannels();
-								if (!pageHoldsData()) {
-									// Request failed
-									updateUI(REQUEST_STATUS.FAILED);
-								}
-							}
-						});
+						mChannels = mChannelPage.getChannels();
+						if (!pageHoldsData()) {
+							// Request failed
+							Log.d(TAG,"FAILED");
+							updateUI(REQUEST_STATUS.FAILED);
+						}
 					}
 				});
+				// }
+				// });
 			}
 		});
 	}
@@ -331,10 +316,12 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 	@Override
 	protected boolean pageHoldsData() {
 		boolean result = false;
-		if (mTvDates != null ) {
+		if (mTvDates != null) {
 			if (mTvDates.isEmpty()) {
-				updateUI(REQUEST_STATUS.FAILED);
+				Log.d(TAG,"EMPTY RESPONSE");
+				updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
 			} else {
+				Log.d(TAG,"SUCCESSFUL");
 				updateUI(REQUEST_STATUS.SUCCESSFUL);
 			}
 			result = true;
@@ -350,16 +337,16 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 			Log.d(TAG, "No dates are available");
 		}
 
-		if(mTags == null){
-			Log.d(TAG,"No specific categories are available");
-		}
-		
-		Tag tagAll = new Tag();
-		tagAll.setId(getResources().getString(R.string.all_categories_id));
-		tagAll.setName(getResources().getString(R.string.all_categories_name));
-		mTags.add(0, tagAll);
-		isTagsData = true;
-		
+		//if (mTags == null) {
+		//	Log.d(TAG, "No specific categories are available");
+		//}
+
+		//Tag tagAll = new Tag();
+		//tagAll.setId(getResources().getString(R.string.all_categories_id));
+		//tagAll.setName(getResources().getString(R.string.all_categories_name));
+		//mTags.add(0, tagAll);
+		//isTagsData = true;
+
 		if (super.requestIsSuccesfull(status)) {
 			mTabSelectorContainerView.setVisibility(View.VISIBLE);
 			showTVGuide();

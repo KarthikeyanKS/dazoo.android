@@ -9,6 +9,10 @@ import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.protocol.ClientContext;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
@@ -26,7 +30,8 @@ public class SSHttpClient<T_Result> {
 
 	private static final String				TAG					= "SSHttpClient";
 
-	private static HttpClient				sHttpClient			= null;
+	//private static HttpClient				sHttpClient			= null;
+	private HttpClient sHttpClient = null;
 	private static HttpContext				sHttpContext		= null;
 
 	private SSHttpClientGetTask				mHttpClientGetTask	= null;
@@ -50,6 +55,8 @@ public class SSHttpClient<T_Result> {
 		// If we have a get task
 		if (mHttpClientGetTask != null) {
 			// Cancel it
+			
+			Log.d(TAG,"will cancel request");
 			mHttpClientGetTask.cancelRequest();
 		}
 	}
@@ -74,6 +81,7 @@ public class SSHttpClient<T_Result> {
 		protected ReentrantLock	mLock		= new ReentrantLock();
 
 		public void cancelRequest() {
+			Log.d(TAG,"cancel request!!");
 			mLock.lock();
 			// Critical section
 			try {
@@ -81,6 +89,7 @@ public class SSHttpClient<T_Result> {
 				cancel(true);
 				// If we have a http get request
 				if (mHttpGet != null) {
+					Log.d(TAG,"abort request!!!");
 					// Abort it
 					mHttpGet.abort();
 				}
@@ -142,6 +151,7 @@ public class SSHttpClient<T_Result> {
 								if (responseStream != null) {
 									responseStream.close();
 								}
+								Log.d(TAG,"Release the response content");
 								// Release the response content
 								httpResponseEntity.consumeContent();
 							}
@@ -192,6 +202,8 @@ public class SSHttpClient<T_Result> {
 			if (sHttpClient == null) {
 				// Create the android http client
 				// sHttpClient = AndroidHttpClient.newInstance("Android");
+				
+				
 				sHttpClient = new DefaultHttpClient();
 
 				// Create the http context to be used by the client while executing requests

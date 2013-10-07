@@ -69,7 +69,6 @@ public class ContentParser {
 								// broadcasts.add(parseBroadcastProgramKey(jsonBroadcast, programTypeKey));
 								broadcasts.add(parseBroadcast(jsonBroadcast));
 							}
-
 						} else {
 							// broadcasts.add(parseBroadcastAll(jsonBroadcast));
 							broadcasts.add(parseBroadcast(jsonBroadcast));
