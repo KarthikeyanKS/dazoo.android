@@ -17,8 +17,9 @@ public abstract class Consts {
 	public static final String	MILLICOM_SECONDSCREEN_PROGRAM_TYPES_PAGE_API				= "http://epg.gitrgitr.com/programTypes";
 	public static final String	MILLICOM_SECONDSCREEN_DATES_PAGE_API						= "http://epg.gitrgitr.com/dates";
 	public static final String	MILLICOM_SECONDSCREEN_CHANNELS_PAGE_API						= "http://epg.gitrgitr.com/channels";
-	public static final String	MILLICOM_SECONDSCREEN_FACEBOOK_TOKEN_URL					= "https://epg.gitrgitr.com/login/facebook";
-	public static final String	MILLICOM_SECONDSCREEN_DAZOO_LOGIN_URL						= "https://epg.gitrgitr.com/login/dazoo";
+	public static final String	MILLICOM_SECONDSCREEN_FACEBOOK_TOKEN_URL					= "https://epg.gitrgitr.com/auth/login/facebook";
+	public static final String	MILLICOM_SECONDSCREEN_DAZOO_LOGIN_URL						= "https://epg.gitrgitr.com/auth/login/dazoo";
+	public static final String	MILLICOM_SECONDSCREEN_DAZOO_REGISTER_URL					= "https://epg.gitrgitr.com/auth/login/dazoo/reqister";
 	public static final String	MILLICOM_SECONDSCREEN_TAGS_PAGE_API							= "http://epg.gitrgitr.com/tags/visible";
 
 	// api request strings
@@ -28,6 +29,8 @@ public abstract class Consts {
 	public static final String	MILLICOM_SECONDSCREEN_API_USER_ID							= "userId";
 	public static final String	MILLICOM_SECONDSCREEN_API_EMAIL								= "email";
 	public static final String	MILLICOM_SECONDSCREEN_API_PASSWORD							= "password";
+	public static final String	MILLICOM_SECONDSCREEN_API_FIRSTNAME							= "firstName";
+	public static final String	MILLICOM_SECONDSCREEN_API_LASTNAME							= "lastName";
 	public static final String	REQUEST_QUERY_AND											= "&";
 	public static final String	REQUEST_QUERY_SEPARATOR										= "/";
 	public static final String	REQUEST_PARAMETER_SEPARATOR									= "?";

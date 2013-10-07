@@ -1,21 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/pager"
-    android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:visibility="gone" >
+    android:background="@color/white"
+    android:orientation="vertical" >
 
-    <com.millicom.secondscreen.customviews.ColorPagerTabStrip
-        android:id="@+id/pager_header"
-        android:layout_width="match_parent"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:background="@color/light_gray"
-        android:paddingBottom="6dp"
-        android:paddingTop="6dp"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:visibility="gone" />
+        android:layout_alignParentTop="true"
+        android:visibility="gone" >
+
+        <com.millicom.secondscreen.customviews.ColorPagerTabStrip
+            android:id="@+id/pager_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:background="@color/light_gray"
+            android:paddingBottom="6dp"
+            android:paddingTop="6dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:visibility="gone" />
+    </android.support.v4.view.ViewPager>
 
     <LinearLayout
         android:id="@+id/fragment_container"
@@ -23,5 +32,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical" />
+    
+    <include layout="@layout/layout_request_callbacks_holder_layout" />
 
-</android.support.v4.view.ViewPager>
+</RelativeLayout>

@@ -56,11 +56,13 @@ public class TVGuideListAdapter extends BaseAdapter {
 		View rowView = convertView;
 
 		final Guide guide = getItem(position);
+		Log.d(TAG,"Channel name: "+ guide.getName());
 
 		if (rowView == null) {
 			mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			rowView = mLayoutInflater.inflate(R.layout.layout_tvguide_list_item, null);
 			ViewHolder viewHolder = new ViewHolder();
+			viewHolder.mContainer = (RelativeLayout) rowView.findViewById(R.id.item_container);
 			viewHolder.mChannelIconIv = (ImageView) rowView.findViewById(R.id.tvguide_channel_iv);
 			viewHolder.mProgressBar = (ProgressBar) rowView.findViewById(R.id.tvguide_channel_progressbar);
 			// viewHolder.mBroadcastItemLl = (LinearLayout) rowView.findViewById(R.id.tvguide_program_list_container);
@@ -94,8 +96,8 @@ public class TVGuideListAdapter extends BaseAdapter {
 		} else {
 			holder.mChannelIconIv.setImageResource(R.drawable.loadimage_2x);
 		}
-
-		holder.mChannelIconIv.setOnClickListener(new View.OnClickListener() {
+		
+		holder.mContainer.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -164,6 +166,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 	}
 
 	static class ViewHolder {
+		public RelativeLayout mContainer; 
 		public ImageView	mChannelIconIv;
 		public ProgressBar	mProgressBar;
 		// public LinearLayout mBroadcastItemLl;

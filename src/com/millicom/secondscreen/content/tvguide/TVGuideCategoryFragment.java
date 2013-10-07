@@ -68,6 +68,9 @@ public class TVGuideCategoryFragment extends SSPageFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		// reset the activity whenever the view is recreated
+		mActivity = getActivity();
+
 		Bundle bundle = getArguments();
 		mChannels = bundle.getParcelableArrayList(Consts.PARCELABLE_CHANNELS_LIST);
 		mDate = bundle.getString(Consts.INTENT_EXTRA_TVGUIDE_TVDATE);
@@ -78,9 +81,9 @@ public class TVGuideCategoryFragment extends SSPageFragment {
 			mChannelsNum = mChannelIds.size();
 		}
 
-		//mPage = SSStartPage.getInstance();
+		// mPage = SSStartPage.getInstance();
 		mPage = new SSStartPage();
-		
+
 		mPageUrl = getPageUrl(numOfChannelsShownNow, mChannelsNum, mDate);
 		Log.d(TAG, "OnCreate TAG:" + mTagName);
 	}
@@ -88,10 +91,28 @@ public class TVGuideCategoryFragment extends SSPageFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootView = inflater.inflate(R.layout.layout_tvguide_fragment, null);
-		// reset the activity whenever the view is recreated
-		mActivity = getActivity();
 		mTvGuideListView = (PullToRefreshListView) mRootView.findViewById(R.id.listview);
 		mClockIndexView = (LinearLayout) mRootView.findViewById(R.id.side_clock_index);
+
+		// Set a listener to be invoked when the list should be refreshed.
+		mTvGuideListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
+			@Override
+			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+				// Do work to refresh the list here.
+				new GetDataTask().execute();
+			}
+		});
+
+		// Add an end-of-list listener
+		mTvGuideListView.setOnLastItemVisibleListener(new OnLastItemVisibleListener() {
+
+			@Override
+			public void onLastItemVisible() {
+
+			}
+		});
+
+		mTvGuideListView.setMode(Mode.PULL_FROM_END);
 
 		super.initRequestCallbackLayouts(mRootView);
 
@@ -144,29 +165,29 @@ public class TVGuideCategoryFragment extends SSPageFragment {
 		updateUI(REQUEST_STATUS.LOADING);
 		Log.d(TAG, "loadPage: " + mTagName);
 
-		//if (!pageHoldsData()) {
-			mPage.getPage(mTagName, mPageUrl, new SSPageCallback() {
+		// if (!pageHoldsData()) {
+		mPage.getPage(mTagName, mPageUrl, new SSPageCallback() {
 
-				@Override
-				public void onGetPageResult(SSPageGetResult aPageGetResult) {
+			@Override
+			public void onGetPageResult(SSPageGetResult aPageGetResult) {
 
-					Log.d(TAG,"onGetPageResult");
-					if (!pageHoldsData()) {
-						// // Request failed
-						
-						Log.d(TAG,"UpdateUI: FAILED");
-						updateUI(REQUEST_STATUS.FAILED);
-					}
+				Log.d(TAG, "onGetPageResult");
+				if (!pageHoldsData()) {
+					// // Request failed
+
+					Log.d(TAG, "UpdateUI: FAILED");
+					updateUI(REQUEST_STATUS.FAILED);
 				}
-			});
-		//}
+			}
+		});
+		// }
 	}
 
 	@Override
 	protected boolean pageHoldsData() {
 		boolean result = false;
 
-		//mGuide = new ArrayList<Guide>();
+		// mGuide = new ArrayList<Guide>();
 		mGuide = mPage.getGuide();
 
 		if (mGuide != null) {
@@ -185,55 +206,38 @@ public class TVGuideCategoryFragment extends SSPageFragment {
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
 		Log.d(TAG, "update UI :" + status);
-
+		Log.d(TAG, "super status:" + super.requestIsSuccesfull(status));
 		if (super.requestIsSuccesfull(status)) {
-			// Set a listener to be invoked when the list should be refreshed.
-			mTvGuideListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
-				@Override
-				public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-					// String label = DateUtils.formatDateTime(mActivity.getApplicationContext(), System.currentTimeMillis(), DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE
-					// | DateUtils.FORMAT_ABBREV_ALL);
-
-					// Update the LastUpdatedLabel
-					// refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
-
-					// Do work to refresh the list here.
-					new GetDataTask().execute();
-				}
-			});
-
-			// Add an end-of-list listener
-			mTvGuideListView.setOnLastItemVisibleListener(new OnLastItemVisibleListener() {
-
-				@Override
-				public void onLastItemVisible() {
-
-				}
-			});
-
-			mTvGuideListView.setMode(Mode.PULL_FROM_END);
 
 			mTvGuideListAdapter = new TVGuideListAdapter(mActivity, mGuide, mChannels);
 
 			actualListView = mTvGuideListView.getRefreshableView();
-
 			// mTvGuideListView.setAdapter(mTvGuideListAdapter);
-
 			actualListView.setAdapter(mTvGuideListAdapter);
 			actualListView.invalidate();
 
+			Log.d(TAG, "Guide size: " + mGuide.size());
 			// ArrayList<ChannelHour> channelHoursForFirst = putBroadcastsInHours(mGuide.get(0).getBroadcasts());
 			// Log.d(TAG,"channelHoursForFirst:" + channelHoursForFirst);
 			// channelBroadcastsMap = new HashMap<Channel, ArrayList<ChannelHour>>();
 			// channelBroadcastsMap = mapChannelsWithBroadcasts(mGuide);
+		} else if (status == Consts.REQUEST_STATUS.SUCCESSFUL) {
+			Log.d(TAG, "cheat");
+			mTvGuideListAdapter = new TVGuideListAdapter(mActivity, mGuide, mChannels);
+
+			actualListView = mTvGuideListView.getRefreshableView();
+			// mTvGuideListView.setAdapter(mTvGuideListAdapter);
+			actualListView.setAdapter(mTvGuideListAdapter);
+			actualListView.invalidate();
+
 		}
 	}
 
-	//@Override
-	//public void onPause() {
-	//	super.onPause();
-	//	mPage.cancelGetPage();
-	//}
+	// @Override
+	// public void onPause() {
+	// super.onPause();
+	// mPage.cancelGetPage();
+	// }
 
 	private String getPageUrl(int startPosition, int maxSize, String date) {
 		StringBuilder sB = new StringBuilder();

@@ -78,6 +78,8 @@ public abstract class SSPageFragment extends Fragment {
 	protected boolean requestIsSuccesfull(REQUEST_STATUS status) {
 
 		// Make sure user didn't leave activity
+		Log.d(TAG,"ACTIVITY IS ALIVE:" + activityIsAlive());
+		
 		if (activityIsAlive()) {
 
 			// Set initial state of layouts
@@ -99,8 +101,7 @@ public abstract class SSPageFragment extends Fragment {
 				if (mRequestFailedLayout != null) {
 					mRequestFailedLayout.setVisibility(View.VISIBLE);
 					mRequestFailedLayout.startAnimation(anim);
-				}
-				break;
+				}break;
 
 			case LOADING:
 
@@ -112,6 +113,7 @@ public abstract class SSPageFragment extends Fragment {
 				return true;
 			}
 		}
+		Log.d(TAG,"Return false");
 		return false;
 	}
 

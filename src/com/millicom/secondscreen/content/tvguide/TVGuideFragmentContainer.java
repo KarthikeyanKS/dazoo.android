@@ -48,7 +48,7 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 	private View				mRootView;
 	private ViewPager			mViewPager;
 	private PagerTabStrip		mPagerTabStrip;
-	private PagerAdapter		mAdapter;
+	//private PagerAdapter		mAdapter;
 
 	private int					mSelectedIndex	= 0;
 	private Activity			mActivity;
@@ -67,8 +67,10 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 		mTvDates = bundle.getParcelableArrayList(Consts.PARCELABLE_TV_DATES_LIST);
 		mChannels = bundle.getParcelableArrayList(Consts.PARCELABLE_CHANNELS_LIST);
 		mDate = mTvDates.get(0).getDate().toString();
-		
-		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mBroadcastReceiver, new IntentFilter(Consts.INTENT_EXTRA_TVGUIDE_SORTING));
+
+		mActivity = getActivity();
+
+		LocalBroadcastManager.getInstance(mActivity).registerReceiver(mBroadcastReceiver, new IntentFilter(Consts.INTENT_EXTRA_TVGUIDE_SORTING));
 	}
 
 	BroadcastReceiver	mBroadcastReceiver	= new BroadcastReceiver() {
@@ -86,8 +88,6 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 		mRootView = inflater.inflate(R.layout.layout_tvguide_fragment_container, container, false);
 		super.initRequestCallbackLayouts(mRootView);
 
-		mActivity = getActivity();
-		
 		mViewPager = (ViewPager) mRootView.findViewById(R.id.pager);
 		mViewPager.setEnabled(false);
 		mPagerTabStrip = (PagerTabStrip) mRootView.findViewById(R.id.pager_header);
@@ -108,13 +108,13 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 		LocalBroadcastManager.getInstance(mActivity).unregisterReceiver(mBroadcastReceiver);
 	};
 
-	//@Override
-	//public void onPause() {
-	//	super.onPause();
+	// @Override
+	// public void onPause() {
+	// super.onPause();
 
-	//	// Cancel any get page request
-	//	mTagsPage.cancelGetPage();
-	//}
+	// // Cancel any get page request
+	// mTagsPage.cancelGetPage();
+	// }
 
 	OnPageChangeListener	mOnPageChangeListener	= new OnPageChangeListener() {
 
@@ -138,6 +138,7 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 
 		// Don't allow any swiping gestures while reloading
 		mViewPager.setVisibility(View.GONE);
+		mPagerTabStrip.setVisibility(View.GONE);
 		mTags = null;
 		getPage();
 	}
@@ -152,15 +153,13 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 
 			Log.d(TAG, "mTags SIZE:" + mTags.size());
 
-			
 			mTabTitles = new ArrayList<String>();
 			for (Tag tag : mTags) {
 				mTabTitles.add(tag.getName());
 			}
 			Log.d(TAG, "mTagTitles size: " + mTabTitles.size());
 			setAdapter();
-		}
-		else {
+		} else {
 			// we only have one general category
 			Tag tagAll = new Tag();
 			tagAll.setId(getResources().getString(R.string.all_categories_id));
@@ -173,19 +172,21 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 			bundle.putParcelableArrayList(Consts.PARCELABLE_CHANNELS_LIST, mChannels);
 			bundle.putString(Consts.INTENT_EXTRA_TVGUIDE_TVDATE, mDate);
 			bundle.putString(Consts.INTENT_EXTRA_TAG, mTags.get(0).getName());
-			
+
 			Fragment fragment = new TVGuideCategoryFragment();
 			fragment.setArguments(bundle);
-			
+
 			getChildFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
 		}
 	}
 
 	private void setAdapter() {
 		// if (mAdapter == null)
-		mAdapter = new CategoryFragmentPagerAdapter(getChildFragmentManager(), mTabTitles) {
+
+		final PagerAdapter mAdapter = new CategoryFragmentPagerAdapter(getChildFragmentManager(), mTabTitles) {
 			@Override
 			public Fragment initFragment(int position) {
+				Log.d(TAG, "INIT FRAGMENTS");
 				Fragment fragment;
 				// fragment = TVGuideCategoryFragment.newInstance(mTags.get(position), mTvDates.get(0).getDate().toString(), mChannels);
 				fragment = TVGuideCategoryFragment.newInstance(mTags.get(position), mDate, mChannels);
@@ -194,12 +195,13 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 		};
 
 		mViewPager.setOnPageChangeListener(mOnPageChangeListener);
+
 		Handler handler = new Handler();
 		handler.post(new Runnable() {
 
 			@Override
 			public void run() {
-
+				Log.d(TAG, "UPDATE VIEWPAGER");
 				mViewPager.setVisibility(View.VISIBLE);
 				mPagerTabStrip.setVisibility(View.VISIBLE);
 				mViewPager.setAdapter(mAdapter);
@@ -210,7 +212,8 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 	}
 
 	private void getPage() {
-
+		updateUI(REQUEST_STATUS.LOADING);
+		Log.d(TAG, "LOADING");
 		mTagsPage.getPage(new SSPageCallback() {
 			@Override
 			public void onGetPageResult(SSPageGetResult aPageGetResult) {
@@ -230,10 +233,8 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 
 	@Override
 	protected void loadPage() {
-		// Even if we read cached data, we want to appear as loading for the start
 		updateUI(REQUEST_STATUS.LOADING);
 
-		// If we already have a block, no need to make a new request
 		// if (!pageHoldsData()) {
 
 		getPage();
@@ -259,6 +260,7 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
 		if (super.requestIsSuccesfull(status)) {
+			Log.d(TAG, "CREATE FRAGMENTS");
 			createFragments();
 		}
 	}

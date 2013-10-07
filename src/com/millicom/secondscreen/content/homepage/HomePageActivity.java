@@ -97,7 +97,7 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 
 		mActionBar.hide();
 
-		 super.initCallbackLayouts();
+		super.initCallbackLayouts();
 	}
 
 	//private void initActionBarTvGuide(boolean isDateData, boolean isProgramTypesData) {

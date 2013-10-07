@@ -74,9 +74,10 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 
 	private static final String	TAG	= "LoginActivity";
 
-	private Button				mFacebookLoginButton, mDazooLoginButton, mFacebookLogoutButton;
-	private String				facebookToken	= "", facebookSessionToken = "", dazooToken = "", userToken = "", userId = "", userEmail, userPassword;
-	private EditText			mEmailEditText, mPasswordEditText;
+	private Button				mFacebookLoginButton, mDazooLoginButton, mDazooLogoutButton, mFacebookLogoutButton, mDazooRegisterButton;
+	private String				facebookToken	= "", facebookSessionToken = "", dazooToken = "", userToken = "", userId = "", userEmailLogin, userPasswordLogin, userEmailRegister,
+			userPasswordRegister, userFirstNameRegister, userLastNameRegister;
+	private EditText			mEmailLoginEditText, mPasswordLoginEditText, mFirstNameEditText, mLastNameEditText, mPasswordRegisterEditText, mPasswordRegisterVerifyEditText, mEmailRegisterEditText;
 	private ActionBar			mActionBar;
 
 	@Override
@@ -89,10 +90,22 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 		mFacebookLoginButton.setOnClickListener(this);
 		mFacebookLogoutButton = (Button) findViewById(R.id.login_activity_facebook_logout_button);
 		mFacebookLogoutButton.setOnClickListener(this);
-		mDazooLoginButton = (Button) findViewById(R.id.login_activity_dazoo_login_button);
+
+		mDazooLoginButton = (Button) findViewById(R.id.login_activity_dazoo_login_login_button);
 		mDazooLoginButton.setOnClickListener(this);
-		mEmailEditText = (EditText) findViewById(R.id.login_activity_dazoo_email_edittext);
-		mPasswordEditText = (EditText) findViewById(R.id.login_activity_dazoo_password_edittext);
+		mEmailLoginEditText = (EditText) findViewById(R.id.login_activity_dazoo_login_email_edittext);
+		mPasswordLoginEditText = (EditText) findViewById(R.id.login_activity_dazoo_login_password_edittext);
+
+		mDazooLogoutButton = (Button) findViewById(R.id.login_activity_dazoo_login_logout_button);
+		mDazooLogoutButton.setOnClickListener(this);
+
+		mFirstNameEditText = (EditText) findViewById(R.id.login_activity_dazoo_register_firstname_edittext);
+		mLastNameEditText = (EditText) findViewById(R.id.login_activity_dazoo_register_lastname_edittext);
+		mEmailRegisterEditText = (EditText) findViewById(R.id.login_activity_dazoo_register_email_edittext);
+		mPasswordRegisterEditText = (EditText) findViewById(R.id.login_activity_dazoo_register_password_edittext);
+		mPasswordRegisterVerifyEditText = (EditText) findViewById(R.id.login_activity_dazoo_register_password_verify_edittext);
+		mDazooRegisterButton = (Button) findViewById(R.id.login_activity_dazoo_login_register_button);
+		mDazooRegisterButton.setOnClickListener(this);
 
 		mActionBar = getSupportActionBar();
 		SpannableString s = new SpannableString(getResources().getString(R.string.login));
@@ -133,11 +146,25 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 
-	private boolean verifyUserInput() {
-		String emailInput = mEmailEditText.getText().toString();
-		String passwordInput = mPasswordEditText.getText().toString();
+	private boolean verifyLoginInput() {
+		String emailInput = mEmailLoginEditText.getText().toString();
+		String passwordInput = mPasswordLoginEditText.getText().toString();
 		if ((passwordInput != null) && (emailInput != null) && (passwordInput.length() >= Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MIN)
 				&& (passwordInput.length() <= Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MAX) && (!passwordInput.matches("[%,#/|<>]+")) && (PatternCheck.checkEmail(emailInput) == true)) {
+			return true;
+		} else return false;
+	}
+
+	private boolean verifyRegisterInput() {
+		String emailInput = mEmailRegisterEditText.getText().toString();
+		String firstNameInput = mFirstNameEditText.getText().toString();
+		String lastNameInput = mLastNameEditText.getText().toString();
+		String passwordInput = mPasswordRegisterEditText.getText().toString();
+		String passwordVerifyInput = mPasswordRegisterVerifyEditText.getText().toString();
+
+		if ((firstNameInput != null) && (lastNameInput != null) && (passwordInput != null) && (emailInput != null) && (passwordInput.length() >= Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MIN)
+				&& (passwordInput.length() <= Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MAX) && (!passwordInput.matches("[%,#/|<>]+")) && (PatternCheck.checkEmail(emailInput) == true)
+				&& (passwordInput.equals(passwordVerifyInput))) {
 			return true;
 		} else return false;
 	}
@@ -187,14 +214,16 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 			});
 
 			break;
-		case R.id.login_activity_dazoo_login_button:
-			boolean isSuccess = verifyUserInput();
-			if (isSuccess == true) {
-				mEmailEditText.setEnabled(false);
-				mPasswordEditText.setEnabled(false);
+		case R.id.login_activity_dazoo_login_login_button:
+			if (verifyLoginInput()) {
+				mEmailLoginEditText.setEnabled(false);
+				mPasswordLoginEditText.setEnabled(false);
+
+				userEmailLogin = mEmailLoginEditText.getText().toString();
+				userPasswordLogin = mPasswordLoginEditText.getText().toString();
 				DazooLoginTask dazooLoginTask = new DazooLoginTask();
 				try {
-					dazooToken = dazooLoginTask.execute(userEmail, userPassword).get();
+					dazooToken = dazooLoginTask.execute(userEmailLogin, userPasswordLogin).get();
 					if (dazooToken.isEmpty() != true && dazooToken.length() > 0) {
 						((SecondScreenApplication) getApplicationContext()).setAccessToken(dazooToken);
 					} else {
@@ -209,8 +238,8 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 				}
 			} else {
 				Toast.makeText(getApplicationContext(), "check if email/password were input right", Toast.LENGTH_LONG).show();
-				mEmailEditText.setEnabled(true);
-				mPasswordEditText.setEnabled(true);
+				mEmailLoginEditText.setEnabled(true);
+				mPasswordLoginEditText.setEnabled(true);
 			}
 			break;
 		case R.id.login_activity_facebook_logout_button:
@@ -220,6 +249,44 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 			startActivity(new Intent(getApplicationContext(), LoginActivity.class));
 			// clear the activity stack
 			finish();
+			break;
+
+		case R.id.login_activity_dazoo_login_register_button:
+			if (verifyRegisterInput()) {
+				mFirstNameEditText.setEnabled(false);
+				mLastNameEditText.setEnabled(false);
+				mEmailRegisterEditText.setEnabled(false);
+				mPasswordRegisterEditText.setEnabled(false);
+				mPasswordRegisterVerifyEditText.setEnabled(false);
+
+				userEmailRegister = mEmailRegisterEditText.getText().toString();
+				userPasswordRegister = mPasswordRegisterEditText.getText().toString();
+				userFirstNameRegister = mFirstNameEditText.getText().toString();
+				userLastNameRegister = mLastNameEditText.getText().toString();
+
+				DazooRegistrationTask dazooRegisterTask = new DazooRegistrationTask();
+				try {
+					dazooToken = dazooRegisterTask.execute(userEmailRegister, userPasswordRegister, userFirstNameRegister, userLastNameRegister).get();
+					if (dazooToken.isEmpty() != true && dazooToken.length() > 0) {
+						((SecondScreenApplication) getApplicationContext()).setAccessToken(dazooToken);
+					} else {
+						Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with us. Please, try again later!", Toast.LENGTH_LONG).show();
+					}
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ExecutionException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else {
+				Toast.makeText(getApplicationContext(), "check if email/password/name were input right", Toast.LENGTH_LONG).show();
+				mFirstNameEditText.setEnabled(true);
+				mLastNameEditText.setEnabled(true);
+				mEmailRegisterEditText.setEnabled(true);
+				mPasswordRegisterEditText.setEnabled(true);
+				mPasswordRegisterVerifyEditText.setEnabled(true);
+			}
 			break;
 		}
 	}
@@ -274,6 +341,60 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 			return "";
 		}
 
+	}
+
+	private class DazooRegistrationTask extends AsyncTask<String, Void, String> {
+		@Override
+		protected String doInBackground(String... params) {
+			try {
+				HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
+
+				HttpClient client = new DefaultHttpClient();
+
+				SchemeRegistry registry = new SchemeRegistry();
+				SSLSocketFactory socketFactory = SSLSocketFactory.getSocketFactory();
+				socketFactory.setHostnameVerifier((X509HostnameVerifier) hostnameVerifier);
+				registry.register(new Scheme("https", socketFactory, 443));
+				SingleClientConnManager mgr = new SingleClientConnManager(client.getParams(), registry);
+				DefaultHttpClient httpClient = new DefaultHttpClient(mgr, client.getParams());
+
+				// Set verifier
+				HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
+
+				HttpPost httpPost = new HttpPost(Consts.MILLICOM_SECONDSCREEN_DAZOO_REGISTER_URL);
+				httpPost.setHeader("Content-type", "application/json; charset=utf-8");
+
+				String email = params[0];
+				String password = params[1];
+				String firstName = params[2];
+				String lastName = params[3];
+
+				List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(6);
+				nameValuePair.add(new BasicNameValuePair(Consts.MILLICOM_SECONDSCREEN_API_EMAIL, email));
+				nameValuePair.add(new BasicNameValuePair(Consts.MILLICOM_SECONDSCREEN_API_PASSWORD, password));
+				nameValuePair.add(new BasicNameValuePair(Consts.MILLICOM_SECONDSCREEN_API_FIRSTNAME, firstName));
+				nameValuePair.add(new BasicNameValuePair(Consts.MILLICOM_SECONDSCREEN_API_LASTNAME, lastName));
+
+				httpPost.setEntity(new UrlEncodedFormEntity(nameValuePair));
+
+				HttpResponse response = httpClient.execute(httpPost);
+				if (response.getStatusLine().getStatusCode() == Consts.GOOD_RESPONSE) {
+					JSONObject jObj = new JSONObject(response.getEntity().toString());
+					String responseToken = jObj.getString(Consts.MILLICOM_SECONDSCREEN_API_TOKEN);
+					return responseToken;
+				} else if (response.getStatusLine().getStatusCode() == Consts.BAD_RESPONSE) {
+					Toast.makeText(getApplicationContext(), "Registration Failed", Toast.LENGTH_LONG).show();
+					return "";
+				}
+			} catch (ClientProtocolException e) {
+				System.out.println("CPE" + e);
+			} catch (IOException e) {
+				System.out.println("IOE" + e);
+			} catch (JSONException e) {
+				System.out.println("JSONE" + e);
+			}
+			return "";
+		}
 	}
 
 	private class FacebookLoginTask extends AsyncTask<String, Void, String> {
