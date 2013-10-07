@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:visibility="gone" >
 
-    <android.support.v4.view.PagerTabStrip
+    <com.millicom.secondscreen.customviews.ColorPagerTabStrip
         android:id="@+id/pager_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
