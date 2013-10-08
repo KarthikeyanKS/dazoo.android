@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen" 
+    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
@@ -11,8 +11,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:paddingBottom="10dp"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:paddingBottom="10dp" >
+
+        <com.millicom.secondscreen.customviews.FontTextView
+            android:id="@+id/facebook_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_margin="5dp"
+            android:text="FACEBOOK LOGIN/LOGOUT FUNCTIONALITY"
+            android:textColor="@color/red"
+            android:textSize="16sp" >
+        </com.millicom.secondscreen.customviews.FontTextView>
+
+        <View
+            android:id="@+id/facebook_separator"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/facebook_textview"
+            android:background="@color/gray" />
 
         <!-- FACEBOOK LOGIN -->
 
@@ -20,10 +38,10 @@
             android:id="@+id/login_activity_facebook_login_button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/facebook_separator"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="10dp"
-            android:layout_alignParentTop="true"
             android:background="@color/light_gray"
             android:padding="10dp"
             android:text="@string/login_with_facebook" />
@@ -42,16 +60,37 @@
             android:padding="10dp"
             android:text="@string/logout_from_facebook" />
 
+        <com.millicom.secondscreen.customviews.FontTextView
+            android:id="@+id/dazoo_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/login_activity_facebook_logout_button"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="45dp"
+            android:text="DAZOO LOGIN/LOGOUT FUNCTIONALITY"
+            android:textColor="@color/red"
+            android:textSize="16sp" >
+        </com.millicom.secondscreen.customviews.FontTextView>
+
+        <View
+            android:id="@+id/dazoo_separator"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/dazoo_textview"
+            android:background="@color/gray" />
+
         <!-- DAZOO LOGIN -->
 
         <com.millicom.secondscreen.customviews.FontEditText
             android:id="@+id/login_activity_dazoo_login_email_edittext"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/login_activity_facebook_logout_button"
+            android:layout_below="@id/dazoo_separator"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="5dp"
             android:background="@color/gray"
             android:hint="@string/hint_email"
             android:inputType="textEmailAddress"
@@ -87,7 +126,7 @@
             android:layout_marginTop="5dp"
             android:background="@color/light_gray"
             android:padding="10dp"
-            android:text="@string/logout_from_dazoo" />
+            android:text="@string/login_with_dazoo" />
 
         <!-- DAZOO LOGOUT -->
 
@@ -102,6 +141,31 @@
             android:background="@color/light_gray"
             android:padding="10dp"
             android:text="@string/logout_from_dazoo" />
+        
+        
+        
+        
+         <com.millicom.secondscreen.customviews.FontTextView
+            android:id="@+id/register_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/login_activity_dazoo_login_logout_button"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="45dp"
+            android:text="DAZOO REGISTRATION FUNCTIONALITY"
+            android:textColor="@color/red"
+            android:textSize="16sp" >
+        </com.millicom.secondscreen.customviews.FontTextView>
+
+        <View
+            android:id="@+id/register_separator"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/register_textview"
+            android:background="@color/gray" />
+        
 
         <!-- DAZOO REGISTER -->
 
@@ -109,10 +173,10 @@
             android:id="@+id/login_activity_dazoo_register_firstname_edittext"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/login_activity_dazoo_login_logout_button"
+            android:layout_below="@id/register_separator"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="5dp"
             android:background="@color/gray"
             android:hint="@string/hint_firstname"
             android:inputType="text"
@@ -193,10 +257,10 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/login_activity_dazoo_register_password_verify_edittext"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="10dp"
             android:background="@color/light_gray"
             android:padding="10dp"
             android:text="@string/register_with_dazoo" />
