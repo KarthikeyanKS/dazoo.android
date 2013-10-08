@@ -68,9 +68,7 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 		mChannels = bundle.getParcelableArrayList(Consts.PARCELABLE_CHANNELS_LIST);
 		mDate = mTvDates.get(0).getDate().toString();
 
-		mActivity = getActivity();
-
-		LocalBroadcastManager.getInstance(mActivity).registerReceiver(mBroadcastReceiver, new IntentFilter(Consts.INTENT_EXTRA_TVGUIDE_SORTING));
+		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mBroadcastReceiver, new IntentFilter(Consts.INTENT_EXTRA_TVGUIDE_SORTING));
 	}
 
 	BroadcastReceiver	mBroadcastReceiver	= new BroadcastReceiver() {
@@ -92,9 +90,12 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 		mViewPager.setEnabled(false);
 		mPagerTabStrip = (PagerTabStrip) mRootView.findViewById(R.id.pager_header);
 
-		Log.d(TAG, "on Create View");
+		mActivity = getActivity();
+		
 		loadPage();
 
+		Log.d(TAG, "on Create View");
+		
 		return mRootView;
 	}
 

@@ -27,7 +27,7 @@ public class SSChannelPage extends SSPage{
 
 		// Remember the callback
 		super.mPageCallback = pageCallback;
-		mChannelsPageUrl = Consts.MILLICOM_SECONDSCREEN_CHANNELS_PAGE_API;
+		mChannelsPageUrl = Consts.MILLICOM_SECONDSCREEN_CHANNELS_PAGE_URL;
 		Link programTypesPageLink = new Link();
 		programTypesPageLink.setUrl(mChannelsPageUrl);
 		

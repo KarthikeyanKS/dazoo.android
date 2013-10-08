@@ -28,7 +28,7 @@ public static final String TAG = "SSTagsPage";
 
 		// Remember the callback
 		super.mPageCallback = pageCallback;
-		mTagsPageUrl = Consts.MILLICOM_SECONDSCREEN_TAGS_PAGE_API;
+		mTagsPageUrl = Consts.MILLICOM_SECONDSCREEN_TAGS_PAGE_URL;
 		Link tagsPageLink = new Link();
 		tagsPageLink.setUrl(mTagsPageUrl);
 		

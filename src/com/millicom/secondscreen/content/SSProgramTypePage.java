@@ -28,7 +28,7 @@ public static final String TAG = "SSProgramTypePage";
 
 		// Remember the callback
 		super.mPageCallback = pageCallback;
-		mProgramTypesPageUrl = Consts.MILLICOM_SECONDSCREEN_PROGRAM_TYPES_PAGE_API;
+		mProgramTypesPageUrl = Consts.MILLICOM_SECONDSCREEN_PROGRAM_TYPES_PAGE_URL;
 		Link programTypesPageLink = new Link();
 		programTypesPageLink.setUrl(mProgramTypesPageUrl);
 		

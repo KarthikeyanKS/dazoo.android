@@ -68,9 +68,6 @@ public class TVGuideCategoryFragment extends SSPageFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// reset the activity whenever the view is recreated
-		mActivity = getActivity();
-
 		Bundle bundle = getArguments();
 		mChannels = bundle.getParcelableArrayList(Consts.PARCELABLE_CHANNELS_LIST);
 		mDate = bundle.getString(Consts.INTENT_EXTRA_TVGUIDE_TVDATE);
@@ -113,6 +110,9 @@ public class TVGuideCategoryFragment extends SSPageFragment {
 		});
 
 		mTvGuideListView.setMode(Mode.PULL_FROM_END);
+
+		// reset the activity whenever the view is recreated
+		mActivity = getActivity();
 
 		super.initRequestCallbackLayouts(mRootView);
 
@@ -241,7 +241,7 @@ public class TVGuideCategoryFragment extends SSPageFragment {
 
 	private String getPageUrl(int startPosition, int maxSize, String date) {
 		StringBuilder sB = new StringBuilder();
-		sB.append(Consts.MILLICOM_SECONDSCREEN_GUIDE_PAGE_API);
+		sB.append(Consts.MILLICOM_SECONDSCREEN_GUIDE_PAGE_URL);
 
 		sB.append(Consts.REQUEST_QUERY_SEPARATOR);
 		sB.append(date);
@@ -250,10 +250,10 @@ public class TVGuideCategoryFragment extends SSPageFragment {
 		for (int i = startPosition; i < maxSize && i < startPosition + Consts.MILLICOM_SECONDSCREEN_TVGUIDE_NUMBER_OF_CHANNELS_PER_PAGE; i++) {
 			if (i > 0) {
 				sB.append(Consts.REQUEST_QUERY_AND);
-				sB.append(Consts.MILLICOM_SECONDSCREEN_API_CHANNEL_ID);
+				sB.append(Consts.MILLICOM_SECONDSCREEN_API_CHANNEL_ID_WITH_EQUALS_SIGN);
 				sB.append(mChannelIds.get(i));
 			} else {
-				sB.append(Consts.MILLICOM_SECONDSCREEN_API_CHANNEL_ID);
+				sB.append(Consts.MILLICOM_SECONDSCREEN_API_CHANNEL_ID_WITH_EQUALS_SIGN);
 				sB.append(mChannelIds.get(i));
 			}
 			numOfChannelsShownNow++;

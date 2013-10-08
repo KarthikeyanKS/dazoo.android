@@ -28,7 +28,7 @@ public class SSTvDatePage extends SSPage{
 
 		// Remember the callback
 		super.mPageCallback = pageCallback;
-		mTvDatesPageUrl = Consts.MILLICOM_SECONDSCREEN_DATES_PAGE_API;
+		mTvDatesPageUrl = Consts.MILLICOM_SECONDSCREEN_DATES_PAGE_URL;
 		Link tvDatesPageLink = new Link();
 		tvDatesPageLink.setUrl(mTvDatesPageUrl);
 		

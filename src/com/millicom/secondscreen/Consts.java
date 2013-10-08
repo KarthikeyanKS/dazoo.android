@@ -13,17 +13,22 @@ public abstract class Consts {
 	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_PASSWORD					= "com.millicom.secondscreen.user.account.password";
 
 	// api urls
-	public static final String	MILLICOM_SECONDSCREEN_GUIDE_PAGE_API						= "http://epg.gitrgitr.com/guide";
-	public static final String	MILLICOM_SECONDSCREEN_PROGRAM_TYPES_PAGE_API				= "http://epg.gitrgitr.com/programTypes";
-	public static final String	MILLICOM_SECONDSCREEN_DATES_PAGE_API						= "http://epg.gitrgitr.com/dates";
-	public static final String	MILLICOM_SECONDSCREEN_CHANNELS_PAGE_API						= "http://epg.gitrgitr.com/channels";
-	public static final String	MILLICOM_SECONDSCREEN_FACEBOOK_TOKEN_URL					= "https://epg.gitrgitr.com/auth/login/facebook";
-	public static final String	MILLICOM_SECONDSCREEN_DAZOO_LOGIN_URL						= "https://epg.gitrgitr.com/auth/login/dazoo";
-	public static final String	MILLICOM_SECONDSCREEN_DAZOO_REGISTER_URL					= "https://epg.gitrgitr.com/auth/login/dazoo/reqister";
-	public static final String	MILLICOM_SECONDSCREEN_TAGS_PAGE_API							= "http://epg.gitrgitr.com/tags/visible";
+	public static final String	MILLICOM_SECONDSCREEN_GUIDE_PAGE_URL						= "http://api.gitrgitr.com/epg/guide";
+	public static final String	MILLICOM_SECONDSCREEN_PROGRAM_TYPES_PAGE_URL				= "http://api.gitrgitr.com/epg/programTypes";
+	public static final String	MILLICOM_SECONDSCREEN_DATES_PAGE_URL						= "http://api.gitrgitr.com/epg/dates";
+	public static final String	MILLICOM_SECONDSCREEN_CHANNELS_PAGE_URL						= "http://api.gitrgitr.com/epg/channels";
+	public static final String	MILLICOM_SECONDSCREEN_FACEBOOK_TOKEN_URL					= "http://api.gitrgitr.com/auth/login/facebook";
+	public static final String	MILLICOM_SECONDSCREEN_DAZOO_LOGIN_URL						= "http://api.gitrgitr.com/auth/login/dazoo";
+	public static final String	MILLICOM_SECONDSCREEN_DAZOO_REGISTER_URL					= "http://api.gitrgitr.com/auth/login/dazoo/reqister";
+	public static final String	MILLICOM_SECONDSCREEN_TAGS_PAGE_URL							= "http://api.gitrgitr.com/epg/tags/visible";
+	public static final String	MILLICOM_SECONDSCREEN_MY_CHANNELS_URL						= "http://api.gitrgitr.com/mychannels";
+	public static final String	MILLICOM_SECONDSCREEN_USERS_URL								= "http://api.gitrgitr.com/auth/users";
+	
+	public static final String	MILLICON_SECONDSCREEN_HTTP_SCHEME							= "http";
 
 	// api request strings
-	public static final String	MILLICOM_SECONDSCREEN_API_CHANNEL_ID						= "channelId=";
+	public static final String	MILLICOM_SECONDSCREEN_API_CHANNEL_ID_WITH_EQUALS_SIGN		= "channelId=";
+	public static final String	MILLICOM_SECONDSCREEN_API_CHANNEL_ID						= "channelId";
 	public static final String	MILLICOM_SECONDSCREEN_API_FACEBOOK_TOKEN					= "facebookToken";
 	public static final String	MILLICOM_SECONDSCREEN_API_TOKEN								= "token";
 	public static final String	MILLICOM_SECONDSCREEN_API_USER_ID							= "userId";

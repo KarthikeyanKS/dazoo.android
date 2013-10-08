@@ -523,7 +523,7 @@ public class TVGuideFragment extends SSPageFragment {
 
 	private String getPageUrl(int startPosition, int maxSize, String date) {
 		StringBuilder sB = new StringBuilder();
-		sB.append(Consts.MILLICOM_SECONDSCREEN_GUIDE_PAGE_API);
+		sB.append(Consts.MILLICOM_SECONDSCREEN_GUIDE_PAGE_URL);
 
 		sB.append(Consts.REQUEST_QUERY_SEPARATOR);
 		sB.append(date);
