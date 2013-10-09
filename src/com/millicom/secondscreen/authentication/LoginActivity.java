@@ -3,6 +3,7 @@ package com.millicom.secondscreen.authentication;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -33,6 +34,7 @@ import android.view.WindowManager;
 
 import com.facebook.*;
 import com.facebook.Session.OpenRequest;
+import com.facebook.model.GraphUser;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.utilities.JSONUtilities;
@@ -43,6 +45,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -219,40 +222,27 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 		}
 	}
 
+	public void call(Session session, SessionState state, Exception exception) {
+	}
+
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();
 		switch (id) {
 		case R.id.login_activity_facebook_login_button:
 			// start Facebook Login
-			Session.openActiveSession(this, true, new Session.StatusCallback() {
+			/*
+			 * Session.openActiveSession(this, true, new Session.StatusCallback() {
+			 * 
+			 * // callback when session changes state
+			 * 
+			 * @Override public void call(Session session, SessionState state, Exception exception) { Log.d(TAG, "Session state: " + session.isOpened() + "   " + session.getState()); if (session.isOpened() && session != null) {
+			 * 
+			 * facebookSessionToken = session.getAccessToken(); // Toast.makeText(getApplicationContext(), "FacebookSessionToken:" + facebookSessionToken, Toast.LENGTH_LONG).show(); Log.d(TAG, "FacebookSessionToken:" + facebookSessionToken); getDazooToken(); } else { //
+			 * Toast.makeText(getApplicationContext(), "Public Facebook profile is not available!", Toast.LENGTH_LONG).show(); Log.d(TAG, "!!!!!===Public Facebook profile is not available!===!!!!"); } } });
+			 */
 
-				// callback when session changes state
-				@Override
-				public void call(Session session, SessionState state, Exception exception) {
-					Log.d(TAG, "Session state: " + session.isOpened() + "   " + session.getState());
-					if (session.isOpened() && session != null) {
-
-						// OpenRequest openRequest = new Session.OpenRequest((Activity) context);
-						// openRequest.setLoginBehavior(SessionLoginBehavior.SUPPRESS_SSO);
-						// openRequest.setCallback(null);
-
-						// List<String> permissions = new ArrayList<String>();
-						// permissions.add("email");
-
-						// openRequest.setPermissions(permissions);
-
-						facebookSessionToken = session.getAccessToken();
-						// Toast.makeText(getApplicationContext(), "FacebookSessionToken:" + facebookSessionToken, Toast.LENGTH_LONG).show();
-						Log.d(TAG, "FacebookSessionToken:" + facebookSessionToken);
-						getDazooToken();
-					} else {
-						// Toast.makeText(getApplicationContext(), "Public Facebook profile is not available!", Toast.LENGTH_LONG).show();
-						Log.d(TAG, "!!!!!===Public Facebook profile is not available!===!!!!");
-					}
-				}
-			});
-
+			openActiveSession(this, true, statusCallback);
 			break;
 		case R.id.login_activity_dazoo_login_login_button:
 			if (verifyLoginInput()) {
@@ -305,7 +295,7 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 			((SecondScreenApplication) getApplicationContext()).setUserEmail(Consts.EMPTY_STRING);
 			((SecondScreenApplication) getApplicationContext()).setUserId(Consts.EMPTY_STRING);
 			((SecondScreenApplication) getApplicationContext()).setUserExistringFlag(false);
-			
+
 			startActivity(new Intent(getApplicationContext(), LoginActivity.class));
 			// clear the activity stack
 			finish();
@@ -326,10 +316,10 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 			((SecondScreenApplication) getApplicationContext()).setUserEmail(Consts.EMPTY_STRING);
 			((SecondScreenApplication) getApplicationContext()).setUserId(Consts.EMPTY_STRING);
 			((SecondScreenApplication) getApplicationContext()).setUserExistringFlag(false);
-			
-			Session session = Session.getActiveSession();
-			if (session != null) {
-				session.closeAndClearTokenInformation();
+
+			Session fbSession = Session.getActiveSession();
+			if (fbSession != null) {
+				fbSession.closeAndClearTokenInformation();
 			}
 			startActivity(new Intent(getApplicationContext(), LoginActivity.class));
 			// clear the activity stack
@@ -631,4 +621,42 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 	 * if (response.getStatusLine().getStatusCode() == Consts.BAD_RESPONSE) { Log.d(TAG, "Invalid Token!"); return ""; } } catch (ClientProtocolException e) { System.out.println("CPE" + e); } catch (IOException e) { System.out.println("IOE" + e); } catch (JSONException e) {
 	 * System.out.println("JSONE" + e); } return ""; } }
 	 */
+
+	Session.StatusCallback	statusCallback	= new Session.StatusCallback() {
+		@Override
+		public void call(final Session session, SessionState state, Exception exception) {
+			if (session.isOpened()) {
+				Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
+					@Override
+					public void onCompleted(GraphUser user, Response response) {
+						if (user != null) {
+							// String email = user.getProperty("email").toString();
+
+							facebookSessionToken = session.getAccessToken();
+							Log.d(TAG,"Token from callback" + facebookSessionToken);
+							getDazooToken();
+						}
+					}
+				});
+			}
+		}
+	};
+
+	private static Session openActiveSession(Activity activity, boolean allowLoginUI, Session.StatusCallback statusCallback) {
+		OpenRequest openRequest = new OpenRequest(activity);
+		openRequest.setPermissions(Arrays.asList("user_birthday", "email"));
+		openRequest.setCallback(statusCallback);
+
+		Session session = new Session.Builder(activity).build();
+
+		if (SessionState.CREATED_TOKEN_LOADED.equals(session.getState()) || allowLoginUI) {
+			Session.setActiveSession(session);
+			session.openForRead(openRequest);
+
+			return session;
+		}
+
+		return null;
+	}
+
 }
