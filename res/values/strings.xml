@@ -146,5 +146,9 @@
     <string name="hint_lastname">Last Name</string>
     <string name="login">Login</string>
     
+    <!-- MY CHANNELS PAGE -->
+    <string name="get_my_channels">Get My Channels</string>
+    <string name="add_to_my_channels">Add to My Channels</string>
+    <string name="remove_from_my_channels">Remove from My Channels</string>
   
 </resources>

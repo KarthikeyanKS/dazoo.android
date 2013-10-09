@@ -9,6 +9,10 @@ public abstract class Consts {
 	// Shared preferences
 	public static final String	SHARED_PREFS_MAIN_NAME										= "com.millicom.secondscreen.shared.prefs";
 	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_ACCESS_TOKEN				= "com.millicom.secondscreen.user.account.access.token";
+	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_USER_ID					= "com.millicom.secondscreen.user.account.user.id";
+	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_FIRST_NAME						= "com.millicom.secondscreen.user.first.name";
+	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_LAST_NAME						= "com.millicom.secondscreen.user.last.name";
+	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_EXISTING_FLAG					= "com.millicom.secondscreen.user.existing.flag";
 	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_EMAIL					= "com.millicom.secondscreen.user.account.email";
 	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_PASSWORD					= "com.millicom.secondscreen.user.account.password";
 
@@ -23,7 +27,7 @@ public abstract class Consts {
 	public static final String	MILLICOM_SECONDSCREEN_TAGS_PAGE_URL							= "http://api.gitrgitr.com/epg/tags/visible";
 	public static final String	MILLICOM_SECONDSCREEN_MY_CHANNELS_URL						= "http://api.gitrgitr.com/mychannels";
 	public static final String	MILLICOM_SECONDSCREEN_USERS_URL								= "http://api.gitrgitr.com/auth/users";
-	
+
 	public static final String	MILLICON_SECONDSCREEN_HTTP_SCHEME							= "http";
 
 	// api request strings
@@ -36,6 +40,8 @@ public abstract class Consts {
 	public static final String	MILLICOM_SECONDSCREEN_API_PASSWORD							= "password";
 	public static final String	MILLICOM_SECONDSCREEN_API_FIRSTNAME							= "firstName";
 	public static final String	MILLICOM_SECONDSCREEN_API_LASTNAME							= "lastName";
+	public static final String	MILLICOM_SECONDSCREEN_API_CREATED							= "created";
+	public static final String	MILLICOM_SECONDSCREEN_API_USER								= "user";
 	public static final String	REQUEST_QUERY_AND											= "&";
 	public static final String	REQUEST_QUERY_SEPARATOR										= "/";
 	public static final String	REQUEST_PARAMETER_SEPARATOR									= "?";
@@ -110,7 +116,7 @@ public abstract class Consts {
 	public static final int		GOOD_RESPONSE						= 200;
 	public static final int		BAD_RESPONSE						= 400;
 
-	// CONTENT
+	// =========================== CONTENT ================================
 
 	// PROGRAM fields:
 	public static final String	DAZOO_PROGRAM_HREF					= "href";

@@ -22,4 +22,16 @@ public class JSONUtilities {
 		}
 		return jsonArray.toString();
 	}
+	
+	public static final JSONObject createJSONObjectWithKeysValues(ArrayList<String> keys, ArrayList<String> values){
+		JSONObject holder = new JSONObject();
+		for(int i=0; i<keys.size(); i++){
+			try {
+				holder.put(keys.get(i), values.get(i));
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return holder;
+	}
 }

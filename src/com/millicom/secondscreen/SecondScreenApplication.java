@@ -121,6 +121,71 @@ public class SecondScreenApplication extends Application {
 		return sSharedPreferences.getString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_PASSWORD, "");
 	}
 	
+	/**
+	 * Store user first name
+	 */
+	public void setUserFirstName(String firstName){
+		editor = sSharedPreferences.edit();
+		editor.putString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_FIRST_NAME, firstName);
+		editor.commit();
+	}
+	
+	/**
+	 * Get user first name
+	 */
+	public String getUserFirstName(){
+		return sSharedPreferences.getString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_FIRST_NAME, "");
+	}
+	
+	/**
+	 * Store user last name
+	 */
+	public void setUserLastName(String lastName){
+		editor = sSharedPreferences.edit();
+		editor.putString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_LAST_NAME, lastName);
+		editor.commit();
+	}
+	
+	/**
+	 * Get user last name
+	 */
+	public String getUserLastName(){
+		return sSharedPreferences.getString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_LAST_NAME, "");
+	}
+	
+	/**
+	 * Store user id
+	 */
+	public void setUserId(String id){
+		editor = sSharedPreferences.edit();
+		editor.putString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_USER_ID, id);
+		editor.commit();
+	}
+	
+	/**
+	 * Get user id
+	 */
+	public String getUserId(){
+		return sSharedPreferences.getString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_USER_ID, "");
+	}
+	
+	
+	/**
+	 * Set user existing flag
+	 */
+	public void setUserExistringFlag(boolean flag){
+		editor = sSharedPreferences.edit();
+		editor.putBoolean(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_EXISTING_FLAG, flag);
+		editor.commit();
+	}
+	
+	/**
+	 * Get user existing flag
+	 */
+	public boolean getUserExistringFlag(){
+		return sSharedPreferences.getBoolean(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_EXISTING_FLAG, false);
+	}
+	
 	
 	/**
 	 * Calculate the sizes of the image thumbnails that are used across the app.

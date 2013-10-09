@@ -5,12 +5,44 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/white" >
-
-    <TextView
+    
+    <com.millicom.secondscreen.customviews.FontButton
+        android:id="@+id/mychannels_get_channels_button"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:cacheColorHint="@null"
-        android:text="Here will be the My channels layout"
-        android:textSize="16sp" />
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="45dp"
+        android:background="@color/light_gray"
+        android:padding="10dp"
+        android:text="@string/get_my_channels" />
+
+    <com.millicom.secondscreen.customviews.FontButton
+        android:id="@+id/mychannels_add_channels_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/mychannels_get_channels_button"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/light_gray"
+        android:padding="10dp"
+        android:text="@string/add_to_my_channels" />
+    
+    <com.millicom.secondscreen.customviews.FontButton
+        android:id="@+id/mychannels_remove_channels_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/mychannels_add_channels_button"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/light_gray"
+        android:padding="10dp"
+        android:text="@string/remove_from_my_channels" />
 
 </RelativeLayout>
