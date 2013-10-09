@@ -10,9 +10,9 @@ public abstract class Consts {
 	public static final String	SHARED_PREFS_MAIN_NAME										= "com.millicom.secondscreen.shared.prefs";
 	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_ACCESS_TOKEN				= "com.millicom.secondscreen.user.account.access.token";
 	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_USER_ID					= "com.millicom.secondscreen.user.account.user.id";
-	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_FIRST_NAME						= "com.millicom.secondscreen.user.first.name";
-	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_LAST_NAME						= "com.millicom.secondscreen.user.last.name";
-	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_EXISTING_FLAG					= "com.millicom.secondscreen.user.existing.flag";
+	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_FIRST_NAME				= "com.millicom.secondscreen.user.first.name";
+	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_LAST_NAME				= "com.millicom.secondscreen.user.last.name";
+	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_EXISTING_FLAG			= "com.millicom.secondscreen.user.existing.flag";
 	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_EMAIL					= "com.millicom.secondscreen.user.account.email";
 	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_PASSWORD					= "com.millicom.secondscreen.user.account.password";
 
@@ -45,6 +45,8 @@ public abstract class Consts {
 	public static final String	REQUEST_QUERY_AND											= "&";
 	public static final String	REQUEST_QUERY_SEPARATOR										= "/";
 	public static final String	REQUEST_PARAMETER_SEPARATOR									= "?";
+
+	public static final String	EMPTY_STRING												= "";
 
 	// restrictions
 	public static final int		MILLICOM_SECONDSCREEN_TVGUIDE_NUMBER_OF_ITEMS_PER_CHANNEL	= 3;

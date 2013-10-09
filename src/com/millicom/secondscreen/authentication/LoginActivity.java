@@ -299,7 +299,13 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 			break;
 
 		case R.id.login_activity_dazoo_login_logout_button:
-			((SecondScreenApplication) getApplicationContext()).setAccessToken("");
+			((SecondScreenApplication) getApplicationContext()).setAccessToken(Consts.EMPTY_STRING);
+			((SecondScreenApplication) getApplicationContext()).setUserFirstName(Consts.EMPTY_STRING);
+			((SecondScreenApplication) getApplicationContext()).setUserLastName(Consts.EMPTY_STRING);
+			((SecondScreenApplication) getApplicationContext()).setUserEmail(Consts.EMPTY_STRING);
+			((SecondScreenApplication) getApplicationContext()).setUserId(Consts.EMPTY_STRING);
+			((SecondScreenApplication) getApplicationContext()).setUserExistringFlag(false);
+			
 			startActivity(new Intent(getApplicationContext(), LoginActivity.class));
 			// clear the activity stack
 			finish();
@@ -314,7 +320,13 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 
 			break;
 		case R.id.login_activity_facebook_logout_button:
-			((SecondScreenApplication) getApplicationContext()).setAccessToken("");
+			((SecondScreenApplication) getApplicationContext()).setAccessToken(Consts.EMPTY_STRING);
+			((SecondScreenApplication) getApplicationContext()).setUserFirstName(Consts.EMPTY_STRING);
+			((SecondScreenApplication) getApplicationContext()).setUserLastName(Consts.EMPTY_STRING);
+			((SecondScreenApplication) getApplicationContext()).setUserEmail(Consts.EMPTY_STRING);
+			((SecondScreenApplication) getApplicationContext()).setUserId(Consts.EMPTY_STRING);
+			((SecondScreenApplication) getApplicationContext()).setUserExistringFlag(false);
+			
 			Session session = Session.getActiveSession();
 			if (session != null) {
 				session.closeAndClearTokenInformation();
