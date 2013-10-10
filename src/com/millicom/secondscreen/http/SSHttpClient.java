@@ -20,8 +20,10 @@ import org.apache.http.protocol.HttpContext;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.annotation.TargetApi;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
 
 import com.damnhandy.uri.template.UriTemplate;
@@ -30,8 +32,8 @@ public class SSHttpClient<T_Result> {
 
 	private static final String				TAG					= "SSHttpClient";
 
-	//private static HttpClient				sHttpClient			= null;
-	private HttpClient sHttpClient = null;
+	// private static HttpClient sHttpClient = null;
+	private HttpClient						sHttpClient			= null;
 	private static HttpContext				sHttpContext		= null;
 
 	private SSHttpClientGetTask				mHttpClientGetTask	= null;
@@ -55,12 +57,13 @@ public class SSHttpClient<T_Result> {
 		// If we have a get task
 		if (mHttpClientGetTask != null) {
 			// Cancel it
-			
-			Log.d(TAG,"will cancel request");
+
+			Log.d(TAG, "will cancel request");
 			mHttpClientGetTask.cancelRequest();
 		}
 	}
 
+	@TargetApi(11)
 	public boolean doHttpGet(String uri, SSHttpClientCallback<T_Result> httpClientCallback) {
 
 		mHttpClientCallback = httpClientCallback;
@@ -71,7 +74,11 @@ public class SSHttpClient<T_Result> {
 		Log.d(TAG, "Get uri : " + template.expand());
 
 		// Do http get in background
-		mHttpClientGetTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, template.expand());
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			mHttpClientGetTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, template.expand());
+		} else {
+			mHttpClientGetTask.execute(template.expand());
+		}
 		return true;
 	}
 
@@ -81,7 +88,7 @@ public class SSHttpClient<T_Result> {
 		protected ReentrantLock	mLock		= new ReentrantLock();
 
 		public void cancelRequest() {
-			Log.d(TAG,"cancel request!!");
+			Log.d(TAG, "cancel request!!");
 			mLock.lock();
 			// Critical section
 			try {
@@ -89,7 +96,7 @@ public class SSHttpClient<T_Result> {
 				cancel(true);
 				// If we have a http get request
 				if (mHttpGet != null) {
-					Log.d(TAG,"abort request!!!");
+					Log.d(TAG, "abort request!!!");
 					// Abort it
 					mHttpGet.abort();
 				}
@@ -151,7 +158,7 @@ public class SSHttpClient<T_Result> {
 								if (responseStream != null) {
 									responseStream.close();
 								}
-								Log.d(TAG,"Release the response content");
+								Log.d(TAG, "Release the response content");
 								// Release the response content
 								httpResponseEntity.consumeContent();
 							}
@@ -202,8 +209,7 @@ public class SSHttpClient<T_Result> {
 			if (sHttpClient == null) {
 				// Create the android http client
 				// sHttpClient = AndroidHttpClient.newInstance("Android");
-				
-				
+
 				sHttpClient = new DefaultHttpClient();
 
 				// Create the http context to be used by the client while executing requests
