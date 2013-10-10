@@ -15,6 +15,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,6 +30,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 	private ArrayList<Broadcast>	mFollowingBroadcasts;
 
 	private ImageLoader				mImageLoader;
+	private int mLastPosition = -1;
 
 	public ChannelPageListAdapter(Activity activity, ArrayList<Broadcast> followingBroadcasts) {
 		this.mFollowingBroadcasts = followingBroadcasts;
@@ -94,6 +97,21 @@ public class ChannelPageListAdapter extends BaseAdapter {
 			holder.mTimeTv.setText("");
 			holder.mTitleTv.setText("");
 		}
+		
+		 // animate the item
+        TranslateAnimation animation = null;
+        if (position > mLastPosition) {
+            animation = new TranslateAnimation(
+                Animation.RELATIVE_TO_SELF,
+                0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
+                Animation.RELATIVE_TO_SELF, 1.0f,
+                Animation.RELATIVE_TO_SELF, 0.0f);
+
+            animation.setDuration(1000);
+            rowView.startAnimation(animation);
+            mLastPosition = position;
+        }
+		
 		return rowView;
 	}
 

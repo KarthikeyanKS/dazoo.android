@@ -8,11 +8,14 @@ import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBar.Tab;
+import android.support.v7.app.ActionBar.TabListener;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -44,7 +47,7 @@ import com.millicom.secondscreen.content.search.SearchPageActivity;
 import com.millicom.secondscreen.content.tvguide.TVGuideFragment;
 import com.millicom.secondscreen.content.tvguide.TVGuideFragmentContainer;
 
-public class HomePageActivity extends SSPageFragmentActivity implements View.OnClickListener {
+public class HomePageActivity extends SSPageFragmentActivity implements View.OnClickListener{
 
 	private static final String	TAG			= "HomePageActivity";
 	private TextView			mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed, mTxtTabMore;
@@ -96,18 +99,20 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
 
 		mActionBar.hide();
-
 		super.initCallbackLayouts();
 	}
 
 	//private void initActionBarTvGuide(boolean isDateData, boolean isProgramTypesData) {
 	private void initActionBarTvGuide(boolean isDateData){
 		mActionBar.show();
+		
 		mActionBar.setDisplayShowTitleEnabled(false);
 		mActionBar.setDisplayShowCustomEnabled(true);
 		mActionBar.setDisplayUseLogoEnabled(false);
 		mActionBar.setDisplayShowHomeEnabled(false);
 		mActionBar.setCustomView(R.layout.layout_actionbar_homepage);
+		
+		
 
 		/*
 		 * if (isProgramTypesData == true) { final Spinner categorySpinner = (Spinner) findViewById(R.id.actionbar_homepage_category_spinner); categorySpinner.setVisibility(View.VISIBLE);
@@ -165,14 +170,14 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 		mActionBar.setDisplayUseLogoEnabled(false);
 		mActionBar.setDisplayShowHomeEnabled(false);
 		mActionBar.setCustomView(R.layout.layout_actionbar_activitypage);
-
+		
 		final TextView title = (TextView) findViewById(R.id.actionbar_activitypage_title_tv);
 		title.setText(getResources().getString(R.string.activity_page_title));
 
 		final ImageView searchButton = (ImageView) findViewById(R.id.actionbar_activitypage_search_icon);
 		searchButton.setOnClickListener(new View.OnClickListener() {
 
-			@Override
+		@Override
 			public void onClick(View arg0) {
 				// move to the search page
 				Intent toSearchPage = new Intent(HomePageActivity.this, SearchPageActivity.class);
@@ -213,6 +218,7 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 	void showTVGuide() {
 		// initActionBarTvGuide(isDateData, isProgramTypesData);
 		//initActionBarTvGuide(isDateData, isTagsData);
+	
 		initActionBarTvGuide(isDateData);
 		
 		// mTabSelectorContainerView.setBackgroundResource();

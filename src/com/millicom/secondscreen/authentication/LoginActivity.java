@@ -289,6 +289,8 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 					} else {
 						Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with us. Please, try again later!", Toast.LENGTH_SHORT).show();
 						Log.d(TAG, "Error! Dazoo Login: level response from backend");
+						mEmailLoginEditText.setEnabled(true);
+						mPasswordLoginEditText.setEnabled(true);
 					}
 
 				} catch (InterruptedException e) {
@@ -364,6 +366,11 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 					} else {
 						Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with us. Please, try again later!", Toast.LENGTH_SHORT).show();
 						Log.d(TAG, "Error! Dazoo Login: level response from backend");
+						mFirstNameEditText.setEnabled(true);
+						mLastNameEditText.setEnabled(true);
+						mEmailRegisterEditText.setEnabled(true);
+						mPasswordRegisterEditText.setEnabled(true);
+						mPasswordRegisterVerifyEditText.setEnabled(true);
 					}
 				} catch (InterruptedException e) {
 					e.printStackTrace();

@@ -24,6 +24,5 @@ public class ActivityFragment extends Fragment{
 		
 		return mRootView;
 	}
-	
 }
 
