@@ -409,7 +409,7 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 				// // Set verifier // HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
 
 				HttpClient client = new DefaultHttpClient();
-				HttpPost httpPost = new HttpPost(Consts.MILLICOM_SECONDSCREEN_FACEBOOK_TOKEN_URL);
+				HttpPost httpPost = new HttpPost(Consts.MILLICOM_SECONDSCREEN_DAZOO_LOGIN_URL);
 				JSONObject holder = JSONUtilities.createJSONObjectWithKeysValues(Arrays.asList(Consts.MILLICOM_SECONDSCREEN_API_EMAIL, Consts.MILLICOM_SECONDSCREEN_API_PASSWORD),
 						Arrays.asList(params[0], params[1]));
 
