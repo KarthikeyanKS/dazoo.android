@@ -186,6 +186,21 @@ public class SecondScreenApplication extends Application {
 		return sSharedPreferences.getBoolean(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_EXISTING_FLAG, false);
 	}
 	
+	/**
+	 * Set user's list of My Channels as json-string
+	 */
+	public void setUserMyChannelsIdsasJSON(String jsonString){
+		editor = sSharedPreferences.edit();
+		editor.putString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_MY_CHANNELS_IDS_JSON, jsonString);
+		editor.commit();
+	}
+	
+	/**
+	 * Get user's list of My Channels as json-string
+	 */
+	public String getUserMyChannelsIdsJSON(){
+		return sSharedPreferences.getString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_MY_CHANNELS_IDS_JSON,"");
+	}
 	
 	/**
 	 * Calculate the sizes of the image thumbnails that are used across the app.

@@ -58,12 +58,11 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 
 	private static final String	TAG	= "LoginActivity";
 
-	private Button				mFacebookLoginButton, mDazooLoginButton, mDazooLogoutButton, mFacebookLogoutButton, mDazooRegisterButton;
+	private Button				mFacebookLoginButton, mDazooLoginButton, mDazooLogoutButton, mDazooRegisterButton;
 	private String				facebookToken	= "", facebookSessionToken = "", dazooToken = "", userToken = "", userId = "", userEmailLogin, userPasswordLogin, userEmailRegister,
 			userPasswordRegister, userFirstNameRegister, userLastNameRegister;
 	private EditText			mEmailLoginEditText, mPasswordLoginEditText, mFirstNameEditText, mLastNameEditText, mPasswordRegisterEditText, mPasswordRegisterVerifyEditText, mEmailRegisterEditText;
 	private ActionBar			mActionBar;
-	private Context				context;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -73,8 +72,6 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 
 		mFacebookLoginButton = (Button) findViewById(R.id.login_activity_facebook_login_button);
 		mFacebookLoginButton.setOnClickListener(this);
-		mFacebookLogoutButton = (Button) findViewById(R.id.login_activity_facebook_logout_button);
-		mFacebookLogoutButton.setOnClickListener(this);
 
 		mDazooLoginButton = (Button) findViewById(R.id.login_activity_dazoo_login_login_button);
 		mDazooLoginButton.setOnClickListener(this);
@@ -109,8 +106,6 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 
 		final ImageView searchButton = (ImageView) findViewById(R.id.actionbar_mepage_search_icon);
 		searchButton.setVisibility(View.GONE);
-
-		context = getBaseContext();
 
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 	}
@@ -219,10 +214,40 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
+		} else {
+			Toast.makeText(getApplicationContext(), "Error! Something went wrong while authorization via Facebook. Please, try again!", Toast.LENGTH_SHORT).show();
+			Log.d(TAG, "Error! Facebook authorization: level get Token from Facebook");
 		}
 	}
 
-	public void call(Session session, SessionState state, Exception exception) {
+	Session.StatusCallback	statusCallback	= new Session.StatusCallback() {
+		@Override
+		public void call(final Session session, SessionState state, Exception exception) {
+			if (session.isOpened()) {
+				Request.newMeRequest(session, new Request.GraphUserCallback() {
+					@Override
+					public void onCompleted(GraphUser user, Response response) {
+						if (user != null) {
+							facebookSessionToken = session.getAccessToken();
+							getDazooToken();
+						}
+					}
+				}).executeAsync();
+			}
+		}
+	};
+
+	private static Session openFacebookSession(Activity activity, boolean allowLoginUI, Session.StatusCallback statusCallback) {
+		OpenRequest openRequest = new OpenRequest(activity);
+		openRequest.setPermissions(Arrays.asList("email"));
+		openRequest.setCallback(statusCallback);
+		Session session = new Session.Builder(activity).build();
+		if (SessionState.CREATED_TOKEN_LOADED.equals(session.getState()) || allowLoginUI) {
+			Session.setActiveSession(session);
+			session.openForRead(openRequest);
+			return session;
+		}
+		return null;
 	}
 
 	@Override
@@ -230,19 +255,7 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 		int id = v.getId();
 		switch (id) {
 		case R.id.login_activity_facebook_login_button:
-			// start Facebook Login
-			/*
-			 * Session.openActiveSession(this, true, new Session.StatusCallback() {
-			 * 
-			 * // callback when session changes state
-			 * 
-			 * @Override public void call(Session session, SessionState state, Exception exception) { Log.d(TAG, "Session state: " + session.isOpened() + "   " + session.getState()); if (session.isOpened() && session != null) {
-			 * 
-			 * facebookSessionToken = session.getAccessToken(); // Toast.makeText(getApplicationContext(), "FacebookSessionToken:" + facebookSessionToken, Toast.LENGTH_LONG).show(); Log.d(TAG, "FacebookSessionToken:" + facebookSessionToken); getDazooToken(); } else { //
-			 * Toast.makeText(getApplicationContext(), "Public Facebook profile is not available!", Toast.LENGTH_LONG).show(); Log.d(TAG, "!!!!!===Public Facebook profile is not available!===!!!!"); } } });
-			 */
-
-			openActiveSession(this, true, statusCallback);
+			openFacebookSession(this, true, statusCallback);
 			break;
 		case R.id.login_activity_dazoo_login_login_button:
 			if (verifyLoginInput()) {
@@ -273,7 +286,11 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 						} else {
 							Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with us. Please, try again later!", Toast.LENGTH_SHORT).show();
 						}
+					} else {
+						Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with us. Please, try again later!", Toast.LENGTH_SHORT).show();
+						Log.d(TAG, "Error! Dazoo Login: level response from backend");
 					}
+
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				} catch (ExecutionException e) {
@@ -303,34 +320,9 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 			// check if the token was really cleared
 			String dazooToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 			if (dazooToken.isEmpty() == true) {
-				Toast.makeText(getApplicationContext(), "Logged out from Dazoo", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
 			} else {
 				Log.d(TAG, "Log out from Dazoo failed");
-			}
-
-			break;
-		case R.id.login_activity_facebook_logout_button:
-			((SecondScreenApplication) getApplicationContext()).setAccessToken(Consts.EMPTY_STRING);
-			((SecondScreenApplication) getApplicationContext()).setUserFirstName(Consts.EMPTY_STRING);
-			((SecondScreenApplication) getApplicationContext()).setUserLastName(Consts.EMPTY_STRING);
-			((SecondScreenApplication) getApplicationContext()).setUserEmail(Consts.EMPTY_STRING);
-			((SecondScreenApplication) getApplicationContext()).setUserId(Consts.EMPTY_STRING);
-			((SecondScreenApplication) getApplicationContext()).setUserExistringFlag(false);
-
-			Session fbSession = Session.getActiveSession();
-			if (fbSession != null) {
-				fbSession.closeAndClearTokenInformation();
-			}
-			startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-			// clear the activity stack
-			finish();
-
-			// check if the token was really cleared
-			String facebookToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
-			if (facebookToken.isEmpty() == true) {
-				Toast.makeText(getApplicationContext(), "Logged out from Facebook", Toast.LENGTH_SHORT).show();
-			} else {
-				Log.d(TAG, "Log out from Facebook failed");
 			}
 
 			break;
@@ -369,6 +361,9 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 						} else {
 							Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with Dazoo. Please, try again later!", Toast.LENGTH_LONG).show();
 						}
+					} else {
+						Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with us. Please, try again later!", Toast.LENGTH_SHORT).show();
+						Log.d(TAG, "Error! Dazoo Login: level response from backend");
 					}
 				} catch (InterruptedException e) {
 					e.printStackTrace();
@@ -394,26 +389,22 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 		@Override
 		protected String doInBackground(String... params) {
 			try {
+
+				// TODO: UNCOMMENT WHEN BACKEND MAKE SECURE REQUESTS WITH HTTPS
+
+				// HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
+				// SchemeRegistry registry = new SchemeRegistry();
+				// SSLSocketFactory socketFactory = SSLSocketFactory.getSocketFactory();
+				// socketFactory.setHostnameVerifier((X509HostnameVerifier)hostnameVerifier);
+				// registry.register(new Scheme(Costs.MILLICON_SECONDSCREEN_HTTP_SCHEME, socketFactory, 443));
+				// SingleClientConnManager mgr = new SingleClientConnManager(client.getParams(), registry);
+				// DefaultHttpClient httpClient = new DefaultHttpClient(mgr, client.getParams());
+				// // Set verifier // HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
+
 				HttpClient client = new DefaultHttpClient();
 				HttpPost httpPost = new HttpPost(Consts.MILLICOM_SECONDSCREEN_FACEBOOK_TOKEN_URL);
-
-				String email = params[0];
-				String password = params[1];
-
-				List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(2);
-				nameValuePair.add(new BasicNameValuePair(Consts.MILLICOM_SECONDSCREEN_API_EMAIL, email));
-				nameValuePair.add(new BasicNameValuePair(Consts.MILLICOM_SECONDSCREEN_API_PASSWORD, password));
-
-				ArrayList<String> keys = new ArrayList<String>();
-				keys.add(Consts.MILLICOM_SECONDSCREEN_API_EMAIL);
-				keys.add(Consts.MILLICOM_SECONDSCREEN_API_PASSWORD);
-
-				ArrayList<String> values = new ArrayList<String>();
-				values.add(email);
-				values.add(password);
-
-				JSONObject holder = JSONUtilities.createJSONObjectWithKeysValues(keys, values);
-				Log.d(TAG, "JSON Holder:" + holder.toString());
+				JSONObject holder = JSONUtilities.createJSONObjectWithKeysValues(Arrays.asList(Consts.MILLICOM_SECONDSCREEN_API_EMAIL, Consts.MILLICOM_SECONDSCREEN_API_PASSWORD),
+						Arrays.asList(params[0], params[1]));
 
 				StringEntity entity = new StringEntity(holder.toString());
 
@@ -421,13 +412,15 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 				httpPost.setHeader("Accept", "application/json");
 				httpPost.setHeader("Content-type", "application/json");
 
+				// HttpResponse response = httpClient.execute(httpPost);
+
 				HttpResponse response = client.execute(httpPost);
 				if (response.getStatusLine().getStatusCode() == Consts.GOOD_RESPONSE) {
 					String responseBody = EntityUtils.toString(response.getEntity());
 					return responseBody;
 				} else if (response.getStatusLine().getStatusCode() == Consts.BAD_RESPONSE) {
 					Log.d(TAG, "Invalid Token!");
-					return "";
+					return Consts.EMPTY_STRING;
 				}
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
@@ -436,37 +429,10 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			return "";
+			return Consts.EMPTY_STRING;
 		}
 	}
-
-	/*
-	 * private class DazooLoginTask extends AsyncTask<String, Void, String> {
-	 * 
-	 * @Override protected String doInBackground(String... params) { try { HttpClient client = new DefaultHttpClient();
-	 * 
-	 * // TODO: UNCOMMENT WHEN BACKEND MAKE SECURE REQUESTS WITH HTTPS
-	 * 
-	 * // HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER; // SchemeRegistry registry = new SchemeRegistry(); // SSLSocketFactory socketFactory = SSLSocketFactory.getSocketFactory(); // socketFactory.setHostnameVerifier((X509HostnameVerifier)
-	 * hostnameVerifier); // registry.register(new Scheme("http", socketFactory, 443)); // SingleClientConnManager mgr = new SingleClientConnManager(client.getParams(), registry); // DefaultHttpClient httpClient = new DefaultHttpClient(mgr, client.getParams());
-	 * 
-	 * // // Set verifier // HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
-	 * 
-	 * HttpPost httpPost = new HttpPost(Consts.MILLICOM_SECONDSCREEN_DAZOO_LOGIN_URL); // httpPost.setHeader("Content-type", "application/json; charset=utf-8");
-	 * 
-	 * String email = params[0]; String password = params[1];
-	 * 
-	 * List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(2); nameValuePair.add(new BasicNameValuePair(Consts.MILLICOM_SECONDSCREEN_API_EMAIL, email)); nameValuePair.add(new BasicNameValuePair(Consts.MILLICOM_SECONDSCREEN_API_PASSWORD, password));
-	 * 
-	 * httpPost.setEntity(new UrlEncodedFormEntity(nameValuePair));
-	 * 
-	 * // HttpResponse response = httpClient.execute(httpPost); HttpResponse response = client.execute(httpPost); // <-- REMOVE WHEN HTTPS
-	 * 
-	 * if (response.getStatusLine().getStatusCode() == Consts.GOOD_RESPONSE) { String responseBody = EntityUtils.toString(response.getEntity()); JSONObject jsonResponse = new JSONObject(responseBody); String token = jsonResponse.getString(Consts.MILLICOM_SECONDSCREEN_API_TOKEN); return token; } else
-	 * if (response.getStatusLine().getStatusCode() == Consts.BAD_RESPONSE) { // Toast.makeText(getApplicationContext(), "This combination of password and email does not exist at ours", Toast.LENGTH_LONG).show(); Log.d(TAG, "Invalid token"); return ""; } } catch (ClientProtocolException e) {
-	 * System.out.println("CPE" + e); } catch (IOException e) { System.out.println("IOE" + e); } catch (JSONException e) { System.out.println("JSONE" + e); } return ""; } }
-	 */
-
+	
 	private class DazooRegistrationTask extends AsyncTask<String, Void, String> {
 
 		@Override
@@ -475,25 +441,8 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 				HttpClient client = new DefaultHttpClient();
 				HttpPost httpPost = new HttpPost(Consts.MILLICOM_SECONDSCREEN_DAZOO_REGISTER_URL);
 
-				String email = params[0];
-				String password = params[1];
-				String firstName = params[2];
-				String lastName = params[3];
-
-				ArrayList<String> keys = new ArrayList<String>();
-				keys.add(Consts.MILLICOM_SECONDSCREEN_API_EMAIL);
-				keys.add(Consts.MILLICOM_SECONDSCREEN_API_PASSWORD);
-				keys.add(Consts.MILLICOM_SECONDSCREEN_API_FIRSTNAME);
-				keys.add(Consts.MILLICOM_SECONDSCREEN_API_LASTNAME);
-
-				ArrayList<String> values = new ArrayList<String>();
-				values.add(email);
-				values.add(password);
-				values.add(firstName);
-				values.add(lastName);
-
-				JSONObject holder = JSONUtilities.createJSONObjectWithKeysValues(keys, values);
-				Log.d(TAG, "JSON Holder:" + holder.toString());
+				JSONObject holder = JSONUtilities.createJSONObjectWithKeysValues(Arrays.asList(Consts.MILLICOM_SECONDSCREEN_API_EMAIL, Consts.MILLICOM_SECONDSCREEN_API_PASSWORD,
+						Consts.MILLICOM_SECONDSCREEN_API_FIRSTNAME, Consts.MILLICOM_SECONDSCREEN_API_LASTNAME), Arrays.asList(params[0], params[1], params[2], params[3]));
 
 				StringEntity entity = new StringEntity(holder.toString());
 
@@ -507,7 +456,7 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 					return responseBody;
 				} else if (response.getStatusLine().getStatusCode() == Consts.BAD_RESPONSE) {
 					Log.d(TAG, "Invalid Token!");
-					return "";
+					return Consts.EMPTY_STRING;
 				}
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
@@ -516,39 +465,9 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			return "";
+			return Consts.EMPTY_STRING;
 		}
 	}
-
-	/*
-	 * private class DazooRegistrationTask extends AsyncTask<String, Void, String> {
-	 * 
-	 * @Override protected String doInBackground(String... params) { try {
-	 * 
-	 * HttpClient client = new DefaultHttpClient();
-	 * 
-	 * // TODO: UNCOMMENT WHEN BACKEND MAKE SECURE REQUESTS WITH HTTPS
-	 * 
-	 * // HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER; // SchemeRegistry registry = new SchemeRegistry(); // SSLSocketFactory socketFactory = SSLSocketFactory.getSocketFactory(); // socketFactory.setHostnameVerifier((X509HostnameVerifier)
-	 * hostnameVerifier); // registry.register(new Scheme("http", socketFactory, 443)); // SingleClientConnManager mgr = new SingleClientConnManager(client.getParams(), registry); // DefaultHttpClient httpClient = new DefaultHttpClient(mgr, client.getParams());
-	 * 
-	 * // // Set verifier // HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
-	 * 
-	 * HttpPost httpPost = new HttpPost(Consts.MILLICOM_SECONDSCREEN_DAZOO_REGISTER_URL); httpPost.setHeader("Accept", "application/json");
-	 * 
-	 * String email = params[0]; String password = params[1]; String firstName = params[2]; String lastName = params[3];
-	 * 
-	 * List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(4); nameValuePair.add(new BasicNameValuePair(Consts.MILLICOM_SECONDSCREEN_API_EMAIL, email)); nameValuePair.add(new BasicNameValuePair(Consts.MILLICOM_SECONDSCREEN_API_PASSWORD, password)); nameValuePair.add(new
-	 * BasicNameValuePair(Consts.MILLICOM_SECONDSCREEN_API_FIRSTNAME, firstName)); nameValuePair.add(new BasicNameValuePair(Consts.MILLICOM_SECONDSCREEN_API_LASTNAME, lastName));
-	 * 
-	 * httpPost.setEntity(new UrlEncodedFormEntity(nameValuePair));
-	 * 
-	 * // HttpResponse response = httpClient.execute(httpPost); HttpResponse response = client.execute(httpPost); // <-- REMOVE WHEN HTTPS
-	 * 
-	 * if (response.getStatusLine().getStatusCode() == Consts.GOOD_RESPONSE) { String responseBody = EntityUtils.toString(response.getEntity()); JSONObject jObj = new JSONObject(responseBody); String responseToken = jObj.getString(Consts.MILLICOM_SECONDSCREEN_API_TOKEN); return responseToken; } else
-	 * if (response.getStatusLine().getStatusCode() == Consts.BAD_RESPONSE) { Toast.makeText(getApplicationContext(), "Registration Failed", Toast.LENGTH_LONG).show(); return ""; } } catch (ClientProtocolException e) { System.out.println("CPE" + e); } catch (IOException e) { System.out.println("IOE"
-	 * + e); } catch (JSONException e) { System.out.println("JSONE" + e); } return ""; } }
-	 */
 
 	private class FacebookLoginTask extends AsyncTask<String, Void, String> {
 
@@ -557,16 +476,7 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 			try {
 				HttpClient client = new DefaultHttpClient();
 				HttpPost httpPost = new HttpPost(Consts.MILLICOM_SECONDSCREEN_FACEBOOK_TOKEN_URL);
-
-				ArrayList<String> keys = new ArrayList<String>();
-				keys.add(Consts.MILLICOM_SECONDSCREEN_API_FACEBOOK_TOKEN);
-
-				String token = params[0];
-				ArrayList<String> values = new ArrayList<String>();
-				values.add(token);
-
-				JSONObject holder = JSONUtilities.createJSONObjectWithKeysValues(keys, values);
-				Log.d(TAG, "JSON Holder:" + holder.toString());
+				JSONObject holder = JSONUtilities.createJSONObjectWithKeysValues(Arrays.asList(Consts.MILLICOM_SECONDSCREEN_API_FACEBOOK_TOKEN), Arrays.asList(params[0]));
 
 				StringEntity entity = new StringEntity(holder.toString());
 
@@ -583,7 +493,7 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 					return responseBody;
 				} else if (response.getStatusLine().getStatusCode() == Consts.BAD_RESPONSE) {
 					Log.d(TAG, "Invalid Token!");
-					return "";
+					return Consts.EMPTY_STRING;
 				}
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
@@ -592,71 +502,7 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			return "";
+			return Consts.EMPTY_STRING;
 		}
-
 	}
-
-	/*
-	 * private class FacebookLoginTask extends AsyncTask<String, Void, String> {
-	 * 
-	 * @Override protected String doInBackground(String... params) { try { HttpClient client = new DefaultHttpClient();
-	 * 
-	 * // TODO : UNCOMMENT WHEN BACKEND MAKE SECURE REQUESTS WITH HTTPS
-	 * 
-	 * // HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER; // SchemeRegistry registry = new SchemeRegistry(); // SSLSocketFactory socketFactory = SSLSocketFactory.getSocketFactory(); // socketFactory.setHostnameVerifier((X509HostnameVerifier)
-	 * hostnameVerifier); // registry.register(new Scheme("http", socketFactory, 443)); // SingleClientConnManager mgr = new SingleClientConnManager(client.getParams(), registry); // DefaultHttpClient httpClient = new DefaultHttpClient(mgr, client.getParams());
-	 * 
-	 * // // Set verifier // HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
-	 * 
-	 * HttpPost httpPost = new HttpPost(Consts.MILLICOM_SECONDSCREEN_FACEBOOK_TOKEN_URL); httpPost.setHeader("Accept", "application/json"); String token = params[0];
-	 * 
-	 * List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(1); nameValuePair.add(new BasicNameValuePair(Consts.MILLICOM_SECONDSCREEN_API_FACEBOOK_TOKEN, token));
-	 * 
-	 * httpPost.setEntity(new UrlEncodedFormEntity(nameValuePair));
-	 * 
-	 * // HttpResponse response = httpClient.execute(httpPost); HttpResponse response = client.execute(httpPost); // <-- REMOVE WHEN HTTPS
-	 * 
-	 * if (response.getStatusLine().getStatusCode() == Consts.GOOD_RESPONSE) { String responseBody = EntityUtils.toString(response.getEntity()); JSONObject jObj = new JSONObject(responseBody); String responseToken = jObj.getString(Consts.MILLICOM_SECONDSCREEN_API_TOKEN); return responseToken; } else
-	 * if (response.getStatusLine().getStatusCode() == Consts.BAD_RESPONSE) { Log.d(TAG, "Invalid Token!"); return ""; } } catch (ClientProtocolException e) { System.out.println("CPE" + e); } catch (IOException e) { System.out.println("IOE" + e); } catch (JSONException e) {
-	 * System.out.println("JSONE" + e); } return ""; } }
-	 */
-
-	Session.StatusCallback	statusCallback	= new Session.StatusCallback() {
-		@Override
-		public void call(final Session session, SessionState state, Exception exception) {
-			if (session.isOpened()) {
-				Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
-					@Override
-					public void onCompleted(GraphUser user, Response response) {
-						if (user != null) {
-							// String email = user.getProperty("email").toString();
-
-							facebookSessionToken = session.getAccessToken();
-							Log.d(TAG,"Token from callback" + facebookSessionToken);
-							getDazooToken();
-						}
-					}
-				});
-			}
-		}
-	};
-
-	private static Session openActiveSession(Activity activity, boolean allowLoginUI, Session.StatusCallback statusCallback) {
-		OpenRequest openRequest = new OpenRequest(activity);
-		openRequest.setPermissions(Arrays.asList("user_birthday", "email"));
-		openRequest.setCallback(statusCallback);
-
-		Session session = new Session.Builder(activity).build();
-
-		if (SessionState.CREATED_TOKEN_LOADED.equals(session.getState()) || allowLoginUI) {
-			Session.setActiveSession(session);
-			session.openForRead(openRequest);
-
-			return session;
-		}
-
-		return null;
-	}
-
 }

@@ -15,6 +15,7 @@ public abstract class Consts {
 	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_EXISTING_FLAG			= "com.millicom.secondscreen.user.existing.flag";
 	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_EMAIL					= "com.millicom.secondscreen.user.account.email";
 	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_PASSWORD					= "com.millicom.secondscreen.user.account.password";
+	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_MY_CHANNELS_IDS_JSON		= "com.millicom.secondscreen.user.account.my.channels.ids.json";
 
 	// api urls
 	public static final String	MILLICOM_SECONDSCREEN_GUIDE_PAGE_URL						= "http://api.gitrgitr.com/epg/guide";
@@ -25,7 +26,7 @@ public abstract class Consts {
 	public static final String	MILLICOM_SECONDSCREEN_DAZOO_LOGIN_URL						= "http://api.gitrgitr.com/auth/login/dazoo";
 	public static final String	MILLICOM_SECONDSCREEN_DAZOO_REGISTER_URL					= "http://api.gitrgitr.com/auth/login/dazoo/register";
 	public static final String	MILLICOM_SECONDSCREEN_TAGS_PAGE_URL							= "http://api.gitrgitr.com/epg/tags/visible";
-	public static final String	MILLICOM_SECONDSCREEN_MY_CHANNELS_URL						= "http://api.gitrgitr.com/mychannels";
+	public static final String	MILLICOM_SECONDSCREEN_MY_CHANNELS_URL						= "http://api.gitrgitr.com/mychannels/";
 	public static final String	MILLICOM_SECONDSCREEN_USERS_URL								= "http://api.gitrgitr.com/auth/users";
 
 	public static final String	MILLICON_SECONDSCREEN_HTTP_SCHEME							= "http";
@@ -47,6 +48,7 @@ public abstract class Consts {
 	public static final String	REQUEST_PARAMETER_SEPARATOR									= "?";
 
 	public static final String	EMPTY_STRING												= "";
+	public static final String	ERROR_STRING												= "error";
 
 	// restrictions
 	public static final int		MILLICOM_SECONDSCREEN_TVGUIDE_NUMBER_OF_ITEMS_PER_CHANNEL	= 3;
@@ -116,7 +118,11 @@ public abstract class Consts {
 
 	// Response codes
 	public static final int		GOOD_RESPONSE						= 200;
+	public static final int		GOOD_RESPONSE_CHANNELS_ARE_ADDED	= 204;
+
 	public static final int		BAD_RESPONSE						= 400;
+	public static final int		BAD_RESPONSE_MISSING_TOKEN			= 401;
+	public static final int		BAD_RESPONSE_INVALID_TOKEN			= 403;
 
 	// =========================== CONTENT ================================
 
