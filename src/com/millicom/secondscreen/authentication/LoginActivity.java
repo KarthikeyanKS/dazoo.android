@@ -58,10 +58,10 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 
 	private static final String	TAG	= "LoginActivity";
 
-	private Button				mFacebookLoginButton, mDazooLoginButton, mDazooLogoutButton, mDazooRegisterButton;
+	private Button				mFacebookLoginButton, mDazooLoginButton, mDazooLogoutButton, mDazooRegisterButton, mDazooResetPassword;
 	private String				facebookToken	= "", facebookSessionToken = "", dazooToken = "", userToken = "", userId = "", userEmailLogin, userPasswordLogin, userEmailRegister,
 			userPasswordRegister, userFirstNameRegister, userLastNameRegister;
-	private EditText			mEmailLoginEditText, mPasswordLoginEditText, mFirstNameEditText, mLastNameEditText, mPasswordRegisterEditText, mPasswordRegisterVerifyEditText, mEmailRegisterEditText;
+	private EditText			mEmailLoginEditText, mPasswordLoginEditText, mFirstNameEditText, mLastNameEditText, mPasswordRegisterEditText, mPasswordRegisterVerifyEditText, mEmailRegisterEditText, mEmailResetPasswordEditText;
 	private ActionBar			mActionBar;
 
 	@Override
@@ -89,6 +89,10 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 		mDazooRegisterButton = (Button) findViewById(R.id.login_activity_dazoo_login_register_button);
 		mDazooRegisterButton.setOnClickListener(this);
 
+		mDazooResetPassword = (Button) findViewById(R.id.login_activity_dazoo_reset_password_button);
+		mDazooResetPassword.setOnClickListener(this);
+		mEmailResetPasswordEditText = (EditText) findViewById(R.id.login_activity_dazoo_reset_password_enter_email_edittext);
+		
 		mActionBar = getSupportActionBar();
 		SpannableString s = new SpannableString(getResources().getString(R.string.login));
 		// s.setSpan(new TypefaceSpan(this, "AvenirBlack"),0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -388,6 +392,32 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 				mPasswordRegisterVerifyEditText.setEnabled(true);
 			}
 			break;
+
+		case R.id.login_activity_dazoo_reset_password_button:
+			String emailInput = mEmailResetPasswordEditText.getText().toString();
+			if (emailInput != null && emailInput.isEmpty() != true && PatternCheck.checkEmail(emailInput) == true) {
+				mEmailResetPasswordEditText.setEnabled(false);
+				try {
+					ResetPasswordTask resetPasswordTask = new ResetPasswordTask();
+					int responseCode = resetPasswordTask.execute(emailInput).get();
+					if(Consts.GOOD_RESPONSE == responseCode){
+						Toast.makeText(getApplicationContext(), "The password is successfully reset. Check your mailbox!", Toast.LENGTH_SHORT).show();
+						Log.d(TAG,"Password is reset");
+					} else if (Consts.BAD_RESPONSE == responseCode){
+						Toast.makeText(getApplicationContext(), "Error! Email is not found!", Toast.LENGTH_SHORT).show();
+						Log.d(TAG,"Error! Reset password : level backend");
+					}
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} catch (ExecutionException e) {
+					e.printStackTrace();
+				}
+			} else {
+				mEmailResetPasswordEditText.setEnabled(true);
+				Toast.makeText(getApplicationContext(), "Please enter a valid e-mail address", Toast.LENGTH_SHORT).show();
+				Log.d(TAG, "Email input is required");
+			}
+			break;
 		}
 	}
 
@@ -439,7 +469,7 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 			return Consts.EMPTY_STRING;
 		}
 	}
-	
+
 	private class DazooRegistrationTask extends AsyncTask<String, Void, String> {
 
 		@Override
@@ -510,6 +540,36 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 				e.printStackTrace();
 			}
 			return Consts.EMPTY_STRING;
+		}
+	}
+
+	private class ResetPasswordTask extends AsyncTask<String, Void, Integer> {
+		@Override
+		protected Integer doInBackground(String... params) {
+			try {
+				HttpClient client = new DefaultHttpClient();
+				HttpPost httpPost = new HttpPost(Consts.MILLICOM_SECONDSCREEN_RESET_PASSWORD_URL);
+				Log.d(TAG,"url: " + Consts.MILLICOM_SECONDSCREEN_RESET_PASSWORD_URL);
+
+				JSONObject holder = JSONUtilities.createJSONObjectWithKeysValues(Arrays.asList(Consts.MILLICOM_SECONDSCREEN_API_EMAIL), Arrays.asList(params[0]));
+				StringEntity entity = new StringEntity(holder.toString());
+
+				httpPost.setEntity(entity);
+				httpPost.setHeader("Accept", "application/json");
+				httpPost.setHeader("Content-type", "application/json");
+
+				HttpResponse response = client.execute(httpPost);
+				Log.d(TAG, "Reset password response: " + EntityUtils.toString(response.getEntity()));
+				Log.d(TAG,"Response code: " + response.getStatusLine().getStatusCode());
+				return response.getStatusLine().getStatusCode();
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return Consts.BAD_RESPONSE;
 		}
 	}
 }

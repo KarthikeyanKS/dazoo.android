@@ -25,6 +25,7 @@ public abstract class Consts {
 	public static final String	MILLICOM_SECONDSCREEN_FACEBOOK_TOKEN_URL					= "http://api.gitrgitr.com/auth/login/facebook";
 	public static final String	MILLICOM_SECONDSCREEN_DAZOO_LOGIN_URL						= "http://api.gitrgitr.com/auth/login/dazoo";
 	public static final String	MILLICOM_SECONDSCREEN_DAZOO_REGISTER_URL					= "http://api.gitrgitr.com/auth/login/dazoo/register";
+	public static final String	MILLICOM_SECONDSCREEN_RESET_PASSWORD_URL					= "http://api.gitrgitr.com/auth/login/dazoo/sendResetPasswordEmail";
 	public static final String	MILLICOM_SECONDSCREEN_TAGS_PAGE_URL							= "http://api.gitrgitr.com/epg/tags/visible";
 	public static final String	MILLICOM_SECONDSCREEN_MY_CHANNELS_URL						= "http://api.gitrgitr.com/mychannels/";
 	public static final String	MILLICOM_SECONDSCREEN_USERS_URL								= "http://api.gitrgitr.com/auth/users";

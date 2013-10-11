@@ -144,7 +144,9 @@
     <string name="hint_email">e-mail</string>
     <string name="hint_firstname">First Name</string>
     <string name="hint_lastname">Last Name</string>
+    <string name="hint_enter_email">Enter e-mail</string>
     <string name="login">Login</string>
+    <string name="reset_password">Reset Password</string>
     
     <!-- MY CHANNELS PAGE -->
     <string name="get_my_channels">Get My Channels</string>

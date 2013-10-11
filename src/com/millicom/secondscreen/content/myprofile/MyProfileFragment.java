@@ -34,21 +34,27 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import android.annotation.TargetApi;
 
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.Consts;
@@ -60,24 +66,30 @@ public class MyProfileFragment extends Fragment {
 	private static final String	TAG	= "MyProfileFragment";
 
 	private View				mRootView;
+	private RelativeLayout		mRemindersContainer, mLikesContainer, mMyChannelsContainer, mSettingsContainer, mMyProfileContainer;
 	private ProgressBar			mAvatarProgressBar;
 	private ImageView			mAvatarImageView;
 	private TextView			mUserNameTextView, mRemindersTextView, mLikesTextView, mMyChannelsTextView, mSettingsTextView;
 	private ImageView			mRemindersBtn, mLikesBtn, mMyChannelsBtn, mSettingsBtn;
 	private Activity			mActivity;
-	private Context context;
-	
+	private Context				context;
+	private String				userFirstName, userLastName;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
 
 		// get the parcelable profile info in a bundle
+		userFirstName = ((SecondScreenApplication) getActivity().getApplicationContext()).getUserFirstName();
+		userLastName = ((SecondScreenApplication) getActivity().getApplicationContext()).getUserLastName();
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootView = inflater.inflate(R.layout.layout_me_fragment, container, false);
+
+		mMyProfileContainer = (RelativeLayout) mRootView.findViewById(R.id.mepage_person_container);
 
 		// user information
 		mAvatarImageView = (ImageView) mRootView.findViewById(R.id.mepage_avatar_iv);
@@ -85,9 +97,10 @@ public class MyProfileFragment extends Fragment {
 		mUserNameTextView = (TextView) mRootView.findViewById(R.id.mepage_name_tv);
 
 		// reminders
+		mRemindersContainer = (RelativeLayout) mRootView.findViewById(R.id.mepage_reminders_container);
 		mRemindersTextView = (TextView) mRootView.findViewById(R.id.mepage_reminders_title_tv);
 		mRemindersBtn = (ImageView) mRootView.findViewById(R.id.mepage_reminders_button_iv);
-		mRemindersBtn.setOnClickListener(new View.OnClickListener() {
+		mRemindersContainer.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -98,9 +111,10 @@ public class MyProfileFragment extends Fragment {
 		});
 
 		// likes
+		mLikesContainer = (RelativeLayout) mRootView.findViewById(R.id.mepage_likes_container);
 		mLikesTextView = (TextView) mRootView.findViewById(R.id.mepage_likes_title_tv);
 		mLikesBtn = (ImageView) mRootView.findViewById(R.id.mepage_likes_button_iv);
-		mLikesBtn.setOnClickListener(new View.OnClickListener() {
+		mLikesContainer.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -112,9 +126,10 @@ public class MyProfileFragment extends Fragment {
 		});
 
 		// my channels
+		mMyChannelsContainer = (RelativeLayout) mRootView.findViewById(R.id.mepage_my_channels_container);
 		mMyChannelsTextView = (TextView) mRootView.findViewById(R.id.mepage_my_channels_title_tv);
 		mMyChannelsBtn = (ImageView) mRootView.findViewById(R.id.mepage_my_channels_button_iv);
-		mMyChannelsBtn.setOnClickListener(new View.OnClickListener() {
+		mMyChannelsContainer.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -126,9 +141,10 @@ public class MyProfileFragment extends Fragment {
 		});
 
 		// settings
+		mSettingsContainer = (RelativeLayout) mRootView.findViewById(R.id.mepage_settings_container);
 		mSettingsTextView = (TextView) mRootView.findViewById(R.id.mepage_settings_title_tv);
 		mSettingsBtn = (ImageView) mRootView.findViewById(R.id.mepage_settings_button_iv);
-		mSettingsBtn.setOnClickListener(new View.OnClickListener() {
+		mSettingsContainer.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -139,9 +155,21 @@ public class MyProfileFragment extends Fragment {
 			}
 		});
 
-		mAvatarImageView.setImageResource(R.drawable.loadimage_2x);
-		mUserNameTextView.setText("Erik Per Sven Ericsson");
-
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			if (userFirstName != null && userLastName != null && userFirstName.isEmpty() != true && userLastName.isEmpty() != true) {
+				mAvatarImageView.setImageResource(R.drawable.loadimage_2x);
+				mUserNameTextView.setText(userFirstName + " " + userLastName);
+			} else {
+				mMyProfileContainer.setVisibility(View.GONE);
+			}
+		} else {
+			if (userFirstName != null && userLastName != null && TextUtils.isEmpty(userFirstName) != true && TextUtils.isEmpty(userLastName) != true) {
+				mAvatarImageView.setImageResource(R.drawable.loadimage_2x);
+				mUserNameTextView.setText(userFirstName + " " + userLastName);
+			} else {
+				mMyProfileContainer.setVisibility(View.GONE);
+			}
+		}
 		return mRootView;
 	}
 

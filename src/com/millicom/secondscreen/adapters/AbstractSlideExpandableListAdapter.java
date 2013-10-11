@@ -15,8 +15,6 @@ import android.widget.RelativeLayout;
  * Wraps a ListAdapter to give it expandable list view functionality.
  * The main thing it does is add a listener to the getToggleButton
  * which expands the getExpandableView for each list item.
- *
- * @author Slickelito
  */
 public abstract class AbstractSlideExpandableListAdapter implements ListAdapter {
     private ListAdapter wrapped;
