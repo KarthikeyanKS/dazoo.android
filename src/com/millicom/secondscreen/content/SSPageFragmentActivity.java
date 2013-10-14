@@ -1,6 +1,8 @@
 package com.millicom.secondscreen.content;
 
+import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
+import com.millicom.secondscreen.SecondScreenApplication;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,6 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
@@ -19,10 +22,14 @@ import com.millicom.secondscreen.R;
 
 public abstract class SSPageFragmentActivity extends ActionBarActivity {
 
+	private static final String TAG = "SSPageFragmentActivity";
+	
 	private View	mRequestEmptyLayout;
 	private View	mRequestFailedLayout;
 	private View	mRequestLoadingLayout;
 	private Button	mRequestFailedButton;
+
+	protected boolean	mForceReload	= false;
 
 	protected abstract void loadPage();
 
@@ -32,7 +39,16 @@ public abstract class SSPageFragmentActivity extends ActionBarActivity {
 
 	protected void onCreate(android.os.Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		// add to the list of running activities
+		SecondScreenApplication.getInstance().getActivityList().add(this);
+		
+		LocalBroadcastManager.getInstance(this).registerReceiver(new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
 
+				mForceReload = true;
+			}
+		}, new IntentFilter(Consts.BROADCAST_HOMEPAGE));
 	};
 
 	// Init the callback layouts for this page
@@ -85,7 +101,7 @@ public abstract class SSPageFragmentActivity extends ActionBarActivity {
 		mRequestFailedButton.setOnClickListener(mOnRequestFailedClickListener);
 
 		mRequestLoadingLayout = (RelativeLayout) findViewById(R.id.request_loading_main_layout);
-		
+
 		mRequestEmptyLayout = (RelativeLayout) findViewById(R.id.request_empty_main_layout);
 	}
 

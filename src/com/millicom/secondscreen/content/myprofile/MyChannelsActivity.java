@@ -32,6 +32,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -42,7 +43,7 @@ import android.widget.Toast;
 
 public class MyChannelsActivity extends ActionBarActivity implements OnClickListener {
 
-	private static final String	TAG			= "ChannelsActivity";
+	private static final String	TAG			= "MyChannelsActivity";
 	private ActionBar			mActionBar;
 	private boolean				isChange	= false;
 	private Button				mGetMyChannelsButton, mAddToMyChannelsButton;
@@ -186,7 +187,10 @@ public class MyChannelsActivity extends ActionBarActivity implements OnClickList
 		GetMyChannelsTask getMyChannelsTask = new GetMyChannelsTask();
 		try {
 			String responseStr = getMyChannelsTask.execute(userToken).get();
-			if (responseStr != null && responseStr.isEmpty() != true && responseStr != Consts.ERROR_STRING) {
+			Log.d(TAG,"Response Str:" + responseStr);
+			
+			//if (responseStr != null && responseStr.isEmpty() != true && responseStr != Consts.ERROR_STRING) {
+			if (responseStr != null && TextUtils.isEmpty(responseStr) != true && responseStr != Consts.ERROR_STRING) {
 				// the extra check for ERROR_STRING was added to distinguish between empty response (there are no stored channels to this user) and empty response in case of error
 				Log.d(TAG, "My Channels: GET: " + responseStr);
 
@@ -232,7 +236,8 @@ public class MyChannelsActivity extends ActionBarActivity implements OnClickList
 		case R.id.mychannels_get_channels_button:
 
 			// check if we have registered user and user token is valid
-			if (userToken != null && userToken.isEmpty() != true) {
+			//if (userToken != null && userToken.isEmpty() != true) {
+			if (userToken != null && TextUtils.isEmpty(userToken) != true) {
 				// get user channels
 				getUserMyChannelsIdsJSON();
 			} else {
@@ -247,10 +252,12 @@ public class MyChannelsActivity extends ActionBarActivity implements OnClickList
 			// add channels to the list
 			if (isChange == true) {
 				// add channels to the user account "My channels" database
-				if (userToken != null && userToken.isEmpty() != true) {
+				//if (userToken != null && userToken.isEmpty() != true) {
+				if (userToken != null && TextUtils.isEmpty(userToken) != true) {
 					// check if we have fetched the userChannelsIds
 					String myChannelsIdsJSON = ((SecondScreenApplication) getApplicationContext()).getUserMyChannelsIdsJSON();
-					if (myChannelsIdsJSON != null && myChannelsIdsJSON.isEmpty() != true) {
+					//if (myChannelsIdsJSON != null && myChannelsIdsJSON.isEmpty() != true) {
+					if (myChannelsIdsJSON != null && TextUtils.isEmpty(myChannelsIdsJSON) != true) {
 
 						LinkedHashSet<String> newMyChannelsList  = JSONUtilities.stringWithJSONtoOrderedSet(myChannelsIdsJSON);
 						newMyChannelsList.add("98c9c7cb-76de-4ad8-b6cd-021e7b927ba7");

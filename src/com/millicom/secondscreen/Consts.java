@@ -18,18 +18,16 @@ public abstract class Consts {
 	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_MY_CHANNELS_IDS_JSON		= "com.millicom.secondscreen.user.account.my.channels.ids.json";
 
 	// api urls
-	public static final String	MILLICOM_SECONDSCREEN_GUIDE_PAGE_URL						= "http://api.gitrgitr.com/epg/guide";
-	public static final String	MILLICOM_SECONDSCREEN_PROGRAM_TYPES_PAGE_URL				= "http://api.gitrgitr.com/epg/programTypes";
-	public static final String	MILLICOM_SECONDSCREEN_DATES_PAGE_URL						= "http://api.gitrgitr.com/epg/dates";
-	public static final String	MILLICOM_SECONDSCREEN_CHANNELS_PAGE_URL						= "http://api.gitrgitr.com/epg/channels";
-	public static final String	MILLICOM_SECONDSCREEN_FACEBOOK_TOKEN_URL					= "http://api.gitrgitr.com/auth/login/facebook";
-	public static final String	MILLICOM_SECONDSCREEN_DAZOO_LOGIN_URL						= "http://api.gitrgitr.com/auth/login/dazoo";
-	public static final String	MILLICOM_SECONDSCREEN_DAZOO_REGISTER_URL					= "http://api.gitrgitr.com/auth/login/dazoo/register";
-	public static final String	MILLICOM_SECONDSCREEN_RESET_PASSWORD_URL					= "http://api.gitrgitr.com/auth/login/dazoo/sendResetPasswordEmail";
-	public static final String	MILLICOM_SECONDSCREEN_TAGS_PAGE_URL							= "http://api.gitrgitr.com/epg/tags/visible";
-	public static final String	MILLICOM_SECONDSCREEN_MY_CHANNELS_URL						= "http://api.gitrgitr.com/mychannels/";
-	public static final String	MILLICOM_SECONDSCREEN_USERS_URL								= "http://api.gitrgitr.com/auth/users";
-
+	public static final String	MILLICOM_SECONDSCREEN_GUIDE_PAGE_URL						= "http://www.gitrgitr.com/api/epg/guide";
+	public static final String	MILLICOM_SECONDSCREEN_DATES_PAGE_URL						= "http://www.gitrgitr.com/api/epg/dates";
+	public static final String	MILLICOM_SECONDSCREEN_CHANNELS_PAGE_URL						= "http://www.gitrgitr.com/api/epg/channels";
+	public static final String	MILLICOM_SECONDSCREEN_FACEBOOK_TOKEN_URL					= "http://www.gitrgitr.com/api/auth/login/facebook";
+	public static final String	MILLICOM_SECONDSCREEN_DAZOO_LOGIN_URL						= "http://www.gitrgitr.com/api/auth/login/dazoo";
+	public static final String	MILLICOM_SECONDSCREEN_DAZOO_REGISTER_URL					= "http://www.gitrgitr.com/api/auth/login/dazoo/register";
+	public static final String	MILLICOM_SECONDSCREEN_RESET_PASSWORD_URL					= "http://www.gitrgitr.com/api/auth/login/dazoo/sendResetPasswordEmail";
+	public static final String	MILLICOM_SECONDSCREEN_TAGS_PAGE_URL							= "http://www.gitrgitr.com/api/epg/tags/visible";
+	public static final String	MILLICOM_SECONDSCREEN_MY_CHANNELS_URL						= "http://www.gitrgitr.com/api/mychannels"; 
+	
 	public static final String	MILLICON_SECONDSCREEN_HTTP_SCHEME							= "http";
 
 	// api request strings
@@ -61,6 +59,8 @@ public abstract class Consts {
 		LOADING, FAILED, EMPTY_RESPONSE, SUCCESSFUL
 	};
 
+	public static String DAZOO_BACK_STACK = "com.millicom.secondscreen.dazoo.back.stack";
+	
 	// Date iso format
 	public static final String	ISO_DATE_FORMAT						= "yyyy-MM-dd'T'HH:mm:ssZZZ";
 
@@ -74,12 +74,13 @@ public abstract class Consts {
 	// Broadcast intents
 	public static final String	BROADCAST_SORTING_SELECTED			= "com.broadcast.sorting.selected";
 	public static final String	BROADCAST_FORCE_RELOAD				= "com.broadcast.only.downloads";
+	public static final String  BROADCAST_HOMEPAGE = "com.broadcast.homepage";
 
 	// Section Ids
 	public static final String	SECTION_ID_TVGUIDE					= "secondscreen.section.tvguide";
 	public static final String	SECTION_ID_ACTIVITY					= "secondscreen.section.activity";
 	public static final String	SECTION_ID_ME						= "secondscreen.section.me";
-
+	
 	// data extra intents
 	public static final String	INTENT_EXTRA_SECTION				= "com.millicom.secondscreen.intent.extra.section";
 	public static final String	INTENT_EXTRA_GUIDE					= "com.millicom.secondscreen.intent.extra.guide";
@@ -116,6 +117,7 @@ public abstract class Consts {
 	public static final int		INFO_UPDATE_LIKES					= 11;
 	public static final int		INFO_NO_UPDATE_REMINDERS			= 0;
 	public static final int		INFO_NO_UPDATE_LIKES				= 10;
+	
 
 	// Response codes
 	public static final int		GOOD_RESPONSE						= 200;

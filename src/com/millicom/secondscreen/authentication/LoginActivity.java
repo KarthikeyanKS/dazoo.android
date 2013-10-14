@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -61,9 +62,10 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 	private Button				mFacebookLoginButton, mDazooLoginButton, mDazooLogoutButton, mDazooRegisterButton, mDazooResetPassword;
 	private String				facebookToken	= "", facebookSessionToken = "", dazooToken = "", userToken = "", userId = "", userEmailLogin, userPasswordLogin, userEmailRegister,
 			userPasswordRegister, userFirstNameRegister, userLastNameRegister;
-	private EditText			mEmailLoginEditText, mPasswordLoginEditText, mFirstNameEditText, mLastNameEditText, mPasswordRegisterEditText, mPasswordRegisterVerifyEditText, mEmailRegisterEditText, mEmailResetPasswordEditText;
+	private EditText			mEmailLoginEditText, mPasswordLoginEditText, mFirstNameEditText, mLastNameEditText, mPasswordRegisterEditText, mPasswordRegisterVerifyEditText, mEmailRegisterEditText,
+	mEmailResetPasswordEditText;
 	private ActionBar			mActionBar;
-
+		
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -92,7 +94,7 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 		mDazooResetPassword = (Button) findViewById(R.id.login_activity_dazoo_reset_password_button);
 		mDazooResetPassword.setOnClickListener(this);
 		mEmailResetPasswordEditText = (EditText) findViewById(R.id.login_activity_dazoo_reset_password_enter_email_edittext);
-		
+
 		mActionBar = getSupportActionBar();
 		SpannableString s = new SpannableString(getResources().getString(R.string.login));
 		// s.setSpan(new TypefaceSpan(this, "AvenirBlack"),0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -157,7 +159,8 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 	}
 
 	private boolean storeUserInformation(String jsonString) {
-		if (jsonString != null && jsonString.isEmpty() != true) {
+		if (jsonString != null && TextUtils.isEmpty(jsonString) != true) {
+			// if (jsonString != null && jsonString.isEmpty() != true) {
 			JSONObject userJSON;
 			try {
 				userJSON = new JSONObject(jsonString);
@@ -190,11 +193,13 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 			FacebookLoginTask facebookLoginTask = new FacebookLoginTask();
 			try {
 				String responseStr = facebookLoginTask.execute(facebookSessionToken).get();
-				if (responseStr != null && responseStr.isEmpty() != true) {
+				// if (responseStr != null && responseStr.isEmpty() != true) {
+				if (responseStr != null && TextUtils.isEmpty(responseStr) != true) {
 					JSONObject fbJSON = new JSONObject(responseStr);
 					facebookToken = fbJSON.getString(Consts.MILLICOM_SECONDSCREEN_API_TOKEN);
 
-					if (facebookToken.isEmpty() != true && facebookToken.length() > 0) {
+					// if (facebookToken.isEmpty() != true && facebookToken.length() > 0) {
+					if (facebookToken != null && TextUtils.isEmpty(facebookToken) != true) {
 						// save access token in the application
 						((SecondScreenApplication) getApplicationContext()).setAccessToken(facebookToken);
 						Log.d(TAG, "Token: " + facebookToken + " is saved");
@@ -272,11 +277,13 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 				try {
 					// dazooToken = dazooLoginTask.execute(userEmailLogin, userPasswordLogin).get();
 					String responseStr = dazooLoginTask.execute(userEmailLogin, userPasswordLogin).get();
-					if (responseStr != null && responseStr.isEmpty() != true) {
+					// if (responseStr != null && responseStr.isEmpty() != true) {
+					if (responseStr != null && TextUtils.isEmpty(responseStr) != true) {
 						JSONObject dazooJSON = new JSONObject(responseStr);
 						dazooToken = dazooJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_TOKEN);
 
-						if (dazooToken.isEmpty() != true && dazooToken.length() > 0) {
+						// if (dazooToken.isEmpty() != true && dazooToken.length() > 0) {
+						if (dazooToken != null && TextUtils.isEmpty(dazooToken) != true) {
 							((SecondScreenApplication) getApplicationContext()).setAccessToken(dazooToken);
 							Log.d(TAG, "DazooToken: " + dazooToken + "is saved");
 
@@ -325,7 +332,8 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 
 			// check if the token was really cleared
 			String dazooToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
-			if (dazooToken.isEmpty() == true) {
+			// if (dazooToken.isEmpty() == true) {
+			if (TextUtils.isEmpty(dazooToken) == true) {
 				Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
 			} else {
 				Log.d(TAG, "Log out from Dazoo failed");
@@ -350,12 +358,14 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 				try {
 					// dazooToken = dazooRegisterTask.execute(userEmailRegister, userPasswordRegister, userFirstNameRegister, userLastNameRegister).get();
 					String responseStr = dazooRegisterTask.execute(userEmailRegister, userPasswordRegister, userFirstNameRegister, userLastNameRegister).get();
-					if (responseStr != null && responseStr.isEmpty() != true) {
+					// if (responseStr != null && responseStr.isEmpty() != true) {
+					if (responseStr != null && TextUtils.isEmpty(responseStr) != true) {
 						JSONObject dazooRegJSON = new JSONObject(responseStr);
 						dazooToken = dazooRegJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_TOKEN);
 						Log.d(TAG, "DazooToken: " + dazooToken + "is saved");
 
-						if (dazooToken.isEmpty() != true && dazooToken.length() > 0) {
+						// if (dazooToken.isEmpty() != true && dazooToken.length() > 0) {
+						if (dazooToken != null && TextUtils.isEmpty(dazooToken) != true) {
 							((SecondScreenApplication) getApplicationContext()).setAccessToken(dazooToken);
 							// Get the information about the user
 							String userDataString = dazooRegJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_USER);
@@ -395,17 +405,18 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 
 		case R.id.login_activity_dazoo_reset_password_button:
 			String emailInput = mEmailResetPasswordEditText.getText().toString();
-			if (emailInput != null && emailInput.isEmpty() != true && PatternCheck.checkEmail(emailInput) == true) {
+			// if (emailInput != null && emailInput.isEmpty() != true && PatternCheck.checkEmail(emailInput) == true) {
+			if (emailInput != null && TextUtils.isEmpty(emailInput) != true && PatternCheck.checkEmail(emailInput) == true) {
 				mEmailResetPasswordEditText.setEnabled(false);
 				try {
 					ResetPasswordTask resetPasswordTask = new ResetPasswordTask();
 					int responseCode = resetPasswordTask.execute(emailInput).get();
-					if(Consts.GOOD_RESPONSE == responseCode){
+					if (Consts.GOOD_RESPONSE == responseCode) {
 						Toast.makeText(getApplicationContext(), "The password is successfully reset. Check your mailbox!", Toast.LENGTH_SHORT).show();
-						Log.d(TAG,"Password is reset");
-					} else if (Consts.BAD_RESPONSE == responseCode){
+						Log.d(TAG, "Password is reset");
+					} else if (Consts.BAD_RESPONSE == responseCode) {
 						Toast.makeText(getApplicationContext(), "Error! Email is not found!", Toast.LENGTH_SHORT).show();
-						Log.d(TAG,"Error! Reset password : level backend");
+						Log.d(TAG, "Error! Reset password : level backend");
 					}
 				} catch (InterruptedException e) {
 					e.printStackTrace();
@@ -549,7 +560,7 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 			try {
 				HttpClient client = new DefaultHttpClient();
 				HttpPost httpPost = new HttpPost(Consts.MILLICOM_SECONDSCREEN_RESET_PASSWORD_URL);
-				Log.d(TAG,"url: " + Consts.MILLICOM_SECONDSCREEN_RESET_PASSWORD_URL);
+				Log.d(TAG, "url: " + Consts.MILLICOM_SECONDSCREEN_RESET_PASSWORD_URL);
 
 				JSONObject holder = JSONUtilities.createJSONObjectWithKeysValues(Arrays.asList(Consts.MILLICOM_SECONDSCREEN_API_EMAIL), Arrays.asList(params[0]));
 				StringEntity entity = new StringEntity(holder.toString());
@@ -560,7 +571,7 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 
 				HttpResponse response = client.execute(httpPost);
 				Log.d(TAG, "Reset password response: " + EntityUtils.toString(response.getEntity()));
-				Log.d(TAG,"Response code: " + response.getStatusLine().getStatusCode());
+				Log.d(TAG, "Response code: " + response.getStatusLine().getStatusCode());
 				return response.getStatusLine().getStatusCode();
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();

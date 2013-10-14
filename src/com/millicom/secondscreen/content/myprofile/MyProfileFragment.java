@@ -78,11 +78,7 @@ public class MyProfileFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setRetainInstance(true);
-
-		// get the parcelable profile info in a bundle
-		userFirstName = ((SecondScreenApplication) getActivity().getApplicationContext()).getUserFirstName();
-		userLastName = ((SecondScreenApplication) getActivity().getApplicationContext()).getUserLastName();
+		//setRetainInstance(true);
 	}
 
 	@Override
@@ -155,8 +151,20 @@ public class MyProfileFragment extends Fragment {
 			}
 		});
 
+		populateViews();
+		
+		return mRootView;
+	}
+	
+	private void populateViews(){
+		
+		// get the parcelable profile info in a bundle
+		userFirstName = ((SecondScreenApplication) getActivity().getApplicationContext()).getUserFirstName();
+		userLastName = ((SecondScreenApplication) getActivity().getApplicationContext()).getUserLastName();
+		
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			if (userFirstName != null && userLastName != null && userFirstName.isEmpty() != true && userLastName.isEmpty() != true) {
+			//if (userFirstName != null && userLastName != null && userFirstName.isEmpty() != true && userLastName.isEmpty() != true) {
+			if (userFirstName != null && userLastName != null && TextUtils.isEmpty(userFirstName) != true && TextUtils.isEmpty(userLastName) != true) {
 				mAvatarImageView.setImageResource(R.drawable.loadimage_2x);
 				mUserNameTextView.setText(userFirstName + " " + userLastName);
 			} else {
@@ -170,7 +178,6 @@ public class MyProfileFragment extends Fragment {
 				mMyProfileContainer.setVisibility(View.GONE);
 			}
 		}
-		return mRootView;
 	}
 
 	// update the layout if any changes happend in the detail activity

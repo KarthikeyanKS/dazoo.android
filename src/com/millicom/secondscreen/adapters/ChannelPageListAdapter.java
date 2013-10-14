@@ -23,14 +23,14 @@ import android.widget.TextView;
 
 public class ChannelPageListAdapter extends BaseAdapter {
 
-	private static final String		TAG	= "ChannelPageListAdapter";
+	private static final String		TAG				= "ChannelPageListAdapter";
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
 	private ArrayList<Broadcast>	mFollowingBroadcasts;
 
 	private ImageLoader				mImageLoader;
-	private int mLastPosition = -1;
+	private int						mLastPosition	= -1;
 
 	public ChannelPageListAdapter(Activity activity, ArrayList<Broadcast> followingBroadcasts) {
 		this.mFollowingBroadcasts = followingBroadcasts;
@@ -85,7 +85,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 			}
 
 			// TODO: manipulate icon
-			
+
 			String title = broadcast.getProgram().getTitle();
 			if (title != null) {
 				holder.mTitleTv.setText(title);
@@ -97,21 +97,21 @@ public class ChannelPageListAdapter extends BaseAdapter {
 			holder.mTimeTv.setText("");
 			holder.mTitleTv.setText("");
 		}
-		
-		 // animate the item
-        TranslateAnimation animation = null;
-        if (position > mLastPosition) {
-            animation = new TranslateAnimation(
-                Animation.RELATIVE_TO_SELF,
-                0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
-                Animation.RELATIVE_TO_SELF, 1.0f,
-                Animation.RELATIVE_TO_SELF, 0.0f);
 
-            animation.setDuration(1000);
-            rowView.startAnimation(animation);
-            mLastPosition = position;
-        }
-		
+		// animate the item - available for higher api levels only
+		// TranslateAnimation animation = null;
+		// if (position > mLastPosition) {
+		// animation = new TranslateAnimation(
+		// Animation.RELATIVE_TO_SELF,
+		// 0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
+		// Animation.RELATIVE_TO_SELF, 1.0f,
+		// Animation.RELATIVE_TO_SELF, 0.0f);
+		//
+		// animation.setDuration(1000);
+		// rowView.startAnimation(animation);
+		// mLastPosition = position;
+		// }
+
 		return rowView;
 	}
 

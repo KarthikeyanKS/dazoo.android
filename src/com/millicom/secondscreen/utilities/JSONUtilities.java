@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import com.millicom.secondscreen.Consts;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 public class JSONUtilities {
@@ -72,7 +73,8 @@ public class JSONUtilities {
 
 	public static final ArrayList<String> stringWithJSONtoArrayList(String input) {
 		ArrayList<String> output = new ArrayList<String>();
-		if (input != null && input.isEmpty() != true) {
+		//if (input != null && input.isEmpty() != true) {
+		if (input != null && TextUtils.isEmpty(input) != true) {
 			// // JSONObject jObj = new JSONObject(responseStr);
 			JSONArray jArray;
 			try {
@@ -94,7 +96,8 @@ public class JSONUtilities {
 
 	public static final LinkedHashSet<String> stringWithJSONtoOrderedSet(String input) {
 		LinkedHashSet<String> output = new LinkedHashSet<String>();
-		if (input != null && input.isEmpty() != true) {
+		//if (input != null && input.isEmpty() != true) {
+		if(input !=null && TextUtils.isEmpty(input)!=true){
 			// // JSONObject jObj = new JSONObject(responseStr);
 			JSONArray jArray;
 			try {

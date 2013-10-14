@@ -3,6 +3,7 @@ package com.millicom.secondscreen.utilities;
 import android.content.Context;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 
 import com.millicom.secondscreen.R;
@@ -23,7 +24,8 @@ public class StringUtilities {
 
 		// Make sure a string is valid
 		public static boolean isValidString(String string) {
-			if (string == null || string.equals("{}") || string.isEmpty() || string.equals("null")) return false;
+			//if (string == null || string.equals("{}") || string.isEmpty() || string.equals("null")) return false;
+			if (string == null || string.equals("{}") || TextUtils.isEmpty(string) || string.equals("null")) return false;
 			return true;
 		}
 }

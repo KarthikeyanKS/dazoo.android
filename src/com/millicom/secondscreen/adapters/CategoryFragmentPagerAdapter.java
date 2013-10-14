@@ -2,20 +2,26 @@ package com.millicom.secondscreen.adapters;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.View;
 import android.view.ViewGroup;
 
 public abstract class CategoryFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
-	private static final String TAG = "CategoryFragmentPagerAdapter";
-	
+	private static final String						TAG					= "CategoryFragmentPagerAdapter";
+
 	private SparseArray<WeakReference<Fragment>>	mPageReferenceMap	= new SparseArray<WeakReference<Fragment>>();
 	private ArrayList<String>						mTabTitles;
+
+	private PagerAdapter							mAdapter;
 
 	public abstract Fragment initFragment(int position);
 
@@ -26,6 +32,7 @@ public abstract class CategoryFragmentPagerAdapter extends FragmentStatePagerAda
 
 	@Override
 	public Object instantiateItem(ViewGroup viewGroup, int position) {
+
 		mPageReferenceMap.put(Integer.valueOf(position), new WeakReference<Fragment>(initFragment(position)));
 		return super.instantiateItem(viewGroup, position);
 	}
@@ -59,8 +66,7 @@ public abstract class CategoryFragmentPagerAdapter extends FragmentStatePagerAda
 
 			return (Fragment) weakReference.get();
 
-		}
-		else {
+		} else {
 			return null;
 		}
 	}

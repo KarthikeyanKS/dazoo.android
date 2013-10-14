@@ -10,7 +10,7 @@
         android:layout_height="match_parent" >
 
         <Spinner
-            android:id="@+id/actionbar_homepage_category_spinner"
+            android:id="@+id/actionbar_homepage_day_spinner"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_marginLeft="10dp"
@@ -27,14 +27,6 @@
             android:focusable="true"
             android:longClickable="true"
             android:src="@drawable/ic_action_search" />
-
-        <Spinner
-            android:id="@+id/actionbar_homepage_day_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="7dp"
-            android:layout_toLeftOf="@id/actionbar_homepage_search_icon" 
-            android:visibility="gone"/>
     </RelativeLayout>
 
 </LinearLayout>

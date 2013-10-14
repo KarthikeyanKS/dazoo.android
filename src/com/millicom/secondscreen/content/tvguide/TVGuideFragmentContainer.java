@@ -12,6 +12,7 @@ import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Tag;
 import com.millicom.secondscreen.content.model.TvDate;
+import com.millicom.secondscreen.customviews.InfinitePagerAdapter;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -107,6 +108,7 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 
 		// Stop listening to broadcast events
 		LocalBroadcastManager.getInstance(mActivity).unregisterReceiver(mBroadcastReceiver);
+		//LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mBroadcastReceiver);
 	};
 
 	// @Override
@@ -184,7 +186,8 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 	private void setAdapter() {
 		// if (mAdapter == null)
 
-		final PagerAdapter mAdapter = new CategoryFragmentPagerAdapter(getChildFragmentManager(), mTabTitles) {
+		//final PagerAdapter mAdapter = new CategoryFragmentPagerAdapter(getChildFragmentManager(), mTabTitles) {
+		final PagerAdapter mAdapter = new CategoryFragmentPagerAdapter(getChildFragmentManager(), mTabTitles){
 			@Override
 			public Fragment initFragment(int position) {
 				Log.d(TAG, "INIT FRAGMENTS");
@@ -194,6 +197,9 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 				return fragment;
 			}
 		};
+		
+		final PagerAdapter wrappedAdapter = new InfinitePagerAdapter(mAdapter, mTabTitles);
+		
 
 		mViewPager.setOnPageChangeListener(mOnPageChangeListener);
 
@@ -205,7 +211,9 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 				Log.d(TAG, "UPDATE VIEWPAGER");
 				mViewPager.setVisibility(View.VISIBLE);
 				mPagerTabStrip.setVisibility(View.VISIBLE);
-				mViewPager.setAdapter(mAdapter);
+				//mViewPager.setAdapter(mAdapter);
+				mViewPager.setAdapter(wrappedAdapter);
+				
 				mAdapter.notifyDataSetChanged();
 				mViewPager.setCurrentItem(mSelectedIndex);
 			}
