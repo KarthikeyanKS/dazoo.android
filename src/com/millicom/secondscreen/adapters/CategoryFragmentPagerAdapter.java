@@ -52,11 +52,11 @@ public abstract class CategoryFragmentPagerAdapter extends FragmentStatePagerAda
 		return getFragment(pos);
 	}
 
-	@Override
-	public void destroyItem(ViewGroup container, int position, Object object) {
-		super.destroyItem(container, position, object);
-		mPageReferenceMap.remove(Integer.valueOf(position));
-	}
+	//@Override
+	//public void destroyItem(ViewGroup container, int position, Object object) {
+	//	super.destroyItem(container, position, object);
+	//	mPageReferenceMap.remove(Integer.valueOf(position));
+	//}
 
 	public Fragment getFragment(int key) {
 

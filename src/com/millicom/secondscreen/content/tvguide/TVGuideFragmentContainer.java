@@ -54,7 +54,7 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 	private int					mSelectedIndex	= 0;
 	private Activity			mActivity;
 	private String				mDate;
-	private SSTagsPage			mTagsPage;
+	//private SSTagsPage			mTagsPage;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -64,7 +64,7 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 		// mTags = bundle.getParcelableArrayList(Consts.PARCELABLE_TAGS_LIST);
 
 		// create new page for tags
-		mTagsPage = SSTagsPage.getInstance();
+		//mTagsPage = SSTagsPage.getInstance();
 		mTvDates = bundle.getParcelableArrayList(Consts.PARCELABLE_TV_DATES_LIST);
 		mChannels = bundle.getParcelableArrayList(Consts.PARCELABLE_CHANNELS_LIST);
 		mDate = mTvDates.get(0).getDate().toString();
@@ -137,7 +137,7 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 	};
 
 	private void reloadPage() {
-		mTagsPage = SSTagsPage.getInstance();
+		//mTagsPage = SSTagsPage.getInstance();
 
 		// Don't allow any swiping gestures while reloading
 		mViewPager.setVisibility(View.GONE);
@@ -147,7 +147,7 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 	}
 
 	private void createFragments() {
-		if (mTags != null && !mTags.isEmpty()) {
+		//if (mTags != null && !mTags.isEmpty()) {
 			// insert general Tag category in the list
 			Tag tagAll = new Tag();
 			tagAll.setId(getResources().getString(R.string.all_categories_id));
@@ -161,32 +161,13 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 				mTabTitles.add(tag.getName());
 			}
 			Log.d(TAG, "mTagTitles size: " + mTabTitles.size());
-			setAdapter();
-		} else {
-			// we only have one general category
-			Tag tagAll = new Tag();
-			tagAll.setId(getResources().getString(R.string.all_categories_id));
-			tagAll.setName(getResources().getString(R.string.all_categories_name));
-			mTags.add(0, tagAll);
 
-			Log.d(TAG, "mTags SIZE:" + mTags.size());
-
-			Bundle bundle = new Bundle();
-			bundle.putParcelableArrayList(Consts.PARCELABLE_CHANNELS_LIST, mChannels);
-			bundle.putString(Consts.INTENT_EXTRA_TVGUIDE_TVDATE, mDate);
-			bundle.putString(Consts.INTENT_EXTRA_TAG, mTags.get(0).getName());
-
-			Fragment fragment = new TVGuideCategoryFragment();
-			fragment.setArguments(bundle);
-
-			getChildFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
-		}
+		setAdapter();
 	}
 
 	private void setAdapter() {
 		// if (mAdapter == null)
 
-		//final PagerAdapter mAdapter = new CategoryFragmentPagerAdapter(getChildFragmentManager(), mTabTitles) {
 		final PagerAdapter mAdapter = new CategoryFragmentPagerAdapter(getChildFragmentManager(), mTabTitles){
 			@Override
 			public Fragment initFragment(int position) {
@@ -194,6 +175,15 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 				Fragment fragment;
 				// fragment = TVGuideCategoryFragment.newInstance(mTags.get(position), mTvDates.get(0).getDate().toString(), mChannels);
 				fragment = TVGuideCategoryFragment.newInstance(mTags.get(position), mDate, mChannels);
+				
+				
+				Bundle bundle = new Bundle();
+				bundle.putParcelableArrayList(Consts.PARCELABLE_CHANNELS_LIST, mChannels);
+				bundle.putString(Consts.INTENT_EXTRA_TVGUIDE_TVDATE, mDate);
+				bundle.putString(Consts.INTENT_EXTRA_TAG, mTags.get(position).getName());
+
+				fragment.setArguments(bundle);
+				
 				return fragment;
 			}
 		};
@@ -214,7 +204,9 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 				//mViewPager.setAdapter(mAdapter);
 				mViewPager.setAdapter(wrappedAdapter);
 				
-				mAdapter.notifyDataSetChanged();
+				//mAdapter.notifyDataSetChanged();
+				wrappedAdapter.notifyDataSetChanged();
+				
 				mViewPager.setCurrentItem(mSelectedIndex);
 			}
 		});
@@ -223,13 +215,15 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 	private void getPage() {
 		updateUI(REQUEST_STATUS.LOADING);
 		Log.d(TAG, "LOADING");
-		mTagsPage.getPage(new SSPageCallback() {
+		//mTagsPage.getPage(new SSPageCallback() {
+		SSTagsPage.getInstance().getPage(new SSPageCallback() {
 			@Override
 			public void onGetPageResult(SSPageGetResult aPageGetResult) {
 				// mProgramTypes = mProgramTypePage.getProgramTypes();
 				mTags = new ArrayList<Tag>();
-				mTags = mTagsPage.getTags();
-
+				//mTags = mTagsPage.getTags();
+				mTags = SSTagsPage.getInstance().getTags();
+				
 				if (!pageHoldsData()) {
 					// Request failed
 					Log.d(TAG, "UpdateUI: FAILED");

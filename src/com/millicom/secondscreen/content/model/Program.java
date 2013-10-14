@@ -9,6 +9,7 @@ public class Program implements Parcelable {
 
 	private String programId;
 	private String programTypeId;
+	private String programType;
 	private String title;
 	private String subtitle;
 	private String posterSUrl;
@@ -42,6 +43,14 @@ public class Program implements Parcelable {
 	
 	public String getProgramTypeId(){
 		return this.programTypeId;
+	}
+	
+	public void setProgramType(String programType){
+		this.programType = programType;
+	}
+	
+	public String getProgramType(){
+		return this.programType;
 	}
 	
 	public void setTitle(String title){
@@ -173,6 +182,7 @@ public class Program implements Parcelable {
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(programId);
 		dest.writeString(programTypeId);
+		dest.writeString(programType);
 		dest.writeString(title);
 		dest.writeString(subtitle);
 		dest.writeString(posterSUrl);
@@ -193,6 +203,7 @@ public class Program implements Parcelable {
 	public Program(Parcel in){
 		programId = in.readString();
 		programTypeId = in.readString();
+		programType = in.readString();
 		title = in.readString();
 		subtitle = in.readString();
 		posterSUrl = in.readString();
@@ -233,7 +244,7 @@ public class Program implements Parcelable {
 	
 	@Override
 	public String toString() {
-	    return "Id: " + programId + "\n programTypeId: " + programTypeId + "\n title: " + title + "\n subtitle: " + subtitle + "\n posterSUrl:" + posterSUrl + "\n posterMUrl" + posterMUrl 
+	    return "Id: " + programId + "\n programTypeId: " + programTypeId + "\n programType: " + programType + "\n title: " + title + "\n subtitle: " + subtitle + "\n posterSUrl:" + posterSUrl + "\n posterMUrl" + posterMUrl 
 	    		+ "\n posterLUrl" + posterLUrl + "\n cast" + cast + "\n year: " + year + "\n runtime: " + runtime + "\n season: " + season + "\n episode:" + episode + 
 	    		"\n synopsisShort" + synopsisShort + "\n synopsisLong" + synopsisLong;  
 	}

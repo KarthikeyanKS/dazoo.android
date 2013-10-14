@@ -22,8 +22,8 @@ public class ContentParser {
 
 	private static final String	TAG	= "ContentParser";
 
-	public ArrayList<Guide> parseGuide(JSONArray mainArray, String programTypeKey) throws Exception {
-		Log.d(TAG, "parseGuide with key:" + programTypeKey);
+	public ArrayList<Guide> parseGuide(JSONArray mainArray, String tagKey) throws Exception {
+		Log.d(TAG, "parseGuide with tag key:" + tagKey);
 
 		ArrayList<Guide> guides = new ArrayList<Guide>();
 
@@ -52,12 +52,13 @@ public class ContentParser {
 				for (int j = 0; j < broadcastsJson.length(); j++) {
 					JSONObject jsonBroadcast = broadcastsJson.optJSONObject(j);
 					if (jsonBroadcast != null) {
-						if ("All categories".equals(programTypeKey) == false) {
+						if ("All categories".equals(tagKey) == false) {
 							// if (programTypeKey.equals(jsonBroadcast.optJSONObject(Consts.DAZOO_BROADCAST_PROGRAM).optString(Consts.DAZOO_PROGRAM_ID)) == true) {
 							// broadcasts.add(parseBroadcastProgramKey(jsonBroadcast, programTypeKey));
 							// }
 
 							JSONArray jsonTags = jsonBroadcast.optJSONObject(Consts.DAZOO_BROADCAST_PROGRAM).optJSONArray(Consts.DAZOO_PROGRAM_TAGS);
+							
 							ArrayList<String> tags = new ArrayList<String>();
 							if (jsonTags != null) {
 								for (int k = 0; k < jsonTags.length(); k++) {
@@ -65,13 +66,13 @@ public class ContentParser {
 								}
 							}
 
-							if (tags.size() > 0 && tags.contains(programTypeKey)) {
+							if (tags.size() > 0 && tags.contains(tagKey)) {
 								// broadcasts.add(parseBroadcastProgramKey(jsonBroadcast, programTypeKey));
-								broadcasts.add(parseBroadcast(jsonBroadcast));
+								broadcasts.add(parseBroadcast(jsonBroadcast, tagKey));
 							}
 						} else {
 							// broadcasts.add(parseBroadcastAll(jsonBroadcast));
-							broadcasts.add(parseBroadcast(jsonBroadcast));
+							broadcasts.add(parseBroadcast(jsonBroadcast, tagKey));
 						}
 					}
 				}
@@ -224,7 +225,7 @@ public class ContentParser {
 	 * return program; }
 	 */
 
-	public Broadcast parseBroadcast(JSONObject jsonBroadcast) throws Exception {
+	public Broadcast parseBroadcast(JSONObject jsonBroadcast, String tagKey) throws Exception {
 		Broadcast broadcast = new Broadcast();
 		// broadcast.setBroadcastId(jsonBroadcast.optString("broadcastId"));
 		broadcast.setBeginTime(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_BEGIN_TIME));
@@ -241,15 +242,18 @@ public class ContentParser {
 
 		JSONObject jsonProgram = jsonBroadcast.optJSONObject(Consts.DAZOO_BROADCAST_PROGRAM);
 		if (jsonProgram != null) {
-			broadcast.setProgram(parseProgram(jsonProgram));
+			broadcast.setProgram(parseProgram(jsonProgram, tagKey));
 		}
 		return broadcast;
 	}
 
-	public Program parseProgram(JSONObject jsonProgram) throws Exception {
+	public Program parseProgram(JSONObject jsonProgram, String tagKey) throws Exception {
 		Program program = new Program();
 		program.setProgramId(jsonProgram.optString(Consts.DAZOO_PROGRAM_ID));
 		program.setProgramTypeId(jsonProgram.optString(Consts.DAZOO_PROGRAM_TYPE_ID));
+		
+		String programType = jsonProgram.optString(Consts.DAZOO_PROGRAM_TYPE);
+		program.setProgramType(programType);
 
 		String temp = jsonProgram.optString(Consts.DAZOO_PROGRAM_TITLE);
 		if (temp.length() > 0) {
@@ -285,18 +289,21 @@ public class ContentParser {
 			program.setTags(tags);
 		}
 
-		JSONObject seasonJSON = jsonProgram.optJSONObject(Consts.DAZOO_PROGRAM_SEASON);
-		program.setSeason(parseSeason(seasonJSON));
-		// if (temp.length() > 0) program.setSeason(temp);
-		// else program.setSeason("");
+		if (programType.equals(Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE)) {
+			JSONObject seasonJSON = jsonProgram.optJSONObject(Consts.DAZOO_PROGRAM_SEASON);
+			program.setSeason(parseSeason(seasonJSON));
 
-		JSONObject seriesJSON = jsonProgram.optJSONObject(Consts.DAZOO_PROGRAM_SERIES);
-		program.setSeries(parseSeries(seriesJSON));
+			// if (temp.length() > 0) program.setSeason(temp);
+			// else program.setSeason("");
+			
+			JSONObject seriesJSON = jsonProgram.optJSONObject(Consts.DAZOO_PROGRAM_SERIES);
+			program.setSeries(parseSeries(seriesJSON));
 
-		temp = jsonProgram.optString(Consts.DAZOO_PROGRAM_EPISODE);
-		if (temp.length() > 0) program.setEpisode(temp);
-		else program.setEpisode("");
-
+			temp = jsonProgram.optString(Consts.DAZOO_PROGRAM_EPISODE);
+			if (temp.length() > 0) program.setEpisode(temp);
+			else program.setEpisode("");
+		}
+		
 		temp = jsonProgram.optString(Consts.DAZOO_PROGRAM_DESCRIPTION);
 		if (temp.length() > 0) program.setDescription(temp);
 		else program.setDescription("");

@@ -46,12 +46,12 @@
             android:visibility="gone" />
     </com.millicom.secondscreen.customviews.InfiniteViewPager>
 
-    <LinearLayout
+    <!--  LinearLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="vertical" />
+        android:orientation="vertical" /-->
     
     <include layout="@layout/layout_request_callbacks_holder_layout" />
 

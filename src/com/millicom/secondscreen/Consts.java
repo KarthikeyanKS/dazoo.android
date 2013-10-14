@@ -26,8 +26,8 @@ public abstract class Consts {
 	public static final String	MILLICOM_SECONDSCREEN_DAZOO_REGISTER_URL					= "http://www.gitrgitr.com/api/auth/login/dazoo/register";
 	public static final String	MILLICOM_SECONDSCREEN_RESET_PASSWORD_URL					= "http://www.gitrgitr.com/api/auth/login/dazoo/sendResetPasswordEmail";
 	public static final String	MILLICOM_SECONDSCREEN_TAGS_PAGE_URL							= "http://www.gitrgitr.com/api/epg/tags/visible";
-	public static final String	MILLICOM_SECONDSCREEN_MY_CHANNELS_URL						= "http://www.gitrgitr.com/api/mychannels"; 
-	
+	public static final String	MILLICOM_SECONDSCREEN_MY_CHANNELS_URL						= "http://www.gitrgitr.com/api/mychannels";
+
 	public static final String	MILLICON_SECONDSCREEN_HTTP_SCHEME							= "http";
 
 	// api request strings
@@ -59,8 +59,8 @@ public abstract class Consts {
 		LOADING, FAILED, EMPTY_RESPONSE, SUCCESSFUL
 	};
 
-	public static String DAZOO_BACK_STACK = "com.millicom.secondscreen.dazoo.back.stack";
-	
+	public static String		DAZOO_BACK_STACK					= "com.millicom.secondscreen.dazoo.back.stack";
+
 	// Date iso format
 	public static final String	ISO_DATE_FORMAT						= "yyyy-MM-dd'T'HH:mm:ssZZZ";
 
@@ -74,13 +74,13 @@ public abstract class Consts {
 	// Broadcast intents
 	public static final String	BROADCAST_SORTING_SELECTED			= "com.broadcast.sorting.selected";
 	public static final String	BROADCAST_FORCE_RELOAD				= "com.broadcast.only.downloads";
-	public static final String  BROADCAST_HOMEPAGE = "com.broadcast.homepage";
+	public static final String	BROADCAST_HOMEPAGE					= "com.broadcast.homepage";
 
 	// Section Ids
 	public static final String	SECTION_ID_TVGUIDE					= "secondscreen.section.tvguide";
 	public static final String	SECTION_ID_ACTIVITY					= "secondscreen.section.activity";
 	public static final String	SECTION_ID_ME						= "secondscreen.section.me";
-	
+
 	// data extra intents
 	public static final String	INTENT_EXTRA_SECTION				= "com.millicom.secondscreen.intent.extra.section";
 	public static final String	INTENT_EXTRA_GUIDE					= "com.millicom.secondscreen.intent.extra.guide";
@@ -117,7 +117,6 @@ public abstract class Consts {
 	public static final int		INFO_UPDATE_LIKES					= 11;
 	public static final int		INFO_NO_UPDATE_REMINDERS			= 0;
 	public static final int		INFO_NO_UPDATE_LIKES				= 10;
-	
 
 	// Response codes
 	public static final int		GOOD_RESPONSE						= 200;
@@ -134,6 +133,7 @@ public abstract class Consts {
 	public static final String	DAZOO_PROGRAM_ID					= "_id";
 	public static final String	DAZOO_PROGRAM_TITLE					= "title";
 	public static final String	DAZOO_PROGRAM_TYPE_ID				= "programTypeId";
+	public static final String	DAZOO_PROGRAM_TYPE					= "programType";
 	public static final String	DAZOO_PROGRAM_TAGS					= "tags";
 	public static final String	DAZOO_PROGRAM_SYNOPSIS_SHORT		= "synopsisShort";
 	public static final String	DAZOO_PROGRAM_SYNOPSISS_LONG		= "synopsisLong";
@@ -146,7 +146,10 @@ public abstract class Consts {
 	public static final String	DAZOO_PROGRAM_SUBTITLE				= "subtitle";
 	public static final String	DAZOO_PROGRAM_YEAR					= "year";
 	public static final String	DAZOO_PROGRAM_SERIES				= "series";
-
+	public static final String  DAZOO_PROGRAM_TYPE_TV_EPISODE = "TV_EPISODE";
+	public static final String DAZOO_PROGRAM_TYPE_MOVIE = "MOVIE";
+	public static final String DAZOO_PROGRAM_TYPE_OTHER = "OTHER";
+	
 	// BROADCAST fields
 	public static final String	DAZOO_BROADCAST_HREF				= "href";
 	public static final String	DAZOO_BROADCAST_PROGRAM				= "program";
@@ -155,7 +158,7 @@ public abstract class Consts {
 	public static final String	DAZOO_BROADCAST_END_TIME			= "endTime";
 	// public static final String DAZOO_BROADCAST_DURATION_IN_MINUTES = "durationInMinutes";
 	public static final String	DAZOO_BROADCAST_BEGIN_TIME_MILLIS	= "beginTimeMillis";
-
+	
 	// CHANNEL fields
 	public static final String	DAZOO_CHANNEL_HREF					= "href";
 	public static final String	DAZOO_CHANNEL_CHANNEL_ID			= "channelId";
