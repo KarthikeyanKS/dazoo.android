@@ -30,7 +30,7 @@ import com.millicom.secondscreen.content.model.Tag;
 
 public class TVGuideOverviewFragment extends SSPageFragment {
 
-	private static final String		TAG						= "TVGuideCategoryFragment";
+	private static final String		TAG						= "TVGuideOverviewFragment";
 	private View					mRootView;
 	private Activity				mActivity;
 
@@ -111,10 +111,10 @@ public class TVGuideOverviewFragment extends SSPageFragment {
 
 		mTvGuideListView.setMode(Mode.PULL_FROM_END);
 
+		super.initRequestCallbackLayouts(mRootView);
+		
 		// reset the activity whenever the view is recreated
 		mActivity = getActivity();
-
-		super.initRequestCallbackLayouts(mRootView);
 
 		loadPage();
 
@@ -209,7 +209,7 @@ public class TVGuideOverviewFragment extends SSPageFragment {
 		Log.d(TAG, "super status:" + super.requestIsSuccesfull(status));
 		if (super.requestIsSuccesfull(status)) {
 
-			mTvGuideListAdapter = new TVGuideListAdapter(mActivity, mGuide, mChannels);
+			mTvGuideListAdapter = new TVGuideListAdapter(mActivity, mGuide, mChannels, getChildFragmentManager());
 
 			actualListView = mTvGuideListView.getRefreshableView();
 			// mTvGuideListView.setAdapter(mTvGuideListAdapter);
@@ -223,13 +223,6 @@ public class TVGuideOverviewFragment extends SSPageFragment {
 			// channelBroadcastsMap = mapChannelsWithBroadcasts(mGuide);
 		} else if (status == Consts.REQUEST_STATUS.SUCCESSFUL) {
 			Log.d(TAG, "cheat");
-			mTvGuideListAdapter = new TVGuideListAdapter(mActivity, mGuide, mChannels);
-
-			actualListView = mTvGuideListView.getRefreshableView();
-			// mTvGuideListView.setAdapter(mTvGuideListAdapter);
-			actualListView.setAdapter(mTvGuideListAdapter);
-			actualListView.invalidate();
-
 		}
 	}
 

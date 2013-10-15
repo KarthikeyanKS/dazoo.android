@@ -33,7 +33,7 @@ import com.millicom.secondscreen.content.model.Tag;
 
 public class TVGuideTagFragment extends SSPageFragment {
 
-	private static final String		TAG						= "TVGuideCategoryFragment";
+	private static final String		TAG						= "TVGuideTagFragment";
 	private View					mRootView;
 	private ListView				mListView;
 	private Activity				mActivity;
@@ -89,10 +89,12 @@ public class TVGuideTagFragment extends SSPageFragment {
 		mRootView = inflater.inflate(R.layout.layout_tvguide_tag_fragment, null);
 		mListView = (ListView) mRootView.findViewById(R.id.listview);
 
+		super.initRequestCallbackLayouts(mRootView);
+		
 		// reset the activity whenever the view is recreated
 		mActivity = getActivity();
 
-		super.initRequestCallbackLayouts(mRootView);
+		
 
 		loadPage();
 

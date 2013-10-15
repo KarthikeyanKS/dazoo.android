@@ -22,6 +22,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.PagerTabStrip;
@@ -54,6 +55,7 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 	private int					mSelectedIndex	= 0;
 	private Activity			mActivity;
 	private String				mDate;
+	private PagerAdapter mAdapter;
 
 	// private SSTagsPage mTagsPage;
 
@@ -140,9 +142,10 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 		// mTagsPage = SSTagsPage.getInstance();
 
 		// Don't allow any swiping gestures while reloading
-		mViewPager.setVisibility(View.GONE);
-		mPagerTabStrip.setVisibility(View.GONE);
+		//mViewPager.setVisibility(View.GONE);
+		//mPagerTabStrip.setVisibility(View.GONE);
 		mTags = null;
+	
 		getPage();
 	}
 
@@ -168,7 +171,7 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 	private void setAdapter() {
 		// if (mAdapter == null)
 
-		final PagerAdapter mAdapter = new CategoryFragmentPagerAdapter(getChildFragmentManager(), mTabTitles) {
+		mAdapter = new CategoryFragmentPagerAdapter(getChildFragmentManager(), mTabTitles) {
 			@Override
 			public Fragment initFragment(int position) {
 				Log.d(TAG, "INIT FRAGMENTS");

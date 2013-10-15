@@ -11,6 +11,10 @@ import java.util.TimeZone;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +34,7 @@ import com.millicom.secondscreen.content.model.ChannelHour;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.myprofile.RemindersActivity;
 import com.millicom.secondscreen.content.tvguide.ChannelPageActivity;
+import com.millicom.secondscreen.content.tvguide.ChannelPageFragment;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
 
@@ -43,12 +48,14 @@ public class TVGuideListAdapter extends BaseAdapter {
 	private ArrayList<Channel> mChannels;
 
 	private ImageLoader			mImageLoader;
-
-	public TVGuideListAdapter(Activity mActivity, ArrayList<Guide> mGuide, ArrayList<Channel> mChannels) {
+	private FragmentManager mFragmentManager;
+	
+	public TVGuideListAdapter(Activity mActivity, ArrayList<Guide> mGuide, ArrayList<Channel> mChannels, FragmentManager fm) {
 		this.mGuide = mGuide;
 		this.mChannels = mChannels;
 		this.mActivity = mActivity;
 		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage);
+		mFragmentManager = fm;
 	}
 
 	@Override
@@ -116,6 +123,13 @@ public class TVGuideListAdapter extends BaseAdapter {
 				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_GUIDE, guide);
 				mActivity.startActivity(intent);
 				mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+				
+				//Fragment fragment = new ChannelPageFragment();
+				//Bundle bundle = new Bundle();
+				//bundle.putParcelable(Consts.INTENT_EXTRA_CHANNEL, channeltoSend);
+				//bundle.putParcelable(Consts.INTENT_EXTRA_CHANNEL_GUIDE, guide);
+				//fragment.setArguments(bundle);
+				//mFragmentManager.beginTransaction().add(0, fragment).commit();
 			}
 		});
 

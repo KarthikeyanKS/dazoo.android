@@ -87,6 +87,8 @@ public abstract class SSPageFragment extends Fragment {
 
 			Animation anim = AnimationUtils.loadAnimation(getActivity(), android.R.anim.fade_in);
 
+			Log.d(TAG,"STATUS: " + status);
+			
 			switch (status) {
 			case EMPTY_RESPONSE:
 
@@ -101,7 +103,8 @@ public abstract class SSPageFragment extends Fragment {
 				if (mRequestFailedLayout != null) {
 					mRequestFailedLayout.setVisibility(View.VISIBLE);
 					mRequestFailedLayout.startAnimation(anim);
-				}break;
+				}
+				break;
 
 			case LOADING:
 

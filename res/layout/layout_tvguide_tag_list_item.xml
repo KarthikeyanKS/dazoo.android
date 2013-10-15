@@ -14,7 +14,7 @@
         android:layout_gravity="left"
         android:layout_margin="5dp"
         android:textColor="@color/tvguide_program_line_color"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
     <com.millicom.secondscreen.customviews.FontTextView
@@ -24,7 +24,7 @@
         android:layout_margin="5dp"
         android:layout_toRightOf="@id/tvguide_tag_list_item_time_tv"
         android:textColor="@color/tvguide_program_line_color"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
 </RelativeLayout>

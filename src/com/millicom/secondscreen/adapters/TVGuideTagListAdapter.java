@@ -61,7 +61,7 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 
 		ArrayList<Broadcast> broadcasts = guide.getBroadcasts();
 		
-		holder.title.setText(broadcasts.get(0).getProgram().getTitle());
+		holder.title.setText(broadcasts.get(0).getProgram().getTitle() + "  " + broadcasts.get(0).getProgram().getProgramType());
 		try {
 			holder.time.setText(DateUtilities.isoStringToTimeString(broadcasts.get(0).getBeginTime()));
 		} catch (ParseException e) {
