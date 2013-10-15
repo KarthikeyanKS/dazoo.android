@@ -69,13 +69,13 @@ public class ActionBarDropDownDateListAdapter extends BaseAdapter implements Spi
 			row = inflater.inflate(R.layout.layout_actionbar_dropdown_list_date_item, parent, false);
 		}
 
-		ImageView imageView = (ImageView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_item_icon);
+		//ImageView imageView = (ImageView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_item_icon);
 		TextView txtTitle = (TextView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_item_name);
 
 		TvDate tvDate = mDays.get(position);
 
 		Drawable res = context.getResources().getDrawable(R.drawable.ic_launcher);
-		imageView.setImageDrawable(res);
+	//	imageView.setImageDrawable(res);
 		try {
 			txtTitle.setText(tvDate.getName() + " " + DateUtilities.tvDateStringToDatePickerString(tvDate.getDate()));
 		} catch (Exception e) {

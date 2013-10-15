@@ -53,7 +53,7 @@ public abstract class SSPageFragment extends Fragment {
 				
 				mForceReload = true;
 			}
-		}, new IntentFilter(Consts.BROADCAST_FORCE_RELOAD));
+		}, new IntentFilter(Consts.BROADCAST_HOMEPAGE));
 	}
 
 	// Set the initial state of all request layouts to GONE
@@ -109,6 +109,7 @@ public abstract class SSPageFragment extends Fragment {
 				break;
 
 			case SUCCESSFUL:
+				mForceReload = false;
 				Log.d(TAG,"SUCCESSFUL!");
 				return true;
 			}
