@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
+    android:id="@+id/tvguide_tag_list_item_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+    <com.millicom.secondscreen.customviews.FontTextView
+        android:id="@+id/tvguide_tag_list_item_time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_gravity="left"
+        android:layout_margin="5dp"
+        android:textColor="@color/tvguide_program_line_color"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <com.millicom.secondscreen.customviews.FontTextView
+        android:id="@+id/tvguide_tag_list_item_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_toRightOf="@id/tvguide_tag_list_item_time_tv"
+        android:textColor="@color/tvguide_program_line_color"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>

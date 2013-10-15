@@ -174,8 +174,11 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 				Log.d(TAG, "INIT FRAGMENTS");
 				Fragment fragment;
 
-				fragment = TVGuideCategoryFragment.newInstance(mTags.get(position), mDate, mChannels);
-
+				if (position == 0){
+				fragment = TVGuideOverviewFragment.newInstance(mTags.get(position), mDate, mChannels);
+				} else {
+					fragment = TVGuideTagFragment.newInstance(mTags.get(position), mDate, mChannels);
+				}
 				Bundle bundle = new Bundle();
 				bundle.putParcelableArrayList(Consts.PARCELABLE_CHANNELS_LIST, mChannels);
 				bundle.putString(Consts.INTENT_EXTRA_TVGUIDE_TVDATE, mDate);
