@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.utilities.ImageLoader;
+import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.share.ShareAction;
 
 public class SSSocialInteractionPanelCreator {
@@ -20,11 +21,13 @@ public class SSSocialInteractionPanelCreator {
 	private Activity			mActivity;
 	private ImageLoader			mImageLoader;
 	private LinearLayout		mContainerView;
+	private Broadcast mBroadcast;
 
-	public SSSocialInteractionPanelCreator(Activity activity, LinearLayout containerView) {
+	public SSSocialInteractionPanelCreator(Activity activity, LinearLayout containerView, Broadcast broadcast) {
 		this.mActivity = activity;
 		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage_2x);
 		this.mContainerView = containerView;
+		this.mBroadcast = broadcast;
 	}
 
 	public void createPanel() {
@@ -39,7 +42,7 @@ public class SSSocialInteractionPanelCreator {
 			@Override
 			public void onClick(View v) {
 				// start the share Action
-				ShareAction.shareAction(mActivity, "subject", "body", mActivity.getResources().getString(R.string.share_action_title));			
+				ShareAction.shareAction(mActivity, "subject", "link to share", mActivity.getResources().getString(R.string.share_action_title));			
 			}
 		});
 

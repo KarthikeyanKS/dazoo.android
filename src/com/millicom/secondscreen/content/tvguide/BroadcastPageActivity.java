@@ -81,7 +81,7 @@ public class BroadcastPageActivity extends ActionBarActivity {
 		broadcastBlockPopulator.createBlock(mBroadcast);
 	
 		//add the button block
-		SSSocialInteractionPanelCreator socialPanelCreator = new SSSocialInteractionPanelCreator(this, mBlockContainer);
+		SSSocialInteractionPanelCreator socialPanelCreator = new SSSocialInteractionPanelCreator(this, mBlockContainer, mBroadcast);
 		socialPanelCreator.createPanel();
 		
 		//add the cast and crew block

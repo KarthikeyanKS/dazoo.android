@@ -156,4 +156,9 @@
     <!-- SHARE PROVIDER -->
     <string name="share_action_title">Share via...</string>
   
+    <!-- NOTIFICATION SERVICE -->
+    <string name="dazoo_notification_text_start">Dazoo would like to remind you that </string>
+    <string name="dazoo_notification_text_middle"> in 15 minutes at the channel </string>
+    <string name="dazoo_notification_text_end">. Enjoy! :)</string>
+    
 </resources>
