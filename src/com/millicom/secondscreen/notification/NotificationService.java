@@ -34,6 +34,7 @@ public class NotificationService{
 	
 		Intent broadcastPageIntent = new Intent();
 		broadcastPageIntent.putExtra(Consts.INTENT_EXTRA_BROADCAST_URL, broadcastUrl);
+		broadcastPageIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		
 		NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
 		.setSmallIcon(R.drawable.ic_launcher)
@@ -45,12 +46,8 @@ public class NotificationService{
 				.setContentIntent(PendingIntent.getActivity(context, 0, broadcastPageIntent, 0))
 				.setAutoCancel(true)
 				.setWhen(System.currentTimeMillis())
-				.setDefaults(Notification.DEFAULT_ALL); // default sound, vibration, light
-
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.HOUR_OF_DAY, 12);
-		calendar.set(Calendar.MINUTE, 00);
-		calendar.set(Calendar.SECOND, 00);
+				.setDefaults(Notification.DEFAULT_ALL) // default sound, vibration, light
+				.setAutoCancel(true); 
 
 		Date now = new Date();
 		long uniqueId = now.getTime();

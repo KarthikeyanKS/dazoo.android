@@ -27,6 +27,7 @@ import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
 import com.millicom.secondscreen.content.model.Broadcast;
+import com.millicom.secondscreen.notification.DazooNotification;
 import com.millicom.secondscreen.notification.NotificationService;
 import com.millicom.secondscreen.share.ShareAction;
 
@@ -74,8 +75,8 @@ public class SSSocialInteractionPanelCreator {
 					isSet = true;
 					remindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
 
-					// call alarm manager to set the notification
-					Intent intent = new Intent(mActivity, NotificationService.class);
+					// call alarm manager to set the notification at the certain time
+					Intent intent = new Intent(mActivity, DazooNotification.class);
 					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST, mBroadcast);
 
 					AlarmManager alarmManager = (AlarmManager) mActivity.getSystemService(Context.ALARM_SERVICE);
@@ -99,7 +100,6 @@ public class SSSocialInteractionPanelCreator {
 					remindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
 					showRemoveNotificationDialog();
 				}
-
 			}
 		});
 
