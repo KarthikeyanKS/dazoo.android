@@ -1,8 +1,14 @@
 package com.millicom.secondscreen.content;
 
+import java.text.ParseException;
+import java.util.Calendar;
+
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
@@ -18,6 +24,7 @@ import android.widget.Toast;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.notification.NotificationService;
@@ -33,7 +40,7 @@ public class SSSocialInteractionPanelCreator {
 	private Broadcast			mBroadcast;
 
 	private boolean				isSet	= false;
-	private int notificationId;
+	private int					notificationId;
 
 	public SSSocialInteractionPanelCreator(Activity activity, LinearLayout containerView, Broadcast broadcast) {
 		this.mActivity = activity;
@@ -66,8 +73,25 @@ public class SSSocialInteractionPanelCreator {
 					// add reminder
 					isSet = true;
 					remindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
-					if (NotificationService.setNotification(mBroadcast)) {
+
+					// call alarm manager to set the notification
+					Intent intent = new Intent(mActivity, NotificationService.class);
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST, mBroadcast);
+
+					AlarmManager alarmManager = (AlarmManager) mActivity.getSystemService(Context.ALARM_SERVICE);
+					PendingIntent pendingIntent = PendingIntent.getService(mActivity, 0, intent, 0);
+					Calendar calendar = null;
+					try {
+						calendar = DateUtilities.getTimeFifteenMinBefore(mBroadcast.getBeginTime());
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					if (calendar.isSet(Calendar.MINUTE)) {
+						alarmManager.set(AlarmManager.ELAPSED_REALTIME, calendar.getTimeInMillis(), pendingIntent);
 						showSetNotificationToast();
+					} else {
+						Toast.makeText(mActivity, "Setting the notification faced an error!", Toast.LENGTH_SHORT).show();
 					}
 				} else {
 					// remove reminder
@@ -96,49 +120,47 @@ public class SSSocialInteractionPanelCreator {
 		toast.setView(layout);
 		toast.show();
 	}
-	
 
 	private void showRemoveNotificationDialog() {
 		String reminderText = "";
 		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(mBroadcast.getProgram().getProgramType())) {
-			reminderText = mActivity.getString(R.string.reminder_text_remove) + mBroadcast.getProgram().getTitle() + ", " 
-					+ mActivity.getString(R.string.season) + " " + mBroadcast.getProgram().getSeason().getNumber() + ", "
-					+ mActivity.getString(R.string.episode) + " " + mBroadcast.getProgram().getEpisode() + "?";
+			reminderText = mActivity.getString(R.string.reminder_text_remove) + mBroadcast.getProgram().getTitle() + ", " + mActivity.getString(R.string.season) + " "
+					+ mBroadcast.getProgram().getSeason().getNumber() + ", " + mActivity.getString(R.string.episode) + " " + mBroadcast.getProgram().getEpisode() + "?";
 		} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(mBroadcast.getProgram().getProgramType())) {
 			reminderText = mActivity.getString(R.string.reminder_text_remove) + mBroadcast.getProgram().getTitle() + "?";
 		} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(mBroadcast.getProgram().getProgramType())) {
 			reminderText = mActivity.getString(R.string.reminder_text_remove) + mBroadcast.getProgram().getTitle() + "?";
 		}
-		
+
 		final Dialog dialog = new Dialog(mActivity, R.style.remove_notification_dialog);
 		dialog.setContentView(R.layout.dialog_remove_notification);
 		dialog.setCancelable(false);
-		
+
 		Button noButton = (Button) dialog.findViewById(R.id.dialog_remove_notification_button_no);
 		Button yesButton = (Button) dialog.findViewById(R.id.dialog_remove_notification_button_yes);
-		
+
 		TextView textView = (TextView) dialog.findViewById(R.id.dialog_remove_notification_tv);
 		textView.setText(reminderText);
-		
+
 		noButton.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// do not remove the reminder
 				dialog.dismiss();
 			}
 		});
-		
+
 		yesButton.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// remove the reminder
-				NotificationService.removeNotification(mBroadcast);
+				// TODO
 				dialog.dismiss();
 			}
 		});
-		
+
 		dialog.show();
 	}
 }

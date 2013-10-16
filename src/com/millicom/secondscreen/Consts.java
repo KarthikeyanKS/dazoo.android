@@ -21,6 +21,7 @@ public abstract class Consts {
 	public static final String	MILLICOM_SECONDSCREEN_GUIDE_PAGE_URL						= "http://www.gitrgitr.com/api/epg/guide";
 	public static final String	MILLICOM_SECONDSCREEN_DATES_PAGE_URL						= "http://www.gitrgitr.com/api/epg/dates";
 	public static final String	MILLICOM_SECONDSCREEN_CHANNELS_PAGE_URL						= "http://www.gitrgitr.com/api/epg/channels";
+	public static final String	MILLICOM_SECONDSCREEN_CHANNELS_DEFAULT_PAGE_URL				= "http://www.gitrgitr.com/api/epg/channels/default";
 	public static final String	MILLICOM_SECONDSCREEN_FACEBOOK_TOKEN_URL					= "http://www.gitrgitr.com/api/auth/login/facebook";
 	public static final String	MILLICOM_SECONDSCREEN_DAZOO_LOGIN_URL						= "http://www.gitrgitr.com/api/auth/login/dazoo";
 	public static final String	MILLICOM_SECONDSCREEN_DAZOO_REGISTER_URL					= "http://www.gitrgitr.com/api/auth/login/dazoo/register";
@@ -94,6 +95,8 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_TAG					= "com.millicom.secondscreen.intent.tag";
 	public static final String	INTENT_EXTRA_TVGUIDE_PAGE_URL		= "com.millicom.secondscreen.intent.extra.tvguide.page.url";
 	public static final String	INTENT_EXTRA_TVGUIDE_TVDATE			= "com.millicom.secondscreen.intent.extra.tvguide.tvdate";
+	public static final String	INTENT_EXTRA_BROADCAST				= "com.millicom.secondscreen.intent.extra.broadcast";
+	public static final String	INTENT_EXTRA_BROADCAST_URL			= "com.millicom.secondscren.intent,extra.broadcast.url";
 
 	// custom data types
 	public static final String	VALUE_TYPE_PROGRAMTYPE				= "com.millicom.secondscreen.value.type.programtype";
@@ -125,6 +128,11 @@ public abstract class Consts {
 	public static final int		BAD_RESPONSE						= 400;
 	public static final int		BAD_RESPONSE_MISSING_TOKEN			= 401;
 	public static final int		BAD_RESPONSE_INVALID_TOKEN			= 403;
+
+	// notifications
+	public static final int		NOTIFY_MINUTES_BEFORE_THE_BROADCAST	= 15;
+	public static final String	NOTIFY_BROADCAST_URL_PREFIX			= "http://www.gitrgitr.com/api/epg/channels/";
+	public static final String	NOTIFY_BROADCAST_URL_MIDDLE			= "/broadcasts/";
 
 	// =========================== CONTENT ================================
 

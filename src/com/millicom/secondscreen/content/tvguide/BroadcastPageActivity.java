@@ -41,7 +41,8 @@ public class BroadcastPageActivity extends ActionBarActivity {
 	private LinearLayout		mBlockContainer;
 	private ActionBar			mActionBar;
 	private LayoutInflater mLayoutInflater;
-
+	private String mBroadcastUrl;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -53,7 +54,6 @@ public class BroadcastPageActivity extends ActionBarActivity {
 		// get the info about the program to be displayed from tv-guide listview
 		Intent intent = getIntent();
 		mBroadcast = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHANNEL_BROADCAST);
-		
 		mProgram = mBroadcast.getProgram();
 
 		initViews();

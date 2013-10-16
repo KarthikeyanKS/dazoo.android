@@ -17,6 +17,36 @@ public class DateUtilities {
 	
 	private static final String TAG = "DateUtilities";
 
+	public static Calendar getTimeFifteenMinBefore(String beginTime) throws ParseException{
+		
+		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
+		
+		int year = 0;
+		int month = 0;
+		int day = 0;
+		int hour = 0;
+		int minute = 0;
+		
+		if (beginTime != null && !beginTime.equals("")){
+			year = df.parse(beginTime).getYear();
+			month = df.parse(beginTime).getMonth();
+			day = df.parse(beginTime).getDate();
+			hour = df.parse(beginTime).getHours();
+			minute = df.parse(beginTime).getMinutes();
+		}
+		
+		Calendar calendar = Calendar.getInstance();	
+		calendar.set(Calendar.YEAR, year);
+		calendar.set(Calendar.MONTH, month);
+		calendar.set(Calendar.DAY_OF_MONTH, day);
+		calendar.set(Calendar.HOUR_OF_DAY, hour);
+		calendar.set(Calendar.MINUTE, minute);
+		calendar.set(Calendar.SECOND, 00);
+		calendar.add(Calendar.MINUTE, Consts.NOTIFY_MINUTES_BEFORE_THE_BROADCAST);
+		return calendar;
+	}
+	
+	
 	/**
 	 * Converts a TvDate date string YYYY-MM-DD to the user-friendly format DD/MM
 	 */

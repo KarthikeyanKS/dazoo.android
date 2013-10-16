@@ -6,46 +6,47 @@ import org.json.JSONArray;
 
 import android.util.Log;
 
-import com.millicom.secondscreen.Consts;
-import com.millicom.secondscreen.content.model.Channel;
+import com.millicom.secondscreen.content.model.Broadcast;
+import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Link;
 
-public class SSChannelPage extends SSPage{
+public class SSBroadcastPage  extends SSPage {
 
-	private static final String TAG = "SSChannelPage";
+	public static final String	TAG			= "SSBroadcastPage";
+	private static SSBroadcastPage	sInstance;
+	public String				mBroadcastPageUrl;
+
+	public SSBroadcastPage(){
+	}
 	
-	private static SSChannelPage	sInstance;
-	public String 				mChannelsPageUrl;
-
-	public static SSChannelPage getInstance() {
-		if (sInstance == null) sInstance = new SSChannelPage();
+	public static SSBroadcastPage getInstance() {
+		if (sInstance == null) sInstance = new SSBroadcastPage();
 		return sInstance;
 	}
 
-	public boolean getPage(SSPageCallback pageCallback) {
+	public boolean getPage(String programType, String url, SSPageCallback pageCallback) {
 		Log.d(TAG, "getPage");
-
 		// Remember the callback
 		super.mPageCallback = pageCallback;
-		mChannelsPageUrl = Consts.MILLICOM_SECONDSCREEN_CHANNELS_DEFAULT_PAGE_URL;
-		Link programTypesPageLink = new Link();
-		programTypesPageLink.setUrl(mChannelsPageUrl);
+		mBroadcastPageUrl = url;
+		Link startPageLink = new Link();
+		startPageLink.setUrl(mBroadcastPageUrl);
 		
-		super.getPage(programTypesPageLink, pageCallback);
+		super.getPage(startPageLink, pageCallback);
 		return true;
 	}
-	
-	public ArrayList<Channel> getChannels(){
-		Log.d(TAG,"get Channels");
-		return super.getChannels();
+
+	public Broadcast getBroadcast() {
+		Log.d(TAG, "get Broadcast");
+		return super.getBroadcast();
 	}
-	
+
 	@Override
 	protected void parseGetPageResult(JSONArray jsonArray, SSPageGetResult pageGetResult){	
 	Log.d(TAG, "parseGetPageResult");
 		try {
-			super.parseChannels(jsonArray);
-
+			super.parseBroadcast(jsonArray);
+			
 			// The resulting page is this
 			pageGetResult.setPage(this);
 			
@@ -53,16 +54,19 @@ public class SSChannelPage extends SSPage{
 			e.printStackTrace();
 		}
 	}
-	
+
 	protected void handleGetStartPageUriResult() {
+
 		Log.d(TAG, "handleGetStartPageUriResult");
 
 		// If get start page uri failed or get start page fails
-		if (!getPage(mPageCallback)) {
-			Log.d(TAG, "Get dates page uri or get dates page failed");
+		if (!getPage(null,mBroadcastPageUrl, mPageCallback)) {
+
+			Log.d(TAG, "Get start page uri or get start page failed");
 
 			// If we have a callback
 			if (mPageCallback != null) {
+
 				// Tell our callback about it
 				SSPageGetResult pageGetResult = new SSPageGetResult(this);
 				mPageCallback.onGetPageResult(pageGetResult);

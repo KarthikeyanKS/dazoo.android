@@ -3,6 +3,7 @@ package com.millicom.secondscreen.manager;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
@@ -348,5 +349,20 @@ public class ContentParser {
 			}
 		}
 		return tvDates;
+	}
+
+	public Broadcast parseBroadcast(JSONArray mainArray) {
+		JSONObject jsonBroadcast;
+		try {
+			jsonBroadcast = mainArray.getJSONObject(0);
+			if(jsonBroadcast !=null){
+				return parseBroadcast(jsonBroadcast, null); 
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

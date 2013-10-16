@@ -6,6 +6,7 @@ import org.json.JSONArray;
 
 import android.util.Log;
 
+import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Link;
@@ -30,6 +31,7 @@ public abstract class SSPage {
 	private ArrayList<TvDate> mTvDates;
 	private ArrayList<Channel> mChannels;
 	private ArrayList<Tag> mTags;
+	private Broadcast mBroadcast;
 
 	public void cancelGetPage() {
 		// Tell http client to cancel any request
@@ -134,6 +136,14 @@ public abstract class SSPage {
 	
 	public ArrayList<Tag> getTags() {
 		return mTags;
+	}
+
+	public Broadcast getBroadcast() {
+		return mBroadcast;
+	}
+
+	public void parseBroadcast(JSONArray jsonArray) {
+		this.mBroadcast = mContentParser.parseBroadcast(jsonArray);
 	}
 	
 }
