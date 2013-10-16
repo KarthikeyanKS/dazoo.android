@@ -146,10 +146,10 @@ public abstract class Consts {
 	public static final String	DAZOO_PROGRAM_SUBTITLE				= "subtitle";
 	public static final String	DAZOO_PROGRAM_YEAR					= "year";
 	public static final String	DAZOO_PROGRAM_SERIES				= "series";
-	public static final String  DAZOO_PROGRAM_TYPE_TV_EPISODE = "TV_EPISODE";
-	public static final String DAZOO_PROGRAM_TYPE_MOVIE = "MOVIE";
-	public static final String DAZOO_PROGRAM_TYPE_OTHER = "OTHER";
-	
+	public static final String	DAZOO_PROGRAM_TYPE_TV_EPISODE		= "TV_EPISODE";
+	public static final String	DAZOO_PROGRAM_TYPE_MOVIE			= "MOVIE";
+	public static final String	DAZOO_PROGRAM_TYPE_OTHER			= "OTHER";
+
 	// BROADCAST fields
 	public static final String	DAZOO_BROADCAST_HREF				= "href";
 	public static final String	DAZOO_BROADCAST_PROGRAM				= "program";
@@ -158,7 +158,7 @@ public abstract class Consts {
 	public static final String	DAZOO_BROADCAST_END_TIME			= "endTime";
 	// public static final String DAZOO_BROADCAST_DURATION_IN_MINUTES = "durationInMinutes";
 	public static final String	DAZOO_BROADCAST_BEGIN_TIME_MILLIS	= "beginTimeMillis";
-	
+
 	// CHANNEL fields
 	public static final String	DAZOO_CHANNEL_HREF					= "href";
 	public static final String	DAZOO_CHANNEL_CHANNEL_ID			= "channelId";

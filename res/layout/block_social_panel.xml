@@ -27,7 +27,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_margin="5dp"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/ic_clock" />
 
         <ImageView
             android:layout_width="fill_parent"

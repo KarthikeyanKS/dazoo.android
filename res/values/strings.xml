@@ -3,6 +3,9 @@
 
     <string name="app_name">Dazoo</string>
     <string name="app_id">181878081998412</string>
+    
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <!-- HOMEPAGE : TABS -->
     <string name="tab_tv_guide">TV Guide</string>
@@ -133,7 +136,9 @@
     <!-- BROADCAST PAGE -->
     <string name="cast_and_crew">Cast &amp; Crews</string>
     <string name="view_full_cast_and_crew">View full cast &amp; crew</string>
-
+    <string name="season">Season</string>
+	<string name="episode">Episode</string>
+    
     <!-- LOGIN PAGE -->
     <string name="login_with_facebook">Login with Facebook</string>
     <string name="logout_from_facebook">Logout from Facebook</string>
@@ -160,5 +165,7 @@
     <string name="dazoo_notification_text_start">Dazoo would like to remind you that </string>
     <string name="dazoo_notification_text_middle"> in 15 minutes at the channel </string>
     <string name="dazoo_notification_text_end">. Enjoy! :)</string>
-    
+    <string name="reminder_text_set">A notification was set for this broadcast 15 minutes before on air</string>
+    <string name="reminder_text_remove">"Do you really want to remove the reminder for "</string>
+   
 </resources>

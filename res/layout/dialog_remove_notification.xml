@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
+    android:id="@+id/dialog_remove_notification_container"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/light_gray"
+    android:orientation="vertical" >
+
+    <com.millicom.secondscreen.customviews.FontTextView
+        android:id="@+id/dialog_remove_notification_tv"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_margin="5dp"
+        android:padding="5dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="normal" />
+
+    <LinearLayout
+        android:id="@+id/dialog_remove_notification_button_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialog_remove_notification_tv"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="5dp" >
+
+        <com.millicom.secondscreen.customviews.FontButton
+            android:id="@+id/dialog_remove_notification_button_no"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/no"
+            android:textColor="@color/lightblue" />
+
+        <com.millicom.secondscreen.customviews.FontButton
+            android:id="@+id/dialog_remove_notification_button_yes"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" 
+            android:text="@string/yes"
+            android:textColor="@color/lightblue" />
+    </LinearLayout>
+
+</RelativeLayout>

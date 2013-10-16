@@ -29,4 +29,12 @@ public class NotificationService {
 		
 	}
 
+	public static boolean setNotification(Broadcast broadcast){
+		return true;
+	}
+	
+	public static boolean removeNotification(Broadcast broadcast){
+		return true;
+	}
+	
 }
