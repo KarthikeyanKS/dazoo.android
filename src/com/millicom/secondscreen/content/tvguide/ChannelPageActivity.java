@@ -169,7 +169,7 @@ public class ChannelPageActivity extends ActionBarActivity {
 
 					// open the detail view for the individual broadcast
 					Intent intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_BROADCAST, mFollowingBroadcasts.get(position));
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST, mFollowingBroadcasts.get(position));
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL, mChannel);
 					startActivity(intent);
 					overridePendingTransition(R.anim.slide_in, R.anim.slide_out);

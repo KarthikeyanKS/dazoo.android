@@ -10,9 +10,9 @@ import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 
-public class DazooNotification extends BroadcastReceiver {
+public class AlarmReceiver extends BroadcastReceiver {
 	
-	private static final String TAG = "DazooNotification";
+	private static final String TAG = "AlarmReceiver";
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -20,8 +20,8 @@ public class DazooNotification extends BroadcastReceiver {
 		Broadcast broadcast = intent.getExtras().getParcelable(Consts.INTENT_EXTRA_BROADCAST);
 		Channel channel = intent.getExtras().getParcelable(Consts.INTENT_EXTRA_CHANNEL);
 		
-		Toast.makeText(context, "I am a dazoo notification", Toast.LENGTH_SHORT).show();
-		Log.d(TAG,"I HAVE RECEIVED A REQUEST TO SET A NOTIFICATION");
+		Log.d(TAG,"What notification knows:" + broadcast.getBeginTime() + " channel " + channel.getChannelId());
+		Log.d(TAG,"Program: " + broadcast.getProgram().getProgramId());
 		
 		NotificationService.showNotification(context, broadcast, channel, notificationId);
 	}

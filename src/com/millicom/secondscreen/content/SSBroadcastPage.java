@@ -3,75 +3,72 @@ package com.millicom.secondscreen.content;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import android.util.Log;
 
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Link;
+import com.millicom.secondscreen.http.SSHttpClient;
+import com.millicom.secondscreen.http.SSHttpClientCallback;
+import com.millicom.secondscreen.http.SSHttpClientGetResult;
+import com.millicom.secondscreen.manager.ContentParser;
 
-public class SSBroadcastPage  extends SSPage {
+public class SSBroadcastPage {
 
-	public static final String	TAG			= "SSBroadcastPage";
-	private static SSBroadcastPage	sInstance;
-	public String				mBroadcastPageUrl;
+	public static final String				TAG				= "SSBroadcastPage";
+	private static SSBroadcastPage			sInstance;
+	public String							mBroadcastPageUrl;
+	private SSHttpClient<SSPageGetResult>	mHttpClient		= new SSHttpClient<SSPageGetResult>();
+	private Broadcast						mBroadcast;
+	private ContentParser					mContentParser	= new ContentParser();
 
-	public SSBroadcastPage(){
-	}
-	
-	public static SSBroadcastPage getInstance() {
-		if (sInstance == null) sInstance = new SSBroadcastPage();
-		return sInstance;
-	}
-
-	public boolean getPage(String programType, String url, SSPageCallback pageCallback) {
-		Log.d(TAG, "getPage");
-		// Remember the callback
-		super.mPageCallback = pageCallback;
-		mBroadcastPageUrl = url;
-		Link startPageLink = new Link();
-		startPageLink.setUrl(mBroadcastPageUrl);
-		
-		super.getPage(startPageLink, pageCallback);
-		return true;
+	public SSBroadcastPage(String broadcastPageUrl) {
+		this.mBroadcastPageUrl = broadcastPageUrl;
 	}
 
-	public Broadcast getBroadcast() {
-		Log.d(TAG, "get Broadcast");
-		return super.getBroadcast();
+	public boolean getPage(SSPageCallback aSSPageCallback) {
+
+		return mHttpClient.doHttpGet(mBroadcastPageUrl, new SSHttpClientCallback<SSPageGetResult>() {
+
+			@Override
+			public SSPageGetResult onHandleHttpGetResultInBackground(SSHttpClientGetResult aHttpClientGetResult) {
+				// Handle the http get result
+				return handleHttpGetResult(aHttpClientGetResult);
+			}
+
+			@Override
+			public void onHttpGetResultFinal(SSPageGetResult aPageGetResult) {
+				Log.d(TAG, "SSPageGetResult : " + aPageGetResult);
+				// If no result is given
+				if (aPageGetResult == null) {
+					Log.d(TAG, "Result is not null!");
+					// Create a default result, will indicate failure
+					aPageGetResult = new SSPageGetResult();
+
+				}
+			}
+		});
 	}
 
-	@Override
-	protected void parseGetPageResult(JSONArray jsonArray, SSPageGetResult pageGetResult){	
-	Log.d(TAG, "parseGetPageResult");
+	protected SSPageGetResult handleHttpGetResult(SSHttpClientGetResult aHttpClientGetResult) {
+		Log.d(TAG, "In onHandleHttpGetResult");
+		JSONObject jsonObject = aHttpClientGetResult.getJson();
+		Log.d(TAG, "JSONObject is not null: " + (jsonObject != null));
+
+		SSPageGetResult pageGetResult = new SSPageGetResult(aHttpClientGetResult.getUri(), null);
+
 		try {
-			super.parseBroadcast(jsonArray);
-			
-			// The resulting page is this
-			pageGetResult.setPage(this);
-			
+			mBroadcast = mContentParser.parseBroadcast(jsonObject);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return pageGetResult;
 	}
 
-	protected void handleGetStartPageUriResult() {
-
-		Log.d(TAG, "handleGetStartPageUriResult");
-
-		// If get start page uri failed or get start page fails
-		if (!getPage(null,mBroadcastPageUrl, mPageCallback)) {
-
-			Log.d(TAG, "Get start page uri or get start page failed");
-
-			// If we have a callback
-			if (mPageCallback != null) {
-
-				// Tell our callback about it
-				SSPageGetResult pageGetResult = new SSPageGetResult(this);
-				mPageCallback.onGetPageResult(pageGetResult);
-			}
-		}
+	public Broadcast getBroadcast() {
+		return mBroadcast;
 	}
-
 }

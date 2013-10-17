@@ -1,6 +1,7 @@
 package com.millicom.secondscreen.content.myprofile;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,13 +17,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.adapters.RemindersListAdapter;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
+import com.millicom.secondscreen.content.model.NotificationDbItem;
 import com.millicom.secondscreen.content.model.Program;
+import com.millicom.secondscreen.notification.NotificationDataSource;
 
 public class RemindersActivity extends ActionBarActivity {
 
@@ -37,6 +41,7 @@ public class RemindersActivity extends ActionBarActivity {
 		setContentView(R.layout.layout_reminders_activity);
 		initActionBar();
 		initLayout();
+		populateViews();
 	}
 
 	private void initActionBar() {
@@ -61,23 +66,21 @@ public class RemindersActivity extends ActionBarActivity {
 	
 	private void initLayout(){
 		ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
-		Channel channel = new Channel();
-		channel.setLogoSUrl("http://api.gitrgitr.com/logos/ae.gif");
-		channel.setName("A&E MUNDO");
-		Program program = new Program();
-		program.setTitle("¿Quién da má$?");
-		program.setEpisode("Episode 1");
-		//program.setSeason("Season 1");
-		program.setPosterMUrl("http://api.gitrgitr.com/images/quien_da_mas_8.gif");
-		Broadcast broadcast = new Broadcast();
-		broadcast.setBeginTime("2013-09-17T06:00:00+00:00");
-		broadcast.setChannel(channel);
-		broadcast.setProgram(program);
-		broadcasts.add(broadcast);
+		
 		
 		mListView = (ListView) findViewById(R.id.listview);
-		mAdapter = new RemindersListAdapter(this, broadcasts);
-		mListView.setAdapter(mAdapter);
+		//mAdapter = new RemindersListAdapter(this, broadcasts);
+		//mListView.setAdapter(mAdapter);
+	}
+	
+	private void populateViews(){
+		NotificationDataSource notificationDataSource = new NotificationDataSource(this);
+		List<NotificationDbItem> notificationList = notificationDataSource.getAllNotifications();
+		for(int i = 0; i < notificationList.size(); i++){
+			NotificationDbItem notificationDbItem = notificationList.get(i);
+			String broadcastUrl = notificationDbItem.getBroadcastUrl();
+		}
+		Toast.makeText(this, "Currently you have " + notificationList.size() + " being set. List with info is coming soon!", Toast.LENGTH_LONG).show();
 	}
 
 	@Override

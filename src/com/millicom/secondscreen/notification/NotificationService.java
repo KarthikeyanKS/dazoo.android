@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Random;
 
 import android.app.AlarmManager;
 import android.app.Notification;
@@ -20,6 +21,7 @@ import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.NotificationDbItem;
+import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
 import com.millicom.secondscreen.utilities.DateUtilities;
 
 public class NotificationService {
@@ -28,32 +30,38 @@ public class NotificationService {
 
 	public static boolean setAlarm(Context context, Broadcast broadcast, Channel channel) {
 
-		Date now = new Date();
-		int notificationId = (int) now.getTime();
-
+		Random random = new Random();
+		int notificationId = random.nextInt(Integer.MAX_VALUE);
+Log.d(TAG,"ID:" + notificationId) ;
+		
 		// store the notificationId to remove in case of necessity
 
 		// call alarm manager to set the notification at the certain time
-		Intent intent = new Intent(context, DazooNotification.class);
+		Intent intent = new Intent("DAZOO_NOTIFICATION");
 		intent.putExtra(Consts.INTENT_EXTRA_BROADCAST, broadcast);
 		intent.putExtra(Consts.INTENT_EXTRA_CHANNEL, channel);
 		intent.putExtra(Consts.INTENT_EXTRA_NOTIFICATION_ID, notificationId);
 
 		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-		PendingIntent pendingIntent = PendingIntent.getService(context, notificationId, intent, 0);
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, notificationId, intent, 0);
 
 		Calendar calendar;
 		try {
 			calendar = DateUtilities.getTimeFifteenMinBefore(broadcast.getBeginTime());
-			alarmManager.set(AlarmManager.ELAPSED_REALTIME, calendar.getTimeInMillis(), pendingIntent);
-
-			Log.d(TAG, "Notification time: " + calendar.get(Calendar.MONTH) + " " + calendar.get(Calendar.DAY_OF_MONTH) + " " + calendar.get(Calendar.HOUR) + " " + calendar.get(Calendar.MINUTE));
+			
+			//alarmManager.set(AlarmManager.ELAPSED_REALTIME, calendar.getTimeInMillis(), pendingIntent);
+			
+			alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
+			        + (1000), pendingIntent);
+				
+			//Log.d(TAG, "Notification time: " + calendar.get(Calendar.MONTH) + " " + calendar.get(Calendar.DAY_OF_MONTH) + " " + calendar.get(Calendar.HOUR) + " " + calendar.get(Calendar.MINUTE));
 			
 			NotificationDataSource notificationDataSource = new NotificationDataSource(context);
+			
 			NotificationDbItem dbNotification = new NotificationDbItem();
 			dbNotification.setNotificationId(notificationId);
 			dbNotification.setChannelId(channel.getChannelId());
-			dbNotification.setTimeInMillis(broadcast.getBeginTimeMillis());
+			dbNotification.setTimeInMillis(String.valueOf(broadcast.getBeginTimeMillis()));
 			dbNotification.setProgramId(broadcast.getProgram().getProgramId());
 			dbNotification.setBroadcstUrl(Consts.NOTIFY_BROADCAST_URL_PREFIX + channel.getId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillis());
 
@@ -68,12 +76,18 @@ public class NotificationService {
 
 	public static boolean showNotification(Context context, Broadcast broadcast, Channel channel, int notificationId) {
 
-		String broadcastUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + channel.getId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillis();
+		String broadcastUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + channel.getChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillis();
 
+		Log.d(TAG,"channel is here: " + channel.getName());
+		
+		Log.d(TAG,"broadcastUrl: " + broadcastUrl);
+		
 		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-		Intent broadcastPageIntent = new Intent();
+		Intent broadcastPageIntent = new Intent(context, BroadcastPageActivity.class);
 		broadcastPageIntent.putExtra(Consts.INTENT_EXTRA_BROADCAST_URL, broadcastUrl);
+		broadcastPageIntent.putExtra(Consts.INTENT_EXTRA_BROADCAST, broadcast);
+		broadcastPageIntent.putExtra(Consts.INTENT_EXTRA_CHANNEL, channel);
 		broadcastPageIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 		int number = ((SecondScreenApplication) context.getApplicationContext()).getNotificationNumber();
@@ -87,7 +101,7 @@ public class NotificationService {
 				+ context.getResources().getString(R.string.dazoo_notification_text_end)).setContentIntent(PendingIntent.getActivity(context, 0, broadcastPageIntent, 0))
 				.setAutoCancel(true).setWhen(System.currentTimeMillis()).setDefaults(Notification.DEFAULT_ALL) // default sound, vibration, light
 				.setNumber(number);
-
+		
 		notificationManager.notify(notificationId, notificationBuilder.build());
 
 		// update the number of fired notifications in the status bar
@@ -97,12 +111,12 @@ public class NotificationService {
 	}
 
 	public static boolean removeNotification(Context context, int notificationId) {
-		// NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-		// notificationManager.cancel(notificationId);
+		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+		notificationManager.cancel(notificationId);
 
 		// remove alarm
 		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-		Intent intent = new Intent(context, DazooNotification.class);
+		Intent intent = new Intent(context, AlarmReceiver.class);
 		PendingIntent sender = PendingIntent.getBroadcast(context, notificationId, intent, 0);
 		alarmManager.cancel(sender);
 

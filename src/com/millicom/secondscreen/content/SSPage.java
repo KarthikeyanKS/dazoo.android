@@ -3,6 +3,7 @@ package com.millicom.secondscreen.content;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import android.util.Log;
 
@@ -142,8 +143,7 @@ public abstract class SSPage {
 		return mBroadcast;
 	}
 
-	public void parseBroadcast(JSONArray jsonArray) {
-		this.mBroadcast = mContentParser.parseBroadcast(jsonArray);
+	public void parseBroadcast(JSONObject jsonObject) {
+		this.mBroadcast = mContentParser.parseBroadcast(jsonObject);
 	}
-	
 }

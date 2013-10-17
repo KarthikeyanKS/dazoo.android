@@ -17,6 +17,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name="com.millicom.secondscreen.SecondScreenApplication"
@@ -91,6 +92,14 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light" />
 
+        <receiver android:name="com.millicom.secondscreen.notification.AlarmReceiver"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="DAZOO_NOTIFICATION" />
+            </intent-filter>
+        </receiver>
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/app_id" />
@@ -98,16 +107,6 @@
         <activity
             android:name="com.facebook.LoginActivity"
             android:theme="@style/Theme.AppCompat.Light" />
-
-        <receiver
-            android:name="com.millicom.secondscreen.notification.DazooNotification"
-            android:enabled="true"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-        
     </application>
 
 </manifest>

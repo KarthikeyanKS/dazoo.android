@@ -27,7 +27,7 @@ public abstract class Consts {
 	public static final String	MILLICOM_SECONDSCREEN_DAZOO_REGISTER_URL					= "http://www.gitrgitr.com/api/auth/login/dazoo/register";
 	public static final String	MILLICOM_SECONDSCREEN_RESET_PASSWORD_URL					= "http://www.gitrgitr.com/api/auth/login/dazoo/sendResetPasswordEmail";
 	public static final String	MILLICOM_SECONDSCREEN_TAGS_PAGE_URL							= "http://www.gitrgitr.com/api/epg/tags/visible";
-	public static final String	MILLICOM_SECONDSCREEN_MY_CHANNELS_URL						= "http://www.gitrgitr.com/api/mychannels";
+	public static final String	MILLICOM_SECONDSCREEN_MY_CHANNELS_URL						= "http://www.gitrgitr.com/api/my/channels";
 
 	public static final String	MILLICON_SECONDSCREEN_HTTP_SCHEME							= "http";
 
@@ -88,7 +88,6 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_CHANNEL						= "com.millicom.secondscreen.intent.extra.channel";
 	public static final String	INTENT_EXTRA_CHANNEL_PAGE_LINK				= "com.millicom.secondscreen.intent.extra.channel.page.link";
 	public static final String	INTENT_EXTRA_CHANNEL_GUIDE					= "com.millicom.secondscreen.intent.extra.channel.guide";
-	public static final String	INTENT_EXTRA_CHANNEL_BROADCAST				= "com.millicom.secondscreen.intent.extra.channel.broadcast";
 	public static final String	INTENT_EXTRA_TVGUIDE_SORTING				= "com.millicom.secondscreen.intent.extra.tvguide.sorting";
 	public static final String	INTENT_EXTRA_TVGUIDE_SORTING_VALUE			= "com.millicom.secondscreen.intent.extra.tvguide.sorting.value";
 	public static final String	INTENT_EXTRA_TVGUIDE_SORTING_TYPE			= "com.millicom.secondscreen.intent.extra,tvguide.sorting.type";

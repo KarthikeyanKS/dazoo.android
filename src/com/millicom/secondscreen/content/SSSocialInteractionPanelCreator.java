@@ -3,6 +3,7 @@ package com.millicom.secondscreen.content;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -30,7 +31,9 @@ import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
-import com.millicom.secondscreen.notification.DazooNotification;
+import com.millicom.secondscreen.content.model.NotificationDbItem;
+import com.millicom.secondscreen.notification.AlarmReceiver;
+import com.millicom.secondscreen.notification.NotificationDataSource;
 import com.millicom.secondscreen.notification.NotificationService;
 import com.millicom.secondscreen.share.ShareAction;
 
@@ -45,7 +48,6 @@ public class SSSocialInteractionPanelCreator {
 	private Channel				mChannel;
 
 	private boolean				isSet	= false;
-	private int					notificationId;
 
 	public SSSocialInteractionPanelCreator(Activity activity, LinearLayout containerView, Broadcast broadcast, Channel channel) {
 		this.mActivity = activity;
@@ -87,12 +89,18 @@ public class SSSocialInteractionPanelCreator {
 				} else {
 					// remove reminder
 					isSet = false;
-
-					// get notificationId from the database
-					int notificationId = 0;
-
+					
+					NotificationDataSource notificationDataSource = new NotificationDataSource(mActivity);
+					
+					NotificationDbItem notificationDbItem = new NotificationDbItem();
+					notificationDbItem = notificationDataSource.getNotification(mChannel.getChannelId(), Long.valueOf(mBroadcast.getBeginTimeMillis()));
+					if (notificationDbItem != null){
 					remindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
-					showRemoveNotificationDialog(notificationId);
+					showRemoveNotificationDialog(notificationDbItem.getNotificationId());
+					}
+					else {
+						Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
+					}
 				}
 			}
 		});

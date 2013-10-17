@@ -4,14 +4,17 @@ import com.millicom.secondscreen.Consts;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class NotificationDatabaseHelper extends SQLiteOpenHelper {
+	
+	private static final String TAG = "NotificationDatabaseHelper";
 
 	// database creation sql statement
-	private static final String	DATABASE_CREATE				= "create table " + Consts.NOTIFICATION_DB_TABLE_NOTIFICATIONS + "(" + Consts.NOTIFICATION_DB_COLUMN_NOTIFICATION_ID + "integer primary key" + Consts.NOTIFICATION_DB_COLUMN_BROADCAST_URL + "text"
-			+ Consts.NOTIFICATION_DB_COLUMN_PROGRAM_ID + "text not null" + Consts.NOTIFICATION_DB_COLUMN_CHANNEL_ID + "text not null" + Consts.NOTIFICATION_DB_COLUMN_BEGIN_TIME_MILLIS + "long" + ");";
+	private static final String	DATABASE_CREATE	= "CREATE TABLE " + Consts.NOTIFICATION_DB_TABLE_NOTIFICATIONS	+ "(" + Consts.NOTIFICATION_DB_COLUMN_NOTIFICATION_ID + " INTEGER PRIMARY KEY, " + Consts.NOTIFICATION_DB_COLUMN_BROADCAST_URL + " TEXT, "
+			+ Consts.NOTIFICATION_DB_COLUMN_PROGRAM_ID + " TEXT NOT NULL, " + Consts.NOTIFICATION_DB_COLUMN_CHANNEL_ID + " TEXT NOT NULL,  " + Consts.NOTIFICATION_DB_COLUMN_BEGIN_TIME_MILLIS + " LONG NOT NULL " + ");";
 
 	public NotificationDatabaseHelper(Context context) {
 		super(context, Consts.NOTIFICATION_DATABASE_NAME, null, Consts.NOTIFICATION_DATABASE_VERSION);
@@ -19,6 +22,7 @@ public class NotificationDatabaseHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
+		Log.d(TAG,"Database create:" + DATABASE_CREATE);
 		db.execSQL(DATABASE_CREATE);
 	}
 
@@ -28,5 +32,4 @@ public class NotificationDatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + Consts.NOTIFICATION_DATABASE_NAME);
 		onCreate(db);
 	}
-
 }
