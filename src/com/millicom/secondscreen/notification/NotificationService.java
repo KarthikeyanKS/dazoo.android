@@ -32,9 +32,6 @@ public class NotificationService {
 
 		Random random = new Random();
 		int notificationId = random.nextInt(Integer.MAX_VALUE);
-Log.d(TAG,"ID:" + notificationId) ;
-		
-		// store the notificationId to remove in case of necessity
 
 		// call alarm manager to set the notification at the certain time
 		Intent intent = new Intent("DAZOO_NOTIFICATION");
@@ -49,10 +46,10 @@ Log.d(TAG,"ID:" + notificationId) ;
 		try {
 			calendar = DateUtilities.getTimeFifteenMinBefore(broadcast.getBeginTime());
 			
-			//alarmManager.set(AlarmManager.ELAPSED_REALTIME, calendar.getTimeInMillis(), pendingIntent);
+			alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 			
-			alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
-			        + (1000), pendingIntent);
+			// for testing
+			// alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (1000), pendingIntent);
 				
 			//Log.d(TAG, "Notification time: " + calendar.get(Calendar.MONTH) + " " + calendar.get(Calendar.DAY_OF_MONTH) + " " + calendar.get(Calendar.HOUR) + " " + calendar.get(Calendar.MINUTE));
 			
@@ -77,11 +74,6 @@ Log.d(TAG,"ID:" + notificationId) ;
 	public static boolean showNotification(Context context, Broadcast broadcast, Channel channel, int notificationId) {
 
 		String broadcastUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + channel.getChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillis();
-
-		Log.d(TAG,"channel is here: " + channel.getName());
-		
-		Log.d(TAG,"broadcastUrl: " + broadcastUrl);
-		
 		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
 		Intent broadcastPageIntent = new Intent(context, BroadcastPageActivity.class);
@@ -106,6 +98,10 @@ Log.d(TAG,"ID:" + notificationId) ;
 
 		// update the number of fired notifications in the status bar
 		((SecondScreenApplication) context.getApplicationContext()).setNotificationNumber(number + 1);
+		
+		//remove the notification from the database
+		NotificationDataSource notificationDataSource = new NotificationDataSource(context);
+		notificationDataSource.deleteNotification(notificationId);
 
 		return true;
 	}

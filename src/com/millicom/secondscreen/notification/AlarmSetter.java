@@ -1,5 +1,9 @@
 package com.millicom.secondscreen.notification;
 
+import java.util.List;
+
+import com.millicom.secondscreen.content.model.NotificationDbItem;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -18,10 +22,13 @@ public class AlarmSetter extends BroadcastReceiver {
 	}
 
 	static void scheduleAlarms(Context context) {
-		AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-		//Intent i = new Intent(context, ScheduledService.class);
-		//PendingIntent pi = PendingIntent.getService(context, 0, i, 0);
-		//
-		//mgr.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + PERIOD, PERIOD, pi);
+		// get the list of alarms
+		NotificationDataSource notificationDataSource = new NotificationDataSource(context);
+		List<NotificationDbItem> notificationList = notificationDataSource.getAllNotifications();
+		
+		for(int i=0; i<notificationList.size(); i++){
+			
+			//NotificationService.setAlarm(context, broadcast, channel);
+		}
 	}
 }
