@@ -99,18 +99,14 @@
             android:name="com.facebook.LoginActivity"
             android:theme="@style/Theme.AppCompat.Light" />
 
-        <receiver android:name="AlarmService" >
+        <receiver
+            android:name="com.millicom.secondscreen.notification.DazooNotification"
+            android:enabled="true"
+            android:exported="true" >
             <intent-filter>
-                <action android:name="com.millicom.secondscreen.notification.AlarmReceiver" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        
-        <receiver android:name="AlarmSetter" >
-        <intent-filter>
-            <action
-                android:name="android.intent.action.BOOT_COMPLETED" />
-        </intent-filter>
-    </receiver>
         
     </application>
 

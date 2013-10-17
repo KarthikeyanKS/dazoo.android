@@ -76,9 +76,9 @@ public class NotificationDataSource {
 		return notificationList;
 	}
 	
-	public void deleteNotification(NotificationDbItem notification){
+	public void deleteNotification(int notificationId){
 		SQLiteDatabase database = dbHelper.getWritableDatabase();
-		database.delete(Consts.NOTIFICATION_DATABASE_NAME, Consts.NOTIFICATION_DB_COLUMN_NOTIFICATION_ID + "= ? ", new String [] {String.valueOf(notification.getNotificationId())});
+		database.delete(Consts.NOTIFICATION_DATABASE_NAME, Consts.NOTIFICATION_DB_COLUMN_NOTIFICATION_ID + " = " + notificationId, null);
 		database.close();
 	}
 }

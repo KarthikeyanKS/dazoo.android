@@ -156,7 +156,6 @@ public class SSSocialInteractionPanelCreator {
 				dialog.dismiss();
 			}
 		});
-
 		dialog.show();
 	}
 }

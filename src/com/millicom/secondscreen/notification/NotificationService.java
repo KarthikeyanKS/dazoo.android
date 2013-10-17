@@ -19,6 +19,7 @@ import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
+import com.millicom.secondscreen.content.model.NotificationDbItem;
 import com.millicom.secondscreen.utilities.DateUtilities;
 
 public class NotificationService {
@@ -44,16 +45,22 @@ public class NotificationService {
 		Calendar calendar;
 		try {
 			calendar = DateUtilities.getTimeFifteenMinBefore(broadcast.getBeginTime());
-
-			Log.d(TAG,
-					"DATE VALUES: YEAR" + calendar.get(Calendar.YEAR) + " month: " + calendar.get(Calendar.MONTH) + " day: " + calendar.get(Calendar.DAY_OF_MONTH) + "hour: "
-							+ calendar.get(Calendar.HOUR) + "minute: " + calendar.get(Calendar.MINUTE));
 			alarmManager.set(AlarmManager.ELAPSED_REALTIME, calendar.getTimeInMillis(), pendingIntent);
 
 			Log.d(TAG, "Notification time: " + calendar.get(Calendar.MONTH) + " " + calendar.get(Calendar.DAY_OF_MONTH) + " " + calendar.get(Calendar.HOUR) + " " + calendar.get(Calendar.MINUTE));
+			
+			NotificationDataSource notificationDataSource = new NotificationDataSource(context);
+			NotificationDbItem dbNotification = new NotificationDbItem();
+			dbNotification.setNotificationId(notificationId);
+			dbNotification.setChannelId(channel.getChannelId());
+			dbNotification.setTimeInMillis(broadcast.getBeginTimeMillis());
+			dbNotification.setProgramId(broadcast.getProgram().getProgramId());
+			dbNotification.setBroadcstUrl(Consts.NOTIFY_BROADCAST_URL_PREFIX + channel.getId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillis());
+
+			notificationDataSource.addNotification(dbNotification);
+			
 			return true;
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
@@ -100,6 +107,8 @@ public class NotificationService {
 		alarmManager.cancel(sender);
 
 		// remove notification from database
+		NotificationDataSource notificationDataSource = new NotificationDataSource(context);
+		notificationDataSource.deleteNotification(notificationId);
 
 		return true;
 	}
