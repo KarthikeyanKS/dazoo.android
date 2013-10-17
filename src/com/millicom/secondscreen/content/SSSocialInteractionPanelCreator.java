@@ -2,11 +2,13 @@ package com.millicom.secondscreen.content;
 
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Date;
 
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,6 +29,7 @@ import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
 import com.millicom.secondscreen.content.model.Broadcast;
+import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.notification.DazooNotification;
 import com.millicom.secondscreen.notification.NotificationService;
 import com.millicom.secondscreen.share.ShareAction;
@@ -39,15 +42,17 @@ public class SSSocialInteractionPanelCreator {
 	private ImageLoader			mImageLoader;
 	private LinearLayout		mContainerView;
 	private Broadcast			mBroadcast;
+	private Channel				mChannel;
 
 	private boolean				isSet	= false;
 	private int					notificationId;
 
-	public SSSocialInteractionPanelCreator(Activity activity, LinearLayout containerView, Broadcast broadcast) {
+	public SSSocialInteractionPanelCreator(Activity activity, LinearLayout containerView, Broadcast broadcast, Channel channel) {
 		this.mActivity = activity;
 		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage_2x);
 		this.mContainerView = containerView;
 		this.mBroadcast = broadcast;
+		this.mChannel = channel;
 	}
 
 	public void createPanel() {
@@ -74,31 +79,20 @@ public class SSSocialInteractionPanelCreator {
 					// add reminder
 					isSet = true;
 					remindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
-
-					// call alarm manager to set the notification at the certain time
-					Intent intent = new Intent(mActivity, DazooNotification.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST, mBroadcast);
-
-					AlarmManager alarmManager = (AlarmManager) mActivity.getSystemService(Context.ALARM_SERVICE);
-					PendingIntent pendingIntent = PendingIntent.getService(mActivity, 0, intent, 0);
-					Calendar calendar = null;
-					try {
-						calendar = DateUtilities.getTimeFifteenMinBefore(mBroadcast.getBeginTime());
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					if (calendar.isSet(Calendar.MINUTE)) {
-						alarmManager.set(AlarmManager.ELAPSED_REALTIME, calendar.getTimeInMillis(), pendingIntent);
+					if (NotificationService.setAlarm(mActivity, mBroadcast, mChannel)) {
 						showSetNotificationToast();
 					} else {
-						Toast.makeText(mActivity, "Setting the notification faced an error!", Toast.LENGTH_SHORT).show();
+						Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
 					}
 				} else {
 					// remove reminder
 					isSet = false;
+
+					// get notificationId from the database
+					int notificationId = 0;
+
 					remindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
-					showRemoveNotificationDialog();
+					showRemoveNotificationDialog(notificationId);
 				}
 			}
 		});
@@ -121,7 +115,7 @@ public class SSSocialInteractionPanelCreator {
 		toast.show();
 	}
 
-	private void showRemoveNotificationDialog() {
+	private void showRemoveNotificationDialog(final int notificationId) {
 		String reminderText = "";
 		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(mBroadcast.getProgram().getProgramType())) {
 			reminderText = mActivity.getString(R.string.reminder_text_remove) + mBroadcast.getProgram().getTitle() + ", " + mActivity.getString(R.string.season) + " "
@@ -156,7 +150,9 @@ public class SSSocialInteractionPanelCreator {
 			@Override
 			public void onClick(View v) {
 				// remove the reminder
-				// TODO
+
+				NotificationService.removeNotification(mActivity, notificationId);
+
 				dialog.dismiss();
 			}
 		});

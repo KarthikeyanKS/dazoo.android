@@ -21,28 +21,19 @@ public class DateUtilities {
 		
 		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
 		
-		int year = 0;
-		int month = 0;
-		int day = 0;
-		int hour = 0;
-		int minute = 0;
-		
-		if (beginTime != null && !beginTime.equals("")){
-			year = df.parse(beginTime).getYear();
-			month = df.parse(beginTime).getMonth();
-			day = df.parse(beginTime).getDate();
-			hour = df.parse(beginTime).getHours();
-			minute = df.parse(beginTime).getMinutes();
-		}
+		Date date = df.parse(beginTime);
 		
 		Calendar calendar = Calendar.getInstance();	
-		calendar.set(Calendar.YEAR, year);
-		calendar.set(Calendar.MONTH, month);
-		calendar.set(Calendar.DAY_OF_MONTH, day);
-		calendar.set(Calendar.HOUR_OF_DAY, hour);
-		calendar.set(Calendar.MINUTE, minute);
-		calendar.set(Calendar.SECOND, 00);
+		calendar.setTime(date);
+		
+		Log.d(TAG,"SET DATE VALUES: YEAR" + calendar.get(Calendar.YEAR) + " month: " + calendar.get(Calendar.MONTH)  + " day: " + calendar.get(Calendar.DAY_OF_MONTH) 
+				+ "hour: " + calendar.get(Calendar.HOUR)  + "minute: " + calendar.get(Calendar.MINUTE) );
+		
 		calendar.add(Calendar.MINUTE, Consts.NOTIFY_MINUTES_BEFORE_THE_BROADCAST);
+		
+		Log.d(TAG,"NEW DATE VALUES: YEAR" + calendar.get(Calendar.YEAR) + " month: " + calendar.get(Calendar.MONTH)  + " day: " + calendar.get(Calendar.DAY_OF_MONTH) 
+				+ "hour: " + calendar.get(Calendar.HOUR)  + "minute: " + calendar.get(Calendar.MINUTE) );
+		
 		return calendar;
 	}
 	
@@ -363,8 +354,6 @@ public class DateUtilities {
 	 * @return number of minutes as integer
 	 */
 	public static int getDifferenceInMinutes(String timeOne, String timeTwo) throws ParseException {
-		Log.d(TAG,"Time One: " + timeOne);
-		Log.d(TAG,"Time Two: "  + timeTwo);
 		long timeSubmitted = DateUtilities.isoStringToLong(timeOne);
 		long timeCurrent = DateUtilities.isoStringToLong(timeTwo);
 

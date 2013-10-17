@@ -20,7 +20,7 @@ public class SecondScreenApplication extends Application {
 	private static final String				TAG								= "SecondScreenApplication";
 
 	private static SecondScreenApplication	sInstance						= null;
-	
+
 	public static int						sImageSizeThumbnailWidth		= 0;
 	public static int						sImageSizeThumbnailHeight		= 0;
 
@@ -40,21 +40,21 @@ public class SecondScreenApplication extends Application {
 	public static final double				IMAGE_HEIGHT_COEFFICIENT_POSTER	= 1.4;
 
 	private final static double				POSTER_WIDTH_DIVIDER			= 2.1;
-	
+
 	private ArrayList<Activity>				mRunningActivities				= new ArrayList<Activity>();
 
 	// SharedPreferences used to save stuffs
 	private static SharedPreferences		sSharedPreferences;
-	private static Editor editor;
-	
+	private static Editor					editor;
+
 	public SecondScreenApplication() {
 	}
 
 	public static SecondScreenApplication getInstance() {
 		if (sInstance == null) {
-			Log.d(TAG,"STUCK HERE!");
+			Log.d(TAG, "STUCK HERE!");
 			sInstance = new SecondScreenApplication();
-			Log.d(TAG,"OR HERE!");
+			Log.d(TAG, "OR HERE!");
 		}
 		return sInstance;
 	}
@@ -69,141 +69,156 @@ public class SecondScreenApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		sInstance = this;
-		//sSharedPreferences = getSharedPreferences(Consts.SHARED_PREFS_MAIN_NAME, Context.MODE_PRIVATE);
+		// sSharedPreferences = getSharedPreferences(Consts.SHARED_PREFS_MAIN_NAME, Context.MODE_PRIVATE);
 		sSharedPreferences = new ObscuredSharedPreferences(this, this.getSharedPreferences(Consts.SHARED_PREFS_MAIN_NAME, Context.MODE_PRIVATE));
-		
+
 		calculateSizes();
 	}
-	
+
 	/**
 	 * Store user account access token
 	 */
-	public void setAccessToken(String token){
+	public void setAccessToken(String token) {
 		editor = sSharedPreferences.edit();
 		editor.putString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_ACCESS_TOKEN, token);
 		editor.commit();
 	}
-	
+
 	/**
 	 * Retrieve user account access token
 	 */
-	public String getAccessToken(){
+	public String getAccessToken() {
 		return sSharedPreferences.getString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_ACCESS_TOKEN, "");
 	}
-	
+
 	/**
 	 * Store user email
 	 */
-	public void setUserEmail(String email){
+	public void setUserEmail(String email) {
 		editor = sSharedPreferences.edit();
 		editor.putString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_EMAIL, email);
 		editor.commit();
 	}
-	
+
 	/**
 	 * Get user email
 	 */
-	public String getUserEmail(){
+	public String getUserEmail() {
 		return sSharedPreferences.getString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_EMAIL, "");
 	}
-	
+
 	/**
 	 * Store user password
 	 */
-	public void setUserPassword(String password){
+	public void setUserPassword(String password) {
 		editor = sSharedPreferences.edit();
 		editor.putString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_PASSWORD, password);
 		editor.commit();
 	}
-	
+
 	/**
 	 * Get user password
 	 */
-	public String getUserPassword(){
+	public String getUserPassword() {
 		return sSharedPreferences.getString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_PASSWORD, "");
 	}
-	
+
 	/**
 	 * Store user first name
 	 */
-	public void setUserFirstName(String firstName){
+	public void setUserFirstName(String firstName) {
 		editor = sSharedPreferences.edit();
 		editor.putString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_FIRST_NAME, firstName);
 		editor.commit();
 	}
-	
+
 	/**
 	 * Get user first name
 	 */
-	public String getUserFirstName(){
+	public String getUserFirstName() {
 		return sSharedPreferences.getString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_FIRST_NAME, "");
 	}
-	
+
 	/**
 	 * Store user last name
 	 */
-	public void setUserLastName(String lastName){
+	public void setUserLastName(String lastName) {
 		editor = sSharedPreferences.edit();
 		editor.putString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_LAST_NAME, lastName);
 		editor.commit();
 	}
-	
+
 	/**
 	 * Get user last name
 	 */
-	public String getUserLastName(){
+	public String getUserLastName() {
 		return sSharedPreferences.getString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_LAST_NAME, "");
 	}
-	
+
 	/**
 	 * Store user id
 	 */
-	public void setUserId(String id){
+	public void setUserId(String id) {
 		editor = sSharedPreferences.edit();
 		editor.putString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_USER_ID, id);
 		editor.commit();
 	}
-	
+
 	/**
 	 * Get user id
 	 */
-	public String getUserId(){
+	public String getUserId() {
 		return sSharedPreferences.getString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_USER_ID, "");
 	}
-	
-	
+
 	/**
 	 * Set user existing flag
 	 */
-	public void setUserExistringFlag(boolean flag){
+	public void setUserExistringFlag(boolean flag) {
 		editor = sSharedPreferences.edit();
 		editor.putBoolean(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_EXISTING_FLAG, flag);
 		editor.commit();
 	}
-	
+
 	/**
 	 * Get user existing flag
 	 */
-	public boolean getUserExistringFlag(){
+	public boolean getUserExistringFlag() {
 		return sSharedPreferences.getBoolean(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_EXISTING_FLAG, false);
 	}
-	
+
 	/**
 	 * Set user's list of My Channels as json-string
 	 */
-	public void setUserMyChannelsIdsasJSON(String jsonString){
+	public void setUserMyChannelsIdsasJSON(String jsonString) {
 		editor = sSharedPreferences.edit();
 		editor.putString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_MY_CHANNELS_IDS_JSON, jsonString);
 		editor.commit();
 	}
-	
+
 	/**
 	 * Get user's list of My Channels as json-string
 	 */
-	public String getUserMyChannelsIdsJSON(){
-		return sSharedPreferences.getString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_MY_CHANNELS_IDS_JSON,"");
+	public String getUserMyChannelsIdsJSON() {
+		return sSharedPreferences.getString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_MY_CHANNELS_IDS_JSON, "");
 	}
-	
+
+	/**
+	 * Update the number of fired notification
+	 */
+	public void setNotificationNumber(int number) {
+		editor = sSharedPreferences.edit();
+		editor.putInt(Consts.NOTIFY_NUMBER, number);
+		editor.commit();
+	}
+
+	/**
+	 * Get the number of already fired reminders in the status bar
+	 */
+	public int getNotificationNumber() {
+		return sSharedPreferences.getInt(Consts.NOTIFY_NUMBER, 1);
+	}
+
 	/**
 	 * Calculate the sizes of the image thumbnails that are used across the app.
 	 */
@@ -228,21 +243,20 @@ public class SecondScreenApplication extends Application {
 		// Make room for the extra padding
 		sImageSizeGalleryWidth = widthFullSize - (int) getResources().getDimension(R.dimen.gallery_size_padding);
 		sImageSizeGalleryHeight = (int) Math.ceil(sImageSizeGalleryWidth / IMAGE_RATIO);
-		
+
 		sImageSizePosterWidth = (int) Math.ceil(sImageSizeGalleryWidth / POSTER_WIDTH_DIVIDER);
 		sImageSizePosterHeight = (int) Math.ceil(sImageSizePosterWidth * IMAGE_HEIGHT_COEFFICIENT_POSTER);
 	}
-	
-	// Add a activity to list of running activities
-		public ArrayList<Activity> getActivityList() {
-			return mRunningActivities;
-		}
-		
-		// Clear all running activities
-		public void clearActivityBacktrace() {
-			for (Activity a : mRunningActivities) {
-				if (a != null) a.finish();
-			}
-		}
-}
 
+	// Add a activity to list of running activities
+	public ArrayList<Activity> getActivityList() {
+		return mRunningActivities;
+	}
+
+	// Clear all running activities
+	public void clearActivityBacktrace() {
+		for (Activity a : mRunningActivities) {
+			if (a != null) a.finish();
+		}
+	}
+}

@@ -30,7 +30,7 @@ public class SSBroadcastBlockPopulator {
 		this.mContainerView = containerView;
 	}
 
-	public void createBlock(Broadcast broadcast) {
+	public void createBlock(Broadcast broadcast, Channel mChannel) {
 		View topContentView = LayoutInflater.from(mActivity).inflate(R.layout.block_broadcastpage_main_content, null);
 		ImageView posterIv = (ImageView) topContentView.findViewById(R.id.block_broadcastpage_poster_iv);
 		ProgressBar posterPb = (ProgressBar) topContentView.findViewById(R.id.block_broadcastpage_poster_progressbar);

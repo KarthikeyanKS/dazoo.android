@@ -98,6 +98,7 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_BROADCAST						= "com.millicom.secondscreen.intent.extra.broadcast";
 	public static final String	INTENT_EXTRA_BROADCAST_URL					= "com.millicom.secondscren.intent,extra.broadcast.url";
 	public static final String	INTENT_EXTRA_NOTIFICATION_TO_SET			= "com.millicom.secondscreen.intent.extra.notification.to.set";
+	public static final String	INTENT_EXTRA_NOTIFICATION_ID				= "com.millicom.secondscreen.intent.extra.notification.id";
 
 	// custom data types
 	public static final String	VALUE_TYPE_PROGRAMTYPE						= "com.millicom.secondscreen.value.type.programtype";
@@ -131,7 +132,8 @@ public abstract class Consts {
 	public static final int		BAD_RESPONSE_INVALID_TOKEN					= 403;
 
 	// notifications
-	public static final int		NOTIFY_MINUTES_BEFORE_THE_BROADCAST			= 15;
+	public static final int		NOTIFY_MINUTES_BEFORE_THE_BROADCAST			= -15;
+	public static final String	NOTIFY_NUMBER								= "com.millicom.secondscreen.notify.number";
 	public static final String	NOTIFY_BROADCAST_URL_PREFIX					= "http://www.gitrgitr.com/api/epg/channels/";
 	public static final String	NOTIFY_BROADCAST_URL_MIDDLE					= "/broadcasts/";
 

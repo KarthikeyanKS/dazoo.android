@@ -37,28 +37,32 @@ public class BroadcastPageActivity extends ActionBarActivity {
 	private static final String	TAG	= "BroadcastPageActivity";
 	private ImageLoader			mImageLoader;
 	private Broadcast			mBroadcast;
+	private Channel				mChannel;
 	private Program				mProgram;
 	private LinearLayout		mBlockContainer;
 	private ActionBar			mActionBar;
-	private LayoutInflater mLayoutInflater;
-	private String mBroadcastUrl;
-	
+	private LayoutInflater		mLayoutInflater;
+	private String				mBroadcastUrl;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_broadcastpage_activity);
+		
+		Log.d(TAG,"Are you from notification");
 
 		mImageLoader = new ImageLoader(this, R.drawable.loadimage_2x);
 		mLayoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		
+
 		// get the info about the program to be displayed from tv-guide listview
 		Intent intent = getIntent();
 		mBroadcast = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHANNEL_BROADCAST);
+		mChannel = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHANNEL);
 		mProgram = mBroadcast.getProgram();
 
 		initViews();
 		populateBlocks();
-		}
+	}
 
 	private void initViews() {
 		// styling the Action Bar
@@ -77,17 +81,17 @@ public class BroadcastPageActivity extends ActionBarActivity {
 
 	private void populateBlocks() {
 		// add the current broadcast top block
-		SSBroadcastBlockPopulator broadcastBlockPopulator = new SSBroadcastBlockPopulator(this,mBlockContainer);
-		broadcastBlockPopulator.createBlock(mBroadcast);
-	
-		//add the button block
-		SSSocialInteractionPanelCreator socialPanelCreator = new SSSocialInteractionPanelCreator(this, mBlockContainer, mBroadcast);
+		SSBroadcastBlockPopulator broadcastBlockPopulator = new SSBroadcastBlockPopulator(this, mBlockContainer);
+		broadcastBlockPopulator.createBlock(mBroadcast, mChannel);
+
+		// add the button block
+		SSSocialInteractionPanelCreator socialPanelCreator = new SSSocialInteractionPanelCreator(this, mBlockContainer, mBroadcast, mChannel);
 		socialPanelCreator.createPanel();
-		
-		//add the cast and crew block
-		//SSCastCrewBlockPopulator castCrewBlockPopulator = new SSCastCrewBlockPopulator(this, mBlockContainer);
-		//castCrewBlockPopulator.createBlock(mCast);
-		
+
+		// add the cast and crew block
+		// SSCastCrewBlockPopulator castCrewBlockPopulator = new SSCastCrewBlockPopulator(this, mBlockContainer);
+		// castCrewBlockPopulator.createBlock(mCast);
+
 	}
 
 	@Override

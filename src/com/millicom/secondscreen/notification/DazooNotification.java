@@ -1,27 +1,33 @@
 package com.millicom.secondscreen.notification;
 
-import android.app.Activity;
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.content.model.Broadcast;
+import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.notification.NotificationService;
-import com.millicom.secondscreen.R;
 
-public class DazooNotification extends Activity {
+public class DazooNotification extends BroadcastReceiver {
+	
+	private static final String TAG = "DazooNotification";
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		Intent intent = getIntent();
-		
-		int toSet = intent.getIntExtra(Consts.INTENT_EXTRA_NOTIFICATION_TO_SET,0);
-		
+	public void onReceive(Context context, Intent intent) {
+		Bundle bundle = intent.getExtras();
+		int notificationId = intent.getIntExtra(Consts.INTENT_EXTRA_NOTIFICATION_ID, 0);
 		Broadcast broadcast = intent.getExtras().getParcelable(Consts.INTENT_EXTRA_BROADCAST);
-		NotificationService.setNotification(getApplicationContext(), broadcast);
+		Channel channel = intent.getExtras().getParcelable(Consts.INTENT_EXTRA_CHANNEL);
+		
+		Toast.makeText(context, "I am a dazoo notification", Toast.LENGTH_SHORT).show();
+		Log.d(TAG,"I HAVE RECEIVED A REQUEST TO SET A NOTIFICATION");
+		
+		NotificationService.showNotification(context, broadcast, channel, notificationId);
 	}
-
 }

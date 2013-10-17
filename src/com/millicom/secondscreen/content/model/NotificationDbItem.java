@@ -4,7 +4,8 @@ public class NotificationDbItem {
 	private int notificationId;
 	private String broadcastUrl;
 	private String channelId;
-	private int beginTimeInMillis;
+	private long beginTimeInMillis;
+	private String programId;
 	
 	public void setNotificationId(int id){
 		this.notificationId = id;
@@ -30,7 +31,19 @@ public class NotificationDbItem {
 		return this.channelId;
 	}
 	
-	public void setTimeInMillis(int beginTimeInMillis){
+	public void setTimeInMillis(long beginTimeInMillis){
 		this.beginTimeInMillis = beginTimeInMillis;
+	}
+	
+	public long getTimeInMillis(){
+		return this.beginTimeInMillis;
+	}
+	
+	public void setProgramId(String programId){
+		this.programId = programId;
+	}
+	
+	public String getProgramId(){
+		return this.programId;
 	}
 }
