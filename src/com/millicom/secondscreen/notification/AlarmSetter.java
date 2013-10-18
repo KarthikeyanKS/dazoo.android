@@ -5,6 +5,8 @@ import java.util.List;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.NotificationDbItem;
+import com.millicom.secondscreen.content.model.Program;
+import com.millicom.secondscreen.content.model.Season;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -33,13 +35,33 @@ public class AlarmSetter extends BroadcastReceiver {
 			NotificationDbItem item = notificationList.get(i);
 			
 			Broadcast broadcast = new Broadcast();
-			//broa
+			broadcast.setBeginTime(item.getBroadcastBeginTime());
+			broadcast.setBeginTimeMillis(Long.parseLong(item.getBroadcastTimeInMillis()));
 			
-			//Channel channel = new Channel();
-			//channel.setChannelId(item.getChannelId());
-			//channel.setName(item.getChannelName());
+			Program program = new Program();
+			program.setProgramId(item.getProgramId());
+			program.setTitle(item.getProgramTitle());
+			program.setProgramType(item.getProgramType());
 			
-			//NotificationService.resetAlarm(context, broadcast, channel);
+			Season season = new Season();
+			season.setNumber(item.getProgramSeason());
+			
+			program.setSeason(season);
+			program.setEpisode(item.getProgramEpisode());
+			program.setYear(String.valueOf(item.getProgramYear()));
+			
+			// TO DO
+			//program.setTags("");
+			
+			broadcast.setProgram(program);
+			
+			Channel channel = new Channel();
+			channel.setChannelId(item.getChannelId());
+			channel.setName(item.getChannelName());
+			
+			broadcast.setChannel(channel);
+			
+			NotificationService.resetAlarm(context, broadcast, channel, item.getNotificationId());
 		}
 	}
 }

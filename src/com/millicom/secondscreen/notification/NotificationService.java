@@ -57,34 +57,6 @@ public class NotificationService {
 			// for testing
 			// alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (1000), pendingIntent);
 
-			NotificationDataSource notificationDataSource = new NotificationDataSource(context);
-
-			NotificationDbItem dbNotification = new NotificationDbItem();
-			dbNotification.setNotificationId(notificationId);
-			dbNotification.setBroadcstUrl(Consts.NOTIFY_BROADCAST_URL_PREFIX + channel.getId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillis());
-			dbNotification.setProgramId(broadcast.getProgram().getProgramId());
-			dbNotification.setProgramTitle(broadcast.getProgram().getTitle());
-
-			String programType = broadcast.getProgram().getProgramType();
-			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-				dbNotification.setProgramType(programType);
-				dbNotification.setProgramSeason(broadcast.getProgram().getSeason().getNumber());
-				dbNotification.setProgramEpisode(broadcast.getProgram().getEpisode());
-			} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)){
-				dbNotification.setProgramType(programType);
-				dbNotification.setProgramYear(Integer.parseInt(broadcast.getProgram().getYear()));
-			} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)){
-				dbNotification.setProgramType(programType);
-			}
-			// TODO 
-			//dbNotification.setProgramTag(broadcast.getProgram().getTags().get(0));
-			dbNotification.setChannelName(channel.getName());
-			dbNotification.setChannelId(channel.getChannelId());
-			dbNotification.setBroadcastBeginTime(broadcast.getBeginTime());
-			dbNotification.setBroadcastBeginTimeMillis(String.valueOf(broadcast.getBeginTimeMillis()));
-
-			notificationDataSource.addNotification(dbNotification);
-
 			return true;
 		} catch (ParseException e) {
 			e.printStackTrace();
