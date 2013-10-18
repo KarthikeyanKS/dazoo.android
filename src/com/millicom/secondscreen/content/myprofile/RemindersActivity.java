@@ -26,6 +26,7 @@ import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.NotificationDbItem;
 import com.millicom.secondscreen.content.model.Program;
+import com.millicom.secondscreen.content.model.Season;
 import com.millicom.secondscreen.notification.NotificationDataSource;
 
 public class RemindersActivity extends ActionBarActivity {
@@ -65,22 +66,51 @@ public class RemindersActivity extends ActionBarActivity {
 	}
 	
 	private void initLayout(){
-		ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
-		
-		
 		mListView = (ListView) findViewById(R.id.listview);
-		//mAdapter = new RemindersListAdapter(this, broadcasts);
-		//mListView.setAdapter(mAdapter);
+	
 	}
 	
 	private void populateViews(){
+		ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
+		
 		NotificationDataSource notificationDataSource = new NotificationDataSource(this);
 		List<NotificationDbItem> notificationList = notificationDataSource.getAllNotifications();
 		for(int i = 0; i < notificationList.size(); i++){
-			NotificationDbItem notificationDbItem = notificationList.get(i);
-			String broadcastUrl = notificationDbItem.getBroadcastUrl();
+			NotificationDbItem item = notificationList.get(i);
+			Broadcast broadcast = new Broadcast();
+			broadcast.setBeginTime(item.getBroadcastBeginTime());
+			broadcast.setBeginTimeMillis(Long.parseLong(item.getBroadcastTimeInMillis()));
+			
+			Program program = new Program();
+			program.setTitle(item.getProgramTitle());
+			String programType = item.getProgramType();
+			program.setProgramType(programType);
+			
+			if(Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)){
+				program.setEpisode(item.getProgramEpisode());
+				Season season = new Season();
+				season.setNumber(item.getProgramSeason());
+				program.setSeason(season);
+			} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)){
+				program.setYear(String.valueOf(item.getProgramYear()));
+			} 
+			
+			//program.setTags()
+			
+			broadcast.setProgram(program);
+			
+			Channel channel = new Channel();
+			channel.setChannelId(item.getChannelId());
+			channel.setName(item.getChannelName());
+			
+			broadcast.setChannel(channel);
+			
+			broadcasts.add(broadcast);
 		}
 		Toast.makeText(this, "Currently you have " + notificationList.size() + " being set. List with info is coming soon!", Toast.LENGTH_LONG).show();
+		
+		mAdapter = new RemindersListAdapter(this, broadcasts);
+		mListView.setAdapter(mAdapter);
 	}
 
 	@Override

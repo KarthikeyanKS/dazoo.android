@@ -2,6 +2,8 @@ package com.millicom.secondscreen.notification;
 
 import java.util.List;
 
+import com.millicom.secondscreen.content.model.Broadcast;
+import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.NotificationDbItem;
 
 import android.app.AlarmManager;
@@ -27,8 +29,17 @@ public class AlarmSetter extends BroadcastReceiver {
 		List<NotificationDbItem> notificationList = notificationDataSource.getAllNotifications();
 		
 		for(int i=0; i<notificationList.size(); i++){
+		
+			NotificationDbItem item = notificationList.get(i);
 			
-			//NotificationService.setAlarm(context, broadcast, channel);
+			Broadcast broadcast = new Broadcast();
+			//broa
+			
+			//Channel channel = new Channel();
+			//channel.setChannelId(item.getChannelId());
+			//channel.setName(item.getChannelName());
+			
+			//NotificationService.resetAlarm(context, broadcast, channel);
 		}
 	}
 }

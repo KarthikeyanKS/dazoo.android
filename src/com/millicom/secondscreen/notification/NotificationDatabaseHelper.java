@@ -13,8 +13,21 @@ public class NotificationDatabaseHelper extends SQLiteOpenHelper {
 	private static final String TAG = "NotificationDatabaseHelper";
 
 	// database creation sql statement
-	private static final String	DATABASE_CREATE	= "CREATE TABLE " + Consts.NOTIFICATION_DB_TABLE_NOTIFICATIONS	+ "(" + Consts.NOTIFICATION_DB_COLUMN_NOTIFICATION_ID + " INTEGER PRIMARY KEY, " + Consts.NOTIFICATION_DB_COLUMN_BROADCAST_URL + " TEXT, "
-			+ Consts.NOTIFICATION_DB_COLUMN_PROGRAM_ID + " TEXT NOT NULL, " + Consts.NOTIFICATION_DB_COLUMN_CHANNEL_ID + " TEXT NOT NULL,  " + Consts.NOTIFICATION_DB_COLUMN_BEGIN_TIME_MILLIS + " LONG NOT NULL " + ");";
+	private static final String	DATABASE_CREATE	= 
+			"CREATE TABLE " + Consts.NOTIFICATION_DB_TABLE_NOTIFICATIONS + 
+			"(" + Consts.NOTIFICATION_DB_COLUMN_NOTIFICATION_ID + " INTEGER PRIMARY KEY, " + 
+			 Consts.NOTIFICATION_DB_COLUMN_BROADCAST_URL + " TEXT, " +
+			 Consts.NOTIFICATION_DB_COLUMN_PROGRAM_ID + " TEXT NOT NULL, " +
+			 Consts.NOTIFICATION_DB_COLUMN_PROGRAM_TITLE + " TEXT NOT NULL, " +
+			 Consts.NOTIFICATION_DB_COLUMN_PROGRAM_TYPE + " TEXT NOT NULL, " +
+			 Consts.NOTIFICATION_DB_COLUMN_PROGRAM_SEASON + " TEXT, " +
+			 Consts.NOTIFICATION_DB_COLUMN_PROGRAM_EPISODE + " TEXT, " +
+			 Consts.NOTIFICATION_DB_COLUMN_PROGRAM_YEAR + " TEXT, " +
+			 Consts.NOTIFICATION_DB_COLUMN_PROGRAM_TAG + " TEXT, " + 
+			 Consts.NOTIFICATION_DB_COLUMN_CHANNEL_ID + " TEXT NOT NULL, " +
+			 Consts.NOTIFICATION_DB_COLUMN_CHANNEL_NAME + " TEXT NOT NULL, " +
+			 Consts.NOTIFICATION_DB_COLUMN_BROADCAST_BEGINTIME + " TEXT NOT NULL," + 
+			 Consts.NOTIFICATION_DB_COLUMN_BROADCAST_BEGINTIMEMILLIS + " TEXT NOT NULL " + ");";
 
 	public NotificationDatabaseHelper(Context context) {
 		super(context, Consts.NOTIFICATION_DATABASE_NAME, null, Consts.NOTIFICATION_DATABASE_VERSION);
@@ -22,7 +35,6 @@ public class NotificationDatabaseHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		Log.d(TAG,"Database create:" + DATABASE_CREATE);
 		db.execSQL(DATABASE_CREATE);
 	}
 

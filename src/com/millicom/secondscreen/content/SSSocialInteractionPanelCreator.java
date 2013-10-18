@@ -39,22 +39,24 @@ import com.millicom.secondscreen.share.ShareAction;
 
 public class SSSocialInteractionPanelCreator {
 
-	private static final String	TAG		= "SSSocialInteractionPanelCreator";
+	private static final String	TAG	= "SSSocialInteractionPanelCreator";
 
 	private Activity			mActivity;
 	private ImageLoader			mImageLoader;
 	private LinearLayout		mContainerView;
 	private Broadcast			mBroadcast;
 	private Channel				mChannel;
+	private ImageView			remindButtonIv;
 
-	private boolean				isSet	= false;
+	private boolean				mIsSet;
 
-	public SSSocialInteractionPanelCreator(Activity activity, LinearLayout containerView, Broadcast broadcast, Channel channel) {
+	public SSSocialInteractionPanelCreator(Activity activity, LinearLayout containerView, Broadcast broadcast, Channel channel, boolean isSet) {
 		this.mActivity = activity;
 		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage_2x);
 		this.mContainerView = containerView;
 		this.mBroadcast = broadcast;
 		this.mChannel = channel;
+		this.mIsSet = isSet;
 	}
 
 	public void createPanel() {
@@ -62,7 +64,7 @@ public class SSSocialInteractionPanelCreator {
 		ImageView likeButtonIv = (ImageView) contentView.findViewById(R.id.block_social_panel_like_button_iv);
 		TextView likeButtonTv = (TextView) contentView.findViewById(R.id.block_social_panel_like_button_tv);
 		ImageView shareButtonIv = (ImageView) contentView.findViewById(R.id.block_social_panel_share_button_iv);
-		final ImageView remindButtonIv = (ImageView) contentView.findViewById(R.id.block_social_panel_remind_button_iv);
+		remindButtonIv = (ImageView) contentView.findViewById(R.id.block_social_panel_remind_button_iv);
 
 		shareButtonIv.setOnClickListener(new View.OnClickListener() {
 
@@ -73,32 +75,47 @@ public class SSSocialInteractionPanelCreator {
 			}
 		});
 
+		if (mIsSet == true) {
+			remindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
+		} else {
+			remindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
+		}
+
 		remindButtonIv.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				if (isSet == false) {
+				if (mIsSet == false) {
 					// add reminder
-					isSet = true;
-					remindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
+					mIsSet = true;
+					//remindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
 					if (NotificationService.setAlarm(mActivity, mBroadcast, mChannel)) {
-						showSetNotificationToast();
+						NotificationService.showSetNotificationToast(mActivity);
 					} else {
 						Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
 					}
 				} else {
 					// remove reminder
-					isSet = false;
-					
+					//mIsSet = false;
+
 					NotificationDataSource notificationDataSource = new NotificationDataSource(mActivity);
-					
+
 					NotificationDbItem notificationDbItem = new NotificationDbItem();
 					notificationDbItem = notificationDataSource.getNotification(mChannel.getChannelId(), Long.valueOf(mBroadcast.getBeginTimeMillis()));
-					if (notificationDbItem != null){
-					remindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
-					showRemoveNotificationDialog(notificationDbItem.getNotificationId());
-					}
-					else {
+					if (notificationDbItem != null) {
+						
+						//remindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
+						
+						boolean answer[] = NotificationService.showRemoveNotificationDialog(mActivity, mBroadcast, notificationDbItem.getNotificationId());
+						if (answer[0] == false){
+							remindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
+							mIsSet = false;
+						} else {
+							remindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
+							mIsSet = true;
+						}
+						
+					} else {
 						Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
 					}
 				}
@@ -106,64 +123,5 @@ public class SSSocialInteractionPanelCreator {
 		});
 
 		mContainerView.addView(contentView);
-	}
-
-	private void showSetNotificationToast() {
-		LayoutInflater inflater = mActivity.getLayoutInflater();
-		View layout = inflater.inflate(R.layout.layout_notification_set_toast, (ViewGroup) mActivity.findViewById(R.id.notification_set_toast_container));
-
-		final Toast toast = new Toast(mActivity.getApplicationContext());
-
-		TextView text = (TextView) layout.findViewById(R.id.notification_set_toast_tv);
-		text.setText(mActivity.getResources().getString(R.string.reminder_text_set));
-
-		toast.setGravity(Gravity.BOTTOM, 0, 100);
-		toast.setDuration(Toast.LENGTH_SHORT);
-		toast.setView(layout);
-		toast.show();
-	}
-
-	private void showRemoveNotificationDialog(final int notificationId) {
-		String reminderText = "";
-		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(mBroadcast.getProgram().getProgramType())) {
-			reminderText = mActivity.getString(R.string.reminder_text_remove) + mBroadcast.getProgram().getTitle() + ", " + mActivity.getString(R.string.season) + " "
-					+ mBroadcast.getProgram().getSeason().getNumber() + ", " + mActivity.getString(R.string.episode) + " " + mBroadcast.getProgram().getEpisode() + "?";
-		} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(mBroadcast.getProgram().getProgramType())) {
-			reminderText = mActivity.getString(R.string.reminder_text_remove) + mBroadcast.getProgram().getTitle() + "?";
-		} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(mBroadcast.getProgram().getProgramType())) {
-			reminderText = mActivity.getString(R.string.reminder_text_remove) + mBroadcast.getProgram().getTitle() + "?";
-		}
-
-		final Dialog dialog = new Dialog(mActivity, R.style.remove_notification_dialog);
-		dialog.setContentView(R.layout.dialog_remove_notification);
-		dialog.setCancelable(false);
-
-		Button noButton = (Button) dialog.findViewById(R.id.dialog_remove_notification_button_no);
-		Button yesButton = (Button) dialog.findViewById(R.id.dialog_remove_notification_button_yes);
-
-		TextView textView = (TextView) dialog.findViewById(R.id.dialog_remove_notification_tv);
-		textView.setText(reminderText);
-
-		noButton.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// do not remove the reminder
-				dialog.dismiss();
-			}
-		});
-
-		yesButton.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// remove the reminder
-
-				NotificationService.removeNotification(mActivity, notificationId);
-
-				dialog.dismiss();
-			}
-		});
-		dialog.show();
 	}
 }

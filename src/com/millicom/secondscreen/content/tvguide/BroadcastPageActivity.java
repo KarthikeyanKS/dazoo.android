@@ -32,13 +32,15 @@ import com.millicom.secondscreen.content.SSSocialInteractionPanelCreator;
 import com.millicom.secondscreen.content.SSTvDatePage;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
+import com.millicom.secondscreen.content.model.NotificationDbItem;
 import com.millicom.secondscreen.content.model.Program;
+import com.millicom.secondscreen.notification.NotificationDataSource;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
 
 public class BroadcastPageActivity extends ActionBarActivity {
 
-	private static final String	TAG	= "BroadcastPageActivity";
+	private static final String	TAG		= "BroadcastPageActivity";
 	private ImageLoader			mImageLoader;
 	private Broadcast			mBroadcast;
 	private Channel				mChannel;
@@ -46,6 +48,7 @@ public class BroadcastPageActivity extends ActionBarActivity {
 	private ActionBar			mActionBar;
 	private LayoutInflater		mLayoutInflater;
 	private String				mBroadcastUrl;
+	private boolean				mIsSet	= false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -99,8 +102,15 @@ public class BroadcastPageActivity extends ActionBarActivity {
 		SSBroadcastBlockPopulator broadcastBlockPopulator = new SSBroadcastBlockPopulator(this, mBlockContainer);
 		broadcastBlockPopulator.createBlock(mBroadcast, mChannel);
 
+		NotificationDataSource notificationDataSource = new NotificationDataSource(this);
+		NotificationDbItem dbItem = new NotificationDbItem();
+		dbItem = notificationDataSource.getNotification(mChannel.getChannelId(), mBroadcast.getBeginTimeMillis());
+		if (dbItem.getNotificationId() != 0) {
+			mIsSet = true;
+		} else mIsSet = false;
+
 		// add the button block
-		SSSocialInteractionPanelCreator socialPanelCreator = new SSSocialInteractionPanelCreator(this, mBlockContainer, mBroadcast, mChannel);
+		SSSocialInteractionPanelCreator socialPanelCreator = new SSSocialInteractionPanelCreator(this, mBlockContainer, mBroadcast, mChannel, mIsSet);
 		socialPanelCreator.createPanel();
 
 		// add the cast and crew block

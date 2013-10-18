@@ -3,9 +3,17 @@ package com.millicom.secondscreen.content.model;
 public class NotificationDbItem {
 	private int notificationId;
 	private String broadcastUrl;
-	private String channelId;
-	private String beginTimeInMillis;
 	private String programId;
+	private String programTitle;
+	private String programType;
+	private String programSeason;
+	private String programEpisode;
+	private int programYear;
+	private String programTag;
+	private String channelId;
+	private String channelName;
+	private String broadcastBeginTime;
+	private String broadcastBeginTimeMillis;
 	
 	public void setNotificationId(int id){
 		this.notificationId = id;
@@ -23,6 +31,62 @@ public class NotificationDbItem {
 		return this.broadcastUrl;
 	}
 	
+	public void setProgramId(String programId){
+		this.programId = programId;
+	}
+	
+	public String getProgramId(){
+		return this.programId;
+	}
+	
+	public void setProgramTitle(String programTitle){
+		this.programTitle = programTitle;
+	}
+	
+	public String getProgramTitle(){
+		return this.programTitle;
+	}
+	
+	public void setProgramType(String programType){
+		this.programType = programType;
+	}
+	
+	public String getProgramType(){
+		return this.programType;
+	}
+	
+	public void setProgramSeason(String programSeason){
+		this.programSeason = programSeason;
+	}
+	
+	public String getProgramSeason(){
+		return this.programSeason;
+	}
+	
+	public void setProgramEpisode(String programEpisode){
+		this.programEpisode = programEpisode;
+	}
+	
+	public String getProgramEpisode(){
+		return this.programEpisode;
+	}
+	
+	public void setProgramYear(int programYear){
+		this.programYear = programYear;
+	}
+	
+	public int getProgramYear(){
+		return this.programYear;
+	}
+	
+	public void setProgramTag(String programTag){
+		this.programTag = programTag;
+	}
+	
+	public String getProgramTag(){
+		return this.programTag;
+	}
+	
 	public void setChannelId(String channelId){
 		this.channelId = channelId;
 	}
@@ -31,19 +95,28 @@ public class NotificationDbItem {
 		return this.channelId;
 	}
 	
-	public void setTimeInMillis(String beginTimeMillis){
-		this.beginTimeInMillis = beginTimeMillis;
+	public void setChannelName(String channelName){
+		this.channelName = channelName;
 	}
 	
-	public String getTimeInMillis(){
-		return this.beginTimeInMillis;
+	public String getChannelName(){
+		return this.channelName;
 	}
 	
-	public void setProgramId(String programId){
-		this.programId = programId;
+	public void setBroadcastBeginTime(String broadcastBeginTime){
+		this.broadcastBeginTime = broadcastBeginTime;
 	}
 	
-	public String getProgramId(){
-		return this.programId;
+	public String getBroadcastBeginTime(){
+		return this.broadcastBeginTime;
 	}
+	
+	public void setBroadcastBeginTimeMillis(String broadcastBeginTimeMillis){
+		this.broadcastBeginTimeMillis = broadcastBeginTimeMillis;
+	}
+	
+	public String getBroadcastTimeInMillis(){
+		return this.broadcastBeginTimeMillis;
+	}
+
 }
