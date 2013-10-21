@@ -36,7 +36,7 @@ import com.millicom.secondscreen.content.tvguide.TVGuideFragmentContainer;
 public class HomePageActivity extends SSPageFragmentActivity implements View.OnClickListener, ActionBar.OnNavigationListener {
 
 	private static final String			TAG					= "HomePageActivity";
-	private TextView					mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed, mTxtTabMore;
+	private TextView					mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
 	private View						mTabSelectorContainerView;
 
 	private Fragment					mActiveFragment;
