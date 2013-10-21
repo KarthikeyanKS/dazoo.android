@@ -1,10 +1,8 @@
 package com.millicom.secondscreen.content.tvguide;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -25,14 +23,6 @@ import android.widget.Toast;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
-import com.millicom.secondscreen.SecondScreenApplication;
-import com.millicom.secondscreen.content.SSBroadcastBlockPopulator;
-import com.millicom.secondscreen.content.SSBroadcastPage;
-import com.millicom.secondscreen.content.SSCastCrewBlockPopulator;
-import com.millicom.secondscreen.content.SSPageCallback;
-import com.millicom.secondscreen.content.SSPageGetResult;
-import com.millicom.secondscreen.content.SSSocialInteractionPanelCreator;
-import com.millicom.secondscreen.content.SSTvDatePage;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.NotificationDbItem;

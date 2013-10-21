@@ -11,12 +11,14 @@ import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.NotificationDbItem;
 import com.millicom.secondscreen.content.model.Program;
 import com.millicom.secondscreen.notification.NotificationDataSource;
+import com.millicom.secondscreen.notification.NotificationDialogHandler;
 import com.millicom.secondscreen.notification.NotificationService;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,14 +30,15 @@ import android.widget.Toast;
 
 public class RemindersListAdapter extends BaseAdapter {
 
-	private static final String		TAG	= "RemindersListAdapter";
+	private static final String		TAG				= "RemindersListAdapter";
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
 	private ArrayList<Broadcast>	mBroadcasts;
 
 	private ImageLoader				mImageLoader;
-	private boolean isSet = false;
+	private int						notificationId;
+	private int						currentPosition	= -1;
 
 	public RemindersListAdapter(Activity mActivity, ArrayList<Broadcast> mBroadcasts) {
 		this.mBroadcasts = mBroadcasts;
@@ -64,6 +67,7 @@ public class RemindersListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+
 		View rowView = convertView;
 
 		if (rowView == null) {
@@ -79,7 +83,7 @@ public class RemindersListAdapter extends BaseAdapter {
 			viewHolder.mBroadcastDetailsTv = (TextView) rowView.findViewById(R.id.row_reminders_text_details_tv);
 			viewHolder.mBroadcastTimeTv = (TextView) rowView.findViewById(R.id.row_reminders_text_time_tv);
 			viewHolder.mReminderIconIv = (ImageView) rowView.findViewById(R.id.row_reminders_notification_iv);
-
+			viewHolder.mReminderIconIv.setTag(Integer.valueOf(position));
 			rowView.setTag(viewHolder);
 		}
 
@@ -104,7 +108,7 @@ public class RemindersListAdapter extends BaseAdapter {
 					holder.mBroadcastDetailsTv.setText(program.getSeason() + ", " + program.getEpisode());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
 					holder.mBroadcastDetailsTv.setText(program.getYear());
-				} 
+				}
 			}
 
 			if (channel != null) {
@@ -116,64 +120,25 @@ public class RemindersListAdapter extends BaseAdapter {
 				e.printStackTrace();
 				holder.mBroadcastTimeTv.setText("");
 			}
-			
-			
-			NotificationDataSource notificationDataSource = new NotificationDataSource(mActivity);
-			NotificationDbItem dbItem = new NotificationDbItem();
-			dbItem = notificationDataSource.getNotification(channel.getChannelId(), broadcast.getBeginTimeMillis());
-			if (dbItem!= null){
-				isSet = true;
-				holder.mReminderIconIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
-			} else {
-				isSet = false;
-				holder.mReminderIconIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
-			}
-			
-			
-			holder.mReminderIconIv.setOnClickListener(new View.OnClickListener() {
 
+			holder.mReminderIconIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
+			holder.mReminderIconIv.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (isSet == false) {
-						// add reminder
-						isSet = true;
-						holder.mReminderIconIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
-						if (NotificationService.setAlarm(mActivity, broadcast, channel)) {
-							NotificationService.showSetNotificationToast(mActivity);
-						} else {
-							Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
-						}
-					} else {
-						// remove reminder
-						
-						
-						NotificationDataSource notificationDataSource = new NotificationDataSource(mActivity);
-						
-						NotificationDbItem notificationDbItem = new NotificationDbItem();
-						notificationDbItem = notificationDataSource.getNotification(channel.getChannelId(), Long.valueOf(broadcast.getBeginTimeMillis()));
-						if (notificationDbItem != null){
-						
-						boolean answer[] = NotificationService.showRemoveNotificationDialog(mActivity, broadcast, notificationDbItem.getNotificationId());
-						
-						if(answer[0]== false){
-							isSet = true;
-							
-						} else {
-							isSet = false;
-							holder.mReminderIconIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
-						}
-						
-						
-						
-						
-						}
-						else {
-							Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
-						}
+
+					currentPosition = (Integer) v.getTag();
+
+					NotificationDataSource notificationDataSource = new NotificationDataSource(mActivity);
+
+					NotificationDbItem notificationDbItem = new NotificationDbItem();
+					notificationDbItem = notificationDataSource.getNotification(channel.getChannelId(), Long.valueOf(broadcast.getBeginTimeMillis()));
+					if (notificationDbItem != null) {
+						notificationId = notificationDbItem.getNotificationId();
+						NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
+						notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, notificationId, yesProc(), noProc());
 					}
 				}
 			});
-			
 		}
 
 		return rowView;
@@ -188,4 +153,19 @@ public class RemindersListAdapter extends BaseAdapter {
 		public ImageView	mReminderIconIv;
 	}
 
+	public Runnable yesProc() {
+		return new Runnable() {
+			public void run() {
+				mBroadcasts.remove(currentPosition);
+				notifyDataSetChanged();
+			}
+		};
+	}
+
+	public Runnable noProc() {
+		return new Runnable() {
+			public void run() {
+			}
+		};
+	}
 }
