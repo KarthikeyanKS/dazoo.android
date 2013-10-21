@@ -23,35 +23,40 @@ import android.widget.Toast;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.authentication.LoginActivity;
+import com.millicom.secondscreen.authentication.PromptSignInDialogHandler;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.NotificationDbItem;
 import com.millicom.secondscreen.content.model.Program;
+import com.millicom.secondscreen.like.LikeDialogHandler;
+import com.millicom.secondscreen.like.LikeService;
 import com.millicom.secondscreen.notification.NotificationDataSource;
 import com.millicom.secondscreen.notification.NotificationDialogHandler;
 import com.millicom.secondscreen.notification.NotificationService;
 import com.millicom.secondscreen.share.ShareAction;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
+import com.millicom.secondscreen.SecondScreenApplication;
 
 public class BroadcastPageActivity extends ActionBarActivity implements OnClickListener {
 
-	private static final String							TAG		= "BroadcastPageActivity";
-	private ImageLoader									mImageLoader;
-	private Broadcast									mBroadcast;
-	private Channel										mChannel;
-	private LinearLayout								mBlockContainer;
-	private ActionBar									mActionBar;
-	private LayoutInflater								mLayoutInflater;
-	private String										mBroadcastUrl;
-	private boolean										mIsSet	= false;
-	private ImageView									mPosterIv, mLikeButtonIv, mShareButtonIv, mRemindButtonIv;
-	private ProgressBar									mPosterPb;
-	private TextView									mTitleTv, mSeasonTv, mEpisodeTv, mTimeTv, mDateTv, mChannelTv, mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
-	private int											notificationId;
-	private View										mTabSelectorContainerView;
+	private static final String	TAG	= "BroadcastPageActivity";
+	private ImageLoader			mImageLoader;
+	private Broadcast			mBroadcast;
+	private Channel				mChannel;
+	private LinearLayout		mBlockContainer;
+	private ActionBar			mActionBar;
+	private LayoutInflater		mLayoutInflater;
+	private String				mBroadcastUrl, entityType, token;
+	private boolean				mIsSet	= false, mIsLiked = false, isLoggedIn = false;
+	private ImageView			mPosterIv, mLikeButtonIv, mShareButtonIv, mRemindButtonIv;
+	private ProgressBar			mPosterPb;
+	private TextView			mTitleTv, mSeasonTv, mEpisodeTv, mTimeTv, mDateTv, mChannelTv, mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
+	private int					notificationId;
+	private View				mTabSelectorContainerView;
 
-	private Activity									mActivity;
+	private Activity			mActivity;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +64,7 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 		setContentView(R.layout.layout_broadcastpage_activity);
 
 		mActivity = this;
-	mImageLoader = new ImageLoader(this, R.drawable.loadimage_2x);
+		mImageLoader = new ImageLoader(this, R.drawable.loadimage_2x);
 		mLayoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		// get the info about the program to be displayed from tv-guide listview
@@ -80,6 +85,11 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 			Toast.makeText(this, "Soon I will parse this broadcast page!", Toast.LENGTH_SHORT).show();
 		}
 
+		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
+		if(token!=null && token.isEmpty() !=true){
+			isLoggedIn = true;
+		}
+		
 		initViews();
 		if (mBroadcast != null && mChannel != null) {
 			populateBlocks();
@@ -100,7 +110,7 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 
 		// styling bottom navigation tabs
 		mTabSelectorContainerView = findViewById(R.id.tab_selector_container);
-		
+
 		mTxtTabTvGuide = (TextView) findViewById(R.id.show_tvguide);
 		mTxtTabTvGuide.setOnClickListener(this);
 		mTxtTabPopular = (TextView) findViewById(R.id.show_activity);
@@ -111,7 +121,7 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 		mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.black));
 		mTxtTabPopular.setTextColor(getResources().getColor(R.color.gray));
 		mTxtTabFeed.setTextColor(getResources().getColor(R.color.gray));
-		
+
 		// view for the general information about the broadcast
 		mPosterIv = (ImageView) findViewById(R.id.block_broadcastpage_poster_iv);
 		mPosterPb = (ProgressBar) findViewById(R.id.block_broadcastpage_poster_progressbar);
@@ -127,7 +137,9 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 		mShareButtonIv = (ImageView) findViewById(R.id.block_social_panel_share_button_iv);
 		mRemindButtonIv = (ImageView) findViewById(R.id.block_social_panel_remind_button_iv);
 
+		mLikeButtonIv.setOnClickListener(this);
 		mShareButtonIv.setOnClickListener(this);
+		mRemindButtonIv.setOnClickListener(this);
 
 		mBlockContainer = (LinearLayout) findViewById(R.id.broacastpage_block_container_layout);
 	}
@@ -176,18 +188,21 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 			notificationId = -1;
 		}
 
-		if (mIsSet == true) {
-			mRemindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
-		} else {
-			mRemindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
-		}
+		if (mIsSet) mRemindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
+		else mRemindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
 
-		mRemindButtonIv.setOnClickListener(this);
+		// TODO TO GET TO KNOW IF IT IS ACTUALLY LIKED
+
+		if (mIsLiked) mLikeButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
+		else mLikeButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart));
+
+		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(program.getProgramType())) {
+			entityType = Consts.DAZOO_LIKE_ENTITY_TYPE_SERIES;
+		} else entityType = Consts.DAZOO_LIKE_ENTITY_TYPE_PROGRAM;
 
 		// add the cast and crew block
 		// SSCastCrewBlockPopulator castCrewBlockPopulator = new SSCastCrewBlockPopulator(this, mBlockContainer);
 		// castCrewBlockPopulator.createBlock(mCast);
-
 	}
 
 	@Override
@@ -203,33 +218,34 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 
-	public Runnable yesProc() {
-		return new Runnable() {
-			public void run() {
-				Log.d(TAG, "Notification is removed");
-				mRemindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
-				mIsSet = false;
-			}
-		};
-	}
-
-	public Runnable noProc() {
-		return new Runnable() {
-			public void run() {
-				Log.d(TAG, "No changes to the notification");
-			}
-		};
-	}
-
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();
-		switch(id){
+		switch (id) {
 		case R.id.show_tvguide:
 			break;
 		case R.id.show_me:
 			break;
 		case R.id.show_activity:
+			break;
+		case R.id.block_social_panel_like_button_iv:
+			if (isLoggedIn) {
+				if (mIsLiked == false) {
+					if (LikeService.addLike(token, mBroadcast.getProgram().getProgramId(), entityType)) {
+						LikeService.showSetLikeToast(mActivity, mBroadcast.getProgram().getTitle());
+						mLikeButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
+						mIsLiked = true;
+					} else {
+						Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
+					}
+				} else {
+					LikeDialogHandler likeDlg = new LikeDialogHandler();
+					likeDlg.showRemoveLikeDialog(mActivity, token, mBroadcast.getProgram().getProgramId(), yesLikeProc(), noLikeProc());
+				}
+			} else {
+				PromptSignInDialogHandler loginDlg = new PromptSignInDialogHandler();
+				loginDlg.showPromptSignInDialog(mActivity, yesLoginProc(), noLoginProc());
+			}
 			break;
 		case R.id.block_social_panel_share_button_iv:
 			ShareAction.shareAction(mActivity, "subject", "link to share", getResources().getString(R.string.share_action_title));
@@ -245,18 +261,68 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 					Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
 				}
 			} else {
-				NotificationDataSource notificationDataSource = new NotificationDataSource(mActivity);
-
-				NotificationDbItem notificationDbItem = new NotificationDbItem();
-				notificationDbItem = notificationDataSource.getNotification(mChannel.getChannelId(), Long.valueOf(mBroadcast.getBeginTimeMillis()));
-				if (notificationDbItem != null) {
+				if (notificationId != -1) {
 					NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
-					notificationDlg.showRemoveNotificationDialog(mActivity, mBroadcast, notificationId, yesProc(), noProc());
+					notificationDlg.showRemoveNotificationDialog(mActivity, mBroadcast, notificationId, yesNotificationProc(), noNotificationProc());
 				} else {
 					Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
 				}
-			}	
+			}
 			break;
-		}	
+		}
+	}
+
+	public Runnable yesLoginProc(){
+		return new Runnable(){
+			public void run(){
+				Log.d(TAG,"Go to Login page");
+				Intent intent = new Intent(BroadcastPageActivity.this, LoginActivity.class);
+				startActivity(intent);
+				overridePendingTransition(R.anim.slide_in, R.anim.slide_out); 
+			}
+		};
+	}
+	
+	public Runnable noLoginProc(){
+		return new Runnable(){
+			public void run(){
+				Log.d(TAG,"No login");
+			}
+		};
+	}
+	
+	public Runnable yesLikeProc() {
+		return new Runnable() {
+			public void run() {
+				Log.d(TAG, "Like was removed");
+				mLikeButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart));
+			}
+		};
+	}
+
+	public Runnable noLikeProc() {
+		return new Runnable() {
+			public void run() {
+				Log.d(TAG, "No changes to likes");
+			}
+		};
+	}
+
+	public Runnable yesNotificationProc() {
+		return new Runnable() {
+			public void run() {
+				Log.d(TAG, "Notification is removed");
+				mRemindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
+				mIsSet = false;
+			}
+		};
+	}
+
+	public Runnable noNotificationProc() {
+		return new Runnable() {
+			public void run() {
+				Log.d(TAG, "No changes to the notification");
+			}
+		};
 	}
 }

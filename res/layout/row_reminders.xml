@@ -30,7 +30,7 @@
 
     <LinearLayout
         android:id="@+id/row_reminders_container"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/row_reminders_header_container"
         android:background="@color/white" >
@@ -87,10 +87,9 @@
 
         <ImageView
             android:id="@+id/row_reminders_notification_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_gravity="center_vertical"
-            android:layout_alignParentRight="true"
             android:layout_margin="10dp"
             android:layout_weight="0.2" />
     </LinearLayout>

@@ -152,6 +152,10 @@
     <string name="hint_enter_email">Enter e-mail</string>
     <string name="login">Login</string>
     <string name="reset_password">Reset Password</string>
+    <string name="sign_in">Sing in</string>
+    <string name="cancel">Cancel</string>
+    <string name="sign_in_to_dazoo_title">Sing in to Dazoo</string>
+    <string name="sign_in_to_dazoo_text">You need to sign in to Dazoo to like shows and get better personal recommendations</string>
     
     <!-- MY CHANNELS PAGE -->
     <string name="get_my_channels">Get My Channels</string>
@@ -167,5 +171,9 @@
     <string name="dazoo_notification_text_end">. Enjoy! :)</string>
     <string name="reminder_text_set">A notification was set for this broadcast 15 minutes before on air</string>
     <string name="reminder_text_remove">"Do you really want to remove the reminder for "</string>
+    
+    <!-- LIKE SERVICE -->
+	<string name="like_set_text">" was added to the list of your preferences"</string>
+	<string name="like_remove_text">"Unliking an item remove all related recommendation to this item"</string>
    
 </resources>

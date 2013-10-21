@@ -230,8 +230,7 @@
                 android:layout_height="32dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:layout_margin="5dp"
-                android:src="@drawable/ic_launcher" />
+                android:layout_margin="5dp"/>
         </RelativeLayout>
     </RelativeLayout>
 

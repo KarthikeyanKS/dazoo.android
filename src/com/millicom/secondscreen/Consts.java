@@ -28,6 +28,7 @@ public abstract class Consts {
 	public static final String	MILLICOM_SECONDSCREEN_RESET_PASSWORD_URL					= "http://www.gitrgitr.com/api/auth/login/dazoo/sendResetPasswordEmail";
 	public static final String	MILLICOM_SECONDSCREEN_TAGS_PAGE_URL							= "http://www.gitrgitr.com/api/epg/tags/visible";
 	public static final String	MILLICOM_SECONDSCREEN_MY_CHANNELS_URL						= "http://www.gitrgitr.com/api/my/channels";
+	public static final String	MILLICOM_SECONDSCREEN_LIKES_URL								= "http://www.gitrgitr.com/api/my/likes";
 
 	public static final String	MILLICON_SECONDSCREEN_HTTP_SCHEME							= "http";
 
@@ -46,6 +47,8 @@ public abstract class Consts {
 	public static final String	REQUEST_QUERY_AND											= "&";
 	public static final String	REQUEST_QUERY_SEPARATOR										= "/";
 	public static final String	REQUEST_PARAMETER_SEPARATOR									= "?";
+	public static final String	MILLICOM_SECONDSCREEN_API_ENTITY_ID							= "entityId";
+	public static final String	MILLICOM_SECONDSCREEN_API_ENTITY_TYPE						= "entityType";
 
 	public static final String	EMPTY_STRING												= "";
 	public static final String	ERROR_STRING												= "error";
@@ -125,6 +128,7 @@ public abstract class Consts {
 	// Response codes
 	public static final int		GOOD_RESPONSE										= 200;
 	public static final int		GOOD_RESPONSE_CHANNELS_ARE_ADDED					= 204;
+	public static final int		GOOD_RESPONSE_LIKE_IS_DELETED						= 204;
 
 	public static final int		BAD_RESPONSE										= 400;
 	public static final int		BAD_RESPONSE_MISSING_TOKEN							= 401;
@@ -158,9 +162,8 @@ public abstract class Consts {
 
 	// PROGRAM fields:
 	public static final String	DAZOO_PROGRAM_HREF									= "href";
-	public static final String	DAZOO_PROGRAM_ID									= "_id";
+	public static final String	DAZOO_PROGRAM_ID									= "programId";
 	public static final String	DAZOO_PROGRAM_TITLE									= "title";
-	public static final String	DAZOO_PROGRAM_TYPE_ID								= "programTypeId";
 	public static final String	DAZOO_PROGRAM_TYPE									= "programType";
 	public static final String	DAZOO_PROGRAM_TAGS									= "tags";
 	public static final String	DAZOO_PROGRAM_SYNOPSIS_SHORT						= "synopsisShort";
@@ -177,6 +180,8 @@ public abstract class Consts {
 	public static final String	DAZOO_PROGRAM_TYPE_TV_EPISODE						= "TV_EPISODE";
 	public static final String	DAZOO_PROGRAM_TYPE_MOVIE							= "MOVIE";
 	public static final String	DAZOO_PROGRAM_TYPE_OTHER							= "OTHER";
+	public static final String	DAZOO_LIKE_ENTITY_TYPE_PROGRAM						= "PROGRAM";
+	public static final String	DAZOO_LIKE_ENTITY_TYPE_SERIES						= "SERIES";
 
 	// BROADCAST fields
 	public static final String	DAZOO_BROADCAST_HREF								= "href";

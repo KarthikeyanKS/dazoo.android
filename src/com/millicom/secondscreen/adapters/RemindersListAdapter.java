@@ -140,7 +140,6 @@ public class RemindersListAdapter extends BaseAdapter {
 				}
 			});
 		}
-
 		return rowView;
 	}
 

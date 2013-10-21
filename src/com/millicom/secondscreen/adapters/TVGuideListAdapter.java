@@ -63,7 +63,6 @@ public class TVGuideListAdapter extends BaseAdapter {
 		View rowView = convertView;
 
 		final Guide guide = getItem(position);
-		Log.d(TAG,"Channel name: "+ guide.getName());
 
 		if (rowView == null) {
 			mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);

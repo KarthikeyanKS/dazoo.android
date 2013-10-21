@@ -106,14 +106,8 @@ public class SSSocialInteractionPanelCreator {
 						
 						//remindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
 						
-						boolean answer[] = NotificationService.showRemoveNotificationDialog(mActivity, mBroadcast, notificationDbItem.getNotificationId());
-						if (answer[0] == false){
-							remindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
-							mIsSet = false;
-						} else {
-							remindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
-							mIsSet = true;
-						}
+						NotificationService.showRemoveNotificationDialog(mActivity, mBroadcast, notificationDbItem.getNotificationId());
+						
 						
 					} else {
 						Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();

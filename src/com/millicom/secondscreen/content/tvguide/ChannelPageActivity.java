@@ -63,7 +63,6 @@ public class ChannelPageActivity extends ActionBarActivity {
 		mChannelGuide = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHANNEL_GUIDE);
 		mChannel = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHANNEL);
 		mBroadcasts = mChannelGuide.getBroadcasts();
-		
 		initViews();
 		populateViews();
 	}

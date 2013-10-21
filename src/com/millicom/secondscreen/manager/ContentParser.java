@@ -193,7 +193,6 @@ public class ContentParser {
 	public Program parseProgram(JSONObject jsonProgram, String tagKey) throws Exception {
 		Program program = new Program();
 		program.setProgramId(jsonProgram.optString(Consts.DAZOO_PROGRAM_ID));
-		program.setProgramTypeId(jsonProgram.optString(Consts.DAZOO_PROGRAM_TYPE_ID));
 
 		String programType = jsonProgram.optString(Consts.DAZOO_PROGRAM_TYPE);
 		program.setProgramType(programType);

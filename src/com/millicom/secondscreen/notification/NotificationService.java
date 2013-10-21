@@ -183,15 +183,13 @@ public class NotificationService {
 		TextView text = (TextView) layout.findViewById(R.id.notification_set_toast_tv);
 		text.setText(activity.getResources().getString(R.string.reminder_text_set));
 
-		toast.setGravity(Gravity.BOTTOM, 0, 100);
+		toast.setGravity(Gravity.BOTTOM, 0, 200);
 		toast.setDuration(Toast.LENGTH_SHORT);
 		toast.setView(layout);
 		toast.show();
 	}
 
-	public static boolean [] showRemoveNotificationDialog(final Context context, Broadcast broadcast, final int notificationId) {
-		final boolean[] answer = new boolean[1];
-		
+	public static void showRemoveNotificationDialog(final Context context, Broadcast broadcast, final int notificationId) {
 		String reminderText = "";
 		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(broadcast.getProgram().getProgramType())) {
 			reminderText = context.getString(R.string.reminder_text_remove) + broadcast.getProgram().getTitle() + ", " + context.getString(R.string.season) + " "
@@ -216,7 +214,6 @@ public class NotificationService {
 
 			@Override
 			public void onClick(View v) {
-				answer[0] = false;
 				// do not remove the reminder
 				dialog.dismiss();
 			}
@@ -226,8 +223,6 @@ public class NotificationService {
 
 			@Override
 			public void onClick(View v) {
-				answer[0] = true;
-				Log.d(TAG,"HERE: " + answer[0]);
 				// remove the reminder
 				NotificationService.removeNotification(context, notificationId);
 
@@ -235,7 +230,5 @@ public class NotificationService {
 			}
 		});
 		dialog.show();
-		Log.d(TAG,"ANSWER:" + answer[0]);
-		return answer;
 	}
 }
