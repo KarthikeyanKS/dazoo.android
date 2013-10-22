@@ -21,10 +21,13 @@ public class DazooLikeEntity implements Parcelable{
 	// "TV_EPISODE"-specific fields
 	private int episodeNumber;
 	private Season season;
-	private ArrayList<Series> series = new ArrayList<Series>();
+	private Series series;
 	// "MOVIE"-specific fields
 	private int year;
 	private String genre;
+	
+	public DazooLikeEntity(){
+	}
 	
 	public void setEntityId(String entityId){
 		this.entityId = entityId;
@@ -122,11 +125,11 @@ public class DazooLikeEntity implements Parcelable{
 		return this.season;
 	}
 	
-	public void setSeries(ArrayList<Series> series){
+	public void setSeries(Series series){
 		this.series = series;
 	}
 	
-	public ArrayList<Series> getSeries(){
+	public Series getSeries(){
 		return this.series;
 	}
 	
@@ -165,7 +168,7 @@ public class DazooLikeEntity implements Parcelable{
 		dest.writeTypedList(credits);	
 		dest.writeInt(episodeNumber);
 		dest.writeParcelable(season, flags);
-		dest.writeTypedList(series);
+		dest.writeParcelable(series, flags);
 		dest.writeInt(year);
 		dest.writeString(genre);
 	}
@@ -183,7 +186,7 @@ public class DazooLikeEntity implements Parcelable{
 		in.readTypedList(credits, Credit.CREATOR); 
 		episodeNumber = in.readInt();
 		season = (Season) in.readParcelable(Season.class.getClassLoader());
-		in.readTypedList(series, Series.CREATOR);
+		series = (Series) in.readParcelable(Series.class.getClassLoader());
 		year = in.readInt();
 		genre = in.readString();
 	}

@@ -224,4 +224,33 @@ public abstract class Consts {
 	public static final String	DAZOO_GUIDE_NAME									= "name";
 	public static final String	DAZOO_GUIDE_LOGO									= "logo";
 	public static final String	DAZOO_GUIDE_BROADCASTS								= "broadcasts";
+
+	// DAZOO LIKE fields
+	public static final String	DAZOO_LIKE_ENTITY_ID								= "entityId";
+	public static final String	DAZOO_LIKE_ENTITY_TYPE								= "entityType";
+	public static final String	DAZOO_LIKE_ENTITY									= "entity";
+
+	// DAZOO LIKE ENTITY fields
+	public static final String	DAZOO_LIKE_ENTITY_ENTITY_ID							= "entityId";
+	public static final String	DAZOO_LIKE_ENTITY_ENTITY_TYPE						= "entityType";
+	public static final String	DAZOO_LIKE_ENTITY_TITLE								= "title";
+	public static final String	DAZOO_LIKE_ENTITY_SYNOPSIS_SHORT					= "synopsisShort";
+	public static final String	DAZOO_LIKE_ENTITY_SYNOPSIS_LONG						= "synopsisLong";
+	public static final String	DAZOO_LIKE_ENTITY_POSTER							= "poster";
+	public static final String	DAZOO_LIKE_ENTITY_TAGS								= "tags";
+	public static final String	DAZOO_LIKE_ENTITY_CREDITS							= "credits";
+	public static final String	DAZOO_LIKE_ENTITY_EPISODE_NUMBER					= "episodeNumber";
+	public static final String	DAZOO_LIKE_ENTITY_SEASON							= "season";
+	public static final String	DAZOO_LIKE_ENTITY_SERIES							= "series";
+	public static final String	DAZOO_LIKE_ENTITY_YEAR								= "year";
+	public static final String	DAZOO_LIKE_ENTITY_GENRE								= "genre";
+
+	// CREDIT fields
+	public static final String	DAZOO_CREDIT_NAME									= "name";
+	public static final String	DAZOO_CREDIT_TYPE									= "type";
+
+	// SERIES fields
+	public static final String	DAZOO_SERIES_NAME									= "name";
+	public static final String	DAZOO_SERIES_SERIES_ID								= "seriesId";
+
 }

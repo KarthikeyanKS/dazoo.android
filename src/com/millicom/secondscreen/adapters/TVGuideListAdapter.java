@@ -149,7 +149,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 						holder.mLiveProgramTimeTv.setText("");
 					}
 				} else if (j == 1 && j < nextBroadcasts.size()) {
-					holder.mNextProgramNameTv.setText(broadcasts.get(j).getProgram().getTitle());
+					holder.mNextProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getTitle());
 					try {
 						holder.mNextProgramTimeTv.setText((DateUtilities.isoStringToTimeString(nextBroadcasts.get(j).getBeginTime())));
 					} catch (Exception e) {

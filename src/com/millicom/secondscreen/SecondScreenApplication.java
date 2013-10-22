@@ -52,9 +52,7 @@ public class SecondScreenApplication extends Application {
 
 	public static SecondScreenApplication getInstance() {
 		if (sInstance == null) {
-			Log.d(TAG, "STUCK HERE!");
 			sInstance = new SecondScreenApplication();
-			Log.d(TAG, "OR HERE!");
 		}
 		return sInstance;
 	}

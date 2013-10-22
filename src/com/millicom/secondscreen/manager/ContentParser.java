@@ -11,6 +11,9 @@ import android.util.Log;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
+import com.millicom.secondscreen.content.model.Credit;
+import com.millicom.secondscreen.content.model.DazooLike;
+import com.millicom.secondscreen.content.model.DazooLikeEntity;
 import com.millicom.secondscreen.content.model.Season;
 import com.millicom.secondscreen.content.model.Series;
 import com.millicom.secondscreen.content.model.Tag;
@@ -261,12 +264,7 @@ public class ContentParser {
 		return program;
 	}
 
-	public Series parseSeries(JSONObject jsonSeries) throws Exception {
-		Series series = new Series();
-		return series;
-	}
-
-	public Season parseSeason(JSONObject jsonSeason) throws Exception {
+	public static Season parseSeason(JSONObject jsonSeason) throws Exception {
 		Season season = new Season();
 		season.setNumber(jsonSeason.optString(Consts.DAZOO_SEASON_NUMBER));
 		return season;
@@ -301,5 +299,109 @@ public class ContentParser {
 			}
 		} else return null;
 		return null;
+	}
+
+	public static Credit parseCredit(JSONObject jsonObject) {
+		Credit credit = new Credit();
+		credit.setName(jsonObject.optString(Consts.DAZOO_CREDIT_NAME));
+		credit.setType(jsonObject.optString(Consts.DAZOO_CREDIT_TYPE));
+		return credit;
+	}
+	
+	public static Series parseSeries(JSONObject jsonObject){
+		Series series = new Series();
+		series.setName(jsonObject.optString(Consts.DAZOO_SERIES_NAME));
+		series.setSeriesId(jsonObject.optString(Consts.DAZOO_SERIES_SERIES_ID));
+		return series;
+	}
+
+	public static DazooLike parseDazooLike(JSONObject jsonObject){
+		DazooLike dazooLike = new DazooLike();
+		dazooLike.setEntityId(jsonObject.optString(Consts.DAZOO_LIKE_ENTITY_ID));
+		dazooLike.setEntityType(jsonObject.optString(Consts.DAZOO_LIKE_ENTITY_TYPE));
+		
+		String entity = jsonObject.optString(Consts.DAZOO_LIKE_ENTITY);
+		if(entity!=null && entity.isEmpty()!=true){
+			JSONObject likeEntity;
+			try {
+				likeEntity = new JSONObject(entity);
+				DazooLikeEntity dazooLikeEntity = ContentParser.parseDazooLikeEntity(likeEntity);
+				dazooLike.setEntity(dazooLikeEntity);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return dazooLike;
+	}
+	
+	public static DazooLikeEntity parseDazooLikeEntity(JSONObject jsonObject) {
+		if (jsonObject != null) {
+			DazooLikeEntity dazooLikeEntity = new DazooLikeEntity();
+			dazooLikeEntity.setEntityId(jsonObject.optString(Consts.DAZOO_LIKE_ENTITY_ENTITY_ID));
+
+			String entityType = jsonObject.optString(Consts.DAZOO_LIKE_ENTITY_ENTITY_TYPE);
+
+			dazooLikeEntity.setEntityType(entityType);
+			dazooLikeEntity.setTitle(jsonObject.optString(Consts.DAZOO_LIKE_ENTITY_TITLE));
+			dazooLikeEntity.setSynopsisShort(jsonObject.optString(Consts.DAZOO_LIKE_ENTITY_SYNOPSIS_SHORT));
+			dazooLikeEntity.setSynopsisLong(jsonObject.optString(Consts.DAZOO_LIKE_ENTITY_SYNOPSIS_LONG));
+
+			JSONObject jsonPoster = jsonObject.optJSONObject(Consts.DAZOO_LIKE_ENTITY_POSTER);
+			if (jsonPoster != null) {
+				dazooLikeEntity.setPosterSUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_SMALL));
+				dazooLikeEntity.setPosterMUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_MEDIUM));
+				dazooLikeEntity.setPosterLUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_LARGE));
+			}
+
+			JSONArray jsonTags = jsonObject.optJSONArray(Consts.DAZOO_LIKE_ENTITY_TAGS);
+			if (jsonTags != null){
+				ArrayList<String> tags = new ArrayList<String>();
+				int size = jsonTags.length();
+				for (int l = 0; l < size; l++){
+					tags.add(jsonTags.optString(l));
+					Log.d(TAG,"tag: " + jsonTags.optString(l));
+				}
+				dazooLikeEntity.setTags(tags);
+			}
+
+			JSONArray jsonCreditArray = jsonObject.optJSONArray(Consts.DAZOO_LIKE_ENTITY_CREDITS);
+			if (jsonCreditArray != null) {
+				ArrayList<Credit> credits = new ArrayList<Credit>();
+				int size = jsonCreditArray.length();
+				for (int j = 0; j < size; j++) {
+					JSONObject jsonCredit;
+					try {
+						jsonCredit = jsonCreditArray.getJSONObject(j);
+						if (jsonCredit != null) {
+							credits.add(parseCredit(jsonCredit));
+						}
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+				dazooLikeEntity.setCredits(credits);
+			}
+
+			if (entityType != null && entityType.isEmpty() != true) {
+				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(entityType)) {
+					dazooLikeEntity.setEpisodeNumber(jsonObject.optInt(Consts.DAZOO_LIKE_ENTITY_EPISODE_NUMBER));
+
+					JSONObject jsonSeason = jsonObject.optJSONObject(Consts.DAZOO_LIKE_ENTITY_SEASON);
+					if (jsonSeason != null) {
+						try {
+							dazooLikeEntity.setSeason(parseSeason(jsonSeason));
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+
+					JSONObject jsonSeries = jsonObject.optJSONObject(Consts.DAZOO_LIKE_ENTITY_SERIES);
+					if (jsonSeries != null) {
+						dazooLikeEntity.setSeries(parseSeries(jsonSeries));
+					}
+				}
+			}
+			return dazooLikeEntity;
+		} else return null;
 	}
 }

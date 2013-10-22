@@ -20,6 +20,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -38,6 +40,8 @@ import android.widget.Toast;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.content.model.DazooLike;
+import com.millicom.secondscreen.content.model.DazooLikeEntity;
+import com.millicom.secondscreen.manager.ContentParser;
 import com.millicom.secondscreen.notification.NotificationService;
 import com.millicom.secondscreen.utilities.JSONUtilities;
 import com.millicom.secondscreen.SecondScreenApplication;
@@ -62,20 +66,26 @@ public class LikeService {
 	}
 	
 	public static ArrayList<DazooLike> getLikesList(String token){
-		ArrayList<DazooLike> likesList = new ArrayList<DazooLike>();
+		ArrayList<DazooLike> dazooLikesList = new ArrayList<DazooLike>();
 		GetLikesTask getLikesTask = new GetLikesTask();
 		String jsonString = "";
 		try {
 			jsonString = getLikesTask.execute(token).get();
 			if(jsonString!= null && jsonString.isEmpty()!=true && !jsonString.equals(Consts.ERROR_STRING)){
-				
+				JSONArray likesListJson = new JSONArray(jsonString);
+				int size = likesListJson.length();
+				for(int i=0; i<size; i++){	
+					dazooLikesList.add(ContentParser.parseDazooLike(likesListJson.getJSONObject(i)));
+				}
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (ExecutionException e) {
 			e.printStackTrace();
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
-	    return likesList;
+	    return dazooLikesList;
 	}
 
 	public static boolean addLike(String token, String entityId, String entityType) {
