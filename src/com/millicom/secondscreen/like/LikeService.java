@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
@@ -36,6 +37,7 @@ import android.widget.Toast;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.content.model.DazooLike;
 import com.millicom.secondscreen.notification.NotificationService;
 import com.millicom.secondscreen.utilities.JSONUtilities;
 import com.millicom.secondscreen.SecondScreenApplication;
@@ -57,6 +59,23 @@ public class LikeService {
 		toast.setDuration(Toast.LENGTH_SHORT);
 		toast.setView(layout);
 		toast.show();
+	}
+	
+	public static ArrayList<DazooLike> getLikesList(String token){
+		ArrayList<DazooLike> likesList = new ArrayList<DazooLike>();
+		GetLikesTask getLikesTask = new GetLikesTask();
+		String jsonString = "";
+		try {
+			jsonString = getLikesTask.execute(token).get();
+			if(jsonString!= null && jsonString.isEmpty()!=true && !jsonString.equals(Consts.ERROR_STRING)){
+				
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+	    return likesList;
 	}
 
 	public static boolean addLike(String token, String entityId, String entityType) {

@@ -6,7 +6,7 @@ import android.os.Parcelable;
 public class DazooLike implements Parcelable{
 	private String entityId;
 	private String entityType;
-	private Program entity;
+	private DazooLikeEntity entity;
 	
 	public DazooLike(){
 	}
@@ -27,7 +27,7 @@ public class DazooLike implements Parcelable{
 		return this.entityType;
 	}
 	
-	public void setEntity(Program entity){
+	public void setEntity(DazooLikeEntity entity){
 		this.entity = entity;
 	}
 	
@@ -46,7 +46,7 @@ public class DazooLike implements Parcelable{
 	public DazooLike(Parcel in){
 		entityId = in.readString();
 		entityType = in.readString();
-		entity = (Program) in.readParcelable(Program.class.getClassLoader());
+		entity = (DazooLikeEntity) in.readParcelable(DazooLikeEntity.class.getClassLoader());
 	}
 	
 	@Override
@@ -59,4 +59,15 @@ public class DazooLike implements Parcelable{
 		}
 		return false;
 	}
+	
+	public static final Parcelable.Creator<DazooLike>	CREATOR	= new Parcelable.Creator<DazooLike>() {
+		public DazooLike createFromParcel(Parcel in) {
+			return new DazooLike(in);
+		}
+
+		public DazooLike[] newArray(int size) {
+			return new DazooLike[size];
+		}
+	};
+	
 }
