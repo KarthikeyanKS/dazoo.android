@@ -213,5 +213,26 @@
                 android:src="@drawable/ic_action_search" />
         </RelativeLayout>
     </RelativeLayout>
+    
+    <!--  LOGIN BLOCK -->
+    
+    <!--  >RelativeLayout
+            android:id="@+id/mepage_login_container"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mepage_my_settings_container"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/light_gray"
+            android:orientation="vertical" >
+        
+        <View
+            android:id ="@+id/login_container_divider"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/black"
+            />
+        
+        </RelativeLayout-->
 
 </ScrollView>

@@ -15,6 +15,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -50,6 +51,19 @@ public class LikeService {
 
 	private static final String	TAG	= "LikeService";
 
+	public static boolean isLiked(String token, String programId){
+		ArrayList<DazooLike> likesList = new ArrayList<DazooLike>();
+		likesList = LikeService.getLikesList(token);
+		ArrayList<String> likeEntityIds = new ArrayList<String>();
+		for(int i=0; i < likesList.size(); i++){
+			likeEntityIds.add(likesList.get(i).getEntity().getEntityId());
+		}
+		
+		if(likeEntityIds.contains(programId))
+			 return true;
+		else return false;
+	}
+	
 	public static void showSetLikeToast(Activity activity, String likedContentName) {
 		LayoutInflater inflater = activity.getLayoutInflater();
 		View layout = inflater.inflate(R.layout.toast_like_set, (ViewGroup) activity.findViewById(R.id.like_set_toast_container));
@@ -95,10 +109,8 @@ public class LikeService {
 		try {
 			result = addLikeTask.execute(token, entityId, entityType).get();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if (Consts.GOOD_RESPONSE == result) {
@@ -113,11 +125,10 @@ public class LikeService {
 		int isDeleted = 0;
 		try {
 			isDeleted = deleteLikeTask.execute(token, entityId).get();
+			Log.d(TAG,"delete code: " + isDeleted);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if (Consts.GOOD_RESPONSE_LIKE_IS_DELETED == isDeleted){
@@ -172,16 +183,9 @@ public class LikeService {
 		protected Integer doInBackground(String... params) {
 			try {
 				HttpClient client = new DefaultHttpClient();
-				HttpPost httpPost = new HttpPost(Consts.MILLICOM_SECONDSCREEN_LIKES_URL);
-				httpPost.setHeader("Authorization", "Bearer " + params[0]);
-				httpPost.setHeader("Accept", "application/json");
-				httpPost.setHeader("Content-type", "application/json");
-
-				JSONObject holder = JSONUtilities.createJSONObjectWithKeysValues(Arrays.asList(Consts.MILLICOM_SECONDSCREEN_API_ENTITY_ID), Arrays.asList(params[1]));
-				Log.d(TAG, "Remove like holder: " + holder);
-				StringEntity entity = new StringEntity(holder.toString());
-				httpPost.setEntity(entity);
-				HttpResponse response = client.execute(httpPost);
+				HttpDelete httpDelete = new HttpDelete(Consts.MILLICOM_SECONDSCREEN_LIKES_URL + "/" + params[1]);	
+				httpDelete.setHeader("Authorization", "Bearer " + params[0]);
+				HttpResponse response = client.execute(httpDelete);
 				return response.getStatusLine().getStatusCode();
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();

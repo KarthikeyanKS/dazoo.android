@@ -231,7 +231,7 @@ public abstract class Consts {
 	public static final String	DAZOO_LIKE_ENTITY									= "entity";
 
 	// DAZOO LIKE ENTITY fields
-	public static final String	DAZOO_LIKE_ENTITY_ENTITY_ID							= "entityId";
+	public static final String	DAZOO_LIKE_ENTITY_ENTITY_ID							= "_id";
 	public static final String	DAZOO_LIKE_ENTITY_ENTITY_TYPE						= "entityType";
 	public static final String	DAZOO_LIKE_ENTITY_TITLE								= "title";
 	public static final String	DAZOO_LIKE_ENTITY_SYNOPSIS_SHORT					= "synopsisShort";

@@ -345,7 +345,7 @@ public class ContentParser {
 			dazooLikeEntity.setTitle(jsonObject.optString(Consts.DAZOO_LIKE_ENTITY_TITLE));
 			dazooLikeEntity.setSynopsisShort(jsonObject.optString(Consts.DAZOO_LIKE_ENTITY_SYNOPSIS_SHORT));
 			dazooLikeEntity.setSynopsisLong(jsonObject.optString(Consts.DAZOO_LIKE_ENTITY_SYNOPSIS_LONG));
-
+			
 			JSONObject jsonPoster = jsonObject.optJSONObject(Consts.DAZOO_LIKE_ENTITY_POSTER);
 			if (jsonPoster != null) {
 				dazooLikeEntity.setPosterSUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_SMALL));
@@ -359,7 +359,6 @@ public class ContentParser {
 				int size = jsonTags.length();
 				for (int l = 0; l < size; l++){
 					tags.add(jsonTags.optString(l));
-					Log.d(TAG,"tag: " + jsonTags.optString(l));
 				}
 				dazooLikeEntity.setTags(tags);
 			}

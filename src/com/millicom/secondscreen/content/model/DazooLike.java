@@ -31,6 +31,10 @@ public class DazooLike implements Parcelable{
 		this.entity = entity;
 	}
 	
+	public DazooLikeEntity getEntity(){
+		return this.entity;
+	}
+	
 	@Override
 	public int describeContents() { 
 		return 0;

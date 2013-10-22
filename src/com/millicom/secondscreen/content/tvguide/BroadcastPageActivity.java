@@ -1,6 +1,7 @@
 package com.millicom.secondscreen.content.tvguide;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
@@ -27,6 +28,7 @@ import com.millicom.secondscreen.authentication.LoginActivity;
 import com.millicom.secondscreen.authentication.PromptSignInDialogHandler;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
+import com.millicom.secondscreen.content.model.DazooLike;
 import com.millicom.secondscreen.content.model.NotificationDbItem;
 import com.millicom.secondscreen.content.model.Program;
 import com.millicom.secondscreen.like.LikeDialogHandler;
@@ -49,7 +51,7 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 	private ActionBar			mActionBar;
 	private LayoutInflater		mLayoutInflater;
 	private String				mBroadcastUrl, entityType, token;
-	private boolean				mIsSet	= false, mIsLiked = false, isLoggedIn = false;
+	private boolean				mIsSet	= false, mIsLiked = false, mIsLoggedIn = false;
 	private ImageView			mPosterIv, mLikeButtonIv, mShareButtonIv, mRemindButtonIv;
 	private ProgressBar			mPosterPb;
 	private TextView			mTitleTv, mSeasonTv, mEpisodeTv, mTimeTv, mDateTv, mChannelTv, mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
@@ -87,7 +89,7 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 
 		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 		if(token!=null && token.isEmpty() !=true){
-			isLoggedIn = true;
+			mIsLoggedIn = true;
 		}
 		
 		initViews();
@@ -192,8 +194,11 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 		else mRemindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
 
 		// TODO TO GET TO KNOW IF IT IS ACTUALLY LIKED
+		if (mIsLoggedIn){
+			Log.d(TAG,"" + mBroadcast.getProgram().getProgramId());
+			mIsLiked = LikeService.isLiked(token, mBroadcast.getProgram().getProgramId());
+		}
 		
-
 		if (mIsLiked) mLikeButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
 		else mLikeButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart));
 
@@ -230,7 +235,7 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 		case R.id.show_activity:
 			break;
 		case R.id.block_social_panel_like_button_iv:
-			if (isLoggedIn) {
+			if (mIsLoggedIn) {
 				if (mIsLiked == false) {
 					if (LikeService.addLike(token, mBroadcast.getProgram().getProgramId(), entityType)) {
 						LikeService.showSetLikeToast(mActivity, mBroadcast.getProgram().getTitle());
