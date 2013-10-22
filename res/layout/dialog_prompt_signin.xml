@@ -1,8 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
+    android:id="@+id/dialog_prompt_signin_container"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/light_gray"
     android:orientation="vertical" >
-    
 
-</LinearLayout>
+    <com.millicom.secondscreen.customviews.FontTextView
+        android:id="@+id/dialog_prompt_title_tv"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_margin="5dp"
+        android:padding="5dp"
+        android:text="@string/sign_in_to_dazoo_title"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="normal" />
+
+    <View
+        android:id="@+id/dialog_prompt_signin_title_divider"
+        android:layout_width="fill_parent"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_height="1dp"
+        android:layout_below="@id/dialog_prompt_title_tv"
+        android:background="@color/black" />
+
+    <com.millicom.secondscreen.customviews.FontTextView
+        android:id="@+id/dialog_prompt_signin_tv"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialog_prompt_signin_title_divider"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="15dp"
+		android:layout_marginBottom="15dp"
+        android:padding="5dp"
+        android:text="@string/sign_in_to_dazoo_text"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="normal" />
+    
+     <View
+        android:id="@+id/dialog_prompt_signin_buttons_divider"
+        android:layout_width="fill_parent"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_height="1dp"
+        android:layout_below="@id/dialog_prompt_signin_tv"
+        android:background="@color/black" />
+
+    <LinearLayout
+        android:id="@+id/dialog_prompt_signin_button_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialog_prompt_signin_buttons_divider"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="5dp" >
+
+        <com.millicom.secondscreen.customviews.FontButton
+            android:id="@+id/dialog_prompt_signin_button_cancel"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/cancel"
+            android:textColor="@color/lightblue" />
+
+        <com.millicom.secondscreen.customviews.FontButton
+            android:id="@+id/dialog_prompt_signin_button_signin"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sign_in"
+            android:textColor="@color/lightblue" />
+    </LinearLayout>
+
+</RelativeLayout>

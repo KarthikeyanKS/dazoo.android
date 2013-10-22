@@ -19,18 +19,12 @@ public class PromptSignInDialogHandler {
 		answerNo = bProcedure;
 
 		final Dialog dialog = new Dialog(context, R.style.remove_notification_dialog);
-		dialog.setContentView(R.layout.dialog_remove_notification);
+		dialog.setContentView(R.layout.dialog_prompt_signin);
 		dialog.setCancelable(false);
-		dialog.setTitle(context.getResources().getString(R.string.sign_in_to_dazoo_title));
 		
-		Button cancelButton = (Button) dialog.findViewById(R.id.dialog_remove_notification_button_no);
-		Button signInButton = (Button) dialog.findViewById(R.id.dialog_remove_notification_button_yes);
-		cancelButton.setText(context.getResources().getString(R.string.cancel));
-		signInButton.setText(context.getResources().getString(R.string.sign_in));
-
-		TextView textView = (TextView) dialog.findViewById(R.id.dialog_remove_notification_tv);
-		textView.setText(context.getResources().getString(R.string.sign_in_to_dazoo_text));
-
+		Button cancelButton = (Button) dialog.findViewById(R.id.dialog_prompt_signin_button_cancel);
+		Button signInButton = (Button) dialog.findViewById(R.id.dialog_prompt_signin_button_signin);
+	
 		cancelButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override

@@ -46,12 +46,12 @@ public class LikeService {
 
 	public static void showSetLikeToast(Activity activity, String likedContentName) {
 		LayoutInflater inflater = activity.getLayoutInflater();
-		View layout = inflater.inflate(R.layout.layout_notification_set_toast, (ViewGroup) activity.findViewById(R.id.notification_set_toast_container));
+		View layout = inflater.inflate(R.layout.toast_like_set, (ViewGroup) activity.findViewById(R.id.like_set_toast_container));
 
 		final Toast toast = new Toast(activity.getApplicationContext());
 
-		TextView text = (TextView) layout.findViewById(R.id.notification_set_toast_tv);
-		text.setText(likedContentName + activity.getResources().getString(R.string.reminder_text_set));
+		TextView text = (TextView) layout.findViewById(R.id.like_set_toast_tv);
+		text.setText(likedContentName + activity.getResources().getString(R.string.like_set_text));
 
 		toast.setGravity(Gravity.BOTTOM, 0, 200);
 		toast.setDuration(Toast.LENGTH_SHORT);

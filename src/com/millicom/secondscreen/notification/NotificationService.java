@@ -176,7 +176,7 @@ public class NotificationService {
 	
 	public static void showSetNotificationToast(Activity activity) {
 		LayoutInflater inflater = activity.getLayoutInflater();
-		View layout = inflater.inflate(R.layout.layout_notification_set_toast, (ViewGroup) activity.findViewById(R.id.notification_set_toast_container));
+		View layout = inflater.inflate(R.layout.toast_notification_set, (ViewGroup) activity.findViewById(R.id.notification_set_toast_container));
 
 		final Toast toast = new Toast(activity.getApplicationContext());
 
