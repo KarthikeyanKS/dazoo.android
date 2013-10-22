@@ -192,6 +192,7 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 		else mRemindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
 
 		// TODO TO GET TO KNOW IF IT IS ACTUALLY LIKED
+		
 
 		if (mIsLiked) mLikeButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
 		else mLikeButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart));
