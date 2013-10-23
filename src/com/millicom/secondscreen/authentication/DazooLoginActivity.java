@@ -34,6 +34,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,9 +44,10 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 	private ActionBar			mActionBar;
 	private Button				mDazooLoginButton;
 	private EditText			mEmailLoginEditText, mPasswordLoginEditText;
-	private TextView mForgetPasswordTextView;
-	
-	private String				dazooToken = "", userToken = "", userId = "", userEmailLogin, userPasswordLogin;
+	private TextView			mForgetPasswordTextView;
+	private RelativeLayout		mFacebookContainer;
+
+	private String				dazooToken	= "", userToken = "", userId = "", userEmailLogin, userPasswordLogin;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,15 +67,17 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
 
 		mActionBar.setTitle(getResources().getString(R.string.login));
-		
+
+		mFacebookContainer = (RelativeLayout) findViewById(R.id.dazoologin_facebook_container);
+		mFacebookContainer.setOnClickListener(this);
+
 		mDazooLoginButton = (Button) findViewById(R.id.dazoologin_login_button);
 		mDazooLoginButton.setOnClickListener(this);
 		mEmailLoginEditText = (EditText) findViewById(R.id.dazoologin_login_email_edittext);
 		mPasswordLoginEditText = (EditText) findViewById(R.id.dazoologin_login_password_edittext);
-		
+
 		mForgetPasswordTextView = (TextView) findViewById(R.id.dazoologin_forgot_password_tv);
 		mForgetPasswordTextView.setOnClickListener(this);
-		
 	}
 
 	private boolean verifyLoginInput() {
@@ -89,6 +93,12 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 	public void onClick(View v) {
 		int id = v.getId();
 		switch (id) {
+		case R.id.dazoologin_facebook_container:
+			Intent intentFacebook = new Intent(DazooLoginActivity.this, FacebookLoginActivity.class);
+			startActivity(intentFacebook);
+			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			break;
+
 		case R.id.dazoologin_forgot_password_tv:
 			Intent intentReset = new Intent(DazooLoginActivity.this, ResetPasswordActivity.class);
 			startActivity(intentReset);
@@ -119,11 +129,11 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 							String userDataString = dazooJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_USER);
 							if (storeUserInformation(userDataString)) {
 								Toast.makeText(getApplicationContext(), "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName(), Toast.LENGTH_SHORT).show();
-								
+
 								Intent intent = new Intent(DazooLoginActivity.this, HomePageActivity.class);
 								startActivity(intent);
 								overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-								
+
 							} else {
 								Toast.makeText(getApplicationContext(), "Failed to fetch the user information from backend", Toast.LENGTH_SHORT).show();
 							}
@@ -151,7 +161,7 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 			}
 		}
 	}
-	
+
 	private boolean storeUserInformation(String jsonString) {
 		if (jsonString != null && TextUtils.isEmpty(jsonString) != true) {
 			// if (jsonString != null && jsonString.isEmpty() != true) {
@@ -181,7 +191,7 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 			return true;
 		} else return false;
 	}
-	
+
 	private class DazooLoginTask extends AsyncTask<String, Void, String> {
 
 		@Override
