@@ -127,6 +127,7 @@ public abstract class Consts {
 
 	// Response codes
 	public static final int		GOOD_RESPONSE										= 200;
+	public static final int		GOOD_RESPONSE_RESET_PASSWORD						= 204;
 	public static final int		GOOD_RESPONSE_CHANNELS_ARE_ADDED					= 204;
 	public static final int		GOOD_RESPONSE_LIKE_IS_DELETED						= 204;
 

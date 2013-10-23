@@ -31,6 +31,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -41,13 +42,28 @@ public class FacebookLoginActivity extends ActionBarActivity{
 	private static final String TAG = "FacebookLoginActivity";
 	private String				facebookToken	= "", facebookSessionToken = "", dazooToken = "";
 	private Activity mActivity;
+	private ActionBar mActionBar;
 	
 	@Override
 	 public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.layout_facebooklogin_activity);
 		
 		mActivity = this;
+		initViews();
+		
 		openFacebookSession(this, true, statusCallback);
+	}
+	
+	private void initViews(){
+		mActionBar = getSupportActionBar();
+		mActionBar.hide();
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
 	}
 	
 	private static Session openFacebookSession(Activity activity, boolean allowLoginUI, Session.StatusCallback statusCallback) {

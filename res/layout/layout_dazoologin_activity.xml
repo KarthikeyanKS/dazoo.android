@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.millicom.seconscreen.customviews"
+    android:id="@+id/signin_container"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <!-- FACEBOOK SIGN-IN BAR -->
+
+    <RelativeLayout
+        android:id="@+id/dazoologin_facebook_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@color/lightblue"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/dazoologin_facebook_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:padding="3dp"
+            android:src="@drawable/ic_launcher" />
+
+        <com.millicom.secondscreen.customviews.FontTextView
+            android:id="@+id/dazoologin_facebook_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/dazoologin_facebook_icon"
+            android:text="@string/login_with_facebook"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <!-- TODO: OR BAR -->
+
+    <RelativeLayout
+        android:id="@+id/dazoo_or_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dazoologin_facebook_container"
+        android:layout_margin="10dp"
+        android:orientation="horizontal" >
+
+        <com.millicom.secondscreen.customviews.FontTextView
+            android:id="@+id/dazoo_or_divider_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_with_email"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <!-- DAZOO LOGIN -->
+
+    <com.millicom.secondscreen.customviews.FontEditText
+        android:id="@+id/dazoologin_login_email_edittext"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dazoo_or_container"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/gray"
+        android:hint="@string/hint_email"
+        android:inputType="textEmailAddress"
+        android:padding="8dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/light_gray"
+        android:textSize="16sp" />
+
+    <com.millicom.secondscreen.customviews.FontEditText
+        android:id="@+id/dazoologin_login_password_edittext"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dazoologin_login_email_edittext"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/gray"
+        android:hint="@string/hint_password"
+        android:inputType="textPassword"
+        android:padding="8dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/light_gray"
+        android:textSize="16sp" />
+
+    <com.millicom.secondscreen.customviews.FontButton
+        android:id="@+id/dazoologin_login_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dazoologin_login_password_edittext"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/light_gray"
+        android:padding="10dp"
+        android:text="@string/login_with_dazoo" />
+
+    <!-- FORGOT YOUR PASSWORD -->
+
+    <RelativeLayout
+        android:id="@+id/dazoologin_forgot_password_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dazoologin_login_button"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal"
+        android:padding="30dp" >
+
+        <com.millicom.secondscreen.customviews.FontTextView
+            android:id="@+id/dazoologin_forgot_password_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/forgot_password"
+            android:textColor="@color/dark_gray"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+</RelativeLayout>

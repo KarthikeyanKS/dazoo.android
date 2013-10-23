@@ -58,7 +58,7 @@
             android:src="@drawable/ic_launcher" />
 
         <com.millicom.secondscreen.customviews.FontTextView
-            android:id="@+id/likes_title_tv"
+            android:id="@+id/signin_facebook_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

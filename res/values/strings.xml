@@ -158,6 +158,16 @@
     <string name="sign_in_to_dazoo_text">You need to sign in to Dazoo to like shows and get better personal recommendations</string>
     <string name="sign_up_with_email">SIGN UP WITH E-MAIL</string>
     <string name="already_registered">Already registered?</string>
+    <string name="login_with_email">login with email</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="join">JOIN</string>
+    <string name="forgot_your_password">Forgot your password?</string>
+    <string name="reset_password_text">To reset your password enter your e-mail address and we\'ll send you reset instructions.</string>
+    <string name="check_your_email">Check your e-mail!</string>
+    <string name="reset_password_mail_text">We\'ve sent you an email with instructions on how to reset your password</string>
+    <string name="reset_password_mail_spam_text">Don\'t see the email? Check your spam folder</string>
+    <string name="submit">SUBMIT</string>
+    <string name="facebook_login_proceeds">Facebook is working hard...</string>
     
     <!-- MY CHANNELS PAGE -->
     <string name="get_my_channels">Get My Channels</string>

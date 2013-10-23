@@ -84,14 +84,57 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light" />
+        
+        <!-- SIGN IN -->
+         <activity
+            android:name="com.millicom.secondscreen.authentication.SignInActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light" />
+        
+        <!-- SIGN UP -->
+         <activity
+            android:name="com.millicom.secondscreen.authentication.SignUpActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light" />
+        
+        <!-- DAZOO LOGIN -->
+         <activity
+            android:name="com.millicom.secondscreen.authentication.DazooLoginActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light" />
 
         <!-- FACEBOOK LOGIN -->
+        <activity
+            android:name="com.millicom.secondscreen.authentication.FacebookLoginActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light" />
+        
+        <!-- PASSWORD RESET -->
+        <activity
+            android:name="com.millicom.secondscreen.authentication.ResetPasswordActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light" />
+
+        <!-- PASSWORD RESET FINAL -->
+        <activity
+            android:name="com.millicom.secondscreen.authentication.ResetPasswordFinalActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light" />
+        
+        
+        <!-- LOGIN ALL IN ONE : FOR TESTING -->
         <activity
             android:name="com.millicom.secondscreen.authentication.LoginActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light" />
-
+        
         <receiver
             android:name="com.millicom.secondscreen.notification.AlarmReceiver"
             android:enabled="true"

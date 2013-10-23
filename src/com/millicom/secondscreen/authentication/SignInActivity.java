@@ -30,18 +30,16 @@ public class SignInActivity extends ActionBarActivity {
 
 	private void initViews() {
 		mActionBar = getSupportActionBar();
-		mActionBar.setDisplayShowTitleEnabled(false);
+		mActionBar.setDisplayShowTitleEnabled(true);
 		mActionBar.setDisplayShowCustomEnabled(true);
-		mActionBar.setDisplayUseLogoEnabled(false);
-		mActionBar.setDisplayShowHomeEnabled(false);
-		mActionBar.setCustomView(R.layout.actionbar_dazoo_standard);
+		mActionBar.setDisplayUseLogoEnabled(true);
+		mActionBar.setDisplayShowHomeEnabled(true);
 
 		final int actionBarColor = getResources().getColor(R.color.lightblue);
 		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
 
-		final TextView title = (TextView) findViewById(R.id.actionbar_dazoo_standard_textview);
-		title.setText(getResources().getString(R.string.sign_in));
-
+		mActionBar.setTitle(getResources().getString(R.string.sign_in));
+		
 		mFacebookContainer = (RelativeLayout) findViewById(R.id.signin_facebook_container);
 		mFacebookContainer.setOnClickListener(new View.OnClickListener() {
 
@@ -74,5 +72,12 @@ public class SignInActivity extends ActionBarActivity {
 				overridePendingTransition(R.anim.slide_in, R.anim.slide_out);	
 			}
 		});
+	}
+	
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		overridePendingTransition(R.anim.push_right_out, R.anim.push_right_in);
+		finish();
 	}
 }

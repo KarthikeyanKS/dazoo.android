@@ -284,6 +284,7 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 			public void run(){
 				Log.d(TAG,"Go to Login page");
 				Intent intent = new Intent(BroadcastPageActivity.this, SignInActivity.class);
+				//Intent intent = new Intent(BroadcastPageActivity.this, LoginActivity.class);
 				startActivity(intent);
 				overridePendingTransition(R.anim.slide_in, R.anim.slide_out); 
 			}
