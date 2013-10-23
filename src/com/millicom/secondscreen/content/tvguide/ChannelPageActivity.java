@@ -75,7 +75,7 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 		mActionBar.setDisplayShowCustomEnabled(true);
 		mActionBar.setDisplayUseLogoEnabled(false);
 		mActionBar.setDisplayShowHomeEnabled(false);
-		mActionBar.setCustomView(R.layout.layout_actionbar_channelpage);
+		mActionBar.setCustomView(R.layout.actionbar_channelpage);
 
 		final int actionBarColor = getResources().getColor(R.color.lightblue);
 		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));

@@ -42,6 +42,7 @@ public class LikesActivity extends ActionBarActivity {
 		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 		
 		initLayout();
+	
 		populateLayout();
 	}
 
@@ -56,7 +57,7 @@ public class LikesActivity extends ActionBarActivity {
 		mActionBar.setDisplayShowCustomEnabled(true);
 		mActionBar.setDisplayUseLogoEnabled(false);
 		mActionBar.setDisplayShowHomeEnabled(false);
-		mActionBar.setCustomView(R.layout.layout_actionbar_mepage);
+		mActionBar.setCustomView(R.layout.actionbar_mepage);
 
 		final TextView title = (TextView) findViewById(R.id.actionbar_mepage_title_tv);
 		title.setText(s);
@@ -70,7 +71,7 @@ public class LikesActivity extends ActionBarActivity {
 	private void populateLayout() {
 		ArrayList<DazooLike> likes = new ArrayList<DazooLike>();
 		likes = LikeService.getLikesList(token);
-		mAdapter = new LikesListAdapter(this, likes);
+		mAdapter = new LikesListAdapter(this, likes, token);
 		Toast.makeText(this, "You have " + likes.size() + " likes now! List is coming", Toast.LENGTH_SHORT).show();
 		
 		mListView.setAdapter(mAdapter);

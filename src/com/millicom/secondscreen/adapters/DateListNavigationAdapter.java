@@ -58,7 +58,7 @@ public class DateListNavigationAdapter extends BaseAdapter {
 	@Override
 	public View getDropDownView(int position, View convertView, ViewGroup parent) {
 
-		View view = LayoutInflater.from(mContext).inflate(R.layout.layout_actionbar_dropdown_list_date_item, null);
+		View view = LayoutInflater.from(mContext).inflate(R.layout.actionbar_dropdown_list_date_item, null);
 
 		TextView txtName = (TextView) view.findViewById(R.id.layout_actionbar_dropdown_list_date_item_name);
 		TextView txtNumber = (TextView) view.findViewById(R.id.layout_actionbar_dropdown_list_date_item_number);
@@ -89,7 +89,7 @@ public class DateListNavigationAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 
-		View view = LayoutInflater.from(mContext).inflate(R.layout.layout_actionbar_dropdown_list_date_item, null);
+		View view = LayoutInflater.from(mContext).inflate(R.layout.actionbar_dropdown_list_date_item, null);
 
 		TextView txtName = (TextView) view.findViewById(R.id.layout_actionbar_dropdown_list_date_item_name);
 		TextView txtNumber = (TextView) view.findViewById(R.id.layout_actionbar_dropdown_list_date_item_number);

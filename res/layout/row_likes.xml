@@ -5,6 +5,8 @@
     android:layout_height="fill_parent"
     android:background="@drawable/listview_item_selector" >
 
+    <!-- TODO: HEADER FOR THE ALPHABET SORTING -->
+    
     <LinearLayout
         android:id="@+id/row_likes_container"
         android:layout_width="fill_parent"
@@ -72,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.2"
             android:layout_gravity="center_vertical"
-            android:background="@color/light_gray"
+            android:background="@color/white"
             android:orientation="horizontal" >
 
             <ImageView
@@ -82,18 +84,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="5dp" 
-                android:src="@drawable/ic_launcher"/>
-
-            <com.millicom.secondscreen.customviews.FontTextView
-                android:id="@+id/row_likes_button_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_toRightOf="@id/row_likes_button_iv"
-                android:textSize="14sp" 
-                android:text="@string/liked"/>
+                android:src="@drawable/ic_heart_red"/>
         </RelativeLayout>
     </LinearLayout>
 

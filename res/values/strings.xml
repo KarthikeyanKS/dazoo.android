@@ -140,7 +140,7 @@
 	<string name="episode">Episode</string>
     
     <!-- LOGIN PAGE -->
-    <string name="login_with_facebook">Login with Facebook</string>
+    <string name="login_with_facebook">LOGIN WITH FACEBOOK</string>
     <string name="logout_from_facebook">Logout from Facebook</string>
     <string name="login_with_dazoo">Login with Dazoo</string>
     <string name="logout_from_dazoo">Logout from Dazoo</string>
@@ -150,12 +150,14 @@
     <string name="hint_firstname">First Name</string>
     <string name="hint_lastname">Last Name</string>
     <string name="hint_enter_email">Enter e-mail</string>
-    <string name="login">Login</string>
+    <string name="login">LOG IN</string>
     <string name="reset_password">Reset Password</string>
     <string name="sign_in">Sing in</string>
     <string name="cancel">Cancel</string>
-    <string name="sign_in_to_dazoo_title">Sing in to Dazoo</string>
+    <string name="sign_in_to_dazoo_title">Sign in to Dazoo</string>
     <string name="sign_in_to_dazoo_text">You need to sign in to Dazoo to like shows and get better personal recommendations</string>
+    <string name="sign_up_with_email">SIGN UP WITH E-MAIL</string>
+    <string name="already_registered">Already registered?</string>
     
     <!-- MY CHANNELS PAGE -->
     <string name="get_my_channels">Get My Channels</string>

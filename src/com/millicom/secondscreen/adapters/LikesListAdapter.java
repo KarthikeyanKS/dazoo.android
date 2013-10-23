@@ -30,13 +30,14 @@ public class LikesListAdapter extends BaseAdapter {
 	private ArrayList<DazooLike>	mLikes;
 
 	private ImageLoader			mImageLoader;
-	private String token;
+	private String mToken;
 	private int currentPosition = -1;
 
-	public LikesListAdapter(Activity mActivity, ArrayList<DazooLike> mLikes) {
-		this.mLikes = mLikes;
-		this.mActivity = mActivity;
-		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage);
+	public LikesListAdapter(Activity activity, ArrayList<DazooLike> likes, String token) {
+		this.mLikes = likes;
+		this.mActivity = activity;
+		this.mImageLoader = new ImageLoader(activity, R.drawable.loadimage);
+		this.mToken = token;
 	}
 
 	@Override
@@ -73,7 +74,6 @@ public class LikesListAdapter extends BaseAdapter {
 			viewHolder.mProgramTypeTv = (TextView) rowView.findViewById(R.id.row_likes_text_details_tv);
 			viewHolder.mButtonContainer = (RelativeLayout) rowView.findViewById(R.id.row_likes_button_container);
 			viewHolder.mButtonIcon = (ImageView) rowView.findViewById(R.id.row_likes_button_iv);
-			viewHolder.mButtonTv = (TextView) rowView.findViewById(R.id.row_likes_button_tv);
 			viewHolder.mButtonContainer.setTag(Integer.valueOf(position));
 			Log.d(TAG,"set tag: " + Integer.valueOf(position));
 			rowView.setTag(viewHolder);
@@ -94,7 +94,7 @@ public class LikesListAdapter extends BaseAdapter {
 				public void onClick(View v) {
 					currentPosition = (Integer) v.getTag();
 					LikeDialogHandler likeDlg = new LikeDialogHandler();
-					likeDlg.showRemoveLikeDialog(mActivity, token, entity.getEntityId(), yesProc(), noProc());
+					likeDlg.showRemoveLikeDialog(mActivity, mToken, entity.getEntityId(), yesProc(), noProc());
 					
 				}
 			});
@@ -109,7 +109,6 @@ public class LikesListAdapter extends BaseAdapter {
 		public TextView			mProgramTypeTv;
 		public RelativeLayout	mButtonContainer;
 		public ImageView		mButtonIcon;
-		public TextView			mButtonTv;
 	}
 	
 	public Runnable yesProc() {

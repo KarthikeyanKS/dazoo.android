@@ -10,13 +10,13 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:background="@color/white" >
 
         <RelativeLayout
             android:id="@+id/mepage_person_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:orientation="horizontal" >
 
             <ImageView
@@ -53,10 +53,11 @@
 
         <RelativeLayout
             android:id="@+id/mepage_reminders_container"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/mepage_person_container"
             android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:background="@color/light_gray"
@@ -80,24 +81,24 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/mepage_reminders_button_iv"
+            <com.millicom.secondscreen.customviews.FontTextView
+                android:id="@+id/mepage_reminders_button_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                 android:layout_alignParentRight="true"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/ic_action_search" />
+                android:layout_marginRight="10dp" />
         </RelativeLayout>
 
         <!-- LIKES BAR -->
 
         <RelativeLayout
             android:id="@+id/mepage_likes_container"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/mepage_reminders_container"
             android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@color/light_gray"
             android:orientation="horizontal" >
@@ -121,24 +122,24 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/mepage_likes_button_iv"
+            <com.millicom.secondscreen.customviews.FontTextView
+                android:id="@+id/mepage_likes_button_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/ic_action_search" />
+                android:layout_marginRight="10dp" />
         </RelativeLayout>
 
         <!-- MY CHANNELS BAR -->
 
         <RelativeLayout
             android:id="@+id/mepage_my_channels_container"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/mepage_likes_container"
             android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@color/light_gray"
             android:orientation="horizontal" >
@@ -162,24 +163,24 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/mepage_my_channels_button_iv"
+            <com.millicom.secondscreen.customviews.FontTextView
+                android:id="@+id/mepage_my_channels_button_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                 android:layout_alignParentRight="true"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/ic_action_search" />
+                android:layout_marginRight="10dp" />
         </RelativeLayout>
 
         <!-- SETTINGS BAR -->
 
         <RelativeLayout
             android:id="@+id/mepage_settings_container"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/mepage_my_channels_container"
             android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@color/light_gray"
             android:orientation="horizontal" >
@@ -202,37 +203,174 @@
                 android:text="@string/settings"
                 android:textSize="18sp"
                 android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/mepage_settings_button_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/ic_action_search" />
         </RelativeLayout>
-    </RelativeLayout>
-    
-    <!--  LOGIN BLOCK -->
-    
-    <!--  >RelativeLayout
-            android:id="@+id/mepage_login_container"
+
+        <!-- LOGIN BLOCK -->
+
+        <RelativeLayout
+            android:id="@+id/mepage_signin_container"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/mepage_my_settings_container"
+            android:layout_below="@id/mepage_settings_container"
             android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@color/light_gray"
-            android:orientation="vertical" >
-        
-        <View
-            android:id ="@+id/login_container_divider"
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@color/black"
-            />
-        
-        </RelativeLayout-->
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <com.millicom.secondscreen.customviews.FontTextView
+                android:id="@+id/mepage_signin_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_margin="10dp"
+                android:text="@string/sign_in_to_dazoo_title"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <com.millicom.secondscreen.customviews.FontTextView
+                android:id="@+id/mepage_signin_text_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/mepage_signin_title_tv"
+                android:layout_gravity="left"
+                android:layout_margin="10dp"
+                android:text="@string/sign_in_to_dazoo_text"
+                android:textSize="18sp" />
+
+            <View
+                android:id="@+id/signin_container_divider"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/mepage_signin_text_tv"
+                android:layout_margin="10dp"
+                android:background="@color/black" />
+
+            <!-- FACEBOOK SIGN-IN BAR -->
+
+            <RelativeLayout
+                android:id="@+id/mepage_signin_facebook_container"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/signin_container_divider"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/lightblue"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/mepage_signin_facebook_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:padding="3dp"
+                    android:src="@drawable/ic_launcher" />
+
+                <com.millicom.secondscreen.customviews.FontTextView
+                    android:id="@+id/mepage_likes_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/mepage_signin_facebook_icon"
+                    android:text="@string/login_with_facebook"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <!-- TODO: OR BAR -->
+
+            <RelativeLayout
+                android:id="@+id/mepage_signin_or_container"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/mepage_signin_facebook_container"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal" >
+
+                <View
+                    android:id="@+id/signin_container_or_divider"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="10dp"
+                    android:background="@color/black" />
+            </RelativeLayout>
+
+            <!-- SIGN UP WITH EMAIL BAR -->
+
+            <RelativeLayout
+                android:id="@+id/mepage_signup_email_container"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/mepage_signin_or_container"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/lightblue"
+                android:orientation="horizontal"
+                android:padding="10dp" >
+
+                <com.millicom.secondscreen.customviews.FontTextView
+                    android:id="@+id/mepage_signup_email_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="@string/sign_up_with_email"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <!-- DIVIDER -->
+
+            <View
+                android:id="@+id/signin_container_email_divider"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/mepage_signup_email_container"
+                android:layout_margin="10dp"
+                android:background="@color/black" />
+
+            <!-- ALREADY REGISTERED BOX -->
+
+            <RelativeLayout
+                android:id="@+id/mepage_already_registered_container"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/signin_container_email_divider"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal"
+                android:padding="30dp" >
+
+                <com.millicom.secondscreen.customviews.FontTextView
+                    android:id="@+id/mepage_already_registered_text_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_centerInParent="true"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="@string/already_registered"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="16sp"/>
+
+                <com.millicom.secondscreen.customviews.FontButton
+                    android:id="@+id/mepage_login_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/mepage_already_registered_text_tv"
+                    android:background="@color/lightblue"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="@string/login"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
 
 </ScrollView>

@@ -8,23 +8,20 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-        
+
         <ImageView
             android:id="@+id/actionbar_dazoo_standard_icon"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_alignParentLeft="true"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/ic_launcher" />
-        
+            android:layout_marginRight="10dp" />
+
         <TextView
             android:id="@+id/actionbar_dazoo_standard_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/actionbar_dazoo_standard_icon"
-            android:text="@string/app_name"
-         />
-
+            android:src="@drawable/ic_launcher" />
     </RelativeLayout>
 
 </LinearLayout>

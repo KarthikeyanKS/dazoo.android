@@ -26,6 +26,7 @@ import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.authentication.LoginActivity;
 import com.millicom.secondscreen.authentication.PromptSignInDialogHandler;
+import com.millicom.secondscreen.authentication.SignInActivity;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.DazooLike;
@@ -105,7 +106,7 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 		mActionBar.setDisplayShowCustomEnabled(true);
 		mActionBar.setDisplayUseLogoEnabled(false);
 		mActionBar.setDisplayShowHomeEnabled(false);
-		mActionBar.setCustomView(R.layout.layout_actionbar_programpage);
+		mActionBar.setCustomView(R.layout.actionbar_programpage);
 
 		final int actionBarColor = getResources().getColor(R.color.lightblue);
 		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
@@ -282,7 +283,7 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 		return new Runnable(){
 			public void run(){
 				Log.d(TAG,"Go to Login page");
-				Intent intent = new Intent(BroadcastPageActivity.this, LoginActivity.class);
+				Intent intent = new Intent(BroadcastPageActivity.this, SignInActivity.class);
 				startActivity(intent);
 				overridePendingTransition(R.anim.slide_in, R.anim.slide_out); 
 			}

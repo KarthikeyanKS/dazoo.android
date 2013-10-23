@@ -48,6 +48,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -59,26 +60,39 @@ import android.annotation.TargetApi;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.authentication.DazooLoginActivity;
+import com.millicom.secondscreen.authentication.FacebookLoginActivity;
+import com.millicom.secondscreen.authentication.SignUpActivity;
 import com.millicom.secondscreen.utilities.JSONUtilities;
 
 public class MyProfileFragment extends Fragment {
 
-	private static final String	TAG	= "MyProfileFragment";
+	private static final String	TAG			= "MyProfileFragment";
 
 	private View				mRootView;
-	private RelativeLayout		mRemindersContainer, mLikesContainer, mMyChannelsContainer, mSettingsContainer, mMyProfileContainer;
+	private RelativeLayout		mRemindersContainer, mLikesContainer, mMyChannelsContainer, mSettingsContainer, mMyProfileContainer, mSigninContainer, 
+								mFacebookContainer, mSignUpContainer;
 	private ProgressBar			mAvatarProgressBar;
 	private ImageView			mAvatarImageView;
-	private TextView			mUserNameTextView, mRemindersTextView, mLikesTextView, mMyChannelsTextView, mSettingsTextView;
-	private ImageView			mRemindersBtn, mLikesBtn, mMyChannelsBtn, mSettingsBtn;
-	private Activity			mActivity;
-	private Context				context;
+	private TextView			mUserNameTextView, mRemindersTextView, mLikesTextView, mMyChannelsTextView, mSettingsTextView, mRemindersCountTextView, 
+								mLikesCountTextView, mMyChannelsCountTextView;
+	private Button mLoginBtn;
 	private String				userFirstName, userLastName;
+	private boolean				mIsLoggeIn	= false;
+	private String				mToken;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//setRetainInstance(true);
+		// setRetainInstance(true);
+
+		mToken = ((SecondScreenApplication) getActivity().getApplicationContext()).getAccessToken();
+		if (mToken != null && mToken.isEmpty() != true) {
+			mIsLoggeIn = true;
+
+			userFirstName = ((SecondScreenApplication) getActivity().getApplicationContext()).getUserFirstName();
+			userLastName = ((SecondScreenApplication) getActivity().getApplicationContext()).getUserLastName();
+		}
 	}
 
 	@Override
@@ -95,7 +109,7 @@ public class MyProfileFragment extends Fragment {
 		// reminders
 		mRemindersContainer = (RelativeLayout) mRootView.findViewById(R.id.mepage_reminders_container);
 		mRemindersTextView = (TextView) mRootView.findViewById(R.id.mepage_reminders_title_tv);
-		mRemindersBtn = (ImageView) mRootView.findViewById(R.id.mepage_reminders_button_iv);
+		mRemindersCountTextView = (TextView) mRootView.findViewById(R.id.mepage_reminders_button_tv);
 		mRemindersContainer.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -109,7 +123,7 @@ public class MyProfileFragment extends Fragment {
 		// likes
 		mLikesContainer = (RelativeLayout) mRootView.findViewById(R.id.mepage_likes_container);
 		mLikesTextView = (TextView) mRootView.findViewById(R.id.mepage_likes_title_tv);
-		mLikesBtn = (ImageView) mRootView.findViewById(R.id.mepage_likes_button_iv);
+		mLikesCountTextView = (TextView) mRootView.findViewById(R.id.mepage_likes_button_tv);
 		mLikesContainer.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -124,7 +138,7 @@ public class MyProfileFragment extends Fragment {
 		// my channels
 		mMyChannelsContainer = (RelativeLayout) mRootView.findViewById(R.id.mepage_my_channels_container);
 		mMyChannelsTextView = (TextView) mRootView.findViewById(R.id.mepage_my_channels_title_tv);
-		mMyChannelsBtn = (ImageView) mRootView.findViewById(R.id.mepage_my_channels_button_iv);
+		mMyChannelsCountTextView = (TextView) mRootView.findViewById(R.id.mepage_my_channels_button_tv);
 		mMyChannelsContainer.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -139,7 +153,6 @@ public class MyProfileFragment extends Fragment {
 		// settings
 		mSettingsContainer = (RelativeLayout) mRootView.findViewById(R.id.mepage_settings_container);
 		mSettingsTextView = (TextView) mRootView.findViewById(R.id.mepage_settings_title_tv);
-		mSettingsBtn = (ImageView) mRootView.findViewById(R.id.mepage_settings_button_iv);
 		mSettingsContainer.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -151,32 +164,70 @@ public class MyProfileFragment extends Fragment {
 			}
 		});
 
-		populateViews();
+		// sign in 
+		mSigninContainer = (RelativeLayout) mRootView.findViewById(R.id.mepage_signin_container);
+		mFacebookContainer = (RelativeLayout) mRootView.findViewById(R.id.mepage_signin_facebook_container);
+		mFacebookContainer.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getActivity(), FacebookLoginActivity.class);
+				startActivity(intent);
+				getActivity().overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+				
+			}
+		});
 		
+		mSignUpContainer = (RelativeLayout) mRootView.findViewById(R.id.mepage_signup_email_container);
+		mSignUpContainer.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getActivity(), SignUpActivity.class);
+				startActivity(intent);
+				getActivity().overridePendingTransition(R.anim.slide_in, R.anim.slide_out);			
+			}
+		});
+		
+		
+		mLoginBtn = (Button) mRootView.findViewById(R.id.mepage_login_btn);
+		mLoginBtn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getActivity(), DazooLoginActivity.class);
+				startActivity(intent);
+				getActivity().overridePendingTransition(R.anim.slide_in, R.anim.slide_out);			
+			}
+		});
+		
+		populateViews();
+
 		return mRootView;
 	}
-	
-	private void populateViews(){
-		
-		// get the parcelable profile info in a bundle
-		userFirstName = ((SecondScreenApplication) getActivity().getApplicationContext()).getUserFirstName();
-		userLastName = ((SecondScreenApplication) getActivity().getApplicationContext()).getUserLastName();
-		
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			//if (userFirstName != null && userLastName != null && userFirstName.isEmpty() != true && userLastName.isEmpty() != true) {
-			if (userFirstName != null && userLastName != null && TextUtils.isEmpty(userFirstName) != true && TextUtils.isEmpty(userLastName) != true) {
-				mAvatarImageView.setImageResource(R.drawable.loadimage_2x);
-				mUserNameTextView.setText(userFirstName + " " + userLastName);
+
+	private void populateViews() {
+		if (mIsLoggeIn) {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+				if (userFirstName != null && userLastName != null && userFirstName.isEmpty() != true && userLastName.isEmpty() != true) {
+					mAvatarImageView.setImageResource(R.drawable.loadimage_2x);
+					mUserNameTextView.setText(userFirstName + " " + userLastName);
+				} else {
+					mMyProfileContainer.setVisibility(View.GONE);
+				}
 			} else {
-				mMyProfileContainer.setVisibility(View.GONE);
+				if (userFirstName != null && userLastName != null && TextUtils.isEmpty(userFirstName) != true && TextUtils.isEmpty(userLastName) != true) {
+					mAvatarImageView.setImageResource(R.drawable.loadimage_2x);
+					mUserNameTextView.setText(userFirstName + " " + userLastName);
+				} else {
+					mMyProfileContainer.setVisibility(View.GONE);
+				}
 			}
 		} else {
-			if (userFirstName != null && userLastName != null && TextUtils.isEmpty(userFirstName) != true && TextUtils.isEmpty(userLastName) != true) {
-				mAvatarImageView.setImageResource(R.drawable.loadimage_2x);
-				mUserNameTextView.setText(userFirstName + " " + userLastName);
-			} else {
-				mMyProfileContainer.setVisibility(View.GONE);
-			}
+			mLikesContainer.setVisibility(View.GONE);
+			mMyChannelsContainer.setVisibility(View.GONE);
+			mMyProfileContainer.setVisibility(View.GONE);
+			mSigninContainer.setVisibility(View.VISIBLE);
 		}
 	}
 

@@ -56,7 +56,7 @@ public class ActionBarDropDownCategoryListAdapter extends BaseAdapter implements
 		View row = convertView;
 		if (row == null) {
 			LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			row = inflater.inflate(R.layout.layout_actionbar_dropdown_list_category_item, parent, false);
+			row = inflater.inflate(R.layout.actionbar_dropdown_list_category_item, parent, false);
 		}
 
 		// ProgramType category = mCategories.get(position);

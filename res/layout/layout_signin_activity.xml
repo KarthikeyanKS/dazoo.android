@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.millicom.seconscreen.customviews"
+    android:id="@+id/signin_container"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <com.millicom.secondscreen.customviews.FontTextView
+        android:id="@+id/signin_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_margin="10dp"
+        android:text="@string/sign_in_to_dazoo_title"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <com.millicom.secondscreen.customviews.FontTextView
+        android:id="@+id/signin_text_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signin_title_tv"
+        android:layout_gravity="left"
+        android:layout_margin="10dp"
+        android:text="@string/sign_in_to_dazoo_text"
+        android:textSize="18sp" />
+
+    <View
+        android:id="@+id/signin_container_divider"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/signin_text_tv"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/black" />
+
+    <!-- FACEBOOK SIGN-IN BAR -->
+
+    <RelativeLayout
+        android:id="@+id/signin_facebook_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signin_container_divider"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/lightblue"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/signin_facebook_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:padding="3dp"
+            android:src="@drawable/ic_launcher" />
+
+        <com.millicom.secondscreen.customviews.FontTextView
+            android:id="@+id/likes_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/signin_facebook_icon"
+            android:text="@string/login_with_facebook"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <!-- TODO: OR BAR -->
+
+    <RelativeLayout
+        android:id="@+id/signin_or_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signin_facebook_container"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+
+        <View
+            android:id="@+id/container_or_divider"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/black" />
+    </RelativeLayout>
+
+    <!-- SIGN UP WITH EMAIL BAR -->
+
+    <RelativeLayout
+        android:id="@+id/signin_signup_email_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signin_or_container"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/lightblue"
+        android:orientation="horizontal"
+        android:padding="10dp" >
+
+        <com.millicom.secondscreen.customviews.FontTextView
+            android:id="@+id/signin_signup_email_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/sign_up_with_email"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <!-- DIVIDER -->
+
+    <View
+        android:id="@+id/signin_container_email_divider"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/signin_signup_email_container"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/black" />
+
+    <!-- ALREADY REGISTERED BOX -->
+
+    <RelativeLayout
+        android:id="@+id/signin_already_registered_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signin_container_email_divider"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal"
+        android:padding="30dp" >
+
+        <com.millicom.secondscreen.customviews.FontTextView
+            android:id="@+id/signin_already_registered_text_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/already_registered"
+            android:textColor="@color/dark_gray"
+            android:textSize="16sp" />
+
+        <com.millicom.secondscreen.customviews.FontButton
+            android:id="@+id/signin_login_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/signin_already_registered_text_tv"
+            android:background="@color/lightblue"
+            android:gravity="center_vertical|center_horizontal"
+            android:padding="10dp"
+            android:text="@string/login"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -105,7 +105,7 @@ public class LoginActivity extends ActionBarActivity implements OnClickListener 
 		mActionBar.setDisplayShowCustomEnabled(true);
 		mActionBar.setDisplayUseLogoEnabled(false);
 		mActionBar.setDisplayShowHomeEnabled(false);
-		mActionBar.setCustomView(R.layout.layout_actionbar_mepage);
+		mActionBar.setCustomView(R.layout.actionbar_mepage);
 
 		final TextView title = (TextView) findViewById(R.id.actionbar_mepage_title_tv);
 		title.setText(s);

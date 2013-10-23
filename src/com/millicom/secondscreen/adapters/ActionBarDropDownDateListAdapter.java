@@ -52,7 +52,7 @@ public class ActionBarDropDownDateListAdapter extends BaseAdapter implements Spi
 		View row = convertView;
 		if (row == null) {
 			LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			row = inflater.inflate(R.layout.layout_actionbar_dropdown_list_date_header, parent, false);
+			row = inflater.inflate(R.layout.actionbar_dropdown_list_date_header, parent, false);
 		}
 
 		Drawable res = context.getResources().getDrawable(R.drawable.ic_launcher);
@@ -66,7 +66,7 @@ public class ActionBarDropDownDateListAdapter extends BaseAdapter implements Spi
 		View row = convertView;
 		if (row == null) {
 			LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			row = inflater.inflate(R.layout.layout_actionbar_dropdown_list_date_item, parent, false);
+			row = inflater.inflate(R.layout.actionbar_dropdown_list_date_item, parent, false);
 		}
 
 		//ImageView imageView = (ImageView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_item_icon);
