@@ -29,8 +29,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/channelpage_channel_icon_container"
-        android:background="@color/white"
-        android:layout_margin="10dp" >
+        android:layout_margin="10dp"
+        android:background="@color/white" >
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -41,8 +41,8 @@
                 android:id="@+id/channelpage_broadcast_iv"
                 android:layout_width="fill_parent"
                 android:layout_height="160dp"
-                android:adjustViewBounds="true"
                 android:layout_centerInParent="true"
+                android:adjustViewBounds="true"
                 android:scaleType="centerCrop" />
 
             <ProgressBar
@@ -60,8 +60,8 @@
         android:id="@+id/channelpage_broadcast_details_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:layout_below="@id/channelpage_broadcast_image_frame"
+        android:background="@color/white"
         android:orientation="vertical" >
 
         <com.millicom.secondscreen.customviews.FontTextView
@@ -81,43 +81,87 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@id/channelpage_broadcast_details_time_tv"
+            android:maxLines="3"
             android:textColor="@color/red"
             android:textSize="16sp"
-            android:textStyle="bold" 
-            android:maxLines="3"/>
+            android:textStyle="bold" />
 
         <ProgressBar
             android:id="@+id/channelpage_broadcast_details_progressbar"
             style="@android:style/Widget.Holo.ProgressBar.Horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/channelpage_broadcast_details_title_tv"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_below="@id/channelpage_broadcast_details_title_tv"
-            android:visibility="gone"/>
-        
+            android:visibility="gone" />
+
         <com.millicom.secondscreen.customviews.FontTextView
             android:id="@+id/channelpage_broadcast_details_text_tv"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_centerVertical="true"
             android:layout_below="@id/channelpage_broadcast_details_progressbar"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
             android:maxLines="3"
             android:textColor="@color/black"
             android:textSize="12sp"
-            android:textStyle="normal"/>
-        
+            android:textStyle="normal" />
     </RelativeLayout>
-    
+
+    <!-- BOTTOM NAVIGATION TABS -->
+
+    <LinearLayout
+        android:id="@+id/tab_selector_container"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/light_gray"
+        android:orientation="horizontal"
+        android:paddingBottom="2dp" >
+
+        <com.millicom.secondscreen.customviews.FontButton
+            android:id="@+id/show_tvguide"
+            style="@style/homepage_tab_selector"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:paddingBottom="2dp"
+            android:text="@string/tab_tv_guide"
+            android:textSize="15sp" />
+
+        <com.millicom.secondscreen.customviews.FontButton
+            android:id="@+id/show_activity"
+            style="@style/homepage_tab_selector"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:paddingBottom="2dp"
+            android:text="@string/tab_activity"
+            android:textSize="15sp" />
+
+        <com.millicom.secondscreen.customviews.FontButton
+            android:id="@+id/show_me"
+            style="@style/homepage_tab_selector"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:paddingBottom="2dp"
+            android:text="@string/tab_me"
+            android:textSize="15sp" />
+    </LinearLayout>
+
     <!-- LIST OF FOLLOWING UP BROADCASTS -->
-     <ListView
+
+    <ListView
         android:id="@+id/listview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_above="@id/tab_selector_container"
         android:layout_below="@id/channelpage_broadcast_details_container"
+        android:layout_marginTop="10dp"
         android:cacheColorHint="@null"
-        android:divider="@null" 
-        android:dividerHeight="0dp"/>
+        android:divider="@null"
+        android:dividerHeight="0dp" />
+
 </RelativeLayout>

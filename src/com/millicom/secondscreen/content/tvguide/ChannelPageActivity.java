@@ -23,6 +23,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
@@ -31,14 +32,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ChannelPageActivity extends ActionBarActivity {
+public class ChannelPageActivity extends ActionBarActivity implements OnClickListener{
 
-	private static final String		TAG	= "ChannelPageActivity";
+	private static final String		TAG			= "ChannelPageActivity";
 
 	private ActionBar				mActionBar;
 	private ImageView				mChannelIconIv, mChannelBroadcastLiveIv;
 	private ProgressBar				mChannelBroadcastLiveIvPrB, mDurationProgressBar;
-	private TextView				mBroadcastLiveTimeTv, mBroadcastLiveTitleTv, mBroadcastLiveTextTv;
+	private TextView				mBroadcastLiveTimeTv, mBroadcastLiveTitleTv, mBroadcastLiveTextTv, mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;;
 	private ListView				mFollowingBroadcastsLv;
 	private ChannelPageListAdapter	mFollowingBroadcastsListAdapter;
 
@@ -46,10 +47,11 @@ public class ChannelPageActivity extends ActionBarActivity {
 	private Channel					mChannel;
 	private ArrayList<Broadcast>	mBroadcasts, mFollowingBroadcasts;
 
-	String closestBroadcastStartTime, closestBroadcastEndTime;
-	int duration = 0;
-	
+	String							closestBroadcastStartTime, closestBroadcastEndTime;
+	int								duration	= 0;
+
 	private ImageLoader				mImageLoader;
+	private View				mTabSelectorContainerView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +90,21 @@ public class ChannelPageActivity extends ActionBarActivity {
 		mBroadcastLiveTextTv = (TextView) findViewById(R.id.channelpage_broadcast_details_text_tv);
 
 		mFollowingBroadcastsLv = (ListView) findViewById(R.id.listview);
+
+		// styling bottom navigation tabs
+		mTabSelectorContainerView = findViewById(R.id.tab_selector_container);
+
+		mTxtTabTvGuide = (TextView) findViewById(R.id.show_tvguide);
+		mTxtTabTvGuide.setOnClickListener(this);
+		mTxtTabPopular = (TextView) findViewById(R.id.show_activity);
+		mTxtTabPopular.setOnClickListener(this);
+		mTxtTabFeed = (TextView) findViewById(R.id.show_me);
+		mTxtTabFeed.setOnClickListener(this);
+
+		// the highlighted tab in the Channel activity is TV Guide
+		mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.black));
+		mTxtTabPopular.setTextColor(getResources().getColor(R.color.gray));
+		mTxtTabFeed.setTextColor(getResources().getColor(R.color.gray));
 	}
 
 	private void populateViews() {
@@ -100,21 +117,21 @@ public class ChannelPageActivity extends ActionBarActivity {
 
 			mImageLoader.displayImage(mBroadcasts.get(indexOfNearestBroadcast).getProgram().getPosterLUrl(), mChannelBroadcastLiveIv, mChannelBroadcastLiveIvPrB, ImageLoader.IMAGE_TYPE.LANDSCAPE);
 			try {
-				
+
 				mBroadcastLiveTimeTv.setText(DateUtilities.isoStringToTimeString(mBroadcasts.get(indexOfNearestBroadcast).getBeginTime()));
 				closestBroadcastStartTime = mBroadcasts.get(indexOfNearestBroadcast).getBeginTime();
 				closestBroadcastEndTime = mBroadcasts.get(indexOfNearestBroadcast).getEndTime();
-				
+
 				duration = Math.abs(DateUtilities.getDifferenceInMinutes(closestBroadcastEndTime, closestBroadcastStartTime));
-	
+
 			} catch (ParseException e) {
 				e.printStackTrace();
 				mBroadcastLiveTimeTv.setText("");
 			}
 			mBroadcastLiveTitleTv.setText(mBroadcasts.get(indexOfNearestBroadcast).getProgram().getTitle());
 
-			//int duration = mBroadcasts.get(indexOfNearestBroadcast).getDurationInMinutes();
-			
+			// int duration = mBroadcasts.get(indexOfNearestBroadcast).getDurationInMinutes();
+
 			mDurationProgressBar.setMax(duration);
 
 			int initialProgress = 0;
@@ -172,7 +189,7 @@ public class ChannelPageActivity extends ActionBarActivity {
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL, mChannel);
 					startActivity(intent);
 					overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-	
+
 				}
 			});
 		}
@@ -189,5 +206,21 @@ public class ChannelPageActivity extends ActionBarActivity {
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+	}
+
+	@Override
+	public void onClick(View v) {
+		int id = v.getId();
+		switch(id){
+		case R.id.show_tvguide:
+			// tab to tv guide overview page
+			break;
+		case R.id.show_activity:
+			// tab to activity page
+			break;
+		case R.id.show_me:
+			// tab to my profile page
+			break;
+		}
 	}
 }

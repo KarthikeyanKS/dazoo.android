@@ -142,7 +142,7 @@ public class TVGuideOverviewFragment extends SSPageFragment {
 							mGuide.addAll(mGuideUpdate);
 						}
 					});
-					Thread.sleep(2000);
+					Thread.sleep(10000);
 				}
 			} catch (InterruptedException e) {
 			}

@@ -4,11 +4,15 @@ import java.util.ArrayList;
 
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.content.model.Broadcast;
+import com.millicom.secondscreen.content.model.DazooLike;
+import com.millicom.secondscreen.content.model.DazooLikeEntity;
 import com.millicom.secondscreen.content.model.Program;
+import com.millicom.secondscreen.like.LikeDialogHandler;
 import com.millicom.secondscreen.utilities.ImageLoader;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,27 +27,29 @@ public class LikesListAdapter extends BaseAdapter {
 
 	private LayoutInflater		mLayoutInflater;
 	private Activity			mActivity;
-	private ArrayList<Program>	mPrograms;
+	private ArrayList<DazooLike>	mLikes;
 
 	private ImageLoader			mImageLoader;
+	private String token;
+	private int currentPosition = -1;
 
-	public LikesListAdapter(Activity mActivity, ArrayList<Program> mPrograms) {
-		this.mPrograms = mPrograms;
+	public LikesListAdapter(Activity mActivity, ArrayList<DazooLike> mLikes) {
+		this.mLikes = mLikes;
 		this.mActivity = mActivity;
 		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage);
 	}
 
 	@Override
 	public int getCount() {
-		if (mPrograms != null) {
-			return mPrograms.size();
+		if (mLikes != null) {
+			return mLikes.size();
 		} else return 0;
 	}
 
 	@Override
-	public Program getItem(int position) {
-		if (mPrograms != null) {
-			return mPrograms.get(position);
+	public DazooLike getItem(int position) {
+		if (mLikes != null) {
+			return mLikes.get(position);
 		} else return null;
 	}
 
@@ -68,17 +74,30 @@ public class LikesListAdapter extends BaseAdapter {
 			viewHolder.mButtonContainer = (RelativeLayout) rowView.findViewById(R.id.row_likes_button_container);
 			viewHolder.mButtonIcon = (ImageView) rowView.findViewById(R.id.row_likes_button_iv);
 			viewHolder.mButtonTv = (TextView) rowView.findViewById(R.id.row_likes_button_tv);
-
+			viewHolder.mButtonContainer.setTag(Integer.valueOf(position));
+			Log.d(TAG,"set tag: " + Integer.valueOf(position));
 			rowView.setTag(viewHolder);
 		}
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 
-		final Program program = getItem(position);
-		if (program != null) {
-			mImageLoader.displayImage(program.getPosterMUrl(), holder.mProgramIv, ImageLoader.IMAGE_TYPE.POSTER);
-			holder.mProgramTitleTv.setText(program.getTitle());
-			holder.mProgramTypeTv.setText("Genre");
+		final DazooLike like = getItem(position);
+		if (like != null) {
+			final DazooLikeEntity entity = like.getEntity();
+			holder.mProgramTitleTv.setText(entity.getTitle());
+			holder.mProgramTypeTv.setText(entity.getEntityType());
+			mImageLoader.displayImage(entity.getPosterMUrl(), holder.mProgramIv, ImageLoader.IMAGE_TYPE.THUMBNAIL);
+			
+			holder.mButtonContainer.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					currentPosition = (Integer) v.getTag();
+					LikeDialogHandler likeDlg = new LikeDialogHandler();
+					likeDlg.showRemoveLikeDialog(mActivity, token, entity.getEntityId(), yesProc(), noProc());
+					
+				}
+			});
 		}
 
 		return rowView;
@@ -91,6 +110,22 @@ public class LikesListAdapter extends BaseAdapter {
 		public RelativeLayout	mButtonContainer;
 		public ImageView		mButtonIcon;
 		public TextView			mButtonTv;
+	}
+	
+	public Runnable yesProc() {
+		return new Runnable() {
+			public void run() {
+				mLikes.remove(currentPosition);
+				notifyDataSetChanged();
+			}
+		};
+	}
+
+	public Runnable noProc() {
+		return new Runnable() {
+			public void run() {
+			}
+		};
 	}
 
 }
