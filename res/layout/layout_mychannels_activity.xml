@@ -4,32 +4,114 @@
     android:id="@+id/mychannels_list_container"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/white" >
-    
-    <com.millicom.secondscreen.customviews.FontButton
-        android:id="@+id/mychannels_get_channels_button"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="45dp"
-        android:background="@color/light_gray"
-        android:padding="10dp"
-        android:text="@string/get_my_channels" />
+    android:background="@color/light_gray" >
 
-    <com.millicom.secondscreen.customviews.FontButton
-        android:id="@+id/mychannels_update_channels_button"
+    <!-- HEADER WITH CHANNELS NUMBER COUNTER -->
+
+    <RelativeLayout
+        android:id="@+id/mychannels_header_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/mychannels_get_channels_button"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="5dp"
+        android:background="@color/white"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/mychannels_header_selected_container"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/signin_container_email_divider"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal"
+            android:padding="5dp" >
+
+            <com.millicom.secondscreen.customviews.FontTextView
+                android:id="@+id/mychannels_header_text_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="@string/selected_channels"
+                android:textColor="@color/dark_gray"
+                android:textSize="16sp" />
+
+            <com.millicom.secondscreen.customviews.FontTextView
+                android:id="@+id/mychannels_header_counter_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/mychannels_header_text_tv"
+                android:gravity="center_vertical|center_horizontal"
+                android:textColor="@color/dark_gray"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <com.millicom.secondscreen.customviews.FontEditText
+            android:id="@+id/mychannels_header_search_ev"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mychannels_header_selected_container"
+            android:layout_margin="5dp"
+            android:drawableLeft="@drawable/ic_action_search"
+            android:hint="@string/search_channels" />
+    </RelativeLayout>
+
+    <!-- BOTTOM NAVIGATION TABS -->
+
+    <LinearLayout
+        android:id="@+id/tab_selector_container"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
         android:background="@color/light_gray"
-        android:padding="10dp"
-        android:text="@string/add_to_my_channels" />
+        android:orientation="horizontal"
+        android:paddingBottom="2dp" >
+
+        <com.millicom.secondscreen.customviews.FontButton
+            android:id="@+id/show_tvguide"
+            style="@style/homepage_tab_selector"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:paddingBottom="2dp"
+            android:text="@string/tab_tv_guide"
+            android:textSize="15sp" />
+
+        <com.millicom.secondscreen.customviews.FontButton
+            android:id="@+id/show_activity"
+            style="@style/homepage_tab_selector"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:paddingBottom="2dp"
+            android:text="@string/tab_activity"
+            android:textSize="15sp" />
+
+        <com.millicom.secondscreen.customviews.FontButton
+            android:id="@+id/show_me"
+            style="@style/homepage_tab_selector"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:paddingBottom="2dp"
+            android:text="@string/tab_me"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <!-- LIST OF FOLLOWING UP BROADCASTS -->
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/tab_selector_container"
+        android:layout_below="@id/mychannels_header_container"
+        android:layout_marginTop="10dp"
+        android:cacheColorHint="@null"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:layout_margin="10dp" />
 
 </RelativeLayout>

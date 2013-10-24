@@ -3,6 +3,7 @@ package com.millicom.secondscreen;
 import java.util.ArrayList;
 
 import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.utilities.ObscuredSharedPreferences;
 
 import android.app.Activity;
@@ -46,7 +47,12 @@ public class SecondScreenApplication extends Application {
 	// SharedPreferences used to save stuffs
 	private static SharedPreferences		sSharedPreferences;
 	private static Editor					editor;
-
+	
+	/**
+	 * TEST
+	 */
+	private static ArrayList<Channel> channels = new ArrayList();
+	
 	public SecondScreenApplication() {
 	}
 
@@ -57,6 +63,14 @@ public class SecondScreenApplication extends Application {
 		return sInstance;
 	}
 
+	public void saveChannels(ArrayList<Channel> channels){
+		this.channels = channels;
+	}
+	
+	public ArrayList<Channel> getChannels(){
+		return this.channels;
+	}
+	
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);

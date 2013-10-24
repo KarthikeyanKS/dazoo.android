@@ -103,11 +103,10 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 	private void initViews() {
 		// styling the Action Bar
 		mActionBar = getSupportActionBar();
-		mActionBar.setDisplayShowTitleEnabled(false);
+		mActionBar.setDisplayShowTitleEnabled(true);
 		mActionBar.setDisplayShowCustomEnabled(true);
-		mActionBar.setDisplayUseLogoEnabled(false);
-		mActionBar.setDisplayShowHomeEnabled(false);
-		mActionBar.setCustomView(R.layout.actionbar_programpage);
+		mActionBar.setDisplayUseLogoEnabled(true);
+		mActionBar.setDisplayShowHomeEnabled(true);
 
 		final int actionBarColor = getResources().getColor(R.color.lightblue);
 		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
@@ -122,7 +121,7 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 		mTxtTabFeed = (TextView) findViewById(R.id.show_me);
 		mTxtTabFeed.setOnClickListener(this);
 
-		mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.black));
+		mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.orange));
 		mTxtTabPopular.setTextColor(getResources().getColor(R.color.gray));
 		mTxtTabFeed.setTextColor(getResources().getColor(R.color.gray));
 
@@ -154,6 +153,10 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 		// broadcastBlockPopulator.createBlock(mBroadcast, mChannel);
 
 		Program program = mBroadcast.getProgram();
+		
+
+		mActionBar.setTitle(mBroadcast.getProgram().getTitle());
+		
 		if(program.getPosterLUrl()!=null && program.getPosterLUrl().isEmpty()!=true){
 		mImageLoader.displayImage(program.getPosterLUrl(), mPosterIv, mPosterPb, ImageLoader.IMAGE_TYPE.POSTER);
 		}

@@ -5,22 +5,55 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/white" >
+    
+     <!-- BOTTOM NAVIGATION TABS -->
 
-    <com.millicom.secondscreen.customviews.FontTextView
-        android:id="@+id/title"
+    <LinearLayout
+        android:id="@+id/tab_selector_container"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:padding="6dp"
-        android:textColor="@color/black"
-        android:textSize="26sp"
-        android:visibility="gone"/>
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/light_gray"
+        android:orientation="horizontal"
+        android:paddingBottom="2dp" >
 
+        <com.millicom.secondscreen.customviews.FontButton
+            android:id="@+id/show_tvguide"
+            style="@style/homepage_tab_selector"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:paddingBottom="2dp"
+            android:text="@string/tab_tv_guide"
+            android:textSize="15sp" />
+
+        <com.millicom.secondscreen.customviews.FontButton
+            android:id="@+id/show_activity"
+            style="@style/homepage_tab_selector"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:paddingBottom="2dp"
+            android:text="@string/tab_activity"
+            android:textSize="15sp" />
+
+        <com.millicom.secondscreen.customviews.FontButton
+            android:id="@+id/show_me"
+            style="@style/homepage_tab_selector"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:paddingBottom="2dp"
+            android:text="@string/tab_me"
+            android:textSize="15sp" />
+    </LinearLayout>
+    
     <ListView
         android:id="@+id/listview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/title"
+        android:layout_alignParentTop="true"
+        android:layout_above="@id/tab_selector_container"
         android:cacheColorHint="@null"
         android:divider="@null" />
 </RelativeLayout>

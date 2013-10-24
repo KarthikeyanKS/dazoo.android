@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.adapters.DateListNavigationAdapter;
 import com.millicom.secondscreen.content.SSChannelPage;
 import com.millicom.secondscreen.content.SSPageCallback;
@@ -215,7 +216,7 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 
 			// mTabSelectorContainerView.setBackgroundResource();
 
-			mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.black));
+			mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.orange));
 			mTxtTabPopular.setTextColor(getResources().getColor(R.color.gray));
 			mTxtTabFeed.setTextColor(getResources().getColor(R.color.gray));
 
@@ -238,7 +239,7 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 			// mTabSelectorContainerView.setBackgroundResource();
 
 			mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.gray));
-			mTxtTabPopular.setTextColor(getResources().getColor(R.color.black));
+			mTxtTabPopular.setTextColor(getResources().getColor(R.color.orange));
 			mTxtTabFeed.setTextColor(getResources().getColor(R.color.gray));
 
 			mActiveFragment = new ActivityFragment();
@@ -252,7 +253,7 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 
 			mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.gray));
 			mTxtTabPopular.setTextColor(getResources().getColor(R.color.gray));
-			mTxtTabFeed.setTextColor(getResources().getColor(R.color.black));
+			mTxtTabFeed.setTextColor(getResources().getColor(R.color.orange));
 
 			mActiveFragment = new MyProfileFragment();
 			// mActiveFragment = mFragments.get(position);
@@ -298,6 +299,12 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 					public void onGetPageResult(SSPageGetResult aPageGetResult) {
 
 						mChannels = SSChannelPage.getInstance().getChannels();
+						
+						
+						// TEST SAVE CHANNELS INSIDE
+						((SecondScreenApplication)getApplicationContext()).saveChannels(mChannels);
+						
+						
 						if (!pageHoldsData()) {
 							// Request failed
 							Log.d(TAG, "FAILED");

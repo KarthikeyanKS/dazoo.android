@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/listview_item_selector" 
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/row_mychannels_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:id="@+id/row_mychannels_channel_icon_container"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.3"
+            android:background="@color/white"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/row_mychannels_channel_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_margin="5dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/row_mychannels_channel_text_container"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="0.5"
+            android:orientation="vertical" >
+
+            <com.millicom.secondscreen.customviews.FontTextView
+                android:id="@+id/row_mychannels_channel_text_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_margin="5dp"
+                android:textColor="@color/tvguide_program_line_color"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <CheckBox
+            android:id="@+id/row_mychannels_checkbox"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -179,6 +179,8 @@
     <string name="get_my_channels">Get My Channels</string>
     <string name="add_to_my_channels">Add to My Channels</string>
     <string name="remove_from_my_channels">Remove from My Channels</string>
+    <string name="selected_channels">Selected channels:</string>
+    <string name="search_channels">Search channels</string>
     
     <!-- SHARE PROVIDER -->
     <string name="share_action_title">Share via &#8230;</string>

@@ -21,6 +21,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.adapters.MyChannelsListAdapter;
+import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.utilities.JSONUtilities;
 import com.millicom.secondscreen.SecondScreenApplication;
 
@@ -37,53 +39,92 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MyChannelsActivity extends ActionBarActivity implements OnClickListener {
 
-	private static final String	TAG			= "MyChannelsActivity";
-	private ActionBar			mActionBar;
-	private boolean				isChange	= false;
-	private Button				mGetMyChannelsButton, mAddToMyChannelsButton;
-	private String				userToken;
+	private static final String		TAG			= "MyChannelsActivity";
+	private ActionBar				mActionBar;
+	private boolean					isChange	= false;
+	private Button					mGetMyChannelsButton, mAddToMyChannelsButton;
+	private String					userToken;
+	private ListView				mListView;
+	private TextView				mChannelCountTv, mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;;
+	private EditText				mSearchChannelInputEditText;
+	private MyChannelsListAdapter	mAdapter;
+	private ArrayList<Channel>		mChannels;
+	private boolean[]				mIsCheckedArray;
+	private View					mTabSelectorContainerView;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_mychannels_activity);
-		initActionBar();
-		initLayout();
 
 		userToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
+
+		initLayout();
+		populateViews();
 	}
 
-	private void initActionBar() {
+	private void initLayout() {
 		mActionBar = getSupportActionBar();
 		SpannableString s = new SpannableString(getResources().getString(R.string.my_channels));
 		// s.setSpan(new TypefaceSpan(this, "AvenirBlack"),0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 		final int actionBarColor = getResources().getColor(R.color.lightblue);
 		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
-		mActionBar.setDisplayShowTitleEnabled(false);
+		mActionBar.setDisplayShowTitleEnabled(true);
 		mActionBar.setDisplayShowCustomEnabled(true);
-		mActionBar.setDisplayUseLogoEnabled(false);
-		mActionBar.setDisplayShowHomeEnabled(false);
-		mActionBar.setCustomView(R.layout.actionbar_mepage);
+		mActionBar.setDisplayUseLogoEnabled(true);
+		mActionBar.setDisplayShowHomeEnabled(true);
 
-		final TextView title = (TextView) findViewById(R.id.actionbar_mepage_title_tv);
-		title.setText(s);
+		mActionBar.setTitle(getResources().getString(R.string.my_channels));
 
-		final ImageView searchButton = (ImageView) findViewById(R.id.actionbar_mepage_search_icon);
-		searchButton.setVisibility(View.GONE);
+		// styling bottom navigation tabs
+		mTabSelectorContainerView = findViewById(R.id.tab_selector_container);
+
+		mTxtTabTvGuide = (TextView) findViewById(R.id.show_tvguide);
+		mTxtTabTvGuide.setOnClickListener(this);
+		mTxtTabPopular = (TextView) findViewById(R.id.show_activity);
+		mTxtTabPopular.setOnClickListener(this);
+		mTxtTabFeed = (TextView) findViewById(R.id.show_me);
+		mTxtTabFeed.setOnClickListener(this);
+
+		mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.gray));
+		mTxtTabPopular.setTextColor(getResources().getColor(R.color.gray));
+		mTxtTabFeed.setTextColor(getResources().getColor(R.color.orange));
+
+		mListView = (ListView) findViewById(R.id.listview);
+		mChannelCountTv = (TextView) findViewById(R.id.mychannels_header_counter_tv);
+		mSearchChannelInputEditText = (EditText) findViewById(R.id.mychannels_header_search_ev);
 	}
 
-	private void initLayout() {
-		mAddToMyChannelsButton = (Button) findViewById(R.id.mychannels_update_channels_button);
-		mAddToMyChannelsButton.setOnClickListener(this);
-		mGetMyChannelsButton = (Button) findViewById(R.id.mychannels_get_channels_button);
-		mGetMyChannelsButton.setOnClickListener(this);
+	private void populateViews() {
+		mChannels = ((SecondScreenApplication) getApplicationContext()).getChannels();
+		mIsCheckedArray = new boolean[mChannels.size()];
+
+		// if (userToken != null && userToken.isEmpty() != true) {
+		if (userToken != null && TextUtils.isEmpty(userToken) != true) {
+			// get user channels
+			if (getUserMyChannelsIdsJSON()) {
+
+				mAdapter = new MyChannelsListAdapter(this, mChannels, mIsCheckedArray);
+				mListView.setAdapter(mAdapter);
+			}
+		} else {
+			Toast.makeText(getApplicationContext(), "You have to be logged in to perform this action :)", Toast.LENGTH_SHORT).show();
+			Log.d(TAG, "Login action is required to be done before this");
+		}
 	}
+
+	// mAddToMyChannelsButton = (Button) findViewById(R.id.mychannels_update_channels_button);
+	// mAddToMyChannelsButton.setOnClickListener(this);
+	// mGetMyChannelsButton = (Button) findViewById(R.id.mychannels_get_channels_button);
+	// mGetMyChannelsButton.setOnClickListener(this);
 
 	// fetch the "My channels" of the logged in user
 	private class GetMyChannelsTask extends AsyncTask<String, Void, String> {
@@ -183,23 +224,25 @@ public class MyChannelsActivity extends ActionBarActivity implements OnClickList
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 
-	private void getUserMyChannelsIdsJSON() {
+	private boolean getUserMyChannelsIdsJSON() {
 		GetMyChannelsTask getMyChannelsTask = new GetMyChannelsTask();
 		try {
 			String responseStr = getMyChannelsTask.execute(userToken).get();
-			Log.d(TAG,"Response Str:" + responseStr);
-			
-			//if (responseStr != null && responseStr.isEmpty() != true && responseStr != Consts.ERROR_STRING) {
+			Log.d(TAG, "Response Str:" + responseStr);
+
+			// if (responseStr != null && responseStr.isEmpty() != true && responseStr != Consts.ERROR_STRING) {
 			if (responseStr != null && TextUtils.isEmpty(responseStr) != true && responseStr != Consts.ERROR_STRING) {
 				// the extra check for ERROR_STRING was added to distinguish between empty response (there are no stored channels to this user) and empty response in case of error
 				Log.d(TAG, "My Channels: GET: " + responseStr);
 
 				// save the list of channels as json-string
 				((SecondScreenApplication) getApplicationContext()).setUserMyChannelsIdsasJSON(responseStr);
+				return true;
 
 			} else {
 				Toast.makeText(getApplicationContext(), "List of MY CHANNELS cannot be read", Toast.LENGTH_SHORT).show();
 				Log.d(TAG, "List of Channels cannot be read");
+				return false;
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -208,6 +251,7 @@ public class MyChannelsActivity extends ActionBarActivity implements OnClickList
 			// } catch (JSONException e) {
 			// e.printStackTrace();
 		}
+		return false;
 	}
 
 	private void updateUserMyChannels(String channelsJSON) {
@@ -231,82 +275,43 @@ public class MyChannelsActivity extends ActionBarActivity implements OnClickList
 	}
 
 	@Override
-	public void onClick(View view) {
-		switch (view.getId()) {
-		case R.id.mychannels_get_channels_button:
+	public void onClick(View arg0) {
+		// TODO Auto-generated method stub
 
-			// check if we have registered user and user token is valid
-			//if (userToken != null && userToken.isEmpty() != true) {
-			if (userToken != null && TextUtils.isEmpty(userToken) != true) {
-				// get user channels
-				getUserMyChannelsIdsJSON();
-			} else {
-				Toast.makeText(getApplicationContext(), "You have to be logged in to perform this action :)", Toast.LENGTH_SHORT).show();
-				Log.d(TAG, "Login action is required to be done before this");
-			}
-
-			break;
-		case R.id.mychannels_update_channels_button:
-			isChange = !isChange;
-
-			// add channels to the list
-			if (isChange == true) {
-				// add channels to the user account "My channels" database
-				//if (userToken != null && userToken.isEmpty() != true) {
-				if (userToken != null && TextUtils.isEmpty(userToken) != true) {
-					// check if we have fetched the userChannelsIds
-					String myChannelsIdsJSON = ((SecondScreenApplication) getApplicationContext()).getUserMyChannelsIdsJSON();
-					//if (myChannelsIdsJSON != null && myChannelsIdsJSON.isEmpty() != true) {
-					if (myChannelsIdsJSON != null && TextUtils.isEmpty(myChannelsIdsJSON) != true) {
-
-						LinkedHashSet<String> newMyChannelsList  = JSONUtilities.stringWithJSONtoOrderedSet(myChannelsIdsJSON);
-						newMyChannelsList.add("98c9c7cb-76de-4ad8-b6cd-021e7b927ba7");
-						newMyChannelsList.add("ba09d322-6164-4457-89c0-64520214ac30");
-
-						String channelsJSON = JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.MILLICOM_SECONDSCREEN_API_CHANNEL_ID, newMyChannelsList);
-						updateUserMyChannels(channelsJSON);
-					} else {
-						// fetch the list of channels first
-						getUserMyChannelsIdsJSON();
-
-						String json = ((SecondScreenApplication) getApplicationContext()).getUserMyChannelsIdsJSON();
-						// if (json != Consts.ERROR_STRING) {
-						// if (json != null && json.isEmpty() != true) {
-
-						LinkedHashSet<String> newMyChannelsList = JSONUtilities.stringWithJSONtoOrderedSet(json);
-						newMyChannelsList.add("98c9c7cb-76de-4ad8-b6cd-021e7b927ba7");
-						newMyChannelsList.add("ba09d322-6164-4457-89c0-64520214ac30");
-
-						String channelsJSON = JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.MILLICOM_SECONDSCREEN_API_CHANNEL_ID, newMyChannelsList);
-						updateUserMyChannels(channelsJSON);
-						// }
-						// }
-					}
-				} else {
-					Toast.makeText(getApplicationContext(), "You have to be logged in to perform this action :)", Toast.LENGTH_SHORT).show();
-					Log.d(TAG, "Login action is required to be done before this");
-				}
-				
-				// remove channels from the list
-			} else if (isChange == false) {
-				// fetch the list of channels first
-				getUserMyChannelsIdsJSON();
-
-				String json = ((SecondScreenApplication) getApplicationContext()).getUserMyChannelsIdsJSON();
-				// if (json != Consts.ERROR_STRING) {
-				// if (json != null && json.isEmpty() != true) {
-				
-				LinkedHashSet<String> newMyChannelsList = JSONUtilities.stringWithJSONtoOrderedSet(json);
-				newMyChannelsList.remove("98c9c7cb-76de-4ad8-b6cd-021e7b927ba7");
-
-				String channelsJSON = JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.MILLICOM_SECONDSCREEN_API_CHANNEL_ID, newMyChannelsList);
-				updateUserMyChannels(channelsJSON);
-				
-				// get channels to make a check
-				getUserMyChannelsIdsJSON();
-			}
-
-			break;
-		}
 	}
+
+	/*
+	 * @Override public void onClick(View view) { switch (view.getId()) { case R.id.mychannels_get_channels_button:
+	 * 
+	 * // check if we have registered user and user token is valid // if (userToken != null && userToken.isEmpty() != true) { if (userToken != null && TextUtils.isEmpty(userToken) != true) { // get user channels getUserMyChannelsIdsJSON(); } else { Toast.makeText(getApplicationContext(),
+	 * "You have to be logged in to perform this action :)", Toast.LENGTH_SHORT).show(); Log.d(TAG, "Login action is required to be done before this"); }
+	 * 
+	 * break; case R.id.mychannels_update_channels_button: isChange = !isChange;
+	 * 
+	 * // add channels to the list if (isChange == true) { // add channels to the user account "My channels" database // if (userToken != null && userToken.isEmpty() != true) { if (userToken != null && TextUtils.isEmpty(userToken) != true) { // check if we have fetched the userChannelsIds String
+	 * myChannelsIdsJSON = ((SecondScreenApplication) getApplicationContext()).getUserMyChannelsIdsJSON(); // if (myChannelsIdsJSON != null && myChannelsIdsJSON.isEmpty() != true) { if (myChannelsIdsJSON != null && TextUtils.isEmpty(myChannelsIdsJSON) != true) {
+	 * 
+	 * LinkedHashSet<String> newMyChannelsList = JSONUtilities.stringWithJSONtoOrderedSet(myChannelsIdsJSON); newMyChannelsList.add("98c9c7cb-76de-4ad8-b6cd-021e7b927ba7"); newMyChannelsList.add("ba09d322-6164-4457-89c0-64520214ac30");
+	 * 
+	 * String channelsJSON = JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.MILLICOM_SECONDSCREEN_API_CHANNEL_ID, newMyChannelsList); updateUserMyChannels(channelsJSON); } else { // fetch the list of channels first getUserMyChannelsIdsJSON();
+	 * 
+	 * String json = ((SecondScreenApplication) getApplicationContext()).getUserMyChannelsIdsJSON(); // if (json != Consts.ERROR_STRING) { // if (json != null && json.isEmpty() != true) {
+	 * 
+	 * LinkedHashSet<String> newMyChannelsList = JSONUtilities.stringWithJSONtoOrderedSet(json); newMyChannelsList.add("98c9c7cb-76de-4ad8-b6cd-021e7b927ba7"); newMyChannelsList.add("ba09d322-6164-4457-89c0-64520214ac30");
+	 * 
+	 * String channelsJSON = JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.MILLICOM_SECONDSCREEN_API_CHANNEL_ID, newMyChannelsList); updateUserMyChannels(channelsJSON); // } // } } } else { Toast.makeText(getApplicationContext(), "You have to be logged in to perform this action :)",
+	 * Toast.LENGTH_SHORT).show(); Log.d(TAG, "Login action is required to be done before this"); }
+	 * 
+	 * // remove channels from the list } else if (isChange == false) { // fetch the list of channels first getUserMyChannelsIdsJSON();
+	 * 
+	 * String json = ((SecondScreenApplication) getApplicationContext()).getUserMyChannelsIdsJSON(); // if (json != Consts.ERROR_STRING) { // if (json != null && json.isEmpty() != true) {
+	 * 
+	 * LinkedHashSet<String> newMyChannelsList = JSONUtilities.stringWithJSONtoOrderedSet(json); newMyChannelsList.remove("98c9c7cb-76de-4ad8-b6cd-021e7b927ba7");
+	 * 
+	 * String channelsJSON = JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.MILLICOM_SECONDSCREEN_API_CHANNEL_ID, newMyChannelsList); updateUserMyChannels(channelsJSON);
+	 * 
+	 * // get channels to make a check getUserMyChannelsIdsJSON(); }
+	 * 
+	 * break; } }
+	 */
 }

@@ -32,14 +32,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ChannelPageActivity extends ActionBarActivity implements OnClickListener{
+public class ChannelPageActivity extends ActionBarActivity implements OnClickListener {
 
 	private static final String		TAG			= "ChannelPageActivity";
 
 	private ActionBar				mActionBar;
 	private ImageView				mChannelIconIv, mChannelBroadcastLiveIv;
 	private ProgressBar				mChannelBroadcastLiveIvPrB, mDurationProgressBar;
-	private TextView				mBroadcastLiveTimeTv, mBroadcastLiveTitleTv, mBroadcastLiveTextTv, mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;;
+	private TextView				mBroadcastLiveTimeTv, mBroadcastLiveTitleTv, mBroadcastLiveTextTv, mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
 	private ListView				mFollowingBroadcastsLv;
 	private ChannelPageListAdapter	mFollowingBroadcastsListAdapter;
 
@@ -51,7 +51,7 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 	int								duration	= 0;
 
 	private ImageLoader				mImageLoader;
-	private View				mTabSelectorContainerView;
+	private View					mTabSelectorContainerView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +102,7 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 		mTxtTabFeed.setOnClickListener(this);
 
 		// the highlighted tab in the Channel activity is TV Guide
-		mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.black));
+		mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.orange));
 		mTxtTabPopular.setTextColor(getResources().getColor(R.color.gray));
 		mTxtTabFeed.setTextColor(getResources().getColor(R.color.gray));
 	}
@@ -211,7 +211,7 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();
-		switch(id){
+		switch (id) {
 		case R.id.show_tvguide:
 			// tab to tv guide overview page
 			break;
