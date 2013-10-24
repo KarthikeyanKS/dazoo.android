@@ -11,13 +11,45 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.SecondScreenApplication;
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
 public class JSONUtilities {
 
 	private static final String	TAG	= "JSONUtilities";
+	
+	public static boolean storeUserInformation(Context context, String jsonString) {
+		if (jsonString != null && TextUtils.isEmpty(jsonString) != true) {
+			// if (jsonString != null && jsonString.isEmpty() != true) {
+			JSONObject userJSON;
+			try {
+				userJSON = new JSONObject(jsonString);
+
+				String userFirstName = userJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_FIRSTNAME);
+				((SecondScreenApplication) context.getApplicationContext()).setUserFirstName(userFirstName);
+				Log.d(TAG, "First Name: " + userFirstName + " is saved");
+
+				String userLastName = userJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_LASTNAME);
+				((SecondScreenApplication) context.getApplicationContext()).setUserLastName(userLastName);
+				Log.d(TAG, "Last Name: " + userLastName + " is saved");
+
+				String userId = userJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_USER_ID);
+				((SecondScreenApplication) context.getApplicationContext()).setUserId(userId);
+				Log.d(TAG, "User Id: " + userId + " is saved");
+
+				boolean userExistingFlag = userJSON.optBoolean(Consts.MILLICOM_SECONDSCREEN_API_CREATED);
+				((SecondScreenApplication) context.getApplicationContext()).setUserExistringFlag(userExistingFlag);
+				Log.d(TAG, "User login first time: " + userExistingFlag);
+
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			return true;
+		} else return false;
+	}
 
 	public static final String createJSONArrayWithOneJSONObjectType(String jsonKey, ArrayList<String> jsonValues) {
 		JSONArray jsonArray = new JSONArray();

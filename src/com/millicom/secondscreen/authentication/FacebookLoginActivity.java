@@ -37,25 +37,23 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
-public class FacebookLoginActivity extends ActionBarActivity{
-	
-	private static final String TAG = "FacebookLoginActivity";
+public class FacebookLoginActivity extends ActionBarActivity {
+
+	private static final String	TAG	= "FacebookLoginActivity";
 	private String				facebookToken	= "", facebookSessionToken = "", dazooToken = "";
-	private Activity mActivity;
-	private ActionBar mActionBar;
-	
+	private ActionBar			mActionBar;
+
 	@Override
-	 public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_facebooklogin_activity);
-		
-		mActivity = this;
+
 		initViews();
-		
+
 		openFacebookSession(this, true, statusCallback);
 	}
-	
-	private void initViews(){
+
+	private void initViews() {
 		mActionBar = getSupportActionBar();
 		mActionBar.hide();
 	}
@@ -65,7 +63,7 @@ public class FacebookLoginActivity extends ActionBarActivity{
 		super.onActivityResult(requestCode, resultCode, data);
 		Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
 	}
-	
+
 	private static Session openFacebookSession(Activity activity, boolean allowLoginUI, Session.StatusCallback statusCallback) {
 		OpenRequest openRequest = new OpenRequest(activity);
 		openRequest.setPermissions(Arrays.asList("email"));
@@ -88,11 +86,23 @@ public class FacebookLoginActivity extends ActionBarActivity{
 					public void onCompleted(GraphUser user, Response response) {
 						if (user != null) {
 							facebookSessionToken = session.getAccessToken();
-							if(getDazooToken()){
-								// go to start page
-								Intent intent = new Intent(FacebookLoginActivity.this, HomePageActivity.class);
-								startActivity(intent);
-								overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+							if (getDazooToken()) {
+								boolean firstTime = ((SecondScreenApplication) getApplicationContext()).getUserExistringFlag();
+								if (firstTime) {
+									// first time registration/login
+									// go to facebook dazoo login success page
+									Intent intent = new Intent(FacebookLoginActivity.this, FacebookDazooLoginActivity.class);
+									startActivity(intent);
+									overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+									finish();
+								} else {
+									// returning client
+									// go to start page
+									Intent intent = new Intent(FacebookLoginActivity.this, HomePageActivity.class);
+									startActivity(intent);
+									overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+									finish();
+								}
 							}
 						}
 					}
@@ -119,7 +129,7 @@ public class FacebookLoginActivity extends ActionBarActivity{
 
 						// Get the information about the user
 						String userDataString = fbJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_USER);
-						if (storeUserInformation(userDataString)) {
+						if (JSONUtilities.storeUserInformation(this, userDataString)) {
 							Toast.makeText(getApplicationContext(), "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName(), Toast.LENGTH_SHORT).show();
 							return true;
 						} else {
@@ -183,35 +193,4 @@ public class FacebookLoginActivity extends ActionBarActivity{
 			return Consts.EMPTY_STRING;
 		}
 	}
-
-	private boolean storeUserInformation(String jsonString) {
-		if (jsonString != null && TextUtils.isEmpty(jsonString) != true) {
-			// if (jsonString != null && jsonString.isEmpty() != true) {
-			JSONObject userJSON;
-			try {
-				userJSON = new JSONObject(jsonString);
-
-				String userFirstName = userJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_FIRSTNAME);
-				((SecondScreenApplication) getApplicationContext()).setUserFirstName(userFirstName);
-				Log.d(TAG, "First Name: " + userFirstName + " is saved");
-
-				String userLastName = userJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_LASTNAME);
-				((SecondScreenApplication) getApplicationContext()).setUserLastName(userLastName);
-				Log.d(TAG, "Last Name: " + userLastName + " is saved");
-
-				String userId = userJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_USER_ID);
-				((SecondScreenApplication) getApplicationContext()).setUserId(userId);
-				Log.d(TAG, "User Id: " + userId + " is saved");
-
-				boolean userExistingFlag = userJSON.optBoolean(Consts.MILLICOM_SECONDSCREEN_API_CREATED);
-				((SecondScreenApplication) getApplicationContext()).setUserExistringFlag(userExistingFlag);
-				Log.d(TAG, "User login first time: " + userExistingFlag);
-
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			return true;
-		} else return false;
-	}
-	
 }

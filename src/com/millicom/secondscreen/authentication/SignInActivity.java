@@ -48,6 +48,7 @@ public class SignInActivity extends ActionBarActivity {
 				Intent intent = new Intent(SignInActivity.this, FacebookLoginActivity.class);
 				startActivity(intent);
 				overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+				finish();
 			}
 		});
 

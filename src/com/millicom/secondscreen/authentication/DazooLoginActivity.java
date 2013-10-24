@@ -22,6 +22,7 @@ import com.millicom.secondscreen.content.homepage.HomePageActivity;
 import com.millicom.secondscreen.utilities.JSONUtilities;
 import com.millicom.secondscreen.utilities.PatternCheck;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -46,7 +47,7 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 	private EditText			mEmailLoginEditText, mPasswordLoginEditText;
 	private TextView			mForgetPasswordTextView;
 	private RelativeLayout		mFacebookContainer;
-
+	
 	private String				dazooToken	= "", userToken = "", userId = "", userEmailLogin, userPasswordLogin;
 
 	@Override
@@ -127,12 +128,13 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 
 							// Get the information about the user
 							String userDataString = dazooJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_USER);
-							if (storeUserInformation(userDataString)) {
+							if (JSONUtilities.storeUserInformation(this,userDataString)) {
 								Toast.makeText(getApplicationContext(), "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName(), Toast.LENGTH_SHORT).show();
 
 								Intent intent = new Intent(DazooLoginActivity.this, HomePageActivity.class);
 								startActivity(intent);
 								overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+								finish();
 
 							} else {
 								Toast.makeText(getApplicationContext(), "Failed to fetch the user information from backend", Toast.LENGTH_SHORT).show();
@@ -160,36 +162,6 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 				mPasswordLoginEditText.setEnabled(true);
 			}
 		}
-	}
-
-	private boolean storeUserInformation(String jsonString) {
-		if (jsonString != null && TextUtils.isEmpty(jsonString) != true) {
-			// if (jsonString != null && jsonString.isEmpty() != true) {
-			JSONObject userJSON;
-			try {
-				userJSON = new JSONObject(jsonString);
-
-				String userFirstName = userJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_FIRSTNAME);
-				((SecondScreenApplication) getApplicationContext()).setUserFirstName(userFirstName);
-				Log.d(TAG, "First Name: " + userFirstName + " is saved");
-
-				String userLastName = userJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_LASTNAME);
-				((SecondScreenApplication) getApplicationContext()).setUserLastName(userLastName);
-				Log.d(TAG, "Last Name: " + userLastName + " is saved");
-
-				String userId = userJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_USER_ID);
-				((SecondScreenApplication) getApplicationContext()).setUserId(userId);
-				Log.d(TAG, "User Id: " + userId + " is saved");
-
-				boolean userExistingFlag = userJSON.optBoolean(Consts.MILLICOM_SECONDSCREEN_API_CREATED);
-				((SecondScreenApplication) getApplicationContext()).setUserExistringFlag(userExistingFlag);
-				Log.d(TAG, "User login first time: " + userExistingFlag);
-
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			return true;
-		} else return false;
 	}
 
 	private class DazooLoginTask extends AsyncTask<String, Void, String> {

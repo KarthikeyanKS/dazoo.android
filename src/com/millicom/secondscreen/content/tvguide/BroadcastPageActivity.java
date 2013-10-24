@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.authentication.FacebookDazooLoginActivity;
 import com.millicom.secondscreen.authentication.LoginActivity;
 import com.millicom.secondscreen.authentication.PromptSignInDialogHandler;
 import com.millicom.secondscreen.authentication.SignInActivity;
@@ -153,8 +154,9 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 		// broadcastBlockPopulator.createBlock(mBroadcast, mChannel);
 
 		Program program = mBroadcast.getProgram();
-
+		if(program.getPosterLUrl()!=null && program.getPosterLUrl().isEmpty()!=true){
 		mImageLoader.displayImage(program.getPosterLUrl(), mPosterIv, mPosterPb, ImageLoader.IMAGE_TYPE.POSTER);
+		}
 		mTitleTv.setText(program.getTitle());
 		// seasonTv.setText(program.getSeason().getNumber());
 		mEpisodeTv.setText(program.getEpisode());

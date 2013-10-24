@@ -127,6 +127,13 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light" />
         
+        <!-- FACEBOOK DAZOO ACCOUNT CREATED -->
+        <activity
+            android:name="com.millicom.secondscreen.authentication.FacebookDazooLoginActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light" />
+        
         
         <!-- LOGIN ALL IN ONE : FOR TESTING -->
         <activity

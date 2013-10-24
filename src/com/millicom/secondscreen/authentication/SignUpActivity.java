@@ -87,36 +87,6 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 		} else return false;
 	}
 	
-	private boolean storeUserInformation(String jsonString) {
-		if (jsonString != null && TextUtils.isEmpty(jsonString) != true) {
-			// if (jsonString != null && jsonString.isEmpty() != true) {
-			JSONObject userJSON;
-			try {
-				userJSON = new JSONObject(jsonString);
-
-				String userFirstName = userJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_FIRSTNAME);
-				((SecondScreenApplication) getApplicationContext()).setUserFirstName(userFirstName);
-				Log.d(TAG, "First Name: " + userFirstName + " is saved");
-
-				String userLastName = userJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_LASTNAME);
-				((SecondScreenApplication) getApplicationContext()).setUserLastName(userLastName);
-				Log.d(TAG, "Last Name: " + userLastName + " is saved");
-
-				String userId = userJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_USER_ID);
-				((SecondScreenApplication) getApplicationContext()).setUserId(userId);
-				Log.d(TAG, "User Id: " + userId + " is saved");
-
-				boolean userExistingFlag = userJSON.optBoolean(Consts.MILLICOM_SECONDSCREEN_API_CREATED);
-				((SecondScreenApplication) getApplicationContext()).setUserExistringFlag(userExistingFlag);
-				Log.d(TAG, "User login first time: " + userExistingFlag);
-
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			return true;
-		} else return false;
-	}
-	
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();
@@ -149,13 +119,14 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 							((SecondScreenApplication) getApplicationContext()).setAccessToken(dazooToken);
 							// Get the information about the user
 							String userDataString = dazooRegJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_USER);
-							if (storeUserInformation(userDataString)) {
+							if (JSONUtilities.storeUserInformation(this, userDataString)) {
 								Toast.makeText(getApplicationContext(), "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName(), Toast.LENGTH_SHORT).show();
 								
 								// go to Start page
 								Intent intent = new Intent(SignUpActivity.this, HomePageActivity.class);
 								startActivity(intent);
 								overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+								finish();
 							
 							} else {
 								Toast.makeText(getApplicationContext(), "Failed to fetch the user information from backend", Toast.LENGTH_SHORT).show();
