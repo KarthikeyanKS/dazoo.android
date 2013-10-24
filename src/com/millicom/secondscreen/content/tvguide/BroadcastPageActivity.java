@@ -257,7 +257,7 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 			}
 			break;
 		case R.id.block_social_panel_share_button_iv:
-			ShareAction.shareAction(mActivity, "subject", "link to share", getResources().getString(R.string.share_action_title));
+			ShareAction.shareAction(mActivity, getResources().getString(R.string.app_name), mBroadcast.getShareUrl(), getResources().getString(R.string.share_action_title));
 			break;
 		case R.id.block_social_panel_remind_button_iv:
 
@@ -284,7 +284,6 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 	public Runnable yesLoginProc(){
 		return new Runnable(){
 			public void run(){
-				Log.d(TAG,"Go to Login page");
 				Intent intent = new Intent(BroadcastPageActivity.this, SignInActivity.class);
 				//Intent intent = new Intent(BroadcastPageActivity.this, LoginActivity.class);
 				startActivity(intent);

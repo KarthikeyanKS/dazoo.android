@@ -192,6 +192,7 @@ public abstract class Consts {
 	public static final String	DAZOO_BROADCAST_END_TIME							= "endTime";
 	// public static final String DAZOO_BROADCAST_DURATION_IN_MINUTES = "durationInMinutes";
 	public static final String	DAZOO_BROADCAST_BEGIN_TIME_MILLIS					= "beginTimeMillis";
+	public static final String	DAZOO_BROADCAST_SHARE_URL							= "shareUrl";
 
 	// CHANNEL fields
 	public static final String	DAZOO_CHANNEL_HREF									= "href";

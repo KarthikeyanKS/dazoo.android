@@ -24,7 +24,6 @@ public class SignInActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_signin_activity);
-
 		initViews();
 	}
 
@@ -39,7 +38,7 @@ public class SignInActivity extends ActionBarActivity {
 		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
 
 		mActionBar.setTitle(getResources().getString(R.string.sign_in));
-		
+
 		mFacebookContainer = (RelativeLayout) findViewById(R.id.signin_facebook_container);
 		mFacebookContainer.setOnClickListener(new View.OnClickListener() {
 
@@ -70,11 +69,11 @@ public class SignInActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				Intent intent = new Intent(SignInActivity.this, DazooLoginActivity.class);
 				startActivity(intent);
-				overridePendingTransition(R.anim.slide_in, R.anim.slide_out);	
+				overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			}
 		});
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();

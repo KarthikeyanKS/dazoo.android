@@ -178,6 +178,8 @@ public class ContentParser {
 		broadcast.setEndTime(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_END_TIME));
 		// broadcast.setDurationInMinutes(jsonBroadcast.optInt(Consts.DAZOO_BROADCAST_DURATION_IN_MINUTES));
 		broadcast.setBeginTimeMillis(jsonBroadcast.optLong(Consts.DAZOO_BROADCAST_BEGIN_TIME_MILLIS));
+		
+		broadcast.setShareUrl(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_SHARE_URL));
 
 		JSONObject jsonChannel = jsonBroadcast.optJSONObject(Consts.DAZOO_BROADCAST_CHANNEL);
 		if (jsonChannel != null) {

@@ -71,7 +71,7 @@ public class SSSocialInteractionPanelCreator {
 			@Override
 			public void onClick(View v) {
 				// start the share Action
-				ShareAction.shareAction(mActivity, "subject", "link to share", mActivity.getResources().getString(R.string.share_action_title));
+				ShareAction.shareAction(mActivity, mActivity.getResources().getString(R.string.app_name), mBroadcast.getShareUrl(), mActivity.getResources().getString(R.string.share_action_title));
 			}
 		});
 

@@ -27,6 +27,7 @@ public class Broadcast implements Parcelable {
 	private String				channelUrl;
 	private int					durationInMinutes;
 	private long				beginTimeMillis;
+	private String shareUrl;
 
 	public Broadcast() {
 	}
@@ -94,6 +95,14 @@ public class Broadcast implements Parcelable {
 	public long getBeginTimeMillis() {
 		return this.beginTimeMillis;
 	}
+	
+	public void setShareUrl(String shareUrl){
+		this.shareUrl = shareUrl;
+	}
+	
+	public String getShareUrl(){
+		return this.shareUrl;
+	}
 
 	@Override
 	public int describeContents() {
@@ -120,6 +129,7 @@ public class Broadcast implements Parcelable {
 		channelUrl = in.readString();
 		durationInMinutes = in.readInt();
 		beginTimeMillis = in.readLong();
+		shareUrl = in.readString();
 	}
 
 	@Override
@@ -132,6 +142,7 @@ public class Broadcast implements Parcelable {
 		dest.writeString(channelUrl);
 		dest.writeInt(durationInMinutes);
 		dest.writeLong(beginTimeMillis);
+		dest.writeString(shareUrl);
 	}
 
 	public static class BroadcastComparatorByTime implements Comparator<Broadcast> {
@@ -170,7 +181,7 @@ public class Broadcast implements Parcelable {
 
 	@Override
 	public String toString() {
-		return "Id: " + broadcastId + "\n beginTime: " + beginTime + "\n endTime: " + endTime + "\n channel: " + channel + "\n program: " + program + "\n channelUrl" + channelUrl;
+		return "Id: " + broadcastId + "\n beginTime: " + beginTime + "\n endTime: " + endTime + "\n channel: " + channel + "\n program: " + program + "\n shareUrl" + shareUrl;
 	}
 
 	public static int getClosestBroadcastIndex(ArrayList<Broadcast> broadcastList) {
@@ -213,7 +224,6 @@ public class Broadcast implements Parcelable {
 				nextBroadcasts.add(broadcastList.get(j));
 			}
 		}
-
 		return nextBroadcasts;
 	}
 }

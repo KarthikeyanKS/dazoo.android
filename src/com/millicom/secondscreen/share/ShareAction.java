@@ -8,7 +8,7 @@ public class ShareAction {
 		
 		Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
 		sharingIntent.setType("text/plain");
-		sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+		sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
 		sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
 		activity.startActivity(Intent.createChooser(sharingIntent, title));		
 	}
