@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.adapters.TVGuideListAdapter.ViewHolder;
+import com.millicom.secondscreen.authentication.SignUpActivity;
+import com.millicom.secondscreen.content.homepage.HomePageActivity;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.NotificationDbItem;
 import com.millicom.secondscreen.content.model.Program;
+import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
 import com.millicom.secondscreen.notification.NotificationDataSource;
 import com.millicom.secondscreen.notification.NotificationDialogHandler;
 import com.millicom.secondscreen.notification.NotificationService;
@@ -18,6 +21,7 @@ import com.millicom.secondscreen.utilities.ImageLoader;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +29,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -78,6 +83,7 @@ public class RemindersListAdapter extends BaseAdapter {
 
 			ViewHolder viewHolder = new ViewHolder();
 			viewHolder.mHeaderContainer = (LinearLayout) rowView.findViewById(R.id.row_reminders_header_container);
+			viewHolder.mInformationContainer = (RelativeLayout) rowView.findViewById(R.id.row_reminders_text_container);
 			viewHolder.mHeaderTv = (TextView) rowView.findViewById(R.id.row_reminders_header_textview);
 			viewHolder.mBroadcastTitleTv = (TextView) rowView.findViewById(R.id.row_reminders_text_title_tv);
 			viewHolder.mBroadcastDetailsTv = (TextView) rowView.findViewById(R.id.row_reminders_text_details_tv);
@@ -120,6 +126,20 @@ public class RemindersListAdapter extends BaseAdapter {
 				e.printStackTrace();
 				holder.mBroadcastTimeTv.setText("");
 			}
+			
+			holder.mInformationContainer.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					String broadcastUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + channel.getChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillis();
+					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST, broadcast);
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL, channel);
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_URL, broadcastUrl);
+					mActivity.startActivity(intent);
+					mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+				}
+			});
 
 			holder.mReminderIconIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
 			holder.mReminderIconIv.setOnClickListener(new View.OnClickListener() {
@@ -145,6 +165,7 @@ public class RemindersListAdapter extends BaseAdapter {
 
 	private static class ViewHolder {
 		public LinearLayout	mHeaderContainer;
+		public RelativeLayout mInformationContainer;
 		public TextView		mHeaderTv;
 		public TextView		mBroadcastTitleTv;
 		public TextView		mBroadcastDetailsTv;
