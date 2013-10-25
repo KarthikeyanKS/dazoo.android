@@ -124,6 +124,7 @@ public abstract class Consts {
 	public static final int		INFO_UPDATE_LIKES									= 11;
 	public static final int		INFO_NO_UPDATE_REMINDERS							= 0;
 	public static final int		INFO_NO_UPDATE_LIKES								= 10;
+	public static final int INFO_UPDATE_LOGOUT = 111;
 
 	// Response codes
 	public static final int		GOOD_RESPONSE										= 200;

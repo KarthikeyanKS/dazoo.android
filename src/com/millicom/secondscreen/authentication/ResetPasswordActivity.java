@@ -20,6 +20,7 @@ import com.millicom.secondscreen.utilities.JSONUtilities;
 import com.millicom.secondscreen.utilities.PatternCheck;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -44,6 +45,7 @@ public class ResetPasswordActivity extends ActionBarActivity implements OnClickL
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_resetpassword_activity);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		initViews();
 	}
 

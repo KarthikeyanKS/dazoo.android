@@ -63,7 +63,7 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_homepage_activity);
-
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		initViews();
 
 		// if not saved before, load the page from scratch

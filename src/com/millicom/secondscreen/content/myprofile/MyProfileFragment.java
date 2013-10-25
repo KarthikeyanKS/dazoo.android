@@ -78,7 +78,7 @@ public class MyProfileFragment extends Fragment {
 								mLikesCountTextView, mMyChannelsCountTextView;
 	private Button mLoginBtn;
 	private String				userFirstName, userLastName;
-	private boolean				mIsLoggeIn	= false;
+	private boolean				mIsLoggedIn	= false;
 	private String				mToken;
 
 	@Override
@@ -88,7 +88,7 @@ public class MyProfileFragment extends Fragment {
 
 		mToken = ((SecondScreenApplication) getActivity().getApplicationContext()).getAccessToken();
 		if (mToken != null && mToken.isEmpty() != true) {
-			mIsLoggeIn = true;
+			mIsLoggedIn = true;
 
 			userFirstName = ((SecondScreenApplication) getActivity().getApplicationContext()).getUserFirstName();
 			userLastName = ((SecondScreenApplication) getActivity().getApplicationContext()).getUserLastName();
@@ -207,7 +207,7 @@ public class MyProfileFragment extends Fragment {
 	}
 
 	private void populateViews() {
-		if (mIsLoggeIn) {
+		if (mIsLoggedIn) {
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 				if (userFirstName != null && userLastName != null && userFirstName.isEmpty() != true && userLastName.isEmpty() != true) {
 					mAvatarImageView.setImageResource(R.drawable.loadimage_2x);
@@ -244,7 +244,7 @@ public class MyProfileFragment extends Fragment {
 				// no change in reminders quantity
 			} else if (resultCode == Consts.INFO_NO_UPDATE_LIKES) {
 				// no change in likes quantity
-			}
+			} 
 		}
 	}
 

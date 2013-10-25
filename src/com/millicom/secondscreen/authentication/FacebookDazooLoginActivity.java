@@ -5,6 +5,7 @@ import com.millicom.secondscreen.content.homepage.HomePageActivity;
 import com.millicom.secondscreen.content.myprofile.MyChannelsActivity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -23,6 +24,7 @@ public class FacebookDazooLoginActivity extends ActionBarActivity implements OnC
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_facebook_dazoo_login_activity);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		initViews();
 	}
 

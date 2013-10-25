@@ -90,10 +90,10 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 		}
 
 		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
-		if(token!=null && token.isEmpty() !=true){
+		if (token != null && token.isEmpty() != true) {
 			mIsLoggedIn = true;
 		}
-		
+
 		initViews();
 		if (mBroadcast != null && mChannel != null) {
 			populateBlocks();
@@ -153,12 +153,11 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 		// broadcastBlockPopulator.createBlock(mBroadcast, mChannel);
 
 		Program program = mBroadcast.getProgram();
-		
 
 		mActionBar.setTitle(mBroadcast.getProgram().getTitle());
-		
-		if(program.getPosterLUrl()!=null && program.getPosterLUrl().isEmpty()!=true){
-		mImageLoader.displayImage(program.getPosterLUrl(), mPosterIv, mPosterPb, ImageLoader.IMAGE_TYPE.POSTER);
+
+		if (program.getPosterLUrl() != null && program.getPosterLUrl().isEmpty() != true) {
+			mImageLoader.displayImage(program.getPosterLUrl(), mPosterIv, mPosterPb, ImageLoader.IMAGE_TYPE.POSTER);
 		}
 		mTitleTv.setText(program.getTitle());
 		// seasonTv.setText(program.getSeason().getNumber());
@@ -200,11 +199,11 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 		else mRemindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
 
 		// TODO TO GET TO KNOW IF IT IS ACTUALLY LIKED
-		if (mIsLoggedIn){
-			Log.d(TAG,"" + mBroadcast.getProgram().getProgramId());
+		if (mIsLoggedIn) {
+			Log.d(TAG, "" + mBroadcast.getProgram().getProgramId());
 			mIsLiked = LikeService.isLiked(token, mBroadcast.getProgram().getProgramId());
 		}
-		
+
 		if (mIsLiked) mLikeButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
 		else mLikeButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart));
 
@@ -284,30 +283,30 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 		}
 	}
 
-	public Runnable yesLoginProc(){
-		return new Runnable(){
-			public void run(){
+	public Runnable yesLoginProc() {
+		return new Runnable() {
+			public void run() {
 				Intent intent = new Intent(BroadcastPageActivity.this, SignInActivity.class);
-				//Intent intent = new Intent(BroadcastPageActivity.this, LoginActivity.class);
+				// Intent intent = new Intent(BroadcastPageActivity.this, LoginActivity.class);
 				startActivity(intent);
-				overridePendingTransition(R.anim.slide_in, R.anim.slide_out); 
+				overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			}
 		};
 	}
-	
-	public Runnable noLoginProc(){
-		return new Runnable(){
-			public void run(){
-				Log.d(TAG,"No login");
+
+	public Runnable noLoginProc() {
+		return new Runnable() {
+			public void run() {
+				Log.d(TAG, "No login");
 			}
 		};
 	}
-	
+
 	public Runnable yesLikeProc() {
 		return new Runnable() {
 			public void run() {
-				Log.d(TAG, "Like was removed");
 				mLikeButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart));
+				mIsLiked = false;
 			}
 		};
 	}

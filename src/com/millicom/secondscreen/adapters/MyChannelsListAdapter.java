@@ -84,7 +84,7 @@ public class MyChannelsListAdapter extends BaseAdapter {
 		
 		holder.mChannelNameTv.setText(channel.getName());
 			
-		mImageLoader.displayImage(channel.getLogoMUrl(), holder.mChannelLogoIv, ImageLoader.IMAGE_TYPE.POSTER);
+		mImageLoader.displayImage(channel.getLogoLUrl(), holder.mChannelLogoIv, ImageLoader.IMAGE_TYPE.THUMBNAIL);
 		
 		if (mIsCheckedArray[currentPosition] == true){
 			holder.mCheckBox.setChecked(true);

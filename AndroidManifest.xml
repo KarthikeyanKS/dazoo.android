@@ -90,6 +90,7 @@
             android:name="com.millicom.secondscreen.authentication.SignInActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
             android:theme="@style/Theme.AppCompat.Light" />
         
         <!-- SIGN UP -->
@@ -97,6 +98,7 @@
             android:name="com.millicom.secondscreen.authentication.SignUpActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
             android:theme="@style/Theme.AppCompat.Light" />
         
         <!-- DAZOO LOGIN -->
@@ -104,6 +106,7 @@
             android:name="com.millicom.secondscreen.authentication.DazooLoginActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
             android:theme="@style/Theme.AppCompat.Light" />
 
         <!-- FACEBOOK LOGIN -->
@@ -111,6 +114,7 @@
             android:name="com.millicom.secondscreen.authentication.FacebookLoginActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
             android:theme="@style/Theme.AppCompat.Light" />
         
         <!-- PASSWORD RESET -->
@@ -118,6 +122,7 @@
             android:name="com.millicom.secondscreen.authentication.ResetPasswordActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
             android:theme="@style/Theme.AppCompat.Light" />
 
         <!-- PASSWORD RESET FINAL -->
@@ -125,6 +130,7 @@
             android:name="com.millicom.secondscreen.authentication.ResetPasswordFinalActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
             android:theme="@style/Theme.AppCompat.Light" />
         
         <!-- FACEBOOK DAZOO ACCOUNT CREATED -->
@@ -132,6 +138,7 @@
             android:name="com.millicom.secondscreen.authentication.FacebookDazooLoginActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
             android:theme="@style/Theme.AppCompat.Light" />
         
         

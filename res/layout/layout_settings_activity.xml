@@ -6,11 +6,58 @@
     android:layout_height="fill_parent"
     android:background="@color/white" >
 
-    <TextView
+    <com.millicom.secondscreen.customviews.FontButton
+        android:id="@+id/settings_logout_button"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:cacheColorHint="@null"
-        android:text="Here will be the Settings layout"
-        android:textSize="16sp" />
+        android:layout_below="@id/login_activity_dazoo_login_login_button"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/light_gray"
+        android:padding="10dp"
+        android:text="@string/logout_from_dazoo" />
+    
+     <!-- FOOTER : BOTTOM NAVIGATION TABS -->
+
+    <LinearLayout
+        android:id="@+id/tab_selector_container"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/light_gray"
+        android:orientation="horizontal"
+        android:paddingBottom="2dp" >
+
+        <com.millicom.secondscreen.customviews.FontButton
+            android:id="@+id/show_tvguide"
+            style="@style/homepage_tab_selector"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:paddingBottom="2dp"
+            android:text="@string/tab_tv_guide"
+            android:textSize="15sp" />
+
+        <com.millicom.secondscreen.customviews.FontButton
+            android:id="@+id/show_activity"
+            style="@style/homepage_tab_selector"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:paddingBottom="2dp"
+            android:text="@string/tab_activity"
+            android:textSize="15sp" />
+
+        <com.millicom.secondscreen.customviews.FontButton
+            android:id="@+id/show_me"
+            style="@style/homepage_tab_selector"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:paddingBottom="2dp"
+            android:text="@string/tab_me"
+            android:textSize="15sp" />
+    </LinearLayout>
 
 </RelativeLayout>
