@@ -14,14 +14,14 @@ import com.millicom.secondscreen.content.model.Link;
 
 public class SSStartPage extends SSPage {
 
-	public static final String	TAG			= "SSStartPage";
+	public static final String	TAG	= "SSStartPage";
 	private static SSStartPage	sInstance;
 	public String				mStartPageUrl;
-	public String mProgramTypeKey;
+	public String				mProgramTypeKey;
 
-	public SSStartPage(){
+	public SSStartPage() {
 	}
-	
+
 	public static SSStartPage getInstance() {
 		if (sInstance == null) sInstance = new SSStartPage();
 		return sInstance;
@@ -29,14 +29,14 @@ public class SSStartPage extends SSPage {
 
 	public boolean getPage(String programType, String url, SSPageCallback pageCallback) {
 		Log.d(TAG, "getPage");
-		Log.d(TAG,"Program Type:" + programType);
+		Log.d(TAG, "Program Type:" + programType);
 		// Remember the callback
 		super.mPageCallback = pageCallback;
 		mStartPageUrl = url;
 		mProgramTypeKey = programType;
 		Link startPageLink = new Link();
 		startPageLink.setUrl(mStartPageUrl);
-		
+
 		super.getPage(startPageLink, pageCallback);
 		return true;
 	}
@@ -47,14 +47,13 @@ public class SSStartPage extends SSPage {
 	}
 
 	@Override
-	protected void parseGetPageResult(JSONArray jsonArray, SSPageGetResult pageGetResult){	
-	Log.d(TAG, "parseGetPageResult");
+	protected void parseGetPageResult(JSONArray jsonArray, SSPageGetResult pageGetResult) {
+		Log.d(TAG, "parseGetPageResult");
 		try {
 			super.parseGuide(jsonArray, mProgramTypeKey);
-			
 			// The resulting page is this
 			pageGetResult.setPage(this);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

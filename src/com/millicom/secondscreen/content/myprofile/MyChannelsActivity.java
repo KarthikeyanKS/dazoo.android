@@ -7,7 +7,11 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.http.HttpEntity;
@@ -26,6 +30,7 @@ import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.utilities.JSONUtilities;
 import com.millicom.secondscreen.SecondScreenApplication;
 
+import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
@@ -33,8 +38,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -47,9 +54,9 @@ import android.widget.Toast;
 
 public class MyChannelsActivity extends ActionBarActivity implements OnClickListener {
 
-	private static final String		TAG			= "MyChannelsActivity";
+	private static final String		TAG						= "MyChannelsActivity";
 	private ActionBar				mActionBar;
-	private boolean					isChange	= false;
+	private boolean					isChange				= false;
 	private Button					mGetMyChannelsButton, mAddToMyChannelsButton;
 	private String					userToken;
 	private ListView				mListView;
@@ -59,13 +66,15 @@ public class MyChannelsActivity extends ActionBarActivity implements OnClickList
 	private ArrayList<Channel>		mChannels;
 	private boolean[]				mIsCheckedArray;
 	private View					mTabSelectorContainerView;
+	private int						mChannelCounter			= 0;
+
+	private ArrayList<Channel>		mChannelInfoToDisplay	= new ArrayList<Channel>();
+	private Map<String, Channel>	mChannelInfoMap			= new HashMap<String, Channel>();
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_mychannels_activity);
-
 		userToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
-
 		initLayout();
 		populateViews();
 	}
@@ -105,6 +114,12 @@ public class MyChannelsActivity extends ActionBarActivity implements OnClickList
 
 	private void populateViews() {
 		mChannels = ((SecondScreenApplication) getApplicationContext()).getChannels();
+
+		for (int i = 0; i < mChannels.size(); i++) {
+			mChannelInfoMap.put(mChannels.get(i).getName().toLowerCase(Locale.getDefault()), mChannels.get(i));
+			mChannelInfoToDisplay.add(mChannels.get(i));
+		}
+
 		mIsCheckedArray = new boolean[mChannels.size()];
 
 		// if (userToken != null && userToken.isEmpty() != true) {
@@ -112,13 +127,46 @@ public class MyChannelsActivity extends ActionBarActivity implements OnClickList
 			// get user channels
 			if (getUserMyChannelsIdsJSON()) {
 
-				mAdapter = new MyChannelsListAdapter(this, mChannels, mIsCheckedArray);
+				mAdapter = new MyChannelsListAdapter(this, mChannelInfoToDisplay, mIsCheckedArray);
+
 				mListView.setAdapter(mAdapter);
+				mListView.setTextFilterEnabled(true);
 			}
 		} else {
 			Toast.makeText(getApplicationContext(), "You have to be logged in to perform this action :)", Toast.LENGTH_SHORT).show();
 			Log.d(TAG, "Login action is required to be done before this");
 		}
+
+		mSearchChannelInputEditText.addTextChangedListener(new TextWatcher() {
+			@SuppressLint("DefaultLocale")
+			@Override
+			public void afterTextChanged(Editable s) {
+				String search = s.toString();
+				if (search.length() > 0) {
+					mChannelInfoToDisplay.clear();
+					for (Map.Entry<String, Channel> entry : mChannelInfoMap.entrySet()) {
+						String key = entry.getKey();
+						Channel channel = entry.getValue();
+						if (key.toLowerCase().contains(search.toLowerCase())) {
+							mChannelInfoToDisplay.add(channel);
+							mAdapter.notifyDataSetChanged();
+						}
+					}
+				} else {
+					mChannelInfoToDisplay.clear();
+					mChannelInfoToDisplay.addAll(mChannels);
+					mAdapter.notifyDataSetChanged();
+				}
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			}
+		});
 	}
 
 	// mAddToMyChannelsButton = (Button) findViewById(R.id.mychannels_update_channels_button);
@@ -182,8 +230,6 @@ public class MyChannelsActivity extends ActionBarActivity implements OnClickList
 				httpPost.setHeader("Authorization", "Bearer " + params[0]);
 				httpPost.setHeader("Accept", "application/json");
 				httpPost.setHeader("Content-Type", "application/json");
-
-				Log.d(TAG, "TOKEN" + params[0]);
 				StringEntity jsonEntity = new StringEntity(params[1]);
 				httpPost.setEntity(jsonEntity);
 

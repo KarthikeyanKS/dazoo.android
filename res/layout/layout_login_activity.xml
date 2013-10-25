@@ -127,11 +127,8 @@
             android:background="@color/light_gray"
             android:padding="10dp"
             android:text="@string/logout_from_dazoo" />
-        
-        
-        
-        
-         <com.millicom.secondscreen.customviews.FontTextView
+
+        <com.millicom.secondscreen.customviews.FontTextView
             android:id="@+id/register_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -151,7 +148,6 @@
             android:layout_height="1dp"
             android:layout_below="@id/register_textview"
             android:background="@color/gray" />
-        
 
         <!-- DAZOO REGISTER -->
 
@@ -250,8 +246,8 @@
             android:background="@color/light_gray"
             android:padding="10dp"
             android:text="@string/register_with_dazoo" />
-        
-          <com.millicom.secondscreen.customviews.FontTextView
+
+        <com.millicom.secondscreen.customviews.FontTextView
             android:id="@+id/reset_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -271,10 +267,10 @@
             android:layout_height="1dp"
             android:layout_below="@id/reset_textview"
             android:background="@color/gray" />
-        
+
         <!-- DAZOO RESET PASSWORD -->
-        
-          <com.millicom.secondscreen.customviews.FontEditText
+
+        <com.millicom.secondscreen.customviews.FontEditText
             android:id="@+id/login_activity_dazoo_reset_password_enter_email_edittext"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -289,8 +285,8 @@
             android:textColor="@color/white"
             android:textColorHint="@color/light_gray"
             android:textSize="16sp" />
-        
-         <com.millicom.secondscreen.customviews.FontButton
+
+        <com.millicom.secondscreen.customviews.FontButton
             android:id="@+id/login_activity_dazoo_reset_password_button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -302,7 +298,6 @@
             android:background="@color/light_gray"
             android:padding="10dp"
             android:text="@string/reset_password" />
-        
     </RelativeLayout>
 
 </ScrollView>
