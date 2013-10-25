@@ -45,22 +45,23 @@ import com.millicom.secondscreen.SecondScreenApplication;
 
 public class BroadcastPageActivity extends ActionBarActivity implements OnClickListener {
 
-	private static final String	TAG	= "BroadcastPageActivity";
-	private ImageLoader			mImageLoader;
-	private Broadcast			mBroadcast;
-	private Channel				mChannel;
-	private LinearLayout		mBlockContainer;
-	private ActionBar			mActionBar;
-	private LayoutInflater		mLayoutInflater;
-	private String				mBroadcastUrl, entityType, token;
-	private boolean				mIsSet	= false, mIsLiked = false, mIsLoggedIn = false;
-	private ImageView			mPosterIv, mLikeButtonIv, mShareButtonIv, mRemindButtonIv;
-	private ProgressBar			mPosterPb;
-	private TextView			mTitleTv, mSeasonTv, mEpisodeTv, mTimeTv, mDateTv, mChannelTv, mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
-	private int					notificationId;
-	private View				mTabSelectorContainerView;
+	private static final String		TAG	= "BroadcastPageActivity";
+	private ImageLoader				mImageLoader;
+	private Broadcast				mBroadcast;
+	private Channel					mChannel;
+	private LinearLayout			mBlockContainer;
+	private ActionBar				mActionBar;
+	private LayoutInflater			mLayoutInflater;
+	private String					mBroadcastUrl, entityType, token;
+	private boolean					mIsSet	= false, mIsLiked = false, mIsLoggedIn = false;
+	private ImageView				mPosterIv, mLikeButtonIv, mShareButtonIv, mRemindButtonIv;
+	private ProgressBar				mPosterPb;
+	private TextView				mTitleTv, mSeasonTv, mEpisodeTv, mTimeTv, mDateTv, mChannelTv, mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
+	private int						notificationId;
+	private View					mTabSelectorContainerView;
+	private NotificationDataSource	mNotificationDataSource;
 
-	private Activity			mActivity;
+	private Activity				mActivity;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -184,9 +185,9 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 		}
 		mDateTv.setText(date);
 
-		NotificationDataSource notificationDataSource = new NotificationDataSource(this);
+		mNotificationDataSource = new NotificationDataSource(this);
 		NotificationDbItem dbItem = new NotificationDbItem();
-		dbItem = notificationDataSource.getNotification(mChannel.getChannelId(), mBroadcast.getBeginTimeMillis());
+		dbItem = mNotificationDataSource.getNotification(mChannel.getChannelId(), mBroadcast.getBeginTimeMillis());
 		if (dbItem.getNotificationId() != 0) {
 			mIsSet = true;
 			notificationId = dbItem.getNotificationId();
@@ -267,6 +268,12 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 				if (NotificationService.setAlarm(mActivity, mBroadcast, mChannel)) {
 					NotificationService.showSetNotificationToast(mActivity);
 					mRemindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
+
+					NotificationDbItem dbItem = new NotificationDbItem();
+					dbItem = mNotificationDataSource.getNotification(mChannel.getChannelId(), mBroadcast.getBeginTimeMillis());
+
+					notificationId = dbItem.getNotificationId();
+
 					mIsSet = true;
 				} else {
 					Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
