@@ -59,7 +59,7 @@ public class MyChannelsListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 
 		View rowView = convertView;
 
@@ -85,25 +85,16 @@ public class MyChannelsListAdapter extends BaseAdapter {
 		holder.mChannelNameTv.setText(channel.getName());
 			
 		mImageLoader.displayImage(channel.getLogoLUrl(), holder.mChannelLogoIv, ImageLoader.IMAGE_TYPE.THUMBNAIL);
-		
-		if (mIsCheckedArray[currentPosition] == true){
-			holder.mCheckBox.setChecked(true);
-		} else {
-			holder.mCheckBox.setChecked(false);
-		}
-		
+	
 		holder.mCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				Object tag = holder.mCheckBox.getTag();
-				if(isChecked){
-					mIsCheckedArray[currentPosition] = false;
-				} else {
-					mIsCheckedArray[currentPosition] = true;
-				}
-			}
+				mIsCheckedArray[position] = isChecked;
+			}	
 		});
+		holder.mCheckBox.setChecked(mIsCheckedArray[position]);
+		
 		
 		return rowView;
 	}
