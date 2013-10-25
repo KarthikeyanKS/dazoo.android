@@ -87,7 +87,6 @@ public class MyChannelsListAdapter extends BaseAdapter {
 		mImageLoader.displayImage(channel.getLogoLUrl(), holder.mChannelLogoIv, ImageLoader.IMAGE_TYPE.THUMBNAIL);
 	
 		holder.mCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
-
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				mIsCheckedArray[position] = isChecked;

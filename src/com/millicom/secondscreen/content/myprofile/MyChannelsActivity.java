@@ -84,17 +84,15 @@ public class MyChannelsActivity extends ActionBarActivity implements OnClickList
 		initLayout();
 		populateViews();
 	}
-
+	
 	private void initLayout() {
 		
-		ArrayList<String> a = new ArrayList<String>();
-		a.add("7720eff8-2eaf-444c-a032-fefee7be5a02");
-		a.add("79d66b89-4b0e-4223-83bb-79fa5d59971d");
-		a.add("33b97d3b-0251-4e8a-9a07-ecd2a0c7dfd4");
-		
-		
-		
-		updateUserMyChannels(JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.DAZOO_CHANNEL_CHANNEL_ID, a));
+		// for test purposes only
+		//ArrayList<String> a = new ArrayList<String>();
+		//a.add("7720eff8-2eaf-444c-a032-fefee7be5a02");
+		//a.add("79d66b89-4b0e-4223-83bb-79fa5d59971d");
+		//a.add("33b97d3b-0251-4e8a-9a07-ecd2a0c7dfd4");
+		//updateUserMyChannels(JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.DAZOO_CHANNEL_CHANNEL_ID, a));
 		
 		mActionBar = getSupportActionBar();
 		SpannableString s = new SpannableString(getResources().getString(R.string.my_channels));
@@ -189,6 +187,14 @@ public class MyChannelsActivity extends ActionBarActivity implements OnClickList
 
 	@Override
 	public void onBackPressed() {
+		ArrayList<String> newIdsList = new ArrayList<String>();
+		for(int i=0; i<mIsCheckedArray.length; i++){
+			if (mIsCheckedArray[i]){
+				newIdsList.add(mAllChannelsIds.get(i));
+			}
+		}
+		updateUserMyChannels(JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.DAZOO_CHANNEL_CHANNEL_ID,  newIdsList));
+		
 		super.onBackPressed();
 		overridePendingTransition(R.anim.push_right_out, R.anim.push_right_in);
 		finish();
@@ -199,21 +205,6 @@ public class MyChannelsActivity extends ActionBarActivity implements OnClickList
 		super.onConfigurationChanged(newConfig);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
-
-	private void whatToCheck() {
-		Log.d(TAG, "CHANNELS IDS size: "  + mAllChannelsIds.size());
-		for (int i = 0; i < mAllChannelsIds.size(); i++) {
-			if (myChannelIds.contains(mAllChannelsIds.get(i))) {
-				mIsCheckedArray[i] = true;
-				Log.d(TAG,"!!! CHECK ME");
-			}
-		}
-	}
-
-	// mAddToMyChannelsButton = (Button) findViewById(R.id.mychannels_update_channels_button);
-	// mAddToMyChannelsButton.setOnClickListener(this);
-	// mGetMyChannelsButton = (Button) findViewById(R.id.mychannels_get_channels_button);
-	// mGetMyChannelsButton.setOnClickListener(this);
 
 	// fetch the "My channels" of the logged in user
 	private class GetMyChannelsTask extends AsyncTask<String, Void, String> {
@@ -308,7 +299,11 @@ public class MyChannelsActivity extends ActionBarActivity implements OnClickList
 				// the extra check for ERROR_STRING was added to distinguish between empty response (there are no stored channels to this user) and empty response in case of error
 
 				myChannelIds = ContentParser.parseChannelIds(new JSONArray(responseStr));
-				whatToCheck();
+				for (int i = 0; i < mAllChannelsIds.size(); i++) {
+					if (myChannelIds.contains(mAllChannelsIds.get(i))) {
+						mIsCheckedArray[i] = true;
+					}
+				}
 
 				// save the list of channels as json-string
 				((SecondScreenApplication) getApplicationContext()).setUserMyChannelsIdsasJSON(responseStr);
