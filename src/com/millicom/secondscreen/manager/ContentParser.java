@@ -302,6 +302,24 @@ public class ContentParser {
 		} else return null;
 		return null;
 	}
+	
+	public static ArrayList<String> parseChannelIds(JSONArray jsonArray){
+		if(jsonArray != null){
+			ArrayList<String> channelIds = new ArrayList<String>();
+			int size = jsonArray.length();
+			for (int i = 0; i < size; i++){
+				JSONObject jsonObject;
+				try {
+					jsonObject = jsonArray.getJSONObject(i);
+					channelIds.add(jsonObject.optString(Consts.DAZOO_CHANNEL_CHANNEL_ID));
+					Log.d(TAG, jsonObject.optString(Consts.DAZOO_CHANNEL_CHANNEL_ID));
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+			return channelIds;
+		} else return null;
+	}
 
 	public static Credit parseCredit(JSONObject jsonObject) {
 		Credit credit = new Credit();

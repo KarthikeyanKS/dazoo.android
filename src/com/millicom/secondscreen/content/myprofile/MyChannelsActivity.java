@@ -22,11 +22,14 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.adapters.MyChannelsListAdapter;
 import com.millicom.secondscreen.content.model.Channel;
+import com.millicom.secondscreen.manager.ContentParser;
 import com.millicom.secondscreen.utilities.JSONUtilities;
 import com.millicom.secondscreen.SecondScreenApplication;
 
@@ -71,6 +74,9 @@ public class MyChannelsActivity extends ActionBarActivity implements OnClickList
 	private ArrayList<Channel>		mChannelInfoToDisplay	= new ArrayList<Channel>();
 	private Map<String, Channel>	mChannelInfoMap			= new HashMap<String, Channel>();
 
+	private ArrayList<String>		myChannelIds			= new ArrayList<String>();
+	private ArrayList<String>		mAllChannelsIds			= new ArrayList<String>();
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_mychannels_activity);
@@ -80,6 +86,16 @@ public class MyChannelsActivity extends ActionBarActivity implements OnClickList
 	}
 
 	private void initLayout() {
+		
+		ArrayList<String> a = new ArrayList<String>();
+		a.add("7720eff8-2eaf-444c-a032-fefee7be5a02");
+		a.add("79d66b89-4b0e-4223-83bb-79fa5d59971d");
+		a.add("33b97d3b-0251-4e8a-9a07-ecd2a0c7dfd4");
+		
+		
+		
+		updateUserMyChannels(JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.DAZOO_CHANNEL_CHANNEL_ID, a));
+		
 		mActionBar = getSupportActionBar();
 		SpannableString s = new SpannableString(getResources().getString(R.string.my_channels));
 		// s.setSpan(new TypefaceSpan(this, "AvenirBlack"),0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -118,6 +134,8 @@ public class MyChannelsActivity extends ActionBarActivity implements OnClickList
 		for (int i = 0; i < mChannels.size(); i++) {
 			mChannelInfoMap.put(mChannels.get(i).getName().toLowerCase(Locale.getDefault()), mChannels.get(i));
 			mChannelInfoToDisplay.add(mChannels.get(i));
+			mAllChannelsIds.add(mChannels.get(i).getChannelId());
+			Log.d(TAG,"ID: " + mChannels.get(i).getChannelId());
 		}
 
 		mIsCheckedArray = new boolean[mChannels.size()];
@@ -167,6 +185,29 @@ public class MyChannelsActivity extends ActionBarActivity implements OnClickList
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 			}
 		});
+	}
+
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		overridePendingTransition(R.anim.push_right_out, R.anim.push_right_in);
+		finish();
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+	}
+
+	private void whatToCheck() {
+		Log.d(TAG, "CHANNELS IDS size: "  + mAllChannelsIds.size());
+		for (int i = 0; i < mAllChannelsIds.size(); i++) {
+			if (myChannelIds.contains(mAllChannelsIds.get(i))) {
+				mIsCheckedArray[i] = true;
+				Log.d(TAG,"!!! CHECK ME");
+			}
+		}
 	}
 
 	// mAddToMyChannelsButton = (Button) findViewById(R.id.mychannels_update_channels_button);
@@ -257,29 +298,17 @@ public class MyChannelsActivity extends ActionBarActivity implements OnClickList
 		}
 	}
 
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-		overridePendingTransition(R.anim.push_right_out, R.anim.push_right_in);
-		finish();
-	}
-
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-	}
-
 	private boolean getUserMyChannelsIdsJSON() {
 		GetMyChannelsTask getMyChannelsTask = new GetMyChannelsTask();
 		try {
 			String responseStr = getMyChannelsTask.execute(userToken).get();
-			Log.d(TAG, "Response Str:" + responseStr);
 
 			// if (responseStr != null && responseStr.isEmpty() != true && responseStr != Consts.ERROR_STRING) {
 			if (responseStr != null && TextUtils.isEmpty(responseStr) != true && responseStr != Consts.ERROR_STRING) {
 				// the extra check for ERROR_STRING was added to distinguish between empty response (there are no stored channels to this user) and empty response in case of error
-				Log.d(TAG, "My Channels: GET: " + responseStr);
+
+				myChannelIds = ContentParser.parseChannelIds(new JSONArray(responseStr));
+				whatToCheck();
 
 				// save the list of channels as json-string
 				((SecondScreenApplication) getApplicationContext()).setUserMyChannelsIdsasJSON(responseStr);
@@ -294,8 +323,8 @@ public class MyChannelsActivity extends ActionBarActivity implements OnClickList
 			e.printStackTrace();
 		} catch (ExecutionException e) {
 			e.printStackTrace();
-			// } catch (JSONException e) {
-			// e.printStackTrace();
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
 		return false;
 	}

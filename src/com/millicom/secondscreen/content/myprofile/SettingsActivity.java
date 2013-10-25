@@ -32,11 +32,14 @@ public class SettingsActivity extends ActionBarActivity implements OnClickListen
 	private Button				mLogoutButton;
 	private View				mTabSelectorContainerView;
 	private TextView			mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
+	private String mToken;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_settings_activity);
 		initLayout();
+		
+		mToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 	}
 
 	private void initLayout() {
@@ -56,6 +59,10 @@ public class SettingsActivity extends ActionBarActivity implements OnClickListen
 
 		mLogoutButton = (Button) findViewById(R.id.settings_logout_button);
 		mLogoutButton.setOnClickListener(this);
+		
+		if(mToken == null || mToken.isEmpty()==true){
+			mLogoutButton.setVisibility(View.GONE);
+		}
 
 		// styling bottom navigation tabs
 		mTabSelectorContainerView = findViewById(R.id.tab_selector_container);
