@@ -80,6 +80,10 @@ public class TVGuideTableFragment extends SSPageFragment {
 		
 		// GET THE DATA FROM CORE LOGIC SINGLETON
 
+		if (!pageHoldsData()) {
+			// Request failed
+			updateUI(REQUEST_STATUS.FAILED);
+		}
 	}
 
 	@Override

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
+    android:id="@+id/fragment_tvguide_type_tag_container"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <ListView
+        android:id="@+id/fragment_tvguide_type_tag_listview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:cacheColorHint="@null"
+        android:divider="@null" />
+    
+      <include layout="@layout/layout_request_callbacks_holder_layout" />
+</RelativeLayout>
