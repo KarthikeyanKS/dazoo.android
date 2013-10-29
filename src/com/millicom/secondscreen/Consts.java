@@ -186,6 +186,7 @@ public abstract class Consts {
 	public static final String	DAZOO_PROGRAM_TYPE_TV_EPISODE						= "TV_EPISODE";
 	public static final String	DAZOO_PROGRAM_TYPE_MOVIE							= "MOVIE";
 	public static final String	DAZOO_PROGRAM_TYPE_OTHER							= "OTHER";
+	public static final String 	DAZOO_PROGRAM_TYPE_SPORT							= "SPORT";
 	public static final String	DAZOO_LIKE_ENTITY_TYPE_PROGRAM						= "PROGRAM";
 	public static final String	DAZOO_LIKE_ENTITY_TYPE_SERIES						= "SERIES";
 

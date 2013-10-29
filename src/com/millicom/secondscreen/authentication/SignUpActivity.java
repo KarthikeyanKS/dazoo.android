@@ -36,16 +36,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class SignUpActivity extends ActionBarActivity implements OnClickListener {
 
 	private static final String	TAG	= "SignUpActivity";
 	private ActionBar			mActionBar;
-	private EditText			mFirstNameEditText, mLastNameEditText, mPasswordRegisterEditText, mPasswordRegisterVerifyEditText, mEmailRegisterEditText, mEmailResetPasswordEditText;
+	private EditText			mFirstNameEditText, mLastNameEditText, mPasswordRegisterEditText, mEmailRegisterEditText, mEmailResetPasswordEditText;
 	private Button				mDazooRegisterButton;
 	private String				userEmailRegister, userPasswordRegister, userFirstNameRegister, userLastNameRegister, dazooToken;
-	
+	private TextView			mErrorTextView;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +72,7 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 		mLastNameEditText = (EditText) findViewById(R.id.signup_lastname_edittext);
 		mEmailRegisterEditText = (EditText) findViewById(R.id.signup_email_edittext);
 		mPasswordRegisterEditText = (EditText) findViewById(R.id.signup_password_edittext);
-		mPasswordRegisterVerifyEditText = (EditText) findViewById(R.id.signup_password_verify_edittext);
+		mErrorTextView = (TextView) findViewById(R.id.signup_error_textview);
 		mDazooRegisterButton = (Button) findViewById(R.id.signup_register_button);
 		mDazooRegisterButton.setOnClickListener(this);
 	}
@@ -81,11 +82,9 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 		String firstNameInput = mFirstNameEditText.getText().toString();
 		String lastNameInput = mLastNameEditText.getText().toString();
 		String passwordInput = mPasswordRegisterEditText.getText().toString();
-		String passwordVerifyInput = mPasswordRegisterVerifyEditText.getText().toString();
 
 		if ((firstNameInput != null) && (lastNameInput != null) && (passwordInput != null) && (emailInput != null) && (passwordInput.length() >= Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MIN)
-				&& (passwordInput.length() <= Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MAX) && (!passwordInput.matches("[%,#/|<>]+")) && (PatternCheck.checkEmail(emailInput) == true)
-				&& (passwordInput.equals(passwordVerifyInput))) {
+				&& (passwordInput.length() <= Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MAX) && (!passwordInput.matches("[%,#/|<>]+")) && (PatternCheck.checkEmail(emailInput) == true)) {
 			return true;
 		} else return false;
 	}
@@ -100,7 +99,6 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 				mLastNameEditText.setEnabled(false);
 				mEmailRegisterEditText.setEnabled(false);
 				mPasswordRegisterEditText.setEnabled(false);
-				mPasswordRegisterVerifyEditText.setEnabled(false);
 
 				userEmailRegister = mEmailRegisterEditText.getText().toString();
 				userPasswordRegister = mPasswordRegisterEditText.getText().toString();
@@ -144,7 +142,6 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 						mLastNameEditText.setEnabled(true);
 						mEmailRegisterEditText.setEnabled(true);
 						mPasswordRegisterEditText.setEnabled(true);
-						mPasswordRegisterVerifyEditText.setEnabled(true);
 					}
 				} catch (InterruptedException e) {
 					e.printStackTrace();
@@ -154,12 +151,13 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 					e.printStackTrace();
 				}
 			} else {
-				Toast.makeText(getApplicationContext(), "check if email/password/name were input right", Toast.LENGTH_LONG).show();
+//				Toast.makeText(getApplicationContext(), "check if email/password/name were input right", Toast.LENGTH_LONG).show();
+				mErrorTextView.setText("Check if email/password/name were input right!");
+				mErrorTextView.setVisibility(TextView.VISIBLE);
 				mFirstNameEditText.setEnabled(true);
 				mLastNameEditText.setEnabled(true);
 				mEmailRegisterEditText.setEnabled(true);
 				mPasswordRegisterEditText.setEnabled(true);
-				mPasswordRegisterVerifyEditText.setEnabled(true);
 			}
 			break;
 		}

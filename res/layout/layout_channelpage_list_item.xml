@@ -3,7 +3,8 @@
     xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/white" >
+    android:background="@color/white"
+    android:padding="5dp" >
 
     <com.millicom.secondscreen.customviews.FontTextView
         android:id="@+id/channelpage_list_item_time_tv"
@@ -33,13 +34,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="0dp"
         android:layout_toRightOf="@id/channelpage_list_item_iv"
         android:textColor="@color/black"
         android:textSize="14sp"
         android:textStyle="bold" />
+    
+        <com.millicom.secondscreen.customviews.FontTextView
+        android:id="@+id/channelpage_list_item_description_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toRightOf="@id/channelpage_list_item_time_tv"
+        android:layout_below="@+id/channelpage_list_item_title_tv"
+        android:textColor="@color/black"
+        android:textSize="14sp"/>
 
     <View
         android:layout_width="fill_parent"

@@ -207,7 +207,7 @@ public class Broadcast implements Parcelable {
 			}
 
 			long d = Math.abs(timeNow - timeBroadcast);
-			if (d < bestDistanceFoundYet) {
+			if (d < bestDistanceFoundYet && timeBroadcast < timeNow) {
 				nearestIndex = i;
 				bestDistanceFoundYet = d;
 			}
