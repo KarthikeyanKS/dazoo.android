@@ -11,7 +11,8 @@
         android:id="@+id/signin_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp" >
 
         <com.millicom.secondscreen.customviews.FontTextView
             android:id="@+id/signin_title_tv"
@@ -29,9 +30,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/signin_title_tv"
             android:layout_gravity="left"
-            android:layout_margin="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
             android:text="@string/sign_in_to_dazoo_text"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textColor="@color/light_gray" />
 
         <View
             android:id="@+id/signin_container_divider"
@@ -40,57 +44,117 @@
             android:layout_below="@id/signin_text_tv"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:background="@color/black" />
+            android:background="@color/light_gray" />
 
         <!-- FACEBOOK SIGN-IN BAR -->
 
         <RelativeLayout
             android:id="@+id/signin_facebook_container"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_below="@id/signin_container_divider"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@color/lightblue"
-            android:orientation="horizontal" >
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:orientation="horizontal"
+            android:background="@drawable/layout_rounded_corners_lightblue"  >
+            
+			<RelativeLayout 
+			    android:layout_width="wrap_content"
+           		android:layout_height="wrap_content"
+           		android:layout_centerInParent="true"
+           		android:background="@color/lightblue" >
+	            <ImageView
+	                android:id="@+id/signin_facebook_icon"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_centerVertical="true"
+	                android:padding="3dp"
+	                android:src="@drawable/ic_launcher" />
+	
+	            <com.millicom.secondscreen.customviews.FontTextView
+	                android:id="@+id/signin_facebook_tv"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_centerVertical="true"
+	                android:text="@string/login_with_facebook"
+	                android:layout_toRightOf="@id/signin_facebook_icon"
+	                android:textSize="18sp"
+	                android:textStyle="bold"
+	                android:textColor="@color/white" />
+            </RelativeLayout>
+        </RelativeLayout>
+        
+         <!-- TWITTER SIGN-IN BAR -->
 
-            <ImageView
-                android:id="@+id/signin_facebook_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:padding="3dp"
-                android:src="@drawable/ic_launcher" />
-
-            <com.millicom.secondscreen.customviews.FontTextView
-                android:id="@+id/signin_facebook_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/signin_facebook_icon"
-                android:text="@string/login_with_facebook"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+        <RelativeLayout
+            android:id="@+id/signin_twitter_container"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/signin_facebook_container"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:orientation="horizontal"
+            android:background="@drawable/layout_rounded_corners_lightblue" >
+            
+			<RelativeLayout 
+			    android:layout_width="wrap_content"
+           		android:layout_height="wrap_content"
+           		android:layout_centerInParent="true"
+           		android:background="@color/lightblue">
+	            <ImageView
+	                android:id="@+id/signin_twitter_icon"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_centerVertical="true"
+	                android:padding="3dp"
+	                android:src="@drawable/ic_launcher" />
+	
+	            <com.millicom.secondscreen.customviews.FontTextView
+	                android:id="@+id/signin_twitter_tv"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_centerVertical="true"
+	                android:text="@string/login_with_twitter"
+	                android:layout_toRightOf="@id/signin_twitter_icon"
+	                android:textSize="18sp"
+	                android:textStyle="bold"
+	                android:textColor="@color/white" />
+            </RelativeLayout>
         </RelativeLayout>
 
-        <!-- TODO: OR BAR -->
+        <!-- OR BAR -->
 
         <RelativeLayout
             android:id="@+id/signin_or_container"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/signin_facebook_container"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_below="@id/signin_twitter_container"
             android:orientation="horizontal" >
 
             <View
                 android:id="@+id/container_or_divider"
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
-                android:background="@color/black" />
+                android:layout_centerVertical="true"
+                android:background="@color/light_gray"/>
+            
+            <com.millicom.secondscreen.customviews.FontTextView 
+                android:id="@+id/signin_or_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:padding="5dp"
+                android:text="@string/or"
+                android:layout_centerInParent="true"
+                android:background="@color/white"
+                android:textSize="18sp"
+	            android:textStyle="bold"
+	            android:textColor="@color/light_gray" />
+            
         </RelativeLayout>
 
         <!-- SIGN UP WITH EMAIL BAR -->
@@ -98,14 +162,14 @@
         <RelativeLayout
             android:id="@+id/signin_signup_email_container"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_below="@id/signin_or_container"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@color/lightblue"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:orientation="horizontal"
-            android:padding="10dp" >
+            android:background="@drawable/layout_rounded_corners_lightblue" >
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/signin_signup_email_title_tv"
@@ -115,7 +179,8 @@
                 android:gravity="center_vertical|center_horizontal"
                 android:text="@string/sign_up_with_email"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/white" />
         </RelativeLayout>
 
         <!-- DIVIDER -->
@@ -127,20 +192,21 @@
             android:layout_below="@id/signin_signup_email_container"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:background="@color/black" />
+            android:background="@color/light_gray" />
 
         <!-- ALREADY REGISTERED BOX -->
 
         <RelativeLayout
             android:id="@+id/signin_already_registered_container"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/signin_container_email_divider"
+            android:layout_centerInParent="true" 
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:orientation="horizontal"
-            android:padding="30dp" >
+            android:orientation="horizontal" >
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/signin_already_registered_text_tv"
@@ -149,20 +215,22 @@
                 android:layout_margin="10dp"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="@string/already_registered"
-                android:textColor="@color/dark_gray"
-                android:textSize="16sp" />
+                android:textSize="18sp"
+	            android:textStyle="bold"
+	            android:textColor="@color/light_gray" />
 
             <com.millicom.secondscreen.customviews.FontButton
                 android:id="@+id/signin_login_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/signin_already_registered_text_tv"
-                android:background="@color/lightblue"
                 android:gravity="center_vertical|center_horizontal"
                 android:padding="10dp"
                 android:text="@string/login"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:background="@drawable/layout_rounded_corners_lightgray" />
         </RelativeLayout>
     </RelativeLayout>
 

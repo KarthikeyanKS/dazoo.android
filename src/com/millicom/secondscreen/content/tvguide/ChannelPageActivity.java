@@ -16,6 +16,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,18 +30,16 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ChannelPageActivity extends ActionBarActivity implements OnClickListener {
+public class ChannelPageActivity extends ActionBarActivity implements OnClickListener{
 
 	private static final String		TAG			= "ChannelPageActivity";
 
 	private ActionBar				mActionBar;
-	private ImageView				mChannelIconIv, mChannelBroadcastLiveIv;
-	private ProgressBar				mChannelBroadcastLiveIvPrB, mDurationProgressBar;
-	private TextView				mBroadcastLiveTimeTv, mBroadcastLiveTitleTv, mBroadcastLiveTextTv, mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
+	private ImageView				mChannelIconIv;
+	private TextView				mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
 	private ListView				mFollowingBroadcastsLv;
 	private ChannelPageListAdapter	mFollowingBroadcastsListAdapter;
 
@@ -47,11 +47,8 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 	private Channel					mChannel;
 	private ArrayList<Broadcast>	mBroadcasts, mFollowingBroadcasts;
 
-	String							closestBroadcastStartTime, closestBroadcastEndTime;
-	int								duration	= 0;
-
 	private ImageLoader				mImageLoader;
-	private View					mTabSelectorContainerView;
+	private View				mTabSelectorContainerView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,19 +78,11 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
 
 		mChannelIconIv = (ImageView) findViewById(R.id.channelpage_channel_icon_iv);
-		mChannelBroadcastLiveIv = (ImageView) findViewById(R.id.channelpage_broadcast_iv);
-		mChannelBroadcastLiveIvPrB = (ProgressBar) findViewById(R.id.channelpage_broadcast_iv_progressbar);
-
-		mBroadcastLiveTimeTv = (TextView) findViewById(R.id.channelpage_broadcast_details_time_tv);
-		mBroadcastLiveTitleTv = (TextView) findViewById(R.id.channelpage_broadcast_details_title_tv);
-		mDurationProgressBar = (ProgressBar) findViewById(R.id.channelpage_broadcast_details_progressbar);
-		mBroadcastLiveTextTv = (TextView) findViewById(R.id.channelpage_broadcast_details_text_tv);
 
 		mFollowingBroadcastsLv = (ListView) findViewById(R.id.listview);
 
 		// styling bottom navigation tabs
 		mTabSelectorContainerView = findViewById(R.id.tab_selector_container);
-
 		mTxtTabTvGuide = (TextView) findViewById(R.id.show_tvguide);
 		mTxtTabTvGuide.setOnClickListener(this);
 		mTxtTabPopular = (TextView) findViewById(R.id.show_activity);
@@ -102,7 +91,7 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 		mTxtTabFeed.setOnClickListener(this);
 
 		// the highlighted tab in the Channel activity is TV Guide
-		mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.orange));
+		mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.black));
 		mTxtTabPopular.setTextColor(getResources().getColor(R.color.gray));
 		mTxtTabFeed.setTextColor(getResources().getColor(R.color.gray));
 	}
@@ -113,49 +102,9 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 		final int indexOfNearestBroadcast = Broadcast.getClosestBroadcastIndex(mBroadcasts);
 		if (indexOfNearestBroadcast >= 0) {
 
-			mFollowingBroadcasts = Broadcast.getBroadcastsStartingFromPosition(indexOfNearestBroadcast + 1, mBroadcasts, mBroadcasts.size());
-
-			mImageLoader.displayImage(mBroadcasts.get(indexOfNearestBroadcast).getProgram().getPosterLUrl(), mChannelBroadcastLiveIv, mChannelBroadcastLiveIvPrB, ImageLoader.IMAGE_TYPE.LANDSCAPE);
-			try {
-
-				mBroadcastLiveTimeTv.setText(DateUtilities.isoStringToTimeString(mBroadcasts.get(indexOfNearestBroadcast).getBeginTime()));
-				closestBroadcastStartTime = mBroadcasts.get(indexOfNearestBroadcast).getBeginTime();
-				closestBroadcastEndTime = mBroadcasts.get(indexOfNearestBroadcast).getEndTime();
-
-				duration = Math.abs(DateUtilities.getDifferenceInMinutes(closestBroadcastEndTime, closestBroadcastStartTime));
-
-			} catch (ParseException e) {
-				e.printStackTrace();
-				mBroadcastLiveTimeTv.setText("");
-			}
-			mBroadcastLiveTitleTv.setText(mBroadcasts.get(indexOfNearestBroadcast).getProgram().getTitle());
-
-			// int duration = mBroadcasts.get(indexOfNearestBroadcast).getDurationInMinutes();
-
-			mDurationProgressBar.setMax(duration);
-
-			int initialProgress = 0;
-			long difference = 0;
-
-			try {
-				difference = DateUtilities.getAbsoluteTimeDifference(mBroadcasts.get(indexOfNearestBroadcast).getBeginTime());
-			} catch (ParseException e1) {
-				e1.printStackTrace();
-			}
-
-			if (difference < 0) {
-				mDurationProgressBar.setVisibility(View.GONE);
-				initialProgress = 0;
-				mDurationProgressBar.setProgress(0);
-			} else {
-				try {
-					initialProgress = DateUtilities.getDifferenceInMinutes(mBroadcasts.get(indexOfNearestBroadcast).getBeginTime());
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				mDurationProgressBar.setProgress(initialProgress);
-				mDurationProgressBar.setVisibility(View.VISIBLE);
-			}
+			mFollowingBroadcasts = Broadcast.getBroadcastsStartingFromPosition(indexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());
+			mFollowingBroadcastsListAdapter = new ChannelPageListAdapter(this, mFollowingBroadcasts);
+			mFollowingBroadcastsLv.setAdapter(mFollowingBroadcastsListAdapter);
 
 			// update progress bar value every minute
 			final Handler handler = new Handler();
@@ -164,9 +113,12 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 				@Override
 				public void run() {
 					try {
-						if (DateUtilities.getDifferenceInMinutes(mBroadcasts.get(indexOfNearestBroadcast).getBeginTime()) > 0) {
-							mDurationProgressBar.setVisibility(View.VISIBLE);
-							mDurationProgressBar.incrementProgressBy(1);
+						int initialProgress = DateUtilities.getDifferenceInMinutes(mBroadcasts.get(indexOfNearestBroadcast).getBeginTime());
+						if (initialProgress > 0) {
+							if (DateUtilities.getAbsoluteTimeDifference(mFollowingBroadcasts.get(0).getEndTime()) > 0) {
+								mFollowingBroadcastsListAdapter.notifyBroadcastEnded();
+							}
+							mFollowingBroadcastsListAdapter.notifyDataSetChanged();
 						}
 					} catch (ParseException e) {
 						e.printStackTrace();
@@ -175,21 +127,14 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 				}
 			}, 60 * 1000);
 
-			mBroadcastLiveTextTv.setText(mBroadcasts.get(indexOfNearestBroadcast).getProgram().getSynopsisShort());
-
-			mFollowingBroadcastsListAdapter = new ChannelPageListAdapter(this, mFollowingBroadcasts);
-			mFollowingBroadcastsLv.setAdapter(mFollowingBroadcastsListAdapter);
-
 			mFollowingBroadcastsLv.setOnItemClickListener(new OnItemClickListener() {
 				public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-
 					// open the detail view for the individual broadcast
 					Intent intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
 					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST, mFollowingBroadcasts.get(position));
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL, mChannel);
 					startActivity(intent);
 					overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-
 				}
 			});
 		}
@@ -211,7 +156,7 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();
-		switch (id) {
+		switch(id){
 		case R.id.show_tvguide:
 			// tab to tv guide overview page
 			break;

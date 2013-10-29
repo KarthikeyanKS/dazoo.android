@@ -138,17 +138,21 @@
     <string name="view_full_cast_and_crew">View full cast &amp; crew</string>
     <string name="season">Season</string>
 	<string name="episode">Episode</string>
+	<string name="minutes">min</string>
+	<string name="left">left</string>
+	<string name="from">from</string>
     
     <!-- LOGIN PAGE -->
     <string name="login_with_facebook">LOGIN WITH FACEBOOK</string>
     <string name="logout_from_facebook">Logout from Facebook</string>
+    <string name="login_with_twitter">LOGIN WITH TWITTER</string>
     <string name="login_with_dazoo">Login with Dazoo</string>
     <string name="logout_from_dazoo">Logout from Dazoo</string>
     <string name="register_with_dazoo">Register with Dazoo</string>
-    <string name="hint_password">\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022</string>
-    <string name="hint_email">e-mail</string>
-    <string name="hint_firstname">First Name</string>
-    <string name="hint_lastname">Last Name</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_email">E-mail</string>
+    <string name="hint_firstname">First name</string>
+    <string name="hint_lastname">Last name</string>
     <string name="hint_enter_email">Enter e-mail</string>
     <string name="login">LOG IN</string>
     <string name="reset_password">Reset Password</string>
@@ -174,6 +178,7 @@
     <string name="connect_with_friends">Connect with friends</string>
     <string name="take_the_tour">Take the tour</string>
     <string name="skip">Skip</string>
+    <string name="or">OR</string>
     
     <!-- MY CHANNELS PAGE -->
     <string name="get_my_channels">Get My Channels</string>
