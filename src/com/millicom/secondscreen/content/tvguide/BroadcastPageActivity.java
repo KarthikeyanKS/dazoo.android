@@ -55,7 +55,7 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 	private LinearLayout			mBlockContainer;
 	private ActionBar				mActionBar;
 	private LayoutInflater			mLayoutInflater;
-	private String					mBroadcastUrl, entityType, token;
+	private String					mBroadcastUrl, entityType, token, mBroadcastBeginTimeMillis, mChannelId;
 	private boolean					mIsSet	= false, mIsLiked = false, mIsLoggedIn = false;
 	private ImageView				mPosterIv, mLikeButtonIv, mShareButtonIv, mRemindButtonIv;
 	private ProgressBar				mPosterPb;
@@ -77,8 +77,15 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 
 		// get the info about the program to be displayed from tv-guide listview
 		Intent intent = getIntent();
-		mBroadcast = intent.getParcelableExtra(Consts.INTENT_EXTRA_BROADCAST);
-		mChannel = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHANNEL);
+		mBroadcastBeginTimeMillis = intent.getStringExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS);
+		mChannelId = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_ID);
+		
+		// GET THE BROADCAST FROM THE DAZOO STORE SINGLETON BY CHANNEL ID AND BROADCAST BEGIN TIME MILLIS
+		
+		
+		//mBroadcast = intent.getParcelableExtra(Consts.INTENT_EXTRA_BROADCAST);
+		//mChannel = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHANNEL);
+		
 
 		if (mBroadcast == null || mChannel == null) {
 

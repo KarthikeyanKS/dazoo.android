@@ -36,22 +36,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ChannelPageActivity extends ActionBarActivity implements OnClickListener{
+public class ChannelPageActivity extends ActionBarActivity implements OnClickListener {
 
-	private static final String		TAG			= "ChannelPageActivity";
+	private static final String		TAG	= "ChannelPageActivity";
 
 	private ActionBar				mActionBar;
 	private ImageView				mChannelIconIv;
 	private TextView				mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
 	private ListView				mFollowingBroadcastsLv;
 	private ChannelPageListAdapter	mFollowingBroadcastsListAdapter;
-
+	private String					mChannelId;
 	private Guide					mChannelGuide;
 	private Channel					mChannel;
 	private ArrayList<Broadcast>	mBroadcasts, mFollowingBroadcasts;
 
 	private ImageLoader				mImageLoader;
-	private View				mTabSelectorContainerView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +61,14 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 
 		// get the info about the individual channel guide to be displayed from tv-guide listview
 		Intent intent = getIntent();
-		mChannelGuide = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHANNEL_GUIDE);
-		mChannel = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHANNEL);
-		mBroadcasts = mChannelGuide.getBroadcasts();
+		mChannelId = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_ID);
+		
+		// GET THE CHANNEL DATA FROM DAZOO STORE SINGLETOP BY CHANNEL ID
+		
+		// mChannelGuide = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHANNEL_GUIDE);
+		// mChannel = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHANNEL);
+		// mBroadcasts = mChannelGuide.getBroadcasts();
+
 		initViews();
 		populateViews();
 	}
@@ -85,7 +89,6 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 		mFollowingBroadcastsLv = (ListView) findViewById(R.id.listview);
 
 		// styling bottom navigation tabs
-		mTabSelectorContainerView = findViewById(R.id.tab_selector_container);
 		mTxtTabTvGuide = (TextView) findViewById(R.id.show_tvguide);
 		mTxtTabTvGuide.setOnClickListener(this);
 		mTxtTabPopular = (TextView) findViewById(R.id.show_activity);
@@ -134,8 +137,13 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 				public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 					// open the detail view for the individual broadcast
 					Intent intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST, mFollowingBroadcasts.get(position));
-					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL, mChannel);
+					
+					//intent.putExtra(Consts.INTENT_EXTRA_BROADCAST, mFollowingBroadcasts.get(position));
+					//intent.putExtra(Consts.INTENT_EXTRA_CHANNEL, mChannel);
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, mFollowingBroadcasts.get(position).getBeginTimeMillis());
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, mChannel.getChannelId());
+					
+					
 					startActivity(intent);
 					overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 				}
@@ -159,7 +167,7 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();
-		switch(id){
+		switch (id) {
 		case R.id.show_tvguide:
 			// tab to home page
 			Intent intentHome = new Intent(ChannelPageActivity.this, HomeActivity.class);

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tvguide_table_container"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal"
+        android:padding="5dp" >
+
+        <ListView
+            android:id="@+id/tvguide_table_listview"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:cacheColorHint="@null"
+            android:divider="@null"
+            android:paddingRight="4dip"
+            android:smoothScrollbar="true" />
+
+        <LinearLayout
+            android:id="@+id/tvguide_table_side_clock_index"
+            android:layout_width="30dp"
+            android:layout_height="fill_parent"
+            android:background="@drawable/layout_selector_side_clock"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+        </LinearLayout>
+    </LinearLayout>
+
+    <include layout="@layout/layout_request_callbacks_holder_layout" />
+
+</RelativeLayout>

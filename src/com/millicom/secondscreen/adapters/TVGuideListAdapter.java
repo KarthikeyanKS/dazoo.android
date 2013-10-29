@@ -48,14 +48,12 @@ public class TVGuideListAdapter extends BaseAdapter {
 	private ArrayList<Channel> mChannels;
 
 	private ImageLoader			mImageLoader;
-	private FragmentManager mFragmentManager;
 	
-	public TVGuideListAdapter(Activity mActivity, ArrayList<Guide> mGuide, ArrayList<Channel> mChannels, FragmentManager fm) {
+	public TVGuideListAdapter(Activity mActivity, ArrayList<Guide> mGuide, ArrayList<Channel> mChannels) {
 		this.mGuide = mGuide;
 		this.mChannels = mChannels;
 		this.mActivity = mActivity;
 		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage);
-		mFragmentManager = fm;
 	}
 
 	@Override
@@ -118,8 +116,12 @@ public class TVGuideListAdapter extends BaseAdapter {
 				
 				
 				Intent intent = new Intent(mActivity, ChannelPageActivity.class);
-				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL, channeltoSend);
-				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_GUIDE, guide);
+				
+				//intent.putExtra(Consts.INTENT_EXTRA_CHANNEL, channeltoSend);
+				//intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_GUIDE, guide);
+				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, channeltoSend.getChannelId());
+				
+				
 				mActivity.startActivity(intent);
 				mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 				

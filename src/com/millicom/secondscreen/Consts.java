@@ -90,6 +90,7 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_GUIDE									= "com.millicom.secondscreen.intent.extra.guide";
 	public static final String	INTENT_EXTRA_CHANNEL								= "com.millicom.secondscreen.intent.extra.channel";
 	public static final String	INTENT_EXTRA_CHANNEL_PAGE_LINK						= "com.millicom.secondscreen.intent.extra.channel.page.link";
+	public static final String	INTENT_EXTRA_CHANNEL_ID								= "com.millicom.secondscreen.intent.extra.channel.id";
 	public static final String	INTENT_EXTRA_CHANNEL_GUIDE							= "com.millicom.secondscreen.intent.extra.channel.guide";
 	public static final String	INTENT_EXTRA_TVGUIDE_SORTING						= "com.millicom.secondscreen.intent.extra.tvguide.sorting";
 	public static final String	INTENT_EXTRA_TVGUIDE_SORTING_VALUE					= "com.millicom.secondscreen.intent.extra.tvguide.sorting.value";
@@ -98,6 +99,7 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_TVGUIDE_PAGE_URL						= "com.millicom.secondscreen.intent.extra.tvguide.page.url";
 	public static final String	INTENT_EXTRA_TVGUIDE_TVDATE							= "com.millicom.secondscreen.intent.extra.tvguide.tvdate";
 	public static final String	INTENT_EXTRA_BROADCAST								= "com.millicom.secondscreen.intent.extra.broadcast";
+	public static final String	INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS			= "com.millicom.secondscreen.intent.extra.begintimeinmillis";
 	public static final String	INTENT_EXTRA_BROADCAST_URL							= "com.millicom.secondscren.intent,extra.broadcast.url";
 	public static final String	INTENT_EXTRA_NOTIFICATION_TO_SET					= "com.millicom.secondscreen.intent.extra.notification.to.set";
 	public static final String	INTENT_EXTRA_NOTIFICATION_ID						= "com.millicom.secondscreen.intent.extra.notification.id";
@@ -186,7 +188,7 @@ public abstract class Consts {
 	public static final String	DAZOO_PROGRAM_TYPE_TV_EPISODE						= "TV_EPISODE";
 	public static final String	DAZOO_PROGRAM_TYPE_MOVIE							= "MOVIE";
 	public static final String	DAZOO_PROGRAM_TYPE_OTHER							= "OTHER";
-	public static final String 	DAZOO_PROGRAM_TYPE_SPORT							= "SPORT";
+	public static final String	DAZOO_PROGRAM_TYPE_SPORT							= "SPORT";
 	public static final String	DAZOO_LIKE_ENTITY_TYPE_PROGRAM						= "PROGRAM";
 	public static final String	DAZOO_LIKE_ENTITY_TYPE_SERIES						= "SERIES";
 
@@ -199,6 +201,9 @@ public abstract class Consts {
 	// public static final String DAZOO_BROADCAST_DURATION_IN_MINUTES = "durationInMinutes";
 	public static final String	DAZOO_BROADCAST_BEGIN_TIME_MILLIS					= "beginTimeMillis";
 	public static final String	DAZOO_BROADCAST_SHARE_URL							= "shareUrl";
+	public static final String	DAZOO_BROADCAST_TYPE_RERUN							= "RERUN";
+	public static final String	DAZOO_BROADCAST_TYPE_LIVE							= "LIVE";
+	public static final String	DAZOO_BROADCAST_TYPE_OTHER							= "OTHER";
 
 	// CHANNEL fields
 	public static final String	DAZOO_CHANNEL_HREF									= "href";
