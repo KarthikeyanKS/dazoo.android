@@ -67,7 +67,7 @@
             android:padding="8dp"
             android:textColorHint="@color/light_gray"
             android:textSize="16sp"
-            android: />
+            />
             
         <com.millicom.secondscreen.customviews.FontTextView
             android:id="@+id/signup_error_textview"
