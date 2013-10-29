@@ -281,7 +281,6 @@ public class MyChannelsActivity extends ActionBarActivity implements MyChannelsC
 
 				HttpResponse response = client.execute(httpPost);
 
-				Log.d(TAG, "" + response.getStatusLine().getStatusCode());
 				if (Consts.GOOD_RESPONSE_CHANNELS_ARE_ADDED == response.getStatusLine().getStatusCode()) {
 					Log.d(TAG, "Update MY CHANNELS: SUCCESS");
 					return true;
@@ -364,8 +363,19 @@ public class MyChannelsActivity extends ActionBarActivity implements MyChannelsC
 	}
 
 	@Override
-	public void onClick(View arg0) {
-		// Click listener for the bottom tabs
+	public void onClick(View v) {
+		int id = v.getId();
+		switch (id) {
+		case R.id.show_tvguide:
+			// tab to tv guide overview page
+			break;
+		case R.id.show_activity:
+			// tab to activity page
+			break;
+		case R.id.show_me:
+			// tab to my profile page
+			break;
+		}
 		
 	}
 
