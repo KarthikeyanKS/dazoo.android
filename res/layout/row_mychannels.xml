@@ -5,7 +5,8 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/listview_item_selector"
-    android:orientation="horizontal" >
+    android:orientation="horizontal" 
+    android:visibility="visible">
 
     <ImageView
         android:id="@+id/row_mychannels_channel_iv"

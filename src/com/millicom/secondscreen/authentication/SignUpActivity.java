@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
+import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.homepage.HomePageActivity;
 import com.millicom.secondscreen.utilities.JSONUtilities;
 import com.millicom.secondscreen.utilities.PatternCheck;
@@ -125,7 +126,7 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 								Toast.makeText(getApplicationContext(), "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName(), Toast.LENGTH_SHORT).show();
 								
 								// go to Start page
-								Intent intent = new Intent(SignUpActivity.this, HomePageActivity.class);
+								Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
 								startActivity(intent);
 								overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 								finish();

@@ -24,6 +24,7 @@ import com.facebook.model.GraphUser;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
+import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.homepage.HomePageActivity;
 import com.millicom.secondscreen.utilities.JSONUtilities;
 
@@ -98,7 +99,7 @@ public class FacebookLoginActivity extends ActionBarActivity {
 								} else {
 									// returning client
 									// go to start page
-									Intent intent = new Intent(FacebookLoginActivity.this, HomePageActivity.class);
+									Intent intent = new Intent(FacebookLoginActivity.this, HomeActivity.class);
 									startActivity(intent);
 									overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 									finish();

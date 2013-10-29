@@ -1,6 +1,7 @@
 package com.millicom.secondscreen.authentication;
 
 import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.homepage.HomePageActivity;
 import com.millicom.secondscreen.content.myprofile.MyChannelsActivity;
 
@@ -68,7 +69,7 @@ public class FacebookDazooLoginActivity extends ActionBarActivity implements OnC
 			break;
 		case R.id.facebook_dazoo_skip_container:
 			// go directly to Start page
-			Intent intentHome = new Intent(FacebookDazooLoginActivity.this, HomePageActivity.class);
+			Intent intentHome = new Intent(FacebookDazooLoginActivity.this, HomeActivity.class);
 			startActivity(intentHome);
 			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			finish();

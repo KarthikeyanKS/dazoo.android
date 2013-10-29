@@ -6,9 +6,12 @@ import java.util.ArrayList;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.adapters.ChannelPageListAdapter;
+import com.millicom.secondscreen.content.activity.ActivityActivity;
+import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.Guide;
+import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
 
@@ -213,13 +216,21 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 		int id = v.getId();
 		switch (id) {
 		case R.id.show_tvguide:
-			// tab to tv guide overview page
+			// tab to home page
+			Intent intentHome = new Intent(ChannelPageActivity.this, HomeActivity.class);
+			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intentHome);
 			break;
 		case R.id.show_activity:
 			// tab to activity page
+			Intent intentActivity = new Intent(ChannelPageActivity.this, ActivityActivity.class);
+			startActivity(intentActivity);
 			break;
 		case R.id.show_me:
-			// tab to my profile page
+			// tab to activity page
+			Intent intentMe = new Intent(ChannelPageActivity.this, MyProfileActivity.class);
+			startActivity(intentMe);
 			break;
 		}
 	}

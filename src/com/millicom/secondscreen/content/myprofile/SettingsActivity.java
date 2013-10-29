@@ -4,6 +4,8 @@ import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.authentication.LoginActivity;
+import com.millicom.secondscreen.content.activity.ActivityActivity;
+import com.millicom.secondscreen.content.homepage.HomeActivity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -28,7 +30,7 @@ public class SettingsActivity extends ActionBarActivity implements OnClickListen
 
 	private static final String	TAG			= "SettingsActivity";
 	private ActionBar			mActionBar;
-	private boolean				isChange	= false;
+	private boolean				mIsChange	= false;
 	private Button				mLogoutButton;
 	private View				mTabSelectorContainerView;
 	private TextView			mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
@@ -37,9 +39,8 @@ public class SettingsActivity extends ActionBarActivity implements OnClickListen
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_settings_activity);
-		initLayout();
-		
 		mToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
+		initLayout();
 	}
 
 	private void initLayout() {
@@ -77,12 +78,11 @@ public class SettingsActivity extends ActionBarActivity implements OnClickListen
 		mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.gray));
 		mTxtTabPopular.setTextColor(getResources().getColor(R.color.gray));
 		mTxtTabFeed.setTextColor(getResources().getColor(R.color.orange));
-
 	}
 
 	@Override
 	public void onBackPressed() {
-		if (isChange) {
+		if (mIsChange) {
 			Intent mIntent = new Intent();
 			setResult(Consts.INFO_UPDATE_LOGOUT, mIntent);
 		}
@@ -112,9 +112,7 @@ public class SettingsActivity extends ActionBarActivity implements OnClickListen
 			startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
 			// clear the activity stack
 			finish();
-
-			isChange = true;
-
+			mIsChange = true;
 			// check if the token was really cleared
 			String dazooToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 			// if (dazooToken.isEmpty() == true) {
@@ -123,6 +121,25 @@ public class SettingsActivity extends ActionBarActivity implements OnClickListen
 			} else {
 				Log.d(TAG, "Log out from Dazoo failed");
 			}
+			break;
+		case R.id.show_tvguide:
+			// tab to home page
+			Intent intentHome = new Intent(SettingsActivity.this, HomeActivity.class);
+			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intentHome);
+			break;
+		case R.id.show_activity:
+			// tab to home page
+			Intent intentActivity = new Intent(SettingsActivity.this, ActivityActivity.class);
+			startActivity(intentActivity);
+			break;
+		case R.id.show_me:
+			Intent returnIntent = new Intent();
+			if (mIsChange == true) {
+				setResult(Consts.INFO_UPDATE_LOGOUT, returnIntent);
+			}
+			finish();
 			break;
 		}
 	}

@@ -2,15 +2,6 @@ package com.millicom.secondscreen.content.myprofile;
 
 import java.util.ArrayList;
 
-import com.millicom.secondscreen.Consts;
-import com.millicom.secondscreen.R;
-import com.millicom.secondscreen.adapters.LikesListAdapter;
-import com.millicom.secondscreen.content.homepage.HomePageActivity;
-import com.millicom.secondscreen.content.model.DazooLike;
-import com.millicom.secondscreen.content.model.Program;
-import com.millicom.secondscreen.like.LikeService;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -21,32 +12,36 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.SpannableString;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
+import com.millicom.secondscreen.adapters.LikesListAdapter;
+import com.millicom.secondscreen.content.activity.ActivityActivity;
+import com.millicom.secondscreen.content.homepage.HomeActivity;
+import com.millicom.secondscreen.content.model.DazooLike;
+import com.millicom.secondscreen.like.LikeService;
 
-public class LikesActivity extends ActionBarActivity implements OnClickListener {
+public class LikesActivity extends ActionBarActivity implements LikesCountInterface, OnClickListener {
 
 	private static final String	TAG			= "LikesActivity";
 	private ActionBar			mActionBar;
-	private boolean				isChange	= false;
+	private boolean				mIsChange	= false;
 	private ListView			mListView;
 	private LikesListAdapter	mAdapter;
 	private String				token;
 	private View				mTabSelectorContainerView;
-	private TextView mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
-
+	private TextView			mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
+	private int mCount = 0;
+	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_likes_activity);
-
 		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
-
 		initLayout();
-
 		populateLayout();
 	}
 
@@ -83,21 +78,16 @@ public class LikesActivity extends ActionBarActivity implements OnClickListener 
 	private void populateLayout() {
 		ArrayList<DazooLike> likes = new ArrayList<DazooLike>();
 		likes = LikeService.getLikesList(token);
-		mAdapter = new LikesListAdapter(this, likes, token);
-		Toast.makeText(this, "You have " + likes.size() + " likes now! List is coming", Toast.LENGTH_SHORT).show();
-
+		mAdapter = new LikesListAdapter(this, likes, token, this);
 		mListView.setAdapter(mAdapter);
 	}
 
 	@Override
 	public void onBackPressed() {
 		Intent returnIntent = new Intent();
-		if (isChange == true) {
+		if (mIsChange == true) {
 			setResult(Consts.INFO_UPDATE_LIKES, returnIntent);
-			// Log.d(TAG, "On Back pressed: activity update");
-		} else {
-			setResult(Consts.INFO_NO_UPDATE_LIKES, returnIntent);
-			// Log.d(TAG, "On Back pressed: no activity update");
+			returnIntent.putExtra(Consts.INFO_UPDATE_LIKES_NUMBER, mCount);
 		}
 		super.onBackPressed();
 		overridePendingTransition(R.anim.push_right_out, R.anim.push_right_in);
@@ -113,16 +103,33 @@ public class LikesActivity extends ActionBarActivity implements OnClickListener 
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();
-		switch(id){
+		switch (id) {
 		case R.id.show_tvguide:
-			
+			// tab to home page
+			Intent intentHome = new Intent(LikesActivity.this, HomeActivity.class);
+			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intentHome);
 			break;
 		case R.id.show_activity:
-			// tab to activity page
+			// tab to home page
+			Intent intentActivity = new Intent(LikesActivity.this, ActivityActivity.class);
+			startActivity(intentActivity);
 			break;
 		case R.id.show_me:
-			// tab to my profile page
+			Intent returnIntent = new Intent();
+			if (mIsChange == true) {
+				setResult(Consts.INFO_UPDATE_LIKES, returnIntent);
+				returnIntent.putExtra(Consts.INFO_UPDATE_LIKES_NUMBER, mCount);
+			}
+			finish();
 			break;
 		}
+	}
+
+	@Override
+	public void setCount(int count) {
+		mIsChange = true;
+		mCount = count;
 	}
 }

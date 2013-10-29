@@ -8,6 +8,7 @@ import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.DazooLike;
 import com.millicom.secondscreen.content.model.DazooLikeEntity;
 import com.millicom.secondscreen.content.model.Program;
+import com.millicom.secondscreen.content.myprofile.LikesCountInterface;
 import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
 import com.millicom.secondscreen.like.LikeDialogHandler;
 import com.millicom.secondscreen.utilities.ImageLoader;
@@ -33,16 +34,17 @@ public class LikesListAdapter extends BaseAdapter {
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
 	private ArrayList<DazooLike>	mLikes;
-
+	private LikesCountInterface		mInterface;
 	private ImageLoader				mImageLoader;
 	private String					mToken;
 	private int						currentPosition	= -1;
 
-	public LikesListAdapter(Activity activity, ArrayList<DazooLike> likes, String token) {
+	public LikesListAdapter(Activity activity, ArrayList<DazooLike> likes, String token, LikesCountInterface likesInterface) {
 		this.mLikes = likes;
 		this.mActivity = activity;
 		this.mImageLoader = new ImageLoader(activity, R.drawable.loadimage);
 		this.mToken = token;
+		this.mInterface = likesInterface;
 	}
 
 	@Override
@@ -86,8 +88,8 @@ public class LikesListAdapter extends BaseAdapter {
 		}
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
-		
-		//TODO : SORTING BY ALPHABET
+
+		// TODO : SORTING BY ALPHABET
 		// for now just show the presence of possible header
 		holder.mHeaderContainer.setVisibility(View.VISIBLE);
 		holder.mHeaderTv.setText(mActivity.getResources().getText(R.string.likes));
@@ -135,6 +137,7 @@ public class LikesListAdapter extends BaseAdapter {
 		return new Runnable() {
 			public void run() {
 				mLikes.remove(currentPosition);
+				mInterface.setCount(mLikes.size());
 				notifyDataSetChanged();
 			}
 		};

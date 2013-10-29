@@ -28,12 +28,15 @@ import org.json.JSONException;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.adapters.MyChannelsListAdapter;
+import com.millicom.secondscreen.content.activity.ActivityActivity;
+import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.manager.ContentParser;
 import com.millicom.secondscreen.utilities.JSONUtilities;
 import com.millicom.secondscreen.SecondScreenApplication;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
@@ -67,11 +70,12 @@ public class MyChannelsActivity extends ActionBarActivity implements MyChannelsC
 	private TextView				mChannelCountTv, mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;;
 	private EditText				mSearchChannelInputEditText;
 	private MyChannelsListAdapter	mAdapter;
-	private ArrayList<Channel>		mChannels;
+	private ArrayList<Channel>		mChannels = new ArrayList<Channel>();
 	private boolean[]				mIsCheckedArray;
 	private View					mTabSelectorContainerView;
 	private int						mChannelCounter			= 0;
 	private boolean					mIsChanged				= false;
+	private int mCount = 0;
 
 	private ArrayList<Channel>		mChannelInfoToDisplay	= new ArrayList<Channel>();
 	private Map<String, Channel>	mChannelInfoMap			= new HashMap<String, Channel>();
@@ -129,7 +133,8 @@ public class MyChannelsActivity extends ActionBarActivity implements MyChannelsC
 	}
 
 	private void populateViews() {
-		mChannels = ((SecondScreenApplication) getApplicationContext()).getChannels();
+		// TODO : GET THE LIST OF CHANNELS
+		// mChannels = ((SecondScreenApplication) getApplicationContext()).getChannels();
 
 		for (int i = 0; i < mChannels.size(); i++) {
 			mChannelInfoMap.put(mChannels.get(i).getName().toLowerCase(Locale.getDefault()), mChannels.get(i));
@@ -144,14 +149,10 @@ public class MyChannelsActivity extends ActionBarActivity implements MyChannelsC
 		if (userToken != null && TextUtils.isEmpty(userToken) != true) {
 			// get user channels
 			if (getUserMyChannelsIdsJSON()) {
-
 				mChannelCounter = myChannelIds.size();
 				mChannelCountTv.setText(" " + String.valueOf(mChannelCounter));
-
 				mAdapter = new MyChannelsListAdapter(this, mChannelInfoToDisplay, mIsCheckedArray, this, mChannelCounter);
-
 				mListView.setAdapter(mAdapter);
-				mListView.setTextFilterEnabled(true);
 			}
 		} else {
 			Toast.makeText(getApplicationContext(), "You have to be logged in to perform this action :)", Toast.LENGTH_SHORT).show();
@@ -159,7 +160,6 @@ public class MyChannelsActivity extends ActionBarActivity implements MyChannelsC
 		}
 
 		mSearchChannelInputEditText.addTextChangedListener(new TextWatcher() {
-			@SuppressLint("DefaultLocale")
 			@Override
 			public void afterTextChanged(Editable s) {
 				String search = s.toString();
@@ -188,27 +188,28 @@ public class MyChannelsActivity extends ActionBarActivity implements MyChannelsC
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 			}
 		});
-
-		// SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
-		// int count = 0;
-		// for (int i = 0, ei = checkedItemPositions.size(); i < ei; i++) {
-		// if (checkedItemPositions.valueAt(i)) {
-		// count++;
-		// }
-		// }
-
 	}
-
-	@Override
-	public void onBackPressed() {
+	
+	private void updateChannelList(){
 		if (mIsChanged) {
 			ArrayList<String> newIdsList = new ArrayList<String>();
 			for (int i = 0; i < mIsCheckedArray.length; i++) {
 				if (mIsCheckedArray[i]) {
 					newIdsList.add(mAllChannelsIds.get(i));
-				}
+				}		
 			}
+			mCount = newIdsList.size();
 			updateUserMyChannels(JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.DAZOO_CHANNEL_CHANNEL_ID, newIdsList));
+		}
+	}
+
+	@Override
+	public void onBackPressed() {
+		updateChannelList();
+		Intent returnIntent = new Intent();
+		if (mIsChanged == true) {
+			setResult(Consts.INFO_UPDATE_MYCHANNELS, returnIntent);
+			returnIntent.putExtra(Consts.INFO_UPDATE_MYCHANNELS_NUMBER, mCount);
 		}
 		super.onBackPressed();
 		overridePendingTransition(R.anim.push_right_out, R.anim.push_right_in);
@@ -369,13 +370,25 @@ public class MyChannelsActivity extends ActionBarActivity implements MyChannelsC
 		int id = v.getId();
 		switch (id) {
 		case R.id.show_tvguide:
-			// tab to tv guide overview page
+			updateChannelList();
+			Intent intentHome = new Intent(MyChannelsActivity.this, HomeActivity.class);
+			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intentHome);
 			break;
 		case R.id.show_activity:
-			// tab to activity page
+			updateChannelList();
+			Intent intentActivity = new Intent(MyChannelsActivity.this, ActivityActivity.class);
+			startActivity(intentActivity);
 			break;
 		case R.id.show_me:
-			// tab to my profile page
+			updateChannelList();
+			Intent returnIntent = new Intent();
+			if (mIsChanged == true) {
+				setResult(Consts.INFO_UPDATE_MYCHANNELS, returnIntent);
+				returnIntent.putExtra(Consts.INFO_UPDATE_MYCHANNELS_NUMBER, mCount);
+			}
+			finish();		
 			break;
 		}
 

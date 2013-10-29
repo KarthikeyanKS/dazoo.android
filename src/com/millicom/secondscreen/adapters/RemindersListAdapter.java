@@ -2,27 +2,9 @@ package com.millicom.secondscreen.adapters;
 
 import java.util.ArrayList;
 
-import com.millicom.secondscreen.Consts;
-import com.millicom.secondscreen.R;
-import com.millicom.secondscreen.adapters.TVGuideListAdapter.ViewHolder;
-import com.millicom.secondscreen.authentication.SignUpActivity;
-import com.millicom.secondscreen.content.homepage.HomePageActivity;
-import com.millicom.secondscreen.content.model.Broadcast;
-import com.millicom.secondscreen.content.model.Channel;
-import com.millicom.secondscreen.content.model.Guide;
-import com.millicom.secondscreen.content.model.NotificationDbItem;
-import com.millicom.secondscreen.content.model.Program;
-import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
-import com.millicom.secondscreen.notification.NotificationDataSource;
-import com.millicom.secondscreen.notification.NotificationDialogHandler;
-import com.millicom.secondscreen.notification.NotificationService;
-import com.millicom.secondscreen.utilities.DateUtilities;
-import com.millicom.secondscreen.utilities.ImageLoader;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +13,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.content.model.Broadcast;
+import com.millicom.secondscreen.content.model.Channel;
+import com.millicom.secondscreen.content.model.NotificationDbItem;
+import com.millicom.secondscreen.content.model.Program;
+import com.millicom.secondscreen.content.myprofile.RemindersCountInterface;
+import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
+import com.millicom.secondscreen.notification.NotificationDataSource;
+import com.millicom.secondscreen.notification.NotificationDialogHandler;
+import com.millicom.secondscreen.utilities.DateUtilities;
+import com.millicom.secondscreen.utilities.ImageLoader;
 
 public class RemindersListAdapter extends BaseAdapter {
 
@@ -40,15 +34,16 @@ public class RemindersListAdapter extends BaseAdapter {
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
 	private ArrayList<Broadcast>	mBroadcasts;
-
+	private RemindersCountInterface mInterface;
 	private ImageLoader				mImageLoader;
 	private int						notificationId;
 	private int						currentPosition	= -1;
 
-	public RemindersListAdapter(Activity mActivity, ArrayList<Broadcast> mBroadcasts) {
+	public RemindersListAdapter(Activity mActivity, ArrayList<Broadcast> mBroadcasts, RemindersCountInterface remindersInterface) {
 		this.mBroadcasts = mBroadcasts;
 		this.mActivity = mActivity;
 		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage);
+		this.mInterface = remindersInterface;
 	}
 
 	@Override
@@ -177,6 +172,7 @@ public class RemindersListAdapter extends BaseAdapter {
 		return new Runnable() {
 			public void run() {
 				mBroadcasts.remove(currentPosition);
+				mInterface.setValues(mBroadcasts.size());
 				notifyDataSetChanged();
 			}
 		};

@@ -28,11 +28,14 @@ import com.millicom.secondscreen.authentication.FacebookDazooLoginActivity;
 import com.millicom.secondscreen.authentication.LoginActivity;
 import com.millicom.secondscreen.authentication.PromptSignInDialogHandler;
 import com.millicom.secondscreen.authentication.SignInActivity;
+import com.millicom.secondscreen.content.activity.ActivityActivity;
+import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.DazooLike;
 import com.millicom.secondscreen.content.model.NotificationDbItem;
 import com.millicom.secondscreen.content.model.Program;
+import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
 import com.millicom.secondscreen.like.LikeDialogHandler;
 import com.millicom.secondscreen.like.LikeService;
 import com.millicom.secondscreen.notification.NotificationDataSource;
@@ -235,10 +238,21 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 		int id = v.getId();
 		switch (id) {
 		case R.id.show_tvguide:
-			break;
-		case R.id.show_me:
+			// tab to home page
+			Intent intentHome = new Intent(BroadcastPageActivity.this, HomeActivity.class);
+			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intentHome);
 			break;
 		case R.id.show_activity:
+			// tab to activity page
+			Intent intentActivity = new Intent(BroadcastPageActivity.this, ActivityActivity.class);
+			startActivity(intentActivity);
+			break;
+		case R.id.show_me:
+			// tab to activity page
+			Intent intentMe = new Intent(BroadcastPageActivity.this, MyProfileActivity.class);
+			startActivity(intentMe);
 			break;
 		case R.id.block_social_panel_like_button_iv:
 			if (mIsLoggedIn) {

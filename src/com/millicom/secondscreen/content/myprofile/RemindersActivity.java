@@ -23,6 +23,8 @@ import android.widget.Toast;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.adapters.RemindersListAdapter;
+import com.millicom.secondscreen.content.activity.ActivityActivity;
+import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.NotificationDbItem;
@@ -30,15 +32,16 @@ import com.millicom.secondscreen.content.model.Program;
 import com.millicom.secondscreen.content.model.Season;
 import com.millicom.secondscreen.notification.NotificationDataSource;
 
-public class RemindersActivity extends ActionBarActivity implements OnClickListener {
+public class RemindersActivity extends ActionBarActivity implements RemindersCountInterface, OnClickListener {
 
 	private static final String		TAG			= "RemindersActivity";
 	private ActionBar				mActionBar;
-	private boolean					isChange	= false;
+	private boolean					mIsChange	= false;
 	private ListView				mListView;
 	private RemindersListAdapter	mAdapter;
 	private View					mTabSelectorContainerView;
 	private TextView				mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
+	private int mCount = 0;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -76,7 +79,6 @@ public class RemindersActivity extends ActionBarActivity implements OnClickListe
 		mTxtTabFeed.setTextColor(getResources().getColor(R.color.orange));
 
 		mListView = (ListView) findViewById(R.id.listview);
-
 	}
 
 	private void populateViews() {
@@ -118,20 +120,17 @@ public class RemindersActivity extends ActionBarActivity implements OnClickListe
 		}
 		Toast.makeText(this, "Currently you have " + notificationList.size() + " being set. List with info is coming soon!", Toast.LENGTH_LONG).show();
 
-		mAdapter = new RemindersListAdapter(this, broadcasts);
+		mAdapter = new RemindersListAdapter(this, broadcasts, this);
 		mListView.setAdapter(mAdapter);
 	}
 
 	@Override
 	public void onBackPressed() {
 		Intent returnIntent = new Intent();
-		if (isChange == true) {
+		if (mIsChange == true) {
 			setResult(Consts.INFO_UPDATE_REMINDERS, returnIntent);
-			// Log.d(TAG, "On Back pressed: activity update");
-		} else {
-			setResult(Consts.INFO_NO_UPDATE_REMINDERS, returnIntent);
-			// Log.d(TAG, "On Back pressed: no activity update");
-		}
+			returnIntent.putExtra(Consts.INFO_UPDATE_REMINDERS_NUMBER, mCount);
+		} 
 		super.onBackPressed();
 		overridePendingTransition(R.anim.push_right_out, R.anim.push_right_in);
 		finish();
@@ -145,7 +144,35 @@ public class RemindersActivity extends ActionBarActivity implements OnClickListe
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
+		int id = v.getId();
+		switch (id) {
+		case R.id.show_tvguide:
+			// tab to home page
+			Intent intentHome = new Intent(RemindersActivity.this, HomeActivity.class);
+			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intentHome);
+			break;
+		case R.id.show_activity:
+			// tab to home page
+			Intent intentActivity = new Intent(RemindersActivity.this, ActivityActivity.class);
+			startActivity(intentActivity);
+			break;
+		case R.id.show_me:
+			// tab to my profile page
+			Intent returnIntent = new Intent();
+			if (mIsChange == true) {
+				setResult(Consts.INFO_UPDATE_REMINDERS, returnIntent);
+				returnIntent.putExtra(Consts.INFO_UPDATE_REMINDERS_NUMBER, mCount);
+			}
+			finish();
+			break;
+		}
+	}
 
+	@Override
+	public void setValues(int count) {
+		mIsChange = true;
+		mCount = count;
 	}
 }

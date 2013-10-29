@@ -121,12 +121,12 @@
     <string name="product_view_content_expired">This content is no longer available</string>
 
     <!-- ACTIVITY PAGE -->
-    <string name="activity_page_title">Activity</string>
+    <string name="activity_title">Activity</string>
     <string name="like">Like</string>
     <string name="share">Share</string>
 
-    <!-- ME PAGE -->
-    <string name="me_page_title">My Profile</string>
+    <!-- MY PROFILE -->
+    <string name="myprofile_title">My Profile</string>
     <string name="reminders">Reminders</string>
     <string name="likes">Likes</string>
     <string name="my_channels">My Channels</string>

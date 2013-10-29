@@ -140,7 +140,7 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 		mActionBar.setDisplayShowHomeEnabled(true);
 		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 		
-		mActionBar.setTitle(getResources().getString(R.string.activity_page_title));
+		mActionBar.setTitle(getResources().getString(R.string.activity_title));
 		
 		/*
 		mActionBar.setDisplayUseLogoEnabled(false);
@@ -174,7 +174,7 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 		mActionBar.setDisplayShowHomeEnabled(true);
 		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 		
-		mActionBar.setTitle(getResources().getString(R.string.me_page_title));
+		mActionBar.setTitle(getResources().getString(R.string.myprofile_title));
 		
 		/*
 		mActionBar.setDisplayUseLogoEnabled(false);
