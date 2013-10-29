@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.content.model.Channel;
+import com.millicom.secondscreen.content.myprofile.MyChannelsCountInterface;
 import com.millicom.secondscreen.utilities.ImageLoader;
 
 import android.content.Context;
@@ -21,34 +22,41 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class MyChannelsListAdapter extends BaseAdapter {
-	
-	private static final String TAG = "MyChannelsListAdapter";
-	
-	private LayoutInflater			mLayoutInflater;
-	private Context mContext;
-	private ArrayList<Channel> mChannels;
-	private boolean [] mIsCheckedArray;
-	
-	private ImageLoader				mImageLoader;
-	private int						currentPosition	= -1;
-	
-	public MyChannelsListAdapter(Context context, ArrayList<Channel> channels, boolean [] isCheckedArray){
+
+	private static final String			TAG				= "MyChannelsListAdapter";
+
+	private LayoutInflater				mLayoutInflater;
+	private Context						mContext;
+	private ArrayList<Channel>			mChannels;
+	private boolean[]					mIsCheckedArray;
+	private TextView					mCounterTextView;
+
+	private ImageLoader					mImageLoader;
+	private int							currentPosition	= -1;
+	private int							mSelectedCount;
+
+	private MyChannelsCountInterface	mCountInterface;
+
+	public MyChannelsListAdapter(Context context, ArrayList<Channel> channels, boolean[] isCheckedArray, MyChannelsCountInterface countInterface, int selectedCount) {
 		this.mContext = context;
 		this.mChannels = channels;
 		this.mIsCheckedArray = isCheckedArray;
+		this.mCountInterface = countInterface;
+		this.mSelectedCount = selectedCount;
+		Log.d(TAG,"selected count: " + mSelectedCount);
 		this.mImageLoader = new ImageLoader(context, R.drawable.loadimage);
 	}
 
 	@Override
 	public int getCount() {
-		if(mChannels !=null){
+		if (mChannels != null) {
 			return mChannels.size();
 		} else return 0;
 	}
 
 	@Override
 	public Channel getItem(int position) {
-		if(mChannels !=null){
+		if (mChannels != null) {
 			return mChannels.get(position);
 		} else return null;
 	}
@@ -78,30 +86,37 @@ public class MyChannelsListAdapter extends BaseAdapter {
 		}
 
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
-		
+
 		Channel channel = getItem(position);
-		currentPosition = (Integer)holder.mChannelNameTv.getTag();
-		
+		currentPosition = (Integer) holder.mChannelNameTv.getTag();
+
 		holder.mChannelNameTv.setText(channel.getName());
-			
+
 		mImageLoader.displayImage(channel.getLogoLUrl(), holder.mChannelLogoIv, ImageLoader.IMAGE_TYPE.THUMBNAIL);
-	
-		holder.mCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+
+		holder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				mIsCheckedArray[position] = isChecked;
-			}	
+				if (holder.mCheckBox.isPressed()) {
+					mIsCheckedArray[position] = isChecked;
+					if (isChecked) {
+						mSelectedCount++;
+					} else {
+						mSelectedCount--;
+					}
+					mCountInterface.setValues(mSelectedCount);
+				}
+			}
 		});
 		holder.mCheckBox.setChecked(mIsCheckedArray[position]);
-		
-		
+
 		return rowView;
 	}
-	
-	private static class ViewHolder{
-		public TextView mChannelNameTv;
-		public ImageView mChannelLogoIv;
-		public CheckBox mCheckBox;
+
+	private static class ViewHolder {
+		public TextView		mChannelNameTv;
+		public ImageView	mChannelLogoIv;
+		public CheckBox		mCheckBox;
 	}
 
 }

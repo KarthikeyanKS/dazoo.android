@@ -46,6 +46,7 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -55,7 +56,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MyChannelsActivity extends ActionBarActivity implements OnClickListener {
+public class MyChannelsActivity extends ActionBarActivity implements MyChannelsCountInterface, OnClickListener {
 
 	private static final String		TAG						= "MyChannelsActivity";
 	private ActionBar				mActionBar;
@@ -143,7 +144,10 @@ public class MyChannelsActivity extends ActionBarActivity implements OnClickList
 			// get user channels
 			if (getUserMyChannelsIdsJSON()) {
 
-				mAdapter = new MyChannelsListAdapter(this, mChannelInfoToDisplay, mIsCheckedArray);
+				mChannelCounter = myChannelIds.size();
+				mChannelCountTv.setText(" " + String.valueOf(mChannelCounter));
+				
+				mAdapter = new MyChannelsListAdapter(this, mChannelInfoToDisplay, mIsCheckedArray, this, mChannelCounter);
 
 				mListView.setAdapter(mAdapter);
 				mListView.setTextFilterEnabled(true);
@@ -183,6 +187,16 @@ public class MyChannelsActivity extends ActionBarActivity implements OnClickList
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 			}
 		});
+		
+		
+		//SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
+		//int count = 0;
+		//for (int i = 0, ei = checkedItemPositions.size(); i < ei; i++) {
+		 //   if (checkedItemPositions.valueAt(i)) {
+		  //      count++;
+		   // }
+		//} 
+
 	}
 
 	@Override
@@ -345,9 +359,14 @@ public class MyChannelsActivity extends ActionBarActivity implements OnClickList
 	}
 
 	@Override
-	public void onClick(View arg0) {
-		// TODO Auto-generated method stub
+	public void setValues(int count) {
+		mChannelCountTv.setText(" " + String.valueOf(count));
+	}
 
+	@Override
+	public void onClick(View arg0) {
+		// Click listener for the bottom tabs
+		
 	}
 
 	/*
