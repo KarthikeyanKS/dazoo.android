@@ -179,6 +179,10 @@
     <string name="take_the_tour">Take the tour</string>
     <string name="skip">Skip</string>
     <string name="or">OR</string>
+    <string name="signup_with_email_error_name">Name was not input right!</string>
+    <string name="signup_with_email_error_email">E-mail was not input right!</string>
+    <string name="signup_with_email_error_passwordlength">Password length was not right!</string>
+    <string name="signup_with_email_error_passwordcharacters">Password contained illegal characters!</string>
     
     <!-- MY CHANNELS PAGE -->
     <string name="get_my_channels">Get My Channels</string>
