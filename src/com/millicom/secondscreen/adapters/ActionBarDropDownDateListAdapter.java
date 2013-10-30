@@ -19,9 +19,11 @@ import android.widget.TextView;
 
 public class ActionBarDropDownDateListAdapter extends BaseAdapter implements SpinnerAdapter {
 
-	private static final String	TAG	= "Adapter";
+	private static final String	TAG				= "Adapter";
 	private ArrayList<TvDate>	mDays;
 	private Context				context;
+
+	private int					mSelectedIndex	= -1;
 
 	public ActionBarDropDownDateListAdapter(Context context, ArrayList<TvDate> mDays) {
 		this.context = context;
@@ -52,12 +54,33 @@ public class ActionBarDropDownDateListAdapter extends BaseAdapter implements Spi
 		View row = convertView;
 		if (row == null) {
 			LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			row = inflater.inflate(R.layout.actionbar_dropdown_list_date_header, parent, false);
+			row = inflater.inflate(R.layout.actionbar_dropdown_list_date_item, parent, false);
 		}
 
-		Drawable res = context.getResources().getDrawable(R.drawable.ic_launcher);
-		ImageView imageView = (ImageView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_header_iv);
-		imageView.setImageDrawable(res);
+		TextView txtName = (TextView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_item_name);
+		TextView txtNumber = (TextView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_item_number);
+
+		// do not display when no selection
+		if (mSelectedIndex != -1) {
+
+			TvDate tvDate = getItem(position);
+			try {
+				txtName.setText(tvDate.getName());
+				txtNumber.setText(DateUtilities.tvDateStringToDatePickerString(tvDate.getDate()));
+			} catch (Exception e) {
+				e.printStackTrace();
+				txtName.setText("");
+				txtNumber.setText("");
+			}
+
+			txtName.setVisibility(View.VISIBLE);
+			txtNumber.setVisibility(View.VISIBLE);
+
+		} else {
+			txtName.setVisibility(View.GONE);
+			txtNumber.setVisibility(View.GONE);
+		}
+
 		return row;
 	}
 
@@ -69,19 +92,34 @@ public class ActionBarDropDownDateListAdapter extends BaseAdapter implements Spi
 			row = inflater.inflate(R.layout.actionbar_dropdown_list_date_item, parent, false);
 		}
 
-		//ImageView imageView = (ImageView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_item_icon);
-		TextView txtTitle = (TextView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_item_name);
+		TextView txtName = (TextView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_item_name);
+		TextView txtNumber = (TextView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_item_number);
 
-		TvDate tvDate = mDays.get(position);
+		// do not display when no selection
+		if (mSelectedIndex != -1) {
 
-		Drawable res = context.getResources().getDrawable(R.drawable.ic_launcher);
-	//	imageView.setImageDrawable(res);
-		try {
-			txtTitle.setText(tvDate.getName() + " " + DateUtilities.tvDateStringToDatePickerString(tvDate.getDate()));
-		} catch (Exception e) {
-			e.printStackTrace();
-			txtTitle.setText("");
+			TvDate tvDate = getItem(position);
+			try {
+				txtName.setText(tvDate.getName());
+				txtNumber.setText(DateUtilities.tvDateStringToDatePickerString(tvDate.getDate()));
+			} catch (Exception e) {
+				e.printStackTrace();
+				txtName.setText("");
+				txtNumber.setText("");
+			}
+
+			txtName.setVisibility(View.VISIBLE);
+			txtNumber.setVisibility(View.VISIBLE);
+
+		} else {
+			txtName.setVisibility(View.GONE);
+			txtNumber.setVisibility(View.GONE);
 		}
+
 		return row;
+	}
+
+	public void setSelectedIndex(int index) {
+		this.mSelectedIndex = index;
 	}
 }

@@ -21,7 +21,7 @@ import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
-import com.millicom.secondscreen.adapters.DateListNavigationAdapter;
+import com.millicom.secondscreen.adapters.ActionBarDropDownDateListAdapter;
 import com.millicom.secondscreen.content.SSChannelPage;
 import com.millicom.secondscreen.content.SSPageCallback;
 import com.millicom.secondscreen.content.SSPageFragmentActivity;
@@ -57,7 +57,7 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 
 	public static int					mBroadcastSelection	= -1;
 	private int							mSelectedIndex		= 0;
-	private DateListNavigationAdapter	mDayAdapter;
+	private ActionBarDropDownDateListAdapter	mDayAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +126,7 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 		mActionBar.setDisplayShowHomeEnabled(true);
 		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
-		mDayAdapter = new DateListNavigationAdapter(this, mTvDates);
+		mDayAdapter = new ActionBarDropDownDateListAdapter(this, mTvDates);
 		mDayAdapter.setSelectedIndex(mSelectedIndex);
 		mActionBar.setListNavigationCallbacks(mDayAdapter, this);
 	}

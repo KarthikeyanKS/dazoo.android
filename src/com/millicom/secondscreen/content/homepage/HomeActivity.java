@@ -2,32 +2,6 @@ package com.millicom.secondscreen.content.homepage;
 
 import java.util.ArrayList;
 
-import com.imbryk.viewPager.LoopViewPager;
-import com.millicom.secondscreen.Consts;
-import com.millicom.secondscreen.R;
-import com.millicom.secondscreen.Consts.REQUEST_STATUS;
-import com.millicom.secondscreen.adapters.CategoryFragmentPagerAdapter;
-import com.millicom.secondscreen.adapters.DateListNavigationAdapter;
-import com.millicom.secondscreen.adapters.TagTypeFragmentStatePagerAdapter;
-import com.millicom.secondscreen.content.SSBroadcastPage;
-import com.millicom.secondscreen.content.SSPageCallback;
-import com.millicom.secondscreen.content.SSPageFragmentActivity;
-import com.millicom.secondscreen.content.SSPageGetResult;
-import com.millicom.secondscreen.content.SSTvDatePage;
-import com.millicom.secondscreen.content.activity.ActivityActivity;
-import com.millicom.secondscreen.content.model.Broadcast;
-import com.millicom.secondscreen.content.model.Channel;
-import com.millicom.secondscreen.content.model.Tag;
-import com.millicom.secondscreen.content.model.TvDate;
-import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
-import com.millicom.secondscreen.content.search.SearchPageActivity;
-import com.millicom.secondscreen.content.tvguide.ChannelPageActivity;
-import com.millicom.secondscreen.content.tvguide.TVGuideOverviewFragment;
-import com.millicom.secondscreen.content.tvguide.TVGuideTableFragment;
-import com.millicom.secondscreen.content.tvguide.TVGuideTagFragment;
-import com.millicom.secondscreen.content.tvguide.TVGuideTagTypeFragment;
-import com.viewpagerindicator.TabPageIndicator;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -36,20 +10,11 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBar.Tab;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -58,14 +23,27 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.Consts.REQUEST_STATUS;
+import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.adapters.ActionBarDropDownDateListAdapter;
+import com.millicom.secondscreen.adapters.TagTypeFragmentStatePagerAdapter;
+import com.millicom.secondscreen.content.SSPageFragmentActivity;
+import com.millicom.secondscreen.content.activity.ActivityActivity;
+import com.millicom.secondscreen.content.model.Channel;
+import com.millicom.secondscreen.content.model.Tag;
+import com.millicom.secondscreen.content.model.TvDate;
+import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
+import com.millicom.secondscreen.content.search.SearchPageActivity;
+import com.viewpagerindicator.TabPageIndicator;
+
 public class HomeActivity extends SSPageFragmentActivity implements OnClickListener, ActionBar.OnNavigationListener {
 
 	private static final String			TAG					= "HomeActivity";
 	private TextView					mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
 	private ViewPager					mViewPager;
-	private PagerTabStrip				mPagerTabStrip;
 	private ActionBar					mActionBar;
-	private DateListNavigationAdapter	mDayAdapter;
+	private ActionBarDropDownDateListAdapter mDayAdapter;
 	public static int					mBroadcastSelection	= -1;
 	private int							mSelectedIndex		= 0;
 	private ArrayList<TvDate>			mTvDates			= new ArrayList<TvDate>();
@@ -147,14 +125,13 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		date2.setId("2013-10-31");
 		date2.setDate("2013-10-31");
 		mTvDates.add(date2);
-
-		mDayAdapter = new DateListNavigationAdapter(this, mTvDates);
+		
+		mDayAdapter = new ActionBarDropDownDateListAdapter(this, mTvDates);
 		mDayAdapter.setSelectedIndex(mSelectedIndex);
 		mActionBar.setListNavigationCallbacks(mDayAdapter, this);
 
 		mViewPager = (ViewPager) findViewById(R.id.home_pager);
 		mViewPager.setEnabled(false);
-		// mPagerTabStrip = (PagerTabStrip) findViewById(R.id.home_pager_header);
 
 		mPageTabIndicator = (TabPageIndicator) findViewById(R.id.home_indicator);
 
@@ -352,7 +329,12 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 	@Override
 	public boolean onNavigationItemSelected(int position, long id) {
+		Log.d(TAG,"here");
 		mDayAdapter.setSelectedIndex(position);
+		
+		
+		
+		Log.d(TAG,"AFTER");
 		TvDate tvDateItem = mTvDates.get(position);
 		LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(new Intent(Consts.INTENT_EXTRA_TVGUIDE_SORTING).putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE, tvDateItem.getDate()));
 		return true;

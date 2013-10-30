@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.millicom.secondscreen.Consts;
@@ -345,7 +346,7 @@ public class ContentParser {
 		dazooLike.setEntityType(jsonObject.optString(Consts.DAZOO_LIKE_ENTITY_TYPE));
 		
 		String entity = jsonObject.optString(Consts.DAZOO_LIKE_ENTITY);
-		if(entity!=null && entity.isEmpty()!=true){
+		if(entity!=null && TextUtils.isEmpty(entity)!=true){
 			JSONObject likeEntity;
 			try {
 				likeEntity = new JSONObject(entity);
@@ -405,7 +406,7 @@ public class ContentParser {
 				dazooLikeEntity.setCredits(credits);
 			}
 
-			if (entityType != null && entityType.isEmpty() != true) {
+			if (entityType != null && TextUtils.isEmpty(entityType) != true) {
 				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(entityType)) {
 					dazooLikeEntity.setEpisodeNumber(jsonObject.optInt(Consts.DAZOO_LIKE_ENTITY_EPISODE_NUMBER));
 

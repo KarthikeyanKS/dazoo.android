@@ -37,6 +37,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -93,7 +94,7 @@ public class LikeService {
 		String jsonString = "";
 		try {
 			jsonString = getLikesTask.execute(token).get();
-			if(jsonString!= null && jsonString.isEmpty()!=true && !jsonString.equals(Consts.ERROR_STRING)){
+			if(jsonString!= null && TextUtils.isEmpty(jsonString)!=true && !jsonString.equals(Consts.ERROR_STRING)){
 				JSONArray likesListJson = new JSONArray(jsonString);
 				int size = likesListJson.length();
 				for(int i=0; i<size; i++){	

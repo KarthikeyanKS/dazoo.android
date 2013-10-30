@@ -79,44 +79,74 @@
         <activity
             android:name="com.millicom.secondscreen.content.myprofile.LikesActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:parentActivityName="com.millicom.secondscreen.content.myprofile.MyProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.millicom.secondscreen.content.myprofile.MyProfileActivity" />
+        </activity>
 
         <!-- MY CHANNELS -->
         <activity
             android:name="com.millicom.secondscreen.content.myprofile.MyChannelsActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:parentActivityName="com.millicom.secondscreen.content.myprofile.MyProfileActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light" />
+            android:theme="@style/Theme.AppCompat.Light" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.millicom.secondscreen.content.myprofile.MyProfileActivity" />
+        </activity>
 
         <!-- REMINDERS -->
         <activity
             android:name="com.millicom.secondscreen.content.myprofile.RemindersActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:parentActivityName="com.millicom.secondscreen.content.myprofile.MyProfileActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light" />
+            android:theme="@style/Theme.AppCompat.Light" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.millicom.secondscreen.content.myprofile.MyProfileActivity" />
+        </activity>
 
         <!-- SETTINGS -->
         <activity
             android:name="com.millicom.secondscreen.content.myprofile.SettingsActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:parentActivityName="com.millicom.secondscreen.content.myprofile.MyProfileActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light" />
+            android:theme="@style/Theme.AppCompat.Light" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.millicom.secondscreen.content.myprofile.MyProfileActivity" />
+        </activity>
 
         <!-- BROADCAST PAGE -->
         <activity
             android:name="com.millicom.secondscreen.content.tvguide.BroadcastPageActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:parentActivityName="com.millicom.secondscreen.content.homepage.HomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light" />
+            android:theme="@style/Theme.AppCompat.Light" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.millicom.secondscreen.content.homepage.HomeActivity" />
+        </activity>
 
         <!-- CHANNEL PAGE -->
         <activity
             android:name="com.millicom.secondscreen.content.tvguide.ChannelPageActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:parentActivityName="com.millicom.secondscreen.content.homepage.HomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light" />
+            android:theme="@style/Theme.AppCompat.Light" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.millicom.secondscreen.content.homepage.HomeActivity" />
+        </activity>
 
         <!-- SIGN IN -->
         <activity
@@ -138,6 +168,7 @@
         <activity
             android:name="com.millicom.secondscreen.authentication.DazooLoginActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:parentActivityName="com.millicom.secondscreen.content.homepage.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light"
             android:windowSoftInputMode="stateHidden" />
