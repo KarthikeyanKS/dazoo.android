@@ -3,18 +3,18 @@ package com.millicom.secondscreen.adapters;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-import android.os.Parcelable;
+import com.imbryk.viewPager.LoopViewPager;
+import com.millicom.secondscreen.content.model.Tag;
+import com.millicom.secondscreen.content.tvguide.TVGuideTagFragment;
+import com.millicom.secondscreen.content.tvguide.TVGuideTagTypeFragment;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.util.SparseArray;
-import android.view.View;
 import android.view.ViewGroup;
 
-public abstract class CategoryFragmentPagerAdapter extends FragmentStatePagerAdapter {
+public abstract class TagTypeFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
 
 	private static final String						TAG					= "CategoryFragmentPagerAdapter";
 
@@ -23,7 +23,7 @@ public abstract class CategoryFragmentPagerAdapter extends FragmentStatePagerAda
 
 	public abstract Fragment initFragment(int position);
 
-	public CategoryFragmentPagerAdapter(FragmentManager fm, ArrayList<String> tabTitles) {
+	public TagTypeFragmentStatePagerAdapter(FragmentManager fm, ArrayList<String> tabTitles) {
 		super(fm);
 		mTabTitles = tabTitles;
 	}
@@ -41,12 +41,15 @@ public abstract class CategoryFragmentPagerAdapter extends FragmentStatePagerAda
 
 	@Override
 	public CharSequence getPageTitle(int position) {
-		return mTabTitles.get(position);
+		//return mTabTitles.get(position);
+		return mTabTitles.get(position % mTabTitles.size());
 	}
 
 	@Override
-	public Fragment getItem(int pos) {
-		return getFragment(pos);
+	public Fragment getItem(int position) {
+		position = LoopViewPager.toRealPosition(position, getCount());
+		return getFragment(position);
+		//return getFragment(pos);
 	}
 
 	@Override

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
+    android:id="@+id/home_container"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:orientation="vertical" 
-    android:id="@+id/home_container">
+    android:orientation="vertical" >
 
     <RelativeLayout
         android:id="@+id/home_loading_container"
@@ -16,31 +16,11 @@
         <include layout="@layout/layout_request_callbacks_holder_main_layout" />
     </RelativeLayout>
 
-    <com.millicom.secondscreen.customviews.InfiniteViewPager
-        android:id="@+id/home_pager"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:visibility="gone" >
-
-        <com.millicom.secondscreen.customviews.ColorPagerTabStrip
-            android:id="@+id/home_pager_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:background="@color/light_gray"
-            android:paddingBottom="6dp"
-            android:paddingTop="6dp"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:visibility="gone" />
-    </com.millicom.secondscreen.customviews.InfiniteViewPager>
-
+    
     <LinearLayout
         android:id="@+id/tab_selector_container"
         android:layout_width="fill_parent"
         android:layout_height="60dp"
-        android:layout_below="@id/home_pager"
         android:layout_alignParentBottom="true"
         android:background="@color/light_gray"
         android:orientation="horizontal"
@@ -76,5 +56,35 @@
             android:text="@string/tab_me"
             android:textSize="15sp" />
     </LinearLayout>
+    
+    <com.viewpagerindicator.TabPageIndicator
+        android:id="@+id/home_indicator"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+
+    <com.imbryk.viewPager.LoopViewPager
+        android:id="@+id/home_pager"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/home_indicator"
+        android:layout_above="@id/tab_selector_container"
+        android:visibility="gone" >
+
+        <!--
+               com.millicom.secondscreen.customviews.ColorPagerTabStrip
+            android:id="@+id/home_pager_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:background="@color/light_gray"
+            android:paddingBottom="6dp"
+            android:paddingTop="6dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:visibility="gone" /
+        -->
+    </com.imbryk.viewPager.LoopViewPager>
+
 
 </RelativeLayout>

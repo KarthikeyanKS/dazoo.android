@@ -12,7 +12,6 @@ import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Tag;
 import com.millicom.secondscreen.content.model.TvDate;
-import com.millicom.secondscreen.customviews.InfinitePagerAdapter;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -191,27 +190,27 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 			}
 		};
 
-		final PagerAdapter wrappedAdapter = new InfinitePagerAdapter(mAdapter, mTabTitles);
+		//final PagerAdapter wrappedAdapter = new InfinitePagerAdapter(mAdapter, mTabTitles);
 
 		mViewPager.setOnPageChangeListener(mOnPageChangeListener);
 
-		Handler handler = new Handler();
-		handler.post(new Runnable() {
+		//Handler handler = new Handler();
+		//handler.post(new Runnable() {
 
-			@Override
-			public void run() {
-				Log.d(TAG, "UPDATE VIEWPAGER");
+		//@Override
+		//	public void run() {
+		//		Log.d(TAG, "UPDATE VIEWPAGER");
 				mViewPager.setVisibility(View.VISIBLE);
 				mPagerTabStrip.setVisibility(View.VISIBLE);
-				// mViewPager.setAdapter(mAdapter);
-				mViewPager.setAdapter(wrappedAdapter);
+				 mViewPager.setAdapter(mAdapter);
+		//		mViewPager.setAdapter(wrappedAdapter);
 
-				// mAdapter.notifyDataSetChanged();
-				wrappedAdapter.notifyDataSetChanged();
+		// // mAdapter.notifyDataSetChanged();
+		//		wrappedAdapter.notifyDataSetChanged();
 
 				mViewPager.setCurrentItem(mSelectedIndex);
-			}
-		});
+	//		}
+//		});
 	}
 
 	private void getPage() {

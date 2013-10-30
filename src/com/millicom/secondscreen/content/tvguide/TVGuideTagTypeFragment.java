@@ -30,7 +30,7 @@ public class TVGuideTagTypeFragment extends SSPageFragment{
 	private ArrayList<Guide> mGuide;
 	private TVGuideTagListAdapter	mAdapter;
 	
-	public static TVGuideTagTypeFragment newInstance(Tag tag, String tvDate, ArrayList<Channel> channels) {
+	public static TVGuideTagTypeFragment newInstance(Tag tag) {
 
 		TVGuideTagTypeFragment fragment = new TVGuideTagTypeFragment();
 		Bundle bundle = new Bundle();
