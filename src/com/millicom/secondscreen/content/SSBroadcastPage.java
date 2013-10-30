@@ -10,65 +10,75 @@ import android.util.Log;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Link;
+import com.millicom.secondscreen.content.model.Tag;
 import com.millicom.secondscreen.http.SSHttpClient;
 import com.millicom.secondscreen.http.SSHttpClientCallback;
 import com.millicom.secondscreen.http.SSHttpClientGetResult;
 import com.millicom.secondscreen.manager.ContentParser;
 
-public class SSBroadcastPage {
+public class SSBroadcastPage extends SSPage {
 
 	public static final String				TAG				= "SSBroadcastPage";
 	private static SSBroadcastPage			sInstance;
-	public String							mBroadcastPageUrl;
-	private SSHttpClient<SSPageGetResult>	mHttpClient		= new SSHttpClient<SSPageGetResult>();
-	private Broadcast						mBroadcast;
-	private ContentParser					mContentParser	= new ContentParser();
+	public static String					mBroadcastPageUrl;
 
-	public SSBroadcastPage(String broadcastPageUrl) {
-		this.mBroadcastPageUrl = broadcastPageUrl;
+	public SSBroadcastPage() {
 	}
 
-	public boolean getPage(SSPageCallback aSSPageCallback) {
-
-		return mHttpClient.doHttpGet(mBroadcastPageUrl, new SSHttpClientCallback<SSPageGetResult>() {
-
-			@Override
-			public SSPageGetResult onHandleHttpGetResultInBackground(SSHttpClientGetResult aHttpClientGetResult) {
-				// Handle the http get result
-				return handleHttpGetResult(aHttpClientGetResult);
-			}
-
-			@Override
-			public void onHttpGetResultFinal(SSPageGetResult aPageGetResult) {
-				Log.d(TAG, "SSPageGetResult : " + aPageGetResult);
-				// If no result is given
-				if (aPageGetResult == null) {
-					Log.d(TAG, "Result is not null!");
-					// Create a default result, will indicate failure
-					aPageGetResult = new SSPageGetResult();
-
-				}
-			}
-		});
+	public static SSBroadcastPage getInstance() {
+		if (sInstance == null) sInstance = new SSBroadcastPage();
+		return sInstance;
 	}
 
-	protected SSPageGetResult handleHttpGetResult(SSHttpClientGetResult aHttpClientGetResult) {
-		Log.d(TAG, "In onHandleHttpGetResult");
-		JSONObject jsonObject = aHttpClientGetResult.getJson();
-		Log.d(TAG, "JSONObject is not null: " + (jsonObject != null));
+	public boolean getPage(String url, SSPageCallback pageCallback) {
+		super.mPageCallback = pageCallback;
 
-		SSPageGetResult pageGetResult = new SSPageGetResult(aHttpClientGetResult.getUri(), null);
+		mBroadcastPageUrl = url;
 
+		Link broadcastPageLink = new Link();
+		broadcastPageLink.setUrl(url);
+
+		super.getPage(broadcastPageLink, pageCallback);
+		return true;
+	}
+
+	public Broadcast getBroadcast() {
+		Log.d(TAG, "get broadcast");
+		return super.getBroadcast();
+	}
+
+	@Override
+	protected void parseGetPageResult(JSONObject jsonObject, SSPageGetResult pageGetResult) {
+		Log.d(TAG, "parseGetPageResult");
 		try {
-			mBroadcast = mContentParser.parseBroadcast(jsonObject);
+			super.parseBroadcast(jsonObject);
+
+			// The resulting page is this
+			pageGetResult.setPage(this);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return pageGetResult;
 	}
 
-	public Broadcast getBroadcast() {
-		return mBroadcast;
+	protected void handleGetStartPageUriResult() {
+		Log.d(TAG, "handleGetStartPageUriResult");
+
+		// If get start page uri failed or get start page fails
+		if (!getPage(mBroadcastPageUrl, mPageCallback)) {
+			Log.d(TAG, "Get dates page uri or get dates page failed");
+
+			// If we have a callback
+			if (mPageCallback != null) {
+				// Tell our callback about it
+				SSPageGetResult pageGetResult = new SSPageGetResult(this);
+				mPageCallback.onGetPageResult(pageGetResult);
+			}
+		}
+	}
+
+	@Override
+	protected void parseGetPageResult(JSONArray jsonArray, SSPageGetResult pageGetResult) {
+		// not necessery here
 	}
 }

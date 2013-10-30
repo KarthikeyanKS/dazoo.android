@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
 public class NetworkUtils {
-	// Can also be used from IA Core
+	
 	public static String convertStreamToString(InputStream is) {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 		StringBuilder sb = new StringBuilder();
@@ -29,7 +29,6 @@ public class NetworkUtils {
 		return sb.toString();
 	}
 
-	// Can also be used from IA Core
 	public static String convertStreamToString(InputStream is, String encoding) {
 		BufferedReader reader = null;
 		try {

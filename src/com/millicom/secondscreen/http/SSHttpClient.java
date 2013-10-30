@@ -19,6 +19,7 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import android.annotation.TargetApi;
 import android.net.http.AndroidHttpClient;
@@ -222,18 +223,36 @@ public class SSHttpClient<T_Result> {
 		}
 	}
 
-	protected void getResponseFromStream(SSHttpClientGetResult httpClientGetResult, InputStream responseStream) throws Exception {
-		Log.d(TAG, "Get response stream as string");
-		// Get response stream as a string
-		String response = NetworkUtils.convertStreamToString(responseStream);
-		Log.d(TAG, "Save response stream as json object in result");
-		// Set response string as a json object in result
+	// protected void getResponseFromStream(SSHttpClientGetResult httpClientGetResult, InputStream responseStream) throws Exception {
+	// Log.d(TAG, "Get response stream as string");
+	// // Get response stream as a string
+	// String response = NetworkUtils.convertStreamToString(responseStream);
+	// Log.d(TAG, "Save response stream as json object in result");
+	// // Set response string as a json object in result
+	//
+	// // httpClientGetResult.setJson(new JSONObject(response));
+	// try {
+	// httpClientGetResult.setJsonArray(new JSONArray(response));
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// }
 
-		// httpClientGetResult.setJson(new JSONObject(response));
-		try {
-			httpClientGetResult.setJsonArray(new JSONArray(response));
-		} catch (Exception e) {
-			e.printStackTrace();
+	protected void getResponseFromStream(SSHttpClientGetResult httpClientGetResult, InputStream responseStream) throws Exception {
+		// Get response stream as an object
+		String response = NetworkUtils.convertStreamToString(responseStream);
+
+		// Determine if we have an JSONArray or JSONObject as a response
+		Object json = new JSONTokener(response).nextValue();
+		if (json instanceof JSONObject) {
+			JSONObject jsonObject = (JSONObject) json;
+			// Set response string as a json object in result
+			httpClientGetResult.setJson(jsonObject);
+		} else if (json instanceof JSONArray) {
+			JSONArray jsonArray = (JSONArray) json;
+			// Set response string as a json object in result
+			httpClientGetResult.setJsonArray(jsonArray);
 		}
+
 	}
 }

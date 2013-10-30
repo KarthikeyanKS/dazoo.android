@@ -192,6 +192,8 @@ public class ContentParser {
 		if (jsonProgram != null) {
 			broadcast.setProgram(parseProgram(jsonProgram, tagKey));
 		}
+		
+		Log.d(TAG,"SHARE URL: " + broadcast.getShareUrl());
 		return broadcast;
 	}
 
@@ -293,6 +295,8 @@ public class ContentParser {
 	}
 
 	public Broadcast parseBroadcast(JSONObject jsonObject) {
+		Log.d(TAG,"parseBroadcast");
+		
 		if (jsonObject != null) {
 			try {
 				return parseBroadcast(jsonObject, null);

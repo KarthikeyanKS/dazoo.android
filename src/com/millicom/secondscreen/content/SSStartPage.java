@@ -78,4 +78,9 @@ public class SSStartPage extends SSPage {
 		}
 	}
 
+	@Override
+	protected void parseGetPageResult(JSONObject jsonObject, SSPageGetResult pageGetResult) {
+		// not necessary here
+	}
+
 }

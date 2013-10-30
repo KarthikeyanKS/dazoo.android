@@ -3,6 +3,7 @@ package com.millicom.secondscreen.content;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import android.util.Log;
 
@@ -11,12 +12,12 @@ import com.millicom.secondscreen.content.model.Link;
 import com.millicom.secondscreen.content.model.ProgramType;
 import com.millicom.secondscreen.content.model.Tag;
 
-public class SSTagsPage extends SSPage{
+public class SSTagsPage extends SSPage {
 
-public static final String TAG = "SSTagsPage";
-	
+	public static final String	TAG	= "SSTagsPage";
+
 	private static SSTagsPage	sInstance;
-	public String 				mTagsPageUrl;
+	public String				mTagsPageUrl;
 
 	public static SSTagsPage getInstance() {
 		if (sInstance == null) sInstance = new SSTagsPage();
@@ -31,30 +32,30 @@ public static final String TAG = "SSTagsPage";
 		mTagsPageUrl = Consts.MILLICOM_SECONDSCREEN_TAGS_PAGE_URL;
 		Link tagsPageLink = new Link();
 		tagsPageLink.setUrl(mTagsPageUrl);
-		
+
 		super.getPage(tagsPageLink, pageCallback);
 		return true;
 	}
 
-	public ArrayList<Tag> getTags(){
-		Log.d(TAG,"get tags");
+	public ArrayList<Tag> getTags() {
+		Log.d(TAG, "get tags");
 		return super.getTags();
 	}
-	
+
 	@Override
-	protected void parseGetPageResult(JSONArray jsonArray, SSPageGetResult pageGetResult){	
-	Log.d(TAG, "parseGetPageResult");
+	protected void parseGetPageResult(JSONArray jsonArray, SSPageGetResult pageGetResult) {
+		Log.d(TAG, "parseGetPageResult");
 		try {
 			super.parseTags(jsonArray);
 
 			// The resulting page is this
 			pageGetResult.setPage(this);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	protected void handleGetStartPageUriResult() {
 		Log.d(TAG, "handleGetStartPageUriResult");
 
@@ -69,5 +70,10 @@ public static final String TAG = "SSTagsPage";
 				mPageCallback.onGetPageResult(pageGetResult);
 			}
 		}
+	}
+
+	@Override
+	protected void parseGetPageResult(JSONObject jsonObject, SSPageGetResult pageGetResult) {
+		// not necessary here
 	}
 }

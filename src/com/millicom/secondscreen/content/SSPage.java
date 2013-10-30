@@ -59,7 +59,6 @@ public abstract class SSPage {
 					aPageGetResult = new SSPageGetResult();
 
 				}
-				
 				mPageCallback.onGetPageResult(aPageGetResult);
 			}
 		});
@@ -68,20 +67,33 @@ public abstract class SSPage {
 	// Implemented by siblings to parse the json result for the page, called on the background thread
 	protected abstract void parseGetPageResult(JSONArray jsonArray, SSPageGetResult pageGetResult);
 
+	protected abstract void parseGetPageResult(JSONObject jsonObject, SSPageGetResult pageGetResult);
+
 	protected SSPageGetResult handleHttpGetResult(SSHttpClientGetResult aHttpClientGetResult) {
 		Log.d(TAG, "In onHandleHttpGetResult");
 		JSONArray jsonArray = aHttpClientGetResult.getJsonArray();
-		Log.d(TAG, "JSONArray is not null: " + (jsonArray != null));
 
-		SSPageGetResult pageGetResult = new SSPageGetResult(aHttpClientGetResult.getUri(), null);
+		if (jsonArray != null) {
+			SSPageGetResult pageGetResult = new SSPageGetResult(aHttpClientGetResult.getUri(), null);
 
-		try {
-			parseGetPageResult(jsonArray, pageGetResult);
+			try {
+				parseGetPageResult(jsonArray, pageGetResult);
 
-		} catch (Exception e) {
-			e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return pageGetResult;
+		} else {
+			JSONObject jsonObject = aHttpClientGetResult.getJson();
+			SSPageGetResult pageGetResult = new SSPageGetResult(aHttpClientGetResult.getUri(), null);
+
+			try {
+				parseGetPageResult(jsonObject, pageGetResult);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return pageGetResult;
 		}
-		return pageGetResult;
 	}
 
 	public void parseTvDates(JSONArray jsonArray) throws Exception {
