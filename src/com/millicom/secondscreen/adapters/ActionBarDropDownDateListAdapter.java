@@ -2,31 +2,26 @@ package com.millicom.secondscreen.adapters;
 
 import java.util.ArrayList;
 
-import com.millicom.secondscreen.R;
-import com.millicom.secondscreen.content.model.TvDate;
-import com.millicom.secondscreen.utilities.DateUtilities;
-
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.content.model.TvDate;
+import com.millicom.secondscreen.utilities.DateUtilities;
+
 public class ActionBarDropDownDateListAdapter extends BaseAdapter implements SpinnerAdapter {
 
-	private static final String	TAG				= "Adapter";
+	private static final String	TAG				= "ActionBarDropDownDateListAdapter";
 	private ArrayList<TvDate>	mDays;
-	private Context				context;
 
 	private int					mSelectedIndex	= -1;
 
-	public ActionBarDropDownDateListAdapter(Context context, ArrayList<TvDate> mDays) {
-		this.context = context;
+	public ActionBarDropDownDateListAdapter(ArrayList<TvDate> mDays) {
 		this.mDays = mDays;
 	}
 

@@ -1,7 +1,14 @@
 package com.millicom.secondscreen.content.homepage;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
+import android.app.ActivityManager;
+import android.app.ActivityManager.MemoryInfo;
+import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +17,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Debug;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
@@ -22,6 +30,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
@@ -105,6 +114,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		mActionBar.setDisplayShowHomeEnabled(true);
 		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
+		//========================================TEST============================
 		TvDate date = new TvDate();
 		date.setAlias("today");
 		date.setName("Today");
@@ -125,8 +135,9 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		date2.setId("2013-10-31");
 		date2.setDate("2013-10-31");
 		mTvDates.add(date2);
+		//=============================================================================
 		
-		mDayAdapter = new ActionBarDropDownDateListAdapter(this, mTvDates);
+		mDayAdapter = new ActionBarDropDownDateListAdapter(mTvDates);
 		mDayAdapter.setSelectedIndex(mSelectedIndex);
 		mActionBar.setListNavigationCallbacks(mDayAdapter, this);
 
@@ -187,6 +198,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		Log.d(TAG, "ALL CATEGORIES:" + getResources().getString(R.string.all_categories_name));
 		mTags.add(0, tagAll);
 
+		// -===============================TEST=======================
 		Tag tagOne = new Tag();
 		tagOne.setId(getResources().getString(R.string.all_categories_id));
 		tagOne.setName("One");
@@ -227,6 +239,8 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		tagEight.setName("Eight");
 		mTags.add(tagEight);
 
+		// ==============================================
+		
 		Log.d(TAG, "mTags SIZE:" + mTags.size());
 
 		mTabTitles = new ArrayList<String>();
@@ -329,12 +343,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 	@Override
 	public boolean onNavigationItemSelected(int position, long id) {
-		Log.d(TAG,"here");
 		mDayAdapter.setSelectedIndex(position);
-		
-		
-		
-		Log.d(TAG,"AFTER");
 		TvDate tvDateItem = mTvDates.get(position);
 		LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(new Intent(Consts.INTENT_EXTRA_TVGUIDE_SORTING).putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE, tvDateItem.getDate()));
 		return true;

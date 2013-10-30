@@ -126,7 +126,7 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 		mActionBar.setDisplayShowHomeEnabled(true);
 		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
-		mDayAdapter = new ActionBarDropDownDateListAdapter(this, mTvDates);
+		mDayAdapter = new ActionBarDropDownDateListAdapter(mTvDates);
 		mDayAdapter.setSelectedIndex(mSelectedIndex);
 		mActionBar.setListNavigationCallbacks(mDayAdapter, this);
 	}
