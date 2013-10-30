@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -18,8 +21,13 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.SingleClientConnManager;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -142,10 +150,25 @@ public class LikeService {
 		@Override
 		protected String doInBackground(String... params) {
 			try {
-				HttpClient httpClient = new DefaultHttpClient();
+				//HttpClient httpClient = new DefaultHttpClient();
+				HttpClient client = new DefaultHttpClient();
+				HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
+				SchemeRegistry registry = new SchemeRegistry();
+				registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+
+				SSLSocketFactory socketFactory = SSLSocketFactory.getSocketFactory();
+				socketFactory.setHostnameVerifier(SSLSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
+				registry.register(new Scheme("https", socketFactory, 443));
+				SingleClientConnManager mgr = new SingleClientConnManager(client.getParams(), registry);
+
+				DefaultHttpClient httpClient = new DefaultHttpClient(mgr, client.getParams());
+				// Set verifier
+				HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
+				
 				HttpGet httpGet = new HttpGet();
 				httpGet.setHeader("Authorization", "Bearer " + params[0]);
 				httpGet.setURI(new URI(Consts.MILLICOM_SECONDSCREEN_LIKES_URL));
+				
 				HttpResponse response = httpClient.execute(httpGet);
 				if (Consts.GOOD_RESPONSE == response.getStatusLine().getStatusCode()) {
 					HttpEntity entityHttp = response.getEntity();
@@ -182,10 +205,27 @@ public class LikeService {
 		@Override
 		protected Integer doInBackground(String... params) {
 			try {
+				//HttpClient client = new DefaultHttpClient();
 				HttpClient client = new DefaultHttpClient();
+				HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
+				SchemeRegistry registry = new SchemeRegistry();
+				registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+
+				SSLSocketFactory socketFactory = SSLSocketFactory.getSocketFactory();
+				socketFactory.setHostnameVerifier(SSLSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
+				registry.register(new Scheme("https", socketFactory, 443));
+				SingleClientConnManager mgr = new SingleClientConnManager(client.getParams(), registry);
+
+				DefaultHttpClient httpClient = new DefaultHttpClient(mgr, client.getParams());
+				// Set verifier
+				HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
+
 				HttpDelete httpDelete = new HttpDelete(Consts.MILLICOM_SECONDSCREEN_LIKES_URL + "/" + params[1]);	
 				httpDelete.setHeader("Authorization", "Bearer " + params[0]);
-				HttpResponse response = client.execute(httpDelete);
+				
+				//HttpResponse response = client.execute(httpDelete);
+				HttpResponse response = httpClient.execute(httpDelete);
+				
 				return response.getStatusLine().getStatusCode();
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();

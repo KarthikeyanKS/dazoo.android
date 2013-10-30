@@ -30,7 +30,7 @@ public abstract class Consts {
 	public static final String	MILLICOM_SECONDSCREEN_MY_CHANNELS_URL						= "http://www.gitrgitr.com/api/my/channels";
 	public static final String	MILLICOM_SECONDSCREEN_LIKES_URL								= "http://www.gitrgitr.com/api/my/likes";
 
-	public static final String	MILLICON_SECONDSCREEN_HTTP_SCHEME							= "http";
+	public static final String	MILLICON_SECONDSCREEN_HTTP_SCHEME							= "https";
 
 	// api request strings
 	public static final String	MILLICOM_SECONDSCREEN_API_CHANNEL_ID_WITH_EQUALS_SIGN		= "channelId=";
