@@ -3,6 +3,8 @@ package com.millicom.secondscreen.adapters;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
+import com.imbryk.viewPager.LoopViewPager;
+
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

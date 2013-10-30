@@ -73,18 +73,15 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	private String						mDate;
 	private ArrayList<Tag>				mTags				= new ArrayList<Tag>();
 	private ArrayList<String>			mTabTitles;
-	// private FragmentStatePagerAdapter mAdapter;
-	private FragmentPagerAdapter		mAdapter;
+	private FragmentStatePagerAdapter	mAdapter;
 	private TabPageIndicator			mPageTabIndicator;
-	
-	private String broadcastUrl = "http://www.gitrgitr.com/api/epg/channels/7720eff8-2eaf-444c-a032-fefee7be5a02/broadcasts/1381991400000";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_home_activity);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		
+
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver, new IntentFilter(Consts.INTENT_EXTRA_TVGUIDE_SORTING));
 
 		initViews();
@@ -265,7 +262,8 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	}
 
 	private void setAdapter(int selectedIndex) {
-		mAdapter = new TagAdapter(getSupportFragmentManager());
+		mAdapter = new TagTypeFragmentStatePagerAdapter(getSupportFragmentManager(), mTags);
+		
 		mViewPager.setVisibility(View.VISIBLE);
 		mViewPager.setAdapter(mAdapter);
 
@@ -276,34 +274,6 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 		mPageTabIndicator.setCurrentItem(selectedIndex);
 		mPageTabIndicator.setOnPageChangeListener(mOnPageChangeListener);
-	}
-
-	class TagAdapter extends FragmentPagerAdapter {
-		public TagAdapter(FragmentManager fm) {
-			super(fm);
-		}
-
-		@Override
-		public Fragment getItem(int position) {
-			position = LoopViewPager.toRealPosition(position, getCount());
-			Fragment fragment;
-			if (position == 0) {
-				return fragment = TVGuideTableFragment.newInstance(mTags.get(position));
-			} else {
-				return fragment = TVGuideTagTypeFragment.newInstance(mTags.get(position));
-			}
-
-		}
-
-		@Override
-		public CharSequence getPageTitle(int position) {
-			return mTabTitles.get(position % mTabTitles.size());
-		}
-
-		@Override
-		public int getCount() {
-			return mTabTitles.size();
-		}
 	}
 
 	private boolean loadHomeFromSavedInstanceState(Bundle savedInstanceState) {
