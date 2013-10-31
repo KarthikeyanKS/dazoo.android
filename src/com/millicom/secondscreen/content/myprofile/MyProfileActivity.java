@@ -39,7 +39,7 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 	private Button				mLoginBtn;
 	private String				userFirstName, userLastName;
 	private boolean				mIsLoggedIn	= false;
-	private String				mToken;
+	private String				mToken = "";
 	private ActionBar			mActionBar;
 	private TextView			mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
 
@@ -49,7 +49,8 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 		setContentView(R.layout.layout_myprofile_activity);
 
 		mToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
-		if (mToken != null && mToken.isEmpty() != true) {
+		//isEmpty is API level 9! Changed to length.
+		if (mToken != null && mToken.length() > 0) {
 			mIsLoggedIn = true;
 
 			userFirstName = ((SecondScreenApplication) getApplicationContext()).getUserFirstName();
@@ -127,7 +128,8 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 	private void populateViews() {
 		if (mIsLoggedIn) {
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-				if (userFirstName != null && userLastName != null && userFirstName.isEmpty() != true && userLastName.isEmpty() != true) {
+				//Also changed isEmpty for length here.
+				if (userFirstName != null && userLastName != null && userFirstName.length() > 0 && userLastName.length() > 0) {
 					mAvatarImageView.setImageResource(R.drawable.loadimage_2x);
 					mUserNameTextView.setText(userFirstName + " " + userLastName);
 				} else {

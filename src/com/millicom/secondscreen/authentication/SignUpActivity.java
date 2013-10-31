@@ -26,6 +26,8 @@ import com.millicom.secondscreen.utilities.PatternCheck;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -33,7 +35,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -43,7 +47,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SignUpActivity extends ActionBarActivity implements OnClickListener {
+public class SignUpActivity extends org.holoeverywhere.app.Activity implements OnClickListener {
 
 	private static final String	TAG	= "SignUpActivity";
 	private ActionBar			mActionBar;
@@ -52,11 +56,14 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 	private String				userEmailRegister, userPasswordRegister, userFirstNameRegister, userLastNameRegister, dazooToken;
 	private TextView			mErrorTextView;
 	private Drawable 			mFirstNameDrawable, mLastNameDrawable, mPasswordRegisterDrawable, mEmailRegisterDrawable;
-
-	private final int 			REGISTER_NAME_MISSING = 0;
-	private final int 			REGISTER_EMAIL_WRONG = 1;
-	private final int 			PASSWORD_LENGTH_WRONG = 2;
-	private final int 			PASSWORD_ILLEGAL_CHARACTERS = 3;
+	private TextDrawable		mEmailTextDrawable, mPasswordTextDrawable;
+	
+	
+	private final int 			REGISTER_FIRSTNAME_MISSING = 0;
+	private final int 			REGISTER_LASTNAME_MISSING = 1;
+	private final int 			REGISTER_EMAIL_WRONG = 2;
+	private final int 			PASSWORD_LENGTH_WRONG = 3;
+	private final int 			PASSWORD_ILLEGAL_CHARACTERS = 4;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +97,62 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 		mLastNameDrawable = mLastNameEditText.getBackground();
 		mEmailRegisterDrawable = mEmailRegisterEditText.getBackground();
 		mPasswordRegisterDrawable = mPasswordRegisterEditText.getBackground();
+		
+		setTextWatchers();
+	}
+	
+	//Sets the TextWatchers for the extra drawable hints.
+	private void setTextWatchers() {
+		mPasswordTextDrawable = new TextDrawable(this);
+		mPasswordTextDrawable.setText(getResources().getString(R.string.signup_characters));
+		mPasswordTextDrawable.setTextColor(getResources().getColor(R.color.light_gray));
+		mPasswordRegisterEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, mPasswordTextDrawable, null);
+		mPasswordRegisterEditText.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (mPasswordRegisterEditText.getText().toString().equals("")) {
+					mPasswordRegisterEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, mPasswordTextDrawable, null);
+				}
+				else {
+					mPasswordRegisterEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+				}
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+			}
+		});
+		mEmailTextDrawable = new TextDrawable(this);
+		mEmailTextDrawable.setText(getResources().getString(R.string.signup_email_example));
+		mEmailTextDrawable.setTextColor(getResources().getColor(R.color.light_gray));
+		mEmailRegisterEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, mEmailTextDrawable, null);
+		mEmailRegisterEditText.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (mEmailRegisterEditText.getText().toString().equals("")) {
+					mEmailRegisterEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, mEmailTextDrawable, null);
+				}
+				else {
+					mEmailRegisterEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+				}
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+			}
+		});
 	}
 
 	private boolean verifyRegisterInput() {
@@ -108,8 +171,11 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 		String firstNameInput = mFirstNameEditText.getText().toString();
 		String lastNameInput = mLastNameEditText.getText().toString();
 		String passwordInput = mPasswordRegisterEditText.getText().toString();
-		if ((firstNameInput.equals("")) || (lastNameInput.equals(""))) {
-			return REGISTER_NAME_MISSING;
+		if ((firstNameInput.equals(""))) {
+			return REGISTER_FIRSTNAME_MISSING;
+		}
+		if ((lastNameInput.equals(""))) {
+			return REGISTER_LASTNAME_MISSING;
 		}
 		else if ((emailInput.equals("")) || (PatternCheck.checkEmail(emailInput) == false)) {
 			return REGISTER_EMAIL_WRONG;
@@ -188,7 +254,7 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 				}
 			} else {
 				int errorId = findWrongRegisterInput();
-				//TODO: Fix compatibility with older api versions
+				//TODO: Fix compatibility with highlighting for older API versions
 				if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
 					if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
 						if (mFirstNameEditText.getBackground() != mFirstNameDrawable) {
@@ -205,13 +271,20 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 						}
 					}
 					switch (errorId) {
-						case REGISTER_NAME_MISSING:
+						case REGISTER_FIRSTNAME_MISSING:
 							mFirstNameEditText.setActivated(true);
-							mLastNameEditText.setActivated(true);
 							if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
 								Drawable bg = getResources().getDrawable(R.drawable.edittext_activated);
 								mFirstNameEditText.setBackground(bg);
+								mFirstNameEditText.requestFocus();
+							}
+							break;
+						case REGISTER_LASTNAME_MISSING:
+							mLastNameEditText.setActivated(true);
+							if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+								Drawable bg = getResources().getDrawable(R.drawable.edittext_activated);
 								mLastNameEditText.setBackground(bg);
+								mLastNameEditText.requestFocus();
 							}
 							break;
 						case REGISTER_EMAIL_WRONG:
@@ -219,6 +292,7 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 							if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
 								Drawable bg = getResources().getDrawable(R.drawable.edittext_activated);
 								mEmailRegisterEditText.setBackground(bg);
+								mEmailRegisterEditText.requestFocus();
 							}
 							break;
 						case PASSWORD_LENGTH_WRONG:
@@ -226,6 +300,7 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 							if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
 								Drawable bg = getResources().getDrawable(R.drawable.edittext_activated);
 								mPasswordRegisterEditText.setBackground(bg);
+								mPasswordRegisterEditText.requestFocus();
 							}
 							break;
 						case PASSWORD_ILLEGAL_CHARACTERS:
@@ -233,19 +308,25 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 							if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
 								Drawable bg = getResources().getDrawable(R.drawable.edittext_activated);
 								mPasswordRegisterEditText.setBackground(bg);
+								mPasswordRegisterEditText.requestFocus();
 							}
 							break;
 					}
 				}
 				switch (errorId) {
-					case REGISTER_NAME_MISSING:
-						mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_name));
+					case REGISTER_FIRSTNAME_MISSING:
+						mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_firstname));
+						break;
+					case REGISTER_LASTNAME_MISSING:
+						mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_lastname));
 						break;
 					case REGISTER_EMAIL_WRONG:
 						mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email));
 						break;
 					case PASSWORD_LENGTH_WRONG:
-						mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_passwordlength));
+						mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_passwordlength) +
+											   " " + Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MIN + " " + 
+										       getResources().getString(R.string.signup_with_email_characters));
 						break;
 					case PASSWORD_ILLEGAL_CHARACTERS:
 						mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_passwordcharacters));

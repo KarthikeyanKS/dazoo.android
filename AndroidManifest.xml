@@ -128,7 +128,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"
-            android:theme="@style/Theme.AppCompat.Light" />
+            android:theme="@style/Holo.Theme.Light" />
         
         <!-- DAZOO LOGIN -->
          <activity
