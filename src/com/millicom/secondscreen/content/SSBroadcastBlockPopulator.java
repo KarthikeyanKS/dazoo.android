@@ -46,7 +46,6 @@ public class SSBroadcastBlockPopulator {
 		mImageLoader.displayImage(program.getPosterLUrl(), posterIv, posterPb, ImageLoader.IMAGE_TYPE.POSTER);
 		titleTv.setText(program.getTitle());
 		//seasonTv.setText(program.getSeason().getNumber());
-		episodeTv.setText(program.getEpisode());
 
 		String beginTime, endTime;
 		try {

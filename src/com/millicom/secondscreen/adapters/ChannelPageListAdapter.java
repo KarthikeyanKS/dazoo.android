@@ -178,7 +178,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 					holder.mDescTv.setText(mActivity.getResources().getString(R.string.season) + " " + 
 							broadcast.getProgram().getSeason().getNumber() + " " + 
 							mActivity.getResources().getString(R.string.episode) + " " +
-							broadcast.getProgram().getEpisode());
+							String.valueOf(broadcast.getProgram().getEpisodeNumber()));
 				}
 				else if (type.equals(Consts.DAZOO_PROGRAM_TYPE_SPORT)) {
 					ArrayList<String> tags = broadcast.getProgram().getTags();

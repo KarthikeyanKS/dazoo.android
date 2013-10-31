@@ -99,10 +99,10 @@ public class NotificationService {
 			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 				dbNotification.setProgramType(programType);
 				dbNotification.setProgramSeason(broadcast.getProgram().getSeason().getNumber());
-				dbNotification.setProgramEpisode(broadcast.getProgram().getEpisode());
+				dbNotification.setProgramEpisodeNumber(broadcast.getProgram().getEpisodeNumber());
 			} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)){
 				dbNotification.setProgramType(programType);
-				dbNotification.setProgramYear(Integer.parseInt(broadcast.getProgram().getYear()));
+				dbNotification.setProgramYear(broadcast.getProgram().getYear());
 			} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)){
 				dbNotification.setProgramType(programType);
 			}
@@ -193,7 +193,7 @@ public class NotificationService {
 		String reminderText = "";
 		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(broadcast.getProgram().getProgramType())) {
 			reminderText = context.getString(R.string.reminder_text_remove) + broadcast.getProgram().getTitle() + ", " + context.getString(R.string.season) + " "
-					+ broadcast.getProgram().getSeason().getNumber() + ", " + context.getString(R.string.episode) + " " + broadcast.getProgram().getEpisode() + "?";
+					+ broadcast.getProgram().getSeason().getNumber() + ", " + context.getString(R.string.episode) + " " + broadcast.getProgram().getEpisodeNumber() + "?";
 		} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(broadcast.getProgram().getProgramType())) {
 			reminderText = context.getString(R.string.reminder_text_remove) + broadcast.getProgram().getTitle() + "?";
 		} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(broadcast.getProgram().getProgramType())) {

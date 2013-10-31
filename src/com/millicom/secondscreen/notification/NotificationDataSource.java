@@ -38,7 +38,7 @@ public class NotificationDataSource {
 		values.put(Consts.NOTIFICATION_DB_COLUMN_PROGRAM_TITLE, notification.getProgramTitle());
 		values.put(Consts.NOTIFICATION_DB_COLUMN_PROGRAM_TYPE, notification.getProgramType());
 		values.put(Consts.NOTIFICATION_DB_COLUMN_PROGRAM_SEASON, notification.getProgramSeason());
-		values.put(Consts.NOTIFICATION_DB_COLUMN_PROGRAM_EPISODE, notification.getProgramEpisode());
+		values.put(Consts.NOTIFICATION_DB_COLUMN_PROGRAM_EPISODE, notification.getProgramEpisodeNumber());
 		values.put(Consts.NOTIFICATION_DB_COLUMN_PROGRAM_YEAR, notification.getProgramYear());
 		values.put(Consts.NOTIFICATION_DB_COLUMN_PROGRAM_TAG, notification.getProgramTag());
 		values.put(Consts.NOTIFICATION_DB_COLUMN_CHANNEL_ID, notification.getChannelId());
@@ -102,7 +102,7 @@ public class NotificationDataSource {
 				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 					notification.setProgramType(programType);
 					notification.setProgramSeason(cursor.getString(5));
-					notification.setProgramEpisode(cursor.getString(6));
+					notification.setProgramEpisodeNumber(cursor.getInt(6));
 				} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
 					notification.setProgramType(programType);
 					notification.setProgramYear(cursor.getInt(7));

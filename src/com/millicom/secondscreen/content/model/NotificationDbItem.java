@@ -7,7 +7,7 @@ public class NotificationDbItem {
 	private String programTitle;
 	private String programType;
 	private String programSeason;
-	private String programEpisode;
+	private int programEpisodeNumber;
 	private int programYear;
 	private String programTag;
 	private String channelId;
@@ -63,12 +63,12 @@ public class NotificationDbItem {
 		return this.programSeason;
 	}
 	
-	public void setProgramEpisode(String programEpisode){
-		this.programEpisode = programEpisode;
+	public void setProgramEpisodeNumber(int programEpisodeNumber){
+		this.programEpisodeNumber = programEpisodeNumber;
 	}
 	
-	public String getProgramEpisode(){
-		return this.programEpisode;
+	public int getProgramEpisodeNumber(){
+		return this.programEpisodeNumber;
 	}
 	
 	public void setProgramYear(int programYear){

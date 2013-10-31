@@ -175,7 +175,7 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 		}
 		mTitleTv.setText(program.getTitle());
 		// seasonTv.setText(program.getSeason().getNumber());
-		mEpisodeTv.setText(program.getEpisode());
+		mEpisodeTv.setText(String.valueOf(program.getEpisodeNumber()));
 
 		String beginTime, endTime;
 		try {

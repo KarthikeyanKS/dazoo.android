@@ -176,41 +176,42 @@ public abstract class Consts {
 	// =========================== CONTENT ================================
 
 	// PROGRAM fields:
-	public static final String	DAZOO_PROGRAM_HREF									= "href";
 	public static final String	DAZOO_PROGRAM_ID									= "programId";
-	public static final String	DAZOO_PROGRAM_TITLE									= "title";
 	public static final String	DAZOO_PROGRAM_TYPE									= "programType";
-	public static final String	DAZOO_PROGRAM_TAGS									= "tags";
+	public static final String	DAZOO_PROGRAM_TITLE									= "title";
 	public static final String	DAZOO_PROGRAM_SYNOPSIS_SHORT						= "synopsisShort";
 	public static final String	DAZOO_PROGRAM_SYNOPSISS_LONG						= "synopsisLong";
 	public static final String	DAZOO_PROGRAM_POSTER								= "poster";
+	public static final String	DAZOO_PROGRAM_TAGS									= "tags";
+	public static final String	DAZOO_PROGRAM_CREDITS								= "credits";
 	public static final String	DAZOO_PROGRAM_EPISODE								= "episodeNumber";
 	public static final String	DAZOO_PROGRAM_SEASON								= "season";
-	public static final String	DAZOO_PROGRAM_DESCRIPTION							= "description";
-	public static final String	DAZOO_PROGRAM_CAST									= "cast";
-	// public static final String DAZOO_PROGRAM_RUNTIME = "runtime";
-	public static final String	DAZOO_PROGRAM_SUBTITLE								= "subtitle";
-	public static final String	DAZOO_PROGRAM_YEAR									= "year";
 	public static final String	DAZOO_PROGRAM_SERIES								= "series";
+	public static final String	DAZOO_PROGRAM_YEAR									= "year";
+	public static final String	DAZOO_PROGRAM_GENRE									= "genre";
+	public static final String	DAZOO_PROGRAM_SPORTTYPE								= "sportType";
+	public static final String	DAZOO_PROGRAM_TOURNAMENT							= "tournament";
 	public static final String	DAZOO_PROGRAM_TYPE_TV_EPISODE						= "TV_EPISODE";
 	public static final String	DAZOO_PROGRAM_TYPE_MOVIE							= "MOVIE";
 	public static final String	DAZOO_PROGRAM_TYPE_OTHER							= "OTHER";
 	public static final String	DAZOO_PROGRAM_TYPE_SPORT							= "SPORT";
+
 	public static final String	DAZOO_LIKE_ENTITY_TYPE_PROGRAM						= "PROGRAM";
 	public static final String	DAZOO_LIKE_ENTITY_TYPE_SERIES						= "SERIES";
 
 	// BROADCAST fields
-	public static final String	DAZOO_BROADCAST_HREF								= "href";
 	public static final String	DAZOO_BROADCAST_PROGRAM								= "program";
 	public static final String	DAZOO_BROADCAST_CHANNEL								= "channel";
+	public static final String	DAZOO_BROADCAST_BROADCAST_TYPE						= "broadcastType";
 	public static final String	DAZOO_BROADCAST_BEGIN_TIME							= "beginTime";
 	public static final String	DAZOO_BROADCAST_END_TIME							= "endTime";
-	// public static final String DAZOO_BROADCAST_DURATION_IN_MINUTES = "durationInMinutes";
 	public static final String	DAZOO_BROADCAST_BEGIN_TIME_MILLIS					= "beginTimeMillis";
 	public static final String	DAZOO_BROADCAST_SHARE_URL							= "shareUrl";
+
 	public static final String	DAZOO_BROADCAST_TYPE_RERUN							= "RERUN";
 	public static final String	DAZOO_BROADCAST_TYPE_LIVE							= "LIVE";
 	public static final String	DAZOO_BROADCAST_TYPE_OTHER							= "OTHER";
+	public static final String	DAZOO_BROADCAST_TYPE_RECORDED						= "RECORDED";
 
 	// CHANNEL fields
 	public static final String	DAZOO_CHANNEL_HREF									= "href";

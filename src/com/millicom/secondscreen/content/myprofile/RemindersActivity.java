@@ -98,12 +98,12 @@ public class RemindersActivity extends ActionBarActivity implements RemindersCou
 			program.setProgramType(programType);
 
 			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-				program.setEpisode(item.getProgramEpisode());
+				program.setEpisodeNumber(item.getProgramEpisodeNumber());
 				Season season = new Season();
 				season.setNumber(item.getProgramSeason());
 				program.setSeason(season);
 			} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
-				program.setYear(String.valueOf(item.getProgramYear()));
+				program.setYear(item.getProgramYear());
 			}
 
 			// program.setTags()
