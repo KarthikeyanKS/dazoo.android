@@ -133,7 +133,6 @@ public class ContentParser {
 
 	public Channel parseChannel(JSONObject jsonChannel) throws Exception {
 		Channel channel = new Channel();
-		channel.setId(jsonChannel.optString(Consts.DAZOO_CHANNEL_ID));
 		channel.setChannelId(jsonChannel.optString(Consts.DAZOO_CHANNEL_CHANNEL_ID));
 		channel.setName(jsonChannel.optString(Consts.DAZOO_CHANNEL_NAME));
 

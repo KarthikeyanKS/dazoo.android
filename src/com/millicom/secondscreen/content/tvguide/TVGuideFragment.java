@@ -576,7 +576,7 @@ public class TVGuideFragment extends SSPageFragment {
 	private HashMap<Channel, ArrayList<ChannelHour>> mapChannelsWithBroadcasts(ArrayList<Guide> guide) {
 		for (int i = 0; i < guide.size(); i++) {
 			Channel channel = new Channel();
-			channel.setId(guide.get(i).getId());
+			channel.setChannelId(guide.get(i).getId());
 			channel.setName(guide.get(i).getName());
 			channel.setLogoSUrl(guide.get(i).getLogoSHref());
 			channel.setLogoMUrl(guide.get(i).getLogoMHref());

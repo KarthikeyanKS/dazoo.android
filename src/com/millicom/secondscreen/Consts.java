@@ -214,9 +214,7 @@ public abstract class Consts {
 	public static final String	DAZOO_BROADCAST_TYPE_RECORDED						= "RECORDED";
 
 	// CHANNEL fields
-	public static final String	DAZOO_CHANNEL_HREF									= "href";
 	public static final String	DAZOO_CHANNEL_CHANNEL_ID							= "channelId";
-	public static final String	DAZOO_CHANNEL_ID									= "_id";
 	public static final String	DAZOO_CHANNEL_NAME									= "name";
 	public static final String	DAZOO_CHANNEL_LOGO									= "logo";
 

@@ -91,7 +91,7 @@ public class NotificationService {
 
 			NotificationDbItem dbNotification = new NotificationDbItem();
 			dbNotification.setNotificationId(notificationId);
-			dbNotification.setBroadcstUrl(Consts.NOTIFY_BROADCAST_URL_PREFIX + channel.getId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillis());
+			dbNotification.setBroadcstUrl(Consts.NOTIFY_BROADCAST_URL_PREFIX + channel.getChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillis());
 			dbNotification.setProgramId(broadcast.getProgram().getProgramId());
 			dbNotification.setProgramTitle(broadcast.getProgram().getTitle());
 
