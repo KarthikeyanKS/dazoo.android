@@ -23,8 +23,10 @@
             android:hint="@string/hint_firstname"
             android:inputType="text"
             android:padding="8dp"
-            android:textColorHint="@color/light_gray"
-            android:textSize="16sp" />
+            android:textColorHint="@color/black"
+            android:textColor="@color/light_gray"
+            android:textSize="16sp"
+            android:background="@drawable/edittext_standard" />
 
         <com.millicom.secondscreen.customviews.FontEditText
             android:id="@+id/signup_lastname_edittext"
@@ -37,8 +39,10 @@
             android:hint="@string/hint_lastname"
             android:inputType="text"
             android:padding="8dp"
-            android:textColorHint="@color/light_gray"
-            android:textSize="16sp" />
+            android:textColorHint="@color/black"
+            android:textColor="@color/light_gray"
+            android:textSize="16sp"
+            android:background="@drawable/edittext_standard" />
 
         <!-- TODO: Fix hints, Password ... at least 6 characters -->
         <com.millicom.secondscreen.customviews.FontEditText
@@ -52,8 +56,10 @@
             android:hint="@string/hint_email"
             android:inputType="textEmailAddress"
             android:padding="8dp"
-            android:textColorHint="@color/light_gray"
-            android:textSize="16sp" />
+            android:textColorHint="@color/black"
+            android:textColor="@color/light_gray"
+            android:textSize="16sp"
+            android:background="@drawable/edittext_standard" />
 
         <com.millicom.secondscreen.customviews.FontEditText
             android:id="@+id/signup_password_edittext"
@@ -64,11 +70,12 @@
             android:layout_marginTop="20dp"
             android:layout_below="@id/signup_email_edittext"
             android:hint="@string/hint_password"
-            android:ellipsize="end"
             android:inputType="textPassword"
             android:padding="8dp"
-            android:textColorHint="@color/light_gray"
-            android:textSize="16sp" />
+            android:textColorHint="@color/black"
+            android:textColor="@color/light_gray"
+            android:textSize="16sp"
+            android:background="@drawable/edittext_standard" />
 
         <com.millicom.secondscreen.customviews.FontTextView
             android:id="@+id/signup_error_textview"

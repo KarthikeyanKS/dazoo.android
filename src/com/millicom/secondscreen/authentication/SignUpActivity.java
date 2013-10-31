@@ -47,7 +47,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SignUpActivity extends org.holoeverywhere.app.Activity implements OnClickListener {
+public class SignUpActivity extends ActionBarActivity implements OnClickListener {
 
 	private static final String	TAG	= "SignUpActivity";
 	private ActionBar			mActionBar;

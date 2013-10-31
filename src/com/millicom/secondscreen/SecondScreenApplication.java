@@ -16,7 +16,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
-public class SecondScreenApplication extends org.holoeverywhere.app.Application {
+public class SecondScreenApplication extends Application {
 
 	private static final String				TAG								= "SecondScreenApplication";
 
