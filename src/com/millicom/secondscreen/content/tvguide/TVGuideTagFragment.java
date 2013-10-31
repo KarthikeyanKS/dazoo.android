@@ -42,21 +42,20 @@ public class TVGuideTagFragment extends SSPageFragment {
 	private int						numOfChannelsShownNow	= 0;
 	private String					mPageUrl, mDate, mSortingType, mTagName;
 
-	private ArrayList<Guide>		mGuide;
-	private ArrayList<Guide>		mGuideExtended			= new ArrayList<Guide>();
+	private ArrayList<Broadcast> mBroadcasts = new ArrayList<Broadcast>();
 	private Tag						mTag;
 	private ArrayList<Channel>		mChannels;
 	private ArrayList<String>		mChannelIds;
 	private TVGuideTagListAdapter	mAdapter;
-	private SSStartPage mPage;
+	private SSStartPage				mPage;
 
 	public static TVGuideTagFragment newInstance(Tag tag, String tvDate, ArrayList<Channel> channels) {
 
 		TVGuideTagFragment fragment = new TVGuideTagFragment();
 		Bundle bundle = new Bundle();
 		bundle.putParcelableArrayList(Consts.PARCELABLE_CHANNELS_LIST, channels);
-		bundle.putString(Consts.INTENT_EXTRA_TVGUIDE_TVDATE, tvDate);
-		bundle.putString(Consts.INTENT_EXTRA_TAG, tag.getName());
+		bundle.putString(Consts.FRAGMENT_EXTRA_TVDATE, tvDate);
+		bundle.putString(Consts.FRAGMENT_EXTRA_TAG, tag.getName());
 		fragment.setArguments(bundle);
 
 		Log.d(TAG, "Fragment new instance: " + tag.getName());
@@ -69,13 +68,13 @@ public class TVGuideTagFragment extends SSPageFragment {
 
 		Bundle bundle = getArguments();
 		mChannels = bundle.getParcelableArrayList(Consts.PARCELABLE_CHANNELS_LIST);
-		mDate = bundle.getString(Consts.INTENT_EXTRA_TVGUIDE_TVDATE);
-		mTagName = bundle.getString(Consts.INTENT_EXTRA_TAG);
+		mDate = bundle.getString(Consts.FRAGMENT_EXTRA_TVDATE);
+		mTagName = bundle.getString(Consts.FRAGMENT_EXTRA_TAG);
 		getAvailableChannelsIds();
 
 		// mPage = SSStartPage.getInstance();
-				mPage = new SSStartPage();
-		
+		mPage = new SSStartPage();
+
 		if (mChannelIds != null) {
 			mChannelsNum = mChannelIds.size();
 		}
@@ -90,11 +89,9 @@ public class TVGuideTagFragment extends SSPageFragment {
 		mListView = (ListView) mRootView.findViewById(R.id.listview);
 
 		super.initRequestCallbackLayouts(mRootView);
-		
+
 		// reset the activity whenever the view is recreated
 		mActivity = getActivity();
-
-		
 
 		loadPage();
 
@@ -130,30 +127,12 @@ public class TVGuideTagFragment extends SSPageFragment {
 	protected boolean pageHoldsData() {
 		boolean result = false;
 
-		mGuide = mPage.getGuide();
-
-		for (int i = 0; i < mGuide.size(); i++) {
-			Guide guideItem = mGuide.get(i);
-			int num = guideItem.getBroadcasts().size();
-			for (int j = 0; j < num; j++) {
-
-				Guide guideExtended = new Guide();
-				ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
-				broadcasts.add(guideItem.getBroadcasts().get(j));
-				guideExtended.setBroadcasts(broadcasts);
-				guideExtended.setId(guideItem.getId());
-				guideExtended.setName(guideItem.getName());
-
-				mGuideExtended.add(guideExtended);
-			}
-		}
-
-		if (mGuideExtended != null) {
-			if (mGuideExtended.isEmpty()) {
+		if (mBroadcasts != null) {
+			if (mBroadcasts.isEmpty()) {
 				Log.d(TAG, "EMPTY RESPONSE");
 				updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
 			} else {
-				Log.d(TAG, "SIZE: " + mGuideExtended.size());
+				Log.d(TAG, "SIZE: " + mBroadcasts.size());
 				updateUI(REQUEST_STATUS.SUCCESSFUL);
 			}
 			result = true;
@@ -167,7 +146,7 @@ public class TVGuideTagFragment extends SSPageFragment {
 		Log.d(TAG, "super status:" + super.requestIsSuccesfull(status));
 		if (super.requestIsSuccesfull(status)) {
 
-			mAdapter = new TVGuideTagListAdapter(mActivity, mGuideExtended);
+			mAdapter = new TVGuideTagListAdapter(mActivity, mBroadcasts);
 			mListView.setAdapter(mAdapter);
 
 		}

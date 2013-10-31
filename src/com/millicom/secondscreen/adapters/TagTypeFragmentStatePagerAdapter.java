@@ -19,10 +19,12 @@ import android.view.ViewGroup;
 public class TagTypeFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
 
 	private ArrayList<Tag> mTags;
+	private String mTvDate;
 	
-	public TagTypeFragmentStatePagerAdapter(FragmentManager fm, ArrayList<Tag> tags) {
+	public TagTypeFragmentStatePagerAdapter(FragmentManager fm, ArrayList<Tag> tags, String tvDate) {
 		super(fm);
 		this.mTags = tags;
+		this.mTvDate = tvDate;
 	}
 
 	@Override
@@ -30,9 +32,9 @@ public class TagTypeFragmentStatePagerAdapter extends FragmentStatePagerAdapter 
 		position = LoopViewPager.toRealPosition(position, getCount());
 		Fragment fragment;
 		if (position == 0) {
-			return fragment = TVGuideTableFragment.newInstance(mTags.get(position));
+			return fragment = TVGuideTableFragment.newInstance(mTags.get(position), mTvDate);
 		} else {
-			return fragment = TVGuideTagTypeFragment.newInstance(mTags.get(position));
+			return fragment = TVGuideTagTypeFragment.newInstance(mTags.get(position), mTvDate);
 		}
 	}
 

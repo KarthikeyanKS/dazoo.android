@@ -183,8 +183,8 @@ public class TVGuideFragmentContainer extends SSPageFragment {
 				}
 				Bundle bundle = new Bundle();
 				bundle.putParcelableArrayList(Consts.PARCELABLE_CHANNELS_LIST, mChannels);
-				bundle.putString(Consts.INTENT_EXTRA_TVGUIDE_TVDATE, mDate);
-				bundle.putString(Consts.INTENT_EXTRA_TAG, mTags.get(position).getName());
+				bundle.putString(Consts.FRAGMENT_EXTRA_TVDATE, mDate);
+				bundle.putString(Consts.FRAGMENT_EXTRA_TAG, mTags.get(position).getName());
 				fragment.setArguments(bundle);
 				return fragment;
 			}

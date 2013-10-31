@@ -56,8 +56,8 @@ public class TVGuideOverviewFragment extends SSPageFragment {
 		TVGuideOverviewFragment fragment = new TVGuideOverviewFragment();
 		Bundle bundle = new Bundle();
 		bundle.putParcelableArrayList(Consts.PARCELABLE_CHANNELS_LIST, channels);
-		bundle.putString(Consts.INTENT_EXTRA_TVGUIDE_TVDATE, tvDate);
-		bundle.putString(Consts.INTENT_EXTRA_TAG, tag.getName());
+		bundle.putString(Consts.FRAGMENT_EXTRA_TVDATE, tvDate);
+		bundle.putString(Consts.FRAGMENT_EXTRA_TAG, tag.getName());
 		fragment.setArguments(bundle);
 
 		Log.d(TAG, "Overview Fragment new instance: " + tag.getName());
@@ -70,8 +70,8 @@ public class TVGuideOverviewFragment extends SSPageFragment {
 
 		Bundle bundle = getArguments();
 		mChannels = bundle.getParcelableArrayList(Consts.PARCELABLE_CHANNELS_LIST);
-		mDate = bundle.getString(Consts.INTENT_EXTRA_TVGUIDE_TVDATE);
-		mTagName = bundle.getString(Consts.INTENT_EXTRA_TAG);
+		mDate = bundle.getString(Consts.FRAGMENT_EXTRA_TVDATE);
+		mTagName = bundle.getString(Consts.FRAGMENT_EXTRA_TAG);
 		getAvailableChannelsIds();
 
 		if (mChannelIds != null) {
@@ -209,7 +209,7 @@ public class TVGuideOverviewFragment extends SSPageFragment {
 		Log.d(TAG, "super status:" + super.requestIsSuccesfull(status));
 		if (super.requestIsSuccesfull(status)) {
 
-			mTvGuideListAdapter = new TVGuideListAdapter(mActivity, mGuide, mChannels);
+			mTvGuideListAdapter = new TVGuideListAdapter(mActivity, mGuide, mDate);
 
 			actualListView = mTvGuideListView.getRefreshableView();
 			// mTvGuideListView.setAdapter(mTvGuideListAdapter);

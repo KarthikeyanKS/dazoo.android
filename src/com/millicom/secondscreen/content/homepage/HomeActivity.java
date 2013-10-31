@@ -62,6 +62,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	private ArrayList<String>			mTabTitles;
 	private FragmentStatePagerAdapter	mAdapter;
 	private TabPageIndicator			mPageTabIndicator;
+	private TvDate mTvDateSelected;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -253,7 +254,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	}
 
 	private void setAdapter(int selectedIndex) {
-		mAdapter = new TagTypeFragmentStatePagerAdapter(getSupportFragmentManager(), mTags);
+		mAdapter = new TagTypeFragmentStatePagerAdapter(getSupportFragmentManager(), mTags, mTvDateSelected.getDate());
 		
 		mViewPager.setVisibility(View.VISIBLE);
 		mViewPager.setAdapter(mAdapter);
@@ -344,8 +345,8 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	@Override
 	public boolean onNavigationItemSelected(int position, long id) {
 		mDayAdapter.setSelectedIndex(position);
-		TvDate tvDateItem = mTvDates.get(position);
-		LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(new Intent(Consts.INTENT_EXTRA_TVGUIDE_SORTING).putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE, tvDateItem.getDate()));
+		mTvDateSelected = mTvDates.get(position);
+		LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(new Intent(Consts.INTENT_EXTRA_TVGUIDE_SORTING).putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE, mTvDateSelected.getDate()));
 		return true;
 	}
 

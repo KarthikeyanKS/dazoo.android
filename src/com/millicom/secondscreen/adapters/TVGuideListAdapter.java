@@ -45,14 +45,13 @@ public class TVGuideListAdapter extends BaseAdapter {
 	private LayoutInflater		mLayoutInflater;
 	private Activity			mActivity;
 	private ArrayList<Guide>	mGuide;
-	private ArrayList<Channel> mChannels;
-
+	private String				mDate;
 	private ImageLoader			mImageLoader;
-	
-	public TVGuideListAdapter(Activity mActivity, ArrayList<Guide> mGuide, ArrayList<Channel> mChannels) {
-		this.mGuide = mGuide;
-		this.mChannels = mChannels;
-		this.mActivity = mActivity;
+
+	public TVGuideListAdapter(Activity activity, ArrayList<Guide> guide, String date) {
+		this.mGuide = guide;
+		this.mActivity = activity;
+		this.mDate = date;
 		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage);
 	}
 
@@ -100,37 +99,18 @@ public class TVGuideListAdapter extends BaseAdapter {
 		} else {
 			holder.mChannelIconIv.setImageResource(R.drawable.loadimage_2x);
 		}
-		
+
 		holder.mContainer.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				
-				Channel channel = null;
-				for(int i=0;i<mChannels.size(); i++){
-					if(guide.getId().equals(mChannels.get(i).getChannelId())){
-						channel = mChannels.get(i);
-					}
-				}
-				final Channel channeltoSend = channel;
-				
-				
+
 				Intent intent = new Intent(mActivity, ChannelPageActivity.class);
-				
-				//intent.putExtra(Consts.INTENT_EXTRA_CHANNEL, channeltoSend);
-				//intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_GUIDE, guide);
-				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, channeltoSend.getChannelId());
-				
-				
+				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, guide.getId());
+				intent.putExtra(Consts.INTENT_EXTRA_CHOSEN_DATE_TVGUIDE, mDate);
+
 				mActivity.startActivity(intent);
 				mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-				
-				//Fragment fragment = new ChannelPageFragment();
-				//Bundle bundle = new Bundle();
-				//bundle.putParcelable(Consts.INTENT_EXTRA_CHANNEL, channeltoSend);
-				//bundle.putParcelable(Consts.INTENT_EXTRA_CHANNEL_GUIDE, guide);
-				//fragment.setArguments(bundle);
-				//mFragmentManager.beginTransaction().add(0, fragment).commit();
 			}
 		});
 
@@ -181,28 +161,28 @@ public class TVGuideListAdapter extends BaseAdapter {
 	}
 
 	static class ViewHolder {
-		public RelativeLayout mContainer; 
-		public ImageView	mChannelIconIv;
-		public ProgressBar	mProgressBar;
+		public RelativeLayout	mContainer;
+		public ImageView		mChannelIconIv;
+		public ProgressBar		mProgressBar;
 		// public LinearLayout mBroadcastItemLl;
 
 		// LIVE PROGRAM
 		// public RelativeLayout mLiveProgramContainer;
-		public ImageView	mLiveProgramIv;
-		public TextView		mLiveProgramNameTv;
-		public TextView		mLiveProgramTimeTv;
+		public ImageView		mLiveProgramIv;
+		public TextView			mLiveProgramNameTv;
+		public TextView			mLiveProgramTimeTv;
 
 		// NEXT PROGRAM
 		// public RelativeLayout mNextProgramContainer;
-		public ImageView	mNextProgramIv;
-		public TextView		mNextProgramNameTv;
-		public TextView		mNextProgramTimeTv;
+		public ImageView		mNextProgramIv;
+		public TextView			mNextProgramNameTv;
+		public TextView			mNextProgramTimeTv;
 
 		// LAST PROGRAM
 		// public RelativeLayout mLastProgramContainer;
-		public ImageView	mLastProgramIv;
-		public TextView		mLastProgramNameTv;
-		public TextView		mLastProgramTimeTv;
+		public ImageView		mLastProgramIv;
+		public TextView			mLastProgramNameTv;
+		public TextView			mLastProgramTimeTv;
 
 	}
 

@@ -35,6 +35,7 @@ import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.DazooLike;
 import com.millicom.secondscreen.content.model.NotificationDbItem;
 import com.millicom.secondscreen.content.model.Program;
+import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
 import com.millicom.secondscreen.like.LikeDialogHandler;
 import com.millicom.secondscreen.like.LikeService;
@@ -42,6 +43,7 @@ import com.millicom.secondscreen.notification.NotificationDataSource;
 import com.millicom.secondscreen.notification.NotificationDialogHandler;
 import com.millicom.secondscreen.notification.NotificationService;
 import com.millicom.secondscreen.share.ShareAction;
+import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
 import com.millicom.secondscreen.SecondScreenApplication;
@@ -52,10 +54,12 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 	private ImageLoader				mImageLoader;
 	private Broadcast				mBroadcast;
 	private Channel					mChannel;
+	private TvDate					mTvDate;
 	private LinearLayout			mBlockContainer;
 	private ActionBar				mActionBar;
 	private LayoutInflater			mLayoutInflater;
-	private String					mBroadcastUrl, entityType, token, mBroadcastBeginTimeMillis, mChannelId;
+	private String					mBroadcastUrl, entityType, token, mChannelId, mChannelDate;
+	private long					mBeginTimeInMillis;
 	private boolean					mIsSet	= false, mIsLiked = false, mIsLoggedIn = false;
 	private ImageView				mPosterIv, mLikeButtonIv, mShareButtonIv, mRemindButtonIv;
 	private ProgressBar				mPosterPb;
@@ -63,7 +67,7 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 	private int						notificationId;
 	private View					mTabSelectorContainerView;
 	private NotificationDataSource	mNotificationDataSource;
-
+	private DazooStore				dazooStore;
 	private Activity				mActivity;
 
 	@Override
@@ -77,15 +81,14 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 
 		// get the info about the program to be displayed from tv-guide listview
 		Intent intent = getIntent();
-		mBroadcastBeginTimeMillis = intent.getStringExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS);
+		mBeginTimeInMillis = intent.getLongExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, 0);
 		mChannelId = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_ID);
-		
+		mChannelDate = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE);
+
 		// GET THE BROADCAST FROM THE DAZOO STORE SINGLETON BY CHANNEL ID AND BROADCAST BEGIN TIME MILLIS
-		
-		
-		//mBroadcast = intent.getParcelableExtra(Consts.INTENT_EXTRA_BROADCAST);
-		//mChannel = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHANNEL);
-		
+		mTvDate = dazooStore.getDate(mChannelDate);
+		mBroadcast = dazooStore.getBroadcast(mTvDate, mChannelId, mBeginTimeInMillis);
+		mChannel = dazooStore.getChannel(mChannelId);
 
 		if (mBroadcast == null || mChannel == null) {
 

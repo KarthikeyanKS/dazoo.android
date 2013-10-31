@@ -32,13 +32,12 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 
 	private LayoutInflater		mLayoutInflater;
 	private Activity			mActivity;
-	private ArrayList<Guide>	mGuide;
-
+	private ArrayList<Broadcast> mTaggedBroadcasts;
 	private ImageLoader			mImageLoader;
 
-	public TVGuideTagListAdapter(Activity mActivity, ArrayList<Guide> mGuide) {
-		this.mGuide = mGuide;
-		this.mActivity = mActivity;
+	public TVGuideTagListAdapter(Activity activity, ArrayList<Broadcast> taggedBroadcasts) {
+		this.mTaggedBroadcasts = taggedBroadcasts;
+		this.mActivity = activity;
 		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage);
 	}
 
@@ -46,8 +45,10 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 
-		final Guide guide = getItem(position);
+		final Broadcast broadcast = getItem(position);
 
+		// TODO: DIFFERENT ROW LAYOUTS DEPENDING ON THE TYPE OF THE BROADCAST
+		
 		if (rowView == null) {
 			mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			rowView = mLayoutInflater.inflate(R.layout.layout_tvguide_tag_list_item, null);
@@ -58,12 +59,10 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 		}
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
-
-		ArrayList<Broadcast> broadcasts = guide.getBroadcasts();
 		
-		holder.title.setText(broadcasts.get(0).getProgram().getTitle() + "  " + broadcasts.get(0).getProgram().getProgramType());
+		holder.title.setText(broadcast.getProgram().getTitle() + "  " + broadcast.getProgram().getProgramType());
 		try {
-			holder.time.setText(DateUtilities.isoStringToTimeString(broadcasts.get(0).getBeginTime()));
+			holder.time.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -78,17 +77,17 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		if (mGuide != null) {
-			return mGuide.size();
+		if (mTaggedBroadcasts != null) {
+			return mTaggedBroadcasts.size();
 		} else {
 			return 0;
 		}
 	}
 
 	@Override
-	public Guide getItem(int position) {
-		if (mGuide != null) {
-			return mGuide.get(position);
+	public Broadcast getItem(int position) {
+		if (mTaggedBroadcasts != null) {
+			return mTaggedBroadcasts.get(position);
 		} else {
 			return null;
 		}

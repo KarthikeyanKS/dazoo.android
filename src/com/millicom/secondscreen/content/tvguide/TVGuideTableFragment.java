@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,43 +12,40 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.millicom.secondscreen.Consts;
-import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
+import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.adapters.TVGuideListAdapter;
 import com.millicom.secondscreen.content.SSPageFragment;
-import com.millicom.secondscreen.content.SSStartPage;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Tag;
+import com.millicom.secondscreen.content.model.TvDate;
+import com.millicom.secondscreen.storage.DazooStore;
 
 public class TVGuideTableFragment extends SSPageFragment {
 
 	private static final String	TAG	= "TVGuideTableFragment";
-	private String				mTagName;
+	private String				mTagStr, mTvDateStr, token;
 	private View				mRootView;
 	private Activity			mActivity;
 	private ListView			mTVGuideListView;
 	private LinearLayout		mClockIndexView;
-	private ArrayList<Guide>	mGuide;
+	private ArrayList<Guide>	mGuides;
 	private ArrayList<Channel> mChannels;
+	private TvDate mTvDate;
+	private Tag mTag;
  	private TVGuideListAdapter	mTVGuideListAdapter;
+ 	private DazooStore dazooStore;
+ 	private boolean mIsLoggedIn = false;
 
-	public static TVGuideTableFragment newInstance(Tag tag) {
+	public static TVGuideTableFragment newInstance(Tag tag, String date) {
 
 		TVGuideTableFragment fragment = new TVGuideTableFragment();
 		Bundle bundle = new Bundle();
-
-		// TO BE DETERMINED
-		// bundle.putParcelableArrayList(Consts.PARCELABLE_CHANNELS_LIST, channels);
-		// bundle.putString(Consts.INTENT_EXTRA_TVGUIDE_TVDATE, tvDate);
-
-		bundle.putString(Consts.INTENT_EXTRA_TAG, tag.getName());
+		bundle.putString(Consts.FRAGMENT_EXTRA_TVDATE, date);
+		bundle.putString(Consts.FRAGMENT_EXTRA_TAG, tag.getName());
 		fragment.setArguments(bundle);
 		return fragment;
 	}
@@ -55,8 +53,16 @@ public class TVGuideTableFragment extends SSPageFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		dazooStore = DazooStore.getInstance();
+		
+		token = ((SecondScreenApplication) mActivity.getApplicationContext()).getAccessToken();
+		if (token !=null && TextUtils.isEmpty(token) !=true){
+			mIsLoggedIn = true;
+		}
+		
 		Bundle bundle = getArguments();
-		mTagName = bundle.getString(Consts.INTENT_EXTRA_TAG);
+		mTagStr = bundle.getString(Consts.FRAGMENT_EXTRA_TAG);
+		mTvDateStr = bundle.getString(Consts.FRAGMENT_EXTRA_TVDATE);
 	}
 
 	@Override
@@ -70,7 +76,6 @@ public class TVGuideTableFragment extends SSPageFragment {
 		// reset the activity whenever the view is recreated
 		mActivity = getActivity();
 		loadPage();
-		Log.d(TAG, "onCreateView");
 		return mRootView;
 	}
 
@@ -78,8 +83,15 @@ public class TVGuideTableFragment extends SSPageFragment {
 	protected void loadPage() {
 		updateUI(REQUEST_STATUS.LOADING);
 		
+		mTvDate = dazooStore.getDate(mTvDateStr);
+		mTag = dazooStore.getTag(mTagStr);
+		
 		// GET THE DATA FROM CORE LOGIC SINGLETON
-
+		if(mIsLoggedIn)
+			mGuides = dazooStore.getMyGuideTable(mTvDate);
+		else 
+			mGuides = dazooStore.getGuideTable(mTvDate);
+			
 		if (!pageHoldsData()) {
 			// Request failed
 			updateUI(REQUEST_STATUS.FAILED);
@@ -89,12 +101,12 @@ public class TVGuideTableFragment extends SSPageFragment {
 	@Override
 	protected boolean pageHoldsData() {
 		boolean result = false;
-		if (mGuide != null) {
-			if (mGuide.isEmpty()) {
+		if (mGuides != null) {
+			if (mGuides.isEmpty()) {
 				Log.d(TAG, "EMPTY RESPONSE");
 				updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
 			} else {
-				Log.d(TAG, "SIZE: " + mGuide.size());
+				Log.d(TAG, "SIZE: " + mGuides.size());
 				updateUI(REQUEST_STATUS.SUCCESSFUL);
 			}
 			result = true;
@@ -106,7 +118,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 	protected void updateUI(REQUEST_STATUS status) {
 		if (super.requestIsSuccesfull(status)) {
 
-			mTVGuideListAdapter = new TVGuideListAdapter(mActivity, mGuide, mChannels);
+			mTVGuideListAdapter = new TVGuideListAdapter(mActivity, mGuides, mTvDateStr);
 			mTVGuideListView.setAdapter(mTVGuideListAdapter);
 
 			// ArrayList<ChannelHour> channelHoursForFirst = putBroadcastsInHours(mGuide.get(0).getBroadcasts());

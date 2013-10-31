@@ -94,17 +94,22 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_CHANNEL_GUIDE							= "com.millicom.secondscreen.intent.extra.channel.guide";
 	public static final String	INTENT_EXTRA_CHANNEL_SORTING						= "com.millicom.secondscreen.intent.extra.channel.sorting";
 	public static final String	INTENT_EXTRA_CHANNEL_SORTING_VALUE					= "com.millicom.secondscreen.intent.extra.channel.sorting";
+	public static final String	INTENT_EXTRA_CHANNEL_CHOSEN_DATE					= "com.millicom.secondscreen.intent.extra.channel.chosen.date";
 	public static final String	INTENT_EXTRA_TVGUIDE_SORTING						= "com.millicom.secondscreen.intent.extra.tvguide.sorting";
 	public static final String	INTENT_EXTRA_TVGUIDE_SORTING_VALUE					= "com.millicom.secondscreen.intent.extra.tvguide.sorting.value";
 	public static final String	INTENT_EXTRA_TVGUIDE_SORTING_TYPE					= "com.millicom.secondscreen.intent.extra,tvguide.sorting.type";
-	public static final String	INTENT_EXTRA_TAG									= "com.millicom.secondscreen.intent.tag";
 	public static final String	INTENT_EXTRA_TVGUIDE_PAGE_URL						= "com.millicom.secondscreen.intent.extra.tvguide.page.url";
 	public static final String	INTENT_EXTRA_TVGUIDE_TVDATE							= "com.millicom.secondscreen.intent.extra.tvguide.tvdate";
+	public static final String	INTENT_EXTRA_CHOSEN_DATE_TVGUIDE					= "com.millicom.secondscreen.intent.extra.chosen.date.tvguide";
 	public static final String	INTENT_EXTRA_BROADCAST								= "com.millicom.secondscreen.intent.extra.broadcast";
 	public static final String	INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS			= "com.millicom.secondscreen.intent.extra.begintimeinmillis";
 	public static final String	INTENT_EXTRA_BROADCAST_URL							= "com.millicom.secondscren.intent,extra.broadcast.url";
 	public static final String	INTENT_EXTRA_NOTIFICATION_TO_SET					= "com.millicom.secondscreen.intent.extra.notification.to.set";
 	public static final String	INTENT_EXTRA_NOTIFICATION_ID						= "com.millicom.secondscreen.intent.extra.notification.id";
+
+	// fragments extra arguments
+	public static final String	FRAGMENT_EXTRA_TAG									= "com.millicom.secondscreen.fragment.extra.tag";
+	public static final String	FRAGMENT_EXTRA_TVDATE								= "com.millicom.secondscreen.fragment.extra.tvdate";
 
 	// custom data types
 	public static final String	VALUE_TYPE_PROGRAMTYPE								= "com.millicom.secondscreen.value.type.programtype";

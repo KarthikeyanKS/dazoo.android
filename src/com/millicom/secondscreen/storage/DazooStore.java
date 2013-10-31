@@ -2,6 +2,7 @@ package com.millicom.secondscreen.storage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
 import com.millicom.secondscreen.content.model.Broadcast;
@@ -15,11 +16,15 @@ public class DazooStore {
 
 	private static DazooStore	mInstance	= null;
 	
+	private ArrayList<String> mChannelIds;
+	private ArrayList<String> mMyChannelIds;
 	private ArrayList<TvDate> mTvDates;
 	private HashMap<String, Channel> mChannels;
+	private HashMap<String, Channel> mMyChannels;
 	private ArrayList<Tag> mTags;
 	private HashMap<GuideKey, Guide> mGuides;
 	private HashMap<BroadcastKey, ArrayList<Broadcast>> mTaggedBroadcasts;
+	private HashMap<BroadcastKey, ArrayList<Broadcast>> mMyTaggedBroadcasts;
 
 	// restrict the constructor from being instantiated
 	private DazooStore(){};
@@ -40,6 +45,16 @@ public class DazooStore {
 		return this.mTags;
 	}
 	
+	public Tag getTag(String tagName){
+		int size = mTags.size();
+		for(int i = 0; i < size; i++){
+			if (mTags.get(i).getName().equals(tagName)){
+				return mTags.get(i);
+			}
+		}
+		return null;
+	}
+	
 	// dates
 	public void setTvDates(ArrayList<TvDate> tvDates){
 		this.mTvDates = tvDates;
@@ -47,6 +62,26 @@ public class DazooStore {
 	
 	public ArrayList<TvDate> getTvDates(){
 		return this.mTvDates;
+	}
+	
+	public TvDate getDate(String dateRepresentation){
+		int size = mTvDates.size();
+		for (int i=0; i < size; i ++){
+			if(mTvDates.get(i).getDate().equals(dateRepresentation)){
+				return mTvDates.get(i);
+			}
+		}
+		return null;
+	}
+	
+	public int getDateIndex(String dateRepresentation){
+		int size = mTvDates.size();
+		for (int i=0; i < size; i ++){
+			if(mTvDates.get(i).getDate().equals(dateRepresentation)){
+				return i;
+			}
+		}
+		return -1;
 	}
 	
 	// channels
@@ -66,6 +101,31 @@ public class DazooStore {
 			}
 		}
 		return null;
+	}
+	
+	public void setChannelIds(ArrayList<String> ids){
+		this.mChannelIds = ids;
+	}
+	
+	public ArrayList<String> getChannelIds(){
+		return this.mChannelIds;
+	}
+	
+	// my channels
+	public void setMyChannelIds(ArrayList<String> myIds){
+		this.mMyChannelIds = myIds;
+	}
+	
+	public ArrayList<String> getMyChannelIds(){
+		return this.mMyChannelIds;
+	}
+	
+	public void setMyChannels(HashMap<String, Channel> myChannels){
+		this.mMyChannels = myChannels;
+	}
+	
+	public HashMap<String, Channel> getMyChannels(){
+		return this.mMyChannels;
 	}
 	
 	// guide
@@ -89,6 +149,26 @@ public class DazooStore {
 			}
 		}
 		return null;
+	}
+	
+	public ArrayList<Guide> getMyGuideTable(TvDate tvDate){
+		ArrayList<Guide> myGuideTable = new ArrayList<Guide>();
+		int size = mMyChannelIds.size();
+		for(int i = 0; i < size; i++){
+			Guide myGuide = getChannelGuide(tvDate, mMyChannelIds.get(i));
+			myGuideTable.add(myGuide);
+		}
+		return myGuideTable;
+	}
+	
+	public ArrayList<Guide> getGuideTable(TvDate tvDate){
+		ArrayList<Guide> guideTable = new ArrayList<Guide>();
+		int size = mChannelIds.size();
+		for(int i = 0; i < size; i++){
+			Guide guide = getChannelGuide(tvDate, mMyChannelIds.get(i));
+			guideTable.add(guide);
+		}
+		return guideTable;
 	}
 	
 	// broadcasts
@@ -127,4 +207,25 @@ public class DazooStore {
 		return null;
 	}
 	
+	// my broadcasts
+	public void setMyBroadcastsList(HashMap<BroadcastKey, ArrayList<Broadcast>> myTaggedBroadcasts){
+		this.mMyTaggedBroadcasts = myTaggedBroadcasts;
+	}
+	
+	public HashMap<BroadcastKey, ArrayList<Broadcast>> getMyBroadcastsList(){
+		return this.mMyTaggedBroadcasts;
+	}
+	
+	public ArrayList<Broadcast> getMyTaggedBroadcasts(TvDate date, Tag tag){
+		BroadcastKey broadcastKey = new BroadcastKey();
+		broadcastKey.setDate(date);
+		broadcastKey.setTag(tag);
+		
+		for(Entry<BroadcastKey, ArrayList<Broadcast>> entry: mMyTaggedBroadcasts.entrySet()){
+			if(entry.getKey().equals(broadcastKey)){
+				return entry.getValue();
+			}
+		}
+		return null;
+	}
 }
