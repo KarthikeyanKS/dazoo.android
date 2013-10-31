@@ -34,11 +34,9 @@ public class ContentParser {
 		for (int i = 0; i < mainArray.length(); i++) {
 			JSONObject jsonGuide = mainArray.getJSONObject(i);
 
-			// get the overall channel info
 			Guide guide = new Guide();
-			guide.setHref(jsonGuide.optString(Consts.DAZOO_GUIDE_HREF));
 			guide.setId(jsonGuide.optString(Consts.DAZOO_GUIDE_CHANNEL_ID));
-			guide.setName(jsonGuide.optString(Consts.DAZOO_GUIDE_NAME));
+			guide.setName(jsonGuide.optString(Consts.DAZOO_GUIDE_CHANNEL_NAME));
 
 			JSONObject logosJson = jsonGuide.optJSONObject(Consts.DAZOO_GUIDE_LOGO);
 			if (logosJson != null) {
@@ -150,25 +148,23 @@ public class ContentParser {
 
 	public Broadcast parseBroadcast(JSONObject jsonBroadcast) throws Exception {
 		Broadcast broadcast = new Broadcast();
-		// broadcast.setBroadcastId(jsonBroadcast.optString("broadcastId"));
 		broadcast.setBeginTime(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_BEGIN_TIME));
 		broadcast.setEndTime(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_END_TIME));
-		// broadcast.setDurationInMinutes(jsonBroadcast.optInt(Consts.DAZOO_BROADCAST_DURATION_IN_MINUTES));
 		broadcast.setBeginTimeMillis(jsonBroadcast.optLong(Consts.DAZOO_BROADCAST_BEGIN_TIME_MILLIS));
 
 		broadcast.setShareUrl(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_SHARE_URL));
 
 		JSONObject jsonChannel = jsonBroadcast.optJSONObject(Consts.DAZOO_BROADCAST_CHANNEL);
 		if (jsonChannel != null) {
-
-			// broadcast.setChannel(parseChannel(jsonChannel));
-			broadcast.setChannelUrl(jsonChannel.optString(Consts.DAZOO_CHANNEL_HREF));
+			broadcast.setChannel(parseChannel(jsonChannel));
 		}
 
 		JSONObject jsonProgram = jsonBroadcast.optJSONObject(Consts.DAZOO_BROADCAST_PROGRAM);
 		if (jsonProgram != null) {
 			broadcast.setProgram(parseProgram(jsonProgram));
 		}
+
+		broadcast.setBroadcastType(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_BROADCAST_TYPE));
 
 		return broadcast;
 	}
@@ -234,7 +230,7 @@ public class ContentParser {
 		} else if ((Consts.DAZOO_PROGRAM_TYPE_MOVIE).equals(programType)) {
 			program.setYear(jsonProgram.optInt(Consts.DAZOO_PROGRAM_YEAR));
 			program.setGenre(jsonProgram.optString(Consts.DAZOO_PROGRAM_GENRE));
-		} else if ((Consts.DAZOO_PROGRAM_TYPE_SPORT).equals(programType)){
+		} else if ((Consts.DAZOO_PROGRAM_TYPE_SPORT).equals(programType)) {
 			program.setSportType(jsonProgram.optString(Consts.DAZOO_PROGRAM_SPORTTYPE));
 			program.setTournament(jsonProgram.optString(Consts.DAZOO_PROGRAM_TOURNAMENT));
 		}

@@ -581,7 +581,6 @@ public class TVGuideFragment extends SSPageFragment {
 			channel.setLogoSUrl(guide.get(i).getLogoSHref());
 			channel.setLogoMUrl(guide.get(i).getLogoMHref());
 			channel.setLogoLUrl(guide.get(i).getLogoLHref());
-			channel.setChannelPageUrl(guide.get(i).getHref());
 
 			ArrayList<ChannelHour> channelHours = putBroadcastsInHours(guide.get(i).getBroadcasts());
 			channelBroadcastsMap.put(channel, channelHours);

@@ -240,9 +240,8 @@ public abstract class Consts {
 	public static final String	DAZOO_DATE_DATE										= "date";
 
 	// GUIDE fields
-	public static final String	DAZOO_GUIDE_HREF									= "href";
 	public static final String	DAZOO_GUIDE_CHANNEL_ID								= "channelId";
-	public static final String	DAZOO_GUIDE_NAME									= "name";
+	public static final String	DAZOO_GUIDE_CHANNEL_NAME							= "name";
 	public static final String	DAZOO_GUIDE_LOGO									= "logo";
 	public static final String	DAZOO_GUIDE_BROADCASTS								= "broadcasts";
 

@@ -6,8 +6,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Guide implements Parcelable{
-	
-	private String href;
+
 	private String id;
 	private String name;
 	private String logoSHref;
@@ -18,14 +17,6 @@ public class Guide implements Parcelable{
 	public Guide(){
 	}
 
-	public void setHref(String href){
-		this.href = href;
-	}
-	
-	public String getHref(){
-		return this.href;
-	}
-	
 	public void setId(String id){
 		this.id = id;
 	}
@@ -75,7 +66,6 @@ public class Guide implements Parcelable{
 	}
 	
 	public Guide(Parcel in){
-		href = in.readString();
 		id = in.readString();
 		name = in.readString();
 		logoSHref = in.readString();
@@ -91,7 +81,6 @@ public class Guide implements Parcelable{
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(href);
 		dest.writeString(id);
 		dest.writeString(name);
 		dest.writeString(logoSHref);
