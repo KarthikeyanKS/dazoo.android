@@ -298,12 +298,7 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 					@Override
 					public void onGetPageResult(SSPageGetResult aPageGetResult) {
 
-						mChannels = SSChannelPage.getInstance().getChannels();
-						
-						
-						// TEST SAVE CHANNELS INSIDE
-						((SecondScreenApplication)getApplicationContext()).saveChannels(mChannels);
-						
+						mChannels = SSChannelPage.getInstance().getChannels();	
 						
 						if (!pageHoldsData()) {
 							// Request failed

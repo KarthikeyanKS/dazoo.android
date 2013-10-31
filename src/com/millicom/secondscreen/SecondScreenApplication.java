@@ -47,12 +47,7 @@ public class SecondScreenApplication extends Application {
 	// SharedPreferences used to save stuffs
 	private static SharedPreferences		sSharedPreferences;
 	private static Editor					editor;
-	
-	/**
-	 * TEST
-	 */
-	private static ArrayList<Channel> channels = new ArrayList();
-	
+
 	public SecondScreenApplication() {
 	}
 
@@ -61,14 +56,6 @@ public class SecondScreenApplication extends Application {
 			sInstance = new SecondScreenApplication();
 		}
 		return sInstance;
-	}
-
-	public void saveChannels(ArrayList<Channel> channels){
-		this.channels = channels;
-	}
-	
-	public ArrayList<Channel> getChannels(){
-		return this.channels;
 	}
 	
 	@Override
