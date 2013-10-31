@@ -164,6 +164,7 @@
     <string name="already_registered">Already registered?</string>
     <string name="login_with_email">login with email</string>
     <string name="forgot_password">Forgot password?</string>
+    <string name="reset_password">Reset password</string>
     <string name="join">JOIN</string>
     <string name="forgot_your_password">Forgot your password?</string>
     <string name="reset_password_text">To reset your password enter your e-mail address and we\'ll send you reset instructions.</string>

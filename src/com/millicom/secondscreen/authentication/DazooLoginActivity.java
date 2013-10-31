@@ -45,9 +45,8 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 
 	private static final String	TAG	= "DazooLoginActivity";
 	private ActionBar			mActionBar;
-	private Button				mDazooLoginButton;
+	private Button				mDazooLoginButton, mForgetPasswordButton;
 	private EditText			mEmailLoginEditText, mPasswordLoginEditText;
-	private TextView			mForgetPasswordTextView;
 	private RelativeLayout		mFacebookContainer;
 	
 	private String				dazooToken	= "", userToken = "", userId = "", userEmailLogin, userPasswordLogin;
@@ -81,8 +80,8 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 		mEmailLoginEditText = (EditText) findViewById(R.id.dazoologin_login_email_edittext);
 		mPasswordLoginEditText = (EditText) findViewById(R.id.dazoologin_login_password_edittext);
 
-		mForgetPasswordTextView = (TextView) findViewById(R.id.dazoologin_forgot_password_tv);
-		mForgetPasswordTextView.setOnClickListener(this);
+		mForgetPasswordButton = (Button) findViewById(R.id.dazoologin_forgot_password_button);
+		mForgetPasswordButton.setOnClickListener(this);
 	}
 
 	private boolean verifyLoginInput() {
@@ -104,7 +103,7 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
 
-		case R.id.dazoologin_forgot_password_tv:
+		case R.id.dazoologin_forgot_password_button:
 			Intent intentReset = new Intent(DazooLoginActivity.this, ResetPasswordActivity.class);
 			startActivity(intentReset);
 			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
