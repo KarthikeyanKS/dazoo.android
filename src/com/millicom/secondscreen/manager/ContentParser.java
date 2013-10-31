@@ -27,16 +27,13 @@ public class ContentParser {
 
 	private static final String	TAG	= "ContentParser";
 
-	public ArrayList<Guide> parseGuide(JSONArray mainArray, String tagKey) throws Exception {
-		Log.d(TAG, "parseGuide with tag key:" + tagKey);
-
+	public ArrayList<Guide> parseGuide(JSONArray mainArray) throws Exception {
+		
 		ArrayList<Guide> guides = new ArrayList<Guide>();
 
 		for (int i = 0; i < mainArray.length(); i++) {
 			JSONObject jsonGuide = mainArray.getJSONObject(i);
-
-			// Log.d(TAG,"jsonGuide" + jsonGuide);
-
+			
 			// get the overall channel info
 			Guide guide = new Guide();
 			guide.setHref(jsonGuide.optString(Consts.DAZOO_GUIDE_HREF));
@@ -57,28 +54,7 @@ public class ContentParser {
 				for (int j = 0; j < broadcastsJson.length(); j++) {
 					JSONObject jsonBroadcast = broadcastsJson.optJSONObject(j);
 					if (jsonBroadcast != null) {
-						if ("All categories".equals(tagKey) == false) {
-							// if (programTypeKey.equals(jsonBroadcast.optJSONObject(Consts.DAZOO_BROADCAST_PROGRAM).optString(Consts.DAZOO_PROGRAM_ID)) == true) {
-							// broadcasts.add(parseBroadcastProgramKey(jsonBroadcast, programTypeKey));
-							// }
-
-							JSONArray jsonTags = jsonBroadcast.optJSONObject(Consts.DAZOO_BROADCAST_PROGRAM).optJSONArray(Consts.DAZOO_PROGRAM_TAGS);
-
-							ArrayList<String> tags = new ArrayList<String>();
-							if (jsonTags != null) {
-								for (int k = 0; k < jsonTags.length(); k++) {
-									tags.add(jsonTags.getString(k));
-								}
-							}
-
-							if (tags.size() > 0 && tags.contains(tagKey)) {
-								// broadcasts.add(parseBroadcastProgramKey(jsonBroadcast, programTypeKey));
-								broadcasts.add(parseBroadcast(jsonBroadcast, tagKey));
-							}
-						} else {
-							// broadcasts.add(parseBroadcastAll(jsonBroadcast));
-							broadcasts.add(parseBroadcast(jsonBroadcast, tagKey));
-						}
+							broadcasts.add(parseBroadcast(jsonBroadcast));
 					}
 				}
 				guide.setBroadcasts(broadcasts);
@@ -172,7 +148,7 @@ public class ContentParser {
 		return channel;
 	}
 
-	public Broadcast parseBroadcast(JSONObject jsonBroadcast, String tagKey) throws Exception {
+	public Broadcast parseBroadcast(JSONObject jsonBroadcast) throws Exception {
 		Broadcast broadcast = new Broadcast();
 		// broadcast.setBroadcastId(jsonBroadcast.optString("broadcastId"));
 		broadcast.setBeginTime(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_BEGIN_TIME));
@@ -191,14 +167,13 @@ public class ContentParser {
 
 		JSONObject jsonProgram = jsonBroadcast.optJSONObject(Consts.DAZOO_BROADCAST_PROGRAM);
 		if (jsonProgram != null) {
-			broadcast.setProgram(parseProgram(jsonProgram, tagKey));
+			broadcast.setProgram(parseProgram(jsonProgram));
 		}
 		
-		Log.d(TAG,"SHARE URL: " + broadcast.getShareUrl());
 		return broadcast;
 	}
 
-	public Program parseProgram(JSONObject jsonProgram, String tagKey) throws Exception {
+	public Program parseProgram(JSONObject jsonProgram) throws Exception {
 		Program program = new Program();
 		program.setProgramId(jsonProgram.optString(Consts.DAZOO_PROGRAM_ID));
 
@@ -293,19 +268,6 @@ public class ContentParser {
 			}
 		}
 		return tvDates;
-	}
-
-	public Broadcast parseBroadcast(JSONObject jsonObject) {
-		Log.d(TAG,"parseBroadcast");
-		
-		if (jsonObject != null) {
-			try {
-				return parseBroadcast(jsonObject, null);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		} else return null;
-		return null;
 	}
 	
 	public static ArrayList<String> parseChannelIds(JSONArray jsonArray){

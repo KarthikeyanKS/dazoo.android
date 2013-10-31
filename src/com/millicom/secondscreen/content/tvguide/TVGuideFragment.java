@@ -195,7 +195,7 @@ public class TVGuideFragment extends SSPageFragment {
 				mStartPageUrl = getPageUrl(numOfChannelsShownNow, mChannelsNum, mDate);
 				mPage = SSStartPage.getInstance();
 				updateUI(REQUEST_STATUS.LOADING);
-				mPage.getPage(mProgramType, mStartPageUrl, new SSPageCallback() {
+				mPage.getPage(mStartPageUrl, new SSPageCallback() {
 
 					@Override
 					public void onGetPageResult(SSPageGetResult aPageGetResult) {
@@ -233,7 +233,7 @@ public class TVGuideFragment extends SSPageFragment {
 	}
 
 	private void getPage() {
-		mPage.getPage(mProgramType, mStartPageUrl, new SSPageCallback() {
+		mPage.getPage(mStartPageUrl, new SSPageCallback() {
 
 			@Override
 			public void onGetPageResult(SSPageGetResult aPageGetResult) {
@@ -494,7 +494,7 @@ public class TVGuideFragment extends SSPageFragment {
 
 					mStartPageUrl = getPageUrl(numOfChannelsShownNow, mChannelsNum, mDate);
 
-					mPage.getPage(mProgramType, mStartPageUrl, new SSPageCallback() {
+					mPage.getPage(mStartPageUrl, new SSPageCallback() {
 
 						@Override
 						public void onGetPageResult(SSPageGetResult aPageGetResult) {

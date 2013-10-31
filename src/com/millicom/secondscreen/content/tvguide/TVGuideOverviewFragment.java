@@ -133,7 +133,7 @@ public class TVGuideOverviewFragment extends SSPageFragment {
 
 					mPageUrl = getPageUrl(numOfChannelsShownNow, mChannelsNum, mDate);
 
-					mPage.getPage(mTagName, mPageUrl, new SSPageCallback() {
+					mPage.getPage(mPageUrl, new SSPageCallback() {
 
 						@Override
 						public void onGetPageResult(SSPageGetResult aPageGetResult) {
@@ -166,7 +166,7 @@ public class TVGuideOverviewFragment extends SSPageFragment {
 		Log.d(TAG, "loadPage: " + mTagName);
 
 		// if (!pageHoldsData()) {
-		mPage.getPage(mTagName, mPageUrl, new SSPageCallback() {
+		mPage.getPage(mPageUrl, new SSPageCallback() {
 
 			@Override
 			public void onGetPageResult(SSPageGetResult aPageGetResult) {

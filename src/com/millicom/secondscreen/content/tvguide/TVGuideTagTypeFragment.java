@@ -85,7 +85,7 @@ public class TVGuideTagTypeFragment extends SSPageFragment{
 	protected void loadPage() {
 		updateUI(REQUEST_STATUS.LOADING);
 		
-		// GET THE DATA FROM CORE LOGIC SINGLETON
+		// GET THE DATE FROM DAZOO STORE
 		mTvDate = dazooStore.getDate(mTvDateStr);
 		mTag = dazooStore.getTag(mTagStr);
 		
@@ -103,8 +103,17 @@ public class TVGuideTagTypeFragment extends SSPageFragment{
 
 	@Override
 	protected boolean pageHoldsData() {
-		// TODO Auto-generated method stub
-		return false;
+		boolean result = false;
+		if (mTaggedBroadcasts != null) {
+			if (mTaggedBroadcasts.isEmpty()) {
+				updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
+			} else {
+				Log.d(TAG, "SIZE: " + mTaggedBroadcasts.size());
+				updateUI(REQUEST_STATUS.SUCCESSFUL);
+			}
+			result = true;
+		}
+		return result;
 	}
 
 	@Override

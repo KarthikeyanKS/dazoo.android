@@ -106,7 +106,7 @@ public class TVGuideTagFragment extends SSPageFragment {
 		Log.d(TAG, "loadPage: " + mTagName);
 
 		// if (!pageHoldsData()) {
-		mPage.getPage(mTagName, mPageUrl, new SSPageCallback() {
+		mPage.getPage(mPageUrl, new SSPageCallback() {
 
 			@Override
 			public void onGetPageResult(SSPageGetResult aPageGetResult) {
@@ -151,12 +151,6 @@ public class TVGuideTagFragment extends SSPageFragment {
 
 		}
 	}
-
-	// @Override
-	// public void onPause() {
-	// super.onPause();
-	// mPage.cancelGetPage();
-	// }
 
 	private String getPageUrl(int startPosition, int maxSize, String date) {
 		StringBuilder sB = new StringBuilder();

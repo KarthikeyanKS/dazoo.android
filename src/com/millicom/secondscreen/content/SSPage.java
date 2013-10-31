@@ -112,8 +112,8 @@ public abstract class SSPage {
 		return mProgramTypes;
 	}
 
-	public void parseGuide(JSONArray jsonArray, String programTypeKey) throws Exception {
-		this.mGuide = mContentParser.parseGuide(jsonArray, programTypeKey);
+	public void parseGuide(JSONArray jsonArray) throws Exception {
+		this.mGuide = mContentParser.parseGuide(jsonArray);
 	}
 
 	public ArrayList<Guide> getGuide() {
@@ -140,7 +140,7 @@ public abstract class SSPage {
 		return mBroadcast;
 	}
 
-	public void parseBroadcast(JSONObject jsonObject) {
+	public void parseBroadcast(JSONObject jsonObject) throws Exception {
 		this.mBroadcast = mContentParser.parseBroadcast(jsonObject);
 	}
 }

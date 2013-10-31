@@ -103,7 +103,6 @@ public class TVGuideTableFragment extends SSPageFragment {
 		boolean result = false;
 		if (mGuides != null) {
 			if (mGuides.isEmpty()) {
-				Log.d(TAG, "EMPTY RESPONSE");
 				updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
 			} else {
 				Log.d(TAG, "SIZE: " + mGuides.size());
