@@ -55,10 +55,9 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 	private Button				mDazooRegisterButton;
 	private String				userEmailRegister, userPasswordRegister, userFirstNameRegister, userLastNameRegister, dazooToken;
 	private TextView			mErrorTextView;
-	private Drawable 			mFirstNameDrawable, mLastNameDrawable, mPasswordRegisterDrawable, mEmailRegisterDrawable;
 	private TextDrawable		mEmailTextDrawable, mPasswordTextDrawable;
-	
-	
+
+
 	private final int 			REGISTER_FIRSTNAME_MISSING = 0;
 	private final int 			REGISTER_LASTNAME_MISSING = 1;
 	private final int 			REGISTER_EMAIL_WRONG = 2;
@@ -92,15 +91,16 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 		mErrorTextView = (TextView) findViewById(R.id.signup_error_textview);
 		mDazooRegisterButton = (Button) findViewById(R.id.signup_register_button);
 		mDazooRegisterButton.setOnClickListener(this);
-		
-		mFirstNameDrawable = mFirstNameEditText.getBackground();
-		mLastNameDrawable = mLastNameEditText.getBackground();
-		mEmailRegisterDrawable = mEmailRegisterEditText.getBackground();
-		mPasswordRegisterDrawable = mPasswordRegisterEditText.getBackground();
-		
+
 		setTextWatchers();
+		
+		//TODO: Static drawable background is not properly set, causing a flickering effect. Quickfix!
+		mFirstNameEditText.setBackgroundResource(R.drawable.edittext_standard);
+		mLastNameEditText.setBackgroundResource(R.drawable.edittext_standard);
+		mEmailRegisterEditText.setBackgroundResource(R.drawable.edittext_standard);
+		mPasswordRegisterEditText.setBackgroundResource(R.drawable.edittext_standard);
 	}
-	
+
 	//Sets the TextWatchers for the extra drawable hints.
 	private void setTextWatchers() {
 		mPasswordTextDrawable = new TextDrawable(this);
@@ -254,83 +254,38 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 				}
 			} else {
 				int errorId = findWrongRegisterInput();
-				//TODO: Fix compatibility with highlighting for older API versions
-				if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
-					if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
-						if (mFirstNameEditText.getBackground() != mFirstNameDrawable) {
-							mFirstNameEditText.setBackground(mFirstNameDrawable);
-						}
-						if (mLastNameEditText.getBackground() != mLastNameDrawable) {
-							mLastNameEditText.setBackground(mLastNameDrawable);
-						}
-						if (mEmailRegisterEditText.getBackground() != mEmailRegisterDrawable) {
-							mEmailRegisterEditText.setBackground(mEmailRegisterDrawable);
-						}
-						if (mPasswordRegisterEditText.getBackground() != mPasswordRegisterDrawable) {
-							mPasswordRegisterEditText.setBackground(mPasswordRegisterDrawable);
-						}
-					}
-					switch (errorId) {
-						case REGISTER_FIRSTNAME_MISSING:
-							mFirstNameEditText.setActivated(true);
-							if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
-								Drawable bg = getResources().getDrawable(R.drawable.edittext_activated);
-								mFirstNameEditText.setBackground(bg);
-								mFirstNameEditText.requestFocus();
-							}
-							break;
-						case REGISTER_LASTNAME_MISSING:
-							mLastNameEditText.setActivated(true);
-							if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
-								Drawable bg = getResources().getDrawable(R.drawable.edittext_activated);
-								mLastNameEditText.setBackground(bg);
-								mLastNameEditText.requestFocus();
-							}
-							break;
-						case REGISTER_EMAIL_WRONG:
-							mEmailRegisterEditText.setActivated(true);
-							if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
-								Drawable bg = getResources().getDrawable(R.drawable.edittext_activated);
-								mEmailRegisterEditText.setBackground(bg);
-								mEmailRegisterEditText.requestFocus();
-							}
-							break;
-						case PASSWORD_LENGTH_WRONG:
-							mPasswordRegisterEditText.setActivated(true);
-							if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
-								Drawable bg = getResources().getDrawable(R.drawable.edittext_activated);
-								mPasswordRegisterEditText.setBackground(bg);
-								mPasswordRegisterEditText.requestFocus();
-							}
-							break;
-						case PASSWORD_ILLEGAL_CHARACTERS:
-							mPasswordRegisterEditText.setActivated(true);
-							if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
-								Drawable bg = getResources().getDrawable(R.drawable.edittext_activated);
-								mPasswordRegisterEditText.setBackground(bg);
-								mPasswordRegisterEditText.requestFocus();
-							}
-							break;
-					}
-				}
+				mFirstNameEditText.setBackgroundResource(R.drawable.edittext_standard);
+				mLastNameEditText.setBackgroundResource(R.drawable.edittext_standard);
+				mEmailRegisterEditText.setBackgroundResource(R.drawable.edittext_standard);
+				mPasswordRegisterEditText.setBackgroundResource(R.drawable.edittext_standard);
 				switch (errorId) {
-					case REGISTER_FIRSTNAME_MISSING:
-						mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_firstname));
-						break;
-					case REGISTER_LASTNAME_MISSING:
-						mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_lastname));
-						break;
-					case REGISTER_EMAIL_WRONG:
-						mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email));
-						break;
-					case PASSWORD_LENGTH_WRONG:
-						mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_passwordlength) +
-											   " " + Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MIN + " " + 
-										       getResources().getString(R.string.signup_with_email_characters));
-						break;
-					case PASSWORD_ILLEGAL_CHARACTERS:
-						mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_passwordcharacters));
-						break;
+				case REGISTER_FIRSTNAME_MISSING:
+					mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_firstname));
+					mFirstNameEditText.setBackgroundResource(R.drawable.edittext_activated);
+					mFirstNameEditText.requestFocus();
+					break;
+				case REGISTER_LASTNAME_MISSING:
+					mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_lastname));
+					mLastNameEditText.setBackgroundResource(R.drawable.edittext_activated);
+					mLastNameEditText.requestFocus();
+					break;
+				case REGISTER_EMAIL_WRONG:
+					mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email));
+					mEmailRegisterEditText.setBackgroundResource(R.drawable.edittext_activated);
+					mEmailRegisterEditText.requestFocus();
+					break;
+				case PASSWORD_LENGTH_WRONG:
+					mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_passwordlength) +
+										   " " + Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MIN + " " + 
+										   getResources().getString(R.string.signup_with_email_characters));
+					mPasswordRegisterEditText.setBackgroundResource(R.drawable.edittext_activated);
+					mPasswordRegisterEditText.requestFocus();
+					break;
+				case PASSWORD_ILLEGAL_CHARACTERS:
+					mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_passwordcharacters));
+					mPasswordRegisterEditText.setBackgroundResource(R.drawable.edittext_activated);
+					mPasswordRegisterEditText.requestFocus();
+					break;
 				}
 				mErrorTextView.setVisibility(TextView.VISIBLE);
 				mFirstNameEditText.setEnabled(true);
