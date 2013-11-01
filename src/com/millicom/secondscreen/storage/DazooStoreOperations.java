@@ -12,18 +12,33 @@ import com.millicom.secondscreen.content.model.TvDate;
 
 public class DazooStoreOperations {
 
-	public static void saveChannels(ArrayList<Channel> channels) {
-		HashMap<String, Channel> channelsMap = new HashMap<String, Channel>();
-		ArrayList<String> channelIds = new ArrayList<String>();
+	public static void saveDefaultChannels(ArrayList<Channel> defaultChannels) {
+		HashMap<String, Channel> defaultChannelsMap = new HashMap<String, Channel>();
+		ArrayList<String> defaultChannelIds = new ArrayList<String>();
 
-		int size = channels.size();
+		int size = defaultChannels.size();
 		for (int i = 0; i < size; i++) {
-			channelsMap.put(channels.get(i).getChannelId(), channels.get(i));
-			channelIds.add(channels.get(i).getChannelId());
+			defaultChannelsMap.put(defaultChannels.get(i).getChannelId(), defaultChannels.get(i));
+			defaultChannelIds.add(defaultChannels.get(i).getChannelId());
 		}
 		DazooStore dazooStore = DazooStore.getInstance();
-		dazooStore.setChannels(channelsMap);
-		dazooStore.setChannelIds(channelIds);
+		dazooStore.setDefaultChannels(defaultChannelsMap);
+		dazooStore.setDefaultChannelIds(defaultChannelIds);
+	}
+	
+	public static void saveListChannels(ArrayList<Channel> listChannels){
+		HashMap<String, Channel> listChannelsMap = new HashMap<String, Channel>();
+		ArrayList<String> listChannelsIds = new ArrayList<String>();
+		
+		int size = listChannels.size();
+		for(int i=0; i < size; i++){
+			listChannelsMap.put(listChannels.get(i).getChannelId(), listChannels.get(i));
+			listChannelsIds.add(listChannels.get(i).getChannelId());
+		}
+		
+		DazooStore dazooStore = DazooStore.getInstance();
+		dazooStore.setListChannels(listChannelsMap);
+		dazooStore.setDefaultChannelIds(listChannelsIds);
 	}
 
 	public static void saveMyChannels(ArrayList<Channel> channels) {

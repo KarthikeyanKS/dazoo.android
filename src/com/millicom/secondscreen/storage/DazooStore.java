@@ -14,11 +14,16 @@ import com.millicom.secondscreen.content.model.TvDate;
 public class DazooStore {
 	private static final String							TAG			= "DazooStore";
 
-	private ArrayList<String>							mChannelIds;
 	private ArrayList<String>							mMyChannelIds;
 	private ArrayList<TvDate>							mTvDates;
 	private HashMap<String, Channel>					mChannels;
 	private HashMap<String, Channel>					mMyChannels;
+	
+	private ArrayList<String> mDefaultChannelIds;
+	private ArrayList<String> mListChannelIds;
+	private HashMap<String, Channel> mDefaultChannels;
+	private HashMap<String, Channel> mListChannels;
+	
 	private ArrayList<Tag>								mTags;
 	private HashMap<GuideKey, Guide>					mGuides;
 	private HashMap<BroadcastKey, ArrayList<Broadcast>>	mTaggedBroadcasts;
@@ -107,12 +112,20 @@ public class DazooStore {
 		return null;
 	}
 
-	public void setChannelIds(ArrayList<String> ids) {
-		this.mChannelIds = ids;
+	public void setDefaultChannelIds(ArrayList<String> ids) {
+		this.mDefaultChannelIds = ids;
 	}
 
-	public ArrayList<String> getChannelIds() {
-		return this.mChannelIds;
+	public ArrayList<String> getDefaultChannelIds() {
+		return this.mDefaultChannelIds;
+	}
+	
+	public void setListChannelIds(ArrayList<String> ids){
+		this.mListChannelIds = ids;
+	}
+	
+	public ArrayList<String> getListChannelIds(){
+		return this.mListChannelIds;
 	}
 
 	// my channels
@@ -167,7 +180,7 @@ public class DazooStore {
 
 	public ArrayList<Guide> getGuideTable(TvDate tvDate) {
 		ArrayList<Guide> guideTable = new ArrayList<Guide>();
-		int size = mChannelIds.size();
+		int size = mListChannelIds.size();									// CLARIFY THAT WITH BACKEND
 		for (int i = 0; i < size; i++) {
 			Guide guide = getChannelGuide(tvDate, mMyChannelIds.get(i));
 			guideTable.add(guide);

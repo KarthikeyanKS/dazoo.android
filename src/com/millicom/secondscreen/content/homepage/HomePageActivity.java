@@ -294,7 +294,7 @@ public class HomePageActivity extends SSPageFragmentActivity implements View.OnC
 
 				mTvDates = SSTvDatePage.getInstance().getTvDates();
 
-				SSChannelPage.getInstance().getPage(new SSPageCallback() {
+				SSChannelPage.getInstance().getPage(Consts.MILLICOM_SECONDSCREEN_CHANNELS_DEFAULT_PAGE_URL, new SSPageCallback() {
 					@Override
 					public void onGetPageResult(SSPageGetResult aPageGetResult) {
 
