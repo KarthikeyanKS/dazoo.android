@@ -12,7 +12,7 @@ import com.millicom.secondscreen.content.model.TvDate;
 
 public class DazooStoreOperations {
 
-	public void saveChannels(ArrayList<Channel> channels) {
+	public static void saveChannels(ArrayList<Channel> channels) {
 		HashMap<String, Channel> channelsMap = new HashMap<String, Channel>();
 		ArrayList<String> channelIds = new ArrayList<String>();
 
@@ -26,7 +26,7 @@ public class DazooStoreOperations {
 		dazooStore.setChannelIds(channelIds);
 	}
 
-	public void saveMyChannels(ArrayList<Channel> channels) {
+	public static void saveMyChannels(ArrayList<Channel> channels) {
 		HashMap<String, Channel> channelsMap = new HashMap<String, Channel>();
 		ArrayList<String> channelIds = new ArrayList<String>();
 
@@ -40,17 +40,17 @@ public class DazooStoreOperations {
 		dazooStore.setMyChannelIds(channelIds);
 	}
 
-	public void saveTvDates(ArrayList<TvDate> tvDates) {
+	public static void saveTvDates(ArrayList<TvDate> tvDates) {
 		DazooStore dazooStore = DazooStore.getInstance();
 		dazooStore.setTvDates(tvDates);
 	}
 
-	public void setTags(ArrayList<Tag> tags) {
+	public static void setTags(ArrayList<Tag> tags) {
 		DazooStore dazooStore = DazooStore.getInstance();
 		dazooStore.setTags(tags);
 	}
 
-	public void saveGuide(Guide guide, TvDate tvDate, String channelId) {
+	public static void saveGuide(Guide guide, TvDate tvDate, String channelId) {
 		DazooStore dazooStore = DazooStore.getInstance();
 		HashMap<GuideKey, Guide> guides = dazooStore.getGuides();
 
@@ -61,7 +61,7 @@ public class DazooStoreOperations {
 		dazooStore.setGuides(guides);
 	}
 
-	public void saveTaggedBroadcast(TvDate date, Tag tag, ArrayList<Broadcast> broadcasts) {
+	public static void saveTaggedBroadcast(TvDate date, Tag tag, ArrayList<Broadcast> broadcasts) {
 		DazooStore dazooStore = DazooStore.getInstance();
 		HashMap<BroadcastKey, ArrayList<Broadcast>> broadcastsList = dazooStore.getBroadcastsList();
 
@@ -73,7 +73,7 @@ public class DazooStoreOperations {
 		dazooStore.setBroadcastsList(broadcastsList);
 	}
 
-	public void saveMyTaggedBroadcast(TvDate date, Tag tag, ArrayList<Broadcast> broadcasts) {
+	public static void saveMyTaggedBroadcast(TvDate date, Tag tag, ArrayList<Broadcast> broadcasts) {
 		DazooStore dazooStore = DazooStore.getInstance();
 		HashMap<BroadcastKey, ArrayList<Broadcast>> broadcastsList = dazooStore.getMyBroadcastsList();
 
@@ -86,7 +86,7 @@ public class DazooStoreOperations {
 	}
 
 	// filtering guides by tags
-	public ArrayList<Broadcast> getTaggedBroadcasts(TvDate date, Tag tag) {
+	public static ArrayList<Broadcast> getTaggedBroadcasts(TvDate date, Tag tag) {
 		DazooStore dazooStore = DazooStore.getInstance();
 		ArrayList<Guide> guideTable = dazooStore.getGuideTable(date);
 		String tagName = tag.getName();
@@ -109,7 +109,7 @@ public class DazooStoreOperations {
 		return taggedBroadcasts;
 	}
 
-	public ArrayList<Broadcast> getMyTaggedBrodcasts(TvDate date, Tag tag) {
+	public static ArrayList<Broadcast> getMyTaggedBrodcasts(TvDate date, Tag tag) {
 		DazooStore dazooStore = DazooStore.getInstance();
 		ArrayList<Guide> guideTable = dazooStore.getMyGuideTable(date);
 		String tagName = tag.getName();

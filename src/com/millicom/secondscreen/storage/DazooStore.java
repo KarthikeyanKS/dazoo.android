@@ -13,7 +13,6 @@ import com.millicom.secondscreen.content.model.TvDate;
 
 public class DazooStore {
 	private static final String							TAG			= "DazooStore";
-
 	private static DazooStore							mInstance	= null;
 
 	private ArrayList<String>							mChannelIds;
@@ -26,17 +25,22 @@ public class DazooStore {
 	private HashMap<BroadcastKey, ArrayList<Broadcast>>	mTaggedBroadcasts;
 	private HashMap<BroadcastKey, ArrayList<Broadcast>>	mMyTaggedBroadcasts;
 
-	// restrict the constructor from being instantiated
-	private DazooStore() {
-	};
-
-	public static DazooStore getInstance() {
-		if (mInstance == null) {
-			mInstance = new DazooStore();
-		}
-		return mInstance;
+	// private constructor prevents instantiation from other classes
+	private DazooStore(){};
+	
+	/**
+	 * DazooStoreHolder is loaded on the first execution of the DazooStore.getInstance()
+	 * or the first access to DazooStoreHolder.INSTANCE, not before
+	 */
+	
+	private static class DazooStoreHolder{
+		public static final DazooStore INSTANCE = new DazooStore();
 	}
-
+	
+	public static DazooStore getInstance(){
+		return DazooStoreHolder.INSTANCE;
+	}
+	
 	// tags
 	public void setTags(ArrayList<Tag> tags) {
 		this.mTags = tags;

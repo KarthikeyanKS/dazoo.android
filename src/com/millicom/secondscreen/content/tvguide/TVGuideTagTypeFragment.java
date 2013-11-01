@@ -58,7 +58,7 @@ public class TVGuideTagTypeFragment extends SSPageFragment{
 		super.onCreate(savedInstanceState);
 		dazooStore = DazooStore.getInstance();
 		
-		token = ((SecondScreenApplication) mActivity.getApplicationContext()).getAccessToken();
+		token = ((SecondScreenApplication) getActivity().getApplicationContext()).getAccessToken();
 		if (token !=null && TextUtils.isEmpty(token) !=true){
 			mIsLoggedIn = true;
 		}
@@ -77,7 +77,8 @@ public class TVGuideTagTypeFragment extends SSPageFragment{
 		
 		// reset the activity whenever the view is recreated
 		mActivity = getActivity();
-		loadPage();
+		//loadPage();
+		updateUI(REQUEST_STATUS.FAILED);
 		return mRootView;
 	}
 

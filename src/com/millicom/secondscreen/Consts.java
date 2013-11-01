@@ -106,6 +106,8 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_BROADCAST_URL							= "com.millicom.secondscren.intent,extra.broadcast.url";
 	public static final String	INTENT_EXTRA_NOTIFICATION_TO_SET					= "com.millicom.secondscreen.intent.extra.notification.to.set";
 	public static final String	INTENT_EXTRA_NOTIFICATION_ID						= "com.millicom.secondscreen.intent.extra.notification.id";
+	public static final String	INTENT_EXTRA_DAZOO_CORE								= "com.millicom.secondscreen.intent.extra.dazoo.core";
+	public static final String	INTENT_EXTRA_GUIDE_AVAILABLE						= "com.millicom.secondscreen.intent.extra.guide.available";
 
 	// fragments extra arguments
 	public static final String	FRAGMENT_EXTRA_TAG									= "com.millicom.secondscreen.fragment.extra.tag";

@@ -254,7 +254,9 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	}
 
 	private void setAdapter(int selectedIndex) {
-		mAdapter = new TagTypeFragmentStatePagerAdapter(getSupportFragmentManager(), mTags, mTvDateSelected.getDate());
+		//mAdapter = new TagTypeFragmentStatePagerAdapter(getSupportFragmentManager(), mTags, mTvDateSelected.getDate());
+		mAdapter = new TagTypeFragmentStatePagerAdapter(getSupportFragmentManager(), mTags, mTvDates.get(0).getDate());
+		
 		
 		mViewPager.setVisibility(View.VISIBLE);
 		mViewPager.setAdapter(mAdapter);
