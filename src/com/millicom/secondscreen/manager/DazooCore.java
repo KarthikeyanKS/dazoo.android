@@ -24,8 +24,6 @@ import com.millicom.secondscreen.SecondScreenApplication;
 
 public class DazooCore {
 	private static final String	TAG				= "DazooCore";
-	private static DazooCore	mInstance		= null;
-
 	private static Context mContext;
 	private static String				token;
 	private static boolean				mIsTvDate		= false;

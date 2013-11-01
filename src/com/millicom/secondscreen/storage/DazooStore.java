@@ -13,7 +13,6 @@ import com.millicom.secondscreen.content.model.TvDate;
 
 public class DazooStore {
 	private static final String							TAG			= "DazooStore";
-	private static DazooStore							mInstance	= null;
 
 	private ArrayList<String>							mChannelIds;
 	private ArrayList<String>							mMyChannelIds;
