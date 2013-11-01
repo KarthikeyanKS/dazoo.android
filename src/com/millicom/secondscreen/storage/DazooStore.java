@@ -102,6 +102,22 @@ public class DazooStore {
 		return this.mChannels;
 	}
 
+	public void setDefaultChannels(HashMap<String, Channel> defaultChannels){
+		this.mDefaultChannels = defaultChannels;
+	}
+	
+	public HashMap<String, Channel> getDefaultChannels(){
+		return this.mDefaultChannels;
+	}
+	
+	public void setListChannels(HashMap<String, Channel> listChannels){
+		this.mListChannels = listChannels;
+	}
+	
+	public HashMap<String, Channel> getListChannels(){
+		return this.mListChannels;
+	}
+	
 	public Channel getChannel(String channelId) {
 		for (Entry<String, Channel> entry : mChannels.entrySet()) {
 			if (entry.getKey().equals(channelId)) {
