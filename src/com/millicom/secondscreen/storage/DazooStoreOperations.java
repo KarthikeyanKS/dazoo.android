@@ -25,17 +25,17 @@ public class DazooStoreOperations {
 		dazooStore.setDefaultChannels(defaultChannelsMap);
 		dazooStore.setDefaultChannelIds(defaultChannelIds);
 	}
-	
-	public static void saveListChannels(ArrayList<Channel> listChannels){
+
+	public static void saveListChannels(ArrayList<Channel> listChannels) {
 		HashMap<String, Channel> listChannelsMap = new HashMap<String, Channel>();
 		ArrayList<String> listChannelsIds = new ArrayList<String>();
-		
+
 		int size = listChannels.size();
-		for(int i=0; i < size; i++){
+		for (int i = 0; i < size; i++) {
 			listChannelsMap.put(listChannels.get(i).getChannelId(), listChannels.get(i));
 			listChannelsIds.add(listChannels.get(i).getChannelId());
 		}
-		
+
 		DazooStore dazooStore = DazooStore.getInstance();
 		dazooStore.setListChannels(listChannelsMap);
 		dazooStore.setDefaultChannelIds(listChannelsIds);
@@ -74,6 +74,37 @@ public class DazooStoreOperations {
 		guideKey.setChannelId(channelId);
 		guides.put(guideKey, guide);
 		dazooStore.setGuides(guides);
+	}
+
+	public static void saveMyGuide(Guide guide, TvDate tvDate, String channelId) {
+		DazooStore dazooStore = DazooStore.getInstance();
+		HashMap<GuideKey, Guide> myGuides = dazooStore.getMyGuides();
+
+		GuideKey guideKey = new GuideKey();
+		guideKey.setDate(tvDate);
+		guideKey.setChannelId(channelId);
+		myGuides.put(guideKey, guide);
+		dazooStore.setMyGuides(myGuides);
+	}
+
+	public static boolean saveGuides(ArrayList<Guide> guide, TvDate tvDate) {
+		int size = guide.size();
+		for (int i = 0; i < size; i++) {
+			String channelId = guide.get(i).getId();
+			saveGuide(guide.get(i), tvDate, channelId);
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean saveMyGuides(ArrayList<Guide> myGuide, TvDate tvDate) {
+		int size = myGuide.size();
+		for (int i = 0; i < size; i++) {
+			String channelId = myGuide.get(i).getId();
+			saveMyGuide(myGuide.get(i), tvDate, channelId);
+			return true;
+		}
+		return false;
 	}
 
 	public static void saveTaggedBroadcast(TvDate date, Tag tag, ArrayList<Broadcast> broadcasts) {

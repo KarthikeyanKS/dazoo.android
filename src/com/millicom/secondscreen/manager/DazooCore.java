@@ -239,6 +239,14 @@ public class DazooCore {
 			getGuideTask.execute(date);
 		}
 	}
+	
+	public boolean saveMyGuideTable(ArrayList<Guide> myGuideTable, TvDate tvDate){
+		return DazooStoreOperations.saveMyGuides(myGuideTable, tvDate);
+	}
+	
+	public boolean saveGuideTable(ArrayList<Guide> guideTable, TvDate tvDate){
+		return DazooStoreOperations.saveGuides(guideTable, tvDate);
+	}
 
 	// construct the url for the guide
 	private String getPageUrl(String date, ArrayList<String> channelIds) {

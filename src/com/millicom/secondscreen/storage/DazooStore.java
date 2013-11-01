@@ -12,39 +12,40 @@ import com.millicom.secondscreen.content.model.Tag;
 import com.millicom.secondscreen.content.model.TvDate;
 
 public class DazooStore {
-	private static final String							TAG			= "DazooStore";
+	private static final String							TAG	= "DazooStore";
 
 	private ArrayList<String>							mMyChannelIds;
 	private ArrayList<TvDate>							mTvDates;
 	private HashMap<String, Channel>					mChannels;
 	private HashMap<String, Channel>					mMyChannels;
-	
-	private ArrayList<String> mDefaultChannelIds;
-	private ArrayList<String> mListChannelIds;
-	private HashMap<String, Channel> mDefaultChannels;
-	private HashMap<String, Channel> mListChannels;
-	
+
+	private ArrayList<String>							mDefaultChannelIds;
+	private ArrayList<String>							mListChannelIds;
+	private HashMap<String, Channel>					mDefaultChannels;
+	private HashMap<String, Channel>					mListChannels;
+
 	private ArrayList<Tag>								mTags;
 	private HashMap<GuideKey, Guide>					mGuides;
+	private HashMap<GuideKey, Guide>					mMyGuides;
 	private HashMap<BroadcastKey, ArrayList<Broadcast>>	mTaggedBroadcasts;
 	private HashMap<BroadcastKey, ArrayList<Broadcast>>	mMyTaggedBroadcasts;
 
 	// private constructor prevents instantiation from other classes
-	private DazooStore(){};
-	
+	private DazooStore() {
+	};
+
 	/**
-	 * DazooStoreHolder is loaded on the first execution of the DazooStore.getInstance()
-	 * or the first access to DazooStoreHolder.INSTANCE, not before
+	 * DazooStoreHolder is loaded on the first execution of the DazooStore.getInstance() or the first access to DazooStoreHolder.INSTANCE, not before
 	 */
-	
-	private static class DazooStoreHolder{
-		public static final DazooStore INSTANCE = new DazooStore();
+
+	private static class DazooStoreHolder {
+		public static final DazooStore	INSTANCE	= new DazooStore();
 	}
-	
-	public static DazooStore getInstance(){
+
+	public static DazooStore getInstance() {
 		return DazooStoreHolder.INSTANCE;
 	}
-	
+
 	// tags
 	public void setTags(ArrayList<Tag> tags) {
 		this.mTags = tags;
@@ -102,22 +103,22 @@ public class DazooStore {
 		return this.mChannels;
 	}
 
-	public void setDefaultChannels(HashMap<String, Channel> defaultChannels){
+	public void setDefaultChannels(HashMap<String, Channel> defaultChannels) {
 		this.mDefaultChannels = defaultChannels;
 	}
-	
-	public HashMap<String, Channel> getDefaultChannels(){
+
+	public HashMap<String, Channel> getDefaultChannels() {
 		return this.mDefaultChannels;
 	}
-	
-	public void setListChannels(HashMap<String, Channel> listChannels){
+
+	public void setListChannels(HashMap<String, Channel> listChannels) {
 		this.mListChannels = listChannels;
 	}
-	
-	public HashMap<String, Channel> getListChannels(){
+
+	public HashMap<String, Channel> getListChannels() {
 		return this.mListChannels;
 	}
-	
+
 	public Channel getChannel(String channelId) {
 		for (Entry<String, Channel> entry : mChannels.entrySet()) {
 			if (entry.getKey().equals(channelId)) {
@@ -135,12 +136,12 @@ public class DazooStore {
 	public ArrayList<String> getDefaultChannelIds() {
 		return this.mDefaultChannelIds;
 	}
-	
-	public void setListChannelIds(ArrayList<String> ids){
+
+	public void setListChannelIds(ArrayList<String> ids) {
 		this.mListChannelIds = ids;
 	}
-	
-	public ArrayList<String> getListChannelIds(){
+
+	public ArrayList<String> getListChannelIds() {
 		return this.mListChannelIds;
 	}
 
@@ -170,6 +171,14 @@ public class DazooStore {
 		return this.mGuides;
 	}
 
+	public void setMyGuides(HashMap<GuideKey, Guide> myGuides) {
+		this.mMyGuides = myGuides;
+	}
+
+	public HashMap<GuideKey, Guide> getMyGuides() {
+		return this.mMyGuides;
+	}
+
 	public Guide getChannelGuide(TvDate tvDate, String channelId) {
 		GuideKey currentKey = new GuideKey();
 		currentKey.setDate(tvDate);
@@ -196,7 +205,7 @@ public class DazooStore {
 
 	public ArrayList<Guide> getGuideTable(TvDate tvDate) {
 		ArrayList<Guide> guideTable = new ArrayList<Guide>();
-		int size = mListChannelIds.size();									// CLARIFY THAT WITH BACKEND
+		int size = mListChannelIds.size(); // CLARIFY THAT WITH BACKEND
 		for (int i = 0; i < size; i++) {
 			Guide guide = getChannelGuide(tvDate, mMyChannelIds.get(i));
 			guideTable.add(guide);
