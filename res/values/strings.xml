@@ -221,7 +221,5 @@
     <!-- LIKE SERVICE -->
     <string name="like_set_text">" was added to the list of your preferences"</string>
     <string name="like_remove_text">"Unliking an item remove all related recommendation to this item"</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
 
 </resources>

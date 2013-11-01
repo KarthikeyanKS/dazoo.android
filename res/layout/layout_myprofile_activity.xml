@@ -79,12 +79,12 @@
 	
 	                <ImageView
 	                    android:id="@+id/myprofile_avatar_iv"
-	                    android:layout_width="150dp"
-	                    android:layout_height="150dp" />
+	                    android:layout_width="50dp"
+	                    android:layout_height="50dp" />
 	
 	                <RelativeLayout
-	                    android:layout_width="150dp"
-	                    android:layout_height="150dp" >
+	                    android:layout_width="50dp"
+	                    android:layout_height="50dp" >
 	
 	                    <ProgressBar
 	                        android:id="@+id/myprofile_avatar_progressbar"
@@ -97,7 +97,7 @@
 	                <com.millicom.secondscreen.customviews.FontTextView
 	                    android:id="@+id/myprofile_name_tv"
 	                    android:layout_width="fill_parent"
-	                    android:layout_height="98dp"
+	                    android:layout_height="50dp"
 	                    android:layout_centerVertical="true"
 	                    android:layout_toRightOf="@id/myprofile_avatar_iv"
 	                    android:gravity="center_vertical"

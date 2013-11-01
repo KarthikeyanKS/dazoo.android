@@ -35,7 +35,7 @@ public class SettingsActivity extends ActionBarActivity implements OnClickListen
 	private Button				mContactButton, mTermsButton, mHelpButton, mLogoutButton;
 	private View				mTabSelectorContainerView;
 	private TextView			mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed, mVersionTextView;
-	private String mToken;
+	private String 				mToken;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

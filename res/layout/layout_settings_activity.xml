@@ -3,101 +3,114 @@
     xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
     android:id="@+id/settings_list_container"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/dark_gray" >
+    android:layout_height="fill_parent" >
 
     <!-- ABOUT TEXTVIEW -->
-    
-    <com.millicom.secondscreen.customviews.FontTextView
-        android:id="@+id/settings_about_textview"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:text="@string/settings_about"
-        android:textSize="20sp"
-        android:textColor="@color/white" />
-    
-    <!-- MENU CONTAINER -->
-    
-    <RelativeLayout
-	    android:id="@+id/settings_menu_container"
+    <ScrollView
 	    android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-		android:layout_below="@id/settings_about_textview"
-		android:padding="2dp"
-		android:background="@drawable/layout_rounded_corners_white">
-		
-        <com.millicom.secondscreen.customviews.FontButton
-	        android:id="@+id/settings_contact_button"
+	    android:layout_height="fill_parent"
+	    android:layout_above="@id/tab_selector_container"
+	    android:background="@color/dark_gray"
+	    android:fillViewport="true"
+	    android:orientation="vertical" >
+	    
+        <RelativeLayout
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_margin="1dp"
-	        android:background="@color/light_gray"
-	        android:padding="10dp"
-	        android:text="@string/settings_contact"
-	        android:gravity="left|center_vertical"
-	        android:drawableRight="@drawable/ic_launcher" />
-        
-        <com.millicom.secondscreen.customviews.FontButton
-	        android:id="@+id/settings_terms_button"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_below="@id/settings_contact_button"
-	        android:layout_margin="1dp"
-	        android:background="@color/light_gray"
-	        android:padding="10dp"
-	        android:text="@string/settings_terms"
-	        android:gravity="left|center_vertical"
-	        android:drawableRight="@drawable/ic_launcher" />"
-       
-        <com.millicom.secondscreen.customviews.FontButton
-	        android:id="@+id/settings_help_button"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_below="@id/settings_terms_button"
-	        android:layout_margin="1dp"
-	        android:background="@color/light_gray"
-	        android:padding="10dp"
-	        android:text="@string/settings_help"
-	        android:gravity="left|center_vertical"
-	        android:drawableRight="@drawable/ic_launcher" />
-	</RelativeLayout>
-	
-    <!-- VERSION TEXTVIEW -->
-    
-    <com.millicom.secondscreen.customviews.FontTextView 
-        android:id="@+id/settings_version_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="10dp"
-        android:layout_below="@id/settings_menu_container"
-        android:textSize="16sp"
-        android:textColor="@color/white" />
-    
-    <!-- LOGOUT BUTTON -->
-    
-    <com.millicom.secondscreen.customviews.FontButton
-        android:id="@+id/settings_logout_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/settings_version_textview"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="5dp"
-        android:layout_centerInParent="true"
-        android:background="@drawable/layout_rounded_corners_lightgray"
-        android:padding="10dp"
-        android:text="@string/logout_from_dazoo"
-        android:textColor="@color/white"
-        android:textStyle="bold" />
-    
+	        android:paddingBottom="10dp"
+	        android:background="@color/dark_gray" >
+		        
+		    <com.millicom.secondscreen.customviews.FontTextView
+		        android:id="@+id/settings_about_textview"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="30dp"
+		        android:layout_marginBottom="10dp"
+		        android:layout_marginLeft="30dp"
+		        android:layout_marginRight="30dp"
+		        android:text="@string/settings_about"
+		        android:textSize="20sp"
+		        android:textColor="@color/white" />
+		    
+		    <!-- MENU CONTAINER -->
+		    
+		    <RelativeLayout
+			    android:id="@+id/settings_menu_container"
+			    android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+		        android:layout_marginBottom="10dp"
+		        android:layout_marginLeft="30dp"
+		        android:layout_marginRight="30dp"
+				android:layout_below="@id/settings_about_textview"
+				android:padding="2dp"
+				android:background="@drawable/layout_rounded_corners_white">
+				
+		        <com.millicom.secondscreen.customviews.FontButton
+			        android:id="@+id/settings_contact_button"
+			        android:layout_width="fill_parent"
+			        android:layout_height="wrap_content"
+			        android:layout_margin="1dp"
+			        android:background="@color/light_gray"
+			        android:padding="3dp"
+			        android:text="@string/settings_contact"
+			        android:gravity="left|center_vertical"
+			        android:drawableRight="@drawable/ic_launcher" />
+		        
+		        <com.millicom.secondscreen.customviews.FontButton
+			        android:id="@+id/settings_terms_button"
+			        android:layout_width="fill_parent"
+			        android:layout_height="wrap_content"
+			        android:layout_below="@id/settings_contact_button"
+			        android:layout_margin="1dp"
+			        android:background="@color/light_gray"
+			        android:padding="3dp"
+			        android:text="@string/settings_terms"
+			        android:gravity="left|center_vertical"
+			        android:drawableRight="@drawable/ic_launcher" />"
+		       
+		        <com.millicom.secondscreen.customviews.FontButton
+			        android:id="@+id/settings_help_button"
+			        android:layout_width="fill_parent"
+			        android:layout_height="wrap_content"
+			        android:layout_below="@id/settings_terms_button"
+			        android:layout_margin="1dp"
+			        android:background="@color/light_gray"
+			        android:padding="3dp"
+			        android:text="@string/settings_help"
+			        android:gravity="left|center_vertical"
+			        android:drawableRight="@drawable/ic_launcher" />
+			</RelativeLayout>
+			
+		    <!-- VERSION TEXTVIEW -->
+		    
+		    <com.millicom.secondscreen.customviews.FontTextView 
+		        android:id="@+id/settings_version_textview"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_centerHorizontal="true"
+		        android:layout_margin="10dp"
+		        android:layout_below="@id/settings_menu_container"
+		        android:textSize="16sp"
+		        android:textColor="@color/white" />
+		    
+		    <!-- LOGOUT BUTTON -->
+		    
+		    <com.millicom.secondscreen.customviews.FontButton
+		        android:id="@+id/settings_logout_button"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@id/settings_version_textview"
+		        android:layout_marginLeft="30dp"
+		        android:layout_marginRight="30dp"
+		        android:layout_marginTop="5dp"
+		        android:layout_centerHorizontal="true"
+		        android:background="@drawable/layout_rounded_corners_lightgray"
+		        android:padding="10dp"
+		        android:text="@string/logout_from_dazoo"
+		        android:textColor="@color/white"
+		        android:textStyle="bold" />
+		    </RelativeLayout>
+    </ScrollView>
      <!-- FOOTER : BOTTOM NAVIGATION TABS -->
 
     <LinearLayout
