@@ -190,7 +190,6 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 		return -1;
 	}
 
-	@SuppressLint("NewApi")
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();

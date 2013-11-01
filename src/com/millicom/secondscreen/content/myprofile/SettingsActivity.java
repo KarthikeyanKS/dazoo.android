@@ -10,6 +10,7 @@ import com.millicom.secondscreen.content.homepage.HomeActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -31,9 +32,9 @@ public class SettingsActivity extends ActionBarActivity implements OnClickListen
 	private static final String	TAG			= "SettingsActivity";
 	private ActionBar			mActionBar;
 	private boolean				mIsChange	= false;
-	private Button				mLogoutButton;
+	private Button				mContactButton, mTermsButton, mHelpButton, mLogoutButton;
 	private View				mTabSelectorContainerView;
-	private TextView			mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
+	private TextView			mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed, mVersionTextView;
 	private String mToken;
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class SettingsActivity extends ActionBarActivity implements OnClickListen
 		setContentView(R.layout.layout_settings_activity);
 		mToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 		initLayout();
+		populateViews();
 	}
 
 	private void initLayout() {
@@ -54,14 +56,20 @@ public class SettingsActivity extends ActionBarActivity implements OnClickListen
 		mActionBar.setDisplayShowCustomEnabled(true);
 		mActionBar.setDisplayUseLogoEnabled(true);
 		mActionBar.setDisplayShowHomeEnabled(true);
-		mActionBar.setCustomView(R.layout.actionbar_mepage);
-
 		mActionBar.setTitle(getResources().getString(R.string.settings));
-
+		
+		mContactButton = (Button) findViewById(R.id.settings_contact_button);
+		mContactButton.setOnClickListener(this);
+		mTermsButton = (Button) findViewById(R.id.settings_terms_button);
+		mTermsButton.setOnClickListener(this);
+		mHelpButton = (Button) findViewById(R.id.settings_help_button);
+		mHelpButton.setOnClickListener(this);
+		mVersionTextView = (TextView) findViewById(R.id.settings_version_textview);
+		
 		mLogoutButton = (Button) findViewById(R.id.settings_logout_button);
 		mLogoutButton.setOnClickListener(this);
 		
-		if(mToken == null || mToken.isEmpty()==true){
+		if(mToken == null || mToken.length() <= 0){
 			mLogoutButton.setVisibility(View.GONE);
 		}
 
@@ -78,6 +86,18 @@ public class SettingsActivity extends ActionBarActivity implements OnClickListen
 		mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.gray));
 		mTxtTabPopular.setTextColor(getResources().getColor(R.color.gray));
 		mTxtTabFeed.setTextColor(getResources().getColor(R.color.orange));
+	}
+	
+	private void populateViews() {
+		try {
+			String versionName = getApplicationContext().getPackageManager()
+				    .getPackageInfo(getApplicationContext().getPackageName(), 0).versionName;
+			mVersionTextView.setText(getResources().getString(R.string.settings_version) + " " + versionName);
+		} 
+		catch (NameNotFoundException e) {
+			mVersionTextView.setText("");
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -101,6 +121,21 @@ public class SettingsActivity extends ActionBarActivity implements OnClickListen
 	public void onClick(View v) {
 		int id = v.getId();
 		switch (id) {
+		case R.id.settings_contact_button:
+			Intent intentContact = new Intent(SettingsActivity.this, ContactActivity.class);
+			startActivityForResult(intentContact, 0);
+			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			break;
+		case R.id.settings_terms_button:
+			Intent intentTerms = new Intent(SettingsActivity.this, TermsActivity.class);
+			startActivityForResult(intentTerms, 0);
+			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			break;
+		case R.id.settings_help_button:
+			Intent intentHelp = new Intent(SettingsActivity.this, HelpActivity.class);
+			startActivityForResult(intentHelp, 0);
+			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			break;
 		case R.id.settings_logout_button:
 			((SecondScreenApplication) getApplicationContext()).setAccessToken(Consts.EMPTY_STRING);
 			((SecondScreenApplication) getApplicationContext()).setUserFirstName(Consts.EMPTY_STRING);

@@ -11,7 +11,8 @@
         android:id="@+id/signin_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:paddingBottom="10dp" >
 
         <!-- FACEBOOK SIGN-IN BAR -->
 		<!-- TODO: LONG TEXT WRAPS AROUND ON TWO LINES, NON CENTERED ON SMALL SCREEN -->
