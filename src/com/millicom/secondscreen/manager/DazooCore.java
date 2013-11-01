@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.content.SSChannelPage;
 import com.millicom.secondscreen.content.SSGuidePage;
@@ -14,6 +15,7 @@ import com.millicom.secondscreen.content.SSPageCallback;
 import com.millicom.secondscreen.content.SSPageGetResult;
 import com.millicom.secondscreen.content.SSTagsPage;
 import com.millicom.secondscreen.content.SSTvDatePage;
+import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Tag;
@@ -133,6 +135,12 @@ public class DazooCore {
 				}
 			});
 
+			// add the tag for the "all categories"
+			Tag tagAll = new Tag();
+			tagAll.setId(mContext.getResources().getString(R.string.all_categories_id));
+			tagAll.setName(mContext.getResources().getString(R.string.all_categories_name));
+			mTags.add(0, tagAll);
+			
 			if (mTags != null && mTags.isEmpty() != true) return true;
 			else return false;
 		}
@@ -247,7 +255,43 @@ public class DazooCore {
 	public boolean saveGuideTable(ArrayList<Guide> guideTable, TvDate tvDate){
 		return DazooStoreOperations.saveGuides(guideTable, tvDate);
 	}
+	
+	public boolean filterGuideByTag(TvDate tvDate, Tag tag){
+		ArrayList<Broadcast> taggedBroadcasts = DazooStoreOperations.getTaggedBroadcasts(tvDate, tag);
+		if(taggedBroadcasts!= null && taggedBroadcasts.isEmpty()!=true){
+			DazooStoreOperations.saveTaggedBroadcast(tvDate, tag, taggedBroadcasts);
+			return true;
+		} else return false;
+	}
 
+	public boolean filterGuides(TvDate tvDate, int count){
+		ArrayList<Tag> tags = DazooStore.getInstance().getTags();
+		boolean result = false;
+		for(int i=1; i < count; i++){
+			filterGuideByTag(tvDate, tags.get(i));
+			result = true;
+		}
+		return false;
+	}
+	
+	public boolean filterMyGuidesByTag(TvDate tvDate, Tag tag, int count){
+		ArrayList<Tag> tags = DazooStore.getInstance().getTags();
+		boolean result = false;
+		for(int i=1; i < count; i++){
+			filterMyGuideByTag(tvDate, tags.get(i));
+			result = true;
+		}
+		return false;
+	}
+	
+	public boolean filterMyGuideByTag(TvDate tvDate, Tag tag){
+		ArrayList<Broadcast> myTaggedBroadcasts = DazooStoreOperations.getMyTaggedBrodcasts(tvDate, tag);
+		if(myTaggedBroadcasts!=null && myTaggedBroadcasts.isEmpty()!=true){
+			DazooStoreOperations.saveMyTaggedBroadcast(tvDate, tag, myTaggedBroadcasts);
+			return true;
+		} else return false;
+	}
+	
 	// construct the url for the guide
 	private String getPageUrl(String date, ArrayList<String> channelIds) {
 		StringBuilder sB = new StringBuilder();
