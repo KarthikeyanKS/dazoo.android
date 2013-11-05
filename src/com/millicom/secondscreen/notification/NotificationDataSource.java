@@ -58,8 +58,10 @@ public class NotificationDataSource {
 		Cursor cursor = database.rawQuery(query, null);
 		if (cursor != null) {
 			cursor.moveToFirst();
+			database.close();
 			return setCursorValues(cursor);
 		} else {
+			database.close();
 			return null;
 		}
 	}

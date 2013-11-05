@@ -29,7 +29,7 @@ public class TVGuideTagTypeFragment extends SSPageFragment{
 	
 	private static final String TAG = "TVGuideTagTypeFragment";
 	private Activity mActivity;
-	private String mTagStr, mTvDateStr, token;
+	private String mTagStr, token;
 	private View mRootView;
 	private ListView mListView;
 	private ArrayList<Broadcast> mTaggedBroadcasts;
@@ -40,18 +40,18 @@ public class TVGuideTagTypeFragment extends SSPageFragment{
 	private int mTvDatePosition;
 	private boolean mIsLoggedIn = false;
 	
-	public static TVGuideTagTypeFragment newInstance(Tag tag, String tvDate, int position) {
+	public static TVGuideTagTypeFragment newInstance(Tag tag, TvDate tvDate, int position) {
 
 		TVGuideTagTypeFragment fragment = new TVGuideTagTypeFragment();
 		Bundle bundle = new Bundle();
 		
-		bundle.putString(Consts.FRAGMENT_EXTRA_TVDATE, tvDate);
+		bundle.putParcelable(Consts.FRAGMENT_EXTRA_TVDATE, tvDate);
 		bundle.putInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION, position);
 		bundle.putString(Consts.FRAGMENT_EXTRA_TAG, tag.getName());
 		
 		fragment.setArguments(bundle);
 
-		Log.d(TAG, "FRAGMENT: " + tag.getName() + " ON: " + tvDate);
+		Log.d(TAG, "FRAGMENT: " + tag.getName() + " ON: " + tvDate.getDate());
 		return fragment;
 	}
 	
@@ -67,7 +67,7 @@ public class TVGuideTagTypeFragment extends SSPageFragment{
 		
 		Bundle bundle = getArguments();
 		mTagStr = bundle.getString(Consts.FRAGMENT_EXTRA_TAG);
-		mTvDateStr = bundle.getString(Consts.FRAGMENT_EXTRA_TVDATE);
+		mTvDate = bundle.getParcelable(Consts.FRAGMENT_EXTRA_TVDATE);
 		mTvDatePosition = bundle.getInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION);
 	}
 	
@@ -88,8 +88,6 @@ public class TVGuideTagTypeFragment extends SSPageFragment{
 	protected void loadPage() {
 		updateUI(REQUEST_STATUS.LOADING);
 		
-		// GET THE DATE FROM DAZOO STORE
-		mTvDate = dazooStore.getDate(mTvDateStr);
 		mTag = dazooStore.getTag(mTagStr);
 		
 		if(mIsLoggedIn)

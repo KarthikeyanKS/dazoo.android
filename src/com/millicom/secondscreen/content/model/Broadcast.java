@@ -19,7 +19,7 @@ public class Broadcast implements Parcelable {
 
 	private static final String	TAG	= "Broadcast";
 
-	private String broadcastType;
+	private String				broadcastType;
 	private String				beginTime;
 	private String				endTime;
 	private Channel				channel;
@@ -31,14 +31,14 @@ public class Broadcast implements Parcelable {
 	public Broadcast() {
 	}
 
-	public void setBroadcastType(String broadcastType){
+	public void setBroadcastType(String broadcastType) {
 		this.broadcastType = broadcastType;
 	}
-	
-	public String getBroadcastType(){
+
+	public String getBroadcastType() {
 		return this.broadcastType;
 	}
-	
+
 	public void setBeginTime(String beginTime) {
 		this.beginTime = beginTime;
 	}
@@ -104,8 +104,8 @@ public class Broadcast implements Parcelable {
 	public boolean equals(Object o) {
 		if (o instanceof Broadcast) {
 			Broadcast other = (Broadcast) o;
-			if (getBeginTimeMillis() != 0 && other.getBeginTimeMillis() != 0 && getBeginTimeMillis() == other.getBeginTimeMillis()
-				&& getChannel().getChannelId() != null && other.getChannel().getChannelId()!=null && (getChannel().getChannelId()).equals(other.getChannel().getChannelId())) {
+			if (getBeginTimeMillis() != 0 && other.getBeginTimeMillis() != 0 && getBeginTimeMillis() == other.getBeginTimeMillis() && getChannel().getChannelId() != null
+					&& other.getChannel().getChannelId() != null && (getChannel().getChannelId()).equals(other.getChannel().getChannelId())) {
 				return true;
 			}
 		}
@@ -195,7 +195,8 @@ public class Broadcast implements Parcelable {
 			}
 
 			long d = Math.abs(timeNow - timeBroadcast);
-			if (d < bestDistanceFoundYet && timeBroadcast < timeNow) {
+			// if (d < bestDistanceFoundYet && timeBroadcast < timeNow) {
+			if (d < bestDistanceFoundYet) {
 				nearestIndex = i;
 				bestDistanceFoundYet = d;
 			}

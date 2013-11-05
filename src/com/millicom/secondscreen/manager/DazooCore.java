@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.content.SSChannelPage;
 import com.millicom.secondscreen.content.SSGuidePage;
@@ -75,7 +76,7 @@ public class DazooCore {
 
 		GetTags tagsTask = new GetTags();
 		tagsTask.execute();
-		
+
 		if (token != null && TextUtils.isEmpty(token) != true) {
 
 			// get all channels
@@ -137,7 +138,7 @@ public class DazooCore {
 						mIsTvDate = true;
 
 						// attempt the common callback interface
-						getGuide(mDateIndex);
+						getGuide(mDateIndex, false);
 					}
 				}
 			});
@@ -159,10 +160,16 @@ public class DazooCore {
 					if (mTags != null && mTags.isEmpty() != true) {
 						Log.d(TAG, "Tags: " + mTags.size());
 
+						// insert general Tag category in the list
+						Tag tagAll = new Tag();
+						tagAll.setId(mContext.getResources().getString(R.string.all_categories_id));
+						tagAll.setName(mContext.getResources().getString(R.string.all_categories_name));
+						mTags.add(0, tagAll);
+
 						DazooStore.getInstance().setTags(mTags);
 						mIsTags = true;
 						// attempt the get the guide
-						getGuide(mDateIndex);
+						getGuide(mDateIndex, false);
 					}
 				}
 			});
@@ -187,7 +194,7 @@ public class DazooCore {
 						mIsAllChannels = true;
 
 						// attempt the common callback interface
-						getGuide(mDateIndex);
+						getGuide(mDateIndex, false);
 					}
 				}
 			});
@@ -213,7 +220,7 @@ public class DazooCore {
 						mIsDefaultChannels = true;
 
 						// attempt the common callback interface
-						getGuide(mDateIndex);
+						getGuide(mDateIndex, false);
 					}
 				}
 			});
@@ -222,20 +229,25 @@ public class DazooCore {
 	}
 
 	// task to get the tvguide for all the channels
-	private static class GetGuide extends AsyncTask<TvDate, String, Void> {
+	private static class GetGuide extends AsyncTask<Context, String, Void> {
 
 		private TvDate	mDate;
+		private boolean	mIsChannel;
+		
+		public GetGuide(TvDate date, boolean isChannel){
+			this.mDate = date;
+			this.mIsChannel = isChannel;
+		}
 
 		@Override
-		protected Void doInBackground(TvDate... params) {
-			mDate = params[0];
-
+		protected Void doInBackground(Context... params) {
+		
 			// get guide for the date
 			String guidePageUrl = null;
 			if (token != null && TextUtils.isEmpty(token) != true) {
 				mMyChannelsIds = DazooStore.getInstance().getMyChannelIds();
 				guidePageUrl = getPageUrl(mDate.getDate(), mMyChannelsIds);
-				Log.d(TAG, "Build on MY channels: " + mMyChannelsIds);
+				Log.d(TAG, "Build on MY channels: " + mMyChannelsIds.size());
 			} else {
 				mDefaultChannelsIds = DazooStore.getInstance().getDefaultChannelIds();
 				guidePageUrl = getPageUrl(mDate.getDate(), mDefaultChannelsIds);
@@ -247,23 +259,37 @@ public class DazooCore {
 				public void onGetPageResult(SSPageGetResult aPageGetResult) {
 					mGuides = SSGuidePage.getInstance().getGuide();
 
-					Log.d(TAG, "DATE: " + mDate.getDate() + mDate.getName());
-
 					if (mGuides != null && mGuides.isEmpty() != true) {
 						if (token != null && TextUtils.isEmpty(token) != true) {
-							if(DazooStoreOperations.saveMyGuides(mGuides, mDate)){
-								// notify the HomeActivity that the guide is available and UI may be updated
-								LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(Consts.INTENT_EXTRA_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, true));
-							
-								//prepare tagged broadcasts for the current date
+							if (DazooStoreOperations.saveMyGuides(mGuides, mDate)) {
+
+								if (mIsChannel) {
+									// notify the ChannelPageActivity that the guide is available and UI may be updated
+									LocalBroadcastManager.getInstance(mContext).sendBroadcast(
+											new Intent(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE_VALUE, true));
+
+								} else {
+									// notify the HomeActivity that the guide is available and UI may be updated
+									LocalBroadcastManager.getInstance(mContext)
+									.sendBroadcast(new Intent(Consts.INTENT_EXTRA_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, true));
+								}
+								// prepare tagged broadcasts for the current date
 								// prepareTaggedContent(mDate);
-							
+
 							}
 						} else {
 							if (DazooStoreOperations.saveGuides(mGuides, mDate)) {
-								// notify the HomeActivity that the guide is available and UI may be updated
-								LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(Consts.INTENT_EXTRA_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, true));
 
+								if (mIsChannel) {
+									// notify the ChannelPageActivity that the guide is available and UI may be updated
+									LocalBroadcastManager.getInstance(mContext).sendBroadcast(
+											new Intent(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE_VALUE, true));
+
+								} else {
+									// notify the HomeActivity that the guide is available and UI may be updated
+									LocalBroadcastManager.getInstance(mContext)
+									.sendBroadcast(new Intent(Consts.INTENT_EXTRA_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, true));
+								}
 								// prepare tagged broadcasts for the current date
 								// prepareTaggedContent(mDate);
 							}
@@ -273,16 +299,17 @@ public class DazooCore {
 			});
 			return null;
 		}
+
 	}
 
-	public static void getGuide(int dateIndex) {
+	public static void getGuide(int dateIndex, boolean isChannel) {
 		Log.d(TAG, "APPROACH GUIDE!!!: ");
 		Log.d(TAG, "mIsTvDate:" + mIsTvDate + "  mIsTags: " + mIsTags + "   mIsDefaultChannels: " + mIsDefaultChannels + "  mIsAllChannels: " + mIsAllChannels);
 		if (mIsTvDate == true && mIsTags == true && ((mIsDefaultChannels) || (mIsAllChannels))) {
 			TvDate date = mTvDates.get(dateIndex);
 			Log.d(TAG, "GUIDE DATE TO BE=============: " + date.getDate());
-			GetGuide getGuideTask = new GetGuide();
-			getGuideTask.execute(date);
+			GetGuide getGuideTask = new GetGuide(date, isChannel);
+			getGuideTask.execute(mContext);
 		}
 	}
 

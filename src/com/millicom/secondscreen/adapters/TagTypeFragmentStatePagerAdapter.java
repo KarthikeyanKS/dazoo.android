@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.imbryk.viewPager.LoopViewPager;
 import com.millicom.secondscreen.content.model.Tag;
+import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.tvguide.TVGuideTableFragment;
 import com.millicom.secondscreen.content.tvguide.TVGuideTagTypeFragment;
 
@@ -16,12 +17,15 @@ public class TagTypeFragmentStatePagerAdapter extends FragmentStatePagerAdapter 
 
 	private static final String TAG = "TagTypeFragmentStatePagerAdapter";
 	private ArrayList<Tag> mTags;
-	private String mTvDate;
+	private TvDate mTvDate;
+	private int mDatePosition;
 	
-	public TagTypeFragmentStatePagerAdapter(FragmentManager fm, ArrayList<Tag> tags, String tvDate) {
+	public TagTypeFragmentStatePagerAdapter(FragmentManager fm, ArrayList<Tag> tags, TvDate tvDate, int datePosition) {
 		super(fm);
 		this.mTags = tags;
 		this.mTvDate = tvDate;
+		this.mDatePosition = datePosition;
+		Log.d(TAG,"!!!!!!!!!!!!!!!!!!! IN ADAPTER: DATE: " + tvDate.getDate());
 	}
 
 	@Override
@@ -29,11 +33,11 @@ public class TagTypeFragmentStatePagerAdapter extends FragmentStatePagerAdapter 
 		position = LoopViewPager.toRealPosition(position, getCount());
 		Fragment fragment;
 		if (position == 0) {
-			Log.d(TAG,"TableFragment: Position: " + position + " TAG: " + mTags.get(position).getName());
-			return fragment = TVGuideTableFragment.newInstance(mTags.get(position), mTvDate, position);
+			Log.d(TAG,"TableFragment: Position: " + position + " TAG: " + mTags.get(position).getName() + " DATE: " + mTvDate.getDate());
+			return fragment = TVGuideTableFragment.newInstance(mTags.get(position), mTvDate, mDatePosition);
 		} else {
-			Log.d(TAG,"TagTypeFragment: Position: " + position + " TAG: " + mTags.get(position).getName());
-			return fragment = TVGuideTagTypeFragment.newInstance(mTags.get(position), mTvDate, position);
+			Log.d(TAG,"TagTypeFragment: Position: " + position + " TAG: " + mTags.get(position).getName() + " DATE: " + mTvDate.getDate());
+			return fragment = TVGuideTagTypeFragment.newInstance(mTags.get(position), mTvDate, mDatePosition);
 		}
 	}
 

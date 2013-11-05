@@ -28,7 +28,7 @@ import com.millicom.secondscreen.storage.DazooStore;
 public class TVGuideTableFragment extends SSPageFragment {
 
 	private static final String	TAG	= "TVGuideTableFragment";
-	private String				mTagStr, mTvDateStr, token;
+	private String				mTagStr, token;
 	private View				mRootView;
 	private Activity			mActivity;
 	private ListView			mTVGuideListView;
@@ -42,14 +42,16 @@ public class TVGuideTableFragment extends SSPageFragment {
  	private DazooStore dazooStore;
  	private boolean mIsLoggedIn = false;
 
-	public static TVGuideTableFragment newInstance(Tag tag, String date, int position) {
+	public static TVGuideTableFragment newInstance(Tag tag, TvDate date, int position) {
 
 		TVGuideTableFragment fragment = new TVGuideTableFragment();
 		Bundle bundle = new Bundle();
-		bundle.putString(Consts.FRAGMENT_EXTRA_TVDATE, date);
+		bundle.putParcelable(Consts.FRAGMENT_EXTRA_TVDATE, date);
 		bundle.putInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION, position);
 		bundle.putString(Consts.FRAGMENT_EXTRA_TAG, tag.getName());
 		fragment.setArguments(bundle);
+		Log.d(TAG,"NEW INSTANCE");
+		Log.d(TAG, "FRAGMENT: " + tag.getName() + " ON: " + date.getDate());
 		return fragment;
 	}
 
@@ -65,9 +67,9 @@ public class TVGuideTableFragment extends SSPageFragment {
 		
 		Bundle bundle = getArguments();
 		mTagStr = bundle.getString(Consts.FRAGMENT_EXTRA_TAG);
-		mTvDateStr = bundle.getString(Consts.FRAGMENT_EXTRA_TVDATE);
+		mTvDate = bundle.getParcelable(Consts.FRAGMENT_EXTRA_TVDATE);
 		mTvDatePosition = bundle.getInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION);
-		Log.d(TAG,"RECREATED!!!, mTvDatePosition: " + mTvDatePosition);
+		Log.d(TAG,"RECREATED!!!, mTvDatePosition: " + mTvDatePosition + "Date: " + mTvDate.getDate());
 	}
 
 	@Override
@@ -80,6 +82,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 
 		// reset the activity whenever the view is recreated
 		mActivity = getActivity();
+		mGuides = null;
 		loadPage();
 		return mRootView;
 	}
@@ -87,8 +90,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 	@Override
 	protected void loadPage() {
 		updateUI(REQUEST_STATUS.LOADING);
-		
-		mTvDate = dazooStore.getDate(mTvDateStr);
+	
 		mTag = dazooStore.getTag(mTagStr);
 		
 		Log.d(TAG,"DATE: " + mTvDate.getDate() + " TAG: " + mTag.getName());
@@ -100,12 +102,12 @@ public class TVGuideTableFragment extends SSPageFragment {
 		}
 		else { 
 			mGuides = dazooStore.getGuideTable(mTvDate);
-			Log.d(TAG,"READ DEFAULT TABLE for the date: " + mTvDate);
+			Log.d(TAG,"READ DEFAULT TABLE for the date: " + mTvDate.getDate());
 		}
 		
 		if(mGuides==null || mGuides.isEmpty()){
 			Log.d(TAG,"Get guide for this date");
-			DazooCore.getGuide(mTvDatePosition);
+			DazooCore.getGuide(mTvDatePosition, false);
 			if(mIsLoggedIn)
 				mGuides = dazooStore.getMyGuideTable(mTvDate);
 			else 

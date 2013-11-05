@@ -76,6 +76,10 @@ public class DazooStoreOperations {
 		Log.d(TAG,"GUIDE TO SAVE: " + guide);
 		Log.d(TAG,"tvDate: " + tvDate.getDate());
 		Log.d(TAG,"CHANNelid:" + channelId);
+		Log.d(TAG,"=============================");
+		Log.d(TAG,"Broadcasts #: " + String.valueOf(guide.getBroadcasts().size()));
+		Log.d(TAG,"###############################");
+		
 		
 		GuideKey guideKey = new GuideKey();
 		guideKey.setDate(tvDate);
@@ -102,7 +106,11 @@ public class DazooStoreOperations {
 		for (int i = 0; i < size; i++) {
 			String channelId = guide.get(i).getId();
 			Log.d(TAG,"channelId for guide: " + channelId);
-			saveGuide(guide.get(i), tvDate, channelId);
+			Log.d(TAG,"###############################");
+			Log.d(TAG,"###############################");
+			Log.d(TAG,"guide to save broadcasts size: " + String.valueOf(guide.get(i).getBroadcasts().size()));
+			Guide guideToSave = guide.get(i);
+			saveGuide(guideToSave, tvDate, channelId);
 			success = true;
 		}
 		return success;

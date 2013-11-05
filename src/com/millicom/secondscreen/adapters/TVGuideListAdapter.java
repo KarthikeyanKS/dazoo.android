@@ -89,7 +89,6 @@ public class TVGuideListAdapter extends BaseAdapter {
 		}
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
-		
 
 		if (guide.getLogoLHref() != null) {
 			// ImageDownloadThread getChannelIconTask = new ImageDownloadThread(holder.mChannelIconIv, holder.mProgressBar);
@@ -116,42 +115,43 @@ public class TVGuideListAdapter extends BaseAdapter {
 		});
 
 		ArrayList<Broadcast> broadcasts = guide.getBroadcasts();
-
+		
 		if (broadcasts != null && broadcasts.size() > 0) {
 
 			/* get the nearest broadcasts */
 			int indexOfNearestBroadcast = Broadcast.getClosestBroadcastIndex(broadcasts);
-			if(indexOfNearestBroadcast != -1){
-			ArrayList<Broadcast> nextBroadcasts = Broadcast.getBroadcastsStartingFromPosition(indexOfNearestBroadcast, broadcasts, Consts.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
-			for (int j = 0; j < nextBroadcasts.size(); j++) {
-				if (j == 0) {
-					holder.mLiveProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getTitle());
-					try {
-						holder.mLiveProgramTimeTv.setText((DateUtilities.isoStringToTimeString(nextBroadcasts.get(j).getBeginTime())));
-					} catch (Exception e) {
-						e.printStackTrace();
-						holder.mLiveProgramTimeTv.setText("");
-					}
-				} else if (j == 1 && j < nextBroadcasts.size()) {
-					holder.mNextProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getTitle());
-					try {
-						holder.mNextProgramTimeTv.setText((DateUtilities.isoStringToTimeString(nextBroadcasts.get(j).getBeginTime())));
-					} catch (Exception e) {
-						e.printStackTrace();
-						holder.mNextProgramTimeTv.setText("");
-					}
-				} else if (j == 2 && j < nextBroadcasts.size()) {
-					holder.mLastProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getTitle());
-					try {
-						holder.mLastProgramTimeTv.setText((DateUtilities.isoStringToTimeString(nextBroadcasts.get(j).getBeginTime())));
-					} catch (Exception e) {
-						e.printStackTrace();
-						holder.mLastProgramTimeTv.setText("");
+			if (indexOfNearestBroadcast != -1) {
+				ArrayList<Broadcast> nextBroadcasts = Broadcast.getBroadcastsStartingFromPosition(indexOfNearestBroadcast, broadcasts, Consts.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
+				
+				for (int j = 0; j < nextBroadcasts.size(); j++) {
+					if (j == 0) {
+						holder.mLiveProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getTitle());
+						try {
+							holder.mLiveProgramTimeTv.setText((DateUtilities.isoStringToTimeString(nextBroadcasts.get(j).getBeginTime())));
+						} catch (Exception e) {
+							e.printStackTrace();
+							holder.mLiveProgramTimeTv.setText("");
+						}
+					} else if (j == 1 && j < nextBroadcasts.size()) {
+						holder.mNextProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getTitle());
+						try {
+							holder.mNextProgramTimeTv.setText((DateUtilities.isoStringToTimeString(nextBroadcasts.get(j).getBeginTime())));
+						} catch (Exception e) {
+							e.printStackTrace();
+							holder.mNextProgramTimeTv.setText("");
+						}
+					} else if (j == 2 && j < nextBroadcasts.size()) {
+						holder.mLastProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getTitle());
+						try {
+							holder.mLastProgramTimeTv.setText((DateUtilities.isoStringToTimeString(nextBroadcasts.get(j).getBeginTime())));
+						} catch (Exception e) {
+							e.printStackTrace();
+							holder.mLastProgramTimeTv.setText("");
+						}
 					}
 				}
-			}
 				/* get the nearest broadcasts */
-			}
+			} 
 		} else {
 			holder.mLiveProgramNameTv.setText("");
 			holder.mLiveProgramTimeTv.setText("");
