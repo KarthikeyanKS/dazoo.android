@@ -37,14 +37,16 @@ public class TVGuideTagTypeFragment extends SSPageFragment{
 	private DazooStore dazooStore;
 	private Tag mTag;
 	private TvDate mTvDate;
+	private int mTvDatePosition;
 	private boolean mIsLoggedIn = false;
 	
-	public static TVGuideTagTypeFragment newInstance(Tag tag, String tvDate) {
+	public static TVGuideTagTypeFragment newInstance(Tag tag, String tvDate, int position) {
 
 		TVGuideTagTypeFragment fragment = new TVGuideTagTypeFragment();
 		Bundle bundle = new Bundle();
 		
 		bundle.putString(Consts.FRAGMENT_EXTRA_TVDATE, tvDate);
+		bundle.putInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION, position);
 		bundle.putString(Consts.FRAGMENT_EXTRA_TAG, tag.getName());
 		
 		fragment.setArguments(bundle);
@@ -66,6 +68,7 @@ public class TVGuideTagTypeFragment extends SSPageFragment{
 		Bundle bundle = getArguments();
 		mTagStr = bundle.getString(Consts.FRAGMENT_EXTRA_TAG);
 		mTvDateStr = bundle.getString(Consts.FRAGMENT_EXTRA_TVDATE);
+		mTvDatePosition = bundle.getInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION);
 	}
 	
 	@Override
@@ -77,8 +80,7 @@ public class TVGuideTagTypeFragment extends SSPageFragment{
 		
 		// reset the activity whenever the view is recreated
 		mActivity = getActivity();
-		//loadPage();
-		updateUI(REQUEST_STATUS.FAILED);
+		loadPage();
 		return mRootView;
 	}
 
@@ -94,6 +96,9 @@ public class TVGuideTagTypeFragment extends SSPageFragment{
 			mTaggedBroadcasts = dazooStore.getMyTaggedBroadcasts(mTvDate, mTag);
 		else 
 			mTaggedBroadcasts = dazooStore.getTaggedBroadcasts(mTvDate, mTag);
+		
+		//Log.d(TAG,"=================TAGGGED BROADCASTS ===============:" + mTaggedBroadcasts.size());
+		
 		
 		if (!pageHoldsData()) {
 			// // Request failed

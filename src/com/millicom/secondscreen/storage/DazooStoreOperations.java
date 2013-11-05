@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+import android.util.Log;
+
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.Guide;
@@ -11,6 +13,8 @@ import com.millicom.secondscreen.content.model.Tag;
 import com.millicom.secondscreen.content.model.TvDate;
 
 public class DazooStoreOperations {
+	
+	private static final String TAG = "DazooStoreOperations";
 
 	public static void saveDefaultChannels(ArrayList<Channel> defaultChannels) {
 		HashMap<String, Channel> defaultChannelsMap = new HashMap<String, Channel>();
@@ -26,19 +30,19 @@ public class DazooStoreOperations {
 		dazooStore.setDefaultChannelIds(defaultChannelIds);
 	}
 
-	public static void saveListChannels(ArrayList<Channel> listChannels) {
-		HashMap<String, Channel> listChannelsMap = new HashMap<String, Channel>();
-		ArrayList<String> listChannelsIds = new ArrayList<String>();
+	public static void saveAllChannels(ArrayList<Channel> allChannels) {
+		HashMap<String, Channel> allChannelsMap = new HashMap<String, Channel>();
+		ArrayList<String> allChannelsIds = new ArrayList<String>();
 
-		int size = listChannels.size();
+		int size = allChannels.size();
 		for (int i = 0; i < size; i++) {
-			listChannelsMap.put(listChannels.get(i).getChannelId(), listChannels.get(i));
-			listChannelsIds.add(listChannels.get(i).getChannelId());
+			allChannelsMap.put(allChannels.get(i).getChannelId(), allChannels.get(i));
+			allChannelsIds.add(allChannels.get(i).getChannelId());
 		}
 
 		DazooStore dazooStore = DazooStore.getInstance();
-		dazooStore.setListChannels(listChannelsMap);
-		dazooStore.setDefaultChannelIds(listChannelsIds);
+		dazooStore.setAllChannels(allChannelsMap);
+		dazooStore.setAllChannelIds(allChannelsIds);
 	}
 
 	public static void saveMyChannels(ArrayList<Channel> channels) {
@@ -69,6 +73,10 @@ public class DazooStoreOperations {
 		DazooStore dazooStore = DazooStore.getInstance();
 		HashMap<GuideKey, Guide> guides = dazooStore.getGuides();
 
+		Log.d(TAG,"GUIDE TO SAVE: " + guide);
+		Log.d(TAG,"tvDate: " + tvDate.getDate());
+		Log.d(TAG,"CHANNelid:" + channelId);
+		
 		GuideKey guideKey = new GuideKey();
 		guideKey.setDate(tvDate);
 		guideKey.setChannelId(channelId);
@@ -89,12 +97,15 @@ public class DazooStoreOperations {
 
 	public static boolean saveGuides(ArrayList<Guide> guide, TvDate tvDate) {
 		int size = guide.size();
+		boolean success = false;
+		Log.d(TAG,"Guides size: " + size);
 		for (int i = 0; i < size; i++) {
 			String channelId = guide.get(i).getId();
+			Log.d(TAG,"channelId for guide: " + channelId);
 			saveGuide(guide.get(i), tvDate, channelId);
-			return true;
+			success = true;
 		}
-		return false;
+		return success;
 	}
 
 	public static boolean saveMyGuides(ArrayList<Guide> myGuide, TvDate tvDate) {

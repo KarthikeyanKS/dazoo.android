@@ -20,37 +20,39 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 public abstract class SSPageFragment extends Fragment {
-	
-	public static final String TAG = "SSPageFragment";
+
+	public static final String	TAG				= "SSPageFragment";
 
 	// Request [Failed]
-	public RelativeLayout				mRequestFailedLayout;
-	//public Button						mRequestFailedButton;
+	public RelativeLayout		mRequestFailedLayout;
+	// public Button mRequestFailedButton;
 
 	// Request [Loading]
-	public RelativeLayout				mRequestLoadingLayout;
+	public RelativeLayout		mRequestLoadingLayout;
 
 	// Request [Empty Response]
-	public RelativeLayout				mRequestEmptyResponseLayout;
-	public Button						mRequestEmptyResponseButton;
+	public RelativeLayout		mRequestEmptyResponseLayout;
+	public Button				mRequestEmptyResponseButton;
 
-	private boolean						mForceReload	= false;
-	
+	private boolean				mForceReload	= false;
+
 	protected abstract void loadPage();
+
 	protected abstract boolean pageHoldsData();
+
 	protected abstract void updateUI(REQUEST_STATUS status);
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(new BroadcastReceiver() {
 
 			@Override
 			public void onReceive(Context context, Intent intent) {
 
 				Log.d(TAG, "FORCE RELOAD RECEIVED");
-				
+
 				mForceReload = true;
 			}
 		}, new IntentFilter(Consts.BROADCAST_HOMEPAGE));
@@ -78,17 +80,13 @@ public abstract class SSPageFragment extends Fragment {
 	protected boolean requestIsSuccesfull(REQUEST_STATUS status) {
 
 		// Make sure user didn't leave activity
-		Log.d(TAG,"ACTIVITY IS ALIVE:" + activityIsAlive());
-		
+
 		if (activityIsAlive()) {
 
 			// Set initial state of layouts
 			hideRequestStatusLayouts();
 
 			Animation anim = AnimationUtils.loadAnimation(getActivity(), android.R.anim.fade_in);
-
-			Log.d(TAG,"STATUS: " + status);
-			
 			switch (status) {
 			case EMPTY_RESPONSE:
 
@@ -113,23 +111,23 @@ public abstract class SSPageFragment extends Fragment {
 
 			case SUCCESSFUL:
 				mForceReload = false;
-				Log.d(TAG,"SUCCESSFUL!");
+				Log.d(TAG, "SUCCESSFUL!");
 				return true;
 			}
 		}
-		Log.d(TAG,"Return false");
+		Log.d(TAG, "Return false");
 		return false;
 	}
 
 	public void initRequestCallbackLayouts(View v) {
 		mRequestFailedLayout = (RelativeLayout) v.findViewById(R.id.request_failed_main_layout);
-		//mRequestFailedButton = (Button) v.findViewById(R.id.request_failed_reload_button);
-		//mRequestFailedButton.setOnClickListener(mClickListener);
+		// mRequestFailedButton = (Button) v.findViewById(R.id.request_failed_reload_button);
+		// mRequestFailedButton.setOnClickListener(mClickListener);
 
 		mRequestEmptyResponseLayout = (RelativeLayout) v.findViewById(R.id.request_empty_main_layout);
 		mRequestLoadingLayout = (RelativeLayout) v.findViewById(R.id.request_loading_main_layout);
 	}
-	
+
 	public boolean shouldForceReload() {
 		return mForceReload;
 	}
@@ -138,10 +136,10 @@ public abstract class SSPageFragment extends Fragment {
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
-			//case R.id.request_failed_reload_button:
-			//	// Reloads the page again
-			//	loadPage();
-			//	break;
+			// case R.id.request_failed_reload_button:
+			// // Reloads the page again
+			// loadPage();
+			// break;
 			}
 		};
 	};

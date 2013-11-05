@@ -44,25 +44,28 @@ import com.millicom.secondscreen.content.model.Tag;
 import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
 import com.millicom.secondscreen.content.search.SearchPageActivity;
+import com.millicom.secondscreen.manager.DazooCore;
+import com.millicom.secondscreen.storage.DazooStore;
 import com.viewpagerindicator.TabPageIndicator;
 
 public class HomeActivity extends SSPageFragmentActivity implements OnClickListener, ActionBar.OnNavigationListener {
 
-	private static final String			TAG					= "HomeActivity";
-	private TextView					mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
-	private ViewPager					mViewPager;
-	private ActionBar					mActionBar;
-	private ActionBarDropDownDateListAdapter mDayAdapter;
-	public static int					mBroadcastSelection	= -1;
-	private int							mSelectedIndex		= 0;
-	private ArrayList<TvDate>			mTvDates			= new ArrayList<TvDate>();
-	private ArrayList<Channel>			mChannels;
-	private String						mDate;
-	private ArrayList<Tag>				mTags				= new ArrayList<Tag>();
-	private ArrayList<String>			mTabTitles;
-	private FragmentStatePagerAdapter	mAdapter;
-	private TabPageIndicator			mPageTabIndicator;
-	private TvDate mTvDateSelected;
+	private static final String					TAG					= "HomeActivity";
+	private TextView							mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
+	private ViewPager							mViewPager;
+	private ActionBar							mActionBar;
+	private ActionBarDropDownDateListAdapter	mDayAdapter;
+	public static int							mBroadcastSelection	= -1;
+	private int									mTabSelectedIndex		= 0, mDateSelectedIndex;
+	private ArrayList<TvDate>					mTvDates			= new ArrayList<TvDate>();
+	private ArrayList<Channel>					mChannels;
+	private String								mDate;
+	private ArrayList<Tag>						mTags				= new ArrayList<Tag>();
+	private ArrayList<String>					mTabTitles;
+	private FragmentStatePagerAdapter			mAdapter;
+	private TabPageIndicator					mPageTabIndicator;
+	private TvDate								mTvDateSelected;
+	private boolean								mIsReady			= false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +73,13 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		setContentView(R.layout.layout_home_activity);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver, new IntentFilter(Consts.INTENT_EXTRA_TVGUIDE_SORTING));
+		mDateSelectedIndex = 0;
+		
+		// broadcast receiver for date selection
+		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverDate, new IntentFilter(Consts.INTENT_EXTRA_TVGUIDE_SORTING));
+
+		// broadcasst receiver for content availability
+		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverContent, new IntentFilter(Consts.INTENT_EXTRA_GUIDE_AVAILABLE));
 
 		initViews();
 
@@ -81,14 +90,31 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		// }
 	}
 
-	BroadcastReceiver	mBroadcastReceiver	= new BroadcastReceiver() {
+	BroadcastReceiver	mBroadcastReceiverContent	= new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			mIsReady = intent.getBooleanExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, false);
+			Log.d(TAG, "content for TvGuide is ready");
+
+			if (mIsReady) {
+				if (!pageHoldsData()) {
+					updateUI(REQUEST_STATUS.FAILED);
+				}
+			}
+		}
+	};
+
+	BroadcastReceiver	mBroadcastReceiverDate		= new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			mDate = intent.getStringExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE);
 			Log.d(TAG, "mDate" + mDate);
-
+			
+			mDateSelectedIndex = intent.getIntExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE_POSITION, 0);
+			Log.d(TAG,"mDateSelectedIndex: " + mDateSelectedIndex);
+			
 			// RELOAD THE PAGE WITH NEW DATE
-			reloadPage(mSelectedIndex);
+			//reloadPage();
 		}
 	};
 
@@ -115,134 +141,87 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		mActionBar.setDisplayShowHomeEnabled(true);
 		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
-		//========================================TEST============================
-		TvDate date = new TvDate();
-		date.setAlias("today");
-		date.setName("Today");
-		date.setId("2013-10-29");
-		date.setDate("2013-10-29");
-		mTvDates.add(date);
-
-		TvDate date1 = new TvDate();
-		date1.setAlias("tomorrow");
-		date1.setName("Tomorrow");
-		date1.setId("2013-10-30");
-		date1.setDate("2013-10-30");
-		mTvDates.add(date1);
-
-		TvDate date2 = new TvDate();
-		date2.setAlias("thursday");
-		date2.setName("Thursday");
-		date2.setId("2013-10-31");
-		date2.setDate("2013-10-31");
-		mTvDates.add(date2);
-		//=============================================================================
-		
-		mDayAdapter = new ActionBarDropDownDateListAdapter(mTvDates);
-		mDayAdapter.setSelectedIndex(mSelectedIndex);
-		mActionBar.setListNavigationCallbacks(mDayAdapter, this);
-
 		mViewPager = (ViewPager) findViewById(R.id.home_pager);
 		mViewPager.setEnabled(false);
 
 		mPageTabIndicator = (TabPageIndicator) findViewById(R.id.home_indicator);
+	
+		TvDate date = new TvDate(); date.setAlias("today"); date.setName("Today"); date.setId("2013-10-29"); date.setDate("2013-10-29"); mTvDates.add(date);
+		
+		Tag tagAll = new Tag();
+		tagAll.setId(getResources().getString(R.string.all_categories_id));
+		tagAll.setName(getResources().getString(R.string.all_categories_name));
+		mTags.add(0, tagAll); 
+		
+		mAdapter = new TagTypeFragmentStatePagerAdapter(getSupportFragmentManager(), mTags, date.getDate());
+		mViewPager.setAdapter(mAdapter);
+		mPageTabIndicator.setViewPager(mViewPager);
 
-		super.initCallbackLayouts();
+		mViewPager.setCurrentItem(0);
+		mPageTabIndicator.setCurrentItem(0);
+		mViewPager.setVisibility(View.GONE);
+		mPageTabIndicator.setVisibility(View.GONE);
+		mPageTabIndicator.setOnPageChangeListener(mOnPageChangeListener);
+
+		Log.d(TAG, "INIT VIEWS");
 	}
 
 	@Override
 	protected void loadPage() {
 		// The the initial state to be loading
 		updateUI(REQUEST_STATUS.LOADING);
+		Log.d(TAG, "UI: LOADING");
 
 		// SINGLETON CORE LOGIC COMMUNICATION HERE
-
-		if (!pageHoldsData()) {
-			// Request failed
-			updateUI(REQUEST_STATUS.FAILED);
-		}
+		DazooCore.getInstance(this, mDateSelectedIndex).fetchContent();
+	}
+	
+	private void reloadPage() {
+		// Don't allow any swiping gestures while reloading
+		updateUI(REQUEST_STATUS.LOADING);
+		mViewPager.setVisibility(View.GONE);
+		
+		// check if we have this data already
+		setAdapter(mTabSelectedIndex);
 	}
 
 	@Override
 	protected boolean pageHoldsData() {
 		boolean result = false;
 
+		Log.d(TAG,"pageHoldsData()");
 		// CHECK THE PRESENCE OF THE DATA FROM DAZOOSTORE SINGLETON
+		mTvDates = DazooStore.getInstance().getTvDates();
+		mTags = DazooStore.getInstance().getTags();
 
-		// if (mTvDates != null) {
-		// if (mTvDates.isEmpty()) {
-		// Log.d(TAG, "EMPTY RESPONSE");
-		// updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
-		// } else {
-		Log.d(TAG, "SUCCESSFUL");
-		updateUI(REQUEST_STATUS.SUCCESSFUL);
-		// }
-		result = true;
-		// }
+		if (mTvDates != null) {
+			if (mTvDates.isEmpty()) {
+				updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
+			} else {
+				Log.d(TAG, "SUCCESSFUL");
+				updateUI(REQUEST_STATUS.SUCCESSFUL);
+				result = true;
+			}
+		}
 		return result;
 	}
 
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
 		if (super.requestIsSuccesfull(status)) {
-			Log.d(TAG, "CREATE FRAGMENTS");
+			mDayAdapter = new ActionBarDropDownDateListAdapter(mTvDates);
+			mDayAdapter.setSelectedIndex(mDateSelectedIndex);
+			mActionBar.setListNavigationCallbacks(mDayAdapter, this);
 			createFragments();
 		}
 	}
 
 	private void createFragments() {
-		// if (mTags != null && !mTags.isEmpty()) {
 		// insert general Tag category in the list
 		Tag tagAll = new Tag();
 		tagAll.setId(getResources().getString(R.string.all_categories_id));
 		tagAll.setName(getResources().getString(R.string.all_categories_name));
-		Log.d(TAG, "ALL CATEGORIES:" + getResources().getString(R.string.all_categories_name));
 		mTags.add(0, tagAll);
-
-		// -===============================TEST=======================
-		Tag tagOne = new Tag();
-		tagOne.setId(getResources().getString(R.string.all_categories_id));
-		tagOne.setName("One");
-		mTags.add(tagOne);
-
-		Tag tagTwo = new Tag();
-		tagTwo.setId(getResources().getString(R.string.all_categories_id));
-		tagTwo.setName("Two");
-		mTags.add(tagTwo);
-
-		Tag tagThree = new Tag();
-		tagThree.setId(getResources().getString(R.string.all_categories_id));
-		tagThree.setName("Three");
-		mTags.add(tagThree);
-
-		Tag tagFour = new Tag();
-		tagFour.setId(getResources().getString(R.string.all_categories_id));
-		tagFour.setName("Four");
-		mTags.add(tagFour);
-
-		Tag tagFive = new Tag();
-		tagFive.setId(getResources().getString(R.string.all_categories_id));
-		tagFive.setName("Five");
-		mTags.add(tagFive);
-
-		Tag tagSix = new Tag();
-		tagSix.setId(getResources().getString(R.string.all_categories_id));
-		tagSix.setName("Six");
-		mTags.add(tagSix);
-
-		Tag tagSeven = new Tag();
-		tagSeven.setId(getResources().getString(R.string.all_categories_id));
-		tagSeven.setName("Seven");
-		mTags.add(tagSeven);
-
-		Tag tagEight = new Tag();
-		tagEight.setId(getResources().getString(R.string.all_categories_id));
-		tagEight.setName("Eight");
-		mTags.add(tagEight);
-
-		// ==============================================
-		
-		Log.d(TAG, "mTags SIZE:" + mTags.size());
 
 		mTabTitles = new ArrayList<String>();
 		for (Tag tag : mTags) {
@@ -250,24 +229,23 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		}
 		Log.d(TAG, "mTagTitles size: " + mTabTitles.size());
 
-		setAdapter(mSelectedIndex);
+		setAdapter(mTabSelectedIndex);
 	}
 
 	private void setAdapter(int selectedIndex) {
-		//mAdapter = new TagTypeFragmentStatePagerAdapter(getSupportFragmentManager(), mTags, mTvDateSelected.getDate());
-		mAdapter = new TagTypeFragmentStatePagerAdapter(getSupportFragmentManager(), mTags, mTvDates.get(0).getDate());
+		mAdapter = null;
+		mAdapter = new TagTypeFragmentStatePagerAdapter(getSupportFragmentManager(), mTags, mTvDates.get(mDateSelectedIndex).getDate());
 		
-		
-		mViewPager.setVisibility(View.VISIBLE);
 		mViewPager.setAdapter(mAdapter);
 
 		mViewPager.setCurrentItem(selectedIndex);
-
-		mPageTabIndicator.setViewPager(mViewPager);
-		mPageTabIndicator.setVisibility(View.VISIBLE);
-
+		
+		mPageTabIndicator.notifyDataSetChanged();
+		
 		mPageTabIndicator.setCurrentItem(selectedIndex);
-		mPageTabIndicator.setOnPageChangeListener(mOnPageChangeListener);
+
+		mViewPager.setVisibility(View.VISIBLE);
+		mPageTabIndicator.setVisibility(View.VISIBLE);
 	}
 
 	private boolean loadHomeFromSavedInstanceState(Bundle savedInstanceState) {
@@ -292,7 +270,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 		@Override
 		public void onPageSelected(int pos) {
-			mSelectedIndex = pos;
+			mTabSelectedIndex = pos;
 		}
 
 		@Override
@@ -306,36 +284,20 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 	@Override
 	protected void onSaveInstanceState(Bundle savedInstanceState) {
-
 		// SAVE ACTIVITY CONTENT FOR
-
 		// savedInstanceState.putParcelableArrayList(Consts.PARCELABLE_CHANNELS_LIST, mChannels);
 		// savedInstanceState.putParcelableArrayList(Consts.PARCELABLE_TV_DATES_LIST, mTvDates);
-
 		super.onSaveInstanceState(savedInstanceState);
 	}
 
-	private void reloadPage(int selectedIndex) {
-		// mTagsPage = SSTagsPage.getInstance();
-
-		// Don't allow any swiping gestures while reloading
-		mViewPager.setVisibility(View.GONE);
-		mPageTabIndicator.setVisibility(View.GONE);
-		// mTags = null;
-
-		// getPage();
-
-		// NEW REQUEST WITH NEW DATE TO THE CORE LOGIC
-
-		setAdapter(selectedIndex);
-	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		Log.d(TAG, "onDestroy");
 		// Stop listening to broadcast events
-		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiver);
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverDate);
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverContent);
 	};
 
 	@Override
@@ -348,7 +310,10 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	public boolean onNavigationItemSelected(int position, long id) {
 		mDayAdapter.setSelectedIndex(position);
 		mTvDateSelected = mTvDates.get(position);
-		LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(new Intent(Consts.INTENT_EXTRA_TVGUIDE_SORTING).putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE, mTvDateSelected.getDate()));
+		LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(
+				new Intent(Consts.INTENT_EXTRA_TVGUIDE_SORTING)
+				.putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE, mTvDateSelected.getDate())
+				.putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE_POSITION, position));
 		return true;
 	}
 

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
+import android.util.Log;
+
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.Guide;
@@ -12,23 +14,24 @@ import com.millicom.secondscreen.content.model.Tag;
 import com.millicom.secondscreen.content.model.TvDate;
 
 public class DazooStore {
-	private static final String							TAG	= "DazooStore";
+	private static final String							TAG					= "DazooStore";
 
-	private ArrayList<String>							mMyChannelIds;
-	private ArrayList<TvDate>							mTvDates;
-	private HashMap<String, Channel>					mChannels;
-	private HashMap<String, Channel>					mMyChannels;
+	private ArrayList<TvDate>							mTvDates			= new ArrayList<TvDate>();
 
-	private ArrayList<String>							mDefaultChannelIds;
-	private ArrayList<String>							mListChannelIds;
-	private HashMap<String, Channel>					mDefaultChannels;
-	private HashMap<String, Channel>					mListChannels;
+	private ArrayList<String>							mMyChannelIds		= new ArrayList<String>();
+	private HashMap<String, Channel>					mMyChannels			= new HashMap<String, Channel>();
 
-	private ArrayList<Tag>								mTags;
-	private HashMap<GuideKey, Guide>					mGuides;
-	private HashMap<GuideKey, Guide>					mMyGuides;
-	private HashMap<BroadcastKey, ArrayList<Broadcast>>	mTaggedBroadcasts;
-	private HashMap<BroadcastKey, ArrayList<Broadcast>>	mMyTaggedBroadcasts;
+	private ArrayList<String>							mDefaultChannelIds	= new ArrayList<String>();
+	private HashMap<String, Channel>					mDefaultChannels	= new HashMap<String, Channel>();
+
+	private ArrayList<String>							mAllChannelIds		= new ArrayList<String>();
+	private HashMap<String, Channel>					mAllChannels		= new HashMap<String, Channel>();
+
+	private ArrayList<Tag>								mTags				= new ArrayList<Tag>();
+	private HashMap<GuideKey, Guide>					mGuides				= new HashMap<GuideKey, Guide>();
+	private HashMap<GuideKey, Guide>					mMyGuides			= new HashMap<GuideKey, Guide>();
+	private HashMap<BroadcastKey, ArrayList<Broadcast>>	mTaggedBroadcasts	= new HashMap<BroadcastKey, ArrayList<Broadcast>>();
+	private HashMap<BroadcastKey, ArrayList<Broadcast>>	mMyTaggedBroadcasts	= new HashMap<BroadcastKey, ArrayList<Broadcast>>();
 
 	// private constructor prevents instantiation from other classes
 	private DazooStore() {
@@ -95,13 +98,6 @@ public class DazooStore {
 	}
 
 	// channels
-	public void setChannels(HashMap<String, Channel> channels) {
-		this.mChannels = channels;
-	}
-
-	public HashMap<String, Channel> getChannels() {
-		return this.mChannels;
-	}
 
 	public void setDefaultChannels(HashMap<String, Channel> defaultChannels) {
 		this.mDefaultChannels = defaultChannels;
@@ -111,18 +107,27 @@ public class DazooStore {
 		return this.mDefaultChannels;
 	}
 
-	public void setListChannels(HashMap<String, Channel> listChannels) {
-		this.mListChannels = listChannels;
+	public void setAllChannels(HashMap<String, Channel> allChannels) {
+		this.mAllChannels = allChannels;
 	}
 
-	public HashMap<String, Channel> getListChannels() {
-		return this.mListChannels;
+	public HashMap<String, Channel> getAllChannels() {
+		return this.mAllChannels;
 	}
 
-	public Channel getChannel(String channelId) {
-		for (Entry<String, Channel> entry : mChannels.entrySet()) {
+	public Channel getChannelFromDefault(String channelId) {
+		for (Entry<String, Channel> entry : mDefaultChannels.entrySet()) {
 			if (entry.getKey().equals(channelId)) {
 				// found the channel by id
+				return entry.getValue();
+			}
+		}
+		return null;
+	}
+
+	public Channel getChannelFromAll(String channelId) {
+		for (Entry<String, Channel> entry : mAllChannels.entrySet()) {
+			if (entry.getKey().equals(channelId)) {
 				return entry.getValue();
 			}
 		}
@@ -137,12 +142,12 @@ public class DazooStore {
 		return this.mDefaultChannelIds;
 	}
 
-	public void setListChannelIds(ArrayList<String> ids) {
-		this.mListChannelIds = ids;
+	public void setAllChannelIds(ArrayList<String> ids) {
+		this.mAllChannelIds = ids;
 	}
 
-	public ArrayList<String> getListChannelIds() {
-		return this.mListChannelIds;
+	public ArrayList<String> getAllChannelIds() {
+		return this.mAllChannelIds;
 	}
 
 	// my channels
@@ -179,14 +184,27 @@ public class DazooStore {
 		return this.mMyGuides;
 	}
 
-	public Guide getChannelGuide(TvDate tvDate, String channelId) {
+	public Guide getChannelGuideFromDefault(TvDate tvDate, String channelId) {
 		GuideKey currentKey = new GuideKey();
 		currentKey.setDate(tvDate);
 		currentKey.setChannelId(channelId);
 
 		for (Entry<GuideKey, Guide> entry : mGuides.entrySet()) {
-			if (entry.getKey().equals(currentKey)) {
+			if ((entry.getKey().getChannelId().equals(currentKey.getChannelId())) && (entry.getKey().getDate().getDate().equals(currentKey.getDateDate()))) {
 				// found the guide by date and tag
+				return entry.getValue();
+			}
+		}
+		return null;
+	}
+
+	public Guide getChannelGuideFromMy(TvDate tvDate, String channelId) {
+		GuideKey currentKey = new GuideKey();
+		currentKey.setDate(tvDate);
+		currentKey.setChannelId(channelId);
+
+		for (Entry<GuideKey, Guide> entry : mMyGuides.entrySet()) {
+			if ((entry.getKey().getChannelId().equals(currentKey.getChannelId())) && (entry.getKey().getDate().getDate().equals(currentKey.getDateDate()))) {
 				return entry.getValue();
 			}
 		}
@@ -197,18 +215,24 @@ public class DazooStore {
 		ArrayList<Guide> myGuideTable = new ArrayList<Guide>();
 		int size = mMyChannelIds.size();
 		for (int i = 0; i < size; i++) {
-			Guide myGuide = getChannelGuide(tvDate, mMyChannelIds.get(i));
-			myGuideTable.add(myGuide);
+			Guide myGuide = getChannelGuideFromMy(tvDate, mMyChannelIds.get(i));
+			if (myGuide != null) {
+				myGuideTable.add(myGuide);
+			}
 		}
 		return myGuideTable;
 	}
 
 	public ArrayList<Guide> getGuideTable(TvDate tvDate) {
 		ArrayList<Guide> guideTable = new ArrayList<Guide>();
-		int size = mListChannelIds.size(); // CLARIFY THAT WITH BACKEND
+		int size = mDefaultChannelIds.size();
 		for (int i = 0; i < size; i++) {
-			Guide guide = getChannelGuide(tvDate, mMyChannelIds.get(i));
+			Guide guide = getChannelGuideFromDefault(tvDate, mDefaultChannelIds.get(i));
+			if(guide!=null){
+			Log.d(TAG, "getGuideTable: " + guide.getId());
 			guideTable.add(guide);
+			Log.d(TAG, "ADD");
+			}
 		}
 		return guideTable;
 	}
@@ -235,8 +259,10 @@ public class DazooStore {
 		return null;
 	}
 
-	public Broadcast getBroadcast(TvDate date, String channelId, long beginTimeInMillis) {
-		Guide channelGuide = getChannelGuide(date, channelId);
+	public Broadcast getBroadcastFromDefault(TvDate date, String channelId, long beginTimeInMillis) {
+		Log.d(TAG, "get broadcast: " + date.getDate() + "channelId: " + channelId);
+		Guide channelGuide = getChannelGuideFromDefault(date, channelId);
+		Log.d(TAG, "Channel Guide: " + channelGuide.getId());
 		ArrayList<Broadcast> channelBroadcasts = channelGuide.getBroadcasts();
 		int size = channelBroadcasts.size();
 
@@ -244,6 +270,20 @@ public class DazooStore {
 			long temp = channelBroadcasts.get(i).getBeginTimeMillis();
 			if (beginTimeInMillis == temp) {
 				return channelBroadcasts.get(i);
+			}
+		}
+		return null;
+	}
+	
+	public Broadcast getBroadcastFromMy(TvDate date, String channelId, long beginTimeInMillis){
+		Guide myChannelGuide = getChannelGuideFromMy(date, channelId);
+		ArrayList<Broadcast> myChannelBroadcasts = myChannelGuide.getBroadcasts();
+		int size = myChannelBroadcasts.size();
+		
+		for(int i=0; i < size; i++){
+			long temp = myChannelBroadcasts.get(i).getBeginTimeMillis();
+			if(beginTimeInMillis == temp){
+				return myChannelBroadcasts.get(i);
 			}
 		}
 		return null;

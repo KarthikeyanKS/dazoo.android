@@ -97,27 +97,29 @@ public class LikesListAdapter extends BaseAdapter {
 		final DazooLike like = getItem(position);
 		if (like != null) {
 			final DazooLikeEntity entity = like.getEntity();
-			holder.mProgramTitleTv.setText(entity.getTitle());
-			holder.mProgramTypeTv.setText(entity.getEntityType());
+			if (entity != null) {
+				holder.mProgramTitleTv.setText(entity.getTitle());
+				holder.mProgramTypeTv.setText(entity.getEntityType());
 
-			holder.mInformationContainer.setOnClickListener(new View.OnClickListener() {
+				holder.mInformationContainer.setOnClickListener(new View.OnClickListener() {
 
-				@Override
-				public void onClick(View v) {
-					Toast.makeText(mActivity, "Information from backend is missing now. Come later : )", Toast.LENGTH_SHORT).show();
-				}
-			});
+					@Override
+					public void onClick(View v) {
+						Toast.makeText(mActivity, "Information from backend is missing now. Come later : )", Toast.LENGTH_SHORT).show();
+					}
+				});
 
-			holder.mButtonContainer.setOnClickListener(new View.OnClickListener() {
+				holder.mButtonContainer.setOnClickListener(new View.OnClickListener() {
 
-				@Override
-				public void onClick(View v) {
-					currentPosition = (Integer) v.getTag();
-					LikeDialogHandler likeDlg = new LikeDialogHandler();
-					likeDlg.showRemoveLikeDialog(mActivity, mToken, entity.getEntityId(), yesProc(), noProc());
+					@Override
+					public void onClick(View v) {
+						currentPosition = (Integer) v.getTag();
+						LikeDialogHandler likeDlg = new LikeDialogHandler();
+						likeDlg.showRemoveLikeDialog(mActivity, mToken, entity.getEntityId(), yesProc(), noProc());
 
-				}
-			});
+					}
+				});
+			}
 		}
 
 		return rowView;

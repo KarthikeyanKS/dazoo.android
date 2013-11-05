@@ -3,11 +3,13 @@ package com.millicom.secondscreen.manager;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.millicom.secondscreen.Consts;
-import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.content.SSChannelPage;
 import com.millicom.secondscreen.content.SSGuidePage;
@@ -31,19 +33,19 @@ public class DazooCore {
 	private static int					mDateIndex			= 0;
 	private static boolean				mIsTvDate			= false;
 	private static boolean				mIsTags				= false;
-	private static boolean				mIsChannels			= false;
 	private static boolean				mIsDefaultChannels	= false;
-	private static boolean				mIsListChannels		= false;
+	private static boolean				mIsAllChannels		= false;
 	private static boolean				mIsMyChannels		= false;
 	private static boolean				mIsGuide			= false;
 
 	private static ArrayList<TvDate>	mTvDates			= new ArrayList<TvDate>();
 	private static ArrayList<Channel>	mDefaultChannels	= new ArrayList<Channel>();
-	private static ArrayList<Channel>	mListChannels		= new ArrayList<Channel>();
+	private static ArrayList<Channel>	mAllChannels		= new ArrayList<Channel>();
 	private static ArrayList<Tag>		mTags				= new ArrayList<Tag>();
 	private static ArrayList<Guide>		mGuides				= new ArrayList<Guide>();
 	private static ArrayList<String>	mMyChannelsIds		= new ArrayList<String>();
-	private static ArrayList<String>	mChannelsIds		= new ArrayList<String>();
+	private static ArrayList<String>	mAllChannelsIds		= new ArrayList<String>();
+	private static ArrayList<String>	mDefaultChannelsIds	= new ArrayList<String>();
 
 	// private constructor prevents instantiation from other classes
 	private DazooCore() {
@@ -63,237 +65,265 @@ public class DazooCore {
 		return DazooCoreHolder.INSTANCE;
 	}
 
-	private void getTagsDatesChannels() {
+	public void fetchContent() {
+		getTagsDatesChannels();
+	}
+
+	private static void getTagsDatesChannels() {
 		GetTvDates tvDatesTask = new GetTvDates();
 		tvDatesTask.execute();
 
 		GetTags tagsTask = new GetTags();
 		tagsTask.execute();
-
-		// get the information about the available channels
-		GetDefaultChannels channelsTask = new GetDefaultChannels();
-		channelsTask.execute();
-
+		
 		if (token != null && TextUtils.isEmpty(token) != true) {
+
+			// get all channels
+			GetAllChannels allChannelsTask = new GetAllChannels();
+			allChannelsTask.execute();
+
 			// get info only about user channels
 			if (MyChannelsService.getMyChannels(token)) {
 				mMyChannelsIds = DazooStore.getInstance().getMyChannelIds();
+				mIsMyChannels = true;
 			} else {
-				mChannelsIds = DazooStore.getInstance().getDefaultChannelIds();
+				mDefaultChannelsIds = DazooStore.getInstance().getDefaultChannelIds();
+			}
+		} else {
+			// get the default package of channels
+			GetDefaultChannels defaultChannelsTask = new GetDefaultChannels();
+			defaultChannelsTask.execute();
+		}
+
+	}
+
+	// prepare tagged broadcasts for the specific date
+	private static void prepareTaggedContent(TvDate date) {
+		if (mTags != null && mTags.isEmpty() != true) {
+			if (mGuides != null && mGuides.isEmpty() != true) {
+
+				Log.d(TAG, "PREPARE TAGGED CONTENT");
+				for (int i = 1; i < mTags.size(); i++) {
+					ArrayList<Broadcast> taggedBroadcasts = DazooStoreOperations.getMyTaggedBrodcasts(date, mTags.get(i));
+					DazooStoreOperations.saveTaggedBroadcast(date, mTags.get(i), taggedBroadcasts);
+
+					// notify responsible fragments that the data is there
+					// LocalBroadcastManager.getInstance(mContext).sendBroadcast();
+
+				}
 			}
 		}
 	}
 
 	// task to get the tv-dates
-	private class GetTvDates extends AsyncTask<String, String, Boolean> {
+	private static class GetTvDates extends AsyncTask<String, String, Void> {
 
-		protected void onPostExecute(Boolean result) {
-			if (result) {
-				// store the dates in the storage singleton
-				DazooStore.getInstance().setTvDates(mTvDates);
-				mIsTvDate = true;
-			}
+		private DazooCoreCallback	callback;
 
-			// attempt the common callback interface
-			getGuide(mDateIndex);
+		public GetTvDates() {
+			this.callback = (DazooCoreCallback) callback;
 		}
 
 		@Override
-		protected Boolean doInBackground(String... params) {
+		protected Void doInBackground(String... params) {
 			SSTvDatePage.getInstance().getPage(new SSPageCallback() {
 				@Override
 				public void onGetPageResult(SSPageGetResult aPageGetResult) {
 					mTvDates = SSTvDatePage.getInstance().getTvDates();
+
+					if (mTvDates != null && mTvDates.isEmpty() != true) {
+						Log.d(TAG, "Dates: " + mTvDates.size());
+						DazooStore.getInstance().setTvDates(mTvDates);
+						mIsTvDate = true;
+
+						// attempt the common callback interface
+						getGuide(mDateIndex);
+					}
 				}
 			});
 
-			if (mTvDates != null && mTvDates.isEmpty() != true) {
-				return true;
-			} else return false;
+			return null;
 		}
 	}
 
 	// task to get the tags
-	private class GetTags extends AsyncTask<String, String, Boolean> {
-
-		protected void onPostExecute(Boolean result) {
-			if (result) {
-				DazooStore.getInstance().setTags(mTags);
-				mIsTags = true;
-			}
-
-			// attempt the get the guide
-			getGuide(mDateIndex);
-		}
+	private static class GetTags extends AsyncTask<String, String, Void> {
 
 		@Override
-		protected Boolean doInBackground(String... params) {
+		protected Void doInBackground(String... params) {
 			SSTagsPage.getInstance().getPage(new SSPageCallback() {
 				@Override
 				public void onGetPageResult(SSPageGetResult aPageGetResult) {
 					mTags = SSTagsPage.getInstance().getTags();
+
+					if (mTags != null && mTags.isEmpty() != true) {
+						Log.d(TAG, "Tags: " + mTags.size());
+
+						DazooStore.getInstance().setTags(mTags);
+						mIsTags = true;
+						// attempt the get the guide
+						getGuide(mDateIndex);
+					}
 				}
 			});
-
-			// add the tag for the "all categories"
-			Tag tagAll = new Tag();
-			tagAll.setId(mContext.getResources().getString(R.string.all_categories_id));
-			tagAll.setName(mContext.getResources().getString(R.string.all_categories_name));
-			mTags.add(0, tagAll);
-			
-			if (mTags != null && mTags.isEmpty() != true) return true;
-			else return false;
+			return null;
 		}
 	}
 
 	// task to get all channels to be listed in the channel selection list under MyProfile/MyChannels
-	private class GetListChannels extends AsyncTask<String, String, Boolean> {
-
-		protected void onPostExecute(Boolean result) {
-			if (result) {
-				// store the list channels (used in the my profile/my guide)
-				DazooStoreOperations.saveListChannels(mListChannels);
-				mIsListChannels = true;
-				mIsChannels = true;
-				
-				// attempt the common callback interface
-				getGuide(mDateIndex);
-			}
-		}
+	private static class GetAllChannels extends AsyncTask<String, String, Void> {
 
 		@Override
-		protected Boolean doInBackground(String... params) {
-			SSChannelPage.getInstance().getPage(Consts.MILLICOM_SECONDSCREEN_CHANNELS_PAGE_URL, new SSPageCallback() {
+		protected Void doInBackground(String... params) {
+			SSChannelPage.getInstance().getPage(Consts.MILLICOM_SECONDSCREEN_CHANNELS_ALL_PAGE_URL, new SSPageCallback() {
 				@Override
 				public void onGetPageResult(SSPageGetResult aPageGetResult) {
-					mListChannels = SSChannelPage.getInstance().getChannels();
+					mAllChannels = SSChannelPage.getInstance().getChannels();
+
+					if (mAllChannels != null && mAllChannels.isEmpty() != true) {
+						Log.d(TAG, "mAllChannels: " + mAllChannels.size());
+						// store the list channels (used in the my profile/my guide)
+						DazooStoreOperations.saveAllChannels(mAllChannels);
+						mIsAllChannels = true;
+
+						// attempt the common callback interface
+						getGuide(mDateIndex);
+					}
 				}
 			});
-
-			if (mListChannels != null && mListChannels.isEmpty() != true) {
-				return true;
-			} else return false;
+			return null;
 		}
-
 	}
 
 	// task to get the channels in the default package
-	private class GetDefaultChannels extends AsyncTask<String, String, Boolean> {
-
-		protected void onPostExecute(Boolean result) {
-			if (result) {
-				// store the default channels (used in the tvguide)
-				DazooStoreOperations.saveDefaultChannels(mDefaultChannels);
-				mIsDefaultChannels = true;
-				mIsChannels = true;
-
-				// attempt the common callback interface
-				getGuide(mDateIndex);
-			}
-		}
+	private static class GetDefaultChannels extends AsyncTask<String, String, Void> {
 
 		@Override
-		protected Boolean doInBackground(String... params) {
+		protected Void doInBackground(String... params) {
+			Log.d(TAG, "GET DEFAULT CHANNELS");
 			SSChannelPage.getInstance().getPage(Consts.MILLICOM_SECONDSCREEN_CHANNELS_DEFAULT_PAGE_URL, new SSPageCallback() {
 				@Override
 				public void onGetPageResult(SSPageGetResult aPageGetResult) {
-
+					Log.d(TAG, "DEFAULT CHANNELS: ON GET PAGE RESULT");
 					mDefaultChannels = SSChannelPage.getInstance().getChannels();
+					if (mDefaultChannels != null && mDefaultChannels.isEmpty() != true) {
+						Log.d(TAG, "DefaultChannels: " + mDefaultChannels.size());
+
+						DazooStoreOperations.saveDefaultChannels(mDefaultChannels);
+						mIsDefaultChannels = true;
+
+						// attempt the common callback interface
+						getGuide(mDateIndex);
+					}
 				}
 			});
-
-			if (mDefaultChannels != null && mDefaultChannels.isEmpty() != true) {
-				return true;
-			} else return false;
+			return null;
 		}
 	}
 
 	// task to get the tvguide for all the channels
-	private class GetGuide extends AsyncTask<String, String, Boolean> {
+	private static class GetGuide extends AsyncTask<TvDate, String, Void> {
 
-		protected void onPostExecute(Boolean result) {
-			// save the guide
-		}
+		private TvDate	mDate;
 
 		@Override
-		protected Boolean doInBackground(String... params) {
-			String date = params[0];
+		protected Void doInBackground(TvDate... params) {
+			mDate = params[0];
 
 			// get guide for the date
 			String guidePageUrl = null;
 			if (token != null && TextUtils.isEmpty(token) != true) {
-				guidePageUrl = getPageUrl(date, mMyChannelsIds);
+				mMyChannelsIds = DazooStore.getInstance().getMyChannelIds();
+				guidePageUrl = getPageUrl(mDate.getDate(), mMyChannelsIds);
+				Log.d(TAG, "Build on MY channels: " + mMyChannelsIds);
 			} else {
-				guidePageUrl = getPageUrl(date, mChannelsIds);
+				mDefaultChannelsIds = DazooStore.getInstance().getDefaultChannelIds();
+				guidePageUrl = getPageUrl(mDate.getDate(), mDefaultChannelsIds);
+				Log.d(TAG, "Build on DEFAULT channels: " + mDefaultChannelsIds.size());
 			}
 
 			SSGuidePage.getInstance().getPage(guidePageUrl, new SSPageCallback() {
 				@Override
 				public void onGetPageResult(SSPageGetResult aPageGetResult) {
 					mGuides = SSGuidePage.getInstance().getGuide();
+
+					Log.d(TAG, "DATE: " + mDate.getDate() + mDate.getName());
+
+					if (mGuides != null && mGuides.isEmpty() != true) {
+						if (token != null && TextUtils.isEmpty(token) != true) {
+							if(DazooStoreOperations.saveMyGuides(mGuides, mDate)){
+								// notify the HomeActivity that the guide is available and UI may be updated
+								LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(Consts.INTENT_EXTRA_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, true));
+							
+								//prepare tagged broadcasts for the current date
+								// prepareTaggedContent(mDate);
+							
+							}
+						} else {
+							if (DazooStoreOperations.saveGuides(mGuides, mDate)) {
+								// notify the HomeActivity that the guide is available and UI may be updated
+								LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(Consts.INTENT_EXTRA_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, true));
+
+								// prepare tagged broadcasts for the current date
+								// prepareTaggedContent(mDate);
+							}
+						}
+					}
 				}
 			});
-			if (mGuides != null && mGuides.isEmpty() != true) {
-				return true;
-			}
-			return false;
+			return null;
 		}
 	}
 
-	public void getGuide(int dateIndex) {
-		if (mIsTvDate == true && mIsTags == true && mIsChannels) {
-			String date = mTvDates.get(dateIndex).getDate();
+	public static void getGuide(int dateIndex) {
+		Log.d(TAG, "APPROACH GUIDE!!!: ");
+		Log.d(TAG, "mIsTvDate:" + mIsTvDate + "  mIsTags: " + mIsTags + "   mIsDefaultChannels: " + mIsDefaultChannels + "  mIsAllChannels: " + mIsAllChannels);
+		if (mIsTvDate == true && mIsTags == true && ((mIsDefaultChannels) || (mIsAllChannels))) {
+			TvDate date = mTvDates.get(dateIndex);
+			Log.d(TAG, "GUIDE DATE TO BE=============: " + date.getDate());
 			GetGuide getGuideTask = new GetGuide();
 			getGuideTask.execute(date);
 		}
 	}
-	
-	public boolean saveMyGuideTable(ArrayList<Guide> myGuideTable, TvDate tvDate){
-		return DazooStoreOperations.saveMyGuides(myGuideTable, tvDate);
-	}
-	
-	public boolean saveGuideTable(ArrayList<Guide> guideTable, TvDate tvDate){
-		return DazooStoreOperations.saveGuides(guideTable, tvDate);
-	}
-	
-	public boolean filterGuideByTag(TvDate tvDate, Tag tag){
+
+	public boolean filterGuideByTag(TvDate tvDate, Tag tag) {
 		ArrayList<Broadcast> taggedBroadcasts = DazooStoreOperations.getTaggedBroadcasts(tvDate, tag);
-		if(taggedBroadcasts!= null && taggedBroadcasts.isEmpty()!=true){
+		if (taggedBroadcasts != null && taggedBroadcasts.isEmpty() != true) {
 			DazooStoreOperations.saveTaggedBroadcast(tvDate, tag, taggedBroadcasts);
 			return true;
 		} else return false;
 	}
 
-	public boolean filterGuides(TvDate tvDate, int count){
+	public boolean filterGuides(TvDate tvDate, int count) {
 		ArrayList<Tag> tags = DazooStore.getInstance().getTags();
 		boolean result = false;
-		for(int i=1; i < count; i++){
+		for (int i = 1; i < count; i++) {
 			filterGuideByTag(tvDate, tags.get(i));
 			result = true;
 		}
-		return false;
+		return result;
 	}
-	
-	public boolean filterMyGuidesByTag(TvDate tvDate, Tag tag, int count){
+
+	public boolean filterMyGuidesByTag(TvDate tvDate, Tag tag, int count) {
 		ArrayList<Tag> tags = DazooStore.getInstance().getTags();
 		boolean result = false;
-		for(int i=1; i < count; i++){
+		for (int i = 1; i < count; i++) {
 			filterMyGuideByTag(tvDate, tags.get(i));
 			result = true;
 		}
-		return false;
+		return result;
 	}
-	
-	public boolean filterMyGuideByTag(TvDate tvDate, Tag tag){
+
+	public boolean filterMyGuideByTag(TvDate tvDate, Tag tag) {
 		ArrayList<Broadcast> myTaggedBroadcasts = DazooStoreOperations.getMyTaggedBrodcasts(tvDate, tag);
-		if(myTaggedBroadcasts!=null && myTaggedBroadcasts.isEmpty()!=true){
+		if (myTaggedBroadcasts != null && myTaggedBroadcasts.isEmpty() != true) {
 			DazooStoreOperations.saveMyTaggedBroadcast(tvDate, tag, myTaggedBroadcasts);
 			return true;
 		} else return false;
 	}
-	
+
 	// construct the url for the guide
-	private String getPageUrl(String date, ArrayList<String> channelIds) {
+	private static String getPageUrl(String date, ArrayList<String> channelIds) {
 		StringBuilder sB = new StringBuilder();
 		sB.append(Consts.MILLICOM_SECONDSCREEN_GUIDE_PAGE_URL);
 

@@ -12,6 +12,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.http.HttpEntity;
@@ -30,9 +31,11 @@ import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.adapters.MyChannelsListAdapter;
 import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
+import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.manager.ContentParser;
 import com.millicom.secondscreen.mychannels.MyChannelsService;
+import com.millicom.secondscreen.storage.BroadcastKey;
 import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.JSONUtilities;
 import com.millicom.secondscreen.SecondScreenApplication;
@@ -73,6 +76,7 @@ public class MyChannelsActivity extends ActionBarActivity implements MyChannelsC
 	private EditText				mSearchChannelInputEditText;
 	private MyChannelsListAdapter	mAdapter;
 	private ArrayList<Channel>		mChannels				= new ArrayList<Channel>();
+	private HashMap<String, Channel> mChannelsMap = new HashMap<String, Channel>();
 	private boolean[]				mIsCheckedArray;
 	private View					mTabSelectorContainerView;
 	private int						mChannelCounter			= 0;
@@ -135,19 +139,20 @@ public class MyChannelsActivity extends ActionBarActivity implements MyChannelsC
 	}
 
 	private void populateViews() {
-		// TODO : GET THE LIST OF CHANNELS
-		// mChannels = ((SecondScreenApplication) getApplicationContext()).getChannels();
-
+		mAllChannelsIds = DazooStore.getInstance().getAllChannelIds();
+		mChannelsMap = DazooStore.getInstance().getAllChannels();
+	
+		for (Entry<String, Channel> entry : mChannelsMap.entrySet()) {
+			mChannels.add(entry.getValue());
+		}
+		
 		for (int i = 0; i < mChannels.size(); i++) {
 			mChannelInfoMap.put(mChannels.get(i).getName().toLowerCase(Locale.getDefault()), mChannels.get(i));
 			mChannelInfoToDisplay.add(mChannels.get(i));
-			mAllChannelsIds.add(mChannels.get(i).getChannelId());
-			Log.d(TAG, "ID: " + mChannels.get(i).getChannelId());
 		}
 
 		mIsCheckedArray = new boolean[mChannels.size()];
 
-		// if (userToken != null && userToken.isEmpty() != true) {
 		if (userToken != null && TextUtils.isEmpty(userToken) != true) {
 			// get user channels
 			if (getUserMyChannelsIdsJSON()) {

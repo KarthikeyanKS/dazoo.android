@@ -101,6 +101,7 @@ public abstract class SSPage {
 	}
 
 	public ArrayList<TvDate> getTvDates() {
+		Log.d(TAG,"mTvDates:" + mTvDates);
 		return mTvDates;
 	}
 
@@ -125,6 +126,7 @@ public abstract class SSPage {
 	}
 
 	public ArrayList<Channel> getChannels() {
+		Log.d(TAG,"mChannels: " + mChannels.size());
 		return mChannels;
 	}
 
@@ -133,6 +135,7 @@ public abstract class SSPage {
 	}
 
 	public ArrayList<Tag> getTags() {
+		Log.d(TAG,"mTAGS: " + mTags.size());
 		return mTags;
 	}
 

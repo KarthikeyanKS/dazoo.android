@@ -92,6 +92,8 @@ public class ContentParser {
 	public ArrayList<Tag> parseTags(JSONArray mainArray) throws Exception {
 		ArrayList<Tag> tags = new ArrayList<Tag>();
 
+		Log.d(TAG,"TAGS PAGE SIZE:" + mainArray.length());
+		
 		for (int i = 0; i < mainArray.length(); i++) {
 			JSONObject jsonProgramType = mainArray.getJSONObject(i);
 			if (jsonProgramType != null) {
@@ -104,6 +106,8 @@ public class ContentParser {
 	public ArrayList<TvDate> parseDates(JSONArray mainArray) throws Exception {
 		ArrayList<TvDate> tvDates = new ArrayList<TvDate>();
 
+		Log.d(TAG,"DATES PAGE SIZE:" + mainArray.length());
+		
 		for (int i = 0; i < mainArray.length(); i++) {
 			JSONObject jsonTvDate = mainArray.getJSONObject(i);
 
@@ -119,6 +123,9 @@ public class ContentParser {
 	}
 
 	public ArrayList<Channel> parseChannels(JSONArray mainArray) throws Exception {
+		
+		Log.d(TAG,"CHANNELS PAGE SIZE:" + mainArray.length());
+		
 		ArrayList<Channel> channels = new ArrayList<Channel>();
 
 		for (int i = 0; i < mainArray.length(); i++) {

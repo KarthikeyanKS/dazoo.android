@@ -75,6 +75,7 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_broadcastpage_activity);
 
+		dazooStore = DazooStore.getInstance();
 		mActivity = this;
 		mImageLoader = new ImageLoader(this, R.drawable.loadimage_2x);
 		mLayoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -83,12 +84,25 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 		Intent intent = getIntent();
 		mBeginTimeInMillis = intent.getLongExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, 0);
 		mChannelId = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_ID);
-		mChannelDate = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE);
+		//mChannelDate = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE);
 
 		// GET THE BROADCAST FROM THE DAZOO STORE SINGLETON BY CHANNEL ID AND BROADCAST BEGIN TIME MILLIS
-		mTvDate = dazooStore.getDate(mChannelDate);
-		mBroadcast = dazooStore.getBroadcast(mTvDate, mChannelId, mBeginTimeInMillis);
-		mChannel = dazooStore.getChannel(mChannelId);
+		//mTvDate = dazooStore.getDate(mChannelDate);
+		mTvDate = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE);
+		
+		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
+		if (token != null && token.isEmpty() != true) {
+			mIsLoggedIn = true;
+			mBroadcast = dazooStore.getBroadcastFromMy(mTvDate, mChannelId, mBeginTimeInMillis);
+			mChannel = dazooStore.getChannelFromAll(mChannelId);
+			
+		} else {
+			mBroadcast = dazooStore.getBroadcastFromDefault(mTvDate, mChannelId, mBeginTimeInMillis);
+			mChannel = dazooStore.getChannelFromDefault(mChannelId);
+		}
+			
+		
+		
 
 		if (mBroadcast == null || mChannel == null) {
 
@@ -103,10 +117,7 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 			Toast.makeText(this, "Soon I will parse this broadcast page!", Toast.LENGTH_SHORT).show();
 		}
 
-		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
-		if (token != null && token.isEmpty() != true) {
-			mIsLoggedIn = true;
-		}
+		
 
 		initViews();
 		if (mBroadcast != null && mChannel != null) {

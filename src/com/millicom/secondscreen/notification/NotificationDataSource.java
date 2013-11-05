@@ -68,7 +68,7 @@ public class NotificationDataSource {
 		List<NotificationDbItem> notificationList = new ArrayList<NotificationDbItem>();
 		String selectQuery = "SELECT * FROM " + Consts.NOTIFICATION_DB_TABLE_NOTIFICATIONS;
 
-		SQLiteDatabase database = dbHelper.getWritableDatabase();
+		SQLiteDatabase database = dbHelper.getReadableDatabase();
 		Cursor cursor = database.rawQuery(selectQuery, null);
 		if (cursor.moveToFirst()) {
 			do {

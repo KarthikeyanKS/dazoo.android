@@ -32,6 +32,7 @@ import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.ChannelHour;
 import com.millicom.secondscreen.content.model.Guide;
+import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.myprofile.RemindersActivity;
 import com.millicom.secondscreen.content.tvguide.ChannelPageActivity;
 import com.millicom.secondscreen.content.tvguide.ChannelPageFragment;
@@ -45,10 +46,10 @@ public class TVGuideListAdapter extends BaseAdapter {
 	private LayoutInflater		mLayoutInflater;
 	private Activity			mActivity;
 	private ArrayList<Guide>	mGuide;
-	private String				mDate;
+	private TvDate				mDate;
 	private ImageLoader			mImageLoader;
 
-	public TVGuideListAdapter(Activity activity, ArrayList<Guide> guide, String date) {
+	public TVGuideListAdapter(Activity activity, ArrayList<Guide> guide, TvDate date) {
 		this.mGuide = guide;
 		this.mActivity = activity;
 		this.mDate = date;
@@ -58,7 +59,6 @@ public class TVGuideListAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
-
 		final Guide guide = getItem(position);
 
 		if (rowView == null) {
@@ -89,6 +89,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 		}
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
+		
 
 		if (guide.getLogoLHref() != null) {
 			// ImageDownloadThread getChannelIconTask = new ImageDownloadThread(holder.mChannelIconIv, holder.mProgressBar);
@@ -120,6 +121,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 
 			/* get the nearest broadcasts */
 			int indexOfNearestBroadcast = Broadcast.getClosestBroadcastIndex(broadcasts);
+			if(indexOfNearestBroadcast != -1){
 			ArrayList<Broadcast> nextBroadcasts = Broadcast.getBroadcastsStartingFromPosition(indexOfNearestBroadcast, broadcasts, Consts.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
 			for (int j = 0; j < nextBroadcasts.size(); j++) {
 				if (j == 0) {
@@ -147,6 +149,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 						holder.mLastProgramTimeTv.setText("");
 					}
 				}
+			}
 				/* get the nearest broadcasts */
 			}
 		} else {

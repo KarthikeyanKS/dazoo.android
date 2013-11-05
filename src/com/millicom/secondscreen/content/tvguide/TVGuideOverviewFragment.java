@@ -209,7 +209,7 @@ public class TVGuideOverviewFragment extends SSPageFragment {
 		Log.d(TAG, "super status:" + super.requestIsSuccesfull(status));
 		if (super.requestIsSuccesfull(status)) {
 
-			mTvGuideListAdapter = new TVGuideListAdapter(mActivity, mGuide, mDate);
+//			mTvGuideListAdapter = new TVGuideListAdapter(mActivity, mGuide, mDate);
 
 			actualListView = mTvGuideListView.getRefreshableView();
 			// mTvGuideListView.setAdapter(mTvGuideListAdapter);
