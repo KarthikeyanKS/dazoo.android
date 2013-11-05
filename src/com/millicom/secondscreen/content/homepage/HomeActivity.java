@@ -108,11 +108,9 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			mDate = intent.getStringExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE);
-			Log.d(TAG, "====== mDate" + mDate + "======");
-
+			
 			mDateSelectedIndex = intent.getIntExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE_POSITION, 0);
-			Log.d(TAG, "mDateSelectedIndex: " + mDateSelectedIndex);
-
+			
 			// RELOAD THE PAGE WITH NEW DATE
 			reloadPage();
 		}
@@ -176,22 +174,18 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		// The the initial state to be loading
 		updateUI(REQUEST_STATUS.LOADING);
 		Log.d(TAG, "UI: LOADING");
-
-		// SINGLETON CORE LOGIC COMMUNICATION HERE
+ 
 		DazooCore.getInstance(this, mDateSelectedIndex).fetchContent();
 	}
 
 	private void reloadPage() {
 		// Don't allow any swiping gestures while reloading
-
 		updateUI(REQUEST_STATUS.LOADING);
 		mViewPager.setVisibility(View.GONE);
 
 		// mTags.clear();
 		mTags = null;
 		mTags = DazooStore.getInstance().getTags();
-
-		Log.d(TAG, "DATE SELECTED INDEX: " + mDateSelectedIndex);
 
 		// check if we have this data already
 		setAdapter(mTabSelectedIndex);

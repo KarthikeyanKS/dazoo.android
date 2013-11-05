@@ -165,26 +165,28 @@ public class ChannelPageListAdapter extends BaseAdapter {
 			else {
 				holder.mTitleTv.setText("");
 			}
+			
 			//MC - Show the correct program type specific tags.
+			
 			//TODO: Figure out how tags for the different broadcast types are constructed.
 			String type = broadcast.getProgram().getProgramType();
 			if (type != null) {
-				if (type.equals(Consts.DAZOO_PROGRAM_TYPE_MOVIE)) {
+				if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(type)) {
 					ArrayList<String> tags = broadcast.getProgram().getTags();
 					holder.mDescTv.setText(tags.get(2) + " " + mActivity.getResources().getString(R.string.from) + " " +
 							broadcast.getProgram().getYear());
 				}
-				else if (type.equals(Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE)) {
+				else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(type)) {
 					holder.mDescTv.setText(mActivity.getResources().getString(R.string.season) + " " + 
 							broadcast.getProgram().getSeason().getNumber() + " " + 
 							mActivity.getResources().getString(R.string.episode) + " " +
 							String.valueOf(broadcast.getProgram().getEpisodeNumber()));
 				}
-				else if (type.equals(Consts.DAZOO_PROGRAM_TYPE_SPORT)) {
+				else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(type)) {
 					ArrayList<String> tags = broadcast.getProgram().getTags();
 					holder.mDescTv.setText(tags.get(tags.size()-1));
 				}
-				else if (type.equals(Consts.DAZOO_PROGRAM_TYPE_OTHER)) {
+				else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(type)) {
 					ArrayList<String> tags = broadcast.getProgram().getTags();
 					holder.mDescTv.setText(tags.get(tags.size()-1));
 				}

@@ -50,8 +50,6 @@ public class TVGuideTagTypeFragment extends SSPageFragment{
 		bundle.putString(Consts.FRAGMENT_EXTRA_TAG, tag.getName());
 		
 		fragment.setArguments(bundle);
-
-		Log.d(TAG, "FRAGMENT: " + tag.getName() + " ON: " + tvDate.getDate());
 		return fragment;
 	}
 	

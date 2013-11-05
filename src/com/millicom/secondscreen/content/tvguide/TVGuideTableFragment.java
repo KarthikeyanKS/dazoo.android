@@ -50,8 +50,6 @@ public class TVGuideTableFragment extends SSPageFragment {
 		bundle.putInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION, position);
 		bundle.putString(Consts.FRAGMENT_EXTRA_TAG, tag.getName());
 		fragment.setArguments(bundle);
-		Log.d(TAG,"NEW INSTANCE");
-		Log.d(TAG, "FRAGMENT: " + tag.getName() + " ON: " + date.getDate());
 		return fragment;
 	}
 
@@ -69,7 +67,6 @@ public class TVGuideTableFragment extends SSPageFragment {
 		mTagStr = bundle.getString(Consts.FRAGMENT_EXTRA_TAG);
 		mTvDate = bundle.getParcelable(Consts.FRAGMENT_EXTRA_TVDATE);
 		mTvDatePosition = bundle.getInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION);
-		Log.d(TAG,"RECREATED!!!, mTvDatePosition: " + mTvDatePosition + "Date: " + mTvDate.getDate());
 	}
 
 	@Override
@@ -93,46 +90,31 @@ public class TVGuideTableFragment extends SSPageFragment {
 	
 		mTag = dazooStore.getTag(mTagStr);
 		
-		Log.d(TAG,"DATE: " + mTvDate.getDate() + " TAG: " + mTag.getName());
-		
 		// GET THE DATA FROM CORE LOGIC SINGLETON
 		if(mIsLoggedIn){
 			mGuides = dazooStore.getMyGuideTable(mTvDate);
 			Log.d(TAG,"READ MY TABLE");
+			Log.d(TAG,"SIZE OF MY TABLE: " + String.valueOf(mGuides.size()));
 		}
 		else { 
 			mGuides = dazooStore.getGuideTable(mTvDate);
 			Log.d(TAG,"READ DEFAULT TABLE for the date: " + mTvDate.getDate());
 		}
 		
-		if(mGuides==null || mGuides.isEmpty()){
-			Log.d(TAG,"Get guide for this date");
-			DazooCore.getGuide(mTvDatePosition, false);
-			if(mIsLoggedIn)
-				mGuides = dazooStore.getMyGuideTable(mTvDate);
-			else 
-				mGuides = dazooStore.getGuideTable(mTvDate);
-		}
-		
-		if (!pageHoldsData()) {
-			// Request failed
-			updateUI(REQUEST_STATUS.FAILED);
-		}
+		pageHoldsData();
 	}
 
 	@Override
 	protected boolean pageHoldsData() {
 		boolean result = false;
 		if (mGuides != null) {
-			Log.d(TAG,"GUIDES ARE NOT NULL" );
 			if (mGuides.isEmpty()) {
-				updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
+				DazooCore.getGuide(mTvDatePosition, false);
 			} else {
-				Log.d(TAG, "SIZE: " + mGuides.size());
 				updateUI(REQUEST_STATUS.SUCCESSFUL);
 				result = true;
 			}
-		}
+		} 
 		return result;
 	}
 

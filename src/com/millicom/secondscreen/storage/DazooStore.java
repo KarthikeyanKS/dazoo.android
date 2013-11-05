@@ -188,6 +188,8 @@ public class DazooStore {
 		GuideKey currentKey = new GuideKey();
 		currentKey.setDate(tvDate);
 		currentKey.setChannelId(channelId);
+		
+		Log.d(TAG,"date: " + tvDate.getDate());
 
 		for (Entry<GuideKey, Guide> entry : mGuides.entrySet()) {
 			if ((entry.getKey().getChannelId().equals(currentKey.getChannelId())) && (entry.getKey().getDate().getDate().equals(currentKey.getDateDate()))) {

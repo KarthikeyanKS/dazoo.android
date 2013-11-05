@@ -72,15 +72,6 @@ public class DazooStoreOperations {
 	public static void saveGuide(Guide guide, TvDate tvDate, String channelId) {
 		DazooStore dazooStore = DazooStore.getInstance();
 		HashMap<GuideKey, Guide> guides = dazooStore.getGuides();
-
-		Log.d(TAG,"GUIDE TO SAVE: " + guide);
-		Log.d(TAG,"tvDate: " + tvDate.getDate());
-		Log.d(TAG,"CHANNelid:" + channelId);
-		Log.d(TAG,"=============================");
-		Log.d(TAG,"Broadcasts #: " + String.valueOf(guide.getBroadcasts().size()));
-		Log.d(TAG,"###############################");
-		
-		
 		GuideKey guideKey = new GuideKey();
 		guideKey.setDate(tvDate);
 		guideKey.setChannelId(channelId);
@@ -102,13 +93,8 @@ public class DazooStoreOperations {
 	public static boolean saveGuides(ArrayList<Guide> guide, TvDate tvDate) {
 		int size = guide.size();
 		boolean success = false;
-		Log.d(TAG,"Guides size: " + size);
 		for (int i = 0; i < size; i++) {
 			String channelId = guide.get(i).getId();
-			Log.d(TAG,"channelId for guide: " + channelId);
-			Log.d(TAG,"###############################");
-			Log.d(TAG,"###############################");
-			Log.d(TAG,"guide to save broadcasts size: " + String.valueOf(guide.get(i).getBroadcasts().size()));
 			Guide guideToSave = guide.get(i);
 			saveGuide(guideToSave, tvDate, channelId);
 			success = true;
@@ -118,12 +104,16 @@ public class DazooStoreOperations {
 
 	public static boolean saveMyGuides(ArrayList<Guide> myGuide, TvDate tvDate) {
 		int size = myGuide.size();
-		for (int i = 0; i < size; i++) {
-			String channelId = myGuide.get(i).getId();
-			saveMyGuide(myGuide.get(i), tvDate, channelId);
-			return true;
+		Log.d(TAG,"!!!!!!!!!!!!!! MY GUIDE SIZE: " + String.valueOf(size));
+		boolean success = false;
+		for (int j = 0; j < size; j++) {
+			String channelId = myGuide.get(j).getId();
+			Guide myGuideToSave = myGuide.get(j);
+			saveMyGuide(myGuideToSave, tvDate, channelId);
+			Log.d(TAG,"////////////////// SAVE: " + j);
+			success = true;
 		}
-		return false;
+		return success;
 	}
 
 	public static void saveTaggedBroadcast(TvDate date, Tag tag, ArrayList<Broadcast> broadcasts) {
@@ -193,7 +183,6 @@ public class DazooStoreOperations {
 
 		// sort by broadcast time
 		Collections.sort(taggedBroadcasts, new Broadcast.BroadcastComparatorByTime());
-
 		return taggedBroadcasts;
 	}
 }
