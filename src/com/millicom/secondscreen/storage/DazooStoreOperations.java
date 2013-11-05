@@ -104,13 +104,11 @@ public class DazooStoreOperations {
 
 	public static boolean saveMyGuides(ArrayList<Guide> myGuide, TvDate tvDate) {
 		int size = myGuide.size();
-		Log.d(TAG,"!!!!!!!!!!!!!! MY GUIDE SIZE: " + String.valueOf(size));
 		boolean success = false;
 		for (int j = 0; j < size; j++) {
 			String channelId = myGuide.get(j).getId();
 			Guide myGuideToSave = myGuide.get(j);
 			saveMyGuide(myGuideToSave, tvDate, channelId);
-			Log.d(TAG,"////////////////// SAVE: " + j);
 			success = true;
 		}
 		return success;

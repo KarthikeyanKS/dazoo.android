@@ -133,6 +133,7 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 		if (mFirstHit) {
 			mDayAdapter.setSelectedIndex(mSelectedIndex);
 			mActionBar.setSelectedNavigationItem(mSelectedIndex);
+			mTvDateSelected = mTvDates.get(mSelectedIndex);
 			mFirstHit = false;
 			return true;
 		} else {

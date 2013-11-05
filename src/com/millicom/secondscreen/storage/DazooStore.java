@@ -188,8 +188,8 @@ public class DazooStore {
 		GuideKey currentKey = new GuideKey();
 		currentKey.setDate(tvDate);
 		currentKey.setChannelId(channelId);
-		
-		Log.d(TAG,"date: " + tvDate.getDate());
+
+		Log.d(TAG, "date: " + tvDate.getDate());
 
 		for (Entry<GuideKey, Guide> entry : mGuides.entrySet()) {
 			if ((entry.getKey().getChannelId().equals(currentKey.getChannelId())) && (entry.getKey().getDate().getDate().equals(currentKey.getDateDate()))) {
@@ -230,10 +230,10 @@ public class DazooStore {
 		int size = mDefaultChannelIds.size();
 		for (int i = 0; i < size; i++) {
 			Guide guide = getChannelGuideFromDefault(tvDate, mDefaultChannelIds.get(i));
-			if(guide!=null){
-			Log.d(TAG, "getGuideTable: " + guide.getId());
-			guideTable.add(guide);
-			Log.d(TAG, "ADD");
+			if (guide != null) {
+				Log.d(TAG, "getGuideTable: " + guide.getId());
+				guideTable.add(guide);
+				Log.d(TAG, "ADD");
 			}
 		}
 		return guideTable;
@@ -262,9 +262,7 @@ public class DazooStore {
 	}
 
 	public Broadcast getBroadcastFromDefault(TvDate date, String channelId, long beginTimeInMillis) {
-		Log.d(TAG, "get broadcast: " + date.getDate() + "channelId: " + channelId);
 		Guide channelGuide = getChannelGuideFromDefault(date, channelId);
-		Log.d(TAG, "Channel Guide: " + channelGuide.getId());
 		ArrayList<Broadcast> channelBroadcasts = channelGuide.getBroadcasts();
 		int size = channelBroadcasts.size();
 
@@ -276,15 +274,15 @@ public class DazooStore {
 		}
 		return null;
 	}
-	
-	public Broadcast getBroadcastFromMy(TvDate date, String channelId, long beginTimeInMillis){
+
+	public Broadcast getBroadcastFromMy(TvDate date, String channelId, long beginTimeInMillis) {
 		Guide myChannelGuide = getChannelGuideFromMy(date, channelId);
 		ArrayList<Broadcast> myChannelBroadcasts = myChannelGuide.getBroadcasts();
 		int size = myChannelBroadcasts.size();
-		
-		for(int i=0; i < size; i++){
+
+		for (int i = 0; i < size; i++) {
 			long temp = myChannelBroadcasts.get(i).getBeginTimeMillis();
-			if(beginTimeInMillis == temp){
+			if (beginTimeInMillis == temp) {
 				return myChannelBroadcasts.get(i);
 			}
 		}
