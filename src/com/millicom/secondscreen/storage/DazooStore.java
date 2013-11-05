@@ -189,8 +189,6 @@ public class DazooStore {
 		currentKey.setDate(tvDate);
 		currentKey.setChannelId(channelId);
 
-		Log.d(TAG, "date: " + tvDate.getDate());
-
 		for (Entry<GuideKey, Guide> entry : mGuides.entrySet()) {
 			if ((entry.getKey().getChannelId().equals(currentKey.getChannelId())) && (entry.getKey().getDate().getDate().equals(currentKey.getDateDate()))) {
 				// found the guide by date and tag
@@ -231,9 +229,7 @@ public class DazooStore {
 		for (int i = 0; i < size; i++) {
 			Guide guide = getChannelGuideFromDefault(tvDate, mDefaultChannelIds.get(i));
 			if (guide != null) {
-				Log.d(TAG, "getGuideTable: " + guide.getId());
 				guideTable.add(guide);
-				Log.d(TAG, "ADD");
 			}
 		}
 		return guideTable;
@@ -252,7 +248,7 @@ public class DazooStore {
 		BroadcastKey broadcastKey = new BroadcastKey();
 		broadcastKey.setDate(date);
 		broadcastKey.setTag(tag);
-
+		
 		for (Entry<BroadcastKey, ArrayList<Broadcast>> entry : mTaggedBroadcasts.entrySet()) {
 			if (entry.getKey().equals(broadcastKey)) {
 				return entry.getValue();

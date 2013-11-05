@@ -147,13 +147,21 @@ public class Broadcast implements Parcelable {
 
 			if (left > right) {
 				return 1;
-			} else if (left > right) {
-				return -1;
-			} else {
-				String leftChannel = lhs.getChannel().getName();
-				String rightChannel = rhs.getChannel().getName();
-				return leftChannel.compareTo(rightChannel);
+			}else if(left > right){
+					return -1;
+				}
+			else {
+				return 1;
 			}
+			//} else if (left > right) {
+			//	return -1;
+			//} 
+			//else {
+				
+				//String leftChannel = lhs.getChannel().getName();
+				//String rightChannel = rhs.getChannel().getName();
+				//return leftChannel.compareTo(rightChannel);
+			//}
 		}
 	}
 

@@ -100,17 +100,19 @@ public class DazooCore {
 
 	// prepare tagged broadcasts for the specific date
 	private static void prepareTaggedContent(TvDate date) {
+		Log.d(TAG,"!!!!!!!!!!!!!!!!!!!!!!!!!!!! PREPARE TAGGED CONTENT!!!!!");
 		if (mTags != null && mTags.isEmpty() != true) {
 			if (mGuides != null && mGuides.isEmpty() != true) {
 
 				Log.d(TAG, "PREPARE TAGGED CONTENT");
 				for (int i = 1; i < mTags.size(); i++) {
-					ArrayList<Broadcast> taggedBroadcasts = DazooStoreOperations.getMyTaggedBrodcasts(date, mTags.get(i));
+					Log.d(TAG,"tag: " + mTags.get(i).getName());
+					ArrayList<Broadcast> taggedBroadcasts = DazooStoreOperations.getTaggedBroadcasts(date, mTags.get(i));
 					DazooStoreOperations.saveTaggedBroadcast(date, mTags.get(i), taggedBroadcasts);
 
 					// notify responsible fragments that the data is there
-					// LocalBroadcastManager.getInstance(mContext).sendBroadcast();
-
+					LocalBroadcastManager.getInstance(mContext).sendBroadcast(
+							new Intent(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE_VALUE, true));
 				}
 			}
 		}
@@ -263,6 +265,8 @@ public class DazooCore {
 						if (token != null && TextUtils.isEmpty(token) != true) {
 							if (DazooStoreOperations.saveMyGuides(mGuides, mDate)) {
 
+								prepareTaggedContent(mDate);
+								
 								if (mIsChannel) {
 									// notify the ChannelPageActivity that the guide is available and UI may be updated
 									LocalBroadcastManager.getInstance(mContext).sendBroadcast(
@@ -279,6 +283,8 @@ public class DazooCore {
 							}
 						} else {
 							if (DazooStoreOperations.saveGuides(mGuides, mDate)) {
+								
+								prepareTaggedContent(mDate);
 
 								if (mIsChannel) {
 									// notify the ChannelPageActivity that the guide is available and UI may be updated
@@ -342,7 +348,7 @@ public class DazooCore {
 	}
 
 	public boolean filterMyGuideByTag(TvDate tvDate, Tag tag) {
-		ArrayList<Broadcast> myTaggedBroadcasts = DazooStoreOperations.getMyTaggedBrodcasts(tvDate, tag);
+		ArrayList<Broadcast> myTaggedBroadcasts = DazooStoreOperations.getMyTaggedBroadcasts(tvDate, tag);
 		if (myTaggedBroadcasts != null && myTaggedBroadcasts.isEmpty() != true) {
 			DazooStoreOperations.saveMyTaggedBroadcast(tvDate, tag, myTaggedBroadcasts);
 			return true;

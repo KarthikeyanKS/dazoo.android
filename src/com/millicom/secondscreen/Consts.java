@@ -112,6 +112,8 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_TVGUIDE_SORTING_VALUE_POSITION			= "com.millicom.secondscreen.intent.extra.tvguide.sorting.value.position";
 	public static final String	INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE				= "com.millicom.secondscreen.intent.extra.channel.guide.available";
 	public static final String	INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE_VALUE			= "com.millicom.secondscreen.intent.extra.channel.guide.available.value";
+	public static final String	INTENT_EXTRA_TAG_GUIDE_AVAILABLE					= "com.millicom.secondscreen.intent.extra.tag.guide.available";
+	public static final String	INTENT_EXTRA_TAG_GUIDE_AVAILABLE_VALUE				= "com.millicom.secondscreen.intent.extra.tag.guide.available.value";
 
 	// fragments extra arguments
 	public static final String	FRAGMENT_EXTRA_TAG									= "com.millicom.secondscreen.fragment.extra.tag";

@@ -155,14 +155,14 @@ public class DazooStoreOperations {
 				}
 			}
 		}
-
+		
 		// sort by broadcast time
 		Collections.sort(taggedBroadcasts, new Broadcast.BroadcastComparatorByTime());
 
 		return taggedBroadcasts;
 	}
 
-	public static ArrayList<Broadcast> getMyTaggedBrodcasts(TvDate date, Tag tag) {
+	public static ArrayList<Broadcast> getMyTaggedBroadcasts(TvDate date, Tag tag) {
 		DazooStore dazooStore = DazooStore.getInstance();
 		ArrayList<Guide> guideTable = dazooStore.getMyGuideTable(date);
 		String tagName = tag.getName();
@@ -178,6 +178,7 @@ public class DazooStoreOperations {
 				}
 			}
 		}
+		Log.d(TAG,"tagged broadcasts size: " + String.valueOf(taggedBroadcasts.size()));
 
 		// sort by broadcast time
 		Collections.sort(taggedBroadcasts, new Broadcast.BroadcastComparatorByTime());
