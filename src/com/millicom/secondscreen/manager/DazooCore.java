@@ -12,6 +12,7 @@ import android.util.Log;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
+import com.millicom.secondscreen.content.SSBroadcastPage;
 import com.millicom.secondscreen.content.SSChannelPage;
 import com.millicom.secondscreen.content.SSGuidePage;
 import com.millicom.secondscreen.content.SSPageCallback;
@@ -108,24 +109,42 @@ public class DazooCore {
 				for (int i = 1; i < mTags.size(); i++) {
 					Log.d(TAG,"tag: " + mTags.get(i).getName());
 					ArrayList<Broadcast> taggedBroadcasts = DazooStoreOperations.getTaggedBroadcasts(date, mTags.get(i));
+					
+					Log.d(TAG,"Size of taggedBroadcasts: " + taggedBroadcasts.size());
+					
 					DazooStoreOperations.saveTaggedBroadcast(date, mTags.get(i), taggedBroadcasts);
 
-					// notify responsible fragments that the data is there
-					LocalBroadcastManager.getInstance(mContext).sendBroadcast(
-							new Intent(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE_VALUE, true));
 				}
+				// notify responsible fragments that the data is there
+				LocalBroadcastManager.getInstance(mContext).sendBroadcast(
+						new Intent(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE_VALUE, true));
 			}
 		}
 	}
 
+	// task to get the individual broadcast
+	private static class GetBroadcast extends AsyncTask<String, String, Void>{
+
+		@Override
+		protected Void doInBackground(String... params) {
+			SSBroadcastPage.getInstance().getPage(params[0], new SSPageCallback(){
+
+				@Override
+				public void onGetPageResult(SSPageGetResult pageGetResult) {
+					Broadcast broadcast = SSBroadcastPage.getInstance().getBroadcast();
+					
+					
+				}
+				
+			});
+			
+			return null;
+		}
+		
+	}
+	
 	// task to get the tv-dates
 	private static class GetTvDates extends AsyncTask<String, String, Void> {
-
-		private DazooCoreCallback	callback;
-
-		public GetTvDates() {
-			this.callback = (DazooCoreCallback) callback;
-		}
 
 		@Override
 		protected Void doInBackground(String... params) {
@@ -323,6 +342,11 @@ public class DazooCore {
 		ArrayList<Broadcast> taggedBroadcasts = DazooStoreOperations.getTaggedBroadcasts(tvDate, tag);
 		if (taggedBroadcasts != null && taggedBroadcasts.isEmpty() != true) {
 			DazooStoreOperations.saveTaggedBroadcast(tvDate, tag, taggedBroadcasts);
+			
+			// notify responsible fragments that the data is there
+				LocalBroadcastManager.getInstance(mContext).sendBroadcast(
+						new Intent(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE_VALUE, true));
+			
 			return true;
 		} else return false;
 	}
@@ -351,6 +375,10 @@ public class DazooCore {
 		ArrayList<Broadcast> myTaggedBroadcasts = DazooStoreOperations.getMyTaggedBroadcasts(tvDate, tag);
 		if (myTaggedBroadcasts != null && myTaggedBroadcasts.isEmpty() != true) {
 			DazooStoreOperations.saveMyTaggedBroadcast(tvDate, tag, myTaggedBroadcasts);
+			
+			// notify responsible fragments that the data is there
+			LocalBroadcastManager.getInstance(mContext).sendBroadcast(
+					new Intent(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE_VALUE, true));
 			return true;
 		} else return false;
 	}

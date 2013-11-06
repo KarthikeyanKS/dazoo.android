@@ -68,6 +68,7 @@ public class NotificationService {
 
 		Random random = new Random();
 		int notificationId = random.nextInt(Integer.MAX_VALUE);
+		Log.d(TAG,"NOTIFICATION ID: " + notificationId);
 
 		// call alarm manager to set the notification at the certain time
 		Intent intent = new Intent("DAZOO_NOTIFICATION");

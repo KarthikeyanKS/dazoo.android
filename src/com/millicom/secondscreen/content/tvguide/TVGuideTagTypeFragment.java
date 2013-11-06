@@ -31,102 +31,96 @@ import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.manager.DazooCore;
 import com.millicom.secondscreen.storage.DazooStore;
 
-public class TVGuideTagTypeFragment extends SSPageFragment{
-	
-	private static final String TAG = "TVGuideTagTypeFragment";
-	private Activity mActivity;
-	private String mTagStr, token;
-	private View mRootView;
-	private ListView mListView;
-	private ArrayList<Broadcast> mTaggedBroadcasts;
+public class TVGuideTagTypeFragment extends SSPageFragment {
+
+	private static final String	TAG	= "TVGuideTagTypeFragment";
+	private Activity			mActivity;
+	private String				mTagStr, token;
+	private View				mRootView;
+	private ListView			mListView;
+	private ArrayList<Broadcast>	mTaggedBroadcasts, mFollowingBroadcasts;
 	private TVGuideTagListAdapter	mAdapter;
-	private DazooStore dazooStore;
-	private Tag mTag;
-	private TvDate mTvDate;
-	private int mTvDatePosition;
-	private boolean mIsLoggedIn = false, mIsReady = false;
-	
+	private DazooStore				dazooStore;
+	private Tag						mTag;
+	private TvDate					mTvDate;
+	private int						mTvDatePosition, mIndexOfNearestBroadcast;
+	private boolean					mIsLoggedIn	= false, mIsReady = false;
+
 	public static TVGuideTagTypeFragment newInstance(Tag tag, TvDate tvDate, int position) {
 
 		TVGuideTagTypeFragment fragment = new TVGuideTagTypeFragment();
 		Bundle bundle = new Bundle();
-		
+
 		bundle.putParcelable(Consts.FRAGMENT_EXTRA_TVDATE, tvDate);
 		bundle.putInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION, position);
 		bundle.putString(Consts.FRAGMENT_EXTRA_TAG, tag.getName());
-		
+
 		fragment.setArguments(bundle);
 		return fragment;
 	}
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		dazooStore = DazooStore.getInstance();
 		
 		// broadcast receiver for date selection
-		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mBroadcastReceiverContent, new IntentFilter(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE));
-		
+		//LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mBroadcastReceiverContent, new IntentFilter(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE));
+
 		token = ((SecondScreenApplication) getActivity().getApplicationContext()).getAccessToken();
-		if (token !=null && TextUtils.isEmpty(token) !=true){
+		if (token != null && TextUtils.isEmpty(token) != true) {
 			mIsLoggedIn = true;
 		}
-		
+
 		Bundle bundle = getArguments();
 		mTagStr = bundle.getString(Consts.FRAGMENT_EXTRA_TAG);
 		mTvDate = bundle.getParcelable(Consts.FRAGMENT_EXTRA_TVDATE);
 		mTvDatePosition = bundle.getInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION);
-		
+
 		mTag = dazooStore.getTag(mTagStr);
 	}
-	
-	
+
+	/*
 	BroadcastReceiver	mBroadcastReceiverContent	= new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			mIsReady = intent.getBooleanExtra(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE_VALUE, false);
-			Log.d(TAG, "content for tagged TvGuide is ready: " + mIsReady);
+			Log.d(TAG, "content for " + mTag.getName().toUpperCase() + "  is ready: " + mIsReady);
 
+			mActivity = getActivity();
+			
+			updateUI(REQUEST_STATUS.LOADING);
+			
 			if (mIsReady) {
 				loadPage();
-			} 
+			}
 		}
 	};
-	
+	*/
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootView = inflater.inflate(R.layout.fragment_tvguide_tag_type, null);
 		mListView = (ListView) mRootView.findViewById(R.id.fragment_tvguide_type_tag_listview);
-
-		super.initRequestCallbackLayouts(mRootView);
 		
-		// reset the activity whenever the view is recreated
+		super.initRequestCallbackLayouts(mRootView);
 		mActivity = getActivity();
 		
-		updateUI(REQUEST_STATUS.LOADING);
-		
 		mTaggedBroadcasts = null;
-		if(mIsLoggedIn)
-			mTaggedBroadcasts = dazooStore.getMyTaggedBroadcasts(mTvDate, mTag);
-		else 
-			mTaggedBroadcasts = dazooStore.getTaggedBroadcasts(mTvDate, mTag);
+		loadPage();
 		
-		if(mTaggedBroadcasts !=null){
-			pageHoldsData();
-		} else {
-			updateUI(REQUEST_STATUS.LOADING);
-		}	
 		return mRootView;
 	}
 
 	@Override
 	protected void loadPage() {
+		updateUI(REQUEST_STATUS.LOADING);
 
-		mTaggedBroadcasts = null;
-		if(mIsLoggedIn)
-			mTaggedBroadcasts = dazooStore.getMyTaggedBroadcasts(mTvDate, mTag);
-		else 
-			mTaggedBroadcasts = dazooStore.getTaggedBroadcasts(mTvDate, mTag);
+		if (mIsLoggedIn) mTaggedBroadcasts = dazooStore.getMyTaggedBroadcasts(mTvDate, mTag);
+		else mTaggedBroadcasts = dazooStore.getTaggedBroadcasts(mTvDate, mTag);
+		
+		Log.d(TAG,"DATE: " + mTvDate.getDate());
+		Log.d(TAG,"TAG: " + mTag.getName());
 		
 		pageHoldsData();
 	}
@@ -136,19 +130,26 @@ public class TVGuideTagTypeFragment extends SSPageFragment{
 		boolean result = false;
 		if (mTaggedBroadcasts != null) {
 			if (mTaggedBroadcasts.isEmpty()) {
-				DazooCore.getGuide(mTvDatePosition, false);
+				DazooCore.getInstance(mActivity, mTvDatePosition).filterGuideByTag(mTvDate, mTag);
 			} else {
+				Log.d(TAG, "&&&&&&&&&&&&&&& WE GOT NEW!!!");
 				updateUI(REQUEST_STATUS.SUCCESSFUL);
 				result = true;
 			}
-		} 
+		}
 		return result;
 	}
 
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
 		if (super.requestIsSuccesfull(status)) {
-			mAdapter = new TVGuideTagListAdapter(mActivity, mTaggedBroadcasts);
+			int index = Broadcast.getClosestBroadcastIndex(mTaggedBroadcasts);
+			Log.d(TAG,"############ Index of the nearest broadcast: " + mIndexOfNearestBroadcast);
+			if(mAdapter!=null){
+				mAdapter.notifyDataSetChanged();
+			} else {
+			mAdapter = new TVGuideTagListAdapter(mActivity, mTaggedBroadcasts, index);
+			}
 			mListView.setAdapter(mAdapter);
 		}
 	}

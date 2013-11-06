@@ -13,7 +13,7 @@ public class LikeDialogHandler {
 	public Runnable	answerYes	= null;
 	public Runnable	answerNo	= null;
 
-	public boolean showRemoveLikeDialog(final Context context, final String token, final String entityId, Runnable aProcedure, Runnable bProcedure) {
+	public boolean showRemoveLikeDialog(final Context context, final String token, final String entityId, final String likeType, Runnable aProcedure, Runnable bProcedure) {
 		answerYes = aProcedure;
 		answerNo = bProcedure;
 
@@ -43,7 +43,7 @@ public class LikeDialogHandler {
 			public void onClick(View v) {
 				// remove the like
 				answerYes.run();
-				LikeService.removeLike(token, entityId);
+				LikeService.removeLike(token, entityId, likeType);
 				dialog.dismiss();
 			}
 		});

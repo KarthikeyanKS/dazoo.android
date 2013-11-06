@@ -178,7 +178,6 @@ public class DazooStoreOperations {
 				}
 			}
 		}
-		Log.d(TAG,"tagged broadcasts size: " + String.valueOf(taggedBroadcasts.size()));
 
 		// sort by broadcast time
 		Collections.sort(taggedBroadcasts, new Broadcast.BroadcastComparatorByTime());

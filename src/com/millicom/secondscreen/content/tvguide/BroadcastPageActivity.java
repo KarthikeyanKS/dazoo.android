@@ -28,6 +28,9 @@ import com.millicom.secondscreen.authentication.FacebookDazooLoginActivity;
 import com.millicom.secondscreen.authentication.LoginActivity;
 import com.millicom.secondscreen.authentication.PromptSignInDialogHandler;
 import com.millicom.secondscreen.authentication.SignInActivity;
+import com.millicom.secondscreen.content.SSBroadcastPage;
+import com.millicom.secondscreen.content.SSPageCallback;
+import com.millicom.secondscreen.content.SSPageGetResult;
 import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.model.Broadcast;
@@ -58,9 +61,9 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 	private LinearLayout			mBlockContainer;
 	private ActionBar				mActionBar;
 	private LayoutInflater			mLayoutInflater;
-	private String					mBroadcastUrl, entityType, token, mChannelId, mChannelDate;
+	private String					mBroadcastUrl, entityType, token, mChannelId, mChannelDate, mLikeType, mProgramType, mProgramId;
 	private long					mBeginTimeInMillis;
-	private boolean					mIsSet	= false, mIsLiked = false, mIsLoggedIn = false;
+	private boolean					mIsSet	= false, mIsLiked = false, mIsLoggedIn = false, mIsFuture;
 	private ImageView				mPosterIv, mLikeButtonIv, mShareButtonIv, mRemindButtonIv;
 	private ProgressBar				mPosterPb;
 	private TextView				mTitleTv, mSeasonTv, mEpisodeTv, mTimeTv, mDateTv, mChannelTv, mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
@@ -84,43 +87,74 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 		Intent intent = getIntent();
 		mBeginTimeInMillis = intent.getLongExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, 0);
 		mChannelId = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_ID);
-		//mChannelDate = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE);
+		// mChannelDate = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE);
 
 		// GET THE BROADCAST FROM THE DAZOO STORE SINGLETON BY CHANNEL ID AND BROADCAST BEGIN TIME MILLIS
-		//mTvDate = dazooStore.getDate(mChannelDate);
+		// mTvDate = dazooStore.getDate(mChannelDate);
 		mTvDate = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE);
-		
+
 		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 		if (token != null && token.isEmpty() != true) {
 			mIsLoggedIn = true;
 			mBroadcast = dazooStore.getBroadcastFromMy(mTvDate, mChannelId, mBeginTimeInMillis);
 			mChannel = dazooStore.getChannelFromAll(mChannelId);
-			
+
+			if (mBroadcast == null) {
+
+				String broadcastPageUrl = intent.getStringExtra(Consts.INTENT_EXTRA_BROADCAST_URL);
+
+				SSBroadcastPage.getInstance().getPage(broadcastPageUrl, new SSPageCallback() {
+
+					@Override
+					public void onGetPageResult(SSPageGetResult pageGetResult) {
+						mBroadcast = SSBroadcastPage.getInstance().getBroadcast();
+					}
+
+				});
+
+				Toast.makeText(this, "Soon I will parse this broadcast page!", Toast.LENGTH_SHORT).show();
+			}
+
+			mProgramType = mBroadcast.getProgram().getProgramType();
+			if (mProgramType != null) {
+				mLikeType = LikeService.getLikeType(mProgramType);
+
+				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(mProgramType)) {
+					mProgramId = mBroadcast.getProgram().getSeries().getSeriesId();
+				} else {
+					mProgramId = mBroadcast.getProgram().getProgramId();
+				}
+			}
 		} else {
 			mBroadcast = dazooStore.getBroadcastFromDefault(mTvDate, mChannelId, mBeginTimeInMillis);
 			mChannel = dazooStore.getChannelFromDefault(mChannelId);
+
+			if (mBroadcast == null) {
+
+				String broadcastPageUrl = intent.getStringExtra(Consts.INTENT_EXTRA_BROADCAST_URL);
+
+				SSBroadcastPage.getInstance().getPage(broadcastPageUrl, new SSPageCallback() {
+
+					@Override
+					public void onGetPageResult(SSPageGetResult pageGetResult) {
+						mBroadcast = SSBroadcastPage.getInstance().getBroadcast();
+					}
+
+				});
+
+				Toast.makeText(this, "Soon I will parse this broadcast page!", Toast.LENGTH_SHORT).show();
+			}
 		}
-			
-		
-		
 
-		if (mBroadcast == null || mChannel == null) {
-
-			String broadcastPageUrl = intent.getStringExtra(Consts.INTENT_EXTRA_BROADCAST_URL);
-			/*
-			 * final SSBroadcastPage broadcastPage = new SSBroadcastPage(broadcastPageUrl); broadcastPage.getPage(new SSPageCallback() {
-			 * 
-			 * @Override public void onGetPageResult(SSPageGetResult aPageGetResult) {
-			 * 
-			 * mBroadcast = broadcastPage.getBroadcast(); Log.d(TAG,"Broadcast is null:" + mBroadcast.getBeginTime()); } });
-			 */
-			Toast.makeText(this, "Soon I will parse this broadcast page!", Toast.LENGTH_SHORT).show();
+		try {
+			mIsFuture = DateUtilities.isTimeInFuture(mBroadcast.getBeginTime());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
-		
 
 		initViews();
-		if (mBroadcast != null && mChannel != null) {
+		if (mBroadcast != null) {
 			populateBlocks();
 		}
 	}
@@ -209,23 +243,28 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 		}
 		mDateTv.setText(date);
 
-		mNotificationDataSource = new NotificationDataSource(this);
-		NotificationDbItem dbItem = new NotificationDbItem();
-		dbItem = mNotificationDataSource.getNotification(mChannel.getChannelId(), mBroadcast.getBeginTimeMillis());
-		if (dbItem.getNotificationId() != 0) {
-			mIsSet = true;
-			notificationId = dbItem.getNotificationId();
-		} else {
-			mIsSet = false;
-			notificationId = -1;
-		}
+		if (!mIsFuture) {
+			mNotificationDataSource = new NotificationDataSource(this);
+			NotificationDbItem dbItem = new NotificationDbItem();
+			dbItem = mNotificationDataSource.getNotification(mChannel.getChannelId(), mBroadcast.getBeginTimeMillis());
+			if (dbItem.getNotificationId() != 0) {
+				mIsSet = true;
+				notificationId = dbItem.getNotificationId();
+			} else {
+				mIsSet = false;
+				notificationId = -1;
+			}
 
-		if (mIsSet) mRemindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
-		else mRemindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
+			if (mIsSet) mRemindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
+			else mRemindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
+		} else {
+			mRemindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_dissabled_clock));
+		}
 
 		// TODO TO GET TO KNOW IF IT IS ACTUALLY LIKED
 		if (mIsLoggedIn) {
-			Log.d(TAG, "" + mBroadcast.getProgram().getProgramId());
+			Log.d(TAG, "id: " + mBroadcast.getProgram().getProgramId());
+			Log.d(TAG, "type: " + mBroadcast.getProgram().getProgramType());
 			mIsLiked = LikeService.isLiked(token, mBroadcast.getProgram().getProgramId());
 		}
 
@@ -278,7 +317,7 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 		case R.id.block_social_panel_like_button_iv:
 			if (mIsLoggedIn) {
 				if (mIsLiked == false) {
-					if (LikeService.addLike(token, mBroadcast.getProgram().getProgramId(), entityType)) {
+					if (LikeService.addLike(token, mProgramId, mLikeType)) {
 						LikeService.showSetLikeToast(mActivity, mBroadcast.getProgram().getTitle());
 						mLikeButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
 						mIsLiked = true;
@@ -287,7 +326,7 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 					}
 				} else {
 					LikeDialogHandler likeDlg = new LikeDialogHandler();
-					likeDlg.showRemoveLikeDialog(mActivity, token, mBroadcast.getProgram().getProgramId(), yesLikeProc(), noLikeProc());
+					likeDlg.showRemoveLikeDialog(mActivity, token, mLikeType, mBroadcast.getProgram().getProgramId(), yesLikeProc(), noLikeProc());
 				}
 			} else {
 				PromptSignInDialogHandler loginDlg = new PromptSignInDialogHandler();
@@ -298,28 +337,31 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 			ShareAction.shareAction(mActivity, getResources().getString(R.string.app_name), mBroadcast.getShareUrl(), getResources().getString(R.string.share_action_title));
 			break;
 		case R.id.block_social_panel_remind_button_iv:
+			if (!mIsFuture) {
+				if (mIsSet == false) {
+					if (NotificationService.setAlarm(mActivity, mBroadcast, mChannel)) {
+						NotificationService.showSetNotificationToast(mActivity);
+						mRemindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
 
-			if (mIsSet == false) {
-				if (NotificationService.setAlarm(mActivity, mBroadcast, mChannel)) {
-					NotificationService.showSetNotificationToast(mActivity);
-					mRemindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
+						NotificationDbItem dbItem = new NotificationDbItem();
+						dbItem = mNotificationDataSource.getNotification(mChannel.getChannelId(), mBroadcast.getBeginTimeMillis());
 
-					NotificationDbItem dbItem = new NotificationDbItem();
-					dbItem = mNotificationDataSource.getNotification(mChannel.getChannelId(), mBroadcast.getBeginTimeMillis());
+						notificationId = dbItem.getNotificationId();
 
-					notificationId = dbItem.getNotificationId();
-
-					mIsSet = true;
+						mIsSet = true;
+					} else {
+						Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
+					}
 				} else {
-					Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
+					if (notificationId != -1) {
+						NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
+						notificationDlg.showRemoveNotificationDialog(mActivity, mBroadcast, notificationId, yesNotificationProc(), noNotificationProc());
+					} else {
+						Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
+					}
 				}
 			} else {
-				if (notificationId != -1) {
-					NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
-					notificationDlg.showRemoveNotificationDialog(mActivity, mBroadcast, notificationId, yesNotificationProc(), noNotificationProc());
-				} else {
-					Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
-				}
+				Toast.makeText(mActivity, "The broadcast was already shown! You cannot set a reminder on that", Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}

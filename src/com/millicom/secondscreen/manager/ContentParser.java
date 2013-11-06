@@ -304,23 +304,37 @@ public class ContentParser {
 
 	public static DazooLike parseDazooLike(JSONObject jsonObject) {
 		DazooLike dazooLike = new DazooLike();
-		dazooLike.setEntityId(jsonObject.optString(Consts.DAZOO_LIKE_ENTITY_ID));
-		dazooLike.setEntityType(jsonObject.optString(Consts.DAZOO_LIKE_ENTITY_TYPE));
-
-		String entity = jsonObject.optString(Consts.DAZOO_LIKE_ENTITY);
-		if (entity != null && TextUtils.isEmpty(entity) != true) {
-			JSONObject likeEntity;
-			try {
-				likeEntity = new JSONObject(entity);
-				DazooLikeEntity dazooLikeEntity = ContentParser.parseDazooLikeEntity(likeEntity);
-				dazooLike.setEntity(dazooLikeEntity);
-			} catch (JSONException e) {
-				e.printStackTrace();
+		String likeType = jsonObject.optString(Consts.DAZOO_LIKE_LIKETYPE);
+		dazooLike.setLikeType(likeType);
+		
+		DazooLikeEntity dazooLikeEntity = new DazooLikeEntity();
+		if(Consts.DAZOO_LIKE_TYPE_SERIES.equals(likeType)){
+			dazooLikeEntity.setTitle(jsonObject.optString(Consts.DAZOO_LIKE_SERIES_TITLE));
+			dazooLikeEntity.setSeriesId(jsonObject.optString(Consts.DAZOO_LIKE_SERIES_SERIES_ID));
+		}
+		else if(Consts.DAZOO_LIKE_TYPE_PROGRAM.equals(likeType)){
+			dazooLikeEntity.setProgramId(jsonObject.optString(Consts.DAZOO_LIKE_PROGRAM_PROGRAMID));
+			String programType = jsonObject.optString(Consts.DAZOO_LIKE_PROGRAM_PROGRAMTYPE);
+			if(Consts.DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_OTHER.equals(programType)){
+				dazooLikeEntity.setTitle(jsonObject.optString(Consts.DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_OTHER_TITLE));
+				dazooLikeEntity.setCategory(jsonObject.optString(Consts.DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_OTHER_CATEGORY));
+			}
+			else if (Consts.DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_MOVIE.equals(programType)){
+				dazooLikeEntity.setTitle(jsonObject.optString(Consts.DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_MOVIE_TITLE));
+				dazooLikeEntity.setGenre(jsonObject.optString(Consts.DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_MOVIE_GENRE));
+				dazooLikeEntity.setYear(jsonObject.optInt(Consts.DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_MOVIE_YEAR));
 			}
 		}
+		else if(Consts.DAZOO_LIKE_TYPE_SPORT_TYPE.equals(likeType)){
+			dazooLikeEntity.setSportTypeId(jsonObject.optString(Consts.DAZOO_LIKE_SPORT_TYPE_SPORTTYPEID));
+			dazooLikeEntity.setTitle(jsonObject.optString(Consts.DAZOO_LIKE_SPORT_TYPE_TITLE));
+		}
+		dazooLike.setEntity(dazooLikeEntity);
+			
 		return dazooLike;
 	}
 
+	/*
 	public static DazooLikeEntity parseDazooLikeEntity(JSONObject jsonObject) {
 		if (jsonObject != null) {
 			DazooLikeEntity dazooLikeEntity = new DazooLikeEntity();
@@ -390,4 +404,5 @@ public class ContentParser {
 			return dazooLikeEntity;
 		} else return null;
 	}
+	*/
 }

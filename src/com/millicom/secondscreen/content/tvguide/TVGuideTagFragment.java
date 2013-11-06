@@ -146,7 +146,7 @@ public class TVGuideTagFragment extends SSPageFragment {
 		Log.d(TAG, "super status:" + super.requestIsSuccesfull(status));
 		if (super.requestIsSuccesfull(status)) {
 
-			mAdapter = new TVGuideTagListAdapter(mActivity, mBroadcasts);
+			mAdapter = new TVGuideTagListAdapter(mActivity, mBroadcasts, 0);
 			mListView.setAdapter(mAdapter);
 
 		}

@@ -48,7 +48,7 @@ public abstract class Consts {
 	public static final String	REQUEST_QUERY_SEPARATOR										= "/";
 	public static final String	REQUEST_PARAMETER_SEPARATOR									= "?";
 	public static final String	MILLICOM_SECONDSCREEN_API_ENTITY_ID							= "entityId";
-	public static final String	MILLICOM_SECONDSCREEN_API_ENTITY_TYPE						= "entityType";
+	public static final String	MILLICOM_SECONDSCREEN_API_LIKETYPE							= "likeType";
 
 	public static final String	EMPTY_STRING												= "";
 	public static final String	ERROR_STRING												= "error";
@@ -157,6 +157,7 @@ public abstract class Consts {
 	public static final int		BAD_RESPONSE										= 400;
 	public static final int		BAD_RESPONSE_MISSING_TOKEN							= 401;
 	public static final int		BAD_RESPONSE_INVALID_TOKEN							= 403;
+	public static final int		BAD_RESPONSE_PROGRAM_SERIES_NOT_FOUND				= 400;
 
 	// notifications
 	public static final int		NOTIFY_MINUTES_BEFORE_THE_BROADCAST					= -15;
@@ -253,9 +254,24 @@ public abstract class Consts {
 	public static final String	DAZOO_GUIDE_BROADCASTS								= "broadcasts";
 
 	// DAZOO LIKE fields
-	public static final String	DAZOO_LIKE_ENTITY_ID								= "entityId";
-	public static final String	DAZOO_LIKE_ENTITY_TYPE								= "entityType";
-	public static final String	DAZOO_LIKE_ENTITY									= "entity";
+	public static final String	DAZOO_LIKE_ENTITYID									= "entityId";
+	public static final String	DAZOO_LIKE_LIKETYPE									= "likeType";
+	public static final String	DAZOO_LIKE_TYPE_SERIES								= "SERIES";
+	public static final String	DAZOO_LIKE_TYPE_PROGRAM								= "PROGRAM";
+	public static final String	DAZOO_LIKE_TYPE_SPORT_TYPE							= "SPORT_TYPE";
+	public static final String	DAZOO_LIKE_SERIES_SERIES_ID							= "seriesId";
+	public static final String	DAZOO_LIKE_SERIES_TITLE								= "title";
+	public static final String	DAZOO_LIKE_PROGRAM_PROGRAMID						= "programId";
+	public static final String	DAZOO_LIKE_PROGRAM_PROGRAMTYPE						= "programType";
+	public static final String	DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_OTHER				= "OTHER";
+	public static final String	DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_MOVIE				= "MOVIE";
+	public static final String	DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_OTHER_TITLE			= "title";
+	public static final String	DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_OTHER_CATEGORY		= "category";
+	public static final String	DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_MOVIE_TITLE			= "title";
+	public static final String	DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_MOVIE_GENRE			= "genre";
+	public static final String	DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_MOVIE_YEAR			= "year";
+	public static final String	DAZOO_LIKE_SPORT_TYPE_SPORTTYPEID					= "sportTypeId";
+	public static final String	DAZOO_LIKE_SPORT_TYPE_TITLE							= "title";
 
 	// DAZOO LIKE ENTITY fields
 	public static final String	DAZOO_LIKE_ENTITY_ENTITY_ID							= "_id";

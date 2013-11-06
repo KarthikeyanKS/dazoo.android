@@ -188,6 +188,10 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		mTags = DazooStore.getInstance().getTags();
 
 		// check if we have this data already
+		mViewPager.getAdapter().notifyDataSetChanged();
+		mViewPager.destroyDrawingCache();
+		
+		
 		setAdapter(mTabSelectedIndex);
 	}
 
@@ -235,17 +239,18 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	}
 
 	private void setAdapter(int selectedIndex) {
-		mAdapter = null;
+		//mAdapter = null;
+		
 		mAdapter = new TagTypeFragmentStatePagerAdapter(getSupportFragmentManager(), mTags, mTvDates.get(mDateSelectedIndex), mDateSelectedIndex);
-
-		mViewPager.setAdapter(mAdapter);
-
+		
 		mViewPager.setCurrentItem(selectedIndex);
+		
+		mViewPager.setAdapter(mAdapter);
 
 		mPageTabIndicator.notifyDataSetChanged();
 
 		mPageTabIndicator.setCurrentItem(selectedIndex);
-
+		
 		mViewPager.setVisibility(View.VISIBLE);
 		mPageTabIndicator.setVisibility(View.VISIBLE);
 	}

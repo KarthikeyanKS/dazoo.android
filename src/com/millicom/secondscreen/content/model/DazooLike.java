@@ -4,27 +4,18 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class DazooLike implements Parcelable{
-	private String entityId;
-	private String entityType;
+	private String likeType;
 	private DazooLikeEntity entity;
 	
 	public DazooLike(){
 	}
-
-	public void setEntityId(String entityId){
-		this.entityId = entityId;
+	
+	public void setLikeType(String likeType){
+		this.likeType = likeType;
 	}
 	
-	public String getEntityId(){
-		return this.entityId;
-	}
-	
-	public void setEntityType(String entityType){
-		this.entityType = entityType;
-	}
-	
-	public String getEntityType(){
-		return this.entityType;
+	public String getLikeType(){
+		return this.likeType;
 	}
 	
 	public void setEntity(DazooLikeEntity entity){
@@ -42,26 +33,13 @@ public class DazooLike implements Parcelable{
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(entityId);
-		dest.writeString(entityType);
+		dest.writeString(likeType);
 		dest.writeParcelable(entity, flags);
 	}
 	
 	public DazooLike(Parcel in){
-		entityId = in.readString();
-		entityType = in.readString();
+		likeType = in.readString();
 		entity = (DazooLikeEntity) in.readParcelable(DazooLikeEntity.class.getClassLoader());
-	}
-	
-	@Override
-	public boolean equals(Object o) {
-		if (o instanceof DazooLike) {
-			DazooLike other = (DazooLike) o;
-			if (getEntityId() != null && other.getEntityId() != null && getEntityId().equals(other.getEntityId())) {
-				return true;
-			}
-		}
-		return false;
 	}
 	
 	public static final Parcelable.Creator<DazooLike>	CREATOR	= new Parcelable.Creator<DazooLike>() {

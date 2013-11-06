@@ -99,7 +99,7 @@ public class LikesListAdapter extends BaseAdapter {
 			final DazooLikeEntity entity = like.getEntity();
 			if (entity != null) {
 				holder.mProgramTitleTv.setText(entity.getTitle());
-				holder.mProgramTypeTv.setText(entity.getEntityType());
+				holder.mProgramTypeTv.setText(like.getLikeType());
 
 				holder.mInformationContainer.setOnClickListener(new View.OnClickListener() {
 
@@ -114,8 +114,17 @@ public class LikesListAdapter extends BaseAdapter {
 					@Override
 					public void onClick(View v) {
 						currentPosition = (Integer) v.getTag();
+						String likeType  = like.getLikeType();
+						String likeId = null;
+						if(Consts.DAZOO_LIKE_TYPE_SERIES.equals(likeType)){
+							likeId = like.getEntity().getSeriesId();
+						} else if (Consts.DAZOO_LIKE_TYPE_PROGRAM.equals(likeType)){
+							likeId = like.getEntity().getProgramId();
+						}
+						//TODO LATER ADD SUPPORT FOR SPORT
+						
 						LikeDialogHandler likeDlg = new LikeDialogHandler();
-						likeDlg.showRemoveLikeDialog(mActivity, mToken, entity.getEntityId(), yesProc(), noProc());
+						likeDlg.showRemoveLikeDialog(mActivity, mToken, likeId, likeType, yesProc(), noProc());
 
 					}
 				});

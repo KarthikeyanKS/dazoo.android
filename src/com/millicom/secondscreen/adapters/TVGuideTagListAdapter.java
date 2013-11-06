@@ -34,18 +34,21 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 	private Activity			mActivity;
 	private ArrayList<Broadcast> mTaggedBroadcasts;
 	private ImageLoader			mImageLoader;
+	private int mCurrentPosition;
 
-	public TVGuideTagListAdapter(Activity activity, ArrayList<Broadcast> taggedBroadcasts) {
+	public TVGuideTagListAdapter(Activity activity, ArrayList<Broadcast> taggedBroadcasts, int currentPosition) {
 		this.mTaggedBroadcasts = taggedBroadcasts;
 		this.mActivity = activity;
 		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage);
+		this.mCurrentPosition = currentPosition;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 
-		final Broadcast broadcast = getItem(position);
+		// get the item with the displacement depending on the scheduled time on air
+		final Broadcast broadcast = getItem(mCurrentPosition + position);
 
 		// TODO: DIFFERENT ROW LAYOUTS DEPENDING ON THE TYPE OF THE BROADCAST
 		
@@ -60,7 +63,8 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 		
-		holder.title.setText(broadcast.getProgram().getTitle() + "  " + broadcast.getProgram().getProgramType());
+		holder.title.setText(broadcast.getProgram().getTitle() + "  " + broadcast.getProgram().getProgramType() + "   " +  broadcast.getBeginTime());
+		
 		try {
 			holder.time.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
 		} catch (ParseException e) {
@@ -78,7 +82,7 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 	@Override
 	public int getCount() {
 		if (mTaggedBroadcasts != null) {
-			return mTaggedBroadcasts.size();
+			return mTaggedBroadcasts.size() - mCurrentPosition;
 		} else {
 			return 0;
 		}

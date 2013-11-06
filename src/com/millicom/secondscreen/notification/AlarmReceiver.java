@@ -20,6 +20,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 		Broadcast broadcast = intent.getExtras().getParcelable(Consts.INTENT_EXTRA_BROADCAST);
 		Channel channel = intent.getExtras().getParcelable(Consts.INTENT_EXTRA_CHANNEL);
 		
+		Log.d(TAG,"Notification id: " + String.valueOf(notificationId));
+		
 		Log.d(TAG,"What notification knows:" + broadcast.getBeginTime() + " channel " + channel.getChannelId());
 		Log.d(TAG,"Program: " + broadcast.getProgram().getProgramId());
 		

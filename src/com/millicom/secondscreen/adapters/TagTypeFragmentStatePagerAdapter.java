@@ -10,8 +10,11 @@ import com.millicom.secondscreen.content.tvguide.TVGuideTagTypeFragment;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 
 public class TagTypeFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
 
@@ -25,20 +28,22 @@ public class TagTypeFragmentStatePagerAdapter extends FragmentStatePagerAdapter 
 		this.mTags = tags;
 		this.mTvDate = tvDate;
 		this.mDatePosition = datePosition;
-		Log.d(TAG,"!!!!!!!!!!!!!!!!!!! IN ADAPTER: DATE: " + tvDate.getDate());
 	}
 
 	@Override
 	public Fragment getItem(int position) {
 		position = LoopViewPager.toRealPosition(position, getCount());
-		Fragment fragment;
 		if (position == 0) {
-			Log.d(TAG,"TableFragment: Position: " + position + " TAG: " + mTags.get(position).getName() + " DATE: " + mTvDate.getDate());
-			return fragment = TVGuideTableFragment.newInstance(mTags.get(position), mTvDate, mDatePosition);
+			return TVGuideTableFragment.newInstance(mTags.get(position), mTvDate, mDatePosition);
 		} else {
-			Log.d(TAG,"TagTypeFragment: Position: " + position + " TAG: " + mTags.get(position).getName() + " DATE: " + mTvDate.getDate());
-			return fragment = TVGuideTagTypeFragment.newInstance(mTags.get(position), mTvDate, mDatePosition);
+			return TVGuideTagTypeFragment.newInstance(mTags.get(position), mTvDate, mDatePosition);
 		}
+	}
+	
+	@Override
+	public void destroyItem(ViewGroup container, int position, Object object) {
+		Log.d(TAG,"POSITION: " + position);
+		super.destroyItem(container, position, object);
 	}
 
 	@Override

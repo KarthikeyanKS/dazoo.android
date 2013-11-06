@@ -108,7 +108,7 @@ public class RemindersListAdapter extends BaseAdapter {
 				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 					holder.mBroadcastDetailsTv.setText(program.getSeason() + ", " + String.valueOf(program.getEpisodeNumber()));
 				} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
-					holder.mBroadcastDetailsTv.setText(program.getYear());
+					holder.mBroadcastDetailsTv.setText("" + String.valueOf(program.getYear()));
 				}
 			}
 
