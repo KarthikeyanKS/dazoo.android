@@ -184,34 +184,42 @@ public class DazooStore {
 		return this.mMyGuides;
 	}
 
-	public Guide getChannelGuideFromDefault(TvDate tvDate, String channelId) {
+	public Guide getChannelGuideFromDefault(String tvDate, String channelId) {
 		GuideKey currentKey = new GuideKey();
 		currentKey.setDate(tvDate);
 		currentKey.setChannelId(channelId);
 
 		for (Entry<GuideKey, Guide> entry : mGuides.entrySet()) {
-			if ((entry.getKey().getChannelId().equals(currentKey.getChannelId())) && (entry.getKey().getDate().getDate().equals(currentKey.getDateDate()))) {
+			//Log.d(TAG,"////////////////// GET CHANNEL GUIDE FROM DEFAULT ///////////////");
+			
+			if ((entry.getKey().getChannelId().equals(currentKey.getChannelId())) & (entry.getKey().getDate().equals(currentKey.getDate()))) {
+				Log.d(TAG,"search key: " + currentKey.getChannelId() + "  " + currentKey.getDate());
+				Log.d(TAG,"entry key: " + entry.getKey().getChannelId() + " " + entry.getKey().getDate());
+				
 				// found the guide by date and tag
+				if(entry.getValue().getBroadcasts().size()>0){
+				Log.d(TAG,"!!!!!!!" + entry.getValue().getBroadcasts().get(0).getBeginTime());
+				}
 				return entry.getValue();
 			}
 		}
 		return null;
 	}
 
-	public Guide getChannelGuideFromMy(TvDate tvDate, String channelId) {
+	public Guide getChannelGuideFromMy(String tvDate, String channelId) {
 		GuideKey currentKey = new GuideKey();
 		currentKey.setDate(tvDate);
 		currentKey.setChannelId(channelId);
 
 		for (Entry<GuideKey, Guide> entry : mMyGuides.entrySet()) {
-			if ((entry.getKey().getChannelId().equals(currentKey.getChannelId())) && (entry.getKey().getDate().getDate().equals(currentKey.getDateDate()))) {
+			if ((entry.getKey().getChannelId().equals(currentKey.getChannelId())) && (entry.getKey().getDate().equals(currentKey.getDate()))) {
 				return entry.getValue();
 			}
 		}
 		return null;
 	}
 
-	public ArrayList<Guide> getMyGuideTable(TvDate tvDate) {
+	public ArrayList<Guide> getMyGuideTable(String tvDate) {
 		ArrayList<Guide> myGuideTable = new ArrayList<Guide>();
 		int size = mMyChannelIds.size();
 		for (int i = 0; i < size; i++) {
@@ -223,13 +231,14 @@ public class DazooStore {
 		return myGuideTable;
 	}
 
-	public ArrayList<Guide> getGuideTable(TvDate tvDate) {
+	public ArrayList<Guide> getGuideTable(String tvDate) {
 		ArrayList<Guide> guideTable = new ArrayList<Guide>();
 		int size = mDefaultChannelIds.size();
 		for (int i = 0; i < size; i++) {
 			Guide guide = getChannelGuideFromDefault(tvDate, mDefaultChannelIds.get(i));
 			if (guide != null) {
 				guideTable.add(guide);
+
 			}
 		}
 		return guideTable;
@@ -249,15 +258,22 @@ public class DazooStore {
 		broadcastKey.setDate(date);
 		broadcastKey.setTag(tag);
 		
+		
+		
 		for (Entry<BroadcastKey, ArrayList<Broadcast>> entry : mTaggedBroadcasts.entrySet()) {
-			if (entry.getKey().equals(broadcastKey)) {
+			Log.d(TAG,"search key: " + broadcastKey.getDate().getDate() + "   "+ broadcastKey.getTag().getName());
+			Log.d(TAG,"entry KEY: " + entry.getKey().getDate().getDate() + "  " +entry.getKey().getTag().getName());
+			
+			if (entry.getKey().getDate().getDate().equals(broadcastKey.getDate().getDate()) &&
+					entry.getKey().getTag().getName().equals(broadcastKey.getTag().getName())) {
+				//Log.d(TAG,"value: " + entry.getValue().get(0).getBeginTime());
 				return entry.getValue();
 			}
 		}
 		return null;
 	}
 
-	public Broadcast getBroadcastFromDefault(TvDate date, String channelId, long beginTimeInMillis) {
+	public Broadcast getBroadcastFromDefault(String date, String channelId, long beginTimeInMillis) {
 		Guide channelGuide = getChannelGuideFromDefault(date, channelId);
 		ArrayList<Broadcast> channelBroadcasts = channelGuide.getBroadcasts();
 		int size = channelBroadcasts.size();
@@ -271,7 +287,7 @@ public class DazooStore {
 		return null;
 	}
 
-	public Broadcast getBroadcastFromMy(TvDate date, String channelId, long beginTimeInMillis) {
+	public Broadcast getBroadcastFromMy(String date, String channelId, long beginTimeInMillis) {
 		Guide myChannelGuide = getChannelGuideFromMy(date, channelId);
 		ArrayList<Broadcast> myChannelBroadcasts = myChannelGuide.getBroadcasts();
 		int size = myChannelBroadcasts.size();

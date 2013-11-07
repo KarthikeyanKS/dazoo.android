@@ -89,10 +89,10 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 		if (token != null && TextUtils.isEmpty(token) != true) {
 			mIsLoggedIn = true;
 			mChannel = dazooStore.getChannelFromAll(mChannelId);
-			mChannelGuide = dazooStore.getChannelGuideFromMy(mDateTvGuide, mChannelId);
+			mChannelGuide = dazooStore.getChannelGuideFromMy(mDateTvGuide.getDate(), mChannelId);
 		} else {
 			mChannel = dazooStore.getChannelFromDefault(mChannelId);
-			mChannelGuide = dazooStore.getChannelGuideFromDefault(mDateTvGuide, mChannelId);
+			mChannelGuide = dazooStore.getChannelGuideFromDefault(mDateTvGuide.getDate(), mChannelId);
 		}
 
 		mBroadcasts = mChannelGuide.getBroadcasts();
@@ -120,9 +120,9 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 			mIsReady = intent.getBooleanExtra(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE_VALUE, false);
 			if (mIsReady) {
 				if (mIsLoggedIn) {
-					mChannelGuide = dazooStore.getChannelGuideFromMy(mTvDateSelected, mChannelId);
+					mChannelGuide = dazooStore.getChannelGuideFromMy(mTvDateSelected.getDate(), mChannelId);
 				} else {
-					mChannelGuide = dazooStore.getChannelGuideFromDefault(mTvDateSelected, mChannelId);
+					mChannelGuide = dazooStore.getChannelGuideFromDefault(mTvDateSelected.getDate(), mChannelId);
 				}
 				mBroadcasts = mChannelGuide.getBroadcasts();
 				mFollowingBroadcasts = null;
@@ -154,9 +154,9 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 		mChannelGuide = null;
 		mBroadcasts = null;
 		if (mIsLoggedIn) {
-			mChannelGuide = dazooStore.getChannelGuideFromMy(mTvDateSelected, mChannelId);
+			mChannelGuide = dazooStore.getChannelGuideFromMy(mTvDateSelected.getDate(), mChannelId);
 		} else {
-			mChannelGuide = dazooStore.getChannelGuideFromDefault(mTvDateSelected, mChannelId);
+			mChannelGuide = dazooStore.getChannelGuideFromDefault(mTvDateSelected.getDate(), mChannelId);
 		}
 
 		if (mChannelGuide != null) {

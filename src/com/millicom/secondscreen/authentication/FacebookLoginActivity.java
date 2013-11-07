@@ -33,7 +33,6 @@ import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
-import com.millicom.secondscreen.content.homepage.HomePageActivity;
 import com.millicom.secondscreen.utilities.JSONUtilities;
 
 import android.app.Activity;

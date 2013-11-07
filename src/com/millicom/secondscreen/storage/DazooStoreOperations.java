@@ -3,6 +3,8 @@ package com.millicom.secondscreen.storage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 import android.util.Log;
 
@@ -13,8 +15,8 @@ import com.millicom.secondscreen.content.model.Tag;
 import com.millicom.secondscreen.content.model.TvDate;
 
 public class DazooStoreOperations {
-	
-	private static final String TAG = "DazooStoreOperations";
+
+	private static final String	TAG	= "DazooStoreOperations";
 
 	public static void saveDefaultChannels(ArrayList<Channel> defaultChannels) {
 		HashMap<String, Channel> defaultChannelsMap = new HashMap<String, Channel>();
@@ -69,17 +71,25 @@ public class DazooStoreOperations {
 		dazooStore.setTags(tags);
 	}
 
-	public static void saveGuide(Guide guide, TvDate tvDate, String channelId) {
+	public static boolean saveGuide(Guide guide, String tvDate, String channelId) {
 		DazooStore dazooStore = DazooStore.getInstance();
 		HashMap<GuideKey, Guide> guides = dazooStore.getGuides();
+		Log.d(TAG, "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+		Log.d(TAG, "guides size: " + guides.size());
+
 		GuideKey guideKey = new GuideKey();
 		guideKey.setDate(tvDate);
 		guideKey.setChannelId(channelId);
+		
 		guides.put(guideKey, guide);
 		dazooStore.setGuides(guides);
+
+		Log.d(TAG, "guides size after: " + guides.size());
+		Log.d(TAG, "" + dazooStore.getGuides().size());
+		return true;
 	}
 
-	public static void saveMyGuide(Guide guide, TvDate tvDate, String channelId) {
+	public static void saveMyGuide(Guide guide, String tvDate, String channelId) {
 		DazooStore dazooStore = DazooStore.getInstance();
 		HashMap<GuideKey, Guide> myGuides = dazooStore.getMyGuides();
 
@@ -90,19 +100,22 @@ public class DazooStoreOperations {
 		dazooStore.setMyGuides(myGuides);
 	}
 
-	public static boolean saveGuides(ArrayList<Guide> guide, TvDate tvDate) {
+	public static boolean saveGuides(ArrayList<Guide> guide, String tvDate) {
 		int size = guide.size();
 		boolean success = false;
 		for (int i = 0; i < size; i++) {
 			String channelId = guide.get(i).getId();
 			Guide guideToSave = guide.get(i);
+			Log.d(TAG, "saveGuides: guide to save: " + guideToSave.getName() + "  " + guideToSave.getBroadcasts().size());
+			Log.d(TAG, "saveGuides: date: " + tvDate);
+
 			saveGuide(guideToSave, tvDate, channelId);
 			success = true;
 		}
 		return success;
 	}
 
-	public static boolean saveMyGuides(ArrayList<Guide> myGuide, TvDate tvDate) {
+	public static boolean saveMyGuides(ArrayList<Guide> myGuide, String tvDate) {
 		int size = myGuide.size();
 		boolean success = false;
 		for (int j = 0; j < size; j++) {
@@ -139,30 +152,41 @@ public class DazooStoreOperations {
 	}
 
 	// filtering guides by tags
-	public static ArrayList<Broadcast> getTaggedBroadcasts(TvDate date, Tag tag) {
+	public static ArrayList<Broadcast> getTaggedBroadcasts(String date, Tag tag) {
 		DazooStore dazooStore = DazooStore.getInstance();
 		ArrayList<Guide> guideTable = dazooStore.getGuideTable(date);
+		Log.d(TAG, "guide table broadcasts size: " + guideTable.size());
+		Log.d(TAG, "GET TAGGED BROADCASTS ");
+		Log.d(TAG, "TAG: " + tag.getName());
+		Log.d(TAG, "DATE: " + date);
 		String tagName = tag.getName();
 
 		ArrayList<Broadcast> taggedBroadcasts = new ArrayList<Broadcast>();
 		int guideTableSize = guideTable.size();
 		for (int i = 0; i < guideTableSize; i++) {
-			ArrayList<Broadcast> oneGuideBroadcasts = guideTable.get(i).getBroadcasts();
+			ArrayList<Broadcast> oneGuideBroadcasts = new ArrayList<Broadcast>();
+			// Log.d(TAG,"One guide broadcasts: " + oneGuideBroadcasts.size());
+			oneGuideBroadcasts = guideTable.get(i).getBroadcasts();
+			// Log.d(TAG,"One guide broadcasts AFTER:" + oneGuideBroadcasts.size());
+
 			int oneGuideBroadcastsSize = oneGuideBroadcasts.size();
 			for (int j = 0; j < oneGuideBroadcastsSize; j++) {
 				if (oneGuideBroadcasts.get(j).getProgram().getTags().contains(tagName)) {
+					// Log.d(TAG,"" + oneGuideBroadcasts.get(j).getBeginTime());
 					taggedBroadcasts.add(oneGuideBroadcasts.get(j));
 				}
 			}
 		}
-		
+		Log.d(TAG, "//////////////////////////////// SELECTED:");
+		Log.d(TAG, "" + taggedBroadcasts.size());
+
 		// sort by broadcast time
 		Collections.sort(taggedBroadcasts, new Broadcast.BroadcastComparatorByTime());
 
 		return taggedBroadcasts;
 	}
 
-	public static ArrayList<Broadcast> getMyTaggedBroadcasts(TvDate date, Tag tag) {
+	public static ArrayList<Broadcast> getMyTaggedBroadcasts(String date, Tag tag) {
 		DazooStore dazooStore = DazooStore.getInstance();
 		ArrayList<Guide> guideTable = dazooStore.getMyGuideTable(date);
 		String tagName = tag.getName();

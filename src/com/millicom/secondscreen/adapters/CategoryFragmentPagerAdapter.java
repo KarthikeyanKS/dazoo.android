@@ -55,6 +55,7 @@ public abstract class CategoryFragmentPagerAdapter extends FragmentStatePagerAda
 	public void destroyItem(ViewGroup container, int position, Object object) {
 		super.destroyItem(container, position, object);
 		mPageReferenceMap.remove(Integer.valueOf(position));
+		Log.d(TAG,"destroy: " + position);
 	}
 
 	public Fragment getFragment(int key) {
@@ -72,7 +73,7 @@ public abstract class CategoryFragmentPagerAdapter extends FragmentStatePagerAda
 
 	@Override
 	public int getItemPosition(Object object) {
-
+		
 		// Have to return this, otherwise notifyDatasetChanged(); won't have any effect
 		return POSITION_NONE;
 	}

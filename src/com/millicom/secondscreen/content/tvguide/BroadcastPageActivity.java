@@ -96,7 +96,7 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 		if (token != null && token.isEmpty() != true) {
 			mIsLoggedIn = true;
-			mBroadcast = dazooStore.getBroadcastFromMy(mTvDate, mChannelId, mBeginTimeInMillis);
+			mBroadcast = dazooStore.getBroadcastFromMy(mTvDate.getDate(), mChannelId, mBeginTimeInMillis);
 			mChannel = dazooStore.getChannelFromAll(mChannelId);
 
 			if (mBroadcast == null) {
@@ -126,7 +126,7 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 				}
 			}
 		} else {
-			mBroadcast = dazooStore.getBroadcastFromDefault(mTvDate, mChannelId, mBeginTimeInMillis);
+			mBroadcast = dazooStore.getBroadcastFromDefault(mTvDate.getDate(), mChannelId, mBeginTimeInMillis);
 			mChannel = dazooStore.getChannelFromDefault(mChannelId);
 
 			if (mBroadcast == null) {

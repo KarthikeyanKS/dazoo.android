@@ -2,7 +2,6 @@ package com.millicom.secondscreen.authentication;
 
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
-import com.millicom.secondscreen.content.homepage.HomePageActivity;
 import com.millicom.secondscreen.content.myprofile.MyChannelsActivity;
 
 import android.content.Intent;

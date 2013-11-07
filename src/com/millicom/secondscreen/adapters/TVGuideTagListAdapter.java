@@ -22,6 +22,8 @@ import com.millicom.secondscreen.adapters.TVGuideListAdapter.ViewHolder;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.Guide;
+import com.millicom.secondscreen.content.model.TvDate;
+import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
 import com.millicom.secondscreen.content.tvguide.ChannelPageActivity;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
@@ -35,12 +37,14 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 	private ArrayList<Broadcast> mTaggedBroadcasts;
 	private ImageLoader			mImageLoader;
 	private int mCurrentPosition;
-
-	public TVGuideTagListAdapter(Activity activity, ArrayList<Broadcast> taggedBroadcasts, int currentPosition) {
+	private TvDate mDate;
+	
+	public TVGuideTagListAdapter(Activity activity, ArrayList<Broadcast> taggedBroadcasts, int currentPosition, TvDate date) {
 		this.mTaggedBroadcasts = taggedBroadcasts;
 		this.mActivity = activity;
 		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage);
 		this.mCurrentPosition = currentPosition;
+		this.mDate = date;
 	}
 
 	@Override
@@ -58,11 +62,13 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 			ViewHolder viewHolder = new ViewHolder();
 			viewHolder.title = (TextView) rowView.findViewById(R.id.tvguide_tag_list_item_name_tv);
 			viewHolder.time = (TextView) rowView.findViewById(R.id.tvguide_tag_list_item_time_tv);
+			viewHolder.mContainer = (RelativeLayout) rowView.findViewById(R.id.tvguide_tag_list_item_container);
 			rowView.setTag(viewHolder);
 		}
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 		
+		if(broadcast!=null){
 		holder.title.setText(broadcast.getProgram().getTitle() + "  " + broadcast.getProgram().getProgramType() + "   " +  broadcast.getBeginTime());
 		
 		try {
@@ -70,11 +76,33 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		} else {
+			holder.title.setText("");
+			holder.time.setText("");
+		}
+		
+		holder.mContainer.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
+				intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
+				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
+				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, mDate);
+
+
+				mActivity.startActivity(intent);
+				mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			}
+		});
+
 	
 		return rowView;
 	}
 
 	static class ViewHolder {
+		RelativeLayout mContainer;
 		TextView title;
 		TextView time;
 	}

@@ -100,49 +100,51 @@ public class DazooCore {
 	}
 
 	// prepare tagged broadcasts for the specific date
-	private static void prepareTaggedContent(TvDate date) {
-		Log.d(TAG,"!!!!!!!!!!!!!!!!!!!!!!!!!!!! PREPARE TAGGED CONTENT!!!!!");
+	private static boolean prepareTaggedContent(TvDate date) {
+		Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!! PREPARE TAGGED CONTENT!!!!!");
 		if (mTags != null && mTags.isEmpty() != true) {
 			if (mGuides != null && mGuides.isEmpty() != true) {
 
 				Log.d(TAG, "PREPARE TAGGED CONTENT");
 				for (int i = 1; i < mTags.size(); i++) {
-					Log.d(TAG,"tag: " + mTags.get(i).getName());
-					ArrayList<Broadcast> taggedBroadcasts = DazooStoreOperations.getTaggedBroadcasts(date, mTags.get(i));
-					
-					Log.d(TAG,"Size of taggedBroadcasts: " + taggedBroadcasts.size());
-					
+					Log.d(TAG, "tag: " + mTags.get(i).getName());
+					Log.d(TAG,"date; " + date.getDate());
+					ArrayList<Broadcast> taggedBroadcasts = DazooStoreOperations.getTaggedBroadcasts(date.getDate(), mTags.get(i));
+
+					Log.d(TAG, "Size of taggedBroadcasts: " + taggedBroadcasts.size());
+
 					DazooStoreOperations.saveTaggedBroadcast(date, mTags.get(i), taggedBroadcasts);
 
 				}
+
 				// notify responsible fragments that the data is there
-				LocalBroadcastManager.getInstance(mContext).sendBroadcast(
-						new Intent(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE_VALUE, true));
+				LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE_VALUE, true));
+				return true;
 			}
 		}
+		return false;
 	}
 
 	// task to get the individual broadcast
-	private static class GetBroadcast extends AsyncTask<String, String, Void>{
+	private static class GetBroadcast extends AsyncTask<String, String, Void> {
 
 		@Override
 		protected Void doInBackground(String... params) {
-			SSBroadcastPage.getInstance().getPage(params[0], new SSPageCallback(){
+			SSBroadcastPage.getInstance().getPage(params[0], new SSPageCallback() {
 
 				@Override
 				public void onGetPageResult(SSPageGetResult pageGetResult) {
 					Broadcast broadcast = SSBroadcastPage.getInstance().getBroadcast();
-					
-					
+
 				}
-				
+
 			});
-			
+
 			return null;
 		}
-		
+
 	}
-	
+
 	// task to get the tv-dates
 	private static class GetTvDates extends AsyncTask<String, String, Void> {
 
@@ -254,15 +256,15 @@ public class DazooCore {
 
 		private TvDate	mDate;
 		private boolean	mIsChannel;
-		
-		public GetGuide(TvDate date, boolean isChannel){
+
+		public GetGuide(TvDate date, boolean isChannel) {
 			this.mDate = date;
 			this.mIsChannel = isChannel;
 		}
 
 		@Override
 		protected Void doInBackground(Context... params) {
-		
+
 			// get guide for the date
 			String guidePageUrl = null;
 			if (token != null && TextUtils.isEmpty(token) != true) {
@@ -282,46 +284,53 @@ public class DazooCore {
 
 					if (mGuides != null && mGuides.isEmpty() != true) {
 						if (token != null && TextUtils.isEmpty(token) != true) {
-							if (DazooStoreOperations.saveMyGuides(mGuides, mDate)) {
+							if (DazooStoreOperations.saveMyGuides(mGuides, mDate.getDate())) {
 
-								prepareTaggedContent(mDate);
-								
-								if (mIsChannel) {
-									// notify the ChannelPageActivity that the guide is available and UI may be updated
-									LocalBroadcastManager.getInstance(mContext).sendBroadcast(
-											new Intent(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE_VALUE, true));
+								if (prepareTaggedContent(mDate)) {
 
-								} else {
-									// notify the HomeActivity that the guide is available and UI may be updated
-									LocalBroadcastManager.getInstance(mContext)
-									.sendBroadcast(new Intent(Consts.INTENT_EXTRA_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, true));
+									if (mIsChannel) {
+										// notify the ChannelPageActivity that the guide is available and UI may be updated
+										LocalBroadcastManager.getInstance(mContext).sendBroadcast(
+												new Intent(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE_VALUE, true));
+
+									} else {
+										// notify the HomeActivity that the guide is available and UI may be updated
+										LocalBroadcastManager.getInstance(mContext).sendBroadcast(
+												new Intent(Consts.INTENT_EXTRA_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, true));
+									}
+									// prepare tagged broadcasts for the current date
+									// prepareTaggedContent(mDate);
+
 								}
-								// prepare tagged broadcasts for the current date
-								// prepareTaggedContent(mDate);
-
 							}
 						} else {
-							if (DazooStoreOperations.saveGuides(mGuides, mDate)) {
-								
-								prepareTaggedContent(mDate);
+							Log.d(TAG,"=========================================");
+						//	Log.d(TAG,"mGuides date: " + mGuides.get(0).getBroadcasts().get(0).getBeginTime());
+							Log.d(TAG,"=========================================");
+							
+							if (DazooStoreOperations.saveGuides(mGuides, mDate.getDate())) {
 
-								if (mIsChannel) {
-									// notify the ChannelPageActivity that the guide is available and UI may be updated
-									LocalBroadcastManager.getInstance(mContext).sendBroadcast(
-											new Intent(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE_VALUE, true));
+								if (prepareTaggedContent(mDate)) {
 
-								} else {
-									// notify the HomeActivity that the guide is available and UI may be updated
-									LocalBroadcastManager.getInstance(mContext)
-									.sendBroadcast(new Intent(Consts.INTENT_EXTRA_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, true));
+									if (mIsChannel) {
+										// notify the ChannelPageActivity that the guide is available and UI may be updated
+										LocalBroadcastManager.getInstance(mContext).sendBroadcast(
+												new Intent(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE_VALUE, true));
+
+									} else {
+										// notify the HomeActivity that the guide is available and UI may be updated
+										LocalBroadcastManager.getInstance(mContext).sendBroadcast(
+												new Intent(Consts.INTENT_EXTRA_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, true));
+									}
+									// prepare tagged broadcasts for the current date
+									// prepareTaggedContent(mDate);
 								}
-								// prepare tagged broadcasts for the current date
-								// prepareTaggedContent(mDate);
 							}
 						}
 					}
 				}
 			});
+			mGuides = null;
 			return null;
 		}
 
@@ -338,20 +347,19 @@ public class DazooCore {
 		}
 	}
 
-	public boolean filterGuideByTag(TvDate tvDate, Tag tag) {
-		ArrayList<Broadcast> taggedBroadcasts = DazooStoreOperations.getTaggedBroadcasts(tvDate, tag);
+	public static boolean filterGuideByTag(TvDate tvDate, Tag tag) {
+		ArrayList<Broadcast> taggedBroadcasts = DazooStoreOperations.getTaggedBroadcasts(tvDate.getDate(), tag);
 		if (taggedBroadcasts != null && taggedBroadcasts.isEmpty() != true) {
 			DazooStoreOperations.saveTaggedBroadcast(tvDate, tag, taggedBroadcasts);
-			
+
 			// notify responsible fragments that the data is there
-				LocalBroadcastManager.getInstance(mContext).sendBroadcast(
-						new Intent(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE_VALUE, true));
-			
+			LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE_VALUE, true));
+
 			return true;
 		} else return false;
 	}
 
-	public boolean filterGuides(TvDate tvDate, int count) {
+	public static boolean filterGuides(TvDate tvDate, int count) {
 		ArrayList<Tag> tags = DazooStore.getInstance().getTags();
 		boolean result = false;
 		for (int i = 1; i < count; i++) {
@@ -371,14 +379,13 @@ public class DazooCore {
 		return result;
 	}
 
-	public boolean filterMyGuideByTag(TvDate tvDate, Tag tag) {
-		ArrayList<Broadcast> myTaggedBroadcasts = DazooStoreOperations.getMyTaggedBroadcasts(tvDate, tag);
+	public static boolean filterMyGuideByTag(TvDate tvDate, Tag tag) {
+		ArrayList<Broadcast> myTaggedBroadcasts = DazooStoreOperations.getMyTaggedBroadcasts(tvDate.getDate(), tag);
 		if (myTaggedBroadcasts != null && myTaggedBroadcasts.isEmpty() != true) {
 			DazooStoreOperations.saveMyTaggedBroadcast(tvDate, tag, myTaggedBroadcasts);
-			
+
 			// notify responsible fragments that the data is there
-			LocalBroadcastManager.getInstance(mContext).sendBroadcast(
-					new Intent(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE_VALUE, true));
+			LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE_VALUE, true));
 			return true;
 		} else return false;
 	}

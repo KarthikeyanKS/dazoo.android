@@ -7,7 +7,7 @@ import com.millicom.secondscreen.content.model.TvDate;
 
 public class GuideKey implements Parcelable{
 	
-	TvDate date;
+	String date;
 	String channelId;
 	
 	public GuideKey(){
@@ -15,28 +15,12 @@ public class GuideKey implements Parcelable{
 
 	// Date component
 	
-	public void setDate(TvDate date){
+	public void setDate(String date){
 		this.date = date;
 	}
 	
-	public TvDate getDate(){
+	public String getDate(){
 		return this.date;
-	}
-	
-	public String getDateName(){
-		return this.date.getName();
-	}
-	
-	public String getDateDate(){
-		return this.date.getDate();
-	}
-	
-	public String getDateAlias(){
-		return this.date.getAlias();
-	}
-	
-	public String getDateId(){
-		return this.date.getId();
 	}
 	
 	// Channel component
@@ -53,7 +37,9 @@ public class GuideKey implements Parcelable{
 	public boolean equals(Object o) {
 		if (o instanceof GuideKey) {
 			GuideKey other = (GuideKey) o;
-			if (getDateDate() != null && other.getDateDate() != null && getChannelId().equals(other.getChannelId())) {
+			if (getDate() != null && other.getDate() != null 
+					&& getDate().equals(other.getDate())
+					&& getChannelId().equals(other.getChannelId())) {
 				return true;
 			}
 		}
@@ -61,7 +47,7 @@ public class GuideKey implements Parcelable{
 	}
 	
 	public GuideKey(Parcel in){
-		date = (TvDate) in.readParcelable(TvDate.class.getClassLoader());
+		date = in.readString();
 		channelId = in.readString();
 	}
 	
@@ -73,7 +59,7 @@ public class GuideKey implements Parcelable{
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeParcelable(date, flags);
+		dest.writeString(date);
 		dest.writeString(channelId);
 	}
 }
