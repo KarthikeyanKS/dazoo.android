@@ -87,12 +87,28 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 		// broadcasst receiver for content availability
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverContent, new IntentFilter(Consts.INTENT_EXTRA_GUIDE_AVAILABLE));
+		
+		//broadcast receiver for my channels have changed
+		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverMyChannels, new IntentFilter(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
 
 		initViews();
 
 		loadPage();
 	}
 
+	BroadcastReceiver mBroadcastReceiverMyChannels = new BroadcastReceiver(){
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			Log.d(TAG,"CHANNELS HAVE CHANGED!!!!");
+			// update the ViewPager content
+			mViewPager.setVisibility(View.GONE);
+			// mPageTabIndicator.setVisibility(View.GONE);
+			updateUI(REQUEST_STATUS.LOADING);
+			setAdapter(mTabSelectedIndex);
+		}		
+	};
+	
 	BroadcastReceiver	mBroadcastReceiverContent	= new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {

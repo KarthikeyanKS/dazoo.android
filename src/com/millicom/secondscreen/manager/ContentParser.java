@@ -153,7 +153,6 @@ public class ContentParser {
 	}
 
 	public Broadcast parseBroadcast(JSONObject jsonBroadcast) throws Exception {
-		Log.d(TAG,"" + jsonBroadcast);
 		Broadcast broadcast = new Broadcast();
 		broadcast.setBeginTime(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_BEGIN_TIME));
 		broadcast.setEndTime(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_END_TIME));

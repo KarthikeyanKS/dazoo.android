@@ -47,6 +47,7 @@ import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
@@ -213,6 +214,8 @@ public class MyChannelsActivity extends ActionBarActivity implements MyChannelsC
 				DazooStore.getInstance().clearMyGuidesStorage();
 				// update the my channels list
 				MyChannelsService.getMyChannels(userToken);
+				LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
+				
 				
 			} else {
 				Toast.makeText(getApplicationContext(), "Error! List of channels is NOT updated!", Toast.LENGTH_SHORT).show();
