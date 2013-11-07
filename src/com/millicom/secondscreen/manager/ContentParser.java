@@ -153,6 +153,7 @@ public class ContentParser {
 	}
 
 	public Broadcast parseBroadcast(JSONObject jsonBroadcast) throws Exception {
+		Log.d(TAG,"" + jsonBroadcast);
 		Broadcast broadcast = new Broadcast();
 		broadcast.setBeginTime(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_BEGIN_TIME));
 		broadcast.setEndTime(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_END_TIME));
@@ -279,7 +280,6 @@ public class ContentParser {
 				try {
 					jsonObject = jsonArray.getJSONObject(i);
 					channelIds.add(jsonObject.optString(Consts.DAZOO_CHANNEL_CHANNEL_ID));
-					Log.d(TAG, jsonObject.optString(Consts.DAZOO_CHANNEL_CHANNEL_ID));
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}

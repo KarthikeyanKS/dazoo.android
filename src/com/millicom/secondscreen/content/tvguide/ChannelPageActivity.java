@@ -250,7 +250,7 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 
 				intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, mFollowingBroadcasts.get(position).getBeginTimeMillis());
 				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, mChannel.getChannelId());
-				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, mTvDateSelected);
+				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, mTvDateSelected.getDate());
 
 				startActivity(intent);
 				overridePendingTransition(R.anim.slide_in, R.anim.slide_out);

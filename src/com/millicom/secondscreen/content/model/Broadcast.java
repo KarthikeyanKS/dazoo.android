@@ -184,7 +184,7 @@ public class Broadcast implements Parcelable {
 			e.printStackTrace();
 		}
 
-		int nearestIndex = -1;
+		int nearestIndex = 0;
 		long bestDistanceFoundYet = Long.MAX_VALUE;
 		for (int i = 0; i < broadcastList.size(); i++) {
 			long timeBroadcast = 0;

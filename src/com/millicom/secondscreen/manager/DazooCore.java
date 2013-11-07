@@ -96,7 +96,6 @@ public class DazooCore {
 			GetDefaultChannels defaultChannelsTask = new GetDefaultChannels();
 			defaultChannelsTask.execute();
 		}
-
 	}
 
 	// prepare tagged broadcasts for the specific date
@@ -104,11 +103,9 @@ public class DazooCore {
 		Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!! PREPARE TAGGED CONTENT!!!!!");
 		if (mTags != null && mTags.isEmpty() != true) {
 			if (mGuides != null && mGuides.isEmpty() != true) {
-
-				Log.d(TAG, "PREPARE TAGGED CONTENT");
 				for (int i = 1; i < mTags.size(); i++) {
 					Log.d(TAG, "tag: " + mTags.get(i).getName());
-					Log.d(TAG,"date; " + date.getDate());
+					Log.d(TAG, "date; " + date.getDate());
 					ArrayList<Broadcast> taggedBroadcasts = DazooStoreOperations.getTaggedBroadcasts(date.getDate(), mTags.get(i));
 
 					Log.d(TAG, "Size of taggedBroadcasts: " + taggedBroadcasts.size());
@@ -123,26 +120,6 @@ public class DazooCore {
 			}
 		}
 		return false;
-	}
-
-	// task to get the individual broadcast
-	private static class GetBroadcast extends AsyncTask<String, String, Void> {
-
-		@Override
-		protected Void doInBackground(String... params) {
-			SSBroadcastPage.getInstance().getPage(params[0], new SSPageCallback() {
-
-				@Override
-				public void onGetPageResult(SSPageGetResult pageGetResult) {
-					Broadcast broadcast = SSBroadcastPage.getInstance().getBroadcast();
-
-				}
-
-			});
-
-			return null;
-		}
-
 	}
 
 	// task to get the tv-dates
@@ -211,7 +188,7 @@ public class DazooCore {
 					mAllChannels = SSChannelPage.getInstance().getChannels();
 
 					if (mAllChannels != null && mAllChannels.isEmpty() != true) {
-						Log.d(TAG, "mAllChannels: " + mAllChannels.size());
+						Log.d(TAG, "ALL Channels: " + mAllChannels.size());
 						// store the list channels (used in the my profile/my guide)
 						DazooStoreOperations.saveAllChannels(mAllChannels);
 						mIsAllChannels = true;
@@ -230,11 +207,9 @@ public class DazooCore {
 
 		@Override
 		protected Void doInBackground(String... params) {
-			Log.d(TAG, "GET DEFAULT CHANNELS");
 			SSChannelPage.getInstance().getPage(Consts.MILLICOM_SECONDSCREEN_CHANNELS_DEFAULT_PAGE_URL, new SSPageCallback() {
 				@Override
 				public void onGetPageResult(SSPageGetResult aPageGetResult) {
-					Log.d(TAG, "DEFAULT CHANNELS: ON GET PAGE RESULT");
 					mDefaultChannels = SSChannelPage.getInstance().getChannels();
 					if (mDefaultChannels != null && mDefaultChannels.isEmpty() != true) {
 						Log.d(TAG, "DefaultChannels: " + mDefaultChannels.size());
@@ -270,11 +245,9 @@ public class DazooCore {
 			if (token != null && TextUtils.isEmpty(token) != true) {
 				mMyChannelsIds = DazooStore.getInstance().getMyChannelIds();
 				guidePageUrl = getPageUrl(mDate.getDate(), mMyChannelsIds);
-				Log.d(TAG, "Build on MY channels: " + mMyChannelsIds.size());
 			} else {
 				mDefaultChannelsIds = DazooStore.getInstance().getDefaultChannelIds();
 				guidePageUrl = getPageUrl(mDate.getDate(), mDefaultChannelsIds);
-				Log.d(TAG, "Build on DEFAULT channels: " + mDefaultChannelsIds.size());
 			}
 
 			SSGuidePage.getInstance().getPage(guidePageUrl, new SSPageCallback() {
@@ -287,7 +260,6 @@ public class DazooCore {
 							if (DazooStoreOperations.saveMyGuides(mGuides, mDate.getDate())) {
 
 								if (prepareTaggedContent(mDate)) {
-
 									if (mIsChannel) {
 										// notify the ChannelPageActivity that the guide is available and UI may be updated
 										LocalBroadcastManager.getInstance(mContext).sendBroadcast(
@@ -298,16 +270,10 @@ public class DazooCore {
 										LocalBroadcastManager.getInstance(mContext).sendBroadcast(
 												new Intent(Consts.INTENT_EXTRA_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, true));
 									}
-									// prepare tagged broadcasts for the current date
-									// prepareTaggedContent(mDate);
-
 								}
 							}
 						} else {
-							Log.d(TAG,"=========================================");
-						//	Log.d(TAG,"mGuides date: " + mGuides.get(0).getBroadcasts().get(0).getBeginTime());
-							Log.d(TAG,"=========================================");
-							
+
 							if (DazooStoreOperations.saveGuides(mGuides, mDate.getDate())) {
 
 								if (prepareTaggedContent(mDate)) {
@@ -322,8 +288,6 @@ public class DazooCore {
 										LocalBroadcastManager.getInstance(mContext).sendBroadcast(
 												new Intent(Consts.INTENT_EXTRA_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, true));
 									}
-									// prepare tagged broadcasts for the current date
-									// prepareTaggedContent(mDate);
 								}
 							}
 						}

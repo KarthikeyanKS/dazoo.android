@@ -69,8 +69,9 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 		
 		if(broadcast!=null){
-		holder.title.setText(broadcast.getProgram().getTitle() + "  " + broadcast.getProgram().getProgramType() + "   " +  broadcast.getBeginTime());
-		
+		//holder.title.setText(broadcast.getProgram().getTitle() + "  " + broadcast.getProgram().getProgramType() + "   " +  broadcast.getBeginTime());
+			holder.title.setText(broadcast.getProgram().getTitle() + "  " + broadcast.getProgram().getProgramType()); 
+			
 		try {
 			holder.time.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
 		} catch (ParseException e) {
@@ -89,7 +90,7 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 				Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
 				intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
 				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
-				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, mDate);
+				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, mDate.getDate());
 
 
 				mActivity.startActivity(intent);

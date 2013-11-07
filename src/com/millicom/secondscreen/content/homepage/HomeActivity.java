@@ -72,14 +72,14 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	private PagerAdapter						mAdapter;
 	private TabPageIndicator					mPageTabIndicator;
 	private TvDate								mTvDateSelected;
-	private boolean								mIsReady			= false, mFirstHit = true;
+	private boolean								mIsReady			= false, mFirstHit = true, mIsChannelListChanged;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_home_activity);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
+		
 		mDateSelectedIndex = 0;
 
 		// broadcast receiver for date selection

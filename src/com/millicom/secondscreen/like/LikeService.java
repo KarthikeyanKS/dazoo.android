@@ -64,7 +64,9 @@ public class LikeService {
 		if (programType.equals(Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE)) {
 			return Consts.DAZOO_LIKE_TYPE_SERIES;
 		} else if (programType.equals(Consts.DAZOO_PROGRAM_TYPE_SPORT)) {
-			return Consts.DAZOO_LIKE_TYPE_SPORT_TYPE;
+			// TODO: add the support for the sport types later when backend is available
+			return Consts.DAZOO_LIKE_TYPE_PROGRAM;
+			//return Consts.DAZOO_LIKE_TYPE_SPORT_TYPE;
 		} else {
 			return Consts.DAZOO_LIKE_TYPE_PROGRAM;
 		}

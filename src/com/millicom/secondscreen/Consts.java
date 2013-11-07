@@ -114,6 +114,17 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE_VALUE			= "com.millicom.secondscreen.intent.extra.channel.guide.available.value";
 	public static final String	INTENT_EXTRA_TAG_GUIDE_AVAILABLE					= "com.millicom.secondscreen.intent.extra.tag.guide.available";
 	public static final String	INTENT_EXTRA_TAG_GUIDE_AVAILABLE_VALUE				= "com.millicom.secondscreen.intent.extra.tag.guide.available.value";
+	public static final String	INTENT_EXTRA_DATE_DATE								= "com.millicom.secondscreen.intent.extra.date.date";
+
+	// alarm extras
+	public static final String	INTENT_ALARM_EXTRA_BROADCAST_BEGINTIMEMILLIS		= "com.millicom.secondscreen.intent.alarm.extra.broadcast.begintimemillis";
+	public static final String	INTENT_ALARM_EXTRA_CHANNELID						= "com.millicom.secondscreen.intent.alarm.extra.channelid";
+	public static final String	INTENT_ALARM_EXTRA_NOTIFICIATION_ID					= "com.millicom.secondscreen.intent.alarm.extra.notification.id";
+	public static final String	INTENT_ALARM_EXTRA_BROADCAST_NAME					= "com.millicom.secondscreen.intent.alarm.extra.broadcast.name";
+	public static final String	INTENT_ALARM_EXTRA_CHANNEL_NAME						= "com.millicom.secondscreen.intent.alarm.extra.channel.name";
+	public static final String	INTENT_ALARM_EXTRA_DATE_DATE						= "com.millicom.secondscreen.intent.alarm.extra.date.date";
+	
+	public static final String INTENT_EXTRA_FROM_NOTIFICATION = "com.millicom.secondscreen.intent.extra.from.notification";
 
 	// fragments extra arguments
 	public static final String	FRAGMENT_EXTRA_TAG									= "com.millicom.secondscreen.fragment.extra.tag";

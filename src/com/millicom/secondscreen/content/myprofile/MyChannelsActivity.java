@@ -208,11 +208,24 @@ public class MyChannelsActivity extends ActionBarActivity implements MyChannelsC
 			mCount = newIdsList.size();
 			if (MyChannelsService.updateMyChannelsList(userToken, JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.DAZOO_CHANNEL_CHANNEL_ID, newIdsList))) {
 				Toast.makeText(getApplicationContext(), "List of channels is updated!", Toast.LENGTH_SHORT).show();
+				
+				// clear guides
+				DazooStore.getInstance().clearMyGuidesStorage();
+				// update the my channels list
+				MyChannelsService.getMyChannels(userToken);
+				
 			} else {
 				Toast.makeText(getApplicationContext(), "Error! List of channels is NOT updated!", Toast.LENGTH_SHORT).show();
 			}
 		}
 	}
+	
+	@Override
+    protected void onStop(){
+        super.onStop();
+        // update channel list if user come back to the My Profile via Home Button
+		updateChannelList();
+    }
 
 	@Override
 	public void onBackPressed() {
@@ -284,39 +297,4 @@ public class MyChannelsActivity extends ActionBarActivity implements MyChannelsC
 		}
 
 	}
-
-	/*
-	 * @Override public void onClick(View view) { switch (view.getId()) { case R.id.mychannels_get_channels_button:
-	 * 
-	 * // check if we have registered user and user token is valid // if (userToken != null && userToken.isEmpty() != true) { if (userToken != null && TextUtils.isEmpty(userToken) != true) { // get user channels getUserMyChannelsIdsJSON(); } else { Toast.makeText(getApplicationContext(),
-	 * "You have to be logged in to perform this action :)", Toast.LENGTH_SHORT).show(); Log.d(TAG, "Login action is required to be done before this"); }
-	 * 
-	 * break; case R.id.mychannels_update_channels_button: isChange = !isChange;
-	 * 
-	 * // add channels to the list if (isChange == true) { // add channels to the user account "My channels" database // if (userToken != null && userToken.isEmpty() != true) { if (userToken != null && TextUtils.isEmpty(userToken) != true) { // check if we have fetched the userChannelsIds String
-	 * myChannelsIdsJSON = ((SecondScreenApplication) getApplicationContext()).getUserMyChannelsIdsJSON(); // if (myChannelsIdsJSON != null && myChannelsIdsJSON.isEmpty() != true) { if (myChannelsIdsJSON != null && TextUtils.isEmpty(myChannelsIdsJSON) != true) {
-	 * 
-	 * LinkedHashSet<String> newMyChannelsList = JSONUtilities.stringWithJSONtoOrderedSet(myChannelsIdsJSON); newMyChannelsList.add("98c9c7cb-76de-4ad8-b6cd-021e7b927ba7"); newMyChannelsList.add("ba09d322-6164-4457-89c0-64520214ac30");
-	 * 
-	 * String channelsJSON = JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.MILLICOM_SECONDSCREEN_API_CHANNEL_ID, newMyChannelsList); updateUserMyChannels(channelsJSON); } else { // fetch the list of channels first getUserMyChannelsIdsJSON();
-	 * 
-	 * String json = ((SecondScreenApplication) getApplicationContext()).getUserMyChannelsIdsJSON(); // if (json != Consts.ERROR_STRING) { // if (json != null && json.isEmpty() != true) {
-	 * 
-	 * LinkedHashSet<String> newMyChannelsList = JSONUtilities.stringWithJSONtoOrderedSet(json); newMyChannelsList.add("98c9c7cb-76de-4ad8-b6cd-021e7b927ba7"); newMyChannelsList.add("ba09d322-6164-4457-89c0-64520214ac30");
-	 * 
-	 * String channelsJSON = JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.MILLICOM_SECONDSCREEN_API_CHANNEL_ID, newMyChannelsList); updateUserMyChannels(channelsJSON); // } // } } } else { Toast.makeText(getApplicationContext(), "You have to be logged in to perform this action :)",
-	 * Toast.LENGTH_SHORT).show(); Log.d(TAG, "Login action is required to be done before this"); }
-	 * 
-	 * // remove channels from the list } else if (isChange == false) { // fetch the list of channels first getUserMyChannelsIdsJSON();
-	 * 
-	 * String json = ((SecondScreenApplication) getApplicationContext()).getUserMyChannelsIdsJSON(); // if (json != Consts.ERROR_STRING) { // if (json != null && json.isEmpty() != true) {
-	 * 
-	 * LinkedHashSet<String> newMyChannelsList = JSONUtilities.stringWithJSONtoOrderedSet(json); newMyChannelsList.remove("98c9c7cb-76de-4ad8-b6cd-021e7b927ba7");
-	 * 
-	 * String channelsJSON = JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.MILLICOM_SECONDSCREEN_API_CHANNEL_ID, newMyChannelsList); updateUserMyChannels(channelsJSON);
-	 * 
-	 * // get channels to make a check getUserMyChannelsIdsJSON(); }
-	 * 
-	 * break; } }
-	 */
 }

@@ -322,4 +322,12 @@ public class DazooStore {
 		}
 		return null;
 	}
+	
+	// CLEAR DATA WHEN NEW CHANNEL IS ADDED TO THE SELECTION
+	public void clearMyGuidesStorage(){
+		this.mMyGuides.clear();
+		this.mMyTaggedBroadcasts.clear();
+		this.mMyGuides = new HashMap<GuideKey, Guide>();
+		this.mMyTaggedBroadcasts = new HashMap<BroadcastKey, ArrayList<Broadcast>>();
+	}
 }

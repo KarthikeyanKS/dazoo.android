@@ -195,20 +195,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 				mTVGuideListAdapter = new TVGuideListAdapter(mActivity, mGuides, mTvDate);
 				mTVGuideListView.setAdapter(mTVGuideListAdapter);
 			} else {
-				// mTaggedBroadcasts = null;
-				// mTaggedBroadcasts = new ArrayList<Broadcast>();
-				// mTaggedBroadcasts = mGuides.get(0).getBroadcasts();
-				// Log.d(TAG,"mTaggedBroadcasts size: " + mTaggedBroadcasts.size());
-				/*
-				 * mTaggedBroadcasts = new ArrayList<Broadcast>();
-				 * 
-				 * for (int i=0; i<mGuides.size(); i++){ ArrayList<Broadcast> guideBroadcasts = mGuides.get(i).getBroadcasts(); //Log.d(TAG,"BROADCASTS NUMBER: " + guideBroadcasts.size()); for(int j=0; j < guideBroadcasts.size(); j++){ Broadcast broadcast = guideBroadcasts.get(j); ArrayList<String>
-				 * tags = broadcast.getProgram().getTags(); //Log.d(TAG,"PAGE TAG: " + mTagStr); for(int k=0; k< tags.size(); k++){ // Log.d(TAG,"program tag: " + tags.get(k)); } if(tags.contains(mTagStr)){ // Log.d(TAG,"YES WE GOT IT!!!!!!"); mTaggedBroadcasts.add(broadcast); } }
-				 * 
-				 * } Log.d(TAG,"!!!!!!!!!!!!!!!!!!!!!!!!: " + mTaggedBroadcasts.size());
-				 */
 				int index = Broadcast.getClosestBroadcastIndex(mTaggedBroadcasts);
-				if (index == -1) index = 0;
 				mTVGuideListView.setAdapter(new TVGuideTagListAdapter(mActivity, mTaggedBroadcasts, index, mTvDate));
 
 				// if(DazooCore.filterGuides(mTvDate, 5)){
