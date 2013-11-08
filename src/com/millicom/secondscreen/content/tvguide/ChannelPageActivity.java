@@ -29,10 +29,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.adapters.ActionBarDropDownDateListAdapter;
 import com.millicom.secondscreen.adapters.ChannelPageListAdapter;
+import com.millicom.secondscreen.content.SSActivity;
 import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.model.Broadcast;
@@ -46,7 +48,7 @@ import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
 
-public class ChannelPageActivity extends ActionBarActivity implements OnClickListener, ActionBar.OnNavigationListener {
+public class ChannelPageActivity extends SSActivity /* ActionBarActivity */implements OnClickListener, ActionBar.OnNavigationListener {
 
 	private static final String					TAG	= "ChannelPageActivity";
 
@@ -66,7 +68,7 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 	private int									mSelectedIndex	= -1, mIndexOfNearestBroadcast;
 	private DazooStore							dazooStore;
 	private boolean								mIsLoggedIn		= false, mIsReady = false, mFirstHit = true;
-	private Handler mHandler;
+	private Handler								mHandler;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -98,9 +100,10 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 		mBroadcasts = mChannelGuide.getBroadcasts();
 		mTvDates = dazooStore.getTvDates();
 		mSelectedIndex = dazooStore.getDateIndex(mTvGuideDate);
+		super.initCallbackLayouts();
 
 		initViews();
-		populateViews();
+		loadPage();
 	}
 
 	BroadcastReceiver	mBroadcastReceiverDate		= new BroadcastReceiver() {
@@ -110,6 +113,7 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 			Log.d(TAG, "mDate" + mDate);
 
 			// reload the page with the content to the new date
+			updateUI(REQUEST_STATUS.LOADING);
 			reloadPage();
 		}
 	};
@@ -128,6 +132,7 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 				mFollowingBroadcasts = null;
 				mFollowingBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());
 				setFollowingBroadcasts();
+				updateUI(REQUEST_STATUS.SUCCESSFUL);
 			}
 		}
 	};
@@ -155,6 +160,7 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 		mBroadcasts = null;
 		if (mIsLoggedIn) {
 			mChannelGuide = dazooStore.getChannelGuideFromMy(mTvDateSelected.getDate(), mChannelId);
+			Log.d(TAG, "GET FROM MY");
 		} else {
 			mChannelGuide = dazooStore.getChannelGuideFromDefault(mTvDateSelected.getDate(), mChannelId);
 		}
@@ -168,8 +174,11 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 				setFollowingBroadcasts();
 			}
 			mFollowingBroadcastsListAdapter.notifyDataSetChanged();
+			Log.d(TAG, "CHANNELGUIDE: " + mChannelGuide.getName() + mFollowingBroadcasts.size());
+			updateUI(REQUEST_STATUS.SUCCESSFUL);
 		} else {
 			DazooCore.getGuide(mSelectedIndex, true);
+			Log.d(TAG, "get guide");
 		}
 	}
 
@@ -194,7 +203,7 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 			}
 		}
 		mSelectedIndex = dateIndex;
-	
+
 		mDayAdapter.setSelectedIndex(mSelectedIndex);
 		mActionBar.setListNavigationCallbacks(mDayAdapter, this);
 		mActionBar.setTitle(mChannel.getName());
@@ -216,32 +225,32 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 		mTxtTabFeed.setTextColor(getResources().getColor(R.color.gray));
 	}
 
-	//private final Runnable progressBarRunnable = new Runnable(){
-	//	@Override
-	//	public void run() {
-	//		try {
-	//			int initialProgress = DateUtilities.getDifferenceInMinutes(mBroadcasts.get(mIndexOfNearestBroadcast).getBeginTime());
-	//			if (initialProgress > 0) {
-	//				if (DateUtilities.getAbsoluteTimeDifference(mFollowingBroadcasts.get(0).getEndTime()) > 0) {
-	//					mFollowingBroadcastsListAdapter.notifyBroadcastEnded();
-	//				}
-	//				mFollowingBroadcastsListAdapter.notifyDataSetChanged();
-	//			}
-	//		} catch (ParseException e) {
-	//			e.printStackTrace();
-	//		}
-	//		mHandler.postDelayed(this, 60 * 1000);	
-	//	}
-	//};
-	
+	// private final Runnable progressBarRunnable = new Runnable(){
+	// @Override
+	// public void run() {
+	// try {
+	// int initialProgress = DateUtilities.getDifferenceInMinutes(mBroadcasts.get(mIndexOfNearestBroadcast).getBeginTime());
+	// if (initialProgress > 0) {
+	// if (DateUtilities.getAbsoluteTimeDifference(mFollowingBroadcasts.get(0).getEndTime()) > 0) {
+	// mFollowingBroadcastsListAdapter.notifyBroadcastEnded();
+	// }
+	// mFollowingBroadcastsListAdapter.notifyDataSetChanged();
+	// }
+	// } catch (ParseException e) {
+	// e.printStackTrace();
+	// }
+	// mHandler.postDelayed(this, 60 * 1000);
+	// }
+	// };
+
 	private void setFollowingBroadcasts() {
 
 		mFollowingBroadcastsListAdapter = new ChannelPageListAdapter(this, mFollowingBroadcasts);
 		mFollowingBroadcastsLv.setAdapter(mFollowingBroadcastsListAdapter);
 
 		// update progress bar value every minute
-		//mHandler = new Handler();
-		//mHandler.postDelayed(progressBarRunnable, 60 * 1000);
+		// mHandler = new Handler();
+		// mHandler.postDelayed(progressBarRunnable, 60 * 1000);
 
 		mFollowingBroadcastsLv.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -258,19 +267,10 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 		});
 	}
 
-	private void populateViews() {
-		mImageLoader.displayImage(mChannelGuide.getLogoLHref(), mChannelIconIv, ImageLoader.IMAGE_TYPE.POSTER);
-		mIndexOfNearestBroadcast = Broadcast.getClosestBroadcastIndex(mBroadcasts);
-		if (mIndexOfNearestBroadcast >= 0) {
-			mFollowingBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());
-			setFollowingBroadcasts();
-		}
-	}
-
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		//mHandler.removeCallbacks(progressBarRunnable);
+		// mHandler.removeCallbacks(progressBarRunnable);
 		// Stop listening to broadcast events
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverDate);
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverContent);
@@ -288,7 +288,7 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 		super.onConfigurationChanged(newConfig);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
@@ -296,7 +296,7 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 		inflater.inflate(R.menu.menu_homepage, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
@@ -332,6 +332,23 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 			Intent intentMe = new Intent(ChannelPageActivity.this, MyProfileActivity.class);
 			startActivity(intentMe);
 			break;
+		}
+	}
+
+	@Override
+	protected void updateUI(REQUEST_STATUS status) {
+		if (super.requestIsSuccesfull(status)) {
+Log.d(TAG,"succesfull!!!!! ");
+		}
+	}
+
+	@Override
+	protected void loadPage() {
+		mImageLoader.displayImage(mChannelGuide.getLogoLHref(), mChannelIconIv, ImageLoader.IMAGE_TYPE.POSTER);
+		mIndexOfNearestBroadcast = Broadcast.getClosestBroadcastIndex(mBroadcasts);
+		if (mIndexOfNearestBroadcast >= 0) {
+			mFollowingBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());
+			setFollowingBroadcasts();
 		}
 	}
 }
