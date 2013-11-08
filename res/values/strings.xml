@@ -153,6 +153,11 @@
     <string name="minutes">min</string>
     <string name="left">left</string>
     <string name="from">from</string>
+    <string name="whatelseison_title">What else is on?</string>
+    <string name="whatelseison_show_all_programs">Show all programs playing now</string>
+    <string name="upcoming_episodes">Upcoming episodes</string>
+    <string name="upcoming_episodes_more">More upcoming episodes</string>
+    
 
     <!-- LOGIN PAGE -->
     <string name="login_with_facebook">LOGIN WITH FACEBOOK</string>

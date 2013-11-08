@@ -68,14 +68,15 @@
 		    android:textColor="@color/red"/>
         <ProgressBar
             android:id="@+id/channelpage_broadcast_details_progressbar"
-            style="@android:style/Widget.Holo.ProgressBar.Horizontal"
+            style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/channelpage_broadcast_timeleft"
 		    android:layout_toRightOf="@id/channelpage_broadcast_details_time_tv"
             android:layout_marginLeft="0dp"
             android:layout_marginRight="25dp"
-            android:visibility="visible" />
+            android:visibility="visible"
+            android:progressDrawable="@drawable/progress_horizontal" />
 
         <com.millicom.secondscreen.customviews.FontTextView
             android:id="@+id/channelpage_broadcast_details_text_tv"

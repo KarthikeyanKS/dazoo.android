@@ -114,7 +114,6 @@ public class ChannelPageListAdapter extends BaseAdapter {
 				catch (ParseException e) {
 					e.printStackTrace();
 				}
-				holder.mDurationPb.getProgressDrawable().setColorFilter(Color.RED, Mode.SRC_IN);
 				holder.mDurationPb.setMax(duration);
 
 				//MC - Calculate the current progress of the ProgressBar and update.
