@@ -146,9 +146,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 			
 			} else {
 				getIndividualBroadcast(mBroadcastPageUrl);
-				if (mBroadcast != null) {
-					updateUI(REQUEST_STATUS.SUCCESSFUL);
-				}	
+				mIsFuture = true;
 			}
 		}
 	}
@@ -174,10 +172,9 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 			@Override
 			public void onGetPageResult(SSPageGetResult pageGetResult) {
 				mBroadcast = SSBroadcastPage.getInstance().getBroadcast();
-				try {
-					mIsFuture = DateUtilities.isTimeInFuture(mBroadcast.getBeginTime());
-				} catch (ParseException e) {
-					e.printStackTrace();
+				
+				if(mBroadcast!=null){
+					updateUI(REQUEST_STATUS.SUCCESSFUL);	
 				}
 			}
 		});

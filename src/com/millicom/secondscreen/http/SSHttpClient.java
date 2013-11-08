@@ -64,7 +64,6 @@ public class SSHttpClient<T_Result> {
 		}
 	}
 
-	@TargetApi(11)
 	public boolean doHttpGet(String uri, SSHttpClientCallback<T_Result> httpClientCallback) {
 
 		mHttpClientCallback = httpClientCallback;
@@ -129,8 +128,8 @@ public class SSHttpClient<T_Result> {
 						Log.d(TAG, "Do http get request");
 
 						// Do http get request, with our context to keep track of cookies
-						//HttpResponse httpResponse = httpClient.execute(mHttpGet, sHttpContext);
-						HttpResponse httpResponse = httpClient.execute(mHttpGet);
+						HttpResponse httpResponse = httpClient.execute(mHttpGet, sHttpContext);
+						//HttpResponse httpResponse = httpClient.execute(mHttpGet);
 						
 						
 						Log.d(TAG, "Get http response, status code: " + httpResponse.getStatusLine().getStatusCode());
