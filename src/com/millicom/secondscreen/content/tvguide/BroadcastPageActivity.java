@@ -23,11 +23,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.authentication.FacebookDazooLoginActivity;
 import com.millicom.secondscreen.authentication.LoginActivity;
 import com.millicom.secondscreen.authentication.PromptSignInDialogHandler;
 import com.millicom.secondscreen.authentication.SignInActivity;
+import com.millicom.secondscreen.content.SSActivity;
 import com.millicom.secondscreen.content.SSBroadcastPage;
 import com.millicom.secondscreen.content.SSPageCallback;
 import com.millicom.secondscreen.content.SSPageGetResult;
@@ -40,6 +42,7 @@ import com.millicom.secondscreen.content.model.NotificationDbItem;
 import com.millicom.secondscreen.content.model.Program;
 import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
+import com.millicom.secondscreen.http.NetworkUtils;
 import com.millicom.secondscreen.like.LikeDialogHandler;
 import com.millicom.secondscreen.like.LikeService;
 import com.millicom.secondscreen.notification.NotificationDataSource;
@@ -51,7 +54,7 @@ import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
 import com.millicom.secondscreen.SecondScreenApplication;
 
-public class BroadcastPageActivity extends ActionBarActivity implements OnClickListener {
+public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity implements OnClickListener {
 
 	private static final String		TAG	= "BroadcastPageActivity";
 	private ImageLoader				mImageLoader;
@@ -74,6 +77,7 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 	private NotificationDataSource	mNotificationDataSource;
 	private DazooStore				dazooStore;
 	private Activity				mActivity;
+	private Intent					intent;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -86,13 +90,7 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 		mLayoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		// get the info about the program to be displayed from tv-guide listview
-		Intent intent = getIntent();
-
-		Bundle extras = intent.getExtras();
-		if(extras!=null){
-			Log.d(TAG,"!!!!!!!!!!!!!!!!!!");
-		}
-		
+		intent = getIntent();
 		mBeginTimeInMillis = intent.getLongExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, 0);
 		mChannelId = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_ID);
 		mTvDate = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE);
@@ -102,75 +100,114 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 		Log.d(TAG, "mChannelId: " + mChannelId);
 		Log.d(TAG, "mTvDate: " + mTvDate);
 
-		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
-		if (!mIsFromNotification) {
-			if (token != null && token.isEmpty() != true) {
-				mIsLoggedIn = true;
-				mBroadcast = dazooStore.getBroadcastFromMy(mTvDate, mChannelId, mBeginTimeInMillis);
-				mChannel = dazooStore.getChannelFromAll(mChannelId);
+		super.initCallbackLayouts();
 
-				if (mBroadcast == null) {
+		// check if the network connection exists
+		if (!NetworkUtils.checkConnection(mActivity)) {
+			updateUI(REQUEST_STATUS.FAILED);
+		} else {
 
-					String broadcastPageUrl = intent.getStringExtra(Consts.INTENT_EXTRA_BROADCAST_URL);
+			token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
+			if (!mIsFromNotification) {
+				if (token != null && token.isEmpty() != true) {
+					mIsLoggedIn = true;
+					mBroadcast = dazooStore.getBroadcastFromMy(mTvDate, mChannelId, mBeginTimeInMillis);
+					mChannel = dazooStore.getChannelFromAll(mChannelId);
 
-					SSBroadcastPage.getInstance().getPage(broadcastPageUrl, new SSPageCallback() {
+					if (mBroadcast == null) {
 
-						@Override
-						public void onGetPageResult(SSPageGetResult pageGetResult) {
-							mBroadcast = SSBroadcastPage.getInstance().getBroadcast();
-							try {
-								mIsFuture = DateUtilities.isTimeInFuture(mBroadcast.getBeginTime());
-								
-							} catch (ParseException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
+						String broadcastPageUrl = intent.getStringExtra(Consts.INTENT_EXTRA_BROADCAST_URL);
+
+						SSBroadcastPage.getInstance().getPage(broadcastPageUrl, new SSPageCallback() {
+
+							@Override
+							public void onGetPageResult(SSPageGetResult pageGetResult) {
+								mBroadcast = SSBroadcastPage.getInstance().getBroadcast();
+								try {
+									mIsFuture = DateUtilities.isTimeInFuture(mBroadcast.getBeginTime());
+
+								} catch (ParseException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 							}
+
+						});
+
+						Toast.makeText(this, "Soon I will parse this broadcast page!", Toast.LENGTH_SHORT).show();
+					}
+
+					mProgramType = mBroadcast.getProgram().getProgramType();
+					if (mProgramType != null) {
+						mLikeType = LikeService.getLikeType(mProgramType);
+
+						if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(mProgramType)) {
+							mProgramId = mBroadcast.getProgram().getSeries().getSeriesId();
+						} else {
+							mProgramId = mBroadcast.getProgram().getProgramId();
 						}
+					}
+				} else {
+					mBroadcast = dazooStore.getBroadcastFromDefault(mTvDate, mChannelId, mBeginTimeInMillis);
+					mChannel = dazooStore.getChannelFromDefault(mChannelId);
 
-					});
+					if (mBroadcast == null) {
 
-					Toast.makeText(this, "Soon I will parse this broadcast page!", Toast.LENGTH_SHORT).show();
-				}
+						String broadcastPageUrl = intent.getStringExtra(Consts.INTENT_EXTRA_BROADCAST_URL);
 
-				mProgramType = mBroadcast.getProgram().getProgramType();
-				if (mProgramType != null) {
-					mLikeType = LikeService.getLikeType(mProgramType);
+						SSBroadcastPage.getInstance().getPage(broadcastPageUrl, new SSPageCallback() {
 
-					if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(mProgramType)) {
-						mProgramId = mBroadcast.getProgram().getSeries().getSeriesId();
-					} else {
-						mProgramId = mBroadcast.getProgram().getProgramId();
+							@Override
+							public void onGetPageResult(SSPageGetResult pageGetResult) {
+								mBroadcast = SSBroadcastPage.getInstance().getBroadcast();
+								try {
+									mIsFuture = DateUtilities.isTimeInFuture(mBroadcast.getBeginTime());
+
+								} catch (ParseException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							}
+
+						});
+
+						Toast.makeText(this, "Soon I will parse this broadcast page!", Toast.LENGTH_SHORT).show();
 					}
 				}
+				initViews();
 			} else {
-				mBroadcast = dazooStore.getBroadcastFromDefault(mTvDate, mChannelId, mBeginTimeInMillis);
-				mChannel = dazooStore.getChannelFromDefault(mChannelId);
+				String broadcastPageUrl = intent.getStringExtra(Consts.INTENT_EXTRA_BROADCAST_URL);
 
-				if (mBroadcast == null) {
+				SSBroadcastPage.getInstance().getPage(broadcastPageUrl, new SSPageCallback() {
 
-					String broadcastPageUrl = intent.getStringExtra(Consts.INTENT_EXTRA_BROADCAST_URL);
-
-					SSBroadcastPage.getInstance().getPage(broadcastPageUrl, new SSPageCallback() {
-
-						@Override
-						public void onGetPageResult(SSPageGetResult pageGetResult) {
-							mBroadcast = SSBroadcastPage.getInstance().getBroadcast();
-							try {
-								mIsFuture = DateUtilities.isTimeInFuture(mBroadcast.getBeginTime());
-								
-							} catch (ParseException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
+					@Override
+					public void onGetPageResult(SSPageGetResult pageGetResult) {
+						mBroadcast = SSBroadcastPage.getInstance().getBroadcast();
+						if (mBroadcast != null) {
+							Log.d(TAG, "mBroadcast: " + mBroadcast);
+							mIsFuture = true;
+							updateUI(REQUEST_STATUS.SUCCESSFUL);
 						}
+					}
 
-					});
-
-					Toast.makeText(this, "Soon I will parse this broadcast page!", Toast.LENGTH_SHORT).show();
-				}
+				});
 			}
+		}
+	}
+
+	@Override
+	protected void updateUI(REQUEST_STATUS status) {
+		if (super.requestIsSuccesfull(status)) {
+			mIsFuture = true;
 			initViews();
-		} else {
+			populateBlocks();
+		}
+	}
+
+	@Override
+	protected void loadPage() {
+		// try to load page again when network is up
+		if (NetworkUtils.checkConnection(mActivity)) {
 			String broadcastPageUrl = intent.getStringExtra(Consts.INTENT_EXTRA_BROADCAST_URL);
 
 			SSBroadcastPage.getInstance().getPage(broadcastPageUrl, new SSPageCallback() {
@@ -178,10 +215,9 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 				@Override
 				public void onGetPageResult(SSPageGetResult pageGetResult) {
 					mBroadcast = SSBroadcastPage.getInstance().getBroadcast();
-					if(mBroadcast!=null){
-						Log.d(TAG,"mBroadcast: " +mBroadcast);
-					mIsFuture = true;
-					initViews();
+					if (mBroadcast != null) {
+						mIsFuture = true;
+						updateUI(REQUEST_STATUS.SUCCESSFUL);
 					}
 				}
 
@@ -234,10 +270,8 @@ public class BroadcastPageActivity extends ActionBarActivity implements OnClickL
 		mRemindButtonIv.setOnClickListener(this);
 
 		mBlockContainer = (LinearLayout) findViewById(R.id.broacastpage_block_container_layout);
-		
-		if (mBroadcast != null) {
-			populateBlocks();
-		}
+
+		populateBlocks();
 	}
 
 	private void populateBlocks() {

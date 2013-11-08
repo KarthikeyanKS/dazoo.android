@@ -230,7 +230,7 @@
                 android:layout_height="32dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp" />
         </RelativeLayout>
     </RelativeLayout>
 
@@ -279,8 +279,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/tab_selector_container"
         android:layout_below="@id/block_social_panel_container"
-        android:layout_above ="@id/tab_selector_container"
         android:background="@color/light_gray"
         android:fillViewport="true"
         android:orientation="vertical" >
@@ -293,5 +293,7 @@
             android:orientation="vertical" >
         </LinearLayout>
     </ScrollView>
+
+    <include layout="@layout/layout_request_callbacks_holder_layout" />
 
 </RelativeLayout>
