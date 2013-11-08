@@ -47,12 +47,7 @@ public class SecondScreenApplication extends Application {
 	// SharedPreferences used to save stuffs
 	private static SharedPreferences		sSharedPreferences;
 	private static Editor					editor;
-	
-	/**
-	 * TEST
-	 */
-	private static ArrayList<Channel> channels = new ArrayList();
-	
+
 	public SecondScreenApplication() {
 	}
 
@@ -61,14 +56,6 @@ public class SecondScreenApplication extends Application {
 			sInstance = new SecondScreenApplication();
 		}
 		return sInstance;
-	}
-
-	public void saveChannels(ArrayList<Channel> channels){
-		this.channels = channels;
-	}
-	
-	public ArrayList<Channel> getChannels(){
-		return this.channels;
 	}
 	
 	@Override
@@ -197,22 +184,6 @@ public class SecondScreenApplication extends Application {
 	 */
 	public boolean getUserExistringFlag() {
 		return sSharedPreferences.getBoolean(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_EXISTING_FLAG, false);
-	}
-
-	/**
-	 * Set user's list of My Channels as json-string
-	 */
-	public void setUserMyChannelsIdsasJSON(String jsonString) {
-		editor = sSharedPreferences.edit();
-		editor.putString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_MY_CHANNELS_IDS_JSON, jsonString);
-		editor.commit();
-	}
-
-	/**
-	 * Get user's list of My Channels as json-string
-	 */
-	public String getUserMyChannelsIdsJSON() {
-		return sSharedPreferences.getString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_MY_CHANNELS_IDS_JSON, "");
 	}
 
 	/**

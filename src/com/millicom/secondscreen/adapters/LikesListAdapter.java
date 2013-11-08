@@ -97,27 +97,38 @@ public class LikesListAdapter extends BaseAdapter {
 		final DazooLike like = getItem(position);
 		if (like != null) {
 			final DazooLikeEntity entity = like.getEntity();
-			holder.mProgramTitleTv.setText(entity.getTitle());
-			holder.mProgramTypeTv.setText(entity.getEntityType());
+			if (entity != null) {
+				holder.mProgramTitleTv.setText(entity.getTitle());
+				holder.mProgramTypeTv.setText(like.getLikeType());
 
-			holder.mInformationContainer.setOnClickListener(new View.OnClickListener() {
+				holder.mInformationContainer.setOnClickListener(new View.OnClickListener() {
 
-				@Override
-				public void onClick(View v) {
-					Toast.makeText(mActivity, "Information from backend is missing now. Come later : )", Toast.LENGTH_SHORT).show();
-				}
-			});
+					@Override
+					public void onClick(View v) {
+						Toast.makeText(mActivity, "Information from backend is missing now. Come later : )", Toast.LENGTH_SHORT).show();
+					}
+				});
 
-			holder.mButtonContainer.setOnClickListener(new View.OnClickListener() {
+				holder.mButtonContainer.setOnClickListener(new View.OnClickListener() {
 
-				@Override
-				public void onClick(View v) {
-					currentPosition = (Integer) v.getTag();
-					LikeDialogHandler likeDlg = new LikeDialogHandler();
-					likeDlg.showRemoveLikeDialog(mActivity, mToken, entity.getEntityId(), yesProc(), noProc());
+					@Override
+					public void onClick(View v) {
+						currentPosition = (Integer) v.getTag();
+						String likeType  = like.getLikeType();
+						String likeId = null;
+						if(Consts.DAZOO_LIKE_TYPE_SERIES.equals(likeType)){
+							likeId = like.getEntity().getSeriesId();
+						} else if (Consts.DAZOO_LIKE_TYPE_PROGRAM.equals(likeType)){
+							likeId = like.getEntity().getProgramId();
+						}
+						//TODO LATER ADD SUPPORT FOR SPORT
+						
+						LikeDialogHandler likeDlg = new LikeDialogHandler();
+						likeDlg.showRemoveLikeDialog(mActivity, mToken, likeId, likeType, yesProc(), noProc());
 
-				}
-			});
+					}
+				});
+			}
 		}
 
 		return rowView;

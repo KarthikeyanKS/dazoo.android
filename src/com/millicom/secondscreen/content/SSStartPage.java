@@ -17,7 +17,6 @@ public class SSStartPage extends SSPage {
 	public static final String	TAG	= "SSStartPage";
 	private static SSStartPage	sInstance;
 	public String				mStartPageUrl;
-	public String				mProgramTypeKey;
 
 	public SSStartPage() {
 	}
@@ -27,13 +26,11 @@ public class SSStartPage extends SSPage {
 		return sInstance;
 	}
 
-	public boolean getPage(String programType, String url, SSPageCallback pageCallback) {
+	public boolean getPage(String url, SSPageCallback pageCallback) {
 		Log.d(TAG, "getPage");
-		Log.d(TAG, "Program Type:" + programType);
 		// Remember the callback
 		super.mPageCallback = pageCallback;
 		mStartPageUrl = url;
-		mProgramTypeKey = programType;
 		Link startPageLink = new Link();
 		startPageLink.setUrl(mStartPageUrl);
 
@@ -50,7 +47,7 @@ public class SSStartPage extends SSPage {
 	protected void parseGetPageResult(JSONArray jsonArray, SSPageGetResult pageGetResult) {
 		Log.d(TAG, "parseGetPageResult");
 		try {
-			super.parseGuide(jsonArray, mProgramTypeKey);
+			super.parseGuide(jsonArray);
 			// The resulting page is this
 			pageGetResult.setPage(this);
 
@@ -64,7 +61,7 @@ public class SSStartPage extends SSPage {
 		Log.d(TAG, "handleGetStartPageUriResult");
 
 		// If get start page uri failed or get start page fails
-		if (!getPage(mProgramTypeKey, mStartPageUrl, mPageCallback)) {
+		if (!getPage(mStartPageUrl, mPageCallback)) {
 
 			Log.d(TAG, "Get start page uri or get start page failed");
 
@@ -76,6 +73,11 @@ public class SSStartPage extends SSPage {
 				mPageCallback.onGetPageResult(pageGetResult);
 			}
 		}
+	}
+
+	@Override
+	protected void parseGetPageResult(JSONObject jsonObject, SSPageGetResult pageGetResult) {
+		// not necessary here
 	}
 
 }

@@ -22,6 +22,8 @@ import com.millicom.secondscreen.adapters.TVGuideListAdapter.ViewHolder;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.Guide;
+import com.millicom.secondscreen.content.model.TvDate;
+import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
 import com.millicom.secondscreen.content.tvguide.ChannelPageActivity;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
@@ -32,63 +34,93 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 
 	private LayoutInflater		mLayoutInflater;
 	private Activity			mActivity;
-	private ArrayList<Guide>	mGuide;
-
+	private ArrayList<Broadcast> mTaggedBroadcasts;
 	private ImageLoader			mImageLoader;
-
-	public TVGuideTagListAdapter(Activity mActivity, ArrayList<Guide> mGuide) {
-		this.mGuide = mGuide;
-		this.mActivity = mActivity;
+	private int mCurrentPosition;
+	private TvDate mDate;
+	
+	public TVGuideTagListAdapter(Activity activity, ArrayList<Broadcast> taggedBroadcasts, int currentPosition, TvDate date) {
+		this.mTaggedBroadcasts = taggedBroadcasts;
+		this.mActivity = activity;
 		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage);
+		this.mCurrentPosition = currentPosition;
+		this.mDate = date;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 
-		final Guide guide = getItem(position);
+		// get the item with the displacement depending on the scheduled time on air
+		final Broadcast broadcast = getItem(mCurrentPosition + position);
 
+		// TODO: DIFFERENT ROW LAYOUTS DEPENDING ON THE TYPE OF THE BROADCAST
+		
 		if (rowView == null) {
 			mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			rowView = mLayoutInflater.inflate(R.layout.layout_tvguide_tag_list_item, null);
 			ViewHolder viewHolder = new ViewHolder();
 			viewHolder.title = (TextView) rowView.findViewById(R.id.tvguide_tag_list_item_name_tv);
 			viewHolder.time = (TextView) rowView.findViewById(R.id.tvguide_tag_list_item_time_tv);
+			viewHolder.mContainer = (RelativeLayout) rowView.findViewById(R.id.tvguide_tag_list_item_container);
 			rowView.setTag(viewHolder);
 		}
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
-
-		ArrayList<Broadcast> broadcasts = guide.getBroadcasts();
 		
-		holder.title.setText(broadcasts.get(0).getProgram().getTitle() + "  " + broadcasts.get(0).getProgram().getProgramType());
+		if(broadcast!=null){
+		//holder.title.setText(broadcast.getProgram().getTitle() + "  " + broadcast.getProgram().getProgramType() + "   " +  broadcast.getBeginTime());
+			holder.title.setText(broadcast.getProgram().getTitle() + "  " + broadcast.getProgram().getProgramType()); 
+			
 		try {
-			holder.time.setText(DateUtilities.isoStringToTimeString(broadcasts.get(0).getBeginTime()));
+			holder.time.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		} else {
+			holder.title.setText("");
+			holder.time.setText("");
+		}
+		
+		holder.mContainer.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
+				intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
+				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
+				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, mDate.getDate());
+
+
+				mActivity.startActivity(intent);
+				mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			}
+		});
+
 	
 		return rowView;
 	}
 
 	static class ViewHolder {
+		RelativeLayout mContainer;
 		TextView title;
 		TextView time;
 	}
 
 	@Override
 	public int getCount() {
-		if (mGuide != null) {
-			return mGuide.size();
+		if (mTaggedBroadcasts != null) {
+			return mTaggedBroadcasts.size() - mCurrentPosition;
 		} else {
 			return 0;
 		}
 	}
 
 	@Override
-	public Guide getItem(int position) {
-		if (mGuide != null) {
-			return mGuide.get(position);
+	public Broadcast getItem(int position) {
+		if (mTaggedBroadcasts != null) {
+			return mTaggedBroadcasts.get(position);
 		} else {
 			return null;
 		}

@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
-                <com.millicom.secondscreen.customviews.FontTextView
+                <TextView
                     android:id="@+id/tvguide_program_line_live_time_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
                     android:contentDescription="@string/tv_guide_rating_icon"
                     android:visibility="gone" />
 
-                <com.millicom.secondscreen.customviews.FontTextView
+                <TextView
                     android:id="@+id/tvguide_program_line_live_name_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvguide_program_line_live_container" >
 
-                <com.millicom.secondscreen.customviews.FontTextView
+                <TextView
                     android:id="@+id/tvguide_program_line_next_time_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
                     android:contentDescription="@string/tv_guide_rating_icon"
                     android:visibility="gone" />
 
-                <com.millicom.secondscreen.customviews.FontTextView
+                <TextView
                     android:id="@+id/tvguide_program_line_next_name_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -131,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvguide_program_line_next_container" >
 
-                <com.millicom.secondscreen.customviews.FontTextView
+                <TextView
                     android:id="@+id/tvguide_program_line_last_time_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -151,7 +151,7 @@
                     android:contentDescription="@string/tv_guide_rating_icon"
                     android:visibility="gone" />
 
-                <com.millicom.secondscreen.customviews.FontTextView
+                <TextView
                     android:id="@+id/tvguide_program_line_last_name_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -165,10 +165,10 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <View
+    <!--  View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:background="@color/light_gray"
-        />
+        /-->
 
 </RelativeLayout>

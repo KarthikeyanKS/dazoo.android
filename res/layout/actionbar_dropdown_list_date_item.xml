@@ -5,7 +5,7 @@
     android:orientation="horizontal"
     android:padding="5dp" >
 
-    <com.millicom.secondscreen.customviews.FontTextView
+    <TextView
         android:id="@+id/layout_actionbar_dropdown_list_date_item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,7 +14,7 @@
         android:layout_marginLeft="5dp"
         android:textSize="18sp" />
     
-    <com.millicom.secondscreen.customviews.FontTextView
+    <TextView
         android:id="@+id/layout_actionbar_dropdown_list_date_item_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

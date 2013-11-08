@@ -16,6 +16,15 @@ import com.millicom.secondscreen.Consts;
 public class DateUtilities {
 
 	private static final String	TAG	= "DateUtilities";
+	
+	public static boolean isTimeInFuture(String beginTime) throws ParseException {
+		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
+		Date date = df.parse(beginTime);
+		if (new Date().after(date)){
+			return true;
+		} 
+		else return false;
+	}
 
 	public static Calendar getTimeFifteenMinBefore(String beginTime) throws ParseException {
 

@@ -5,12 +5,20 @@ import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.SingleClientConnManager;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
@@ -111,7 +119,20 @@ public class ResetPasswordActivity extends ActionBarActivity implements OnClickL
 		@Override
 		protected Integer doInBackground(String... params) {
 			try {
+				//HttpClient client = new DefaultHttpClient();
 				HttpClient client = new DefaultHttpClient();
+				HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
+				SchemeRegistry registry = new SchemeRegistry();
+				registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+
+				SSLSocketFactory socketFactory = SSLSocketFactory.getSocketFactory();
+				socketFactory.setHostnameVerifier(SSLSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
+				registry.register(new Scheme("https", socketFactory, 443));
+				SingleClientConnManager mgr = new SingleClientConnManager(client.getParams(), registry);
+
+				DefaultHttpClient httpClient = new DefaultHttpClient(mgr, client.getParams());
+				// Set verifier
+				HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
 				HttpPost httpPost = new HttpPost(Consts.MILLICOM_SECONDSCREEN_RESET_PASSWORD_URL);
 
 				JSONObject holder = JSONUtilities.createJSONObjectWithKeysValues(Arrays.asList(Consts.MILLICOM_SECONDSCREEN_API_EMAIL), Arrays.asList(params[0]));
@@ -121,7 +142,9 @@ public class ResetPasswordActivity extends ActionBarActivity implements OnClickL
 				httpPost.setHeader("Accept", "application/json");
 				httpPost.setHeader("Content-type", "application/json");
 
-				HttpResponse response = client.execute(httpPost);
+				//HttpResponse response = client.execute(httpPost);
+				HttpResponse response = httpClient.execute(httpPost);
+				
 				return response.getStatusLine().getStatusCode();
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();

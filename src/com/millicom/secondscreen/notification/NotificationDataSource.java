@@ -38,7 +38,7 @@ public class NotificationDataSource {
 		values.put(Consts.NOTIFICATION_DB_COLUMN_PROGRAM_TITLE, notification.getProgramTitle());
 		values.put(Consts.NOTIFICATION_DB_COLUMN_PROGRAM_TYPE, notification.getProgramType());
 		values.put(Consts.NOTIFICATION_DB_COLUMN_PROGRAM_SEASON, notification.getProgramSeason());
-		values.put(Consts.NOTIFICATION_DB_COLUMN_PROGRAM_EPISODE, notification.getProgramEpisode());
+		values.put(Consts.NOTIFICATION_DB_COLUMN_PROGRAM_EPISODE, notification.getProgramEpisodeNumber());
 		values.put(Consts.NOTIFICATION_DB_COLUMN_PROGRAM_YEAR, notification.getProgramYear());
 		values.put(Consts.NOTIFICATION_DB_COLUMN_PROGRAM_TAG, notification.getProgramTag());
 		values.put(Consts.NOTIFICATION_DB_COLUMN_CHANNEL_ID, notification.getChannelId());
@@ -58,8 +58,10 @@ public class NotificationDataSource {
 		Cursor cursor = database.rawQuery(query, null);
 		if (cursor != null) {
 			cursor.moveToFirst();
+			database.close();
 			return setCursorValues(cursor);
 		} else {
+			database.close();
 			return null;
 		}
 	}
@@ -68,7 +70,7 @@ public class NotificationDataSource {
 		List<NotificationDbItem> notificationList = new ArrayList<NotificationDbItem>();
 		String selectQuery = "SELECT * FROM " + Consts.NOTIFICATION_DB_TABLE_NOTIFICATIONS;
 
-		SQLiteDatabase database = dbHelper.getWritableDatabase();
+		SQLiteDatabase database = dbHelper.getReadableDatabase();
 		Cursor cursor = database.rawQuery(selectQuery, null);
 		if (cursor.moveToFirst()) {
 			do {
@@ -102,7 +104,7 @@ public class NotificationDataSource {
 				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 					notification.setProgramType(programType);
 					notification.setProgramSeason(cursor.getString(5));
-					notification.setProgramEpisode(cursor.getString(6));
+					notification.setProgramEpisodeNumber(cursor.getInt(6));
 				} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
 					notification.setProgramType(programType);
 					notification.setProgramYear(cursor.getInt(7));

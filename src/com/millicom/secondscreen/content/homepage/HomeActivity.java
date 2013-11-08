@@ -1,24 +1,14 @@
 package com.millicom.secondscreen.content.homepage;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
-import com.millicom.secondscreen.Consts;
-import com.millicom.secondscreen.R;
-import com.millicom.secondscreen.Consts.REQUEST_STATUS;
-import com.millicom.secondscreen.adapters.CategoryFragmentPagerAdapter;
-import com.millicom.secondscreen.adapters.DateListNavigationAdapter;
-import com.millicom.secondscreen.content.SSPageFragmentActivity;
-import com.millicom.secondscreen.content.activity.ActivityActivity;
-import com.millicom.secondscreen.content.model.Channel;
-import com.millicom.secondscreen.content.model.Tag;
-import com.millicom.secondscreen.content.model.TvDate;
-import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
-import com.millicom.secondscreen.content.search.SearchPageActivity;
-import com.millicom.secondscreen.content.tvguide.ChannelPageActivity;
-import com.millicom.secondscreen.content.tvguide.TVGuideOverviewFragment;
-import com.millicom.secondscreen.content.tvguide.TVGuideTagFragment;
-import com.millicom.secondscreen.customviews.InfinitePagerAdapter;
-
+import android.app.ActivityManager;
+import android.app.ActivityManager.MemoryInfo;
+import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -27,15 +17,14 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
+import android.os.Debug;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -43,49 +32,111 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.Consts.REQUEST_STATUS;
+import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.adapters.ActionBarDropDownDateListAdapter;
+import com.millicom.secondscreen.adapters.CategoryFragmentPagerAdapter;
+import com.millicom.secondscreen.adapters.TagTypeFragmentStatePagerAdapter;
+import com.millicom.secondscreen.content.SSPageFragmentActivity;
+import com.millicom.secondscreen.content.activity.ActivityActivity;
+import com.millicom.secondscreen.content.model.Channel;
+import com.millicom.secondscreen.content.model.Tag;
+import com.millicom.secondscreen.content.model.TvDate;
+import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
+import com.millicom.secondscreen.content.search.SearchPageActivity;
+import com.millicom.secondscreen.content.tvguide.TVGuideOverviewFragment;
+import com.millicom.secondscreen.content.tvguide.TVGuideTableFragment;
+import com.millicom.secondscreen.content.tvguide.TVGuideTagTypeFragment;
+import com.millicom.secondscreen.manager.DazooCore;
+import com.millicom.secondscreen.storage.DazooStore;
+import com.viewpagerindicator.TabPageIndicator;
 
 public class HomeActivity extends SSPageFragmentActivity implements OnClickListener, ActionBar.OnNavigationListener {
 
-	private static final String			TAG					= "HomeActivity";
-	private TextView					mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
-	private ViewPager					mViewPager;
-	private PagerTabStrip				mPagerTabStrip;
-	private ActionBar					mActionBar;
-	private DateListNavigationAdapter	mDayAdapter;
-	public static int					mBroadcastSelection	= -1;
-	private int							mSelectedIndex		= 0;
-	private ArrayList<TvDate>			mTvDates;
-	private ArrayList<Channel>			mChannels;
-	private String						mDate;
-	private ArrayList<Tag>				mTags;
-	private ArrayList<String>			mTabTitles;
-	private PagerAdapter				mAdapter;
+	private static final String					TAG					= "HomeActivity";
+	private TextView							mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
+	private ViewPager							mViewPager;
+	private ActionBar							mActionBar;
+	private ActionBarDropDownDateListAdapter	mDayAdapter;
+	public static int							mBroadcastSelection	= -1;
+	private int									mTabSelectedIndex	= 0, mDateSelectedIndex;
+	private ArrayList<TvDate>					mTvDates			= new ArrayList<TvDate>();
+	private ArrayList<Channel>					mChannels;
+	private String								mDate;
+	private ArrayList<Tag>						mTags				= new ArrayList<Tag>();
+	private ArrayList<String>					mTabTitles;
+	// private FragmentStatePagerAdapter mAdapter;
+	private PagerAdapter						mAdapter;
+	private TabPageIndicator					mPageTabIndicator;
+	private TvDate								mTvDateSelected;
+	private boolean								mIsReady			= false, mFirstHit = true, mIsChannelListChanged;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_home_activity);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
+		mDateSelectedIndex = 0;
 
-		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver, new IntentFilter(Consts.INTENT_EXTRA_TVGUIDE_SORTING));
+		// broadcast receiver for date selection
+		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverDate, new IntentFilter(Consts.INTENT_EXTRA_TVGUIDE_SORTING));
+
+		// broadcasst receiver for content availability
+		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverContent, new IntentFilter(Consts.INTENT_EXTRA_GUIDE_AVAILABLE));
+		
+		//broadcast receiver for my channels have changed
+		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverMyChannels, new IntentFilter(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
 
 		initViews();
 
-		// GET THE DATE FROM THE CORE LOGIC
-		// if not saved before, load the page from scratch
-		// if (!loadHomeFromSavedInstanceState(savedInstanceState)) {
-		//loadPage();
-		// }
+		loadPage();
 	}
 
-	BroadcastReceiver	mBroadcastReceiver	= new BroadcastReceiver() {
+	BroadcastReceiver mBroadcastReceiverMyChannels = new BroadcastReceiver(){
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			Log.d(TAG,"CHANNELS HAVE CHANGED!!!!");
+			// update the ViewPager content
+			mViewPager.setVisibility(View.GONE);
+			// mPageTabIndicator.setVisibility(View.GONE);
+			updateUI(REQUEST_STATUS.LOADING);
+			setAdapter(mTabSelectedIndex);
+		}		
+	};
+	
+	BroadcastReceiver	mBroadcastReceiverContent	= new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			mIsReady = intent.getBooleanExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, false);
+			Log.d(TAG, "content for TvGuide TABLE is ready");
+
+			if (mIsReady && (mDateSelectedIndex == 0)) {
+				if (!pageHoldsData()) {
+					updateUI(REQUEST_STATUS.FAILED);
+				}
+			} else if (mIsReady && (mDateSelectedIndex != 0)) {
+				mViewPager.setVisibility(View.GONE);
+				// mPageTabIndicator.setVisibility(View.GONE);
+				updateUI(REQUEST_STATUS.LOADING);
+				setAdapter(mTabSelectedIndex);
+			}
+		}
+	};
+
+	BroadcastReceiver	mBroadcastReceiverDate		= new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			mDate = intent.getStringExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE);
-			Log.d(TAG, "mDate" + mDate);
-			
+
+			mDateSelectedIndex = intent.getIntExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE_POSITION, 0);
+
 			// RELOAD THE PAGE WITH NEW DATE
-			//reloadPage();
+			reloadPage();
 		}
 	};
 
@@ -112,143 +163,130 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		mActionBar.setDisplayShowHomeEnabled(true);
 		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
-		mDayAdapter = new DateListNavigationAdapter(this, mTvDates);
-		mDayAdapter.setSelectedIndex(mSelectedIndex);
-		mActionBar.setListNavigationCallbacks(mDayAdapter, this);
-
 		mViewPager = (ViewPager) findViewById(R.id.home_pager);
 		mViewPager.setEnabled(false);
-		mPagerTabStrip = (PagerTabStrip) findViewById(R.id.home_pager_header);
 
-		super.initCallbackLayouts();
+		mPageTabIndicator = (TabPageIndicator) findViewById(R.id.home_indicator);
+
+		TvDate date = new TvDate();
+		date.setAlias("today");
+		date.setName("Today");
+		date.setId("2013-10-29");
+		date.setDate("2013-10-29");
+		mTvDates.add(date);
+
+		Tag tagAll = new Tag();
+		tagAll.setId(getResources().getString(R.string.all_categories_id));
+		tagAll.setName(getResources().getString(R.string.all_categories_name));
+		mTags.add(0, tagAll);
+
+		mAdapter = new TagTypeFragmentStatePagerAdapter(getSupportFragmentManager(), mTags, date, mDateSelectedIndex);
+		mViewPager.setAdapter(mAdapter);
+		mPageTabIndicator.setViewPager(mViewPager);
+
+		mViewPager.setCurrentItem(0);
+		mPageTabIndicator.setCurrentItem(0);
+		mViewPager.setVisibility(View.GONE);
+		mPageTabIndicator.setVisibility(View.GONE);
+		mPageTabIndicator.setOnPageChangeListener(mOnPageChangeListener);
+
+		Log.d(TAG, "INIT VIEWS");
 	}
 
 	@Override
 	protected void loadPage() {
 		// The the initial state to be loading
 		updateUI(REQUEST_STATUS.LOADING);
+		Log.d(TAG, "UI: LOADING");
 
-		// SINGLETON CORE LOGIC COMMUNICATION HERE
+		DazooCore.getInstance(this, mDateSelectedIndex).fetchContent();
+	}
 
-		if (!pageHoldsData()) {
-			// Request failed
-			updateUI(REQUEST_STATUS.FAILED);
-		}
+	private void reloadPage() {
+		// Don't allow any swiping gestures while reloading
+		updateUI(REQUEST_STATUS.LOADING);
+		mViewPager.setVisibility(View.GONE);
+
+		// mTags.clear();
+		mTags = null;
+		mTags = DazooStore.getInstance().getTags();
+
+		// check if we have this data already
+		mViewPager.getAdapter().notifyDataSetChanged();
+		mViewPager.destroyDrawingCache();
+
+		setAdapter(mTabSelectedIndex);
 	}
 
 	@Override
 	protected boolean pageHoldsData() {
 		boolean result = false;
 
+		Log.d(TAG, "pageHoldsData()");
 		// CHECK THE PRESENCE OF THE DATA FROM DAZOOSTORE SINGLETON
+		mTags = null;
+		mTvDates = DazooStore.getInstance().getTvDates();
+		mTags = DazooStore.getInstance().getTags();
 
-		// if (mTvDates != null) {
-		// if (mTvDates.isEmpty()) {
-		// Log.d(TAG, "EMPTY RESPONSE");
-		// updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
-		// } else {
-		Log.d(TAG, "SUCCESSFUL");
-		updateUI(REQUEST_STATUS.SUCCESSFUL);
-		// }
-		result = true;
-		// }
+		if (mTvDates != null) {
+			if (mTvDates.isEmpty()) {
+				updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
+			} else {
+				Log.d(TAG, "SUCCESSFUL");
+				updateUI(REQUEST_STATUS.SUCCESSFUL);
+				result = true;
+			}
+		}
 		return result;
 	}
 
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
 		if (super.requestIsSuccesfull(status)) {
-			Log.d(TAG, "CREATE FRAGMENTS");
+			mDayAdapter = new ActionBarDropDownDateListAdapter(mTvDates);
+			mDayAdapter.setSelectedIndex(mDateSelectedIndex);
+			mActionBar.setListNavigationCallbacks(mDayAdapter, this);
 			createFragments();
 		}
 	}
 
 	private void createFragments() {
-		// if (mTags != null && !mTags.isEmpty()) {
-		// insert general Tag category in the list
-		Tag tagAll = new Tag();
-		tagAll.setId(getResources().getString(R.string.all_categories_id));
-		tagAll.setName(getResources().getString(R.string.all_categories_name));
-		mTags.add(0, tagAll);
-
-		Log.d(TAG, "mTags SIZE:" + mTags.size());
-
 		mTabTitles = new ArrayList<String>();
 		for (Tag tag : mTags) {
 			mTabTitles.add(tag.getName());
 		}
-		Log.d(TAG, "mTagTitles size: " + mTabTitles.size());
-
-		setAdapter();
+		setAdapter(mTabSelectedIndex);
 	}
 
-	private void setAdapter() {
-		// if (mAdapter == null)
+	private void setAdapter(int selectedIndex) {
+		// mAdapter = null;
 
-		mAdapter = new CategoryFragmentPagerAdapter(getSupportFragmentManager(), mTabTitles) {
-			@Override
-			public Fragment initFragment(int position) {
-				Fragment fragment;
-				if (position == 0) {
-					fragment = TVGuideOverviewFragment.newInstance(mTags.get(position), mDate, mChannels);
-				} else {
-					fragment = TVGuideTagFragment.newInstance(mTags.get(position), mDate, mChannels);
-				}
-				Bundle bundle = new Bundle();
-				
-				// ARGUMENTS TO BE DETERMINED
-				
-				fragment.setArguments(bundle);
-				return fragment;
-			}
-		};
+		mAdapter = new TagTypeFragmentStatePagerAdapter(getSupportFragmentManager(), mTags, mTvDates.get(mDateSelectedIndex), mDateSelectedIndex);
+		/*
+		 * mAdapter = new CategoryFragmentPagerAdapter(getSupportFragmentManager(), mTabTitles) {
+		 * 
+		 * @Override public Fragment initFragment(int position) { Log.d(TAG, "INIT FRAGMENTS: position: " + position + " tag: " + mTags.get(position).getName()); Fragment fragment;
+		 * 
+		 * //if (position == 0) { fragment = TVGuideTableFragment.newInstance(mTags.get(position), mTvDates.get(mDateSelectedIndex), mDateSelectedIndex); //} else { // fragment = TVGuideTagTypeFragment.newInstance(mTags.get(position), mTvDates.get(mDateSelectedIndex), mDateSelectedIndex); //} return
+		 * fragment; } }
+		 */
 
-		final PagerAdapter wrappedAdapter = new InfinitePagerAdapter(mAdapter, mTabTitles);
+		mViewPager.setAdapter(mAdapter);
+		mAdapter.notifyDataSetChanged();
+		mViewPager.setCurrentItem(selectedIndex);
 
-		mViewPager.setOnPageChangeListener(mOnPageChangeListener);
+		mPageTabIndicator.notifyDataSetChanged();
+		mPageTabIndicator.setCurrentItem(selectedIndex);
 
-		Handler handler = new Handler();
-		handler.post(new Runnable() {
-
-			@Override
-			public void run() {
-				mViewPager.setVisibility(View.VISIBLE);
-				mPagerTabStrip.setVisibility(View.VISIBLE);
-				// mViewPager.setAdapter(mAdapter);
-				mViewPager.setAdapter(wrappedAdapter);
-
-				// mAdapter.notifyDataSetChanged();
-				wrappedAdapter.notifyDataSetChanged();
-
-				mViewPager.setCurrentItem(mSelectedIndex);
-			}
-		});
-	}
-
-	private boolean loadHomeFromSavedInstanceState(Bundle savedInstanceState) {
-		boolean result = false;
-		if (savedInstanceState != null) {
-			Log.d(TAG, "load from saved instance state");
-
-			// mChannels = savedInstanceState.getParcelableArrayList(Consts.PARCELABLE_CHANNELS_LIST);
-			// mTvDates = savedInstanceState.getParcelableArrayList(Consts.PARCELABLE_TAGS_LIST);
-
-			if (mChannels != null && mTvDates != null) {
-
-				// refresh the HomePage
-				result = true;
-				updateUI(REQUEST_STATUS.SUCCESSFUL);
-			}
-		}
-		return result;
+		mViewPager.setVisibility(View.VISIBLE);
+		mPageTabIndicator.setVisibility(View.VISIBLE);
 	}
 
 	OnPageChangeListener	mOnPageChangeListener	= new OnPageChangeListener() {
 
 		@Override
 		public void onPageSelected(int pos) {
-			Log.d(TAG, "mSelectedIndex: " + mSelectedIndex + " pos: " + pos);
-			mSelectedIndex = pos;
+			mTabSelectedIndex = pos;
 		}
 
 		@Override
@@ -261,35 +299,12 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	};
 
 	@Override
-	protected void onSaveInstanceState(Bundle savedInstanceState) {
-
-		// SAVE ACTIVITY CONTENT FOR
-
-		// savedInstanceState.putParcelableArrayList(Consts.PARCELABLE_CHANNELS_LIST, mChannels);
-		// savedInstanceState.putParcelableArrayList(Consts.PARCELABLE_TV_DATES_LIST, mTvDates);
-
-		super.onSaveInstanceState(savedInstanceState);
-	}
-
-	private void reloadPage() {
-		// mTagsPage = SSTagsPage.getInstance();
-
-		// Don't allow any swiping gestures while reloading
-		// mViewPager.setVisibility(View.GONE);
-		// mPagerTabStrip.setVisibility(View.GONE);
-		// mTags = null;
-
-		// getPage();
-
-		// NEW REQUEST WITH NEW DATE TO THE CORE LOGIC
-	}
-
-	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		Log.d(TAG, "onDestroy");
 		// Stop listening to broadcast events
-		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiver);
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverDate);
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverContent);
 	};
 
 	@Override
@@ -300,10 +315,21 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 	@Override
 	public boolean onNavigationItemSelected(int position, long id) {
-		mDayAdapter.setSelectedIndex(position);
-		TvDate tvDateItem = mTvDates.get(position);
-		LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(new Intent(Consts.INTENT_EXTRA_TVGUIDE_SORTING).putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE, tvDateItem.getDate()));
-		return true;
+		if (mFirstHit) {
+			mDayAdapter.setSelectedIndex(0);
+			mActionBar.setSelectedNavigationItem(0);
+			mTvDateSelected = mTvDates.get(0);
+			mFirstHit = false;
+			return true;
+		} else {
+			mDayAdapter.setSelectedIndex(position);
+			mTvDateSelected = mTvDates.get(position);
+			Log.d(TAG, "ON NAVIGATION ITEM SELECTED: " + position);
+			LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(
+					new Intent(Consts.INTENT_EXTRA_TVGUIDE_SORTING).putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE, mTvDateSelected.getDate()).putExtra(
+							Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE_POSITION, position));
+			return true;
+		}
 	}
 
 	@Override

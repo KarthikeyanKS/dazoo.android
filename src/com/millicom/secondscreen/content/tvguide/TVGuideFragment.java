@@ -195,7 +195,7 @@ public class TVGuideFragment extends SSPageFragment {
 				mStartPageUrl = getPageUrl(numOfChannelsShownNow, mChannelsNum, mDate);
 				mPage = SSStartPage.getInstance();
 				updateUI(REQUEST_STATUS.LOADING);
-				mPage.getPage(mProgramType, mStartPageUrl, new SSPageCallback() {
+				mPage.getPage(mStartPageUrl, new SSPageCallback() {
 
 					@Override
 					public void onGetPageResult(SSPageGetResult aPageGetResult) {
@@ -233,7 +233,7 @@ public class TVGuideFragment extends SSPageFragment {
 	}
 
 	private void getPage() {
-		mPage.getPage(mProgramType, mStartPageUrl, new SSPageCallback() {
+		mPage.getPage(mStartPageUrl, new SSPageCallback() {
 
 			@Override
 			public void onGetPageResult(SSPageGetResult aPageGetResult) {
@@ -277,7 +277,7 @@ public class TVGuideFragment extends SSPageFragment {
 		Log.d(TAG, "update UI :" + status);
 
 		if (super.requestIsSuccesfull(status)) {
-			mTvGuideListAdapter = new TVGuideListAdapter(mActivity, mGuide, mChannels);
+		//	mTvGuideListAdapter = new TVGuideListAdapter(mActivity, mGuide, mDate);
 
 			actualListView = mTvGuideListView.getRefreshableView();
 
@@ -494,7 +494,7 @@ public class TVGuideFragment extends SSPageFragment {
 
 					mStartPageUrl = getPageUrl(numOfChannelsShownNow, mChannelsNum, mDate);
 
-					mPage.getPage(mProgramType, mStartPageUrl, new SSPageCallback() {
+					mPage.getPage(mStartPageUrl, new SSPageCallback() {
 
 						@Override
 						public void onGetPageResult(SSPageGetResult aPageGetResult) {
@@ -576,12 +576,11 @@ public class TVGuideFragment extends SSPageFragment {
 	private HashMap<Channel, ArrayList<ChannelHour>> mapChannelsWithBroadcasts(ArrayList<Guide> guide) {
 		for (int i = 0; i < guide.size(); i++) {
 			Channel channel = new Channel();
-			channel.setId(guide.get(i).getId());
+			channel.setChannelId(guide.get(i).getId());
 			channel.setName(guide.get(i).getName());
 			channel.setLogoSUrl(guide.get(i).getLogoSHref());
 			channel.setLogoMUrl(guide.get(i).getLogoMHref());
 			channel.setLogoLUrl(guide.get(i).getLogoLHref());
-			channel.setChannelPageUrl(guide.get(i).getHref());
 
 			ArrayList<ChannelHour> channelHours = putBroadcastsInHours(guide.get(i).getBroadcasts());
 			channelBroadcastsMap.put(channel, channelHours);

@@ -10,20 +10,24 @@ public class Program implements Parcelable {
 	private String programId;
 	private String programType;
 	private String title;
-	private String subtitle;
+	private String synopsisShort;
+	private String synopsisLong;
 	private String posterSUrl;
 	private String posterMUrl;
 	private String posterLUrl;
-	private String cast; 			// TODO
-	private String year;
-	private String runtime;
 	private ArrayList<String> tags = new ArrayList<String>();
+	private ArrayList<Credit> credits = new ArrayList<Credit>(); 	
+	// specific for programType = "TV_EPISODE"
+	private int episodeNumber;
 	private Season season;
-	private String episode;
-	private String description;
-	private String synopsisShort;
-	private String synopsisLong;
 	private Series series;
+	// specific for programType = "MOVIE"
+	private int year;
+	private String genre;
+	// specific for programType = "SPORT"
+	private String sportType;
+	private String tournament;
+	
 	
 	public Program(){
 	}
@@ -52,12 +56,20 @@ public class Program implements Parcelable {
 		return this.title;
 	}
 	
-	public void setSubtitle(String subtitle){
-		this.subtitle = subtitle;
+	public void setSynopsisShort(String synopsisShort){
+		this.synopsisShort = synopsisShort;
 	}
 	
-	public String getSubtitle(){
-		return this.subtitle;
+	public String getSynopsisShort(){
+		return this.synopsisShort;
+	}
+	
+	public void setSynopsisLong(String synopsisLong){
+		this.synopsisLong = synopsisLong;
+	}
+	
+	public String getSynopsisLong(){
+		return this.synopsisLong;
 	}
 	
 	public void setPosterSUrl(String posterSUrl){
@@ -84,36 +96,28 @@ public class Program implements Parcelable {
 		return this.posterLUrl;
 	}
 	
-	public void setCast(String cast){
-		this.cast = cast;
-	}
-	
-	public String getCast(){
-		return this.cast;
-	}
-	
-	public void setYear(String year){
-		this.year = year;
-	}
-	
-	public String getYear(){
-		return this.year;
-	}
-	
-	public void setRuntime(String runtime){
-		this.runtime = runtime;
-	}
-	
-	public String getRuntime(){
-		return runtime;
-	}
-	
 	public void setTags(ArrayList<String> tags){
 		this.tags = tags;
 	}
 	
 	public ArrayList<String> getTags(){
 		return this.tags;
+	}
+	
+	public void setCredits(ArrayList<Credit> credits){
+		this.credits = credits;
+	}
+	
+	public ArrayList<Credit> getCredits(){
+		return this.credits;
+	}
+	
+	public void setEpisodeNumber(int episodeNumber){
+		this.episodeNumber = episodeNumber;
+	}
+	
+	public int getEpisodeNumber(){
+		return this.episodeNumber;
 	}
 	
 	public void setSeason(Season season){
@@ -124,44 +128,44 @@ public class Program implements Parcelable {
 		return this.season;
 	}
 	
-	public void setEpisode(String episode){
-		this.episode = episode;
-	}
-	
-	public String getEpisode(){
-		return this.episode;
-	}
-	
-	public void setDescription(String description){
-		this.description = description;
-	}
-	
-	public String getDescription(){
-		return this.description;
-	}
-	
-	public void setSynopsisShort(String synopsisShort){
-		this.synopsisShort = synopsisShort;
-	}
-	
-	public String getSynopsisShort(){
-		return this.synopsisShort;
-	}
-	
-	public void setSynopsisLong(String synopsisLong){
-		this.synopsisLong = synopsisLong;
-	}
-	
-	public String getSynopsisLong(){
-		return this.synopsisLong;
-	}
-	
 	public void setSeries(Series series){
 		this.series = series;
 	}
 	
 	public Series getSeries(){
 		return this.series;
+	}
+	
+	public void setYear(int year){
+		this.year = year;
+	}
+	
+	public int getYear(){
+		return this.year;
+	}
+	
+	public void setGenre(String genre){
+		this.genre = genre;
+	}
+	
+	public String getGenre(){
+		return this.genre;
+	}
+	
+	public void setSportType(String sportType){
+		this.sportType = sportType;
+	}
+	
+	public String getSportType(){
+		return this.sportType;
+	}
+	
+	public void setTournament(String tournament){
+		this.tournament = tournament;
+	}
+	
+	public String getTournament(){
+		return this.tournament;
 	}
 	
 	@Override
@@ -174,40 +178,40 @@ public class Program implements Parcelable {
 		dest.writeString(programId);
 		dest.writeString(programType);
 		dest.writeString(title);
-		dest.writeString(subtitle);
+		dest.writeString(synopsisShort);
+		dest.writeString(synopsisLong);
 		dest.writeString(posterSUrl);
 		dest.writeString(posterMUrl);
 		dest.writeString(posterLUrl);
-		dest.writeString(cast);
-		dest.writeString(year);	
-		dest.writeString(runtime);
-		dest.writeParcelable(season, flags);
-		dest.writeString(episode);
-		dest.writeString(description);
 		dest.writeSerializable(tags);
-		dest.writeString(synopsisShort);
-		dest.writeString(synopsisLong);
-		//dest.writeParcelable(series, flags);
+		dest.writeTypedList(credits);
+		dest.writeInt(episodeNumber);
+		dest.writeParcelable(season, flags);
+		dest.writeParcelable(series, flags);
+		dest.writeInt(year);
+		dest.writeString(genre);
+		dest.writeString(sportType);
+		dest.writeString(tournament);
 	}
 	
 	public Program(Parcel in){
 		programId = in.readString();
 		programType = in.readString();
 		title = in.readString();
-		subtitle = in.readString();
+		synopsisShort = in.readString();
+		synopsisLong = in.readString();
 		posterSUrl = in.readString();
 		posterMUrl = in.readString();
 		posterLUrl = in.readString();
-		cast = in.readString();
-		year = in.readString();
-		runtime = in.readString();
-		season = (Season) in.readParcelable(Season.class.getClassLoader());
-		episode = in.readString();
-		description = in.readString();
 		tags = (ArrayList<String>) in.readSerializable();
-		synopsisShort = in.readString();
-		synopsisLong = in.readString();
-		//series = (Series) in.readParcelable(Series.class.getClassLoader());
+		credits = in.readArrayList(Credit.class.getClassLoader());
+		episodeNumber = in.readInt();
+		season = in.readParcelable(Season.class.getClassLoader());
+		series = in.readParcelable(Series.class.getClassLoader());
+		year = in.readInt();
+		genre = in.readString();
+		sportType = in.readString();
+		tournament = in.readString();
 	}
 
 	@Override
@@ -233,8 +237,8 @@ public class Program implements Parcelable {
 	
 	@Override
 	public String toString() {
-	    return "Id: " + programId + "\n programType: " + programType + "\n title: " + title + "\n subtitle: " + subtitle + "\n posterSUrl:" + posterSUrl + "\n posterMUrl" + posterMUrl 
-	    		+ "\n posterLUrl" + posterLUrl + "\n cast" + cast + "\n year: " + year + "\n runtime: " + runtime + "\n season: " + season + "\n episode:" + episode + 
+	    return "Id: " + programId + "\n programType: " + programType + "\n title: " + title +  "\n posterSUrl:" + posterSUrl + "\n posterMUrl" + posterMUrl 
+	    		+ "\n posterLUrl" + posterLUrl + "\n year: " + year +  "\n season: " + season + 
 	    		"\n synopsisShort" + synopsisShort + "\n synopsisLong" + synopsisLong;  
 	}
 }

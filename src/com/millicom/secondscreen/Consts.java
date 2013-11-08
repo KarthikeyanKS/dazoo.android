@@ -20,7 +20,7 @@ public abstract class Consts {
 	// api urls
 	public static final String	MILLICOM_SECONDSCREEN_GUIDE_PAGE_URL						= "http://www.gitrgitr.com/api/epg/guide";
 	public static final String	MILLICOM_SECONDSCREEN_DATES_PAGE_URL						= "http://www.gitrgitr.com/api/epg/dates";
-	public static final String	MILLICOM_SECONDSCREEN_CHANNELS_PAGE_URL						= "http://www.gitrgitr.com/api/epg/channels";
+	public static final String	MILLICOM_SECONDSCREEN_CHANNELS_ALL_PAGE_URL					= "http://www.gitrgitr.com/api/epg/channels";
 	public static final String	MILLICOM_SECONDSCREEN_CHANNELS_DEFAULT_PAGE_URL				= "http://www.gitrgitr.com/api/epg/channels/default";
 	public static final String	MILLICOM_SECONDSCREEN_FACEBOOK_TOKEN_URL					= "http://www.gitrgitr.com/api/auth/login/facebook";
 	public static final String	MILLICOM_SECONDSCREEN_DAZOO_LOGIN_URL						= "http://www.gitrgitr.com/api/auth/login/dazoo";
@@ -30,7 +30,7 @@ public abstract class Consts {
 	public static final String	MILLICOM_SECONDSCREEN_MY_CHANNELS_URL						= "http://www.gitrgitr.com/api/my/channels";
 	public static final String	MILLICOM_SECONDSCREEN_LIKES_URL								= "http://www.gitrgitr.com/api/my/likes";
 
-	public static final String	MILLICON_SECONDSCREEN_HTTP_SCHEME							= "http";
+	public static final String	MILLICON_SECONDSCREEN_HTTP_SCHEME							= "https";
 
 	// api request strings
 	public static final String	MILLICOM_SECONDSCREEN_API_CHANNEL_ID_WITH_EQUALS_SIGN		= "channelId=";
@@ -48,7 +48,7 @@ public abstract class Consts {
 	public static final String	REQUEST_QUERY_SEPARATOR										= "/";
 	public static final String	REQUEST_PARAMETER_SEPARATOR									= "?";
 	public static final String	MILLICOM_SECONDSCREEN_API_ENTITY_ID							= "entityId";
-	public static final String	MILLICOM_SECONDSCREEN_API_ENTITY_TYPE						= "entityType";
+	public static final String	MILLICOM_SECONDSCREEN_API_LIKETYPE							= "likeType";
 
 	public static final String	EMPTY_STRING												= "";
 	public static final String	ERROR_STRING												= "error";
@@ -92,17 +92,45 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_CHANNEL_PAGE_LINK						= "com.millicom.secondscreen.intent.extra.channel.page.link";
 	public static final String	INTENT_EXTRA_CHANNEL_ID								= "com.millicom.secondscreen.intent.extra.channel.id";
 	public static final String	INTENT_EXTRA_CHANNEL_GUIDE							= "com.millicom.secondscreen.intent.extra.channel.guide";
+	public static final String	INTENT_EXTRA_CHANNEL_SORTING						= "com.millicom.secondscreen.intent.extra.channel.sorting";
+	public static final String	INTENT_EXTRA_CHANNEL_SORTING_VALUE					= "com.millicom.secondscreen.intent.extra.channel.sorting";
+	public static final String	INTENT_EXTRA_CHANNEL_CHOSEN_DATE					= "com.millicom.secondscreen.intent.extra.channel.chosen.date";
 	public static final String	INTENT_EXTRA_TVGUIDE_SORTING						= "com.millicom.secondscreen.intent.extra.tvguide.sorting";
 	public static final String	INTENT_EXTRA_TVGUIDE_SORTING_VALUE					= "com.millicom.secondscreen.intent.extra.tvguide.sorting.value";
 	public static final String	INTENT_EXTRA_TVGUIDE_SORTING_TYPE					= "com.millicom.secondscreen.intent.extra,tvguide.sorting.type";
-	public static final String	INTENT_EXTRA_TAG									= "com.millicom.secondscreen.intent.tag";
 	public static final String	INTENT_EXTRA_TVGUIDE_PAGE_URL						= "com.millicom.secondscreen.intent.extra.tvguide.page.url";
 	public static final String	INTENT_EXTRA_TVGUIDE_TVDATE							= "com.millicom.secondscreen.intent.extra.tvguide.tvdate";
+	public static final String	INTENT_EXTRA_CHOSEN_DATE_TVGUIDE					= "com.millicom.secondscreen.intent.extra.chosen.date.tvguide";
 	public static final String	INTENT_EXTRA_BROADCAST								= "com.millicom.secondscreen.intent.extra.broadcast";
 	public static final String	INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS			= "com.millicom.secondscreen.intent.extra.begintimeinmillis";
 	public static final String	INTENT_EXTRA_BROADCAST_URL							= "com.millicom.secondscren.intent,extra.broadcast.url";
 	public static final String	INTENT_EXTRA_NOTIFICATION_TO_SET					= "com.millicom.secondscreen.intent.extra.notification.to.set";
 	public static final String	INTENT_EXTRA_NOTIFICATION_ID						= "com.millicom.secondscreen.intent.extra.notification.id";
+	public static final String	INTENT_EXTRA_DAZOO_CORE								= "com.millicom.secondscreen.intent.extra.dazoo.core";
+	public static final String	INTENT_EXTRA_GUIDE_AVAILABLE						= "com.millicom.secondscreen.intent.extra.guide.available";
+	public static final String	INTENT_EXTRA_GUIDE_AVAILABLE_VALUE					= "com.millicom.secondscreen.intent.extra.guide.available.value";
+	public static final String	INTENT_EXTRA_TVGUIDE_SORTING_VALUE_POSITION			= "com.millicom.secondscreen.intent.extra.tvguide.sorting.value.position";
+	public static final String	INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE				= "com.millicom.secondscreen.intent.extra.channel.guide.available";
+	public static final String	INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE_VALUE			= "com.millicom.secondscreen.intent.extra.channel.guide.available.value";
+	public static final String	INTENT_EXTRA_TAG_GUIDE_AVAILABLE					= "com.millicom.secondscreen.intent.extra.tag.guide.available";
+	public static final String	INTENT_EXTRA_TAG_GUIDE_AVAILABLE_VALUE				= "com.millicom.secondscreen.intent.extra.tag.guide.available.value";
+	public static final String	INTENT_EXTRA_DATE_DATE								= "com.millicom.secondscreen.intent.extra.date.date";
+	public static final String	INTENT_EXTRA_MY_CHANNELS_CHANGED					= "com.millicom.secondscreen.intent.extra.my.channels.changed";
+
+	// alarm extras
+	public static final String	INTENT_ALARM_EXTRA_BROADCAST_BEGINTIMEMILLIS		= "com.millicom.secondscreen.intent.alarm.extra.broadcast.begintimemillis";
+	public static final String	INTENT_ALARM_EXTRA_CHANNELID						= "com.millicom.secondscreen.intent.alarm.extra.channelid";
+	public static final String	INTENT_ALARM_EXTRA_NOTIFICIATION_ID					= "com.millicom.secondscreen.intent.alarm.extra.notification.id";
+	public static final String	INTENT_ALARM_EXTRA_BROADCAST_NAME					= "com.millicom.secondscreen.intent.alarm.extra.broadcast.name";
+	public static final String	INTENT_ALARM_EXTRA_CHANNEL_NAME						= "com.millicom.secondscreen.intent.alarm.extra.channel.name";
+	public static final String	INTENT_ALARM_EXTRA_DATE_DATE						= "com.millicom.secondscreen.intent.alarm.extra.date.date";
+
+	public static final String	INTENT_EXTRA_FROM_NOTIFICATION						= "com.millicom.secondscreen.intent.extra.from.notification";
+
+	// fragments extra arguments
+	public static final String	FRAGMENT_EXTRA_TAG									= "com.millicom.secondscreen.fragment.extra.tag";
+	public static final String	FRAGMENT_EXTRA_TVDATE								= "com.millicom.secondscreen.fragment.extra.tvdate";
+	public static final String	FRAGMENT_EXTRA_TVDATE_POSITION						= "com.millicom.secondscreen.fragment.extra.tvdate.position";
 
 	// custom data types
 	public static final String	VALUE_TYPE_PROGRAMTYPE								= "com.millicom.secondscreen.value.type.programtype";
@@ -141,6 +169,7 @@ public abstract class Consts {
 	public static final int		BAD_RESPONSE										= 400;
 	public static final int		BAD_RESPONSE_MISSING_TOKEN							= 401;
 	public static final int		BAD_RESPONSE_INVALID_TOKEN							= 403;
+	public static final int		BAD_RESPONSE_PROGRAM_SERIES_NOT_FOUND				= 400;
 
 	// notifications
 	public static final int		NOTIFY_MINUTES_BEFORE_THE_BROADCAST					= -15;
@@ -169,46 +198,45 @@ public abstract class Consts {
 	// =========================== CONTENT ================================
 
 	// PROGRAM fields:
-	public static final String	DAZOO_PROGRAM_HREF									= "href";
 	public static final String	DAZOO_PROGRAM_ID									= "programId";
-	public static final String	DAZOO_PROGRAM_TITLE									= "title";
 	public static final String	DAZOO_PROGRAM_TYPE									= "programType";
-	public static final String	DAZOO_PROGRAM_TAGS									= "tags";
+	public static final String	DAZOO_PROGRAM_TITLE									= "title";
 	public static final String	DAZOO_PROGRAM_SYNOPSIS_SHORT						= "synopsisShort";
 	public static final String	DAZOO_PROGRAM_SYNOPSISS_LONG						= "synopsisLong";
 	public static final String	DAZOO_PROGRAM_POSTER								= "poster";
+	public static final String	DAZOO_PROGRAM_TAGS									= "tags";
+	public static final String	DAZOO_PROGRAM_CREDITS								= "credits";
 	public static final String	DAZOO_PROGRAM_EPISODE								= "episodeNumber";
 	public static final String	DAZOO_PROGRAM_SEASON								= "season";
-	public static final String	DAZOO_PROGRAM_DESCRIPTION							= "description";
-	public static final String	DAZOO_PROGRAM_CAST									= "cast";
-	// public static final String DAZOO_PROGRAM_RUNTIME = "runtime";
-	public static final String	DAZOO_PROGRAM_SUBTITLE								= "subtitle";
-	public static final String	DAZOO_PROGRAM_YEAR									= "year";
 	public static final String	DAZOO_PROGRAM_SERIES								= "series";
+	public static final String	DAZOO_PROGRAM_YEAR									= "year";
+	public static final String	DAZOO_PROGRAM_GENRE									= "genre";
+	public static final String	DAZOO_PROGRAM_SPORTTYPE								= "sportType";
+	public static final String	DAZOO_PROGRAM_TOURNAMENT							= "tournament";
 	public static final String	DAZOO_PROGRAM_TYPE_TV_EPISODE						= "TV_EPISODE";
 	public static final String	DAZOO_PROGRAM_TYPE_MOVIE							= "MOVIE";
 	public static final String	DAZOO_PROGRAM_TYPE_OTHER							= "OTHER";
 	public static final String	DAZOO_PROGRAM_TYPE_SPORT							= "SPORT";
+
 	public static final String	DAZOO_LIKE_ENTITY_TYPE_PROGRAM						= "PROGRAM";
 	public static final String	DAZOO_LIKE_ENTITY_TYPE_SERIES						= "SERIES";
 
 	// BROADCAST fields
-	public static final String	DAZOO_BROADCAST_HREF								= "href";
 	public static final String	DAZOO_BROADCAST_PROGRAM								= "program";
 	public static final String	DAZOO_BROADCAST_CHANNEL								= "channel";
+	public static final String	DAZOO_BROADCAST_BROADCAST_TYPE						= "broadcastType";
 	public static final String	DAZOO_BROADCAST_BEGIN_TIME							= "beginTime";
 	public static final String	DAZOO_BROADCAST_END_TIME							= "endTime";
-	// public static final String DAZOO_BROADCAST_DURATION_IN_MINUTES = "durationInMinutes";
 	public static final String	DAZOO_BROADCAST_BEGIN_TIME_MILLIS					= "beginTimeMillis";
 	public static final String	DAZOO_BROADCAST_SHARE_URL							= "shareUrl";
+
 	public static final String	DAZOO_BROADCAST_TYPE_RERUN							= "RERUN";
 	public static final String	DAZOO_BROADCAST_TYPE_LIVE							= "LIVE";
 	public static final String	DAZOO_BROADCAST_TYPE_OTHER							= "OTHER";
+	public static final String	DAZOO_BROADCAST_TYPE_RECORDED						= "RECORDED";
 
 	// CHANNEL fields
-	public static final String	DAZOO_CHANNEL_HREF									= "href";
 	public static final String	DAZOO_CHANNEL_CHANNEL_ID							= "channelId";
-	public static final String	DAZOO_CHANNEL_ID									= "_id";
 	public static final String	DAZOO_CHANNEL_NAME									= "name";
 	public static final String	DAZOO_CHANNEL_LOGO									= "logo";
 
@@ -232,16 +260,30 @@ public abstract class Consts {
 	public static final String	DAZOO_DATE_DATE										= "date";
 
 	// GUIDE fields
-	public static final String	DAZOO_GUIDE_HREF									= "href";
 	public static final String	DAZOO_GUIDE_CHANNEL_ID								= "channelId";
-	public static final String	DAZOO_GUIDE_NAME									= "name";
+	public static final String	DAZOO_GUIDE_CHANNEL_NAME							= "name";
 	public static final String	DAZOO_GUIDE_LOGO									= "logo";
 	public static final String	DAZOO_GUIDE_BROADCASTS								= "broadcasts";
 
 	// DAZOO LIKE fields
-	public static final String	DAZOO_LIKE_ENTITY_ID								= "entityId";
-	public static final String	DAZOO_LIKE_ENTITY_TYPE								= "entityType";
-	public static final String	DAZOO_LIKE_ENTITY									= "entity";
+	public static final String	DAZOO_LIKE_ENTITYID									= "entityId";
+	public static final String	DAZOO_LIKE_LIKETYPE									= "likeType";
+	public static final String	DAZOO_LIKE_TYPE_SERIES								= "SERIES";
+	public static final String	DAZOO_LIKE_TYPE_PROGRAM								= "PROGRAM";
+	public static final String	DAZOO_LIKE_TYPE_SPORT_TYPE							= "SPORT_TYPE";
+	public static final String	DAZOO_LIKE_SERIES_SERIES_ID							= "seriesId";
+	public static final String	DAZOO_LIKE_SERIES_TITLE								= "title";
+	public static final String	DAZOO_LIKE_PROGRAM_PROGRAMID						= "programId";
+	public static final String	DAZOO_LIKE_PROGRAM_PROGRAMTYPE						= "programType";
+	public static final String	DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_OTHER				= "OTHER";
+	public static final String	DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_MOVIE				= "MOVIE";
+	public static final String	DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_OTHER_TITLE			= "title";
+	public static final String	DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_OTHER_CATEGORY		= "category";
+	public static final String	DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_MOVIE_TITLE			= "title";
+	public static final String	DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_MOVIE_GENRE			= "genre";
+	public static final String	DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_MOVIE_YEAR			= "year";
+	public static final String	DAZOO_LIKE_SPORT_TYPE_SPORTTYPEID					= "sportTypeId";
+	public static final String	DAZOO_LIKE_SPORT_TYPE_TITLE							= "title";
 
 	// DAZOO LIKE ENTITY fields
 	public static final String	DAZOO_LIKE_ENTITY_ENTITY_ID							= "_id";

@@ -53,10 +53,7 @@ public class NotificationService {
 			calendar = DateUtilities.getTimeFifteenMinBefore(broadcast.getBeginTime());
 
 			alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-
-			// for testing
-			// alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (1000), pendingIntent);
-
+			
 			return true;
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -64,16 +61,25 @@ public class NotificationService {
 		return false;
 	}
 	
-	public static boolean setAlarm(Context context, Broadcast broadcast, Channel channel) {
+	public static boolean setAlarm(Context context, Broadcast broadcast, Channel channel, String dateDate) {
 
 		Random random = new Random();
 		int notificationId = random.nextInt(Integer.MAX_VALUE);
+		Log.d(TAG,"NOTIFICATION ID: " + notificationId);
 
 		// call alarm manager to set the notification at the certain time
 		Intent intent = new Intent("DAZOO_NOTIFICATION");
-		intent.putExtra(Consts.INTENT_EXTRA_BROADCAST, broadcast);
-		intent.putExtra(Consts.INTENT_EXTRA_CHANNEL, channel);
-		intent.putExtra(Consts.INTENT_EXTRA_NOTIFICATION_ID, notificationId);
+		//intent.putExtra(Consts.INTENT_EXTRA_BROADCAST, broadcast);
+		//intent.putExtra(Consts.INTENT_EXTRA_CHANNEL, channel);
+		//intent.putExtra(Consts.INTENT_EXTRA_NOTIFICATION_ID, notificationId);
+		
+		intent.putExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_BEGINTIMEMILLIS, broadcast.getBeginTimeMillis());
+		intent.putExtra(Consts.INTENT_ALARM_EXTRA_CHANNELID, channel.getChannelId());
+		intent.putExtra(Consts.INTENT_ALARM_EXTRA_NOTIFICIATION_ID, notificationId);
+		intent.putExtra(Consts.INTENT_ALARM_EXTRA_CHANNEL_NAME, channel.getName());
+		intent.putExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_NAME, broadcast.getProgram().getTitle());
+		intent.putExtra(Consts.INTENT_ALARM_EXTRA_DATE_DATE, dateDate);
+		
 
 		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, notificationId, intent, 0);
@@ -82,16 +88,16 @@ public class NotificationService {
 		try {
 			calendar = DateUtilities.getTimeFifteenMinBefore(broadcast.getBeginTime());
 
-			alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+			//alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
 			// for testing
-			// alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (1000), pendingIntent);
+			alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (1000), pendingIntent);
 
 			NotificationDataSource notificationDataSource = new NotificationDataSource(context);
 
 			NotificationDbItem dbNotification = new NotificationDbItem();
 			dbNotification.setNotificationId(notificationId);
-			dbNotification.setBroadcstUrl(Consts.NOTIFY_BROADCAST_URL_PREFIX + channel.getId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillis());
+			dbNotification.setBroadcstUrl(Consts.NOTIFY_BROADCAST_URL_PREFIX + channel.getChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillis());
 			dbNotification.setProgramId(broadcast.getProgram().getProgramId());
 			dbNotification.setProgramTitle(broadcast.getProgram().getTitle());
 
@@ -99,10 +105,10 @@ public class NotificationService {
 			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 				dbNotification.setProgramType(programType);
 				dbNotification.setProgramSeason(broadcast.getProgram().getSeason().getNumber());
-				dbNotification.setProgramEpisode(broadcast.getProgram().getEpisode());
+				dbNotification.setProgramEpisodeNumber(broadcast.getProgram().getEpisodeNumber());
 			} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)){
 				dbNotification.setProgramType(programType);
-				dbNotification.setProgramYear(Integer.parseInt(broadcast.getProgram().getYear()));
+				dbNotification.setProgramYear(broadcast.getProgram().getYear());
 			} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)){
 				dbNotification.setProgramType(programType);
 			}
@@ -122,15 +128,17 @@ public class NotificationService {
 		return false;
 	}
 
-	public static boolean showNotification(Context context, Broadcast broadcast, Channel channel, int notificationId) {
+	public static boolean showNotification (Context context, long broadcastBeginTimeMillis, String broadcastName, String channelId, String channelName, String dateDate, int notificationId){
 
-		String broadcastUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + channel.getChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillis();
+		String broadcastUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + channelId + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcastBeginTimeMillis;
 		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
 		Intent broadcastPageIntent = new Intent(context, BroadcastPageActivity.class);
+		broadcastPageIntent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcastBeginTimeMillis);
+		broadcastPageIntent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, channelId);
+		broadcastPageIntent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, dateDate);
 		broadcastPageIntent.putExtra(Consts.INTENT_EXTRA_BROADCAST_URL, broadcastUrl);
-		broadcastPageIntent.putExtra(Consts.INTENT_EXTRA_BROADCAST, broadcast);
-		broadcastPageIntent.putExtra(Consts.INTENT_EXTRA_CHANNEL, channel);
+		broadcastPageIntent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
 		broadcastPageIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 		int number = ((SecondScreenApplication) context.getApplicationContext()).getNotificationNumber();
@@ -139,8 +147,8 @@ public class NotificationService {
 		.setSmallIcon(R.drawable.ic_launcher)
 		.setContentTitle(context.getResources().getString(R.string.app_name))
 		.setContentText(
-				context.getResources().getString(R.string.dazoo_notification_text_start) + " " + broadcast.getProgram().getTitle()
-				+ context.getResources().getString(R.string.dazoo_notification_text_middle) + " " + channel.getName()
+				context.getResources().getString(R.string.dazoo_notification_text_start) + " " + broadcastName
+				+ context.getResources().getString(R.string.dazoo_notification_text_middle) + " " + channelName
 				+ context.getResources().getString(R.string.dazoo_notification_text_end)).setContentIntent(PendingIntent.getActivity(context, 0, broadcastPageIntent, 0))
 				.setAutoCancel(true).setWhen(System.currentTimeMillis()).setDefaults(Notification.DEFAULT_ALL) // default sound, vibration, light
 				.setNumber(number);
@@ -193,7 +201,7 @@ public class NotificationService {
 		String reminderText = "";
 		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(broadcast.getProgram().getProgramType())) {
 			reminderText = context.getString(R.string.reminder_text_remove) + broadcast.getProgram().getTitle() + ", " + context.getString(R.string.season) + " "
-					+ broadcast.getProgram().getSeason().getNumber() + ", " + context.getString(R.string.episode) + " " + broadcast.getProgram().getEpisode() + "?";
+					+ broadcast.getProgram().getSeason().getNumber() + ", " + context.getString(R.string.episode) + " " + broadcast.getProgram().getEpisodeNumber() + "?";
 		} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(broadcast.getProgram().getProgramType())) {
 			reminderText = context.getString(R.string.reminder_text_remove) + broadcast.getProgram().getTitle() + "?";
 		} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(broadcast.getProgram().getProgramType())) {

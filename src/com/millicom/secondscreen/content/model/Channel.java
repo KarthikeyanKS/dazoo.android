@@ -7,23 +7,13 @@ import android.os.Parcelable;
 
 public class Channel implements Parcelable {
 
-	private String id = "";
 	private String channelId = "";
 	private String name = "";
 	private String logoSUrl = "";
 	private String logoMUrl = "";
 	private String logoLUrl = "";
-	private String channelPageUrl = "";
 	
 	public Channel(){		
-	}
-	
-	public void setId(String id){
-		this.id = id;
-	}
-	
-	public String getId(){
-		return this.id;
 	}
 	
 	public void setChannelId(String channelId){
@@ -80,7 +70,6 @@ public class Channel implements Parcelable {
 		logoSUrl = in.readString();
 		logoMUrl = in.readString();
 		logoLUrl = in.readString();
-		channelPageUrl = in.readString();
 	}
 	
 	@Override
@@ -95,7 +84,6 @@ public class Channel implements Parcelable {
 		dest.writeString(logoSUrl);
 		dest.writeString(logoMUrl);	
 		dest.writeString(logoLUrl);
-		dest.writeString(channelPageUrl);
 		}
 	
 	@Override
@@ -121,6 +109,6 @@ public class Channel implements Parcelable {
 
 	@Override
 	public String toString() {
-	    return "Id: " + channelId + "\n name: " + name + "\n logoSUrl: " + logoSUrl + "\n logoMUrl: " + logoMUrl + "\n logoLUrl: " + logoLUrl + "\n channelPageUrl" + channelPageUrl; 
+	    return "Id: " + channelId + "\n name: " + name + "\n logoSUrl: " + logoSUrl + "\n logoMUrl: " + logoMUrl + "\n logoLUrl: " + logoLUrl; 
 	}
 }

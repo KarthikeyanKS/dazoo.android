@@ -22,14 +22,14 @@ import com.millicom.secondscreen.R;
 
 public abstract class SSPageFragmentActivity extends ActionBarActivity {
 
-	private static final String TAG = "SSPageFragmentActivity";
-	
-	private View	mRequestEmptyLayout;
-	private View	mRequestFailedLayout;
-	private View	mRequestLoadingLayout;
-	private Button	mRequestFailedButton;
+	private static final String	TAG				= "SSPageFragmentActivity";
 
-	protected boolean	mForceReload	= false;
+	private View				mRequestEmptyLayout;
+	private View				mRequestFailedLayout;
+	private View				mRequestLoadingLayout;
+	private Button				mRequestFailedButton;
+
+	protected boolean			mForceReload	= false;
 
 	protected abstract void loadPage();
 
@@ -41,7 +41,7 @@ public abstract class SSPageFragmentActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		// add to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
-		
+
 		LocalBroadcastManager.getInstance(this).registerReceiver(new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {

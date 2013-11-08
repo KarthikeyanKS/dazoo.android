@@ -47,8 +47,8 @@ public class AlarmSetter extends BroadcastReceiver {
 			season.setNumber(item.getProgramSeason());
 			
 			program.setSeason(season);
-			program.setEpisode(item.getProgramEpisode());
-			program.setYear(String.valueOf(item.getProgramYear()));
+			program.setEpisodeNumber(item.getProgramEpisodeNumber());
+			program.setYear(item.getProgramYear());
 			
 			// TO DO
 			//program.setTags("");

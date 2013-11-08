@@ -5,12 +5,21 @@ import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.conn.ssl.X509HostnameVerifier;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.SingleClientConnManager;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,7 +28,6 @@ import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
-import com.millicom.secondscreen.content.homepage.HomePageActivity;
 import com.millicom.secondscreen.utilities.JSONUtilities;
 import com.millicom.secondscreen.utilities.PatternCheck;
 
@@ -48,7 +56,7 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 	private Button				mDazooLoginButton, mForgetPasswordButton;
 	private EditText			mEmailLoginEditText, mPasswordLoginEditText;
 	private RelativeLayout		mFacebookContainer;
-	
+
 	private String				dazooToken	= "", userToken = "", userId = "", userEmailLogin, userPasswordLogin;
 
 	@Override
@@ -56,7 +64,7 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_dazoologin_activity);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		
+
 		initViews();
 	}
 
@@ -131,7 +139,7 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 
 							// Get the information about the user
 							String userDataString = dazooJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_USER);
-							if (JSONUtilities.storeUserInformation(this,userDataString)) {
+							if (JSONUtilities.storeUserInformation(this, userDataString)) {
 								Toast.makeText(getApplicationContext(), "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName(), Toast.LENGTH_SHORT).show();
 
 								Intent intent = new Intent(DazooLoginActivity.this, HomeActivity.class);
@@ -172,19 +180,21 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 		@Override
 		protected String doInBackground(String... params) {
 			try {
-
-				// TODO: UNCOMMENT WHEN BACKEND MAKE SECURE REQUESTS WITH HTTPS
-
-				// HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
-				// SchemeRegistry registry = new SchemeRegistry();
-				// SSLSocketFactory socketFactory = SSLSocketFactory.getSocketFactory();
-				// socketFactory.setHostnameVerifier((X509HostnameVerifier)hostnameVerifier);
-				// registry.register(new Scheme(Costs.MILLICON_SECONDSCREEN_HTTP_SCHEME, socketFactory, 443));
-				// SingleClientConnManager mgr = new SingleClientConnManager(client.getParams(), registry);
-				// DefaultHttpClient httpClient = new DefaultHttpClient(mgr, client.getParams());
-				// // Set verifier // HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
-
+				
 				HttpClient client = new DefaultHttpClient();
+				HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
+				SchemeRegistry registry = new SchemeRegistry();
+				registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+
+				SSLSocketFactory socketFactory = SSLSocketFactory.getSocketFactory();
+				socketFactory.setHostnameVerifier(SSLSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
+				registry.register(new Scheme("https", socketFactory, 443));
+				SingleClientConnManager mgr = new SingleClientConnManager(client.getParams(), registry);
+
+				DefaultHttpClient httpClient = new DefaultHttpClient(mgr, client.getParams());
+				// Set verifier
+				HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
+
 				HttpPost httpPost = new HttpPost(Consts.MILLICOM_SECONDSCREEN_DAZOO_LOGIN_URL);
 				JSONObject holder = JSONUtilities.createJSONObjectWithKeysValues(Arrays.asList(Consts.MILLICOM_SECONDSCREEN_API_EMAIL, Consts.MILLICOM_SECONDSCREEN_API_PASSWORD),
 						Arrays.asList(params[0], params[1]));
@@ -195,9 +205,9 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 				httpPost.setHeader("Accept", "application/json");
 				httpPost.setHeader("Content-type", "application/json");
 
-				// HttpResponse response = httpClient.execute(httpPost);
+				HttpResponse response = httpClient.execute(httpPost);
 
-				HttpResponse response = client.execute(httpPost);
+				// HttpResponse response = client.execute(httpPost);
 				if (response.getStatusLine().getStatusCode() == Consts.GOOD_RESPONSE) {
 					String responseBody = EntityUtils.toString(response.getEntity());
 					return responseBody;

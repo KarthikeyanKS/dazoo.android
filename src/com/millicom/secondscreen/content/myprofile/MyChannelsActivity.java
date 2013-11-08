@@ -12,6 +12,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.http.HttpEntity;
@@ -30,8 +31,12 @@ import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.adapters.MyChannelsListAdapter;
 import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
+import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.manager.ContentParser;
+import com.millicom.secondscreen.mychannels.MyChannelsService;
+import com.millicom.secondscreen.storage.BroadcastKey;
+import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.JSONUtilities;
 import com.millicom.secondscreen.SecondScreenApplication;
 
@@ -42,6 +47,7 @@ import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
@@ -70,12 +76,13 @@ public class MyChannelsActivity extends ActionBarActivity implements MyChannelsC
 	private TextView				mChannelCountTv, mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;;
 	private EditText				mSearchChannelInputEditText;
 	private MyChannelsListAdapter	mAdapter;
-	private ArrayList<Channel>		mChannels = new ArrayList<Channel>();
+	private ArrayList<Channel>		mChannels				= new ArrayList<Channel>();
+	private HashMap<String, Channel> mChannelsMap = new HashMap<String, Channel>();
 	private boolean[]				mIsCheckedArray;
 	private View					mTabSelectorContainerView;
 	private int						mChannelCounter			= 0;
 	private boolean					mIsChanged				= false;
-	private int mCount = 0;
+	private int						mCount					= 0;
 
 	private ArrayList<Channel>		mChannelInfoToDisplay	= new ArrayList<Channel>();
 	private Map<String, Channel>	mChannelInfoMap			= new HashMap<String, Channel>();
@@ -133,19 +140,20 @@ public class MyChannelsActivity extends ActionBarActivity implements MyChannelsC
 	}
 
 	private void populateViews() {
-		// TODO : GET THE LIST OF CHANNELS
-		// mChannels = ((SecondScreenApplication) getApplicationContext()).getChannels();
-
+		mAllChannelsIds = DazooStore.getInstance().getAllChannelIds();
+		mChannelsMap = DazooStore.getInstance().getAllChannels();
+	
+		for (Entry<String, Channel> entry : mChannelsMap.entrySet()) {
+			mChannels.add(entry.getValue());
+		}
+		
 		for (int i = 0; i < mChannels.size(); i++) {
 			mChannelInfoMap.put(mChannels.get(i).getName().toLowerCase(Locale.getDefault()), mChannels.get(i));
 			mChannelInfoToDisplay.add(mChannels.get(i));
-			mAllChannelsIds.add(mChannels.get(i).getChannelId());
-			Log.d(TAG, "ID: " + mChannels.get(i).getChannelId());
 		}
 
 		mIsCheckedArray = new boolean[mChannels.size()];
 
-		// if (userToken != null && userToken.isEmpty() != true) {
 		if (userToken != null && TextUtils.isEmpty(userToken) != true) {
 			// get user channels
 			if (getUserMyChannelsIdsJSON()) {
@@ -189,19 +197,38 @@ public class MyChannelsActivity extends ActionBarActivity implements MyChannelsC
 			}
 		});
 	}
-	
-	private void updateChannelList(){
+
+	private void updateChannelList() {
 		if (mIsChanged) {
 			ArrayList<String> newIdsList = new ArrayList<String>();
 			for (int i = 0; i < mIsCheckedArray.length; i++) {
 				if (mIsCheckedArray[i]) {
 					newIdsList.add(mAllChannelsIds.get(i));
-				}		
+				}
 			}
 			mCount = newIdsList.size();
-			updateUserMyChannels(JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.DAZOO_CHANNEL_CHANNEL_ID, newIdsList));
+			if (MyChannelsService.updateMyChannelsList(userToken, JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.DAZOO_CHANNEL_CHANNEL_ID, newIdsList))) {
+				Toast.makeText(getApplicationContext(), "List of channels is updated!", Toast.LENGTH_SHORT).show();
+				
+				// clear guides
+				DazooStore.getInstance().clearMyGuidesStorage();
+				// update the my channels list
+				MyChannelsService.getMyChannels(userToken);
+				LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
+				
+				
+			} else {
+				Toast.makeText(getApplicationContext(), "Error! List of channels is NOT updated!", Toast.LENGTH_SHORT).show();
+			}
 		}
 	}
+	
+	@Override
+    protected void onStop(){
+        super.onStop();
+        // update channel list if user come back to the My Profile via Home Button
+		updateChannelList();
+    }
 
 	@Override
 	public void onBackPressed() {
@@ -222,140 +249,20 @@ public class MyChannelsActivity extends ActionBarActivity implements MyChannelsC
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 
-	// fetch the "My channels" of the logged in user
-	private class GetMyChannelsTask extends AsyncTask<String, Void, String> {
-
-		@Override
-		protected String doInBackground(String... params) {
-
-			try {
-				HttpClient httpClient = new DefaultHttpClient();
-				HttpGet httpGet = new HttpGet();
-				httpGet.setHeader("Authorization", "Bearer " + params[0]);
-
-				httpGet.setURI(new URI(Consts.MILLICOM_SECONDSCREEN_MY_CHANNELS_URL));
-
-				HttpResponse response = httpClient.execute(httpGet);
-				if (Consts.GOOD_RESPONSE == response.getStatusLine().getStatusCode()) {
-					HttpEntity entityHttp = response.getEntity();
-					InputStream inputStream = entityHttp.getContent();
-					BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"), 8);
-					StringBuilder sb = new StringBuilder();
-					String line = null;
-					while ((line = reader.readLine()) != null) {
-						sb.append(line + "\n");
-					}
-					inputStream.close();
-					Log.d(TAG, "Good response on GET ");
-					return sb.toString();
-				} else if (Consts.BAD_RESPONSE_INVALID_TOKEN == response.getStatusLine().getStatusCode()) {
-					Log.d(TAG, "Get my channels: Invalid token");
-					return Consts.ERROR_STRING;
-				} else if (Consts.BAD_RESPONSE_MISSING_TOKEN == response.getStatusLine().getStatusCode()) {
-					Log.d(TAG, "Get my channels: Missing token");
-					return Consts.ERROR_STRING;
-				}
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			} catch (ClientProtocolException e) {
-				e.printStackTrace();
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-			return Consts.ERROR_STRING;
-		}
-	}
-
-	// add the channel to the "My channel"
-	private class UpdateMyChannelsTask extends AsyncTask<String, Void, Boolean> {
-
-		@Override
-		protected Boolean doInBackground(String... params) {
-			try {
-				HttpClient client = new DefaultHttpClient();
-
-				HttpPost httpPost = new HttpPost(Consts.MILLICOM_SECONDSCREEN_MY_CHANNELS_URL);
-				httpPost.setHeader("Authorization", "Bearer " + params[0]);
-				httpPost.setHeader("Accept", "application/json");
-				httpPost.setHeader("Content-Type", "application/json");
-				StringEntity jsonEntity = new StringEntity(params[1]);
-				httpPost.setEntity(jsonEntity);
-
-				HttpResponse response = client.execute(httpPost);
-
-				if (Consts.GOOD_RESPONSE_CHANNELS_ARE_ADDED == response.getStatusLine().getStatusCode()) {
-					Log.d(TAG, "Update MY CHANNELS: SUCCESS");
-					return true;
-				} else if (Consts.BAD_RESPONSE_INVALID_TOKEN == response.getStatusLine().getStatusCode()) {
-					Log.d(TAG, "Update MY CHANNELS: Invalid token");
-					return false;
-				} else if (Consts.BAD_RESPONSE_MISSING_TOKEN == response.getStatusLine().getStatusCode()) {
-					Log.d(TAG, "Update MY CHANNELS: Missing token");
-					return false;
-				} else {
-					Log.d(TAG, "Error, but not identified");
-				}
-			} catch (ClientProtocolException e) {
-				System.out.println("CPE" + e);
-			} catch (IOException e) {
-				System.out.println("IOE" + e);
-			}
-			return false;
-		}
-	}
-
 	private boolean getUserMyChannelsIdsJSON() {
-		GetMyChannelsTask getMyChannelsTask = new GetMyChannelsTask();
-		try {
-			String responseStr = getMyChannelsTask.execute(userToken).get();
-
-			// if (responseStr != null && responseStr.isEmpty() != true && responseStr != Consts.ERROR_STRING) {
-			if (responseStr != null && TextUtils.isEmpty(responseStr) != true && responseStr != Consts.ERROR_STRING) {
-				// the extra check for ERROR_STRING was added to distinguish between empty response (there are no stored channels to this user) and empty response in case of error
-
-				myChannelIds = ContentParser.parseChannelIds(new JSONArray(responseStr));
-				for (int i = 0; i < mAllChannelsIds.size(); i++) {
-					if (myChannelIds.contains(mAllChannelsIds.get(i))) {
-						mIsCheckedArray[i] = true;
-					}
+		if (MyChannelsService.getMyChannels(userToken)) {
+			myChannelIds = DazooStore.getInstance().getMyChannelIds();
+			
+			for (int i = 0; i < mAllChannelsIds.size(); i++) {
+				if (myChannelIds.contains(mAllChannelsIds.get(i))) {
+					mIsCheckedArray[i] = true;
 				}
-
-				// save the list of channels as json-string
-				((SecondScreenApplication) getApplicationContext()).setUserMyChannelsIdsasJSON(responseStr);
-				return true;
-
-			} else {
-				Toast.makeText(getApplicationContext(), "List of MY CHANNELS cannot be read", Toast.LENGTH_SHORT).show();
-				Log.d(TAG, "List of Channels cannot be read");
-				return false;
 			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
-
-	private void updateUserMyChannels(String channelsJSON) {
-
-		UpdateMyChannelsTask addChannelToMyChannelsTask = new UpdateMyChannelsTask();
-
-		try {
-			boolean isAdded = addChannelToMyChannelsTask.execute(userToken, channelsJSON).get();
-			if (isAdded == true) {
-				Toast.makeText(getApplicationContext(), "MY CHANNELS list is updated", Toast.LENGTH_SHORT).show();
-				Log.d(TAG, "Channels are updated!");
-			} else {
-				Toast.makeText(getApplicationContext(), "Error! MY CHANNELS are not updated!", Toast.LENGTH_SHORT).show();
-				Log.d(TAG, "Error! MY CHANNELS are not updated");
-			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			e.printStackTrace();
+			return true;
+		} else {
+			Toast.makeText(getApplicationContext(), "List of MY CHANNELS cannot be read", Toast.LENGTH_SHORT).show();
+			Log.d(TAG, "List of Channels cannot be read");
+			return false;
 		}
 	}
 
@@ -372,7 +279,7 @@ public class MyChannelsActivity extends ActionBarActivity implements MyChannelsC
 		case R.id.show_tvguide:
 			updateChannelList();
 			Intent intentHome = new Intent(MyChannelsActivity.this, HomeActivity.class);
-			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intentHome);
 			break;
@@ -388,44 +295,9 @@ public class MyChannelsActivity extends ActionBarActivity implements MyChannelsC
 				setResult(Consts.INFO_UPDATE_MYCHANNELS, returnIntent);
 				returnIntent.putExtra(Consts.INFO_UPDATE_MYCHANNELS_NUMBER, mCount);
 			}
-			finish();		
+			finish();
 			break;
 		}
 
 	}
-
-	/*
-	 * @Override public void onClick(View view) { switch (view.getId()) { case R.id.mychannels_get_channels_button:
-	 * 
-	 * // check if we have registered user and user token is valid // if (userToken != null && userToken.isEmpty() != true) { if (userToken != null && TextUtils.isEmpty(userToken) != true) { // get user channels getUserMyChannelsIdsJSON(); } else { Toast.makeText(getApplicationContext(),
-	 * "You have to be logged in to perform this action :)", Toast.LENGTH_SHORT).show(); Log.d(TAG, "Login action is required to be done before this"); }
-	 * 
-	 * break; case R.id.mychannels_update_channels_button: isChange = !isChange;
-	 * 
-	 * // add channels to the list if (isChange == true) { // add channels to the user account "My channels" database // if (userToken != null && userToken.isEmpty() != true) { if (userToken != null && TextUtils.isEmpty(userToken) != true) { // check if we have fetched the userChannelsIds String
-	 * myChannelsIdsJSON = ((SecondScreenApplication) getApplicationContext()).getUserMyChannelsIdsJSON(); // if (myChannelsIdsJSON != null && myChannelsIdsJSON.isEmpty() != true) { if (myChannelsIdsJSON != null && TextUtils.isEmpty(myChannelsIdsJSON) != true) {
-	 * 
-	 * LinkedHashSet<String> newMyChannelsList = JSONUtilities.stringWithJSONtoOrderedSet(myChannelsIdsJSON); newMyChannelsList.add("98c9c7cb-76de-4ad8-b6cd-021e7b927ba7"); newMyChannelsList.add("ba09d322-6164-4457-89c0-64520214ac30");
-	 * 
-	 * String channelsJSON = JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.MILLICOM_SECONDSCREEN_API_CHANNEL_ID, newMyChannelsList); updateUserMyChannels(channelsJSON); } else { // fetch the list of channels first getUserMyChannelsIdsJSON();
-	 * 
-	 * String json = ((SecondScreenApplication) getApplicationContext()).getUserMyChannelsIdsJSON(); // if (json != Consts.ERROR_STRING) { // if (json != null && json.isEmpty() != true) {
-	 * 
-	 * LinkedHashSet<String> newMyChannelsList = JSONUtilities.stringWithJSONtoOrderedSet(json); newMyChannelsList.add("98c9c7cb-76de-4ad8-b6cd-021e7b927ba7"); newMyChannelsList.add("ba09d322-6164-4457-89c0-64520214ac30");
-	 * 
-	 * String channelsJSON = JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.MILLICOM_SECONDSCREEN_API_CHANNEL_ID, newMyChannelsList); updateUserMyChannels(channelsJSON); // } // } } } else { Toast.makeText(getApplicationContext(), "You have to be logged in to perform this action :)",
-	 * Toast.LENGTH_SHORT).show(); Log.d(TAG, "Login action is required to be done before this"); }
-	 * 
-	 * // remove channels from the list } else if (isChange == false) { // fetch the list of channels first getUserMyChannelsIdsJSON();
-	 * 
-	 * String json = ((SecondScreenApplication) getApplicationContext()).getUserMyChannelsIdsJSON(); // if (json != Consts.ERROR_STRING) { // if (json != null && json.isEmpty() != true) {
-	 * 
-	 * LinkedHashSet<String> newMyChannelsList = JSONUtilities.stringWithJSONtoOrderedSet(json); newMyChannelsList.remove("98c9c7cb-76de-4ad8-b6cd-021e7b927ba7");
-	 * 
-	 * String channelsJSON = JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.MILLICOM_SECONDSCREEN_API_CHANNEL_ID, newMyChannelsList); updateUserMyChannels(channelsJSON);
-	 * 
-	 * // get channels to make a check getUserMyChannelsIdsJSON(); }
-	 * 
-	 * break; } }
-	 */
 }

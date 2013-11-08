@@ -69,7 +69,7 @@ public class SettingsActivity extends ActionBarActivity implements OnClickListen
 		mLogoutButton = (Button) findViewById(R.id.settings_logout_button);
 		mLogoutButton.setOnClickListener(this);
 		
-		if(mToken == null || mToken.length() <= 0){
+		if (mToken == null || mToken.length() <= 0) {
 			mLogoutButton.setVisibility(View.GONE);
 		}
 

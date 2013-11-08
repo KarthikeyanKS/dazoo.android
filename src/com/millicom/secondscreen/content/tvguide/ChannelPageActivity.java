@@ -3,30 +3,23 @@ package com.millicom.secondscreen.content.tvguide;
 import java.text.ParseException;
 import java.util.ArrayList;
 
-import com.millicom.secondscreen.Consts;
-import com.millicom.secondscreen.R;
-import com.millicom.secondscreen.adapters.ChannelPageListAdapter;
-import com.millicom.secondscreen.content.activity.ActivityActivity;
-import com.millicom.secondscreen.content.homepage.HomeActivity;
-import com.millicom.secondscreen.content.model.Broadcast;
-import com.millicom.secondscreen.content.model.Channel;
-import com.millicom.secondscreen.content.model.Guide;
-import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
-import com.millicom.secondscreen.utilities.DateUtilities;
-import com.millicom.secondscreen.utilities.ImageLoader;
-
-import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.Color;
-import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -34,23 +27,48 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class ChannelPageActivity extends ActionBarActivity implements OnClickListener {
+import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.Consts.REQUEST_STATUS;
+import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.SecondScreenApplication;
+import com.millicom.secondscreen.adapters.ActionBarDropDownDateListAdapter;
+import com.millicom.secondscreen.adapters.ChannelPageListAdapter;
+import com.millicom.secondscreen.content.SSActivity;
+import com.millicom.secondscreen.content.activity.ActivityActivity;
+import com.millicom.secondscreen.content.homepage.HomeActivity;
+import com.millicom.secondscreen.content.model.Broadcast;
+import com.millicom.secondscreen.content.model.Channel;
+import com.millicom.secondscreen.content.model.Guide;
+import com.millicom.secondscreen.content.model.TvDate;
+import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
+import com.millicom.secondscreen.content.search.SearchPageActivity;
+import com.millicom.secondscreen.manager.DazooCore;
+import com.millicom.secondscreen.storage.DazooStore;
+import com.millicom.secondscreen.utilities.DateUtilities;
+import com.millicom.secondscreen.utilities.ImageLoader;
 
-	private static final String		TAG	= "ChannelPageActivity";
+public class ChannelPageActivity extends SSActivity /* ActionBarActivity */implements OnClickListener, ActionBar.OnNavigationListener {
 
-	private ActionBar				mActionBar;
-	private ImageView				mChannelIconIv;
-	private TextView				mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
-	private ListView				mFollowingBroadcastsLv;
-	private ChannelPageListAdapter	mFollowingBroadcastsListAdapter;
-	private String					mChannelId;
-	private Guide					mChannelGuide;
-	private Channel					mChannel;
-	private ArrayList<Broadcast>	mBroadcasts, mFollowingBroadcasts;
+	private static final String					TAG	= "ChannelPageActivity";
 
-	private ImageLoader				mImageLoader;
+	private ActionBar							mActionBar;
+	private ActionBarDropDownDateListAdapter	mDayAdapter;
+	private ImageView							mChannelIconIv;
+	private TextView							mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
+	private ListView							mFollowingBroadcastsLv;
+	private ChannelPageListAdapter				mFollowingBroadcastsListAdapter;
+	private String								mChannelId, mDate, mTvGuideDate, token;
+	private TvDate								mTvDateSelected, mDateTvGuide;
+	private Guide								mChannelGuide;
+	private Channel								mChannel;
+	private ArrayList<Broadcast>				mBroadcasts, mFollowingBroadcasts;
+	private ArrayList<TvDate>					mTvDates;
+	private ImageLoader							mImageLoader;
+	private int									mSelectedIndex	= -1, mIndexOfNearestBroadcast;
+	private DazooStore							dazooStore;
+	private boolean								mIsLoggedIn		= false, mIsReady = false, mFirstHit = true;
+	private Handler								mHandler;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,33 +77,138 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 
 		mImageLoader = new ImageLoader(this, R.drawable.loadimage_2x);
 
+		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverDate, new IntentFilter(Consts.INTENT_EXTRA_CHANNEL_SORTING));
+		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverContent, new IntentFilter(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE));
+
 		// get the info about the individual channel guide to be displayed from tv-guide listview
 		Intent intent = getIntent();
 		mChannelId = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_ID);
-		
-		// GET THE CHANNEL DATA FROM DAZOO STORE SINGLETOP BY CHANNEL ID
-		
-		// mChannelGuide = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHANNEL_GUIDE);
-		// mChannel = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHANNEL);
-		// mBroadcasts = mChannelGuide.getBroadcasts();
+		mDateTvGuide = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHOSEN_DATE_TVGUIDE);
+
+		dazooStore = DazooStore.getInstance();
+
+		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
+		if (token != null && TextUtils.isEmpty(token) != true) {
+			mIsLoggedIn = true;
+			mChannel = dazooStore.getChannelFromAll(mChannelId);
+			mChannelGuide = dazooStore.getChannelGuideFromMy(mDateTvGuide.getDate(), mChannelId);
+		} else {
+			mChannel = dazooStore.getChannelFromDefault(mChannelId);
+			mChannelGuide = dazooStore.getChannelGuideFromDefault(mDateTvGuide.getDate(), mChannelId);
+		}
+
+		mBroadcasts = mChannelGuide.getBroadcasts();
+		mTvDates = dazooStore.getTvDates();
+		mSelectedIndex = dazooStore.getDateIndex(mTvGuideDate);
+		super.initCallbackLayouts();
 
 		initViews();
-		populateViews();
+		loadPage();
+	}
+
+	BroadcastReceiver	mBroadcastReceiverDate		= new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			mDate = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_SORTING_VALUE);
+			Log.d(TAG, "mDate" + mDate);
+
+			// reload the page with the content to the new date
+			updateUI(REQUEST_STATUS.LOADING);
+			reloadPage();
+		}
+	};
+
+	BroadcastReceiver	mBroadcastReceiverContent	= new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			mIsReady = intent.getBooleanExtra(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE_VALUE, false);
+			if (mIsReady) {
+				if (mIsLoggedIn) {
+					mChannelGuide = dazooStore.getChannelGuideFromMy(mTvDateSelected.getDate(), mChannelId);
+				} else {
+					mChannelGuide = dazooStore.getChannelGuideFromDefault(mTvDateSelected.getDate(), mChannelId);
+				}
+				mBroadcasts = mChannelGuide.getBroadcasts();
+				mFollowingBroadcasts = null;
+				mFollowingBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());
+				setFollowingBroadcasts();
+				updateUI(REQUEST_STATUS.SUCCESSFUL);
+			}
+		}
+	};
+
+	@Override
+	public boolean onNavigationItemSelected(int position, long id) {
+		if (mFirstHit) {
+			mDayAdapter.setSelectedIndex(mSelectedIndex);
+			mActionBar.setSelectedNavigationItem(mSelectedIndex);
+			mTvDateSelected = mTvDates.get(mSelectedIndex);
+			mFirstHit = false;
+			return true;
+		} else {
+			mDayAdapter.setSelectedIndex(position);
+			mTvDateSelected = mTvDates.get(position);
+			mSelectedIndex = position;
+			LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(
+					new Intent(Consts.INTENT_EXTRA_CHANNEL_SORTING).putExtra(Consts.INTENT_EXTRA_CHANNEL_SORTING_VALUE, mTvDateSelected.getDate()));
+			return true;
+		}
+	}
+
+	private void reloadPage() {
+		mChannelGuide = null;
+		mBroadcasts = null;
+		if (mIsLoggedIn) {
+			mChannelGuide = dazooStore.getChannelGuideFromMy(mTvDateSelected.getDate(), mChannelId);
+			Log.d(TAG, "GET FROM MY");
+		} else {
+			mChannelGuide = dazooStore.getChannelGuideFromDefault(mTvDateSelected.getDate(), mChannelId);
+		}
+
+		if (mChannelGuide != null) {
+			mBroadcasts = mChannelGuide.getBroadcasts();
+			mIndexOfNearestBroadcast = Broadcast.getClosestBroadcastIndex(mBroadcasts);
+			if (mIndexOfNearestBroadcast >= 0) {
+				mFollowingBroadcasts = null;
+				mFollowingBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());
+				setFollowingBroadcasts();
+			}
+			mFollowingBroadcastsListAdapter.notifyDataSetChanged();
+			Log.d(TAG, "CHANNELGUIDE: " + mChannelGuide.getName() + mFollowingBroadcasts.size());
+			updateUI(REQUEST_STATUS.SUCCESSFUL);
+		} else {
+			DazooCore.getGuide(mSelectedIndex, true);
+			Log.d(TAG, "get guide");
+		}
 	}
 
 	private void initViews() {
 		mActionBar = getSupportActionBar();
-		mActionBar.setDisplayShowTitleEnabled(false);
+		mActionBar.setDisplayShowTitleEnabled(true);
 		mActionBar.setDisplayShowCustomEnabled(true);
-		mActionBar.setDisplayUseLogoEnabled(false);
-		mActionBar.setDisplayShowHomeEnabled(false);
-		mActionBar.setCustomView(R.layout.actionbar_channelpage);
+		mActionBar.setDisplayUseLogoEnabled(true);
+		mActionBar.setDisplayShowHomeEnabled(true);
 
 		final int actionBarColor = getResources().getColor(R.color.lightblue);
 		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
 
-		mChannelIconIv = (ImageView) findViewById(R.id.channelpage_channel_icon_iv);
+		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+		mDayAdapter = new ActionBarDropDownDateListAdapter(mTvDates);
 
+		int dateIndex = 0;
+		for (int i = 0; i < mTvDates.size(); i++) {
+			if (mTvDates.get(i).equals(mDateTvGuide)) {
+				dateIndex = i;
+				break;
+			}
+		}
+		mSelectedIndex = dateIndex;
+
+		mDayAdapter.setSelectedIndex(mSelectedIndex);
+		mActionBar.setListNavigationCallbacks(mDayAdapter, this);
+		mActionBar.setTitle(mChannel.getName());
+
+		mChannelIconIv = (ImageView) findViewById(R.id.channelpage_channel_icon_iv);
 		mFollowingBroadcastsLv = (ListView) findViewById(R.id.listview);
 
 		// styling bottom navigation tabs
@@ -97,59 +220,61 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 		mTxtTabFeed.setOnClickListener(this);
 
 		// the highlighted tab in the Channel activity is TV Guide
-		mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.black));
+		mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.orange));
 		mTxtTabPopular.setTextColor(getResources().getColor(R.color.gray));
 		mTxtTabFeed.setTextColor(getResources().getColor(R.color.gray));
 	}
 
-	private void populateViews() {
-		mImageLoader.displayImage(mChannelGuide.getLogoLHref(), mChannelIconIv, ImageLoader.IMAGE_TYPE.POSTER);
+	// private final Runnable progressBarRunnable = new Runnable(){
+	// @Override
+	// public void run() {
+	// try {
+	// int initialProgress = DateUtilities.getDifferenceInMinutes(mBroadcasts.get(mIndexOfNearestBroadcast).getBeginTime());
+	// if (initialProgress > 0) {
+	// if (DateUtilities.getAbsoluteTimeDifference(mFollowingBroadcasts.get(0).getEndTime()) > 0) {
+	// mFollowingBroadcastsListAdapter.notifyBroadcastEnded();
+	// }
+	// mFollowingBroadcastsListAdapter.notifyDataSetChanged();
+	// }
+	// } catch (ParseException e) {
+	// e.printStackTrace();
+	// }
+	// mHandler.postDelayed(this, 60 * 1000);
+	// }
+	// };
 
-		final int indexOfNearestBroadcast = Broadcast.getClosestBroadcastIndex(mBroadcasts);
-		if (indexOfNearestBroadcast >= 0) {
+	private void setFollowingBroadcasts() {
 
-			mFollowingBroadcasts = Broadcast.getBroadcastsStartingFromPosition(indexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());
-			mFollowingBroadcastsListAdapter = new ChannelPageListAdapter(this, mFollowingBroadcasts);
-			mFollowingBroadcastsLv.setAdapter(mFollowingBroadcastsListAdapter);
+		mFollowingBroadcastsListAdapter = new ChannelPageListAdapter(this, mFollowingBroadcasts);
+		mFollowingBroadcastsLv.setAdapter(mFollowingBroadcastsListAdapter);
 
-			// update progress bar value every minute
-			final Handler handler = new Handler();
-			handler.postDelayed(new Runnable() {
+		// update progress bar value every minute
+		// mHandler = new Handler();
+		// mHandler.postDelayed(progressBarRunnable, 60 * 1000);
 
-				@Override
-				public void run() {
-					try {
-						int initialProgress = DateUtilities.getDifferenceInMinutes(mBroadcasts.get(indexOfNearestBroadcast).getBeginTime());
-						if (initialProgress > 0) {
-							if (DateUtilities.getAbsoluteTimeDifference(mFollowingBroadcasts.get(0).getEndTime()) > 0) {
-								mFollowingBroadcastsListAdapter.notifyBroadcastEnded();
-							}
-							mFollowingBroadcastsListAdapter.notifyDataSetChanged();
-						}
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
-					handler.postDelayed(this, 60 * 1000);
-				}
-			}, 60 * 1000);
+		mFollowingBroadcastsLv.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+				// open the detail view for the individual broadcast
+				Intent intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
 
-			mFollowingBroadcastsLv.setOnItemClickListener(new OnItemClickListener() {
-				public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-					// open the detail view for the individual broadcast
-					Intent intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
-					
-					//intent.putExtra(Consts.INTENT_EXTRA_BROADCAST, mFollowingBroadcasts.get(position));
-					//intent.putExtra(Consts.INTENT_EXTRA_CHANNEL, mChannel);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, mFollowingBroadcasts.get(position).getBeginTimeMillis());
-					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, mChannel.getChannelId());
-					
-					
-					startActivity(intent);
-					overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-				}
-			});
-		}
+				intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, mFollowingBroadcasts.get(position).getBeginTimeMillis());
+				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, mChannel.getChannelId());
+				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, mTvDateSelected.getDate());
+
+				startActivity(intent);
+				overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			}
+		});
 	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		// mHandler.removeCallbacks(progressBarRunnable);
+		// Stop listening to broadcast events
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverDate);
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverContent);
+	};
 
 	@Override
 	public void onBackPressed() {
@@ -162,6 +287,28 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu items for use in the action bar
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu_homepage, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle presses on the action bar items
+		switch (item.getItemId()) {
+		case R.id.menu_search:
+			Intent toSearchPage = new Intent(ChannelPageActivity.this, SearchPageActivity.class);
+			startActivity(toSearchPage);
+			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	@Override
@@ -185,6 +332,23 @@ public class ChannelPageActivity extends ActionBarActivity implements OnClickLis
 			Intent intentMe = new Intent(ChannelPageActivity.this, MyProfileActivity.class);
 			startActivity(intentMe);
 			break;
+		}
+	}
+
+	@Override
+	protected void updateUI(REQUEST_STATUS status) {
+		if (super.requestIsSuccesfull(status)) {
+Log.d(TAG,"succesfull!!!!! ");
+		}
+	}
+
+	@Override
+	protected void loadPage() {
+		mImageLoader.displayImage(mChannelGuide.getLogoLHref(), mChannelIconIv, ImageLoader.IMAGE_TYPE.POSTER);
+		mIndexOfNearestBroadcast = Broadcast.getClosestBroadcastIndex(mBroadcasts);
+		if (mIndexOfNearestBroadcast >= 0) {
+			mFollowingBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());
+			setFollowingBroadcasts();
 		}
 	}
 }

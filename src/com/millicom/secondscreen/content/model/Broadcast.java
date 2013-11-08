@@ -19,25 +19,24 @@ public class Broadcast implements Parcelable {
 
 	private static final String	TAG	= "Broadcast";
 
-	private String				broadcastId;
+	private String				broadcastType;
 	private String				beginTime;
 	private String				endTime;
 	private Channel				channel;
 	private Program				program;
 	private String				channelUrl;
-	private int					durationInMinutes;
 	private long				beginTimeMillis;
-	private String shareUrl;
+	private String				shareUrl;
 
 	public Broadcast() {
 	}
 
-	public void setBroadcastId(String broadcastId) {
-		this.broadcastId = broadcastId;
+	public void setBroadcastType(String broadcastType) {
+		this.broadcastType = broadcastType;
 	}
 
-	public String getBroadcastId() {
-		return this.broadcastId;
+	public String getBroadcastType() {
+		return this.broadcastType;
 	}
 
 	public void setBeginTime(String beginTime) {
@@ -51,8 +50,8 @@ public class Broadcast implements Parcelable {
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
-	
-	public String getEndTime(){
+
+	public String getEndTime() {
 		return this.endTime;
 	}
 
@@ -80,14 +79,6 @@ public class Broadcast implements Parcelable {
 		return this.channelUrl;
 	}
 
-	public void setDurationInMinutes(int durationInMinutes) {
-		this.durationInMinutes = durationInMinutes;
-	}
-
-	public int getDurationInMinutes() {
-		return this.durationInMinutes;
-	}
-
 	public void setBeginTimeMillis(long beginTimeMillis) {
 		this.beginTimeMillis = beginTimeMillis;
 	}
@@ -95,12 +86,12 @@ public class Broadcast implements Parcelable {
 	public long getBeginTimeMillis() {
 		return this.beginTimeMillis;
 	}
-	
-	public void setShareUrl(String shareUrl){
+
+	public void setShareUrl(String shareUrl) {
 		this.shareUrl = shareUrl;
 	}
-	
-	public String getShareUrl(){
+
+	public String getShareUrl() {
 		return this.shareUrl;
 	}
 
@@ -113,7 +104,8 @@ public class Broadcast implements Parcelable {
 	public boolean equals(Object o) {
 		if (o instanceof Broadcast) {
 			Broadcast other = (Broadcast) o;
-			if (getBroadcastId() != null && other.getBroadcastId() != null && getBroadcastId().equals(other.getBroadcastId())) {
+			if (getBeginTimeMillis() != 0 && other.getBeginTimeMillis() != 0 && getBeginTimeMillis() == other.getBeginTimeMillis() && getChannel().getChannelId() != null
+					&& other.getChannel().getChannelId() != null && (getChannel().getChannelId()).equals(other.getChannel().getChannelId())) {
 				return true;
 			}
 		}
@@ -121,26 +113,22 @@ public class Broadcast implements Parcelable {
 	}
 
 	public Broadcast(Parcel in) {
-		broadcastId = in.readString();
 		beginTime = in.readString();
 		endTime = in.readString();
 		channel = (Channel) in.readParcelable(Channel.class.getClassLoader());
 		program = (Program) in.readParcelable(Program.class.getClassLoader());
 		channelUrl = in.readString();
-		durationInMinutes = in.readInt();
 		beginTimeMillis = in.readLong();
 		shareUrl = in.readString();
 	}
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(broadcastId);
 		dest.writeString(beginTime);
 		dest.writeString(endTime);
 		dest.writeParcelable(channel, flags);
 		dest.writeParcelable(program, flags);
 		dest.writeString(channelUrl);
-		dest.writeInt(durationInMinutes);
 		dest.writeLong(beginTimeMillis);
 		dest.writeString(shareUrl);
 	}
@@ -159,12 +147,12 @@ public class Broadcast implements Parcelable {
 
 			if (left > right) {
 				return 1;
-			} else if (left > right) {
+			} else if (left < right) {
 				return -1;
 			} else {
-				String leftChannel = lhs.getChannel().getName();
-				String rightChannel = rhs.getChannel().getName();
-				return leftChannel.compareTo(rightChannel);
+				String leftProgramName = lhs.getProgram().getTitle();
+				String rightProgramName = rhs.getProgram().getTitle();
+				return leftProgramName.compareTo(rightProgramName);
 			}
 		}
 	}
@@ -181,7 +169,7 @@ public class Broadcast implements Parcelable {
 
 	@Override
 	public String toString() {
-		return "Id: " + broadcastId + "\n beginTime: " + beginTime + "\n endTime: " + endTime + "\n channel: " + channel + "\n program: " + program + "\n shareUrl" + shareUrl;
+		return "\n beginTime: " + beginTime + "\n endTime: " + endTime + "\n channel: " + channel + "\n program: " + program + "\n shareUrl" + shareUrl;
 	}
 
 	public static int getClosestBroadcastIndex(ArrayList<Broadcast> broadcastList) {
@@ -196,7 +184,7 @@ public class Broadcast implements Parcelable {
 			e.printStackTrace();
 		}
 
-		int nearestIndex = -1;
+		int nearestIndex = 0;
 		long bestDistanceFoundYet = Long.MAX_VALUE;
 		for (int i = 0; i < broadcastList.size(); i++) {
 			long timeBroadcast = 0;
@@ -207,7 +195,8 @@ public class Broadcast implements Parcelable {
 			}
 
 			long d = Math.abs(timeNow - timeBroadcast);
-			if (d < bestDistanceFoundYet && timeBroadcast < timeNow) {
+			// if (d < bestDistanceFoundYet && timeBroadcast < timeNow) {
+			if (d < bestDistanceFoundYet) {
 				nearestIndex = i;
 				bestDistanceFoundYet = d;
 			}

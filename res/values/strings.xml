@@ -96,7 +96,7 @@
     <string name="filter_by">Filter by</string>
     <string name="all">All</string>
     <string name="all_categories_alias">all_categories</string>
-    <string name="all_categories_name">All categories</string>
+    <string name="all_categories_name">"All categories"</string>
     <string name="all_categories_id">ALL_CATEGORIES</string>
 
     <!-- CONTENT DESCRIPTION -->
@@ -115,6 +115,7 @@
     <string name="general_error_message_message">Dazoo is unable to load the content.\nPlease try again later.</string>
     <string name="general_error_message_button">Try again</string>
     <string name="general_no_content_available">No content is available</string>
+    <string name="error_connection_lost">Connection Lost</string>
 
     <!-- CONTENT ERRORS -->
     <string name="product_view_content_expired">This content is no longer available</string>

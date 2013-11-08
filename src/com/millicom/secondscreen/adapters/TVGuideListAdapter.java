@@ -32,6 +32,7 @@ import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.ChannelHour;
 import com.millicom.secondscreen.content.model.Guide;
+import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.myprofile.RemindersActivity;
 import com.millicom.secondscreen.content.tvguide.ChannelPageActivity;
 import com.millicom.secondscreen.content.tvguide.ChannelPageFragment;
@@ -45,21 +46,19 @@ public class TVGuideListAdapter extends BaseAdapter {
 	private LayoutInflater		mLayoutInflater;
 	private Activity			mActivity;
 	private ArrayList<Guide>	mGuide;
-	private ArrayList<Channel> mChannels;
-
+	private TvDate				mDate;
 	private ImageLoader			mImageLoader;
-	
-	public TVGuideListAdapter(Activity mActivity, ArrayList<Guide> mGuide, ArrayList<Channel> mChannels) {
-		this.mGuide = mGuide;
-		this.mChannels = mChannels;
-		this.mActivity = mActivity;
+
+	public TVGuideListAdapter(Activity activity, ArrayList<Guide> guide, TvDate date) {
+		this.mGuide = guide;
+		this.mActivity = activity;
+		this.mDate = date;
 		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage);
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
-
 		final Guide guide = getItem(position);
 
 		if (rowView == null) {
@@ -95,80 +94,64 @@ public class TVGuideListAdapter extends BaseAdapter {
 			// ImageDownloadThread getChannelIconTask = new ImageDownloadThread(holder.mChannelIconIv, holder.mProgressBar);
 			// getChannelIconTask.execute(guide.getLogoHref());
 			// imageLoader.displayImage(guide.getLogoLHref(), mActivity, holder.mChannelIconIv);
-			mImageLoader.displayImage(guide.getLogoLHref(), holder.mChannelIconIv, ImageLoader.IMAGE_TYPE.THUMBNAIL);
+			mImageLoader.displayImage(guide.getLogoSHref(), holder.mChannelIconIv, ImageLoader.IMAGE_TYPE.THUMBNAIL);
 
 		} else {
 			holder.mChannelIconIv.setImageResource(R.drawable.loadimage_2x);
 		}
-		
+
 		holder.mContainer.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				
-				Channel channel = null;
-				for(int i=0;i<mChannels.size(); i++){
-					if(guide.getId().equals(mChannels.get(i).getChannelId())){
-						channel = mChannels.get(i);
-					}
-				}
-				final Channel channeltoSend = channel;
-				
-				
+
 				Intent intent = new Intent(mActivity, ChannelPageActivity.class);
-				
-				//intent.putExtra(Consts.INTENT_EXTRA_CHANNEL, channeltoSend);
-				//intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_GUIDE, guide);
-				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, channeltoSend.getChannelId());
-				
-				
+				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, guide.getId());
+				intent.putExtra(Consts.INTENT_EXTRA_CHOSEN_DATE_TVGUIDE, mDate);
+
 				mActivity.startActivity(intent);
 				mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-				
-				//Fragment fragment = new ChannelPageFragment();
-				//Bundle bundle = new Bundle();
-				//bundle.putParcelable(Consts.INTENT_EXTRA_CHANNEL, channeltoSend);
-				//bundle.putParcelable(Consts.INTENT_EXTRA_CHANNEL_GUIDE, guide);
-				//fragment.setArguments(bundle);
-				//mFragmentManager.beginTransaction().add(0, fragment).commit();
 			}
 		});
 
 		ArrayList<Broadcast> broadcasts = guide.getBroadcasts();
-
+		
 		if (broadcasts != null && broadcasts.size() > 0) {
 
 			/* get the nearest broadcasts */
 			int indexOfNearestBroadcast = Broadcast.getClosestBroadcastIndex(broadcasts);
-			ArrayList<Broadcast> nextBroadcasts = Broadcast.getBroadcastsStartingFromPosition(indexOfNearestBroadcast, broadcasts, Consts.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
-			for (int j = 0; j < nextBroadcasts.size(); j++) {
-				if (j == 0) {
-					holder.mLiveProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getTitle());
-					try {
-						holder.mLiveProgramTimeTv.setText((DateUtilities.isoStringToTimeString(nextBroadcasts.get(j).getBeginTime())));
-					} catch (Exception e) {
-						e.printStackTrace();
-						holder.mLiveProgramTimeTv.setText("");
-					}
-				} else if (j == 1 && j < nextBroadcasts.size()) {
-					holder.mNextProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getTitle());
-					try {
-						holder.mNextProgramTimeTv.setText((DateUtilities.isoStringToTimeString(nextBroadcasts.get(j).getBeginTime())));
-					} catch (Exception e) {
-						e.printStackTrace();
-						holder.mNextProgramTimeTv.setText("");
-					}
-				} else if (j == 2 && j < nextBroadcasts.size()) {
-					holder.mLastProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getTitle());
-					try {
-						holder.mLastProgramTimeTv.setText((DateUtilities.isoStringToTimeString(nextBroadcasts.get(j).getBeginTime())));
-					} catch (Exception e) {
-						e.printStackTrace();
-						holder.mLastProgramTimeTv.setText("");
+			if (indexOfNearestBroadcast != -1) {
+				ArrayList<Broadcast> nextBroadcasts = Broadcast.getBroadcastsStartingFromPosition(indexOfNearestBroadcast, broadcasts, Consts.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
+				
+				for (int j = 0; j < nextBroadcasts.size(); j++) {
+					if (j == 0) {
+						holder.mLiveProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getTitle());
+						try {
+							holder.mLiveProgramTimeTv.setText((DateUtilities.isoStringToTimeString(nextBroadcasts.get(j).getBeginTime())));
+						} catch (Exception e) {
+							e.printStackTrace();
+							holder.mLiveProgramTimeTv.setText("");
+						}
+					} else if (j == 1 && j < nextBroadcasts.size()) {
+						holder.mNextProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getTitle());
+						try {
+							holder.mNextProgramTimeTv.setText((DateUtilities.isoStringToTimeString(nextBroadcasts.get(j).getBeginTime())));
+						} catch (Exception e) {
+							e.printStackTrace();
+							holder.mNextProgramTimeTv.setText("");
+						}
+					} else if (j == 2 && j < nextBroadcasts.size()) {
+						holder.mLastProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getTitle());
+						try {
+							holder.mLastProgramTimeTv.setText((DateUtilities.isoStringToTimeString(nextBroadcasts.get(j).getBeginTime())));
+						} catch (Exception e) {
+							e.printStackTrace();
+							holder.mLastProgramTimeTv.setText("");
+						}
 					}
 				}
 				/* get the nearest broadcasts */
-			}
+			} 
 		} else {
 			holder.mLiveProgramNameTv.setText("");
 			holder.mLiveProgramTimeTv.setText("");
@@ -181,28 +164,28 @@ public class TVGuideListAdapter extends BaseAdapter {
 	}
 
 	static class ViewHolder {
-		public RelativeLayout mContainer; 
-		public ImageView	mChannelIconIv;
-		public ProgressBar	mProgressBar;
+		public RelativeLayout	mContainer;
+		public ImageView		mChannelIconIv;
+		public ProgressBar		mProgressBar;
 		// public LinearLayout mBroadcastItemLl;
 
 		// LIVE PROGRAM
 		// public RelativeLayout mLiveProgramContainer;
-		public ImageView	mLiveProgramIv;
-		public TextView		mLiveProgramNameTv;
-		public TextView		mLiveProgramTimeTv;
+		public ImageView		mLiveProgramIv;
+		public TextView			mLiveProgramNameTv;
+		public TextView			mLiveProgramTimeTv;
 
 		// NEXT PROGRAM
 		// public RelativeLayout mNextProgramContainer;
-		public ImageView	mNextProgramIv;
-		public TextView		mNextProgramNameTv;
-		public TextView		mNextProgramTimeTv;
+		public ImageView		mNextProgramIv;
+		public TextView			mNextProgramNameTv;
+		public TextView			mNextProgramTimeTv;
 
 		// LAST PROGRAM
 		// public RelativeLayout mLastProgramContainer;
-		public ImageView	mLastProgramIv;
-		public TextView		mLastProgramNameTv;
-		public TextView		mLastProgramTimeTv;
+		public ImageView		mLastProgramIv;
+		public TextView			mLastProgramNameTv;
+		public TextView			mLastProgramTimeTv;
 
 	}
 
