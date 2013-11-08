@@ -24,19 +24,23 @@ public class TagTypeFragmentStatePagerAdapter extends FragmentStatePagerAdapter 
 	private ArrayList<Tag> mTags;
 	private TvDate mTvDate;
 	private int mDatePosition;
+	private boolean createBackground;
 	
 	public TagTypeFragmentStatePagerAdapter(FragmentManager fm, ArrayList<Tag> tags, TvDate tvDate, int datePosition) {
 		super(fm);
 		this.mTags = tags;
 		this.mTvDate = tvDate;
 		this.mDatePosition = datePosition;
+		this.createBackground = createBackground;
 	}
 
 	@Override
 	public Fragment getItem(int position) {
 		position = LoopViewPager.toRealPosition(position, getCount());
 		//if (position == 0) {
-			return TVGuideTableFragment.newInstance(mTags.get(position), mTvDate, mDatePosition);
+		
+		return TVGuideTableFragment.newInstance(mTags.get(position), mTvDate, mDatePosition);
+		
 		//} else {
 		//	return TVGuideTagTypeFragment.newInstance(mTags.get(position), mTvDate, mDatePosition);
 		//} 

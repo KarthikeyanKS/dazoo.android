@@ -3,6 +3,7 @@ package com.millicom.secondscreen.content.tvguide;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -44,6 +45,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 	private DazooStore				dazooStore;
 	private boolean					mIsLoggedIn	= false;
 	private ArrayList<Broadcast>	mTaggedBroadcasts;
+	private boolean					mCreateBackground;
 
 	public static TVGuideTableFragment newInstance(Tag tag, TvDate date, int position) {
 
@@ -71,6 +73,8 @@ public class TVGuideTableFragment extends SSPageFragment {
 		mTvDate = bundle.getParcelable(Consts.FRAGMENT_EXTRA_TVDATE);
 		mTvDatePosition = bundle.getInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION);
 
+		mCreateBackground = bundle.getBoolean("x");
+
 		mTag = dazooStore.getTag(mTagStr);
 		Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!! FRAGMENT TAG: " + mTag.getName());
 		Log.d(TAG, "!!!!!!!! FRAGMENT DAY: " + mTvDate.getDate() + "  " + mTvDate.getName());
@@ -80,6 +84,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
+
 			mRootView = inflater.inflate(R.layout.fragment_tvguide_table, null);
 
 			mTVGuideListView = (ListView) mRootView.findViewById(R.id.tvguide_table_listview);
@@ -88,8 +93,8 @@ public class TVGuideTableFragment extends SSPageFragment {
 			Log.d(TAG, "////// TABLE IS HERE");
 
 		} else {
-			mRootView = inflater.inflate(R.layout.fragment_tvguide_tag_type, null);
 
+			mRootView = inflater.inflate(R.layout.fragment_tvguide_tag_type, null);
 			mTVGuideListView = (ListView) mRootView.findViewById(R.id.fragment_tvguide_type_tag_listview);
 
 			Log.d(TAG, "////// TAG IS HERE");
@@ -107,7 +112,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 			 */
 		}
 		super.initRequestCallbackLayouts(mRootView);
-
+		
 		// reset the activity whenever the view is recreated
 		mActivity = getActivity();
 		mGuides = null;
@@ -180,7 +185,8 @@ public class TVGuideTableFragment extends SSPageFragment {
 					updateUI(REQUEST_STATUS.SUCCESSFUL);
 					result = true;
 				} else {
-					updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
+					//updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
+					updateUI(REQUEST_STATUS.LOADING);
 				}
 			}
 
