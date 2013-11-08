@@ -44,7 +44,6 @@
             android:textSize="16sp"
             android:background="@drawable/edittext_standard" />
 
-        <!-- TODO: Fix hints, Password ... at least 6 characters -->
         <com.millicom.secondscreen.customviews.FontEditText
             android:id="@+id/signup_email_edittext"
             android:layout_width="fill_parent"
