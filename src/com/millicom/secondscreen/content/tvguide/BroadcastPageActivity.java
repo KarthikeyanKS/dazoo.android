@@ -12,6 +12,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -111,7 +112,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 
 			token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 			if (!mIsFromNotification) {
-				if (token != null && token.isEmpty() != true) {
+				if (token != null && TextUtils.isEmpty(token) != true) {
 					mIsLoggedIn = true;
 					mBroadcast = dazooStore.getBroadcastFromMy(mTvDate, mChannelId, mBeginTimeInMillis);
 					mChannel = dazooStore.getChannelFromAll(mChannelId);
@@ -238,7 +239,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 
 		mActionBar.setTitle(mBroadcast.getProgram().getTitle());
 
-		if (program.getPosterLUrl() != null && program.getPosterLUrl().isEmpty() != true) {
+		if (program.getPosterLUrl() != null && TextUtils.isEmpty(program.getPosterLUrl()) != true) {
 			mImageLoader.displayImage(program.getPosterLUrl(), mPosterIv, mPosterPb, ImageLoader.IMAGE_TYPE.POSTER);
 		}
 		mTitleTv.setText(program.getTitle());
