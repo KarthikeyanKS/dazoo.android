@@ -74,7 +74,6 @@ public abstract class SSActivity extends ActionBarActivity {
 				mRequestEmptyLayout.setVisibility(View.VISIBLE);
 				break;
 			case FAILED:
-				Log.d(TAG, "faillllledddd!!!!");
 				mRequestFailedLayout.setVisibility(View.VISIBLE);
 				break;
 

@@ -66,7 +66,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 	private LinearLayout			mBlockContainer;
 	private ActionBar				mActionBar;
 	private LayoutInflater			mLayoutInflater;
-	private String					mBroadcastUrl, entityType, token, mChannelId, mChannelDate, mLikeType, mProgramType, mProgramId;
+	private String					mBroadcastUrl, entityType, token, mChannelId, mChannelDate, mLikeType, mProgramType, mProgramId, mBroadcastPageUrl;
 	private long					mBeginTimeInMillis;
 	private boolean					mIsSet	= false, mIsLiked = false, mIsLoggedIn = false, mIsFuture, mIsFromNotification = false;
 	private ImageView				mPosterIv, mLikeButtonIv, mShareButtonIv, mRemindButtonIv;
@@ -95,10 +95,12 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		mChannelId = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_ID);
 		mTvDate = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE);
 		mIsFromNotification = intent.getBooleanExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, false);
+		mBroadcastPageUrl = intent.getStringExtra(Consts.INTENT_EXTRA_BROADCAST_URL);
 
 		Log.d(TAG, "mBeginTimeInMillis: " + String.valueOf(mBeginTimeInMillis));
 		Log.d(TAG, "mChannelId: " + mChannelId);
 		Log.d(TAG, "mTvDate: " + mTvDate);
+		Log.d(TAG, "mBroadcastPageUrl: " + mBroadcastPageUrl);
 
 		super.initCallbackLayouts();
 
@@ -113,29 +115,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 					mIsLoggedIn = true;
 					mBroadcast = dazooStore.getBroadcastFromMy(mTvDate, mChannelId, mBeginTimeInMillis);
 					mChannel = dazooStore.getChannelFromAll(mChannelId);
-
-					if (mBroadcast == null) {
-
-						String broadcastPageUrl = intent.getStringExtra(Consts.INTENT_EXTRA_BROADCAST_URL);
-
-						SSBroadcastPage.getInstance().getPage(broadcastPageUrl, new SSPageCallback() {
-
-							@Override
-							public void onGetPageResult(SSPageGetResult pageGetResult) {
-								mBroadcast = SSBroadcastPage.getInstance().getBroadcast();
-								try {
-									mIsFuture = DateUtilities.isTimeInFuture(mBroadcast.getBeginTime());
-
-								} catch (ParseException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-							}
-
-						});
-
-						Toast.makeText(this, "Soon I will parse this broadcast page!", Toast.LENGTH_SHORT).show();
-					}
+					
 
 					mProgramType = mBroadcast.getProgram().getProgramType();
 					if (mProgramType != null) {
@@ -147,50 +127,28 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 							mProgramId = mBroadcast.getProgram().getProgramId();
 						}
 					}
+					
+					updateUI(REQUEST_STATUS.SUCCESSFUL);
 				} else {
 					mBroadcast = dazooStore.getBroadcastFromDefault(mTvDate, mChannelId, mBeginTimeInMillis);
 					mChannel = dazooStore.getChannelFromDefault(mChannelId);
-
-					if (mBroadcast == null) {
-
-						String broadcastPageUrl = intent.getStringExtra(Consts.INTENT_EXTRA_BROADCAST_URL);
-
-						SSBroadcastPage.getInstance().getPage(broadcastPageUrl, new SSPageCallback() {
-
-							@Override
-							public void onGetPageResult(SSPageGetResult pageGetResult) {
-								mBroadcast = SSBroadcastPage.getInstance().getBroadcast();
-								try {
-									mIsFuture = DateUtilities.isTimeInFuture(mBroadcast.getBeginTime());
-
-								} catch (ParseException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-							}
-
-						});
-
-						Toast.makeText(this, "Soon I will parse this broadcast page!", Toast.LENGTH_SHORT).show();
-					}
-				}
-				initViews();
-			} else {
-				String broadcastPageUrl = intent.getStringExtra(Consts.INTENT_EXTRA_BROADCAST_URL);
-
-				SSBroadcastPage.getInstance().getPage(broadcastPageUrl, new SSPageCallback() {
-
-					@Override
-					public void onGetPageResult(SSPageGetResult pageGetResult) {
-						mBroadcast = SSBroadcastPage.getInstance().getBroadcast();
+	
 						if (mBroadcast != null) {
-							Log.d(TAG, "mBroadcast: " + mBroadcast);
-							mIsFuture = true;
 							updateUI(REQUEST_STATUS.SUCCESSFUL);
-						}
-					}
-
-				});
+						}					
+				}
+				
+				try {
+					mIsFuture = DateUtilities.isTimeInFuture(mBroadcast.getBeginTime());
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			
+			} else {
+				getIndividualBroadcast(mBroadcastPageUrl);
+				if (mBroadcast != null) {
+					updateUI(REQUEST_STATUS.SUCCESSFUL);
+				}	
 			}
 		}
 	}
@@ -198,7 +156,6 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
 		if (super.requestIsSuccesfull(status)) {
-			mIsFuture = true;
 			initViews();
 			populateBlocks();
 		}
@@ -208,21 +165,22 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 	protected void loadPage() {
 		// try to load page again when network is up
 		if (NetworkUtils.checkConnection(mActivity)) {
-			String broadcastPageUrl = intent.getStringExtra(Consts.INTENT_EXTRA_BROADCAST_URL);
-
-			SSBroadcastPage.getInstance().getPage(broadcastPageUrl, new SSPageCallback() {
-
-				@Override
-				public void onGetPageResult(SSPageGetResult pageGetResult) {
-					mBroadcast = SSBroadcastPage.getInstance().getBroadcast();
-					if (mBroadcast != null) {
-						mIsFuture = true;
-						updateUI(REQUEST_STATUS.SUCCESSFUL);
-					}
-				}
-
-			});
+			getIndividualBroadcast(mBroadcastPageUrl);
 		}
+	}
+
+	private void getIndividualBroadcast(String broadcastPageUrl) {
+		SSBroadcastPage.getInstance().getPage(broadcastPageUrl, new SSPageCallback() {
+			@Override
+			public void onGetPageResult(SSPageGetResult pageGetResult) {
+				mBroadcast = SSBroadcastPage.getInstance().getBroadcast();
+				try {
+					mIsFuture = DateUtilities.isTimeInFuture(mBroadcast.getBeginTime());
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 	private void initViews() {
@@ -329,7 +287,6 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 			mRemindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_dissabled_clock));
 		}
 
-		// TODO TO GET TO KNOW IF IT IS ACTUALLY LIKED
 		if (mIsLoggedIn) {
 			Log.d(TAG, "id: " + mBroadcast.getProgram().getProgramId());
 			Log.d(TAG, "type: " + mBroadcast.getProgram().getProgramType());
@@ -449,7 +406,6 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 	public Runnable noLoginProc() {
 		return new Runnable() {
 			public void run() {
-				Log.d(TAG, "No login");
 			}
 		};
 	}
@@ -466,7 +422,6 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 	public Runnable noLikeProc() {
 		return new Runnable() {
 			public void run() {
-				Log.d(TAG, "No changes to likes");
 			}
 		};
 	}
@@ -474,7 +429,6 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 	public Runnable yesNotificationProc() {
 		return new Runnable() {
 			public void run() {
-				Log.d(TAG, "Notification is removed");
 				mRemindButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
 				mIsSet = false;
 			}
@@ -484,7 +438,6 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 	public Runnable noNotificationProc() {
 		return new Runnable() {
 			public void run() {
-				Log.d(TAG, "No changes to the notification");
 			}
 		};
 	}

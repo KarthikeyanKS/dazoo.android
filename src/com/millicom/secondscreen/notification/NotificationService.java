@@ -52,11 +52,8 @@ public class NotificationService {
 		try {
 			calendar = DateUtilities.getTimeFifteenMinBefore(broadcast.getBeginTime());
 
-			//alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-
-			// for testing
-			alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (1000), pendingIntent);
-
+			alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+			
 			return true;
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -91,10 +88,10 @@ public class NotificationService {
 		try {
 			calendar = DateUtilities.getTimeFifteenMinBefore(broadcast.getBeginTime());
 
-			alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+			//alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
 			// for testing
-			// alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (1000), pendingIntent);
+			alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (1000), pendingIntent);
 
 			NotificationDataSource notificationDataSource = new NotificationDataSource(context);
 
