@@ -5,26 +5,33 @@
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:paddingTop="10dp" >
-    
-    <ImageView 
- 	    android:id="@+id/whatelseison_listitem_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:src="@drawable/loadimage" />
-    <ProgressBar
-        android:id="@+id/whatelseison_listitem_image_pb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
+   	<RelativeLayout 
+   	    android:id="@+id/whatelseison_listitem_imagecontainer"
+   	    android:layout_width="130dp"
+   	    android:layout_height="180dp"
+   	    android:paddingLeft="10dp"
+   	    android:paddingRight="10dp"
+   	    android:paddingBottom="10dp">
+   	    
+	   	<ImageView 
+	 	    android:id="@+id/whatelseison_listitem_image"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:src="@drawable/loadimage" />
+	    <ProgressBar
+	        android:id="@+id/whatelseison_listitem_image_pb"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:visibility="gone" />
+   	</RelativeLayout>
+
     
     <RelativeLayout 
         android:id="@+id/whatelseison_listitem_info_container"
         android:layout_width="wrap_content"
   		android:layout_height="wrap_content"
-  		android:layout_toRightOf="@id/whatelseison_listitem_image"
+  		android:layout_toRightOf="@id/whatelseison_listitem_imagecontainer"
   		android:paddingLeft="10dp"
   		android:paddingRight="10dp"
   		android:paddingBottom="10dp" >

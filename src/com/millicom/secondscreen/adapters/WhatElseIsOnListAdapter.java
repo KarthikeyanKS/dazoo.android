@@ -21,6 +21,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class WhatElseIsOnListAdapter extends BaseAdapter {
 
@@ -99,12 +100,17 @@ public class WhatElseIsOnListAdapter extends BaseAdapter {
 				holder.mTitleTv.setText("");
 			}
 			//TODO: Set icon in front of title
-			String channel = broadcast.getChannel().getName();
-			if (title != null) {
-				holder.mTitleTv.setText(channel);
+			String channel = "";
+			try {
+			channel = broadcast.getChannel().getName();
+			} catch (NullPointerException e) {
+				Toast.makeText(mActivity, "Something wrong with input data", Toast.LENGTH_LONG).show();
+			}
+			if (channel != null) {
+				holder.mChannelTv.setText(channel);
 			} 
 			else {
-				holder.mTitleTv.setText("");
+				holder.mChannelTv.setText("");
 			}
 			
 			//MC - Set the begin time of the broadcast.
