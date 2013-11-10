@@ -50,8 +50,7 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 
 		mToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 
-		//isEmpty is API level 9! Changed to length.
-		if (mToken != null && mToken.length() > 0) {
+		if (mToken != null && TextUtils.isEmpty(mToken) != true) {
 			mIsLoggedIn = true;
 
 			userFirstName = ((SecondScreenApplication) getApplicationContext()).getUserFirstName();
@@ -129,8 +128,7 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 	private void populateViews() {
 		if (mIsLoggedIn) {
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-				//Also changed isEmpty for length here.
-				if (userFirstName != null && userLastName != null && userFirstName.length() > 0 && userLastName.length() > 0) {
+				if (userFirstName != null && userLastName != null && userFirstName.isEmpty() != true && userLastName.isEmpty() != true) {
 					mAvatarImageView.setImageResource(R.drawable.loadimage_2x);
 					mUserNameTextView.setText(userFirstName + " " + userLastName);
 				} else {

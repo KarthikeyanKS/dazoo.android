@@ -317,8 +317,7 @@
                     <RelativeLayout 
 					    android:layout_width="wrap_content"
 		           		android:layout_height="wrap_content"
-		           		android:layout_centerInParent="true"
-		           		android:background="@color/lightblue">
+		           		android:layout_centerInParent="true">
 	                    <ImageView
 	                        android:id="@+id/myprofile_signin_facebook_icon"
 	                        android:layout_width="wrap_content"
@@ -418,9 +417,6 @@
 		            android:layout_below="@id/myprofile_container_email_divider"
 		            android:layout_centerInParent="true" 
 		            android:layout_marginTop="20dp"
-		            android:layout_marginBottom="10dp"
-		            android:layout_marginLeft="10dp"
-		            android:layout_marginRight="10dp"
 		            android:orientation="horizontal" >
 
 		            <com.millicom.secondscreen.customviews.FontTextView
