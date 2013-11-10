@@ -39,7 +39,7 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 	private Button				mLoginBtn;
 	private String				userFirstName, userLastName;
 	private boolean				mIsLoggedIn	= false;
-	private String				mToken = "";
+	private String				mToken;
 	private ActionBar			mActionBar;
 	private TextView			mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
 
