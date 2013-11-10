@@ -86,7 +86,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 		if (broadcast != null) {
 			// Set season and episode
 			String season = broadcast.getProgram().getSeason().getNumber();
-			String episode = broadcast.getProgram().getEpisode();
+			String episode = String.valueOf(broadcast.getProgram().getEpisodeNumber());
 			if (season != null && episode != null) {
 				holder.mSeasonEpisodeTv.setText(mActivity.getResources().getString(R.string.season) + " " + season + " " + 
 												mActivity.getResources().getString(R.string.episode) + " " + episode);

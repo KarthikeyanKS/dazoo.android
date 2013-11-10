@@ -151,7 +151,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 			} 
 			catch (ParseException e) {
 				e.printStackTrace();
-				holder.mTimeTv.setText("");
+				holder.mTimeTv.setText("Time fail!");
 			}
 
 			// TODO: manipulate icon

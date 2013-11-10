@@ -195,6 +195,7 @@ public class Broadcast implements Parcelable {
 			}
 
 			long d = Math.abs(timeNow - timeBroadcast);
+			//TODO: This makes programs on air not show when half of the time has passed. Should it really be that way?
 			// if (d < bestDistanceFoundYet && timeBroadcast < timeNow) {
 			if (d < bestDistanceFoundYet) {
 				nearestIndex = i;

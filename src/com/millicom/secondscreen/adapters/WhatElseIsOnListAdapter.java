@@ -166,7 +166,7 @@ public class WhatElseIsOnListAdapter extends BaseAdapter {
 					holder.mDescTv.setText(mActivity.getResources().getString(R.string.season) + " " + 
 							broadcast.getProgram().getSeason().getNumber() + " " + 
 							mActivity.getResources().getString(R.string.episode) + " " +
-							broadcast.getProgram().getEpisode());
+							String.valueOf(broadcast.getProgram().getEpisodeNumber()));
 				}
 				else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(type)) {
 					ArrayList<String> tags = broadcast.getProgram().getTags();
