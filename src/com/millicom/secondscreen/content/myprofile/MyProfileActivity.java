@@ -59,7 +59,7 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverLogout, new IntentFilter(Consts.INTENT_EXTRA_LOG_OUT_ACTION));
 
 		mToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
-
+		
 		if (mToken != null && TextUtils.isEmpty(mToken) != true) {
 			mIsLoggedIn = true;
 
@@ -78,6 +78,7 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 		public void onReceive(Context context, Intent intent) {
 			Log.d(TAG, "USER HAS LOG OUT!");
 			mIsLoggedIn = false;
+			initViews();
 			populateViews();
 		}
 	};

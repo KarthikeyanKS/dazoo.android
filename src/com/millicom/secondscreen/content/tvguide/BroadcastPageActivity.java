@@ -116,35 +116,36 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 					mIsLoggedIn = true;
 					mBroadcast = dazooStore.getBroadcastFromMy(mTvDate, mChannelId, mBeginTimeInMillis);
 					mChannel = dazooStore.getChannelFromAll(mChannelId);
-					
+					if (mBroadcast != null) {
 
-					mProgramType = mBroadcast.getProgram().getProgramType();
-					if (mProgramType != null) {
-						mLikeType = LikeService.getLikeType(mProgramType);
+						mProgramType = mBroadcast.getProgram().getProgramType();
+						if (mProgramType != null) {
+							mLikeType = LikeService.getLikeType(mProgramType);
 
-						if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(mProgramType)) {
-							mProgramId = mBroadcast.getProgram().getSeries().getSeriesId();
-						} else {
-							mProgramId = mBroadcast.getProgram().getProgramId();
+							if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(mProgramType)) {
+								mProgramId = mBroadcast.getProgram().getSeries().getSeriesId();
+							} else {
+								mProgramId = mBroadcast.getProgram().getProgramId();
+							}
 						}
+
+						updateUI(REQUEST_STATUS.SUCCESSFUL);
 					}
-					
-					updateUI(REQUEST_STATUS.SUCCESSFUL);
 				} else {
 					mBroadcast = dazooStore.getBroadcastFromDefault(mTvDate, mChannelId, mBeginTimeInMillis);
 					mChannel = dazooStore.getChannelFromDefault(mChannelId);
-	
-						if (mBroadcast != null) {
-							updateUI(REQUEST_STATUS.SUCCESSFUL);
-						}					
+
+					if (mBroadcast != null) {
+						updateUI(REQUEST_STATUS.SUCCESSFUL);
+					}
 				}
-				
+
 				try {
 					mIsFuture = DateUtilities.isTimeInFuture(mBroadcast.getBeginTime());
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-			
+
 			} else {
 				getIndividualBroadcast(mBroadcastPageUrl);
 				mIsFuture = true;
@@ -173,9 +174,9 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 			@Override
 			public void onGetPageResult(SSPageGetResult pageGetResult) {
 				mBroadcast = SSBroadcastPage.getInstance().getBroadcast();
-				
-				if(mBroadcast!=null){
-					updateUI(REQUEST_STATUS.SUCCESSFUL);	
+
+				if (mBroadcast != null) {
+					updateUI(REQUEST_STATUS.SUCCESSFUL);
 				}
 			}
 		});

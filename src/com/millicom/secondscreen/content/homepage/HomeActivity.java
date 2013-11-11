@@ -11,6 +11,7 @@ import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
@@ -65,10 +66,16 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_home_activity);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);		
 		mDateSelectedIndex = 0;
+		
+		mFirstHit = true;
 
+		FragmentManager fm = getSupportFragmentManager();
+		for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {    
+		    fm.popBackStack();
+		}
+		
 		// broadcast receiver for date selection
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverDate, new IntentFilter(Consts.INTENT_EXTRA_TVGUIDE_SORTING));
 
@@ -81,22 +88,30 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		// broadcast receiver for log out action in the application
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverLogout, new IntentFilter(Consts.INTENT_EXTRA_LOG_OUT_ACTION));
 
+		// broadcast receiver when user comebacks to the start after login
+		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverLogin, new IntentFilter(Consts.INTENT_EXTRA_LOG_IN_ACTION));
+		
 		initViews();
 
 		loadPage();
 	}
+	
+	BroadcastReceiver mBroadcastReceiverLogin  = new BroadcastReceiver(){
+
+		@Override
+		public void onReceive(Context arg0, Intent arg1) {
+			Log.d(TAG,"USER HAS LOGGED IN!!!!");
+			finish();
+		}
+		
+	};
 	
 	BroadcastReceiver mBroadcastReceiverLogout = new BroadcastReceiver(){
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			Log.d(TAG, "USER HAS LOG OUT!");
-			
-			mTabSelectedIndex = 0 ;
-			updateUI(REQUEST_STATUS.LOADING);
-			
-			DazooCore.getInstance(context, mDateSelectedIndex).fetchContent();
-			
+			finish();
 		}
 	};
 
@@ -113,6 +128,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	BroadcastReceiver	mBroadcastReceiverContent		= new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			Log.d(TAG," ON RECEIVE CONTENT");
 
 			mIsReady = intent.getBooleanExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, false);
 
@@ -168,6 +184,8 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	BroadcastReceiver	mBroadcastReceiverDate	= new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			
+			Log.d(TAG,"ON TVGUIDE SORTING VALUE CHANGED");
 
 			mDate = intent.getStringExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE);
 			mDateSelectedIndex = intent.getIntExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE_POSITION, 0);
@@ -266,6 +284,9 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		// Stop listening to broadcast events
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverDate);
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverContent);
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverLogout);
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverMyChannels);
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverLogin);
 	};
 
 	@Override
@@ -276,6 +297,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 	@Override
 	public boolean onNavigationItemSelected(int position, long id) {
+		Log.d(TAG,"FIRST HIT: " + mFirstHit);
 		if (mFirstHit) {
 			mDayAdapter.setSelectedIndex(0);
 			mActionBar.setSelectedNavigationItem(0);

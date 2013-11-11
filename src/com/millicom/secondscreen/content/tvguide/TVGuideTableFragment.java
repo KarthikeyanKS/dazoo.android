@@ -108,7 +108,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 
 		// GET THE DATA FROM CORE LOGIC SINGLETON
 		// if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
-		mGuides = new ArrayList<Guide>();
+		mGuides = null;
 		if (mIsLoggedIn) {
 			mGuides = dazooStore.getMyGuideTable(mTvDate.getDate());
 			Log.d(TAG, "My date: " + mTvDate.getDate());
@@ -136,14 +136,16 @@ public class TVGuideTableFragment extends SSPageFragment {
 				}
 			}
 		} else {
-			mTaggedBroadcasts = new ArrayList<Broadcast>();
+			mTaggedBroadcasts = null;
 			if (mIsLoggedIn) {
 				mTaggedBroadcasts = DazooStore.getInstance().getMyTaggedBroadcasts(mTvDate, mTag);
 				//Log.d(TAG,"!!!!!! size: " + String.valueOf(mTaggedBroadcasts.size()));
+				Log.d(TAG,"I GOT MY!!!!!!!!");
 				
 			} else {
 				mTaggedBroadcasts = DazooStore.getInstance().getTaggedBroadcasts(mTvDate, mTag);
 				//Log.d(TAG,"!!!!!! size: " + String.valueOf(mTaggedBroadcasts.size()));
+				Log.d(TAG,"I GOT DEFAULT!!!!!!!!!");
 			}
 
 			if (mTaggedBroadcasts != null) {

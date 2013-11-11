@@ -118,7 +118,7 @@ public class DazooCore {
 			if (mGuides != null && mGuides.isEmpty() != true) {
 				for (int i = 1; i < mTags.size(); i++) {
 					ArrayList<Broadcast> taggedBroadcasts = DazooStoreOperations.getMyTaggedBroadcasts(date.getDate(), mTags.get(i));
-					DazooStoreOperations.saveTaggedBroadcast(date, mTags.get(i), taggedBroadcasts);
+					DazooStoreOperations.saveMyTaggedBroadcast(date, mTags.get(i), taggedBroadcasts);
 				}
 				return true;
 			}

@@ -202,12 +202,8 @@ public class DazooStoreOperations {
 					
 					Broadcast broadcastToAdd = oneGuideBroadcasts.get(j);
 					Channel channel = DazooStore.getInstance().getChannelFromAll(channelId);
-					
 					broadcastToAdd.setChannel(channel);
-					
-					
 					taggedBroadcasts.add(broadcastToAdd);
-					Log.d(TAG,"my broadcasts!!:" + broadcastToAdd.getProgram().getTitle());
 				}
 			}
 		}

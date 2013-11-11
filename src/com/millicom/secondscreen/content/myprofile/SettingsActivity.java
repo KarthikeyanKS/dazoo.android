@@ -6,6 +6,7 @@ import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.authentication.LoginActivity;
 import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
+import com.millicom.secondscreen.storage.DazooStore;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -138,15 +139,17 @@ public class SettingsActivity extends ActionBarActivity implements OnClickListen
 			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
 		case R.id.settings_logout_button:
-			((SecondScreenApplication) getApplicationContext()).setAccessToken(Consts.EMPTY_STRING);
-			((SecondScreenApplication) getApplicationContext()).setUserFirstName(Consts.EMPTY_STRING);
-			((SecondScreenApplication) getApplicationContext()).setUserLastName(Consts.EMPTY_STRING);
-			((SecondScreenApplication) getApplicationContext()).setUserEmail(Consts.EMPTY_STRING);
-			((SecondScreenApplication) getApplicationContext()).setUserId(Consts.EMPTY_STRING);
+			((SecondScreenApplication) getApplicationContext()).setAccessToken(null);
+			((SecondScreenApplication) getApplicationContext()).setUserFirstName(null);
+			((SecondScreenApplication) getApplicationContext()).setUserLastName(null);
+			((SecondScreenApplication) getApplicationContext()).setUserEmail(null);
+			((SecondScreenApplication) getApplicationContext()).setUserId(null);
 			((SecondScreenApplication) getApplicationContext()).setUserExistringFlag(false);
 
+			DazooStore.getInstance().clearMyGuidesStorage();
+		
 			LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(Consts.INTENT_EXTRA_LOG_OUT_ACTION));
-			startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+			startActivity(new Intent(SettingsActivity.this, MyProfileActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY));
 			// clear the activity stack
 			finish();
 			mIsChange = true;
@@ -164,6 +167,7 @@ public class SettingsActivity extends ActionBarActivity implements OnClickListen
 			Intent intentHome = new Intent(SettingsActivity.this, HomeActivity.class);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			intentHome.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			startActivity(intentHome);
 			break;
 		case R.id.show_activity:
