@@ -63,7 +63,7 @@ public abstract class Consts {
 		LOADING, FAILED, EMPTY_RESPONSE, SUCCESSFUL
 	};
 
-	public static String		DAZOO_BACK_STACK									= "com.millicom.secondscreen.dazoo.back.stack";
+	public static String		DAZOO_BACK_STACK									= "com.millicom.secondscreen.dazoo.back.stack"; 
 	public static final String	ISO_DATE_FORMAT										= "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
 	// Activity page content block types
