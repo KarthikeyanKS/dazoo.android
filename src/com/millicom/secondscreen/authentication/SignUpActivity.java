@@ -30,19 +30,27 @@ import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.utilities.JSONUtilities;
 import com.millicom.secondscreen.utilities.PatternCheck;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,7 +62,15 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 	private Button				mDazooRegisterButton;
 	private String				userEmailRegister, userPasswordRegister, userFirstNameRegister, userLastNameRegister, dazooToken;
 	private TextView			mErrorTextView;
-	
+	private TextDrawable		mEmailTextDrawable, mPasswordTextDrawable;
+
+
+	private final int 			REGISTER_FIRSTNAME_MISSING = 0;
+	private final int 			REGISTER_LASTNAME_MISSING = 1;
+	private final int 			REGISTER_EMAIL_WRONG = 2;
+	private final int 			PASSWORD_LENGTH_WRONG = 3;
+	private final int 			PASSWORD_ILLEGAL_CHARACTERS = 4;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -82,6 +98,68 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 		mErrorTextView = (TextView) findViewById(R.id.signup_error_textview);
 		mDazooRegisterButton = (Button) findViewById(R.id.signup_register_button);
 		mDazooRegisterButton.setOnClickListener(this);
+
+		setTextWatchers();
+		
+		//TODO: Static drawable background is not properly set, causing a flickering effect. Quickfix!
+		mFirstNameEditText.setBackgroundResource(R.drawable.edittext_standard);
+		mLastNameEditText.setBackgroundResource(R.drawable.edittext_standard);
+		mEmailRegisterEditText.setBackgroundResource(R.drawable.edittext_standard);
+		mPasswordRegisterEditText.setBackgroundResource(R.drawable.edittext_standard);
+	}
+
+	//Sets the TextWatchers for the extra drawable hints.
+	private void setTextWatchers() {
+		mPasswordTextDrawable = new TextDrawable(this);
+		mPasswordTextDrawable.setText(getResources().getString(R.string.signup_characters));
+		mPasswordTextDrawable.setTextColor(getResources().getColor(R.color.light_gray));
+		mPasswordRegisterEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, mPasswordTextDrawable, null);
+		mPasswordRegisterEditText.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (mPasswordRegisterEditText.getText().toString().equals("")) {
+					mPasswordRegisterEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, mPasswordTextDrawable, null);
+				}
+				else {
+					mPasswordRegisterEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+				}
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+			}
+		});
+		mEmailTextDrawable = new TextDrawable(this);
+		mEmailTextDrawable.setText(getResources().getString(R.string.signup_email_example));
+		mEmailTextDrawable.setTextColor(getResources().getColor(R.color.light_gray));
+		mEmailRegisterEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, mEmailTextDrawable, null);
+		mEmailRegisterEditText.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (mEmailRegisterEditText.getText().toString().equals("")) {
+					mEmailRegisterEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, mEmailTextDrawable, null);
+				}
+				else {
+					mEmailRegisterEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+				}
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+			}
+		});
 	}
 
 	private boolean verifyRegisterInput() {
@@ -89,13 +167,36 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 		String firstNameInput = mFirstNameEditText.getText().toString();
 		String lastNameInput = mLastNameEditText.getText().toString();
 		String passwordInput = mPasswordRegisterEditText.getText().toString();
-
-		if ((firstNameInput != null) && (lastNameInput != null) && (passwordInput != null) && (emailInput != null) && (passwordInput.length() >= Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MIN)
+		if ((!firstNameInput.equals("")) && (!lastNameInput.equals("")) && (!passwordInput.equals("")) && (!emailInput.equals("")) && (passwordInput.length() >= Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MIN)
 				&& (passwordInput.length() <= Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MAX) && (!passwordInput.matches("[%,#/|<>]+")) && (PatternCheck.checkEmail(emailInput) == true)) {
 			return true;
 		} else return false;
 	}
-	
+
+	private int findWrongRegisterInput() {
+		String emailInput = mEmailRegisterEditText.getText().toString();
+		String firstNameInput = mFirstNameEditText.getText().toString();
+		String lastNameInput = mLastNameEditText.getText().toString();
+		String passwordInput = mPasswordRegisterEditText.getText().toString();
+		if ((firstNameInput.equals(""))) {
+			return REGISTER_FIRSTNAME_MISSING;
+		}
+		if ((lastNameInput.equals(""))) {
+			return REGISTER_LASTNAME_MISSING;
+		}
+		else if ((emailInput.equals("")) || (PatternCheck.checkEmail(emailInput) == false)) {
+			return REGISTER_EMAIL_WRONG;
+		}
+		else if ((passwordInput.length() <= Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MIN)
+				|| (passwordInput.length() >= Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MAX)) {
+			return PASSWORD_LENGTH_WRONG;
+		}
+		else if (passwordInput.matches("[%,#/|<>]+")) {
+			return PASSWORD_ILLEGAL_CHARACTERS;
+		}
+		return -1;
+	}
+
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();
@@ -129,13 +230,13 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 							String userDataString = dazooRegJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_USER);
 							if (JSONUtilities.storeUserInformation(this, userDataString)) {
 								Toast.makeText(getApplicationContext(), "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName(), Toast.LENGTH_SHORT).show();
-								
+
 								// go to Start page
 								Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
 								startActivity(intent);
 								overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 								finish();
-							
+
 							} else {
 								Toast.makeText(getApplicationContext(), "Failed to fetch the user information from backend", Toast.LENGTH_SHORT).show();
 							}
@@ -158,8 +259,40 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 					e.printStackTrace();
 				}
 			} else {
-//				Toast.makeText(getApplicationContext(), "check if email/password/name were input right", Toast.LENGTH_LONG).show();
-				mErrorTextView.setText("Check if email/password/name were input right!");
+				int errorId = findWrongRegisterInput();
+				mFirstNameEditText.setBackgroundResource(R.drawable.edittext_standard);
+				mLastNameEditText.setBackgroundResource(R.drawable.edittext_standard);
+				mEmailRegisterEditText.setBackgroundResource(R.drawable.edittext_standard);
+				mPasswordRegisterEditText.setBackgroundResource(R.drawable.edittext_standard);
+				switch (errorId) {
+				case REGISTER_FIRSTNAME_MISSING:
+					mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_firstname));
+					mFirstNameEditText.setBackgroundResource(R.drawable.edittext_activated);
+					mFirstNameEditText.requestFocus();
+					break;
+				case REGISTER_LASTNAME_MISSING:
+					mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_lastname));
+					mLastNameEditText.setBackgroundResource(R.drawable.edittext_activated);
+					mLastNameEditText.requestFocus();
+					break;
+				case REGISTER_EMAIL_WRONG:
+					mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email));
+					mEmailRegisterEditText.setBackgroundResource(R.drawable.edittext_activated);
+					mEmailRegisterEditText.requestFocus();
+					break;
+				case PASSWORD_LENGTH_WRONG:
+					mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_passwordlength) +
+										   " " + Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MIN + " " + 
+										   getResources().getString(R.string.signup_with_email_characters));
+					mPasswordRegisterEditText.setBackgroundResource(R.drawable.edittext_activated);
+					mPasswordRegisterEditText.requestFocus();
+					break;
+				case PASSWORD_ILLEGAL_CHARACTERS:
+					mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_passwordcharacters));
+					mPasswordRegisterEditText.setBackgroundResource(R.drawable.edittext_activated);
+					mPasswordRegisterEditText.requestFocus();
+					break;
+				}
 				mErrorTextView.setVisibility(TextView.VISIBLE);
 				mFirstNameEditText.setEnabled(true);
 				mLastNameEditText.setEnabled(true);
@@ -169,7 +302,7 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 			break;
 		}
 	}
-	
+
 	private class DazooRegistrationTask extends AsyncTask<String, Void, String> {
 
 		@Override
@@ -220,7 +353,7 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 			return Consts.EMPTY_STRING;
 		}
 	}
-		
+
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();

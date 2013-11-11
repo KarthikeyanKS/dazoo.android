@@ -12,6 +12,6 @@
     <declare-styleable name="FontTextView">
         <attr name="fonttextview" format="string" />
     </declare-styleable>
-   
+
 
 </resources>

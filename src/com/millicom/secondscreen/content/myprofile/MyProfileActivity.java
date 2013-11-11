@@ -49,6 +49,7 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 		setContentView(R.layout.layout_myprofile_activity);
 
 		mToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
+
 		if (mToken != null && TextUtils.isEmpty(mToken) != true) {
 			mIsLoggedIn = true;
 

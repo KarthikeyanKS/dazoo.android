@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp" >
+   	<RelativeLayout 
+   	    android:id="@+id/whatelseison_listitem_imagecontainer"
+   	    android:layout_width="130dp"
+   	    android:layout_height="180dp"
+   	    android:paddingLeft="10dp"
+   	    android:paddingRight="10dp"
+   	    android:paddingBottom="10dp">
+   	    
+	   	<ImageView 
+	 	    android:id="@+id/whatelseison_listitem_image"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:src="@drawable/loadimage" />
+	    <ProgressBar
+	        android:id="@+id/whatelseison_listitem_image_pb"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:visibility="gone" />
+   	</RelativeLayout>
+
+    
+    <RelativeLayout 
+        android:id="@+id/whatelseison_listitem_info_container"
+        android:layout_width="wrap_content"
+  		android:layout_height="wrap_content"
+  		android:layout_toRightOf="@id/whatelseison_listitem_imagecontainer"
+  		android:paddingLeft="10dp"
+  		android:paddingRight="10dp"
+  		android:paddingBottom="10dp" >
+  		
+	 	<TextView 
+	        android:id="@+id/whatelseison_listitem_title"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginBottom="10dp"
+	        android:textColor="@color/black"
+	        android:textSize="20sp"
+	        android:textStyle="bold" />
+	 	
+	 	<TextView 
+	        android:id="@+id/whatelseison_listitem_time"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@id/whatelseison_listitem_title"
+	        android:textColor="@color/black"
+	        android:textSize="18sp" />
+	
+	 	<TextView 
+	        android:id="@+id/whatelseison_listitem_channel"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@id/whatelseison_listitem_time"
+	        android:textColor="@color/black"
+	        android:textSize="18sp" />
+	 	
+	 	<TextView 
+	        android:id="@+id/whatelseison_listitem_type"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@id/whatelseison_listitem_channel"
+	        android:layout_marginTop="5dp"
+	        android:layout_marginBottom="5dp"
+	        android:textColor="@color/light_gray"
+	        android:textSize="16sp" />
+	 	
+	 	<TextView 
+	        android:id="@+id/whatelseison_listitem_timeleft"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@id/whatelseison_listitem_type"
+	        android:layout_marginTop="5dp"
+	        android:textColor="@color/red"
+	        android:textSize="16sp" />
+	 	
+	 	<ProgressBar
+            android:id="@+id/whatelseison_listitem_progressbar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/whatelseison_listitem_timeleft"
+            android:visibility="visible"
+            android:progressDrawable="@drawable/progress_horizontal" />
+ 	</RelativeLayout>
+ 	
+ 	<View
+	    android:id="@+id/whatelseison_listitem_divider"
+	    android:layout_width="fill_parent"
+	    android:layout_height="1dp"
+	    android:layout_below="@id/whatelseison_listitem_info_container"
+	    android:background="@color/light_gray" />
+
+</RelativeLayout>

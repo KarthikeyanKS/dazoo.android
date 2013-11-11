@@ -124,6 +124,27 @@
                 android:value="com.millicom.secondscreen.content.myprofile.MyProfileActivity" />
         </activity>
 
+        <!-- CONTACT -->
+        <activity
+            android:name="com.millicom.secondscreen.content.myprofile.ContactActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light" />
+
+        <!-- TERMS -->
+        <activity
+            android:name="com.millicom.secondscreen.content.myprofile.TermsActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light" />
+
+        <!-- HELP -->
+        <activity
+            android:name="com.millicom.secondscreen.content.myprofile.HelpActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light" />
+
         <!-- BROADCAST PAGE -->
         <activity
             android:name="com.millicom.secondscreen.content.tvguide.BroadcastPageActivity"

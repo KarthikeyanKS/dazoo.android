@@ -76,7 +76,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 		mCreateBackground = bundle.getBoolean("x");
 
 		mTag = dazooStore.getTag(mTagStr);
-		Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!! FRAGMENT TAG: " + mTag.getName());
+		//Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!! FRAGMENT TAG: " + mTag.getName());
 		Log.d(TAG, "!!!!!!!! FRAGMENT DAY: " + mTvDate.getDate() + "  " + mTvDate.getName());
 	}
 
