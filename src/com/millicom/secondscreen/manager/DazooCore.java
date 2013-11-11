@@ -111,6 +111,20 @@ public class DazooCore {
 		}
 		return false;
 	}
+	
+	// prepare my tagged broadcasts for the specific date
+	private static boolean prepareMyTaggedContent(TvDate date) {
+		if (mTags != null && mTags.isEmpty() != true) {
+			if (mGuides != null && mGuides.isEmpty() != true) {
+				for (int i = 1; i < mTags.size(); i++) {
+					ArrayList<Broadcast> taggedBroadcasts = DazooStoreOperations.getMyTaggedBroadcasts(date.getDate(), mTags.get(i));
+					DazooStoreOperations.saveTaggedBroadcast(date, mTags.get(i), taggedBroadcasts);
+				}
+				return true;
+			}
+		}
+		return false;
+	}
 
 	// task to get the tv-dates
 	private static class GetTvDates extends AsyncTask<String, String, Void> {
@@ -249,7 +263,7 @@ public class DazooCore {
 						if (token != null && TextUtils.isEmpty(token) != true) {
 							if (DazooStoreOperations.saveMyGuides(mGuides, mDate.getDate())) {
 
-								if (prepareTaggedContent(mDate)) {
+								if (prepareMyTaggedContent(mDate)) {
 									if (mIsChannel) {
 										// notify the ChannelPageActivity that the guide is available and UI may be updated
 										LocalBroadcastManager.getInstance(mContext).sendBroadcast(

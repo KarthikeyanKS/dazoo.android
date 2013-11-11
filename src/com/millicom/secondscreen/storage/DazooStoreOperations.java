@@ -157,11 +157,21 @@ public class DazooStoreOperations {
 			oneGuideBroadcasts = guideTable.get(i).getBroadcasts();
 			// Log.d(TAG,"One guide broadcasts AFTER:" + oneGuideBroadcasts.size());
 
+			//get the broadcast channel
+			String channelId = guideTable.get(i).getId();
+			
+			
 			int oneGuideBroadcastsSize = oneGuideBroadcasts.size();
 			for (int j = 0; j < oneGuideBroadcastsSize; j++) {
 				if (oneGuideBroadcasts.get(j).getProgram().getTags().contains(tagName)) {
 					// Log.d(TAG,"" + oneGuideBroadcasts.get(j).getBeginTime());
-					taggedBroadcasts.add(oneGuideBroadcasts.get(j));
+					
+					Broadcast broadcastToAdd = oneGuideBroadcasts.get(j);
+					Channel channel = DazooStore.getInstance().getChannelFromDefault(channelId);
+					
+					broadcastToAdd.setChannel(channel);
+					
+					taggedBroadcasts.add(broadcastToAdd);
 				}
 			}
 		}
@@ -179,12 +189,25 @@ public class DazooStoreOperations {
 
 		ArrayList<Broadcast> taggedBroadcasts = new ArrayList<Broadcast>();
 		int guideTableSize = guideTable.size();
+		
 		for (int i = 0; i < guideTableSize; i++) {
 			ArrayList<Broadcast> oneGuideBroadcasts = guideTable.get(i).getBroadcasts();
+			
+			//get the broadcast channel
+			String channelId = guideTable.get(i).getId();
+			
 			int oneGuideBroadcastsSize = oneGuideBroadcasts.size();
 			for (int j = 0; j < oneGuideBroadcastsSize; j++) {
 				if (oneGuideBroadcasts.get(j).getProgram().getTags().contains(tagName)) {
-					taggedBroadcasts.add(oneGuideBroadcasts.get(j));
+					
+					Broadcast broadcastToAdd = oneGuideBroadcasts.get(j);
+					Channel channel = DazooStore.getInstance().getChannelFromAll(channelId);
+					
+					broadcastToAdd.setChannel(channel);
+					
+					
+					taggedBroadcasts.add(broadcastToAdd);
+					Log.d(TAG,"my broadcasts!!:" + broadcastToAdd.getProgram().getTitle());
 				}
 			}
 		}

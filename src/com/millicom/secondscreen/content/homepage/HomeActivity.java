@@ -158,7 +158,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 			if (mActiveFragment != null) {
 
-				getSupportFragmentManager().beginTransaction().remove(mActiveFragment).commit();
+				getSupportFragmentManager().beginTransaction().remove(mActiveFragment).commitAllowingStateLoss();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -313,6 +313,11 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.menu_homepage, menu);
 		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+	    //No call for super(). Bug on API Level > 11.
 	}
 
 	@Override

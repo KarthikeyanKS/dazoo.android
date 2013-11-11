@@ -250,9 +250,7 @@ public class DazooStore {
 		broadcastKey.setTag(tag);
 
 		for (Entry<BroadcastKey, ArrayList<Broadcast>> entry : mTaggedBroadcasts.entrySet()) {
-			Log.d(TAG, "search key: " + broadcastKey.getDate().getDate() + "   " + broadcastKey.getTag().getName());
-			Log.d(TAG, "entry KEY: " + entry.getKey().getDate().getDate() + "  " + entry.getKey().getTag().getName());
-
+			
 			if (entry.getKey().getDate().getDate().equals(broadcastKey.getDate().getDate()) && entry.getKey().getTag().getName().equals(broadcastKey.getTag().getName())) {
 				return entry.getValue();
 			}

@@ -239,6 +239,8 @@ public class ContentParser {
 		} else if ((Consts.DAZOO_PROGRAM_TYPE_SPORT).equals(programType)) {
 			program.setSportType(jsonProgram.optString(Consts.DAZOO_PROGRAM_SPORTTYPE));
 			program.setTournament(jsonProgram.optString(Consts.DAZOO_PROGRAM_TOURNAMENT));
+		} else if ((Consts.DAZOO_PROGRAM_TYPE_OTHER).equals(programType)){
+			program.setCategory(jsonProgram.optString(Consts.DAZOO_PROGRAM_CATEGORY));
 		}
 
 		return program;

@@ -27,7 +27,8 @@ public class Program implements Parcelable {
 	// specific for programType = "SPORT"
 	private String sportType;
 	private String tournament;
-	
+	// specific for programType = "OTHER"
+	private String category;
 	
 	public Program(){
 	}
@@ -168,6 +169,14 @@ public class Program implements Parcelable {
 		return this.tournament;
 	}
 	
+	public void setCategory(String category){
+		this.category = category;
+	}
+	
+	public String getCategory(){
+		return this.category;
+	}
+	
 	@Override
 	public int describeContents() {
 		return 0;
@@ -192,6 +201,7 @@ public class Program implements Parcelable {
 		dest.writeString(genre);
 		dest.writeString(sportType);
 		dest.writeString(tournament);
+		dest.writeString(category);
 	}
 	
 	public Program(Parcel in){
@@ -212,6 +222,7 @@ public class Program implements Parcelable {
 		genre = in.readString();
 		sportType = in.readString();
 		tournament = in.readString();
+		category = in.readString();
 	}
 
 	@Override

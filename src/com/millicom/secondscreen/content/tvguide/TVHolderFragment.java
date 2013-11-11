@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ import com.viewpagerindicator.TabPageIndicator;
 
 public class TVHolderFragment extends Fragment {
 
+	private static final String TAG = "TVHolderFragment";
+	
 	private PagerAdapter							mAdapter;
 	private int										mTabSelectedIndex	= 0, mDateSelectedIndex;
 	private TabPageIndicator						mPageTabIndicator;
@@ -79,6 +82,9 @@ public class TVHolderFragment extends Fragment {
 	}
 
 	private void setAdapter(int selectedIndex) {
+		Log.d(TAG,"TAG SIZE:" + mTags.size());
+		Log.d(TAG,"mDateSelectedIndex:" + mDateSelectedIndex);
+		Log.d(TAG,"DATES: " + mDates.size());
 
 		mAdapter = new TagTypeFragmentStatePagerAdapter(getActivity().getSupportFragmentManager(), mTags, mDates.get(mDateSelectedIndex), mDateSelectedIndex);
 

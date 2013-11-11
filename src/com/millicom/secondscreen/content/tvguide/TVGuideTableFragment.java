@@ -111,6 +111,8 @@ public class TVGuideTableFragment extends SSPageFragment {
 		mGuides = new ArrayList<Guide>();
 		if (mIsLoggedIn) {
 			mGuides = dazooStore.getMyGuideTable(mTvDate.getDate());
+			Log.d(TAG, "My date: " + mTvDate.getDate());
+			Log.d(TAG, "MY mGuides size: " + mGuides.size());
 		} else {
 			mGuides = dazooStore.getGuideTable(mTvDate.getDate());
 			Log.d(TAG, "date: " + mTvDate.getDate());
@@ -134,14 +136,18 @@ public class TVGuideTableFragment extends SSPageFragment {
 				}
 			}
 		} else {
-			mTaggedBroadcasts = null;
+			mTaggedBroadcasts = new ArrayList<Broadcast>();
 			if (mIsLoggedIn) {
 				mTaggedBroadcasts = DazooStore.getInstance().getMyTaggedBroadcasts(mTvDate, mTag);
+				//Log.d(TAG,"!!!!!! size: " + String.valueOf(mTaggedBroadcasts.size()));
+				
 			} else {
 				mTaggedBroadcasts = DazooStore.getInstance().getTaggedBroadcasts(mTvDate, mTag);
+				//Log.d(TAG,"!!!!!! size: " + String.valueOf(mTaggedBroadcasts.size()));
 			}
 
 			if (mTaggedBroadcasts != null) {
+				Log.d(TAG,"size: " + mTaggedBroadcasts.size());
 				if (mTaggedBroadcasts.isEmpty() != true) {
 					updateUI(REQUEST_STATUS.SUCCESSFUL);
 					result = true;
