@@ -77,11 +77,28 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 		// broadcast receiver for my channels have changed
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverMyChannels, new IntentFilter(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
+		
+		// broadcast receiver for log out action in the application
+		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverLogout, new IntentFilter(Consts.INTENT_EXTRA_LOG_OUT_ACTION));
 
 		initViews();
 
 		loadPage();
 	}
+	
+	BroadcastReceiver mBroadcastReceiverLogout = new BroadcastReceiver(){
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			Log.d(TAG, "USER HAS LOG OUT!");
+			
+			mTabSelectedIndex = 0 ;
+			updateUI(REQUEST_STATUS.LOADING);
+			
+			DazooCore.getInstance(context, mDateSelectedIndex).fetchContent();
+			
+		}
+	};
 
 	BroadcastReceiver	mBroadcastReceiverMyChannels	= new BroadcastReceiver() {
 
@@ -132,7 +149,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			}
 		});
 
-		getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, mActiveFragment).commit();
+		getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, mActiveFragment).commitAllowingStateLoss();
 	}
 
 	private void removeActiveFragment() {

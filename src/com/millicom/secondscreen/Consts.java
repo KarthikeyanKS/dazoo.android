@@ -63,7 +63,8 @@ public abstract class Consts {
 		LOADING, FAILED, EMPTY_RESPONSE, SUCCESSFUL
 	};
 
-	public static String		DAZOO_BACK_STACK									= "com.millicom.secondscreen.dazoo.back.stack"; 
+	public static String		DAZOO_BACK_STACK									= "com.millicom.secondscreen.dazoo.back.stack";
+
 	public static final String	ISO_DATE_FORMAT										= "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
 	// Activity page content block types
@@ -114,6 +115,7 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_TAG_GUIDE_AVAILABLE_VALUE				= "com.millicom.secondscreen.intent.extra.tag.guide.available.value";
 	public static final String	INTENT_EXTRA_DATE_DATE								= "com.millicom.secondscreen.intent.extra.date.date";
 	public static final String	INTENT_EXTRA_MY_CHANNELS_CHANGED					= "com.millicom.secondscreen.intent.extra.my.channels.changed";
+	public static final String	INTENT_EXTRA_LOG_OUT_ACTION							= "com.millicom.secondscreen.intent.extra.log.out.action";
 
 	// alarm extras
 	public static final String	INTENT_ALARM_EXTRA_BROADCAST_BEGINTIMEMILLIS		= "com.millicom.secondscreen.intent.alarm.extra.broadcast.begintimemillis";

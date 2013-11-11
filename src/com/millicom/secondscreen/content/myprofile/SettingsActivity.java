@@ -14,6 +14,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.SpannableString;
@@ -144,6 +145,7 @@ public class SettingsActivity extends ActionBarActivity implements OnClickListen
 			((SecondScreenApplication) getApplicationContext()).setUserId(Consts.EMPTY_STRING);
 			((SecondScreenApplication) getApplicationContext()).setUserExistringFlag(false);
 
+			LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(Consts.INTENT_EXTRA_LOG_OUT_ACTION));
 			startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
 			// clear the activity stack
 			finish();
