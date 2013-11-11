@@ -37,13 +37,7 @@ public class TagTypeFragmentStatePagerAdapter extends FragmentStatePagerAdapter 
 	@Override
 	public Fragment getItem(int position) {
 		position = LoopViewPager.toRealPosition(position, getCount());
-		//if (position == 0) {
-		
 		return TVGuideTableFragment.newInstance(mTags.get(position), mTvDate, mDatePosition);
-		
-		//} else {
-		//	return TVGuideTagTypeFragment.newInstance(mTags.get(position), mTvDate, mDatePosition);
-		//} 
 	}
 	
 	@Override

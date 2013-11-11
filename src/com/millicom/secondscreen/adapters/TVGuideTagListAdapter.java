@@ -70,7 +70,7 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 		
 		if(broadcast!=null){
 		//holder.title.setText(broadcast.getProgram().getTitle() + "  " + broadcast.getProgram().getProgramType() + "   " +  broadcast.getBeginTime());
-			holder.title.setText(broadcast.getProgram().getTitle() + "  " + broadcast.getProgram().getProgramType()); 
+		holder.title.setText(broadcast.getProgram().getTitle() + "  " + broadcast.getProgram().getProgramType()); 
 			
 		try {
 			holder.time.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));

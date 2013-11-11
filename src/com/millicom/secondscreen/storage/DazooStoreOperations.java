@@ -74,9 +74,6 @@ public class DazooStoreOperations {
 	public static boolean saveGuide(Guide guide, String tvDate, String channelId) {
 		DazooStore dazooStore = DazooStore.getInstance();
 		HashMap<GuideKey, Guide> guides = dazooStore.getGuides();
-		Log.d(TAG, "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-		Log.d(TAG, "guides size: " + guides.size());
-
 		GuideKey guideKey = new GuideKey();
 		guideKey.setDate(tvDate);
 		guideKey.setChannelId(channelId);
@@ -84,8 +81,6 @@ public class DazooStoreOperations {
 		guides.put(guideKey, guide);
 		dazooStore.setGuides(guides);
 
-		Log.d(TAG, "guides size after: " + guides.size());
-		Log.d(TAG, "" + dazooStore.getGuides().size());
 		return true;
 	}
 
@@ -106,9 +101,6 @@ public class DazooStoreOperations {
 		for (int i = 0; i < size; i++) {
 			String channelId = guide.get(i).getId();
 			Guide guideToSave = guide.get(i);
-			Log.d(TAG, "saveGuides: guide to save: " + guideToSave.getName() + "  " + guideToSave.getBroadcasts().size());
-			Log.d(TAG, "saveGuides: date: " + tvDate);
-
 			saveGuide(guideToSave, tvDate, channelId);
 			success = true;
 		}
@@ -155,10 +147,6 @@ public class DazooStoreOperations {
 	public static ArrayList<Broadcast> getTaggedBroadcasts(String date, Tag tag) {
 		DazooStore dazooStore = DazooStore.getInstance();
 		ArrayList<Guide> guideTable = dazooStore.getGuideTable(date);
-		Log.d(TAG, "guide table broadcasts size: " + guideTable.size());
-		Log.d(TAG, "GET TAGGED BROADCASTS ");
-		Log.d(TAG, "TAG: " + tag.getName());
-		Log.d(TAG, "DATE: " + date);
 		String tagName = tag.getName();
 
 		ArrayList<Broadcast> taggedBroadcasts = new ArrayList<Broadcast>();
@@ -177,9 +165,7 @@ public class DazooStoreOperations {
 				}
 			}
 		}
-		Log.d(TAG, "//////////////////////////////// SELECTED:");
-		Log.d(TAG, "" + taggedBroadcasts.size());
-
+		
 		// sort by broadcast time
 		Collections.sort(taggedBroadcasts, new Broadcast.BroadcastComparatorByTime());
 

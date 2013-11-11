@@ -100,22 +100,12 @@ public class DazooCore {
 
 	// prepare tagged broadcasts for the specific date
 	private static boolean prepareTaggedContent(TvDate date) {
-		Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!! PREPARE TAGGED CONTENT!!!!!");
 		if (mTags != null && mTags.isEmpty() != true) {
 			if (mGuides != null && mGuides.isEmpty() != true) {
 				for (int i = 1; i < mTags.size(); i++) {
-					Log.d(TAG, "tag: " + mTags.get(i).getName());
-					Log.d(TAG, "date; " + date.getDate());
 					ArrayList<Broadcast> taggedBroadcasts = DazooStoreOperations.getTaggedBroadcasts(date.getDate(), mTags.get(i));
-
-					Log.d(TAG, "Size of taggedBroadcasts: " + taggedBroadcasts.size());
-
 					DazooStoreOperations.saveTaggedBroadcast(date, mTags.get(i), taggedBroadcasts);
-
 				}
-
-				// notify responsible fragments that the data is there
-				LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE_VALUE, true));
 				return true;
 			}
 		}
@@ -305,7 +295,6 @@ public class DazooCore {
 		Log.d(TAG, "mIsTvDate:" + mIsTvDate + "  mIsTags: " + mIsTags + "   mIsDefaultChannels: " + mIsDefaultChannels + "  mIsAllChannels: " + mIsAllChannels);
 		if (mIsTvDate == true && mIsTags == true && ((mIsDefaultChannels) || (mIsAllChannels))) {
 			TvDate date = mTvDates.get(dateIndex);
-			Log.d(TAG, "GUIDE DATE TO BE=============: " + date.getDate());
 			GetGuide getGuideTask = new GetGuide(date, isChannel);
 			getGuideTask.execute(mContext);
 		}
@@ -315,10 +304,6 @@ public class DazooCore {
 		ArrayList<Broadcast> taggedBroadcasts = DazooStoreOperations.getTaggedBroadcasts(tvDate.getDate(), tag);
 		if (taggedBroadcasts != null && taggedBroadcasts.isEmpty() != true) {
 			DazooStoreOperations.saveTaggedBroadcast(tvDate, tag, taggedBroadcasts);
-
-			// notify responsible fragments that the data is there
-			LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE_VALUE, true));
-
 			return true;
 		} else return false;
 	}
@@ -371,10 +356,8 @@ public class DazooCore {
 				sB.append(Consts.REQUEST_QUERY_AND);
 				sB.append(Consts.MILLICOM_SECONDSCREEN_API_CHANNEL_ID_WITH_EQUALS_SIGN);
 				sB.append(channelIds.get(i));
-
 			}
 		}
 		return sB.toString();
 	}
-
 }

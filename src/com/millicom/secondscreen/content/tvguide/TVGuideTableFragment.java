@@ -76,8 +76,6 @@ public class TVGuideTableFragment extends SSPageFragment {
 		mCreateBackground = bundle.getBoolean("x");
 
 		mTag = dazooStore.getTag(mTagStr);
-		//Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!! FRAGMENT TAG: " + mTag.getName());
-		Log.d(TAG, "!!!!!!!! FRAGMENT DAY: " + mTvDate.getDate() + "  " + mTvDate.getName());
 	}
 
 	@Override
@@ -89,30 +87,13 @@ public class TVGuideTableFragment extends SSPageFragment {
 
 			mTVGuideListView = (ListView) mRootView.findViewById(R.id.tvguide_table_listview);
 			mClockIndexView = (LinearLayout) mRootView.findViewById(R.id.tvguide_table_side_clock_index);
-
-			Log.d(TAG, "////// TABLE IS HERE");
-
 		} else {
 
 			mRootView = inflater.inflate(R.layout.fragment_tvguide_tag_type, null);
 			mTVGuideListView = (ListView) mRootView.findViewById(R.id.fragment_tvguide_type_tag_listview);
-
-			Log.d(TAG, "////// TAG IS HERE");
-
-			/*
-			 * super.initRequestCallbackLayouts(mRootView); updateUI(REQUEST_STATUS.LOADING);
-			 * 
-			 * // reset the activity whenever the view is recreated mActivity = getActivity(); mGuides = null;
-			 * 
-			 * 
-			 * // GET THE DATA FROM CORE LOGIC SINGLETON if (mIsLoggedIn) { mGuides = dazooStore.getMyGuideTable(mTvDate); } else { mGuides = dazooStore.getGuideTable(mTvDate); }
-			 * 
-			 * mTaggedBroadcasts = null; if (mIsLoggedIn) { mTaggedBroadcasts = DazooStore.getInstance().getMyTaggedBroadcasts(mTvDate, mTag); } else { Log.d(TAG,"Date to get: " + mTvDate.getName()); Log.d(TAG,"Tag to get: " + mTag.getName()); //mTaggedBroadcasts =
-			 * DazooStore.getInstance().getTaggedBroadcasts(mTvDate, mTag); // TEST if(mGuides!=null){ mTaggedBroadcasts = mGuides.get(0).getBroadcasts(); } } if(mTaggedBroadcasts!=null && mTaggedBroadcasts.isEmpty()!=true){ updateUI(REQUEST_STATUS.SUCCESSFUL); }
-			 */
 		}
 		super.initRequestCallbackLayouts(mRootView);
-		
+
 		// reset the activity whenever the view is recreated
 		mActivity = getActivity();
 		mGuides = null;
@@ -153,31 +134,11 @@ public class TVGuideTableFragment extends SSPageFragment {
 				}
 			}
 		} else {
-			mTaggedBroadcasts = new ArrayList<Broadcast>();
-
-			for (int i = 0; i < mGuides.size(); i++) {
-				ArrayList<Broadcast> guideBroadcasts = mGuides.get(i).getBroadcasts();
-				// Log.d(TAG,"BROADCASTS NUMBER: " + guideBroadcasts.size());
-				for (int j = 0; j < guideBroadcasts.size(); j++) {
-					Broadcast broadcast = guideBroadcasts.get(j);
-					ArrayList<String> tags = broadcast.getProgram().getTags();
-					// Log.d(TAG,"PAGE TAG: " + mTagStr);
-					for (int k = 0; k < tags.size(); k++) {
-						// Log.d(TAG,"program tag: " + tags.get(k));
-					}
-					if (tags.contains(mTagStr)) {
-						// Log.d(TAG,"YES WE GOT IT!!!!!!");
-
-						Channel channel = new Channel();
-						if (mIsLoggedIn) {
-							channel = DazooStore.getInstance().getChannelFromAll(mGuides.get(i).getId());
-						} else {
-							channel = DazooStore.getInstance().getChannelFromDefault(mGuides.get(i).getId());
-						}
-						broadcast.setChannel(channel);
-						mTaggedBroadcasts.add(broadcast);
-					}
-				}
+			mTaggedBroadcasts = null;
+			if (mIsLoggedIn) {
+				mTaggedBroadcasts = DazooStore.getInstance().getMyTaggedBroadcasts(mTvDate, mTag);
+			} else {
+				mTaggedBroadcasts = DazooStore.getInstance().getTaggedBroadcasts(mTvDate, mTag);
 			}
 
 			if (mTaggedBroadcasts != null) {
@@ -185,7 +146,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 					updateUI(REQUEST_STATUS.SUCCESSFUL);
 					result = true;
 				} else {
-					//updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
+					// updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
 					updateUI(REQUEST_STATUS.LOADING);
 				}
 			}
@@ -203,13 +164,6 @@ public class TVGuideTableFragment extends SSPageFragment {
 			} else {
 				int index = Broadcast.getClosestBroadcastIndex(mTaggedBroadcasts);
 				mTVGuideListView.setAdapter(new TVGuideTagListAdapter(mActivity, mTaggedBroadcasts, index, mTvDate));
-
-				// if(DazooCore.filterGuides(mTvDate, 5)){
-				// mTaggedBroadcasts = DazooStore.getInstance().getTaggedBroadcasts(mTvDate, mTag);
-				// int index = Broadcast.getClosestBroadcastIndex(mTaggedBroadcasts);
-				// mTVGuideListView.setAdapter(new TVGuideTagListAdapter(mActivity, mTaggedBroadcasts, index));
-				// }
-
 			}
 
 			// ArrayList<ChannelHour> channelHoursForFirst = putBroadcastsInHours(mGuide.get(0).getBroadcasts());

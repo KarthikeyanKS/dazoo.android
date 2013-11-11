@@ -190,16 +190,7 @@ public class DazooStore {
 		currentKey.setChannelId(channelId);
 
 		for (Entry<GuideKey, Guide> entry : mGuides.entrySet()) {
-			//Log.d(TAG,"////////////////// GET CHANNEL GUIDE FROM DEFAULT ///////////////");
-			
 			if ((entry.getKey().getChannelId().equals(currentKey.getChannelId())) & (entry.getKey().getDate().equals(currentKey.getDate()))) {
-				Log.d(TAG,"search key: " + currentKey.getChannelId() + "  " + currentKey.getDate());
-				Log.d(TAG,"entry key: " + entry.getKey().getChannelId() + " " + entry.getKey().getDate());
-				
-				// found the guide by date and tag
-				if(entry.getValue().getBroadcasts().size()>0){
-				Log.d(TAG,"!!!!!!!" + entry.getValue().getBroadcasts().get(0).getBeginTime());
-				}
 				return entry.getValue();
 			}
 		}
@@ -257,16 +248,12 @@ public class DazooStore {
 		BroadcastKey broadcastKey = new BroadcastKey();
 		broadcastKey.setDate(date);
 		broadcastKey.setTag(tag);
-		
-		
-		
+
 		for (Entry<BroadcastKey, ArrayList<Broadcast>> entry : mTaggedBroadcasts.entrySet()) {
-			Log.d(TAG,"search key: " + broadcastKey.getDate().getDate() + "   "+ broadcastKey.getTag().getName());
-			Log.d(TAG,"entry KEY: " + entry.getKey().getDate().getDate() + "  " +entry.getKey().getTag().getName());
-			
-			if (entry.getKey().getDate().getDate().equals(broadcastKey.getDate().getDate()) &&
-					entry.getKey().getTag().getName().equals(broadcastKey.getTag().getName())) {
-				//Log.d(TAG,"value: " + entry.getValue().get(0).getBeginTime());
+			Log.d(TAG, "search key: " + broadcastKey.getDate().getDate() + "   " + broadcastKey.getTag().getName());
+			Log.d(TAG, "entry KEY: " + entry.getKey().getDate().getDate() + "  " + entry.getKey().getTag().getName());
+
+			if (entry.getKey().getDate().getDate().equals(broadcastKey.getDate().getDate()) && entry.getKey().getTag().getName().equals(broadcastKey.getTag().getName())) {
 				return entry.getValue();
 			}
 		}
@@ -322,9 +309,9 @@ public class DazooStore {
 		}
 		return null;
 	}
-	
+
 	// CLEAR DATA WHEN NEW CHANNEL IS ADDED TO THE SELECTION
-	public void clearMyGuidesStorage(){
+	public void clearMyGuidesStorage() {
 		this.mMyGuides.clear();
 		this.mMyTaggedBroadcasts.clear();
 		this.mMyGuides = new HashMap<GuideKey, Guide>();
