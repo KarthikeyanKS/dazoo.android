@@ -231,5 +231,6 @@
     <!-- ACTIVITY PAGE -->
     <string name="login_for_activity">Get personal recommendations\n here by signing in</string>
     <string name="popular_now">Popular now</string>
+    <string name="show_all">Show all &#8230;</string>
 
 </resources>
