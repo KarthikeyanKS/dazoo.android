@@ -113,11 +113,12 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 			token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 			if (!mIsFromNotification) {
 				if (token != null && TextUtils.isEmpty(token) != true) {
+					Log.d(TAG,"LOGGED IN!");
 					mIsLoggedIn = true;
 					mBroadcast = dazooStore.getBroadcastFromMy(mTvDate, mChannelId, mBeginTimeInMillis);
 					mChannel = dazooStore.getChannelFromAll(mChannelId);
 					if (mBroadcast != null) {
-
+						Log.d(TAG,"BROADCAST: " +  mBroadcast);
 						mProgramType = mBroadcast.getProgram().getProgramType();
 						if (mProgramType != null) {
 							mLikeType = LikeService.getLikeType(mProgramType);

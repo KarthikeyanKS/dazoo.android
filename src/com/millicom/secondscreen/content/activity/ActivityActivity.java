@@ -14,9 +14,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
@@ -39,13 +41,15 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 	private ArrayList<FeedItem>	activityFeed;
 	private String				token;
 	private Boolean				mIsLoggenIn	= false;
-	private ListView mListView;
-	private ActivityFeedListAdapter mAdapter;
-	
+	private LinearLayout		mContainer;
+
+	// private ListView mListView;
+	// private ActivityFeedListAdapter mAdapter;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 		if (token != null && TextUtils.isEmpty(token) != true) {
 			mIsLoggenIn = true;
@@ -54,7 +58,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			initFeedViews();
 			loadPage();
 		} else {
-			Log.d(TAG,"Not Logged In Layout!");
+			Log.d(TAG, "Not Logged In Layout!");
 			setContentView(R.layout.layout_activity_not_logged_in_activity);
 			initStandardViews();
 			initInactiveViews();
@@ -81,21 +85,21 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		mActionBar.setDisplayUseLogoEnabled(true);
 		mActionBar.setDisplayShowHomeEnabled(true);
 		mActionBar.setTitle(getResources().getString(R.string.activity_title));
-		
-		
+
 		// DO THE CALLBACK AND LOADING FUNCTIONALITY AND BEHAVIOR
 		super.initCallbackLayouts();
 	}
 
-	private void initInactiveViews(){
+	private void initInactiveViews() {
 		mSignInTv = (TextView) findViewById(R.id.activity_not_logged_in_btn);
 		mSignInTv.setOnClickListener(this);
 	}
-	
-	private void initFeedViews(){
-		mListView = (ListView) findViewById(R.id.activity_listview);
+
+	private void initFeedViews() {
+		// mListView = (ListView) findViewById(R.id.activity_listview);
+		mContainer = (LinearLayout) findViewById(R.id.activity_populator_container);
 	}
-	
+
 	@Override
 	protected void loadPage() {
 		updateUI(REQUEST_STATUS.LOADING);
@@ -117,9 +121,25 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
 		if (super.requestIsSuccesfull(status)) {
-			Log.d(TAG,"ACTIVITY FEED SIZE:" + String.valueOf(activityFeed.size()));
-			mAdapter = new ActivityFeedListAdapter(this, activityFeed);
-			mListView.setAdapter(mAdapter);
+			Log.d(TAG, "ACTIVITY FEED SIZE:" + String.valueOf(activityFeed.size()));
+			// mAdapter = new ActivityFeedListAdapter(this, activityFeed);
+			// mListView.setAdapter(mAdapter);
+			
+			int feedSize = activityFeed.size();
+			for(int i=0; i<feedSize;i++){
+				String feedItemType = activityFeed.get(i).getItemType();
+				if(Consts.DAZOO_FEED_ITEM_TYPE_POPULAR_BROADCASTS.equals(feedItemType)){
+					ActivityPopularBlockPopulator popularBlock = new ActivityPopularBlockPopulator(this, mContainer);
+					popularBlock.createBlock(activityFeed.get(i));
+				} else if(Consts.DAZOO_FEED_ITEM_BROADCAST.equals(feedItemType)){
+					ActivityLikedBlockPopulator likedBlock = new ActivityLikedBlockPopulator(this, mContainer);
+					likedBlock.createBlock(activityFeed.get(i));
+				} else if(Consts.DAZOO_FEED_ITEM_TYPE_RECOMMENDED_BROADCAST.equals(feedItemType)){
+					ActivityRecommendedBlockPopulator recommendedBlock = new ActivityRecommendedBlockPopulator(this, mContainer);
+					recommendedBlock.createBlock(activityFeed.get(i));
+				}
+				
+			}
 		}
 	}
 

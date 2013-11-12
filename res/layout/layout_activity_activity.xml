@@ -6,8 +6,9 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical" >
-    
-     <ListView
+
+    <!--
+        ListView
         android:id="@+id/activity_listview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -15,7 +16,8 @@
         android:divider="@null"
         android:dividerHeight="0dp"
         android:paddingRight="4dip"
-        android:smoothScrollbar="true" />
+        android:smoothScrollbar="true" /
+    -->
 
     <LinearLayout
         android:id="@+id/tab_selector_container"
@@ -57,10 +59,27 @@
             android:textSize="15sp" />
     </LinearLayout>
 
-   
-     <include layout="@layout/layout_request_callbacks_holder_layout" 
-         android:layout_above="@id/tab_selector_container"
-         android:layout_width="fill_parent" 
-         android:layout_height="match_parent"/>
+    <include
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/tab_selector_container"
+        layout="@layout/layout_request_callbacks_holder_layout" />
+    
+       <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/tab_selector_container"
+        android:background="@color/light_gray"
+        android:fillViewport="true"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/activity_populator_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical" >
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>

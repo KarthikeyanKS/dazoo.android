@@ -56,7 +56,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	// private PagerAdapter mAdapter;
 	// private TabPageIndicator mPageTabIndicator;
 	private TvDate								mTvDateSelected;
-	private boolean								mIsReady			= false, mFirstHit = true, mIsChannelListChanged;
+	private boolean								mIsReady			= false, mFirstHit = true, mIsChannelListChanged, mStateChanged = false;
 
 	private Fragment							mActiveFragment;
 
@@ -66,16 +66,16 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_home_activity);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);		
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		mDateSelectedIndex = 0;
-		
+
 		mFirstHit = true;
 
 		FragmentManager fm = getSupportFragmentManager();
-		for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {    
-		    fm.popBackStack();
+		for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+			fm.popBackStack();
 		}
-		
+
 		// broadcast receiver for date selection
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverDate, new IntentFilter(Consts.INTENT_EXTRA_TVGUIDE_SORTING));
 
@@ -84,34 +84,61 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 		// broadcast receiver for my channels have changed
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverMyChannels, new IntentFilter(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
-		
+
 		// broadcast receiver for log out action in the application
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverLogout, new IntentFilter(Consts.INTENT_EXTRA_LOG_OUT_ACTION));
 
 		// broadcast receiver when user comebacks to the start after login
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverLogin, new IntentFilter(Consts.INTENT_EXTRA_LOG_IN_ACTION));
-		
+
 		initViews();
 
 		loadPage();
 	}
-	
-	BroadcastReceiver mBroadcastReceiverLogin  = new BroadcastReceiver(){
+
+//	@Override
+//	public void onResume() {
+//		super.onResume();
+//		Log.d(TAG, "on resumE!!!!");
+
+		
+//		if (mStateChanged) {
+//			Log.d(TAG,"REFRESH");
+			//mDateSelectedIndex = 0;
+			//mTabSelectedIndex = 0;
+
+			//mFirstHit = true;
+			//removeActiveFragment();
+
+			//loadPage();
+			//mStateChanged = false;
+
+	//		finish();
+	//		mStateChanged = false;
+	//		startActivity(getIntent());
+	//	}
+		
+	//}
+
+	BroadcastReceiver	mBroadcastReceiverLogin			= new BroadcastReceiver() {
 
 		@Override
 		public void onReceive(Context arg0, Intent arg1) {
-			Log.d(TAG,"USER HAS LOGGED IN!!!!");
+			Log.d(TAG, "USER HAS LOGGED IN!!!!");
+			mStateChanged = true;
 			finish();
+			startActivity(getIntent());
 		}
-		
 	};
-	
-	BroadcastReceiver mBroadcastReceiverLogout = new BroadcastReceiver(){
+
+	BroadcastReceiver	mBroadcastReceiverLogout		= new BroadcastReceiver() {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			Log.d(TAG, "USER HAS LOG OUT!");
+			mStateChanged = true;
 			finish();
+			startActivity(getIntent());
 		}
 	};
 
@@ -120,20 +147,22 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			Log.d(TAG, "CHANNELS HAVE CHANGED!!!!");
-
 			updateUI(REQUEST_STATUS.LOADING);
+			mStateChanged = true;
+			finish();
+			startActivity(getIntent());
 		}
 	};
 
 	BroadcastReceiver	mBroadcastReceiverContent		= new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			Log.d(TAG," ON RECEIVE CONTENT");
+			Log.d(TAG, " ON RECEIVE CONTENT");
 
 			mIsReady = intent.getBooleanExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, false);
 
 			Log.d(TAG, "content for TvGuide TABLE is ready: " + mIsReady);
-			Log.d(TAG,"mDateSelectedIndex: " + mDateSelectedIndex);
+			Log.d(TAG, "mDateSelectedIndex: " + mDateSelectedIndex);
 
 			if (mIsReady && (mDateSelectedIndex == 0)) {
 
@@ -144,17 +173,17 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			} else if (mIsReady && (mDateSelectedIndex != 0)) {
 
 				attachFragment();
-				
-				Log.d(TAG,"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-				
-			//	updateUI(REQUEST_STATUS.LOADING);
+
+				Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+				// updateUI(REQUEST_STATUS.LOADING);
 			}
 		}
 	};
 
 	private void attachFragment() {
 
-		mActiveFragment = TVHolderFragment.newInstance(mStartingPosition, mDateSelectedIndex,new OnViewPagerIndexChangedListener() {
+		mActiveFragment = TVHolderFragment.newInstance(mStartingPosition, mDateSelectedIndex, new OnViewPagerIndexChangedListener() {
 
 			@Override
 			public void onIndexSelected(int position) {
@@ -184,8 +213,8 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	BroadcastReceiver	mBroadcastReceiverDate	= new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			
-			Log.d(TAG,"ON TVGUIDE SORTING VALUE CHANGED");
+
+			Log.d(TAG, "ON TVGUIDE SORTING VALUE CHANGED");
 
 			mDate = intent.getStringExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE);
 			mDateSelectedIndex = intent.getIntExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE_POSITION, 0);
@@ -236,7 +265,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	private void reloadPage() {
 
 		// Don't allow any swiping gestures while reloading
-		//updateUI(REQUEST_STATUS.LOADING);
+		// updateUI(REQUEST_STATUS.LOADING);
 
 		attachFragment();
 	}
@@ -266,12 +295,13 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
-		
+
 		if (super.requestIsSuccesfull(status)) {
+			
 			mDayAdapter = new ActionBarDropDownDateListAdapter(mTvDates);
 			mDayAdapter.setSelectedIndex(mDateSelectedIndex);
 			mActionBar.setListNavigationCallbacks(mDayAdapter, this);
-
+			
 			attachFragment();
 			// createFragments();
 		}
@@ -297,7 +327,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 	@Override
 	public boolean onNavigationItemSelected(int position, long id) {
-		Log.d(TAG,"FIRST HIT: " + mFirstHit);
+		Log.d(TAG, "FIRST HIT: " + mFirstHit);
 		if (mFirstHit) {
 			mDayAdapter.setSelectedIndex(0);
 			mActionBar.setSelectedNavigationItem(0);
@@ -336,10 +366,10 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		inflater.inflate(R.menu.menu_homepage, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
-	
+
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-	    //No call for super(). Bug on API Level > 11.
+		// No call for super(). Bug on API Level > 11.
 	}
 
 	@Override

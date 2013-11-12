@@ -149,7 +149,7 @@ public class SettingsActivity extends ActionBarActivity implements OnClickListen
 			DazooStore.getInstance().clearMyGuidesStorage();
 		
 			LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(Consts.INTENT_EXTRA_LOG_OUT_ACTION));
-			startActivity(new Intent(SettingsActivity.this, MyProfileActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY));
+			startActivity(new Intent(SettingsActivity.this, MyProfileActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK ));
 			// clear the activity stack
 			finish();
 			mIsChange = true;
@@ -165,9 +165,6 @@ public class SettingsActivity extends ActionBarActivity implements OnClickListen
 		case R.id.show_tvguide:
 			// tab to home page
 			Intent intentHome = new Intent(SettingsActivity.this, HomeActivity.class);
-			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			intentHome.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			startActivity(intentHome);
 			break;
 		case R.id.show_activity:

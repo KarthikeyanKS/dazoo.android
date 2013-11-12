@@ -1,4 +1,4 @@
-package com.millicom.secondscreen.content;
+package com.millicom.secondscreen.content.tvguide;
 
 import java.text.ParseException;
 
@@ -18,13 +18,13 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class SSBroadcastBlockPopulator {
+public class BroadcastBlockPopulator {
 
 	private Activity		mActivity;
 	private ImageLoader		mImageLoader;
 	private LinearLayout	mContainerView;
 
-	public SSBroadcastBlockPopulator(Activity activity, LinearLayout containerView) {
+	public BroadcastBlockPopulator(Activity activity, LinearLayout containerView) {
 		this.mActivity = activity;
 		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage_2x);
 		this.mContainerView = containerView;
