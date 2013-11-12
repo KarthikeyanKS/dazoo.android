@@ -6,15 +6,17 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical" >
-
-    <RelativeLayout
-        android:id="@+id/activity_loading_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
-
-        <include layout="@layout/layout_request_callbacks_holder_main_layout" />
-    </RelativeLayout>
+    
+      <ListView
+            android:id="@+id/activity_listview"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:cacheColorHint="@null"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:paddingRight="4dip"
+            android:smoothScrollbar="true" />
 
     <LinearLayout
         android:id="@+id/tab_selector_container"
@@ -55,5 +57,7 @@
             android:text="@string/tab_me"
             android:textSize="15sp" />
     </LinearLayout>
+    
+     <include layout="@layout/layout_request_callbacks_holder_layout" />
 
 </RelativeLayout>
