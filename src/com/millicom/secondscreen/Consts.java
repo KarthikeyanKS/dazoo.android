@@ -117,6 +117,7 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_MY_CHANNELS_CHANGED					= "com.millicom.secondscreen.intent.extra.my.channels.changed";
 	public static final String	INTENT_EXTRA_LOG_OUT_ACTION							= "com.millicom.secondscreen.intent.extra.log.out.action";
 	public static final String	INTENT_EXTRA_LOG_IN_ACTION							= "com.millicom.secondscreen.intent.extra.log.in.action";
+	public static final String	INTENT_EXTRA_DATA_FETCHING							= "com.millicom.secondscreen.intent.extra.log.in.action";
 
 	// alarm extras
 	public static final String	INTENT_ALARM_EXTRA_BROADCAST_BEGINTIMEMILLIS		= "com.millicom.secondscreen.intent.alarm.extra.broadcast.begintimemillis";
@@ -309,5 +310,14 @@ public abstract class Consts {
 	// SERIES fields
 	public static final String	DAZOO_SERIES_NAME									= "name";
 	public static final String	DAZOO_SERIES_SERIES_ID								= "seriesId";
+
+	// FEED fields
+	public static final String	DAZOO_FEED_ITEM_TYPE_BROADCAST						= "BROADCAST";
+	public static final String	DAZOO_FEED_ITEM_TYPE_RECOMMENDED_BROADCAST			= "RECOMMENDED_BROADCAST";
+	public static final String	DAZOO_FEED_ITEM_TYPE_POPULAR_BROADCAST				= "POPULAR_BROADCASTS";
+	public static final String	DAZOO_FEED_ITEM_ITEM_TYPE							= "itemType";
+	public static final String	DAZOO_FEED_ITEM_TITLE								= "title";
+	public static final String	DAZOO_FEED_ITEM_BROADCAST							= "broadcast";
+	public static final String	DAZOO_FEED_ITEM_BROADCASTS							= "broadcasts";
 
 }
