@@ -15,6 +15,7 @@ import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.Credit;
 import com.millicom.secondscreen.content.model.DazooLike;
 import com.millicom.secondscreen.content.model.DazooLikeEntity;
+import com.millicom.secondscreen.content.model.FeedItem;
 import com.millicom.secondscreen.content.model.Season;
 import com.millicom.secondscreen.content.model.Series;
 import com.millicom.secondscreen.content.model.Tag;
@@ -138,7 +139,7 @@ public class ContentParser {
 		return channels;
 	}
 
-	public Channel parseChannel(JSONObject jsonChannel) throws Exception {
+	public static Channel parseChannel(JSONObject jsonChannel) throws Exception {
 		Channel channel = new Channel();
 		channel.setChannelId(jsonChannel.optString(Consts.DAZOO_CHANNEL_CHANNEL_ID));
 		channel.setName(jsonChannel.optString(Consts.DAZOO_CHANNEL_NAME));
@@ -152,7 +153,7 @@ public class ContentParser {
 		return channel;
 	}
 
-	public Broadcast parseBroadcast(JSONObject jsonBroadcast) throws Exception {
+	public static Broadcast parseBroadcast(JSONObject jsonBroadcast) throws Exception {
 		Broadcast broadcast = new Broadcast();
 		broadcast.setBeginTime(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_BEGIN_TIME));
 		broadcast.setEndTime(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_END_TIME));
@@ -175,7 +176,7 @@ public class ContentParser {
 		return broadcast;
 	}
 
-	public Program parseProgram(JSONObject jsonProgram) throws Exception {
+	public static Program parseProgram(JSONObject jsonProgram) throws Exception {
 		Program program = new Program();
 		program.setProgramId(jsonProgram.optString(Consts.DAZOO_PROGRAM_ID));
 
@@ -335,6 +336,43 @@ public class ContentParser {
 		return dazooLike;
 	}
 
+	public static FeedItem parseFeedItem(JSONObject jsonObject){
+		FeedItem feedItem = new FeedItem();
+		String itemType = jsonObject.optString(Consts.DAZOO_FEED_ITEM_ITEM_TYPE);
+		feedItem.setItemType(itemType);
+		
+		if(Consts.DAZOO_FEED_ITEM_TYPE_BROADCAST.equals(itemType)){
+			feedItem.setTitle(jsonObject.optString(Consts.DAZOO_FEED_ITEM_TITLE));
+			try {
+				feedItem.setBroadcast(parseBroadcast(jsonObject.optJSONObject(Consts.DAZOO_FEED_ITEM_BROADCAST)));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else if (Consts.DAZOO_FEED_ITEM_TYPE_RECOMMENDED_BROADCAST.equals(itemType)){
+			feedItem.setTitle(jsonObject.optString(Consts.DAZOO_FEED_ITEM_TITLE));
+			try {
+				feedItem.setBroadcast(parseBroadcast(jsonObject.optJSONObject(Consts.DAZOO_FEED_ITEM_BROADCAST)));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else if (Consts.DAZOO_FEED_ITEM_TYPE_POPULAR_BROADCASTS.equals(itemType)){
+			feedItem.setTitle(jsonObject.optString(Consts.DAZOO_FEED_ITEM_TITLE));
+			JSONArray broadcastsJSONArray = jsonObject.optJSONArray(Consts.DAZOO_FEED_ITEM_BROADCASTS);
+			int size = broadcastsJSONArray.length();
+			ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>(); 
+			for(int i=0; i < size; i++){
+				try {
+					Broadcast broadcast = parseBroadcast(broadcastsJSONArray.optJSONObject(i));
+					broadcasts.add(broadcast);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			feedItem.setBroadcasts(broadcasts);
+		}
+		return feedItem;
+	}
+	
 	/*
 	public static DazooLikeEntity parseDazooLikeEntity(JSONObject jsonObject) {
 		if (jsonObject != null) {
