@@ -227,5 +227,8 @@
     <!-- LIKE SERVICE -->
     <string name="like_set_text">" was added to the list of your preferences"</string>
     <string name="like_remove_text">"Unliking an item remove all related recommendation to this item"</string>
+    
+    <!-- ACTIVITY PAGE -->
+    <string name="login_for_activity">Get personal recommendations\n here by signing in</string>
 
 </resources>

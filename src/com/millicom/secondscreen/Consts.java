@@ -173,7 +173,7 @@ public abstract class Consts {
 	public static final int		BAD_RESPONSE_MISSING_TOKEN							= 401;
 	public static final int		BAD_RESPONSE_INVALID_TOKEN							= 403;
 	public static final int		BAD_RESPONSE_PROGRAM_SERIES_NOT_FOUND				= 400;
-	
+
 	// notifications
 	public static final int		NOTIFY_MINUTES_BEFORE_THE_BROADCAST					= -15;
 	public static final String	NOTIFY_NUMBER										= "com.millicom.secondscreen.notify.number";
@@ -316,6 +316,7 @@ public abstract class Consts {
 	public static final String	DAZOO_FEED_ITEM_TYPE_BROADCAST						= "BROADCAST";
 	public static final String	DAZOO_FEED_ITEM_TYPE_RECOMMENDED_BROADCAST			= "RECOMMENDED_BROADCAST";
 	public static final String	DAZOO_FEED_ITEM_TYPE_POPULAR_BROADCASTS				= "POPULAR_BROADCASTS";
+	public static final String	DAZOO_FEED_ITEMS									= "items";
 	public static final String	DAZOO_FEED_ITEM_ITEM_TYPE							= "itemType";
 	public static final String	DAZOO_FEED_ITEM_TITLE								= "title";
 	public static final String	DAZOO_FEED_ITEM_BROADCAST							= "broadcast";

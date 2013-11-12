@@ -26,6 +26,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.SingleClientConnManager;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.os.AsyncTask;
 import android.text.TextUtils;
@@ -47,10 +48,13 @@ public class FeedService {
 		try {
 			jsonString = getActivityFeedTask.execute(token).get();
 			if (jsonString != null && TextUtils.isEmpty(jsonString) != true && !jsonString.equals(Consts.ERROR_STRING)) {
-				JSONArray feedListJson = new JSONArray(jsonString);
-				int size = feedListJson.length();
+				JSONObject feedListJson = new JSONObject(jsonString);
+				JSONArray feedLisJsonArray = feedListJson.optJSONArray(Consts.DAZOO_FEED_ITEMS);
+				
+				int size = feedLisJsonArray.length();
+				Log.d(TAG,"FEED ITEMS SIZE: " + String.valueOf(size));
 				for (int i = 0; i < size; i++) {
-					dazooActivityFeedList.add(ContentParser.parseFeedItem(feedListJson.getJSONObject(i)));
+					dazooActivityFeedList.add(ContentParser.parseFeedItem(feedLisJsonArray.getJSONObject(i)));
 				}
 			}
 		} catch (InterruptedException e) {

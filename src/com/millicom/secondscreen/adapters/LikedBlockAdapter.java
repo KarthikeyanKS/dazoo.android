@@ -43,7 +43,7 @@ public class LikedBlockAdapter extends BaseAdapter {
 
 		if (rowView == null) {
 			mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			rowView = mLayoutInflater.inflate(R.layout.block_liked_activitypage, null);
+			rowView = mLayoutInflater.inflate(R.layout.block_feed_liked, null);
 			ViewHolder viewHolder = new ViewHolder();
 			
 			viewHolder.mBlockContainer = (RelativeLayout) rowView.findViewById(R.id.block_liked_container);

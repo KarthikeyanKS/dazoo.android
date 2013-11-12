@@ -7,16 +7,15 @@
     android:background="@color/white"
     android:orientation="vertical" >
     
-      <ListView
-            android:id="@+id/activity_listview"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:cacheColorHint="@null"
-            android:divider="@null"
-            android:dividerHeight="0dp"
-            android:paddingRight="4dip"
-            android:smoothScrollbar="true" />
+     <ListView
+        android:id="@+id/activity_listview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:cacheColorHint="@null"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:paddingRight="4dip"
+        android:smoothScrollbar="true" />
 
     <LinearLayout
         android:id="@+id/tab_selector_container"
@@ -28,7 +27,7 @@
         android:paddingBottom="2dp" >
 
         <com.millicom.secondscreen.customviews.FontButton
-            android:id="@+id/show_tvguide"
+            android:id="@+id/go_to_tvguide"
             style="@style/homepage_tab_selector"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -38,7 +37,7 @@
             android:textSize="15sp" />
 
         <com.millicom.secondscreen.customviews.FontButton
-            android:id="@+id/show_activity"
+            android:id="@+id/go_to_activity"
             style="@style/homepage_tab_selector"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -48,7 +47,7 @@
             android:textSize="15sp" />
 
         <com.millicom.secondscreen.customviews.FontButton
-            android:id="@+id/show_me"
+            android:id="@+id/go_to_profile"
             style="@style/homepage_tab_selector"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -57,7 +56,11 @@
             android:text="@string/tab_me"
             android:textSize="15sp" />
     </LinearLayout>
-    
-     <include layout="@layout/layout_request_callbacks_holder_layout" />
+
+   
+     <include layout="@layout/layout_request_callbacks_holder_layout" 
+         android:layout_above="@id/tab_selector_container"
+         android:layout_width="fill_parent" 
+         android:layout_height="match_parent"/>
 
 </RelativeLayout>

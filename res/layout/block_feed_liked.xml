@@ -199,17 +199,4 @@
             
         </RelativeLayout>
     </RelativeLayout>
-
-    <!-- Contains a layout that will show when a singe product fails due to connection -->
-
-    <include layout="@layout/layout_content_failed" />
-
-    <!-- Contains a layout that will show when a single product request fails due to the product is no longer in the api -->
-
-    <include layout="@layout/layout_content_expired" />
-
-    <!-- Request callback states -->
-
-    <include layout="@layout/layout_request_callbacks_holder_layout" />
-
 </RelativeLayout>
