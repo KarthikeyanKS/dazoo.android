@@ -128,17 +128,6 @@
                     android:layout_centerVertical="true"
                     android:layout_margin="5dp"
                     android:src="@drawable/ic_launcher" />
-
-                <com.millicom.secondscreen.customviews.FontTextView
-                    android:id="@+id/block_liked_like_button_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_toRightOf="@id/block_liked_like_button_iv"
-                    android:text="@string/like"
-                    android:textSize="14sp" />
             </RelativeLayout>
             
             <!-- SHARE BUTTON -->
@@ -161,17 +150,6 @@
                     android:layout_centerVertical="true"
                     android:layout_margin="5dp"
                     android:src="@drawable/ic_launcher" />
-
-                <com.millicom.secondscreen.customviews.FontTextView
-                    android:id="@+id/block_liked_share_button_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_toRightOf="@id/block_liked_share_button_iv"
-                    android:text="@string/share"
-                    android:textSize="14sp" />
             </RelativeLayout>
             
             <!-- REMIND BUTTON -->
