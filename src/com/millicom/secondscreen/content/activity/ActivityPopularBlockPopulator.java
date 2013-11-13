@@ -66,7 +66,7 @@ public class ActivityPopularBlockPopulator {
 					mTitle.setText(broadcast.getProgram().getTitle());
 				}
 				try {
-					mTime.setText(DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime()) + DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
+					mTime.setText(DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime()) + " - " +DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
