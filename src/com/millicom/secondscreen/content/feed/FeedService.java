@@ -54,7 +54,7 @@ public class FeedService {
 				int size = feedLisJsonArray.length();
 				Log.d(TAG,"FEED ITEMS SIZE: " + String.valueOf(size));
 				// TODO: UPDATE WHEN THE PAGINATION IS DONE BY THE BACKEND
-				for (int i = 0; i < 10; i++) {
+				for (int i = 0; i < size; i++) {
 					dazooActivityFeedList.add(ContentParser.parseFeedItem(feedLisJsonArray.getJSONObject(i)));
 				}
 			}

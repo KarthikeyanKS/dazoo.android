@@ -57,6 +57,13 @@
             android:name="com.millicom.secondscreen.content.activity.ActivityActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.AppCompat.Light" />
+        
+         <activity
+            android:name="com.millicom.secondscreen.content.activity.PopularPageActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light" />
 
         <!-- MYPROFILE ACTIVITY -->

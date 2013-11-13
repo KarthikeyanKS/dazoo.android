@@ -1,14 +1,19 @@
 package com.millicom.secondscreen.content.activity;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,6 +21,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.millicom.secondscreen.Consts;
@@ -33,7 +39,7 @@ import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
 import com.millicom.secondscreen.content.search.SearchPageActivity;
 import com.millicom.secondscreen.http.NetworkUtils;
 
-public class ActivityActivity extends SSActivity implements OnClickListener {
+public class ActivityActivity extends SSActivity implements OnClickListener, FeedScrollViewListener {
 
 	private static final String	TAG			= "ActivityActivity";
 	private TextView			mTxtTabTvGuide, mTxtTabProfile, mTxtTabActivity, mSignInTv;
@@ -42,28 +48,24 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 	private String				token;
 	private Boolean				mIsLoggenIn	= false;
 	private LinearLayout		mContainer;
-
-	// private ListView mListView;
-	// private ActivityFeedListAdapter mAdapter;
+	private FeedScrollView		mScrollView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.layout_activity_activity);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 		if (token != null && TextUtils.isEmpty(token) != true) {
 			mIsLoggenIn = true;
-			setContentView(R.layout.layout_activity_activity);
 			initStandardViews();
-			initFeedViews();
 			loadPage();
 		} else {
 			Log.d(TAG, "Not Logged In Layout!");
-			setContentView(R.layout.layout_activity_not_logged_in_activity);
 			initStandardViews();
 			initInactiveViews();
 		}
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 
 	private void initStandardViews() {
@@ -86,18 +88,88 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		mActionBar.setDisplayShowHomeEnabled(true);
 		mActionBar.setTitle(getResources().getString(R.string.activity_title));
 
+		mScrollView = (FeedScrollView) findViewById(R.id.activity_feed_scrollview);
+		mScrollView.setScrollViewListener(this);
+		// mScrollView.setVisibility(View.GONE);
+		mContainer = (LinearLayout) findViewById(R.id.activity_populator_container);
+
 		// DO THE CALLBACK AND LOADING FUNCTIONALITY AND BEHAVIOR
 		super.initCallbackLayouts();
 	}
 
 	private void initInactiveViews() {
+		View notLoggedInView = LayoutInflater.from(this).inflate(R.layout.layout_activity_not_logged_in_activity, null);
+		mSignInTv = (TextView) notLoggedInView.findViewById(R.id.activity_not_logged_in_btn);
 		mSignInTv = (TextView) findViewById(R.id.activity_not_logged_in_btn);
+
 		mSignInTv.setOnClickListener(this);
+		mContainer.addView(notLoggedInView);
 	}
 
-	private void initFeedViews() {
-		// mListView = (ListView) findViewById(R.id.activity_listview);
-		mContainer = (LinearLayout) findViewById(R.id.activity_populator_container);
+	private static class AddBlocksDynamically extends AsyncTask<Context, Void, Boolean> {
+
+		LinearLayout	mBlocksContainer;
+		Activity		mActivity;
+		int				mStartIndex;
+		int				mStep;
+		String			mToken;
+		FeedItem		mFeedItem;
+		FeedScrollView	mScrollView;
+
+		public AddBlocksDynamically(LinearLayout container, FeedScrollView scrollView, Activity activity, String token, int startIndex, int step, FeedItem feedItem) {
+			this.mBlocksContainer = container;
+			this.mActivity = activity;
+			this.mStartIndex = startIndex;
+			this.mStep = step;
+			this.mToken = token;
+			this.mFeedItem = feedItem;
+			this.mScrollView = scrollView;
+		}
+
+		protected void onPreExecute() {
+			Log.d(TAG, "ON PRE EXECUTE");
+		}
+
+		@Override
+		protected Boolean doInBackground(Context... params) {
+			mActivity.runOnUiThread(new Runnable() {
+
+				@Override
+				public void run() {
+					String feedItemType = mFeedItem.getItemType();
+					if (Consts.DAZOO_FEED_ITEM_TYPE_POPULAR_BROADCASTS.equals(feedItemType)) {
+						ActivityPopularBlockPopulator popularBlock = new ActivityPopularBlockPopulator(mActivity, mBlocksContainer);
+						popularBlock.createBlock(mFeedItem);
+					} else if (Consts.DAZOO_FEED_ITEM_TYPE_BROADCAST.equals(feedItemType)) {
+						ActivityLikedBlockPopulator likedBlock = new ActivityLikedBlockPopulator(mActivity, mBlocksContainer, mToken);
+						likedBlock.createBlock(mFeedItem);
+					} else if (Consts.DAZOO_FEED_ITEM_TYPE_RECOMMENDED_BROADCAST.equals(feedItemType)) {
+						ActivityRecommendedBlockPopulator recommendedBlock = new ActivityRecommendedBlockPopulator(mActivity, mBlocksContainer, mToken);
+						recommendedBlock.createBlock(mFeedItem);
+					}
+				}
+			});
+			return true;
+		}
+
+		protected void onPostExecute(Boolean result) {
+
+		}
+	}
+
+	private boolean getFeedItems(int startIndex, int step) {
+		boolean result = false;
+		activityFeed = FeedService.getActivityFeed(token);
+		if (activityFeed != null) {
+			if (activityFeed.isEmpty() != true) {
+				for (int i = startIndex; i < startIndex + step; i++) {
+					AddBlocksDynamically blocksTask = new AddBlocksDynamically(mContainer, mScrollView, this, token, startIndex, step, activityFeed.get(i));
+					blocksTask.execute(this);
+					result = true;
+				}
+			}
+		}
+		return result;
 	}
 
 	@Override
@@ -108,14 +180,10 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			updateUI(REQUEST_STATUS.FAILED);
 		}
 
-		activityFeed = FeedService.getActivityFeed(token);
-		if (activityFeed != null) {
-			if (activityFeed.isEmpty() != true) {
-				updateUI(REQUEST_STATUS.SUCCESSFUL);
-			}
-		} else {
-			updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
+		if(getFeedItems(0, 10)){
+			updateUI(REQUEST_STATUS.SUCCESSFUL);
 		}
+
 	}
 
 	@Override
@@ -124,22 +192,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			Log.d(TAG, "ACTIVITY FEED SIZE:" + String.valueOf(activityFeed.size()));
 			// mAdapter = new ActivityFeedListAdapter(this, activityFeed);
 			// mListView.setAdapter(mAdapter);
-			
-			int feedSize = activityFeed.size();
-			for(int i=0; i<feedSize;i++){
-				String feedItemType = activityFeed.get(i).getItemType();
-				if(Consts.DAZOO_FEED_ITEM_TYPE_POPULAR_BROADCASTS.equals(feedItemType)){
-					ActivityPopularBlockPopulator popularBlock = new ActivityPopularBlockPopulator(this, mContainer);
-					popularBlock.createBlock(activityFeed.get(i));
-				} else if(Consts.DAZOO_FEED_ITEM_BROADCAST.equals(feedItemType)){
-					ActivityLikedBlockPopulator likedBlock = new ActivityLikedBlockPopulator(this, mContainer);
-					likedBlock.createBlock(activityFeed.get(i));
-				} else if(Consts.DAZOO_FEED_ITEM_TYPE_RECOMMENDED_BROADCAST.equals(feedItemType)){
-					ActivityRecommendedBlockPopulator recommendedBlock = new ActivityRecommendedBlockPopulator(this, mContainer);
-					recommendedBlock.createBlock(activityFeed.get(i));
-				}
-				
-			}
+			// mScrollView.setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -189,6 +242,24 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			startActivity(intentSignIn);
 			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
+		}
+	}
+
+	@Override
+	public void onScrollChanged(FeedScrollView scrollView, int x, int y, int oldx, int oldy) {
+		// We take the last son in the scrollview
+		View view = (View) scrollView.getChildAt(scrollView.getChildCount() - 1);
+		int diff = (view.getBottom() - (scrollView.getHeight() + scrollView.getScrollY()));
+
+		// if diff is zero, then the bottom has been reached
+		if (diff == 0) {
+			int startIndex = 11;
+			int step = 3;
+			for (int i = startIndex; i < startIndex + step; i++) {
+			Log.d(TAG, "WE ARE AT THE BOTTOM: LOAD THE NEXT PAGE");
+			AddBlocksDynamically blocksTask = new AddBlocksDynamically(mContainer, mScrollView, this, token, startIndex, step, activityFeed.get(i));
+			blocksTask.execute(this);
+			}
 		}
 	}
 }

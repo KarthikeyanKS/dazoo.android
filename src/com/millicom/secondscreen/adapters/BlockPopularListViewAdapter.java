@@ -15,6 +15,7 @@ import com.millicom.secondscreen.utilities.ImageLoader;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +65,7 @@ public class BlockPopularListViewAdapter extends BaseAdapter {
 		View rowView = convertView;
 
 		final Broadcast broadcast = getItem(position);
+		Log.d(TAG,"BROADCAST NAME: " + broadcast.getProgram().getTitle());
 
 		if (rowView == null) {
 			mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -120,12 +122,17 @@ public class BlockPopularListViewAdapter extends BaseAdapter {
 
 			@Override
 			public void onClick(View v) {
+				String tvDate = "";
+				try {
+					tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTime());
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 
 				Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
 				intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
 				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
-				// TODO GET THE DATE FROM BEGIN TIME OF THE BROADCAST
-				// intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, mDate.getDate());
+				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, tvDate);
 
 				mActivity.startActivity(intent);
 				mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
