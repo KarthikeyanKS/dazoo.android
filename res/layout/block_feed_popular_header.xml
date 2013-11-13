@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:padding="10dp"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:layout_marginTop="10dp" >
 
     <com.millicom.secondscreen.customviews.FontTextView
         android:id="@+id/block_popular_header_tv"

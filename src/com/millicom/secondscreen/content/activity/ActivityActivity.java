@@ -50,7 +50,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener, Fee
 	private LinearLayout		mContainer;
 	private FeedScrollView		mScrollView;
 	private int					mStartIndex	= 0, mStep = 5, mNextStep = 2, mEndIndex = 0;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -92,6 +92,9 @@ public class ActivityActivity extends SSActivity implements OnClickListener, Fee
 		mScrollView.setScrollViewListener(this);
 		// mScrollView.setVisibility(View.GONE);
 		mContainer = (LinearLayout) findViewById(R.id.activity_populator_container);
+		
+		
+
 
 		// DO THE CALLBACK AND LOADING FUNCTIONALITY AND BEHAVIOR
 		super.initCallbackLayouts();

@@ -41,7 +41,7 @@ public class ActivityPopularBlockPopulator {
 
 		for (int i = 0; i < popularItem.getBroadcasts().size(); i++) {
 			View rowView = LayoutInflater.from(mActivity).inflate(R.layout.block_feed_popular_listitem, null);
-			
+
 			LinearLayout mContainer = (LinearLayout) rowView.findViewById(R.id.block_popular_feed_container);
 			ImageView mPoster = (ImageView) rowView.findViewById(R.id.block_feed_popular_listitem_iv);
 			ProgressBar mImageProgressBar = (ProgressBar) rowView.findViewById(R.id.block_feed_popular_listitem_iv_progressbar);
@@ -122,6 +122,10 @@ public class ActivityPopularBlockPopulator {
 				mActivity.startActivity(intent);
 			}
 		});
-		mContainerView.addView(footerView);
+
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+		layoutParams.setMargins(0, 0, 0, 20);
+		mContainerView.addView(footerView, layoutParams);
 	}
 }
