@@ -49,6 +49,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener, Fee
 	private Boolean				mIsLoggenIn	= false;
 	private LinearLayout		mContainer;
 	private FeedScrollView		mScrollView;
+	private int					mStartIndex	= 0, mStep = 5, mNextStep = 2, mEndIndex = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,6 @@ public class ActivityActivity extends SSActivity implements OnClickListener, Fee
 			initStandardViews();
 			loadPage();
 		} else {
-			Log.d(TAG, "Not Logged In Layout!");
 			initStandardViews();
 			initInactiveViews();
 		}
@@ -180,16 +180,15 @@ public class ActivityActivity extends SSActivity implements OnClickListener, Fee
 			updateUI(REQUEST_STATUS.FAILED);
 		}
 
-		if(getFeedItems(0, 10)){
+		if (getFeedItems(mStartIndex, mStep)) {
 			updateUI(REQUEST_STATUS.SUCCESSFUL);
 		}
-
 	}
 
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
 		if (super.requestIsSuccesfull(status)) {
-			Log.d(TAG, "ACTIVITY FEED SIZE:" + String.valueOf(activityFeed.size()));
+
 			// mAdapter = new ActivityFeedListAdapter(this, activityFeed);
 			// mListView.setAdapter(mAdapter);
 			// mScrollView.setVisibility(View.VISIBLE);
@@ -253,13 +252,15 @@ public class ActivityActivity extends SSActivity implements OnClickListener, Fee
 
 		// if diff is zero, then the bottom has been reached
 		if (diff == 0) {
-			int startIndex = 11;
-			int step = 3;
-			for (int i = startIndex; i < startIndex + step; i++) {
-			Log.d(TAG, "WE ARE AT THE BOTTOM: LOAD THE NEXT PAGE");
-			AddBlocksDynamically blocksTask = new AddBlocksDynamically(mContainer, mScrollView, this, token, startIndex, step, activityFeed.get(i));
-			blocksTask.execute(this);
+
+			if (mStartIndex + mStep < activityFeed.size()) mEndIndex = mStartIndex + mNextStep;
+			else mEndIndex = activityFeed.size();
+
+			for (int i = mStartIndex; i < mEndIndex + mNextStep; i++) {
+				AddBlocksDynamically blocksTask = new AddBlocksDynamically(mContainer, mScrollView, this, token, mStartIndex, mNextStep, activityFeed.get(i));
+				blocksTask.execute(this);
 			}
+			mStartIndex = mEndIndex;
 		}
 	}
 }
