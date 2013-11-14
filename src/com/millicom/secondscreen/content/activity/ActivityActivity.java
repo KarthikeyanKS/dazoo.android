@@ -55,7 +55,10 @@ public class ActivityActivity extends SSActivity implements OnClickListener, Fee
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_activity_activity);
+
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		// add the activity to the list of running activities
+		SecondScreenApplication.getInstance().getActivityList().add(this);
 
 		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 		if (token != null && TextUtils.isEmpty(token) != true) {
@@ -92,9 +95,6 @@ public class ActivityActivity extends SSActivity implements OnClickListener, Fee
 		mScrollView.setScrollViewListener(this);
 		// mScrollView.setVisibility(View.GONE);
 		mContainer = (LinearLayout) findViewById(R.id.activity_populator_container);
-		
-		
-
 
 		// DO THE CALLBACK AND LOADING FUNCTIONALITY AND BEHAVIOR
 		super.initCallbackLayouts();
@@ -177,6 +177,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener, Fee
 
 	@Override
 	protected void loadPage() {
+		
 		updateUI(REQUEST_STATUS.LOADING);
 		// check if the network connection exists
 		if (!NetworkUtils.checkConnection(this)) {

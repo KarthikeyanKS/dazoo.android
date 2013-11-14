@@ -37,6 +37,7 @@ import com.millicom.secondscreen.utilities.JSONUtilities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -55,6 +56,11 @@ public class FacebookLoginActivity extends ActionBarActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_facebooklogin_activity);
+
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+		// add the activity to the list of running activities
+		SecondScreenApplication.getInstance().getActivityList().add(this);
 
 		initViews();
 
@@ -170,8 +176,8 @@ public class FacebookLoginActivity extends ActionBarActivity {
 		@Override
 		protected String doInBackground(String... params) {
 			try {
-				//HttpClient client = new DefaultHttpClient();
-				
+				// HttpClient client = new DefaultHttpClient();
+
 				HttpClient client = new DefaultHttpClient();
 				HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
 				SchemeRegistry registry = new SchemeRegistry();
@@ -186,7 +192,6 @@ public class FacebookLoginActivity extends ActionBarActivity {
 				// Set verifier
 				HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
 
-				
 				HttpPost httpPost = new HttpPost(Consts.MILLICOM_SECONDSCREEN_FACEBOOK_TOKEN_URL);
 				JSONObject holder = JSONUtilities.createJSONObjectWithKeysValues(Arrays.asList(Consts.MILLICOM_SECONDSCREEN_API_FACEBOOK_TOKEN), Arrays.asList(params[0]));
 
@@ -196,9 +201,9 @@ public class FacebookLoginActivity extends ActionBarActivity {
 				httpPost.setHeader("Accept", "application/json");
 				httpPost.setHeader("Content-type", "application/json");
 
-				//HttpResponse response = client.execute(httpPost);
+				// HttpResponse response = client.execute(httpPost);
 				HttpResponse response = httpClient.execute(httpPost);
-				
+
 				if (response.getStatusLine().getStatusCode() == Consts.GOOD_RESPONSE) {
 					String responseBody = EntityUtils.toString(response.getEntity());
 					// JSONObject jObj = new JSONObject(responseBody);

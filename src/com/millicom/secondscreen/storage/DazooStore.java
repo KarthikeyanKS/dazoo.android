@@ -315,4 +315,35 @@ public class DazooStore {
 		this.mMyGuides = new HashMap<GuideKey, Guide>();
 		this.mMyTaggedBroadcasts = new HashMap<BroadcastKey, ArrayList<Broadcast>>();
 	}
+	
+	public void reinitializeAll(){
+		this.mTvDates = new ArrayList<TvDate>();
+		this.mTags = new ArrayList<Tag>();
+		this.mAllChannels = new HashMap<String, Channel>();
+		this.mAllChannelIds = new ArrayList<String>();
+		this.mDefaultChannels = new HashMap<String, Channel>();
+		this.mDefaultChannelIds = new ArrayList<String>();
+		this.mMyChannels = new HashMap<String, Channel>();
+		this.mMyChannelIds = new ArrayList<String>();
+		this.mGuides				= new HashMap<GuideKey, Guide>();
+		this.mMyGuides			= new HashMap<GuideKey, Guide>();
+		this.mTaggedBroadcasts	= new HashMap<BroadcastKey, ArrayList<Broadcast>>();
+		this.mMyTaggedBroadcasts	= new HashMap<BroadcastKey, ArrayList<Broadcast>>();
+
+	}
+	
+	public void clearAll(){
+		this.mTvDates.clear();
+		this.mTags.clear();
+		this.mAllChannels.clear();
+		this.mAllChannelIds.clear();
+		this.mDefaultChannels.clear();
+		this.mDefaultChannelIds.clear();
+		this.mMyChannels.clear();
+		this.mMyChannelIds.clear();
+		this.mGuides.clear();
+		this.mMyGuides.clear();
+		this.mTaggedBroadcasts.clear();
+		this.mMyTaggedBroadcasts.clear();
+	}
 }

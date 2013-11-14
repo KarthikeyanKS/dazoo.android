@@ -1,6 +1,7 @@
 package com.millicom.secondscreen.content.search;
 
 import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.SecondScreenApplication;
 
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -16,6 +17,11 @@ public class SearchPageActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_searchpage_activity);
+
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+		// add the activity to the list of running activities
+		SecondScreenApplication.getInstance().getActivityList().add(this);
 
 		initViews();
 	}

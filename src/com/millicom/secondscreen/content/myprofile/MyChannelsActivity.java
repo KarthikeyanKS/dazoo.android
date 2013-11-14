@@ -67,32 +67,37 @@ import android.widget.Toast;
 
 public class MyChannelsActivity extends ActionBarActivity implements MyChannelsCountInterface, OnClickListener {
 
-	private static final String		TAG						= "MyChannelsActivity";
-	private ActionBar				mActionBar;
-	private boolean					isChange				= false;
-	private Button					mGetMyChannelsButton, mAddToMyChannelsButton;
-	private String					userToken;
-	private ListView				mListView;
-	private TextView				mChannelCountTv, mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;;
-	private EditText				mSearchChannelInputEditText;
-	private MyChannelsListAdapter	mAdapter;
-	private ArrayList<Channel>		mChannels				= new ArrayList<Channel>();
-	private HashMap<String, Channel> mChannelsMap = new HashMap<String, Channel>();
-	private boolean[]				mIsCheckedArray;
-	private View					mTabSelectorContainerView;
-	private int						mChannelCounter			= 0;
-	private boolean					mIsChanged				= false;
-	private int						mCount					= 0;
+	private static final String			TAG						= "MyChannelsActivity";
+	private ActionBar					mActionBar;
+	private boolean						isChange				= false;
+	private Button						mGetMyChannelsButton, mAddToMyChannelsButton;
+	private String						userToken;
+	private ListView					mListView;
+	private TextView					mChannelCountTv, mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;;
+	private EditText					mSearchChannelInputEditText;
+	private MyChannelsListAdapter		mAdapter;
+	private ArrayList<Channel>			mChannels				= new ArrayList<Channel>();
+	private HashMap<String, Channel>	mChannelsMap			= new HashMap<String, Channel>();
+	private boolean[]					mIsCheckedArray;
+	private View						mTabSelectorContainerView;
+	private int							mChannelCounter			= 0;
+	private boolean						mIsChanged				= false;
+	private int							mCount					= 0;
 
-	private ArrayList<Channel>		mChannelInfoToDisplay	= new ArrayList<Channel>();
-	private Map<String, Channel>	mChannelInfoMap			= new HashMap<String, Channel>();
+	private ArrayList<Channel>			mChannelInfoToDisplay	= new ArrayList<Channel>();
+	private Map<String, Channel>		mChannelInfoMap			= new HashMap<String, Channel>();
 
-	private ArrayList<String>		myChannelIds			= new ArrayList<String>();
-	private ArrayList<String>		mAllChannelsIds			= new ArrayList<String>();
+	private ArrayList<String>			myChannelIds			= new ArrayList<String>();
+	private ArrayList<String>			mAllChannelsIds			= new ArrayList<String>();
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_mychannels_activity);
+
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		// add the activity to the list of running activities
+		SecondScreenApplication.getInstance().getActivityList().add(this);
+
 		userToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 		initLayout();
 		populateViews();
@@ -142,11 +147,11 @@ public class MyChannelsActivity extends ActionBarActivity implements MyChannelsC
 	private void populateViews() {
 		mAllChannelsIds = DazooStore.getInstance().getAllChannelIds();
 		mChannelsMap = DazooStore.getInstance().getAllChannels();
-	
+
 		for (Entry<String, Channel> entry : mChannelsMap.entrySet()) {
 			mChannels.add(entry.getValue());
 		}
-		
+
 		for (int i = 0; i < mChannels.size(); i++) {
 			mChannelInfoMap.put(mChannels.get(i).getName().toLowerCase(Locale.getDefault()), mChannels.get(i));
 			mChannelInfoToDisplay.add(mChannels.get(i));
@@ -209,24 +214,24 @@ public class MyChannelsActivity extends ActionBarActivity implements MyChannelsC
 			mCount = newIdsList.size();
 			if (MyChannelsService.updateMyChannelsList(userToken, JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.DAZOO_CHANNEL_CHANNEL_ID, newIdsList))) {
 				Toast.makeText(getApplicationContext(), "List of channels is updated!", Toast.LENGTH_SHORT).show();
-				
+
 				// clear guides
 				DazooStore.getInstance().clearMyGuidesStorage();
 				// update the my channels list
 				MyChannelsService.getMyChannels(userToken);
-				LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
+				// LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
 			} else {
 				Toast.makeText(getApplicationContext(), "Error! List of channels is NOT updated!", Toast.LENGTH_SHORT).show();
 			}
 		}
 	}
-	
+
 	@Override
-    protected void onStop(){
-        super.onStop();
-        // update channel list if user come back to the My Profile via Home Button
+	protected void onStop() {
+		super.onStop();
+		// update channel list if user come back to the My Profile via Home Button
 		updateChannelList();
-    }
+	}
 
 	@Override
 	public void onBackPressed() {
@@ -250,7 +255,7 @@ public class MyChannelsActivity extends ActionBarActivity implements MyChannelsC
 	private boolean getUserMyChannelsIdsJSON() {
 		if (MyChannelsService.getMyChannels(userToken)) {
 			myChannelIds = DazooStore.getInstance().getMyChannelIds();
-			
+
 			for (int i = 0; i < mAllChannelsIds.size(); i++) {
 				if (myChannelIds.contains(mAllChannelsIds.get(i))) {
 					mIsCheckedArray[i] = true;

@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.adapters.ActionBarDropDownDateListAdapter;
 import com.millicom.secondscreen.content.SSPageFragmentActivity;
 import com.millicom.secondscreen.content.activity.ActivityActivity;
@@ -41,7 +42,6 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 	private static final String					TAG					= "HomeActivity";
 	private TextView							mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
-	// private ViewPager mViewPager;
 	private ActionBar							mActionBar;
 	private ActionBarDropDownDateListAdapter	mDayAdapter;
 	public static int							mBroadcastSelection	= -1;
@@ -49,12 +49,6 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	private ArrayList<TvDate>					mTvDates			= new ArrayList<TvDate>();
 	private ArrayList<Channel>					mChannels;
 	private String								mDate;
-	// private ArrayList<Tag> mTags = new ArrayList<Tag>();
-	// private ArrayList<String> mTabTitles;
-	// private FragmentStatePagerAdapter mAdapter;
-
-	// private PagerAdapter mAdapter;
-	// private TabPageIndicator mPageTabIndicator;
 	private TvDate								mTvDateSelected;
 	private boolean								mIsReady			= false, mFirstHit = true, mIsChannelListChanged, mStateChanged = false;
 
@@ -67,14 +61,11 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_home_activity);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		mDateSelectedIndex = 0;
 
-		mFirstHit = true;
+		// add the activity to the list of running activities
+		SecondScreenApplication.getInstance().getActivityList().add(this);
 
-		FragmentManager fm = getSupportFragmentManager();
-		for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
-			fm.popBackStack();
-		}
+		getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
 		// broadcast receiver for date selection
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverDate, new IntentFilter(Consts.INTENT_EXTRA_TVGUIDE_SORTING));
@@ -83,78 +74,25 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverContent, new IntentFilter(Consts.INTENT_EXTRA_GUIDE_AVAILABLE));
 
 		// broadcast receiver for my channels have changed
-		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverMyChannels, new IntentFilter(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
-
-		// broadcast receiver for log out action in the application
-		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverLogout, new IntentFilter(Consts.INTENT_EXTRA_LOG_OUT_ACTION));
-
-		// broadcast receiver when user comebacks to the start after login
-		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverLogin, new IntentFilter(Consts.INTENT_EXTRA_LOG_IN_ACTION));
-
+		// LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverMyChannels, new IntentFilter(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
 		initViews();
 
 		loadPage();
 	}
 
-//	@Override
-//	public void onResume() {
-//		super.onResume();
-//		Log.d(TAG, "on resumE!!!!");
+	// BroadcastReceiver mBroadcastReceiverMyChannels = new BroadcastReceiver() {
+	//
+	// @Override
+	// public void onReceive(Context context, Intent intent) {
+	// Log.d(TAG, "CHANNELS HAVE CHANGED!!!!");
+	// updateUI(REQUEST_STATUS.LOADING);
+	// mStateChanged = true;
+	// finish();
+	// startActivity(getIntent());
+	// }
+	// };
 
-		
-//		if (mStateChanged) {
-//			Log.d(TAG,"REFRESH");
-			//mDateSelectedIndex = 0;
-			//mTabSelectedIndex = 0;
-
-			//mFirstHit = true;
-			//removeActiveFragment();
-
-			//loadPage();
-			//mStateChanged = false;
-
-	//		finish();
-	//		mStateChanged = false;
-	//		startActivity(getIntent());
-	//	}
-		
-	//}
-
-	BroadcastReceiver	mBroadcastReceiverLogin			= new BroadcastReceiver() {
-
-		@Override
-		public void onReceive(Context arg0, Intent arg1) {
-			Log.d(TAG, "USER HAS LOGGED IN!!!!");
-			mStateChanged = true;
-			finish();
-			startActivity(getIntent());
-		}
-	};
-
-	BroadcastReceiver	mBroadcastReceiverLogout		= new BroadcastReceiver() {
-
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			Log.d(TAG, "USER HAS LOG OUT!");
-			mStateChanged = true;
-			finish();
-			startActivity(getIntent());
-		}
-	};
-
-	BroadcastReceiver	mBroadcastReceiverMyChannels	= new BroadcastReceiver() {
-
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			Log.d(TAG, "CHANNELS HAVE CHANGED!!!!");
-			updateUI(REQUEST_STATUS.LOADING);
-			mStateChanged = true;
-			finish();
-			startActivity(getIntent());
-		}
-	};
-
-	BroadcastReceiver	mBroadcastReceiverContent		= new BroadcastReceiver() {
+	BroadcastReceiver	mBroadcastReceiverContent	= new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			Log.d(TAG, " ON RECEIVE CONTENT");
@@ -173,10 +111,6 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			} else if (mIsReady && (mDateSelectedIndex != 0)) {
 
 				attachFragment();
-
-				Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
-				// updateUI(REQUEST_STATUS.LOADING);
 			}
 		}
 	};
@@ -297,11 +231,11 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	protected void updateUI(REQUEST_STATUS status) {
 
 		if (super.requestIsSuccesfull(status)) {
-			
+
 			mDayAdapter = new ActionBarDropDownDateListAdapter(mTvDates);
 			mDayAdapter.setSelectedIndex(mDateSelectedIndex);
 			mActionBar.setListNavigationCallbacks(mDayAdapter, this);
-			
+
 			attachFragment();
 			// createFragments();
 		}
@@ -314,9 +248,8 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		// Stop listening to broadcast events
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverDate);
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverContent);
-		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverLogout);
-		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverMyChannels);
-		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverLogin);
+
+		// LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverMyChannels);
 	};
 
 	@Override
@@ -327,7 +260,6 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 	@Override
 	public boolean onNavigationItemSelected(int position, long id) {
-		Log.d(TAG, "FIRST HIT: " + mFirstHit);
 		if (mFirstHit) {
 			mDayAdapter.setSelectedIndex(0);
 			mActionBar.setSelectedNavigationItem(0);

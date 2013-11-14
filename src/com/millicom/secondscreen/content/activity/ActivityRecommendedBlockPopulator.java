@@ -28,7 +28,10 @@ public class ActivityRecommendedBlockPopulator {
 	public void createBlock(FeedItem popularItem) {
 		View contentView = LayoutInflater.from(mActivity).inflate(R.layout.block_feed_recommended, null);
 
-		mContainerView.addView(contentView);
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+		layoutParams.setMargins(0, 0, 0, 20);
+		
+		mContainerView.addView(contentView, layoutParams);
 	}
 
 }

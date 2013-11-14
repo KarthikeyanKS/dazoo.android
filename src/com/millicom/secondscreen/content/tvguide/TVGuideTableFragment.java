@@ -3,8 +3,13 @@ package com.millicom.secondscreen.content.tvguide;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -46,6 +51,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 	private boolean					mIsLoggedIn	= false;
 	private ArrayList<Broadcast>	mTaggedBroadcasts;
 	private boolean					mCreateBackground;
+	private TVGuideTagListAdapter	mTVTagListAdapter;
 
 	public static TVGuideTableFragment newInstance(Tag tag, TvDate date, int position) {
 
@@ -72,9 +78,6 @@ public class TVGuideTableFragment extends SSPageFragment {
 		mTagStr = bundle.getString(Consts.FRAGMENT_EXTRA_TAG);
 		mTvDate = bundle.getParcelable(Consts.FRAGMENT_EXTRA_TVDATE);
 		mTvDatePosition = bundle.getInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION);
-
-		mCreateBackground = bundle.getBoolean("x");
-
 		mTag = dazooStore.getTag(mTagStr);
 	}
 
@@ -109,10 +112,12 @@ public class TVGuideTableFragment extends SSPageFragment {
 		// GET THE DATA FROM CORE LOGIC SINGLETON
 		// if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
 		mGuides = null;
+		mTaggedBroadcasts = null;
 		if (mIsLoggedIn) {
 			mGuides = dazooStore.getMyGuideTable(mTvDate.getDate());
 			Log.d(TAG, "My date: " + mTvDate.getDate());
 			Log.d(TAG, "MY mGuides size: " + mGuides.size());
+			
 		} else {
 			mGuides = dazooStore.getGuideTable(mTvDate.getDate());
 			Log.d(TAG, "date: " + mTvDate.getDate());
@@ -129,6 +134,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 		if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
 			if (mGuides != null) {
 				if (mGuides.isEmpty()) {
+					Log.d(TAG,"GET GUIDE:");
 					DazooCore.getGuide(mTvDatePosition, false);
 				} else {
 					updateUI(REQUEST_STATUS.SUCCESSFUL);
@@ -139,22 +145,20 @@ public class TVGuideTableFragment extends SSPageFragment {
 			mTaggedBroadcasts = null;
 			if (mIsLoggedIn) {
 				mTaggedBroadcasts = DazooStore.getInstance().getMyTaggedBroadcasts(mTvDate, mTag);
-				//Log.d(TAG,"!!!!!! size: " + String.valueOf(mTaggedBroadcasts.size()));
-				Log.d(TAG,"I GOT MY!!!!!!!!");
-				
+				Log.d(TAG, "I GOT MY!!!!!!!!");
+
 			} else {
 				mTaggedBroadcasts = DazooStore.getInstance().getTaggedBroadcasts(mTvDate, mTag);
-				//Log.d(TAG,"!!!!!! size: " + String.valueOf(mTaggedBroadcasts.size()));
-				Log.d(TAG,"I GOT DEFAULT!!!!!!!!!");
+				Log.d(TAG, "I GOT DEFAULT!!!!!!!!!");
 			}
 
 			if (mTaggedBroadcasts != null) {
-				Log.d(TAG,"size: " + mTaggedBroadcasts.size());
+				Log.d(TAG, "size: " + mTaggedBroadcasts.size());
 				if (mTaggedBroadcasts.isEmpty() != true) {
+					Log.d(TAG,"empty");
 					updateUI(REQUEST_STATUS.SUCCESSFUL);
 					result = true;
 				} else {
-					// updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
 					updateUI(REQUEST_STATUS.LOADING);
 				}
 			}
@@ -171,7 +175,9 @@ public class TVGuideTableFragment extends SSPageFragment {
 				mTVGuideListView.setAdapter(mTVGuideListAdapter);
 			} else {
 				int index = Broadcast.getClosestBroadcastIndex(mTaggedBroadcasts);
-				mTVGuideListView.setAdapter(new TVGuideTagListAdapter(mActivity, mTaggedBroadcasts, index, mTvDate));
+				Log.d(TAG, "index: " + index);
+				mTVTagListAdapter = new TVGuideTagListAdapter(mActivity, mTaggedBroadcasts, index, mTvDate);
+				mTVGuideListView.setAdapter(mTVTagListAdapter);
 			}
 
 			// ArrayList<ChannelHour> channelHoursForFirst = putBroadcastsInHours(mGuide.get(0).getBroadcasts());

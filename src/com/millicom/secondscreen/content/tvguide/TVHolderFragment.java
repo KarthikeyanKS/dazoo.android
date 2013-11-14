@@ -7,15 +7,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.adapters.TagTypeFragmentStatePagerAdapter;
+import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Tag;
 import com.millicom.secondscreen.content.model.TvDate;
+import com.millicom.secondscreen.manager.DazooCore;
 import com.millicom.secondscreen.storage.DazooStore;
 import com.viewpagerindicator.TabPageIndicator;
 
@@ -32,8 +36,9 @@ public class TVHolderFragment extends Fragment {
 
 	private String									mDate;
 	private ArrayList<TvDate>						mDates;
-
-	private boolean									mCreateBackground;
+	
+	private String token;
+	private boolean mIsLoggedIn;
 
 	private static OnViewPagerIndexChangedListener	mListener;
 
@@ -61,7 +66,6 @@ public class TVHolderFragment extends Fragment {
 		Bundle bundle = getArguments();
 		mDateSelectedIndex = bundle.getInt("holder_date");
 		mTabSelectedIndex = bundle.getInt("starting_index");
-		mCreateBackground = bundle.getBoolean("x");
 	}
 
 	@Override
@@ -69,22 +73,19 @@ public class TVHolderFragment extends Fragment {
 
 		View v = inflater.inflate(R.layout.fragment_tvguide_holder_layout, null);
 
-		mViewPager = (ViewPager) v.findViewById(R.id.home_pager);
-		mViewPager.setEnabled(false);
-		mPageTabIndicator = (TabPageIndicator) v.findViewById(R.id.home_indicator);
-
 		mDates = DazooStore.getInstance().getTvDates();
 		mTags = DazooStore.getInstance().getTags();
-
+		
+		mViewPager = (ViewPager) v.findViewById(R.id.home_pager);
+		mViewPager.setOffscreenPageLimit(mTags.size()-1);
+		mViewPager.setEnabled(false);
+		mPageTabIndicator = (TabPageIndicator) v.findViewById(R.id.home_indicator);
 		setAdapter(mTabSelectedIndex);
 
 		return v;
 	}
 
 	private void setAdapter(int selectedIndex) {
-		Log.d(TAG,"TAG SIZE:" + mTags.size());
-		Log.d(TAG,"mDateSelectedIndex:" + mDateSelectedIndex);
-		Log.d(TAG,"DATES: " + mDates.size());
 
 		mAdapter = new TagTypeFragmentStatePagerAdapter(getActivity().getSupportFragmentManager(), mTags, mDates.get(mDateSelectedIndex), mDateSelectedIndex);
 

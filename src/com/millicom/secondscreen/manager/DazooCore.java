@@ -306,11 +306,21 @@ public class DazooCore {
 
 	public static void getGuide(int dateIndex, boolean isChannel) {
 		Log.d(TAG, "APPROACH GUIDE!!!: ");
-		Log.d(TAG, "mIsTvDate:" + mIsTvDate + "  mIsTags: " + mIsTags + "   mIsDefaultChannels: " + mIsDefaultChannels + "  mIsAllChannels: " + mIsAllChannels);
-		if (mIsTvDate == true && mIsTags == true && ((mIsDefaultChannels) || (mIsAllChannels))) {
-			TvDate date = mTvDates.get(dateIndex);
-			GetGuide getGuideTask = new GetGuide(date, isChannel);
-			getGuideTask.execute(mContext);
+		
+		if(token != null && TextUtils.isEmpty(token) != true){
+			Log.d(TAG, "mIsTvDate:" + mIsTvDate + "  mIsTags: " + mIsTags + "  mIsAllChannels: " + mIsAllChannels);
+			if (mIsTvDate == true && mIsTags == true && mIsAllChannels){
+				TvDate date = mTvDates.get(dateIndex);
+				GetGuide getGuideTask = new GetGuide(date, isChannel);
+				getGuideTask.execute(mContext);
+			}
+		} else {
+			Log.d(TAG, "mIsTvDate:" + mIsTvDate + "  mIsTags: " + mIsTags + "   mIsDefaultChannels: " + mIsDefaultChannels );
+			if (mIsTvDate == true && mIsTags == true && mIsDefaultChannels) {
+				TvDate date = mTvDates.get(dateIndex);
+				GetGuide getGuideTask = new GetGuide(date, isChannel);
+				getGuideTask.execute(mContext);
+			}
 		}
 	}
 
@@ -373,5 +383,15 @@ public class DazooCore {
 			}
 		}
 		return sB.toString();
+	}
+	
+	public static void resetAll(){
+		mDateIndex			= 0;
+		mIsTvDate			= false;
+		mIsTags				= false;
+		mIsDefaultChannels	= false;
+		mIsAllChannels		= false;
+		mIsMyChannels		= false;
+		mIsGuide			= false;
 	}
 }

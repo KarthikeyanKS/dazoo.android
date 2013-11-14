@@ -42,6 +42,11 @@ public class SettingsActivity extends ActionBarActivity implements OnClickListen
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_settings_activity);
+		
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		// add the activity to the list of running activities
+		SecondScreenApplication.getInstance().getActivityList().add(this);
+		
 		mToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 		initLayout();
 		populateViews();
@@ -146,21 +151,25 @@ public class SettingsActivity extends ActionBarActivity implements OnClickListen
 			((SecondScreenApplication) getApplicationContext()).setUserId(null);
 			((SecondScreenApplication) getApplicationContext()).setUserExistringFlag(false);
 
-			DazooStore.getInstance().clearMyGuidesStorage();
-		
-			LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(Consts.INTENT_EXTRA_LOG_OUT_ACTION));
-			startActivity(new Intent(SettingsActivity.this, MyProfileActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK ));
-			// clear the activity stack
-			finish();
-			mIsChange = true;
-			// check if the token was really cleared
-			String dazooToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
-			// if (dazooToken.isEmpty() == true) {
-			if (TextUtils.isEmpty(dazooToken) == true) {
-				Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
-			} else {
-				Log.d(TAG, "Log out from Dazoo failed");
-			}
+			DazooStore.getInstance().clearAll();
+			DazooStore.getInstance().reinitializeAll();
+			// clear all the running activities and start the application from the whole beginning
+			SecondScreenApplication.getInstance().clearActivityBacktrace();
+			
+			//LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(Consts.INTENT_EXTRA_LOG_OUT_ACTION));
+			startActivity(new Intent(SettingsActivity.this, HomeActivity.class));
+//			
+//			mIsChange = true;
+//			// check if the token was really cleared
+//			String dazooToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
+//			// if (dazooToken.isEmpty() == true) {
+//			if (TextUtils.isEmpty(dazooToken) == true) {
+//				Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
+//			} else {
+//				Log.d(TAG, "Log out from Dazoo failed");
+//			}
+//			
+//			
 			break;
 		case R.id.show_tvguide:
 			// tab to home page

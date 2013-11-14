@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.adapters.RemindersListAdapter;
 import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
@@ -46,6 +47,11 @@ public class RemindersActivity extends ActionBarActivity implements RemindersCou
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_reminders_activity);
+		
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		// add the activity to the list of running activities
+		SecondScreenApplication.getInstance().getActivityList().add(this);
+		
 		initLayout();
 		populateViews();
 	}

@@ -28,6 +28,9 @@ import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
+import com.millicom.secondscreen.content.myprofile.SettingsActivity;
+import com.millicom.secondscreen.manager.DazooCore;
+import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.JSONUtilities;
 import com.millicom.secondscreen.utilities.PatternCheck;
 
@@ -65,6 +68,9 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_dazoologin_activity);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+		// add the activity to the list of running activities
+		SecondScreenApplication.getInstance().getActivityList().add(this);
 
 		initViews();
 	}
@@ -143,15 +149,13 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 							if (JSONUtilities.storeUserInformation(this, userDataString)) {
 								Toast.makeText(getApplicationContext(), "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName(), Toast.LENGTH_SHORT).show();
 
-								LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(Consts.INTENT_EXTRA_LOG_IN_ACTION));
-								Intent intent = new Intent(DazooLoginActivity.this, HomeActivity.class)
-								.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-								//.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP)
-								;
-								startActivity(intent);
-								overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-								//finish();
+								DazooStore.getInstance().clearAll();
+								DazooStore.getInstance().reinitializeAll();
+								DazooCore.resetAll();
+								// clear all the running before activities and start the application from the whole beginning
+								SecondScreenApplication.getInstance().clearActivityBacktrace();
 
+								startActivity(new Intent(DazooLoginActivity.this, HomeActivity.class));
 							} else {
 								Toast.makeText(getApplicationContext(), "Failed to fetch the user information from backend", Toast.LENGTH_SHORT).show();
 							}
@@ -185,7 +189,7 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 		@Override
 		protected String doInBackground(String... params) {
 			try {
-				
+
 				HttpClient client = new DefaultHttpClient();
 				HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
 				SchemeRegistry registry = new SchemeRegistry();

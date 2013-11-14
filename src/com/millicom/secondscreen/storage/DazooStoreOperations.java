@@ -84,7 +84,7 @@ public class DazooStoreOperations {
 		return true;
 	}
 
-	public static void saveMyGuide(Guide guide, String tvDate, String channelId) {
+	public static boolean saveMyGuide(Guide guide, String tvDate, String channelId) {
 		DazooStore dazooStore = DazooStore.getInstance();
 		HashMap<GuideKey, Guide> myGuides = dazooStore.getMyGuides();
 
@@ -93,6 +93,7 @@ public class DazooStoreOperations {
 		guideKey.setChannelId(channelId);
 		myGuides.put(guideKey, guide);
 		dazooStore.setMyGuides(myGuides);
+		return true;
 	}
 
 	public static boolean saveGuides(ArrayList<Guide> guide, String tvDate) {

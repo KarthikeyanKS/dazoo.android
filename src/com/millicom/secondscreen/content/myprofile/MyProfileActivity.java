@@ -16,6 +16,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -55,11 +56,15 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_myprofile_activity);
 
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		// add the activity to the list of running activities
+		SecondScreenApplication.getInstance().getActivityList().add(this);
+
 		// broadcast receiver for log out action in the application
-		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverLogout, new IntentFilter(Consts.INTENT_EXTRA_LOG_OUT_ACTION));
+		// LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverLogout, new IntentFilter(Consts.INTENT_EXTRA_LOG_OUT_ACTION));
 
 		mToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
-		
+
 		if (mToken != null && TextUtils.isEmpty(mToken) != true) {
 			mIsLoggedIn = true;
 
@@ -71,18 +76,17 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 		populateViews();
 	}
 
+	// BroadcastReceiver mBroadcastReceiverLogout = new BroadcastReceiver(){
+	//
+	// @Override
+	// public void onReceive(Context context, Intent intent) {
+	// Log.d(TAG, "USER HAS LOG OUT!");
+	// mIsLoggedIn = false;
+	// initViews();
+	// populateViews();
+	// }
+	// };
 
-	BroadcastReceiver mBroadcastReceiverLogout = new BroadcastReceiver(){
-
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			Log.d(TAG, "USER HAS LOG OUT!");
-			mIsLoggedIn = false;
-			initViews();
-			populateViews();
-		}
-	};
-	
 	private void initViews() {
 		mTxtTabTvGuide = (TextView) findViewById(R.id.show_tvguide);
 		mTxtTabTvGuide.setOnClickListener(this);
