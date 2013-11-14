@@ -214,7 +214,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		mEpisodeTv = (TextView) findViewById(R.id.block_broadcastpage_broadcast_details_episode_tv);
 		mTimeTv = (TextView) findViewById(R.id.block_broadcastpage_broadcast_details_time_tv);
 		mDateTv = (TextView) findViewById(R.id.block_broadcastpage_broadcast_details_date_tv);
-		mChannelTv = (TextView) findViewById(R.id.block_broadcastpage_broadcast_details_channelname_tv);
+		//mChannelTv = (TextView) findViewById(R.id.block_broadcastpage_broadcast_details_channelname_tv);
 
 		// view for the social interaction buttons
 		mLikeButtonIv = (ImageView) findViewById(R.id.block_social_panel_like_button_iv);
@@ -244,7 +244,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		}
 		mTitleTv.setText(program.getTitle());
 		// seasonTv.setText(program.getSeason().getNumber());
-		mEpisodeTv.setText(String.valueOf(program.getEpisodeNumber()));
+		mEpisodeTv.setText("EPISODE: " + String.valueOf(program.getEpisodeNumber()));
 
 		String beginTime, endTime;
 		try {

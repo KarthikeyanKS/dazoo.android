@@ -4,7 +4,9 @@
     android:layout_height="wrap_content"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
-    android:paddingTop="10dp" >
+    android:paddingTop="10dp" 
+    android:orientation="horizontal">
+    
    	<RelativeLayout 
    	    android:id="@+id/whatelseison_listitem_imagecontainer"
    	    android:layout_width="130dp"

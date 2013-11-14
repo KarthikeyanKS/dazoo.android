@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
-    android:paddingTop="10dp" >
+    android:paddingTop="10dp"
+    android:orientation="horizontal" >
     
     <RelativeLayout 
         android:id="@+id/upcoming_episodes_listitem_info_container"
