@@ -393,5 +393,23 @@ public class DazooCore {
 		mIsAllChannels		= false;
 		mIsMyChannels		= false;
 		mIsGuide			= false;
+		
+		mTvDates.clear();
+		mTvDates			= new ArrayList<TvDate>();
+		mDefaultChannels.clear();
+		mDefaultChannels	= new ArrayList<Channel>();
+		mAllChannels.clear();
+		mAllChannels		= new ArrayList<Channel>();
+		mTags.clear();
+		mTags				= new ArrayList<Tag>();
+		mGuides.clear();
+		mGuides				= new ArrayList<Guide>();
+		mMyChannelsIds.clear();
+		mMyChannelsIds		= new ArrayList<String>();
+		mAllChannelsIds.clear();
+		mAllChannelsIds		= new ArrayList<String>();
+		mDefaultChannelsIds.clear();
+		mDefaultChannelsIds	= new ArrayList<String>();
+		
 	}
 }

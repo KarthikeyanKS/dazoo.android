@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -172,7 +173,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.orange));
 		mTxtTabPopular.setTextColor(getResources().getColor(R.color.gray));
 		mTxtTabFeed.setTextColor(getResources().getColor(R.color.gray));
-
+	
 		mActionBar = getSupportActionBar();
 
 		final int actionBarColor = getResources().getColor(R.color.lightblue);

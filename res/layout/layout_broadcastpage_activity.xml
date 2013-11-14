@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@color/light_gray"
@@ -253,7 +254,8 @@
             android:layout_weight="1"
             android:paddingBottom="2dp"
             android:text="@string/tab_tv_guide"
-            android:textSize="15sp" />
+            android:textSize="15sp" 
+            font:fontbutton="fontello.ttf"/>
 
         <com.millicom.secondscreen.customviews.FontButton
             android:id="@+id/show_activity"
@@ -263,7 +265,8 @@
             android:layout_weight="1"
             android:paddingBottom="2dp"
             android:text="@string/tab_activity"
-            android:textSize="15sp" />
+            android:textSize="15sp" 
+            font:fontbutton="fontello.ttf"/>
 
         <com.millicom.secondscreen.customviews.FontButton
             android:id="@+id/show_me"
@@ -273,7 +276,8 @@
             android:layout_weight="1"
             android:paddingBottom="2dp"
             android:text="@string/tab_me"
-            android:textSize="15sp" />
+            android:textSize="15sp" 
+            font:fontbutton="fontello.ttf"/>
     </LinearLayout>
 
     <ScrollView

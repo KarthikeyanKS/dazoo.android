@@ -130,6 +130,9 @@ public abstract class Consts {
 
 	public static final String	INTENT_EXTRA_FROM_NOTIFICATION						= "com.millicom.secondscreen.intent.extra.from.notification";
 
+	// activity feed extras
+	public static final String	INTENT_EXTRA_FROM_ACTIVITY							= "com.millicom.secondscreen.intent.extra.from.activity";
+
 	// fragments extra arguments
 	public static final String	FRAGMENT_EXTRA_TAG									= "com.millicom.secondscreen.fragment.extra.tag";
 	public static final String	FRAGMENT_EXTRA_TVDATE								= "com.millicom.secondscreen.fragment.extra.tvdate";

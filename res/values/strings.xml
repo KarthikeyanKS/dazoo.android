@@ -7,30 +7,35 @@
     <string name="no">No</string>
 
     <!-- HOMEPAGE : TABS -->
-    <string name="tab_tv_guide">TV Guide</string>
-    <string name="tab_activity">Activity</string>
-    <string name="tab_me">Me</string>
+    <string name="tab_tv_guide">&#xe803; TV Guide</string>
+    <string name="tab_activity">&#xe806; Activity</string>
+    <string name="tab_me">&#xe807; Me</string>
 
     <!-- HOMEPAGE : FILTERING BY DAY -->
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
 
-    <string-array name="weekday_names">
-        <item>Monday</item>
-        <item>Tuesday</item>
-        <item>Wednesday</item>
-        <item>Thursday</item>
-        <item>Friday</item>
-        <item>Saturday</item>
-        <item>Sunday</item>
-    </string-array>
-    <string-array name="categories_names">
-        <item>All categories</item>
-        <item>Movie</item>
-        <item>Serier</item>
-        <item>Barn</item>
-        <item>Sport</item>
-    </string-array>
+    <!-- ICONS -->
+    <string name="icon_timetable">&#xe803;</string>
+    <string name="icon_clock"> &#xe809; </string>
+    <string name="icon_live"> &#xe80d; </string>
+    <string name="icon_settings"> &#xe811;</string>
+    <string name="icon_magnet"> &#xe805;</string>
+    <string name="icon_series"> &#xe801;</string>
+    <string name="icon_letter"> &#xe80a;</string>
+    <string name="icon_feed"> &#xe806;</string>
+    <string name="icon_search"> &#xe812;</string>
+    <string name="icon_pin"> &#xe800;</string>
+    <string name="icon_me"> &#xe807;</string>
+    <string name="icon_facebook"> &#xe80b;</string>
+    <string name="icon_heart"> &#xe80f;</string>
+    <string name="icon_movie"> &#xe802;</string>
+    <string name="icon_trending"> &#xe80e;</string>
+    <string name="icon_clock"> &#xe808;</string>
+    <string name="icon_twitter"> &#xe80c;</string>
+    <string name="icon_blocks"> &#xe810;</string>
+    <string name="icon_bookmark"> &#xe804;</string>
+
     <string-array name="twenty_four_hours_in_strings">
         <item>0</item>
         <item>1</item>
@@ -158,7 +163,6 @@
     <string name="whatelseison_show_all_programs">Show all programs playing now</string>
     <string name="upcoming_episodes">Upcoming episodes</string>
     <string name="upcoming_episodes_more">More upcoming episodes</string>
-    
 
     <!-- LOGIN PAGE -->
     <string name="login_with_facebook">LOGIN WITH FACEBOOK</string>
@@ -227,7 +231,7 @@
     <!-- LIKE SERVICE -->
     <string name="like_set_text">" was added to the list of your preferences"</string>
     <string name="like_remove_text">"Unliking an item remove all related recommendation to this item"</string>
-    
+
     <!-- ACTIVITY PAGE -->
     <string name="login_for_activity">Get personal recommendations\n here by signing in</string>
     <string name="popular_now">Popular now</string>

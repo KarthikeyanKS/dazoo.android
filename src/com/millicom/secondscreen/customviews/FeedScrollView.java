@@ -1,4 +1,4 @@
-package com.millicom.secondscreen.content.activity;
+package com.millicom.secondscreen.customviews;
 
 import android.content.Context;
 import android.util.AttributeSet;

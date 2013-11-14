@@ -1,13 +1,35 @@
 package com.millicom.secondscreen.content.activity;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.SingleClientConnManager;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -19,53 +41,64 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.LinearLayout;
+import android.widget.AbsListView;
 import android.widget.ListView;
-import android.widget.ScrollView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.AbsListView.OnScrollListener;
 
-import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
+import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
-import com.millicom.secondscreen.adapters.ActivityFeedListAdapter;
+import com.millicom.secondscreen.adapters.ActivityFeedAdapter;
 import com.millicom.secondscreen.authentication.SignInActivity;
 import com.millicom.secondscreen.content.SSActivity;
-import com.millicom.secondscreen.content.SSPageFragmentActivity;
 import com.millicom.secondscreen.content.feed.FeedService;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.model.FeedItem;
 import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
 import com.millicom.secondscreen.content.search.SearchPageActivity;
 import com.millicom.secondscreen.http.NetworkUtils;
+import com.millicom.secondscreen.manager.ContentParser;
 
-public class ActivityActivity extends SSActivity implements OnClickListener, FeedScrollViewListener {
+public class ActivityActivity extends SSActivity implements OnClickListener {
 
-	private static final String	TAG			= "ActivityActivity";
+	private static final String	TAG				= "ActivityActivity";
 	private TextView			mTxtTabTvGuide, mTxtTabProfile, mTxtTabActivity, mSignInTv;
 	private ActionBar			mActionBar;
-	private ArrayList<FeedItem>	activityFeed;
+	private ArrayList<FeedItem>	activityFeed	= new ArrayList<FeedItem>();
 	private String				token;
-	private Boolean				mIsLoggenIn	= false;
-	private LinearLayout		mContainer;
-	private FeedScrollView		mScrollView;
-	private int					mStartIndex	= 0, mStep = 5, mNextStep = 2, mEndIndex = 0;
-	
+	private Boolean				mIsLoggenIn		= false;
+	// private LinearLayout mContainer;
+	// private FeedScrollView mScrollView;
+	private int					mStartIndex		= 0, mStep = 10, mNextStep = 2, mEndIndex = 0;
+	private ListView			mListView;
+	private RelativeLayout		mListFooter;
+	private ActivityFeedAdapter	mAdapter;
+	private Activity			mActivity;
+	private RelativeLayout mContainer;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.layout_activity_activity);
 
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
+		mActivity = this;
 
 		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 		if (token != null && TextUtils.isEmpty(token) != true) {
+			setContentView(R.layout.layout_activity_activity);
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 			mIsLoggenIn = true;
 			initStandardViews();
+			initFeedViews();
+			super.initCallbackLayouts();
 			loadPage();
 		} else {
+			setContentView(R.layout.layout_activity_not_logged_in_activity);
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 			initStandardViews();
 			initInactiveViews();
 		}
@@ -91,111 +124,101 @@ public class ActivityActivity extends SSActivity implements OnClickListener, Fee
 		mActionBar.setDisplayShowHomeEnabled(true);
 		mActionBar.setTitle(getResources().getString(R.string.activity_title));
 
-		mScrollView = (FeedScrollView) findViewById(R.id.activity_feed_scrollview);
-		mScrollView.setScrollViewListener(this);
-		// mScrollView.setVisibility(View.GONE);
-		mContainer = (LinearLayout) findViewById(R.id.activity_populator_container);
+	}
 
-		// DO THE CALLBACK AND LOADING FUNCTIONALITY AND BEHAVIOR
-		super.initCallbackLayouts();
+	private void initFeedViews() {
+		mListView = (ListView) findViewById(R.id.activity_listview);
+		mListFooter = (RelativeLayout) findViewById(R.id.activity_listview_footer);
 	}
 
 	private void initInactiveViews() {
-		View notLoggedInView = LayoutInflater.from(this).inflate(R.layout.layout_activity_not_logged_in_activity, null);
-		mSignInTv = (TextView) notLoggedInView.findViewById(R.id.activity_not_logged_in_btn);
 		mSignInTv = (TextView) findViewById(R.id.activity_not_logged_in_btn);
-
 		mSignInTv.setOnClickListener(this);
-		mContainer.addView(notLoggedInView);
 	}
 
-	private static class AddBlocksDynamically extends AsyncTask<Context, Void, Boolean> {
-
-		LinearLayout	mBlocksContainer;
-		Activity		mActivity;
-		int				mStartIndex;
-		int				mStep;
-		String			mToken;
-		FeedItem		mFeedItem;
-		FeedScrollView	mScrollView;
-
-		public AddBlocksDynamically(LinearLayout container, FeedScrollView scrollView, Activity activity, String token, int startIndex, int step, FeedItem feedItem) {
-			this.mBlocksContainer = container;
-			this.mActivity = activity;
-			this.mStartIndex = startIndex;
-			this.mStep = step;
-			this.mToken = token;
-			this.mFeedItem = feedItem;
-			this.mScrollView = scrollView;
-		}
-
-		protected void onPreExecute() {
-			Log.d(TAG, "ON PRE EXECUTE");
-		}
-
-		@Override
-		protected Boolean doInBackground(Context... params) {
-			mActivity.runOnUiThread(new Runnable() {
-
-				@Override
-				public void run() {
-					String feedItemType = mFeedItem.getItemType();
-					if (Consts.DAZOO_FEED_ITEM_TYPE_POPULAR_BROADCASTS.equals(feedItemType)) {
-						ActivityPopularBlockPopulator popularBlock = new ActivityPopularBlockPopulator(mActivity, mBlocksContainer);
-						popularBlock.createBlock(mFeedItem);
-					} else if (Consts.DAZOO_FEED_ITEM_TYPE_BROADCAST.equals(feedItemType)) {
-						ActivityLikedBlockPopulator likedBlock = new ActivityLikedBlockPopulator(mActivity, mBlocksContainer, mToken);
-						likedBlock.createBlock(mFeedItem);
-					} else if (Consts.DAZOO_FEED_ITEM_TYPE_RECOMMENDED_BROADCAST.equals(feedItemType)) {
-						ActivityRecommendedBlockPopulator recommendedBlock = new ActivityRecommendedBlockPopulator(mActivity, mBlocksContainer, mToken);
-						recommendedBlock.createBlock(mFeedItem);
-					}
-				}
-			});
-			return true;
-		}
-
-		protected void onPostExecute(Boolean result) {
-
-		}
-	}
-
-	private boolean getFeedItems(int startIndex, int step) {
-		boolean result = false;
-		activityFeed = FeedService.getActivityFeed(token);
-		if (activityFeed != null) {
-			if (activityFeed.isEmpty() != true) {
-				for (int i = startIndex; i < startIndex + step; i++) {
-					AddBlocksDynamically blocksTask = new AddBlocksDynamically(mContainer, mScrollView, this, token, startIndex, step, activityFeed.get(i));
-					blocksTask.execute(this);
-					result = true;
-				}
-			}
-		}
-		return result;
+	private void setAdapter() {
+		mListView.setOnScrollListener(mOnScrollListener);
+		mAdapter = new ActivityFeedAdapter(this, activityFeed, token);
+		mListView.setAdapter(mAdapter);
+		mListView.setVisibility(View.VISIBLE);
 	}
 
 	@Override
 	protected void loadPage() {
-		
 		updateUI(REQUEST_STATUS.LOADING);
 		// check if the network connection exists
 		if (!NetworkUtils.checkConnection(this)) {
 			updateUI(REQUEST_STATUS.FAILED);
 		}
 
-		if (getFeedItems(mStartIndex, mStep)) {
-			updateUI(REQUEST_STATUS.SUCCESSFUL);
-		}
+		new GetFeedTask().execute();
+
+		mStartIndex = mStartIndex + mStep;
 	}
 
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
 		if (super.requestIsSuccesfull(status)) {
+			new SetAdapterTask().execute();
+		}
+	}
 
-			// mAdapter = new ActivityFeedListAdapter(this, activityFeed);
-			// mListView.setAdapter(mAdapter);
-			// mScrollView.setVisibility(View.VISIBLE);
+	protected boolean activityIsActive() {
+		return mActivity != null && !mActivity.isFinishing();
+	}
+
+	class SetAdapterTask extends AsyncTask<Void, Void, Void> {
+		@Override
+		protected Void doInBackground(Void... params) {
+			if (activityIsActive()) {
+				mActivity.runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						setAdapter();
+					}
+				});
+			}
+			return null;
+		}
+	}
+
+	OnScrollListener	mOnScrollListener	= new OnScrollListener() {
+		@Override
+		public void onScrollStateChanged(AbsListView view, int scrollState) {
+		}
+
+		@Override
+		public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+			if (totalItemCount > 0) {
+
+				// If scrolling past bottom and there is a next page of products to fetch
+				if ((firstVisibleItem + visibleItemCount >= totalItemCount)) {
+					// Show the scroll spinner
+					// fetchNextPage();
+					//showScrollSpinner(true);
+				} else {
+
+					// Hide the scroll spinner
+					showScrollSpinner(false);
+				}
+			} else {
+				// Hide the scroll spinner
+				showScrollSpinner(false);
+			}
+		}
+	};
+
+	private void fetchNextPage() {
+		showScrollSpinner(true);
+		new GetFeedTask().execute();
+		showScrollSpinner(false);
+	};
+
+	private void showScrollSpinner(boolean aShow) {
+		if (mListFooter != null) {
+			// Show/hide the scroll spinner
+			mListFooter.setVisibility(aShow ? View.VISIBLE : View.GONE);
 		}
 	}
 
@@ -247,24 +270,103 @@ public class ActivityActivity extends SSActivity implements OnClickListener, Fee
 			break;
 		}
 	}
-
-	@Override
-	public void onScrollChanged(FeedScrollView scrollView, int x, int y, int oldx, int oldy) {
-		// We take the last son in the scrollview
-		View view = (View) scrollView.getChildAt(scrollView.getChildCount() - 1);
-		int diff = (view.getBottom() - (scrollView.getHeight() + scrollView.getScrollY()));
-
-		// if diff is zero, then the bottom has been reached
-		if (diff == 0) {
-
-			if (mStartIndex + mStep < activityFeed.size()) mEndIndex = mStartIndex + mNextStep;
-			else mEndIndex = activityFeed.size();
-
-			for (int i = mStartIndex; i < mEndIndex + mNextStep; i++) {
-				AddBlocksDynamically blocksTask = new AddBlocksDynamically(mContainer, mScrollView, this, token, mStartIndex, mNextStep, activityFeed.get(i));
-				blocksTask.execute(this);
+	
+	
+	class GetFeedTask extends AsyncTask<Void, Void, Boolean> {
+		protected void onPostExecute(Boolean result) {
+			Log.d(TAG, "oN POST EXECUTE");
+			if (result) {
+				if (activityFeed != null) {
+					if (activityFeed.isEmpty() != true) {
+						Log.d(TAG, "//////////////");
+						updateUI(REQUEST_STATUS.SUCCESSFUL);
+					} else {
+						Log.d(TAG, "EMPTY");
+						updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
+					}
+				}
+			} else {
+				Log.d(TAG, "No backend response");
+				updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
 			}
-			mStartIndex = mEndIndex;
+		}
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			boolean result = false;
+			try {
+				HttpClient client = new DefaultHttpClient();
+				HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
+				SchemeRegistry registry = new SchemeRegistry();
+				registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+
+				SSLSocketFactory socketFactory = SSLSocketFactory.getSocketFactory();
+				socketFactory.setHostnameVerifier(SSLSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
+				registry.register(new Scheme("https", socketFactory, 443));
+				SingleClientConnManager mgr = new SingleClientConnManager(client.getParams(), registry);
+
+				DefaultHttpClient httpClient = new DefaultHttpClient(mgr, client.getParams());
+				// Set verifier
+				HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
+
+				HttpGet httpGet = new HttpGet();
+				httpGet.setHeader("Authorization", "Bearer " + token);
+				httpGet.setURI(new URI(Consts.MILLICOM_SECONDSCREEN_ACTIVITY_FEED_URL));
+
+				HttpResponse response = httpClient.execute(httpGet);
+				if (Consts.GOOD_RESPONSE == response.getStatusLine().getStatusCode()) {
+					Log.d(TAG, "GOOD RESPONSE");
+					HttpEntity entityHttp = response.getEntity();
+					InputStream inputStream = entityHttp.getContent();
+					BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"), 8);
+					StringBuilder sb = new StringBuilder();
+					String line = null;
+					while ((line = reader.readLine()) != null) {
+						sb.append(line + "\n");
+					}
+					inputStream.close();
+					String jsonString = sb.toString();
+
+					if (jsonString != null && TextUtils.isEmpty(jsonString) != true && !jsonString.equals(Consts.ERROR_STRING)) {
+						JSONObject feedListJson;
+						try {
+							feedListJson = new JSONObject(jsonString);
+
+							JSONArray feedLisJsonArray = feedListJson.optJSONArray(Consts.DAZOO_FEED_ITEMS);
+
+							int size = feedLisJsonArray.length();
+							Log.d(TAG, "FEED ITEMS SIZE: " + String.valueOf(size));
+							// TODO: UPDATE WHEN THE PAGINATION IS DONE BY THE BACKEND
+							int endIndex = 0;
+							if (mStartIndex + mStep < size) endIndex = mStartIndex + mStep;
+							else endIndex = size;
+
+							for (int i = mStartIndex; i < endIndex; i++) {
+								activityFeed.add(ContentParser.parseFeedItem(feedLisJsonArray.getJSONObject(i)));
+								result = true;
+							}
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+					}
+
+				} else if (Consts.BAD_RESPONSE_INVALID_TOKEN == response.getStatusLine().getStatusCode()) {
+					Log.d(TAG, "Get Activity Feed: Invalid");
+
+				} else if (Consts.BAD_RESPONSE_MISSING_TOKEN == response.getStatusLine().getStatusCode()) {
+					Log.d(TAG, "Get Activity Feed: Missing token");
+				}
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (URISyntaxException e) {
+				e.printStackTrace();
+			}
+
+			return result;
 		}
 	}
 }

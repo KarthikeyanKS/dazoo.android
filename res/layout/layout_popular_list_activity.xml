@@ -1,26 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
-    android:id="@+id/settings_list_container"
+    android:id="@+id/popular_list_container"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/white" >
-
-    <!-- TEMPORARY TEXTVIEW -->
-    
-    <com.millicom.secondscreen.customviews.FontTextView
-        android:id="@+id/help_temp_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_centerHorizontal="true"
-        android:text="@string/help_temp"
-        android:textSize="20sp" />
-    
-     <!-- FOOTER : BOTTOM NAVIGATION TABS -->
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical" >
 
     <LinearLayout
         android:id="@+id/tab_selector_container"
@@ -32,7 +17,7 @@
         android:paddingBottom="2dp" >
 
         <com.millicom.secondscreen.customviews.FontButton
-            android:id="@+id/show_tvguide"
+            android:id="@+id/go_to_tvguide"
             style="@style/homepage_tab_selector"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -43,7 +28,7 @@
             font:fontbutton="fontello.ttf"/>
 
         <com.millicom.secondscreen.customviews.FontButton
-            android:id="@+id/show_activity"
+            android:id="@+id/go_to_activity"
             style="@style/homepage_tab_selector"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -54,7 +39,7 @@
             font:fontbutton="fontello.ttf"/>
 
         <com.millicom.secondscreen.customviews.FontButton
-            android:id="@+id/show_me"
+            android:id="@+id/go_to_profile"
             style="@style/homepage_tab_selector"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -64,5 +49,41 @@
             android:textSize="15sp" 
             font:fontbutton="fontello.ttf"/>
     </LinearLayout>
+
+    <include
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:layout_above="@id/tab_selector_container"
+        layout="@layout/layout_request_callbacks_holder_layout" />
+
+    <RelativeLayout
+        android:id="@+id/populart_listview_footer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/tab_selector_container" 
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="12dp"/>
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/popular_list_listview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/tab_selector_container"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/light_gray"
+        android:cacheColorHint="@null"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10dp"
+        android:visibility="gone" />
 
 </RelativeLayout>

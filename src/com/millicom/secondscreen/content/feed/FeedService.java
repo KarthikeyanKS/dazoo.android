@@ -40,8 +40,8 @@ import com.millicom.secondscreen.manager.ContentParser;
 public class FeedService {
 
 	private static final String	TAG	= "FeedService";
-	
-	public static ArrayList<FeedItem> getActivityFeed(String token){
+
+	public static ArrayList<FeedItem> getActivityFeed(String token, int startIndex, int step) {
 		ArrayList<FeedItem> dazooActivityFeedList = new ArrayList<FeedItem>();
 		GetActivityFeedTask getActivityFeedTask = new GetActivityFeedTask();
 		String jsonString = "";
@@ -50,11 +50,15 @@ public class FeedService {
 			if (jsonString != null && TextUtils.isEmpty(jsonString) != true && !jsonString.equals(Consts.ERROR_STRING)) {
 				JSONObject feedListJson = new JSONObject(jsonString);
 				JSONArray feedLisJsonArray = feedListJson.optJSONArray(Consts.DAZOO_FEED_ITEMS);
-				
+
 				int size = feedLisJsonArray.length();
-				Log.d(TAG,"FEED ITEMS SIZE: " + String.valueOf(size));
+				Log.d(TAG, "FEED ITEMS SIZE: " + String.valueOf(size));
 				// TODO: UPDATE WHEN THE PAGINATION IS DONE BY THE BACKEND
-				for (int i = 0; i < size; i++) {
+				int endIndex = 0;
+				if (startIndex + step < size) endIndex = startIndex + step;
+				else endIndex = size;
+
+				for (int i = startIndex; i < endIndex; i++) {
 					dazooActivityFeedList.add(ContentParser.parseFeedItem(feedLisJsonArray.getJSONObject(i)));
 				}
 			}
@@ -71,8 +75,10 @@ public class FeedService {
 	private static class GetActivityFeedTask extends AsyncTask<String, Void, String> {
 		@Override
 		protected String doInBackground(String... params) {
+			Log.d(TAG, "5");
 			try {
 				// HttpClient httpClient = new DefaultHttpClient();
+
 				HttpClient client = new DefaultHttpClient();
 				HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
 				SchemeRegistry registry = new SchemeRegistry();
@@ -93,6 +99,7 @@ public class FeedService {
 
 				HttpResponse response = httpClient.execute(httpGet);
 				if (Consts.GOOD_RESPONSE == response.getStatusLine().getStatusCode()) {
+					Log.d(TAG, "GOOD RESPONSE");
 					HttpEntity entityHttp = response.getEntity();
 					InputStream inputStream = entityHttp.getContent();
 					BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"), 8);

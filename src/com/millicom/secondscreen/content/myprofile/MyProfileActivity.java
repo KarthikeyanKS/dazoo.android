@@ -153,7 +153,13 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 	}
 
 	private void populateViews() {
+		mRemindersTextView.setText(getResources().getString(R.string.icon_clock) + " " + getResources().getString(R.string.reminders));
+		mSettingsTextView.setText(getResources().getString(R.string.icon_settings) + " " + getResources().getString(R.string.settings));
+		
 		if (mIsLoggedIn) {
+			mLikesTextView.setText(getResources().getString(R.string.icon_heart) + " " + getResources().getString(R.string.likes));
+			mMyChannelsTextView.setText(getResources().getString(R.string.icon_blocks) + " " +getResources().getString(R.string.my_channels));
+			
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 				if (userFirstName != null && userLastName != null && userFirstName.isEmpty() != true && userLastName.isEmpty() != true) {
 					mAvatarImageView.setImageResource(R.drawable.loadimage_2x);

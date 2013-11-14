@@ -23,7 +23,8 @@
             android:layout_weight="1"
             android:paddingBottom="2dp"
             android:text="@string/tab_tv_guide"
-            android:textSize="15sp" />
+            android:textSize="15sp" 
+            font:fontbutton="fontello.ttf"/>
 
         <com.millicom.secondscreen.customviews.FontButton
             android:id="@+id/show_activity"
@@ -33,7 +34,8 @@
             android:layout_weight="1"
             android:paddingBottom="2dp"
             android:text="@string/tab_activity"
-            android:textSize="15sp" />
+            android:textSize="15sp" 
+            font:fontbutton="fontello.ttf"/>
 
         <com.millicom.secondscreen.customviews.FontButton
             android:id="@+id/show_me"
@@ -43,7 +45,8 @@
             android:layout_weight="1"
             android:paddingBottom="2dp"
             android:text="@string/tab_me"
-            android:textSize="15sp" />
+            android:textSize="15sp" 
+            font:fontbutton="fontello.ttf"/>
     </LinearLayout>
 
     <ScrollView
@@ -116,7 +119,8 @@
 	                android:layout_below="@id/myprofile_person_container"
 	                android:layout_margin="1dp"
 	                android:background="@color/light_gray"
-	                android:orientation="horizontal" >
+	                android:orientation="horizontal" 
+	                android:padding="12dp">
 	
 	                <ImageView
 	                    android:id="@+id/myprofile_reminders_icon"
@@ -124,7 +128,8 @@
 	                    android:layout_height="wrap_content"
 	                    android:layout_centerVertical="true"
 	                    android:padding="3dp"
-	                    android:src="@drawable/ic_launcher" />
+	                    android:src="@drawable/ic_launcher" 
+	                    android:visibility="gone"/>
 	
 	                <com.millicom.secondscreen.customviews.FontTextView
 	                    android:id="@+id/myprofile_reminders_title_tv"
@@ -134,7 +139,8 @@
 	                    android:layout_toRightOf="@id/myprofile_reminders_icon"
 	                    android:text="@string/reminders"
 	                    android:textSize="18sp"
-	                    android:textStyle="bold" />
+	                    android:textStyle="bold" 
+	                    font:fonttextview="fontello.ttf"/>
 	
 	                <com.millicom.secondscreen.customviews.FontTextView
 	                    android:id="@+id/myprofile_reminders_button_tv"
@@ -154,7 +160,8 @@
 	                android:layout_below="@id/myprofile_reminders_container"
 	                android:layout_margin="1dp"
 	                android:background="@color/light_gray"
-	                android:orientation="horizontal" >
+	                android:orientation="horizontal" 
+	                android:padding="12dp">
 	
 	                <ImageView
 	                    android:id="@+id/myprofile_likes_icon"
@@ -163,7 +170,8 @@
 	                    android:layout_alignParentLeft="true"
 	                    android:layout_centerVertical="true"
 	                    android:padding="3dp"
-	                    android:src="@drawable/ic_launcher" />
+	                    android:src="@drawable/ic_launcher" 
+	                    android:visibility="gone"/>
 	
 	                <com.millicom.secondscreen.customviews.FontTextView
 	                    android:id="@+id/myprofile_likes_title_tv"
@@ -171,9 +179,9 @@
 	                    android:layout_height="wrap_content"
 	                    android:layout_centerVertical="true"
 	                    android:layout_toRightOf="@id/myprofile_likes_icon"
-	                    android:text="@string/likes"
 	                    android:textSize="18sp"
-	                    android:textStyle="bold" />
+	                    android:textStyle="bold" 
+	                     font:fonttextview="fontello.ttf"/>
 	
 	                <com.millicom.secondscreen.customviews.FontTextView
 	                    android:id="@+id/myprofile_likes_button_tv"
@@ -193,7 +201,8 @@
 	                android:layout_below="@id/myprofile_likes_container"
 	                android:layout_margin="1dp"
 	                android:background="@color/light_gray"
-	                android:orientation="horizontal" >
+	                android:orientation="horizontal" 
+	                android:padding="12dp">
 	
 	                <ImageView
 	                    android:id="@+id/myprofile_my_channels_icon"
@@ -202,7 +211,8 @@
 	                    android:layout_alignParentLeft="true"
 	                    android:layout_centerVertical="true"
 	                    android:padding="3dp"
-	                    android:src="@drawable/ic_launcher" />
+	                    android:src="@drawable/ic_launcher" 
+	                    android:visibility="gone"/>
 	
 	                <com.millicom.secondscreen.customviews.FontTextView
 	                    android:id="@+id/myprofile_my_channels_title_tv"
@@ -210,9 +220,10 @@
 	                    android:layout_height="wrap_content"
 	                    android:layout_centerVertical="true"
 	                    android:layout_toRightOf="@id/myprofile_my_channels_icon"
-	                    android:text="@string/my_channels"
 	                    android:textSize="18sp"
-	                    android:textStyle="bold" />
+	                    android:textStyle="bold" 
+	                     font:fonttextview="fontello.ttf"
+	                    />
 	
 	                <com.millicom.secondscreen.customviews.FontTextView
 	                    android:id="@+id/myprofile_my_channels_button_tv"
@@ -232,7 +243,8 @@
 	                android:layout_below="@id/myprofile_my_channels_container"
 	                android:layout_margin="1dp"
 	                android:background="@color/light_gray"
-	                android:orientation="horizontal" >
+	                android:orientation="horizontal" 
+	                android:padding="12dp">
 	
 	                <ImageView
 	                    android:id="@+id/myprofile_settings_icon"
@@ -241,7 +253,8 @@
 	                    android:layout_alignParentLeft="true"
 	                    android:layout_centerVertical="true"
 	                    android:padding="3dp"
-	                    android:src="@drawable/ic_launcher" />
+	                    android:src="@drawable/ic_launcher" 
+	                    android:visibility="gone"/>
 	
 	                <com.millicom.secondscreen.customviews.FontTextView
 	                    android:id="@+id/myprofile_settings_title_tv"
@@ -249,9 +262,9 @@
 	                    android:layout_height="wrap_content"
 	                    android:layout_centerVertical="true"
 	                    android:layout_toRightOf="@id/myprofile_settings_icon"
-	                    android:text="@string/settings"
 	                    android:textSize="18sp"
-	                    android:textStyle="bold" />
+	                    android:textStyle="bold" 
+	                     font:fonttextview="fontello.ttf"/>
 	            </RelativeLayout>
             </RelativeLayout>
 
