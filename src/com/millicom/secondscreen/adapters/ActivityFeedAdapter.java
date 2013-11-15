@@ -122,7 +122,6 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			TextView headerTv = (TextView) convertView.findViewById(R.id.block_feed_liked_header_tv);
 			ImageView landscapeIv = (ImageView) convertView.findViewById(R.id.block_feed_liked_content_iv);
 			ProgressBar landscapePb = (ProgressBar) convertView.findViewById(R.id.block_feed_liked_content_iv_progressbar);
-			ImageView iconIv = (ImageView) convertView.findViewById(R.id.block_feed_liked_icon);
 			TextView titleTv = (TextView) convertView.findViewById(R.id.block_feed_liked_title_tv);
 			TextView timeTv = (TextView) convertView.findViewById(R.id.block_feed_liked_time_tv);
 			TextView channelTv = (TextView) convertView.findViewById(R.id.block_feed_liked_channel_tv);
@@ -193,6 +192,49 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 				}
 			});
+			
+			int duration = 0;
+			//MC - Calculate the duration of the program and set up ProgressBar.
+			try {
+				long startTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
+				long endTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getEndTime());
+				duration = (int) (startTime - endTime) / (1000 * 60);
+			} 
+			catch (ParseException e) {
+				e.printStackTrace();
+			}
+			progressBar.setMax(duration);
+
+			//MC - Calculate the current progress of the ProgressBar and update.
+			int initialProgress = 0;
+			long difference = 0;
+			try {
+				difference = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
+			} 
+			catch (ParseException e) {
+				e.printStackTrace();
+			}
+
+			if (difference < 0) {
+				progressBar.setVisibility(View.GONE);
+				initialProgress = 0;
+				progressBar.setProgress(0);
+			} 
+			else {
+				try {
+					initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime()) / (1000 * 60);
+				} 
+				catch (ParseException e) {
+					e.printStackTrace();
+				}
+				progressbarTv.setText(duration-initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + 
+						" " + mActivity.getResources().getString(R.string.left));
+				progressBar.setProgress(initialProgress);
+				progressBar.setVisibility(View.VISIBLE);
+			}
+			
+			
+			
 
 			NotificationDbItem dbItem = new NotificationDbItem();
 			dbItem = mNotificationDataSource.getNotification(feedItem.getBroadcast().getChannel().getChannelId(), feedItem.getBroadcast().getBeginTimeMillis());
@@ -299,7 +341,6 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			TextView headerTvRec = (TextView) convertView.findViewById(R.id.block_feed_recommended_header_tv);
 			ImageView landscapeIvRec = (ImageView) convertView.findViewById(R.id.block_feed_recommended_content_iv);
 			ProgressBar landscapePbRec = (ProgressBar) convertView.findViewById(R.id.block_feed_recommended_content_iv_progressbar);
-			ImageView iconIvRec = (ImageView) convertView.findViewById(R.id.block_feed_recommended_icon);
 			TextView titleTvRec = (TextView) convertView.findViewById(R.id.block_feed_recommended_title_tv);
 			TextView timeTvRec = (TextView) convertView.findViewById(R.id.block_feed_recommended_time_tv);
 			TextView channelTvRec = (TextView) convertView.findViewById(R.id.block_feed_recommended_channel_tv);
@@ -346,6 +387,47 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					detailsTvRec.setText(feedItem.getBroadcast().getProgram().getCategory());
 				}
 			}
+			
+			int durationRec = 0;
+			//MC - Calculate the duration of the program and set up ProgressBar.
+			try {
+				long startTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
+				long endTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getEndTime());
+				durationRec = (int) (startTime - endTime) / (1000 * 60);
+			} 
+			catch (ParseException e) {
+				e.printStackTrace();
+			}
+			progressBarRec.setMax(durationRec);
+
+			//MC - Calculate the current progress of the ProgressBar and update.
+			int initialProgressRec = 0;
+			long differenceRec = 0;
+			try {
+				differenceRec = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
+			} 
+			catch (ParseException e) {
+				e.printStackTrace();
+			}
+
+			if (differenceRec < 0) {
+				progressBarRec.setVisibility(View.GONE);
+				initialProgress = 0;
+				progressBarRec.setProgress(0);
+			} 
+			else {
+				try {
+					initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime()) / (1000 * 60);
+				} 
+				catch (ParseException e) {
+					e.printStackTrace();
+				}
+				progressbarTvRec.setText(durationRec-initialProgressRec + " " + mActivity.getResources().getString(R.string.minutes) + 
+						" " + mActivity.getResources().getString(R.string.left));
+				progressBarRec.setProgress(initialProgressRec);
+				progressBarRec.setVisibility(View.VISIBLE);
+			}
+			
 
 			containerRec.setOnClickListener(new View.OnClickListener() {
 
@@ -475,7 +557,6 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			LinearLayout mContainerOne = (LinearLayout) convertView.findViewById(R.id.block_popular_feed_container_one);
 			ImageView mPosterOne = (ImageView) convertView.findViewById(R.id.block_feed_popular_listitem_one_iv);
 			ProgressBar mImageProgressBarOne = (ProgressBar) convertView.findViewById(R.id.block_feed_popular_listitem_iv_one_progressbar);
-			ImageView mIconOne = (ImageView) convertView.findViewById(R.id.block_popular_feed_details_one_icon);
 			TextView mTitleOne = (TextView) convertView.findViewById(R.id.block_popular_feed_details_title_one_tv);
 			TextView mTimeOne = (TextView) convertView.findViewById(R.id.block_popular_feed_details_time_one_tv);
 			TextView mChannelNameOne = (TextView) convertView.findViewById(R.id.block_popular_feed_details_channel_one_tv);
@@ -514,6 +595,47 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						mDetailsOne.setText(broadcastOne.getProgram().getCategory());
 					}
 				}
+				
+				int durationOne = 0;
+				//MC - Calculate the duration of the program and set up ProgressBar.
+				try {
+					long startTime = DateUtilities.getAbsoluteTimeDifference(broadcastOne.getBeginTime());
+					long endTime = DateUtilities.getAbsoluteTimeDifference(broadcastOne.getEndTime());
+					durationOne = (int) (startTime - endTime) / (1000 * 60);
+				} 
+				catch (ParseException e) {
+					e.printStackTrace();
+				}
+				mProgressBarOne.setMax(durationOne);
+
+				//MC - Calculate the current progress of the ProgressBar and update.
+				int initialProgressOne = 0;
+				long differenceOne = 0;
+				try {
+					differenceOne = DateUtilities.getAbsoluteTimeDifference(broadcastOne.getBeginTime());
+				} 
+				catch (ParseException e) {
+					e.printStackTrace();
+				}
+
+				if (differenceOne < 0) {
+					mProgressBarOne.setVisibility(View.GONE);
+					initialProgressOne = 0;
+					mProgressBarOne.setProgress(0);
+				} 
+				else {
+					try {
+						initialProgressOne = (int) DateUtilities.getAbsoluteTimeDifference(broadcastOne.getBeginTime()) / (1000 * 60);
+					} 
+					catch (ParseException e) {
+						e.printStackTrace();
+					}
+					mProgressBarTitleOne.setText(durationOne-initialProgressOne + " " + mActivity.getResources().getString(R.string.minutes) + 
+							" " + mActivity.getResources().getString(R.string.left));
+					mProgressBarOne.setProgress(initialProgressOne);
+					mProgressBarOne.setVisibility(View.VISIBLE);
+				}
+				
 				mContainerOne.setOnClickListener(new View.OnClickListener() {
 
 					@Override
@@ -541,7 +663,6 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			LinearLayout mContainerTwo = (LinearLayout) convertView.findViewById(R.id.block_popular_feed_container_two);
 			ImageView mPosterTwo = (ImageView) convertView.findViewById(R.id.block_feed_popular_listitem_two_iv);
 			ProgressBar mImageProgressBarTwo = (ProgressBar) convertView.findViewById(R.id.block_feed_popular_listitem_iv_two_progressbar);
-			ImageView mIconTwo = (ImageView) convertView.findViewById(R.id.block_popular_feed_details_two_icon);
 			TextView mTitleTwo = (TextView) convertView.findViewById(R.id.block_popular_feed_details_title_two_tv);
 			TextView mTimeTwo = (TextView) convertView.findViewById(R.id.block_popular_feed_details_time_two_tv);
 			TextView mChannelNameTwo = (TextView) convertView.findViewById(R.id.block_popular_feed_details_channel_two_tv);
@@ -567,7 +688,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-				mChannelNameOne.setText(broadcastTwo.getChannel().getName());
+				mChannelNameTwo.setText(broadcastTwo.getChannel().getName());
 
 				if (programTypeTwo != null) {
 					if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programTypeTwo)) {
@@ -581,6 +702,47 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						mDetailsTwo.setText(broadcastTwo.getProgram().getCategory());
 					}
 				}
+				
+				int durationTwo = 0;
+				//MC - Calculate the duration of the program and set up ProgressBar.
+				try {
+					long startTime = DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getBeginTime());
+					long endTime = DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getEndTime());
+					durationTwo = (int) (startTime - endTime) / (1000 * 60);
+				} 
+				catch (ParseException e) {
+					e.printStackTrace();
+				}
+				mProgressBarTwo.setMax(durationTwo);
+
+				//MC - Calculate the current progress of the ProgressBar and update.
+				int initialProgressTwo = 0;
+				long differenceTwo = 0;
+				try {
+					differenceTwo = DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getBeginTime());
+				} 
+				catch (ParseException e) {
+					e.printStackTrace();
+				}
+
+				if (differenceTwo < 0) {
+					mProgressBarTwo.setVisibility(View.GONE);
+					initialProgressTwo = 0;
+					mProgressBarTwo.setProgress(0);
+				} 
+				else {
+					try {
+						initialProgressTwo = (int) DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getBeginTime()) / (1000 * 60);
+					} 
+					catch (ParseException e) {
+						e.printStackTrace();
+					}
+					mProgressBarTitleTwo.setText(durationTwo-initialProgressTwo + " " + mActivity.getResources().getString(R.string.minutes) + 
+							" " + mActivity.getResources().getString(R.string.left));
+					mProgressBarTwo.setProgress(initialProgressTwo);
+					mProgressBarTwo.setVisibility(View.VISIBLE);
+				}
+				
 				mContainerTwo.setOnClickListener(new View.OnClickListener() {
 
 					@Override
@@ -608,7 +770,6 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			LinearLayout mContainerThree = (LinearLayout) convertView.findViewById(R.id.block_popular_feed_container_three);
 			ImageView mPosterThree = (ImageView) convertView.findViewById(R.id.block_feed_popular_listitem_three_iv);
 			ProgressBar mImageProgressBarThree = (ProgressBar) convertView.findViewById(R.id.block_feed_popular_listitem_iv_three_progressbar);
-			ImageView mIconThree = (ImageView) convertView.findViewById(R.id.block_popular_feed_details_three_icon);
 			TextView mTitleThree = (TextView) convertView.findViewById(R.id.block_popular_feed_details_title_three_tv);
 			TextView mTimeThree = (TextView) convertView.findViewById(R.id.block_popular_feed_details_time_three_tv);
 			TextView mChannelNameThree = (TextView) convertView.findViewById(R.id.block_popular_feed_details_channel_three_tv);
@@ -636,6 +797,46 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				}
 				mChannelNameThree.setText(broadcastThree.getChannel().getName());
 
+				int durationThree = 0;
+				//MC - Calculate the duration of the program and set up ProgressBar.
+				try {
+					long startTime = DateUtilities.getAbsoluteTimeDifference(broadcastThree.getBeginTime());
+					long endTime = DateUtilities.getAbsoluteTimeDifference(broadcastThree.getEndTime());
+					durationThree = (int) (startTime - endTime) / (1000 * 60);
+				} 
+				catch (ParseException e) {
+					e.printStackTrace();
+				}
+				mProgressBarThree.setMax(durationThree);
+
+				//MC - Calculate the current progress of the ProgressBar and update.
+				int initialProgressThree = 0;
+				long differenceThree = 0;
+				try {
+					differenceThree = DateUtilities.getAbsoluteTimeDifference(broadcastThree.getBeginTime());
+				} 
+				catch (ParseException e) {
+					e.printStackTrace();
+				}
+
+				if (differenceThree < 0) {
+					mProgressBarThree.setVisibility(View.GONE);
+					initialProgressThree = 0;
+					mProgressBarThree.setProgress(0);
+				} 
+				else {
+					try {
+						initialProgressThree = (int) DateUtilities.getAbsoluteTimeDifference(broadcastThree.getBeginTime()) / (1000 * 60);
+					} 
+					catch (ParseException e) {
+						e.printStackTrace();
+					}
+					mProgressBarTitleThree.setText(durationThree-initialProgressThree + " " + mActivity.getResources().getString(R.string.minutes) + 
+							" " + mActivity.getResources().getString(R.string.left));
+					mProgressBarThree.setProgress(initialProgressThree);
+					mProgressBarThree.setVisibility(View.VISIBLE);
+				}
+				
 				if (programTypeThree != null) {
 					if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programTypeThree)) {
 						mDetailsThree.setText(broadcastThree.getProgram().getGenre() + mActivity.getResources().getString(R.string.from) + broadcastThree.getProgram().getYear());
