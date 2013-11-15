@@ -83,8 +83,12 @@ public class RemindersListAdapter extends BaseAdapter {
 			viewHolder.mBroadcastTitleTv = (TextView) rowView.findViewById(R.id.row_reminders_text_title_tv);
 			viewHolder.mBroadcastDetailsTv = (TextView) rowView.findViewById(R.id.row_reminders_text_details_tv);
 			viewHolder.mBroadcastTimeTv = (TextView) rowView.findViewById(R.id.row_reminders_text_time_tv);
+			viewHolder.mChannelTv =  (TextView) rowView.findViewById(R.id.row_reminders_text_channel_tv);
 			viewHolder.mReminderIconIv = (ImageView) rowView.findViewById(R.id.row_reminders_notification_iv);
 			viewHolder.mReminderIconIv.setTag(Integer.valueOf(position));
+			
+			viewHolder.mDividerView = (View ) rowView.findViewById(R.id.row_reminders_header_divider);
+			
 			rowView.setTag(viewHolder);
 		}
 
@@ -97,8 +101,11 @@ public class RemindersListAdapter extends BaseAdapter {
 
 			// TODO
 			// include the sorting logic to show or hide the header title
-			holder.mHeaderContainer.setVisibility(View.VISIBLE);
-			holder.mHeaderTv.setText("Reminders");
+
+				holder.mHeaderContainer.setVisibility(View.VISIBLE);
+				holder.mHeaderTv.setText("Reminders");
+				holder.mDividerView.setVisibility(View.GONE);
+
 
 			if (program != null) {
 				holder.mBroadcastTitleTv.setText(program.getTitle());
@@ -106,14 +113,16 @@ public class RemindersListAdapter extends BaseAdapter {
 
 				String programType = program.getProgramType();
 				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-					holder.mBroadcastDetailsTv.setText(program.getSeason() + ", " + String.valueOf(program.getEpisodeNumber()));
+					holder.mBroadcastDetailsTv.setText(program.getSeason().getNumber() + ", " + String.valueOf(program.getEpisodeNumber()));
 				} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
 					holder.mBroadcastDetailsTv.setText("" + String.valueOf(program.getYear()));
+				} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
+					holder.mBroadcastDetailsTv.setText("OTHER:" + program.getCategory());
 				}
 			}
 
 			if (channel != null) {
-				// TODO ADD NAME
+				holder.mChannelTv.setText(channel.getName());
 			}
 			try {
 				holder.mBroadcastTimeTv.setText(DateUtilities.isoStringToDateShortAndTimeString(broadcast.getBeginTime()));
@@ -165,7 +174,10 @@ public class RemindersListAdapter extends BaseAdapter {
 		public TextView		mBroadcastTitleTv;
 		public TextView		mBroadcastDetailsTv;
 		public TextView		mBroadcastTimeTv;
+		public TextView		mChannelTv;
 		public ImageView	mReminderIconIv;
+
+		public View 		mDividerView;
 	}
 
 	public Runnable yesProc() {

@@ -3,7 +3,7 @@
     xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/white"
+    android:background="@color/dark_gray"
     android:orientation="vertical" >
 
     <!-- CHANNEL ICON CONTAINER -->
@@ -65,21 +65,29 @@
     </LinearLayout>
 
     <!-- LIST OF FOLLOWING UP BROADCASTS (AND CURRENT!) -->
-
-    <ListView
-        android:id="@+id/listview"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/tab_selector_container"
-        android:layout_below="@id/channelpage_channel_icon_container"
-        android:layout_margin="10dp"
-        android:cacheColorHint="@null"
-        android:divider="@null"
-        android:dividerHeight="0dp" />
-    
+	<RelativeLayout 
+	    android:id="@+id/listview_container"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_above="@id/tab_selector_container"
+	    android:layout_below="@id/channelpage_channel_icon_container"
+	    android:paddingTop="10dp"
+	    android:paddingLeft="10dp"
+	    android:paddingRight="10dp">
+        
+	    <ListView
+	        android:id="@+id/listview"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:cacheColorHint="@null"
+	        android:divider="@null"
+	        android:dividerHeight="0dp" />
+	    
+     </RelativeLayout>
+     
      <include layout="@layout/layout_request_callbacks_holder_layout" 
-         android:layout_above="@id/tab_selector_container"
-         android:layout_width="fill_parent" 
-         android:layout_height="match_parent"/>
+ 	 	android:layout_above="@id/tab_selector_container"
+		android:layout_width="fill_parent" 
+		android:layout_height="match_parent"/>
 
 </RelativeLayout>
