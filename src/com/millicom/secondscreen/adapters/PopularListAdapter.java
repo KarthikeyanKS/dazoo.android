@@ -135,6 +135,47 @@ public class PopularListAdapter extends BaseAdapter {
 			}
 			holder.mChannelNameTv.setText(broadcast.getChannel().getName());
 
+			
+			int duration = 0;
+			//MC - Calculate the duration of the program and set up ProgressBar.
+			try {
+				long startTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime());
+				long endTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTime());
+				duration = (int) (startTime - endTime) / (1000 * 60);
+			} 
+			catch (ParseException e) {
+				e.printStackTrace();
+			}
+			holder.mProgressBar.setMax(duration);
+
+			//MC - Calculate the current progress of the ProgressBar and update.
+			int initialProgressTwo = 0;
+			long differenceTwo = 0;
+			try {
+				differenceTwo = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime());
+			} 
+			catch (ParseException e) {
+				e.printStackTrace();
+			}
+
+			if (differenceTwo < 0) {
+				holder.mProgressBar.setVisibility(View.GONE);
+				initialProgressTwo = 0;
+				holder.mProgressBar.setProgress(0);
+			} 
+			else {
+				try {
+					initialProgressTwo = (int) DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime()) / (1000 * 60);
+				} 
+				catch (ParseException e) {
+					e.printStackTrace();
+				}
+				holder.mProgressBarTitleTv.setText(duration-initialProgressTwo + " " + mActivity.getResources().getString(R.string.minutes) + 
+						" " + mActivity.getResources().getString(R.string.left));
+				holder.mProgressBar.setProgress(initialProgressTwo);
+				holder.mProgressBar.setVisibility(View.VISIBLE);
+			}
+			
 			if (programType != null) {
 				if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
 					holder.mDetailsTv.setText(broadcast.getProgram().getGenre() + mActivity.getResources().getString(R.string.from) + broadcast.getProgram().getYear());
