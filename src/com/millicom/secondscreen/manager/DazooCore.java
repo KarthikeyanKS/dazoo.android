@@ -72,15 +72,21 @@ public class DazooCore {
 	}
 
 	private static void getTagsDatesChannels() {
+		if(DazooStore.getInstance().getTvDates()== null || DazooStore.getInstance().getTvDates().isEmpty()){
 		GetTvDates tvDatesTask = new GetTvDates();
 		tvDatesTask.execute();
-
+		}
+		
+		
+		if(DazooStore.getInstance().getTags()==null || DazooStore.getInstance().getTags().isEmpty()){
 		GetTags tagsTask = new GetTags();
 		tagsTask.execute();
+		}
 
 		if (token != null && TextUtils.isEmpty(token) != true) {
 
 			// get all channels
+			if(DazooStore.getInstance().getAllChannels()== null || DazooStore.getInstance().getAllChannels().isEmpty()  ){
 			GetAllChannels allChannelsTask = new GetAllChannels();
 			allChannelsTask.execute();
 
@@ -91,10 +97,13 @@ public class DazooCore {
 			} else {
 				mDefaultChannelsIds = DazooStore.getInstance().getDefaultChannelIds();
 			}
+			}
 		} else {
+			if(DazooStore.getInstance().getDefaultChannels() == null || DazooStore.getInstance().getDefaultChannels().isEmpty()){
 			// get the default package of channels
 			GetDefaultChannels defaultChannelsTask = new GetDefaultChannels();
 			defaultChannelsTask.execute();
+			}
 		}
 	}
 

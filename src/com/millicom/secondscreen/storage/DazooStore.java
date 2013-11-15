@@ -329,7 +329,17 @@ public class DazooStore {
 		this.mMyGuides			= new HashMap<GuideKey, Guide>();
 		this.mTaggedBroadcasts	= new HashMap<BroadcastKey, ArrayList<Broadcast>>();
 		this.mMyTaggedBroadcasts	= new HashMap<BroadcastKey, ArrayList<Broadcast>>();
-
+	}
+	
+	public void clearAndReinitializeForMyChannels(){
+		this.mGuides.clear();
+		this.mMyGuides.clear();
+		this.mTaggedBroadcasts.clear();
+		this.mMyTaggedBroadcasts.clear();
+		this.mGuides				= new HashMap<GuideKey, Guide>();
+		this.mMyGuides			= new HashMap<GuideKey, Guide>();
+		this.mTaggedBroadcasts	= new HashMap<BroadcastKey, ArrayList<Broadcast>>();
+		this.mMyTaggedBroadcasts	= new HashMap<BroadcastKey, ArrayList<Broadcast>>();
 	}
 	
 	public void clearAll(){

@@ -56,6 +56,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	private Fragment							mActiveFragment;
 
 	private int									mStartingPosition	= 0;
+	private boolean mChannelUpdate = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,25 +76,22 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverContent, new IntentFilter(Consts.INTENT_EXTRA_GUIDE_AVAILABLE));
 
 		// broadcast receiver for my channels have changed
-		// LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverMyChannels, new IntentFilter(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
+		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverMyChannels, new IntentFilter(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
 		initViews();
 
 		loadPage();
 	}
 
-	// BroadcastReceiver mBroadcastReceiverMyChannels = new BroadcastReceiver() {
-	//
-	// @Override
-	// public void onReceive(Context context, Intent intent) {
-	// Log.d(TAG, "CHANNELS HAVE CHANGED!!!!");
-	// updateUI(REQUEST_STATUS.LOADING);
-	// mStateChanged = true;
-	// finish();
-	// startActivity(getIntent());
-	// }
-	// };
+	BroadcastReceiver	mBroadcastReceiverMyChannels	= new BroadcastReceiver() {
 
-	BroadcastReceiver	mBroadcastReceiverContent	= new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			Log.d(TAG, "CHANNELS HAVE CHANGED!!!!");
+			mStateChanged = true;
+		}
+	};
+
+	BroadcastReceiver	mBroadcastReceiverContent		= new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			Log.d(TAG, " ON RECEIVE CONTENT");
@@ -102,16 +100,21 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 			Log.d(TAG, "content for TvGuide TABLE is ready: " + mIsReady);
 			Log.d(TAG, "mDateSelectedIndex: " + mDateSelectedIndex);
+			Log.d(TAG, "mChannelUpdate: " + mChannelUpdate);
 
-			if (mIsReady && (mDateSelectedIndex == 0)) {
+			if (mIsReady && (mDateSelectedIndex == 0) && !mChannelUpdate) {
 
 				if (!pageHoldsData()) {
 
 					updateUI(REQUEST_STATUS.FAILED);
 				}
-			} else if (mIsReady && (mDateSelectedIndex != 0)) {
+			} else if (mIsReady && (mDateSelectedIndex != 0) && mChannelUpdate) {
 
 				attachFragment();
+				mChannelUpdate = false;
+			} else if (mIsReady && (mDateSelectedIndex == 0) && mChannelUpdate) {
+				attachFragment();
+				mChannelUpdate = false;
 			}
 		}
 	};
@@ -160,6 +163,19 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			reloadPage();
 		}
 	};
+	
+	@Override
+	protected void onResume(){
+		super.onResume();
+		if(mStateChanged){
+			removeActiveFragment();
+			DazooStore.getInstance().clearAndReinitializeForMyChannels();
+			mChannelUpdate = true;
+			DazooCore.getGuide(mDateSelectedIndex, false);
+			
+			mStateChanged = false;
+		}
+	}
 
 	private void initViews() {
 
@@ -173,7 +189,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.orange));
 		mTxtTabPopular.setTextColor(getResources().getColor(R.color.gray));
 		mTxtTabFeed.setTextColor(getResources().getColor(R.color.gray));
-	
+
 		mActionBar = getSupportActionBar();
 
 		final int actionBarColor = getResources().getColor(R.color.lightblue);
@@ -198,11 +214,9 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	}
 
 	private void reloadPage() {
-
 		// Don't allow any swiping gestures while reloading
-		// updateUI(REQUEST_STATUS.LOADING);
-
-		attachFragment();
+		updateUI(REQUEST_STATUS.LOADING);
+		DazooCore.getGuide(mDateSelectedIndex, false);
 	}
 
 	@Override
@@ -249,8 +263,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		// Stop listening to broadcast events
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverDate);
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverContent);
-
-		// LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverMyChannels);
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverMyChannels);
 	};
 
 	@Override

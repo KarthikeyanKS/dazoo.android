@@ -99,7 +99,6 @@ public class TVGuideTableFragment extends SSPageFragment {
 
 		// reset the activity whenever the view is recreated
 		mActivity = getActivity();
-		mGuides = null;
 		loadPage();
 		return mRootView;
 	}
@@ -108,21 +107,32 @@ public class TVGuideTableFragment extends SSPageFragment {
 	protected void loadPage() {
 		updateUI(REQUEST_STATUS.LOADING);
 
-		// GET THE DATA FROM CORE LOGIC SINGLETON
-		// if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
 		mGuides = null;
 		mTaggedBroadcasts = null;
-		if (mIsLoggedIn) {
-			mGuides = dazooStore.getMyGuideTable(mTvDate.getDate());
-			Log.d(TAG, "My date: " + mTvDate.getDate());
-			Log.d(TAG, "MY mGuides size: " + mGuides.size());
-			
+		
+		// GET THE DATA FROM CORE LOGIC SINGLETON
+		if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
+		
+			if (mIsLoggedIn) {
+				mGuides = dazooStore.getMyGuideTable(mTvDate.getDate());
+				Log.d(TAG, "My date: " + mTvDate.getDate());
+				Log.d(TAG, "MY mGuides size: " + mGuides.size());
+
+			} else {
+				mGuides = dazooStore.getGuideTable(mTvDate.getDate());
+				Log.d(TAG, "date: " + mTvDate.getDate());
+				Log.d(TAG, "mGuides size: " + mGuides.size());
+			}
 		} else {
-			mGuides = dazooStore.getGuideTable(mTvDate.getDate());
-			Log.d(TAG, "date: " + mTvDate.getDate());
-			Log.d(TAG, "mGuides size: " + mGuides.size());
+			if (mIsLoggedIn) {
+				mTaggedBroadcasts = DazooStore.getInstance().getMyTaggedBroadcasts(mTvDate, mTag);
+				Log.d(TAG, "I GOT MY!!!!!!!!");
+
+			} else {
+				mTaggedBroadcasts = DazooStore.getInstance().getTaggedBroadcasts(mTvDate, mTag);
+				Log.d(TAG, "I GOT DEFAULT!!!!!!!!!");
+			}
 		}
-		// }
 
 		pageHoldsData();
 	}
@@ -133,32 +143,24 @@ public class TVGuideTableFragment extends SSPageFragment {
 		if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
 			if (mGuides != null) {
 				if (mGuides.isEmpty()) {
-					Log.d(TAG,"GET GUIDE:");
-					DazooCore.getGuide(mTvDatePosition, false);
+					Log.d(TAG, "GET GUIDE:");
+					// DazooCore.getGuide(mTvDatePosition, false);
+					updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
+
 				} else {
 					updateUI(REQUEST_STATUS.SUCCESSFUL);
 					result = true;
 				}
 			}
 		} else {
-			mTaggedBroadcasts = null;
-			if (mIsLoggedIn) {
-				mTaggedBroadcasts = DazooStore.getInstance().getMyTaggedBroadcasts(mTvDate, mTag);
-				Log.d(TAG, "I GOT MY!!!!!!!!");
-
-			} else {
-				mTaggedBroadcasts = DazooStore.getInstance().getTaggedBroadcasts(mTvDate, mTag);
-				Log.d(TAG, "I GOT DEFAULT!!!!!!!!!");
-			}
-
 			if (mTaggedBroadcasts != null) {
 				Log.d(TAG, "size: " + mTaggedBroadcasts.size());
 				if (mTaggedBroadcasts.isEmpty() != true) {
-					Log.d(TAG,"empty");
+					Log.d(TAG, "empty");
 					updateUI(REQUEST_STATUS.SUCCESSFUL);
 					result = true;
 				} else {
-					updateUI(REQUEST_STATUS.LOADING);
+					updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
 				}
 			}
 
