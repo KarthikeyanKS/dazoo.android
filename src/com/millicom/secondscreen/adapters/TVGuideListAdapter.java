@@ -36,6 +36,7 @@ import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.myprofile.RemindersActivity;
 import com.millicom.secondscreen.content.tvguide.ChannelPageActivity;
 import com.millicom.secondscreen.content.tvguide.ChannelPageFragment;
+import com.millicom.secondscreen.utilities.AnimationUtilities;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
 
@@ -95,6 +96,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 			// getChannelIconTask.execute(guide.getLogoHref());
 			// imageLoader.displayImage(guide.getLogoLHref(), mActivity, holder.mChannelIconIv);
 			mImageLoader.displayImage(guide.getLogoSHref(), holder.mChannelIconIv, ImageLoader.IMAGE_TYPE.THUMBNAIL);
+		
 
 		} else {
 			holder.mChannelIconIv.setImageResource(R.drawable.loadimage_2x);

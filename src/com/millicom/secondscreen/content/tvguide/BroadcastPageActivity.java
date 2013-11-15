@@ -17,6 +17,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -51,6 +53,7 @@ import com.millicom.secondscreen.notification.NotificationDialogHandler;
 import com.millicom.secondscreen.notification.NotificationService;
 import com.millicom.secondscreen.share.ShareAction;
 import com.millicom.secondscreen.storage.DazooStore;
+import com.millicom.secondscreen.utilities.AnimationUtilities;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
 import com.millicom.secondscreen.SecondScreenApplication;
@@ -79,7 +82,9 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 	private DazooStore				dazooStore;
 	private Activity				mActivity;
 	private Intent					intent;
-
+	private Animation mZoomInAnim, mZoomOutAnim;
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -120,7 +125,6 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 						mBroadcast = dazooStore.getBroadcastFromMy(mTvDate, mChannelId, mBeginTimeInMillis);
 						mChannel = dazooStore.getChannelFromAll(mChannelId);
 						if (mBroadcast != null) {
-							Log.d(TAG, "BROADCAST: " + mBroadcast);
 							mProgramType = mBroadcast.getProgram().getProgramType();
 							if (mProgramType != null) {
 								mLikeType = LikeService.getLikeType(mProgramType);
@@ -246,6 +250,12 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		// SSBroadcastBlockPopulator broadcastBlockPopulator = new SSBroadcastBlockPopulator(this, mBlockContainer);
 		// broadcastBlockPopulator.createBlock(mBroadcast, mChannel);
 
+		//load animation
+		mZoomInAnim = AnimationUtils.loadAnimation(this, R.anim.zoom_in);
+		mZoomOutAnim = AnimationUtils.loadAnimation(this, R.anim.zoom_out);
+		
+		
+		
 		Program program = mBroadcast.getProgram();
 
 		mActionBar.setTitle(mBroadcast.getProgram().getTitle());
@@ -282,8 +292,6 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		
 		if (!mIsFuture) {
 			NotificationDbItem dbItem = new NotificationDbItem();
-			Log.d(TAG,"mChannel.getChannelId()" + mChannel.getChannelId());
-			Log.d(TAG,"mBroadcast.getBeginTimeMillis()" + mBroadcast.getBeginTimeMillis());
 			dbItem = mNotificationDataSource.getNotification(mChannel.getChannelId(), mBroadcast.getBeginTimeMillis());
 			if (dbItem.getNotificationId() != 0) {
 				mIsSet = true;
@@ -357,10 +365,18 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 					if (LikeService.addLike(token, mProgramId, mLikeType)) {
 						LikeService.showSetLikeToast(mActivity, mBroadcast.getProgram().getTitle());
 						mLikeButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
+						
+						mLikeButtonIv.startAnimation(mZoomInAnim);
+						mLikeButtonIv.startAnimation(mZoomOutAnim);
+					
+						
 						mIsLiked = true;
 					} else {
 						Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
 					}
+					
+					
+					
 				} else {
 					LikeDialogHandler likeDlg = new LikeDialogHandler();
 					likeDlg.showRemoveLikeDialog(mActivity, token, mLikeType, mBroadcast.getProgram().getProgramId(), yesLikeProc(), noLikeProc());

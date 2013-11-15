@@ -19,6 +19,7 @@ import com.millicom.secondscreen.notification.NotificationDataSource;
 import com.millicom.secondscreen.notification.NotificationDialogHandler;
 import com.millicom.secondscreen.notification.NotificationService;
 import com.millicom.secondscreen.share.ShareAction;
+import com.millicom.secondscreen.utilities.AnimationUtilities;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
 
@@ -227,6 +228,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						if (LikeService.addLike(mToken, programId, likeType)) {
 							LikeService.showSetLikeToast(mActivity, feedItem.getBroadcast().getProgram().getTitle());
 							likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
+							
+							
 							mIsLiked = true;
 						} else {
 							Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
@@ -235,6 +238,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						LikeService.removeLike(mToken, likeType, feedItem.getBroadcast().getProgram().getProgramId());
 						mIsLiked = false;
 						likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart));
+						
 					}
 				}
 			});
@@ -381,9 +385,6 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			if (mIsLiked) likeRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
 			else likeRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart));
 
-			Log.d(TAG, "mIsLiked: " + mIsLiked);
-			Log.d(TAG, "mIsSet: " + mIsSet);
-
 			likeContainerRec.setOnClickListener(new View.OnClickListener() {
 
 				@Override
@@ -401,6 +402,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						if (LikeService.addLike(mToken, programId, likeType)) {
 							LikeService.showSetLikeToast(mActivity, feedItem.getBroadcast().getProgram().getTitle());
 							likeRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
+						
+							
 							mIsLiked = true;
 						} else {
 							Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
@@ -409,6 +412,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						LikeService.removeLike(mToken, likeType, feedItem.getBroadcast().getProgram().getProgramId());
 						mIsLiked = false;
 						likeRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart));
+						
 					}
 				}
 			});
