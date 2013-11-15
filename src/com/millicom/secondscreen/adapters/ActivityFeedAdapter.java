@@ -230,6 +230,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				progressbarTv.setText(duration-initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + 
 						" " + mActivity.getResources().getString(R.string.left));
 				progressBar.setProgress(initialProgress);
+				progressbarTv.setVisibility(View.VISIBLE);
 				progressBar.setVisibility(View.VISIBLE);
 			}
 
@@ -425,6 +426,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				progressbarTvRec.setText(durationRec-initialProgressRec + " " + mActivity.getResources().getString(R.string.minutes) + 
 						" " + mActivity.getResources().getString(R.string.left));
 				progressBarRec.setProgress(initialProgressRec);
+				progressBarRec.setVisibility(View.VISIBLE);
 				progressBarRec.setVisibility(View.VISIBLE);
 			}
 			
@@ -633,6 +635,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							" " + mActivity.getResources().getString(R.string.left));
 					mProgressBarOne.setProgress(initialProgressOne);
 					mProgressBarOne.setVisibility(View.VISIBLE);
+					mProgressBarTitleOne.setVisibility(View.VISIBLE);
 				}
 				
 				mContainerOne.setOnClickListener(new View.OnClickListener() {
@@ -740,6 +743,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							" " + mActivity.getResources().getString(R.string.left));
 					mProgressBarTwo.setProgress(initialProgressTwo);
 					mProgressBarTwo.setVisibility(View.VISIBLE);
+					mProgressBarTitleTwo.setVisibility(View.VISIBLE);
 				}
 				
 				mContainerTwo.setOnClickListener(new View.OnClickListener() {
@@ -834,6 +838,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							" " + mActivity.getResources().getString(R.string.left));
 					mProgressBarThree.setProgress(initialProgressThree);
 					mProgressBarThree.setVisibility(View.VISIBLE);
+					mProgressBarTitleThree.setVisibility(View.VISIBLE);
 				}
 				
 				if (programTypeThree != null) {

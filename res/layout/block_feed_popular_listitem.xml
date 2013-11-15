@@ -98,6 +98,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_popular_feed_details_extra_tv"
+                android:layout_marginLeft="10dp"
                 android:textColor="@color/red"
                 android:visibility="gone" />
 
@@ -107,7 +108,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_popular_feed_timeleft_tv"
-                android:layout_marginLeft="0dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginRight="25dp"
                 android:progressDrawable="@drawable/progress_horizontal"
                 android:visibility="gone" />

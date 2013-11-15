@@ -112,6 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/block_feed_liked_details_tv"
             android:textColor="@color/red"
+            android:layout_marginLeft="10dp"
             android:visibility="gone" />
 
         <ProgressBar
@@ -120,7 +121,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/block_feed_liked_timeleft_tv"
-            android:layout_marginLeft="0dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="25dp"
             android:progressDrawable="@drawable/progress_horizontal"
             android:visibility="gone" />

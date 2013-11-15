@@ -6,6 +6,7 @@ import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.authentication.LoginActivity;
 import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
+import com.millicom.secondscreen.manager.DazooCore;
 import com.millicom.secondscreen.storage.DazooStore;
 
 import android.app.Activity;
@@ -153,6 +154,7 @@ public class SettingsActivity extends ActionBarActivity implements OnClickListen
 
 			DazooStore.getInstance().clearAll();
 			DazooStore.getInstance().reinitializeAll();
+			DazooCore.resetAll();
 			// clear all the running activities and start the application from the whole beginning
 			SecondScreenApplication.getInstance().clearActivityBacktrace();
 			

@@ -101,7 +101,6 @@ public class TVGuideTableFragment extends SSPageFragment {
 		mActivity = getActivity();
 		mGuides = null;
 		loadPage();
-
 		return mRootView;
 	}
 
