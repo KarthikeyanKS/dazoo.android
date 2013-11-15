@@ -232,9 +232,6 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				progressBar.setProgress(initialProgress);
 				progressBar.setVisibility(View.VISIBLE);
 			}
-			
-			
-			
 
 			NotificationDbItem dbItem = new NotificationDbItem();
 			dbItem = mNotificationDataSource.getNotification(feedItem.getBroadcast().getChannel().getChannelId(), feedItem.getBroadcast().getBeginTimeMillis());
@@ -271,6 +268,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							LikeService.showSetLikeToast(mActivity, feedItem.getBroadcast().getProgram().getTitle());
 							likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
 							
+							AnimationUtilities.animationSet(likeLikeIv);
 							
 							mIsLiked = true;
 						} else {
@@ -317,6 +315,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							dbItem = mNotificationDataSource.getNotification(feedItem.getBroadcast().getChannel().getChannelId(), feedItem.getBroadcast().getBeginTimeMillis());
 
 							mNotificationId = dbItem.getNotificationId();
+							
+							AnimationUtilities.animationSet(remindLikeIv);
 
 							mIsSet = true;
 						} else {
@@ -485,6 +485,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							LikeService.showSetLikeToast(mActivity, feedItem.getBroadcast().getProgram().getTitle());
 							likeRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
 						
+							AnimationUtilities.animationSet(likeRecIv);
 							
 							mIsLiked = true;
 						} else {
@@ -526,9 +527,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 							NotificationDbItem dbItem = new NotificationDbItem();
 							dbItem = mNotificationDataSource.getNotification(feedItem.getBroadcast().getChannel().getChannelId(), feedItem.getBroadcast().getBeginTimeMillis());
-
 							mNotificationId = dbItem.getNotificationId();
-
+							AnimationUtilities.animationSet(remindRecIv);
 							mIsSet = true;
 						} else {
 							Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
@@ -541,7 +541,6 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
 						}
 					}
-
 				}
 			});
 

@@ -136,104 +136,96 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <!-- SOCIAL INTERACTION PANEL -->
-
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/block_social_panel_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/broadcast_main_container"
-        android:background="@color/background_gray"
-        android:orientation="horizontal"
-        android:padding="10dp" >
-
-        <!-- REMIND BUTTON -->
-
-        <RelativeLayout
-            android:id="@+id/block_social_panel_remind_button_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_gravity="center_vertical"
-            android:background="@color/light_gray"
-            android:orientation="horizontal"
-            android:padding="5dp" >
-
-            <ImageView
-                android:id="@+id/block_social_panel_remind_button_iv"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="5dp" />
-
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/block_social_panel_remind_button_iv"
-                android:background="@color/black"
-                android:paddingBottom="2dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:paddingTop="2dp"
-                android:scaleType="fitXY"
-                android:src="@android:drawable/divider_horizontal_dark" />
-        </RelativeLayout>
-
-        <!-- SHARE BUTTON -->
-
-        <RelativeLayout
-            android:id="@+id/block_social_panel_share_button_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_toLeftOf="@id/block_social_panel_remind_button_container"
-            android:background="@color/light_gray"
-            android:orientation="horizontal"
-            android:padding="5dp" >
-
-            <ImageView
-                android:id="@+id/block_social_panel_share_button_iv"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_centerVertical="true"
-                android:layout_margin="5dp"
-                android:src="@drawable/share_icon" />
-
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/block_social_panel_share_button_iv"
-                android:background="@color/black"
-                android:paddingBottom="2dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:paddingTop="2dp"
-                android:scaleType="fitXY"
-                android:src="@android:drawable/divider_horizontal_dark" />
-        </RelativeLayout>
+        android:background="@color/white"
+        android:orientation="horizontal" 
+        android:padding="10dp">
 
         <!-- LIKE BUTTON -->
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/block_social_panel_like_button_container"
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_toLeftOf="@id/block_social_panel_share_button_container"
-            android:background="@color/light_gray"
-            android:orientation="horizontal"
-            android:padding="5dp" >
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical" >
 
             <ImageView
                 android:id="@+id/block_social_panel_like_button_iv"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="5dp" />
-        </RelativeLayout>
-    </RelativeLayout>
+                android:src="@drawable/ic_heart" 
+                android:layout_margin="10dp"/>
+        </LinearLayout>
+
+        <!-- SEPARATOR -->
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_separator" />
+        </LinearLayout>
+
+        <!-- SHARE BUTTON -->
+
+        <LinearLayout
+            android:id="@+id/block_social_panel_share_button_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center" >
+
+            <ImageView
+                android:id="@+id/block_social_panel_share_button_iv"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/share_icon" />
+        </LinearLayout>
+
+        <!-- SEPARATOR -->
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_separator" />
+        </LinearLayout>
+
+        <!-- REMIND BUTTON -->
+
+        <LinearLayout
+            android:id="@+id/block_social_panel_remind_button_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center" >
+
+            <ImageView
+                android:id="@+id/block_social_panel_remind_button_iv"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_clock" 
+                android:layout_margin="10dp"/>
+        </LinearLayout>
+    </LinearLayout>
 
     <!-- FOOTER : BOTTOM NAVIGATION TABS -->
 
@@ -254,8 +246,8 @@
             android:layout_weight="1"
             android:paddingBottom="2dp"
             android:text="@string/tab_tv_guide"
-            android:textSize="15sp" 
-            font:fontbutton="fontello.ttf"/>
+            android:textSize="15sp"
+            font:fontbutton="fontello.ttf" />
 
         <com.millicom.secondscreen.customviews.FontButton
             android:id="@+id/show_activity"
@@ -265,8 +257,8 @@
             android:layout_weight="1"
             android:paddingBottom="2dp"
             android:text="@string/tab_activity"
-            android:textSize="15sp" 
-            font:fontbutton="fontello.ttf"/>
+            android:textSize="15sp"
+            font:fontbutton="fontello.ttf" />
 
         <com.millicom.secondscreen.customviews.FontButton
             android:id="@+id/show_me"
@@ -276,8 +268,8 @@
             android:layout_weight="1"
             android:paddingBottom="2dp"
             android:text="@string/tab_me"
-            android:textSize="15sp" 
-            font:fontbutton="fontello.ttf"/>
+            android:textSize="15sp"
+            font:fontbutton="fontello.ttf" />
     </LinearLayout>
 
     <ScrollView
