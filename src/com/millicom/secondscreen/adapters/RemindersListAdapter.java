@@ -1,5 +1,6 @@
 package com.millicom.secondscreen.adapters;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -20,10 +21,12 @@ import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.NotificationDbItem;
 import com.millicom.secondscreen.content.model.Program;
+import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.myprofile.RemindersCountInterface;
 import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
 import com.millicom.secondscreen.notification.NotificationDataSource;
 import com.millicom.secondscreen.notification.NotificationDialogHandler;
+import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
 
@@ -38,12 +41,18 @@ public class RemindersListAdapter extends BaseAdapter {
 	private ImageLoader				mImageLoader;
 	private int						notificationId;
 	private int						currentPosition	= -1;
+	
+	private DazooStore				dazooStore;
+	private ArrayList<TvDate>		mTvDates;
 
 	public RemindersListAdapter(Activity mActivity, ArrayList<Broadcast> mBroadcasts, RemindersCountInterface remindersInterface) {
 		this.mBroadcasts = mBroadcasts;
 		this.mActivity = mActivity;
 		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage);
 		this.mInterface = remindersInterface;
+		
+		dazooStore = DazooStore.getInstance();
+		mTvDates = dazooStore.getTvDates();
 	}
 
 	@Override
@@ -86,9 +95,9 @@ public class RemindersListAdapter extends BaseAdapter {
 			viewHolder.mChannelTv =  (TextView) rowView.findViewById(R.id.row_reminders_text_channel_tv);
 			viewHolder.mReminderIconIv = (ImageView) rowView.findViewById(R.id.row_reminders_notification_iv);
 			viewHolder.mReminderIconIv.setTag(Integer.valueOf(position));
-			
+
 			viewHolder.mDividerView = (View ) rowView.findViewById(R.id.row_reminders_header_divider);
-			
+
 			rowView.setTag(viewHolder);
 		}
 
@@ -99,12 +108,28 @@ public class RemindersListAdapter extends BaseAdapter {
 			final Channel channel = broadcast.getChannel();
 			Program program = broadcast.getProgram();
 
-			// TODO
-			// include the sorting logic to show or hide the header title
+			//Get the correct date name index
+			int dateIndex = 0;
+			for (int i = 0; i < mTvDates.size(); i++) {
+				if (broadcast.getBeginTime().contains(mTvDates.get(i).getDate())) {
+					dateIndex = i;
+					break;
+				}
+			}
+			
+			//If first or the previous broadcast is not the same date, show header.
+			try {
+				if (position == 0 || DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTime()).equals(
+						DateUtilities.tvDateStringToDatePickerString(getItem(position-1).getBeginTime())) == false) {
+					holder.mHeaderContainer.setVisibility(View.VISIBLE);
+					holder.mHeaderTv.setText(mTvDates.get(dateIndex).getName() + " " + 
+									DateUtilities.tvDateStringToDatePickerString(mTvDates.get(dateIndex).getDate()));
+					holder.mDividerView.setVisibility(View.GONE);
+				}
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 
-				holder.mHeaderContainer.setVisibility(View.VISIBLE);
-				holder.mHeaderTv.setText("Reminders");
-				holder.mDividerView.setVisibility(View.GONE);
 
 
 			if (program != null) {
@@ -130,9 +155,9 @@ public class RemindersListAdapter extends BaseAdapter {
 				e.printStackTrace();
 				holder.mBroadcastTimeTv.setText("");
 			}
-			
+
 			holder.mInformationContainer.setOnClickListener(new View.OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
 					String broadcastUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + channel.getChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillis();
