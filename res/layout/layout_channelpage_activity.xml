@@ -41,7 +41,8 @@
             android:layout_weight="1"
             android:paddingBottom="2dp"
             android:text="@string/tab_tv_guide"
-            android:textSize="15sp" />
+            android:textSize="15sp" 
+            font:fontbutton="fontello.ttf"/>
 
         <com.millicom.secondscreen.customviews.FontButton
             android:id="@+id/show_activity"
@@ -51,7 +52,8 @@
             android:layout_weight="1"
             android:paddingBottom="2dp"
             android:text="@string/tab_activity"
-            android:textSize="15sp" />
+            android:textSize="15sp" 
+            font:fontbutton="fontello.ttf"/>
 
         <com.millicom.secondscreen.customviews.FontButton
             android:id="@+id/show_me"
@@ -61,7 +63,8 @@
             android:layout_weight="1"
             android:paddingBottom="2dp"
             android:text="@string/tab_me"
-            android:textSize="15sp" />
+            android:textSize="15sp" 
+            font:fontbutton="fontello.ttf"/>
     </LinearLayout>
 
     <!-- LIST OF FOLLOWING UP BROADCASTS (AND CURRENT!) -->

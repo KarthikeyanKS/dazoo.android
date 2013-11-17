@@ -24,6 +24,7 @@ import org.json.JSONObject;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.utilities.JSONUtilities;
 import com.millicom.secondscreen.utilities.PatternCheck;
 
@@ -54,6 +55,10 @@ public class ResetPasswordActivity extends ActionBarActivity implements OnClickL
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_resetpassword_activity);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+		// add the activity to the list of running activities
+		SecondScreenApplication.getInstance().getActivityList().add(this);
+
 		initViews();
 	}
 
@@ -87,16 +92,16 @@ public class ResetPasswordActivity extends ActionBarActivity implements OnClickL
 				try {
 					ResetPasswordTask resetPasswordTask = new ResetPasswordTask();
 					int responseCode = resetPasswordTask.execute(emailInput).get();
-					Log.d(TAG,"responseCode: " + responseCode);
+					Log.d(TAG, "responseCode: " + responseCode);
 					if (Consts.GOOD_RESPONSE_RESET_PASSWORD == responseCode) {
 						Toast.makeText(getApplicationContext(), "The password is successfully reset. Check your mailbox!", Toast.LENGTH_SHORT).show();
 						Log.d(TAG, "Password is reset");
-						
+
 						Intent intent = new Intent(ResetPasswordActivity.this, ResetPasswordFinalActivity.class);
 						startActivity(intent);
 						overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 						finish();
-						
+
 					} else if (Consts.BAD_RESPONSE == responseCode) {
 						Toast.makeText(getApplicationContext(), "Error! Email is not found!", Toast.LENGTH_SHORT).show();
 						Log.d(TAG, "Error! Reset password : level backend");
@@ -119,7 +124,7 @@ public class ResetPasswordActivity extends ActionBarActivity implements OnClickL
 		@Override
 		protected Integer doInBackground(String... params) {
 			try {
-				//HttpClient client = new DefaultHttpClient();
+				// HttpClient client = new DefaultHttpClient();
 				HttpClient client = new DefaultHttpClient();
 				HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
 				SchemeRegistry registry = new SchemeRegistry();
@@ -142,9 +147,9 @@ public class ResetPasswordActivity extends ActionBarActivity implements OnClickL
 				httpPost.setHeader("Accept", "application/json");
 				httpPost.setHeader("Content-type", "application/json");
 
-				//HttpResponse response = client.execute(httpPost);
+				// HttpResponse response = client.execute(httpPost);
 				HttpResponse response = httpClient.execute(httpPost);
-				
+
 				return response.getStatusLine().getStatusCode();
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();

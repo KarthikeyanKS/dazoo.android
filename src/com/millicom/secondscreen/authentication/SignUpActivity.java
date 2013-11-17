@@ -56,7 +56,7 @@ import android.widget.Toast;
 
 public class SignUpActivity extends ActionBarActivity implements OnClickListener {
 
-	private static final String	TAG	= "SignUpActivity";
+	private static final String	TAG							= "SignUpActivity";
 	private ActionBar			mActionBar;
 	private EditText			mFirstNameEditText, mLastNameEditText, mPasswordRegisterEditText, mEmailRegisterEditText, mEmailResetPasswordEditText;
 	private Button				mDazooRegisterButton;
@@ -64,18 +64,21 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 	private TextView			mErrorTextView;
 	private TextDrawable		mEmailTextDrawable, mPasswordTextDrawable;
 
-
-	private final int 			REGISTER_FIRSTNAME_MISSING = 0;
-	private final int 			REGISTER_LASTNAME_MISSING = 1;
-	private final int 			REGISTER_EMAIL_WRONG = 2;
-	private final int 			PASSWORD_LENGTH_WRONG = 3;
-	private final int 			PASSWORD_ILLEGAL_CHARACTERS = 4;
+	private final int			REGISTER_FIRSTNAME_MISSING	= 0;
+	private final int			REGISTER_LASTNAME_MISSING	= 1;
+	private final int			REGISTER_EMAIL_WRONG		= 2;
+	private final int			PASSWORD_LENGTH_WRONG		= 3;
+	private final int			PASSWORD_ILLEGAL_CHARACTERS	= 4;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_signup_activity);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+		// add the activity to the list of running activities
+		SecondScreenApplication.getInstance().getActivityList().add(this);
+
 		initViews();
 	}
 
@@ -100,15 +103,15 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 		mDazooRegisterButton.setOnClickListener(this);
 
 		setTextWatchers();
-		
-		//TODO: Static drawable background is not properly set, causing a flickering effect. Quickfix!
+
+		// TODO: Static drawable background is not properly set, causing a flickering effect. Quickfix!
 		mFirstNameEditText.setBackgroundResource(R.drawable.edittext_standard);
 		mLastNameEditText.setBackgroundResource(R.drawable.edittext_standard);
 		mEmailRegisterEditText.setBackgroundResource(R.drawable.edittext_standard);
 		mPasswordRegisterEditText.setBackgroundResource(R.drawable.edittext_standard);
 	}
 
-	//Sets the TextWatchers for the extra drawable hints.
+	// Sets the TextWatchers for the extra drawable hints.
 	private void setTextWatchers() {
 		mPasswordTextDrawable = new TextDrawable(this);
 		mPasswordTextDrawable.setText(getResources().getString(R.string.signup_characters));
@@ -120,8 +123,7 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 			public void afterTextChanged(Editable s) {
 				if (mPasswordRegisterEditText.getText().toString().equals("")) {
 					mPasswordRegisterEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, mPasswordTextDrawable, null);
-				}
-				else {
+				} else {
 					mPasswordRegisterEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
 				}
 			}
@@ -131,8 +133,7 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 			}
 
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before,
-					int count) {
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
 			}
 		});
 		mEmailTextDrawable = new TextDrawable(this);
@@ -145,8 +146,7 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 			public void afterTextChanged(Editable s) {
 				if (mEmailRegisterEditText.getText().toString().equals("")) {
 					mEmailRegisterEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, mEmailTextDrawable, null);
-				}
-				else {
+				} else {
 					mEmailRegisterEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
 				}
 			}
@@ -156,8 +156,7 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 			}
 
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before,
-					int count) {
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
 			}
 		});
 	}
@@ -167,8 +166,9 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 		String firstNameInput = mFirstNameEditText.getText().toString();
 		String lastNameInput = mLastNameEditText.getText().toString();
 		String passwordInput = mPasswordRegisterEditText.getText().toString();
-		if ((!firstNameInput.equals("")) && (!lastNameInput.equals("")) && (!passwordInput.equals("")) && (!emailInput.equals("")) && (passwordInput.length() >= Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MIN)
-				&& (passwordInput.length() <= Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MAX) && (!passwordInput.matches("[%,#/|<>]+")) && (PatternCheck.checkEmail(emailInput) == true)) {
+		if ((!firstNameInput.equals("")) && (!lastNameInput.equals("")) && (!passwordInput.equals("")) && (!emailInput.equals(""))
+				&& (passwordInput.length() >= Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MIN) && (passwordInput.length() <= Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MAX)
+				&& (!passwordInput.matches("[%,#/|<>]+")) && (PatternCheck.checkEmail(emailInput) == true)) {
 			return true;
 		} else return false;
 	}
@@ -183,15 +183,11 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 		}
 		if ((lastNameInput.equals(""))) {
 			return REGISTER_LASTNAME_MISSING;
-		}
-		else if ((emailInput.equals("")) || (PatternCheck.checkEmail(emailInput) == false)) {
+		} else if ((emailInput.equals("")) || (PatternCheck.checkEmail(emailInput) == false)) {
 			return REGISTER_EMAIL_WRONG;
-		}
-		else if ((passwordInput.length() <= Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MIN)
-				|| (passwordInput.length() >= Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MAX)) {
+		} else if ((passwordInput.length() <= Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MIN) || (passwordInput.length() >= Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MAX)) {
 			return PASSWORD_LENGTH_WRONG;
-		}
-		else if (passwordInput.matches("[%,#/|<>]+")) {
+		} else if (passwordInput.matches("[%,#/|<>]+")) {
 			return PASSWORD_ILLEGAL_CHARACTERS;
 		}
 		return -1;
@@ -281,9 +277,8 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 					mEmailRegisterEditText.requestFocus();
 					break;
 				case PASSWORD_LENGTH_WRONG:
-					mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_passwordlength) +
-										   " " + Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MIN + " " + 
-										   getResources().getString(R.string.signup_with_email_characters));
+					mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_passwordlength) + " " + Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MIN + " "
+							+ getResources().getString(R.string.signup_with_email_characters));
 					mPasswordRegisterEditText.setBackgroundResource(R.drawable.edittext_activated);
 					mPasswordRegisterEditText.requestFocus();
 					break;
@@ -308,7 +303,7 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 		@Override
 		protected String doInBackground(String... params) {
 			try {
-				//HttpClient client = new DefaultHttpClient();
+				// HttpClient client = new DefaultHttpClient();
 				HttpClient client = new DefaultHttpClient();
 				HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
 				SchemeRegistry registry = new SchemeRegistry();
@@ -333,9 +328,9 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 				httpPost.setHeader("Accept", "application/json");
 				httpPost.setHeader("Content-type", "application/json");
 
-				//HttpResponse response = client.execute(httpPost);
+				// HttpResponse response = client.execute(httpPost);
 				HttpResponse response = client.execute(httpPost);
-				
+
 				if (response.getStatusLine().getStatusCode() == Consts.GOOD_RESPONSE) {
 					String responseBody = EntityUtils.toString(response.getEntity());
 					return responseBody;

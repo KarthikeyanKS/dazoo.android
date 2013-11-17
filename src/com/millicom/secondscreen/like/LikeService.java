@@ -75,9 +75,6 @@ public class LikeService {
 	public static boolean isLiked(String token, String programId) {
 		ArrayList<DazooLike> likesList = new ArrayList<DazooLike>();
 		likesList = LikeService.getLikesList(token);
-		
-		Log.d(TAG,"likes list: " + String.valueOf(likesList.size()));
-		
 		ArrayList<String> likeEntityIds = new ArrayList<String>();
 		for (int i = 0; i < likesList.size(); i++) {
 			String likeType = likesList.get(i).getLikeType();

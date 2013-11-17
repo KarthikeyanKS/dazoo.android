@@ -17,6 +17,17 @@ public class DateUtilities {
 
 	private static final String	TAG	= "DateUtilities";
 	
+	public static final String isoDateStringToTvDateString(String date) throws ParseException{
+		SimpleDateFormat dfmInput = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
+		SimpleDateFormat dfmOutput = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+		long time = 0;
+		if (date != null && !date.equals("")) {
+			time = dfmInput.parse(date).getTime();
+		}
+		String output = dfmOutput.format(time);
+		return output;
+	}
+	
 	public static boolean isTimeInFuture(String beginTime) throws ParseException {
 		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
 		Date date = df.parse(beginTime);

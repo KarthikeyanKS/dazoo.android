@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
@@ -238,7 +239,10 @@ public class SecondScreenApplication extends Application {
 
 	// Clear all running activities
 	public void clearActivityBacktrace() {
+		
 		for (Activity a : mRunningActivities) {
+			
+			Log.d(TAG,"DELETE ACTIVITY");
 			if (a != null) a.finish();
 		}
 	}

@@ -1,6 +1,7 @@
 package com.millicom.secondscreen.authentication;
 
 import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.SecondScreenApplication;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -26,6 +27,10 @@ public class SignInActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_signin_activity);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+		// add the activity to the list of running activities
+		SecondScreenApplication.getInstance().getActivityList().add(this);
+
 		initViews();
 	}
 

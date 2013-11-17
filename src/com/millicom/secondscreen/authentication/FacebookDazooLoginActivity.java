@@ -1,6 +1,7 @@
 package com.millicom.secondscreen.authentication;
 
 import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.myprofile.MyChannelsActivity;
 
@@ -25,6 +26,9 @@ public class FacebookDazooLoginActivity extends ActionBarActivity implements OnC
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_facebook_dazoo_login_activity);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
+		// add the activity to the list of running activities
+		SecondScreenApplication.getInstance().getActivityList().add(this);
 		initViews();
 	}
 

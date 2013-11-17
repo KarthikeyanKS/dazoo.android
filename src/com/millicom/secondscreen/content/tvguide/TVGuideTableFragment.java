@@ -3,8 +3,13 @@ package com.millicom.secondscreen.content.tvguide;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -46,6 +51,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 	private boolean					mIsLoggedIn	= false;
 	private ArrayList<Broadcast>	mTaggedBroadcasts;
 	private boolean					mCreateBackground;
+	private TVGuideTagListAdapter	mTVTagListAdapter;
 
 	public static TVGuideTableFragment newInstance(Tag tag, TvDate date, int position) {
 
@@ -72,9 +78,6 @@ public class TVGuideTableFragment extends SSPageFragment {
 		mTagStr = bundle.getString(Consts.FRAGMENT_EXTRA_TAG);
 		mTvDate = bundle.getParcelable(Consts.FRAGMENT_EXTRA_TVDATE);
 		mTvDatePosition = bundle.getInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION);
-
-		mCreateBackground = bundle.getBoolean("x");
-
 		mTag = dazooStore.getTag(mTagStr);
 	}
 
@@ -96,9 +99,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 
 		// reset the activity whenever the view is recreated
 		mActivity = getActivity();
-		mGuides = null;
 		loadPage();
-
 		return mRootView;
 	}
 
@@ -106,19 +107,32 @@ public class TVGuideTableFragment extends SSPageFragment {
 	protected void loadPage() {
 		updateUI(REQUEST_STATUS.LOADING);
 
+		mGuides = null;
+		mTaggedBroadcasts = null;
+		
 		// GET THE DATA FROM CORE LOGIC SINGLETON
-		// if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
-		mGuides = new ArrayList<Guide>();
-		if (mIsLoggedIn) {
-			mGuides = dazooStore.getMyGuideTable(mTvDate.getDate());
-			Log.d(TAG, "My date: " + mTvDate.getDate());
-			Log.d(TAG, "MY mGuides size: " + mGuides.size());
+		if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
+		
+			if (mIsLoggedIn) {
+				mGuides = dazooStore.getMyGuideTable(mTvDate.getDate());
+				Log.d(TAG, "My date: " + mTvDate.getDate());
+				Log.d(TAG, "MY mGuides size: " + mGuides.size());
+
+			} else {
+				mGuides = dazooStore.getGuideTable(mTvDate.getDate());
+				Log.d(TAG, "date: " + mTvDate.getDate());
+				Log.d(TAG, "mGuides size: " + mGuides.size());
+			}
 		} else {
-			mGuides = dazooStore.getGuideTable(mTvDate.getDate());
-			Log.d(TAG, "date: " + mTvDate.getDate());
-			Log.d(TAG, "mGuides size: " + mGuides.size());
+			if (mIsLoggedIn) {
+				mTaggedBroadcasts = DazooStore.getInstance().getMyTaggedBroadcasts(mTvDate, mTag);
+				Log.d(TAG, "I GOT MY!!!!!!!!");
+
+			} else {
+				mTaggedBroadcasts = DazooStore.getInstance().getTaggedBroadcasts(mTvDate, mTag);
+				Log.d(TAG, "I GOT DEFAULT!!!!!!!!!");
+			}
 		}
-		// }
 
 		pageHoldsData();
 	}
@@ -129,31 +143,24 @@ public class TVGuideTableFragment extends SSPageFragment {
 		if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
 			if (mGuides != null) {
 				if (mGuides.isEmpty()) {
-					DazooCore.getGuide(mTvDatePosition, false);
+					Log.d(TAG, "GET GUIDE:");
+					// DazooCore.getGuide(mTvDatePosition, false);
+					updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
+
 				} else {
 					updateUI(REQUEST_STATUS.SUCCESSFUL);
 					result = true;
 				}
 			}
 		} else {
-			mTaggedBroadcasts = new ArrayList<Broadcast>();
-			if (mIsLoggedIn) {
-				mTaggedBroadcasts = DazooStore.getInstance().getMyTaggedBroadcasts(mTvDate, mTag);
-				//Log.d(TAG,"!!!!!! size: " + String.valueOf(mTaggedBroadcasts.size()));
-				
-			} else {
-				mTaggedBroadcasts = DazooStore.getInstance().getTaggedBroadcasts(mTvDate, mTag);
-				//Log.d(TAG,"!!!!!! size: " + String.valueOf(mTaggedBroadcasts.size()));
-			}
-
 			if (mTaggedBroadcasts != null) {
-				Log.d(TAG,"size: " + mTaggedBroadcasts.size());
+				Log.d(TAG, "size: " + mTaggedBroadcasts.size());
 				if (mTaggedBroadcasts.isEmpty() != true) {
+					Log.d(TAG, "empty");
 					updateUI(REQUEST_STATUS.SUCCESSFUL);
 					result = true;
 				} else {
-					// updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
-					updateUI(REQUEST_STATUS.LOADING);
+					updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
 				}
 			}
 
@@ -169,7 +176,9 @@ public class TVGuideTableFragment extends SSPageFragment {
 				mTVGuideListView.setAdapter(mTVGuideListAdapter);
 			} else {
 				int index = Broadcast.getClosestBroadcastIndex(mTaggedBroadcasts);
-				mTVGuideListView.setAdapter(new TVGuideTagListAdapter(mActivity, mTaggedBroadcasts, index, mTvDate));
+				Log.d(TAG, "index: " + index);
+				mTVTagListAdapter = new TVGuideTagListAdapter(mActivity, mTaggedBroadcasts, index, mTvDate);
+				mTVGuideListView.setAdapter(mTVTagListAdapter);
 			}
 
 			// ArrayList<ChannelHour> channelHoursForFirst = putBroadcastsInHours(mGuide.get(0).getBroadcasts());

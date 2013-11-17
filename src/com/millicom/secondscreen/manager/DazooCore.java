@@ -72,15 +72,21 @@ public class DazooCore {
 	}
 
 	private static void getTagsDatesChannels() {
+		if(DazooStore.getInstance().getTvDates()== null || DazooStore.getInstance().getTvDates().isEmpty()){
 		GetTvDates tvDatesTask = new GetTvDates();
 		tvDatesTask.execute();
-
+		}
+		
+		
+		if(DazooStore.getInstance().getTags()==null || DazooStore.getInstance().getTags().isEmpty()){
 		GetTags tagsTask = new GetTags();
 		tagsTask.execute();
+		}
 
 		if (token != null && TextUtils.isEmpty(token) != true) {
 
 			// get all channels
+			if(DazooStore.getInstance().getAllChannels()== null || DazooStore.getInstance().getAllChannels().isEmpty()  ){
 			GetAllChannels allChannelsTask = new GetAllChannels();
 			allChannelsTask.execute();
 
@@ -91,10 +97,13 @@ public class DazooCore {
 			} else {
 				mDefaultChannelsIds = DazooStore.getInstance().getDefaultChannelIds();
 			}
+			}
 		} else {
+			if(DazooStore.getInstance().getDefaultChannels() == null || DazooStore.getInstance().getDefaultChannels().isEmpty()){
 			// get the default package of channels
 			GetDefaultChannels defaultChannelsTask = new GetDefaultChannels();
 			defaultChannelsTask.execute();
+			}
 		}
 	}
 
@@ -118,7 +127,7 @@ public class DazooCore {
 			if (mGuides != null && mGuides.isEmpty() != true) {
 				for (int i = 1; i < mTags.size(); i++) {
 					ArrayList<Broadcast> taggedBroadcasts = DazooStoreOperations.getMyTaggedBroadcasts(date.getDate(), mTags.get(i));
-					DazooStoreOperations.saveTaggedBroadcast(date, mTags.get(i), taggedBroadcasts);
+					DazooStoreOperations.saveMyTaggedBroadcast(date, mTags.get(i), taggedBroadcasts);
 				}
 				return true;
 			}
@@ -306,11 +315,21 @@ public class DazooCore {
 
 	public static void getGuide(int dateIndex, boolean isChannel) {
 		Log.d(TAG, "APPROACH GUIDE!!!: ");
-		Log.d(TAG, "mIsTvDate:" + mIsTvDate + "  mIsTags: " + mIsTags + "   mIsDefaultChannels: " + mIsDefaultChannels + "  mIsAllChannels: " + mIsAllChannels);
-		if (mIsTvDate == true && mIsTags == true && ((mIsDefaultChannels) || (mIsAllChannels))) {
-			TvDate date = mTvDates.get(dateIndex);
-			GetGuide getGuideTask = new GetGuide(date, isChannel);
-			getGuideTask.execute(mContext);
+		
+		if(token != null && TextUtils.isEmpty(token) != true){
+			Log.d(TAG, "mIsTvDate:" + mIsTvDate + "  mIsTags: " + mIsTags + "  mIsAllChannels: " + mIsAllChannels);
+			if (mIsTvDate == true && mIsTags == true && mIsAllChannels){
+				TvDate date = mTvDates.get(dateIndex);
+				GetGuide getGuideTask = new GetGuide(date, isChannel);
+				getGuideTask.execute(mContext);
+			}
+		} else {
+			Log.d(TAG, "mIsTvDate:" + mIsTvDate + "  mIsTags: " + mIsTags + "   mIsDefaultChannels: " + mIsDefaultChannels );
+			if (mIsTvDate == true && mIsTags == true && mIsDefaultChannels) {
+				TvDate date = mTvDates.get(dateIndex);
+				GetGuide getGuideTask = new GetGuide(date, isChannel);
+				getGuideTask.execute(mContext);
+			}
 		}
 	}
 
@@ -373,5 +392,33 @@ public class DazooCore {
 			}
 		}
 		return sB.toString();
+	}
+	
+	public static void resetAll(){
+		mDateIndex			= 0;
+		mIsTvDate			= false;
+		mIsTags				= false;
+		mIsDefaultChannels	= false;
+		mIsAllChannels		= false;
+		mIsMyChannels		= false;
+		mIsGuide			= false;
+		
+		mTvDates.clear();
+		mTvDates			= new ArrayList<TvDate>();
+		mDefaultChannels.clear();
+		mDefaultChannels	= new ArrayList<Channel>();
+		mAllChannels.clear();
+		mAllChannels		= new ArrayList<Channel>();
+		mTags.clear();
+		mTags				= new ArrayList<Tag>();
+		mGuides.clear();
+		mGuides				= new ArrayList<Guide>();
+		mMyChannelsIds.clear();
+		mMyChannelsIds		= new ArrayList<String>();
+		mAllChannelsIds.clear();
+		mAllChannelsIds		= new ArrayList<String>();
+		mDefaultChannelsIds.clear();
+		mDefaultChannelsIds	= new ArrayList<String>();
+		
 	}
 }

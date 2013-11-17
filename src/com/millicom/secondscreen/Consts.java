@@ -29,6 +29,7 @@ public abstract class Consts {
 	public static final String	MILLICOM_SECONDSCREEN_TAGS_PAGE_URL							= "http://www.gitrgitr.com/api/epg/tags/visible";
 	public static final String	MILLICOM_SECONDSCREEN_MY_CHANNELS_URL						= "http://www.gitrgitr.com/api/my/channels";
 	public static final String	MILLICOM_SECONDSCREEN_LIKES_URL								= "http://www.gitrgitr.com/api/my/likes";
+	public static final String	MILLICOM_SECONDSCREEN_ACTIVITY_FEED_URL						= "http://www.gitrgitr.com/api/my/feed";
 
 	public static final String	MILLICON_SECONDSCREEN_HTTP_SCHEME							= "https";
 
@@ -116,6 +117,8 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_DATE_DATE								= "com.millicom.secondscreen.intent.extra.date.date";
 	public static final String	INTENT_EXTRA_MY_CHANNELS_CHANGED					= "com.millicom.secondscreen.intent.extra.my.channels.changed";
 	public static final String	INTENT_EXTRA_LOG_OUT_ACTION							= "com.millicom.secondscreen.intent.extra.log.out.action";
+	public static final String	INTENT_EXTRA_LOG_IN_ACTION							= "com.millicom.secondscreen.intent.extra.log.in.action";
+	public static final String	INTENT_EXTRA_DATA_FETCHING							= "com.millicom.secondscreen.intent.extra.log.in.action";
 
 	// alarm extras
 	public static final String	INTENT_ALARM_EXTRA_BROADCAST_BEGINTIMEMILLIS		= "com.millicom.secondscreen.intent.alarm.extra.broadcast.begintimemillis";
@@ -126,6 +129,9 @@ public abstract class Consts {
 	public static final String	INTENT_ALARM_EXTRA_DATE_DATE						= "com.millicom.secondscreen.intent.alarm.extra.date.date";
 
 	public static final String	INTENT_EXTRA_FROM_NOTIFICATION						= "com.millicom.secondscreen.intent.extra.from.notification";
+
+	// activity feed extras
+	public static final String	INTENT_EXTRA_FROM_ACTIVITY							= "com.millicom.secondscreen.intent.extra.from.activity";
 
 	// fragments extra arguments
 	public static final String	FRAGMENT_EXTRA_TAG									= "com.millicom.secondscreen.fragment.extra.tag";
@@ -308,5 +314,15 @@ public abstract class Consts {
 	// SERIES fields
 	public static final String	DAZOO_SERIES_NAME									= "name";
 	public static final String	DAZOO_SERIES_SERIES_ID								= "seriesId";
+
+	// FEED fields
+	public static final String	DAZOO_FEED_ITEM_TYPE_BROADCAST						= "BROADCAST";
+	public static final String	DAZOO_FEED_ITEM_TYPE_RECOMMENDED_BROADCAST			= "RECOMMENDED_BROADCAST";
+	public static final String	DAZOO_FEED_ITEM_TYPE_POPULAR_BROADCASTS				= "POPULAR_BROADCASTS";
+	public static final String	DAZOO_FEED_ITEMS									= "items";
+	public static final String	DAZOO_FEED_ITEM_ITEM_TYPE							= "itemType";
+	public static final String	DAZOO_FEED_ITEM_TITLE								= "title";
+	public static final String	DAZOO_FEED_ITEM_BROADCAST							= "broadcast";
+	public static final String	DAZOO_FEED_ITEM_BROADCASTS							= "broadcasts";
 
 }

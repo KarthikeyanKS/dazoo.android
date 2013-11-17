@@ -1,3 +1,4 @@
+package com.millicom.secondscreen.content.tvguide;
 //package com.millicom.secondscreen.content;
 //
 //import java.text.ParseException;

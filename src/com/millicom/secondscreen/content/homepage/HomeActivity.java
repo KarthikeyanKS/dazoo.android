@@ -8,9 +8,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
@@ -24,6 +26,7 @@ import android.widget.TextView;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.adapters.ActionBarDropDownDateListAdapter;
 import com.millicom.secondscreen.content.SSPageFragmentActivity;
 import com.millicom.secondscreen.content.activity.ActivityActivity;
@@ -40,7 +43,6 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 	private static final String					TAG					= "HomeActivity";
 	private TextView							mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
-	// private ViewPager mViewPager;
 	private ActionBar							mActionBar;
 	private ActionBarDropDownDateListAdapter	mDayAdapter;
 	public static int							mBroadcastSelection	= -1;
@@ -48,18 +50,13 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	private ArrayList<TvDate>					mTvDates			= new ArrayList<TvDate>();
 	private ArrayList<Channel>					mChannels;
 	private String								mDate;
-	// private ArrayList<Tag> mTags = new ArrayList<Tag>();
-	// private ArrayList<String> mTabTitles;
-	// private FragmentStatePagerAdapter mAdapter;
-
-	// private PagerAdapter mAdapter;
-	// private TabPageIndicator mPageTabIndicator;
 	private TvDate								mTvDateSelected;
-	private boolean								mIsReady			= false, mFirstHit = true, mIsChannelListChanged;
+	private boolean								mIsReady			= false, mFirstHit = true, mIsChannelListChanged, mStateChanged = false;
 
 	private Fragment							mActiveFragment;
 
 	private int									mStartingPosition	= 0;
+	private boolean mChannelUpdate = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +64,10 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		setContentView(R.layout.layout_home_activity);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-		mDateSelectedIndex = 0;
+		// add the activity to the list of running activities
+		SecondScreenApplication.getInstance().getActivityList().add(this);
+
+		getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
 		// broadcast receiver for date selection
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverDate, new IntentFilter(Consts.INTENT_EXTRA_TVGUIDE_SORTING));
@@ -77,68 +77,51 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 		// broadcast receiver for my channels have changed
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverMyChannels, new IntentFilter(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
-		
-		// broadcast receiver for log out action in the application
-		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverLogout, new IntentFilter(Consts.INTENT_EXTRA_LOG_OUT_ACTION));
-
 		initViews();
 
 		loadPage();
 	}
-	
-	BroadcastReceiver mBroadcastReceiverLogout = new BroadcastReceiver(){
-
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			Log.d(TAG, "USER HAS LOG OUT!");
-			
-			mTabSelectedIndex = 0 ;
-			updateUI(REQUEST_STATUS.LOADING);
-			
-			DazooCore.getInstance(context, mDateSelectedIndex).fetchContent();
-			
-		}
-	};
 
 	BroadcastReceiver	mBroadcastReceiverMyChannels	= new BroadcastReceiver() {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			Log.d(TAG, "CHANNELS HAVE CHANGED!!!!");
-
-			updateUI(REQUEST_STATUS.LOADING);
+			mStateChanged = true;
 		}
 	};
 
 	BroadcastReceiver	mBroadcastReceiverContent		= new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			Log.d(TAG, " ON RECEIVE CONTENT");
 
 			mIsReady = intent.getBooleanExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, false);
 
 			Log.d(TAG, "content for TvGuide TABLE is ready: " + mIsReady);
-			Log.d(TAG,"mDateSelectedIndex: " + mDateSelectedIndex);
+			Log.d(TAG, "mDateSelectedIndex: " + mDateSelectedIndex);
+			Log.d(TAG, "mChannelUpdate: " + mChannelUpdate);
 
-			if (mIsReady && (mDateSelectedIndex == 0)) {
+			if (mIsReady && (mDateSelectedIndex == 0) && !mChannelUpdate) {
 
 				if (!pageHoldsData()) {
 
 					updateUI(REQUEST_STATUS.FAILED);
 				}
-			} else if (mIsReady && (mDateSelectedIndex != 0)) {
+			} else if (mIsReady && (mDateSelectedIndex != 0) && mChannelUpdate) {
 
 				attachFragment();
-				
-				Log.d(TAG,"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-				
-			//	updateUI(REQUEST_STATUS.LOADING);
+				mChannelUpdate = false;
+			} else if (mIsReady && (mDateSelectedIndex == 0) && mChannelUpdate) {
+				attachFragment();
+				mChannelUpdate = false;
 			}
 		}
 	};
 
 	private void attachFragment() {
 
-		mActiveFragment = TVHolderFragment.newInstance(mStartingPosition, mDateSelectedIndex,new OnViewPagerIndexChangedListener() {
+		mActiveFragment = TVHolderFragment.newInstance(mStartingPosition, mDateSelectedIndex, new OnViewPagerIndexChangedListener() {
 
 			@Override
 			public void onIndexSelected(int position) {
@@ -169,6 +152,8 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		@Override
 		public void onReceive(Context context, Intent intent) {
 
+			Log.d(TAG, "ON TVGUIDE SORTING VALUE CHANGED");
+
 			mDate = intent.getStringExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE);
 			mDateSelectedIndex = intent.getIntExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE_POSITION, 0);
 
@@ -178,6 +163,19 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			reloadPage();
 		}
 	};
+	
+	@Override
+	protected void onResume(){
+		super.onResume();
+		if(mStateChanged){
+			removeActiveFragment();
+			DazooStore.getInstance().clearAndReinitializeForMyChannels();
+			mChannelUpdate = true;
+			DazooCore.getGuide(mDateSelectedIndex, false);
+			
+			mStateChanged = false;
+		}
+	}
 
 	private void initViews() {
 
@@ -216,11 +214,9 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	}
 
 	private void reloadPage() {
-
 		// Don't allow any swiping gestures while reloading
-		//updateUI(REQUEST_STATUS.LOADING);
-
-		attachFragment();
+		updateUI(REQUEST_STATUS.LOADING);
+		DazooCore.getGuide(mDateSelectedIndex, false);
 	}
 
 	@Override
@@ -248,8 +244,9 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
-		
+
 		if (super.requestIsSuccesfull(status)) {
+
 			mDayAdapter = new ActionBarDropDownDateListAdapter(mTvDates);
 			mDayAdapter.setSelectedIndex(mDateSelectedIndex);
 			mActionBar.setListNavigationCallbacks(mDayAdapter, this);
@@ -266,6 +263,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		// Stop listening to broadcast events
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverDate);
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverContent);
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverMyChannels);
 	};
 
 	@Override
@@ -314,10 +312,10 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		inflater.inflate(R.menu.menu_homepage, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
-	
+
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-	    //No call for super(). Bug on API Level > 11.
+		// No call for super(). Bug on API Level > 11.
 	}
 
 	@Override

@@ -101,7 +101,6 @@ public abstract class SSPage {
 	}
 
 	public ArrayList<TvDate> getTvDates() {
-		Log.d(TAG,"mTvDates:" + mTvDates);
 		return mTvDates;
 	}
 

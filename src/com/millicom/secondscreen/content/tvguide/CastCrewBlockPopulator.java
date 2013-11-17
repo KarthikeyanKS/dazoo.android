@@ -1,4 +1,4 @@
-package com.millicom.secondscreen.content;
+package com.millicom.secondscreen.content.tvguide;
 
 import java.util.ArrayList;
 
@@ -16,12 +16,12 @@ import com.millicom.secondscreen.adapters.CastCrewListAdapter;
 import com.millicom.secondscreen.content.model.Cast;
 import com.millicom.secondscreen.utilities.ImageLoader;
 
-public class SSCastCrewBlockPopulator {
+public class CastCrewBlockPopulator {
 
 	private Activity		mActivity;
 	private LinearLayout	mContainerView;
 
-	public SSCastCrewBlockPopulator(Activity activity, LinearLayout containerView) {
+	public CastCrewBlockPopulator(Activity activity, LinearLayout containerView) {
 		this.mActivity = activity;
 		this.mContainerView = containerView;
 	}

@@ -17,6 +17,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -51,6 +56,7 @@ import com.millicom.secondscreen.notification.NotificationDialogHandler;
 import com.millicom.secondscreen.notification.NotificationService;
 import com.millicom.secondscreen.share.ShareAction;
 import com.millicom.secondscreen.storage.DazooStore;
+import com.millicom.secondscreen.utilities.AnimationUtilities;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
 import com.millicom.secondscreen.SecondScreenApplication;
@@ -69,7 +75,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 	private LayoutInflater			mLayoutInflater;
 	private String					mBroadcastUrl, entityType, token, mChannelId, mChannelDate, mLikeType, mProgramType, mProgramId, mBroadcastPageUrl;
 	private long					mBeginTimeInMillis;
-	private boolean					mIsSet	= false, mIsLiked = false, mIsLoggedIn = false, mIsFuture, mIsFromNotification = false;
+	private boolean					mIsSet	= false, mIsLiked = false, mIsLoggedIn = false, mIsFuture, mIsFromNotification = false, mIsFromActivity = false;
 	private ImageView				mPosterIv, mChannelLogoIv, mLikeButtonIv, mShareButtonIv, mRemindButtonIv;
 	private ProgressBar				mPosterPb, mChannelLogoPb, mDurationPb;
 	private TextView				mTitleTv, mSeasonTv, mEpisodeTv, mEpisodeNameTv, mTimeLeftTv, mTimeTv, mDateTv, mSynopsisTv, mCategoryTv, mYearTv, mCountryTv, mDurationTv, mGenreTv, mParentalRatingTv, mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
@@ -97,6 +103,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		mTvDate = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE);
 		mIsFromNotification = intent.getBooleanExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, false);
 		mBroadcastPageUrl = intent.getStringExtra(Consts.INTENT_EXTRA_BROADCAST_URL);
+		mIsFromActivity = intent.getBooleanExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, false);
 
 		Log.d(TAG, "mBeginTimeInMillis: " + String.valueOf(mBeginTimeInMillis));
 		Log.d(TAG, "mChannelId: " + mChannelId);
@@ -111,43 +118,52 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		} else {
 
 			token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
-			if (!mIsFromNotification) {
-				if (token != null && TextUtils.isEmpty(token) != true) {
-					mIsLoggedIn = true;
-					mBroadcast = dazooStore.getBroadcastFromMy(mTvDate, mChannelId, mBeginTimeInMillis);
-					mChannel = dazooStore.getChannelFromAll(mChannelId);
-					
+			if (!mIsFromActivity) {
+				if (!mIsFromNotification) {
+					if (token != null && TextUtils.isEmpty(token) != true) {
+						Log.d(TAG, "LOGGED IN!");
+						mIsLoggedIn = true;
+						mBroadcast = dazooStore.getBroadcastFromMy(mTvDate, mChannelId, mBeginTimeInMillis);
+						mChannel = dazooStore.getChannelFromAll(mChannelId);
+						if (mBroadcast != null) {
+							mProgramType = mBroadcast.getProgram().getProgramType();
+							if (mProgramType != null) {
+								mLikeType = LikeService.getLikeType(mProgramType);
 
-					mProgramType = mBroadcast.getProgram().getProgramType();
-					if (mProgramType != null) {
-						mLikeType = LikeService.getLikeType(mProgramType);
+								if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(mProgramType)) {
+									mProgramId = mBroadcast.getProgram().getSeries().getSeriesId();
+								} else {
+									mProgramId = mBroadcast.getProgram().getProgramId();
+								}
+							}
 
-						if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(mProgramType)) {
-							mProgramId = mBroadcast.getProgram().getSeries().getSeriesId();
-						} else {
-							mProgramId = mBroadcast.getProgram().getProgramId();
+							updateUI(REQUEST_STATUS.SUCCESSFUL);
 						}
-					}
-					
-					updateUI(REQUEST_STATUS.SUCCESSFUL);
-				} else {
-					mBroadcast = dazooStore.getBroadcastFromDefault(mTvDate, mChannelId, mBeginTimeInMillis);
-					mChannel = dazooStore.getChannelFromDefault(mChannelId);
-	
+					} else {
+						mBroadcast = dazooStore.getBroadcastFromDefault(mTvDate, mChannelId, mBeginTimeInMillis);
+						mChannel = dazooStore.getChannelFromDefault(mChannelId);
+
 						if (mBroadcast != null) {
 							updateUI(REQUEST_STATUS.SUCCESSFUL);
-						}					
+						}
+					}
+
+					try {
+						mIsFuture = DateUtilities.isTimeInFuture(mBroadcast.getBeginTime());
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+
+				} else {
+					getIndividualBroadcast(mBroadcastPageUrl);
+					mIsFuture = true;
 				}
-				
-				try {
-					mIsFuture = DateUtilities.isTimeInFuture(mBroadcast.getBeginTime());
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-			
+
 			} else {
+				mChannel = dazooStore.getChannelFromAll(mChannelId);
+				mBroadcastPageUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + mChannelId + Consts.NOTIFY_BROADCAST_URL_MIDDLE + mBeginTimeInMillis;
 				getIndividualBroadcast(mBroadcastPageUrl);
-				mIsFuture = true;
+				mIsFuture = false;
 			}
 		}
 	}
@@ -173,9 +189,9 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 			@Override
 			public void onGetPageResult(SSPageGetResult pageGetResult) {
 				mBroadcast = SSBroadcastPage.getInstance().getBroadcast();
-				
-				if(mBroadcast!=null){
-					updateUI(REQUEST_STATUS.SUCCESSFUL);	
+
+				if (mBroadcast != null) {
+					updateUI(REQUEST_STATUS.SUCCESSFUL);
 				}
 			}
 		});
@@ -365,8 +381,9 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 
 
 
+		mNotificationDataSource = new NotificationDataSource(this);
+
 		if (!mIsFuture) {
-			mNotificationDataSource = new NotificationDataSource(this);
 			NotificationDbItem dbItem = new NotificationDbItem();
 			dbItem = mNotificationDataSource.getNotification(mChannel.getChannelId(), mBroadcast.getBeginTimeMillis());
 			if (dbItem.getNotificationId() != 0) {
@@ -441,10 +458,14 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 					if (LikeService.addLike(token, mProgramId, mLikeType)) {
 						LikeService.showSetLikeToast(mActivity, mBroadcast.getProgram().getTitle());
 						mLikeButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
+						
+						AnimationUtilities.animationSet(mLikeButtonIv);
+
 						mIsLiked = true;
 					} else {
 						Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
 					}
+
 				} else {
 					LikeDialogHandler likeDlg = new LikeDialogHandler();
 					likeDlg.showRemoveLikeDialog(mActivity, token, mLikeType, mBroadcast.getProgram().getProgramId(), yesLikeProc(), noLikeProc());
@@ -468,6 +489,8 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 						dbItem = mNotificationDataSource.getNotification(mChannel.getChannelId(), mBroadcast.getBeginTimeMillis());
 
 						notificationId = dbItem.getNotificationId();
+						
+						AnimationUtilities.animationSet(mRemindButtonIv);
 
 						mIsSet = true;
 					} else {
