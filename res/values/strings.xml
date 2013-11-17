@@ -163,6 +163,9 @@
     <string name="whatelseison_show_all_programs">Show all programs playing now</string>
     <string name="upcoming_episodes">Upcoming episodes</string>
     <string name="upcoming_episodes_more">More upcoming episodes</string>
+    <string name="movie">Movie</string>
+    <string name="sport">Sport</string>
+    <string name="tv_series">TV Series</string>
 
     <!-- LOGIN PAGE -->
     <string name="login_with_facebook">LOGIN WITH FACEBOOK</string>

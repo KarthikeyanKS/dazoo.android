@@ -67,14 +67,35 @@
 		                android:layout_height="wrap_content"
 		                android:layout_marginTop="25dp"
 		                android:padding="10dp" >
-		
+		                
+		                <!-- TRENDING ICON TODO: SPECIFY SOURCE -->
+		                
+		                <ImageView 
+		                    android:id="@+id/block_broadcastpage_broadcast_details_trending_iv"
+		                    android:layout_width="wrap_content"
+		                    android:layout_height="wrap_content"
+		                    android:layout_marginBottom="10dp"	
+		                    android:layout_marginRight="10dp"
+		                    android:visibility="gone"/>
+		                
+		                <!-- MOVIE ICON -->
+		                
+		                <ImageView 
+		                    android:id="@+id/block_broadcastpage_broadcast_details_movie_iv"
+		                    android:layout_width="wrap_content"
+		                    android:layout_height="wrap_content"
+		                    android:layout_marginBottom="10dp"	
+		                    android:layout_marginRight="10dp"	
+		                    android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_trending_iv"
+		                    android:visibility="gone"/>		
 		                <!-- TITLE -->
 		
 		                <com.millicom.secondscreen.customviews.FontTextView
 		                    android:id="@+id/block_broadcastpage_broadcast_details_title_tv"
 		                    android:layout_width="wrap_content"
 		                    android:layout_height="wrap_content"
-		                    android:layout_marginBottom="10dp"
+		                    android:layout_marginBottom="10dp"		                    
+		                    android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_movie_iv"		
 		                    android:textColor="@color/black"
 		                    android:textSize="24sp"
 		                    android:textStyle="bold" />
@@ -88,7 +109,8 @@
 		                    android:layout_below="@id/block_broadcastpage_broadcast_details_title_tv"
 		                    android:textColor="@color/black"
 		                    android:textSize="18sp"
-		                    android:textStyle="bold" />
+		                    android:textStyle="bold"
+		                    android:visibility="gone" />
 		
 		                <!-- EPISODE -->
 		
@@ -100,7 +122,8 @@
 		                    android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_season_tv"
 		                    android:textColor="@color/black"
 		                    android:textSize="18sp"
-		                    android:textStyle="bold" />
+		                    android:textStyle="bold"
+		                    android:visibility="gone" />
 		                
 		                <!-- EPISODE NAME -->
 		                
@@ -113,7 +136,7 @@
 		                    android:layout_below="@id/block_broadcastpage_broadcast_details_season_tv"
 		                    android:textColor="@color/black"
 		                    android:textSize="16sp"
-		                    android:text="EPISODE NAME" />
+		                    android:visibility="gone" />
 		                
 		                <!-- PROGRESSBAR CONTAINER -->
 		                
@@ -221,8 +244,7 @@
 		                    android:layout_marginTop="20dp"
 		                    android:layout_below="@id/block_broadcastpage_broadcast_details_synopsis_tv"
 		                    android:textColor="@color/light_gray"
-		                    android:textSize="16sp"
-		                    android:text="CATEGORY " />
+		                    android:textSize="16sp"/>
 		               
 		               <!-- YEAR -->
 		               
@@ -232,11 +254,12 @@
 		                    android:layout_height="wrap_content"
 		                    android:layout_gravity="left"
 		                    android:layout_marginTop="20dp"
+		                    android:layout_marginLeft="10dp"
 		                    android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_category_tv"
 		                    android:layout_below="@id/block_broadcastpage_broadcast_details_synopsis_tv"                    
 		                    android:textColor="@color/light_gray"
 		                    android:textSize="16sp"
-		                    android:text="YEAR " />
+		                    android:visibility="gone" />
 		               
 		               <!-- COUNTRY -->
 		               
@@ -246,11 +269,12 @@
 		                    android:layout_height="wrap_content"
 		                    android:layout_gravity="left"
 		                    android:layout_marginTop="20dp"
+		                    android:layout_marginLeft="10dp"
 		                    android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_year_tv"
 		                    android:layout_below="@id/block_broadcastpage_broadcast_details_synopsis_tv"                    
 		                    android:textColor="@color/light_gray"
 		                    android:textSize="16sp"
-		                    android:text="COUNTRY " />               
+		                    android:visibility="gone"/>               
 		               
 		               <!-- DURATION -->
 		               
@@ -260,11 +284,11 @@
 		                    android:layout_height="wrap_content"
 		                    android:layout_gravity="left"
 		                    android:layout_marginTop="20dp"
+		                    android:layout_marginLeft="10dp"
 		                    android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_country_tv"
 		                    android:layout_below="@id/block_broadcastpage_broadcast_details_synopsis_tv"
 		                    android:textColor="@color/light_gray"
-		                    android:textSize="16sp"
-		                    android:text="DURATION " />
+		                    android:textSize="16sp" />
 		               
 		               <!-- GENRE -->
 		               
@@ -273,10 +297,10 @@
 		                    android:layout_width="wrap_content"
 		                    android:layout_height="wrap_content"
 		                    android:layout_gravity="left"
+		                    android:layout_marginRight="10dp"
 		                    android:layout_below="@id/block_broadcastpage_broadcast_details_category_tv"
 		                    android:textColor="@color/light_gray"
-		                    android:textSize="16sp"
-		                    android:text="GENRE " />
+		                    android:textSize="16sp"/>
 		               
 		               <!-- PARENTAL RATING -->
 		               
@@ -289,7 +313,7 @@
 		                    android:layout_below="@id/block_broadcastpage_broadcast_details_category_tv"
 		                    android:textColor="@color/light_gray"
 		                    android:textSize="16sp"
-		                    android:text="PARENTALRATING " />               
+		                    android:visibility="gone" />               
 			
 					</RelativeLayout>
 					
@@ -310,7 +334,7 @@
 				        android:layout_height="wrap_content"
 				        android:orientation="horizontal"
 				        android:padding="5dp"
-				        android:weightSum="11">
+				        android:weightSum="9">
 				        
 			        	<!-- LIKE BUTTON -->
 			
@@ -334,7 +358,6 @@
 		        		<RelativeLayout
 				            android:layout_width="wrap_content"
 				            android:layout_height="wrap_content"
-				            android:layout_weight="1"
 				            android:padding="5dp" >
 				            
 				            <View
@@ -368,7 +391,6 @@
 				        <RelativeLayout
 				            android:layout_width="wrap_content"
 				            android:layout_height="wrap_content"
-				            android:layout_weight="1"
 				            android:padding="5dp" >
 				            
 				            <View
@@ -409,10 +431,6 @@
 			        android:background="@color/white"
 			        android:orientation="vertical" >
 				    
-			        <TextView 			        
-			            android:layout_width="wrap_content"
-			      	  	android:layout_height="wrap_content"
-			            android:text="PLACE FOR ADDITIONAL VIEWS"/>
 			    </LinearLayout>
 		
 			    <include layout="@layout/layout_request_callbacks_holder_layout" />

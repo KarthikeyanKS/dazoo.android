@@ -76,7 +76,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 	private String					mBroadcastUrl, entityType, token, mChannelId, mChannelDate, mLikeType, mProgramType, mProgramId, mBroadcastPageUrl;
 	private long					mBeginTimeInMillis;
 	private boolean					mIsSet	= false, mIsLiked = false, mIsLoggedIn = false, mIsFuture, mIsFromNotification = false, mIsFromActivity = false;
-	private ImageView				mPosterIv, mChannelLogoIv, mLikeButtonIv, mShareButtonIv, mRemindButtonIv;
+	private ImageView				mPosterIv, mMovieIv, mChannelLogoIv, mLikeButtonIv, mShareButtonIv, mRemindButtonIv;
 	private ProgressBar				mPosterPb, mChannelLogoPb, mDurationPb;
 	private TextView				mTitleTv, mSeasonTv, mEpisodeTv, mEpisodeNameTv, mTimeLeftTv, mTimeTv, mDateTv, mSynopsisTv, mCategoryTv, mYearTv, mCountryTv, mDurationTv, mGenreTv, mParentalRatingTv, mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
 	private int						notificationId;
@@ -225,12 +225,13 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		// view for the general information about the broadcast
 		mPosterIv = (ImageView) findViewById(R.id.block_broadcastpage_poster_iv);
 		mPosterPb = (ProgressBar) findViewById(R.id.block_broadcastpage_poster_progressbar);
+		mMovieIv = (ImageView) findViewById(R.id.block_broadcastpage_broadcast_details_movie_iv);
 		mTitleTv = (TextView) findViewById(R.id.block_broadcastpage_broadcast_details_title_tv);
 		mSeasonTv = (TextView) findViewById(R.id.block_broadcastpage_broadcast_details_season_tv);
 		mEpisodeTv = (TextView) findViewById(R.id.block_broadcastpage_broadcast_details_episode_tv);
 		mTimeTv = (TextView) findViewById(R.id.block_broadcastpage_broadcast_details_time_tv);
 		mDateTv = (TextView) findViewById(R.id.block_broadcastpage_broadcast_details_date_tv);
-		
+
 		mEpisodeNameTv = (TextView) findViewById(R.id.block_broadcastpage_broadcast_details_episode_name_tv);
 		mTimeLeftTv = (TextView) findViewById(R.id.block_broadcastpage_broadcast_progress_timeleft_tv);
 		mSynopsisTv = (TextView) findViewById(R.id.block_broadcastpage_broadcast_details_synopsis_tv);
@@ -265,19 +266,18 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		// broadcastBlockPopulator.createBlock(mBroadcast, mChannel);
 
 		Program program = mBroadcast.getProgram();
-
+		//TODO: Show different actionbar title when TV-episode
 		mActionBar.setTitle(mBroadcast.getProgram().getTitle());
-		
-//////////////////////////////////////////////////////////////////////////
-		
+
 		//Set channel logo
-		if (mBroadcast.getChannel().getLogoLUrl() != null && TextUtils.isEmpty(mBroadcast.getChannel().getLogoLUrl()) != true) {
-			mImageLoader.displayImage(mBroadcast.getChannel().getLogoLUrl(), mChannelLogoIv, mChannelLogoPb, ImageLoader.IMAGE_TYPE.POSTER);
+		Channel channel = mBroadcast.getChannel();
+		if (channel != null && channel.getLogoLUrl() != null && TextUtils.isEmpty(channel.getLogoLUrl()) != true) {
+			mImageLoader.displayImage(channel.getLogoLUrl(), mChannelLogoIv, mChannelLogoPb, ImageLoader.IMAGE_TYPE.POSTER);
 		}
-		
+
 		//Set synopsis
 		mSynopsisTv.setText(program.getSynopsisLong());
-		
+
 		// Calculate the duration of the program and set up ProgressBar and TimeLeft.
 		int duration = 0;
 		long timeSinceBegin = 0;
@@ -285,21 +285,17 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		try {
 			timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(mBroadcast.getBeginTime());
 			timeToEnd = DateUtilities.getAbsoluteTimeDifference(mBroadcast.getEndTime());
+			long startTime = DateUtilities.getAbsoluteTimeDifference(mBroadcast.getBeginTime());
+			long endTime = DateUtilities.getAbsoluteTimeDifference(mBroadcast.getEndTime());
+			duration = (int) (startTime - endTime) / (1000 * 60);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+
 		//If on air
 		if (timeSinceBegin > 0 && timeToEnd < 0) {
-			try {
-				long startTime = DateUtilities.getAbsoluteTimeDifference(mBroadcast.getBeginTime());
-				long endTime = DateUtilities.getAbsoluteTimeDifference(mBroadcast.getEndTime());
-				duration = (int) (startTime - endTime) / (1000 * 60);
-			} 
-			catch (ParseException e) {
-				e.printStackTrace();
-			}
 			mDurationPb.setMax(duration);
-	
+
 			//Calculate the current progress of the ProgressBar and update.
 			int initialProgress = 0;
 			long difference = 0;
@@ -309,7 +305,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 			catch (ParseException e) {
 				e.printStackTrace();
 			}
-	
+
 			if (difference < 0) {
 				mDurationPb.setVisibility(View.GONE);
 				initialProgress = 0;
@@ -327,7 +323,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 				mDurationPb.setProgress(initialProgress);
 				mDurationPb.setVisibility(View.VISIBLE);
 			}
-			
+
 			mTimeTv.setVisibility(View.GONE);
 			mDateTv.setVisibility(View.GONE);
 		}
@@ -352,31 +348,102 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 				date = "";
 				e.printStackTrace();
 			}
-			mDateTv.setText(date);
-			
+			mDateTv.setText(date + " ");
+
 			mDurationPb.setVisibility(View.GONE);
 			mTimeLeftTv.setVisibility(View.GONE);
 		}
-		
+
 		mDurationTv.setText(duration + " " + getResources().getString(R.string.minutes));
 
-////////////////////////////////////////////////////////////////////////////////////
-		
-		
 		if (program.getPosterLUrl() != null && TextUtils.isEmpty(program.getPosterLUrl()) != true) {
 			mImageLoader.displayImage(program.getPosterLUrl(), mPosterIv, mPosterPb, ImageLoader.IMAGE_TYPE.POSTER);
 		}
-		mTitleTv.setText(program.getTitle());
-		
-		//Set season and episode only if there exists a season.
-		if (program.getSeason() != null) {
-			mSeasonTv.setText(getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " ");
-			mEpisodeTv.setText(getResources().getString(R.string.episode) + " " + String.valueOf(program.getEpisodeNumber()));
-			mEpisodeNameTv.setText(program.getSeries().getName());
-		}
-		else {
-			mSeasonTv.setText("");
-			mEpisodeTv.setText("");
+				
+		if (program != null) {
+
+			String programType = program.getProgramType();
+			
+			TextView temp = new TextView(mActivity);
+			
+			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+				mTitleTv.setText(program.getSeries().getName());
+				mEpisodeNameTv.setText(program.getTitle());
+				mEpisodeNameTv.setVisibility(View.VISIBLE);
+				mSeasonTv.setText(getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " ");
+				mEpisodeTv.setText(getResources().getString(R.string.episode) + " " + String.valueOf(program.getEpisodeNumber()));
+				mSeasonTv.setVisibility(View.VISIBLE);
+				mEpisodeTv.setVisibility(View.VISIBLE);
+				mCategoryTv.setText(getResources().getString(R.string.tv_series));
+				mGenreTv.setText(program.getGenre());
+				if (program.getGenre() == null) {
+					mGenreTv.setVisibility(View.GONE); //Sometimes the program does not have a genre, remove to not make margins look bad
+				}
+				mCountryTv.setText("COUNTRY"); //TODO: What to put here?
+				mCountryTv.setVisibility(View.VISIBLE);
+				if (program.getYear() != 0) {
+					mYearTv.setText(String.valueOf(program.getYear()));
+					mYearTv.setVisibility(View.VISIBLE);
+				}
+				mParentalRatingTv.setText("PARENTAL RATING"); //TODO: What to put here?
+				mParentalRatingTv.setVisibility(View.VISIBLE);
+				
+				temp.setText("ADDITIONAL VIEWS FOR TV EPISODE");
+				mBlockContainer.addView(temp); //TODO: Add additional fields 
+			} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
+				//TODO: Set the movie icon
+				mTitleTv.setText(program.getTitle());
+				mCategoryTv.setText(getResources().getString(R.string.movie));
+				mGenreTv.setText(program.getGenre());
+				mCountryTv.setText("COUNTRY"); //TODO: What to put here?
+				mCountryTv.setVisibility(View.VISIBLE);
+				if (program.getYear() != 0) {
+					mYearTv.setText(String.valueOf(program.getYear()));
+					mYearTv.setVisibility(View.VISIBLE);
+				}
+				mParentalRatingTv.setText("PARENTAL RATING"); //TODO: What to put here?
+				mParentalRatingTv.setVisibility(View.VISIBLE);
+				
+				temp.setText("ADDITIONAL VIEWS FOR MOVIE");
+				mBlockContainer.addView(temp); //TODO: Add additional fields 
+			} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
+				mTitleTv.setText(program.getTitle());
+				if (program.getSeason() != null) {
+					mSeasonTv.setText(getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " ");
+					mEpisodeTv.setText(getResources().getString(R.string.episode) + " " + String.valueOf(program.getEpisodeNumber()));
+					mSeasonTv.setVisibility(View.VISIBLE);
+					mEpisodeTv.setVisibility(View.VISIBLE);
+				}
+				mCategoryTv.setText(program.getCategory());
+				mGenreTv.setText(program.getGenre());
+				if (program.getGenre() == null) {
+					mGenreTv.setVisibility(View.GONE); //Sometimes the program does not have a genre, remove to not make margins look bad
+				}
+				if (program.getYear() != 0) {
+					mYearTv.setText(String.valueOf(program.getYear()));
+					mYearTv.setVisibility(View.VISIBLE);
+				}
+				mParentalRatingTv.setText("PARENTAL RATING");
+				mParentalRatingTv.setVisibility(View.VISIBLE);
+				
+				temp.setText("ADDITIONAL VIEWS FOR OTHER");
+				mBlockContainer.addView(temp); //TODO: Add additional fields 
+			} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
+				//TODO: Set live icon if live
+				if (program.getTournament() != null) {
+					mEpisodeNameTv.setText(program.getTournament());
+					mEpisodeNameTv.setVisibility(View.VISIBLE);
+				}
+				mTitleTv.setText(program.getTitle());
+				mCategoryTv.setText(getResources().getString(R.string.sport));
+				mGenreTv.setText(program.getSportType());
+				mCountryTv.setVisibility(View.GONE); 
+				mYearTv.setVisibility(View.GONE);
+				mParentalRatingTv.setVisibility(View.GONE);
+				
+				temp.setText("ADDITIONAL VIEWS FOR SPORTS");
+				mBlockContainer.addView(temp); //TODO: Add additional fields 
+			}
 		}
 
 
@@ -412,7 +479,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(program.getProgramType())) {
 			entityType = Consts.DAZOO_LIKE_ENTITY_TYPE_SERIES;
 		} else entityType = Consts.DAZOO_LIKE_ENTITY_TYPE_PROGRAM;
-		
+
 		// add the cast and crew block
 		// SSCastCrewBlockPopulator castCrewBlockPopulator = new SSCastCrewBlockPopulator(this, mBlockContainer);
 		// castCrewBlockPopulator.createBlock(mCast);
@@ -458,7 +525,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 					if (LikeService.addLike(token, mProgramId, mLikeType)) {
 						LikeService.showSetLikeToast(mActivity, mBroadcast.getProgram().getTitle());
 						mLikeButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
-						
+
 						AnimationUtilities.animationSet(mLikeButtonIv);
 
 						mIsLiked = true;
@@ -489,7 +556,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 						dbItem = mNotificationDataSource.getNotification(mChannel.getChannelId(), mBroadcast.getBeginTimeMillis());
 
 						notificationId = dbItem.getNotificationId();
-						
+
 						AnimationUtilities.animationSet(mRemindButtonIv);
 
 						mIsSet = true;

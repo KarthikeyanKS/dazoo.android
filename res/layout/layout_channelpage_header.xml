@@ -35,9 +35,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/channelpage_broadcast_image_frame"
+        android:layout_marginLeft="5dp"
         android:background="@color/white"
-        android:orientation="vertical"
-        android:padding="10dp" >
+        android:orientation="vertical" >
 
         <com.millicom.secondscreen.customviews.FontTextView
             android:id="@+id/channelpage_broadcast_details_time_tv"
@@ -86,11 +86,18 @@
             android:layout_below="@id/channelpage_broadcast_details_progressbar"
             android:layout_toRightOf="@id/channelpage_broadcast_details_time_tv"
             android:layout_centerVertical="true"
-            android:layout_margin="0dp"
+            android:layout_marginBottom="10dp"
             android:maxLines="3"
             android:textColor="@color/black"
             android:textSize="14sp"
             android:textStyle="normal" />
+        
+        <View
+	        android:layout_width="fill_parent"
+	        android:layout_height="1dp"
+	        android:background="@color/light_gray"
+	        android:layout_below="@id/channelpage_broadcast_details_text_tv"/>
+        
     </RelativeLayout>
 
 </RelativeLayout>
