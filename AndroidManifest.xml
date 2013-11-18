@@ -61,11 +61,17 @@
             android:launchMode="singleTop"
             android:theme="@style/Theme.AppCompat.Light" />
         
+        <!-- POPULAR CONTENT PAGE -->
          <activity
             android:name="com.millicom.secondscreen.content.activity.PopularPageActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:parentActivityName="com.millicom.secondscreen.content.activity.ActivityActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light" />
+            android:theme="@style/Theme.AppCompat.Light" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.millicom.secondscreen.content.activity.ActivityActivity" />
+            </activity>
 
         <!-- MYPROFILE ACTIVITY -->
         <activity

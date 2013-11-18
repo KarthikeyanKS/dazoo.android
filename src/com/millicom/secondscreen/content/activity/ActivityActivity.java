@@ -108,11 +108,11 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 	}
 
 	private void initStandardViews() {
-		mTxtTabTvGuide = (TextView) findViewById(R.id.go_to_tvguide);
+		mTxtTabTvGuide = (TextView) findViewById(R.id.show_tvguide);
 		mTxtTabTvGuide.setOnClickListener(this);
-		mTxtTabActivity = (TextView) findViewById(R.id.go_to_activity);
+		mTxtTabActivity = (TextView) findViewById(R.id.show_activity);
 		mTxtTabActivity.setOnClickListener(this);
-		mTxtTabProfile = (TextView) findViewById(R.id.go_to_profile);
+		mTxtTabProfile = (TextView) findViewById(R.id.show_me);
 		mTxtTabProfile.setOnClickListener(this);
 
 		mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.gray));
@@ -164,9 +164,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		if (!NetworkUtils.checkConnection(this)) {
 			updateUI(REQUEST_STATUS.FAILED);
 		}
-
 		new GetFeedTask().execute();
-
 	}
 
 	@Override
@@ -261,17 +259,17 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 	public void onClick(View v) {
 		int id = v.getId();
 		switch (id) {
-		case R.id.go_to_tvguide:
+		case R.id.show_tvguide:
 			// tab to home page
 			Intent intentHome = new Intent(ActivityActivity.this, HomeActivity.class);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intentHome);
 			break;
-		case R.id.go_to_activity:
+		case R.id.show_activity:
 			// we are here: do nothing
 			break;
-		case R.id.go_to_profile:
+		case R.id.show_me:
 			// tab to activity page
 			Intent intentMe = new Intent(ActivityActivity.this, MyProfileActivity.class);
 			startActivity(intentMe);

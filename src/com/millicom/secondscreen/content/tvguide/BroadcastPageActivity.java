@@ -148,12 +148,13 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 						}
 					}
 
+					if(mBroadcast!=null){
 					try {
 						mIsFuture = DateUtilities.isTimeInFuture(mBroadcast.getBeginTime());
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
-
+					}
 				} else {
 					getIndividualBroadcast(mBroadcastPageUrl);
 					mIsFuture = true;

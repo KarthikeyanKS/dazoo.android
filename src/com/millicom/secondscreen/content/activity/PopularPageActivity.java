@@ -52,11 +52,11 @@ public class PopularPageActivity extends SSActivity implements OnClickListener {
 	}
 
 	private void initViews() {
-		mTxtTabTvGuide = (TextView) findViewById(R.id.go_to_tvguide);
+		mTxtTabTvGuide = (TextView) findViewById(R.id.show_tvguide);
 		mTxtTabTvGuide.setOnClickListener(this);
-		mTxtTabActivity = (TextView) findViewById(R.id.go_to_activity);
+		mTxtTabActivity = (TextView) findViewById(R.id.show_activity);
 		mTxtTabActivity.setOnClickListener(this);
-		mTxtTabProfile = (TextView) findViewById(R.id.go_to_profile);
+		mTxtTabProfile = (TextView) findViewById(R.id.show_me);
 		mTxtTabProfile.setOnClickListener(this);
 
 		mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.gray));
@@ -69,7 +69,7 @@ public class PopularPageActivity extends SSActivity implements OnClickListener {
 		mActionBar.setDisplayShowCustomEnabled(true);
 		mActionBar.setDisplayUseLogoEnabled(true);
 		mActionBar.setDisplayShowHomeEnabled(true);
-		mActionBar.setTitle(getResources().getString(R.string.activity_title));
+		mActionBar.setTitle(getResources().getString(R.string.popular));
 		mListView = (ListView) findViewById(R.id.popular_list_listview);
 	}
 
@@ -107,19 +107,19 @@ public class PopularPageActivity extends SSActivity implements OnClickListener {
 	public void onClick(View v) {
 		int id = v.getId();
 		switch (id) {
-		case R.id.go_to_tvguide:
+		case R.id.show_tvguide:
 			// tab to home page
 			Intent intentHome = new Intent(PopularPageActivity.this, HomeActivity.class);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intentHome);
 			break;
-		case R.id.go_to_activity:
+		case R.id.show_activity:
 			// tab to activity page
 			Intent intentActivity = new Intent(PopularPageActivity.this, ActivityActivity.class);
 			startActivity(intentActivity);
 			break;
-		case R.id.go_to_profile:
+		case R.id.show_me:
 			// tab to profile page
 			Intent intentMe = new Intent(PopularPageActivity.this, MyProfileActivity.class);
 			startActivity(intentMe);
