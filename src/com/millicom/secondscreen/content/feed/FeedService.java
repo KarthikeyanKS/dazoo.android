@@ -75,7 +75,6 @@ public class FeedService {
 	private static class GetActivityFeedTask extends AsyncTask<String, Void, String> {
 		@Override
 		protected String doInBackground(String... params) {
-			Log.d(TAG, "5");
 			try {
 				// HttpClient httpClient = new DefaultHttpClient();
 

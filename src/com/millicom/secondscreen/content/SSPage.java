@@ -33,6 +33,8 @@ public abstract class SSPage {
 	private ArrayList<Channel>				mChannels;
 	private ArrayList<Tag>					mTags;
 	private Broadcast						mBroadcast;
+	private ArrayList<Broadcast>			mSeriesUpcomingBroadcasts;
+	private ArrayList<Broadcast> mProgramBroadcasts;
 
 	public void cancelGetPage() {
 		mHttpClient.cancelRequest();
@@ -142,5 +144,21 @@ public abstract class SSPage {
 
 	public void parseBroadcast(JSONObject jsonObject) throws Exception {
 		this.mBroadcast = mContentParser.parseBroadcast(jsonObject);
+	}
+
+	public ArrayList<Broadcast> getSeriesUpcomingBroadcasts() {
+		return mSeriesUpcomingBroadcasts;
+	}
+	
+	public void parseSeriesUpcomingBroadcasts(JSONArray jsonArray) throws Exception {
+		this.mSeriesUpcomingBroadcasts = mContentParser.parseSeriesUpcomingBroadcasts(jsonArray);
+	}
+	
+	public ArrayList<Broadcast> getProgramBroadcasts(){
+		return mProgramBroadcasts;
+	}
+	
+	public void parseProgramBroadcasts(JSONArray jsonArray) throws Exception{
+		this.mProgramBroadcasts = mContentParser.parseProgramBroadcasts(jsonArray);
 	}
 }

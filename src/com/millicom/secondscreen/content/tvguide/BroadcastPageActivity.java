@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -37,6 +38,8 @@ import com.millicom.secondscreen.authentication.PromptSignInDialogHandler;
 import com.millicom.secondscreen.authentication.SignInActivity;
 import com.millicom.secondscreen.content.SSActivity;
 import com.millicom.secondscreen.content.SSBroadcastPage;
+import com.millicom.secondscreen.content.SSBroadcastsFromProgramPage;
+import com.millicom.secondscreen.content.SSBroadcastsFromSeriesPage;
 import com.millicom.secondscreen.content.SSPageCallback;
 import com.millicom.secondscreen.content.SSPageGetResult;
 import com.millicom.secondscreen.content.activity.ActivityActivity;
@@ -63,28 +66,30 @@ import com.millicom.secondscreen.SecondScreenApplication;
 
 public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity implements OnClickListener {
 
-	private static final String		TAG	= "BroadcastPageActivity";
-	private ImageLoader				mImageLoader;
-	private Broadcast				mBroadcast;
-	private Channel					mChannel;
+	private static final String			TAG	= "BroadcastPageActivity";
+	private ImageLoader					mImageLoader;
+	private Broadcast					mBroadcast;
+	private Channel						mChannel;
 	// private TvDate mTvDate;
-	private String					mTvDate;
+	private String						mTvDate;
 
-	private LinearLayout			mBlockContainer;
-	private ActionBar				mActionBar;
-	private LayoutInflater			mLayoutInflater;
-	private String					mBroadcastUrl, entityType, token, mChannelId, mChannelDate, mLikeType, mProgramType, mProgramId, mBroadcastPageUrl;
-	private long					mBeginTimeInMillis;
-	private boolean					mIsSet	= false, mIsLiked = false, mIsLoggedIn = false, mIsFuture, mIsFromNotification = false, mIsFromActivity = false;
-	private ImageView				mPosterIv, mLikeButtonIv, mShareButtonIv, mRemindButtonIv;
-	private ProgressBar				mPosterPb;
-	private TextView				mTitleTv, mSeasonTv, mEpisodeTv, mTimeTv, mDateTv, mChannelTv, mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
-	private int						notificationId;
-	private View					mTabSelectorContainerView;
-	private NotificationDataSource	mNotificationDataSource;
-	private DazooStore				dazooStore;
-	private Activity				mActivity;
-	private Intent					intent;
+	private LinearLayout				mBlockContainer;
+	private ActionBar					mActionBar;
+	private LayoutInflater				mLayoutInflater;
+	private String						mBroadcastUrl, entityType, token, mChannelId, mChannelDate, mLikeType, mProgramType, mProgramId, mBroadcastPageUrl;
+	private long						mBeginTimeInMillis;
+	private boolean						mIsSet	= false, mIsLiked = false, mIsLoggedIn = false, mIsFuture, mIsFromNotification = false, mIsFromActivity = false;
+	private ImageView					mPosterIv, mLikeButtonIv, mShareButtonIv, mRemindButtonIv;
+	private ProgressBar					mPosterPb;
+	private TextView					mTitleTv, mSeasonTv, mEpisodeTv, mTimeTv, mDateTv, mChannelTv, mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
+	private int							notificationId;
+	private View						mTabSelectorContainerView;
+	private NotificationDataSource		mNotificationDataSource;
+	private DazooStore					dazooStore;
+	private Activity					mActivity;
+	private Intent						intent;
+	private static ArrayList<Broadcast>	mUpcomingSeriesBroadcasts;
+	private static ArrayList<Broadcast>	mProgramBroadcasts;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -148,12 +153,12 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 						}
 					}
 
-					if(mBroadcast!=null){
-					try {
-						mIsFuture = DateUtilities.isTimeInFuture(mBroadcast.getBeginTime());
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
+					if (mBroadcast != null) {
+						try {
+							mIsFuture = DateUtilities.isTimeInFuture(mBroadcast.getBeginTime());
+						} catch (ParseException e) {
+							e.printStackTrace();
+						}
 					}
 				} else {
 					getIndividualBroadcast(mBroadcastPageUrl);
@@ -361,7 +366,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 					if (LikeService.addLike(token, mProgramId, mLikeType)) {
 						LikeService.showSetLikeToast(mActivity, mBroadcast.getProgram().getTitle());
 						mLikeButtonIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
-						
+
 						AnimationUtilities.animationSet(mLikeButtonIv);
 
 						mIsLiked = true;
@@ -392,7 +397,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 						dbItem = mNotificationDataSource.getNotification(mChannel.getChannelId(), mBroadcast.getBeginTimeMillis());
 
 						notificationId = dbItem.getNotificationId();
-						
+
 						AnimationUtilities.animationSet(mRemindButtonIv);
 
 						mIsSet = true;
@@ -411,6 +416,54 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 				Toast.makeText(mActivity, "The broadcast was already shown! You cannot set a reminder on that", Toast.LENGTH_SHORT).show();
 			}
 			break;
+		}
+	}
+
+	// task to get the upcoming broadcasts from series
+	private static class GetSeriesUpcomingBroadcastsTask extends AsyncTask<String, Boolean, Boolean> {
+
+		protected void onPreExecute() {
+			super.onPreExecute();
+			// UI response
+		}
+
+		protected void onPostExecute(Boolean result) {
+			// update UI with fetched content
+		}
+
+		@Override
+		protected Boolean doInBackground(String... params) {
+			SSBroadcastsFromSeriesPage.getInstance().getPage(params[0], new SSPageCallback() {
+				@Override
+				public void onGetPageResult(SSPageGetResult aPageGetResult) {
+					mUpcomingSeriesBroadcasts = SSBroadcastsFromSeriesPage.getInstance().getSeriesUpcomingBroadcasts();
+				}
+			});
+			return true;
+		}
+	}
+
+	// task to get the broadcasts from the program
+	private static class GetProgramBroadcastsTask extends AsyncTask<String, Boolean, Boolean> {
+
+		protected void onPreExecute() {
+			super.onPreExecute();
+			// UI response
+		}
+
+		protected void onPostExecute(Boolean result) {
+			// update UI with fetched content
+		}
+
+		@Override
+		protected Boolean doInBackground(String... params) {
+			SSBroadcastsFromProgramPage.getInstance().getPage(params[0], new SSPageCallback() {
+				@Override
+				public void onGetPageResult(SSPageGetResult aPageGetResult) {
+					mProgramBroadcasts = SSBroadcastsFromProgramPage.getInstance().getProgramBroadcasts();
+				}
+			});
+			return true;
 		}
 	}
 

@@ -30,6 +30,8 @@ public abstract class Consts {
 	public static final String	MILLICOM_SECONDSCREEN_MY_CHANNELS_URL						= "http://www.gitrgitr.com/api/my/channels";
 	public static final String	MILLICOM_SECONDSCREEN_LIKES_URL								= "http://www.gitrgitr.com/api/my/likes";
 	public static final String	MILLICOM_SECONDSCREEN_ACTIVITY_FEED_URL						= "http://www.gitrgitr.com/api/my/feed";
+	public static final String	MILLICOM_SECONDSCREEN_PROGRAMS								= "http://www.gitrgitr.com/api/epg/programs";
+	public static final String	MILLICOM_SECONDSCREEN_SERIES								= "http://www.gitrgitr.com/api/epg/series/";
 
 	public static final String	MILLICON_SECONDSCREEN_HTTP_SCHEME							= "https";
 
@@ -50,6 +52,9 @@ public abstract class Consts {
 	public static final String	REQUEST_PARAMETER_SEPARATOR									= "?";
 	public static final String	MILLICOM_SECONDSCREEN_API_ENTITY_ID							= "entityId";
 	public static final String	MILLICOM_SECONDSCREEN_API_LIKETYPE							= "likeType";
+	public static final String	MILLICOM_SECONDSCREEN_API_UPCOMING							= "upcoming";
+	public static final String	MILLICOM_SECONDSCREEN_API_BROADCASTS						= "/broadcasts";
+	public static final String	MILLICOM_SECONDSCREEN_API_UPCOMING_BROADCASTS				= "/broadcasts/upcoming";
 
 	public static final String	EMPTY_STRING												= "";
 	public static final String	ERROR_STRING												= "error";
