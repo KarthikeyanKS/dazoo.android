@@ -105,6 +105,29 @@ public class LikeService {
 		toast.setView(layout);
 		toast.show();
 	}
+	
+	public static ArrayList<String> getLikeIdsList(String token){
+		ArrayList<String> dazooLikeIdsList = new ArrayList<String>();
+		GetLikesTask getLikesTask = new GetLikesTask();
+		String jsonString = "";
+		try {
+			jsonString = getLikesTask.execute(token).get();
+			if(jsonString!=null && TextUtils.isEmpty(jsonString)!=true && !jsonString.equals(Consts.ERROR_STRING)){
+				JSONArray likesListJson = new JSONArray(jsonString);
+				int size = likesListJson.length();
+				for(int i=0; i<size; i++){
+				 dazooLikeIdsList.add(ContentParser.parseDazooLikeIds(likesListJson.getJSONObject(i)));
+				}
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} 
+		return dazooLikeIdsList;
+	}
 
 	public static ArrayList<DazooLike> getLikesList(String token) {
 		ArrayList<DazooLike> dazooLikesList = new ArrayList<DazooLike>();

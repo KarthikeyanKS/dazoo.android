@@ -44,7 +44,7 @@
     </com.millicom.secondscreen.content.activity.FeedScrollView
     -->
 
-    <RelativeLayout
+    <!--  RelativeLayout
         android:id="@+id/activity_listview_footer"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginTop="12dp" />
-    </RelativeLayout>
+    </RelativeLayout-->
 
     <ListView
         android:id="@+id/activity_listview"

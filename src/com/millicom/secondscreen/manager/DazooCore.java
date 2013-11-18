@@ -24,6 +24,7 @@ import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Tag;
 import com.millicom.secondscreen.content.model.TvDate;
+import com.millicom.secondscreen.like.LikeService;
 import com.millicom.secondscreen.mychannels.MyChannelsService;
 import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.storage.DazooStoreOperations;
@@ -284,6 +285,10 @@ public class DazooCore {
 												new Intent(Consts.INTENT_EXTRA_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, true));
 									}
 								}
+								
+								// get the list of likes and save in DazooStore to avoid excessive backend requests
+								ArrayList<String> likeIds = LikeService.getLikeIdsList(token);
+								DazooStore.getInstance().setLikeIds(likeIds);
 							}
 						} else {
 

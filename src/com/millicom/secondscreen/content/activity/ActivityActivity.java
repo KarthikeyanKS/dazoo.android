@@ -8,21 +8,26 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.SingleClientConnManager;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -75,13 +80,14 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 	private Boolean				mIsLoggenIn		= false;
 	// private LinearLayout mContainer;
 	// private FeedScrollView mScrollView;
-	private int					mStartIndex		= 0, mStep = 10, mNextStep = 2, mEndIndex = 0;
+	private int					mStartIndex		= 0, mStep = 10, mNextStep = 5, mEndIndex = 0;
 	private ListView			mListView;
 	private RelativeLayout		mListFooter;
 	private ActivityFeedAdapter	mAdapter;
 	private Activity			mActivity;
 	private RelativeLayout		mContainer;
-
+	private View mListFooterView;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -130,7 +136,13 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 
 	private void initFeedViews() {
 		mListView = (ListView) findViewById(R.id.activity_listview);
-		mListFooter = (RelativeLayout) findViewById(R.id.activity_listview_footer);
+		//mListFooter = (RelativeLayout) findViewById(R.id.activity_listview_footer);
+		
+		LayoutInflater inflater = getLayoutInflater();
+		mListFooterView = (View) inflater.inflate(R.layout.row_loading_footerview, null);
+		mListView.addFooterView(mListFooterView);
+		mListFooterView.setVisibility(View.GONE);
+		
 	}
 
 	private void initInactiveViews() {
@@ -205,9 +217,11 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 
 				// If scrolling past bottom and there is a next page of products to fetch
 				if ((firstVisibleItem + visibleItemCount >= totalItemCount)) {
+					Log.d(TAG,"reached last item");
 					// Show the scroll spinner
-					// fetchNextPage();
-					// showScrollSpinner(true);
+					showScrollSpinner(true);
+					GetFeedMoreTask getFeedMoreTask = new GetFeedMoreTask();
+					getFeedMoreTask.execute();
 				} else {
 
 					// Hide the scroll spinner
@@ -220,16 +234,10 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		}
 	};
 
-	private void fetchNextPage() {
-		showScrollSpinner(true);
-		new GetFeedTask().execute();
-		showScrollSpinner(false);
-	};
-
 	private void showScrollSpinner(boolean aShow) {
-		if (mListFooter != null) {
+		if (mListFooterView != null) {
 			// Show/hide the scroll spinner
-			mListFooter.setVisibility(aShow ? View.VISIBLE : View.GONE);
+			mListFooterView.setVisibility(aShow ? View.VISIBLE : View.GONE);
 		}
 	}
 
@@ -287,6 +295,109 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		}
 	}
 
+	
+	class GetFeedMoreTask extends AsyncTask<Void,Void,Boolean>{
+		
+		ArrayList<FeedItem> moreFeedItems = new ArrayList<FeedItem>();
+
+		protected void onPostExecute(Boolean result){
+			for(int i=0;i<moreFeedItems.size(); i++){
+				mAdapter.addItem(moreFeedItems.get(i));
+			}
+			showScrollSpinner(false);
+		}
+		
+		@Override
+		protected Boolean doInBackground(Void... arg0) {
+			boolean result = false;
+			try {
+				HttpClient client = new DefaultHttpClient();
+
+				
+				HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
+				SchemeRegistry registry = new SchemeRegistry();
+				registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+
+				SSLSocketFactory socketFactory = SSLSocketFactory.getSocketFactory();
+				socketFactory.setHostnameVerifier(SSLSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
+				registry.register(new Scheme("https", socketFactory, 443));
+				SingleClientConnManager mgr = new SingleClientConnManager(client.getParams(), registry);
+
+				DefaultHttpClient httpClient = new DefaultHttpClient(mgr, client.getParams());
+				// Set verifier
+				HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
+
+				//HttpGet httpGet = new HttpGet();
+				//httpGet.setHeader("Authorization", "Bearer " + token);
+				//httpGet.setURI(new URI(Consts.MILLICOM_SECONDSCREEN_ACTIVITY_FEED_URL));
+				List<NameValuePair> urlParams = new LinkedList<NameValuePair>();
+				urlParams.add(new BasicNameValuePair(Consts.MILLICOM_SECONDSCREEN_API_SKIP,String.valueOf(mStartIndex)));
+				urlParams.add(new BasicNameValuePair(Consts.MILLICOM_SECONDSCREEN_API_LIMIT,String.valueOf(mNextStep)));
+				
+				URI uri = new URI(Consts.MILLICOM_SECONDSCREEN_ACTIVITY_FEED_URL + "?" + URLEncodedUtils.format(urlParams, "utf-8"));
+				
+				HttpGet httpGet = new HttpGet(uri);
+				httpGet.setHeader("Authorization", "Bearer " + token);		
+				HttpResponse response = httpClient.execute(httpGet);
+			
+				if (Consts.GOOD_RESPONSE == response.getStatusLine().getStatusCode()) {
+					Log.d(TAG, "GOOD RESPONSE");
+					HttpEntity entityHttp = response.getEntity();
+					InputStream inputStream = entityHttp.getContent();
+					BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"), 8);
+					StringBuilder sb = new StringBuilder();
+					String line = null;
+					while ((line = reader.readLine()) != null) {
+						sb.append(line + "\n");
+					}
+					inputStream.close();
+					String jsonString = sb.toString();
+
+					if (jsonString != null && TextUtils.isEmpty(jsonString) != true && !jsonString.equals(Consts.ERROR_STRING)) {
+						JSONObject feedListJson;
+						try {
+							feedListJson = new JSONObject(jsonString);
+
+							JSONArray feedLisJsonArray = feedListJson.optJSONArray(Consts.DAZOO_FEED_ITEMS);
+
+							int size = feedLisJsonArray.length();
+							Log.d(TAG, "FEED MORE ITEMS SIZE: " + String.valueOf(size));
+							// TODO: UPDATE WHEN THE PAGINATION IS DONE BY THE BACKEND
+							int endIndex = 0;
+							if (mNextStep < size) endIndex = mNextStep;
+							else endIndex = size;
+							Log.d(TAG, "endIndex:" + endIndex + " mStartIndex: " + mStartIndex + " mStep: " + mNextStep);
+
+							for (int i = 0; i < endIndex; i++) {
+								moreFeedItems.add(ContentParser.parseFeedItem(feedLisJsonArray.getJSONObject(i)));
+								result = true;
+							}
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+					}
+				} else if (Consts.BAD_RESPONSE_INVALID_TOKEN == response.getStatusLine().getStatusCode()) {
+					Log.d(TAG, "Get Activity Feed: Invalid");
+
+				} else if (Consts.BAD_RESPONSE_MISSING_TOKEN == response.getStatusLine().getStatusCode()) {
+					Log.d(TAG, "Get Activity Feed: Missing token");
+				}
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (URISyntaxException e) {
+				e.printStackTrace();
+			}
+			return result;
+		}
+		
+	}
+	
+	
+	
 	class GetFeedTask extends AsyncTask<Void, Void, Boolean> {
 		protected void onPostExecute(Boolean result) {
 			Log.d(TAG, "oN POST EXECUTE");
@@ -312,6 +423,8 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			boolean result = false;
 			try {
 				HttpClient client = new DefaultHttpClient();
+
+				
 				HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
 				SchemeRegistry registry = new SchemeRegistry();
 				registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
@@ -325,11 +438,19 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 				// Set verifier
 				HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
 
-				HttpGet httpGet = new HttpGet();
-				httpGet.setHeader("Authorization", "Bearer " + token);
-				httpGet.setURI(new URI(Consts.MILLICOM_SECONDSCREEN_ACTIVITY_FEED_URL));
-
+				//HttpGet httpGet = new HttpGet();
+				//httpGet.setHeader("Authorization", "Bearer " + token);
+				//httpGet.setURI(new URI(Consts.MILLICOM_SECONDSCREEN_ACTIVITY_FEED_URL));
+				List<NameValuePair> urlParams = new LinkedList<NameValuePair>();
+				urlParams.add(new BasicNameValuePair(Consts.MILLICOM_SECONDSCREEN_API_SKIP,String.valueOf(mStartIndex)));
+				urlParams.add(new BasicNameValuePair(Consts.MILLICOM_SECONDSCREEN_API_LIMIT,String.valueOf(mStep)));
+				
+				URI uri = new URI(Consts.MILLICOM_SECONDSCREEN_ACTIVITY_FEED_URL + "?" + URLEncodedUtils.format(urlParams, "utf-8"));
+				
+				HttpGet httpGet = new HttpGet(uri);
+				httpGet.setHeader("Authorization", "Bearer " + token);		
 				HttpResponse response = httpClient.execute(httpGet);
+			
 				if (Consts.GOOD_RESPONSE == response.getStatusLine().getStatusCode()) {
 					Log.d(TAG, "GOOD RESPONSE");
 					HttpEntity entityHttp = response.getEntity();
@@ -366,7 +487,6 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 							e.printStackTrace();
 						}
 					}
-
 				} else if (Consts.BAD_RESPONSE_INVALID_TOKEN == response.getStatusLine().getStatusCode()) {
 					Log.d(TAG, "Get Activity Feed: Invalid");
 
@@ -382,7 +502,6 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			} catch (URISyntaxException e) {
 				e.printStackTrace();
 			}
-
 			return result;
 		}
 	}

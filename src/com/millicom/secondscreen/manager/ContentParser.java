@@ -332,6 +332,18 @@ public class ContentParser {
 
 		return dazooLike;
 	}
+	
+	public static String parseDazooLikeIds(JSONObject jsonObject) {
+		String likeType = jsonObject.optString(Consts.DAZOO_LIKE_LIKETYPE);
+		if (Consts.DAZOO_LIKE_TYPE_SERIES.equals(likeType)) {
+			return jsonObject.optString(Consts.DAZOO_LIKE_SERIES_SERIES_ID);
+		} else if (Consts.DAZOO_LIKE_TYPE_PROGRAM.equals(likeType)) {
+			return jsonObject.optString(Consts.DAZOO_LIKE_PROGRAM_PROGRAMID);
+		} else if (Consts.DAZOO_LIKE_TYPE_SPORT_TYPE.equals(likeType)) {
+			return jsonObject.optString(Consts.DAZOO_LIKE_SPORT_TYPE_SPORTTYPEID);
+		}
+		return null;
+	}
 
 	public static FeedItem parseFeedItem(JSONObject jsonObject) {
 		FeedItem feedItem = new FeedItem();
