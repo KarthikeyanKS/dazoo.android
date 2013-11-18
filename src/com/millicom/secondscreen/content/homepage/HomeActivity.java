@@ -56,7 +56,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	private Fragment							mActiveFragment;
 
 	private int									mStartingPosition	= 0;
-	private boolean mChannelUpdate = false;
+	private boolean								mChannelUpdate		= false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -109,15 +109,12 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 					updateUI(REQUEST_STATUS.FAILED);
 				}
 			} else if (mIsReady && (mDateSelectedIndex != 0) && mChannelUpdate) {
-Log.d(TAG,"attach fragment 1");
 				attachFragment();
 				mChannelUpdate = false;
 			} else if (mIsReady && (mDateSelectedIndex == 0) && mChannelUpdate) {
-				Log.d(TAG,"attach fragment 2");
 				attachFragment();
 				mChannelUpdate = false;
-			}
-			else if (mIsReady && (mDateSelectedIndex!=0) && !mChannelUpdate){
+			} else if (mIsReady && (mDateSelectedIndex != 0) && !mChannelUpdate) {
 				attachFragment();
 			}
 		}
@@ -167,16 +164,16 @@ Log.d(TAG,"attach fragment 1");
 			reloadPage();
 		}
 	};
-	
+
 	@Override
-	protected void onResume(){
+	protected void onResume() {
 		super.onResume();
-		if(mStateChanged){
+		if (mStateChanged) {
 			removeActiveFragment();
 			DazooStore.getInstance().clearAndReinitializeForMyChannels();
 			mChannelUpdate = true;
 			DazooCore.getGuide(mDateSelectedIndex, false);
-			
+
 			mStateChanged = false;
 		}
 	}
