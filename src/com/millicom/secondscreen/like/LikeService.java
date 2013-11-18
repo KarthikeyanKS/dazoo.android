@@ -249,8 +249,8 @@ public class LikeService {
 				// Set verifier
 				HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
 
-				Log.d(TAG,Consts.MILLICOM_SECONDSCREEN_LIKES_URL + "/" + params[1] + "/" + params[2]);
-				HttpDelete httpDelete = new HttpDelete(Consts.MILLICOM_SECONDSCREEN_LIKES_URL + "/" + params[1] + "/" + params[2]);
+				Log.d(TAG,Consts.MILLICOM_SECONDSCREEN_LIKES_URL + "/" + params[2] + "/" + params[1]);
+				HttpDelete httpDelete = new HttpDelete(Consts.MILLICOM_SECONDSCREEN_LIKES_URL + "/" + params[2] + "/" + params[1]);
 				httpDelete.setHeader("Authorization", "Bearer " + params[0]);
 
 				// HttpResponse response = client.execute(httpDelete);

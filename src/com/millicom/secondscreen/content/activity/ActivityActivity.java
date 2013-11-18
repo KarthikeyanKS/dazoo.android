@@ -41,7 +41,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -65,7 +67,8 @@ import com.millicom.secondscreen.manager.ContentParser;
 public class ActivityActivity extends SSActivity implements OnClickListener {
 
 	private static final String	TAG				= "ActivityActivity";
-	private TextView			mTxtTabTvGuide, mTxtTabProfile, mTxtTabActivity, mSignInTv;
+	private TextView			mTxtTabTvGuide, mTxtTabProfile, mTxtTabActivity, mSignInTv, mGreetingTv;
+	private Button				mCheckPopularBtn;
 	private ActionBar			mActionBar;
 	private ArrayList<FeedItem>	activityFeed	= new ArrayList<FeedItem>();
 	private String				token;
@@ -77,7 +80,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 	private RelativeLayout		mListFooter;
 	private ActivityFeedAdapter	mAdapter;
 	private Activity			mActivity;
-	private RelativeLayout mContainer;
+	private RelativeLayout		mContainer;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -123,7 +126,6 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		mActionBar.setDisplayUseLogoEnabled(true);
 		mActionBar.setDisplayShowHomeEnabled(true);
 		mActionBar.setTitle(getResources().getString(R.string.activity_title));
-
 	}
 
 	private void initFeedViews() {
@@ -137,6 +139,18 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 	}
 
 	private void setAdapter() {
+		if (Consts.DAZOO_FEED_ITEM_TYPE_POPULAR_BROADCASTS.equals(activityFeed.get(0).getItemType())) {
+			View header = getLayoutInflater().inflate(R.layout.block_feed_no_likes, null);
+			mListView.addHeaderView(header);
+
+			mGreetingTv = (TextView) findViewById(R.id.block_feed_no_likes_greeting_tv);
+			mCheckPopularBtn = (Button) findViewById(R.id.block_feed_no_likes_btn);
+			mCheckPopularBtn.setOnClickListener(this);
+
+			mGreetingTv.setText(mActivity.getResources().getString(R.string.hello) + " " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName() + " "
+					+ ((SecondScreenApplication) getApplicationContext()).getUserLastName() + ",");
+		}
+
 		mListView.setOnScrollListener(mOnScrollListener);
 		mAdapter = new ActivityFeedAdapter(this, activityFeed, token);
 		mListView.setAdapter(mAdapter);
@@ -153,7 +167,6 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 
 		new GetFeedTask().execute();
 
-		mStartIndex = mStartIndex + mStep;
 	}
 
 	@Override
@@ -196,7 +209,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 				if ((firstVisibleItem + visibleItemCount >= totalItemCount)) {
 					// Show the scroll spinner
 					// fetchNextPage();
-					//showScrollSpinner(true);
+					// showScrollSpinner(true);
 				} else {
 
 					// Hide the scroll spinner
@@ -268,10 +281,14 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			startActivity(intentSignIn);
 			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
+		case R.id.block_feed_no_likes_btn:
+			Intent checkPopular = new Intent(ActivityActivity.this, PopularPageActivity.class);
+			startActivity(checkPopular);
+			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			break;
 		}
 	}
-	
-	
+
 	class GetFeedTask extends AsyncTask<Void, Void, Boolean> {
 		protected void onPostExecute(Boolean result) {
 			Log.d(TAG, "oN POST EXECUTE");
@@ -280,6 +297,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 					if (activityFeed.isEmpty() != true) {
 						Log.d(TAG, "//////////////");
 						updateUI(REQUEST_STATUS.SUCCESSFUL);
+						mStartIndex = mStartIndex + mStep;
 					} else {
 						Log.d(TAG, "EMPTY");
 						updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
@@ -340,6 +358,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 							int endIndex = 0;
 							if (mStartIndex + mStep < size) endIndex = mStartIndex + mStep;
 							else endIndex = size;
+							Log.d(TAG, "endIndex:" + endIndex + " mStartIndex: " + mStartIndex + " mStep: " + mStep);
 
 							for (int i = mStartIndex; i < endIndex; i++) {
 								activityFeed.add(ContentParser.parseFeedItem(feedLisJsonArray.getJSONObject(i)));
