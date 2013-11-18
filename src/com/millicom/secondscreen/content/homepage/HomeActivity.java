@@ -109,12 +109,16 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 					updateUI(REQUEST_STATUS.FAILED);
 				}
 			} else if (mIsReady && (mDateSelectedIndex != 0) && mChannelUpdate) {
-
+Log.d(TAG,"attach fragment 1");
 				attachFragment();
 				mChannelUpdate = false;
 			} else if (mIsReady && (mDateSelectedIndex == 0) && mChannelUpdate) {
+				Log.d(TAG,"attach fragment 2");
 				attachFragment();
 				mChannelUpdate = false;
+			}
+			else if (mIsReady && (mDateSelectedIndex!=0) && !mChannelUpdate){
+				attachFragment();
 			}
 		}
 	};
