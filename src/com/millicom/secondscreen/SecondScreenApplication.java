@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.utilities.ObscuredSharedPreferences;
+//import com.testflightapp.lib.TestFlight;
 
 import android.app.Activity;
 import android.app.Application;
@@ -69,6 +70,8 @@ public class SecondScreenApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		sInstance = this;
+		//TestFlight.takeOff(sInstance, Consts.TESTFLIGHT_TOKEN);
+		
 		// sSharedPreferences = getSharedPreferences(Consts.SHARED_PREFS_MAIN_NAME, Context.MODE_PRIVATE);
 		sSharedPreferences = new ObscuredSharedPreferences(this, this.getSharedPreferences(Consts.SHARED_PREFS_MAIN_NAME, Context.MODE_PRIVATE));
 

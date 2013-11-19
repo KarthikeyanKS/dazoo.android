@@ -6,6 +6,8 @@ package com.millicom.secondscreen;
  */
 public abstract class Consts {
 
+	public static final String	TESTFLIGHT_TOKEN											= "343b5e95-cc27-4e8e-8a0d-ff5f7a181c5c";
+
 	// Shared preferences
 	public static final String	SHARED_PREFS_MAIN_NAME										= "com.millicom.secondscreen.shared.prefs";
 	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_ACCESS_TOKEN				= "com.millicom.secondscreen.user.account.access.token";
@@ -68,6 +70,7 @@ public abstract class Consts {
 	public static final int		MILLICOM_SECONDSCREEN_TVGUIDE_NUMBER_OF_CHANNELS_PER_PAGE	= 10;
 	public static final int		MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MIN					= 6;
 	public static final int		MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MAX					= 20;
+	public static final int		MILLICOM_SECONDSCREEN_API_POPULAR_COUNT_DEFAULT				= 3;
 
 	public static enum REQUEST_STATUS {
 		LOADING, FAILED, EMPTY_RESPONSE, SUCCESSFUL

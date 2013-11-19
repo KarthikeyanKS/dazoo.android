@@ -35,7 +35,7 @@ public class PopularListAdapter extends BaseAdapter {
 	private String					mToken;
 
 	public PopularListAdapter(Activity activity, String token, ArrayList<Broadcast> popularBroadcasts) {
-		this.mActivity = mActivity;
+		this.mActivity = activity;
 		this.mPopularBroadcasts = popularBroadcasts;
 		this.mImageLoader = new ImageLoader(activity, R.drawable.loadimage);
 		this.mToken = token;
@@ -129,7 +129,7 @@ public class PopularListAdapter extends BaseAdapter {
 				holder.mTitleTv.setText(broadcast.getProgram().getTitle());
 			}
 			try {
-				holder.mTimeTv.setText(DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime()) + DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
+				holder.mTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -149,31 +149,33 @@ public class PopularListAdapter extends BaseAdapter {
 			holder.mProgressBar.setMax(duration);
 
 			//MC - Calculate the current progress of the ProgressBar and update.
-			int initialProgressTwo = 0;
-			long differenceTwo = 0;
+			int initialProgress = 0;
+			long difference = 0;
 			try {
-				differenceTwo = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime());
+				difference = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime());
 			} 
 			catch (ParseException e) {
 				e.printStackTrace();
 			}
 
-			if (differenceTwo < 0) {
+			if (difference < 0) {
 				holder.mProgressBar.setVisibility(View.GONE);
-				initialProgressTwo = 0;
+				holder.mProgressBarTitleTv.setVisibility(View.GONE);
+				initialProgress = 0;
 				holder.mProgressBar.setProgress(0);
 			} 
 			else {
 				try {
-					initialProgressTwo = (int) DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime()) / (1000 * 60);
+					initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime()) / (1000 * 60);
 				} 
 				catch (ParseException e) {
 					e.printStackTrace();
 				}
-				holder.mProgressBarTitleTv.setText(duration-initialProgressTwo + " " + mActivity.getResources().getString(R.string.minutes) + 
+				holder.mProgressBarTitleTv.setText(duration-initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + 
 						" " + mActivity.getResources().getString(R.string.left));
-				holder.mProgressBar.setProgress(initialProgressTwo);
+				holder.mProgressBar.setProgress(initialProgress);
 				holder.mProgressBar.setVisibility(View.VISIBLE);
+				holder.mProgressBarTitleTv.setVisibility(View.VISIBLE);
 			}
 			
 			if (programType != null) {

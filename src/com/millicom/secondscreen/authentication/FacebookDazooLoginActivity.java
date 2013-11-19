@@ -4,6 +4,7 @@ import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.myprofile.MyChannelsActivity;
+//import com.testflightapp.lib.TestFlight;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -30,6 +31,7 @@ public class FacebookDazooLoginActivity extends ActionBarActivity implements OnC
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 		initViews();
+		//TestFlight.passCheckpoint("FIRST TIME WITH THE FACEBOOK LOGIN");
 	}
 
 	private void initViews() {

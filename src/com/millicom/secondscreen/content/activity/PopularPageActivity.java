@@ -1,18 +1,51 @@
 package com.millicom.secondscreen.content.activity;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.SingleClientConnManager;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
@@ -23,6 +56,7 @@ import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
 import com.millicom.secondscreen.http.NetworkUtils;
+import com.millicom.secondscreen.manager.ContentParser;
 
 public class PopularPageActivity extends SSActivity implements OnClickListener {
 
@@ -32,7 +66,7 @@ public class PopularPageActivity extends SSActivity implements OnClickListener {
 	private ActionBar				mActionBar;
 	private ListView				mListView;
 	private PopularListAdapter		mAdapter;
-	private ArrayList<Broadcast>	mPopularBroadcasts;
+	private ArrayList<Broadcast>	mPopularBroadcasts = new ArrayList<Broadcast>();
 
 	// EXTENDED VIEW OF THE POPULAR BLOCK AT THE ACTIVITY PAGE
 	@Override
@@ -49,6 +83,7 @@ public class PopularPageActivity extends SSActivity implements OnClickListener {
 		initViews();
 
 		super.initCallbackLayouts();
+		loadPage();
 	}
 
 	private void initViews() {
@@ -89,17 +124,9 @@ public class PopularPageActivity extends SSActivity implements OnClickListener {
 		// check if the network connection exists
 		if (!NetworkUtils.checkConnection(this)) {
 			updateUI(REQUEST_STATUS.FAILED);
-		}
-
-		// BACKEND REQUEST TO GET THE LIST OF POPULAR BROADCASTS
-		if (mPopularBroadcasts != null) {
-			if (mPopularBroadcasts.isEmpty() != true) {
-				updateUI(REQUEST_STATUS.SUCCESSFUL);
-			} else {
-				updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
-			}
 		} else {
-			updateUI(REQUEST_STATUS.FAILED);
+		GetPopularTask getPopularTask = new GetPopularTask();
+		getPopularTask.execute();
 		}
 	}
 
@@ -124,6 +151,96 @@ public class PopularPageActivity extends SSActivity implements OnClickListener {
 			Intent intentMe = new Intent(PopularPageActivity.this, MyProfileActivity.class);
 			startActivity(intentMe);
 			break;
+		}
+	}
+	
+	class GetPopularTask extends AsyncTask<Void, Void, Boolean> {
+		
+		protected void onPostExecute(Boolean result){
+			if(result){
+				if(mPopularBroadcasts!=null){
+					if(mPopularBroadcasts.isEmpty() != true){
+						updateUI(REQUEST_STATUS.SUCCESSFUL);
+					} else {
+						updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
+					}
+				}
+			} else {
+				updateUI(REQUEST_STATUS.FAILED);
+			}
+		}
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			boolean result = false;
+			try {
+				HttpClient client = new DefaultHttpClient();
+
+				
+				HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
+				SchemeRegistry registry = new SchemeRegistry();
+				registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+
+				SSLSocketFactory socketFactory = SSLSocketFactory.getSocketFactory();
+				socketFactory.setHostnameVerifier(SSLSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
+				registry.register(new Scheme("https", socketFactory, 443));
+				SingleClientConnManager mgr = new SingleClientConnManager(client.getParams(), registry);
+
+				DefaultHttpClient httpClient = new DefaultHttpClient(mgr, client.getParams());
+				// Set verifier
+				HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
+
+				List<NameValuePair> urlParams = new LinkedList<NameValuePair>();
+				urlParams.add(new BasicNameValuePair(Consts.MILLICOM_SECONDSCREEN_API_POPULAR_COUNT, String.valueOf(Consts.MILLICOM_SECONDSCREEN_API_POPULAR_COUNT_DEFAULT)));
+				
+				URI uri = new URI(Consts.MILLICOM_SECONDSCREEN_POPULAR + "?" + URLEncodedUtils.format(urlParams, "utf-8"));
+				
+				HttpGet httpGet = new HttpGet(uri);	
+				HttpResponse response = httpClient.execute(httpGet);
+			
+				if (Consts.GOOD_RESPONSE == response.getStatusLine().getStatusCode()) {
+					Log.d(TAG, "GOOD RESPONSE");
+					HttpEntity entityHttp = response.getEntity();
+					InputStream inputStream = entityHttp.getContent();
+					BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"), 8);
+					StringBuilder sb = new StringBuilder();
+					String line = null;
+					while ((line = reader.readLine()) != null) {
+						sb.append(line + "\n");
+					}
+					inputStream.close();
+					String jsonString = sb.toString();
+					if (jsonString != null && TextUtils.isEmpty(jsonString) != true && !jsonString.equals(Consts.ERROR_STRING)) {
+						Log.d(TAG,"jsonString: " + jsonString);
+						JSONArray jsonArray = new JSONArray(jsonString);
+						if (jsonArray!=null){
+							int size = jsonArray.length();
+							Log.d(TAG,"JSON ARRAY SIZE:" + size);
+							for(int i=0; i<size; i++){
+								mPopularBroadcasts.add(ContentParser.parseBroadcast(jsonArray.getJSONObject(i)));
+							}
+							return true;
+						}
+					}
+				} else if (Consts.BAD_RESPONSE_INVALID_TOKEN == response.getStatusLine().getStatusCode()) {
+					Log.d(TAG, "Get Activity Feed: Invalid");
+
+				} else if (Consts.BAD_RESPONSE_MISSING_TOKEN == response.getStatusLine().getStatusCode()) {
+					Log.d(TAG, "Get Activity Feed: Missing token");
+				}
+			
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (URISyntaxException e) {
+				e.printStackTrace();
+			} catch (JSONException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return result;
 		}
 	}
 }

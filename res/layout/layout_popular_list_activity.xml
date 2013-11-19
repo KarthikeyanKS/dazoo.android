@@ -42,8 +42,6 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/tab_selector_container"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:background="@color/light_gray"
         android:cacheColorHint="@null"
         android:divider="@android:color/transparent"

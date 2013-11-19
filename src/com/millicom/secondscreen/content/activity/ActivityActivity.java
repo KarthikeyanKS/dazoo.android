@@ -396,8 +396,6 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		
 	}
 	
-	
-	
 	class GetFeedTask extends AsyncTask<Void, Void, Boolean> {
 		protected void onPostExecute(Boolean result) {
 			Log.d(TAG, "oN POST EXECUTE");
