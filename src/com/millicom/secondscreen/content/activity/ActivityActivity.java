@@ -16,6 +16,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import net.hockeyapp.android.CrashManager;
 
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -39,6 +40,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -89,6 +91,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 	private Activity			mActivity;
 	private RelativeLayout		mContainer;
 	private View				mListFooterView;
+	private int					mRequestAge, mRequestMaxAge, mNextRequestTime;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -302,14 +305,14 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		ArrayList<FeedItem>	moreFeedItems	= new ArrayList<FeedItem>();
 
 		protected void onPostExecute(Boolean result) {
-			Log.d(TAG,"result: " + result);
+			Log.d(TAG, "result: " + result);
 			if (result) {
 
 				for (int i = 0; i < moreFeedItems.size(); i++) {
 					mAdapter.addItem(moreFeedItems.get(i));
 				}
 			} else {
-				if(mNoMoreItems){
+				if (mNoMoreItems) {
 					mListView.removeFooterView(mListFooterView);
 				}
 			}
@@ -347,6 +350,11 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 
 				if (Consts.GOOD_RESPONSE == response.getStatusLine().getStatusCode()) {
 					Log.d(TAG, "GOOD RESPONSE");
+					
+					mRequestAge = Integer.valueOf(response.getFirstHeader("Age").getValue());
+					mRequestMaxAge = Integer.valueOf(response.getFirstHeader("Cache-Control").getValue().substring(8));
+					mNextRequestTime = mRequestMaxAge - mRequestAge;
+					
 					HttpEntity entityHttp = response.getEntity();
 					InputStream inputStream = entityHttp.getContent();
 					BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"), 8);
@@ -401,6 +409,19 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		}
 
 	}
+	
+	private void scheduleFeedRefresh(){
+		final Handler handler = new Handler();
+		handler.postDelayed(new Runnable(){
+
+			@Override
+			public void run() {
+				activityFeed.clear();
+				activityFeed = new ArrayList<FeedItem>();
+				loadPage();				
+			}
+		}, mNextRequestTime * 1000);
+	}
 
 	class GetFeedTask extends AsyncTask<Void, Void, Boolean> {
 		protected void onPostExecute(Boolean result) {
@@ -416,6 +437,10 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 						updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
 					}
 				}
+				
+				// schedule the next feed update
+				scheduleFeedRefresh();
+				
 			} else {
 				Log.d(TAG, "No backend response");
 				updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
@@ -452,6 +477,15 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 				HttpResponse response = httpClient.execute(httpGet);
 
 				if (Consts.GOOD_RESPONSE == response.getStatusLine().getStatusCode()) {
+					Log.d(TAG, "" + response.getFirstHeader("Age"));
+					Log.d(TAG, "" + response.getFirstHeader("Cache-Control"));
+					
+					mRequestAge = Integer.valueOf(response.getFirstHeader("Age").getValue());
+					mRequestMaxAge = Integer.valueOf(response.getFirstHeader("Cache-Control").getValue().substring(8));
+					mNextRequestTime = mRequestMaxAge - mRequestAge;
+					
+					Log.d(TAG,"AGE: " + mRequestAge + " Max Age: " + mRequestMaxAge + " Next time: " + mNextRequestTime);
+
 					Log.d(TAG, "GOOD RESPONSE");
 					HttpEntity entityHttp = response.getEntity();
 					InputStream inputStream = entityHttp.getContent();
