@@ -57,16 +57,17 @@ import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
 import com.millicom.secondscreen.http.NetworkUtils;
 import com.millicom.secondscreen.manager.ContentParser;
+import com.millicom.secondscreen.storage.DazooStore;
 
 public class PopularPageActivity extends SSActivity implements OnClickListener {
 
-	private static final String		TAG	= "PopularPageActivity";
+	private static final String		TAG					= "PopularPageActivity";
 	private String					token;
 	private TextView				mTxtTabTvGuide, mTxtTabProfile, mTxtTabActivity, mSignInTv;
 	private ActionBar				mActionBar;
 	private ListView				mListView;
 	private PopularListAdapter		mAdapter;
-	private ArrayList<Broadcast>	mPopularBroadcasts = new ArrayList<Broadcast>();
+	private ArrayList<Broadcast>	mPopularBroadcasts	= new ArrayList<Broadcast>();
 
 	// EXTENDED VIEW OF THE POPULAR BLOCK AT THE ACTIVITY PAGE
 	@Override
@@ -125,8 +126,14 @@ public class PopularPageActivity extends SSActivity implements OnClickListener {
 		if (!NetworkUtils.checkConnection(this)) {
 			updateUI(REQUEST_STATUS.FAILED);
 		} else {
-		GetPopularTask getPopularTask = new GetPopularTask();
-		getPopularTask.execute();
+			if (DazooStore.getInstance().getPopularFeed().size() > 0) {
+				Log.d(TAG,"RESTORED POPULAR");
+				mPopularBroadcasts = DazooStore.getInstance().getPopularFeed();
+				updateUI(REQUEST_STATUS.SUCCESSFUL);
+			} else {
+				GetPopularTask getPopularTask = new GetPopularTask();
+				getPopularTask.execute();
+			}
 		}
 	}
 
@@ -153,13 +160,14 @@ public class PopularPageActivity extends SSActivity implements OnClickListener {
 			break;
 		}
 	}
-	
+
 	class GetPopularTask extends AsyncTask<Void, Void, Boolean> {
-		
-		protected void onPostExecute(Boolean result){
-			if(result){
-				if(mPopularBroadcasts!=null){
-					if(mPopularBroadcasts.isEmpty() != true){
+
+		protected void onPostExecute(Boolean result) {
+			if (result) {
+				if (mPopularBroadcasts != null) {
+					if (mPopularBroadcasts.isEmpty() != true) {
+						DazooStore.getInstance().setPopularFeed(mPopularBroadcasts);
 						updateUI(REQUEST_STATUS.SUCCESSFUL);
 					} else {
 						updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
@@ -176,7 +184,6 @@ public class PopularPageActivity extends SSActivity implements OnClickListener {
 			try {
 				HttpClient client = new DefaultHttpClient();
 
-				
 				HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
 				SchemeRegistry registry = new SchemeRegistry();
 				registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
@@ -192,12 +199,12 @@ public class PopularPageActivity extends SSActivity implements OnClickListener {
 
 				List<NameValuePair> urlParams = new LinkedList<NameValuePair>();
 				urlParams.add(new BasicNameValuePair(Consts.MILLICOM_SECONDSCREEN_API_POPULAR_COUNT, String.valueOf(Consts.MILLICOM_SECONDSCREEN_API_POPULAR_COUNT_DEFAULT)));
-				
+
 				URI uri = new URI(Consts.MILLICOM_SECONDSCREEN_POPULAR + "?" + URLEncodedUtils.format(urlParams, "utf-8"));
-				
-				HttpGet httpGet = new HttpGet(uri);	
+
+				HttpGet httpGet = new HttpGet(uri);
 				HttpResponse response = httpClient.execute(httpGet);
-			
+
 				if (Consts.GOOD_RESPONSE == response.getStatusLine().getStatusCode()) {
 					Log.d(TAG, "GOOD RESPONSE");
 					HttpEntity entityHttp = response.getEntity();
@@ -212,10 +219,9 @@ public class PopularPageActivity extends SSActivity implements OnClickListener {
 					String jsonString = sb.toString();
 					if (jsonString != null && TextUtils.isEmpty(jsonString) != true && !jsonString.equals(Consts.ERROR_STRING)) {
 						JSONArray jsonArray = new JSONArray(jsonString);
-						if (jsonArray!=null){
+						if (jsonArray != null) {
 							int size = jsonArray.length();
-							Log.d(TAG,"JSON ARRAY SIZE:" + size);
-							for(int i=0; i<size; i++){
+							for (int i = 0; i < size; i++) {
 								mPopularBroadcasts.add(ContentParser.parseBroadcast(jsonArray.getJSONObject(i)));
 							}
 							return true;
@@ -227,7 +233,7 @@ public class PopularPageActivity extends SSActivity implements OnClickListener {
 				} else if (Consts.BAD_RESPONSE_MISSING_TOKEN == response.getStatusLine().getStatusCode()) {
 					Log.d(TAG, "Get Activity Feed: Missing token");
 				}
-			
+
 			} catch (ClientProtocolException e) {
 				e.printStackTrace();
 			} catch (IOException e) {

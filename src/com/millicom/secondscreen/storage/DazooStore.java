@@ -35,8 +35,9 @@ public class DazooStore {
 	private HashMap<BroadcastKey, ArrayList<Broadcast>>	mMyTaggedBroadcasts	= new HashMap<BroadcastKey, ArrayList<Broadcast>>();
 
 	private ArrayList<String>							mLikeIds			= new ArrayList<String>();
-	
-	private ArrayList<FeedItem> mActivityFeed = new ArrayList<FeedItem>();
+
+	private ArrayList<FeedItem>							mActivityFeed		= new ArrayList<FeedItem>();
+	private ArrayList<Broadcast>						mPopularFeed		= new ArrayList<Broadcast>();
 
 	// private constructor prevents instantiation from other classes
 	private DazooStore() {
@@ -185,11 +186,11 @@ public class DazooStore {
 		return this.mLikeIds.contains(likeId);
 	}
 
-	public void deleteLikeIdFromList(String likeId){
+	public void deleteLikeIdFromList(String likeId) {
 		this.mLikeIds.remove(likeId);
 	}
-	
-	public void addLikeIdToList(String likeId){
+
+	public void addLikeIdToList(String likeId) {
 		this.mLikeIds.add(likeId);
 	}
 
@@ -335,23 +336,32 @@ public class DazooStore {
 	}
 
 	// activity feed
-	public void setActivityFeed(ArrayList<FeedItem> activityFeed){
+	public void setActivityFeed(ArrayList<FeedItem> activityFeed) {
 		this.mActivityFeed = activityFeed;
 	}
-	
-	public ArrayList<FeedItem> getActivityFeed(){
+
+	public ArrayList<FeedItem> getActivityFeed() {
 		return this.mActivityFeed;
 	}
-	
-	public void reinitializeFeed(){
+
+	public void reinitializeFeed() {
 		this.mActivityFeed.clear();
 		this.mActivityFeed = new ArrayList<FeedItem>();
 	}
-	
-	public void addItemsToActivityFeed(ArrayList<FeedItem> newItems){
+
+	public void addItemsToActivityFeed(ArrayList<FeedItem> newItems) {
 		this.mActivityFeed.addAll(newItems);
 	}
 	
+	// popular feed
+	public void setPopularFeed(ArrayList<Broadcast> popularFeed){
+		this.mPopularFeed = popularFeed;
+	}
+	
+	public ArrayList<Broadcast> getPopularFeed(){
+		return this.mPopularFeed;
+	}
+
 	// CLEAR DATA WHEN NEW CHANNEL IS ADDED TO THE SELECTION
 	public void clearMyGuidesStorage() {
 		this.mMyGuides.clear();
