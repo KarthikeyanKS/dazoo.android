@@ -15,6 +15,7 @@ import com.millicom.secondscreen.utilities.ImageLoader;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,13 +28,14 @@ import android.widget.TextView;
 
 public class PopularListAdapter extends BaseAdapter {
 
-	public static final String		TAG	= "PopularListAdapter";
+	public static final String		TAG					= "PopularListAdapter";
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
 	private ArrayList<Broadcast>	mPopularBroadcasts;
 	private ImageLoader				mImageLoader;
 	private String					mToken;
+	private int						mCurrentPosition	= -1;
 
 	public PopularListAdapter(Activity activity, String token, ArrayList<Broadcast> popularBroadcasts) {
 		this.mActivity = activity;
@@ -82,6 +84,10 @@ public class PopularListAdapter extends BaseAdapter {
 			viewHolder.mDetailsTv = (TextView) rowView.findViewById(R.id.row_popular_details_extra_tv);
 			viewHolder.mProgressBarTitleTv = (TextView) rowView.findViewById(R.id.row_popular_timeleft_tv);
 			viewHolder.mProgressBar = (ProgressBar) rowView.findViewById(R.id.row_popular_progressbar);
+
+			viewHolder.mTitleTv.setTag(Integer.valueOf(position));
+			Log.d(TAG, "set tag: " + Integer.valueOf(position));
+
 			rowView.setTag(viewHolder);
 		}
 
@@ -90,14 +96,23 @@ public class PopularListAdapter extends BaseAdapter {
 
 			String tvDate = "";
 			try {
-				tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTime());
+				tvDate = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime());
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 
 			// TODO: SORTING BY DAY: SHOW/HIDE HEADER
+
+			mCurrentPosition = (Integer) holder.mTitleTv.getTag();
+			Log.d(TAG,"currentPosition:" + mCurrentPosition);
+			if(position % Consts.MILLICOM_SECONDSCREEN_API_POPULAR_COUNT_DEFAULT == 0){
+			
 			holder.mHeaderContainer.setVisibility(View.VISIBLE);
 			holder.mHeaderTv.setText(tvDate);
+			}
+			else {
+				holder.mHeaderContainer.setVisibility(View.GONE);
+			}
 			holder.mContainer.setOnClickListener(new View.OnClickListener() {
 
 				@Override
@@ -136,26 +151,23 @@ public class PopularListAdapter extends BaseAdapter {
 			}
 			holder.mChannelNameTv.setText(broadcast.getChannel().getName());
 
-			
 			int duration = 0;
-			//MC - Calculate the duration of the program and set up ProgressBar.
+			// MC - Calculate the duration of the program and set up ProgressBar.
 			try {
 				long startTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime());
 				long endTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTime());
 				duration = (int) (startTime - endTime) / (1000 * 60);
-			} 
-			catch (ParseException e) {
+			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 			holder.mProgressBar.setMax(duration);
 
-			//MC - Calculate the current progress of the ProgressBar and update.
+			// MC - Calculate the current progress of the ProgressBar and update.
 			int initialProgress = 0;
 			long difference = 0;
 			try {
 				difference = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime());
-			} 
-			catch (ParseException e) {
+			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 
@@ -164,21 +176,18 @@ public class PopularListAdapter extends BaseAdapter {
 				holder.mProgressBarTitleTv.setVisibility(View.GONE);
 				initialProgress = 0;
 				holder.mProgressBar.setProgress(0);
-			} 
-			else {
+			} else {
 				try {
 					initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime()) / (1000 * 60);
-				} 
-				catch (ParseException e) {
+				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-				holder.mProgressBarTitleTv.setText(duration-initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + 
-						" " + mActivity.getResources().getString(R.string.left));
+				holder.mProgressBarTitleTv.setText(duration - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
 				holder.mProgressBar.setProgress(initialProgress);
 				holder.mProgressBar.setVisibility(View.VISIBLE);
 				holder.mProgressBarTitleTv.setVisibility(View.VISIBLE);
 			}
-			
+
 			if (programType != null) {
 				if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
 					holder.mDetailsTv.setText(broadcast.getProgram().getGenre() + mActivity.getResources().getString(R.string.from) + broadcast.getProgram().getYear());
@@ -194,16 +203,6 @@ public class PopularListAdapter extends BaseAdapter {
 		}
 		return rowView;
 	}
-	
-	//public BroadcastDay getCurrentBroadcastDay() {
-	//	List<BroadcastDay> sessionsSortedByDay = agendaDisplayer.getSessionsSortedByDay();
-	//	for (SessionsDay sessionDay : sessionsSortedByDay) {
-	//		if (sessionDay.day == selectedDayTime) {
-	//			return sessionDay;
-	//		}
-	//	}
-	//	return null;
-	//}
 
 	public static class ViewHolder {
 		RelativeLayout	mHeaderContainer;

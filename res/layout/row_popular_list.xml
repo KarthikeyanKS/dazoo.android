@@ -13,6 +13,7 @@
         android:layout_height="fill_parent"
         android:background="@color/light_gray" 
         android:layout_alignParentTop="true"
+        android:padding="5dp"
         android:visibility="gone">
 
         <com.millicom.secondscreen.customviews.FontTextView
@@ -21,6 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:gravity="left"
+            android:layout_centerVertical="true"
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="18sp"

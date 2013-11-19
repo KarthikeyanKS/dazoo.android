@@ -87,14 +87,14 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 
-				Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-				intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
-				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
-				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, mDate.getDate());
+				//Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
+				//intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
+				//intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
+				//intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, mDate.getDate());
 
 
-				mActivity.startActivity(intent);
-				mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+				//mActivity.startActivity(intent);
+				//mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			}
 		});
 

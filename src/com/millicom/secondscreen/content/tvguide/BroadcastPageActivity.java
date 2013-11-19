@@ -88,8 +88,8 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 	private DazooStore					dazooStore;
 	private Activity					mActivity;
 	private Intent						intent;
-	private static ArrayList<Broadcast>	mUpcomingSeriesBroadcasts;
-	private static ArrayList<Broadcast>	mProgramBroadcasts;
+	private static ArrayList<Broadcast>	mUpcomingSeriesBroadcasts = new ArrayList<Broadcast>();
+	private static ArrayList<Broadcast>	mProgramBroadcasts = new ArrayList<Broadcast>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
