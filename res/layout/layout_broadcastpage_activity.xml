@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
    	android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -150,8 +151,8 @@
 		                    
 			           		<ImageView
 			                    android:id="@+id/block_broadcastpage_channellogo_iv"
-			                    android:layout_width="wrap_content"
-			                    android:layout_height="wrap_content"
+			                    android:layout_width="110dp"
+            					android:layout_height="85dp"
 			                    android:layout_alignParentLeft="true"
 			                    android:adjustViewBounds="true" />
 			                <ProgressBar
@@ -460,7 +461,8 @@
             android:layout_weight="1"
             android:paddingBottom="2dp"
             android:text="@string/tab_tv_guide"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            font:fontbutton="fontello.ttf" />
 
         <com.millicom.secondscreen.customviews.FontButton
             android:id="@+id/show_activity"
@@ -470,7 +472,8 @@
             android:layout_weight="1"
             android:paddingBottom="2dp"
             android:text="@string/tab_activity"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            font:fontbutton="fontello.ttf" />
 
         <com.millicom.secondscreen.customviews.FontButton
             android:id="@+id/show_me"
@@ -480,7 +483,8 @@
             android:layout_weight="1"
             android:paddingBottom="2dp"
             android:text="@string/tab_me"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            font:fontbutton="fontello.ttf" />
         
     </LinearLayout>
     
