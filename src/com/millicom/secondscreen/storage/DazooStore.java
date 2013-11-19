@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
+import com.millicom.secondscreen.content.model.FeedItem;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Tag;
 import com.millicom.secondscreen.content.model.TvDate;
@@ -34,6 +35,8 @@ public class DazooStore {
 	private HashMap<BroadcastKey, ArrayList<Broadcast>>	mMyTaggedBroadcasts	= new HashMap<BroadcastKey, ArrayList<Broadcast>>();
 
 	private ArrayList<String>							mLikeIds			= new ArrayList<String>();
+	
+	private ArrayList<FeedItem> mActivityFeed = new ArrayList<FeedItem>();
 
 	// private constructor prevents instantiation from other classes
 	private DazooStore() {
@@ -331,6 +334,24 @@ public class DazooStore {
 		return null;
 	}
 
+	// activity feed
+	public void setActivityFeed(ArrayList<FeedItem> activityFeed){
+		this.mActivityFeed = activityFeed;
+	}
+	
+	public ArrayList<FeedItem> getActivityFeed(){
+		return this.mActivityFeed;
+	}
+	
+	public void reinitializeFeed(){
+		this.mActivityFeed.clear();
+		this.mActivityFeed = new ArrayList<FeedItem>();
+	}
+	
+	public void addItemsToActivityFeed(ArrayList<FeedItem> newItems){
+		this.mActivityFeed.addAll(newItems);
+	}
+	
 	// CLEAR DATA WHEN NEW CHANNEL IS ADDED TO THE SELECTION
 	public void clearMyGuidesStorage() {
 		this.mMyGuides.clear();

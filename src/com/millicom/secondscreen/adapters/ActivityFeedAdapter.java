@@ -96,6 +96,11 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		mFeedItems.add(item);
 		notifyDataSetChanged();
 	}
+	
+	public void addItems(ArrayList<FeedItem> items){
+		mFeedItems.addAll(items);
+		notifyDataSetChanged();
+	}
 
 	@Override
 	public int getItemViewType(int position) {

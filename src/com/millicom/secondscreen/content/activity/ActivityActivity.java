@@ -72,6 +72,7 @@ import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
 import com.millicom.secondscreen.content.search.SearchPageActivity;
 import com.millicom.secondscreen.http.NetworkUtils;
 import com.millicom.secondscreen.manager.ContentParser;
+import com.millicom.secondscreen.storage.DazooStore;
 
 public class ActivityActivity extends SSActivity implements OnClickListener {
 
@@ -180,8 +181,15 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		// check if the network connection exists
 		if (!NetworkUtils.checkConnection(this)) {
 			updateUI(REQUEST_STATUS.FAILED);
+		} else {
+			if (DazooStore.getInstance().getActivityFeed().size() > 0) {
+				Log.d(TAG,"READ FROM STORAGE");
+				activityFeed = DazooStore.getInstance().getActivityFeed();
+				updateUI(REQUEST_STATUS.SUCCESSFUL);
+			} else {
+				new GetFeedTask().execute();
+			}
 		}
-		new GetFeedTask().execute();
 	}
 
 	@Override
@@ -307,10 +315,8 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		protected void onPostExecute(Boolean result) {
 			Log.d(TAG, "result: " + result);
 			if (result) {
-
-				for (int i = 0; i < moreFeedItems.size(); i++) {
-					mAdapter.addItem(moreFeedItems.get(i));
-				}
+				DazooStore.getInstance().addItemsToActivityFeed(moreFeedItems);
+				mAdapter.addItems(moreFeedItems);
 			} else {
 				if (mNoMoreItems) {
 					mListView.removeFooterView(mListFooterView);
@@ -350,11 +356,11 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 
 				if (Consts.GOOD_RESPONSE == response.getStatusLine().getStatusCode()) {
 					Log.d(TAG, "GOOD RESPONSE");
-					
+
 					mRequestAge = Integer.valueOf(response.getFirstHeader("Age").getValue());
 					mRequestMaxAge = Integer.valueOf(response.getFirstHeader("Cache-Control").getValue().substring(8));
 					mNextRequestTime = mRequestMaxAge - mRequestAge;
-					
+
 					HttpEntity entityHttp = response.getEntity();
 					InputStream inputStream = entityHttp.getContent();
 					BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"), 8);
@@ -409,16 +415,17 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		}
 
 	}
-	
-	private void scheduleFeedRefresh(){
+
+	private void scheduleFeedRefresh() {
 		final Handler handler = new Handler();
-		handler.postDelayed(new Runnable(){
+		handler.postDelayed(new Runnable() {
 
 			@Override
 			public void run() {
+				DazooStore.getInstance().reinitializeFeed();
 				activityFeed.clear();
 				activityFeed = new ArrayList<FeedItem>();
-				loadPage();				
+				loadPage();
 			}
 		}, mNextRequestTime * 1000);
 	}
@@ -429,6 +436,9 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			if (result) {
 				if (activityFeed != null) {
 					if (activityFeed.isEmpty() != true) {
+						
+						DazooStore.getInstance().setActivityFeed(activityFeed);
+						
 						Log.d(TAG, "//////////////");
 						updateUI(REQUEST_STATUS.SUCCESSFUL);
 						mStartIndex = mStartIndex + mStep;
@@ -437,10 +447,10 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 						updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
 					}
 				}
-				
+
 				// schedule the next feed update
 				scheduleFeedRefresh();
-				
+
 			} else {
 				Log.d(TAG, "No backend response");
 				updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
@@ -479,12 +489,12 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 				if (Consts.GOOD_RESPONSE == response.getStatusLine().getStatusCode()) {
 					Log.d(TAG, "" + response.getFirstHeader("Age"));
 					Log.d(TAG, "" + response.getFirstHeader("Cache-Control"));
-					
+
 					mRequestAge = Integer.valueOf(response.getFirstHeader("Age").getValue());
 					mRequestMaxAge = Integer.valueOf(response.getFirstHeader("Cache-Control").getValue().substring(8));
 					mNextRequestTime = mRequestMaxAge - mRequestAge;
-					
-					Log.d(TAG,"AGE: " + mRequestAge + " Max Age: " + mRequestMaxAge + " Next time: " + mNextRequestTime);
+
+					Log.d(TAG, "AGE: " + mRequestAge + " Max Age: " + mRequestMaxAge + " Next time: " + mNextRequestTime);
 
 					Log.d(TAG, "GOOD RESPONSE");
 					HttpEntity entityHttp = response.getEntity();
