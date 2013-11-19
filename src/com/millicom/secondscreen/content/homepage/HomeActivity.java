@@ -2,6 +2,8 @@ package com.millicom.secondscreen.content.homepage;
 
 import java.util.ArrayList;
 
+import net.hockeyapp.android.CrashManager;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -80,6 +82,10 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		initViews();
 
 		loadPage();
+	}
+
+	private void checkForCrashes() {
+		CrashManager.register(this, Consts.HOCKEY_APP_TOKEN);
 	}
 
 	BroadcastReceiver	mBroadcastReceiverMyChannels	= new BroadcastReceiver() {
@@ -176,6 +182,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 			mStateChanged = false;
 		}
+		checkForCrashes();
 	}
 
 	private void initViews() {

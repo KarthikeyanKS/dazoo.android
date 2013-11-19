@@ -54,9 +54,7 @@ public class FeedService {
 		try {
 			jsonString = getActivityFeedTask.execute(token, String.valueOf(startIndex), String.valueOf(step)).get();
 			if (jsonString != null && TextUtils.isEmpty(jsonString) != true && !jsonString.equals(Consts.ERROR_STRING)) {
-				JSONObject feedListJson = new JSONObject(jsonString);
-				JSONArray feedLisJsonArray = feedListJson.optJSONArray(Consts.DAZOO_FEED_ITEMS);
-
+				JSONArray feedLisJsonArray = new JSONArray(jsonString);
 				int size = feedLisJsonArray.length();
 				Log.d(TAG, "FEED ITEMS SIZE: " + String.valueOf(size));
 				// TODO: UPDATE WHEN THE PAGINATION IS DONE BY THE BACKEND

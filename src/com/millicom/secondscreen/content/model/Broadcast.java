@@ -3,8 +3,10 @@ package com.millicom.secondscreen.content.model;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -28,6 +30,8 @@ public class Broadcast implements Parcelable {
 	private long				beginTimeMillis;
 	private String				shareUrl;
 
+	public boolean				firstOnTime;
+	
 	public Broadcast() {
 	}
 
@@ -93,6 +97,14 @@ public class Broadcast implements Parcelable {
 
 	public String getShareUrl() {
 		return this.shareUrl;
+	}
+	
+	public void setFirstOnTime(boolean firstOnTime) {
+		this.firstOnTime = firstOnTime;
+	}
+
+	public boolean isFirstOnTime() {
+		return firstOnTime;
 	}
 
 	@Override
@@ -215,5 +227,26 @@ public class Broadcast implements Parcelable {
 			}
 		}
 		return nextBroadcasts;
+	}
+	
+	public static void fixBroadcastList(List<Broadcast> broadcastList) {
+
+		Collections.sort(broadcastList, new Broadcast.BroadcastComparatorByTime());
+
+		long previousStartTime = 0;
+		for (int i = 0; i < broadcastList.size(); i++) {
+			Broadcast broadcast = broadcastList.get(i);
+
+			long startTime = 0;
+			try {
+				startTime = DateUtilities.isoStringToLong(broadcast.getBeginTime());
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+
+			broadcast.setFirstOnTime(startTime > previousStartTime);
+			broadcastList.get(i).setFirstOnTime(startTime > previousStartTime);
+			previousStartTime = startTime;
+		}
 	}
 }

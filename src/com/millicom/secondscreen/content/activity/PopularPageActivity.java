@@ -211,7 +211,6 @@ public class PopularPageActivity extends SSActivity implements OnClickListener {
 					inputStream.close();
 					String jsonString = sb.toString();
 					if (jsonString != null && TextUtils.isEmpty(jsonString) != true && !jsonString.equals(Consts.ERROR_STRING)) {
-						Log.d(TAG,"jsonString: " + jsonString);
 						JSONArray jsonArray = new JSONArray(jsonString);
 						if (jsonArray!=null){
 							int size = jsonArray.length();

@@ -141,7 +141,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			//mIsLiked = LikeService.isLiked(mToken, feedItem.getBroadcast().getProgram().getProgramId());
 			mIsLiked = DazooStore.getInstance().isInTheLikesList(feedItem.getBroadcast().getProgram().getProgramId());
 			
-			headerTv.setText(feedItem.getTitle());
+			headerTv.setText(feedItem.getTitle() + " " + feedItem.getItemType());
 
 			mImageLoader.displayImage(feedItem.getBroadcast().getProgram().getPosterMUrl(), landscapeIv, ImageLoader.IMAGE_TYPE.GALLERY);
 
@@ -367,7 +367,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			//mIsLiked = LikeService.isLiked(mToken, feedItem.getBroadcast().getProgram().getProgramId());
 			mIsLiked = DazooStore.getInstance().isInTheLikesList(feedItem.getBroadcast().getProgram().getProgramId());
 			
-			headerTvRec.setText(feedItem.getTitle());
+			headerTvRec.setText(feedItem.getTitle() + " " + feedItem.getItemType());
 
 			mImageLoader.displayImage(feedItem.getBroadcast().getProgram().getPosterMUrl(), landscapeIvRec, ImageLoader.IMAGE_TYPE.GALLERY);
 

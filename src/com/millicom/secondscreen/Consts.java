@@ -7,6 +7,7 @@ package com.millicom.secondscreen;
 public abstract class Consts {
 
 	public static final String	TESTFLIGHT_TOKEN											= "343b5e95-cc27-4e8e-8a0d-ff5f7a181c5c";
+	public static final String	HOCKEY_APP_TOKEN											= "c90b5331b5a7086d88d98021508f2c16";
 
 	// Shared preferences
 	public static final String	SHARED_PREFS_MAIN_NAME										= "com.millicom.secondscreen.shared.prefs";
@@ -331,7 +332,6 @@ public abstract class Consts {
 	public static final String	DAZOO_FEED_ITEM_TYPE_BROADCAST						= "BROADCAST";
 	public static final String	DAZOO_FEED_ITEM_TYPE_RECOMMENDED_BROADCAST			= "RECOMMENDED_BROADCAST";
 	public static final String	DAZOO_FEED_ITEM_TYPE_POPULAR_BROADCASTS				= "POPULAR_BROADCASTS";
-	public static final String	DAZOO_FEED_ITEMS									= "items";
 	public static final String	DAZOO_FEED_ITEM_ITEM_TYPE							= "itemType";
 	public static final String	DAZOO_FEED_ITEM_TITLE								= "title";
 	public static final String	DAZOO_FEED_ITEM_BROADCAST							= "broadcast";

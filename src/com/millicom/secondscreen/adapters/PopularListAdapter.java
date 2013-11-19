@@ -2,6 +2,7 @@ package com.millicom.secondscreen.adapters;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
@@ -193,6 +194,16 @@ public class PopularListAdapter extends BaseAdapter {
 		}
 		return rowView;
 	}
+	
+	//public BroadcastDay getCurrentBroadcastDay() {
+	//	List<BroadcastDay> sessionsSortedByDay = agendaDisplayer.getSessionsSortedByDay();
+	//	for (SessionsDay sessionDay : sessionsSortedByDay) {
+	//		if (sessionDay.day == selectedDayTime) {
+	//			return sessionDay;
+	//		}
+	//	}
+	//	return null;
+	//}
 
 	public static class ViewHolder {
 		RelativeLayout	mHeaderContainer;
