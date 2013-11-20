@@ -13,7 +13,7 @@ import android.util.Log;
 
 public class SSBroadcastsFromSeriesPage extends SSPage{
 	public static final String	TAG	= "SSBroadcastsFromSeriesPage";
-	public String				mSeriesId, mPageUrl;
+	public String				mPageUrl;
 
 	// private constructor prevents instantiation from other classes
 	private SSBroadcastsFromSeriesPage() {};
@@ -26,11 +26,11 @@ public class SSBroadcastsFromSeriesPage extends SSPage{
 		return SSBroadcastsFromSeriesPageHolder.INSTANCE;
 	}
 
-	public boolean getPage(String url, SSPageCallback pageCallback) {
+	public boolean getPage(String seriesId, SSPageCallback pageCallback) {
 		Log.d(TAG, "getPage");
 		// Remember the callback
 		super.mPageCallback = pageCallback;
-		mPageUrl = Consts.MILLICOM_SECONDSCREEN_SERIES + mSeriesId + Consts.MILLICOM_SECONDSCREEN_API_UPCOMING_BROADCASTS;
+		mPageUrl = Consts.MILLICOM_SECONDSCREEN_SERIES + seriesId + Consts.MILLICOM_SECONDSCREEN_API_UPCOMING_BROADCASTS;
 		
 		Link startPageLink = new Link();
 		startPageLink.setUrl(mPageUrl);

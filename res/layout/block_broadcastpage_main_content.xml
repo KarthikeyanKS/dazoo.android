@@ -3,127 +3,264 @@
     xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/listview_item_selector" 
-    android:padding="10dp">
+    android:background="@color/light_gray"
+    android:orientation="vertical" >
 
-    <LinearLayout
-        android:id="@+id/block_broadcastpage_main_content_container"
+    <RelativeLayout
+        android:id="@+id/broadcast_main_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white" >
+        android:background="@drawable/listview_item_selector"
+        android:padding="10dp" >
 
-        <!-- BROADCAST POSTER IMAGE -->
-
-        <RelativeLayout
-            android:id="@+id/block_broadcastpage_poster_container"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/block_broadcastpage_main_content_container"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.3"
             android:background="@color/white" >
 
-            <ImageView
-                android:id="@+id/block_broadcastpage_poster_iv"
-                android:layout_width="130dp"
-                android:layout_height="100dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="5dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitXY" />
+            <!-- BROADCAST POSTER IMAGE -->
 
-            <ProgressBar
-                android:id="@+id/block_broadcastpage_poster_progressbar"
+            <RelativeLayout
+                android:id="@+id/block_broadcastpage_poster_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:visibility="gone" />
-        </RelativeLayout>
+                android:layout_weight="0.3"
+                android:background="@color/white" >
 
-        <!-- INFO ABOUT BROADCAST -->
+                <ImageView
+                    android:id="@+id/block_broadcastpage_poster_iv"
+                    android:layout_width="120dp"
+                    android:layout_height="150dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="5dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY" />
 
-        <RelativeLayout
-            android:id="@+id/block_broadcastpage_broadcast_details_container"
+                <ProgressBar
+                    android:id="@+id/block_broadcastpage_poster_progressbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <!-- INFO ABOUT BROADCAST -->
+
+            <RelativeLayout
+                android:id="@+id/block_broadcastpage_broadcast_details_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_weight="0.7"
+                android:orientation="vertical" >
+
+                <!-- TITLE -->
+
+                <com.millicom.secondscreen.customviews.FontTextView
+                    android:id="@+id/block_broadcastpage_broadcast_details_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_gravity="left"
+                    android:layout_margin="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <!-- SEASON -->
+
+                <com.millicom.secondscreen.customviews.FontTextView
+                    android:id="@+id/block_broadcastpage_broadcast_details_season_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/block_broadcastpage_broadcast_details_title_tv"
+                    android:layout_gravity="left"
+                    android:layout_margin="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <!-- EPISODE NAME -->
+
+                <com.millicom.secondscreen.customviews.FontTextView
+                    android:id="@+id/block_broadcastpage_broadcast_details_episode_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/block_broadcastpage_broadcast_details_season_tv"
+                    android:layout_gravity="left"
+                    android:layout_margin="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <!-- TIME -->
+
+                <com.millicom.secondscreen.customviews.FontTextView
+                    android:id="@+id/block_broadcastpage_broadcast_details_time_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/block_broadcastpage_broadcast_details_episode_tv"
+                    android:layout_gravity="left"
+                    android:layout_margin="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <!-- DATE -->
+
+                <com.millicom.secondscreen.customviews.FontTextView
+                    android:id="@+id/block_broadcastpage_broadcast_details_date_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/block_broadcastpage_broadcast_details_time_tv"
+                    android:layout_gravity="left"
+                    android:layout_margin="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <!-- CHANNEL NAME -->
+
+                <com.millicom.secondscreen.customviews.FontTextView
+                    android:id="@+id/block_broadcastpage_broadcast_details_channelname_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/block_broadcastpage_broadcast_details_time_tv"
+                    android:layout_gravity="left"
+                    android:layout_margin="5dp"
+                    android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_date_tv"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_below="@id/block_broadcastpage_main_content_container"
+            android:id="@+id/divider"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_margin="10dp"
+            android:background="@color/light_gray" />
+
+        <com.millicom.secondscreen.customviews.FontTextView
+            android:id="@+id/block_broadcastpage_broadcast_synopsis_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_weight="0.7"
+            android:layout_below="@id/divider"
+            android:layout_gravity="left"
+            android:layout_margin="10dp"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <com.millicom.secondscreen.customviews.FontTextView
+            android:id="@+id/block_broadcastpage_broadcast_extra_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/block_broadcastpage_broadcast_synopsis_tv"
+            android:layout_gravity="left"
+            android:layout_margin="10dp"
+            android:textColor="@color/light_gray"
+            android:textSize="14sp" />
+
+        <com.millicom.secondscreen.customviews.FontTextView
+            android:id="@+id/block_broadcastpage_broadcast_tags_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/block_broadcastpage_broadcast_extra_tv"
+            android:layout_gravity="left"
+            android:layout_margin="10dp"
+            android:textColor="@color/light_gray"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/block_social_panel_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/broadcast_main_container"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="10dp" >
+
+        <!-- LIKE BUTTON -->
+
+        <LinearLayout
+            android:id="@+id/block_social_panel_like_button_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:orientation="vertical" >
 
-            <!-- TITLE -->
+            <ImageView
+                android:id="@+id/block_social_panel_like_button_iv"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/ic_heart" />
+        </LinearLayout>
 
-            <com.millicom.secondscreen.customviews.FontTextView
-                android:id="@+id/block_broadcastpage_broadcast_details_title_tv"
+        <!-- SEPARATOR -->
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_gravity="left"
-                android:layout_margin="5dp"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:src="@drawable/ic_separator" />
+        </LinearLayout>
 
-            <!-- SEASON -->
+        <!-- SHARE BUTTON -->
 
-            <com.millicom.secondscreen.customviews.FontTextView
-                android:id="@+id/block_broadcastpage_broadcast_details_season_tv"
+        <LinearLayout
+            android:id="@+id/block_social_panel_share_button_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center" >
+
+            <ImageView
+                android:id="@+id/block_social_panel_share_button_iv"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/share_icon" />
+        </LinearLayout>
+
+        <!-- SEPARATOR -->
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@id/block_broadcastpage_broadcast_details_title_tv"
-                android:layout_gravity="left"
-                android:layout_margin="5dp"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:src="@drawable/ic_separator" />
+        </LinearLayout>
 
-            <!-- EPISODE -->
+        <!-- REMIND BUTTON -->
 
-            <com.millicom.secondscreen.customviews.FontTextView
-                android:id="@+id/block_broadcastpage_broadcast_details_episode_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_margin="5dp"
-                android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_season_tv"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+        <LinearLayout
+            android:id="@+id/block_social_panel_remind_button_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center" >
 
-            <!-- TIME -->
-
-            <com.millicom.secondscreen.customviews.FontTextView
-                android:id="@+id/block_broadcastpage_broadcast_details_time_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/block_broadcastpage_broadcast_details_season_tv"
-                android:layout_gravity="left"
-                android:layout_margin="5dp"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-
-            <!-- DATE -->
-
-            <com.millicom.secondscreen.customviews.FontTextView
-                android:id="@+id/block_broadcastpage_broadcast_details_date_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/block_broadcastpage_broadcast_details_time_tv"
-                android:layout_gravity="left"
-                android:layout_margin="5dp"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-
-            <!-- CHANNEL NAME -->
-
-            <com.millicom.secondscreen.customviews.FontTextView
-                android:id="@+id/block_broadcastpage_broadcast_details_channelname_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_margin="5dp"
-                android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_date_tv"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-        </RelativeLayout>
+            <ImageView
+                android:id="@+id/block_social_panel_remind_button_iv"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/ic_clock" />
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

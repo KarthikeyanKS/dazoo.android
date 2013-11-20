@@ -3,6 +3,7 @@ package com.millicom.secondscreen.content.homepage;
 import java.util.ArrayList;
 
 import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.UpdateManager;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -65,7 +66,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_home_activity);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
+		
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
@@ -80,6 +81,8 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		// broadcast receiver for my channels have changed
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverMyChannels, new IntentFilter(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
 		initViews();
+		
+		checkForUpdates();
 
 		loadPage();
 	}
@@ -87,6 +90,11 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	private void checkForCrashes() {
 		CrashManager.register(this, Consts.HOCKEY_APP_TOKEN);
 	}
+	
+	private void checkForUpdates() {
+		   // Remove this for store builds!
+		   UpdateManager.register(this, Consts.HOCKEY_APP_TOKEN);
+		 }
 
 	BroadcastReceiver	mBroadcastReceiverMyChannels	= new BroadcastReceiver() {
 

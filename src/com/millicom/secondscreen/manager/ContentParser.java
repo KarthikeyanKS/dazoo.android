@@ -171,8 +171,7 @@ public class ContentParser {
 			broadcast.setProgram(parseProgram(jsonProgram));
 		}
 
-		broadcast.setBroadcastType(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_BROADCAST_TYPE));
-
+		broadcast.setBroadcastType(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_BROADCAST_TYPE));		
 		return broadcast;
 	}
 
