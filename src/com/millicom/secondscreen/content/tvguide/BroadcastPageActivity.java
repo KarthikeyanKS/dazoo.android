@@ -266,7 +266,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		// broadcastBlockPopulator.createBlock(mBroadcast, mChannel);
 
 		Program program = mBroadcast.getProgram();
-		//TODO: Show different actionbar title when TV-episode
+
 		mActionBar.setTitle(mBroadcast.getProgram().getTitle());
 
 		//Set channel logo
@@ -367,6 +367,8 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 			TextView temp = new TextView(mActivity);
 			
 			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+				mActionBar.setTitle(mBroadcast.getProgram().getSeries().getName());
+				
 				mTitleTv.setText(program.getSeries().getName());
 				mEpisodeNameTv.setText(program.getTitle());
 				mEpisodeNameTv.setVisibility(View.VISIBLE);

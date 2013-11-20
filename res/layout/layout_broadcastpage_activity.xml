@@ -66,7 +66,7 @@
 		                android:id="@+id/block_broadcastpage_broadcast_details_container"
 		                android:layout_width="fill_parent"
 		                android:layout_height="wrap_content"
-		                android:layout_marginTop="25dp"
+		                android:layout_marginTop="10dp"
 		                android:padding="10dp" >
 		                
 		                <!-- TRENDING ICON TODO: SPECIFY SOURCE -->
@@ -89,6 +89,7 @@
 		                    android:layout_marginRight="10dp"	
 		                    android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_trending_iv"
 		                    android:visibility="gone"/>		
+		                    
 		                <!-- TITLE -->
 		
 		                <com.millicom.secondscreen.customviews.FontTextView
@@ -151,7 +152,7 @@
 		                    
 			           		<ImageView
 			                    android:id="@+id/block_broadcastpage_channellogo_iv"
-			                    android:layout_width="110dp"
+			                    android:layout_width="85dp"
             					android:layout_height="85dp"
 			                    android:layout_alignParentLeft="true"
 			                    android:adjustViewBounds="true" />

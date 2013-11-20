@@ -129,20 +129,7 @@ public class RemindersActivity extends ActionBarActivity implements RemindersCou
 		Toast.makeText(this, "Currently you have " + notificationList.size() + " being set. List with info is coming soon!", Toast.LENGTH_LONG).show();
 
 		//Sort the list of broadcasts by time.
-		Collections.sort(broadcasts, new Comparator<Broadcast>() {
-			@Override
-			public int compare(Broadcast a, Broadcast b) {
-				if (a.getBeginTimeMillis() > b.getBeginTimeMillis()) {
-					return 1;
-				} 
-				else if (a.getBeginTimeMillis() < b.getBeginTimeMillis()) {
-					return -1;
-				}
-				else {
-					return 0;
-				}
-			}
-		});
+		Collections.sort(broadcasts, new Broadcast.BroadcastComparatorByTime());
 		
 		mAdapter = new RemindersListAdapter(this, broadcasts, this);
 		mListView.setAdapter(mAdapter);

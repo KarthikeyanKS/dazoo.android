@@ -127,7 +127,12 @@ public class TVGuideListAdapter extends BaseAdapter {
 				
 				for (int j = 0; j < nextBroadcasts.size(); j++) {
 					if (j == 0) {
-						holder.mLiveProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getTitle());
+						if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(nextBroadcasts.get(j).getProgram().getProgramType())) {
+							holder.mLiveProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getSeries().getName());
+						}
+						else {
+							holder.mLiveProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getTitle());
+						}
 						try {
 							holder.mLiveProgramTimeTv.setText((DateUtilities.isoStringToTimeString(nextBroadcasts.get(j).getBeginTime())));
 						} catch (Exception e) {
@@ -135,7 +140,12 @@ public class TVGuideListAdapter extends BaseAdapter {
 							holder.mLiveProgramTimeTv.setText("");
 						}
 					} else if (j == 1 && j < nextBroadcasts.size()) {
-						holder.mNextProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getTitle());
+						if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(nextBroadcasts.get(j).getProgram().getProgramType())) {
+							holder.mNextProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getSeries().getName());
+						}
+						else {
+							holder.mNextProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getTitle());
+						}
 						try {
 							holder.mNextProgramTimeTv.setText((DateUtilities.isoStringToTimeString(nextBroadcasts.get(j).getBeginTime())));
 						} catch (Exception e) {
@@ -143,7 +153,12 @@ public class TVGuideListAdapter extends BaseAdapter {
 							holder.mNextProgramTimeTv.setText("");
 						}
 					} else if (j == 2 && j < nextBroadcasts.size()) {
-						holder.mLastProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getTitle());
+						if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(nextBroadcasts.get(j).getProgram().getProgramType())) {
+							holder.mLastProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getSeries().getName());
+						}
+						else {
+							holder.mLastProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getTitle());
+						}
 						try {
 							holder.mLastProgramTimeTv.setText((DateUtilities.isoStringToTimeString(nextBroadcasts.get(j).getBeginTime())));
 						} catch (Exception e) {

@@ -4,7 +4,7 @@
     android:id="@+id/mychannels_list_container"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/light_gray" >
+    android:background="@color/dark_gray" >
 
     <!-- HEADER WITH CHANNELS NUMBER COUNTER -->
 
@@ -112,6 +112,7 @@
         android:layout_marginTop="10dp"
         android:cacheColorHint="@null"
         android:divider="@null"
-        android:dividerHeight="0dp" />
+        android:dividerHeight="0dp"
+        android:isScrollContainer="false" />
 
 </RelativeLayout>
