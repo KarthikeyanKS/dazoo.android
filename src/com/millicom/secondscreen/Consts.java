@@ -132,6 +132,7 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_LOG_OUT_ACTION							= "com.millicom.secondscreen.intent.extra.log.out.action";
 	public static final String	INTENT_EXTRA_LOG_IN_ACTION							= "com.millicom.secondscreen.intent.extra.log.in.action";
 	public static final String	INTENT_EXTRA_DATA_FETCHING							= "com.millicom.secondscreen.intent.extra.log.in.action";
+	public static final String	INTENT_EXTRA_UPCOMING_BROADCASTS					= "com.millicom.secondscreen.intent.extra.upcoming.broadcasts";
 
 	// alarm extras
 	public static final String	INTENT_ALARM_EXTRA_BROADCAST_BEGINTIMEMILLIS		= "com.millicom.secondscreen.intent.alarm.extra.broadcast.begintimemillis";

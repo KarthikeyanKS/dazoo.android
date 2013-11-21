@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <!-- HEADER -->
+
+    <RelativeLayout
+        android:id="@+id/row_upcoming_episodes_header_container"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:background="@color/light_gray"
+        android:padding="5dp"
+        android:visibility="gone" >
+
+        <com.millicom.secondscreen.customviews.FontTextView
+            android:id="@+id/row_upcoming_episodes_header_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="left"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <!-- ITEM -->
+
+    <LinearLayout
+        android:id="@+id/row_upcoming_episodes_listitem_info_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/row_upcoming_episodes_header_container"
+        android:orientation="horizontal" 
+        android:padding="10dp">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.7"
+            android:background="@color/white"
+            android:orientation="vertical" >
+
+            <com.millicom.secondscreen.customviews.FontTextView
+                android:id="@+id/row_upcoming_episodes_listitem_season_episode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <com.millicom.secondscreen.customviews.FontTextView
+                android:id="@+id/row_upcoming_episodes_listitem_title_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/row_upcoming_episodes_listitem_season_episode"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <com.millicom.secondscreen.customviews.FontTextView
+                android:id="@+id/row_upcoming_episodes_listitem_channel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/row_upcoming_episodes_listitem_title_time"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <!-- SEPARATOR -->
+
+        <LinearLayout
+            android:id="@+id/row_upcoming_episodes_listitem_divider_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="visible" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_separator" />
+        </LinearLayout>
+
+        <!-- REMIND BUTTON -->
+
+        <LinearLayout
+            android:id="@+id/row_upcoming_episodes_listitem_remind_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_weight="0.2"
+            android:gravity="center" >
+
+            <ImageView
+                android:id="@+id/row_upcoming_episodes_listitem_remind_iv"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/ic_clock" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/row_upcoming_episodes_listitem_bottom_divider"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/row_upcoming_episodes_listitem_info_container"
+        android:layout_margin="10dp"
+        android:background="@color/light_gray" />
+
+</RelativeLayout>

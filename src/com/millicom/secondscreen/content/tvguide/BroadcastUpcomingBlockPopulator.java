@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +48,7 @@ public class BroadcastUpcomingBlockPopulator {
 		mNotificationDataSource = new NotificationDataSource(mActivity);
 	}
 
-	public void createBlock(ArrayList<Broadcast> upcomingBroadcasts) {
+	public void createBlock(final ArrayList<Broadcast> upcomingBroadcasts) {
 		LinearLayout containerView = (LinearLayout) mContainerView.findViewById(R.id.broacastpage_block_container_layout);
 
 		View topContentView = LayoutInflater.from(mActivity).inflate(R.layout.block_broadcastpage_upcoming_layout, null);
@@ -347,7 +348,11 @@ public class BroadcastUpcomingBlockPopulator {
 
 				@Override
 				public void onClick(View v) {
-					// go to list of all upcoming episodes
+					Log.d(TAG,"SIZE: " + upcomingBroadcasts.size());
+					Intent intent = new Intent(mActivity, UpcomingeEpisodesPageActivity.class);
+					intent.putParcelableArrayListExtra(Consts.INTENT_EXTRA_UPCOMING_BROADCASTS, upcomingBroadcasts);
+					mActivity.startActivity(intent);
+					mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 				}
 			});
 		}

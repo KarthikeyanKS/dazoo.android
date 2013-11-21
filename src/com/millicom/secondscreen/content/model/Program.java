@@ -193,7 +193,7 @@ public class Program implements Parcelable {
 		dest.writeString(posterMUrl);
 		dest.writeString(posterLUrl);
 		dest.writeSerializable(tags);
-		dest.writeTypedList(credits);
+		//dest.writeTypedList(credits);
 		dest.writeInt(episodeNumber);
 		dest.writeParcelable(season, flags);
 		dest.writeParcelable(series, flags);
@@ -214,7 +214,7 @@ public class Program implements Parcelable {
 		posterMUrl = in.readString();
 		posterLUrl = in.readString();
 		tags = (ArrayList<String>) in.readSerializable();
-		credits = in.readArrayList(Credit.class.getClassLoader());
+		//credits = in.readArrayList(Credit.class.getClassLoader());
 		episodeNumber = in.readInt();
 		season = in.readParcelable(Season.class.getClassLoader());
 		series = in.readParcelable(Series.class.getClassLoader());

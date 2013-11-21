@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
+    android:id="@+id/upcoming_episodes_list_container"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <!-- BOTTOM NAVIGATION TABS -->
+
+    <include
+        android:id="@+id/tab_selector_container"
+        android:layout_alignParentBottom="true"
+        layout="@layout/block_bottom_tabs" />
+
+    <include
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:layout_above="@id/tab_selector_container"
+        layout="@layout/layout_request_callbacks_holder_layout" />
+
+    <ListView
+        android:id="@+id/upcoming_episodes_list_listview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/tab_selector_container"
+        android:layout_alignParentTop="true"
+        android:background="@color/white"
+        android:cacheColorHint="@null"
+        android:dividerHeight="0dp"
+        android:divider="@null"
+        android:visibility="gone" />
+
+</RelativeLayout>
