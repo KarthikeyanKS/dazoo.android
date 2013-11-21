@@ -85,9 +85,11 @@ public class FacebookLoginActivity extends ActionBarActivity {
 		openRequest.setCallback(statusCallback);
 		Session session = new Session.Builder(activity).build();
 		if (SessionState.CREATED_TOKEN_LOADED.equals(session.getState()) || allowLoginUI) {
+			Log.d(TAG,"loaded");
 			//TestFlight.passCheckpoint("OPEN FACEBOOK SESSION");
 			Session.setActiveSession(session);
 			session.openForRead(openRequest);
+			Log.d(TAG,"SESSION;" + session.getState());
 			return session;
 		}
 		return null;
@@ -96,15 +98,19 @@ public class FacebookLoginActivity extends ActionBarActivity {
 	Session.StatusCallback	statusCallback	= new Session.StatusCallback() {
 		@Override
 		public void call(final Session session, SessionState state, Exception exception) {
+			Log.d(TAG,"0");
 			if (session.isOpened()) {
+				Log.d(TAG,"1");
 				Request.newMeRequest(session, new Request.GraphUserCallback() {
 					@Override
 					public void onCompleted(GraphUser user, Response response) {
 						if (user != null) {
+							Log.d(TAG,"!!!");
 							facebookSessionToken = session.getAccessToken();
 							//TestFlight.passCheckpoint("FACEBOOK SESSION TOKEN IS RECEIVED");
+							Log.d(TAG,"facebook:" + facebookSessionToken );
 							if (getDazooToken()) {
-								
+								Log.d(TAG,"DAZOO TOKEN");
 								//TestFlight.passCheckpoint("DAZOO TOKEN FROM FACEBOOK TOKEN IS RECEIVED");
 								boolean firstTime = ((SecondScreenApplication) getApplicationContext()).getUserExistringFlag();
 								if (firstTime) {
