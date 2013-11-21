@@ -348,7 +348,7 @@ public class BroadcastUpcomingBlockPopulator {
 
 				@Override
 				public void onClick(View v) {
-					Log.d(TAG,"SIZE: " + upcomingBroadcasts.size());
+					Log.d(TAG, "SIZE: " + upcomingBroadcasts.size());
 					Intent intent = new Intent(mActivity, UpcomingeEpisodesPageActivity.class);
 					intent.putParcelableArrayListExtra(Consts.INTENT_EXTRA_UPCOMING_BROADCASTS, upcomingBroadcasts);
 					mActivity.startActivity(intent);

@@ -38,23 +38,23 @@ import com.millicom.secondscreen.storage.DazooStore;
 
 public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity implements OnClickListener {
 
-	private static final String			TAG					= "BroadcastPageActivity";
-	private Broadcast					mBroadcast;
-	private String						mTvDate;
+	private static final String		TAG					= "BroadcastPageActivity";
+	private Broadcast				mBroadcast;
+	private String					mTvDate;
 
-	private LinearLayout				mBlockContainer;
-	private ActionBar					mActionBar;
-	private Channel						mChannel;
-	private String						token, mChannelId, mBroadcastPageUrl;
-	private long						mBeginTimeInMillis;
-	private boolean						mIsFromNotification	= false, mIsFromActivity = false, mIsLoggedIn = false, mIsBroadcast = false, mIsUpcoming = false;
-	private TextView					mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
-	private DazooStore					dazooStore;
+	private LinearLayout			mBlockContainer;
+	private ActionBar				mActionBar;
+	private Channel					mChannel;
+	private String					token, mChannelId, mBroadcastPageUrl;
+	private long					mBeginTimeInMillis;
+	private boolean					mIsFromNotification	= false, mIsFromActivity = false, mIsLoggedIn = false, mIsBroadcast = false, mIsUpcoming = false;
+	private TextView				mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
+	private DazooStore				dazooStore;
 	private Activity				mActivity;
-	private Intent						intent;
+	private Intent					intent;
 	private ArrayList<Broadcast>	mUpcomingBroadcasts	= new ArrayList<Broadcast>();
-	private String						mContentId;
-	private ScrollView mScrollView;
+	private String					mContentId;
+	private ScrollView				mScrollView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +104,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 	}
 
 	private void loadStartPage() {
+		updateUI(REQUEST_STATUS.LOADING);
 		// check if the network connection exists
 		if (!NetworkUtils.checkConnection(mActivity)) {
 			updateUI(REQUEST_STATUS.FAILED);
@@ -208,17 +209,18 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		// add main content block
 		BroadcastMainBlockPopulator mainBlockPopulator = new BroadcastMainBlockPopulator(mActivity, mScrollView, token, mTvDate);
 		mainBlockPopulator.createBlock(mBroadcast);
-		
+
 		// upcoming episodes
-		BroadcastUpcomingBlockPopulator repetitionsBlock = new BroadcastUpcomingBlockPopulator(mActivity, mScrollView, mTvDate);
-		repetitionsBlock.createBlock(mUpcomingBroadcasts);
-		
+		if (mUpcomingBroadcasts != null && mUpcomingBroadcasts.isEmpty() != true) {
+			BroadcastUpcomingBlockPopulator repetitionsBlock = new BroadcastUpcomingBlockPopulator(mActivity, mScrollView, mTvDate);
+			repetitionsBlock.createBlock(mUpcomingBroadcasts);
+		}
 		// cast & crew
-		
+
 		// repetitions
-		
+
 		// similar shows today
-		
+
 		// what else is on
 	}
 
