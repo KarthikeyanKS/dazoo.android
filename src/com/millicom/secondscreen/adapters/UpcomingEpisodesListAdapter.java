@@ -3,9 +3,11 @@ package com.millicom.secondscreen.adapters;
 import java.text.ParseException;
 import java.util.ArrayList;
 
+import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.NotificationDbItem;
+import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
 import com.millicom.secondscreen.notification.NotificationDataSource;
 import com.millicom.secondscreen.notification.NotificationDialogHandler;
 import com.millicom.secondscreen.notification.NotificationService;
@@ -13,21 +15,12 @@ import com.millicom.secondscreen.utilities.AnimationUtilities;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
 
-//import com.millicom.secondscreen.Consts;
-//import com.millicom.secondscreen.R;
-//import com.millicom.secondscreen.adapters.TVGuideListAdapter.ViewHolder;
-//import com.millicom.secondscreen.content.model.Broadcast;
-//import com.millicom.secondscreen.content.model.Guide;
-//import com.millicom.secondscreen.utilities.DateUtilities;
-//import com.millicom.secondscreen.utilities.ImageLoader;
-
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -91,6 +84,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 			viewHolder.mChannelTv = (TextView) rowView.findViewById(R.id.row_upcoming_episodes_listitem_channel);
 			viewHolder.mReminderIv = (ImageView) rowView.findViewById(R.id.row_upcoming_episodes_listitem_remind_iv);
 			viewHolder.mReminderContainer = (LinearLayout) rowView.findViewById(R.id.row_upcoming_episodes_listitem_remind_container);
+			viewHolder.mContainer = (LinearLayout) rowView.findViewById(R.id.row_upcoming_episodes_listitem_info_container);
 			rowView.setTag(viewHolder);
 		}
 
@@ -186,9 +180,30 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 								Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
 							}
 						}
-					} else {
-						Toast.makeText(mActivity, "The broadcast was already shown! You cannot set a reminder on that", Toast.LENGTH_SHORT).show();
 					}
+				}
+			});
+
+			holder.mContainer.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					String tvDate = "";
+					try {
+						tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTime());
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+
+					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
+					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, tvDate);
+					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
+
+					mActivity.startActivity(intent);
+					mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
 				}
 			});
@@ -232,6 +247,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 	static class ViewHolder {
 		RelativeLayout	mHeaderContainer;
 		TextView		mHeader;
+		LinearLayout	mContainer;
 		TextView		mSeasonEpisodeTv;
 		TextView		mTimeTv;
 		TextView		mChannelTv;

@@ -54,6 +54,7 @@ public class BroadcastMainBlockPopulator {
 		this.mTvDate = tvDate;
 		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage_2x);
 		this.mContainerView = containerView;
+		this.mNotificationDataSource = new NotificationDataSource(mActivity);
 	}
 
 	public void createBlock(final Broadcast broadcast) {
@@ -197,8 +198,6 @@ public class BroadcastMainBlockPopulator {
 
 		tagsTv.setText(sb.toString());
 
-		mNotificationDataSource = new NotificationDataSource(mActivity);
-
 		if (!mIsFuture) {
 			NotificationDbItem dbItem = new NotificationDbItem();
 			dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillis());
@@ -295,9 +294,7 @@ public class BroadcastMainBlockPopulator {
 							Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
 						}
 					}
-				} else {
-					Toast.makeText(mActivity, "The broadcast was already shown! You cannot set a reminder on that", Toast.LENGTH_SHORT).show();
-				}
+				} 
 			}
 		});
 		topContentView.setVisibility(View.VISIBLE);

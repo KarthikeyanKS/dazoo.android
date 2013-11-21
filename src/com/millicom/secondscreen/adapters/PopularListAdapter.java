@@ -200,6 +200,26 @@ public class PopularListAdapter extends BaseAdapter {
 					holder.mDetailsTv.setText(broadcast.getProgram().getCategory());
 				}
 			}
+			holder.mContainer.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
+					try {
+						intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE,  DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime()));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
+
+					mActivity.startActivity(intent);
+					mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+					
+				}
+			});
 		}
 		return rowView;
 	}

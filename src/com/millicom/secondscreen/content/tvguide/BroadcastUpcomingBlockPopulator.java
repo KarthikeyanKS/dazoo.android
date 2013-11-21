@@ -142,9 +142,29 @@ public class BroadcastUpcomingBlockPopulator {
 								Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
 							}
 						}
-					} else {
-						Toast.makeText(mActivity, "The broadcast was already shown! You cannot set a reminder on that", Toast.LENGTH_SHORT).show();
+					} 
+				}
+			});
+
+			mFirstContainer.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					String tvDate = "";
+					try {
+						tvDate = DateUtilities.isoDateStringToTvDateString(broadcastOne.getBeginTime());
+					} catch (ParseException e) {
+						e.printStackTrace();
 					}
+
+					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcastOne.getBeginTimeMillis());
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcastOne.getChannel().getChannelId());
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, tvDate);
+					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
+					mActivity.finish();
+					mActivity.startActivity(intent);
+					mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
 				}
 			});
@@ -235,9 +255,29 @@ public class BroadcastUpcomingBlockPopulator {
 								Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
 							}
 						}
-					} else {
-						Toast.makeText(mActivity, "The broadcast was already shown! You cannot set a reminder on that", Toast.LENGTH_SHORT).show();
+					} 
+				}
+			});
+
+			mSecondContainer.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					String tvDate = "";
+					try {
+						tvDate = DateUtilities.isoDateStringToTvDateString(broadcastTwo.getBeginTime());
+					} catch (ParseException e) {
+						e.printStackTrace();
 					}
+
+					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcastTwo.getBeginTimeMillis());
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcastTwo.getChannel().getChannelId());
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, tvDate);
+					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
+					mActivity.finish();
+					mActivity.startActivity(intent);
+					mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
 				}
 			});
@@ -329,13 +369,31 @@ public class BroadcastUpcomingBlockPopulator {
 								Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
 							}
 						}
-					} else {
-						Toast.makeText(mActivity, "The broadcast was already shown! You cannot set a reminder on that", Toast.LENGTH_SHORT).show();
-					}
-
+					} 
 				}
 			});
 
+			mThirdContainer.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					String tvDate = "";
+					try {
+						tvDate = DateUtilities.isoDateStringToTvDateString(broadcastThree.getBeginTime());
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+
+					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcastThree.getBeginTimeMillis());
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcastThree.getChannel().getChannelId());
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, tvDate);
+					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
+					mActivity.finish();
+					mActivity.startActivity(intent);
+					mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+				}
+			});
 		}
 
 		if (upcomingBroadcasts.size() > 3) {

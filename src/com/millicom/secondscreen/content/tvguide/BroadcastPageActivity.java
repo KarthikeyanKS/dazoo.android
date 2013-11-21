@@ -90,6 +90,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		Log.d(TAG, "mIsBroadcast: " + mIsBroadcast + " mIsUpcoming: " + mIsUpcoming);
 		if (mIsBroadcast && mIsUpcoming) {
 			if (super.requestIsSuccesfull(status)) {
+				Log.d(TAG,"SUCCESSFUL");
 				populateBlocks();
 			}
 		}
@@ -105,6 +106,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 
 	private void loadStartPage() {
 		updateUI(REQUEST_STATUS.LOADING);
+		Log.d(TAG,"LOADING");
 		// check if the network connection exists
 		if (!NetworkUtils.checkConnection(mActivity)) {
 			updateUI(REQUEST_STATUS.FAILED);
