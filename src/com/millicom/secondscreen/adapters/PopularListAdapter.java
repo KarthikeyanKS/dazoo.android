@@ -2,6 +2,7 @@ package com.millicom.secondscreen.adapters;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
@@ -14,6 +15,7 @@ import com.millicom.secondscreen.utilities.ImageLoader;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,16 +28,17 @@ import android.widget.TextView;
 
 public class PopularListAdapter extends BaseAdapter {
 
-	public static final String		TAG	= "PopularListAdapter";
+	public static final String		TAG					= "PopularListAdapter";
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
 	private ArrayList<Broadcast>	mPopularBroadcasts;
 	private ImageLoader				mImageLoader;
 	private String					mToken;
+	private int						mCurrentPosition	= -1;
 
 	public PopularListAdapter(Activity activity, String token, ArrayList<Broadcast> popularBroadcasts) {
-		this.mActivity = mActivity;
+		this.mActivity = activity;
 		this.mPopularBroadcasts = popularBroadcasts;
 		this.mImageLoader = new ImageLoader(activity, R.drawable.loadimage);
 		this.mToken = token;
@@ -81,6 +84,10 @@ public class PopularListAdapter extends BaseAdapter {
 			viewHolder.mDetailsTv = (TextView) rowView.findViewById(R.id.row_popular_details_extra_tv);
 			viewHolder.mProgressBarTitleTv = (TextView) rowView.findViewById(R.id.row_popular_timeleft_tv);
 			viewHolder.mProgressBar = (ProgressBar) rowView.findViewById(R.id.row_popular_progressbar);
+
+			viewHolder.mTitleTv.setTag(Integer.valueOf(position));
+			Log.d(TAG, "set tag: " + Integer.valueOf(position));
+
 			rowView.setTag(viewHolder);
 		}
 
@@ -89,14 +96,23 @@ public class PopularListAdapter extends BaseAdapter {
 
 			String tvDate = "";
 			try {
-				tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTime());
+				tvDate = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime());
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 
 			// TODO: SORTING BY DAY: SHOW/HIDE HEADER
+
+			mCurrentPosition = (Integer) holder.mTitleTv.getTag();
+			Log.d(TAG,"currentPosition:" + mCurrentPosition);
+			if(position % Consts.MILLICOM_SECONDSCREEN_API_POPULAR_COUNT_DEFAULT == 0){
+			
 			holder.mHeaderContainer.setVisibility(View.VISIBLE);
 			holder.mHeaderTv.setText(tvDate);
+			}
+			else {
+				holder.mHeaderContainer.setVisibility(View.GONE);
+			}
 			holder.mContainer.setOnClickListener(new View.OnClickListener() {
 
 				@Override
@@ -129,53 +145,49 @@ public class PopularListAdapter extends BaseAdapter {
 				holder.mTitleTv.setText(broadcast.getProgram().getTitle());
 			}
 			try {
-				holder.mTimeTv.setText(DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime()) + DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
+				holder.mTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 			holder.mChannelNameTv.setText(broadcast.getChannel().getName());
 
-			
 			int duration = 0;
-			//MC - Calculate the duration of the program and set up ProgressBar.
+			// MC - Calculate the duration of the program and set up ProgressBar.
 			try {
 				long startTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime());
 				long endTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTime());
 				duration = (int) (startTime - endTime) / (1000 * 60);
-			} 
-			catch (ParseException e) {
+			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 			holder.mProgressBar.setMax(duration);
 
-			//MC - Calculate the current progress of the ProgressBar and update.
-			int initialProgressTwo = 0;
-			long differenceTwo = 0;
+			// MC - Calculate the current progress of the ProgressBar and update.
+			int initialProgress = 0;
+			long difference = 0;
 			try {
-				differenceTwo = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime());
-			} 
-			catch (ParseException e) {
+				difference = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime());
+			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 
-			if (differenceTwo < 0) {
+			if (difference < 0) {
 				holder.mProgressBar.setVisibility(View.GONE);
-				initialProgressTwo = 0;
+				holder.mProgressBarTitleTv.setVisibility(View.GONE);
+				initialProgress = 0;
 				holder.mProgressBar.setProgress(0);
-			} 
-			else {
+			} else {
 				try {
-					initialProgressTwo = (int) DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime()) / (1000 * 60);
-				} 
-				catch (ParseException e) {
+					initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime()) / (1000 * 60);
+				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-				holder.mProgressBarTitleTv.setText(duration-initialProgressTwo + " " + mActivity.getResources().getString(R.string.minutes) + 
-						" " + mActivity.getResources().getString(R.string.left));
-				holder.mProgressBar.setProgress(initialProgressTwo);
+				holder.mProgressBarTitleTv.setText(duration - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
+				holder.mProgressBar.setProgress(initialProgress);
 				holder.mProgressBar.setVisibility(View.VISIBLE);
+				holder.mProgressBarTitleTv.setVisibility(View.VISIBLE);
 			}
-			
+
 			if (programType != null) {
 				if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
 					holder.mDetailsTv.setText(broadcast.getProgram().getGenre() + mActivity.getResources().getString(R.string.from) + broadcast.getProgram().getYear());
@@ -188,6 +200,26 @@ public class PopularListAdapter extends BaseAdapter {
 					holder.mDetailsTv.setText(broadcast.getProgram().getCategory());
 				}
 			}
+			holder.mContainer.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
+					try {
+						intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE,  DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime()));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
+
+					mActivity.startActivity(intent);
+					mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+					
+				}
+			});
 		}
 		return rowView;
 	}

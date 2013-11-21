@@ -2,6 +2,9 @@ package com.millicom.secondscreen.content.homepage;
 
 import java.util.ArrayList;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.UpdateManager;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -56,14 +59,14 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	private Fragment							mActiveFragment;
 
 	private int									mStartingPosition	= 0;
-	private boolean mChannelUpdate = false;
+	private boolean								mChannelUpdate		= false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_home_activity);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
+		
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
@@ -78,9 +81,20 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		// broadcast receiver for my channels have changed
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverMyChannels, new IntentFilter(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
 		initViews();
+		
+		checkForUpdates();
 
 		loadPage();
 	}
+
+	private void checkForCrashes() {
+		CrashManager.register(this, Consts.HOCKEY_APP_TOKEN);
+	}
+	
+	private void checkForUpdates() {
+		   // Remove this for store builds!
+		   UpdateManager.register(this, Consts.HOCKEY_APP_TOKEN);
+		 }
 
 	BroadcastReceiver	mBroadcastReceiverMyChannels	= new BroadcastReceiver() {
 
@@ -109,12 +123,13 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 					updateUI(REQUEST_STATUS.FAILED);
 				}
 			} else if (mIsReady && (mDateSelectedIndex != 0) && mChannelUpdate) {
-
 				attachFragment();
 				mChannelUpdate = false;
 			} else if (mIsReady && (mDateSelectedIndex == 0) && mChannelUpdate) {
 				attachFragment();
 				mChannelUpdate = false;
+			} else if (mIsReady && (mDateSelectedIndex != 0) && !mChannelUpdate) {
+				attachFragment();
 			}
 		}
 	};
@@ -163,18 +178,19 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			reloadPage();
 		}
 	};
-	
+
 	@Override
-	protected void onResume(){
+	protected void onResume() {
 		super.onResume();
-		if(mStateChanged){
+		if (mStateChanged) {
 			removeActiveFragment();
 			DazooStore.getInstance().clearAndReinitializeForMyChannels();
 			mChannelUpdate = true;
 			DazooCore.getGuide(mDateSelectedIndex, false);
-			
+
 			mStateChanged = false;
 		}
+		checkForCrashes();
 	}
 
 	private void initViews() {

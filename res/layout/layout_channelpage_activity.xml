@@ -24,73 +24,28 @@
 
     <!-- BOTTOM NAVIGATION TABS -->
 
-    <LinearLayout
+    <include
         android:id="@+id/tab_selector_container"
-        android:layout_width="fill_parent"
-        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/light_gray"
-        android:orientation="horizontal"
-        android:paddingBottom="2dp" >
-
-        <com.millicom.secondscreen.customviews.FontButton
-            android:id="@+id/show_tvguide"
-            style="@style/homepage_tab_selector"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:paddingBottom="2dp"
-            android:text="@string/tab_tv_guide"
-            android:textSize="15sp" 
-            font:fontbutton="fontello.ttf"/>
-
-        <com.millicom.secondscreen.customviews.FontButton
-            android:id="@+id/show_activity"
-            style="@style/homepage_tab_selector"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:paddingBottom="2dp"
-            android:text="@string/tab_activity"
-            android:textSize="15sp" 
-            font:fontbutton="fontello.ttf"/>
-
-        <com.millicom.secondscreen.customviews.FontButton
-            android:id="@+id/show_me"
-            style="@style/homepage_tab_selector"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:paddingBottom="2dp"
-            android:text="@string/tab_me"
-            android:textSize="15sp" 
-            font:fontbutton="fontello.ttf"/>
-    </LinearLayout>
+        layout="@layout/block_bottom_tabs" />
 
     <!-- LIST OF FOLLOWING UP BROADCASTS (AND CURRENT!) -->
-	<RelativeLayout 
-	    android:id="@+id/listview_container"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_above="@id/tab_selector_container"
-	    android:layout_below="@id/channelpage_channel_icon_container"
-	    android:paddingTop="10dp"
-	    android:paddingLeft="10dp"
-	    android:paddingRight="10dp">
-        
-	    <ListView
-	        android:id="@+id/listview"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:cacheColorHint="@null"
-	        android:divider="@null"
-	        android:dividerHeight="0dp" />
-	    
-     </RelativeLayout>
-     
-     <include layout="@layout/layout_request_callbacks_holder_layout" 
- 	 	android:layout_above="@id/tab_selector_container"
-		android:layout_width="fill_parent" 
-		android:layout_height="match_parent"/>
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/tab_selector_container"
+        android:layout_below="@id/channelpage_channel_icon_container"
+        android:layout_margin="10dp"
+        android:cacheColorHint="@null"
+        android:divider="@null"
+        android:dividerHeight="0dp" />
+
+    <include
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/tab_selector_container"
+        layout="@layout/layout_request_callbacks_holder_layout" />
 
 </RelativeLayout>

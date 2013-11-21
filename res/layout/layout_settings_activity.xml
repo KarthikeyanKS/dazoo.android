@@ -113,48 +113,11 @@
 		    </RelativeLayout>
     </ScrollView>
      <!-- FOOTER : BOTTOM NAVIGATION TABS -->
+  <!-- BOTTOM NAVIGATION TABS -->
 
-    <LinearLayout
+    <include
         android:id="@+id/tab_selector_container"
-        android:layout_width="fill_parent"
-        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/light_gray"
-        android:orientation="horizontal"
-        android:paddingBottom="2dp" >
-
-        <com.millicom.secondscreen.customviews.FontButton
-            android:id="@+id/show_tvguide"
-            style="@style/homepage_tab_selector"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:paddingBottom="2dp"
-            android:text="@string/tab_tv_guide"
-            android:textSize="15sp" 
-            font:fontbutton="fontello.ttf"/>
-
-        <com.millicom.secondscreen.customviews.FontButton
-            android:id="@+id/show_activity"
-            style="@style/homepage_tab_selector"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:paddingBottom="2dp"
-            android:text="@string/tab_activity"
-            android:textSize="15sp" 
-            font:fontbutton="fontello.ttf"/>
-
-        <com.millicom.secondscreen.customviews.FontButton
-            android:id="@+id/show_me"
-            style="@style/homepage_tab_selector"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:paddingBottom="2dp"
-            android:text="@string/tab_me"
-            android:textSize="15sp" 
-            font:fontbutton="fontello.ttf"/>
-    </LinearLayout>
+        layout="@layout/block_bottom_tabs" />
 
 </RelativeLayout>

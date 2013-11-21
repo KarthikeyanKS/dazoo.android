@@ -89,14 +89,6 @@
         <item>12 pm</item>
     </string-array>
 
-    <string name="monday">Monday</string>
-    <string name="tuesday">Tuesday</string>
-    <string name="wednesday">Wednesday</string>
-    <string name="thursday">Thursday</string>
-    <string name="friday">Friday</string>
-    <string name="saturday">Saturday</string>
-    <string name="sunday">Sunday</string>
-
     <!-- HOMEPAGE : FILTER BY CATEGORY -->
     <string name="filter_by">Filter by</string>
     <string name="all">All</string>
@@ -242,5 +234,9 @@
     <string name="from">from</string>
     <string name="season">Season</string>
     <string name="episode">Episode</string>
+    <string name="know_more">Let us know what shows you like and get better recommendations</string>
+    <string name="check_popular">Check out Some Popular Shows</string>
+    <string name="hello">Hello</string>
+    <string name="popular">Popular</string>
 
 </resources>

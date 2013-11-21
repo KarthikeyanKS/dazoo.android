@@ -6,6 +6,9 @@ package com.millicom.secondscreen;
  */
 public abstract class Consts {
 
+	public static final String	TESTFLIGHT_TOKEN											= "343b5e95-cc27-4e8e-8a0d-ff5f7a181c5c";
+	public static final String	HOCKEY_APP_TOKEN											= "c90b5331b5a7086d88d98021508f2c16";
+
 	// Shared preferences
 	public static final String	SHARED_PREFS_MAIN_NAME										= "com.millicom.secondscreen.shared.prefs";
 	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_ACCESS_TOKEN				= "com.millicom.secondscreen.user.account.access.token";
@@ -30,6 +33,9 @@ public abstract class Consts {
 	public static final String	MILLICOM_SECONDSCREEN_MY_CHANNELS_URL						= "http://www.gitrgitr.com/api/my/channels";
 	public static final String	MILLICOM_SECONDSCREEN_LIKES_URL								= "http://www.gitrgitr.com/api/my/likes";
 	public static final String	MILLICOM_SECONDSCREEN_ACTIVITY_FEED_URL						= "http://www.gitrgitr.com/api/my/feed";
+	public static final String	MILLICOM_SECONDSCREEN_PROGRAMS								= "http://www.gitrgitr.com/api/epg/programs";
+	public static final String	MILLICOM_SECONDSCREEN_SERIES								= "http://www.gitrgitr.com/api/epg/series/";
+	public static final String	MILLICOM_SECONDSCREEN_POPULAR								= "http://api.gitrgitr.com/epg/broadcasts/popular/";
 
 	public static final String	MILLICON_SECONDSCREEN_HTTP_SCHEME							= "https";
 
@@ -50,6 +56,12 @@ public abstract class Consts {
 	public static final String	REQUEST_PARAMETER_SEPARATOR									= "?";
 	public static final String	MILLICOM_SECONDSCREEN_API_ENTITY_ID							= "entityId";
 	public static final String	MILLICOM_SECONDSCREEN_API_LIKETYPE							= "likeType";
+	public static final String	MILLICOM_SECONDSCREEN_API_UPCOMING							= "upcoming";
+	public static final String	MILLICOM_SECONDSCREEN_API_BROADCASTS						= "/broadcasts";
+	public static final String	MILLICOM_SECONDSCREEN_API_UPCOMING_BROADCASTS				= "/broadcasts/upcoming";
+	public static final String	MILLICOM_SECONDSCREEN_API_POPULAR_COUNT						= "count";
+	public static final String	MILLICOM_SECONDSCREEN_API_SKIP								= "skip";
+	public static final String	MILLICOM_SECONDSCREEN_API_LIMIT								= "limit";
 
 	public static final String	EMPTY_STRING												= "";
 	public static final String	ERROR_STRING												= "error";
@@ -59,6 +71,7 @@ public abstract class Consts {
 	public static final int		MILLICOM_SECONDSCREEN_TVGUIDE_NUMBER_OF_CHANNELS_PER_PAGE	= 10;
 	public static final int		MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MIN					= 6;
 	public static final int		MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MAX					= 20;
+	public static final int		MILLICOM_SECONDSCREEN_API_POPULAR_COUNT_DEFAULT				= 3;
 
 	public static enum REQUEST_STATUS {
 		LOADING, FAILED, EMPTY_RESPONSE, SUCCESSFUL
@@ -119,6 +132,7 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_LOG_OUT_ACTION							= "com.millicom.secondscreen.intent.extra.log.out.action";
 	public static final String	INTENT_EXTRA_LOG_IN_ACTION							= "com.millicom.secondscreen.intent.extra.log.in.action";
 	public static final String	INTENT_EXTRA_DATA_FETCHING							= "com.millicom.secondscreen.intent.extra.log.in.action";
+	public static final String	INTENT_EXTRA_UPCOMING_BROADCASTS					= "com.millicom.secondscreen.intent.extra.upcoming.broadcasts";
 
 	// alarm extras
 	public static final String	INTENT_ALARM_EXTRA_BROADCAST_BEGINTIMEMILLIS		= "com.millicom.secondscreen.intent.alarm.extra.broadcast.begintimemillis";
@@ -319,7 +333,6 @@ public abstract class Consts {
 	public static final String	DAZOO_FEED_ITEM_TYPE_BROADCAST						= "BROADCAST";
 	public static final String	DAZOO_FEED_ITEM_TYPE_RECOMMENDED_BROADCAST			= "RECOMMENDED_BROADCAST";
 	public static final String	DAZOO_FEED_ITEM_TYPE_POPULAR_BROADCASTS				= "POPULAR_BROADCASTS";
-	public static final String	DAZOO_FEED_ITEMS									= "items";
 	public static final String	DAZOO_FEED_ITEM_ITEM_TYPE							= "itemType";
 	public static final String	DAZOO_FEED_ITEM_TITLE								= "title";
 	public static final String	DAZOO_FEED_ITEM_BROADCAST							= "broadcast";

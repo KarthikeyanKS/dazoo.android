@@ -72,17 +72,14 @@ public class TVGuideListAdapter extends BaseAdapter {
 			// viewHolder.mBroadcastItemLl = (LinearLayout) rowView.findViewById(R.id.tvguide_program_list_container);
 
 			// viewHolder.mLiveProgramContainer = (RelativeLayout) rowView.findViewById(R.id.tvguide_program_line_live_container);
-			viewHolder.mLiveProgramIv = (ImageView) rowView.findViewById(R.id.tvguide_program_line_live_icon_iv);
 			viewHolder.mLiveProgramNameTv = (TextView) rowView.findViewById(R.id.tvguide_program_line_live_name_tv);
 			viewHolder.mLiveProgramTimeTv = (TextView) rowView.findViewById(R.id.tvguide_program_line_live_time_tv);
 
 			// viewHolder.mNextProgramContainer = (RelativeLayout) rowView.findViewById(R.id.tvguide_program_line_next_container);
-			viewHolder.mNextProgramIv = (ImageView) rowView.findViewById(R.id.tvguide_program_line_next_icon_iv);
 			viewHolder.mNextProgramNameTv = (TextView) rowView.findViewById(R.id.tvguide_program_line_next_name_tv);
 			viewHolder.mNextProgramTimeTv = (TextView) rowView.findViewById(R.id.tvguide_program_line_next_time_tv);
 
 			// viewHolder.mLastProgramContainer = (RelativeLayout) rowView.findViewById(R.id.tvguide_program_line_last_container);
-			viewHolder.mLastProgramIv = (ImageView) rowView.findViewById(R.id.tvguide_program_line_last_icon_iv);
 			viewHolder.mLastProgramNameTv = (TextView) rowView.findViewById(R.id.tvguide_program_line_last_name_tv);
 			viewHolder.mLastProgramTimeTv = (TextView) rowView.findViewById(R.id.tvguide_program_line_last_time_tv);
 
@@ -188,19 +185,16 @@ public class TVGuideListAdapter extends BaseAdapter {
 
 		// LIVE PROGRAM
 		// public RelativeLayout mLiveProgramContainer;
-		public ImageView		mLiveProgramIv;
 		public TextView			mLiveProgramNameTv;
 		public TextView			mLiveProgramTimeTv;
 
 		// NEXT PROGRAM
 		// public RelativeLayout mNextProgramContainer;
-		public ImageView		mNextProgramIv;
 		public TextView			mNextProgramNameTv;
 		public TextView			mNextProgramTimeTv;
 
 		// LAST PROGRAM
 		// public RelativeLayout mLastProgramContainer;
-		public ImageView		mLastProgramIv;
 		public TextView			mLastProgramNameTv;
 		public TextView			mLastProgramTimeTv;
 

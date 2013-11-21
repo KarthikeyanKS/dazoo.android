@@ -34,6 +34,7 @@ import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.utilities.JSONUtilities;
+//import com.testflightapp.lib.TestFlight;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -84,8 +85,11 @@ public class FacebookLoginActivity extends ActionBarActivity {
 		openRequest.setCallback(statusCallback);
 		Session session = new Session.Builder(activity).build();
 		if (SessionState.CREATED_TOKEN_LOADED.equals(session.getState()) || allowLoginUI) {
+			Log.d(TAG,"loaded");
+			//TestFlight.passCheckpoint("OPEN FACEBOOK SESSION");
 			Session.setActiveSession(session);
 			session.openForRead(openRequest);
+			Log.d(TAG,"SESSION;" + session.getState());
 			return session;
 		}
 		return null;
@@ -94,26 +98,35 @@ public class FacebookLoginActivity extends ActionBarActivity {
 	Session.StatusCallback	statusCallback	= new Session.StatusCallback() {
 		@Override
 		public void call(final Session session, SessionState state, Exception exception) {
+			Log.d(TAG,"0");
 			if (session.isOpened()) {
+				Log.d(TAG,"1");
 				Request.newMeRequest(session, new Request.GraphUserCallback() {
 					@Override
 					public void onCompleted(GraphUser user, Response response) {
 						if (user != null) {
+							Log.d(TAG,"!!!");
 							facebookSessionToken = session.getAccessToken();
+							//TestFlight.passCheckpoint("FACEBOOK SESSION TOKEN IS RECEIVED");
+							Log.d(TAG,"facebook:" + facebookSessionToken );
 							if (getDazooToken()) {
+								Log.d(TAG,"DAZOO TOKEN");
+								//TestFlight.passCheckpoint("DAZOO TOKEN FROM FACEBOOK TOKEN IS RECEIVED");
 								boolean firstTime = ((SecondScreenApplication) getApplicationContext()).getUserExistringFlag();
 								if (firstTime) {
 									// first time registration/login
 									// go to facebook dazoo login success page
 									Intent intent = new Intent(FacebookLoginActivity.this, FacebookDazooLoginActivity.class);
 									startActivity(intent);
+									//TestFlight.passCheckpoint("MOVE TO FIRST TIME IN THE APP SCREEN");
 									overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-									finish();
+									//finish();
 								} else {
 									// returning client
 									// go to start page
 									Intent intent = new Intent(FacebookLoginActivity.this, HomeActivity.class);
 									startActivity(intent);
+									//TestFlight.passCheckpoint("MOVE TO HOME");
 									overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 									finish();
 								}
@@ -134,13 +147,15 @@ public class FacebookLoginActivity extends ActionBarActivity {
 				if (responseStr != null && TextUtils.isEmpty(responseStr) != true) {
 					JSONObject fbJSON = new JSONObject(responseStr);
 					facebookToken = fbJSON.getString(Consts.MILLICOM_SECONDSCREEN_API_TOKEN);
-
+					//TestFlight.passCheckpoint("FACEBOOK TOKEN IS RECEIVED");
+					
 					// if (facebookToken.isEmpty() != true && facebookToken.length() > 0) {
 					if (facebookToken != null && TextUtils.isEmpty(facebookToken) != true) {
 						// save access token in the application
 						((SecondScreenApplication) getApplicationContext()).setAccessToken(facebookToken);
 						Log.d(TAG, "Token: " + facebookToken + " is saved");
-
+						//TestFlight.passCheckpoint("FACEBOOK TOKEN IS SAVED");
+						
 						// Get the information about the user
 						String userDataString = fbJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_USER);
 						if (JSONUtilities.storeUserInformation(this, userDataString)) {

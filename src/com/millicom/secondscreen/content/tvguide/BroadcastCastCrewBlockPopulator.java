@@ -16,12 +16,12 @@ import com.millicom.secondscreen.adapters.CastCrewListAdapter;
 import com.millicom.secondscreen.content.model.Cast;
 import com.millicom.secondscreen.utilities.ImageLoader;
 
-public class CastCrewBlockPopulator {
+public class BroadcastCastCrewBlockPopulator {
 
 	private Activity		mActivity;
 	private LinearLayout	mContainerView;
 
-	public CastCrewBlockPopulator(Activity activity, LinearLayout containerView) {
+	public BroadcastCastCrewBlockPopulator(Activity activity, LinearLayout containerView) {
 		this.mActivity = activity;
 		this.mContainerView = containerView;
 	}

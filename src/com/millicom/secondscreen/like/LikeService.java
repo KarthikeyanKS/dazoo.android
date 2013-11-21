@@ -105,6 +105,29 @@ public class LikeService {
 		toast.setView(layout);
 		toast.show();
 	}
+	
+	public static ArrayList<String> getLikeIdsList(String token){
+		ArrayList<String> dazooLikeIdsList = new ArrayList<String>();
+		GetLikesTask getLikesTask = new GetLikesTask();
+		String jsonString = "";
+		try {
+			jsonString = getLikesTask.execute(token).get();
+			if(jsonString!=null && TextUtils.isEmpty(jsonString)!=true && !jsonString.equals(Consts.ERROR_STRING)){
+				JSONArray likesListJson = new JSONArray(jsonString);
+				int size = likesListJson.length();
+				for(int i=0; i<size; i++){
+				 dazooLikeIdsList.add(ContentParser.parseDazooLikeIds(likesListJson.getJSONObject(i)));
+				}
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} 
+		return dazooLikeIdsList;
+	}
 
 	public static ArrayList<DazooLike> getLikesList(String token) {
 		ArrayList<DazooLike> dazooLikesList = new ArrayList<DazooLike>();
@@ -249,8 +272,8 @@ public class LikeService {
 				// Set verifier
 				HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
 
-				Log.d(TAG,Consts.MILLICOM_SECONDSCREEN_LIKES_URL + "/" + params[1] + "/" + params[2]);
-				HttpDelete httpDelete = new HttpDelete(Consts.MILLICOM_SECONDSCREEN_LIKES_URL + "/" + params[1] + "/" + params[2]);
+				Log.d(TAG,Consts.MILLICOM_SECONDSCREEN_LIKES_URL + "/" + params[2] + "/" + params[1]);
+				HttpDelete httpDelete = new HttpDelete(Consts.MILLICOM_SECONDSCREEN_LIKES_URL + "/" + params[2] + "/" + params[1]);
 				httpDelete.setHeader("Authorization", "Bearer " + params[0]);
 
 				// HttpResponse response = client.execute(httpDelete);

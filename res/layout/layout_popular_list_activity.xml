@@ -7,48 +7,12 @@
     android:background="@color/white"
     android:orientation="vertical" >
 
-    <LinearLayout
+    <!-- BOTTOM NAVIGATION TABS -->
+
+    <include
         android:id="@+id/tab_selector_container"
-        android:layout_width="fill_parent"
-        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/light_gray"
-        android:orientation="horizontal"
-        android:paddingBottom="2dp" >
-
-        <com.millicom.secondscreen.customviews.FontButton
-            android:id="@+id/go_to_tvguide"
-            style="@style/homepage_tab_selector"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:paddingBottom="2dp"
-            android:text="@string/tab_tv_guide"
-            android:textSize="15sp" 
-            font:fontbutton="fontello.ttf"/>
-
-        <com.millicom.secondscreen.customviews.FontButton
-            android:id="@+id/go_to_activity"
-            style="@style/homepage_tab_selector"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:paddingBottom="2dp"
-            android:text="@string/tab_activity"
-            android:textSize="15sp" 
-            font:fontbutton="fontello.ttf"/>
-
-        <com.millicom.secondscreen.customviews.FontButton
-            android:id="@+id/go_to_profile"
-            style="@style/homepage_tab_selector"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:paddingBottom="2dp"
-            android:text="@string/tab_me"
-            android:textSize="15sp" 
-            font:fontbutton="fontello.ttf"/>
-    </LinearLayout>
+        layout="@layout/block_bottom_tabs" />
 
     <include
         android:layout_width="fill_parent"
@@ -78,12 +42,9 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/tab_selector_container"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:background="@color/light_gray"
         android:cacheColorHint="@null"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="10dp"
+        android:dividerHeight="0dp"
         android:visibility="gone" />
 
 </RelativeLayout>

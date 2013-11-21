@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
+import com.millicom.secondscreen.content.model.FeedItem;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Tag;
 import com.millicom.secondscreen.content.model.TvDate;
@@ -32,6 +33,11 @@ public class DazooStore {
 	private HashMap<GuideKey, Guide>					mMyGuides			= new HashMap<GuideKey, Guide>();
 	private HashMap<BroadcastKey, ArrayList<Broadcast>>	mTaggedBroadcasts	= new HashMap<BroadcastKey, ArrayList<Broadcast>>();
 	private HashMap<BroadcastKey, ArrayList<Broadcast>>	mMyTaggedBroadcasts	= new HashMap<BroadcastKey, ArrayList<Broadcast>>();
+
+	private ArrayList<String>							mLikeIds			= new ArrayList<String>();
+
+	private ArrayList<FeedItem>							mActivityFeed		= new ArrayList<FeedItem>();
+	private ArrayList<Broadcast>						mPopularFeed		= new ArrayList<Broadcast>();
 
 	// private constructor prevents instantiation from other classes
 	private DazooStore() {
@@ -167,6 +173,27 @@ public class DazooStore {
 		return this.mMyChannels;
 	}
 
+	// likes
+	public void setLikeIds(ArrayList<String> likeIds) {
+		this.mLikeIds = likeIds;
+	}
+
+	public ArrayList<String> getLikeIds() {
+		return this.mLikeIds;
+	}
+
+	public boolean isInTheLikesList(String likeId) {
+		return this.mLikeIds.contains(likeId);
+	}
+
+	public void deleteLikeIdFromList(String likeId) {
+		this.mLikeIds.remove(likeId);
+	}
+
+	public void addLikeIdToList(String likeId) {
+		this.mLikeIds.add(likeId);
+	}
+
 	// guide
 	public void setGuides(HashMap<GuideKey, Guide> guides) {
 		this.mGuides = guides;
@@ -250,7 +277,7 @@ public class DazooStore {
 		broadcastKey.setTag(tag);
 
 		for (Entry<BroadcastKey, ArrayList<Broadcast>> entry : mTaggedBroadcasts.entrySet()) {
-			
+
 			if (entry.getKey().getDate().getDate().equals(broadcastKey.getDate().getDate()) && entry.getKey().getTag().getName().equals(broadcastKey.getTag().getName())) {
 				return entry.getValue();
 			}
@@ -308,6 +335,33 @@ public class DazooStore {
 		return null;
 	}
 
+	// activity feed
+	public void setActivityFeed(ArrayList<FeedItem> activityFeed) {
+		this.mActivityFeed = activityFeed;
+	}
+
+	public ArrayList<FeedItem> getActivityFeed() {
+		return this.mActivityFeed;
+	}
+
+	public void reinitializeFeed() {
+		this.mActivityFeed.clear();
+		this.mActivityFeed = new ArrayList<FeedItem>();
+	}
+
+	public void addItemsToActivityFeed(ArrayList<FeedItem> newItems) {
+		this.mActivityFeed.addAll(newItems);
+	}
+	
+	// popular feed
+	public void setPopularFeed(ArrayList<Broadcast> popularFeed){
+		this.mPopularFeed = popularFeed;
+	}
+	
+	public ArrayList<Broadcast> getPopularFeed(){
+		return this.mPopularFeed;
+	}
+
 	// CLEAR DATA WHEN NEW CHANNEL IS ADDED TO THE SELECTION
 	public void clearMyGuidesStorage() {
 		this.mMyGuides.clear();
@@ -315,8 +369,8 @@ public class DazooStore {
 		this.mMyGuides = new HashMap<GuideKey, Guide>();
 		this.mMyTaggedBroadcasts = new HashMap<BroadcastKey, ArrayList<Broadcast>>();
 	}
-	
-	public void reinitializeAll(){
+
+	public void reinitializeAll() {
 		this.mTvDates = new ArrayList<TvDate>();
 		this.mTags = new ArrayList<Tag>();
 		this.mAllChannels = new HashMap<String, Channel>();
@@ -325,24 +379,25 @@ public class DazooStore {
 		this.mDefaultChannelIds = new ArrayList<String>();
 		this.mMyChannels = new HashMap<String, Channel>();
 		this.mMyChannelIds = new ArrayList<String>();
-		this.mGuides				= new HashMap<GuideKey, Guide>();
-		this.mMyGuides			= new HashMap<GuideKey, Guide>();
-		this.mTaggedBroadcasts	= new HashMap<BroadcastKey, ArrayList<Broadcast>>();
-		this.mMyTaggedBroadcasts	= new HashMap<BroadcastKey, ArrayList<Broadcast>>();
+		this.mGuides = new HashMap<GuideKey, Guide>();
+		this.mMyGuides = new HashMap<GuideKey, Guide>();
+		this.mTaggedBroadcasts = new HashMap<BroadcastKey, ArrayList<Broadcast>>();
+		this.mMyTaggedBroadcasts = new HashMap<BroadcastKey, ArrayList<Broadcast>>();
+		this.mLikeIds = new ArrayList<String>();
 	}
-	
-	public void clearAndReinitializeForMyChannels(){
+
+	public void clearAndReinitializeForMyChannels() {
 		this.mGuides.clear();
 		this.mMyGuides.clear();
 		this.mTaggedBroadcasts.clear();
 		this.mMyTaggedBroadcasts.clear();
-		this.mGuides				= new HashMap<GuideKey, Guide>();
-		this.mMyGuides			= new HashMap<GuideKey, Guide>();
-		this.mTaggedBroadcasts	= new HashMap<BroadcastKey, ArrayList<Broadcast>>();
-		this.mMyTaggedBroadcasts	= new HashMap<BroadcastKey, ArrayList<Broadcast>>();
+		this.mGuides = new HashMap<GuideKey, Guide>();
+		this.mMyGuides = new HashMap<GuideKey, Guide>();
+		this.mTaggedBroadcasts = new HashMap<BroadcastKey, ArrayList<Broadcast>>();
+		this.mMyTaggedBroadcasts = new HashMap<BroadcastKey, ArrayList<Broadcast>>();
 	}
-	
-	public void clearAll(){
+
+	public void clearAll() {
 		this.mTvDates.clear();
 		this.mTags.clear();
 		this.mAllChannels.clear();
@@ -355,5 +410,6 @@ public class DazooStore {
 		this.mMyGuides.clear();
 		this.mTaggedBroadcasts.clear();
 		this.mMyTaggedBroadcasts.clear();
+		this.mLikeIds.clear();
 	}
 }

@@ -19,6 +19,7 @@ import com.millicom.secondscreen.notification.NotificationDataSource;
 import com.millicom.secondscreen.notification.NotificationDialogHandler;
 import com.millicom.secondscreen.notification.NotificationService;
 import com.millicom.secondscreen.share.ShareAction;
+import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.AnimationUtilities;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
@@ -52,7 +53,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 	private String				mToken;
 	private int					mNotificationId;
-	NotificationDataSource		mNotificationDataSource;
+	private NotificationDataSource		mNotificationDataSource;
+	private ArrayList<String> mLikeIds;
 
 	private ImageView			likeLikeIv, remindLikeIv, likeRecIv, remindRecIv;
 	private boolean				mIsLiked = false, mIsSet = false;
@@ -63,6 +65,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage);
 		this.mToken = token;
 		this.mNotificationDataSource = new NotificationDataSource(mActivity);
+		this.mLikeIds = LikeService.getLikeIdsList(token);
 	}
 
 	@Override
@@ -91,6 +94,11 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 	public void addItem(final FeedItem item) {
 		mFeedItems.add(item);
+		notifyDataSetChanged();
+	}
+	
+	public void addItems(ArrayList<FeedItem> items){
+		mFeedItems.addAll(items);
 		notifyDataSetChanged();
 	}
 
@@ -135,9 +143,10 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			LinearLayout remindContainer = (LinearLayout) convertView.findViewById(R.id.block_feed_liked_remind_button_container);
 			remindLikeIv = (ImageView) convertView.findViewById(R.id.block_feed_liked_remind_button_iv);
 
-			mIsLiked = LikeService.isLiked(mToken, feedItem.getBroadcast().getProgram().getProgramId());
-
-			headerTv.setText(feedItem.getTitle());
+			//mIsLiked = LikeService.isLiked(mToken, feedItem.getBroadcast().getProgram().getProgramId());
+			mIsLiked = DazooStore.getInstance().isInTheLikesList(feedItem.getBroadcast().getProgram().getProgramId());
+			
+			headerTv.setText(feedItem.getTitle() + " " + feedItem.getItemType());
 
 			mImageLoader.displayImage(feedItem.getBroadcast().getProgram().getPosterMUrl(), landscapeIv, ImageLoader.IMAGE_TYPE.GALLERY);
 
@@ -265,7 +274,10 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					}
 
 					if (mIsLiked == false) {
+						// TODO: OPTIMIZATION ON WHEN THE BACKEND TO ADD/DELETE LIKE IS LAUNCHED
 						if (LikeService.addLike(mToken, programId, likeType)) {
+							DazooStore.getInstance().addLikeIdToList(programId);
+							
 							LikeService.showSetLikeToast(mActivity, feedItem.getBroadcast().getProgram().getTitle());
 							likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
 							
@@ -276,7 +288,9 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
 						}
 					} else {
-						LikeService.removeLike(mToken, likeType, feedItem.getBroadcast().getProgram().getProgramId());
+						LikeService.removeLike(mToken, likeType, programId);
+						DazooStore.getInstance().deleteLikeIdFromList(programId);
+						
 						mIsLiked = false;
 						likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart));
 						
@@ -355,9 +369,10 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			LinearLayout remindContainerRec = (LinearLayout) convertView.findViewById(R.id.block_feed_recommended_remind_button_container);
 			remindRecIv = (ImageView) convertView.findViewById(R.id.block_feed_recommended_remind_button_iv);
 
-			mIsLiked = LikeService.isLiked(mToken, feedItem.getBroadcast().getProgram().getProgramId());
-
-			headerTvRec.setText(feedItem.getTitle());
+			//mIsLiked = LikeService.isLiked(mToken, feedItem.getBroadcast().getProgram().getProgramId());
+			mIsLiked = DazooStore.getInstance().isInTheLikesList(feedItem.getBroadcast().getProgram().getProgramId());
+			
+			headerTvRec.setText(feedItem.getTitle() + " " + feedItem.getItemType());
 
 			mImageLoader.displayImage(feedItem.getBroadcast().getProgram().getPosterMUrl(), landscapeIvRec, ImageLoader.IMAGE_TYPE.GALLERY);
 
@@ -484,6 +499,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 					if (mIsLiked == false) {
 						if (LikeService.addLike(mToken, programId, likeType)) {
+							DazooStore.getInstance().addLikeIdToList(programId);
 							LikeService.showSetLikeToast(mActivity, feedItem.getBroadcast().getProgram().getTitle());
 							likeRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
 						
@@ -494,7 +510,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
 						}
 					} else {
-						LikeService.removeLike(mToken, likeType, feedItem.getBroadcast().getProgram().getProgramId());
+						LikeService.removeLike(mToken, likeType, programId);
+						DazooStore.getInstance().deleteLikeIdFromList(programId);
 						mIsLiked = false;
 						likeRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart));
 						
