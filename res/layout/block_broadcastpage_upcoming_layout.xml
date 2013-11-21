@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <com.millicom.secondscreen.customviews.FontTextView
+        android:id="@+id/block_broadcast_upcoming_episodes_title_textview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/black"
+        android:textSize="22sp" />
+
+    <!-- FIRST UPCOMING EPISODE -->
+
+    <LinearLayout
+        android:id="@+id/block_broadcast_upcoming_one_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/block_broadcast_upcoming_episodes_title_textview"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:visibility="gone" >
+
+        <RelativeLayout
+            android:id="@+id/block_broadcast_upcoming_episodes_one_info_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="10dp" >
+
+            <com.millicom.secondscreen.customviews.FontTextView
+                android:id="@+id/block_broadcast_upcoming_episodes_one_season_episode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/block_broadcast_upcoming_episodes_one_title_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/block_broadcast_upcoming_episodes_one_season_episode"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <com.millicom.secondscreen.customviews.FontTextView
+                android:id="@+id/block_broadcast_upcoming_episodes_one_channel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/block_broadcast_upcoming_episodes_one_title_time"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/block_broadcast_divider_one_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_separator" />
+        </LinearLayout>
+
+        <!-- REMIND BUTTON -->
+
+        <LinearLayout
+            android:id="@+id/block_broadcast_remind_button_one_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:gravity="center" >
+
+            <ImageView
+                android:id="@+id/block_broadcast_upcoming_episodes_one_addreminder"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/ic_clock" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/block_broadcast_upcoming_episodes_one_bottom_divider"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/block_broadcast_upcoming_one_container"
+        android:background="@color/light_gray" />
+
+    <!-- SECOND UPCOMING EPISODE -->
+
+    <LinearLayout
+        android:id="@+id/block_broadcast_upcoming_two_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/block_broadcast_upcoming_episodes_one_bottom_divider"
+        android:layout_weight="0.7"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:visibility="gone" >
+
+        <RelativeLayout
+            android:id="@+id/block_broadcast_upcoming_episodes_two_info_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="10dp" >
+
+            <com.millicom.secondscreen.customviews.FontTextView
+                android:id="@+id/block_broadcast_upcoming_episodes_two_season_episode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <com.millicom.secondscreen.customviews.FontTextView
+                android:id="@+id/block_broadcast_upcoming_episodes_two_title_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/block_broadcast_upcoming_episodes_two_season_episode"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <com.millicom.secondscreen.customviews.FontTextView
+                android:id="@+id/block_broadcast_upcoming_episodes_two_channel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/block_broadcast_upcoming_episodes_two_title_time"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/block_broadcast_divider_two_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_separator" />
+        </LinearLayout>
+
+        <!-- REMIND BUTTON -->
+
+        <LinearLayout
+            android:id="@+id/block_broadcast_remind_button_two_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:gravity="center" >
+
+            <ImageView
+                android:id="@+id/block_broadcast_upcoming_episodes_two_addreminder"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/ic_clock" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/block_broadcast_upcoming_episodes_two_bottom_divider"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/block_broadcast_upcoming_two_container"
+        android:background="@color/light_gray" />
+
+    <!-- THIRD UPCOMING EPISODE -->
+
+    <LinearLayout
+        android:id="@+id/block_broadcast_upcoming_three_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/block_broadcast_upcoming_episodes_two_bottom_divider"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:visibility="gone" >
+
+        <RelativeLayout
+            android:id="@+id/block_broadcast_upcoming_episodes_three_info_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.7"
+            android:orientation="vertical"
+            android:paddingBottom="10dp" >
+
+            <com.millicom.secondscreen.customviews.FontTextView
+                android:id="@+id/block_broadcast_upcoming_episodes_three_season_episode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <com.millicom.secondscreen.customviews.FontTextView
+                android:id="@+id/block_broadcast_upcoming_episodes_three_title_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/block_broadcast_upcoming_episodes_three_season_episode"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <com.millicom.secondscreen.customviews.FontTextView
+                android:id="@+id/block_broadcast_upcoming_episodes_three_channel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/block_broadcast_upcoming_episodes_three_title_time"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <!-- SEPARATOR -->
+
+        <LinearLayout
+            android:id="@+id/block_broadcast_divider_three_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_separator" />
+        </LinearLayout>
+
+        <!-- REMIND BUTTON -->
+
+        <LinearLayout
+            android:id="@+id/block_broadcast_remind_button_three_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:gravity="center" >
+
+            <ImageView
+                android:id="@+id/block_broadcast_upcoming_episodes_three_addreminder"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/ic_clock" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/block_broadcast_upcoming_episodes_divider"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/block_broadcast_upcoming_three_container"
+        android:background="@color/light_gray"
+        android:visibility="gone" />
+
+    <com.millicom.secondscreen.customviews.FontTextView
+        android:id="@+id/block_broadcast_upcoming_episodes_more_textview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/block_broadcast_upcoming_episodes_divider"
+        android:layout_centerVertical="true"
+        android:gravity="left"
+        android:padding="20dp"
+        android:text="@string/upcoming_episodes_more"
+        android:textColor="@color/light_gray"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
+</RelativeLayout>

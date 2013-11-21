@@ -203,24 +203,15 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 
 	private void populateBlocks() {
 		Log.d(TAG, "populateBlocks");
-		Log.d(TAG, "TITLE: " + mBroadcast.getProgram().getTitle());
 		mActionBar.setTitle(mBroadcast.getProgram().getTitle());
 
 		// add main content block
 		BroadcastMainBlockPopulator mainBlockPopulator = new BroadcastMainBlockPopulator(mActivity, mScrollView, token, mTvDate);
 		mainBlockPopulator.createBlock(mBroadcast);
-
-		// add upcoming episodes
-		//BroadcastUpcomingBroadcastsBlockPopulator upcomingBlockPopulator = new BroadcastUpcomingBroadcastsBlockPopulator(mActivity, mScrollView);
-		//upcomingBlockPopulator.createBlock(mUpcomingBroadcasts);
-	
-		//BroadcastMainBlockPopulator two = new BroadcastMainBlockPopulator(mActivity, mScrollView, token, mTvDate);
-		//two.createBlock(mBroadcast);
-
-		//BroadcastMainBlockPopulator three = new BroadcastMainBlockPopulator(mActivity, mScrollView, token, mTvDate);
-		//three.createBlock(mBroadcast);
-
 		
+		// upcoming episodes
+		BroadcastUpcomingBlockPopulator repetitionsBlock = new BroadcastUpcomingBlockPopulator(mActivity, mScrollView, mTvDate);
+		repetitionsBlock.createBlock(mUpcomingBroadcasts);
 	}
 
 	@Override
