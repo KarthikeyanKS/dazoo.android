@@ -1,6 +1,8 @@
 package com.millicom.secondscreen.content.myprofile;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import android.app.Activity;
@@ -126,6 +128,9 @@ public class RemindersActivity extends ActionBarActivity implements RemindersCou
 		}
 		Toast.makeText(this, "Currently you have " + notificationList.size() + " being set. List with info is coming soon!", Toast.LENGTH_LONG).show();
 
+		//Sort the list of broadcasts by time.
+		Collections.sort(broadcasts, new Broadcast.BroadcastComparatorByTime());
+		
 		mAdapter = new RemindersListAdapter(this, broadcasts, this);
 		mListView.setAdapter(mAdapter);
 	}

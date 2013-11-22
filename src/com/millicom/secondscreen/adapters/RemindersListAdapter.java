@@ -1,5 +1,6 @@
 package com.millicom.secondscreen.adapters;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -20,10 +21,12 @@ import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.NotificationDbItem;
 import com.millicom.secondscreen.content.model.Program;
+import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.myprofile.RemindersCountInterface;
 import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
 import com.millicom.secondscreen.notification.NotificationDataSource;
 import com.millicom.secondscreen.notification.NotificationDialogHandler;
+import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
 
@@ -38,12 +41,18 @@ public class RemindersListAdapter extends BaseAdapter {
 	private ImageLoader				mImageLoader;
 	private int						notificationId;
 	private int						currentPosition	= -1;
+	
+	private DazooStore				dazooStore;
+	private ArrayList<TvDate>		mTvDates;
 
 	public RemindersListAdapter(Activity mActivity, ArrayList<Broadcast> mBroadcasts, RemindersCountInterface remindersInterface) {
 		this.mBroadcasts = mBroadcasts;
 		this.mActivity = mActivity;
 		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage);
 		this.mInterface = remindersInterface;
+		
+		dazooStore = DazooStore.getInstance();
+		mTvDates = dazooStore.getTvDates();
 	}
 
 	@Override
@@ -83,8 +92,12 @@ public class RemindersListAdapter extends BaseAdapter {
 			viewHolder.mBroadcastTitleTv = (TextView) rowView.findViewById(R.id.row_reminders_text_title_tv);
 			viewHolder.mBroadcastDetailsTv = (TextView) rowView.findViewById(R.id.row_reminders_text_details_tv);
 			viewHolder.mBroadcastTimeTv = (TextView) rowView.findViewById(R.id.row_reminders_text_time_tv);
+			viewHolder.mChannelTv =  (TextView) rowView.findViewById(R.id.row_reminders_text_channel_tv);
 			viewHolder.mReminderIconIv = (ImageView) rowView.findViewById(R.id.row_reminders_notification_iv);
 			viewHolder.mReminderIconIv.setTag(Integer.valueOf(position));
+
+			viewHolder.mDividerView = (View ) rowView.findViewById(R.id.row_reminders_header_divider);
+
 			rowView.setTag(viewHolder);
 		}
 
@@ -95,10 +108,29 @@ public class RemindersListAdapter extends BaseAdapter {
 			final Channel channel = broadcast.getChannel();
 			Program program = broadcast.getProgram();
 
-			// TODO
-			// include the sorting logic to show or hide the header title
-			holder.mHeaderContainer.setVisibility(View.VISIBLE);
-			holder.mHeaderTv.setText("Reminders");
+			//Get the correct date name index
+			int dateIndex = 0;
+			for (int i = 0; i < mTvDates.size(); i++) {
+				if (broadcast.getBeginTime().contains(mTvDates.get(i).getDate())) {
+					dateIndex = i;
+					break;
+				}
+			}
+			
+			//If first or the previous broadcast is not the same date, show header.
+			try {
+				if (position == 0 || DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTime()).equals(
+						DateUtilities.tvDateStringToDatePickerString(getItem(position-1).getBeginTime())) == false) {
+					holder.mHeaderContainer.setVisibility(View.VISIBLE);
+					holder.mHeaderTv.setText(mTvDates.get(dateIndex).getName() + " " + 
+									DateUtilities.tvDateStringToDatePickerString(mTvDates.get(dateIndex).getDate()));
+					holder.mDividerView.setVisibility(View.GONE);
+				}
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+
+
 
 			if (program != null) {
 				holder.mBroadcastTitleTv.setText(program.getTitle());
@@ -106,14 +138,22 @@ public class RemindersListAdapter extends BaseAdapter {
 
 				String programType = program.getProgramType();
 				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-					holder.mBroadcastDetailsTv.setText(program.getSeason() + ", " + String.valueOf(program.getEpisodeNumber()));
+					holder.mBroadcastDetailsTv.setText(mActivity.getResources().getString(R.string.season) + " " + 
+														broadcast.getProgram().getSeason().getNumber() + " " + 
+														mActivity.getResources().getString(R.string.episode) + " " +
+														String.valueOf(broadcast.getProgram().getEpisodeNumber()));
 				} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
-					holder.mBroadcastDetailsTv.setText("" + String.valueOf(program.getYear()));
+					holder.mBroadcastDetailsTv.setText(program.getGenre() + " " + mActivity.getResources().getString(R.string.from) + " " +
+														program.getYear());
+				} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
+					holder.mBroadcastDetailsTv.setText(program.getCategory());
+				} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
+					holder.mBroadcastDetailsTv.setText(program.getSportType());
 				}
 			}
 
 			if (channel != null) {
-				// TODO ADD NAME
+				holder.mChannelTv.setText(channel.getName());
 			}
 			try {
 				holder.mBroadcastTimeTv.setText(DateUtilities.isoStringToDateShortAndTimeString(broadcast.getBeginTime()));
@@ -121,9 +161,9 @@ public class RemindersListAdapter extends BaseAdapter {
 				e.printStackTrace();
 				holder.mBroadcastTimeTv.setText("");
 			}
-			
+
 			holder.mInformationContainer.setOnClickListener(new View.OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
 					String broadcastUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + channel.getChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillis();
@@ -165,7 +205,10 @@ public class RemindersListAdapter extends BaseAdapter {
 		public TextView		mBroadcastTitleTv;
 		public TextView		mBroadcastDetailsTv;
 		public TextView		mBroadcastTimeTv;
+		public TextView		mChannelTv;
 		public ImageView	mReminderIconIv;
+
+		public View 		mDividerView;
 	}
 
 	public Runnable yesProc() {
