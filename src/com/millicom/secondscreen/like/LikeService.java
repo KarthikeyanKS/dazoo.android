@@ -64,9 +64,7 @@ public class LikeService {
 		if (programType.equals(Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE)) {
 			return Consts.DAZOO_LIKE_TYPE_SERIES;
 		} else if (programType.equals(Consts.DAZOO_PROGRAM_TYPE_SPORT)) {
-			// TODO: add the support for the sport types later when backend is available
-			return Consts.DAZOO_LIKE_TYPE_PROGRAM;
-			//return Consts.DAZOO_LIKE_TYPE_SPORT_TYPE;
+			return Consts.DAZOO_LIKE_TYPE_SPORT_TYPE;
 		} else {
 			return Consts.DAZOO_LIKE_TYPE_PROGRAM;
 		}
@@ -82,9 +80,9 @@ public class LikeService {
 				likeEntityIds.add(likesList.get(i).getEntity().getSeriesId());
 			} else if (Consts.DAZOO_LIKE_TYPE_PROGRAM.equalsIgnoreCase(likeType)){
 				likeEntityIds.add(likesList.get(i).getEntity().getProgramId());
-			} 
-			// add later support for sport types
-			// else if()
+			} else if (Consts.DAZOO_LIKE_TYPE_SPORT_TYPE.equals(likeType)){
+				likeEntityIds.add(likesList.get(i).getEntity().getSportTypeId());
+			}	
 		}
 
 		if (likeEntityIds.contains(programId)) return true;
@@ -307,6 +305,7 @@ public class LikeService {
 				StringEntity entity = new StringEntity(holder.toString());
 				httpPost.setEntity(entity);
 				HttpResponse response = client.execute(httpPost);
+				Log.d(TAG,"RESPONSE: " + response.getStatusLine().getStatusCode());
 				return response.getStatusLine().getStatusCode();
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();

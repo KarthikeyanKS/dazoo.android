@@ -18,6 +18,7 @@ import com.millicom.secondscreen.content.model.DazooLikeEntity;
 import com.millicom.secondscreen.content.model.FeedItem;
 import com.millicom.secondscreen.content.model.Season;
 import com.millicom.secondscreen.content.model.Series;
+import com.millicom.secondscreen.content.model.SportType;
 import com.millicom.secondscreen.content.model.Tag;
 import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.model.Guide;
@@ -237,8 +238,9 @@ public class ContentParser {
 			program.setYear(jsonProgram.optInt(Consts.DAZOO_PROGRAM_YEAR));
 			program.setGenre(jsonProgram.optString(Consts.DAZOO_PROGRAM_GENRE));
 		} else if ((Consts.DAZOO_PROGRAM_TYPE_SPORT).equals(programType)) {
-			program.setSportType(jsonProgram.optString(Consts.DAZOO_PROGRAM_SPORTTYPE));
 			program.setTournament(jsonProgram.optString(Consts.DAZOO_PROGRAM_TOURNAMENT));
+			JSONObject sportTypeJSON = jsonProgram.optJSONObject(Consts.DAZOO_PROGRAM_SPORTTYPE);
+			program.setSportType(parseSportType(sportTypeJSON));
 		} else if ((Consts.DAZOO_PROGRAM_TYPE_OTHER).equals(programType)) {
 			program.setCategory(jsonProgram.optString(Consts.DAZOO_PROGRAM_CATEGORY));
 		}
@@ -246,6 +248,13 @@ public class ContentParser {
 		return program;
 	}
 
+	public static SportType parseSportType(JSONObject jsonSportType) throws Exception {
+		SportType sportType = new SportType();
+		sportType.setName(jsonSportType.optString(Consts.DAZOO_SPORTTYPE_NAME));
+		sportType.setSportTypeId(jsonSportType.optString(Consts.DAZOO_SPORTTYPE_SPORTTYPEID));
+		return sportType;
+	}
+	
 	public static Season parseSeason(JSONObject jsonSeason) throws Exception {
 		Season season = new Season();
 		season.setNumber(jsonSeason.optString(Consts.DAZOO_SEASON_NUMBER));

@@ -33,7 +33,7 @@ public abstract class Consts {
 	public static final String	MILLICOM_SECONDSCREEN_MY_CHANNELS_URL						= "http://www.gitrgitr.com/api/my/channels";
 	public static final String	MILLICOM_SECONDSCREEN_LIKES_URL								= "http://www.gitrgitr.com/api/my/likes";
 	public static final String	MILLICOM_SECONDSCREEN_ACTIVITY_FEED_URL						= "http://www.gitrgitr.com/api/my/feed";
-	public static final String	MILLICOM_SECONDSCREEN_PROGRAMS								= "http://www.gitrgitr.com/api/epg/programs";
+	public static final String	MILLICOM_SECONDSCREEN_PROGRAMS								= "http://www.gitrgitr.com/api/epg/programs/";
 	public static final String	MILLICOM_SECONDSCREEN_SERIES								= "http://www.gitrgitr.com/api/epg/series/";
 	public static final String	MILLICOM_SECONDSCREEN_POPULAR								= "http://api.gitrgitr.com/epg/broadcasts/popular/";
 
@@ -238,6 +238,7 @@ public abstract class Consts {
 	public static final String	DAZOO_PROGRAM_TYPE_MOVIE							= "MOVIE";
 	public static final String	DAZOO_PROGRAM_TYPE_OTHER							= "OTHER";
 	public static final String	DAZOO_PROGRAM_TYPE_SPORT							= "SPORT";
+	public static final String	DAZOO_PROGRAM_TYPE_SPORTTYPE						= "sportType";
 
 	public static final String	DAZOO_LIKE_ENTITY_TYPE_PROGRAM						= "PROGRAM";
 	public static final String	DAZOO_LIKE_ENTITY_TYPE_SERIES						= "SERIES";
@@ -328,6 +329,10 @@ public abstract class Consts {
 	// SERIES fields
 	public static final String	DAZOO_SERIES_NAME									= "name";
 	public static final String	DAZOO_SERIES_SERIES_ID								= "seriesId";
+
+	// SPORT TYPE fields
+	public static final String	DAZOO_SPORTTYPE_SPORTTYPEID							= "sportTypeId";
+	public static final String	DAZOO_SPORTTYPE_NAME								= "name";
 
 	// FEED fields
 	public static final String	DAZOO_FEED_ITEM_TYPE_BROADCAST						= "BROADCAST";

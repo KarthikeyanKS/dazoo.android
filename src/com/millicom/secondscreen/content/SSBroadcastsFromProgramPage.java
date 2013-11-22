@@ -32,6 +32,7 @@ public class SSBroadcastsFromProgramPage extends SSPage{
 		Log.d(TAG,"");
 		
 		mPageUrl = Consts.MILLICOM_SECONDSCREEN_PROGRAMS + programId + Consts.MILLICOM_SECONDSCREEN_API_BROADCASTS;
+		Log.d(TAG,"mPageUrl: " + mPageUrl);
 		Log.d(TAG, "getPage");
 		
 		Link startPageLink = new Link();

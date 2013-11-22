@@ -39,12 +39,13 @@ public class BroadcastUpcomingBlockPopulator {
 	private ImageView				mReminderOneIv, mReminderTwoIv, mReminderThreeIv;
 	private String					mTvDate;
 
-	private boolean					mIsFutureOne	= false, mIsFutureTwo = false, mIsFutureThree = false, mIsSetOne = false, mIsSetTwo = false, mIsSetThree = false;
+	private boolean					mIsFutureOne	= false, mIsFutureTwo = false, mIsFutureThree = false, mIsSetOne = false, mIsSetTwo = false, mIsSetThree = false, mIsSeries;
 
-	public BroadcastUpcomingBlockPopulator(Activity activity, ScrollView containerView, String tvDate) {
+	public BroadcastUpcomingBlockPopulator(Activity activity, ScrollView containerView, String tvDate, boolean isSeries) {
 		this.mActivity = activity;
 		this.mContainerView = containerView;
 		this.mTvDate = tvDate;
+		this.mIsSeries = isSeries;
 		mNotificationDataSource = new NotificationDataSource(mActivity);
 	}
 
@@ -73,14 +74,18 @@ public class BroadcastUpcomingBlockPopulator {
 			LinearLayout mDividerOneContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_divider_one_container);
 			mDividerOneContainer.setVisibility(View.VISIBLE);
 
-			Program program = broadcastOne.getProgram();
+			if (mIsSeries) {
+				Program program = broadcastOne.getProgram();
+				Log.d(TAG, "broadcast one: " + broadcastOne);
 
-			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(program.getProgramType())) {
-				mSeasonEpisodeOneTv.setText(mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + "  " + mActivity.getResources().getString(R.string.episode)
-						+ " " + program.getEpisodeNumber());
-			} else {
-				mSeasonEpisodeOneTv.setText(program.getTitle());
+				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(program.getProgramType())) {
+					mSeasonEpisodeOneTv.setText(mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + "  "
+							+ mActivity.getResources().getString(R.string.episode) + " " + program.getEpisodeNumber());
+				} else {
+					mSeasonEpisodeOneTv.setText(program.getTitle());
+				}
 			}
+
 			try {
 				mTitleTimeOneTv.setText(DateUtilities.isoStringToDayOfWeekAndDate(broadcastOne.getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(broadcastOne.getBeginTime()));
 			} catch (ParseException e) {
@@ -142,7 +147,7 @@ public class BroadcastUpcomingBlockPopulator {
 								Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
 							}
 						}
-					} 
+					}
 				}
 			});
 
@@ -186,14 +191,16 @@ public class BroadcastUpcomingBlockPopulator {
 			LinearLayout mDividerTwoContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_divider_two_container);
 			mDividerTwoContainer.setVisibility(View.VISIBLE);
 
-			Program program = broadcastTwo.getProgram();
-
-			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(program.getProgramType())) {
-				mSeasonEpisodeTwoTv.setText(mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " " + mActivity.getResources().getString(R.string.episode)
-						+ " " + program.getEpisodeNumber());
-			} else {
-				mSeasonEpisodeTwoTv.setText(program.getTitle());
+			if (mIsSeries) {
+				Program program = broadcastTwo.getProgram();
+				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(program.getProgramType())) {
+					mSeasonEpisodeTwoTv.setText(mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " "
+							+ mActivity.getResources().getString(R.string.episode) + " " + program.getEpisodeNumber());
+				} else {
+					mSeasonEpisodeTwoTv.setText(program.getTitle());
+				}
 			}
+
 			try {
 				mTitleTimeTwoTv.setText(DateUtilities.isoStringToDayOfWeekAndDate(upcomingBroadcasts.get(1).getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(broadcastTwo.getBeginTime()));
 			} catch (ParseException e) {
@@ -255,7 +262,7 @@ public class BroadcastUpcomingBlockPopulator {
 								Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
 							}
 						}
-					} 
+					}
 				}
 			});
 
@@ -300,13 +307,15 @@ public class BroadcastUpcomingBlockPopulator {
 			LinearLayout mDividerThreeContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_divider_three_container);
 			mDividerThreeContainer.setVisibility(View.VISIBLE);
 
-			Program program = broadcastThree.getProgram();
+			if (mIsSeries) {
+				Program program = broadcastThree.getProgram();
 
-			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(program.getProgramType())) {
-				mSeasonEpisodeThreeTv.setText(mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " " + mActivity.getResources().getString(R.string.episode)
-						+ " " + program.getEpisodeNumber());
-			} else {
-				mSeasonEpisodeThreeTv.setText(program.getTitle());
+				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(program.getProgramType())) {
+					mSeasonEpisodeThreeTv.setText(mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " "
+							+ mActivity.getResources().getString(R.string.episode) + " " + program.getEpisodeNumber());
+				} else {
+					mSeasonEpisodeThreeTv.setText(program.getTitle());
+				}
 			}
 			try {
 				mTitleTimeThreeTv.setText(DateUtilities.isoStringToDayOfWeekAndDate(broadcastThree.getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(broadcastThree.getBeginTime()));
@@ -369,7 +378,7 @@ public class BroadcastUpcomingBlockPopulator {
 								Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
 							}
 						}
-					} 
+					}
 				}
 			});
 

@@ -24,6 +24,7 @@ import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.model.DazooLike;
 import com.millicom.secondscreen.like.LikeService;
+import com.millicom.secondscreen.storage.DazooStore;
 
 public class LikesActivity extends ActionBarActivity implements LikesCountInterface, OnClickListener {
 

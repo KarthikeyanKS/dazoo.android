@@ -47,12 +47,12 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 	private Channel					mChannel;
 	private String					token, mChannelId, mBroadcastPageUrl;
 	private long					mBeginTimeInMillis;
-	private boolean					mIsFromNotification	= false, mIsFromActivity = false, mIsLoggedIn = false, mIsBroadcast = false, mIsUpcoming = false;
+	private boolean					mIsFromNotification	= false, mIsFromActivity = false, mIsLoggedIn = false, mIsBroadcast = false, mIsUpcoming = false, mIsSeries = false;
 	private TextView				mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
 	private DazooStore				dazooStore;
 	private Activity				mActivity;
 	private Intent					intent;
-	private ArrayList<Broadcast>	mUpcomingBroadcasts	= new ArrayList<Broadcast>();
+	private ArrayList<Broadcast>	mUpcomingBroadcasts;
 	private String					mContentId;
 	private ScrollView				mScrollView;
 
@@ -119,13 +119,16 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 						mIsLoggedIn = true;
 						mBroadcast = dazooStore.getBroadcastFromMy(mTvDate, mChannelId, mBeginTimeInMillis);
 						mChannel = dazooStore.getChannelFromAll(mChannelId);
+						
+						mBroadcast.setChannel(mChannel);
+						
 						if (mBroadcast != null) {
 							mIsBroadcast = true;
 
 							if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(mBroadcast.getProgram().getProgramType())) {
 								getUpcomingSeriesBroadcasts(mBroadcast.getProgram().getSeries().getSeriesId());
 							} else {
-								getUpcomingProgramBroadcasts(mBroadcast.getProgram().getProgramId());
+								mIsUpcoming = true;
 							}
 
 							updateUI(REQUEST_STATUS.SUCCESSFUL);
@@ -134,13 +137,15 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 						mBroadcast = dazooStore.getBroadcastFromDefault(mTvDate, mChannelId, mBeginTimeInMillis);
 						mChannel = dazooStore.getChannelFromDefault(mChannelId);
 
+						mBroadcast.setChannel(mChannel);
+						
 						if (mBroadcast != null) {
 							mIsBroadcast = true;
 
 							if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(mBroadcast.getProgram().getProgramType())) {
 								getUpcomingSeriesBroadcasts(mBroadcast.getProgram().getSeries().getSeriesId());
 							} else {
-								getUpcomingProgramBroadcasts(mBroadcast.getProgram().getProgramId());
+								mIsUpcoming = true;
 							}
 
 							updateUI(REQUEST_STATUS.SUCCESSFUL);
@@ -169,8 +174,10 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 					if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(mBroadcast.getProgram().getProgramType())) {
 						getUpcomingSeriesBroadcasts(mBroadcast.getProgram().getSeries().getSeriesId());
 					} else {
-						getUpcomingProgramBroadcasts(mBroadcast.getProgram().getProgramId());
+						mIsUpcoming = true;
 					}
+					
+					mBroadcast.setChannel(mChannel);
 
 					updateUI(REQUEST_STATUS.SUCCESSFUL);
 				}
@@ -214,7 +221,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 
 		// upcoming episodes
 		if (mUpcomingBroadcasts != null && mUpcomingBroadcasts.isEmpty() != true) {
-			BroadcastUpcomingBlockPopulator repetitionsBlock = new BroadcastUpcomingBlockPopulator(mActivity, mScrollView, mTvDate);
+			BroadcastUpcomingBlockPopulator repetitionsBlock = new BroadcastUpcomingBlockPopulator(mActivity, mScrollView, mTvDate, mIsSeries);
 			repetitionsBlock.createBlock(mUpcomingBroadcasts);
 		}
 		// cast & crew
@@ -269,18 +276,22 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 			@Override
 			public void onGetPageResult(SSPageGetResult aPageGetResult) {
 				mUpcomingBroadcasts = SSBroadcastsFromSeriesPage.getInstance().getSeriesUpcomingBroadcasts();
+				Log.d(TAG,"broadcasts from SERIES: " + mUpcomingBroadcasts.size());
+				mIsSeries = true;
 				mIsUpcoming = true;
 				updateUI(REQUEST_STATUS.SUCCESSFUL);
 			}
 		});
 	}
 
-	// task to get the broadcasts from the program
-	private void getUpcomingProgramBroadcasts(String id) {
+	// task to get the broadcasts of the same program
+	private void getRepetitionBroadcasts(String id) {
 		SSBroadcastsFromProgramPage.getInstance().getPage(id, new SSPageCallback() {
 			@Override
 			public void onGetPageResult(SSPageGetResult aPageGetResult) {
 				mUpcomingBroadcasts = SSBroadcastsFromProgramPage.getInstance().getProgramBroadcasts();
+				Log.d(TAG,"broadcasts from program: " + mUpcomingBroadcasts.size());
+				mIsSeries = false;
 				mIsUpcoming = true;
 				updateUI(REQUEST_STATUS.SUCCESSFUL);
 			}

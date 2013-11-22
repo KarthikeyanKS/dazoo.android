@@ -152,16 +152,22 @@ public class ActivityLikedBlockPopulator {
 			public void onClick(View v) {
 				String likeType = LikeService.getLikeType(programType);
 
-				String programId;
+				String programId, contentTitle;
 				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 					programId = popularItem.getBroadcast().getProgram().getSeries().getSeriesId();
-				} else {
+					contentTitle = popularItem.getBroadcast().getProgram().getTitle();
+				} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)){
+					programId = popularItem.getBroadcast().getProgram().getSportType().getSportTypeId();
+					contentTitle = popularItem.getBroadcast().getProgram().getSportType().getName();
+				}
+				else {
 					programId = popularItem.getBroadcast().getProgram().getProgramId();
+					contentTitle = popularItem.getBroadcast().getProgram().getTitle();
 				}
 
 				if (mIsLiked == false) {
 					if (LikeService.addLike(mToken, programId, likeType)) {
-						LikeService.showSetLikeToast(mActivity, popularItem.getBroadcast().getProgram().getTitle());
+						LikeService.showSetLikeToast(mActivity, contentTitle);
 						likeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
 						mIsLiked = true;
 					} else {
