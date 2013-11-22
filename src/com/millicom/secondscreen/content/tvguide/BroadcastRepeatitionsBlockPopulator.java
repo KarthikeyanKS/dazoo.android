@@ -26,7 +26,7 @@ import com.millicom.secondscreen.utilities.AnimationUtilities;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
 
-public class BroadcastRepetitionsBlockPopulator {
+public class BroadcastRepeatitionsBlockPopulator {
 	
 	private static final String		TAG				= "BroadcastRepetitionsBlockPopulator";
 
@@ -39,7 +39,7 @@ public class BroadcastRepetitionsBlockPopulator {
 
 	private boolean					mIsFutureOne	= false, mIsFutureTwo = false, mIsFutureThree = false, mIsSetOne = false, mIsSetTwo = false, mIsSetThree = false, mIsSeries;
 
-	public BroadcastRepetitionsBlockPopulator(Activity activity, ScrollView containerView, String tvDate) {
+	public BroadcastRepeatitionsBlockPopulator(Activity activity, ScrollView containerView, String tvDate) {
 		this.mActivity = activity;
 		this.mContainerView = containerView;
 		this.mTvDate = tvDate;
@@ -54,7 +54,7 @@ public class BroadcastRepetitionsBlockPopulator {
 		View topContentView = LayoutInflater.from(mActivity).inflate(R.layout.block_broadcastpage_upcoming_layout, null);
 
 		TextView title = (TextView) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_title_textview);
-		title.setText(mActivity.getResources().getString(R.string.upcoming_episodes));
+		title.setText(mActivity.getResources().getString(R.string.repeatitions));
 
 		if (repeatingBroadcasts.size() > 0 && repeatingBroadcasts.get(0) != null) {
 
@@ -379,12 +379,12 @@ public class BroadcastRepetitionsBlockPopulator {
 			View divider = (View) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_divider);
 			divider.setVisibility(View.VISIBLE);
 			TextView showMoreTxt = (TextView) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_more_textview);
+			showMoreTxt.setText(mActivity.getResources().getString(R.string.repeatitions_more));
 			showMoreTxt.setVisibility(View.VISIBLE);
 			showMoreTxt.setOnClickListener(new View.OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
-					Log.d(TAG, "SIZE: " + repeatingBroadcasts.size());
 					Intent intent = new Intent(mActivity, RepeatitionsPageActivity.class);
 					intent.putParcelableArrayListExtra(Consts.INTENT_EXTRA_REPEATING_BROADCASTS, repeatingBroadcasts);
 					mActivity.startActivity(intent);

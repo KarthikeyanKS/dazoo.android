@@ -29,7 +29,7 @@ import com.millicom.secondscreen.utilities.ImageLoader;
 
 public class BroadcastUpcomingBlockPopulator {
 
-	private static final String		TAG				= "BroadcastRepetitionsBlockPopulator";
+	private static final String		TAG				= "BroadcastUpcomingBlockPopulator";
 
 	private Activity				mActivity;
 	private ImageLoader				mImageLoader;
@@ -76,14 +76,14 @@ public class BroadcastUpcomingBlockPopulator {
 
 			if (mIsSeries) {
 				Program program = broadcastOne.getProgram();
-				Log.d(TAG, "broadcast one: " + broadcastOne);
-
+				
 				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(program.getProgramType())) {
 					mSeasonEpisodeOneTv.setText(mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + "  "
 							+ mActivity.getResources().getString(R.string.episode) + " " + program.getEpisodeNumber());
 				} else {
 					mSeasonEpisodeOneTv.setText(program.getTitle());
 				}
+				mSeasonEpisodeOneTv.setVisibility(View.VISIBLE);
 			}
 
 			try {
@@ -199,6 +199,7 @@ public class BroadcastUpcomingBlockPopulator {
 				} else {
 					mSeasonEpisodeTwoTv.setText(program.getTitle());
 				}
+				mSeasonEpisodeTwoTv.setVisibility(View.VISIBLE);
 			}
 
 			try {
@@ -316,6 +317,7 @@ public class BroadcastUpcomingBlockPopulator {
 				} else {
 					mSeasonEpisodeThreeTv.setText(program.getTitle());
 				}
+				mSeasonEpisodeThreeTv.setVisibility(View.VISIBLE);
 			}
 			try {
 				mTitleTimeThreeTv.setText(DateUtilities.isoStringToDayOfWeekAndDate(broadcastThree.getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(broadcastThree.getBeginTime()));

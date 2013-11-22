@@ -38,7 +38,7 @@ import com.millicom.secondscreen.storage.DazooStore;
 
 public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity implements OnClickListener {
 
-	private static final String		TAG					= "BroadcastPageActivity";
+	private static final String		TAG	= "BroadcastPageActivity";
 	private Broadcast				mBroadcast;
 	private String					mTvDate;
 
@@ -53,7 +53,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 	private Activity				mActivity;
 	private Intent					intent;
 	private ArrayList<Broadcast>	mUpcomingBroadcasts;
-	private ArrayList<Broadcast> mRepeatBroadcasts;
+	private ArrayList<Broadcast>	mRepeatBroadcasts;
 	private ScrollView				mScrollView;
 
 	@Override
@@ -90,7 +90,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		Log.d(TAG, "mIsBroadcast: " + mIsBroadcast + " mIsUpcoming: " + mIsUpcoming);
 		if (mIsBroadcast && mIsUpcoming && mIsRepeat) {
 			if (super.requestIsSuccesfull(status)) {
-				Log.d(TAG,"SUCCESSFUL");
+				Log.d(TAG, "SUCCESSFUL");
 				populateBlocks();
 			}
 		}
@@ -106,7 +106,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 
 	private void loadStartPage() {
 		updateUI(REQUEST_STATUS.LOADING);
-		Log.d(TAG,"LOADING");
+		Log.d(TAG, "LOADING");
 		// check if the network connection exists
 		if (!NetworkUtils.checkConnection(mActivity)) {
 			updateUI(REQUEST_STATUS.FAILED);
@@ -119,9 +119,9 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 						mIsLoggedIn = true;
 						mBroadcast = dazooStore.getBroadcastFromMy(mTvDate, mChannelId, mBeginTimeInMillis);
 						mChannel = dazooStore.getChannelFromAll(mChannelId);
-						
+
 						mBroadcast.setChannel(mChannel);
-						
+
 						if (mBroadcast != null) {
 							mIsBroadcast = true;
 
@@ -130,6 +130,8 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 							} else {
 								mIsUpcoming = true;
 							}
+
+							getRepetitionBroadcasts(mBroadcast.getProgram().getProgramId());
 
 							updateUI(REQUEST_STATUS.SUCCESSFUL);
 						}
@@ -138,7 +140,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 						mChannel = dazooStore.getChannelFromDefault(mChannelId);
 
 						mBroadcast.setChannel(mChannel);
-						
+
 						if (mBroadcast != null) {
 							mIsBroadcast = true;
 
@@ -147,9 +149,9 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 							} else {
 								mIsUpcoming = true;
 							}
-
 						
-							
+							getRepetitionBroadcasts(mBroadcast.getProgram().getProgramId());
+
 							updateUI(REQUEST_STATUS.SUCCESSFUL);
 						}
 					}
@@ -178,7 +180,9 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 					} else {
 						mIsUpcoming = true;
 					}
-					
+
+					getRepetitionBroadcasts(mBroadcast.getProgram().getProgramId());
+
 					mBroadcast.setChannel(mChannel);
 
 					updateUI(REQUEST_STATUS.SUCCESSFUL);
@@ -221,14 +225,19 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		BroadcastMainBlockPopulator mainBlockPopulator = new BroadcastMainBlockPopulator(mActivity, mScrollView, token, mTvDate);
 		mainBlockPopulator.createBlock(mBroadcast);
 
+		// repetitions
+		if (mRepeatBroadcasts != null && mRepeatBroadcasts.isEmpty() != true) {
+			BroadcastRepeatitionsBlockPopulator repeatitionsBlock = new BroadcastRepeatitionsBlockPopulator(mActivity, mScrollView, mTvDate);
+			repeatitionsBlock.createBlock(mRepeatBroadcasts);
+		}
+
 		// upcoming episodes
 		if (mUpcomingBroadcasts != null && mUpcomingBroadcasts.isEmpty() != true) {
-			BroadcastUpcomingBlockPopulator repetitionsBlock = new BroadcastUpcomingBlockPopulator(mActivity, mScrollView, mTvDate, mIsSeries);
-			repetitionsBlock.createBlock(mUpcomingBroadcasts);
+			BroadcastUpcomingBlockPopulator upcomingBlock = new BroadcastUpcomingBlockPopulator(mActivity, mScrollView, mTvDate, mIsSeries);
+			upcomingBlock.createBlock(mUpcomingBroadcasts);
 		}
+		
 		// cast & crew
-
-		// repetitions
 
 		// similar shows today
 
@@ -278,7 +287,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 			@Override
 			public void onGetPageResult(SSPageGetResult aPageGetResult) {
 				mUpcomingBroadcasts = SSBroadcastsFromSeriesPage.getInstance().getSeriesUpcomingBroadcasts();
-				Log.d(TAG,"broadcasts from SERIES: " + mUpcomingBroadcasts.size());
+				Log.d(TAG, "broadcasts from SERIES: " + mUpcomingBroadcasts.size());
 				mIsSeries = true;
 				mIsUpcoming = true;
 				updateUI(REQUEST_STATUS.SUCCESSFUL);
@@ -291,8 +300,8 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		SSBroadcastsFromProgramPage.getInstance().getPage(id, new SSPageCallback() {
 			@Override
 			public void onGetPageResult(SSPageGetResult aPageGetResult) {
-				mUpcomingBroadcasts = SSBroadcastsFromProgramPage.getInstance().getProgramBroadcasts();
-				Log.d(TAG,"broadcasts from program: " + mUpcomingBroadcasts.size());
+				mRepeatBroadcasts = SSBroadcastsFromProgramPage.getInstance().getProgramBroadcasts();
+				Log.d(TAG, "broadcasts from program: " + mRepeatBroadcasts.size());
 				mIsRepeat = true;
 				updateUI(REQUEST_STATUS.SUCCESSFUL);
 			}
