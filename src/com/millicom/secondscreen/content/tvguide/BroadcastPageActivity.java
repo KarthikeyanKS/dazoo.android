@@ -47,13 +47,13 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 	private Channel					mChannel;
 	private String					token, mChannelId, mBroadcastPageUrl;
 	private long					mBeginTimeInMillis;
-	private boolean					mIsFromNotification	= false, mIsFromActivity = false, mIsLoggedIn = false, mIsBroadcast = false, mIsUpcoming = false, mIsSeries = false;
+	private boolean					mIsFromNotification	= false, mIsFromActivity = false, mIsLoggedIn = false, mIsBroadcast = false, mIsUpcoming = false, mIsSeries = false, mIsRepeat = false;
 	private TextView				mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
 	private DazooStore				dazooStore;
 	private Activity				mActivity;
 	private Intent					intent;
 	private ArrayList<Broadcast>	mUpcomingBroadcasts;
-	private String					mContentId;
+	private ArrayList<Broadcast> mRepeatBroadcasts;
 	private ScrollView				mScrollView;
 
 	@Override
@@ -88,7 +88,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
 		Log.d(TAG, "mIsBroadcast: " + mIsBroadcast + " mIsUpcoming: " + mIsUpcoming);
-		if (mIsBroadcast && mIsUpcoming) {
+		if (mIsBroadcast && mIsUpcoming && mIsRepeat) {
 			if (super.requestIsSuccesfull(status)) {
 				Log.d(TAG,"SUCCESSFUL");
 				populateBlocks();
@@ -148,6 +148,8 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 								mIsUpcoming = true;
 							}
 
+						
+							
 							updateUI(REQUEST_STATUS.SUCCESSFUL);
 						}
 					}
@@ -291,8 +293,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 			public void onGetPageResult(SSPageGetResult aPageGetResult) {
 				mUpcomingBroadcasts = SSBroadcastsFromProgramPage.getInstance().getProgramBroadcasts();
 				Log.d(TAG,"broadcasts from program: " + mUpcomingBroadcasts.size());
-				mIsSeries = false;
-				mIsUpcoming = true;
+				mIsRepeat = true;
 				updateUI(REQUEST_STATUS.SUCCESSFUL);
 			}
 		});
