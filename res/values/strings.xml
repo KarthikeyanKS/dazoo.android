@@ -158,6 +158,8 @@
     <string name="movie">Movie</string>
     <string name="sport">Sport</string>
     <string name="tv_series">TV Series</string>
+    <string name="repeatitions">Repeatitions</string>
+    <string name="repeatitions_more">Show more repeatitions</string>
 
     <!-- LOGIN PAGE -->
     <string name="login_with_facebook">LOGIN WITH FACEBOOK</string>

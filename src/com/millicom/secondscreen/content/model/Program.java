@@ -25,7 +25,7 @@ public class Program implements Parcelable {
 	private int year;
 	private String genre;
 	// specific for programType = "SPORT"
-	private String sportType;
+	private SportType sportType;
 	private String tournament;
 	// specific for programType = "OTHER"
 	private String category;
@@ -153,11 +153,11 @@ public class Program implements Parcelable {
 		return this.genre;
 	}
 	
-	public void setSportType(String sportType){
+	public void setSportType(SportType sportType){
 		this.sportType = sportType;
 	}
 	
-	public String getSportType(){
+	public SportType getSportType(){
 		return this.sportType;
 	}
 	
@@ -199,7 +199,7 @@ public class Program implements Parcelable {
 		dest.writeParcelable(series, flags);
 		dest.writeInt(year);
 		dest.writeString(genre);
-		dest.writeString(sportType);
+		dest.writeParcelable(sportType, flags);
 		dest.writeString(tournament);
 		dest.writeString(category);
 	}
@@ -220,7 +220,7 @@ public class Program implements Parcelable {
 		series = in.readParcelable(Series.class.getClassLoader());
 		year = in.readInt();
 		genre = in.readString();
-		sportType = in.readString();
+		sportType = in.readParcelable(SportType.class.getClassLoader());
 		tournament = in.readString();
 		category = in.readString();
 	}

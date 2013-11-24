@@ -148,7 +148,7 @@ public class RemindersListAdapter extends BaseAdapter {
 				} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
 					holder.mBroadcastDetailsTv.setText(program.getCategory());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
-					holder.mBroadcastDetailsTv.setText(program.getSportType());
+					holder.mBroadcastDetailsTv.setText(program.getSportType().getName());
 				}
 			}
 

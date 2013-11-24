@@ -185,6 +185,18 @@
                 android:value="com.millicom.secondscreen.content.tvguide.BroadcastPageActivity" />
         </activity>
         
+        <!-- REPEATITIONS PAGE -->
+         <activity
+            android:name="com.millicom.secondscreen.content.tvguide.RepeatitionsPageActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:parentActivityName="com.millicom.secondscreen.content.tvguide.BroadcastPageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.millicom.secondscreen.content.tvguide.BroadcastPageActivity" />
+        </activity>
+        
         <!-- CHANNEL PAGE -->
         <activity
             android:name="com.millicom.secondscreen.content.tvguide.ChannelPageActivity"

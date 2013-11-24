@@ -14,6 +14,7 @@ import com.millicom.secondscreen.notification.NotificationDataSource;
 import com.millicom.secondscreen.notification.NotificationDialogHandler;
 import com.millicom.secondscreen.notification.NotificationService;
 import com.millicom.secondscreen.share.ShareAction;
+import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.AnimationUtilities;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
@@ -46,7 +47,7 @@ public class BroadcastMainBlockPopulator {
 	private NotificationDataSource	mNotificationDataSource;
 	private boolean					mIsSet			= false, mIsLiked = false, mIsLoggedIn = false, mIsFuture;
 	private int						mNotificationId	= -1;
-	private String					mToken, mEntityType, mProgramId, mLikeType, mTvDate;
+	private String					mToken, mProgramId, mLikeType, mTvDate, mContentTitle;
 
 	public BroadcastMainBlockPopulator(Activity activity, ScrollView containerView, String token, String tvDate) {
 		this.mActivity = activity;
@@ -102,14 +103,19 @@ public class BroadcastMainBlockPopulator {
 
 		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 			mProgramId = broadcast.getProgram().getSeries().getSeriesId();
-
+			mContentTitle = broadcast.getProgram().getTitle();
 			seasonTv.setText(mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " " + mActivity.getResources().getString(R.string.episode) + " "
 					+ String.valueOf(program.getEpisodeNumber()));
 			episodeTv.setText(program.getTitle());
 
 			titleTv.setText(program.getSeries().getName());
 
-		} else {
+		} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)){
+			mProgramId = broadcast.getProgram().getSportType().getSportTypeId();
+			mContentTitle = broadcast.getProgram().getSportType().getName();
+		}
+		else{
+			mContentTitle = broadcast.getProgram().getTitle();
 			mProgramId = broadcast.getProgram().getProgramId();
 			titleTv.setText(program.getTitle());
 		}
@@ -126,7 +132,9 @@ public class BroadcastMainBlockPopulator {
 			extraTv.setText(program.getCategory());
 			extraTv.setVisibility(View.VISIBLE);
 		} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)){
-			extraTv.setText(program.getSportType());
+			Log.d(TAG,"" + program.getSportType().getName());
+			Log.d(TAG,"" + program.getSportType().getSportTypeId());
+			extraTv.setText(program.getSportType().getName());
 			extraTv.setVisibility(View.VISIBLE);
 		}
 
@@ -197,7 +205,7 @@ public class BroadcastMainBlockPopulator {
 		}
 
 		tagsTv.setText(sb.toString());
-
+		
 		if (!mIsFuture) {
 			NotificationDbItem dbItem = new NotificationDbItem();
 			dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillis());
@@ -216,15 +224,12 @@ public class BroadcastMainBlockPopulator {
 		}
 
 		if (mIsLoggedIn) {
-			mIsLiked = LikeService.isLiked(mToken, broadcast.getProgram().getProgramId());
+			//mIsLiked = LikeService.isLiked(mToken, broadcast.getProgram().getProgramId());
+			mIsLiked = DazooStore.getInstance().isInTheLikesList(mProgramId);
 		}
 
 		if (mIsLiked) mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
 		else mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart));
-
-		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(program.getProgramType())) {
-			mEntityType = Consts.DAZOO_LIKE_ENTITY_TYPE_SERIES;
-		} else mEntityType = Consts.DAZOO_LIKE_ENTITY_TYPE_PROGRAM;
 
 		likeContainer.setOnClickListener(new View.OnClickListener() {
 
@@ -233,7 +238,7 @@ public class BroadcastMainBlockPopulator {
 				if (mIsLoggedIn) {
 					if (mIsLiked == false) {
 						if (LikeService.addLike(mToken, mProgramId, mLikeType)) {
-							LikeService.showSetLikeToast(mActivity, broadcast.getProgram().getTitle());
+							LikeService.showSetLikeToast(mActivity, mContentTitle);
 							mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
 
 							AnimationUtilities.animationSet(mLikeIv);

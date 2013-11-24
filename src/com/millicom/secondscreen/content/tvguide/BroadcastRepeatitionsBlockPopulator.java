@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,12 +26,11 @@ import com.millicom.secondscreen.utilities.AnimationUtilities;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
 
-public class BroadcastUpcomingBlockPopulator {
-
-	private static final String		TAG				= "BroadcastUpcomingBlockPopulator";
+public class BroadcastRepeatitionsBlockPopulator {
+	
+	private static final String		TAG				= "BroadcastRepetitionsBlockPopulator";
 
 	private Activity				mActivity;
-	private ImageLoader				mImageLoader;
 	private ScrollView				mContainerView;
 	private int						mNotificationId	= -1;
 	private NotificationDataSource	mNotificationDataSource;
@@ -41,27 +39,28 @@ public class BroadcastUpcomingBlockPopulator {
 
 	private boolean					mIsFutureOne	= false, mIsFutureTwo = false, mIsFutureThree = false, mIsSetOne = false, mIsSetTwo = false, mIsSetThree = false, mIsSeries;
 
-	public BroadcastUpcomingBlockPopulator(Activity activity, ScrollView containerView, String tvDate, boolean isSeries) {
+	public BroadcastRepeatitionsBlockPopulator(Activity activity, ScrollView containerView, String tvDate) {
 		this.mActivity = activity;
 		this.mContainerView = containerView;
 		this.mTvDate = tvDate;
-		this.mIsSeries = isSeries;
 		mNotificationDataSource = new NotificationDataSource(mActivity);
 	}
 
-	public void createBlock(final ArrayList<Broadcast> upcomingBroadcasts) {
+	public void createBlock(final ArrayList<Broadcast> repeatingBroadcasts) {
+		
+		// the same layout as for the Upcoming Episodes for series is used, as the elements are the same, except for the title
 		LinearLayout containerView = (LinearLayout) mContainerView.findViewById(R.id.broacastpage_block_container_layout);
 
 		View topContentView = LayoutInflater.from(mActivity).inflate(R.layout.block_broadcastpage_upcoming_layout, null);
 
 		TextView title = (TextView) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_title_textview);
-		title.setText(mActivity.getResources().getString(R.string.upcoming_episodes));
+		title.setText(mActivity.getResources().getString(R.string.repeatitions));
 
-		if (upcomingBroadcasts.size() > 0 && upcomingBroadcasts.get(0) != null) {
+		if (repeatingBroadcasts.size() > 0 && repeatingBroadcasts.get(0) != null) {
 
-			final Broadcast broadcastOne = upcomingBroadcasts.get(0);
+			final Broadcast broadcastOne = repeatingBroadcasts.get(0);
 
-			Log.d(TAG, "UPCOMING BROADCASTS SIZE: " + upcomingBroadcasts.size());
+			Log.d(TAG, "REPEATING BROADCASTS SIZE: " + repeatingBroadcasts.size());
 			// first program
 			LinearLayout mFirstContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_one_container);
 			mFirstContainer.setVisibility(View.VISIBLE);
@@ -74,22 +73,11 @@ public class BroadcastUpcomingBlockPopulator {
 			LinearLayout mDividerOneContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_divider_one_container);
 			mDividerOneContainer.setVisibility(View.VISIBLE);
 
-			if (mIsSeries) {
-				Program program = broadcastOne.getProgram();
-				
-				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(program.getProgramType())) {
-					mSeasonEpisodeOneTv.setText(mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + "  "
-							+ mActivity.getResources().getString(R.string.episode) + " " + program.getEpisodeNumber());
-				} else {
-					mSeasonEpisodeOneTv.setText(program.getTitle());
-				}
-				mSeasonEpisodeOneTv.setVisibility(View.VISIBLE);
-			}
-
+			mSeasonEpisodeOneTv.setVisibility(View.VISIBLE);
+			
 			try {
 				mTitleTimeOneTv.setText(DateUtilities.isoStringToDayOfWeekAndDate(broadcastOne.getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(broadcastOne.getBeginTime()));
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			mChannelOneTv.setText(broadcastOne.getChannel().getName());
@@ -97,7 +85,6 @@ public class BroadcastUpcomingBlockPopulator {
 			try {
 				mIsFutureOne = DateUtilities.isTimeInFuture(broadcastOne.getBeginTime());
 			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 
@@ -175,8 +162,8 @@ public class BroadcastUpcomingBlockPopulator {
 			});
 		}
 
-		if (upcomingBroadcasts.size() > 1 && upcomingBroadcasts.get(1) != null) {
-			final Broadcast broadcastTwo = upcomingBroadcasts.get(1);
+		if (repeatingBroadcasts.size() > 1 && repeatingBroadcasts.get(1) != null) {
+			final Broadcast broadcastTwo = repeatingBroadcasts.get(1);
 
 			// second program
 			LinearLayout mSecondContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_two_container);
@@ -191,21 +178,11 @@ public class BroadcastUpcomingBlockPopulator {
 			LinearLayout mDividerTwoContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_divider_two_container);
 			mDividerTwoContainer.setVisibility(View.VISIBLE);
 
-			if (mIsSeries) {
-				Program program = broadcastTwo.getProgram();
-				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(program.getProgramType())) {
-					mSeasonEpisodeTwoTv.setText(mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " "
-							+ mActivity.getResources().getString(R.string.episode) + " " + program.getEpisodeNumber());
-				} else {
-					mSeasonEpisodeTwoTv.setText(program.getTitle());
-				}
-				mSeasonEpisodeTwoTv.setVisibility(View.VISIBLE);
-			}
+			mSeasonEpisodeTwoTv.setVisibility(View.VISIBLE);
 
 			try {
-				mTitleTimeTwoTv.setText(DateUtilities.isoStringToDayOfWeekAndDate(upcomingBroadcasts.get(1).getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(broadcastTwo.getBeginTime()));
+				mTitleTimeTwoTv.setText(DateUtilities.isoStringToDayOfWeekAndDate(repeatingBroadcasts.get(1).getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(broadcastTwo.getBeginTime()));
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			mChannelTwoTv.setText(broadcastTwo.getChannel().getName());
@@ -213,7 +190,6 @@ public class BroadcastUpcomingBlockPopulator {
 			try {
 				mIsFutureTwo = DateUtilities.isTimeInFuture(broadcastTwo.getBeginTime());
 			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 
@@ -292,9 +268,9 @@ public class BroadcastUpcomingBlockPopulator {
 		}
 
 		// third program
-		if (upcomingBroadcasts.size() > 2 && upcomingBroadcasts.get(2) != null) {
+		if (repeatingBroadcasts.size() > 2 && repeatingBroadcasts.get(2) != null) {
 
-			final Broadcast broadcastThree = upcomingBroadcasts.get(2);
+			final Broadcast broadcastThree = repeatingBroadcasts.get(2);
 
 			LinearLayout mThirdContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_three_container);
 			mThirdContainer.setVisibility(View.VISIBLE);
@@ -308,17 +284,8 @@ public class BroadcastUpcomingBlockPopulator {
 			LinearLayout mDividerThreeContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_divider_three_container);
 			mDividerThreeContainer.setVisibility(View.VISIBLE);
 
-			if (mIsSeries) {
-				Program program = broadcastThree.getProgram();
-
-				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(program.getProgramType())) {
-					mSeasonEpisodeThreeTv.setText(mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " "
-							+ mActivity.getResources().getString(R.string.episode) + " " + program.getEpisodeNumber());
-				} else {
-					mSeasonEpisodeThreeTv.setText(program.getTitle());
-				}
-				mSeasonEpisodeThreeTv.setVisibility(View.VISIBLE);
-			}
+			mSeasonEpisodeThreeTv.setVisibility(View.GONE);
+			
 			try {
 				mTitleTimeThreeTv.setText(DateUtilities.isoStringToDayOfWeekAndDate(broadcastThree.getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(broadcastThree.getBeginTime()));
 			} catch (ParseException e) {
@@ -407,19 +374,19 @@ public class BroadcastUpcomingBlockPopulator {
 			});
 		}
 
-		if (upcomingBroadcasts.size() > 3) {
+		if (repeatingBroadcasts.size() > 3) {
 
 			View divider = (View) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_divider);
 			divider.setVisibility(View.VISIBLE);
 			TextView showMoreTxt = (TextView) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_more_textview);
+			showMoreTxt.setText(mActivity.getResources().getString(R.string.repeatitions_more));
 			showMoreTxt.setVisibility(View.VISIBLE);
 			showMoreTxt.setOnClickListener(new View.OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
-					Log.d(TAG, "SIZE: " + upcomingBroadcasts.size());
-					Intent intent = new Intent(mActivity, UpcomingeEpisodesPageActivity.class);
-					intent.putParcelableArrayListExtra(Consts.INTENT_EXTRA_UPCOMING_BROADCASTS, upcomingBroadcasts);
+					Intent intent = new Intent(mActivity, RepeatitionsPageActivity.class);
+					intent.putParcelableArrayListExtra(Consts.INTENT_EXTRA_REPEATING_BROADCASTS, repeatingBroadcasts);
 					mActivity.startActivity(intent);
 					mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 				}
@@ -431,8 +398,9 @@ public class BroadcastUpcomingBlockPopulator {
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 		layoutParams.setMargins(20, 20, 20, 20);
 		containerView.addView(topContentView, layoutParams);
+		
 	}
-
+	
 	public Runnable yesNotificationThreeProc() {
 		return new Runnable() {
 			public void run() {
@@ -466,5 +434,6 @@ public class BroadcastUpcomingBlockPopulator {
 			}
 		};
 	}
+
 
 }

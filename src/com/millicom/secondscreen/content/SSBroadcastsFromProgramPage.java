@@ -11,29 +11,31 @@ import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Link;
 
-public class SSBroadcastsFromProgramPage extends SSPage{
+public class SSBroadcastsFromProgramPage extends SSPage {
 	public static final String	TAG	= "SSBroadcastsFromSeriesPage";
 	public String				mPageUrl;
 
 	// private constructor prevents instantiation from other classes
-	private SSBroadcastsFromProgramPage() {};
-	
-	private static class SSBroadcastsFromProgramPageHolder{
-		public static final SSBroadcastsFromProgramPage  INSTANCE = new SSBroadcastsFromProgramPage();
+	private SSBroadcastsFromProgramPage() {
+	};
+
+	private static class SSBroadcastsFromProgramPageHolder {
+		public static final SSBroadcastsFromProgramPage	INSTANCE	= new SSBroadcastsFromProgramPage();
 	}
-	
-	public static SSBroadcastsFromProgramPage getInstance(){
+
+	public static SSBroadcastsFromProgramPage getInstance() {
 		return SSBroadcastsFromProgramPageHolder.INSTANCE;
 	}
 
 	public boolean getPage(String programId, SSPageCallback pageCallback) {
 		// Remember the callback
 		super.mPageCallback = pageCallback;
-		Log.d(TAG,"");
-		
+		Log.d(TAG, "");
+
 		mPageUrl = Consts.MILLICOM_SECONDSCREEN_PROGRAMS + programId + Consts.MILLICOM_SECONDSCREEN_API_BROADCASTS;
+		Log.d(TAG, "mPageUrl: " + mPageUrl);
 		Log.d(TAG, "getPage");
-		
+
 		Link startPageLink = new Link();
 		startPageLink.setUrl(mPageUrl);
 

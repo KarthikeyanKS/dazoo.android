@@ -41,23 +41,23 @@ import android.widget.Toast;
 
 public class ActivityFeedAdapter extends BaseAdapter {
 
-	private static final String	TAG									= "ActivityFeedAdapter";
-	private Activity			mActivity;
-	private ArrayList<FeedItem>	mFeedItems;
-	private ImageLoader			mImageLoader;
+	private static final String		TAG									= "ActivityFeedAdapter";
+	private Activity				mActivity;
+	private ArrayList<FeedItem>		mFeedItems;
+	private ImageLoader				mImageLoader;
 
-	private int					DAZOO_ACTIVITY_BLOCKS_TYPE_NUMBER	= 3;
-	private static final int	ITEM_TYPE_BROADCAST					= 0;
-	private static final int	ITEM_TYPE_RECOMMENDED_BROADCAST		= 1;
-	private static final int	ITEM_TYPE_POPULAR_BROADCASTS		= 2;
+	private int						DAZOO_ACTIVITY_BLOCKS_TYPE_NUMBER	= 3;
+	private static final int		ITEM_TYPE_BROADCAST					= 0;
+	private static final int		ITEM_TYPE_RECOMMENDED_BROADCAST		= 1;
+	private static final int		ITEM_TYPE_POPULAR_BROADCASTS		= 2;
 
-	private String				mToken;
-	private int					mNotificationId;
-	private NotificationDataSource		mNotificationDataSource;
-	private ArrayList<String> mLikeIds;
+	private String					mToken;
+	private int						mNotificationId;
+	private NotificationDataSource	mNotificationDataSource;
+	private ArrayList<String>		mLikeIds;
 
-	private ImageView			likeLikeIv, remindLikeIv, likeRecIv, remindRecIv;
-	private boolean				mIsLiked = false, mIsSet = false;
+	private ImageView				likeLikeIv, remindLikeIv, likeRecIv, remindRecIv;
+	private boolean					mIsLiked							= false, mIsSet = false;
 
 	public ActivityFeedAdapter(Activity activity, ArrayList<FeedItem> feedItems, String token) {
 		this.mActivity = activity;
@@ -96,8 +96,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		mFeedItems.add(item);
 		notifyDataSetChanged();
 	}
-	
-	public void addItems(ArrayList<FeedItem> items){
+
+	public void addItems(ArrayList<FeedItem> items) {
 		mFeedItems.addAll(items);
 		notifyDataSetChanged();
 	}
@@ -143,14 +143,22 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			LinearLayout remindContainer = (LinearLayout) convertView.findViewById(R.id.block_feed_liked_remind_button_container);
 			remindLikeIv = (ImageView) convertView.findViewById(R.id.block_feed_liked_remind_button_iv);
 
-			//mIsLiked = LikeService.isLiked(mToken, feedItem.getBroadcast().getProgram().getProgramId());
-			mIsLiked = DazooStore.getInstance().isInTheLikesList(feedItem.getBroadcast().getProgram().getProgramId());
-			
+			// mIsLiked = LikeService.isLiked(mToken, feedItem.getBroadcast().getProgram().getProgramId());
+
+			final String programType = feedItem.getBroadcast().getProgram().getProgramType();
+			// determine like
+			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+				mIsLiked = DazooStore.getInstance().isInTheLikesList(feedItem.getBroadcast().getProgram().getSeries().getSeriesId());
+			} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
+				mIsLiked = DazooStore.getInstance().isInTheLikesList(feedItem.getBroadcast().getProgram().getSportType().getSportTypeId());
+			} else {
+				mIsLiked = DazooStore.getInstance().isInTheLikesList(feedItem.getBroadcast().getProgram().getProgramId());
+			}
+
 			headerTv.setText(feedItem.getTitle() + " " + feedItem.getItemType());
 
 			mImageLoader.displayImage(feedItem.getBroadcast().getProgram().getPosterMUrl(), landscapeIv, ImageLoader.IMAGE_TYPE.GALLERY);
 
-			final String programType = feedItem.getBroadcast().getProgram().getProgramType();
 			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 				titleTv.setText(feedItem.getBroadcast().getProgram().getSeries().getName());
 			} else {
@@ -172,7 +180,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					detailsTv.setText(mActivity.getResources().getString(R.string.season) + " " + feedItem.getBroadcast().getProgram().getSeason().getNumber() + " "
 							+ mActivity.getResources().getString(R.string.episode) + " " + feedItem.getBroadcast().getProgram().getEpisodeNumber());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
-					detailsTv.setText(feedItem.getBroadcast().getProgram().getSportType() + " " + feedItem.getBroadcast().getProgram().getTournament());
+					detailsTv.setText(feedItem.getBroadcast().getProgram().getSportType().getName() + " " + feedItem.getBroadcast().getProgram().getTournament());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
 					detailsTv.setText(feedItem.getBroadcast().getProgram().getCategory());
 				}
@@ -201,26 +209,24 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 				}
 			});
-			
+
 			int duration = 0;
-			//MC - Calculate the duration of the program and set up ProgressBar.
+			// MC - Calculate the duration of the program and set up ProgressBar.
 			try {
 				long startTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
 				long endTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getEndTime());
 				duration = (int) (startTime - endTime) / (1000 * 60);
-			} 
-			catch (ParseException e) {
+			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 			progressBar.setMax(duration);
 
-			//MC - Calculate the current progress of the ProgressBar and update.
+			// MC - Calculate the current progress of the ProgressBar and update.
 			int initialProgress = 0;
 			long difference = 0;
 			try {
 				difference = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
-			} 
-			catch (ParseException e) {
+			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 
@@ -228,16 +234,13 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				progressBar.setVisibility(View.GONE);
 				initialProgress = 0;
 				progressBar.setProgress(0);
-			} 
-			else {
+			} else {
 				try {
 					initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime()) / (1000 * 60);
-				} 
-				catch (ParseException e) {
+				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-				progressbarTv.setText(duration-initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + 
-						" " + mActivity.getResources().getString(R.string.left));
+				progressbarTv.setText(duration - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
 				progressBar.setProgress(initialProgress);
 				progressbarTv.setVisibility(View.VISIBLE);
 				progressBar.setVisibility(View.VISIBLE);
@@ -245,13 +248,10 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 			NotificationDbItem dbItem = new NotificationDbItem();
 			dbItem = mNotificationDataSource.getNotification(feedItem.getBroadcast().getChannel().getChannelId(), feedItem.getBroadcast().getBeginTimeMillis());
-			int notificationId;
 			if (dbItem.getNotificationId() != 0) {
 				mIsSet = true;
-				notificationId = dbItem.getNotificationId();
 			} else {
 				mIsSet = false;
-				notificationId = -1;
 			}
 
 			if (mIsSet) remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
@@ -266,11 +266,16 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				public void onClick(View v) {
 					String likeType = LikeService.getLikeType(programType);
 
-					String programId;
+					String programId, contentTitle;
 					if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 						programId = feedItem.getBroadcast().getProgram().getSeries().getSeriesId();
+						contentTitle = feedItem.getBroadcast().getProgram().getTitle();
+					} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
+						programId = feedItem.getBroadcast().getProgram().getSportType().getSportTypeId();
+						contentTitle = feedItem.getBroadcast().getProgram().getSportType().getName();
 					} else {
 						programId = feedItem.getBroadcast().getProgram().getProgramId();
+						contentTitle = feedItem.getBroadcast().getProgram().getTitle();
 					}
 
 					if (mIsLiked == false) {
@@ -278,11 +283,11 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						if (LikeService.addLike(mToken, programId, likeType)) {
 							DazooStore.getInstance().addLikeIdToList(programId);
 							
-							LikeService.showSetLikeToast(mActivity, feedItem.getBroadcast().getProgram().getTitle());
+							LikeService.showSetLikeToast(mActivity, contentTitle);
 							likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
-							
+
 							AnimationUtilities.animationSet(likeLikeIv);
-							
+
 							mIsLiked = true;
 						} else {
 							Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
@@ -290,10 +295,10 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					} else {
 						LikeService.removeLike(mToken, likeType, programId);
 						DazooStore.getInstance().deleteLikeIdFromList(programId);
-						
+
 						mIsLiked = false;
 						likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart));
-						
+
 					}
 				}
 			});
@@ -330,7 +335,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							dbItem = mNotificationDataSource.getNotification(feedItem.getBroadcast().getChannel().getChannelId(), feedItem.getBroadcast().getBeginTimeMillis());
 
 							mNotificationId = dbItem.getNotificationId();
-							
+
 							AnimationUtilities.animationSet(remindLikeIv);
 
 							mIsSet = true;
@@ -369,14 +374,23 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			LinearLayout remindContainerRec = (LinearLayout) convertView.findViewById(R.id.block_feed_recommended_remind_button_container);
 			remindRecIv = (ImageView) convertView.findViewById(R.id.block_feed_recommended_remind_button_iv);
 
-			//mIsLiked = LikeService.isLiked(mToken, feedItem.getBroadcast().getProgram().getProgramId());
-			mIsLiked = DazooStore.getInstance().isInTheLikesList(feedItem.getBroadcast().getProgram().getProgramId());
-			
+			// mIsLiked = LikeService.isLiked(mToken, feedItem.getBroadcast().getProgram().getProgramId());
+
+			final String programTypeRec = feedItem.getBroadcast().getProgram().getProgramType();
+
+			// determine like
+			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeRec)) {
+				mIsLiked = DazooStore.getInstance().isInTheLikesList(feedItem.getBroadcast().getProgram().getSeries().getSeriesId());
+			} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programTypeRec)) {
+				mIsLiked = DazooStore.getInstance().isInTheLikesList(feedItem.getBroadcast().getProgram().getSportType().getSportTypeId());
+			} else {
+				mIsLiked = DazooStore.getInstance().isInTheLikesList(feedItem.getBroadcast().getProgram().getProgramId());
+			}
+
 			headerTvRec.setText(feedItem.getTitle() + " " + feedItem.getItemType());
 
 			mImageLoader.displayImage(feedItem.getBroadcast().getProgram().getPosterMUrl(), landscapeIvRec, ImageLoader.IMAGE_TYPE.GALLERY);
 
-			final String programTypeRec = feedItem.getBroadcast().getProgram().getProgramType();
 			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeRec)) {
 				titleTvRec.setText(feedItem.getBroadcast().getProgram().getSeries().getName());
 			} else {
@@ -398,31 +412,29 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					detailsTvRec.setText(mActivity.getResources().getString(R.string.season) + " " + feedItem.getBroadcast().getProgram().getSeason().getNumber() + " "
 							+ mActivity.getResources().getString(R.string.episode) + " " + feedItem.getBroadcast().getProgram().getEpisodeNumber());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programTypeRec)) {
-					detailsTvRec.setText(feedItem.getBroadcast().getProgram().getSportType() + " " + feedItem.getBroadcast().getProgram().getTournament());
+					detailsTvRec.setText(feedItem.getBroadcast().getProgram().getSportType().getName() + " " + feedItem.getBroadcast().getProgram().getTournament());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programTypeRec)) {
 					detailsTvRec.setText(feedItem.getBroadcast().getProgram().getCategory());
 				}
 			}
-			
+
 			int durationRec = 0;
-			//MC - Calculate the duration of the program and set up ProgressBar.
+			// MC - Calculate the duration of the program and set up ProgressBar.
 			try {
 				long startTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
 				long endTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getEndTime());
 				durationRec = (int) (startTime - endTime) / (1000 * 60);
-			} 
-			catch (ParseException e) {
+			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 			progressBarRec.setMax(durationRec);
 
-			//MC - Calculate the current progress of the ProgressBar and update.
+			// MC - Calculate the current progress of the ProgressBar and update.
 			int initialProgressRec = 0;
 			long differenceRec = 0;
 			try {
 				differenceRec = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
-			} 
-			catch (ParseException e) {
+			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 
@@ -430,21 +442,17 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				progressBarRec.setVisibility(View.GONE);
 				initialProgress = 0;
 				progressBarRec.setProgress(0);
-			} 
-			else {
+			} else {
 				try {
 					initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime()) / (1000 * 60);
-				} 
-				catch (ParseException e) {
+				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-				progressbarTvRec.setText(durationRec-initialProgressRec + " " + mActivity.getResources().getString(R.string.minutes) + 
-						" " + mActivity.getResources().getString(R.string.left));
+				progressbarTvRec.setText(durationRec - initialProgressRec + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
 				progressBarRec.setProgress(initialProgressRec);
 				progressBarRec.setVisibility(View.VISIBLE);
 				progressBarRec.setVisibility(View.VISIBLE);
 			}
-			
 
 			containerRec.setOnClickListener(new View.OnClickListener() {
 
@@ -490,21 +498,26 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				public void onClick(View v) {
 					String likeType = LikeService.getLikeType(programTypeRec);
 
-					String programId;
+					String programId, contentTitle;
 					if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeRec)) {
 						programId = feedItem.getBroadcast().getProgram().getSeries().getSeriesId();
+						contentTitle = feedItem.getBroadcast().getProgram().getTitle();
+					} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programTypeRec)) {
+						programId = feedItem.getBroadcast().getProgram().getSportType().getSportTypeId();
+						contentTitle = feedItem.getBroadcast().getProgram().getSportType().getName();
 					} else {
 						programId = feedItem.getBroadcast().getProgram().getProgramId();
+						contentTitle = feedItem.getBroadcast().getProgram().getTitle();
 					}
 
 					if (mIsLiked == false) {
 						if (LikeService.addLike(mToken, programId, likeType)) {
 							DazooStore.getInstance().addLikeIdToList(programId);
-							LikeService.showSetLikeToast(mActivity, feedItem.getBroadcast().getProgram().getTitle());
+							LikeService.showSetLikeToast(mActivity, contentTitle);
 							likeRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
-						
+
 							AnimationUtilities.animationSet(likeRecIv);
-							
+
 							mIsLiked = true;
 						} else {
 							Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
@@ -514,7 +527,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						DazooStore.getInstance().deleteLikeIdFromList(programId);
 						mIsLiked = false;
 						likeRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart));
-						
+
 					}
 				}
 			});
@@ -608,31 +621,29 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						mDetailsOne.setText(mActivity.getResources().getString(R.string.season) + " " + broadcastOne.getProgram().getSeason().getNumber() + " "
 								+ mActivity.getResources().getString(R.string.episode) + " " + broadcastOne.getProgram().getEpisodeNumber());
 					} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programTypeOne)) {
-						mDetailsOne.setText(broadcastOne.getProgram().getSportType() + " " + broadcastOne.getProgram().getTournament());
+						mDetailsOne.setText(broadcastOne.getProgram().getSportType().getName() + " " + broadcastOne.getProgram().getTournament());
 					} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programTypeOne)) {
 						mDetailsOne.setText(broadcastOne.getProgram().getCategory());
 					}
 				}
-				
+
 				int durationOne = 0;
-				//MC - Calculate the duration of the program and set up ProgressBar.
+				// MC - Calculate the duration of the program and set up ProgressBar.
 				try {
 					long startTime = DateUtilities.getAbsoluteTimeDifference(broadcastOne.getBeginTime());
 					long endTime = DateUtilities.getAbsoluteTimeDifference(broadcastOne.getEndTime());
 					durationOne = (int) (startTime - endTime) / (1000 * 60);
-				} 
-				catch (ParseException e) {
+				} catch (ParseException e) {
 					e.printStackTrace();
 				}
 				mProgressBarOne.setMax(durationOne);
 
-				//MC - Calculate the current progress of the ProgressBar and update.
+				// MC - Calculate the current progress of the ProgressBar and update.
 				int initialProgressOne = 0;
 				long differenceOne = 0;
 				try {
 					differenceOne = DateUtilities.getAbsoluteTimeDifference(broadcastOne.getBeginTime());
-				} 
-				catch (ParseException e) {
+				} catch (ParseException e) {
 					e.printStackTrace();
 				}
 
@@ -640,21 +651,19 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					mProgressBarOne.setVisibility(View.GONE);
 					initialProgressOne = 0;
 					mProgressBarOne.setProgress(0);
-				} 
-				else {
+				} else {
 					try {
 						initialProgressOne = (int) DateUtilities.getAbsoluteTimeDifference(broadcastOne.getBeginTime()) / (1000 * 60);
-					} 
-					catch (ParseException e) {
+					} catch (ParseException e) {
 						e.printStackTrace();
 					}
-					mProgressBarTitleOne.setText(durationOne-initialProgressOne + " " + mActivity.getResources().getString(R.string.minutes) + 
-							" " + mActivity.getResources().getString(R.string.left));
+					mProgressBarTitleOne.setText(durationOne - initialProgressOne + " " + mActivity.getResources().getString(R.string.minutes) + " "
+							+ mActivity.getResources().getString(R.string.left));
 					mProgressBarOne.setProgress(initialProgressOne);
 					mProgressBarOne.setVisibility(View.VISIBLE);
 					mProgressBarTitleOne.setVisibility(View.VISIBLE);
 				}
-				
+
 				mContainerOne.setOnClickListener(new View.OnClickListener() {
 
 					@Override
@@ -716,31 +725,29 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						mDetailsTwo.setText(mActivity.getResources().getString(R.string.season) + " " + broadcastTwo.getProgram().getSeason().getNumber() + " "
 								+ mActivity.getResources().getString(R.string.episode) + " " + broadcastTwo.getProgram().getEpisodeNumber());
 					} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programTypeTwo)) {
-						mDetailsTwo.setText(broadcastTwo.getProgram().getSportType() + " " + broadcastTwo.getProgram().getTournament());
+						mDetailsTwo.setText(broadcastTwo.getProgram().getSportType().getName() + " " + broadcastTwo.getProgram().getTournament());
 					} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programTypeTwo)) {
 						mDetailsTwo.setText(broadcastTwo.getProgram().getCategory());
 					}
 				}
-				
+
 				int durationTwo = 0;
-				//MC - Calculate the duration of the program and set up ProgressBar.
+				// MC - Calculate the duration of the program and set up ProgressBar.
 				try {
 					long startTime = DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getBeginTime());
 					long endTime = DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getEndTime());
 					durationTwo = (int) (startTime - endTime) / (1000 * 60);
-				} 
-				catch (ParseException e) {
+				} catch (ParseException e) {
 					e.printStackTrace();
 				}
 				mProgressBarTwo.setMax(durationTwo);
 
-				//MC - Calculate the current progress of the ProgressBar and update.
+				// MC - Calculate the current progress of the ProgressBar and update.
 				int initialProgressTwo = 0;
 				long differenceTwo = 0;
 				try {
 					differenceTwo = DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getBeginTime());
-				} 
-				catch (ParseException e) {
+				} catch (ParseException e) {
 					e.printStackTrace();
 				}
 
@@ -748,21 +755,19 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					mProgressBarTwo.setVisibility(View.GONE);
 					initialProgressTwo = 0;
 					mProgressBarTwo.setProgress(0);
-				} 
-				else {
+				} else {
 					try {
 						initialProgressTwo = (int) DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getBeginTime()) / (1000 * 60);
-					} 
-					catch (ParseException e) {
+					} catch (ParseException e) {
 						e.printStackTrace();
 					}
-					mProgressBarTitleTwo.setText(durationTwo-initialProgressTwo + " " + mActivity.getResources().getString(R.string.minutes) + 
-							" " + mActivity.getResources().getString(R.string.left));
+					mProgressBarTitleTwo.setText(durationTwo - initialProgressTwo + " " + mActivity.getResources().getString(R.string.minutes) + " "
+							+ mActivity.getResources().getString(R.string.left));
 					mProgressBarTwo.setProgress(initialProgressTwo);
 					mProgressBarTwo.setVisibility(View.VISIBLE);
 					mProgressBarTitleTwo.setVisibility(View.VISIBLE);
 				}
-				
+
 				mContainerTwo.setOnClickListener(new View.OnClickListener() {
 
 					@Override
@@ -818,24 +823,22 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				mChannelNameThree.setText(broadcastThree.getChannel().getName());
 
 				int durationThree = 0;
-				//MC - Calculate the duration of the program and set up ProgressBar.
+				// MC - Calculate the duration of the program and set up ProgressBar.
 				try {
 					long startTime = DateUtilities.getAbsoluteTimeDifference(broadcastThree.getBeginTime());
 					long endTime = DateUtilities.getAbsoluteTimeDifference(broadcastThree.getEndTime());
 					durationThree = (int) (startTime - endTime) / (1000 * 60);
-				} 
-				catch (ParseException e) {
+				} catch (ParseException e) {
 					e.printStackTrace();
 				}
 				mProgressBarThree.setMax(durationThree);
 
-				//MC - Calculate the current progress of the ProgressBar and update.
+				// MC - Calculate the current progress of the ProgressBar and update.
 				int initialProgressThree = 0;
 				long differenceThree = 0;
 				try {
 					differenceThree = DateUtilities.getAbsoluteTimeDifference(broadcastThree.getBeginTime());
-				} 
-				catch (ParseException e) {
+				} catch (ParseException e) {
 					e.printStackTrace();
 				}
 
@@ -843,21 +846,19 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					mProgressBarThree.setVisibility(View.GONE);
 					initialProgressThree = 0;
 					mProgressBarThree.setProgress(0);
-				} 
-				else {
+				} else {
 					try {
 						initialProgressThree = (int) DateUtilities.getAbsoluteTimeDifference(broadcastThree.getBeginTime()) / (1000 * 60);
-					} 
-					catch (ParseException e) {
+					} catch (ParseException e) {
 						e.printStackTrace();
 					}
-					mProgressBarTitleThree.setText(durationThree-initialProgressThree + " " + mActivity.getResources().getString(R.string.minutes) + 
-							" " + mActivity.getResources().getString(R.string.left));
+					mProgressBarTitleThree.setText(durationThree - initialProgressThree + " " + mActivity.getResources().getString(R.string.minutes) + " "
+							+ mActivity.getResources().getString(R.string.left));
 					mProgressBarThree.setProgress(initialProgressThree);
 					mProgressBarThree.setVisibility(View.VISIBLE);
 					mProgressBarTitleThree.setVisibility(View.VISIBLE);
 				}
-				
+
 				if (programTypeThree != null) {
 					if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programTypeThree)) {
 						mDetailsThree.setText(broadcastThree.getProgram().getGenre() + mActivity.getResources().getString(R.string.from) + broadcastThree.getProgram().getYear());
@@ -865,7 +866,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						mDetailsThree.setText(mActivity.getResources().getString(R.string.season) + " " + broadcastThree.getProgram().getSeason().getNumber() + " "
 								+ mActivity.getResources().getString(R.string.episode) + " " + broadcastThree.getProgram().getEpisodeNumber());
 					} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programTypeThree)) {
-						mDetailsThree.setText(broadcastThree.getProgram().getSportType() + " " + broadcastThree.getProgram().getTournament());
+						mDetailsThree.setText(broadcastThree.getProgram().getSportType().getName() + " " + broadcastThree.getProgram().getTournament());
 					} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programTypeThree)) {
 						mDetailsThree.setText(broadcastThree.getProgram().getCategory());
 					}
