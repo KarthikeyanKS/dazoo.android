@@ -19,7 +19,7 @@
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/tab_selector_container"
-        layout="@layout/layout_request_callbacks_holder_layout" 
+        layout="@layout/layout_request_callbacks_holder_layout"
         android:background="@color/white"/>
 
     <ScrollView
@@ -35,7 +35,7 @@
             android:id="@+id/broacastpage_block_container_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" 
+            android:orientation="vertical"
             android:background="@color/light_gray">
         </LinearLayout>
     </ScrollView>

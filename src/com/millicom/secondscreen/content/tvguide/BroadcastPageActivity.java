@@ -47,7 +47,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 	private Channel					mChannel;
 	private String					token, mChannelId, mBroadcastPageUrl;
 	private long					mBeginTimeInMillis;
-	/*private boolean					mIsSet	= false, mIsLiked = false, mIsLoggedIn = false, mIsFuture, mIsFromNotification = false, mIsFromActivity = false;
+	/*private boolean				mIsSet	= false, mIsLiked = false, mIsLoggedIn = false, mIsFuture, mIsFromNotification = false, mIsFromActivity = false;
 	private ImageView				mPosterIv, mMovieIv, mChannelLogoIv, mLikeButtonIv, mShareButtonIv, mRemindButtonIv;
 	private ProgressBar				mPosterPb, mChannelLogoPb, mDurationPb;
 	private TextView				mTitleTv, mSeasonTv, mEpisodeTv, mEpisodeNameTv, mTimeLeftTv, mTimeTv, mDateTv, mSynopsisTv, mCategoryTv, mYearTv, mCountryTv, mDurationTv, mGenreTv, mParentalRatingTv, mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
