@@ -1,5 +1,7 @@
 package com.millicom.secondscreen.content.model;
 
+import java.util.Comparator;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -51,5 +53,13 @@ public class DazooLike implements Parcelable{
 			return new DazooLike[size];
 		}
 	};
+	
+	public static class DazooLikeComparatorByTitle implements Comparator<DazooLike> {
+
+		@Override
+		public int compare(DazooLike a, DazooLike b) {
+			return a.getEntity().getTitle().compareTo(b.getEntity().getTitle());
+		}
+	}
 	
 }

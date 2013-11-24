@@ -83,23 +83,42 @@ public class LikesListAdapter extends BaseAdapter {
 			viewHolder.mButtonContainer = (RelativeLayout) rowView.findViewById(R.id.row_likes_button_container);
 			viewHolder.mButtonIcon = (ImageView) rowView.findViewById(R.id.row_likes_button_iv);
 			viewHolder.mButtonContainer.setTag(Integer.valueOf(position));
+			viewHolder.mDividerView = (View) rowView.findViewById(R.id.row_likes_header_divider);
 			Log.d(TAG, "set tag: " + Integer.valueOf(position));
 			rowView.setTag(viewHolder);
 		}
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 
-		// TODO : SORTING BY ALPHABET
-		// for now just show the presence of possible header
-		holder.mHeaderContainer.setVisibility(View.VISIBLE);
-		holder.mHeaderTv.setText(mActivity.getResources().getText(R.string.likes));
-
 		final DazooLike like = getItem(position);
 		if (like != null) {
 			final DazooLikeEntity entity = like.getEntity();
 			if (entity != null) {
+				
+				//Logic to show header with first character
+				if (position == 0 || entity.getTitle().toUpperCase().charAt(0)!= getItem(position - 1).getEntity().getTitle().toUpperCase().charAt(0)) {
+					holder.mHeaderContainer.setVisibility(View.VISIBLE);
+					holder.mHeaderTv.setText(entity.getTitle().toUpperCase().charAt(0));
+					holder.mDividerView.setVisibility(View.GONE);
+				}
+				
 				holder.mProgramTitleTv.setText(entity.getTitle());
-				holder.mProgramTypeTv.setText(like.getLikeType());
+				//Set appropriate description depending on program type
+				String likeType = like.getLikeType();
+				if (Consts.DAZOO_LIKE_TYPE_SPORT_TYPE.equals(likeType)) {
+					holder.mProgramTypeTv.setText(entity.getSportTypeId());
+				}
+				else if (Consts.DAZOO_LIKE_TYPE_SERIES.equals(likeType)) {
+					holder.mProgramTitleTv.setText(mActivity.getResources().getString(R.string.tv_series) + " " + entity.getYear() + "-");
+				}
+				else if (Consts.DAZOO_LIKE_TYPE_PROGRAM.equals(likeType)) {
+					if (Consts.DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_MOVIE.equals(entity.getProgramType())) {
+						holder.mProgramTypeTv.setText(mActivity.getResources().getString(R.string.movie) + " " + entity.getYear());
+					} 
+					else if (Consts.DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_OTHER.equals(entity.getProgramType())) {
+						holder.mProgramTypeTv.setText(entity.getCategory());
+					}
+				}
 
 				holder.mInformationContainer.setOnClickListener(new View.OnClickListener() {
 
@@ -142,6 +161,8 @@ public class LikesListAdapter extends BaseAdapter {
 		public TextView			mProgramTypeTv;
 		public RelativeLayout	mButtonContainer;
 		public ImageView		mButtonIcon;
+		
+		public View				mDividerView;
 	}
 
 	public Runnable yesProc() {

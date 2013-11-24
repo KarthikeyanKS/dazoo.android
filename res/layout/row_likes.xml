@@ -5,9 +5,11 @@
     android:layout_height="fill_parent"
     android:background="@drawable/listview_item_selector" >
     
+    <!-- HEADER -->
+    
     <LinearLayout
         android:id="@+id/row_likes_header_container"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:visibility="gone" >
@@ -22,11 +24,18 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@color/light_gray" />
     </LinearLayout>
+    
+    <View
+        android:id="@+id/row_likes_header_divider"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/light_gray" 
+        android:layout_below="@id/row_likes_header_container" />
+    
+    <!-- LIKES CONTAINER -->
     
     <LinearLayout
         android:id="@+id/row_likes_container"
@@ -45,6 +54,8 @@
             android:layout_weight="0.6"
             android:orientation="vertical" >
 
+            <!-- TITLE -->
+
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/row_likes_text_title_tv"
                 android:layout_width="fill_parent"
@@ -56,6 +67,8 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
+            <!-- DETAILS -->
+            
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/row_likes_text_details_tv"
                 android:layout_width="fill_parent"
@@ -66,8 +79,11 @@
                 android:layout_margin="5dp"
                 android:textColor="@color/tvguide_program_line_color"
                 android:textSize="16sp"/>
+            
         </RelativeLayout>
-
+        
+        <!-- BUTTON CONTAINER -->
+        
         <RelativeLayout
             android:id="@+id/row_likes_button_container"
             android:layout_width="fill_parent"
@@ -85,7 +101,17 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="5dp" 
                 android:src="@drawable/ic_heart_red"/>
+            
+            <View 
+	            android:layout_width="1dp"
+	            android:layout_height="60dp"
+	            android:layout_margin="10dp"
+	            android:background="@color/light_gray"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/row_likes_button_iv" />
+            
         </RelativeLayout>
+        
     </LinearLayout>
 
 </RelativeLayout>
