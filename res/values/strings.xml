@@ -94,7 +94,7 @@
     <string name="filter_by">Filter by</string>
     <string name="all">All</string>
     <string name="all_categories_alias">all_categories</string>
-    <string name="all_categories_name">"All categories"</string>
+    <string name="all_categories_name">"All"</string>
     <string name="all_categories_id">ALL_CATEGORIES</string>
 
     <!-- CONTENT DESCRIPTION -->

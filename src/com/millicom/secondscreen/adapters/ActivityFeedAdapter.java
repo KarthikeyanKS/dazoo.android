@@ -46,18 +46,18 @@ public class ActivityFeedAdapter extends BaseAdapter {
 	private ArrayList<FeedItem>		mFeedItems;
 	private ImageLoader				mImageLoader;
 
-	private int						DAZOO_ACTIVITY_BLOCKS_TYPE_NUMBER	= 3;
+	private int						DAZOO_ACTIVITY_BLOCKS_TYPE_NUMBER	= 4;
 	private static final int		ITEM_TYPE_BROADCAST					= 0;
 	private static final int		ITEM_TYPE_RECOMMENDED_BROADCAST		= 1;
 	private static final int		ITEM_TYPE_POPULAR_BROADCASTS		= 2;
-	private static final int		ITEM_TYPE_POPULAR_TWITTER			= 4;
+	private static final int		ITEM_TYPE_POPULAR_TWITTER			= 3;
 
 	private String					mToken;
 	private int						mNotificationId;
 	private NotificationDataSource	mNotificationDataSource;
 	private ArrayList<String>		mLikeIds;
 
-	private ImageView				likeLikeIv, remindLikeIv, likeRecIv, remindRecIv;
+	private ImageView				likeLikeIv, remindLikeIv, likeRecIv, remindRecIv, likeTwitterIv, remindTwitterIv;
 	private boolean					mIsLiked							= false, mIsSet = false;
 
 	public ActivityFeedAdapter(Activity activity, ArrayList<FeedItem> feedItems, String token) {
@@ -126,6 +126,242 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		final FeedItem feedItem = getItem(position);
 
 		switch (type) {
+		case ITEM_TYPE_POPULAR_TWITTER:
+			convertView= LayoutInflater.from(mActivity).inflate(R.layout.block_feed_liked, null);
+
+			RelativeLayout containerTw = (RelativeLayout) convertView.findViewById(R.id.block_feed_liked_main_container);
+			TextView headerTvTw = (TextView) convertView.findViewById(R.id.block_feed_liked_header_tv);
+			ImageView landscapeIvTw = (ImageView) convertView.findViewById(R.id.block_feed_liked_content_iv);
+			ProgressBar landscapePbTw = (ProgressBar) convertView.findViewById(R.id.block_feed_liked_content_iv_progressbar);
+			TextView titleTvTw = (TextView) convertView.findViewById(R.id.block_feed_liked_title_tv);
+			TextView timeTvTw = (TextView) convertView.findViewById(R.id.block_feed_liked_time_tv);
+			TextView channelTvTw = (TextView) convertView.findViewById(R.id.block_feed_liked_channel_tv);
+			TextView detailsTvTw = (TextView) convertView.findViewById(R.id.block_feed_liked_details_tv);
+			TextView progressbarTvTw = (TextView) convertView.findViewById(R.id.block_feed_liked_timeleft_tv);
+			ProgressBar progressBarTw = (ProgressBar) convertView.findViewById(R.id.block_feed_liked_progressbar);
+			LinearLayout likeContainerTw = (LinearLayout) convertView.findViewById(R.id.block_feed_liked_like_button_container);
+			likeTwitterIv = (ImageView) convertView.findViewById(R.id.block_feed_liked_like_button_iv);
+			LinearLayout shareContainerTw = (LinearLayout) convertView.findViewById(R.id.block_feed_liked_share_button_container);
+			ImageView shareIvTw = (ImageView) convertView.findViewById(R.id.block_feed_liked_share_button_iv);
+			LinearLayout remindContainerTw = (LinearLayout) convertView.findViewById(R.id.block_feed_liked_remind_button_container);
+			remindTwitterIv = (ImageView) convertView.findViewById(R.id.block_feed_liked_remind_button_iv);
+
+			// mIsLiked = LikeService.isLiked(mToken, feedItem.getBroadcast().getProgram().getProgramId());
+			
+			if(feedItem.getBroadcast()!=null){
+			final String programTypeTw = feedItem.getBroadcast().getProgram().getProgramType();
+			
+			// determine like
+			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeTw)) {
+				mIsLiked = DazooStore.getInstance().isInTheLikesList(feedItem.getBroadcast().getProgram().getSeries().getSeriesId());
+			} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programTypeTw)) {
+				mIsLiked = DazooStore.getInstance().isInTheLikesList(feedItem.getBroadcast().getProgram().getSportType().getSportTypeId());
+			} else {
+				mIsLiked = DazooStore.getInstance().isInTheLikesList(feedItem.getBroadcast().getProgram().getProgramId());
+			}
+
+			headerTvTw.setText(mActivity.getResources().getString(R.string.icon_twitter) + " " + feedItem.getTitle());
+
+			mImageLoader.displayImage(feedItem.getBroadcast().getProgram().getPosterMUrl(), landscapeIvTw, ImageLoader.IMAGE_TYPE.GALLERY);
+
+			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeTw)) {
+				titleTvTw.setText(feedItem.getBroadcast().getProgram().getSeries().getName());
+			} else {
+				titleTvTw.setText(feedItem.getBroadcast().getProgram().getTitle());
+			}
+
+			try {
+				timeTvTw.setText(DateUtilities.isoStringToDayOfWeek(feedItem.getBroadcast().getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(feedItem.getBroadcast().getBeginTime()));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+
+			channelTvTw.setText(feedItem.getBroadcast().getChannel().getName());
+
+			if (programTypeTw != null) {
+				if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programTypeTw)) {
+					detailsTvTw.setText(feedItem.getBroadcast().getProgram().getGenre() + mActivity.getResources().getString(R.string.from) + feedItem.getBroadcast().getProgram().getYear());
+				} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeTw)) {
+					detailsTvTw.setText(mActivity.getResources().getString(R.string.season) + " " + feedItem.getBroadcast().getProgram().getSeason().getNumber() + " "
+							+ mActivity.getResources().getString(R.string.episode) + " " + feedItem.getBroadcast().getProgram().getEpisodeNumber());
+				} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programTypeTw)) {
+					detailsTvTw.setText(feedItem.getBroadcast().getProgram().getSportType().getName() + " " + feedItem.getBroadcast().getProgram().getTournament());
+				} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programTypeTw)) {
+					detailsTvTw.setText(feedItem.getBroadcast().getProgram().getCategory());
+				}
+			}
+
+			containerTw.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+
+					String tvDate = "";
+					try {
+						tvDate = DateUtilities.isoDateStringToTvDateString(feedItem.getBroadcast().getBeginTime());
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+
+					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, feedItem.getBroadcast().getBeginTimeMillis());
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, feedItem.getBroadcast().getChannel().getChannelId());
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, tvDate);
+					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
+
+					mActivity.startActivity(intent);
+					mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+
+				}
+			});
+
+			int durationTw = 0;
+			// MC - Calculate the duration of the program and set up ProgressBar.
+			try {
+				long startTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
+				long endTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getEndTime());
+				durationTw = (int) (startTime - endTime) / (1000 * 60);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			progressBarTw.setMax(durationTw);
+
+			// MC - Calculate the current progress of the ProgressBar and update.
+			int initialProgressTw = 0;
+			long differenceTw = 0;
+			try {
+				differenceTw = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+
+			if (differenceTw < 0) {
+				progressBarTw.setVisibility(View.GONE);
+				initialProgressTw = 0;
+				progressBarTw.setProgress(0);
+			} else {
+				try {
+					initialProgressTw = (int) DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime()) / (1000 * 60);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				progressbarTvTw.setText(durationTw - initialProgressTw + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
+				progressBarTw.setProgress(initialProgressTw);
+				progressbarTvTw.setVisibility(View.VISIBLE);
+				progressBarTw.setVisibility(View.VISIBLE);
+			}
+
+			NotificationDbItem dbItemTw = new NotificationDbItem();
+			dbItemTw = mNotificationDataSource.getNotification(feedItem.getBroadcast().getChannel().getChannelId(), feedItem.getBroadcast().getBeginTimeMillis());
+			if (dbItemTw.getNotificationId() != 0) {
+				mIsSet = true;
+			} else {
+				mIsSet = false;
+			}
+
+			if (mIsSet) remindTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
+			else remindTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
+
+			if (mIsLiked) likeTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
+			else likeTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart));
+
+			likeContainerTw.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					String likeType = LikeService.getLikeType(programTypeTw);
+
+					String programId, contentTitle;
+					if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeTw)) {
+						programId = feedItem.getBroadcast().getProgram().getSeries().getSeriesId();
+						contentTitle = feedItem.getBroadcast().getProgram().getTitle();
+					} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programTypeTw)) {
+						programId = feedItem.getBroadcast().getProgram().getSportType().getSportTypeId();
+						contentTitle = feedItem.getBroadcast().getProgram().getSportType().getName();
+					} else {
+						programId = feedItem.getBroadcast().getProgram().getProgramId();
+						contentTitle = feedItem.getBroadcast().getProgram().getTitle();
+					}
+
+					if (mIsLiked == false) {
+						// TODO: OPTIMIZATION ON WHEN THE BACKEND TO ADD/DELETE LIKE IS LAUNCHED
+						if (LikeService.addLike(mToken, programId, likeType)) {
+							DazooStore.getInstance().addLikeIdToList(programId);
+
+							LikeService.showSetLikeToast(mActivity, contentTitle);
+							likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
+
+							AnimationUtilities.animationSet(likeLikeIv);
+
+							mIsLiked = true;
+						} else {
+							Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
+						}
+					} else {
+						LikeService.removeLike(mToken, likeType, programId);
+						DazooStore.getInstance().deleteLikeIdFromList(programId);
+
+						mIsLiked = false;
+						likeTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart));
+
+					}
+				}
+			});
+
+			shareContainerTw.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					ShareAction.shareAction(mActivity, mActivity.getResources().getString(R.string.app_name), feedItem.getBroadcast().getShareUrl(),
+							mActivity.getResources().getString(R.string.share_action_title));
+				}
+			});
+
+			remindContainerTw.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					String tvDate = "";
+					try {
+						tvDate = DateUtilities.isoDateStringToTvDateString(feedItem.getBroadcast().getBeginTime());
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+
+					if (mIsSet == false) {
+						if (NotificationService.setAlarm(mActivity, feedItem.getBroadcast(), feedItem.getBroadcast().getChannel(), tvDate)) {
+							NotificationService.showSetNotificationToast(mActivity);
+							remindTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
+
+							NotificationDbItem dbItemTw = new NotificationDbItem();
+							Log.d(TAG, "feedItem.getBroadcast().getChannel().getChannelId()" + feedItem.getBroadcast().getChannel().getChannelId());
+							Log.d(TAG, "feedItem.getBroadcast().getBeginTimeMillis()" + feedItem.getBroadcast().getBeginTimeMillis());
+
+							dbItemTw = mNotificationDataSource.getNotification(feedItem.getBroadcast().getChannel().getChannelId(), feedItem.getBroadcast().getBeginTimeMillis());
+
+							mNotificationId = dbItemTw.getNotificationId();
+
+							AnimationUtilities.animationSet(remindLikeIv);
+
+							mIsSet = true;
+						} else {
+							Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
+						}
+					} else {
+						if (mNotificationId != -1) {
+							NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
+							notificationDlg.showRemoveNotificationDialog(mActivity, feedItem.getBroadcast(), mNotificationId, yesNotificationTwitterProc(), noNotificationProc());
+						} else {
+							Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
+						}
+					}
+
+				}
+			});
+			}
+			
+			break;
+
 		case ITEM_TYPE_BROADCAST:
 			convertView = LayoutInflater.from(mActivity).inflate(R.layout.block_feed_liked, null);
 
@@ -571,7 +807,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					} else {
 						if (mNotificationId != -1) {
 							NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
-							notificationDlg.showRemoveNotificationDialog(mActivity, feedItem.getBroadcast(), mNotificationId, yesNotificationRecProc(), noNotificationRecProc());
+							notificationDlg.showRemoveNotificationDialog(mActivity, feedItem.getBroadcast(), mNotificationId, yesNotificationRecProc(), noNotificationProc());
 						} else {
 							Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
 						}
@@ -913,6 +1149,16 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 		return convertView;
 	}
+	
+	public Runnable yesNotificationTwitterProc() {
+		return new Runnable() {
+			public void run() {
+				remindTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
+				mIsSet = false;
+			}
+		};
+	}
+	
 
 	public Runnable yesNotificationProc() {
 		return new Runnable() {
@@ -933,13 +1179,6 @@ public class ActivityFeedAdapter extends BaseAdapter {
 	}
 
 	public Runnable noNotificationProc() {
-		return new Runnable() {
-			public void run() {
-			}
-		};
-	}
-
-	public Runnable noNotificationRecProc() {
 		return new Runnable() {
 			public void run() {
 			}
