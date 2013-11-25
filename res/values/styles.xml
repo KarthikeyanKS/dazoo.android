@@ -16,16 +16,15 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
-    
+
     <style name="StyledIndicators" parent="@style/Theme.AppCompat.Light">
         <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
     </style>
-    
-    
+
     <!-- TABS ON TOP -->
-       <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
+    <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
         <item name="android:background">@drawable/custom_tab_indicator</item>
-		<!--  item name="android:background">@color/light_gray</item-->
+        <!-- item name="android:background">@color/light_gray</item -->
         <item name="android:textAppearance">@style/CustomTabPageIndicator.Text</item>
         <item name="android:textColor">@color/blue1</item>
         <item name="android:textSize">16sp</item>
@@ -37,8 +36,8 @@
         <item name="android:fadingEdge">horizontal</item>
         <item name="android:fadingEdgeLength">8dp</item>
     </style>
-    
-       <style name="CustomTabPageIndicator.Text" parent="android:TextAppearance.Medium">
+
+    <style name="CustomTabPageIndicator.Text" parent="android:TextAppearance.Medium">
         <item name="android:typeface">monospace</item>
         <item name="android:textColor">@color/blue1</item>
     </style>
@@ -49,7 +48,19 @@
         <item name="fadeLength">1000</item>
         <item name="fadeDelay">1000</item>
     </style>
-    
+
+    <!-- Clock text views -->
+    <style name="ClockTextView" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/grey3</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">16dp</item>
+        <item name="android:onClick">onClockTextClick</item>
+        <item name="android:clickable">true</item>
+    </style>
 
     <!-- Homepage Tabs -->
     <style name="homepage_tab_selector" parent="@android:style/TextAppearance">
@@ -74,5 +85,5 @@
         <item name="android:scrollHorizontally">true</item>
         <item name="android:textAppearance">@android:style/TextAppearance.DialogWindowTitle</item>
     </style>
-    
+
 </resources>

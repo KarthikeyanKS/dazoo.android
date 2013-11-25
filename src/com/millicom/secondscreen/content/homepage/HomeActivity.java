@@ -42,7 +42,7 @@ import com.millicom.secondscreen.content.tvguide.TVHolderFragment.OnViewPagerInd
 import com.millicom.secondscreen.manager.DazooCore;
 import com.millicom.secondscreen.storage.DazooStore;
 
-public class HomeActivity extends SSPageFragmentActivity implements OnClickListener, ActionBar.OnNavigationListener {
+public class HomeActivity extends SSPageFragmentActivity implements OnClickListener, ActionBar.OnNavigationListener{
 
 	private static final String					TAG					= "HomeActivity";
 	private TextView							mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
@@ -55,7 +55,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	private String								mDate;
 	private TvDate								mTvDateSelected;
 	private boolean								mIsReady			= false, mFirstHit = true, mIsChannelListChanged, mStateChanged = false;
-
+	
 	private Fragment							mActiveFragment;
 
 	private int									mStartingPosition	= 0;
@@ -66,7 +66,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_home_activity);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		
+	
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
@@ -334,6 +334,12 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		// No call for super(). Bug on API Level > 11.
 	}
 
+	public void onClockTextClick(View v){
+		Intent intent = new Intent(Consts.INTENT_EXTRA_CLOCK_SELECTION);
+		intent.putExtra(Consts.INTENT_EXTRA_CLOCK_SELECTION_VALUE, (String) v.getTag());
+		LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(intent);
+	}
+	
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();
