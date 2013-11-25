@@ -124,6 +124,9 @@ public class RemindersListAdapter extends BaseAdapter {
 					holder.mHeaderContainer.setVisibility(View.VISIBLE);
 					holder.mHeaderTv.setText(mTvDates.get(dateIndex).getName() + " " + 
 									DateUtilities.tvDateStringToDatePickerString(mTvDates.get(dateIndex).getDate()));
+				}
+				if (position != (getCount() - 1) && DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTime()).equals(
+						DateUtilities.tvDateStringToDatePickerString(getItem(position + 1).getBeginTime())) == false) {
 					holder.mDividerView.setVisibility(View.GONE);
 				}
 			} catch (ParseException e) {
@@ -139,9 +142,9 @@ public class RemindersListAdapter extends BaseAdapter {
 				String programType = program.getProgramType();
 				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 					holder.mBroadcastDetailsTv.setText(mActivity.getResources().getString(R.string.season) + " " + 
-														broadcast.getProgram().getSeason().getNumber() + " " + 
+														program.getSeason().getNumber() + " " + 
 														mActivity.getResources().getString(R.string.episode) + " " +
-														String.valueOf(broadcast.getProgram().getEpisodeNumber()));
+														String.valueOf(program.getEpisodeNumber()));
 				} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
 					holder.mBroadcastDetailsTv.setText(program.getGenre() + " " + mActivity.getResources().getString(R.string.from) + " " +
 														program.getYear());

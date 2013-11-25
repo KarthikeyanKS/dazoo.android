@@ -1,6 +1,7 @@
 package com.millicom.secondscreen.adapters;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
@@ -13,6 +14,7 @@ import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
 import com.millicom.secondscreen.like.LikeDialogHandler;
 import com.millicom.secondscreen.utilities.ImageLoader;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -27,6 +29,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+@SuppressLint("DefaultLocale")
 public class LikesListAdapter extends BaseAdapter {
 
 	private static final String		TAG				= "LikesListAdapter";
@@ -96,9 +99,12 @@ public class LikesListAdapter extends BaseAdapter {
 			if (entity != null) {
 				
 				//Logic to show header with first character
-				if (position == 0 || entity.getTitle().toUpperCase().charAt(0)!= getItem(position - 1).getEntity().getTitle().toUpperCase().charAt(0)) {
+				if (position == 0 || entity.getTitle().toUpperCase().charAt(0) != getItem(position - 1).getEntity().getTitle().toUpperCase().charAt(0)) {
 					holder.mHeaderContainer.setVisibility(View.VISIBLE);
-					holder.mHeaderTv.setText(entity.getTitle().toUpperCase().charAt(0));
+					holder.mHeaderTv.setText("" + entity.getTitle().toUpperCase().charAt(0));
+					
+				}
+				if (position != (getCount() - 1) && entity.getTitle().toUpperCase().charAt(0) != getItem(position + 1).getEntity().getTitle().toUpperCase().charAt(0)) {
 					holder.mDividerView.setVisibility(View.GONE);
 				}
 				
@@ -106,7 +112,7 @@ public class LikesListAdapter extends BaseAdapter {
 				//Set appropriate description depending on program type
 				String likeType = like.getLikeType();
 				if (Consts.DAZOO_LIKE_TYPE_SPORT_TYPE.equals(likeType)) {
-					holder.mProgramTypeTv.setText(entity.getSportTypeId());
+					holder.mProgramTypeTv.setText(mActivity.getResources().getString(R.string.sport));
 				}
 				else if (Consts.DAZOO_LIKE_TYPE_SERIES.equals(likeType)) {
 					holder.mProgramTitleTv.setText(mActivity.getResources().getString(R.string.tv_series) + " " + entity.getYear() + "-");
@@ -119,6 +125,7 @@ public class LikesListAdapter extends BaseAdapter {
 						holder.mProgramTypeTv.setText(entity.getCategory());
 					}
 				}
+//				holder.mProgramTypeTv.setText("PROGRAM TYPE: " + entity.getProgramType());
 
 				holder.mInformationContainer.setOnClickListener(new View.OnClickListener() {
 

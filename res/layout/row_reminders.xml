@@ -26,22 +26,13 @@
 
     </LinearLayout>
     
-    <View
-        android:id="@+id/row_reminders_header_divider"
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@color/light_gray" 
-        android:layout_below="@id/row_reminders_header_container"  />
-    
     <!-- REMINDERS CONTAINER -->
     
     <LinearLayout
         android:id="@+id/row_reminders_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/row_reminders_header_divider"
+        android:layout_below="@id/row_reminders_header_container"
         android:background="@color/white"
         android:padding="10dp"
         android:orientation="horizontal"
@@ -136,4 +127,13 @@
         
     </LinearLayout>
 
+    <View
+        android:id="@+id/row_reminders_header_divider"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/light_gray" 
+        android:layout_below="@id/row_reminders_container"  />
+    
 </RelativeLayout>
