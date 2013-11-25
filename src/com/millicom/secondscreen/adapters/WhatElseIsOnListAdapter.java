@@ -69,7 +69,7 @@ public class WhatElseIsOnListAdapter extends BaseAdapter {
 		if (rowView == null) {
 			mLayoutInflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-			rowView = mLayoutInflater.inflate(R.layout.layout_whatelseison_listitem, null);
+			rowView = mLayoutInflater.inflate(R.layout.row_whatelseison_list, null);
 			ViewHolder viewHolder = new ViewHolder();
 			viewHolder.mImageIv = (ImageView) rowView.findViewById(R.id.whatelseison_listitem_image);
 			viewHolder.mImagePb = (ProgressBar) rowView.findViewById(R.id.whatelseison_listitem_image_pb);

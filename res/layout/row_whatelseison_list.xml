@@ -70,7 +70,7 @@
 	        android:layout_below="@id/whatelseison_listitem_channel"
 	        android:layout_marginTop="5dp"
 	        android:layout_marginBottom="5dp"
-	        android:textColor="@color/light_gray"
+	        android:textColor="@color/grey2"
 	        android:textSize="16sp" />
 	 	
 	 	<TextView 
@@ -97,6 +97,6 @@
 	    android:layout_width="fill_parent"
 	    android:layout_height="1dp"
 	    android:layout_below="@id/whatelseison_listitem_info_container"
-	    android:background="@color/light_gray" />
+	    android:background="@color/grey2" />
 
 </RelativeLayout>

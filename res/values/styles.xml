@@ -27,7 +27,7 @@
         <item name="android:background">@drawable/custom_tab_indicator</item>
 		<!--  item name="android:background">@color/light_gray</item-->
         <item name="android:textAppearance">@style/CustomTabPageIndicator.Text</item>
-        <item name="android:textColor">@color/lightblue</item>
+        <item name="android:textColor">@color/blue1</item>
         <item name="android:textSize">16sp</item>
         <item name="android:divider">@drawable/custom_tab_indicator_divider</item>
         <item name="android:dividerPadding">10dp</item>
@@ -40,12 +40,12 @@
     
        <style name="CustomTabPageIndicator.Text" parent="android:TextAppearance.Medium">
         <item name="android:typeface">monospace</item>
-        <item name="android:textColor">@color/lightblue</item>
+        <item name="android:textColor">@color/blue1</item>
     </style>
 
     <style name="CustomUnderlinePageIndicator">
-        <item name="selectedColor">@color/lightblue</item>
-        <item name="android:background">@color/lightblue</item>
+        <item name="selectedColor">@color/blue1</item>
+        <item name="android:background">@color/blue1</item>
         <item name="fadeLength">1000</item>
         <item name="fadeDelay">1000</item>
     </style>

@@ -50,7 +50,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_gravity="left"
                 android:layout_margin="5dp"
-                android:textColor="@color/tvguide_program_line_color"
+                android:textColor="@color/grey3"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -62,7 +62,7 @@
                 android:layout_below="@id/row_block_cast_and_crew_list_name_tv"
                 android:layout_gravity="left"
                 android:layout_margin="5dp"
-                android:textColor="@color/tvguide_program_line_color"
+                android:textColor="@color/grey3"
                 android:textSize="16sp" />
         </RelativeLayout>
     </LinearLayout>

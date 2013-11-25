@@ -27,7 +27,7 @@ public class BroadcastCastCrewBlockPopulator {
 	}
 	
 	public void createBlock(ArrayList<Cast> cast){
-		View contentView = LayoutInflater.from(mActivity).inflate(R.layout.block_cast_and_crew, null);
+		View contentView = LayoutInflater.from(mActivity).inflate(R.layout.block_broadcastpage_cast_and_crew, null);
 		TextView titleTv = (TextView) contentView.findViewById(R.id.block_cast_and_crew_title_tv);
 		ListView listview = (ListView) contentView.findViewById(R.id.listview);
 		Button button = (Button) contentView.findViewById(R.id.block_cast_and_crew_button);

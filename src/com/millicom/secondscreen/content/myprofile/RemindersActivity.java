@@ -63,7 +63,7 @@ public class RemindersActivity extends ActionBarActivity implements RemindersCou
 		SpannableString s = new SpannableString(getResources().getString(R.string.reminders));
 		// s.setSpan(new TypefaceSpan(this, "AvenirBlack"),0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-		final int actionBarColor = getResources().getColor(R.color.lightblue);
+		final int actionBarColor = getResources().getColor(R.color.blue1);
 		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
 		mActionBar.setDisplayShowTitleEnabled(true);
 		mActionBar.setDisplayShowCustomEnabled(true);
@@ -82,10 +82,10 @@ public class RemindersActivity extends ActionBarActivity implements RemindersCou
 		mTxtTabFeed = (TextView) findViewById(R.id.show_me);
 		mTxtTabFeed.setOnClickListener(this);
 
-		mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.gray));
-		mTxtTabPopular.setTextColor(getResources().getColor(R.color.gray));
-		mTxtTabFeed.setTextColor(getResources().getColor(R.color.orange));
-
+		mTxtTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTxtTabPopular.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTxtTabFeed.setBackgroundColor(getResources().getColor(R.color.red));
+	
 		mListView = (ListView) findViewById(R.id.listview);
 	}
 

@@ -29,6 +29,7 @@ import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.utilities.JSONUtilities;
 import com.millicom.secondscreen.utilities.PatternCheck;
+import com.millicom.secondscreen.utilities.TextDrawable;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -89,7 +90,7 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 		mActionBar.setDisplayUseLogoEnabled(true);
 		mActionBar.setDisplayShowHomeEnabled(true);
 
-		final int actionBarColor = getResources().getColor(R.color.lightblue);
+		final int actionBarColor = getResources().getColor(R.color.blue1);
 		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
 
 		mActionBar.setTitle(getResources().getString(R.string.sign_up_with_email));
@@ -115,7 +116,7 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 	private void setTextWatchers() {
 		mPasswordTextDrawable = new TextDrawable(this);
 		mPasswordTextDrawable.setText(getResources().getString(R.string.signup_characters));
-		mPasswordTextDrawable.setTextColor(getResources().getColor(R.color.light_gray));
+		mPasswordTextDrawable.setTextColor(getResources().getColor(R.color.grey2));
 		mPasswordRegisterEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, mPasswordTextDrawable, null);
 		mPasswordRegisterEditText.addTextChangedListener(new TextWatcher() {
 
@@ -138,7 +139,7 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 		});
 		mEmailTextDrawable = new TextDrawable(this);
 		mEmailTextDrawable.setText(getResources().getString(R.string.signup_email_example));
-		mEmailTextDrawable.setTextColor(getResources().getColor(R.color.light_gray));
+		mEmailTextDrawable.setTextColor(getResources().getColor(R.color.grey2));
 		mEmailRegisterEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, mEmailTextDrawable, null);
 		mEmailRegisterEditText.addTextChangedListener(new TextWatcher() {
 

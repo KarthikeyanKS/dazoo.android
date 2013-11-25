@@ -95,10 +95,10 @@ public class PopularPageActivity extends SSActivity implements OnClickListener {
 		mTxtTabProfile = (TextView) findViewById(R.id.show_me);
 		mTxtTabProfile.setOnClickListener(this);
 
-		mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.gray));
-		mTxtTabActivity.setTextColor(getResources().getColor(R.color.orange));
-		mTxtTabProfile.setTextColor(getResources().getColor(R.color.gray));
-
+		mTxtTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTxtTabActivity.setBackgroundColor(getResources().getColor(R.color.red));
+		mTxtTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+	
 		mActionBar = getSupportActionBar();
 
 		mActionBar.setDisplayShowTitleEnabled(true);

@@ -4,9 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="60dp"
     android:layout_alignParentBottom="true"
-    android:background="@color/light_gray"
-    android:orientation="horizontal"
-    android:paddingBottom="2dp" >
+    android:orientation="horizontal" >
 
     <com.millicom.secondscreen.customviews.FontButton
         android:id="@+id/show_tvguide"
@@ -16,6 +14,7 @@
         android:layout_weight="1"
         android:paddingBottom="2dp"
         android:text="@string/tab_tv_guide"
+        android:textColor="@color/white"
         android:textSize="15sp"
         font:fontbutton="fontello.ttf" />
 
@@ -27,6 +26,7 @@
         android:layout_weight="1"
         android:paddingBottom="2dp"
         android:text="@string/tab_activity"
+        android:textColor="@color/white"
         android:textSize="15sp"
         font:fontbutton="fontello.ttf" />
 
@@ -38,6 +38,7 @@
         android:layout_weight="1"
         android:paddingBottom="2dp"
         android:text="@string/tab_me"
+        android:textColor="@color/white"
         android:textSize="15sp"
         font:fontbutton="fontello.ttf" />
 

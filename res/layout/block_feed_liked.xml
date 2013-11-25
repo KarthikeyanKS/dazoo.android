@@ -135,7 +135,7 @@
         android:layout_height="1dp"
         android:layout_below="@id/block_feed_liked_content_details_container"
         android:layout_margin="10dp"
-        android:background="@color/light_gray" />
+        android:background="@color/grey2" />
 
     <LinearLayout
         android:id="@+id/block_feed_liked_buttons_container"

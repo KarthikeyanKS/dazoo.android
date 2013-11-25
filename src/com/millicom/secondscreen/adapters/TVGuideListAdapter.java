@@ -64,7 +64,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 
 		if (rowView == null) {
 			mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			rowView = mLayoutInflater.inflate(R.layout.layout_tvguide_list_item, null);
+			rowView = mLayoutInflater.inflate(R.layout.row_tvguide_list, null);
 			ViewHolder viewHolder = new ViewHolder();
 			viewHolder.mContainer = (RelativeLayout) rowView.findViewById(R.id.item_container);
 			viewHolder.mChannelIconIv = (ImageView) rowView.findViewById(R.id.tvguide_channel_iv);

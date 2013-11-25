@@ -116,7 +116,7 @@ public class MyChannelsActivity extends ActionBarActivity implements MyChannelsC
 		SpannableString s = new SpannableString(getResources().getString(R.string.my_channels));
 		// s.setSpan(new TypefaceSpan(this, "AvenirBlack"),0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-		final int actionBarColor = getResources().getColor(R.color.lightblue);
+		final int actionBarColor = getResources().getColor(R.color.blue1);
 		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
 		mActionBar.setDisplayShowTitleEnabled(true);
 		mActionBar.setDisplayShowCustomEnabled(true);
@@ -135,10 +135,10 @@ public class MyChannelsActivity extends ActionBarActivity implements MyChannelsC
 		mTxtTabFeed = (TextView) findViewById(R.id.show_me);
 		mTxtTabFeed.setOnClickListener(this);
 
-		mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.gray));
-		mTxtTabPopular.setTextColor(getResources().getColor(R.color.gray));
-		mTxtTabFeed.setTextColor(getResources().getColor(R.color.orange));
-
+		mTxtTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTxtTabPopular.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTxtTabFeed.setBackgroundColor(getResources().getColor(R.color.red));
+	
 		mListView = (ListView) findViewById(R.id.listview);
 		mChannelCountTv = (TextView) findViewById(R.id.mychannels_header_counter_tv);
 		mSearchChannelInputEditText = (EditText) findViewById(R.id.mychannels_header_search_ev);

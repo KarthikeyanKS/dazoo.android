@@ -21,7 +21,7 @@
 * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-package com.millicom.secondscreen.authentication;
+package com.millicom.secondscreen.utilities;
 
 import android.content.Context;
 import android.content.res.ColorStateList;

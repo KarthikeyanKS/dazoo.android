@@ -1,44 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.millicom.seconscreen.customviews"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-    
-    <TextView 
+
+    <TextView
         android:id="@+id/whatelseison_title_textview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
         android:text="@string/whatelseison_title"
         android:textColor="@color/black"
         android:textSize="22sp" />
-    
+
     <LinearLayout
         android:id="@+id/whatelseison_listview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
         android:layout_below="@id/whatelseison_title_textview"
-        android:orientation="vertical"/>
-    
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" />
+
     <View
-	    android:id="@+id/whatelseison_divider"
-	    android:layout_width="fill_parent"
-	    android:layout_height="1dp"
-	    android:layout_below="@id/whatelseison_listview"
-	    android:background="@color/light_gray" />
-        
-    <TextView 
+        android:id="@+id/whatelseison_divider"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/whatelseison_listview"
+        android:background="@color/grey2" />
+
+    <com.millicom.secondscreen.customviews.FontTextView
         android:id="@+id/whatelseison_show_all_programs_textview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/whatelseison_divider"
         android:layout_margin="20dp"
         android:text="@string/whatelseison_show_all_programs"
-        android:textColor="@color/light_gray"
-        android:textSize="16sp"
-        android:layout_below="@id/whatelseison_divider"/>
+        android:textColor="@color/grey2"
+        android:textSize="16sp" />
 
 </RelativeLayout>

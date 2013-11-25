@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <color name="red">#cc0000</color>
-    <color name="white">#faf6f6 </color>
-    <color name="lightblue">#2e6fb7</color>
-    <color name="black">#212121</color>
-    <color name="dark_gray">#ff333333</color>
-    <color name="gray">#666666</color>
-    <color name="light_gray">#B8B6B6</color>
-    <color name="background_gray">#EBE6EA</color>
-    <color name="white">#faf6f6</color>
+    
     <color name="transparent">#00000000</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff </color>
+    <color name="blue1">#2e6fb7</color>
+    <color name="blue2">#1585C9</color>
+    <color name="yellow">#FF9C22</color>
+    <color name="orange">#FF7800</color>
+    <color name="red">#E8420C</color>
+    <color name="grey1">#DEE2E4</color>
+    <color name="grey2">#737E84</color>
+    <color name="grey3">#505658</color>
+    <color name="grey4">#32383C</color>
        
-    <color name="hallon">#FFD6E4</color>
-    <color name="orange">#E63244</color>
-    <color name="blue_selection">#D3F0F2</color>
+    <color name="header_1">#000000</color>
+    <color name="header_2">#000000</color>
+    <color name="header_3">#000000</color>
+    <color name="ingress">#000000</color>
+    <color name="paragraph">#000000</color>
+    <color name="subtext">#666666</color>
+    <color name="links">#E8420C</color>
     
-    <!-- TVGuide -->
-    <color name="tvguide_program_line_color">#666666</color>
-    
-    <!-- LIVE -->
-    <color name="live_islive_indicator_color">#FF3643</color>
-    
+   
 
 </resources>

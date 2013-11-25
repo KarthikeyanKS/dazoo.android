@@ -187,7 +187,7 @@ public class CustomIndexList extends Activity {
      */
     public void getDisplayListOnChange() 
     {
-        LinearLayout sideIndex = (LinearLayout) findViewById(R.id.side_clock_index);
+        LinearLayout sideIndex = (LinearLayout) findViewById(R.id.tvguide_table_side_clock_index);
         sideIndexHeight = sideIndex.getHeight();
         
         if (sideIndexHeight == 0) {

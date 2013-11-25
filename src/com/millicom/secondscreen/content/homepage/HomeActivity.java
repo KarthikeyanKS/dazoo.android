@@ -202,13 +202,13 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		mTxtTabFeed = (TextView) findViewById(R.id.show_me);
 		mTxtTabFeed.setOnClickListener(this);
 
-		mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.orange));
-		mTxtTabPopular.setTextColor(getResources().getColor(R.color.gray));
-		mTxtTabFeed.setTextColor(getResources().getColor(R.color.gray));
-
+		mTxtTabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
+		mTxtTabPopular.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTxtTabFeed.setBackgroundColor(getResources().getColor(R.color.yellow));
+	
 		mActionBar = getSupportActionBar();
 
-		final int actionBarColor = getResources().getColor(R.color.lightblue);
+		final int actionBarColor = getResources().getColor(R.color.blue1);
 		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
 
 		mActionBar.setDisplayShowTitleEnabled(false);

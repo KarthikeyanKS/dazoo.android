@@ -23,7 +23,7 @@
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/dark_gray"
+            android:background="@color/grey1"
             android:paddingBottom="10dp" >
 
             <!-- CONTAINER FOR PROFILE MENU -->
@@ -81,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/myprofile_person_container"
                     android:layout_margin="1dp"
-                    android:background="@color/light_gray"
+                    android:background="@color/grey1"
                     android:orientation="horizontal"
                     android:padding="12dp" >
 
@@ -122,7 +122,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/myprofile_reminders_container"
                     android:layout_margin="1dp"
-                    android:background="@color/light_gray"
+                    android:background="@color/grey1"
                     android:orientation="horizontal"
                     android:padding="12dp" >
 
@@ -163,7 +163,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/myprofile_likes_container"
                     android:layout_margin="1dp"
-                    android:background="@color/light_gray"
+                    android:background="@color/grey1"
                     android:orientation="horizontal"
                     android:padding="12dp" >
 
@@ -204,7 +204,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/myprofile_my_channels_container"
                     android:layout_margin="1dp"
-                    android:background="@color/light_gray"
+                    android:background="@color/grey1"
                     android:orientation="horizontal"
                     android:padding="12dp" >
 
@@ -265,7 +265,7 @@
                     android:layout_gravity="left"
                     android:layout_margin="10dp"
                     android:text="@string/sign_in_to_dazoo_text"
-                    android:textColor="@color/light_gray"
+                    android:textColor="@color/grey1"
                     android:textSize="18sp" />
 
                 <View
@@ -274,7 +274,7 @@
                     android:layout_height="1dp"
                     android:layout_below="@id/myprofile_signin_text_tv"
                     android:layout_margin="10dp"
-                    android:background="@color/light_gray" />
+                    android:background="@color/grey1" />
 
                 <!-- FACEBOOK SIGN-IN BAR -->
 
@@ -286,7 +286,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/layout_rounded_corners_lightblue"
+                    android:background="@drawable/layout_rounded_corners_blue"
                     android:orientation="horizontal" >
 
                     <RelativeLayout
@@ -331,7 +331,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="1dp"
                         android:layout_centerVertical="true"
-                        android:background="@color/light_gray" />
+                        android:background="@color/grey1" />
 
                     <com.millicom.secondscreen.customviews.FontTextView
                         android:id="@+id/signin_or_textview"
@@ -342,7 +342,7 @@
                         android:background="@color/white"
                         android:padding="5dp"
                         android:text="@string/or"
-                        android:textColor="@color/light_gray"
+                        android:textColor="@color/grey1"
                         android:textSize="18sp"
                         android:textStyle="bold" />
                 </RelativeLayout>
@@ -357,7 +357,7 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/layout_rounded_corners_lightblue"
+                    android:background="@drawable/layout_rounded_corners_blue"
                     android:orientation="horizontal"
                     android:padding="10dp" >
 
@@ -381,7 +381,7 @@
                     android:layout_height="1dp"
                     android:layout_below="@id/myprofile_signup_email_container"
                     android:layout_margin="10dp"
-                    android:background="@color/light_gray" />
+                    android:background="@color/grey1" />
 
                 <!-- ALREADY REGISTERED BOX -->
 
@@ -401,7 +401,7 @@
                         android:layout_margin="10dp"
                         android:gravity="center_vertical|center_horizontal"
                         android:text="@string/already_registered"
-                        android:textColor="@color/light_gray"
+                        android:textColor="@color/grey1"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -410,7 +410,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/myprofile_already_registered_text_tv"
-                        android:background="@drawable/layout_rounded_corners_lightgray"
+                        android:background="@drawable/layout_rounded_corners_grey"
                         android:gravity="center_vertical|center_horizontal"
                         android:padding="10dp"
                         android:text="@string/login"

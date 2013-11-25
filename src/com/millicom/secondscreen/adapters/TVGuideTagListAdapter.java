@@ -58,13 +58,11 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 		
 		if (rowView == null) {
 			mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			rowView = mLayoutInflater.inflate(R.layout.layout_tvguide_tag_list_item, null);
+			rowView = mLayoutInflater.inflate(R.layout.row_tvguide_tag_list, null);
 			ViewHolder viewHolder = new ViewHolder();
 			viewHolder.mContainer = (RelativeLayout) rowView.findViewById(R.id.tvguide_tag_list_item_container);
 			viewHolder.mImageIv = (ImageView) rowView.findViewById(R.id.tvguide_tag_list_item_image_iv);
 			viewHolder.mImagePb = (ProgressBar) rowView.findViewById(R.id.tvguide_tag_list_item_image_pb);
-			viewHolder.mTrendingIv = (ImageView) rowView.findViewById(R.id.tvguide_tag_list_item_trending_iv);
-			viewHolder.mMovieIv = (ImageView) rowView.findViewById(R.id.tvguide_tag_list_item_movie_iv);
 			viewHolder.mTitleTv = (TextView) rowView.findViewById(R.id.tvguide_tag_list_item_title_tv);
 			viewHolder.mTimeTv = (TextView) rowView.findViewById(R.id.tvguide_tag_list_item_time_tv);
 			viewHolder.mChannelTv = (TextView) rowView.findViewById(R.id.tvguide_tag_list_item_channel_tv);
@@ -181,7 +179,7 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 
-				Log.d("MC", broadcast.getProgram().toString());
+				Log.d(TAG, broadcast.getProgram().toString());
 
 				//Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
 				//intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
@@ -202,8 +200,6 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 		RelativeLayout mContainer;
 		ImageView 	mImageIv;
 		ProgressBar mImagePb;
-		ImageView	mTrendingIv;
-		ImageView	mMovieIv;
 		TextView 	mTitleTv;
 		TextView 	mTimeTv;
 		TextView	mChannelTv;

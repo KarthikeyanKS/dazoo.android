@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/activity_not_logged_in_tv"
             android:layout_centerHorizontal="true"
-            android:background="@color/lightblue"
+            android:background="@color/blue1"
             android:padding="15dp"
             android:text="@string/sign_in"
             android:textColor="@color/black"

@@ -40,7 +40,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:background="@color/light_gray"
+            android:background="@color/grey1"
             android:text="@string/view_full_cast_and_crew"
             android:textSize="14sp"
             android:textStyle="bold"

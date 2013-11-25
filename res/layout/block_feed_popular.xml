@@ -132,7 +132,7 @@
         android:layout_height="1dp"
         android:layout_below="@id/block_popular_feed_container_one"
         android:layout_margin="20dp"
-        android:background="@color/light_gray" />
+        android:background="@color/grey2" />
 
     <!-- ITEM 2 -->
 
@@ -251,7 +251,7 @@
         android:layout_height="1dp"
         android:layout_below="@id/block_popular_feed_container_two"
         android:layout_margin="20dp"
-        android:background="@color/light_gray" />
+        android:background="@color/grey2" />
 
     <!-- ITEM 3 -->
 
@@ -371,7 +371,7 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:layout_below="@id/block_popular_feed_container_three"
-        android:background="@color/light_gray" />
+        android:background="@color/grey2" />
 
     <RelativeLayout
         android:id="@+id/block_popular_show_more_container"

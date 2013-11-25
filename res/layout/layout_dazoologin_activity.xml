@@ -24,7 +24,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:background="@drawable/layout_rounded_corners_lightblue"
+            android:background="@drawable/layout_rounded_corners_blue"
             android:orientation="horizontal" >
             
 			<RelativeLayout 
@@ -68,7 +68,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_centerVertical="true"
-                android:background="@color/light_gray"/>
+                android:background="@color/grey2"/>
             
             <com.millicom.secondscreen.customviews.FontTextView 
                 android:id="@+id/signin_or_textview"
@@ -81,7 +81,7 @@
                 android:background="@color/white"
                 android:textSize="18sp"
 	            android:textStyle="bold"
-	            android:textColor="@color/light_gray" />
+	            android:textColor="@color/grey3" />
             
         </RelativeLayout>
 
@@ -99,7 +99,7 @@
             android:hint="@string/hint_email"
             android:inputType="textEmailAddress"
             android:padding="8dp"
-            android:textColorHint="@color/light_gray"
+            android:textColorHint="@color/grey3"
             android:textSize="16sp" />
 
         <com.millicom.secondscreen.customviews.FontEditText
@@ -115,7 +115,7 @@
             android:hint="@string/hint_password"
             android:inputType="textPassword"
             android:padding="8dp"
-            android:textColorHint="@color/light_gray"
+            android:textColorHint="@color/grey3"
             android:textSize="16sp" />
 
         <com.millicom.secondscreen.customviews.FontButton
@@ -128,7 +128,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_centerInParent="true"
-            android:background="@drawable/layout_rounded_corners_lightblue"
+            android:background="@drawable/layout_rounded_corners_blue"
             android:padding="10dp"
             android:textStyle="bold"
             android:text="@string/login_with_dazoo"
@@ -143,7 +143,7 @@
             android:layout_below="@id/dazoologin_login_button"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:background="@color/light_gray" />
+            android:background="@color/grey2" />
 
         <!-- FORGOT YOUR PASSWORD -->
 
@@ -169,7 +169,7 @@
                 android:layout_margin="5dp"
                 android:layout_centerVertical="true"
                 android:text="@string/forgot_password"
-                android:textColor="@color/light_gray"
+                android:textColor="@color/grey3"
                 android:textStyle="bold"
                 android:textSize="16sp" />
             <com.millicom.secondscreen.customviews.FontButton
@@ -183,7 +183,7 @@
                 android:textStyle="bold"
                 android:textColor="@color/white"
                 android:padding="8dp"
-                android:background="@drawable/layout_rounded_corners_lightgray" />
+                android:background="@drawable/layout_rounded_corners_grey" />
             
         </RelativeLayout>
     </RelativeLayout>
