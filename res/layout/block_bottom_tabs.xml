@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
     android:layout_width="fill_parent"
-    android:layout_height="60dp"
+    android:layout_height="@dimen/bottom_tabs_height"
     android:layout_alignParentBottom="true"
     android:orientation="horizontal" >
 
@@ -12,11 +12,21 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:paddingBottom="2dp"
-        android:text="@string/tab_tv_guide"
+        android:gravity="center_horizontal"
         android:textColor="@color/white"
-        android:textSize="15sp"
+        android:textSize="@dimen/bottom_tabs_font_size"
         font:fontbutton="fontello.ttf" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="@dimen/bottom_tabs_height"
+            android:layout_centerInParent="true"
+            android:background="@color/grey1" />
+    </RelativeLayout>
 
     <com.millicom.secondscreen.customviews.FontButton
         android:id="@+id/show_activity"
@@ -24,11 +34,21 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:paddingBottom="2dp"
-        android:text="@string/tab_activity"
+        android:gravity="center_horizontal"
         android:textColor="@color/white"
-        android:textSize="15sp"
+        android:textSize="@dimen/bottom_tabs_font_size"
         font:fontbutton="fontello.ttf" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="@dimen/bottom_tabs_height"
+            android:layout_centerInParent="true"
+            android:background="@color/grey1" />
+    </RelativeLayout>
 
     <com.millicom.secondscreen.customviews.FontButton
         android:id="@+id/show_me"
@@ -36,10 +56,9 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:paddingBottom="2dp"
-        android:text="@string/tab_me"
+        android:gravity="center_horizontal"
         android:textColor="@color/white"
-        android:textSize="15sp"
+        android:textSize="@dimen/bottom_tabs_font_size"
         font:fontbutton="fontello.ttf" />
 
 </LinearLayout>

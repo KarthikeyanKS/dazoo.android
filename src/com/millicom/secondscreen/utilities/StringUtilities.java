@@ -28,4 +28,9 @@ public class StringUtilities {
 			if (string == null || string.equals("{}") || TextUtils.isEmpty(string) || string.equals("null")) return false;
 			return true;
 		}
+		
+		public static float pixelsToSp(Context context, Float px) {
+		    float scaledDensity = context.getResources().getDisplayMetrics().scaledDensity;
+		    return px/scaledDensity;
+		}
 }

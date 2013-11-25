@@ -7,6 +7,7 @@ import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.authentication.DazooLoginActivity;
 import com.millicom.secondscreen.authentication.FacebookLoginActivity;
 import com.millicom.secondscreen.authentication.SignUpActivity;
+import com.millicom.secondscreen.content.SSActivity;
 import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.search.SearchPageActivity;
@@ -36,7 +37,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class MyProfileActivity extends ActionBarActivity implements OnClickListener {
+public class MyProfileActivity extends SSActivity implements OnClickListener {
 
 	private static final String	TAG			= "MyProfileFragment";
 
@@ -73,6 +74,7 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 		}
 
 		initViews();
+		super.initCallbackLayouts();
 		populateViews();
 	}
 
@@ -296,5 +298,17 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 			}
 			break;
 		}
+	}
+
+	@Override
+	protected void updateUI(REQUEST_STATUS status) {
+		// TODO Auto-generated method stub
+		// not needed in this activity
+	}
+
+	@Override
+	protected void loadPage() {
+		// TODO Auto-generated method stub
+		// not needed in this activity
 	}
 }

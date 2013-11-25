@@ -1,5 +1,8 @@
 <resources>
 
     <dimen name="gallery_size_padding">35dp</dimen>
-
+	<dimen name="bottom_tabs_height">60dp</dimen>
+    
+	<!-- font sizes -->
+	<dimen name="bottom_tabs_font_size">12sp</dimen>
 </resources>

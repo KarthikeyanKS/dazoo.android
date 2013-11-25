@@ -341,6 +341,7 @@ public abstract class Consts {
 	public static final String	DAZOO_FEED_ITEM_TYPE_BROADCAST						= "BROADCAST";
 	public static final String	DAZOO_FEED_ITEM_TYPE_RECOMMENDED_BROADCAST			= "RECOMMENDED_BROADCAST";
 	public static final String	DAZOO_FEED_ITEM_TYPE_POPULAR_BROADCASTS				= "POPULAR_BROADCASTS";
+	public static final String	DAZOO_FEED_ITEM_TYPE_POPULAR_TWITTER				= "POPULAR_TWITTER";
 	public static final String	DAZOO_FEED_ITEM_ITEM_TYPE							= "itemType";
 	public static final String	DAZOO_FEED_ITEM_TITLE								= "title";
 	public static final String	DAZOO_FEED_ITEM_BROADCAST							= "broadcast";

@@ -13,11 +13,15 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.AbsoluteSizeSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public abstract class SSActivity extends ActionBarActivity {
 
@@ -28,6 +32,8 @@ public abstract class SSActivity extends ActionBarActivity {
 	private View				mRequestLoadingLayout;
 	private Button				mRequestFailedButton;
 	private ActionBar			mActionBar;
+
+	private TextView			mTxtTabTvGuide, mTxtTabActivity, mTxtTabProfile;
 
 	protected abstract void updateUI(REQUEST_STATUS status);
 
@@ -53,6 +59,25 @@ public abstract class SSActivity extends ActionBarActivity {
 
 		final int actionBarColor = getResources().getColor(R.color.blue1);
 		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
+
+		mTxtTabTvGuide = (TextView) findViewById(R.id.show_tvguide);
+		
+		mTxtTabActivity = (TextView) findViewById(R.id.show_activity);
+		
+		mTxtTabProfile = (TextView) findViewById(R.id.show_me);
+		
+
+		Spannable spanGuide = new SpannableString(getResources().getString(R.string.icon_timetable) + "\n" + getResources().getString(R.string.tab_tv_guide));
+		spanGuide.setSpan(new AbsoluteSizeSpan(75), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		mTxtTabTvGuide.setText(spanGuide);
+
+		Spannable spanActivity = new SpannableString(getResources().getString(R.string.icon_feed) + "\n" + getResources().getString(R.string.tab_activity));
+		spanActivity.setSpan(new AbsoluteSizeSpan(75), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		mTxtTabActivity.setText(spanActivity);
+
+		Spannable spanMe = new SpannableString(getResources().getString(R.string.icon_me) + "\n" + getResources().getString(R.string.tab_me));
+		spanMe.setSpan(new AbsoluteSizeSpan(75), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		mTxtTabProfile.setText(spanMe);
 
 		initCallbackLayouts();
 	}

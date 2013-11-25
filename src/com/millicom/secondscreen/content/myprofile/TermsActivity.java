@@ -1,8 +1,10 @@
 package com.millicom.secondscreen.content.myprofile;
 
 import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
+import com.millicom.secondscreen.content.SSActivity;
 import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.tvguide.ChannelPageActivity;
@@ -27,7 +29,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class TermsActivity extends ActionBarActivity implements OnClickListener {
+public class TermsActivity extends SSActivity implements OnClickListener {
 
 	private static final String	TAG			= "SettingsActivity";
 	private ActionBar			mActionBar;
@@ -44,19 +46,12 @@ public class TermsActivity extends ActionBarActivity implements OnClickListener 
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 		
 		initLayout();
+		super.initCallbackLayouts();
 	}
 
 	private void initLayout() {
 		mActionBar = getSupportActionBar();
-
-		final int actionBarColor = getResources().getColor(R.color.blue1);
-		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
-		mActionBar.setDisplayShowTitleEnabled(true);
-		mActionBar.setDisplayShowCustomEnabled(true);
-		mActionBar.setDisplayUseLogoEnabled(true);
-		mActionBar.setDisplayShowHomeEnabled(true);
 		mActionBar.setTitle(getResources().getString(R.string.terms_title));
-	
 		
 		// styling bottom navigation tabs
 		mTabSelectorContainerView = findViewById(R.id.tab_selector_container);
@@ -111,5 +106,17 @@ public class TermsActivity extends ActionBarActivity implements OnClickListener 
 			startActivity(intentMe);
 			break;
 		}
+	}
+
+	@Override
+	protected void updateUI(REQUEST_STATUS status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void loadPage() {
+		// TODO Auto-generated method stub
+		
 	}
 }

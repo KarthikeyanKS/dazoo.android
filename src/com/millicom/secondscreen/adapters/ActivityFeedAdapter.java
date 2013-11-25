@@ -50,6 +50,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 	private static final int		ITEM_TYPE_BROADCAST					= 0;
 	private static final int		ITEM_TYPE_RECOMMENDED_BROADCAST		= 1;
 	private static final int		ITEM_TYPE_POPULAR_BROADCASTS		= 2;
+	private static final int		ITEM_TYPE_POPULAR_TWITTER			= 4;
 
 	private String					mToken;
 	private int						mNotificationId;
@@ -112,6 +113,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			return ITEM_TYPE_BROADCAST;
 		} else if (Consts.DAZOO_FEED_ITEM_TYPE_RECOMMENDED_BROADCAST.equals(feedItemType)) {
 			return ITEM_TYPE_RECOMMENDED_BROADCAST;
+		} else if (Consts.DAZOO_FEED_ITEM_TYPE_POPULAR_TWITTER.equals(feedItemType)) {
+			return ITEM_TYPE_POPULAR_TWITTER;
 		}
 		return ITEM_TYPE_BROADCAST;
 	}
@@ -282,7 +285,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						// TODO: OPTIMIZATION ON WHEN THE BACKEND TO ADD/DELETE LIKE IS LAUNCHED
 						if (LikeService.addLike(mToken, programId, likeType)) {
 							DazooStore.getInstance().addLikeIdToList(programId);
-							
+
 							LikeService.showSetLikeToast(mActivity, contentTitle);
 							likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
 

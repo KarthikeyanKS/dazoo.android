@@ -7,9 +7,10 @@
     <string name="no">No</string>
 
     <!-- HOMEPAGE : TABS -->
-    <string name="tab_tv_guide">&#xe803; TV Guide</string>
-    <string name="tab_activity">&#xe806; Activity</string>
-    <string name="tab_me">&#xe807; Me</string>
+
+    <string name="tab_tv_guide">TV Guide</string>
+    <string name="tab_activity">Activity</string>
+    <string name="tab_me">Me</string>
 
     <!-- HOMEPAGE : FILTERING BY DAY -->
     <string name="today">Today</string>

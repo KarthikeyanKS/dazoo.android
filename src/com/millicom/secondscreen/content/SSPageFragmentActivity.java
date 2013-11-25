@@ -41,14 +41,6 @@ public abstract class SSPageFragmentActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		// add to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
-
-		LocalBroadcastManager.getInstance(this).registerReceiver(new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-
-				mForceReload = true;
-			}
-		}, new IntentFilter(Consts.BROADCAST_HOMEPAGE));
 	};
 
 	// Init the callback layouts for this page

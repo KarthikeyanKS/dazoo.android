@@ -18,6 +18,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.AbsoluteSizeSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,8 +45,9 @@ import com.millicom.secondscreen.content.tvguide.TVHolderFragment;
 import com.millicom.secondscreen.content.tvguide.TVHolderFragment.OnViewPagerIndexChangedListener;
 import com.millicom.secondscreen.manager.DazooCore;
 import com.millicom.secondscreen.storage.DazooStore;
+import com.millicom.secondscreen.utilities.StringUtilities;
 
-public class HomeActivity extends SSPageFragmentActivity implements OnClickListener, ActionBar.OnNavigationListener{
+public class HomeActivity extends SSPageFragmentActivity implements OnClickListener, ActionBar.OnNavigationListener {
 
 	private static final String					TAG					= "HomeActivity";
 	private TextView							mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
@@ -55,7 +60,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	private String								mDate;
 	private TvDate								mTvDateSelected;
 	private boolean								mIsReady			= false, mFirstHit = true, mIsChannelListChanged, mStateChanged = false;
-	
+
 	private Fragment							mActiveFragment;
 
 	private int									mStartingPosition	= 0;
@@ -66,7 +71,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_home_activity);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-	
+
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
@@ -81,7 +86,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		// broadcast receiver for my channels have changed
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverMyChannels, new IntentFilter(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
 		initViews();
-		
+
 		checkForUpdates();
 
 		loadPage();
@@ -90,11 +95,11 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	private void checkForCrashes() {
 		CrashManager.register(this, Consts.HOCKEY_APP_TOKEN);
 	}
-	
+
 	private void checkForUpdates() {
-		   // Remove this for store builds!
-		   UpdateManager.register(this, Consts.HOCKEY_APP_TOKEN);
-		 }
+		// Remove this for store builds!
+		UpdateManager.register(this, Consts.HOCKEY_APP_TOKEN);
+	}
 
 	BroadcastReceiver	mBroadcastReceiverMyChannels	= new BroadcastReceiver() {
 
@@ -205,7 +210,19 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		mTxtTabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
 		mTxtTabPopular.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTxtTabFeed.setBackgroundColor(getResources().getColor(R.color.yellow));
-	
+
+		Spannable spanGuide = new SpannableString( getResources().getString(R.string.icon_timetable)+ "\n" + getResources().getString(R.string.tab_tv_guide));
+		spanGuide.setSpan(new AbsoluteSizeSpan(75), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		mTxtTabTvGuide.setText(spanGuide);
+		
+		Spannable spanActivity = new SpannableString( getResources().getString(R.string.icon_feed)+ "\n" + getResources().getString(R.string.tab_activity));
+		spanActivity.setSpan(new AbsoluteSizeSpan(75), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		mTxtTabPopular.setText(spanActivity);
+		
+		Spannable spanMe = new SpannableString( getResources().getString(R.string.icon_me)+ "\n" + getResources().getString(R.string.tab_me));
+		spanMe.setSpan(new AbsoluteSizeSpan(75), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		mTxtTabFeed.setText(spanMe);
+		
 		mActionBar = getSupportActionBar();
 
 		final int actionBarColor = getResources().getColor(R.color.blue1);
@@ -334,12 +351,12 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		// No call for super(). Bug on API Level > 11.
 	}
 
-	public void onClockTextClick(View v){
+	public void onClockTextClick(View v) {
 		Intent intent = new Intent(Consts.INTENT_EXTRA_CLOCK_SELECTION);
 		intent.putExtra(Consts.INTENT_EXTRA_CLOCK_SELECTION_VALUE, (String) v.getTag());
 		LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(intent);
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();
