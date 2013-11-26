@@ -14,13 +14,15 @@
                     android:layout_gravity="left"
                     android:layout_margin="5dp"
                     android:textColor="@color/black"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:visibility="gone" />
 
     <ListView
         android:id="@+id/fragment_tvguide_type_tag_listview"
         android:layout_below="@id/fragment_tvguide_type_tag"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:cacheColorHint="@null"
         android:divider="@null" />
         

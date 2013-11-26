@@ -134,7 +134,7 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 			mImageLoader.displayImage(broadcast.getProgram().getPosterLUrl(), holder.mImageIv, holder.mImagePb, ImageLoader.IMAGE_TYPE.GALLERY);
 			
 			//holder.title.setText(broadcast.getProgram().getTitle() + "  " + broadcast.getProgram().getProgramType() + "   " +  broadcast.getBeginTime());
-			holder.mTitleTv.setText(broadcast.getProgram().getTitle() + "  " + broadcast.getProgram().getProgramType()); 
+			holder.mTitleTv.setText(broadcast.getProgram().getTitle()); 
 			
 			try {
 				holder.mTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
@@ -180,17 +180,14 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 
 			@Override
 			public void onClick(View v) {
-
-				Log.d("MC", broadcast.getProgram().toString());
-
-				//Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-				//intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
-				//intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
-				//intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, mDate.getDate());
+				Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
+				intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
+				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
+				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, mDate.getDate());
 
 
-				//mActivity.startActivity(intent);
-				//mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+				mActivity.startActivity(intent);
+				mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			}
 		});
 
