@@ -188,7 +188,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:parentActivityName="com.millicom.secondscreen.content.homepage.HomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light" >
+            android:theme="@style/ChannelPage" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.millicom.secondscreen.content.homepage.HomeActivity" />

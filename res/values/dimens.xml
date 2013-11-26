@@ -18,6 +18,7 @@
 	<dimen name="divider_height">1dp</dimen>
 	<dimen name="view_margin">15dp</dimen>
 	<dimen name="image_padding">2dp</dimen>
+	<dimen name="channel_logo_margin">15dp</dimen>
 	<dimen name="clock_scroll_area">20dp</dimen>
 	<dimen name="clock_side_margin">10dp</dimen>
 </resources>
