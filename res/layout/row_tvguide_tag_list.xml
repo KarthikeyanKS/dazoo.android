@@ -50,8 +50,6 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_marginBottom="10dp"
-	        android:layout_marginRight="10dp"
-	        android:layout_marginLeft="10dp"
 	        android:textColor="@color/black"
 	        android:textSize="16sp"
 	        android:textStyle="bold" />
@@ -120,6 +118,6 @@
 	    android:layout_width="fill_parent"
 	    android:layout_height="1dp"
 	    android:layout_alignParentBottom="true"
-	    android:background="@color/grey2" />
+	    android:background="@color/grey1" />
 
 </RelativeLayout>

@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:background="@color/grey1"
             android:padding="10dp"
-            android:textColor="@color/black"
+            android:textColor="@color/grey2"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -119,7 +119,7 @@
 	            android:layout_width="1dp"
 	            android:layout_height="60dp"
 	            android:layout_margin="10dp"
-	            android:background="@color/grey2"
+	            android:background="@color/grey1"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/row_reminders_notification_iv" />
             

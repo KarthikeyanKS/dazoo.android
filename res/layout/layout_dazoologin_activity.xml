@@ -68,7 +68,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_centerVertical="true"
-                android:background="@color/grey2"/>
+                android:background="@color/grey1"/>
             
             <com.millicom.secondscreen.customviews.FontTextView 
                 android:id="@+id/signin_or_textview"
@@ -81,7 +81,7 @@
                 android:background="@color/white"
                 android:textSize="18sp"
 	            android:textStyle="bold"
-	            android:textColor="@color/grey3" />
+	            android:textColor="@color/grey1" />
             
         </RelativeLayout>
 
@@ -143,7 +143,7 @@
             android:layout_below="@id/dazoologin_login_button"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:background="@color/grey2" />
+            android:background="@color/grey1" />
 
         <!-- FORGOT YOUR PASSWORD -->
 
@@ -169,7 +169,7 @@
                 android:layout_margin="5dp"
                 android:layout_centerVertical="true"
                 android:text="@string/forgot_password"
-                android:textColor="@color/grey3"
+                android:textColor="@color/grey1"
                 android:textStyle="bold"
                 android:textSize="16sp" />
             <com.millicom.secondscreen.customviews.FontButton

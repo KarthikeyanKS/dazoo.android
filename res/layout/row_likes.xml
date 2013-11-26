@@ -18,9 +18,9 @@
             android:id="@+id/row_likes_header_textview"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/grey2"
+            android:background="@color/grey1"
             android:padding="10dp"
-            android:textColor="@color/grey1"
+            android:textColor="@color/grey2"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -95,7 +95,7 @@
 	            android:layout_width="1dp"
 	            android:layout_height="60dp"
 	            android:layout_margin="10dp"
-	            android:background="@color/grey2"
+	            android:background="@color/grey1"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/row_likes_button_iv" />
             
@@ -109,7 +109,7 @@
         android:layout_height="1dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@color/grey2" 
+        android:background="@color/grey1" 
         android:layout_below="@id/row_likes_container"
         android:visibility="visible" />
 
