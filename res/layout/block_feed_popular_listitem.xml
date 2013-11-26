@@ -121,6 +121,6 @@
         android:layout_height="1dp"
         android:layout_below="@id/block_popular_feed_container"
         android:layout_margin="20dp"
-        android:background="@color/light_gray" />
+        android:background="@color/grey2" />
 
 </RelativeLayout>

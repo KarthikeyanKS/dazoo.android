@@ -127,10 +127,10 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		mTxtTabProfile = (TextView) findViewById(R.id.show_me);
 		mTxtTabProfile.setOnClickListener(this);
 
-		mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.gray));
-		mTxtTabActivity.setTextColor(getResources().getColor(R.color.orange));
-		mTxtTabProfile.setTextColor(getResources().getColor(R.color.gray));
-
+		mTxtTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTxtTabActivity.setBackgroundColor(getResources().getColor(R.color.red));
+		mTxtTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+	
 		mActionBar = getSupportActionBar();
 
 		mActionBar.setDisplayShowTitleEnabled(true);
@@ -349,7 +349,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 				urlParams.add(new BasicNameValuePair(Consts.MILLICOM_SECONDSCREEN_API_LIMIT, String.valueOf(mNextStep)));
 
 				URI uri = new URI(Consts.MILLICOM_SECONDSCREEN_ACTIVITY_FEED_URL + "?" + URLEncodedUtils.format(urlParams, "utf-8"));
-
+				
 				HttpGet httpGet = new HttpGet(uri);
 				httpGet.setHeader("Authorization", "Bearer " + token);
 				HttpResponse response = httpClient.execute(httpGet);
@@ -509,20 +509,19 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 					String jsonString = sb.toString();
 
 					if (jsonString != null && TextUtils.isEmpty(jsonString) != true && !jsonString.equals(Consts.ERROR_STRING)) {
-						JSONArray feedLisJsonArray;
+						JSONArray feedListJsonArray;
 						try {
-							feedLisJsonArray = new JSONArray(jsonString);
+							feedListJsonArray = new JSONArray(jsonString);
 
-							int size = feedLisJsonArray.length();
+							int size = feedListJsonArray.length();
 							Log.d(TAG, "FEED ITEMS SIZE: " + String.valueOf(size));
-							// TODO: UPDATE WHEN THE PAGINATION IS DONE BY THE BACKEND
 							int endIndex = 0;
 							if (mStartIndex + mStep < size) endIndex = mStartIndex + mStep;
 							else endIndex = size;
 							Log.d(TAG, "endIndex:" + endIndex + " mStartIndex: " + mStartIndex + " mStep: " + mStep);
 
 							for (int i = mStartIndex; i < endIndex; i++) {
-								activityFeed.add(ContentParser.parseFeedItem(feedLisJsonArray.getJSONObject(i)));
+								activityFeed.add(ContentParser.parseFeedItem(feedListJsonArray.getJSONObject(i)));
 								result = true;
 							}
 						} catch (JSONException e) {

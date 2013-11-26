@@ -3,6 +3,7 @@ package com.millicom.secondscreen.content.model;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -29,7 +30,7 @@ public class Broadcast implements Parcelable {
 	private String				channelUrl;
 	private long				beginTimeMillis;
 	private String				shareUrl;
-	
+
 	public Broadcast() {
 	}
 
@@ -197,14 +198,50 @@ public class Broadcast implements Parcelable {
 			}
 
 			long d = Math.abs(timeNow - timeBroadcast);
-			//TODO: This makes programs on air not show when half of the time has passed. Should it really be that way?
-			//if (d < bestDistanceFoundYet && timeBroadcast < timeNow) {
+			// TODO: This makes programs on air not show when half of the time has passed. Should it really be that way?
+			// if (d < bestDistanceFoundYet && timeBroadcast < timeNow) {
 			if (d < bestDistanceFoundYet) {
 				nearestIndex = i;
 				bestDistanceFoundYet = d;
 			}
 		}
+		return nearestIndex;
+	}
 
+	public static int getClosestBroadcastIndexFromTime(ArrayList<Broadcast> broadcastList, int hour) {
+		// set the time in interest
+		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.HOUR_OF_DAY, hour);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+
+		String timeNowStr = df.format(calendar.getTime());
+		long timeNow = 0;
+		try {
+			timeNow = DateUtilities.isoStringToLong(timeNowStr);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		int nearestIndex = 0;
+		long bestDistanceFoundYet = Long.MAX_VALUE;
+		for (int i = 0; i < broadcastList.size(); i++) {
+			long timeBroadcast = 0;
+			try {
+				timeBroadcast = DateUtilities.isoStringToLong(broadcastList.get(i).getBeginTime());
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+
+			long d = Math.abs(timeNow - timeBroadcast);
+			// TODO: This makes programs on air not show when half of the time has passed. Should it really be that way?
+			// if (d < bestDistanceFoundYet && timeBroadcast < timeNow) {
+			if (d < bestDistanceFoundYet) {
+				nearestIndex = i;
+				bestDistanceFoundYet = d;
+			}
+		}
 		return nearestIndex;
 	}
 

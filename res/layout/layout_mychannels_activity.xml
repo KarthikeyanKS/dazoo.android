@@ -4,7 +4,7 @@
     android:id="@+id/mychannels_list_container"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/dark_gray" >
+    android:background="@color/grey2" >
 
     <!-- HEADER WITH CHANNELS NUMBER COUNTER -->
 
@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="@string/selected_channels"
-                android:textColor="@color/dark_gray"
+                android:textColor="@color/grey3"
                 android:textSize="16sp" />
 
             <com.millicom.secondscreen.customviews.FontTextView
@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/mychannels_header_text_tv"
-                android:textColor="@color/dark_gray"
+                android:textColor="@color/grey3"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </RelativeLayout>
@@ -61,7 +61,13 @@
         android:id="@+id/tab_selector_container"
         android:layout_alignParentBottom="true"
         layout="@layout/block_bottom_tabs" />
-    
+
+    <include
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/tab_selector_container"
+        layout="@layout/layout_request_callbacks_holder_layout" />
+
     <!-- LIST OF FOLLOWING UP BROADCASTS -->
 
     <ListView

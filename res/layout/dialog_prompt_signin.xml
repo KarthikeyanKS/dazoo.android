@@ -4,7 +4,7 @@
     android:id="@+id/dialog_prompt_signin_container"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/light_gray"
+    android:background="@color/grey1"
     android:orientation="vertical" >
 
     <com.millicom.secondscreen.customviews.FontTextView
@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/cancel"
-            android:textColor="@color/lightblue" />
+            android:textColor="@color/blue1" />
 
         <com.millicom.secondscreen.customviews.FontButton
             android:id="@+id/dialog_prompt_signin_button_signin"
@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/sign_in"
-            android:textColor="@color/lightblue" />
+            android:textColor="@color/blue1" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -1,30 +1,12 @@
 package com.millicom.secondscreen.content.myprofile;
 
-import com.millicom.secondscreen.Consts;
-import com.millicom.secondscreen.R;
-import com.millicom.secondscreen.SecondScreenApplication;
-import com.millicom.secondscreen.Consts.REQUEST_STATUS;
-import com.millicom.secondscreen.authentication.DazooLoginActivity;
-import com.millicom.secondscreen.authentication.FacebookLoginActivity;
-import com.millicom.secondscreen.authentication.SignUpActivity;
-import com.millicom.secondscreen.content.activity.ActivityActivity;
-import com.millicom.secondscreen.content.homepage.HomeActivity;
-import com.millicom.secondscreen.content.search.SearchPageActivity;
-import com.millicom.secondscreen.manager.DazooCore;
-
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,7 +18,19 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class MyProfileActivity extends ActionBarActivity implements OnClickListener {
+import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.Consts.REQUEST_STATUS;
+import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.SecondScreenApplication;
+import com.millicom.secondscreen.authentication.DazooLoginActivity;
+import com.millicom.secondscreen.authentication.FacebookLoginActivity;
+import com.millicom.secondscreen.authentication.SignUpActivity;
+import com.millicom.secondscreen.content.SSActivity;
+import com.millicom.secondscreen.content.activity.ActivityActivity;
+import com.millicom.secondscreen.content.homepage.HomeActivity;
+import com.millicom.secondscreen.content.search.SearchPageActivity;
+
+public class MyProfileActivity extends SSActivity implements OnClickListener {
 
 	private static final String	TAG			= "MyProfileFragment";
 
@@ -73,6 +67,7 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 		}
 
 		initViews();
+		super.initCallbackLayouts();
 		populateViews();
 	}
 
@@ -95,13 +90,13 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 		mTxtTabFeed = (TextView) findViewById(R.id.show_me);
 		mTxtTabFeed.setOnClickListener(this);
 
-		mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.gray));
-		mTxtTabPopular.setTextColor(getResources().getColor(R.color.gray));
-		mTxtTabFeed.setTextColor(getResources().getColor(R.color.orange));
-
+		mTxtTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTxtTabPopular.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTxtTabFeed.setBackgroundColor(getResources().getColor(R.color.red));
+	
 		mActionBar = getSupportActionBar();
 
-		final int actionBarColor = getResources().getColor(R.color.lightblue);
+		final int actionBarColor = getResources().getColor(R.color.blue1);
 		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
 
 		mActionBar.setDisplayShowTitleEnabled(true);
@@ -296,5 +291,17 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 			}
 			break;
 		}
+	}
+
+	@Override
+	protected void updateUI(REQUEST_STATUS status) {
+		// TODO Auto-generated method stub
+		// not needed in this activity
+	}
+
+	@Override
+	protected void loadPage() {
+		// TODO Auto-generated method stub
+		// not needed in this activity
 	}
 }

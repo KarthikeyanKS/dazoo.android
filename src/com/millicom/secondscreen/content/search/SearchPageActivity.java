@@ -35,7 +35,7 @@ public class SearchPageActivity extends ActionBarActivity {
 		actionBar.setDisplayShowHomeEnabled(false);
 		actionBar.setCustomView(R.layout.actionbar_searchpage);
 
-		final int actionBarColor = getResources().getColor(R.color.lightblue);
+		final int actionBarColor = getResources().getColor(R.color.blue1);
 		actionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
 
 	}

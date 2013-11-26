@@ -12,7 +12,7 @@
         android:layout_gravity="left"
         android:layout_alignParentLeft="true"
         android:layout_margin="5dp"
-        android:textColor="@color/tvguide_program_line_color"
+        android:textColor="@color/grey3"
         android:textSize="14sp" 
         android:textStyle="italic"/>
 
@@ -32,7 +32,7 @@
         android:layout_gravity="right"
         android:layout_toRightOf="@id/tvguide_program_line_next_icon_iv"
         android:layout_margin="5dp"
-        android:textColor="@color/tvguide_program_line_color"
+        android:textColor="@color/grey3"
         android:textSize="14sp" 
         android:textStyle=""/>
 </RelativeLayout>

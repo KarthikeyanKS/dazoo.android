@@ -18,9 +18,9 @@
             android:id="@+id/row_likes_header_textview"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/light_gray"
+            android:background="@color/grey2"
             android:padding="10dp"
-            android:textColor="@color/dark_gray"
+            android:textColor="@color/grey1"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -53,8 +53,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_gravity="left"
-                android:textColor="@color/black"
                 android:textSize="18sp"
+                android:textColor="@color/grey3"
                 android:textStyle="bold" />
 
             <!-- DETAILS -->
@@ -66,7 +66,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/row_likes_text_title_tv"
                 android:layout_gravity="left"
-                android:textColor="@color/light_gray"
+                android:textColor="@color/grey3"
                 android:textSize="16sp"/>
             
         </RelativeLayout>
@@ -95,7 +95,7 @@
 	            android:layout_width="1dp"
 	            android:layout_height="60dp"
 	            android:layout_margin="10dp"
-	            android:background="@color/light_gray"
+	            android:background="@color/grey2"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/row_likes_button_iv" />
             
@@ -109,7 +109,7 @@
         android:layout_height="1dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@color/light_gray" 
+        android:background="@color/grey2" 
         android:layout_below="@id/row_likes_container"
         android:visibility="visible" />
 

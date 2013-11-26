@@ -1,9 +1,10 @@
 package com.millicom.secondscreen.content.myprofile;
 
 import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
-import com.millicom.secondscreen.authentication.LoginActivity;
+import com.millicom.secondscreen.content.SSActivity;
 import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.tvguide.ChannelPageActivity;
@@ -28,7 +29,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ContactActivity extends ActionBarActivity implements OnClickListener {
+public class ContactActivity extends SSActivity implements OnClickListener {
 
 	private static final String	TAG			= "SettingsActivity";
 	private ActionBar			mActionBar;
@@ -45,17 +46,11 @@ public class ContactActivity extends ActionBarActivity implements OnClickListene
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 		
 		initLayout();
+		super.initCallbackLayouts();
 	}
 
 	private void initLayout() {
 		mActionBar = getSupportActionBar();
-
-		final int actionBarColor = getResources().getColor(R.color.lightblue);
-		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
-		mActionBar.setDisplayShowTitleEnabled(true);
-		mActionBar.setDisplayShowCustomEnabled(true);
-		mActionBar.setDisplayUseLogoEnabled(true);
-		mActionBar.setDisplayShowHomeEnabled(true);
 		mActionBar.setTitle(getResources().getString(R.string.contact_title));
 	
 		
@@ -69,9 +64,9 @@ public class ContactActivity extends ActionBarActivity implements OnClickListene
 		mTxtTabFeed = (TextView) findViewById(R.id.show_me);
 		mTxtTabFeed.setOnClickListener(this);
 
-		mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.gray));
-		mTxtTabPopular.setTextColor(getResources().getColor(R.color.gray));
-		mTxtTabFeed.setTextColor(getResources().getColor(R.color.orange));
+		mTxtTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTxtTabPopular.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTxtTabFeed.setBackgroundColor(getResources().getColor(R.color.red));
 	}
 
 	@Override
@@ -112,5 +107,17 @@ public class ContactActivity extends ActionBarActivity implements OnClickListene
 			startActivity(intentMe);
 			break;
 		}
+	}
+
+	@Override
+	protected void updateUI(REQUEST_STATUS status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void loadPage() {
+		// TODO Auto-generated method stub
+		
 	}
 }

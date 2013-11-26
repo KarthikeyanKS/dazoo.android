@@ -7,7 +7,6 @@ import com.imbryk.viewPager.LoopViewPager;
 import com.millicom.secondscreen.content.model.Tag;
 import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.tvguide.TVGuideTableFragment;
-import com.millicom.secondscreen.content.tvguide.TVGuideTagTypeFragment;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

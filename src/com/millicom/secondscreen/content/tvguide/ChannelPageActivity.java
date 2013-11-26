@@ -48,7 +48,7 @@ import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
 
-public class ChannelPageActivity extends SSActivity /* ActionBarActivity */implements OnClickListener, ActionBar.OnNavigationListener {
+public class ChannelPageActivity extends SSActivity implements OnClickListener, ActionBar.OnNavigationListener {
 
 	private static final String					TAG	= "ChannelPageActivity";
 
@@ -189,7 +189,7 @@ public class ChannelPageActivity extends SSActivity /* ActionBarActivity */imple
 		mActionBar.setDisplayUseLogoEnabled(true);
 		mActionBar.setDisplayShowHomeEnabled(true);
 
-		final int actionBarColor = getResources().getColor(R.color.lightblue);
+		final int actionBarColor = getResources().getColor(R.color.blue1);
 		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
 
 		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
@@ -220,9 +220,10 @@ public class ChannelPageActivity extends SSActivity /* ActionBarActivity */imple
 		mTxtTabFeed.setOnClickListener(this);
 
 		// the highlighted tab in the Channel activity is TV Guide
-		mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.orange));
-		mTxtTabPopular.setTextColor(getResources().getColor(R.color.gray));
-		mTxtTabFeed.setTextColor(getResources().getColor(R.color.gray));
+		mTxtTabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
+		mTxtTabPopular.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTxtTabFeed.setBackgroundColor(getResources().getColor(R.color.yellow));
+	
 	}
 
 	// private final Runnable progressBarRunnable = new Runnable(){

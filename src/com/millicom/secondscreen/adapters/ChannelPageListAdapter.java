@@ -89,7 +89,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 				rowView.setTag(viewHolder);
 			}
 			else {
-				rowView = mLayoutInflater.inflate(R.layout.layout_channelpage_list_item, null);
+				rowView = mLayoutInflater.inflate(R.layout.row_channelpage_list, null);
 				ViewHolder viewHolder = new ViewHolder();
 				viewHolder.mTimeTv = (TextView) rowView.findViewById(R.id.channelpage_list_item_time_tv);
 				viewHolder.mIconIv = (ImageView) rowView.findViewById(R.id.channelpage_list_item_iv);

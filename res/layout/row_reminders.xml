@@ -18,7 +18,7 @@
             android:id="@+id/row_reminders_header_textview"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/light_gray"
+            android:background="@color/grey1"
             android:padding="10dp"
             android:textColor="@color/black"
             android:textSize="16sp"
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_below="@id/row_reminders_text_title_tv"
-                android:textColor="@color/tvguide_program_line_color"
+                android:textColor="@color/grey3"
                 android:textSize="12sp" />
             
            <!-- CHANNEL -->
@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/row_reminders_text_time_tv"
                 android:layout_marginBottom="10dp"
-                android:textColor="@color/tvguide_program_line_color"
+                android:textColor="@color/grey3"
                 android:textSize="12sp" />
             
             <!-- DETAILS - SEASON - EPISODE -->
@@ -88,7 +88,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/row_reminders_text_channel_tv"
                 android:layout_gravity="left"
-                android:textColor="@color/light_gray"
+                android:textColor="@color/grey1"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:visibility="gone" />
@@ -119,7 +119,7 @@
 	            android:layout_width="1dp"
 	            android:layout_height="60dp"
 	            android:layout_margin="10dp"
-	            android:background="@color/light_gray"
+	            android:background="@color/grey2"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/row_reminders_notification_iv" />
             
@@ -133,7 +133,7 @@
         android:layout_height="1dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@color/light_gray" 
+        android:background="@color/grey1" 
         android:layout_below="@id/row_reminders_container"  />
     
 </RelativeLayout>

@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 	
     <!-- PRESSED -->
-    <item android:state_pressed="true" android:drawable="@color/gray"/>
+    <item android:state_pressed="true" android:drawable="@color/grey2"/>
      
 	<!-- NORMAL -->
     <item>

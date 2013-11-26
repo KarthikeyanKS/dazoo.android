@@ -27,8 +27,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.adapters.MyChannelsListAdapter;
+import com.millicom.secondscreen.content.SSActivity;
 import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.model.Broadcast;
@@ -65,7 +67,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MyChannelsActivity extends ActionBarActivity implements MyChannelsCountInterface, OnClickListener {
+public class MyChannelsActivity extends SSActivity implements MyChannelsCountInterface, OnClickListener {
 
 	private static final String			TAG						= "MyChannelsActivity";
 	private ActionBar					mActionBar;
@@ -100,6 +102,7 @@ public class MyChannelsActivity extends ActionBarActivity implements MyChannelsC
 
 		userToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 		initLayout();
+		super.initCallbackLayouts();
 		populateViews();
 	}
 
@@ -113,16 +116,6 @@ public class MyChannelsActivity extends ActionBarActivity implements MyChannelsC
 		// updateUserMyChannels(JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.DAZOO_CHANNEL_CHANNEL_ID, a));
 
 		mActionBar = getSupportActionBar();
-		SpannableString s = new SpannableString(getResources().getString(R.string.my_channels));
-		// s.setSpan(new TypefaceSpan(this, "AvenirBlack"),0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-		final int actionBarColor = getResources().getColor(R.color.lightblue);
-		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
-		mActionBar.setDisplayShowTitleEnabled(true);
-		mActionBar.setDisplayShowCustomEnabled(true);
-		mActionBar.setDisplayUseLogoEnabled(true);
-		mActionBar.setDisplayShowHomeEnabled(true);
-
 		mActionBar.setTitle(getResources().getString(R.string.my_channels));
 
 		// styling bottom navigation tabs
@@ -135,10 +128,10 @@ public class MyChannelsActivity extends ActionBarActivity implements MyChannelsC
 		mTxtTabFeed = (TextView) findViewById(R.id.show_me);
 		mTxtTabFeed.setOnClickListener(this);
 
-		mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.gray));
-		mTxtTabPopular.setTextColor(getResources().getColor(R.color.gray));
-		mTxtTabFeed.setTextColor(getResources().getColor(R.color.orange));
-
+		mTxtTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTxtTabPopular.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTxtTabFeed.setBackgroundColor(getResources().getColor(R.color.red));
+	
 		mListView = (ListView) findViewById(R.id.listview);
 		mChannelCountTv = (TextView) findViewById(R.id.mychannels_header_counter_tv);
 		mSearchChannelInputEditText = (EditText) findViewById(R.id.mychannels_header_search_ev);
@@ -304,5 +297,17 @@ public class MyChannelsActivity extends ActionBarActivity implements MyChannelsC
 			break;
 		}
 
+	}
+
+	@Override
+	protected void updateUI(REQUEST_STATUS status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void loadPage() {
+		// TODO Auto-generated method stub
+		
 	}
 }

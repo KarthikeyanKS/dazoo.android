@@ -49,12 +49,15 @@ public class TVGuideListAdapter extends BaseAdapter {
 	private ArrayList<Guide>	mGuide;
 	private TvDate				mDate;
 	private ImageLoader			mImageLoader;
+	private int mIndexOfNearestBroadcast;
+	private int mHour;
 
-	public TVGuideListAdapter(Activity activity, ArrayList<Guide> guide, TvDate date) {
+	public TVGuideListAdapter(Activity activity, ArrayList<Guide> guide, TvDate date, int hour) {
 		this.mGuide = guide;
 		this.mActivity = activity;
 		this.mDate = date;
 		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage);
+		this.mHour = hour;
 	}
 
 	@Override
@@ -64,7 +67,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 
 		if (rowView == null) {
 			mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			rowView = mLayoutInflater.inflate(R.layout.layout_tvguide_list_item, null);
+			rowView = mLayoutInflater.inflate(R.layout.row_tvguide_list, null);
 			ViewHolder viewHolder = new ViewHolder();
 			viewHolder.mContainer = (RelativeLayout) rowView.findViewById(R.id.item_container);
 			viewHolder.mChannelIconIv = (ImageView) rowView.findViewById(R.id.tvguide_channel_iv);
@@ -93,8 +96,6 @@ public class TVGuideListAdapter extends BaseAdapter {
 			// getChannelIconTask.execute(guide.getLogoHref());
 			// imageLoader.displayImage(guide.getLogoLHref(), mActivity, holder.mChannelIconIv);
 			mImageLoader.displayImage(guide.getLogoSHref(), holder.mChannelIconIv, ImageLoader.IMAGE_TYPE.THUMBNAIL);
-		
-
 		} else {
 			holder.mChannelIconIv.setImageResource(R.drawable.loadimage_2x);
 		}
@@ -118,9 +119,10 @@ public class TVGuideListAdapter extends BaseAdapter {
 		if (broadcasts != null && broadcasts.size() > 0) {
 
 			/* get the nearest broadcasts */
-			int indexOfNearestBroadcast = Broadcast.getClosestBroadcastIndex(broadcasts);
-			if (indexOfNearestBroadcast != -1) {
-				ArrayList<Broadcast> nextBroadcasts = Broadcast.getBroadcastsStartingFromPosition(indexOfNearestBroadcast, broadcasts, Consts.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
+			mIndexOfNearestBroadcast = Broadcast.getClosestBroadcastIndexFromTime(broadcasts, mHour);
+			
+			if (mIndexOfNearestBroadcast != -1) {
+				ArrayList<Broadcast> nextBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, broadcasts, Consts.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
 				
 				for (int j = 0; j < nextBroadcasts.size(); j++) {
 					if (j == 0) {
@@ -221,5 +223,10 @@ public class TVGuideListAdapter extends BaseAdapter {
 	@Override
 	public long getItemId(int arg0) {
 		return -1;
+	}
+	
+	public void refreshList(int selectedHour){
+		mHour = selectedHour;
+		notifyDataSetChanged();
 	}
 }

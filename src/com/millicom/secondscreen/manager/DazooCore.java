@@ -384,7 +384,7 @@ public class DazooCore {
 
 		sB.append(Consts.REQUEST_QUERY_SEPARATOR);
 		sB.append(date);
-
+		
 		sB.append(Consts.REQUEST_PARAMETER_SEPARATOR);
 		for (int i = 0; i < channelIds.size(); i++) {
 			if (i == 0) {

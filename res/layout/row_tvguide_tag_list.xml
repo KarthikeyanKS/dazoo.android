@@ -4,6 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:paddingTop="10dp" 
+    android:background="@color/white"
     android:orientation="horizontal">
     
     <!-- IMAGE CONTAINER -->
@@ -42,28 +43,6 @@
   		android:paddingRight="10dp"
   		android:paddingBottom="10dp" >
   		
-        
-        <!-- TRENDING ICON -->
-        
-        <ImageView 
-            android:id="@+id/tvguide_tag_list_item_trending_iv"
-            android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_marginBottom="10dp"
-	        android:layout_marginRight="10dp"
-	        android:visibility="gone"/>
-        
-        <!-- MOVIE ICON -->
-        
-        <ImageView 
-            android:id="@+id/tvguide_tag_list_item_movie_iv"
-            android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_marginBottom="10dp"
-	        android:layout_marginRight="10dp"
-	        android:layout_toRightOf="@id/tvguide_tag_list_item_trending_iv"
-	        android:visibility="gone"/>
-        
         <!-- TITLE -->
         
 	 	<TextView 
@@ -71,7 +50,8 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_marginBottom="10dp"
-	        android:layout_toRightOf="@id/tvguide_tag_list_item_movie_iv"
+	        android:layout_marginRight="10dp"
+	        android:layout_marginLeft="10dp"
 	        android:textColor="@color/black"
 	        android:textSize="16sp"
 	        android:textStyle="bold" />
@@ -105,7 +85,7 @@
 	        android:layout_below="@id/tvguide_tag_list_item_channel_tv"
 	        android:layout_marginTop="5dp"
 	        android:layout_marginBottom="5dp"
-	        android:textColor="@color/light_gray"
+	        android:textColor="@color/grey2"
 	        android:textSize="14sp" />
 	 	
 	 	<!-- TIME LEFT -->
@@ -140,6 +120,6 @@
 	    android:layout_width="fill_parent"
 	    android:layout_height="1dp"
 	    android:layout_alignParentBottom="true"
-	    android:background="@color/light_gray" />
+	    android:background="@color/grey2" />
 
 </RelativeLayout>

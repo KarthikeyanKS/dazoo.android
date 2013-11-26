@@ -5,19 +5,26 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/white" >
-    
-     <!-- BOTTOM NAVIGATION TABS -->
+
+    <!-- BOTTOM NAVIGATION TABS -->
+
     <include
         android:id="@+id/tab_selector_container"
         android:layout_alignParentBottom="true"
         layout="@layout/block_bottom_tabs" />
-    
+
+    <include
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/tab_selector_container"
+        layout="@layout/layout_request_callbacks_holder_layout" />
+
     <ListView
         android:id="@+id/listview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_above="@id/tab_selector_container"
+        android:layout_alignParentTop="true"
         android:cacheColorHint="@null"
         android:divider="@null" />
 

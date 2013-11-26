@@ -97,7 +97,7 @@
         <View
 	        android:layout_width="fill_parent"
 	        android:layout_height="1dp"
-	        android:background="@color/light_gray"
+	        android:background="@color/grey1"
 	        android:layout_below="@id/channelpage_broadcast_details_text_tv"/>
         
     </RelativeLayout>

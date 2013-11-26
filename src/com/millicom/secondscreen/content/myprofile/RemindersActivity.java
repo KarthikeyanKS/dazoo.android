@@ -23,9 +23,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.adapters.RemindersListAdapter;
+import com.millicom.secondscreen.content.SSActivity;
 import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.model.Broadcast;
@@ -35,7 +37,7 @@ import com.millicom.secondscreen.content.model.Program;
 import com.millicom.secondscreen.content.model.Season;
 import com.millicom.secondscreen.notification.NotificationDataSource;
 
-public class RemindersActivity extends ActionBarActivity implements RemindersCountInterface, OnClickListener {
+public class RemindersActivity extends SSActivity implements RemindersCountInterface, OnClickListener {
 
 	private static final String		TAG			= "RemindersActivity";
 	private ActionBar				mActionBar;
@@ -55,21 +57,12 @@ public class RemindersActivity extends ActionBarActivity implements RemindersCou
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 		
 		initLayout();
+		super.initCallbackLayouts();
 		populateViews();
 	}
 
 	private void initLayout() {
 		mActionBar = getSupportActionBar();
-		SpannableString s = new SpannableString(getResources().getString(R.string.reminders));
-		// s.setSpan(new TypefaceSpan(this, "AvenirBlack"),0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-		final int actionBarColor = getResources().getColor(R.color.lightblue);
-		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
-		mActionBar.setDisplayShowTitleEnabled(true);
-		mActionBar.setDisplayShowCustomEnabled(true);
-		mActionBar.setDisplayUseLogoEnabled(true);
-		mActionBar.setDisplayShowHomeEnabled(true);
-
 		mActionBar.setTitle(getResources().getString(R.string.reminders));
 
 		// styling bottom navigation tabs
@@ -82,10 +75,10 @@ public class RemindersActivity extends ActionBarActivity implements RemindersCou
 		mTxtTabFeed = (TextView) findViewById(R.id.show_me);
 		mTxtTabFeed.setOnClickListener(this);
 
-		mTxtTabTvGuide.setTextColor(getResources().getColor(R.color.gray));
-		mTxtTabPopular.setTextColor(getResources().getColor(R.color.gray));
-		mTxtTabFeed.setTextColor(getResources().getColor(R.color.orange));
-
+		mTxtTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTxtTabPopular.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTxtTabFeed.setBackgroundColor(getResources().getColor(R.color.red));
+	
 		mListView = (ListView) findViewById(R.id.listview);
 	}
 
@@ -185,5 +178,17 @@ public class RemindersActivity extends ActionBarActivity implements RemindersCou
 	public void setValues(int count) {
 		mIsChange = true;
 		mCount = count;
+	}
+
+	@Override
+	protected void updateUI(REQUEST_STATUS status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void loadPage() {
+		// TODO Auto-generated method stub
+		
 	}
 }

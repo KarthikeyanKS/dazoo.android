@@ -10,7 +10,7 @@
 	    android:layout_height="match_parent"
 	    android:layout_above="@id/tab_selector_container"
 	    android:orientation="vertical" 
-	    android:background="@color/dark_gray">
+	    android:background="@color/grey2">
 	    
 		<ScrollView 
 		    android:id="@+id/broadcast_scrollview"
@@ -222,7 +222,7 @@
 						    android:layout_height="1dp"
 						    android:layout_below="@id/block_broadcastpage_broadcast_progress_container"
 						    android:layout_marginTop="20dp"
-						    android:background="@color/light_gray" />
+						    android:background="@color/grey2" />
 		               
 		               <!-- SYNOPSIS -->
 		               
@@ -245,7 +245,7 @@
 		                    android:layout_gravity="left"
 		                    android:layout_marginTop="20dp"
 		                    android:layout_below="@id/block_broadcastpage_broadcast_details_synopsis_tv"
-		                    android:textColor="@color/light_gray"
+		                    android:textColor="@color/grey1"
 		                    android:textSize="16sp"/>
 		               
 		               <!-- YEAR -->
@@ -259,7 +259,7 @@
 		                    android:layout_marginLeft="10dp"
 		                    android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_category_tv"
 		                    android:layout_below="@id/block_broadcastpage_broadcast_details_synopsis_tv"                    
-		                    android:textColor="@color/light_gray"
+		                    android:textColor="@color/grey1"
 		                    android:textSize="16sp"
 		                    android:visibility="gone" />
 		               
@@ -274,7 +274,7 @@
 		                    android:layout_marginLeft="10dp"
 		                    android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_year_tv"
 		                    android:layout_below="@id/block_broadcastpage_broadcast_details_synopsis_tv"                    
-		                    android:textColor="@color/light_gray"
+		                    android:textColor="@color/grey1"
 		                    android:textSize="16sp"
 		                    android:visibility="gone"/>               
 		               
@@ -289,7 +289,7 @@
 		                    android:layout_marginLeft="10dp"
 		                    android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_country_tv"
 		                    android:layout_below="@id/block_broadcastpage_broadcast_details_synopsis_tv"
-		                    android:textColor="@color/light_gray"
+		                    android:textColor="@color/grey1"
 		                    android:textSize="16sp" />
 		               
 		               <!-- GENRE -->
@@ -301,7 +301,7 @@
 		                    android:layout_gravity="left"
 		                    android:layout_marginRight="10dp"
 		                    android:layout_below="@id/block_broadcastpage_broadcast_details_category_tv"
-		                    android:textColor="@color/light_gray"
+		                    android:textColor="@color/grey1"
 		                    android:textSize="16sp"/>
 		               
 		               <!-- PARENTAL RATING -->
@@ -313,7 +313,7 @@
 		                    android:layout_gravity="left"
 		                    android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_genre_tv"
 		                    android:layout_below="@id/block_broadcastpage_broadcast_details_category_tv"
-		                    android:textColor="@color/light_gray"
+		                    android:textColor="@color/grey1"
 		                    android:textSize="16sp"
 		                    android:visibility="gone" />               
 			
@@ -326,7 +326,7 @@
 					    android:layout_width="fill_parent"
 					    android:layout_height="1dp"
 					    android:layout_marginTop="25dp"
-					    android:background="@color/light_gray" />
+					    android:background="@color/grey1" />
 		               
 		            <!-- SOCIAL INTERACTION PANEL -->
 		
@@ -366,7 +366,7 @@
 							    android:layout_width="1dp"
 							    android:layout_height="32dp"
 							    android:layout_centerInParent="true"
-							    android:background="@color/light_gray" />
+							    android:background="@color/grey2" />
 				            
 				        </RelativeLayout>
 			        	
@@ -399,7 +399,7 @@
 							    android:layout_width="1dp"
 							    android:layout_height="32dp"
 							    android:layout_centerInParent="true"
-							    android:background="@color/light_gray" />
+							    android:background="@color/grey2" />
 				            
 				        </RelativeLayout>
 
@@ -450,7 +450,7 @@
         android:layout_width="fill_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/light_gray"
+        android:background="@color/grey1"
         android:orientation="horizontal"
         android:paddingBottom="2dp" >
 
