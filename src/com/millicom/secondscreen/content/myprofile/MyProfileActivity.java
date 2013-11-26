@@ -1,31 +1,12 @@
 package com.millicom.secondscreen.content.myprofile;
 
-import com.millicom.secondscreen.Consts;
-import com.millicom.secondscreen.R;
-import com.millicom.secondscreen.SecondScreenApplication;
-import com.millicom.secondscreen.Consts.REQUEST_STATUS;
-import com.millicom.secondscreen.authentication.DazooLoginActivity;
-import com.millicom.secondscreen.authentication.FacebookLoginActivity;
-import com.millicom.secondscreen.authentication.SignUpActivity;
-import com.millicom.secondscreen.content.SSActivity;
-import com.millicom.secondscreen.content.activity.ActivityActivity;
-import com.millicom.secondscreen.content.homepage.HomeActivity;
-import com.millicom.secondscreen.content.search.SearchPageActivity;
-import com.millicom.secondscreen.manager.DazooCore;
-
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,6 +17,18 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.Consts.REQUEST_STATUS;
+import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.SecondScreenApplication;
+import com.millicom.secondscreen.authentication.DazooLoginActivity;
+import com.millicom.secondscreen.authentication.FacebookLoginActivity;
+import com.millicom.secondscreen.authentication.SignUpActivity;
+import com.millicom.secondscreen.content.SSActivity;
+import com.millicom.secondscreen.content.activity.ActivityActivity;
+import com.millicom.secondscreen.content.homepage.HomeActivity;
+import com.millicom.secondscreen.content.search.SearchPageActivity;
 
 public class MyProfileActivity extends SSActivity implements OnClickListener {
 

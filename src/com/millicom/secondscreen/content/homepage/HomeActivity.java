@@ -232,7 +232,6 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		mActionBar.setDisplayShowCustomEnabled(true);
 		mActionBar.setDisplayUseLogoEnabled(true);
 		mActionBar.setDisplayShowHomeEnabled(true);
-		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
 		Log.d(TAG, "INIT VIEWS");
 	}
@@ -279,7 +278,9 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	protected void updateUI(REQUEST_STATUS status) {
 
 		if (super.requestIsSuccesfull(status)) {
-
+			
+			mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+			
 			mDayAdapter = new ActionBarDropDownDateListAdapter(mTvDates);
 			mDayAdapter.setSelectedIndex(mDateSelectedIndex);
 			mActionBar.setListNavigationCallbacks(mDayAdapter, this);

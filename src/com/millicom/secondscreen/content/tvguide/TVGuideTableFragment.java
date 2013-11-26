@@ -1,13 +1,11 @@
 package com.millicom.secondscreen.content.tvguide;
 
 import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
@@ -34,7 +32,6 @@ import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Tag;
 import com.millicom.secondscreen.content.model.TvDate;
-import com.millicom.secondscreen.manager.DazooCore;
 import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.DateUtilities;
 
@@ -59,7 +56,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 	private boolean					mCreateBackground;
 	private TVGuideTagListAdapter	mTVTagListAdapter;
 	private int						mHour;
-	private TextView mCurrentHourTv;
+	private TextView				mCurrentHourTv;
 
 	public static TVGuideTableFragment newInstance(Tag tag, TvDate date, int position) {
 
@@ -75,6 +72,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		dazooStore = DazooStore.getInstance();
 
 		token = ((SecondScreenApplication) getActivity().getApplicationContext()).getAccessToken();
@@ -87,6 +85,11 @@ public class TVGuideTableFragment extends SSPageFragment {
 		mTvDate = bundle.getParcelable(Consts.FRAGMENT_EXTRA_TVDATE);
 		mTvDatePosition = bundle.getInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION);
 		mTag = dazooStore.getTag(mTagStr);
+		
+		// register a receiver for the tv-table fragment to respond to the clock selection
+		if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
+			LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mBroadcastReceiverClock, new IntentFilter(Consts.INTENT_EXTRA_CLOCK_SELECTION));
+		}
 	}
 
 	@Override
@@ -94,9 +97,14 @@ public class TVGuideTableFragment extends SSPageFragment {
 
 		if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
 
-			mHour = Integer.valueOf(DateUtilities.getCurrentHourString());
-			LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mBroadcastReceiverClock, new IntentFilter(Consts.INTENT_EXTRA_CLOCK_SELECTION));
-
+			// check if it is a current day
+			String tvDateToday = DateUtilities.todayDateAsTvDate();
+			if (mTvDate.getDate().equals(tvDateToday)) {
+				mHour = Integer.valueOf(DateUtilities.getCurrentHourString());
+			} else {
+				mHour = 6; // set to start of the day
+			}
+			
 			mRootView = inflater.inflate(R.layout.fragment_tvguide_table, null);
 			mTVGuideListView = (ListView) mRootView.findViewById(R.id.tvguide_table_listview);
 			mClockIndexView = (LinearLayout) mRootView.findViewById(R.id.tvguide_table_side_clock_index);
@@ -104,7 +112,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 			mClockIv.setOnTouchListener(vTouch);
 
 			styleCurrentHourSelection();
-	
+
 		} else {
 
 			mRootView = inflater.inflate(R.layout.fragment_tvguide_tag_type, null);
@@ -195,11 +203,6 @@ public class TVGuideTableFragment extends SSPageFragment {
 				mTVTagListAdapter = new TVGuideTagListAdapter(mActivity, mTaggedBroadcasts, index, mTvDate);
 				mTVGuideListView.setAdapter(mTVTagListAdapter);
 			}
-
-			// ArrayList<ChannelHour> channelHoursForFirst = putBroadcastsInHours(mGuide.get(0).getBroadcasts());
-			// Log.d(TAG,"channelHoursForFirst:" + channelHoursForFirst);
-			// channelBroadcastsMap = new HashMap<Channel, ArrayList<ChannelHour>>();
-			// channelBroadcastsMap = mapChannelsWithBroadcasts(mGuide);
 		}
 	}
 
@@ -244,16 +247,15 @@ public class TVGuideTableFragment extends SSPageFragment {
 		}
 		return null;
 	}
-	
-	private void styleCurrentHourSelection(){
+
+	private void styleCurrentHourSelection() {
 		// if the there is styled hour remove styling
-		if(mCurrentHourTv!=null){
+		if (mCurrentHourTv != null) {
 			mCurrentHourTv.setTextColor(getActivity().getResources().getColor(R.color.grey3));
 			mCurrentHourTv.setTextSize(12);
 			mCurrentHourTv.setTypeface(Typeface.DEFAULT);
 		}
-		
-		
+
 		mCurrentHourTv = getViewByTag(mClockIndexView, String.valueOf(mHour));
 		if (mCurrentHourTv != null) {
 			mCurrentHourTv.setTextColor(getActivity().getResources().getColor(R.color.red));

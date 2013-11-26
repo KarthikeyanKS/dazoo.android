@@ -17,6 +17,23 @@ public class DateUtilities {
 
 	private static final String	TAG	= "DateUtilities";
 	
+	public static final String todayDateAsTvDate(){
+		SimpleDateFormat dfmInput = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
+		String dateNow = dfmInput.format(new Date());
+		SimpleDateFormat dfmOutput = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+		long time = 0;
+		if (dateNow != null && !dateNow.equals("")) {
+			try {
+				time = dfmInput.parse(dateNow).getTime();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		String output = dfmOutput.format(time);
+		return output;
+	}
+	
 	public static final String isoDateStringToTvDateString(String date) throws ParseException{
 		SimpleDateFormat dfmInput = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
 		SimpleDateFormat dfmOutput = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());

@@ -148,6 +148,10 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 			// mIsLiked = LikeService.isLiked(mToken, feedItem.getBroadcast().getProgram().getProgramId());
 			
+			Log.d(TAG,"twitter item: "  + feedItem);
+			
+			headerTvTw.setText(mActivity.getResources().getString(R.string.icon_twitter) + " " + feedItem.getTitle());
+			
 			if(feedItem.getBroadcast()!=null){
 			final String programTypeTw = feedItem.getBroadcast().getProgram().getProgramType();
 			
@@ -159,8 +163,6 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			} else {
 				mIsLiked = DazooStore.getInstance().isInTheLikesList(feedItem.getBroadcast().getProgram().getProgramId());
 			}
-
-			headerTvTw.setText(mActivity.getResources().getString(R.string.icon_twitter) + " " + feedItem.getTitle());
 
 			mImageLoader.displayImage(feedItem.getBroadcast().getProgram().getPosterMUrl(), landscapeIvTw, ImageLoader.IMAGE_TYPE.GALLERY);
 
