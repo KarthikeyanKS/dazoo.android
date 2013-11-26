@@ -3,25 +3,9 @@
     xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/grey1"
+    android:background="@color/white"
     android:orientation="vertical" >
-
-    <!-- CHANNEL ICON CONTAINER -->
-
-    <RelativeLayout
-        android:id="@+id/channelpage_channel_icon_container"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white" >
-
-        <ImageView
-            android:id="@+id/channelpage_channel_icon_iv"
-            android:layout_width="110dp"
-            android:layout_height="85dp"
-            android:layout_centerInParent="true"
-            android:padding="10dp" />
-    </RelativeLayout>
-
+    
     <!-- BOTTOM NAVIGATION TABS -->
 
     <include
@@ -36,8 +20,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/tab_selector_container"
-        android:layout_below="@id/channelpage_channel_icon_container"
-        android:layout_margin="10dp"
         android:cacheColorHint="@null"
         android:divider="@null"
         android:dividerHeight="0dp" />

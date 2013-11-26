@@ -54,9 +54,9 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 
 	private ActionBar							mActionBar;
 	private ActionBarDropDownDateListAdapter	mDayAdapter;
-	private ImageView							mChannelIconIv;
 	private TextView							mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
 	private ListView							mFollowingBroadcastsLv;
+	private ImageView							mChannelIconIv;
 	private ChannelPageListAdapter				mFollowingBroadcastsListAdapter;
 	private String								mChannelId, mDate, mTvGuideDate, token;
 	private TvDate								mTvDateSelected, mDateTvGuide;
@@ -201,8 +201,12 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 		mDayAdapter.setSelectedIndex(mSelectedIndex);
 		mActionBar.setListNavigationCallbacks(mDayAdapter, this);
 
-		mChannelIconIv = (ImageView) findViewById(R.id.channelpage_channel_icon_iv);
 		mFollowingBroadcastsLv = (ListView) findViewById(R.id.listview);
+
+		View header = getLayoutInflater().inflate(R.layout.block_channelpage_header, null);
+		mFollowingBroadcastsLv.addHeaderView(header);
+
+		mChannelIconIv = (ImageView) header.findViewById(R.id.channelpage_channel_icon_iv);
 
 		// styling bottom navigation tabs
 		mTxtTabTvGuide = (TextView) findViewById(R.id.show_tvguide);
@@ -216,7 +220,7 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 		mTxtTabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
 		mTxtTabPopular.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTxtTabFeed.setBackgroundColor(getResources().getColor(R.color.yellow));
-	
+
 	}
 
 	// private final Runnable progressBarRunnable = new Runnable(){
@@ -332,7 +336,7 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
 		if (super.requestIsSuccesfull(status)) {
-Log.d(TAG,"succesfull!!!!! ");
+			Log.d(TAG, "succesfull!!!!! ");
 		}
 	}
 

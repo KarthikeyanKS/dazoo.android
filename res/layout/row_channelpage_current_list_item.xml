@@ -9,15 +9,15 @@
 
     <RelativeLayout
         android:id="@+id/channelpage_broadcast_image_frame"
-        android:layout_width="fill_parent"
-        android:layout_height="160dp"
-        android:layout_margin="2dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@color/white" >
 
         <ImageView
             android:id="@+id/channelpage_broadcast_iv"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="160dp"
+            android:padding="@dimen/image_padding"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop" />
 
@@ -96,7 +96,7 @@
         
         <View
 	        android:layout_width="fill_parent"
-	        android:layout_height="1dp"
+	        android:layout_height="@dimen/divider_height"
 	        android:background="@color/grey1"
 	        android:layout_below="@id/channelpage_broadcast_details_text_tv"/>
         

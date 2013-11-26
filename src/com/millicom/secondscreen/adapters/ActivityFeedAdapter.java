@@ -283,7 +283,6 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					}
 
 					if (mIsLiked == false) {
-						// TODO: OPTIMIZATION ON WHEN THE BACKEND TO ADD/DELETE LIKE IS LAUNCHED
 						if (LikeService.addLike(mToken, programId, likeType)) {
 							DazooStore.getInstance().addLikeIdToList(programId);
 
@@ -1181,5 +1180,4 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			}
 		};
 	}
-
 }

@@ -35,7 +35,6 @@ import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.myprofile.RemindersActivity;
 import com.millicom.secondscreen.content.tvguide.ChannelPageActivity;
-import com.millicom.secondscreen.content.tvguide.ChannelPageFragment;
 import com.millicom.secondscreen.utilities.AnimationUtilities;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;

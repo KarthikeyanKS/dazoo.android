@@ -119,8 +119,7 @@ public class RemindersActivity extends SSActivity implements RemindersCountInter
 
 			broadcasts.add(broadcast);
 		}
-		Toast.makeText(this, "Currently you have " + notificationList.size() + " being set. List with info is coming soon!", Toast.LENGTH_LONG).show();
-
+		
 		//Sort the list of broadcasts by time.
 		Collections.sort(broadcasts, new Broadcast.BroadcastComparatorByTime());
 		

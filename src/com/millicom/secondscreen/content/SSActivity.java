@@ -68,15 +68,15 @@ public abstract class SSActivity extends ActionBarActivity {
 		
 
 		Spannable spanGuide = new SpannableString(getResources().getString(R.string.icon_timetable) + "\n" + getResources().getString(R.string.tab_tv_guide));
-		spanGuide.setSpan(new AbsoluteSizeSpan(75), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spanGuide.setSpan(new AbsoluteSizeSpan(20), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		mTxtTabTvGuide.setText(spanGuide);
 
 		Spannable spanActivity = new SpannableString(getResources().getString(R.string.icon_feed) + "\n" + getResources().getString(R.string.tab_activity));
-		spanActivity.setSpan(new AbsoluteSizeSpan(75), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spanActivity.setSpan(new AbsoluteSizeSpan(20), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		mTxtTabActivity.setText(spanActivity);
 
 		Spannable spanMe = new SpannableString(getResources().getString(R.string.icon_me) + "\n" + getResources().getString(R.string.tab_me));
-		spanMe.setSpan(new AbsoluteSizeSpan(75), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spanMe.setSpan(new AbsoluteSizeSpan(20), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		mTxtTabProfile.setText(spanMe);
 
 		initCallbackLayouts();

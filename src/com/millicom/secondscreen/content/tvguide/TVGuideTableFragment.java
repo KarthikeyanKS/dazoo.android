@@ -210,11 +210,11 @@ public class TVGuideTableFragment extends SSPageFragment {
 
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
-			if (event.getAction() == MotionEvent.ACTION_UP) {
-				mClockIndexView.setBackgroundColor(mActivity.getResources().getColor(R.color.white));
-			} else {
-				mClockIndexView.setBackgroundColor(mActivity.getResources().getColor(R.color.red));
-			}
+			//if (event.getAction() == MotionEvent.ACTION_UP) {
+			//	mClockIndexView.setBackgroundColor(mActivity.getResources().getColor(R.color.white));
+			//} else {
+			//	mClockIndexView.setBackgroundColor(mActivity.getResources().getColor(R.color.red));
+			//}
 			return true;
 		}
 	};

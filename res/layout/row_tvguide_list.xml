@@ -64,6 +64,7 @@
                     android:textColor="@color/red"
                     android:textSize="@dimen/header_2"
                     android:textStyle="bold"
+                    android:maxLines="1"
                     font:fonttextview="fontello.ttf" />
 
                 <com.millicom.secondscreen.customviews.FontTextView
@@ -77,6 +78,7 @@
                     android:textColor="@color/red"
                     android:textSize="@dimen/header_2"
                     android:textStyle="bold"
+                    android:maxLines="1"
                     font:fonttextview="fontello.ttf" />
             </RelativeLayout>
 
@@ -97,6 +99,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="9dp"
                     android:layout_marginTop="3dp"
+                    android:maxLines="1"
                     android:textColor="@color/grey3"
                     android:textSize="@dimen/header_3"
                     font:fonttextview="fontello.ttf" />
@@ -109,6 +112,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="9dp"
                     android:layout_marginTop="3dp"
+                    android:maxLines="1"
                     android:layout_toRightOf="@id/tvguide_program_line_next_time_tv"
                     android:textColor="@color/grey3"
                     android:textSize="@dimen/header_3"
@@ -132,6 +136,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="9dp"
                     android:layout_marginTop="3dp"
+                    android:maxLines="1"
                     android:textColor="@color/grey3"
                     android:textSize="@dimen/header_3"
                     font:fonttextview="fontello.ttf" />
@@ -144,6 +149,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="9dp"
                     android:layout_marginTop="3dp"
+                    android:maxLines="1"
                     android:layout_toRightOf="@id/tvguide_program_line_last_time_tv"
                     android:textColor="@color/grey3"
                     android:textSize="@dimen/header_3"

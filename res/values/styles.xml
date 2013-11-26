@@ -62,7 +62,7 @@
     <!-- Clock text views -->
     <style name="ClockTextView" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/grey3</item>
-        <item name="android:background">@color/transparent</item>
+        <item name="android:background">@color/white</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:textSize">12sp</item>

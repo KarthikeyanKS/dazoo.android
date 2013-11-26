@@ -45,8 +45,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.7"
-            android:orientation="vertical" 
-            android:padding="@dimen/view_margin">
+            android:orientation="vertical"
+            android:padding="@dimen/view_margin" >
 
             <!-- TITLE -->
 
@@ -56,6 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
                 android:layout_marginTop="7dp"
+                android:maxLines="1"
                 android:textColor="@color/black"
                 android:textSize="@dimen/header_2"
                 android:textStyle="bold" />

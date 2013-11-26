@@ -76,7 +76,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 		if (rowView == null) {
 			mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			if (getItemViewType(position) == 0) {
-				rowView = mLayoutInflater.inflate(R.layout.layout_channelpage_header, null);
+				rowView = mLayoutInflater.inflate(R.layout.row_channelpage_current_list_item, null);
 				ViewHolder viewHolder = new ViewHolder();
 				viewHolder.mTimeTv = (TextView) rowView.findViewById(R.id.channelpage_broadcast_details_time_tv);
 				viewHolder.mIconIv = (ImageView) rowView.findViewById(R.id.channelpage_broadcast_iv);
@@ -89,7 +89,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 				rowView.setTag(viewHolder);
 			}
 			else {
-				rowView = mLayoutInflater.inflate(R.layout.row_channelpage_list, null);
+				rowView = mLayoutInflater.inflate(R.layout.row_channelpage_list_item, null);
 				ViewHolder viewHolder = new ViewHolder();
 				viewHolder.mTimeTv = (TextView) rowView.findViewById(R.id.channelpage_list_item_time_tv);
 				viewHolder.mIconIv = (ImageView) rowView.findViewById(R.id.channelpage_list_item_iv);

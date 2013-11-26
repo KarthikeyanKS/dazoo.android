@@ -141,7 +141,7 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 							+ mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(broadcast.getProgram().getEpisodeNumber()));
 					holder.mTitleTv.setText(broadcast.getProgram().getSeries().getName());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(type)) {
-					holder.mDescTv.setText(broadcast.getProgram().getSportType() + ": " + broadcast.getProgram().getTournament());
+					holder.mDescTv.setText(broadcast.getProgram().getSportType().getName() + ": " + broadcast.getProgram().getTournament());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(type)) {
 					holder.mDescTv.setText(broadcast.getProgram().getCategory());
 
