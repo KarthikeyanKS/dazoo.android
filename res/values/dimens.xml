@@ -5,4 +5,19 @@
     
 	<!-- font sizes -->
 	<dimen name="bottom_tabs_font_size">12sp</dimen>
+	<dimen name="header_1">22sp</dimen>
+	<dimen name="header_2">18sp</dimen>
+	<dimen name="header_3">16sp</dimen>
+	<dimen name="ingress">15sp</dimen>
+	<dimen name="paragraph">13sp</dimen>
+	<dimen name="subtext">13sp</dimen>
+	<dimen name="links">13sp</dimen>
+	
+	<dimen name="title_top_margin">20dp</dimen>
+	<dimen name="title_bottom_margin">15dp</dimen>
+	<dimen name="divider_height">1dp</dimen>
+	<dimen name="view_margin">15dp</dimen>
+	<dimen name="image_padding">2dp</dimen>
+	<dimen name="clock_scroll_area">20dp</dimen>
+	<dimen name="clock_side_margin">10dp</dimen>
 </resources>

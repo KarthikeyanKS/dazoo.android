@@ -49,11 +49,11 @@ public class ActionBarDropDownDateListAdapter extends BaseAdapter implements Spi
 		View row = convertView;
 		if (row == null) {
 			LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			row = inflater.inflate(R.layout.actionbar_dropdown_list_date_item, parent, false);
+			row = inflater.inflate(R.layout.actionbar_dropdown_list_date_header, parent, false);
 		}
 
-		TextView txtName = (TextView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_item_name);
-		TextView txtNumber = (TextView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_item_number);
+		TextView txtName = (TextView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_header_name);
+		TextView txtNumber = (TextView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_header_number);
 
 		// do not display when no selection
 		if (mSelectedIndex != -1) {

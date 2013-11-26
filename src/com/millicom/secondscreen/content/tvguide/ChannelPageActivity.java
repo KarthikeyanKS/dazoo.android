@@ -184,13 +184,7 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 
 	private void initViews() {
 		mActionBar = getSupportActionBar();
-		mActionBar.setDisplayShowTitleEnabled(true);
-		mActionBar.setDisplayShowCustomEnabled(true);
-		mActionBar.setDisplayUseLogoEnabled(true);
-		mActionBar.setDisplayShowHomeEnabled(true);
-
-		final int actionBarColor = getResources().getColor(R.color.blue1);
-		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
+		mActionBar.setDisplayShowTitleEnabled(false);
 
 		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		mDayAdapter = new ActionBarDropDownDateListAdapter(mTvDates);
@@ -206,7 +200,6 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 
 		mDayAdapter.setSelectedIndex(mSelectedIndex);
 		mActionBar.setListNavigationCallbacks(mDayAdapter, this);
-		mActionBar.setTitle(mChannel.getName());
 
 		mChannelIconIv = (ImageView) findViewById(R.id.channelpage_channel_icon_iv);
 		mFollowingBroadcastsLv = (ListView) findViewById(R.id.listview);

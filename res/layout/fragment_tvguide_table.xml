@@ -15,7 +15,7 @@
             android:id="@+id/tvguide_table_listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="45dp"
+            android:layout_marginRight="40dp"
             android:cacheColorHint="@null"
             android:fastScrollEnabled="true"
             android:divider="@null"
@@ -26,7 +26,7 @@
 
         <LinearLayout
             android:id="@+id/tvguide_table_side_clock_index"
-            android:layout_width="45dp"
+            android:layout_width="40dp"
             android:layout_height="fill_parent"
             android:layout_alignParentRight="true"
             android:background="@drawable/layout_selector_side_clock"
