@@ -195,7 +195,7 @@ public class PopularListAdapter extends BaseAdapter {
 					holder.mDetailsTv.setText(mActivity.getResources().getString(R.string.season) + " " + broadcast.getProgram().getSeason().getNumber() + " "
 							+ mActivity.getResources().getString(R.string.episode) + " " + broadcast.getProgram().getEpisodeNumber());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
-					holder.mDetailsTv.setText(broadcast.getProgram().getSportType() + " " + broadcast.getProgram().getTournament());
+					holder.mDetailsTv.setText(broadcast.getProgram().getSportType().getName() + " " + broadcast.getProgram().getTournament());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
 					holder.mDetailsTv.setText(broadcast.getProgram().getCategory());
 				}

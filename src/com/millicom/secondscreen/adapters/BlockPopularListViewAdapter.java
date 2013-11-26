@@ -110,7 +110,7 @@ public class BlockPopularListViewAdapter extends BaseAdapter {
 					holder.mDetails.setText(mActivity.getResources().getString(R.string.season) + " " + broadcast.getProgram().getSeason().getNumber() + " "
 							+ mActivity.getResources().getString(R.string.episode) + " " + broadcast.getProgram().getEpisodeNumber());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
-					holder.mDetails.setText(broadcast.getProgram().getSportType() + " " + broadcast.getProgram().getTournament());
+					holder.mDetails.setText(broadcast.getProgram().getSportType().getName() + " " + broadcast.getProgram().getTournament());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
 					holder.mDetails.setText(broadcast.getProgram().getCategory());
 				}
