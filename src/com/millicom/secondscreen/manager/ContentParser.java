@@ -386,6 +386,13 @@ public class ContentParser {
 				}
 			}
 			feedItem.setBroadcasts(broadcasts);
+		} else if (Consts.DAZOO_FEED_ITEM_TYPE_POPULAR_TWITTER.equals(itemType)){
+			feedItem.setTitle(jsonObject.optString(Consts.DAZOO_FEED_ITEM_TITLE));
+			try {
+				feedItem.setBroadcast(parseBroadcast(jsonObject.optJSONObject(Consts.DAZOO_FEED_ITEM_BROADCAST)));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return feedItem;
 	}

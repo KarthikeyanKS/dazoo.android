@@ -127,7 +127,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 		switch (type) {
 		case ITEM_TYPE_POPULAR_TWITTER:
-			convertView= LayoutInflater.from(mActivity).inflate(R.layout.block_feed_liked, null);
+			convertView = LayoutInflater.from(mActivity).inflate(R.layout.block_feed_liked, null);
 
 			RelativeLayout containerTw = (RelativeLayout) convertView.findViewById(R.id.block_feed_liked_main_container);
 			TextView headerTvTw = (TextView) convertView.findViewById(R.id.block_feed_liked_header_tv);
@@ -147,14 +147,11 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			remindTwitterIv = (ImageView) convertView.findViewById(R.id.block_feed_liked_remind_button_iv);
 
 			// mIsLiked = LikeService.isLiked(mToken, feedItem.getBroadcast().getProgram().getProgramId());
-			
-			Log.d(TAG,"twitter item: "  + feedItem);
-			
+
 			headerTvTw.setText(mActivity.getResources().getString(R.string.icon_twitter) + " " + feedItem.getTitle());
-			
-			if(feedItem.getBroadcast()!=null){
+
 			final String programTypeTw = feedItem.getBroadcast().getProgram().getProgramType();
-			
+
 			// determine like
 			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeTw)) {
 				mIsLiked = DazooStore.getInstance().isInTheLikesList(feedItem.getBroadcast().getProgram().getSeries().getSeriesId());
@@ -360,8 +357,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 				}
 			});
-			}
-			
+
 			break;
 
 		case ITEM_TYPE_BROADCAST:
@@ -396,7 +392,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				mIsLiked = DazooStore.getInstance().isInTheLikesList(feedItem.getBroadcast().getProgram().getProgramId());
 			}
 
-			headerTv.setText(feedItem.getTitle() + " " + feedItem.getItemType());
+			headerTv.setText(feedItem.getTitle());
 
 			mImageLoader.displayImage(feedItem.getBroadcast().getProgram().getPosterMUrl(), landscapeIv, ImageLoader.IMAGE_TYPE.GALLERY);
 
@@ -628,7 +624,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				mIsLiked = DazooStore.getInstance().isInTheLikesList(feedItem.getBroadcast().getProgram().getProgramId());
 			}
 
-			headerTvRec.setText(feedItem.getTitle() + " " + feedItem.getItemType());
+			headerTvRec.setText(feedItem.getTitle());
 
 			mImageLoader.displayImage(feedItem.getBroadcast().getProgram().getPosterMUrl(), landscapeIvRec, ImageLoader.IMAGE_TYPE.GALLERY);
 
@@ -1151,7 +1147,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 		return convertView;
 	}
-	
+
 	public Runnable yesNotificationTwitterProc() {
 		return new Runnable() {
 			public void run() {
@@ -1160,7 +1156,6 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			}
 		};
 	}
-	
 
 	public Runnable yesNotificationProc() {
 		return new Runnable() {
