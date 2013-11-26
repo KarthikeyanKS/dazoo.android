@@ -102,7 +102,7 @@ public class TVGuideTagTypeFragment extends SSPageFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootView = inflater.inflate(R.layout.fragment_tvguide_tag_type, null);
 		mListView = (ListView) mRootView.findViewById(R.id.fragment_tvguide_type_tag_listview);
-mTextView = (TextView) mRootView.findViewById(R.id.fragment_tvguide_type_tag);
+		mTextView = (TextView) mRootView.findViewById(R.id.fragment_tvguide_type_tag);
 		
 		super.initRequestCallbackLayouts(mRootView);
 		mActivity = getActivity();
@@ -158,6 +158,7 @@ mTextView = (TextView) mRootView.findViewById(R.id.fragment_tvguide_type_tag);
 			mTextView.setText(mTvDate.getDate() + "NEW date" +
 					mTaggedBroadcasts.get(index).getProgram().getTitle() + "   date of dataset: " + 
 					mTaggedBroadcasts.get(index).getBeginTime());
+			mTextView.setVisibility(View.VISIBLE);
 		}
 	}
 }
