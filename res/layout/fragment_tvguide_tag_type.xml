@@ -6,25 +6,14 @@
     android:layout_height="fill_parent"
     android:background="@color/white"
     android:orientation="vertical" >
-    
-     <TextView
-                    android:id="@+id/fragment_tvguide_type_tag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:layout_margin="5dp"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
 
     <ListView
         android:id="@+id/fragment_tvguide_type_tag_listview"
-        android:layout_below="@id/fragment_tvguide_type_tag"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:cacheColorHint="@null"
         android:divider="@null" />
-        
-        
-    
-      <include layout="@layout/layout_request_callbacks_holder_layout" />
+
+    <include layout="@layout/layout_request_callbacks_holder_layout" />
+
 </RelativeLayout>

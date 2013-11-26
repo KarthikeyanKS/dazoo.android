@@ -16,14 +16,14 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
-   
 
-    
-    <style name="ChannelPage"  parent="@style/Theme.AppCompat.Light">
+    <style name="ChannelPage" parent="@style/Theme.AppCompat.Light">
         <item name="android:actionDropDownStyle">@style/ActionBarDropDown</item>
     </style>
-    <style name="StyledIndicators" parent="@style/Theme.AppCompat.Light">
+
+    <style name="HomePage" parent="@style/Theme.AppCompat.Light">
         <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
+        <item name="android:actionDropDownStyle">@style/ActionBarDropDown</item>
     </style>
 
     <!-- ActionBar style -->

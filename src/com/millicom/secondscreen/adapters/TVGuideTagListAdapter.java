@@ -30,15 +30,15 @@ import com.millicom.secondscreen.utilities.ImageLoader;
 
 public class TVGuideTagListAdapter extends BaseAdapter {
 
-	private static final String	TAG	= "TVGuideListAdapter";
+	private static final String		TAG	= "TVGuideListAdapter";
 
-	private LayoutInflater		mLayoutInflater;
-	private Activity			mActivity;
-	private ArrayList<Broadcast> mTaggedBroadcasts;
-	private ImageLoader			mImageLoader;
-	private int mCurrentPosition;
-	private TvDate mDate;
-	
+	private LayoutInflater			mLayoutInflater;
+	private Activity				mActivity;
+	private ArrayList<Broadcast>	mTaggedBroadcasts;
+	private ImageLoader				mImageLoader;
+	private int						mCurrentPosition;
+	private TvDate					mDate;
+
 	public TVGuideTagListAdapter(Activity activity, ArrayList<Broadcast> taggedBroadcasts, int currentPosition, TvDate date) {
 		this.mTaggedBroadcasts = taggedBroadcasts;
 		this.mActivity = activity;
@@ -54,8 +54,6 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 		// get the item with the displacement depending on the scheduled time on air
 		final Broadcast broadcast = getItem(mCurrentPosition + position);
 
-		// TODO: DIFFERENT ROW LAYOUTS DEPENDING ON THE TYPE OF THE BROADCAST
-		
 		if (rowView == null) {
 			mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			rowView = mLayoutInflater.inflate(R.layout.row_tvguide_tag_list, null);
@@ -69,15 +67,15 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 			viewHolder.mDescTv = (TextView) rowView.findViewById(R.id.tvguide_tag_list_item_type_tv);
 			viewHolder.mTimeLeftTv = (TextView) rowView.findViewById(R.id.tvguide_tag_list_item_timeleft_tv);
 			viewHolder.mDurationPb = (ProgressBar) rowView.findViewById(R.id.tvguide_tag_list_item_duration_pb);
-			
+
 			rowView.setTag(viewHolder);
 		}
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
-		
+
 		if (broadcast != null) {
-			//TODO: Set treding/movie/live icons
-			//Calculate the duration of the program and set up ProgressBar and TimeLeft.
+			// TODO: Set treding/movie/live icons
+			// Calculate the duration of the program and set up ProgressBar and TimeLeft.
 			int duration = 0;
 			long timeSinceBegin = 0;
 			long timeToEnd = 0;
@@ -90,18 +88,17 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			
-			//If on air
+
+			// If on air
 			if (timeSinceBegin > 0 && timeToEnd < 0) {
 				holder.mDurationPb.setMax(duration);
 
-				//Calculate the current progress of the ProgressBar and update.
+				// Calculate the current progress of the ProgressBar and update.
 				int initialProgress = 0;
 				long difference = 0;
 				try {
 					difference = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime());
-				} 
-				catch (ParseException e) {
+				} catch (ParseException e) {
 					e.printStackTrace();
 				}
 
@@ -109,71 +106,57 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 					holder.mDurationPb.setVisibility(View.GONE);
 					initialProgress = 0;
 					holder.mDurationPb.setProgress(0);
-				} 
-				else {
+				} else {
 					try {
 						initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime()) / (1000 * 60);
-					} 
-					catch (ParseException e) {
+					} catch (ParseException e) {
 						e.printStackTrace();
 					}
-					holder.mTimeLeftTv.setText(duration-initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + 
-							" " + mActivity.getResources().getString(R.string.left));
+					holder.mTimeLeftTv.setText(duration - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
 					holder.mDurationPb.setProgress(initialProgress);
 					holder.mDurationPb.setVisibility(View.VISIBLE);
 					holder.mTimeLeftTv.setVisibility(View.VISIBLE);
 				}
-			}
-			else {
+			} else {
 				holder.mDurationPb.setVisibility(View.GONE);
 				holder.mTimeLeftTv.setVisibility(View.GONE);
 			}
-			
+
 			mImageLoader.displayImage(broadcast.getProgram().getPosterLUrl(), holder.mImageIv, holder.mImagePb, ImageLoader.IMAGE_TYPE.GALLERY);
-			
-			//holder.title.setText(broadcast.getProgram().getTitle() + "  " + broadcast.getProgram().getProgramType() + "   " +  broadcast.getBeginTime());
-			holder.mTitleTv.setText(broadcast.getProgram().getTitle() + "  " + broadcast.getProgram().getProgramType()); 
-			
+			holder.mTitleTv.setText(broadcast.getProgram().getTitle());
+
 			try {
 				holder.mTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 			holder.mChannelTv.setText(broadcast.getChannel().getName());
-			
+
 			String type = broadcast.getProgram().getProgramType();
 			if (type != null) {
 				if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(type)) {
-					holder.mDescTv.setText(broadcast.getProgram().getGenre() + " " + mActivity.getResources().getString(R.string.from) + " " +
-							broadcast.getProgram().getYear());
-				}
-				else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(type)) {
-					holder.mDescTv.setText(mActivity.getResources().getString(R.string.season) + " " + 
-							broadcast.getProgram().getSeason().getNumber() + " " + 
-							mActivity.getResources().getString(R.string.episode) + " " +
-							String.valueOf(broadcast.getProgram().getEpisodeNumber()));
+					holder.mDescTv.setText(broadcast.getProgram().getGenre() + " " + mActivity.getResources().getString(R.string.from) + " " + broadcast.getProgram().getYear());
+				} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(type)) {
+					holder.mDescTv.setText(mActivity.getResources().getString(R.string.season) + " " + broadcast.getProgram().getSeason().getNumber() + " "
+							+ mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(broadcast.getProgram().getEpisodeNumber()));
 					holder.mTitleTv.setText(broadcast.getProgram().getSeries().getName());
-				}
-				else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(type)) {
+				} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(type)) {
 					holder.mDescTv.setText(broadcast.getProgram().getSportType() + ": " + broadcast.getProgram().getTournament());
-				}
-				else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(type)) {
+				} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(type)) {
 					holder.mDescTv.setText(broadcast.getProgram().getCategory());
 
 				}
-			}
-			else {
+			} else {
 				holder.mDescTv.setText("");
-			}	
+			}
 
-		}
-		else {
+		} else {
 			holder.mTitleTv.setText("");
 			holder.mTimeTv.setText("");
 			holder.mChannelTv.setText("");
 			holder.mDescTv.setText("");
 		}
-		
+
 		holder.mContainer.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -181,31 +164,29 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 
 				Log.d(TAG, broadcast.getProgram().toString());
 
-				//Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-				//intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
-				//intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
-				//intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, mDate.getDate());
+				// Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
+				// intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
+				// intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
+				// intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, mDate.getDate());
 
-
-				//mActivity.startActivity(intent);
-				//mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+				// mActivity.startActivity(intent);
+				// mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			}
 		});
 
-	
 		return rowView;
 	}
 
 	static class ViewHolder {
-		RelativeLayout mContainer;
-		ImageView 	mImageIv;
-		ProgressBar mImagePb;
-		TextView 	mTitleTv;
-		TextView 	mTimeTv;
-		TextView	mChannelTv;
-		TextView	mDescTv;
-		TextView	mTimeLeftTv;
-		ProgressBar	mDurationPb;
+		RelativeLayout	mContainer;
+		ImageView		mImageIv;
+		ProgressBar		mImagePb;
+		TextView		mTitleTv;
+		TextView		mTimeTv;
+		TextView		mChannelTv;
+		TextView		mDescTv;
+		TextView		mTimeLeftTv;
+		ProgressBar		mDurationPb;
 	}
 
 	@Override
@@ -231,4 +212,3 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 		return -1;
 	}
 }
-

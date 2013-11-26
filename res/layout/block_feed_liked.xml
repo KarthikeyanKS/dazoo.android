@@ -4,9 +4,9 @@
     android:id="@+id/block_feed_liked_main_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="10dp"
     android:background="@color/white"
     android:orientation="vertical"
-    android:layout_margin="10dp"
     android:padding="10dp" >
 
     <!-- CONTENT LABEL -->
@@ -17,8 +17,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_margin="10dp"
-        android:textSize="20sp" 
-        font:fonttextview="fontello.ttf"/>
+        android:textSize="20sp"
+        font:fonttextview="fontello.ttf" />
 
     <!-- PRODUCT IMAGE -->
 
@@ -56,7 +56,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/block_feed_liked_content_image_frame"
-       android:orientation="horizontal" >
+        android:orientation="horizontal" >
 
         <ImageView
             android:id="@+id/block_feed_liked_icon"
@@ -75,8 +75,8 @@
             android:gravity="right"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:textStyle="bold" 
-            font:fonttextview="fontello.ttf"/>
+            android:textStyle="bold"
+            font:fonttextview="fontello.ttf" />
 
         <com.millicom.secondscreen.customviews.FontTextView
             android:id="@+id/block_feed_liked_time_tv"
@@ -86,8 +86,8 @@
             android:layout_marginLeft="10dp"
             android:gravity="left"
             android:textColor="@color/black"
-            android:textSize="16sp" 
-            font:fonttextview="fontello.ttf"/>
+            android:textSize="16sp"
+            font:fonttextview="fontello.ttf" />
 
         <com.millicom.secondscreen.customviews.FontTextView
             android:id="@+id/block_feed_liked_channel_tv"
@@ -97,8 +97,8 @@
             android:layout_marginLeft="10dp"
             android:gravity="left"
             android:textColor="@color/black"
-            android:textSize="16sp" 
-            font:fonttextview="fontello.ttf"/>
+            android:textSize="16sp"
+            font:fonttextview="fontello.ttf" />
 
         <com.millicom.secondscreen.customviews.FontTextView
             android:id="@+id/block_feed_liked_details_tv"
@@ -108,18 +108,18 @@
             android:layout_marginLeft="10dp"
             android:gravity="left"
             android:textColor="@color/black"
-            android:textSize="14sp" 
-            font:fonttextview="fontello.ttf"/>
+            android:textSize="14sp"
+            font:fonttextview="fontello.ttf" />
 
         <com.millicom.secondscreen.customviews.FontTextView
             android:id="@+id/block_feed_liked_timeleft_tv"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/block_feed_liked_details_tv"
-            android:textColor="@color/red"
             android:layout_marginLeft="10dp"
-            font:fonttextview="fontello.ttf"
-            android:visibility="gone" />
+            android:textColor="@color/red"
+            android:visibility="gone"
+            font:fonttextview="fontello.ttf" />
 
         <ProgressBar
             android:id="@+id/block_feed_liked_progressbar"
@@ -199,7 +199,7 @@
                 android:src="@drawable/share_icon" />
         </LinearLayout>
 
-      <!-- SEPARATOR -->
+        <!-- SEPARATOR -->
 
         <LinearLayout
             android:layout_width="0dp"
