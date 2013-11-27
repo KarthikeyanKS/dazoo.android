@@ -198,11 +198,27 @@ public class ContentParser {
 		if (temp.length() > 0) program.setSynopsisLong(temp);
 		else program.setSynopsisShort("");
 
-		JSONObject jsonPoster = jsonProgram.optJSONObject(Consts.DAZOO_PROGRAM_POSTER);
-		if (jsonPoster != null) {
-			program.setPosterSUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_SMALL));
-			program.setPosterMUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_MEDIUM));
-			program.setPosterLUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_LARGE));
+		//JSONObject jsonPoster = jsonProgram.optJSONObject(Consts.DAZOO_PROGRAM_POSTER);
+		//if (jsonPoster != null) {
+		//	program.setPosterSUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_SMALL));
+		//	program.setPosterMUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_MEDIUM));
+		//	program.setPosterLUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_LARGE));
+		//}
+		
+		JSONObject jsonImages = jsonProgram.optJSONObject(Consts.DAZOO_PROGRAM_IMAGES);
+		if(jsonImages!=null){
+			
+			// landscape
+			JSONObject landscape = jsonImages.optJSONObject(Consts.DAZOO_IMAGE_TYPE_LANDSCAPE);
+			program.setLandSUrl(landscape.optString(Consts.DAZOO_IMAGE_SMALL));
+			program.setLandMUrl(landscape.optString(Consts.DAZOO_IMAGE_MEDIUM));
+			program.setLandLUrl(landscape.optString(Consts.DAZOO_IMAGE_LARGE));
+			
+			// portrait
+			JSONObject portrait = jsonImages.optJSONObject(Consts.DAZOO_IMAGE_TYPE_PORTRAIT);
+			program.setPortSUrl(portrait.optString(Consts.DAZOO_IMAGE_SMALL));
+			program.setPortMUrl(portrait.optString(Consts.DAZOO_IMAGE_MEDIUM));
+			program.setPortLUrl(portrait.optString(Consts.DAZOO_IMAGE_LARGE));
 		}
 
 		JSONArray jsonTags = jsonProgram.optJSONArray(Consts.DAZOO_PROGRAM_TAGS);

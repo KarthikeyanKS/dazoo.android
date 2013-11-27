@@ -87,7 +87,7 @@ public class ActivityLikedBlockPopulator {
 
 		headerTv.setText(popularItem.getTitle());
 
-		mImageLoader.displayImage(popularItem.getBroadcast().getProgram().getPosterMUrl(), landscapeIv, ImageLoader.IMAGE_TYPE.GALLERY);
+		mImageLoader.displayImage(popularItem.getBroadcast().getProgram().getLandMUrl(), landscapeIv, ImageLoader.IMAGE_TYPE.GALLERY);
 
 		final String programType = popularItem.getBroadcast().getProgram().getProgramType();
 		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {

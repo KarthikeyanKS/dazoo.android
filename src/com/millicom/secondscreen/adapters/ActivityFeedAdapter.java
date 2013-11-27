@@ -161,7 +161,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				mIsLiked = DazooStore.getInstance().isInTheLikesList(feedItem.getBroadcast().getProgram().getProgramId());
 			}
 
-			mImageLoader.displayImage(feedItem.getBroadcast().getProgram().getPosterMUrl(), landscapeIvTw, ImageLoader.IMAGE_TYPE.GALLERY);
+			mImageLoader.displayImage(feedItem.getBroadcast().getProgram().getLandLUrl(), landscapeIvTw, ImageLoader.IMAGE_TYPE.GALLERY);
 
 			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeTw)) {
 				titleTvTw.setText(feedItem.getBroadcast().getProgram().getSeries().getName());
@@ -393,7 +393,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 			headerTv.setText(feedItem.getTitle());
 
-			mImageLoader.displayImage(feedItem.getBroadcast().getProgram().getPosterMUrl(), landscapeIv, ImageLoader.IMAGE_TYPE.GALLERY);
+			mImageLoader.displayImage(feedItem.getBroadcast().getProgram().getLandLUrl(), landscapeIv, ImageLoader.IMAGE_TYPE.GALLERY);
 
 			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 				titleTv.setText(feedItem.getBroadcast().getProgram().getSeries().getName());
@@ -625,7 +625,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 			headerTvRec.setText(feedItem.getTitle());
 
-			mImageLoader.displayImage(feedItem.getBroadcast().getProgram().getPosterMUrl(), landscapeIvRec, ImageLoader.IMAGE_TYPE.GALLERY);
+			mImageLoader.displayImage(feedItem.getBroadcast().getProgram().getLandLUrl(), landscapeIvRec, ImageLoader.IMAGE_TYPE.GALLERY);
 
 			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeRec)) {
 				titleTvRec.setText(feedItem.getBroadcast().getProgram().getSeries().getName());
@@ -837,7 +837,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 				String programTypeOne = broadcastOne.getProgram().getProgramType();
 
-				mImageLoader.displayImage(broadcastOne.getProgram().getPosterLUrl(), mPosterOne, ImageLoader.IMAGE_TYPE.THUMBNAIL);
+				mImageLoader.displayImage(broadcastOne.getProgram().getPortMUrl(), mPosterOne, ImageLoader.IMAGE_TYPE.THUMBNAIL);
 				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeOne)) {
 					mTitleOne.setText(broadcastOne.getProgram().getSeries().getName());
 				} else {
@@ -941,7 +941,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 				String programTypeTwo = broadcastTwo.getProgram().getProgramType();
 
-				mImageLoader.displayImage(broadcastTwo.getProgram().getPosterLUrl(), mPosterTwo, ImageLoader.IMAGE_TYPE.THUMBNAIL);
+				mImageLoader.displayImage(broadcastTwo.getProgram().getPortMUrl(), mPosterTwo, ImageLoader.IMAGE_TYPE.THUMBNAIL);
 				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeTwo)) {
 					mTitleTwo.setText(broadcastTwo.getProgram().getSeries().getName());
 				} else {
@@ -1045,7 +1045,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 				String programTypeThree = broadcastThree.getProgram().getProgramType();
 
-				mImageLoader.displayImage(broadcastThree.getProgram().getPosterLUrl(), mPosterThree, ImageLoader.IMAGE_TYPE.THUMBNAIL);
+				mImageLoader.displayImage(broadcastThree.getProgram().getPortMUrl(), mPosterThree, ImageLoader.IMAGE_TYPE.THUMBNAIL);
 				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeThree)) {
 					mTitleThree.setText(broadcastThree.getProgram().getSeries().getName());
 				} else {

@@ -90,7 +90,7 @@ public class BlockPopularListViewAdapter extends BaseAdapter {
 			// different details about the broadcast program depending on the type
 			String programType = broadcast.getProgram().getProgramType();
 
-			mImageLoader.displayImage(broadcast.getProgram().getPosterMUrl(), holder.mPoster, ImageLoader.IMAGE_TYPE.POSTER);
+			mImageLoader.displayImage(broadcast.getProgram().getPortMUrl(), holder.mPoster, ImageLoader.IMAGE_TYPE.POSTER);
 			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 				holder.mTitle.setText(broadcast.getProgram().getSeries().getName());
 			} else {

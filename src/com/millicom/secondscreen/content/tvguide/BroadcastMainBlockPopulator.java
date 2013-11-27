@@ -121,8 +121,8 @@ public class BroadcastMainBlockPopulator {
 		}
 		mLikeType = LikeService.getLikeType(programType);
 
-		if (program.getPosterLUrl() != null && TextUtils.isEmpty(program.getPosterLUrl()) != true) {
-			mImageLoader.displayImage(program.getPosterLUrl(), posterIv, posterPb, ImageLoader.IMAGE_TYPE.POSTER);
+		if (program.getPortSUrl() != null && TextUtils.isEmpty(program.getPortSUrl()) != true) {
+			mImageLoader.displayImage(program.getPortSUrl(), posterIv, posterPb, ImageLoader.IMAGE_TYPE.POSTER);
 		}
 
 		if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {

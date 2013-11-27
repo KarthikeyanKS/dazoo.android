@@ -89,7 +89,7 @@ public class WhatElseIsOnListAdapter extends BaseAdapter {
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 
 		if (broadcast != null) {
-			mImageLoader.displayImage(broadcast.getProgram().getPosterLUrl(), holder.mImageIv, holder.mImagePb, ImageLoader.IMAGE_TYPE.GALLERY);
+			mImageLoader.displayImage(broadcast.getProgram().getPortLUrl(), holder.mImageIv, holder.mImagePb, ImageLoader.IMAGE_TYPE.GALLERY);
 			
 			//MC - Set the title of the broadcast.
 			String title = broadcast.getProgram().getTitle();

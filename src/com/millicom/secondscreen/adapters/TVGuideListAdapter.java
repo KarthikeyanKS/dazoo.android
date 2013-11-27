@@ -50,13 +50,15 @@ public class TVGuideListAdapter extends BaseAdapter {
 	private ImageLoader			mImageLoader;
 	private int					mIndexOfNearestBroadcast;
 	private int					mHour;
+	private boolean				mIsToday;
 
-	public TVGuideListAdapter(Activity activity, ArrayList<Guide> guide, TvDate date, int hour) {
+	public TVGuideListAdapter(Activity activity, ArrayList<Guide> guide, TvDate date, int hour, boolean isToday) {
 		this.mGuide = guide;
 		this.mActivity = activity;
 		this.mDate = date;
 		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage);
 		this.mHour = hour;
+		this.mIsToday = isToday;
 	}
 
 	@Override
@@ -107,6 +109,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 				Intent intent = new Intent(mActivity, ChannelPageActivity.class);
 				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, guide.getId());
 				intent.putExtra(Consts.INTENT_EXTRA_CHOSEN_DATE_TVGUIDE, mDate);
+				intent.putExtra(Consts.INTENT_EXTRA_TV_GUIDE_HOUR, mHour);
 
 				mActivity.startActivity(intent);
 				mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
@@ -143,6 +146,11 @@ public class TVGuideListAdapter extends BaseAdapter {
 						} catch (Exception e) {
 							e.printStackTrace();
 							holder.mLiveProgramTimeTv.setText("");
+						}
+
+						if (mIsToday) {
+							holder.mLiveProgramNameTv.setTextColor(mActivity.getResources().getColor(R.color.red));
+							holder.mLiveProgramTimeTv.setTextColor(mActivity.getResources().getColor(R.color.red));
 						}
 					} else if (j == 1 && j < nextBroadcasts.size()) {
 
@@ -240,6 +248,8 @@ public class TVGuideListAdapter extends BaseAdapter {
 
 	public void refreshList(int selectedHour) {
 		mHour = selectedHour;
+		Log.d(TAG, "in adapter");
 		notifyDataSetChanged();
+		Log.d(TAG, "after refresh");
 	}
 }

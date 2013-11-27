@@ -17,11 +17,10 @@
             android:layout_height="match_parent"
             android:layout_marginRight="40dp"
             android:cacheColorHint="@null"
-            android:fastScrollEnabled="true"
             android:divider="@null"
             android:dividerHeight="0dp"
             android:orientation="vertical"
-            android:paddingRight="4dip"
+            android:paddingRight="4dp"
             android:smoothScrollbar="true" />
 
         <LinearLayout

@@ -59,7 +59,7 @@ public class ActivityPopularBlockPopulator {
 				// different details about the broadcast program depending on the type
 				String programType = broadcast.getProgram().getProgramType();
 
-				mImageLoader.displayImage(broadcast.getProgram().getPosterLUrl(), mPoster, ImageLoader.IMAGE_TYPE.THUMBNAIL);
+				mImageLoader.displayImage(broadcast.getProgram().getPortLUrl(), mPoster, ImageLoader.IMAGE_TYPE.THUMBNAIL);
 				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 					mTitle.setText(broadcast.getProgram().getSeries().getName());
 				} else {

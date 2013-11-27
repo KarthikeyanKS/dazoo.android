@@ -122,7 +122,7 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 				holder.mTimeLeftTv.setVisibility(View.GONE);
 			}
 
-			mImageLoader.displayImage(broadcast.getProgram().getPosterLUrl(), holder.mImageIv, holder.mImagePb, ImageLoader.IMAGE_TYPE.GALLERY);
+			mImageLoader.displayImage(broadcast.getProgram().getPortMUrl(), holder.mImageIv, holder.mImagePb, ImageLoader.IMAGE_TYPE.GALLERY);
 			holder.mTitleTv.setText(broadcast.getProgram().getTitle());
 
 			try {

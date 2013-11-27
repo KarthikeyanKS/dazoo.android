@@ -66,7 +66,7 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 	private ArrayList<Broadcast>				mBroadcasts, mFollowingBroadcasts;
 	private ArrayList<TvDate>					mTvDates;
 	private ImageLoader							mImageLoader;
-	private int									mSelectedIndex	= -1, mIndexOfNearestBroadcast;
+	private int									mSelectedIndex	= -1, mIndexOfNearestBroadcast, mHour;
 	private DazooStore							dazooStore;
 	private boolean								mIsLoggedIn		= false, mIsReady = false, mFirstHit = true;
 	private Handler								mHandler;
@@ -85,6 +85,7 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 		Intent intent = getIntent();
 		mChannelId = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_ID);
 		mDateTvGuide = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHOSEN_DATE_TVGUIDE);
+		mHour = intent.getIntExtra(Consts.INTENT_EXTRA_TV_GUIDE_HOUR,6);
 
 		dazooStore = DazooStore.getInstance();
 
@@ -168,7 +169,7 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 
 		if (mChannelGuide != null) {
 			mBroadcasts = mChannelGuide.getBroadcasts();
-			mIndexOfNearestBroadcast = Broadcast.getClosestBroadcastIndex(mBroadcasts);
+			mIndexOfNearestBroadcast = Broadcast.getClosestBroadcastIndexFromTime(mBroadcasts, mHour);
 			if (mIndexOfNearestBroadcast >= 0) {
 				mFollowingBroadcasts = null;
 				mFollowingBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());

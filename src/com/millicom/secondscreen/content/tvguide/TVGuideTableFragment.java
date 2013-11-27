@@ -51,7 +51,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 	private int						mTvDatePosition;
 	private TVGuideListAdapter		mTVGuideListAdapter;
 	private DazooStore				dazooStore;
-	private boolean					mIsLoggedIn	= false;
+	private boolean					mIsLoggedIn	= false, mIsToday = false;
 	private ArrayList<Broadcast>	mTaggedBroadcasts;
 	private boolean					mCreateBackground;
 	private TVGuideTagListAdapter	mTVTagListAdapter;
@@ -86,10 +86,6 @@ public class TVGuideTableFragment extends SSPageFragment {
 		mTvDatePosition = bundle.getInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION);
 		mTag = dazooStore.getTag(mTagStr);
 		
-		// register a receiver for the tv-table fragment to respond to the clock selection
-		if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
-			LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mBroadcastReceiverClock, new IntentFilter(Consts.INTENT_EXTRA_CLOCK_SELECTION));
-		}
 	}
 
 	@Override
@@ -100,9 +96,8 @@ public class TVGuideTableFragment extends SSPageFragment {
 			// check if it is a current day
 			String tvDateToday = DateUtilities.todayDateAsTvDate();
 			if (mTvDate.getDate().equals(tvDateToday)) {
+				mIsToday = true;
 				mHour = Integer.valueOf(DateUtilities.getCurrentHourString());
-			} else {
-				mHour = 6; // set to start of the day
 			}
 			
 			mRootView = inflater.inflate(R.layout.fragment_tvguide_table, null);
@@ -111,7 +106,8 @@ public class TVGuideTableFragment extends SSPageFragment {
 			mClockIv = (ImageView) mRootView.findViewById(R.id.tvguide_table_side_clock_iv);
 			mClockIv.setOnTouchListener(vTouch);
 
-			styleCurrentHourSelection();
+			styleCurrentHourSelection();	
+		
 
 		} else {
 
@@ -123,6 +119,13 @@ public class TVGuideTableFragment extends SSPageFragment {
 		// reset the activity whenever the view is recreated
 		mActivity = getActivity();
 		loadPage();
+		
+		if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
+		// register a receiver for the tv-table fragment to respond to the clock selection
+		Log.d(TAG,"register receiver: " + mTagStr);
+		LocalBroadcastManager.getInstance(mActivity).registerReceiver(mBroadcastReceiverClock, new IntentFilter(Consts.INTENT_EXTRA_CLOCK_SELECTION));
+		}
+		
 		return mRootView;
 	}
 
@@ -166,8 +169,6 @@ public class TVGuideTableFragment extends SSPageFragment {
 		if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
 			if (mGuides != null) {
 				if (mGuides.isEmpty()) {
-					Log.d(TAG, "GET GUIDE:");
-					// DazooCore.getGuide(mTvDatePosition, false);
 					updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
 
 				} else {
@@ -195,8 +196,9 @@ public class TVGuideTableFragment extends SSPageFragment {
 	protected void updateUI(REQUEST_STATUS status) {
 		if (super.requestIsSuccesfull(status)) {
 			if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
-				mTVGuideListAdapter = new TVGuideListAdapter(mActivity, mGuides, mTvDate, mHour);
+				mTVGuideListAdapter = new TVGuideListAdapter(mActivity, mGuides, mTvDate, mHour, mIsToday);
 				mTVGuideListView.setAdapter(mTVGuideListAdapter);
+				mTVGuideListAdapter.notifyDataSetChanged();
 			} else {
 				int index = Broadcast.getClosestBroadcastIndex(mTaggedBroadcasts);
 				Log.d(TAG, "index: " + index);
@@ -222,10 +224,14 @@ public class TVGuideTableFragment extends SSPageFragment {
 	BroadcastReceiver				mBroadcastReceiverClock	= new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			Log.d(TAG,"tag: " + mTagStr);
 			Log.d(TAG, "clock tag: " + intent.getExtras().getString(Consts.INTENT_EXTRA_CLOCK_SELECTION_VALUE));
+			if(intent.getAction()!=null && intent.getAction().equals(Consts.INTENT_EXTRA_CLOCK_SELECTION)){
 			mHour = Integer.valueOf(intent.getExtras().getString(Consts.INTENT_EXTRA_CLOCK_SELECTION_VALUE));
+			Log.d(TAG,"mHour: " + mHour);
 			styleCurrentHourSelection();
 			mTVGuideListAdapter.refreshList(Integer.valueOf(mHour));
+			}
 		}
 	};
 

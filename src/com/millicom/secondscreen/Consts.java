@@ -134,9 +134,10 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_DATA_FETCHING							= "com.millicom.secondscreen.intent.extra.log.in.action";
 	public static final String	INTENT_EXTRA_UPCOMING_BROADCASTS					= "com.millicom.secondscreen.intent.extra.upcoming.broadcasts";
 	public static final String	INTENT_EXTRA_REPEATING_BROADCASTS					= "com.millicom.secondscreen.intent.extra.repeating.broadcasts";
-	public static final String	INTENT_EXTRA_REPEATING_PROGRAM						= "com.millicom.secondscreen.intent.extra.repeating.program";				
+	public static final String	INTENT_EXTRA_REPEATING_PROGRAM						= "com.millicom.secondscreen.intent.extra.repeating.program";
 	public static final String	INTENT_EXTRA_CLOCK_SELECTION						= "com.millicom.secondscreen.intent.extra.clock.selection";
 	public static final String	INTENT_EXTRA_CLOCK_SELECTION_VALUE					= "com.millicom.secondscreen.intent.extra.clock.selection.value";
+	public static final String	INTENT_EXTRA_TV_GUIDE_HOUR							= "com.millicom.secondscreen.intent.extra.tvguide.hour";
 
 	// alarm extras
 	public static final String	INTENT_ALARM_EXTRA_BROADCAST_BEGINTIMEMILLIS		= "com.millicom.secondscreen.intent.alarm.extra.broadcast.begintimemillis";
@@ -227,7 +228,8 @@ public abstract class Consts {
 	public static final String	DAZOO_PROGRAM_TITLE									= "title";
 	public static final String	DAZOO_PROGRAM_SYNOPSIS_SHORT						= "synopsisShort";
 	public static final String	DAZOO_PROGRAM_SYNOPSISS_LONG						= "synopsisLong";
-	public static final String	DAZOO_PROGRAM_POSTER								= "poster";
+	// public static final String DAZOO_PROGRAM_POSTER = "poster";
+	public static final String	DAZOO_PROGRAM_IMAGES								= "images";
 	public static final String	DAZOO_PROGRAM_TAGS									= "tags";
 	public static final String	DAZOO_PROGRAM_CREDITS								= "credits";
 	public static final String	DAZOO_PROGRAM_EPISODE								= "episodeNumber";
@@ -270,6 +272,8 @@ public abstract class Consts {
 	public static final String	DAZOO_SEASON_NUMBER									= "number";
 
 	// IMAGE fields
+	public static final String	DAZOO_IMAGE_TYPE_LANDSCAPE							= "landscape";
+	public static final String	DAZOO_IMAGE_TYPE_PORTRAIT							= "portrait";
 	public static final String	DAZOO_IMAGE_SMALL									= "small";
 	public static final String	DAZOO_IMAGE_MEDIUM									= "medium";
 	public static final String	DAZOO_IMAGE_LARGE									= "large";

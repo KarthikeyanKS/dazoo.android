@@ -61,7 +61,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
                     android:singleLine="true"
-                    android:textColor="@color/red"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/header_2"
                     android:textStyle="bold"
                     font:fonttextview="fontello.ttf" />
@@ -75,7 +75,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_toRightOf="@id/tvguide_program_line_live_time_tv"
                     android:singleLine="true"
-                    android:textColor="@color/red"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/header_2"
                     android:textStyle="bold"
                     font:fonttextview="fontello.ttf" />

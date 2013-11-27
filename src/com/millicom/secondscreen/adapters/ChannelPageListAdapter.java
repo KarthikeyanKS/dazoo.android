@@ -105,7 +105,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 		if (broadcast != null) {
 			if (getItemViewType(position) == 0) {
 				// MC - Set the image for current broadcast.
-				mImageLoader.displayImage(broadcast.getProgram().getPosterLUrl(), holder.mIconIv, holder.mIconPb, ImageLoader.IMAGE_TYPE.GALLERY);
+				mImageLoader.displayImage(broadcast.getProgram().getLandLUrl(), holder.mIconIv, holder.mIconPb, ImageLoader.IMAGE_TYPE.GALLERY);
 				// MC - Calculate the duration of the program and set up ProgressBar.
 				try {
 					long startTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime());
