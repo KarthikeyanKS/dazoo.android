@@ -25,7 +25,8 @@
         android:layout_centerVertical="true"
         android:layout_margin="5dp"
         android:textSize="14sp"
-        android:textStyle="bold" />
+        android:textStyle="bold" 
+        font:fonttextview="fontello.ttf" />
 
     <CheckBox
         android:id="@+id/row_mychannels_checkbox"

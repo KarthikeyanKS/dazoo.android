@@ -15,6 +15,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff.Mode;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +36,8 @@ public class ChannelPageListAdapter extends BaseAdapter {
 
 	private ImageLoader				mImageLoader;
 	private int						mLastPosition	= -1;
-	private ViewHolder 				holder;
-	private int 					duration 		= 0;
+	private ViewHolder				holder;
+	private int						duration		= 0;
 
 	public ChannelPageListAdapter(Activity activity, ArrayList<Broadcast> followingBroadcasts) {
 		this.mFollowingBroadcasts = followingBroadcasts;
@@ -72,6 +73,8 @@ public class ChannelPageListAdapter extends BaseAdapter {
 		View rowView = convertView;
 
 		final Broadcast broadcast = getItem(position);
+		String broadcastType = broadcast.getBroadcastType();
+		String programType = broadcast.getProgram().getProgramType();
 
 		if (rowView == null) {
 			mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -82,17 +85,15 @@ public class ChannelPageListAdapter extends BaseAdapter {
 				viewHolder.mIconIv = (ImageView) rowView.findViewById(R.id.channelpage_broadcast_iv);
 				viewHolder.mTitleTv = (TextView) rowView.findViewById(R.id.channelpage_broadcast_details_title_tv);
 				viewHolder.mDescTv = (TextView) rowView.findViewById(R.id.channelpage_broadcast_details_text_tv);
-				//MC - The "extra" data fields for the current broadcast.
+				// MC - The "extra" data fields for the current broadcast.
 				viewHolder.mTimeleftTv = (TextView) rowView.findViewById(R.id.channelpage_broadcast_timeleft);
 				viewHolder.mDurationPb = (ProgressBar) rowView.findViewById(R.id.channelpage_broadcast_details_progressbar);
 				viewHolder.mIconPb = (ProgressBar) rowView.findViewById(R.id.channelpage_broadcast_iv_progressbar);
 				rowView.setTag(viewHolder);
-			}
-			else {
+			} else {
 				rowView = mLayoutInflater.inflate(R.layout.row_channelpage_list_item, null);
 				ViewHolder viewHolder = new ViewHolder();
 				viewHolder.mTimeTv = (TextView) rowView.findViewById(R.id.channelpage_list_item_time_tv);
-				viewHolder.mIconIv = (ImageView) rowView.findViewById(R.id.channelpage_list_item_iv);
 				viewHolder.mTitleTv = (TextView) rowView.findViewById(R.id.channelpage_list_item_title_tv);
 				viewHolder.mDescTv = (TextView) rowView.findViewById(R.id.channelpage_list_item_description_tv);
 				rowView.setTag(viewHolder);
@@ -103,26 +104,24 @@ public class ChannelPageListAdapter extends BaseAdapter {
 
 		if (broadcast != null) {
 			if (getItemViewType(position) == 0) {
-				//MC - Set the image for current broadcast.
+				// MC - Set the image for current broadcast.
 				mImageLoader.displayImage(broadcast.getProgram().getPosterLUrl(), holder.mIconIv, holder.mIconPb, ImageLoader.IMAGE_TYPE.GALLERY);
-				//MC - Calculate the duration of the program and set up ProgressBar.
+				// MC - Calculate the duration of the program and set up ProgressBar.
 				try {
 					long startTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime());
 					long endTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTime());
 					duration = (int) (startTime - endTime) / (1000 * 60);
-				} 
-				catch (ParseException e) {
+				} catch (ParseException e) {
 					e.printStackTrace();
 				}
 				holder.mDurationPb.setMax(duration);
 
-				//MC - Calculate the current progress of the ProgressBar and update.
+				// MC - Calculate the current progress of the ProgressBar and update.
 				int initialProgress = 0;
 				long difference = 0;
 				try {
 					difference = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime());
-				} 
-				catch (ParseException e) {
+				} catch (ParseException e) {
 					e.printStackTrace();
 				}
 
@@ -130,67 +129,53 @@ public class ChannelPageListAdapter extends BaseAdapter {
 					holder.mDurationPb.setVisibility(View.GONE);
 					initialProgress = 0;
 					holder.mDurationPb.setProgress(0);
-				} 
-				else {
+				} else {
 					try {
 						initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime()) / (1000 * 60);
-					} 
-					catch (ParseException e) {
+					} catch (ParseException e) {
 						e.printStackTrace();
 					}
-					holder.mTimeleftTv.setText(duration-initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + 
-							" " + mActivity.getResources().getString(R.string.left));
+					holder.mTimeleftTv.setText(duration - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
 					holder.mDurationPb.setProgress(initialProgress);
 					holder.mDurationPb.setVisibility(View.VISIBLE);
 				}
 			}
 
-			//MC - Set the begin time of the broadcast.
+			// MC - Set the begin time of the broadcast.
 			try {
 				holder.mTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
-			} 
-			catch (ParseException e) {
+			} catch (ParseException e) {
 				e.printStackTrace();
 				holder.mTimeTv.setText("");
 			}
 
-			// TODO: manipulate icon
-
-			//MC - Set the title of the broadcast.
 			String title = broadcast.getProgram().getTitle();
-			if (title != null) {
-				holder.mTitleTv.setText(title);
-			} 
-			else {
-				holder.mTitleTv.setText("");
-			}
-			
-			//MC - Show the correct program type specific tags.
-			String type = broadcast.getProgram().getProgramType();
-			if (type != null) {
-				if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(type)) {
-					holder.mDescTv.setText(broadcast.getProgram().getGenre() + " " + mActivity.getResources().getString(R.string.from) + " " +
-							broadcast.getProgram().getYear());
-				}
-				else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(type)) {
-					holder.mDescTv.setText(mActivity.getResources().getString(R.string.season) + " " + 
-							broadcast.getProgram().getSeason().getNumber() + " " + 
-							mActivity.getResources().getString(R.string.episode) + " " +
-							String.valueOf(broadcast.getProgram().getEpisodeNumber()));
+
+			if (programType != null) {
+				if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
+					holder.mTitleTv.setText(mActivity.getResources().getString(R.string.icon_movie) + " " + title);
+					holder.mDescTv.setText(broadcast.getProgram().getGenre() + " " + mActivity.getResources().getString(R.string.from) + " " + broadcast.getProgram().getYear());
+				} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+					holder.mDescTv.setText(mActivity.getResources().getString(R.string.season) + " " + broadcast.getProgram().getSeason().getNumber() + " "
+							+ mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(broadcast.getProgram().getEpisodeNumber()));
 					holder.mTitleTv.setText(broadcast.getProgram().getSeries().getName());
-				}
-				else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(type)) {
-					holder.mDescTv.setText(broadcast.getProgram().getSportType().getName() + ": " + broadcast.getProgram().getTournament());
-				}
-				else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(type)) {
+				} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
+					if (Consts.DAZOO_BROADCAST_TYPE_LIVE.equals(broadcastType)) {
+						holder.mTitleTv.setText(mActivity.getResources().getString(R.string.icon_live) + " " + title);
+						holder.mDescTv.setText(broadcast.getProgram().getSportType().getName() + ": " + broadcast.getProgram().getTournament());
+					} else {
+						holder.mDescTv.setText(broadcast.getProgram().getSportType().getName() + ": " + broadcast.getProgram().getTournament());
+						holder.mTimeTv.setText(title);
+					}
+				} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
+					holder.mTitleTv.setText(title);
 					holder.mDescTv.setText(broadcast.getProgram().getCategory());
 				}
-			}
-			else {
+			} else {
+				holder.mTitleTv.setText("");
 				holder.mDescTv.setText("");
 			}
-		} 
-		else {
+		} else {
 			holder.mTimeTv.setText("");
 			holder.mTitleTv.setText("");
 			holder.mDescTv.setText("");
@@ -241,8 +226,8 @@ public class ChannelPageListAdapter extends BaseAdapter {
 		TextView	mTitleTv;
 		TextView	mDescTv;
 
-		ProgressBar mIconPb;
-		ProgressBar mDurationPb;
+		ProgressBar	mIconPb;
+		ProgressBar	mDurationPb;
 		TextView	mTimeleftTv;
 	}
 }

@@ -13,33 +13,23 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_margin="15dp"
+        android:singleLine="true"
         android:textColor="@color/black"
-        android:textSize="14sp"
-        android:textStyle="bold" />
-
-    <ImageView
-        android:id="@+id/channelpage_list_item_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginBottom="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_toRightOf="@id/channelpage_list_item_time_tv"
-        android:contentDescription="@string/content_rating_icon"
-        android:visibility="gone" />
+        android:textSize="@dimen/header_3"
+        font:fonttextview="fontello.ttf" />
 
     <com.millicom.secondscreen.customviews.FontTextView
         android:id="@+id/channelpage_list_item_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="10dp"
-        android:layout_toRightOf="@id/channelpage_list_item_iv"
+        android:layout_marginBottom="5dp"
+        android:layout_toRightOf="@id/channelpage_list_item_time_tv"
+        android:singleLine="true"
         android:textColor="@color/black"
-        android:textSize="14sp"
-        android:textStyle="bold" />
+        android:textSize="@dimen/header_3"
+        font:fonttextview="fontello.ttf" />
 
     <com.millicom.secondscreen.customviews.FontTextView
         android:id="@+id/channelpage_list_item_description_tv"
@@ -48,10 +38,11 @@
         android:layout_below="@+id/channelpage_list_item_title_tv"
         android:layout_marginBottom="10dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="0dp"
         android:layout_toRightOf="@id/channelpage_list_item_time_tv"
+        android:singleLine="true"
         android:textColor="@color/black"
-        android:textSize="14sp" />
+        android:textSize="@dimen/ingress"
+        font:fonttextview="fontello.ttf" />
 
     <View
         android:layout_width="fill_parent"

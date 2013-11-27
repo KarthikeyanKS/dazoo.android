@@ -48,8 +48,8 @@ public class TVGuideListAdapter extends BaseAdapter {
 	private ArrayList<Guide>	mGuide;
 	private TvDate				mDate;
 	private ImageLoader			mImageLoader;
-	private int mIndexOfNearestBroadcast;
-	private int mHour;
+	private int					mIndexOfNearestBroadcast;
+	private int					mHour;
 
 	public TVGuideListAdapter(Activity activity, ArrayList<Guide> guide, TvDate date, int hour) {
 		this.mGuide = guide;
@@ -114,22 +114,29 @@ public class TVGuideListAdapter extends BaseAdapter {
 		});
 
 		ArrayList<Broadcast> broadcasts = guide.getBroadcasts();
-		
+
 		if (broadcasts != null && broadcasts.size() > 0) {
 
 			/* get the nearest broadcasts */
 			mIndexOfNearestBroadcast = Broadcast.getClosestBroadcastIndexFromTime(broadcasts, mHour);
-			
+
 			if (mIndexOfNearestBroadcast != -1) {
 				ArrayList<Broadcast> nextBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, broadcasts, Consts.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
-				
+
 				for (int j = 0; j < nextBroadcasts.size(); j++) {
+					String programType = nextBroadcasts.get(j).getProgram().getProgramType();
+					String broadcastType = nextBroadcasts.get(j).getBroadcastType();
 					if (j == 0) {
-						if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(nextBroadcasts.get(j).getProgram().getProgramType())) {
+						if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 							holder.mLiveProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getSeries().getName());
-						}
-						else {
-							holder.mLiveProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getTitle());
+						} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
+							holder.mLiveProgramNameTv.setText(mActivity.getResources().getString(R.string.icon_movie) + " " + nextBroadcasts.get(j).getProgram().getTitle());
+						} else {
+							if (Consts.DAZOO_BROADCAST_TYPE_LIVE.equals(broadcastType)) {
+								holder.mLiveProgramNameTv.setText(mActivity.getResources().getString(R.string.icon_live) + " " + nextBroadcasts.get(j).getProgram().getTitle());
+							} else {
+								holder.mLiveProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getTitle());
+							}
 						}
 						try {
 							holder.mLiveProgramTimeTv.setText((DateUtilities.isoStringToTimeString(nextBroadcasts.get(j).getBeginTime())));
@@ -138,11 +145,15 @@ public class TVGuideListAdapter extends BaseAdapter {
 							holder.mLiveProgramTimeTv.setText("");
 						}
 					} else if (j == 1 && j < nextBroadcasts.size()) {
-						if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(nextBroadcasts.get(j).getProgram().getProgramType())) {
+
+						if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 							holder.mNextProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getSeries().getName());
-						}
-						else {
-							holder.mNextProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getTitle());
+						} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
+							holder.mNextProgramNameTv.setText(mActivity.getResources().getString(R.string.icon_movie) + " " + nextBroadcasts.get(j).getProgram().getTitle());
+						} else {
+							if (Consts.DAZOO_BROADCAST_TYPE_LIVE.equals(broadcastType)) {
+								holder.mNextProgramNameTv.setText(mActivity.getResources().getString(R.string.icon_live) + " " + nextBroadcasts.get(j).getProgram().getTitle());
+							} else holder.mNextProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getTitle());
 						}
 						try {
 							holder.mNextProgramTimeTv.setText((DateUtilities.isoStringToTimeString(nextBroadcasts.get(j).getBeginTime())));
@@ -153,9 +164,12 @@ public class TVGuideListAdapter extends BaseAdapter {
 					} else if (j == 2 && j < nextBroadcasts.size()) {
 						if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(nextBroadcasts.get(j).getProgram().getProgramType())) {
 							holder.mLastProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getSeries().getName());
-						}
-						else {
-							holder.mLastProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getTitle());
+						} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
+							holder.mLastProgramNameTv.setText(mActivity.getResources().getString(R.string.icon_movie) + " " + nextBroadcasts.get(j).getProgram().getTitle());
+						} else {
+							if (Consts.DAZOO_BROADCAST_TYPE_LIVE.equals(broadcastType)) {
+								holder.mLastProgramNameTv.setText(mActivity.getResources().getString(R.string.icon_live) + " " + nextBroadcasts.get(j).getProgram().getTitle());
+							} else holder.mLastProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getTitle());
 						}
 						try {
 							holder.mLastProgramTimeTv.setText((DateUtilities.isoStringToTimeString(nextBroadcasts.get(j).getBeginTime())));
@@ -166,7 +180,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 					}
 				}
 				/* get the nearest broadcasts */
-			} 
+			}
 		} else {
 			holder.mLiveProgramNameTv.setText("");
 			holder.mLiveProgramTimeTv.setText("");
@@ -223,8 +237,8 @@ public class TVGuideListAdapter extends BaseAdapter {
 	public long getItemId(int arg0) {
 		return -1;
 	}
-	
-	public void refreshList(int selectedHour){
+
+	public void refreshList(int selectedHour) {
 		mHour = selectedHour;
 		notifyDataSetChanged();
 	}
