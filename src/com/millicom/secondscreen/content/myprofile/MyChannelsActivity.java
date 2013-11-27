@@ -64,6 +64,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,7 +76,8 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 	private Button						mGetMyChannelsButton, mAddToMyChannelsButton;
 	private String						userToken;
 	private ListView					mListView;
-	private TextView					mChannelCountTv, mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;;
+	private TextView					mChannelCountTv;
+	private RelativeLayout				mTabTvGuide, mTabProfile, mTabActivity;
 	private EditText					mSearchChannelInputEditText;
 	private MyChannelsListAdapter		mAdapter;
 	private ArrayList<Channel>			mChannels				= new ArrayList<Channel>();
@@ -121,17 +123,17 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 		// styling bottom navigation tabs
 		mTabSelectorContainerView = findViewById(R.id.tab_selector_container);
 
-		mTxtTabTvGuide = (TextView) findViewById(R.id.show_tvguide);
-		mTxtTabTvGuide.setOnClickListener(this);
-		mTxtTabPopular = (TextView) findViewById(R.id.show_activity);
-		mTxtTabPopular.setOnClickListener(this);
-		mTxtTabFeed = (TextView) findViewById(R.id.show_me);
-		mTxtTabFeed.setOnClickListener(this);
+		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);
+		mTabTvGuide.setOnClickListener(this);
+		mTabActivity = (RelativeLayout) findViewById(R.id.show_activity);
+		mTabActivity.setOnClickListener(this);
+		mTabProfile = (RelativeLayout) findViewById(R.id.show_me);
+		mTabProfile.setOnClickListener(this);
 
-		mTxtTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
-		mTxtTabPopular.setBackgroundColor(getResources().getColor(R.color.yellow));
-		mTxtTabFeed.setBackgroundColor(getResources().getColor(R.color.red));
-	
+		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTabProfile.setBackgroundColor(getResources().getColor(R.color.red));
+
 		mListView = (ListView) findViewById(R.id.listview);
 		mChannelCountTv = (TextView) findViewById(R.id.mychannels_header_counter_tv);
 		mSearchChannelInputEditText = (EditText) findViewById(R.id.mychannels_header_search_ev);
@@ -212,9 +214,9 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 				DazooStore.getInstance().clearMyGuidesStorage();
 				// update the my channels list
 				MyChannelsService.getMyChannels(userToken);
-			
+
 				LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
-			
+
 			} else {
 				Toast.makeText(getApplicationContext(), "Error! List of channels is NOT updated!", Toast.LENGTH_SHORT).show();
 			}
@@ -302,12 +304,12 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void loadPage() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

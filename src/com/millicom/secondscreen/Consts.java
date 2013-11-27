@@ -134,6 +134,7 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_DATA_FETCHING							= "com.millicom.secondscreen.intent.extra.log.in.action";
 	public static final String	INTENT_EXTRA_UPCOMING_BROADCASTS					= "com.millicom.secondscreen.intent.extra.upcoming.broadcasts";
 	public static final String	INTENT_EXTRA_REPEATING_BROADCASTS					= "com.millicom.secondscreen.intent.extra.repeating.broadcasts";
+	public static final String	INTENT_EXTRA_REPEATING_PROGRAM						= "com.millicom.secondscreen.intent.extra.repeating.program";				
 	public static final String	INTENT_EXTRA_CLOCK_SELECTION						= "com.millicom.secondscreen.intent.extra.clock.selection";
 	public static final String	INTENT_EXTRA_CLOCK_SELECTION_VALUE					= "com.millicom.secondscreen.intent.extra.clock.selection.value";
 

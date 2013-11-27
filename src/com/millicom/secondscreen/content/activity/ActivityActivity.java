@@ -77,7 +77,8 @@ import com.millicom.secondscreen.storage.DazooStore;
 public class ActivityActivity extends SSActivity implements OnClickListener {
 
 	private static final String	TAG				= "ActivityActivity";
-	private TextView			mTxtTabTvGuide, mTxtTabProfile, mTxtTabActivity, mSignInTv, mGreetingTv;
+	private RelativeLayout			mTabTvGuide, mTabProfile, mTabActivity;
+	private TextView mSignInTv, mGreetingTv;
 	private Button				mCheckPopularBtn;
 	private ActionBar			mActionBar;
 	private ArrayList<FeedItem>	activityFeed	= new ArrayList<FeedItem>();
@@ -120,16 +121,16 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 	}
 
 	private void initStandardViews() {
-		mTxtTabTvGuide = (TextView) findViewById(R.id.show_tvguide);
-		mTxtTabTvGuide.setOnClickListener(this);
-		mTxtTabActivity = (TextView) findViewById(R.id.show_activity);
-		mTxtTabActivity.setOnClickListener(this);
-		mTxtTabProfile = (TextView) findViewById(R.id.show_me);
-		mTxtTabProfile.setOnClickListener(this);
+		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);
+		mTabTvGuide.setOnClickListener(this);
+		mTabActivity = (RelativeLayout) findViewById(R.id.show_activity);
+		mTabActivity.setOnClickListener(this);
+		mTabProfile = (RelativeLayout) findViewById(R.id.show_me);
+		mTabProfile.setOnClickListener(this);
 
-		mTxtTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
-		mTxtTabActivity.setBackgroundColor(getResources().getColor(R.color.red));
-		mTxtTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTabActivity.setBackgroundColor(getResources().getColor(R.color.red));
+		mTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
 	
 		mActionBar = getSupportActionBar();
 

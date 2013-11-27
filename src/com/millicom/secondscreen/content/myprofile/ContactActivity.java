@@ -26,6 +26,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,16 +36,16 @@ public class ContactActivity extends SSActivity implements OnClickListener {
 	private ActionBar			mActionBar;
 	private boolean				mIsChange	= false;
 	private View				mTabSelectorContainerView;
-	private TextView			mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
+	private RelativeLayout		mTabTvGuide, mTabActivity, mTabProfile;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_contact_activity);
-		
+
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
-		
+
 		initLayout();
 		super.initCallbackLayouts();
 	}
@@ -52,21 +53,20 @@ public class ContactActivity extends SSActivity implements OnClickListener {
 	private void initLayout() {
 		mActionBar = getSupportActionBar();
 		mActionBar.setTitle(getResources().getString(R.string.contact_title));
-	
-		
+
 		// styling bottom navigation tabs
 		mTabSelectorContainerView = findViewById(R.id.tab_selector_container);
 
-		mTxtTabTvGuide = (TextView) findViewById(R.id.show_tvguide);
-		mTxtTabTvGuide.setOnClickListener(this);
-		mTxtTabPopular = (TextView) findViewById(R.id.show_activity);
-		mTxtTabPopular.setOnClickListener(this);
-		mTxtTabFeed = (TextView) findViewById(R.id.show_me);
-		mTxtTabFeed.setOnClickListener(this);
+		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);
+		mTabTvGuide.setOnClickListener(this);
+		mTabActivity = (RelativeLayout) findViewById(R.id.show_activity);
+		mTabActivity.setOnClickListener(this);
+		mTabProfile = (RelativeLayout) findViewById(R.id.show_me);
+		mTabProfile.setOnClickListener(this);
 
-		mTxtTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
-		mTxtTabPopular.setBackgroundColor(getResources().getColor(R.color.yellow));
-		mTxtTabFeed.setBackgroundColor(getResources().getColor(R.color.red));
+		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTabProfile.setBackgroundColor(getResources().getColor(R.color.red));
 	}
 
 	@Override
@@ -112,12 +112,12 @@ public class ContactActivity extends SSActivity implements OnClickListener {
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void loadPage() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

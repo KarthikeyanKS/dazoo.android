@@ -43,7 +43,7 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 	private boolean				mIsLoggedIn	= false;
 	private String				mToken;
 	private ActionBar			mActionBar;
-	private TextView			mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
+	private RelativeLayout		mTabTvGuide, mTabActivity, mTabProfile;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -83,17 +83,17 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 	// };
 
 	private void initViews() {
-		mTxtTabTvGuide = (TextView) findViewById(R.id.show_tvguide);
-		mTxtTabTvGuide.setOnClickListener(this);
-		mTxtTabPopular = (TextView) findViewById(R.id.show_activity);
-		mTxtTabPopular.setOnClickListener(this);
-		mTxtTabFeed = (TextView) findViewById(R.id.show_me);
-		mTxtTabFeed.setOnClickListener(this);
+		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);
+		mTabTvGuide.setOnClickListener(this);
+		mTabActivity = (RelativeLayout) findViewById(R.id.show_activity);
+		mTabActivity.setOnClickListener(this);
+		mTabProfile = (RelativeLayout) findViewById(R.id.show_me);
+		mTabProfile.setOnClickListener(this);
 
-		mTxtTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
-		mTxtTabPopular.setBackgroundColor(getResources().getColor(R.color.yellow));
-		mTxtTabFeed.setBackgroundColor(getResources().getColor(R.color.red));
-	
+		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTabProfile.setBackgroundColor(getResources().getColor(R.color.red));
+
 		mActionBar = getSupportActionBar();
 
 		final int actionBarColor = getResources().getColor(R.color.blue1);
@@ -150,11 +150,11 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 	private void populateViews() {
 		mRemindersTextView.setText(getResources().getString(R.string.icon_clock) + " " + getResources().getString(R.string.reminders));
 		mSettingsTextView.setText(getResources().getString(R.string.icon_settings) + " " + getResources().getString(R.string.settings));
-		
+
 		if (mIsLoggedIn) {
 			mLikesTextView.setText(getResources().getString(R.string.icon_heart) + " " + getResources().getString(R.string.likes));
-			mMyChannelsTextView.setText(getResources().getString(R.string.icon_blocks) + " " +getResources().getString(R.string.my_channels));
-			
+			mMyChannelsTextView.setText(getResources().getString(R.string.icon_blocks) + " " + getResources().getString(R.string.my_channels));
+
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 				if (userFirstName != null && userLastName != null && userFirstName.isEmpty() != true && userLastName.isEmpty() != true) {
 					mAvatarImageView.setImageResource(R.drawable.loadimage_2x);

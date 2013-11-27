@@ -26,6 +26,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.millicom.secondscreen.Consts;
@@ -54,7 +55,7 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 
 	private ActionBar							mActionBar;
 	private ActionBarDropDownDateListAdapter	mDayAdapter;
-	private TextView							mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
+	private RelativeLayout						mTabTvGuide, mTabActivity, mTabProfile;
 	private ListView							mFollowingBroadcastsLv;
 	private ImageView							mChannelIconIv;
 	private ChannelPageListAdapter				mFollowingBroadcastsListAdapter;
@@ -209,17 +210,17 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 		mChannelIconIv = (ImageView) header.findViewById(R.id.channelpage_channel_icon_iv);
 
 		// styling bottom navigation tabs
-		mTxtTabTvGuide = (TextView) findViewById(R.id.show_tvguide);
-		mTxtTabTvGuide.setOnClickListener(this);
-		mTxtTabPopular = (TextView) findViewById(R.id.show_activity);
-		mTxtTabPopular.setOnClickListener(this);
-		mTxtTabFeed = (TextView) findViewById(R.id.show_me);
-		mTxtTabFeed.setOnClickListener(this);
+		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);
+		mTabTvGuide.setOnClickListener(this);
+		mTabActivity = (RelativeLayout) findViewById(R.id.show_activity);
+		mTabActivity.setOnClickListener(this);
+		mTabProfile = (RelativeLayout) findViewById(R.id.show_me);
+		mTabProfile.setOnClickListener(this);
 
 		// the highlighted tab in the Channel activity is TV Guide
-		mTxtTabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
-		mTxtTabPopular.setBackgroundColor(getResources().getColor(R.color.yellow));
-		mTxtTabFeed.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
+		mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
 
 	}
 

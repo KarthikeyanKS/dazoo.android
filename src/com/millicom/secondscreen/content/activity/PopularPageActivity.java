@@ -42,6 +42,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,7 +64,8 @@ public class PopularPageActivity extends SSActivity implements OnClickListener {
 
 	private static final String		TAG					= "PopularPageActivity";
 	private String					token;
-	private TextView				mTxtTabTvGuide, mTxtTabProfile, mTxtTabActivity, mSignInTv;
+	private RelativeLayout			mTabTvGuide, mTabProfile, mTabActivity;
+	private TextView				mSignInTv;
 	private ActionBar				mActionBar;
 	private ListView				mListView;
 	private PopularListAdapter		mAdapter;
@@ -88,17 +90,17 @@ public class PopularPageActivity extends SSActivity implements OnClickListener {
 	}
 
 	private void initViews() {
-		mTxtTabTvGuide = (TextView) findViewById(R.id.show_tvguide);
-		mTxtTabTvGuide.setOnClickListener(this);
-		mTxtTabActivity = (TextView) findViewById(R.id.show_activity);
-		mTxtTabActivity.setOnClickListener(this);
-		mTxtTabProfile = (TextView) findViewById(R.id.show_me);
-		mTxtTabProfile.setOnClickListener(this);
+		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);
+		mTabTvGuide.setOnClickListener(this);
+		mTabActivity = (RelativeLayout) findViewById(R.id.show_activity);
+		mTabActivity.setOnClickListener(this);
+		mTabProfile = (RelativeLayout) findViewById(R.id.show_me);
+		mTabProfile.setOnClickListener(this);
 
-		mTxtTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
-		mTxtTabActivity.setBackgroundColor(getResources().getColor(R.color.red));
-		mTxtTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
-	
+		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTabActivity.setBackgroundColor(getResources().getColor(R.color.red));
+		mTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+
 		mActionBar = getSupportActionBar();
 
 		mActionBar.setDisplayShowTitleEnabled(true);
@@ -127,7 +129,7 @@ public class PopularPageActivity extends SSActivity implements OnClickListener {
 			updateUI(REQUEST_STATUS.FAILED);
 		} else {
 			if (DazooStore.getInstance().getPopularFeed().size() > 0) {
-				Log.d(TAG,"RESTORED POPULAR");
+				Log.d(TAG, "RESTORED POPULAR");
 				mPopularBroadcasts = DazooStore.getInstance().getPopularFeed();
 				updateUI(REQUEST_STATUS.SUCCESSFUL);
 			} else {
@@ -136,9 +138,9 @@ public class PopularPageActivity extends SSActivity implements OnClickListener {
 			}
 		}
 	}
-	
+
 	@Override
-	public void onBackPressed(){
+	public void onBackPressed() {
 		super.onBackPressed();
 		overridePendingTransition(R.anim.push_right_out, R.anim.push_right_in);
 	}

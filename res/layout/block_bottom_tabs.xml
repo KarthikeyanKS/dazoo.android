@@ -4,18 +4,37 @@
     android:layout_width="fill_parent"
     android:layout_height="@dimen/bottom_tabs_height"
     android:layout_alignParentBottom="true"
+    android:gravity="center"
     android:orientation="horizontal" >
 
-    <com.millicom.secondscreen.customviews.FontButton
+    <RelativeLayout
         android:id="@+id/show_tvguide"
-        style="@style/homepage_tab_selector"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:textColor="@color/white"
-        android:textSize="@dimen/bottom_tabs_font_size"
-        font:fontbutton="fontello.ttf" />
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <com.millicom.secondscreen.customviews.FontTextView
+            android:id="@+id/icon_tv_guide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/icon_timetable"
+            android:textColor="@color/white"
+            android:textSize="@dimen/header_1"
+            font:fonttextview="fontello.ttf" />
+
+        <com.millicom.secondscreen.customviews.FontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/icon_tv_guide"
+            android:layout_centerHorizontal="true"
+            android:text="@string/tab_tv_guide"
+            android:textColor="@color/white"
+            android:textSize="@dimen/bottom_tabs_font_size"
+            font:fonttextview="fontello.ttf" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -28,16 +47,34 @@
             android:background="@color/grey1" />
     </RelativeLayout>
 
-    <com.millicom.secondscreen.customviews.FontButton
+    <RelativeLayout
         android:id="@+id/show_activity"
-        style="@style/homepage_tab_selector"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:textColor="@color/white"
-        android:textSize="@dimen/bottom_tabs_font_size"
-        font:fontbutton="fontello.ttf" />
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <com.millicom.secondscreen.customviews.FontTextView
+            android:id="@+id/icon_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/icon_feed"
+            android:textColor="@color/white"
+            android:textSize="@dimen/header_1"
+            font:fonttextview="fontello.ttf" />
+
+        <com.millicom.secondscreen.customviews.FontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/icon_activity"
+            android:layout_centerHorizontal="true"
+            android:text="@string/tab_activity"
+            android:textColor="@color/white"
+            android:textSize="@dimen/bottom_tabs_font_size"
+            font:fonttextview="fontello.ttf" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -50,15 +87,33 @@
             android:background="@color/grey1" />
     </RelativeLayout>
 
-    <com.millicom.secondscreen.customviews.FontButton
+    <RelativeLayout
         android:id="@+id/show_me"
-        style="@style/homepage_tab_selector"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:textColor="@color/white"
-        android:textSize="@dimen/bottom_tabs_font_size"
-        font:fontbutton="fontello.ttf" />
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <com.millicom.secondscreen.customviews.FontTextView
+            android:id="@+id/icon_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/icon_me"
+            android:textColor="@color/white"
+            android:textSize="@dimen/header_1"
+            font:fonttextview="fontello.ttf" />
+
+        <com.millicom.secondscreen.customviews.FontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/icon_profile"
+            android:layout_centerHorizontal="true"
+            android:text="@string/tab_me"
+            android:textColor="@color/white"
+            android:textSize="@dimen/bottom_tabs_font_size"
+            font:fonttextview="fontello.ttf" />
+    </RelativeLayout>
 
 </LinearLayout>

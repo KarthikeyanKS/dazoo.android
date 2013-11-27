@@ -287,9 +287,9 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							DazooStore.getInstance().addLikeIdToList(programId);
 
 							LikeService.showSetLikeToast(mActivity, contentTitle);
-							likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
+							likeTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
 
-							AnimationUtilities.animationSet(likeLikeIv);
+							AnimationUtilities.animationSet(likeTwitterIv);
 
 							mIsLiked = true;
 						} else {

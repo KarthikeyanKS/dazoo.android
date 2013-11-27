@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -48,7 +49,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 	private String					token, mChannelId, mBroadcastPageUrl;
 	private long					mBeginTimeInMillis;
 	private boolean					mIsFromNotification	= false, mIsFromActivity = false, mIsLoggedIn = false, mIsBroadcast = false, mIsUpcoming = false, mIsSeries = false, mIsRepeat = false;
-	private TextView				mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
+	private RelativeLayout			mTabTvGuide, mTabActivity, mTabProfile;
 	private DazooStore				dazooStore;
 	private Activity				mActivity;
 	private Intent					intent;
@@ -149,7 +150,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 							} else {
 								mIsUpcoming = true;
 							}
-						
+
 							getRepetitionBroadcasts(mBroadcast.getProgram().getProgramId());
 
 							updateUI(REQUEST_STATUS.SUCCESSFUL);
@@ -202,17 +203,17 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		final int actionBarColor = getResources().getColor(R.color.blue1);
 		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
 
-		mTxtTabTvGuide = (TextView) findViewById(R.id.show_tvguide);
-		mTxtTabTvGuide.setOnClickListener(this);
-		mTxtTabPopular = (TextView) findViewById(R.id.show_activity);
-		mTxtTabPopular.setOnClickListener(this);
-		mTxtTabFeed = (TextView) findViewById(R.id.show_me);
-		mTxtTabFeed.setOnClickListener(this);
+		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);
+		mTabTvGuide.setOnClickListener(this);
+		mTabActivity = (RelativeLayout) findViewById(R.id.show_activity);
+		mTabActivity.setOnClickListener(this);
+		mTabProfile = (RelativeLayout) findViewById(R.id.show_me);
+		mTabProfile.setOnClickListener(this);
 
-		mTxtTabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
-		mTxtTabPopular.setBackgroundColor(getResources().getColor(R.color.yellow));
-		mTxtTabFeed.setBackgroundColor(getResources().getColor(R.color.yellow));
-	
+		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
+		mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+
 		mBlockContainer = (LinearLayout) findViewById(R.id.broacastpage_block_container_layout);
 		mScrollView = (ScrollView) findViewById(R.id.broadcast_scroll);
 	}
@@ -228,7 +229,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		// repetitions
 		if (mRepeatBroadcasts != null && mRepeatBroadcasts.isEmpty() != true) {
 			BroadcastRepeatitionsBlockPopulator repeatitionsBlock = new BroadcastRepeatitionsBlockPopulator(mActivity, mScrollView, mTvDate);
-			repeatitionsBlock.createBlock(mRepeatBroadcasts);
+			repeatitionsBlock.createBlock(mRepeatBroadcasts, mBroadcast.getProgram());
 		}
 
 		// upcoming episodes
@@ -236,7 +237,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 			BroadcastUpcomingBlockPopulator upcomingBlock = new BroadcastUpcomingBlockPopulator(mActivity, mScrollView, mTvDate, mIsSeries);
 			upcomingBlock.createBlock(mUpcomingBroadcasts);
 		}
-		
+
 		// cast & crew
 
 		// similar shows today

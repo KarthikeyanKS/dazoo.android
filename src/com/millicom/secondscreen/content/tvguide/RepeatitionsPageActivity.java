@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.millicom.secondscreen.Consts;
@@ -20,17 +21,19 @@ import com.millicom.secondscreen.content.SSActivity;
 import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.model.Broadcast;
+import com.millicom.secondscreen.content.model.Program;
 import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
 
 public class RepeatitionsPageActivity extends SSActivity implements OnClickListener {
 
 	private static final String		TAG						= "RepeatitionsPageActivity";
 	private String					token;
-	private TextView				mTxtTabTvGuide, mTxtTabProfile, mTxtTabActivity, mSignInTv;
+	private RelativeLayout			mTabTvGuide, mTabProfile, mTabActivity;
 	private ActionBar				mActionBar;
 	private ListView				mListView;
 	private RepeatitionsListAdapter	mAdapter;
 	private ArrayList<Broadcast>	mRepeatingBroadcasts	= new ArrayList<Broadcast>();
+	private Program					mRepeatingProgram;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class RepeatitionsPageActivity extends SSActivity implements OnClickListe
 
 		Intent intent = getIntent();
 		mRepeatingBroadcasts = intent.getParcelableArrayListExtra(Consts.INTENT_EXTRA_REPEATING_BROADCASTS);
+		mRepeatingProgram = intent.getParcelableExtra(Consts.INTENT_EXTRA_REPEATING_PROGRAM);
 
 		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 
@@ -53,17 +57,17 @@ public class RepeatitionsPageActivity extends SSActivity implements OnClickListe
 	}
 
 	private void initViews() {
-		mTxtTabTvGuide = (TextView) findViewById(R.id.show_tvguide);
-		mTxtTabTvGuide.setOnClickListener(this);
-		mTxtTabActivity = (TextView) findViewById(R.id.show_activity);
-		mTxtTabActivity.setOnClickListener(this);
-		mTxtTabProfile = (TextView) findViewById(R.id.show_me);
-		mTxtTabProfile.setOnClickListener(this);
+		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);
+		mTabTvGuide.setOnClickListener(this);
+		mTabActivity = (RelativeLayout) findViewById(R.id.show_activity);
+		mTabActivity.setOnClickListener(this);
+		mTabProfile = (RelativeLayout) findViewById(R.id.show_me);
+		mTabProfile.setOnClickListener(this);
 
-		mTxtTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
-		mTxtTabActivity.setBackgroundColor(getResources().getColor(R.color.red));
-		mTxtTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
-	
+		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTabActivity.setBackgroundColor(getResources().getColor(R.color.red));
+		mTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+
 		mActionBar = getSupportActionBar();
 
 		mActionBar.setDisplayShowTitleEnabled(true);
@@ -77,7 +81,7 @@ public class RepeatitionsPageActivity extends SSActivity implements OnClickListe
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
 		if (super.requestIsSuccesfull(status)) {
-			mAdapter = new RepeatitionsListAdapter(this, mRepeatingBroadcasts);
+			mAdapter = new RepeatitionsListAdapter(this, mRepeatingBroadcasts, mRepeatingProgram);
 			mListView.setAdapter(mAdapter);
 			mListView.setVisibility(View.VISIBLE);
 		}

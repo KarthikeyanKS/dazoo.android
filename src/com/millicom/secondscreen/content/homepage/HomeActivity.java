@@ -28,6 +28,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.millicom.secondscreen.Consts;
@@ -50,7 +51,7 @@ import com.millicom.secondscreen.utilities.StringUtilities;
 public class HomeActivity extends SSPageFragmentActivity implements OnClickListener, ActionBar.OnNavigationListener {
 
 	private static final String					TAG					= "HomeActivity";
-	private TextView							mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
+	private RelativeLayout						mTabTvGuide, mTabPopular, mTabFeed;
 	private ActionBar							mActionBar;
 	private ActionBarDropDownDateListAdapter	mDayAdapter;
 	public static int							mBroadcastSelection	= -1;
@@ -199,30 +200,18 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	}
 
 	private void initViews() {
+		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);
+		mTabTvGuide.setOnClickListener(this);
 
-		mTxtTabTvGuide = (TextView) findViewById(R.id.show_tvguide);
-		mTxtTabTvGuide.setOnClickListener(this);
-		mTxtTabPopular = (TextView) findViewById(R.id.show_activity);
-		mTxtTabPopular.setOnClickListener(this);
-		mTxtTabFeed = (TextView) findViewById(R.id.show_me);
-		mTxtTabFeed.setOnClickListener(this);
+		mTabPopular = (RelativeLayout) findViewById(R.id.show_activity);
+		mTabPopular.setOnClickListener(this);
+		mTabFeed = (RelativeLayout) findViewById(R.id.show_me);
+		mTabFeed.setOnClickListener(this);
 
-		mTxtTabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
-		mTxtTabPopular.setBackgroundColor(getResources().getColor(R.color.yellow));
-		mTxtTabFeed.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
+		mTabPopular.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTabFeed.setBackgroundColor(getResources().getColor(R.color.yellow));
 
-		Spannable spanGuide = new SpannableString( getResources().getString(R.string.icon_timetable)+ "\n" + getResources().getString(R.string.tab_tv_guide));
-		spanGuide.setSpan(new AbsoluteSizeSpan(75), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		mTxtTabTvGuide.setText(spanGuide);
-		
-		Spannable spanActivity = new SpannableString( getResources().getString(R.string.icon_feed)+ "\n" + getResources().getString(R.string.tab_activity));
-		spanActivity.setSpan(new AbsoluteSizeSpan(75), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		mTxtTabPopular.setText(spanActivity);
-		
-		Spannable spanMe = new SpannableString( getResources().getString(R.string.icon_me)+ "\n" + getResources().getString(R.string.tab_me));
-		spanMe.setSpan(new AbsoluteSizeSpan(75), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		mTxtTabFeed.setText(spanMe);
-		
 		mActionBar = getSupportActionBar();
 
 		final int actionBarColor = getResources().getColor(R.color.blue1);
@@ -278,9 +267,9 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	protected void updateUI(REQUEST_STATUS status) {
 
 		if (super.requestIsSuccesfull(status)) {
-			
+
 			mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-			
+
 			mDayAdapter = new ActionBarDropDownDateListAdapter(mTvDates);
 			mDayAdapter.setSelectedIndex(mDateSelectedIndex);
 			mActionBar.setListNavigationCallbacks(mDayAdapter, this);

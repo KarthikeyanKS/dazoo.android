@@ -13,6 +13,7 @@ import android.text.SpannableString;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +38,7 @@ public class LikesActivity extends SSActivity implements LikesCountInterface, On
 	private LikesListAdapter	mAdapter;
 	private String				token;
 	private View				mTabSelectorContainerView;
-	private TextView			mTxtTabTvGuide, mTxtTabPopular, mTxtTabFeed;
+	private RelativeLayout		mTabTvGuide, mTabActivity, mTabProfile;
 	private int mCount = 0;
 	
 	public void onCreate(Bundle savedInstanceState) {
@@ -61,16 +62,16 @@ public class LikesActivity extends SSActivity implements LikesCountInterface, On
 		// styling bottom navigation tabs
 		mTabSelectorContainerView = findViewById(R.id.tab_selector_container);
 
-		mTxtTabTvGuide = (TextView) findViewById(R.id.show_tvguide);
-		mTxtTabTvGuide.setOnClickListener(this);
-		mTxtTabPopular = (TextView) findViewById(R.id.show_activity);
-		mTxtTabPopular.setOnClickListener(this);
-		mTxtTabFeed = (TextView) findViewById(R.id.show_me);
-		mTxtTabFeed.setOnClickListener(this);
+		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);
+		mTabTvGuide.setOnClickListener(this);
+		mTabActivity = (RelativeLayout) findViewById(R.id.show_activity);
+		mTabActivity.setOnClickListener(this);
+		mTabProfile = (RelativeLayout) findViewById(R.id.show_me);
+		mTabProfile.setOnClickListener(this);
 
-		mTxtTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
-		mTxtTabPopular.setBackgroundColor(getResources().getColor(R.color.yellow));
-		mTxtTabFeed.setBackgroundColor(getResources().getColor(R.color.red));
+		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+		mTabProfile.setBackgroundColor(getResources().getColor(R.color.red));
 	
 		mListView = (ListView) findViewById(R.id.listview);
 	}

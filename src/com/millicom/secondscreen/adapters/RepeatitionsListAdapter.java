@@ -20,6 +20,7 @@ import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.NotificationDbItem;
+import com.millicom.secondscreen.content.model.Program;
 import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
 import com.millicom.secondscreen.notification.NotificationDataSource;
 import com.millicom.secondscreen.notification.NotificationDialogHandler;
@@ -38,11 +39,13 @@ public class RepeatitionsListAdapter extends BaseAdapter {
 	private NotificationDataSource	mNotificationDataSource;
 	private int						mLastPosition	= -1, mNotificationId = -1;
 	private boolean					mIsSet			= false, mIsFuture = false;
+	private Program mProgram;
 
-	public RepeatitionsListAdapter(Activity activity, ArrayList<Broadcast> repeatingBroadcasts) {
+	public RepeatitionsListAdapter(Activity activity, ArrayList<Broadcast> repeatingBroadcasts, Program program) {
 		this.mRepeatingEpisodes =repeatingBroadcasts;
 		this.mActivity = activity;
 		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage_2x);
+		this.mProgram = program;
 		mNotificationDataSource = new NotificationDataSource(mActivity);
 	}
 
@@ -70,6 +73,7 @@ public class RepeatitionsListAdapter extends BaseAdapter {
 		View rowView = convertView;
 
 		final Broadcast broadcast = getItem(position);
+		broadcast.setProgram(mProgram);
 		
 		if (rowView == null) {
 			mLayoutInflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
