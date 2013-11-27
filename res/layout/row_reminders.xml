@@ -20,20 +20,11 @@
             android:layout_height="wrap_content"
             android:background="@color/grey1"
             android:padding="10dp"
-            android:textColor="@color/black"
+            android:textColor="@color/grey2"
             android:textSize="16sp"
             android:textStyle="bold" />
 
     </LinearLayout>
-    
-    <View
-        android:id="@+id/row_reminders_header_divider"
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@color/grey1" 
-        android:layout_below="@id/row_reminders_header_container"  />
     
     <!-- REMINDERS CONTAINER -->
     
@@ -41,7 +32,7 @@
         android:id="@+id/row_reminders_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/row_reminders_header_divider"
+        android:layout_below="@id/row_reminders_header_container"
         android:background="@color/white"
         android:padding="10dp"
         android:orientation="horizontal"
@@ -128,7 +119,7 @@
 	            android:layout_width="1dp"
 	            android:layout_height="60dp"
 	            android:layout_margin="10dp"
-	            android:background="@color/grey2"
+	            android:background="@color/grey1"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/row_reminders_notification_iv" />
             
@@ -136,4 +127,13 @@
         
     </LinearLayout>
 
+    <View
+        android:id="@+id/row_reminders_header_divider"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/grey1" 
+        android:layout_below="@id/row_reminders_container"  />
+    
 </RelativeLayout>

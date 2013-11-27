@@ -1,6 +1,7 @@
 package com.millicom.secondscreen.content.myprofile;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -79,6 +80,7 @@ public class LikesActivity extends SSActivity implements LikesCountInterface, On
 	private void populateLayout() {
 		ArrayList<DazooLike> likes = new ArrayList<DazooLike>();
 		likes = LikeService.getLikesList(token);
+		Collections.sort(likes, new DazooLike.DazooLikeComparatorByTitle());
 		mAdapter = new LikesListAdapter(this, likes, token, this);
 		mListView.setAdapter(mAdapter);
 	}

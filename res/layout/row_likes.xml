@@ -5,9 +5,11 @@
     android:layout_height="fill_parent"
     android:background="@drawable/listview_item_selector" >
     
+    <!-- HEADER -->
+    
     <LinearLayout
         android:id="@+id/row_likes_header_container"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:visibility="gone" >
@@ -16,34 +18,34 @@
             android:id="@+id/row_likes_header_textview"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/grey2"
+            android:background="@color/grey1"
             android:padding="10dp"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textColor="@color/grey2"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@color/grey2" />
     </LinearLayout>
+    
+    <!-- LIKES CONTAINER -->
     
     <LinearLayout
         android:id="@+id/row_likes_container"
         android:layout_width="fill_parent"
-        android:layout_below="@id/row_likes_header_container"
-        android:layout_marginRight="10dp"
         android:layout_height="wrap_content"
+        android:layout_below="@id/row_likes_header_container"
         android:background="@color/white"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:padding="10dp" >
 
         <RelativeLayout
             android:id="@+id/row_likes_text_container"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_weight="0.6"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:layout_weight="0.3"
+            android:layout_gravity="center_vertical" >
+            
+            <!-- TITLE -->
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/row_likes_text_title_tv"
@@ -51,11 +53,12 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_gravity="left"
-                android:layout_margin="5dp"
+                android:textSize="18sp"
                 android:textColor="@color/grey3"
-                android:textSize="16sp"
                 android:textStyle="bold" />
 
+            <!-- DETAILS -->
+            
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/row_likes_text_details_tv"
                 android:layout_width="fill_parent"
@@ -63,19 +66,21 @@
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/row_likes_text_title_tv"
                 android:layout_gravity="left"
-                android:layout_margin="5dp"
                 android:textColor="@color/grey3"
                 android:textSize="16sp"/>
+            
         </RelativeLayout>
-
+        
+        <!-- BUTTON CONTAINER -->
+        
         <RelativeLayout
             android:id="@+id/row_likes_button_container"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.4"
             android:layout_gravity="center_vertical"
             android:background="@color/white"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:layout_weight="0.7" >
 
             <ImageView
                 android:id="@+id/row_likes_button_iv"
@@ -83,9 +88,29 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_margin="5dp" 
+                android:layout_margin="5dp"
                 android:src="@drawable/ic_heart_red"/>
+            
+            <View 
+	            android:layout_width="1dp"
+	            android:layout_height="60dp"
+	            android:layout_margin="10dp"
+	            android:background="@color/grey1"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/row_likes_button_iv" />
+            
         </RelativeLayout>
+        
     </LinearLayout>
+    
+    <View
+        android:id="@+id/row_likes_header_divider"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/grey1" 
+        android:layout_below="@id/row_likes_container"
+        android:visibility="visible" />
 
 </RelativeLayout>
