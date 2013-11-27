@@ -37,61 +37,7 @@
     <string name="icon_blocks"> &#xe810;</string>
     <string name="icon_bookmark"> &#xe804;</string>
 
-    <string-array name="twenty_four_hours_in_strings">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>10</item>
-        <item>11</item>
-        <item>12</item>
-        <item>13</item>
-        <item>14</item>
-        <item>15</item>
-        <item>16</item>
-        <item>17</item>
-        <item>18</item>
-        <item>19</item>
-        <item>20</item>
-        <item>21</item>
-        <item>22</item>
-        <item>23</item>
-    </string-array>
-    <string-array name="twenty_four_hours_with_ampm">
-        <item>1 am</item>
-        <item>2 am</item>
-        <item>3 am</item>
-        <item>4 am</item>
-        <item>5 am</item>
-        <item>6 am</item>
-        <item>7 am</item>
-        <item>8 am</item>
-        <item>9 am</item>
-        <item>10 am</item>
-        <item>11 am</item>
-        <item>12 am</item>
-        <item>1 pm</item>
-        <item>2 pm</item>
-        <item>3 pm</item>
-        <item>4 pm</item>
-        <item>5 pm</item>
-        <item>6 pm</item>
-        <item>7 pm</item>
-        <item>8 pm</item>
-        <item>9 pm</item>
-        <item>10 m</item>
-        <item>11 pm</item>
-        <item>12 pm</item>
-    </string-array>
-
     <!-- HOMEPAGE : FILTER BY CATEGORY -->
-    <string name="filter_by">Filter by</string>
     <string name="all">All</string>
     <string name="all_categories_alias">all_categories</string>
     <string name="all_categories_name">"All programs"</string>
@@ -138,11 +84,11 @@
     <string name="settings_help">Tutorials &amp; Help</string>
     <string name="settings_version">Version</string>
     <string name="contact_title">Contact</string>
-    <string name="contact_temp">CONTACT STUFF GOES HERE!</string>
+    <string name="contact_temp">Contact information</string>
     <string name="terms_title">Terms of use</string>
-    <string name="terms_temp">TERMS STUFF GOES HERE!</string>
+    <string name="terms_temp">Terms information</string>
     <string name="help_title">Tutorials &amp; Help</string>
-    <string name="help_temp">HELP STUFF GOES HERE!</string>
+    <string name="help_temp">Help information</string>
 
     <!-- BROADCAST PAGE -->
     <string name="cast_and_crew">Cast &amp; Crews</string>

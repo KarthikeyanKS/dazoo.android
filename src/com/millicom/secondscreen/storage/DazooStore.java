@@ -262,6 +262,19 @@ public class DazooStore {
 		return guideTable;
 	}
 
+	// check if there is a pre-loaded guide data
+	public boolean isGuideForDate(String tvDate){
+		if(!getGuideTable(tvDate).isEmpty()){
+			return true;
+		} else return false;
+	}
+	
+	public boolean isMyGuideForDate(String tvDate){
+		if(!getMyGuideTable(tvDate).isEmpty()){
+			return true;
+		} else return false;
+	}
+	
 	// broadcasts
 	public void setBroadcastsList(HashMap<BroadcastKey, ArrayList<Broadcast>> taggedBroadcasts) {
 		this.mTaggedBroadcasts = taggedBroadcasts;

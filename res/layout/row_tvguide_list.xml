@@ -27,8 +27,7 @@
                 android:layout_margin="@dimen/channel_logo_margin"
                 android:adjustViewBounds="true"
                 android:clickable="false"
-                android:focusableInTouchMode="false"
-                android:scaleType="fitXY" />
+                android:focusableInTouchMode="false" />
 
             <ProgressBar
                 android:id="@+id/tvguide_channel_progressbar"
@@ -61,10 +60,10 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
+                    android:maxLines="1"
                     android:textColor="@color/red"
                     android:textSize="@dimen/header_2"
                     android:textStyle="bold"
-                    android:maxLines="1"
                     font:fonttextview="fontello.ttf" />
 
                 <com.millicom.secondscreen.customviews.FontTextView
@@ -75,10 +74,10 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_toRightOf="@id/tvguide_program_line_live_time_tv"
+                    android:maxLines="1"
                     android:textColor="@color/red"
                     android:textSize="@dimen/header_2"
                     android:textStyle="bold"
-                    android:maxLines="1"
                     font:fonttextview="fontello.ttf" />
             </RelativeLayout>
 
@@ -112,8 +111,8 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="9dp"
                     android:layout_marginTop="3dp"
-                    android:maxLines="1"
                     android:layout_toRightOf="@id/tvguide_program_line_next_time_tv"
+                    android:maxLines="1"
                     android:textColor="@color/grey3"
                     android:textSize="@dimen/header_3"
                     font:fonttextview="fontello.ttf" />
@@ -149,8 +148,8 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="9dp"
                     android:layout_marginTop="3dp"
-                    android:maxLines="1"
                     android:layout_toRightOf="@id/tvguide_program_line_last_time_tv"
+                    android:maxLines="1"
                     android:textColor="@color/grey3"
                     android:textSize="@dimen/header_3"
                     font:fonttextview="fontello.ttf" />

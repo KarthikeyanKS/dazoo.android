@@ -73,37 +73,36 @@ public class DazooCore {
 	}
 
 	private static void getTagsDatesChannels() {
-		if(DazooStore.getInstance().getTvDates()== null || DazooStore.getInstance().getTvDates().isEmpty()){
-		GetTvDates tvDatesTask = new GetTvDates();
-		tvDatesTask.execute();
+		if (DazooStore.getInstance().getTvDates() == null || DazooStore.getInstance().getTvDates().isEmpty()) {
+			GetTvDates tvDatesTask = new GetTvDates();
+			tvDatesTask.execute();
 		}
-		
-		
-		if(DazooStore.getInstance().getTags()==null || DazooStore.getInstance().getTags().isEmpty()){
-		GetTags tagsTask = new GetTags();
-		tagsTask.execute();
+
+		if (DazooStore.getInstance().getTags() == null || DazooStore.getInstance().getTags().isEmpty()) {
+			GetTags tagsTask = new GetTags();
+			tagsTask.execute();
 		}
 
 		if (token != null && TextUtils.isEmpty(token) != true) {
 
 			// get all channels
-			if(DazooStore.getInstance().getAllChannels()== null || DazooStore.getInstance().getAllChannels().isEmpty()  ){
-			GetAllChannels allChannelsTask = new GetAllChannels();
-			allChannelsTask.execute();
+			if (DazooStore.getInstance().getAllChannels() == null || DazooStore.getInstance().getAllChannels().isEmpty()) {
+				GetAllChannels allChannelsTask = new GetAllChannels();
+				allChannelsTask.execute();
 
-			// get info only about user channels
-			if (MyChannelsService.getMyChannels(token)) {
-				mMyChannelsIds = DazooStore.getInstance().getMyChannelIds();
-				mIsMyChannels = true;
-			} else {
-				mDefaultChannelsIds = DazooStore.getInstance().getDefaultChannelIds();
-			}
+				// get info only about user channels
+				if (MyChannelsService.getMyChannels(token)) {
+					mMyChannelsIds = DazooStore.getInstance().getMyChannelIds();
+					mIsMyChannels = true;
+				} else {
+					mDefaultChannelsIds = DazooStore.getInstance().getDefaultChannelIds();
+				}
 			}
 		} else {
-			if(DazooStore.getInstance().getDefaultChannels() == null || DazooStore.getInstance().getDefaultChannels().isEmpty()){
-			// get the default package of channels
-			GetDefaultChannels defaultChannelsTask = new GetDefaultChannels();
-			defaultChannelsTask.execute();
+			if (DazooStore.getInstance().getDefaultChannels() == null || DazooStore.getInstance().getDefaultChannels().isEmpty()) {
+				// get the default package of channels
+				GetDefaultChannels defaultChannelsTask = new GetDefaultChannels();
+				defaultChannelsTask.execute();
 			}
 		}
 	}
@@ -121,7 +120,7 @@ public class DazooCore {
 		}
 		return false;
 	}
-	
+
 	// prepare my tagged broadcasts for the specific date
 	private static boolean prepareMyTaggedContent(TvDate date) {
 		if (mTags != null && mTags.isEmpty() != true) {
@@ -285,7 +284,7 @@ public class DazooCore {
 												new Intent(Consts.INTENT_EXTRA_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, true));
 									}
 								}
-								
+
 								// get the list of likes and save in DazooStore to avoid excessive backend requests
 								ArrayList<String> likeIds = LikeService.getLikeIdsList(token);
 								DazooStore.getInstance().setLikeIds(likeIds);
@@ -320,20 +319,37 @@ public class DazooCore {
 
 	public static void getGuide(int dateIndex, boolean isChannel) {
 		Log.d(TAG, "APPROACH GUIDE!!!: ");
-		
-		if(token != null && TextUtils.isEmpty(token) != true){
+
+		if (token != null && TextUtils.isEmpty(token) != true) {
 			Log.d(TAG, "mIsTvDate:" + mIsTvDate + "  mIsTags: " + mIsTags + "  mIsAllChannels: " + mIsAllChannels);
-			if (mIsTvDate == true && mIsTags == true && mIsAllChannels){
+
+			if (mIsTvDate == true && mIsTags == true && mIsAllChannels) {
 				TvDate date = mTvDates.get(dateIndex);
-				GetGuide getGuideTask = new GetGuide(date, isChannel);
-				getGuideTask.execute(mContext);
+				if (DazooStore.getInstance().isMyGuideForDate(date.getDate())) {
+					// notify the HomeActivity that the guide is available and UI may be updated
+
+					Log.d(TAG, "There is a ready My one!");
+					LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(Consts.INTENT_EXTRA_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, true));
+				} else {
+
+					GetGuide getGuideTask = new GetGuide(date, isChannel);
+					getGuideTask.execute(mContext);
+				}
 			}
 		} else {
-			Log.d(TAG, "mIsTvDate:" + mIsTvDate + "  mIsTags: " + mIsTags + "   mIsDefaultChannels: " + mIsDefaultChannels );
-			if (mIsTvDate == true && mIsTags == true && mIsDefaultChannels) {
-				TvDate date = mTvDates.get(dateIndex);
-				GetGuide getGuideTask = new GetGuide(date, isChannel);
-				getGuideTask.execute(mContext);
+				Log.d(TAG, "mIsTvDate:" + mIsTvDate + "  mIsTags: " + mIsTags + "   mIsDefaultChannels: " + mIsDefaultChannels);
+				if (mIsTvDate == true && mIsTags == true && mIsDefaultChannels) {
+					TvDate date = mTvDates.get(dateIndex);
+					if (DazooStore.getInstance().isGuideForDate(date.getDate())) {
+						// notify the HomeActivity that the guide is available and UI may be updated
+
+						Log.d(TAG, "There is a ready one!");
+						LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(Consts.INTENT_EXTRA_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, true));
+					} else {
+					
+					GetGuide getGuideTask = new GetGuide(date, isChannel);
+					getGuideTask.execute(mContext);
+				}
 			}
 		}
 	}
@@ -384,7 +400,7 @@ public class DazooCore {
 
 		sB.append(Consts.REQUEST_QUERY_SEPARATOR);
 		sB.append(date);
-		
+
 		sB.append(Consts.REQUEST_PARAMETER_SEPARATOR);
 		for (int i = 0; i < channelIds.size(); i++) {
 			if (i == 0) {
@@ -398,32 +414,32 @@ public class DazooCore {
 		}
 		return sB.toString();
 	}
-	
-	public static void resetAll(){
-		mDateIndex			= 0;
-		mIsTvDate			= false;
-		mIsTags				= false;
-		mIsDefaultChannels	= false;
-		mIsAllChannels		= false;
-		mIsMyChannels		= false;
-		mIsGuide			= false;
-		
+
+	public static void resetAll() {
+		mDateIndex = 0;
+		mIsTvDate = false;
+		mIsTags = false;
+		mIsDefaultChannels = false;
+		mIsAllChannels = false;
+		mIsMyChannels = false;
+		mIsGuide = false;
+
 		mTvDates.clear();
-		mTvDates			= new ArrayList<TvDate>();
+		mTvDates = new ArrayList<TvDate>();
 		mDefaultChannels.clear();
-		mDefaultChannels	= new ArrayList<Channel>();
+		mDefaultChannels = new ArrayList<Channel>();
 		mAllChannels.clear();
-		mAllChannels		= new ArrayList<Channel>();
+		mAllChannels = new ArrayList<Channel>();
 		mTags.clear();
-		mTags				= new ArrayList<Tag>();
+		mTags = new ArrayList<Tag>();
 		mGuides.clear();
-		mGuides				= new ArrayList<Guide>();
+		mGuides = new ArrayList<Guide>();
 		mMyChannelsIds.clear();
-		mMyChannelsIds		= new ArrayList<String>();
+		mMyChannelsIds = new ArrayList<String>();
 		mAllChannelsIds.clear();
-		mAllChannelsIds		= new ArrayList<String>();
+		mAllChannelsIds = new ArrayList<String>();
 		mDefaultChannelsIds.clear();
-		mDefaultChannelsIds	= new ArrayList<String>();
-		
+		mDefaultChannelsIds = new ArrayList<String>();
+
 	}
 }

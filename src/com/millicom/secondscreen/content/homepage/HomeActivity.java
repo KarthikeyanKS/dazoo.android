@@ -88,7 +88,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverMyChannels, new IntentFilter(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
 		initViews();
 
-		checkForUpdates();
+		//checkForUpdates();
 
 		loadPage();
 	}
@@ -121,21 +121,30 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			Log.d(TAG, "content for TvGuide TABLE is ready: " + mIsReady);
 			Log.d(TAG, "mDateSelectedIndex: " + mDateSelectedIndex);
 			Log.d(TAG, "mChannelUpdate: " + mChannelUpdate);
+			Log.d(TAG,"mFirstHit " + mFirstHit);
 
-			if (mIsReady && (mDateSelectedIndex == 0) && !mChannelUpdate) {
-
+			if (mIsReady && (mDateSelectedIndex == 0) && !mChannelUpdate && mFirstHit) {
+				Log.d(TAG,"CASE 1");
 				if (!pageHoldsData()) {
 
 					updateUI(REQUEST_STATUS.FAILED);
 				}
 			} else if (mIsReady && (mDateSelectedIndex != 0) && mChannelUpdate) {
+				Log.d(TAG,"CASE 1");
 				attachFragment();
 				mChannelUpdate = false;
-			} else if (mIsReady && (mDateSelectedIndex == 0) && mChannelUpdate) {
+			} else if (mIsReady && (mDateSelectedIndex == 0) && mChannelUpdate && !mFirstHit) {
+				Log.d(TAG,"CASE 2");
 				attachFragment();
 				mChannelUpdate = false;
-			} else if (mIsReady && (mDateSelectedIndex != 0) && !mChannelUpdate) {
+			} else if (mIsReady && (mDateSelectedIndex != 0) && !mChannelUpdate && !mFirstHit) {
+				Log.d(TAG,"CASE 3");
 				attachFragment();
+				mChannelUpdate = false;
+			} else if (mIsReady && (mDateSelectedIndex==0) && !mChannelUpdate && !mFirstHit){
+				Log.d(TAG,"CASE 4");
+				attachFragment();
+				mChannelUpdate = false;
 			}
 		}
 	};
@@ -237,6 +246,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	private void reloadPage() {
 		// Don't allow any swiping gestures while reloading
 		updateUI(REQUEST_STATUS.LOADING);
+		
 		DazooCore.getGuide(mDateSelectedIndex, false);
 	}
 

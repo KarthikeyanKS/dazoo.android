@@ -148,11 +148,11 @@ public class TVGuideTableFragment extends SSPageFragment {
 			}
 		} else {
 			if (mIsLoggedIn) {
-				mTaggedBroadcasts = DazooStore.getInstance().getMyTaggedBroadcasts(mTvDate, mTag);
+				mTaggedBroadcasts = dazooStore.getMyTaggedBroadcasts(mTvDate, mTag);
 				Log.d(TAG, "I GOT MY!!!!!!!!");
 
 			} else {
-				mTaggedBroadcasts = DazooStore.getInstance().getTaggedBroadcasts(mTvDate, mTag);
+				mTaggedBroadcasts = dazooStore.getTaggedBroadcasts(mTvDate, mTag);
 				Log.d(TAG, "I GOT DEFAULT!!!!!!!!!");
 			}
 		}
