@@ -213,7 +213,7 @@ public class Broadcast implements Parcelable {
 		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
 
 		Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.HOUR_OF_DAY, hour);
+		calendar.set(Calendar.HOUR_OF_DAY, hour+1);
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 

@@ -56,7 +56,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
                 android:layout_marginTop="7dp"
-                android:maxLines="1"
+                android:singleLine="true"
+                android:maxWidth="250dp"
                 android:textColor="@color/black"
                 android:textSize="@dimen/header_2"
                 android:textStyle="bold" />
@@ -69,6 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvguide_tag_list_item_title_tv"
                 android:layout_marginBottom="3dp"
+                android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/ingress" />
 
@@ -80,6 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvguide_tag_list_item_time_tv"
                 android:layout_marginBottom="7dp"
+                android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/ingress" />
 
@@ -91,6 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvguide_tag_list_item_channel_tv"
                 android:layout_marginBottom="7dp"
+                android:singleLine="true"
                 android:textColor="@color/grey2"
                 android:textSize="@dimen/ingress" />
 
@@ -102,6 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvguide_tag_list_item_type_tv"
                 android:layout_marginBottom="5dp"
+                android:singleLine="true"
                 android:textColor="@color/red"
                 android:textSize="@dimen/paragraph"
                 android:visibility="gone" />
@@ -111,7 +116,7 @@
             <ProgressBar
                 android:id="@+id/tvguide_tag_list_item_duration_pb"
                 style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="fill_parent"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvguide_tag_list_item_timeleft_tv"
                 android:layout_marginBottom="5dp"

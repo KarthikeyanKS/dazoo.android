@@ -235,8 +235,8 @@ public class TVGuideTableFragment extends SSPageFragment {
 		}
 	};
 
-	public void onDestroy() {
-		super.onDestroy();
+	public void onDetach() {
+		super.onDetach();
 		LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mBroadcastReceiverClock);
 	}
 
