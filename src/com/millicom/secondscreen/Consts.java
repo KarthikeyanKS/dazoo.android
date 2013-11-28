@@ -19,6 +19,8 @@ public abstract class Consts {
 	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_EMAIL					= "com.millicom.secondscreen.user.account.email";
 	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_PASSWORD					= "com.millicom.secondscreen.user.account.password";
 	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_MY_CHANNELS_IDS_JSON		= "com.millicom.secondscreen.user.account.my.channels.ids.json";
+	public static final String	MILLICOM_SECONDSCREEN_TV_GUIDE_HOUR							= "com.millicom.secondscreen.tv.guide.hour";
+	public static final String	MILLICOM_SECONDSCREEN_HOMEPAGE_AGAIN						= "com.millicom.secondscreen.homepage.again";
 
 	// api urls
 	public static final String	MILLICOM_SECONDSCREEN_GUIDE_PAGE_URL						= "http://www.gitrgitr.com/api/epg/guide";
@@ -80,6 +82,7 @@ public abstract class Consts {
 	public static String		DAZOO_BACK_STACK									= "com.millicom.secondscreen.dazoo.back.stack";
 
 	public static final String	ISO_DATE_FORMAT										= "yyyy-MM-dd'T'HH:mm:ss'Z'";
+	public static final String	TVDATE_DATE_FORMAT									= "yyyy-MM-dd";
 
 	// Activity page content block types
 	public static final String	BLOCK_TYPE_PRODUCT_TV								= "com.millicom.secondscreen.content.product.tv";

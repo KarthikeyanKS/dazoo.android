@@ -195,13 +195,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 	private void initViews() {
 		// styling the Action Bar
 		mActionBar = getSupportActionBar();
-		mActionBar.setDisplayShowTitleEnabled(true);
-		mActionBar.setDisplayShowCustomEnabled(true);
-		mActionBar.setDisplayUseLogoEnabled(true);
-		mActionBar.setDisplayShowHomeEnabled(true);
-
-		final int actionBarColor = getResources().getColor(R.color.blue1);
-		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
+		mActionBar.setTitle(mActivity.getResources().getString(R.string.tv_guide));
 
 		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);
 		mTabTvGuide.setOnClickListener(this);
@@ -220,7 +214,6 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 
 	private void populateBlocks() {
 		Log.d(TAG, "populateBlocks");
-		mActionBar.setTitle(mBroadcast.getProgram().getTitle());
 
 		// add main content block
 		BroadcastMainBlockPopulator mainBlockPopulator = new BroadcastMainBlockPopulator(mActivity, mScrollView, token, mTvDate);

@@ -1,41 +1,27 @@
 package com.millicom.secondscreen.adapters;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.content.model.Broadcast;
-import com.millicom.secondscreen.content.model.Channel;
-import com.millicom.secondscreen.content.model.ChannelHour;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.TvDate;
-import com.millicom.secondscreen.content.myprofile.RemindersActivity;
 import com.millicom.secondscreen.content.tvguide.ChannelPageActivity;
-import com.millicom.secondscreen.utilities.AnimationUtilities;
+import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
 
@@ -119,9 +105,13 @@ public class TVGuideListAdapter extends BaseAdapter {
 		ArrayList<Broadcast> broadcasts = guide.getBroadcasts();
 
 		if (broadcasts != null && broadcasts.size() > 0) {
-
+			
+			Log.d(TAG,"#####################");
+			Log.d(TAG,"DATE: " + mDate.getDate());
+			Log.d(TAG,"#####################");
+			
 			/* get the nearest broadcasts */
-			mIndexOfNearestBroadcast = Broadcast.getClosestBroadcastIndexFromTime(broadcasts, mHour);
+			mIndexOfNearestBroadcast = Broadcast.getClosestBroadcastIndexFromTime(broadcasts, mHour, mDate);
 
 			if (mIndexOfNearestBroadcast != -1) {
 				ArrayList<Broadcast> nextBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, broadcasts, Consts.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
@@ -248,6 +238,8 @@ public class TVGuideListAdapter extends BaseAdapter {
 
 	public void refreshList(int selectedHour) {
 		mHour = selectedHour;
+		Log.d(TAG,"SET SELECTED: " + mHour);
+		SecondScreenApplication.getInstance().setSelectedHour(mHour);
 		Log.d(TAG, "in adapter");
 		notifyDataSetChanged();
 		Log.d(TAG, "after refresh");

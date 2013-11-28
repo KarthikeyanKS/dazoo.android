@@ -88,7 +88,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverMyChannels, new IntentFilter(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
 		initViews();
 
-		//checkForUpdates();
+		// checkForUpdates();
 
 		loadPage();
 	}
@@ -121,28 +121,28 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			Log.d(TAG, "content for TvGuide TABLE is ready: " + mIsReady);
 			Log.d(TAG, "mDateSelectedIndex: " + mDateSelectedIndex);
 			Log.d(TAG, "mChannelUpdate: " + mChannelUpdate);
-			Log.d(TAG,"mFirstHit " + mFirstHit);
+			Log.d(TAG, "mFirstHit " + mFirstHit);
 
 			if (mIsReady && (mDateSelectedIndex == 0) && !mChannelUpdate && mFirstHit) {
-				Log.d(TAG,"CASE 1");
+				Log.d(TAG, "CASE 1");
 				if (!pageHoldsData()) {
 
 					updateUI(REQUEST_STATUS.FAILED);
 				}
 			} else if (mIsReady && (mDateSelectedIndex != 0) && mChannelUpdate) {
-				Log.d(TAG,"CASE 1");
+				Log.d(TAG, "CASE 1");
 				attachFragment();
 				mChannelUpdate = false;
 			} else if (mIsReady && (mDateSelectedIndex == 0) && mChannelUpdate && !mFirstHit) {
-				Log.d(TAG,"CASE 2");
+				Log.d(TAG, "CASE 2");
 				attachFragment();
 				mChannelUpdate = false;
 			} else if (mIsReady && (mDateSelectedIndex != 0) && !mChannelUpdate && !mFirstHit) {
-				Log.d(TAG,"CASE 3");
+				Log.d(TAG, "CASE 3");
 				attachFragment();
 				mChannelUpdate = false;
-			} else if (mIsReady && (mDateSelectedIndex==0) && !mChannelUpdate && !mFirstHit){
-				Log.d(TAG,"CASE 4");
+			} else if (mIsReady && (mDateSelectedIndex == 0) && !mChannelUpdate && !mFirstHit) {
+				Log.d(TAG, "CASE 4");
 				attachFragment();
 				mChannelUpdate = false;
 			}
@@ -170,7 +170,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		try {
 
 			if (mActiveFragment != null) {
-
+				Log.d(TAG, "remove the active fragment");
 				getSupportFragmentManager().beginTransaction().remove(mActiveFragment).commitAllowingStateLoss();
 			}
 		} catch (Exception e) {
@@ -189,7 +189,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 			removeActiveFragment();
 
-			// RELOAD THE PAGE WITH NEW DATE
+			// reload the page with the new date
 			reloadPage();
 		}
 	};
@@ -202,7 +202,6 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			DazooStore.getInstance().clearAndReinitializeForMyChannels();
 			mChannelUpdate = true;
 			DazooCore.getGuide(mDateSelectedIndex, false);
-
 			mStateChanged = false;
 		}
 		checkForCrashes();
@@ -244,9 +243,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	}
 
 	private void reloadPage() {
-		// Don't allow any swiping gestures while reloading
 		updateUI(REQUEST_STATUS.LOADING);
-		
 		DazooCore.getGuide(mDateSelectedIndex, false);
 	}
 
@@ -255,7 +252,6 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		boolean result = false;
 
 		Log.d(TAG, "pageHoldsData()");
-		// CHECK THE PRESENCE OF THE DATA FROM DAZOOSTORE SINGLETON
 		// mTags = null;
 		mTvDates = DazooStore.getInstance().getTvDates();
 		// mTags = DazooStore.getInstance().getTags();
@@ -265,7 +261,6 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 				updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
 			} else {
 				Log.d(TAG, "SUCCESSFUL");
-
 				updateUI(REQUEST_STATUS.SUCCESSFUL);
 				result = true;
 			}
@@ -352,8 +347,10 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	}
 
 	public void onClockTextClick(View v) {
+		String hourTag = (String) v.getTag();
 		Intent intent = new Intent(Consts.INTENT_EXTRA_CLOCK_SELECTION);
-		intent.putExtra(Consts.INTENT_EXTRA_CLOCK_SELECTION_VALUE, (String) v.getTag());
+		intent.putExtra(Consts.INTENT_EXTRA_CLOCK_SELECTION_VALUE, hourTag);
+		SecondScreenApplication.getInstance().setSelectedHour(Integer.valueOf(hourTag));
 		LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(intent);
 	}
 

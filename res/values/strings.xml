@@ -38,6 +38,7 @@
     <string name="icon_bookmark"> &#xe804;</string>
 
     <!-- HOMEPAGE : FILTER BY CATEGORY -->
+    <string name="tv_guide">TV Guide</string>
     <string name="all">All</string>
     <string name="all_categories_alias">all_categories</string>
     <string name="all_categories_name">"All programs"</string>

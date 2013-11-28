@@ -9,6 +9,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import android.content.Context;
+import android.text.format.DateUtils;
 import android.util.Log;
 
 import com.millicom.secondscreen.Consts;
@@ -17,16 +18,67 @@ public class DateUtilities {
 
 	private static final String	TAG	= "DateUtilities";
 	
+	public static final String tvDateToYearNumber(String tvDate){
+		SimpleDateFormat dfmInput = new SimpleDateFormat(Consts.TVDATE_DATE_FORMAT, Locale.getDefault());
+		SimpleDateFormat dfmOutput = new SimpleDateFormat("yyyy",  Locale.getDefault());
+		
+		long time = 0;
+		if (tvDate != null && !tvDate.equals("")) {
+			try {
+				time = dfmInput.parse(tvDate).getTime();
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		String output = dfmOutput.format(time);
+		return output;
+	}
+	
+	public static final String tvDateToMonthNumber(String tvDate){
+		SimpleDateFormat dfmInput = new SimpleDateFormat(Consts.TVDATE_DATE_FORMAT, Locale.getDefault());
+		SimpleDateFormat dfmOutput = new SimpleDateFormat("MM",  Locale.getDefault());
+		
+		long time = 0;
+		if (tvDate != null && !tvDate.equals("")) {
+			try {
+				time = dfmInput.parse(tvDate).getTime();
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		String output = dfmOutput.format(time);
+		return output;
+	}
+	
+	public static final String tvDateToDayNumber(String tvDate){
+		SimpleDateFormat dfmInput = new SimpleDateFormat(Consts.TVDATE_DATE_FORMAT, Locale.getDefault());
+		SimpleDateFormat dfmOutput = new SimpleDateFormat("dd",  Locale.getDefault());
+		
+		long time = 0;
+		if (tvDate != null && !tvDate.equals("")) {
+			try {
+				time = dfmInput.parse(tvDate).getTime();
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		String output = dfmOutput.format(time);
+		return output;
+	}
+	
+	
 	public static final String todayDateAsTvDate(){
 		SimpleDateFormat dfmInput = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
 		String dateNow = dfmInput.format(new Date());
-		SimpleDateFormat dfmOutput = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+		SimpleDateFormat dfmOutput = new SimpleDateFormat(Consts.TVDATE_DATE_FORMAT, Locale.getDefault());
 		long time = 0;
 		if (dateNow != null && !dateNow.equals("")) {
 			try {
 				time = dfmInput.parse(dateNow).getTime();
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -36,7 +88,7 @@ public class DateUtilities {
 	
 	public static final String isoDateStringToTvDateString(String date) throws ParseException{
 		SimpleDateFormat dfmInput = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
-		SimpleDateFormat dfmOutput = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+		SimpleDateFormat dfmOutput = new SimpleDateFormat(Consts.TVDATE_DATE_FORMAT, Locale.getDefault());
 		long time = 0;
 		if (date != null && !date.equals("")) {
 			time = dfmInput.parse(date).getTime();
@@ -73,7 +125,7 @@ public class DateUtilities {
 	public static String tvDateStringToDatePickerString(String date) throws ParseException {
 		long time = 0;
 		if (date != null && !date.equals("")) {
-			SimpleDateFormat dfmInput = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+			SimpleDateFormat dfmInput = new SimpleDateFormat(Consts.TVDATE_DATE_FORMAT, Locale.getDefault());
 			time = dfmInput.parse(date).getTime();
 		}
 		SimpleDateFormat dfmOutput = new SimpleDateFormat("dd/MM", Locale.getDefault());
@@ -227,7 +279,7 @@ public class DateUtilities {
 	public static long isoStringDatePartToLong(String date) throws ParseException {
 		long time = 0;
 		if (date != null && !date.equals("")) {
-			SimpleDateFormat dfmInput = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+			SimpleDateFormat dfmInput = new SimpleDateFormat(Consts.TVDATE_DATE_FORMAT, Locale.getDefault());
 			time = dfmInput.parse(date).getTime();
 		}
 		return time;

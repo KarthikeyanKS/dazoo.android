@@ -37,7 +37,7 @@ import com.millicom.secondscreen.utilities.DateUtilities;
 
 public class TVGuideTableFragment extends SSPageFragment {
 
-	private static final String		TAG			= "TVGuideTableFragment";
+	private static final String		TAG	= "TVGuideTableFragment";
 	private String					mTagStr, token;
 	private View					mRootView;
 	private Activity				mActivity;
@@ -72,7 +72,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		dazooStore = DazooStore.getInstance();
 
 		token = ((SecondScreenApplication) getActivity().getApplicationContext()).getAccessToken();
@@ -85,7 +85,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 		mTvDate = bundle.getParcelable(Consts.FRAGMENT_EXTRA_TVDATE);
 		mTvDatePosition = bundle.getInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION);
 		mTag = dazooStore.getTag(mTagStr);
-		
+
 	}
 
 	@Override
@@ -97,17 +97,23 @@ public class TVGuideTableFragment extends SSPageFragment {
 			String tvDateToday = DateUtilities.todayDateAsTvDate();
 			if (mTvDate.getDate().equals(tvDateToday)) {
 				mIsToday = true;
-				mHour = Integer.valueOf(DateUtilities.getCurrentHourString());
-			}
-			
+				if (!SecondScreenApplication.getInstance().getIsOnStartAgain()) {
+					mHour = Integer.valueOf(DateUtilities.getCurrentHourString());
+					SecondScreenApplication.getInstance().setSelectedHour(mHour);
+					SecondScreenApplication.getInstance().setIsOnStartAgain(true);
+				} else {
+					mHour = SecondScreenApplication.getInstance().getSelectedHour();
+				}
+
+			} else mHour = SecondScreenApplication.getInstance().getSelectedHour();
+
 			mRootView = inflater.inflate(R.layout.fragment_tvguide_table, null);
 			mTVGuideListView = (ListView) mRootView.findViewById(R.id.tvguide_table_listview);
 			mClockIndexView = (LinearLayout) mRootView.findViewById(R.id.tvguide_table_side_clock_index);
 			mClockIv = (ImageView) mRootView.findViewById(R.id.tvguide_table_side_clock_iv);
 			mClockIv.setOnTouchListener(vTouch);
 
-			styleCurrentHourSelection();	
-		
+			styleCurrentHourSelection();
 
 		} else {
 
@@ -119,13 +125,13 @@ public class TVGuideTableFragment extends SSPageFragment {
 		// reset the activity whenever the view is recreated
 		mActivity = getActivity();
 		loadPage();
-		
+
 		if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
-		// register a receiver for the tv-table fragment to respond to the clock selection
-		Log.d(TAG,"register receiver: " + mTagStr);
-		LocalBroadcastManager.getInstance(mActivity).registerReceiver(mBroadcastReceiverClock, new IntentFilter(Consts.INTENT_EXTRA_CLOCK_SELECTION));
+			// register a receiver for the tv-table fragment to respond to the clock selection
+			Log.d(TAG, "register receiver: " + mTagStr);
+			LocalBroadcastManager.getInstance(mActivity).registerReceiver(mBroadcastReceiverClock, new IntentFilter(Consts.INTENT_EXTRA_CLOCK_SELECTION));
 		}
-		
+
 		return mRootView;
 	}
 
@@ -212,11 +218,11 @@ public class TVGuideTableFragment extends SSPageFragment {
 
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
-			//if (event.getAction() == MotionEvent.ACTION_UP) {
-			//	mClockIndexView.setBackgroundColor(mActivity.getResources().getColor(R.color.white));
-			//} else {
-			//	mClockIndexView.setBackgroundColor(mActivity.getResources().getColor(R.color.red));
-			//}
+			// if (event.getAction() == MotionEvent.ACTION_UP) {
+			// mClockIndexView.setBackgroundColor(mActivity.getResources().getColor(R.color.white));
+			// } else {
+			// mClockIndexView.setBackgroundColor(mActivity.getResources().getColor(R.color.red));
+			// }
 			return true;
 		}
 	};
@@ -224,19 +230,24 @@ public class TVGuideTableFragment extends SSPageFragment {
 	BroadcastReceiver				mBroadcastReceiverClock	= new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			Log.d(TAG,"tag: " + mTagStr);
+			Log.d(TAG, "tag: " + mTagStr);
 			Log.d(TAG, "clock tag: " + intent.getExtras().getString(Consts.INTENT_EXTRA_CLOCK_SELECTION_VALUE));
-			if(intent.getAction()!=null && intent.getAction().equals(Consts.INTENT_EXTRA_CLOCK_SELECTION)){
-			mHour = Integer.valueOf(intent.getExtras().getString(Consts.INTENT_EXTRA_CLOCK_SELECTION_VALUE));
-			Log.d(TAG,"mHour: " + mHour);
-			styleCurrentHourSelection();
-			mTVGuideListAdapter.refreshList(Integer.valueOf(mHour));
+			if (intent.getAction() != null && intent.getAction().equals(Consts.INTENT_EXTRA_CLOCK_SELECTION)) {
+				mHour = Integer.valueOf(intent.getExtras().getString(Consts.INTENT_EXTRA_CLOCK_SELECTION_VALUE));
+				Log.d(TAG, "mHour: " + mHour);
+				styleCurrentHourSelection();
+				mTVGuideListAdapter.refreshList(Integer.valueOf(mHour));
 			}
 		}
 	};
 
 	public void onDetach() {
 		super.onDetach();
+		LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mBroadcastReceiverClock);
+	}
+
+	public void onDestroy() {
+		super.onDestroy();
 		LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mBroadcastReceiverClock);
 	}
 

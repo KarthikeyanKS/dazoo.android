@@ -151,13 +151,13 @@
             <TextView
                 android:id="@+id/clock_24"
                 style="@style/ClockTextView"
-                android:tag="0"
+                android:tag="24"
                 android:text="12" />
 
             <TextView
                 android:id="@+id/clock_01"
                 style="@style/ClockTextView"
-                android:tag="1"
+                android:tag="25"
                 android:text="01" />
 
             <TextView
@@ -169,19 +169,19 @@
             <TextView
                 android:id="@+id/clock_03"
                 style="@style/ClockTextView"
-                android:tag="3"
+                android:tag="26"
                 android:text="03" />
 
             <TextView
                 android:id="@+id/clock_04"
                 style="@style/ClockTextView"
-                android:tag="4"
+                android:tag="27"
                 android:text="04" />
 
             <TextView
                 android:id="@+id/clock_05"
                 style="@style/ClockTextView"
-                android:tag="5"
+                android:tag="28"
                 android:text="05" />
         </LinearLayout>
     </RelativeLayout>

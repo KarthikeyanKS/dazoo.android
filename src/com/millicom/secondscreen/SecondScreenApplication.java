@@ -59,7 +59,7 @@ public class SecondScreenApplication extends Application {
 		}
 		return sInstance;
 	}
-	
+
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
@@ -70,11 +70,15 @@ public class SecondScreenApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		sInstance = this;
-		//TestFlight.takeOff(sInstance, Consts.TESTFLIGHT_TOKEN);
-		
+		// TestFlight.takeOff(sInstance, Consts.TESTFLIGHT_TOKEN);
+
 		// sSharedPreferences = getSharedPreferences(Consts.SHARED_PREFS_MAIN_NAME, Context.MODE_PRIVATE);
 		sSharedPreferences = new ObscuredSharedPreferences(this, this.getSharedPreferences(Consts.SHARED_PREFS_MAIN_NAME, Context.MODE_PRIVATE));
 
+		// re-initialize hour preference at every app start
+		setSelectedHour(6);
+		setIsOnStartAgain(false);
+		
 		calculateSizes();
 	}
 
@@ -207,6 +211,38 @@ public class SecondScreenApplication extends Application {
 	}
 
 	/**
+	 * Update the selected hour
+	 */
+	public void setSelectedHour(int hour) {
+		editor = sSharedPreferences.edit();
+		editor.putInt(Consts.MILLICOM_SECONDSCREEN_TV_GUIDE_HOUR, hour);
+		editor.commit();
+	}
+
+	/**
+	 * Get the selected hour
+	 */
+	public int getSelectedHour() {
+		return sSharedPreferences.getInt(Consts.MILLICOM_SECONDSCREEN_TV_GUIDE_HOUR, 6);
+	}
+
+	/**
+	 * Get if are back to the start page
+	 */
+	public boolean getIsOnStartAgain() {
+		return sSharedPreferences.getBoolean(Consts.MILLICOM_SECONDSCREEN_HOMEPAGE_AGAIN, false);
+	}
+
+	/**
+	 * Set if are back to the start page
+	 */
+	public void setIsOnStartAgain(boolean isHomePage) {
+		editor = sSharedPreferences.edit();
+		editor.putBoolean(Consts.MILLICOM_SECONDSCREEN_HOMEPAGE_AGAIN, isHomePage);
+		editor.commit();
+	}
+
+	/**
 	 * Calculate the sizes of the image thumbnails that are used across the app.
 	 */
 	private void calculateSizes() {
@@ -242,10 +278,10 @@ public class SecondScreenApplication extends Application {
 
 	// Clear all running activities
 	public void clearActivityBacktrace() {
-		
+
 		for (Activity a : mRunningActivities) {
-			
-			Log.d(TAG,"DELETE ACTIVITY");
+
+			Log.d(TAG, "DELETE ACTIVITY");
 			if (a != null) a.finish();
 		}
 	}

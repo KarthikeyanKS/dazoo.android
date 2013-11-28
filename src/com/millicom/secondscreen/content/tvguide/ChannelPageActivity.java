@@ -169,7 +169,7 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 
 		if (mChannelGuide != null) {
 			mBroadcasts = mChannelGuide.getBroadcasts();
-			mIndexOfNearestBroadcast = Broadcast.getClosestBroadcastIndexFromTime(mBroadcasts, mHour);
+			mIndexOfNearestBroadcast = Broadcast.getClosestBroadcastIndexFromTime(mBroadcasts, mHour, mTvDateSelected);
 			if (mIndexOfNearestBroadcast >= 0) {
 				mFollowingBroadcasts = null;
 				mFollowingBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());
@@ -257,7 +257,8 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 				// open the detail view for the individual broadcast
 				Intent intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
 
-				intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, mFollowingBroadcasts.get(position).getBeginTimeMillis());
+				// we take one position less as we have a header view
+				intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, mFollowingBroadcasts.get(position-1).getBeginTimeMillis());
 				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, mChannel.getChannelId());
 				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, mTvDateSelected.getDate());
 

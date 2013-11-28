@@ -14,6 +14,7 @@ import java.util.TimeZone;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.utilities.DateUtilities;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -208,16 +209,35 @@ public class Broadcast implements Parcelable {
 		return nearestIndex;
 	}
 
-	public static int getClosestBroadcastIndexFromTime(ArrayList<Broadcast> broadcastList, int hour) {
+	public static int getClosestBroadcastIndexFromTime(ArrayList<Broadcast> broadcastList, int hour, TvDate date) {
 		// set the time in interest
 		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
 
+		Log.d(TAG,"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		Log.d(TAG,"TV DATE IN BROADCAST: " + date.getDate());
+		
+		String year = DateUtilities.tvDateToYearNumber(date.getDate());
+		String month = DateUtilities.tvDateToMonthNumber(date.getDate());
+		String day = DateUtilities.tvDateToDayNumber(date.getDate());
+		
+		Log.d(TAG,"YEAR: " + year + " MONTH: " + month + " DAY: " + day);
+		
+		
 		Calendar calendar = Calendar.getInstance();
+		//calendar.set(Calendar.YEAR, Integer.valueOf(year));
+		//calendar.set(Calendar.MONTH, Integer.valueOf(month));
+		calendar.set(Calendar.DAY_OF_MONTH, Integer.valueOf(day));
 		calendar.set(Calendar.HOUR_OF_DAY, hour+1);
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 
+		Log.d(TAG,"HOURS: " + calendar.get(Calendar.HOUR_OF_DAY));
+		Log.d(TAG,"DAY OF MONTH" + calendar.get(Calendar.DAY_OF_MONTH));
+		
 		String timeNowStr = df.format(calendar.getTime());
+		
+		Log.d(TAG,"timeNowStr: " + timeNowStr);
+		
 		long timeNow = 0;
 		try {
 			timeNow = DateUtilities.isoStringToLong(timeNowStr);
@@ -230,6 +250,9 @@ public class Broadcast implements Parcelable {
 			long timeBroadcast = 0;
 			try {
 				timeBroadcast = DateUtilities.isoStringToLong(broadcastList.get(i).getBeginTime());
+				Log.d(TAG,"Broadcast date: " + DateUtilities.isoDateStringToTvDateString(broadcastList.get(i).getBeginTime()));
+				Log.d(TAG,"Broadcast time: " + DateUtilities.isoStringToTimeString(broadcastList.get(i).getBeginTime()));
+				
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -242,6 +265,8 @@ public class Broadcast implements Parcelable {
 				bestDistanceFoundYet = d;
 			}
 		}
+		Log.d(TAG, nearestIndex + " Nearest index for the hour: " + hour + " and day: " + day + " number of broadcasts: " + broadcastList.size() );
+		
 		return nearestIndex;
 	}
 
