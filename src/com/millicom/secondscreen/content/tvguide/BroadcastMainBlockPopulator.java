@@ -118,6 +118,10 @@ public class BroadcastMainBlockPopulator {
 		} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)){
 			mProgramId = broadcast.getProgram().getSportType().getSportTypeId();
 			mContentTitle = broadcast.getProgram().getSportType().getName();
+			titleTv.setText(program.getTitle());
+			
+			episodeNameTv.setText(program.getSportType().getName());
+			episodeNameTv.setVisibility(View.VISIBLE);
 		}
 		else{
 			mContentTitle = broadcast.getProgram().getTitle();
