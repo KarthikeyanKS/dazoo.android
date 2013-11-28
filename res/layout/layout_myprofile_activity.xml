@@ -70,7 +70,7 @@
                     <com.millicom.secondscreen.customviews.FontTextView
                         android:id="@+id/myprofile_name_tv"
                         android:layout_width="fill_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/myprofile_avatar_iv"
                         android:gravity="center_vertical"
