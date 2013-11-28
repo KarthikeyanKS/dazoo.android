@@ -146,7 +146,7 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 
 							// Get the information about the user
 							String userDataString = dazooJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_USER);
-							if (JSONUtilities.storeUserInformation(this, userDataString)) {
+							if (AuthenticationService.storeUserInformation(this, userDataString)) {
 								Toast.makeText(getApplicationContext(), "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName(), Toast.LENGTH_SHORT).show();
 
 								DazooStore.getInstance().clearAll();

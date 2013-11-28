@@ -20,44 +20,6 @@ import android.util.Log;
 public class JSONUtilities {
 
 	private static final String	TAG	= "JSONUtilities";
-	
-	public static boolean storeUserInformation(Context context, String jsonString) {
-		if (jsonString != null && TextUtils.isEmpty(jsonString) != true) {
-			// if (jsonString != null && jsonString.isEmpty() != true) {
-			JSONObject userJSON;
-			try {
-				userJSON = new JSONObject(jsonString);
-				Log.d(TAG,"userJSON:" + userJSON);
-
-				String userFirstName = userJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_FIRSTNAME);
-				((SecondScreenApplication) context.getApplicationContext()).setUserFirstName(userFirstName);
-				Log.d(TAG, "First Name: " + userFirstName + " is saved");
-
-				String userLastName = userJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_LASTNAME);
-				((SecondScreenApplication) context.getApplicationContext()).setUserLastName(userLastName);
-				Log.d(TAG, "Last Name: " + userLastName + " is saved");
-
-				String userId = userJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_USER_ID);
-				((SecondScreenApplication) context.getApplicationContext()).setUserId(userId);
-				Log.d(TAG, "User Id: " + userId + " is saved");
-
-				JSONObject avatarUrlJSON = userJSON.optJSONObject(Consts.MILLICOM_SECONDSCREEN_API_PROFILEIMAGE);
-				if(avatarUrlJSON!=null){
-					String avatarUrl = avatarUrlJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_URL);
-					((SecondScreenApplication) context.getApplicationContext()).setUserAvatarUrl(avatarUrl);
-					Log.d(TAG,"User Avatar Url: " + avatarUrl);
-				}
-				
-				boolean userExistingFlag = userJSON.optBoolean(Consts.MILLICOM_SECONDSCREEN_API_CREATED);
-				((SecondScreenApplication) context.getApplicationContext()).setUserExistringFlag(userExistingFlag);
-				Log.d(TAG, "User login first time: " + userExistingFlag);
-
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			return true;
-		} else return false;
-	}
 
 	public static final String createJSONArrayWithOneJSONObjectType(String jsonKey, ArrayList<String> jsonValues) {
 		JSONArray jsonArray = new JSONArray();

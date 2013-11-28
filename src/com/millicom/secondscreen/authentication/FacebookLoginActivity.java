@@ -158,7 +158,7 @@ public class FacebookLoginActivity extends ActionBarActivity {
 						
 						// Get the information about the user
 						String userDataString = fbJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_USER);
-						if (JSONUtilities.storeUserInformation(this, userDataString)) {
+						if (AuthenticationService.storeUserInformation(this, userDataString)) {
 							Toast.makeText(getApplicationContext(), "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName(), Toast.LENGTH_SHORT).show();
 							return true;
 						} else {
