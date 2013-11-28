@@ -13,7 +13,7 @@
         android:layout_height="fill_parent"
         android:layout_alignParentTop="true"
         android:background="@color/grey1"
-        android:padding="5dp"
+        android:padding="10dp"
         android:visibility="gone" >
 
         <com.millicom.secondscreen.customviews.FontTextView
@@ -23,7 +23,7 @@
             android:layout_centerVertical="true"
             android:gravity="left"
             android:textAllCaps="true"
-            android:textColor="@color/black"
+            android:textColor="@color/grey2"
             android:textSize="18sp"
             android:textStyle="bold" />
     </RelativeLayout>
@@ -52,7 +52,8 @@
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/black"
                 android:textSize="22sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/row_upcoming_episodes_listitem_title_time"
@@ -78,7 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.1"
-            android:gravity="center"
+            android:layout_gravity="center"
             android:orientation="vertical"
             android:visibility="visible" >
 
@@ -103,7 +104,8 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_margin="10dp"
-                android:src="@drawable/ic_clock" />
+                android:src="@drawable/ic_clock"
+                android:gravity="center" />
         </LinearLayout>
     </LinearLayout>
 
@@ -113,6 +115,6 @@
         android:layout_height="1dp"
         android:layout_below="@id/row_upcoming_episodes_listitem_info_container"
         android:layout_margin="10dp"
-        android:background="@color/grey2" />
+        android:background="@color/grey1" />
 
 </RelativeLayout>

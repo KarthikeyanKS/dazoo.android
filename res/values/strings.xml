@@ -105,8 +105,8 @@
     <string name="movie">Movie</string>
     <string name="sport">Sport</string>
     <string name="tv_series">TV Series</string>
-    <string name="repeatitions">Repeatitions</string>
-    <string name="repeatitions_more">Show more repeatitions</string>
+    <string name="repetitions">Repetitions</string>
+    <string name="repetitions_more">Show more repetitions</string>
 
     <!-- LOGIN PAGE -->
     <string name="login_with_facebook">LOGIN WITH FACEBOOK</string>
@@ -149,6 +149,7 @@
     <string name="signup_with_email_error_firstname">First name was not input right!</string>
     <string name="signup_with_email_error_lastname">Last name was not input right!</string>
     <string name="signup_with_email_error_email">E-mail was not input right!</string>
+    <string name="signup_with_email_error_email_already_registered">E-mail is already registered!</string>
     <string name="signup_with_email_error_passwordlength">Your password must contain </string>
     <string name="signup_with_email_characters"> characters!</string>
     <string name="signup_with_email_error_passwordcharacters">Password contained illegal characters!</string>

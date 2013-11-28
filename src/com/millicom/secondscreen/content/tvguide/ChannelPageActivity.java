@@ -254,15 +254,17 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 
 		mFollowingBroadcastsLv.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-				// open the detail view for the individual broadcast
-				Intent intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
-
-				intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, mFollowingBroadcasts.get(position).getBeginTimeMillis());
-				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, mChannel.getChannelId());
-				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, mTvDateSelected.getDate());
-
-				startActivity(intent);
-				overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+				if (position > 0) {
+					// open the detail view for the individual broadcast
+					Intent intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
+	
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, mFollowingBroadcasts.get(position - 1).getBeginTimeMillis());
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, mChannel.getChannelId());
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, mTvDateSelected.getDate());
+	
+					startActivity(intent);
+					overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+				}
 			}
 		});
 	}

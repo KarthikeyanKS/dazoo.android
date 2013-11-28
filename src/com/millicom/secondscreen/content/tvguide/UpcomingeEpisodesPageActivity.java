@@ -1,6 +1,7 @@
 package com.millicom.secondscreen.content.tvguide;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;

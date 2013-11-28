@@ -98,6 +98,8 @@ public class LikesListAdapter extends BaseAdapter {
 			final DazooLikeEntity entity = like.getEntity();
 			if (entity != null) {
 				
+				holder.mHeaderContainer.setVisibility(View.GONE);
+				holder.mDividerView.setVisibility(View.VISIBLE);
 				//Logic to show header with first character
 				if (position == 0 || entity.getTitle().toUpperCase().charAt(0) != getItem(position - 1).getEntity().getTitle().toUpperCase().charAt(0)) {
 					holder.mHeaderContainer.setVisibility(View.VISIBLE);

@@ -84,8 +84,8 @@ public class BroadcastMainBlockPopulator {
 		RelativeLayout progressBarContainer = (RelativeLayout) topContentView.findViewById(R.id.block_broadcastpage_broadcast_progress_container);
 		ProgressBar progressBar = (ProgressBar) topContentView.findViewById(R.id.block_broadcastpage_broadcast_progressbar);
 		TextView progressTxt = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_timeleft_tv);
-		
-		
+
+
 		try {
 			mIsFuture = DateUtilities.isTimeInFuture(broadcast.getBeginTime());
 		} catch (ParseException e1) {
@@ -139,9 +139,13 @@ public class BroadcastMainBlockPopulator {
 		}
 
 		String beginTimeStr, endTimeStr;
+		long timeSinceBegin = 0;
+		long timeToEnd = 0;
 		try {
 			beginTimeStr = DateUtilities.isoStringToTimeString(broadcast.getBeginTime());
 			endTimeStr = DateUtilities.isoStringToTimeString(broadcast.getEndTime());
+			timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime());
+			timeToEnd = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTime());
 		} catch (ParseException e) {
 			beginTimeStr = "";
 			endTimeStr = "";
@@ -149,20 +153,13 @@ public class BroadcastMainBlockPopulator {
 		}
 
 		if(broadcast.getChannel()!=null){
-		mImageLoader.displayImage(broadcast.getChannel().getLogoLUrl(), channelIv, ImageLoader.IMAGE_TYPE.THUMBNAIL);
+			mImageLoader.displayImage(broadcast.getChannel().getLogoLUrl(), channelIv, ImageLoader.IMAGE_TYPE.THUMBNAIL);
 		}
-		
-		// broadcast is in the future: show time
-		if (!mIsFuture) {
-			try {
-				timeTv.setText(DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime()) + " " + beginTimeStr + "-" + endTimeStr);
-				timeTv.setVisibility(View.VISIBLE);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} else {
-			// broadcast is currently on air: show progress
+
+
+		// broadcast is currently on air: show progress
+		if (timeSinceBegin > 0 && timeToEnd < 0) {
+
 			int duration = 0;
 			try {
 				long startTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime());
@@ -172,10 +169,10 @@ public class BroadcastMainBlockPopulator {
 			catch (ParseException e) {
 				e.printStackTrace();
 			}
-			
+
 			progressBar.setMax(duration);
 
-			// MC - Calculate the current progress of the ProgressBar and update.
+			// Calculate the current progress of the ProgressBar and update.
 			int initialProgress = 0;
 			long difference = 0;
 			try {
@@ -193,7 +190,16 @@ public class BroadcastMainBlockPopulator {
 				progressBar.setProgress(initialProgress);
 				progressBarContainer.setVisibility(View.VISIBLE);
 			}
-
+		}
+		// broadcast is in the future: show time
+		else {
+			try {
+				timeTv.setText(DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime()) + " " + DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTime()) + " " + beginTimeStr + "-" + endTimeStr);
+				timeTv.setVisibility(View.VISIBLE);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		synopsisTv.setText(program.getSynopsisShort());
@@ -205,9 +211,13 @@ public class BroadcastMainBlockPopulator {
 		}
 
 		tagsTv.setText(sb.toString());
-		
+
 		if (!mIsFuture) {
 			NotificationDbItem dbItem = new NotificationDbItem();
+			if (broadcast.getChannel() == null) {
+				Toast.makeText(mActivity, "Channel null", Toast.LENGTH_LONG).show();
+			}
+			else 
 			dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillis());
 			if (dbItem.getNotificationId() != 0) {
 				mIsSet = true;

@@ -1,6 +1,7 @@
 package com.millicom.secondscreen.content.tvguide;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -16,7 +17,7 @@ import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
-import com.millicom.secondscreen.adapters.RepeatitionsListAdapter;
+import com.millicom.secondscreen.adapters.RepetitionsListAdapter;
 import com.millicom.secondscreen.content.SSActivity;
 import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
@@ -24,14 +25,14 @@ import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Program;
 import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
 
-public class RepeatitionsPageActivity extends SSActivity implements OnClickListener {
+public class RepetitionsPageActivity extends SSActivity implements OnClickListener {
 
 	private static final String		TAG						= "RepeatitionsPageActivity";
 	private String					token;
 	private RelativeLayout			mTabTvGuide, mTabProfile, mTabActivity;
 	private ActionBar				mActionBar;
 	private ListView				mListView;
-	private RepeatitionsListAdapter	mAdapter;
+	private RepetitionsListAdapter	mAdapter;
 	private ArrayList<Broadcast>	mRepeatingBroadcasts	= new ArrayList<Broadcast>();
 	private Program					mRepeatingProgram;
 
@@ -47,7 +48,7 @@ public class RepeatitionsPageActivity extends SSActivity implements OnClickListe
 		Intent intent = getIntent();
 		mRepeatingBroadcasts = intent.getParcelableArrayListExtra(Consts.INTENT_EXTRA_REPEATING_BROADCASTS);
 		mRepeatingProgram = intent.getParcelableExtra(Consts.INTENT_EXTRA_REPEATING_PROGRAM);
-
+	
 		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 
 		initViews();
@@ -74,14 +75,14 @@ public class RepeatitionsPageActivity extends SSActivity implements OnClickListe
 		mActionBar.setDisplayShowCustomEnabled(true);
 		mActionBar.setDisplayUseLogoEnabled(true);
 		mActionBar.setDisplayShowHomeEnabled(true);
-		mActionBar.setTitle(getResources().getString(R.string.repeatitions));
+		mActionBar.setTitle(getResources().getString(R.string.repetitions));
 		mListView = (ListView) findViewById(R.id.repeating_list_listview);
 	}
 
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
 		if (super.requestIsSuccesfull(status)) {
-			mAdapter = new RepeatitionsListAdapter(this, mRepeatingBroadcasts, mRepeatingProgram);
+			mAdapter = new RepetitionsListAdapter(this, mRepeatingBroadcasts, mRepeatingProgram);
 			mListView.setAdapter(mAdapter);
 			mListView.setVisibility(View.VISIBLE);
 		}
@@ -109,19 +110,19 @@ public class RepeatitionsPageActivity extends SSActivity implements OnClickListe
 		switch (id) {
 		case R.id.show_tvguide:
 			// tab to home page
-			Intent intentHome = new Intent(RepeatitionsPageActivity.this, HomeActivity.class);
+			Intent intentHome = new Intent(RepetitionsPageActivity.this, HomeActivity.class);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intentHome);
 			break;
 		case R.id.show_activity:
 			// tab to activity page
-			Intent intentActivity = new Intent(RepeatitionsPageActivity.this, ActivityActivity.class);
+			Intent intentActivity = new Intent(RepetitionsPageActivity.this, ActivityActivity.class);
 			startActivity(intentActivity);
 			break;
 		case R.id.show_me:
 			// tab to profile page
-			Intent intentMe = new Intent(RepeatitionsPageActivity.this, MyProfileActivity.class);
+			Intent intentMe = new Intent(RepetitionsPageActivity.this, MyProfileActivity.class);
 			startActivity(intentMe);
 			break;
 		}
