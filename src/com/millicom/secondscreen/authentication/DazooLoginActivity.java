@@ -60,6 +60,7 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 	private Button				mDazooLoginButton, mForgetPasswordButton;
 	private EditText			mEmailLoginEditText, mPasswordLoginEditText;
 	private RelativeLayout		mFacebookContainer;
+	private TextView			mErrorTv;
 
 	private String				dazooToken	= "", userToken = "", userId = "", userEmailLogin, userPasswordLogin;
 
@@ -94,6 +95,8 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 		mDazooLoginButton.setOnClickListener(this);
 		mEmailLoginEditText = (EditText) findViewById(R.id.dazoologin_login_email_edittext);
 		mPasswordLoginEditText = (EditText) findViewById(R.id.dazoologin_login_password_edittext);
+		
+		mErrorTv = (TextView) findViewById(R.id.dazoologin_error_tv);
 
 		mForgetPasswordButton = (Button) findViewById(R.id.dazoologin_forgot_password_button);
 		mForgetPasswordButton.setOnClickListener(this);
@@ -163,7 +166,9 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 							Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with us. Please, try again later!", Toast.LENGTH_SHORT).show();
 						}
 					} else {
-						Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with us. Please, try again later!", Toast.LENGTH_SHORT).show();
+						mErrorTv.setText(getResources().getString(R.string.login_with_dazoo_wrong_info));
+						mErrorTv.setVisibility(View.VISIBLE);
+//						Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with us. Please, try again later!", Toast.LENGTH_SHORT).show();
 						Log.d(TAG, "Error! Dazoo Login: level response from backend");
 						mEmailLoginEditText.setEnabled(true);
 						mPasswordLoginEditText.setEnabled(true);
@@ -177,7 +182,9 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 					e.printStackTrace();
 				}
 			} else {
-				Toast.makeText(getApplicationContext(), "check if email/password were input right", Toast.LENGTH_LONG).show();
+				mErrorTv.setText(getResources().getString(R.string.login_with_dazoo_wrong_format));
+				mErrorTv.setVisibility(View.VISIBLE);
+//				Toast.makeText(getApplicationContext(), "check if email/password were input right", Toast.LENGTH_LONG).show();
 				mEmailLoginEditText.setEnabled(true);
 				mPasswordLoginEditText.setEnabled(true);
 			}

@@ -155,6 +155,8 @@
     <string name="signup_with_email_error_passwordcharacters">Password contained illegal characters!</string>
     <string name="signup_characters">at least 6 characters</string>
     <string name="signup_email_example">example@abc.com</string>
+    <string name="login_with_dazoo_wrong_info">The input e-mail or password is incorrect!</string>
+    <string name="login_with_dazoo_wrong_format">Check if e-mail and password were input right!</string>
 
     <!-- MY CHANNELS PAGE -->
     <string name="get_my_channels">Get My Channels</string>

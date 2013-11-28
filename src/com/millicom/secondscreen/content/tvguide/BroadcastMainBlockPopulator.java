@@ -214,11 +214,13 @@ public class BroadcastMainBlockPopulator {
 
 		if (!mIsFuture) {
 			NotificationDbItem dbItem = new NotificationDbItem();
+			// Sometime channel is null, avoiding crash
 			if (broadcast.getChannel() == null) {
 				Toast.makeText(mActivity, "Channel null", Toast.LENGTH_LONG).show();
 			}
-			else 
-			dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillis());
+			else {
+				dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillis());
+			}
 			if (dbItem.getNotificationId() != 0) {
 				mIsSet = true;
 				mNotificationId = dbItem.getNotificationId();
