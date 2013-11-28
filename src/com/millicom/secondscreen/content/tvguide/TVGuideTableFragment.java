@@ -45,7 +45,6 @@ public class TVGuideTableFragment extends SSPageFragment {
 	private ImageView				mClockIv;
 	private LinearLayout			mClockIndexView;
 	private ArrayList<Guide>		mGuides;
-	private ArrayList<Channel>		mChannels;
 	private TvDate					mTvDate;
 	private Tag						mTag;
 	private int						mTvDatePosition;
@@ -53,7 +52,6 @@ public class TVGuideTableFragment extends SSPageFragment {
 	private DazooStore				dazooStore;
 	private boolean					mIsLoggedIn	= false, mIsToday = false;
 	private ArrayList<Broadcast>	mTaggedBroadcasts;
-	private boolean					mCreateBackground;
 	private TVGuideTagListAdapter	mTVTagListAdapter;
 	private int						mHour;
 	private TextView				mCurrentHourTv;
@@ -128,7 +126,6 @@ public class TVGuideTableFragment extends SSPageFragment {
 
 		if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
 			// register a receiver for the tv-table fragment to respond to the clock selection
-			Log.d(TAG, "register receiver: " + mTagStr);
 			LocalBroadcastManager.getInstance(mActivity).registerReceiver(mBroadcastReceiverClock, new IntentFilter(Consts.INTENT_EXTRA_CLOCK_SELECTION));
 		}
 
@@ -142,7 +139,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 		mGuides = null;
 		mTaggedBroadcasts = null;
 
-		// GET THE DATA FROM CORE LOGIC SINGLETON
+		// read the data from the DazooStore singleton
 		if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
 
 			if (mIsLoggedIn) {
@@ -158,11 +155,11 @@ public class TVGuideTableFragment extends SSPageFragment {
 		} else {
 			if (mIsLoggedIn) {
 				mTaggedBroadcasts = dazooStore.getMyTaggedBroadcasts(mTvDate, mTag);
-				Log.d(TAG, "I GOT MY!!!!!!!!");
+				Log.d(TAG, "My tagged broadcasts");
 
 			} else {
 				mTaggedBroadcasts = dazooStore.getTaggedBroadcasts(mTvDate, mTag);
-				Log.d(TAG, "I GOT DEFAULT!!!!!!!!!");
+				Log.d(TAG, "default tagged broadcasts");
 			}
 		}
 
@@ -218,6 +215,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
+			// UX: highlighting the clock on press
 			// if (event.getAction() == MotionEvent.ACTION_UP) {
 			// mClockIndexView.setBackgroundColor(mActivity.getResources().getColor(R.color.white));
 			// } else {
@@ -230,11 +228,8 @@ public class TVGuideTableFragment extends SSPageFragment {
 	BroadcastReceiver				mBroadcastReceiverClock	= new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			Log.d(TAG, "tag: " + mTagStr);
-			Log.d(TAG, "clock tag: " + intent.getExtras().getString(Consts.INTENT_EXTRA_CLOCK_SELECTION_VALUE));
 			if (intent.getAction() != null && intent.getAction().equals(Consts.INTENT_EXTRA_CLOCK_SELECTION)) {
 				mHour = Integer.valueOf(intent.getExtras().getString(Consts.INTENT_EXTRA_CLOCK_SELECTION_VALUE));
-				Log.d(TAG, "mHour: " + mHour);
 				styleCurrentHourSelection();
 				mTVGuideListAdapter.refreshList(Integer.valueOf(mHour));
 			}

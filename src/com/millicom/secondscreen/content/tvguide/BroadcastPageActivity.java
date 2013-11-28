@@ -74,10 +74,13 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		mBroadcastPageUrl = intent.getStringExtra(Consts.INTENT_EXTRA_BROADCAST_URL);
 		mIsFromActivity = intent.getBooleanExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, false);
 
+		Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		Log.d(TAG, "mBeginTimeInMillis: " + String.valueOf(mBeginTimeInMillis));
 		Log.d(TAG, "mChannelId: " + mChannelId);
 		Log.d(TAG, "mTvDate: " + mTvDate);
 		Log.d(TAG, "mBroadcastPageUrl: " + mBroadcastPageUrl);
+		Log.d(TAG, "FROM NOTIFICATION: " + mIsFromNotification);
+		Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
 		initViews();
 
@@ -137,24 +140,8 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 							updateUI(REQUEST_STATUS.SUCCESSFUL);
 						}
 					} else {
-						mBroadcast = dazooStore.getBroadcastFromDefault(mTvDate, mChannelId, mBeginTimeInMillis);
-						mChannel = dazooStore.getChannelFromDefault(mChannelId);
-
-						mBroadcast.setChannel(mChannel);
-
-						if (mBroadcast != null) {
-							mIsBroadcast = true;
-
-							if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(mBroadcast.getProgram().getProgramType())) {
-								getUpcomingSeriesBroadcasts(mBroadcast.getProgram().getSeries().getSeriesId());
-							} else {
-								mIsUpcoming = true;
-							}
-
-							getRepetitionBroadcasts(mBroadcast.getProgram().getProgramId());
-
-							updateUI(REQUEST_STATUS.SUCCESSFUL);
-						}
+						Log.d(TAG, "FROM NOTIFICATION");
+						getIndividualBroadcast(mBroadcastPageUrl);
 					}
 				} else {
 					getIndividualBroadcast(mBroadcastPageUrl);
@@ -184,7 +171,15 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 
 					getRepetitionBroadcasts(mBroadcast.getProgram().getProgramId());
 
-					mBroadcast.setChannel(mChannel);
+					// if we have the data in the singleton about the channel - set it completely
+					if (mChannel != null) {
+						mBroadcast.setChannel(mChannel);
+					} else {
+					// otherwise - just use the id that we got with the notification intent
+						Channel channel = new Channel();
+						channel.setChannelId(mChannelId);
+						mBroadcast.setChannel(channel);
+					}
 
 					updateUI(REQUEST_STATUS.SUCCESSFUL);
 				}

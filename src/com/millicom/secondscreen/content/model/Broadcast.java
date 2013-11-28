@@ -248,8 +248,7 @@ public class Broadcast implements Parcelable {
 				nearestIndex = i;
 				bestDistanceFoundYet = d;
 			}
-		}
-		Log.d(TAG, nearestIndex + " Nearest index for the hour: " + hour + " and day: " + day + " number of broadcasts: " + broadcastList.size() );
+		}   
 		
 		return nearestIndex;
 	}

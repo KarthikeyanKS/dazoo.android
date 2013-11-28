@@ -105,11 +105,6 @@ public class TVGuideListAdapter extends BaseAdapter {
 		ArrayList<Broadcast> broadcasts = guide.getBroadcasts();
 
 		if (broadcasts != null && broadcasts.size() > 0) {
-			
-			Log.d(TAG,"#####################");
-			Log.d(TAG,"DATE: " + mDate.getDate());
-			Log.d(TAG,"#####################");
-			
 			/* get the nearest broadcasts */
 			mIndexOfNearestBroadcast = Broadcast.getClosestBroadcastIndexFromTime(broadcasts, mHour, mDate);
 

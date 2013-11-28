@@ -14,6 +14,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.Gravity;
@@ -40,7 +42,7 @@ public class NotificationService {
 	public static boolean resetAlarm(Context context, Broadcast broadcast, Channel channel, int notificationId){
 
 		// call alarm manager to set the notification at the certain time
-		Intent intent = new Intent("DAZOO_NOTIFICATION");
+		Intent intent = new Intent(Consts.INTENT_DAZOO_NOTIFICATION);
 		intent.putExtra(Consts.INTENT_EXTRA_BROADCAST, broadcast);
 		intent.putExtra(Consts.INTENT_EXTRA_CHANNEL, channel);
 		intent.putExtra(Consts.INTENT_EXTRA_NOTIFICATION_ID, notificationId);
@@ -68,7 +70,7 @@ public class NotificationService {
 		Log.d(TAG,"NOTIFICATION ID: " + notificationId);
 
 		// call alarm manager to set the notification at the certain time
-		Intent intent = new Intent("DAZOO_NOTIFICATION");
+		Intent intent = new Intent(Consts.INTENT_DAZOO_NOTIFICATION);
 		//intent.putExtra(Consts.INTENT_EXTRA_BROADCAST, broadcast);
 		//intent.putExtra(Consts.INTENT_EXTRA_CHANNEL, channel);
 		//intent.putExtra(Consts.INTENT_EXTRA_NOTIFICATION_ID, notificationId);
@@ -78,6 +80,7 @@ public class NotificationService {
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_NOTIFICIATION_ID, notificationId);
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_CHANNEL_NAME, channel.getName());
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_NAME, broadcast.getProgram().getTitle());
+		intent.putExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_TIME, broadcast.getBeginTime());
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_DATE_DATE, dateDate);
 		
 
@@ -88,10 +91,10 @@ public class NotificationService {
 		try {
 			calendar = DateUtilities.getTimeFifteenMinBefore(broadcast.getBeginTime());
 
-			alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+			//alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
 			// for testing
-			//alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (1000), pendingIntent);
+			alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (1000), pendingIntent);
 
 			NotificationDataSource notificationDataSource = new NotificationDataSource(context);
 
@@ -112,8 +115,7 @@ public class NotificationService {
 			} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)){
 				dbNotification.setProgramType(programType);
 			}
-			// TODO 
-			//dbNotification.setProgramTag(broadcast.getProgram().getTags().get(0));
+			
 			dbNotification.setChannelName(channel.getName());
 			dbNotification.setChannelId(channel.getChannelId());
 			dbNotification.setBroadcastBeginTime(broadcast.getBeginTime());
@@ -128,7 +130,7 @@ public class NotificationService {
 		return false;
 	}
 
-	public static boolean showNotification (Context context, long broadcastBeginTimeMillis, String broadcastName, String channelId, String channelName, String dateDate, int notificationId){
+	public static boolean showNotification (Context context, long broadcastBeginTimeMillis, String broadcastTime, String broadcastName, String channelId, String channelName, String dateDate, int notificationId){
 
 		String broadcastUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + channelId + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcastBeginTimeMillis;
 		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -143,17 +145,23 @@ public class NotificationService {
 
 		int number = ((SecondScreenApplication) context.getApplicationContext()).getNotificationNumber();
 
-		NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
-		.setSmallIcon(R.drawable.ic_launcher)
-		.setContentTitle(context.getResources().getString(R.string.app_name))
-		.setContentText(
-				context.getResources().getString(R.string.dazoo_notification_text_start) + " " + broadcastName
-				+ context.getResources().getString(R.string.dazoo_notification_text_middle) + " " + channelName
-				+ context.getResources().getString(R.string.dazoo_notification_text_end)).setContentIntent(PendingIntent.getActivity(context, 0, broadcastPageIntent, 0))
-				.setAutoCancel(true).setWhen(System.currentTimeMillis()).setDefaults(Notification.DEFAULT_ALL) // default sound, vibration, light
-				.setNumber(number);
-
-		notificationManager.notify(notificationId, notificationBuilder.build());
+		Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(),
+                R.drawable.ic_launcher);
+		
+		NotificationCompat.Builder notificationBuilder;
+		try {
+			notificationBuilder = new NotificationCompat.Builder(context)
+			.setSmallIcon(R.drawable.ic_launcher)
+			.setLargeIcon(largeIcon)
+			.setContentTitle(broadcastName)
+			.setContentText(DateUtilities.isoStringToTimeString(broadcastTime) + " " +channelName)
+					.setContentIntent(PendingIntent.getActivity(context, 0, broadcastPageIntent, 0))
+					.setAutoCancel(true).setWhen(System.currentTimeMillis()).setDefaults(Notification.DEFAULT_ALL) // default sound, vibration, light
+					.setNumber(number);
+			notificationManager.notify(notificationId, notificationBuilder.build());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 
 		// update the number of fired notifications in the status bar
 		((SecondScreenApplication) context.getApplicationContext()).setNotificationNumber(number + 1);
