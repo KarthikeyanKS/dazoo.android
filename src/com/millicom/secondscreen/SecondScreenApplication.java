@@ -193,23 +193,7 @@ public class SecondScreenApplication extends Application {
 	public boolean getUserExistringFlag() {
 		return sSharedPreferences.getBoolean(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_EXISTING_FLAG, false);
 	}
-
-	/**
-	 * Update the number of fired notification
-	 */
-	public void setNotificationNumber(int number) {
-		editor = sSharedPreferences.edit();
-		editor.putInt(Consts.NOTIFY_NUMBER, number);
-		editor.commit();
-	}
-
-	/**
-	 * Get the number of already fired reminders in the status bar
-	 */
-	public int getNotificationNumber() {
-		return sSharedPreferences.getInt(Consts.NOTIFY_NUMBER, 1);
-	}
-
+	
 	/**
 	 * Update the selected hour
 	 */

@@ -143,8 +143,6 @@ public class NotificationService {
 		broadcastPageIntent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
 		broadcastPageIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-		int number = ((SecondScreenApplication) context.getApplicationContext()).getNotificationNumber();
-
 		Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(),
                 R.drawable.ic_launcher);
 		
@@ -156,15 +154,11 @@ public class NotificationService {
 			.setContentTitle(broadcastName)
 			.setContentText(DateUtilities.isoStringToTimeString(broadcastTime) + " " +channelName)
 					.setContentIntent(PendingIntent.getActivity(context, 0, broadcastPageIntent, 0))
-					.setAutoCancel(true).setWhen(System.currentTimeMillis()).setDefaults(Notification.DEFAULT_ALL) // default sound, vibration, light
-					.setNumber(number);
+					.setAutoCancel(true).setWhen(System.currentTimeMillis()).setDefaults(Notification.DEFAULT_ALL); // default sound, vibration, light
 			notificationManager.notify(notificationId, notificationBuilder.build());
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-
-		// update the number of fired notifications in the status bar
-		((SecondScreenApplication) context.getApplicationContext()).setNotificationNumber(number + 1);
 
 		// remove the notification from the database
 		NotificationDataSource notificationDataSource = new NotificationDataSource(context);
