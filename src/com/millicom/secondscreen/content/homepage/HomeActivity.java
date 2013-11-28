@@ -44,6 +44,7 @@ import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
 import com.millicom.secondscreen.content.search.SearchPageActivity;
 import com.millicom.secondscreen.content.tvguide.TVHolderFragment;
 import com.millicom.secondscreen.content.tvguide.TVHolderFragment.OnViewPagerIndexChangedListener;
+import com.millicom.secondscreen.http.NetworkUtils;
 import com.millicom.secondscreen.manager.DazooCore;
 import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.StringUtilities;
@@ -88,9 +89,14 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverMyChannels, new IntentFilter(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
 		initViews();
 
+		// HOCKEY-APP
 		// checkForUpdates();
 
-		loadPage();
+		if (!NetworkUtils.checkConnection(this)) {
+			updateUI(REQUEST_STATUS.FAILED);
+		} else {
+			loadPage();
+		}
 	}
 
 	private void checkForCrashes() {

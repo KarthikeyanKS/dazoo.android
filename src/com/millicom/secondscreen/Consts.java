@@ -204,6 +204,8 @@ public abstract class Consts {
 	public static final int		BAD_RESPONSE_INVALID_TOKEN							= 403;
 	public static final int		BAD_RESPONSE_PROGRAM_SERIES_NOT_FOUND				= 400;
 
+	public static final int		BAD_RESPONSE_TIMEOUT								= 500;
+
 	// notifications
 	public static final int		NOTIFY_MINUTES_BEFORE_THE_BROADCAST					= -15;
 	public static final String	NOTIFY_NUMBER										= "com.millicom.secondscreen.notify.number";
