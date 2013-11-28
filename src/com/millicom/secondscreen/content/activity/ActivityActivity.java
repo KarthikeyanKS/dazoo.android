@@ -77,8 +77,8 @@ import com.millicom.secondscreen.storage.DazooStore;
 public class ActivityActivity extends SSActivity implements OnClickListener {
 
 	private static final String	TAG				= "ActivityActivity";
-	private RelativeLayout			mTabTvGuide, mTabProfile, mTabActivity;
-	private TextView mSignInTv, mGreetingTv;
+	private RelativeLayout		mTabTvGuide, mTabProfile, mTabActivity;
+	private TextView			mSignInTv, mGreetingTv;
 	private Button				mCheckPopularBtn;
 	private ActionBar			mActionBar;
 	private ArrayList<FeedItem>	activityFeed	= new ArrayList<FeedItem>();
@@ -111,7 +111,13 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			initStandardViews();
 			initFeedViews();
 			super.initCallbackLayouts();
-			loadPage();
+
+			if (!NetworkUtils.checkConnection(this)) {
+				updateUI(REQUEST_STATUS.FAILED);
+			} else {
+				loadPage();
+			}
+			
 		} else {
 			setContentView(R.layout.layout_activity_not_logged_in_activity);
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -131,7 +137,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTabActivity.setBackgroundColor(getResources().getColor(R.color.red));
 		mTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
-	
+
 		mActionBar = getSupportActionBar();
 
 		mActionBar.setDisplayShowTitleEnabled(true);
@@ -184,7 +190,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			updateUI(REQUEST_STATUS.FAILED);
 		} else {
 			if (DazooStore.getInstance().getActivityFeed().size() > 0) {
-				Log.d(TAG,"READ FROM STORAGE");
+				Log.d(TAG, "READ FROM STORAGE");
 				activityFeed = DazooStore.getInstance().getActivityFeed();
 				updateUI(REQUEST_STATUS.SUCCESSFUL);
 			} else {
@@ -350,7 +356,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 				urlParams.add(new BasicNameValuePair(Consts.MILLICOM_SECONDSCREEN_API_LIMIT, String.valueOf(mNextStep)));
 
 				URI uri = new URI(Consts.MILLICOM_SECONDSCREEN_ACTIVITY_FEED_URL + "?" + URLEncodedUtils.format(urlParams, "utf-8"));
-				
+
 				HttpGet httpGet = new HttpGet(uri);
 				httpGet.setHeader("Authorization", "Bearer " + token);
 				HttpResponse response = httpClient.execute(httpGet);
@@ -437,9 +443,9 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			if (result) {
 				if (activityFeed != null) {
 					if (activityFeed.isEmpty() != true) {
-						
+
 						DazooStore.getInstance().setActivityFeed(activityFeed);
-						
+
 						Log.d(TAG, "//////////////");
 						updateUI(REQUEST_STATUS.SUCCESSFUL);
 						mStartIndex = mStartIndex + mStep;
@@ -454,7 +460,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 
 			} else {
 				Log.d(TAG, "No backend response");
-				updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
+				updateUI(REQUEST_STATUS.FAILED);
 			}
 		}
 

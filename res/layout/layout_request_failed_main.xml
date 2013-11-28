@@ -5,25 +5,23 @@
     android:background="@color/white"
     android:visibility="gone" >
 
-    <TextView
-        android:id="@+id/request_failed_title_tv"
+    <ImageView
+        android:id="@+id/request_failed_iv"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="65dp"
         android:gravity="center_horizontal"
-        android:text="@string/general_error_message_title"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
+        android:src="@drawable/ic_network"/>
 
     <TextView
         android:id="@+id/request_failed_details_tv"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/request_failed_title_tv"
+        android:layout_below="@id/request_failed_iv"
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
-        android:text="@string/general_error_message_message"
+        android:text="@string/error_connection_lost"
         android:textColor="@color/black"
         android:textSize="14sp" />
 
@@ -37,5 +35,6 @@
         android:minWidth="250dp"
         android:text="@string/general_error_message_button"
         android:textColor="@color/black" />
+
 
 </RelativeLayout>
