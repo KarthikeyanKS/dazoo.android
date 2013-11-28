@@ -29,6 +29,7 @@ import com.millicom.secondscreen.content.SSActivity;
 import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.search.SearchPageActivity;
+import com.millicom.secondscreen.utilities.ImageLoader;
 
 public class MyProfileActivity extends SSActivity implements OnClickListener {
 
@@ -39,11 +40,12 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 	private ImageView			mAvatarImageView;
 	private TextView			mUserNameTextView, mRemindersTextView, mLikesTextView, mMyChannelsTextView, mSettingsTextView, mRemindersCountTextView, mLikesCountTextView, mMyChannelsCountTextView;
 	private Button				mLoginBtn;
-	private String				userFirstName, userLastName;
+	private String				userFirstName, userLastName, userAvatarUrl;
 	private boolean				mIsLoggedIn	= false;
 	private String				mToken;
 	private ActionBar			mActionBar;
 	private RelativeLayout		mTabTvGuide, mTabActivity, mTabProfile;
+	private ImageLoader			mImageLoader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -54,9 +56,6 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
-		// broadcast receiver for log out action in the application
-		// LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverLogout, new IntentFilter(Consts.INTENT_EXTRA_LOG_OUT_ACTION));
-
 		mToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 
 		if (mToken != null && TextUtils.isEmpty(mToken) != true) {
@@ -64,23 +63,13 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 
 			userFirstName = ((SecondScreenApplication) getApplicationContext()).getUserFirstName();
 			userLastName = ((SecondScreenApplication) getApplicationContext()).getUserLastName();
+			userAvatarUrl = ((SecondScreenApplication) getApplicationContext()).getUserAvatarUrl();
 		}
 
 		initViews();
 		super.initCallbackLayouts();
 		populateViews();
 	}
-
-	// BroadcastReceiver mBroadcastReceiverLogout = new BroadcastReceiver(){
-	//
-	// @Override
-	// public void onReceive(Context context, Intent intent) {
-	// Log.d(TAG, "USER HAS LOG OUT!");
-	// mIsLoggedIn = false;
-	// initViews();
-	// populateViews();
-	// }
-	// };
 
 	private void initViews() {
 		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);
@@ -152,6 +141,10 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 		mSettingsTextView.setText(getResources().getString(R.string.icon_settings) + " " + getResources().getString(R.string.settings));
 
 		if (mIsLoggedIn) {
+			if (userAvatarUrl != null && TextUtils.isEmpty(userAvatarUrl) != true) {
+				mImageLoader.displayImage(userAvatarUrl, mAvatarImageView, ImageLoader.IMAGE_TYPE.THUMBNAIL);
+			}
+
 			mLikesTextView.setText(getResources().getString(R.string.icon_heart) + " " + getResources().getString(R.string.likes));
 			mMyChannelsTextView.setText(getResources().getString(R.string.icon_blocks) + " " + getResources().getString(R.string.my_channels));
 

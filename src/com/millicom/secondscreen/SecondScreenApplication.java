@@ -195,6 +195,23 @@ public class SecondScreenApplication extends Application {
 	}
 	
 	/**
+	 * Set user avatar url
+	 */
+	public void setUserAvatarUrl(String url){
+		editor = sSharedPreferences.edit();
+		editor.putString(Consts.MILLICOM_SECONSCREEN_USER_ACCOUNT_AVATAR_URL, url);
+		editor.commit();
+	}
+	
+	/**
+	 * Get user avatar url
+	 */
+	public String getUserAvatarUrl(){
+		return sSharedPreferences.getString(Consts.MILLICOM_SECONSCREEN_USER_ACCOUNT_AVATAR_URL, "");
+	}
+	
+	
+	/**
 	 * Update the selected hour
 	 */
 	public void setSelectedHour(int hour) {

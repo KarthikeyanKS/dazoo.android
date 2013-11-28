@@ -454,27 +454,4 @@ public class ContentParser {
 		}
 		return programBroadcasts;
 	}
-
-	/*
-	 * public static DazooLikeEntity parseDazooLikeEntity(JSONObject jsonObject) { if (jsonObject != null) { DazooLikeEntity dazooLikeEntity = new DazooLikeEntity(); dazooLikeEntity.setEntityId(jsonObject.optString(Consts.DAZOO_LIKE_ENTITY_ENTITY_ID));
-	 * 
-	 * String entityType = jsonObject.optString(Consts.DAZOO_LIKE_ENTITY_ENTITY_TYPE);
-	 * 
-	 * dazooLikeEntity.setEntityType(entityType); dazooLikeEntity.setTitle(jsonObject.optString(Consts.DAZOO_LIKE_ENTITY_TITLE)); dazooLikeEntity.setSynopsisShort(jsonObject.optString(Consts.DAZOO_LIKE_ENTITY_SYNOPSIS_SHORT));
-	 * dazooLikeEntity.setSynopsisLong(jsonObject.optString(Consts.DAZOO_LIKE_ENTITY_SYNOPSIS_LONG));
-	 * 
-	 * JSONObject jsonPoster = jsonObject.optJSONObject(Consts.DAZOO_LIKE_ENTITY_POSTER); if (jsonPoster != null) { dazooLikeEntity.setPosterSUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_SMALL)); dazooLikeEntity.setPosterMUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_MEDIUM));
-	 * dazooLikeEntity.setPosterLUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_LARGE)); }
-	 * 
-	 * JSONArray jsonTags = jsonObject.optJSONArray(Consts.DAZOO_LIKE_ENTITY_TAGS); if (jsonTags != null) { ArrayList<String> tags = new ArrayList<String>(); int size = jsonTags.length(); for (int l = 0; l < size; l++) { tags.add(jsonTags.optString(l)); } dazooLikeEntity.setTags(tags); }
-	 * 
-	 * JSONArray jsonCreditArray = jsonObject.optJSONArray(Consts.DAZOO_LIKE_ENTITY_CREDITS); if (jsonCreditArray != null) { ArrayList<Credit> credits = new ArrayList<Credit>(); int size = jsonCreditArray.length(); for (int j = 0; j < size; j++) { JSONObject jsonCredit; try { jsonCredit =
-	 * jsonCreditArray.getJSONObject(j); if (jsonCredit != null) { credits.add(parseCredit(jsonCredit)); } } catch (JSONException e) { e.printStackTrace(); } } dazooLikeEntity.setCredits(credits); }
-	 * 
-	 * if (entityType != null && TextUtils.isEmpty(entityType) != true) { if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(entityType)) { dazooLikeEntity.setEpisodeNumber(jsonObject.optInt(Consts.DAZOO_LIKE_ENTITY_EPISODE_NUMBER));
-	 * 
-	 * JSONObject jsonSeason = jsonObject.optJSONObject(Consts.DAZOO_LIKE_ENTITY_SEASON); if (jsonSeason != null) { try { dazooLikeEntity.setSeason(parseSeason(jsonSeason)); } catch (Exception e) { e.printStackTrace(); } }
-	 * 
-	 * JSONObject jsonSeries = jsonObject.optJSONObject(Consts.DAZOO_LIKE_ENTITY_SERIES); if (jsonSeries != null) { dazooLikeEntity.setSeries(parseSeries(jsonSeries)); } } } return dazooLikeEntity; } else return null; }
-	 */
 }

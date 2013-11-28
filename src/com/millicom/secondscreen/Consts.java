@@ -18,6 +18,7 @@ public abstract class Consts {
 	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_EXISTING_FLAG			= "com.millicom.secondscreen.user.existing.flag";
 	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_EMAIL					= "com.millicom.secondscreen.user.account.email";
 	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_PASSWORD					= "com.millicom.secondscreen.user.account.password";
+	public static final String	MILLICOM_SECONSCREEN_USER_ACCOUNT_AVATAR_URL				= "com.millicom.secondscreen.user.account.avatar.url";
 	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_MY_CHANNELS_IDS_JSON		= "com.millicom.secondscreen.user.account.my.channels.ids.json";
 	public static final String	MILLICOM_SECONDSCREEN_TV_GUIDE_HOUR							= "com.millicom.secondscreen.tv.guide.hour";
 	public static final String	MILLICOM_SECONDSCREEN_HOMEPAGE_AGAIN						= "com.millicom.secondscreen.homepage.again";
@@ -52,6 +53,8 @@ public abstract class Consts {
 	public static final String	MILLICOM_SECONDSCREEN_API_FIRSTNAME							= "firstName";
 	public static final String	MILLICOM_SECONDSCREEN_API_LASTNAME							= "lastName";
 	public static final String	MILLICOM_SECONDSCREEN_API_CREATED							= "created";
+	public static final String	MILLICOM_SECONDSCREEN_API_PROFILEIMAGE						= "profileImage";
+	public static final String	MILLICOM_SECONDSCREEN_API_URL								= "url";
 	public static final String	MILLICOM_SECONDSCREEN_API_USER								= "user";
 	public static final String	REQUEST_QUERY_AND											= "&";
 	public static final String	REQUEST_QUERY_SEPARATOR										= "/";
