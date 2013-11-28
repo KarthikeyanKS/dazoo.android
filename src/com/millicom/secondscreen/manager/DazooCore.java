@@ -152,6 +152,8 @@ public class DazooCore {
 
 						// attempt the common callback interface
 						getGuide(mDateIndex, false);
+					} else {
+						LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(Consts.INTENT_EXTRA_BAD_REQUEST));
 					}
 				}
 			});
@@ -183,6 +185,8 @@ public class DazooCore {
 						mIsTags = true;
 						// attempt the get the guide
 						getGuide(mDateIndex, false);
+					} else {
+						LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(Consts.INTENT_EXTRA_BAD_REQUEST));
 					}
 				}
 			});
@@ -208,6 +212,8 @@ public class DazooCore {
 
 						// attempt the common callback interface
 						getGuide(mDateIndex, false);
+					} else {
+						LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(Consts.INTENT_EXTRA_BAD_REQUEST));
 					}
 				}
 			});
@@ -232,6 +238,8 @@ public class DazooCore {
 
 						// attempt the common callback interface
 						getGuide(mDateIndex, false);
+					} else {
+						LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(Consts.INTENT_EXTRA_BAD_REQUEST));
 					}
 				}
 			});
@@ -337,16 +345,16 @@ public class DazooCore {
 				}
 			}
 		} else {
-				Log.d(TAG, "mIsTvDate:" + mIsTvDate + "  mIsTags: " + mIsTags + "   mIsDefaultChannels: " + mIsDefaultChannels);
-				if (mIsTvDate == true && mIsTags == true && mIsDefaultChannels) {
-					TvDate date = mTvDates.get(dateIndex);
-					if (DazooStore.getInstance().isGuideForDate(date.getDate())) {
-						// notify the HomeActivity that the guide is available and UI may be updated
+			Log.d(TAG, "mIsTvDate:" + mIsTvDate + "  mIsTags: " + mIsTags + "   mIsDefaultChannels: " + mIsDefaultChannels);
+			if (mIsTvDate == true && mIsTags == true && mIsDefaultChannels) {
+				TvDate date = mTvDates.get(dateIndex);
+				if (DazooStore.getInstance().isGuideForDate(date.getDate())) {
+					// notify the HomeActivity that the guide is available and UI may be updated
 
-						Log.d(TAG, "There is a ready one!");
-						LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(Consts.INTENT_EXTRA_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, true));
-					} else {
-					
+					Log.d(TAG, "There is a ready one!");
+					LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(Consts.INTENT_EXTRA_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, true));
+				} else {
+
 					GetGuide getGuideTask = new GetGuide(date, isChannel);
 					getGuideTask.execute(mContext);
 				}

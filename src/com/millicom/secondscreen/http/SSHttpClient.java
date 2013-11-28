@@ -15,6 +15,9 @@ import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.json.JSONArray;
@@ -28,6 +31,7 @@ import android.os.Build;
 import android.util.Log;
 
 import com.damnhandy.uri.template.UriTemplate;
+import com.millicom.secondscreen.Consts;
 
 public class SSHttpClient<T_Result> {
 
@@ -129,11 +133,7 @@ public class SSHttpClient<T_Result> {
 
 						// Do http get request, with our context to keep track of cookies
 						HttpResponse httpResponse = httpClient.execute(mHttpGet, sHttpContext);
-						//HttpResponse httpResponse = httpClient.execute(mHttpGet);
 						
-						
-						Log.d(TAG, "Get http response, status code: " + httpResponse.getStatusLine().getStatusCode());
-
 						// Get http response entity
 						HttpEntity httpResponseEntity = httpResponse.getEntity();
 						if (httpResponseEntity != null) {
@@ -212,7 +212,19 @@ public class SSHttpClient<T_Result> {
 				// Create the android http client
 				// sHttpClient = AndroidHttpClient.newInstance("Android");
 
-				sHttpClient = new DefaultHttpClient();
+				// set the timeouts
+				HttpParams httpParams = new BasicHttpParams();
+				// set the timeouts in milliseconds until a connection is established.
+				// the default value is zero, that means the timeout is not used
+				int timeOutConnection = 10000;
+				HttpConnectionParams.setConnectionTimeout(httpParams, timeOutConnection);
+				// set the default socket timeout (SO_TIMEOUT)
+				// in milliseconds which is the timeout for waiting for data
+				int timeOutSocket = 10000;
+				HttpConnectionParams.setSoTimeout(httpParams, timeOutSocket);
+				
+				
+				sHttpClient = new DefaultHttpClient(httpParams);
 
 				// Create the http context to be used by the client while executing requests
 				sHttpContext = new BasicHttpContext();

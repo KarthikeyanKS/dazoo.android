@@ -4,7 +4,9 @@ import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
+import com.millicom.secondscreen.http.NetworkUtils;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -31,7 +33,10 @@ public abstract class SSActivity extends ActionBarActivity {
 	private View				mRequestFailedLayout;
 	private View				mRequestLoadingLayout;
 	private Button				mRequestFailedButton;
+	private Button				mRequestBadButton;
+	private View				mRequestBadLayout;
 	private ActionBar			mActionBar;
+	private Activity			mActivity;
 
 	protected abstract void updateUI(REQUEST_STATUS status);
 
@@ -49,6 +54,7 @@ public abstract class SSActivity extends ActionBarActivity {
 	public void setContentView(int layoutResID) {
 		super.setContentView(layoutResID);
 
+		mActivity = this;
 		mActionBar = getSupportActionBar();
 		mActionBar.setDisplayShowTitleEnabled(true);
 		mActionBar.setDisplayShowCustomEnabled(true);
@@ -74,6 +80,10 @@ public abstract class SSActivity extends ActionBarActivity {
 			hideRequestStatusLayouts();
 
 			switch (status) {
+			case BAD_REQUEST:
+				mRequestBadLayout.setVisibility(View.VISIBLE);
+				break;
+
 			case EMPTY_RESPONSE:
 				mRequestEmptyLayout.setVisibility(View.VISIBLE);
 				break;
@@ -95,6 +105,7 @@ public abstract class SSActivity extends ActionBarActivity {
 	public void hideRequestStatusLayouts() {
 		if (mRequestFailedLayout != null) mRequestFailedLayout.setVisibility(View.GONE);
 		if (mRequestLoadingLayout != null) mRequestLoadingLayout.setVisibility(View.GONE);
+		if (mRequestBadLayout != null) mRequestBadLayout.setVisibility(View.GONE);
 	}
 
 	public void initCallbackLayouts() {
@@ -106,6 +117,10 @@ public abstract class SSActivity extends ActionBarActivity {
 		mRequestLoadingLayout = (RelativeLayout) findViewById(R.id.request_loading_main_layout);
 
 		mRequestEmptyLayout = (RelativeLayout) findViewById(R.id.request_empty_main_layout);
+
+		mRequestBadLayout = (RelativeLayout) findViewById(R.id.bad_request_main_layout);
+		mRequestBadButton = (Button) findViewById(R.id.bad_request_reload_button);
+		mRequestBadButton.setOnClickListener(mOnRequestFailedClickListener);
 	}
 
 	OnClickListener	mOnRequestFailedClickListener	= new OnClickListener() {
@@ -115,7 +130,18 @@ public abstract class SSActivity extends ActionBarActivity {
 
 			switch (v.getId()) {
 			case R.id.request_failed_reload_button:
-				loadPage();
+				if (!NetworkUtils.checkConnection(mActivity)) {
+					updateUI(REQUEST_STATUS.FAILED);
+				} else {
+					loadPage();
+				}
+				break;
+			case R.id.bad_request_reload_button:
+				if (!NetworkUtils.checkConnection(mActivity)) {
+					updateUI(REQUEST_STATUS.FAILED);
+				} else {
+					loadPage();
+				}
 				break;
 			}
 		}

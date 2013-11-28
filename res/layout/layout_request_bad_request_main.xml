@@ -1,13 +1,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
-    android:id="@+id/request_failed_main_layout"
+    android:id="@+id/bad_request_main_layout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/white"
     android:visibility="gone" >
 
     <ImageView
-        android:id="@+id/request_failed_iv"
+        android:id="@+id/bad_request_iv"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -16,21 +16,22 @@
         android:src="@drawable/ic_network" />
 
     <com.millicom.secondscreen.customviews.FontTextView
-        android:id="@+id/request_failed_details_tv"
+        android:id="@+id/bad_request_details_tv"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/request_failed_iv"
+        android:layout_below="@id/bad_request_iv"
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
-        android:text="@string/error_connection_lost"
+        android:text="@string/general_error_message_message"
         android:textColor="@color/black"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        font:fonttextview="fontello.ttf" />
 
     <com.millicom.secondscreen.customviews.FontButton
-        android:id="@+id/request_failed_reload_button"
+        android:id="@+id/bad_request_reload_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/request_failed_details_tv"
+        android:layout_below="@id/bad_request_details_tv"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:minWidth="250dp"

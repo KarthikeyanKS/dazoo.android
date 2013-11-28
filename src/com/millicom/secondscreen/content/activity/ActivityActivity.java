@@ -460,7 +460,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 
 			} else {
 				Log.d(TAG, "No backend response");
-				updateUI(REQUEST_STATUS.FAILED);
+				updateUI(REQUEST_STATUS.BAD_REQUEST);
 			}
 		}
 

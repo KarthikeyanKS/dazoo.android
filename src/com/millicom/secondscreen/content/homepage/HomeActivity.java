@@ -87,6 +87,10 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 		// broadcast receiver for my channels have changed
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverMyChannels, new IntentFilter(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
+		
+		// broadcast receiver for request timeout
+		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverBadRequest, new IntentFilter(Consts.INTENT_EXTRA_BAD_REQUEST));
+		
 		initViews();
 
 		// HOCKEY-APP
@@ -107,6 +111,14 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		// Remove this for store builds!
 		UpdateManager.register(this, Consts.HOCKEY_APP_TOKEN);
 	}
+	
+	BroadcastReceiver mBroadcastReceiverBadRequest = new BroadcastReceiver(){
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			//bad request to the backend: timeout or anything similar
+			updateUI(REQUEST_STATUS.BAD_REQUEST);
+		}
+	};
 
 	BroadcastReceiver	mBroadcastReceiverMyChannels	= new BroadcastReceiver() {
 
@@ -130,25 +142,20 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			Log.d(TAG, "mFirstHit " + mFirstHit);
 
 			if (mIsReady && (mDateSelectedIndex == 0) && !mChannelUpdate && mFirstHit) {
-				Log.d(TAG, "CASE 1");
 				if (!pageHoldsData()) {
 
 					updateUI(REQUEST_STATUS.FAILED);
 				}
 			} else if (mIsReady && (mDateSelectedIndex != 0) && mChannelUpdate) {
-				Log.d(TAG, "CASE 1");
 				attachFragment();
 				mChannelUpdate = false;
 			} else if (mIsReady && (mDateSelectedIndex == 0) && mChannelUpdate && !mFirstHit) {
-				Log.d(TAG, "CASE 2");
 				attachFragment();
 				mChannelUpdate = false;
 			} else if (mIsReady && (mDateSelectedIndex != 0) && !mChannelUpdate && !mFirstHit) {
-				Log.d(TAG, "CASE 3");
 				attachFragment();
 				mChannelUpdate = false;
 			} else if (mIsReady && (mDateSelectedIndex == 0) && !mChannelUpdate && !mFirstHit) {
-				Log.d(TAG, "CASE 4");
 				attachFragment();
 				mChannelUpdate = false;
 			}

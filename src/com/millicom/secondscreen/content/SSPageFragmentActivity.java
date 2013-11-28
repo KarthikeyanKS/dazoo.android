@@ -1,35 +1,28 @@
 package com.millicom.secondscreen.content;
 
-import com.millicom.secondscreen.Consts;
-import com.millicom.secondscreen.Consts.REQUEST_STATUS;
-import com.millicom.secondscreen.SecondScreenApplication;
-
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.support.v4.content.LocalBroadcastManager;
+import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
+import com.millicom.secondscreen.Consts.REQUEST_STATUS;
+import com.millicom.secondscreen.http.NetworkUtils;
 import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.SecondScreenApplication;
 
 public abstract class SSPageFragmentActivity extends ActionBarActivity {
 
-	private static final String	TAG				= "SSPageFragmentActivity";
+	private static final String	TAG	= "SSPageFragmentActivity";
 
 	private View				mRequestEmptyLayout;
 	private View				mRequestFailedLayout;
 	private View				mRequestLoadingLayout;
 	private Button				mRequestFailedButton;
-
-	protected boolean			mForceReload	= false;
+	private Button				mRequestBadButton;
+	private View				mRequestBadLayout;
+	private Activity			mActivity;
 
 	protected abstract void loadPage();
 
@@ -47,6 +40,7 @@ public abstract class SSPageFragmentActivity extends ActionBarActivity {
 	@Override
 	public void setContentView(int layoutResID) {
 		super.setContentView(layoutResID);
+		mActivity = this;
 		initCallbackLayouts();
 	}
 
@@ -63,6 +57,10 @@ public abstract class SSPageFragmentActivity extends ActionBarActivity {
 			hideRequestStatusLayouts();
 
 			switch (status) {
+			case BAD_REQUEST:
+				mRequestEmptyLayout.setVisibility(View.VISIBLE);
+				break;
+
 			case EMPTY_RESPONSE:
 				mRequestEmptyLayout.setVisibility(View.VISIBLE);
 				break;
@@ -84,6 +82,7 @@ public abstract class SSPageFragmentActivity extends ActionBarActivity {
 	public void hideRequestStatusLayouts() {
 		if (mRequestFailedLayout != null) mRequestFailedLayout.setVisibility(View.GONE);
 		if (mRequestLoadingLayout != null) mRequestLoadingLayout.setVisibility(View.GONE);
+		if (mRequestBadLayout != null) mRequestBadLayout.setVisibility(View.GONE);
 	}
 
 	public void initCallbackLayouts() {
@@ -95,6 +94,10 @@ public abstract class SSPageFragmentActivity extends ActionBarActivity {
 		mRequestLoadingLayout = (RelativeLayout) findViewById(R.id.request_loading_main_layout);
 
 		mRequestEmptyLayout = (RelativeLayout) findViewById(R.id.request_empty_main_layout);
+
+		mRequestBadLayout = (RelativeLayout) findViewById(R.id.bad_request_main_layout);
+		mRequestBadButton = (Button) findViewById(R.id.bad_request_reload_button);
+		mRequestBadButton.setOnClickListener(mOnRequestFailedClickListener);
 	}
 
 	OnClickListener	mOnRequestFailedClickListener	= new OnClickListener() {
@@ -104,7 +107,18 @@ public abstract class SSPageFragmentActivity extends ActionBarActivity {
 
 			switch (v.getId()) {
 			case R.id.request_failed_reload_button:
-				loadPage();
+				if (!NetworkUtils.checkConnection(mActivity)) {
+					updateUI(REQUEST_STATUS.FAILED);
+				} else {
+					loadPage();
+				}
+				break;
+			case R.id.bad_request_reload_button:
+				if (!NetworkUtils.checkConnection(mActivity)) {
+					updateUI(REQUEST_STATUS.FAILED);
+				} else {
+					loadPage();
+				}
 				break;
 			}
 		}

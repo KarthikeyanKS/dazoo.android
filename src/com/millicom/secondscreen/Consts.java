@@ -79,7 +79,7 @@ public abstract class Consts {
 	public static final int		MILLICOM_SECONDSCREEN_API_POPULAR_COUNT_DEFAULT				= 3;
 
 	public static enum REQUEST_STATUS {
-		LOADING, FAILED, EMPTY_RESPONSE, SUCCESSFUL
+		LOADING, FAILED, EMPTY_RESPONSE, SUCCESSFUL, BAD_REQUEST
 	};
 
 	public static String		DAZOO_BACK_STACK									= "com.millicom.secondscreen.dazoo.back.stack";
@@ -144,6 +144,7 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_CLOCK_SELECTION						= "com.millicom.secondscreen.intent.extra.clock.selection";
 	public static final String	INTENT_EXTRA_CLOCK_SELECTION_VALUE					= "com.millicom.secondscreen.intent.extra.clock.selection.value";
 	public static final String	INTENT_EXTRA_TV_GUIDE_HOUR							= "com.millicom.secondscreen.intent.extra.tvguide.hour";
+	public static final String	INTENT_EXTRA_BAD_REQUEST							= "com.millicom.secondscreen.intent.extra.bad.request";
 
 	// alarm extras
 	public static final String	INTENT_DAZOO_NOTIFICATION							= "DAZOO_NOTIFICATION";
