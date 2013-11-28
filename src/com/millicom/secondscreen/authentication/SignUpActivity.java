@@ -223,9 +223,7 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 						// if (dazooToken.isEmpty() != true && dazooToken.length() > 0) {
 						if (dazooToken != null && TextUtils.isEmpty(dazooToken) != true) {
 							((SecondScreenApplication) getApplicationContext()).setAccessToken(dazooToken);
-							// Get the information about the user
-							String userDataString = dazooRegJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_USER);
-							if (AuthenticationService.storeUserInformation(this, userDataString)) {
+							if (AuthenticationService.storeUserInformation(this, dazooRegJSON)) {
 								Toast.makeText(getApplicationContext(), "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName(), Toast.LENGTH_SHORT).show();
 
 								// go to Start page

@@ -57,6 +57,7 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
 		mToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
+		mImageLoader = new ImageLoader(this, R.drawable.loadimage);
 
 		if (mToken != null && TextUtils.isEmpty(mToken) != true) {
 			mIsLoggedIn = true;

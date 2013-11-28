@@ -144,9 +144,7 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 							((SecondScreenApplication) getApplicationContext()).setAccessToken(dazooToken);
 							Log.d(TAG, "DazooToken: " + dazooToken + "is saved");
 
-							// Get the information about the user
-							String userDataString = dazooJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_USER);
-							if (AuthenticationService.storeUserInformation(this, userDataString)) {
+							if (AuthenticationService.storeUserInformation(this, dazooJSON)) {
 								Toast.makeText(getApplicationContext(), "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName(), Toast.LENGTH_SHORT).show();
 
 								DazooStore.getInstance().clearAll();
@@ -216,7 +214,7 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 
 				HttpResponse response = httpClient.execute(httpPost);
 
-				// HttpResponse response = client.execute(httpPost);
+				//HttpResponse response = client.execute(httpPost);
 				if (response.getStatusLine().getStatusCode() == Consts.GOOD_RESPONSE) {
 					String responseBody = EntityUtils.toString(response.getEntity());
 					return responseBody;

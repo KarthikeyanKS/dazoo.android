@@ -156,9 +156,7 @@ public class FacebookLoginActivity extends ActionBarActivity {
 						Log.d(TAG, "Token: " + facebookToken + " is saved");
 						//TestFlight.passCheckpoint("FACEBOOK TOKEN IS SAVED");
 						
-						// Get the information about the user
-						String userDataString = fbJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_USER);
-						if (AuthenticationService.storeUserInformation(this, userDataString)) {
+						if (AuthenticationService.storeUserInformation(this, fbJSON)) {
 							Toast.makeText(getApplicationContext(), "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName(), Toast.LENGTH_SHORT).show();
 							return true;
 						} else {
