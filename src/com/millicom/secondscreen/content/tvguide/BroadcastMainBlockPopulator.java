@@ -67,6 +67,7 @@ public class BroadcastMainBlockPopulator {
 		TextView titleTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_details_title_tv);
 		TextView seasonTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_details_season_tv);
 		TextView episodeTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_details_episode_tv);
+		TextView episodeNameTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_details_episode_name_tv);
 		TextView timeTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_details_time_tv);
 		ImageView channelIv = (ImageView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_channel_iv);
 		TextView synopsisTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_synopsis_tv);
@@ -77,11 +78,11 @@ public class BroadcastMainBlockPopulator {
 		ImageView mShareIv = (ImageView) topContentView.findViewById(R.id.block_social_panel_share_button_iv);
 		mRemindIv = (ImageView) topContentView.findViewById(R.id.block_social_panel_remind_button_iv);
 
-		LinearLayout likeContainer = (LinearLayout) topContentView.findViewById(R.id.block_social_panel_like_button_container);
-		LinearLayout shareContainer = (LinearLayout) topContentView.findViewById(R.id.block_social_panel_share_button_container);
-		LinearLayout remindContainer = (LinearLayout) topContentView.findViewById(R.id.block_social_panel_remind_button_container);
+		RelativeLayout likeContainer = (RelativeLayout) topContentView.findViewById(R.id.block_social_panel_like_button_container);
+		RelativeLayout shareContainer = (RelativeLayout) topContentView.findViewById(R.id.block_social_panel_share_button_container);
+		RelativeLayout remindContainer = (RelativeLayout) topContentView.findViewById(R.id.block_social_panel_remind_button_container);
 
-		RelativeLayout progressBarContainer = (RelativeLayout) topContentView.findViewById(R.id.block_broadcastpage_broadcast_progress_container);
+//		RelativeLayout progressBarContainer = (RelativeLayout) topContentView.findViewById(R.id.block_broadcastpage_broadcast_progress_container);
 		ProgressBar progressBar = (ProgressBar) topContentView.findViewById(R.id.block_broadcastpage_broadcast_progressbar);
 		TextView progressTxt = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_timeleft_tv);
 
@@ -89,7 +90,6 @@ public class BroadcastMainBlockPopulator {
 		try {
 			mIsFuture = DateUtilities.isTimeInFuture(broadcast.getBeginTime());
 		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -104,11 +104,16 @@ public class BroadcastMainBlockPopulator {
 		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 			mProgramId = broadcast.getProgram().getSeries().getSeriesId();
 			mContentTitle = broadcast.getProgram().getTitle();
-			seasonTv.setText(mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " " + mActivity.getResources().getString(R.string.episode) + " "
-					+ String.valueOf(program.getEpisodeNumber()));
-			episodeTv.setText(program.getTitle());
+			seasonTv.setText(mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " ");
+			seasonTv.setVisibility(View.VISIBLE);
+
+			episodeTv.setText(mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(program.getEpisodeNumber()));
+			episodeTv.setVisibility(View.VISIBLE);
 
 			titleTv.setText(program.getSeries().getName());
+
+			episodeNameTv.setText(program.getTitle());
+			episodeNameTv.setVisibility(View.VISIBLE);
 
 		} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)){
 			mProgramId = broadcast.getProgram().getSportType().getSportTypeId();
@@ -122,7 +127,7 @@ public class BroadcastMainBlockPopulator {
 		mLikeType = LikeService.getLikeType(programType);
 
 		if (program.getPortSUrl() != null && TextUtils.isEmpty(program.getPortSUrl()) != true) {
-			mImageLoader.displayImage(program.getPortSUrl(), posterIv, posterPb, ImageLoader.IMAGE_TYPE.POSTER);
+			mImageLoader.displayImage(program.getLandLUrl(), posterIv, posterPb, ImageLoader.IMAGE_TYPE.POSTER);
 		}
 
 		if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
@@ -188,16 +193,16 @@ public class BroadcastMainBlockPopulator {
 				initialProgress = (int) difference / (1000 * 60);
 				progressTxt.setText(duration - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
 				progressBar.setProgress(initialProgress);
-				progressBarContainer.setVisibility(View.VISIBLE);
+				progressTxt.setVisibility(View.VISIBLE);
+				progressBar.setVisibility(View.VISIBLE);
+				timeTv.setVisibility(View.GONE);
 			}
 		}
 		// broadcast is in the future: show time
 		else {
 			try {
 				timeTv.setText(DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime()) + " " + DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTime()) + " " + beginTimeStr + "-" + endTimeStr);
-				timeTv.setVisibility(View.VISIBLE);
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -316,7 +321,9 @@ public class BroadcastMainBlockPopulator {
 		});
 		topContentView.setVisibility(View.VISIBLE);
 
-		containerView.addView(topContentView);
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+		layoutParams.setMargins(20, 20, 20, 20);
+		containerView.addView(topContentView, layoutParams);
 	}
 
 	public Runnable yesLoginProc() {

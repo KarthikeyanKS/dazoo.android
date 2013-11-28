@@ -58,7 +58,7 @@ public class BroadcastUpcomingBlockPopulator {
 		title.setText(mActivity.getResources().getString(R.string.upcoming_episodes));
 
 		if (upcomingBroadcasts.size() > 0 && upcomingBroadcasts.get(0) != null) {
-
+			
 			final Broadcast broadcastOne = upcomingBroadcasts.get(0);
 
 			Log.d(TAG, "UPCOMING BROADCASTS SIZE: " + upcomingBroadcasts.size());
@@ -89,7 +89,6 @@ public class BroadcastUpcomingBlockPopulator {
 			try {
 				mTitleTimeOneTv.setText(DateUtilities.isoStringToDayOfWeekAndDate(broadcastOne.getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(broadcastOne.getBeginTime()));
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			mChannelOneTv.setText(broadcastOne.getChannel().getName());
@@ -97,7 +96,6 @@ public class BroadcastUpcomingBlockPopulator {
 			try {
 				mIsFutureOne = DateUtilities.isTimeInFuture(broadcastOne.getBeginTime());
 			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 
@@ -176,6 +174,9 @@ public class BroadcastUpcomingBlockPopulator {
 		}
 
 		if (upcomingBroadcasts.size() > 1 && upcomingBroadcasts.get(1) != null) {
+			View divider = (View) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_one_bottom_divider);
+			divider.setVisibility(View.VISIBLE);
+			
 			final Broadcast broadcastTwo = upcomingBroadcasts.get(1);
 
 			// second program
@@ -205,7 +206,6 @@ public class BroadcastUpcomingBlockPopulator {
 			try {
 				mTitleTimeTwoTv.setText(DateUtilities.isoStringToDayOfWeekAndDate(upcomingBroadcasts.get(1).getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(broadcastTwo.getBeginTime()));
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			mChannelTwoTv.setText(broadcastTwo.getChannel().getName());
@@ -213,7 +213,6 @@ public class BroadcastUpcomingBlockPopulator {
 			try {
 				mIsFutureTwo = DateUtilities.isTimeInFuture(broadcastTwo.getBeginTime());
 			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 
@@ -293,6 +292,8 @@ public class BroadcastUpcomingBlockPopulator {
 
 		// third program
 		if (upcomingBroadcasts.size() > 2 && upcomingBroadcasts.get(2) != null) {
+			View divider = (View) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_two_bottom_divider);
+			divider.setVisibility(View.VISIBLE);
 
 			final Broadcast broadcastThree = upcomingBroadcasts.get(2);
 
@@ -322,7 +323,6 @@ public class BroadcastUpcomingBlockPopulator {
 			try {
 				mTitleTimeThreeTv.setText(DateUtilities.isoStringToDayOfWeekAndDate(broadcastThree.getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(broadcastThree.getBeginTime()));
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			mChannelThreeTv.setText(broadcastThree.getChannel().getName());
@@ -330,7 +330,6 @@ public class BroadcastUpcomingBlockPopulator {
 			try {
 				mIsFutureThree = DateUtilities.isTimeInFuture(broadcastThree.getBeginTime());
 			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 
@@ -406,10 +405,9 @@ public class BroadcastUpcomingBlockPopulator {
 				}
 			});
 		}
-
 		if (upcomingBroadcasts.size() > 3) {
 
-			View divider = (View) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_divider);
+			View divider = (View) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_three_bottom_divider);
 			divider.setVisibility(View.VISIBLE);
 			TextView showMoreTxt = (TextView) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_more_textview);
 			showMoreTxt.setVisibility(View.VISIBLE);

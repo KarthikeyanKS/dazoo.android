@@ -26,6 +26,7 @@
             android:textColor="@color/grey2"
             android:textSize="18sp"
             android:textStyle="bold" />
+        
     </RelativeLayout>
 
     <!-- ITEM -->
@@ -52,8 +53,7 @@
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/black"
                 android:textSize="22sp"
-                android:textStyle="bold"
-                android:visibility="gone" />
+                android:textStyle="bold" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/row_upcoming_episodes_listitem_title_time"
@@ -70,6 +70,7 @@
                 android:layout_below="@id/row_upcoming_episodes_listitem_title_time"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
+            
         </RelativeLayout>
 
         <!-- SEPARATOR -->
@@ -87,6 +88,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_separator" />
+            
         </LinearLayout>
 
         <!-- REMIND BUTTON -->
@@ -95,18 +97,19 @@
             android:id="@+id/row_upcoming_episodes_listitem_remind_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
             android:layout_weight="0.2"
-            android:gravity="center" >
+            android:layout_gravity="center_vertical" >
 
             <ImageView
                 android:id="@+id/row_upcoming_episodes_listitem_remind_iv"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:layout_margin="10dp"
-                android:src="@drawable/ic_clock"
-                android:gravity="center" />
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_clock" />
+            
         </LinearLayout>
+        
     </LinearLayout>
 
     <View
