@@ -11,6 +11,7 @@ import com.millicom.secondscreen.content.model.DazooLikeEntity;
 import com.millicom.secondscreen.content.model.Program;
 import com.millicom.secondscreen.content.myprofile.LikesCountInterface;
 import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
+import com.millicom.secondscreen.content.tvguide.ChannelPageActivity;
 import com.millicom.secondscreen.like.LikeDialogHandler;
 import com.millicom.secondscreen.utilities.ImageLoader;
 
@@ -131,7 +132,8 @@ public class LikesListAdapter extends BaseAdapter {
 
 					@Override
 					public void onClick(View v) {
-						Toast.makeText(mActivity, "Information from backend is missing now. Come later : )", Toast.LENGTH_SHORT).show();
+						
+						
 					}
 				});
 
@@ -146,8 +148,9 @@ public class LikesListAdapter extends BaseAdapter {
 							likeId = like.getEntity().getSeriesId();
 						} else if (Consts.DAZOO_LIKE_TYPE_PROGRAM.equals(likeType)){
 							likeId = like.getEntity().getProgramId();
+						} else if (Consts.DAZOO_LIKE_TYPE_SPORT_TYPE.equals(likeType)){
+							likeId = like.getEntity().getSportTypeId();
 						}
-						//TODO LATER ADD SUPPORT FOR SPORT
 						
 						LikeDialogHandler likeDlg = new LikeDialogHandler();
 						likeDlg.showRemoveLikeDialog(mActivity, mToken, likeId, likeType, yesProc(), noProc());

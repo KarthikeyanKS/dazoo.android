@@ -14,9 +14,6 @@ import java.util.List;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 
-import net.hockeyapp.android.CrashManager;
-
-import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -33,8 +30,6 @@ import org.apache.http.impl.conn.SingleClientConnManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -50,7 +45,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -65,7 +59,6 @@ import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.adapters.ActivityFeedAdapter;
 import com.millicom.secondscreen.authentication.SignInActivity;
 import com.millicom.secondscreen.content.SSActivity;
-import com.millicom.secondscreen.content.feed.FeedService;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.model.FeedItem;
 import com.millicom.secondscreen.content.myprofile.MyProfileActivity;

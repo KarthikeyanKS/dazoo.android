@@ -171,9 +171,8 @@ public class RemindersListAdapter extends BaseAdapter {
 				public void onClick(View v) {
 					String broadcastUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + channel.getChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillis();
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST, broadcast);
-					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL, channel);
 					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_URL, broadcastUrl);
+					intent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
 					mActivity.startActivity(intent);
 					mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 				}
