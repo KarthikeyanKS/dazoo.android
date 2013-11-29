@@ -113,7 +113,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="5dp"
-                android:src="@drawable/ic_clock_red" />
+                android:src="@drawable/ic_reminder_selected" />
             
             <View 
 	            android:layout_width="1dp"

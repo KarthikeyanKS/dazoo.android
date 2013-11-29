@@ -180,7 +180,7 @@ public class RemindersListAdapter extends BaseAdapter {
 				}
 			});
 
-			holder.mReminderIconIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
+			holder.mReminderIconIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 			holder.mReminderIconIv.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {

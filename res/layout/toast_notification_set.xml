@@ -15,7 +15,7 @@
         android:layout_alignParentLeft="true"
         android:layout_gravity="center_vertical"
         android:layout_margin="5dp"
-        android:src="@drawable/ic_bell" />
+        android:src="@drawable/ic_reminder_selected" />
 
     <com.millicom.secondscreen.customviews.FontTextView
         android:id="@+id/notification_set_toast_tv"

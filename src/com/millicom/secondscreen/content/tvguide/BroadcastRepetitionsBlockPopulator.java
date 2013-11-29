@@ -100,10 +100,10 @@ public class BroadcastRepetitionsBlockPopulator {
 					mNotificationId = -1;
 				}
 
-				if (mIsSetOne) mReminderOneIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
-				else mReminderOneIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
+				if (mIsSetOne) mReminderOneIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
+				else mReminderOneIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 			} else {
-				mReminderOneIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_dissabled_clock));
+				mReminderOneIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_dissabled));
 			}
 
 			mReminderOneContainer.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +114,7 @@ public class BroadcastRepetitionsBlockPopulator {
 						if (mIsSetOne == false) {
 							if (NotificationService.setAlarm(mActivity, broadcastOne, broadcastOne.getChannel(), mTvDate)) {
 								NotificationService.showSetNotificationToast(mActivity);
-								mReminderOneIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
+								mReminderOneIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 								NotificationDbItem dbItem = new NotificationDbItem();
 								dbItem = mNotificationDataSource.getNotification(broadcastOne.getChannel().getChannelId(), broadcastOne.getBeginTimeMillis());
@@ -209,10 +209,10 @@ public class BroadcastRepetitionsBlockPopulator {
 					mNotificationId = -1;
 				}
 
-				if (mIsSetTwo) mReminderTwoIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
-				else mReminderTwoIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
+				if (mIsSetTwo) mReminderTwoIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
+				else mReminderTwoIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 			} else {
-				mReminderTwoIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_dissabled_clock));
+				mReminderTwoIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_dissabled));
 			}
 
 			mReminderTwoContainer.setOnClickListener(new View.OnClickListener() {
@@ -223,7 +223,7 @@ public class BroadcastRepetitionsBlockPopulator {
 						if (mIsSetTwo == false) {
 							if (NotificationService.setAlarm(mActivity, broadcastTwo, broadcastTwo.getChannel(), mTvDate)) {
 								NotificationService.showSetNotificationToast(mActivity);
-								mReminderTwoIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
+								mReminderTwoIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 								NotificationDbItem dbItem = new NotificationDbItem();
 								dbItem = mNotificationDataSource.getNotification(broadcastTwo.getChannel().getChannelId(), broadcastTwo.getBeginTimeMillis());
@@ -321,10 +321,10 @@ public class BroadcastRepetitionsBlockPopulator {
 					mNotificationId = -1;
 				}
 
-				if (mIsSetThree) mReminderOneIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
-				else mReminderThreeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
+				if (mIsSetThree) mReminderOneIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
+				else mReminderThreeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 			} else {
-				mReminderThreeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_dissabled_clock));
+				mReminderThreeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 			}
 
 			mReminderThreeContainer.setOnClickListener(new View.OnClickListener() {
@@ -335,7 +335,7 @@ public class BroadcastRepetitionsBlockPopulator {
 						if (mIsSetThree == false) {
 							if (NotificationService.setAlarm(mActivity, broadcastThree, broadcastThree.getChannel(), mTvDate)) {
 								NotificationService.showSetNotificationToast(mActivity);
-								mReminderThreeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
+								mReminderThreeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 								NotificationDbItem dbItem = new NotificationDbItem();
 								dbItem = mNotificationDataSource.getNotification(broadcastThree.getChannel().getChannelId(), broadcastThree.getBeginTimeMillis());
@@ -414,7 +414,7 @@ public class BroadcastRepetitionsBlockPopulator {
 	public Runnable yesNotificationThreeProc() {
 		return new Runnable() {
 			public void run() {
-				mReminderThreeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
+				mReminderThreeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 				mIsSetThree = false;
 			}
 		};
@@ -423,7 +423,7 @@ public class BroadcastRepetitionsBlockPopulator {
 	public Runnable yesNotificationTwoProc() {
 		return new Runnable() {
 			public void run() {
-				mReminderTwoIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
+				mReminderTwoIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 				mIsSetTwo = false;
 			}
 		};
@@ -432,7 +432,7 @@ public class BroadcastRepetitionsBlockPopulator {
 	public Runnable yesNotificationOneProc() {
 		return new Runnable() {
 			public void run() {
-				mReminderOneIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
+				mReminderOneIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 				mIsSetOne = false;
 			}
 		};

@@ -165,7 +165,7 @@
                 android:id="@+id/block_feed_liked_like_button_iv"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@drawable/ic_heart" />
+                android:src="@drawable/ic_like_default" />
         </LinearLayout>
 
         <!-- SEPARATOR -->
@@ -196,7 +196,7 @@
                 android:id="@+id/block_feed_liked_share_button_iv"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@drawable/share_icon" />
+                android:src="@drawable/ic_share_default" />
         </LinearLayout>
 
         <!-- SEPARATOR -->
@@ -227,7 +227,7 @@
                 android:id="@+id/block_feed_liked_remind_button_iv"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@drawable/ic_clock" />
+                android:src="@drawable/ic_guide_clock" />
         </LinearLayout>
     </LinearLayout>
 

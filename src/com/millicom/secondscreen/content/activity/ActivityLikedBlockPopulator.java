@@ -140,11 +140,11 @@ public class ActivityLikedBlockPopulator {
 			}
 		});
 
-		if (mIsSet) remindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
-		else remindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
+		if (mIsSet) remindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
+		else remindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 
-		if (mIsLiked) likeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
-		else likeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart));
+		if (mIsLiked) likeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
+		else likeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
 
 		likeContainer.setOnClickListener(new View.OnClickListener() {
 
@@ -168,7 +168,7 @@ public class ActivityLikedBlockPopulator {
 				if (mIsLiked == false) {
 					if (LikeService.addLike(mToken, programId, likeType)) {
 						LikeService.showSetLikeToast(mActivity, contentTitle);
-						likeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
+						likeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
 						mIsLiked = true;
 					} else {
 						Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
@@ -203,7 +203,7 @@ public class ActivityLikedBlockPopulator {
 				if (mIsSet == false) {
 					if (NotificationService.setAlarm(mActivity, popularItem.getBroadcast(), popularItem.getBroadcast().getChannel(), tvDate)) {
 						NotificationService.showSetNotificationToast(mActivity);
-						remindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
+						remindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 						NotificationDbItem dbItem = new NotificationDbItem();
 						dbItem = mNotificationDataSource.getNotification(popularItem.getBroadcast().getChannel().getChannelId(), popularItem.getBroadcast().getBeginTimeMillis());
@@ -236,7 +236,7 @@ public class ActivityLikedBlockPopulator {
 	public Runnable yesLikeProc() {
 		return new Runnable() {
 			public void run() {
-				likeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart));
+				likeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
 				mIsLiked = false;
 			}
 		};
@@ -252,7 +252,7 @@ public class ActivityLikedBlockPopulator {
 	public Runnable yesNotificationProc() {
 		return new Runnable() {
 			public void run() {
-				remindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
+				remindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 				mIsSet = false;
 			}
 		};

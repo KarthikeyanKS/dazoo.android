@@ -94,7 +94,7 @@
                 android:layout_height="32dp"
                 android:layout_marginRight="40dp"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/ic_clock" />
+                android:src="@drawable/ic_guide_clock" />
             
         </LinearLayout>
         
@@ -188,7 +188,7 @@
                 android:layout_height="32dp"
                 android:layout_marginRight="40dp"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/ic_clock" />
+                android:src="@drawable/ic_guide_clock" />
             
         </LinearLayout>
         
@@ -282,7 +282,7 @@
                 android:layout_height="32dp"
                 android:layout_marginRight="40dp"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/ic_clock"
+                android:src="@drawable/ic_guide_clock"
                 android:layout_gravity="center_vertical"/>
             
         </LinearLayout>

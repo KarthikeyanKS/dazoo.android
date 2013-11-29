@@ -305,6 +305,9 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverDate);
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverContent);
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverMyChannels);
+		
+		// clear the clock selection setting
+		((SecondScreenApplication) getApplicationContext()).setSelectedHour(6);
 	};
 
 	@Override

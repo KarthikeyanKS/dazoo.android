@@ -164,10 +164,10 @@ public class RepetitionsListAdapter extends BaseAdapter {
 					mNotificationId = -1;
 				}
 
-				if (mIsSet) holder.mReminderIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
-				else holder.mReminderIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
+				if (mIsSet) holder.mReminderIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
+				else holder.mReminderIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 			} else {
-				holder.mReminderIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_dissabled_clock));
+				holder.mReminderIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_dissabled));
 			}
 
 			holder.mReminderContainer.setOnClickListener(new View.OnClickListener() {
@@ -186,7 +186,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 
 							if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), tvDate)) {
 								NotificationService.showSetNotificationToast(mActivity);
-								holder.mReminderIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
+								holder.mReminderIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 								NotificationDbItem dbItem = new NotificationDbItem();
 								dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillis());
@@ -247,7 +247,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 	public Runnable yesNotificationProc(final ImageView view) {
 		return new Runnable() {
 			public void run() {
-				view.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
+				view.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 				mIsSet = false;
 			}
 		};

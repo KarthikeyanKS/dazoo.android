@@ -89,7 +89,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="5dp"
-                android:src="@drawable/ic_heart_red"/>
+                android:src="@drawable/ic_like_selected"/>
             
             <View 
 	            android:layout_width="1dp"

@@ -258,11 +258,11 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				mIsSet = false;
 			}
 
-			if (mIsSet) remindTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
-			else remindTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
+			if (mIsSet) remindTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
+			else remindTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 
-			if (mIsLiked) likeTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
-			else likeTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart));
+			if (mIsLiked) likeTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
+			else likeTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
 
 			likeContainerTw.setOnClickListener(new View.OnClickListener() {
 
@@ -287,7 +287,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							DazooStore.getInstance().addLikeIdToList(programId);
 
 							LikeService.showSetLikeToast(mActivity, contentTitle);
-							likeTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
+							likeTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
 
 							AnimationUtilities.animationSet(likeTwitterIv);
 
@@ -300,7 +300,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						DazooStore.getInstance().deleteLikeIdFromList(programId);
 
 						mIsLiked = false;
-						likeTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart));
+						likeTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
 
 					}
 				}
@@ -329,7 +329,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					if (mIsSet == false) {
 						if (NotificationService.setAlarm(mActivity, feedItem.getBroadcast(), feedItem.getBroadcast().getChannel(), tvDate)) {
 							NotificationService.showSetNotificationToast(mActivity);
-							remindTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
+							remindTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 							NotificationDbItem dbItemTw = new NotificationDbItem();
 							Log.d(TAG, "feedItem.getBroadcast().getChannel().getChannelId()" + feedItem.getBroadcast().getChannel().getChannelId());
@@ -490,11 +490,11 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				mIsSet = false;
 			}
 
-			if (mIsSet) remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
-			else remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
+			if (mIsSet) remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
+			else remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 
-			if (mIsLiked) likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
-			else likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart));
+			if (mIsLiked) likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
+			else likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
 
 			likeContainer.setOnClickListener(new View.OnClickListener() {
 
@@ -520,7 +520,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							DazooStore.getInstance().addLikeIdToList(programId);
 
 							LikeService.showSetLikeToast(mActivity, contentTitle);
-							likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
+							likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
 
 							AnimationUtilities.animationSet(likeLikeIv);
 
@@ -533,7 +533,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						DazooStore.getInstance().deleteLikeIdFromList(programId);
 
 						mIsLiked = false;
-						likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart));
+						likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
 
 					}
 				}
@@ -562,7 +562,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					if (mIsSet == false) {
 						if (NotificationService.setAlarm(mActivity, feedItem.getBroadcast(), feedItem.getBroadcast().getChannel(), tvDate)) {
 							NotificationService.showSetNotificationToast(mActivity);
-							remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
+							remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 							NotificationDbItem dbItem = new NotificationDbItem();
 							Log.d(TAG, "feedItem.getBroadcast().getChannel().getChannelId()" + feedItem.getBroadcast().getChannel().getChannelId());
@@ -722,11 +722,11 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				mIsSet = false;
 			}
 
-			if (mIsSet) remindRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
-			else remindRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
+			if (mIsSet) remindRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
+			else remindRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 
-			if (mIsLiked) likeRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
-			else likeRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart));
+			if (mIsLiked) likeRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
+			else likeRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
 
 			likeContainerRec.setOnClickListener(new View.OnClickListener() {
 
@@ -750,7 +750,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						if (LikeService.addLike(mToken, programId, likeType)) {
 							DazooStore.getInstance().addLikeIdToList(programId);
 							LikeService.showSetLikeToast(mActivity, contentTitle);
-							likeRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
+							likeRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
 
 							AnimationUtilities.animationSet(likeRecIv);
 
@@ -762,7 +762,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						LikeService.removeLike(mToken, likeType, programId);
 						DazooStore.getInstance().deleteLikeIdFromList(programId);
 						mIsLiked = false;
-						likeRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart));
+						likeRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
 
 					}
 				}
@@ -791,7 +791,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					if (mIsSet == false) {
 						if (NotificationService.setAlarm(mActivity, feedItem.getBroadcast(), feedItem.getBroadcast().getChannel(), tvDate)) {
 							NotificationService.showSetNotificationToast(mActivity);
-							remindRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
+							remindRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 							NotificationDbItem dbItem = new NotificationDbItem();
 							dbItem = mNotificationDataSource.getNotification(feedItem.getBroadcast().getChannel().getChannelId(), feedItem.getBroadcast().getBeginTimeMillis());
@@ -1150,7 +1150,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 	public Runnable yesNotificationTwitterProc() {
 		return new Runnable() {
 			public void run() {
-				remindTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
+				remindTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 				mIsSet = false;
 			}
 		};
@@ -1159,7 +1159,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 	public Runnable yesNotificationProc() {
 		return new Runnable() {
 			public void run() {
-				remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
+				remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 				mIsSet = false;
 			}
 		};
@@ -1168,7 +1168,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 	public Runnable yesNotificationRecProc() {
 		return new Runnable() {
 			public void run() {
-				remindRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
+				remindRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 				mIsSet = false;
 			}
 		};

@@ -238,10 +238,10 @@ public class BroadcastMainBlockPopulator {
 				mNotificationId = -1;
 			}
 
-			if (mIsSet) mRemindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
-			else mRemindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
+			if (mIsSet) mRemindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
+			else mRemindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 		} else {
-			mRemindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_dissabled_clock));
+			mRemindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_dissabled));
 		}
 
 		if (mIsLoggedIn) {
@@ -249,8 +249,8 @@ public class BroadcastMainBlockPopulator {
 			mIsLiked = DazooStore.getInstance().isInTheLikesList(mProgramId);
 		}
 
-		if (mIsLiked) mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
-		else mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart));
+		if (mIsLiked) mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
+		else mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
 
 		likeContainer.setOnClickListener(new View.OnClickListener() {
 
@@ -260,7 +260,7 @@ public class BroadcastMainBlockPopulator {
 					if (mIsLiked == false) {
 						if (LikeService.addLike(mToken, mProgramId, mLikeType)) {
 							LikeService.showSetLikeToast(mActivity, mContentTitle);
-							mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart_red));
+							mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
 
 							AnimationUtilities.animationSet(mLikeIv);
 
@@ -273,7 +273,7 @@ public class BroadcastMainBlockPopulator {
 						// LikeDialogHandler likeDlg = new LikeDialogHandler();
 						// likeDlg.showRemoveLikeDialog(mActivity, mToken, mLikeType, broadcast.getProgram().getProgramId(), yesLikeProc(), noLikeProc());
 						mIsLiked = false;
-						mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart));
+						mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
 					}
 				} else {
 					PromptSignInDialogHandler loginDlg = new PromptSignInDialogHandler();
@@ -299,7 +299,7 @@ public class BroadcastMainBlockPopulator {
 					if (mIsSet == false) {
 						if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), mTvDate)) {
 							NotificationService.showSetNotificationToast(mActivity);
-							mRemindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock_red));
+							mRemindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 							NotificationDbItem dbItem = new NotificationDbItem();
 							dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillis());
@@ -351,7 +351,7 @@ public class BroadcastMainBlockPopulator {
 	public Runnable yesLikeProc() {
 		return new Runnable() {
 			public void run() {
-				mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_heart));
+				mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
 				mIsLiked = false;
 			}
 		};
@@ -367,7 +367,7 @@ public class BroadcastMainBlockPopulator {
 	public Runnable yesNotificationProc() {
 		return new Runnable() {
 			public void run() {
-				mRemindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_clock));
+				mRemindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 				mIsSet = false;
 			}
 		};

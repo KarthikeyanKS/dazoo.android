@@ -58,7 +58,7 @@ public abstract class SSPageFragmentActivity extends ActionBarActivity {
 
 			switch (status) {
 			case BAD_REQUEST:
-				mRequestEmptyLayout.setVisibility(View.VISIBLE);
+				mRequestBadLayout.setVisibility(View.VISIBLE);
 				break;
 
 			case EMPTY_RESPONSE:
