@@ -35,8 +35,9 @@ public class TVGuideListAdapter extends BaseAdapter {
 	private TvDate				mDate;
 	private ImageLoader			mImageLoader;
 	private int					mIndexOfNearestBroadcast;
-	private int					mHour;
+	private int					mHour, mCurrentHour;
 	private boolean				mIsToday;
+	private boolean				mIsNow;
 
 	public TVGuideListAdapter(Activity activity, ArrayList<Guide> guide, TvDate date, int hour, boolean isToday) {
 		this.mGuide = guide;
@@ -45,11 +46,18 @@ public class TVGuideListAdapter extends BaseAdapter {
 		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage);
 		this.mHour = hour;
 		this.mIsToday = isToday;
+
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
+
+		mCurrentHour = Integer.valueOf(DateUtilities.getCurrentHourString());
+		if (mCurrentHour == mHour) {
+			mIsNow = true;
+		} else mIsNow = false;
+
 		final Guide guide = getItem(position);
 
 		if (rowView == null) {
@@ -133,9 +141,12 @@ public class TVGuideListAdapter extends BaseAdapter {
 							holder.mLiveProgramTimeTv.setText("");
 						}
 
-						if (mIsToday) {
+						if (mIsToday && mIsNow) {
 							holder.mLiveProgramNameTv.setTextColor(mActivity.getResources().getColor(R.color.red));
 							holder.mLiveProgramTimeTv.setTextColor(mActivity.getResources().getColor(R.color.red));
+						} else {
+							holder.mLiveProgramNameTv.setTextColor(mActivity.getResources().getColor(R.color.grey3));
+							holder.mLiveProgramTimeTv.setTextColor(mActivity.getResources().getColor(R.color.grey3));
 						}
 					} else if (j == 1 && j < nextBroadcasts.size()) {
 
@@ -233,10 +244,13 @@ public class TVGuideListAdapter extends BaseAdapter {
 
 	public void refreshList(int selectedHour) {
 		mHour = selectedHour;
-		Log.d(TAG,"SET SELECTED: " + mHour);
+
+		mCurrentHour = Integer.valueOf(DateUtilities.getCurrentHourString());
+		if (mCurrentHour == mHour) {
+			mIsNow = true;
+		} else mIsNow = false;
+
 		SecondScreenApplication.getInstance().setSelectedHour(mHour);
-		Log.d(TAG, "in adapter");
 		notifyDataSetChanged();
-		Log.d(TAG, "after refresh");
 	}
 }
