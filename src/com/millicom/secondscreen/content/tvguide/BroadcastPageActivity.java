@@ -116,6 +116,9 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 			updateUI(REQUEST_STATUS.FAILED);
 		} else {
 			token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
+			if(mBroadcastPageUrl==null)
+				mBroadcastPageUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + mChannelId + Consts.NOTIFY_BROADCAST_URL_MIDDLE + mBeginTimeInMillis;
+			
 			if (!mIsFromActivity) {
 				if (!mIsFromNotification) {
 					if (token != null && TextUtils.isEmpty(token) != true) {
@@ -140,15 +143,16 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 							updateUI(REQUEST_STATUS.SUCCESSFUL);
 						}
 					} else {
-						Log.d(TAG, "FROM NOTIFICATION");
+						Log.d(TAG,"NOT LOGGED IN");
+						mChannel = dazooStore.getChannelFromDefault(mChannelId);
 						getIndividualBroadcast(mBroadcastPageUrl);
 					}
 				} else {
+					Log.d(TAG, "FROM NOTIFICATION");
 					getIndividualBroadcast(mBroadcastPageUrl);
 				}
 			} else {
 				mChannel = dazooStore.getChannelFromAll(mChannelId);
-				mBroadcastPageUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + mChannelId + Consts.NOTIFY_BROADCAST_URL_MIDDLE + mBeginTimeInMillis;
 				getIndividualBroadcast(mBroadcastPageUrl);
 			}
 		}

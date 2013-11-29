@@ -220,8 +220,8 @@ public class SSHttpClient<T_Result> {
 				HttpConnectionParams.setConnectionTimeout(httpParams, timeOutConnection);
 				// set the default socket timeout (SO_TIMEOUT)
 				// in milliseconds which is the timeout for waiting for data
-				int timeOutSocket = 10000;
-				HttpConnectionParams.setSoTimeout(httpParams, timeOutSocket);
+				//int timeOutSocket = 10000;
+				//HttpConnectionParams.setSoTimeout(httpParams, timeOutSocket);
 				
 				
 				sHttpClient = new DefaultHttpClient(httpParams);
