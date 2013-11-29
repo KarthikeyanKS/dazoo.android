@@ -163,25 +163,25 @@
             <TextView
                 android:id="@+id/clock_02"
                 style="@style/ClockTextView"
-                android:tag="2"
+                android:tag="26"
                 android:text="02" />
 
             <TextView
                 android:id="@+id/clock_03"
                 style="@style/ClockTextView"
-                android:tag="26"
+                android:tag="27"
                 android:text="03" />
 
             <TextView
                 android:id="@+id/clock_04"
                 style="@style/ClockTextView"
-                android:tag="27"
+                android:tag="28"
                 android:text="04" />
 
             <TextView
                 android:id="@+id/clock_05"
                 style="@style/ClockTextView"
-                android:tag="28"
+                android:tag="29"
                 android:text="05" />
         </LinearLayout>
     </RelativeLayout>

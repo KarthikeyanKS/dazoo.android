@@ -127,7 +127,13 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 						mBroadcast = dazooStore.getBroadcastFromMy(mTvDate, mChannelId, mBeginTimeInMillis);
 						mChannel = dazooStore.getChannelFromAll(mChannelId);
 
+						if (mChannel!=null){
 						mBroadcast.setChannel(mChannel);
+						} else {
+							Channel channel = new Channel();
+							channel.setChannelId(mChannelId);
+							mBroadcast.setChannel(channel);
+						}
 
 						if (mBroadcast != null) {
 							mIsBroadcast = true;
