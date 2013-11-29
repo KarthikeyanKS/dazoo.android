@@ -142,9 +142,13 @@ public class FacebookLoginActivity extends ActionBarActivity {
 		if (facebookSessionToken.length() > 0) {
 			FacebookLoginTask facebookLoginTask = new FacebookLoginTask();
 			try {
+				Log.d(TAG,"BACKEND EXECUTION");
 				String responseStr = facebookLoginTask.execute(facebookSessionToken).get();
+				Log.d(TAG,"BACKEND EXECUTION: DONE not known");
 				// if (responseStr != null && responseStr.isEmpty() != true) {
 				if (responseStr != null && TextUtils.isEmpty(responseStr) != true) {
+					Log.d(TAG,"BACKEND EXECUTION: DONE");
+					
 					JSONObject fbJSON = new JSONObject(responseStr);
 					facebookToken = fbJSON.getString(Consts.MILLICOM_SECONDSCREEN_API_TOKEN);
 					//TestFlight.passCheckpoint("FACEBOOK TOKEN IS RECEIVED");

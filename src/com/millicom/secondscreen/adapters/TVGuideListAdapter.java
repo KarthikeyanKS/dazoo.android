@@ -84,7 +84,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 			// imageLoader.displayImage(guide.getLogoLHref(), mActivity, holder.mChannelIconIv);
 			mImageLoader.displayImage(guide.getLogoSHref(), holder.mChannelIconIv, ImageLoader.IMAGE_TYPE.THUMBNAIL);
 		} else {
-			holder.mChannelIconIv.setImageResource(R.drawable.loadimage_2x);
+			holder.mChannelIconIv.setImageResource(R.drawable.loadimage);
 		}
 
 		holder.mContainer.setOnClickListener(new View.OnClickListener() {

@@ -165,7 +165,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 						holder.mDescTv.setText(broadcast.getProgram().getSportType().getName() + ": " + broadcast.getProgram().getTournament());
 					} else {
 						holder.mDescTv.setText(broadcast.getProgram().getSportType().getName() + ": " + broadcast.getProgram().getTournament());
-						holder.mTimeTv.setText(title);
+						holder.mTitleTv.setText(title);
 					}
 				} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
 					holder.mTitleTv.setText(title);
