@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:padding="2dp" >
+            android:padding="@dimen/image_padding" >
 
             <ImageView
                 android:id="@+id/block_broadcastpage_poster_iv"
@@ -44,8 +44,7 @@
             android:id="@+id/block_broadcastpage_broadcast_details_container"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="10dp" >
+            android:padding="@dimen/view_margin" >
             
             <!-- TRENDING ICON TODO: SPECIFY SOURCE -->
             
@@ -74,11 +73,13 @@
                 android:id="@+id/block_broadcastpage_broadcast_details_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"		                    
+                android:layout_marginTop="@dimen/title_top_margin"
+                android:layout_marginBottom="@dimen/title_top_margin"		                    
                 android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_movie_iv"		
                 android:textColor="@color/black"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textSize="@dimen/header_1"
+                android:textStyle="bold"
+        		font:fonttextview="fontello.ttf" />
 
             <!-- SEASON -->
 
@@ -88,9 +89,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_broadcastpage_broadcast_details_title_tv"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="@dimen/header_2"
                 android:textStyle="bold"
-                android:visibility="gone" />
+                android:visibility="gone"
+        		font:fonttextview="fontello.ttf" />
 
             <!-- EPISODE -->
 
@@ -101,9 +103,10 @@
                 android:layout_below="@id/block_broadcastpage_broadcast_details_title_tv"
                 android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_season_tv"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="@dimen/header_2"
                 android:textStyle="bold"
-                android:visibility="gone" />
+                android:visibility="gone"
+        		font:fonttextview="fontello.ttf" />
             
             <!-- EPISODE NAME -->
             
@@ -115,8 +118,9 @@
                 android:layout_marginBottom="10dp"
                 android:layout_below="@id/block_broadcastpage_broadcast_details_season_tv"
                 android:textColor="@color/black"
-                android:textSize="16sp"
-                android:visibility="gone" />
+                android:textSize="@dimen/header_3"
+                android:visibility="gone"
+        		font:fonttextview="fontello.ttf" />
             
             <!-- PROGRESSBAR CONTAINER -->
             
@@ -156,8 +160,9 @@
 						android:layout_height="wrap_content"
 						android:layout_marginLeft="10dp"
 						android:textColor="@color/red"
-						android:textSize="16sp"
-						android:visibility="gone" />
+						android:textSize="@dimen/header_3"
+						android:visibility="gone"
+        				font:fonttextview="fontello.ttf" />
 						        
 					<!-- TIME -->
 	
@@ -167,7 +172,8 @@
 						android:layout_height="wrap_content"
 						android:layout_marginLeft="10dp"
 						android:textColor="@color/black"
-						android:textSize="16sp" />    
+						android:textSize="@dimen/header_3"
+        				font:fonttextview="fontello.ttf" />    
 	              
 					<ProgressBar
 						android:id="@+id/block_broadcastpage_broadcast_progressbar"
@@ -204,7 +210,8 @@
 				android:layout_marginBottom="10dp"
 				android:layout_below="@id/divider"
 				android:textColor="@color/black"
-				android:textSize="16sp" />
+				android:textSize="@dimen/header_3"
+        		font:fonttextview="fontello.ttf" />
 	
 			<com.millicom.secondscreen.customviews.FontTextView
 				android:id="@+id/block_broadcastpage_broadcast_extra_tv"
@@ -213,8 +220,9 @@
 				android:layout_below="@id/block_broadcastpage_broadcast_synopsis_tv"
 				android:layout_gravity="left"
 				android:textColor="@color/grey1"
-				android:textSize="14sp" 
-				android:visibility="gone"/>
+				android:textSize="@dimen/subtext" 
+				android:visibility="gone" 
+        		font:fonttextview="fontello.ttf" />
 		
 			<com.millicom.secondscreen.customviews.FontTextView
 				android:id="@+id/block_broadcastpage_broadcast_tags_tv"
@@ -223,8 +231,9 @@
 				android:layout_below="@id/block_broadcastpage_broadcast_extra_tv"
 				android:layout_gravity="left"
 				android:textColor="@color/grey1"
-				android:textSize="14sp" 
-				android:visibility="gone"/>
+				android:textSize="@dimen/subtext" 
+				android:visibility="gone"
+        		font:fonttextview="fontello.ttf" />
 	
 		</RelativeLayout>
 	

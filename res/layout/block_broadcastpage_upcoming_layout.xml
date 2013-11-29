@@ -10,11 +10,12 @@
         android:id="@+id/block_broadcast_upcoming_episodes_title_textview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="@dimen/title_bottom_margin"
+        android:layout_marginLeft="@dimen/view_margin"
+        android:layout_marginTop="@dimen/title_top_margin"
         android:textColor="@color/black"
-        android:textSize="22sp" />
+        android:textSize="@dimen/header_1"
+        font:fonttextview="fontello.ttf" />
 
     <!-- FIRST UPCOMING EPISODE -->
 
@@ -24,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/block_broadcast_upcoming_episodes_title_textview"
         android:orientation="horizontal"
-        android:padding="20dp"
+        android:padding="@dimen/view_margin"
         android:visibility="gone" >
 
         <RelativeLayout
@@ -41,9 +42,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/black"
-                android:textSize="22sp"
+                android:textSize="@dimen/header_2"
                 android:textStyle="bold"
-                android:visibility="gone" />
+                android:visibility="gone"
+        		font:fonttextview="fontello.ttf" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/block_broadcast_upcoming_episodes_one_title_time"
@@ -51,7 +53,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_broadcast_upcoming_episodes_one_season_episode"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="@dimen/header_3"
+        		font:fonttextview="fontello.ttf" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/block_broadcast_upcoming_episodes_one_channel"
@@ -59,7 +62,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_broadcast_upcoming_episodes_one_title_time"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="@dimen/header_3"
+        		font:fonttextview="fontello.ttf" />
             
         </RelativeLayout>
 
@@ -105,8 +109,8 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:layout_below="@id/block_broadcast_upcoming_one_container"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="@dimen/view_margin"
+        android:layout_marginRight="@dimen/view_margin"
         android:background="@color/grey1"
         android:visibility="gone" />
 
@@ -118,7 +122,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/block_broadcast_upcoming_episodes_one_bottom_divider"
         android:orientation="horizontal"
-        android:padding="20dp"
+        android:padding="@dimen/view_margin"
         android:visibility="gone" >
 
         <RelativeLayout
@@ -135,9 +139,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/black"
-                android:textSize="22sp"
+                android:textSize="@dimen/header_2"
                 android:textStyle="bold"
-                android:visibility="gone" />
+                android:visibility="gone"
+        		font:fonttextview="fontello.ttf" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/block_broadcast_upcoming_episodes_two_title_time"
@@ -145,7 +150,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_broadcast_upcoming_episodes_two_season_episode"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="@dimen/header_3"
+        		font:fonttextview="fontello.ttf" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/block_broadcast_upcoming_episodes_two_channel"
@@ -153,7 +159,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_broadcast_upcoming_episodes_two_title_time"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="@dimen/header_3"
+        		font:fonttextview="fontello.ttf" />
             
         </RelativeLayout>
 
@@ -199,8 +206,8 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:layout_below="@id/block_broadcast_upcoming_two_container"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="@dimen/view_margin"
+        android:layout_marginRight="@dimen/view_margin"
         android:background="@color/grey1"
         android:visibility="gone" />
 
@@ -212,7 +219,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/block_broadcast_upcoming_episodes_two_bottom_divider"
         android:orientation="horizontal"
-        android:padding="20dp"
+        android:padding="@dimen/view_margin"
         android:visibility="gone" >
 
         <RelativeLayout
@@ -229,9 +236,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/black"
-                android:textSize="22sp"
+                android:textSize="@dimen/header_2"
                 android:textStyle="bold"
-                android:visibility="gone" />
+                android:visibility="gone"
+        		font:fonttextview="fontello.ttf" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/block_broadcast_upcoming_episodes_three_title_time"
@@ -239,7 +247,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_broadcast_upcoming_episodes_three_season_episode"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="@dimen/header_3"
+        		font:fonttextview="fontello.ttf" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/block_broadcast_upcoming_episodes_three_channel"
@@ -247,7 +256,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_broadcast_upcoming_episodes_three_title_time"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="@dimen/header_3"
+        		font:fonttextview="fontello.ttf" />
             
         </RelativeLayout>
 
@@ -304,10 +314,11 @@
         android:layout_below="@id/block_broadcast_upcoming_episodes_three_bottom_divider"
         android:layout_centerVertical="true"
         android:gravity="left"
-        android:padding="20dp"
+        android:padding="@dimen/view_margin"
         android:text="@string/upcoming_episodes_more"
         android:textColor="@color/grey2"
-        android:textSize="16sp"
-        android:visibility="gone" />
+        android:textSize="@dimen/header_3"
+        android:visibility="gone"
+        font:fonttextview="fontello.ttf" />
 
 </RelativeLayout>
