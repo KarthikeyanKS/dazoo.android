@@ -41,7 +41,7 @@ public class RemindersListAdapter extends BaseAdapter {
 	private ImageLoader				mImageLoader;
 	private int						notificationId;
 	private int						currentPosition	= -1;
-	
+
 	private DazooStore				dazooStore;
 	private ArrayList<TvDate>		mTvDates;
 
@@ -50,7 +50,7 @@ public class RemindersListAdapter extends BaseAdapter {
 		this.mActivity = mActivity;
 		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage);
 		this.mInterface = remindersInterface;
-		
+
 		dazooStore = DazooStore.getInstance();
 		mTvDates = dazooStore.getTvDates();
 	}
@@ -116,14 +116,16 @@ public class RemindersListAdapter extends BaseAdapter {
 					break;
 				}
 			}
-			
+
 			//If first or the previous broadcast is not the same date, show header.
 			try {
+				holder.mHeaderContainer.setVisibility(View.GONE);
+				holder.mDividerView.setVisibility(View.VISIBLE);
 				if (position == 0 || DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTime()).equals(
 						DateUtilities.tvDateStringToDatePickerString(getItem(position-1).getBeginTime())) == false) {
 					holder.mHeaderContainer.setVisibility(View.VISIBLE);
 					holder.mHeaderTv.setText(mTvDates.get(dateIndex).getName() + " " + 
-									DateUtilities.tvDateStringToDatePickerString(mTvDates.get(dateIndex).getDate()));
+							DateUtilities.tvDateStringToDatePickerString(mTvDates.get(dateIndex).getDate()));
 				}
 				if (position != (getCount() - 1) && DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTime()).equals(
 						DateUtilities.tvDateStringToDatePickerString(getItem(position + 1).getBeginTime())) == false) {
@@ -142,12 +144,12 @@ public class RemindersListAdapter extends BaseAdapter {
 				String programType = program.getProgramType();
 				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 					holder.mBroadcastDetailsTv.setText(mActivity.getResources().getString(R.string.season) + " " + 
-														program.getSeason().getNumber() + " " + 
-														mActivity.getResources().getString(R.string.episode) + " " +
-														String.valueOf(program.getEpisodeNumber()));
+							program.getSeason().getNumber() + " " + 
+							mActivity.getResources().getString(R.string.episode) + " " +
+							String.valueOf(program.getEpisodeNumber()));
 				} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
 					holder.mBroadcastDetailsTv.setText(program.getGenre() + " " + mActivity.getResources().getString(R.string.from) + " " +
-														program.getYear());
+							program.getYear());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
 					holder.mBroadcastDetailsTv.setText(program.getCategory());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {

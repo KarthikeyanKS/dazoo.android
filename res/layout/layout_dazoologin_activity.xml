@@ -15,7 +15,6 @@
         android:paddingBottom="10dp" >
 
         <!-- FACEBOOK SIGN-IN BAR -->
-		<!-- TODO: LONG TEXT WRAPS AROUND ON TWO LINES, NON CENTERED ON SMALL SCREEN -->
         <RelativeLayout
             android:id="@+id/dazoologin_facebook_container"
             android:layout_width="fill_parent"
@@ -50,7 +49,8 @@
 	                android:text="@string/login_with_facebook"
 	                android:textSize="18sp"
 	                android:textStyle="bold"
-	                android:textColor="@color/white" />
+	                android:textColor="@color/white"
+	                android:lines="1" />
             </RelativeLayout>
         </RelativeLayout>
 
@@ -117,12 +117,23 @@
             android:padding="8dp"
             android:textColorHint="@color/grey3"
             android:textSize="16sp" />
+        
+		<com.millicom.secondscreen.customviews.FontTextView
+            android:id="@+id/dazoologin_error_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/dazoologin_login_password_edittext"
+            android:textColor="@color/red"
+            android:textSize="16sp"
+            android:visibility="gone" />
 
         <com.millicom.secondscreen.customviews.FontButton
             android:id="@+id/dazoologin_login_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/dazoologin_login_password_edittext"
+            android:layout_below="@id/dazoologin_error_tv"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="10dp"

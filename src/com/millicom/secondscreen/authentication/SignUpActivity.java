@@ -204,6 +204,11 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 				mLastNameEditText.setEnabled(false);
 				mEmailRegisterEditText.setEnabled(false);
 				mPasswordRegisterEditText.setEnabled(false);
+				
+				mFirstNameEditText.setBackgroundResource(R.drawable.edittext_standard);
+				mLastNameEditText.setBackgroundResource(R.drawable.edittext_standard);
+				mEmailRegisterEditText.setBackgroundResource(R.drawable.edittext_standard);
+				mPasswordRegisterEditText.setBackgroundResource(R.drawable.edittext_standard);
 
 				userEmailRegister = mEmailRegisterEditText.getText().toString();
 				userPasswordRegister = mPasswordRegisterEditText.getText().toString();
@@ -233,18 +238,22 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 								finish();
 
 							} else {
-								Toast.makeText(getApplicationContext(), "Failed to fetch the user information from backend", Toast.LENGTH_SHORT).show();
+								Toast.makeText(getApplicationContext(), "Failed to fetch the user information from backend.", Toast.LENGTH_SHORT).show();
 							}
 						} else {
 							Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with Dazoo. Please, try again later!", Toast.LENGTH_LONG).show();
 						}
 					} else {
-						Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with us. Please, try again later!", Toast.LENGTH_SHORT).show();
+//						Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with us. Please, try again later!", Toast.LENGTH_SHORT).show();
 						Log.d(TAG, "Error! Dazoo Login: level response from backend");
 						mFirstNameEditText.setEnabled(true);
 						mLastNameEditText.setEnabled(true);
 						mEmailRegisterEditText.setEnabled(true);
 						mPasswordRegisterEditText.setEnabled(true);
+						
+						mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_already_registered));
+						mEmailRegisterEditText.setBackgroundResource(R.drawable.edittext_activated);
+						mEmailRegisterEditText.requestFocus();
 					}
 				} catch (InterruptedException e) {
 					e.printStackTrace();
@@ -255,10 +264,6 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 				}
 			} else {
 				int errorId = findWrongRegisterInput();
-				mFirstNameEditText.setBackgroundResource(R.drawable.edittext_standard);
-				mLastNameEditText.setBackgroundResource(R.drawable.edittext_standard);
-				mEmailRegisterEditText.setBackgroundResource(R.drawable.edittext_standard);
-				mPasswordRegisterEditText.setBackgroundResource(R.drawable.edittext_standard);
 				switch (errorId) {
 				case REGISTER_FIRSTNAME_MISSING:
 					mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_firstname));

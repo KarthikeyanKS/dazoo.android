@@ -172,7 +172,7 @@
 
         <!-- REPEATITIONS PAGE -->
         <activity
-            android:name="com.millicom.secondscreen.content.tvguide.RepeatitionsPageActivity"
+            android:name="com.millicom.secondscreen.content.tvguide.RepetitionsPageActivity"
             android:configChanges="keyboardHidden|orientation"
             android:parentActivityName="com.millicom.secondscreen.content.tvguide.BroadcastPageActivity"
             android:screenOrientation="portrait"

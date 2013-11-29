@@ -7,10 +7,12 @@ import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.NotificationDbItem;
+import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
 import com.millicom.secondscreen.notification.NotificationDataSource;
 import com.millicom.secondscreen.notification.NotificationDialogHandler;
 import com.millicom.secondscreen.notification.NotificationService;
+import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.AnimationUtilities;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
@@ -40,11 +42,17 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 	private int						mLastPosition	= -1, mNotificationId = -1;
 	private boolean					mIsSet			= false, mIsFuture = false;
 
+	private DazooStore				dazooStore;
+	private ArrayList<TvDate>		mTvDates;
+
 	public UpcomingEpisodesListAdapter(Activity activity, ArrayList<Broadcast> upcomingBroadcasts) {
 		this.mUpcomingEpisodes = upcomingBroadcasts;
 		this.mActivity = activity;
 		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage_2x);
 		mNotificationDataSource = new NotificationDataSource(mActivity);
+
+		dazooStore = DazooStore.getInstance();
+		mTvDates = dazooStore.getTvDates();
 	}
 
 	@Override
@@ -85,18 +93,39 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 			viewHolder.mReminderIv = (ImageView) rowView.findViewById(R.id.row_upcoming_episodes_listitem_remind_iv);
 			viewHolder.mReminderContainer = (LinearLayout) rowView.findViewById(R.id.row_upcoming_episodes_listitem_remind_container);
 			viewHolder.mContainer = (LinearLayout) rowView.findViewById(R.id.row_upcoming_episodes_listitem_info_container);
+
+			viewHolder.mDivider = (View) rowView.findViewById(R.id.row_upcoming_episodes_listitem_bottom_divider);
 			rowView.setTag(viewHolder);
 		}
 
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
 
 		if (broadcast != null) {
-			// TODO: SORTING IN THE HEADER, NOW JUST THE NAME OF THE DAY
-			holder.mHeaderContainer.setVisibility(View.VISIBLE);
+			//Get the correct date name index
+			int dateIndex = 0;
+			for (int i = 0; i < mTvDates.size(); i++) {
+				if (broadcast.getBeginTime().contains(mTvDates.get(i).getDate())) {
+					dateIndex = i;
+					break;
+				}
+			}
+
 			try {
-				holder.mHeader.setText(DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime()));
-			} catch (ParseException e1) {
-				e1.printStackTrace();
+				holder.mHeaderContainer.setVisibility(View.GONE);
+				holder.mDivider.setVisibility(View.VISIBLE);
+				if (position == 0 || DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTime()).equals(
+						DateUtilities.tvDateStringToDatePickerString(getItem(position - 1).getBeginTime())) == false) {
+					holder.mHeader.setText(mTvDates.get(dateIndex).getName() + " " + 
+							DateUtilities.tvDateStringToDatePickerString(mTvDates.get(dateIndex).getDate()));
+
+					holder.mHeaderContainer.setVisibility(View.VISIBLE);
+				}
+				if (position != (getCount() - 1) && DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTime()).equals(
+						DateUtilities.tvDateStringToDatePickerString(getItem(position + 1).getBeginTime())) == false) {
+					holder.mDivider.setVisibility(View.GONE);
+				}
+			} catch (ParseException e) {
+				e.printStackTrace();
 			}
 
 			// Set season and episode
@@ -108,6 +137,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 
 			try {
 				holder.mTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
+
 			} catch (ParseException e) {
 				e.printStackTrace();
 				holder.mTimeTv.setText("");
@@ -253,5 +283,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 		TextView		mChannelTv;
 		ImageView		mReminderIv;
 		LinearLayout	mReminderContainer;
+
+		View			mDivider;
 	}
 }

@@ -216,7 +216,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 
 		// repetitions
 		if (mRepeatBroadcasts != null && mRepeatBroadcasts.isEmpty() != true) {
-			BroadcastRepeatitionsBlockPopulator repeatitionsBlock = new BroadcastRepeatitionsBlockPopulator(mActivity, mScrollView, mTvDate);
+			BroadcastRepetitionsBlockPopulator repeatitionsBlock = new BroadcastRepetitionsBlockPopulator(mActivity, mScrollView, mTvDate);
 			repeatitionsBlock.createBlock(mRepeatBroadcasts, mBroadcast.getProgram());
 		}
 
@@ -290,6 +290,8 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 			@Override
 			public void onGetPageResult(SSPageGetResult aPageGetResult) {
 				mRepeatBroadcasts = SSBroadcastsFromProgramPage.getInstance().getProgramBroadcasts();
+				int indexOfNearestBroadcast = Broadcast.getClosestBroadcastIndex(mRepeatBroadcasts);
+				mRepeatBroadcasts = Broadcast.getBroadcastsStartingFromPosition(indexOfNearestBroadcast, mRepeatBroadcasts, mRepeatBroadcasts.size());
 				Log.d(TAG, "broadcasts from program: " + mRepeatBroadcasts.size());
 				mIsRepeat = true;
 				updateUI(REQUEST_STATUS.SUCCESSFUL);

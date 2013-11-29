@@ -26,7 +26,7 @@ import com.millicom.secondscreen.utilities.AnimationUtilities;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
 
-public class BroadcastRepeatitionsBlockPopulator {
+public class BroadcastRepetitionsBlockPopulator {
 	
 	private static final String		TAG				= "BroadcastRepetitionsBlockPopulator";
 
@@ -39,7 +39,7 @@ public class BroadcastRepeatitionsBlockPopulator {
 
 	private boolean					mIsFutureOne	= false, mIsFutureTwo = false, mIsFutureThree = false, mIsSetOne = false, mIsSetTwo = false, mIsSetThree = false, mIsSeries;
 
-	public BroadcastRepeatitionsBlockPopulator(Activity activity, ScrollView containerView, String tvDate) {
+	public BroadcastRepetitionsBlockPopulator(Activity activity, ScrollView containerView, String tvDate) {
 		this.mActivity = activity;
 		this.mContainerView = containerView;
 		this.mTvDate = tvDate;
@@ -54,7 +54,7 @@ public class BroadcastRepeatitionsBlockPopulator {
 		View topContentView = LayoutInflater.from(mActivity).inflate(R.layout.block_broadcastpage_upcoming_layout, null);
 
 		TextView title = (TextView) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_title_textview);
-		title.setText(mActivity.getResources().getString(R.string.repeatitions));
+		title.setText(mActivity.getResources().getString(R.string.repetitions));
 
 		if (repeatingBroadcasts.size() > 0 && repeatingBroadcasts.get(0) != null) {
 
@@ -74,7 +74,7 @@ public class BroadcastRepeatitionsBlockPopulator {
 			LinearLayout mDividerOneContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_divider_one_container);
 			mDividerOneContainer.setVisibility(View.VISIBLE);
 
-			mSeasonEpisodeOneTv.setVisibility(View.VISIBLE);
+//			mSeasonEpisodeOneTv.setVisibility(View.GONE);
 			
 			try {
 				mTitleTimeOneTv.setText(DateUtilities.isoStringToDayOfWeekAndDate(broadcastOne.getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(broadcastOne.getBeginTime()));
@@ -164,6 +164,9 @@ public class BroadcastRepeatitionsBlockPopulator {
 		}
 
 		if (repeatingBroadcasts.size() > 1 && repeatingBroadcasts.get(1) != null) {
+			View divider = (View) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_one_bottom_divider);
+			divider.setVisibility(View.VISIBLE);
+			
 			final Broadcast broadcastTwo = repeatingBroadcasts.get(1);
 			broadcastTwo.setProgram(program);
 
@@ -180,7 +183,7 @@ public class BroadcastRepeatitionsBlockPopulator {
 			LinearLayout mDividerTwoContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_divider_two_container);
 			mDividerTwoContainer.setVisibility(View.VISIBLE);
 
-			mSeasonEpisodeTwoTv.setVisibility(View.VISIBLE);
+			mSeasonEpisodeTwoTv.setVisibility(View.GONE);
 
 			try {
 				mTitleTimeTwoTv.setText(DateUtilities.isoStringToDayOfWeekAndDate(repeatingBroadcasts.get(1).getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(broadcastTwo.getBeginTime()));
@@ -268,9 +271,14 @@ public class BroadcastRepeatitionsBlockPopulator {
 				}
 			});
 		}
+		else {
+			
+		}
 
 		// third program
 		if (repeatingBroadcasts.size() > 2 && repeatingBroadcasts.get(2) != null) {
+			View divider = (View) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_two_bottom_divider);
+			divider.setVisibility(View.VISIBLE);
 
 			final Broadcast broadcastThree = repeatingBroadcasts.get(2);
 			broadcastThree.setProgram(program);
@@ -287,12 +295,11 @@ public class BroadcastRepeatitionsBlockPopulator {
 			LinearLayout mDividerThreeContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_divider_three_container);
 			mDividerThreeContainer.setVisibility(View.VISIBLE);
 
-			mSeasonEpisodeThreeTv.setVisibility(View.GONE);
+//			mSeasonEpisodeThreeTv.setVisibility(View.GONE);
 			
 			try {
 				mTitleTimeThreeTv.setText(DateUtilities.isoStringToDayOfWeekAndDate(broadcastThree.getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(broadcastThree.getBeginTime()));
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			mChannelThreeTv.setText(broadcastThree.getChannel().getName());
@@ -300,7 +307,6 @@ public class BroadcastRepeatitionsBlockPopulator {
 			try {
 				mIsFutureThree = DateUtilities.isTimeInFuture(broadcastThree.getBeginTime());
 			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 
@@ -376,19 +382,18 @@ public class BroadcastRepeatitionsBlockPopulator {
 				}
 			});
 		}
-
 		if (repeatingBroadcasts.size() > 3) {
 
-			View divider = (View) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_divider);
+			View divider = (View) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_three_bottom_divider);
 			divider.setVisibility(View.VISIBLE);
 			TextView showMoreTxt = (TextView) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_more_textview);
-			showMoreTxt.setText(mActivity.getResources().getString(R.string.repeatitions_more));
+			showMoreTxt.setText(mActivity.getResources().getString(R.string.repetitions_more));
 			showMoreTxt.setVisibility(View.VISIBLE);
 			showMoreTxt.setOnClickListener(new View.OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
-					Intent intent = new Intent(mActivity, RepeatitionsPageActivity.class);
+					Intent intent = new Intent(mActivity, RepetitionsPageActivity.class);
 					intent.putParcelableArrayListExtra(Consts.INTENT_EXTRA_REPEATING_BROADCASTS, repeatingBroadcasts);
 					intent.putExtra(Consts.INTENT_EXTRA_REPEATING_PROGRAM, program);
 					mActivity.startActivity(intent);
@@ -396,6 +401,7 @@ public class BroadcastRepeatitionsBlockPopulator {
 				}
 			});
 		}
+
 
 		topContentView.setVisibility(View.VISIBLE);
 
