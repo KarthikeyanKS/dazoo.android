@@ -47,6 +47,7 @@ import com.millicom.secondscreen.content.tvguide.TVHolderFragment.OnViewPagerInd
 import com.millicom.secondscreen.http.NetworkUtils;
 import com.millicom.secondscreen.manager.DazooCore;
 import com.millicom.secondscreen.storage.DazooStore;
+import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.StringUtilities;
 
 public class HomeActivity extends SSPageFragmentActivity implements OnClickListener, ActionBar.OnNavigationListener {
@@ -90,6 +91,8 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		
 		// broadcast receiver for request timeout
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverBadRequest, new IntentFilter(Consts.INTENT_EXTRA_BAD_REQUEST));
+	
+		SecondScreenApplication.getInstance().setSelectedHour(Integer.valueOf(DateUtilities.getCurrentHourString()));
 		
 		initViews();
 
@@ -210,6 +213,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	@Override
 	protected void onResume() {
 		super.onResume();
+		
 		if (mStateChanged) {
 			removeActiveFragment();
 			DazooStore.getInstance().clearAndReinitializeForMyChannels();
