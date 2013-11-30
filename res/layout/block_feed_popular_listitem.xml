@@ -79,7 +79,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_popular_feed_details_time_tv"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
                 android:gravity="left"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
@@ -99,6 +98,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_popular_feed_details_extra_tv"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:textColor="@color/red"
                 android:visibility="gone" />
 

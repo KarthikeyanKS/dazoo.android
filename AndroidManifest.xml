@@ -208,7 +208,11 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden" >
+             <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.millicom.secondscreen.content.myprofile.MyProfileActivity" />
+        </activity>
 
         <!-- DAZOO LOGIN -->
         <activity
@@ -217,7 +221,11 @@
             android:parentActivityName="com.millicom.secondscreen.content.homepage.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.millicom.secondscreen.content.myprofile.MyProfileActivity" />
+        </activity>
 
         <!-- FACEBOOK LOGIN -->
         <activity

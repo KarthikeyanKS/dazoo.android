@@ -109,6 +109,8 @@ public class PopularListAdapter extends BaseAdapter {
 			
 			holder.mHeaderContainer.setVisibility(View.VISIBLE);
 			holder.mHeaderTv.setText(tvDate);
+			
+			
 			}
 			else {
 				holder.mHeaderContainer.setVisibility(View.GONE);
@@ -152,40 +154,50 @@ public class PopularListAdapter extends BaseAdapter {
 			holder.mChannelNameTv.setText(broadcast.getChannel().getName());
 
 			int duration = 0;
+			long timeSinceBegin = 0;
+			long timeToEnd = 0;
 			// MC - Calculate the duration of the program and set up ProgressBar.
 			try {
 				long startTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime());
 				long endTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTime());
+				timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime());
+				timeToEnd = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTime());
 				duration = (int) (startTime - endTime) / (1000 * 60);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			holder.mProgressBar.setMax(duration);
-
-			// MC - Calculate the current progress of the ProgressBar and update.
-			int initialProgress = 0;
-			long difference = 0;
-			try {
-				difference = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime());
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-
-			if (difference < 0) {
-				holder.mProgressBar.setVisibility(View.GONE);
-				holder.mProgressBarTitleTv.setVisibility(View.GONE);
-				initialProgress = 0;
-				holder.mProgressBar.setProgress(0);
-			} else {
+			if (timeSinceBegin > 0 && timeToEnd < 0) {
+				holder.mProgressBar.setMax(duration);
+	
+				// Calculate the current progress of the ProgressBar and update.
+				int initialProgress = 0;
+				long difference = 0;
 				try {
-					initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime()) / (1000 * 60);
+					difference = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime());
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-				holder.mProgressBarTitleTv.setText(duration - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
-				holder.mProgressBar.setProgress(initialProgress);
-				holder.mProgressBar.setVisibility(View.VISIBLE);
-				holder.mProgressBarTitleTv.setVisibility(View.VISIBLE);
+	
+				if (difference < 0) {
+					holder.mProgressBar.setVisibility(View.GONE);
+					holder.mProgressBarTitleTv.setVisibility(View.GONE);
+					initialProgress = 0;
+					holder.mProgressBar.setProgress(0);
+				} else {
+					try {
+						initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime()) / (1000 * 60);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					holder.mProgressBarTitleTv.setText(duration - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
+					holder.mProgressBar.setProgress(initialProgress);
+					holder.mProgressBar.setVisibility(View.VISIBLE);
+					holder.mProgressBarTitleTv.setVisibility(View.VISIBLE);
+				}
+			}
+			else {
+				holder.mProgressBar.setVisibility(View.GONE);
+				holder.mProgressBarTitleTv.setVisibility(View.GONE);
 			}
 
 			if (programType != null) {

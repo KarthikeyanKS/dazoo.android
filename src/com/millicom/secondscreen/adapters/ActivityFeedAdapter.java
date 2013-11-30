@@ -214,40 +214,50 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				}
 			});
 
-			int durationTw = 0;
+			int durationTw = 0;		
+			long timeSinceBegin = 0;
+			long timeToEnd = 0;
 			// MC - Calculate the duration of the program and set up ProgressBar.
 			try {
 				long startTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
 				long endTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getEndTime());
+				timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
+				timeToEnd = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getEndTime());
 				durationTw = (int) (startTime - endTime) / (1000 * 60);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			progressBarTw.setMax(durationTw);
-
-			// MC - Calculate the current progress of the ProgressBar and update.
-			int initialProgressTw = 0;
-			long differenceTw = 0;
-			try {
-				differenceTw = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-
-			if (differenceTw < 0) {
-				progressBarTw.setVisibility(View.GONE);
-				initialProgressTw = 0;
-				progressBarTw.setProgress(0);
-			} else {
+			if (timeSinceBegin > 0 && timeToEnd < 0) {
+				progressBarTw.setMax(durationTw);
+	
+				// MC - Calculate the current progress of the ProgressBar and update.
+				int initialProgressTw = 0;
+				long differenceTw = 0;
 				try {
-					initialProgressTw = (int) DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime()) / (1000 * 60);
+					differenceTw = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-				progressbarTvTw.setText(durationTw - initialProgressTw + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
-				progressBarTw.setProgress(initialProgressTw);
-				progressbarTvTw.setVisibility(View.VISIBLE);
-				progressBarTw.setVisibility(View.VISIBLE);
+	
+				if (differenceTw < 0) {
+					progressBarTw.setVisibility(View.GONE);
+					initialProgressTw = 0;
+					progressBarTw.setProgress(0);
+				} else {
+					try {
+						initialProgressTw = (int) DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime()) / (1000 * 60);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					progressbarTvTw.setText(durationTw - initialProgressTw + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
+					progressBarTw.setProgress(initialProgressTw);
+					progressbarTvTw.setVisibility(View.VISIBLE);
+					progressBarTw.setVisibility(View.VISIBLE);
+				}
+			}
+			else {
+				progressbarTvTw.setVisibility(View.GONE);
+				progressBarTw.setVisibility(View.GONE);
 			}
 
 			NotificationDbItem dbItemTw = new NotificationDbItem();
@@ -447,39 +457,49 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			});
 
 			int duration = 0;
+			timeSinceBegin = 0;
+			timeToEnd = 0;
 			// MC - Calculate the duration of the program and set up ProgressBar.
 			try {
 				long startTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
 				long endTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getEndTime());
+				timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
+				timeToEnd = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getEndTime());
 				duration = (int) (startTime - endTime) / (1000 * 60);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			progressBar.setMax(duration);
-
-			// MC - Calculate the current progress of the ProgressBar and update.
-			int initialProgress = 0;
-			long difference = 0;
-			try {
-				difference = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-
-			if (difference < 0) {
-				progressBar.setVisibility(View.GONE);
-				initialProgress = 0;
-				progressBar.setProgress(0);
-			} else {
+			if (timeSinceBegin > 0 && timeToEnd < 0) {
+				progressBar.setMax(duration);
+	
+				// MC - Calculate the current progress of the ProgressBar and update.
+				int initialProgress = 0;
+				long difference = 0;
 				try {
-					initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime()) / (1000 * 60);
+					difference = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-				progressbarTv.setText(duration - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
-				progressBar.setProgress(initialProgress);
-				progressbarTv.setVisibility(View.VISIBLE);
-				progressBar.setVisibility(View.VISIBLE);
+	
+				if (difference < 0) {
+					progressBar.setVisibility(View.GONE);
+					initialProgress = 0;
+					progressBar.setProgress(0);
+				} else {
+					try {
+						initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime()) / (1000 * 60);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					progressbarTv.setText(duration - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
+					progressBar.setProgress(initialProgress);
+					progressbarTv.setVisibility(View.VISIBLE);
+					progressBar.setVisibility(View.VISIBLE);
+				}
+			}
+			else {
+				progressbarTv.setVisibility(View.GONE);
+				progressBar.setVisibility(View.GONE);
 			}
 
 			NotificationDbItem dbItem = new NotificationDbItem();
@@ -655,39 +675,49 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			}
 
 			int durationRec = 0;
+			timeSinceBegin = 0;
+			timeToEnd = 0;
 			// MC - Calculate the duration of the program and set up ProgressBar.
 			try {
 				long startTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
 				long endTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getEndTime());
+				timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
+				timeToEnd = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getEndTime());
 				durationRec = (int) (startTime - endTime) / (1000 * 60);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			progressBarRec.setMax(durationRec);
-
-			// MC - Calculate the current progress of the ProgressBar and update.
-			int initialProgressRec = 0;
-			long differenceRec = 0;
-			try {
-				differenceRec = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-
-			if (differenceRec < 0) {
-				progressBarRec.setVisibility(View.GONE);
-				initialProgress = 0;
-				progressBarRec.setProgress(0);
-			} else {
+			if (timeSinceBegin > 0 && timeToEnd < 0) {
+				progressBarRec.setMax(durationRec);
+	
+				// MC - Calculate the current progress of the ProgressBar and update.
+				int initialProgressRec = 0;
+				long differenceRec = 0;
 				try {
-					initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime()) / (1000 * 60);
+					differenceRec = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-				progressbarTvRec.setText(durationRec - initialProgressRec + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
-				progressBarRec.setProgress(initialProgressRec);
-				progressBarRec.setVisibility(View.VISIBLE);
-				progressBarRec.setVisibility(View.VISIBLE);
+	
+				if (differenceRec < 0) {
+					progressBarRec.setVisibility(View.GONE);
+					initialProgressRec = 0;
+					progressBarRec.setProgress(0);
+				} else {
+					try {
+						initialProgressRec = (int) DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime()) / (1000 * 60);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					progressbarTvRec.setText(durationRec - initialProgressRec + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
+					progressBarRec.setProgress(initialProgressRec);
+					progressBarRec.setVisibility(View.VISIBLE);
+					progressBarRec.setVisibility(View.VISIBLE);
+				}
+			}
+			else {
+				progressBarRec.setVisibility(View.GONE);
+				progressBarRec.setVisibility(View.GONE);
 			}
 
 			containerRec.setOnClickListener(new View.OnClickListener() {
@@ -864,40 +894,50 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				}
 
 				int durationOne = 0;
+				timeSinceBegin = 0;
+				timeToEnd = 0;
 				// MC - Calculate the duration of the program and set up ProgressBar.
 				try {
 					long startTime = DateUtilities.getAbsoluteTimeDifference(broadcastOne.getBeginTime());
 					long endTime = DateUtilities.getAbsoluteTimeDifference(broadcastOne.getEndTime());
+					timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(broadcastOne.getBeginTime());
+					timeToEnd = DateUtilities.getAbsoluteTimeDifference(broadcastOne.getEndTime());
 					durationOne = (int) (startTime - endTime) / (1000 * 60);
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-				mProgressBarOne.setMax(durationOne);
-
-				// MC - Calculate the current progress of the ProgressBar and update.
-				int initialProgressOne = 0;
-				long differenceOne = 0;
-				try {
-					differenceOne = DateUtilities.getAbsoluteTimeDifference(broadcastOne.getBeginTime());
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-
-				if (differenceOne < 0) {
-					mProgressBarOne.setVisibility(View.GONE);
-					initialProgressOne = 0;
-					mProgressBarOne.setProgress(0);
-				} else {
+				if (timeSinceBegin > 0 && timeToEnd < 0) {
+					mProgressBarOne.setMax(durationOne);
+	
+					// MC - Calculate the current progress of the ProgressBar and update.
+					int initialProgressOne = 0;
+					long differenceOne = 0;
 					try {
-						initialProgressOne = (int) DateUtilities.getAbsoluteTimeDifference(broadcastOne.getBeginTime()) / (1000 * 60);
+						differenceOne = DateUtilities.getAbsoluteTimeDifference(broadcastOne.getBeginTime());
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
-					mProgressBarTitleOne.setText(durationOne - initialProgressOne + " " + mActivity.getResources().getString(R.string.minutes) + " "
-							+ mActivity.getResources().getString(R.string.left));
-					mProgressBarOne.setProgress(initialProgressOne);
-					mProgressBarOne.setVisibility(View.VISIBLE);
-					mProgressBarTitleOne.setVisibility(View.VISIBLE);
+	
+					if (differenceOne < 0) {
+						mProgressBarOne.setVisibility(View.GONE);
+						initialProgressOne = 0;
+						mProgressBarOne.setProgress(0);
+					} else {
+						try {
+							initialProgressOne = (int) DateUtilities.getAbsoluteTimeDifference(broadcastOne.getBeginTime()) / (1000 * 60);
+						} catch (ParseException e) {
+							e.printStackTrace();
+						}
+						mProgressBarTitleOne.setText(durationOne - initialProgressOne + " " + mActivity.getResources().getString(R.string.minutes) + " "
+								+ mActivity.getResources().getString(R.string.left));
+						mProgressBarOne.setProgress(initialProgressOne);
+						mProgressBarOne.setVisibility(View.VISIBLE);
+						mProgressBarTitleOne.setVisibility(View.VISIBLE);
+					}
+				}
+				else {
+					mProgressBarOne.setVisibility(View.GONE);
+					mProgressBarTitleOne.setVisibility(View.GONE);
 				}
 
 				mContainerOne.setOnClickListener(new View.OnClickListener() {
@@ -968,40 +1008,50 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				}
 
 				int durationTwo = 0;
+				timeSinceBegin = 0;
+				timeToEnd = 0;
 				// MC - Calculate the duration of the program and set up ProgressBar.
 				try {
 					long startTime = DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getBeginTime());
 					long endTime = DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getEndTime());
+					timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getBeginTime());
+					timeToEnd = DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getEndTime());
 					durationTwo = (int) (startTime - endTime) / (1000 * 60);
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-				mProgressBarTwo.setMax(durationTwo);
-
-				// MC - Calculate the current progress of the ProgressBar and update.
-				int initialProgressTwo = 0;
-				long differenceTwo = 0;
-				try {
-					differenceTwo = DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getBeginTime());
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-
-				if (differenceTwo < 0) {
-					mProgressBarTwo.setVisibility(View.GONE);
-					initialProgressTwo = 0;
-					mProgressBarTwo.setProgress(0);
-				} else {
+				if (timeSinceBegin > 0 && timeToEnd < 0) {
+					mProgressBarTwo.setMax(durationTwo);
+	
+					// MC - Calculate the current progress of the ProgressBar and update.
+					int initialProgressTwo = 0;
+					long differenceTwo = 0;
 					try {
-						initialProgressTwo = (int) DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getBeginTime()) / (1000 * 60);
+						differenceTwo = DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getBeginTime());
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
-					mProgressBarTitleTwo.setText(durationTwo - initialProgressTwo + " " + mActivity.getResources().getString(R.string.minutes) + " "
-							+ mActivity.getResources().getString(R.string.left));
-					mProgressBarTwo.setProgress(initialProgressTwo);
-					mProgressBarTwo.setVisibility(View.VISIBLE);
-					mProgressBarTitleTwo.setVisibility(View.VISIBLE);
+	
+					if (differenceTwo < 0) {
+						mProgressBarTwo.setVisibility(View.GONE);
+						initialProgressTwo = 0;
+						mProgressBarTwo.setProgress(0);
+					} else {
+						try {
+							initialProgressTwo = (int) DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getBeginTime()) / (1000 * 60);
+						} catch (ParseException e) {
+							e.printStackTrace();
+						}
+						mProgressBarTitleTwo.setText(durationTwo - initialProgressTwo + " " + mActivity.getResources().getString(R.string.minutes) + " "
+								+ mActivity.getResources().getString(R.string.left));
+						mProgressBarTwo.setProgress(initialProgressTwo);
+						mProgressBarTwo.setVisibility(View.VISIBLE);
+						mProgressBarTitleTwo.setVisibility(View.VISIBLE);
+					}
+				}
+				else {
+					mProgressBarTwo.setVisibility(View.GONE);
+					mProgressBarTitleTwo.setVisibility(View.GONE);
 				}
 
 				mContainerTwo.setOnClickListener(new View.OnClickListener() {
@@ -1059,40 +1109,50 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				mChannelNameThree.setText(broadcastThree.getChannel().getName());
 
 				int durationThree = 0;
+				timeSinceBegin = 0;
+				timeToEnd = 0;
 				// MC - Calculate the duration of the program and set up ProgressBar.
 				try {
 					long startTime = DateUtilities.getAbsoluteTimeDifference(broadcastThree.getBeginTime());
 					long endTime = DateUtilities.getAbsoluteTimeDifference(broadcastThree.getEndTime());
+					timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(broadcastThree.getBeginTime());
+					timeToEnd = DateUtilities.getAbsoluteTimeDifference(broadcastThree.getEndTime());
 					durationThree = (int) (startTime - endTime) / (1000 * 60);
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-				mProgressBarThree.setMax(durationThree);
-
-				// MC - Calculate the current progress of the ProgressBar and update.
-				int initialProgressThree = 0;
-				long differenceThree = 0;
-				try {
-					differenceThree = DateUtilities.getAbsoluteTimeDifference(broadcastThree.getBeginTime());
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-
-				if (differenceThree < 0) {
-					mProgressBarThree.setVisibility(View.GONE);
-					initialProgressThree = 0;
-					mProgressBarThree.setProgress(0);
-				} else {
+				if (timeSinceBegin > 0 && timeToEnd < 0) {
+					mProgressBarThree.setMax(durationThree);
+	
+					// MC - Calculate the current progress of the ProgressBar and update.
+					int initialProgressThree = 0;
+					long differenceThree = 0;
 					try {
-						initialProgressThree = (int) DateUtilities.getAbsoluteTimeDifference(broadcastThree.getBeginTime()) / (1000 * 60);
+						differenceThree = DateUtilities.getAbsoluteTimeDifference(broadcastThree.getBeginTime());
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
-					mProgressBarTitleThree.setText(durationThree - initialProgressThree + " " + mActivity.getResources().getString(R.string.minutes) + " "
-							+ mActivity.getResources().getString(R.string.left));
-					mProgressBarThree.setProgress(initialProgressThree);
-					mProgressBarThree.setVisibility(View.VISIBLE);
-					mProgressBarTitleThree.setVisibility(View.VISIBLE);
+	
+					if (differenceThree < 0) {
+						mProgressBarThree.setVisibility(View.GONE);
+						initialProgressThree = 0;
+						mProgressBarThree.setProgress(0);
+					} else {
+						try {
+							initialProgressThree = (int) DateUtilities.getAbsoluteTimeDifference(broadcastThree.getBeginTime()) / (1000 * 60);
+						} catch (ParseException e) {
+							e.printStackTrace();
+						}
+						mProgressBarTitleThree.setText(durationThree - initialProgressThree + " " + mActivity.getResources().getString(R.string.minutes) + " "
+								+ mActivity.getResources().getString(R.string.left));
+						mProgressBarThree.setProgress(initialProgressThree);
+						mProgressBarThree.setVisibility(View.VISIBLE);
+						mProgressBarTitleThree.setVisibility(View.VISIBLE);
+					}
+				}
+				else {
+					mProgressBarThree.setVisibility(View.GONE);
+					mProgressBarTitleThree.setVisibility(View.GONE);
 				}
 
 				if (programTypeThree != null) {

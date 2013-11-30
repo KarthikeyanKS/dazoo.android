@@ -23,8 +23,8 @@
             android:hint="@string/hint_firstname"
             android:inputType="text"
             android:padding="8dp"
-            android:textColorHint="@color/black"
-            android:textColor="@color/grey1"
+            android:textColorHint="@color/grey1"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:background="@drawable/edittext_standard" />
 
@@ -39,8 +39,8 @@
             android:hint="@string/hint_lastname"
             android:inputType="text"
             android:padding="8dp"
-            android:textColorHint="@color/black"
-            android:textColor="@color/grey1"
+            android:textColorHint="@color/grey1"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:background="@drawable/edittext_standard" />
 
@@ -55,8 +55,8 @@
             android:hint="@string/hint_email"
             android:inputType="textEmailAddress"
             android:padding="8dp"
-            android:textColorHint="@color/black"
-            android:textColor="@color/grey1"
+            android:textColorHint="@color/grey1"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:background="@drawable/edittext_standard" />
 
@@ -71,8 +71,8 @@
             android:hint="@string/hint_password"
             android:inputType="textPassword"
             android:padding="8dp"
-            android:textColorHint="@color/black"
-            android:textColor="@color/grey1"
+            android:textColorHint="@color/grey1"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:background="@drawable/edittext_standard" />
 
@@ -92,7 +92,7 @@
 
         <com.millicom.secondscreen.customviews.FontButton
             android:id="@+id/signup_register_button"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/signup_error_textview"
             android:layout_centerInParent="true"
@@ -104,7 +104,8 @@
             android:text="@string/join"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:background="@drawable/layout_rounded_corners_blue" />
+            android:background="@drawable/layout_rounded_corners_blue"
+            android:lines="1" />
     </RelativeLayout>
 
 </ScrollView>
