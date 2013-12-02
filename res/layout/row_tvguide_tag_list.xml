@@ -30,6 +30,7 @@
                 android:layout_height="150dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
+                android:scaleType="fitStart"
                 android:src="@drawable/loadimage" />
 
             <ProgressBar
