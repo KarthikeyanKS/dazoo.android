@@ -98,44 +98,39 @@ public class LikesListAdapter extends BaseAdapter {
 		if (like != null) {
 			final DazooLikeEntity entity = like.getEntity();
 			if (entity != null) {
-				
+
 				holder.mHeaderContainer.setVisibility(View.GONE);
 				holder.mDividerView.setVisibility(View.VISIBLE);
-				//Logic to show header with first character
+				// Logic to show header with first character
 				if (position == 0 || entity.getTitle().toUpperCase().charAt(0) != getItem(position - 1).getEntity().getTitle().toUpperCase().charAt(0)) {
 					holder.mHeaderContainer.setVisibility(View.VISIBLE);
 					holder.mHeaderTv.setText("" + entity.getTitle().toUpperCase().charAt(0));
-					
+
 				}
 				if (position != (getCount() - 1) && entity.getTitle().toUpperCase().charAt(0) != getItem(position + 1).getEntity().getTitle().toUpperCase().charAt(0)) {
 					holder.mDividerView.setVisibility(View.GONE);
 				}
-				
+
 				holder.mProgramTitleTv.setText(entity.getTitle());
-				//Set appropriate description depending on program type
+				// Set appropriate description depending on program type
 				String likeType = like.getLikeType();
 				if (Consts.DAZOO_LIKE_TYPE_SPORT_TYPE.equals(likeType)) {
 					holder.mProgramTypeTv.setText(mActivity.getResources().getString(R.string.sport));
-				}
-				else if (Consts.DAZOO_LIKE_TYPE_SERIES.equals(likeType)) {
+				} else if (Consts.DAZOO_LIKE_TYPE_SERIES.equals(likeType)) {
 					holder.mProgramTypeTv.setText(mActivity.getResources().getString(R.string.tv_series) + " " + entity.getYear() + "-");
-				}
-				else if (Consts.DAZOO_LIKE_TYPE_PROGRAM.equals(likeType)) {
+				} else if (Consts.DAZOO_LIKE_TYPE_PROGRAM.equals(likeType)) {
 					if (Consts.DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_MOVIE.equals(entity.getProgramType())) {
 						holder.mProgramTypeTv.setText(mActivity.getResources().getString(R.string.movie) + " " + entity.getYear());
-					} 
-					else if (Consts.DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_OTHER.equals(entity.getProgramType())) {
+					} else if (Consts.DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_OTHER.equals(entity.getProgramType())) {
 						holder.mProgramTypeTv.setText(entity.getCategory());
 					}
 				}
-//				holder.mProgramTypeTv.setText("PROGRAM TYPE: " + entity.getProgramType());
 
 				holder.mInformationContainer.setOnClickListener(new View.OnClickListener() {
 
 					@Override
 					public void onClick(View v) {
-						
-						
+
 					}
 				});
 
@@ -144,16 +139,16 @@ public class LikesListAdapter extends BaseAdapter {
 					@Override
 					public void onClick(View v) {
 						currentPosition = (Integer) v.getTag();
-						String likeType  = like.getLikeType();
+						String likeType = like.getLikeType();
 						String likeId = null;
-						if(Consts.DAZOO_LIKE_TYPE_SERIES.equals(likeType)){
+						if (Consts.DAZOO_LIKE_TYPE_SERIES.equals(likeType)) {
 							likeId = like.getEntity().getSeriesId();
-						} else if (Consts.DAZOO_LIKE_TYPE_PROGRAM.equals(likeType)){
+						} else if (Consts.DAZOO_LIKE_TYPE_PROGRAM.equals(likeType)) {
 							likeId = like.getEntity().getProgramId();
-						} else if (Consts.DAZOO_LIKE_TYPE_SPORT_TYPE.equals(likeType)){
+						} else if (Consts.DAZOO_LIKE_TYPE_SPORT_TYPE.equals(likeType)) {
 							likeId = like.getEntity().getSportTypeId();
 						}
-						
+
 						LikeDialogHandler likeDlg = new LikeDialogHandler();
 						likeDlg.showRemoveLikeDialog(mActivity, mToken, likeId, likeType, yesProc(), noProc());
 
@@ -173,7 +168,7 @@ public class LikesListAdapter extends BaseAdapter {
 		public TextView			mProgramTypeTv;
 		public RelativeLayout	mButtonContainer;
 		public ImageView		mButtonIcon;
-		
+
 		public View				mDividerView;
 	}
 
