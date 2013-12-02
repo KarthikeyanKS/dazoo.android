@@ -118,7 +118,7 @@ public class LikesListAdapter extends BaseAdapter {
 					holder.mProgramTypeTv.setText(mActivity.getResources().getString(R.string.sport));
 				}
 				else if (Consts.DAZOO_LIKE_TYPE_SERIES.equals(likeType)) {
-					holder.mProgramTitleTv.setText(mActivity.getResources().getString(R.string.tv_series) + " " + entity.getYear() + "-");
+					holder.mProgramTypeTv.setText(mActivity.getResources().getString(R.string.tv_series) + " " + entity.getYear() + "-");
 				}
 				else if (Consts.DAZOO_LIKE_TYPE_PROGRAM.equals(likeType)) {
 					if (Consts.DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_MOVIE.equals(entity.getProgramType())) {

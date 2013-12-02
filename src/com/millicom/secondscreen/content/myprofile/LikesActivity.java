@@ -38,7 +38,6 @@ public class LikesActivity extends SSActivity implements LikesCountInterface, On
 	private ListView			mListView;
 	private LikesListAdapter	mAdapter;
 	private String				token;
-	private View				mTabSelectorContainerView;
 	private RelativeLayout		mTabTvGuide, mTabActivity, mTabProfile;
 	private int mCount = 0;
 	
@@ -61,8 +60,6 @@ public class LikesActivity extends SSActivity implements LikesCountInterface, On
 		mActionBar.setTitle(getResources().getString(R.string.likes));
 
 		// styling bottom navigation tabs
-		mTabSelectorContainerView = findViewById(R.id.tab_selector_container);
-
 		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);
 		mTabTvGuide.setOnClickListener(this);
 		mTabActivity = (RelativeLayout) findViewById(R.id.show_activity);
@@ -138,13 +135,10 @@ public class LikesActivity extends SSActivity implements LikesCountInterface, On
 
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void loadPage() {
-		// TODO Auto-generated method stub
-		
 	}
 }

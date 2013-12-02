@@ -272,6 +272,7 @@ public class BroadcastMainBlockPopulator {
 					} else {
 						// LikeDialogHandler likeDlg = new LikeDialogHandler();
 						// likeDlg.showRemoveLikeDialog(mActivity, mToken, mLikeType, broadcast.getProgram().getProgramId(), yesLikeProc(), noLikeProc());
+						LikeService.removeLike(mToken, mProgramId, mLikeType);
 						mIsLiked = false;
 						mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
 					}
