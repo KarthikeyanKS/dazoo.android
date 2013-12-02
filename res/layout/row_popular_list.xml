@@ -26,7 +26,8 @@
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold" 
+            font:fonttextview="fontello.ttf" />
     </RelativeLayout>
 
     <LinearLayout

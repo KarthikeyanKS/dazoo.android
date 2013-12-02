@@ -2,6 +2,7 @@ package com.millicom.secondscreen.adapters;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
@@ -124,8 +125,7 @@ public class RemindersListAdapter extends BaseAdapter {
 				if (position == 0 || DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTime()).equals(
 						DateUtilities.tvDateStringToDatePickerString(getItem(position-1).getBeginTime())) == false) {
 					holder.mHeaderContainer.setVisibility(View.VISIBLE);
-					holder.mHeaderTv.setText(mTvDates.get(dateIndex).getName() + " " + 
-							DateUtilities.tvDateStringToDatePickerString(mTvDates.get(dateIndex).getDate()));
+					holder.mHeaderTv.setText(mTvDates.get(dateIndex).getName().toUpperCase(Locale.getDefault()));
 				}
 				if (position != (getCount() - 1) && DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTime()).equals(
 						DateUtilities.tvDateStringToDatePickerString(getItem(position + 1).getBeginTime())) == false) {
@@ -161,7 +161,8 @@ public class RemindersListAdapter extends BaseAdapter {
 				holder.mChannelTv.setText(channel.getName());
 			}
 			try {
-				holder.mBroadcastTimeTv.setText(DateUtilities.isoStringToDateShortAndTimeString(broadcast.getBeginTime()));
+				//holder.mBroadcastTimeTv.setText(DateUtilities.isoStringToDateShortAndTimeString(broadcast.getBeginTime()));
+				holder.mBroadcastTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
 			} catch (Exception e) {
 				e.printStackTrace();
 				holder.mBroadcastTimeTv.setText("");
