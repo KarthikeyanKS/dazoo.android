@@ -349,7 +349,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 							mNotificationId = dbItemTw.getNotificationId();
 
-							AnimationUtilities.animationSet(remindLikeIv);
+							AnimationUtilities.animationSet(remindTwitterIv);
 
 							mIsSet = true;
 						} else {

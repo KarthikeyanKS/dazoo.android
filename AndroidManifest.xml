@@ -209,7 +209,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light"
             android:windowSoftInputMode="stateHidden" >
-             <meta-data
+            <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.millicom.secondscreen.content.myprofile.MyProfileActivity" />
         </activity>
@@ -288,5 +288,12 @@
         <activity android:name="net.hockeyapp.android.UpdateActivity" />
         <activity android:name="net.hockeyapp.android.FeedbackActivity" />
     </application>
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true" />
 
 </manifest>

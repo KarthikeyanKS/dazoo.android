@@ -75,7 +75,7 @@
                 android:layout_toRightOf="@id/block_popular_feed_details_one_icon"
                 android:gravity="left"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="@dimen/header_3"
                 android:textStyle="bold"
                 android:lines="1" />
 
@@ -88,7 +88,7 @@
                 android:layout_marginTop="10dp"
                 android:gravity="left"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="@dimen/ingress" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/block_popular_feed_details_channel_one_tv"
@@ -98,7 +98,7 @@
                 android:layout_marginLeft="10dp"
                 android:gravity="left"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="@dimen/ingress" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/block_popular_feed_details_extra_one_tv"
@@ -107,7 +107,8 @@
                 android:layout_below="@id/block_popular_feed_details_channel_one_tv"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/grey1"
+                android:textColor="@color/grey2"
+                android:textSize = "@dimen/ingress"
                 android:gravity="left" />
 
             <com.millicom.secondscreen.customviews.FontTextView
@@ -118,6 +119,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/red"
+                android:textSize="@dimen/ingress"
                 android:visibility="gone" />
 
             <ProgressBar
@@ -199,7 +201,7 @@
                 android:layout_toRightOf="@id/block_popular_feed_details_two_icon"
                 android:gravity="left"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="@dimen/header_3"
                 android:textStyle="bold"
                 android:lines="1" />
 
@@ -212,7 +214,7 @@
                 android:layout_marginTop="10dp"
                 android:gravity="left"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="@dimen/ingress" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/block_popular_feed_details_channel_two_tv"
@@ -222,7 +224,7 @@
                 android:layout_marginLeft="10dp"
                 android:gravity="left"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="@dimen/ingress" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/block_popular_feed_details_extra_two_tv"
@@ -231,7 +233,8 @@
                 android:layout_below="@id/block_popular_feed_details_channel_two_tv"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/grey1"
+                android:textColor="@color/grey2"
+                android:textSize="@dimen/ingress"
                 android:gravity="left" />
 
             <com.millicom.secondscreen.customviews.FontTextView
@@ -323,7 +326,7 @@
                 android:layout_toRightOf="@id/block_popular_feed_details_three_icon"
                 android:gravity="left"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="@dimen/header_3"
                 android:textStyle="bold"
                 android:lines="1" />
 
@@ -336,7 +339,7 @@
                 android:layout_marginTop="10dp"
                 android:gravity="left"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="@dimen/ingress" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/block_popular_feed_details_channel_three_tv"
@@ -346,7 +349,7 @@
                 android:layout_marginLeft="10dp"
                 android:gravity="left"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="@dimen/ingress" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/block_popular_feed_details_extra_three_tv"
@@ -355,7 +358,8 @@
                 android:layout_below="@id/block_popular_feed_details_channel_three_tv"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/grey1"
+                android:textColor="@color/grey2"
+                android:textSize="@dimen/ingress"
                 android:gravity="left" />
 
             <com.millicom.secondscreen.customviews.FontTextView

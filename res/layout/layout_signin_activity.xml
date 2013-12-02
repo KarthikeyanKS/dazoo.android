@@ -35,7 +35,7 @@
             android:layout_marginBottom="10dp"
             android:text="@string/sign_in_to_dazoo_text"
             android:textSize="18sp"
-            android:textColor="@color/grey1" />
+            android:textColor="@color/grey2" />
 
         <View
             android:id="@+id/signin_container_divider"
@@ -153,7 +153,7 @@
                 android:background="@color/white"
                 android:textSize="18sp"
 	            android:textStyle="bold"
-	            android:textColor="@color/grey1" />
+	            android:textColor="@color/grey2" />
             
         </RelativeLayout>
 
@@ -218,7 +218,7 @@
                 android:text="@string/already_registered"
                 android:textSize="18sp"
 	            android:textStyle="bold"
-	            android:textColor="@color/grey1" />
+	            android:textColor="@color/grey2" />
 
             <com.millicom.secondscreen.customviews.FontButton
                 android:id="@+id/signin_login_btn"

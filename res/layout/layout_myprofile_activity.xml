@@ -272,7 +272,7 @@
                     android:layout_gravity="left"
                     android:layout_margin="10dp"
                     android:text="@string/sign_in_to_dazoo_text"
-                    android:textColor="@color/grey1"
+                    android:textColor="@color/grey2"
                     android:textSize="18sp" />
 
                 <View
@@ -349,7 +349,7 @@
                         android:background="@color/white"
                         android:padding="5dp"
                         android:text="@string/or"
-                        android:textColor="@color/grey1"
+                        android:textColor="@color/grey2"
                         android:textSize="18sp"
                         android:textStyle="bold" />
                 </RelativeLayout>
@@ -408,7 +408,7 @@
                         android:layout_margin="10dp"
                         android:gravity="center_vertical|center_horizontal"
                         android:text="@string/already_registered"
-                        android:textColor="@color/grey1"
+                        android:textColor="@color/grey2"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 

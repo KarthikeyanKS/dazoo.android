@@ -94,11 +94,12 @@
 
             <ImageView
                 android:id="@+id/block_broadcast_upcoming_episodes_one_addreminder"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_marginRight="40dp"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/ic_guide_clock" />
+                android:layout_marginLeft="10dp" 
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="7dp"/>
             
         </LinearLayout>
         
@@ -191,11 +192,12 @@
 
             <ImageView
                 android:id="@+id/block_broadcast_upcoming_episodes_two_addreminder"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_marginRight="40dp"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/ic_guide_clock" />
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="7dp"/>
             
         </LinearLayout>
         
@@ -288,11 +290,12 @@
 
             <ImageView
                 android:id="@+id/block_broadcast_upcoming_episodes_three_addreminder"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_marginRight="40dp"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/ic_guide_clock"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="7dp"
                 android:layout_gravity="center_vertical"/>
             
         </LinearLayout>

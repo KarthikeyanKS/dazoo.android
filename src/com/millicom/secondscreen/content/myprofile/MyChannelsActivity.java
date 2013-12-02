@@ -167,6 +167,9 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 			public void afterTextChanged(Editable s) {
 				String search = s.toString();
 				if (search.length() > 0) {
+					if(search.length() > 3){
+						search = search.substring(0,3);
+					}
 					mChannelInfoToDisplay.clear();
 					for (Map.Entry<String, Channel> entry : mChannelInfoMap.entrySet()) {
 						String key = entry.getKey();
