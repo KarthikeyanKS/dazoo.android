@@ -28,6 +28,7 @@
                 android:id="@+id/tvguide_tag_list_item_image_iv"
                 android:layout_width="120dp"
                 android:layout_height="150dp"
+                android:scaleType="fitStart"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true" />
 
