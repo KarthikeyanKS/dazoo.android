@@ -60,12 +60,15 @@ public class MyChannelsService {
 		String responseStr;
 		try {
 			responseStr = getMyChannelsTask.execute(userToken).get();
-			// if (responseStr != null && responseStr.isEmpty() != true && responseStr != Consts.ERROR_STRING) {
+			Log.d(TAG,"List of My Channels: " + responseStr);
+			
 			if (responseStr != null && TextUtils.isEmpty(responseStr) != true && responseStr != Consts.ERROR_STRING) {
 				// the extra check for ERROR_STRING was added to distinguish between empty response (there are no stored channels to this user) and empty response in case of error
 				ArrayList<String> channelIds = new ArrayList<String>();
 				channelIds = ContentParser.parseChannelIds(new JSONArray(responseStr));
 				DazooStore.getInstance().setMyChannelIds(channelIds);
+
+				
 				return true;
 			} else return false;
 		} catch (InterruptedException e) {

@@ -110,13 +110,6 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 
 	private void initLayout() {
 
-		// for test purposes only
-		// ArrayList<String> a = new ArrayList<String>();
-		// a.add("7720eff8-2eaf-444c-a032-fefee7be5a02");
-		// a.add("79d66b89-4b0e-4223-83bb-79fa5d59971d");
-		// a.add("33b97d3b-0251-4e8a-9a07-ecd2a0c7dfd4");
-		// updateUserMyChannels(JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.DAZOO_CHANNEL_CHANNEL_ID, a));
-
 		mActionBar = getSupportActionBar();
 		mActionBar.setTitle(getResources().getString(R.string.my_channels));
 
@@ -140,11 +133,13 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 	}
 
 	private void populateViews() {
-		mAllChannelsIds = DazooStore.getInstance().getAllChannelIds();
 		mChannelsMap = DazooStore.getInstance().getAllChannels();
 
+		int allChannelsIndex = 0;
 		for (Entry<String, Channel> entry : mChannelsMap.entrySet()) {
 			mChannels.add(entry.getValue());
+			mAllChannelsIds.add(mChannels.get(allChannelsIndex).getChannelId());
+			allChannelsIndex++;
 		}
 
 		for (int i = 0; i < mChannels.size(); i++) {
@@ -152,7 +147,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 			mChannelInfoToDisplay.add(mChannels.get(i));
 		}
 
-		mIsCheckedArray = new boolean[mChannels.size()];
+		mIsCheckedArray = new boolean[mAllChannelsIds.size()];
 
 		if (userToken != null && TextUtils.isEmpty(userToken) != true) {
 			// get user channels
@@ -253,11 +248,19 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 		if (MyChannelsService.getMyChannels(userToken)) {
 			myChannelIds = DazooStore.getInstance().getMyChannelIds();
 
-			for (int i = 0; i < mAllChannelsIds.size(); i++) {
-				if (myChannelIds.contains(mAllChannelsIds.get(i))) {
-					mIsCheckedArray[i] = true;
+			Log.d(TAG, "MY CHANNELS IDS IN THE DAZOO STORE: " + myChannelIds);
+
+			for (int j = 0; j < myChannelIds.size(); j++) {
+				if (mAllChannelsIds.contains(myChannelIds.get(j))) {
+					Log.d(TAG,"MY CHANNEL ID: " + myChannelIds.get(j));
+					int position = mAllChannelsIds.indexOf(myChannelIds.get(j));
+					Log.d(TAG,"POSITION IN ALL CHANNELS: " + position);
+					Log.d(TAG,"ALL CHANNEL AT POSITION:" + mAllChannelsIds.get(position));
+					
+					mIsCheckedArray[mAllChannelsIds.indexOf(myChannelIds.get(j))] = true;
 				}
 			}
+			
 			return true;
 		} else {
 			Toast.makeText(getApplicationContext(), "List of MY CHANNELS cannot be read", Toast.LENGTH_SHORT).show();

@@ -6,6 +6,7 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 
+import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 
 public class StringUtilities {
@@ -32,5 +33,9 @@ public class StringUtilities {
 		public static float pixelsToSp(Context context, Float px) {
 		    float scaledDensity = context.getResources().getDisplayMetrics().scaledDensity;
 		    return px/scaledDensity;
+		}
+		
+		String decodeUTF8(byte[] bytes){
+			return new String(bytes, Consts.UTF8_CHARSET);
 		}
 }

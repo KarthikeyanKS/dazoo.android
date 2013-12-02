@@ -1,5 +1,7 @@
 package com.millicom.secondscreen;
 
+import java.nio.charset.Charset;
+
 /**
  * Class for constant values declaration for the application
  * 
@@ -8,6 +10,8 @@ public abstract class Consts {
 
 	public static final String	TESTFLIGHT_TOKEN											= "343b5e95-cc27-4e8e-8a0d-ff5f7a181c5c";
 	public static final String	HOCKEY_APP_TOKEN											= "c90b5331b5a7086d88d98021508f2c16";
+
+	public static final Charset	UTF8_CHARSET												= Charset.forName("UTF-8");
 
 	// Shared preferences
 	public static final String	SHARED_PREFS_MAIN_NAME										= "com.millicom.secondscreen.shared.prefs";
