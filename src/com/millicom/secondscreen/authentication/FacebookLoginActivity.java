@@ -35,6 +35,7 @@ import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
+import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
 import com.millicom.secondscreen.utilities.JSONUtilities;
 //import com.testflightapp.lib.TestFlight;
 
@@ -109,15 +110,9 @@ public class FacebookLoginActivity extends ActionBarActivity {
 		openRequest.setPermissions(Arrays.asList("email"));
 		openRequest.setCallback(statusCallback);
 		Session session = new Session.Builder(activity).build();
-		if (SessionState.CREATED_TOKEN_LOADED.equals(session.getState()) || allowLoginUI) {
-			
-			//Toast.makeText(mActivity, "Established session with facebook", Toast.LENGTH_SHORT).show();
-			
+		if (SessionState.CREATED_TOKEN_LOADED.equals(session.getState()) || allowLoginUI) {		
 			Session.setActiveSession(session);
 			session.openForRead(openRequest);
-			
-			//Toast.makeText(mActivity, "Facebook session state: " + session.getState(), Toast.LENGTH_SHORT).show();
-			//Log.d(TAG,"SESSION;" + session.getState());
 			return session;
 		}
 		return null;
@@ -126,49 +121,41 @@ public class FacebookLoginActivity extends ActionBarActivity {
 	Session.StatusCallback	statusCallback	= new Session.StatusCallback() {
 		@Override
 		public void call(final Session session, SessionState state, Exception exception) {
-			
-			//Toast.makeText(mActivity, "FB session call ", Toast.LENGTH_SHORT).show();
-			
 			if (state.isOpened()) {
-				
-				//Toast.makeText(mActivity, "FB session is OPENED", Toast.LENGTH_SHORT).show();
-				
 				Request.newMeRequest(session, new Request.GraphUserCallback() {
 					@Override
 					public void onCompleted(GraphUser user, Response response) {
-						//Toast.makeText(mActivity, "FB requests a user", Toast.LENGTH_SHORT).show();
 						
 						if (user != null) {
-							
-							//Toast.makeText(mActivity, "User is not null!", Toast.LENGTH_SHORT).show();
-							
 							facebookSessionToken = session.getAccessToken();
-							
-							//Toast.makeText(mActivity, "got facebook token: " + facebookSessionToken, Toast.LENGTH_SHORT).show();
-							
-							//Log.d(TAG,"facebook:" + facebookSessionToken );
+							Log.d(TAG,"facebook:" + facebookSessionToken );
 							if (getDazooToken()) {
-								Log.d(TAG,"DAZOO TOKEN");
+								
+								// for beta-release - direct to the HomePage even if it is first time user
 								boolean firstTime = ((SecondScreenApplication) getApplicationContext()).getUserExistringFlag();
-								if (firstTime) {
-									// first time registration/login
-									// go to facebook dazoo login success page
-									Intent intent = new Intent(FacebookLoginActivity.this, FacebookDazooLoginActivity.class);
-									startActivity(intent);
-									overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-									//finish();
-								} else {
+								//if (firstTime) {
+								//	// first time registration/login
+								//	// go to facebook dazoo login success page
+								//	Intent intent = new Intent(FacebookLoginActivity.this, FacebookDazooLoginActivity.class);
+								//	startActivity(intent);
+								//	overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+								//	//finish();
+								//} else {
 									// returning client
 									// go to start page
 									Intent intent = new Intent(FacebookLoginActivity.this, HomeActivity.class);
 									startActivity(intent);
 									overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 									finish();
-								}
+								//}
 							}
 						}
 					}
 				}).executeAsync();
+			}
+			else {
+				Intent intent = new Intent(FacebookLoginActivity.this, MyProfileActivity.class);
+				startActivity(intent);
 			}
 		}
 	};
@@ -177,32 +164,18 @@ public class FacebookLoginActivity extends ActionBarActivity {
 		if (facebookSessionToken.length() > 0) {
 			FacebookLoginTask facebookLoginTask = new FacebookLoginTask();
 			try {
-				//Log.d(TAG,"BACKEND EXECUTION");
-				//Toast.makeText(mActivity, "Request to Dazoo backend", Toast.LENGTH_SHORT).show();
-				
 				String responseStr = facebookLoginTask.execute(facebookSessionToken).get();
-				//Log.d(TAG,"BACKEND EXECUTION: DONE not known");
-				//Toast.makeText(mActivity, "Request to Dazoo backend: executed", Toast.LENGTH_SHORT).show();
-				
 				if (responseStr != null && TextUtils.isEmpty(responseStr) != true) {
-					//Log.d(TAG,"BACKEND EXECUTION: DONE");
-					//Toast.makeText(mActivity, "Request to Dazoo backend: execution DONE", Toast.LENGTH_SHORT).show();
-					
 					JSONObject fbJSON = new JSONObject(responseStr);
 					facebookToken = fbJSON.getString(Consts.MILLICOM_SECONDSCREEN_API_TOKEN);
-					
-					//Toast.makeText(mActivity, "DAZOO TOKEN: " + facebookToken, Toast.LENGTH_SHORT).show();
-					
 					if (facebookToken != null && TextUtils.isEmpty(facebookToken) != true) {
 						// save access token in the application
 						((SecondScreenApplication) getApplicationContext()).setAccessToken(facebookToken);
-						//Log.d(TAG, "Token: " + facebookToken + " is saved");
+						Log.d(TAG, "Token: " + facebookToken + " is saved");
 						
 						if (AuthenticationService.storeUserInformation(this, fbJSON)) {
-							//Toast.makeText(getApplicationContext(), "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName(), Toast.LENGTH_SHORT).show();
 							return true;
 						} else {
-							//Toast.makeText(getApplicationContext(), "Failed to fetch the user information from backend", Toast.LENGTH_SHORT).show();
 							return false;
 						}
 					}
