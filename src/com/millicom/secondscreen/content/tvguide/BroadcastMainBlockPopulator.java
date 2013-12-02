@@ -53,7 +53,7 @@ public class BroadcastMainBlockPopulator {
 		this.mActivity = activity;
 		this.mToken = token;
 		this.mTvDate = tvDate;
-		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage_2x);
+		this.mImageLoader = new ImageLoader(mActivity, R.color.white);
 		this.mContainerView = containerView;
 		this.mNotificationDataSource = new NotificationDataSource(mActivity);
 	}
@@ -272,6 +272,7 @@ public class BroadcastMainBlockPopulator {
 					} else {
 						// LikeDialogHandler likeDlg = new LikeDialogHandler();
 						// likeDlg.showRemoveLikeDialog(mActivity, mToken, mLikeType, broadcast.getProgram().getProgramId(), yesLikeProc(), noLikeProc());
+						LikeService.removeLike(mToken, mProgramId, mLikeType);
 						mIsLiked = false;
 						mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
 					}
@@ -326,7 +327,7 @@ public class BroadcastMainBlockPopulator {
 		topContentView.setVisibility(View.VISIBLE);
 
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-		layoutParams.setMargins(20, 20, 20, 20);
+		layoutParams.setMargins(10, 10, 10, 10);
 		containerView.addView(topContentView, layoutParams);
 	}
 

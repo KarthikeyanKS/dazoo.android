@@ -76,7 +76,7 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_channelpage_activity);
 
-		mImageLoader = new ImageLoader(this, R.drawable.loadimage_2x);
+		mImageLoader = new ImageLoader(this, R.color.white);
 
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverDate, new IntentFilter(Consts.INTENT_EXTRA_CHANNEL_SORTING));
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverContent, new IntentFilter(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE));

@@ -48,7 +48,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 	public UpcomingEpisodesListAdapter(Activity activity, ArrayList<Broadcast> upcomingBroadcasts) {
 		this.mUpcomingEpisodes = upcomingBroadcasts;
 		this.mActivity = activity;
-		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage_2x);
+		this.mImageLoader = new ImageLoader(mActivity, R.color.white);
 		mNotificationDataSource = new NotificationDataSource(mActivity);
 
 		dazooStore = DazooStore.getInstance();
@@ -103,10 +103,14 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 		if (broadcast != null) {
 			//Get the correct date name index
 			int dateIndex = 0;
+			boolean dateOutOfWeek = false;
 			for (int i = 0; i < mTvDates.size(); i++) {
 				if (broadcast.getBeginTime().contains(mTvDates.get(i).getDate())) {
 					dateIndex = i;
 					break;
+				}
+				if (i == (mTvDates.size() - 1)) {
+					dateOutOfWeek = true;
 				}
 			}
 
@@ -115,8 +119,13 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 				holder.mDivider.setVisibility(View.VISIBLE);
 				if (position == 0 || DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTime()).equals(
 						DateUtilities.tvDateStringToDatePickerString(getItem(position - 1).getBeginTime())) == false) {
-					holder.mHeader.setText(mTvDates.get(dateIndex).getName() + " " + 
+					if (dateOutOfWeek == true) {
+						holder.mHeader.setText(DateUtilities.isoStringToDayOfWeekAndDate(broadcast.getBeginTime().toUpperCase()));
+					}
+					else {
+						holder.mHeader.setText(mTvDates.get(dateIndex).getName() + " " + 
 							DateUtilities.tvDateStringToDatePickerString(mTvDates.get(dateIndex).getDate()));
+					}
 
 					holder.mHeaderContainer.setVisibility(View.VISIBLE);
 				}

@@ -38,7 +38,7 @@ public class BlockPopularListViewAdapter extends BaseAdapter {
 	public BlockPopularListViewAdapter(Activity activity, ArrayList<Broadcast> popularBroadcasts) {
 		this.mActivity = activity;
 		this.mPopularBroadcasts = popularBroadcasts;
-		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage);
+		this.mImageLoader = new ImageLoader(mActivity, R.color.white);
 	}
 
 	@Override

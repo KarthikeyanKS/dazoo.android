@@ -26,7 +26,8 @@
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold" 
+            font:fonttextview="fontello.ttf" />
     </RelativeLayout>
 
     <LinearLayout
@@ -62,9 +63,9 @@
             android:id="@+id/row_popular_details_container"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_weight="0.65"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical" >
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/row_popular_details_title_tv"
@@ -93,7 +94,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/row_popular_details_time_tv"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
                 android:gravity="left"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
@@ -112,6 +112,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/row_popular_details_extra_tv"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:textColor="@color/red"
                 android:visibility="gone" />
 
@@ -121,19 +123,19 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/row_popular_timeleft_tv"
-                android:layout_marginLeft="0dp"
                 android:layout_marginRight="25dp"
+                android:layout_marginLeft="10dp"
                 android:progressDrawable="@drawable/progress_horizontal"
                 android:visibility="gone" />
         </RelativeLayout>
     </LinearLayout>
 
-    <View
+    <!-- View
         android:id="@+id/row_popular_divider"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:layout_below="@id/row_popular_container"
         android:layout_margin="20dp"
-        android:background="@color/grey1" />
+        android:background="@color/grey1" /-->
 
 </RelativeLayout>

@@ -43,7 +43,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 		this.mGuide = guide;
 		this.mActivity = activity;
 		this.mDate = date;
-		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage);
+		this.mImageLoader = new ImageLoader(mActivity, R.color.white);
 		this.mHour = hour;
 		this.mIsToday = isToday;
 
@@ -92,7 +92,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 			// imageLoader.displayImage(guide.getLogoLHref(), mActivity, holder.mChannelIconIv);
 			mImageLoader.displayImage(guide.getLogoSHref(), holder.mChannelIconIv, ImageLoader.IMAGE_TYPE.THUMBNAIL);
 		} else {
-			holder.mChannelIconIv.setImageResource(R.drawable.loadimage);
+			holder.mChannelIconIv.setImageResource(R.color.white);
 		}
 
 		holder.mContainer.setOnClickListener(new View.OnClickListener() {

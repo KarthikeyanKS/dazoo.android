@@ -49,7 +49,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 	public RepetitionsListAdapter(Activity activity, ArrayList<Broadcast> repeatingBroadcasts, Program program) {
 		this.mRepeatingEpisodes =repeatingBroadcasts;
 		this.mActivity = activity;
-		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage_2x);
+		this.mImageLoader = new ImageLoader(mActivity, R.color.white);
 		this.mProgram = program;
 		mNotificationDataSource = new NotificationDataSource(mActivity);
 

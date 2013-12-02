@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:layout_margin="10dp"
     android:background="@color/white"
-    android:orientation="vertical"
-    android:padding="10dp" >
+    android:orientation="vertical" >
 
     <!-- CONTENT LABEL -->
 
@@ -31,7 +30,8 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:padding="2dp" >
 
             <ImageView
                 android:id="@+id/block_feed_liked_content_iv"
@@ -71,12 +71,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:layout_toRightOf="@id/block_feed_liked_icon"
             android:gravity="right"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold"
-            font:fonttextview="fontello.ttf" />
+            font:fonttextview="fontello.ttf"
+            android:lines="1" />
 
         <com.millicom.secondscreen.customviews.FontTextView
             android:id="@+id/block_feed_liked_time_tv"
@@ -84,6 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/block_feed_liked_title_tv"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:gravity="left"
             android:textColor="@color/black"
             android:textSize="16sp"
@@ -106,8 +109,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/block_feed_liked_channel_tv"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:gravity="left"
-            android:textColor="@color/black"
+            android:textColor="@color/grey1"
             android:textSize="14sp"
             font:fonttextview="fontello.ttf" />
 
@@ -117,6 +121,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/block_feed_liked_details_tv"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:textColor="@color/red"
             android:visibility="gone"
             font:fonttextview="fontello.ttf" />
@@ -128,7 +133,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/block_feed_liked_timeleft_tv"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="25dp"
+            android:layout_marginRight="10dp"
             android:progressDrawable="@drawable/progress_horizontal"
             android:visibility="gone" />
     </RelativeLayout>
@@ -140,8 +145,8 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:layout_below="@id/block_feed_liked_content_details_container"
-        android:layout_margin="10dp"
-        android:background="@color/grey2" />
+        android:layout_marginTop="10dp"
+        android:background="@color/grey1" />
 
     <LinearLayout
         android:id="@+id/block_feed_liked_buttons_container"
@@ -149,6 +154,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/block_feed_liked_divider"
         android:background="@color/white"
+		android:paddingTop="5dp"
+		android:paddingBottom="5dp"
+		android:paddingRight="10dp"
+		android:paddingLeft="10dp"
         android:orientation="horizontal" >
 
         <!-- LIKE BUTTON -->
@@ -159,7 +168,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:padding="5dp"
+			android:layout_gravity="center" >
 
             <ImageView
                 android:id="@+id/block_feed_liked_like_button_iv"
@@ -171,9 +182,8 @@
         <!-- SEPARATOR -->
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical" >
 
@@ -190,7 +200,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center" >
+            android:gravity="center"
+            android:padding="5dp"
+			android:layout_gravity="center" >
 
             <ImageView
                 android:id="@+id/block_feed_liked_share_button_iv"
@@ -202,9 +214,8 @@
         <!-- SEPARATOR -->
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical" >
 
@@ -221,7 +232,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center" >
+            android:gravity="center"
+            android:padding="5dp"
+			android:layout_gravity="center" >
 
             <ImageView
                 android:id="@+id/block_feed_liked_remind_button_iv"

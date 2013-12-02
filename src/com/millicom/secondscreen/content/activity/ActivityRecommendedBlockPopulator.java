@@ -22,7 +22,7 @@ public class ActivityRecommendedBlockPopulator {
 		this.mActivity = activity;
 		this.mContainerView = containerView;
 		this.mToken = token;
-		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage_2x);
+		this.mImageLoader = new ImageLoader(mActivity, R.color.white);
 	}
 
 	public void createBlock(FeedItem popularItem) {

@@ -13,9 +13,10 @@
         android:id="@+id/block_popular_header_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_margin="10dp"
-        android:textSize="20sp" />
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:textSize="20sp"
+        android:text="@string/popular_now" />
 
     <!-- ITEM 1 -->
 
@@ -23,6 +24,7 @@
         android:id="@+id/block_popular_feed_container_one"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/block_popular_header_tv"
         android:orientation="horizontal" >
 
         <RelativeLayout
@@ -52,8 +54,10 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
             android:layout_weight="0.65"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical" >
 
             <ImageView
                 android:id="@+id/block_popular_feed_details_one_icon"
@@ -72,7 +76,8 @@
                 android:gravity="left"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:lines="1" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/block_popular_feed_details_time_one_tv"
@@ -91,7 +96,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_popular_feed_details_time_one_tv"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
                 android:gravity="left"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
@@ -103,6 +107,7 @@
                 android:layout_below="@id/block_popular_feed_details_channel_one_tv"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
+                android:textColor="@color/grey1"
                 android:gravity="left" />
 
             <com.millicom.secondscreen.customviews.FontTextView
@@ -110,6 +115,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_popular_feed_details_extra_one_tv"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:textColor="@color/red"
                 android:visibility="gone" />
 
@@ -119,7 +126,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_popular_feed_timeleft_one_tv"
-                android:layout_marginLeft="0dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginRight="25dp"
                 android:progressDrawable="@drawable/progress_horizontal"
                 android:visibility="gone" />
@@ -131,8 +138,8 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:layout_below="@id/block_popular_feed_container_one"
-        android:layout_margin="20dp"
-        android:background="@color/grey2" />
+        android:layout_margin="10dp"
+        android:background="@color/grey1" />
 
     <!-- ITEM 2 -->
 
@@ -171,8 +178,10 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
             android:layout_weight="0.65"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical"  >
 
             <ImageView
                 android:id="@+id/block_popular_feed_details_two_icon"
@@ -191,7 +200,8 @@
                 android:gravity="left"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:lines="1" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/block_popular_feed_details_time_two_tv"
@@ -210,7 +220,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_popular_feed_details_time_two_tv"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
                 android:gravity="left"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
@@ -222,6 +231,7 @@
                 android:layout_below="@id/block_popular_feed_details_channel_two_tv"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
+                android:textColor="@color/grey1"
                 android:gravity="left" />
 
             <com.millicom.secondscreen.customviews.FontTextView
@@ -230,6 +240,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_popular_feed_details_extra_two_tv"
                 android:textColor="@color/red"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:visibility="gone" />
 
             <ProgressBar
@@ -238,7 +250,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_popular_feed_timeleft_two_tv"
-                android:layout_marginLeft="0dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginRight="25dp"
                 android:progressDrawable="@drawable/progress_horizontal"
                 android:visibility="gone" />
@@ -250,8 +262,8 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:layout_below="@id/block_popular_feed_container_two"
-        android:layout_margin="20dp"
-        android:background="@color/grey2" />
+        android:layout_margin="10dp"
+        android:background="@color/grey1" />
 
     <!-- ITEM 3 -->
 
@@ -289,9 +301,11 @@
             android:id="@+id/block_popular_feed_details_three_container"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_weight="0.65"
-            android:orientation="vertical" >
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical"  >
 
             <ImageView
                 android:id="@+id/block_popular_feed_details_three_icon"
@@ -310,7 +324,8 @@
                 android:gravity="left"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:lines="1" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/block_popular_feed_details_time_three_tv"
@@ -329,7 +344,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_popular_feed_details_time_three_tv"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
                 android:gravity="left"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
@@ -341,6 +355,7 @@
                 android:layout_below="@id/block_popular_feed_details_channel_three_tv"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
+                android:textColor="@color/grey1"
                 android:gravity="left" />
 
             <com.millicom.secondscreen.customviews.FontTextView
@@ -349,6 +364,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_popular_feed_details_extra_three_tv"
                 android:textColor="@color/red"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:visibility="gone" />
 
             <ProgressBar
@@ -357,7 +374,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_popular_feed_timeleft_three_tv"
-                android:layout_marginLeft="0dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginRight="25dp"
                 android:progressDrawable="@drawable/progress_horizontal"
                 android:visibility="gone" />
@@ -371,7 +388,7 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:layout_below="@id/block_popular_feed_container_three"
-        android:background="@color/grey2" />
+        android:background="@color/grey1" />
 
     <RelativeLayout
         android:id="@+id/block_popular_show_more_container"
