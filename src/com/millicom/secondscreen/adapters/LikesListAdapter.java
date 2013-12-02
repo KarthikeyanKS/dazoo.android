@@ -46,7 +46,7 @@ public class LikesListAdapter extends BaseAdapter {
 	public LikesListAdapter(Activity activity, ArrayList<DazooLike> likes, String token, LikesCountInterface likesInterface) {
 		this.mLikes = likes;
 		this.mActivity = activity;
-		this.mImageLoader = new ImageLoader(activity, R.drawable.loadimage);
+		this.mImageLoader = new ImageLoader(activity, R.color.white);
 		this.mToken = token;
 		this.mInterface = likesInterface;
 	}

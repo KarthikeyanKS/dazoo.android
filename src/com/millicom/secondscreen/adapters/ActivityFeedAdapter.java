@@ -63,7 +63,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 	public ActivityFeedAdapter(Activity activity, ArrayList<FeedItem> feedItems, String token) {
 		this.mActivity = activity;
 		this.mFeedItems = feedItems;
-		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage);
+		this.mImageLoader = new ImageLoader(mActivity, R.color.white);
 		this.mToken = token;
 		this.mNotificationDataSource = new NotificationDataSource(mActivity);
 		this.mLikeIds = LikeService.getLikeIdsList(token);

@@ -48,7 +48,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 	public UpcomingEpisodesListAdapter(Activity activity, ArrayList<Broadcast> upcomingBroadcasts) {
 		this.mUpcomingEpisodes = upcomingBroadcasts;
 		this.mActivity = activity;
-		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage_2x);
+		this.mImageLoader = new ImageLoader(mActivity, R.color.white);
 		mNotificationDataSource = new NotificationDataSource(mActivity);
 
 		dazooStore = DazooStore.getInstance();

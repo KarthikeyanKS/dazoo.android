@@ -49,7 +49,8 @@ public class ActivityLikedBlockPopulator {
 		this.mActivity = activity;
 		this.mContainerView = containerView;
 		this.mToken = token;
-		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage_2x);
+		//this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage);
+		this.mImageLoader = new ImageLoader(mActivity, 0);
 	}
 
 	public void createBlock(final FeedItem popularItem) {

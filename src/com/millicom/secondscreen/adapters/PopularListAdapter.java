@@ -40,7 +40,7 @@ public class PopularListAdapter extends BaseAdapter {
 	public PopularListAdapter(Activity activity, String token, ArrayList<Broadcast> popularBroadcasts) {
 		this.mActivity = activity;
 		this.mPopularBroadcasts = popularBroadcasts;
-		this.mImageLoader = new ImageLoader(activity, R.drawable.loadimage);
+		this.mImageLoader = new ImageLoader(activity, R.color.white);
 		this.mToken = token;
 	}
 

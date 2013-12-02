@@ -27,7 +27,7 @@ public class CastCrewListAdapter extends BaseAdapter{
 	public CastCrewListAdapter(Activity activity, ArrayList<Cast> cast){
 		this.mActivity = activity;
 		this.mCast = cast;
-		this.mImageLoader = new ImageLoader(mActivity, R.drawable.loadimage);
+		this.mImageLoader = new ImageLoader(mActivity, R.color.white);
 	}
 	
 	@Override

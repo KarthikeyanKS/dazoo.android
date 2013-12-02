@@ -29,8 +29,7 @@
                 android:layout_width="120dp"
                 android:layout_height="150dp"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:src="@drawable/loadimage" />
+                android:layout_alignParentTop="true" />
 
             <ProgressBar
                 android:id="@+id/tvguide_tag_list_item_image_pb"
@@ -56,8 +55,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="7dp"
                 android:layout_marginTop="7dp"
-                android:singleLine="true"
                 android:maxWidth="250dp"
+                android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/header_2"
                 android:textStyle="bold" />

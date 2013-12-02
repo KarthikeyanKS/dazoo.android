@@ -57,7 +57,7 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
 		mToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
-		mImageLoader = new ImageLoader(this, R.drawable.loadimage);
+		mImageLoader = new ImageLoader(this, R.color.white);
 
 		if (mToken != null && TextUtils.isEmpty(mToken) != true) {
 			mIsLoggedIn = true;
@@ -151,14 +151,14 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 				if (userFirstName != null && userLastName != null && userFirstName.isEmpty() != true && userLastName.isEmpty() != true) {
-					mAvatarImageView.setImageResource(R.drawable.loadimage_2x);
+					mAvatarImageView.setImageResource(R.color.white);
 					mUserNameTextView.setText(userFirstName + " " + userLastName);
 				} else {
 					mMyProfileContainer.setVisibility(View.GONE);
 				}
 			} else {
 				if (userFirstName != null && userLastName != null && TextUtils.isEmpty(userFirstName) != true && TextUtils.isEmpty(userLastName) != true) {
-					mAvatarImageView.setImageResource(R.drawable.loadimage_2x);
+					mAvatarImageView.setImageResource(R.color.white);
 					mUserNameTextView.setText(userFirstName + " " + userLastName);
 				} else {
 					mMyProfileContainer.setVisibility(View.GONE);
