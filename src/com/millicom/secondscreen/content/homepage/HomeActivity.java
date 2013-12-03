@@ -223,7 +223,11 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		}
 		else {
 			Log.d(TAG,"We have resumed!");
-			reloadPage();
+			if (!NetworkUtils.checkConnection(this)) {
+				updateUI(REQUEST_STATUS.FAILED);
+			} else {
+				reloadPage();
+			}
 		}
 		checkForCrashes();
 	}
