@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -266,13 +267,19 @@ public class TVGuideTableFragment extends SSPageFragment {
 			mCurrentHourTv.setTextColor(getActivity().getResources().getColor(R.color.grey3));
 			mCurrentHourTv.setTextSize(12);
 			mCurrentHourTv.setTypeface(Typeface.DEFAULT);
+			mCurrentHourTv.setBackgroundColor(getResources().getColor(R.color.white));
 		}
 
 		mCurrentHourTv = getViewByTag(mClockIndexView, String.valueOf(mHour));
 		if (mCurrentHourTv != null) {
-			mCurrentHourTv.setTextColor(getActivity().getResources().getColor(R.color.red));
+			mCurrentHourTv.setTextColor(getActivity().getResources().getColor(R.color.white));
 			mCurrentHourTv.setTextSize(15);
 			mCurrentHourTv.setTypeface(Typeface.DEFAULT_BOLD);
+			mCurrentHourTv.setBackgroundResource(R.drawable.layout_rounded_corners_red);
+			LinearLayout.LayoutParams p = (LayoutParams) mCurrentHourTv.getLayoutParams();
+			p.setMargins(5, 5, 5, 5);
+			p.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+			mCurrentHourTv.setLayoutParams(p);
 		}
 	}
 }
