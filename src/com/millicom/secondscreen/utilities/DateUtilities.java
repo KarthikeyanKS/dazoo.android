@@ -65,7 +65,7 @@ public class DateUtilities {
 		calendar.set(Calendar.YEAR, Integer.valueOf(year));
 		calendar.set(Calendar.MONTH,Integer.valueOf(month) -1);
 		calendar.set(Calendar.DAY_OF_MONTH, Integer.valueOf(day));
-		calendar.set(Calendar.HOUR_OF_DAY, hour+1);
+		calendar.set(Calendar.HOUR_OF_DAY, hour);
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 		
