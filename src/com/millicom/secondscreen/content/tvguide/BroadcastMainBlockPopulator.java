@@ -162,7 +162,7 @@ public class BroadcastMainBlockPopulator {
 		}
 
 		if(broadcast.getChannel()!=null){
-			mImageLoader.displayImage(broadcast.getChannel().getLogoLUrl(), channelIv, ImageLoader.IMAGE_TYPE.THUMBNAIL);
+			mImageLoader.displayImage(broadcast.getChannel().getLogoSUrl(), channelIv, ImageLoader.IMAGE_TYPE.THUMBNAIL);
 		}
 
 
@@ -261,7 +261,7 @@ public class BroadcastMainBlockPopulator {
 						if (LikeService.addLike(mToken, mProgramId, mLikeType)) {
 							LikeService.showSetLikeToast(mActivity, mContentTitle);
 							
-							DazooStore.getInstance().getLikeIds().add(mProgramId);
+							DazooStore.getInstance().addLikeIdToList(mProgramId);
 							
 							mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
 
@@ -277,7 +277,7 @@ public class BroadcastMainBlockPopulator {
 						// likeDlg.showRemoveLikeDialog(mActivity, mToken, mLikeType, broadcast.getProgram().getProgramId(), yesLikeProc(), noLikeProc());
 						LikeService.removeLike(mToken, mProgramId, mLikeType);
 						
-						DazooStore.getInstance().getLikeIds().remove(mProgramId);
+						DazooStore.getInstance().deleteLikeIdFromList(mProgramId);
 						
 						mIsLiked = false;
 						mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));

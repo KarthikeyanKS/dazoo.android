@@ -116,8 +116,9 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_CHANNEL_ID								= "com.millicom.secondscreen.intent.extra.channel.id";
 	public static final String	INTENT_EXTRA_CHANNEL_GUIDE							= "com.millicom.secondscreen.intent.extra.channel.guide";
 	public static final String	INTENT_EXTRA_CHANNEL_SORTING						= "com.millicom.secondscreen.intent.extra.channel.sorting";
-	public static final String	INTENT_EXTRA_CHANNEL_SORTING_VALUE					= "com.millicom.secondscreen.intent.extra.channel.sorting";
+	public static final String	INTENT_EXTRA_CHANNEL_SORTING_VALUE					= "com.millicom.secondscreen.intent.extra.channel.sorting.value";
 	public static final String	INTENT_EXTRA_CHANNEL_CHOSEN_DATE					= "com.millicom.secondscreen.intent.extra.channel.chosen.date";
+	public static final String	INTENT_EXTRA_CHANNEL_LOGO_URL						= "com.millicom.secondscreen.intent.extra.channel.logo.url";
 	public static final String	INTENT_EXTRA_TVGUIDE_SORTING						= "com.millicom.secondscreen.intent.extra.tvguide.sorting";
 	public static final String	INTENT_EXTRA_TVGUIDE_SORTING_VALUE					= "com.millicom.secondscreen.intent.extra.tvguide.sorting.value";
 	public static final String	INTENT_EXTRA_TVGUIDE_SORTING_TYPE					= "com.millicom.secondscreen.intent.extra,tvguide.sorting.type";
@@ -157,6 +158,7 @@ public abstract class Consts {
 	public static final String	INTENT_ALARM_EXTRA_NOTIFICIATION_ID					= "com.millicom.secondscreen.intent.alarm.extra.notification.id";
 	public static final String	INTENT_ALARM_EXTRA_BROADCAST_NAME					= "com.millicom.secondscreen.intent.alarm.extra.broadcast.name";
 	public static final String	INTENT_ALARM_EXTRA_CHANNEL_NAME						= "com.millicom.secondscreen.intent.alarm.extra.channel.name";
+	public static final String	INTENT_ALARM_EXTRA_CHANNEL_LOGO_URL					= "com.millicom.secondscreen.intent.alarm.extra.channel.logo.url";
 	public static final String	INTENT_ALARM_EXTRA_DATE_DATE						= "com.millicom.secondscreen.intent.alarm.extra.date.date";
 	public static final String	INTENT_ALARM_EXTRA_BROADCAST_TIME					= "com.millicom.secondscreen.intent.alarm.extra.broadcast.time";
 
@@ -232,6 +234,7 @@ public abstract class Consts {
 	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_TAG					= "program_tag";
 	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_ID					= "channel_id";
 	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_NAME					= "channel_name";
+	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_LOGO_URL				= "channel_logo_url";
 	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_BEGINTIME			= "broadcast_begintime";
 	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_BEGINTIMEMILLIS	= "begin_time_millis";
 
