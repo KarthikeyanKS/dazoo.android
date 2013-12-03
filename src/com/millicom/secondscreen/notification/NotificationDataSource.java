@@ -69,6 +69,14 @@ public class NotificationDataSource {
 			return null;
 		}
 	}
+	
+	public int getNumberOfNotifications(){
+		String selectQuery = "SELECT * FROM " + Consts.NOTIFICATION_DB_TABLE_NOTIFICATIONS;
+
+		SQLiteDatabase database = dbHelper.getReadableDatabase();
+		Cursor cursor = database.rawQuery(selectQuery, null);
+		return cursor.getCount();
+	}
 
 	public List<NotificationDbItem> getAllNotifications() {
 		List<NotificationDbItem> notificationList = new ArrayList<NotificationDbItem>();
