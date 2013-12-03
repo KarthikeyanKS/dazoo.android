@@ -258,11 +258,12 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
-		case R.id.menu_search:
-			Intent toSearchPage = new Intent(ActivityActivity.this, SearchPageActivity.class);
-			startActivity(toSearchPage);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-			return true;
+		// hide search for beta release
+		//case R.id.menu_search:
+		//	Intent toSearchPage = new Intent(ActivityActivity.this, SearchPageActivity.class);
+		//	startActivity(toSearchPage);
+		//	overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+		//	return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}

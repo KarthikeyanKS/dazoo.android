@@ -13,6 +13,7 @@ import com.millicom.secondscreen.content.myprofile.LikesCountInterface;
 import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
 import com.millicom.secondscreen.content.tvguide.ChannelPageActivity;
 import com.millicom.secondscreen.like.LikeDialogHandler;
+import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.ImageLoader;
 
 import android.annotation.SuppressLint;
@@ -176,6 +177,10 @@ public class LikesListAdapter extends BaseAdapter {
 		return new Runnable() {
 			public void run() {
 				mLikes.remove(currentPosition);
+				
+				// remove like from the DazooStore
+				DazooStore.getInstance().getLikeIds().remove(currentPosition);
+				
 				mInterface.setCount(mLikes.size());
 				notifyDataSetChanged();
 			}

@@ -116,9 +116,8 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 			updateUI(REQUEST_STATUS.FAILED);
 		} else {
 			token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
-			if(mBroadcastPageUrl==null)
-				mBroadcastPageUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + mChannelId + Consts.NOTIFY_BROADCAST_URL_MIDDLE + mBeginTimeInMillis;
-			
+			if (mBroadcastPageUrl == null) mBroadcastPageUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + mChannelId + Consts.NOTIFY_BROADCAST_URL_MIDDLE + mBeginTimeInMillis;
+
 			if (!mIsFromActivity) {
 				if (!mIsFromNotification) {
 					if (token != null && TextUtils.isEmpty(token) != true) {
@@ -127,16 +126,16 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 						mBroadcast = dazooStore.getBroadcastFromMy(mTvDate, mChannelId, mBeginTimeInMillis);
 						mChannel = dazooStore.getChannelFromAll(mChannelId);
 
-						if (mChannel!=null){
-						mBroadcast.setChannel(mChannel);
-						} else {
-							Channel channel = new Channel();
-							channel.setChannelId(mChannelId);
-							mBroadcast.setChannel(channel);
-						}
-
 						if (mBroadcast != null) {
 							mIsBroadcast = true;
+
+							if (mChannel != null) {
+								mBroadcast.setChannel(mChannel);
+							} else {
+								Channel channel = new Channel();
+								channel.setChannelId(mChannelId);
+								mBroadcast.setChannel(channel);
+							}
 
 							if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(mBroadcast.getProgram().getProgramType())) {
 								getUpcomingSeriesBroadcasts(mBroadcast.getProgram().getSeries().getSeriesId());
@@ -149,7 +148,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 							updateUI(REQUEST_STATUS.SUCCESSFUL);
 						}
 					} else {
-						Log.d(TAG,"NOT LOGGED IN");
+						Log.d(TAG, "NOT LOGGED IN");
 						mChannel = dazooStore.getChannelFromDefault(mChannelId);
 						getIndividualBroadcast(mBroadcastPageUrl);
 					}
@@ -185,7 +184,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 					if (mChannel != null) {
 						mBroadcast.setChannel(mChannel);
 					} else {
-					// otherwise - just use the id that we got with the notification intent
+						// otherwise - just use the id that we got with the notification intent
 						Channel channel = new Channel();
 						channel.setChannelId(mChannelId);
 						mBroadcast.setChannel(channel);
