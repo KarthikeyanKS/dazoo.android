@@ -121,11 +121,20 @@ public class TVGuideListAdapter extends BaseAdapter {
 
 		if (broadcasts != null && broadcasts.size() > 0) {
 			/* get the nearest broadcasts */
+
 			mIndexOfNearestBroadcast = guide.getClosestBroadcastIndexFromTime(broadcasts, mHour, mDate);
 
 			if (mIndexOfNearestBroadcast != -1) {
 				ArrayList<Broadcast> nextBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, broadcasts, Consts.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
-
+			
+				// reset the viewholder to prevent the view to store the old info
+				holder.mLiveProgramNameTv.setText("");
+				holder.mLiveProgramTimeTv.setText("");
+				holder.mNextProgramNameTv.setText("");
+				holder.mNextProgramTimeTv.setText("");
+				holder.mLastProgramNameTv.setText("");
+				holder.mLastProgramTimeTv.setText("");
+				
 				for (int j = 0; j < nextBroadcasts.size(); j++) {
 					String programType = nextBroadcasts.get(j).getProgram().getProgramType();
 					String broadcastType = nextBroadcasts.get(j).getBroadcastType();

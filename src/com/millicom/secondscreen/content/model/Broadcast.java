@@ -179,7 +179,7 @@ public class Broadcast implements Parcelable {
 	}
 
 	public static int getClosestBroadcastIndexUsingTimeString(ArrayList<Broadcast> broadcastList, String timeNowString) {
-		int nearestIndex = 0;
+		int nearestIndex = -1;
 
 		long timeNow = 0;
 		try {
@@ -198,7 +198,7 @@ public class Broadcast implements Parcelable {
 			}
 
 			long d = Math.abs(timeNow - timeBroadcast);
-			if (d < bestDistanceFoundYet && timeBroadcast < timeNow) {
+			if (d < bestDistanceFoundYet && timeNow <= timeBroadcast) {
 				// if (d < bestDistanceFoundYet) {
 				nearestIndex = i;
 				bestDistanceFoundYet = d;
@@ -208,7 +208,7 @@ public class Broadcast implements Parcelable {
 	}
 
 	public static int getClosestBroadcastIndex(ArrayList<Broadcast> broadcastList) {
-		int nearestIndex = 0;
+		int nearestIndex = -1;
 
 		// get the time now
 		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
