@@ -71,8 +71,6 @@
         android:cacheColorHint="@null"
         android:divider="@android:color/transparent"
         android:dividerHeight="10dp"
-        android:visibility="gone"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp" />
+        android:visibility="gone" />
 
 </RelativeLayout>

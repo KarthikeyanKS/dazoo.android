@@ -48,6 +48,7 @@ public class BroadcastMainBlockPopulator {
 	private boolean					mIsSet			= false, mIsLiked = false, mIsLoggedIn = false, mIsFuture;
 	private int						mNotificationId	= -1;
 	private String					mToken, mProgramId, mLikeType, mTvDate, mContentTitle;
+	int 							duration = 0;
 
 	public BroadcastMainBlockPopulator(Activity activity, ScrollView containerView, String token, String tvDate) {
 		this.mActivity = activity;
@@ -134,19 +135,6 @@ public class BroadcastMainBlockPopulator {
 			mImageLoader.displayImage(program.getLandLUrl(), posterIv, posterPb, ImageLoader.IMAGE_TYPE.POSTER);
 		}
 
-		if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
-			extraTv.setText(program.getGenre() + " " + program.getYear());
-			extraTv.setVisibility(View.VISIBLE);
-		} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
-			extraTv.setText(program.getCategory());
-			extraTv.setVisibility(View.VISIBLE);
-		} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)){
-			Log.d(TAG,"" + program.getSportType().getName());
-			Log.d(TAG,"" + program.getSportType().getSportTypeId());
-			extraTv.setText(program.getSportType().getName());
-			extraTv.setVisibility(View.VISIBLE);
-		}
-
 		String beginTimeStr, endTimeStr;
 		long timeSinceBegin = 0;
 		long timeToEnd = 0;
@@ -169,7 +157,7 @@ public class BroadcastMainBlockPopulator {
 		// broadcast is currently on air: show progress
 		if (timeSinceBegin > 0 && timeToEnd < 0) {
 
-			int duration = 0;
+
 			try {
 				long startTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime());
 				long endTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTime());
@@ -211,15 +199,44 @@ public class BroadcastMainBlockPopulator {
 			}
 		}
 
-		synopsisTv.setText(program.getSynopsisShort());
+		synopsisTv.setText(program.getSynopsisLong());
 
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < program.getTags().size(); i++) {
-			sb.append(program.getTags().get(i));
-			sb.append(" ");
+		String extras = "";
+		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+			extras = mActivity.getResources().getString(R.string.tv_series) + " " +
+					((program.getYear() == 0) ? "" : String.valueOf(program.getYear()) + " ") + 
+					((duration == 0) ? "" : duration + " " + mActivity.getResources().getString(R.string.minutes)) + 
+					((program.getGenre() == null) ? "" : ("\n" + program.getGenre()));
+		} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
+			//TODO: Set the movie icon
+			String year = String.valueOf(program.getYear() + " ");
+			if (year.equals("0 ")) {
+				year = "";
+			}
+			extras = mActivity.getResources().getString(R.string.movie) + " " + 
+					((program.getYear() == 0) ? "" : String.valueOf(program.getYear()) + " ") + 
+					((duration == 0) ? "" : duration + " " + mActivity.getResources().getString(R.string.minutes)) +
+					((program.getGenre() == null) ? "" : ("\n" + program.getGenre()));
+		} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
+			extras = program.getCategory() + " " + 
+					((duration == 0) ? "" : duration + " " + mActivity.getResources().getString(R.string.minutes)) + " " + 
+					((program.getGenre() == null) ? "" : ("\n" + program.getGenre()));
+		} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
+			//TODO: Set live icon if live
+			extras = mActivity.getResources().getString(R.string.sport) + " " + program.getSportType().getName() + " " + 
+					((duration == 0) ? "" : duration + " " + mActivity.getResources().getString(R.string.minutes));
 		}
-
-		tagsTv.setText(sb.toString());
+		extraTv.setText(extras);
+		extraTv.setVisibility(View.VISIBLE);
+		
+//		StringBuilder sb = new StringBuilder();
+//		for (int i = 0; i < program.getTags().size(); i++) {
+//			sb.append(program.getTags().get(i));
+//			sb.append(" ");
+//		}
+//
+//		tagsTv.setText(sb.toString());
+//		tagsTv.setVisibility(View.VISIBLE);
 
 		if (!mIsFuture) {
 			NotificationDbItem dbItem = new NotificationDbItem();

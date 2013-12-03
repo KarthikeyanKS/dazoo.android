@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="10dp"
-    android:layout_marginTop="10dp"
     android:background="@color/white"
     android:orientation="vertical" >
 
@@ -107,7 +106,7 @@
                 android:layout_below="@id/block_popular_feed_details_channel_one_tv"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/grey1"
+                android:textColor="@color/grey2"
                 android:gravity="left" />
 
             <com.millicom.secondscreen.customviews.FontTextView
@@ -231,7 +230,7 @@
                 android:layout_below="@id/block_popular_feed_details_channel_two_tv"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/grey1"
+                android:textColor="@color/grey2"
                 android:gravity="left" />
 
             <com.millicom.secondscreen.customviews.FontTextView
@@ -355,7 +354,7 @@
                 android:layout_below="@id/block_popular_feed_details_channel_three_tv"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/grey1"
+                android:textColor="@color/grey2"
                 android:gravity="left" />
 
             <com.millicom.secondscreen.customviews.FontTextView
