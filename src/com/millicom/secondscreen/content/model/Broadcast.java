@@ -199,8 +199,8 @@ public class Broadcast implements Parcelable {
 			}
 
 			long d = Math.abs(timeNow - timeBroadcast);
-			 if (d < bestDistanceFoundYet && timeBroadcast < timeNow) {
-			//if (d < bestDistanceFoundYet) {
+			if (d < bestDistanceFoundYet && timeBroadcast < timeNow) {
+				// if (d < bestDistanceFoundYet) {
 				nearestIndex = i;
 				bestDistanceFoundYet = d;
 			}
@@ -210,29 +210,31 @@ public class Broadcast implements Parcelable {
 
 	public static int getClosestBroadcastIndexFromTime(ArrayList<Broadcast> broadcastList, int hour, TvDate date) {
 		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
-	
+
+		Log.d(TAG, "mHour: " + String.valueOf(hour));
+
 		String year = DateUtilities.tvDateToYearNumber(date.getDate());
 		String month = DateUtilities.tvDateToMonthNumber(date.getDate());
 		String day = DateUtilities.tvDateToDayNumber(date.getDate());
-		
+
 		// current "today" is set to the date, selected by the user
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.YEAR, Integer.valueOf(year));
-		calendar.set(Calendar.MONTH,Integer.valueOf(month) -1);
+		calendar.set(Calendar.MONTH, Integer.valueOf(month) - 1);
 		calendar.set(Calendar.DAY_OF_MONTH, Integer.valueOf(day));
-		calendar.set(Calendar.HOUR_OF_DAY, hour+1);
+		calendar.set(Calendar.HOUR_OF_DAY, hour);
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
-		
+
 		String timeNowStr = df.format(calendar.getTime());
-		
+
 		long timeNow = 0;
 		try {
 			timeNow = DateUtilities.isoStringToLong(timeNowStr);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		int nearestIndex = 0;
+		int nearestIndex = -1;
 		long bestDistanceFoundYet = Long.MAX_VALUE;
 		for (int i = 0; i < broadcastList.size(); i++) {
 			long timeBroadcast = 0;
@@ -243,13 +245,13 @@ public class Broadcast implements Parcelable {
 			}
 
 			long d = Math.abs(timeNow - timeBroadcast);
-			 if (d < bestDistanceFoundYet && timeBroadcast < timeNow) {
-			//if (d < bestDistanceFoundYet) {
+
+			if (d < bestDistanceFoundYet && timeNow <= timeBroadcast) {
 				nearestIndex = i;
 				bestDistanceFoundYet = d;
 			}
-		}   
-		
+		}
+
 		return nearestIndex;
 	}
 
