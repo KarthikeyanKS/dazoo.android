@@ -1,9 +1,17 @@
 package com.millicom.secondscreen.content.model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+
+import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.utilities.DateUtilities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 public class Guide implements Parcelable{
 
@@ -13,6 +21,9 @@ public class Guide implements Parcelable{
 	private String logoMHref;
 	private String logoLHref;
 	private ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
+	
+	/* Used for caching broadcast indexes */
+	private HashMap<String, Integer> broadcastIndexCache = new HashMap<String, Integer>();
 	
 	public Guide(){
 	}
@@ -109,5 +120,47 @@ public class Guide implements Parcelable{
 			return new Guide[size];
 		}
 	};
+	
+	public int getClosestBroadcastIndexFromTime(ArrayList<Broadcast> broadcastList, int hour, TvDate date) {
+		int nearestIndex = 0;
 
+		String timeNowString = DateUtilities.timeStringUsingTvDateAndHour(date, hour);
+	
+		nearestIndex = getBroadcastIndex(broadcastList, timeNowString);
+		
+		return nearestIndex;
+	}
+	
+	public int getClosestBroadcastIndex(ArrayList<Broadcast> broadcastList) {
+		int nearestIndex = 0;
+		
+		// get the time now
+		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
+		String timeNowString = df.format(new Date());
+		
+		nearestIndex = getBroadcastIndex(broadcastList, timeNowString);
+
+		return nearestIndex;
+	}
+	
+	public int getBroadcastIndex(ArrayList<Broadcast> broadcastList, String timeNowString) {
+		int nearestIndex = 0;
+		Integer nearestIndexObj = null;
+		if(broadcastIndexCache.containsKey(timeNowString)) {
+			nearestIndexObj = broadcastIndexCache.get(timeNowString);
+			if(nearestIndexObj != null) {
+				nearestIndex = nearestIndexObj.intValue();
+				Log.v("Guide: Broadcast index", "Cache hit!");
+			}
+		}
+		
+		if(nearestIndexObj == null) {
+			nearestIndex = Broadcast.getClosestBroadcastIndexUsingTimeString(broadcastList, timeNowString);
+			
+			broadcastIndexCache.put(timeNowString, Integer.valueOf(nearestIndex));
+			Log.v("Guide: Broadcast index", "Cache miss!");
+		}
+		
+		return nearestIndex;
+	}
 }
