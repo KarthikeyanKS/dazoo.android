@@ -53,6 +53,7 @@ public class TermsActivity extends SSActivity implements OnClickListener {
 	private void initLayout() {
 		mActionBar = getSupportActionBar();
 		mActionBar.setTitle(getResources().getString(R.string.terms_title));
+		mActionBar.setDisplayHomeAsUpEnabled(true);
 
 		// styling bottom navigation tabs
 		mTabSelectorContainerView = findViewById(R.id.tab_selector_container);
