@@ -12,14 +12,13 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@id/tab_selector_container"
-        android:background="@color/grey2"
         android:fillViewport="true"
         android:orientation="vertical" >
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/grey2"
+            android:background="@color/grey1"
             android:paddingBottom="10dp" >
 
             <com.millicom.secondscreen.customviews.FontTextView
@@ -31,7 +30,7 @@
                 android:layout_marginRight="30dp"
                 android:layout_marginTop="30dp"
                 android:text="@string/settings_about"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="20sp" />
 
             <!-- MENU CONTAINER -->
@@ -93,7 +92,7 @@
                 android:layout_below="@id/settings_menu_container"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="10dp"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
 
             <!-- LOGOUT BUTTON -->
@@ -107,7 +106,7 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/layout_rounded_corners_grey"
+                android:background="@drawable/layout_rounded_corners_blue"
                 android:padding="10dp"
                 android:text="@string/logout_from_dazoo"
                 android:textColor="@color/white"

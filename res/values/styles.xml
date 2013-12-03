@@ -25,7 +25,7 @@
         <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
         <item name="android:actionDropDownStyle">@style/ActionBarDropDown</item>
     </style>
-
+    
     <!-- ActionBar style -->
     <style name="ActionBarSpinnerHeaderStyle" parent="Widget.AppCompat.Light.Spinner.DropDown.ActionBar">
         <!-- item name="android:background">@drawable/custom_drop_down_list_indicator</item -->
@@ -34,6 +34,26 @@
     <style name="ActionBarDropDown" parent="Widget.AppCompat.Light.Spinner.DropDown.ActionBar">
         <item name="android:popupBackground">@color/grey1</item>
         <item name="android:dropDownSelector">@color/grey1</item>
+    </style>
+	
+    <!-- ACTIONBAR WITH BOLD WHITE TITLE -->
+    
+    <style name="WhiteTitleActionBar" parent="@style/Theme.AppCompat.Light">
+        <item name="android:actionBarStyle">@style/WhiteActionBar</item>
+
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/WhiteActionBar</item>
+    </style>
+    
+    <style name="WhiteActionBar" parent="@style/Widget.AppCompat.ActionBar">
+        <item name="android:titleTextStyle">@style/WhiteActionBarTitleText</item>
+        <!-- Support library compatibility -->
+        <item name="titleTextStyle">@style/WhiteActionBarTitleText</item>
+    </style>
+    
+    <style name="WhiteActionBarTitleText" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <!-- ViewPager Tabs -->

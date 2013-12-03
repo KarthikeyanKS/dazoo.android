@@ -6,7 +6,7 @@
     android:versionName="1.0.7" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="11"
         android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -46,7 +46,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light" />
+            android:theme="@style/WhiteTitleActionBar" />
 
         <!-- POPULAR CONTENT PAGE -->
         <activity
@@ -54,7 +54,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:parentActivityName="com.millicom.secondscreen.content.activity.ActivityActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light" >
+            android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.millicom.secondscreen.content.activity.ActivityActivity" />
@@ -66,7 +66,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light" />
+            android:theme="@style/WhiteTitleActionBar" />
 
         <!-- SEARCH PAGE -->
         <activity
@@ -81,7 +81,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:parentActivityName="com.millicom.secondscreen.content.myprofile.MyProfileActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light"
+            android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -94,7 +94,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:parentActivityName="com.millicom.secondscreen.content.myprofile.MyProfileActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light" >
+            android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.millicom.secondscreen.content.myprofile.MyProfileActivity" />
@@ -106,7 +106,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:parentActivityName="com.millicom.secondscreen.content.myprofile.MyProfileActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light" >
+            android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.millicom.secondscreen.content.myprofile.MyProfileActivity" />
@@ -118,7 +118,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:parentActivityName="com.millicom.secondscreen.content.myprofile.MyProfileActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light" >
+            android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.millicom.secondscreen.content.myprofile.MyProfileActivity" />
@@ -129,21 +129,21 @@
             android:name="com.millicom.secondscreen.content.myprofile.ContactActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light" />
+            android:theme="@style/WhiteTitleActionBar" />
 
         <!-- TERMS -->
         <activity
             android:name="com.millicom.secondscreen.content.myprofile.TermsActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light" />
+            android:theme="@style/WhiteTitleActionBar" />
 
         <!-- HELP -->
         <activity
             android:name="com.millicom.secondscreen.content.myprofile.HelpActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light" />
+            android:theme="@style/WhiteTitleActionBar" />
 
         <!-- BROADCAST PAGE -->
         <activity
@@ -152,7 +152,7 @@
             android:launchMode="singleTop"
             android:parentActivityName="com.millicom.secondscreen.content.homepage.HomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light" >
+            android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.millicom.secondscreen.content.homepage.HomeActivity" />
@@ -164,7 +164,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:parentActivityName="com.millicom.secondscreen.content.tvguide.BroadcastPageActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light" >
+            android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.millicom.secondscreen.content.tvguide.BroadcastPageActivity" />
@@ -176,7 +176,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:parentActivityName="com.millicom.secondscreen.content.tvguide.BroadcastPageActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light" >
+            android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.millicom.secondscreen.content.tvguide.BroadcastPageActivity" />
@@ -199,7 +199,7 @@
             android:name="com.millicom.secondscreen.authentication.SignInActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light"
+            android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" />
 
         <!-- SIGN UP -->
@@ -207,7 +207,7 @@
             android:name="com.millicom.secondscreen.authentication.SignUpActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light"
+            android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
              <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -220,7 +220,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:parentActivityName="com.millicom.secondscreen.content.homepage.HomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light"
+            android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -240,7 +240,7 @@
             android:name="com.millicom.secondscreen.authentication.ResetPasswordActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light"
+            android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" />
 
         <!-- PASSWORD RESET FINAL -->
@@ -248,7 +248,7 @@
             android:name="com.millicom.secondscreen.authentication.ResetPasswordFinalActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light"
+            android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" />
 
         <!-- FACEBOOK DAZOO ACCOUNT CREATED -->

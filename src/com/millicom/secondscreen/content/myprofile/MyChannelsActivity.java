@@ -58,14 +58,17 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.SparseBooleanArray;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 public class MyChannelsActivity extends SSActivity implements MyChannelsCountInterface, OnClickListener {
@@ -166,6 +169,12 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 			@Override
 			public void afterTextChanged(Editable s) {
 				String search = s.toString();
+				if (search.contains(System.getProperty("line.separator"))) {
+					search = search.replace(System.getProperty("line.separator"), "");
+					mSearchChannelInputEditText.setText(search);
+					InputMethodManager in = (InputMethodManager) getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
+					in.hideSoftInputFromWindow(mSearchChannelInputEditText.getApplicationWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+				}
 				if (search.length() > 0) {
 					mChannelInfoToDisplay.clear();
 					for (Map.Entry<String, Channel> entry : mChannelInfoMap.entrySet()) {
