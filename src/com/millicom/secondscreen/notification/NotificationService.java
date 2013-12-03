@@ -95,7 +95,7 @@ public class NotificationService {
 			alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
 			// for testing
-			//alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (1000), pendingIntent);
+			//alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (10000), pendingIntent);
 
 			NotificationDataSource notificationDataSource = new NotificationDataSource(context);
 
