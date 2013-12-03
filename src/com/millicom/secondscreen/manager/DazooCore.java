@@ -432,22 +432,43 @@ public class DazooCore {
 		mIsMyChannels = false;
 		mIsGuide = false;
 
-		mTvDates.clear();
-		mTvDates = new ArrayList<TvDate>();
-		mDefaultChannels.clear();
-		mDefaultChannels = new ArrayList<Channel>();
-		mAllChannels.clear();
-		mAllChannels = new ArrayList<Channel>();
-		mTags.clear();
-		mTags = new ArrayList<Tag>();
-		mGuides.clear();
-		mGuides = new ArrayList<Guide>();
-		mMyChannelsIds.clear();
-		mMyChannelsIds = new ArrayList<String>();
-		mAllChannelsIds.clear();
-		mAllChannelsIds = new ArrayList<String>();
-		mDefaultChannelsIds.clear();
-		mDefaultChannelsIds = new ArrayList<String>();
+		if (!mTvDates.isEmpty()) {
+			mTvDates.clear();
+			mTvDates = new ArrayList<TvDate>();
+		}
+		if (!mDefaultChannels.isEmpty()) {
+			mDefaultChannels.clear();
+			mDefaultChannels = new ArrayList<Channel>();
+		}
+		if (!mAllChannels.isEmpty()) {
+			mAllChannels.clear();
+			mAllChannels = new ArrayList<Channel>();
+		}
+
+		if (!mTags.isEmpty()) {
+			mTags.clear();
+			mTags = new ArrayList<Tag>();
+		}
+
+		if (!mGuides.isEmpty()) {
+			mGuides.clear();
+			mGuides = new ArrayList<Guide>();
+		}
+
+		if (!mMyChannelsIds.isEmpty()) {
+			mMyChannelsIds.clear();
+			mMyChannelsIds = new ArrayList<String>();
+		}
+
+		if (!mAllChannelsIds.isEmpty()) {
+			mAllChannelsIds.clear();
+			mAllChannelsIds = new ArrayList<String>();
+		}
+
+		if (!mDefaultChannelsIds.isEmpty()) {
+			mDefaultChannelsIds.clear();
+			mDefaultChannelsIds = new ArrayList<String>();
+		}
 
 	}
 }
