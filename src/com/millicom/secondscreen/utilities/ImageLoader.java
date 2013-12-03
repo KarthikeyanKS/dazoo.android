@@ -28,6 +28,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -217,8 +218,15 @@ public class ImageLoader {
 
 	// Decodes image and scales it to reduce memory consumption
 	private Bitmap decodeFile(File f) {
+		BitmapFactory.Options opts=new BitmapFactory.Options();
+		opts.inDither=false;                     //Disable Dithering mode
+		opts.inPurgeable=true;                   //Tell to gc that whether it needs free memory, the Bitmap can be cleared
+		opts.inInputShareable=true;              //Which kind of reference will be used to recover the Bitmap data after being clear, when it will be used in the future
+		opts.inTempStorage=new byte[32 * 1024]; 
+		
 		try {
-			return BitmapFactory.decodeStream(new FileInputStream(f));
+			//return BitmapFactory.decodeStream(new FileInputStream(f));
+			return BitmapFactory.decodeStream(new FileInputStream(f), null, opts);
 		} catch (FileNotFoundException e) {
 		}
 		return null;
