@@ -41,8 +41,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 
 	private static final String		TAG	= "BroadcastPageActivity";
 	private Broadcast				mBroadcast;
-	private String					mTvDate;
-
+	private String					mTvDate, mChannelLogoUrl;
 	private LinearLayout			mBlockContainer;
 	private ActionBar				mActionBar;
 	private Channel					mChannel;
@@ -73,12 +72,14 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		mIsFromNotification = intent.getBooleanExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, false);
 		mBroadcastPageUrl = intent.getStringExtra(Consts.INTENT_EXTRA_BROADCAST_URL);
 		mIsFromActivity = intent.getBooleanExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, false);
-
+		mChannelLogoUrl = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_LOGO_URL);
+		
 		Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		Log.d(TAG, "mBeginTimeInMillis: " + String.valueOf(mBeginTimeInMillis));
 		Log.d(TAG, "mChannelId: " + mChannelId);
 		Log.d(TAG, "mTvDate: " + mTvDate);
 		Log.d(TAG, "mBroadcastPageUrl: " + mBroadcastPageUrl);
+		Log.d(TAG,"mChannelLogoUrl" + mChannelLogoUrl);
 		Log.d(TAG, "FROM NOTIFICATION: " + mIsFromNotification);
 		Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
@@ -183,10 +184,15 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 					// if we have the data in the singleton about the channel - set it completely
 					if (mChannel != null) {
 						mBroadcast.setChannel(mChannel);
+						
 					} else {
 						// otherwise - just use the id that we got with the notification intent
 						Channel channel = new Channel();
 						channel.setChannelId(mChannelId);
+						if(mChannelLogoUrl!=null){
+							channel.setLogoSUrl(mChannelLogoUrl);
+						}
+						
 						mBroadcast.setChannel(channel);
 					}
 

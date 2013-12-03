@@ -25,6 +25,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 		String broadcastName = intent.getStringExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_NAME);
 		String channelId = intent.getStringExtra(Consts.INTENT_ALARM_EXTRA_CHANNELID);
 		String channelName = intent.getStringExtra(Consts.INTENT_ALARM_EXTRA_CHANNEL_NAME);
+		String channelLogo = intent.getStringExtra(Consts.INTENT_ALARM_EXTRA_CHANNEL_LOGO_URL);
 		String dateDate = intent.getStringExtra(Consts.INTENT_ALARM_EXTRA_DATE_DATE);
 		String broadcastTime = intent.getStringExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_TIME);
 		
@@ -37,6 +38,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 		
 		Log.d(TAG,"Notification id: " + String.valueOf(notificationId));
 		
-		NotificationService.showNotification(context, broadcastBeginTimeMillis, broadcastTime, broadcastName, channelId, channelName, dateDate, notificationId);
+		NotificationService.showNotification(context, broadcastBeginTimeMillis, broadcastTime, broadcastName, channelId, channelName, channelLogo, dateDate, notificationId);
 	}
 }

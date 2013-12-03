@@ -120,6 +120,7 @@ public class ActivityPopularBlockPopulator {
 				Intent intent = new Intent(mActivity, PopularPageActivity.class);
 				// ADD THE URL TO THE POPULAR LIST AS AN ARGUMENT?
 				mActivity.startActivity(intent);
+				mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			}
 		});
 

@@ -264,6 +264,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			dbItemTw = mNotificationDataSource.getNotification(feedItem.getBroadcast().getChannel().getChannelId(), feedItem.getBroadcast().getBeginTimeMillis());
 			if (dbItemTw.getNotificationId() != 0) {
 				mIsSet = true;
+				mNotificationId =  dbItemTw.getNotificationId();
 			} else {
 				mIsSet = false;
 			}
@@ -336,6 +337,16 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						e.printStackTrace();
 					}
 
+					NotificationDbItem item = mNotificationDataSource.getNotification(feedItem.getBroadcast().getChannel().getChannelId(), feedItem.getBroadcast().getBeginTimeMillis());
+					if (item.getNotificationId() != 0) {
+						mIsSet = true;
+						mNotificationId = item.getNotificationId();
+					} else {
+						mIsSet = false;
+					}
+					
+					Log.d(TAG,"Twitter: " + mIsSet);
+					
 					if (mIsSet == false) {
 						if (NotificationService.setAlarm(mActivity, feedItem.getBroadcast(), feedItem.getBroadcast().getChannel(), tvDate)) {
 							NotificationService.showSetNotificationToast(mActivity);
@@ -356,7 +367,10 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
 						}
 					} else {
+						
+						
 						if (mNotificationId != -1) {
+							Log.d(TAG,"mNotificationId: " + mNotificationId);
 							NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
 							notificationDlg.showRemoveNotificationDialog(mActivity, feedItem.getBroadcast(), mNotificationId, yesNotificationTwitterProc(), noNotificationProc());
 						} else {
@@ -504,12 +518,17 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 			NotificationDbItem dbItem = new NotificationDbItem();
 			dbItem = mNotificationDataSource.getNotification(feedItem.getBroadcast().getChannel().getChannelId(), feedItem.getBroadcast().getBeginTimeMillis());
+			Log.d(TAG,"uP: " + feedItem.getBroadcast().getChannel().getChannelId() + " " + feedItem.getBroadcast().getBeginTimeMillis());
 			if (dbItem.getNotificationId() != 0) {
+				Log.d(TAG,"dbItem: " + dbItem.getProgramTitle() + " " + dbItem.getNotificationId() );
+				mNotificationId = dbItem.getNotificationId();
 				mIsSet = true;
 			} else {
 				mIsSet = false;
 			}
 
+			Log.d(TAG,"lIKE UP IS SET: " + mIsSet);
+			
 			if (mIsSet) remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 			else remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 
@@ -535,7 +554,6 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					}
 
 					if (mIsLiked == false) {
-						// TODO: OPTIMIZATION ON WHEN THE BACKEND TO ADD/DELETE LIKE IS LAUNCHED
 						if (LikeService.addLike(mToken, programId, likeType)) {
 							DazooStore.getInstance().addLikeIdToList(programId);
 
@@ -572,6 +590,23 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 				@Override
 				public void onClick(View v) {
+					
+					NotificationDbItem dbItem = new NotificationDbItem();
+					
+					
+					dbItem = mNotificationDataSource.getNotification(feedItem.getBroadcast().getChannel().getChannelId(), feedItem.getBroadcast().getBeginTimeMillis());
+					Log.d(TAG,"DOWN: " + feedItem.getBroadcast().getChannel().getChannelId() + " " + feedItem.getBroadcast().getBeginTimeMillis());
+					
+					if (dbItem.getNotificationId() != 0) {
+						Log.d(TAG,"dbItem: " + dbItem.getProgramTitle() + " " + dbItem.getNotificationId() );
+						mNotificationId = dbItem.getNotificationId();
+						mIsSet = true;
+					} else {
+						mIsSet = false;
+					}
+					
+					Log.d(TAG,"lIKED REMIND: " + mIsSet);
+					
 					String tvDate = "";
 					try {
 						tvDate = DateUtilities.isoDateStringToTvDateString(feedItem.getBroadcast().getBeginTime());
@@ -584,13 +619,16 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							NotificationService.showSetNotificationToast(mActivity);
 							remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
-							NotificationDbItem dbItem = new NotificationDbItem();
+							NotificationDbItem dbItemRemind= new NotificationDbItem();
 							Log.d(TAG, "feedItem.getBroadcast().getChannel().getChannelId()" + feedItem.getBroadcast().getChannel().getChannelId());
 							Log.d(TAG, "feedItem.getBroadcast().getBeginTimeMillis()" + feedItem.getBroadcast().getBeginTimeMillis());
 
-							dbItem = mNotificationDataSource.getNotification(feedItem.getBroadcast().getChannel().getChannelId(), feedItem.getBroadcast().getBeginTimeMillis());
-
-							mNotificationId = dbItem.getNotificationId();
+							dbItemRemind = mNotificationDataSource.getNotification(feedItem.getBroadcast().getChannel().getChannelId(), feedItem.getBroadcast().getBeginTimeMillis());
+							Log.d(TAG,"db Item: " + dbItemRemind.getNotificationId() + " " + dbItemRemind.getBroadcastTimeInMillis() + " " + dbItemRemind.getChannelId()
+									+ " " + dbItemRemind.getProgramTitle() );
+							
+							
+							mNotificationId = dbItemRemind.getNotificationId();
 
 							AnimationUtilities.animationSet(remindLikeIv);
 
@@ -748,6 +786,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			dbItemBroadcast = mNotificationDataSource.getNotification(feedItem.getBroadcast().getChannel().getChannelId(), feedItem.getBroadcast().getBeginTimeMillis());
 			if (dbItemBroadcast.getNotificationId() != 0) {
 				mIsSet = true;
+				mNotificationId = dbItemBroadcast.getNotificationId(); 
 			} else {
 				mIsSet = false;
 			}
@@ -1220,6 +1259,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		return new Runnable() {
 			public void run() {
 				remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
+				Log.d(TAG,"SET IMAGE DEFAULT");
 				mIsSet = false;
 			}
 		};
@@ -1229,6 +1269,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		return new Runnable() {
 			public void run() {
 				remindRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
+				Log.d(TAG,"SET IMAGE DEFAULT");
 				mIsSet = false;
 			}
 		};

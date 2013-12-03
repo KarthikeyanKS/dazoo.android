@@ -12,6 +12,7 @@ public class NotificationDbItem {
 	private String programTag;
 	private String channelId;
 	private String channelName;
+	private String channelLogoUrl;
 	private String broadcastBeginTime;
 	private String broadcastBeginTimeMillis;
 	
@@ -101,6 +102,14 @@ public class NotificationDbItem {
 	
 	public String getChannelName(){
 		return this.channelName;
+	}
+	
+	public void setChannelLogoUrl(String channelLogoUrl){
+		this.channelLogoUrl = channelLogoUrl;
+	}
+	
+	public String getChannelLogoUrl(){
+		return this.channelLogoUrl;
 	}
 	
 	public void setBroadcastBeginTime(String broadcastBeginTime){

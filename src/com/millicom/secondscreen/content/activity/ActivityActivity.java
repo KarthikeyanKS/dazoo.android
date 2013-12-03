@@ -137,7 +137,9 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		mActionBar.setDisplayShowCustomEnabled(true);
 		mActionBar.setDisplayUseLogoEnabled(true);
 		mActionBar.setDisplayShowHomeEnabled(true);
+		
 		mActionBar.setTitle(getResources().getString(R.string.activity_title));
+		
 	}
 
 	private void initFeedViews() {
