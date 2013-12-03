@@ -781,14 +781,16 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 				}
 			});
-
+			
 			NotificationDbItem dbItemBroadcast = new NotificationDbItem();
 			dbItemBroadcast = mNotificationDataSource.getNotification(feedItem.getBroadcast().getChannel().getChannelId(), feedItem.getBroadcast().getBeginTimeMillis());
 			if (dbItemBroadcast.getNotificationId() != 0) {
 				mIsSet = true;
 				mNotificationId = dbItemBroadcast.getNotificationId(); 
+				Log.d(TAG,"Recommended: " + mIsSet + " " + mNotificationId);
 			} else {
 				mIsSet = false;
+				Log.d(TAG,"Recommended: " + mIsSet);
 			}
 
 			if (mIsSet) remindRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
@@ -855,6 +857,17 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						tvDate = DateUtilities.isoDateStringToTvDateString(feedItem.getBroadcast().getBeginTime());
 					} catch (ParseException e) {
 						e.printStackTrace();
+					}
+					
+					NotificationDbItem dbItemBroadcast = new NotificationDbItem();
+					dbItemBroadcast = mNotificationDataSource.getNotification(feedItem.getBroadcast().getChannel().getChannelId(), feedItem.getBroadcast().getBeginTimeMillis());
+					if (dbItemBroadcast.getNotificationId() != 0) {
+						mIsSet = true;
+						mNotificationId = dbItemBroadcast.getNotificationId(); 
+						Log.d(TAG,"Recommended down: " + mIsSet + " " + mNotificationId);
+					} else {
+						mIsSet = false;
+						Log.d(TAG,"Recommended down: " + mIsSet);
 					}
 
 					if (mIsSet == false) {

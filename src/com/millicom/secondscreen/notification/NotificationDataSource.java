@@ -75,7 +75,9 @@ public class NotificationDataSource {
 
 		SQLiteDatabase database = dbHelper.getReadableDatabase();
 		Cursor cursor = database.rawQuery(selectQuery, null);
-		return cursor.getCount();
+		int count = cursor.getCount();
+		cursor.close();
+		return count;
 	}
 
 	public List<NotificationDbItem> getAllNotifications() {
@@ -90,6 +92,7 @@ public class NotificationDataSource {
 				notificationList.add(notification);
 			} while (cursor.moveToNext());
 		}
+		cursor.close();
 
 		return notificationList;
 	}
