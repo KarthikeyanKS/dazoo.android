@@ -1,9 +1,11 @@
 package com.millicom.secondscreen.adapters;
 
 import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,17 +71,22 @@ public class TVGuideListAdapter extends BaseAdapter {
 			viewHolder.mProgressBar = (ProgressBar) rowView.findViewById(R.id.tvguide_channel_progressbar);
 			// viewHolder.mBroadcastItemLl = (LinearLayout) rowView.findViewById(R.id.tvguide_program_list_container);
 
-			// viewHolder.mLiveProgramContainer = (RelativeLayout) rowView.findViewById(R.id.tvguide_program_line_live_container);
-			viewHolder.mLiveProgramNameTv = (TextView) rowView.findViewById(R.id.tvguide_program_line_live_name_tv);
-			viewHolder.mLiveProgramTimeTv = (TextView) rowView.findViewById(R.id.tvguide_program_line_live_time_tv);
-
-			// viewHolder.mNextProgramContainer = (RelativeLayout) rowView.findViewById(R.id.tvguide_program_line_next_container);
-			viewHolder.mNextProgramNameTv = (TextView) rowView.findViewById(R.id.tvguide_program_line_next_name_tv);
-			viewHolder.mNextProgramTimeTv = (TextView) rowView.findViewById(R.id.tvguide_program_line_next_time_tv);
-
-			// viewHolder.mLastProgramContainer = (RelativeLayout) rowView.findViewById(R.id.tvguide_program_line_last_container);
-			viewHolder.mLastProgramNameTv = (TextView) rowView.findViewById(R.id.tvguide_program_line_last_name_tv);
-			viewHolder.mLastProgramTimeTv = (TextView) rowView.findViewById(R.id.tvguide_program_line_last_time_tv);
+			View container;
+			
+			container = rowView.findViewById(R.id.tvguide_program_line_live_container);
+			// viewHolder.mLiveProgramContainer = (RelativeLayout) container;
+			viewHolder.mLiveProgramTimeTv = (TextView) container.findViewById(R.id.tvguide_program_line_time_tv);
+			viewHolder.mLiveProgramNameTv = (TextView) container.findViewById(R.id.tvguide_program_line_name_tv);
+			
+			container = rowView.findViewById(R.id.tvguide_program_line_next_container);
+			// viewHolder.mNextProgramContainer = (RelativeLayout) container;
+			viewHolder.mNextProgramTimeTv = (TextView) container.findViewById(R.id.tvguide_program_line_time_tv);
+			viewHolder.mNextProgramNameTv = (TextView) container.findViewById(R.id.tvguide_program_line_name_tv);
+			
+			container = rowView.findViewById(R.id.tvguide_program_line_last_container);
+			// viewHolder.mLastProgramContainer = (RelativeLayout) container;
+			viewHolder.mLastProgramTimeTv = (TextView) container.findViewById(R.id.tvguide_program_line_time_tv);
+			viewHolder.mLastProgramNameTv = (TextView) container.findViewById(R.id.tvguide_program_line_name_tv);
 
 			rowView.setTag(viewHolder);
 		}
@@ -193,6 +200,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 			holder.mLastProgramNameTv.setText("");
 			holder.mLastProgramTimeTv.setText("");
 		}
+		
 		return rowView;
 	}
 

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.millicom.secondscreen.customviews.FontTextView
+        android:id="@+id/tvguide_program_line_time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_gravity="left"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="3dp"
+        android:singleLine="true"
+        android:textColor="@color/grey3"
+        android:textSize="@dimen/header_3"
+        font:fonttextview="fontello.ttf" />
+
+    <com.millicom.secondscreen.customviews.FontTextView
+        android:id="@+id/tvguide_program_line_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="3dp"
+        android:layout_toRightOf="@id/tvguide_program_line_time_tv"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@color/grey3"
+        android:textSize="@dimen/header_3"
+        font:fonttextview="fontello.ttf" />
+</RelativeLayout>

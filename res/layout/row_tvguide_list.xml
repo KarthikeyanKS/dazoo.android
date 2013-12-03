@@ -44,116 +44,27 @@
             android:orientation="vertical" >
 
             <!-- LIVE NOW -->
-
-            <RelativeLayout
+            <include
                 android:id="@+id/tvguide_program_line_live_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                layout="@layout/element_tvguide_broadcast" />
 
-                <com.millicom.secondscreen.customviews.FontTextView
-                    android:id="@+id/tvguide_program_line_live_time_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_gravity="left"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:singleLine="true"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/header_3"
-                    android:textStyle="bold"
-                    font:fonttextview="fontello.ttf" />
-
-                <com.millicom.secondscreen.customviews.FontTextView
-                    android:id="@+id/tvguide_program_line_live_name_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_toRightOf="@id/tvguide_program_line_live_time_tv"
-                    android:singleLine="true"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/header_3"
-                    android:textStyle="bold"
-                    font:fonttextview="fontello.ttf" />
-            </RelativeLayout>
-
-            <!-- NEXT 1 -->
-
-            <RelativeLayout
+            <!-- NEXT -->
+            <include
                 android:id="@+id/tvguide_program_line_next_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tvguide_program_line_live_container" >
-
-                <com.millicom.secondscreen.customviews.FontTextView
-                    android:id="@+id/tvguide_program_line_next_time_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_gravity="left"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="3dp"
-                    android:singleLine="true"
-                    android:textColor="@color/grey3"
-                    android:textSize="@dimen/header_3"
-                    font:fonttextview="fontello.ttf" />
-
-                <com.millicom.secondscreen.customviews.FontTextView
-                    android:id="@+id/tvguide_program_line_next_name_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_toRightOf="@id/tvguide_program_line_next_time_tv"
-                    android:singleLine="true"
-                    android:textColor="@color/grey3"
-                    android:textSize="@dimen/header_3"
-                    font:fonttextview="fontello.ttf" />
-            </RelativeLayout>
+                android:layout_below="@id/tvguide_program_line_live_container"
+                layout="@layout/element_tvguide_broadcast" />
 
             <!-- LAST -->
-
-            <RelativeLayout
+            <include
                 android:id="@+id/tvguide_program_line_last_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tvguide_program_line_next_container" >
-
-                <com.millicom.secondscreen.customviews.FontTextView
-                    android:id="@+id/tvguide_program_line_last_time_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_gravity="left"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="3dp"
-                    android:singleLine="true"
-                    android:textColor="@color/grey3"
-                    android:textSize="@dimen/header_3"
-                    font:fonttextview="fontello.ttf" />
-
-                <com.millicom.secondscreen.customviews.FontTextView
-                    android:id="@+id/tvguide_program_line_last_name_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_toRightOf="@id/tvguide_program_line_last_time_tv"
-                    android:singleLine="true"
-                    android:textColor="@color/grey3"
-                    android:textSize="@dimen/header_3"
-                    font:fonttextview="fontello.ttf" />
-            </RelativeLayout>
+                android:layout_below="@id/tvguide_program_line_next_container"
+                layout="@layout/element_tvguide_broadcast" />
         </RelativeLayout>
     </LinearLayout>
 
