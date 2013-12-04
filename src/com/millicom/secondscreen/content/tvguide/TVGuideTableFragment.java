@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.millicom.secondscreen.Consts;
@@ -45,6 +46,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 	private ListView				mTVGuideListView;
 	private ImageView				mClockIv;
 	private LinearLayout			mClockIndexView;
+	//private ScrollView mClockIndexView;
 	private ArrayList<Guide>		mGuides;
 	private TvDate					mTvDate;
 	private Tag						mTag;
@@ -109,6 +111,8 @@ public class TVGuideTableFragment extends SSPageFragment {
 			mRootView = inflater.inflate(R.layout.fragment_tvguide_table, null);
 			mTVGuideListView = (ListView) mRootView.findViewById(R.id.tvguide_table_listview);
 			mClockIndexView = (LinearLayout) mRootView.findViewById(R.id.tvguide_table_side_clock_index);
+			//mClockIndexView = (ScrollView) mRootView.findViewById(R.id.tvguide_table_side_clock_index);
+			
 			mClockIv = (ImageView) mRootView.findViewById(R.id.tvguide_table_side_clock_iv);
 			mClockIv.setOnTouchListener(vTouch);
 
@@ -267,6 +271,10 @@ public class TVGuideTableFragment extends SSPageFragment {
 			mCurrentHourTv.setTextColor(getActivity().getResources().getColor(R.color.grey3));
 			mCurrentHourTv.setTextSize(12);
 			mCurrentHourTv.setTypeface(Typeface.DEFAULT);
+			LinearLayout.LayoutParams p = (LayoutParams) mCurrentHourTv.getLayoutParams();
+			p.setMargins(0, 0, 0, 0);
+			p.height = 16;
+			mCurrentHourTv.setLayoutParams(p);
 			mCurrentHourTv.setBackgroundColor(getResources().getColor(R.color.white));
 		}
 
