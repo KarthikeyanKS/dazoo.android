@@ -332,16 +332,19 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intentHome);
+			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
 		case R.id.show_activity:
 			// tab to activity page
 			Intent intentActivity = new Intent(ChannelPageActivity.this, ActivityActivity.class);
 			startActivity(intentActivity);
+			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
 		case R.id.show_me:
 			// tab to activity page
 			Intent intentMe = new Intent(ChannelPageActivity.this, MyProfileActivity.class);
 			startActivity(intentMe);
+			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
 		}
 	}

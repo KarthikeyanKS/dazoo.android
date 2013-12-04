@@ -395,11 +395,13 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			// tab to activity page
 			Intent intentActivity = new Intent(HomeActivity.this, ActivityActivity.class);
 			startActivity(intentActivity);
+			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
 		case R.id.show_me:
 			// tab to activity page
 			Intent intentMe = new Intent(HomeActivity.this, MyProfileActivity.class);
 			startActivity(intentMe);
+			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
 		}
 	}

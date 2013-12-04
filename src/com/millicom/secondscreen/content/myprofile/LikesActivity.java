@@ -110,11 +110,13 @@ public class LikesActivity extends SSActivity implements LikesCountInterface, On
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intentHome);
+			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
 		case R.id.show_activity:
 			// tab to home page
 			Intent intentActivity = new Intent(LikesActivity.this, ActivityActivity.class);
 			startActivity(intentActivity);
+			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
 		case R.id.show_me:
 			Intent returnIntent = new Intent();
@@ -123,6 +125,7 @@ public class LikesActivity extends SSActivity implements LikesCountInterface, On
 				returnIntent.putExtra(Consts.INFO_UPDATE_LIKES_NUMBER, mCount);
 			}
 			finish();
+			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
 		}
 	}

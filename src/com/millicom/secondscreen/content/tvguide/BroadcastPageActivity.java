@@ -271,16 +271,19 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intentHome);
+			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
 		case R.id.show_activity:
 			// tab to activity page
 			Intent intentActivity = new Intent(BroadcastPageActivity.this, ActivityActivity.class);
 			startActivity(intentActivity);
+			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
 		case R.id.show_me:
 			// tab to activity page
 			Intent intentMe = new Intent(BroadcastPageActivity.this, MyProfileActivity.class);
 			startActivity(intentMe);
+			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
 		}
 	}

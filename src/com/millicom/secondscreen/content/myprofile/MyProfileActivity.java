@@ -254,11 +254,13 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intentHome);
+			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
 		case R.id.show_activity:
 			// tab to activity page
 			Intent intentMe = new Intent(MyProfileActivity.this, ActivityActivity.class);
 			startActivity(intentMe);
+			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
 		case R.id.show_me:
 			// we are here: do nothing

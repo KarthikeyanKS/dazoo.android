@@ -294,6 +294,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intentHome);
+			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
 		case R.id.show_activity:
 			// we are here: do nothing
@@ -302,6 +303,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			// tab to activity page
 			Intent intentMe = new Intent(ActivityActivity.this, MyProfileActivity.class);
 			startActivity(intentMe);
+			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
 		case R.id.activity_not_logged_in_btn:
 			Intent intentSignIn = new Intent(ActivityActivity.this, SignInActivity.class);

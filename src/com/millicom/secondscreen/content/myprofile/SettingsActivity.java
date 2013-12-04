@@ -172,17 +172,20 @@ public class SettingsActivity extends SSActivity implements OnClickListener {
 			// tab to home page
 			Intent intentHome = new Intent(SettingsActivity.this, HomeActivity.class);
 			startActivity(intentHome);
+			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
 		case R.id.show_activity:
 			// tab to home page
 			Intent intentActivity = new Intent(SettingsActivity.this, ActivityActivity.class);
 			startActivity(intentActivity);
+			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
 		case R.id.show_me:
 			Intent returnIntent = new Intent();
 			if (mIsChange == true) {
 				setResult(Consts.INFO_UPDATE_LOGOUT, returnIntent);
 			}
+			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			finish();
 			break;
 		}
