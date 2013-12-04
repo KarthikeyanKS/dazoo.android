@@ -29,6 +29,8 @@ import com.millicom.secondscreen.content.SSActivity;
 import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.search.SearchPageActivity;
+import com.millicom.secondscreen.notification.NotificationDataSource;
+import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.ImageLoader;
 
 public class MyProfileActivity extends SSActivity implements OnClickListener {
@@ -141,13 +143,20 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 		mRemindersTextView.setText(getResources().getString(R.string.icon_clock) + " " + getResources().getString(R.string.reminders));
 		mSettingsTextView.setText(getResources().getString(R.string.icon_settings) + " " + getResources().getString(R.string.settings));
 
+		NotificationDataSource notificationDataSource = new NotificationDataSource(this);
+		mRemindersCountTextView.setText("(" + String.valueOf(notificationDataSource.getNumberOfNotifications()) + ")");
+	
+		
 		if (mIsLoggedIn) {
 			if (userAvatarUrl != null && TextUtils.isEmpty(userAvatarUrl) != true) {
 				mImageLoader.displayImage(userAvatarUrl, mAvatarImageView, ImageLoader.IMAGE_TYPE.THUMBNAIL);
 			}
-
+	
 			mLikesTextView.setText(getResources().getString(R.string.icon_heart) + " " + getResources().getString(R.string.likes));
+			mLikesCountTextView.setText("(" + String.valueOf(DazooStore.getInstance().getLikeIds().size()) + ")");
+			
 			mMyChannelsTextView.setText(getResources().getString(R.string.icon_blocks) + " " + getResources().getString(R.string.my_channels));
+			mMyChannelsCountTextView.setText("(" + String.valueOf(DazooStore.getInstance().getMyChannelIds().size()) + ")");
 
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 				if (userFirstName != null && userLastName != null && userFirstName.isEmpty() != true && userLastName.isEmpty() != true) {
@@ -176,11 +185,12 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
-		case R.id.menu_search:
-			Intent toSearchPage = new Intent(MyProfileActivity.this, SearchPageActivity.class);
-			startActivity(toSearchPage);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-			return true;
+		// hide search for beta release
+		//case R.id.menu_search:
+		//	Intent toSearchPage = new Intent(MyProfileActivity.this, SearchPageActivity.class);
+		//	startActivity(toSearchPage);
+		//	overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+		//	return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}

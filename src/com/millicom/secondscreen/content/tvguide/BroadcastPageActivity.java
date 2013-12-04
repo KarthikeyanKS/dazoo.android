@@ -41,8 +41,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 
 	private static final String		TAG	= "BroadcastPageActivity";
 	private Broadcast				mBroadcast;
-	private String					mTvDate;
-
+	private String					mTvDate, mChannelLogoUrl;
 	private LinearLayout			mBlockContainer;
 	private ActionBar				mActionBar;
 	private Channel					mChannel;
@@ -73,12 +72,14 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		mIsFromNotification = intent.getBooleanExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, false);
 		mBroadcastPageUrl = intent.getStringExtra(Consts.INTENT_EXTRA_BROADCAST_URL);
 		mIsFromActivity = intent.getBooleanExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, false);
-
+		mChannelLogoUrl = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_LOGO_URL);
+		
 		Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		Log.d(TAG, "mBeginTimeInMillis: " + String.valueOf(mBeginTimeInMillis));
 		Log.d(TAG, "mChannelId: " + mChannelId);
 		Log.d(TAG, "mTvDate: " + mTvDate);
 		Log.d(TAG, "mBroadcastPageUrl: " + mBroadcastPageUrl);
+		Log.d(TAG,"mChannelLogoUrl" + mChannelLogoUrl);
 		Log.d(TAG, "FROM NOTIFICATION: " + mIsFromNotification);
 		Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
@@ -116,9 +117,8 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 			updateUI(REQUEST_STATUS.FAILED);
 		} else {
 			token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
-			if(mBroadcastPageUrl==null)
-				mBroadcastPageUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + mChannelId + Consts.NOTIFY_BROADCAST_URL_MIDDLE + mBeginTimeInMillis;
-			
+			if (mBroadcastPageUrl == null) mBroadcastPageUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + mChannelId + Consts.NOTIFY_BROADCAST_URL_MIDDLE + mBeginTimeInMillis;
+
 			if (!mIsFromActivity) {
 				if (!mIsFromNotification) {
 					if (token != null && TextUtils.isEmpty(token) != true) {
@@ -127,16 +127,16 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 						mBroadcast = dazooStore.getBroadcastFromMy(mTvDate, mChannelId, mBeginTimeInMillis);
 						mChannel = dazooStore.getChannelFromAll(mChannelId);
 
-						if (mChannel!=null){
-						mBroadcast.setChannel(mChannel);
-						} else {
-							Channel channel = new Channel();
-							channel.setChannelId(mChannelId);
-							mBroadcast.setChannel(channel);
-						}
-
 						if (mBroadcast != null) {
 							mIsBroadcast = true;
+
+							if (mChannel != null) {
+								mBroadcast.setChannel(mChannel);
+							} else {
+								Channel channel = new Channel();
+								channel.setChannelId(mChannelId);
+								mBroadcast.setChannel(channel);
+							}
 
 							if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(mBroadcast.getProgram().getProgramType())) {
 								getUpcomingSeriesBroadcasts(mBroadcast.getProgram().getSeries().getSeriesId());
@@ -149,7 +149,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 							updateUI(REQUEST_STATUS.SUCCESSFUL);
 						}
 					} else {
-						Log.d(TAG,"NOT LOGGED IN");
+						Log.d(TAG, "NOT LOGGED IN");
 						mChannel = dazooStore.getChannelFromDefault(mChannelId);
 						getIndividualBroadcast(mBroadcastPageUrl);
 					}
@@ -184,10 +184,15 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 					// if we have the data in the singleton about the channel - set it completely
 					if (mChannel != null) {
 						mBroadcast.setChannel(mChannel);
+						
 					} else {
-					// otherwise - just use the id that we got with the notification intent
+						// otherwise - just use the id that we got with the notification intent
 						Channel channel = new Channel();
 						channel.setChannelId(mChannelId);
+						if(mChannelLogoUrl!=null){
+							channel.setLogoSUrl(mChannelLogoUrl);
+						}
+						
 						mBroadcast.setChannel(channel);
 					}
 

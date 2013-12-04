@@ -104,7 +104,7 @@ public class BroadcastMainBlockPopulator {
 
 		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 			mProgramId = broadcast.getProgram().getSeries().getSeriesId();
-			mContentTitle = broadcast.getProgram().getTitle();
+			mContentTitle = broadcast.getProgram().getSeries().getName();
 			seasonTv.setText(mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " ");
 			seasonTv.setVisibility(View.VISIBLE);
 
@@ -150,7 +150,7 @@ public class BroadcastMainBlockPopulator {
 		}
 
 		if(broadcast.getChannel()!=null){
-			mImageLoader.displayImage(broadcast.getChannel().getLogoLUrl(), channelIv, ImageLoader.IMAGE_TYPE.THUMBNAIL);
+			mImageLoader.displayImage(broadcast.getChannel().getLogoSUrl(), channelIv, ImageLoader.IMAGE_TYPE.THUMBNAIL);
 		}
 
 
@@ -277,6 +277,9 @@ public class BroadcastMainBlockPopulator {
 					if (mIsLiked == false) {
 						if (LikeService.addLike(mToken, mProgramId, mLikeType)) {
 							LikeService.showSetLikeToast(mActivity, mContentTitle);
+							
+							DazooStore.getInstance().addLikeIdToList(mProgramId);
+							
 							mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
 
 							AnimationUtilities.animationSet(mLikeIv);
@@ -290,6 +293,9 @@ public class BroadcastMainBlockPopulator {
 						// LikeDialogHandler likeDlg = new LikeDialogHandler();
 						// likeDlg.showRemoveLikeDialog(mActivity, mToken, mLikeType, broadcast.getProgram().getProgramId(), yesLikeProc(), noLikeProc());
 						LikeService.removeLike(mToken, mProgramId, mLikeType);
+						
+						DazooStore.getInstance().deleteLikeIdFromList(mProgramId);
+						
 						mIsLiked = false;
 						mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
 					}
@@ -352,7 +358,6 @@ public class BroadcastMainBlockPopulator {
 		return new Runnable() {
 			public void run() {
 				Intent intent = new Intent(mActivity, SignInActivity.class);
-				// Intent intent = new Intent(BroadcastPageActivity.this, LoginActivity.class);
 				mActivity.startActivity(intent);
 				mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			}

@@ -58,6 +58,8 @@ public class NotificationDialogHandler {
 			public void onClick(View v) {
 				// remove the reminder
 				answerYes.run();
+				Log.d(TAG,"notificationId: " + notificationId);
+				
 				NotificationService.removeNotification(context, notificationId);
 				dialog.dismiss();
 			}

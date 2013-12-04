@@ -13,6 +13,7 @@ import android.text.format.DateUtils;
 import android.util.Log;
 
 import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.content.model.TvDate;
 
 public class DateUtilities {
 
@@ -50,6 +51,27 @@ public class DateUtilities {
 		
 		String output = dfmOutput.format(time);
 		return output;
+	}
+	
+	public static String timeStringUsingTvDateAndHour(TvDate date, int hour) {
+		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
+		
+		String year = DateUtilities.tvDateToYearNumber(date.getDate());
+		String month = DateUtilities.tvDateToMonthNumber(date.getDate());
+		String day = DateUtilities.tvDateToDayNumber(date.getDate());
+		
+		// current "today" is set to the date, selected by the user
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.YEAR, Integer.valueOf(year));
+		calendar.set(Calendar.MONTH,Integer.valueOf(month) -1);
+		calendar.set(Calendar.DAY_OF_MONTH, Integer.valueOf(day));
+		calendar.set(Calendar.HOUR_OF_DAY, hour);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		
+		String timeNowStr = df.format(calendar.getTime());
+		
+		return timeNowStr;
 	}
 	
 	public static final String tvDateToDayNumber(String tvDate){

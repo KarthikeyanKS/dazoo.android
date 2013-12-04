@@ -221,6 +221,14 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			DazooCore.getGuide(mDateSelectedIndex, false);
 			mStateChanged = false;
 		}
+		else {
+			Log.d(TAG,"We have resumed!");
+			if (!NetworkUtils.checkConnection(this)) {
+				updateUI(REQUEST_STATUS.FAILED);
+			} else {
+				reloadPage();
+			}
+		}
 		checkForCrashes();
 	}
 
@@ -342,12 +350,14 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
+		
+		// hide search for beta release
 		switch (item.getItemId()) {
-		case R.id.menu_search:
-			Intent toSearchPage = new Intent(HomeActivity.this, SearchPageActivity.class);
-			startActivity(toSearchPage);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-			return true;
+		//case R.id.menu_search:
+		//	Intent toSearchPage = new Intent(HomeActivity.this, SearchPageActivity.class);
+		//	startActivity(toSearchPage);
+		//	overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+		//	return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}

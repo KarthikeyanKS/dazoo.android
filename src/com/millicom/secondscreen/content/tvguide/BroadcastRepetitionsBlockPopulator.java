@@ -322,9 +322,9 @@ public class BroadcastRepetitionsBlockPopulator {
 				}
 
 				if (mIsSetThree) mReminderOneIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
-				else mReminderThreeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
+				else mReminderThreeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 			} else {
-				mReminderThreeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
+				mReminderThreeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_dissabled));
 			}
 
 			mReminderThreeContainer.setOnClickListener(new View.OnClickListener() {

@@ -60,7 +60,7 @@ public class FacebookLoginActivity extends ActionBarActivity {
 	private static final String	TAG	= "FacebookLoginActivity";
 	private String				facebookToken	= "", facebookSessionToken = "", dazooToken = "";
 	private ActionBar			mActionBar;
-	private static Activity mActivity;
+	private static Activity		mActivity;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -76,20 +76,20 @@ public class FacebookLoginActivity extends ActionBarActivity {
 		initViews();
 
 		// generation of the ssh key for the facebook
-		//PackageInfo info;
-		//try {
-		//	info = getPackageManager().getPackageInfo("com.millicom.secondscreen",  PackageManager.GET_SIGNATURES);
-		//	for (Signature signature : info.signatures)
-		//   {
-		//       MessageDigest md = MessageDigest.getInstance("SHA");
-		//        md.update(signature.toByteArray());
-		//        Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-		//    }	
-		//} catch (NameNotFoundException e) {
-		//	e.printStackTrace();
-		//} catch (NoSuchAlgorithmException e) {
-		//	e.printStackTrace();
-		//}
+		// PackageInfo info;
+		// try {
+		// info = getPackageManager().getPackageInfo("com.millicom.secondscreen", PackageManager.GET_SIGNATURES);
+		// for (Signature signature : info.signatures)
+		// {
+		// MessageDigest md = MessageDigest.getInstance("SHA");
+		// md.update(signature.toByteArray());
+		// Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+		// }
+		// } catch (NameNotFoundException e) {
+		// e.printStackTrace();
+		// } catch (NoSuchAlgorithmException e) {
+		// e.printStackTrace();
+		// }
 
 		openFacebookSession(this, true, statusCallback);
 	}
@@ -110,9 +110,10 @@ public class FacebookLoginActivity extends ActionBarActivity {
 		openRequest.setPermissions(Arrays.asList("email"));
 		openRequest.setCallback(statusCallback);
 		Session session = new Session.Builder(activity).build();
-		if (SessionState.CREATED_TOKEN_LOADED.equals(session.getState()) || allowLoginUI) {		
+		if (SessionState.CREATED_TOKEN_LOADED.equals(session.getState()) || allowLoginUI) {
 			Session.setActiveSession(session);
 			session.openForRead(openRequest);
+
 			return session;
 		}
 		return null;
@@ -121,41 +122,45 @@ public class FacebookLoginActivity extends ActionBarActivity {
 	Session.StatusCallback	statusCallback	= new Session.StatusCallback() {
 		@Override
 		public void call(final Session session, SessionState state, Exception exception) {
+
 			if (state.isOpened()) {
+
 				Request.newMeRequest(session, new Request.GraphUserCallback() {
 					@Override
 					public void onCompleted(GraphUser user, Response response) {
-						
 						if (user != null) {
 							facebookSessionToken = session.getAccessToken();
-							Log.d(TAG,"facebook:" + facebookSessionToken );
+							Log.d(TAG, "facebook:" + facebookSessionToken);
 							if (getDazooToken()) {
-								
+
 								// for beta-release - direct to the HomePage even if it is first time user
 								boolean firstTime = ((SecondScreenApplication) getApplicationContext()).getUserExistringFlag();
-								//if (firstTime) {
-								//	// first time registration/login
-								//	// go to facebook dazoo login success page
-								//	Intent intent = new Intent(FacebookLoginActivity.this, FacebookDazooLoginActivity.class);
-								//	startActivity(intent);
-								//	overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-								//	//finish();
-								//} else {
-									// returning client
-									// go to start page
-									Intent intent = new Intent(FacebookLoginActivity.this, HomeActivity.class);
-									startActivity(intent);
-									overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-									finish();
-								//}
+								// if (firstTime) {
+								// // first time registration/login
+								// // go to facebook dazoo login success page
+								// Intent intent = new Intent(FacebookLoginActivity.this, FacebookDazooLoginActivity.class);
+								// startActivity(intent);
+								// overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+								// //finish();
+								// } else {
+								// returning client
+								// go to start page
+								Intent intent = new Intent(FacebookLoginActivity.this, HomeActivity.class);
+								startActivity(intent);
+								overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+								finish();
+								// }
 							}
+						} else {
+							Log.d(TAG, "user has not agreeed");
 						}
 					}
 				}).executeAsync();
-			}
-			else {
-				Intent intent = new Intent(FacebookLoginActivity.this, MyProfileActivity.class);
+			} else if (state.isClosed()) {
+				Intent intent = new Intent(FacebookLoginActivity.this, HomeActivity.class);
 				startActivity(intent);
+				overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+				finish();
 			}
 		}
 	};
@@ -172,7 +177,7 @@ public class FacebookLoginActivity extends ActionBarActivity {
 						// save access token in the application
 						((SecondScreenApplication) getApplicationContext()).setAccessToken(facebookToken);
 						Log.d(TAG, "Token: " + facebookToken + " is saved");
-						
+
 						if (AuthenticationService.storeUserInformation(this, fbJSON)) {
 							return true;
 						} else {
@@ -180,7 +185,7 @@ public class FacebookLoginActivity extends ActionBarActivity {
 						}
 					}
 				} else {
-					//Toast.makeText(getApplicationContext(), "Error! Something went wrong while authorization via Facebook. Please, try again!", Toast.LENGTH_SHORT).show();
+					// Toast.makeText(getApplicationContext(), "Error! Something went wrong while authorization via Facebook. Please, try again!", Toast.LENGTH_SHORT).show();
 					Log.d(TAG, "Error! Something went wrong while authorization via Facebook. Please, try again!");
 					return false;
 				}
@@ -192,7 +197,7 @@ public class FacebookLoginActivity extends ActionBarActivity {
 				e.printStackTrace();
 			}
 		} else {
-			//Toast.makeText(getApplicationContext(), "Error! Something went wrong while authorization via Facebook. Please, try again!", Toast.LENGTH_SHORT).show();
+			// Toast.makeText(getApplicationContext(), "Error! Something went wrong while authorization via Facebook. Please, try again!", Toast.LENGTH_SHORT).show();
 			Log.d(TAG, "Error! Facebook authorization: level get Token from Facebook");
 			return false;
 		}

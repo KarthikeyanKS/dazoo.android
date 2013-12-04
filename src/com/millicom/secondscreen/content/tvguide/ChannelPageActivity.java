@@ -68,7 +68,7 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 	private ImageLoader							mImageLoader;
 	private int									mSelectedIndex	= -1, mIndexOfNearestBroadcast, mHour;
 	private DazooStore							dazooStore;
-	private boolean								mIsLoggedIn		= false, mIsReady = false, mFirstHit = true;
+	private boolean								mIsLoggedIn		= false, mIsReady = false, mFirstHit = true, mIsToday = false;
 	private Handler								mHandler;
 
 	@Override
@@ -85,7 +85,7 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 		Intent intent = getIntent();
 		mChannelId = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_ID);
 		mDateTvGuide = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHOSEN_DATE_TVGUIDE);
-		mHour = intent.getIntExtra(Consts.INTENT_EXTRA_TV_GUIDE_HOUR,6);
+		mHour = intent.getIntExtra(Consts.INTENT_EXTRA_TV_GUIDE_HOUR, 6);
 
 		dazooStore = DazooStore.getInstance();
 
@@ -102,6 +102,12 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 		mBroadcasts = mChannelGuide.getBroadcasts();
 		mTvDates = dazooStore.getTvDates();
 		mSelectedIndex = dazooStore.getDateIndex(mTvGuideDate);
+
+		String tvDateToday = DateUtilities.todayDateAsTvDate();
+		if (mDateTvGuide.getDate().equals(tvDateToday)) {
+			mIsToday = true;
+		}
+
 		super.initCallbackLayouts();
 
 		initViews();
@@ -162,14 +168,17 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 		mBroadcasts = null;
 		if (mIsLoggedIn) {
 			mChannelGuide = dazooStore.getChannelGuideFromMy(mTvDateSelected.getDate(), mChannelId);
-			Log.d(TAG, "GET FROM MY");
 		} else {
 			mChannelGuide = dazooStore.getChannelGuideFromDefault(mTvDateSelected.getDate(), mChannelId);
 		}
 
 		if (mChannelGuide != null) {
 			mBroadcasts = mChannelGuide.getBroadcasts();
-			mIndexOfNearestBroadcast = Broadcast.getClosestBroadcastIndexFromTime(mBroadcasts, mHour, mTvDateSelected);
+			if (mIsToday) {
+				mIndexOfNearestBroadcast = Broadcast.getClosestBroadcastIndexFromTime(mBroadcasts, mHour, mTvDateSelected);
+			} else {
+				mIndexOfNearestBroadcast = 0;
+			}
 			if (mIndexOfNearestBroadcast >= 0) {
 				mFollowingBroadcasts = null;
 				mFollowingBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());
@@ -258,7 +267,7 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 				Intent intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
 
 				// we take one position less as we have a header view
-				intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, mFollowingBroadcasts.get(position-1).getBeginTimeMillis());
+				intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, mFollowingBroadcasts.get(position - 1).getBeginTimeMillis());
 				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, mChannel.getChannelId());
 				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, mTvDateSelected.getDate());
 
@@ -302,11 +311,12 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
-		case R.id.menu_search:
-			Intent toSearchPage = new Intent(ChannelPageActivity.this, SearchPageActivity.class);
-			startActivity(toSearchPage);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-			return true;
+		// hide search for beta release
+		// case R.id.menu_search:
+		// Intent toSearchPage = new Intent(ChannelPageActivity.this, SearchPageActivity.class);
+		// startActivity(toSearchPage);
+		// overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+		// return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}

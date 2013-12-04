@@ -11,16 +11,16 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="75dp"
         android:gravity="center_horizontal"
-        android:src="@drawable/ic_network" />
+        android:src="@drawable/ic_error_state_dazoo" />
 
     <com.millicom.secondscreen.customviews.FontTextView
         android:id="@+id/request_failed_details_tv"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/request_failed_iv"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="40dp"
         android:gravity="center_horizontal"
         android:text="@string/error_connection_lost"
         android:textColor="@color/black"
@@ -33,8 +33,10 @@
         android:layout_below="@id/request_failed_details_tv"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
-        android:minWidth="250dp"
+        android:minWidth="200dp"
+        android:background="@drawable/layout_rounded_corners_grey"
+        android:padding="8dp"
         android:text="@string/general_error_message_button"
-        android:textColor="@color/black" />
+        android:textColor="@color/white" />
 
 </RelativeLayout>

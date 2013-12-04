@@ -28,6 +28,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -81,64 +82,7 @@ public class ImageLoader {
 	 * 
 	 * */
 	public void displayImage(String url, ImageView imageView, IMAGE_TYPE type) {
-		try {
-			Matcher m = pattern.matcher(url);
-			String project = "";
-			String imageURL = "";
-
-			while (m.find()) {
-				project = m.group(2);
-				imageURL = m.group(3);
-			}
-
-			String width = null;
-			String height = null;
-
-			if (type == IMAGE_TYPE.POSTER) {
-
-				width = "" + SecondScreenApplication.sImageSizePosterWidth;
-				height = "" + SecondScreenApplication.sImageSizePosterHeight;
-			} else if (type == IMAGE_TYPE.LANDSCAPE) {
-
-				width = "" + SecondScreenApplication.sImageSizeLandscapeWidth;
-				height = "" + SecondScreenApplication.sImageSizeLandscapeHeight;
-			} else if (type == IMAGE_TYPE.THUMBNAIL) {
-
-				width = "" + SecondScreenApplication.sImageSizeThumbnailWidth;
-				height = "" + SecondScreenApplication.sImageSizeThumbnailHeight;
-			}
-
-			else if (type == IMAGE_TYPE.GALLERY) {
-
-				width = "" + SecondScreenApplication.sImageSizeGalleryWidth;
-				height = "" + SecondScreenApplication.sImageSizeGalleryHeight;
-			}
-
-			String hashedString = md5((imageURL + project + width + height + Consts.IMAGE_MACHINE_SECURITY_KEY)).substring(0, 8);
-
-			UriTemplate template = UriTemplate.fromTemplate(url);
-
-			template.set("width", width);
-			template.set("height", height);
-			template.set("token", hashedString);
-
-			url = template.expand();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		imageViews.put(imageView, url);
-		Bitmap bitmap = memoryCache.get(url);
-
-		if (bitmap != null) {
-
-			imageView.setImageBitmap(bitmap);
-
-		} else {
-			queuePhoto(url, imageView);
-
-			if (usePlaceholder) imageView.setImageResource(placeholder);
-		}
+		this.displayImage(url, imageView, null, type);
 	}
 
 	/**
@@ -204,21 +148,32 @@ public class ImageLoader {
 		}
 
 		imageViews.put(imageView, url);
-		progressBar.setVisibility(View.VISIBLE);
 		Bitmap bitmap = memoryCache.get(url);
+		
+		if(progressBar != null) {
+			progressBar.setVisibility(View.VISIBLE);
+		}
 
 		if (bitmap != null) {
-			progressBar.setVisibility(View.GONE);
+			if(progressBar != null) {
+				progressBar.setVisibility(View.GONE);
+			}
+			
 			imageView.setImageBitmap(bitmap);
 		} else {
 			queuePhoto(url, imageView);
 
 			if (usePlaceholder) {
 				imageView.setImageResource(placeholder);
-				progressBar.setVisibility(View.GONE);
+				
+				if(progressBar != null) {
+					progressBar.setVisibility(View.GONE);
+				}
 			}
 
 		}
+		
+
 	}
 
 	private void queuePhoto(String url, ImageView imageView) {
@@ -263,8 +218,15 @@ public class ImageLoader {
 
 	// Decodes image and scales it to reduce memory consumption
 	private Bitmap decodeFile(File f) {
+		BitmapFactory.Options opts=new BitmapFactory.Options();
+		opts.inDither=false;                     //Disable Dithering mode
+		opts.inPurgeable=true;                   //Tell to gc that whether it needs free memory, the Bitmap can be cleared
+		opts.inInputShareable=true;              //Which kind of reference will be used to recover the Bitmap data after being clear, when it will be used in the future
+		opts.inTempStorage=new byte[32 * 1024]; 
+		
 		try {
-			return BitmapFactory.decodeStream(new FileInputStream(f));
+			//return BitmapFactory.decodeStream(new FileInputStream(f));
+			return BitmapFactory.decodeStream(new FileInputStream(f), null, opts);
 		} catch (FileNotFoundException e) {
 		}
 		return null;

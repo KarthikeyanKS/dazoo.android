@@ -14,14 +14,19 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
+import android.util.Log;
+import android.widget.Toast;
 
 public class AlarmSetter extends BroadcastReceiver {
 
+	private static final String TAG = "AlarmSetter";
+	
 	//private static final int PERIOD=5000;
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		// set the alarms on the phone reboot
+		
 		scheduleAlarms(context);
 	}
 
@@ -50,14 +55,12 @@ public class AlarmSetter extends BroadcastReceiver {
 			program.setEpisodeNumber(item.getProgramEpisodeNumber());
 			program.setYear(item.getProgramYear());
 			
-			// TO DO
-			//program.setTags("");
-			
 			broadcast.setProgram(program);
 			
 			Channel channel = new Channel();
 			channel.setChannelId(item.getChannelId());
 			channel.setName(item.getChannelName());
+			channel.setLogoSUrl(item.getChannelLogoUrl());
 			
 			broadcast.setChannel(channel);
 			

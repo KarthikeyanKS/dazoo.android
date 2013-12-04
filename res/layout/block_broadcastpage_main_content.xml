@@ -218,8 +218,8 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@id/block_broadcastpage_broadcast_synopsis_tv"
 				android:layout_gravity="left"
-				android:textColor="@color/grey1"
-				android:textSize="@dimen/subtext" 
+				android:textColor="@color/grey2"
+				android:textSize="@dimen/paragraph" 
 				android:visibility="gone" 
         		font:fonttextview="fontello.ttf" />
 		
@@ -229,8 +229,8 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@id/block_broadcastpage_broadcast_extra_tv"
 				android:layout_gravity="left"
-				android:textColor="@color/grey1"
-				android:textSize="@dimen/subtext" 
+				android:textColor="@color/grey2"
+				android:textSize="@dimen/paragraph" 
 				android:visibility="gone"
         		font:fonttextview="fontello.ttf" />
 	
@@ -270,8 +270,9 @@
 	
 				<ImageView
 					android:id="@+id/block_social_panel_like_button_iv"
-					android:layout_width="32dp"
-					android:layout_height="32dp"
+					android:layout_width="24dp"
+					android:layout_height="24dp"
+					android:layout_margin="7dp"
 					android:layout_centerInParent="true" />
 	           
 			</RelativeLayout>
@@ -307,8 +308,9 @@
 	
 				<ImageView
 					android:id="@+id/block_social_panel_share_button_iv"
-					android:layout_width="32dp"
-					android:layout_height="32dp"
+					android:layout_width="24dp"
+					android:layout_height="24dp"
+					android:layout_margin="7dp"
 					android:layout_centerInParent="true"
 					android:src="@drawable/ic_share_default" />
 	
@@ -345,8 +347,9 @@
 	
 				<ImageView
 					android:id="@+id/block_social_panel_remind_button_iv"
-					android:layout_width="32dp"
-					android:layout_height="32dp"
+					android:layout_width="24dp"
+					android:layout_height="24dp"
+					android:layout_margin="7dp"
 					android:layout_centerInParent="true" />
 	
 			</RelativeLayout>

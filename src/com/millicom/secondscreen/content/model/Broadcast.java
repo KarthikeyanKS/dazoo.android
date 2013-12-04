@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -21,16 +22,16 @@ import android.util.Log;
 
 public class Broadcast implements Parcelable {
 
-	private static final String	TAG	= "Broadcast";
+	private static final String TAG = "Broadcast";
 
-	private String				broadcastType;
-	private String				beginTime;
-	private String				endTime;
-	private Channel				channel;
-	private Program				program;
-	private String				channelUrl;
-	private long				beginTimeMillis;
-	private String				shareUrl;
+	private String broadcastType;
+	private String beginTime;
+	private String endTime;
+	private Channel channel;
+	private Program program;
+	private String channelUrl;
+	private long beginTimeMillis;
+	private String shareUrl;
 
 	public Broadcast() {
 	}
@@ -108,8 +109,9 @@ public class Broadcast implements Parcelable {
 	public boolean equals(Object o) {
 		if (o instanceof Broadcast) {
 			Broadcast other = (Broadcast) o;
-			if (getBeginTimeMillis() != 0 && other.getBeginTimeMillis() != 0 && getBeginTimeMillis() == other.getBeginTimeMillis() && getChannel().getChannelId() != null
-					&& other.getChannel().getChannelId() != null && (getChannel().getChannelId()).equals(other.getChannel().getChannelId())) {
+			if (getBeginTimeMillis() != 0 && other.getBeginTimeMillis() != 0 && getBeginTimeMillis() == other.getBeginTimeMillis()
+					&& getChannel().getChannelId() != null && other.getChannel().getChannelId() != null
+					&& (getChannel().getChannelId()).equals(other.getChannel().getChannelId())) {
 				return true;
 			}
 		}
@@ -161,7 +163,7 @@ public class Broadcast implements Parcelable {
 		}
 	}
 
-	public static final Parcelable.Creator<Broadcast>	CREATOR	= new Parcelable.Creator<Broadcast>() {
+	public static final Parcelable.Creator<Broadcast> CREATOR = new Parcelable.Creator<Broadcast>() {
 		public Broadcast createFromParcel(Parcel in) {
 			return new Broadcast(in);
 		}
@@ -176,19 +178,16 @@ public class Broadcast implements Parcelable {
 		return "\n beginTime: " + beginTime + "\n endTime: " + endTime + "\n channel: " + channel + "\n program: " + program + "\n shareUrl" + shareUrl;
 	}
 
-	public static int getClosestBroadcastIndex(ArrayList<Broadcast> broadcastList) {
+	public static int getClosestBroadcastIndexUsingTimeString(ArrayList<Broadcast> broadcastList, String timeNowString) {
+		int nearestIndex = -1;
 
-		// get the time now
-		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
-		String timeNowStr = df.format(new Date());
 		long timeNow = 0;
 		try {
-			timeNow = DateUtilities.isoStringToLong(timeNowStr);
+			timeNow = DateUtilities.isoStringToLong(timeNowString);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 
-		int nearestIndex = 0;
 		long bestDistanceFoundYet = Long.MAX_VALUE;
 		for (int i = 0; i < broadcastList.size(); i++) {
 			long timeBroadcast = 0;
@@ -199,8 +198,8 @@ public class Broadcast implements Parcelable {
 			}
 
 			long d = Math.abs(timeNow - timeBroadcast);
-			 if (d < bestDistanceFoundYet && timeBroadcast < timeNow) {
-			//if (d < bestDistanceFoundYet) {
+			if (d < bestDistanceFoundYet && timeNow <= timeBroadcast) {
+				// if (d < bestDistanceFoundYet) {
 				nearestIndex = i;
 				bestDistanceFoundYet = d;
 			}
@@ -208,48 +207,25 @@ public class Broadcast implements Parcelable {
 		return nearestIndex;
 	}
 
-	public static int getClosestBroadcastIndexFromTime(ArrayList<Broadcast> broadcastList, int hour, TvDate date) {
-		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
-	
-		String year = DateUtilities.tvDateToYearNumber(date.getDate());
-		String month = DateUtilities.tvDateToMonthNumber(date.getDate());
-		String day = DateUtilities.tvDateToDayNumber(date.getDate());
-		
-		// current "today" is set to the date, selected by the user
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.YEAR, Integer.valueOf(year));
-		calendar.set(Calendar.MONTH,Integer.valueOf(month) -1);
-		calendar.set(Calendar.DAY_OF_MONTH, Integer.valueOf(day));
-		calendar.set(Calendar.HOUR_OF_DAY, hour+1);
-		calendar.set(Calendar.MINUTE, 0);
-		calendar.set(Calendar.SECOND, 0);
-		
-		String timeNowStr = df.format(calendar.getTime());
-		
-		long timeNow = 0;
-		try {
-			timeNow = DateUtilities.isoStringToLong(timeNowStr);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		int nearestIndex = 0;
-		long bestDistanceFoundYet = Long.MAX_VALUE;
-		for (int i = 0; i < broadcastList.size(); i++) {
-			long timeBroadcast = 0;
-			try {
-				timeBroadcast = DateUtilities.isoStringToLong(broadcastList.get(i).getBeginTime());
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+	public static int getClosestBroadcastIndex(ArrayList<Broadcast> broadcastList) {
+		int nearestIndex = -1;
 
-			long d = Math.abs(timeNow - timeBroadcast);
-			 if (d < bestDistanceFoundYet && timeBroadcast < timeNow) {
-			//if (d < bestDistanceFoundYet) {
-				nearestIndex = i;
-				bestDistanceFoundYet = d;
-			}
-		}   
-		
+		// get the time now
+		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
+		String timeNowStr = df.format(new Date());
+
+		nearestIndex = getClosestBroadcastIndexUsingTimeString(broadcastList, timeNowStr);
+
+		return nearestIndex;
+	}
+
+	public static int getClosestBroadcastIndexFromTime(ArrayList<Broadcast> broadcastList, int hour, TvDate date) {
+		int nearestIndex = 0;
+
+		String timeNowString = DateUtilities.timeStringUsingTvDateAndHour(date, hour);
+
+		nearestIndex = getClosestBroadcastIndexUsingTimeString(broadcastList, timeNowString);
+
 		return nearestIndex;
 	}
 

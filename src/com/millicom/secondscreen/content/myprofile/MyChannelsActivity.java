@@ -176,6 +176,9 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 					in.hideSoftInputFromWindow(mSearchChannelInputEditText.getApplicationWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
 				}
 				if (search.length() > 0) {
+					if(search.length() > 3){
+						search = search.substring(0,3);
+					}
 					mChannelInfoToDisplay.clear();
 					for (Map.Entry<String, Channel> entry : mChannelInfoMap.entrySet()) {
 						String key = entry.getKey();
@@ -257,22 +260,14 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 		if (MyChannelsService.getMyChannels(userToken)) {
 			myChannelIds = DazooStore.getInstance().getMyChannelIds();
 
-			Log.d(TAG, "MY CHANNELS IDS IN THE DAZOO STORE: " + myChannelIds);
-
 			for (int j = 0; j < myChannelIds.size(); j++) {
 				if (mAllChannelsIds.contains(myChannelIds.get(j))) {
-					Log.d(TAG,"MY CHANNEL ID: " + myChannelIds.get(j));
-					int position = mAllChannelsIds.indexOf(myChannelIds.get(j));
-					Log.d(TAG,"POSITION IN ALL CHANNELS: " + position);
-					Log.d(TAG,"ALL CHANNEL AT POSITION:" + mAllChannelsIds.get(position));
-					
 					mIsCheckedArray[mAllChannelsIds.indexOf(myChannelIds.get(j))] = true;
 				}
 			}
 			
 			return true;
 		} else {
-			Toast.makeText(getApplicationContext(), "List of MY CHANNELS cannot be read", Toast.LENGTH_SHORT).show();
 			Log.d(TAG, "List of Channels cannot be read");
 			return false;
 		}

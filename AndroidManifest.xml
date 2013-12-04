@@ -2,8 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.millicom.secondscreen"
     android:installLocation="preferExternal"
-    android:versionCode="7"
-    android:versionName="1.0.7" >
+    android:largeHeap="true"
+    android:versionCode="11"
+    android:versionName="1.0.11" >
 
     <uses-sdk
         android:minSdkVersion="11"
@@ -12,10 +13,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
@@ -221,7 +220,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
-             <meta-data
+            <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.millicom.secondscreen.content.myprofile.MyProfileActivity" />
         </activity>
@@ -304,5 +303,12 @@
         <activity android:name="net.hockeyapp.android.UpdateActivity" />
         <activity android:name="net.hockeyapp.android.FeedbackActivity" />
     </application>
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true" />
 
 </manifest>

@@ -77,7 +77,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 	private ActionBar			mActionBar;
 	private ArrayList<FeedItem>	activityFeed	= new ArrayList<FeedItem>();
 	private String				token;
-	private Boolean				mIsLoggenIn		= false, mNoMoreItems = false;
+	private Boolean				mIsLoggenIn		= false, mNoMoreItems = false, mNoTask = true;
 	// private LinearLayout mContainer;
 	// private FeedScrollView mScrollView;
 	private int					mStartIndex		= 0, mStep = 10, mNextStep = 5, mEndIndex = 0;
@@ -138,7 +138,9 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		mActionBar.setDisplayShowCustomEnabled(true);
 		mActionBar.setDisplayUseLogoEnabled(true);
 		mActionBar.setDisplayShowHomeEnabled(true);
+		
 		mActionBar.setTitle(getResources().getString(R.string.activity_title));
+		
 	}
 
 	private void initFeedViews() {
@@ -230,12 +232,16 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			if (totalItemCount > 0) {
 
 				// If scrolling past bottom and there is a next page of products to fetch
-				if ((firstVisibleItem + visibleItemCount >= totalItemCount) && !mNoMoreItems) {
+				if ((firstVisibleItem + visibleItemCount >= totalItemCount) && !mNoMoreItems && mNoTask) {
 					Log.d(TAG, "reached last item");
 					// Show the scroll spinner
 					showScrollSpinner(true);
+					
+					if(mNoTask){
 					GetFeedMoreTask getFeedMoreTask = new GetFeedMoreTask();
 					getFeedMoreTask.execute();
+					}
+					mNoTask = false;
 				} else {
 
 					// Hide the scroll spinner
@@ -259,11 +265,12 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
-		case R.id.menu_search:
-			Intent toSearchPage = new Intent(ActivityActivity.this, SearchPageActivity.class);
-			startActivity(toSearchPage);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-			return true;
+		// hide search for beta release
+		//case R.id.menu_search:
+		//	Intent toSearchPage = new Intent(ActivityActivity.this, SearchPageActivity.class);
+		//	startActivity(toSearchPage);
+		//	overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+		//	return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -318,11 +325,14 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			if (result) {
 				DazooStore.getInstance().addItemsToActivityFeed(moreFeedItems);
 				mAdapter.addItems(moreFeedItems);
+				mStartIndex = mStartIndex + mNextStep;
 			} else {
 				if (mNoMoreItems) {
 					mListView.removeFooterView(mListFooterView);
 				}
 			}
+			moreFeedItems.clear();
+			mNoTask = true;
 			showScrollSpinner(false);
 		}
 
@@ -351,6 +361,10 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 
 				URI uri = new URI(Consts.MILLICOM_SECONDSCREEN_ACTIVITY_FEED_URL + "?" + URLEncodedUtils.format(urlParams, "utf-8"));
 
+				Log.d(TAG,"mStartIndex: " + String.valueOf(mStartIndex) + " mNextStep: " + String.valueOf(mNextStep));
+				Log.d(TAG,"Feed more items: " + uri.toString());
+				
+				
 				HttpGet httpGet = new HttpGet(uri);
 				httpGet.setHeader("Authorization", "Bearer " + token);
 				HttpResponse response = httpClient.execute(httpGet);
@@ -379,7 +393,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 							feedListJsonArray = new JSONArray(jsonString);
 							int size = feedListJsonArray.length();
 							Log.d(TAG, "FEED MORE ITEMS SIZE: " + String.valueOf(size));
-							// TODO: UPDATE WHEN THE PAGINATION IS DONE BY THE BACKEND
+							
 							if (size == 0) {
 								mNoMoreItems = true;
 								return result;

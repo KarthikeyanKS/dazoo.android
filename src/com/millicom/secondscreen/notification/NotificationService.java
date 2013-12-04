@@ -79,6 +79,7 @@ public class NotificationService {
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_CHANNELID, channel.getChannelId());
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_NOTIFICIATION_ID, notificationId);
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_CHANNEL_NAME, channel.getName());
+		intent.putExtra(Consts.INTENT_ALARM_EXTRA_CHANNEL_LOGO_URL, channel.getLogoLUrl());
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_NAME, broadcast.getProgram().getTitle());
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_TIME, broadcast.getBeginTime());
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_DATE_DATE, dateDate);
@@ -94,7 +95,7 @@ public class NotificationService {
 			alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
 			// for testing
-			//alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (1000), pendingIntent);
+			//alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (10000), pendingIntent);
 
 			NotificationDataSource notificationDataSource = new NotificationDataSource(context);
 
@@ -118,6 +119,7 @@ public class NotificationService {
 			
 			dbNotification.setChannelName(channel.getName());
 			dbNotification.setChannelId(channel.getChannelId());
+			dbNotification.setChannelLogoUrl(channel.getLogoSUrl());
 			dbNotification.setBroadcastBeginTime(broadcast.getBeginTime());
 			dbNotification.setBroadcastBeginTimeMillis(String.valueOf(broadcast.getBeginTimeMillis()));
 
@@ -130,7 +132,8 @@ public class NotificationService {
 		return false;
 	}
 
-	public static boolean showNotification (Context context, long broadcastBeginTimeMillis, String broadcastTime, String broadcastName, String channelId, String channelName, String dateDate, int notificationId){
+	public static boolean showNotification (Context context, long broadcastBeginTimeMillis, String broadcastTime, String broadcastName, String channelId, String channelName, String channelLogoUrl, 
+			String dateDate, int notificationId){
 
 		String broadcastUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + channelId + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcastBeginTimeMillis;
 		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -139,6 +142,7 @@ public class NotificationService {
 		broadcastPageIntent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcastBeginTimeMillis);
 		broadcastPageIntent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, channelId);
 		broadcastPageIntent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, dateDate);
+		broadcastPageIntent.putExtra(Consts.INTENT_EXTRA_CHANNEL_LOGO_URL, channelLogoUrl);
 		broadcastPageIntent.putExtra(Consts.INTENT_EXTRA_BROADCAST_URL, broadcastUrl);
 		broadcastPageIntent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
 		broadcastPageIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);

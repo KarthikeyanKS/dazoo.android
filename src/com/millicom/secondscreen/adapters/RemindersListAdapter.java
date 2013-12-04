@@ -135,8 +135,6 @@ public class RemindersListAdapter extends BaseAdapter {
 				e.printStackTrace();
 			}
 
-
-
 			if (program != null) {
 				holder.mBroadcastTitleTv.setText(program.getTitle());
 				holder.mBroadcastDetailsTv.setVisibility(View.VISIBLE);
