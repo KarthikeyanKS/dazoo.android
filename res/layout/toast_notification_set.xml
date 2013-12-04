@@ -4,7 +4,7 @@
     android:id="@+id/notification_set_toast_container"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/grey1"
+    android:background="@drawable/layout_rounded_corners_transparentblue"
     android:orientation="horizontal"
     android:padding="10dp" >
 
@@ -24,7 +24,7 @@
         android:layout_gravity="center_vertical"
         android:layout_toRightOf="@id/notification_set_toast_iv"
         android:padding="5dp"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="16sp"
         android:textStyle="normal" />
 </RelativeLayout>

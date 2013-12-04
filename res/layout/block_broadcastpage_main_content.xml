@@ -73,8 +73,8 @@
                 android:id="@+id/block_broadcastpage_broadcast_details_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/title_top_margin"
-                android:layout_marginBottom="@dimen/title_top_margin"		                    
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"		                    
                 android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_movie_iv"		
                 android:textColor="@color/black"
                 android:textSize="@dimen/header_1"
@@ -209,7 +209,7 @@
 				android:layout_marginBottom="10dp"
 				android:layout_below="@id/divider"
 				android:textColor="@color/black"
-				android:textSize="@dimen/header_3"
+				android:textSize="@dimen/ingress"
         		font:fonttextview="fontello.ttf" />
 	
 			<com.millicom.secondscreen.customviews.FontTextView
@@ -252,11 +252,8 @@
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:orientation="horizontal"
-			android:paddingTop="5dp"
-			android:paddingBottom="5dp"
-			android:paddingRight="10dp"
-			android:paddingLeft="10dp"
-			android:weightSum="9">
+			android:layout_marginLeft="5dp"
+			android:layout_marginRight="5dp" >
 	      
 	     	<!-- LIKE BUTTON -->
 	
@@ -264,16 +261,15 @@
 				android:id="@+id/block_social_panel_like_button_container"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:padding="5dp"
-				android:layout_weight="3"
-				android:layout_gravity="center"  >
+				android:layout_weight="1"
+				android:layout_gravity="center"
+				android:layout_margin="10dp" >
 	
 				<ImageView
 					android:id="@+id/block_social_panel_like_button_iv"
 					android:layout_width="24dp"
 					android:layout_height="24dp"
-					android:layout_margin="7dp"
-					android:layout_centerInParent="true" />
+					android:layout_centerInParent="true"  />
 	           
 			</RelativeLayout>
 	    		
@@ -281,14 +277,8 @@
 	      
 			<RelativeLayout
 				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:padding="5dp" >
+				android:layout_height="wrap_content" >
 	          
-	          <!-- View
-		    android:layout_width="1dp"
-		    android:layout_height="32dp"
-		    android:layout_centerInParent="true"
-		    android:background="@color/light_gray" /-->
 				<ImageView
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
@@ -302,15 +292,14 @@
 				android:id="@+id/block_social_panel_share_button_container"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:padding="5dp"
-				android:layout_weight="3"
-				android:layout_gravity="center"  >
+				android:layout_weight="1"
+				android:layout_gravity="center" 
+				android:layout_margin="10dp" >
 	
 				<ImageView
 					android:id="@+id/block_social_panel_share_button_iv"
 					android:layout_width="24dp"
 					android:layout_height="24dp"
-					android:layout_margin="7dp"
 					android:layout_centerInParent="true"
 					android:src="@drawable/ic_share_default" />
 	
@@ -320,14 +309,8 @@
 	      
 			<RelativeLayout
 				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:padding="5dp" >
+				android:layout_height="wrap_content" >
 	
-	          <!-- View
-		    android:layout_width="1dp"
-		    android:layout_height="32dp"
-		    android:layout_centerInParent="true"
-		    android:background="@color/light_gray" /-->
 				<ImageView
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
@@ -341,15 +324,14 @@
 				android:id="@+id/block_social_panel_remind_button_container"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:padding="5dp"
-				android:layout_weight="3"
-				android:layout_gravity="center" >
+				android:layout_weight="1"
+				android:layout_gravity="center" 
+				android:layout_margin="10dp" >
 	
 				<ImageView
 					android:id="@+id/block_social_panel_remind_button_iv"
 					android:layout_width="24dp"
 					android:layout_height="24dp"
-					android:layout_margin="7dp"
 					android:layout_centerInParent="true" />
 	
 			</RelativeLayout>

@@ -119,15 +119,11 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 				holder.mDivider.setVisibility(View.VISIBLE);
 				if (position == 0 || DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTime()).equals(
 						DateUtilities.tvDateStringToDatePickerString(getItem(position - 1).getBeginTime())) == false) {
-					if (dateOutOfWeek == true) {
-						holder.mHeader.setText(DateUtilities.isoStringToDayOfWeekAndDate(broadcast.getBeginTime().toUpperCase()) + " OUTSIDE OF WEEK");
-					}
-					else {
+					if (dateOutOfWeek == false) {
 						holder.mHeader.setText(mTvDates.get(dateIndex).getName() + " " + 
 							DateUtilities.tvDateStringToDatePickerString(mTvDates.get(dateIndex).getDate()));
+						holder.mHeaderContainer.setVisibility(View.VISIBLE);
 					}
-
-					holder.mHeaderContainer.setVisibility(View.VISIBLE);
 				}
 				if (position != (getCount() - 1) && DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTime()).equals(
 						DateUtilities.tvDateStringToDatePickerString(getItem(position + 1).getBeginTime())) == false) {
