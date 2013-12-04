@@ -219,8 +219,16 @@ public class PopularListAdapter extends BaseAdapter {
 				if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
 					holder.mDetailsTv.setText(broadcast.getProgram().getGenre() + mActivity.getResources().getString(R.string.from) + broadcast.getProgram().getYear());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-					holder.mDetailsTv.setText(mActivity.getResources().getString(R.string.season) + " " + broadcast.getProgram().getSeason().getNumber() + " "
-							+ mActivity.getResources().getString(R.string.episode) + " " + broadcast.getProgram().getEpisodeNumber());
+					String season = broadcast.getProgram().getSeason().getNumber();
+					int episode = broadcast.getProgram().getEpisodeNumber();
+					String seasonEpisode = "";
+					if (!season.equals("0")) {
+						seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + broadcast.getProgram().getSeason().getNumber() + " ";
+					}
+					if (episode != 0) {
+						seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(broadcast.getProgram().getEpisodeNumber());
+					}
+					holder.mDetailsTv.setText(seasonEpisode);
 				} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
 					holder.mDetailsTv.setText(broadcast.getProgram().getSportType().getName() + " " + broadcast.getProgram().getTournament());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {

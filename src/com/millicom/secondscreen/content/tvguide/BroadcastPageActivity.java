@@ -1,6 +1,7 @@
 package com.millicom.secondscreen.content.tvguide;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
@@ -33,6 +35,7 @@ import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
+import com.millicom.secondscreen.content.model.Program;
 import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
 import com.millicom.secondscreen.http.NetworkUtils;
 import com.millicom.secondscreen.storage.DazooStore;
@@ -73,7 +76,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		mBroadcastPageUrl = intent.getStringExtra(Consts.INTENT_EXTRA_BROADCAST_URL);
 		mIsFromActivity = intent.getBooleanExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, false);
 		mChannelLogoUrl = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_LOGO_URL);
-		
+
 		Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		Log.d(TAG, "mBeginTimeInMillis: " + String.valueOf(mBeginTimeInMillis));
 		Log.d(TAG, "mChannelId: " + mChannelId);
@@ -184,7 +187,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 					// if we have the data in the singleton about the channel - set it completely
 					if (mChannel != null) {
 						mBroadcast.setChannel(mChannel);
-						
+
 					} else {
 						// otherwise - just use the id that we got with the notification intent
 						Channel channel = new Channel();
@@ -192,7 +195,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 						if(mChannelLogoUrl!=null){
 							channel.setLogoSUrl(mChannelLogoUrl);
 						}
-						
+
 						mBroadcast.setChannel(channel);
 					}
 
@@ -228,6 +231,24 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		// add main content block
 		BroadcastMainBlockPopulator mainBlockPopulator = new BroadcastMainBlockPopulator(mActivity, mScrollView, token, mTvDate);
 		mainBlockPopulator.createBlock(mBroadcast);
+
+		//Remove upcoming broadcasts with season 0 and episode 0
+		LinkedList<Broadcast> upcomingToRemove = new LinkedList<Broadcast>();
+		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(mBroadcast.getProgram().getProgramType())) {
+			Program program = mBroadcast.getProgram();
+			if (program.getSeason().getNumber().equals("0") && program.getEpisodeNumber() == 0) {
+				for (int i = 0; i < mUpcomingBroadcasts.size(); i++) {
+					Broadcast b = mUpcomingBroadcasts.get(i);
+					Program p = b.getProgram();
+					if (p.getSeason().getNumber().equals("0") && p.getEpisodeNumber() == 0) {
+						upcomingToRemove.add(b);
+					}
+				}
+			}
+		}
+		for (Broadcast b : upcomingToRemove) {
+			mUpcomingBroadcasts.remove(b);
+		}
 
 		// repetitions
 		if (mRepeatBroadcasts != null && mRepeatBroadcasts.isEmpty() != true) {
