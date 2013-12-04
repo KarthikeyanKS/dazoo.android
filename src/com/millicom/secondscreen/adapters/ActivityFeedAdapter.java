@@ -13,6 +13,7 @@ import com.millicom.secondscreen.content.activity.PopularPageActivity;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.FeedItem;
 import com.millicom.secondscreen.content.model.NotificationDbItem;
+import com.millicom.secondscreen.content.model.Program;
 import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
 import com.millicom.secondscreen.like.LikeDialogHandler;
 import com.millicom.secondscreen.like.LikeService;
@@ -1123,16 +1124,22 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programTypeTwo)) {
 						holderPBC.mDetailsTwo.setText(broadcastTwo.getProgram().getGenre() + mActivity.getResources().getString(R.string.from) + broadcastTwo.getProgram().getYear());
 					} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeTwo)) {
-						String season = feedItem.getBroadcast().getProgram().getSeason().getNumber();
-						int episode = feedItem.getBroadcast().getProgram().getEpisodeNumber();
-						String seasonEpisode = "";
-						if (!season.equals("0")) {
-							seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + feedItem.getBroadcast().getProgram().getSeason().getNumber() + " ";
+						Broadcast broadcast = feedItem.getBroadcast();
+						if (broadcast != null) {
+							Program program = broadcast.getProgram();
+							if (program != null ) {
+								String season = program.getSeason().getNumber();
+								int episode = program.getEpisodeNumber();
+								String seasonEpisode = "";
+								if (!season.equals("0")) {
+									seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + feedItem.getBroadcast().getProgram().getSeason().getNumber() + " ";
+								}
+								if (episode != 0) {
+									seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(feedItem.getBroadcast().getProgram().getEpisodeNumber());
+								}
+								holderPBC.mDetailsTwo.setText(seasonEpisode);
+							}
 						}
-						if (episode != 0) {
-							seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(feedItem.getBroadcast().getProgram().getEpisodeNumber());
-						}
-						holderPBC.mDetailsTwo.setText(seasonEpisode);
 					} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programTypeTwo)) {
 						holderPBC.mDetailsTwo.setText(broadcastTwo.getProgram().getSportType().getName() + " " + broadcastTwo.getProgram().getTournament());
 					} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programTypeTwo)) {
