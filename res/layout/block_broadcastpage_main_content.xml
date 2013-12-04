@@ -196,7 +196,6 @@
 				android:layout_width="fill_parent"
 				android:layout_height="1dp"
 				android:layout_below="@id/block_broadcastpage_broadcast_channel_time_container"
-				android:layout_marginTop="10dp"
 				android:background="@color/grey1" />
 	           
 			<!-- SYNOPSIS -->

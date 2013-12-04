@@ -19,6 +19,7 @@
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:background="@color/grey1"
             android:paddingBottom="10dp" >
 
             <com.millicom.secondscreen.customviews.FontTextView
@@ -103,7 +104,7 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/layout_rounded_corners_grey"
+                android:background="@drawable/layout_rounded_corners_blue"
                 android:padding="10dp"
                 android:text="@string/logout_from_dazoo"
                 android:textColor="@color/white"

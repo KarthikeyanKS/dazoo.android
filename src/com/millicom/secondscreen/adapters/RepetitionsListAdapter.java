@@ -2,6 +2,7 @@ package com.millicom.secondscreen.adapters;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
@@ -107,10 +108,14 @@ public class RepetitionsListAdapter extends BaseAdapter {
 		if (broadcast != null) {
 			//Get the correct date name index
 			int dateIndex = 0;
+			boolean dateOutOfWeek = false;
 			for (int i = 0; i < mTvDates.size(); i++) {
 				if (broadcast.getBeginTime().contains(mTvDates.get(i).getDate())) {
 					dateIndex = i;
 					break;
+				}
+				if (i == (mTvDates.size() - 1)) {
+					dateOutOfWeek = true;
 				}
 			}
 
@@ -119,8 +124,14 @@ public class RepetitionsListAdapter extends BaseAdapter {
 				holder.mDivider.setVisibility(View.VISIBLE);
 				if (position == 0 || DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTime()).equals(
 						DateUtilities.tvDateStringToDatePickerString(getItem(position-1).getBeginTime())) == false) {
-					holder.mHeader.setText(mTvDates.get(dateIndex).getName() + " " + 
+					if (dateOutOfWeek == true) {
+						holder.mHeader.setText(DateUtilities.isoStringToDayOfWeekAndDate(broadcast.getBeginTime().toUpperCase()) + " OUTSIDE OF WEEK");
+					}
+					else {
+						holder.mHeader.setText(mTvDates.get(dateIndex).getName() + " " + 
 							DateUtilities.tvDateStringToDatePickerString(mTvDates.get(dateIndex).getDate()));
+					}
+					
 					holder.mHeaderContainer.setVisibility(View.VISIBLE);
 				}
 				if (position != (getCount() - 1) && DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTime()).equals(
@@ -149,7 +160,6 @@ public class RepetitionsListAdapter extends BaseAdapter {
 			try {
 				mIsFuture = DateUtilities.isTimeInFuture(broadcast.getBeginTime());
 			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 
@@ -180,7 +190,6 @@ public class RepetitionsListAdapter extends BaseAdapter {
 							try {
 								tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTime());
 							} catch (ParseException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 

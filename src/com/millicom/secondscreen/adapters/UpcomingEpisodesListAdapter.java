@@ -120,7 +120,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 				if (position == 0 || DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTime()).equals(
 						DateUtilities.tvDateStringToDatePickerString(getItem(position - 1).getBeginTime())) == false) {
 					if (dateOutOfWeek == true) {
-						holder.mHeader.setText(DateUtilities.isoStringToDayOfWeekAndDate(broadcast.getBeginTime().toUpperCase()));
+						holder.mHeader.setText(DateUtilities.isoStringToDayOfWeekAndDate(broadcast.getBeginTime().toUpperCase()) + " OUTSIDE OF WEEK");
 					}
 					else {
 						holder.mHeader.setText(mTvDates.get(dateIndex).getName() + " " + 
@@ -161,7 +161,6 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 			try {
 				mIsFuture = DateUtilities.isTimeInFuture(broadcast.getBeginTime());
 			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 
@@ -192,7 +191,6 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 							try {
 								tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTime());
 							} catch (ParseException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 
