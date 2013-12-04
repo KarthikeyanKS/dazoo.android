@@ -226,6 +226,9 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			if (!NetworkUtils.checkConnection(this)) {
 				updateUI(REQUEST_STATUS.FAILED);
 			} else {
+				// update current hour
+				int hour = Integer.valueOf(DateUtilities.getCurrentHourString());
+				((SecondScreenApplication)getApplicationContext()).setSelectedHour(hour);
 				reloadPage();
 			}
 		}
