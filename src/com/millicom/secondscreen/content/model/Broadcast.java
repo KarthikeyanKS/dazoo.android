@@ -32,6 +32,7 @@ public class Broadcast implements Parcelable {
 	private String channelUrl;
 	private long beginTimeMillis;
 	private String shareUrl;
+	private String beginTimeString;
 
 	public Broadcast() {
 	}
@@ -50,6 +51,19 @@ public class Broadcast implements Parcelable {
 
 	public String getBeginTime() {
 		return this.beginTime;
+	}
+	
+	public String getBeginTimeString() {
+		if(beginTimeString == null) {
+			try {
+				beginTimeString = DateUtilities.isoStringToTimeString(beginTime);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return beginTimeString;
 	}
 
 	public void setEndTime(String endTime) {
@@ -91,7 +105,7 @@ public class Broadcast implements Parcelable {
 	public long getBeginTimeMillis() {
 		return this.beginTimeMillis;
 	}
-
+	
 	public void setShareUrl(String shareUrl) {
 		this.shareUrl = shareUrl;
 	}

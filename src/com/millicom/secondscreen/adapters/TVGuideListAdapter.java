@@ -21,6 +21,7 @@ import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Guide;
+import com.millicom.secondscreen.content.model.Program;
 import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.tvguide.ChannelPageActivity;
 import com.millicom.secondscreen.storage.DazooStore;
@@ -54,14 +55,6 @@ public class TVGuideListAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
-
-		mCurrentHour = Integer.valueOf(DateUtilities.getCurrentHourString());
-		if (mCurrentHour == mHour) {
-			mIsNow = true;
-		} else mIsNow = false;
-
-		final Guide guide = getItem(position);
-
 		if (rowView == null) {
 			mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			rowView = mLayoutInflater.inflate(R.layout.row_tvguide_list, null);
@@ -90,14 +83,22 @@ public class TVGuideListAdapter extends BaseAdapter {
 
 			rowView.setTag(viewHolder);
 		}
-
 		ViewHolder holder = (ViewHolder) rowView.getTag();
+		
+		
+		mCurrentHour = Integer.valueOf(DateUtilities.getCurrentHourString());
+		if (mCurrentHour == mHour) {
+			mIsNow = true;
+		} else mIsNow = false;
+
+		final Guide guide = getItem(position);
 
 		if (guide.getLogoLHref() != null) {
 			// ImageDownloadThread getChannelIconTask = new ImageDownloadThread(holder.mChannelIconIv, holder.mProgressBar);
 			// getChannelIconTask.execute(guide.getLogoHref());
 			// imageLoader.displayImage(guide.getLogoLHref(), mActivity, holder.mChannelIconIv);
-			 mImageLoader.displayImage(guide.getLogoSHref(), holder.mChannelIconIv, ImageLoader.IMAGE_TYPE.THUMBNAIL);
+			Log.v("TVGuideListAdapter:", "Calling displayImage");
+			mImageLoader.displayImage(guide.getLogoSHref(), holder.mChannelIconIv, ImageLoader.IMAGE_TYPE.THUMBNAIL);
 		} else {
 			holder.mChannelIconIv.setImageResource(R.color.white);
 		}
@@ -139,19 +140,21 @@ public class TVGuideListAdapter extends BaseAdapter {
 				holder.mLastProgramNameTv.setText("");
 				holder.mLastProgramTimeTv.setText("");
 				
-				for (int j = 0; j < nextBroadcasts.size(); j++) {
-					String programType = nextBroadcasts.get(j).getProgram().getProgramType();
-					String broadcastType = nextBroadcasts.get(j).getBroadcastType();
+				for (int j = 0; j < Math.min(nextBroadcasts.size(), 3); j++) {
+					Broadcast broadcast = nextBroadcasts.get(j);
+					Program program = broadcast.getProgram();
+					String programType = program.getProgramType();
+					String broadcastType = broadcast.getBroadcastType();
 					if (j == 0) {
 						if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-							holder.mLiveProgramNameTv.setText(nextBroadcasts.get(j).getProgram().getSeries().getName());
+							holder.mLiveProgramNameTv.setText(program.getSeries().getName());
 						} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
-							name = nextBroadcasts.get(j).getProgram().getTitle();
+							name = program.getTitle();
 							name = stringIconMovie + name;
 							holder.mLiveProgramNameTv.setText(name);
 						} else {
 
-							name = nextBroadcasts.get(j).getProgram().getTitle();
+							name = program.getTitle();
 							if (Consts.DAZOO_BROADCAST_TYPE_LIVE.equals(broadcastType)) {
 								 name = stringIconLive + name;
 								holder.mLiveProgramNameTv.setText(name);
@@ -160,7 +163,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 							}
 						}
 						try {
-							 holder.mLiveProgramTimeTv.setText((DateUtilities.isoStringToTimeString(nextBroadcasts.get(j).getBeginTime())));
+							 holder.mLiveProgramTimeTv.setText(broadcast.getBeginTimeString());
 						} catch (Exception e) {
 							e.printStackTrace();
 							 holder.mLiveProgramTimeTv.setText("");
@@ -176,35 +179,35 @@ public class TVGuideListAdapter extends BaseAdapter {
 					} else if (j == 1 && j < nextBroadcasts.size()) {
 
 						if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-							name = nextBroadcasts.get(j).getProgram().getSeries().getName();
+							name = program.getSeries().getName();
 							holder.mNextProgramNameTv.setText(name);
 						} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
-							name = nextBroadcasts.get(j).getProgram().getTitle();
+							name = program.getTitle();
 							name = stringIconMovie + name;
 							holder.mNextProgramNameTv.setText(name);
 						} else {
-							name = nextBroadcasts.get(j).getProgram().getTitle();
+							name = program.getTitle();
 							if (Consts.DAZOO_BROADCAST_TYPE_LIVE.equals(broadcastType)) {
 								name = stringIconLive + name;
 							} 
 							holder.mNextProgramNameTv.setText(name);
 						}
 						try {
-							 holder.mNextProgramTimeTv.setText((DateUtilities.isoStringToTimeString(nextBroadcasts.get(j).getBeginTime())));
+							 holder.mNextProgramTimeTv.setText(broadcast.getBeginTimeString());
 						} catch (Exception e) {
 							e.printStackTrace();
 							 holder.mNextProgramTimeTv.setText("");
 						}
 					} else if (j == 2 && j < nextBroadcasts.size()) {
-						if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(nextBroadcasts.get(j).getProgram().getProgramType())) {
-							name = nextBroadcasts.get(j).getProgram().getSeries().getName();
+						if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(program.getProgramType())) {
+							name = program.getSeries().getName();
 							holder.mLastProgramNameTv.setText(name);
 						} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
-							name = nextBroadcasts.get(j).getProgram().getTitle();
+							name = program.getTitle();
 							name = stringIconMovie + name;
 							holder.mLastProgramNameTv.setText(name);
 						} else {
-							name = nextBroadcasts.get(j).getProgram().getTitle();
+							name = program.getTitle();
 
 							if (Consts.DAZOO_BROADCAST_TYPE_LIVE.equals(broadcastType)) {
 								name = stringIconLive + name;
@@ -212,7 +215,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 							holder.mLastProgramNameTv.setText(name);
 						}
 						try {
-							 holder.mLastProgramTimeTv.setText((DateUtilities.isoStringToTimeString(nextBroadcasts.get(j).getBeginTime())));
+							 holder.mLastProgramTimeTv.setText(broadcast.getBeginTimeString());
 						} catch (Exception e) {
 							e.printStackTrace();
 							 holder.mLastProgramTimeTv.setText("");

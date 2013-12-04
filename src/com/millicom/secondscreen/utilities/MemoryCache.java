@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 public class MemoryCache {
 
@@ -23,7 +24,10 @@ public class MemoryCache {
 
     public Bitmap get(String id) {
         try {
-            if (!cache.containsKey(id)) return null;
+            if (!cache.containsKey(id)) {
+            	return null;
+            }
+            
             return cache.get(id);
         } catch (NullPointerException ex) {
             return null;
