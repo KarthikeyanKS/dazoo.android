@@ -161,8 +161,12 @@
             android:name="com.millicom.secondscreen.content.tvguide.BroadcastPageActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
+            android:parentActivityName="com.millicom.secondscreen.content.homepage.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.millicom.secondscreen.content.homepage.HomeActivity" />
         </activity>
 
         <!-- UPCOMING EPISODES PAGE -->

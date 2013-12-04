@@ -14,7 +14,8 @@
         android:layout_centerHorizontal="true"
         android:text="@string/no_content_layout_title"
         android:textColor="@color/black"
-        android:textSize="16sp" />
+        android:textSize="16sp" 
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/request_empty_details_tv"

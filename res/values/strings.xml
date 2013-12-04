@@ -51,7 +51,7 @@
 
     <!-- LAYOUT RESPONSES -->
     <string name="no_content_layout_title">No content</string>
-    <string name="no_content_layout_message">There are no content available in this category.</string>
+    <string name="no_content_layout_message">There are no shows in this category.</string>
 
     <!-- GENERAL ERRORS -->
     <string name="connection_failed_title">Could not connect to the network</string>

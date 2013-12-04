@@ -103,7 +103,7 @@
 
     <!-- LAYOUT RESPONSES -->
     <string name="no_content_layout_title">Ocurrió algo extraño.</string>
-    <string name="no_content_layout_message">No se pueden cargar el contenido en este momento. Por favor vuelve a intertalo más tarde.</string>
+    <string name="no_content_layout_message">No hay programas en esta categoria.</string>
 
     <!-- GENERAL ERRORS -->
     <string name="connection_failed_title">Se perdió la conexión a internet</string>

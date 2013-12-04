@@ -8,10 +8,13 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
@@ -47,7 +50,8 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 	private Channel					mChannel;
 	private String					token, mChannelId, mBroadcastPageUrl;
 	private long					mBeginTimeInMillis;
-	private boolean					mIsFromNotification	= false, mIsFromActivity = false, mIsLoggedIn = false, mIsBroadcast = false, mIsUpcoming = false, mIsSeries = false, mIsRepeat = false;
+	private boolean					mIsFromNotification	= false, mIsFromActivity = false, mIsLoggedIn = false, mIsBroadcast = false, mIsUpcoming = false, mIsSeries = false, mIsRepeat = false,
+			mIsFromProfile = false;
 	private RelativeLayout			mTabTvGuide, mTabActivity, mTabProfile;
 	private DazooStore				dazooStore;
 	private Activity				mActivity;
@@ -72,15 +76,16 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		mIsFromNotification = intent.getBooleanExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, false);
 		mBroadcastPageUrl = intent.getStringExtra(Consts.INTENT_EXTRA_BROADCAST_URL);
 		mIsFromActivity = intent.getBooleanExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, false);
+		mIsFromProfile = intent.getBooleanExtra(Consts.INTENT_EXTRA_FROM_PROFILE, false);
 		mChannelLogoUrl = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_LOGO_URL);
-		
+
 		Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		Log.d(TAG, "mBeginTimeInMillis: " + String.valueOf(mBeginTimeInMillis));
 		Log.d(TAG, "mChannelId: " + mChannelId);
 		Log.d(TAG, "mTvDate: " + mTvDate);
 		Log.d(TAG, "mBroadcastPageUrl: " + mBroadcastPageUrl);
-		Log.d(TAG,"mChannelLogoUrl" + mChannelLogoUrl);
-		Log.d(TAG, "FROM NOTIFICATION: " + mIsFromNotification);
+		Log.d(TAG, "mChannelLogoUrl" + mChannelLogoUrl);
+		Log.d(TAG, "from notification: " + mIsFromNotification);
 		Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
 		initViews();
@@ -184,15 +189,15 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 					// if we have the data in the singleton about the channel - set it completely
 					if (mChannel != null) {
 						mBroadcast.setChannel(mChannel);
-						
+
 					} else {
 						// otherwise - just use the id that we got with the notification intent
 						Channel channel = new Channel();
 						channel.setChannelId(mChannelId);
-						if(mChannelLogoUrl!=null){
+						if (mChannelLogoUrl != null) {
 							channel.setLogoSUrl(mChannelLogoUrl);
 						}
-						
+
 						mBroadcast.setChannel(channel);
 					}
 
@@ -214,9 +219,19 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		mTabProfile = (RelativeLayout) findViewById(R.id.show_me);
 		mTabProfile.setOnClickListener(this);
 
-		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
-		mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
-		mTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+		if (mIsFromActivity) {
+			mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+			mTabActivity.setBackgroundColor(getResources().getColor(R.color.red));
+			mTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+		} else if (mIsFromProfile) {
+			mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+			mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+			mTabProfile.setBackgroundColor(getResources().getColor(R.color.red));
+		} else {
+			mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
+			mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+			mTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+		}
 
 		mBlockContainer = (LinearLayout) findViewById(R.id.broacastpage_block_container_layout);
 		mScrollView = (ScrollView) findViewById(R.id.broadcast_scroll);
@@ -259,6 +274,45 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		// Respond to the action bar's Up/Home button
+		case android.R.id.home:
+			Intent upIntent = NavUtils.getParentActivityIntent(this);
+			// Log.d(TAG,"UP INTENT: " + upIntent);
+			// if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+			// // This activity is NOT part of this app's task, so create a new task
+			// // when navigating up, with a synthesized back stack.
+			// TaskStackBuilder.create(this)
+			// // Add all of this activity's parents to the back stack
+			// .addNextIntentWithParentStack(upIntent)
+			// // Navigate up to the closest parent
+			// .startActivities();
+			// } else {
+			// Log.d(TAG,"GO UP TO TVGUIDE");
+			// // This activity is part of this app's task, so simply
+			// // navigate up to the logical parent activity.
+			// NavUtils.navigateUpTo(this, upIntent);
+			// }
+
+			if (mIsFromActivity) {
+				NavUtils.navigateUpTo(this, new Intent(BroadcastPageActivity.this, ActivityActivity.class));
+			} else if (mIsFromProfile) {
+				NavUtils.navigateUpTo(this, new Intent(BroadcastPageActivity.this, MyProfileActivity.class));
+			}
+
+			else {
+				// This activity is part of this app's task, so simply
+				// navigate up to the logical parent activity.
+				NavUtils.navigateUpTo(this, upIntent);
+			}
+
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
