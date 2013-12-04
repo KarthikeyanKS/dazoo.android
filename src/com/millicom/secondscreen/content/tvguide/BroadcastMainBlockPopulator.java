@@ -103,7 +103,7 @@ public class BroadcastMainBlockPopulator {
 
 		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 			mProgramId = broadcast.getProgram().getSeries().getSeriesId();
-			mContentTitle = broadcast.getProgram().getTitle();
+			mContentTitle = broadcast.getProgram().getSeries().getName();
 			seasonTv.setText(mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " ");
 			seasonTv.setVisibility(View.VISIBLE);
 
