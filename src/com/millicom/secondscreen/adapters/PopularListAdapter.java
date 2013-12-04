@@ -8,7 +8,9 @@ import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.adapters.TVGuideListAdapter.ViewHolder;
 import com.millicom.secondscreen.content.model.Broadcast;
+import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
+import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.millicom.secondscreen.utilities.ImageLoader;
 
@@ -36,12 +38,18 @@ public class PopularListAdapter extends BaseAdapter {
 	private ImageLoader				mImageLoader;
 	private String					mToken;
 	private int						mCurrentPosition	= -1;
+	
+	private DazooStore				dazooStore;
+	private ArrayList<TvDate>		mTvDates;
 
 	public PopularListAdapter(Activity activity, String token, ArrayList<Broadcast> popularBroadcasts) {
 		this.mActivity = activity;
 		this.mPopularBroadcasts = popularBroadcasts;
 		this.mImageLoader = new ImageLoader(activity, R.color.white);
 		this.mToken = token;
+
+		dazooStore = DazooStore.getInstance();
+		mTvDates = dazooStore.getTvDates();
 	}
 
 	@Override
@@ -101,19 +109,26 @@ public class PopularListAdapter extends BaseAdapter {
 				e.printStackTrace();
 			}
 
-			// TODO: SORTING BY DAY: SHOW/HIDE HEADER
-
-			mCurrentPosition = (Integer) holder.mTitleTv.getTag();
-			Log.d(TAG,"currentPosition:" + mCurrentPosition);
-			if(position % Consts.MILLICOM_SECONDSCREEN_API_POPULAR_COUNT_DEFAULT == 0){
-			
-			holder.mHeaderContainer.setVisibility(View.VISIBLE);
-			holder.mHeaderTv.setText(tvDate);
-			
-			
+			//Get the correct date name index
+			int dateIndex = 0;
+			for (int i = 0; i < mTvDates.size(); i++) {
+				if (broadcast.getBeginTime().contains(mTvDates.get(i).getDate())) {
+					dateIndex = i;
+					break;
+				}
 			}
-			else {
-				holder.mHeaderContainer.setVisibility(View.GONE);
+			try {
+				mCurrentPosition = (Integer) holder.mTitleTv.getTag();
+				Log.d(TAG,"currentPosition:" + mCurrentPosition);
+				if(position % Consts.MILLICOM_SECONDSCREEN_API_POPULAR_COUNT_DEFAULT == 0){
+					holder.mHeaderTv.setText(mTvDates.get(dateIndex).getName() + " " + DateUtilities.tvDateStringToDatePickerString(mTvDates.get(dateIndex).getDate()));
+					holder.mHeaderContainer.setVisibility(View.VISIBLE);
+				}
+				else {
+					holder.mHeaderContainer.setVisibility(View.GONE);
+				}
+			} catch (ParseException e) {
+				e.printStackTrace();
 			}
 			holder.mContainer.setOnClickListener(new View.OnClickListener() {
 

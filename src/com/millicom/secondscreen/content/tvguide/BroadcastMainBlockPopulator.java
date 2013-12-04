@@ -199,7 +199,7 @@ public class BroadcastMainBlockPopulator {
 			}
 		}
 
-		synopsisTv.setText(program.getSynopsisLong());
+		synopsisTv.setText(program.getSynopsisShort());
 
 		String extras = "";
 		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {

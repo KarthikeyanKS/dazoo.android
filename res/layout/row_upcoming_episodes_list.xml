@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
@@ -25,7 +26,8 @@
             android:textAllCaps="true"
             android:textColor="@color/grey2"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            font:fonttextview="fontello.ttf" />
         
     </RelativeLayout>
 
@@ -53,7 +55,8 @@
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/black"
                 android:textSize="22sp"
-                android:textStyle="bold" />
+                android:textStyle="bold" 
+            	font:fonttextview="fontello.ttf"/>
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/row_upcoming_episodes_listitem_title_time"
@@ -61,7 +64,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/row_upcoming_episodes_listitem_season_episode"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+            	font:fonttextview="fontello.ttf" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/row_upcoming_episodes_listitem_channel"
@@ -69,7 +73,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/row_upcoming_episodes_listitem_title_time"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+            	font:fonttextview="fontello.ttf" />
             
         </RelativeLayout>
 
