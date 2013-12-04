@@ -198,6 +198,9 @@ public class SSHttpClient<T_Result> {
 				if (!isCancelled()) {
 					// Create http get request
 					mHttpGet = new HttpGet(uri);
+					
+					// header to accept the json in a correct encoding
+					mHttpGet.setHeader("Content-type", "application/json; charset=UTF-8");
 				}
 			} finally {
 				mLock.unlock();
