@@ -310,12 +310,16 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 			public void onGetPageResult(SSPageGetResult aPageGetResult) {
 				mRepeatBroadcasts = SSBroadcastsFromProgramPage.getInstance().getProgramBroadcasts();
 				int hour = ((SecondScreenApplication) getApplicationContext()).getSelectedHour();
-				TvDate tvDate  = DazooStore.getInstance().getDate(mTvDate);
+				TvDate tvDate = DazooStore.getInstance().getDate(mTvDate);
 				int indexOfNearestBroadcast = Broadcast.getClosestBroadcastIndexFromTime(mRepeatBroadcasts, hour, tvDate);
-				mRepeatBroadcasts = Broadcast.getBroadcastsStartingFromPosition(indexOfNearestBroadcast, mRepeatBroadcasts, mRepeatBroadcasts.size());
-				Log.d(TAG, "broadcasts from program: " + mRepeatBroadcasts.size());
+
+				if (indexOfNearestBroadcast >= 0) {
+					mRepeatBroadcasts = Broadcast.getBroadcastsStartingFromPosition(indexOfNearestBroadcast, mRepeatBroadcasts, mRepeatBroadcasts.size());
+					Log.d(TAG, "broadcasts from program: " + mRepeatBroadcasts.size());
+				}
 				mIsRepeat = true;
 				updateUI(REQUEST_STATUS.SUCCESSFUL);
+
 			}
 		});
 	}
