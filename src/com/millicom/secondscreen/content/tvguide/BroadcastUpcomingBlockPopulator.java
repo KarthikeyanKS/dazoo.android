@@ -78,8 +78,16 @@ public class BroadcastUpcomingBlockPopulator {
 				Program program = broadcastOne.getProgram();
 				
 				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(program.getProgramType())) {
-					mSeasonEpisodeOneTv.setText(mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + "  "
-							+ mActivity.getResources().getString(R.string.episode) + " " + program.getEpisodeNumber());
+					String season = program.getSeason().getNumber();
+					int episode = program.getEpisodeNumber();
+					String seasonEpisode = "";
+					if (!season.equals("0")) {
+						seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + season + " ";
+					}
+					if (episode != 0) {
+						seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + episode;
+					}
+					mSeasonEpisodeOneTv.setText(seasonEpisode);
 				} else {
 					mSeasonEpisodeOneTv.setText(program.getTitle());
 				}
@@ -87,7 +95,9 @@ public class BroadcastUpcomingBlockPopulator {
 			}
 
 			try {
-				mTitleTimeOneTv.setText(DateUtilities.isoStringToDayOfWeekAndDate(broadcastOne.getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(broadcastOne.getBeginTime()));
+				String weekday = DateUtilities.isoStringToDayOfWeekAndDate(broadcastOne.getBeginTime());
+				weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
+				mTitleTimeOneTv.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcastOne.getBeginTime()));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -195,8 +205,16 @@ public class BroadcastUpcomingBlockPopulator {
 			if (mIsSeries) {
 				Program program = broadcastTwo.getProgram();
 				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(program.getProgramType())) {
-					mSeasonEpisodeTwoTv.setText(mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " "
-							+ mActivity.getResources().getString(R.string.episode) + " " + program.getEpisodeNumber());
+					String season = program.getSeason().getNumber();
+					int episode = program.getEpisodeNumber();
+					String seasonEpisode = "";
+					if (!season.equals("0")) {
+						seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + season + " ";
+					}
+					if (episode != 0) {
+						seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + episode;
+					}
+					mSeasonEpisodeTwoTv.setText(seasonEpisode);
 				} else {
 					mSeasonEpisodeTwoTv.setText(program.getTitle());
 				}
@@ -204,7 +222,9 @@ public class BroadcastUpcomingBlockPopulator {
 			}
 
 			try {
-				mTitleTimeTwoTv.setText(DateUtilities.isoStringToDayOfWeekAndDate(upcomingBroadcasts.get(1).getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(broadcastTwo.getBeginTime()));
+				String weekday = DateUtilities.isoStringToDayOfWeekAndDate(broadcastTwo.getBeginTime());
+				weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
+				mTitleTimeTwoTv.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcastTwo.getBeginTime()));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -313,15 +333,25 @@ public class BroadcastUpcomingBlockPopulator {
 				Program program = broadcastThree.getProgram();
 
 				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(program.getProgramType())) {
-					mSeasonEpisodeThreeTv.setText(mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " "
-							+ mActivity.getResources().getString(R.string.episode) + " " + program.getEpisodeNumber());
+					String season = program.getSeason().getNumber();
+					int episode = program.getEpisodeNumber();
+					String seasonEpisode = "";
+					if (!season.equals("0")) {
+						seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + season + " ";
+					}
+					if (episode != 0) {
+						seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + episode;
+					}
+					mSeasonEpisodeThreeTv.setText(seasonEpisode);
 				} else {
 					mSeasonEpisodeThreeTv.setText(program.getTitle());
 				}
 				mSeasonEpisodeThreeTv.setVisibility(View.VISIBLE);
 			}
 			try {
-				mTitleTimeThreeTv.setText(DateUtilities.isoStringToDayOfWeekAndDate(broadcastThree.getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(broadcastThree.getBeginTime()));
+				String weekday = DateUtilities.isoStringToDayOfWeekAndDate(broadcastThree.getBeginTime());
+				weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
+				mTitleTimeThreeTv.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcastThree.getBeginTime()));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}

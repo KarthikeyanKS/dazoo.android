@@ -73,11 +73,11 @@ public class BroadcastRepetitionsBlockPopulator {
 			mReminderOneContainer.setVisibility(View.VISIBLE);
 			LinearLayout mDividerOneContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_divider_one_container);
 			mDividerOneContainer.setVisibility(View.VISIBLE);
-
-//			mSeasonEpisodeOneTv.setVisibility(View.GONE);
 			
 			try {
-				mTitleTimeOneTv.setText(DateUtilities.isoStringToDayOfWeekAndDate(broadcastOne.getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(broadcastOne.getBeginTime()));
+				String weekday = DateUtilities.isoStringToDayOfWeekAndDate(broadcastOne.getBeginTime());
+				weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
+				mTitleTimeOneTv.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcastOne.getBeginTime()));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -186,7 +186,9 @@ public class BroadcastRepetitionsBlockPopulator {
 			mSeasonEpisodeTwoTv.setVisibility(View.GONE);
 
 			try {
-				mTitleTimeTwoTv.setText(DateUtilities.isoStringToDayOfWeekAndDate(repeatingBroadcasts.get(1).getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(broadcastTwo.getBeginTime()));
+				String weekday = DateUtilities.isoStringToDayOfWeekAndDate(broadcastTwo.getBeginTime());
+				weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
+				mTitleTimeTwoTv.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcastTwo.getBeginTime()));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -298,7 +300,9 @@ public class BroadcastRepetitionsBlockPopulator {
 //			mSeasonEpisodeThreeTv.setVisibility(View.GONE);
 			
 			try {
-				mTitleTimeThreeTv.setText(DateUtilities.isoStringToDayOfWeekAndDate(broadcastThree.getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(broadcastThree.getBeginTime()));
+				String weekday = DateUtilities.isoStringToDayOfWeekAndDate(broadcastThree.getBeginTime());
+				weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
+				mTitleTimeThreeTv.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcastThree.getBeginTime()));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
