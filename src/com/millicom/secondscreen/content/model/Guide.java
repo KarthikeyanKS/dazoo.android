@@ -23,7 +23,7 @@ public class Guide implements Parcelable{
 	private ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
 	
 	/* Used for caching broadcast indexes */
-	private HashMap<String, Integer> broadcastIndexCache = new HashMap<String, Integer>();
+	private HashMap<Long, Integer> broadcastIndexCache = new HashMap<Long, Integer>();
 	
 	public Guide(){
 	}
@@ -120,13 +120,13 @@ public class Guide implements Parcelable{
 			return new Guide[size];
 		}
 	};
-	
+		
 	public int getClosestBroadcastIndexFromTime(ArrayList<Broadcast> broadcastList, int hour, TvDate date) {
 		int nearestIndex = 0;
 
-		String timeNowString = DateUtilities.timeStringUsingTvDateAndHour(date, hour);
+		long timeNow = DateUtilities.timeAsLongFromTvDateAndHour(date, hour);
 	
-		nearestIndex = getBroadcastIndex(broadcastList, timeNowString);
+		nearestIndex = getBroadcastIndex(broadcastList, timeNow);
 		
 		return nearestIndex;
 	}
@@ -135,19 +135,22 @@ public class Guide implements Parcelable{
 		int nearestIndex = 0;
 		
 		// get the time now
-		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
-		String timeNowString = df.format(new Date());
+		Date currentDate = new Date();
+		long timeNow = currentDate.getTime();
 		
-		nearestIndex = getBroadcastIndex(broadcastList, timeNowString);
+		nearestIndex = getBroadcastIndex(broadcastList, timeNow);
 
 		return nearestIndex;
 	}
 	
-	public int getBroadcastIndex(ArrayList<Broadcast> broadcastList, String timeNowString) {
+	
+	
+	public int getBroadcastIndex(ArrayList<Broadcast> broadcastList, long timeNow) {
 		int nearestIndex = 0;
 		Integer nearestIndexObj = null;
-		if(broadcastIndexCache.containsKey(timeNowString)) {
-			nearestIndexObj = broadcastIndexCache.get(timeNowString);
+		Long timeLongObject = Long.valueOf(timeNow);
+		if(broadcastIndexCache.containsKey(timeLongObject)) {
+			nearestIndexObj = broadcastIndexCache.get(timeLongObject);
 			if(nearestIndexObj != null) {
 				nearestIndex = nearestIndexObj.intValue();
 				Log.v("Guide: Broadcast index", "Cache hit!");
@@ -155,9 +158,9 @@ public class Guide implements Parcelable{
 		}
 		
 		if(nearestIndexObj == null) {
-			nearestIndex = Broadcast.getClosestBroadcastIndexUsingTimeString(broadcastList, timeNowString);
+			nearestIndex = Broadcast.getClosestBroadcastIndexUsingTime(broadcastList, timeNow);
 			
-			broadcastIndexCache.put(timeNowString, Integer.valueOf(nearestIndex));
+			broadcastIndexCache.put(timeLongObject, Integer.valueOf(nearestIndex));
 			Log.v("Guide: Broadcast index", "Cache miss!");
 		}
 		

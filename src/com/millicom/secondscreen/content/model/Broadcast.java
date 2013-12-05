@@ -27,6 +27,7 @@ public class Broadcast implements Parcelable {
 	private String broadcastType;
 	private String beginTime;
 	private String endTime;
+	private long endTimeMillis;
 	private Channel channel;
 	private Program program;
 	private String channelUrl;
@@ -44,6 +45,22 @@ public class Broadcast implements Parcelable {
 	public String getBroadcastType() {
 		return this.broadcastType;
 	}
+	
+	public long getEndTimeMillis() {
+		if(this.endTimeMillis == 0) {
+			try {
+				this.endTimeMillis = DateUtilities.isoStringToLong(beginTime);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return this.endTimeMillis;
+	}
+	
+	public void setEndTimeMillis(long endTimeMillis) {
+		this.endTimeMillis = endTimeMillis;
+	}
 
 	public void setBeginTime(String beginTime) {
 		this.beginTime = beginTime;
@@ -54,16 +71,20 @@ public class Broadcast implements Parcelable {
 	}
 	
 	public String getBeginTimeString() {
-		if(beginTimeString == null) {
+		if(this.beginTimeString == null) {
 			try {
-				beginTimeString = DateUtilities.isoStringToTimeString(beginTime);
+				this.beginTimeString = DateUtilities.isoStringToTimeString(beginTime);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		
-		return beginTimeString;
+		return this.beginTimeString;
+	}
+	
+	public void setBeginTimeString(String beginTimeString) {
+		this.beginTimeString = beginTimeString;
 	}
 
 	public void setEndTime(String endTime) {
@@ -135,10 +156,12 @@ public class Broadcast implements Parcelable {
 	public Broadcast(Parcel in) {
 		beginTime = in.readString();
 		endTime = in.readString();
+		endTimeMillis = getEndTimeMillis();
 		channel = (Channel) in.readParcelable(Channel.class.getClassLoader());
 		program = (Program) in.readParcelable(Program.class.getClassLoader());
 		channelUrl = in.readString();
 		beginTimeMillis = in.readLong();
+		beginTimeString = getBeginTimeString();
 		shareUrl = in.readString();
 	}
 
@@ -157,13 +180,8 @@ public class Broadcast implements Parcelable {
 
 		@Override
 		public int compare(Broadcast lhs, Broadcast rhs) {
-			long left = 0, right = 0;
-			try {
-				left = DateUtilities.isoStringToLong(lhs.getBeginTime());
-				right = DateUtilities.isoStringToLong(rhs.getBeginTime());
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+			long left = lhs.getBeginTimeMillis();
+			long right = rhs.getBeginTimeMillis();
 
 			if (left > right) {
 				return 1;
@@ -192,25 +210,14 @@ public class Broadcast implements Parcelable {
 		return "\n beginTime: " + beginTime + "\n endTime: " + endTime + "\n channel: " + channel + "\n program: " + program + "\n shareUrl" + shareUrl;
 	}
 
-	public static int getClosestBroadcastIndexUsingTimeString(ArrayList<Broadcast> broadcastList, String timeNowString) {
+	public static int getClosestBroadcastIndexUsingTime(ArrayList<Broadcast> broadcastList, long timeNow) {
 		int nearestIndex = -1;
-
-		long timeNow = 0;
-		try {
-			timeNow = DateUtilities.isoStringToLong(timeNowString);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
 
 		long bestDistanceFoundYet = Long.MAX_VALUE;
 		for (int i = 0; i < broadcastList.size(); i++) {
-			long timeBroadcast = 0;
-			try {
-				timeBroadcast = DateUtilities.isoStringToLong(broadcastList.get(i).getBeginTime());
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-
+			Broadcast broadcast = broadcastList.get(i);
+			long timeBroadcast = broadcast.getBeginTimeMillis();
+			
 			long d = Math.abs(timeNow - timeBroadcast);
 			if (d < bestDistanceFoundYet && timeNow <= timeBroadcast) {
 				// if (d < bestDistanceFoundYet) {
@@ -225,10 +232,12 @@ public class Broadcast implements Parcelable {
 		int nearestIndex = -1;
 
 		// get the time now
-		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
-		String timeNowStr = df.format(new Date());
+//		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
+//		String timeNowStr = df.format(new Date());
+		Date currentDate = new Date();
+		long timeNow = currentDate.getTime();
 
-		nearestIndex = getClosestBroadcastIndexUsingTimeString(broadcastList, timeNowStr);
+		nearestIndex = getClosestBroadcastIndexUsingTime(broadcastList, timeNow);
 
 		return nearestIndex;
 	}
@@ -236,9 +245,9 @@ public class Broadcast implements Parcelable {
 	public static int getClosestBroadcastIndexFromTime(ArrayList<Broadcast> broadcastList, int hour, TvDate date) {
 		int nearestIndex = 0;
 
-		String timeNowString = DateUtilities.timeStringUsingTvDateAndHour(date, hour);
+		long timeNow = DateUtilities.timeAsLongFromTvDateAndHour(date, hour);
 
-		nearestIndex = getClosestBroadcastIndexUsingTimeString(broadcastList, timeNowString);
+		nearestIndex = getClosestBroadcastIndexUsingTime(broadcastList, timeNow);
 
 		return nearestIndex;
 	}

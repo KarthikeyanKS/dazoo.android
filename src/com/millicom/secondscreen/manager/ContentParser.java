@@ -151,6 +151,7 @@ public class ContentParser {
 			channel.setLogoMUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_MEDIUM));
 			channel.setLogoLUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_LARGE));
 		}
+		
 		return channel;
 	}
 
@@ -161,6 +162,10 @@ public class ContentParser {
 		broadcast.setBeginTimeMillis(jsonBroadcast.optLong(Consts.DAZOO_BROADCAST_BEGIN_TIME_MILLIS));
 
 		broadcast.setShareUrl(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_SHARE_URL));
+		
+		/* Lazy instantiation => fields get set using beginTimeMillis and endTime */
+		broadcast.getBeginTimeString();
+		broadcast.getEndTimeMillis();
 
 		JSONObject jsonChannel = jsonBroadcast.optJSONObject(Consts.DAZOO_BROADCAST_CHANNEL);
 		if (jsonChannel != null) {

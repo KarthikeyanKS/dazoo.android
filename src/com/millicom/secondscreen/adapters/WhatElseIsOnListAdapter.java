@@ -3,25 +3,22 @@ package com.millicom.secondscreen.adapters;
 import java.text.ParseException;
 import java.util.ArrayList;
 
-import com.millicom.secondscreen.Consts;
-import com.millicom.secondscreen.R;
-import com.millicom.secondscreen.content.model.Broadcast;
-import com.millicom.secondscreen.utilities.DateUtilities;
-import com.millicom.secondscreen.utilities.ImageLoader;
-
-
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.content.model.Broadcast;
+import com.millicom.secondscreen.utilities.DateUtilities;
+import com.millicom.secondscreen.utilities.ImageLoader;
 
 public class WhatElseIsOnListAdapter extends BaseAdapter {
 
@@ -124,8 +121,8 @@ public class WhatElseIsOnListAdapter extends BaseAdapter {
 			
 			//MC - Calculate the duration of the program and set up ProgressBar.
 			try {
-				long startTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime());
-				long endTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTime());
+				long startTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillis());
+				long endTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTimeMillis());
 				duration = (int) (startTime - endTime) / (1000 * 60);
 			} 
 			catch (ParseException e) {
@@ -137,7 +134,7 @@ public class WhatElseIsOnListAdapter extends BaseAdapter {
 			int initialProgress = 0;
 			long difference = 0;
 			try {
-				difference = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime());
+				difference = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillis());
 			} 
 			catch (ParseException e) {
 				e.printStackTrace();
@@ -150,7 +147,7 @@ public class WhatElseIsOnListAdapter extends BaseAdapter {
 			} 
 			else {
 				try {
-					initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime()) / (1000 * 60);
+					initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillis()) / (1000 * 60);
 				} 
 				catch (ParseException e) {
 					e.printStackTrace();

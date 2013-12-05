@@ -228,10 +228,11 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			long timeToEnd = 0;
 			// MC - Calculate the duration of the program and set up ProgressBar.
 			try {
-				long startTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
-				long endTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getEndTime());
-				timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
-				timeToEnd = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getEndTime());
+				long startTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTimeMillis());
+				long startTimeReal = feedItem.getBroadcast().getBeginTimeMillis();
+				long endTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getEndTimeMillis());
+				timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTimeMillis());
+				timeToEnd = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getEndTimeMillis());
 				durationTw = (int) (startTime - endTime) / (1000 * 60);
 			} catch (ParseException e) {
 				e.printStackTrace();
@@ -243,7 +244,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				int initialProgressTw = 0;
 				long differenceTw = 0;
 				try {
-					differenceTw = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
+					differenceTw = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTimeMillis());
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
@@ -254,7 +255,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					holder.progressBarTw.setProgress(0);
 				} else {
 					try {
-						initialProgressTw = (int) DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime()) / (1000 * 60);
+						initialProgressTw = (int) DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTimeMillis()) / (1000 * 60);
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -489,10 +490,10 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			timeToEnd = 0;
 			// MC - Calculate the duration of the program and set up ProgressBar.
 			try {
-				long startTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
-				long endTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getEndTime());
-				timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
-				timeToEnd = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getEndTime());
+				long startTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTimeMillis());
+				long endTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getEndTimeMillis());
+				timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTimeMillis());
+				timeToEnd = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getEndTimeMillis());
 				duration = (int) (startTime - endTime) / (1000 * 60);
 			} catch (ParseException e) {
 				e.printStackTrace();
@@ -504,7 +505,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				int initialProgress = 0;
 				long difference = 0;
 				try {
-					difference = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
+					difference = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTimeMillis());
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
@@ -515,7 +516,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					holderBC.progressBar.setProgress(0);
 				} else {
 					try {
-						initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime()) / (1000 * 60);
+						initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTimeMillis()) / (1000 * 60);
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -737,10 +738,10 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			timeToEnd = 0;
 			// MC - Calculate the duration of the program and set up ProgressBar.
 			try {
-				long startTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
-				long endTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getEndTime());
-				timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
-				timeToEnd = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getEndTime());
+				long startTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTimeMillis());
+				long endTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getEndTimeMillis());
+				timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTimeMillis());
+				timeToEnd = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getEndTimeMillis());
 				durationRec = (int) (startTime - endTime) / (1000 * 60);
 			} catch (ParseException e) {
 				e.printStackTrace();
@@ -752,7 +753,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				int initialProgressRec = 0;
 				long differenceRec = 0;
 				try {
-					differenceRec = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime());
+					differenceRec = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTimeMillis());
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
@@ -763,7 +764,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					holderRBC.progressBarRec.setProgress(0);
 				} else {
 					try {
-						initialProgressRec = (int) DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTime()) / (1000 * 60);
+						initialProgressRec = (int) DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTimeMillis()) / (1000 * 60);
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -1000,10 +1001,10 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				timeToEnd = 0;
 				// MC - Calculate the duration of the program and set up ProgressBar.
 				try {
-					long startTime = DateUtilities.getAbsoluteTimeDifference(broadcastOne.getBeginTime());
-					long endTime = DateUtilities.getAbsoluteTimeDifference(broadcastOne.getEndTime());
-					timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(broadcastOne.getBeginTime());
-					timeToEnd = DateUtilities.getAbsoluteTimeDifference(broadcastOne.getEndTime());
+					long startTime = DateUtilities.getAbsoluteTimeDifference(broadcastOne.getBeginTimeMillis());
+					long endTime = DateUtilities.getAbsoluteTimeDifference(broadcastOne.getEndTimeMillis());
+					timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(broadcastOne.getBeginTimeMillis());
+					timeToEnd = DateUtilities.getAbsoluteTimeDifference(broadcastOne.getEndTimeMillis());
 					durationOne = (int) (startTime - endTime) / (1000 * 60);
 				} catch (ParseException e) {
 					e.printStackTrace();
@@ -1015,7 +1016,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					int initialProgressOne = 0;
 					long differenceOne = 0;
 					try {
-						differenceOne = DateUtilities.getAbsoluteTimeDifference(broadcastOne.getBeginTime());
+						differenceOne = DateUtilities.getAbsoluteTimeDifference(broadcastOne.getBeginTimeMillis());
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -1026,7 +1027,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						holderPBC.mProgressBarOne.setProgress(0);
 					} else {
 						try {
-							initialProgressOne = (int) DateUtilities.getAbsoluteTimeDifference(broadcastOne.getBeginTime()) / (1000 * 60);
+							initialProgressOne = (int) DateUtilities.getAbsoluteTimeDifference(broadcastOne.getBeginTimeMillis()) / (1000 * 60);
 						} catch (ParseException e) {
 							e.printStackTrace();
 						}
@@ -1105,10 +1106,10 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				timeToEnd = 0;
 				// MC - Calculate the duration of the program and set up ProgressBar.
 				try {
-					long startTime = DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getBeginTime());
-					long endTime = DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getEndTime());
-					timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getBeginTime());
-					timeToEnd = DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getEndTime());
+					long startTime = DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getBeginTimeMillis());
+					long endTime = DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getEndTimeMillis());
+					timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getBeginTimeMillis());
+					timeToEnd = DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getEndTimeMillis());
 					durationTwo = (int) (startTime - endTime) / (1000 * 60);
 				} catch (ParseException e) {
 					e.printStackTrace();
@@ -1120,7 +1121,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					int initialProgressTwo = 0;
 					long differenceTwo = 0;
 					try {
-						differenceTwo = DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getBeginTime());
+						differenceTwo = DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getBeginTimeMillis());
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -1131,7 +1132,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						holderPBC.mProgressBarTwo.setProgress(0);
 					} else {
 						try {
-							initialProgressTwo = (int) DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getBeginTime()) / (1000 * 60);
+							initialProgressTwo = (int) DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getBeginTimeMillis()) / (1000 * 60);
 						} catch (ParseException e) {
 							e.printStackTrace();
 						}
@@ -1197,10 +1198,10 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				timeToEnd = 0;
 				// MC - Calculate the duration of the program and set up ProgressBar.
 				try {
-					long startTime = DateUtilities.getAbsoluteTimeDifference(broadcastThree.getBeginTime());
-					long endTime = DateUtilities.getAbsoluteTimeDifference(broadcastThree.getEndTime());
-					timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(broadcastThree.getBeginTime());
-					timeToEnd = DateUtilities.getAbsoluteTimeDifference(broadcastThree.getEndTime());
+					long startTime = DateUtilities.getAbsoluteTimeDifference(broadcastThree.getBeginTimeMillis());
+					long endTime = DateUtilities.getAbsoluteTimeDifference(broadcastThree.getEndTimeMillis());
+					timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(broadcastThree.getBeginTimeMillis());
+					timeToEnd = DateUtilities.getAbsoluteTimeDifference(broadcastThree.getEndTimeMillis());
 					durationThree = (int) (startTime - endTime) / (1000 * 60);
 				} catch (ParseException e) {
 					e.printStackTrace();
@@ -1212,7 +1213,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					int initialProgressThree = 0;
 					long differenceThree = 0;
 					try {
-						differenceThree = DateUtilities.getAbsoluteTimeDifference(broadcastThree.getBeginTime());
+						differenceThree = DateUtilities.getAbsoluteTimeDifference(broadcastThree.getBeginTimeMillis());
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -1223,7 +1224,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						holderPBC.mProgressBarThree.setProgress(0);
 					} else {
 						try {
-							initialProgressThree = (int) DateUtilities.getAbsoluteTimeDifference(broadcastThree.getBeginTime()) / (1000 * 60);
+							initialProgressThree = (int) DateUtilities.getAbsoluteTimeDifference(broadcastThree.getBeginTimeMillis()) / (1000 * 60);
 						} catch (ParseException e) {
 							e.printStackTrace();
 						}

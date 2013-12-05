@@ -53,12 +53,24 @@ public class DateUtilities {
 		return output;
 	}
 	
-	public static String timeStringUsingTvDateAndHour(TvDate date, int hour) {
+	public static String timeStringUsingTvDateAndHour(TvDate tvDate, int hour) {
 		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
-		
-		String year = DateUtilities.tvDateToYearNumber(date.getDate());
-		String month = DateUtilities.tvDateToMonthNumber(date.getDate());
-		String day = DateUtilities.tvDateToDayNumber(date.getDate());
+		Date date = dateFromTvDateAndHour(tvDate, hour);
+		String timeNowStr = df.format(date);
+		return timeNowStr;
+	}
+	
+	public static long timeAsLongFromTvDateAndHour(TvDate tvDate, int hour) {
+		long time = 0;
+		Date date = dateFromTvDateAndHour(tvDate, hour);
+		time = date.getTime();
+		return time;
+	}
+	
+	public static Date dateFromTvDateAndHour(TvDate tvDate, int hour) {
+		String year = DateUtilities.tvDateToYearNumber(tvDate.getDate());
+		String month = DateUtilities.tvDateToMonthNumber(tvDate.getDate());
+		String day = DateUtilities.tvDateToDayNumber(tvDate.getDate());
 		
 		// current "today" is set to the date, selected by the user
 		Calendar calendar = Calendar.getInstance();
@@ -69,9 +81,9 @@ public class DateUtilities {
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 		
-		String timeNowStr = df.format(calendar.getTime());
+		Date date = calendar.getTime();
 		
-		return timeNowStr;
+		return date;
 	}
 	
 	public static final String tvDateToDayNumber(String tvDate){
@@ -450,16 +462,13 @@ public class DateUtilities {
 		time = dfmInput.parse(hourNow).getTime();
 		return time;
 	}
-
+	
 	/**
 	 * Get the difference in minutes between two submitted time values
 	 * 
 	 * @return number of minutes as integer
 	 */
-	public static int getDifferenceInMinutes(String timeOne, String timeTwo) throws ParseException {
-		long timeSubmitted = DateUtilities.isoStringToLong(timeOne);
-		long timeCurrent = DateUtilities.isoStringToLong(timeTwo);
-
+	public static int getDifferenceInMinutes(long timeSubmitted, long timeCurrent) throws ParseException {
 		long difference = timeCurrent - timeSubmitted;
 
 		int days = (int) (difference / (1000 * 60 * 60 * 24));
@@ -472,14 +481,9 @@ public class DateUtilities {
 	 * 
 	 * @return number of minutes as integer
 	 */
-	public static int getDifferenceInMinutes(String submittedTime) throws ParseException {
-		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
-		// TimeZone tz = TimeZone.getTimeZone("UTC");
-		// df.setTimeZone(tz);
-		String dateNow = df.format(new Date());
-
-		long timeSubmitted = DateUtilities.isoStringToLong(submittedTime);
-		long timeCurrent = DateUtilities.isoStringToLong(dateNow);
+	public static int getDifferenceInMinutes(long timeSubmitted) throws ParseException {
+		Date currentDate = new Date();
+		long timeCurrent = currentDate.getTime();
 
 		long difference = timeCurrent - timeSubmitted;
 
@@ -493,15 +497,64 @@ public class DateUtilities {
 	 * 
 	 * @return time difference as long
 	 */
-	public static long getAbsoluteTimeDifference(String submittedTime) throws ParseException {
-		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
-		// TimeZone tz = TimeZone.getTimeZone("UTC");
-		// df.setTimeZone(tz);
-		String dateNow = df.format(new Date());
-
-		long timeSubmitted = DateUtilities.isoStringToLong(submittedTime);
-		long timeCurrent = DateUtilities.isoStringToLong(dateNow);
+	public static long getAbsoluteTimeDifference(long timeSubmitted) throws ParseException {
+		Date currentDate = new Date();
+		long timeCurrent = currentDate.getTime();
 
 		return (timeCurrent - timeSubmitted);
 	}
+
+//	/**
+//	 * Get the difference in minutes between two submitted time values
+//	 * 
+//	 * @return number of minutes as integer
+//	 */
+//	public static int getDifferenceInMinutes(String timeOne, String timeTwo) throws ParseException {
+//		long timeSubmitted = DateUtilities.isoStringToLong(timeOne);
+//		long timeCurrent = DateUtilities.isoStringToLong(timeTwo);
+//
+//		long difference = timeCurrent - timeSubmitted;
+//
+//		int days = (int) (difference / (1000 * 60 * 60 * 24));
+//		int hours = (int) ((difference - (1000 * 60 * 60 * 24 * days)) / (1000 * 60 * 60));
+//		return (int) (difference - (1000 * 60 * 60 * 24 * days) - (1000 * 60 * 60 * hours)) / (1000 * 60);
+//	}
+//
+//	/**
+//	 * Get the difference in minutes between current time and submitted
+//	 * 
+//	 * @return number of minutes as integer
+//	 */
+//	public static int getDifferenceInMinutes(String submittedTime) throws ParseException {
+//		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
+//		// TimeZone tz = TimeZone.getTimeZone("UTC");
+//		// df.setTimeZone(tz);
+//		String dateNow = df.format(new Date());
+//
+//		long timeSubmitted = DateUtilities.isoStringToLong(submittedTime);
+//		long timeCurrent = DateUtilities.isoStringToLong(dateNow);
+//
+//		long difference = timeCurrent - timeSubmitted;
+//
+//		int days = (int) (difference / (1000 * 60 * 60 * 24));
+//		int hours = (int) ((difference - (1000 * 60 * 60 * 24 * days)) / (1000 * 60 * 60));
+//		return (int) (difference - (1000 * 60 * 60 * 24 * days) - (1000 * 60 * 60 * hours)) / (1000 * 60);
+//	}
+//
+//	/**
+//	 * Get the absolute difference in time units between current time and submitted
+//	 * 
+//	 * @return time difference as long
+//	 */
+//	public static long getAbsoluteTimeDifference(String submittedTime) throws ParseException {
+//		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
+//		// TimeZone tz = TimeZone.getTimeZone("UTC");
+//		// df.setTimeZone(tz);
+//		String dateNow = df.format(new Date());
+//
+//		long timeSubmitted = DateUtilities.isoStringToLong(submittedTime);
+//		long timeCurrent = DateUtilities.isoStringToLong(dateNow);
+//
+//		return (timeCurrent - timeSubmitted);
+//	}
 }

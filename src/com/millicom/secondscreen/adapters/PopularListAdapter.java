@@ -173,10 +173,10 @@ public class PopularListAdapter extends BaseAdapter {
 			long timeToEnd = 0;
 			// MC - Calculate the duration of the program and set up ProgressBar.
 			try {
-				long startTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime());
-				long endTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTime());
-				timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime());
-				timeToEnd = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTime());
+				long startTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillis());
+				long endTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTimeMillis());
+				timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillis());
+				timeToEnd = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTimeMillis());
 				duration = (int) (startTime - endTime) / (1000 * 60);
 			} catch (ParseException e) {
 				e.printStackTrace();
@@ -188,7 +188,7 @@ public class PopularListAdapter extends BaseAdapter {
 				int initialProgress = 0;
 				long difference = 0;
 				try {
-					difference = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime());
+					difference = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillis());
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
@@ -200,7 +200,7 @@ public class PopularListAdapter extends BaseAdapter {
 					holder.mProgressBar.setProgress(0);
 				} else {
 					try {
-						initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTime()) / (1000 * 60);
+						initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillis()) / (1000 * 60);
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
