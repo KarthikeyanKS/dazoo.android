@@ -118,7 +118,7 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 	private void setTextWatchers() {
 		mPasswordTextDrawable = new TextDrawable(this);
 		mPasswordTextDrawable.setText(getResources().getString(R.string.signup_characters));
-		mPasswordTextDrawable.setTextColor(getResources().getColor(R.color.grey1));
+		mPasswordTextDrawable.setTextColor(getResources().getColor(R.color.grey2));
 		mPasswordRegisterEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, mPasswordTextDrawable, null);
 		mPasswordRegisterEditText.addTextChangedListener(new TextWatcher() {
 
@@ -141,7 +141,7 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 		});
 		mEmailTextDrawable = new TextDrawable(this);
 		mEmailTextDrawable.setText(getResources().getString(R.string.signup_email_example));
-		mEmailTextDrawable.setTextColor(getResources().getColor(R.color.grey1));
+		mEmailTextDrawable.setTextColor(getResources().getColor(R.color.grey2));
 		mEmailRegisterEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, mEmailTextDrawable, null);
 		mEmailRegisterEditText.addTextChangedListener(new TextWatcher() {
 
