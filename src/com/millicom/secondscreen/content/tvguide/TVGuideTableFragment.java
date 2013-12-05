@@ -1,6 +1,8 @@
 package com.millicom.secondscreen.content.tvguide;
 
 import java.util.ArrayList;
+
+import android.R.integer;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -209,6 +211,8 @@ public class TVGuideTableFragment extends SSPageFragment {
 				mTVGuideListAdapter = new TVGuideListAdapter(mActivity, mGuides, mTvDate, mHour, mIsToday);
 				mTVGuideListView.setAdapter(mTVGuideListAdapter);
 				mTVGuideListAdapter.notifyDataSetChanged();
+				focusOnView();
+				
 			} else {
 				int index = Broadcast.getClosestBroadcastIndex(mTaggedBroadcasts);
 				Log.d(TAG, "index: " + index);
