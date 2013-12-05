@@ -217,6 +217,7 @@ public class LikeService {
 
 				HttpGet httpGet = new HttpGet();
 				httpGet.setHeader("Authorization", "Bearer " + params[0]);
+				httpGet.setHeader("Content-type", "application/json; charset=UTF-8");
 				httpGet.setURI(new URI(Consts.MILLICOM_SECONDSCREEN_LIKES_URL));
 
 				HttpResponse response = httpClient.execute(httpGet);

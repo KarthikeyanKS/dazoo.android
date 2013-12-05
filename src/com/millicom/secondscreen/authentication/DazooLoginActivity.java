@@ -101,6 +101,12 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 		mForgetPasswordButton = (Button) findViewById(R.id.dazoologin_forgot_password_button);
 		mForgetPasswordButton.setOnClickListener(this);
 	}
+	
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		overridePendingTransition(R.anim.push_right_out, R.anim.push_right_in);
+	}
 
 	private boolean verifyLoginInput() {
 		String emailInput = mEmailLoginEditText.getText().toString();

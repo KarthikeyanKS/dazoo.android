@@ -67,6 +67,8 @@
 
     <!-- ACTIVITY PAGE -->
     <string name="activity_title">Activity</string>
+    <string name="activity_page">Activity Page</string>
+    <string name="activity_page_subtitle">Get personal recommendations by signing in.</string>
     <string name="like">Like</string>
     <string name="share">Share</string>
 
@@ -110,9 +112,9 @@
     <string name="repetitions_more">Show more repetitions</string>
 
     <!-- LOGIN PAGE -->
-    <string name="login_with_facebook">LOGIN WITH FACEBOOK</string>
+    <string name="login_with_facebook">Login with Facebook</string>
     <string name="logout_from_facebook">Logout from Facebook</string>
-    <string name="login_with_twitter">LOGIN WITH TWITTER</string>
+    <string name="login_with_twitter">Login with Twitter</string>
     <string name="login_with_dazoo">Login with Dazoo</string>
     <string name="logout_from_dazoo">Logout from Dazoo</string>
     <string name="register_with_dazoo">Register with Dazoo</string>
@@ -122,12 +124,13 @@
     <string name="hint_lastname">Last name</string>
     <string name="hint_enter_email">Enter e-mail</string>
     <string name="login">LOG IN</string>
+    <string name="login_here">Log in here</string>
     <string name="reset_password">Reset Password</string>
     <string name="sign_in">Sing in</string>
     <string name="cancel">Cancel</string>
     <string name="sign_in_to_dazoo_title">Sign in to Dazoo</string>
     <string name="sign_in_to_dazoo_text">You need to sign in to Dazoo to like shows and get better personal recommendations</string>
-    <string name="sign_up_with_email">SIGN UP WITH E-MAIL</string>
+    <string name="sign_up_with_email">Sign up with email</string>
     <string name="already_registered">Already registered?</string>
     <string name="login_with_email">login with email</string>
     <string name="forgot_password">Forgot password?</string>
@@ -165,7 +168,7 @@
     <string name="remove_from_my_channels">Remove from My Channels</string>
     <string name="selected_channels">Selected channels:</string>
     <string name="search_channels">Search channels</string>
-    
+
     <!-- REMINDERS -->
     <string name="no_reminders">You haven\'t set any reminders yet.</string>
 

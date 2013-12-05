@@ -208,10 +208,10 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						int episode = program.getEpisodeNumber();
 						String seasonEpisode = "";
 						if (!season.equals("0")) {
-							seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " ";
+							seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + season + " ";
 						}
 						if (episode != 0) {
-							seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(program.getEpisodeNumber());
+							seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + episode;
 						}
 						details.setText(seasonEpisode);
 					}
@@ -353,10 +353,10 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					int episode = program.getEpisodeNumber();
 					String seasonEpisode = "";
 					if (!season.equals("0")) {
-						seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " ";
+						seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + season + " ";
 					}
 					if (episode != 0) {
-						seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(program.getEpisodeNumber());
+						seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + episode;
 					}
 					holder.detailsTvTw.setText(seasonEpisode);
 				} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programTypeTw)) {
@@ -601,10 +601,10 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					int episode = program.getEpisodeNumber();
 					String seasonEpisode = "";
 					if (!season.equals("0")) {
-						seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " ";
+						seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + season + " ";
 					}
 					if (episode != 0) {
-						seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(program.getEpisodeNumber());
+						seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + episode;
 					}
 					holderBC.detailsTv.setText(seasonEpisode);
 				} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
@@ -868,10 +868,10 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					int episode = program.getEpisodeNumber();
 					String seasonEpisode = "";
 					if (!season.equals("0")) {
-						seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " ";
+						seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + season + " ";
 					}
 					if (episode != 0) {
-						seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(program.getEpisodeNumber());
+						seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + episode;
 					}
 					holderRBC.detailsTvRec.setText(seasonEpisode);
 				} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programTypeRec)) {

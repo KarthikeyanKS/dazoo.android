@@ -105,13 +105,16 @@ public class BroadcastMainBlockPopulator {
 		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 			mProgramId = broadcast.getProgram().getSeries().getSeriesId();
 			mContentTitle = broadcast.getProgram().getSeries().getName();
-			if (Integer.parseInt(program.getSeason().getNumber()) != 0) {
+			if (!program.getSeason().getNumber().equals("0")) {
 				seasonTv.setText(mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " ");
 				seasonTv.setVisibility(View.VISIBLE);
 			}
 			if (program.getEpisodeNumber() != 0) {
 				episodeTv.setText(mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(program.getEpisodeNumber()));
 				episodeTv.setVisibility(View.VISIBLE);
+			}
+			if (program.getSeason().getNumber().equals("0") && program.getEpisodeNumber() == 0) {
+				episodeNameTv.setTextSize(18);
 			}
 
 			titleTv.setText(program.getSeries().getName());
@@ -196,7 +199,9 @@ public class BroadcastMainBlockPopulator {
 		// broadcast is in the future: show time
 		else {
 			try {
-				timeTv.setText(DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime()) + " " + DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTime()) + " " + beginTimeStr + "-" + endTimeStr);
+				String weekday = DateUtilities.isoStringToDayOfWeekAndDate(broadcast.getBeginTime());
+				weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
+				timeTv.setText(weekday + " " + DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTime()) + " " + beginTimeStr + "-" + endTimeStr);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}

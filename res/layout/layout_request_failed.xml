@@ -12,7 +12,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="65dp"
         android:gravity="center_horizontal"
-        android:src="@drawable/ic_network"/>
+        android:src="@drawable/ic_error_state_dazoo"/>
 
     <TextView
         android:id="@+id/request_failed_details_tv"

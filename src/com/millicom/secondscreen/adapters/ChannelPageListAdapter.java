@@ -160,10 +160,10 @@ public class ChannelPageListAdapter extends BaseAdapter {
 					int episode = broadcast.getProgram().getEpisodeNumber();
 					String seasonEpisode = "";
 					if (!season.equals("0")) {
-						seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + broadcast.getProgram().getSeason().getNumber() + " ";
+						seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + season + " ";
 					}
 					if (episode != 0) {
-						seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(broadcast.getProgram().getEpisodeNumber());
+						seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + episode;
 					}
 					holder.mDescTv.setText(seasonEpisode);
 					holder.mTitleTv.setText(broadcast.getProgram().getSeries().getName());

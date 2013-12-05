@@ -4,24 +4,18 @@ import java.util.ArrayList;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
-import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.AbsoluteSizeSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,7 +23,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
@@ -41,14 +34,12 @@ import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
-import com.millicom.secondscreen.content.search.SearchPageActivity;
 import com.millicom.secondscreen.content.tvguide.TVHolderFragment;
 import com.millicom.secondscreen.content.tvguide.TVHolderFragment.OnViewPagerIndexChangedListener;
 import com.millicom.secondscreen.http.NetworkUtils;
 import com.millicom.secondscreen.manager.DazooCore;
 import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.DateUtilities;
-import com.millicom.secondscreen.utilities.StringUtilities;
 
 public class HomeActivity extends SSPageFragmentActivity implements OnClickListener, ActionBar.OnNavigationListener {
 
