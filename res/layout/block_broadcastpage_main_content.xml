@@ -44,7 +44,8 @@
             android:id="@+id/block_broadcastpage_broadcast_details_container"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/view_margin" >
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
             
             <!-- TRENDING ICON TODO: SPECIFY SOURCE -->
             
@@ -52,8 +53,8 @@
                 android:id="@+id/block_broadcastpage_broadcast_details_trending_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"	
-                android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"	
+                android:layout_marginRight="5dp"
                 android:visibility="gone"/>
             
             <!-- MOVIE ICON -->
@@ -62,8 +63,8 @@
                 android:id="@+id/block_broadcastpage_broadcast_details_movie_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"	
-                android:layout_marginRight="10dp"	
+                android:layout_marginBottom="5dp"	
+                android:layout_marginRight="5dp"	
                 android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_trending_iv"
                 android:visibility="gone"/>		
                 
@@ -73,11 +74,10 @@
                 android:id="@+id/block_broadcastpage_broadcast_details_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"		                    
+                android:layout_marginBottom="5dp"		                    
                 android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_movie_iv"		
                 android:textColor="@color/black"
-                android:textSize="@dimen/header_1"
+                android:textSize="24sp"
                 android:textStyle="bold"
         		font:fonttextview="fontello.ttf" />
 
@@ -88,6 +88,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_broadcastpage_broadcast_details_title_tv"
+                android:layout_marginBottom="5dp"
                 android:textColor="@color/black"
                 android:textSize="@dimen/header_2"
                 android:textStyle="bold"
@@ -115,7 +116,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:layout_marginBottom="10dp"
                 android:layout_below="@id/block_broadcastpage_broadcast_details_season_tv"
                 android:textColor="@color/black"
                 android:textSize="@dimen/header_3"
@@ -205,7 +205,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_gravity="left"
-				android:layout_marginTop="20dp"
+				android:layout_marginTop="10dp"
 				android:layout_marginBottom="10dp"
 				android:layout_below="@id/divider"
 				android:textColor="@color/black"
