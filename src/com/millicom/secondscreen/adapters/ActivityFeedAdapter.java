@@ -29,6 +29,7 @@ import com.millicom.secondscreen.utilities.ImageLoader;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.text.BoringLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -121,12 +122,169 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		}
 		return ITEM_TYPE_BROADCAST;
 	}
+	
+	public void populatePopularItemAtIndex(PopularBroadcastsViewHolder viewHolder, ArrayList<Broadcast> broadcasts, int popularRowIndex) {
+		final Broadcast broadcast = broadcasts.get(popularRowIndex);
+		broadcast.updateTimeToBeginAndTimeToEnd();
+		final Program program = broadcast.getProgram();
+		final long timeSinceBegin = broadcast.getTimeSinceBegin();
+		final long timeToEnd = broadcast.getTimeToEnd();
+		final int duration = broadcast.getDurationInMinutes();
+		
+		String programType = broadcast.getProgram().getProgramType();
+		
+		ImageView imageView = null;
+		TextView title = null;
+		TextView time = null;
+		TextView channelName = null;
+		TextView details = null;
+		TextView progressTextView = null;
+		ProgressBar progressBar = null;
+		ProgressBar imageProgressBar = null;
+		LinearLayout containerLayout = null;
+		
+		switch (popularRowIndex) {
+			case 0:
+			{
+				imageView = viewHolder.mPosterOne;
+				title = viewHolder.mTimeOne;
+				time = viewHolder.mTimeOne;
+				channelName = viewHolder.mChannelNameOne;
+				details = viewHolder.mDetailsOne;
+				progressBar = viewHolder.mProgressBarOne;
+				progressTextView = viewHolder.mProgressBarTitleOne;
+				imageProgressBar = viewHolder.mImageProgressBarOne;
+				containerLayout = viewHolder.mContainerOne;
+				break;
+			}
+			case 1:
+			{
+				imageView = viewHolder.mPosterTwo;
+				title = viewHolder.mTimeTwo;
+				time = viewHolder.mTimeTwo;
+				channelName = viewHolder.mChannelNameTwo;
+				details = viewHolder.mDetailsTwo;
+				progressBar = viewHolder.mProgressBarTwo;
+				progressTextView = viewHolder.mProgressBarTitleTwo;
+				imageProgressBar = viewHolder.mImageProgressBarTwo;
+				containerLayout = viewHolder.mContainerTwo;
+				break;
+			}
+			case 2:
+			{
+				imageView = viewHolder.mPosterThree;
+				title = viewHolder.mTimeThree;
+				time = viewHolder.mTimeThree;
+				channelName = viewHolder.mChannelNameThree;
+				details = viewHolder.mDetailsThree;
+				progressBar = viewHolder.mProgressBarThree;
+				progressTextView = viewHolder.mProgressBarTitleThree;
+				imageProgressBar = viewHolder.mImageProgressBarThree;
+				containerLayout = viewHolder.mContainerThree;
+				break;
+			}
+		}
+
+		mImageLoader.displayImage(broadcast.getProgram().getPortMUrl(), imageView, ImageLoader.IMAGE_TYPE.THUMBNAIL);
+		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+			title.setText(broadcast.getProgram().getSeries().getName());
+		} else {
+			title.setText(broadcast.getProgram().getTitle());
+		}
+		try {
+			time.setText(DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime()) + " - " + broadcast.getBeginTimeString());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		channelName.setText(broadcast.getChannel().getName());
+
+		if (programType != null) {
+			if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
+				details.setText(broadcast.getProgram().getGenre() + mActivity.getResources().getString(R.string.from) + broadcast.getProgram().getYear());
+			} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+				if (broadcast != null) {
+					if (program != null ) {
+						String season = program.getSeason().getNumber();
+						int episode = program.getEpisodeNumber();
+						String seasonEpisode = "";
+						if (!season.equals("0")) {
+							seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " ";
+						}
+						if (episode != 0) {
+							seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(program.getEpisodeNumber());
+						}
+						details.setText(seasonEpisode);
+					}
+				}
+			} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
+				details.setText(broadcast.getProgram().getSportType().getName() + " " + broadcast.getProgram().getTournament());
+			} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
+				details.setText(broadcast.getProgram().getCategory());
+			}
+		}
+
+		if (timeSinceBegin > 0 && timeToEnd < 0) {
+			progressBar.setMax(duration);
+
+			// MC - Calculate the current progress of the ProgressBar and update.
+			int initialProgressOne = 0;
+			
+			if (broadcast.getTimeSinceBegin() < 0) {
+				progressBar.setVisibility(View.GONE);
+				initialProgressOne = 0;
+				progressBar.setProgress(0);
+			} else {
+				initialProgressOne = (int) broadcast.getTimeSinceBegin() / (1000 * 60);
+	
+				progressTextView.setText(duration - initialProgressOne + " " + mActivity.getResources().getString(R.string.minutes) + " "
+						+ mActivity.getResources().getString(R.string.left));
+				progressBar.setProgress(initialProgressOne);
+				progressBar.setVisibility(View.VISIBLE);
+				progressTextView.setVisibility(View.VISIBLE);
+			}
+		}
+		else {
+			progressBar.setVisibility(View.GONE);
+			progressBar.setVisibility(View.GONE);
+		}
+
+		containerLayout.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				String tvDate = "";
+				try {
+					tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTime());
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+
+				Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
+				intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
+				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
+				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, tvDate);
+				intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
+
+				mActivity.startActivity(intent);
+				mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			}
+		});
+	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		int type = getItemViewType(position);
 
 		final FeedItem feedItem = getItem(position);
+		final Broadcast broadcast = feedItem.getBroadcast();
+
+		broadcast.updateTimeToBeginAndTimeToEnd();
+		
+		final Program program = broadcast.getProgram();
+		final int duration = broadcast.getDurationInMinutes();
+		final long timeSinceBegin = broadcast.getTimeSinceBegin();
+		final long timeToEnd = broadcast.getTimeToEnd();
+		
 
 		switch (type) {
 		case ITEM_TYPE_POPULAR_TWITTER:
@@ -156,55 +314,55 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			}
 			final PopularTwitterViewHolder holder = (PopularTwitterViewHolder) convertView.getTag();
 
-			// mIsLiked = LikeService.isLiked(mToken, feedItem.getBroadcast().getProgram().getProgramId());
+			// mIsLiked = LikeService.isLiked(mToken, program.getProgramId());
 
 			holder.headerTvTw.setText(mActivity.getResources().getString(R.string.icon_twitter) + " " + feedItem.getTitle());
 
-			final String programTypeTw = feedItem.getBroadcast().getProgram().getProgramType();
+			final String programTypeTw = program.getProgramType();
 
 			// determine like
 			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeTw)) {
-				mIsLiked = DazooStore.getInstance().isInTheLikesList(feedItem.getBroadcast().getProgram().getSeries().getSeriesId());
+				mIsLiked = DazooStore.getInstance().isInTheLikesList(program.getSeries().getSeriesId());
 			} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programTypeTw)) {
-				mIsLiked = DazooStore.getInstance().isInTheLikesList(feedItem.getBroadcast().getProgram().getSportType().getSportTypeId());
+				mIsLiked = DazooStore.getInstance().isInTheLikesList(program.getSportType().getSportTypeId());
 			} else {
-				mIsLiked = DazooStore.getInstance().isInTheLikesList(feedItem.getBroadcast().getProgram().getProgramId());
+				mIsLiked = DazooStore.getInstance().isInTheLikesList(program.getProgramId());
 			}
 
-			mImageLoader.displayImage(feedItem.getBroadcast().getProgram().getLandLUrl(), holder.landscapeIvTw, ImageLoader.IMAGE_TYPE.GALLERY);
+			mImageLoader.displayImage(program.getLandLUrl(), holder.landscapeIvTw, ImageLoader.IMAGE_TYPE.GALLERY);
 
 			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeTw)) {
-				holder.titleTvTw.setText(feedItem.getBroadcast().getProgram().getSeries().getName());
+				holder.titleTvTw.setText(program.getSeries().getName());
 			} else {
-				holder.titleTvTw.setText(feedItem.getBroadcast().getProgram().getTitle());
+				holder.titleTvTw.setText(program.getTitle());
 			}
 
 			try {
-				holder.timeTvTw.setText(DateUtilities.isoStringToDayOfWeek(feedItem.getBroadcast().getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(feedItem.getBroadcast().getBeginTime()));
+				holder.timeTvTw.setText(DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 
-			holder.channelTvTw.setText(feedItem.getBroadcast().getChannel().getName());
+			holder.channelTvTw.setText(broadcast.getChannel().getName());
 
 			if (programTypeTw != null) {
 				if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programTypeTw)) {
-					holder.detailsTvTw.setText(feedItem.getBroadcast().getProgram().getGenre() + mActivity.getResources().getString(R.string.from) + feedItem.getBroadcast().getProgram().getYear());
+					holder.detailsTvTw.setText(program.getGenre() + mActivity.getResources().getString(R.string.from) + program.getYear());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeTw)) {
-					String season = feedItem.getBroadcast().getProgram().getSeason().getNumber();
-					int episode = feedItem.getBroadcast().getProgram().getEpisodeNumber();
+					String season = program.getSeason().getNumber();
+					int episode = program.getEpisodeNumber();
 					String seasonEpisode = "";
 					if (!season.equals("0")) {
-						seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + feedItem.getBroadcast().getProgram().getSeason().getNumber() + " ";
+						seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " ";
 					}
 					if (episode != 0) {
-						seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(feedItem.getBroadcast().getProgram().getEpisodeNumber());
+						seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(program.getEpisodeNumber());
 					}
 					holder.detailsTvTw.setText(seasonEpisode);
 				} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programTypeTw)) {
-					holder.detailsTvTw.setText(feedItem.getBroadcast().getProgram().getSportType().getName() + " " + feedItem.getBroadcast().getProgram().getTournament());
+					holder.detailsTvTw.setText(program.getSportType().getName() + " " + program.getTournament());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programTypeTw)) {
-					holder.detailsTvTw.setText(feedItem.getBroadcast().getProgram().getCategory());
+					holder.detailsTvTw.setText(program.getCategory());
 				}
 			}
 
@@ -215,14 +373,14 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 					String tvDate = "";
 					try {
-						tvDate = DateUtilities.isoDateStringToTvDateString(feedItem.getBroadcast().getBeginTime());
+						tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTime());
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
 
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, feedItem.getBroadcast().getBeginTimeMillis());
-					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, feedItem.getBroadcast().getChannel().getChannelId());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, tvDate);
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
 
@@ -232,43 +390,21 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				}
 			});
 
-			int durationTw = 0;		
-			long timeSinceBegin = 0;
-			long timeToEnd = 0;
-			// MC - Calculate the duration of the program and set up ProgressBar.
-			try {
-				long startTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTimeMillis());
-				long startTimeReal = feedItem.getBroadcast().getBeginTimeMillis();
-				long endTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getEndTimeMillis());
-				timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTimeMillis());
-				timeToEnd = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getEndTimeMillis());
-				durationTw = (int) (startTime - endTime) / (1000 * 60);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+
 			if (timeSinceBegin > 0 && timeToEnd < 0) {
-				holder.progressBarTw.setMax(durationTw);
+				holder.progressBarTw.setMax(duration);
 	
 				// MC - Calculate the current progress of the ProgressBar and update.
 				int initialProgressTw = 0;
-				long differenceTw = 0;
-				try {
-					differenceTw = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTimeMillis());
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
 	
-				if (differenceTw < 0) {
+				if (broadcast.getTimeSinceBegin() < 0) {
 					holder.progressBarTw.setVisibility(View.GONE);
 					initialProgressTw = 0;
 					holder.progressBarTw.setProgress(0);
 				} else {
-					try {
-						initialProgressTw = (int) DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTimeMillis()) / (1000 * 60);
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
-					holder.progressbarTvTw.setText(durationTw - initialProgressTw + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
+					initialProgressTw = (int)broadcast.getTimeSinceBegin() / (1000*60);
+					
+					holder.progressbarTvTw.setText(duration - initialProgressTw + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
 					holder.progressBarTw.setProgress(initialProgressTw);
 					holder.progressbarTvTw.setVisibility(View.VISIBLE);
 					holder.progressBarTw.setVisibility(View.VISIBLE);
@@ -280,7 +416,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			}
 
 			NotificationDbItem dbItemTw = new NotificationDbItem();
-			dbItemTw = mNotificationDataSource.getNotification(feedItem.getBroadcast().getChannel().getChannelId(), feedItem.getBroadcast().getBeginTimeMillis());
+			dbItemTw = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillis());
 			if (dbItemTw.getNotificationId() != 0) {
 				mIsSet = true;
 				mNotificationId =  dbItemTw.getNotificationId();
@@ -302,14 +438,14 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 					String programId, contentTitle;
 					if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeTw)) {
-						programId = feedItem.getBroadcast().getProgram().getSeries().getSeriesId();
-						contentTitle = feedItem.getBroadcast().getProgram().getTitle();
+						programId = program.getSeries().getSeriesId();
+						contentTitle = program.getTitle();
 					} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programTypeTw)) {
-						programId = feedItem.getBroadcast().getProgram().getSportType().getSportTypeId();
-						contentTitle = feedItem.getBroadcast().getProgram().getSportType().getName();
+						programId = program.getSportType().getSportTypeId();
+						contentTitle = program.getSportType().getName();
 					} else {
-						programId = feedItem.getBroadcast().getProgram().getProgramId();
-						contentTitle = feedItem.getBroadcast().getProgram().getTitle();
+						programId = program.getProgramId();
+						contentTitle = program.getTitle();
 					}
 
 					if (mIsLiked == false) {
@@ -340,7 +476,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 				@Override
 				public void onClick(View v) {
-					ShareAction.shareAction(mActivity, mActivity.getResources().getString(R.string.app_name), feedItem.getBroadcast().getShareUrl(),
+					ShareAction.shareAction(mActivity, mActivity.getResources().getString(R.string.app_name), broadcast.getShareUrl(),
 							mActivity.getResources().getString(R.string.share_action_title));
 				}
 			});
@@ -351,12 +487,12 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				public void onClick(View v) {
 					String tvDate = "";
 					try {
-						tvDate = DateUtilities.isoDateStringToTvDateString(feedItem.getBroadcast().getBeginTime());
+						tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTime());
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
 
-					NotificationDbItem item = mNotificationDataSource.getNotification(feedItem.getBroadcast().getChannel().getChannelId(), feedItem.getBroadcast().getBeginTimeMillis());
+					NotificationDbItem item = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillis());
 					if (item.getNotificationId() != 0) {
 						mIsSet = true;
 						mNotificationId = item.getNotificationId();
@@ -367,15 +503,15 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					Log.d(TAG,"Twitter: " + mIsSet);
 					
 					if (mIsSet == false) {
-						if (NotificationService.setAlarm(mActivity, feedItem.getBroadcast(), feedItem.getBroadcast().getChannel(), tvDate)) {
+						if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), tvDate)) {
 							NotificationService.showSetNotificationToast(mActivity);
 							holder.remindTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 							NotificationDbItem dbItemTw = new NotificationDbItem();
-							Log.d(TAG, "feedItem.getBroadcast().getChannel().getChannelId()" + feedItem.getBroadcast().getChannel().getChannelId());
-							Log.d(TAG, "feedItem.getBroadcast().getBeginTimeMillis()" + feedItem.getBroadcast().getBeginTimeMillis());
+							Log.d(TAG, "broadcast.getChannel().getChannelId()" + broadcast.getChannel().getChannelId());
+							Log.d(TAG, "broadcast.getBeginTimeMillis()" + broadcast.getBeginTimeMillis());
 
-							dbItemTw = mNotificationDataSource.getNotification(feedItem.getBroadcast().getChannel().getChannelId(), feedItem.getBroadcast().getBeginTimeMillis());
+							dbItemTw = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillis());
 
 							mNotificationId = dbItemTw.getNotificationId();
 
@@ -391,7 +527,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						if (mNotificationId != -1) {
 							Log.d(TAG,"mNotificationId: " + mNotificationId);
 							NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
-							notificationDlg.showRemoveNotificationDialog(mActivity, feedItem.getBroadcast(), mNotificationId, yesNotificationTwitterProc(holder.remindTwitterIv), noNotificationProc());
+							notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId, yesNotificationTwitterProc(holder.remindTwitterIv), noNotificationProc());
 						} else {
 							Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
 						}
@@ -427,54 +563,54 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				convertView.setTag(viewHolder);
 			}
 			final BroadcastViewHolder holderBC = (BroadcastViewHolder) convertView.getTag();
-			// mIsLiked = LikeService.isLiked(mToken, feedItem.getBroadcast().getProgram().getProgramId());
+			// mIsLiked = LikeService.isLiked(mToken, program.getProgramId());
 
-			final String programType = feedItem.getBroadcast().getProgram().getProgramType();
+			final String programType = program.getProgramType();
 			// determine like
 			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-				mIsLiked = DazooStore.getInstance().isInTheLikesList(feedItem.getBroadcast().getProgram().getSeries().getSeriesId());
+				mIsLiked = DazooStore.getInstance().isInTheLikesList(program.getSeries().getSeriesId());
 			} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
-				mIsLiked = DazooStore.getInstance().isInTheLikesList(feedItem.getBroadcast().getProgram().getSportType().getSportTypeId());
+				mIsLiked = DazooStore.getInstance().isInTheLikesList(program.getSportType().getSportTypeId());
 			} else {
-				mIsLiked = DazooStore.getInstance().isInTheLikesList(feedItem.getBroadcast().getProgram().getProgramId());
+				mIsLiked = DazooStore.getInstance().isInTheLikesList(program.getProgramId());
 			}
 
 			holderBC.headerTv.setText(feedItem.getTitle());
 
-			mImageLoader.displayImage(feedItem.getBroadcast().getProgram().getLandLUrl(), holderBC.landscapeIv, ImageLoader.IMAGE_TYPE.GALLERY);
+			mImageLoader.displayImage(program.getLandLUrl(), holderBC.landscapeIv, ImageLoader.IMAGE_TYPE.GALLERY);
 
 			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-				holderBC.titleTv.setText(feedItem.getBroadcast().getProgram().getSeries().getName());
+				holderBC.titleTv.setText(program.getSeries().getName());
 			} else {
-				holderBC.titleTv.setText(feedItem.getBroadcast().getProgram().getTitle());
+				holderBC.titleTv.setText(program.getTitle());
 			}
 
 			try {
-				holderBC.timeTv.setText(DateUtilities.isoStringToDayOfWeek(feedItem.getBroadcast().getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(feedItem.getBroadcast().getBeginTime()));
+				holderBC.timeTv.setText(DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 
-			holderBC.channelTv.setText(feedItem.getBroadcast().getChannel().getName());
+			holderBC.channelTv.setText(broadcast.getChannel().getName());
 
 			if (programType != null) {
 				if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
-					holderBC.detailsTv.setText(feedItem.getBroadcast().getProgram().getGenre() + mActivity.getResources().getString(R.string.from) + feedItem.getBroadcast().getProgram().getYear());
+					holderBC.detailsTv.setText(program.getGenre() + mActivity.getResources().getString(R.string.from) + program.getYear());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-					String season = feedItem.getBroadcast().getProgram().getSeason().getNumber();
-					int episode = feedItem.getBroadcast().getProgram().getEpisodeNumber();
+					String season = program.getSeason().getNumber();
+					int episode = program.getEpisodeNumber();
 					String seasonEpisode = "";
 					if (!season.equals("0")) {
-						seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + feedItem.getBroadcast().getProgram().getSeason().getNumber() + " ";
+						seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " ";
 					}
 					if (episode != 0) {
-						seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(feedItem.getBroadcast().getProgram().getEpisodeNumber());
+						seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(program.getEpisodeNumber());
 					}
 					holderBC.detailsTv.setText(seasonEpisode);
 				} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
-					holderBC.detailsTv.setText(feedItem.getBroadcast().getProgram().getSportType().getName() + " " + feedItem.getBroadcast().getProgram().getTournament());
+					holderBC.detailsTv.setText(program.getSportType().getName() + " " + program.getTournament());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
-					holderBC.detailsTv.setText(feedItem.getBroadcast().getProgram().getCategory());
+					holderBC.detailsTv.setText(program.getCategory());
 				}
 			}
 
@@ -485,14 +621,14 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 					String tvDate = "";
 					try {
-						tvDate = DateUtilities.isoDateStringToTvDateString(feedItem.getBroadcast().getBeginTime());
+						tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTime());
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
 
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, feedItem.getBroadcast().getBeginTimeMillis());
-					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, feedItem.getBroadcast().getChannel().getChannelId());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, tvDate);
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
 
@@ -502,19 +638,6 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				}
 			});
 
-			int duration = 0;
-			timeSinceBegin = 0;
-			timeToEnd = 0;
-			// MC - Calculate the duration of the program and set up ProgressBar.
-			try {
-				long startTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTimeMillis());
-				long endTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getEndTimeMillis());
-				timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTimeMillis());
-				timeToEnd = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getEndTimeMillis());
-				duration = (int) (startTime - endTime) / (1000 * 60);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
 			if (timeSinceBegin > 0 && timeToEnd < 0) {
 				holderBC.progressBar.setMax(duration);
 	
@@ -522,7 +645,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				int initialProgress = 0;
 				long difference = 0;
 				try {
-					difference = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTimeMillis());
+					difference = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillis());
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
@@ -533,7 +656,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					holderBC.progressBar.setProgress(0);
 				} else {
 					try {
-						initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTimeMillis()) / (1000 * 60);
+						initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillis()) / (1000 * 60);
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -549,8 +672,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			}
 
 			NotificationDbItem dbItem = new NotificationDbItem();
-			dbItem = mNotificationDataSource.getNotification(feedItem.getBroadcast().getChannel().getChannelId(), feedItem.getBroadcast().getBeginTimeMillis());
-			Log.d(TAG,"uP: " + feedItem.getBroadcast().getChannel().getChannelId() + " " + feedItem.getBroadcast().getBeginTimeMillis());
+			dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillis());
+			Log.d(TAG,"uP: " + broadcast.getChannel().getChannelId() + " " + broadcast.getBeginTimeMillis());
 			if (dbItem.getNotificationId() != 0) {
 				Log.d(TAG,"dbItem: " + dbItem.getProgramTitle() + " " + dbItem.getNotificationId() );
 				mNotificationId = dbItem.getNotificationId();
@@ -575,14 +698,14 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 					String programId, contentTitle;
 					if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-						programId = feedItem.getBroadcast().getProgram().getSeries().getSeriesId();
-						contentTitle = feedItem.getBroadcast().getProgram().getTitle();
+						programId = program.getSeries().getSeriesId();
+						contentTitle = program.getTitle();
 					} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
-						programId = feedItem.getBroadcast().getProgram().getSportType().getSportTypeId();
-						contentTitle = feedItem.getBroadcast().getProgram().getSportType().getName();
+						programId = program.getSportType().getSportTypeId();
+						contentTitle = program.getSportType().getName();
 					} else {
-						programId = feedItem.getBroadcast().getProgram().getProgramId();
-						contentTitle = feedItem.getBroadcast().getProgram().getTitle();
+						programId = program.getProgramId();
+						contentTitle = program.getTitle();
 					}
 
 					if (mIsLiked == false) {
@@ -613,7 +736,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 				@Override
 				public void onClick(View v) {
-					ShareAction.shareAction(mActivity, mActivity.getResources().getString(R.string.app_name), feedItem.getBroadcast().getShareUrl(),
+					ShareAction.shareAction(mActivity, mActivity.getResources().getString(R.string.app_name), broadcast.getShareUrl(),
 							mActivity.getResources().getString(R.string.share_action_title));
 				}
 			});
@@ -626,8 +749,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					NotificationDbItem dbItem = new NotificationDbItem();
 					
 					
-					dbItem = mNotificationDataSource.getNotification(feedItem.getBroadcast().getChannel().getChannelId(), feedItem.getBroadcast().getBeginTimeMillis());
-					Log.d(TAG,"DOWN: " + feedItem.getBroadcast().getChannel().getChannelId() + " " + feedItem.getBroadcast().getBeginTimeMillis());
+					dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillis());
+					Log.d(TAG,"DOWN: " + broadcast.getChannel().getChannelId() + " " + broadcast.getBeginTimeMillis());
 					
 					if (dbItem.getNotificationId() != 0) {
 						Log.d(TAG,"dbItem: " + dbItem.getProgramTitle() + " " + dbItem.getNotificationId() );
@@ -641,21 +764,21 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					
 					String tvDate = "";
 					try {
-						tvDate = DateUtilities.isoDateStringToTvDateString(feedItem.getBroadcast().getBeginTime());
+						tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTime());
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
 
 					if (mIsSet == false) {
-						if (NotificationService.setAlarm(mActivity, feedItem.getBroadcast(), feedItem.getBroadcast().getChannel(), tvDate)) {
+						if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), tvDate)) {
 							NotificationService.showSetNotificationToast(mActivity);
 							holderBC.remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 							NotificationDbItem dbItemRemind= new NotificationDbItem();
-							Log.d(TAG, "feedItem.getBroadcast().getChannel().getChannelId()" + feedItem.getBroadcast().getChannel().getChannelId());
-							Log.d(TAG, "feedItem.getBroadcast().getBeginTimeMillis()" + feedItem.getBroadcast().getBeginTimeMillis());
+							Log.d(TAG, "broadcast.getChannel().getChannelId()" + broadcast.getChannel().getChannelId());
+							Log.d(TAG, "broadcast.getBeginTimeMillis()" + broadcast.getBeginTimeMillis());
 
-							dbItemRemind = mNotificationDataSource.getNotification(feedItem.getBroadcast().getChannel().getChannelId(), feedItem.getBroadcast().getBeginTimeMillis());
+							dbItemRemind = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillis());
 							Log.d(TAG,"db Item: " + dbItemRemind.getNotificationId() + " " + dbItemRemind.getBroadcastTimeInMillis() + " " + dbItemRemind.getChannelId()
 									+ " " + dbItemRemind.getProgramTitle() );
 							
@@ -671,7 +794,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					} else {
 						if (mNotificationId != -1) {
 							NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
-							notificationDlg.showRemoveNotificationDialog(mActivity, feedItem.getBroadcast(), mNotificationId, yesNotificationProc(holderBC.remindLikeIv), noNotificationProc());
+							notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId, yesNotificationProc(holderBC.remindLikeIv), noNotificationProc());
 						} else {
 							Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
 						}
@@ -706,94 +829,72 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				convertView.setTag(viewHolder);
 			}
 			final RecommendedBroadcastViewHolder holderRBC = (RecommendedBroadcastViewHolder) convertView.getTag();
-			// mIsLiked = LikeService.isLiked(mToken, feedItem.getBroadcast().getProgram().getProgramId());
+			// mIsLiked = LikeService.isLiked(mToken, program.getProgramId());
 
-			final String programTypeRec = feedItem.getBroadcast().getProgram().getProgramType();
+			final String programTypeRec = program.getProgramType();
 
 			// determine like
 			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeRec)) {
-				mIsLiked = DazooStore.getInstance().isInTheLikesList(feedItem.getBroadcast().getProgram().getSeries().getSeriesId());
+				mIsLiked = DazooStore.getInstance().isInTheLikesList(program.getSeries().getSeriesId());
 			} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programTypeRec)) {
-				mIsLiked = DazooStore.getInstance().isInTheLikesList(feedItem.getBroadcast().getProgram().getSportType().getSportTypeId());
+				mIsLiked = DazooStore.getInstance().isInTheLikesList(program.getSportType().getSportTypeId());
 			} else {
-				mIsLiked = DazooStore.getInstance().isInTheLikesList(feedItem.getBroadcast().getProgram().getProgramId());
+				mIsLiked = DazooStore.getInstance().isInTheLikesList(program.getProgramId());
 			}
 
 			holderRBC.headerTvRec.setText(feedItem.getTitle());
 
-			mImageLoader.displayImage(feedItem.getBroadcast().getProgram().getLandLUrl(), holderRBC.landscapeIvRec, ImageLoader.IMAGE_TYPE.GALLERY);
+			mImageLoader.displayImage(program.getLandLUrl(), holderRBC.landscapeIvRec, ImageLoader.IMAGE_TYPE.GALLERY);
 
 			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeRec)) {
-				holderRBC.titleTvRec.setText(feedItem.getBroadcast().getProgram().getSeries().getName());
+				holderRBC.titleTvRec.setText(program.getSeries().getName());
 			} else {
-				holderRBC.titleTvRec.setText(feedItem.getBroadcast().getProgram().getTitle());
+				holderRBC.titleTvRec.setText(program.getTitle());
 			}
 
 			try {
-				holderRBC.timeTvRec.setText(DateUtilities.isoStringToDayOfWeek(feedItem.getBroadcast().getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(feedItem.getBroadcast().getBeginTime()));
+				holderRBC.timeTvRec.setText(DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 
-			holderRBC.channelTvRec.setText(feedItem.getBroadcast().getChannel().getName());
+			holderRBC.channelTvRec.setText(broadcast.getChannel().getName());
 
 			if (programTypeRec != null) {
 				if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programTypeRec)) {
-					holderRBC.detailsTvRec.setText(feedItem.getBroadcast().getProgram().getGenre() + mActivity.getResources().getString(R.string.from) + feedItem.getBroadcast().getProgram().getYear());
+					holderRBC.detailsTvRec.setText(program.getGenre() + mActivity.getResources().getString(R.string.from) + program.getYear());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeRec)) {
-					String season = feedItem.getBroadcast().getProgram().getSeason().getNumber();
-					int episode = feedItem.getBroadcast().getProgram().getEpisodeNumber();
+					String season = program.getSeason().getNumber();
+					int episode = program.getEpisodeNumber();
 					String seasonEpisode = "";
 					if (!season.equals("0")) {
-						seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + feedItem.getBroadcast().getProgram().getSeason().getNumber() + " ";
+						seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " ";
 					}
 					if (episode != 0) {
-						seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(feedItem.getBroadcast().getProgram().getEpisodeNumber());
+						seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(program.getEpisodeNumber());
 					}
 					holderRBC.detailsTvRec.setText(seasonEpisode);
 				} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programTypeRec)) {
-					holderRBC.detailsTvRec.setText(feedItem.getBroadcast().getProgram().getSportType().getName() + " " + feedItem.getBroadcast().getProgram().getTournament());
+					holderRBC.detailsTvRec.setText(program.getSportType().getName() + " " + program.getTournament());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programTypeRec)) {
-					holderRBC.detailsTvRec.setText(feedItem.getBroadcast().getProgram().getCategory());
+					holderRBC.detailsTvRec.setText(program.getCategory());
 				}
 			}
 
-			int durationRec = 0;
-			timeSinceBegin = 0;
-			timeToEnd = 0;
-			// MC - Calculate the duration of the program and set up ProgressBar.
-			try {
-				long startTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTimeMillis());
-				long endTime = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getEndTimeMillis());
-				timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTimeMillis());
-				timeToEnd = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getEndTimeMillis());
-				durationRec = (int) (startTime - endTime) / (1000 * 60);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
 			if (timeSinceBegin > 0 && timeToEnd < 0) {
-				holderRBC.progressBarRec.setMax(durationRec);
+				holderRBC.progressBarRec.setMax(duration);
 	
 				// MC - Calculate the current progress of the ProgressBar and update.
 				int initialProgressRec = 0;
-				long differenceRec = 0;
-				try {
-					differenceRec = DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTimeMillis());
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-	
-				if (differenceRec < 0) {
+		
+				if (broadcast.getTimeSinceBegin() < 0) {
 					holderRBC.progressBarRec.setVisibility(View.GONE);
 					initialProgressRec = 0;
 					holderRBC.progressBarRec.setProgress(0);
 				} else {
-					try {
-						initialProgressRec = (int) DateUtilities.getAbsoluteTimeDifference(feedItem.getBroadcast().getBeginTimeMillis()) / (1000 * 60);
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
-					holderRBC.progressbarTvRec.setText(durationRec - initialProgressRec + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
+					initialProgressRec = (int) (broadcast.getTimeSinceBegin() / (1000 * 60));
+				
+					holderRBC.progressbarTvRec.setText(duration - initialProgressRec + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
 					holderRBC.progressBarRec.setProgress(initialProgressRec);
 					holderRBC.progressBarRec.setVisibility(View.VISIBLE);
 					holderRBC.progressBarRec.setVisibility(View.VISIBLE);
@@ -811,14 +912,14 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 					String tvDate = "";
 					try {
-						tvDate = DateUtilities.isoDateStringToTvDateString(feedItem.getBroadcast().getBeginTime());
+						tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTime());
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
 
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, feedItem.getBroadcast().getBeginTimeMillis());
-					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, feedItem.getBroadcast().getChannel().getChannelId());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, tvDate);
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
 
@@ -829,7 +930,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			});
 			
 			NotificationDbItem dbItemBroadcast = new NotificationDbItem();
-			dbItemBroadcast = mNotificationDataSource.getNotification(feedItem.getBroadcast().getChannel().getChannelId(), feedItem.getBroadcast().getBeginTimeMillis());
+			dbItemBroadcast = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillis());
 			if (dbItemBroadcast.getNotificationId() != 0) {
 				mIsSet = true;
 				mNotificationId = dbItemBroadcast.getNotificationId(); 
@@ -853,14 +954,14 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 					String programId, contentTitle;
 					if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeRec)) {
-						programId = feedItem.getBroadcast().getProgram().getSeries().getSeriesId();
-						contentTitle = feedItem.getBroadcast().getProgram().getTitle();
+						programId = program.getSeries().getSeriesId();
+						contentTitle = program.getTitle();
 					} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programTypeRec)) {
-						programId = feedItem.getBroadcast().getProgram().getSportType().getSportTypeId();
-						contentTitle = feedItem.getBroadcast().getProgram().getSportType().getName();
+						programId = program.getSportType().getSportTypeId();
+						contentTitle = program.getSportType().getName();
 					} else {
-						programId = feedItem.getBroadcast().getProgram().getProgramId();
-						contentTitle = feedItem.getBroadcast().getProgram().getTitle();
+						programId = program.getProgramId();
+						contentTitle = program.getTitle();
 					}
 
 					if (mIsLiked == false) {
@@ -889,7 +990,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 				@Override
 				public void onClick(View v) {
-					ShareAction.shareAction(mActivity, mActivity.getResources().getString(R.string.app_name), feedItem.getBroadcast().getShareUrl(),
+					ShareAction.shareAction(mActivity, mActivity.getResources().getString(R.string.app_name), broadcast.getShareUrl(),
 							mActivity.getResources().getString(R.string.share_action_title));
 				}
 			});
@@ -900,13 +1001,13 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				public void onClick(View v) {
 					String tvDate = "";
 					try {
-						tvDate = DateUtilities.isoDateStringToTvDateString(feedItem.getBroadcast().getBeginTime());
+						tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTime());
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
 					
 					NotificationDbItem dbItemBroadcast = new NotificationDbItem();
-					dbItemBroadcast = mNotificationDataSource.getNotification(feedItem.getBroadcast().getChannel().getChannelId(), feedItem.getBroadcast().getBeginTimeMillis());
+					dbItemBroadcast = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillis());
 					if (dbItemBroadcast.getNotificationId() != 0) {
 						mIsSet = true;
 						mNotificationId = dbItemBroadcast.getNotificationId(); 
@@ -917,12 +1018,12 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					}
 
 					if (mIsSet == false) {
-						if (NotificationService.setAlarm(mActivity, feedItem.getBroadcast(), feedItem.getBroadcast().getChannel(), tvDate)) {
+						if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), tvDate)) {
 							NotificationService.showSetNotificationToast(mActivity);
 							holderRBC.remindRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 							NotificationDbItem dbItem = new NotificationDbItem();
-							dbItem = mNotificationDataSource.getNotification(feedItem.getBroadcast().getChannel().getChannelId(), feedItem.getBroadcast().getBeginTimeMillis());
+							dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillis());
 							mNotificationId = dbItem.getNotificationId();
 							AnimationUtilities.animationSet(holderRBC.remindRecIv);
 							mIsSet = true;
@@ -932,7 +1033,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					} else {
 						if (mNotificationId != -1) {
 							NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
-							notificationDlg.showRemoveNotificationDialog(mActivity, feedItem.getBroadcast(), mNotificationId, yesNotificationRecProc(holderRBC.remindRecIv), noNotificationProc());
+							notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId, yesNotificationRecProc(holderRBC.remindRecIv), noNotificationProc());
 						} else {
 							Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
 						}
@@ -941,10 +1042,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			});
 
 			break;
-		case ITEM_TYPE_POPULAR_BROADCASTS:
-
-			ArrayList<Broadcast> broadcasts = feedItem.getBroadcasts();
-			
+		case ITEM_TYPE_POPULAR_BROADCASTS:			
 			PopularBroadcastsViewHolder viewHolder;
 			if (convertView == null) {
 				convertView = LayoutInflater.from(mActivity).inflate(R.layout.block_feed_popular, null);
@@ -986,348 +1084,22 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				convertView.setTag(viewHolder);
 
 			}
+			
 			final PopularBroadcastsViewHolder holderPBC = (PopularBroadcastsViewHolder) convertView.getTag();
-
+			final ArrayList<Broadcast> broadcasts = feedItem.getBroadcasts();
 
 			if (broadcasts.get(0) != null) {
-
-				final Broadcast broadcastOne = broadcasts.get(0);
-
-				String programTypeOne = broadcastOne.getProgram().getProgramType();
-
-				mImageLoader.displayImage(broadcastOne.getProgram().getPortMUrl(), holderPBC.mPosterOne, ImageLoader.IMAGE_TYPE.THUMBNAIL);
-				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeOne)) {
-					holderPBC.mTitleOne.setText(broadcastOne.getProgram().getSeries().getName());
-				} else {
-					holderPBC.mTitleOne.setText(broadcastOne.getProgram().getTitle());
-				}
-				try {
-					holderPBC.mTimeOne.setText(DateUtilities.isoStringToDayOfWeek(broadcastOne.getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(broadcastOne.getBeginTime()));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				holderPBC.mChannelNameOne.setText(broadcastOne.getChannel().getName());
-
-				if (programTypeOne != null) {
-					if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programTypeOne)) {
-						holderPBC.mDetailsOne.setText(broadcastOne.getProgram().getGenre() + mActivity.getResources().getString(R.string.from) + broadcastOne.getProgram().getYear());
-					} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeOne)) {
-						String season = broadcastOne.getProgram().getSeason().getNumber();
-						int episode = broadcastOne.getProgram().getEpisodeNumber();
-						String seasonEpisode = "";
-						if (!season.equals("0")) {
-							seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + broadcastOne.getProgram().getSeason().getNumber() + " ";
-						}
-						if (episode != 0) {
-							seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(broadcastOne.getProgram().getEpisodeNumber());
-						}
-						holderPBC.mDetailsOne.setText(seasonEpisode);
-					} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programTypeOne)) {
-						holderPBC.mDetailsOne.setText(broadcastOne.getProgram().getSportType().getName() + " " + broadcastOne.getProgram().getTournament());
-					} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programTypeOne)) {
-						holderPBC.mDetailsOne.setText(broadcastOne.getProgram().getCategory());
-					}
-				}
-
-				int durationOne = 0;
-				timeSinceBegin = 0;
-				timeToEnd = 0;
-				// MC - Calculate the duration of the program and set up ProgressBar.
-				try {
-					long startTime = DateUtilities.getAbsoluteTimeDifference(broadcastOne.getBeginTimeMillis());
-					long endTime = DateUtilities.getAbsoluteTimeDifference(broadcastOne.getEndTimeMillis());
-					timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(broadcastOne.getBeginTimeMillis());
-					timeToEnd = DateUtilities.getAbsoluteTimeDifference(broadcastOne.getEndTimeMillis());
-					durationOne = (int) (startTime - endTime) / (1000 * 60);
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				if (timeSinceBegin > 0 && timeToEnd < 0) {
-					holderPBC.mProgressBarOne.setMax(durationOne);
-	
-					// MC - Calculate the current progress of the ProgressBar and update.
-					int initialProgressOne = 0;
-					long differenceOne = 0;
-					try {
-						differenceOne = DateUtilities.getAbsoluteTimeDifference(broadcastOne.getBeginTimeMillis());
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
-	
-					if (differenceOne < 0) {
-						holderPBC.mProgressBarOne.setVisibility(View.GONE);
-						initialProgressOne = 0;
-						holderPBC.mProgressBarOne.setProgress(0);
-					} else {
-						try {
-							initialProgressOne = (int) DateUtilities.getAbsoluteTimeDifference(broadcastOne.getBeginTimeMillis()) / (1000 * 60);
-						} catch (ParseException e) {
-							e.printStackTrace();
-						}
-						holderPBC.mProgressBarTitleOne.setText(durationOne - initialProgressOne + " " + mActivity.getResources().getString(R.string.minutes) + " "
-								+ mActivity.getResources().getString(R.string.left));
-						holderPBC.mProgressBarOne.setProgress(initialProgressOne);
-						holderPBC.mProgressBarOne.setVisibility(View.VISIBLE);
-						holderPBC.mProgressBarTitleOne.setVisibility(View.VISIBLE);
-					}
-				}
-				else {
-					holderPBC.mProgressBarOne.setVisibility(View.GONE);
-					holderPBC.mProgressBarTitleOne.setVisibility(View.GONE);
-				}
-
-				holderPBC.mContainerOne.setOnClickListener(new View.OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						String tvDate = "";
-						try {
-							tvDate = DateUtilities.isoDateStringToTvDateString(broadcastOne.getBeginTime());
-						} catch (ParseException e) {
-							e.printStackTrace();
-						}
-
-						Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-						intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcastOne.getBeginTimeMillis());
-						intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcastOne.getChannel().getChannelId());
-						intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, tvDate);
-						intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
-
-						mActivity.startActivity(intent);
-						mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-					}
-				});
+				populatePopularItemAtIndex(holderPBC, broadcasts, 0);
 			}
 
 			// two
-
 			if (broadcasts.get(1) != null) {
-				holderPBC.mContainerTwo.setVisibility(View.VISIBLE);
-
-				final Broadcast broadcastTwo = broadcasts.get(1);
-
-				String programTypeTwo = broadcastTwo.getProgram().getProgramType();
-
-				mImageLoader.displayImage(broadcastTwo.getProgram().getPortMUrl(), holderPBC.mPosterTwo, ImageLoader.IMAGE_TYPE.THUMBNAIL);
-				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeTwo)) {
-					holderPBC.mTitleTwo.setText(broadcastTwo.getProgram().getSeries().getName());
-				} else {
-					holderPBC.mTitleTwo.setText(broadcastTwo.getProgram().getTitle());
-				}
-				try {
-					holderPBC.mTimeTwo.setText(DateUtilities.isoStringToDayOfWeek(broadcastTwo.getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(broadcastTwo.getBeginTime()));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				holderPBC.mChannelNameTwo.setText(broadcastTwo.getChannel().getName());
-
-				if (programTypeTwo != null) {
-					if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programTypeTwo)) {
-						holderPBC.mDetailsTwo.setText(broadcastTwo.getProgram().getGenre() + mActivity.getResources().getString(R.string.from) + broadcastTwo.getProgram().getYear());
-					} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeTwo)) {
-						Broadcast broadcast = feedItem.getBroadcast();
-						if (broadcast != null) {
-							Program program = broadcast.getProgram();
-							if (program != null ) {
-								String season = program.getSeason().getNumber();
-								int episode = program.getEpisodeNumber();
-								String seasonEpisode = "";
-								if (!season.equals("0")) {
-									seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + feedItem.getBroadcast().getProgram().getSeason().getNumber() + " ";
-								}
-								if (episode != 0) {
-									seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(feedItem.getBroadcast().getProgram().getEpisodeNumber());
-								}
-								holderPBC.mDetailsTwo.setText(seasonEpisode);
-							}
-						}
-					} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programTypeTwo)) {
-						holderPBC.mDetailsTwo.setText(broadcastTwo.getProgram().getSportType().getName() + " " + broadcastTwo.getProgram().getTournament());
-					} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programTypeTwo)) {
-						holderPBC.mDetailsTwo.setText(broadcastTwo.getProgram().getCategory());
-					}
-				}
-
-				int durationTwo = 0;
-				timeSinceBegin = 0;
-				timeToEnd = 0;
-				// MC - Calculate the duration of the program and set up ProgressBar.
-				try {
-					long startTime = DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getBeginTimeMillis());
-					long endTime = DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getEndTimeMillis());
-					timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getBeginTimeMillis());
-					timeToEnd = DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getEndTimeMillis());
-					durationTwo = (int) (startTime - endTime) / (1000 * 60);
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				if (timeSinceBegin > 0 && timeToEnd < 0) {
-					holderPBC.mProgressBarTwo.setMax(durationTwo);
-	
-					// MC - Calculate the current progress of the ProgressBar and update.
-					int initialProgressTwo = 0;
-					long differenceTwo = 0;
-					try {
-						differenceTwo = DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getBeginTimeMillis());
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
-	
-					if (differenceTwo < 0) {
-						holderPBC.mProgressBarTwo.setVisibility(View.GONE);
-						initialProgressTwo = 0;
-						holderPBC.mProgressBarTwo.setProgress(0);
-					} else {
-						try {
-							initialProgressTwo = (int) DateUtilities.getAbsoluteTimeDifference(broadcastTwo.getBeginTimeMillis()) / (1000 * 60);
-						} catch (ParseException e) {
-							e.printStackTrace();
-						}
-						holderPBC.mProgressBarTitleTwo.setText(durationTwo - initialProgressTwo + " " + mActivity.getResources().getString(R.string.minutes) + " "
-								+ mActivity.getResources().getString(R.string.left));
-						holderPBC.mProgressBarTwo.setProgress(initialProgressTwo);
-						holderPBC.mProgressBarTwo.setVisibility(View.VISIBLE);
-						holderPBC.mProgressBarTitleTwo.setVisibility(View.VISIBLE);
-					}
-				}
-				else {
-					holderPBC.mProgressBarTwo.setVisibility(View.GONE);
-					holderPBC.mProgressBarTitleTwo.setVisibility(View.GONE);
-				}
-
-				holderPBC.mContainerTwo.setOnClickListener(new View.OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						String tvDate = "";
-						try {
-							tvDate = DateUtilities.isoDateStringToTvDateString(broadcastTwo.getBeginTime());
-						} catch (ParseException e) {
-							e.printStackTrace();
-						}
-
-						Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-						intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcastTwo.getBeginTimeMillis());
-						intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcastTwo.getChannel().getChannelId());
-						intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, tvDate);
-						intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
-
-						mActivity.startActivity(intent);
-						mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-					}
-				});
+				populatePopularItemAtIndex(holderPBC, broadcasts, 1);
 			}
 
 			// three
-
 			if (broadcasts.get(2) != null) {
-				holderPBC.mContainerThree.setVisibility(View.VISIBLE);
-
-				final Broadcast broadcastThree = broadcasts.get(2);
-
-				String programTypeThree = broadcastThree.getProgram().getProgramType();
-
-				mImageLoader.displayImage(broadcastThree.getProgram().getPortMUrl(), holderPBC.mPosterThree, ImageLoader.IMAGE_TYPE.THUMBNAIL);
-				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeThree)) {
-					holderPBC.mTitleThree.setText(broadcastThree.getProgram().getSeries().getName());
-				} else {
-					holderPBC.mTitleThree.setText(broadcastThree.getProgram().getTitle());
-				}
-				try {
-					holderPBC.mTimeThree.setText(DateUtilities.isoStringToDayOfWeek(broadcastThree.getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(broadcastThree.getBeginTime()));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				holderPBC.mChannelNameThree.setText(broadcastThree.getChannel().getName());
-
-				int durationThree = 0;
-				timeSinceBegin = 0;
-				timeToEnd = 0;
-				// MC - Calculate the duration of the program and set up ProgressBar.
-				try {
-					long startTime = DateUtilities.getAbsoluteTimeDifference(broadcastThree.getBeginTimeMillis());
-					long endTime = DateUtilities.getAbsoluteTimeDifference(broadcastThree.getEndTimeMillis());
-					timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(broadcastThree.getBeginTimeMillis());
-					timeToEnd = DateUtilities.getAbsoluteTimeDifference(broadcastThree.getEndTimeMillis());
-					durationThree = (int) (startTime - endTime) / (1000 * 60);
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				if (timeSinceBegin > 0 && timeToEnd < 0) {
-					holderPBC.mProgressBarThree.setMax(durationThree);
-	
-					// MC - Calculate the current progress of the ProgressBar and update.
-					int initialProgressThree = 0;
-					long differenceThree = 0;
-					try {
-						differenceThree = DateUtilities.getAbsoluteTimeDifference(broadcastThree.getBeginTimeMillis());
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
-	
-					if (differenceThree < 0) {
-						holderPBC.mProgressBarThree.setVisibility(View.GONE);
-						initialProgressThree = 0;
-						holderPBC.mProgressBarThree.setProgress(0);
-					} else {
-						try {
-							initialProgressThree = (int) DateUtilities.getAbsoluteTimeDifference(broadcastThree.getBeginTimeMillis()) / (1000 * 60);
-						} catch (ParseException e) {
-							e.printStackTrace();
-						}
-						holderPBC.mProgressBarTitleThree.setText(durationThree - initialProgressThree + " " + mActivity.getResources().getString(R.string.minutes) + " "
-								+ mActivity.getResources().getString(R.string.left));
-						holderPBC.mProgressBarThree.setProgress(initialProgressThree);
-						holderPBC.mProgressBarThree.setVisibility(View.VISIBLE);
-						holderPBC.mProgressBarTitleThree.setVisibility(View.VISIBLE);
-					}
-				}
-				else {
-					holderPBC.mProgressBarThree.setVisibility(View.GONE);
-					holderPBC.mProgressBarTitleThree.setVisibility(View.GONE);
-				}
-
-				if (programTypeThree != null) {
-					if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programTypeThree)) {
-						holderPBC.mDetailsThree.setText(broadcastThree.getProgram().getGenre() + mActivity.getResources().getString(R.string.from) + broadcastThree.getProgram().getYear());
-					} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeThree)) {
-						String season = broadcastThree.getProgram().getSeason().getNumber();
-						int episode = broadcastThree.getProgram().getEpisodeNumber();
-						String seasonEpisode = "";
-						if (!season.equals("0")) {
-							seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + broadcastThree.getProgram().getSeason().getNumber() + " ";
-						}
-						if (episode != 0) {
-							seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(broadcastThree.getProgram().getEpisodeNumber());
-						}
-						holderPBC.mDetailsThree.setText(seasonEpisode);
-					} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programTypeThree)) {
-						holderPBC.mDetailsThree.setText(broadcastThree.getProgram().getSportType().getName() + " " + broadcastThree.getProgram().getTournament());
-					} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programTypeThree)) {
-						holderPBC.mDetailsThree.setText(broadcastThree.getProgram().getCategory());
-					}
-				}
-				holderPBC.mContainerThree.setOnClickListener(new View.OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						String tvDate = "";
-						try {
-							tvDate = DateUtilities.isoDateStringToTvDateString(broadcastThree.getBeginTime());
-						} catch (ParseException e) {
-							e.printStackTrace();
-						}
-
-						Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-						intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcastThree.getBeginTimeMillis());
-						intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcastThree.getChannel().getChannelId());
-						intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, tvDate);
-						intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
-
-						mActivity.startActivity(intent);
-						mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-					}
-				});
+				populatePopularItemAtIndex(holderPBC, broadcasts, 2);
 			}
 
 			RelativeLayout footer = (RelativeLayout) convertView.findViewById(R.id.block_popular_show_more_container);

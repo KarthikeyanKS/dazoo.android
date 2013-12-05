@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import org.json.JSONObject;
+
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.utilities.DateUtilities;
 
@@ -34,7 +36,10 @@ public class Broadcast implements Parcelable {
 	private long beginTimeMillis;
 	private String shareUrl;
 	private String beginTimeString;
-
+	
+	private long timeSinceBegin;
+	private long timeToEnd;
+	
 	public Broadcast() {
 	}
 
@@ -60,6 +65,24 @@ public class Broadcast implements Parcelable {
 	
 	public void setEndTimeMillis(long endTimeMillis) {
 		this.endTimeMillis = endTimeMillis;
+	}
+	
+	
+
+	public long getTimeSinceBegin() {
+		return timeSinceBegin;
+	}
+
+	public void setTimeSinceBegin(long timeSinceBegin) {
+		this.timeSinceBegin = timeSinceBegin;
+	}
+
+	public long getTimeToEnd() {
+		return timeToEnd;
+	}
+
+	public void setTimeToEnd(long timeToEnd) {
+		this.timeToEnd = timeToEnd;
 	}
 
 	public void setBeginTime(String beginTime) {
@@ -164,6 +187,40 @@ public class Broadcast implements Parcelable {
 		beginTimeString = getBeginTimeString();
 		shareUrl = in.readString();
 	}
+	
+	public Broadcast(JSONObject jsonBroadcast) {
+		this.setBeginTime(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_BEGIN_TIME));
+		this.setEndTime(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_END_TIME));
+		this.setBeginTimeMillis(jsonBroadcast.optLong(Consts.DAZOO_BROADCAST_BEGIN_TIME_MILLIS));
+
+		this.setShareUrl(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_SHARE_URL));
+		
+		/* Lazy instantiation => fields get set using beginTimeMillis and endTime */
+		this.getBeginTimeString();
+		this.getEndTimeMillis();
+		
+		try {
+			this.timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(getBeginTimeMillis());
+			this.timeToEnd = DateUtilities.getAbsoluteTimeDifference(getEndTimeMillis());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		JSONObject jsonChannel = jsonBroadcast.optJSONObject(Consts.DAZOO_BROADCAST_CHANNEL);
+		Channel channel = new Channel(jsonChannel);
+		if (jsonChannel != null) {
+			this.setChannel(channel);
+		}
+
+		JSONObject jsonProgram = jsonBroadcast.optJSONObject(Consts.DAZOO_BROADCAST_PROGRAM);
+		if (jsonProgram != null) {
+			Program program = new Program(jsonProgram);
+			this.setProgram(program);
+		}
+
+		this.setBroadcastType(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_BROADCAST_TYPE));
+	}
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
@@ -261,5 +318,24 @@ public class Broadcast implements Parcelable {
 			}
 		}
 		return nextBroadcasts;
+	}
+	
+	public void updateTimeToBeginAndTimeToEnd() {
+		try {
+			this.timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(getBeginTimeMillis());
+			this.timeToEnd = DateUtilities.getAbsoluteTimeDifference(getEndTimeMillis());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public int getDurationInMinutes() {
+		this.updateTimeToBeginAndTimeToEnd();
+
+		int durationInMinutes = 0;
+		durationInMinutes = (int) (timeSinceBegin - timeToEnd) / (1000 * 60);
+	
+		return durationInMinutes;
 	}
 }

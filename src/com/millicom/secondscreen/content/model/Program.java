@@ -2,6 +2,12 @@ package com.millicom.secondscreen.content.model;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.millicom.secondscreen.Consts;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -81,7 +87,109 @@ public class Program implements Parcelable {
 	public String getSynopsisLong() {
 		return this.synopsisLong;
 	}
+	
+	public Program(JSONObject jsonProgram) {
+		this.setProgramId(jsonProgram.optString(Consts.DAZOO_PROGRAM_ID));
 
+		String programType = jsonProgram.optString(Consts.DAZOO_PROGRAM_TYPE);
+		this.setProgramType(programType);
+
+		String temp = jsonProgram.optString(Consts.DAZOO_PROGRAM_TITLE);
+		if (temp.length() > 0) {
+			this.setTitle(temp);
+		} else {
+			this.setTitle("");
+		}
+
+		temp = jsonProgram.optString(Consts.DAZOO_PROGRAM_SYNOPSIS_SHORT);
+		if (temp.length() > 0) this.setSynopsisShort(temp);
+		else this.setSynopsisShort("");
+
+		temp = jsonProgram.optString(Consts.DAZOO_PROGRAM_SYNOPSISS_LONG);
+		if (temp.length() > 0) this.setSynopsisLong(temp);
+		else this.setSynopsisShort("");
+
+		// JSONObject jsonPoster = jsonProgram.optJSONObject(Consts.DAZOO_PROGRAM_POSTER);
+		// if (jsonPoster != null) {
+		// program.setPosterSUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_SMALL));
+		// program.setPosterMUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_MEDIUM));
+		// program.setPosterLUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_LARGE));
+		// }
+
+		JSONObject jsonImages = jsonProgram.optJSONObject(Consts.DAZOO_PROGRAM_IMAGES);
+		if (jsonImages != null) {
+
+			// landscape
+			JSONObject landscape = jsonImages.optJSONObject(Consts.DAZOO_IMAGE_TYPE_LANDSCAPE);
+			this.setLandSUrl(landscape.optString(Consts.DAZOO_IMAGE_SMALL));
+			this.setLandMUrl(landscape.optString(Consts.DAZOO_IMAGE_MEDIUM));
+			this.setLandLUrl(landscape.optString(Consts.DAZOO_IMAGE_LARGE));
+
+			// portrait
+			JSONObject portrait = jsonImages.optJSONObject(Consts.DAZOO_IMAGE_TYPE_PORTRAIT);
+			this.setPortSUrl(portrait.optString(Consts.DAZOO_IMAGE_SMALL));
+			this.setPortMUrl(portrait.optString(Consts.DAZOO_IMAGE_MEDIUM));
+			this.setPortLUrl(portrait.optString(Consts.DAZOO_IMAGE_LARGE));
+		}
+
+		JSONArray jsonTags = jsonProgram.optJSONArray(Consts.DAZOO_PROGRAM_TAGS);
+		if (jsonTags != null) {
+			ArrayList<String> tags = new ArrayList<String>();
+			for (int k = 0; k < jsonTags.length(); k++) {
+				try {
+					tags.add(jsonTags.getString(k));
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			this.setTags(tags);
+		}
+
+		JSONArray jsonCredits = jsonProgram.optJSONArray(Consts.DAZOO_PROGRAM_CREDITS);
+		if (jsonCredits != null) {
+			ArrayList<Credit> credits = new ArrayList<Credit>();
+			for (int k = 0; k < jsonCredits.length(); k++) {
+				JSONObject jsonCredit;
+				try {
+					jsonCredit = jsonCredits.getJSONObject(k);
+					Credit credit = new Credit(jsonCredit);
+					credits.add(credit);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			this.setCredits(credits);
+		}
+
+		if ((Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE).equals(programType)) {
+			int tempInt = jsonProgram.optInt(Consts.DAZOO_PROGRAM_EPISODE);
+			if (temp.length() > 0) this.setEpisodeNumber(tempInt);
+			else this.setEpisodeNumber(-1);
+
+			JSONObject seasonJSON = jsonProgram.optJSONObject(Consts.DAZOO_PROGRAM_SEASON);
+			Season season = new Season(seasonJSON);
+			this.setSeason(season);
+
+			JSONObject seriesJSON = jsonProgram.optJSONObject(Consts.DAZOO_PROGRAM_SERIES);
+			Series series = new Series(seriesJSON);
+			this.setSeries(series);
+
+		} else if ((Consts.DAZOO_PROGRAM_TYPE_MOVIE).equals(programType)) {
+			this.setYear(jsonProgram.optInt(Consts.DAZOO_PROGRAM_YEAR));
+			this.setGenre(jsonProgram.optString(Consts.DAZOO_PROGRAM_GENRE));
+		} else if ((Consts.DAZOO_PROGRAM_TYPE_SPORT).equals(programType)) {
+			this.setTournament(jsonProgram.optString(Consts.DAZOO_PROGRAM_TOURNAMENT));
+			JSONObject sportTypeJSON = jsonProgram.optJSONObject(Consts.DAZOO_PROGRAM_SPORTTYPE);
+			SportType sportType = new SportType(sportTypeJSON);
+			this.setSportType(sportType);
+		} else if ((Consts.DAZOO_PROGRAM_TYPE_OTHER).equals(programType)) {
+			this.setCategory(jsonProgram.optString(Consts.DAZOO_PROGRAM_CATEGORY));
+		}
+
+	}
+ 
 	// public void setPosterSUrl(String posterSUrl){
 	// this.posterSUrl = posterSUrl;
 	// }

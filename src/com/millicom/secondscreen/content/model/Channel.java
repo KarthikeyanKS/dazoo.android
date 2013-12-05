@@ -2,6 +2,11 @@ package com.millicom.secondscreen.content.model;
 
 import java.util.ArrayList;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.millicom.secondscreen.Consts;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -70,6 +75,23 @@ public class Channel implements Parcelable {
 		logoSUrl = in.readString();
 		logoMUrl = in.readString();
 		logoLUrl = in.readString();
+	}
+	
+	public Channel(JSONObject jsonChannel) {
+		this.setChannelId(jsonChannel.optString(Consts.DAZOO_CHANNEL_CHANNEL_ID));
+		this.setName(jsonChannel.optString(Consts.DAZOO_CHANNEL_NAME));
+
+		try {
+			JSONObject jsonPoster = jsonChannel.getJSONObject(Consts.DAZOO_CHANNEL_LOGO);
+			if (jsonPoster != null) {
+				this.setLogoSUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_SMALL));
+				this.setLogoMUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_MEDIUM));
+				this.setLogoLUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_LARGE));
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Override

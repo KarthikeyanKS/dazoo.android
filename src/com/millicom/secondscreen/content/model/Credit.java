@@ -1,5 +1,9 @@
 package com.millicom.secondscreen.content.model;
 
+import org.json.JSONObject;
+
+import com.millicom.secondscreen.Consts;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -8,7 +12,11 @@ public class Credit implements Parcelable{
 	private String name;
 	private String type;
 	
-	public Credit(){
+	public Credit() {}
+	
+	public Credit(JSONObject jsonObject) {
+		this.setName(jsonObject.optString(Consts.DAZOO_CREDIT_NAME));
+		this.setType(jsonObject.optString(Consts.DAZOO_CREDIT_TYPE));
 	}
 	
 	public void setName(String name){

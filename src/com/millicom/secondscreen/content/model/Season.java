@@ -1,5 +1,9 @@
 package com.millicom.secondscreen.content.model;
 
+import org.json.JSONObject;
+
+import com.millicom.secondscreen.Consts;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -8,6 +12,10 @@ public class Season implements Parcelable  {
 	private String number;
 	
 	public Season(){	
+	}
+	
+	public Season(JSONObject jsonSeason) {
+		this.setNumber(jsonSeason.optString(Consts.DAZOO_SEASON_NUMBER));
 	}
 	
 	public void setNumber(String number){

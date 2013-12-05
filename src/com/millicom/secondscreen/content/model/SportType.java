@@ -1,5 +1,9 @@
 package com.millicom.secondscreen.content.model;
 
+import org.json.JSONObject;
+
+import com.millicom.secondscreen.Consts;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -9,6 +13,11 @@ public class SportType implements Parcelable{
 	private String sportTypeId;
 
 	public SportType(){
+	}
+	
+	public SportType(JSONObject jsonSportType) {
+		this.setName(jsonSportType.optString(Consts.DAZOO_SPORTTYPE_NAME));
+		this.setSportTypeId(jsonSportType.optString(Consts.DAZOO_SPORTTYPE_SPORTTYPEID));
 	}
 	
 	public void setName(String name){

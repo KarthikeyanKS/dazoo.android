@@ -1,5 +1,9 @@
 package com.millicom.secondscreen.content.model;
 
+import org.json.JSONObject;
+
+import com.millicom.secondscreen.Consts;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -9,6 +13,11 @@ public class Series implements Parcelable{
 	private String seriesId;
 
 	public Series(){
+	}
+	
+	public Series(JSONObject jsonObject) {
+		this.setName(jsonObject.optString(Consts.DAZOO_SERIES_NAME));
+		this.setSeriesId(jsonObject.optString(Consts.DAZOO_SERIES_SERIES_ID));
 	}
 	
 	public void setName(String name){
