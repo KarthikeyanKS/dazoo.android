@@ -208,15 +208,19 @@ public class Broadcast implements Parcelable {
 		}
 
 		JSONObject jsonChannel = jsonBroadcast.optJSONObject(Consts.DAZOO_BROADCAST_CHANNEL);
-		Channel channel = new Channel(jsonChannel);
 		if (jsonChannel != null) {
-			this.setChannel(channel);
+			Channel channel = new Channel(jsonChannel);
+			if(channel != null) {
+				this.setChannel(channel);
+			}
 		}
 
 		JSONObject jsonProgram = jsonBroadcast.optJSONObject(Consts.DAZOO_BROADCAST_PROGRAM);
 		if (jsonProgram != null) {
 			Program program = new Program(jsonProgram);
-			this.setProgram(program);
+			if(program != null) {
+				this.setProgram(program);
+			}
 		}
 
 		this.setBroadcastType(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_BROADCAST_TYPE));
