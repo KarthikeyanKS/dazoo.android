@@ -29,6 +29,7 @@ import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.adapters.ActionBarDropDownDateListAdapter;
+import com.millicom.secondscreen.authentication.ResetPasswordFinalActivity;
 import com.millicom.secondscreen.content.SSPageFragmentActivity;
 import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.model.Channel;

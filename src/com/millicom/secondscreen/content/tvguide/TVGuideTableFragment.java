@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -46,7 +47,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 	private ListView				mTVGuideListView;
 	private ImageView				mClockIv;
 	private LinearLayout			mClockIndexView;
-	//private ScrollView mClockIndexView;
+	private ScrollView				mClockScrollView;
 	private ArrayList<Guide>		mGuides;
 	private TvDate					mTvDate;
 	private Tag						mTag;
@@ -111,8 +112,8 @@ public class TVGuideTableFragment extends SSPageFragment {
 			mRootView = inflater.inflate(R.layout.fragment_tvguide_table, null);
 			mTVGuideListView = (ListView) mRootView.findViewById(R.id.tvguide_table_listview);
 			mClockIndexView = (LinearLayout) mRootView.findViewById(R.id.tvguide_table_side_clock_index);
-			//mClockIndexView = (ScrollView) mRootView.findViewById(R.id.tvguide_table_side_clock_index);
-			
+			mClockScrollView = (ScrollView) mRootView.findViewById(R.id.tvguide_scrollview);
+
 			mClockIv = (ImageView) mRootView.findViewById(R.id.tvguide_table_side_clock_iv);
 			mClockIv.setOnTouchListener(vTouch);
 
@@ -181,6 +182,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 
 				} else {
 					updateUI(REQUEST_STATUS.SUCCESSFUL);
+					//focusOnView();
 					result = true;
 				}
 			}
@@ -265,6 +267,15 @@ public class TVGuideTableFragment extends SSPageFragment {
 		return null;
 	}
 
+	private final void focusOnView() {
+		new Handler().post(new Runnable() {
+			@Override
+			public void run() {
+				mClockScrollView.smoothScrollTo(0, mCurrentHourTv.getBottom());
+			}
+		});
+	}
+
 	private void styleCurrentHourSelection() {
 		// if the there is styled hour remove styling
 		if (mCurrentHourTv != null) {
@@ -273,7 +284,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 			mCurrentHourTv.setTypeface(Typeface.DEFAULT);
 			LinearLayout.LayoutParams p = (LayoutParams) mCurrentHourTv.getLayoutParams();
 			p.setMargins(0, 0, 0, 0);
-			p.height = 16;
+			p.height = LinearLayout.LayoutParams.WRAP_CONTENT;
 			mCurrentHourTv.setLayoutParams(p);
 			mCurrentHourTv.setBackgroundColor(getResources().getColor(R.color.white));
 		}

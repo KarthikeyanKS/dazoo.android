@@ -97,7 +97,7 @@ public class MyChannelsService {
 				if (Consts.GOOD_RESPONSE == response.getStatusLine().getStatusCode()) {
 					HttpEntity entityHttp = response.getEntity();
 					InputStream inputStream = entityHttp.getContent();
-					BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"), 8);
+					BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8);
 					StringBuilder sb = new StringBuilder();
 					String line = null;
 					while ((line = reader.readLine()) != null) {

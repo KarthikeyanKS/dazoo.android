@@ -13,12 +13,6 @@
         android:layout_alignParentBottom="true"
         layout="@layout/block_bottom_tabs" />
 
-    <include
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/tab_selector_container"
-        layout="@layout/layout_request_callbacks_holder_layout" />
-
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -307,8 +301,8 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
-                            android:padding="3dp"
-                            android:src="@drawable/ic_launcher" />
+                            android:padding="5dp"
+                            android:src="@drawable/ic_facebook" />
 
                         <com.millicom.secondscreen.customviews.FontTextView
                             android:id="@+id/myprofile_signin_facebook_tv"
@@ -428,5 +422,4 @@
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
-
 </RelativeLayout>

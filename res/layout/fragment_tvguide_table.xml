@@ -33,10 +33,24 @@
             android:orientation="vertical"
         -->
 
+        <ImageView
+            android:id="@+id/tvguide_table_side_clock_iv"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:onClick="onClockImageClick"
+            android:src="@drawable/ic_guide_clock" />
+
         <ScrollView
+            android:id="@+id/tvguide_scrollview"
             android:layout_width="40dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
+            android:layout_below="@id/tvguide_table_side_clock_iv"
             android:background="@color/white"
             android:fillViewport="true"
             android:orientation="vertical" >
@@ -46,15 +60,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:orientation="vertical" >
-
-                <ImageView
-                    android:id="@+id/tvguide_table_side_clock_iv"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center"
-                    android:clickable="true"
-                    android:onClick="onClockImageClick"
-                    android:src="@drawable/ic_guide_clock" />
 
                 <TextView
                     android:id="@+id/clock_06"

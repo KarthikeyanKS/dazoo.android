@@ -70,8 +70,8 @@
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                android:layout_centerVertical="true"
-	                android:padding="3dp"
-	                android:src="@drawable/ic_launcher" />
+	                android:padding="5dp"
+	                android:src="@drawable/ic_facebook" />
 	
 	            <com.millicom.secondscreen.customviews.FontTextView
 	                android:id="@+id/signin_facebook_tv"

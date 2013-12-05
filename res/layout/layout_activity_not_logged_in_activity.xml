@@ -83,8 +83,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:padding="3dp"
-                    android:src="@drawable/ic_launcher" />
+                    android:padding="5dp"
+                    android:src="@drawable/ic_facebook" />
 
                 <com.millicom.secondscreen.customviews.FontTextView
                     android:id="@+id/activity_not_logged_in_signin_facebook_tv"
@@ -179,7 +179,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="15dp"
                 android:gravity="center_horizontal"
                 android:text="@string/already_registered"
                 android:textColor="@color/grey2"
