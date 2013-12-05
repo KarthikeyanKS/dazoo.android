@@ -165,6 +165,9 @@
     <string name="remove_from_my_channels">Remove from My Channels</string>
     <string name="selected_channels">Selected channels:</string>
     <string name="search_channels">Search channels</string>
+    
+    <!-- REMINDERS -->
+    <string name="no_reminders">You haven\'t set any reminders yet.</string>
 
     <!-- SHARE PROVIDER -->
     <string name="share_action_title">Share via &#8230;</string>

@@ -48,6 +48,7 @@ public class RemindersActivity extends SSActivity implements RemindersCountInter
 	private View					mTabSelectorContainerView;
 	private RelativeLayout			mTabTvGuide, mTabActivity, mTabProfile;
 	private int						mCount		= 0;
+	private TextView				mErrorTv;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -78,7 +79,8 @@ public class RemindersActivity extends SSActivity implements RemindersCountInter
 		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTabProfile.setBackgroundColor(getResources().getColor(R.color.red));
-
+		
+		mErrorTv = (TextView) findViewById(R.id.reminders_error_tv);
 		mListView = (ListView) findViewById(R.id.listview);
 	}
 
@@ -119,12 +121,17 @@ public class RemindersActivity extends SSActivity implements RemindersCountInter
 
 			broadcasts.add(broadcast);
 		}
-
-		// Sort the list of broadcasts by time.
-		Collections.sort(broadcasts, new Broadcast.BroadcastComparatorByTime());
-
-		mAdapter = new RemindersListAdapter(this, broadcasts, this);
-		mListView.setAdapter(mAdapter);
+		// If empty - show notification.
+		if (broadcasts.isEmpty()) {
+			mErrorTv.setVisibility(View.VISIBLE);
+		}
+		else {
+			// Sort the list of broadcasts by time.
+			Collections.sort(broadcasts, new Broadcast.BroadcastComparatorByTime());
+	
+			mAdapter = new RemindersListAdapter(this, broadcasts, this);
+			mListView.setAdapter(mAdapter);
+		}
 	}
 
 	@Override
