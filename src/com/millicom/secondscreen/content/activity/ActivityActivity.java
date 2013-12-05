@@ -154,7 +154,6 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		mListFooterView = (View) inflater.inflate(R.layout.row_loading_footerview, null);
 		mListView.addFooterView(mListFooterView);
 		mListFooterView.setVisibility(View.GONE);
-
 	}
 
 	private void initInactiveViews() {

@@ -60,15 +60,14 @@ public class MyChannelsService {
 		String responseStr;
 		try {
 			responseStr = getMyChannelsTask.execute(userToken).get();
-			Log.d(TAG,"List of My Channels: " + responseStr);
-			
+			Log.d(TAG, "List of My Channels: " + responseStr);
+
 			if (responseStr != null && TextUtils.isEmpty(responseStr) != true && responseStr != Consts.ERROR_STRING) {
 				// the extra check for ERROR_STRING was added to distinguish between empty response (there are no stored channels to this user) and empty response in case of error
 				ArrayList<String> channelIds = new ArrayList<String>();
 				channelIds = ContentParser.parseChannelIds(new JSONArray(responseStr));
 				DazooStore.getInstance().setMyChannelIds(channelIds);
 
-				
 				return true;
 			} else return false;
 		} catch (InterruptedException e) {
@@ -91,7 +90,7 @@ public class MyChannelsService {
 				HttpClient httpClient = new DefaultHttpClient();
 				HttpGet httpGet = new HttpGet();
 				httpGet.setHeader("Authorization", "Bearer " + params[0]);
-
+				httpGet.setHeader("Content-type", "application/json; charset=UTF-8");
 				httpGet.setURI(new URI(Consts.MILLICOM_SECONDSCREEN_MY_CHANNELS_URL));
 
 				HttpResponse response = httpClient.execute(httpGet);
