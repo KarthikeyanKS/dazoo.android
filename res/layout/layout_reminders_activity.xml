@@ -5,38 +5,40 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/white" >
-    
-     <!-- BOTTOM NAVIGATION TABS -->
+
+    <!-- BOTTOM NAVIGATION TABS -->
 
     <include
         android:id="@+id/tab_selector_container"
         android:layout_alignParentBottom="true"
         layout="@layout/block_bottom_tabs" />
-    
-      <include
+
+    <include
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/tab_selector_container"
         layout="@layout/layout_request_callbacks_holder_layout" />
-      
+
     <com.millicom.secondscreen.customviews.FontTextView
         android:id="@+id/reminders_error_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-		android:layout_margin="20dp"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:text="@string/no_reminders"
-        android:textSize="@dimen/ingress"
-        android:visibility="gone"
-        android:drawableTop="@drawable/ic_error_state_dazoo" />
-    
+        android:textSize="@dimen/header_3"
+        android:visibility="gone" />
+
     <ListView
         android:id="@+id/listview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_above="@id/tab_selector_container"
+        android:layout_alignParentTop="true"
+        android:layout_below="@id/reminders_error_tv"
         android:cacheColorHint="@null"
-        android:divider="@null"
-        android:layout_below="@id/reminders_error_tv" />
+        android:divider="@null" />
+
 </RelativeLayout>
