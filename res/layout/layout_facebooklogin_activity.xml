@@ -4,29 +4,18 @@
     android:id="@+id/facebooklogin_container"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/blue1"
+    android:background="@color/grey1"
     android:orientation="vertical" >
 
     <com.millicom.secondscreen.customviews.FontTextView
         android:id="@+id/resetpassword_title_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
+        android:gravity="center_horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="80dp"
         android:text="@string/facebook_login_proceeds"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <RelativeLayout
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_below="@+id/resetpassword_title_tv" >
-
-        <ProgressBar
-            android:id="@+id/mepage_avatar_progressbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
-    </RelativeLayout>
+        android:textSize="@dimen/header_2" />
 
 </RelativeLayout>
