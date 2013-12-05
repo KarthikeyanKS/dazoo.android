@@ -11,7 +11,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="45dp"
         android:gravity="center_horizontal"
         android:src="@drawable/ic_error_state_dazoo" />
 
