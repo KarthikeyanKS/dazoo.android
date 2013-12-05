@@ -29,13 +29,14 @@
 
     <!-- ActionBar style -->
     <style name="ActionBarSpinnerHeaderStyle" parent="Widget.AppCompat.Light.Spinner.DropDown.ActionBar">
-        <!-- item name="android:background">@drawable/custom_drop_down_list_indicator</item -->
+        <item name="android:background">@drawable/ic_custom_spinner_arrow</item>
     </style>
 
     <style name="ActionBarDropDown" parent="Widget.AppCompat.Light.Spinner.DropDown.ActionBar">
         <item name="android:popupBackground">@color/grey1</item>
         <item name="android:dropDownSelector">@color/grey1</item>
     </style>
+    
 
     <!-- ACTIONBAR WITH BOLD WHITE TITLE -->
 

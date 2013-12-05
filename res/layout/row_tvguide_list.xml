@@ -11,20 +11,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:gravity="center" >
+        android:gravity="center"
+        android:orientation="horizontal" >
 
         <RelativeLayout
             android:id="@+id/tvguide_channel_icon_container"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
             android:background="@color/white" >
 
             <ImageView
                 android:id="@+id/tvguide_channel_iv"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_margin="@dimen/channel_logo_margin"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_margin="10dp"
                 android:adjustViewBounds="true"
                 android:clickable="false"
                 android:focusableInTouchMode="false" />
@@ -38,12 +39,13 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.7"
             android:orientation="vertical" >
 
             <!-- LIVE NOW -->
+
             <include
                 android:id="@+id/tvguide_program_line_live_container"
                 android:layout_width="match_parent"
@@ -51,6 +53,7 @@
                 layout="@layout/element_tvguide_broadcast" />
 
             <!-- NEXT -->
+
             <include
                 android:id="@+id/tvguide_program_line_next_container"
                 android:layout_width="match_parent"
@@ -59,6 +62,7 @@
                 layout="@layout/element_tvguide_broadcast" />
 
             <!-- LAST -->
+
             <include
                 android:id="@+id/tvguide_program_line_last_container"
                 android:layout_width="match_parent"
