@@ -58,7 +58,10 @@ import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.adapters.ActivityFeedAdapter;
+import com.millicom.secondscreen.authentication.DazooLoginActivity;
+import com.millicom.secondscreen.authentication.FacebookLoginActivity;
 import com.millicom.secondscreen.authentication.SignInActivity;
+import com.millicom.secondscreen.authentication.SignUpActivity;
 import com.millicom.secondscreen.content.SSActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.model.FeedItem;
@@ -71,9 +74,9 @@ import com.millicom.secondscreen.storage.DazooStore;
 public class ActivityActivity extends SSActivity implements OnClickListener {
 
 	private static final String	TAG				= "ActivityActivity";
-	private RelativeLayout		mTabTvGuide, mTabProfile, mTabActivity;
+	private RelativeLayout		mTabTvGuide, mTabProfile, mTabActivity, mSigninContainer, mFacebookContainer, mSignUpContainer;
 	private TextView			mSignInTv, mGreetingTv;
-	private Button				mCheckPopularBtn;
+	private Button				mCheckPopularBtn, mLoginBtn;
 	private ActionBar			mActionBar;
 	private ArrayList<FeedItem>	activityFeed	= new ArrayList<FeedItem>();
 	private String				token;
@@ -111,7 +114,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			} else {
 				loadPage();
 			}
-			
+
 		} else {
 			setContentView(R.layout.layout_activity_not_logged_in_activity);
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -138,9 +141,9 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		mActionBar.setDisplayShowCustomEnabled(true);
 		mActionBar.setDisplayUseLogoEnabled(true);
 		mActionBar.setDisplayShowHomeEnabled(true);
-		
+
 		mActionBar.setTitle(getResources().getString(R.string.activity_title));
-		
+
 	}
 
 	private void initFeedViews() {
@@ -155,8 +158,16 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 	}
 
 	private void initInactiveViews() {
-		mSignInTv = (TextView) findViewById(R.id.activity_not_logged_in_btn);
-		mSignInTv.setOnClickListener(this);
+		// sign in
+		mSigninContainer = (RelativeLayout) findViewById(R.id.activity_not_logged_in_signin_container);
+		mFacebookContainer = (RelativeLayout) findViewById(R.id.activity_not_logged_in_facebook_container);
+		mFacebookContainer.setOnClickListener(this);
+
+		mSignUpContainer = (RelativeLayout) findViewById(R.id.activity_not_logged_in_signup_email_container);
+		mSignUpContainer.setOnClickListener(this);
+
+		mLoginBtn = (Button) findViewById(R.id.activity_not_logged_in_login_btn);
+		mLoginBtn.setOnClickListener(this);
 	}
 
 	private void setAdapter() {
@@ -236,10 +247,10 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 					Log.d(TAG, "reached last item");
 					// Show the scroll spinner
 					showScrollSpinner(true);
-					
-					if(mNoTask){
-					GetFeedMoreTask getFeedMoreTask = new GetFeedMoreTask();
-					getFeedMoreTask.execute();
+
+					if (mNoTask) {
+						GetFeedMoreTask getFeedMoreTask = new GetFeedMoreTask();
+						getFeedMoreTask.execute();
 					}
 					mNoTask = false;
 				} else {
@@ -266,11 +277,11 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
 		// hide search for beta release
-		//case R.id.menu_search:
-		//	Intent toSearchPage = new Intent(ActivityActivity.this, SearchPageActivity.class);
-		//	startActivity(toSearchPage);
-		//	overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-		//	return true;
+		// case R.id.menu_search:
+		// Intent toSearchPage = new Intent(ActivityActivity.this, SearchPageActivity.class);
+		// startActivity(toSearchPage);
+		// overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+		// return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -305,9 +316,20 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			startActivity(intentMe);
 			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
-		case R.id.activity_not_logged_in_btn:
-			Intent intentSignIn = new Intent(ActivityActivity.this, SignInActivity.class);
-			startActivity(intentSignIn);
+		case R.id.activity_not_logged_in_facebook_container:
+			// facebook sign in
+			Intent intentFacebookSignIn = new Intent(ActivityActivity.this, FacebookLoginActivity.class);
+			startActivity(intentFacebookSignIn);
+			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			break;
+		case R.id.activity_not_logged_in_signup_email_container:
+			Intent intentSignUp = new Intent(ActivityActivity.this, SignUpActivity.class);
+			startActivity(intentSignUp);
+			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			break;
+		case R.id.activity_not_logged_in_login_btn:
+			Intent intentLogin = new Intent(ActivityActivity.this, DazooLoginActivity.class);
+			startActivity(intentLogin);
 			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
 		case R.id.block_feed_no_likes_btn:
@@ -363,10 +385,9 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 
 				URI uri = new URI(Consts.MILLICOM_SECONDSCREEN_ACTIVITY_FEED_URL + "?" + URLEncodedUtils.format(urlParams, "utf-8"));
 
-				Log.d(TAG,"mStartIndex: " + String.valueOf(mStartIndex) + " mNextStep: " + String.valueOf(mNextStep));
-				Log.d(TAG,"Feed more items: " + uri.toString());
-				
-				
+				Log.d(TAG, "mStartIndex: " + String.valueOf(mStartIndex) + " mNextStep: " + String.valueOf(mNextStep));
+				Log.d(TAG, "Feed more items: " + uri.toString());
+
 				HttpGet httpGet = new HttpGet(uri);
 				httpGet.setHeader("Authorization", "Bearer " + token);
 				// header to accept the json in a correct encoding
@@ -397,7 +418,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 							feedListJsonArray = new JSONArray(jsonString);
 							int size = feedListJsonArray.length();
 							Log.d(TAG, "FEED MORE ITEMS SIZE: " + String.valueOf(size));
-							
+
 							if (size == 0) {
 								mNoMoreItems = true;
 								return result;
