@@ -1,6 +1,7 @@
 package com.millicom.secondscreen.content.tvguide;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
@@ -37,6 +39,7 @@ import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.TvDate;
+import com.millicom.secondscreen.content.model.Program;
 import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
 import com.millicom.secondscreen.http.NetworkUtils;
 import com.millicom.secondscreen.storage.DazooStore;
@@ -244,6 +247,24 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		// add main content block
 		BroadcastMainBlockPopulator mainBlockPopulator = new BroadcastMainBlockPopulator(mActivity, mScrollView, token, mTvDate);
 		mainBlockPopulator.createBlock(mBroadcast);
+
+		//Remove upcoming broadcasts with season 0 and episode 0
+		LinkedList<Broadcast> upcomingToRemove = new LinkedList<Broadcast>();
+		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(mBroadcast.getProgram().getProgramType())) {
+			Program program = mBroadcast.getProgram();
+			if (program.getSeason().getNumber().equals("0") && program.getEpisodeNumber() == 0) {
+				for (int i = 0; i < mUpcomingBroadcasts.size(); i++) {
+					Broadcast b = mUpcomingBroadcasts.get(i);
+					Program p = b.getProgram();
+					if (p.getSeason().getNumber().equals("0") && p.getEpisodeNumber() == 0) {
+						upcomingToRemove.add(b);
+					}
+				}
+			}
+		}
+		for (Broadcast b : upcomingToRemove) {
+			mUpcomingBroadcasts.remove(b);
+		}
 
 		// repetitions
 		if (mRepeatBroadcasts != null && mRepeatBroadcasts.isEmpty() != true) {

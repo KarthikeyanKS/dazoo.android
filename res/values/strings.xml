@@ -139,7 +139,7 @@
     <string name="reset_password_mail_text">We\'ve sent you an email with instructions on how to reset your password</string>
     <string name="reset_password_mail_spam_text">Don\'t see the email? Check your spam folder</string>
     <string name="submit">SUBMIT</string>
-    <string name="facebook_login_proceeds">Facebook is working hard &#8230;</string>
+    <string name="facebook_login_proceeds">Connecting to Facebook &#8230;</string>
     <string name="success_account_created_title">Success - account created!</string>
     <string name="success_account_created_text">You are now a new happy Dazoo user</string>
     <string name="set_your_channels">Set your channels</string>
@@ -165,6 +165,9 @@
     <string name="remove_from_my_channels">Remove from My Channels</string>
     <string name="selected_channels">Selected channels:</string>
     <string name="search_channels">Search channels</string>
+    
+    <!-- REMINDERS -->
+    <string name="no_reminders">You haven\'t set any reminders yet.</string>
 
     <!-- SHARE PROVIDER -->
     <string name="share_action_title">Share via &#8230;</string>

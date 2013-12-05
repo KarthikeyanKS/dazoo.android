@@ -105,11 +105,14 @@ public class BroadcastMainBlockPopulator {
 		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 			mProgramId = broadcast.getProgram().getSeries().getSeriesId();
 			mContentTitle = broadcast.getProgram().getSeries().getName();
-			seasonTv.setText(mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " ");
-			seasonTv.setVisibility(View.VISIBLE);
-
-			episodeTv.setText(mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(program.getEpisodeNumber()));
-			episodeTv.setVisibility(View.VISIBLE);
+			if (Integer.parseInt(program.getSeason().getNumber()) != 0) {
+				seasonTv.setText(mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " ");
+				seasonTv.setVisibility(View.VISIBLE);
+			}
+			if (program.getEpisodeNumber() != 0) {
+				episodeTv.setText(mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(program.getEpisodeNumber()));
+				episodeTv.setVisibility(View.VISIBLE);
+			}
 
 			titleTv.setText(program.getSeries().getName());
 

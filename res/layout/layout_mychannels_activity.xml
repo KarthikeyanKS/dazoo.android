@@ -54,7 +54,9 @@
             android:layout_marginBottom="5dp"
             android:drawableLeft="@drawable/ic_search_default"
             android:hint="@string/search_channels" 
-            android:drawablePadding="10dp"/>
+            android:drawablePadding="10dp"
+            android:imeOptions="actionDone"
+            android:singleLine="true" />
     </RelativeLayout>
 
     <!-- BOTTOM NAVIGATION TABS -->
