@@ -2,19 +2,24 @@ package com.millicom.secondscreen.authentication;
 
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
+import com.millicom.secondscreen.content.homepage.HomeActivity;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class ResetPasswordFinalActivity extends ActionBarActivity {
+public class ResetPasswordFinalActivity extends ActionBarActivity implements OnClickListener {
 
 	private static final String	TAG	= "ResetPasswordFinalActivity";
 	private ActionBar			mActionBar;
+	private Button				mLoginBtn;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +45,21 @@ public class ResetPasswordFinalActivity extends ActionBarActivity {
 		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
 
 		mActionBar.setTitle(getResources().getString(R.string.reset_password));
+
+		mLoginBtn = (Button) findViewById(R.id.resetpassword_already_login_btn);
+		mLoginBtn.setOnClickListener(this);
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.resetpassword_already_login_btn:
+			Intent intentSignIn = new Intent(ResetPasswordFinalActivity.this, SignInActivity.class);
+			startActivity(intentSignIn);
+			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			break;
+		}
+
 	}
 
 }

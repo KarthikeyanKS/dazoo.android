@@ -214,13 +214,14 @@ public class PopularPageActivity extends SSActivity implements OnClickListener {
 				URI uri = new URI(Consts.MILLICOM_SECONDSCREEN_POPULAR + "?" + URLEncodedUtils.format(urlParams, "utf-8"));
 
 				HttpGet httpGet = new HttpGet(uri);
+				httpGet.setHeader("Content-type", "application/json; charset=UTF-8");
 				HttpResponse response = httpClient.execute(httpGet);
 
 				if (Consts.GOOD_RESPONSE == response.getStatusLine().getStatusCode()) {
 					Log.d(TAG, "GOOD RESPONSE");
 					HttpEntity entityHttp = response.getEntity();
 					InputStream inputStream = entityHttp.getContent();
-					BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"), 8);
+					BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8);
 					StringBuilder sb = new StringBuilder();
 					String line = null;
 					while ((line = reader.readLine()) != null) {

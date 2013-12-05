@@ -70,8 +70,8 @@
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                android:layout_centerVertical="true"
-	                android:padding="3dp"
-	                android:src="@drawable/ic_launcher" />
+	                android:padding="5dp"
+	                android:src="@drawable/ic_facebook" />
 	
 	            <com.millicom.secondscreen.customviews.FontTextView
 	                android:id="@+id/signin_facebook_tv"
@@ -98,7 +98,8 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:orientation="horizontal"
-            android:background="@drawable/layout_rounded_corners_blue" >
+            android:background="@drawable/layout_rounded_corners_blue" 
+            android:visibility="gone">
             
 			<RelativeLayout 
 			    android:layout_width="wrap_content"
@@ -203,6 +204,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/signin_container_email_divider"
             android:layout_centerInParent="true" 
+            android:layout_alignParentBottom="true"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"

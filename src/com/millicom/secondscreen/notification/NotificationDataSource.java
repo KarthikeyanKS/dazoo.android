@@ -77,6 +77,7 @@ public class NotificationDataSource {
 		Cursor cursor = database.rawQuery(selectQuery, null);
 		int count = cursor.getCount();
 		cursor.close();
+		database.close();
 		return count;
 	}
 
@@ -93,6 +94,7 @@ public class NotificationDataSource {
 			} while (cursor.moveToNext());
 		}
 		cursor.close();
+		database.close();
 
 		return notificationList;
 	}

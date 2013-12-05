@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,7 +34,7 @@ import com.millicom.secondscreen.notification.NotificationDataSource;
 import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.ImageLoader;
 
-public class MyProfileActivity extends SSActivity implements OnClickListener {
+public class MyProfileActivity extends ActionBarActivity implements OnClickListener {
 
 	private static final String	TAG			= "MyProfileFragment";
 
@@ -70,7 +71,6 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 		}
 
 		initViews();
-		super.initCallbackLayouts();
 		populateViews();
 	}
 
@@ -87,16 +87,16 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 		mTabProfile.setBackgroundColor(getResources().getColor(R.color.red));
 
 		mActionBar = getSupportActionBar();
-
-		final int actionBarColor = getResources().getColor(R.color.blue1);
-		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
-
+		mActionBar.setTitle(getResources().getString(R.string.myprofile_title));
+		
 		mActionBar.setDisplayShowTitleEnabled(true);
 		mActionBar.setDisplayShowCustomEnabled(true);
 		mActionBar.setDisplayUseLogoEnabled(true);
 		mActionBar.setDisplayShowHomeEnabled(true);
-		mActionBar.setTitle(getResources().getString(R.string.myprofile_title));
 
+		final int actionBarColor = getResources().getColor(R.color.blue1);
+		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
+		
 		mMyProfileContainer = (RelativeLayout) findViewById(R.id.myprofile_person_container);
 
 		// user information
@@ -297,17 +297,5 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 			}
 			break;
 		}
-	}
-
-	@Override
-	protected void updateUI(REQUEST_STATUS status) {
-		// TODO Auto-generated method stub
-		// not needed in this activity
-	}
-
-	@Override
-	protected void loadPage() {
-		// TODO Auto-generated method stub
-		// not needed in this activity
 	}
 }
