@@ -15,39 +15,7 @@
         android:scaleType="fitXY"
         android:src="@drawable/poster_activity_not_logged_in" />
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/activity_poster"
-        android:layout_alignLeft="@+id/activity_poster"
-        android:layout_alignRight="@+id/activity_poster"
-        android:layout_alignTop="@+id/activity_poster"
-        android:gravity="center_vertical|center_horizontal" >
-
-        <com.millicom.secondscreen.customviews.FontTextView
-            android:id="@+id/activity_not_logged_in_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:padding="5dp"
-            android:text="@string/login_for_activity"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="normal" />
-
-        <com.millicom.secondscreen.customviews.FontTextView
-            android:id="@+id/activity_not_logged_in_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/activity_not_logged_in_tv"
-            android:layout_centerHorizontal="true"
-            android:background="@color/blue1"
-            android:padding="15dp"
-            android:text="@string/sign_in"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="normal" />
-    </RelativeLayout>
+    
 
     <!-- BOTTOM NAVIGATION TABS -->
 
