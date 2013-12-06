@@ -99,7 +99,7 @@ public class LikeService {
 		text.setText(likedContentName + activity.getResources().getString(R.string.like_set_text));
 
 		toast.setGravity(Gravity.BOTTOM, 0, 200);
-		toast.setDuration(Toast.LENGTH_SHORT);
+		toast.setDuration(Toast.LENGTH_LONG);
 		toast.setView(layout);
 		toast.show();
 	}

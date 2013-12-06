@@ -18,6 +18,18 @@
         android:layout_height="match_parent"
         android:layout_above="@id/tab_selector_container"
         layout="@layout/layout_request_callbacks_holder_layout" />
+    
+     <com.millicom.secondscreen.customviews.FontTextView
+        android:id="@+id/likes_error_tv"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="@string/no_likes"
+        android:textSize="@dimen/header_3"
+        android:visibility="gone" />
 
     <ListView
         android:id="@+id/listview"

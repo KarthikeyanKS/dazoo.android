@@ -7,6 +7,7 @@
     android:orientation="vertical" >
 
     <!-- FOOTER: BOTTOM NAVIGATION TABS -->
+
     <include
         android:id="@+id/tab_selector_container"
         android:layout_alignParentBottom="true"
@@ -23,7 +24,7 @@
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/grey2"
+            android:background="@color/grey1"
             android:paddingBottom="10dp" >
 
             <!-- CONTAINER FOR PROFILE MENU -->
@@ -40,7 +41,7 @@
                     android:id="@+id/myprofile_person_container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_margin="10dp"
                     android:orientation="horizontal" >
 
                     <ImageView
@@ -63,7 +64,7 @@
                     <com.millicom.secondscreen.customviews.FontTextView
                         android:id="@+id/myprofile_name_tv"
                         android:layout_width="fill_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/myprofile_avatar_iv"
                         android:gravity="center_vertical"
@@ -83,7 +84,7 @@
                     android:layout_margin="1dp"
                     android:background="@color/grey1"
                     android:orientation="horizontal"
-                    android:padding="10dp" >
+                    android:padding="12dp" >
 
                     <ImageView
                         android:id="@+id/myprofile_reminders_icon"
@@ -91,6 +92,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:padding="3dp"
+                        android:src="@drawable/ic_launcher"
                         android:visibility="gone" />
 
                     <com.millicom.secondscreen.customviews.FontTextView
@@ -123,7 +125,7 @@
                     android:layout_margin="1dp"
                     android:background="@color/grey1"
                     android:orientation="horizontal"
-                    android:padding="10dp" >
+                    android:padding="12dp" >
 
                     <ImageView
                         android:id="@+id/myprofile_likes_icon"
@@ -132,6 +134,7 @@
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:padding="3dp"
+                        android:src="@drawable/ic_launcher"
                         android:visibility="gone" />
 
                     <com.millicom.secondscreen.customviews.FontTextView
@@ -163,7 +166,7 @@
                     android:layout_margin="1dp"
                     android:background="@color/grey1"
                     android:orientation="horizontal"
-                    android:padding="10dp" >
+                    android:padding="12dp" >
 
                     <ImageView
                         android:id="@+id/myprofile_my_channels_icon"
@@ -172,6 +175,7 @@
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:padding="3dp"
+                        android:src="@drawable/ic_launcher"
                         android:visibility="gone" />
 
                     <com.millicom.secondscreen.customviews.FontTextView
@@ -203,7 +207,7 @@
                     android:layout_margin="1dp"
                     android:background="@color/grey1"
                     android:orientation="horizontal"
-                    android:padding="10dp" >
+                    android:padding="12dp" >
 
                     <ImageView
                         android:id="@+id/myprofile_settings_icon"
@@ -212,6 +216,7 @@
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:padding="3dp"
+                        android:src="@drawable/ic_launcher"
                         android:visibility="gone" />
 
                     <com.millicom.secondscreen.customviews.FontTextView
@@ -239,8 +244,8 @@
                 android:background="@drawable/layout_rounded_corners_white"
                 android:orientation="vertical"
                 android:paddingBottom="10dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:visibility="gone" >
 
                 <com.millicom.secondscreen.customviews.FontTextView
@@ -248,10 +253,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_margin="10dp"
                     android:text="@string/sign_in_to_dazoo_title"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -262,24 +264,18 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/myprofile_signin_title_tv"
                     android:layout_gravity="left"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_margin="10dp"
                     android:text="@string/sign_in_to_dazoo_text"
-                    android:textColor="@color/grey1"
-                    android:textSize="18sp"
-                    android:visibility="gone" />
+                    android:textColor="@color/grey2"
+                    android:textSize="18sp" 
+                     android:visibility="gone"/>
 
                 <View
                     android:id="@+id/signin_container_divider"
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
                     android:layout_below="@id/myprofile_signin_text_tv"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_margin="10dp"
                     android:background="@color/grey1" />
 
                 <!-- FACEBOOK SIGN-IN BAR -->
@@ -291,7 +287,7 @@
                     android:layout_below="@id/signin_container_divider"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     android:background="@drawable/layout_rounded_corners_blue"
                     android:orientation="horizontal" >
 
@@ -306,7 +302,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
-                            android:padding="3dp"
+                            android:padding="5dp"
                             android:src="@drawable/ic_facebook" />
 
                         <com.millicom.secondscreen.customviews.FontTextView
@@ -329,10 +325,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/myprofile_signin_facebook_container"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_margin="10dp"
                     android:orientation="horizontal" >
 
                     <View
@@ -349,10 +342,9 @@
                         android:layout_centerInParent="true"
                         android:layout_centerVertical="true"
                         android:background="@color/white"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
+                        android:padding="5dp"
                         android:text="@string/or"
-                        android:textColor="@color/grey1"
+                        android:textColor="@color/grey2"
                         android:textSize="18sp"
                         android:textStyle="bold" />
                 </RelativeLayout>
@@ -362,13 +354,14 @@
                 <RelativeLayout
                     android:id="@+id/myprofile_signup_email_container"
                     android:layout_width="fill_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="65dp"
                     android:layout_below="@id/myprofile_or_container"
+                    android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginBottom="5dp"
                     android:background="@drawable/layout_rounded_corners_blue"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal"
+                    android:padding="10dp" >
 
                     <com.millicom.secondscreen.customviews.FontTextView
                         android:id="@+id/myprofile_signup_email_title_tv"
@@ -389,10 +382,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
                     android:layout_below="@id/myprofile_signup_email_container"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_margin="10dp"
                     android:background="@color/grey1" />
 
                 <!-- ALREADY REGISTERED BOX -->
@@ -402,35 +392,32 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/myprofile_container_email_divider"
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
                     android:orientation="horizontal" >
-
-                    <com.millicom.secondscreen.customviews.FontTextView
-                        android:id="@+id/myprofile_already_registered_text_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:layout_centerVertical="true"
-                        android:text="@string/already_registered"
-                        android:textColor="@color/grey2"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
 
                     <com.millicom.secondscreen.customviews.FontButton
                         android:id="@+id/myprofile_login_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/myprofile_already_registered_text_tv"
+                        android:layout_alignParentRight="true"
+                        android:layout_margin="10dp"
                         android:background="@drawable/layout_rounded_corners_grey"
-                        android:layout_centerVertical="true"
-                        android:padding="5dp"
+                        android:padding="10dp"
                         android:text="@string/login"
                         android:textColor="@color/white"
                         android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <com.millicom.secondscreen.customviews.FontTextView
+                        android:id="@+id/myprofile_already_registered_text_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/myprofile_login_btn"
+                        android:text="@string/already_registered"
+                        android:textColor="@color/grey2"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
                 </RelativeLayout>
             </RelativeLayout>

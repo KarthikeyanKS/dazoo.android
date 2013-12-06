@@ -98,6 +98,7 @@ public class LikesListAdapter extends BaseAdapter {
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 
 		final DazooLike like = getItem(position);
+
 		if (like != null) {
 			final DazooLikeEntity entity = like.getEntity();
 			if (entity != null) {
@@ -146,6 +147,7 @@ public class LikesListAdapter extends BaseAdapter {
 					@Override
 					public void onClick(View v) {
 						currentPosition = (Integer) v.getTag();
+
 						String likeType = like.getLikeType();
 						String likeId = null;
 						if (Consts.DAZOO_LIKE_TYPE_SERIES.equals(likeType)) {
@@ -175,15 +177,17 @@ public class LikesListAdapter extends BaseAdapter {
 		public TextView			mProgramTypeTv;
 		public RelativeLayout	mButtonContainer;
 		public ImageView		mButtonIcon;
-
 		public View				mDividerView;
 	}
 
 	public Runnable yesProc() {
 		return new Runnable() {
 			public void run() {
-				mLikes.remove(currentPosition);
-				removeFromLikeIds();
+				if (mLikes.size() > currentPosition) {
+					mLikes.remove(currentPosition);
+				}
+			
+				removeLikeId();
 				mInterface.setCount(mLikes.size());
 				notifyDataSetChanged();
 			}
@@ -197,7 +201,8 @@ public class LikesListAdapter extends BaseAdapter {
 		};
 	}
 
-	private void removeFromLikeIds() {
+	private void removeLikeId() {
+
 		Iterator iterator = DazooStore.getInstance().getLikeIds().iterator();
 		String strElement = "";
 		while (iterator.hasNext()) {
