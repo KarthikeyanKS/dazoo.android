@@ -39,6 +39,7 @@ public class LikesActivity extends SSActivity implements LikesCountInterface, On
 	private LikesListAdapter	mAdapter;
 	private String				token;
 	private RelativeLayout		mTabTvGuide, mTabActivity, mTabProfile;
+	private TextView mErrorTv;
 	private int mCount = 0;
 	
 	public void onCreate(Bundle savedInstanceState) {
@@ -72,11 +73,17 @@ public class LikesActivity extends SSActivity implements LikesCountInterface, On
 		mTabProfile.setBackgroundColor(getResources().getColor(R.color.red));
 	
 		mListView = (ListView) findViewById(R.id.listview);
+		mErrorTv = (TextView) findViewById(R.id.likes_error_tv);
 	}
 
 	private void populateLayout() {
 		ArrayList<DazooLike> likes = new ArrayList<DazooLike>();
 		likes = LikeService.getLikesList(token);
+		
+		if(likes.isEmpty()){
+			mErrorTv.setVisibility(View.VISIBLE);
+		}
+		
 		Collections.sort(likes, new DazooLike.DazooLikeComparatorByTitle());
 		mAdapter = new LikesListAdapter(this, likes, token, this);
 		mListView.setAdapter(mAdapter);

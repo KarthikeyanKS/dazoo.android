@@ -47,7 +47,6 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/dazoologin_facebook_icon"
-                    android:lines="1"
                     android:text="@string/login_with_facebook"
                     android:textColor="@color/white"
                     android:textSize="18sp"
@@ -169,28 +168,29 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:orientation="horizontal" >
-            
-            <com.millicom.secondscreen.customviews.FontTextView
-                android:id="@+id/dazoologin_forgot_password_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="5dp"
-                android:text="@string/forgot_password"
-                android:textColor="@color/grey2"
-                android:textSize="16sp"
-                android:textStyle="bold" />
 
             <com.millicom.secondscreen.customviews.FontButton
                 android:id="@+id/dazoologin_forgot_password_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/dazoologin_forgot_password_tv"
+                android:layout_alignParentRight="true"
+                android:layout_margin="10dp"
                 android:background="@drawable/layout_rounded_corners_grey"
                 android:padding="8dp"
                 android:text="@string/reset_password"
                 android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <com.millicom.secondscreen.customviews.FontTextView
+                android:id="@+id/dazoologin_forgot_password_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toLeftOf="@id/dazoologin_forgot_password_button"
+                android:text="@string/forgot_password"
+                android:textColor="@color/grey2"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </RelativeLayout>

@@ -192,7 +192,9 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					title.setText(broadcast.getProgram().getTitle());
 				}
 				try {
-					time.setText(DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTimeStringGmtString()) + " - " + broadcast.getBeginTimeStringLocalHourAndMinute());
+					String weekday = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime());
+					weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
+					time.setText(weekday + " - " + broadcast.getBeginTimeString());
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
@@ -200,8 +202,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 				if (programType != null) {
 					if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
-						details.setText(broadcast.getProgram().getGenre() + mActivity.getResources().getString(R.string.from)
-								+ broadcast.getProgram().getYear());
+						details.setText(broadcast.getProgram().getGenre() + " " + mActivity.getResources().getString(R.string.from)
+								+ " " + broadcast.getProgram().getYear());
 					} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 						if (broadcast != null) {
 							if (program != null) {
@@ -384,11 +386,11 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						viewHolder.detailsTvTw = (TextView) convertView.findViewById(R.id.block_feed_liked_details_tv);
 						viewHolder.progressbarTvTw = (TextView) convertView.findViewById(R.id.block_feed_liked_timeleft_tv);
 						viewHolder.progressBarTw = (ProgressBar) convertView.findViewById(R.id.block_feed_liked_progressbar);
-						viewHolder.likeContainerTw = (LinearLayout) convertView.findViewById(R.id.block_feed_liked_like_button_container);
+						viewHolder.likeContainerTw = (RelativeLayout) convertView.findViewById(R.id.block_feed_liked_like_button_container);
 						viewHolder.likeTwitterIv = (ImageView) convertView.findViewById(R.id.block_feed_liked_like_button_iv);
-						viewHolder.shareContainerTw = (LinearLayout) convertView.findViewById(R.id.block_feed_liked_share_button_container);
+						viewHolder.shareContainerTw = (RelativeLayout) convertView.findViewById(R.id.block_feed_liked_share_button_container);
 						viewHolder.shareIvTw = (ImageView) convertView.findViewById(R.id.block_feed_liked_share_button_iv);
-						viewHolder.remindContainerTw = (LinearLayout) convertView.findViewById(R.id.block_feed_liked_remind_button_container);
+						viewHolder.remindContainerTw = (RelativeLayout) convertView.findViewById(R.id.block_feed_liked_remind_button_container);
 						viewHolder.remindTwitterIv = (ImageView) convertView.findViewById(R.id.block_feed_liked_remind_button_iv);
 						
 						convertView.setTag(viewHolder);
@@ -419,7 +421,9 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					}
 		
 					try {
-						holder.timeTvTw.setText(DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTimeStringGmtString()) + " - " + DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmtString()));
+						String weekday = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime());
+						weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
+						holder.timeTvTw.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -428,7 +432,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		
 					if (programTypeTw != null) {
 						if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programTypeTw)) {
-							holder.detailsTvTw.setText(program.getGenre() + mActivity.getResources().getString(R.string.from) + program.getYear());
+							holder.detailsTvTw.setText(program.getGenre() + " " + mActivity.getResources().getString(R.string.from) + " " + program.getYear());
 						} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeTw)) {
 							String season = program.getSeason().getNumber();
 							int episode = program.getEpisodeNumber();
@@ -438,6 +442,9 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							}
 							if (episode != 0) {
 								seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + episode;
+							}
+							if (season.equals("0") && episode == 0) {
+								holder.detailsTvTw.setVisibility(View.GONE);
 							}
 							holder.detailsTvTw.setText(seasonEpisode);
 						} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programTypeTw)) {
@@ -634,11 +641,11 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						viewHolder.detailsTv = (TextView) convertView.findViewById(R.id.block_feed_liked_details_tv);
 						viewHolder.progressbarTv = (TextView) convertView.findViewById(R.id.block_feed_liked_timeleft_tv);
 						viewHolder.progressBar = (ProgressBar) convertView.findViewById(R.id.block_feed_liked_progressbar);
-						viewHolder.likeContainer = (LinearLayout) convertView.findViewById(R.id.block_feed_liked_like_button_container);
+						viewHolder.likeContainer = (RelativeLayout) convertView.findViewById(R.id.block_feed_liked_like_button_container);
 						viewHolder.likeLikeIv = (ImageView) convertView.findViewById(R.id.block_feed_liked_like_button_iv);
-						viewHolder.shareContainer = (LinearLayout) convertView.findViewById(R.id.block_feed_liked_share_button_container);
+						viewHolder.shareContainer = (RelativeLayout) convertView.findViewById(R.id.block_feed_liked_share_button_container);
 						viewHolder.shareIv = (ImageView) convertView.findViewById(R.id.block_feed_liked_share_button_iv);
-						viewHolder.remindContainer = (LinearLayout) convertView.findViewById(R.id.block_feed_liked_remind_button_container);
+						viewHolder.remindContainer = (RelativeLayout) convertView.findViewById(R.id.block_feed_liked_remind_button_container);
 						viewHolder.remindLikeIv = (ImageView) convertView.findViewById(R.id.block_feed_liked_remind_button_iv);
 						
 						convertView.setTag(viewHolder);
@@ -667,7 +674,9 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					}
 		
 					try {
-						holderBC.timeTv.setText(DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTimeStringGmtString()) + " - " + DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmtString()));
+						String weekday = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime());
+						weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
+						holderBC.timeTv.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -676,7 +685,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		
 					if (programType != null) {
 						if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
-							holderBC.detailsTv.setText(program.getGenre() + mActivity.getResources().getString(R.string.from) + program.getYear());
+							holderBC.detailsTv.setText(program.getGenre() + " " + mActivity.getResources().getString(R.string.from) + " " + program.getYear());
 						} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 							String season = program.getSeason().getNumber();
 							int episode = program.getEpisodeNumber();
@@ -686,6 +695,9 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							}
 							if (episode != 0) {
 								seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + episode;
+							}
+							if (season.equals("0") && episode == 0) {
+								holderBC.detailsTv.setVisibility(View.GONE);
 							}
 							holderBC.detailsTv.setText(seasonEpisode);
 						} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
@@ -934,7 +946,9 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					}
 		
 					try {
-						holderRBC.timeTvRec.setText(DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTimeStringGmtString()) + " - " + DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmtString()));
+						String weekday = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime());
+						weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
+						holderRBC.timeTvRec.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -943,7 +957,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		
 					if (programTypeRec != null) {
 						if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programTypeRec)) {
-							holderRBC.detailsTvRec.setText(program.getGenre() + mActivity.getResources().getString(R.string.from) + program.getYear());
+							holderRBC.detailsTvRec.setText(program.getGenre() + " " + mActivity.getResources().getString(R.string.from) + " " + program.getYear());
 						} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeRec)) {
 							String season = program.getSeason().getNumber();
 							int episode = program.getEpisodeNumber();
@@ -1177,11 +1191,11 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		TextView detailsTvTw;
 		TextView progressbarTvTw;
 		ProgressBar progressBarTw;
-		LinearLayout likeContainerTw;
+		RelativeLayout likeContainerTw;
 		ImageView likeTwitterIv;
-		LinearLayout shareContainerTw;
+		RelativeLayout shareContainerTw;
 		ImageView shareIvTw;
-		LinearLayout remindContainerTw;
+		RelativeLayout remindContainerTw;
 		ImageView remindTwitterIv;
 	}
 	
@@ -1196,11 +1210,11 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		TextView detailsTv;
 		TextView progressbarTv;
 		ProgressBar progressBar;
-		LinearLayout likeContainer;
+		RelativeLayout likeContainer;
 		ImageView likeLikeIv;
-		LinearLayout shareContainer;
+		RelativeLayout shareContainer;
 		ImageView shareIv;
-		LinearLayout remindContainer;
+		RelativeLayout remindContainer;
 		ImageView remindLikeIv;
 	}
 	

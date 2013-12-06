@@ -198,7 +198,7 @@ public class NotificationService {
 		text.setText(activity.getResources().getString(R.string.reminder_text_set));
 
 		toast.setGravity(Gravity.BOTTOM, 0, 200);
-		toast.setDuration(Toast.LENGTH_SHORT);
+		toast.setDuration(Toast.LENGTH_LONG);
 		toast.setView(layout);
 		toast.show();
 	}

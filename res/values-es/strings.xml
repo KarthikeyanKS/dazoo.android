@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Dazoo</string>
-    <string name="app_id">181878081998412</string>
+    <string name="app_name">mi.tv</string>
+    <string name="app_id">265897563561764</string>
     <string name="yes">Si</string>
     <string name="no">No</string>
 
@@ -93,7 +93,7 @@
     <!-- HOMEPAGE : FILTER BY CATEGORY -->
     <string name="all">All</string>
     <string name="all_categories_alias">all_categories</string>
-    <string name="all_categories_name">"Todos los programas"</string>
+    <string name="all_categories_name">"Todos"</string>
     <string name="all_categories_id">ALL_CATEGORIES</string>
 
     <!-- CONTENT DESCRIPTION -->
@@ -142,6 +142,7 @@
     <string name="terms_temp">Términos y Condiciones de Uso</string>
     <string name="help_title">Ayuda</string>
     <string name="help_temp">Ayuda</string>
+    <string name="no_reminders">No has agregado ningún recordatorio todavía</string>
 
     <!-- BROADCAST PAGE -->
     <string name="cast_and_crew">Elenco</string>
@@ -173,17 +174,17 @@
     <string name="hint_firstname">Nombre</string>
     <string name="hint_lastname">Apellido</string>
     <string name="hint_enter_email">Introduce correo electrónico</string>
-    <string name="login">Iniciar sesión</string>
+    <string name="login">"Iniciar &#10;sesión"</string>
     <string name="reset_password">Cambiar tu contraseña</string>
     <string name="sign_in">Iniciar sesión</string>
     <string name="cancel">Cancelar</string>
-    <string name="sign_in_to_dazoo_title">Iniciar sesión a Dazoo</string>
+    <string name="sign_in_to_dazoo_title">Iniciar sesión a mi.tv</string>
     <string name="sign_in_to_dazoo_text">Tienes que registrarte o iniciar sesión con tu cuenta para empezar añadir tus programas de TV favoritos.</string>
     <string name="sign_up_with_email">Registrarse con tu correo electrónico</string>
     <string name="already_registered">¿Ya estás registrado?</string>
     <string name="login_with_email">Inicia sesión con tu correo electrónico</string>
     <string name="forgot_password">¿Olvidaste tu contraseña?</string>
-    <string name="reset_password">Cambiar tu contraseña</string>
+    <string name="reset_password">"Cambiar tu &#10;contraseña"</string>
     <string name="join">Registrarse</string>
     <string name="forgot_your_password">¿Olvidaste tu contraseña?</string>
     <string name="reset_password_text">Si ha olvidado su contraseña, introduzca tu correo electrónico y le enviaremos un email con las instrucciones para restablecer su contraseña.</string>
@@ -193,7 +194,7 @@
     <string name="submit">Continuar</string>
     <string name="facebook_login_proceeds">Facebook está trabajando para registrarse &#8230;</string>
     <string name="success_account_created_title">¡Tu cuenta ha sido creada con éxito!</string>
-    <string name="success_account_created_text">Ya eres un Dazoo usuario</string>
+    <string name="success_account_created_text">Ya eres un mi.tv usuario</string>
     <string name="set_your_channels">Selecciona tus canales</string>
     <string name="connect_with_friends">Conéctate con amigos</string>
     <string name="take_the_tour">Realiza un tour</string>
@@ -206,7 +207,7 @@
     <string name="signup_with_email_characters"> caracteres</string>
     <string name="signup_with_email_error_passwordcharacters">La contraseña no puede contener caracteres especiales (solo podrá usar letras, números)</string>
     <string name="signup_characters">al menos 6 caracteres</string>
-    <string name="signup_email_example">ejemplo@dazoo.com</string>
+    <string name="signup_email_example">yo@mi.tv</string>
 
     <!-- MY CHANNELS PAGE -->
     <string name="get_my_channels">Obtener mis canales</string>
@@ -219,7 +220,7 @@
     <string name="share_action_title">Compartir con &#8230;</string>
 
     <!-- NOTIFICATION SERVICE -->
-    <string name="dazoo_notification_text_start">Dazoo would like to remind you that </string>
+    <string name="dazoo_notification_text_start">mi.tv would like to remind you that </string>
     <string name="dazoo_notification_text_middle"> in 15 minutes at the channel </string>
     <string name="dazoo_notification_text_end">. Enjoy! :)</string>
     <string name="reminder_text_set">El recordatorio para este programa se activará 15 minutos antes de empezar.</string>
@@ -228,8 +229,12 @@
     <!-- LIKE SERVICE -->
     <string name="like_set_text">" se ha agregado a tus preferencias"</string>
     <string name="like_remove_text">"Al eliminar este programa de tus preferencias, las sugerencias asociadas se eliminan tambien"</string>
+    <string name="no_likes">Empeza añadir tus programas \nde TV favoritos,  y nosotros nos encargaremos de buscar sugerencias especialmente para ti</string>
 
     <!-- ACTIVITY PAGE -->
+    <string name="activity_page">Actividad</string>
+    <string name="activity_page_subtitle">Solo tienes que registrarse, y nosotros nos encargaremos de buscar sugerencias especialmente para ti.</string>
+    <string name="login_here">Iniciar sesión</string>
     <string name="login_for_activity">Solo tienes que registrarse, y nosotros nos encargaremos de buscar sugerencias especialmente para ti.</string>
     <string name="popular_now">Populares</string>
     <string name="show_all">Ver más &#8230;</string>
