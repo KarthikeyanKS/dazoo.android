@@ -89,7 +89,7 @@ public class BroadcastMainBlockPopulator {
 
 
 		try {
-			mIsFuture = DateUtilities.isTimeInFuture(broadcast.getBeginTime());
+			mIsFuture = DateUtilities.isTimeInFuture(broadcast.getBeginTimeStringGmt());
 		} catch (ParseException e1) {
 			e1.printStackTrace();
 		}
@@ -145,10 +145,10 @@ public class BroadcastMainBlockPopulator {
 		long timeSinceBegin = 0;
 		long timeToEnd = 0;
 		try {
-			beginTimeStr = DateUtilities.isoStringToTimeString(broadcast.getBeginTime());
-			endTimeStr = DateUtilities.isoStringToTimeString(broadcast.getEndTime());
-			timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillis());
-			timeToEnd = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTimeMillis());
+			beginTimeStr = DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmt());
+			endTimeStr = DateUtilities.isoStringToTimeString(broadcast.getEndTimeStringGmt());
+			timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt());
+			timeToEnd = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTimeMillisGmt());
 		} catch (ParseException e) {
 			beginTimeStr = "";
 			endTimeStr = "";
@@ -165,8 +165,8 @@ public class BroadcastMainBlockPopulator {
 
 
 			try {
-				long startTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillis());
-				long endTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTimeMillis());
+				long startTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt());
+				long endTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTimeMillisGmt());
 				duration = (int) (startTime - endTime) / (1000 * 60);
 			} 
 			catch (ParseException e) {
@@ -179,7 +179,7 @@ public class BroadcastMainBlockPopulator {
 			int initialProgress = 0;
 			long difference = 0;
 			try {
-				difference = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillis());
+				difference = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt());
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -199,9 +199,9 @@ public class BroadcastMainBlockPopulator {
 		// broadcast is in the future: show time
 		else {
 			try {
-				String weekday = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime());
+				String weekday = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTimeStringGmt());
 				weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
-				timeTv.setText(weekday + " " + DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTime()) + " " + beginTimeStr + "-" + endTimeStr);
+				timeTv.setText(weekday + " " + DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmt()) + " " + beginTimeStr + "-" + endTimeStr);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -253,7 +253,7 @@ public class BroadcastMainBlockPopulator {
 				Toast.makeText(mActivity, "Channel null", Toast.LENGTH_LONG).show();
 			}
 			else {
-				dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillis());
+				dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
 			}
 			if (dbItem.getNotificationId() != 0) {
 				mIsSet = true;
@@ -334,7 +334,7 @@ public class BroadcastMainBlockPopulator {
 							mRemindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 							NotificationDbItem dbItem = new NotificationDbItem();
-							dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillis());
+							dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
 
 							mNotificationId = dbItem.getNotificationId();
 

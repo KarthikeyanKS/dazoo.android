@@ -163,7 +163,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 							}
 						}
 						try {
-							 holder.mLiveProgramTimeTv.setText(broadcast.getBeginTimeString());
+							 holder.mLiveProgramTimeTv.setText(broadcast.getBeginTimeStringLocalHourAndMinute());
 						} catch (Exception e) {
 							e.printStackTrace();
 							 holder.mLiveProgramTimeTv.setText("");
@@ -193,7 +193,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 							holder.mNextProgramNameTv.setText(name);
 						}
 						try {
-							 holder.mNextProgramTimeTv.setText(broadcast.getBeginTimeString());
+							 holder.mNextProgramTimeTv.setText(broadcast.getBeginTimeStringLocalHourAndMinute());
 						} catch (Exception e) {
 							e.printStackTrace();
 							 holder.mNextProgramTimeTv.setText("");
@@ -215,7 +215,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 							holder.mLastProgramNameTv.setText(name);
 						}
 						try {
-							 holder.mLastProgramTimeTv.setText(broadcast.getBeginTimeString());
+							 holder.mLastProgramTimeTv.setText(broadcast.getBeginTimeStringLocalHourAndMinute());
 						} catch (Exception e) {
 							e.printStackTrace();
 							 holder.mLastProgramTimeTv.setText("");

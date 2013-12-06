@@ -104,7 +104,7 @@ public class PopularListAdapter extends BaseAdapter {
 
 			String tvDate = "";
 			try {
-				tvDate = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime());
+				tvDate = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTimeStringGmt());
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -112,7 +112,7 @@ public class PopularListAdapter extends BaseAdapter {
 			//Get the correct date name index
 			int dateIndex = 0;
 			for (int i = 0; i < mTvDates.size(); i++) {
-				if (broadcast.getBeginTime().contains(mTvDates.get(i).getDate())) {
+				if (broadcast.getBeginTimeStringGmt().contains(mTvDates.get(i).getDate())) {
 					dateIndex = i;
 					break;
 				}
@@ -137,14 +137,14 @@ public class PopularListAdapter extends BaseAdapter {
 
 					String channelDate = "";
 					try {
-						channelDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTime());
+						channelDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmt());
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
 
 					// go to the corresponding Broadcast page
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, channelDate);
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
@@ -162,7 +162,7 @@ public class PopularListAdapter extends BaseAdapter {
 				holder.mTitleTv.setText(broadcast.getProgram().getTitle());
 			}
 			try {
-				holder.mTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
+				holder.mTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmt()));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -173,10 +173,10 @@ public class PopularListAdapter extends BaseAdapter {
 			long timeToEnd = 0;
 			// MC - Calculate the duration of the program and set up ProgressBar.
 			try {
-				long startTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillis());
-				long endTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTimeMillis());
-				timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillis());
-				timeToEnd = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTimeMillis());
+				long startTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt());
+				long endTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTimeMillisGmt());
+				timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt());
+				timeToEnd = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTimeMillisGmt());
 				duration = (int) (startTime - endTime) / (1000 * 60);
 			} catch (ParseException e) {
 				e.printStackTrace();
@@ -188,7 +188,7 @@ public class PopularListAdapter extends BaseAdapter {
 				int initialProgress = 0;
 				long difference = 0;
 				try {
-					difference = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillis());
+					difference = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt());
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
@@ -200,7 +200,7 @@ public class PopularListAdapter extends BaseAdapter {
 					holder.mProgressBar.setProgress(0);
 				} else {
 					try {
-						initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillis()) / (1000 * 60);
+						initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt()) / (1000 * 60);
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -240,10 +240,10 @@ public class PopularListAdapter extends BaseAdapter {
 				@Override
 				public void onClick(View v) {
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
 					try {
-						intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE,  DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime()));
+						intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE,  DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTimeStringGmt()));
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

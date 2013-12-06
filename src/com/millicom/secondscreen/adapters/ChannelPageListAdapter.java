@@ -73,8 +73,12 @@ public class ChannelPageListAdapter extends BaseAdapter {
 		View rowView = convertView;
 
 		final Broadcast broadcast = getItem(position);
+		broadcast.updateTimeToBeginAndTimeToEnd();
 		String broadcastType = broadcast.getBroadcastType();
 		String programType = broadcast.getProgram().getProgramType();
+		long timeSinceBegin = broadcast.getTimeSinceBegin();
+		long timeToEnd = broadcast.getTimeToEnd();
+		int durationInMinutes = broadcast.getDurationInMinutes();
 
 		if (rowView == null) {
 			mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -107,34 +111,17 @@ public class ChannelPageListAdapter extends BaseAdapter {
 				// MC - Set the image for current broadcast.
 				mImageLoader.displayImage(broadcast.getProgram().getLandLUrl(), holder.mIconIv, holder.mIconPb, ImageLoader.IMAGE_TYPE.POSTER);
 				// MC - Calculate the duration of the program and set up ProgressBar.
-				try {
-					long startTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillis());
-					long endTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTimeMillis());
-					duration = (int) (startTime - endTime) / (1000 * 60);
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				holder.mDurationPb.setMax(duration);
+				holder.mDurationPb.setMax(durationInMinutes);
 
 				// MC - Calculate the current progress of the ProgressBar and update.
 				int initialProgress = 0;
-				long difference = 0;
-				try {
-					difference = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillis());
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-
-				if (difference < 0) {
+				if (broadcast.getTimeSinceBegin() < 0) {
 					holder.mDurationPb.setVisibility(View.GONE);
 					initialProgress = 0;
 					holder.mDurationPb.setProgress(0);
 				} else {
-					try {
-						initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillis()) / (1000 * 60);
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
+					initialProgress = (int) timeSinceBegin / (1000 * 60);
+				
 					holder.mTimeleftTv.setText(duration - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
 					holder.mDurationPb.setProgress(initialProgress);
 					holder.mDurationPb.setVisibility(View.VISIBLE);
@@ -143,7 +130,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 
 			// MC - Set the begin time of the broadcast.
 			try {
-				holder.mTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
+				holder.mTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmt()));
 			} catch (ParseException e) {
 				e.printStackTrace();
 				holder.mTimeTv.setText("");
@@ -217,8 +204,8 @@ public class ChannelPageListAdapter extends BaseAdapter {
 		long timeSinceBegin = 0;
 		long timeToEnd = 0;
 		try {
-			timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillis());
-			timeToEnd = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTimeMillis());
+			timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt());
+			timeToEnd = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTimeMillisGmt());
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

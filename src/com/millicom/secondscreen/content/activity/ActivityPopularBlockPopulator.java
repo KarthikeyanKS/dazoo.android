@@ -66,7 +66,7 @@ public class ActivityPopularBlockPopulator {
 					mTitle.setText(broadcast.getProgram().getTitle());
 				}
 				try {
-					mTime.setText(DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime()) + " - " +DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
+					mTime.setText(DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTimeStringGmt()) + " - " +DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmt()));
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
@@ -92,13 +92,13 @@ public class ActivityPopularBlockPopulator {
 				public void onClick(View v) {
 					String tvDate = "";
 					try {
-						tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTime());
+						tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmt());
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
 
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, tvDate);
 
