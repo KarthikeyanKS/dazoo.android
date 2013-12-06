@@ -236,7 +236,7 @@ public abstract class Consts {
 	// notifications
 	public static final int		NOTIFY_MINUTES_BEFORE_THE_BROADCAST					= -15;
 	public static final String	NOTIFY_NUMBER										= "com.millicom.secondscreen.notify.number";
-	public static final String	NOTIFY_BROADCAST_URL_PREFIX							= "http://www.gitrgitr.com/api/epg/channels/";
+	public static final String	NOTIFY_BROADCAST_URL_PREFIX							= "http://api.mi.tv/epg/channels/";
 	public static final String	NOTIFY_BROADCAST_URL_MIDDLE							= "/broadcasts/";
 
 	// notifications database

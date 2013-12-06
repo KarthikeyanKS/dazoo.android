@@ -36,13 +36,16 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Point;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -76,13 +79,13 @@ public class LikeService {
 		ArrayList<String> likeEntityIds = new ArrayList<String>();
 		for (int i = 0; i < likesList.size(); i++) {
 			String likeType = likesList.get(i).getLikeType();
-			if(Consts.DAZOO_LIKE_TYPE_SERIES.equals(likeType)){
+			if (Consts.DAZOO_LIKE_TYPE_SERIES.equals(likeType)) {
 				likeEntityIds.add(likesList.get(i).getEntity().getSeriesId());
-			} else if (Consts.DAZOO_LIKE_TYPE_PROGRAM.equalsIgnoreCase(likeType)){
+			} else if (Consts.DAZOO_LIKE_TYPE_PROGRAM.equalsIgnoreCase(likeType)) {
 				likeEntityIds.add(likesList.get(i).getEntity().getProgramId());
-			} else if (Consts.DAZOO_LIKE_TYPE_SPORT_TYPE.equals(likeType)){
+			} else if (Consts.DAZOO_LIKE_TYPE_SPORT_TYPE.equals(likeType)) {
 				likeEntityIds.add(likesList.get(i).getEntity().getSportTypeId());
-			}	
+			}
 		}
 
 		if (likeEntityIds.contains(programId)) return true;
@@ -98,23 +101,27 @@ public class LikeService {
 		TextView text = (TextView) layout.findViewById(R.id.like_set_toast_tv);
 		text.setText(likedContentName + activity.getResources().getString(R.string.like_set_text));
 
-		toast.setGravity(Gravity.BOTTOM, 0, 200);
+		if (android.os.Build.VERSION.SDK_INT >= 13) {
+			toast.setGravity(Gravity.BOTTOM, 0, 200);
+		} else {
+			toast.setGravity(Gravity.BOTTOM, 0, 100);
+		}
 		toast.setDuration(Toast.LENGTH_LONG);
 		toast.setView(layout);
 		toast.show();
 	}
-	
-	public static ArrayList<String> getLikeIdsList(String token){
+
+	public static ArrayList<String> getLikeIdsList(String token) {
 		ArrayList<String> dazooLikeIdsList = new ArrayList<String>();
 		GetLikesTask getLikesTask = new GetLikesTask();
 		String jsonString = "";
 		try {
 			jsonString = getLikesTask.execute(token).get();
-			if(jsonString!=null && TextUtils.isEmpty(jsonString)!=true && !jsonString.equals(Consts.ERROR_STRING)){
+			if (jsonString != null && TextUtils.isEmpty(jsonString) != true && !jsonString.equals(Consts.ERROR_STRING)) {
 				JSONArray likesListJson = new JSONArray(jsonString);
 				int size = likesListJson.length();
-				for(int i=0; i<size; i++){
-				 dazooLikeIdsList.add(ContentParser.parseDazooLikeIds(likesListJson.getJSONObject(i)));
+				for (int i = 0; i < size; i++) {
+					dazooLikeIdsList.add(ContentParser.parseDazooLikeIds(likesListJson.getJSONObject(i)));
 				}
 			}
 		} catch (InterruptedException e) {
@@ -123,7 +130,7 @@ public class LikeService {
 			e.printStackTrace();
 		} catch (JSONException e) {
 			e.printStackTrace();
-		} 
+		}
 		return dazooLikeIdsList;
 	}
 
@@ -163,17 +170,16 @@ public class LikeService {
 		}
 		if (Consts.GOOD_RESPONSE == result) {
 			return true;
-		} else if (Consts.BAD_RESPONSE_PROGRAM_SERIES_NOT_FOUND == result){
-			Log.d(TAG,"Program/Series not found");
+		} else if (Consts.BAD_RESPONSE_PROGRAM_SERIES_NOT_FOUND == result) {
+			Log.d(TAG, "Program/Series not found");
 			return false;
-		} else if (Consts.BAD_RESPONSE_MISSING_TOKEN == result){
+		} else if (Consts.BAD_RESPONSE_MISSING_TOKEN == result) {
 			Log.d(TAG, "Missing token");
 			return false;
-		} else if (Consts.BAD_RESPONSE_INVALID_TOKEN == result){
-			Log.d(TAG,"Invalid token");
+		} else if (Consts.BAD_RESPONSE_INVALID_TOKEN == result) {
+			Log.d(TAG, "Invalid token");
 			return false;
-		}
-		else {
+		} else {
 			return false;
 		}
 	}
@@ -271,7 +277,7 @@ public class LikeService {
 				// Set verifier
 				HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
 
-				Log.d(TAG,Consts.MILLICOM_SECONDSCREEN_LIKES_URL + "/" + params[1] + "/" + params[2]);
+				Log.d(TAG, Consts.MILLICOM_SECONDSCREEN_LIKES_URL + "/" + params[1] + "/" + params[2]);
 				HttpDelete httpDelete = new HttpDelete(Consts.MILLICOM_SECONDSCREEN_LIKES_URL + "/" + params[1] + "/" + params[2]);
 				httpDelete.setHeader("Authorization", "Bearer " + params[0]);
 
@@ -306,7 +312,7 @@ public class LikeService {
 				StringEntity entity = new StringEntity(holder.toString());
 				httpPost.setEntity(entity);
 				HttpResponse response = client.execute(httpPost);
-				Log.d(TAG,"RESPONSE: " + response.getStatusLine().getStatusCode());
+				Log.d(TAG, "RESPONSE: " + response.getStatusLine().getStatusCode());
 				return response.getStatusLine().getStatusCode();
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
