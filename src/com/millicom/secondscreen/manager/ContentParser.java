@@ -115,7 +115,6 @@ public class ContentParser {
 			TvDate tvDate = new TvDate();
 			tvDate.setId(jsonTvDate.optString(Consts.DAZOO_DATE_ID));
 			tvDate.setName(jsonTvDate.optString(Consts.DAZOO_DATE_NAME));
-			tvDate.setAlias(jsonTvDate.optString(Consts.DAZOO_DATE_ALIAS));
 			tvDate.setDate(jsonTvDate.optString(Consts.DAZOO_DATE_DATE));
 
 			tvDates.add(tvDate);
@@ -172,7 +171,6 @@ public class ContentParser {
 		TvDate tvDate = new TvDate();
 		tvDate.setId(jsonTvDate.optString(Consts.DAZOO_DATE_ID));
 		tvDate.setName(jsonTvDate.optString(Consts.DAZOO_DATE_NAME));
-		tvDate.setAlias(jsonTvDate.optString(Consts.DAZOO_DATE_ALIAS));
 		tvDate.setDate(jsonTvDate.optString(Consts.DAZOO_DATE_DATE));
 		return tvDate;
 	}

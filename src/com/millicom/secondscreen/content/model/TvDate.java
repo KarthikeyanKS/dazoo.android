@@ -7,7 +7,6 @@ public class TvDate implements Parcelable{
 	
 	String id;
 	String name;
-	String alias;
 	String date;
 	
 	public TvDate(){		
@@ -29,14 +28,6 @@ public class TvDate implements Parcelable{
 		return this.name;
 	}
 	
-	public void setAlias(String alias){
-		this.alias = alias;
-	}
-	
-	public String getAlias(){
-		return this.alias;
-	}
-	
 	public void setDate(String date){
 		this.date = date;
 	}
@@ -48,7 +39,6 @@ public class TvDate implements Parcelable{
 	public TvDate(Parcel in){
 		id = in.readString();
 		name = in.readString();
-		alias = in.readString();
 		date = in.readString();
 	}
 	
@@ -61,7 +51,6 @@ public class TvDate implements Parcelable{
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(id);
 		dest.writeString(name);
-		dest.writeString(alias);
 		dest.writeString(date);	
 	}
 	

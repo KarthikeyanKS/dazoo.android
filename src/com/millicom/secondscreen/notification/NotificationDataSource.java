@@ -109,7 +109,7 @@ public class NotificationDataSource {
 		}
 		int deleteSucceed = database.delete(Consts.NOTIFICATION_DB_TABLE_NOTIFICATIONS, Consts.NOTIFICATION_DB_COLUMN_NOTIFICATION_ID + " = " + notificationId, null);
 		Log.d(TAG,"Delete notification: " + String.valueOf(deleteSucceed));
-		
+		cursor.close();
 		database.close();
 	}
 

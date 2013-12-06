@@ -84,6 +84,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 	private EditText					mSearchChannelInputEditText;
 	private MyChannelsListAdapter		mAdapter;
 	private ArrayList<Channel>			mChannels				= new ArrayList<Channel>();
+	private ArrayList<String>			mCheckedChannelsIds		= new ArrayList<String>();
 	private HashMap<String, Channel>	mChannelsMap			= new HashMap<String, Channel>();
 	private boolean[]					mIsCheckedArray;
 	private View						mTabSelectorContainerView;
@@ -157,7 +158,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 			if (getUserMyChannelsIdsJSON()) {
 				mChannelCounter = myChannelIds.size();
 				mChannelCountTv.setText(" " + String.valueOf(mChannelCounter));
-				mAdapter = new MyChannelsListAdapter(this, mChannelInfoToDisplay, mIsCheckedArray, this, mChannelCounter);
+				mAdapter = new MyChannelsListAdapter(this, mChannelInfoToDisplay, mIsCheckedArray, this, mChannelCounter, mCheckedChannelsIds);
 				mListView.setAdapter(mAdapter);
 			}
 		} else {
@@ -173,22 +174,26 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 					search = search.replace(System.getProperty("line.separator"), "");
 					mSearchChannelInputEditText.setText(search);
 					InputMethodManager in = (InputMethodManager) getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
-					in.hideSoftInputFromWindow(mSearchChannelInputEditText.getApplicationWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+					in.hideSoftInputFromWindow(mSearchChannelInputEditText.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 				}
 				if (search.length() > 0) {
-					if(search.length() > 3){
-						search = search.substring(0,3);
+					if (search.length() > 3) {
+						search = search.substring(0, 3);
 					}
 					mChannelInfoToDisplay.clear();
 					for (Map.Entry<String, Channel> entry : mChannelInfoMap.entrySet()) {
 						String key = entry.getKey();
 						Channel channel = entry.getValue();
 						if (key.toLowerCase().contains(search.toLowerCase())) {
+							// mark the correct channels in the global list
+
 							mChannelInfoToDisplay.add(channel);
 							mAdapter.notifyDataSetChanged();
 						}
 					}
 				} else {
+					// mark the correct channels in the global list
+
 					mChannelInfoToDisplay.clear();
 					mChannelInfoToDisplay.addAll(mChannels);
 					mAdapter.notifyDataSetChanged();
@@ -207,16 +212,18 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 
 	private void updateChannelList() {
 		if (mIsChanged) {
-			ArrayList<String> newIdsList = new ArrayList<String>();
-			for (int i = 0; i < mIsCheckedArray.length; i++) {
-				if (mIsCheckedArray[i]) {
-					newIdsList.add(mAllChannelsIds.get(i));
-				}
-			}
-			mCount = newIdsList.size();
-			if (MyChannelsService.updateMyChannelsList(userToken, JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.DAZOO_CHANNEL_CHANNEL_ID, newIdsList))) {
-				Toast.makeText(getApplicationContext(), "List of channels is updated!", Toast.LENGTH_SHORT).show();
+			//ArrayList<String> newIdsList = new ArrayList<String>();
+			//for (int i = 0; i < mIsCheckedArray.length; i++) {
+			//if (mIsCheckedArray[i]) {
+			//		newIdsList.add(mAllChannelsIds.get(i));
+			//	}
+			//}
+			//mCount = newIdsList.size();
+			//if (MyChannelsService.updateMyChannelsList(userToken, JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.DAZOO_CHANNEL_CHANNEL_ID, newIdsList))) {
 
+			mCount = mCheckedChannelsIds.size();
+			if(MyChannelsService.updateMyChannelsList(userToken, JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.DAZOO_CHANNEL_CHANNEL_ID, mCheckedChannelsIds))){
+			
 				// clear guides
 				DazooStore.getInstance().clearMyGuidesStorage();
 				// update the my channels list
@@ -225,7 +232,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 				LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
 
 			} else {
-				Toast.makeText(getApplicationContext(), "Error! List of channels is NOT updated!", Toast.LENGTH_SHORT).show();
+				Log.d(TAG, "Channel list is not updated!");
 			}
 		}
 	}
@@ -259,13 +266,14 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 	private boolean getUserMyChannelsIdsJSON() {
 		if (MyChannelsService.getMyChannels(userToken)) {
 			myChannelIds = DazooStore.getInstance().getMyChannelIds();
+			mCheckedChannelsIds = myChannelIds;
 
 			for (int j = 0; j < myChannelIds.size(); j++) {
 				if (mAllChannelsIds.contains(myChannelIds.get(j))) {
 					mIsCheckedArray[mAllChannelsIds.indexOf(myChannelIds.get(j))] = true;
 				}
 			}
-			
+
 			return true;
 		} else {
 			Log.d(TAG, "List of Channels cannot be read");

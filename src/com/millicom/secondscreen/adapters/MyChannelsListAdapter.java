@@ -28,6 +28,7 @@ public class MyChannelsListAdapter extends BaseAdapter {
 	private LayoutInflater				mLayoutInflater;
 	private Context						mContext;
 	private ArrayList<Channel>			mChannels;
+	private ArrayList<String>			mCheckedChannelIds;
 	private boolean[]					mIsCheckedArray;
 	private TextView					mCounterTextView;
 
@@ -37,9 +38,10 @@ public class MyChannelsListAdapter extends BaseAdapter {
 
 	private MyChannelsCountInterface	mCountInterface;
 
-	public MyChannelsListAdapter(Context context, ArrayList<Channel> channels, boolean[] isCheckedArray, MyChannelsCountInterface countInterface, int selectedCount) {
+	public MyChannelsListAdapter(Context context, ArrayList<Channel> channels, boolean[] isCheckedArray, MyChannelsCountInterface countInterface, int selectedCount, ArrayList<String> checkedChannelIds) {
 		this.mContext = context;
 		this.mChannels = channels;
+		this.mCheckedChannelIds = checkedChannelIds;
 		this.mIsCheckedArray = isCheckedArray;
 		this.mCountInterface = countInterface;
 		this.mSelectedCount = selectedCount;
@@ -86,7 +88,7 @@ public class MyChannelsListAdapter extends BaseAdapter {
 
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
 
-		Channel channel = getItem(position);
+		final Channel channel = getItem(position);
 		currentPosition = (Integer) holder.mChannelNameTv.getTag();
 
 		holder.mChannelNameTv.setText(channel.getName());
@@ -100,7 +102,12 @@ public class MyChannelsListAdapter extends BaseAdapter {
 					mIsCheckedArray[position] = isChecked;
 					if (isChecked) {
 						mSelectedCount++;
+						
+						mCheckedChannelIds.add(channel.getChannelId());
+						
 					} else {
+						mCheckedChannelIds.remove(channel.getChannelId());
+						
 						mSelectedCount--;
 					}
 					mCountInterface.setValues(mSelectedCount);

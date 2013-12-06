@@ -451,18 +451,25 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					});
 		
 		
+					Log.d(TAG, "TIME SINCE BEGIN: " + timeSinceBegin);
+					Log.d(TAG, "TIME TO END: " + timeToEnd);
+					
 					if (timeSinceBegin > 0 && timeToEnd < 0) {
 						holder.progressBarTw.setMax(duration);
 			
 						// MC - Calculate the current progress of the ProgressBar and update.
 						int initialProgressTw = 0;
-			
+						Log.d(TAG, "GET TIME SINCE BEGIN: " + broadcast.getTimeSinceBegin());
+						
 						if (broadcast.getTimeSinceBegin() < 0) {
 							holder.progressBarTw.setVisibility(View.GONE);
 							initialProgressTw = 0;
 							holder.progressBarTw.setProgress(0);
 						} else {
 							initialProgressTw = (int)broadcast.getTimeSinceBegin() / (1000*60);
+							
+							Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+							Log.d(TAG,"initialProgressTw: " + initialProgressTw);
 							
 							holder.progressbarTvTw.setText(duration - initialProgressTw + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
 							holder.progressBarTw.setProgress(initialProgressTw);
