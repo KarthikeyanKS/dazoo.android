@@ -4,7 +4,7 @@
     android:id="@+id/dialog_remove_notification_container"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/grey1"
+    android:background="@color/white"
     android:orientation="vertical" >
 
     <com.millicom.secondscreen.customviews.FontTextView
@@ -13,17 +13,24 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|center_horizontal"
         android:layout_margin="5dp"
+        android:gravity="center"
         android:padding="5dp"
         android:textColor="@color/black"
-        android:textSize="16sp"
-        android:textStyle="normal" />
+        android:textSize="@dimen/header_2" />
+
+    <View
+        android:id="@+id/dialog_remove_notification_divider"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/dialog_remove_notification_tv"
+        android:background="@color/grey1" />
 
     <LinearLayout
         android:id="@+id/dialog_remove_notification_button_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/dialog_remove_notification_tv"
-        android:layout_gravity="center_vertical"
+        android:layout_below="@id/dialog_remove_notification_divider"
+        android:gravity="center"
         android:orientation="horizontal"
         android:padding="5dp" >
 
@@ -32,16 +39,28 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@color/white"
             android:text="@string/no"
-            android:textColor="@color/blue1" />
+            android:textColor="@color/black"
+            android:textSize="@dimen/header_3" 
+            android:textStyle="bold"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_separator" />
 
         <com.millicom.secondscreen.customviews.FontButton
             android:id="@+id/dialog_remove_notification_button_yes"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1" 
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@color/white"
             android:text="@string/yes"
-            android:textColor="@color/blue1" />
+            android:textColor="@color/blue1"
+            android:textSize="@dimen/header_3" 
+            android:textStyle="bold"/>
     </LinearLayout>
 
 </RelativeLayout>

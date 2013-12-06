@@ -215,8 +215,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 			}
 			mCount = newIdsList.size();
 			if (MyChannelsService.updateMyChannelsList(userToken, JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.DAZOO_CHANNEL_CHANNEL_ID, newIdsList))) {
-				Toast.makeText(getApplicationContext(), "List of channels is updated!", Toast.LENGTH_SHORT).show();
-
+				
 				// clear guides
 				DazooStore.getInstance().clearMyGuidesStorage();
 				// update the my channels list
@@ -225,7 +224,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 				LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
 
 			} else {
-				Toast.makeText(getApplicationContext(), "Error! List of channels is NOT updated!", Toast.LENGTH_SHORT).show();
+				Log.d(TAG,"Channel list is not updated!");
 			}
 		}
 	}

@@ -70,8 +70,7 @@ public class SecondScreenApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		sInstance = this;
-		// TestFlight.takeOff(sInstance, Consts.TESTFLIGHT_TOKEN);
-
+		
 		// sSharedPreferences = getSharedPreferences(Consts.SHARED_PREFS_MAIN_NAME, Context.MODE_PRIVATE);
 		sSharedPreferences = new ObscuredSharedPreferences(this, this.getSharedPreferences(Consts.SHARED_PREFS_MAIN_NAME, Context.MODE_PRIVATE));
 
