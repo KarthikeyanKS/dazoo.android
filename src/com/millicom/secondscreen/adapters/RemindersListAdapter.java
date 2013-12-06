@@ -112,7 +112,7 @@ public class RemindersListAdapter extends BaseAdapter {
 			//Get the correct date name index
 			int dateIndex = 0;
 			for (int i = 0; i < mTvDates.size(); i++) {
-				if (broadcast.getBeginTimeStringGmtString().contains(mTvDates.get(i).getDate())) {
+				if (broadcast.getBeginTimeStringGmt().contains(mTvDates.get(i).getDate())) {
 					dateIndex = i;
 					break;
 				}
@@ -122,13 +122,13 @@ public class RemindersListAdapter extends BaseAdapter {
 			try {
 				holder.mHeaderContainer.setVisibility(View.GONE);
 				holder.mDividerView.setVisibility(View.VISIBLE);
-				if (position == 0 || DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmtString()).equals(
-						DateUtilities.tvDateStringToDatePickerString(getItem(position-1).getBeginTimeStringGmtString())) == false) {
+				if (position == 0 || DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmt()).equals(
+						DateUtilities.tvDateStringToDatePickerString(getItem(position-1).getBeginTimeStringGmt())) == false) {
 					holder.mHeaderContainer.setVisibility(View.VISIBLE);
 					holder.mHeaderTv.setText(mTvDates.get(dateIndex).getName().toUpperCase(Locale.getDefault()));
 				}
-				if (position != (getCount() - 1) && DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmtString()).equals(
-						DateUtilities.tvDateStringToDatePickerString(getItem(position + 1).getBeginTimeStringGmtString())) == false) {
+				if (position != (getCount() - 1) && DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmt()).equals(
+						DateUtilities.tvDateStringToDatePickerString(getItem(position + 1).getBeginTimeStringGmt())) == false) {
 					holder.mDividerView.setVisibility(View.GONE);
 				}
 			} catch (ParseException e) {
@@ -166,7 +166,7 @@ public class RemindersListAdapter extends BaseAdapter {
 			}
 			try {
 				//holder.mBroadcastTimeTv.setText(DateUtilities.isoStringToDateShortAndTimeString(broadcast.getBeginTime()));
-				holder.mBroadcastTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmtString()));
+				holder.mBroadcastTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmt()));
 			} catch (Exception e) {
 				e.printStackTrace();
 				holder.mBroadcastTimeTv.setText("");

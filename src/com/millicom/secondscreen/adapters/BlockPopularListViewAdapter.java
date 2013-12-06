@@ -97,7 +97,7 @@ public class BlockPopularListViewAdapter extends BaseAdapter {
 				holder.mTitle.setText(broadcast.getProgram().getTitle());
 			}
 			try {
-				holder.mTime.setText(DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTimeStringGmtString()) + DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmtString()));
+				holder.mTime.setText(DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTimeStringGmt()) + DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmt()));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -124,7 +124,7 @@ public class BlockPopularListViewAdapter extends BaseAdapter {
 			public void onClick(View v) {
 				String tvDate = "";
 				try {
-					tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmtString());
+					tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmt());
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}

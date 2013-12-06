@@ -66,7 +66,7 @@ public class ActivityPopularBlockPopulator {
 					mTitle.setText(broadcast.getProgram().getTitle());
 				}
 				try {
-					mTime.setText(DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTimeStringGmtString()) + " - " +DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmtString()));
+					mTime.setText(DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTimeStringGmt()) + " - " +DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmt()));
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
@@ -92,7 +92,7 @@ public class ActivityPopularBlockPopulator {
 				public void onClick(View v) {
 					String tvDate = "";
 					try {
-						tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmtString());
+						tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmt());
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}

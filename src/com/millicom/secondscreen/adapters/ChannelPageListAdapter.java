@@ -130,7 +130,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 
 			// MC - Set the begin time of the broadcast.
 			try {
-				holder.mTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmtString()));
+				holder.mTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmt()));
 			} catch (ParseException e) {
 				e.printStackTrace();
 				holder.mTimeTv.setText("");

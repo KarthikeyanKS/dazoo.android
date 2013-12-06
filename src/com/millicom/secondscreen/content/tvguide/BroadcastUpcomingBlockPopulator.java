@@ -95,16 +95,16 @@ public class BroadcastUpcomingBlockPopulator {
 			}
 
 			try {
-				String weekday = DateUtilities.isoStringToDayOfWeekAndDate(broadcastOne.getBeginTimeStringGmtString());
+				String weekday = DateUtilities.isoStringToDayOfWeekAndDate(broadcastOne.getBeginTimeStringGmt());
 				weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
-				mTitleTimeOneTv.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcastOne.getBeginTimeStringGmtString()));
+				mTitleTimeOneTv.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcastOne.getBeginTimeStringGmt()));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 			mChannelOneTv.setText(broadcastOne.getChannel().getName());
 
 			try {
-				mIsFutureOne = DateUtilities.isTimeInFuture(broadcastOne.getBeginTimeStringGmtString());
+				mIsFutureOne = DateUtilities.isTimeInFuture(broadcastOne.getBeginTimeStringGmt());
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
@@ -165,7 +165,7 @@ public class BroadcastUpcomingBlockPopulator {
 				public void onClick(View v) {
 					String tvDate = "";
 					try {
-						tvDate = DateUtilities.isoDateStringToTvDateString(broadcastOne.getBeginTimeStringGmtString());
+						tvDate = DateUtilities.isoDateStringToTvDateString(broadcastOne.getBeginTimeStringGmt());
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -222,16 +222,16 @@ public class BroadcastUpcomingBlockPopulator {
 			}
 
 			try {
-				String weekday = DateUtilities.isoStringToDayOfWeekAndDate(broadcastTwo.getBeginTimeStringGmtString());
+				String weekday = DateUtilities.isoStringToDayOfWeekAndDate(broadcastTwo.getBeginTimeStringGmt());
 				weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
-				mTitleTimeTwoTv.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcastTwo.getBeginTimeStringGmtString()));
+				mTitleTimeTwoTv.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcastTwo.getBeginTimeStringGmt()));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 			mChannelTwoTv.setText(broadcastTwo.getChannel().getName());
 
 			try {
-				mIsFutureTwo = DateUtilities.isTimeInFuture(broadcastTwo.getBeginTimeStringGmtString());
+				mIsFutureTwo = DateUtilities.isTimeInFuture(broadcastTwo.getBeginTimeStringGmt());
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
@@ -292,7 +292,7 @@ public class BroadcastUpcomingBlockPopulator {
 				public void onClick(View v) {
 					String tvDate = "";
 					try {
-						tvDate = DateUtilities.isoDateStringToTvDateString(broadcastTwo.getBeginTimeStringGmtString());
+						tvDate = DateUtilities.isoDateStringToTvDateString(broadcastTwo.getBeginTimeStringGmt());
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -349,16 +349,16 @@ public class BroadcastUpcomingBlockPopulator {
 				mSeasonEpisodeThreeTv.setVisibility(View.VISIBLE);
 			}
 			try {
-				String weekday = DateUtilities.isoStringToDayOfWeekAndDate(broadcastThree.getBeginTimeStringGmtString());
+				String weekday = DateUtilities.isoStringToDayOfWeekAndDate(broadcastThree.getBeginTimeStringGmt());
 				weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
-				mTitleTimeThreeTv.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcastThree.getBeginTimeStringGmtString()));
+				mTitleTimeThreeTv.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcastThree.getBeginTimeStringGmt()));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 			mChannelThreeTv.setText(broadcastThree.getChannel().getName());
 
 			try {
-				mIsFutureThree = DateUtilities.isTimeInFuture(broadcastThree.getBeginTimeStringGmtString());
+				mIsFutureThree = DateUtilities.isTimeInFuture(broadcastThree.getBeginTimeStringGmt());
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
@@ -419,7 +419,7 @@ public class BroadcastUpcomingBlockPopulator {
 				public void onClick(View v) {
 					String tvDate = "";
 					try {
-						tvDate = DateUtilities.isoDateStringToTvDateString(broadcastThree.getBeginTimeStringGmtString());
+						tvDate = DateUtilities.isoDateStringToTvDateString(broadcastThree.getBeginTimeStringGmt());
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}

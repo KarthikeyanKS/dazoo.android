@@ -89,7 +89,7 @@ public class BroadcastMainBlockPopulator {
 
 
 		try {
-			mIsFuture = DateUtilities.isTimeInFuture(broadcast.getBeginTimeStringGmtString());
+			mIsFuture = DateUtilities.isTimeInFuture(broadcast.getBeginTimeStringGmt());
 		} catch (ParseException e1) {
 			e1.printStackTrace();
 		}
@@ -145,7 +145,7 @@ public class BroadcastMainBlockPopulator {
 		long timeSinceBegin = 0;
 		long timeToEnd = 0;
 		try {
-			beginTimeStr = DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmtString());
+			beginTimeStr = DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmt());
 			endTimeStr = DateUtilities.isoStringToTimeString(broadcast.getEndTimeStringGmt());
 			timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt());
 			timeToEnd = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTimeMillisGmt());
@@ -199,9 +199,9 @@ public class BroadcastMainBlockPopulator {
 		// broadcast is in the future: show time
 		else {
 			try {
-				String weekday = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime());
+				String weekday = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTimeStringGmt());
 				weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
-				timeTv.setText(weekday + " " + DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmtString()) + " " + beginTimeStr + "-" + endTimeStr);
+				timeTv.setText(weekday + " " + DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmt()) + " " + beginTimeStr + "-" + endTimeStr);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}

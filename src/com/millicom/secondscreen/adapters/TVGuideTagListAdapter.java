@@ -129,7 +129,7 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 				holder.mTitleTv.setText(broadcast.getProgram().getTitle());
 
 				try {
-					holder.mTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmtString()));
+					holder.mTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmt()));
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}

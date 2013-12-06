@@ -104,7 +104,7 @@ public class PopularListAdapter extends BaseAdapter {
 
 			String tvDate = "";
 			try {
-				tvDate = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTimeStringGmtString());
+				tvDate = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTimeStringGmt());
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -112,7 +112,7 @@ public class PopularListAdapter extends BaseAdapter {
 			//Get the correct date name index
 			int dateIndex = 0;
 			for (int i = 0; i < mTvDates.size(); i++) {
-				if (broadcast.getBeginTimeStringGmtString().contains(mTvDates.get(i).getDate())) {
+				if (broadcast.getBeginTimeStringGmt().contains(mTvDates.get(i).getDate())) {
 					dateIndex = i;
 					break;
 				}
@@ -137,7 +137,7 @@ public class PopularListAdapter extends BaseAdapter {
 
 					String channelDate = "";
 					try {
-						channelDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmtString());
+						channelDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmt());
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -162,7 +162,7 @@ public class PopularListAdapter extends BaseAdapter {
 				holder.mTitleTv.setText(broadcast.getProgram().getTitle());
 			}
 			try {
-				holder.mTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmtString()));
+				holder.mTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmt()));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -243,7 +243,7 @@ public class PopularListAdapter extends BaseAdapter {
 					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
 					try {
-						intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE,  DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTimeStringGmtString()));
+						intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE,  DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTimeStringGmt()));
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

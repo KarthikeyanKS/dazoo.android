@@ -98,7 +98,7 @@ public class ActivityLikedBlockPopulator {
 		}
 
 		try {
-			timeTv.setText(DateUtilities.isoStringToDayOfWeek(popularItem.getBroadcast().getBeginTimeStringGmtString()) + " - " +  DateUtilities.isoStringToTimeString(popularItem.getBroadcast().getBeginTimeStringGmtString()));
+			timeTv.setText(DateUtilities.isoStringToDayOfWeek(popularItem.getBroadcast().getBeginTimeStringGmt()) + " - " +  DateUtilities.isoStringToTimeString(popularItem.getBroadcast().getBeginTimeStringGmt()));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -125,7 +125,7 @@ public class ActivityLikedBlockPopulator {
 				
 				String tvDate = "";
 				try {
-					tvDate = DateUtilities.isoDateStringToTvDateString(popularItem.getBroadcast().getBeginTimeStringGmtString());
+					tvDate = DateUtilities.isoDateStringToTvDateString(popularItem.getBroadcast().getBeginTimeStringGmt());
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
@@ -196,7 +196,7 @@ public class ActivityLikedBlockPopulator {
 			public void onClick(View v) {
 				String tvDate = "";
 				try {
-					tvDate = DateUtilities.isoDateStringToTvDateString(popularItem.getBroadcast().getBeginTimeStringGmtString());
+					tvDate = DateUtilities.isoDateStringToTvDateString(popularItem.getBroadcast().getBeginTimeStringGmt());
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}

@@ -110,7 +110,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 			int dateIndex = 0;
 			boolean dateOutOfWeek = false;
 			for (int i = 0; i < mTvDates.size(); i++) {
-				if (broadcast.getBeginTimeStringGmtString().contains(mTvDates.get(i).getDate())) {
+				if (broadcast.getBeginTimeStringGmt().contains(mTvDates.get(i).getDate())) {
 					dateIndex = i;
 					break;
 				}
@@ -122,16 +122,16 @@ public class RepetitionsListAdapter extends BaseAdapter {
 			try {
 				holder.mHeaderContainer.setVisibility(View.GONE);
 				holder.mDivider.setVisibility(View.VISIBLE);
-				if (position == 0 || DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmtString()).equals(
-						DateUtilities.tvDateStringToDatePickerString(getItem(position-1).getBeginTimeStringGmtString())) == false) {
+				if (position == 0 || DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmt()).equals(
+						DateUtilities.tvDateStringToDatePickerString(getItem(position-1).getBeginTimeStringGmt())) == false) {
 					if (dateOutOfWeek == false) {
 						holder.mHeader.setText(mTvDates.get(dateIndex).getName() + " " + 
 							DateUtilities.tvDateStringToDatePickerString(mTvDates.get(dateIndex).getDate()));
 						holder.mHeaderContainer.setVisibility(View.VISIBLE);
 					}
 				}
-				if (position != (getCount() - 1) && DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmtString()).equals(
-						DateUtilities.tvDateStringToDatePickerString(getItem(position + 1).getBeginTimeStringGmtString())) == false) {
+				if (position != (getCount() - 1) && DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmt()).equals(
+						DateUtilities.tvDateStringToDatePickerString(getItem(position + 1).getBeginTimeStringGmt())) == false) {
 					holder.mDivider.setVisibility(View.GONE);
 				}
 			} catch (ParseException e) {
@@ -141,7 +141,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 			holder.mSeasonEpisodeTv.setVisibility(View.GONE);
 
 			try {
-				holder.mTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmtString()));
+				holder.mTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmt()));
 			} catch (ParseException e) {
 				e.printStackTrace();
 				holder.mTimeTv.setText("");
@@ -154,7 +154,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 			}
 
 			try {
-				mIsFuture = DateUtilities.isTimeInFuture(broadcast.getBeginTimeStringGmtString());
+				mIsFuture = DateUtilities.isTimeInFuture(broadcast.getBeginTimeStringGmt());
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
@@ -184,7 +184,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 						if (mIsSet == false) {
 							String tvDate = "";
 							try {
-								tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmtString());
+								tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmt());
 							} catch (ParseException e) {
 								e.printStackTrace();
 							}
@@ -222,7 +222,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 				public void onClick(View v) {
 					String tvDate = "";
 					try {
-						tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmtString());
+						tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmt());
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}

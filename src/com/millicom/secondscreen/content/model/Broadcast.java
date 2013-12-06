@@ -91,11 +91,11 @@ public class Broadcast implements Parcelable {
 	}
 
 	public String getBeginTimeStringGmt() {
-		return beginTimeStringGmt;
+		return this.beginTimeStringGmt;
 	}
 
 	public long getTimeSinceBegin() {
-		return timeSinceBegin;
+		return this.timeSinceBegin;
 	}
 
 	public void setTimeSinceBegin(long timeSinceBegin) {
@@ -103,7 +103,7 @@ public class Broadcast implements Parcelable {
 	}
 
 	public long getTimeToEnd() {
-		return timeToEnd;
+		return this.timeToEnd;
 	}
 
 	public void setTimeToEnd(long timeToEnd) {
@@ -112,10 +112,6 @@ public class Broadcast implements Parcelable {
 
 	public void setBeginTimeStringGmt(String beginTimeStringGmt) {
 		this.beginTimeStringGmt = beginTimeStringGmt;
-	}
-
-	public String getBeginTimeStringGmtString() {
-		return this.beginTimeStringGmt;
 	}
 	
 	public String getBeginTimeStringLocalHourAndMinute() {		

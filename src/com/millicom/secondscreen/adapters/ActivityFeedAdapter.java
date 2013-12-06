@@ -192,9 +192,9 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					title.setText(broadcast.getProgram().getTitle());
 				}
 				try {
-					String weekday = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime());
+					String weekday = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTimeStringGmt());
 					weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
-					time.setText(weekday + " - " + broadcast.getBeginTimeString());
+					time.setText(weekday + " - " + broadcast.getBeginTimeStringGmt());
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
@@ -256,7 +256,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					public void onClick(View v) {
 						String tvDate = "";
 						try {
-							tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmtString());
+							tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmt());
 						} catch (ParseException e) {
 							e.printStackTrace();
 						}
@@ -421,9 +421,9 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					}
 		
 					try {
-						String weekday = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime());
+						String weekday = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTimeStringGmt());
 						weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
-						holder.timeTvTw.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
+						holder.timeTvTw.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmt()));
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -461,7 +461,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		
 							String tvDate = "";
 							try {
-								tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmtString());
+								tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmt());
 							} catch (ParseException e) {
 								e.printStackTrace();
 							}
@@ -575,7 +575,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						public void onClick(View v) {
 							String tvDate = "";
 							try {
-								tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmtString());
+								tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmt());
 							} catch (ParseException e) {
 								e.printStackTrace();
 							}
@@ -674,9 +674,9 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					}
 		
 					try {
-						String weekday = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime());
+						String weekday = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTimeStringGmt());
 						weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
-						holderBC.timeTv.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
+						holderBC.timeTv.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmt()));
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -714,7 +714,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		
 							String tvDate = "";
 							try {
-								tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmtString());
+								tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmt());
 							} catch (ParseException e) {
 								e.printStackTrace();
 							}
@@ -857,7 +857,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							
 							String tvDate = "";
 							try {
-								tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmtString());
+								tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmt());
 							} catch (ParseException e) {
 								e.printStackTrace();
 							}
@@ -946,9 +946,9 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					}
 		
 					try {
-						String weekday = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime());
+						String weekday = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTimeStringGmt());
 						weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
-						holderRBC.timeTvRec.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
+						holderRBC.timeTvRec.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmt()));
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -1007,7 +1007,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		
 							String tvDate = "";
 							try {
-								tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmtString());
+								tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmt());
 							} catch (ParseException e) {
 								e.printStackTrace();
 							}
@@ -1096,7 +1096,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						public void onClick(View v) {
 							String tvDate = "";
 							try {
-								tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmtString());
+								tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmt());
 							} catch (ParseException e) {
 								e.printStackTrace();
 							}
