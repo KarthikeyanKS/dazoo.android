@@ -32,10 +32,6 @@ public class BroadcastKey implements Parcelable{
 		return this.date.getDate();
 	}
 	
-	public String getDateAlias(){
-		return this.date.getAlias();
-	}
-	
 	public String getDateId(){
 		return this.date.getId();
 	}
