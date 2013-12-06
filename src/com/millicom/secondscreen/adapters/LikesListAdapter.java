@@ -1,6 +1,8 @@
 package com.millicom.secondscreen.adapters;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 
 import com.millicom.secondscreen.Consts;
@@ -41,7 +43,7 @@ public class LikesListAdapter extends BaseAdapter {
 	private ArrayList<DazooLike>	mLikes;
 	private LikesCountInterface		mInterface;
 	private ImageLoader				mImageLoader;
-	private String					mToken;
+	private String					mToken, mLikeIdToRemove, mLikeId;
 	private int						currentPosition	= -1;
 
 	public LikesListAdapter(Activity activity, ArrayList<DazooLike> likes, String token, LikesCountInterface likesInterface) {
@@ -118,8 +120,8 @@ public class LikesListAdapter extends BaseAdapter {
 				if (Consts.DAZOO_LIKE_TYPE_SPORT_TYPE.equals(likeType)) {
 					holder.mProgramTypeTv.setText(mActivity.getResources().getString(R.string.sport));
 				} else if (Consts.DAZOO_LIKE_TYPE_SERIES.equals(likeType)) {
-					if(entity.getYear()!=0){
-					holder.mProgramTypeTv.setText(mActivity.getResources().getString(R.string.tv_series) + " " + entity.getYear() + "-");
+					if (entity.getYear() != 0) {
+						holder.mProgramTypeTv.setText(mActivity.getResources().getString(R.string.tv_series) + " " + entity.getYear() + "-");
 					} else {
 						holder.mProgramTypeTv.setText(mActivity.getResources().getString(R.string.tv_series));
 					}
@@ -147,15 +149,15 @@ public class LikesListAdapter extends BaseAdapter {
 						String likeType = like.getLikeType();
 						String likeId = null;
 						if (Consts.DAZOO_LIKE_TYPE_SERIES.equals(likeType)) {
-							likeId = like.getEntity().getSeriesId();
+							mLikeId = like.getEntity().getSeriesId();
 						} else if (Consts.DAZOO_LIKE_TYPE_PROGRAM.equals(likeType)) {
-							likeId = like.getEntity().getProgramId();
+							mLikeId = like.getEntity().getProgramId();
 						} else if (Consts.DAZOO_LIKE_TYPE_SPORT_TYPE.equals(likeType)) {
-							likeId = like.getEntity().getSportTypeId();
+							mLikeId = like.getEntity().getSportTypeId();
 						}
 
 						LikeDialogHandler likeDlg = new LikeDialogHandler();
-						likeDlg.showRemoveLikeDialog(mActivity, mToken, likeId, likeType, yesProc(), noProc());
+						likeDlg.showRemoveLikeDialog(mActivity, mToken, mLikeId, likeType, yesProc(), noProc());
 
 					}
 				});
@@ -181,10 +183,7 @@ public class LikesListAdapter extends BaseAdapter {
 		return new Runnable() {
 			public void run() {
 				mLikes.remove(currentPosition);
-				
-				// remove like from the DazooStore
-				DazooStore.getInstance().getLikeIds().remove(currentPosition);
-				
+				removeFromLikeIds();
 				mInterface.setCount(mLikes.size());
 				notifyDataSetChanged();
 			}
@@ -196,6 +195,17 @@ public class LikesListAdapter extends BaseAdapter {
 			public void run() {
 			}
 		};
+	}
+
+	private void removeFromLikeIds() {
+		Iterator iterator = DazooStore.getInstance().getLikeIds().iterator();
+		String strElement = "";
+		while (iterator.hasNext()) {
+			strElement = (String) iterator.next();
+			if (strElement.equals(mLikeId)) {
+				iterator.remove();
+			}
+		}
 	}
 
 }
