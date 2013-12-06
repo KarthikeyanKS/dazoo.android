@@ -199,7 +199,7 @@ public class BroadcastMainBlockPopulator {
 		// broadcast is in the future: show time
 		else {
 			try {
-				String weekday = DateUtilities.isoStringToDayOfWeekAndDate(broadcast.getBeginTime());
+				String weekday = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime());
 				weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
 				timeTv.setText(weekday + " " + DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTime()) + " " + beginTimeStr + "-" + endTimeStr);
 			} catch (ParseException e) {

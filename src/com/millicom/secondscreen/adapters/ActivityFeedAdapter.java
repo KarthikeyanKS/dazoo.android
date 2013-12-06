@@ -192,7 +192,9 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					title.setText(broadcast.getProgram().getTitle());
 				}
 				try {
-					time.setText(DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime()) + " - " + broadcast.getBeginTimeString());
+					String weekday = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime());
+					weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
+					time.setText(weekday + " - " + broadcast.getBeginTimeString());
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
@@ -200,8 +202,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 				if (programType != null) {
 					if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
-						details.setText(broadcast.getProgram().getGenre() + mActivity.getResources().getString(R.string.from)
-								+ broadcast.getProgram().getYear());
+						details.setText(broadcast.getProgram().getGenre() + " " + mActivity.getResources().getString(R.string.from)
+								+ " " + broadcast.getProgram().getYear());
 					} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 						if (broadcast != null) {
 							if (program != null) {
@@ -419,7 +421,9 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					}
 		
 					try {
-						holder.timeTvTw.setText(DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
+						String weekday = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime());
+						weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
+						holder.timeTvTw.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -428,7 +432,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		
 					if (programTypeTw != null) {
 						if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programTypeTw)) {
-							holder.detailsTvTw.setText(program.getGenre() + mActivity.getResources().getString(R.string.from) + program.getYear());
+							holder.detailsTvTw.setText(program.getGenre() + " " + mActivity.getResources().getString(R.string.from) + " " + program.getYear());
 						} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeTw)) {
 							String season = program.getSeason().getNumber();
 							int episode = program.getEpisodeNumber();
@@ -667,7 +671,9 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					}
 		
 					try {
-						holderBC.timeTv.setText(DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
+						String weekday = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime());
+						weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
+						holderBC.timeTv.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -676,7 +682,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		
 					if (programType != null) {
 						if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
-							holderBC.detailsTv.setText(program.getGenre() + mActivity.getResources().getString(R.string.from) + program.getYear());
+							holderBC.detailsTv.setText(program.getGenre() + " " + mActivity.getResources().getString(R.string.from) + " " + program.getYear());
 						} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 							String season = program.getSeason().getNumber();
 							int episode = program.getEpisodeNumber();
@@ -934,7 +940,9 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					}
 		
 					try {
-						holderRBC.timeTvRec.setText(DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime()) + " - " + DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
+						String weekday = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTime());
+						weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
+						holderRBC.timeTvRec.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -943,7 +951,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		
 					if (programTypeRec != null) {
 						if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programTypeRec)) {
-							holderRBC.detailsTvRec.setText(program.getGenre() + mActivity.getResources().getString(R.string.from) + program.getYear());
+							holderRBC.detailsTvRec.setText(program.getGenre() + " " + mActivity.getResources().getString(R.string.from) + " " + program.getYear());
 						} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeRec)) {
 							String season = program.getSeason().getNumber();
 							int episode = program.getEpisodeNumber();
