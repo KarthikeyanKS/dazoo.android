@@ -112,7 +112,7 @@ public class WhatElseIsOnListAdapter extends BaseAdapter {
 			
 			//MC - Set the begin time of the broadcast.
 			try {
-				holder.mTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
+				holder.mTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmtString()));
 			} 
 			catch (ParseException e) {
 				e.printStackTrace();
@@ -121,8 +121,8 @@ public class WhatElseIsOnListAdapter extends BaseAdapter {
 			
 			//MC - Calculate the duration of the program and set up ProgressBar.
 			try {
-				long startTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillis());
-				long endTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTimeMillis());
+				long startTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt());
+				long endTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTimeMillisGmt());
 				duration = (int) (startTime - endTime) / (1000 * 60);
 			} 
 			catch (ParseException e) {
@@ -134,7 +134,7 @@ public class WhatElseIsOnListAdapter extends BaseAdapter {
 			int initialProgress = 0;
 			long difference = 0;
 			try {
-				difference = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillis());
+				difference = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt());
 			} 
 			catch (ParseException e) {
 				e.printStackTrace();
@@ -147,7 +147,7 @@ public class WhatElseIsOnListAdapter extends BaseAdapter {
 			} 
 			else {
 				try {
-					initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillis()) / (1000 * 60);
+					initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt()) / (1000 * 60);
 				} 
 				catch (ParseException e) {
 					e.printStackTrace();

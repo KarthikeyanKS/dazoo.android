@@ -105,7 +105,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 			int dateIndex = 0;
 			boolean dateOutOfWeek = false;
 			for (int i = 0; i < mTvDates.size(); i++) {
-				if (broadcast.getBeginTime().contains(mTvDates.get(i).getDate())) {
+				if (broadcast.getBeginTimeStringGmtString().contains(mTvDates.get(i).getDate())) {
 					dateIndex = i;
 					break;
 				}
@@ -117,16 +117,16 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 			try {
 				holder.mHeaderContainer.setVisibility(View.GONE);
 				holder.mDivider.setVisibility(View.VISIBLE);
-				if (position == 0 || DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTime()).equals(
-						DateUtilities.tvDateStringToDatePickerString(getItem(position - 1).getBeginTime())) == false) {
+				if (position == 0 || DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmtString()).equals(
+						DateUtilities.tvDateStringToDatePickerString(getItem(position - 1).getBeginTimeStringGmtString())) == false) {
 					if (dateOutOfWeek == false) {
 						holder.mHeader.setText(mTvDates.get(dateIndex).getName() + " " + 
 							DateUtilities.tvDateStringToDatePickerString(mTvDates.get(dateIndex).getDate()));
 						holder.mHeaderContainer.setVisibility(View.VISIBLE);
 					}
 				}
-				if (position != (getCount() - 1) && DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTime()).equals(
-						DateUtilities.tvDateStringToDatePickerString(getItem(position + 1).getBeginTime())) == false) {
+				if (position != (getCount() - 1) && DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmtString()).equals(
+						DateUtilities.tvDateStringToDatePickerString(getItem(position + 1).getBeginTimeStringGmtString())) == false) {
 					holder.mDivider.setVisibility(View.GONE);
 				}
 			} catch (ParseException e) {
@@ -141,7 +141,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 			}
 
 			try {
-				holder.mTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
+				holder.mTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmtString()));
 
 			} catch (ParseException e) {
 				e.printStackTrace();
@@ -155,14 +155,14 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 			}
 
 			try {
-				mIsFuture = DateUtilities.isTimeInFuture(broadcast.getBeginTime());
+				mIsFuture = DateUtilities.isTimeInFuture(broadcast.getBeginTimeStringGmtString());
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
 
 			if (!mIsFuture) {
 				NotificationDbItem dbItem = new NotificationDbItem();
-				dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillis());
+				dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
 				if (dbItem.getNotificationId() != 0) {
 					mIsSet = true;
 					mNotificationId = dbItem.getNotificationId();
@@ -185,7 +185,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 						if (mIsSet == false) {
 							String tvDate = "";
 							try {
-								tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTime());
+								tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmtString());
 							} catch (ParseException e) {
 								e.printStackTrace();
 							}
@@ -195,7 +195,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 								holder.mReminderIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 								NotificationDbItem dbItem = new NotificationDbItem();
-								dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillis());
+								dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
 
 								mNotificationId = dbItem.getNotificationId();
 
@@ -223,14 +223,14 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 				public void onClick(View v) {
 					String tvDate = "";
 					try {
-						tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTime());
+						tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmtString());
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
 
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
 					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, tvDate);
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);

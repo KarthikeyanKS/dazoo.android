@@ -82,10 +82,10 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 				long timeSinceBegin = 0;
 				long timeToEnd = 0;
 				try {
-					timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillis());
-					timeToEnd = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTimeMillis());
-					long startTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillis());
-					long endTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTimeMillis());
+					timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt());
+					timeToEnd = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTimeMillisGmt());
+					long startTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt());
+					long endTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTimeMillisGmt());
 					duration = (int) (startTime - endTime) / (1000 * 60);
 				} catch (ParseException e) {
 					e.printStackTrace();
@@ -99,7 +99,7 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 					int initialProgress = 0;
 					long difference = 0;
 					try {
-						difference = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillis());
+						difference = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt());
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -110,7 +110,7 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 						holder.mDurationPb.setProgress(0);
 					} else {
 						try {
-							initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillis()) / (1000 * 60);
+							initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt()) / (1000 * 60);
 						} catch (ParseException e) {
 							e.printStackTrace();
 						}
@@ -129,7 +129,7 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 				holder.mTitleTv.setText(broadcast.getProgram().getTitle());
 
 				try {
-					holder.mTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTime()));
+					holder.mTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmtString()));
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
@@ -177,7 +177,7 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 					Log.d(TAG, broadcast.getProgram().toString());
 
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, mDate.getDate());
 

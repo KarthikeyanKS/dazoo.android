@@ -304,7 +304,7 @@ public class DazooStore {
 		int size = channelBroadcasts.size();
 
 		for (int i = 0; i < size; i++) {
-			long temp = channelBroadcasts.get(i).getBeginTimeMillis();
+			long temp = channelBroadcasts.get(i).getBeginTimeMillisGmt();
 			if (beginTimeInMillis == temp) {
 				return channelBroadcasts.get(i);
 			}
@@ -318,7 +318,7 @@ public class DazooStore {
 		int size = myChannelBroadcasts.size();
 
 		for (int i = 0; i < size; i++) {
-			long temp = myChannelBroadcasts.get(i).getBeginTimeMillis();
+			long temp = myChannelBroadcasts.get(i).getBeginTimeMillisGmt();
 			if (beginTimeInMillis == temp) {
 				return myChannelBroadcasts.get(i);
 			}

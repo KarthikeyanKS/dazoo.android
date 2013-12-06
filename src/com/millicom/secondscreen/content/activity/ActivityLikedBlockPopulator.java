@@ -58,7 +58,7 @@ public class ActivityLikedBlockPopulator {
 
 		mNotificationDataSource = new NotificationDataSource(mActivity);
 		NotificationDbItem dbItem = new NotificationDbItem();
-		dbItem = mNotificationDataSource.getNotification(popularItem.getBroadcast().getChannel().getChannelId(), popularItem.getBroadcast().getBeginTimeMillis());
+		dbItem = mNotificationDataSource.getNotification(popularItem.getBroadcast().getChannel().getChannelId(), popularItem.getBroadcast().getBeginTimeMillisGmt());
 		if (dbItem.getNotificationId() != 0) {
 			mIsSet = true;
 			mNotificationId = dbItem.getNotificationId();
@@ -98,7 +98,7 @@ public class ActivityLikedBlockPopulator {
 		}
 
 		try {
-			timeTv.setText(DateUtilities.isoStringToDayOfWeek(popularItem.getBroadcast().getBeginTime()) + " - " +  DateUtilities.isoStringToTimeString(popularItem.getBroadcast().getBeginTime()));
+			timeTv.setText(DateUtilities.isoStringToDayOfWeek(popularItem.getBroadcast().getBeginTimeStringGmtString()) + " - " +  DateUtilities.isoStringToTimeString(popularItem.getBroadcast().getBeginTimeStringGmtString()));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -125,13 +125,13 @@ public class ActivityLikedBlockPopulator {
 				
 				String tvDate = "";
 				try {
-					tvDate = DateUtilities.isoDateStringToTvDateString(popularItem.getBroadcast().getBeginTime());
+					tvDate = DateUtilities.isoDateStringToTvDateString(popularItem.getBroadcast().getBeginTimeStringGmtString());
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
 
 				Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-				intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, popularItem.getBroadcast().getBeginTimeMillis());
+				intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, popularItem.getBroadcast().getBeginTimeMillisGmt());
 				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, popularItem.getBroadcast().getChannel().getChannelId());
 				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, tvDate);
 
@@ -196,7 +196,7 @@ public class ActivityLikedBlockPopulator {
 			public void onClick(View v) {
 				String tvDate = "";
 				try {
-					tvDate = DateUtilities.isoDateStringToTvDateString(popularItem.getBroadcast().getBeginTime());
+					tvDate = DateUtilities.isoDateStringToTvDateString(popularItem.getBroadcast().getBeginTimeStringGmtString());
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
@@ -207,7 +207,7 @@ public class ActivityLikedBlockPopulator {
 						remindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 						NotificationDbItem dbItem = new NotificationDbItem();
-						dbItem = mNotificationDataSource.getNotification(popularItem.getBroadcast().getChannel().getChannelId(), popularItem.getBroadcast().getBeginTimeMillis());
+						dbItem = mNotificationDataSource.getNotification(popularItem.getBroadcast().getChannel().getChannelId(), popularItem.getBroadcast().getBeginTimeMillisGmt());
 
 						mNotificationId = dbItem.getNotificationId();
 

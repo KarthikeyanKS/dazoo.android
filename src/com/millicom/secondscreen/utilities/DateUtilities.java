@@ -1,7 +1,6 @@
 package com.millicom.secondscreen.utilities;
 
 import java.text.ParseException;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -9,10 +8,9 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import android.content.Context;
-import android.text.format.DateUtils;
-import android.util.Log;
 
 import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.content.model.TvDate;
 
 public class DateUtilities {
@@ -36,6 +34,15 @@ public class DateUtilities {
 		return output;
 	}
 	
+	public static final long convertTimeStampToLocalTime(long timestamp) {
+		Date gmtTime = new Date(timestamp);
+		Date localTime = new Date(gmtTime.getTime() + TimeZone.getDefault().getOffset(gmtTime.getTime()));
+		long localTimeLong = localTime.getTime();
+
+		return localTimeLong;
+	}
+	
+	//TODO verify that this uses correct time zone!
 	public static final String tvDateToMonthNumber(String tvDate){
 		SimpleDateFormat dfmInput = new SimpleDateFormat(Consts.TVDATE_DATE_FORMAT, Locale.getDefault());
 		SimpleDateFormat dfmOutput = new SimpleDateFormat("MM",  Locale.getDefault());
@@ -53,6 +60,7 @@ public class DateUtilities {
 		return output;
 	}
 	
+	//TODO verify that this uses correct time zone!
 	public static String timeStringUsingTvDateAndHour(TvDate tvDate, int hour) {
 		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
 		Date date = dateFromTvDateAndHour(tvDate, hour);
@@ -71,15 +79,13 @@ public class DateUtilities {
 		String year = DateUtilities.tvDateToYearNumber(tvDate.getDate());
 		String month = DateUtilities.tvDateToMonthNumber(tvDate.getDate());
 		String day = DateUtilities.tvDateToDayNumber(tvDate.getDate());
-		
+				
 		// current "today" is set to the date, selected by the user
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.YEAR, Integer.valueOf(year));
 		calendar.set(Calendar.MONTH,Integer.valueOf(month) -1);
 		calendar.set(Calendar.DAY_OF_MONTH, Integer.valueOf(day));
 		calendar.set(Calendar.HOUR_OF_DAY, hour);
-		calendar.set(Calendar.MINUTE, 0);
-		calendar.set(Calendar.SECOND, 0);
 		
 		Date date = calendar.getTime();
 		
@@ -103,7 +109,6 @@ public class DateUtilities {
 		return output;
 	}
 	
-	
 	public static final String todayDateAsTvDate(){
 		SimpleDateFormat dfmInput = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
 		String dateNow = dfmInput.format(new Date());
@@ -120,6 +125,7 @@ public class DateUtilities {
 		return output;
 	}
 	
+	//TODO verify that this uses correct time zone!
 	public static final String isoDateStringToTvDateString(String date) throws ParseException{
 		SimpleDateFormat dfmInput = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
 		SimpleDateFormat dfmOutput = new SimpleDateFormat(Consts.TVDATE_DATE_FORMAT, Locale.getDefault());
@@ -131,6 +137,7 @@ public class DateUtilities {
 		return output;
 	}
 	
+	//TODO verify that this uses correct time zone!
 	public static boolean isTimeInFuture(String beginTime) throws ParseException {
 		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
 		Date date = df.parse(beginTime);
@@ -140,6 +147,7 @@ public class DateUtilities {
 		else return false;
 	}
 
+	//TODO verify that this uses correct time zone!
 	public static Calendar getTimeFifteenMinBefore(String beginTime) throws ParseException {
 
 		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
@@ -157,11 +165,7 @@ public class DateUtilities {
 	 * Converts a TvDate date string YYYY-MM-DD to the user-friendly format DD/MM
 	 */
 	public static String tvDateStringToDatePickerString(String date) throws ParseException {
-		long time = 0;
-		if (date != null && !date.equals("")) {
-			SimpleDateFormat dfmInput = new SimpleDateFormat(Consts.TVDATE_DATE_FORMAT, Locale.getDefault());
-			time = dfmInput.parse(date).getTime();
-		}
+		long time = timeWithStringAndFormat(date, Consts.TVDATE_DATE_FORMAT);
 		SimpleDateFormat dfmOutput = new SimpleDateFormat("dd/MM", Locale.getDefault());
 		String output = dfmOutput.format(time);
 		return output;
@@ -177,11 +181,7 @@ public class DateUtilities {
 	 */
 
 	public static String isoStringToTimeString(String date) throws ParseException {
-		long time = 0;
-		if (date != null && !date.equals("")) {
-			SimpleDateFormat dfmInput = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
-			time = dfmInput.parse(date).getTime();
-		}
+		long time = isoStringToLong(date);
 		SimpleDateFormat dfmOutput = new SimpleDateFormat("HH:mm", Locale.getDefault());
 		String output = dfmOutput.format(time);
 		return output;
@@ -197,11 +197,7 @@ public class DateUtilities {
 	 */
 
 	public static String isoStringToHourString(String date) throws ParseException {
-		long time = 0;
-		if (date != null && !date.equals("")) {
-			SimpleDateFormat dfmInput = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
-			time = dfmInput.parse(date).getTime();
-		}
+		long time = isoStringToLong(date);
 		SimpleDateFormat dfmOutput = new SimpleDateFormat("H", Locale.getDefault());
 		String output = dfmOutput.format(time);
 		return output;
@@ -216,11 +212,7 @@ public class DateUtilities {
 	 * @throws ParseException
 	 */
 	public static String isoStringToDateString(String date) throws ParseException {
-		long time = 0;
-		if (date != null && !date.equals("")) {
-			SimpleDateFormat dfmInput = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
-			time = dfmInput.parse(date).getTime();
-		}
+		long time = isoStringToLong(date);
 		SimpleDateFormat dfmOutput = new SimpleDateFormat("EEE MMMM d, y", Locale.getDefault());
 
 		String output = dfmOutput.format(time);
@@ -234,11 +226,7 @@ public class DateUtilities {
 	 * @throws ParseException
 	 */
 	public static String isoStringToWeekDateString(String date) throws ParseException {
-		long time = 0;
-		if (date != null && !date.equals("")) {
-			SimpleDateFormat dfmInput = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
-			time = dfmInput.parse(date).getTime();
-		}
+		long time = isoStringToLong(date);
 		SimpleDateFormat dfmOutput = new SimpleDateFormat("EEEE MMMM d", Locale.getDefault());
 
 		String output = dfmOutput.format(time);
@@ -254,11 +242,7 @@ public class DateUtilities {
 	 * @throws ParseException
 	 */
 	public static String isoStringToDateAndTimeString(String date) throws ParseException {
-		long time = 0;
-		if (date != null && !date.equals("")) {
-			SimpleDateFormat dfmInput = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
-			time = dfmInput.parse(date).getTime();
-		}
+		long time = isoStringToLong(date);
 		SimpleDateFormat dfmOutput = new SimpleDateFormat("EEE MMMM d, y HH:mm", Locale.getDefault());
 
 		String output = dfmOutput.format(time);
@@ -274,15 +258,24 @@ public class DateUtilities {
 	 * @throws ParseException
 	 */
 	public static String isoStringToDateShortAndTimeString(String date) throws ParseException {
-		long time = 0;
-		if (date != null && !date.equals("")) {
-			SimpleDateFormat dfmInput = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
-			time = dfmInput.parse(date).getTime();
-		}
+		long time = isoStringToLong(date);
 		SimpleDateFormat dfmOutput = new SimpleDateFormat("EEE dd/MM, y HH:mm", Locale.getDefault());
 
 		String output = dfmOutput.format(time);
 		return output;
+	}
+	
+	public static long timeWithStringAndFormat(String timeString, String format) throws ParseException {
+		long time = 0;
+		if (timeString != null && !timeString.equals("")) {
+			SimpleDateFormat dfmInput = new SimpleDateFormat(format, Locale.getDefault());
+			TimeZone tz = TimeZone.getDefault();
+			Date nowDate = new Date();
+			int millisOffset = tz.getOffset(nowDate.getTime());
+			time = dfmInput.parse(timeString).getTime();
+			time += millisOffset;
+		}
+		return time;
 	}
 
 	/**
@@ -294,11 +287,7 @@ public class DateUtilities {
 	 * @throws ParseException
 	 */
 	public static long isoStringToLong(String date) throws ParseException {
-		long time = 0;
-		if (date != null && !date.equals("")) {
-			SimpleDateFormat dfmInput = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
-			time = dfmInput.parse(date).getTime();
-		}
+		long time = timeWithStringAndFormat(date, Consts.ISO_DATE_FORMAT);
 		return time;
 	}
 
@@ -311,11 +300,7 @@ public class DateUtilities {
 	 * @throws ParseException
 	 */
 	public static long isoStringDatePartToLong(String date) throws ParseException {
-		long time = 0;
-		if (date != null && !date.equals("")) {
-			SimpleDateFormat dfmInput = new SimpleDateFormat(Consts.TVDATE_DATE_FORMAT, Locale.getDefault());
-			time = dfmInput.parse(date).getTime();
-		}
+		long time = timeWithStringAndFormat(date, Consts.TVDATE_DATE_FORMAT);
 		return time;
 	}
 
@@ -374,6 +359,11 @@ public class DateUtilities {
 		Date date = new Date(time);
 		return formatter.format(date);
 	}
+	
+	public static String getTimeOfDayFormatted(long time) {
+		Context appContext = SecondScreenApplication.getInstance().getApplicationContext();
+		return getTimeOfDayFormatted(appContext, time);
+	}
 
 	/**
 	 * Get the current hour as a string
@@ -383,10 +373,8 @@ public class DateUtilities {
 	 */
 	public static String getCurrentHourString() {
 		SimpleDateFormat df = new SimpleDateFormat("HH", Locale.getDefault());
-		// TimeZone tz = TimeZone.getTimeZone("UTC");
-		// df.setTimeZone(tz);
-		String dateNow = df.format(new Date());
-		return dateNow;
+		String hourNow = df.format(new Date());
+		return hourNow;
 	}
 
 	/**
@@ -395,11 +383,7 @@ public class DateUtilities {
 	 * @return name of day of week
 	 */
 	public static String isoStringToDayOfWeek(String date) throws ParseException {
-		long time = 0;
-		if (date != null && !date.equals("")) {
-			SimpleDateFormat dfmInput = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
-			time = dfmInput.parse(date).getTime();
-		}
+		long time = isoStringToLong(date);
 		SimpleDateFormat dfmOutput = new SimpleDateFormat("EEEE", Locale.getDefault());
 
 		String output = dfmOutput.format(time);
@@ -412,17 +396,19 @@ public class DateUtilities {
 	 * @return date in format "EEEE DD/MM"
 	 */
 	public static String isoStringToDayOfWeekAndDate(String date) throws ParseException {
-		long time = 0;
-		if (date != null && !date.equals("")) {
-			SimpleDateFormat dfmInput = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
-			time = dfmInput.parse(date).getTime();
-		}
+		long time = isoStringToLong(date);
+		String output = isoStringToDayOfWeekAndDate(time);
+		return output;
+	}
+	
+	public static String isoStringToDayOfWeekAndDate(long time) throws ParseException {
 		SimpleDateFormat dfmOutput = new SimpleDateFormat("EEEE dd/MM", Locale.getDefault());
 
 		String output = dfmOutput.format(time);
 		return output;
 	}
-
+	
+	//TODO verify that this uses correct time zone!
 	/**
 	 * Get the current hour as a long
 	 * 
@@ -443,6 +429,7 @@ public class DateUtilities {
 		return time;
 	}
 
+	//TODO verify that this uses correct time zone!
 	/**
 	 * Get the current time as a long
 	 * 
@@ -501,6 +488,6 @@ public class DateUtilities {
 		Date currentDate = new Date();
 		long timeCurrent = currentDate.getTime();
 
-		return (timeCurrent - timeSubmitted);
+		return (timeSubmitted - timeCurrent);
 	}
 }

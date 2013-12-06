@@ -92,8 +92,8 @@ public class RemindersActivity extends SSActivity implements RemindersCountInter
 		for (int i = 0; i < notificationList.size(); i++) {
 			NotificationDbItem item = notificationList.get(i);
 			Broadcast broadcast = new Broadcast();
-			broadcast.setBeginTime(item.getBroadcastBeginTime());
-			broadcast.setBeginTimeMillis(Long.parseLong(item.getBroadcastTimeInMillis()));
+			broadcast.setBeginTimeStringGmt(item.getBroadcastBeginTime());
+			broadcast.setBeginTimeMillisGmt(Long.parseLong(item.getBroadcastTimeInMillis()));
 
 			Program program = new Program();
 			program.setTitle(item.getProgramTitle());
