@@ -147,104 +147,97 @@
         android:layout_below="@id/block_feed_liked_content_details_container"
         android:layout_marginTop="10dp"
         android:background="@color/grey1" />
+    
+	<LinearLayout
+		android:id="@+id/block_feed_liked_buttons_container"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:layout_marginLeft="5dp"
+		android:layout_marginRight="5dp"
+		android:layout_below="@id/block_feed_liked_divider" >
+      
+     	<!-- LIKE BUTTON -->
 
-    <LinearLayout
-        android:id="@+id/block_feed_liked_buttons_container"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/block_feed_liked_divider"
-        android:background="@color/white"
-		android:paddingTop="5dp"
-		android:paddingBottom="5dp"
-		android:paddingRight="10dp"
-		android:paddingLeft="10dp"
-        android:orientation="horizontal" >
+		<RelativeLayout
+			android:id="@+id/block_feed_liked_like_button_container"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:layout_gravity="center"
+			android:layout_margin="10dp" >
 
-        <!-- LIKE BUTTON -->
+			<ImageView
+				android:id="@+id/block_feed_liked_like_button_iv"
+				android:layout_width="24dp"
+				android:layout_height="24dp"
+				android:layout_centerInParent="true"  />
+           
+		</RelativeLayout>
+    		
+      <!-- DIVIDER -->
+      
+		<RelativeLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" >
+          
+			<ImageView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:src="@drawable/ic_separator" />
+          
+		</RelativeLayout>
+     	
+     	<!-- SHARE BUTTON -->
 
-        <LinearLayout
-            android:id="@+id/block_feed_liked_like_button_container"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
-			android:layout_gravity="center" >
+		<RelativeLayout
+			android:id="@+id/block_feed_liked_share_button_container"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:layout_gravity="center" 
+			android:layout_margin="10dp" >
 
-            <ImageView
-                android:id="@+id/block_feed_liked_like_button_iv"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_margin="7dp"
-                android:src="@drawable/ic_like_default" />
-        </LinearLayout>
+			<ImageView
+				android:id="@+id/block_feed_liked_share_button_iv"
+				android:layout_width="24dp"
+				android:layout_height="24dp"
+				android:layout_centerInParent="true"
+				android:src="@drawable/ic_share_default" />
 
-        <!-- SEPARATOR -->
+		</RelativeLayout>
+      
+      <!-- DIVIDER -->
+      
+		<RelativeLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" >
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="7dp"
-            android:orientation="vertical" >
+			<ImageView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:src="@drawable/ic_separator" />
+          
+	 	</RelativeLayout>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_separator" />
-        </LinearLayout>
+		<!-- REMIND BUTTON -->
+      
+		<RelativeLayout
+			android:id="@+id/block_feed_liked_remind_button_container"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:layout_gravity="center" 
+			android:layout_margin="10dp" >
 
-        <!-- SHARE BUTTON -->
+			<ImageView
+				android:id="@+id/block_feed_liked_remind_button_iv"
+				android:layout_width="24dp"
+				android:layout_height="24dp"
+				android:layout_centerInParent="true" />
 
-        <LinearLayout
-            android:id="@+id/block_feed_liked_share_button_container"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-			android:layout_gravity="center" >
-
-            <ImageView
-                android:id="@+id/block_feed_liked_share_button_iv"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_margin="7dp"
-                android:src="@drawable/ic_share_default" />
-        </LinearLayout>
-
-        <!-- SEPARATOR -->
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="7dp"
-            android:orientation="vertical" >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_separator" />
-        </LinearLayout>
-
-        <!-- REMIND BUTTON -->
-
-        <LinearLayout
-            android:id="@+id/block_feed_liked_remind_button_container"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:padding="5dp"
-			android:layout_gravity="center" >
-
-            <ImageView
-                android:id="@+id/block_feed_liked_remind_button_iv"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_margin="7dp"
-                android:src="@drawable/ic_guide_clock" />
-        </LinearLayout>
-    </LinearLayout>
+		</RelativeLayout>
+    		
+	</LinearLayout>
 
 </RelativeLayout>
