@@ -204,6 +204,13 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			}
 		}
 	}
+	
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		overridePendingTransition(R.anim.push_right_out, R.anim.push_right_in);
+		finish();
+	}
 
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {

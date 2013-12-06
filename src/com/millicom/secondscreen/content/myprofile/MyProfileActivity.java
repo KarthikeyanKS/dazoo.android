@@ -205,6 +205,13 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 	}
 
 	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		overridePendingTransition(R.anim.push_right_out, R.anim.push_right_in);
+		finish();
+	}
+	
+	@Override
 	public void onClick(View v) {
 		int id = v.getId();
 		switch (id) {

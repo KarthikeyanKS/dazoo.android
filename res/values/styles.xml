@@ -20,7 +20,6 @@
     <style name="ChannelPage" parent="@style/Theme.AppCompat.Light">
         <item name="android:actionDropDownStyle">@style/ActionBarDropDown</item>
         <item name="android:homeAsUpIndicator">@drawable/ic_up_indicator</item>
-          <item name="android:actionDropDownStyle">@style/ActionBarDropDown</item>
     </style>
 
     <style name="HomePage" parent="@style/Theme.AppCompat.Light">
@@ -29,7 +28,7 @@
     </style>
 
     <!-- ActionBar style -->
-    <style name="ActionBarSpinnerHeaderStyle" parent="Widget.AppCompat.Light.Spinner.DropDown.ActionBar">
+    <style name="ActionBarSpinnerHeaderStyle" parent="@style/Widget.AppCompat.Spinner.DropDown.ActionBar">
         <item name="android:background">@drawable/ic_custom_spinner_arrow</item>
     </style>
 
