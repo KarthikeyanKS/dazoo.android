@@ -65,11 +65,9 @@ public class ActivityPopularBlockPopulator {
 				} else {
 					mTitle.setText(broadcast.getProgram().getTitle());
 				}
-				try {
-					mTime.setText(DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTimeStringGmt()) + " - " +DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmt()));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
+				
+				mTime.setText(broadcast.getDayOfWeekWithTimeString());
+	
 				mChannelName.setText(broadcast.getChannel().getName());
 
 				if (programType != null) {
@@ -90,17 +88,10 @@ public class ActivityPopularBlockPopulator {
 
 				@Override
 				public void onClick(View v) {
-					String tvDate = "";
-					try {
-						tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmt());
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
-
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisLocal());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
-					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, tvDate);
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
 
 					mActivity.startActivity(intent);
 					mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);

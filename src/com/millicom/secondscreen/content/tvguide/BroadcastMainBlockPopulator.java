@@ -89,7 +89,7 @@ public class BroadcastMainBlockPopulator {
 
 
 		try {
-			mIsFuture = DateUtilities.isTimeInFuture(broadcast.getBeginTimeStringGmt());
+			mIsFuture = DateUtilities.isTimeInFuture(broadcast.getBeginTimeMillisLocal());
 		} catch (ParseException e1) {
 			e1.printStackTrace();
 		}
@@ -141,54 +141,25 @@ public class BroadcastMainBlockPopulator {
 			mImageLoader.displayImage(program.getLandLUrl(), posterIv, posterPb, ImageLoader.IMAGE_TYPE.POSTER);
 		}
 
-		String beginTimeStr, endTimeStr;
-		long timeSinceBegin = 0;
-		long timeToEnd = 0;
-		try {
-			beginTimeStr = DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmt());
-			endTimeStr = DateUtilities.isoStringToTimeString(broadcast.getEndTimeStringGmt());
-			timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt());
-			timeToEnd = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTimeMillisGmt());
-		} catch (ParseException e) {
-			beginTimeStr = "";
-			endTimeStr = "";
-			e.printStackTrace();
-		}
-
+	
 		if(broadcast.getChannel()!=null){
 			mImageLoader.displayImage(broadcast.getChannel().getLogoSUrl(), channelIv, ImageLoader.IMAGE_TYPE.THUMBNAIL);
 		}
 
 
 		// broadcast is currently on air: show progress
-		if (timeSinceBegin > 0 && timeToEnd < 0) {
-
-
-			try {
-				long startTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt());
-				long endTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTimeMillisGmt());
-				duration = (int) (startTime - endTime) / (1000 * 60);
-			} 
-			catch (ParseException e) {
-				e.printStackTrace();
-			}
+		if (broadcast.getTimeSinceBegin() > 0 && broadcast.getTimeToEnd() < 0) {
 
 			progressBar.setMax(duration);
 
 			// Calculate the current progress of the ProgressBar and update.
 			int initialProgress = 0;
-			long difference = 0;
-			try {
-				difference = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt());
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
 
-			if (difference < 0) {
+			if (broadcast.getTimeSinceBegin() < 0) {
 				initialProgress = 0;
 				progressBar.setProgress(0);
 			} else {
-				initialProgress = (int) difference / (1000 * 60);
+				initialProgress = (int) broadcast.getTimeSinceBegin() / (1000 * 60);
 				progressTxt.setText(duration - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
 				progressBar.setProgress(initialProgress);
 				progressTxt.setVisibility(View.VISIBLE);
@@ -198,13 +169,7 @@ public class BroadcastMainBlockPopulator {
 		}
 		// broadcast is in the future: show time
 		else {
-			try {
-				String weekday = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTimeStringGmt());
-				weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
-				timeTv.setText(weekday + " " + DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmt()) + " " + beginTimeStr + "-" + endTimeStr);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+			timeTv.setText(broadcast.getDayOfWeekWithTimeString() + " " + broadcast.getBeginTimeStringLocal() + "-" + broadcast.getEndTimeStringLocal());
 		}
 
 		synopsisTv.setText(program.getSynopsisShort());
@@ -253,7 +218,7 @@ public class BroadcastMainBlockPopulator {
 				Toast.makeText(mActivity, "Channel null", Toast.LENGTH_LONG).show();
 			}
 			else {
-				dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
+				dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisLocal());
 			}
 			if (dbItem.getNotificationId() != 0) {
 				mIsSet = true;
@@ -334,7 +299,7 @@ public class BroadcastMainBlockPopulator {
 							mRemindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 							NotificationDbItem dbItem = new NotificationDbItem();
-							dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
+							dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisLocal());
 
 							mNotificationId = dbItem.getNotificationId();
 

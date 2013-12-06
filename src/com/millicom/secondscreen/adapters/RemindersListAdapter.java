@@ -111,8 +111,9 @@ public class RemindersListAdapter extends BaseAdapter {
 
 			//Get the correct date name index
 			int dateIndex = 0;
+			//TODO verify works
 			for (int i = 0; i < mTvDates.size(); i++) {
-				if (broadcast.getBeginTimeStringGmt().contains(mTvDates.get(i).getDate())) {
+				if (broadcast.getBeginTimeStringLocal().contains(mTvDates.get(i).getDate())) {
 					dateIndex = i;
 					break;
 				}
@@ -122,13 +123,14 @@ public class RemindersListAdapter extends BaseAdapter {
 			try {
 				holder.mHeaderContainer.setVisibility(View.GONE);
 				holder.mDividerView.setVisibility(View.VISIBLE);
-				if (position == 0 || DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmt()).equals(
-						DateUtilities.tvDateStringToDatePickerString(getItem(position-1).getBeginTimeStringGmt())) == false) {
+				//TODO verify works
+				if (position == 0 || DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringLocal()).equals(
+						DateUtilities.tvDateStringToDatePickerString(getItem(position-1).getBeginTimeStringLocal())) == false) {
 					holder.mHeaderContainer.setVisibility(View.VISIBLE);
 					holder.mHeaderTv.setText(mTvDates.get(dateIndex).getName().toUpperCase(Locale.getDefault()));
 				}
-				if (position != (getCount() - 1) && DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmt()).equals(
-						DateUtilities.tvDateStringToDatePickerString(getItem(position + 1).getBeginTimeStringGmt())) == false) {
+				if (position != (getCount() - 1) && DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringLocal()).equals(
+						DateUtilities.tvDateStringToDatePickerString(getItem(position + 1).getBeginTimeStringLocal())) == false) {
 					holder.mDividerView.setVisibility(View.GONE);
 				}
 			} catch (ParseException e) {
@@ -166,7 +168,7 @@ public class RemindersListAdapter extends BaseAdapter {
 			}
 			try {
 				//holder.mBroadcastTimeTv.setText(DateUtilities.isoStringToDateShortAndTimeString(broadcast.getBeginTime()));
-				holder.mBroadcastTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmt()));
+				holder.mBroadcastTimeTv.setText(broadcast.getBeginTimeStringLocalHourAndMinute());
 			} catch (Exception e) {
 				e.printStackTrace();
 				holder.mBroadcastTimeTv.setText("");
@@ -176,7 +178,8 @@ public class RemindersListAdapter extends BaseAdapter {
 
 				@Override
 				public void onClick(View v) {
-					String broadcastUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + channel.getChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillisGmt();
+					//TODO use local or GMT?
+					String broadcastUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + channel.getChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillisLocal();
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
 					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_URL, broadcastUrl);
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
@@ -196,7 +199,7 @@ public class RemindersListAdapter extends BaseAdapter {
 					NotificationDataSource notificationDataSource = new NotificationDataSource(mActivity);
 
 					NotificationDbItem notificationDbItem = new NotificationDbItem();
-					notificationDbItem = notificationDataSource.getNotification(channel.getChannelId(), Long.valueOf(broadcast.getBeginTimeMillisGmt()));
+					notificationDbItem = notificationDataSource.getNotification(channel.getChannelId(), Long.valueOf(broadcast.getBeginTimeMillisLocal()));
 					if (notificationDbItem != null) {
 						notificationId = notificationDbItem.getNotificationId();
 						NotificationDialogHandler notificationDlg = new NotificationDialogHandler();

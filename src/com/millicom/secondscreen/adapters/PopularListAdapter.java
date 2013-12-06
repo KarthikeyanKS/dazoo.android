@@ -101,18 +101,11 @@ public class PopularListAdapter extends BaseAdapter {
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 		if (broadcast != null) {
-
-			String tvDate = "";
-			try {
-				tvDate = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTimeStringGmt());
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-
 			//Get the correct date name index
 			int dateIndex = 0;
 			for (int i = 0; i < mTvDates.size(); i++) {
-				if (broadcast.getBeginTimeStringGmt().contains(mTvDates.get(i).getDate())) {
+				//TODO VERIFY works
+				if (broadcast.getBeginTimeStringLocal().contains(mTvDates.get(i).getDate())) {
 					dateIndex = i;
 					break;
 				}
@@ -134,19 +127,11 @@ public class PopularListAdapter extends BaseAdapter {
 
 				@Override
 				public void onClick(View v) {
-
-					String channelDate = "";
-					try {
-						channelDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmt());
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
-
 					// go to the corresponding Broadcast page
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisLocal());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
-					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, channelDate);
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
 
 				}
@@ -161,50 +146,28 @@ public class PopularListAdapter extends BaseAdapter {
 			} else {
 				holder.mTitleTv.setText(broadcast.getProgram().getTitle());
 			}
-			try {
-				holder.mTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmt()));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+			
+			holder.mTimeTv.setText(broadcast.getBeginTimeStringLocalHourAndMinute());
+		
 			holder.mChannelNameTv.setText(broadcast.getChannel().getName());
 
-			int duration = 0;
-			long timeSinceBegin = 0;
-			long timeToEnd = 0;
-			// MC - Calculate the duration of the program and set up ProgressBar.
-			try {
-				long startTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt());
-				long endTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTimeMillisGmt());
-				timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt());
-				timeToEnd = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTimeMillisGmt());
-				duration = (int) (startTime - endTime) / (1000 * 60);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			if (timeSinceBegin > 0 && timeToEnd < 0) {
-				holder.mProgressBar.setMax(duration);
+			if (broadcast.getTimeSinceBegin() > 0 && broadcast.getTimeToEnd() < 0) {
+				holder.mProgressBar.setMax(broadcast.getDurationInMinutes());
 	
 				// Calculate the current progress of the ProgressBar and update.
 				int initialProgress = 0;
-				long difference = 0;
-				try {
-					difference = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt());
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-	
+				long difference = broadcast.getTimeSinceBegin();
+			
 				if (difference < 0) {
 					holder.mProgressBar.setVisibility(View.GONE);
 					holder.mProgressBarTitleTv.setVisibility(View.GONE);
 					initialProgress = 0;
 					holder.mProgressBar.setProgress(0);
 				} else {
-					try {
-						initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt()) / (1000 * 60);
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
-					holder.mProgressBarTitleTv.setText(duration - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
+					
+					initialProgress = (int) broadcast.getTimeSinceBegin() / (1000 * 60);
+				
+					holder.mProgressBarTitleTv.setText(broadcast.getDurationInMinutes() - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
 					holder.mProgressBar.setProgress(initialProgress);
 					holder.mProgressBar.setVisibility(View.VISIBLE);
 					holder.mProgressBarTitleTv.setVisibility(View.VISIBLE);
@@ -240,14 +203,11 @@ public class PopularListAdapter extends BaseAdapter {
 				@Override
 				public void onClick(View v) {
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisLocal());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
-					try {
-						intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE,  DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTimeStringGmt()));
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+				
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE,  broadcast.getDayOfWeekString());
+		
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
 
 					mActivity.startActivity(intent);

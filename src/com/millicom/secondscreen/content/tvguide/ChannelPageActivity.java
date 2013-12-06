@@ -267,7 +267,7 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 				Intent intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
 
 				// we take one position less as we have a header view
-				intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, mFollowingBroadcasts.get(position - 1).getBeginTimeMillisGmt());
+				intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, mFollowingBroadcasts.get(position - 1).getBeginTimeMillisLocal());
 				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, mChannel.getChannelId());
 				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, mTvDateSelected.getDate());
 

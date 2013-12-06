@@ -191,13 +191,9 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				} else {
 					title.setText(broadcast.getProgram().getTitle());
 				}
-				try {
-					String weekday = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTimeStringGmt());
-					weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
-					time.setText(weekday + " - " + broadcast.getBeginTimeStringGmt());
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
+
+				time.setText(broadcast.getDayOfWeekWithTimeString());
+				
 				channelName.setText(broadcast.getChannel().getName());
 
 				if (programType != null) {
@@ -254,25 +250,22 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 					@Override
 					public void onClick(View v) {
-						String tvDate = "";
-						try {
-							tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmt());
-						} catch (ParseException e) {
-							e.printStackTrace();
-						}
-
-						Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-						intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
-						intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
-						intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, tvDate);
-						intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
-
-						mActivity.startActivity(intent);
-						mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+						popularBroadcastClicked(broadcast);
 					}
 				});
 			}
 		}
+	}
+	
+	private void popularBroadcastClicked(Broadcast broadcast) {
+		Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
+		intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisLocal());
+		intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
+		intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
+		intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
+
+		mActivity.startActivity(intent);
+		mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 	}
 
 	@Override
@@ -420,14 +413,9 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						holder.titleTvTw.setText(program.getTitle());
 					}
 		
-					try {
-						String weekday = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTimeStringGmt());
-						weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
-						holder.timeTvTw.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmt()));
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
-		
+				
+					holder.timeTvTw.setText(broadcast.getDayOfWeekWithTimeString());
+			
 					holder.channelTvTw.setText(broadcast.getChannel().getName());
 		
 					if (programTypeTw != null) {
@@ -455,25 +443,9 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					}
 		
 					holder.containerTw.setOnClickListener(new View.OnClickListener() {
-		
 						@Override
 						public void onClick(View v) {
-		
-							String tvDate = "";
-							try {
-								tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmt());
-							} catch (ParseException e) {
-								e.printStackTrace();
-							}
-		
-							Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-							intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
-							intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
-							intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, tvDate);
-							intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
-		
-							mActivity.startActivity(intent);
-							mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+							popularBroadcastClicked(broadcast);
 		
 						}
 					});
@@ -504,7 +476,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					}
 		
 					NotificationDbItem dbItemTw = new NotificationDbItem();
-					dbItemTw = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
+					dbItemTw = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisLocal());
 					if (dbItemTw.getNotificationId() != 0) {
 						mIsSet = true;
 						mNotificationId =  dbItemTw.getNotificationId();
@@ -573,14 +545,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		
 						@Override
 						public void onClick(View v) {
-							String tvDate = "";
-							try {
-								tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmt());
-							} catch (ParseException e) {
-								e.printStackTrace();
-							}
-		
-							NotificationDbItem item = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
+							NotificationDbItem item = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisLocal());
 							if (item.getNotificationId() != 0) {
 								mIsSet = true;
 								mNotificationId = item.getNotificationId();
@@ -591,15 +556,15 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							Log.d(TAG,"Twitter: " + mIsSet);
 							
 							if (mIsSet == false) {
-								if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), tvDate)) {
+								if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), broadcast.getTvDateString())) {
 									NotificationService.showSetNotificationToast(mActivity);
 									holder.remindTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 		
 									NotificationDbItem dbItemTw = new NotificationDbItem();
 									Log.d(TAG, "broadcast.getChannel().getChannelId()" + broadcast.getChannel().getChannelId());
-									Log.d(TAG, "broadcast.getBeginTimeMillis()" + broadcast.getBeginTimeMillisGmt());
+									Log.d(TAG, "broadcast.getBeginTimeMillis()" + broadcast.getBeginTimeMillisLocal());
 		
-									dbItemTw = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
+									dbItemTw = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisLocal());
 		
 									mNotificationId = dbItemTw.getNotificationId();
 		
@@ -673,13 +638,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						holderBC.titleTv.setText(program.getTitle());
 					}
 		
-					try {
-						String weekday = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTimeStringGmt());
-						weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
-						holderBC.timeTv.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmt()));
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
+					holderBC.timeTv.setText(broadcast.getDayOfWeekWithTimeString());
 		
 					holderBC.channelTv.setText(broadcast.getChannel().getName());
 		
@@ -711,18 +670,10 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		
 						@Override
 						public void onClick(View v) {
-		
-							String tvDate = "";
-							try {
-								tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmt());
-							} catch (ParseException e) {
-								e.printStackTrace();
-							}
-		
 							Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-							intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
+							intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisLocal());
 							intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
-							intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, tvDate);
+							intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
 							intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
 		
 							mActivity.startActivity(intent);
@@ -736,23 +687,15 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			
 						// MC - Calculate the current progress of the ProgressBar and update.
 						int initialProgress = 0;
-						long difference = 0;
-						try {
-							difference = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt());
-						} catch (ParseException e) {
-							e.printStackTrace();
-						}
+						long difference = broadcast.getTimeSinceBegin();
 			
 						if (difference < 0) {
 							holderBC.progressBar.setVisibility(View.GONE);
 							initialProgress = 0;
 							holderBC.progressBar.setProgress(0);
 						} else {
-							try {
-								initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt()) / (1000 * 60);
-							} catch (ParseException e) {
-								e.printStackTrace();
-							}
+							initialProgress = (int) broadcast.getTimeSinceBegin() / (1000 * 60);
+						
 							holderBC.progressbarTv.setText(duration - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
 							holderBC.progressBar.setProgress(initialProgress);
 							holderBC.progressbarTv.setVisibility(View.VISIBLE);
@@ -765,8 +708,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					}
 		
 					NotificationDbItem dbItem = new NotificationDbItem();
-					dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
-					Log.d(TAG,"uP: " + broadcast.getChannel().getChannelId() + " " + broadcast.getBeginTimeMillisGmt());
+					dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisLocal());
+					Log.d(TAG,"uP: " + broadcast.getChannel().getChannelId() + " " + broadcast.getBeginTimeMillisLocal());
 					if (dbItem.getNotificationId() != 0) {
 						Log.d(TAG,"dbItem: " + dbItem.getProgramTitle() + " " + dbItem.getNotificationId() );
 						mNotificationId = dbItem.getNotificationId();
@@ -842,8 +785,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							NotificationDbItem dbItem = new NotificationDbItem();
 							
 							
-							dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
-							Log.d(TAG,"DOWN: " + broadcast.getChannel().getChannelId() + " " + broadcast.getBeginTimeMillisGmt());
+							dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisLocal());
+							Log.d(TAG,"DOWN: " + broadcast.getChannel().getChannelId() + " " + broadcast.getBeginTimeMillisLocal());
 							
 							if (dbItem.getNotificationId() != 0) {
 								Log.d(TAG,"dbItem: " + dbItem.getProgramTitle() + " " + dbItem.getNotificationId() );
@@ -855,23 +798,16 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							
 							Log.d(TAG,"lIKED REMIND: " + mIsSet);
 							
-							String tvDate = "";
-							try {
-								tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmt());
-							} catch (ParseException e) {
-								e.printStackTrace();
-							}
-		
 							if (mIsSet == false) {
-								if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), tvDate)) {
+								if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), broadcast.getTvDateString())) {
 									NotificationService.showSetNotificationToast(mActivity);
 									holderBC.remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 		
 									NotificationDbItem dbItemRemind= new NotificationDbItem();
 									Log.d(TAG, "broadcast.getChannel().getChannelId()" + broadcast.getChannel().getChannelId());
-									Log.d(TAG, "broadcast.getBeginTimeMillis()" + broadcast.getBeginTimeMillisGmt());
+									Log.d(TAG, "broadcast.getBeginTimeMillis()" + broadcast.getBeginTimeMillisLocal());
 		
-									dbItemRemind = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
+									dbItemRemind = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisLocal());
 									Log.d(TAG,"db Item: " + dbItemRemind.getNotificationId() + " " + dbItemRemind.getBroadcastTimeInMillis() + " " + dbItemRemind.getChannelId()
 											+ " " + dbItemRemind.getProgramTitle() );
 									
@@ -944,14 +880,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					} else {
 						holderRBC.titleTvRec.setText(program.getTitle());
 					}
-		
-					try {
-						String weekday = DateUtilities.isoStringToDayOfWeek(broadcast.getBeginTimeStringGmt());
-						weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
-						holderRBC.timeTvRec.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmt()));
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
+	
+					holderRBC.timeTvRec.setText(broadcast.getDayOfWeekWithTimeString());
 		
 					holderRBC.channelTvRec.setText(broadcast.getChannel().getName());
 		
@@ -1003,29 +933,13 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					holderRBC.containerRec.setOnClickListener(new View.OnClickListener() {
 		
 						@Override
-						public void onClick(View v) {
-		
-							String tvDate = "";
-							try {
-								tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmt());
-							} catch (ParseException e) {
-								e.printStackTrace();
-							}
-		
-							Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-							intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
-							intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
-							intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, tvDate);
-							intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
-		
-							mActivity.startActivity(intent);
-							mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-		
+						public void onClick(View v) {	
+							popularBroadcastClicked(broadcast);
 						}
 					});
 					
 					NotificationDbItem dbItemBroadcast = new NotificationDbItem();
-					dbItemBroadcast = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
+					dbItemBroadcast = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisLocal());
 					if (dbItemBroadcast.getNotificationId() != 0) {
 						mIsSet = true;
 						mNotificationId = dbItemBroadcast.getNotificationId(); 
@@ -1093,16 +1007,9 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					holderRBC.remindContainerRec.setOnClickListener(new View.OnClickListener() {
 		
 						@Override
-						public void onClick(View v) {
-							String tvDate = "";
-							try {
-								tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmt());
-							} catch (ParseException e) {
-								e.printStackTrace();
-							}
-							
+						public void onClick(View v) {					
 							NotificationDbItem dbItemBroadcast = new NotificationDbItem();
-							dbItemBroadcast = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
+							dbItemBroadcast = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisLocal());
 							if (dbItemBroadcast.getNotificationId() != 0) {
 								mIsSet = true;
 								mNotificationId = dbItemBroadcast.getNotificationId(); 
@@ -1113,12 +1020,12 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							}
 		
 							if (mIsSet == false) {
-								if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), tvDate)) {
+								if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), broadcast.getTvDateString())) {
 									NotificationService.showSetNotificationToast(mActivity);
 									holderRBC.remindRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 		
 									NotificationDbItem dbItem = new NotificationDbItem();
-									dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
+									dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisLocal());
 									mNotificationId = dbItem.getNotificationId();
 									AnimationUtilities.animationSet(holderRBC.remindRecIv);
 									mIsSet = true;

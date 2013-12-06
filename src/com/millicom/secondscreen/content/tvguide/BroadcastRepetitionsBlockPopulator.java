@@ -74,24 +74,19 @@ public class BroadcastRepetitionsBlockPopulator {
 			LinearLayout mDividerOneContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_divider_one_container);
 			mDividerOneContainer.setVisibility(View.VISIBLE);
 			
-			try {
-				String weekday = DateUtilities.isoStringToDayOfWeekAndDate(broadcastOne.getBeginTimeStringGmt());
-				weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
-				mTitleTimeOneTv.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcastOne.getBeginTimeStringGmt()));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+
+			mTitleTimeOneTv.setText(broadcastOne.getDayOfWeekWithTimeString());
 			mChannelOneTv.setText(broadcastOne.getChannel().getName());
 
 			try {
-				mIsFutureOne = DateUtilities.isTimeInFuture(broadcastOne.getBeginTimeStringGmt());
+				mIsFutureOne = DateUtilities.isTimeInFuture(broadcastOne.getBeginTimeMillisLocal());
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
 
 			if (!mIsFutureOne) {
 				NotificationDbItem dbItem = new NotificationDbItem();
-				dbItem = mNotificationDataSource.getNotification(broadcastOne.getChannel().getChannelId(), broadcastOne.getBeginTimeMillisGmt());
+				dbItem = mNotificationDataSource.getNotification(broadcastOne.getChannel().getChannelId(), broadcastOne.getBeginTimeMillisLocal());
 				if (dbItem.getNotificationId() != 0) {
 					mIsSetOne = true;
 					mNotificationId = dbItem.getNotificationId();
@@ -117,7 +112,7 @@ public class BroadcastRepetitionsBlockPopulator {
 								mReminderOneIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 								NotificationDbItem dbItem = new NotificationDbItem();
-								dbItem = mNotificationDataSource.getNotification(broadcastOne.getChannel().getChannelId(), broadcastOne.getBeginTimeMillisGmt());
+								dbItem = mNotificationDataSource.getNotification(broadcastOne.getChannel().getChannelId(), broadcastOne.getBeginTimeMillisLocal());
 
 								mNotificationId = dbItem.getNotificationId();
 
@@ -143,17 +138,10 @@ public class BroadcastRepetitionsBlockPopulator {
 
 				@Override
 				public void onClick(View v) {
-					String tvDate = "";
-					try {
-						tvDate = DateUtilities.isoDateStringToTvDateString(broadcastOne.getBeginTimeStringGmt());
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
-
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcastOne.getBeginTimeMillisGmt());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcastOne.getBeginTimeMillisLocal());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcastOne.getChannel().getChannelId());
-					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, tvDate);
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcastOne.getTvDateString());
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
 					mActivity.finish();
 					mActivity.startActivity(intent);
@@ -184,25 +172,18 @@ public class BroadcastRepetitionsBlockPopulator {
 			mDividerTwoContainer.setVisibility(View.VISIBLE);
 
 			mSeasonEpisodeTwoTv.setVisibility(View.GONE);
-
-			try {
-				String weekday = DateUtilities.isoStringToDayOfWeekAndDate(broadcastTwo.getBeginTimeStringGmt());
-				weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
-				mTitleTimeTwoTv.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcastTwo.getBeginTimeStringGmt()));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+			mTitleTimeTwoTv.setText(broadcastTwo.getDayOfWeekWithTimeString());
 			mChannelTwoTv.setText(broadcastTwo.getChannel().getName());
 
 			try {
-				mIsFutureTwo = DateUtilities.isTimeInFuture(broadcastTwo.getBeginTimeStringGmt());
+				mIsFutureTwo = DateUtilities.isTimeInFuture(broadcastTwo.getBeginTimeMillisLocal());
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
 
 			if (!mIsFutureTwo) {
 				NotificationDbItem dbItem = new NotificationDbItem();
-				dbItem = mNotificationDataSource.getNotification(broadcastTwo.getChannel().getChannelId(), broadcastTwo.getBeginTimeMillisGmt());
+				dbItem = mNotificationDataSource.getNotification(broadcastTwo.getChannel().getChannelId(), broadcastTwo.getBeginTimeMillisLocal());
 				if (dbItem.getNotificationId() != 0) {
 					mIsSetTwo = true;
 					mNotificationId = dbItem.getNotificationId();
@@ -228,7 +209,7 @@ public class BroadcastRepetitionsBlockPopulator {
 								mReminderTwoIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 								NotificationDbItem dbItem = new NotificationDbItem();
-								dbItem = mNotificationDataSource.getNotification(broadcastTwo.getChannel().getChannelId(), broadcastTwo.getBeginTimeMillisGmt());
+								dbItem = mNotificationDataSource.getNotification(broadcastTwo.getChannel().getChannelId(), broadcastTwo.getBeginTimeMillisLocal());
 
 								mNotificationId = dbItem.getNotificationId();
 
@@ -254,17 +235,10 @@ public class BroadcastRepetitionsBlockPopulator {
 
 				@Override
 				public void onClick(View v) {
-					String tvDate = "";
-					try {
-						tvDate = DateUtilities.isoDateStringToTvDateString(broadcastTwo.getBeginTimeStringGmt());
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
-
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcastTwo.getBeginTimeMillisGmt());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcastTwo.getBeginTimeMillisLocal());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcastTwo.getChannel().getChannelId());
-					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, tvDate);
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcastTwo.getTvDateString());
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
 					mActivity.finish();
 					mActivity.startActivity(intent);
@@ -299,24 +273,19 @@ public class BroadcastRepetitionsBlockPopulator {
 
 //			mSeasonEpisodeThreeTv.setVisibility(View.GONE);
 			
-			try {
-				String weekday = DateUtilities.isoStringToDayOfWeekAndDate(broadcastThree.getBeginTimeStringGmt());
-				weekday = Character.toUpperCase(weekday.charAt(0)) + weekday.substring(1);
-				mTitleTimeThreeTv.setText(weekday + " - " + DateUtilities.isoStringToTimeString(broadcastThree.getBeginTimeStringGmt()));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+
+			mTitleTimeThreeTv.setText(broadcastThree.getDayOfWeekWithTimeString());
 			mChannelThreeTv.setText(broadcastThree.getChannel().getName());
 
 			try {
-				mIsFutureThree = DateUtilities.isTimeInFuture(broadcastThree.getBeginTimeStringGmt());
+				mIsFutureThree = DateUtilities.isTimeInFuture(broadcastThree.getBeginTimeMillisLocal());
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
 
 			if (!mIsFutureThree) {
 				NotificationDbItem dbItem = new NotificationDbItem();
-				dbItem = mNotificationDataSource.getNotification(broadcastThree.getChannel().getChannelId(), broadcastThree.getBeginTimeMillisGmt());
+				dbItem = mNotificationDataSource.getNotification(broadcastThree.getChannel().getChannelId(), broadcastThree.getBeginTimeMillisLocal());
 				if (dbItem.getNotificationId() != 0) {
 					mIsSetThree = true;
 					mNotificationId = dbItem.getNotificationId();
@@ -342,7 +311,7 @@ public class BroadcastRepetitionsBlockPopulator {
 								mReminderThreeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 								NotificationDbItem dbItem = new NotificationDbItem();
-								dbItem = mNotificationDataSource.getNotification(broadcastThree.getChannel().getChannelId(), broadcastThree.getBeginTimeMillisGmt());
+								dbItem = mNotificationDataSource.getNotification(broadcastThree.getChannel().getChannelId(), broadcastThree.getBeginTimeMillisLocal());
 
 								mNotificationId = dbItem.getNotificationId();
 
@@ -368,17 +337,10 @@ public class BroadcastRepetitionsBlockPopulator {
 
 				@Override
 				public void onClick(View v) {
-					String tvDate = "";
-					try {
-						tvDate = DateUtilities.isoDateStringToTvDateString(broadcastThree.getBeginTimeStringGmt());
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
-
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcastThree.getBeginTimeMillisGmt());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcastThree.getBeginTimeMillisLocal());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcastThree.getChannel().getChannelId());
-					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, tvDate);
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcastThree.getTvDateString());
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
 					mActivity.finish();
 					mActivity.startActivity(intent);
