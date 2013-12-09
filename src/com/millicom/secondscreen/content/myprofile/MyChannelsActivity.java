@@ -162,7 +162,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 				mListView.setAdapter(mAdapter);
 			}
 		} else {
-			Toast.makeText(getApplicationContext(), "You have to be logged in to perform this action :)", Toast.LENGTH_SHORT).show();
+			//Toast.makeText(getApplicationContext(), "You have to be logged in to perform this action :)", Toast.LENGTH_SHORT).show();
 			Log.d(TAG, "Login action is required to be done before this");
 		}
 

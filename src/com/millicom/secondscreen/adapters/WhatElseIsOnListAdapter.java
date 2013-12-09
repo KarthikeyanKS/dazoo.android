@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,7 +99,8 @@ public class WhatElseIsOnListAdapter extends BaseAdapter {
 			try {
 			channel = broadcast.getChannel().getName();
 			} catch (NullPointerException e) {
-				Toast.makeText(mActivity, "Something wrong with input data", Toast.LENGTH_LONG).show();
+				//Toast.makeText(mActivity, "Something wrong with input data", Toast.LENGTH_LONG).show();
+				Log.d(TAG,"!!! Something is wrong with the input data !!!");
 			}
 			if (channel != null) {
 				holder.mChannelTv.setText(channel);

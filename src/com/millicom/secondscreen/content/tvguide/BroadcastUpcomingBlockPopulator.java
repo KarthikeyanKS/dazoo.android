@@ -140,14 +140,16 @@ public class BroadcastUpcomingBlockPopulator {
 
 								mIsSetOne = true;
 							} else {
-								Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
+								//Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
+								Log.d(TAG, "!!! Setting notification faced an error !!!");
 							}
 						} else {
 							if (mNotificationId != -1) {
 								NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
 								notificationDlg.showRemoveNotificationDialog(mActivity, broadcastOne, mNotificationId, yesNotificationOneProc(), noNotificationProc());
 							} else {
-								Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
+								//Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
+								Log.d(TAG, "!!! Could not find such reminder in DB !!!");
 							}
 						}
 					}
@@ -254,14 +256,16 @@ public class BroadcastUpcomingBlockPopulator {
 
 								mIsSetTwo = true;
 							} else {
-								Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
+								//Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
+								Log.d(TAG, "!!! Setting notification faced an error !!!");
 							}
 						} else {
 							if (mNotificationId != -1) {
 								NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
 								notificationDlg.showRemoveNotificationDialog(mActivity, broadcastTwo, mNotificationId, yesNotificationTwoProc(), noNotificationProc());
 							} else {
-								Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
+								//Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
+								Log.d(TAG, "!!! Could not find such reminder in DB !!!");
 							}
 						}
 					}
@@ -369,14 +373,16 @@ public class BroadcastUpcomingBlockPopulator {
 
 								mIsSetThree = true;
 							} else {
-								Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
+								//Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
+								Log.d(TAG, "!!! Setting notification faced an error !!!");
 							}
 						} else {
 							if (mNotificationId != -1) {
 								NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
 								notificationDlg.showRemoveNotificationDialog(mActivity, broadcastThree, mNotificationId, yesNotificationThreeProc(), noNotificationProc());
 							} else {
-								Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
+								//Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
+								Log.d(TAG,"!!! Could not find such reminder in DB !!!");
 							}
 						}
 					}

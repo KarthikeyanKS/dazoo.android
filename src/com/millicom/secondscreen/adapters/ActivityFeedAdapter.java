@@ -529,7 +529,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 									mIsLiked = true;
 								} else {
-									Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
+									//Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
+									Log.d(TAG, "!!! Adding a like faced an error !!!");
 								}
 							} else {
 								LikeService.removeLike(mToken, likeType, programId);
@@ -583,7 +584,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 									mIsSet = true;
 								} else {
-									Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
+									//Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
+									Log.d(TAG,"!!! Setting notification faced an error !!!");
 								}
 							} else {
 
@@ -593,7 +595,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 									notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId,
 											yesNotificationTwitterProc(holder.remindTwitterIv), noNotificationProc());
 								} else {
-									Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
+									//Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
+									Log.d(TAG,"!!! Could not find such reminder in DB !!!");
 								}
 							}
 
@@ -770,7 +773,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 									mIsLiked = true;
 								} else {
-									Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
+									//Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
+									Log.d(TAG,"!!! Adding a like faced an error !!!");
 								}
 							} else {
 								LikeService.removeLike(mToken, likeType, programId);
@@ -832,7 +836,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 									mIsSet = true;
 								} else {
-									Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
+									//Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
+									Log.d(TAG,"!!! Setting notification faced an error !!!");
 								}
 							} else {
 								if (mNotificationId != -1) {
@@ -840,7 +845,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 									notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId,
 											yesNotificationProc(holderBC.remindLikeIv), noNotificationProc());
 								} else {
-									Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
+									//Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
+									Log.d(TAG, "!!! Could not find such reminder in DB !!!");
 								}
 							}
 
@@ -1003,7 +1009,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 									mIsLiked = true;
 								} else {
-									Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
+									//Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
+									Log.d(TAG, "!!! Adding a like faced an error !!!");
 								}
 							} else {
 								LikeService.removeLike(mToken, likeType, programId);
@@ -1050,7 +1057,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 									AnimationUtilities.animationSet(holderRBC.remindRecIv);
 									mIsSet = true;
 								} else {
-									Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
+									//Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
+									Log.d(TAG, "!!! Setting notification faced an error !!!");
 								}
 							} else {
 								if (mNotificationId != -1) {
@@ -1058,7 +1066,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 									notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId,
 											yesNotificationRecProc(holderRBC.remindRecIv), noNotificationProc());
 								} else {
-									Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
+									//Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
+									Log.d(TAG, "!!! Could not find such reminder in DB !!!");
 								}
 							}
 						}

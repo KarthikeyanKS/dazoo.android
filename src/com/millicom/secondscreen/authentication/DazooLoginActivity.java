@@ -154,8 +154,9 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 							Log.d(TAG, "DazooToken: " + dazooToken + "is saved");
 
 							if (AuthenticationService.storeUserInformation(this, dazooJSON)) {
-								Toast.makeText(getApplicationContext(), "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName(), Toast.LENGTH_SHORT).show();
-
+								//Toast.makeText(getApplicationContext(), "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName(), Toast.LENGTH_SHORT).show();
+								Log.d(TAG, "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName()); 
+								
 								DazooStore.getInstance().clearAll();
 								DazooStore.getInstance().reinitializeAll();
 								DazooCore.resetAll();
@@ -164,10 +165,12 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 
 								startActivity(new Intent(DazooLoginActivity.this, HomeActivity.class));
 							} else {
-								Toast.makeText(getApplicationContext(), "Failed to fetch the user information from backend", Toast.LENGTH_SHORT).show();
+								//Toast.makeText(getApplicationContext(), "Failed to fetch the user information from backend", Toast.LENGTH_SHORT).show();
+								Log.d(TAG, "!!! Failed to fetch the user information from backend !!!");
 							}
 						} else {
-							Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with us. Please, try again later!", Toast.LENGTH_SHORT).show();
+							//Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with us. Please, try again later!", Toast.LENGTH_SHORT).show();
+							Log.d(TAG,"!!! Error! Something went wrong while creating an account with us. Please, try again later! !!!");
 						}
 					} else {
 						mErrorTv.setText(getResources().getString(R.string.login_with_dazoo_wrong_info));
