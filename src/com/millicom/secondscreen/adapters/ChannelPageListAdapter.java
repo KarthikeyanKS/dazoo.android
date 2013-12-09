@@ -129,13 +129,8 @@ public class ChannelPageListAdapter extends BaseAdapter {
 			}
 
 			// MC - Set the begin time of the broadcast.
-			try {
-				holder.mTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmt()));
-			} catch (ParseException e) {
-				e.printStackTrace();
-				holder.mTimeTv.setText("");
-			}
 
+			holder.mTimeTv.setText(broadcast.getBeginTimeStringLocalHourAndMinute());
 			String title = broadcast.getProgram().getTitle();
 
 			if (programType != null) {
@@ -201,15 +196,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 	@Override
 	public int getItemViewType(int position) {
 		Broadcast broadcast = getItem(position);
-		long timeSinceBegin = 0;
-		long timeToEnd = 0;
-		try {
-			timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt());
-			timeToEnd = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTimeMillisGmt());
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		if (timeSinceBegin > 0 && timeToEnd < 0) {
+		if (broadcast.getTimeSinceBegin() > 0 && broadcast.getTimeToEnd() < 0) {
 			return 0;
 		}
 		return 1;

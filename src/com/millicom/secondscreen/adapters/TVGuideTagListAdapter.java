@@ -76,45 +76,22 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 			ViewHolder holder = (ViewHolder) rowView.getTag();
 
 			if (broadcast != null) {
-				// TODO: Set treding/movie/live icons
-				// Calculate the duration of the program and set up ProgressBar and TimeLeft.
-				int duration = 0;
-				long timeSinceBegin = 0;
-				long timeToEnd = 0;
-				try {
-					timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt());
-					timeToEnd = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTimeMillisGmt());
-					long startTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt());
-					long endTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTimeMillisGmt());
-					duration = (int) (startTime - endTime) / (1000 * 60);
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-
 				// If on air
-				if (timeSinceBegin > 0 && timeToEnd < 0) {
-					holder.mDurationPb.setMax(duration);
+				if (broadcast.getTimeSinceBegin() > 0 && broadcast.getTimeToEnd() < 0) {
+					holder.mDurationPb.setMax(broadcast.getDurationInMinutes());
 
 					// Calculate the current progress of the ProgressBar and update.
 					int initialProgress = 0;
-					long difference = 0;
-					try {
-						difference = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt());
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
 
-					if (difference < 0) {
+					if (broadcast.getTimeSinceBegin() < 0) {
 						holder.mDurationPb.setVisibility(View.GONE);
 						initialProgress = 0;
 						holder.mDurationPb.setProgress(0);
 					} else {
-						try {
-							initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt()) / (1000 * 60);
-						} catch (ParseException e) {
-							e.printStackTrace();
-						}
-						holder.mTimeLeftTv.setText(duration - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + " "
+						
+						initialProgress = (int) broadcast.getTimeSinceBegin() / (1000 * 60);
+			
+						holder.mTimeLeftTv.setText(broadcast.getDurationInMinutes() - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + " "
 								+ mActivity.getResources().getString(R.string.left));
 						holder.mDurationPb.setProgress(initialProgress);
 						holder.mDurationPb.setVisibility(View.VISIBLE);
@@ -128,11 +105,7 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 				mImageLoader.displayImage(broadcast.getProgram().getPortMUrl(), holder.mImageIv, holder.mImagePb, ImageLoader.IMAGE_TYPE.GALLERY);
 				holder.mTitleTv.setText(broadcast.getProgram().getTitle());
 
-				try {
-					holder.mTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmt()));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
+				holder.mTimeTv.setText(broadcast.getBeginTimeStringLocalHourAndMinute());
 				holder.mChannelTv.setText(broadcast.getChannel().getName());
 
 				String type = broadcast.getProgram().getProgramType();
@@ -177,7 +150,7 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 					Log.d(TAG, broadcast.getProgram().toString());
 
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisLocal());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, mDate.getDate());
 

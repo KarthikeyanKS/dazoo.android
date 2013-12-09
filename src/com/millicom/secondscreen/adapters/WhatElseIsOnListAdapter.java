@@ -28,9 +28,6 @@ public class WhatElseIsOnListAdapter extends BaseAdapter {
 	private Activity				mActivity;
 	private ArrayList<Broadcast>	mFollowingEpisodes;
 	private ImageLoader				mImageLoader;
-	private int						duration 		= 0;
-
-
 
 	public WhatElseIsOnListAdapter(Activity activity, ArrayList<Broadcast> followingBroadcasts) {
 		this.mFollowingEpisodes = followingBroadcasts;
@@ -111,48 +108,23 @@ public class WhatElseIsOnListAdapter extends BaseAdapter {
 			}
 			
 			//MC - Set the begin time of the broadcast.
-			try {
-				holder.mTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmt()));
-			} 
-			catch (ParseException e) {
-				e.printStackTrace();
-				holder.mTimeTv.setText("");
-			}
-			
-			//MC - Calculate the duration of the program and set up ProgressBar.
-			try {
-				long startTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt());
-				long endTime = DateUtilities.getAbsoluteTimeDifference(broadcast.getEndTimeMillisGmt());
-				duration = (int) (startTime - endTime) / (1000 * 60);
-			} 
-			catch (ParseException e) {
-				e.printStackTrace();
-			}
-			holder.mDurationPb.setMax(duration);
+		
+			holder.mTimeTv.setText(broadcast.getBeginTimeStringLocalHourAndMinute());
+			holder.mDurationPb.setMax(broadcast.getDurationInMinutes());
 
 			//MC - Calculate the current progress of the ProgressBar and update.
 			int initialProgress = 0;
-			long difference = 0;
-			try {
-				difference = DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt());
-			} 
-			catch (ParseException e) {
-				e.printStackTrace();
-			}
 
-			if (difference < 0) {
+			if (broadcast.getTimeSinceBegin() < 0) {
 				holder.mDurationPb.setVisibility(View.GONE);
 				initialProgress = 0;
 				holder.mDurationPb.setProgress(0);
 			} 
 			else {
-				try {
-					initialProgress = (int) DateUtilities.getAbsoluteTimeDifference(broadcast.getBeginTimeMillisGmt()) / (1000 * 60);
-				} 
-				catch (ParseException e) {
-					e.printStackTrace();
-				}
-				holder.mTimeleftTv.setText(duration-initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + 
+		
+				initialProgress = (int) broadcast.getTimeSinceBegin() / (1000 * 60);
+		
+				holder.mTimeleftTv.setText(broadcast.getDurationInMinutes() - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + 
 						" " + mActivity.getResources().getString(R.string.left));
 				holder.mDurationPb.setProgress(initialProgress);
 				holder.mDurationPb.setVisibility(View.VISIBLE);

@@ -110,7 +110,8 @@ public class RepetitionsListAdapter extends BaseAdapter {
 			int dateIndex = 0;
 			boolean dateOutOfWeek = false;
 			for (int i = 0; i < mTvDates.size(); i++) {
-				if (broadcast.getBeginTimeStringGmt().contains(mTvDates.get(i).getDate())) {
+				//TODO verify works
+				if (broadcast.getBeginTimeStringLocal().contains(mTvDates.get(i).getDate())) {
 					dateIndex = i;
 					break;
 				}
@@ -122,16 +123,17 @@ public class RepetitionsListAdapter extends BaseAdapter {
 			try {
 				holder.mHeaderContainer.setVisibility(View.GONE);
 				holder.mDivider.setVisibility(View.VISIBLE);
-				if (position == 0 || DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmt()).equals(
-						DateUtilities.tvDateStringToDatePickerString(getItem(position-1).getBeginTimeStringGmt())) == false) {
+				//TODO verify works
+				if (position == 0 || DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringLocal()).equals(
+						DateUtilities.tvDateStringToDatePickerString(getItem(position-1).getBeginTimeStringLocal())) == false) {
 					if (dateOutOfWeek == false) {
 						holder.mHeader.setText(mTvDates.get(dateIndex).getName() + " " + 
 							DateUtilities.tvDateStringToDatePickerString(mTvDates.get(dateIndex).getDate()));
 						holder.mHeaderContainer.setVisibility(View.VISIBLE);
 					}
 				}
-				if (position != (getCount() - 1) && DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmt()).equals(
-						DateUtilities.tvDateStringToDatePickerString(getItem(position + 1).getBeginTimeStringGmt())) == false) {
+				if (position != (getCount() - 1) && DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringLocal()).equals(
+						DateUtilities.tvDateStringToDatePickerString(getItem(position + 1).getBeginTimeStringLocal())) == false) {
 					holder.mDivider.setVisibility(View.GONE);
 				}
 			} catch (ParseException e) {
@@ -140,13 +142,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 
 			holder.mSeasonEpisodeTv.setVisibility(View.GONE);
 
-			try {
-				holder.mTimeTv.setText(DateUtilities.isoStringToTimeString(broadcast.getBeginTimeStringGmt()));
-			} catch (ParseException e) {
-				e.printStackTrace();
-				holder.mTimeTv.setText("");
-			}
-
+			holder.mTimeTv.setText(broadcast.getBeginTimeStringLocalHourAndMinute());
 			// Set channel
 			String channel = broadcast.getChannel().getName();
 			if (channel != null) {
@@ -154,14 +150,14 @@ public class RepetitionsListAdapter extends BaseAdapter {
 			}
 
 			try {
-				mIsFuture = DateUtilities.isTimeInFuture(broadcast.getBeginTimeStringGmt());
+				mIsFuture = DateUtilities.isTimeInFuture(broadcast.getBeginTimeMillisLocal());
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
 
 			if (!mIsFuture) {
 				NotificationDbItem dbItem = new NotificationDbItem();
-				dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
+				dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisLocal());
 				if (dbItem.getNotificationId() != 0) {
 					mIsSet = true;
 					mNotificationId = dbItem.getNotificationId();
@@ -182,19 +178,12 @@ public class RepetitionsListAdapter extends BaseAdapter {
 				public void onClick(View v) {
 					if (!mIsFuture) {
 						if (mIsSet == false) {
-							String tvDate = "";
-							try {
-								tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmt());
-							} catch (ParseException e) {
-								e.printStackTrace();
-							}
-
-							if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), tvDate)) {
+							if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), broadcast.getTvDateString())) {
 								NotificationService.showSetNotificationToast(mActivity);
 								holder.mReminderIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 								NotificationDbItem dbItem = new NotificationDbItem();
-								dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
+								dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisLocal());
 
 								mNotificationId = dbItem.getNotificationId();
 
@@ -220,18 +209,11 @@ public class RepetitionsListAdapter extends BaseAdapter {
 
 				@Override
 				public void onClick(View v) {
-					String tvDate = "";
-					try {
-						tvDate = DateUtilities.isoDateStringToTvDateString(broadcast.getBeginTimeStringGmt());
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
-
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
 					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisLocal());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
-					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, tvDate);
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
 
 					mActivity.startActivity(intent);

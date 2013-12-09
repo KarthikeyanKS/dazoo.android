@@ -109,6 +109,7 @@ public class DateUtilities {
 		return output;
 	}
 	
+	//TODO scrap a lot of code in this and get current date using new Date() only?
 	public static final String todayDateAsTvDate(){
 		SimpleDateFormat dfmInput = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
 		String dateNow = dfmInput.format(new Date());
@@ -127,12 +128,13 @@ public class DateUtilities {
 	
 	//TODO verify that this uses correct time zone!
 	public static final String isoDateStringToTvDateString(String date) throws ParseException{
-		SimpleDateFormat dfmInput = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
+		long time = isoStringToLong(date);
+		String output = isoDateToTvDateString(time);
+		return output;
+	}
+	
+	public static final String isoDateToTvDateString(long time) throws ParseException{
 		SimpleDateFormat dfmOutput = new SimpleDateFormat(Consts.TVDATE_DATE_FORMAT, Locale.getDefault());
-		long time = 0;
-		if (date != null && !date.equals("")) {
-			time = dfmInput.parse(date).getTime();
-		}
 		String output = dfmOutput.format(time);
 		return output;
 	}
@@ -141,6 +143,14 @@ public class DateUtilities {
 	public static boolean isTimeInFuture(String beginTime) throws ParseException {
 		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
 		Date date = df.parse(beginTime);
+		if (new Date().after(date)){
+			return true;
+		} 
+		else return false;
+	}
+	
+	public static boolean isTimeInFuture(long beginTime) throws ParseException {
+		Date date = new Date(beginTime); 
 		if (new Date().after(date)){
 			return true;
 		} 
@@ -166,6 +176,11 @@ public class DateUtilities {
 	 */
 	public static String tvDateStringToDatePickerString(String date) throws ParseException {
 		long time = timeWithStringAndFormat(date, Consts.TVDATE_DATE_FORMAT);
+		String output = tvDateStringToDatePickerString(time);
+		return output;
+	}
+	
+	public static String tvDateStringToDatePickerString(long time) throws ParseException {
 		SimpleDateFormat dfmOutput = new SimpleDateFormat("dd/MM", Locale.getDefault());
 		String output = dfmOutput.format(time);
 		return output;
@@ -182,6 +197,11 @@ public class DateUtilities {
 
 	public static String isoStringToTimeString(String date) throws ParseException {
 		long time = isoStringToLong(date);
+		String output = timeToTimeString(time);
+		return output;
+	}
+	
+	public static String timeToTimeString(long time) throws ParseException {
 		SimpleDateFormat dfmOutput = new SimpleDateFormat("HH:mm", Locale.getDefault());
 		String output = dfmOutput.format(time);
 		return output;
@@ -384,6 +404,11 @@ public class DateUtilities {
 	 */
 	public static String isoStringToDayOfWeek(String date) throws ParseException {
 		long time = isoStringToLong(date);
+		String output = isoStringToDayOfWeek(time);
+		return output;
+	}
+	
+	public static String isoStringToDayOfWeek(long time) throws ParseException {
 		SimpleDateFormat dfmOutput = new SimpleDateFormat("EEEE", Locale.getDefault());
 
 		String output = dfmOutput.format(time);
