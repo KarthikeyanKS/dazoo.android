@@ -195,8 +195,11 @@ public class Broadcast implements Parcelable {
 		return this.channelUrl;
 	}
 
-	public void setBeginTimeMillisGmt(long beginTimeStringHourAndMinute) {
-		this.beginTimeMillisGmt = beginTimeStringHourAndMinute;
+	public void setBeginTimeMillisGmt(long beginTimeMillisGmt) {
+		if(beginTimeMillisGmt == 0) {
+			Log.e("Broadcast", "Setting zero as timestamp");
+		}
+		this.beginTimeMillisGmt = beginTimeMillisGmt;
 	}
 
 	public long getBeginTimeMillisGmt() {

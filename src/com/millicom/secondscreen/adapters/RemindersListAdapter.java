@@ -179,7 +179,7 @@ public class RemindersListAdapter extends BaseAdapter {
 				@Override
 				public void onClick(View v) {
 					//TODO use local or GMT?
-					String broadcastUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + channel.getChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeStringGmt();
+					String broadcastUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + channel.getChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillisGmt();
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
 					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_URL, broadcastUrl);
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
@@ -199,7 +199,7 @@ public class RemindersListAdapter extends BaseAdapter {
 					NotificationDataSource notificationDataSource = new NotificationDataSource(mActivity);
 
 					NotificationDbItem notificationDbItem = new NotificationDbItem();
-					notificationDbItem = notificationDataSource.getNotification(channel.getChannelId(), Long.valueOf(broadcast.getBeginTimeStringGmt()));
+					notificationDbItem = notificationDataSource.getNotification(channel.getChannelId(), Long.valueOf(broadcast.getBeginTimeMillisGmt()));
 					if (notificationDbItem != null) {
 						notificationId = notificationDbItem.getNotificationId();
 						NotificationDialogHandler notificationDlg = new NotificationDialogHandler();

@@ -569,7 +569,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		
 									NotificationDbItem dbItemTw = new NotificationDbItem();
 									Log.d(TAG, "broadcast.getChannel().getChannelId()" + broadcast.getChannel().getChannelId());
-									Log.d(TAG, "broadcast.getBeginTimeMillis()" + broadcast.getBeginTimeStringGmt());
+									Log.d(TAG, "broadcast.getBeginTimeMillis()" + broadcast.getBeginTimeMillisGmt());
 		
 									dbItemTw = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
 		
@@ -716,7 +716,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		
 					NotificationDbItem dbItem = new NotificationDbItem();
 					dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
-					Log.d(TAG,"uP: " + broadcast.getChannel().getChannelId() + " " + broadcast.getBeginTimeStringGmt());
+					Log.d(TAG,"uP: " + broadcast.getChannel().getChannelId() + " " + broadcast.getBeginTimeMillisGmt());
 					if (dbItem.getNotificationId() != 0) {
 						Log.d(TAG,"dbItem: " + dbItem.getProgramTitle() + " " + dbItem.getNotificationId() );
 						mNotificationId = dbItem.getNotificationId();
@@ -793,7 +793,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							
 							
 							dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
-							Log.d(TAG,"DOWN: " + broadcast.getChannel().getChannelId() + " " + broadcast.getBeginTimeStringGmt());
+							Log.d(TAG,"DOWN: " + broadcast.getChannel().getChannelId() + " " + broadcast.getBeginTimeMillisGmt());
 							
 							if (dbItem.getNotificationId() != 0) {
 								Log.d(TAG,"dbItem: " + dbItem.getProgramTitle() + " " + dbItem.getNotificationId() );
@@ -812,7 +812,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		
 									NotificationDbItem dbItemRemind= new NotificationDbItem();
 									Log.d(TAG, "broadcast.getChannel().getChannelId()" + broadcast.getChannel().getChannelId());
-									Log.d(TAG, "broadcast.getBeginTimeMillis()" + broadcast.getBeginTimeStringGmt());
+									Log.d(TAG, "broadcast.getBeginTimeMillis()" + broadcast.getBeginTimeMillisGmt());
 		
 									dbItemRemind = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
 									Log.d(TAG,"db Item: " + dbItemRemind.getNotificationId() + " " + dbItemRemind.getBroadcastTimeInMillis() + " " + dbItemRemind.getChannelId()

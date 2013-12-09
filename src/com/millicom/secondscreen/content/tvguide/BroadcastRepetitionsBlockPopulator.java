@@ -79,7 +79,7 @@ public class BroadcastRepetitionsBlockPopulator {
 			mChannelOneTv.setText(broadcastOne.getChannel().getName());
 
 			try {
-				mIsFutureOne = DateUtilities.isTimeInFuture(broadcastOne.getBeginTimeStringGmt());
+				mIsFutureOne = DateUtilities.isTimeInFuture(broadcastOne.getBeginTimeMillisLocal());
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
@@ -176,7 +176,7 @@ public class BroadcastRepetitionsBlockPopulator {
 			mChannelTwoTv.setText(broadcastTwo.getChannel().getName());
 
 			try {
-				mIsFutureTwo = DateUtilities.isTimeInFuture(broadcastTwo.getBeginTimeStringGmt());
+				mIsFutureTwo = DateUtilities.isTimeInFuture(broadcastTwo.getBeginTimeMillisLocal());
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
@@ -278,7 +278,7 @@ public class BroadcastRepetitionsBlockPopulator {
 			mChannelThreeTv.setText(broadcastThree.getChannel().getName());
 
 			try {
-				mIsFutureThree = DateUtilities.isTimeInFuture(broadcastThree.getBeginTimeStringGmt());
+				mIsFutureThree = DateUtilities.isTimeInFuture(broadcastThree.getBeginTimeMillisLocal());
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}

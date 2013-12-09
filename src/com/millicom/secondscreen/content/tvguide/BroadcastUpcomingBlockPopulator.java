@@ -99,7 +99,7 @@ public class BroadcastUpcomingBlockPopulator {
 			mChannelOneTv.setText(broadcastOne.getChannel().getName());
 
 			try {
-				mIsFutureOne = DateUtilities.isTimeInFuture(broadcastOne.getBeginTimeStringGmt());
+				mIsFutureOne = DateUtilities.isTimeInFuture(broadcastOne.getBeginTimeMillisLocal());
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
@@ -159,7 +159,7 @@ public class BroadcastUpcomingBlockPopulator {
 				@Override
 				public void onClick(View v) {
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcastOne.getBeginTimeStringGmt());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcastOne.getBeginTimeMillisGmt());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcastOne.getChannel().getChannelId());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcastOne.getTvDateString());
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
@@ -213,7 +213,7 @@ public class BroadcastUpcomingBlockPopulator {
 			mChannelTwoTv.setText(broadcastTwo.getChannel().getName());
 
 			try {
-				mIsFutureTwo = DateUtilities.isTimeInFuture(broadcastTwo.getBeginTimeStringGmt());
+				mIsFutureTwo = DateUtilities.isTimeInFuture(broadcastTwo.getBeginTimeMillisLocal());
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
@@ -273,7 +273,7 @@ public class BroadcastUpcomingBlockPopulator {
 				@Override
 				public void onClick(View v) {
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcastTwo.getBeginTimeStringGmt());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcastTwo.getBeginTimeMillisGmt());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcastTwo.getChannel().getChannelId());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcastTwo.getTvDateString());
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
@@ -328,7 +328,7 @@ public class BroadcastUpcomingBlockPopulator {
 			mChannelThreeTv.setText(broadcastThree.getChannel().getName());
 
 			try {
-				mIsFutureThree = DateUtilities.isTimeInFuture(broadcastThree.getBeginTimeStringGmt());
+				mIsFutureThree = DateUtilities.isTimeInFuture(broadcastThree.getBeginTimeMillisLocal());
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
@@ -388,7 +388,7 @@ public class BroadcastUpcomingBlockPopulator {
 				@Override
 				public void onClick(View v) {
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcastThree.getBeginTimeStringGmt());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcastThree.getBeginTimeMillisGmt());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcastThree.getChannel().getChannelId());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcastThree.getTvDateString());
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);

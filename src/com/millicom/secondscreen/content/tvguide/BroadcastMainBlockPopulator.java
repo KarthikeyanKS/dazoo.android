@@ -89,7 +89,7 @@ public class BroadcastMainBlockPopulator {
 
 
 		try {
-			mIsFuture = DateUtilities.isTimeInFuture(broadcast.getBeginTimeStringGmt());
+			mIsFuture = DateUtilities.isTimeInFuture(broadcast.getBeginTimeMillisLocal());
 		} catch (ParseException e1) {
 			e1.printStackTrace();
 		}
