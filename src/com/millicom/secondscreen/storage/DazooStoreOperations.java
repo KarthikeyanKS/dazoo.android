@@ -148,8 +148,8 @@ public class DazooStoreOperations {
 	public static ArrayList<Broadcast> getTaggedBroadcasts(String date, Tag tag) {
 		DazooStore dazooStore = DazooStore.getInstance();
 		ArrayList<Guide> guideTable = dazooStore.getGuideTable(date);
-		String tagName = tag.getName();
-
+		String tagName = tag.getId();
+		
 		ArrayList<Broadcast> taggedBroadcasts = new ArrayList<Broadcast>();
 		int guideTableSize = guideTable.size();
 		for (int i = 0; i < guideTableSize; i++) {
@@ -186,8 +186,8 @@ public class DazooStoreOperations {
 	public static ArrayList<Broadcast> getMyTaggedBroadcasts(String date, Tag tag) {
 		DazooStore dazooStore = DazooStore.getInstance();
 		ArrayList<Guide> guideTable = dazooStore.getMyGuideTable(date);
-		String tagName = tag.getName();
-
+		String tagName = tag.getId();
+		
 		ArrayList<Broadcast> taggedBroadcasts = new ArrayList<Broadcast>();
 		int guideTableSize = guideTable.size();
 		

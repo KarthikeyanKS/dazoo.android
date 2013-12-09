@@ -80,12 +80,12 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 		// broadcast receiver for my channels have changed
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverMyChannels, new IntentFilter(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
-		
+
 		// broadcast receiver for request timeout
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverBadRequest, new IntentFilter(Consts.INTENT_EXTRA_BAD_REQUEST));
-	
+
 		SecondScreenApplication.getInstance().setSelectedHour(Integer.valueOf(DateUtilities.getCurrentHourString()));
-		
+
 		initViews();
 
 		// HOCKEY-APP
@@ -106,11 +106,11 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		// Remove this for store builds!
 		UpdateManager.register(this, Consts.HOCKEY_APP_TOKEN);
 	}
-	
-	BroadcastReceiver mBroadcastReceiverBadRequest = new BroadcastReceiver(){
+
+	BroadcastReceiver	mBroadcastReceiverBadRequest	= new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			//bad request to the backend: timeout or anything similar
+			// bad request to the backend: timeout or anything similar
 			updateUI(REQUEST_STATUS.BAD_REQUEST);
 		}
 	};
@@ -205,22 +205,20 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
 		if (mStateChanged) {
 			removeActiveFragment();
 			DazooStore.getInstance().clearAndReinitializeForMyChannels();
 			mChannelUpdate = true;
 			DazooCore.getGuide(mDateSelectedIndex, false);
 			mStateChanged = false;
-		}
-		else {
-			Log.d(TAG,"We have resumed!");
+		} else {
+			Log.d(TAG, "We have resumed!");
 			if (!NetworkUtils.checkConnection(this)) {
 				updateUI(REQUEST_STATUS.FAILED);
 			} else {
 				// update current hour
 				int hour = Integer.valueOf(DateUtilities.getCurrentHourString());
-				((SecondScreenApplication)getApplicationContext()).setSelectedHour(hour);
+				((SecondScreenApplication) getApplicationContext()).setSelectedHour(hour);
 				reloadPage();
 			}
 		}
@@ -312,7 +310,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverDate);
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverContent);
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverMyChannels);
-		
+
 		// clear the clock selection setting
 		((SecondScreenApplication) getApplicationContext()).setSelectedHour(6);
 	};
@@ -345,14 +343,14 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
-		
+
 		// hide search for beta release
 		switch (item.getItemId()) {
-		//case R.id.menu_search:
-		//	Intent toSearchPage = new Intent(HomeActivity.this, SearchPageActivity.class);
-		//	startActivity(toSearchPage);
-		//	overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-		//	return true;
+		// case R.id.menu_search:
+		// Intent toSearchPage = new Intent(HomeActivity.this, SearchPageActivity.class);
+		// startActivity(toSearchPage);
+		// overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+		// return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}

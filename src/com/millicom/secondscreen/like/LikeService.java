@@ -123,6 +123,7 @@ public class LikeService {
 				for (int i = 0; i < size; i++) {
 					dazooLikeIdsList.add(ContentParser.parseDazooLikeIds(likesListJson.getJSONObject(i)));
 				}
+				Log.d(TAG,"dazooLikeIdsList: " + dazooLikeIdsList.size());
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
