@@ -31,14 +31,19 @@ import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.adapters.MyChannelsListAdapter;
 import com.millicom.secondscreen.content.SSActivity;
+import com.millicom.secondscreen.content.SSChannelPage;
+import com.millicom.secondscreen.content.SSPageCallback;
+import com.millicom.secondscreen.content.SSPageGetResult;
 import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.manager.ContentParser;
+import com.millicom.secondscreen.manager.DazooCore;
 import com.millicom.secondscreen.mychannels.MyChannelsService;
 import com.millicom.secondscreen.storage.BroadcastKey;
 import com.millicom.secondscreen.storage.DazooStore;
+import com.millicom.secondscreen.storage.DazooStoreOperations;
 import com.millicom.secondscreen.utilities.JSONUtilities;
 import com.millicom.secondscreen.SecondScreenApplication;
 
@@ -56,6 +61,7 @@ import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.style.UpdateLayout;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.KeyEvent;
@@ -77,7 +83,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 	private ActionBar					mActionBar;
 	private boolean						isChange				= false;
 	private Button						mGetMyChannelsButton, mAddToMyChannelsButton;
-	private String						userToken;
+	private static String				userToken;
 	private ListView					mListView;
 	private TextView					mChannelCountTv;
 	private RelativeLayout				mTabTvGuide, mTabProfile, mTabActivity;
@@ -138,94 +144,97 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 
 	private void populateViews() {
 		mChannelsMap = DazooStore.getInstance().getAllChannels();
-		if(mChannelsMap !=null && mChannelsMap.isEmpty()!=true){
+		if (mChannelsMap != null && mChannelsMap.isEmpty() != true) {
 
-		int allChannelsIndex = 0;
-		for (Entry<String, Channel> entry : mChannelsMap.entrySet()) {
-			mChannels.add(entry.getValue());
-			mAllChannelsIds.add(mChannels.get(allChannelsIndex).getChannelId());
-			allChannelsIndex++;
-		}
-
-		for (int i = 0; i < mChannels.size(); i++) {
-			mChannelInfoMap.put(mChannels.get(i).getName().toLowerCase(Locale.getDefault()), mChannels.get(i));
-			mChannelInfoToDisplay.add(mChannels.get(i));
-		}
-
-		mIsCheckedArray = new boolean[mAllChannelsIds.size()];
-
-		if (userToken != null && TextUtils.isEmpty(userToken) != true) {
-			// get user channels
-			if (getUserMyChannelsIdsJSON()) {
-				mChannelCounter = myChannelIds.size();
-				mChannelCountTv.setText(" " + String.valueOf(mChannelCounter));
-				mAdapter = new MyChannelsListAdapter(this, mChannelInfoToDisplay, mIsCheckedArray, this, mChannelCounter, mCheckedChannelsIds);
-				mListView.setAdapter(mAdapter);
+			int allChannelsIndex = 0;
+			for (Entry<String, Channel> entry : mChannelsMap.entrySet()) {
+				mChannels.add(entry.getValue());
+				mAllChannelsIds.add(mChannels.get(allChannelsIndex).getChannelId());
+				allChannelsIndex++;
 			}
-		} else {
-			//Toast.makeText(getApplicationContext(), "You have to be logged in to perform this action :)", Toast.LENGTH_SHORT).show();
-			Log.d(TAG, "Login action is required to be done before this");
-		}
 
-		mSearchChannelInputEditText.addTextChangedListener(new TextWatcher() {
-			@Override
-			public void afterTextChanged(Editable s) {
-				String search = s.toString();
-				if (search.contains(System.getProperty("line.separator"))) {
-					search = search.replace(System.getProperty("line.separator"), "");
-					mSearchChannelInputEditText.setText(search);
-					InputMethodManager in = (InputMethodManager) getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
-					in.hideSoftInputFromWindow(mSearchChannelInputEditText.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+			for (int i = 0; i < mChannels.size(); i++) {
+				mChannelInfoMap.put(mChannels.get(i).getName().toLowerCase(Locale.getDefault()), mChannels.get(i));
+				mChannelInfoToDisplay.add(mChannels.get(i));
+			}
+
+			mIsCheckedArray = new boolean[mAllChannelsIds.size()];
+
+			if (userToken != null && TextUtils.isEmpty(userToken) != true) {
+				// get user channels
+				if (getUserMyChannelsIdsJSON()) {
+					mChannelCounter = myChannelIds.size();
+					mChannelCountTv.setText(" " + String.valueOf(mChannelCounter));
+					mAdapter = new MyChannelsListAdapter(this, mChannelInfoToDisplay, mIsCheckedArray, this, mChannelCounter, mCheckedChannelsIds);
+					mListView.setAdapter(mAdapter);
 				}
-				if (search.length() > 0) {
-					if (search.length() > 3) {
-						search = search.substring(0, 3);
-					}
-					mChannelInfoToDisplay.clear();
-					for (Map.Entry<String, Channel> entry : mChannelInfoMap.entrySet()) {
-						String key = entry.getKey();
-						Channel channel = entry.getValue();
-						if (key.toLowerCase().contains(search.toLowerCase())) {
-							// mark the correct channels in the global list
+			} else {
+				// Toast.makeText(getApplicationContext(), "You have to be logged in to perform this action :)", Toast.LENGTH_SHORT).show();
+				Log.d(TAG, "Login action is required to be done before this");
+			}
 
-							mChannelInfoToDisplay.add(channel);
-							mAdapter.notifyDataSetChanged();
+			mSearchChannelInputEditText.addTextChangedListener(new TextWatcher() {
+				@Override
+				public void afterTextChanged(Editable s) {
+					String search = s.toString();
+					if (search.contains(System.getProperty("line.separator"))) {
+						search = search.replace(System.getProperty("line.separator"), "");
+						mSearchChannelInputEditText.setText(search);
+						InputMethodManager in = (InputMethodManager) getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
+						in.hideSoftInputFromWindow(mSearchChannelInputEditText.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+					}
+					if (search.length() > 0) {
+						if (search.length() > 3) {
+							search = search.substring(0, 3);
 						}
+						mChannelInfoToDisplay.clear();
+						for (Map.Entry<String, Channel> entry : mChannelInfoMap.entrySet()) {
+							String key = entry.getKey();
+							Channel channel = entry.getValue();
+							if (key.toLowerCase().contains(search.toLowerCase())) {
+								// mark the correct channels in the global list
+
+								mChannelInfoToDisplay.add(channel);
+								mAdapter.notifyDataSetChanged();
+							}
+						}
+					} else {
+						// mark the correct channels in the global list
+
+						mChannelInfoToDisplay.clear();
+						mChannelInfoToDisplay.addAll(mChannels);
+						mAdapter.notifyDataSetChanged();
 					}
-				} else {
-					// mark the correct channels in the global list
-
-					mChannelInfoToDisplay.clear();
-					mChannelInfoToDisplay.addAll(mChannels);
-					mAdapter.notifyDataSetChanged();
 				}
-			}
 
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
+				@Override
+				public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				}
 
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-			}
-		});
+				@Override
+				public void onTextChanged(CharSequence s, int start, int before, int count) {
+				}
+			});
+		} else {
+			updateUI(REQUEST_STATUS.LOADING);
+			loadPage();
 		}
 	}
 
 	private void updateChannelList() {
 		if (mIsChanged) {
-			//ArrayList<String> newIdsList = new ArrayList<String>();
-			//for (int i = 0; i < mIsCheckedArray.length; i++) {
-			//if (mIsCheckedArray[i]) {
-			//		newIdsList.add(mAllChannelsIds.get(i));
-			//	}
-			//}
-			//mCount = newIdsList.size();
-			//if (MyChannelsService.updateMyChannelsList(userToken, JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.DAZOO_CHANNEL_CHANNEL_ID, newIdsList))) {
+			// ArrayList<String> newIdsList = new ArrayList<String>();
+			// for (int i = 0; i < mIsCheckedArray.length; i++) {
+			// if (mIsCheckedArray[i]) {
+			// newIdsList.add(mAllChannelsIds.get(i));
+			// }
+			// }
+			// mCount = newIdsList.size();
+			// if (MyChannelsService.updateMyChannelsList(userToken, JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.DAZOO_CHANNEL_CHANNEL_ID, newIdsList))) {
 
 			mCount = mCheckedChannelsIds.size();
-			if(MyChannelsService.updateMyChannelsList(userToken, JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.DAZOO_CHANNEL_CHANNEL_ID, mCheckedChannelsIds))){
-			
+			if (MyChannelsService.updateMyChannelsList(userToken, JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.DAZOO_CHANNEL_CHANNEL_ID, mCheckedChannelsIds))) {
+
 				// clear guides
 				DazooStore.getInstance().clearMyGuidesStorage();
 				// update the my channels list
@@ -323,13 +332,33 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
-		// TODO Auto-generated method stub
-
+		if (super.requestIsSuccesfull(status)) {
+			Log.d(TAG, "SUCCESSFUL");
+			populateViews();
+		}
 	}
 
 	@Override
 	protected void loadPage() {
-		// TODO Auto-generated method stub
+		SSChannelPage.getInstance().getPage(Consts.MILLICOM_SECONDSCREEN_CHANNELS_ALL_PAGE_URL, new SSPageCallback() {
+			@Override
+			public void onGetPageResult(SSPageGetResult aPageGetResult) {
+				ArrayList<Channel> mAllChannels = SSChannelPage.getInstance().getChannels();
 
+				if (mAllChannels != null && mAllChannels.isEmpty() != true) {
+					Log.d(TAG, "ALL Channels: " + mAllChannels.size());
+					// store the list channels (used in the my profile/my guide)
+					DazooStoreOperations.saveAllChannels(mAllChannels);
+
+					// get info only about user channels
+					if (MyChannelsService.getMyChannels(userToken)) {
+						DazooCore.mIsMyChannels = true;
+					}
+					DazooCore.mIsAllChannels = true;
+					updateUI(REQUEST_STATUS.SUCCESSFUL);
+				}
+			}
+
+		});
 	}
 }
