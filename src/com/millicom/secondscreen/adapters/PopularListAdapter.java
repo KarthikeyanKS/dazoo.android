@@ -38,7 +38,7 @@ public class PopularListAdapter extends BaseAdapter {
 	private ImageLoader				mImageLoader;
 	private String					mToken;
 	private int						mCurrentPosition	= -1;
-	
+
 	private DazooStore				dazooStore;
 	private ArrayList<TvDate>		mTvDates;
 
@@ -101,10 +101,10 @@ public class PopularListAdapter extends BaseAdapter {
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 		if (broadcast != null) {
-			//Get the correct date name index
+			// Get the correct date name index
 			int dateIndex = 0;
 			for (int i = 0; i < mTvDates.size(); i++) {
-				//TODO VERIFY works
+				// TODO VERIFY works
 				if (broadcast.getBeginTimeStringGmt().contains(mTvDates.get(i).getDate())) {
 					dateIndex = i;
 					break;
@@ -112,12 +112,13 @@ public class PopularListAdapter extends BaseAdapter {
 			}
 			try {
 				mCurrentPosition = (Integer) holder.mTitleTv.getTag();
-				Log.d(TAG,"currentPosition:" + mCurrentPosition);
-				if(position % Consts.MILLICOM_SECONDSCREEN_API_POPULAR_COUNT_DEFAULT == 0){
-					holder.mHeaderTv.setText(mTvDates.get(dateIndex).getName() + " " + DateUtilities.tvDateStringToDatePickerString(mTvDates.get(dateIndex).getDate()));
-					holder.mHeaderContainer.setVisibility(View.VISIBLE);
-				}
-				else {
+				Log.d(TAG, "currentPosition:" + mCurrentPosition);
+				if (position % Consts.MILLICOM_SECONDSCREEN_API_POPULAR_COUNT_DEFAULT == 0) {
+					if (mTvDates != null && mTvDates.isEmpty() != true) {
+						holder.mHeaderTv.setText(mTvDates.get(dateIndex).getName() + " " + DateUtilities.tvDateStringToDatePickerString(mTvDates.get(dateIndex).getDate()));
+						holder.mHeaderContainer.setVisibility(View.VISIBLE);
+					}
+				} else {
 					holder.mHeaderContainer.setVisibility(View.GONE);
 				}
 			} catch (ParseException e) {
@@ -146,33 +147,33 @@ public class PopularListAdapter extends BaseAdapter {
 			} else {
 				holder.mTitleTv.setText(broadcast.getProgram().getTitle());
 			}
-			
+
 			holder.mTimeTv.setText(broadcast.getBeginTimeStringLocalHourAndMinute());
-		
+
 			holder.mChannelNameTv.setText(broadcast.getChannel().getName());
 
 			if (broadcast.isRunning()) {
 				holder.mProgressBar.setMax(broadcast.getDurationInMinutes());
-	
+
 				// Calculate the current progress of the ProgressBar and update.
 				int initialProgress = 0;
-				
+
 				if (broadcast.getTimeToBegin() > 0) {
 					holder.mProgressBar.setVisibility(View.GONE);
 					holder.mProgressBarTitleTv.setVisibility(View.GONE);
 					initialProgress = 0;
 					holder.mProgressBar.setProgress(0);
 				} else {
-					
-					initialProgress =  broadcast.minutesSinceStart();
-				
-					holder.mProgressBarTitleTv.setText(broadcast.getDurationInMinutes() - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
+
+					initialProgress = broadcast.minutesSinceStart();
+
+					holder.mProgressBarTitleTv.setText(broadcast.getDurationInMinutes() - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + " "
+							+ mActivity.getResources().getString(R.string.left));
 					holder.mProgressBar.setProgress(initialProgress);
 					holder.mProgressBar.setVisibility(View.VISIBLE);
 					holder.mProgressBarTitleTv.setVisibility(View.VISIBLE);
 				}
-			}
-			else {
+			} else {
 				holder.mProgressBar.setVisibility(View.GONE);
 				holder.mProgressBarTitleTv.setVisibility(View.GONE);
 			}
@@ -198,20 +199,19 @@ public class PopularListAdapter extends BaseAdapter {
 				}
 			}
 			holder.mContainer.setOnClickListener(new View.OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
 					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
-				
-					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE,  broadcast.getDayOfWeekString());
-		
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
+					intent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
 
 					mActivity.startActivity(intent);
 					mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-					
+
 				}
 			});
 		}

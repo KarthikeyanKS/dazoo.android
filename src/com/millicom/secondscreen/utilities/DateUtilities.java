@@ -77,7 +77,6 @@ public class DateUtilities {
 	}
 	
 	public static Date dateFromTvDateAndHour(TvDate tvDate, int hour) {
-		Log.d(TAG,"DATE: " + tvDate.getDate());
 		String year = DateUtilities.tvDateToYearNumber(tvDate.getDate());
 		String month = DateUtilities.tvDateToMonthNumber(tvDate.getDate());
 		String day = DateUtilities.tvDateToDayNumber(tvDate.getDate());

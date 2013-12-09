@@ -371,7 +371,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 			@Override
 			public void onGetPageResult(SSPageGetResult aPageGetResult) {
 				mUpcomingBroadcasts = SSBroadcastsFromSeriesPage.getInstance().getSeriesUpcomingBroadcasts();
-				Log.d(TAG, "broadcasts from SERIES: " + mUpcomingBroadcasts.size());
+
 				mIsSeries = true;
 				mIsUpcoming = true;
 				updateUI(REQUEST_STATUS.SUCCESSFUL);
@@ -391,17 +391,17 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 					hour = Integer.valueOf(DateUtilities.getCurrentHourString());
 					tvDate = new TvDate();
 					tvDate.setDate(mTvDate);
-					Log.d(TAG, "hour: " + hour + " TvDate: " + tvDate.getDate());
+					//Log.d(TAG, "hour: " + hour + " TvDate: " + tvDate.getDate());
 				} else {
 					hour = ((SecondScreenApplication) getApplicationContext()).getSelectedHour();
 					tvDate = DazooStore.getInstance().getDate(mTvDate);
-					Log.d(TAG, "hour: " + hour + " TvDate: " + tvDate.getDate());
+					//Log.d(TAG, "hour: " + hour + " TvDate: " + tvDate.getDate());
 				}
 				int indexOfNearestBroadcast = Broadcast.getClosestBroadcastIndexFromTime(mRepeatBroadcasts, hour, tvDate);
 
 				if (indexOfNearestBroadcast >= 0) {
 					mRepeatBroadcasts = Broadcast.getBroadcastsStartingFromPosition(indexOfNearestBroadcast, mRepeatBroadcasts, mRepeatBroadcasts.size());
-					Log.d(TAG, "broadcasts from program: " + mRepeatBroadcasts.size());
+					//Log.d(TAG, "broadcasts from program: " + mRepeatBroadcasts.size());
 				}
 				mIsRepeat = true;
 				updateUI(REQUEST_STATUS.SUCCESSFUL);

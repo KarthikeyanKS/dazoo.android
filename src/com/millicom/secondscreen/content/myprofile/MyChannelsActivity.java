@@ -8,6 +8,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
@@ -232,6 +233,12 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 			// mCount = newIdsList.size();
 			// if (MyChannelsService.updateMyChannelsList(userToken, JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.DAZOO_CHANNEL_CHANNEL_ID, newIdsList))) {
 
+			// do not allow dublications in the list of channels
+			HashSet myCheckedChannelsSet = new HashSet();
+			myCheckedChannelsSet.addAll(mCheckedChannelsIds);
+			mCheckedChannelsIds.clear();
+			mCheckedChannelsIds.addAll(myCheckedChannelsSet);
+			
 			mCount = mCheckedChannelsIds.size();
 			if (MyChannelsService.updateMyChannelsList(userToken, JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.DAZOO_CHANNEL_CHANNEL_ID, mCheckedChannelsIds))) {
 
