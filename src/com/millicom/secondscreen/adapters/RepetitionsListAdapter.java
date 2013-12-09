@@ -43,13 +43,13 @@ public class RepetitionsListAdapter extends BaseAdapter {
 	private NotificationDataSource	mNotificationDataSource;
 	private int						mLastPosition	= -1, mNotificationId = -1;
 	private boolean					mIsSet			= false, mIsFuture = false;
-	private Program mProgram;
+	private Program					mProgram;
 
 	private DazooStore				dazooStore;
 	private ArrayList<TvDate>		mTvDates;
 
 	public RepetitionsListAdapter(Activity activity, ArrayList<Broadcast> repeatingBroadcasts, Program program) {
-		this.mRepeatingEpisodes =repeatingBroadcasts;
+		this.mRepeatingEpisodes = repeatingBroadcasts;
 		this.mActivity = activity;
 		this.mImageLoader = new ImageLoader(mActivity, R.color.white);
 		this.mProgram = program;
@@ -107,11 +107,11 @@ public class RepetitionsListAdapter extends BaseAdapter {
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
 
 		if (broadcast != null) {
-			//Get the correct date name index
+			// Get the correct date name index
 			int dateIndex = 0;
 			boolean dateOutOfWeek = false;
 			for (int i = 0; i < mTvDates.size(); i++) {
-				//TODO verify works
+				// TODO verify works
 				if (broadcast.getBeginTimeStringGmt().contains(mTvDates.get(i).getDate())) {
 					dateIndex = i;
 					break;
@@ -124,17 +124,21 @@ public class RepetitionsListAdapter extends BaseAdapter {
 			try {
 				holder.mHeaderContainer.setVisibility(View.GONE);
 				holder.mDivider.setVisibility(View.VISIBLE);
-				//TODO verify works
-				if (position == 0 || DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmt()).equals(
-						DateUtilities.tvDateStringToDatePickerString(getItem(position-1).getBeginTimeStringGmt())) == false) {
+				// TODO verify works
+				if (position == 0
+						|| DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmt()).equals(
+								DateUtilities.tvDateStringToDatePickerString(getItem(position - 1).getBeginTimeStringGmt())) == false) {
 					if (dateOutOfWeek == false) {
-						holder.mHeader.setText(mTvDates.get(dateIndex).getName() + " " + 
-							DateUtilities.tvDateStringToDatePickerString(mTvDates.get(dateIndex).getDate()));
-						holder.mHeaderContainer.setVisibility(View.VISIBLE);
+
+						if (mTvDates != null && mTvDates.isEmpty() != true) {
+							holder.mHeader.setText(mTvDates.get(dateIndex).getName() + " " + DateUtilities.tvDateStringToDatePickerString(mTvDates.get(dateIndex).getDate()));
+							holder.mHeaderContainer.setVisibility(View.VISIBLE);
+						}
 					}
 				}
-				if (position != (getCount() - 1) && DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmt()).equals(
-						DateUtilities.tvDateStringToDatePickerString(getItem(position + 1).getBeginTimeStringGmt())) == false) {
+				if (position != (getCount() - 1)
+						&& DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmt()).equals(
+								DateUtilities.tvDateStringToDatePickerString(getItem(position + 1).getBeginTimeStringGmt())) == false) {
 					holder.mDivider.setVisibility(View.GONE);
 				}
 			} catch (ParseException e) {
@@ -192,7 +196,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 
 								mIsSet = true;
 							} else {
-								//Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
+								// Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
 								Log.d(TAG, "!!! Setting notification faced an error !!!");
 							}
 						} else {
@@ -200,7 +204,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 								NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
 								notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId, yesNotificationProc(holder.mReminderIv), noNotificationProc());
 							} else {
-								//Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
+								// Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
 								Log.d(TAG, "!!! Could not find such reminder in DB !!!");
 							}
 						}

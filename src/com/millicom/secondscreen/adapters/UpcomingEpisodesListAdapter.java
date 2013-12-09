@@ -102,11 +102,11 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
 
 		if (broadcast != null) {
-			//Get the correct date name index
+			// Get the correct date name index
 			int dateIndex = 0;
 			boolean dateOutOfWeek = false;
 			for (int i = 0; i < mTvDates.size(); i++) {
-				//verify works
+				// verify works
 				if (broadcast.getBeginTimeStringGmt().contains(mTvDates.get(i).getDate())) {
 					dateIndex = i;
 					break;
@@ -119,16 +119,20 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 			try {
 				holder.mHeaderContainer.setVisibility(View.GONE);
 				holder.mDivider.setVisibility(View.VISIBLE);
-				if (position == 0 || DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmt()).equals(
-						DateUtilities.tvDateStringToDatePickerString(getItem(position - 1).getBeginTimeStringGmt())) == false) {
+				if (position == 0
+						|| DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmt()).equals(
+								DateUtilities.tvDateStringToDatePickerString(getItem(position - 1).getBeginTimeStringGmt())) == false) {
 					if (dateOutOfWeek == false) {
-						holder.mHeader.setText(mTvDates.get(dateIndex).getName() + " " + 
-							DateUtilities.tvDateStringToDatePickerString(mTvDates.get(dateIndex).getDate()));
-						holder.mHeaderContainer.setVisibility(View.VISIBLE);
+						if (mTvDates != null && mTvDates.isEmpty() != true) {
+
+							holder.mHeader.setText(mTvDates.get(dateIndex).getName() + " " + DateUtilities.tvDateStringToDatePickerString(mTvDates.get(dateIndex).getDate()));
+							holder.mHeaderContainer.setVisibility(View.VISIBLE);
+						}
 					}
 				}
-				if (position != (getCount() - 1) && DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmt()).equals(
-						DateUtilities.tvDateStringToDatePickerString(getItem(position + 1).getBeginTimeStringGmt())) == false) {
+				if (position != (getCount() - 1)
+						&& DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmt()).equals(
+								DateUtilities.tvDateStringToDatePickerString(getItem(position + 1).getBeginTimeStringGmt())) == false) {
 					holder.mDivider.setVisibility(View.GONE);
 				}
 			} catch (ParseException e) {
@@ -155,6 +159,8 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
+			
+			Log.d(TAG, "mIsFuture");
 
 			if (!mIsFuture) {
 				NotificationDbItem dbItem = new NotificationDbItem();
@@ -192,7 +198,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 
 								mIsSet = true;
 							} else {
-								//Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
+								// Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
 								Log.d(TAG, "!!! Setting notification faced an error !!!");
 							}
 						} else {
@@ -200,7 +206,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 								NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
 								notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId, yesNotificationProc(holder.mReminderIv), noNotificationProc());
 							} else {
-								//Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
+								// Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
 								Log.d(TAG, "!!! Could not find such reminder in DB !!!");
 							}
 						}
@@ -218,6 +224,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
+					intent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
 
 					mActivity.startActivity(intent);
 					mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
