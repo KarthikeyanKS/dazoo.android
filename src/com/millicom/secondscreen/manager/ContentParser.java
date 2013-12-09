@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.R.id;
 import android.util.Log;
 
 import com.millicom.secondscreen.Consts;
@@ -140,25 +141,25 @@ public class ContentParser {
 
 	public static Channel parseChannel(JSONObject jsonChannel) throws Exception {
 		Channel channel = new Channel(jsonChannel);
-		
+
 		return channel;
 	}
 
 	public static Broadcast parseBroadcast(JSONObject jsonBroadcast) throws Exception {
 		Broadcast broadcast = new Broadcast(jsonBroadcast);
-		
+
 		return broadcast;
 	}
 
 	public static Program parseProgram(JSONObject jsonProgram) throws Exception {
 		Program program = new Program();
-		
+
 		return program;
 	}
 
 	public static SportType parseSportType(JSONObject jsonSportType) throws Exception {
 		SportType sportType = new SportType(jsonSportType);
-		
+
 		return sportType;
 	}
 
@@ -260,21 +261,16 @@ public class ContentParser {
 		String itemType = jsonObject.optString(Consts.DAZOO_FEED_ITEM_ITEM_TYPE);
 		feedItem.setItemType(itemType);
 
-		if (Consts.DAZOO_FEED_ITEM_TYPE_BROADCAST.equals(itemType)) {
+		if (Consts.DAZOO_FEED_ITEM_TYPE_BROADCAST.equals(itemType) || Consts.DAZOO_FEED_ITEM_POPULAR_BROADCAST.equals(itemType) || Consts.DAZOO_FEED_ITEM_TYPE_RECOMMENDED_BROADCAST.equals(itemType)
+				|| Consts.DAZOO_FEED_ITEM_TYPE_POPULAR_TWITTER.equals(itemType)) {
 			feedItem.setTitle(jsonObject.optString(Consts.DAZOO_FEED_ITEM_TITLE));
 			try {
 				feedItem.setBroadcast(parseBroadcast(jsonObject.optJSONObject(Consts.DAZOO_FEED_ITEM_BROADCAST)));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else if (Consts.DAZOO_FEED_ITEM_TYPE_RECOMMENDED_BROADCAST.equals(itemType)) {
-			feedItem.setTitle(jsonObject.optString(Consts.DAZOO_FEED_ITEM_TITLE));
-			try {
-				feedItem.setBroadcast(parseBroadcast(jsonObject.optJSONObject(Consts.DAZOO_FEED_ITEM_BROADCAST)));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		} else if (Consts.DAZOO_FEED_ITEM_TYPE_POPULAR_BROADCASTS.equals(itemType)) {
+		}
+		else if (Consts.DAZOO_FEED_ITEM_TYPE_POPULAR_BROADCASTS.equals(itemType)) {
 			feedItem.setTitle(jsonObject.optString(Consts.DAZOO_FEED_ITEM_TITLE));
 			JSONArray broadcastsJSONArray = jsonObject.optJSONArray(Consts.DAZOO_FEED_ITEM_BROADCASTS);
 			int size = broadcastsJSONArray.length();
@@ -288,13 +284,6 @@ public class ContentParser {
 				}
 			}
 			feedItem.setBroadcasts(broadcasts);
-		} else if (Consts.DAZOO_FEED_ITEM_TYPE_POPULAR_TWITTER.equals(itemType)) {
-			feedItem.setTitle(jsonObject.optString(Consts.DAZOO_FEED_ITEM_TITLE));
-			try {
-				feedItem.setBroadcast(parseBroadcast(jsonObject.optJSONObject(Consts.DAZOO_FEED_ITEM_BROADCAST)));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 		}
 		return feedItem;
 	}
