@@ -138,6 +138,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 
 	private void populateViews() {
 		mChannelsMap = DazooStore.getInstance().getAllChannels();
+		if(mChannelsMap !=null && mChannelsMap.isEmpty()!=true){
 
 		int allChannelsIndex = 0;
 		for (Entry<String, Channel> entry : mChannelsMap.entrySet()) {
@@ -208,6 +209,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 			}
 		});
+		}
 	}
 
 	private void updateChannelList() {

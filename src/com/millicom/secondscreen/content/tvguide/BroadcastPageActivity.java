@@ -43,6 +43,7 @@ import com.millicom.secondscreen.content.model.Program;
 import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
 import com.millicom.secondscreen.http.NetworkUtils;
 import com.millicom.secondscreen.storage.DazooStore;
+import com.millicom.secondscreen.utilities.DateUtilities;
 
 public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity implements OnClickListener {
 
@@ -384,8 +385,18 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 			@Override
 			public void onGetPageResult(SSPageGetResult aPageGetResult) {
 				mRepeatBroadcasts = SSBroadcastsFromProgramPage.getInstance().getProgramBroadcasts();
-				int hour = ((SecondScreenApplication) getApplicationContext()).getSelectedHour();
-				TvDate tvDate = DazooStore.getInstance().getDate(mTvDate);
+				int hour;
+				TvDate tvDate;
+				if(mIsFromNotification){
+					hour = Integer.valueOf(DateUtilities.getCurrentHourString());
+					tvDate = new TvDate();
+					tvDate.setDate(mTvDate);
+					Log.d(TAG, "hour: " + hour + " TvDate: " + tvDate.getDate());
+				} else {
+					hour = ((SecondScreenApplication) getApplicationContext()).getSelectedHour();
+					tvDate = DazooStore.getInstance().getDate(mTvDate);
+					Log.d(TAG, "hour: " + hour + " TvDate: " + tvDate.getDate());
+				}
 				int indexOfNearestBroadcast = Broadcast.getClosestBroadcastIndexFromTime(mRepeatBroadcasts, hour, tvDate);
 
 				if (indexOfNearestBroadcast >= 0) {
