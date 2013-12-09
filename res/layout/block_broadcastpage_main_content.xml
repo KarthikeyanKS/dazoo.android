@@ -269,6 +269,7 @@
 					android:id="@+id/block_social_panel_like_button_iv"
 					android:layout_width="24dp"
 					android:layout_height="24dp"
+					android:layout_margin="5dp"
 					android:layout_centerInParent="true"  />
 	           
 			</RelativeLayout>
@@ -300,6 +301,7 @@
 					android:id="@+id/block_social_panel_share_button_iv"
 					android:layout_width="24dp"
 					android:layout_height="24dp"
+					android:layout_margin="5dp"
 					android:layout_centerInParent="true"
 					android:src="@drawable/ic_share_default" />
 	
@@ -332,6 +334,7 @@
 					android:id="@+id/block_social_panel_remind_button_iv"
 					android:layout_width="24dp"
 					android:layout_height="24dp"
+					android:layout_margin="5dp"
 					android:layout_centerInParent="true" />
 	
 			</RelativeLayout>

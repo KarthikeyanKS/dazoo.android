@@ -4,6 +4,7 @@ import java.text.ParseException;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -161,7 +162,8 @@ public class ActivityLikedBlockPopulator {
 						likeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
 						mIsLiked = true;
 					} else {
-						Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
+						//Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
+						Log.d(TAG, "!!! Adding a like faced an error !!!");
 					}
 				} else {
 					LikeDialogHandler likeDlg = new LikeDialogHandler();
@@ -195,14 +197,16 @@ public class ActivityLikedBlockPopulator {
 
 						mIsSet = true;
 					} else {
-						Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
+						//Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
+						Log.d(TAG, "!!! Setting notification faced an error !!!");
 					}
 				} else {
 					if (mNotificationId != -1) {
 						NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
 						notificationDlg.showRemoveNotificationDialog(mActivity, popularItem.getBroadcast(), mNotificationId, yesNotificationProc(), noNotificationProc());
 					} else {
-						Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
+						//Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
+						Log.d(TAG, "!!! Could not find such reminder in DB !!!");
 					}
 				}
 

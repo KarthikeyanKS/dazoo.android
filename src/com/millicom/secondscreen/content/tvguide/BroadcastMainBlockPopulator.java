@@ -215,7 +215,8 @@ public class BroadcastMainBlockPopulator {
 			NotificationDbItem dbItem = new NotificationDbItem();
 			// Sometime channel is null, avoiding crash
 			if (broadcast.getChannel() == null) {
-				Toast.makeText(mActivity, "Channel null", Toast.LENGTH_LONG).show();
+				//Toast.makeText(mActivity, "Channel null", Toast.LENGTH_LONG).show();
+				Log.d(TAG, "Channe is null");
 			}
 			else {
 				dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
@@ -259,7 +260,8 @@ public class BroadcastMainBlockPopulator {
 
 							mIsLiked = true;
 						} else {
-							Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
+							//Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
+							Log.d(TAG, "!!! Adding a like faced an error !!!");
 						}
 
 					} else {
@@ -307,14 +309,16 @@ public class BroadcastMainBlockPopulator {
 
 							mIsSet = true;
 						} else {
-							Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
+							//Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
+							Log.d(TAG, "!!! Setting notification faced an error !!!");
 						}
 					} else {
 						if (mNotificationId != -1) {
 							NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
 							notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId, yesNotificationProc(), noNotificationProc());
 						} else {
-							Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
+							//Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
+							Log.d(TAG, "!!! Could not find such reminder in DB !!!");
 						}
 					}
 				} 

@@ -94,7 +94,7 @@ public class ResetPasswordActivity extends ActionBarActivity implements OnClickL
 					int responseCode = resetPasswordTask.execute(emailInput).get();
 					Log.d(TAG, "responseCode: " + responseCode);
 					if (Consts.GOOD_RESPONSE_RESET_PASSWORD == responseCode) {
-						Toast.makeText(getApplicationContext(), "The password is successfully reset. Check your mailbox!", Toast.LENGTH_SHORT).show();
+						//Toast.makeText(getApplicationContext(), "The password is successfully reset. Check your mailbox!", Toast.LENGTH_SHORT).show();
 						Log.d(TAG, "Password is reset");
 
 						Intent intent = new Intent(ResetPasswordActivity.this, ResetPasswordFinalActivity.class);
@@ -103,7 +103,7 @@ public class ResetPasswordActivity extends ActionBarActivity implements OnClickL
 						finish();
 
 					} else if (Consts.BAD_RESPONSE == responseCode) {
-						Toast.makeText(getApplicationContext(), "Error! Email is not found!", Toast.LENGTH_SHORT).show();
+						//Toast.makeText(getApplicationContext(), "Error! Email is not found!", Toast.LENGTH_SHORT).show();
 						Log.d(TAG, "Error! Reset password : level backend");
 					}
 				} catch (InterruptedException e) {
@@ -113,7 +113,7 @@ public class ResetPasswordActivity extends ActionBarActivity implements OnClickL
 				}
 			} else {
 				mEmailResetPasswordEditText.setEnabled(true);
-				Toast.makeText(getApplicationContext(), "Please enter a valid e-mail address", Toast.LENGTH_SHORT).show();
+				//Toast.makeText(getApplicationContext(), "Please enter a valid e-mail address", Toast.LENGTH_SHORT).show();
 				Log.d(TAG, "Email input is required");
 			}
 			break;

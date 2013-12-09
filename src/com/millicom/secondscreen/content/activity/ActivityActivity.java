@@ -204,7 +204,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			}
 		}
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
@@ -403,9 +403,14 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 				if (Consts.GOOD_RESPONSE == response.getStatusLine().getStatusCode()) {
 					Log.d(TAG, "GOOD RESPONSE");
 
-					mRequestAge = Integer.valueOf(response.getFirstHeader("Age").getValue());
-					mRequestMaxAge = Integer.valueOf(response.getFirstHeader("Cache-Control").getValue().substring(8));
-					mNextRequestTime = mRequestMaxAge - mRequestAge;
+					// comment for beta
+					//if (response.getFirstHeader("Age") != null) {
+					//	mRequestAge = Integer.valueOf(response.getFirstHeader("Age").getValue());
+					//}
+					//if (response.getFirstHeader("Cache-Control").getValue().substring(8) != null) {
+					//	mRequestMaxAge = Integer.valueOf(response.getFirstHeader("Cache-Control").getValue().substring(8));
+					//}
+					//mNextRequestTime = mRequestMaxAge - mRequestAge;
 
 					HttpEntity entityHttp = response.getEntity();
 					InputStream inputStream = entityHttp.getContent();
@@ -463,17 +468,20 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 	}
 
 	private void scheduleFeedRefresh() {
-		final Handler handler = new Handler();
-		handler.postDelayed(new Runnable() {
+		if (mNextRequestTime != 0) {
 
-			@Override
-			public void run() {
-				DazooStore.getInstance().reinitializeFeed();
-				activityFeed.clear();
-				activityFeed = new ArrayList<FeedItem>();
-				loadPage();
-			}
-		}, mNextRequestTime * 1000);
+			final Handler handler = new Handler();
+			handler.postDelayed(new Runnable() {
+
+				@Override
+				public void run() {
+					DazooStore.getInstance().reinitializeFeed();
+					activityFeed.clear();
+					activityFeed = new ArrayList<FeedItem>();
+					loadPage();
+				}
+			}, mNextRequestTime * 1000);
+		}
 	}
 
 	class GetFeedTask extends AsyncTask<Void, Void, Boolean> {
@@ -494,8 +502,9 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 					}
 				}
 
+				// comment for beta
 				// schedule the next feed update
-				scheduleFeedRefresh();
+				//scheduleFeedRefresh();
 
 			} else {
 				Log.d(TAG, "No backend response");
@@ -535,14 +544,14 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 				HttpResponse response = httpClient.execute(httpGet);
 
 				if (Consts.GOOD_RESPONSE == response.getStatusLine().getStatusCode()) {
-					Log.d(TAG, "" + response.getFirstHeader("Age"));
-					Log.d(TAG, "" + response.getFirstHeader("Cache-Control"));
-
-					mRequestAge = Integer.valueOf(response.getFirstHeader("Age").getValue());
-					mRequestMaxAge = Integer.valueOf(response.getFirstHeader("Cache-Control").getValue().substring(8));
-					mNextRequestTime = mRequestMaxAge - mRequestAge;
-
-					Log.d(TAG, "AGE: " + mRequestAge + " Max Age: " + mRequestMaxAge + " Next time: " + mNextRequestTime);
+					//Log.d(TAG, "" + response.getFirstHeader("Age"));
+					//Log.d(TAG, "" + response.getFirstHeader("Cache-Control"));
+					//
+					//mRequestAge = Integer.valueOf(response.getFirstHeader("Age").getValue());
+					//mRequestMaxAge = Integer.valueOf(response.getFirstHeader("Cache-Control").getValue().substring(8));
+					//mNextRequestTime = mRequestMaxAge - mRequestAge;
+					//
+					//Log.d(TAG, "AGE: " + mRequestAge + " Max Age: " + mRequestMaxAge + " Next time: " + mNextRequestTime);
 
 					Log.d(TAG, "GOOD RESPONSE");
 					HttpEntity entityHttp = response.getEntity();

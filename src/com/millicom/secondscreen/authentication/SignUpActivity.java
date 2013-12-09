@@ -231,8 +231,9 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 						if (dazooToken != null && TextUtils.isEmpty(dazooToken) != true) {
 							((SecondScreenApplication) getApplicationContext()).setAccessToken(dazooToken);
 							if (AuthenticationService.storeUserInformation(this, dazooRegJSON)) {
-								Toast.makeText(getApplicationContext(), "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName(), Toast.LENGTH_SHORT).show();
-
+								//Toast.makeText(getApplicationContext(), "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName(), Toast.LENGTH_SHORT).show();
+								Log.d(TAG, "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName());
+								
 								// go to Start page
 								Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
 								startActivity(intent);
@@ -240,10 +241,12 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 								finish();
 
 							} else {
-								Toast.makeText(getApplicationContext(), "Failed to fetch the user information from backend.", Toast.LENGTH_SHORT).show();
+								//Toast.makeText(getApplicationContext(), "Failed to fetch the user information from backend.", Toast.LENGTH_SHORT).show();
+								Log.d(TAG, "!!! Failed to fetch the user information from backend !!!");
 							}
 						} else {
-							Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with Dazoo. Please, try again later!", Toast.LENGTH_LONG).show();
+							//Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with Dazoo. Please, try again later!", Toast.LENGTH_LONG).show();
+							Log.d(TAG, "Error! Something went wrong while creating an account with Dazoo. Please, try again later!");
 						}
 					} else {
 //						Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with us. Please, try again later!", Toast.LENGTH_SHORT).show();
