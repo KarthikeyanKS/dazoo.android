@@ -610,6 +610,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 				case ITEM_TYPE_POPULAR_BROADCAST:
 				case ITEM_TYPE_BROADCAST:
+					Log.d(TAG, "popular: " + feedItem.getItemType());
+					
 					if (convertView == null) {
 						convertView = LayoutInflater.from(mActivity).inflate(R.layout.block_feed_liked, null);
 
