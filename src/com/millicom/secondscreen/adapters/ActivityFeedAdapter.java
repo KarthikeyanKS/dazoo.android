@@ -266,6 +266,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
 		intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
 		intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
+		intent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
 
 		mActivity.startActivity(intent);
 		mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
@@ -692,6 +693,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
 							intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
 							intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
+							intent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
 
 							mActivity.startActivity(intent);
 							mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
@@ -806,8 +808,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							NotificationDbItem dbItem = new NotificationDbItem();
 
 							dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
-							Log.d(TAG, "DOWN: " + broadcast.getChannel().getChannelId() + " " + broadcast.getBeginTimeMillisGmt());
-
+						
 							if (dbItem.getNotificationId() != 0) {
 								Log.d(TAG, "dbItem: " + dbItem.getProgramTitle() + " " + dbItem.getNotificationId());
 								mNotificationId = dbItem.getNotificationId();
@@ -816,22 +817,14 @@ public class ActivityFeedAdapter extends BaseAdapter {
 								mIsSet = false;
 							}
 
-							Log.d(TAG, "lIKED REMIND: " + mIsSet);
-
 							if (mIsSet == false) {
 								if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), broadcast.getTvDateString())) {
 									NotificationService.showSetNotificationToast(mActivity);
 									holderBC.remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 									NotificationDbItem dbItemRemind = new NotificationDbItem();
-									Log.d(TAG, "broadcast.getChannel().getChannelId()" + broadcast.getChannel().getChannelId());
-									Log.d(TAG, "broadcast.getBeginTimeMillis()" + broadcast.getBeginTimeMillisGmt());
-
 									dbItemRemind = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(),
 											broadcast.getBeginTimeMillisGmt());
-									Log.d(TAG, "db Item: " + dbItemRemind.getNotificationId() + " " + dbItemRemind.getBroadcastTimeInMillis() + " "
-											+ dbItemRemind.getChannelId() + " " + dbItemRemind.getProgramTitle());
-
 									mNotificationId = dbItemRemind.getNotificationId();
 
 									AnimationUtilities.animationSet(holderBC.remindLikeIv);
