@@ -50,11 +50,12 @@ public class ActivityFeedAdapter extends BaseAdapter {
 	private ArrayList<FeedItem>		mFeedItems;
 	private ImageLoader				mImageLoader;
 
-	private int						DAZOO_ACTIVITY_BLOCKS_TYPE_NUMBER	= 4;
+	private int						DAZOO_ACTIVITY_BLOCKS_TYPE_NUMBER	= 5;
 	private static final int		ITEM_TYPE_BROADCAST					= 0;
 	private static final int		ITEM_TYPE_RECOMMENDED_BROADCAST		= 1;
 	private static final int		ITEM_TYPE_POPULAR_BROADCASTS		= 2;
 	private static final int		ITEM_TYPE_POPULAR_TWITTER			= 3;
+	private static final int 		ITEM_TYPE_POPULAR_BROADCAST 		= 4;
 
 	private String					mToken;
 	private int						mNotificationId;
@@ -119,6 +120,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			return ITEM_TYPE_RECOMMENDED_BROADCAST;
 		} else if (Consts.DAZOO_FEED_ITEM_TYPE_POPULAR_TWITTER.equals(feedItemType)) {
 			return ITEM_TYPE_POPULAR_TWITTER;
+		} else if (Consts.DAZOO_FEED_ITEM_POPULAR_BROADCAST.equals(feedItemType)) {
+			return ITEM_TYPE_POPULAR_BROADCAST;
 		}
 		return ITEM_TYPE_BROADCAST;
 	}
@@ -605,6 +608,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 					break;
 
+				case ITEM_TYPE_POPULAR_BROADCAST:
 				case ITEM_TYPE_BROADCAST:
 					if (convertView == null) {
 						convertView = LayoutInflater.from(mActivity).inflate(R.layout.block_feed_liked, null);
