@@ -167,7 +167,9 @@ public class PopularListAdapter extends BaseAdapter {
 
 					initialProgress = broadcast.minutesSinceStart();
 
-					holder.mProgressBarTitleTv.setText(broadcast.getDurationInMinutes() - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + " "
+					int timeLeft = broadcast.getDurationInMinutes() - initialProgress;
+					
+					holder.mProgressBarTitleTv.setText(timeLeft + " " + mActivity.getResources().getString(R.string.minutes) + " "
 							+ mActivity.getResources().getString(R.string.left));
 					holder.mProgressBar.setProgress(initialProgress);
 					holder.mProgressBar.setVisibility(View.VISIBLE);

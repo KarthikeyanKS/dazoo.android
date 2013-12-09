@@ -1077,6 +1077,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		}
 		else {
 			/* No content */
+			convertView = LayoutInflater.from(mActivity).inflate(R.layout.no_data, null);
 		}
 		return convertView;
 	}
