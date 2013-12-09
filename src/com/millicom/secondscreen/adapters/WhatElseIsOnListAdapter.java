@@ -117,14 +117,14 @@ public class WhatElseIsOnListAdapter extends BaseAdapter {
 			//MC - Calculate the current progress of the ProgressBar and update.
 			int initialProgress = 0;
 
-			if (broadcast.getTimeSinceBegin() < 0) {
+			if (broadcast.getTimeToBegin() > 0) {
 				holder.mDurationPb.setVisibility(View.GONE);
 				initialProgress = 0;
 				holder.mDurationPb.setProgress(0);
 			} 
 			else {
 		
-				initialProgress = (int) broadcast.getTimeSinceBegin() / (1000 * 60);
+				initialProgress =  broadcast.minutesSinceStart();
 		
 				holder.mTimeleftTv.setText(broadcast.getDurationInMinutes() - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + 
 						" " + mActivity.getResources().getString(R.string.left));
