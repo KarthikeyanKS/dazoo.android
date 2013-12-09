@@ -373,19 +373,18 @@ public class Broadcast implements Parcelable {
 	public String toString() {
 		return "\n beginTime: " + beginTimeStringGmt + "\n endTime: " + endTimeStringGmt + "\n channel: " + channel + "\n program: " + program + "\n shareUrl" + shareUrl;
 	}
-
+	
 	public static int getClosestBroadcastIndexUsingTime(ArrayList<Broadcast> broadcastList, long timeNow) {
 		int nearestIndex = -1;
 
-		long bestDistanceFoundYet = Long.MAX_VALUE;
 		for (int i = 0; i < broadcastList.size(); i++) {
 			Broadcast broadcast = broadcastList.get(i);
-			long timeBroadcast = broadcast.getBeginTimeMillisLocal();	
-			long d = Math.abs(timeNow - timeBroadcast);
-			if (d < bestDistanceFoundYet && timeNow <= timeBroadcast) {
-				// if (d < bestDistanceFoundYet) {
+			long endTime = broadcast.getEndTimeMillisGmt();
+			boolean hasNotEnded = (timeNow <= endTime);
+			
+			if(hasNotEnded) {
 				nearestIndex = i;
-				bestDistanceFoundYet = d;
+				break;
 			}
 		}
 		return nearestIndex;
@@ -393,10 +392,6 @@ public class Broadcast implements Parcelable {
 
 	public static int getClosestBroadcastIndex(ArrayList<Broadcast> broadcastList) {
 		int nearestIndex = -1;
-
-		// get the time now
-//		SimpleDateFormat df = new SimpleDateFormat(Consts.ISO_DATE_FORMAT, Locale.getDefault());
-//		String timeNowStr = df.format(new Date());
 		Date currentDate = new Date();
 		long timeNow = currentDate.getTime();
 
@@ -407,9 +402,7 @@ public class Broadcast implements Parcelable {
 
 	public static int getClosestBroadcastIndexFromTime(ArrayList<Broadcast> broadcastList, int hour, TvDate date) {
 		int nearestIndex = 0;
-
 		long timeNow = DateUtilities.timeAsLongFromTvDateAndHour(date, hour);
-
 		nearestIndex = getClosestBroadcastIndexUsingTime(broadcastList, timeNow);
 
 		return nearestIndex;
