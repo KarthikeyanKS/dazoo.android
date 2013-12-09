@@ -39,6 +39,7 @@ public class BroadcastUpcomingBlockPopulator {
 	private ImageView				mReminderOneIv, mReminderTwoIv, mReminderThreeIv;
 	private String					mTvDate;
 	private Broadcast				mRunningBroadcast;
+	private ArrayList<Broadcast> 	mUpcomingEpisodes;
 
 	private boolean					mIsFutureOne	= false, mIsFutureTwo = false, mIsFutureThree = false, mIsSetOne = false, mIsSetTwo = false, mIsSetThree = false, mIsSeries;
 
@@ -66,6 +67,8 @@ public class BroadcastUpcomingBlockPopulator {
 		if(foundRunningBroadcast) {
 			upcomingBroadcasts.remove(indexOfRunningBroadcast);
 		}
+		
+		mUpcomingEpisodes = upcomingBroadcasts;
 		
 		
 		LinearLayout containerView = (LinearLayout) mContainerView.findViewById(R.id.broacastpage_block_container_layout);
@@ -102,7 +105,7 @@ public class BroadcastUpcomingBlockPopulator {
 					if (!season.equals("0")) {
 						seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + season + " ";
 					}
-					if (episode != 0) {
+					if (episode > 0) {
 						seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + episode;
 					}
 					mSeasonEpisodeOneTv.setText(seasonEpisode);
@@ -218,7 +221,7 @@ public class BroadcastUpcomingBlockPopulator {
 					if (!season.equals("0")) {
 						seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + season + " ";
 					}
-					if (episode != 0) {
+					if (episode > 0) {
 						seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + episode;
 					}
 					mSeasonEpisodeTwoTv.setText(seasonEpisode);
@@ -335,7 +338,7 @@ public class BroadcastUpcomingBlockPopulator {
 					if (!season.equals("0")) {
 						seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + season + " ";
 					}
-					if (episode != 0) {
+					if (episode > 0) {
 						seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + episode;
 					}
 					mSeasonEpisodeThreeTv.setText(seasonEpisode);
@@ -444,7 +447,10 @@ public class BroadcastUpcomingBlockPopulator {
 
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 		layoutParams.setMargins(10, 10, 10, 10);
-		containerView.addView(topContentView, layoutParams);
+		
+		if(mUpcomingEpisodes.size() > 0) {
+			containerView.addView(topContentView, layoutParams);
+		}
 	}
 
 	public Runnable yesNotificationThreeProc() {

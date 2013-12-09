@@ -212,7 +212,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 								if (!season.equals("0")) {
 									seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + season + " ";
 								}
-								if (episode != 0) {
+								if (episode > 0) {
 									seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + episode;
 								}
 								details.setText(seasonEpisode);
@@ -432,7 +432,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							if (!season.equals("0")) {
 								seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + season + " ";
 							}
-							if (episode != 0) {
+							if (episode > 0) {
 								seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + episode;
 							}
 							if (season.equals("0") && episode == 0) {
@@ -672,7 +672,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							if (!season.equals("0")) {
 								seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + season + " ";
 							}
-							if (episode != 0) {
+							if (episode > 0) {
 								seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + episode;
 							}
 							if (season.equals("0") && episode == 0) {
@@ -914,7 +914,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							if (!season.equals("0")) {
 								seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + season + " ";
 							}
-							if (episode != 0) {
+							if (episode > 0) {
 								seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + episode;
 							}
 							holderRBC.detailsTvRec.setText(seasonEpisode);

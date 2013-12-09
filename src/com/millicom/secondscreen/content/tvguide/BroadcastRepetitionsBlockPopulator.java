@@ -37,6 +37,7 @@ public class BroadcastRepetitionsBlockPopulator {
 	private ImageView				mReminderOneIv, mReminderTwoIv, mReminderThreeIv;
 	private String					mTvDate;
 	private Broadcast mRunningBroadcast;
+	private ArrayList<Broadcast> 	mRepeatingBroadcasts;
 
 	private boolean					mIsFutureOne	= false, mIsFutureTwo = false, mIsFutureThree = false, mIsSetOne = false, mIsSetTwo = false, mIsSetThree = false, mIsSeries;
 
@@ -65,6 +66,7 @@ public class BroadcastRepetitionsBlockPopulator {
 			repeatingBroadcasts.remove(indexOfRunningBroadcast);
 		}
 
+		mRepeatingBroadcasts = repeatingBroadcasts;
 		
 		// the same layout as for the Upcoming Episodes for series is used, as the elements are the same, except for the title
 		LinearLayout containerView = (LinearLayout) mContainerView.findViewById(R.id.broacastpage_block_container_layout);
@@ -398,7 +400,9 @@ public class BroadcastRepetitionsBlockPopulator {
 
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 		layoutParams.setMargins(10, 10, 10, 10);
-		containerView.addView(topContentView, layoutParams);
+		if(mRepeatingBroadcasts.size() > 0) {
+			containerView.addView(topContentView, layoutParams);
+		}
 		
 	}
 	

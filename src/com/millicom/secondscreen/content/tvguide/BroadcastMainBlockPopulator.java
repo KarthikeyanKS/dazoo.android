@@ -109,7 +109,7 @@ public class BroadcastMainBlockPopulator {
 				seasonTv.setText(mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " ");
 				seasonTv.setVisibility(View.VISIBLE);
 			}
-			if (program.getEpisodeNumber() != 0) {
+			if (program.getEpisodeNumber() > 0) {
 				episodeTv.setText(mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(program.getEpisodeNumber()));
 				episodeTv.setVisibility(View.VISIBLE);
 			}
