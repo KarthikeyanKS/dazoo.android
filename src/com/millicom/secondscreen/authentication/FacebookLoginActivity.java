@@ -76,20 +76,19 @@ public class FacebookLoginActivity extends ActionBarActivity {
 		initViews();
 
 		// generation of the ssh key for the facebook
-		PackageInfo info;
-		try {
-		info = getPackageManager().getPackageInfo("com.millicom.secondscreen", PackageManager.GET_SIGNATURES);
-		for (Signature signature : info.signatures)
-		{
-		 MessageDigest md = MessageDigest.getInstance("SHA");
-		 md.update(signature.toByteArray());
-		 Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-		 }
-		 } catch (NameNotFoundException e) {
-		 e.printStackTrace();
-		 } catch (NoSuchAlgorithmException e) {
-		 e.printStackTrace();
-		 }
+		//PackageInfo info;
+		//try {
+		//	info = getPackageManager().getPackageInfo("com.millicom.secondscreen", PackageManager.GET_SIGNATURES);
+		//	for (Signature signature : info.signatures) {
+		//		MessageDigest md = MessageDigest.getInstance("SHA");
+		//		md.update(signature.toByteArray());
+		//		Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+		//	}
+		//} catch (NameNotFoundException e) {
+		//	e.printStackTrace();
+		//} catch (NoSuchAlgorithmException e) {
+		//	e.printStackTrace();
+		//}
 
 		openFacebookSession(this, true, statusCallback);
 	}
