@@ -58,7 +58,7 @@ public class BroadcastUpcomingBlockPopulator {
 		title.setText(mActivity.getResources().getString(R.string.upcoming_episodes));
 
 		if (upcomingBroadcasts.size() > 0 && upcomingBroadcasts.get(0) != null) {
-			
+
 			final Broadcast broadcastOne = upcomingBroadcasts.get(0);
 
 			Log.d(TAG, "UPCOMING BROADCASTS SIZE: " + upcomingBroadcasts.size());
@@ -76,7 +76,7 @@ public class BroadcastUpcomingBlockPopulator {
 
 			if (mIsSeries) {
 				Program program = broadcastOne.getProgram();
-				
+
 				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(program.getProgramType())) {
 					String season = program.getSeason().getNumber();
 					int episode = program.getEpisodeNumber();
@@ -93,7 +93,6 @@ public class BroadcastUpcomingBlockPopulator {
 				}
 				mSeasonEpisodeOneTv.setVisibility(View.VISIBLE);
 			}
-
 
 			mTitleTimeOneTv.setText(broadcastOne.getDayOfWeekWithTimeString());
 			mChannelOneTv.setText(broadcastOne.getChannel().getName());
@@ -140,7 +139,7 @@ public class BroadcastUpcomingBlockPopulator {
 
 								mIsSetOne = true;
 							} else {
-								//Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
+								// Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
 								Log.d(TAG, "!!! Setting notification faced an error !!!");
 							}
 						} else {
@@ -148,7 +147,7 @@ public class BroadcastUpcomingBlockPopulator {
 								NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
 								notificationDlg.showRemoveNotificationDialog(mActivity, broadcastOne, mNotificationId, yesNotificationOneProc(), noNotificationProc());
 							} else {
-								//Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
+								// Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
 								Log.d(TAG, "!!! Could not find such reminder in DB !!!");
 							}
 						}
@@ -176,7 +175,7 @@ public class BroadcastUpcomingBlockPopulator {
 		if (upcomingBroadcasts.size() > 1 && upcomingBroadcasts.get(1) != null) {
 			View divider = (View) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_one_bottom_divider);
 			divider.setVisibility(View.VISIBLE);
-			
+
 			final Broadcast broadcastTwo = upcomingBroadcasts.get(1);
 
 			// second program
@@ -256,7 +255,7 @@ public class BroadcastUpcomingBlockPopulator {
 
 								mIsSetTwo = true;
 							} else {
-								//Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
+								// Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
 								Log.d(TAG, "!!! Setting notification faced an error !!!");
 							}
 						} else {
@@ -264,7 +263,7 @@ public class BroadcastUpcomingBlockPopulator {
 								NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
 								notificationDlg.showRemoveNotificationDialog(mActivity, broadcastTwo, mNotificationId, yesNotificationTwoProc(), noNotificationProc());
 							} else {
-								//Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
+								// Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
 								Log.d(TAG, "!!! Could not find such reminder in DB !!!");
 							}
 						}
@@ -342,14 +341,13 @@ public class BroadcastUpcomingBlockPopulator {
 				dbItem = mNotificationDataSource.getNotification(broadcastThree.getChannel().getChannelId(), broadcastThree.getBeginTimeMillisGmt());
 				if (dbItem.getNotificationId() != 0) {
 					mIsSetThree = true;
+					mReminderOneIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 					mNotificationId = dbItem.getNotificationId();
 				} else {
 					mIsSetThree = false;
+					mReminderThreeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 					mNotificationId = -1;
 				}
-
-				if (mIsSetThree) mReminderOneIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
-				else mReminderThreeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 			} else {
 				mReminderThreeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_dissabled));
 			}
@@ -373,7 +371,7 @@ public class BroadcastUpcomingBlockPopulator {
 
 								mIsSetThree = true;
 							} else {
-								//Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
+								// Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
 								Log.d(TAG, "!!! Setting notification faced an error !!!");
 							}
 						} else {
@@ -381,8 +379,8 @@ public class BroadcastUpcomingBlockPopulator {
 								NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
 								notificationDlg.showRemoveNotificationDialog(mActivity, broadcastThree, mNotificationId, yesNotificationThreeProc(), noNotificationProc());
 							} else {
-								//Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
-								Log.d(TAG,"!!! Could not find such reminder in DB !!!");
+								// Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
+								Log.d(TAG, "!!! Could not find such reminder in DB !!!");
 							}
 						}
 					}
