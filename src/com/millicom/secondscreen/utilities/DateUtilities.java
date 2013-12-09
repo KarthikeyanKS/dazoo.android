@@ -8,6 +8,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.SecondScreenApplication;
@@ -76,6 +77,7 @@ public class DateUtilities {
 	}
 	
 	public static Date dateFromTvDateAndHour(TvDate tvDate, int hour) {
+		Log.d(TAG,"DATE: " + tvDate.getDate());
 		String year = DateUtilities.tvDateToYearNumber(tvDate.getDate());
 		String month = DateUtilities.tvDateToMonthNumber(tvDate.getDate());
 		String day = DateUtilities.tvDateToDayNumber(tvDate.getDate());

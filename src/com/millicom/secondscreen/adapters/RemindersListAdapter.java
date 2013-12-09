@@ -38,7 +38,7 @@ public class RemindersListAdapter extends BaseAdapter {
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
 	private ArrayList<Broadcast>	mBroadcasts;
-	private RemindersCountInterface mInterface;
+	private RemindersCountInterface	mInterface;
 	private ImageLoader				mImageLoader;
 	private int						notificationId;
 	private int						currentPosition	= -1;
@@ -93,11 +93,11 @@ public class RemindersListAdapter extends BaseAdapter {
 			viewHolder.mBroadcastTitleTv = (TextView) rowView.findViewById(R.id.row_reminders_text_title_tv);
 			viewHolder.mBroadcastDetailsTv = (TextView) rowView.findViewById(R.id.row_reminders_text_details_tv);
 			viewHolder.mBroadcastTimeTv = (TextView) rowView.findViewById(R.id.row_reminders_text_time_tv);
-			viewHolder.mChannelTv =  (TextView) rowView.findViewById(R.id.row_reminders_text_channel_tv);
+			viewHolder.mChannelTv = (TextView) rowView.findViewById(R.id.row_reminders_text_channel_tv);
 			viewHolder.mReminderIconIv = (ImageView) rowView.findViewById(R.id.row_reminders_notification_iv);
 			viewHolder.mReminderIconIv.setTag(Integer.valueOf(position));
 
-			viewHolder.mDividerView = (View ) rowView.findViewById(R.id.row_reminders_header_divider);
+			viewHolder.mDividerView = (View) rowView.findViewById(R.id.row_reminders_header_divider);
 
 			rowView.setTag(viewHolder);
 		}
@@ -109,9 +109,9 @@ public class RemindersListAdapter extends BaseAdapter {
 			final Channel channel = broadcast.getChannel();
 			Program program = broadcast.getProgram();
 
-			//Get the correct date name index
+			// Get the correct date name index
 			int dateIndex = 0;
-			//TODO verify works
+			// TODO verify works
 			for (int i = 0; i < mTvDates.size(); i++) {
 				if (broadcast.getBeginTimeStringGmt().contains(mTvDates.get(i).getDate())) {
 					dateIndex = i;
@@ -119,18 +119,24 @@ public class RemindersListAdapter extends BaseAdapter {
 				}
 			}
 
-			//If first or the previous broadcast is not the same date, show header.
+			// If first or the previous broadcast is not the same date, show header.
 			try {
 				holder.mHeaderContainer.setVisibility(View.GONE);
 				holder.mDividerView.setVisibility(View.VISIBLE);
-				//TODO verify works
-				if (position == 0 || DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmt()).equals(
-						DateUtilities.tvDateStringToDatePickerString(getItem(position-1).getBeginTimeStringGmt())) == false) {
+				// TODO verify works
+				if (position == 0
+						|| DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmt()).equals(
+								DateUtilities.tvDateStringToDatePickerString(getItem(position - 1).getBeginTimeStringGmt())) == false) {
 					holder.mHeaderContainer.setVisibility(View.VISIBLE);
-					holder.mHeaderTv.setText(mTvDates.get(dateIndex).getName().toUpperCase(Locale.getDefault()));
+					if (mTvDates != null && mTvDates.isEmpty()!=true) {
+						holder.mHeaderTv.setText(mTvDates.get(dateIndex).getName().toUpperCase(Locale.getDefault()));
+					} else {
+						holder.mHeaderTv.setVisibility(View.GONE);
+					}
 				}
-				if (position != (getCount() - 1) && DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmt()).equals(
-						DateUtilities.tvDateStringToDatePickerString(getItem(position + 1).getBeginTimeStringGmt())) == false) {
+				if (position != (getCount() - 1)
+						&& DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmt()).equals(
+								DateUtilities.tvDateStringToDatePickerString(getItem(position + 1).getBeginTimeStringGmt())) == false) {
 					holder.mDividerView.setVisibility(View.GONE);
 				}
 			} catch (ParseException e) {
@@ -154,8 +160,7 @@ public class RemindersListAdapter extends BaseAdapter {
 					}
 					holder.mBroadcastDetailsTv.setText(seasonEpisode);
 				} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
-					holder.mBroadcastDetailsTv.setText(program.getGenre() + " " + mActivity.getResources().getString(R.string.from) + " " +
-							program.getYear());
+					holder.mBroadcastDetailsTv.setText(program.getGenre() + " " + mActivity.getResources().getString(R.string.from) + " " + program.getYear());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
 					holder.mBroadcastDetailsTv.setText(program.getCategory());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
@@ -167,7 +172,7 @@ public class RemindersListAdapter extends BaseAdapter {
 				holder.mChannelTv.setText(channel.getName());
 			}
 			try {
-				//holder.mBroadcastTimeTv.setText(DateUtilities.isoStringToDateShortAndTimeString(broadcast.getBeginTime()));
+				// holder.mBroadcastTimeTv.setText(DateUtilities.isoStringToDateShortAndTimeString(broadcast.getBeginTime()));
 				holder.mBroadcastTimeTv.setText(broadcast.getBeginTimeStringLocalHourAndMinute());
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -178,7 +183,7 @@ public class RemindersListAdapter extends BaseAdapter {
 
 				@Override
 				public void onClick(View v) {
-					//TODO use local or GMT?
+					// TODO use local or GMT?
 					String broadcastUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + channel.getChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillisGmt();
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
 					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_URL, broadcastUrl);
@@ -212,16 +217,16 @@ public class RemindersListAdapter extends BaseAdapter {
 	}
 
 	private static class ViewHolder {
-		public LinearLayout	mHeaderContainer;
-		public RelativeLayout mInformationContainer;
-		public TextView		mHeaderTv;
-		public TextView		mBroadcastTitleTv;
-		public TextView		mBroadcastDetailsTv;
-		public TextView		mBroadcastTimeTv;
-		public TextView		mChannelTv;
-		public ImageView	mReminderIconIv;
+		public LinearLayout		mHeaderContainer;
+		public RelativeLayout	mInformationContainer;
+		public TextView			mHeaderTv;
+		public TextView			mBroadcastTitleTv;
+		public TextView			mBroadcastDetailsTv;
+		public TextView			mBroadcastTimeTv;
+		public TextView			mChannelTv;
+		public ImageView		mReminderIconIv;
 
-		public View 		mDividerView;
+		public View				mDividerView;
 	}
 
 	public Runnable yesProc() {
