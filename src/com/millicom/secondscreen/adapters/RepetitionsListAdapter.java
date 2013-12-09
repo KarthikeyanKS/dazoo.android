@@ -44,7 +44,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 	private int						mLastPosition	= -1, mNotificationId = -1;
 	private boolean					mIsSet			= false, mIsFuture = false;
 	private Program					mProgram;
-
+	private Broadcast 				mRunningBroadcast;
 	private DazooStore				dazooStore;
 	private ArrayList<TvDate>		mTvDates;
 
