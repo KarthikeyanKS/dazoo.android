@@ -236,7 +236,6 @@ public class FacebookLoginActivity extends ActionBarActivity {
 
 				// HttpResponse response = client.execute(httpPost);
 				HttpResponse response = httpClient.execute(httpPost);
-
 				if (response.getStatusLine().getStatusCode() == Consts.GOOD_RESPONSE) {
 					String responseBody = EntityUtils.toString(response.getEntity());
 					// JSONObject jObj = new JSONObject(responseBody);
