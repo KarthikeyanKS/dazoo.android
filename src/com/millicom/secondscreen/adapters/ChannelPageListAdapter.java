@@ -37,7 +37,6 @@ public class ChannelPageListAdapter extends BaseAdapter {
 	private ImageLoader				mImageLoader;
 	private int						mLastPosition	= -1;
 	private ViewHolder				holder;
-	private int						duration		= 0;
 
 	public ChannelPageListAdapter(Activity activity, ArrayList<Broadcast> followingBroadcasts) {
 		this.mFollowingBroadcasts = followingBroadcasts;
@@ -76,7 +75,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 		broadcast.updateTimeToBeginAndTimeToEnd();
 		String broadcastType = broadcast.getBroadcastType();
 		String programType = broadcast.getProgram().getProgramType();
-		long timeSinceBegin = broadcast.getTimeSinceBegin();
+		long timeToBegin = broadcast.getTimeToBegin();
 		long timeToEnd = broadcast.getTimeToEnd();
 		int durationInMinutes = broadcast.getDurationInMinutes();
 
@@ -115,14 +114,16 @@ public class ChannelPageListAdapter extends BaseAdapter {
 
 				// MC - Calculate the current progress of the ProgressBar and update.
 				int initialProgress = 0;
-				if (broadcast.getTimeSinceBegin() < 0) {
+				if (timeToBegin > 0) {
 					holder.mDurationPb.setVisibility(View.GONE);
 					initialProgress = 0;
 					holder.mDurationPb.setProgress(0);
 				} else {
-					initialProgress = (int) timeSinceBegin / (1000 * 60);
+					initialProgress =  broadcast.minutesSinceStart();
+					
+					int timeLeft = durationInMinutes - initialProgress;
 				
-					holder.mTimeleftTv.setText(duration - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
+					holder.mTimeleftTv.setText(timeLeft + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
 					holder.mDurationPb.setProgress(initialProgress);
 					holder.mDurationPb.setVisibility(View.VISIBLE);
 				}
@@ -196,7 +197,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 	@Override
 	public int getItemViewType(int position) {
 		Broadcast broadcast = getItem(position);
-		if (broadcast.getTimeSinceBegin() > 0 && broadcast.getTimeToEnd() < 0) {
+		if (broadcast.isRunning()) {
 			return 0;
 		}
 		return 1;

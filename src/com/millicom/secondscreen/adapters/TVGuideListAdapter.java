@@ -40,7 +40,6 @@ public class TVGuideListAdapter extends BaseAdapter {
 	private int					mIndexOfNearestBroadcast;
 	private int					mHour, mCurrentHour;
 	private boolean				mIsToday;
-	private boolean				mIsNow;
 
 	public TVGuideListAdapter(Activity activity, ArrayList<Guide> guide, TvDate date, int hour, boolean isToday) {
 		this.mGuide = guide;
@@ -84,12 +83,6 @@ public class TVGuideListAdapter extends BaseAdapter {
 			rowView.setTag(viewHolder);
 		}
 		ViewHolder holder = (ViewHolder) rowView.getTag();
-		
-		
-		mCurrentHour = Integer.valueOf(DateUtilities.getCurrentHourString());
-		if (mCurrentHour == mHour) {
-			mIsNow = true;
-		} else mIsNow = false;
 
 		final Guide guide = getItem(position);
 
@@ -169,7 +162,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 							 holder.mLiveProgramTimeTv.setText("");
 						}
 
-						if (mIsToday && mIsNow) {
+						if (broadcast.isRunning()) {
 							holder.mLiveProgramNameTv.setTextColor(mActivity.getResources().getColor(R.color.red));
 							holder.mLiveProgramTimeTv.setTextColor(mActivity.getResources().getColor(R.color.red));
 						} else {
@@ -284,11 +277,6 @@ public class TVGuideListAdapter extends BaseAdapter {
 
 	public void refreshList(int selectedHour) {
 		mHour = selectedHour;
-
-		mCurrentHour = Integer.valueOf(DateUtilities.getCurrentHourString());
-		if (mCurrentHour == mHour) {
-			mIsNow = true;
-		} else mIsNow = false;
 
 		SecondScreenApplication.getInstance().setSelectedHour(mHour);
 		notifyDataSetChanged();

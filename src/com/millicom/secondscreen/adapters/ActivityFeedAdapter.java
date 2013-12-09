@@ -132,7 +132,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			if (broadcast != null) {
 				broadcast.updateTimeToBeginAndTimeToEnd();
 				final Program program = broadcast.getProgram();
-				final long timeSinceBegin = broadcast.getTimeSinceBegin();
+				final long timeToBegin = broadcast.getTimeToBegin();
 				final long timeToEnd = broadcast.getTimeToEnd();
 				final int duration = broadcast.getDurationInMinutes();
 
@@ -225,18 +225,18 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					}
 				}
 
-				if (timeSinceBegin > 0 && timeToEnd < 0) {
+				if (broadcast.isRunning()) {
 					progressBar.setMax(duration);
 
 					// MC - Calculate the current progress of the ProgressBar and update.
 					int initialProgressOne = 0;
 
-					if (broadcast.getTimeSinceBegin() < 0) {
+					if (timeToBegin > 0) {
 						progressBar.setVisibility(View.GONE);
 						initialProgressOne = 0;
 						progressBar.setProgress(0);
 					} else {
-						initialProgressOne = (int) broadcast.getTimeSinceBegin() / (1000 * 60);
+						initialProgressOne = broadcast.minutesSinceStart();
 
 						progressTextView.setText(duration - initialProgressOne + " " + mActivity.getResources().getString(R.string.minutes) + " "
 								+ mActivity.getResources().getString(R.string.left));
@@ -363,7 +363,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 				final Program program = broadcast.getProgram();
 				final int duration = broadcast.getDurationInMinutes();
-				final long timeSinceBegin = broadcast.getTimeSinceBegin();
+				final long timeToBegin = broadcast.getTimeToBegin();
 				final long timeToEnd = broadcast.getTimeToEnd();
 
 				switch (type) {
@@ -453,22 +453,21 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						}
 					});
 
-					Log.d(TAG, "TIME SINCE BEGIN: " + timeSinceBegin);
+					Log.d(TAG, "TIME SINCE BEGIN: " + broadcast.minutesSinceStart());
 					Log.d(TAG, "TIME TO END: " + timeToEnd);
 
-					if (timeSinceBegin > 0 && timeToEnd < 0) {
+					if (broadcast.isRunning()) {
 						holder.progressBarTw.setMax(duration);
 
 						// MC - Calculate the current progress of the ProgressBar and update.
 						int initialProgressTw = 0;
-						Log.d(TAG, "GET TIME SINCE BEGIN: " + broadcast.getTimeSinceBegin());
 
-						if (broadcast.getTimeSinceBegin() < 0) {
+						if (timeToBegin > 0) {
 							holder.progressBarTw.setVisibility(View.GONE);
 							initialProgressTw = 0;
 							holder.progressBarTw.setProgress(0);
 						} else {
-							initialProgressTw = (int) broadcast.getTimeSinceBegin() / (1000 * 60);
+							initialProgressTw = broadcast.minutesSinceStart();
 
 							Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 							Log.d(TAG, "initialProgressTw: " + initialProgressTw);
@@ -700,19 +699,18 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						}
 					});
 
-					if (timeSinceBegin > 0 && timeToEnd < 0) {
+					if (broadcast.isRunning()) {
 						holderBC.progressBar.setMax(duration);
 
 						// MC - Calculate the current progress of the ProgressBar and update.
 						int initialProgress = 0;
-						long difference = broadcast.getTimeSinceBegin();
 
-						if (difference < 0) {
+						if (broadcast.getTimeToBegin() > 0) {
 							holderBC.progressBar.setVisibility(View.GONE);
 							initialProgress = 0;
 							holderBC.progressBar.setProgress(0);
 						} else {
-							initialProgress = (int) broadcast.getTimeSinceBegin() / (1000 * 60);
+							initialProgress = broadcast.minutesSinceStart();
 
 							holderBC.progressbarTv.setText(duration - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + " "
 									+ mActivity.getResources().getString(R.string.left));
@@ -932,18 +930,18 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						}
 					}
 
-					if (timeSinceBegin > 0 && timeToEnd < 0) {
+					if (broadcast.isRunning()) {
 						holderRBC.progressBarRec.setMax(duration);
 
 						// MC - Calculate the current progress of the ProgressBar and update.
 						int initialProgressRec = 0;
 
-						if (broadcast.getTimeSinceBegin() < 0) {
+						if (broadcast.getTimeToBegin() > 0) {
 							holderRBC.progressBarRec.setVisibility(View.GONE);
 							initialProgressRec = 0;
 							holderRBC.progressBarRec.setProgress(0);
 						} else {
-							initialProgressRec = (int) (broadcast.getTimeSinceBegin() / (1000 * 60));
+							initialProgressRec =  broadcast.minutesSinceStart();
 
 							holderRBC.progressbarTvRec.setText(duration - initialProgressRec + " " + mActivity.getResources().getString(R.string.minutes) + " "
 									+ mActivity.getResources().getString(R.string.left));

@@ -47,7 +47,7 @@ public class Broadcast implements Parcelable {
 	private String beginTimeStringLocalHourAndMinute;
 	private String beginTimeStringLocalDayMonth;
 	
-	private long timeSinceBegin;
+	private long timeToBegin;
 	private long timeToEnd;
 	
 	private String dayOfWeekString;
@@ -135,12 +135,12 @@ public class Broadcast implements Parcelable {
 		return this.beginTimeStringGmt;
 	}
 
-	public long getTimeSinceBegin() {
-		return this.timeSinceBegin;
+	public long getTimeToBegin() {
+		return this.timeToBegin;
 	}
 
-	public void setTimeSinceBegin(long timeSinceBegin) {
-		this.timeSinceBegin = timeSinceBegin;
+	public void setTimeToBegin(long timeToBegin) {
+		this.timeToBegin = timeToBegin;
 	}
 
 	public long getTimeToEnd() {
@@ -379,8 +379,7 @@ public class Broadcast implements Parcelable {
 
 		for (int i = 0; i < broadcastList.size(); i++) {
 			Broadcast broadcast = broadcastList.get(i);
-			long endTime = broadcast.getEndTimeMillisGmt();
-			boolean hasNotEnded = (timeNow <= endTime);
+			boolean hasNotEnded = broadcast.hasNotEnded(timeNow);
 			
 			if(hasNotEnded) {
 				nearestIndex = i;
@@ -388,6 +387,56 @@ public class Broadcast implements Parcelable {
 			}
 		}
 		return nearestIndex;
+	}
+	
+	public boolean isRunning(long timeNow) {
+		boolean isRunning = false;
+		
+		boolean hasStarted = hasStarted(timeNow);
+		boolean hasNotEnded = hasNotEnded(timeNow);
+		
+		if(hasStarted &&  hasNotEnded) {
+			isRunning = true;
+		}
+		
+		return isRunning;
+	}
+	
+	public boolean isRunning() {
+		long timeNow = new Date().getTime();
+		return isRunning(timeNow);
+	}
+	
+	public boolean hasStarted(long timeNow)	{
+		long beginTime = getBeginTimeMillisGmt();
+		boolean hasStarted = timeNow >= beginTime;
+		
+		return hasStarted;
+	}
+	
+	public boolean hasStarted() {
+		long timeNow = new Date().getTime();
+		return hasStarted(timeNow);
+	}
+	
+	public int minutesSinceStart() {
+		int minutesSinceStart = (int) Math.abs(timeToBegin / (1000 * 60));
+		if(!hasStarted()) {
+			minutesSinceStart *= -1;
+		}
+		return minutesSinceStart;
+	}
+	
+	public boolean hasNotEnded(long timeNow)	{
+		long endTime = getEndTimeMillisGmt();
+		boolean hasNotEnded = (timeNow <= endTime);
+		
+		return hasNotEnded;
+	}
+	
+	public boolean hasNotEnded() {
+		long timeNow = new Date().getTime();
+		return hasNotEnded(timeNow);
 	}
 
 	public static int getClosestBroadcastIndex(ArrayList<Broadcast> broadcastList) {
@@ -421,10 +470,10 @@ public class Broadcast implements Parcelable {
 	
 	public void updateTimeToBeginAndTimeToEnd() {
 		try {
-			long timeSinceBegin = DateUtilities.getAbsoluteTimeDifference(beginTimeMillisLocal);
-			long timeToEnd = DateUtilities.getAbsoluteTimeDifference(endTimeMillisLocal);
+			long timeToBegin = DateUtilities.getAbsoluteTimeDifference(beginTimeMillisGmt);
+			long timeToEnd = DateUtilities.getAbsoluteTimeDifference(endTimeMillisGmt);
 			
-			this.setTimeSinceBegin(timeSinceBegin);
+			this.setTimeToBegin(timeToBegin);
 			this.setTimeToEnd(timeToEnd);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -436,7 +485,7 @@ public class Broadcast implements Parcelable {
 		this.updateTimeToBeginAndTimeToEnd();
 
 		int durationInMinutes = 0;
-		durationInMinutes = (int) (timeSinceBegin - timeToEnd) / (1000 * 60);
+		durationInMinutes = (int) (timeToBegin - timeToEnd) / (1000 * 60);
 	
 		durationInMinutes = Math.abs(durationInMinutes);
 		

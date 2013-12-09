@@ -148,18 +148,19 @@ public class BroadcastMainBlockPopulator {
 
 
 		// broadcast is currently on air: show progress
-		if (broadcast.getTimeSinceBegin() > 0 && broadcast.getTimeToEnd() < 0) {
+		if (broadcast.isRunning()) {
 
 			progressBar.setMax(duration);
 
 			// Calculate the current progress of the ProgressBar and update.
 			int initialProgress = 0;
 
-			if (broadcast.getTimeSinceBegin() < 0) {
+			/* This should never be the case? */
+			if (broadcast.getTimeToBegin() > 0) {
 				initialProgress = 0;
 				progressBar.setProgress(0);
 			} else {
-				initialProgress = (int) broadcast.getTimeSinceBegin() / (1000 * 60);
+				initialProgress = (int) Math.abs(broadcast.getTimeToBegin() / (1000 * 60));
 				progressTxt.setText(duration - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
 				progressBar.setProgress(initialProgress);
 				progressTxt.setVisibility(View.VISIBLE);
