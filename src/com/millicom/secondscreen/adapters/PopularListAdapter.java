@@ -105,7 +105,7 @@ public class PopularListAdapter extends BaseAdapter {
 			int dateIndex = 0;
 			for (int i = 0; i < mTvDates.size(); i++) {
 				//TODO VERIFY works
-				if (broadcast.getBeginTimeStringLocal().contains(mTvDates.get(i).getDate())) {
+				if (broadcast.getBeginTimeStringGmt().contains(mTvDates.get(i).getDate())) {
 					dateIndex = i;
 					break;
 				}

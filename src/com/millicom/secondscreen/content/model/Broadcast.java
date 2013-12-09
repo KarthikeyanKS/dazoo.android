@@ -163,8 +163,8 @@ public class Broadcast implements Parcelable {
 		this.beginTimeStringLocalHourAndMinute = beginTimeStringLocalHourAndMinute;
 	}
 
-	public void setEndTimeStringGmt(String beginTimeStringHourAndMinute) {
-		this.endTimeStringGmt = beginTimeStringHourAndMinute;
+	public void setEndTimeStringGmt(String endTimeStringGmt) {
+		this.endTimeStringGmt = endTimeStringGmt;
 	}
 
 	public String getEndTimeStringGmt() {

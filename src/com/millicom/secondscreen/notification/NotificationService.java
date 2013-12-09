@@ -52,7 +52,7 @@ public class NotificationService {
 
 		Calendar calendar;
 		try {
-			calendar = DateUtilities.getTimeFifteenMinBefore(broadcast.getBeginTimeStringLocal());
+			calendar = DateUtilities.getTimeFifteenMinBefore(broadcast.getBeginTimeStringGmt());
 
 			alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 			
@@ -81,7 +81,7 @@ public class NotificationService {
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_CHANNEL_NAME, channel.getName());
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_CHANNEL_LOGO_URL, channel.getLogoLUrl());
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_NAME, broadcast.getProgram().getTitle());
-		intent.putExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_TIME, broadcast.getBeginTimeStringLocal());
+		intent.putExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_TIME, broadcast.getBeginTimeStringGmt());
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_DATE_DATE, dateDate);
 		
 
@@ -90,7 +90,7 @@ public class NotificationService {
 
 		Calendar calendar;
 		try {
-			calendar = DateUtilities.getTimeFifteenMinBefore(broadcast.getBeginTimeStringLocal());
+			calendar = DateUtilities.getTimeFifteenMinBefore(broadcast.getBeginTimeStringGmt());
 
 			alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
@@ -120,7 +120,7 @@ public class NotificationService {
 			dbNotification.setChannelName(channel.getName());
 			dbNotification.setChannelId(channel.getChannelId());
 			dbNotification.setChannelLogoUrl(channel.getLogoSUrl());
-			dbNotification.setBroadcastBeginTime(broadcast.getBeginTimeStringLocal());
+			dbNotification.setBroadcastBeginTime(broadcast.getBeginTimeStringLocalHourAndMinute());
 			dbNotification.setBroadcastBeginTimeMillis(String.valueOf(broadcast.getBeginTimeMillisGmt()));
 
 			notificationDataSource.addNotification(dbNotification);
