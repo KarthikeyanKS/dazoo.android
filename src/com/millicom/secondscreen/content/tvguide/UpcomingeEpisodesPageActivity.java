@@ -36,6 +36,7 @@ public class UpcomingeEpisodesPageActivity extends SSActivity implements OnClick
 	private ActionBar					mActionBar;
 	private ListView					mListView;
 	private UpcomingEpisodesListAdapter	mAdapter;
+	private Broadcast 					mRunningBroadcast;
 	private ArrayList<Broadcast>		mUpcomingBroadcasts	= new ArrayList<Broadcast>();
 
 	@Override
@@ -49,6 +50,7 @@ public class UpcomingeEpisodesPageActivity extends SSActivity implements OnClick
 
 		Intent intent = getIntent();
 		mUpcomingBroadcasts = intent.getParcelableArrayListExtra(Consts.INTENT_EXTRA_UPCOMING_BROADCASTS);
+		mRunningBroadcast = intent.getParcelableExtra(Consts.INTENT_EXTRA_RUNNING_BROADCAST);
 
 		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 
@@ -83,7 +85,7 @@ public class UpcomingeEpisodesPageActivity extends SSActivity implements OnClick
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
 		if (super.requestIsSuccesfull(status)) {
-			mAdapter = new UpcomingEpisodesListAdapter(this, mUpcomingBroadcasts);
+			mAdapter = new UpcomingEpisodesListAdapter(this, mUpcomingBroadcasts, mRunningBroadcast);
 			mListView.setAdapter(mAdapter);
 			mListView.setVisibility(View.VISIBLE);
 		}

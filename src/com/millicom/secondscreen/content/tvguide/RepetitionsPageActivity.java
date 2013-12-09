@@ -49,7 +49,7 @@ public class RepetitionsPageActivity extends SSActivity implements OnClickListen
 		Intent intent = getIntent();
 		mRepeatingBroadcasts = intent.getParcelableArrayListExtra(Consts.INTENT_EXTRA_REPEATING_BROADCASTS);
 		mRepeatingProgram = intent.getParcelableExtra(Consts.INTENT_EXTRA_REPEATING_PROGRAM);
-		mRunningBroadcast = intent.getParcelableExtra(Consts.INTENT_EXTRA_REPEATING_RUNNING_BROADCAST);
+		mRunningBroadcast = intent.getParcelableExtra(Consts.INTENT_EXTRA_RUNNING_BROADCAST);
 	
 		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 

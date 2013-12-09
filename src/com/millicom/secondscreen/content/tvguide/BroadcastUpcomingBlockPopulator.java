@@ -38,18 +38,36 @@ public class BroadcastUpcomingBlockPopulator {
 	private NotificationDataSource	mNotificationDataSource;
 	private ImageView				mReminderOneIv, mReminderTwoIv, mReminderThreeIv;
 	private String					mTvDate;
+	private Broadcast				mRunningBroadcast;
 
 	private boolean					mIsFutureOne	= false, mIsFutureTwo = false, mIsFutureThree = false, mIsSetOne = false, mIsSetTwo = false, mIsSetThree = false, mIsSeries;
 
-	public BroadcastUpcomingBlockPopulator(Activity activity, ScrollView containerView, String tvDate, boolean isSeries) {
+	public BroadcastUpcomingBlockPopulator(Activity activity, ScrollView containerView, String tvDate, boolean isSeries, Broadcast runningBroadcast) {
 		this.mActivity = activity;
 		this.mContainerView = containerView;
 		this.mTvDate = tvDate;
 		this.mIsSeries = isSeries;
+		this.mRunningBroadcast = runningBroadcast;
 		mNotificationDataSource = new NotificationDataSource(mActivity);
 	}
 
 	public void createBlock(final ArrayList<Broadcast> upcomingBroadcasts) {
+		boolean foundRunningBroadcast = false;
+		int indexOfRunningBroadcast = 0;
+		for(int i = 0; i < upcomingBroadcasts.size(); ++i) {
+			Broadcast repeatingBroadcast = upcomingBroadcasts.get(i);
+			if(repeatingBroadcast.equals(mRunningBroadcast)) {
+				foundRunningBroadcast = true;
+				indexOfRunningBroadcast = i;
+				break;
+			}
+		}
+		
+		if(foundRunningBroadcast) {
+			upcomingBroadcasts.remove(indexOfRunningBroadcast);
+		}
+		
+		
 		LinearLayout containerView = (LinearLayout) mContainerView.findViewById(R.id.broacastpage_block_container_layout);
 
 		View topContentView = LayoutInflater.from(mActivity).inflate(R.layout.block_broadcastpage_upcoming_layout, null);
@@ -415,6 +433,7 @@ public class BroadcastUpcomingBlockPopulator {
 					Log.d(TAG, "SIZE: " + upcomingBroadcasts.size());
 					Intent intent = new Intent(mActivity, UpcomingeEpisodesPageActivity.class);
 					intent.putParcelableArrayListExtra(Consts.INTENT_EXTRA_UPCOMING_BROADCASTS, upcomingBroadcasts);
+					intent.putExtra(Consts.INTENT_EXTRA_RUNNING_BROADCAST, mRunningBroadcast);
 					mActivity.startActivity(intent);
 					mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 				}

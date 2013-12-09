@@ -386,7 +386,7 @@ public class BroadcastRepetitionsBlockPopulator {
 					Intent intent = new Intent(mActivity, RepetitionsPageActivity.class);
 					intent.putParcelableArrayListExtra(Consts.INTENT_EXTRA_REPEATING_BROADCASTS, repeatingBroadcasts);
 					intent.putExtra(Consts.INTENT_EXTRA_REPEATING_PROGRAM, program);
-					intent.putExtra(Consts.INTENT_EXTRA_REPEATING_RUNNING_BROADCAST, mRunningBroadcast);
+					intent.putExtra(Consts.INTENT_EXTRA_RUNNING_BROADCAST, mRunningBroadcast);
 					mActivity.startActivity(intent);
 					mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 				}

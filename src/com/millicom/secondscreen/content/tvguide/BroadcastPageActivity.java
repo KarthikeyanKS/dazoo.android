@@ -275,7 +275,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 
 		// upcoming episodes
 		if (mUpcomingBroadcasts != null && mUpcomingBroadcasts.isEmpty() != true) {
-			BroadcastUpcomingBlockPopulator upcomingBlock = new BroadcastUpcomingBlockPopulator(mActivity, mScrollView, mTvDate, mIsSeries);
+			BroadcastUpcomingBlockPopulator upcomingBlock = new BroadcastUpcomingBlockPopulator(mActivity, mScrollView, mTvDate, mIsSeries, mBroadcast);
 			upcomingBlock.createBlock(mUpcomingBroadcasts);
 		}
 

@@ -42,11 +42,28 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 	private NotificationDataSource	mNotificationDataSource;
 	private int						mLastPosition	= -1, mNotificationId = -1;
 	private boolean					mIsSet			= false, mIsFuture = false;
-
+	private Broadcast mRunningBroadcast;
+	
 	private DazooStore				dazooStore;
 	private ArrayList<TvDate>		mTvDates;
 
-	public UpcomingEpisodesListAdapter(Activity activity, ArrayList<Broadcast> upcomingBroadcasts) {
+	public UpcomingEpisodesListAdapter(Activity activity, ArrayList<Broadcast> upcomingBroadcasts, Broadcast runningBroadcast) {
+		boolean foundRunningBroadcast = false;
+		int indexOfRunningBroadcast = 0;
+		for(int i = 0; i < upcomingBroadcasts.size(); ++i) {
+			Broadcast repeatingBroadcast = upcomingBroadcasts.get(i);
+			if(repeatingBroadcast.equals(mRunningBroadcast)) {
+				foundRunningBroadcast = true;
+				indexOfRunningBroadcast = i;
+				break;
+			}
+		}
+		
+		if(foundRunningBroadcast) {
+			upcomingBroadcasts.remove(indexOfRunningBroadcast);
+		}
+		
+		this.mRunningBroadcast = runningBroadcast;
 		this.mUpcomingEpisodes = upcomingBroadcasts;
 		this.mActivity = activity;
 		this.mImageLoader = new ImageLoader(mActivity, R.color.white);
