@@ -89,7 +89,7 @@ public class BroadcastMainBlockPopulator {
 
 
 		try {
-			mIsFuture = DateUtilities.isTimeInFuture(broadcast.getBeginTimeMillisLocal());
+			mIsFuture = DateUtilities.isTimeInFuture(broadcast.getBeginTimeStringGmt());
 		} catch (ParseException e1) {
 			e1.printStackTrace();
 		}
@@ -218,7 +218,7 @@ public class BroadcastMainBlockPopulator {
 				Toast.makeText(mActivity, "Channel null", Toast.LENGTH_LONG).show();
 			}
 			else {
-				dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisLocal());
+				dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
 			}
 			if (dbItem.getNotificationId() != 0) {
 				mIsSet = true;
@@ -299,7 +299,7 @@ public class BroadcastMainBlockPopulator {
 							mRemindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 							NotificationDbItem dbItem = new NotificationDbItem();
-							dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisLocal());
+							dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
 
 							mNotificationId = dbItem.getNotificationId();
 

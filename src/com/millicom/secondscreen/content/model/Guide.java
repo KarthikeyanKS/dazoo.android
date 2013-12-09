@@ -152,16 +152,16 @@ public class Guide implements Parcelable{
 		if(broadcastIndexCache.containsKey(timeLongObject)) {
 			nearestIndexObj = broadcastIndexCache.get(timeLongObject);
 			if(nearestIndexObj != null) {
+				/* Cache hit! */
 				nearestIndex = nearestIndexObj.intValue();
-				Log.v("Guide: Broadcast index", "Cache hit!");
 			}
 		}
 		
 		if(nearestIndexObj == null) {
+			/* Cache miss */
 			nearestIndex = Broadcast.getClosestBroadcastIndexUsingTime(broadcastList, timeNow);
 			
 			broadcastIndexCache.put(timeLongObject, Integer.valueOf(nearestIndex));
-			Log.v("Guide: Broadcast index", "Cache miss!");
 		}
 		
 		return nearestIndex;

@@ -131,9 +131,9 @@ public class Broadcast implements Parcelable {
 		this.beginTimeStringLocalDayMonth = beginTimeStringLocalDayMonth;
 	}
 
-//	public String getBeginTimeStringGmt() {
-//		return this.beginTimeStringGmt;
-//	}
+	public String getBeginTimeStringGmt() {
+		return this.beginTimeStringGmt;
+	}
 
 	public long getTimeSinceBegin() {
 		return this.timeSinceBegin;
@@ -250,7 +250,6 @@ public class Broadcast implements Parcelable {
 	public Broadcast(Parcel in) {
 		beginTimeStringGmt = in.readString();
 		endTimeStringGmt = in.readString();
-		endTimeMillisGmt = getEndTimeMillisGmt();
 		channel = (Channel) in.readParcelable(Channel.class.getClassLoader());
 		program = (Program) in.readParcelable(Program.class.getClassLoader());
 		channelUrl = in.readString();
@@ -378,7 +377,7 @@ public class Broadcast implements Parcelable {
 		long bestDistanceFoundYet = Long.MAX_VALUE;
 		for (int i = 0; i < broadcastList.size(); i++) {
 			Broadcast broadcast = broadcastList.get(i);
-			long timeBroadcast = broadcast.getBeginTimeMillisLocal();			
+			long timeBroadcast = broadcast.getBeginTimeMillisLocal();	
 			long d = Math.abs(timeNow - timeBroadcast);
 			if (d < bestDistanceFoundYet && timeNow <= timeBroadcast) {
 				// if (d < bestDistanceFoundYet) {
@@ -443,6 +442,8 @@ public class Broadcast implements Parcelable {
 		int durationInMinutes = 0;
 		durationInMinutes = (int) (timeSinceBegin - timeToEnd) / (1000 * 60);
 	
+		durationInMinutes = Math.abs(durationInMinutes);
+		
 		return durationInMinutes;
 	}
 }

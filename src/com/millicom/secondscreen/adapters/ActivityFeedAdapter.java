@@ -259,7 +259,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 	
 	private void popularBroadcastClicked(Broadcast broadcast) {
 		Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-		intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisLocal());
+		intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
 		intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
 		intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
 		intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
@@ -483,7 +483,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					}
 		
 					NotificationDbItem dbItemTw = new NotificationDbItem();
-					dbItemTw = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisLocal());
+					dbItemTw = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
 					if (dbItemTw.getNotificationId() != 0) {
 						mIsSet = true;
 						mNotificationId =  dbItemTw.getNotificationId();
@@ -552,7 +552,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		
 						@Override
 						public void onClick(View v) {
-							NotificationDbItem item = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisLocal());
+							NotificationDbItem item = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
 							if (item.getNotificationId() != 0) {
 								mIsSet = true;
 								mNotificationId = item.getNotificationId();
@@ -569,9 +569,9 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		
 									NotificationDbItem dbItemTw = new NotificationDbItem();
 									Log.d(TAG, "broadcast.getChannel().getChannelId()" + broadcast.getChannel().getChannelId());
-									Log.d(TAG, "broadcast.getBeginTimeMillis()" + broadcast.getBeginTimeMillisLocal());
+									Log.d(TAG, "broadcast.getBeginTimeMillis()" + broadcast.getBeginTimeStringGmt());
 		
-									dbItemTw = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisLocal());
+									dbItemTw = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
 		
 									mNotificationId = dbItemTw.getNotificationId();
 		
@@ -678,7 +678,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						@Override
 						public void onClick(View v) {
 							Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-							intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisLocal());
+							intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
 							intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
 							intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
 							intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
@@ -715,8 +715,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					}
 		
 					NotificationDbItem dbItem = new NotificationDbItem();
-					dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisLocal());
-					Log.d(TAG,"uP: " + broadcast.getChannel().getChannelId() + " " + broadcast.getBeginTimeMillisLocal());
+					dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
+					Log.d(TAG,"uP: " + broadcast.getChannel().getChannelId() + " " + broadcast.getBeginTimeStringGmt());
 					if (dbItem.getNotificationId() != 0) {
 						Log.d(TAG,"dbItem: " + dbItem.getProgramTitle() + " " + dbItem.getNotificationId() );
 						mNotificationId = dbItem.getNotificationId();
@@ -792,8 +792,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							NotificationDbItem dbItem = new NotificationDbItem();
 							
 							
-							dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisLocal());
-							Log.d(TAG,"DOWN: " + broadcast.getChannel().getChannelId() + " " + broadcast.getBeginTimeMillisLocal());
+							dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
+							Log.d(TAG,"DOWN: " + broadcast.getChannel().getChannelId() + " " + broadcast.getBeginTimeStringGmt());
 							
 							if (dbItem.getNotificationId() != 0) {
 								Log.d(TAG,"dbItem: " + dbItem.getProgramTitle() + " " + dbItem.getNotificationId() );
@@ -812,9 +812,9 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		
 									NotificationDbItem dbItemRemind= new NotificationDbItem();
 									Log.d(TAG, "broadcast.getChannel().getChannelId()" + broadcast.getChannel().getChannelId());
-									Log.d(TAG, "broadcast.getBeginTimeMillis()" + broadcast.getBeginTimeMillisLocal());
+									Log.d(TAG, "broadcast.getBeginTimeMillis()" + broadcast.getBeginTimeStringGmt());
 		
-									dbItemRemind = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisLocal());
+									dbItemRemind = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
 									Log.d(TAG,"db Item: " + dbItemRemind.getNotificationId() + " " + dbItemRemind.getBroadcastTimeInMillis() + " " + dbItemRemind.getChannelId()
 											+ " " + dbItemRemind.getProgramTitle() );
 									
@@ -946,7 +946,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					});
 					
 					NotificationDbItem dbItemBroadcast = new NotificationDbItem();
-					dbItemBroadcast = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisLocal());
+					dbItemBroadcast = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
 					if (dbItemBroadcast.getNotificationId() != 0) {
 						mIsSet = true;
 						mNotificationId = dbItemBroadcast.getNotificationId(); 
@@ -1016,7 +1016,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						@Override
 						public void onClick(View v) {					
 							NotificationDbItem dbItemBroadcast = new NotificationDbItem();
-							dbItemBroadcast = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisLocal());
+							dbItemBroadcast = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
 							if (dbItemBroadcast.getNotificationId() != 0) {
 								mIsSet = true;
 								mNotificationId = dbItemBroadcast.getNotificationId(); 
@@ -1032,7 +1032,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 									holderRBC.remindRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 		
 									NotificationDbItem dbItem = new NotificationDbItem();
-									dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisLocal());
+									dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
 									mNotificationId = dbItem.getNotificationId();
 									AnimationUtilities.animationSet(holderRBC.remindRecIv);
 									mIsSet = true;

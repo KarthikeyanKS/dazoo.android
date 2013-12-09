@@ -58,7 +58,7 @@ public class ActivityLikedBlockPopulator {
 
 		mNotificationDataSource = new NotificationDataSource(mActivity);
 		NotificationDbItem dbItem = new NotificationDbItem();
-		dbItem = mNotificationDataSource.getNotification(popularItem.getBroadcast().getChannel().getChannelId(), popularItem.getBroadcast().getBeginTimeMillisLocal());
+		dbItem = mNotificationDataSource.getNotification(popularItem.getBroadcast().getChannel().getChannelId(), popularItem.getBroadcast().getBeginTimeMillisGmt());
 		if (dbItem.getNotificationId() != 0) {
 			mIsSet = true;
 			mNotificationId = dbItem.getNotificationId();
@@ -120,7 +120,7 @@ public class ActivityLikedBlockPopulator {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-				intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, popularItem.getBroadcast().getBeginTimeMillisLocal());
+				intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, popularItem.getBroadcast().getBeginTimeMillisGmt());
 				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, popularItem.getBroadcast().getChannel().getChannelId());
 				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, popularItem.getBroadcast().getTvDateString());
 
@@ -189,7 +189,7 @@ public class ActivityLikedBlockPopulator {
 						remindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 						NotificationDbItem dbItem = new NotificationDbItem();
-						dbItem = mNotificationDataSource.getNotification(popularItem.getBroadcast().getChannel().getChannelId(), popularItem.getBroadcast().getBeginTimeMillisLocal());
+						dbItem = mNotificationDataSource.getNotification(popularItem.getBroadcast().getChannel().getChannelId(), popularItem.getBroadcast().getBeginTimeMillisGmt());
 
 						mNotificationId = dbItem.getNotificationId();
 

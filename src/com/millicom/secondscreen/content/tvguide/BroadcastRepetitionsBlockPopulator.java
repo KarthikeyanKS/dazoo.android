@@ -79,14 +79,14 @@ public class BroadcastRepetitionsBlockPopulator {
 			mChannelOneTv.setText(broadcastOne.getChannel().getName());
 
 			try {
-				mIsFutureOne = DateUtilities.isTimeInFuture(broadcastOne.getBeginTimeMillisLocal());
+				mIsFutureOne = DateUtilities.isTimeInFuture(broadcastOne.getBeginTimeStringGmt());
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
 
 			if (!mIsFutureOne) {
 				NotificationDbItem dbItem = new NotificationDbItem();
-				dbItem = mNotificationDataSource.getNotification(broadcastOne.getChannel().getChannelId(), broadcastOne.getBeginTimeMillisLocal());
+				dbItem = mNotificationDataSource.getNotification(broadcastOne.getChannel().getChannelId(), broadcastOne.getBeginTimeMillisGmt());
 				if (dbItem.getNotificationId() != 0) {
 					mIsSetOne = true;
 					mNotificationId = dbItem.getNotificationId();
@@ -112,7 +112,7 @@ public class BroadcastRepetitionsBlockPopulator {
 								mReminderOneIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 								NotificationDbItem dbItem = new NotificationDbItem();
-								dbItem = mNotificationDataSource.getNotification(broadcastOne.getChannel().getChannelId(), broadcastOne.getBeginTimeMillisLocal());
+								dbItem = mNotificationDataSource.getNotification(broadcastOne.getChannel().getChannelId(), broadcastOne.getBeginTimeMillisGmt());
 
 								mNotificationId = dbItem.getNotificationId();
 
@@ -139,7 +139,7 @@ public class BroadcastRepetitionsBlockPopulator {
 				@Override
 				public void onClick(View v) {
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcastOne.getBeginTimeMillisLocal());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcastOne.getBeginTimeMillisGmt());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcastOne.getChannel().getChannelId());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcastOne.getTvDateString());
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
@@ -176,14 +176,14 @@ public class BroadcastRepetitionsBlockPopulator {
 			mChannelTwoTv.setText(broadcastTwo.getChannel().getName());
 
 			try {
-				mIsFutureTwo = DateUtilities.isTimeInFuture(broadcastTwo.getBeginTimeMillisLocal());
+				mIsFutureTwo = DateUtilities.isTimeInFuture(broadcastTwo.getBeginTimeStringGmt());
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
 
 			if (!mIsFutureTwo) {
 				NotificationDbItem dbItem = new NotificationDbItem();
-				dbItem = mNotificationDataSource.getNotification(broadcastTwo.getChannel().getChannelId(), broadcastTwo.getBeginTimeMillisLocal());
+				dbItem = mNotificationDataSource.getNotification(broadcastTwo.getChannel().getChannelId(), broadcastTwo.getBeginTimeMillisGmt());
 				if (dbItem.getNotificationId() != 0) {
 					mIsSetTwo = true;
 					mNotificationId = dbItem.getNotificationId();
@@ -209,7 +209,7 @@ public class BroadcastRepetitionsBlockPopulator {
 								mReminderTwoIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 								NotificationDbItem dbItem = new NotificationDbItem();
-								dbItem = mNotificationDataSource.getNotification(broadcastTwo.getChannel().getChannelId(), broadcastTwo.getBeginTimeMillisLocal());
+								dbItem = mNotificationDataSource.getNotification(broadcastTwo.getChannel().getChannelId(), broadcastTwo.getBeginTimeMillisGmt());
 
 								mNotificationId = dbItem.getNotificationId();
 
@@ -236,7 +236,7 @@ public class BroadcastRepetitionsBlockPopulator {
 				@Override
 				public void onClick(View v) {
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcastTwo.getBeginTimeMillisLocal());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcastTwo.getBeginTimeMillisGmt());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcastTwo.getChannel().getChannelId());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcastTwo.getTvDateString());
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
@@ -278,14 +278,14 @@ public class BroadcastRepetitionsBlockPopulator {
 			mChannelThreeTv.setText(broadcastThree.getChannel().getName());
 
 			try {
-				mIsFutureThree = DateUtilities.isTimeInFuture(broadcastThree.getBeginTimeMillisLocal());
+				mIsFutureThree = DateUtilities.isTimeInFuture(broadcastThree.getBeginTimeStringGmt());
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
 
 			if (!mIsFutureThree) {
 				NotificationDbItem dbItem = new NotificationDbItem();
-				dbItem = mNotificationDataSource.getNotification(broadcastThree.getChannel().getChannelId(), broadcastThree.getBeginTimeMillisLocal());
+				dbItem = mNotificationDataSource.getNotification(broadcastThree.getChannel().getChannelId(), broadcastThree.getBeginTimeMillisGmt());
 				if (dbItem.getNotificationId() != 0) {
 					mIsSetThree = true;
 					mNotificationId = dbItem.getNotificationId();
@@ -311,7 +311,7 @@ public class BroadcastRepetitionsBlockPopulator {
 								mReminderThreeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 								NotificationDbItem dbItem = new NotificationDbItem();
-								dbItem = mNotificationDataSource.getNotification(broadcastThree.getChannel().getChannelId(), broadcastThree.getBeginTimeMillisLocal());
+								dbItem = mNotificationDataSource.getNotification(broadcastThree.getChannel().getChannelId(), broadcastThree.getBeginTimeMillisGmt());
 
 								mNotificationId = dbItem.getNotificationId();
 
@@ -338,7 +338,7 @@ public class BroadcastRepetitionsBlockPopulator {
 				@Override
 				public void onClick(View v) {
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcastThree.getBeginTimeMillisLocal());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcastThree.getBeginTimeMillisGmt());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcastThree.getChannel().getChannelId());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcastThree.getTvDateString());
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);

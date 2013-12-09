@@ -150,14 +150,14 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 			}
 
 			try {
-				mIsFuture = DateUtilities.isTimeInFuture(broadcast.getBeginTimeMillisLocal());
+				mIsFuture = DateUtilities.isTimeInFuture(broadcast.getBeginTimeStringGmt());
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
 
 			if (!mIsFuture) {
 				NotificationDbItem dbItem = new NotificationDbItem();
-				dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisLocal());
+				dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
 				if (dbItem.getNotificationId() != 0) {
 					mIsSet = true;
 					mNotificationId = dbItem.getNotificationId();
@@ -183,7 +183,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 								holder.mReminderIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 								NotificationDbItem dbItem = new NotificationDbItem();
-								dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisLocal());
+								dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
 
 								mNotificationId = dbItem.getNotificationId();
 
@@ -211,7 +211,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 				public void onClick(View v) {
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
 					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisLocal());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);

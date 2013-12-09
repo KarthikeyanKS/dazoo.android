@@ -75,7 +75,7 @@ public class NotificationService {
 		//intent.putExtra(Consts.INTENT_EXTRA_CHANNEL, channel);
 		//intent.putExtra(Consts.INTENT_EXTRA_NOTIFICATION_ID, notificationId);
 		
-		intent.putExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_BEGINTIMEMILLIS, broadcast.getBeginTimeMillisLocal());
+		intent.putExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_BEGINTIMEMILLIS, broadcast.getBeginTimeStringGmt());
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_CHANNELID, channel.getChannelId());
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_NOTIFICIATION_ID, notificationId);
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_CHANNEL_NAME, channel.getName());
@@ -101,7 +101,7 @@ public class NotificationService {
 
 			NotificationDbItem dbNotification = new NotificationDbItem();
 			dbNotification.setNotificationId(notificationId);
-			dbNotification.setBroadcstUrl(Consts.NOTIFY_BROADCAST_URL_PREFIX + channel.getChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillisLocal());
+			dbNotification.setBroadcstUrl(Consts.NOTIFY_BROADCAST_URL_PREFIX + channel.getChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeStringGmt());
 			dbNotification.setProgramId(broadcast.getProgram().getProgramId());
 			dbNotification.setProgramTitle(broadcast.getProgram().getTitle());
 
@@ -121,7 +121,7 @@ public class NotificationService {
 			dbNotification.setChannelId(channel.getChannelId());
 			dbNotification.setChannelLogoUrl(channel.getLogoSUrl());
 			dbNotification.setBroadcastBeginTime(broadcast.getBeginTimeStringLocal());
-			dbNotification.setBroadcastBeginTimeMillis(String.valueOf(broadcast.getBeginTimeMillisLocal()));
+			dbNotification.setBroadcastBeginTimeMillis(String.valueOf(broadcast.getBeginTimeStringGmt()));
 
 			notificationDataSource.addNotification(dbNotification);
 

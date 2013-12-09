@@ -150,7 +150,7 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 					Log.d(TAG, broadcast.getProgram().toString());
 
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisLocal());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, mDate.getDate());
 
