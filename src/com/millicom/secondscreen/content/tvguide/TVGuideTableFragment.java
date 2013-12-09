@@ -212,7 +212,6 @@ public class TVGuideTableFragment extends SSPageFragment {
 				mTVGuideListView.setAdapter(mTVGuideListAdapter);
 				mTVGuideListAdapter.notifyDataSetChanged();
 				focusOnView();
-				
 			} else {
 				int index = Broadcast.getClosestBroadcastIndex(mTaggedBroadcasts);
 				Log.d(TAG, "index: " + index);
@@ -275,7 +274,10 @@ public class TVGuideTableFragment extends SSPageFragment {
 		new Handler().post(new Runnable() {
 			@Override
 			public void run() {
-				mClockScrollView.smoothScrollTo(0, mCurrentHourTv.getBottom());
+				if(mCurrentHourTv!=null){
+					Log.d(TAG, "FOCUS ON VIEW");
+					mClockScrollView.smoothScrollTo(0, mCurrentHourTv.getTop());
+				}
 			}
 		});
 	}
@@ -291,7 +293,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 			p.height = LinearLayout.LayoutParams.WRAP_CONTENT;
 			mCurrentHourTv.setLayoutParams(p);
 			mCurrentHourTv.setBackgroundColor(getResources().getColor(R.color.white));
-		}
+		} 
 
 		mCurrentHourTv = getViewByTag(mClockIndexView, String.valueOf(mHour));
 		if (mCurrentHourTv != null) {
