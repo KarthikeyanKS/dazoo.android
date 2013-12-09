@@ -216,19 +216,20 @@ public class SSHttpClient<T_Result> {
 				// sHttpClient = AndroidHttpClient.newInstance("Android");
 
 				// set the timeouts
-				HttpParams httpParams = new BasicHttpParams();
+				//HttpParams httpParams = new BasicHttpParams();
 				// set the timeouts in milliseconds until a connection is established.
 				// the default value is zero, that means the timeout is not used
-				int timeOutConnection = 10000;
-				HttpConnectionParams.setConnectionTimeout(httpParams, timeOutConnection);
+				//int timeOutConnection = 10000;
+				//HttpConnectionParams.setConnectionTimeout(httpParams, timeOutConnection);
 				// set the default socket timeout (SO_TIMEOUT)
 				// in milliseconds which is the timeout for waiting for data
 				//int timeOutSocket = 10000;
 				//HttpConnectionParams.setSoTimeout(httpParams, timeOutSocket);
 				
 				
-				sHttpClient = new DefaultHttpClient(httpParams);
-
+				//sHttpClient = new DefaultHttpClient(httpParams);
+				sHttpClient = new DefaultHttpClient();
+				
 				// Create the http context to be used by the client while executing requests
 				sHttpContext = new BasicHttpContext();
 				// Create and bind a cookie store to the http context
