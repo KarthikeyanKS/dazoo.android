@@ -88,7 +88,7 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 
 		mActionBar = getSupportActionBar();
 		mActionBar.setTitle(getResources().getString(R.string.myprofile_title));
-		
+
 		mActionBar.setDisplayShowTitleEnabled(true);
 		mActionBar.setDisplayShowCustomEnabled(true);
 		mActionBar.setDisplayUseLogoEnabled(true);
@@ -96,7 +96,7 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 
 		final int actionBarColor = getResources().getColor(R.color.blue1);
 		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
-		
+
 		mMyProfileContainer = (RelativeLayout) findViewById(R.id.myprofile_person_container);
 
 		// user information
@@ -145,18 +145,21 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 
 		NotificationDataSource notificationDataSource = new NotificationDataSource(this);
 		mRemindersCountTextView.setText("(" + String.valueOf(notificationDataSource.getNumberOfNotifications()) + ")");
-	
-		
+
 		if (mIsLoggedIn) {
 			if (userAvatarUrl != null && TextUtils.isEmpty(userAvatarUrl) != true) {
 				mImageLoader.displayImage(userAvatarUrl, mAvatarImageView, ImageLoader.IMAGE_TYPE.THUMBNAIL);
 			}
-	
+
 			mLikesTextView.setText(getResources().getString(R.string.icon_heart) + " " + getResources().getString(R.string.likes));
-			mLikesCountTextView.setText("(" + String.valueOf(DazooStore.getInstance().getLikeIds().size()) + ")");
-			
+			if (DazooStore.getInstance().getLikeIds() != null && DazooStore.getInstance().getLikeIds().isEmpty() != true) {
+				mLikesCountTextView.setText("(" + String.valueOf(DazooStore.getInstance().getLikeIds().size()) + ")");
+			}
+
 			mMyChannelsTextView.setText(getResources().getString(R.string.icon_blocks) + " " + getResources().getString(R.string.my_channels));
-			mMyChannelsCountTextView.setText("(" + String.valueOf(DazooStore.getInstance().getMyChannelIds().size()) + ")");
+			if (DazooStore.getInstance().getAllChannelIds() != null && DazooStore.getInstance().getAllChannelIds().isEmpty() != true) {
+				mMyChannelsCountTextView.setText("(" + String.valueOf(DazooStore.getInstance().getMyChannelIds().size()) + ")");
+			}
 
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 				if (userFirstName != null && userLastName != null && userFirstName.isEmpty() != true && userLastName.isEmpty() != true) {
@@ -186,11 +189,11 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
 		// hide search for beta release
-		//case R.id.menu_search:
-		//	Intent toSearchPage = new Intent(MyProfileActivity.this, SearchPageActivity.class);
-		//	startActivity(toSearchPage);
-		//	overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-		//	return true;
+		// case R.id.menu_search:
+		// Intent toSearchPage = new Intent(MyProfileActivity.this, SearchPageActivity.class);
+		// startActivity(toSearchPage);
+		// overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+		// return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -210,7 +213,7 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 		overridePendingTransition(R.anim.push_right_out, R.anim.push_right_in);
 		finish();
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();

@@ -37,8 +37,8 @@ public class DazooCore {
 	private static boolean				mIsTvDate			= false;
 	private static boolean				mIsTags				= false;
 	private static boolean				mIsDefaultChannels	= false;
-	private static boolean				mIsAllChannels		= false;
-	private static boolean				mIsMyChannels		= false;
+	public static boolean				mIsAllChannels		= false;
+	public static boolean				mIsMyChannels		= false;
 	private static boolean				mIsGuide			= false;
 
 	private static ArrayList<TvDate>	mTvDates			= new ArrayList<TvDate>();
