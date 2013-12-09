@@ -252,6 +252,7 @@ public abstract class Consts {
 	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_EPISODE				= "program_episode";
 	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_YEAR					= "program_year";
 	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_TAG					= "program_tag";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_GENRE				= "program_genre";
 	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_ID					= "channel_id";
 	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_NAME					= "channel_name";
 	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_LOGO_URL				= "channel_logo_url";

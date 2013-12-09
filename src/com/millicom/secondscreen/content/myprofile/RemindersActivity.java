@@ -107,6 +107,7 @@ public class RemindersActivity extends SSActivity implements RemindersCountInter
 				program.setSeason(season);
 			} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
 				program.setYear(item.getProgramYear());
+				program.setGenre(item.getProgramGenre());
 			}
 
 			// program.setTags()

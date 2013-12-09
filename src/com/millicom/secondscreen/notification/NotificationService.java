@@ -113,6 +113,7 @@ public class NotificationService {
 			} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)){
 				dbNotification.setProgramType(programType);
 				dbNotification.setProgramYear(broadcast.getProgram().getYear());
+				dbNotification.setProgramGenre(broadcast.getProgram().getGenre());
 			} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)){
 				dbNotification.setProgramType(programType);
 			}
