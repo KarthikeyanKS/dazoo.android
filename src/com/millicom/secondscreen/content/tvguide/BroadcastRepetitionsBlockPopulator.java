@@ -36,17 +36,35 @@ public class BroadcastRepetitionsBlockPopulator {
 	private NotificationDataSource	mNotificationDataSource;
 	private ImageView				mReminderOneIv, mReminderTwoIv, mReminderThreeIv;
 	private String					mTvDate;
+	private Broadcast mRunningBroadcast;
 
 	private boolean					mIsFutureOne	= false, mIsFutureTwo = false, mIsFutureThree = false, mIsSetOne = false, mIsSetTwo = false, mIsSetThree = false, mIsSeries;
 
-	public BroadcastRepetitionsBlockPopulator(Activity activity, ScrollView containerView, String tvDate) {
+	public BroadcastRepetitionsBlockPopulator(Activity activity, ScrollView containerView, String tvDate, Broadcast runningBroadcast) {
 		this.mActivity = activity;
 		this.mContainerView = containerView;
 		this.mTvDate = tvDate;
+		this.mRunningBroadcast = runningBroadcast;
 		mNotificationDataSource = new NotificationDataSource(mActivity);
 	}
 
 	public void createBlock(final ArrayList<Broadcast> repeatingBroadcasts, final Program program) {
+		/* Remove running broadcast */
+		boolean foundRunningBroadcast = false;
+		int indexOfRunningBroadcast = 0;
+		for(int i = 0; i < repeatingBroadcasts.size(); ++i) {
+			Broadcast repeatingBroadcast = repeatingBroadcasts.get(i);
+			if(repeatingBroadcast.equals(mRunningBroadcast)) {
+				foundRunningBroadcast = true;
+				indexOfRunningBroadcast = i;
+				break;
+			}
+		}
+		
+		if(foundRunningBroadcast) {
+			repeatingBroadcasts.remove(indexOfRunningBroadcast);
+		}
+
 		
 		// the same layout as for the Upcoming Episodes for series is used, as the elements are the same, except for the title
 		LinearLayout containerView = (LinearLayout) mContainerView.findViewById(R.id.broacastpage_block_container_layout);
@@ -368,6 +386,7 @@ public class BroadcastRepetitionsBlockPopulator {
 					Intent intent = new Intent(mActivity, RepetitionsPageActivity.class);
 					intent.putParcelableArrayListExtra(Consts.INTENT_EXTRA_REPEATING_BROADCASTS, repeatingBroadcasts);
 					intent.putExtra(Consts.INTENT_EXTRA_REPEATING_PROGRAM, program);
+					intent.putExtra(Consts.INTENT_EXTRA_REPEATING_RUNNING_BROADCAST, mRunningBroadcast);
 					mActivity.startActivity(intent);
 					mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 				}

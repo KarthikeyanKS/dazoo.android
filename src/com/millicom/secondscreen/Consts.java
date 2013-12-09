@@ -163,6 +163,7 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_UPCOMING_BROADCASTS					= "com.millicom.secondscreen.intent.extra.upcoming.broadcasts";
 	public static final String	INTENT_EXTRA_REPEATING_BROADCASTS					= "com.millicom.secondscreen.intent.extra.repeating.broadcasts";
 	public static final String	INTENT_EXTRA_REPEATING_PROGRAM						= "com.millicom.secondscreen.intent.extra.repeating.program";
+	public static final String	INTENT_EXTRA_REPEATING_RUNNING_BROADCAST			= "com.millicom.secondscreen.intent.extra.repeating.runningBroadcast";
 	public static final String	INTENT_EXTRA_CLOCK_SELECTION						= "com.millicom.secondscreen.intent.extra.clock.selection";
 	public static final String	INTENT_EXTRA_CLOCK_SELECTION_VALUE					= "com.millicom.secondscreen.intent.extra.clock.selection.value";
 	public static final String	INTENT_EXTRA_TV_GUIDE_HOUR							= "com.millicom.secondscreen.intent.extra.tvguide.hour";

@@ -44,15 +44,34 @@ public class RepetitionsListAdapter extends BaseAdapter {
 	private int						mLastPosition	= -1, mNotificationId = -1;
 	private boolean					mIsSet			= false, mIsFuture = false;
 	private Program mProgram;
+	private Broadcast mRunningBroadcast;
 
 	private DazooStore				dazooStore;
 	private ArrayList<TvDate>		mTvDates;
 
-	public RepetitionsListAdapter(Activity activity, ArrayList<Broadcast> repeatingBroadcasts, Program program) {
-		this.mRepeatingEpisodes =repeatingBroadcasts;
+	public RepetitionsListAdapter(Activity activity, ArrayList<Broadcast> repeatingBroadcasts, Program program, Broadcast runningBroadcast) {
+		
+		/* Remove running broadcast */
+		boolean foundRunningBroadcast = false;
+		int indexOfRunningBroadcast = 0;
+		for(int i = 0; i < repeatingBroadcasts.size(); ++i) {
+			Broadcast repeatingBroadcast = repeatingBroadcasts.get(i);
+			if(repeatingBroadcast.equals(runningBroadcast)) {
+				foundRunningBroadcast = true;
+				indexOfRunningBroadcast = i;
+				break;
+			}
+		}
+		
+		if(foundRunningBroadcast) {
+			repeatingBroadcasts.remove(indexOfRunningBroadcast);
+		}
+		
 		this.mActivity = activity;
 		this.mImageLoader = new ImageLoader(mActivity, R.color.white);
 		this.mProgram = program;
+		this.mRunningBroadcast = runningBroadcast;
+		this.mRepeatingEpisodes =repeatingBroadcasts;
 		mNotificationDataSource = new NotificationDataSource(mActivity);
 
 		dazooStore = DazooStore.getInstance();

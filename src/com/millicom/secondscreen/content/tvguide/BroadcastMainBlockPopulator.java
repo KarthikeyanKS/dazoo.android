@@ -45,10 +45,10 @@ public class BroadcastMainBlockPopulator {
 	private ScrollView				mContainerView;
 	private ImageView				mLikeIv, mRemindIv;
 	private NotificationDataSource	mNotificationDataSource;
-	private boolean					mIsSet			= false, mIsLiked = false, mIsLoggedIn = false, mIsFuture;
+	private boolean					mIsSet			= false, mIsLiked = false, mIsLoggedIn = false;
+//	private boolean 				mIsFuture;
 	private int						mNotificationId	= -1;
 	private String					mToken, mProgramId, mLikeType, mTvDate, mContentTitle;
-	int 							duration = 0;
 
 	public BroadcastMainBlockPopulator(Activity activity, ScrollView containerView, String token, String tvDate) {
 		this.mActivity = activity;
@@ -88,11 +88,11 @@ public class BroadcastMainBlockPopulator {
 		TextView progressTxt = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_timeleft_tv);
 
 
-		try {
-			mIsFuture = DateUtilities.isTimeInFuture(broadcast.getBeginTimeMillisLocal());
-		} catch (ParseException e1) {
-			e1.printStackTrace();
-		}
+//		try {
+//			mIsFuture = DateUtilities.isTimeInFuture(broadcast.getBeginTimeMillisLocal());
+//		} catch (ParseException e1) {
+//			e1.printStackTrace();
+//		}
 
 		if (mToken != null && TextUtils.isEmpty(mToken) != true) {
 			Log.d(TAG, "LOGGED IN!");
@@ -150,7 +150,7 @@ public class BroadcastMainBlockPopulator {
 		// broadcast is currently on air: show progress
 		if (broadcast.isRunning()) {
 
-			progressBar.setMax(duration);
+			progressBar.setMax(broadcast.getDurationInMinutes());
 
 			// Calculate the current progress of the ProgressBar and update.
 			int initialProgress = 0;
@@ -160,8 +160,9 @@ public class BroadcastMainBlockPopulator {
 				initialProgress = 0;
 				progressBar.setProgress(0);
 			} else {
-				initialProgress = (int) Math.abs(broadcast.getTimeToBegin() / (1000 * 60));
-				progressTxt.setText(duration - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
+				initialProgress = broadcast.minutesSinceStart();
+				int timeLeft = broadcast.getDurationInMinutes() - initialProgress;
+				progressTxt.setText(timeLeft + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
 				progressBar.setProgress(initialProgress);
 				progressTxt.setVisibility(View.VISIBLE);
 				progressBar.setVisibility(View.VISIBLE);
@@ -179,7 +180,7 @@ public class BroadcastMainBlockPopulator {
 		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 			extras = mActivity.getResources().getString(R.string.tv_series) + " " +
 					((program.getYear() == 0) ? "" : String.valueOf(program.getYear()) + " ") + 
-					((duration == 0) ? "" : duration + " " + mActivity.getResources().getString(R.string.minutes)) + 
+					((broadcast.getDurationInMinutes() == 0) ? "" : broadcast.getDurationInMinutes() + " " + mActivity.getResources().getString(R.string.minutes)) + 
 					((program.getGenre() == null) ? "" : ("\n" + program.getGenre()));
 		} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
 			//TODO: Set the movie icon
@@ -189,16 +190,16 @@ public class BroadcastMainBlockPopulator {
 			}
 			extras = mActivity.getResources().getString(R.string.movie) + " " + 
 					((program.getYear() == 0) ? "" : String.valueOf(program.getYear()) + " ") + 
-					((duration == 0) ? "" : duration + " " + mActivity.getResources().getString(R.string.minutes)) +
+					((broadcast.getDurationInMinutes() == 0) ? "" : broadcast.getDurationInMinutes() + " " + mActivity.getResources().getString(R.string.minutes)) +
 					((program.getGenre() == null) ? "" : ("\n" + program.getGenre()));
 		} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
 			extras = program.getCategory() + " " + 
-					((duration == 0) ? "" : duration + " " + mActivity.getResources().getString(R.string.minutes)) + " " + 
+					((broadcast.getDurationInMinutes() == 0) ? "" : broadcast.getDurationInMinutes() + " " + mActivity.getResources().getString(R.string.minutes)) + " " + 
 					((program.getGenre() == null) ? "" : ("\n" + program.getGenre()));
 		} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
 			//TODO: Set live icon if live
 			extras = mActivity.getResources().getString(R.string.sport) + " " + program.getSportType().getName() + " " + 
-					((duration == 0) ? "" : duration + " " + mActivity.getResources().getString(R.string.minutes));
+					((broadcast.getDurationInMinutes() == 0) ? "" : broadcast.getDurationInMinutes() + " " + mActivity.getResources().getString(R.string.minutes));
 		}
 		extraTv.setText(extras);
 		extraTv.setVisibility(View.VISIBLE);
@@ -212,7 +213,7 @@ public class BroadcastMainBlockPopulator {
 //		tagsTv.setText(sb.toString());
 //		tagsTv.setVisibility(View.VISIBLE);
 
-		if (!mIsFuture) {
+		if (broadcast.isRunning()) {
 			NotificationDbItem dbItem = new NotificationDbItem();
 			// Sometime channel is null, avoiding crash
 			if (broadcast.getChannel() == null) {
@@ -295,7 +296,7 @@ public class BroadcastMainBlockPopulator {
 
 			@Override
 			public void onClick(View v) {
-				if (!mIsFuture) {
+				if (broadcast.isRunning()) {
 					if (mIsSet == false) {
 						if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), mTvDate)) {
 							NotificationService.showSetNotificationToast(mActivity);

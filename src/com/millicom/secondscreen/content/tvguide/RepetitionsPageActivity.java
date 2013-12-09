@@ -35,6 +35,7 @@ public class RepetitionsPageActivity extends SSActivity implements OnClickListen
 	private RepetitionsListAdapter	mAdapter;
 	private ArrayList<Broadcast>	mRepeatingBroadcasts	= new ArrayList<Broadcast>();
 	private Program					mRepeatingProgram;
+	private Broadcast 				mRunninBroadcast;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class RepetitionsPageActivity extends SSActivity implements OnClickListen
 		Intent intent = getIntent();
 		mRepeatingBroadcasts = intent.getParcelableArrayListExtra(Consts.INTENT_EXTRA_REPEATING_BROADCASTS);
 		mRepeatingProgram = intent.getParcelableExtra(Consts.INTENT_EXTRA_REPEATING_PROGRAM);
+		mRunninBroadcast = intent.getParcelableExtra(Consts.INTENT_EXTRA_REPEATING_PROGRAM);
 	
 		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 
@@ -82,7 +84,7 @@ public class RepetitionsPageActivity extends SSActivity implements OnClickListen
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
 		if (super.requestIsSuccesfull(status)) {
-			mAdapter = new RepetitionsListAdapter(this, mRepeatingBroadcasts, mRepeatingProgram);
+			mAdapter = new RepetitionsListAdapter(this, mRepeatingBroadcasts, mRepeatingProgram, mRunninBroadcast);
 			mListView.setAdapter(mAdapter);
 			mListView.setVisibility(View.VISIBLE);
 		}

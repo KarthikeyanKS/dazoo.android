@@ -269,7 +269,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 
 		// repetitions
 		if (mRepeatBroadcasts != null && mRepeatBroadcasts.isEmpty() != true) {
-			BroadcastRepetitionsBlockPopulator repeatitionsBlock = new BroadcastRepetitionsBlockPopulator(mActivity, mScrollView, mTvDate);
+			BroadcastRepetitionsBlockPopulator repeatitionsBlock = new BroadcastRepetitionsBlockPopulator(mActivity, mScrollView, mTvDate, mBroadcast);
 			repeatitionsBlock.createBlock(mRepeatBroadcasts, mBroadcast.getProgram());
 		}
 
