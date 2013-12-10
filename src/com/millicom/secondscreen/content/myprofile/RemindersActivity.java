@@ -11,10 +11,12 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -79,7 +81,7 @@ public class RemindersActivity extends SSActivity implements RemindersCountInter
 		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTabProfile.setBackgroundColor(getResources().getColor(R.color.red));
-		
+
 		mErrorTv = (TextView) findViewById(R.id.reminders_error_tv);
 		mListView = (ListView) findViewById(R.id.listview);
 	}
@@ -125,11 +127,10 @@ public class RemindersActivity extends SSActivity implements RemindersCountInter
 		// If empty - show notification.
 		if (broadcasts.isEmpty()) {
 			mErrorTv.setVisibility(View.VISIBLE);
-		}
-		else {
+		} else {
 			// Sort the list of broadcasts by time.
 			Collections.sort(broadcasts, new Broadcast.BroadcastComparatorByTime());
-	
+
 			mAdapter = new RemindersListAdapter(this, broadcasts, this);
 			mListView.setAdapter(mAdapter);
 		}
@@ -199,6 +200,23 @@ public class RemindersActivity extends SSActivity implements RemindersCountInter
 	@Override
 	protected void loadPage() {
 		// TODO Auto-generated method stub
+	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		// Respond to the action bar's Up/Home button
+		// update the reminders list on Up/Home button press too
+		case android.R.id.home:
+
+			Intent upIntent = NavUtils.getParentActivityIntent(this);
+			if (mIsChange == true) {
+				setResult(Consts.INFO_UPDATE_REMINDERS, upIntent);
+				upIntent.putExtra(Consts.INFO_UPDATE_REMINDERS_NUMBER, mCount);
+			}
+			NavUtils.navigateUpTo(this, upIntent);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }
