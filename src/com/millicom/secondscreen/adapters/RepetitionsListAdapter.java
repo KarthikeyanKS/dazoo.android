@@ -178,7 +178,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 				e1.printStackTrace();
 			}
 
-			if (!mIsFuture) {
+			if (mIsFuture) {
 				NotificationDbItem dbItem = new NotificationDbItem();
 				dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
 				if (dbItem.getNotificationId() != 0) {
@@ -199,7 +199,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 
 				@Override
 				public void onClick(View v) {
-					if (!mIsFuture) {
+					if (mIsFuture) {
 						if (mIsSet == false) {
 							if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), broadcast.getTvDateString())) {
 								NotificationService.showSetNotificationToast(mActivity);
