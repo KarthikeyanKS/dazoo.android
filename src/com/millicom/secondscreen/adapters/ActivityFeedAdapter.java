@@ -2,6 +2,7 @@ package com.millicom.secondscreen.adapters;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
@@ -55,14 +56,14 @@ public class ActivityFeedAdapter extends BaseAdapter {
 	private static final int		ITEM_TYPE_RECOMMENDED_BROADCAST		= 1;
 	private static final int		ITEM_TYPE_POPULAR_BROADCASTS		= 2;
 	private static final int		ITEM_TYPE_POPULAR_TWITTER			= 3;
-	private static final int 		ITEM_TYPE_POPULAR_BROADCAST 		= 4;
+	private static final int		ITEM_TYPE_POPULAR_BROADCAST			= 4;
 
 	private String					mToken;
 	private int						mNotificationId;
 	private NotificationDataSource	mNotificationDataSource;
 	private ArrayList<String>		mLikeIds;
 
-//	private ImageView				likeLikeIv, remindLikeIv, likeRecIv, remindRecIv, likeTwitterIv, remindTwitterIv;
+	// private ImageView likeLikeIv, remindLikeIv, likeRecIv, remindRecIv, likeTwitterIv, remindTwitterIv;
 	private boolean					mIsLiked							= false, mIsSet = false;
 
 	public ActivityFeedAdapter(Activity activity, ArrayList<FeedItem> feedItems, String token) {
@@ -125,7 +126,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		}
 		return ITEM_TYPE_BROADCAST;
 	}
-	
+
 	public void populatePopularItemAtIndex(PopularBroadcastsViewHolder viewHolder, ArrayList<Broadcast> broadcasts, int popularRowIndex) {
 		if (popularRowIndex < broadcasts.size()) {
 			final Broadcast broadcast = broadcasts.get(popularRowIndex);
@@ -196,13 +197,12 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				}
 
 				time.setText(broadcast.getDayOfWeekWithTimeString());
-				
+
 				channelName.setText(broadcast.getChannel().getName());
 
 				if (programType != null) {
 					if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
-						details.setText(broadcast.getProgram().getGenre() + " " + mActivity.getResources().getString(R.string.from)
-								+ " " + broadcast.getProgram().getYear());
+						details.setText(broadcast.getProgram().getGenre() + " " + mActivity.getResources().getString(R.string.from) + " " + broadcast.getProgram().getYear());
 					} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 						if (broadcast != null) {
 							if (program != null) {
@@ -238,8 +238,15 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					} else {
 						initialProgressOne = broadcast.minutesSinceStart();
 
-						progressTextView.setText(duration - initialProgressOne + " " + mActivity.getResources().getString(R.string.minutes) + " "
-								+ mActivity.getResources().getString(R.string.left));
+						// different representation of the "X min left" for Spanish and all other languages
+						if (Locale.getDefault().getLanguage().endsWith("es")) {
+							progressTextView.setText(mActivity.getResources().getString(R.string.left) + " " + String.valueOf(duration - initialProgressOne) + " "
+									+ mActivity.getResources().getString(R.string.minutes));
+						} else {
+							progressTextView.setText(duration - initialProgressOne + " " + mActivity.getResources().getString(R.string.minutes) + " "
+									+ mActivity.getResources().getString(R.string.left));
+						}
+
 						progressBar.setProgress(initialProgressOne);
 						progressBar.setVisibility(View.VISIBLE);
 						progressTextView.setVisibility(View.VISIBLE);
@@ -259,7 +266,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			}
 		}
 	}
-	
+
 	private void popularBroadcastClicked(Broadcast broadcast) {
 		Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
 		intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
@@ -470,11 +477,15 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						} else {
 							initialProgressTw = broadcast.minutesSinceStart();
 
-							Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-							Log.d(TAG, "initialProgressTw: " + initialProgressTw);
+							// different representation of "X min left" for Spanish and all other languages
+							if (Locale.getDefault().getLanguage().endsWith("es")) {
+								holder.progressbarTvTw.setText(mActivity.getResources().getString(R.string.left) + " " + String.valueOf(duration - initialProgressTw) + " "
+										+ mActivity.getResources().getString(R.string.minutes));
+							} else {
+								holder.progressbarTvTw.setText(duration - initialProgressTw + " " + mActivity.getResources().getString(R.string.minutes) + " "
+										+ mActivity.getResources().getString(R.string.left));
+							}
 
-							holder.progressbarTvTw.setText(duration - initialProgressTw + " " + mActivity.getResources().getString(R.string.minutes) + " "
-									+ mActivity.getResources().getString(R.string.left));
 							holder.progressBarTw.setProgress(initialProgressTw);
 							holder.progressbarTvTw.setVisibility(View.VISIBLE);
 							holder.progressBarTw.setVisibility(View.VISIBLE);
@@ -493,15 +504,11 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						mIsSet = false;
 					}
 
-					if (mIsSet)
-						holder.remindTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
-					else
-						holder.remindTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
+					if (mIsSet) holder.remindTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
+					else holder.remindTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 
-					if (mIsLiked)
-						holder.likeTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
-					else
-						holder.likeTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
+					if (mIsLiked) holder.likeTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
+					else holder.likeTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
 
 					holder.likeContainerTw.setOnClickListener(new View.OnClickListener() {
 
@@ -532,7 +539,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 									mIsLiked = true;
 								} else {
-									//Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
+									// Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
 									Log.d(TAG, "!!! Adding a like faced an error !!!");
 								}
 							} else {
@@ -550,8 +557,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 						@Override
 						public void onClick(View v) {
-							ShareAction.shareAction(mActivity, mActivity.getResources().getString(R.string.app_name), broadcast.getShareUrl(), mActivity
-									.getResources().getString(R.string.share_action_title));
+							ShareAction.shareAction(mActivity, mActivity.getResources().getString(R.string.app_name), broadcast.getShareUrl(),
+									mActivity.getResources().getString(R.string.share_action_title));
 						}
 					});
 
@@ -559,8 +566,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 						@Override
 						public void onClick(View v) {
-							NotificationDbItem item = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(),
-									broadcast.getBeginTimeMillisGmt());
+							NotificationDbItem item = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
 							if (item.getNotificationId() != 0) {
 								mIsSet = true;
 								mNotificationId = item.getNotificationId();
@@ -587,19 +593,18 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 									mIsSet = true;
 								} else {
-									//Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
-									Log.d(TAG,"!!! Setting notification faced an error !!!");
+									// Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
+									Log.d(TAG, "!!! Setting notification faced an error !!!");
 								}
 							} else {
 
 								if (mNotificationId != -1) {
 									Log.d(TAG, "mNotificationId: " + mNotificationId);
 									NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
-									notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId,
-											yesNotificationTwitterProc(holder.remindTwitterIv), noNotificationProc());
+									notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId, yesNotificationTwitterProc(holder.remindTwitterIv), noNotificationProc());
 								} else {
-									//Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
-									Log.d(TAG,"!!! Could not find such reminder in DB !!!");
+									// Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
+									Log.d(TAG, "!!! Could not find such reminder in DB !!!");
 								}
 							}
 
@@ -611,7 +616,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				case ITEM_TYPE_POPULAR_BROADCAST:
 				case ITEM_TYPE_BROADCAST:
 					Log.d(TAG, "popular: " + feedItem.getItemType());
-					
+
 					if (convertView == null) {
 						convertView = LayoutInflater.from(mActivity).inflate(R.layout.block_feed_liked, null);
 
@@ -716,8 +721,15 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						} else {
 							initialProgress = broadcast.minutesSinceStart();
 
+							// different representation of "X min left" for Spanish and all other languages
+							if (Locale.getDefault().getLanguage().endsWith("es")) {
+								holderBC.progressbarTv.setText(mActivity.getResources().getString(R.string.left) + " " + String.valueOf(duration - initialProgress) + " "
+										+ mActivity.getResources().getString(R.string.minutes));
+							} else {
 							holderBC.progressbarTv.setText(duration - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + " "
 									+ mActivity.getResources().getString(R.string.left));
+							}
+							
 							holderBC.progressBar.setProgress(initialProgress);
 							holderBC.progressbarTv.setVisibility(View.VISIBLE);
 							holderBC.progressBar.setVisibility(View.VISIBLE);
@@ -740,15 +752,11 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 					Log.d(TAG, "lIKE UP IS SET: " + mIsSet);
 
-					if (mIsSet)
-						holderBC.remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
-					else
-						holderBC.remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
+					if (mIsSet) holderBC.remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
+					else holderBC.remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 
-					if (mIsLiked)
-						holderBC.likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
-					else
-						holderBC.likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
+					if (mIsLiked) holderBC.likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
+					else holderBC.likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
 
 					holderBC.likeContainer.setOnClickListener(new View.OnClickListener() {
 
@@ -779,8 +787,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 									mIsLiked = true;
 								} else {
-									//Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
-									Log.d(TAG,"!!! Adding a like faced an error !!!");
+									// Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
+									Log.d(TAG, "!!! Adding a like faced an error !!!");
 								}
 							} else {
 								LikeService.removeLike(mToken, likeType, programId);
@@ -797,8 +805,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 						@Override
 						public void onClick(View v) {
-							ShareAction.shareAction(mActivity, mActivity.getResources().getString(R.string.app_name), broadcast.getShareUrl(), mActivity
-									.getResources().getString(R.string.share_action_title));
+							ShareAction.shareAction(mActivity, mActivity.getResources().getString(R.string.app_name), broadcast.getShareUrl(),
+									mActivity.getResources().getString(R.string.share_action_title));
 						}
 					});
 
@@ -810,7 +818,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							NotificationDbItem dbItem = new NotificationDbItem();
 
 							dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
-						
+
 							if (dbItem.getNotificationId() != 0) {
 								Log.d(TAG, "dbItem: " + dbItem.getProgramTitle() + " " + dbItem.getNotificationId());
 								mNotificationId = dbItem.getNotificationId();
@@ -825,24 +833,22 @@ public class ActivityFeedAdapter extends BaseAdapter {
 									holderBC.remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 									NotificationDbItem dbItemRemind = new NotificationDbItem();
-									dbItemRemind = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(),
-											broadcast.getBeginTimeMillisGmt());
+									dbItemRemind = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
 									mNotificationId = dbItemRemind.getNotificationId();
 
 									AnimationUtilities.animationSet(holderBC.remindLikeIv);
 
 									mIsSet = true;
 								} else {
-									//Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
-									Log.d(TAG,"!!! Setting notification faced an error !!!");
+									// Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
+									Log.d(TAG, "!!! Setting notification faced an error !!!");
 								}
 							} else {
 								if (mNotificationId != -1) {
 									NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
-									notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId,
-											yesNotificationProc(holderBC.remindLikeIv), noNotificationProc());
+									notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId, yesNotificationProc(holderBC.remindLikeIv), noNotificationProc());
 								} else {
-									//Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
+									// Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
 									Log.d(TAG, "!!! Could not find such reminder in DB !!!");
 								}
 							}
@@ -905,8 +911,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 					if (programTypeRec != null) {
 						if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programTypeRec)) {
-							holderRBC.detailsTvRec.setText(program.getGenre() + " " + mActivity.getResources().getString(R.string.from) + " "
-									+ program.getYear());
+							holderRBC.detailsTvRec.setText(program.getGenre() + " " + mActivity.getResources().getString(R.string.from) + " " + program.getYear());
 						} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeRec)) {
 							String season = program.getSeason().getNumber();
 							int episode = program.getEpisodeNumber();
@@ -936,10 +941,16 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							initialProgressRec = 0;
 							holderRBC.progressBarRec.setProgress(0);
 						} else {
-							initialProgressRec =  broadcast.minutesSinceStart();
+							initialProgressRec = broadcast.minutesSinceStart();
 
+							// different representation of "X min left" for Spanish and all other languages
+							if (Locale.getDefault().getLanguage().endsWith("es")) {
+								holderRBC.progressbarTvRec.setText(mActivity.getResources().getString(R.string.left) + " " + String.valueOf(duration - initialProgressRec) + " "
+										+ mActivity.getResources().getString(R.string.minutes));
+							} else {
 							holderRBC.progressbarTvRec.setText(duration - initialProgressRec + " " + mActivity.getResources().getString(R.string.minutes) + " "
 									+ mActivity.getResources().getString(R.string.left));
+							}
 							holderRBC.progressBarRec.setProgress(initialProgressRec);
 							holderRBC.progressBarRec.setVisibility(View.VISIBLE);
 							holderRBC.progressBarRec.setVisibility(View.VISIBLE);
@@ -968,15 +979,11 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						Log.d(TAG, "Recommended: " + mIsSet);
 					}
 
-					if (mIsSet)
-						holderRBC.remindRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
-					else
-						holderRBC.remindRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
+					if (mIsSet) holderRBC.remindRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
+					else holderRBC.remindRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 
-					if (mIsLiked)
-						holderRBC.likeRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
-					else
-						holderRBC.likeRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
+					if (mIsLiked) holderRBC.likeRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
+					else holderRBC.likeRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
 
 					holderRBC.likeContainerRec.setOnClickListener(new View.OnClickListener() {
 
@@ -1006,7 +1013,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 									mIsLiked = true;
 								} else {
-									//Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
+									// Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
 									Log.d(TAG, "!!! Adding a like faced an error !!!");
 								}
 							} else {
@@ -1023,8 +1030,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 						@Override
 						public void onClick(View v) {
-							ShareAction.shareAction(mActivity, mActivity.getResources().getString(R.string.app_name), broadcast.getShareUrl(), mActivity
-									.getResources().getString(R.string.share_action_title));
+							ShareAction.shareAction(mActivity, mActivity.getResources().getString(R.string.app_name), broadcast.getShareUrl(),
+									mActivity.getResources().getString(R.string.share_action_title));
 						}
 					});
 
@@ -1054,16 +1061,15 @@ public class ActivityFeedAdapter extends BaseAdapter {
 									AnimationUtilities.animationSet(holderRBC.remindRecIv);
 									mIsSet = true;
 								} else {
-									//Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
+									// Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
 									Log.d(TAG, "!!! Setting notification faced an error !!!");
 								}
 							} else {
 								if (mNotificationId != -1) {
 									NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
-									notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId,
-											yesNotificationRecProc(holderRBC.remindRecIv), noNotificationProc());
+									notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId, yesNotificationRecProc(holderRBC.remindRecIv), noNotificationProc());
 								} else {
-									//Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
+									// Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
 									Log.d(TAG, "!!! Could not find such reminder in DB !!!");
 								}
 							}
@@ -1076,8 +1082,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					break;
 				}
 			}
-		}
-		else {
+		} else {
 			/* No content */
 			convertView = LayoutInflater.from(mActivity).inflate(R.layout.no_data, null);
 		}
@@ -1097,7 +1102,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		return new Runnable() {
 			public void run() {
 				remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
-				Log.d(TAG,"SET IMAGE DEFAULT");
+				Log.d(TAG, "SET IMAGE DEFAULT");
 				mIsSet = false;
 			}
 		};
@@ -1107,7 +1112,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		return new Runnable() {
 			public void run() {
 				remindRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
-				Log.d(TAG,"SET IMAGE DEFAULT");
+				Log.d(TAG, "SET IMAGE DEFAULT");
 				mIsSet = false;
 			}
 		};
@@ -1119,93 +1124,94 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			}
 		};
 	}
+
 	static class PopularTwitterViewHolder {
-		RelativeLayout containerTw;
-		TextView headerTvTw;
-		ImageView landscapeIvTw;
-		ProgressBar landscapePbTw;
-		TextView titleTvTw;
-		TextView timeTvTw;
-		TextView channelTvTw;
-		TextView detailsTvTw;
-		TextView progressbarTvTw;
-		ProgressBar progressBarTw;
-		RelativeLayout likeContainerTw;
-		ImageView likeTwitterIv;
-		RelativeLayout shareContainerTw;
-		ImageView shareIvTw;
-		RelativeLayout remindContainerTw;
-		ImageView remindTwitterIv;
+		RelativeLayout	containerTw;
+		TextView		headerTvTw;
+		ImageView		landscapeIvTw;
+		ProgressBar		landscapePbTw;
+		TextView		titleTvTw;
+		TextView		timeTvTw;
+		TextView		channelTvTw;
+		TextView		detailsTvTw;
+		TextView		progressbarTvTw;
+		ProgressBar		progressBarTw;
+		RelativeLayout	likeContainerTw;
+		ImageView		likeTwitterIv;
+		RelativeLayout	shareContainerTw;
+		ImageView		shareIvTw;
+		RelativeLayout	remindContainerTw;
+		ImageView		remindTwitterIv;
 	}
-	
+
 	static class BroadcastViewHolder {
-		RelativeLayout container;
-		TextView headerTv;
-		ImageView landscapeIv;
-		ProgressBar landscapePb;
-		TextView titleTv;
-		TextView timeTv;
-		TextView channelTv;
-		TextView detailsTv;
-		TextView progressbarTv;
-		ProgressBar progressBar;
-		RelativeLayout likeContainer;
-		ImageView likeLikeIv;
-		RelativeLayout shareContainer;
-		ImageView shareIv;
-		RelativeLayout remindContainer;
-		ImageView remindLikeIv;
+		RelativeLayout	container;
+		TextView		headerTv;
+		ImageView		landscapeIv;
+		ProgressBar		landscapePb;
+		TextView		titleTv;
+		TextView		timeTv;
+		TextView		channelTv;
+		TextView		detailsTv;
+		TextView		progressbarTv;
+		ProgressBar		progressBar;
+		RelativeLayout	likeContainer;
+		ImageView		likeLikeIv;
+		RelativeLayout	shareContainer;
+		ImageView		shareIv;
+		RelativeLayout	remindContainer;
+		ImageView		remindLikeIv;
 	}
-	
+
 	static class RecommendedBroadcastViewHolder {
-		RelativeLayout containerRec;
-		TextView headerTvRec;
-		ImageView landscapeIvRec;
-		ProgressBar landscapePbRec;
-		TextView titleTvRec;
-		TextView timeTvRec;
-		TextView channelTvRec;
-		TextView detailsTvRec;
-		TextView progressbarTvRec;
-		ProgressBar progressBarRec;
-		LinearLayout likeContainerRec;
-		ImageView likeRecIv;
-		LinearLayout shareContainerRec;
-		ImageView shareIvRec;
-		LinearLayout remindContainerRec;
-		ImageView remindRecIv;
+		RelativeLayout	containerRec;
+		TextView		headerTvRec;
+		ImageView		landscapeIvRec;
+		ProgressBar		landscapePbRec;
+		TextView		titleTvRec;
+		TextView		timeTvRec;
+		TextView		channelTvRec;
+		TextView		detailsTvRec;
+		TextView		progressbarTvRec;
+		ProgressBar		progressBarRec;
+		LinearLayout	likeContainerRec;
+		ImageView		likeRecIv;
+		LinearLayout	shareContainerRec;
+		ImageView		shareIvRec;
+		LinearLayout	remindContainerRec;
+		ImageView		remindRecIv;
 	}
-	
+
 	static class PopularBroadcastsViewHolder {
-		TextView header;
-		LinearLayout mContainerOne;
-		ImageView mPosterOne;
-		ProgressBar mImageProgressBarOne;
-		TextView mTitleOne;
-		TextView mTimeOne;
-		TextView mChannelNameOne;
-		TextView mDetailsOne;
-		TextView mProgressBarTitleOne;
-		ProgressBar mProgressBarOne;
-		
-		LinearLayout mContainerTwo;
-		ImageView mPosterTwo;
-		ProgressBar mImageProgressBarTwo;
-		TextView mTitleTwo;
-		TextView mTimeTwo;
-		TextView mChannelNameTwo;
-		TextView mDetailsTwo;
-		TextView mProgressBarTitleTwo;
-		ProgressBar mProgressBarTwo;
-		
-		LinearLayout mContainerThree;
-		ImageView mPosterThree;
-		ProgressBar mImageProgressBarThree;
-		TextView mTitleThree;
-		TextView mTimeThree;
-		TextView mChannelNameThree;
-		TextView mDetailsThree;
-		TextView mProgressBarTitleThree;
-		ProgressBar mProgressBarThree;
+		TextView		header;
+		LinearLayout	mContainerOne;
+		ImageView		mPosterOne;
+		ProgressBar		mImageProgressBarOne;
+		TextView		mTitleOne;
+		TextView		mTimeOne;
+		TextView		mChannelNameOne;
+		TextView		mDetailsOne;
+		TextView		mProgressBarTitleOne;
+		ProgressBar		mProgressBarOne;
+
+		LinearLayout	mContainerTwo;
+		ImageView		mPosterTwo;
+		ProgressBar		mImageProgressBarTwo;
+		TextView		mTitleTwo;
+		TextView		mTimeTwo;
+		TextView		mChannelNameTwo;
+		TextView		mDetailsTwo;
+		TextView		mProgressBarTitleTwo;
+		ProgressBar		mProgressBarTwo;
+
+		LinearLayout	mContainerThree;
+		ImageView		mPosterThree;
+		ProgressBar		mImageProgressBarThree;
+		TextView		mTitleThree;
+		TextView		mTimeThree;
+		TextView		mChannelNameThree;
+		TextView		mDetailsThree;
+		TextView		mProgressBarTitleThree;
+		ProgressBar		mProgressBarThree;
 	}
 }

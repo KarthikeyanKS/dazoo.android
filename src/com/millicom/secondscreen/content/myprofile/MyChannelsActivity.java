@@ -39,6 +39,7 @@ import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
+import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
 import com.millicom.secondscreen.manager.ContentParser;
 import com.millicom.secondscreen.manager.DazooCore;
 import com.millicom.secondscreen.mychannels.MyChannelsService;
@@ -55,6 +56,7 @@ import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -66,6 +68,7 @@ import android.text.style.UpdateLayout;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -238,7 +241,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 			myCheckedChannelsSet.addAll(mCheckedChannelsIds);
 			mCheckedChannelsIds.clear();
 			mCheckedChannelsIds.addAll(myCheckedChannelsSet);
-			
+
 			mCount = mCheckedChannelsIds.size();
 			if (MyChannelsService.updateMyChannelsList(userToken, JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.DAZOO_CHANNEL_CHANNEL_ID, mCheckedChannelsIds))) {
 
@@ -367,5 +370,23 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 			}
 
 		});
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		// Respond to the action bar's Up/Home button
+		// update the channel list on Up/Home button press too
+		case android.R.id.home:
+			updateChannelList();
+			Intent upIntent = NavUtils.getParentActivityIntent(this);
+			if (mIsChanged == true) {
+				setResult(Consts.INFO_UPDATE_MYCHANNELS, upIntent);
+				upIntent.putExtra(Consts.INFO_UPDATE_MYCHANNELS_NUMBER, mCount);
+			}
+			NavUtils.navigateUpTo(this, upIntent);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

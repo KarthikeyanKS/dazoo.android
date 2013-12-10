@@ -1,6 +1,7 @@
 package com.millicom.secondscreen.content.tvguide;
 
 import java.text.ParseException;
+import java.util.Locale;
 
 import com.millicom.secondscreen.authentication.PromptSignInDialogHandler;
 import com.millicom.secondscreen.authentication.SignInActivity;
@@ -46,7 +47,7 @@ public class BroadcastMainBlockPopulator {
 	private ImageView				mLikeIv, mRemindIv;
 	private NotificationDataSource	mNotificationDataSource;
 	private boolean					mIsSet			= false, mIsLiked = false, mIsLoggedIn = false;
-//	private boolean 				mIsFuture;
+	// private boolean mIsFuture;
 	private int						mNotificationId	= -1;
 	private String					mToken, mProgramId, mLikeType, mTvDate, mContentTitle;
 
@@ -83,16 +84,15 @@ public class BroadcastMainBlockPopulator {
 		RelativeLayout shareContainer = (RelativeLayout) topContentView.findViewById(R.id.block_social_panel_share_button_container);
 		RelativeLayout remindContainer = (RelativeLayout) topContentView.findViewById(R.id.block_social_panel_remind_button_container);
 
-//		RelativeLayout progressBarContainer = (RelativeLayout) topContentView.findViewById(R.id.block_broadcastpage_broadcast_progress_container);
+		// RelativeLayout progressBarContainer = (RelativeLayout) topContentView.findViewById(R.id.block_broadcastpage_broadcast_progress_container);
 		ProgressBar progressBar = (ProgressBar) topContentView.findViewById(R.id.block_broadcastpage_broadcast_progressbar);
 		TextView progressTxt = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_timeleft_tv);
 
-
-//		try {
-//			mIsFuture = DateUtilities.isTimeInFuture(broadcast.getBeginTimeMillisLocal());
-//		} catch (ParseException e1) {
-//			e1.printStackTrace();
-//		}
+		// try {
+		// mIsFuture = DateUtilities.isTimeInFuture(broadcast.getBeginTimeMillisLocal());
+		// } catch (ParseException e1) {
+		// e1.printStackTrace();
+		// }
 
 		if (mToken != null && TextUtils.isEmpty(mToken) != true) {
 			Log.d(TAG, "LOGGED IN!");
@@ -122,15 +122,14 @@ public class BroadcastMainBlockPopulator {
 			episodeNameTv.setText(program.getTitle());
 			episodeNameTv.setVisibility(View.VISIBLE);
 
-		} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)){
+		} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
 			mProgramId = broadcast.getProgram().getSportType().getSportTypeId();
 			mContentTitle = broadcast.getProgram().getSportType().getName();
 			titleTv.setText(program.getTitle());
-			
+
 			episodeNameTv.setText(program.getSportType().getName());
 			episodeNameTv.setVisibility(View.VISIBLE);
-		}
-		else{
+		} else {
 			mContentTitle = broadcast.getProgram().getTitle();
 			mProgramId = broadcast.getProgram().getProgramId();
 			titleTv.setText(program.getTitle());
@@ -141,11 +140,9 @@ public class BroadcastMainBlockPopulator {
 			mImageLoader.displayImage(program.getLandLUrl(), posterIv, posterPb, ImageLoader.IMAGE_TYPE.POSTER);
 		}
 
-	
-		if(broadcast.getChannel()!=null){
+		if (broadcast.getChannel() != null) {
 			mImageLoader.displayImage(broadcast.getChannel().getLogoSUrl(), channelIv, ImageLoader.IMAGE_TYPE.THUMBNAIL);
 		}
-
 
 		// broadcast is currently on air: show progress
 		if (broadcast.isRunning()) {
@@ -162,7 +159,13 @@ public class BroadcastMainBlockPopulator {
 			} else {
 				initialProgress = broadcast.minutesSinceStart();
 				int timeLeft = broadcast.getDurationInMinutes() - initialProgress;
-				progressTxt.setText(timeLeft + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
+
+				// different representation of "X min left" for Spanish and all other languages
+				if (Locale.getDefault().getLanguage().endsWith("es")) {
+					progressTxt.setText(mActivity.getResources().getString(R.string.left) + " " + String.valueOf(timeLeft) + " " + mActivity.getResources().getString(R.string.minutes));
+				} else {
+					progressTxt.setText(timeLeft + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
+				}
 				progressBar.setProgress(initialProgress);
 				progressTxt.setVisibility(View.VISIBLE);
 				progressBar.setVisibility(View.VISIBLE);
@@ -178,49 +181,45 @@ public class BroadcastMainBlockPopulator {
 
 		String extras = "";
 		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-			extras = mActivity.getResources().getString(R.string.tv_series) + " " +
-					((program.getYear() == 0) ? "" : String.valueOf(program.getYear()) + " ") + 
-					((broadcast.getDurationInMinutes() == 0) ? "" : broadcast.getDurationInMinutes() + " " + mActivity.getResources().getString(R.string.minutes)) + 
-					((program.getGenre() == null) ? "" : ("\n" + program.getGenre()));
+			extras = mActivity.getResources().getString(R.string.tv_series) + " " + ((program.getYear() == 0) ? "" : String.valueOf(program.getYear()) + " ")
+					+ ((broadcast.getDurationInMinutes() == 0) ? "" : broadcast.getDurationInMinutes() + " " + mActivity.getResources().getString(R.string.minutes))
+					+ ((program.getGenre() == null) ? "" : ("\n" + program.getGenre()));
 		} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
-			//TODO: Set the movie icon
+			// TODO: Set the movie icon
 			String year = String.valueOf(program.getYear() + " ");
 			if (year.equals("0 ")) {
 				year = "";
 			}
-			extras = mActivity.getResources().getString(R.string.movie) + " " + 
-					((program.getYear() == 0) ? "" : String.valueOf(program.getYear()) + " ") + 
-					((broadcast.getDurationInMinutes() == 0) ? "" : broadcast.getDurationInMinutes() + " " + mActivity.getResources().getString(R.string.minutes)) +
-					((program.getGenre() == null) ? "" : ("\n" + program.getGenre()));
+			extras = mActivity.getResources().getString(R.string.movie) + " " + ((program.getYear() == 0) ? "" : String.valueOf(program.getYear()) + " ")
+					+ ((broadcast.getDurationInMinutes() == 0) ? "" : broadcast.getDurationInMinutes() + " " + mActivity.getResources().getString(R.string.minutes))
+					+ ((program.getGenre() == null) ? "" : ("\n" + program.getGenre()));
 		} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
-			extras = program.getCategory() + " " + 
-					((broadcast.getDurationInMinutes() == 0) ? "" : broadcast.getDurationInMinutes() + " " + mActivity.getResources().getString(R.string.minutes)) + " " + 
-					((program.getGenre() == null) ? "" : ("\n" + program.getGenre()));
+			extras = program.getCategory() + " " + ((broadcast.getDurationInMinutes() == 0) ? "" : broadcast.getDurationInMinutes() + " " + mActivity.getResources().getString(R.string.minutes)) + " "
+					+ ((program.getGenre() == null) ? "" : ("\n" + program.getGenre()));
 		} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
-			//TODO: Set live icon if live
-			extras = mActivity.getResources().getString(R.string.sport) + " " + program.getSportType().getName() + " " + 
-					((broadcast.getDurationInMinutes() == 0) ? "" : broadcast.getDurationInMinutes() + " " + mActivity.getResources().getString(R.string.minutes));
+			// TODO: Set live icon if live
+			extras = mActivity.getResources().getString(R.string.sport) + " " + program.getSportType().getName() + " "
+					+ ((broadcast.getDurationInMinutes() == 0) ? "" : broadcast.getDurationInMinutes() + " " + mActivity.getResources().getString(R.string.minutes));
 		}
 		extraTv.setText(extras);
 		extraTv.setVisibility(View.VISIBLE);
-		
-//		StringBuilder sb = new StringBuilder();
-//		for (int i = 0; i < program.getTags().size(); i++) {
-//			sb.append(program.getTags().get(i));
-//			sb.append(" ");
-//		}
-//
-//		tagsTv.setText(sb.toString());
-//		tagsTv.setVisibility(View.VISIBLE);
+
+		// StringBuilder sb = new StringBuilder();
+		// for (int i = 0; i < program.getTags().size(); i++) {
+		// sb.append(program.getTags().get(i));
+		// sb.append(" ");
+		// }
+		//
+		// tagsTv.setText(sb.toString());
+		// tagsTv.setVisibility(View.VISIBLE);
 
 		if (broadcast.isRunning() || !broadcast.hasStarted()) {
 			NotificationDbItem dbItem = new NotificationDbItem();
 			// Sometime channel is null, avoiding crash
 			if (broadcast.getChannel() == null) {
-				//Toast.makeText(mActivity, "Channel null", Toast.LENGTH_LONG).show();
+				// Toast.makeText(mActivity, "Channel null", Toast.LENGTH_LONG).show();
 				Log.d(TAG, "Channe is null");
-			}
-			else {
+			} else {
 				dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
 			}
 			if (dbItem.getNotificationId() != 0) {
@@ -238,7 +237,7 @@ public class BroadcastMainBlockPopulator {
 		}
 
 		if (mIsLoggedIn) {
-			//mIsLiked = LikeService.isLiked(mToken, broadcast.getProgram().getProgramId());
+			// mIsLiked = LikeService.isLiked(mToken, broadcast.getProgram().getProgramId());
 			mIsLiked = DazooStore.getInstance().isInTheLikesList(mProgramId);
 		}
 
@@ -253,16 +252,16 @@ public class BroadcastMainBlockPopulator {
 					if (mIsLiked == false) {
 						if (LikeService.addLike(mToken, mProgramId, mLikeType)) {
 							LikeService.showSetLikeToast(mActivity, mContentTitle);
-							
+
 							DazooStore.getInstance().addLikeIdToList(mProgramId);
-							
+
 							mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
 
 							AnimationUtilities.animationSet(mLikeIv);
 
 							mIsLiked = true;
 						} else {
-							//Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
+							// Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
 							Log.d(TAG, "!!! Adding a like faced an error !!!");
 						}
 
@@ -270,9 +269,9 @@ public class BroadcastMainBlockPopulator {
 						// LikeDialogHandler likeDlg = new LikeDialogHandler();
 						// likeDlg.showRemoveLikeDialog(mActivity, mToken, mLikeType, broadcast.getProgram().getProgramId(), yesLikeProc(), noLikeProc());
 						LikeService.removeLike(mToken, mProgramId, mLikeType);
-						
+
 						DazooStore.getInstance().deleteLikeIdFromList(mProgramId);
-						
+
 						mIsLiked = false;
 						mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
 					}
@@ -311,7 +310,7 @@ public class BroadcastMainBlockPopulator {
 
 							mIsSet = true;
 						} else {
-							//Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
+							// Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
 							Log.d(TAG, "!!! Setting notification faced an error !!!");
 						}
 					} else {
@@ -319,11 +318,11 @@ public class BroadcastMainBlockPopulator {
 							NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
 							notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId, yesNotificationProc(), noNotificationProc());
 						} else {
-							//Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
+							// Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
 							Log.d(TAG, "!!! Could not find such reminder in DB !!!");
 						}
 					}
-				} 
+				}
 			}
 		});
 		topContentView.setVisibility(View.VISIBLE);

@@ -3,6 +3,7 @@ package com.millicom.secondscreen.adapters;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
@@ -168,9 +169,15 @@ public class PopularListAdapter extends BaseAdapter {
 					initialProgress = broadcast.minutesSinceStart();
 
 					int timeLeft = broadcast.getDurationInMinutes() - initialProgress;
-					
-					holder.mProgressBarTitleTv.setText(timeLeft + " " + mActivity.getResources().getString(R.string.minutes) + " "
-							+ mActivity.getResources().getString(R.string.left));
+
+					// different representation of "X min left" for Spanish and all other languages
+					if (Locale.getDefault().getLanguage().endsWith("es")) {
+						holder.mProgressBarTitleTv.setText(mActivity.getResources().getString(R.string.left) + " " + String.valueOf(timeLeft) + " "
+								+ mActivity.getResources().getString(R.string.minutes));
+					} else {
+						holder.mProgressBarTitleTv.setText(timeLeft + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
+					}
+
 					holder.mProgressBar.setProgress(initialProgress);
 					holder.mProgressBar.setVisibility(View.VISIBLE);
 					holder.mProgressBarTitleTv.setVisibility(View.VISIBLE);
