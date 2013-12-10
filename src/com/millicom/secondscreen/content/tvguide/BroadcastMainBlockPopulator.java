@@ -47,7 +47,6 @@ public class BroadcastMainBlockPopulator {
 	private ImageView				mLikeIv, mRemindIv;
 	private NotificationDataSource	mNotificationDataSource;
 	private boolean					mIsSet			= false, mIsLiked = false, mIsLoggedIn = false;
-	// private boolean mIsFuture;
 	private int						mNotificationId	= -1;
 	private String					mToken, mProgramId, mLikeType, mTvDate, mContentTitle;
 

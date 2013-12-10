@@ -64,6 +64,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 	private ArrayList<Broadcast>	mUpcomingBroadcasts;
 	private ArrayList<Broadcast>	mRepeatBroadcasts;
 	private ScrollView				mScrollView;
+	private int						mActivityCardNumber;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,14 +84,17 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		mIsFromActivity = intent.getBooleanExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, false);
 		mIsFromProfile = intent.getBooleanExtra(Consts.INTENT_EXTRA_FROM_PROFILE, false);
 		mChannelLogoUrl = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_LOGO_URL);
+		mActivityCardNumber = intent.getIntExtra(Consts.INTENT_EXTRA_ACTIVITY_CARD_NUMBER, -1);
 
 		Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		Log.d(TAG, "mBeginTimeInMillis: " + String.valueOf(mBeginTimeInMillis));
-		Log.d(TAG, "mChannelId: " + mChannelId);
-		Log.d(TAG, "mTvDate: " + mTvDate);
-		Log.d(TAG, "mBroadcastPageUrl: " + mBroadcastPageUrl);
-		Log.d(TAG, "mChannelLogoUrl" + mChannelLogoUrl);
+		Log.d(TAG, "BeginTimeInMillis: " + String.valueOf(mBeginTimeInMillis));
+		Log.d(TAG, "ChannelId: " + mChannelId);
+		Log.d(TAG, "TvDate: " + mTvDate);
+		Log.d(TAG, "BroadcastPageUrl: " + mBroadcastPageUrl);
+		Log.d(TAG, "ChannelLogoUrl" + mChannelLogoUrl);
 		Log.d(TAG, "from notification: " + mIsFromNotification);
+		Log.d(TAG, "from Activity: " + mIsFromActivity);
+		Log.d(TAG, "Activity card#" + String.valueOf(mActivityCardNumber));
 		Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
 		initViews();
@@ -249,7 +253,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		BroadcastMainBlockPopulator mainBlockPopulator = new BroadcastMainBlockPopulator(mActivity, mScrollView, token, mTvDate);
 		mainBlockPopulator.createBlock(mBroadcast);
 
-		//Remove upcoming broadcasts with season 0 and episode 0
+		// Remove upcoming broadcasts with season 0 and episode 0
 		LinkedList<Broadcast> upcomingToRemove = new LinkedList<Broadcast>();
 		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(mBroadcast.getProgram().getProgramType())) {
 			Program program = mBroadcast.getProgram();
@@ -387,21 +391,21 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 				mRepeatBroadcasts = SSBroadcastsFromProgramPage.getInstance().getProgramBroadcasts();
 				int hour;
 				TvDate tvDate;
-				if(mIsFromNotification){
+				if (mIsFromNotification) {
 					hour = Integer.valueOf(DateUtilities.getCurrentHourString());
 					tvDate = new TvDate();
 					tvDate.setDate(mTvDate);
-					//Log.d(TAG, "hour: " + hour + " TvDate: " + tvDate.getDate());
+					// Log.d(TAG, "hour: " + hour + " TvDate: " + tvDate.getDate());
 				} else {
 					hour = ((SecondScreenApplication) getApplicationContext()).getSelectedHour();
 					tvDate = DazooStore.getInstance().getDate(mTvDate);
-					//Log.d(TAG, "hour: " + hour + " TvDate: " + tvDate.getDate());
+					// Log.d(TAG, "hour: " + hour + " TvDate: " + tvDate.getDate());
 				}
 				int indexOfNearestBroadcast = Broadcast.getClosestBroadcastIndexFromTime(mRepeatBroadcasts, hour, tvDate);
 
 				if (indexOfNearestBroadcast >= 0) {
 					mRepeatBroadcasts = Broadcast.getBroadcastsStartingFromPosition(indexOfNearestBroadcast, mRepeatBroadcasts, mRepeatBroadcasts.size());
-					//Log.d(TAG, "broadcasts from program: " + mRepeatBroadcasts.size());
+					// Log.d(TAG, "broadcasts from program: " + mRepeatBroadcasts.size());
 				}
 				mIsRepeat = true;
 				updateUI(REQUEST_STATUS.SUCCESSFUL);
