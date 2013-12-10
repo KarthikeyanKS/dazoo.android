@@ -111,7 +111,7 @@ public class RemindersListAdapter extends BaseAdapter {
 
 			// Get the correct date name index
 			int dateIndex = 0;
-			// TODO verify works
+			
 			for (int i = 0; i < mTvDates.size(); i++) {
 				if (broadcast.getBeginTimeStringGmt().contains(mTvDates.get(i).getDate())) {
 					dateIndex = i;
@@ -120,27 +120,29 @@ public class RemindersListAdapter extends BaseAdapter {
 			}
 
 			// If first or the previous broadcast is not the same date, show header.
-			try {
-				holder.mHeaderContainer.setVisibility(View.GONE);
-				holder.mDividerView.setVisibility(View.VISIBLE);
-				// TODO verify works
-				if (position == 0
-						|| DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmt()).equals(
-								DateUtilities.tvDateStringToDatePickerString(getItem(position - 1).getBeginTimeStringGmt())) == false) {
-					holder.mHeaderContainer.setVisibility(View.VISIBLE);
-					if (mTvDates != null && mTvDates.isEmpty()!=true) {
-						holder.mHeaderTv.setText(mTvDates.get(dateIndex).getName().toUpperCase(Locale.getDefault()));
-					} else {
-						holder.mHeaderTv.setVisibility(View.GONE);
-					}
+			holder.mHeaderContainer.setVisibility(View.GONE);
+			holder.mDividerView.setVisibility(View.VISIBLE);
+
+			int prevPos = Math.max(position - 1, 0);
+
+			int nextPos = Math.min(position + 1, (mBroadcasts.size() - 1));
+			Broadcast broadcastPreviousPosition = getItem(prevPos);
+			Broadcast broadcastNextPosition = getItem(nextPos);
+
+			String stringCurrent = broadcast.getBeginTimeStringLocalDayMonth();
+			String stringPrevious = broadcastPreviousPosition.getBeginTimeStringLocalDayMonth();
+			String stringNext = broadcastNextPosition.getBeginTimeStringLocalDayMonth();
+
+			if ((position == 0) || !stringCurrent.equals(stringPrevious)) {
+				holder.mHeaderContainer.setVisibility(View.VISIBLE);
+				if (mTvDates != null && mTvDates.isEmpty() != true) {
+					holder.mHeaderTv.setText(mTvDates.get(dateIndex).getName().toUpperCase(Locale.getDefault()));
+				} else {
+					holder.mHeaderTv.setVisibility(View.GONE);
 				}
-				if (position != (getCount() - 1)
-						&& DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmt()).equals(
-								DateUtilities.tvDateStringToDatePickerString(getItem(position + 1).getBeginTimeStringGmt())) == false) {
-					holder.mDividerView.setVisibility(View.GONE);
-				}
-			} catch (ParseException e) {
-				e.printStackTrace();
+			}
+			if (position != (getCount() - 1) && !stringCurrent.equals(stringNext)) {
+				holder.mDividerView.setVisibility(View.GONE);
 			}
 
 			if (program != null) {
@@ -155,7 +157,7 @@ public class RemindersListAdapter extends BaseAdapter {
 					if (!season.equals("0")) {
 						seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + season + " ";
 					}
-					if (episode != 0) {
+					if (episode > 0) {
 						seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + episode;
 					}
 					holder.mBroadcastDetailsTv.setText(seasonEpisode);
@@ -171,14 +173,8 @@ public class RemindersListAdapter extends BaseAdapter {
 			if (channel != null) {
 				holder.mChannelTv.setText(channel.getName());
 			}
-			try {
-				// holder.mBroadcastTimeTv.setText(DateUtilities.isoStringToDateShortAndTimeString(broadcast.getBeginTime()));
-				holder.mBroadcastTimeTv.setText(broadcast.getBeginTimeStringLocalHourAndMinute());
-			} catch (Exception e) {
-				e.printStackTrace();
-				holder.mBroadcastTimeTv.setText("");
-			}
 
+			holder.mBroadcastTimeTv.setText(broadcast.getBeginTimeStringLocalHourAndMinute());
 			holder.mInformationContainer.setOnClickListener(new View.OnClickListener() {
 
 				@Override

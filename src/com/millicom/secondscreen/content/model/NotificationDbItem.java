@@ -14,8 +14,8 @@ public class NotificationDbItem {
 	private String channelId;
 	private String channelName;
 	private String channelLogoUrl;
-	private String broadcastBeginTime;
-	private String broadcastBeginTimeMillis;
+	private String broadcastBeginTimeStringLocal;
+	private String broadcastBeginTimeInMillisGmtAsString;
 	
 	public void setNotificationId(int id){
 		this.notificationId = id;
@@ -122,20 +122,20 @@ public class NotificationDbItem {
 		return this.channelLogoUrl;
 	}
 	
-	public void setBroadcastBeginTime(String broadcastBeginTime){
-		this.broadcastBeginTime = broadcastBeginTime;
+	public void setBroadcastBeginTimeStringLocal(String broadcastBeginTimeStringLocal){
+		this.broadcastBeginTimeStringLocal = broadcastBeginTimeStringLocal;
 	}
 	
-	public String getBroadcastBeginTime(){
-		return this.broadcastBeginTime;
+	public String getBroadcastBeginTimeStringLocal(){
+		return this.broadcastBeginTimeStringLocal;
 	}
 	
-	public void setBroadcastBeginTimeMillis(String broadcastBeginTimeMillis){
-		this.broadcastBeginTimeMillis = broadcastBeginTimeMillis;
+	public void setBroadcastBeginTimeMillisGmtAsString(String broadcastBeginTimeMillisGmtAsString){
+		this.broadcastBeginTimeInMillisGmtAsString = broadcastBeginTimeMillisGmtAsString;
 	}
 	
-	public String getBroadcastTimeInMillis(){
-		return this.broadcastBeginTimeMillis;
+	public String getBroadcastBeginTimeInMillisGmtAsString(){
+		return this.broadcastBeginTimeInMillisGmtAsString;
 	}
 
 }

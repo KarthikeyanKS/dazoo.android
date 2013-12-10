@@ -121,8 +121,8 @@ public class NotificationService {
 			dbNotification.setChannelName(channel.getName());
 			dbNotification.setChannelId(channel.getChannelId());
 			dbNotification.setChannelLogoUrl(channel.getLogoSUrl());
-			dbNotification.setBroadcastBeginTime(broadcast.getBeginTimeStringLocalHourAndMinute());
-			dbNotification.setBroadcastBeginTimeMillis(String.valueOf(broadcast.getBeginTimeMillisGmt()));
+			dbNotification.setBroadcastBeginTimeStringLocal(broadcast.getBeginTimeStringGmt());
+			dbNotification.setBroadcastBeginTimeMillisGmtAsString(String.valueOf(broadcast.getBeginTimeMillisGmt()));
 
 			notificationDataSource.addNotification(dbNotification);
 

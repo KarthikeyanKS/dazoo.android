@@ -261,6 +261,50 @@ public class Broadcast implements Parcelable {
 		shareUrl = in.readString();
 	}
 	
+	public Broadcast(NotificationDbItem item) {
+		String beginTimeStringLocal = item.getBroadcastBeginTimeStringLocal();
+		this.setBeginTimeStringGmt(beginTimeStringLocal);
+		String millisGmtString = item.getBroadcastBeginTimeInMillisGmtAsString();
+		long millisGmt = Long.parseLong(millisGmtString);
+		this.setBeginTimeMillisGmt(millisGmt);
+
+		Program program = new Program();
+		program.setTitle(item.getProgramTitle());
+		String programType = item.getProgramType();
+		program.setProgramType(programType);
+		
+		long millisLocal = DateUtilities.convertTimeStampToLocalTime(millisGmt);
+		String beginTimeStringLocalHourAndMinute = DateUtilities.getTimeOfDayFormatted(millisLocal);
+		this.setBeginTimeStringLocalHourAndMinute(beginTimeStringLocalHourAndMinute);
+		
+		try {
+			String beginTimeStringLocalDayMonth = DateUtilities.tvDateStringToDatePickerString(millisLocal);
+			this.setBeginTimeStringLocalDayMonth(beginTimeStringLocalDayMonth);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+			program.setEpisodeNumber(item.getProgramEpisodeNumber());
+			Season season = new Season();
+			season.setNumber(item.getProgramSeason());
+			program.setSeason(season);
+		} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
+			program.setYear(item.getProgramYear());
+			program.setGenre(item.getProgramGenre());
+		}
+
+		// program.setTags()
+
+		this.setProgram(program);
+
+		Channel channel = new Channel();
+		channel.setChannelId(item.getChannelId());
+		channel.setName(item.getChannelName());
+
+		this.setChannel(channel);
+	}
 	
 	public Broadcast(JSONObject jsonBroadcast) {
 		String beginTimeStringGmt = jsonBroadcast.optString(Consts.DAZOO_BROADCAST_BEGIN_TIME);
