@@ -550,7 +550,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							String programId, contentTitle;
 							if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 								programId = program.getSeries().getSeriesId();
-								contentTitle = program.getTitle();
+								contentTitle = program.getSeries().getName();
 							} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
 								programId = program.getSportType().getSportTypeId();
 								contentTitle = program.getSportType().getName();

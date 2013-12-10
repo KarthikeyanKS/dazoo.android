@@ -61,18 +61,13 @@ public class Broadcast implements Parcelable {
 		return beginTimeStringLocal;
 	}
 
-
-
 	public void setBeginTimeStringLocal(String beginTimeStringLocal) {
 		this.beginTimeStringLocal = beginTimeStringLocal;
 	}
 
-
-
 	public String getEndTimeStringLocal() {
 		return endTimeStringLocal;
 	}
-
 
 
 	public void setEndTimeStringLocal(String endTimeStringLocal) {
