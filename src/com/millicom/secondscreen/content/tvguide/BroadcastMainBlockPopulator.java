@@ -213,7 +213,7 @@ public class BroadcastMainBlockPopulator {
 		// tagsTv.setText(sb.toString());
 		// tagsTv.setVisibility(View.VISIBLE);
 
-		if (broadcast.isRunning() || !broadcast.hasStarted()) {
+		if (!broadcast.hasStarted()) {
 			NotificationDbItem dbItem = new NotificationDbItem();
 			// Sometime channel is null, avoiding crash
 			if (broadcast.getChannel() == null) {
@@ -295,7 +295,7 @@ public class BroadcastMainBlockPopulator {
 
 			@Override
 			public void onClick(View v) {
-				if (broadcast.isRunning() || !broadcast.hasStarted()) {
+				if (!broadcast.hasStarted()) {
 					if (mIsSet == false) {
 						if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), mTvDate)) {
 							NotificationService.showSetNotificationToast(mActivity);
