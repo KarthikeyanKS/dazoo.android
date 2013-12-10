@@ -8,9 +8,11 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.SpannableString;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
@@ -150,5 +152,23 @@ public class LikesActivity extends SSActivity implements LikesCountInterface, On
 
 	@Override
 	protected void loadPage() {
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		// Respond to the action bar's Up/Home button
+		// update the likes list on Up/Home button press too
+		case android.R.id.home:
+			
+			Intent upIntent = NavUtils.getParentActivityIntent(this);
+			if (mIsChange == true) {
+				setResult(Consts.INFO_UPDATE_LIKES, upIntent);
+				upIntent.putExtra(Consts.INFO_UPDATE_LIKES_NUMBER, mCount);
+			}
+			NavUtils.navigateUpTo(this, upIntent);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }
