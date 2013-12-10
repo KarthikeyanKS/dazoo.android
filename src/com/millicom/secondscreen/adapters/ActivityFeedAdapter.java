@@ -375,248 +375,10 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				final long timeToEnd = broadcast.getTimeToEnd();
 
 				switch (type) {
-				case ITEM_TYPE_POPULAR_TWITTER:
-					if (convertView == null) {
-						convertView = LayoutInflater.from(mActivity).inflate(R.layout.block_feed_liked, null);
-
-						PopularTwitterViewHolder viewHolder = new PopularTwitterViewHolder();
-
-						viewHolder.containerTw = (RelativeLayout) convertView.findViewById(R.id.block_feed_liked_main_container);
-						viewHolder.headerTvTw = (TextView) convertView.findViewById(R.id.block_feed_liked_header_tv);
-						viewHolder.landscapeIvTw = (ImageView) convertView.findViewById(R.id.block_feed_liked_content_iv);
-						viewHolder.landscapePbTw = (ProgressBar) convertView.findViewById(R.id.block_feed_liked_content_iv_progressbar);
-						viewHolder.titleTvTw = (TextView) convertView.findViewById(R.id.block_feed_liked_title_tv);
-						viewHolder.timeTvTw = (TextView) convertView.findViewById(R.id.block_feed_liked_time_tv);
-						viewHolder.channelTvTw = (TextView) convertView.findViewById(R.id.block_feed_liked_channel_tv);
-						viewHolder.detailsTvTw = (TextView) convertView.findViewById(R.id.block_feed_liked_details_tv);
-						viewHolder.progressbarTvTw = (TextView) convertView.findViewById(R.id.block_feed_liked_timeleft_tv);
-						viewHolder.progressBarTw = (ProgressBar) convertView.findViewById(R.id.block_feed_liked_progressbar);
-						viewHolder.likeContainerTw = (RelativeLayout) convertView.findViewById(R.id.block_feed_liked_like_button_container);
-						viewHolder.likeTwitterIv = (ImageView) convertView.findViewById(R.id.block_feed_liked_like_button_iv);
-						viewHolder.shareContainerTw = (RelativeLayout) convertView.findViewById(R.id.block_feed_liked_share_button_container);
-						viewHolder.shareIvTw = (ImageView) convertView.findViewById(R.id.block_feed_liked_share_button_iv);
-						viewHolder.remindContainerTw = (RelativeLayout) convertView.findViewById(R.id.block_feed_liked_remind_button_container);
-						viewHolder.remindTwitterIv = (ImageView) convertView.findViewById(R.id.block_feed_liked_remind_button_iv);
-
-						convertView.setTag(viewHolder);
-					}
-					final PopularTwitterViewHolder holder = (PopularTwitterViewHolder) convertView.getTag();
-
-					// mIsLiked = LikeService.isLiked(mToken, program.getProgramId());
-
-					holder.headerTvTw.setText(mActivity.getResources().getString(R.string.icon_twitter) + " " + feedItem.getTitle());
-
-					final String programTypeTw = program.getProgramType();
-
-					// determine like
-					if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeTw)) {
-						mIsLiked = DazooStore.getInstance().isInTheLikesList(program.getSeries().getSeriesId());
-					} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programTypeTw)) {
-						mIsLiked = DazooStore.getInstance().isInTheLikesList(program.getSportType().getSportTypeId());
-					} else {
-						mIsLiked = DazooStore.getInstance().isInTheLikesList(program.getProgramId());
-					}
-
-					mImageLoader.displayImage(program.getLandLUrl(), holder.landscapeIvTw, ImageLoader.IMAGE_TYPE.GALLERY);
-
-					if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeTw)) {
-						holder.titleTvTw.setText(program.getSeries().getName());
-					} else {
-						holder.titleTvTw.setText(program.getTitle());
-					}
-
-					holder.timeTvTw.setText(broadcast.getDayOfWeekWithTimeString());
-
-					holder.channelTvTw.setText(broadcast.getChannel().getName());
-
-					if (programTypeTw != null) {
-						if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programTypeTw)) {
-							holder.detailsTvTw.setText(program.getGenre() + " " + mActivity.getResources().getString(R.string.from) + " " + program.getYear());
-						} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeTw)) {
-							String season = program.getSeason().getNumber();
-							int episode = program.getEpisodeNumber();
-							String seasonEpisode = "";
-							if (!season.equals("0")) {
-								seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + season + " ";
-							}
-							if (episode > 0) {
-								seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + episode;
-							}
-							if (season.equals("0") && episode == 0) {
-								holder.detailsTvTw.setVisibility(View.GONE);
-							}
-							holder.detailsTvTw.setText(seasonEpisode);
-						} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programTypeTw)) {
-							holder.detailsTvTw.setText(program.getSportType().getName() + " " + program.getTournament());
-						} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programTypeTw)) {
-							holder.detailsTvTw.setText(program.getCategory());
-						}
-					}
-
-					holder.containerTw.setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							popularBroadcastClicked(broadcast);
-
-						}
-					});
-
-					Log.d(TAG, "TIME SINCE BEGIN: " + broadcast.minutesSinceStart());
-					Log.d(TAG, "TIME TO END: " + timeToEnd);
-
-					if (broadcast.isRunning()) {
-						holder.progressBarTw.setMax(duration);
-
-						// MC - Calculate the current progress of the ProgressBar and update.
-						int initialProgressTw = 0;
-
-						if (timeToBegin > 0) {
-							holder.progressBarTw.setVisibility(View.GONE);
-							initialProgressTw = 0;
-							holder.progressBarTw.setProgress(0);
-						} else {
-							initialProgressTw = broadcast.minutesSinceStart();
-
-							// different representation of "X min left" for Spanish and all other languages
-							if (Locale.getDefault().getLanguage().endsWith("es")) {
-								holder.progressbarTvTw.setText(mActivity.getResources().getString(R.string.left) + " " + String.valueOf(duration - initialProgressTw) + " "
-										+ mActivity.getResources().getString(R.string.minutes));
-							} else {
-								holder.progressbarTvTw.setText(duration - initialProgressTw + " " + mActivity.getResources().getString(R.string.minutes) + " "
-										+ mActivity.getResources().getString(R.string.left));
-							}
-
-							holder.progressBarTw.setProgress(initialProgressTw);
-							holder.progressbarTvTw.setVisibility(View.VISIBLE);
-							holder.progressBarTw.setVisibility(View.VISIBLE);
-						}
-					} else {
-						holder.progressbarTvTw.setVisibility(View.GONE);
-						holder.progressBarTw.setVisibility(View.GONE);
-					}
-
-					NotificationDbItem dbItemTw = new NotificationDbItem();
-					dbItemTw = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
-					if (dbItemTw.getNotificationId() != 0) {
-						mIsSet = true;
-						mNotificationId = dbItemTw.getNotificationId();
-					} else {
-						mIsSet = false;
-					}
-
-					if (mIsSet) holder.remindTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
-					else holder.remindTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
-
-					if (mIsLiked) holder.likeTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
-					else holder.likeTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
-
-					holder.likeContainerTw.setOnClickListener(new View.OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-							String likeType = LikeService.getLikeType(programTypeTw);
-
-							String programId, contentTitle;
-							if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeTw)) {
-								programId = program.getSeries().getSeriesId();
-								contentTitle = program.getTitle();
-							} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programTypeTw)) {
-								programId = program.getSportType().getSportTypeId();
-								contentTitle = program.getSportType().getName();
-							} else {
-								programId = program.getProgramId();
-								contentTitle = program.getTitle();
-							}
-
-							if (mIsLiked == false) {
-								if (LikeService.addLike(mToken, programId, likeType)) {
-									DazooStore.getInstance().addLikeIdToList(programId);
-
-									LikeService.showSetLikeToast(mActivity, contentTitle);
-									holder.likeTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
-
-									AnimationUtilities.animationSet(holder.likeTwitterIv);
-
-									mIsLiked = true;
-								} else {
-									// Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
-									Log.d(TAG, "!!! Adding a like faced an error !!!");
-								}
-							} else {
-								LikeService.removeLike(mToken, likeType, programId);
-								DazooStore.getInstance().deleteLikeIdFromList(programId);
-
-								mIsLiked = false;
-								holder.likeTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
-
-							}
-						}
-					});
-
-					holder.shareContainerTw.setOnClickListener(new View.OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-							ShareAction.shareAction(mActivity, mActivity.getResources().getString(R.string.app_name), broadcast.getShareUrl(),
-									mActivity.getResources().getString(R.string.share_action_title));
-						}
-					});
-
-					holder.remindContainerTw.setOnClickListener(new View.OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-							NotificationDbItem item = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
-							if (item.getNotificationId() != 0) {
-								mIsSet = true;
-								mNotificationId = item.getNotificationId();
-							} else {
-								mIsSet = false;
-							}
-
-							Log.d(TAG, "Twitter: " + mIsSet);
-
-							if (mIsSet == false) {
-								if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), broadcast.getTvDateString())) {
-									NotificationService.showSetNotificationToast(mActivity);
-									holder.remindTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
-
-									NotificationDbItem dbItemTw = new NotificationDbItem();
-									Log.d(TAG, "broadcast.getChannel().getChannelId()" + broadcast.getChannel().getChannelId());
-									Log.d(TAG, "broadcast.getBeginTimeMillis()" + broadcast.getBeginTimeMillisGmt());
-
-									dbItemTw = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
-
-									mNotificationId = dbItemTw.getNotificationId();
-
-									AnimationUtilities.animationSet(holder.remindTwitterIv);
-
-									mIsSet = true;
-								} else {
-									// Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
-									Log.d(TAG, "!!! Setting notification faced an error !!!");
-								}
-							} else {
-
-								if (mNotificationId != -1) {
-									Log.d(TAG, "mNotificationId: " + mNotificationId);
-									NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
-									notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId, yesNotificationTwitterProc(holder.remindTwitterIv), noNotificationProc());
-								} else {
-									// Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
-									Log.d(TAG, "!!! Could not find such reminder in DB !!!");
-								}
-							}
-
-						}
-					});
-
-					break;
-
+				case ITEM_TYPE_RECOMMENDED_BROADCAST:
+				case ITEM_TYPE_POPULAR_TWITTER: 
 				case ITEM_TYPE_POPULAR_BROADCAST:
 				case ITEM_TYPE_BROADCAST:
-					Log.d(TAG, "popular: " + feedItem.getItemType());
-
 					if (convertView == null) {
 						convertView = LayoutInflater.from(mActivity).inflate(R.layout.block_feed_liked, null);
 
@@ -653,7 +415,11 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						mIsLiked = DazooStore.getInstance().isInTheLikesList(program.getProgramId());
 					}
 
+					if(ITEM_TYPE_POPULAR_TWITTER == type){
+						holderBC.headerTv.setText(mActivity.getResources().getString(R.string.icon_twitter) + " " + feedItem.getTitle());
+					} else {
 					holderBC.headerTv.setText(feedItem.getTitle());
+					}
 
 					mImageLoader.displayImage(program.getLandLUrl(), holderBC.landscapeIv, ImageLoader.IMAGE_TYPE.GALLERY);
 
@@ -664,7 +430,6 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					}
 
 					holderBC.timeTv.setText(broadcast.getDayOfWeekWithTimeString());
-
 					holderBC.channelTv.setText(broadcast.getChannel().getName());
 
 					if (programType != null) {
@@ -749,8 +514,6 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					} else {
 						mIsSet = false;
 					}
-
-					Log.d(TAG, "lIKE UP IS SET: " + mIsSet);
 
 					if (mIsSet) holderBC.remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 					else holderBC.remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
@@ -856,227 +619,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						}
 					});
 					break;
-				case ITEM_TYPE_RECOMMENDED_BROADCAST:
-					if (convertView == null) {
-						convertView = LayoutInflater.from(mActivity).inflate(R.layout.block_feed_recommended, null);
-
-						RecommendedBroadcastViewHolder viewHolder = new RecommendedBroadcastViewHolder();
-
-						viewHolder.containerRec = (RelativeLayout) convertView.findViewById(R.id.block_feed_recommended_main_container);
-						viewHolder.headerTvRec = (TextView) convertView.findViewById(R.id.block_feed_recommended_header_tv);
-						viewHolder.landscapeIvRec = (ImageView) convertView.findViewById(R.id.block_feed_recommended_content_iv);
-						viewHolder.landscapePbRec = (ProgressBar) convertView.findViewById(R.id.block_feed_recommended_content_iv_progressbar);
-						viewHolder.titleTvRec = (TextView) convertView.findViewById(R.id.block_feed_recommended_title_tv);
-						viewHolder.timeTvRec = (TextView) convertView.findViewById(R.id.block_feed_recommended_time_tv);
-						viewHolder.channelTvRec = (TextView) convertView.findViewById(R.id.block_feed_recommended_channel_tv);
-						viewHolder.detailsTvRec = (TextView) convertView.findViewById(R.id.block_feed_recommended_details_tv);
-						viewHolder.progressbarTvRec = (TextView) convertView.findViewById(R.id.block_feed_recommended_timeleft_tv);
-						viewHolder.progressBarRec = (ProgressBar) convertView.findViewById(R.id.block_feed_recommended_progressbar);
-						viewHolder.likeContainerRec = (LinearLayout) convertView.findViewById(R.id.block_feed_recommended_like_button_container);
-						viewHolder.likeRecIv = (ImageView) convertView.findViewById(R.id.block_feed_recommended_like_button_iv);
-						viewHolder.shareContainerRec = (LinearLayout) convertView.findViewById(R.id.block_feed_recommended_share_button_container);
-						viewHolder.shareIvRec = (ImageView) convertView.findViewById(R.id.block_feed_recommended_share_button_iv);
-						viewHolder.remindContainerRec = (LinearLayout) convertView.findViewById(R.id.block_feed_recommended_remind_button_container);
-						viewHolder.remindRecIv = (ImageView) convertView.findViewById(R.id.block_feed_recommended_remind_button_iv);
-
-						convertView.setTag(viewHolder);
-					}
-					final RecommendedBroadcastViewHolder holderRBC = (RecommendedBroadcastViewHolder) convertView.getTag();
-					// mIsLiked = LikeService.isLiked(mToken, program.getProgramId());
-
-					final String programTypeRec = program.getProgramType();
-
-					// determine like
-					if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeRec)) {
-						mIsLiked = DazooStore.getInstance().isInTheLikesList(program.getSeries().getSeriesId());
-					} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programTypeRec)) {
-						mIsLiked = DazooStore.getInstance().isInTheLikesList(program.getSportType().getSportTypeId());
-					} else {
-						mIsLiked = DazooStore.getInstance().isInTheLikesList(program.getProgramId());
-					}
-
-					holderRBC.headerTvRec.setText(feedItem.getTitle());
-
-					mImageLoader.displayImage(program.getLandLUrl(), holderRBC.landscapeIvRec, ImageLoader.IMAGE_TYPE.GALLERY);
-
-					if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeRec)) {
-						holderRBC.titleTvRec.setText(program.getSeries().getName());
-					} else {
-						holderRBC.titleTvRec.setText(program.getTitle());
-					}
-
-					holderRBC.timeTvRec.setText(broadcast.getDayOfWeekWithTimeString());
-
-					holderRBC.channelTvRec.setText(broadcast.getChannel().getName());
-
-					if (programTypeRec != null) {
-						if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programTypeRec)) {
-							holderRBC.detailsTvRec.setText(program.getGenre() + " " + mActivity.getResources().getString(R.string.from) + " " + program.getYear());
-						} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeRec)) {
-							String season = program.getSeason().getNumber();
-							int episode = program.getEpisodeNumber();
-							String seasonEpisode = "";
-							if (!season.equals("0")) {
-								seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + season + " ";
-							}
-							if (episode > 0) {
-								seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + episode;
-							}
-							holderRBC.detailsTvRec.setText(seasonEpisode);
-						} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programTypeRec)) {
-							holderRBC.detailsTvRec.setText(program.getSportType().getName() + " " + program.getTournament());
-						} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programTypeRec)) {
-							holderRBC.detailsTvRec.setText(program.getCategory());
-						}
-					}
-
-					if (broadcast.isRunning()) {
-						holderRBC.progressBarRec.setMax(duration);
-
-						// MC - Calculate the current progress of the ProgressBar and update.
-						int initialProgressRec = 0;
-
-						if (broadcast.getTimeToBegin() > 0) {
-							holderRBC.progressBarRec.setVisibility(View.GONE);
-							initialProgressRec = 0;
-							holderRBC.progressBarRec.setProgress(0);
-						} else {
-							initialProgressRec = broadcast.minutesSinceStart();
-
-							// different representation of "X min left" for Spanish and all other languages
-							if (Locale.getDefault().getLanguage().endsWith("es")) {
-								holderRBC.progressbarTvRec.setText(mActivity.getResources().getString(R.string.left) + " " + String.valueOf(duration - initialProgressRec) + " "
-										+ mActivity.getResources().getString(R.string.minutes));
-							} else {
-							holderRBC.progressbarTvRec.setText(duration - initialProgressRec + " " + mActivity.getResources().getString(R.string.minutes) + " "
-									+ mActivity.getResources().getString(R.string.left));
-							}
-							holderRBC.progressBarRec.setProgress(initialProgressRec);
-							holderRBC.progressBarRec.setVisibility(View.VISIBLE);
-							holderRBC.progressBarRec.setVisibility(View.VISIBLE);
-						}
-					} else {
-						holderRBC.progressBarRec.setVisibility(View.GONE);
-						holderRBC.progressBarRec.setVisibility(View.GONE);
-					}
-
-					holderRBC.containerRec.setOnClickListener(new View.OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-							popularBroadcastClicked(broadcast);
-						}
-					});
-
-					NotificationDbItem dbItemBroadcast = new NotificationDbItem();
-					dbItemBroadcast = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
-					if (dbItemBroadcast.getNotificationId() != 0) {
-						mIsSet = true;
-						mNotificationId = dbItemBroadcast.getNotificationId();
-						Log.d(TAG, "Recommended: " + mIsSet + " " + mNotificationId);
-					} else {
-						mIsSet = false;
-						Log.d(TAG, "Recommended: " + mIsSet);
-					}
-
-					if (mIsSet) holderRBC.remindRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
-					else holderRBC.remindRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
-
-					if (mIsLiked) holderRBC.likeRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
-					else holderRBC.likeRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
-
-					holderRBC.likeContainerRec.setOnClickListener(new View.OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-							String likeType = LikeService.getLikeType(programTypeRec);
-
-							String programId, contentTitle;
-							if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programTypeRec)) {
-								programId = program.getSeries().getSeriesId();
-								contentTitle = program.getTitle();
-							} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programTypeRec)) {
-								programId = program.getSportType().getSportTypeId();
-								contentTitle = program.getSportType().getName();
-							} else {
-								programId = program.getProgramId();
-								contentTitle = program.getTitle();
-							}
-
-							if (mIsLiked == false) {
-								if (LikeService.addLike(mToken, programId, likeType)) {
-									DazooStore.getInstance().addLikeIdToList(programId);
-									LikeService.showSetLikeToast(mActivity, contentTitle);
-									holderRBC.likeRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
-
-									AnimationUtilities.animationSet(holderRBC.likeRecIv);
-
-									mIsLiked = true;
-								} else {
-									// Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
-									Log.d(TAG, "!!! Adding a like faced an error !!!");
-								}
-							} else {
-								LikeService.removeLike(mToken, likeType, programId);
-								DazooStore.getInstance().deleteLikeIdFromList(programId);
-								mIsLiked = false;
-								holderRBC.likeRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
-
-							}
-						}
-					});
-
-					holderRBC.shareContainerRec.setOnClickListener(new View.OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-							ShareAction.shareAction(mActivity, mActivity.getResources().getString(R.string.app_name), broadcast.getShareUrl(),
-									mActivity.getResources().getString(R.string.share_action_title));
-						}
-					});
-
-					holderRBC.remindContainerRec.setOnClickListener(new View.OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-							NotificationDbItem dbItemBroadcast = new NotificationDbItem();
-							dbItemBroadcast = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
-							if (dbItemBroadcast.getNotificationId() != 0) {
-								mIsSet = true;
-								mNotificationId = dbItemBroadcast.getNotificationId();
-								Log.d(TAG, "Recommended down: " + mIsSet + " " + mNotificationId);
-							} else {
-								mIsSet = false;
-								Log.d(TAG, "Recommended down: " + mIsSet);
-							}
-
-							if (mIsSet == false) {
-								if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), broadcast.getTvDateString())) {
-									NotificationService.showSetNotificationToast(mActivity);
-									holderRBC.remindRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
-
-									NotificationDbItem dbItem = new NotificationDbItem();
-									dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
-									mNotificationId = dbItem.getNotificationId();
-									AnimationUtilities.animationSet(holderRBC.remindRecIv);
-									mIsSet = true;
-								} else {
-									// Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
-									Log.d(TAG, "!!! Setting notification faced an error !!!");
-								}
-							} else {
-								if (mNotificationId != -1) {
-									NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
-									notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId, yesNotificationRecProc(holderRBC.remindRecIv), noNotificationProc());
-								} else {
-									// Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
-									Log.d(TAG, "!!! Could not find such reminder in DB !!!");
-								}
-							}
-						}
-					});
-
-					break;
+				
 				case ITEM_TYPE_POPULAR_BROADCASTS:
 					/* Handled above */
 					break;
@@ -1102,7 +645,6 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		return new Runnable() {
 			public void run() {
 				remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
-				Log.d(TAG, "SET IMAGE DEFAULT");
 				mIsSet = false;
 			}
 		};
@@ -1112,7 +654,6 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		return new Runnable() {
 			public void run() {
 				remindRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
-				Log.d(TAG, "SET IMAGE DEFAULT");
 				mIsSet = false;
 			}
 		};
@@ -1123,25 +664,6 @@ public class ActivityFeedAdapter extends BaseAdapter {
 			public void run() {
 			}
 		};
-	}
-
-	static class PopularTwitterViewHolder {
-		RelativeLayout	containerTw;
-		TextView		headerTvTw;
-		ImageView		landscapeIvTw;
-		ProgressBar		landscapePbTw;
-		TextView		titleTvTw;
-		TextView		timeTvTw;
-		TextView		channelTvTw;
-		TextView		detailsTvTw;
-		TextView		progressbarTvTw;
-		ProgressBar		progressBarTw;
-		RelativeLayout	likeContainerTw;
-		ImageView		likeTwitterIv;
-		RelativeLayout	shareContainerTw;
-		ImageView		shareIvTw;
-		RelativeLayout	remindContainerTw;
-		ImageView		remindTwitterIv;
 	}
 
 	static class BroadcastViewHolder {
@@ -1161,25 +683,6 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		ImageView		shareIv;
 		RelativeLayout	remindContainer;
 		ImageView		remindLikeIv;
-	}
-
-	static class RecommendedBroadcastViewHolder {
-		RelativeLayout	containerRec;
-		TextView		headerTvRec;
-		ImageView		landscapeIvRec;
-		ProgressBar		landscapePbRec;
-		TextView		titleTvRec;
-		TextView		timeTvRec;
-		TextView		channelTvRec;
-		TextView		detailsTvRec;
-		TextView		progressbarTvRec;
-		ProgressBar		progressBarRec;
-		LinearLayout	likeContainerRec;
-		ImageView		likeRecIv;
-		LinearLayout	shareContainerRec;
-		ImageView		shareIvRec;
-		LinearLayout	remindContainerRec;
-		ImageView		remindRecIv;
 	}
 
 	static class PopularBroadcastsViewHolder {
