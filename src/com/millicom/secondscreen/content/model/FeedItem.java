@@ -9,12 +9,12 @@ public class FeedItem implements Parcelable{
 	
 	private static final String TAG = "FeedItem";
 	
-	String itemType;
+	private String itemType;
 	//itemType = BROADCAST and RECOMMENDED_BROADCAST
-	String title;
-	Broadcast broadcast;
+	private String title;
+	private Broadcast broadcast;
 	// itemType = POPULAR_BROADCASTS
-	ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
+	private ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
 	
 	public FeedItem(){
 	}
@@ -57,6 +57,8 @@ public class FeedItem implements Parcelable{
 		broadcast = (Broadcast) in.readParcelable(Broadcast.class.getClassLoader());
 		in.readTypedList(broadcasts, Broadcast.CREATOR);
 	}
+	
+	
 	
 	@Override
 	public int describeContents() {

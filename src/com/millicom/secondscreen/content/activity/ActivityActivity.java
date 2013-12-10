@@ -8,6 +8,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.IllegalFormatCodePointException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,6 +31,8 @@ import org.apache.http.impl.conn.SingleClientConnManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
+
+import android.R.integer;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -47,6 +50,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AbsListView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -217,6 +221,12 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		if (super.requestIsSuccesfull(status)) {
 			new SetAdapterTask().execute();
 		}
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		mAdapter.notifyDataSetChanged();
 	}
 
 	protected boolean activityIsActive() {
@@ -404,13 +414,13 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 					Log.d(TAG, "GOOD RESPONSE");
 
 					// comment for beta
-					//if (response.getFirstHeader("Age") != null) {
-					//	mRequestAge = Integer.valueOf(response.getFirstHeader("Age").getValue());
-					//}
-					//if (response.getFirstHeader("Cache-Control").getValue().substring(8) != null) {
-					//	mRequestMaxAge = Integer.valueOf(response.getFirstHeader("Cache-Control").getValue().substring(8));
-					//}
-					//mNextRequestTime = mRequestMaxAge - mRequestAge;
+					// if (response.getFirstHeader("Age") != null) {
+					// mRequestAge = Integer.valueOf(response.getFirstHeader("Age").getValue());
+					// }
+					// if (response.getFirstHeader("Cache-Control").getValue().substring(8) != null) {
+					// mRequestMaxAge = Integer.valueOf(response.getFirstHeader("Cache-Control").getValue().substring(8));
+					// }
+					// mNextRequestTime = mRequestMaxAge - mRequestAge;
 
 					HttpEntity entityHttp = response.getEntity();
 					InputStream inputStream = entityHttp.getContent();
@@ -504,7 +514,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 
 				// comment for beta
 				// schedule the next feed update
-				//scheduleFeedRefresh();
+				// scheduleFeedRefresh();
 
 			} else {
 				Log.d(TAG, "No backend response");
@@ -544,14 +554,14 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 				HttpResponse response = httpClient.execute(httpGet);
 
 				if (Consts.GOOD_RESPONSE == response.getStatusLine().getStatusCode()) {
-					//Log.d(TAG, "" + response.getFirstHeader("Age"));
-					//Log.d(TAG, "" + response.getFirstHeader("Cache-Control"));
+					// Log.d(TAG, "" + response.getFirstHeader("Age"));
+					// Log.d(TAG, "" + response.getFirstHeader("Cache-Control"));
 					//
-					//mRequestAge = Integer.valueOf(response.getFirstHeader("Age").getValue());
-					//mRequestMaxAge = Integer.valueOf(response.getFirstHeader("Cache-Control").getValue().substring(8));
-					//mNextRequestTime = mRequestMaxAge - mRequestAge;
+					// mRequestAge = Integer.valueOf(response.getFirstHeader("Age").getValue());
+					// mRequestMaxAge = Integer.valueOf(response.getFirstHeader("Cache-Control").getValue().substring(8));
+					// mNextRequestTime = mRequestMaxAge - mRequestAge;
 					//
-					//Log.d(TAG, "AGE: " + mRequestAge + " Max Age: " + mRequestMaxAge + " Next time: " + mNextRequestTime);
+					// Log.d(TAG, "AGE: " + mRequestAge + " Max Age: " + mRequestMaxAge + " Next time: " + mNextRequestTime);
 
 					Log.d(TAG, "GOOD RESPONSE");
 					HttpEntity entityHttp = response.getEntity();

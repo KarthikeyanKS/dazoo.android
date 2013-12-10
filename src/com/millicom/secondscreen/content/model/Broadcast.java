@@ -56,8 +56,6 @@ public class Broadcast implements Parcelable {
 	
 	public Broadcast() {
 	}
-
-	
 	
 	public String getBeginTimeStringLocal() {
 		return beginTimeStringLocal;
@@ -231,7 +229,7 @@ public class Broadcast implements Parcelable {
 	public String getShareUrl() {
 		return this.shareUrl;
 	}
-
+	
 	@Override
 	public int describeContents() {
 		return 0;
@@ -491,4 +489,6 @@ public class Broadcast implements Parcelable {
 		
 		return durationInMinutes;
 	}
+	
+	
 }
