@@ -401,7 +401,14 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 					tvDate = DazooStore.getInstance().getDate(mTvDate);
 					// Log.d(TAG, "hour: " + hour + " TvDate: " + tvDate.getDate());
 				}
-				int indexOfNearestBroadcast = Broadcast.getClosestBroadcastIndexFromTime(mRepeatBroadcasts, hour, tvDate);
+				
+				int indexOfNearestBroadcast = 0;
+				if(tvDate != null) {
+					indexOfNearestBroadcast = Broadcast.getClosestBroadcastIndexFromTime(mRepeatBroadcasts, hour, tvDate);
+				} else {
+					Log.e(TAG, "TvDate was null");
+					indexOfNearestBroadcast = Broadcast.getClosestBroadcastIndex(mRepeatBroadcasts);
+				}
 
 				if (indexOfNearestBroadcast >= 0) {
 					mRepeatBroadcasts = Broadcast.getBroadcastsStartingFromPosition(indexOfNearestBroadcast, mRepeatBroadcasts, mRepeatBroadcasts.size());
