@@ -2,6 +2,7 @@ package com.millicom.secondscreen.adapters;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
@@ -91,8 +92,15 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 						
 						initialProgress =  broadcast.minutesSinceStart();
 			
+						// different representation of "X min left" for Spanish and all other languages
+						if (Locale.getDefault().getLanguage().endsWith("es")) {
+							holder.mTimeLeftTv.setText(mActivity.getResources().getString(R.string.left) + " " + String.valueOf(broadcast.getDurationInMinutes() - initialProgress) + " "
+									+ mActivity.getResources().getString(R.string.minutes));
+						} else {
 						holder.mTimeLeftTv.setText(broadcast.getDurationInMinutes() - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + " "
 								+ mActivity.getResources().getString(R.string.left));
+						}
+						
 						holder.mDurationPb.setProgress(initialProgress);
 						holder.mDurationPb.setVisibility(View.VISIBLE);
 						holder.mTimeLeftTv.setVisibility(View.VISIBLE);

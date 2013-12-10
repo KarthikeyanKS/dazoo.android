@@ -2,6 +2,7 @@ package com.millicom.secondscreen.adapters;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
@@ -119,11 +120,16 @@ public class ChannelPageListAdapter extends BaseAdapter {
 					initialProgress = 0;
 					holder.mDurationPb.setProgress(0);
 				} else {
-					initialProgress =  broadcast.minutesSinceStart();
-					
+					initialProgress = broadcast.minutesSinceStart();
+
 					int timeLeft = durationInMinutes - initialProgress;
-				
-					holder.mTimeleftTv.setText(timeLeft + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
+
+					// different representation of "X min left" for Spanish and all other languages
+					if (Locale.getDefault().getLanguage().endsWith("es")) {
+						holder.mTimeleftTv.setText(mActivity.getResources().getString(R.string.left) + " " + String.valueOf(timeLeft) + " " + mActivity.getResources().getString(R.string.minutes));
+					} else {
+						holder.mTimeleftTv.setText(timeLeft + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
+					}
 					holder.mDurationPb.setProgress(initialProgress);
 					holder.mDurationPb.setVisibility(View.VISIBLE);
 				}
