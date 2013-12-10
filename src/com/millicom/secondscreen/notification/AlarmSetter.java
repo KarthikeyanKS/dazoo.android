@@ -40,8 +40,8 @@ public class AlarmSetter extends BroadcastReceiver {
 			NotificationDbItem item = notificationList.get(i);
 			
 			Broadcast broadcast = new Broadcast();
-			broadcast.setBeginTimeStringGmt(item.getBroadcastBeginTime());
-			broadcast.setBeginTimeMillisGmt(Long.parseLong(item.getBroadcastTimeInMillis()));
+			broadcast.setBeginTimeStringGmt(item.getBroadcastBeginTimeStringLocal());
+			broadcast.setBeginTimeMillisGmt(Long.parseLong(item.getBroadcastBeginTimeInMillisGmtAsString()));
 			
 			Program program = new Program();
 			program.setProgramId(item.getProgramId());

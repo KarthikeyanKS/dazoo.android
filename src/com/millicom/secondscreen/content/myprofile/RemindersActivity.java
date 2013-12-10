@@ -93,35 +93,7 @@ public class RemindersActivity extends SSActivity implements RemindersCountInter
 		List<NotificationDbItem> notificationList = notificationDataSource.getAllNotifications();
 		for (int i = 0; i < notificationList.size(); i++) {
 			NotificationDbItem item = notificationList.get(i);
-			Broadcast broadcast = new Broadcast();
-			broadcast.setBeginTimeStringGmt(item.getBroadcastBeginTime());
-			broadcast.setBeginTimeMillisGmt(Long.parseLong(item.getBroadcastTimeInMillis()));
-
-			Program program = new Program();
-			program.setTitle(item.getProgramTitle());
-			String programType = item.getProgramType();
-			program.setProgramType(programType);
-
-			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-				program.setEpisodeNumber(item.getProgramEpisodeNumber());
-				Season season = new Season();
-				season.setNumber(item.getProgramSeason());
-				program.setSeason(season);
-			} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
-				program.setYear(item.getProgramYear());
-				program.setGenre(item.getProgramGenre());
-			}
-
-			// program.setTags()
-
-			broadcast.setProgram(program);
-
-			Channel channel = new Channel();
-			channel.setChannelId(item.getChannelId());
-			channel.setName(item.getChannelName());
-
-			broadcast.setChannel(channel);
-
+			Broadcast broadcast = new Broadcast(item);
 			broadcasts.add(broadcast);
 		}
 		// If empty - show notification.

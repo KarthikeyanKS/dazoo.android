@@ -47,8 +47,8 @@ public class NotificationDataSource {
 		values.put(Consts.NOTIFICATION_DB_COLUMN_CHANNEL_ID, notification.getChannelId());
 		values.put(Consts.NOTIFICATION_DB_COLUMN_CHANNEL_NAME, notification.getChannelName());
 		values.put(Consts.NOTIFICATION_DB_COLUMN_CHANNEL_LOGO_URL	, notification.getChannelLogoUrl());
-		values.put(Consts.NOTIFICATION_DB_COLUMN_BROADCAST_BEGINTIME, notification.getBroadcastBeginTime());
-		values.put(Consts.NOTIFICATION_DB_COLUMN_BROADCAST_BEGINTIMEMILLIS, notification.getBroadcastTimeInMillis());
+		values.put(Consts.NOTIFICATION_DB_COLUMN_BROADCAST_BEGINTIME, notification.getBroadcastBeginTimeStringLocal());
+		values.put(Consts.NOTIFICATION_DB_COLUMN_BROADCAST_BEGINTIMEMILLIS, notification.getBroadcastBeginTimeInMillisGmtAsString());
 		long rowId = database.insert(Consts.NOTIFICATION_DB_TABLE_NOTIFICATIONS, null, values);
 		Log.d(TAG,"ROW IS INSERTED: " + String.valueOf(rowId));
 		
@@ -140,8 +140,8 @@ public class NotificationDataSource {
 				notification.setChannelId(cursor.getString(10));
 				notification.setChannelName(cursor.getString(11));
 				notification.setChannelLogoUrl(cursor.getString(12));
-				notification.setBroadcastBeginTime(cursor.getString(13));
-				notification.setBroadcastBeginTimeMillis(cursor.getString(14));
+				notification.setBroadcastBeginTimeStringLocal(cursor.getString(13));
+				notification.setBroadcastBeginTimeMillisGmtAsString(cursor.getString(14));
 			}
 		}
 		return notification;

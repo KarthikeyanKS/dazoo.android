@@ -131,9 +131,61 @@ public class ActivityFeedAdapter extends BaseAdapter {
 	}
 
 	public void populatePopularItemAtIndex(PopularBroadcastsViewHolder viewHolder, ArrayList<Broadcast> broadcasts, int popularRowIndex) {
+		ImageView imageView = null;
+		TextView title = null;
+		TextView time = null;
+		TextView channelName = null;
+		TextView details = null;
+		TextView progressTextView = null;
+		ProgressBar progressBar = null;
+		ProgressBar imageProgressBar = null;
+		LinearLayout containerLayout = null;
+
+		switch (popularRowIndex) {
+			case 0: {
+				imageView = viewHolder.mPosterOne;
+				title = viewHolder.mTitleOne;
+				time = viewHolder.mTimeOne;
+				channelName = viewHolder.mChannelNameOne;
+				details = viewHolder.mDetailsOne;
+				progressBar = viewHolder.mProgressBarOne;
+				progressTextView = viewHolder.mProgressBarTitleOne;
+				imageProgressBar = viewHolder.mImageProgressBarOne;
+				containerLayout = viewHolder.mContainerOne;
+				break;
+			}
+			case 1: {
+				imageView = viewHolder.mPosterTwo;
+				title = viewHolder.mTitleTwo;
+				time = viewHolder.mTimeTwo;
+				channelName = viewHolder.mChannelNameTwo;
+				details = viewHolder.mDetailsTwo;
+				progressBar = viewHolder.mProgressBarTwo;
+				progressTextView = viewHolder.mProgressBarTitleTwo;
+				imageProgressBar = viewHolder.mImageProgressBarTwo;
+				containerLayout = viewHolder.mContainerTwo;
+				break;
+			}
+			case 2: {
+				imageView = viewHolder.mPosterThree;
+				title = viewHolder.mTitleThree;
+				time = viewHolder.mTimeThree;
+				channelName = viewHolder.mChannelNameThree;
+				details = viewHolder.mDetailsThree;
+				progressBar = viewHolder.mProgressBarThree;
+				progressTextView = viewHolder.mProgressBarTitleThree;
+				imageProgressBar = viewHolder.mImageProgressBarThree;
+				containerLayout = viewHolder.mContainerThree;
+				break;
+			}
+		}
+
+		boolean hideView = true;
+		
 		if (popularRowIndex < broadcasts.size()) {
 			final Broadcast broadcast = broadcasts.get(popularRowIndex);
 			if (broadcast != null) {
+				hideView = false;
 				broadcast.updateTimeToBeginAndTimeToEnd();
 				final Program program = broadcast.getProgram();
 				final long timeToBegin = broadcast.getTimeToBegin();
@@ -142,54 +194,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 				String programType = broadcast.getProgram().getProgramType();
 
-				ImageView imageView = null;
-				TextView title = null;
-				TextView time = null;
-				TextView channelName = null;
-				TextView details = null;
-				TextView progressTextView = null;
-				ProgressBar progressBar = null;
-				ProgressBar imageProgressBar = null;
-				LinearLayout containerLayout = null;
-
-				switch (popularRowIndex) {
-				case 0: {
-					imageView = viewHolder.mPosterOne;
-					title = viewHolder.mTitleOne;
-					time = viewHolder.mTimeOne;
-					channelName = viewHolder.mChannelNameOne;
-					details = viewHolder.mDetailsOne;
-					progressBar = viewHolder.mProgressBarOne;
-					progressTextView = viewHolder.mProgressBarTitleOne;
-					imageProgressBar = viewHolder.mImageProgressBarOne;
-					containerLayout = viewHolder.mContainerOne;
-					break;
-				}
-				case 1: {
-					imageView = viewHolder.mPosterTwo;
-					title = viewHolder.mTitleTwo;
-					time = viewHolder.mTimeTwo;
-					channelName = viewHolder.mChannelNameTwo;
-					details = viewHolder.mDetailsTwo;
-					progressBar = viewHolder.mProgressBarTwo;
-					progressTextView = viewHolder.mProgressBarTitleTwo;
-					imageProgressBar = viewHolder.mImageProgressBarTwo;
-					containerLayout = viewHolder.mContainerTwo;
-					break;
-				}
-				case 2: {
-					imageView = viewHolder.mPosterThree;
-					title = viewHolder.mTitleThree;
-					time = viewHolder.mTimeThree;
-					channelName = viewHolder.mChannelNameThree;
-					details = viewHolder.mDetailsThree;
-					progressBar = viewHolder.mProgressBarThree;
-					progressTextView = viewHolder.mProgressBarTitleThree;
-					imageProgressBar = viewHolder.mImageProgressBarThree;
-					containerLayout = viewHolder.mContainerThree;
-					break;
-				}
-				}
+							
 
 				mImageLoader.displayImage(broadcast.getProgram().getPortMUrl(), imageView, ImageLoader.IMAGE_TYPE.THUMBNAIL);
 
@@ -266,6 +271,10 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						popularBroadcastClicked(broadcast);
 					}
 				});
+			}
+			
+			if(hideView) {
+				containerLayout.setVisibility(View.GONE);
 			}
 		}
 	}
@@ -364,6 +373,10 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						mActivity.startActivity(intent);
 					}
 				});
+				
+				if(feedItem.getBroadcasts().size() < 4) {
+					footer.setVisibility(View.GONE);
+				}
 
 			} else {
 

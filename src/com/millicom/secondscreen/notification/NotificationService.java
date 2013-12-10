@@ -32,6 +32,7 @@ import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.NotificationDbItem;
+import com.millicom.secondscreen.content.model.Program;
 import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
 import com.millicom.secondscreen.utilities.DateUtilities;
 
@@ -103,7 +104,16 @@ public class NotificationService {
 			dbNotification.setNotificationId(notificationId);
 			dbNotification.setBroadcstUrl(Consts.NOTIFY_BROADCAST_URL_PREFIX + channel.getChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillisGmt());
 			dbNotification.setProgramId(broadcast.getProgram().getProgramId());
-			dbNotification.setProgramTitle(broadcast.getProgram().getTitle());
+			
+			Program program = broadcast.getProgram();
+			String titleString = null;
+			if(program.getSeries() != null) {
+				titleString = program.getSeries().getName();
+			} else {
+				titleString = program.getTitle();
+			}
+			
+			dbNotification.setProgramTitle(titleString);
 
 			String programType = broadcast.getProgram().getProgramType();
 			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
@@ -121,8 +131,8 @@ public class NotificationService {
 			dbNotification.setChannelName(channel.getName());
 			dbNotification.setChannelId(channel.getChannelId());
 			dbNotification.setChannelLogoUrl(channel.getLogoSUrl());
-			dbNotification.setBroadcastBeginTime(broadcast.getBeginTimeStringLocalHourAndMinute());
-			dbNotification.setBroadcastBeginTimeMillis(String.valueOf(broadcast.getBeginTimeMillisGmt()));
+			dbNotification.setBroadcastBeginTimeStringLocal(broadcast.getBeginTimeStringGmt());
+			dbNotification.setBroadcastBeginTimeMillisGmtAsString(String.valueOf(broadcast.getBeginTimeMillisGmt()));
 
 			notificationDataSource.addNotification(dbNotification);
 
