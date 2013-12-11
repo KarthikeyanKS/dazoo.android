@@ -103,10 +103,7 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 		mTvDates = dazooStore.getTvDates();
 		mSelectedIndex = dazooStore.getDateIndex(mTvGuideDate);
 
-		String tvDateToday = DateUtilities.todayDateAsTvDate();
-		if (mDateTvGuide.getDate().equals(tvDateToday)) {
-			mIsToday = true;
-		}
+		updateIsToday();
 
 		super.initCallbackLayouts();
 
@@ -164,6 +161,7 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 	}
 
 	private void reloadPage() {
+		updateIsToday();
 		mChannelGuide = null;
 		mBroadcasts = null;
 		if (mIsLoggedIn) {
@@ -182,14 +180,30 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 			if (mIndexOfNearestBroadcast >= 0) {
 				mFollowingBroadcasts = null;
 				mFollowingBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());
-				setFollowingBroadcasts();
 			}
+			setFollowingBroadcasts();
 			mFollowingBroadcastsListAdapter.notifyDataSetChanged();
 			Log.d(TAG, "CHANNELGUIDE: " + mChannelGuide.getName() + mFollowingBroadcasts.size());
 			updateUI(REQUEST_STATUS.SUCCESSFUL);
 		} else {
 			DazooCore.getGuide(mSelectedIndex, true);
 			Log.d(TAG, "get guide");
+		}
+	}
+	
+	private void updateIsToday() {
+		String tvDateToday = DateUtilities.todayDateAsTvDate();
+		String tvDate = null;
+		if(mTvDateSelected != null) {
+			tvDate = mTvDateSelected.getDate();
+		} else {
+			tvDate = mDateTvGuide.getDate();
+		}
+		
+		if (tvDate.equals(tvDateToday)) {
+			mIsToday = true;
+		} else {
+			mIsToday = false;
 		}
 	}
 

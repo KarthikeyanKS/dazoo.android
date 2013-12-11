@@ -143,6 +143,12 @@ public class LikesActivity extends SSActivity implements LikesCountInterface, On
 	public void setCount(int count) {
 		mIsChange = true;
 		mCount = count;
+		
+		if(count == 0) {
+			mErrorTv.setVisibility(View.VISIBLE);
+		} else {
+			mErrorTv.setVisibility(View.GONE);
+		}
 	}
 
 	@Override
