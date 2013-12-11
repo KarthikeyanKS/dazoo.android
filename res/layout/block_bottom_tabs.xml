@@ -22,7 +22,7 @@
             android:layout_centerHorizontal="true"
             android:text="@string/icon_timetable"
             android:textColor="@color/white"
-            android:textSize="@dimen/header_1"
+            android:textSize="26sp"
             font:fonttextview="fontello.ttf" />
 
         <com.millicom.secondscreen.customviews.FontTextView
@@ -32,7 +32,7 @@
             android:layout_centerHorizontal="true"
             android:text="@string/tab_tv_guide"
             android:textColor="@color/white"
-            android:textSize="@dimen/bottom_tabs_font_size"
+            android:textSize="10dp"
             font:fonttextview="fontello.ttf" />
     </RelativeLayout>
 
@@ -62,7 +62,7 @@
             android:layout_centerHorizontal="true"
             android:text="@string/icon_feed"
             android:textColor="@color/white"
-            android:textSize="@dimen/header_1"
+            android:textSize="26sp"
             font:fonttextview="fontello.ttf" />
 
         <com.millicom.secondscreen.customviews.FontTextView
@@ -72,7 +72,7 @@
             android:layout_centerHorizontal="true"
             android:text="@string/tab_activity"
             android:textColor="@color/white"
-            android:textSize="@dimen/bottom_tabs_font_size"
+            android:textSize="10sp"
             font:fonttextview="fontello.ttf" />
     </RelativeLayout>
 
@@ -102,7 +102,7 @@
             android:layout_centerHorizontal="true"
             android:text="@string/icon_me"
             android:textColor="@color/white"
-            android:textSize="@dimen/header_1"
+            android:textSize="26sp"
             font:fonttextview="fontello.ttf" />
 
         <com.millicom.secondscreen.customviews.FontTextView
@@ -112,8 +112,8 @@
             android:layout_centerHorizontal="true"
             android:text="@string/tab_me"
             android:textColor="@color/white"
-            android:textSize="@dimen/bottom_tabs_font_size"
-            font:fonttextview="fontello.ttf" />
+            android:textSize="10sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
 </LinearLayout>

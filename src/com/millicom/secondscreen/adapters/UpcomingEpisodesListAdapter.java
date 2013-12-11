@@ -110,7 +110,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 			viewHolder.mTimeTv = (TextView) rowView.findViewById(R.id.row_upcoming_episodes_listitem_title_time);
 			viewHolder.mChannelTv = (TextView) rowView.findViewById(R.id.row_upcoming_episodes_listitem_channel);
 			viewHolder.mReminderIv = (ImageView) rowView.findViewById(R.id.row_upcoming_episodes_listitem_remind_iv);
-			viewHolder.mReminderContainer = (LinearLayout) rowView.findViewById(R.id.row_upcoming_episodes_listitem_remind_container);
+			viewHolder.mReminderContainer = (RelativeLayout) rowView.findViewById(R.id.row_upcoming_episodes_listitem_remind_container);
 			viewHolder.mContainer = (LinearLayout) rowView.findViewById(R.id.row_upcoming_episodes_listitem_info_container);
 
 			viewHolder.mDivider = (View) rowView.findViewById(R.id.row_upcoming_episodes_listitem_bottom_divider);
@@ -286,7 +286,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 		TextView		mTimeTv;
 		TextView		mChannelTv;
 		ImageView		mReminderIv;
-		LinearLayout	mReminderContainer;
+		RelativeLayout	mReminderContainer;
 
 		View			mDivider;
 	}

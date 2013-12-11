@@ -45,7 +45,7 @@ public class MyChannelsListAdapter extends BaseAdapter {
 		this.mIsCheckedArray = isCheckedArray;
 		this.mCountInterface = countInterface;
 		this.mSelectedCount = selectedCount;
-		this.mImageLoader = new ImageLoader(context, R.color.white);
+		this.mImageLoader = new ImageLoader(context, R.color.grey1);
 	}
 
 	@Override

@@ -67,7 +67,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 		}
 		
 		this.mActivity = activity;
-		this.mImageLoader = new ImageLoader(mActivity, R.color.white);
+		this.mImageLoader = new ImageLoader(mActivity, R.color.grey1);
 		this.mProgram = program;
 		this.mRunningBroadcast = runningBroadcast;
 		this.mRepeatingEpisodes =repeatingBroadcasts;

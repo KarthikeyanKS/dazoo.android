@@ -49,7 +49,7 @@ public class RemindersListAdapter extends BaseAdapter {
 	public RemindersListAdapter(Activity mActivity, ArrayList<Broadcast> mBroadcasts, RemindersCountInterface remindersInterface) {
 		this.mBroadcasts = mBroadcasts;
 		this.mActivity = mActivity;
-		this.mImageLoader = new ImageLoader(mActivity, R.color.white);
+		this.mImageLoader = new ImageLoader(mActivity, R.color.grey1);
 		this.mInterface = remindersInterface;
 
 		dazooStore = DazooStore.getInstance();

@@ -13,9 +13,8 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:background="@color/grey1"
-        android:textColor="@color/grey2"
-        android:textSize="@dimen/ingress"
-        font:fonttextview="fontello.ttf" />
+        android:textColor="@color/grey3"
+        android:textSize="13dp" />
 
     <com.millicom.secondscreen.customviews.FontTextView
         android:id="@+id/layout_actionbar_dropdown_list_date_item_name"

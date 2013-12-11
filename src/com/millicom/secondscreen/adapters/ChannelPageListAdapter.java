@@ -42,7 +42,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 	public ChannelPageListAdapter(Activity activity, ArrayList<Broadcast> followingBroadcasts) {
 		this.mFollowingBroadcasts = followingBroadcasts;
 		this.mActivity = activity;
-		this.mImageLoader = new ImageLoader(activity, R.color.white);
+		this.mImageLoader = new ImageLoader(activity, R.color.grey1);
 	}
 
 	@Override

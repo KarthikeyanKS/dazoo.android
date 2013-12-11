@@ -8,9 +8,9 @@
 
     <!-- HOMEPAGE : TABS -->
 
-    <string name="tab_tv_guide">Programación</string>
-    <string name="tab_activity">Actividad</string>
-    <string name="tab_me">Mi Perfil</string>
+    <string name="tab_tv_guide">PROGRAMACIÓN</string>
+    <string name="tab_activity">ACTIVIDAD</string>
+    <string name="tab_me">MI PERFIL</string>
 
     <!-- HOMEPAGE : FILTERING BY DAY -->
     <string name="today">Hoy</string>

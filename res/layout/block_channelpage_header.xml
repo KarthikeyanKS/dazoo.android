@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/channelpage_channel_icon_iv"
-        android:layout_width="110dp"
-        android:layout_height="85dp"
+        android:layout_width="91dp"
+        android:layout_height="70dp"
         android:layout_centerInParent="true" />
 
 </RelativeLayout>

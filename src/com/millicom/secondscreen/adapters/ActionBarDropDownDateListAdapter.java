@@ -3,6 +3,7 @@ package com.millicom.secondscreen.adapters;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,6 +104,11 @@ public class ActionBarDropDownDateListAdapter extends BaseAdapter implements Spi
 				txtNumber.setText("");
 			}
 
+			// make the selected text position bold
+			if(position==mSelectedIndex){
+				txtName.setTypeface(null, Typeface.BOLD);
+			}
+			
 			txtName.setVisibility(View.VISIBLE);
 			txtNumber.setVisibility(View.VISIBLE);
 

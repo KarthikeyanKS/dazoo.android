@@ -46,7 +46,7 @@ public class PopularListAdapter extends BaseAdapter {
 	public PopularListAdapter(Activity activity, String token, ArrayList<Broadcast> popularBroadcasts) {
 		this.mActivity = activity;
 		this.mPopularBroadcasts = popularBroadcasts;
-		this.mImageLoader = new ImageLoader(activity, R.color.white);
+		this.mImageLoader = new ImageLoader(activity, R.color.grey1);
 		this.mToken = token;
 
 		dazooStore = DazooStore.getInstance();
