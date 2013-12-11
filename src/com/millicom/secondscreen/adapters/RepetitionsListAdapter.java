@@ -42,7 +42,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 	private ImageLoader				mImageLoader;
 	private NotificationDataSource	mNotificationDataSource;
 	private int						mLastPosition	= -1, mNotificationId = -1;
-	private boolean					mIsSet			= false, mIsFuture = false;
+	private boolean					mIsSet			= false;
 	private Program					mProgram;
 	private Broadcast 				mRunningBroadcast;
 	private DazooStore				dazooStore;
@@ -172,13 +172,8 @@ public class RepetitionsListAdapter extends BaseAdapter {
 				holder.mChannelTv.setText(channel);
 			}
 
-			try {
-				mIsFuture = DateUtilities.isTimeInFuture(broadcast.getBeginTimeMillisLocal());
-			} catch (ParseException e1) {
-				e1.printStackTrace();
-			}
-
-			if (mIsFuture) {
+			
+			if (!broadcast.hasStarted()) {
 				NotificationDbItem dbItem = new NotificationDbItem();
 				dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
 				if (dbItem.getNotificationId() != 0) {
@@ -199,7 +194,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 
 				@Override
 				public void onClick(View v) {
-					if (mIsFuture) {
+					if (!broadcast.hasStarted()) {
 						if (mIsSet == false) {
 							if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), broadcast.getTvDateString())) {
 								NotificationService.showSetNotificationToast(mActivity);
