@@ -43,6 +43,7 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 	private ProgressBar			mAvatarProgressBar;
 	private ImageView			mAvatarImageView;
 	private TextView			mUserNameTextView, mRemindersTextView, mLikesTextView, mMyChannelsTextView, mSettingsTextView, mRemindersCountTextView, mLikesCountTextView, mMyChannelsCountTextView;
+	private View mTabDividerLeft, mTabDividerRight;
 	private Button				mLoginBtn;
 	private String				userFirstName, userLastName, userAvatarUrl;
 	private boolean				mIsLoggedIn	= false;
@@ -61,7 +62,7 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
 		mToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
-		mImageLoader = new ImageLoader(this, R.color.white);
+		mImageLoader = new ImageLoader(this, R.color.grey1);
 
 		if (mToken != null && TextUtils.isEmpty(mToken) != true) {
 			mIsLoggedIn = true;
@@ -82,6 +83,13 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 		mTabActivity.setOnClickListener(this);
 		mTabProfile = (RelativeLayout) findViewById(R.id.show_me);
 		mTabProfile.setOnClickListener(this);
+		
+		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider);
+		mTabDividerRight = (View) findViewById(R.id.tab_right_divider);
+		
+		mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+		mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+
 
 		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));

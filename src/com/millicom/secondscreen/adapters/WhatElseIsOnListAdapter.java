@@ -34,7 +34,7 @@ public class WhatElseIsOnListAdapter extends BaseAdapter {
 	public WhatElseIsOnListAdapter(Activity activity, ArrayList<Broadcast> followingBroadcasts) {
 		this.mFollowingEpisodes = followingBroadcasts;
 		this.mActivity = activity;
-		this.mImageLoader = new ImageLoader(activity, R.color.white);
+		this.mImageLoader = new ImageLoader(activity, R.color.grey1);
 	}
 
 	@Override

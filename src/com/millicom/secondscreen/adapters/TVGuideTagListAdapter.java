@@ -43,7 +43,7 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 	public TVGuideTagListAdapter(Activity activity, ArrayList<Broadcast> taggedBroadcasts, int currentPosition, TvDate date) {
 		this.mTaggedBroadcasts = taggedBroadcasts;
 		this.mActivity = activity;
-		this.mImageLoader = new ImageLoader(mActivity, R.color.white);
+		this.mImageLoader = new ImageLoader(mActivity, R.color.grey1);
 		this.mCurrentPosition = currentPosition;
 		this.mDate = date;
 	}

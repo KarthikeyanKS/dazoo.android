@@ -91,6 +91,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 	private ListView					mListView;
 	private TextView					mChannelCountTv;
 	private RelativeLayout				mTabTvGuide, mTabProfile, mTabActivity;
+	private View mTabDividerLeft, mTabDividerRight;
 	private EditText					mSearchChannelInputEditText;
 	private MyChannelsListAdapter		mAdapter;
 	private ArrayList<Channel>			mChannels				= new ArrayList<Channel>();
@@ -136,6 +137,13 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 		mTabActivity.setOnClickListener(this);
 		mTabProfile = (RelativeLayout) findViewById(R.id.show_me);
 		mTabProfile.setOnClickListener(this);
+		
+		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider);
+		mTabDividerRight = (View) findViewById(R.id.tab_right_divider);
+		
+		mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+		mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+
 
 		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));

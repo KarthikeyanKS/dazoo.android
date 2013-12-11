@@ -38,7 +38,7 @@ public class SettingsActivity extends SSActivity implements OnClickListener {
 	private ActionBar			mActionBar;
 	private boolean				mIsChange	= false;
 	private Button				mContactButton, mTermsButton, mHelpButton, mLogoutButton;
-	private View				mTabSelectorContainerView;
+	private View				mTabDividerLeft, mTabDividerRight;
 	private RelativeLayout			mTabTvGuide, mTabActivity, mTabProfile;
 	private TextView mVersionTextView;
 	private String 				mToken;
@@ -77,7 +77,6 @@ public class SettingsActivity extends SSActivity implements OnClickListener {
 		}
 
 		// styling bottom navigation tabs
-		mTabSelectorContainerView = findViewById(R.id.tab_selector_container);
 
 		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);
 		mTabTvGuide.setOnClickListener(this);
@@ -86,6 +85,12 @@ public class SettingsActivity extends SSActivity implements OnClickListener {
 		mTabProfile = (RelativeLayout) findViewById(R.id.show_me);
 		mTabProfile.setOnClickListener(this);
 
+		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider);
+		mTabDividerRight = (View) findViewById(R.id.tab_right_divider);
+		
+		mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+		mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+		
 		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTabProfile.setBackgroundColor(getResources().getColor(R.color.red));

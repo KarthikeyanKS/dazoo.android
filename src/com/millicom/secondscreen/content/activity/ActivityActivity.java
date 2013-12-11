@@ -79,6 +79,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 
 	private static final String	TAG				= "ActivityActivity";
 	private RelativeLayout		mTabTvGuide, mTabProfile, mTabActivity, mSigninContainer, mFacebookContainer, mSignUpContainer;
+	private View				mTabDividerLeft, mTabDividerRight;
 	private TextView			mSignInTv, mGreetingTv;
 	private Button				mCheckPopularBtn, mLoginBtn;
 	private ActionBar			mActionBar;
@@ -134,6 +135,12 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		mTabActivity.setOnClickListener(this);
 		mTabProfile = (RelativeLayout) findViewById(R.id.show_me);
 		mTabProfile.setOnClickListener(this);
+
+		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider);
+		mTabDividerRight = (View) findViewById(R.id.tab_right_divider);
+
+		mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+		mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
 
 		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTabActivity.setBackgroundColor(getResources().getColor(R.color.red));

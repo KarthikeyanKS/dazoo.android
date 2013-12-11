@@ -47,7 +47,7 @@ public class RemindersActivity extends SSActivity implements RemindersCountInter
 	private boolean					mIsChange	= false;
 	private ListView				mListView;
 	private RemindersListAdapter	mAdapter;
-	private View					mTabSelectorContainerView;
+	private View					mTabDividerLeft, mTabDividerRight;
 	private RelativeLayout			mTabTvGuide, mTabActivity, mTabProfile;
 	private int						mCount		= 0;
 	private TextView				mErrorTv;
@@ -70,7 +70,7 @@ public class RemindersActivity extends SSActivity implements RemindersCountInter
 		mActionBar.setTitle(getResources().getString(R.string.reminders));
 
 		// styling bottom navigation tabs
-		mTabSelectorContainerView = findViewById(R.id.tab_selector_container);
+		
 		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);
 		mTabTvGuide.setOnClickListener(this);
 		mTabActivity = (RelativeLayout) findViewById(R.id.show_activity);
@@ -78,6 +78,13 @@ public class RemindersActivity extends SSActivity implements RemindersCountInter
 		mTabProfile = (RelativeLayout) findViewById(R.id.show_me);
 		mTabProfile.setOnClickListener(this);
 
+		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider);
+		mTabDividerRight = (View) findViewById(R.id.tab_right_divider);
+		
+		mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+		mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+
+		
 		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTabProfile.setBackgroundColor(getResources().getColor(R.color.red));

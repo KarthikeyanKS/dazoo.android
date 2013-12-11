@@ -56,6 +56,7 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 	private ActionBar							mActionBar;
 	private ActionBarDropDownDateListAdapter	mDayAdapter;
 	private RelativeLayout						mTabTvGuide, mTabActivity, mTabProfile;
+	private View mTabDividerLeft, mTabDividerRight;
 	private ListView							mFollowingBroadcastsLv;
 	private ImageView							mChannelIconIv;
 	private ChannelPageListAdapter				mFollowingBroadcastsListAdapter;
@@ -76,7 +77,7 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_channelpage_activity);
 
-		mImageLoader = new ImageLoader(this, R.color.white);
+		mImageLoader = new ImageLoader(this, R.color.grey1);
 
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverDate, new IntentFilter(Consts.INTENT_EXTRA_CHANNEL_SORTING));
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverContent, new IntentFilter(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE));
@@ -241,6 +242,12 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 		mTabProfile = (RelativeLayout) findViewById(R.id.show_me);
 		mTabProfile.setOnClickListener(this);
 
+		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider);
+		mTabDividerRight = (View) findViewById(R.id.tab_right_divider);
+		
+		mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+		mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+		
 		// the highlighted tab in the Channel activity is TV Guide
 		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
 		mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));

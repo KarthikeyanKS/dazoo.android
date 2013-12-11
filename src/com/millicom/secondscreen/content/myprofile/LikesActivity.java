@@ -41,6 +41,7 @@ public class LikesActivity extends SSActivity implements LikesCountInterface, On
 	private LikesListAdapter	mAdapter;
 	private String				token;
 	private RelativeLayout		mTabTvGuide, mTabActivity, mTabProfile;
+	private View mTabDividerLeft, mTabDividerRight;
 	private TextView mErrorTv;
 	private int mCount = 0;
 	
@@ -69,6 +70,13 @@ public class LikesActivity extends SSActivity implements LikesCountInterface, On
 		mTabActivity.setOnClickListener(this);
 		mTabProfile = (RelativeLayout) findViewById(R.id.show_me);
 		mTabProfile.setOnClickListener(this);
+		
+		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider);
+		mTabDividerRight = (View) findViewById(R.id.tab_right_divider);
+		
+		mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+		mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+
 
 		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));

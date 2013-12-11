@@ -30,7 +30,7 @@ public class ActivityPopularBlockPopulator {
 	public ActivityPopularBlockPopulator(Activity activity, LinearLayout containerView) {
 		this.mActivity = activity;
 		this.mContainerView = containerView;
-		this.mImageLoader = new ImageLoader(mActivity, R.color.white);
+		this.mImageLoader = new ImageLoader(mActivity, R.color.grey1);
 	}
 
 	public void createBlock(FeedItem popularItem) {

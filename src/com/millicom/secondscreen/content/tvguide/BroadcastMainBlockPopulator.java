@@ -54,7 +54,7 @@ public class BroadcastMainBlockPopulator {
 		this.mActivity = activity;
 		this.mToken = token;
 		this.mTvDate = tvDate;
-		this.mImageLoader = new ImageLoader(mActivity, R.color.white);
+		this.mImageLoader = new ImageLoader(mActivity, R.color.grey1);
 		this.mContainerView = containerView;
 		this.mNotificationDataSource = new NotificationDataSource(mActivity);
 	}

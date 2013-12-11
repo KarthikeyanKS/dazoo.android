@@ -64,6 +64,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 	private ArrayList<Broadcast>	mUpcomingBroadcasts;
 	private ArrayList<Broadcast>	mRepeatBroadcasts;
 	private ScrollView				mScrollView;
+	private View mTabDividerLeft, mTabDividerRight;
 	private int						mActivityCardNumber;
 
 	@Override
@@ -228,18 +229,33 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		mTabProfile = (RelativeLayout) findViewById(R.id.show_me);
 		mTabProfile.setOnClickListener(this);
 
+		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider);
+		mTabDividerRight = (View) findViewById(R.id.tab_right_divider);
+		
 		if (mIsFromActivity) {
 			mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 			mTabActivity.setBackgroundColor(getResources().getColor(R.color.red));
 			mTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+			
+			mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+			mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+
 		} else if (mIsFromProfile) {
 			mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 			mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
 			mTabProfile.setBackgroundColor(getResources().getColor(R.color.red));
+			
+			mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+			mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+
 		} else {
 			mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
 			mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
 			mTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+			
+			mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+			mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+
 		}
 
 		mBlockContainer = (LinearLayout) findViewById(R.id.broacastpage_block_container_layout);

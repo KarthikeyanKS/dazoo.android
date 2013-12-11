@@ -37,6 +37,7 @@ public class HelpActivity extends SSActivity implements OnClickListener {
 	private boolean				mIsChange	= false;
 	private View				mTabSelectorContainerView;
 	private RelativeLayout		mTabTvGuide, mTabActivity, mTabProfile;
+	private View				mTabDividerLeft, mTabDividerRight;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -64,6 +65,12 @@ public class HelpActivity extends SSActivity implements OnClickListener {
 		mTabActivity.setOnClickListener(this);
 		mTabProfile = (RelativeLayout) findViewById(R.id.show_me);
 		mTabProfile.setOnClickListener(this);
+
+		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider);
+		mTabDividerRight = (View) findViewById(R.id.tab_right_divider);
+
+		mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+		mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
 
 		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));

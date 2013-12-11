@@ -46,6 +46,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 	private static final String					TAG					= "HomeActivity";
 	private RelativeLayout						mTabTvGuide, mTabPopular, mTabFeed;
+	View mTabDividerLeft, mTabDividerRight;
 	private ActionBar							mActionBar;
 	private ActionBarDropDownDateListAdapter	mDayAdapter;
 	public static int							mBroadcastSelection	= -1;
@@ -234,6 +235,12 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		mTabFeed = (RelativeLayout) findViewById(R.id.show_me);
 		mTabFeed.setOnClickListener(this);
 
+		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider);
+		mTabDividerRight = (View) findViewById(R.id.tab_right_divider);
+		
+		mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+		mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+		
 		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
 		mTabPopular.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTabFeed.setBackgroundColor(getResources().getColor(R.color.yellow));

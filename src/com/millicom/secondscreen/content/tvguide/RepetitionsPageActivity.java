@@ -36,6 +36,7 @@ public class RepetitionsPageActivity extends SSActivity implements OnClickListen
 	private ArrayList<Broadcast>	mRepeatingBroadcasts	= new ArrayList<Broadcast>();
 	private Program					mRepeatingProgram;
 	private Broadcast 				mRunningBroadcast;
+	private View mTabDividerLeft, mTabDividerRight;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,12 @@ public class RepetitionsPageActivity extends SSActivity implements OnClickListen
 		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTabActivity.setBackgroundColor(getResources().getColor(R.color.red));
 		mTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+		
+		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider);
+		mTabDividerRight = (View) findViewById(R.id.tab_right_divider);
+		
+		mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+		mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
 
 		mActionBar = getSupportActionBar();
 

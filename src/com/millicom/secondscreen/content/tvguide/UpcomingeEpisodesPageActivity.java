@@ -38,6 +38,7 @@ public class UpcomingeEpisodesPageActivity extends SSActivity implements OnClick
 	private UpcomingEpisodesListAdapter	mAdapter;
 	private Broadcast 					mRunningBroadcast;
 	private ArrayList<Broadcast>		mUpcomingBroadcasts	= new ArrayList<Broadcast>();
+	private View mTabDividerLeft, mTabDividerRight;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,12 @@ public class UpcomingeEpisodesPageActivity extends SSActivity implements OnClick
 		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTabActivity.setBackgroundColor(getResources().getColor(R.color.red));
 		mTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+		
+		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider);
+		mTabDividerRight = (View) findViewById(R.id.tab_right_divider);
+		
+		mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+		mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
 
 		mActionBar = getSupportActionBar();
 
