@@ -78,8 +78,6 @@ public class ChannelPageListAdapter extends BaseAdapter {
 		String broadcastType = broadcast.getBroadcastType();
 		String programType = broadcast.getProgram().getProgramType();
 		long timeToBegin = broadcast.getTimeToBegin();
-		long timeToEnd = broadcast.getTimeToEnd();
-		int durationInMinutes = broadcast.getDurationInMinutes();
 
 		if (rowView == null) {
 			mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -112,7 +110,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 				// MC - Set the image for current broadcast.
 				mImageLoader.displayImage(broadcast.getProgram().getLandLUrl(), holder.mIconIv, holder.mIconPb, ImageLoader.IMAGE_TYPE.POSTER);
 				// MC - Calculate the duration of the program and set up ProgressBar.
-				holder.mDurationPb.setMax(durationInMinutes);
+				holder.mDurationPb.setMax(broadcast.getDurationInMinutes() + 1);
 
 				// MC - Calculate the current progress of the ProgressBar and update.
 				int initialProgress = 0;
@@ -123,7 +121,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 				} else {
 					initialProgress = broadcast.minutesSinceStart();
 
-					int timeLeft = durationInMinutes - initialProgress;
+					int timeLeft = broadcast.getDurationInMinutes() - initialProgress;
 
 					// different representation of "X min left" for Spanish and all other languages
 					if (Locale.getDefault().getLanguage().endsWith("es")) {
@@ -131,7 +129,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 					} else {
 						holder.mTimeleftTv.setText(timeLeft + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
 					}
-					holder.mDurationPb.setProgress(initialProgress);
+					holder.mDurationPb.setProgress(initialProgress + 1);
 					holder.mDurationPb.setVisibility(View.VISIBLE);
 				}
 			}
@@ -146,10 +144,10 @@ public class ChannelPageListAdapter extends BaseAdapter {
 					holder.mTitleTv.setText(mActivity.getResources().getString(R.string.icon_movie) + " " + title);
 					holder.mDescTv.setText(broadcast.getProgram().getGenre() + " " + mActivity.getResources().getString(R.string.from) + " " + broadcast.getProgram().getYear());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-					String season = broadcast.getProgram().getSeason().getNumber();
+					int season = Integer.parseInt(broadcast.getProgram().getSeason().getNumber());
 					int episode = broadcast.getProgram().getEpisodeNumber();
 					String seasonEpisode = "";
-					if (!season.equals("0")) {
+					if (season > 0) {
 						seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + season + " ";
 					}
 					if (episode > 0) {

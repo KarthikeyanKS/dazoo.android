@@ -154,7 +154,7 @@ public class PopularListAdapter extends BaseAdapter {
 			holder.mChannelNameTv.setText(broadcast.getChannel().getName());
 
 			if (broadcast.isRunning()) {
-				holder.mProgressBar.setMax(broadcast.getDurationInMinutes());
+				holder.mProgressBar.setMax(broadcast.getDurationInMinutes() + 1);
 
 				// Calculate the current progress of the ProgressBar and update.
 				int initialProgress = 0;
@@ -178,7 +178,7 @@ public class PopularListAdapter extends BaseAdapter {
 						holder.mProgressBarTitleTv.setText(timeLeft + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
 					}
 
-					holder.mProgressBar.setProgress(initialProgress);
+					holder.mProgressBar.setProgress(initialProgress + 1);
 					holder.mProgressBar.setVisibility(View.VISIBLE);
 					holder.mProgressBarTitleTv.setVisibility(View.VISIBLE);
 				}

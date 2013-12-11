@@ -79,7 +79,7 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 			if (broadcast != null) {
 				// If on air
 				if (broadcast.isRunning()) {
-					holder.mDurationPb.setMax(broadcast.getDurationInMinutes());
+					holder.mDurationPb.setMax(broadcast.getDurationInMinutes() + 1);
 
 					// Calculate the current progress of the ProgressBar and update.
 					int initialProgress = 0;
@@ -101,7 +101,7 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 								+ mActivity.getResources().getString(R.string.left));
 						}
 						
-						holder.mDurationPb.setProgress(initialProgress);
+						holder.mDurationPb.setProgress(initialProgress + 1);
 						holder.mDurationPb.setVisibility(View.VISIBLE);
 						holder.mTimeLeftTv.setVisibility(View.VISIBLE);
 					}

@@ -111,7 +111,7 @@ public class WhatElseIsOnListAdapter extends BaseAdapter {
 			// MC - Set the begin time of the broadcast.
 
 			holder.mTimeTv.setText(broadcast.getBeginTimeStringLocalHourAndMinute());
-			holder.mDurationPb.setMax(broadcast.getDurationInMinutes());
+			holder.mDurationPb.setMax(broadcast.getDurationInMinutes() + 1);
 
 			// MC - Calculate the current progress of the ProgressBar and update.
 			int initialProgress = 0;
@@ -132,7 +132,7 @@ public class WhatElseIsOnListAdapter extends BaseAdapter {
 					holder.mTimeleftTv.setText(broadcast.getDurationInMinutes() - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + " "
 							+ mActivity.getResources().getString(R.string.left));
 				}
-				holder.mDurationPb.setProgress(initialProgress);
+				holder.mDurationPb.setProgress(initialProgress + 1);
 				holder.mDurationPb.setVisibility(View.VISIBLE);
 			}
 			// Set program type

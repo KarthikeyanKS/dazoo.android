@@ -234,7 +234,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				}
 
 				if (broadcast.isRunning()) {
-					progressBar.setMax(duration);
+					progressBar.setMax(duration + 1);
 
 					// MC - Calculate the current progress of the ProgressBar and update.
 					int initialProgressOne = 0;
@@ -255,7 +255,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 									+ mActivity.getResources().getString(R.string.left));
 						}
 
-						progressBar.setProgress(initialProgressOne);
+						progressBar.setProgress(initialProgressOne + 1);
 						progressBar.setVisibility(View.VISIBLE);
 						progressTextView.setVisibility(View.VISIBLE);
 					}
@@ -494,7 +494,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					});
 
 					if (broadcast.isRunning()) {
-						holderBC.progressBar.setMax(duration);
+						holderBC.progressBar.setMax(duration + 1);
 
 						// MC - Calculate the current progress of the ProgressBar and update.
 						int initialProgress = 0;
@@ -515,7 +515,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 										+ mActivity.getResources().getString(R.string.left));
 							}
 
-							holderBC.progressBar.setProgress(initialProgress);
+							holderBC.progressBar.setProgress(initialProgress + 1);
 							holderBC.progressbarTv.setVisibility(View.VISIBLE);
 							holderBC.progressBar.setVisibility(View.VISIBLE);
 						}

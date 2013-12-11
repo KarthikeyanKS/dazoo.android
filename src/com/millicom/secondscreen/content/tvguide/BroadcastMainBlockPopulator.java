@@ -146,7 +146,7 @@ public class BroadcastMainBlockPopulator {
 		// broadcast is currently on air: show progress
 		if (broadcast.isRunning()) {
 
-			progressBar.setMax(broadcast.getDurationInMinutes());
+			progressBar.setMax(broadcast.getDurationInMinutes() + 1);
 
 			// Calculate the current progress of the ProgressBar and update.
 			int initialProgress = 0;
@@ -165,7 +165,7 @@ public class BroadcastMainBlockPopulator {
 				} else {
 					progressTxt.setText(timeLeft + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
 				}
-				progressBar.setProgress(initialProgress);
+				progressBar.setProgress(initialProgress + 1);
 				progressTxt.setVisibility(View.VISIBLE);
 				progressBar.setVisibility(View.VISIBLE);
 				timeTv.setVisibility(View.GONE);
