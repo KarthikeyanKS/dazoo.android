@@ -17,6 +17,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.Typeface;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -139,7 +140,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 
 			holder.mTimeTv.setText(broadcast.getBeginTimeStringLocalHourAndMinute());
 			String title = broadcast.getProgram().getTitle();
-
+			
 			if (programType != null) {
 				if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
 					holder.mTitleTv.setText(mActivity.getResources().getString(R.string.icon_movie) + " " + title);
@@ -176,6 +177,13 @@ public class ChannelPageListAdapter extends BaseAdapter {
 			holder.mTimeTv.setText("");
 			holder.mTitleTv.setText("");
 			holder.mDescTv.setText("");
+		}
+		
+		if (TextUtils.isEmpty(holder.mDescTv.getText().toString()) == false) {
+			holder.mDescTv.setVisibility(View.VISIBLE);
+		}
+		else {
+			holder.mDescTv.setVisibility(View.GONE);
 		}
 
 		// animate the item - available for higher api levels only
