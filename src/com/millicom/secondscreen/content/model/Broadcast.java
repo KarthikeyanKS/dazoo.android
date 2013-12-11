@@ -17,6 +17,7 @@ import org.json.JSONObject;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.utilities.DateUtilities;
 
+import android.R.integer;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -73,8 +74,6 @@ public class Broadcast implements Parcelable {
 	public void setEndTimeStringLocal(String endTimeStringLocal) {
 		this.endTimeStringLocal = endTimeStringLocal;
 	}
-
-
 
 	public String getTvDateString() {
 		return tvDateString;
@@ -241,17 +240,44 @@ public class Broadcast implements Parcelable {
 			}
 		}
 		return false;
-	}
-
+	}		
+	
 	public Broadcast(Parcel in) {
-		beginTimeStringGmt = in.readString();
-		endTimeStringGmt = in.readString();
 		channel = (Channel) in.readParcelable(Channel.class.getClassLoader());
 		program = (Program) in.readParcelable(Program.class.getClassLoader());
 		channelUrl = in.readString();
+		shareUrl = in.readString();	
+		beginTimeStringGmt = in.readString();
+		endTimeStringGmt = in.readString();
 		beginTimeMillisGmt = in.readLong();
-		beginTimeStringLocalHourAndMinute = getBeginTimeStringLocalHourAndMinute();
-		shareUrl = in.readString();
+		endTimeMillisGmt = in.readLong();
+		beginTimeMillisLocal = in.readLong();
+		endTimeMillisLocal = in.readLong();
+		
+		this.calculateAndSetTimeData();
+		
+		beginTimeStringLocal = in.readString();
+		endTimeStringLocal = in.readString();
+		beginTimeStringLocalHourAndMinute = in.readString();
+		beginTimeStringLocalDayMonth = in.readString();	
+	}
+	
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeParcelable(channel, flags);
+		dest.writeParcelable(program, flags);
+		dest.writeString(channelUrl);
+		dest.writeString(shareUrl);
+		dest.writeString(beginTimeStringGmt);
+		dest.writeString(endTimeStringGmt);
+		dest.writeLong(beginTimeMillisGmt);
+		dest.writeLong(endTimeMillisGmt);
+		dest.writeLong(beginTimeMillisLocal);
+		dest.writeLong(endTimeMillisLocal);
+		dest.writeString(beginTimeStringLocal);
+		dest.writeString(endTimeStringLocal);
+		dest.writeString(beginTimeStringLocalHourAndMinute);
+		dest.writeString(beginTimeStringLocalDayMonth);
 	}
 	
 	public Broadcast(NotificationDbItem item) {
@@ -299,6 +325,46 @@ public class Broadcast implements Parcelable {
 		this.setChannel(channel);
 	}
 	
+	public void calculateAndSetTimeData() {
+		String beginTimeStringLocalHourAndMinute = DateUtilities.getTimeOfDayFormatted(beginTimeMillisLocal);
+		this.setBeginTimeStringLocalHourAndMinute(beginTimeStringLocalHourAndMinute);
+		
+		try {
+			long endTimeMillisGmt = DateUtilities.isoStringToLong(endTimeStringGmt);
+			long endTimeMillisLocal = DateUtilities.convertTimeStampToLocalTime(endTimeMillisGmt);
+			
+			this.setEndTimeMillisGmt(endTimeMillisGmt);
+			this.setEndTimeMillisLocal(endTimeMillisLocal);
+			
+
+			String beginTimeStringLocalDayMonth = DateUtilities.tvDateStringToDatePickerString(beginTimeMillisLocal);
+			this.setBeginTimeStringLocalDayMonth(beginTimeStringLocalDayMonth);
+			
+			String dayOfWeekString = DateUtilities.isoStringToDayOfWeek(beginTimeMillisLocal);
+			dayOfWeekString = Character.toUpperCase(dayOfWeekString.charAt(0)) + dayOfWeekString.substring(1);
+			this.setDayOfWeekString(dayOfWeekString);
+			
+			String dayOfWeekAndTimeString = new StringBuilder().append(dayOfWeekString).append(" - ").append(beginTimeStringLocalHourAndMinute).toString();
+			this.setDayOfWeekWithTimeString(dayOfWeekAndTimeString);
+			
+			
+			String tvDateString = DateUtilities.isoDateToTvDateString(beginTimeMillisLocal);
+			this.setTvDateString(tvDateString);
+			
+			String beginTimeStringLocal = DateUtilities.timeToTimeString(beginTimeMillisLocal);
+			this.setBeginTimeStringLocal(beginTimeStringLocal);
+			
+			String endTimeStringLocal = DateUtilities.timeToTimeString(endTimeMillisLocal);
+			this.setEndTimeStringLocal(endTimeStringLocal);
+			
+			updateTimeToBeginAndTimeToEnd();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public Broadcast(JSONObject jsonBroadcast) {
 		String beginTimeStringGmt = jsonBroadcast.optString(Consts.DAZOO_BROADCAST_BEGIN_TIME);
 		String endTimeStringGmt = jsonBroadcast.optString(Consts.DAZOO_BROADCAST_END_TIME);
@@ -313,40 +379,9 @@ public class Broadcast implements Parcelable {
 		this.setBeginTimeMillisLocal(beginTimeMillisLocal);
 
 		this.setShareUrl(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_SHARE_URL));
-			try {
-				String beginTimeStringLocalHourAndMinute = DateUtilities.getTimeOfDayFormatted(beginTimeMillisLocal);
-				this.setBeginTimeStringLocalHourAndMinute(beginTimeStringLocalHourAndMinute);
-				
-				long endTimeMillisGmt = DateUtilities.isoStringToLong(endTimeStringGmt);
-				long endTimeMillisLocal = DateUtilities.convertTimeStampToLocalTime(endTimeMillisGmt);
-				
-				this.setEndTimeMillisGmt(endTimeMillisGmt);
-				this.setEndTimeMillisLocal(endTimeMillisLocal);
-				
-				String beginTimeStringLocalDayMonth = DateUtilities.tvDateStringToDatePickerString(beginTimeMillisLocal);
-				this.setBeginTimeStringLocalDayMonth(beginTimeStringLocalDayMonth);
-				
-				String dayOfWeekString = DateUtilities.isoStringToDayOfWeek(beginTimeMillisLocal);
-				dayOfWeekString = Character.toUpperCase(dayOfWeekString.charAt(0)) + dayOfWeekString.substring(1);
-				this.setDayOfWeekString(dayOfWeekString);
-				
-				String dayOfWeekAndTimeString = new StringBuilder().append(dayOfWeekString).append(" - ").append(beginTimeStringLocalHourAndMinute).toString();
-				this.setDayOfWeekWithTimeString(dayOfWeekAndTimeString);
-				
-				String tvDateString = DateUtilities.isoDateToTvDateString(beginTimeMillisLocal);
-				this.setTvDateString(tvDateString);
-				
-				String beginTimeStringLocal = DateUtilities.timeToTimeString(beginTimeMillisLocal);
-				this.setBeginTimeStringLocal(beginTimeStringLocal);
-				
-				String endTimeStringLocal = DateUtilities.timeToTimeString(endTimeMillisLocal);
-				this.setEndTimeStringLocal(endTimeStringLocal);
-				
-				updateTimeToBeginAndTimeToEnd();
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		
+		this.calculateAndSetTimeData();
+		
 		JSONObject jsonChannel = jsonBroadcast.optJSONObject(Consts.DAZOO_BROADCAST_CHANNEL);
 		if (jsonChannel != null) {
 			Channel channel = new Channel(jsonChannel);
@@ -364,17 +399,6 @@ public class Broadcast implements Parcelable {
 		}
 
 		this.setBroadcastType(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_BROADCAST_TYPE));
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(beginTimeStringGmt);
-		dest.writeString(endTimeStringGmt);
-		dest.writeParcelable(channel, flags);
-		dest.writeParcelable(program, flags);
-		dest.writeString(channelUrl);
-		dest.writeLong(beginTimeMillisGmt);
-		dest.writeString(shareUrl);
 	}
 
 	public static class BroadcastComparatorByTime implements Comparator<Broadcast> {

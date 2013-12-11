@@ -54,9 +54,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/black"
-                android:textSize="22sp"
-                android:textStyle="bold" 
-            	font:fonttextview="fontello.ttf"/>
+                android:textSize="@dimen/header_2"
+                android:textStyle="bold" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/row_upcoming_episodes_listitem_title_time"
@@ -64,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/row_upcoming_episodes_listitem_season_episode"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="@dimen/ingress"
             	font:fonttextview="fontello.ttf" />
 
             <com.millicom.secondscreen.customviews.FontTextView
@@ -73,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/row_upcoming_episodes_listitem_title_time"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="@dimen/ingress"
             	font:fonttextview="fontello.ttf" />
             
         </RelativeLayout>
@@ -107,8 +106,8 @@
 
             <ImageView
                 android:id="@+id/row_upcoming_episodes_listitem_remind_iv"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_marginRight="30dp"
                 android:layout_marginLeft="10dp"
                 android:src="@drawable/ic_guide_clock" />
@@ -122,7 +121,7 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:layout_below="@id/row_upcoming_episodes_listitem_info_container"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:background="@color/grey1" />
 
 </RelativeLayout>

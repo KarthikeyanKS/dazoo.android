@@ -97,6 +97,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 		View rowView = convertView;
 
 		final Broadcast broadcast = getItem(position);
+		//Log.d(TAG, "broadcast: " + broadcast);
 
 		if (rowView == null) {
 			mLayoutInflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -164,7 +165,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 			}
 
 			holder.mTimeTv.setText(broadcast.getBeginTimeStringLocalHourAndMinute());
-
+			
 			// Set channel
 			String channel = broadcast.getChannel().getName();
 			if (channel != null) {
@@ -176,8 +177,6 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
-			
-			Log.d(TAG, "mIsFuture");
 
 			if (mIsFuture) {
 				NotificationDbItem dbItem = new NotificationDbItem();
