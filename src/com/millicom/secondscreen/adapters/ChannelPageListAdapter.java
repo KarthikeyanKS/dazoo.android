@@ -143,7 +143,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 			if (programType != null) {
 				if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
 					holder.mTitleTv.setText(mActivity.getResources().getString(R.string.icon_movie) + " " + title);
-					holder.mDescTv.setText(broadcast.getProgram().getGenre() + " " + mActivity.getResources().getString(R.string.from) + " " + broadcast.getProgram().getYear());
+					holder.mDescTv.setText(broadcast.getProgram().getGenre() + " " + broadcast.getProgram().getYear());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 					String season = broadcast.getProgram().getSeason().getNumber();
 					int episode = broadcast.getProgram().getEpisodeNumber();

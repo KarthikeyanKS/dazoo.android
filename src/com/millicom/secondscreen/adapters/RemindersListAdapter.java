@@ -163,7 +163,7 @@ public class RemindersListAdapter extends BaseAdapter {
 					}
 					holder.mBroadcastDetailsTv.setText(seasonEpisode);
 				} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
-					holder.mBroadcastDetailsTv.setText(program.getGenre() + " " + mActivity.getResources().getString(R.string.from) + " " + program.getYear());
+					holder.mBroadcastDetailsTv.setText(program.getGenre() + " " + program.getYear());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
 					holder.mBroadcastDetailsTv.setText(program.getCategory());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {

@@ -72,7 +72,7 @@ public class ActivityPopularBlockPopulator {
 
 				if (programType != null) {
 					if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
-						mDetails.setText(broadcast.getProgram().getGenre() + mActivity.getResources().getString(R.string.from) + broadcast.getProgram().getYear());
+						mDetails.setText(broadcast.getProgram().getGenre() + " " + broadcast.getProgram().getYear());
 					} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 						mDetails.setText(mActivity.getResources().getString(R.string.season) + " " + broadcast.getProgram().getSeason().getNumber() + " "
 								+ mActivity.getResources().getString(R.string.episode) + " " + broadcast.getProgram().getEpisodeNumber());

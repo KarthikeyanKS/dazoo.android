@@ -139,7 +139,7 @@ public class WhatElseIsOnListAdapter extends BaseAdapter {
 			String type = broadcast.getProgram().getProgramType();
 			if (type != null) {
 				if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(type)) {
-					holder.mDescTv.setText(broadcast.getProgram().getGenre() + " " + mActivity.getResources().getString(R.string.from) + " " + broadcast.getProgram().getYear());
+					holder.mDescTv.setText(broadcast.getProgram().getGenre() + " " + broadcast.getProgram().getYear());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(type)) {
 					holder.mDescTv.setText(mActivity.getResources().getString(R.string.season) + " " + broadcast.getProgram().getSeason().getNumber() + " "
 							+ mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(broadcast.getProgram().getEpisodeNumber()));
