@@ -42,27 +42,27 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 	private NotificationDataSource	mNotificationDataSource;
 	private int						mLastPosition	= -1, mNotificationId = -1;
 	private boolean					mIsSet			= false, mIsFuture = false;
-	private Broadcast mRunningBroadcast;
-	
+	private Broadcast				mRunningBroadcast;
+
 	private DazooStore				dazooStore;
 	private ArrayList<TvDate>		mTvDates;
 
 	public UpcomingEpisodesListAdapter(Activity activity, ArrayList<Broadcast> upcomingBroadcasts, Broadcast runningBroadcast) {
 		boolean foundRunningBroadcast = false;
 		int indexOfRunningBroadcast = 0;
-		for(int i = 0; i < upcomingBroadcasts.size(); ++i) {
+		for (int i = 0; i < upcomingBroadcasts.size(); ++i) {
 			Broadcast repeatingBroadcast = upcomingBroadcasts.get(i);
-			if(repeatingBroadcast.equals(mRunningBroadcast)) {
+			if (repeatingBroadcast.equals(mRunningBroadcast)) {
 				foundRunningBroadcast = true;
 				indexOfRunningBroadcast = i;
 				break;
 			}
 		}
-		
-		if(foundRunningBroadcast) {
+
+		if (foundRunningBroadcast) {
 			upcomingBroadcasts.remove(indexOfRunningBroadcast);
 		}
-		
+
 		this.mRunningBroadcast = runningBroadcast;
 		this.mUpcomingEpisodes = upcomingBroadcasts;
 		this.mActivity = activity;
@@ -97,7 +97,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 		View rowView = convertView;
 
 		final Broadcast broadcast = getItem(position);
-		//Log.d(TAG, "broadcast: " + broadcast);
+		// Log.d(TAG, "broadcast: " + broadcast);
 
 		if (rowView == null) {
 			mLayoutInflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -165,20 +165,14 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 			}
 
 			holder.mTimeTv.setText(broadcast.getBeginTimeStringLocalHourAndMinute());
-			
+
 			// Set channel
 			String channel = broadcast.getChannel().getName();
 			if (channel != null) {
 				holder.mChannelTv.setText(channel);
 			}
 
-			try {
-				mIsFuture = DateUtilities.isTimeInFuture(broadcast.getBeginTimeMillisLocal());
-			} catch (ParseException e1) {
-				e1.printStackTrace();
-			}
-
-			if (mIsFuture) {
+			if (!broadcast.hasStarted()) {
 				NotificationDbItem dbItem = new NotificationDbItem();
 				dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
 				if (dbItem.getNotificationId() != 0) {
@@ -199,7 +193,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 
 				@Override
 				public void onClick(View v) {
-					if (mIsFuture) {
+					if (!broadcast.hasStarted()) {
 						if (mIsSet == false) {
 							if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), broadcast.getTvDateString())) {
 								NotificationService.showSetNotificationToast(mActivity);
