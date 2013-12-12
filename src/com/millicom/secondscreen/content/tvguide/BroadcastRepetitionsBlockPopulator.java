@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -89,12 +90,9 @@ public class BroadcastRepetitionsBlockPopulator {
 			TextView mTitleTimeOneTv = (TextView) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_one_title_time);
 			TextView mChannelOneTv = (TextView) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_one_channel);
 			mReminderOneIv = (ImageView) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_one_addreminder);
-			LinearLayout mReminderOneContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_remind_button_one_container);
+			RelativeLayout mReminderOneContainer = (RelativeLayout) topContentView.findViewById(R.id.block_broadcast_remind_button_one_container);
 			mReminderOneContainer.setVisibility(View.VISIBLE);
-			LinearLayout mDividerOneContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_divider_one_container);
-			mDividerOneContainer.setVisibility(View.VISIBLE);
 			
-
 			mTitleTimeOneTv.setText(broadcastOne.getDayOfWeekWithTimeString());
 			mChannelOneTv.setText(broadcastOne.getChannel().getName());
 
@@ -188,11 +186,9 @@ public class BroadcastRepetitionsBlockPopulator {
 			TextView mChannelTwoTv = (TextView) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_two_channel);
 			mReminderTwoIv = (ImageView) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_two_addreminder);
 
-			LinearLayout mReminderTwoContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_remind_button_two_container);
+			RelativeLayout mReminderTwoContainer = (RelativeLayout) topContentView.findViewById(R.id.block_broadcast_remind_button_two_container);
 			mReminderTwoContainer.setVisibility(View.VISIBLE);
-			LinearLayout mDividerTwoContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_divider_two_container);
-			mDividerTwoContainer.setVisibility(View.VISIBLE);
-
+			
 			mSeasonEpisodeTwoTv.setVisibility(View.GONE);
 			mTitleTimeTwoTv.setText(broadcastTwo.getDayOfWeekWithTimeString());
 			mChannelTwoTv.setText(broadcastTwo.getChannel().getName());
@@ -290,11 +286,9 @@ public class BroadcastRepetitionsBlockPopulator {
 			TextView mChannelThreeTv = (TextView) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_three_channel);
 			mReminderThreeIv = (ImageView) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_three_addreminder);
 
-			LinearLayout mReminderThreeContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_remind_button_three_container);
+			RelativeLayout mReminderThreeContainer = (RelativeLayout) topContentView.findViewById(R.id.block_broadcast_remind_button_three_container);
 			mReminderThreeContainer.setVisibility(View.VISIBLE);
-			LinearLayout mDividerThreeContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_divider_three_container);
-			mDividerThreeContainer.setVisibility(View.VISIBLE);
-
+			
 //			mSeasonEpisodeThreeTv.setVisibility(View.GONE);
 			
 

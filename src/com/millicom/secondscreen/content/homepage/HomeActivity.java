@@ -45,7 +45,7 @@ import com.millicom.secondscreen.utilities.DateUtilities;
 public class HomeActivity extends SSPageFragmentActivity implements OnClickListener, ActionBar.OnNavigationListener {
 
 	private static final String					TAG					= "HomeActivity";
-	private RelativeLayout						mTabTvGuide, mTabPopular, mTabFeed;
+	private RelativeLayout						mTabTvGuide, mTabPopular, mTabFeed, mTabDividerLeftContainer, mTabDividerRightContainer;
 	private ActionBar							mActionBar;
 	private ActionBarDropDownDateListAdapter	mDayAdapter;
 	public static int							mBroadcastSelection	= -1;
@@ -234,6 +234,12 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		mTabFeed = (RelativeLayout) findViewById(R.id.show_me);
 		mTabFeed.setOnClickListener(this);
 
+		mTabDividerLeftContainer = (RelativeLayout) findViewById(R.id.tab_left_divider_container);
+		mTabDividerRightContainer = (RelativeLayout) findViewById(R.id.tab_right_divider_container);
+		
+		mTabDividerLeftContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+		mTabDividerRightContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+	
 		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
 		mTabPopular.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTabFeed.setBackgroundColor(getResources().getColor(R.color.yellow));

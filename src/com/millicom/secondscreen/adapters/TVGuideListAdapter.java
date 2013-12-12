@@ -45,7 +45,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 		this.mGuide = guide;
 		this.mActivity = activity;
 		this.mDate = date;
-		this.mImageLoader = new ImageLoader(mActivity, R.color.white);
+		this.mImageLoader = new ImageLoader(mActivity, R.color.grey1);
 		this.mHour = hour;
 		this.mIsToday = isToday;
 

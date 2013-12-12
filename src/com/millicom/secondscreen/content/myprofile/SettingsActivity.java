@@ -38,19 +38,18 @@ public class SettingsActivity extends SSActivity implements OnClickListener {
 	private ActionBar			mActionBar;
 	private boolean				mIsChange	= false;
 	private Button				mContactButton, mTermsButton, mHelpButton, mLogoutButton;
-	private View				mTabSelectorContainerView;
-	private RelativeLayout			mTabTvGuide, mTabActivity, mTabProfile;
-	private TextView mVersionTextView;
-	private String 				mToken;
+	private RelativeLayout		mTabTvGuide, mTabActivity, mTabProfile, mTabDividerLeftContainer, mTabDividerRightContainer;
+	private TextView			mVersionTextView;
+	private String				mToken;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_settings_activity);
-		
+
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
-		
+
 		mToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 		initLayout();
 		super.initCallbackLayouts();
@@ -60,7 +59,7 @@ public class SettingsActivity extends SSActivity implements OnClickListener {
 	private void initLayout() {
 		mActionBar = getSupportActionBar();
 		mActionBar.setTitle(getResources().getString(R.string.settings));
-		
+
 		mContactButton = (Button) findViewById(R.id.settings_contact_button);
 		mContactButton.setOnClickListener(this);
 		mTermsButton = (Button) findViewById(R.id.settings_terms_button);
@@ -68,16 +67,15 @@ public class SettingsActivity extends SSActivity implements OnClickListener {
 		mHelpButton = (Button) findViewById(R.id.settings_help_button);
 		mHelpButton.setOnClickListener(this);
 		mVersionTextView = (TextView) findViewById(R.id.settings_version_textview);
-		
+
 		mLogoutButton = (Button) findViewById(R.id.settings_logout_button);
 		mLogoutButton.setOnClickListener(this);
-		
+
 		if (mToken == null || mToken.length() <= 0) {
 			mLogoutButton.setVisibility(View.GONE);
 		}
 
 		// styling bottom navigation tabs
-		mTabSelectorContainerView = findViewById(R.id.tab_selector_container);
 
 		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);
 		mTabTvGuide.setOnClickListener(this);
@@ -85,19 +83,23 @@ public class SettingsActivity extends SSActivity implements OnClickListener {
 		mTabActivity.setOnClickListener(this);
 		mTabProfile = (RelativeLayout) findViewById(R.id.show_me);
 		mTabProfile.setOnClickListener(this);
+		
+		mTabDividerLeftContainer = (RelativeLayout) findViewById(R.id.tab_left_divider_container);
+		mTabDividerRightContainer = (RelativeLayout) findViewById(R.id.tab_right_divider_container);
+
+		mTabDividerLeftContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+		mTabDividerRightContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
 
 		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTabProfile.setBackgroundColor(getResources().getColor(R.color.red));
 	}
-	
+
 	private void populateViews() {
 		try {
-			String versionName = getApplicationContext().getPackageManager()
-				    .getPackageInfo(getApplicationContext().getPackageName(), 0).versionName;
+			String versionName = getApplicationContext().getPackageManager().getPackageInfo(getApplicationContext().getPackageName(), 0).versionName;
 			mVersionTextView.setText(getResources().getString(R.string.settings_version) + " " + versionName);
-		} 
-		catch (NameNotFoundException e) {
+		} catch (NameNotFoundException e) {
 			mVersionTextView.setText("");
 			e.printStackTrace();
 		}
@@ -152,21 +154,21 @@ public class SettingsActivity extends SSActivity implements OnClickListener {
 			DazooCore.resetAll();
 			// clear all the running activities and start the application from the whole beginning
 			SecondScreenApplication.getInstance().clearActivityBacktrace();
-			
-			//LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(Consts.INTENT_EXTRA_LOG_OUT_ACTION));
+
+			// LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(Consts.INTENT_EXTRA_LOG_OUT_ACTION));
 			startActivity(new Intent(SettingsActivity.this, HomeActivity.class));
-//			
-//			mIsChange = true;
-//			// check if the token was really cleared
-//			String dazooToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
-//			// if (dazooToken.isEmpty() == true) {
-//			if (TextUtils.isEmpty(dazooToken) == true) {
-//				Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
-//			} else {
-//				Log.d(TAG, "Log out from Dazoo failed");
-//			}
-//			
-//			
+			//
+			// mIsChange = true;
+			// // check if the token was really cleared
+			// String dazooToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
+			// // if (dazooToken.isEmpty() == true) {
+			// if (TextUtils.isEmpty(dazooToken) == true) {
+			// Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
+			// } else {
+			// Log.d(TAG, "Log out from Dazoo failed");
+			// }
+			//
+			//
 			break;
 		case R.id.show_tvguide:
 			// tab to home page
@@ -194,12 +196,12 @@ public class SettingsActivity extends SSActivity implements OnClickListener {
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void loadPage() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

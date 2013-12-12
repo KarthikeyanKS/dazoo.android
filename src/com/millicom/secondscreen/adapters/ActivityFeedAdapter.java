@@ -62,7 +62,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 	public ActivityFeedAdapter(Activity activity, ArrayList<FeedItem> feedItems, String token) {
 		this.mActivity = activity;
 		this.mFeedItems = feedItems;
-		this.mImageLoader = new ImageLoader(mActivity, R.color.white);
+		this.mImageLoader = new ImageLoader(mActivity, R.color.grey1);
 		this.mToken = token;
 		this.mNotificationDataSource = new NotificationDataSource(mActivity);
 		this.mLikeIds = LikeService.getLikeIdsList(token);
@@ -102,16 +102,6 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
-	public void setLikeState(int position, boolean state) {
-		// TODO how to update specific card
-		mIsLiked = state;
-	}
-
-	public void setReminderState(int position, boolean state) {
-		// TODO how to update specific card
-		mIsSet = state;
-	}
-
 	@Override
 	public int getItemViewType(int position) {
 		FeedItem item = getItem(position);
@@ -142,46 +132,46 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		LinearLayout containerLayout = null;
 
 		switch (popularRowIndex) {
-			case 0: {
-				imageView = viewHolder.mPosterOne;
-				title = viewHolder.mTitleOne;
-				time = viewHolder.mTimeOne;
-				channelName = viewHolder.mChannelNameOne;
-				details = viewHolder.mDetailsOne;
-				progressBar = viewHolder.mProgressBarOne;
-				progressTextView = viewHolder.mProgressBarTitleOne;
-				imageProgressBar = viewHolder.mImageProgressBarOne;
-				containerLayout = viewHolder.mContainerOne;
-				break;
-			}
-			case 1: {
-				imageView = viewHolder.mPosterTwo;
-				title = viewHolder.mTitleTwo;
-				time = viewHolder.mTimeTwo;
-				channelName = viewHolder.mChannelNameTwo;
-				details = viewHolder.mDetailsTwo;
-				progressBar = viewHolder.mProgressBarTwo;
-				progressTextView = viewHolder.mProgressBarTitleTwo;
-				imageProgressBar = viewHolder.mImageProgressBarTwo;
-				containerLayout = viewHolder.mContainerTwo;
-				break;
-			}
-			case 2: {
-				imageView = viewHolder.mPosterThree;
-				title = viewHolder.mTitleThree;
-				time = viewHolder.mTimeThree;
-				channelName = viewHolder.mChannelNameThree;
-				details = viewHolder.mDetailsThree;
-				progressBar = viewHolder.mProgressBarThree;
-				progressTextView = viewHolder.mProgressBarTitleThree;
-				imageProgressBar = viewHolder.mImageProgressBarThree;
-				containerLayout = viewHolder.mContainerThree;
-				break;
-			}
+		case 0: {
+			imageView = viewHolder.mPosterOne;
+			title = viewHolder.mTitleOne;
+			time = viewHolder.mTimeOne;
+			channelName = viewHolder.mChannelNameOne;
+			details = viewHolder.mDetailsOne;
+			progressBar = viewHolder.mProgressBarOne;
+			progressTextView = viewHolder.mProgressBarTitleOne;
+			imageProgressBar = viewHolder.mImageProgressBarOne;
+			containerLayout = viewHolder.mContainerOne;
+			break;
+		}
+		case 1: {
+			imageView = viewHolder.mPosterTwo;
+			title = viewHolder.mTitleTwo;
+			time = viewHolder.mTimeTwo;
+			channelName = viewHolder.mChannelNameTwo;
+			details = viewHolder.mDetailsTwo;
+			progressBar = viewHolder.mProgressBarTwo;
+			progressTextView = viewHolder.mProgressBarTitleTwo;
+			imageProgressBar = viewHolder.mImageProgressBarTwo;
+			containerLayout = viewHolder.mContainerTwo;
+			break;
+		}
+		case 2: {
+			imageView = viewHolder.mPosterThree;
+			title = viewHolder.mTitleThree;
+			time = viewHolder.mTimeThree;
+			channelName = viewHolder.mChannelNameThree;
+			details = viewHolder.mDetailsThree;
+			progressBar = viewHolder.mProgressBarThree;
+			progressTextView = viewHolder.mProgressBarTitleThree;
+			imageProgressBar = viewHolder.mImageProgressBarThree;
+			containerLayout = viewHolder.mContainerThree;
+			break;
+		}
 		}
 
 		boolean hideView = true;
-		
+
 		if (popularRowIndex < broadcasts.size()) {
 			final Broadcast broadcast = broadcasts.get(popularRowIndex);
 			if (broadcast != null) {
@@ -193,8 +183,6 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				final int duration = broadcast.getDurationInMinutes();
 
 				String programType = broadcast.getProgram().getProgramType();
-
-							
 
 				mImageLoader.displayImage(broadcast.getProgram().getPortMUrl(), imageView, ImageLoader.IMAGE_TYPE.THUMBNAIL);
 
@@ -210,7 +198,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 				if (programType != null) {
 					if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
-						details.setText(broadcast.getProgram().getGenre() + " " + mActivity.getResources().getString(R.string.from) + " " + broadcast.getProgram().getYear());
+						details.setText(broadcast.getProgram().getGenre() + " " + broadcast.getProgram().getYear());
 					} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 						if (broadcast != null) {
 							if (program != null) {
@@ -240,6 +228,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					int initialProgressOne = 0;
 
 					if (timeToBegin > 0) {
+						progressTextView.setVisibility(View.GONE);
 						progressBar.setVisibility(View.GONE);
 						initialProgressOne = 0;
 						progressBar.setProgress(0);
@@ -272,8 +261,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					}
 				});
 			}
-			
-			if(hideView) {
+
+			if (hideView) {
 				containerLayout.setVisibility(View.GONE);
 			}
 		}
@@ -369,14 +358,9 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					@Override
 					public void onClick(View v) {
 						Intent intent = new Intent(mActivity, PopularPageActivity.class);
-						// ADD THE URL TO THE POPULAR LIST AS AN ARGUMENT?
 						mActivity.startActivity(intent);
 					}
 				});
-				
-				if(feedItem.getBroadcasts().size() < 4) {
-					footer.setVisibility(View.GONE);
-				}
 
 			} else {
 
@@ -454,7 +438,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 					if (programType != null) {
 						if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
-							holderBC.detailsTv.setText(program.getGenre() + " " + mActivity.getResources().getString(R.string.from) + " " + program.getYear());
+							holderBC.detailsTv.setText(program.getGenre() + " " + program.getYear());
 						} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 							String season = program.getSeason().getNumber();
 							int episode = program.getEpisodeNumber();
@@ -526,7 +510,6 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 					NotificationDbItem dbItem = new NotificationDbItem();
 					dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
-					Log.d(TAG, "uP: " + broadcast.getChannel().getChannelId() + " " + broadcast.getBeginTimeMillisGmt());
 					if (dbItem.getNotificationId() != 0) {
 						Log.d(TAG, "dbItem: " + dbItem.getProgramTitle() + " " + dbItem.getNotificationId());
 						mNotificationId = dbItem.getNotificationId();

@@ -3,7 +3,7 @@
     xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@drawable/background_color_selector"
     android:orientation="vertical" >
 
     <!-- BROADCAST ON AIR POSTER -->
@@ -17,9 +17,9 @@
         <ImageView
             android:id="@+id/channelpage_broadcast_iv"
             android:layout_width="fill_parent"
-            android:layout_height="160dp"
+            android:layout_height="180dp"
             android:adjustViewBounds="true"
-            android:padding="@dimen/image_padding"
+            android:padding="2dp"
             android:scaleType="centerCrop" />
 
         <ProgressBar
@@ -55,7 +55,7 @@
             android:id="@+id/channelpage_broadcast_details_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
             android:layout_marginTop="15dp"
             android:layout_toRightOf="@id/channelpage_broadcast_details_time_tv"
             android:singleLine="true"
@@ -81,6 +81,7 @@
             android:layout_below="@id/channelpage_broadcast_timeleft"
             android:layout_marginLeft="0dp"
             android:layout_marginRight="25dp"
+            android:layout_marginBottom="5dp"
             android:layout_toRightOf="@id/channelpage_broadcast_details_time_tv"
             android:progressDrawable="@drawable/progress_horizontal"
             android:visibility="visible" />
@@ -94,7 +95,7 @@
             android:layout_marginBottom="10dp"
             android:layout_toRightOf="@id/channelpage_broadcast_details_time_tv"
             android:maxLines="3"
-            android:textColor="@color/black"
+            android:textColor="@color/grey2"
             android:textSize="@dimen/ingress"
             android:textStyle="normal" 
             font:fonttextview="fontello.ttf" />

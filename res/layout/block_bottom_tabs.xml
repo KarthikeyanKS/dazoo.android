@@ -22,7 +22,7 @@
             android:layout_centerHorizontal="true"
             android:text="@string/icon_timetable"
             android:textColor="@color/white"
-            android:textSize="@dimen/header_1"
+            android:textSize="26sp"
             font:fonttextview="fontello.ttf" />
 
         <com.millicom.secondscreen.customviews.FontTextView
@@ -32,19 +32,21 @@
             android:layout_centerHorizontal="true"
             android:text="@string/tab_tv_guide"
             android:textColor="@color/white"
-            android:textSize="@dimen/bottom_tabs_font_size"
+            android:textSize="10dp"
             font:fonttextview="fontello.ttf" />
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/tab_left_divider_container"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
         <View
+            android:id="@+id/tab_left_divider"
             android:layout_width="1dp"
             android:layout_height="@dimen/bottom_tabs_height"
-            android:layout_centerInParent="true"
-            android:background="@color/grey1" />
+            android:layout_centerInParent="true" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -62,7 +64,7 @@
             android:layout_centerHorizontal="true"
             android:text="@string/icon_feed"
             android:textColor="@color/white"
-            android:textSize="@dimen/header_1"
+            android:textSize="26sp"
             font:fonttextview="fontello.ttf" />
 
         <com.millicom.secondscreen.customviews.FontTextView
@@ -72,19 +74,21 @@
             android:layout_centerHorizontal="true"
             android:text="@string/tab_activity"
             android:textColor="@color/white"
-            android:textSize="@dimen/bottom_tabs_font_size"
+            android:textSize="10sp"
             font:fonttextview="fontello.ttf" />
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/tab_right_divider_container"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
         <View
+            android:id="@+id/tab_right_divider"
             android:layout_width="1dp"
             android:layout_height="@dimen/bottom_tabs_height"
-            android:layout_centerInParent="true"
-            android:background="@color/grey1" />
+            android:layout_centerInParent="true" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -102,7 +106,7 @@
             android:layout_centerHorizontal="true"
             android:text="@string/icon_me"
             android:textColor="@color/white"
-            android:textSize="@dimen/header_1"
+            android:textSize="26sp"
             font:fonttextview="fontello.ttf" />
 
         <com.millicom.secondscreen.customviews.FontTextView
@@ -112,8 +116,8 @@
             android:layout_centerHorizontal="true"
             android:text="@string/tab_me"
             android:textColor="@color/white"
-            android:textSize="@dimen/bottom_tabs_font_size"
-            font:fonttextview="fontello.ttf" />
+            android:textSize="10sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
 </LinearLayout>

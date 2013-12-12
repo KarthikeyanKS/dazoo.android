@@ -90,10 +90,8 @@ public class BroadcastUpcomingBlockPopulator {
 			TextView mTitleTimeOneTv = (TextView) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_one_title_time);
 			TextView mChannelOneTv = (TextView) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_one_channel);
 			mReminderOneIv = (ImageView) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_one_addreminder);
-			LinearLayout mReminderOneContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_remind_button_one_container);
+			RelativeLayout mReminderOneContainer = (RelativeLayout) topContentView.findViewById(R.id.block_broadcast_remind_button_one_container);
 			mReminderOneContainer.setVisibility(View.VISIBLE);
-			LinearLayout mDividerOneContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_divider_one_container);
-			mDividerOneContainer.setVisibility(View.VISIBLE);
 
 			if (mIsSeries) {
 				Program program = broadcastOne.getProgram();
@@ -207,10 +205,8 @@ public class BroadcastUpcomingBlockPopulator {
 			TextView mChannelTwoTv = (TextView) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_two_channel);
 			mReminderTwoIv = (ImageView) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_two_addreminder);
 
-			LinearLayout mReminderTwoContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_remind_button_two_container);
+			RelativeLayout mReminderTwoContainer = (RelativeLayout) topContentView.findViewById(R.id.block_broadcast_remind_button_two_container);
 			mReminderTwoContainer.setVisibility(View.VISIBLE);
-			LinearLayout mDividerTwoContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_divider_two_container);
-			mDividerTwoContainer.setVisibility(View.VISIBLE);
 
 			if (mIsSeries) {
 				Program program = broadcastTwo.getProgram();
@@ -323,10 +319,8 @@ public class BroadcastUpcomingBlockPopulator {
 			TextView mChannelThreeTv = (TextView) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_three_channel);
 			mReminderThreeIv = (ImageView) topContentView.findViewById(R.id.block_broadcast_upcoming_episodes_three_addreminder);
 
-			LinearLayout mReminderThreeContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_remind_button_three_container);
+			RelativeLayout mReminderThreeContainer = (RelativeLayout) topContentView.findViewById(R.id.block_broadcast_remind_button_three_container);
 			mReminderThreeContainer.setVisibility(View.VISIBLE);
-			LinearLayout mDividerThreeContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_divider_three_container);
-			mDividerThreeContainer.setVisibility(View.VISIBLE);
 
 			if (mIsSeries) {
 				Program program = broadcastThree.getProgram();

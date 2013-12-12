@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
-    android:layout_width="170dp"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:padding="5dp" >
@@ -14,7 +14,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
         android:textColor="@color/white"
-        android:textSize="@dimen/header_3"
+        android:textSize="@dimen/action_bar_header_font_size"
         android:textStyle="bold"/>
 
     <com.millicom.secondscreen.customviews.FontTextView
@@ -24,7 +24,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@id/layout_actionbar_dropdown_list_date_header_name"
-        android:textSize="@dimen/header_3"
+        android:textSize="@dimen/action_bar_header_font_size"
         android:textColor="@color/white"
         android:textStyle="bold" />
 

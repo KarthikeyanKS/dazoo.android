@@ -54,7 +54,7 @@ public class BroadcastMainBlockPopulator {
 		this.mActivity = activity;
 		this.mToken = token;
 		this.mTvDate = tvDate;
-		this.mImageLoader = new ImageLoader(mActivity, R.color.white);
+		this.mImageLoader = new ImageLoader(mActivity, R.color.grey1);
 		this.mContainerView = containerView;
 		this.mNotificationDataSource = new NotificationDataSource(mActivity);
 	}
@@ -180,7 +180,7 @@ public class BroadcastMainBlockPopulator {
 
 		String extras = "";
 		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-			extras = mActivity.getResources().getString(R.string.tv_series) + " " + ((program.getYear() == 0) ? "" : String.valueOf(program.getYear()) + " ")
+			extras = mActivity.getResources().getString(R.string.tv_series) + "   " + ((program.getYear() == 0) ? "" : String.valueOf(program.getYear()) + "  ")
 					+ ((broadcast.getDurationInMinutes() == 0) ? "" : broadcast.getDurationInMinutes() + " " + mActivity.getResources().getString(R.string.minutes))
 					+ ((program.getGenre() == null) ? "" : ("\n" + program.getGenre()));
 		} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
@@ -189,15 +189,15 @@ public class BroadcastMainBlockPopulator {
 			if (year.equals("0 ")) {
 				year = "";
 			}
-			extras = mActivity.getResources().getString(R.string.movie) + " " + ((program.getYear() == 0) ? "" : String.valueOf(program.getYear()) + " ")
-					+ ((broadcast.getDurationInMinutes() == 0) ? "" : broadcast.getDurationInMinutes() + " " + mActivity.getResources().getString(R.string.minutes))
+			extras = mActivity.getResources().getString(R.string.movie) + "  " + ((program.getYear() == 0) ? "" : String.valueOf(program.getYear()) + "  ")
+					+ ((broadcast.getDurationInMinutes() == 0) ? "" : broadcast.getDurationInMinutes() + "  " + mActivity.getResources().getString(R.string.minutes))
 					+ ((program.getGenre() == null) ? "" : ("\n" + program.getGenre()));
 		} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
-			extras = program.getCategory() + " " + ((broadcast.getDurationInMinutes() == 0) ? "" : broadcast.getDurationInMinutes() + " " + mActivity.getResources().getString(R.string.minutes)) + " "
+			extras = program.getCategory() + " " + ((broadcast.getDurationInMinutes() == 0) ? "" : broadcast.getDurationInMinutes() + " " + mActivity.getResources().getString(R.string.minutes)) + "   "
 					+ ((program.getGenre() == null) ? "" : ("\n" + program.getGenre()));
 		} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
 			// TODO: Set live icon if live
-			extras = mActivity.getResources().getString(R.string.sport) + " " + program.getSportType().getName() + " "
+			extras = mActivity.getResources().getString(R.string.sport) + "  " + program.getSportType().getName() + "  "
 					+ ((broadcast.getDurationInMinutes() == 0) ? "" : broadcast.getDurationInMinutes() + " " + mActivity.getResources().getString(R.string.minutes));
 		}
 		extraTv.setText(extras);

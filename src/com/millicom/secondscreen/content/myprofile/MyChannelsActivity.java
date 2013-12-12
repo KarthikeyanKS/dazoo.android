@@ -90,14 +90,13 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 	private static String				userToken;
 	private ListView					mListView;
 	private TextView					mChannelCountTv;
-	private RelativeLayout				mTabTvGuide, mTabProfile, mTabActivity;
+	private RelativeLayout				mTabTvGuide, mTabProfile, mTabActivity, mTabDividerLeftContainer, mTabDividerRightContainer;
 	private EditText					mSearchChannelInputEditText;
 	private MyChannelsListAdapter		mAdapter;
 	private ArrayList<Channel>			mChannels				= new ArrayList<Channel>();
 	private ArrayList<String>			mCheckedChannelsIds		= new ArrayList<String>();
 	private HashMap<String, Channel>	mChannelsMap			= new HashMap<String, Channel>();
 	private boolean[]					mIsCheckedArray;
-	private View						mTabSelectorContainerView;
 	private int							mChannelCounter			= 0;
 	private boolean						mIsChanged				= false;
 	private int							mCount					= 0;
@@ -128,7 +127,6 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 		mActionBar.setTitle(getResources().getString(R.string.my_channels));
 
 		// styling bottom navigation tabs
-		mTabSelectorContainerView = findViewById(R.id.tab_selector_container);
 
 		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);
 		mTabTvGuide.setOnClickListener(this);
@@ -136,6 +134,12 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 		mTabActivity.setOnClickListener(this);
 		mTabProfile = (RelativeLayout) findViewById(R.id.show_me);
 		mTabProfile.setOnClickListener(this);
+		
+		mTabDividerLeftContainer = (RelativeLayout) findViewById(R.id.tab_left_divider_container);
+		mTabDividerRightContainer = (RelativeLayout) findViewById(R.id.tab_right_divider_container);
+
+		mTabDividerLeftContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+		mTabDividerRightContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
 
 		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));

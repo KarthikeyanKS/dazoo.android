@@ -8,9 +8,9 @@
 
     <!-- HOMEPAGE : TABS -->
 
-    <string name="tab_tv_guide">TV Guide</string>
-    <string name="tab_activity">Activity</string>
-    <string name="tab_me">Me</string>
+    <string name="tab_tv_guide">TV GUIDE</string>
+    <string name="tab_activity">ACTIVITY</string>
+    <string name="tab_me">ME</string>
 
     <!-- HOMEPAGE : FILTERING BY DAY -->
     <string name="today">Today</string>

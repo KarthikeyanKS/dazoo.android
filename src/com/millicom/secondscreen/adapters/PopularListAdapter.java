@@ -46,7 +46,7 @@ public class PopularListAdapter extends BaseAdapter {
 	public PopularListAdapter(Activity activity, String token, ArrayList<Broadcast> popularBroadcasts) {
 		this.mActivity = activity;
 		this.mPopularBroadcasts = popularBroadcasts;
-		this.mImageLoader = new ImageLoader(activity, R.color.white);
+		this.mImageLoader = new ImageLoader(activity, R.color.grey1);
 		this.mToken = token;
 
 		dazooStore = DazooStore.getInstance();
@@ -189,7 +189,7 @@ public class PopularListAdapter extends BaseAdapter {
 
 			if (programType != null) {
 				if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
-					holder.mDetailsTv.setText(broadcast.getProgram().getGenre() + mActivity.getResources().getString(R.string.from) + broadcast.getProgram().getYear());
+					holder.mDetailsTv.setText(broadcast.getProgram().getGenre() + " " + broadcast.getProgram().getYear());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 					String season = broadcast.getProgram().getSeason().getNumber();
 					int episode = broadcast.getProgram().getEpisodeNumber();

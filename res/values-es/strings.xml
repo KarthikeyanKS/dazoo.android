@@ -8,9 +8,9 @@
 
     <!-- HOMEPAGE : TABS -->
 
-    <string name="tab_tv_guide">Programación</string>
-    <string name="tab_activity">Actividad</string>
-    <string name="tab_me">Mi Perfil</string>
+    <string name="tab_tv_guide">PROGRAMACIÓN</string>
+    <string name="tab_activity">ACTIVIDAD</string>
+    <string name="tab_me">MI PERFIL</string>
 
     <!-- HOMEPAGE : FILTERING BY DAY -->
     <string name="today">Hoy</string>
@@ -150,7 +150,7 @@
     <string name="season">Temporada</string>
     <string name="episode">Episodio</string>
     <string name="minutes">min</string>
-    <string name="left">Quedan</string>
+    <string name="left">quedan</string>
     <string name="from">desde</string>
     <string name="whatelseison_title">Transmitiéndose al mismo tiempo</string>
     <string name="whatelseison_show_all_programs">Ver más transmitiéndose al mismo tiempo</string>
@@ -159,8 +159,8 @@
     <string name="movie">Película</string>
     <string name="sport">Deportes</string>
     <string name="tv_series">Series de TV</string>
-    <string name="repeatitions">Repeticiónes</string>
-    <string name="repeatitions_more">Ver más repeticiónes</string>
+    <string name="repetitions">Repeticiónes</string>
+    <string name="repetitions_more">Ver más repeticiónes</string>
 
     <!-- LOGIN PAGE -->
     <string name="login_with_facebook">Iniciar sesión con Facebook</string>

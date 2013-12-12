@@ -57,7 +57,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 	private long					mBeginTimeInMillis;
 	private boolean					mIsFromNotification	= false, mIsFromActivity = false, mIsLoggedIn = false, mIsBroadcast = false, mIsUpcoming = false, mIsSeries = false, mIsRepeat = false,
 			mIsFromProfile = false;
-	private RelativeLayout			mTabTvGuide, mTabActivity, mTabProfile;
+	private RelativeLayout			mTabTvGuide, mTabActivity, mTabProfile, mTabDividerLeftContainer, mTabDividerRightContainer;
 	private DazooStore				dazooStore;
 	private Activity				mActivity;
 	private Intent					intent;
@@ -228,18 +228,33 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		mTabProfile = (RelativeLayout) findViewById(R.id.show_me);
 		mTabProfile.setOnClickListener(this);
 
+		mTabDividerLeftContainer = (RelativeLayout) findViewById(R.id.tab_left_divider_container);
+		mTabDividerRightContainer = (RelativeLayout) findViewById(R.id.tab_right_divider_container);
+
 		if (mIsFromActivity) {
 			mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 			mTabActivity.setBackgroundColor(getResources().getColor(R.color.red));
 			mTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+
+			mTabDividerLeftContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+			mTabDividerRightContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+
 		} else if (mIsFromProfile) {
 			mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 			mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
 			mTabProfile.setBackgroundColor(getResources().getColor(R.color.red));
+
+			mTabDividerLeftContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+			mTabDividerRightContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+
 		} else {
 			mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
 			mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
 			mTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+
+			mTabDividerLeftContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+			mTabDividerRightContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+
 		}
 
 		mBlockContainer = (LinearLayout) findViewById(R.id.broacastpage_block_container_layout);
@@ -401,9 +416,9 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 					tvDate = DazooStore.getInstance().getDate(mTvDate);
 					// Log.d(TAG, "hour: " + hour + " TvDate: " + tvDate.getDate());
 				}
-				
+
 				int indexOfNearestBroadcast = 0;
-				if(tvDate != null) {
+				if (tvDate != null) {
 					indexOfNearestBroadcast = Broadcast.getClosestBroadcastIndexFromTime(mRepeatBroadcasts, hour, tvDate);
 				} else {
 					Log.e(TAG, "TvDate was null");

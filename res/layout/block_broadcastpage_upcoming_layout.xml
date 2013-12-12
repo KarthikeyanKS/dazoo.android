@@ -10,9 +10,9 @@
         android:id="@+id/block_broadcast_upcoming_episodes_title_textview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/title_bottom_margin"
-        android:layout_marginLeft="@dimen/view_margin"
-        android:layout_marginTop="@dimen/title_top_margin"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
         android:textColor="@color/black"
         android:textSize="@dimen/header_1"
         font:fonttextview="fontello.ttf" />
@@ -24,37 +24,36 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/block_broadcast_upcoming_episodes_title_textview"
+        android:background="@drawable/background_color_selector"
         android:orientation="horizontal"
-        android:padding="@dimen/view_margin"
+        android:padding="10dp"
         android:visibility="gone" >
 
         <RelativeLayout
             android:id="@+id/block_broadcast_upcoming_episodes_one_info_container"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="vertical"
-       		android:layout_weight="0.7" >
+            android:layout_weight="0.7"
+            android:orientation="vertical" >
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/block_broadcast_upcoming_episodes_one_season_episode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="5dp"
                 android:textColor="@color/black"
                 android:textSize="@dimen/header_2"
                 android:textStyle="bold"
-                android:visibility="gone"
-        		font:fonttextview="fontello.ttf" />
+                android:visibility="gone" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/block_broadcast_upcoming_episodes_one_title_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_broadcast_upcoming_episodes_one_season_episode"
+                android:lineSpacingExtra="-2sp"
                 android:textColor="@color/black"
-                android:textSize="@dimen/header_3"
-        		font:fonttextview="fontello.ttf" />
+                android:textSize="@dimen/header_3" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/block_broadcast_upcoming_episodes_one_channel"
@@ -62,47 +61,39 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_broadcast_upcoming_episodes_one_title_time"
                 android:textColor="@color/black"
-                android:textSize="@dimen/header_3"
-        		font:fonttextview="fontello.ttf" />
-            
+                android:textSize="@dimen/header_3" />
         </RelativeLayout>
-
-        <LinearLayout
-            android:id="@+id/block_broadcast_divider_one_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone" >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_separator" />
-            
-        </LinearLayout>
 
         <!-- REMIND BUTTON -->
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/block_broadcast_remind_button_one_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.2"
-            android:layout_gravity="center_vertical" >
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.3"
+            android:background="@drawable/background_color_selector"
+            android:orientation="vertical"
+            android:padding="5dp" >
 
             <ImageView
                 android:id="@+id/block_broadcast_upcoming_episodes_one_addreminder"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginLeft="10dp" 
-                android:layout_marginTop="7dp"
-                android:layout_marginBottom="7dp"/>
-            
-        </LinearLayout>
-        
+                android:layout_centerInParent="true"
+                android:gravity="center" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    android:background="@color/grey1" />
+            </RelativeLayout>
+        </RelativeLayout>
     </LinearLayout>
 
     <View
@@ -122,17 +113,17 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/block_broadcast_upcoming_episodes_one_bottom_divider"
+        android:background="@drawable/background_color_selector"
         android:orientation="horizontal"
-        android:padding="@dimen/view_margin"
+        android:padding="10dp"
         android:visibility="gone" >
 
         <RelativeLayout
             android:id="@+id/block_broadcast_upcoming_episodes_two_info_container"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="vertical"
-       		android:layout_weight="0.7" >
+            android:layout_weight="0.7"
+            android:orientation="vertical" >
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/block_broadcast_upcoming_episodes_two_season_episode"
@@ -142,17 +133,16 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/header_2"
                 android:textStyle="bold"
-                android:visibility="gone"
-        		font:fonttextview="fontello.ttf" />
+                android:visibility="gone" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/block_broadcast_upcoming_episodes_two_title_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_broadcast_upcoming_episodes_two_season_episode"
+                android:lineSpacingExtra="-2dp"
                 android:textColor="@color/black"
-                android:textSize="@dimen/header_3"
-        		font:fonttextview="fontello.ttf" />
+                android:textSize="@dimen/header_3" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/block_broadcast_upcoming_episodes_two_channel"
@@ -160,47 +150,42 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_broadcast_upcoming_episodes_two_title_time"
                 android:textColor="@color/black"
-                android:textSize="@dimen/header_3"
-        		font:fonttextview="fontello.ttf" />
-            
+                android:textSize="@dimen/header_3" />
         </RelativeLayout>
-
-        <LinearLayout
-            android:id="@+id/block_broadcast_divider_two_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone" >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_separator" />
-            
-        </LinearLayout>
 
         <!-- REMIND BUTTON -->
 
-        <LinearLayout
+ <!-- REMIND BUTTON -->
+
+        <RelativeLayout
             android:id="@+id/block_broadcast_remind_button_two_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.2"
-            android:layout_gravity="center_vertical" >
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.3"
+            android:background="@drawable/background_color_selector"
+            android:orientation="vertical"
+            android:padding="5dp" >
 
             <ImageView
                 android:id="@+id/block_broadcast_upcoming_episodes_two_addreminder"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="7dp"
-                android:layout_marginBottom="7dp"/>
-            
-        </LinearLayout>
-        
+                android:layout_centerInParent="true"
+                android:gravity="center" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    android:background="@color/grey1" />
+            </RelativeLayout>
+        </RelativeLayout>
+
     </LinearLayout>
 
     <View
@@ -220,17 +205,17 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/block_broadcast_upcoming_episodes_two_bottom_divider"
+        android:background="@drawable/background_color_selector"
         android:orientation="horizontal"
-        android:padding="@dimen/view_margin"
+        android:padding="10dp"
         android:visibility="gone" >
 
         <RelativeLayout
             android:id="@+id/block_broadcast_upcoming_episodes_three_info_container"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="vertical"
-       		android:layout_weight="0.7" >
+            android:layout_weight="0.7"
+            android:orientation="vertical" >
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/block_broadcast_upcoming_episodes_three_season_episode"
@@ -240,17 +225,16 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/header_2"
                 android:textStyle="bold"
-                android:visibility="gone"
-        		font:fonttextview="fontello.ttf" />
+                android:visibility="gone" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/block_broadcast_upcoming_episodes_three_title_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_broadcast_upcoming_episodes_three_season_episode"
+                android:lineSpacingExtra="-2dp"
                 android:textColor="@color/black"
-                android:textSize="@dimen/header_3"
-        		font:fonttextview="fontello.ttf" />
+                android:textSize="@dimen/header_3" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/block_broadcast_upcoming_episodes_three_channel"
@@ -258,49 +242,39 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_broadcast_upcoming_episodes_three_title_time"
                 android:textColor="@color/black"
-                android:textSize="@dimen/header_3"
-        		font:fonttextview="fontello.ttf" />
-            
+                android:textSize="@dimen/header_3" />
         </RelativeLayout>
-
-        <LinearLayout
-            android:id="@+id/block_broadcast_divider_three_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone" >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_separator" />
-            
-        </LinearLayout>
 
         <!-- REMIND BUTTON -->
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/block_broadcast_remind_button_three_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.2"
-            android:layout_gravity="center_vertical" >
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.3"
+            android:background="@drawable/background_color_selector"
+            android:orientation="vertical"
+            android:padding="5dp" >
 
             <ImageView
                 android:id="@+id/block_broadcast_upcoming_episodes_three_addreminder"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="7dp"
-                android:layout_marginBottom="7dp"
-                android:layout_gravity="center_vertical"
-                />
-            
-        </LinearLayout>
-        
+                android:layout_centerInParent="true"
+                android:gravity="center" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    android:background="@color/grey1" />
+            </RelativeLayout>
+        </RelativeLayout>
     </LinearLayout>
 
     <View
