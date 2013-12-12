@@ -221,6 +221,10 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					}
 				}
 
+				
+				progressBar.setVisibility(View.GONE);
+				progressTextView.setVisibility(View.GONE);
+				
 				if (broadcast.isRunning()) {
 					progressBar.setMax(duration);
 
@@ -247,11 +251,9 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						progressBar.setProgress(initialProgressOne);
 						progressBar.setVisibility(View.VISIBLE);
 						progressTextView.setVisibility(View.VISIBLE);
+						Log.d(TAG,"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! is PROGRESS: " + broadcast.getProgram().getTitle());
 					}
-				} else {
-					progressBar.setVisibility(View.GONE);
-					progressBar.setVisibility(View.GONE);
-				}
+				} 
 
 				containerLayout.setOnClickListener(new View.OnClickListener() {
 
