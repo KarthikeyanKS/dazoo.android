@@ -26,16 +26,15 @@
                 android:id="@+id/block_broadcastpage_poster_iv"
                 android:layout_width="fill_parent"
                 android:layout_height="170dp"
-	            android:adjustViewBounds="true"
+                android:adjustViewBounds="true"
                 android:scaleType="centerCrop" />
-            
+
             <ProgressBar
                 android:id="@+id/block_broadcastpage_poster_progressbar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:visibility="gone" />
-            
         </RelativeLayout>
 
         <!-- INFO ABOUT BROADCAST -->
@@ -45,41 +44,40 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp">
-            
+            android:paddingRight="10dp" >
+
             <!-- TRENDING ICON TODO: SPECIFY SOURCE -->
-            
-            <ImageView 
+
+            <ImageView
                 android:id="@+id/block_broadcastpage_broadcast_details_trending_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"	
+                android:layout_marginBottom="5dp"
                 android:layout_marginRight="5dp"
-                android:visibility="gone"/>
-            
+                android:visibility="gone" />
+
             <!-- MOVIE ICON -->
-            
-            <ImageView 
+
+            <ImageView
                 android:id="@+id/block_broadcastpage_broadcast_details_movie_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"	
-                android:layout_marginRight="5dp"	
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp"
                 android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_trending_iv"
-                android:visibility="gone"/>		
-                
+                android:visibility="gone" />
+
             <!-- TITLE -->
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/block_broadcastpage_broadcast_details_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"		                    
-                android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_movie_iv"		
+                android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_movie_iv"
                 android:textColor="@color/black"
-                android:textSize="24sp"
-                />
+                android:textSize="24sp" />
 
             <!-- SEASON -->
 
@@ -92,7 +90,7 @@
                 android:textColor="@color/grey3"
                 android:textSize="@dimen/header_3"
                 android:visibility="gone"
-        		font:fonttextview="fontello.ttf" />
+                font:fonttextview="fontello.ttf" />
 
             <!-- EPISODE -->
 
@@ -105,240 +103,228 @@
                 android:textColor="@color/grey3"
                 android:textSize="@dimen/header_3"
                 android:visibility="gone"
-        		font:fonttextview="fontello.ttf" />
-            
+                font:fonttextview="fontello.ttf" />
+
             <!-- EPISODE NAME -->
-            
+
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/block_broadcastpage_broadcast_details_episode_name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/block_broadcastpage_broadcast_details_season_tv"
                 android:layout_gravity="left"
                 android:layout_marginBottom="5dp"
-                android:layout_below="@id/block_broadcastpage_broadcast_details_season_tv"
                 android:textColor="@color/grey3"
                 android:textSize="@dimen/header_3"
                 android:visibility="gone"
-        		font:fonttextview="fontello.ttf" />
-            
+                font:fonttextview="fontello.ttf" />
+
             <!-- PROGRESSBAR CONTAINER -->
-            
-            <RelativeLayout 
-				android:id="@+id/block_broadcastpage_broadcast_channel_time_container"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:layout_below="@id/block_broadcastpage_broadcast_details_episode_name_tv" >
+
+            <RelativeLayout
+                android:id="@+id/block_broadcastpage_broadcast_channel_time_container"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/block_broadcastpage_broadcast_details_episode_name_tv" >
 
                 <!-- CHANNEL LOGO -->
-                
-				<ImageView
-					android:id="@+id/block_broadcastpage_broadcast_channel_iv"
-					android:layout_width="60dp"
-					android:layout_height="60dp"
-					android:paddingBottom="5dp"
-					android:layout_alignParentLeft="true"
-					android:adjustViewBounds="true" />
-			
-				<RelativeLayout
-					android:id="@+id/block_broadcastpage_progress_time_container"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_centerVertical="true"
-					android:layout_toRightOf="@id/block_broadcastpage_broadcast_channel_iv">
-                 
-	           		<!-- TIME LEFT -->
-	              	
-					<com.millicom.secondscreen.customviews.FontTextView
-						android:id="@+id/block_broadcastpage_broadcast_timeleft_tv"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginLeft="10dp"
-						android:textColor="@color/red"
-						android:textSize="@dimen/header_3"
-						android:visibility="gone"
-        				font:fonttextview="fontello.ttf" />
-						        
-					<!-- TIME -->
-	
-					<com.millicom.secondscreen.customviews.FontTextView
-						android:id="@+id/block_broadcastpage_broadcast_details_time_tv"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginLeft="10dp"
-						android:textColor="@color/black"
-						android:textSize="@dimen/header_3"
-        				font:fonttextview="fontello.ttf" />    
-	              
-					<ProgressBar
-						android:id="@+id/block_broadcastpage_broadcast_progressbar"
-						style="?android:attr/progressBarStyleHorizontal"
-						android:layout_width="fill_parent"
-						android:layout_height="wrap_content"
-						android:layout_below="@id/block_broadcastpage_broadcast_timeleft_tv"
-						android:layout_marginLeft="10dp"
-						android:progressDrawable="@drawable/progress_horizontal"
-						android:visibility="gone" />
-           
-				</RelativeLayout>
-          
-			</RelativeLayout>
-	
-			<!-- MIDDLE DIVIDER -->
-	            
-			<View
-				android:id="@+id/divider"
-				android:layout_width="fill_parent"
-				android:layout_height="1dp"
-				android:layout_below="@id/block_broadcastpage_broadcast_channel_time_container"
-				android:background="@color/grey1" />
-	           
-			<!-- SYNOPSIS -->
-	           
-			<com.millicom.secondscreen.customviews.FontTextView
-				android:id="@+id/block_broadcastpage_broadcast_synopsis_tv"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_gravity="left"
-				android:lineSpacingExtra="2sp"
-				android:layout_marginTop="10dp"
-				android:layout_marginBottom="10dp"
-				android:layout_below="@id/divider"
-				android:textColor="@color/black"
-				android:textSize="@dimen/ingress"
-        		font:fonttextview="fontello.ttf" />
-	
-			<com.millicom.secondscreen.customviews.FontTextView
-				android:id="@+id/block_broadcastpage_broadcast_extra_tv"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@id/block_broadcastpage_broadcast_synopsis_tv"
-				android:layout_gravity="left"
-				android:paddingBottom="10dp"
-				android:textColor="@color/grey2"
-				android:textSize="@dimen/paragraph" 
-				android:visibility="gone" 
-        		font:fonttextview="fontello.ttf" />
-		
-			<com.millicom.secondscreen.customviews.FontTextView
-				android:id="@+id/block_broadcastpage_broadcast_tags_tv"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@id/block_broadcastpage_broadcast_extra_tv"
-				android:layout_gravity="left"
-				android:textColor="@color/grey2"
-				android:textSize="@dimen/paragraph" 
-				android:visibility="gone"
-        		font:fonttextview="fontello.ttf" />
-	
-		</RelativeLayout>
-	
-	    <!-- BOTTOM DIVIDER -->
-	           
-		<View
-			android:id="@+id/block_broadcastpage_broadcast_details_bottom_divider"
-			android:layout_width="fill_parent"
-			android:layout_height="1dp"
-			android:background="@color/grey1" />
-	           
-	        <!-- SOCIAL INTERACTION PANEL -->
-	
-		<LinearLayout
-			android:id="@+id/block_social_panel_container"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:orientation="horizontal"
-			android:layout_marginLeft="5dp"
-			android:layout_marginRight="5dp" >
-	      
-	     	<!-- LIKE BUTTON -->
-	
-			<RelativeLayout
-				android:id="@+id/block_social_panel_like_button_container"
-				android:background="@drawable/background_color_selector"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:layout_gravity="center"
-				android:layout_margin="10dp" >
-	
-				<ImageView
-					android:id="@+id/block_social_panel_like_button_iv"
-					android:layout_width="24dp"
-					android:layout_height="24dp"
-					android:layout_margin="5dp"
-					android:layout_centerInParent="true"  />
-	           
-			</RelativeLayout>
-	    		
-	      <!-- DIVIDER -->
-	      
-			<RelativeLayout
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content" >
-	          
-				<ImageView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:src="@drawable/ic_separator" />
-	          
-			</RelativeLayout>
-	     	
-	     	<!-- SHARE BUTTON -->
-	
-			<RelativeLayout
-				android:id="@+id/block_social_panel_share_button_container"
-				android:background="@drawable/background_color_selector"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:layout_gravity="center" 
-				android:layout_margin="10dp" >
-	
-				<ImageView
-					android:id="@+id/block_social_panel_share_button_iv"
-					android:layout_width="24dp"
-					android:layout_height="24dp"
-					android:layout_margin="5dp"
-					android:layout_centerInParent="true"
-					android:src="@drawable/ic_share_default" />
-	
-			</RelativeLayout>
-	      
-	      <!-- DIVIDER -->
-	      
-			<RelativeLayout
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content" >
-	
-				<ImageView
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:src="@drawable/ic_separator" />
-	          
-		 	</RelativeLayout>
-	
-	<!-- REMIND BUTTON -->
-	      
-			<RelativeLayout
-				android:id="@+id/block_social_panel_remind_button_container"
-				android:background="@drawable/background_color_selector"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:layout_gravity="center" 
-				android:layout_margin="10dp" >
-	
-				<ImageView
-					android:id="@+id/block_social_panel_remind_button_iv"
-					android:layout_width="24dp"
-					android:layout_height="24dp"
-					android:layout_margin="5dp"
-					android:layout_centerInParent="true" />
-	
-			</RelativeLayout>
-	    		
-		</LinearLayout>
-			
-	</LinearLayout> 
+
+                <ImageView
+                    android:id="@+id/block_broadcastpage_broadcast_channel_iv"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_alignParentLeft="true"
+                    android:adjustViewBounds="true"
+                    android:paddingBottom="5dp" />
+
+                <RelativeLayout
+                    android:id="@+id/block_broadcastpage_progress_time_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/block_broadcastpage_broadcast_channel_iv" >
+
+                    <!-- TIME LEFT -->
+
+                    <com.millicom.secondscreen.customviews.FontTextView
+                        android:id="@+id/block_broadcastpage_broadcast_timeleft_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/red"
+                        android:textSize="@dimen/header_3"
+                        android:visibility="gone"
+                        font:fonttextview="fontello.ttf" />
+
+                    <!-- TIME -->
+
+                    <com.millicom.secondscreen.customviews.FontTextView
+                        android:id="@+id/block_broadcastpage_broadcast_details_time_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/header_3"
+                        font:fonttextview="fontello.ttf" />
+
+                    <ProgressBar
+                        android:id="@+id/block_broadcastpage_broadcast_progressbar"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/block_broadcastpage_broadcast_timeleft_tv"
+                        android:layout_marginLeft="10dp"
+                        android:progressDrawable="@drawable/progress_horizontal"
+                        android:visibility="gone" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <!-- MIDDLE DIVIDER -->
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/block_broadcastpage_broadcast_channel_time_container"
+                android:background="@color/grey1" />
+
+            <!-- SYNOPSIS -->
+
+            <com.millicom.secondscreen.customviews.FontTextView
+                android:id="@+id/block_broadcastpage_broadcast_synopsis_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/divider"
+                android:layout_gravity="left"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:lineSpacingExtra="2sp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/ingress"
+                font:fonttextview="fontello.ttf" />
+
+            <com.millicom.secondscreen.customviews.FontTextView
+                android:id="@+id/block_broadcastpage_broadcast_extra_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/block_broadcastpage_broadcast_synopsis_tv"
+                android:layout_gravity="left"
+                android:paddingBottom="10dp"
+                android:textColor="@color/grey2"
+                android:textSize="@dimen/paragraph"
+                android:visibility="gone"
+                font:fonttextview="fontello.ttf" />
+
+            <com.millicom.secondscreen.customviews.FontTextView
+                android:id="@+id/block_broadcastpage_broadcast_tags_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/block_broadcastpage_broadcast_extra_tv"
+                android:layout_gravity="left"
+                android:textColor="@color/grey2"
+                android:textSize="@dimen/paragraph"
+                android:visibility="gone"
+                font:fonttextview="fontello.ttf" />
+        </RelativeLayout>
+
+        <!-- BOTTOM DIVIDER -->
+
+        <View
+            android:id="@+id/block_broadcastpage_broadcast_details_bottom_divider"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey1" />
+
+        <!-- SOCIAL INTERACTION PANEL -->
+
+        <LinearLayout
+            android:id="@+id/block_social_panel_container"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <!-- LIKE BUTTON -->
+
+            <RelativeLayout
+                android:id="@+id/block_social_panel_like_button_container"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/background_color_selector"
+                android:padding="10dp" >
+
+                <ImageView
+                    android:id="@+id/block_social_panel_like_button_iv"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerInParent="true" />
+            </RelativeLayout>
+
+            <!-- DIVIDER -->
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" >
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    android:background="@color/grey1" />
+            </RelativeLayout>
+
+            <!-- SHARE BUTTON -->
+
+            <RelativeLayout
+                android:id="@+id/block_social_panel_share_button_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/background_color_selector"
+                android:padding="10dp" >
+
+                <ImageView
+                    android:id="@+id/block_social_panel_share_button_iv"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_share_default" />
+            </RelativeLayout>
+
+            <!-- DIVIDER -->
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" >
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    android:background="@color/grey1" />
+            </RelativeLayout>
+            <!-- REMIND BUTTON -->
+
+            <RelativeLayout
+                android:id="@+id/block_social_panel_remind_button_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/background_color_selector"
+                android:padding="10dp" >
+
+                <ImageView
+                    android:id="@+id/block_social_panel_remind_button_iv"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerInParent="true" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>
