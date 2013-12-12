@@ -389,12 +389,13 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						viewHolder.detailsTv = (TextView) rowView.findViewById(R.id.block_feed_liked_details_tv);
 						viewHolder.progressbarTv = (TextView) rowView.findViewById(R.id.block_feed_liked_timeleft_tv);
 						viewHolder.progressBar = (ProgressBar) rowView.findViewById(R.id.block_feed_liked_progressbar);
-						viewHolder.likeContainer = (RelativeLayout) rowView.findViewById(R.id.block_feed_liked_like_button_container);
-						viewHolder.likeLikeIv = (ImageView) rowView.findViewById(R.id.block_feed_liked_like_button_iv);
-						viewHolder.shareContainer = (RelativeLayout) rowView.findViewById(R.id.block_feed_liked_share_button_container);
-						viewHolder.shareIv = (ImageView) rowView.findViewById(R.id.block_feed_liked_share_button_iv);
-						viewHolder.remindContainer = (RelativeLayout) rowView.findViewById(R.id.block_feed_liked_remind_button_container);
-						viewHolder.remindLikeIv = (ImageView) rowView.findViewById(R.id.block_feed_liked_remind_button_iv);
+						
+						viewHolder.likeContainer = (RelativeLayout) rowView.findViewById(R.id.element_social_buttons_like_button_container);
+						viewHolder.likeLikeIv = (ImageView) rowView.findViewById(R.id.element_social_buttons_like_button_iv);
+						viewHolder.shareContainer = (RelativeLayout) rowView.findViewById(R.id.element_social_buttons_share_button_container);
+						viewHolder.shareIv = (ImageView) rowView.findViewById(R.id.element_social_buttons_share_button_iv);
+						viewHolder.remindContainer = (RelativeLayout) rowView.findViewById(R.id.element_social_buttons_remind_button_container);
+						viewHolder.remindLikeIv = (ImageView) rowView.findViewById(R.id.element_social_buttons_remind_button_iv);
 
 						viewHolder.container.setTag(Integer.valueOf(position));
 						rowView.setTag(viewHolder);

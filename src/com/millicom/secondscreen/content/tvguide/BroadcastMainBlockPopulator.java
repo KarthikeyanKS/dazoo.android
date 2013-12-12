@@ -75,13 +75,13 @@ public class BroadcastMainBlockPopulator {
 		TextView extraTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_extra_tv);
 		TextView tagsTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_tags_tv);
 
-		mLikeIv = (ImageView) topContentView.findViewById(R.id.block_social_panel_like_button_iv);
-		ImageView mShareIv = (ImageView) topContentView.findViewById(R.id.block_social_panel_share_button_iv);
-		mRemindIv = (ImageView) topContentView.findViewById(R.id.block_social_panel_remind_button_iv);
+		mLikeIv = (ImageView) topContentView.findViewById(R.id.element_social_buttons_like_button_iv);
+		ImageView mShareIv = (ImageView) topContentView.findViewById(R.id.element_social_buttons_share_button_iv);
+		mRemindIv = (ImageView) topContentView.findViewById(R.id.element_social_buttons_remind_button_iv);
 
-		RelativeLayout likeContainer = (RelativeLayout) topContentView.findViewById(R.id.block_social_panel_like_button_container);
-		RelativeLayout shareContainer = (RelativeLayout) topContentView.findViewById(R.id.block_social_panel_share_button_container);
-		RelativeLayout remindContainer = (RelativeLayout) topContentView.findViewById(R.id.block_social_panel_remind_button_container);
+		RelativeLayout likeContainer = (RelativeLayout) topContentView.findViewById(R.id.element_social_buttons_like_button_container);
+		RelativeLayout shareContainer = (RelativeLayout) topContentView.findViewById(R.id.element_social_buttons_share_button_container);
+		RelativeLayout remindContainer = (RelativeLayout) topContentView.findViewById(R.id.element_social_buttons_remind_button_container);
 
 		// RelativeLayout progressBarContainer = (RelativeLayout) topContentView.findViewById(R.id.block_broadcastpage_broadcast_progress_container);
 		ProgressBar progressBar = (ProgressBar) topContentView.findViewById(R.id.block_broadcastpage_broadcast_progressbar);

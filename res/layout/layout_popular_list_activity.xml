@@ -45,6 +45,7 @@
         android:background="@color/grey1"
         android:cacheColorHint="@null"
         android:dividerHeight="0dp"
+        android:divider="@null"
         android:visibility="gone" />
 
 </RelativeLayout>
