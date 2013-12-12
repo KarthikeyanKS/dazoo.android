@@ -251,7 +251,6 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						progressBar.setProgress(initialProgressOne);
 						progressBar.setVisibility(View.VISIBLE);
 						progressTextView.setVisibility(View.VISIBLE);
-						Log.d(TAG,"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! is PROGRESS: " + broadcast.getProgram().getTitle());
 					}
 				} 
 

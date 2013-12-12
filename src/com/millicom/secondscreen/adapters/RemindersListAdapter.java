@@ -87,7 +87,7 @@ public class RemindersListAdapter extends BaseAdapter {
 			rowView = mLayoutInflater.inflate(R.layout.row_reminders, null);
 
 			ViewHolder viewHolder = new ViewHolder();
-			viewHolder.mHeaderContainer = (LinearLayout) rowView.findViewById(R.id.row_reminders_header_container);
+			viewHolder.mHeaderContainer = (RelativeLayout) rowView.findViewById(R.id.row_reminders_header_container);
 			viewHolder.mInformationContainer = (RelativeLayout) rowView.findViewById(R.id.row_reminders_text_container);
 			viewHolder.mHeaderTv = (TextView) rowView.findViewById(R.id.row_reminders_header_textview);
 			viewHolder.mBroadcastTitleTv = (TextView) rowView.findViewById(R.id.row_reminders_text_title_tv);
@@ -111,7 +111,7 @@ public class RemindersListAdapter extends BaseAdapter {
 
 			// Get the correct date name index
 			int dateIndex = 0;
-			
+
 			for (int i = 0; i < mTvDates.size(); i++) {
 				if (broadcast.getBeginTimeStringGmt().contains(mTvDates.get(i).getDate())) {
 					dateIndex = i;
@@ -214,7 +214,7 @@ public class RemindersListAdapter extends BaseAdapter {
 	}
 
 	private static class ViewHolder {
-		public LinearLayout		mHeaderContainer;
+		public RelativeLayout	mHeaderContainer;
 		public RelativeLayout	mInformationContainer;
 		public TextView			mHeaderTv;
 		public TextView			mBroadcastTitleTv;

@@ -10,21 +10,25 @@
     <RelativeLayout
         android:id="@+id/row_reminders_header_container"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
         android:background="@color/grey4"
-        android:orientation="vertical"
         android:visibility="gone" >
 
         <com.millicom.secondscreen.customviews.FontTextView
             android:id="@+id/row_reminders_header_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_centerVertical="true"
+            android:gravity="left"
+            android:textAllCaps="true"
             android:textColor="@color/grey2"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
+            font:fonttextview="fontello.ttf"/>
     </RelativeLayout>
 
     <!-- REMINDERS CONTAINER -->
