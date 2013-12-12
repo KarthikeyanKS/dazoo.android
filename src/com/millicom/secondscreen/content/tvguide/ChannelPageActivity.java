@@ -383,7 +383,7 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 
 	@Override
 	protected void loadPage() {
-		mImageLoader.displayImage(mChannelGuide.getLogoLHref(), mChannelIconIv, ImageLoader.IMAGE_TYPE.POSTER);
+		mImageLoader.displayImage(mChannelGuide.getLogoMHref(), mChannelIconIv, ImageLoader.IMAGE_TYPE.POSTER);
 		mIndexOfNearestBroadcast = Broadcast.getClosestBroadcastIndex(mBroadcasts);
 		if (mIndexOfNearestBroadcast >= 0) {
 			mFollowingBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());

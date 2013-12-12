@@ -91,7 +91,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 			// getChannelIconTask.execute(guide.getLogoHref());
 			// imageLoader.displayImage(guide.getLogoLHref(), mActivity, holder.mChannelIconIv);
 			Log.v("TVGuideListAdapter:", "Calling displayImage");
-			mImageLoader.displayImage(guide.getLogoSHref(), holder.mChannelIconIv, ImageLoader.IMAGE_TYPE.THUMBNAIL);
+			mImageLoader.displayImage(guide.getLogoMHref(), holder.mChannelIconIv, ImageLoader.IMAGE_TYPE.THUMBNAIL);
 		} else {
 			holder.mChannelIconIv.setImageResource(R.color.white);
 		}

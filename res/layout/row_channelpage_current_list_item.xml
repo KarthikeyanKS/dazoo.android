@@ -19,7 +19,8 @@
             android:layout_width="fill_parent"
             android:layout_height="180dp"
             android:adjustViewBounds="true"
-            android:padding="2dp"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
             android:scaleType="centerCrop" />
 
         <ProgressBar
@@ -36,7 +37,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/channelpage_broadcast_image_frame"
-        android:layout_marginLeft="5dp"
         android:orientation="vertical" >
 
         <com.millicom.secondscreen.customviews.FontTextView
@@ -56,6 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@id/channelpage_broadcast_details_time_tv"
             android:singleLine="true"
@@ -71,6 +72,8 @@
             android:layout_below="@id/channelpage_broadcast_details_title_tv"
             android:layout_toRightOf="@id/channelpage_broadcast_details_time_tv"
             android:textColor="@color/red"
+            android:lineSpacingExtra="-2sp"
+            android:textSize="13sp"
             font:fonttextview="fontello.ttf" />
 
         <ProgressBar
@@ -79,9 +82,9 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/channelpage_broadcast_timeleft"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="25dp"
             android:layout_marginBottom="5dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="10dp"
             android:layout_toRightOf="@id/channelpage_broadcast_details_time_tv"
             android:progressDrawable="@drawable/progress_horizontal"
             android:visibility="visible" />
@@ -93,11 +96,11 @@
             android:layout_below="@id/channelpage_broadcast_details_progressbar"
             android:layout_centerVertical="true"
             android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
             android:layout_toRightOf="@id/channelpage_broadcast_details_time_tv"
             android:maxLines="3"
             android:textColor="@color/grey2"
             android:textSize="@dimen/ingress"
-            android:textStyle="normal" 
             font:fonttextview="fontello.ttf" />
 
         <View

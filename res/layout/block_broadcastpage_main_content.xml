@@ -91,7 +91,6 @@
                 android:lineSpacingExtra="0sp"
                 android:textColor="@color/grey3"
                 android:textSize="@dimen/header_3"
-                android:textStyle="bold"
                 android:visibility="gone"
         		font:fonttextview="fontello.ttf" />
 
@@ -105,7 +104,6 @@
                 android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_season_tv"
                 android:textColor="@color/grey3"
                 android:textSize="@dimen/header_3"
-                android:textStyle="bold"
                 android:visibility="gone"
         		font:fonttextview="fontello.ttf" />
             
@@ -215,7 +213,7 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@id/block_broadcastpage_broadcast_synopsis_tv"
 				android:layout_gravity="left"
-				android:paddingBottom="5dp"
+				android:paddingBottom="10dp"
 				android:textColor="@color/grey2"
 				android:textSize="@dimen/paragraph" 
 				android:visibility="gone" 
@@ -240,7 +238,6 @@
 			android:id="@+id/block_broadcastpage_broadcast_details_bottom_divider"
 			android:layout_width="fill_parent"
 			android:layout_height="1dp"
-			android:layout_marginTop="10dp"
 			android:background="@color/grey1" />
 	           
 	        <!-- SOCIAL INTERACTION PANEL -->

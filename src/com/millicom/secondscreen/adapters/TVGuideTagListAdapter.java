@@ -63,7 +63,6 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 				ViewHolder viewHolder = new ViewHolder();
 				viewHolder.mContainer = (RelativeLayout) rowView.findViewById(R.id.tvguide_tag_list_item_container);
 				viewHolder.mImageIv = (ImageView) rowView.findViewById(R.id.tvguide_tag_list_item_image_iv);
-				viewHolder.mImagePb = (ProgressBar) rowView.findViewById(R.id.tvguide_tag_list_item_image_pb);
 				viewHolder.mTitleTv = (TextView) rowView.findViewById(R.id.tvguide_tag_list_item_title_tv);
 				viewHolder.mTimeTv = (TextView) rowView.findViewById(R.id.tvguide_tag_list_item_time_tv);
 				viewHolder.mChannelTv = (TextView) rowView.findViewById(R.id.tvguide_tag_list_item_channel_tv);
@@ -110,7 +109,7 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 					holder.mTimeLeftTv.setVisibility(View.GONE);
 				}
 
-				mImageLoader.displayImage(broadcast.getProgram().getPortMUrl(), holder.mImageIv, holder.mImagePb, ImageLoader.IMAGE_TYPE.GALLERY);
+				mImageLoader.displayImage(broadcast.getProgram().getPortMUrl(), holder.mImageIv, ImageLoader.IMAGE_TYPE.GALLERY);
 				
 
 				holder.mTimeTv.setText(broadcast.getBeginTimeStringLocalHourAndMinute());
@@ -119,7 +118,8 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 				String type = broadcast.getProgram().getProgramType();
 				if (type != null) {
 					if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(type)) {
-						holder.mTitleTv.setText(mActivity.getResources().getString(R.string.icon_movie) + " "+ broadcast.getProgram().getTitle());
+						//holder.mTitleTv.setText(mActivity.getResources().getString(R.string.icon_movie) + " "+ broadcast.getProgram().getTitle());
+						holder.mTitleTv.setText(broadcast.getProgram().getTitle());
 						holder.mDescTv.setText(broadcast.getProgram().getGenre() + " " + broadcast.getProgram().getYear());
 					} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(type)) {
 						String season = broadcast.getProgram().getSeason().getNumber();
@@ -135,11 +135,12 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 						holder.mTitleTv.setText(broadcast.getProgram().getSeries().getName());
 					} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(type)) {
 						
-						if (Consts.DAZOO_BROADCAST_TYPE_LIVE.equals(broadcast.getBroadcastType())) {
-							holder.mTitleTv.setText(mActivity.getResources().getString(R.string.icon_live) + " " + broadcast.getProgram().getTitle());
-						} else {
+						//if (Consts.DAZOO_BROADCAST_TYPE_LIVE.equals(broadcast.getBroadcastType())) {
+						//	holder.mTitleTv.setText(mActivity.getResources().getString(R.string.icon_live) + " " + broadcast.getProgram().getTitle());
+						//} else {
 							holder.mTitleTv.setText(broadcast.getProgram().getTitle());
-						}
+						//}
+						
 						holder.mDescTv.setText(broadcast.getProgram().getSportType().getName() + ": " + broadcast.getProgram().getTournament());
 					} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(type)) {
 						holder.mTitleTv.setText(broadcast.getProgram().getTitle());
@@ -181,7 +182,6 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 	static class ViewHolder {
 		RelativeLayout	mContainer;
 		ImageView		mImageIv;
-		ProgressBar		mImagePb;
 		TextView		mTitleTv;
 		TextView		mTimeTv;
 		TextView		mChannelTv;
