@@ -86,7 +86,6 @@ public class PopularListAdapter extends BaseAdapter {
 			viewHolder.mHeaderTv = (TextView) rowView.findViewById(R.id.row_popular_header_tv);
 			viewHolder.mContainer = (LinearLayout) rowView.findViewById(R.id.row_popular_container);
 			viewHolder.mPosterIv = (ImageView) rowView.findViewById(R.id.row_popular_listitem_iv);
-			viewHolder.mImageProgressBar = (ProgressBar) rowView.findViewById(R.id.row_popular_listitem_iv_progressbar);
 			viewHolder.mTitleTv = (TextView) rowView.findViewById(R.id.row_popular_details_title_tv);
 			viewHolder.mTimeTv = (TextView) rowView.findViewById(R.id.row_popular_details_time_tv);
 			viewHolder.mChannelNameTv = (TextView) rowView.findViewById(R.id.row_popular_details_channel_tv);

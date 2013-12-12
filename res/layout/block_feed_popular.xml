@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="10dp"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical" >
 
@@ -12,9 +11,10 @@
         android:id="@+id/block_popular_header_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="5dp"
+        android:textSize="22sp"
         android:text="@string/popular_now" />
     
 	<!-- ITEM 1 -->
@@ -31,7 +31,6 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:layout_below="@id/block_popular_element_one"
-        android:layout_margin="10dp"
         android:background="@color/grey1" />
     
     <!-- ITEM 2 -->
@@ -48,7 +47,6 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:layout_below="@id/block_popular_element_two"
-        android:layout_margin="10dp"
         android:background="@color/grey1" />
     
     <!-- ITEM 3 -->
@@ -82,9 +80,9 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
             android:text="@string/show_all"
-            android:textSize="@dimen/header_2" />
+            android:textSize="@dimen/header_3" 
+            android:textColor="@color/grey2"/>
     </RelativeLayout>
 
 </RelativeLayout>

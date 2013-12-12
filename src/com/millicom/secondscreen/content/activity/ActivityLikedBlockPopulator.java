@@ -73,7 +73,6 @@ public class ActivityLikedBlockPopulator {
 		TextView headerTv = (TextView) contentView.findViewById(R.id.block_feed_liked_header_tv);
 		ImageView landscapeIv = (ImageView) contentView.findViewById(R.id.block_feed_liked_content_iv);
 		ProgressBar landscapePb = (ProgressBar) contentView.findViewById(R.id.block_feed_liked_content_iv_progressbar);
-		ImageView iconIv = (ImageView) contentView.findViewById(R.id.block_feed_liked_icon);
 		TextView titleTv = (TextView) contentView.findViewById(R.id.block_feed_liked_title_tv);
 		TextView timeTv = (TextView) contentView.findViewById(R.id.block_feed_liked_time_tv);
 		TextView channelTv = (TextView) contentView.findViewById(R.id.block_feed_liked_channel_tv);
