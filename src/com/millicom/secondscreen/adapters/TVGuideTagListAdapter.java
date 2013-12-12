@@ -98,22 +98,28 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 							if (timeLeft > 60) {
 								int hours = timeLeft / 60;
 								int minutes = timeLeft - hours * 60;
-								holder.mTimeLeftTv.setText(mActivity.getResources().getString(R.string.left) + ((hours > 1) ? "n " : " ") + hours + " " + mActivity.getResources().getString(R.string.hour) + ((hours > 1) ? "s" : "") + 
-													" " + mActivity.getResources().getString(R.string.and) + " " + minutes + " " + mActivity.getResources().getString(R.string.minutes));
+								holder.mTimeLeftTv.setText(mActivity.getResources().getQuantityString(R.plurals.left, hours) + " " + hours + " " + 
+														   mActivity.getResources().getQuantityString(R.plurals.hour, hours) + " " + 
+														   mActivity.getResources().getString(R.string.and) + " " + minutes + " " + 
+														   mActivity.getResources().getString(R.string.minutes));
 							}
 							else {
-								holder.mTimeLeftTv.setText(mActivity.getResources().getString(R.string.left) + "n" + " " + String.valueOf(timeLeft) + " " + mActivity.getResources().getString(R.string.minutes));
+								holder.mTimeLeftTv.setText(mActivity.getResources().getString(R.string.left) + " " + String.valueOf(timeLeft) + " " + 
+														   mActivity.getResources().getString(R.string.minutes));
 							}
 						} 
 						else {
 							if (timeLeft > 60) {
 								int hours = timeLeft / 60;
 								int minutes = timeLeft - hours * 60;
-								holder.mTimeLeftTv.setText(hours + " " + mActivity.getResources().getString(R.string.hour) + ((hours > 1) ? "s " : " ") + mActivity.getResources().getString(R.string.and) + " " + 
-													minutes + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
+								holder.mTimeLeftTv.setText(hours + " " + mActivity.getResources().getQuantityString(R.plurals.hour, hours) + " " + 
+														   mActivity.getResources().getString(R.string.and) + " " + minutes + " " + 
+														   mActivity.getResources().getString(R.string.minutes) + " " + 
+														   mActivity.getResources().getString(R.string.left));
 							}
 							else {
-								holder.mTimeLeftTv.setText(timeLeft + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
+								holder.mTimeLeftTv.setText(timeLeft + " " + mActivity.getResources().getString(R.string.minutes) + " " + 
+														   mActivity.getResources().getString(R.string.left));
 							}
 						}
 						

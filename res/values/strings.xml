@@ -112,6 +112,10 @@
     <string name="tv_series">TV Series</string>
     <string name="repetitions">Repetitions</string>
     <string name="repetitions_more">Show more repetitions</string>
+    <plurals name="hour">
+        <item quantity="one">hour</item>
+        <item quantity="other">hours</item>
+    </plurals>
 
     <!-- LOGIN PAGE -->
     <string name="login_with_facebook">Login with Facebook</string>

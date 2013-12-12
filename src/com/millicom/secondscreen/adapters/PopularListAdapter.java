@@ -175,22 +175,28 @@ public class PopularListAdapter extends BaseAdapter {
 						if (timeLeft > 60) {
 							int hours = timeLeft / 60;
 							int minutes = timeLeft - hours * 60;
-							holder.mProgressBarTitleTv.setText(mActivity.getResources().getString(R.string.left) + ((hours > 1) ? "n " : " ") + hours + " " + mActivity.getResources().getString(R.string.hour) + ((hours > 1) ? "s" : "") + 
-												" " + mActivity.getResources().getString(R.string.and) + " " + minutes + " " + mActivity.getResources().getString(R.string.minutes));
+							holder.mProgressBarTitleTv.setText(mActivity.getResources().getQuantityString(R.plurals.left, hours) + " " + hours + " " + 
+															   mActivity.getResources().getQuantityString(R.plurals.hour, hours) + " " + 
+															   mActivity.getResources().getString(R.string.and) + " " + minutes + " " + 
+															   mActivity.getResources().getString(R.string.minutes));
 						}
 						else {
-							holder.mProgressBarTitleTv.setText(mActivity.getResources().getString(R.string.left) + "n" + " " + String.valueOf(timeLeft) + " " + mActivity.getResources().getString(R.string.minutes));
+							holder.mProgressBarTitleTv.setText(mActivity.getResources().getString(R.string.left) + " " + String.valueOf(timeLeft) + " " + 
+															   mActivity.getResources().getString(R.string.minutes));
 						}
 					} 
 					else {
 						if (timeLeft > 60) {
 							int hours = timeLeft / 60;
 							int minutes = timeLeft - hours * 60;
-							holder.mProgressBarTitleTv.setText(hours + " " + mActivity.getResources().getString(R.string.hour) + ((hours > 1) ? "s " : " ") + mActivity.getResources().getString(R.string.and) + " " + 
-												minutes + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
+							holder.mProgressBarTitleTv.setText(hours + " " + mActivity.getResources().getQuantityString(R.plurals.hour, hours) + " " + 
+															   mActivity.getResources().getString(R.string.and) + " " + minutes + " " + 
+															   mActivity.getResources().getString(R.string.minutes) + " " + 
+															   mActivity.getResources().getString(R.string.left));
 						}
 						else {
-							holder.mProgressBarTitleTv.setText(timeLeft + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
+							holder.mProgressBarTitleTv.setText(timeLeft + " " + mActivity.getResources().getString(R.string.minutes) + " " + 
+															   mActivity.getResources().getString(R.string.left));
 						}
 					}
 

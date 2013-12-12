@@ -128,22 +128,28 @@ public class ChannelPageListAdapter extends BaseAdapter {
 						if (timeLeft > 60) {
 							int hours = timeLeft / 60;
 							int minutes = timeLeft - hours * 60;
-							holder.mTimeleftTv.setText(mActivity.getResources().getString(R.string.left) + ((hours > 1) ? "n " : " ") + hours + " " + mActivity.getResources().getString(R.string.hour) + ((hours > 1) ? "s" : "") + 
-												" " + mActivity.getResources().getString(R.string.and) + " " + minutes + " " + mActivity.getResources().getString(R.string.minutes));
+							holder.mTimeleftTv.setText(mActivity.getResources().getQuantityString(R.plurals.left, hours) + " " + hours + " " + 
+													   mActivity.getResources().getQuantityString(R.plurals.hour, hours) + " " + 
+													   mActivity.getResources().getString(R.string.and) + " " + minutes + " " + 
+													   mActivity.getResources().getString(R.string.minutes));
 						}
 						else {
-							holder.mTimeleftTv.setText(mActivity.getResources().getString(R.string.left) + "n" + " " + String.valueOf(timeLeft) + " " + mActivity.getResources().getString(R.string.minutes));
+							holder.mTimeleftTv.setText(mActivity.getResources().getString(R.string.left) + " " + String.valueOf(timeLeft) + " " + 
+													   mActivity.getResources().getString(R.string.minutes));
 						}
 					} 
 					else {
 						if (timeLeft > 60) {
 							int hours = timeLeft / 60;
 							int minutes = timeLeft - hours * 60;
-							holder.mTimeleftTv.setText(hours + " " + mActivity.getResources().getString(R.string.hour) + ((hours > 1) ? "s " : " ") + mActivity.getResources().getString(R.string.and) + " " + 
-												minutes + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
+							holder.mTimeleftTv.setText(hours + " " + mActivity.getResources().getQuantityString(R.plurals.hour, hours) + " " + 
+													   mActivity.getResources().getString(R.string.and) + " " + minutes + " " + 
+													   mActivity.getResources().getString(R.string.minutes) + " " + 
+													   mActivity.getResources().getString(R.string.left));
 						}
 						else {
-							holder.mTimeleftTv.setText(timeLeft + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
+							holder.mTimeleftTv.setText(timeLeft + " " + mActivity.getResources().getString(R.string.minutes) + " " + 
+													   mActivity.getResources().getString(R.string.left));
 						}
 					}
 					holder.mDurationPb.setProgress(initialProgress + 1);

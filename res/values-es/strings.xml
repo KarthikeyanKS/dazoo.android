@@ -151,7 +151,7 @@
     <string name="episode">Episodio</string>
     <string name="hour">hora</string>
     <string name="minutes">min</string>
-    <string name="left">queda</string>
+    <string name="left">quedan</string>
     <string name="from">desde</string>
     <string name="and">y</string>
     <string name="whatelseison_title">Transmitiéndose al mismo tiempo</string>
@@ -163,6 +163,14 @@
     <string name="tv_series">Series de TV</string>
     <string name="repetitions">Repeticiónes</string>
     <string name="repetitions_more">Ver más repeticiónes</string>
+    <plurals name="hour">
+        <item quantity="one">hora</item>
+        <item quantity="other">horas</item>
+    </plurals>
+        <plurals name="left">
+        <item quantity="one">queda</item>
+        <item quantity="other">quedan</item>
+    </plurals>
 
     <!-- LOGIN PAGE -->
     <string name="login_with_facebook">Iniciar sesión con Facebook</string>
