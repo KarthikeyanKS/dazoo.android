@@ -149,9 +149,11 @@
     <string name="view_full_cast_and_crew">Ver más</string>
     <string name="season">Temporada</string>
     <string name="episode">Episodio</string>
+    <string name="hour">hora</string>
     <string name="minutes">min</string>
-    <string name="left">quedan</string>
+    <string name="left">queda</string>
     <string name="from">desde</string>
+    <string name="and">y</string>
     <string name="whatelseison_title">Transmitiéndose al mismo tiempo</string>
     <string name="whatelseison_show_all_programs">Ver más transmitiéndose al mismo tiempo</string>
     <string name="upcoming_episodes">Próximos episodios</string>

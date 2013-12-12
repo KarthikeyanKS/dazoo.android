@@ -172,10 +172,26 @@ public class PopularListAdapter extends BaseAdapter {
 
 					// different representation of "X min left" for Spanish and all other languages
 					if (Locale.getDefault().getLanguage().endsWith("es")) {
-						holder.mProgressBarTitleTv.setText(mActivity.getResources().getString(R.string.left) + " " + String.valueOf(timeLeft) + " "
-								+ mActivity.getResources().getString(R.string.minutes));
-					} else {
-						holder.mProgressBarTitleTv.setText(timeLeft + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
+						if (timeLeft > 60) {
+							int hours = timeLeft / 60;
+							int minutes = timeLeft - hours * 60;
+							holder.mProgressBarTitleTv.setText(mActivity.getResources().getString(R.string.left) + ((hours > 1) ? "n " : " ") + hours + " " + mActivity.getResources().getString(R.string.hour) + ((hours > 1) ? "s" : "") + 
+												" " + mActivity.getResources().getString(R.string.and) + " " + minutes + " " + mActivity.getResources().getString(R.string.minutes));
+						}
+						else {
+							holder.mProgressBarTitleTv.setText(mActivity.getResources().getString(R.string.left) + "n" + " " + String.valueOf(timeLeft) + " " + mActivity.getResources().getString(R.string.minutes));
+						}
+					} 
+					else {
+						if (timeLeft > 60) {
+							int hours = timeLeft / 60;
+							int minutes = timeLeft - hours * 60;
+							holder.mProgressBarTitleTv.setText(hours + " " + mActivity.getResources().getString(R.string.hour) + ((hours > 1) ? "s " : " ") + mActivity.getResources().getString(R.string.and) + " " + 
+												minutes + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
+						}
+						else {
+							holder.mProgressBarTitleTv.setText(timeLeft + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
+						}
 					}
 
 					holder.mProgressBar.setProgress(initialProgress + 1);
