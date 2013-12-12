@@ -35,8 +35,7 @@ public class ContactActivity extends SSActivity implements OnClickListener {
 	private static final String	TAG			= "SettingsActivity";
 	private ActionBar			mActionBar;
 	private boolean				mIsChange	= false;
-	private View				mTabSelectorContainerView;
-	private RelativeLayout		mTabTvGuide, mTabActivity, mTabProfile;
+	private RelativeLayout		mTabTvGuide, mTabActivity, mTabProfile, mTabDividerLeftContainer, mTabDividerRightContainer;
 	private View mTabDividerLeft, mTabDividerRight;
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -56,9 +55,6 @@ public class ContactActivity extends SSActivity implements OnClickListener {
 		mActionBar.setTitle(getResources().getString(R.string.contact_title));
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 
-		// styling bottom navigation tabs
-		mTabSelectorContainerView = findViewById(R.id.tab_selector_container);
-
 		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);
 		mTabTvGuide.setOnClickListener(this);
 		mTabActivity = (RelativeLayout) findViewById(R.id.show_activity);
@@ -66,11 +62,11 @@ public class ContactActivity extends SSActivity implements OnClickListener {
 		mTabProfile = (RelativeLayout) findViewById(R.id.show_me);
 		mTabProfile.setOnClickListener(this);
 		
-		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider);
-		mTabDividerRight = (View) findViewById(R.id.tab_right_divider);
-		
-		mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
-		mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+		mTabDividerLeftContainer = (RelativeLayout) findViewById(R.id.tab_left_divider_container);
+		mTabDividerRightContainer = (RelativeLayout) findViewById(R.id.tab_right_divider_container);
+
+		mTabDividerLeftContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+		mTabDividerRightContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
 
 		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));

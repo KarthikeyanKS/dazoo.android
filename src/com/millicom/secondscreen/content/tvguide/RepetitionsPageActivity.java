@@ -29,14 +29,13 @@ public class RepetitionsPageActivity extends SSActivity implements OnClickListen
 
 	private static final String		TAG						= "RepeatitionsPageActivity";
 	private String					token;
-	private RelativeLayout			mTabTvGuide, mTabProfile, mTabActivity;
+	private RelativeLayout			mTabTvGuide, mTabProfile, mTabActivity, mTabDividerLeftContainer, mTabDividerRightContainer;
 	private ActionBar				mActionBar;
 	private ListView				mListView;
 	private RepetitionsListAdapter	mAdapter;
 	private ArrayList<Broadcast>	mRepeatingBroadcasts	= new ArrayList<Broadcast>();
 	private Program					mRepeatingProgram;
-	private Broadcast 				mRunningBroadcast;
-	private View mTabDividerLeft, mTabDividerRight;
+	private Broadcast				mRunningBroadcast;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +50,7 @@ public class RepetitionsPageActivity extends SSActivity implements OnClickListen
 		mRepeatingBroadcasts = intent.getParcelableArrayListExtra(Consts.INTENT_EXTRA_REPEATING_BROADCASTS);
 		mRepeatingProgram = intent.getParcelableExtra(Consts.INTENT_EXTRA_REPEATING_PROGRAM);
 		mRunningBroadcast = intent.getParcelableExtra(Consts.INTENT_EXTRA_RUNNING_BROADCAST);
-	
+
 		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 
 		initViews();
@@ -71,12 +70,12 @@ public class RepetitionsPageActivity extends SSActivity implements OnClickListen
 		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTabActivity.setBackgroundColor(getResources().getColor(R.color.red));
 		mTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
-		
-		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider);
-		mTabDividerRight = (View) findViewById(R.id.tab_right_divider);
-		
-		mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
-		mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+
+		mTabDividerLeftContainer = (RelativeLayout) findViewById(R.id.tab_left_divider_container);
+		mTabDividerRightContainer = (RelativeLayout) findViewById(R.id.tab_right_divider_container);
+
+		mTabDividerLeftContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+		mTabDividerRightContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
 
 		mActionBar = getSupportActionBar();
 

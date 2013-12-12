@@ -37,15 +37,16 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/tab_left_divider_container"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
         <View
             android:id="@+id/tab_left_divider"
             android:layout_width="1dp"
             android:layout_height="@dimen/bottom_tabs_height"
-            android:layout_centerInParent="true"
-            android:background="@color/grey1" />
+            android:layout_centerInParent="true" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -78,8 +79,10 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/tab_right_divider_container"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
         <View
             android:id="@+id/tab_right_divider"

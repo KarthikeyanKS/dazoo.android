@@ -78,16 +78,13 @@ import com.millicom.secondscreen.storage.DazooStore;
 public class ActivityActivity extends SSActivity implements OnClickListener {
 
 	private static final String	TAG				= "ActivityActivity";
-	private RelativeLayout		mTabTvGuide, mTabProfile, mTabActivity, mSigninContainer, mFacebookContainer, mSignUpContainer;
-	private View				mTabDividerLeft, mTabDividerRight;
+	private RelativeLayout		mTabTvGuide, mTabProfile, mTabActivity, mSigninContainer, mFacebookContainer, mSignUpContainer, mTabDividerLeftContainer, mTabDividerRightContainer;
 	private TextView			mSignInTv, mGreetingTv;
 	private Button				mCheckPopularBtn, mLoginBtn;
 	private ActionBar			mActionBar;
 	private ArrayList<FeedItem>	activityFeed	= new ArrayList<FeedItem>();
 	private String				token;
 	private Boolean				mIsLoggenIn		= false, mNoMoreItems = false, mNoTask = true;
-	// private LinearLayout mContainer;
-	// private FeedScrollView mScrollView;
 	private int					mStartIndex		= 0, mStep = 10, mNextStep = 5, mEndIndex = 0;
 	private ListView			mListView;
 	private RelativeLayout		mListFooter;
@@ -136,11 +133,11 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		mTabProfile = (RelativeLayout) findViewById(R.id.show_me);
 		mTabProfile.setOnClickListener(this);
 
-		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider);
-		mTabDividerRight = (View) findViewById(R.id.tab_right_divider);
+		mTabDividerLeftContainer = (RelativeLayout) findViewById(R.id.tab_left_divider_container);
+		mTabDividerRightContainer = (RelativeLayout) findViewById(R.id.tab_right_divider_container);
 
-		mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
-		mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+		mTabDividerLeftContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+		mTabDividerRightContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
 
 		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTabActivity.setBackgroundColor(getResources().getColor(R.color.red));

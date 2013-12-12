@@ -39,11 +39,11 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 
 	private static final String	TAG			= "MyProfileFragment";
 
-	private RelativeLayout		mRemindersContainer, mLikesContainer, mMyChannelsContainer, mSettingsContainer, mMyProfileContainer, mSigninContainer, mFacebookContainer, mSignUpContainer;
+	private RelativeLayout		mRemindersContainer, mLikesContainer, mMyChannelsContainer, mSettingsContainer, mMyProfileContainer, mSigninContainer, mFacebookContainer, mSignUpContainer,
+								mTabDividerLeftContainer, mTabDividerRightContainer;
 	private ProgressBar			mAvatarProgressBar;
 	private ImageView			mAvatarImageView;
 	private TextView			mUserNameTextView, mRemindersTextView, mLikesTextView, mMyChannelsTextView, mSettingsTextView, mRemindersCountTextView, mLikesCountTextView, mMyChannelsCountTextView;
-	private View mTabDividerLeft, mTabDividerRight;
 	private Button				mLoginBtn;
 	private String				userFirstName, userLastName, userAvatarUrl;
 	private boolean				mIsLoggedIn	= false;
@@ -84,12 +84,11 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 		mTabProfile = (RelativeLayout) findViewById(R.id.show_me);
 		mTabProfile.setOnClickListener(this);
 		
-		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider);
-		mTabDividerRight = (View) findViewById(R.id.tab_right_divider);
-		
-		mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
-		mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+		mTabDividerLeftContainer = (RelativeLayout) findViewById(R.id.tab_left_divider_container);
+		mTabDividerRightContainer = (RelativeLayout) findViewById(R.id.tab_right_divider_container);
 
+		mTabDividerLeftContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+		mTabDividerRightContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
 
 		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
