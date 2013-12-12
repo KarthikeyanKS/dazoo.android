@@ -274,7 +274,7 @@ public class BroadcastMainBlockPopulator {
 				if (mIsLoggedIn) {
 					if (mIsLiked == false) {
 						if (LikeService.addLike(mToken, mProgramId, mLikeType)) {
-							LikeService.showSetLikeToast(mActivity, mContentTitle);
+							BroadcastPageActivity.toast = LikeService.showSetLikeToast(mActivity, mContentTitle);
 
 							DazooStore.getInstance().addLikeIdToList(mProgramId);
 
@@ -299,6 +299,7 @@ public class BroadcastMainBlockPopulator {
 						mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
 					}
 				} else {
+					BroadcastPageActivity.toast.cancel();
 					PromptSignInDialogHandler loginDlg = new PromptSignInDialogHandler();
 					loginDlg.showPromptSignInDialog(mActivity, yesLoginProc(), noLoginProc());
 				}
@@ -321,7 +322,7 @@ public class BroadcastMainBlockPopulator {
 				if (!broadcast.hasStarted()) {
 					if (mIsSet == false) {
 						if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), mTvDate)) {
-							NotificationService.showSetNotificationToast(mActivity);
+							BroadcastPageActivity.toast = NotificationService.showSetNotificationToast(mActivity);
 							mRemindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 							NotificationDbItem dbItem = new NotificationDbItem();
@@ -338,6 +339,7 @@ public class BroadcastMainBlockPopulator {
 						}
 					} else {
 						if (mNotificationId != -1) {
+							BroadcastPageActivity.toast.cancel();
 							NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
 							notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId, yesNotificationProc(), noNotificationProc());
 						} else {

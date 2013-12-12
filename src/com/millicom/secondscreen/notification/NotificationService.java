@@ -199,7 +199,7 @@ public class NotificationService {
 		return true;
 	}
 	
-	public static void showSetNotificationToast(Activity activity) {
+	public static Toast showSetNotificationToast(Activity activity) {
 		LayoutInflater inflater = activity.getLayoutInflater();
 		View layout = inflater.inflate(R.layout.toast_notification_set, (ViewGroup) activity.findViewById(R.id.notification_set_toast_container));
 
@@ -216,6 +216,7 @@ public class NotificationService {
 		toast.setDuration(Toast.LENGTH_LONG);
 		toast.setView(layout);
 		toast.show();
+		return toast;
 	}
 
 	public static void showRemoveNotificationDialog(final Context context, Broadcast broadcast, final int notificationId) {
