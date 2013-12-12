@@ -6,48 +6,53 @@
     android:background="@drawable/listview_item_selector" >
 
     <!-- HEADER -->
-    
-    <LinearLayout
+
+    <RelativeLayout
         android:id="@+id/row_reminders_header_container"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:background="@color/grey4"
         android:visibility="gone" >
 
         <com.millicom.secondscreen.customviews.FontTextView
             android:id="@+id/row_reminders_header_textview"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/grey1"
-            android:padding="10dp"
+            android:layout_centerVertical="true"
+            android:gravity="left"
+            android:textAllCaps="true"
             android:textColor="@color/grey2"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
+            font:fonttextview="fontello.ttf"/>
+    </RelativeLayout>
 
-    </LinearLayout>
-    
     <!-- REMINDERS CONTAINER -->
-    
+
     <LinearLayout
         android:id="@+id/row_reminders_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/row_reminders_header_container"
         android:background="@color/white"
-        android:padding="10dp"
         android:orientation="horizontal"
+        android:padding="10dp"
         android:weightSum="10" >
 
         <RelativeLayout
             android:id="@+id/row_reminders_text_container"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
             android:layout_margin="@dimen/view_margin"
+            android:layout_weight="3"
             android:orientation="vertical" >
 
             <!-- TITLE -->
-            
+
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/row_reminders_text_title_tv"
                 android:layout_width="wrap_content"
@@ -58,20 +63,20 @@
                 android:textSize="@dimen/header_2"
                 android:textStyle="bold" />
 
-			<!-- TIME AND DATE -->
-			
+            <!-- TIME AND DATE -->
+
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/row_reminders_text_time_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_below="@id/row_reminders_text_title_tv"
+                android:layout_marginTop="10dp"
                 android:textColor="@color/grey3"
                 android:textSize="@dimen/ingress" />
-            
-           <!-- CHANNEL -->
-           
-           <com.millicom.secondscreen.customviews.FontTextView
+
+            <!-- CHANNEL -->
+
+            <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/row_reminders_text_channel_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -79,9 +84,9 @@
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/grey3"
                 android:textSize="@dimen/ingress" />
-            
+
             <!-- DETAILS - SEASON - EPISODE -->
-            
+
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/row_reminders_text_details_tv"
                 android:layout_width="wrap_content"
@@ -92,11 +97,10 @@
                 android:textColor="@color/grey2"
                 android:textSize="@dimen/ingress"
                 android:visibility="gone" />
-            
         </RelativeLayout>
-		
+
         <!-- BUTTON CONTAINER -->
-        
+
         <RelativeLayout
             android:id="@+id/row_reminders_button_container"
             android:layout_width="wrap_content"
@@ -114,26 +118,24 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="7dp"
                 android:src="@drawable/ic_reminder_selected" />
-            
-            <View 
-	            android:layout_width="1dp"
-	            android:layout_height="60dp"
-	            android:layout_margin="10dp"
-	            android:background="@color/grey1"
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="60dp"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/row_reminders_notification_iv" />
-            
+                android:layout_margin="10dp"
+                android:layout_toLeftOf="@id/row_reminders_notification_iv"
+                android:background="@color/grey1" />
         </RelativeLayout>
-        
     </LinearLayout>
 
     <View
         android:id="@+id/row_reminders_header_divider"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
+        android:layout_below="@id/row_reminders_container"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@color/grey1" 
-        android:layout_below="@id/row_reminders_container"  />
-    
+        android:background="@color/grey1" />
+
 </RelativeLayout>

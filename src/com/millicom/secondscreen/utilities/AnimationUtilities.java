@@ -11,11 +11,11 @@ public class AnimationUtilities {
 	
 	public static void animationSet(final View v){
 		AnimationSet as = new AnimationSet(true);
-		ScaleAnimation animationUp = new ScaleAnimation(1, 1, (float) 1.3, (float) 1.3, Animation.RELATIVE_TO_SELF, (float) 0.5, Animation.RELATIVE_TO_SELF, (float) 0.5);
+		ScaleAnimation animationUp = new ScaleAnimation(1, 1, (float) 1.1, (float) 1.1, Animation.RELATIVE_TO_SELF, (float) 0.5, Animation.RELATIVE_TO_SELF, (float) 0.5);
 		animationUp.setDuration(200);
 		as.addAnimation(animationUp);
 
-		ScaleAnimation animationDown = new ScaleAnimation((float) 1.3, (float)1.3, 1, 1, Animation.RELATIVE_TO_SELF, (float) 0.5, Animation.RELATIVE_TO_SELF, (float) 0.5);
+		ScaleAnimation animationDown = new ScaleAnimation((float) 1.1, (float)1.3, 1, 1, Animation.RELATIVE_TO_SELF, (float) 0.5, Animation.RELATIVE_TO_SELF, (float) 0.5);
 
 		animationDown.setDuration(200);
 		animationDown.setStartOffset(200);

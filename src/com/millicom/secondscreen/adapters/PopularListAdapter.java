@@ -80,19 +80,18 @@ public class PopularListAdapter extends BaseAdapter {
 		View rowView = convertView;
 		if (rowView == null) {
 			mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			rowView = mLayoutInflater.inflate(R.layout.row_popular_list, null);
+			rowView = mLayoutInflater.inflate(R.layout.element_poster_broadcast, null);
 			ViewHolder viewHolder = new ViewHolder();
-			viewHolder.mHeaderContainer = (RelativeLayout) rowView.findViewById(R.id.row_popular_header_container);
-			viewHolder.mHeaderTv = (TextView) rowView.findViewById(R.id.row_popular_header_tv);
-			viewHolder.mContainer = (LinearLayout) rowView.findViewById(R.id.row_popular_container);
-			viewHolder.mPosterIv = (ImageView) rowView.findViewById(R.id.row_popular_listitem_iv);
-			viewHolder.mImageProgressBar = (ProgressBar) rowView.findViewById(R.id.row_popular_listitem_iv_progressbar);
-			viewHolder.mTitleTv = (TextView) rowView.findViewById(R.id.row_popular_details_title_tv);
-			viewHolder.mTimeTv = (TextView) rowView.findViewById(R.id.row_popular_details_time_tv);
-			viewHolder.mChannelNameTv = (TextView) rowView.findViewById(R.id.row_popular_details_channel_tv);
-			viewHolder.mDetailsTv = (TextView) rowView.findViewById(R.id.row_popular_details_extra_tv);
-			viewHolder.mProgressBarTitleTv = (TextView) rowView.findViewById(R.id.row_popular_timeleft_tv);
-			viewHolder.mProgressBar = (ProgressBar) rowView.findViewById(R.id.row_popular_progressbar);
+			viewHolder.mHeaderContainer = (RelativeLayout) rowView.findViewById(R.id.element_poster_broadcast_header_container);
+			viewHolder.mHeaderTv = (TextView) rowView.findViewById(R.id.element_poster_broadcast_header_tv);
+			viewHolder.mContainer = (RelativeLayout) rowView.findViewById(R.id.element_poster_broadcast_container);
+			viewHolder.mPosterIv = (ImageView) rowView.findViewById(R.id.element_poster_broadcast_image_iv);
+			viewHolder.mTitleTv = (TextView) rowView.findViewById(R.id.element_poster_broadcast_title_tv);
+			viewHolder.mTimeTv = (TextView) rowView.findViewById(R.id.element_poster_broadcast_time_tv);
+			viewHolder.mChannelNameTv = (TextView) rowView.findViewById(R.id.element_poster_broadcast_channel_tv);
+			viewHolder.mDetailsTv = (TextView) rowView.findViewById(R.id.element_poster_broadcast_type_tv);
+			viewHolder.mProgressBarTitleTv = (TextView) rowView.findViewById(R.id.element_poster_broadcast_timeleft_tv);
+			viewHolder.mProgressBar = (ProgressBar) rowView.findViewById(R.id.element_poster_broadcast_progressbar);
 
 			viewHolder.mTitleTv.setTag(Integer.valueOf(position));
 			Log.d(TAG, "set tag: " + Integer.valueOf(position));
@@ -252,7 +251,7 @@ public class PopularListAdapter extends BaseAdapter {
 	public static class ViewHolder {
 		RelativeLayout	mHeaderContainer;
 		TextView		mHeaderTv;
-		LinearLayout	mContainer;
+		RelativeLayout	mContainer;
 		ImageView		mPosterIv;
 		ProgressBar		mImageProgressBar;
 		TextView		mTitleTv;

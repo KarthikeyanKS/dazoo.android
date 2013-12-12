@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/element_social_buttons_container"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+    <!-- LIKE BUTTON -->
+
+    <RelativeLayout
+        android:id="@+id/element_social_buttons_like_button_container"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:background="@drawable/background_color_selector"
+        android:padding="10dp" >
+
+        <ImageView
+            android:id="@+id/element_social_buttons_like_button_iv"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerInParent="true"
+            android:layout_margin="5dp" />
+    </RelativeLayout>
+
+    <!-- DIVIDER -->
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" >
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:background="@color/grey1" />
+    </RelativeLayout>
+    <!-- SHARE BUTTON -->
+
+    <RelativeLayout
+        android:id="@+id/element_social_buttons_share_button_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:background="@drawable/background_color_selector"
+        android:padding="10dp" >
+
+        <ImageView
+            android:id="@+id/element_social_buttons_share_button_iv"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerInParent="true"
+            android:layout_margin="5dp"
+            android:src="@drawable/ic_share_default" />
+    </RelativeLayout>
+
+    <!-- DIVIDER -->
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" >
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:background="@color/grey1" />
+    </RelativeLayout>
+    <!-- REMIND BUTTON -->
+
+    <RelativeLayout
+        android:id="@+id/element_social_buttons_remind_button_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:background="@drawable/background_color_selector"
+        android:padding="10dp" >
+
+        <ImageView
+            android:id="@+id/element_social_buttons_remind_button_iv"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerInParent="true"
+            android:layout_margin="5dp" />
+    </RelativeLayout>
+
+</LinearLayout>

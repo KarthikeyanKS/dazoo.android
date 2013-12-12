@@ -33,7 +33,7 @@
             android:text="@string/tab_tv_guide"
             android:textColor="@color/white"
             android:textSize="10dp"
-            font:fonttextview="fontello.ttf" />
+            android:textStyle="bold" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -75,7 +75,7 @@
             android:text="@string/tab_activity"
             android:textColor="@color/white"
             android:textSize="10sp"
-            font:fonttextview="fontello.ttf" />
+            android:textStyle="bold" />
     </RelativeLayout>
 
     <RelativeLayout

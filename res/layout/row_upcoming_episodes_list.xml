@@ -13,8 +13,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentTop="true"
-        android:background="@color/grey1"
-        android:padding="10dp"
+        android:background="@color/grey4"
         android:visibility="gone" >
 
         <com.millicom.secondscreen.customviews.FontTextView
@@ -27,6 +26,9 @@
             android:textColor="@color/grey2"
             android:textSize="18sp"
             android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
             font:fonttextview="fontello.ttf" />
     </RelativeLayout>
 

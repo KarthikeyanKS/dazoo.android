@@ -82,7 +82,7 @@ public class LikesListAdapter extends BaseAdapter {
 
 			ViewHolder viewHolder = new ViewHolder();
 			rowView = mLayoutInflater.inflate(R.layout.row_likes, null);
-			viewHolder.mHeaderContainer = (LinearLayout) rowView.findViewById(R.id.row_likes_header_container);
+			viewHolder.mHeaderContainer = (RelativeLayout) rowView.findViewById(R.id.row_likes_header_container);
 			viewHolder.mHeaderTv = (TextView) rowView.findViewById(R.id.row_likes_header_textview);
 			viewHolder.mInformationContainer = (RelativeLayout) rowView.findViewById(R.id.row_likes_text_container);
 			viewHolder.mProgramTitleTv = (TextView) rowView.findViewById(R.id.row_likes_text_title_tv);
@@ -170,7 +170,7 @@ public class LikesListAdapter extends BaseAdapter {
 	}
 
 	public static class ViewHolder {
-		public LinearLayout		mHeaderContainer;
+		public RelativeLayout		mHeaderContainer;
 		public TextView			mHeaderTv;
 		public RelativeLayout	mInformationContainer;
 		public TextView			mProgramTitleTv;

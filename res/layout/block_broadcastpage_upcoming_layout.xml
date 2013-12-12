@@ -72,7 +72,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="0.3"
-            android:background="@drawable/background_color_selector"
             android:orientation="vertical"
             android:padding="5dp" >
 
@@ -292,7 +291,7 @@
         android:layout_below="@id/block_broadcast_upcoming_episodes_three_bottom_divider"
         android:layout_centerVertical="true"
         android:gravity="left"
-        android:padding="@dimen/view_margin"
+        android:padding="10dp"
         android:text="@string/upcoming_episodes_more"
         android:textColor="@color/grey2"
         android:textSize="@dimen/header_3"

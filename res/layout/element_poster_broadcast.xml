@@ -1,44 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
-    android:id="@+id/tvguide_tag_list_item_container"
+    android:id="@+id/element_poster_broadcast_container"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/background_color_selector"
     android:orientation="vertical" >
 
+      <RelativeLayout
+        android:id="@+id/element_poster_broadcast_header_container"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:background="@color/grey4"
+        android:visibility="gone" >
+
+        <com.millicom.secondscreen.customviews.FontTextView
+            android:id="@+id/element_poster_broadcast_header_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="left"
+            android:textAllCaps="true"
+            android:textColor="@color/grey2"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            font:fonttextview="fontello.ttf" />
+    </RelativeLayout>
+    
     <LinearLayout
-        android:id="@+id/tvguide_tag_list_item_info_container"
-        android:layout_width="wrap_content"
+        android:id="@+id/element_poster_broadcast_info_container"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/element_poster_broadcast_header_container"
         android:orientation="horizontal" >
 
         <!-- IMAGE CONTAINER -->
 
         <RelativeLayout
-            android:id="@+id/tvguide_tag_list_item_image_container"
+            android:id="@+id/element_poster_broadcast_image_container"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
+            android:layout_gravity="center_vertical"
             android:layout_weight="0.3"
-            android:orientation="vertical"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp" >
+            android:orientation="vertical" >
 
             <ImageView
-                android:id="@+id/tvguide_tag_list_item_image_iv"
+                android:id="@+id/element_poster_broadcast_image_iv"
                 android:layout_width="120dp"
                 android:layout_height="150dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:scaleType="fitStart" />
-
-            <ProgressBar
-                android:id="@+id/tvguide_tag_list_item_image_pb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone" />
+                android:clickable="false"
+                android:focusableInTouchMode="false"
+                android:padding="10dp" />
         </RelativeLayout>
 
         <!-- INFO CONTAINER -->
@@ -49,34 +65,33 @@
             android:layout_gravity="left"
             android:layout_weight="0.7"
             android:orientation="vertical"
-            android:paddingLeft="7dp"
-            android:paddingRight="7dp"
-            android:paddingTop="7dp" >
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:paddingTop="10dp" >
 
             <!-- TITLE -->
 
             <com.millicom.secondscreen.customviews.FontTextView
-                android:id="@+id/tvguide_tag_list_item_title_tv"
+                android:id="@+id/element_poster_broadcast_title_tv"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
-                android:layout_marginRight="7dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
                 android:paddingTop="1dp"
                 android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/header_2"
-                android:textStyle="bold"
-                font:fonttextview="fontello.ttf" />
+                android:textStyle="bold" />
 
             <!-- TIME -->
 
             <com.millicom.secondscreen.customviews.FontTextView
-                android:id="@+id/tvguide_tag_list_item_time_tv"
+                android:id="@+id/element_poster_broadcast_time_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tvguide_tag_list_item_title_tv"
-                android:lineSpacingExtra="-4dp"
+                android:layout_below="@id/element_poster_broadcast_title_tv"
+                android:lineSpacingExtra="-4sp"
                 android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/ingress" />
@@ -84,10 +99,10 @@
             <!-- CHANNEL -->
 
             <com.millicom.secondscreen.customviews.FontTextView
-                android:id="@+id/tvguide_tag_list_item_channel_tv"
+                android:id="@+id/element_poster_broadcast_channel_tv"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tvguide_tag_list_item_time_tv"
+                android:layout_below="@id/element_poster_broadcast_time_tv"
                 android:layout_marginBottom="5dp"
                 android:singleLine="true"
                 android:textColor="@color/black"
@@ -96,10 +111,10 @@
             <!-- TYPE -->
 
             <com.millicom.secondscreen.customviews.FontTextView
-                android:id="@+id/tvguide_tag_list_item_type_tv"
+                android:id="@+id/element_poster_broadcast_type_tv"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tvguide_tag_list_item_channel_tv"
+                android:layout_below="@id/element_poster_broadcast_channel_tv"
                 android:layout_marginBottom="5dp"
                 android:singleLine="true"
                 android:textColor="@color/grey2"
@@ -108,11 +123,11 @@
             <!-- TIME LEFT -->
 
             <com.millicom.secondscreen.customviews.FontTextView
-                android:id="@+id/tvguide_tag_list_item_timeleft_tv"
+                android:id="@+id/element_poster_broadcast_timeleft_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tvguide_tag_list_item_type_tv"
-                android:lineSpacingExtra="-2dp"
+                android:layout_below="@id/element_poster_broadcast_type_tv"
+                android:lineSpacingExtra="-2sp"
                 android:singleLine="true"
                 android:textColor="@color/red"
                 android:textSize="@dimen/paragraph"
@@ -121,12 +136,12 @@
             <!-- PROGRESS BAR -->
 
             <ProgressBar
-                android:id="@+id/tvguide_tag_list_item_duration_pb"
+                android:id="@+id/element_poster_broadcast_progressbar"
                 style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="200dp"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tvguide_tag_list_item_timeleft_tv"
-                android:layout_marginBottom="5dp"
+                android:layout_below="@id/element_poster_broadcast_timeleft_tv"
+                android:layout_marginRight="10dp"
                 android:progressDrawable="@drawable/progress_horizontal"
                 android:visibility="gone" />
         </RelativeLayout>
@@ -134,10 +149,10 @@
     <!-- SEPARATOR -->
 
     <View
-        android:id="@+id/whatelseison_listitem_divider"
+        android:id="@+id/element_poster_broadcast_divider"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/divider_height"
-        android:layout_below="@id/tvguide_tag_list_item_info_container"
+        android:layout_below="@id/element_poster_broadcast_info_container"
         android:background="@color/grey1" />
 
 </RelativeLayout>
