@@ -1,14 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
-    android:id="@+id/row_popular_main_container"
+    android:id="@+id/element_poster_broadcast_container"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/background_color_selector"
     android:orientation="vertical" >
 
-    <RelativeLayout
-        android:id="@+id/row_popular_header_container"
+      <RelativeLayout
+        android:id="@+id/element_poster_broadcast_header_container"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentTop="true"
@@ -16,7 +16,7 @@
         android:visibility="gone" >
 
         <com.millicom.secondscreen.customviews.FontTextView
-            android:id="@+id/row_popular_header_tv"
+            android:id="@+id/element_poster_broadcast_header_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -25,20 +25,23 @@
             android:textColor="@color/grey2"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             font:fonttextview="fontello.ttf" />
     </RelativeLayout>
-
+    
     <LinearLayout
-        android:id="@+id/row_popular_container"
+        android:id="@+id/element_poster_broadcast_info_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/row_popular_header_container"
+        android:layout_below="@id/element_poster_broadcast_header_container"
         android:orientation="horizontal" >
 
+        <!-- IMAGE CONTAINER -->
+
         <RelativeLayout
+            android:id="@+id/element_poster_broadcast_image_container"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -46,7 +49,7 @@
             android:orientation="vertical" >
 
             <ImageView
-                android:id="@+id/row_popular_listitem_iv"
+                android:id="@+id/element_poster_broadcast_image_iv"
                 android:layout_width="120dp"
                 android:layout_height="150dp"
                 android:clickable="false"
@@ -54,8 +57,9 @@
                 android:padding="10dp" />
         </RelativeLayout>
 
+        <!-- INFO CONTAINER -->
+
         <RelativeLayout
-            android:id="@+id/row_popular_details_container"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -65,69 +69,90 @@
             android:paddingRight="0dp"
             android:paddingTop="10dp" >
 
+            <!-- TITLE -->
+
             <com.millicom.secondscreen.customviews.FontTextView
-                android:id="@+id/row_popular_details_title_tv"
-                android:layout_width="wrap_content"
+                android:id="@+id/element_poster_broadcast_title_tv"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:layout_marginLeft="0dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
-                android:gravity="left"
-                android:lines="1"
+                android:paddingTop="1dp"
+                android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/header_2"
                 android:textStyle="bold" />
 
+            <!-- TIME -->
+
             <com.millicom.secondscreen.customviews.FontTextView
-                android:id="@+id/row_popular_details_time_tv"
+                android:id="@+id/element_poster_broadcast_time_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/row_popular_details_title_tv"
-                android:gravity="left"
+                android:layout_below="@id/element_poster_broadcast_title_tv"
                 android:lineSpacingExtra="-4sp"
+                android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/ingress" />
 
+            <!-- CHANNEL -->
+
             <com.millicom.secondscreen.customviews.FontTextView
-                android:id="@+id/row_popular_details_channel_tv"
-                android:layout_width="wrap_content"
+                android:id="@+id/element_poster_broadcast_channel_tv"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/row_popular_details_time_tv"
+                android:layout_below="@id/element_poster_broadcast_time_tv"
                 android:layout_marginBottom="5dp"
-                android:gravity="left"
+                android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/ingress" />
 
+            <!-- TYPE -->
+
             <com.millicom.secondscreen.customviews.FontTextView
-                android:id="@+id/row_popular_details_extra_tv"
-                android:layout_width="wrap_content"
+                android:id="@+id/element_poster_broadcast_type_tv"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/row_popular_details_channel_tv"
-                android:layout_marginTop="5dp"
-                android:gravity="left"
+                android:layout_below="@id/element_poster_broadcast_channel_tv"
+                android:layout_marginBottom="5dp"
+                android:singleLine="true"
                 android:textColor="@color/grey2"
                 android:textSize="@dimen/ingress" />
 
+            <!-- TIME LEFT -->
+
             <com.millicom.secondscreen.customviews.FontTextView
-                android:id="@+id/row_popular_timeleft_tv"
-                android:layout_width="fill_parent"
+                android:id="@+id/element_poster_broadcast_timeleft_tv"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/row_popular_details_extra_tv"
+                android:layout_below="@id/element_poster_broadcast_type_tv"
                 android:lineSpacingExtra="-2sp"
+                android:singleLine="true"
                 android:textColor="@color/red"
                 android:textSize="@dimen/paragraph"
                 android:visibility="gone" />
 
+            <!-- PROGRESS BAR -->
+
             <ProgressBar
-                android:id="@+id/row_popular_progressbar"
+                android:id="@+id/element_poster_broadcast_progressbar"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/row_popular_timeleft_tv"
+                android:layout_below="@id/element_poster_broadcast_timeleft_tv"
                 android:layout_marginRight="10dp"
                 android:progressDrawable="@drawable/progress_horizontal"
                 android:visibility="gone" />
         </RelativeLayout>
     </LinearLayout>
+    <!-- SEPARATOR -->
+
+    <View
+        android:id="@+id/element_poster_broadcast_divider"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/divider_height"
+        android:layout_below="@id/element_poster_broadcast_info_container"
+        android:background="@color/grey1" />
 
 </RelativeLayout>

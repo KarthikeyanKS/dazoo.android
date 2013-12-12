@@ -23,7 +23,7 @@
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
         android:layout_below="@id/block_popular_header_tv"
-        layout="@layout/element_feed_popular" />
+        layout="@layout/element_poster_broadcast" />
     
    	<!-- DIVIDER -->
     <View
@@ -39,7 +39,7 @@
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
     	android:layout_below="@id/block_feed_popular_one_divider"
-        layout="@layout/element_feed_popular" />
+        layout="@layout/element_poster_broadcast" />
     
     <!-- DIVIDER -->
   	<View
@@ -55,7 +55,7 @@
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
         android:layout_below="@id/block_feed_popular_two_divider"
-        layout="@layout/element_feed_popular" />
+        layout="@layout/element_poster_broadcast" />
 
     <!-- FOOTER -->
 

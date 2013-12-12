@@ -20,15 +20,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:gravity="left"
             android:textAllCaps="true"
             android:textColor="@color/grey2"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="10dp"
-            font:fonttextview="fontello.ttf"/>
+            font:fonttextview="fontello.ttf" />
     </RelativeLayout>
 
     <!-- LIKES CONTAINER -->
@@ -44,7 +44,7 @@
 
         <RelativeLayout
             android:id="@+id/row_likes_text_container"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="0.3"
@@ -54,32 +54,34 @@
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/row_likes_text_title_tv"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_gravity="left"
-                android:textColor="@color/grey3"
-                android:textSize="18sp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="0dp"
+                android:gravity="left"
+                android:lines="1"
+                android:textColor="@color/black"
+                android:textSize="@dimen/header_2"
                 android:textStyle="bold" />
 
             <!-- DETAILS -->
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/row_likes_text_details_tv"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
                 android:layout_below="@id/row_likes_text_title_tv"
-                android:layout_gravity="left"
-                android:textColor="@color/grey3"
-                android:textSize="16sp" />
+                android:gravity="left"
+                android:lines="1"
+                android:textColor="@color/grey2"
+                android:textSize="@dimen/ingress" />
         </RelativeLayout>
 
         <!-- BUTTON CONTAINER -->
 
         <RelativeLayout
             android:id="@+id/row_likes_button_container"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="0.7"
@@ -88,8 +90,8 @@
 
             <ImageView
                 android:id="@+id/row_likes_button_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="5dp"
@@ -97,7 +99,7 @@
 
             <View
                 android:layout_width="1dp"
-                android:layout_height="60dp"
+                android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_margin="10dp"
                 android:layout_toLeftOf="@id/row_likes_button_iv"
@@ -110,8 +112,6 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:layout_below="@id/row_likes_container"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:background="@color/grey1"
         android:visibility="visible" />
 

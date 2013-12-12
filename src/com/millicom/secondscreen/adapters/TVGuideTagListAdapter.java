@@ -59,16 +59,16 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 
 			if (rowView == null) {
 				mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				rowView = mLayoutInflater.inflate(R.layout.row_tvguide_tag_list, null);
+				rowView = mLayoutInflater.inflate(R.layout.element_poster_broadcast, null);
 				ViewHolder viewHolder = new ViewHolder();
-				viewHolder.mContainer = (RelativeLayout) rowView.findViewById(R.id.tvguide_tag_list_item_container);
-				viewHolder.mImageIv = (ImageView) rowView.findViewById(R.id.tvguide_tag_list_item_image_iv);
-				viewHolder.mTitleTv = (TextView) rowView.findViewById(R.id.tvguide_tag_list_item_title_tv);
-				viewHolder.mTimeTv = (TextView) rowView.findViewById(R.id.tvguide_tag_list_item_time_tv);
-				viewHolder.mChannelTv = (TextView) rowView.findViewById(R.id.tvguide_tag_list_item_channel_tv);
-				viewHolder.mDescTv = (TextView) rowView.findViewById(R.id.tvguide_tag_list_item_type_tv);
-				viewHolder.mTimeLeftTv = (TextView) rowView.findViewById(R.id.tvguide_tag_list_item_timeleft_tv);
-				viewHolder.mDurationPb = (ProgressBar) rowView.findViewById(R.id.tvguide_tag_list_item_duration_pb);
+				viewHolder.mContainer = (RelativeLayout) rowView.findViewById(R.id.element_poster_broadcast_container);
+				viewHolder.mImageIv = (ImageView) rowView.findViewById(R.id.element_poster_broadcast_image_iv);
+				viewHolder.mTitleTv = (TextView) rowView.findViewById(R.id.element_poster_broadcast_title_tv);
+				viewHolder.mTimeTv = (TextView) rowView.findViewById(R.id.element_poster_broadcast_time_tv);
+				viewHolder.mChannelTv = (TextView) rowView.findViewById(R.id.element_poster_broadcast_channel_tv);
+				viewHolder.mDescTv = (TextView) rowView.findViewById(R.id.element_poster_broadcast_type_tv);
+				viewHolder.mTimeLeftTv = (TextView) rowView.findViewById(R.id.element_poster_broadcast_timeleft_tv);
+				viewHolder.mDurationPb = (ProgressBar) rowView.findViewById(R.id.element_poster_broadcast_progressbar);
 
 				rowView.setTag(viewHolder);
 			}
