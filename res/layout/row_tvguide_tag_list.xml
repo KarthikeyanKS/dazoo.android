@@ -62,10 +62,12 @@
                 android:layout_marginBottom="6dp"
                 android:layout_marginRight="7dp"
                 android:layout_marginTop="5dp"
+                android:paddingTop="1dp"
                 android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/header_2"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                font:fonttextview="fontello.ttf" />
 
             <!-- TIME -->
 
@@ -74,8 +76,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvguide_tag_list_item_title_tv"
-                android:singleLine="true"
                 android:lineSpacingExtra="-4dp"
+                android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/ingress" />
 
@@ -110,8 +112,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvguide_tag_list_item_type_tv"
+                android:lineSpacingExtra="-2dp"
                 android:singleLine="true"
-                 android:lineSpacingExtra="-2dp"
                 android:textColor="@color/red"
                 android:textSize="@dimen/paragraph"
                 android:visibility="gone" />
