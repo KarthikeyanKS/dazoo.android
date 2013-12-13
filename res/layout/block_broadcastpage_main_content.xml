@@ -78,32 +78,38 @@
                 android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_movie_iv"
                 android:textColor="@color/black"
                 android:textSize="24sp" />
-
-            <!-- SEASON -->
-
-            <com.millicom.secondscreen.customviews.FontTextView
-                android:id="@+id/block_broadcastpage_broadcast_details_season_tv"
+			
+            <RelativeLayout
+                android:id="@+id/block_broadcastpage_broadcast_details_seasonepisode_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/block_broadcastpage_broadcast_details_title_tv"
-                android:lineSpacingExtra="0sp"
-                android:textColor="@color/grey3"
-                android:textSize="@dimen/header_3"
-                android:visibility="gone"
-                font:fonttextview="fontello.ttf" />
-
-            <!-- EPISODE -->
-
-            <com.millicom.secondscreen.customviews.FontTextView
-                android:id="@+id/block_broadcastpage_broadcast_details_episode_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/block_broadcastpage_broadcast_details_title_tv"
-                android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_season_tv"
-                android:textColor="@color/grey3"
-                android:textSize="@dimen/header_3"
-                android:visibility="gone"
-                font:fonttextview="fontello.ttf" />
+                android:layout_below="@id/block_broadcastpage_broadcast_details_title_tv" >
+                
+	            <!-- SEASON -->
+	
+	            <com.millicom.secondscreen.customviews.FontTextView
+	                android:id="@+id/block_broadcastpage_broadcast_details_season_tv"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:lineSpacingExtra="0sp"
+	                android:textColor="@color/grey3"
+	                android:textSize="@dimen/header_3"
+	                android:visibility="gone"
+	                font:fonttextview="fontello.ttf" />
+	
+	            <!-- EPISODE -->
+	
+	            <com.millicom.secondscreen.customviews.FontTextView
+	                android:id="@+id/block_broadcastpage_broadcast_details_episode_tv"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_season_tv"
+	                android:textColor="@color/grey3"
+	                android:textSize="@dimen/header_3"
+	                android:visibility="gone"
+	                font:fonttextview="fontello.ttf" />
+            
+            </RelativeLayout>
 
             <!-- EPISODE NAME -->
 
@@ -111,7 +117,7 @@
                 android:id="@+id/block_broadcastpage_broadcast_details_episode_name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/block_broadcastpage_broadcast_details_season_tv"
+                android:layout_below="@id/block_broadcastpage_broadcast_details_seasonepisode_container"
                 android:layout_gravity="left"
                 android:layout_marginBottom="5dp"
                 android:textColor="@color/grey3"
