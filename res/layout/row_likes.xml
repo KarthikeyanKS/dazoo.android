@@ -47,7 +47,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="0.3"
+            android:layout_weight="0.8"
             android:orientation="vertical" >
 
             <!-- TITLE -->
@@ -84,7 +84,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="0.7"
+            android:layout_weight="0.2"
             android:background="@color/white"
             android:orientation="horizontal" >
 
