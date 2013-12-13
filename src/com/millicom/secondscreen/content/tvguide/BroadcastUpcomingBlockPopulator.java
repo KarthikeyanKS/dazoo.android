@@ -341,7 +341,7 @@ public class BroadcastUpcomingBlockPopulator {
 				dbItem = mNotificationDataSource.getNotification(broadcastThree.getChannel().getChannelId(), broadcastThree.getBeginTimeMillisGmt());
 				if (dbItem.getNotificationId() != 0) {
 					mIsSetThree = true;
-					mReminderOneIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
+					mReminderThreeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 					mNotificationId = dbItem.getNotificationId();
 				} else {
 					mIsSetThree = false;
@@ -376,7 +376,7 @@ public class BroadcastUpcomingBlockPopulator {
 							}
 						} else {
 							if (mNotificationId != -1) {
-								BroadcastPageActivity.toast.cancel();
+								//BroadcastPageActivity.toast.cancel();
 								NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
 								notificationDlg.showRemoveNotificationDialog(mActivity, broadcastThree, mNotificationId, yesNotificationThreeProc(), noNotificationProc());
 							} else {
