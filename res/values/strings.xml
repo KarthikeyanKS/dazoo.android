@@ -98,9 +98,11 @@
     <string name="view_full_cast_and_crew">View full cast &amp; crew</string>
     <string name="season">Season</string>
     <string name="episode">Episode</string>
+    <string name="hour">hour</string>
     <string name="minutes">min</string>
     <string name="left">left</string>
     <string name="from">from</string>
+    <string name="and">and</string>
     <string name="whatelseison_title">What else is on?</string>
     <string name="whatelseison_show_all_programs">Show all programs playing now</string>
     <string name="upcoming_episodes">Upcoming episodes</string>
@@ -110,6 +112,10 @@
     <string name="tv_series">TV Series</string>
     <string name="repetitions">Repetitions</string>
     <string name="repetitions_more">Show more repetitions</string>
+    <plurals name="hour">
+        <item quantity="one">hour</item>
+        <item quantity="other">hours</item>
+    </plurals>
 
     <!-- LOGIN PAGE -->
     <string name="login_with_facebook">Login with Facebook</string>

@@ -92,7 +92,7 @@ public class LikeService {
 		else return false;
 	}
 
-	public static void showSetLikeToast(Activity activity, String likedContentName) {
+	public static Toast showSetLikeToast(Activity activity, String likedContentName) {
 		LayoutInflater inflater = activity.getLayoutInflater();
 		View layout = inflater.inflate(R.layout.toast_like_set, (ViewGroup) activity.findViewById(R.id.like_set_toast_container));
 
@@ -109,6 +109,7 @@ public class LikeService {
 		toast.setDuration(Toast.LENGTH_LONG);
 		toast.setView(layout);
 		toast.show();
+		return toast;
 	}
 
 	public static ArrayList<String> getLikeIdsList(String token) {

@@ -65,6 +65,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 	private ArrayList<Broadcast>	mRepeatBroadcasts;
 	private ScrollView				mScrollView;
 	private int						mActivityCardNumber;
+	public static Toast 			toast;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

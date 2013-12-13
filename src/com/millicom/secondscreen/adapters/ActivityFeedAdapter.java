@@ -222,7 +222,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 				progressTextView.setVisibility(View.GONE);
 				
 				if (broadcast.isRunning()) {
-					progressBar.setMax(duration);
+					progressBar.setMax(duration + 1);
 
 					// MC - Calculate the current progress of the ProgressBar and update.
 					int initialProgressOne = 0;
@@ -234,17 +234,39 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						progressBar.setProgress(0);
 					} else {
 						initialProgressOne = broadcast.minutesSinceStart();
+						int timeLeft = broadcast.getDurationInMinutes() - initialProgressOne;
 
 						// different representation of the "X min left" for Spanish and all other languages
 						if (Locale.getDefault().getLanguage().endsWith("es")) {
-							progressTextView.setText(mActivity.getResources().getString(R.string.left) + " " + String.valueOf(duration - initialProgressOne) + " "
-									+ mActivity.getResources().getString(R.string.minutes));
-						} else {
-							progressTextView.setText(duration - initialProgressOne + " " + mActivity.getResources().getString(R.string.minutes) + " "
-									+ mActivity.getResources().getString(R.string.left));
+							if (timeLeft > 60) {
+								int hours = timeLeft / 60;
+								int minutes = timeLeft - hours * 60;
+								progressTextView.setText(mActivity.getResources().getQuantityString(R.plurals.left, hours) + " " + hours + " " + 
+														 mActivity.getResources().getQuantityString(R.plurals.hour, hours) + " " + 
+														 mActivity.getResources().getString(R.string.and) + " " + minutes + " " + 
+														 mActivity.getResources().getString(R.string.minutes));
+							}
+							else {
+								progressTextView.setText(mActivity.getResources().getString(R.string.left) + " " + String.valueOf(timeLeft) + " " + 
+														 mActivity.getResources().getString(R.string.minutes));
+							}
+						} 
+						else {
+							if (timeLeft > 60) {
+								int hours = timeLeft / 60;
+								int minutes = timeLeft - hours * 60;
+								progressTextView.setText(hours + " " + mActivity.getResources().getQuantityString(R.plurals.hour, hours) + " " + 
+														 mActivity.getResources().getString(R.string.and) + " " + minutes + " " + 
+														 mActivity.getResources().getString(R.string.minutes) + " " + 
+														 mActivity.getResources().getString(R.string.left));
+							}
+							else {
+								progressTextView.setText(timeLeft + " " + mActivity.getResources().getString(R.string.minutes) + " " + 
+														 mActivity.getResources().getString(R.string.left));
+							}
 						}
 
-						progressBar.setProgress(initialProgressOne);
+						progressBar.setProgress(initialProgressOne + 1);
 						progressBar.setVisibility(View.VISIBLE);
 						progressTextView.setVisibility(View.VISIBLE);
 					}
@@ -473,7 +495,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					});
 
 					if (broadcast.isRunning()) {
-						holderBC.progressBar.setMax(duration);
+						holderBC.progressBar.setMax(duration + 1);
 
 						// MC - Calculate the current progress of the ProgressBar and update.
 						int initialProgress = 0;
@@ -486,15 +508,38 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							initialProgress = broadcast.minutesSinceStart();
 
 							// different representation of "X min left" for Spanish and all other languages
+							int timeLeft = broadcast.getDurationInMinutes() - initialProgress;
+
 							if (Locale.getDefault().getLanguage().endsWith("es")) {
-								holderBC.progressbarTv.setText(mActivity.getResources().getString(R.string.left) + " " + String.valueOf(duration - initialProgress) + " "
-										+ mActivity.getResources().getString(R.string.minutes));
-							} else {
-								holderBC.progressbarTv.setText(duration - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + " "
-										+ mActivity.getResources().getString(R.string.left));
+								if (timeLeft > 60) {
+									int hours = timeLeft / 60;
+									int minutes = timeLeft - hours * 60;
+									holderBC.progressbarTv.setText(mActivity.getResources().getQuantityString(R.plurals.left, hours) + " " + hours + " " + 
+																   mActivity.getResources().getQuantityString(R.plurals.hour, hours) + " " + 
+																   mActivity.getResources().getString(R.string.and) + " " + minutes + " " + 
+																   mActivity.getResources().getString(R.string.minutes));
+								}
+								else {
+									holderBC.progressbarTv.setText(mActivity.getResources().getString(R.string.left) + " " + String.valueOf(timeLeft) + " " + 
+																   mActivity.getResources().getString(R.string.minutes));
+								}
+							} 
+							else {
+								if (timeLeft > 60) {
+									int hours = timeLeft / 60;
+									int minutes = timeLeft - hours * 60;
+									holderBC.progressbarTv.setText(hours + " " + mActivity.getResources().getQuantityString(R.plurals.hour, hours) + " " + 
+																   mActivity.getResources().getString(R.string.and) + " " + minutes + " " + 
+																   mActivity.getResources().getString(R.string.minutes) + " " + 
+																   mActivity.getResources().getString(R.string.left));
+								}
+								else {
+									holderBC.progressbarTv.setText(timeLeft + " " + mActivity.getResources().getString(R.string.minutes) + " " + 
+																   mActivity.getResources().getString(R.string.left));
+								}
 							}
 
-							holderBC.progressBar.setProgress(initialProgress);
+							holderBC.progressBar.setProgress(initialProgress + 1);
 							holderBC.progressbarTv.setVisibility(View.VISIBLE);
 							holderBC.progressBar.setVisibility(View.VISIBLE);
 						}

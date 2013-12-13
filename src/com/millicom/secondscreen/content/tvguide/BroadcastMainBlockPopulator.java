@@ -146,7 +146,7 @@ public class BroadcastMainBlockPopulator {
 		// broadcast is currently on air: show progress
 		if (broadcast.isRunning()) {
 
-			progressBar.setMax(broadcast.getDurationInMinutes());
+			progressBar.setMax(broadcast.getDurationInMinutes() + 1);
 
 			// Calculate the current progress of the ProgressBar and update.
 			int initialProgress = 0;
@@ -155,17 +155,41 @@ public class BroadcastMainBlockPopulator {
 			if (broadcast.getTimeToBegin() > 0) {
 				initialProgress = 0;
 				progressBar.setProgress(0);
-			} else {
+			} 
+			else {
 				initialProgress = broadcast.minutesSinceStart();
 				int timeLeft = broadcast.getDurationInMinutes() - initialProgress;
 
 				// different representation of "X min left" for Spanish and all other languages
 				if (Locale.getDefault().getLanguage().endsWith("es")) {
-					progressTxt.setText(mActivity.getResources().getString(R.string.left) + " " + String.valueOf(timeLeft) + " " + mActivity.getResources().getString(R.string.minutes));
-				} else {
-					progressTxt.setText(timeLeft + " " + mActivity.getResources().getString(R.string.minutes) + " " + mActivity.getResources().getString(R.string.left));
+					if (timeLeft > 60) {
+						int hours = timeLeft / 60;
+						int minutes = timeLeft - hours * 60;
+						progressTxt.setText(mActivity.getResources().getQuantityString(R.plurals.left, hours) + " " + hours + " " + 
+											mActivity.getResources().getQuantityString(R.plurals.hour, hours) + " " + 
+											mActivity.getResources().getString(R.string.and) + " " + minutes + " " + 
+											mActivity.getResources().getString(R.string.minutes));
+					}
+					else {
+						progressTxt.setText(mActivity.getResources().getString(R.string.left) + " " + String.valueOf(timeLeft) + " " + 
+											mActivity.getResources().getString(R.string.minutes));
+					}
+				} 
+				else {
+					if (timeLeft > 60) {
+						int hours = timeLeft / 60;
+						int minutes = timeLeft - hours * 60;
+						progressTxt.setText(hours + " " + mActivity.getResources().getQuantityString(R.plurals.hour, hours) + " " + 
+											mActivity.getResources().getString(R.string.and) + " " + minutes + " " + 
+											mActivity.getResources().getString(R.string.minutes) + " " + 
+											mActivity.getResources().getString(R.string.left));
+					}
+					else {
+						progressTxt.setText(timeLeft + " " + mActivity.getResources().getString(R.string.minutes) + " " + 
+											mActivity.getResources().getString(R.string.left));
+					}
 				}
-				progressBar.setProgress(initialProgress);
+				progressBar.setProgress(initialProgress + 1);
 				progressTxt.setVisibility(View.VISIBLE);
 				progressBar.setVisibility(View.VISIBLE);
 				timeTv.setVisibility(View.GONE);
@@ -250,7 +274,7 @@ public class BroadcastMainBlockPopulator {
 				if (mIsLoggedIn) {
 					if (mIsLiked == false) {
 						if (LikeService.addLike(mToken, mProgramId, mLikeType)) {
-							LikeService.showSetLikeToast(mActivity, mContentTitle);
+							BroadcastPageActivity.toast = LikeService.showSetLikeToast(mActivity, mContentTitle);
 
 							DazooStore.getInstance().addLikeIdToList(mProgramId);
 
@@ -275,6 +299,7 @@ public class BroadcastMainBlockPopulator {
 						mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
 					}
 				} else {
+					BroadcastPageActivity.toast.cancel();
 					PromptSignInDialogHandler loginDlg = new PromptSignInDialogHandler();
 					loginDlg.showPromptSignInDialog(mActivity, yesLoginProc(), noLoginProc());
 				}
@@ -297,7 +322,7 @@ public class BroadcastMainBlockPopulator {
 				if (!broadcast.hasStarted()) {
 					if (mIsSet == false) {
 						if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), mTvDate)) {
-							NotificationService.showSetNotificationToast(mActivity);
+							BroadcastPageActivity.toast = NotificationService.showSetNotificationToast(mActivity);
 							mRemindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 							NotificationDbItem dbItem = new NotificationDbItem();
@@ -314,6 +339,7 @@ public class BroadcastMainBlockPopulator {
 						}
 					} else {
 						if (mNotificationId != -1) {
+							BroadcastPageActivity.toast.cancel();
 							NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
 							notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId, yesNotificationProc(), noNotificationProc());
 						} else {

@@ -120,7 +120,7 @@ public class BroadcastRepetitionsBlockPopulator {
 					if (!broadcastOne.hasStarted()) {
 						if (mIsSetOne == false) {
 							if (NotificationService.setAlarm(mActivity, broadcastOne, broadcastOne.getChannel(), mTvDate)) {
-								NotificationService.showSetNotificationToast(mActivity);
+								BroadcastPageActivity.toast = NotificationService.showSetNotificationToast(mActivity);
 								mReminderOneIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 								NotificationDbItem dbItem = new NotificationDbItem();
@@ -137,6 +137,7 @@ public class BroadcastRepetitionsBlockPopulator {
 							}
 						} else {
 							if (mNotificationId != -1) {
+								BroadcastPageActivity.toast.cancel();
 								NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
 								notificationDlg.showRemoveNotificationDialog(mActivity, broadcastOne, mNotificationId, yesNotificationOneProc(), noNotificationProc());
 							} else {
@@ -211,7 +212,7 @@ public class BroadcastRepetitionsBlockPopulator {
 					if (!broadcastTwo.hasStarted()) {
 						if (mIsSetTwo == false) {
 							if (NotificationService.setAlarm(mActivity, broadcastTwo, broadcastTwo.getChannel(), mTvDate)) {
-								NotificationService.showSetNotificationToast(mActivity);
+								BroadcastPageActivity.toast = NotificationService.showSetNotificationToast(mActivity);
 								mReminderTwoIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 								NotificationDbItem dbItem = new NotificationDbItem();
@@ -228,6 +229,7 @@ public class BroadcastRepetitionsBlockPopulator {
 							}
 						} else {
 							if (mNotificationId != -1) {
+								BroadcastPageActivity.toast.cancel();
 								NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
 								notificationDlg.showRemoveNotificationDialog(mActivity, broadcastTwo, mNotificationId, yesNotificationTwoProc(), noNotificationProc());
 							} else {
@@ -307,7 +309,7 @@ public class BroadcastRepetitionsBlockPopulator {
 					if (!broadcastThree.hasStarted()) {
 						if (mIsSetThree == false) {
 							if (NotificationService.setAlarm(mActivity, broadcastThree, broadcastThree.getChannel(), mTvDate)) {
-								NotificationService.showSetNotificationToast(mActivity);
+								BroadcastPageActivity.toast = NotificationService.showSetNotificationToast(mActivity);
 								mReminderThreeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 								NotificationDbItem dbItem = new NotificationDbItem();
@@ -324,6 +326,7 @@ public class BroadcastRepetitionsBlockPopulator {
 							}
 						} else {
 							if (mNotificationId != -1) {
+								BroadcastPageActivity.toast.cancel();
 								NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
 								notificationDlg.showRemoveNotificationDialog(mActivity, broadcastThree, mNotificationId, yesNotificationThreeProc(), noNotificationProc());
 							} else {

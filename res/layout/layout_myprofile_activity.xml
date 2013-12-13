@@ -68,10 +68,10 @@
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/myprofile_avatar_iv"
                         android:gravity="center_vertical"
-                        android:maxLines="3"
+                        android:maxLines="1"
                         android:padding="10dp"
                         android:textColor="@color/black"
-                        android:textSize="26sp" />
+                        android:textSize="@dimen/header_1" />
                 </RelativeLayout>
 
                 <!-- REMINDERS BAR -->

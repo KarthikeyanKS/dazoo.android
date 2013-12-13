@@ -111,7 +111,7 @@ public class WhatElseIsOnListAdapter extends BaseAdapter {
 			// MC - Set the begin time of the broadcast.
 
 			holder.mTimeTv.setText(broadcast.getBeginTimeStringLocalHourAndMinute());
-			holder.mDurationPb.setMax(broadcast.getDurationInMinutes());
+			holder.mDurationPb.setMax(broadcast.getDurationInMinutes() + 1);
 
 			// MC - Calculate the current progress of the ProgressBar and update.
 			int initialProgress = 0;
@@ -123,16 +123,38 @@ public class WhatElseIsOnListAdapter extends BaseAdapter {
 			} else {
 
 				initialProgress = broadcast.minutesSinceStart();
+				int timeLeft = broadcast.getDurationInMinutes() - initialProgress;
 
 				// different representation of "X min left" for Spanish and all other languages
 				if (Locale.getDefault().getLanguage().endsWith("es")) {
-					holder.mTimeleftTv.setText(mActivity.getResources().getString(R.string.left) + " " + String.valueOf(broadcast.getDurationInMinutes() - initialProgress) + " "
-							+ mActivity.getResources().getString(R.string.minutes));
-				} else {
-					holder.mTimeleftTv.setText(broadcast.getDurationInMinutes() - initialProgress + " " + mActivity.getResources().getString(R.string.minutes) + " "
-							+ mActivity.getResources().getString(R.string.left));
+					if (timeLeft > 60) {
+						int hours = timeLeft / 60;
+						int minutes = timeLeft - hours * 60;
+						holder.mTimeleftTv.setText(mActivity.getResources().getQuantityString(R.plurals.left, hours) + " " + hours + " " + 
+												   mActivity.getResources().getQuantityString(R.plurals.hour, hours) + " " + 
+												   mActivity.getResources().getString(R.string.and) + " " + minutes + " " + 
+												   mActivity.getResources().getString(R.string.minutes));
+					}
+					else {
+						holder.mTimeleftTv.setText(mActivity.getResources().getString(R.string.left) + " " + String.valueOf(timeLeft) + " " + 
+												   mActivity.getResources().getString(R.string.minutes));
+					}
+				} 
+				else {
+					if (timeLeft > 60) {
+						int hours = timeLeft / 60;
+						int minutes = timeLeft - hours * 60;
+						holder.mTimeleftTv.setText(hours + " " + mActivity.getResources().getQuantityString(R.plurals.hour, hours) + " " + 
+												   mActivity.getResources().getString(R.string.and) + " " + minutes + " " + 
+												   mActivity.getResources().getString(R.string.minutes) + " " + 
+												   mActivity.getResources().getString(R.string.left));
+					}
+					else {
+						holder.mTimeleftTv.setText(timeLeft + " " + mActivity.getResources().getString(R.string.minutes) + " " + 
+												   mActivity.getResources().getString(R.string.left));
+					}
 				}
-				holder.mDurationPb.setProgress(initialProgress);
+				holder.mDurationPb.setProgress(initialProgress + 1);
 				holder.mDurationPb.setVisibility(View.VISIBLE);
 			}
 			// Set program type
