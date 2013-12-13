@@ -301,35 +301,35 @@ public class ActivityFeedAdapter extends BaseAdapter {
 					// one
 					RelativeLayout elementOne = (RelativeLayout) rowView.findViewById(R.id.block_popular_element_one);
 					viewHolder.mContainerOne = elementOne;
-					viewHolder.mPosterOne = (ImageView) elementOne.findViewById(R.id.element_poster_broadcast_image_iv);
-					viewHolder.mTitleOne = (TextView) elementOne.findViewById(R.id.element_poster_broadcast_title_tv);
-					viewHolder.mTimeOne = (TextView) elementOne.findViewById(R.id.element_poster_broadcast_time_tv);
-					viewHolder.mChannelNameOne = (TextView) elementOne.findViewById(R.id.element_poster_broadcast_channel_tv);
-					viewHolder.mDetailsOne = (TextView) elementOne.findViewById(R.id.element_poster_broadcast_type_tv);
-					viewHolder.mProgressBarTitleOne = (TextView) elementOne.findViewById(R.id.element_poster_broadcast_timeleft_tv);
-					viewHolder.mProgressBarOne = (ProgressBar) elementOne.findViewById(R.id.element_poster_broadcast_progressbar);
+					viewHolder.mPosterOne = (ImageView) elementOne.findViewById(R.id.element_popular_list_item_image_iv);
+					viewHolder.mTitleOne = (TextView) elementOne.findViewById(R.id.element_popular_list_item_title_tv);
+					viewHolder.mTimeOne = (TextView) elementOne.findViewById(R.id.element_popular_list_item_time_tv);
+					viewHolder.mChannelNameOne = (TextView) elementOne.findViewById(R.id.element_popular_list_item_channel_tv);
+					viewHolder.mDetailsOne = (TextView) elementOne.findViewById(R.id.element_popular_list_item_type_tv);
+					viewHolder.mProgressBarTitleOne = (TextView) elementOne.findViewById(R.id.element_popular_list_item_timeleft_tv);
+					viewHolder.mProgressBarOne = (ProgressBar) elementOne.findViewById(R.id.element_popular_list_item_progressbar);
 
 					// two
 					RelativeLayout elementTwo = (RelativeLayout) rowView.findViewById(R.id.block_popular_element_two);
 					viewHolder.mContainerTwo = elementTwo;// (LinearLayout) elementTwo.findViewById(R.id.block_popular_feed_container);
-					viewHolder.mPosterTwo = (ImageView) elementTwo.findViewById(R.id.element_poster_broadcast_image_iv);
-					viewHolder.mTitleTwo = (TextView) elementTwo.findViewById(R.id.element_poster_broadcast_title_tv);
-					viewHolder.mTimeTwo = (TextView) elementTwo.findViewById(R.id.element_poster_broadcast_time_tv);
-					viewHolder.mChannelNameTwo = (TextView) elementTwo.findViewById(R.id.element_poster_broadcast_channel_tv);
-					viewHolder.mDetailsTwo = (TextView) elementTwo.findViewById(R.id.element_poster_broadcast_type_tv);
-					viewHolder.mProgressBarTitleTwo = (TextView) elementTwo.findViewById(R.id.element_poster_broadcast_timeleft_tv);
-					viewHolder.mProgressBarTwo = (ProgressBar) elementTwo.findViewById(R.id.element_poster_broadcast_progressbar);
+					viewHolder.mPosterTwo = (ImageView) elementTwo.findViewById(R.id.element_popular_list_item_image_iv);
+					viewHolder.mTitleTwo = (TextView) elementTwo.findViewById(R.id.element_popular_list_item_title_tv);
+					viewHolder.mTimeTwo = (TextView) elementTwo.findViewById(R.id.element_popular_list_item_time_tv);
+					viewHolder.mChannelNameTwo = (TextView) elementTwo.findViewById(R.id.element_popular_list_item_channel_tv);
+					viewHolder.mDetailsTwo = (TextView) elementTwo.findViewById(R.id.element_popular_list_item_type_tv);
+					viewHolder.mProgressBarTitleTwo = (TextView) elementTwo.findViewById(R.id.element_popular_list_item_timeleft_tv);
+					viewHolder.mProgressBarTwo = (ProgressBar) elementTwo.findViewById(R.id.element_popular_list_item_progressbar);
 
 					// three
 					RelativeLayout elementThree = (RelativeLayout) rowView.findViewById(R.id.block_popular_element_three);
 					viewHolder.mContainerThree = elementThree;// (LinearLayout) elementThree.findViewById(R.id.block_popular_feed_container);
-					viewHolder.mPosterThree = (ImageView) elementThree.findViewById(R.id.element_poster_broadcast_image_iv);
-					viewHolder.mTitleThree = (TextView) elementThree.findViewById(R.id.element_poster_broadcast_title_tv);
-					viewHolder.mTimeThree = (TextView) elementThree.findViewById(R.id.element_poster_broadcast_time_tv);
-					viewHolder.mChannelNameThree = (TextView) elementThree.findViewById(R.id.element_poster_broadcast_channel_tv);
-					viewHolder.mDetailsThree = (TextView) elementThree.findViewById(R.id.element_poster_broadcast_type_tv);
-					viewHolder.mProgressBarTitleThree = (TextView) elementThree.findViewById(R.id.element_poster_broadcast_timeleft_tv);
-					viewHolder.mProgressBarThree = (ProgressBar) elementThree.findViewById(R.id.element_poster_broadcast_progressbar);
+					viewHolder.mPosterThree = (ImageView) elementThree.findViewById(R.id.element_popular_list_item_image_iv);
+					viewHolder.mTitleThree = (TextView) elementThree.findViewById(R.id.element_popular_list_item_title_tv);
+					viewHolder.mTimeThree = (TextView) elementThree.findViewById(R.id.element_popular_list_item_time_tv);
+					viewHolder.mChannelNameThree = (TextView) elementThree.findViewById(R.id.element_popular_list_item_channel_tv);
+					viewHolder.mDetailsThree = (TextView) elementThree.findViewById(R.id.element_popular_list_item_type_tv);
+					viewHolder.mProgressBarTitleThree = (TextView) elementThree.findViewById(R.id.element_popular_list_item_timeleft_tv);
+					viewHolder.mProgressBarThree = (ProgressBar) elementThree.findViewById(R.id.element_popular_list_item_progressbar);
 
 					rowView.setTag(viewHolder);
 				}

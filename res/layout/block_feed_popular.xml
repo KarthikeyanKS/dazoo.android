@@ -23,7 +23,7 @@
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
         android:layout_below="@id/block_popular_header_tv"
-        layout="@layout/element_poster_broadcast" />
+        layout="@layout/element_popular_list_item" />
     
     <!-- ITEM 2 -->
     <include
@@ -31,7 +31,7 @@
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
     	android:layout_below="@id/block_popular_element_one"
-        layout="@layout/element_poster_broadcast" />
+        layout="@layout/element_popular_list_item" />
     
     <!-- ITEM 3 -->
     <include
@@ -39,7 +39,7 @@
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
         android:layout_below="@id/block_popular_element_two"
-        layout="@layout/element_poster_broadcast" />
+        layout="@layout/element_popular_list_item" />
 
     <!-- FOOTER -->
 

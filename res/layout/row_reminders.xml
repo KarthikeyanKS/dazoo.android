@@ -20,9 +20,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="15dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:gravity="left"
             android:textAllCaps="true"
             android:textColor="@color/grey2"
@@ -70,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/row_reminders_text_title_tv"
-                android:lineSpacingExtra="-4sp"
+                android:lineSpacingExtra="-2sp"
                 android:textColor="@color/grey3"
                 android:textSize="@dimen/ingress" />
 
@@ -80,9 +80,10 @@
                 android:id="@+id/row_reminders_text_channel_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:layout_below="@id/row_reminders_text_time_tv"
                 android:textColor="@color/grey3"
-                android:textSize="@dimen/ingress" />
+                android:textSize="16sp" />
 
             <!-- DETAILS - SEASON - EPISODE -->
 
@@ -93,7 +94,7 @@
                 android:layout_below="@id/row_reminders_text_channel_tv"
                 android:gravity="left"
                 android:textColor="@color/grey2"
-                android:textSize="@dimen/ingress"
+                android:textSize="16sp"
                 android:visibility="gone" />
         </RelativeLayout>
 
