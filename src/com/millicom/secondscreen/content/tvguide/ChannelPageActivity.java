@@ -210,6 +210,7 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 	private void initViews() {
 		mActionBar = getSupportActionBar();
 		mActionBar.setDisplayShowTitleEnabled(false);
+		mActionBar.setDisplayHomeAsUpEnabled(true);
 
 		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		mDayAdapter = new ActionBarDropDownDateListAdapter(mTvDates);

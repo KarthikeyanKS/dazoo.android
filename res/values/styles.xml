@@ -20,6 +20,8 @@
     <style name="ChannelPage" parent="@style/Theme.AppCompat.Light">
         <item name="android:actionDropDownStyle">@style/ActionBarDropDown</item>
         <item name="android:homeAsUpIndicator">@drawable/ic_up_indicator</item>
+        
+        <item name ="homeAsUpIndicator">@drawable/ic_up_indicator</item>
     </style>
 
     <style name="HomePage" parent="@style/Theme.AppCompat.Light">
@@ -41,6 +43,7 @@
 
         <!-- Support library compatibility -->
         <item name="actionBarStyle">@style/WhiteActionBar</item>
+        <item name ="homeAsUpIndicator">@drawable/ic_up_indicator</item>
     </style>
 
     <style name="WhiteActionBar" parent="@style/Widget.AppCompat.ActionBar">

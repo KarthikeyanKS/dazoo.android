@@ -68,6 +68,7 @@ public class ResetPasswordActivity extends ActionBarActivity implements OnClickL
 		mActionBar.setDisplayShowCustomEnabled(true);
 		mActionBar.setDisplayUseLogoEnabled(true);
 		mActionBar.setDisplayShowHomeEnabled(true);
+		mActionBar.setDisplayHomeAsUpEnabled(true);
 
 		final int actionBarColor = getResources().getColor(R.color.blue1);
 		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));

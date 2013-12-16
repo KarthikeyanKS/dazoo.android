@@ -67,6 +67,7 @@ public class RemindersActivity extends SSActivity implements RemindersCountInter
 	private void initLayout() {
 		mActionBar = getSupportActionBar();
 		mActionBar.setTitle(getResources().getString(R.string.reminders));
+		mActionBar.setDisplayHomeAsUpEnabled(true);
 
 		// styling bottom navigation tabs
 		

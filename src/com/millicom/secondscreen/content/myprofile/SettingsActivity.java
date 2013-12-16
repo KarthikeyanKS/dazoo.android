@@ -59,7 +59,8 @@ public class SettingsActivity extends SSActivity implements OnClickListener {
 	private void initLayout() {
 		mActionBar = getSupportActionBar();
 		mActionBar.setTitle(getResources().getString(R.string.settings));
-
+		mActionBar.setDisplayHomeAsUpEnabled(true);
+		
 		mContactButton = (Button) findViewById(R.id.settings_contact_button);
 		mContactButton.setOnClickListener(this);
 		mTermsButton = (Button) findViewById(R.id.settings_terms_button);

@@ -108,7 +108,7 @@ public class PopularPageActivity extends SSActivity implements OnClickListener {
 		mTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
 
 		mActionBar = getSupportActionBar();
-
+		mActionBar.setDisplayHomeAsUpEnabled(true);
 		mActionBar.setDisplayShowTitleEnabled(true);
 		mActionBar.setDisplayShowCustomEnabled(true);
 		mActionBar.setDisplayUseLogoEnabled(true);
