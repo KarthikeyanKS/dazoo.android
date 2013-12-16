@@ -10,7 +10,7 @@
     <ListView
         android:id="@+id/fragment_tvguide_type_tag_listview"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:cacheColorHint="@null"
         android:divider="@null" />
 
