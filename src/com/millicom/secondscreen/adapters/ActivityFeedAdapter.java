@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.activity.PopularPageActivity;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.FeedItem;
@@ -586,7 +587,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 								if (LikeService.addLike(mToken, programId, likeType)) {
 									DazooStore.getInstance().addLikeIdToList(programId);
 
-									LikeService.showSetLikeToast(mActivity, contentTitle);
+									ActivityActivity.toast = LikeService.showSetLikeToast(mActivity, contentTitle);
 									holderBC.likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
 
 									AnimationUtilities.animationSet(holderBC.likeLikeIv);
@@ -635,7 +636,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 							if (mIsSet == false) {
 								if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), broadcast.getTvDateString())) {
-									NotificationService.showSetNotificationToast(mActivity);
+									ActivityActivity.toast = NotificationService.showSetNotificationToast(mActivity);
 									holderBC.remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 									NotificationDbItem dbItemRemind = new NotificationDbItem();
@@ -651,6 +652,9 @@ public class ActivityFeedAdapter extends BaseAdapter {
 								}
 							} else {
 								if (mNotificationId != -1) {
+									if (ActivityActivity.toast != null) {
+										ActivityActivity.toast.cancel();
+									}
 									NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
 									notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId, yesNotificationProc(holderBC.remindLikeIv), noNotificationProc());
 								} else {

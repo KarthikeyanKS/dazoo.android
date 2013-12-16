@@ -102,11 +102,11 @@ public class LikeService {
 		text.setText(likedContentName + activity.getResources().getString(R.string.like_set_text));
 
 		if (android.os.Build.VERSION.SDK_INT >= 13) {
-			toast.setGravity(Gravity.BOTTOM, 0, 200);
+			toast.setGravity(Gravity.BOTTOM, 0, 100); //200
 		} else {
 			toast.setGravity(Gravity.BOTTOM, 0, 100);
 		}
-		toast.setDuration(Toast.LENGTH_LONG);
+		toast.setDuration(Toast.LENGTH_SHORT);
 		toast.setView(layout);
 		toast.show();
 		return toast;

@@ -157,7 +157,9 @@ public class BroadcastUpcomingBlockPopulator {
 							}
 						} else {
 							if (mNotificationId != -1) {
-								BroadcastPageActivity.toast.cancel();
+								if (BroadcastPageActivity.toast != null) {
+									BroadcastPageActivity.toast.cancel();
+								}
 								NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
 								notificationDlg.showRemoveNotificationDialog(mActivity, broadcastOne, mNotificationId, yesNotificationOneProc(), noNotificationProc());
 							} else {
@@ -266,7 +268,9 @@ public class BroadcastUpcomingBlockPopulator {
 							}
 						} else {
 							if (mNotificationId != -1) {
-								BroadcastPageActivity.toast.cancel();
+								if (BroadcastPageActivity.toast != null) {
+									BroadcastPageActivity.toast.cancel();
+								}
 								NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
 								notificationDlg.showRemoveNotificationDialog(mActivity, broadcastTwo, mNotificationId, yesNotificationTwoProc(), noNotificationProc());
 							} else {
@@ -376,7 +380,9 @@ public class BroadcastUpcomingBlockPopulator {
 							}
 						} else {
 							if (mNotificationId != -1) {
-								//BroadcastPageActivity.toast.cancel();
+								if (BroadcastPageActivity.toast != null) {
+									BroadcastPageActivity.toast.cancel();
+								}
 								NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
 								notificationDlg.showRemoveNotificationDialog(mActivity, broadcastThree, mNotificationId, yesNotificationThreeProc(), noNotificationProc());
 							} else {

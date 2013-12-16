@@ -302,7 +302,9 @@ public class BroadcastMainBlockPopulator {
 						mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
 					}
 				} else {
-					BroadcastPageActivity.toast.cancel();
+					if (BroadcastPageActivity.toast != null) {
+						BroadcastPageActivity.toast.cancel();
+					}
 					PromptSignInDialogHandler loginDlg = new PromptSignInDialogHandler();
 					loginDlg.showPromptSignInDialog(mActivity, yesLoginProc(), noLoginProc());
 				}
@@ -342,7 +344,9 @@ public class BroadcastMainBlockPopulator {
 						}
 					} else {
 						if (mNotificationId != -1) {
-							BroadcastPageActivity.toast.cancel();
+							if (BroadcastPageActivity.toast != null) {
+								BroadcastPageActivity.toast.cancel();
+							}
 							NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
 							notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId, yesNotificationProc(), noNotificationProc());
 						} else {
