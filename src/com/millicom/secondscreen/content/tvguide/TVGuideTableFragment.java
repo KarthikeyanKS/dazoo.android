@@ -213,7 +213,23 @@ public class TVGuideTableFragment extends SSPageFragment {
 				mTVGuideListAdapter.notifyDataSetChanged();
 				focusOnView();
 			} else {
-				int index = Broadcast.getClosestBroadcastIndex(mTaggedBroadcasts);
+				final int index = Broadcast.getClosestBroadcastIndex(mTaggedBroadcasts);
+				//Remove all broadcasts that already ended
+				new Runnable() {
+					
+					@Override
+					public void run() {
+						ArrayList<Broadcast> toRemove = new ArrayList<Broadcast>();
+						for (int i = index; i < mTaggedBroadcasts.size(); i++) {
+							if (mTaggedBroadcasts.get(i).hasNotEnded() == false) {
+								toRemove.add(mTaggedBroadcasts.get(i));
+							}
+						}
+						for (Broadcast broadcast : toRemove) {
+							mTaggedBroadcasts.remove(broadcast);
+						}
+					}
+				}.run();
 				Log.d(TAG, "index: " + index);
 				mTVTagListAdapter = new TVGuideTagListAdapter(mActivity, mTaggedBroadcasts, index, mTvDate);
 				mTVGuideListView.setAdapter(mTVTagListAdapter);
