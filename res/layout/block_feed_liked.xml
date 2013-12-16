@@ -82,9 +82,9 @@
             android:layout_below="@id/block_feed_liked_title_tv"
             android:layout_marginLeft="10dp"
             android:gravity="left"
-            android:lineSpacingExtra="-2sp"
+            android:lineSpacingExtra="0sp"
             android:textColor="@color/black"
-            android:textSize="@dimen/header_3"
+            android:textSize="16sp"
             font:fonttextview="fontello.ttf" />
 
         <com.millicom.secondscreen.customviews.FontTextView
@@ -95,7 +95,7 @@
             android:layout_marginLeft="10dp"
             android:gravity="left"
             android:textColor="@color/black"
-            android:textSize="@dimen/header_3"
+            android:textSize="16sp"
             font:fonttextview="fontello.ttf" />
 
         <com.millicom.secondscreen.customviews.FontTextView

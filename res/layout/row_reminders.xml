@@ -20,15 +20,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
             android:gravity="left"
             android:textAllCaps="true"
             android:textColor="@color/grey2"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="10dp"
-            font:fonttextview="fontello.ttf"/>
+            font:fonttextview="fontello.ttf" />
     </RelativeLayout>
 
     <!-- REMINDERS CONTAINER -->
@@ -40,15 +40,14 @@
         android:layout_below="@id/row_reminders_header_container"
         android:background="@color/white"
         android:orientation="horizontal"
-        android:padding="10dp"
-        android:weightSum="10" >
+        android:padding="10dp" >
 
         <RelativeLayout
             android:id="@+id/row_reminders_text_container"
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/view_margin"
-            android:layout_weight="3"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.8"
             android:orientation="vertical" >
 
             <!-- TITLE -->
@@ -57,8 +56,9 @@
                 android:id="@+id/row_reminders_text_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_gravity="left"
+                android:layout_marginBottom="5dp"
+                android:gravity="left"
+                android:lines="1"
                 android:textColor="@color/black"
                 android:textSize="@dimen/header_2"
                 android:textStyle="bold" />
@@ -70,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/row_reminders_text_title_tv"
-                android:layout_marginTop="10dp"
+                android:lineSpacingExtra="-2sp"
                 android:textColor="@color/grey3"
                 android:textSize="@dimen/ingress" />
 
@@ -80,10 +80,10 @@
                 android:id="@+id/row_reminders_text_channel_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:layout_below="@id/row_reminders_text_time_tv"
-                android:layout_marginBottom="10dp"
                 android:textColor="@color/grey3"
-                android:textSize="@dimen/ingress" />
+                android:textSize="16sp" />
 
             <!-- DETAILS - SEASON - EPISODE -->
 
@@ -91,11 +91,10 @@
                 android:id="@+id/row_reminders_text_details_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
                 android:layout_below="@id/row_reminders_text_channel_tv"
-                android:layout_gravity="left"
+                android:gravity="left"
                 android:textColor="@color/grey2"
-                android:textSize="@dimen/ingress"
+                android:textSize="16sp"
                 android:visibility="gone" />
         </RelativeLayout>
 
@@ -103,10 +102,10 @@
 
         <RelativeLayout
             android:id="@+id/row_reminders_button_container"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="7"
+            android:layout_weight="0.20"
             android:background="@color/white"
             android:orientation="horizontal" >
 
@@ -116,12 +115,12 @@
                 android:layout_height="24dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_margin="7dp"
+                android:layout_margin="5dp"
                 android:src="@drawable/ic_reminder_selected" />
 
             <View
                 android:layout_width="1dp"
-                android:layout_height="60dp"
+                android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_margin="10dp"
                 android:layout_toLeftOf="@id/row_reminders_notification_iv"
@@ -134,8 +133,6 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:layout_below="@id/row_reminders_container"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:background="@color/grey1" />
 
 </RelativeLayout>

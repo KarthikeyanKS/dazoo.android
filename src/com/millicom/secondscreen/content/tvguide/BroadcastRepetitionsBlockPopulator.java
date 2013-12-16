@@ -96,13 +96,7 @@ public class BroadcastRepetitionsBlockPopulator {
 			mTitleTimeOneTv.setText(broadcastOne.getDayOfWeekWithTimeString());
 			mChannelOneTv.setText(broadcastOne.getChannel().getName());
 
-			try {
-				mIsFutureOne = DateUtilities.isTimeInFuture(broadcastOne.getBeginTimeMillisLocal());
-			} catch (ParseException e1) {
-				e1.printStackTrace();
-			}
-
-			if (!mIsFutureOne) {
+			if (!broadcastOne.hasStarted()) {
 				NotificationDbItem dbItem = new NotificationDbItem();
 				dbItem = mNotificationDataSource.getNotification(broadcastOne.getChannel().getChannelId(), broadcastOne.getBeginTimeMillisGmt());
 				if (dbItem.getNotificationId() != 0) {
@@ -123,7 +117,7 @@ public class BroadcastRepetitionsBlockPopulator {
 
 				@Override
 				public void onClick(View v) {
-					if (!mIsFutureOne) {
+					if (!broadcastOne.hasStarted()) {
 						if (mIsSetOne == false) {
 							if (NotificationService.setAlarm(mActivity, broadcastOne, broadcastOne.getChannel(), mTvDate)) {
 								BroadcastPageActivity.toast = NotificationService.showSetNotificationToast(mActivity);
@@ -194,13 +188,7 @@ public class BroadcastRepetitionsBlockPopulator {
 			mTitleTimeTwoTv.setText(broadcastTwo.getDayOfWeekWithTimeString());
 			mChannelTwoTv.setText(broadcastTwo.getChannel().getName());
 
-			try {
-				mIsFutureTwo = DateUtilities.isTimeInFuture(broadcastTwo.getBeginTimeMillisLocal());
-			} catch (ParseException e1) {
-				e1.printStackTrace();
-			}
-
-			if (!mIsFutureTwo) {
+			if (!broadcastTwo.hasStarted()) {
 				NotificationDbItem dbItem = new NotificationDbItem();
 				dbItem = mNotificationDataSource.getNotification(broadcastTwo.getChannel().getChannelId(), broadcastTwo.getBeginTimeMillisGmt());
 				if (dbItem.getNotificationId() != 0) {
@@ -221,7 +209,7 @@ public class BroadcastRepetitionsBlockPopulator {
 
 				@Override
 				public void onClick(View v) {
-					if (!mIsFutureTwo) {
+					if (!broadcastTwo.hasStarted()) {
 						if (mIsSetTwo == false) {
 							if (NotificationService.setAlarm(mActivity, broadcastTwo, broadcastTwo.getChannel(), mTvDate)) {
 								BroadcastPageActivity.toast = NotificationService.showSetNotificationToast(mActivity);
@@ -297,13 +285,7 @@ public class BroadcastRepetitionsBlockPopulator {
 			mTitleTimeThreeTv.setText(broadcastThree.getDayOfWeekWithTimeString());
 			mChannelThreeTv.setText(broadcastThree.getChannel().getName());
 
-			try {
-				mIsFutureThree = DateUtilities.isTimeInFuture(broadcastThree.getBeginTimeMillisLocal());
-			} catch (ParseException e1) {
-				e1.printStackTrace();
-			}
-
-			if (!mIsFutureThree) {
+			if (!broadcastThree.hasStarted()) {
 				NotificationDbItem dbItem = new NotificationDbItem();
 				dbItem = mNotificationDataSource.getNotification(broadcastThree.getChannel().getChannelId(), broadcastThree.getBeginTimeMillisGmt());
 				if (dbItem.getNotificationId() != 0) {
@@ -324,7 +306,7 @@ public class BroadcastRepetitionsBlockPopulator {
 
 				@Override
 				public void onClick(View v) {
-					if (!mIsFutureThree) {
+					if (!broadcastThree.hasStarted()) {
 						if (mIsSetThree == false) {
 							if (NotificationService.setAlarm(mActivity, broadcastThree, broadcastThree.getChannel(), mTvDate)) {
 								BroadcastPageActivity.toast = NotificationService.showSetNotificationToast(mActivity);
