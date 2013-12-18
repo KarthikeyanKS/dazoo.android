@@ -151,7 +151,7 @@
     <string name="episode">Episodio</string>
     <string name="hour">hora</string>
     <string name="minutes">min</string>
-    <string name="left">quedan</string>
+    <string name="left">Quedan</string>
     <string name="from">desde</string>
     <string name="and">y</string>
     <string name="whatelseison_title">Transmitiéndose al mismo tiempo</string>
@@ -247,7 +247,7 @@
     <string name="login_here">Iniciar sesión</string>
     <string name="login_for_activity">Solo tienes que registrarse, y nosotros nos encargaremos de buscar sugerencias especialmente para ti.</string>
     <string name="popular_now">Populares</string>
-    <string name="show_all">Ver más &#8230;</string>
+    <string name="show_all">Ver más populares</string>
     <string name="from">desde</string>
     <string name="season">Temporada</string>
     <string name="episode">Episodio</string>
