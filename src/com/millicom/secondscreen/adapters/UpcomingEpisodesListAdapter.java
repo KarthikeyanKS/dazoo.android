@@ -3,20 +3,6 @@ package com.millicom.secondscreen.adapters;
 import java.text.ParseException;
 import java.util.ArrayList;
 
-import com.millicom.secondscreen.Consts;
-import com.millicom.secondscreen.R;
-import com.millicom.secondscreen.content.model.Broadcast;
-import com.millicom.secondscreen.content.model.NotificationDbItem;
-import com.millicom.secondscreen.content.model.TvDate;
-import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
-import com.millicom.secondscreen.notification.NotificationDataSource;
-import com.millicom.secondscreen.notification.NotificationDialogHandler;
-import com.millicom.secondscreen.notification.NotificationService;
-import com.millicom.secondscreen.storage.DazooStore;
-import com.millicom.secondscreen.utilities.AnimationUtilities;
-import com.millicom.secondscreen.utilities.DateUtilities;
-import com.millicom.secondscreen.utilities.ImageLoader;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -29,7 +15,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.content.model.Broadcast;
+import com.millicom.secondscreen.content.model.NotificationDbItem;
+import com.millicom.secondscreen.content.model.TvDate;
+import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
+import com.millicom.secondscreen.notification.NotificationDataSource;
+import com.millicom.secondscreen.notification.NotificationDialogHandler;
+import com.millicom.secondscreen.notification.NotificationService;
+import com.millicom.secondscreen.storage.DazooStore;
+import com.millicom.secondscreen.utilities.AnimationUtilities;
+import com.millicom.secondscreen.utilities.DateUtilities;
 
 public class UpcomingEpisodesListAdapter extends BaseAdapter {
 
@@ -38,7 +36,6 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
 	private ArrayList<Broadcast>	mUpcomingEpisodes;
-	private ImageLoader				mImageLoader;
 	private NotificationDataSource	mNotificationDataSource;
 	private int						mLastPosition	= -1, mNotificationId = -1;
 	private boolean					mIsSet			= false, mIsFuture = false;
@@ -66,7 +63,6 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 		this.mRunningBroadcast = runningBroadcast;
 		this.mUpcomingEpisodes = upcomingBroadcasts;
 		this.mActivity = activity;
-		this.mImageLoader = new ImageLoader(mActivity, R.color.grey1);
 		mNotificationDataSource = new NotificationDataSource(mActivity);
 
 		dazooStore = DazooStore.getInstance();

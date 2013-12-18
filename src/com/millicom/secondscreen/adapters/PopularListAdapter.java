@@ -2,18 +2,7 @@ package com.millicom.secondscreen.adapters;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
-
-import com.millicom.secondscreen.Consts;
-import com.millicom.secondscreen.R;
-import com.millicom.secondscreen.adapters.TVGuideListAdapter.ViewHolder;
-import com.millicom.secondscreen.content.model.Broadcast;
-import com.millicom.secondscreen.content.model.TvDate;
-import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
-import com.millicom.secondscreen.storage.DazooStore;
-import com.millicom.secondscreen.utilities.DateUtilities;
-import com.millicom.secondscreen.utilities.ImageLoader;
 
 import android.app.Activity;
 import android.content.Context;
@@ -24,10 +13,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.content.model.Broadcast;
+import com.millicom.secondscreen.content.model.TvDate;
+import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
+import com.millicom.secondscreen.storage.DazooStore;
+import com.millicom.secondscreen.utilities.DateUtilities;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class PopularListAdapter extends BaseAdapter {
 
@@ -46,7 +43,6 @@ public class PopularListAdapter extends BaseAdapter {
 	public PopularListAdapter(Activity activity, String token, ArrayList<Broadcast> popularBroadcasts) {
 		this.mActivity = activity;
 		this.mPopularBroadcasts = popularBroadcasts;
-		this.mImageLoader = new ImageLoader(activity, R.color.grey1);
 		this.mToken = token;
 
 		dazooStore = DazooStore.getInstance();
@@ -141,7 +137,7 @@ public class PopularListAdapter extends BaseAdapter {
 			// different details about the broadcast program depending on the type
 			String programType = broadcast.getProgram().getProgramType();
 
-			mImageLoader.displayImage(broadcast.getProgram().getPortMUrl(), holder.mPosterIv, ImageLoader.IMAGE_TYPE.POSTER);
+			ImageLoader.getInstance().displayImage(broadcast.getProgram().getPortMUrl(), holder.mPosterIv);
 			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 				holder.mTitleTv.setText(broadcast.getProgram().getSeries().getName());
 			} else {

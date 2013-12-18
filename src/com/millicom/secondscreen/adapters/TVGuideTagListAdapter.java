@@ -1,6 +1,5 @@
 package com.millicom.secondscreen.adapters;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -19,15 +18,10 @@ import android.widget.TextView;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
-import com.millicom.secondscreen.adapters.TVGuideListAdapter.ViewHolder;
 import com.millicom.secondscreen.content.model.Broadcast;
-import com.millicom.secondscreen.content.model.Channel;
-import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
-import com.millicom.secondscreen.content.tvguide.ChannelPageActivity;
-import com.millicom.secondscreen.utilities.DateUtilities;
-import com.millicom.secondscreen.utilities.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class TVGuideTagListAdapter extends BaseAdapter {
 
@@ -36,14 +30,12 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
 	private ArrayList<Broadcast>	mTaggedBroadcasts;
-	private ImageLoader				mImageLoader;
 	private int						mCurrentPosition;
 	private TvDate					mDate;
 
 	public TVGuideTagListAdapter(Activity activity, ArrayList<Broadcast> taggedBroadcasts, int currentPosition, TvDate date) {
 		this.mTaggedBroadcasts = taggedBroadcasts;
 		this.mActivity = activity;
-		this.mImageLoader = new ImageLoader(mActivity, R.color.grey1);
 		this.mCurrentPosition = currentPosition;
 		this.mDate = date;
 	}
@@ -131,7 +123,7 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 					holder.mTimeLeftTv.setVisibility(View.GONE);
 				}
 
-				mImageLoader.displayImage(broadcast.getProgram().getPortMUrl(), holder.mImageIv, ImageLoader.IMAGE_TYPE.GALLERY);
+				ImageLoader.getInstance().displayImage(broadcast.getProgram().getPortMUrl(), holder.mImageIv);
 				
 
 				holder.mTimeTv.setText(broadcast.getBeginTimeStringLocalHourAndMinute());

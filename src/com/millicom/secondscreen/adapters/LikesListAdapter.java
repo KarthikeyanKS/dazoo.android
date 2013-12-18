@@ -2,36 +2,26 @@ package com.millicom.secondscreen.adapters;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-
-import com.millicom.secondscreen.Consts;
-import com.millicom.secondscreen.R;
-import com.millicom.secondscreen.content.model.Broadcast;
-import com.millicom.secondscreen.content.model.DazooLike;
-import com.millicom.secondscreen.content.model.DazooLikeEntity;
-import com.millicom.secondscreen.content.model.Program;
-import com.millicom.secondscreen.content.myprofile.LikesCountInterface;
-import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
-import com.millicom.secondscreen.content.tvguide.ChannelPageActivity;
-import com.millicom.secondscreen.like.LikeDialogHandler;
-import com.millicom.secondscreen.storage.DazooStore;
-import com.millicom.secondscreen.utilities.ImageLoader;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.content.model.DazooLike;
+import com.millicom.secondscreen.content.model.DazooLikeEntity;
+import com.millicom.secondscreen.content.myprofile.LikesCountInterface;
+import com.millicom.secondscreen.like.LikeDialogHandler;
+import com.millicom.secondscreen.storage.DazooStore;
 
 @SuppressLint("DefaultLocale")
 public class LikesListAdapter extends BaseAdapter {
@@ -42,14 +32,12 @@ public class LikesListAdapter extends BaseAdapter {
 	private Activity				mActivity;
 	private ArrayList<DazooLike>	mLikes;
 	private LikesCountInterface		mInterface;
-	private ImageLoader				mImageLoader;
 	private String					mToken, mLikeIdToRemove, mLikeId;
 	private int						currentPosition	= -1;
 
 	public LikesListAdapter(Activity activity, ArrayList<DazooLike> likes, String token, LikesCountInterface likesInterface) {
 		this.mLikes = likes;
 		this.mActivity = activity;
-		this.mImageLoader = new ImageLoader(activity, R.color.grey1);
 		this.mToken = token;
 		this.mInterface = likesInterface;
 	}

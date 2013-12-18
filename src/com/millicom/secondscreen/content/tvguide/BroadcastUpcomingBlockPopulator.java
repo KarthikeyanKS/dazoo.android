@@ -1,6 +1,5 @@
 package com.millicom.secondscreen.content.tvguide;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -13,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
@@ -24,15 +22,12 @@ import com.millicom.secondscreen.notification.NotificationDataSource;
 import com.millicom.secondscreen.notification.NotificationDialogHandler;
 import com.millicom.secondscreen.notification.NotificationService;
 import com.millicom.secondscreen.utilities.AnimationUtilities;
-import com.millicom.secondscreen.utilities.DateUtilities;
-import com.millicom.secondscreen.utilities.ImageLoader;
 
 public class BroadcastUpcomingBlockPopulator {
 
 	private static final String		TAG				= "BroadcastUpcomingBlockPopulator";
 
 	private Activity				mActivity;
-	private ImageLoader				mImageLoader;
 	private ScrollView				mContainerView;
 	private int						mNotificationId	= -1;
 	private NotificationDataSource	mNotificationDataSource;

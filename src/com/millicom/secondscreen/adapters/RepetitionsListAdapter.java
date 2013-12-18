@@ -2,7 +2,6 @@ package com.millicom.secondscreen.adapters;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
@@ -31,7 +29,6 @@ import com.millicom.secondscreen.notification.NotificationService;
 import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.AnimationUtilities;
 import com.millicom.secondscreen.utilities.DateUtilities;
-import com.millicom.secondscreen.utilities.ImageLoader;
 
 public class RepetitionsListAdapter extends BaseAdapter {
 	private static final String		TAG	= "UpcomingEpisodesListAdapter";
@@ -39,7 +36,6 @@ public class RepetitionsListAdapter extends BaseAdapter {
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
 	private ArrayList<Broadcast>	mRepeatingEpisodes;
-	private ImageLoader				mImageLoader;
 	private NotificationDataSource	mNotificationDataSource;
 	private int						mLastPosition	= -1, mNotificationId = -1;
 	private boolean					mIsSet			= false;
@@ -67,7 +63,6 @@ public class RepetitionsListAdapter extends BaseAdapter {
 		}
 		
 		this.mActivity = activity;
-		this.mImageLoader = new ImageLoader(mActivity, R.color.grey1);
 		this.mProgram = program;
 		this.mRunningBroadcast = runningBroadcast;
 		this.mRepeatingEpisodes =repeatingBroadcasts;

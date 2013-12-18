@@ -2,24 +2,20 @@ package com.millicom.secondscreen.adapters;
 
 import java.util.ArrayList;
 
-import com.millicom.secondscreen.R;
-import com.millicom.secondscreen.content.model.Channel;
-import com.millicom.secondscreen.content.myprofile.MyChannelsCountInterface;
-import com.millicom.secondscreen.utilities.ImageLoader;
-
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.content.model.Channel;
+import com.millicom.secondscreen.content.myprofile.MyChannelsCountInterface;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class MyChannelsListAdapter extends BaseAdapter {
 
@@ -32,7 +28,6 @@ public class MyChannelsListAdapter extends BaseAdapter {
 	private boolean[]					mIsCheckedArray;
 	private TextView					mCounterTextView;
 
-	private ImageLoader					mImageLoader;
 	private int							currentPosition	= -1;
 	private int							mSelectedCount;
 
@@ -45,7 +40,6 @@ public class MyChannelsListAdapter extends BaseAdapter {
 		this.mIsCheckedArray = isCheckedArray;
 		this.mCountInterface = countInterface;
 		this.mSelectedCount = selectedCount;
-		this.mImageLoader = new ImageLoader(context, R.color.grey1);
 	}
 
 	@Override
@@ -93,7 +87,7 @@ public class MyChannelsListAdapter extends BaseAdapter {
 
 		holder.mChannelNameTv.setText(channel.getName());
 
-		mImageLoader.displayImage(channel.getLogoLUrl(), holder.mChannelLogoIv, ImageLoader.IMAGE_TYPE.THUMBNAIL);
+		ImageLoader.getInstance().displayImage(channel.getLogoLUrl(), holder.mChannelLogoIv);
 
 		holder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override

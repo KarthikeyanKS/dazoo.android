@@ -1,6 +1,5 @@
 package com.millicom.secondscreen.adapters;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -14,13 +13,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.content.model.Broadcast;
-import com.millicom.secondscreen.utilities.DateUtilities;
-import com.millicom.secondscreen.utilities.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class WhatElseIsOnListAdapter extends BaseAdapter {
 
@@ -29,12 +26,10 @@ public class WhatElseIsOnListAdapter extends BaseAdapter {
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
 	private ArrayList<Broadcast>	mFollowingEpisodes;
-	private ImageLoader				mImageLoader;
 
 	public WhatElseIsOnListAdapter(Activity activity, ArrayList<Broadcast> followingBroadcasts) {
 		this.mFollowingEpisodes = followingBroadcasts;
 		this.mActivity = activity;
-		this.mImageLoader = new ImageLoader(activity, R.color.grey1);
 	}
 
 	@Override
@@ -85,7 +80,7 @@ public class WhatElseIsOnListAdapter extends BaseAdapter {
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 
 		if (broadcast != null) {
-			mImageLoader.displayImage(broadcast.getProgram().getPortLUrl(), holder.mImageIv, holder.mImagePb, ImageLoader.IMAGE_TYPE.GALLERY);
+			ImageLoader.getInstance().displayImage(broadcast.getProgram().getPortLUrl(), holder.mImageIv);
 
 			// MC - Set the title of the broadcast.
 			String title = broadcast.getProgram().getTitle();

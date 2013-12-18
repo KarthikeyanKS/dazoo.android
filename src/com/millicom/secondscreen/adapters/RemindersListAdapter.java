@@ -1,6 +1,5 @@
 package com.millicom.secondscreen.adapters;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -12,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,8 +26,6 @@ import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
 import com.millicom.secondscreen.notification.NotificationDataSource;
 import com.millicom.secondscreen.notification.NotificationDialogHandler;
 import com.millicom.secondscreen.storage.DazooStore;
-import com.millicom.secondscreen.utilities.DateUtilities;
-import com.millicom.secondscreen.utilities.ImageLoader;
 
 public class RemindersListAdapter extends BaseAdapter {
 
@@ -39,7 +35,6 @@ public class RemindersListAdapter extends BaseAdapter {
 	private Activity				mActivity;
 	private ArrayList<Broadcast>	mBroadcasts;
 	private RemindersCountInterface	mInterface;
-	private ImageLoader				mImageLoader;
 	private int						notificationId;
 	private int						currentPosition	= -1;
 
@@ -49,7 +44,6 @@ public class RemindersListAdapter extends BaseAdapter {
 	public RemindersListAdapter(Activity mActivity, ArrayList<Broadcast> mBroadcasts, RemindersCountInterface remindersInterface) {
 		this.mBroadcasts = mBroadcasts;
 		this.mActivity = mActivity;
-		this.mImageLoader = new ImageLoader(mActivity, R.color.grey1);
 		this.mInterface = remindersInterface;
 
 		dazooStore = DazooStore.getInstance();

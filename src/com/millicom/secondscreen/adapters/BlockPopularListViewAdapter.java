@@ -1,16 +1,6 @@
 package com.millicom.secondscreen.adapters;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-
-import com.millicom.secondscreen.Consts;
-import com.millicom.secondscreen.R;
-import com.millicom.secondscreen.adapters.TVGuideTagListAdapter.ViewHolder;
-import com.millicom.secondscreen.content.model.Broadcast;
-import com.millicom.secondscreen.content.model.FeedItem;
-import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
-import com.millicom.secondscreen.utilities.DateUtilities;
-import com.millicom.secondscreen.utilities.ImageLoader;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,8 +13,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.content.model.Broadcast;
+import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class BlockPopularListViewAdapter extends BaseAdapter {
 
@@ -33,12 +28,10 @@ public class BlockPopularListViewAdapter extends BaseAdapter {
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
 	private ArrayList<Broadcast>	mPopularBroadcasts;
-	private ImageLoader				mImageLoader;
 
 	public BlockPopularListViewAdapter(Activity activity, ArrayList<Broadcast> popularBroadcasts) {
 		this.mActivity = activity;
 		this.mPopularBroadcasts = popularBroadcasts;
-		this.mImageLoader = new ImageLoader(mActivity, R.color.grey1);
 	}
 
 	@Override
@@ -90,7 +83,7 @@ public class BlockPopularListViewAdapter extends BaseAdapter {
 			// different details about the broadcast program depending on the type
 			String programType = broadcast.getProgram().getProgramType();
 
-			mImageLoader.displayImage(broadcast.getProgram().getPortMUrl(), holder.mPoster, ImageLoader.IMAGE_TYPE.POSTER);
+			ImageLoader.getInstance().displayImage(broadcast.getProgram().getPortMUrl(), holder.mPoster);
 			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 				holder.mTitle.setText(broadcast.getProgram().getSeries().getName());
 			} else {

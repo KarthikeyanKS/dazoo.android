@@ -1,11 +1,11 @@
 package com.millicom.secondscreen.content.myprofile;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
@@ -19,21 +19,17 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.millicom.secondscreen.Consts;
-import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.authentication.DazooLoginActivity;
 import com.millicom.secondscreen.authentication.FacebookLoginActivity;
 import com.millicom.secondscreen.authentication.SignUpActivity;
-import com.millicom.secondscreen.content.SSActivity;
 import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
-import com.millicom.secondscreen.content.search.SearchPageActivity;
 import com.millicom.secondscreen.notification.NotificationDataSource;
 import com.millicom.secondscreen.storage.DazooStore;
-import com.millicom.secondscreen.utilities.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class MyProfileActivity extends ActionBarActivity implements OnClickListener {
 
@@ -50,7 +46,6 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 	private String				mToken;
 	private ActionBar			mActionBar;
 	private RelativeLayout		mTabTvGuide, mTabActivity, mTabProfile;
-	private ImageLoader			mImageLoader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -62,7 +57,6 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
 		mToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
-		mImageLoader = new ImageLoader(this, R.color.grey1);
 
 		if (mToken != null && TextUtils.isEmpty(mToken) != true) {
 			mIsLoggedIn = true;
@@ -147,6 +141,7 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 		mLoginBtn.setOnClickListener(this);
 	}
 
+	@SuppressLint("NewApi")
 	private void populateViews() {
 		mRemindersTextView.setText(getResources().getString(R.string.icon_clock) + " " + getResources().getString(R.string.reminders));
 		mSettingsTextView.setText(getResources().getString(R.string.icon_settings) + " " + getResources().getString(R.string.settings));
@@ -156,7 +151,7 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 
 		if (mIsLoggedIn) {
 			if (userAvatarUrl != null && TextUtils.isEmpty(userAvatarUrl) != true) {
-				mImageLoader.displayImage(userAvatarUrl, mAvatarImageView, ImageLoader.IMAGE_TYPE.THUMBNAIL);
+				ImageLoader.getInstance().displayImage(userAvatarUrl, mAvatarImageView);
 			}
 
 			mLikesTextView.setText(getResources().getString(R.string.icon_heart) + " " + getResources().getString(R.string.likes));

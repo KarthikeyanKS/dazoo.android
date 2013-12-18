@@ -1,6 +1,5 @@
 package com.millicom.secondscreen.content.tvguide;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 
 import android.content.BroadcastReceiver;
@@ -9,12 +8,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -27,7 +24,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
@@ -43,11 +39,10 @@ import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
-import com.millicom.secondscreen.content.search.SearchPageActivity;
 import com.millicom.secondscreen.manager.DazooCore;
 import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.DateUtilities;
-import com.millicom.secondscreen.utilities.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class ChannelPageActivity extends SSActivity implements OnClickListener, ActionBar.OnNavigationListener {
 
@@ -65,7 +60,6 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 	private Channel								mChannel;
 	private ArrayList<Broadcast>				mBroadcasts, mFollowingBroadcasts;
 	private ArrayList<TvDate>					mTvDates;
-	private ImageLoader							mImageLoader;
 	private int									mSelectedIndex	= -1, mIndexOfNearestBroadcast, mHour;
 	private DazooStore							dazooStore;
 	private boolean								mIsLoggedIn		= false, mIsReady = false, mFirstHit = true, mIsToday = false;
@@ -75,8 +69,6 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_channelpage_activity);
-
-		mImageLoader = new ImageLoader(this, R.color.grey1);
 
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverDate, new IntentFilter(Consts.INTENT_EXTRA_CHANNEL_SORTING));
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverContent, new IntentFilter(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE));
@@ -383,7 +375,7 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 
 	@Override
 	protected void loadPage() {
-		mImageLoader.displayImage(mChannelGuide.getLogoMHref(), mChannelIconIv, ImageLoader.IMAGE_TYPE.POSTER);
+		ImageLoader.getInstance().displayImage(mChannelGuide.getLogoMHref(), mChannelIconIv);
 		mIndexOfNearestBroadcast = Broadcast.getClosestBroadcastIndex(mBroadcasts);
 		if (mIndexOfNearestBroadcast >= 0) {
 			mFollowingBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());

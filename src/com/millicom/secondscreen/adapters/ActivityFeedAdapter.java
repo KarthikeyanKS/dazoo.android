@@ -3,6 +3,19 @@ package com.millicom.secondscreen.adapters;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.content.activity.PopularPageActivity;
@@ -18,29 +31,13 @@ import com.millicom.secondscreen.notification.NotificationService;
 import com.millicom.secondscreen.share.ShareAction;
 import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.AnimationUtilities;
-import com.millicom.secondscreen.utilities.ImageLoader;
-
-import android.R.integer;
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class ActivityFeedAdapter extends BaseAdapter {
 
 	private static final String		TAG									= "ActivityFeedAdapter";
 	private Activity				mActivity;
 	private ArrayList<FeedItem>		mFeedItems;
-	private ImageLoader				mImageLoader;
 	private LayoutInflater			mLayoutInflater;
 
 	private int						DAZOO_ACTIVITY_BLOCKS_TYPE_NUMBER	= 5;
@@ -62,7 +59,6 @@ public class ActivityFeedAdapter extends BaseAdapter {
 	public ActivityFeedAdapter(Activity activity, ArrayList<FeedItem> feedItems, String token) {
 		this.mActivity = activity;
 		this.mFeedItems = feedItems;
-		this.mImageLoader = new ImageLoader(mActivity, R.color.grey1);
 		this.mToken = token;
 		this.mNotificationDataSource = new NotificationDataSource(mActivity);
 		this.mLikeIds = LikeService.getLikeIdsList(token);
@@ -180,7 +176,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 				String programType = broadcast.getProgram().getProgramType();
 
-				mImageLoader.displayImage(broadcast.getProgram().getPortMUrl(), imageView, ImageLoader.IMAGE_TYPE.THUMBNAIL);
+				ImageLoader.getInstance().displayImage(broadcast.getProgram().getPortMUrl(), imageView);
 
 				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 					title.setText(broadcast.getProgram().getSeries().getName());
@@ -442,7 +438,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						holderBC.headerTv.setText(feedItem.getTitle());
 					}
 
-					mImageLoader.displayImage(program.getLandLUrl(), holderBC.landscapeIv, ImageLoader.IMAGE_TYPE.GALLERY);
+					ImageLoader.getInstance().displayImage(program.getLandLUrl(), holderBC.landscapeIv);
 
 					if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 						holderBC.titleTv.setText(program.getSeries().getName());

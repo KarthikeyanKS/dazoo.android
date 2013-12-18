@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,9 +23,7 @@ import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Program;
 import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.tvguide.ChannelPageActivity;
-import com.millicom.secondscreen.storage.DazooStore;
-import com.millicom.secondscreen.utilities.DateUtilities;
-import com.millicom.secondscreen.utilities.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class TVGuideListAdapter extends BaseAdapter {
 
@@ -36,7 +33,6 @@ public class TVGuideListAdapter extends BaseAdapter {
 	private Activity			mActivity;
 	private ArrayList<Guide>	mGuide;
 	private TvDate				mDate;
-	private ImageLoader			mImageLoader;
 	private int					mIndexOfNearestBroadcast;
 	private int					mHour, mCurrentHour;
 	private boolean				mIsToday;
@@ -45,7 +41,6 @@ public class TVGuideListAdapter extends BaseAdapter {
 		this.mGuide = guide;
 		this.mActivity = activity;
 		this.mDate = date;
-		this.mImageLoader = new ImageLoader(mActivity, R.color.grey1);
 		this.mHour = hour;
 		this.mIsToday = isToday;
 
@@ -87,11 +82,8 @@ public class TVGuideListAdapter extends BaseAdapter {
 		final Guide guide = getItem(position);
 
 		if (guide.getLogoLHref() != null) {
-			// ImageDownloadThread getChannelIconTask = new ImageDownloadThread(holder.mChannelIconIv, holder.mProgressBar);
-			// getChannelIconTask.execute(guide.getLogoHref());
-			// imageLoader.displayImage(guide.getLogoLHref(), mActivity, holder.mChannelIconIv);
 			Log.v("TVGuideListAdapter:", "Calling displayImage");
-			mImageLoader.displayImage(guide.getLogoMHref(), holder.mChannelIconIv, ImageLoader.IMAGE_TYPE.THUMBNAIL);
+			ImageLoader.getInstance().displayImage(guide.getLogoMHref(), holder.mChannelIconIv);
 		} else {
 			holder.mChannelIconIv.setImageResource(R.color.white);
 		}

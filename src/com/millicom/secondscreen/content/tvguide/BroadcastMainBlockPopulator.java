@@ -1,27 +1,6 @@
 package com.millicom.secondscreen.content.tvguide;
 
-import java.text.ParseException;
 import java.util.Locale;
-
-import com.millicom.secondscreen.authentication.PromptSignInDialogHandler;
-import com.millicom.secondscreen.authentication.SignInActivity;
-import com.millicom.secondscreen.content.model.Broadcast;
-import com.millicom.secondscreen.content.model.Channel;
-import com.millicom.secondscreen.content.model.NotificationDbItem;
-import com.millicom.secondscreen.content.model.Program;
-import com.millicom.secondscreen.like.LikeDialogHandler;
-import com.millicom.secondscreen.like.LikeService;
-import com.millicom.secondscreen.notification.NotificationDataSource;
-import com.millicom.secondscreen.notification.NotificationDialogHandler;
-import com.millicom.secondscreen.notification.NotificationService;
-import com.millicom.secondscreen.share.ShareAction;
-import com.millicom.secondscreen.storage.DazooStore;
-import com.millicom.secondscreen.utilities.AnimationUtilities;
-import com.millicom.secondscreen.utilities.DateUtilities;
-import com.millicom.secondscreen.utilities.ImageLoader;
-
-import com.millicom.secondscreen.Consts;
-import com.millicom.secondscreen.R;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -35,14 +14,28 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.authentication.PromptSignInDialogHandler;
+import com.millicom.secondscreen.authentication.SignInActivity;
+import com.millicom.secondscreen.content.model.Broadcast;
+import com.millicom.secondscreen.content.model.NotificationDbItem;
+import com.millicom.secondscreen.content.model.Program;
+import com.millicom.secondscreen.like.LikeService;
+import com.millicom.secondscreen.notification.NotificationDataSource;
+import com.millicom.secondscreen.notification.NotificationDialogHandler;
+import com.millicom.secondscreen.notification.NotificationService;
+import com.millicom.secondscreen.share.ShareAction;
+import com.millicom.secondscreen.storage.DazooStore;
+import com.millicom.secondscreen.utilities.AnimationUtilities;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class BroadcastMainBlockPopulator {
 
 	private static final String		TAG				= "BroadcastMainBlockPopulator";
 
 	private Activity				mActivity;
-	private ImageLoader				mImageLoader;
 	private ScrollView				mContainerView;
 	private ImageView				mLikeIv, mRemindIv;
 	private NotificationDataSource	mNotificationDataSource;
@@ -54,7 +47,6 @@ public class BroadcastMainBlockPopulator {
 		this.mActivity = activity;
 		this.mToken = token;
 		this.mTvDate = tvDate;
-		this.mImageLoader = new ImageLoader(mActivity, R.color.grey1);
 		this.mContainerView = containerView;
 		this.mNotificationDataSource = new NotificationDataSource(mActivity);
 	}
@@ -136,11 +128,11 @@ public class BroadcastMainBlockPopulator {
 		mLikeType = LikeService.getLikeType(programType);
 
 		if (program.getPortSUrl() != null && TextUtils.isEmpty(program.getPortSUrl()) != true) {
-			mImageLoader.displayImage(program.getLandLUrl(), posterIv, posterPb, ImageLoader.IMAGE_TYPE.POSTER);
+			ImageLoader.getInstance().displayImage(program.getLandLUrl(), posterIv);
 		}
 
 		if (broadcast.getChannel() != null) {
-			mImageLoader.displayImage(broadcast.getChannel().getLogoSUrl(), channelIv, ImageLoader.IMAGE_TYPE.THUMBNAIL);
+			ImageLoader.getInstance().displayImage(broadcast.getChannel().getLogoSUrl(), channelIv);
 		}
 
 		// broadcast is currently on air: show progress

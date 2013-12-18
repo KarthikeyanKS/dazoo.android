@@ -1,32 +1,23 @@
 package com.millicom.secondscreen.adapters;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import com.millicom.secondscreen.Consts;
-import com.millicom.secondscreen.R;
-import com.millicom.secondscreen.adapters.TVGuideListAdapter.ViewHolder;
-import com.millicom.secondscreen.content.model.Broadcast;
-import com.millicom.secondscreen.content.model.Guide;
-import com.millicom.secondscreen.utilities.DateUtilities;
-import com.millicom.secondscreen.utilities.ImageLoader;
-
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.PorterDuff.Mode;
-import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.content.model.Broadcast;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class ChannelPageListAdapter extends BaseAdapter {
 
@@ -36,14 +27,12 @@ public class ChannelPageListAdapter extends BaseAdapter {
 	private Activity				mActivity;
 	private ArrayList<Broadcast>	mFollowingBroadcasts;
 
-	private ImageLoader				mImageLoader;
 	private int						mLastPosition	= -1;
 	private ViewHolder				holder;
 
 	public ChannelPageListAdapter(Activity activity, ArrayList<Broadcast> followingBroadcasts) {
 		this.mFollowingBroadcasts = followingBroadcasts;
 		this.mActivity = activity;
-		this.mImageLoader = new ImageLoader(activity, R.color.grey1);
 	}
 
 	@Override
@@ -108,7 +97,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 		if (broadcast != null) {
 			if (getItemViewType(position) == 0) {
 				// MC - Set the image for current broadcast.
-				mImageLoader.displayImage(broadcast.getProgram().getLandLUrl(), holder.mIconIv, holder.mIconPb, ImageLoader.IMAGE_TYPE.POSTER);
+				ImageLoader.getInstance().displayImage(broadcast.getProgram().getLandLUrl(), holder.mIconIv);
 				// MC - Calculate the duration of the program and set up ProgressBar.
 				holder.mDurationPb.setMax(broadcast.getDurationInMinutes() + 1);
 

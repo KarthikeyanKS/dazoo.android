@@ -2,21 +2,22 @@ package com.millicom.secondscreen;
 
 import java.util.ArrayList;
 
-import com.millicom.secondscreen.R;
-import com.millicom.secondscreen.content.model.Channel;
-import com.millicom.secondscreen.utilities.ObscuredSharedPreferences;
-//import com.testflightapp.lib.TestFlight;
-
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
+
+import com.millicom.secondscreen.utilities.ObscuredSharedPreferences;
+import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
+import com.nostra13.universalimageloader.core.ImageLoader;
+//import com.testflightapp.lib.TestFlight;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 public class SecondScreenApplication extends Application {
 
@@ -77,8 +78,18 @@ public class SecondScreenApplication extends Application {
 		// re-initialize hour preference at every app start
 		setSelectedHour(6);
 		setIsOnStartAgain(false);
-		
+				
 		calculateSizes();
+		
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
+		.memoryCache(new LruMemoryCache(2 * 1024 * 1024))
+        .memoryCacheSize(2 * 1024 * 1024)
+		.discCacheSize(50 * 1024 * 1024)
+	    .discCacheFileCount(100)
+		.tasksProcessingOrder(QueueProcessingType.LIFO)
+		.writeDebugLogs()
+		.build();
+		ImageLoader.getInstance().init(config);
 	}
 
 	/**
