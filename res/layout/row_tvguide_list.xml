@@ -1,46 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
+    
     android:id="@+id/item_container"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/background_color_selector" >
+    android:layout_height="fill_parent"
+    android:background="@color/white" >
 
     <LinearLayout
         android:id="@+id/tvguide_list_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:gravity="center"
-        android:orientation="horizontal" >
+        android:orientation="horizontal" 
+        android:baselineAligned="false">
 
         <RelativeLayout
             android:id="@+id/tvguide_channel_icon_container"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_weight="0.3">
 
             <ImageView
                 android:id="@+id/tvguide_channel_iv"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_margin="10dp"
                 android:adjustViewBounds="true"
                 android:clickable="false"
                 android:focusableInTouchMode="false" />
 
-            <ProgressBar
-                android:id="@+id/tvguide_channel_progressbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:visibility="gone" />
+            
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_weight="0.7"
             android:orientation="vertical" >
 
@@ -49,27 +43,11 @@
             <include
                 android:id="@+id/tvguide_program_line_live_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 layout="@layout/element_tvguide_broadcast" />
 
             <!-- NEXT -->
 
-            <include
-                android:id="@+id/tvguide_program_line_next_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tvguide_program_line_live_container"
-                layout="@layout/element_tvguide_broadcast" />
-
-            <!-- LAST -->
-
-            <include
-                android:id="@+id/tvguide_program_line_last_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tvguide_program_line_next_container"
-                android:layout_marginBottom="1dp"
-                layout="@layout/element_tvguide_broadcast" />
         </RelativeLayout>
     </LinearLayout>
 
