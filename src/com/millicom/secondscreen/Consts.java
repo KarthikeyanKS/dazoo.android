@@ -15,7 +15,7 @@ public abstract class Consts {
 
 	public static final Charset	UTF8_CHARSET												= Charset.forName("UTF-8");
 
-	// Shared preferences
+	/* Shared preferences */
 	public static final String	SHARED_PREFS_MAIN_NAME										= "com.millicom.secondscreen.shared.prefs";
 	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_ACCESS_TOKEN				= "com.millicom.secondscreen.user.account.access.token";
 	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_USER_ID					= "com.millicom.secondscreen.user.account.user.id";
@@ -29,47 +29,33 @@ public abstract class Consts {
 	public static final String	MILLICOM_SECONDSCREEN_TV_GUIDE_HOUR							= "com.millicom.secondscreen.tv.guide.hour";
 	public static final String	MILLICOM_SECONDSCREEN_HOMEPAGE_AGAIN						= "com.millicom.secondscreen.homepage.again";
 
-	// api urls
-	 public static final String MILLICOM_SECONDSCREEN_SERVER_URL = "http://api.mi.tv/";
+	/* API URLs */
+	public static final String MILLICON_SECONDSCREEN_HTTP_SCHEME							= "http://";
+	public static final String MILLICON_SECONDSCREEN_HTTPS_SCHEME							= "https://";
+	public static final String MILLICOM_SECONDSCREEN_SERVER_URL								= MILLICON_SECONDSCREEN_HTTP_SCHEME + "api.mi.tv/";
+	public static final String MILLICOM_SECONDSCREEN_SERVER_URL_SECURE 						= MILLICON_SECONDSCREEN_HTTPS_SCHEME + "api.mi.tv/";
+	public static final String MILLICOM_SECONDSCREEN_TRACKING_URL 							= MILLICON_SECONDSCREEN_HTTP_SCHEME + "tracking.mi.tv/track/unique?verb=views&key=program_id&value=";
 	//public static final String	MILLICOM_SECONDSCREEN_SERVER_URL							= "http://www.gitrgitr.com/api/";
 
-//	public static final String	MILLICOM_SECONDSCREEN_GUIDE_PAGE_URL						= "http://www.gitrgitr.com/api/epg/guide";
-//	public static final String	MILLICOM_SECONDSCREEN_DATES_PAGE_URL						= "http://www.gitrgitr.com/api/epg/dates";
-//	public static final String	MILLICOM_SECONDSCREEN_CHANNELS_ALL_PAGE_URL					= "http://www.gitrgitr.com/api/epg/channels";
-//	public static final String	MILLICOM_SECONDSCREEN_CHANNELS_DEFAULT_PAGE_URL				= "http://www.gitrgitr.com/api/epg/channels/default";
-//	public static final String	MILLICOM_SECONDSCREEN_FACEBOOK_TOKEN_URL					= "http://www.gitrgitr.com/api/auth/login/facebook";
-//	public static final String	MILLICOM_SECONDSCREEN_DAZOO_LOGIN_URL						= "http://www.gitrgitr.com/api/auth/login/dazoo";
-//	public static final String	MILLICOM_SECONDSCREEN_DAZOO_REGISTER_URL					= "http://www.gitrgitr.com/api/auth/login/dazoo/register";
-//	public static final String	MILLICOM_SECONDSCREEN_RESET_PASSWORD_URL					= "http://www.gitrgitr.com/api/auth/login/dazoo/sendResetPasswordEmail";
-//	public static final String	MILLICOM_SECONDSCREEN_TAGS_PAGE_URL							= "http://www.gitrgitr.com/api/epg/tags/visible";
-//	public static final String	MILLICOM_SECONDSCREEN_MY_CHANNELS_URL						= "http://www.gitrgitr.com/api/my/channels";
-//	public static final String	MILLICOM_SECONDSCREEN_LIKES_URL								= "http://www.gitrgitr.com/api/my/likes";
-//	public static final String	MILLICOM_SECONDSCREEN_ACTIVITY_FEED_URL						= "http://www.gitrgitr.com/api/my/feed";
-//	public static final String	MILLICOM_SECONDSCREEN_PROGRAMS								= "http://www.gitrgitr.com/api/epg/programs/";
-//	public static final String	MILLICOM_SECONDSCREEN_SERIES								= "http://www.gitrgitr.com/api/epg/series/";
-//	public static final String	MILLICOM_SECONDSCREEN_POPULAR								= "http://www.gitrgitr.com/api/epg/broadcasts/popular/";
-	 public static final String MILLICOM_SECONDSCREEN_GUIDE_PAGE_URL = "http://api.mi.tv/epg/guide";
-	 public static final String MILLICOM_SECONDSCREEN_DATES_PAGE_URL = "http://api.mi.tv/epg/dates";
-	 public static final String MILLICOM_SECONDSCREEN_CHANNELS_ALL_PAGE_URL = "http://api.mi.tv/epg/channels";
-	 public static final String MILLICOM_SECONDSCREEN_CHANNELS_DEFAULT_PAGE_URL = "http://api.mi.tv/epg/channels/default";
-	 public static final String MILLICOM_SECONDSCREEN_FACEBOOK_TOKEN_URL = "http://api.mi.tv/auth/login/facebook";
-	 public static final String MILLICOM_SECONDSCREEN_DAZOO_LOGIN_URL = "http://api.mi.tv/auth/login/dazoo";
-	 public static final String MILLICOM_SECONDSCREEN_DAZOO_REGISTER_URL = "http://api.mi.tv/auth/login/dazoo/register";
-	 public static final String MILLICOM_SECONDSCREEN_RESET_PASSWORD_URL = "http://api.mi.tv/auth/login/dazoo/sendResetPasswordEmail";
-	 public static final String MILLICOM_SECONDSCREEN_TAGS_PAGE_URL = "http://api.mi.tv/epg/tags/visible";
-	 public static final String MILLICOM_SECONDSCREEN_MY_CHANNELS_URL = "http://api.mi.tv/my/channels";
-	 public static final String MILLICOM_SECONDSCREEN_LIKES_URL = "http://api.mi.tv/my/likes";
-	 public static final String MILLICOM_SECONDSCREEN_ACTIVITY_FEED_URL = "http://api.mi.tv/my/feed";
-	 public static final String MILLICOM_SECONDSCREEN_PROGRAMS = "http://api.mi.tv/epg/programs/";
-	 public static final String MILLICOM_SECONDSCREEN_SERIES = "http://api.mi.tv/epg/series/";
-	 public static final String MILLICOM_SECONDSCREEN_POPULAR = "http://api.mi.tv/epg/broadcasts/popular/";
+	public static final String MILLICOM_SECONDSCREEN_GUIDE_PAGE_URL 						= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/guide";
+	public static final String MILLICOM_SECONDSCREEN_DATES_PAGE_URL 						= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/dates";
+	public static final String MILLICOM_SECONDSCREEN_CHANNELS_ALL_PAGE_URL 					= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/channels";
+	public static final String MILLICOM_SECONDSCREEN_CHANNELS_DEFAULT_PAGE_URL 				= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/channels/default";
+	public static final String MILLICOM_SECONDSCREEN_FACEBOOK_TOKEN_URL 					= MILLICOM_SECONDSCREEN_SERVER_URL_SECURE + "auth/login/facebook";
+	public static final String MILLICOM_SECONDSCREEN_DAZOO_LOGIN_URL 						= MILLICOM_SECONDSCREEN_SERVER_URL_SECURE + "auth/login/dazoo";
+	public static final String MILLICOM_SECONDSCREEN_DAZOO_REGISTER_URL 					= MILLICOM_SECONDSCREEN_SERVER_URL_SECURE + "auth/login/dazoo/register";
+	public static final String MILLICOM_SECONDSCREEN_RESET_PASSWORD_URL 					= MILLICOM_SECONDSCREEN_SERVER_URL_SECURE + "auth/login/dazoo/sendResetPasswordEmail";
+	public static final String MILLICOM_SECONDSCREEN_TAGS_PAGE_URL 							= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/tags/visible";
+	public static final String MILLICOM_SECONDSCREEN_MY_CHANNELS_URL 						= MILLICOM_SECONDSCREEN_SERVER_URL + "my/channels";
+	public static final String MILLICOM_SECONDSCREEN_LIKES_URL 								= MILLICOM_SECONDSCREEN_SERVER_URL + "my/likes";
+	public static final String MILLICOM_SECONDSCREEN_ACTIVITY_FEED_URL 						= MILLICOM_SECONDSCREEN_SERVER_URL + "my/feed";
+	public static final String MILLICOM_SECONDSCREEN_PROGRAMS 								= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/programs/";
+	public static final String MILLICOM_SECONDSCREEN_SERIES 								= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/series/";
+	public static final String MILLICOM_SECONDSCREEN_POPULAR 								= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/broadcasts/popular/";
 
-	 public static final String NOTIFY_BROADCAST_URL_PREFIX = "http://api.mi.tv/epg/channels/";
-	//public static final String	NOTIFY_BROADCAST_URL_PREFIX									= "http://www.gitrgitr.com/api/epg/channels/";
+	public static final String NOTIFY_BROADCAST_URL_PREFIX 									= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/channels/";
 
-	public static final String	MILLICON_SECONDSCREEN_HTTP_SCHEME							= "https";
-
-	// api request strings
+	/* API request strings */
 	public static final String	MILLICOM_SECONDSCREEN_API_CHANNEL_ID_WITH_EQUALS_SIGN		= "channelId=";
 	public static final String	MILLICOM_SECONDSCREEN_API_CHANNEL_ID						= "channelId";
 	public static final String	MILLICOM_SECONDSCREEN_API_FACEBOOK_TOKEN					= "facebookToken";
@@ -98,7 +84,7 @@ public abstract class Consts {
 	public static final String	EMPTY_STRING												= "";
 	public static final String	ERROR_STRING												= "error";
 
-	// restrictions
+	/* restrictions */
 	public static final int		MILLICOM_SECONDSCREEN_TVGUIDE_NUMBER_OF_ITEMS_PER_CHANNEL	= 3;
 	public static final int		MILLICOM_SECONDSCREEN_TVGUIDE_NUMBER_OF_CHANNELS_PER_PAGE	= 10;
 	public static final int		MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MIN					= 6;
@@ -114,24 +100,24 @@ public abstract class Consts {
 	public static final String	ISO_DATE_FORMAT										= "yyyy-MM-dd'T'HH:mm:ss'Z'";
 	public static final String	TVDATE_DATE_FORMAT									= "yyyy-MM-dd";
 
-	// Activity page content block types
+	/* Activity page content block types */
 	public static final String	BLOCK_TYPE_PRODUCT_TV								= "com.millicom.secondscreen.content.product.tv";
 	public static final String	BLOCK_TYPE_PRODUCT_MOVIE							= "com.millicom.secondscreen.content.product.movie";
 	public static final String	BLOCK_TYPE_PRODUCT_SPORT							= "com.millicom.secondscreen.content.product.sport";
 	public static final String	BLOCK_TYPE_PRODUCT_KIDS								= "com.millicom.secondscreen.content.product.kids";
 	public static final String	BLOCK_TYPE_PRODUCT_RECOMMENDED_LIST					= "com.millicom.secondscreen.content.product.list.recommended";
 
-	// Broadcast intents
+	/* Broadcast intents */
 	public static final String	BROADCAST_SORTING_SELECTED							= "com.broadcast.sorting.selected";
 	public static final String	BROADCAST_FORCE_RELOAD								= "com.broadcast.only.downloads";
 	public static final String	BROADCAST_HOMEPAGE									= "com.broadcast.homepage";
 
-	// Section Ids
+	/* Section Ids */
 	public static final String	SECTION_ID_TVGUIDE									= "secondscreen.section.tvguide";
 	public static final String	SECTION_ID_ACTIVITY									= "secondscreen.section.activity";
 	public static final String	SECTION_ID_ME										= "secondscreen.section.me";
 
-	// data extra intents
+	/* Data extra intents */
 	public static final String	INTENT_EXTRA_SECTION								= "com.millicom.secondscreen.intent.extra.section";
 	public static final String	INTENT_EXTRA_GUIDE									= "com.millicom.secondscreen.intent.extra.guide";
 	public static final String	INTENT_EXTRA_CHANNEL								= "com.millicom.secondscreen.intent.extra.channel";
@@ -175,7 +161,7 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_TV_GUIDE_HOUR							= "com.millicom.secondscreen.intent.extra.tvguide.hour";
 	public static final String	INTENT_EXTRA_BAD_REQUEST							= "com.millicom.secondscreen.intent.extra.bad.request";
 
-	// alarm extras
+	/* Alarm extras */
 	public static final String	INTENT_DAZOO_NOTIFICATION							= "DAZOO_NOTIFICATION";
 	public static final String	INTENT_ALARM_EXTRA_BROADCAST_BEGINTIMEMILLIS		= "com.millicom.secondscreen.intent.alarm.extra.broadcast.begintimemillis";
 	public static final String	INTENT_ALARM_EXTRA_CHANNELID						= "com.millicom.secondscreen.intent.alarm.extra.channelid";
@@ -188,36 +174,36 @@ public abstract class Consts {
 
 	public static final String	INTENT_EXTRA_FROM_NOTIFICATION						= "com.millicom.secondscreen.intent.extra.from.notification";
 
-	// activity feed extras
+	/* Activity feed extras */
 	public static final String	INTENT_EXTRA_FROM_ACTIVITY							= "com.millicom.secondscreen.intent.extra.from.activity";
 	public static final String	INTENT_EXTRA_ACTIVITY_CARD_NUMBER					= "com.millicom.secondscreen.intent.extra.activity.card.number";
 
-	// profile extras
+	/* Profile extras */
 	public static final String	INTENT_EXTRA_FROM_PROFILE							= "com.millicom.secondscreen.intent.extra.from.profile";
 
-	// fragments extra arguments
+	/* Fragments extra arguments */
 	public static final String	FRAGMENT_EXTRA_TAG									= "com.millicom.secondscreen.fragment.extra.tag";
 	public static final String	FRAGMENT_EXTRA_TVDATE								= "com.millicom.secondscreen.fragment.extra.tvdate";
 	public static final String	FRAGMENT_EXTRA_TVDATE_POSITION						= "com.millicom.secondscreen.fragment.extra.tvdate.position";
 
-	// custom data types
+	/* Custom data types */
 	public static final String	VALUE_TYPE_PROGRAMTYPE								= "com.millicom.secondscreen.value.type.programtype";
 	public static final String	VALUE_TYPE_TVDATE									= "com.millicom.secondscreen.value.type.tvdate";
 	public static final String	VALUE_TYPE_TAG										= "com.millicom.secondscreen.value.type.tag";
 
-	// TVGuide
+	/* TVGuide */
 	public static final int		TV_GUIDE_NEXT_PROGRAMS_NUMBER						= 3;
 	public static final String	TV_GUIDE_PAGE_NUMBER								= "com.millicom.secondscreen.tvguide.page.number";
 
 	public static final String	IMAGE_MACHINE_SECURITY_KEY							= "24567hright";
 
-	// Parcelable bundles
+	/* Parcelable bundles */
 	public static final String	PARCELABLE_CHANNELS_LIST							= "com.parcelable.channels.list";
 	public static final String	PARCELABLE_TV_DATES_LIST							= "com.parcelable.dates.list";
 	public static final String	PARCELABLE_PROGRAM_TYPES_LIST						= "com.parcelable.categories.list";
 	public static final String	PARCELABLE_TAGS_LIST								= "com.parcelable.tags.list";
 
-	// activity's requests to update calling fragment
+	/* Activity's requests to update calling fragment */
 	public static final int		INFO_UPDATE_REMINDERS								= 1;
 	public static final int		INFO_UPDATE_LIKES									= 11;
 	public static final int		INFO_NO_UPDATE_REMINDERS							= 0;
@@ -228,7 +214,7 @@ public abstract class Consts {
 	public static final String	INFO_UPDATE_REMINDERS_NUMBER						= "com.millicom.secondscreen.info.update.reminders.number";
 	public static final String	INFO_UPDATE_MYCHANNELS_NUMBER						= "com.millicom.secondscreen.info.update.mychannels.number";
 
-	// Response codes
+	/* Response codes */
 	public static final int		GOOD_RESPONSE										= 200;
 	public static final int		GOOD_RESPONSE_RESET_PASSWORD						= 204;
 	public static final int		GOOD_RESPONSE_CHANNELS_ARE_ADDED					= 204;
@@ -241,12 +227,12 @@ public abstract class Consts {
 
 	public static final int		BAD_RESPONSE_TIMEOUT								= 500;
 
-	// notifications
+	/* Notifications */
 	public static final int		NOTIFY_MINUTES_BEFORE_THE_BROADCAST					= -15;
 	public static final String	NOTIFY_NUMBER										= "com.millicom.secondscreen.notify.number";
 	public static final String	NOTIFY_BROADCAST_URL_MIDDLE							= "/broadcasts/";
 
-	// notifications database
+	/* Notifications database */
 	public static final String	NOTIFICATION_DATABASE_NAME							= "notifications.db";
 	public static final int		NOTIFICATION_DATABASE_VERSION						= 1;
 	public static final String	NOTIFICATION_DB_TABLE_NOTIFICATIONS					= "notifications";
@@ -268,7 +254,7 @@ public abstract class Consts {
 
 	// =========================== CONTENT ================================
 
-	// PROGRAM fields:
+	/* PROGRAM fields */
 	public static final String	DAZOO_PROGRAM_ID									= "programId";
 	public static final String	DAZOO_PROGRAM_TYPE									= "programType";
 	public static final String	DAZOO_PROGRAM_TITLE									= "title";
@@ -295,7 +281,7 @@ public abstract class Consts {
 	public static final String	DAZOO_LIKE_ENTITY_TYPE_PROGRAM						= "PROGRAM";
 	public static final String	DAZOO_LIKE_ENTITY_TYPE_SERIES						= "SERIES";
 
-	// BROADCAST fields
+	/* BROADCAST fields */
 	public static final String	DAZOO_BROADCAST_PROGRAM								= "program";
 	public static final String	DAZOO_BROADCAST_CHANNEL								= "channel";
 	public static final String	DAZOO_BROADCAST_BROADCAST_TYPE						= "broadcastType";
@@ -309,38 +295,38 @@ public abstract class Consts {
 	public static final String	DAZOO_BROADCAST_TYPE_OTHER							= "OTHER";
 	public static final String	DAZOO_BROADCAST_TYPE_RECORDED						= "RECORDED";
 
-	// CHANNEL fields
+	/* CHANNEL fields */
 	public static final String	DAZOO_CHANNEL_CHANNEL_ID							= "channelId";
 	public static final String	DAZOO_CHANNEL_NAME									= "name";
 	public static final String	DAZOO_CHANNEL_LOGO									= "logo";
 
-	// SEASON fields
+	/* SEASON fields */
 	public static final String	DAZOO_SEASON_NUMBER									= "number";
 
-	// IMAGE fields
+	/* IMAGE fields */
 	public static final String	DAZOO_IMAGE_TYPE_LANDSCAPE							= "landscape";
 	public static final String	DAZOO_IMAGE_TYPE_PORTRAIT							= "portrait";
 	public static final String	DAZOO_IMAGE_SMALL									= "small";
 	public static final String	DAZOO_IMAGE_MEDIUM									= "medium";
 	public static final String	DAZOO_IMAGE_LARGE									= "large";
 
-	// TAG fields
+	/* TAG fields */
 	public static final String	DAZOO_TAG_ID										= "id";
 	public static final String	DAZOO_TAG_NAME										= "displayName";
 	public static final String	DAZOO_TAG_ALIAS										= "alias";
 
-	// DATE fields
+	/* DATE fields */
 	public static final String	DAZOO_DATE_ID										= "id";
 	public static final String	DAZOO_DATE_NAME										= "displayName";
 	public static final String	DAZOO_DATE_DATE										= "date";
 
-	// GUIDE fields
+	/* GUIDE fields */
 	public static final String	DAZOO_GUIDE_CHANNEL_ID								= "channelId";
 	public static final String	DAZOO_GUIDE_CHANNEL_NAME							= "name";
 	public static final String	DAZOO_GUIDE_LOGO									= "logo";
 	public static final String	DAZOO_GUIDE_BROADCASTS								= "broadcasts";
 
-	// DAZOO LIKE fields
+	/* DAZOO LIKE fields */
 	public static final String	DAZOO_LIKE_ENTITYID									= "entityId";
 	public static final String	DAZOO_LIKE_LIKETYPE									= "likeType";
 	public static final String	DAZOO_LIKE_TYPE_SERIES								= "SERIES";
@@ -360,7 +346,7 @@ public abstract class Consts {
 	public static final String	DAZOO_LIKE_SPORT_TYPE_SPORTTYPEID					= "sportTypeId";
 	public static final String	DAZOO_LIKE_SPORT_TYPE_TITLE							= "title";
 
-	// DAZOO LIKE ENTITY fields
+	/* DAZOO LIKE ENTITY fields */
 	public static final String	DAZOO_LIKE_ENTITY_ENTITY_ID							= "_id";
 	public static final String	DAZOO_LIKE_ENTITY_ENTITY_TYPE						= "entityType";
 	public static final String	DAZOO_LIKE_ENTITY_TITLE								= "title";
@@ -375,19 +361,19 @@ public abstract class Consts {
 	public static final String	DAZOO_LIKE_ENTITY_YEAR								= "year";
 	public static final String	DAZOO_LIKE_ENTITY_GENRE								= "genre";
 
-	// CREDIT fields
+	/* CREDIT fields */
 	public static final String	DAZOO_CREDIT_NAME									= "name";
 	public static final String	DAZOO_CREDIT_TYPE									= "type";
 
-	// SERIES fields
+	/* SERIES fields */
 	public static final String	DAZOO_SERIES_NAME									= "name";
 	public static final String	DAZOO_SERIES_SERIES_ID								= "seriesId";
 
-	// SPORT TYPE fields
+	/* SPORT TYPE fields */
 	public static final String	DAZOO_SPORTTYPE_SPORTTYPEID							= "sportTypeId";
 	public static final String	DAZOO_SPORTTYPE_NAME								= "name";
 
-	// FEED fields
+	/* FEED fields */
 	public static final String	DAZOO_FEED_ITEM_TYPE_BROADCAST						= "BROADCAST";
 	public static final String	DAZOO_FEED_ITEM_TYPE_RECOMMENDED_BROADCAST			= "RECOMMENDED_BROADCAST";
 	public static final String	DAZOO_FEED_ITEM_TYPE_POPULAR_BROADCASTS				= "POPULAR_BROADCASTS";
