@@ -1,5 +1,7 @@
 package com.millicom.secondscreen.utilities;
 
+import com.millicom.secondscreen.manager.FontManager;
+
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Typeface;
@@ -27,8 +29,8 @@ public class TypefaceSpan extends MetricAffectingSpan {
       mTypeface = sTypefaceCache.get(typefaceName);
 
       if (mTypeface == null) {
-          mTypeface = Typeface.createFromAsset(context.getApplicationContext()
-                  .getAssets(), String.format("fonts/%s.ttf", typefaceName));
+    	  String assetName = String.format("fonts/%s.ttf", typefaceName);
+          mTypeface = FontManager.getTypefaceStatic(context, assetName);
 
           // Cache the loaded Typeface
           sTypefaceCache.put(typefaceName, mTypeface);

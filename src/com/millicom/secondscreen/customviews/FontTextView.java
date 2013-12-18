@@ -5,11 +5,12 @@ import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.TextView;
-import com.millicom.secondscreen.R;
 
-public class FontTextView  extends TextView {
+import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.manager.FontManager;
+
+public class FontTextView extends TextView {
 
 	private static final String TAG = "FontTextView";
 
@@ -35,24 +36,23 @@ public class FontTextView  extends TextView {
 	}
 
 	public boolean setCustomFont(Context ctx, String asset) {
-		
+
 		/*
 		 * Resource for the bug: http://code.google.com/p/android/issues/detail?id=5038
 		 */
 		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ECLAIR_MR1) {
 			return false;
 		}
-		
-		Typeface tf = null;
-		try {
-			tf = Typeface.createFromAsset(ctx.getAssets(), "fonts/" + asset);
-			setTypeface(tf);
-		} catch (Exception e) {
-			Log.e(TAG, "Could not get typeface: " + e.getMessage());
-			return false;
+
+		if (asset != null) {
+			Typeface tf = FontManager.getTypefaceStatic(ctx, asset);
+			if (tf != null) {
+				setTypeface(tf);
+				return true;
+			}
 		}
 
-		return true;
+		return false;
 	}
 
 }
