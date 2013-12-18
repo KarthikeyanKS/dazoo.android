@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    
+        xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
     android:id="@+id/item_container"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -10,15 +10,15 @@
         android:id="@+id/tvguide_list_container"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:baselineAligned="false"
         android:gravity="center"
-        android:orientation="horizontal" 
-        android:baselineAligned="false">
+        android:orientation="horizontal" >
 
         <RelativeLayout
             android:id="@+id/tvguide_channel_icon_container"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_weight="0.3">
+            android:layout_weight="0.3" >
 
             <ImageView
                 android:id="@+id/tvguide_channel_iv"
@@ -28,8 +28,6 @@
                 android:adjustViewBounds="true"
                 android:clickable="false"
                 android:focusableInTouchMode="false" />
-
-            
         </RelativeLayout>
 
         <RelativeLayout
@@ -38,16 +36,21 @@
             android:layout_weight="0.7"
             android:orientation="vertical" >
 
-            <!-- LIVE NOW -->
-
-            <include
-                android:id="@+id/tvguide_program_line_live_container"
+            <com.millicom.secondscreen.customviews.FontTextView
+                android:id="@+id/tvguide_program_line_live"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                layout="@layout/element_tvguide_broadcast" />
-
-            <!-- NEXT -->
-
+                android:layout_alignParentLeft="true"
+                android:layout_gravity="left"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginTop="3dp"
+                android:maxLines="3"
+                android:paddingTop="1dp"
+                android:singleLine="true"
+                android:textColor="@color/grey3"
+                android:textSize="14sp"
+                font:fonttextview="fontello.ttf" />
         </RelativeLayout>
     </LinearLayout>
 
