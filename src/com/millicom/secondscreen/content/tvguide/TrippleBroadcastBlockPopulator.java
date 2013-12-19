@@ -149,7 +149,9 @@ public class TrippleBroadcastBlockPopulator {
 							}
 						} else {
 							if (mNotificationId != -1) {
-								BroadcastPageActivity.toast.cancel();
+								if (BroadcastPageActivity.toast != null) {
+									BroadcastPageActivity.toast.cancel();
+								}
 								NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
 								notificationDlg
 										.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId, yesNotificationProc(), noNotificationProc());
