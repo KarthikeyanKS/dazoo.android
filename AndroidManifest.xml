@@ -218,6 +218,7 @@
         <activity
             android:name="com.millicom.secondscreen.authentication.SignUpActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:parentActivityName="com.millicom.secondscreen.content.myprofile.MyProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
@@ -230,7 +231,7 @@
         <activity
             android:name="com.millicom.secondscreen.authentication.DazooLoginActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.millicom.secondscreen.content.homepage.HomeActivity"
+            android:parentActivityName="com.millicom.secondscreen.content.myprofile.MyProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
@@ -251,9 +252,14 @@
         <activity
             android:name="com.millicom.secondscreen.authentication.ResetPasswordActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:parentActivityName="com.millicom.secondscreen.authentication.DazooLoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.millicom.secondscreen.authentication.DazooLoginActivity" />
+        </activity>
 
         <!-- PASSWORD RESET FINAL -->
         <activity

@@ -56,6 +56,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.Toast;
 
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.Consts;
@@ -93,6 +94,8 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 	private RelativeLayout		mContainer;
 	private View				mListFooterView;
 	private int					mRequestAge, mRequestMaxAge, mNextRequestTime;
+	
+	public static Toast 		toast;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

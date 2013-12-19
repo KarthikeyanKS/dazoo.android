@@ -220,6 +220,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		// styling the Action Bar
 		mActionBar = getSupportActionBar();
 		mActionBar.setTitle(mActivity.getResources().getString(R.string.tv_guide));
+		mActionBar.setDisplayHomeAsUpEnabled(true);
 
 		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);
 		mTabTvGuide.setOnClickListener(this);

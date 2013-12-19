@@ -125,7 +125,8 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 
 		mActionBar = getSupportActionBar();
 		mActionBar.setTitle(getResources().getString(R.string.my_channels));
-
+		mActionBar.setDisplayHomeAsUpEnabled(true);
+		
 		// styling bottom navigation tabs
 
 		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);

@@ -111,9 +111,12 @@ public class BroadcastMainBlockPopulator {
 			}
 
 			titleTv.setText(program.getSeries().getName());
-
-			episodeNameTv.setText(program.getTitle());
-			episodeNameTv.setVisibility(View.VISIBLE);
+			
+			String episodeName = program.getTitle();
+			if (episodeName.length() > 0) {
+				episodeNameTv.setText(episodeName);
+				episodeNameTv.setVisibility(View.VISIBLE);
+			}
 
 		} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
 			mProgramId = broadcast.getProgram().getSportType().getSportTypeId();
@@ -295,7 +298,9 @@ public class BroadcastMainBlockPopulator {
 						mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
 					}
 				} else {
-					BroadcastPageActivity.toast.cancel();
+					if (BroadcastPageActivity.toast != null) {
+						BroadcastPageActivity.toast.cancel();
+					}
 					PromptSignInDialogHandler loginDlg = new PromptSignInDialogHandler();
 					loginDlg.showPromptSignInDialog(mActivity, yesLoginProc(), noLoginProc());
 				}
@@ -335,7 +340,9 @@ public class BroadcastMainBlockPopulator {
 						}
 					} else {
 						if (mNotificationId != -1) {
-							BroadcastPageActivity.toast.cancel();
+							if (BroadcastPageActivity.toast != null) {
+								BroadcastPageActivity.toast.cancel();
+							}
 							NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
 							notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId, yesNotificationProc(), noNotificationProc());
 						} else {

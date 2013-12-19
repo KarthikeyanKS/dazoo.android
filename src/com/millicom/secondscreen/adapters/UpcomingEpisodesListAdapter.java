@@ -133,9 +133,8 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 			try {
 				holder.mHeaderContainer.setVisibility(View.GONE);
 				holder.mDivider.setVisibility(View.VISIBLE);
-				if (position == 0
-						|| DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmt()).equals(
-								DateUtilities.tvDateStringToDatePickerString(getItem(position - 1).getBeginTimeStringGmt())) == false) {
+				if (position == 0 || broadcast.getBeginTimeStringLocalDayMonth().equals(
+						(getItem(position - 1)).getBeginTimeStringLocalDayMonth()) == false) {
 					if (dateOutOfWeek == false) {
 						if (mTvDates != null && mTvDates.isEmpty() != true) {
 
@@ -145,8 +144,8 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 					}
 				}
 				if (position != (getCount() - 1)
-						&& DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmt()).equals(
-								DateUtilities.tvDateStringToDatePickerString(getItem(position + 1).getBeginTimeStringGmt())) == false) {
+						&& broadcast.getBeginTimeStringLocalDayMonth().equals(
+								(getItem(position + 1)).getBeginTimeStringLocalDayMonth()) == false) {
 					holder.mDivider.setVisibility(View.GONE);
 				}
 			} catch (ParseException e) {

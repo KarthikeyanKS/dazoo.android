@@ -78,7 +78,7 @@ public class RepetitionsPageActivity extends SSActivity implements OnClickListen
 		mTabDividerRightContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
 
 		mActionBar = getSupportActionBar();
-
+		mActionBar.setDisplayHomeAsUpEnabled(true);
 		mActionBar.setDisplayShowTitleEnabled(true);
 		mActionBar.setDisplayShowCustomEnabled(true);
 		mActionBar.setDisplayUseLogoEnabled(true);

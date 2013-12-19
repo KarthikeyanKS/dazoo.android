@@ -61,6 +61,7 @@ public class LikesActivity extends SSActivity implements LikesCountInterface, On
 	private void initLayout() {
 		mActionBar = getSupportActionBar();
 		mActionBar.setTitle(getResources().getString(R.string.likes));
+		mActionBar.setDisplayHomeAsUpEnabled(true);
 
 		// styling bottom navigation tabs
 		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);
