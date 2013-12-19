@@ -7,21 +7,17 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.millicom.secondscreen.Consts;
@@ -38,10 +34,11 @@ import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
-import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.model.Program;
+import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
 import com.millicom.secondscreen.http.NetworkUtils;
+import com.millicom.secondscreen.manager.InternalTrackingManager;
 import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.DateUtilities;
 
@@ -103,6 +100,8 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		super.initCallbackLayouts();
 
 		loadStartPage();
+		
+		InternalTrackingManager.trackBroadcastStatic(mBroadcast);
 	}
 
 	@Override
