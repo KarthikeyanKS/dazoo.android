@@ -28,6 +28,8 @@ import com.millicom.secondscreen.content.model.Program;
 import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.tvguide.ChannelPageActivity;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.imageaware.ImageAware;
+import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 public class TVGuideListAdapter extends BaseAdapter {
 
@@ -87,7 +89,10 @@ public class TVGuideListAdapter extends BaseAdapter {
 
 		if (guide.getLogoLHref() != null) {
 			Log.v("TVGuideListAdapter:", "Calling displayImage");
+//			ImageAware imageAware = new ImageViewAware(holder.mChannelIconIv, false);
+//			ImageLoader.getInstance().displayImage(guide.getLogoSHref(), imageAware);
 			ImageLoader.getInstance().displayImage(guide.getLogoSHref(), holder.mChannelIconIv);
+		   
 		} else {
 			holder.mChannelIconIv.setImageResource(R.color.white);
 		}
@@ -111,7 +116,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 
 		String stringIconMovie = mActivity.getResources().getString(R.string.icon_movie) + " ";
 		String stringIconLive = mActivity.getResources().getString(R.string.icon_live) + " ";
-		String name = "";
+		String textForThreeBroadcasts = "";
 		int textIndexToMarkAsOngoing =0;
 
 		if (broadcasts != null && broadcasts.size() > 0) {
@@ -143,8 +148,16 @@ public class TVGuideListAdapter extends BaseAdapter {
 						rowInfo += stringIconLive;
 					}
 					
+					
+					String tmpString = null;
+	                if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+	                	tmpString = program.getSeries().getName();
+                    } else {
+                    	tmpString = program.getTitle();
+                    }
+					
 					//TODO: handle the title from series which should be read from broadcast not from program
-					rowInfo +=  program.getTitle();
+					rowInfo +=  tmpString;
 					
 					
 					//erik, make sure to mark the first line red if it is ongoing
@@ -153,12 +166,12 @@ public class TVGuideListAdapter extends BaseAdapter {
 					}
 					
 					//TODO: make sure that we append "..." to the end and concatinate the text to match the width of the screen
-					name +=rowInfo + "\n";
+					textForThreeBroadcasts +=rowInfo + "\n";
 					
 				}
 				
 				
-				Spannable wordtoSpan = new SpannableString(name);        
+				Spannable wordtoSpan = new SpannableString(textForThreeBroadcasts);        
 				//TDOD: translate into the proper dazoo color codes
 				wordtoSpan.setSpan(new ForegroundColorSpan(Color.RED), 0, textIndexToMarkAsOngoing, 0);
 				wordtoSpan.setSpan(new ForegroundColorSpan(Color.GRAY), textIndexToMarkAsOngoing+1, wordtoSpan.length() , Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

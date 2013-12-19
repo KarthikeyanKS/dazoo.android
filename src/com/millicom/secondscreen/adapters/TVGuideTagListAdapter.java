@@ -22,6 +22,8 @@ import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.imageaware.ImageAware;
+import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 public class TVGuideTagListAdapter extends BaseAdapter {
 
@@ -122,7 +124,7 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 					holder.mDurationPb.setVisibility(View.GONE);
 					holder.mTimeLeftTv.setVisibility(View.GONE);
 				}
-
+				
 				ImageLoader.getInstance().displayImage(broadcast.getProgram().getPortMUrl(), holder.mImageIv);
 				
 

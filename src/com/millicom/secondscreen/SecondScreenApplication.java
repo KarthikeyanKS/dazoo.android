@@ -14,6 +14,7 @@ import android.view.WindowManager;
 
 import com.millicom.secondscreen.utilities.ObscuredSharedPreferences;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 //import com.testflightapp.lib.TestFlight;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -81,7 +82,14 @@ public class SecondScreenApplication extends Application {
 				
 		calculateSizes();
 		
+		DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
+		.resetViewBeforeLoading(true)
+		.cacheInMemory(true)
+		.cacheOnDisc(true)
+		.build();
+		
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
+		.defaultDisplayImageOptions(displayImageOptions)
 		.memoryCache(new LruMemoryCache(2 * 1024 * 1024))
         .memoryCacheSize(2 * 1024 * 1024)
 		.discCacheSize(50 * 1024 * 1024)
