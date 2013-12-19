@@ -2,14 +2,18 @@ package com.millicom.secondscreen.adapters;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.res.Resources;
+import android.graphics.Point;
+import android.os.Build;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +37,11 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 public class TVGuideListAdapter extends BaseAdapter {
 
+	private static final int SCREEN_WIDTH_SMALL 	= 240;
+	private static final int SCREEN_WIDTH_MEDIUM 	= 320;
+	private static final int SCREEN_WIDTH_LARGE 	= 480;
+	private static final int SCREEN_WIDTH_X_LARGE 	= 720;
+	private static final int SCREEN_WIDTH_X_X_LARGE = 1080;
 	private static final String	TAG	= "TVGuideListAdapter";
 
 	private LayoutInflater		mLayoutInflater;
@@ -42,19 +51,43 @@ public class TVGuideListAdapter extends BaseAdapter {
 	private int					mIndexOfNearestBroadcast;
 	private int					mHour, mCurrentHour;
 	private boolean				mIsToday;
+	private int 				maxRowLenght;
 
+	@SuppressLint("NewApi")
+	@SuppressWarnings("deprecation")
 	public TVGuideListAdapter(Activity activity, ArrayList<Guide> guide, TvDate date, int hour, boolean isToday) {
 		this.mGuide = guide;
 		this.mActivity = activity;
 		this.mDate = date;
 		this.mHour = hour;
 		this.mIsToday = isToday;
-
+		
+		Display display = activity.getWindowManager().getDefaultDisplay();
+		int screenWidth;
+		
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+			Point size = new Point();
+			display.getSize(size);
+			screenWidth = size.x;
+		} else {
+			screenWidth = display.getWidth();
+		}
+		
+		
+		int baseRowLenght = 22;
+		
+		float scalingFactorOfScreenFactor = 0.8f;
+		float screenFactor = ((float)screenWidth/(float)SCREEN_WIDTH_X_X_LARGE);
+		
+		/* Decrease the magnitude which the scaling is done */
+		screenFactor /= scalingFactorOfScreenFactor;
+		
+		int extraRowLenght = (int)(screenFactor*15.0f);
+		maxRowLenght = baseRowLenght + extraRowLenght;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Log.v("TVGuideListAdapter.getView:", "at position "+position);
 		View rowView = convertView;
 		if (rowView == null) {
 			mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -62,25 +95,8 @@ public class TVGuideListAdapter extends BaseAdapter {
 			ViewHolder viewHolder = new ViewHolder();
 			viewHolder.mContainer = (RelativeLayout) rowView.findViewById(R.id.item_container);
 			viewHolder.mChannelIconIv = (ImageView) rowView.findViewById(R.id.tvguide_channel_iv);
-			// viewHolder.mBroadcastItemLl = (LinearLayout) rowView.findViewById(R.id.tvguide_program_list_container);
+			viewHolder.mTextView = (TextView) rowView.findViewById(R.id.tvguide_program_line_live);
 
-
-			// viewHolder.mLiveProgramContainer = (RelativeLayout) container;
-			viewHolder.mLiveProgramTimeTv = (TextView) rowView.findViewById(R.id.tvguide_program_line_live);
-			viewHolder.mLiveProgramTimeTv.setSingleLine(false);
-//			viewHolder.mLiveProgramNameTv = (TextView) container.findViewById(R.id.tvguide_program_line_name_tv);
-			
-			/*
-			container = rowView.findViewById(R.id.tvguide_program_line_next_container);
-			// viewHolder.mNextProgramContainer = (RelativeLayout) container;
-			viewHolder.mNextProgramTimeTv = (TextView) container.findViewById(R.id.tvguide_program_line_time_tv);
-			viewHolder.mNextProgramNameTv = (TextView) container.findViewById(R.id.tvguide_program_line_name_tv);
-			
-			container = rowView.findViewById(R.id.tvguide_program_line_last_container);
-			// viewHolder.mLastProgramContainer = (RelativeLayout) container;
-			viewHolder.mLastProgramTimeTv = (TextView) container.findViewById(R.id.tvguide_program_line_time_tv);
-			viewHolder.mLastProgramNameTv = (TextView) container.findViewById(R.id.tvguide_program_line_name_tv);
-*/
 			rowView.setTag(viewHolder);
 		}
 		ViewHolder holder = (ViewHolder) rowView.getTag();
@@ -88,10 +104,8 @@ public class TVGuideListAdapter extends BaseAdapter {
 		final Guide guide = getItem(position);
 
 		if (guide.getLogoLHref() != null) {
-			Log.v("TVGuideListAdapter:", "Calling displayImage");
-//			ImageAware imageAware = new ImageViewAware(holder.mChannelIconIv, false);
-//			ImageLoader.getInstance().displayImage(guide.getLogoSHref(), imageAware);
-			ImageLoader.getInstance().displayImage(guide.getLogoSHref(), holder.mChannelIconIv);
+			ImageAware imageAware = new ImageViewAware(holder.mChannelIconIv, false);
+			ImageLoader.getInstance().displayImage(guide.getLogoSHref(), imageAware);
 		   
 		} else {
 			holder.mChannelIconIv.setImageResource(R.color.white);
@@ -117,7 +131,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 		String stringIconMovie = mActivity.getResources().getString(R.string.icon_movie) + " ";
 		String stringIconLive = mActivity.getResources().getString(R.string.icon_live) + " ";
 		String textForThreeBroadcasts = "";
-		int textIndexToMarkAsOngoing =0;
+		int textIndexToMarkAsOngoing = 0;
 
 		if (broadcasts != null && broadcasts.size() > 0) {
 			/* get the nearest broadcasts */
@@ -127,10 +141,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 			if (mIndexOfNearestBroadcast != -1) {
 				ArrayList<Broadcast> nextBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, broadcasts, Consts.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
 			
-				
 				for (int j = 0; j < Math.min(nextBroadcasts.size(), 3); j++) {
-					
-					
 					Broadcast broadcast = nextBroadcasts.get(j);
 					Program program = broadcast.getProgram();
 					String programType = program.getProgramType();
@@ -139,44 +150,59 @@ public class TVGuideListAdapter extends BaseAdapter {
 					String rowInfo = broadcast.getBeginTimeStringLocalHourAndMinute();
 					rowInfo += "   ";
 					
-					
-					
-					
+					boolean isMovie = false;
+					boolean isLive = false;
 					if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
 						rowInfo += stringIconMovie;
+						isMovie = true;
 					} else if (Consts.DAZOO_BROADCAST_TYPE_LIVE.equals(broadcastType)) {
 						rowInfo += stringIconLive;
+						isLive = true;
 					}
 					
 					
-					String tmpString = null;
+					String showName = null;
 	                if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-	                	tmpString = program.getSeries().getName();
+	                	showName = program.getSeries().getName();
                     } else {
-                    	tmpString = program.getTitle();
+                    	showName = program.getTitle();
                     }
 					
-					//TODO: handle the title from series which should be read from broadcast not from program
-					rowInfo +=  tmpString;
+					rowInfo += showName;
 					
+					String ellipsisString = "...";
 					
-					//erik, make sure to mark the first line red if it is ongoing
+					int rowLenght = rowInfo.length();
+					
+					if(isMovie) {
+						/* The 'movie'-char is three times as wide as other chars */
+						rowLenght += 2; 
+					} else if(isLive) {
+						/* The 'live'-char is five times as wide as other chars */
+						rowLenght += 4;
+					}
+					
+					if(rowLenght > maxRowLenght) {
+						rowInfo = rowInfo.replace(rowInfo.substring(maxRowLenght-3, rowInfo.length()), ellipsisString);
+					}
+					
 					if (broadcast.isRunning()) {
 						textIndexToMarkAsOngoing = rowInfo.length();
 					}
 					
-					//TODO: make sure that we append "..." to the end and concatinate the text to match the width of the screen
-					textForThreeBroadcasts +=rowInfo + "\n";
-					
+					textForThreeBroadcasts += rowInfo + "\n";
 				}
 				
 				
-				Spannable wordtoSpan = new SpannableString(textForThreeBroadcasts);        
-				//TDOD: translate into the proper dazoo color codes
-				wordtoSpan.setSpan(new ForegroundColorSpan(Color.RED), 0, textIndexToMarkAsOngoing, 0);
-				wordtoSpan.setSpan(new ForegroundColorSpan(Color.GRAY), textIndexToMarkAsOngoing+1, wordtoSpan.length() , Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+				Spannable wordtoSpan = new SpannableString(textForThreeBroadcasts);     
+				
+				Resources resources = SecondScreenApplication.getInstance().getApplicationContext().getResources();
+				if(textIndexToMarkAsOngoing > 0) {
+					wordtoSpan.setSpan(new ForegroundColorSpan(resources.getColor(R.color.red)), 0, textIndexToMarkAsOngoing, 0);
+				}
+				wordtoSpan.setSpan(new ForegroundColorSpan(resources.getColor(R.color.grey3)), textIndexToMarkAsOngoing+1, wordtoSpan.length() , Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			    
-				holder.mLiveProgramTimeTv.setText(wordtoSpan, TextView.BufferType.SPANNABLE);
+				holder.mTextView.setText(wordtoSpan, TextView.BufferType.SPANNABLE);
 			
 
 			}
@@ -188,24 +214,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 	static class ViewHolder {
 		public RelativeLayout	mContainer;
 		public ImageView		mChannelIconIv;
-		public ProgressBar		mProgressBar;
-		// public LinearLayout mBroadcastItemLl;
-
-		// LIVE PROGRAM
-		// public RelativeLayout mLiveProgramContainer;
-		public TextView			mLiveProgramNameTv;
-		public TextView			mLiveProgramTimeTv;
-
-		// NEXT PROGRAM
-		// public RelativeLayout mNextProgramContainer;
-		public TextView			mNextProgramNameTv;
-		public TextView			mNextProgramTimeTv;
-
-		// LAST PROGRAM
-		// public RelativeLayout mLastProgramContainer;
-		public TextView			mLastProgramNameTv;
-		public TextView			mLastProgramTimeTv;
-
+		public TextView			mTextView;
 	}
 
 	@Override
