@@ -170,13 +170,11 @@ public class RemindersActivity extends SSActivity implements RemindersCountInter
 
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected void loadPage() {
-		// TODO Auto-generated method stub
 	}
 
 	@Override

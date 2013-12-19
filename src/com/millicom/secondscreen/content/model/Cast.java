@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 // domain model for cast and crew to the movie or series
-// TODO 
 public class Cast implements Parcelable{
 
 	String actorName;

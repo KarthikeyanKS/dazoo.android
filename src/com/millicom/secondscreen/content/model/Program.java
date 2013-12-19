@@ -139,7 +139,6 @@ public class Program implements Parcelable {
 				try {
 					tags.add(jsonTags.getString(k));
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -156,7 +155,6 @@ public class Program implements Parcelable {
 					Credit credit = new Credit(jsonCredit);
 					credits.add(credit);
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

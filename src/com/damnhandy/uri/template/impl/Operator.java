@@ -152,7 +152,6 @@ public enum Operator {
    }
 
    /**
-    * FIXME Comment this
     * 
     * @param opCode
     * @return

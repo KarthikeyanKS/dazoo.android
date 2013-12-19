@@ -118,13 +118,11 @@ public class TermsActivity extends SSActivity implements OnClickListener {
 
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected void loadPage() {
-		// TODO Auto-generated method stub
 
 	}
 }

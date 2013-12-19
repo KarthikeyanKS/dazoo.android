@@ -89,7 +89,6 @@ public class Channel implements Parcelable {
 				this.setLogoLUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_LARGE));
 			}
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -17,6 +17,8 @@ import com.millicom.secondscreen.content.model.TvDate;
 public class DateUtilities {
 
 	private static final String	TAG	= "DateUtilities";
+	//TODO use info from backend for TV day range when available
+	private static final int LAST_HOUR_OF_DAY = 6;
 	
 	public static final String tvDateToYearNumber(String tvDate){
 		SimpleDateFormat dfmInput = getDateFormat(Consts.TVDATE_DATE_FORMAT);
@@ -88,8 +90,6 @@ public class DateUtilities {
 		calendar.set(Calendar.DAY_OF_MONTH, Integer.valueOf(day));
 		calendar.set(Calendar.HOUR_OF_DAY, hour);
 		
-		//TODO use info from backend for TV day range when available
-		int LAST_HOUR_OF_DAY = 6;
 		if(hour >= 0 && hour < LAST_HOUR_OF_DAY) {
 			/* Add one */
 			int dayInt = Integer.valueOf(day) + 1;

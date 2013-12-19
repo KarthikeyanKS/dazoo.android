@@ -174,7 +174,6 @@ public class RemindersListAdapter extends BaseAdapter {
 
 				@Override
 				public void onClick(View v) {
-					// TODO use local or GMT?
 					String broadcastUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + channel.getChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillisGmt();
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
 					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_URL, broadcastUrl);

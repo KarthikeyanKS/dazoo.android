@@ -237,7 +237,6 @@ public abstract class UriTemplate
    }
 
    /**
-    * FIXME Comment this
     * 
     * @param expression
     * @return
@@ -250,7 +249,6 @@ public abstract class UriTemplate
    }
    
    /**
-    * FIXME Comment this
     * 
     * @param template
     */

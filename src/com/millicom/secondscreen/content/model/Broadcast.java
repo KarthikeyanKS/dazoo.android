@@ -300,7 +300,6 @@ public class Broadcast implements Parcelable {
 			String beginTimeStringLocalDayMonth = DateUtilities.tvDateStringToDatePickerString(millisLocal);
 			this.setBeginTimeStringLocalDayMonth(beginTimeStringLocalDayMonth);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -359,7 +358,6 @@ public class Broadcast implements Parcelable {
 			
 			updateTimeToBeginAndTimeToEnd();
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -537,7 +535,6 @@ public class Broadcast implements Parcelable {
 			this.setTimeToBegin(timeToBegin);
 			this.setTimeToEnd(timeToEnd);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

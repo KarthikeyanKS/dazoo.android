@@ -75,7 +75,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		// broadcast receiver for date selection
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverDate, new IntentFilter(Consts.INTENT_EXTRA_TVGUIDE_SORTING));
 
-		// broadcasst receiver for content availability
+		// broadcast receiver for content availability
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverContent, new IntentFilter(Consts.INTENT_EXTRA_GUIDE_AVAILABLE));
 
 		// broadcast receiver for my channels have changed

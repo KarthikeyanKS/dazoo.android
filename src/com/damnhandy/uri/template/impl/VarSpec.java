@@ -114,7 +114,6 @@ public final class VarSpec
    }
 
    /**
-    * FIXME Comment this
     * 
     * @return
     */

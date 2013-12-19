@@ -2,13 +2,12 @@ package com.millicom.secondscreen.utilities;
 
 import java.util.Map;
 import java.util.Set;
-
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.provider.Settings;
@@ -63,7 +62,8 @@ public class ObscuredSharedPreferences implements SharedPreferences {
             return this;
         }
 
-        @Override
+        @SuppressLint("NewApi")
+		@Override
         public void apply() {
             delegate.apply();
         }
@@ -87,7 +87,6 @@ public class ObscuredSharedPreferences implements SharedPreferences {
 
 		@Override
 		public android.content.SharedPreferences.Editor putStringSet(String arg0, Set<String> arg1) {
-			// TODO Auto-generated method stub
 			return null;
 		}
     }
@@ -183,7 +182,6 @@ public class ObscuredSharedPreferences implements SharedPreferences {
 
 	@Override
 	public Set<String> getStringSet(String arg0, Set<String> arg1) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
