@@ -18,6 +18,8 @@ import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.imageaware.ImageAware;
+import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 public class WhatElseIsOnListAdapter extends BaseAdapter {
 
@@ -80,7 +82,8 @@ public class WhatElseIsOnListAdapter extends BaseAdapter {
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 
 		if (broadcast != null) {
-			ImageLoader.getInstance().displayImage(broadcast.getProgram().getPortLUrl(), holder.mImageIv);
+			ImageAware imageAware = new ImageViewAware(holder.mImageIv, false);
+			ImageLoader.getInstance().displayImage(broadcast.getProgram().getPortLUrl(), imageAware);
 
 			// MC - Set the title of the broadcast.
 			String title = broadcast.getProgram().getTitle();

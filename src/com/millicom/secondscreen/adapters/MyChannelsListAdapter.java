@@ -16,6 +16,8 @@ import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.myprofile.MyChannelsCountInterface;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.imageaware.ImageAware;
+import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 public class MyChannelsListAdapter extends BaseAdapter {
 
@@ -87,7 +89,8 @@ public class MyChannelsListAdapter extends BaseAdapter {
 
 		holder.mChannelNameTv.setText(channel.getName());
 
-		ImageLoader.getInstance().displayImage(channel.getLogoLUrl(), holder.mChannelLogoIv);
+		ImageAware imageAware = new ImageViewAware(holder.mChannelLogoIv, false);
+		ImageLoader.getInstance().displayImage(channel.getLogoLUrl(), imageAware);
 
 		holder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override

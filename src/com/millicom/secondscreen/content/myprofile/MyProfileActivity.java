@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
@@ -30,6 +31,8 @@ import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.notification.NotificationDataSource;
 import com.millicom.secondscreen.storage.DazooStore;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.imageaware.ImageAware;
+import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 public class MyProfileActivity extends ActionBarActivity implements OnClickListener {
 
@@ -151,7 +154,8 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 
 		if (mIsLoggedIn) {
 			if (userAvatarUrl != null && TextUtils.isEmpty(userAvatarUrl) != true) {
-				ImageLoader.getInstance().displayImage(userAvatarUrl, mAvatarImageView);
+				ImageAware imageAware = new ImageViewAware(mAvatarImageView, false);
+				ImageLoader.getInstance().displayImage(userAvatarUrl, imageAware);
 			}
 
 			mLikesTextView.setText(getResources().getString(R.string.icon_heart) + " " + getResources().getString(R.string.likes));

@@ -20,6 +20,8 @@ import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.imageaware.ImageAware;
+import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 public class BlockPopularListViewAdapter extends BaseAdapter {
 
@@ -83,7 +85,8 @@ public class BlockPopularListViewAdapter extends BaseAdapter {
 			// different details about the broadcast program depending on the type
 			String programType = broadcast.getProgram().getProgramType();
 
-			ImageLoader.getInstance().displayImage(broadcast.getProgram().getPortMUrl(), holder.mPoster);
+			ImageAware imageAware = new ImageViewAware(holder.mPoster, false);
+			ImageLoader.getInstance().displayImage(broadcast.getProgram().getPortMUrl(), imageAware);
 			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 				holder.mTitle.setText(broadcast.getProgram().getSeries().getName());
 			} else {

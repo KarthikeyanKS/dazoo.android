@@ -30,6 +30,8 @@ import com.millicom.secondscreen.share.ShareAction;
 import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.AnimationUtilities;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.imageaware.ImageAware;
+import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 public class BroadcastMainBlockPopulator {
 
@@ -128,11 +130,13 @@ public class BroadcastMainBlockPopulator {
 		mLikeType = LikeService.getLikeType(programType);
 
 		if (program.getPortSUrl() != null && TextUtils.isEmpty(program.getPortSUrl()) != true) {
-			ImageLoader.getInstance().displayImage(program.getLandLUrl(), posterIv);
+			ImageAware imageAware = new ImageViewAware(posterIv, false);
+			ImageLoader.getInstance().displayImage(program.getLandLUrl(), imageAware);
 		}
 
 		if (broadcast.getChannel() != null) {
-			ImageLoader.getInstance().displayImage(broadcast.getChannel().getLogoSUrl(), channelIv);
+			ImageAware imageAware = new ImageViewAware(channelIv, false);
+			ImageLoader.getInstance().displayImage(broadcast.getChannel().getLogoSUrl(), imageAware);
 		}
 
 		// broadcast is currently on air: show progress

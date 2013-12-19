@@ -125,7 +125,8 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 					holder.mTimeLeftTv.setVisibility(View.GONE);
 				}
 				
-				ImageLoader.getInstance().displayImage(broadcast.getProgram().getPortMUrl(), holder.mImageIv);
+				ImageAware imageAware = new ImageViewAware(holder.mImageIv, false);
+				ImageLoader.getInstance().displayImage(broadcast.getProgram().getPortMUrl(), imageAware);
 				
 
 				holder.mTimeTv.setText(broadcast.getBeginTimeStringLocalHourAndMinute());

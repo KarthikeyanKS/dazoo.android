@@ -32,6 +32,8 @@ import com.millicom.secondscreen.share.ShareAction;
 import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.AnimationUtilities;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.imageaware.ImageAware;
+import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 public class ActivityFeedAdapter extends BaseAdapter {
 
@@ -176,7 +178,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 				String programType = broadcast.getProgram().getProgramType();
 
-				ImageLoader.getInstance().displayImage(broadcast.getProgram().getPortMUrl(), imageView);
+				ImageAware imageAware = new ImageViewAware(imageView, false);
+				ImageLoader.getInstance().displayImage(broadcast.getProgram().getPortMUrl(), imageAware);
 
 				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 					title.setText(broadcast.getProgram().getSeries().getName());
@@ -438,7 +441,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 						holderBC.headerTv.setText(feedItem.getTitle());
 					}
 
-					ImageLoader.getInstance().displayImage(program.getLandLUrl(), holderBC.landscapeIv);
+					ImageAware imageAware = new ImageViewAware(holderBC.landscapeIv, false);
+					ImageLoader.getInstance().displayImage(program.getLandLUrl(), imageAware);
 
 					if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 						holderBC.titleTv.setText(program.getSeries().getName());

@@ -43,6 +43,8 @@ import com.millicom.secondscreen.manager.DazooCore;
 import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.DateUtilities;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.imageaware.ImageAware;
+import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 public class ChannelPageActivity extends SSActivity implements OnClickListener, ActionBar.OnNavigationListener {
 
@@ -375,7 +377,8 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 
 	@Override
 	protected void loadPage() {
-		ImageLoader.getInstance().displayImage(mChannelGuide.getLogoMHref(), mChannelIconIv);
+		ImageAware imageAware = new ImageViewAware(mChannelIconIv, false);
+		ImageLoader.getInstance().displayImage(mChannelGuide.getLogoMHref(), imageAware);
 		mIndexOfNearestBroadcast = Broadcast.getClosestBroadcastIndex(mBroadcasts);
 		if (mIndexOfNearestBroadcast >= 0) {
 			mFollowingBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());

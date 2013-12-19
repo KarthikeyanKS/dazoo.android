@@ -18,6 +18,8 @@ import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.imageaware.ImageAware;
+import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 public class ChannelPageListAdapter extends BaseAdapter {
 
@@ -97,7 +99,8 @@ public class ChannelPageListAdapter extends BaseAdapter {
 		if (broadcast != null) {
 			if (getItemViewType(position) == 0) {
 				// MC - Set the image for current broadcast.
-				ImageLoader.getInstance().displayImage(broadcast.getProgram().getLandLUrl(), holder.mIconIv);
+				ImageAware imageAware = new ImageViewAware(holder.mIconIv, false);
+				ImageLoader.getInstance().displayImage(broadcast.getProgram().getLandLUrl(), imageAware);
 				// MC - Calculate the duration of the program and set up ProgressBar.
 				holder.mDurationPb.setMax(broadcast.getDurationInMinutes() + 1);
 
