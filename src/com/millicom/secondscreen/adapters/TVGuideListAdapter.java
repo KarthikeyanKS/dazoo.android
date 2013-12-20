@@ -7,19 +7,19 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Paint.FontMetricsInt;
 import android.graphics.Point;
 import android.os.Build;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.LineHeightSpan;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -193,7 +193,8 @@ public class TVGuideListAdapter extends BaseAdapter {
 					textForThreeBroadcasts += rowInfo + "\n";
 				}
 				
-				Spannable wordtoSpan = new SpannableString(textForThreeBroadcasts);  
+				
+				Spannable wordtoSpan = new SpannableString(textForThreeBroadcasts);     
 				
 				Resources resources = SecondScreenApplication.getInstance().getApplicationContext().getResources();
 				if(textIndexToMarkAsOngoing > 0) {
@@ -202,12 +203,14 @@ public class TVGuideListAdapter extends BaseAdapter {
 				wordtoSpan.setSpan(new ForegroundColorSpan(resources.getColor(R.color.grey3)), textIndexToMarkAsOngoing+1, wordtoSpan.length() , Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			    
 				holder.mTextView.setText(wordtoSpan, TextView.BufferType.SPANNABLE);
+			
+
 			}
 		}
 		
 		return rowView;
 	}
-	
+
 	static class ViewHolder {
 		public RelativeLayout	mContainer;
 		public ImageView		mChannelIconIv;
