@@ -29,6 +29,8 @@
         android:id="@+id/block_tripple_broadcast_one_bottom_divider"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_below="@id/block_broadcast_upcoming_one"
         android:background="@color/grey1"
         android:visibility="gone" />
@@ -45,6 +47,8 @@
         android:id="@+id/block_tripple_broadcast_two_bottom_divider"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_below="@id/block_broadcast_upcoming_two"
         android:background="@color/grey1"
         android:visibility="gone" />

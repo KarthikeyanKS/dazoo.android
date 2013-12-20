@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
@@ -51,21 +52,25 @@ public class TrippleBroadcastBlockPopulator {
 		mNotificationDataSource = new NotificationDataSource(mActivity);
 	}
 
-	public void populatePartOfBlock(int position, ArrayList<Broadcast> broadcastList, final Program program, View topContentView) {
+	public void populatePartOfBlock(final int position, ArrayList<Broadcast> broadcastList, final Program program, View topContentView) {
 		if (broadcastList.size() > position && broadcastList.get(position) != null) {
 			LinearLayout mContainer = null;
+			View mDivider = null;
 			switch (position) {
 				case 0: {
 					mContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_one);
+					mDivider = (View) topContentView.findViewById(R.id.block_tripple_broadcast_one_bottom_divider);
+					mDivider.setVisibility(View.VISIBLE);
 					break;
 				}
 				case 1: {
 					mContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_two);
+					mDivider = (View) topContentView.findViewById(R.id.block_tripple_broadcast_two_bottom_divider);
+					mDivider.setVisibility(View.VISIBLE);
 					break;
 				}
 				case 2: {
 					mContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_three);
-					break;
 				}
 			}
 
@@ -129,6 +134,7 @@ public class TrippleBroadcastBlockPopulator {
 
 				@Override
 				public void onClick(View v) {
+					Toast.makeText(mActivity, "" + position, Toast.LENGTH_LONG).show();
 					if (!broadcast.hasStarted()) {
 						if (mIsSet == false) {
 							if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), mTvDate)) {

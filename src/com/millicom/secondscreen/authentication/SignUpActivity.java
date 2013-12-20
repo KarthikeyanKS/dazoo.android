@@ -255,7 +255,8 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 						mEmailRegisterEditText.setEnabled(true);
 						mPasswordRegisterEditText.setEnabled(true);
 						
-						mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_already_registered));
+						mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_register_error));
+						mErrorTextView.setVisibility(View.VISIBLE);
 						mEmailRegisterEditText.setBackgroundResource(R.drawable.edittext_activated);
 						mEmailRegisterEditText.requestFocus();
 					}

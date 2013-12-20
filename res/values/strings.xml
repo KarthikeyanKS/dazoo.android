@@ -159,7 +159,7 @@
     <string name="signup_with_email_error_firstname">First name was not input right!</string>
     <string name="signup_with_email_error_lastname">Last name was not input right!</string>
     <string name="signup_with_email_error_email">E-mail was not input right!</string>
-    <string name="signup_with_email_error_email_already_registered">E-mail is already registered!</string>
+    <string name="signup_with_email_error_email_register_error">Something wrong when registering</string>
     <string name="signup_with_email_error_passwordlength">Your password must contain </string>
     <string name="signup_with_email_characters"> characters!</string>
     <string name="signup_with_email_error_passwordcharacters">Password contained illegal characters!</string>

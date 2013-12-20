@@ -33,7 +33,7 @@ public abstract class Consts {
 	public static final String MILLICON_SECONDSCREEN_HTTP_SCHEME							= "http://";
 	public static final String MILLICON_SECONDSCREEN_HTTPS_SCHEME							= "https://";
 	public static final String MILLICOM_SECONDSCREEN_MI_TV_BASE_URL							= "android.api.mi.tv/";
-	public static final String MILLICOM_SECONDSCREEN_GITR_BASE_URL							= "android.api.gitrgitr.com/";
+	public static final String MILLICOM_SECONDSCREEN_GITR_BASE_URL							= "gitrgitr.com/api/";
 	public static final String MILLICON_SECONDSCREEN_BASE_API_URL_USED 						= MILLICOM_SECONDSCREEN_GITR_BASE_URL;
 	public static final String MILLICOM_SECONDSCREEN_SERVER_URL_SECURE 						= MILLICON_SECONDSCREEN_HTTPS_SCHEME + MILLICON_SECONDSCREEN_BASE_API_URL_USED;
 	public static final String MILLICOM_SECONDSCREEN_SERVER_URL								= MILLICON_SECONDSCREEN_HTTP_SCHEME + MILLICON_SECONDSCREEN_BASE_API_URL_USED;
@@ -44,9 +44,9 @@ public abstract class Consts {
 	public static final String MILLICOM_SECONDSCREEN_CHANNELS_ALL_PAGE_URL 					= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/channels";
 	public static final String MILLICOM_SECONDSCREEN_CHANNELS_DEFAULT_PAGE_URL 				= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/channels/default";
 	public static final String MILLICOM_SECONDSCREEN_FACEBOOK_TOKEN_URL 					= MILLICOM_SECONDSCREEN_SERVER_URL + "auth/login/facebook";
-	public static final String MILLICOM_SECONDSCREEN_DAZOO_LOGIN_URL 						= MILLICOM_SECONDSCREEN_SERVER_URL_SECURE + "auth/login/dazoo";
-	public static final String MILLICOM_SECONDSCREEN_DAZOO_REGISTER_URL 					= MILLICOM_SECONDSCREEN_SERVER_URL_SECURE + "auth/login/dazoo/register";
-	public static final String MILLICOM_SECONDSCREEN_RESET_PASSWORD_URL 					= MILLICOM_SECONDSCREEN_SERVER_URL_SECURE + "auth/login/dazoo/sendResetPasswordEmail";
+	public static final String MILLICOM_SECONDSCREEN_DAZOO_LOGIN_URL 						= MILLICOM_SECONDSCREEN_SERVER_URL + "auth/login/dazoo";
+	public static final String MILLICOM_SECONDSCREEN_DAZOO_REGISTER_URL 					= MILLICOM_SECONDSCREEN_SERVER_URL + "auth/login/dazoo/register";
+	public static final String MILLICOM_SECONDSCREEN_RESET_PASSWORD_URL 					= MILLICOM_SECONDSCREEN_SERVER_URL + "auth/login/dazoo/sendResetPasswordEmail";
 	public static final String MILLICOM_SECONDSCREEN_TAGS_PAGE_URL 							= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/tags/visible";
 	public static final String MILLICOM_SECONDSCREEN_MY_CHANNELS_URL 						= MILLICOM_SECONDSCREEN_SERVER_URL + "my/channels";
 	public static final String MILLICOM_SECONDSCREEN_LIKES_URL 								= MILLICOM_SECONDSCREEN_SERVER_URL + "my/likes";
