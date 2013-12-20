@@ -126,6 +126,7 @@ public class NotificationService {
 				dbNotification.setProgramGenre(broadcast.getProgram().getGenre());
 			} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)){
 				dbNotification.setProgramType(programType);
+				dbNotification.setProgramCategory(broadcast.getProgram().getCategory());
 			}
 			
 			dbNotification.setChannelName(channel.getName());

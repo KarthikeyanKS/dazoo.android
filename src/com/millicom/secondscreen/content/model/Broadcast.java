@@ -312,6 +312,9 @@ public class Broadcast implements Parcelable {
 			program.setYear(item.getProgramYear());
 			program.setGenre(item.getProgramGenre());
 		}
+		else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
+			program.setCategory(item.getProgramCategory());
+		}
 
 		// program.setTags()
 
