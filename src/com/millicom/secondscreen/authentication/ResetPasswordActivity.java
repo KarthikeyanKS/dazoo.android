@@ -100,7 +100,6 @@ public class ResetPasswordActivity extends ActionBarActivity implements OnClickL
 
 						Intent intent = new Intent(ResetPasswordActivity.this, ResetPasswordFinalActivity.class);
 						startActivity(intent);
-						overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 						finish();
 
 					} else if (Consts.BAD_RESPONSE == responseCode) {

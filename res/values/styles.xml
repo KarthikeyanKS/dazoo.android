@@ -21,6 +21,7 @@
         <item name="android:actionDropDownStyle" tools:ignore="NewApi">@style/ActionBarDropDown</item>
         <item name="android:homeAsUpIndicator" tools:ignore="NewApi">@drawable/ic_up_indicator</item>
         <item name="homeAsUpIndicator">@drawable/ic_up_indicator</item>
+        <item name="android:windowAnimationStyle">@null</item>
     </style>
 
     <style name="HomePage" parent="@style/Theme.AppCompat.Light">

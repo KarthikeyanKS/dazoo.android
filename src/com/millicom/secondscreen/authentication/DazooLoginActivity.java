@@ -106,7 +106,6 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		overridePendingTransition(R.anim.push_right_out, R.anim.push_right_in);
 	}
 
 	private boolean verifyLoginInput() {
@@ -125,13 +124,11 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 		case R.id.dazoologin_facebook_container:
 			Intent intentFacebook = new Intent(DazooLoginActivity.this, FacebookLoginActivity.class);
 			startActivity(intentFacebook);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
 
 		case R.id.dazoologin_forgot_password_button:
 			Intent intentReset = new Intent(DazooLoginActivity.this, ResetPasswordActivity.class);
 			startActivity(intentReset);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
 		case R.id.dazoologin_login_button:
 			if (verifyLoginInput()) {

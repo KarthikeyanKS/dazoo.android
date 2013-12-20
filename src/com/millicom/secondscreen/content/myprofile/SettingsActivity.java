@@ -113,7 +113,7 @@ public class SettingsActivity extends SSActivity implements OnClickListener {
 			setResult(Consts.INFO_UPDATE_LOGOUT, mIntent);
 		}
 		super.onBackPressed();
-		overridePendingTransition(R.anim.push_right_out, R.anim.push_right_in);
+		
 		finish();
 	}
 
@@ -130,17 +130,17 @@ public class SettingsActivity extends SSActivity implements OnClickListener {
 		case R.id.settings_contact_button:
 			Intent intentContact = new Intent(SettingsActivity.this, ContactActivity.class);
 			startActivityForResult(intentContact, 0);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		case R.id.settings_terms_button:
 			Intent intentTerms = new Intent(SettingsActivity.this, TermsActivity.class);
 			startActivityForResult(intentTerms, 0);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		case R.id.settings_help_button:
 			Intent intentHelp = new Intent(SettingsActivity.this, HelpActivity.class);
 			startActivityForResult(intentHelp, 0);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		case R.id.settings_logout_button:
 			((SecondScreenApplication) getApplicationContext()).setAccessToken(null);
@@ -175,20 +175,20 @@ public class SettingsActivity extends SSActivity implements OnClickListener {
 			// tab to home page
 			Intent intentHome = new Intent(SettingsActivity.this, HomeActivity.class);
 			startActivity(intentHome);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		case R.id.show_activity:
 			// tab to home page
 			Intent intentActivity = new Intent(SettingsActivity.this, ActivityActivity.class);
 			startActivity(intentActivity);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		case R.id.show_me:
 			Intent returnIntent = new Intent();
 			if (mIsChange == true) {
 				setResult(Consts.INFO_UPDATE_LOGOUT, returnIntent);
 			}
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			finish();
 			break;
 		}

@@ -365,7 +365,6 @@ public class BroadcastMainBlockPopulator {
 			public void run() {
 				Intent intent = new Intent(mActivity, SignInActivity.class);
 				mActivity.startActivity(intent);
-				mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			}
 		};
 	}

@@ -279,7 +279,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 			returnIntent.putExtra(Consts.INFO_UPDATE_MYCHANNELS_NUMBER, mCount);
 		}
 		super.onBackPressed();
-		overridePendingTransition(R.anim.push_right_out, R.anim.push_right_in);
+		
 		finish();
 	}
 
@@ -323,13 +323,13 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intentHome);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		case R.id.show_activity:
 			updateChannelList();
 			Intent intentActivity = new Intent(MyChannelsActivity.this, ActivityActivity.class);
 			startActivity(intentActivity);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		case R.id.show_me:
 			updateChannelList();
@@ -339,7 +339,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 				returnIntent.putExtra(Consts.INFO_UPDATE_MYCHANNELS_NUMBER, mCount);
 			}
 			finish();
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		}
 

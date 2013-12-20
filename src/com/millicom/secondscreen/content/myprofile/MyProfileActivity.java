@@ -199,7 +199,7 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 		// case R.id.menu_search:
 		// Intent toSearchPage = new Intent(MyProfileActivity.this, SearchPageActivity.class);
 		// startActivity(toSearchPage);
-		// overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+		// 
 		// return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -217,7 +217,7 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		overridePendingTransition(R.anim.push_right_out, R.anim.push_right_in);
+		
 		finish();
 	}
 
@@ -229,41 +229,41 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 			// likes
 			Intent intentLikes = new Intent(MyProfileActivity.this, LikesActivity.class);
 			startActivityForResult(intentLikes, 0);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		case R.id.myprofile_reminders_container:
 			// reminders
 			Intent intentReminders = new Intent(MyProfileActivity.this, RemindersActivity.class);
 			startActivityForResult(intentReminders, 1);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		case R.id.myprofile_my_channels_container:
 			// my channels
 			Intent intentMyChannels = new Intent(MyProfileActivity.this, MyChannelsActivity.class);
 			startActivityForResult(intentMyChannels, 2);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		case R.id.myprofile_settings_container:
 			// settings
 			Intent intentSettings = new Intent(MyProfileActivity.this, SettingsActivity.class);
 			startActivityForResult(intentSettings, 3);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		case R.id.myprofile_signin_facebook_container:
 			// facebook sign in
 			Intent intentFacebookSignIn = new Intent(MyProfileActivity.this, FacebookLoginActivity.class);
 			startActivity(intentFacebookSignIn);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		case R.id.myprofile_signup_email_container:
 			Intent intentSignUp = new Intent(MyProfileActivity.this, SignUpActivity.class);
 			startActivity(intentSignUp);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		case R.id.myprofile_login_btn:
 			Intent intentLogin = new Intent(MyProfileActivity.this, DazooLoginActivity.class);
 			startActivity(intentLogin);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		case R.id.show_tvguide:
 			// tab to home page
@@ -271,13 +271,13 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intentHome);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		case R.id.show_activity:
 			// tab to activity page
 			Intent intentMe = new Intent(MyProfileActivity.this, ActivityActivity.class);
 			startActivity(intentMe);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		case R.id.show_me:
 			// we are here: do nothing

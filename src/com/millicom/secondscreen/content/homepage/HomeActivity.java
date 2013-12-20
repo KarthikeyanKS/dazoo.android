@@ -355,7 +355,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		// case R.id.menu_search:
 		// Intent toSearchPage = new Intent(HomeActivity.this, SearchPageActivity.class);
 		// startActivity(toSearchPage);
-		// overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+		// 
 		// return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -394,13 +394,13 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			// tab to activity page
 			Intent intentActivity = new Intent(HomeActivity.this, ActivityActivity.class);
 			startActivity(intentActivity);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		case R.id.show_me:
 			// tab to activity page
 			Intent intentMe = new Intent(HomeActivity.this, MyProfileActivity.class);
 			startActivity(intentMe);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		}
 	}

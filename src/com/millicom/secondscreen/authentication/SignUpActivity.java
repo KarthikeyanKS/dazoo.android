@@ -237,7 +237,6 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 								// go to Start page
 								Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
 								startActivity(intent);
-								overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 								finish();
 
 							} else {
@@ -361,7 +360,6 @@ public class SignUpActivity extends ActionBarActivity implements OnClickListener
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		overridePendingTransition(R.anim.push_right_out, R.anim.push_right_in);
 		finish();
 	}
 }
