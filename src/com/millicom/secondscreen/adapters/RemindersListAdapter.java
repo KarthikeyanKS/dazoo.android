@@ -13,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
@@ -159,7 +160,8 @@ public class RemindersListAdapter extends BaseAdapter {
 				} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
 					holder.mBroadcastDetailsTv.setText(program.getGenre() + " " + program.getYear());
 				} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
-					holder.mBroadcastDetailsTv.setText(program.getCategory());
+					String category = program.getCategory();
+					holder.mBroadcastDetailsTv.setText(category);
 				} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
 					holder.mBroadcastDetailsTv.setText(program.getSportType().getName());
 				}

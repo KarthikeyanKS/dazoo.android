@@ -21,10 +21,10 @@ public class NotificationDataSource {
 	private NotificationDatabaseHelper	dbHelper;
 	private String[]					allColumns	= { Consts.NOTIFICATION_DB_COLUMN_NOTIFICATION_ID, Consts.NOTIFICATION_DB_COLUMN_BROADCAST_URL, Consts.NOTIFICATION_DB_COLUMN_PROGRAM_ID,
 			Consts.NOTIFICATION_DB_COLUMN_PROGRAM_TITLE, Consts.NOTIFICATION_DB_COLUMN_PROGRAM_TYPE, Consts.NOTIFICATION_DB_COLUMN_PROGRAM_SEASON, Consts.NOTIFICATION_DB_COLUMN_PROGRAM_EPISODE,
-			Consts.NOTIFICATION_DB_COLUMN_PROGRAM_YEAR, Consts.NOTIFICATION_DB_COLUMN_PROGRAM_TAG, Consts.NOTIFICATION_DB_COLUMN_PROGRAM_GENRE,
+			Consts.NOTIFICATION_DB_COLUMN_PROGRAM_YEAR, Consts.NOTIFICATION_DB_COLUMN_PROGRAM_TAG, Consts.NOTIFICATION_DB_COLUMN_PROGRAM_GENRE, 
 			Consts.NOTIFICATION_DB_COLUMN_CHANNEL_ID, Consts.NOTIFICATION_DB_COLUMN_CHANNEL_NAME,
 			Consts.NOTIFICATION_DB_COLUMN_CHANNEL_LOGO_URL,
-			Consts.NOTIFICATION_DB_COLUMN_BROADCAST_BEGINTIME, Consts.NOTIFICATION_DB_COLUMN_BROADCAST_BEGINTIMEMILLIS };
+			Consts.NOTIFICATION_DB_COLUMN_BROADCAST_BEGINTIME, Consts.NOTIFICATION_DB_COLUMN_BROADCAST_BEGINTIMEMILLIS, Consts.NOTIFICATION_DB_COLUMN_PROGRAM_CATEGORY};
 
 	public NotificationDataSource(Context context) {
 		dbHelper = new NotificationDatabaseHelper(context);
@@ -49,6 +49,7 @@ public class NotificationDataSource {
 		values.put(Consts.NOTIFICATION_DB_COLUMN_CHANNEL_LOGO_URL	, notification.getChannelLogoUrl());
 		values.put(Consts.NOTIFICATION_DB_COLUMN_BROADCAST_BEGINTIME, notification.getBroadcastBeginTimeStringLocal());
 		values.put(Consts.NOTIFICATION_DB_COLUMN_BROADCAST_BEGINTIMEMILLIS, notification.getBroadcastBeginTimeInMillisGmtAsString());
+		values.put(Consts.NOTIFICATION_DB_COLUMN_PROGRAM_CATEGORY, notification.getProgramCategory());
 		long rowId = database.insert(Consts.NOTIFICATION_DB_TABLE_NOTIFICATIONS, null, values);
 		Log.d(TAG,"ROW IS INSERTED: " + String.valueOf(rowId));
 		
@@ -135,6 +136,7 @@ public class NotificationDataSource {
 					notification.setProgramGenre(cursor.getString(9));
 				} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
 					notification.setProgramType(programType);
+					notification.setProgramCategory(cursor.getString(15));
 				}
 				notification.setProgramTag(cursor.getString(8));
 				notification.setChannelId(cursor.getString(10));

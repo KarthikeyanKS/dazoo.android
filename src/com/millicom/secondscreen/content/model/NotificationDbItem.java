@@ -11,6 +11,7 @@ public class NotificationDbItem {
 	private int programYear;
 	private String programTag;
 	private String programGenre;
+	private String programCategory;
 	private String channelId;
 	private String channelName;
 	private String channelLogoUrl;
@@ -97,6 +98,13 @@ public class NotificationDbItem {
 		return this.programGenre;
 	}
 	
+	public void setProgramCategory(String programCategory){
+		this.programCategory = programCategory;
+	}
+	
+	public String getProgramCategory(){
+		return this.programCategory;
+	}
 	
 	public void setChannelId(String channelId){
 		this.channelId = channelId;
