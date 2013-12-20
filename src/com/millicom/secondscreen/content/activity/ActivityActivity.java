@@ -219,7 +219,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		overridePendingTransition(R.anim.push_right_out, R.anim.push_right_in);
+		
 		finish();
 	}
 
@@ -303,7 +303,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		// case R.id.menu_search:
 		// Intent toSearchPage = new Intent(ActivityActivity.this, SearchPageActivity.class);
 		// startActivity(toSearchPage);
-		// overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+		// 
 		// return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -328,7 +328,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intentHome);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		case R.id.show_activity:
 			// we are here: do nothing
@@ -337,28 +337,28 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			// tab to activity page
 			Intent intentMe = new Intent(ActivityActivity.this, MyProfileActivity.class);
 			startActivity(intentMe);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		case R.id.activity_not_logged_in_facebook_container:
 			// facebook sign in
 			Intent intentFacebookSignIn = new Intent(ActivityActivity.this, FacebookLoginActivity.class);
 			startActivity(intentFacebookSignIn);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		case R.id.activity_not_logged_in_signup_email_container:
 			Intent intentSignUp = new Intent(ActivityActivity.this, SignUpActivity.class);
 			startActivity(intentSignUp);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		case R.id.activity_not_logged_in_login_btn:
 			Intent intentLogin = new Intent(ActivityActivity.this, DazooLoginActivity.class);
 			startActivity(intentLogin);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		case R.id.block_feed_no_likes_btn:
 			Intent checkPopular = new Intent(ActivityActivity.this, PopularPageActivity.class);
 			startActivity(checkPopular);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		}
 	}

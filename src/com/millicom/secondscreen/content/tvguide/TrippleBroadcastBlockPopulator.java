@@ -175,7 +175,6 @@ public class TrippleBroadcastBlockPopulator {
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
 					mActivity.finish();
 					mActivity.startActivity(intent);
-					mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 				}
 			});
 		}
@@ -235,7 +234,6 @@ public class TrippleBroadcastBlockPopulator {
 					intent.putExtra(Consts.INTENT_EXTRA_REPEATING_PROGRAM, program);
 					intent.putExtra(Consts.INTENT_EXTRA_RUNNING_BROADCAST, mRunningBroadcast);
 					mActivity.startActivity(intent);
-					mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 				}
 			});
 		}

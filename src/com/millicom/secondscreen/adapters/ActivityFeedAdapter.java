@@ -296,7 +296,6 @@ public class ActivityFeedAdapter extends BaseAdapter {
 		intent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
 
 		mActivity.startActivity(intent);
-		mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 	}
 
 	@Override
@@ -490,7 +489,6 @@ public class ActivityFeedAdapter extends BaseAdapter {
 							intent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
 
 							mActivity.startActivityForResult(intent, 0);
-							mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
 						}
 					});

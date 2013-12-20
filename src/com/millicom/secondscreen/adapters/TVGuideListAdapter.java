@@ -122,7 +122,6 @@ public class TVGuideListAdapter extends BaseAdapter {
 				intent.putExtra(Consts.INTENT_EXTRA_TV_GUIDE_HOUR, mHour);
 
 				mActivity.startActivity(intent);
-				mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			}
 		});
 

@@ -43,7 +43,7 @@ public class SearchPageActivity extends ActionBarActivity {
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		overridePendingTransition(R.anim.push_right_out, R.anim.push_right_in);
+		
 		finish();
 	}
 

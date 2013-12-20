@@ -292,7 +292,7 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, mTvDateSelected.getDate());
 
 				startActivity(intent);
-				overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+				
 			}
 		});
 	}
@@ -309,7 +309,7 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		overridePendingTransition(R.anim.push_right_out, R.anim.push_right_in);
+		
 		finish();
 	}
 
@@ -335,7 +335,7 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 		// case R.id.menu_search:
 		// Intent toSearchPage = new Intent(ChannelPageActivity.this, SearchPageActivity.class);
 		// startActivity(toSearchPage);
-		// overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+		// 
 		// return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -352,19 +352,16 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intentHome);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
 		case R.id.show_activity:
 			// tab to activity page
 			Intent intentActivity = new Intent(ChannelPageActivity.this, ActivityActivity.class);
 			startActivity(intentActivity);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
 		case R.id.show_me:
 			// tab to activity page
 			Intent intentMe = new Intent(ChannelPageActivity.this, MyProfileActivity.class);
 			startActivity(intentMe);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
 		}
 	}

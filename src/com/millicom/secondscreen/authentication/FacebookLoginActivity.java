@@ -139,14 +139,12 @@ public class FacebookLoginActivity extends ActionBarActivity {
 								// // go to facebook dazoo login success page
 								// Intent intent = new Intent(FacebookLoginActivity.this, FacebookDazooLoginActivity.class);
 								// startActivity(intent);
-								// overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 								// //finish();
 								// } else {
 								// returning client
 								// go to start page
 								Intent intent = new Intent(FacebookLoginActivity.this, HomeActivity.class);
 								startActivity(intent);
-								overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 								finish();
 								// }
 							}
@@ -158,7 +156,6 @@ public class FacebookLoginActivity extends ActionBarActivity {
 			} else if (state.isClosed()) {
 				Intent intent = new Intent(FacebookLoginActivity.this, HomeActivity.class);
 				startActivity(intent);
-				overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 				finish();
 			}
 		}

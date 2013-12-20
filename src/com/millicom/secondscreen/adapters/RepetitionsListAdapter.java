@@ -230,7 +230,6 @@ public class RepetitionsListAdapter extends BaseAdapter {
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
 
 					mActivity.startActivity(intent);
-					mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
 				}
 			});

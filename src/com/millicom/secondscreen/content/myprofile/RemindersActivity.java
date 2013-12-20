@@ -122,7 +122,7 @@ public class RemindersActivity extends SSActivity implements RemindersCountInter
 			returnIntent.putExtra(Consts.INFO_UPDATE_REMINDERS_NUMBER, mCount);
 		}
 		super.onBackPressed();
-		overridePendingTransition(R.anim.push_right_out, R.anim.push_right_in);
+		
 		finish();
 	}
 
@@ -142,13 +142,13 @@ public class RemindersActivity extends SSActivity implements RemindersCountInter
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intentHome);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		case R.id.show_activity:
 			// tab to home page
 			Intent intentActivity = new Intent(RemindersActivity.this, ActivityActivity.class);
 			startActivity(intentActivity);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		case R.id.show_me:
 			// tab to my profile page
@@ -158,7 +158,7 @@ public class RemindersActivity extends SSActivity implements RemindersCountInter
 				returnIntent.putExtra(Consts.INFO_UPDATE_REMINDERS_NUMBER, mCount);
 			}
 			finish();
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		}
 	}

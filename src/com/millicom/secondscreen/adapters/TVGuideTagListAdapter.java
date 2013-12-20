@@ -187,7 +187,6 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, mDate.getDate());
 
 					mActivity.startActivity(intent);
-					mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 				}
 			});
 		} else {

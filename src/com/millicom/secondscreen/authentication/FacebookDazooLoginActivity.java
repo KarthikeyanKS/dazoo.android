@@ -63,7 +63,6 @@ public class FacebookDazooLoginActivity extends ActionBarActivity implements OnC
 		case R.id.facebook_dazoo_set_channels_container:
 			Intent intent = new Intent(FacebookDazooLoginActivity.this, MyChannelsActivity.class);
 			startActivity(intent);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
 		case R.id.facebook_dazoo_connect_with_friends_container:
 			// NOT IN IN MVP
@@ -76,7 +75,6 @@ public class FacebookDazooLoginActivity extends ActionBarActivity implements OnC
 			// go directly to Start page
 			Intent intentHome = new Intent(FacebookDazooLoginActivity.this, HomeActivity.class);
 			startActivity(intentHome);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			finish();
 			break;
 		}

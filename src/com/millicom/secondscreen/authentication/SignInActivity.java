@@ -54,7 +54,6 @@ public class SignInActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				Intent intent = new Intent(SignInActivity.this, FacebookLoginActivity.class);
 				startActivity(intent);
-				overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 				finish();
 			}
 		});
@@ -66,7 +65,6 @@ public class SignInActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
 				startActivity(intent);
-				overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			}
 		});
 
@@ -77,7 +75,6 @@ public class SignInActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				Intent intent = new Intent(SignInActivity.this, DazooLoginActivity.class);
 				startActivity(intent);
-				overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			}
 		});
 	}
@@ -85,7 +82,6 @@ public class SignInActivity extends ActionBarActivity {
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		overridePendingTransition(R.anim.push_right_out, R.anim.push_right_in);
 		finish();
 	}
 }

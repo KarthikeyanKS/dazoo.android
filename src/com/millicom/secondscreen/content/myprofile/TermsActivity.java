@@ -80,7 +80,7 @@ public class TermsActivity extends SSActivity implements OnClickListener {
 			setResult(Consts.INFO_UPDATE_LOGOUT, mIntent);
 		}
 		super.onBackPressed();
-		overridePendingTransition(R.anim.push_right_out, R.anim.push_right_in);
+		
 		finish();
 	}
 
@@ -100,18 +100,18 @@ public class TermsActivity extends SSActivity implements OnClickListener {
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intentHome);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		case R.id.show_activity:
 			// tab to home page
 			Intent intentActivity = new Intent(TermsActivity.this, ActivityActivity.class);
 			startActivity(intentActivity);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		case R.id.show_me:
 			Intent intentMe = new Intent(TermsActivity.this, MyProfileActivity.class);
 			startActivity(intentMe);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+			
 			break;
 		}
 	}

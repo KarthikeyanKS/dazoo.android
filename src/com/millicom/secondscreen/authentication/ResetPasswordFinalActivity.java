@@ -57,7 +57,6 @@ public class ResetPasswordFinalActivity extends ActionBarActivity implements OnC
 		case R.id.resetpassword_already_login_btn:
 			Intent intentSignIn = new Intent(ResetPasswordFinalActivity.this, SignInActivity.class);
 			startActivity(intentSignIn);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			break;
 		}
 

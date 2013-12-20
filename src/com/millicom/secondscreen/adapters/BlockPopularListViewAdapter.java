@@ -122,7 +122,6 @@ public class BlockPopularListViewAdapter extends BaseAdapter {
 				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
 
 				mActivity.startActivity(intent);
-				mActivity.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			}
 		});
 
