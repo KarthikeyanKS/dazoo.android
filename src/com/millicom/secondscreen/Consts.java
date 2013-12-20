@@ -43,7 +43,7 @@ public abstract class Consts {
 	public static final String MILLICOM_SECONDSCREEN_DATES_PAGE_URL 						= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/dates";
 	public static final String MILLICOM_SECONDSCREEN_CHANNELS_ALL_PAGE_URL 					= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/channels";
 	public static final String MILLICOM_SECONDSCREEN_CHANNELS_DEFAULT_PAGE_URL 				= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/channels/default";
-	public static final String MILLICOM_SECONDSCREEN_FACEBOOK_TOKEN_URL 					= MILLICOM_SECONDSCREEN_SERVER_URL + "auth/login/facebook";
+	public static final String MILLICOM_SECONDSCREEN_FACEBOOK_TOKEN_URL 					= MILLICOM_SECONDSCREEN_SERVER_URL_SECURE + "auth/login/facebook";
 	public static final String MILLICOM_SECONDSCREEN_DAZOO_LOGIN_URL 						= MILLICOM_SECONDSCREEN_SERVER_URL_SECURE + "auth/login/dazoo";
 	public static final String MILLICOM_SECONDSCREEN_DAZOO_REGISTER_URL 					= MILLICOM_SECONDSCREEN_SERVER_URL_SECURE + "auth/login/dazoo/register";
 	public static final String MILLICOM_SECONDSCREEN_RESET_PASSWORD_URL 					= MILLICOM_SECONDSCREEN_SERVER_URL_SECURE + "auth/login/dazoo/sendResetPasswordEmail";
