@@ -2,6 +2,7 @@ package com.millicom.secondscreen.content.tvguide;
 
 import java.util.ArrayList;
 
+import android.R.integer;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
@@ -31,13 +32,19 @@ public class TrippleBroadcastBlockPopulator {
 	private Activity mActivity;
 	private ScrollView mContainerView;
 	private int mNotificationId = -1;
+	private int mPosNotificationId[] = new int[3];
 	private NotificationDataSource mNotificationDataSource;
 	private ImageView mReminderImageView;
+	private ImageView mReminderOneImageView;
+	private ImageView mReminderTwoImageView;
+	private ImageView mReminderThreeImageView;
 	private String mTvDate;
 	private Broadcast mRunningBroadcast;
 	private ArrayList<Broadcast> mBroadcasts;
-
 	private boolean mIsSet;
+	private boolean mPosIsSet[] = new boolean[3];
+	
+	private int reminderPosition;
 	
 	/* If false, then block populator is used for upcoming episodes */
 	private boolean mUsedForRepetitions;
@@ -61,16 +68,19 @@ public class TrippleBroadcastBlockPopulator {
 					mContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_one);
 					mDivider = (View) topContentView.findViewById(R.id.block_tripple_broadcast_one_bottom_divider);
 					mDivider.setVisibility(View.VISIBLE);
+					mReminderOneImageView = (ImageView) mContainer.findViewById(R.id.block_tripple_broadcast_addreminder);
 					break;
 				}
 				case 1: {
 					mContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_two);
 					mDivider = (View) topContentView.findViewById(R.id.block_tripple_broadcast_two_bottom_divider);
 					mDivider.setVisibility(View.VISIBLE);
+					mReminderTwoImageView = (ImageView) mContainer.findViewById(R.id.block_tripple_broadcast_addreminder);
 					break;
 				}
 				case 2: {
 					mContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_three);
+					mReminderThreeImageView = (ImageView) mContainer.findViewById(R.id.block_tripple_broadcast_addreminder);
 				}
 			}
 
@@ -115,10 +125,14 @@ public class TrippleBroadcastBlockPopulator {
 				dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
 				if (dbItem.getNotificationId() != 0) {
 					mIsSet = true;
+					mPosIsSet[position] = true;
 					mNotificationId = dbItem.getNotificationId();
+					mPosNotificationId[position] = dbItem.getNotificationId();
 				} else {
 					mIsSet = false;
+					mPosIsSet[position] = false;
 					mNotificationId = -1;
+					mPosNotificationId[position] = -1;
 				}
 
 				if (mIsSet) {
@@ -134,8 +148,18 @@ public class TrippleBroadcastBlockPopulator {
 
 				@Override
 				public void onClick(View v) {
-					Toast.makeText(mActivity, "" + position, Toast.LENGTH_LONG).show();
 					if (!broadcast.hasStarted()) {
+						if (position == 0) {
+							mReminderImageView = mReminderOneImageView;
+						}
+						else if (position == 1) {
+							mReminderImageView = mReminderTwoImageView;
+						}
+						else if (position == 2) {
+							mReminderImageView = mReminderThreeImageView;
+						}
+						mIsSet = mPosIsSet[position];
+						mNotificationId = mPosNotificationId[position];
 						if (mIsSet == false) {
 							if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), mTvDate)) {
 								BroadcastPageActivity.toast = NotificationService.showSetNotificationToast(mActivity);
@@ -145,16 +169,19 @@ public class TrippleBroadcastBlockPopulator {
 								dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
 
 								mNotificationId = dbItem.getNotificationId();
+								mPosNotificationId[position] = dbItem.getNotificationId();
 
 								AnimationUtilities.animationSet(mReminderImageView);
 
 								mIsSet = true;
+								mPosIsSet[position] = true;
 							} else {
 								// Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
 								Log.d(mTag, "!!! Setting notification faced an error !!!");
 							}
 						} else {
 							if (mNotificationId != -1) {
+								reminderPosition = position;
 								if (BroadcastPageActivity.toast != null) {
 									BroadcastPageActivity.toast.cancel();
 								}
@@ -259,6 +286,9 @@ public class TrippleBroadcastBlockPopulator {
 			public void run() {
 				mReminderImageView.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 				mIsSet = false;
+				mPosIsSet[reminderPosition] = false;
+				mPosNotificationId[reminderPosition] = -1;
+				mNotificationId = -1;
 			}
 		};
 	}
