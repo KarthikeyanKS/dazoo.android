@@ -37,7 +37,8 @@ public abstract class Consts {
 	public static final String MILLICON_SECONDSCREEN_BASE_API_URL_USED 						= MILLICOM_SECONDSCREEN_GITR_BASE_URL;
 	public static final String MILLICOM_SECONDSCREEN_SERVER_URL_SECURE 						= MILLICON_SECONDSCREEN_HTTPS_SCHEME + MILLICON_SECONDSCREEN_BASE_API_URL_USED;
 	public static final String MILLICOM_SECONDSCREEN_SERVER_URL								= MILLICON_SECONDSCREEN_HTTP_SCHEME + MILLICON_SECONDSCREEN_BASE_API_URL_USED;
-	public static String 	   MILLICOM_SECONDSCREEN_TRACKING_URL 							= MILLICON_SECONDSCREEN_HTTP_SCHEME + "tracking.mi.tv/track/unique?verb=views&key=program_id&value=%s&uid=%s";
+	public static String 	   MILLICOM_SECONDSCREEN_TRACKING_URL 							= MILLICON_SECONDSCREEN_HTTP_SCHEME + "tracking.gitrgitr.com/track/unique?verb=views&key=program_id&value=%s&uid=%s";
+//	public static String 	   MILLICOM_SECONDSCREEN_TRACKING_URL 							= MILLICON_SECONDSCREEN_HTTP_SCHEME + "tracking.mi.tv/track/unique?verb=views&key=program_id&value=%s&uid=%s";
 
 	public static final String MILLICOM_SECONDSCREEN_GUIDE_PAGE_URL 						= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/guide";
 	public static final String MILLICOM_SECONDSCREEN_DATES_PAGE_URL 						= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/dates";
