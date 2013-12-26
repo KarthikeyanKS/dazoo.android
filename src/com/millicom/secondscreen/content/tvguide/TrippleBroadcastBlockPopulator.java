@@ -43,9 +43,9 @@ public class TrippleBroadcastBlockPopulator {
 	private ArrayList<Broadcast> mBroadcasts;
 	private boolean mIsSet;
 	private boolean mPosIsSet[] = new boolean[3];
-	
+
 	private int reminderPosition;
-	
+
 	/* If false, then block populator is used for upcoming episodes */
 	private boolean mUsedForRepetitions;
 
@@ -64,24 +64,24 @@ public class TrippleBroadcastBlockPopulator {
 			LinearLayout mContainer = null;
 			View mDivider = null;
 			switch (position) {
-				case 0: {
-					mContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_one);
-					mDivider = (View) topContentView.findViewById(R.id.block_tripple_broadcast_one_bottom_divider);
-					mDivider.setVisibility(View.VISIBLE);
-					mReminderOneImageView = (ImageView) mContainer.findViewById(R.id.block_tripple_broadcast_addreminder);
-					break;
-				}
-				case 1: {
-					mContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_two);
-					mDivider = (View) topContentView.findViewById(R.id.block_tripple_broadcast_two_bottom_divider);
-					mDivider.setVisibility(View.VISIBLE);
-					mReminderTwoImageView = (ImageView) mContainer.findViewById(R.id.block_tripple_broadcast_addreminder);
-					break;
-				}
-				case 2: {
-					mContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_three);
-					mReminderThreeImageView = (ImageView) mContainer.findViewById(R.id.block_tripple_broadcast_addreminder);
-				}
+			case 0: {
+				mContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_one);
+				mDivider = (View) topContentView.findViewById(R.id.block_tripple_broadcast_one_bottom_divider);
+				mDivider.setVisibility(View.VISIBLE);
+				mReminderOneImageView = (ImageView) mContainer.findViewById(R.id.block_tripple_broadcast_addreminder);
+				break;
+			}
+			case 1: {
+				mContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_two);
+				mDivider = (View) topContentView.findViewById(R.id.block_tripple_broadcast_two_bottom_divider);
+				mDivider.setVisibility(View.VISIBLE);
+				mReminderTwoImageView = (ImageView) mContainer.findViewById(R.id.block_tripple_broadcast_addreminder);
+				break;
+			}
+			case 2: {
+				mContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_three);
+				mReminderThreeImageView = (ImageView) mContainer.findViewById(R.id.block_tripple_broadcast_addreminder);
+			}
 			}
 
 			TextView mSeasonEpisodeTv = (TextView) mContainer.findViewById(R.id.block_tripple_broadcast_season_episode);
@@ -100,7 +100,7 @@ public class TrippleBroadcastBlockPopulator {
 
 			mTitleTimeTv.setText(broadcast.getDayOfWeekWithTimeString());
 			mChannelTv.setText(broadcast.getChannel().getName());
-			
+
 			if (!mUsedForRepetitions) {
 				Program programLocal = broadcast.getProgram();
 				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programLocal.getProgramType())) {
@@ -187,7 +187,7 @@ public class TrippleBroadcastBlockPopulator {
 								}
 								NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
 								notificationDlg
-										.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId, yesNotificationProc(), noNotificationProc());
+								.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId, yesNotificationProc(), noNotificationProc());
 							} else {
 								// Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
 								Log.d(mTag, "!!! Could not find such reminder in DB !!!");
@@ -238,7 +238,7 @@ public class TrippleBroadcastBlockPopulator {
 		View topContentView = LayoutInflater.from(mActivity).inflate(R.layout.block_broadcastpage_upcoming_or_repetition_layout, null);
 
 		TextView title = (TextView) topContentView.findViewById(R.id.block_tripple_broadcast_title_textview);
-		
+
 		String titleString = null;
 		if(mUsedForRepetitions) {
 			titleString = mActivity.getResources().getString(R.string.repetitions);
@@ -262,11 +262,19 @@ public class TrippleBroadcastBlockPopulator {
 
 				@Override
 				public void onClick(View v) {
-					Intent intent = new Intent(mActivity, RepetitionsPageActivity.class);
-					intent.putParcelableArrayListExtra(Consts.INTENT_EXTRA_REPEATING_BROADCASTS, repeatingBroadcasts);
-					intent.putExtra(Consts.INTENT_EXTRA_REPEATING_PROGRAM, program);
-					intent.putExtra(Consts.INTENT_EXTRA_RUNNING_BROADCAST, mRunningBroadcast);
-					mActivity.startActivity(intent);
+					if (mUsedForRepetitions) {
+						Intent intent = new Intent(mActivity, RepetitionsPageActivity.class);
+						intent.putParcelableArrayListExtra(Consts.INTENT_EXTRA_REPEATING_BROADCASTS, repeatingBroadcasts);
+						intent.putExtra(Consts.INTENT_EXTRA_REPEATING_PROGRAM, program);
+						intent.putExtra(Consts.INTENT_EXTRA_RUNNING_BROADCAST, mRunningBroadcast);
+						mActivity.startActivity(intent);
+					}
+					else {
+						Intent intent = new Intent(mActivity, UpcomingeEpisodesPageActivity.class);
+						intent.putParcelableArrayListExtra(Consts.INTENT_EXTRA_UPCOMING_BROADCASTS, repeatingBroadcasts);
+						intent.putExtra(Consts.INTENT_EXTRA_RUNNING_BROADCAST, mRunningBroadcast);
+						mActivity.startActivity(intent);
+					}
 				}
 			});
 		}

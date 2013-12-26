@@ -37,14 +37,20 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 	private Activity				mActivity;
 	private ArrayList<Broadcast>	mUpcomingEpisodes;
 	private NotificationDataSource	mNotificationDataSource;
-	private int						mLastPosition	= -1, mNotificationId = -1;
-	private boolean					mIsSet			= false, mIsFuture = false;
+	private int						mLastPosition	= -1;
+	private int 					mNotificationId = -1;
+	private int 					mPosNotificationId[];
+	private boolean					mIsSet = false;
+	private boolean 				mPosIsSet[];
 	private Broadcast				mRunningBroadcast;
 
 	private DazooStore				dazooStore;
 	private ArrayList<TvDate>		mTvDates;
+	
+	private int reminderPosition;
 
 	public UpcomingEpisodesListAdapter(Activity activity, ArrayList<Broadcast> upcomingBroadcasts, Broadcast runningBroadcast) {
+		
 		boolean foundRunningBroadcast = false;
 		int indexOfRunningBroadcast = 0;
 		for (int i = 0; i < upcomingBroadcasts.size(); ++i) {
@@ -67,6 +73,9 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 
 		dazooStore = DazooStore.getInstance();
 		mTvDates = dazooStore.getTvDates();
+		
+		mPosIsSet = new boolean[getCount()];
+		mPosNotificationId = new int[getCount()];
 	}
 
 	@Override
@@ -89,7 +98,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 
 		final Broadcast broadcast = getItem(position);
@@ -172,10 +181,14 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 				dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
 				if (dbItem.getNotificationId() != 0) {
 					mIsSet = true;
+					mPosIsSet[position] = true;
 					mNotificationId = dbItem.getNotificationId();
+					mPosNotificationId[position] = dbItem.getNotificationId();
 				} else {
 					mIsSet = false;
+					mPosIsSet[position] = false;
 					mNotificationId = -1;
+					mPosNotificationId[position] = -1;
 				}
 
 				if (mIsSet) holder.mReminderIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
@@ -188,6 +201,8 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 
 				@Override
 				public void onClick(View v) {
+					mIsSet = mPosIsSet[position];
+					mNotificationId = mPosNotificationId[position];
 					if (!broadcast.hasStarted()) {
 						if (mIsSet == false) {
 							if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), broadcast.getTvDateString())) {
@@ -198,16 +213,19 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 								dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
 
 								mNotificationId = dbItem.getNotificationId();
+								mPosNotificationId[position] = dbItem.getNotificationId();
 
 								AnimationUtilities.animationSet(holder.mReminderIv);
 
 								mIsSet = true;
+								mPosIsSet[position] = true;
 							} else {
 								// Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
 								Log.d(TAG, "!!! Setting notification faced an error !!!");
 							}
 						} else {
 							if (mNotificationId != -1) {
+								reminderPosition = position;
 								NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
 								notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId, yesNotificationProc(holder.mReminderIv), noNotificationProc());
 							} else {
@@ -261,6 +279,9 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 			public void run() {
 				view.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 				mIsSet = false;
+				mPosIsSet[reminderPosition] = false;
+				mPosNotificationId[reminderPosition] = -1;
+				mNotificationId = -1;
 			}
 		};
 	}
