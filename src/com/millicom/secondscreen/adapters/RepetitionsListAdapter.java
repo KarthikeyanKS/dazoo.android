@@ -37,9 +37,11 @@ public class RepetitionsListAdapter extends BaseAdapter {
 	private Activity				mActivity;
 	private ArrayList<Broadcast>	mRepeatingEpisodes;
 	private NotificationDataSource	mNotificationDataSource;
-	private int						mLastPosition	= -1, mNotificationId = -1;
+	private int						mLastPosition	= -1;
+	private int 					mNotificationId = -1;
+	private int 					mPosNotificationId[];
 	private boolean					mIsSet			= false;
-	private boolean mPosIsSet[];
+	private boolean 				mPosIsSet[];
 	private Program					mProgram;
 	private Broadcast 				mRunningBroadcast;
 	private DazooStore				dazooStore;
@@ -75,6 +77,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 		mTvDates = dazooStore.getTvDates();
 		
 		mPosIsSet = new boolean[getCount()];
+		mPosNotificationId = new int[getCount()];
 	}
 
 	@Override
@@ -178,10 +181,12 @@ public class RepetitionsListAdapter extends BaseAdapter {
 					mIsSet = true;
 					mPosIsSet[position] = true;
 					mNotificationId = dbItem.getNotificationId();
+					mPosNotificationId[position] = dbItem.getNotificationId();
 				} else {
 					mIsSet = false;
 					mPosIsSet[position] = false;
 					mNotificationId = -1;
+					mPosNotificationId[position] = -1;
 				}
 
 				if (mIsSet) holder.mReminderIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
@@ -195,6 +200,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 				@Override
 				public void onClick(View v) {
 					mIsSet = mPosIsSet[position];
+					mNotificationId = mPosNotificationId[position];
 					if (!broadcast.hasStarted()) {
 						if (mIsSet == false) {
 							if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), broadcast.getTvDateString())) {
@@ -205,6 +211,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 								dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
 
 								mNotificationId = dbItem.getNotificationId();
+								mPosNotificationId[position] = dbItem.getNotificationId();
 
 								AnimationUtilities.animationSet(holder.mReminderIv);
 
@@ -259,6 +266,8 @@ public class RepetitionsListAdapter extends BaseAdapter {
 				view.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 				mIsSet = false;
 				mPosIsSet[reminderPosition] = false;
+				mPosNotificationId[reminderPosition] = -1;
+				mNotificationId = -1;
 			}
 		};
 	}
