@@ -39,10 +39,13 @@ public class RepetitionsListAdapter extends BaseAdapter {
 	private NotificationDataSource	mNotificationDataSource;
 	private int						mLastPosition	= -1, mNotificationId = -1;
 	private boolean					mIsSet			= false;
+	private boolean mPosIsSet[];
 	private Program					mProgram;
 	private Broadcast 				mRunningBroadcast;
 	private DazooStore				dazooStore;
 	private ArrayList<TvDate>		mTvDates;
+	
+	private int reminderPosition;
 
 	public RepetitionsListAdapter(Activity activity, ArrayList<Broadcast> repeatingBroadcasts, Program program, Broadcast runningBroadcast) {
 		
@@ -70,6 +73,8 @@ public class RepetitionsListAdapter extends BaseAdapter {
 
 		dazooStore = DazooStore.getInstance();
 		mTvDates = dazooStore.getTvDates();
+		
+		mPosIsSet = new boolean[getCount()];
 	}
 
 	@Override
@@ -92,7 +97,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 
 		final Broadcast broadcast = getItem(position);
@@ -171,9 +176,11 @@ public class RepetitionsListAdapter extends BaseAdapter {
 				dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
 				if (dbItem.getNotificationId() != 0) {
 					mIsSet = true;
+					mPosIsSet[position] = true;
 					mNotificationId = dbItem.getNotificationId();
 				} else {
 					mIsSet = false;
+					mPosIsSet[position] = false;
 					mNotificationId = -1;
 				}
 
@@ -187,6 +194,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 
 				@Override
 				public void onClick(View v) {
+					mIsSet = mPosIsSet[position];
 					if (!broadcast.hasStarted()) {
 						if (mIsSet == false) {
 							if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), broadcast.getTvDateString())) {
@@ -201,12 +209,14 @@ public class RepetitionsListAdapter extends BaseAdapter {
 								AnimationUtilities.animationSet(holder.mReminderIv);
 
 								mIsSet = true;
+								mPosIsSet[position] = true;
 							} else {
 								// Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
 								Log.d(TAG, "!!! Setting notification faced an error !!!");
 							}
 						} else {
 							if (mNotificationId != -1) {
+								reminderPosition = position;
 								NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
 								notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId, yesNotificationProc(holder.mReminderIv), noNotificationProc());
 							} else {
@@ -248,6 +258,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 			public void run() {
 				view.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 				mIsSet = false;
+				mPosIsSet[reminderPosition] = false;
 			}
 		};
 	}

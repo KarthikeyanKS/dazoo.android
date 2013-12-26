@@ -162,6 +162,9 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 			if (DazooStore.getInstance().getLikeIds() != null && DazooStore.getInstance().getLikeIds().isEmpty() != true) {
 				mLikesCountTextView.setText("(" + String.valueOf(DazooStore.getInstance().getLikeIds().size()) + ")");
 			}
+			else {
+				mLikesCountTextView.setText("(0)");
+			}
 
 			mMyChannelsTextView.setText(getResources().getString(R.string.icon_blocks) + " " + getResources().getString(R.string.my_channels));
 			if (DazooStore.getInstance().getAllChannelIds() != null && DazooStore.getInstance().getAllChannelIds().isEmpty() != true) {
