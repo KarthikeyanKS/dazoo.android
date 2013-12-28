@@ -192,6 +192,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_below="@id/block_broadcastpage_broadcast_channel_time_container"
+                android:layout_marginBottom="10dp"
                 android:background="@color/grey1" />
 
             <!-- SYNOPSIS -->
@@ -202,11 +203,11 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/divider"
                 android:layout_gravity="left"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
+				android:layout_marginBottom="10dp"
                 android:lineSpacingExtra="2sp"
                 android:textColor="@color/black"
                 android:textSize="@dimen/ingress"
+                android:visibility="gone"
                 font:fonttextview="fontello.ttf" />
 
             <com.millicom.secondscreen.customviews.FontTextView

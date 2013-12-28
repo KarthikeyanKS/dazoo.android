@@ -122,9 +122,13 @@ public class BroadcastMainBlockPopulator {
 			mProgramId = broadcast.getProgram().getSportType().getSportTypeId();
 			mContentTitle = broadcast.getProgram().getSportType().getName();
 			titleTv.setText(program.getTitle());
-
-			episodeNameTv.setText(program.getSportType().getName());
-			episodeNameTv.setVisibility(View.VISIBLE);
+			if (program.getTournament() != null) {
+				episodeNameTv.setText(program.getTournament());
+				episodeNameTv.setVisibility(View.VISIBLE);
+			} else {
+				episodeNameTv.setText(program.getSportType().getName());
+				episodeNameTv.setVisibility(View.VISIBLE);
+			}
 		} else {
 			mContentTitle = broadcast.getProgram().getTitle();
 			mProgramId = broadcast.getProgram().getProgramId();
@@ -199,7 +203,11 @@ public class BroadcastMainBlockPopulator {
 			timeTv.setText(broadcast.getDayOfWeekWithTimeString());
 		}
 
-		synopsisTv.setText(program.getSynopsisShort());
+		String synopsis = program.getSynopsisShort();
+		if (TextUtils.isEmpty(synopsis) == false) {
+			synopsisTv.setText(program.getSynopsisShort());
+			synopsisTv.setVisibility(View.VISIBLE);
+		}
 
 		String extras = "";
 		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
