@@ -315,6 +315,11 @@ public class Broadcast implements Parcelable {
 		else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
 			program.setCategory(item.getProgramCategory());
 		}
+		else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
+			SportType sportType = new SportType();
+			sportType.setName(item.getProgramCategory());
+			program.setSportType(sportType);
+		}
 
 		// program.setTags()
 

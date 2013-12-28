@@ -30,6 +30,8 @@ public class NotificationDialogHandler {
 			reminderText = context.getString(R.string.reminder_text_remove) + broadcast.getProgram().getTitle() + "?";
 		} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(broadcast.getProgram().getProgramType())) {
 			reminderText = context.getString(R.string.reminder_text_remove) + broadcast.getProgram().getTitle() + "?";
+		} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(broadcast.getProgram().getProgramType())) {
+			reminderText = context.getString(R.string.reminder_text_remove) + broadcast.getProgram().getTitle() + "?";
 		}
 
 		final Dialog dialog = new Dialog(context, R.style.remove_notification_dialog);

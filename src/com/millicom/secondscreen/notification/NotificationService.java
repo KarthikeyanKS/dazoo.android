@@ -127,6 +127,9 @@ public class NotificationService {
 			} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)){
 				dbNotification.setProgramType(programType);
 				dbNotification.setProgramCategory(broadcast.getProgram().getCategory());
+			} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
+				dbNotification.setProgramType(programType);
+				dbNotification.setProgramCategory(broadcast.getProgram().getSportType().getName());
 			}
 			
 			dbNotification.setChannelName(channel.getName());
@@ -229,7 +232,10 @@ public class NotificationService {
 			reminderText = context.getString(R.string.reminder_text_remove) + broadcast.getProgram().getTitle() + "?";
 		} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(broadcast.getProgram().getProgramType())) {
 			reminderText = context.getString(R.string.reminder_text_remove) + broadcast.getProgram().getTitle() + "?";
+		} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(broadcast.getProgram().getProgramType())) {
+			reminderText = context.getString(R.string.reminder_text_remove) + broadcast.getProgram().getTitle() + "?";
 		}
+
 
 		final Dialog dialog = new Dialog(context, R.style.remove_notification_dialog);
 		dialog.setContentView(R.layout.dialog_remove_notification);
