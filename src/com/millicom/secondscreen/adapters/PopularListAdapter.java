@@ -24,6 +24,7 @@ import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
 import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.DateUtilities;
+import com.millicom.secondscreen.utilities.ProgressBarUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -152,56 +153,7 @@ public class PopularListAdapter extends BaseAdapter {
 			holder.mChannelNameTv.setText(broadcast.getChannel().getName());
 
 			if (broadcast.isRunning()) {
-				holder.mProgressBar.setMax(broadcast.getDurationInMinutes() + 1);
-
-				// Calculate the current progress of the ProgressBar and update.
-				int initialProgress = 0;
-
-				if (broadcast.getTimeToBegin() > 0) {
-					holder.mProgressBar.setVisibility(View.GONE);
-					holder.mProgressBarTitleTv.setVisibility(View.GONE);
-					initialProgress = 0;
-					holder.mProgressBar.setProgress(0);
-				} else {
-
-					initialProgress = broadcast.minutesSinceStart();
-
-					int timeLeft = broadcast.getDurationInMinutes() - initialProgress;
-
-					// different representation of "X min left" for Spanish and all other languages
-					if (Locale.getDefault().getLanguage().endsWith("es")) {
-						if (timeLeft > 60) {
-							int hours = timeLeft / 60;
-							int minutes = timeLeft - hours * 60;
-							holder.mProgressBarTitleTv.setText(mActivity.getResources().getQuantityString(R.plurals.left, hours) + " " + hours + " " + 
-															   mActivity.getResources().getQuantityString(R.plurals.hour, hours) + " " + 
-															   mActivity.getResources().getString(R.string.and) + " " + minutes + " " + 
-															   mActivity.getResources().getString(R.string.minutes));
-						}
-						else {
-							holder.mProgressBarTitleTv.setText(mActivity.getResources().getString(R.string.left) + " " + String.valueOf(timeLeft) + " " + 
-															   mActivity.getResources().getString(R.string.minutes));
-						}
-					} 
-					else {
-						if (timeLeft > 60) {
-							int hours = timeLeft / 60;
-							int minutes = timeLeft - hours * 60;
-							holder.mProgressBarTitleTv.setText(hours + " " + mActivity.getResources().getQuantityString(R.plurals.hour, hours) + " " + 
-															   mActivity.getResources().getString(R.string.and) + " " + minutes + " " + 
-															   mActivity.getResources().getString(R.string.minutes) + " " + 
-															   mActivity.getResources().getString(R.string.left));
-						}
-						else {
-							holder.mProgressBarTitleTv.setText(timeLeft + " " + mActivity.getResources().getString(R.string.minutes) + " " + 
-															   mActivity.getResources().getString(R.string.left));
-						}
-					}
-
-					holder.mProgressBar.setProgress(initialProgress + 1);
-					holder.mProgressBar.setVisibility(View.VISIBLE);
-					holder.mProgressBarTitleTv.setVisibility(View.VISIBLE);
-				}
+				ProgressBarUtils.setupProgressBar(mActivity, broadcast, holder.mProgressBar, holder.mProgressBarTitleTv);
 			} else {
 				holder.mProgressBar.setVisibility(View.GONE);
 				holder.mProgressBarTitleTv.setVisibility(View.GONE);

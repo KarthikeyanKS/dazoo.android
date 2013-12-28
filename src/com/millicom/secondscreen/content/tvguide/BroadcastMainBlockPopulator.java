@@ -29,6 +29,7 @@ import com.millicom.secondscreen.notification.NotificationService;
 import com.millicom.secondscreen.share.ShareAction;
 import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.AnimationUtilities;
+import com.millicom.secondscreen.utilities.ProgressBarUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -148,55 +149,8 @@ public class BroadcastMainBlockPopulator {
 
 		// broadcast is currently on air: show progress
 		if (broadcast.isRunning()) {
-
-			progressBar.setMax(broadcast.getDurationInMinutes() + 1);
-
-			// Calculate the current progress of the ProgressBar and update.
-			int initialProgress = 0;
-
-			/* This should never be the case? */
-			if (broadcast.getTimeToBegin() > 0) {
-				initialProgress = 0;
-				progressBar.setProgress(0);
-			} 
-			else {
-				initialProgress = broadcast.minutesSinceStart();
-				int timeLeft = broadcast.getDurationInMinutes() - initialProgress;
-
-				// different representation of "X min left" for Spanish and all other languages
-				if (Locale.getDefault().getLanguage().endsWith("es")) {
-					if (timeLeft > 60) {
-						int hours = timeLeft / 60;
-						int minutes = timeLeft - hours * 60;
-						progressTxt.setText(mActivity.getResources().getQuantityString(R.plurals.left, hours) + " " + hours + " " + 
-											mActivity.getResources().getQuantityString(R.plurals.hour, hours) + " " + 
-											mActivity.getResources().getString(R.string.and) + " " + minutes + " " + 
-											mActivity.getResources().getString(R.string.minutes));
-					}
-					else {
-						progressTxt.setText(mActivity.getResources().getString(R.string.left) + " " + String.valueOf(timeLeft) + " " + 
-											mActivity.getResources().getString(R.string.minutes));
-					}
-				} 
-				else {
-					if (timeLeft > 60) {
-						int hours = timeLeft / 60;
-						int minutes = timeLeft - hours * 60;
-						progressTxt.setText(hours + " " + mActivity.getResources().getQuantityString(R.plurals.hour, hours) + " " + 
-											mActivity.getResources().getString(R.string.and) + " " + minutes + " " + 
-											mActivity.getResources().getString(R.string.minutes) + " " + 
-											mActivity.getResources().getString(R.string.left));
-					}
-					else {
-						progressTxt.setText(timeLeft + " " + mActivity.getResources().getString(R.string.minutes) + " " + 
-											mActivity.getResources().getString(R.string.left));
-					}
-				}
-				progressBar.setProgress(initialProgress + 1);
-				progressTxt.setVisibility(View.VISIBLE);
-				progressBar.setVisibility(View.VISIBLE);
-				timeTv.setVisibility(View.GONE);
-			}
+			ProgressBarUtils.setupProgressBar(mActivity, broadcast, progressBar, progressTxt);
+			timeTv.setVisibility(View.GONE);
 		}
 		// broadcast is in the future: show time
 		else {
@@ -209,10 +163,11 @@ public class BroadcastMainBlockPopulator {
 			synopsisTv.setVisibility(View.VISIBLE);
 		}
 
+		int duration = broadcast.getDurationInMinutes();
 		String extras = "";
 		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 			extras = mActivity.getResources().getString(R.string.tv_series) + "   " + ((program.getYear() == 0) ? "" : String.valueOf(program.getYear()) + "  ")
-					+ ((broadcast.getDurationInMinutes() == 0) ? "" : broadcast.getDurationInMinutes() + " " + mActivity.getResources().getString(R.string.minutes))
+					+ ((duration == 0) ? "" : duration + " " + mActivity.getResources().getString(R.string.minutes))
 					+ ((program.getGenre() == null) ? "" : ("\n" + program.getGenre()));
 		} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
 			// TODO: Set the movie icon
@@ -221,15 +176,15 @@ public class BroadcastMainBlockPopulator {
 				year = "";
 			}
 			extras = mActivity.getResources().getString(R.string.movie) + "  " + ((program.getYear() == 0) ? "" : String.valueOf(program.getYear()) + "  ")
-					+ ((broadcast.getDurationInMinutes() == 0) ? "" : broadcast.getDurationInMinutes() + "  " + mActivity.getResources().getString(R.string.minutes))
+					+ ((duration == 0) ? "" : duration + "  " + mActivity.getResources().getString(R.string.minutes))
 					+ ((program.getGenre() == null) ? "" : ("\n" + program.getGenre()));
 		} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
-			extras = program.getCategory() + " " + ((broadcast.getDurationInMinutes() == 0) ? "" : broadcast.getDurationInMinutes() + " " + mActivity.getResources().getString(R.string.minutes)) + "   "
+			extras = program.getCategory() + " " + ((duration == 0) ? "" : duration + " " + mActivity.getResources().getString(R.string.minutes)) + "   "
 					+ ((program.getGenre() == null) ? "" : ("\n" + program.getGenre()));
 		} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
 			// TODO: Set live icon if live
 			extras = mActivity.getResources().getString(R.string.sport) + "  " + program.getSportType().getName() + "  "
-					+ ((broadcast.getDurationInMinutes() == 0) ? "" : broadcast.getDurationInMinutes() + " " + mActivity.getResources().getString(R.string.minutes));
+					+ ((duration == 0) ? "" : duration + " " + mActivity.getResources().getString(R.string.minutes));
 		}
 		extraTv.setText(extras);
 		extraTv.setVisibility(View.VISIBLE);

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.content.model.Broadcast;
+import com.millicom.secondscreen.utilities.ProgressBarUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -101,52 +102,8 @@ public class ChannelPageListAdapter extends BaseAdapter {
 				// MC - Set the image for current broadcast.
 				ImageAware imageAware = new ImageViewAware(holder.mIconIv, false);
 				ImageLoader.getInstance().displayImage(broadcast.getProgram().getLandLUrl(), imageAware);
-				// MC - Calculate the duration of the program and set up ProgressBar.
-				holder.mDurationPb.setMax(broadcast.getDurationInMinutes() + 1);
-
-				// MC - Calculate the current progress of the ProgressBar and update.
-				int initialProgress = 0;
-				if (timeToBegin > 0) {
-					holder.mDurationPb.setVisibility(View.GONE);
-					initialProgress = 0;
-					holder.mDurationPb.setProgress(0);
-				} else {
-					initialProgress = broadcast.minutesSinceStart();
-
-					int timeLeft = broadcast.getDurationInMinutes() - initialProgress;
-
-					// different representation of "X min left" for Spanish and all other languages
-					if (Locale.getDefault().getLanguage().endsWith("es")) {
-						if (timeLeft > 60) {
-							int hours = timeLeft / 60;
-							int minutes = timeLeft - hours * 60;
-							holder.mTimeleftTv.setText(mActivity.getResources().getQuantityString(R.plurals.left, hours) + " " + hours + " " + 
-													   mActivity.getResources().getQuantityString(R.plurals.hour, hours) + " " + 
-													   mActivity.getResources().getString(R.string.and) + " " + minutes + " " + 
-													   mActivity.getResources().getString(R.string.minutes));
-						}
-						else {
-							holder.mTimeleftTv.setText(mActivity.getResources().getString(R.string.left) + " " + String.valueOf(timeLeft) + " " + 
-													   mActivity.getResources().getString(R.string.minutes));
-						}
-					} 
-					else {
-						if (timeLeft > 60) {
-							int hours = timeLeft / 60;
-							int minutes = timeLeft - hours * 60;
-							holder.mTimeleftTv.setText(hours + " " + mActivity.getResources().getQuantityString(R.plurals.hour, hours) + " " + 
-													   mActivity.getResources().getString(R.string.and) + " " + minutes + " " + 
-													   mActivity.getResources().getString(R.string.minutes) + " " + 
-													   mActivity.getResources().getString(R.string.left));
-						}
-						else {
-							holder.mTimeleftTv.setText(timeLeft + " " + mActivity.getResources().getString(R.string.minutes) + " " + 
-													   mActivity.getResources().getString(R.string.left));
-						}
-					}
-					holder.mDurationPb.setProgress(initialProgress + 1);
-					holder.mDurationPb.setVisibility(View.VISIBLE);
-				}
+				
+				ProgressBarUtils.setupProgressBar(mActivity, broadcast, holder.mDurationPb, holder.mTimeleftTv);
 			}
 
 			// MC - Set the begin time of the broadcast.
