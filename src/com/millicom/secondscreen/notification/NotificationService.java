@@ -129,7 +129,8 @@ public class NotificationService {
 				dbNotification.setProgramCategory(broadcast.getProgram().getCategory());
 			} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
 				dbNotification.setProgramType(programType);
-				dbNotification.setProgramCategory(broadcast.getProgram().getSportType().getName());
+				dbNotification.setProgramCategory(broadcast.getProgram().getSportType().getName()); //Use category for sport type name 
+				dbNotification.setProgramGenre(broadcast.getProgram().getTournament()); //And genre for tournament name
 			}
 			
 			dbNotification.setChannelName(channel.getName());

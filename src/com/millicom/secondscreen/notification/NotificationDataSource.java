@@ -140,6 +140,7 @@ public class NotificationDataSource {
 				} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
 					notification.setProgramType(programType);
 					notification.setProgramCategory(cursor.getString(15));
+					notification.setProgramGenre(cursor.getString(9));
 				}
 				notification.setProgramTag(cursor.getString(8));
 				notification.setChannelId(cursor.getString(10));

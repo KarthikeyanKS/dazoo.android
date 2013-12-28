@@ -33,7 +33,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 		Log.d(TAG,"channelId: "+ channelId);
 		Log.d(TAG,"channelName: " + channelName);
 		Log.d(TAG,"channelLogo: " + channelLogo);
-		Log.d(TAG," broadcastName" +  broadcastName);
+		Log.d(TAG,"broadcastName: " +  broadcastName);
 		Log.d(TAG,"date: " + dateDate);
 		Log.d(TAG,"broadcast time: " + broadcastTime);
 		

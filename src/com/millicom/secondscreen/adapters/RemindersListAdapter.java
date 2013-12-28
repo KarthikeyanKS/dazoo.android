@@ -164,7 +164,12 @@ public class RemindersListAdapter extends BaseAdapter {
 					String category = program.getCategory();
 					holder.mBroadcastDetailsTv.setText(category);
 				} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
-					holder.mBroadcastDetailsTv.setText(program.getSportType().getName());
+					if (program.getTournament() != null) {
+						holder.mBroadcastDetailsTv.setText(program.getTournament());
+					}
+					else {
+						holder.mBroadcastDetailsTv.setText(program.getSportType().getName());
+					}
 				}
 			}
 

@@ -95,7 +95,8 @@
                 android:gravity="left"
                 android:textColor="@color/grey2"
                 android:textSize="16sp"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:lines="1" />
         </RelativeLayout>
 
         <!-- BUTTON CONTAINER -->
