@@ -6,6 +6,7 @@ import java.util.Locale;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -179,6 +180,7 @@ public class RemindersListAdapter extends BaseAdapter {
 					String broadcastUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + channel.getChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillisGmt();
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
 					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_URL, broadcastUrl);
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_LOGO_URL, channel.getLogoSUrl());
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_PROFILE, true);
 					mActivity.startActivity(intent);
