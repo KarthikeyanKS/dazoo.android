@@ -193,7 +193,7 @@ public class NotificationService {
 
 		// remove alarm
 		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-		Intent intent = new Intent(context, AlarmReceiver.class);
+		Intent intent = new Intent(Consts.INTENT_DAZOO_NOTIFICATION);
 		PendingIntent sender = PendingIntent.getBroadcast(context, notificationId, intent, 0);
 		alarmManager.cancel(sender);
 
