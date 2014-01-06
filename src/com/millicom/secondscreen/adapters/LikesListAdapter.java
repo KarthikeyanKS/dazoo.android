@@ -132,6 +132,7 @@ public class LikesListAdapter extends BaseAdapter {
 						if (like.getNextBroadcastChannelId() != null && like.getNextBroadcastBegintimeMillis() != 0) {
 							String broadcastUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + like.getNextBroadcastChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + like.getNextBroadcastBegintimeMillis();
 							Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
+							intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, like.getNextBroadcastChannelId());
 							intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_URL, broadcastUrl);
 							intent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
 							intent.putExtra(Consts.INTENT_EXTRA_FROM_PROFILE, true);

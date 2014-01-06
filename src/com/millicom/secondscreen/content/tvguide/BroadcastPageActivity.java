@@ -196,6 +196,7 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 					getRepetitionBroadcasts(mBroadcast.getProgram().getProgramId());
 
 					// if we have the data in the singleton about the channel - set it completely
+					mChannel = dazooStore.getChannelFromAll(mChannelId);
 					if (mChannel != null) {
 						mBroadcast.setChannel(mChannel);
 
