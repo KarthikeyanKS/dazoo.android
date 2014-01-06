@@ -172,7 +172,7 @@ public class NotificationService {
 			.setSmallIcon(R.drawable.ic_launcher)
 			.setLargeIcon(largeIcon)
 			.setContentTitle(broadcastName)
-			.setContentText(DateUtilities.isoStringToTimeString(broadcastTime) + " " +channelName)
+			.setContentText(DateUtilities.timeToTimeString(DateUtilities.convertTimeStampToLocalTime(DateUtilities.isoStringToLong(broadcastTime))) + " " +channelName)
 					.setContentIntent(PendingIntent.getActivity(context, 0, broadcastPageIntent, 0))
 					.setAutoCancel(true).setWhen(System.currentTimeMillis()).setDefaults(Notification.DEFAULT_ALL); // default sound, vibration, light
 			notificationManager.notify(notificationId, notificationBuilder.build());
