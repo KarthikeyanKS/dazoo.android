@@ -84,6 +84,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 		
 		int extraRowLenght = (int)(screenFactor*15.0f);
 		maxRowLenght = baseRowLenght + extraRowLenght;
+		Log.d(TAG, "Maxrowlength: " + maxRowLenght);
 	}
 
 	@Override
@@ -131,6 +132,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 		String stringIconLive = mActivity.getResources().getString(R.string.icon_live) + " ";
 		String textForThreeBroadcasts = "";
 		int textIndexToMarkAsOngoing = 0;
+		int textStartIndexToMarkAsOngoing = 0;
 
 		if (broadcasts != null && broadcasts.size() > 0) {
 			/* get the nearest broadcasts */
@@ -182,11 +184,13 @@ public class TVGuideListAdapter extends BaseAdapter {
 					}
 					
 					if(rowLenght > maxRowLenght) {
+						Log.d(TAG, "Rowlength on row " + position + ": " + rowLenght);
 						rowInfo = rowInfo.replace(rowInfo.substring(maxRowLenght-3, rowInfo.length()), ellipsisString);
 					}
 					
 					if (broadcast.isRunning()) {
-						textIndexToMarkAsOngoing = rowInfo.length();
+						textStartIndexToMarkAsOngoing = textForThreeBroadcasts.length();
+						textIndexToMarkAsOngoing = textForThreeBroadcasts.length() + rowInfo.length();
 					}
 					
 					textForThreeBroadcasts += rowInfo + "\n";
@@ -197,7 +201,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 				
 				Resources resources = SecondScreenApplication.getInstance().getApplicationContext().getResources();
 				if(textIndexToMarkAsOngoing > 0) {
-					wordtoSpan.setSpan(new ForegroundColorSpan(resources.getColor(R.color.red)), 0, textIndexToMarkAsOngoing, 0);
+					wordtoSpan.setSpan(new ForegroundColorSpan(resources.getColor(R.color.red)), textStartIndexToMarkAsOngoing, textIndexToMarkAsOngoing, 0);
 				}
 				wordtoSpan.setSpan(new ForegroundColorSpan(resources.getColor(R.color.grey3)), textIndexToMarkAsOngoing+1, wordtoSpan.length() , Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			    
