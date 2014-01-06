@@ -85,6 +85,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 		int extraRowLenght = (int)(screenFactor*15.0f);
 		maxRowLenght = baseRowLenght + extraRowLenght;
 		Log.d(TAG, "Maxrowlength: " + maxRowLenght);
+		Log.d(TAG, "Screenwidth: " + screenWidth);
 	}
 
 	@Override

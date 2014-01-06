@@ -51,6 +51,7 @@ public abstract class Consts {
 	public static final String MILLICOM_SECONDSCREEN_TAGS_PAGE_URL 							= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/tags/visible";
 	public static final String MILLICOM_SECONDSCREEN_MY_CHANNELS_URL 						= MILLICOM_SECONDSCREEN_SERVER_URL + "my/channels";
 	public static final String MILLICOM_SECONDSCREEN_LIKES_URL 								= MILLICOM_SECONDSCREEN_SERVER_URL + "my/likes";
+	public static final String MILLICOM_SECONDSCREEN_LIKES_WITH_UPCOMING_URL 				= MILLICOM_SECONDSCREEN_SERVER_URL + "my/likes/broadcasts";
 	public static final String MILLICOM_SECONDSCREEN_ACTIVITY_FEED_URL 						= MILLICOM_SECONDSCREEN_SERVER_URL + "my/feed";
 	public static final String MILLICOM_SECONDSCREEN_PROGRAMS 								= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/programs/";
 	public static final String MILLICOM_SECONDSCREEN_SERIES 								= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/series/";
@@ -349,6 +350,9 @@ public abstract class Consts {
 	public static final String	DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_MOVIE_YEAR			= "year";
 	public static final String	DAZOO_LIKE_SPORT_TYPE_SPORTTYPEID					= "sportTypeId";
 	public static final String	DAZOO_LIKE_SPORT_TYPE_TITLE							= "title";
+	public static final String 	DAZOO_LIKE_NEXT_BROADCAST 							= "nextBroadcast";
+	public static final String	DAZOO_LIKE_NEXT_BROADCAST_CHANNELID					= "channelId";
+	public static final String	DAZOO_LIKE_NEXT_BROADCAST_BEGINTIMEMILLIS			= "beginTimeMillis";
 
 	/* DAZOO LIKE ENTITY fields */
 	public static final String	DAZOO_LIKE_ENTITY_ENTITY_ID							= "_id";

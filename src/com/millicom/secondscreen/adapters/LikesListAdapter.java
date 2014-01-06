@@ -6,6 +6,7 @@ import java.util.Iterator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.content.model.DazooLike;
 import com.millicom.secondscreen.content.model.DazooLikeEntity;
 import com.millicom.secondscreen.content.myprofile.LikesCountInterface;
+import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
 import com.millicom.secondscreen.like.LikeDialogHandler;
 import com.millicom.secondscreen.storage.DazooStore;
 
@@ -126,7 +128,15 @@ public class LikesListAdapter extends BaseAdapter {
 
 					@Override
 					public void onClick(View v) {
-
+						Log.d(TAG, "Channelid: " + like.getNextBroadcastChannelId() + " Begintimemillis: " + like.getNextBroadcastBegintimeMillis());
+						if (like.getNextBroadcastChannelId() != null && like.getNextBroadcastBegintimeMillis() != 0) {
+							String broadcastUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + like.getNextBroadcastChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + like.getNextBroadcastBegintimeMillis();
+							Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
+							intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_URL, broadcastUrl);
+							intent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
+							intent.putExtra(Consts.INTENT_EXTRA_FROM_PROFILE, true);
+							mActivity.startActivity(intent);
+						}
 					}
 				});
 

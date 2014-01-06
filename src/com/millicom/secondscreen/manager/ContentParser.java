@@ -240,6 +240,12 @@ public class ContentParser {
 			dazooLikeEntity.setTitle(jsonObject.optString(Consts.DAZOO_LIKE_SPORT_TYPE_TITLE));
 		}
 		dazooLike.setEntity(dazooLikeEntity);
+		JSONObject nextBroadcast = jsonObject.optJSONObject(Consts.DAZOO_LIKE_NEXT_BROADCAST);
+		if (nextBroadcast != null) {
+			dazooLike.setNextBroadcastChannelId(nextBroadcast.optString(Consts.DAZOO_LIKE_NEXT_BROADCAST_CHANNELID));
+			Log.d(TAG, "Channelid " + nextBroadcast.optString(Consts.DAZOO_LIKE_NEXT_BROADCAST_CHANNELID));
+			dazooLike.setNextBroadcastBegintimeMillis(nextBroadcast.optLong(Consts.DAZOO_LIKE_NEXT_BROADCAST_BEGINTIMEMILLIS));
+		}
 
 		return dazooLike;
 	}
