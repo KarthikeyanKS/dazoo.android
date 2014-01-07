@@ -108,31 +108,33 @@ public class DazooCore {
 	}
 
 	// prepare tagged broadcasts for the specific date
-	private static boolean prepareTaggedContent(TvDate date) {
+	private static boolean prepareTaggedContent(TvDate date, boolean useMy) {
 		if (mTags != null && mTags.isEmpty() != true) {
 			if (mGuides != null && mGuides.isEmpty() != true) {
 				for (int i = 1; i < mTags.size(); i++) {
-					ArrayList<Broadcast> taggedBroadcasts = DazooStoreOperations.getTaggedBroadcasts(date.getDate(), mTags.get(i));
-					DazooStoreOperations.saveTaggedBroadcast(date, mTags.get(i), taggedBroadcasts);
+					ArrayList<Broadcast> taggedBroadcasts = null;
+					
+					if(useMy) {
+						taggedBroadcasts = DazooStoreOperations.getMyTaggedBroadcasts(date.getDate(), mTags.get(i));
+						DazooStoreOperations.saveMyTaggedBroadcast(date, mTags.get(i), taggedBroadcasts);
+					} else {
+						taggedBroadcasts = DazooStoreOperations.getTaggedBroadcasts(date.getDate(), mTags.get(i));
+						DazooStoreOperations.saveTaggedBroadcast(date, mTags.get(i), taggedBroadcasts);
+					}
 				}
 				return true;
 			}
 		}
 		return false;
 	}
+	
+	private static boolean prepareTaggedContent(TvDate date) {
+		return prepareTaggedContent(date, false);
+	}
 
 	// prepare my tagged broadcasts for the specific date
 	private static boolean prepareMyTaggedContent(TvDate date) {
-		if (mTags != null && mTags.isEmpty() != true) {
-			if (mGuides != null && mGuides.isEmpty() != true) {
-				for (int i = 1; i < mTags.size(); i++) {
-					ArrayList<Broadcast> taggedBroadcasts = DazooStoreOperations.getMyTaggedBroadcasts(date.getDate(), mTags.get(i));
-					DazooStoreOperations.saveMyTaggedBroadcast(date, mTags.get(i), taggedBroadcasts);
-				}
-				return true;
-			}
-		}
-		return false;
+		return prepareTaggedContent(date, true);
 	}
 
 	// task to get the tv-dates
@@ -260,11 +262,18 @@ public class DazooCore {
 
 		@Override
 		protected Void doInBackground(Context... params) {
-
+			final boolean loggedIn = token != null && TextUtils.isEmpty(token) != true;
 			// get guide for the date
 			String guidePageUrl = null;
-			if (token != null && TextUtils.isEmpty(token) != true) {
+			if (loggedIn) {
 				mMyChannelsIds = DazooStore.getInstance().getMyChannelIds();
+				
+				if(mMyChannelsIds.isEmpty()) {
+					//TODO Show text saying "you have not chosen any channels...."
+					Log.w(TAG, "No Channels selected, will try to send request using all channels to fetch guide.");
+					mMyChannelsIds = DazooStore.getInstance().getAllChannelIds();
+				}
+				
 				guidePageUrl = getPageUrl(mDate.getDate(), mMyChannelsIds);
 			} else {
 				mDefaultChannelsIds = DazooStore.getInstance().getDefaultChannelIds();
@@ -277,43 +286,31 @@ public class DazooCore {
 					mGuides = SSGuidePage.getInstance().getGuide();
 
 					if (mGuides != null && mGuides.isEmpty() != true) {
-						if (token != null && TextUtils.isEmpty(token) != true) {
-							if (DazooStoreOperations.saveMyGuides(mGuides, mDate.getDate())) {
-
-								if (prepareMyTaggedContent(mDate)) {
-									if (mIsChannel) {
-										// notify the ChannelPageActivity that the guide is available and UI may be updated
-										LocalBroadcastManager.getInstance(mContext).sendBroadcast(
-												new Intent(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE_VALUE, true));
-
-									} else {
-										// notify the HomeActivity that the guide is available and UI may be updated
-										LocalBroadcastManager.getInstance(mContext).sendBroadcast(
-												new Intent(Consts.INTENT_EXTRA_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, true));
-									}
+						boolean guideSaveOperationSuccessfull;
+						if (loggedIn) {
+							guideSaveOperationSuccessfull = DazooStoreOperations.saveMyGuides(mGuides, mDate.getDate());
+						} else {
+							guideSaveOperationSuccessfull = DazooStoreOperations.saveGuides(mGuides, mDate.getDate());
+						}
+							
+						if(guideSaveOperationSuccessfull) {
+							if (prepareTaggedContent(mDate, loggedIn)) {
+	
+								Intent intent = null;
+								if (mIsChannel) {
+									// notify the ChannelPageActivity that the guide is available and UI may be updated
+									intent = new Intent(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE_VALUE, true);
+								} else {
+									// notify the HomeActivity that the guide is available and UI may be updated
+									intent = new Intent(Consts.INTENT_EXTRA_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, true);
 								}
-
+								LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
+							}
+							
+							if(loggedIn) {
 								// get the list of likes and save in DazooStore to avoid excessive backend requests
 								ArrayList<String> likeIds = LikeService.getLikeIdsList(token);
 								DazooStore.getInstance().setLikeIds(likeIds);
-							}
-						} else {
-
-							if (DazooStoreOperations.saveGuides(mGuides, mDate.getDate())) {
-
-								if (prepareTaggedContent(mDate)) {
-
-									if (mIsChannel) {
-										// notify the ChannelPageActivity that the guide is available and UI may be updated
-										LocalBroadcastManager.getInstance(mContext).sendBroadcast(
-												new Intent(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE_VALUE, true));
-
-									} else {
-										// notify the HomeActivity that the guide is available and UI may be updated
-										LocalBroadcastManager.getInstance(mContext).sendBroadcast(
-												new Intent(Consts.INTENT_EXTRA_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, true));
-									}
-								}
 							}
 						}
 					}
