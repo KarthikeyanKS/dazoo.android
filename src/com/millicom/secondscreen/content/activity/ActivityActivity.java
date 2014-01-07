@@ -58,6 +58,7 @@ import android.widget.TextView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.Toast;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
@@ -102,6 +103,9 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		/* Google Analytics tracking */
+		EasyTracker.getInstance(this).activityStart(this);  // Add this method.
+		
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 		mActivity = this;
@@ -127,6 +131,14 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			initStandardViews();
 			initInactiveViews();
 		}
+	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+
+		/* Google Analytics tracking */
+		EasyTracker.getInstance(this).activityStop(this); // Add this method.
 	}
 
 	private void initStandardViews() {

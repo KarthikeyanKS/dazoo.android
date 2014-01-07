@@ -24,12 +24,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.adapters.ActionBarDropDownDateListAdapter;
-import com.millicom.secondscreen.authentication.ResetPasswordFinalActivity;
 import com.millicom.secondscreen.content.SSPageFragmentActivity;
 import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.model.Channel;
@@ -64,6 +64,10 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		/* Google Analytics tracking */
+		EasyTracker.getInstance(this).activityStart(this);  // Add this method.
+		
 		setContentView(R.layout.layout_home_activity);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -97,6 +101,8 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			loadPage();
 		}
 	}
+	
+	
 
 	private void checkForCrashes() {
 		CrashManager.register(this, Consts.HOCKEY_APP_TOKEN);
@@ -223,6 +229,14 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			}
 		}
 		checkForCrashes();
+	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+
+		/* Google Analytics tracking */
+		EasyTracker.getInstance(this).activityStop(this); // Add this method.
 	}
 
 	private void initViews() {

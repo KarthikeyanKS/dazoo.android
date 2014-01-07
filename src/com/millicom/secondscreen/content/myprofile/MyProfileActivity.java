@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
@@ -53,6 +54,10 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		/* Google Analytics tracking */
+		EasyTracker.getInstance(this).activityStart(this);  // Add this method.
+		
 		setContentView(R.layout.layout_myprofile_activity);
 
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -71,6 +76,14 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 
 		initViews();
 		populateViews();
+	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+
+		/* Google Analytics tracking */
+		EasyTracker.getInstance(this).activityStop(this); // Add this method.
 	}
 
 	private void initViews() {

@@ -1,16 +1,14 @@
 package com.millicom.secondscreen.manager;
 
-import android.content.Context;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.millicom.secondscreen.Consts;
-import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.content.SSPageGetResult;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.http.SSHttpClient;
 import com.millicom.secondscreen.http.SSHttpClientCallback;
 import com.millicom.secondscreen.http.SSHttpClientGetResult;
+import com.millicom.secondscreen.utilities.DeviceUtilities;
 
 public class InternalTrackingManager {
 
@@ -29,9 +27,7 @@ public class InternalTrackingManager {
 
 	public InternalTrackingManager() {
 		mHttpClient = new SSHttpClient<SSPageGetResult>();
-		Context context = SecondScreenApplication.getInstance().getApplicationContext();
-		TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-		deviceId = telephonyManager.getDeviceId();
+		deviceId = DeviceUtilities.getDeviceId();
 	}
 
 	public static void trackBroadcastStatic(Broadcast broadcast) {

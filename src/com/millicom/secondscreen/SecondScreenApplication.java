@@ -7,18 +7,24 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.google.analytics.tracking.android.GoogleAnalytics;
+import com.google.analytics.tracking.android.Tracker;
+import com.millicom.secondscreen.utilities.BootCompletedReceiver;
+import com.millicom.secondscreen.utilities.DeviceUtilities;
 import com.millicom.secondscreen.utilities.ObscuredSharedPreferences;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-//import com.testflightapp.lib.TestFlight;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+//import com.testflightapp.lib.TestFlight;
 
 public class SecondScreenApplication extends Application {
 
@@ -67,11 +73,33 @@ public class SecondScreenApplication extends Application {
 		super.onConfigurationChanged(newConfig);
 		// TODO: handle configuration changes
 	}
+	
+	private void trackApplicationMetaData() {
+		String appVersion = "ERROR_NOT_SET";
+		String wasPreinstalled = BootCompletedReceiver.wasPreinstalled() ? "WAS PREINSTALLED" : "WAS NOT PREINSTALLED";
+		String deviceId = DeviceUtilities.getDeviceId();
+		
+		PackageInfo pinfo;
+		try {
+			pinfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+			appVersion = "" + pinfo.versionCode;
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		GoogleAnalytics googleAnalyticsInstance = GoogleAnalytics.getInstance(this);
+		Tracker tracker = googleAnalyticsInstance.getDefaultTracker();
+		tracker.set(Consts.GA_KEY_VERSION, appVersion);
+		tracker.set(Consts.GA_KEY_DEVICE_ID, deviceId);
+		tracker.set(Consts.GA_KEY_APP_WAS_PREINSTALLED, wasPreinstalled);
+	}
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		sInstance = this;
+		
+		trackApplicationMetaData();
 		
 		// sSharedPreferences = getSharedPreferences(Consts.SHARED_PREFS_MAIN_NAME, Context.MODE_PRIVATE);
 		sSharedPreferences = new ObscuredSharedPreferences(this, this.getSharedPreferences(Consts.SHARED_PREFS_MAIN_NAME, Context.MODE_PRIVATE));

@@ -391,5 +391,13 @@ public abstract class Consts {
 	public static final String	DAZOO_FEED_ITEM_TITLE								= "title";
 	public static final String	DAZOO_FEED_ITEM_BROADCAST							= "broadcast";
 	public static final String	DAZOO_FEED_ITEM_BROADCASTS							= "broadcasts";
+	
+	/* PREFERENCES KEYS */
+	public static final String PREFS_KEY_APP_WAS_PREINSTALLED						= "APP_WAS_PREINSTALLED";
+	
+	/* GOOGLE ANALYTICS KEYS */
+	public static final String GA_KEY_VERSION										= "APP_VERSION";
+	public static final String GA_KEY_DEVICE_ID										= "ANDROID_DEVICE_ID";
+	public static final String GA_KEY_APP_WAS_PREINSTALLED							= "APP_WAS_PREINSTALLED";
 
 }
