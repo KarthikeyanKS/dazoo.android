@@ -55,6 +55,7 @@ import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.content.model.DazooLike;
 import com.millicom.secondscreen.content.model.DazooLikeEntity;
 import com.millicom.secondscreen.manager.ContentParser;
+import com.millicom.secondscreen.manager.LoginManager;
 import com.millicom.secondscreen.notification.NotificationService;
 import com.millicom.secondscreen.utilities.JSONUtilities;
 import com.millicom.secondscreen.SecondScreenApplication;
@@ -177,9 +178,11 @@ public class LikeService {
 			return false;
 		} else if (Consts.BAD_RESPONSE_MISSING_TOKEN == result) {
 			Log.d(TAG, "Missing token");
+			LoginManager.forceLogin();
 			return false;
 		} else if (Consts.BAD_RESPONSE_INVALID_TOKEN == result) {
 			Log.d(TAG, "Invalid token");
+			LoginManager.forceLogin();
 			return false;
 		} else {
 			return false;
@@ -242,9 +245,11 @@ public class LikeService {
 					return sb.toString();
 				} else if (Consts.BAD_RESPONSE_INVALID_TOKEN == response.getStatusLine().getStatusCode()) {
 					Log.d(TAG, "Get My Likes: Invalid token");
+					LoginManager.forceLogin();
 					return Consts.ERROR_STRING;
 				} else if (Consts.BAD_RESPONSE_MISSING_TOKEN == response.getStatusLine().getStatusCode()) {
 					Log.d(TAG, "Get My Likes: Missing token");
+					LoginManager.forceLogin();
 					return Consts.ERROR_STRING;
 				}
 			} catch (UnsupportedEncodingException e) {

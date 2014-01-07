@@ -8,6 +8,7 @@ import com.millicom.secondscreen.content.SSActivity;
 import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.manager.DazooCore;
+import com.millicom.secondscreen.manager.LoginManager;
 import com.millicom.secondscreen.storage.DazooStore;
 
 import android.app.Activity;
@@ -143,16 +144,7 @@ public class SettingsActivity extends SSActivity implements OnClickListener {
 			
 			break;
 		case R.id.settings_logout_button:
-			((SecondScreenApplication) getApplicationContext()).setAccessToken(null);
-			((SecondScreenApplication) getApplicationContext()).setUserFirstName(null);
-			((SecondScreenApplication) getApplicationContext()).setUserLastName(null);
-			((SecondScreenApplication) getApplicationContext()).setUserEmail(null);
-			((SecondScreenApplication) getApplicationContext()).setUserId(null);
-			((SecondScreenApplication) getApplicationContext()).setUserExistringFlag(false);
-
-			DazooStore.getInstance().clearAll();
-			DazooStore.getInstance().reinitializeAll();
-			DazooCore.resetAll();
+			LoginManager.logout();
 			// clear all the running activities and start the application from the whole beginning
 			SecondScreenApplication.getInstance().clearActivityBacktrace();
 

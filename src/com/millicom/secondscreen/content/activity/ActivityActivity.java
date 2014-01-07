@@ -74,6 +74,7 @@ import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
 import com.millicom.secondscreen.content.search.SearchPageActivity;
 import com.millicom.secondscreen.http.NetworkUtils;
 import com.millicom.secondscreen.manager.ContentParser;
+import com.millicom.secondscreen.manager.LoginManager;
 import com.millicom.secondscreen.storage.DazooStore;
 
 public class ActivityActivity extends SSActivity implements OnClickListener {
@@ -466,9 +467,10 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 					}
 				} else if (Consts.BAD_RESPONSE_INVALID_TOKEN == response.getStatusLine().getStatusCode()) {
 					Log.d(TAG, "Get Activity Feed: Invalid");
-
+					LoginManager.forceLogin();
 				} else if (Consts.BAD_RESPONSE_MISSING_TOKEN == response.getStatusLine().getStatusCode()) {
 					Log.d(TAG, "Get Activity Feed: Missing token");
+					LoginManager.forceLogin();
 				}
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
@@ -604,9 +606,10 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 					}
 				} else if (Consts.BAD_RESPONSE_INVALID_TOKEN == response.getStatusLine().getStatusCode()) {
 					Log.d(TAG, "Get Activity Feed: Invalid");
-
+					LoginManager.forceLogin();
 				} else if (Consts.BAD_RESPONSE_MISSING_TOKEN == response.getStatusLine().getStatusCode()) {
 					Log.d(TAG, "Get Activity Feed: Missing token");
+					LoginManager.forceLogin();
 				}
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();

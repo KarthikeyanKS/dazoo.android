@@ -58,6 +58,7 @@ import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
 import com.millicom.secondscreen.http.NetworkUtils;
 import com.millicom.secondscreen.manager.ContentParser;
+import com.millicom.secondscreen.manager.LoginManager;
 import com.millicom.secondscreen.storage.DazooStore;
 
 public class PopularPageActivity extends SSActivity implements OnClickListener {
@@ -247,9 +248,10 @@ public class PopularPageActivity extends SSActivity implements OnClickListener {
 					}
 				} else if (Consts.BAD_RESPONSE_INVALID_TOKEN == response.getStatusLine().getStatusCode()) {
 					Log.d(TAG, "Get Activity Feed: Invalid");
-
+					LoginManager.forceLogin();
 				} else if (Consts.BAD_RESPONSE_MISSING_TOKEN == response.getStatusLine().getStatusCode()) {
 					Log.d(TAG, "Get Activity Feed: Missing token");
+					LoginManager.forceLogin();
 				}
 
 			} catch (ClientProtocolException e) {

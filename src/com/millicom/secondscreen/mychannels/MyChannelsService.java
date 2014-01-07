@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.manager.ContentParser;
+import com.millicom.secondscreen.manager.LoginManager;
 import com.millicom.secondscreen.storage.DazooStore;
 
 public class MyChannelsService {
@@ -108,9 +109,11 @@ public class MyChannelsService {
 					return sb.toString();
 				} else if (Consts.BAD_RESPONSE_INVALID_TOKEN == response.getStatusLine().getStatusCode()) {
 					Log.d(TAG, "Get my channels: Invalid token");
+					LoginManager.forceLogin();
 					return Consts.ERROR_STRING;
 				} else if (Consts.BAD_RESPONSE_MISSING_TOKEN == response.getStatusLine().getStatusCode()) {
 					Log.d(TAG, "Get my channels: Missing token");
+					LoginManager.forceLogin();
 					return Consts.ERROR_STRING;
 				}
 			} catch (UnsupportedEncodingException e) {
@@ -146,9 +149,11 @@ public class MyChannelsService {
 					return true;
 				} else if (Consts.BAD_RESPONSE_INVALID_TOKEN == response.getStatusLine().getStatusCode()) {
 					Log.d(TAG, "Update MY CHANNELS: Invalid token");
+					LoginManager.forceLogin();
 					return false;
 				} else if (Consts.BAD_RESPONSE_MISSING_TOKEN == response.getStatusLine().getStatusCode()) {
 					Log.d(TAG, "Update MY CHANNELS: Missing token");
+					LoginManager.forceLogin();
 					return false;
 				} else {
 					Log.d(TAG, "Error, but not identified");
