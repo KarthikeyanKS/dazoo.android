@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.R;
@@ -67,6 +68,10 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		/* Google Analytics tracking */
+		EasyTracker.getInstance(this).activityStart(this);
+		
 		setContentView(R.layout.layout_broadcastpage_activity);
 
 		dazooStore = DazooStore.getInstance();
@@ -102,6 +107,14 @@ public class BroadcastPageActivity extends /* ActionBarActivity */SSActivity imp
 		loadStartPage();
 		
 		InternalTrackingManager.trackBroadcastStatic(mBroadcast);
+	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+
+		/* Google Analytics tracking */
+		EasyTracker.getInstance(this).activityStop(this); // Add this method.
 	}
 
 	@Override

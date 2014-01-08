@@ -99,6 +99,10 @@ public class SecondScreenApplication extends Application {
 		super.onCreate();
 		sInstance = this;
 		
+		/* Initialize Google Analytics */
+		String gaId = getResources().getString(R.string.ga_trackingId);
+		GoogleAnalytics.getInstance(this).getTracker(gaId);
+		
 		trackApplicationMetaData();
 		
 		// sSharedPreferences = getSharedPreferences(Consts.SHARED_PREFS_MAIN_NAME, Context.MODE_PRIVATE);
