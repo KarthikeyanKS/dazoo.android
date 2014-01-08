@@ -1,22 +1,20 @@
 package com.millicom.secondscreen.authentication;
 
-import com.millicom.secondscreen.R;
-import com.millicom.secondscreen.SecondScreenApplication;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-public class SignInActivity extends ActionBarActivity {
+import com.millicom.secondscreen.Consts.REQUEST_STATUS;
+import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.SecondScreenApplication;
+import com.millicom.secondscreen.content.SSActivity;
+
+public class SignInActivity extends SSActivity {
 
 	private ActionBar	mActionBar;
 	private RelativeLayout	mFacebookContainer, mSignUpContainer;
@@ -32,6 +30,16 @@ public class SignInActivity extends ActionBarActivity {
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
 		initViews();
+	}
+	
+	@Override
+	protected void updateUI(REQUEST_STATUS status) {
+		/* Have to have this method here since SSActivity has this method abstract */
+	}
+
+	@Override
+	protected void loadPage() {
+		/* Have to have this method here since SSActivity has this method abstract */
 	}
 
 	private void initViews() {

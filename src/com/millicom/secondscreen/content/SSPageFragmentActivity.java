@@ -12,7 +12,7 @@ import com.millicom.secondscreen.http.NetworkUtils;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 
-public abstract class SSPageFragmentActivity extends ActionBarActivity {
+public abstract class SSPageFragmentActivity extends SSActivity {
 
 	private static final String	TAG	= "SSPageFragmentActivity";
 

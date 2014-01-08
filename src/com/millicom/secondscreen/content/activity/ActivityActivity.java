@@ -102,9 +102,6 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		/* Google Analytics tracking */
-		EasyTracker.getInstance(this).activityStart(this);  // Add this method.
 		
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
@@ -133,14 +130,6 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		}
 	}
 	
-	@Override
-	public void onStop() {
-		super.onStop();
-
-		/* Google Analytics tracking */
-		EasyTracker.getInstance(this).activityStop(this); // Add this method.
-	}
-
 	private void initStandardViews() {
 		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);
 		mTabTvGuide.setOnClickListener(this);

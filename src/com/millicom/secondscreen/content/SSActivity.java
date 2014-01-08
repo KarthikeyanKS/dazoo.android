@@ -1,10 +1,5 @@
 package com.millicom.secondscreen.content;
 
-import com.millicom.secondscreen.R;
-import com.millicom.secondscreen.SecondScreenApplication;
-import com.millicom.secondscreen.Consts.REQUEST_STATUS;
-import com.millicom.secondscreen.http.NetworkUtils;
-
 import android.app.Activity;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
@@ -14,10 +9,17 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.millicom.secondscreen.Consts.REQUEST_STATUS;
+import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.SecondScreenApplication;
+import com.millicom.secondscreen.http.NetworkUtils;
+
 public abstract class SSActivity extends ActionBarActivity {
 
 	private static final String	TAG	= "SSActivity";
-
+	private EasyTracker tracker;
+	
 	private View				mRequestEmptyLayout;
 	private View				mRequestFailedLayout;
 	private View				mRequestLoadingLayout;
@@ -31,13 +33,26 @@ public abstract class SSActivity extends ActionBarActivity {
 
 	protected abstract void loadPage();
 
+	@Override
+	
 	protected void onCreate(android.os.Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// add to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
+		/* Google Analytics tracking */
+		this.tracker = EasyTracker.getInstance(this);
+		tracker.activityStart(this);
 	};
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
 
+		/* Google Analytics tracking */
+		tracker.activityStop(this);
+	}
+	
 	// Init the callback layouts for this page
 	@Override
 	public void setContentView(int layoutResID) {

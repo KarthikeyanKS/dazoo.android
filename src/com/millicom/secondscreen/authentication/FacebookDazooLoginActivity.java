@@ -1,22 +1,23 @@
 package com.millicom.secondscreen.authentication;
 
-import com.millicom.secondscreen.R;
-import com.millicom.secondscreen.SecondScreenApplication;
-import com.millicom.secondscreen.content.homepage.HomeActivity;
-import com.millicom.secondscreen.content.myprofile.MyChannelsActivity;
-//import com.testflightapp.lib.TestFlight;
-
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 
-public class FacebookDazooLoginActivity extends ActionBarActivity implements OnClickListener {
+import com.millicom.secondscreen.Consts.REQUEST_STATUS;
+import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.SecondScreenApplication;
+import com.millicom.secondscreen.content.SSActivity;
+import com.millicom.secondscreen.content.homepage.HomeActivity;
+import com.millicom.secondscreen.content.myprofile.MyChannelsActivity;
+//import com.testflightapp.lib.TestFlight;
+
+public class FacebookDazooLoginActivity extends SSActivity implements OnClickListener {
 
 	private static final String	TAG	= "FacebookDazooLoginActivity";
 	private ActionBar			mActionBar;
@@ -32,6 +33,16 @@ public class FacebookDazooLoginActivity extends ActionBarActivity implements OnC
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 		initViews();
 		//TestFlight.passCheckpoint("FIRST TIME WITH THE FACEBOOK LOGIN");
+	}
+	
+	@Override
+	protected void updateUI(REQUEST_STATUS status) {
+		/* Have to have this method here since SSActivity has this method abstract */
+	}
+
+	@Override
+	protected void loadPage() {
+		/* Have to have this method here since SSActivity has this method abstract */
 	}
 
 	private void initViews() {

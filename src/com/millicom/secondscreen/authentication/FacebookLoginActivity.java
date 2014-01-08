@@ -2,8 +2,6 @@ package com.millicom.secondscreen.authentication;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
@@ -25,37 +23,31 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.Session.OpenRequest;
-import com.facebook.model.GraphUser;
-import com.millicom.secondscreen.Consts;
-import com.millicom.secondscreen.R;
-import com.millicom.secondscreen.SecondScreenApplication;
-import com.millicom.secondscreen.content.homepage.HomeActivity;
-import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
-import com.millicom.secondscreen.utilities.JSONUtilities;
-//import com.testflightapp.lib.TestFlight;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.pm.Signature;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.util.Log;
-import android.widget.Toast;
 
-public class FacebookLoginActivity extends ActionBarActivity {
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.Session.OpenRequest;
+import com.facebook.SessionState;
+import com.facebook.model.GraphUser;
+import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.Consts.REQUEST_STATUS;
+import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.SecondScreenApplication;
+import com.millicom.secondscreen.content.SSActivity;
+import com.millicom.secondscreen.content.homepage.HomeActivity;
+import com.millicom.secondscreen.utilities.JSONUtilities;
+//import com.testflightapp.lib.TestFlight;
+
+public class FacebookLoginActivity extends SSActivity {
 
 	private static final String	TAG	= "FacebookLoginActivity";
 	private String				facebookToken	= "", facebookSessionToken = "", dazooToken = "";
@@ -91,6 +83,16 @@ public class FacebookLoginActivity extends ActionBarActivity {
 		//}
 
 		openFacebookSession(this, true, statusCallback);
+	}
+	
+	@Override
+	protected void updateUI(REQUEST_STATUS status) {
+		/* Have to have this method here since SSActivity has this method abstract */
+	}
+
+	@Override
+	protected void loadPage() {
+		/* Have to have this method here since SSActivity has this method abstract */
 	}
 
 	private void initViews() {

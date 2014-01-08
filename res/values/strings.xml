@@ -19,8 +19,8 @@
     <!-- ICONS -->
     <string name="icon_timetable">&#xe803;</string>
     <string name="icon_clock"> &#xe809; </string>
-<!--     <string name="icon_live"> &#xe80d; </string> -->
-    <string name="icon_live"> &#ff026; </string>
+    <string name="icon_live"> &#xe80d; </string>
+<!--     <string name="icon_live"> &#ff026; </string> -->
     <string name="icon_settings"> &#xe811;</string>
     <string name="icon_magnet"> &#xe805;</string>
     <string name="icon_series"> &#xe801;</string>
@@ -37,7 +37,7 @@
     <string name="icon_twitter"> &#xe80c;</string>
     <string name="icon_blocks"> &#xe810;</string>
     <string name="icon_bookmark"> &#xe804;</string>
-
+    
     <!-- HOMEPAGE : FILTER BY CATEGORY -->
     <string name="tv_guide">TV Guide</string>
     <string name="all">All</string>

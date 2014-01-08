@@ -16,7 +16,6 @@ import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.conn.ssl.X509HostnameVerifier;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.SingleClientConnManager;
@@ -24,25 +23,12 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.millicom.secondscreen.Consts;
-import com.millicom.secondscreen.R;
-import com.millicom.secondscreen.SecondScreenApplication;
-import com.millicom.secondscreen.content.homepage.HomeActivity;
-import com.millicom.secondscreen.content.myprofile.SettingsActivity;
-import com.millicom.secondscreen.manager.DazooCore;
-import com.millicom.secondscreen.storage.DazooStore;
-import com.millicom.secondscreen.utilities.JSONUtilities;
-import com.millicom.secondscreen.utilities.PatternCheck;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -51,9 +37,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class DazooLoginActivity extends ActionBarActivity implements OnClickListener {
+import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.Consts.REQUEST_STATUS;
+import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.SecondScreenApplication;
+import com.millicom.secondscreen.content.SSActivity;
+import com.millicom.secondscreen.content.homepage.HomeActivity;
+import com.millicom.secondscreen.manager.DazooCore;
+import com.millicom.secondscreen.storage.DazooStore;
+import com.millicom.secondscreen.utilities.JSONUtilities;
+import com.millicom.secondscreen.utilities.PatternCheck;
+
+public class DazooLoginActivity extends SSActivity implements OnClickListener {
 
 	private static final String	TAG	= "DazooLoginActivity";
 	private ActionBar			mActionBar;
@@ -74,6 +70,16 @@ public class DazooLoginActivity extends ActionBarActivity implements OnClickList
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
 		initViews();
+	}
+	
+	@Override
+	protected void updateUI(REQUEST_STATUS status) {
+		/* Have to have this method here since SSActivity has this method abstract */
+	}
+
+	@Override
+	protected void loadPage() {
+		/* Have to have this method here since SSActivity has this method abstract */
 	}
 
 	private void initViews() {

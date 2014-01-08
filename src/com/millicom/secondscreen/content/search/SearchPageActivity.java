@@ -1,17 +1,17 @@
 package com.millicom.secondscreen.content.search;
 
-import com.millicom.secondscreen.R;
-import com.millicom.secondscreen.SecondScreenApplication;
-
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.widget.TextView;
 
-public class SearchPageActivity extends ActionBarActivity {
+import com.millicom.secondscreen.Consts.REQUEST_STATUS;
+import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.SecondScreenApplication;
+import com.millicom.secondscreen.content.SSActivity;
+
+public class SearchPageActivity extends SSActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,5 +51,15 @@ public class SearchPageActivity extends ActionBarActivity {
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+	}
+
+	@Override
+	protected void updateUI(REQUEST_STATUS status) {
+		/* Have to have this method here since SSActivity has this method abstract */
+	}
+
+	@Override
+	protected void loadPage() {
+		/* Have to have this method here since SSActivity has this method abstract */
 	}
 }

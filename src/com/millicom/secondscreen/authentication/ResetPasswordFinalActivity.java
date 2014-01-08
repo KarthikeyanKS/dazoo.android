@@ -1,21 +1,20 @@
 package com.millicom.secondscreen.authentication;
 
-import com.millicom.secondscreen.R;
-import com.millicom.secondscreen.SecondScreenApplication;
-import com.millicom.secondscreen.content.homepage.HomeActivity;
-
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
 
-public class ResetPasswordFinalActivity extends ActionBarActivity implements OnClickListener {
+import com.millicom.secondscreen.Consts.REQUEST_STATUS;
+import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.SecondScreenApplication;
+import com.millicom.secondscreen.content.SSActivity;
+
+public class ResetPasswordFinalActivity extends SSActivity implements OnClickListener {
 
 	private static final String	TAG	= "ResetPasswordFinalActivity";
 	private ActionBar			mActionBar;
@@ -32,6 +31,16 @@ public class ResetPasswordFinalActivity extends ActionBarActivity implements OnC
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
 		initViews();
+	}
+	
+	@Override
+	protected void updateUI(REQUEST_STATUS status) {
+		/* Have to have this method here since SSActivity has this method abstract */
+	}
+
+	@Override
+	protected void loadPage() {
+		/* Have to have this method here since SSActivity has this method abstract */
 	}
 
 	private void initViews() {

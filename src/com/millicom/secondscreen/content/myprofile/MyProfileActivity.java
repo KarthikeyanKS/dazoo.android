@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,11 +21,13 @@ import android.widget.TextView;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.authentication.DazooLoginActivity;
 import com.millicom.secondscreen.authentication.FacebookLoginActivity;
 import com.millicom.secondscreen.authentication.SignUpActivity;
+import com.millicom.secondscreen.content.SSActivity;
 import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.notification.NotificationDataSource;
@@ -35,7 +36,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-public class MyProfileActivity extends ActionBarActivity implements OnClickListener {
+public class MyProfileActivity extends SSActivity implements OnClickListener {
 
 	private static final String	TAG			= "MyProfileFragment";
 
@@ -54,10 +55,7 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		/* Google Analytics tracking */
-		EasyTracker.getInstance(this).activityStart(this);  // Add this method.
-		
+				
 		setContentView(R.layout.layout_myprofile_activity);
 
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -78,14 +76,6 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 		populateViews();
 	}
 	
-	@Override
-	public void onStop() {
-		super.onStop();
-
-		/* Google Analytics tracking */
-		EasyTracker.getInstance(this).activityStop(this); // Add this method.
-	}
-
 	private void initViews() {
 		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);
 		mTabTvGuide.setOnClickListener(this);
@@ -330,5 +320,17 @@ public class MyProfileActivity extends ActionBarActivity implements OnClickListe
 			}
 			break;
 		}
+	}
+
+	@Override
+	protected void updateUI(REQUEST_STATUS status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void loadPage() {
+		// TODO Auto-generated method stub
+		
 	}
 }

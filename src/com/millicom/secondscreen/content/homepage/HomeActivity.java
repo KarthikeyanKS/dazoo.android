@@ -65,9 +65,6 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		/* Google Analytics tracking */
-		EasyTracker.getInstance(this).activityStart(this);  // Add this method.
-		
 		setContentView(R.layout.layout_home_activity);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -231,14 +228,6 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		checkForCrashes();
 	}
 	
-	@Override
-	public void onStop() {
-		super.onStop();
-
-		/* Google Analytics tracking */
-		EasyTracker.getInstance(this).activityStop(this); // Add this method.
-	}
-
 	private void initViews() {
 		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);
 		mTabTvGuide.setOnClickListener(this);
