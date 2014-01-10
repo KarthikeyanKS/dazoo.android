@@ -323,14 +323,8 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 	}
 
 	@Override
-	protected void updateUI(REQUEST_STATUS status) {
-		// TODO Auto-generated method stub
-		
-	}
+	protected void updateUI(REQUEST_STATUS status) {}
 
 	@Override
-	protected void loadPage() {
-		// TODO Auto-generated method stub
-		
-	}
+	protected void loadPage() {}
 }

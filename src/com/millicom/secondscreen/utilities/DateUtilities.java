@@ -13,12 +13,11 @@ import android.util.Log;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.content.model.TvDate;
+import com.millicom.secondscreen.manager.AppConfigurationManager;
 
 public class DateUtilities {
 
 	private static final String	TAG	= "DateUtilities";
-	//TODO use info from backend for TV day range when available
-	private static final int LAST_HOUR_OF_DAY = 6;
 	
 	public static final String tvDateToYearNumber(String tvDate){
 		SimpleDateFormat dfmInput = getDateFormat(Consts.TVDATE_DATE_FORMAT);
@@ -90,7 +89,7 @@ public class DateUtilities {
 		calendar.set(Calendar.DAY_OF_MONTH, Integer.valueOf(day));
 		calendar.set(Calendar.HOUR_OF_DAY, hour);
 		
-		if(hour >= 0 && hour < LAST_HOUR_OF_DAY) {
+		if(hour >= 0 && hour < AppConfigurationManager.getInstance().getFirstHourOfTVDay()) {
 			/* Add one */
 			int dayInt = Integer.valueOf(day) + 1;
 			calendar.set(Calendar.DAY_OF_MONTH, dayInt);

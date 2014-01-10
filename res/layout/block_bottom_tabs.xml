@@ -23,7 +23,7 @@
             android:text="@string/icon_timetable"
             android:textColor="@color/white"
             android:textSize="26sp"
-            font:fonttextview="fontello.ttf" />
+            font:fonttextview="Roboto-MiTV-Medium.ttf" />
 
         <com.millicom.secondscreen.customviews.FontTextView
             android:layout_width="wrap_content"
@@ -65,7 +65,7 @@
             android:text="@string/icon_feed"
             android:textColor="@color/white"
             android:textSize="26sp"
-            font:fonttextview="fontello.ttf" />
+            font:fonttextview="Roboto-MiTV-Medium.ttf" />
 
         <com.millicom.secondscreen.customviews.FontTextView
             android:layout_width="wrap_content"
@@ -107,7 +107,7 @@
             android:text="@string/icon_me"
             android:textColor="@color/white"
             android:textSize="26sp"
-            font:fonttextview="fontello.ttf" />
+            font:fonttextview="Roboto-MiTV-Medium.ttf" />
 
         <com.millicom.secondscreen.customviews.FontTextView
             android:layout_width="wrap_content"

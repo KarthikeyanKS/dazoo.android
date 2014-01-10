@@ -61,7 +61,10 @@ public abstract class SSPage {
 					aPageGetResult = new SSPageGetResult();
 
 				}
-				mPageCallback.onGetPageResult(aPageGetResult);
+				
+				if(mPageCallback != null) {
+					mPageCallback.onGetPageResult(aPageGetResult);
+				}
 			}
 		});
 	}

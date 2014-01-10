@@ -1,6 +1,23 @@
 package com.millicom.secondscreen.manager;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,25 +26,28 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
-import com.millicom.secondscreen.content.SSBroadcastPage;
 import com.millicom.secondscreen.content.SSChannelPage;
 import com.millicom.secondscreen.content.SSGuidePage;
 import com.millicom.secondscreen.content.SSPageCallback;
 import com.millicom.secondscreen.content.SSPageGetResult;
 import com.millicom.secondscreen.content.SSTagsPage;
 import com.millicom.secondscreen.content.SSTvDatePage;
+import com.millicom.secondscreen.content.model.AdzerkAd;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Tag;
 import com.millicom.secondscreen.content.model.TvDate;
+import com.millicom.secondscreen.http.NetworkUtils;
 import com.millicom.secondscreen.like.LikeService;
 import com.millicom.secondscreen.mychannels.MyChannelsService;
 import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.storage.DazooStoreOperations;
+import com.millicom.secondscreen.utilities.JSONUtilities;
 
 public class DazooCore {
 	private static final String			TAG					= "DazooCore";
@@ -136,7 +156,7 @@ public class DazooCore {
 	private static boolean prepareMyTaggedContent(TvDate date) {
 		return prepareTaggedContent(date, true);
 	}
-
+	
 	// task to get the tv-dates
 	private static class GetTvDates extends AsyncTask<String, String, Void> {
 
@@ -248,7 +268,131 @@ public class DazooCore {
 			return null;
 		}
 	}
+	
+	public static void getAdzerkAd(String divId, AdCallBack callback) {
+		GetAdzerkAdTask getAdzerkAdTask = new GetAdzerkAdTask(divId, callback);
+		getAdzerkAdTask.execute();
+	}
+	
+	public static interface AdCallBack {
+		public void onAdResult(AdzerkAd ad);
+	}
+	
+	private static class GetAdzerkAdTask extends AsyncTask<String, Void, AdzerkAd> {
 
+		private final String TAG = "GetAdzerkAdTask";
+		
+		private String divId;
+		private AdCallBack adCallBack = null;
+		
+		public GetAdzerkAdTask(String divId, AdCallBack adCallBack) {
+			this.divId = divId;
+			this.adCallBack = adCallBack;
+		}
+		
+		@Override
+		protected AdzerkAd doInBackground(String... params) {
+			AdzerkAd ad = null;
+			
+			try {
+				HttpClient client = new DefaultHttpClient();
+				HttpPost httpPost = new HttpPost(Consts.ADS_POST_URL);
+				
+				int networkId = AppConfigurationManager.getInstance().getAdzerkNetworkId();
+				int siteId = AppConfigurationManager.getInstance().getAdzerkSiteId();
+				List<Integer> adTypes = AppConfigurationManager.getInstance().getAdzerkAdFormats();
+				
+				AdzerkJSONObjectPlacement placement = new AdzerkJSONObjectPlacement(divId, networkId, siteId, adTypes);
+				
+				List<AdzerkJSONObjectPlacement> placements = Arrays.asList(placement);
+				
+				AdzerkJSONObjectRequest adRequestJSONObject = new AdzerkJSONObjectRequest(placements, true);
+				
+				String jsonString = new Gson().toJson(adRequestJSONObject);
+				
+				StringEntity stringEntity = new StringEntity(jsonString);
+
+				httpPost.setEntity(stringEntity);
+				httpPost.setHeader("Accept", "application/json");
+				httpPost.setHeader("Content-type", "application/json");
+
+				HttpResponse response = client.execute(httpPost);
+
+				if (response.getStatusLine().getStatusCode() == Consts.GOOD_RESPONSE) {
+					HttpEntity entity = response.getEntity();
+					String result = null;
+					 if (entity != null) {
+				            InputStream instream = entity.getContent();
+				            result = NetworkUtils.convertStreamToString(instream);
+				            instream.close();
+				        }
+					
+					JSONObject jsonObj = new JSONObject(result);
+					
+					ad = new AdzerkAd(divId, jsonObj);
+					
+				} else if (response.getStatusLine().getStatusCode() == Consts.BAD_RESPONSE) {
+					Log.d(TAG, "Invalid Token!");
+				}
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			
+			if(ad != null) {
+				this.adCallBack.onAdResult(ad);
+			}
+			
+			return ad;
+		}
+		
+		private class AdzerkJSONObjectRequest {
+			private AdzerkJSONObjectUser user;
+			private boolean isMobile;
+			private List<AdzerkJSONObjectPlacement> placements;
+			
+
+			public AdzerkJSONObjectRequest(List<AdzerkJSONObjectPlacement> placements, boolean isMobile, AdzerkJSONObjectUser user) {
+				this.user = user;
+				this.placements = placements;
+				this.isMobile = isMobile;
+			}
+			
+			public AdzerkJSONObjectRequest(List<AdzerkJSONObjectPlacement> placements, boolean isMobile) {
+				this(placements, isMobile, null);
+			}
+		}
+		
+		private class AdzerkJSONObjectPlacement {
+			private String divName;
+			private Integer networkId;
+			private Integer siteId;
+			private List<Integer> adTypes;
+			
+			public AdzerkJSONObjectPlacement(String divName, Integer networkId, Integer siteId, List<Integer> adTypes) {
+				this.divName = divName;
+				this.networkId = networkId;
+				this.siteId = siteId;
+				this.adTypes = adTypes;
+			}
+		}
+		
+		private class AdzerkJSONObjectUser {
+			private String userKey;
+			
+			public AdzerkJSONObjectUser(String userKey) {
+				this.userKey = userKey;
+			}
+		}
+	}
+	
+
+		
 	// task to get the tvguide for all the channels
 	private static class GetGuide extends AsyncTask<Context, String, Void> {
 

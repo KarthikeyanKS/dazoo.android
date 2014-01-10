@@ -1,22 +1,15 @@
 package com.millicom.secondscreen.manager;
 
-import android.util.Log;
-
 import com.millicom.secondscreen.Consts;
-import com.millicom.secondscreen.content.SSPageGetResult;
 import com.millicom.secondscreen.content.model.Broadcast;
-import com.millicom.secondscreen.http.SSHttpClient;
-import com.millicom.secondscreen.http.SSHttpClientCallback;
-import com.millicom.secondscreen.http.SSHttpClientGetResult;
 import com.millicom.secondscreen.utilities.DeviceUtilities;
 
-public class InternalTrackingManager {
+public class InternalTrackingManager extends GenericTrackingManager {
 
 	private static final String TAG = "InternalTrackingManager";
 
 	private static InternalTrackingManager selfInstance;
 	private static String deviceId;
-	private SSHttpClient<SSPageGetResult> mHttpClient;
 
 	public static InternalTrackingManager getInstance() {
 		if (selfInstance == null) {
@@ -26,7 +19,6 @@ public class InternalTrackingManager {
 	}
 
 	public InternalTrackingManager() {
-		mHttpClient = new SSHttpClient<SSPageGetResult>();
 		deviceId = DeviceUtilities.getDeviceId();
 	}
 
@@ -38,23 +30,7 @@ public class InternalTrackingManager {
 		if (broadcast != null) {
 			if (broadcast.getProgram() != null) {
 				String trackingUrl = String.format(Consts.MILLICOM_SECONDSCREEN_TRACKING_URL, broadcast.getProgram().getProgramId(), deviceId);
-				mHttpClient.doHttpGet(trackingUrl, new SSHttpClientCallback<SSPageGetResult>() {
-
-					@Override
-					public SSPageGetResult onHandleHttpGetResultInBackground(SSHttpClientGetResult aHttpClientGetResult) {
-						// Handle the http get result
-						// aHttpClientGetResult.getRawData()
-
-						SSPageGetResult pageGetResult = new SSPageGetResult(aHttpClientGetResult.getUri(), null);
-
-						return pageGetResult;
-					}
-
-					@Override
-					public void onHttpGetResultFinal(SSPageGetResult aPageGetResult) {
-						Log.d(TAG, "SSPageGetResult : " + aPageGetResult);
-					}
-				});
+				super.trackUrl(trackingUrl);
 			}
 		}
 	}

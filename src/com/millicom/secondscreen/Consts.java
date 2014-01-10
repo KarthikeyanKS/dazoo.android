@@ -392,6 +392,16 @@ public abstract class Consts {
 	public static final String	DAZOO_FEED_ITEM_BROADCAST							= "broadcast";
 	public static final String	DAZOO_FEED_ITEM_BROADCASTS							= "broadcasts";
 	
+	/* JSON KEYS FOR CONFIGURATION */
+	public static final String JSON_KEY_CONFIGURATION_FIRST_HOUR_OF_TV_DAY			= "firstHourOfTVDay";
+	public static final String JSON_KEY_CONFIGURATION_ADZERK_NETWORK_ID				= "adzerkNetworkId";
+	public static final String JSON_KEY_CONFIGURATION_ADZERK_SITE_ID				= "adzerkSiteId";
+	public static final String JSON_KEY_CONFIGURATION_GOOGLE_ANALYTICS_ENABLED		= "android.googleAnalyticsEnabled";
+	public static final String JSON_KEY_CONFIGURATION_GOOGLE_ANALYTICS_TRACKING_ID	= "android.googleAnalyticsTrackingId";
+	public static final String JSON_KEY_CONFIGURATION_GOOGLE_ANALYTICS_SAMPLE_RATE	= "android.googleAnalyticsSampleRate";
+	public static final String JSON_KEY_CONFIGURATION_ADS_ENABLED					= "android.adsEnabled";
+	public static final String JSON_KEY_CONFIGURATION_CELL_COUNT_BETWEEN_AD_CELLS	= "android.cellCountBetweenAdCells";
+	
 	/* PREFERENCES KEYS */
 	public static final String PREFS_KEY_APP_WAS_PREINSTALLED						= "APP_WAS_PREINSTALLED";
 	
@@ -399,5 +409,35 @@ public abstract class Consts {
 	public static final String GA_KEY_VERSION										= "APP_VERSION";
 	public static final String GA_KEY_DEVICE_ID										= "ANDROID_DEVICE_ID";
 	public static final String GA_KEY_APP_WAS_PREINSTALLED							= "APP_WAS_PREINSTALLED";
+	
+	/* ADZERK URL */
+	public static final String ADS_POST_URL							= MILLICON_SECONDSCREEN_HTTP_SCHEME + "engine.adzerk.net/api/v2";
+	
+	/* JSON KEYS FOR ADZERK ADS */
+	public static final String JSON_KEY_ADS_OBJECT_KEY_DECISIONS	= "decisions";
+	public static final String JSON_KEY_ADS_OBJECT_KEY_USER 		= "user";
+	public static final String JSON_KEY_ADS_SUB_OBJECT_KEY_CONTENTS = "contents";
+	public static final String JSON_KEY_ADS_SUB_OBJECT_KEY_DATA	 	= "data";
+	
+	public static final String JSON_KEY_ADS_DIV_NAME				= "divName";	
+	public static final String JSON_KEY_ADS_NETWORK_ID				= "networkId";
+	public static final String JSON_KEY_ADS_SITE_ID					= "siteId";
+	public static final String JSON_KEY_ADS_AD_TYPES 				= "adTypes";
+	public static final String JSON_KEY_ADS_PLACEMENTS 				= "placements";
+	public static final String JSON_KEY_ADS_IS_MOBILE 				= "isMobile";
+				
+	public static final String JSON_KEY_ADS_USER_KEY				= "key";
+	public static final String JSON_KEY_ADS_AD_ID 					= "adId";
+	public static final String JSON_KEY_ADS_CREATIVE_ID 			= "creativeId";
+	public static final String JSON_KEY_ADS_FLIGHT_ID 				= "flightId";
+	public static final String JSON_KEY_ADS_CAMPAIGN_ID 			= "campaignId";
+	
+	public static final String JSON_KEY_ADS_CLICK_URL 				= "clickUrl";
+	public static final String JSON_KEY_ADS_IMPRESSION_URL 			= "impressionUrl";
+	public static final String JSON_KEY_ADS_IMAGE_URL 				= "imageUrl";
+		
+	public static final String JSON_KEY_ADS_IMAGE_WIDTH 			= "width";
+	public static final String JSON_KEY_ADS_IMAGE_HEIGHT 			= "height";
 
+	
 }

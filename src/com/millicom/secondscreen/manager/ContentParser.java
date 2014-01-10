@@ -6,10 +6,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R.id;
 import android.util.Log;
 
 import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.content.model.AdzerkAd;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.Credit;
@@ -62,6 +62,12 @@ public class ContentParser {
 			guides.add(guide);
 		}
 		return guides;
+	}
+	
+	public AdzerkAd parseAd(String divId, JSONObject jsonAd) throws Exception {
+		AdzerkAd ad = new AdzerkAd(divId, jsonAd);
+		
+		return ad;
 	}
 
 	public ProgramType parseProgramType(JSONObject jsonProgramType) throws Exception {
