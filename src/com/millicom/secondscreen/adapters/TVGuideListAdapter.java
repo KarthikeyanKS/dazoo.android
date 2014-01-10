@@ -7,9 +7,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.Point;
-import android.net.Uri;
 import android.os.Build;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -26,17 +24,12 @@ import android.widget.TextView;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
-import com.millicom.secondscreen.content.model.AdzerkAd;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Program;
 import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.tvguide.ChannelPageActivity;
-import com.millicom.secondscreen.manager.DazooCore;
-import com.millicom.secondscreen.manager.DazooCore.AdCallBack;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
@@ -61,7 +54,7 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
 	public TVGuideListAdapter(Activity activity, ArrayList<Guide> guide, TvDate date, int hour, boolean isToday) {
-		super(guide);
+		super(TAG, activity, guide);
 		this.mGuide = guide;
 		this.mActivity = activity;
 		this.mDate = date;
@@ -102,7 +95,7 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 			rowView = mLayoutInflater.inflate(R.layout.row_tvguide_list, null);
 			ViewHolder viewHolder = new ViewHolder();
 			viewHolder.mContainer = (RelativeLayout) rowView.findViewById(R.id.item_container);
-			viewHolder.mChannelIconIv = (ImageView) rowView.findViewById(R.id.tvguide_channel_iv);
+			viewHolder.mImageView = (ImageView) rowView.findViewById(R.id.tvguide_channel_iv);
 			viewHolder.mTextView = (TextView) rowView.findViewById(R.id.tvguide_program_line_live);
 
 			rowView.setTag(viewHolder);
@@ -112,10 +105,10 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 		final Guide guide = getItem(position);
 
 		if (guide.getLogoLHref() != null) {
-			ImageAware imageAware = new ImageViewAware(holder.mChannelIconIv, false);
+			ImageAware imageAware = new ImageViewAware(holder.mImageView, false);
 			ImageLoader.getInstance().displayImage(guide.getLogoSHref(), imageAware);
 		} else {
-			holder.mChannelIconIv.setImageResource(R.color.white);
+			holder.mImageView.setImageResource(R.color.white);
 		}
 
 		holder.mContainer.setOnClickListener(new View.OnClickListener() {
@@ -220,109 +213,12 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 		return rowView;
 	}
 	
-	private View getAdView(int position, View convertView, ViewGroup parent) {
-		View rowView = convertView;
-		mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		
-		if (rowView == null) {
-			rowView = mLayoutInflater.inflate(R.layout.ad_space, null);
-			ViewHolder viewHolder = new ViewHolder();
-			viewHolder.mContainer = (RelativeLayout) rowView.findViewById(R.id.ad_space_container);
-			viewHolder.mChannelIconIv = (ImageView) rowView.findViewById(R.id.ad_space_imageview);
-
-			rowView.setTag(viewHolder);
-		}
-		final ViewHolder holder = (ViewHolder) rowView.getTag();
-		
-		if (holder.mChannelIconIv != null) {
-			String divId = new StringBuilder().append(TAG).append("AdDivId").append(position).toString();
-			DazooCore.getAdzerkAd(divId, new AdCallBack() {
-				@Override
-				public void onAdResult(AdzerkAd ad) {
-					if (ad != null) {
-						final String imageUrl = ad.getImageUrl();
-						final String impressionUrl = ad.getImpressionUrl();
-						if (imageUrl != null) {
-							
-							/* displayImage in UIL must run on main thread! */
-							mActivity.runOnUiThread(new Runnable() {
-								@Override
-								public void run() {
-									ImageAware imageAware = new ImageViewAware(holder.mChannelIconIv, false);
-									ImageLoader.getInstance().displayImage(imageUrl, imageAware, new ImageLoadingListener() {
-										@Override
-										public void onLoadingStarted(String imageUri, View view) {
-										}
-
-										@Override
-										public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-										}
-
-										@Override
-										public void onLoadingCancelled(String imageUri, View view) {
-										}
-
-										@Override
-										public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-											/*
-											 * Register Ad as shown when image has loaded completely
-											 */
-											if (impressionUrl != null) {
-												/* Let the image loader send the request, since it caches requests which is good */
-												ImageLoader.getInstance().displayImage(impressionUrl, new ImageView(mActivity.getApplicationContext()), new ImageLoadingListener() {
-													@Override
-													public void onLoadingStarted(String imageUri, View view) {
-													}
-
-													@Override
-													public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-														Log.w(TAG, "Tracking of impression url failed");
-													}
-
-													@Override
-													public void onLoadingCancelled(String imageUri, View view) {
-														Log.d(TAG, "Tracking of impression url canceled");
-													}
-
-													@Override
-													public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-														Log.d(TAG, "Successfully tracked impression url");
-													}
-												});
-											}
-										}
-
-									});
-									holder.mChannelIconIv.setVisibility(View.VISIBLE);
-								}
-							});
-
-						}
-
-						final String clickUrl = ad.getClickUrl();
-						if (clickUrl != null) {
-							holder.mContainer.setOnClickListener(new View.OnClickListener() {
-								@Override
-								public void onClick(View v) {
-									final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(clickUrl));
-									mActivity.startActivity(intent);
-								}
-							});
-						}
-					}
-				}
-			});
-		}
-
-		return rowView;
-	}
-	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		View rowView = null;
-		if(isAdPosition(position)) {
-			rowView = getAdView(position, convertView, parent);
-		} else {
+		/* Superclass AdListAdapter will create view if this is a position of an ad. */
+		View rowView = super.getView(position, convertView, parent);
+		
+		if(rowView == null) {
 			rowView = getViewForGuideCell(position, convertView, parent);
 		}
 		
@@ -331,7 +227,7 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 
 	static class ViewHolder {
 		public RelativeLayout	mContainer;
-		public ImageView		mChannelIconIv;
+		public ImageView		mImageView;
 		public TextView			mTextView;
 	}
 
