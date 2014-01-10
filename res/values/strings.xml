@@ -17,24 +17,24 @@
     <string name="tomorrow">Tomorrow</string>
     
     <!-- ICONS -->
-    <string name="icon_timetable">&#x039F;</string>
-    <string name="icon_live"> &#x0399; </string>
-    <string name="icon_movie"> &#x03A2;</string>
-    <string name="icon_settings"> &#x039C;</string>
-    <string name="icon_magnet"> &#x039B;</string>
-    <string name="icon_series"> &#xE801;</string>
-    <string name="icon_letter"> &#x0395;</string>
-    <string name="icon_feed"> &#x03A0;</string>
-    <string name="icon_search"> &#xE812;</string>
-    <string name="icon_pin"> &#xE800;</string>
-    <string name="icon_me"> &#x03A1;</string>
-    <string name="icon_facebook"> &#x0396;</string>
-    <string name="icon_heart"> &#x0398;</string>
-    <string name="icon_trending"> &#0397;</string>
-    <string name="icon_clock"> &#x0394;</string>
-    <string name="icon_twitter"> &#x039E;</string>
-    <string name="icon_blocks"> &#x039A;</string>
-    <string name="icon_bookmark"> &#xE804;</string>
+    <string name="icon_timetable">	&#x039F;</string>
+    <string name="icon_live"> 		&#x0399; </string>
+    <string name="icon_movie"> 		&#x03A2;</string>
+    <string name="icon_settings"> 	&#x039C;</string>
+    <string name="icon_magnet"> 	&#x039B;</string>
+    <string name="icon_series"> 	&#xE801;</string>
+    <string name="icon_letter"> 	&#x0395;</string>
+    <string name="icon_feed"> 		&#x03A0;</string>
+    <string name="icon_search"> 	&#xE812;</string>
+    <string name="icon_pin"> 		&#xE800;</string>
+    <string name="icon_me"> 		&#x03A1;</string>
+    <string name="icon_facebook"> 	&#x0396;</string>
+    <string name="icon_heart"> 		&#x0398;</string>
+    <string name="icon_trending"> 	&#x0397;</string>
+    <string name="icon_clock"> 		&#x0394;</string>
+    <string name="icon_twitter"> 	&#x039E;</string>
+    <string name="icon_blocks"> 	&#x039A;</string>
+    <string name="icon_bookmark"> 	&#xE804;</string>
     
     <!-- HOMEPAGE : FILTER BY CATEGORY -->
     <string name="tv_guide">TV Guide</string>
