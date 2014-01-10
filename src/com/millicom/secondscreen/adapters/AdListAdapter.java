@@ -7,10 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -64,11 +64,6 @@ public class AdListAdapter<T> extends BaseAdapter {
 				item = items.get(positionExcludingAds);
 			}
 		}
-		if(item != null) {
-			Log.e(TAG, "getItem, position:" + position);
-		} else {
-			Log.e(TAG, "getItem, item NULL:" + position);
-		}
 		
 		return item;
 	}
@@ -114,12 +109,11 @@ public class AdListAdapter<T> extends BaseAdapter {
 				String divId = new StringBuilder().append(TAG).append("AdDivId").append(position).toString();
 				DazooCore.getAdzerkAd(divId, new AdCallBack() {
 					@Override
-					public void onAdResult(AdzerkAd ad) {
+					public void onAdResult(final AdzerkAd ad) {
 						if (ad != null) {
 							final String imageUrl = ad.getImageUrl();
 							final String impressionUrl = ad.getImpressionUrl();
 							if (imageUrl != null) {
-								
 								/* displayImage in UIL must run on main thread! */
 								activity.runOnUiThread(new Runnable() {
 									@Override
@@ -140,36 +134,24 @@ public class AdListAdapter<T> extends BaseAdapter {
 
 											@Override
 											public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+												/* Set the size of the imageView according to the size of the ad image */
+												LayoutParams params = holder.mImageView.getLayoutParams();
+												params.width = ad.getWidth();
+												params.height = ad.getHeight();
+												holder.mImageView.setLayoutParams(params);
+												
+												/* Image loaded, show imageView */
+												holder.mImageView.setVisibility(View.VISIBLE);
+												
 												/*
 												 * Register Ad as shown when image has loaded completely
 												 */
 												if (impressionUrl != null) {
 													/* Let the image loader send the request, since it caches requests which is good */
-													ImageLoader.getInstance().displayImage(impressionUrl, new ImageView(activity.getApplicationContext()), new ImageLoadingListener() {
-														@Override
-														public void onLoadingStarted(String imageUri, View view) {
-														}
-
-														@Override
-														public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-															Log.w(TAG, "Tracking of impression url failed");
-														}
-
-														@Override
-														public void onLoadingCancelled(String imageUri, View view) {
-															Log.d(TAG, "Tracking of impression url canceled");
-														}
-
-														@Override
-														public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-															Log.d(TAG, "Successfully tracked impression url");
-														}
-													});
+													ImageLoader.getInstance().displayImage(impressionUrl, new ImageView(activity.getApplicationContext()));
 												}
 											}
-
 										});
-										holder.mImageView.setVisibility(View.VISIBLE);
 									}
 								});
 
