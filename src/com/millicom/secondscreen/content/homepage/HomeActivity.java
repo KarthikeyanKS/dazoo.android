@@ -251,7 +251,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 		final int actionBarColor = getResources().getColor(R.color.blue1);
 		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
-
+		mActionBar.setIcon(getResources().getDrawable(R.drawable.ic_nav_bar));
 		mActionBar.setDisplayShowTitleEnabled(false);
 		mActionBar.setDisplayShowCustomEnabled(true);
 		mActionBar.setDisplayUseLogoEnabled(true);

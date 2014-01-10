@@ -1,12 +1,16 @@
 package com.millicom.secondscreen.adapters;
 
+import java.util.HashMap;
 import java.util.List;
 
+
+import com.millicom.secondscreen.R;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +19,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.adapters.TVGuideListAdapter.ViewHolder;
 import com.millicom.secondscreen.content.model.AdzerkAd;
 import com.millicom.secondscreen.manager.AppConfigurationManager;
@@ -32,6 +35,7 @@ public class AdListAdapter<T> extends BaseAdapter {
 	private String TAG;
 	private Activity activity;
 	private List<T> items;
+	private HashMap<Integer, AdzerkAd> adItems = new HashMap<Integer, AdzerkAd>();
 	private int cellCountBetweenAdCells;
 	
 	public AdListAdapter(String tag, Activity activity, List<T> items) {
@@ -41,18 +45,23 @@ public class AdListAdapter<T> extends BaseAdapter {
 		this.items = items;
 		
 		this.cellCountBetweenAdCells = AppConfigurationManager.getInstance().getCellCountBetweenAdCells();
+		
+		downloadAds();
 	}
-
+	
 	@Override
 	public int getCount() {
 		int finalCount = 0;
 		if (items != null) {
-			int count = items.size();
-			double multiple = 1 + (1/AppConfigurationManager.getInstance().getCellCountBetweenAdCells());
-			finalCount = (int) Math.ceil((double)count * multiple);
+			finalCount = getAdCount() + items.size();
 		}
 
 		return finalCount;
+	}
+	
+	public int getAdCount() {
+		int adCount = (int) Math.floor(items.size()/cellCountBetweenAdCells);
+		return adCount;
 	}
 
 	@Override
@@ -66,15 +75,6 @@ public class AdListAdapter<T> extends BaseAdapter {
 		}
 		
 		return item;
-	}
-
-	@Override
-	public int getItemViewType(int position) {
-		if(isAdPosition(position)) {
-			return 0;
-		} else {
-			return 1;
-		}
 	}
 
 	@Override
@@ -106,74 +106,121 @@ public class AdListAdapter<T> extends BaseAdapter {
 			final ViewHolder holder = (ViewHolder) rowView.getTag();
 			
 			if (holder.mImageView != null) {
-				String divId = new StringBuilder().append(TAG).append("AdDivId").append(position).toString();
-				DazooCore.getAdzerkAd(divId, new AdCallBack() {
-					@Override
-					public void onAdResult(final AdzerkAd ad) {
-						if (ad != null) {
-							final String imageUrl = ad.getImageUrl();
-							final String impressionUrl = ad.getImpressionUrl();
-							if (imageUrl != null) {
-								/* displayImage in UIL must run on main thread! */
-								activity.runOnUiThread(new Runnable() {
+				final AdzerkAd ad = getAdAtGlobalIndex(position);
+				if (ad != null) {
+					final String imageUrl = ad.getImageUrl();
+					final String impressionUrl = ad.getImpressionUrl();
+					final View separator = holder.mContainer.findViewById(R.id.ad_space_separator);
+					if (imageUrl != null) {
+						/* displayImage in UIL must run on main thread! */
+						activity.runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								ImageAware imageAware = new ImageViewAware(holder.mImageView, false);
+								ImageLoader.getInstance().displayImage(imageUrl, imageAware, new ImageLoadingListener() {
 									@Override
-									public void run() {
-										ImageAware imageAware = new ImageViewAware(holder.mImageView, false);
-										ImageLoader.getInstance().displayImage(imageUrl, imageAware, new ImageLoadingListener() {
-											@Override
-											public void onLoadingStarted(String imageUri, View view) {
-											}
-
-											@Override
-											public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-											}
-
-											@Override
-											public void onLoadingCancelled(String imageUri, View view) {
-											}
-
-											@Override
-											public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-												/* Set the size of the imageView according to the size of the ad image */
-												LayoutParams params = holder.mImageView.getLayoutParams();
-												params.width = ad.getWidth();
-												params.height = ad.getHeight();
-												holder.mImageView.setLayoutParams(params);
-												
-												/* Image loaded, show imageView */
-												holder.mImageView.setVisibility(View.VISIBLE);
-												
-												/*
-												 * Register Ad as shown when image has loaded completely
-												 */
-												if (impressionUrl != null) {
-													/* Let the image loader send the request, since it caches requests which is good */
-													ImageLoader.getInstance().displayImage(impressionUrl, new ImageView(activity.getApplicationContext()));
-												}
-											}
-										});
+									public void onLoadingStarted(String imageUri, View view) {
 									}
-								});
 
-							}
-
-							final String clickUrl = ad.getClickUrl();
-							if (clickUrl != null) {
-								holder.mContainer.setOnClickListener(new View.OnClickListener() {
 									@Override
-									public void onClick(View v) {
-										final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(clickUrl));
-										activity.startActivity(intent);
+									public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+									}
+
+									@Override
+									public void onLoadingCancelled(String imageUri, View view) {
+									}
+
+									@Override
+									public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+										/* Set the size of the imageView according to the size of the ad image */
+										LayoutParams params = holder.mImageView.getLayoutParams();
+										params.width = ad.getWidth();
+										params.height = ad.getHeight();
+										holder.mImageView.setLayoutParams(params);
+										
+										/* Image loaded, show imageView */
+										holder.mImageView.setVisibility(View.VISIBLE);
+										separator.setVisibility(View.VISIBLE);
+										
+										/*
+										 * Register Ad as shown when image has loaded completely
+										 */
+										if (impressionUrl != null) {
+											/* Let the image loader send the request, since it caches requests which is good */
+											ImageLoader.getInstance().displayImage(impressionUrl, new ImageView(activity.getApplicationContext()));
+										}
 									}
 								});
 							}
-						}
+						});
+					} else {
+						holder.mImageView.setVisibility(View.GONE);
+						separator.setVisibility(View.GONE);
 					}
-				});
+
+					final String clickUrl = ad.getClickUrl();
+					if (clickUrl != null) {
+						holder.mContainer.setOnClickListener(new View.OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(clickUrl));
+								activity.startActivity(intent);
+							}
+						});
+					}
+				}
 			}
 		}
-		
+
 		return rowView;
+	}
+	
+	private int globalIndexToAdIndex(int globalIndex) {
+		int cellsPerAd = cellCountBetweenAdCells + 1;
+		int adIndex = (globalIndex/cellsPerAd); //Zero indexed
+		Log.e("REMOVE ME", "globalIndex: " + globalIndex + " adIndex: " + adIndex);
+		return adIndex;
+	}
+	
+	private AdzerkAd getAdAtGlobalIndex(int globalIndex) {
+		int adIndex = globalIndexToAdIndex(globalIndex);
+		AdzerkAd ad = adItems.get(adIndex);
+		
+		return ad;
+	}
+	
+	private void downloadAds() {
+		final int adCount = getAdCount();
+		for(int i = 0; i < adCount; ++i) {
+			final int index = i;
+			String divId = new StringBuilder().append(TAG).append("AdWithId").append(i).toString();
+			DazooCore.getAdzerkAd(divId, new AdCallBack() {
+				@Override
+				public void onAdResult(final AdzerkAd ad) {
+					if (ad != null) {
+						adItems.put(index, ad);
+					}
+					
+					if(index == adCount-1) {
+						activity.runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								AdListAdapter.this.notifyDataSetChanged();
+							}
+						});
+					}
+				}
+			});
+		}
+	}
+	
+	@Override
+	public int getItemViewType(int position) {
+		if(isAdPosition(position)) {
+			return 0;
+		} else {
+			return 1;
+		}
 	}
 	
 	public boolean isAdPosition(int position) {

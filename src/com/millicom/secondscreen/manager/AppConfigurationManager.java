@@ -55,7 +55,7 @@ public class AppConfigurationManager {
 	public List<Integer> getAdzerkAdFormats() {
 //		return adzerkAdFormats;
 		//TODO return real config values
-		return Arrays.asList(4, 22);
+		return Arrays.asList(5);
 	}
 	public void setAdzerkAdFormats(List<Integer> adzerkAdFormats) {
 		this.adzerkAdFormats = adzerkAdFormats;

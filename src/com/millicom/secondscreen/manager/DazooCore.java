@@ -30,6 +30,7 @@ import com.google.gson.Gson;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
+import com.millicom.secondscreen.content.SSAdzerkAdPage;
 import com.millicom.secondscreen.content.SSChannelPage;
 import com.millicom.secondscreen.content.SSGuidePage;
 import com.millicom.secondscreen.content.SSPageCallback;
@@ -278,7 +279,7 @@ public class DazooCore {
 		public void onAdResult(AdzerkAd ad);
 	}
 	
-	private static class GetAdzerkAdTask extends AsyncTask<String, Void, AdzerkAd> {
+	private static class GetAdzerkAdTask extends AsyncTask<String, Void, Void> {
 
 		private final String TAG = "GetAdzerkAdTask";
 		
@@ -290,8 +291,24 @@ public class DazooCore {
 			this.adCallBack = adCallBack;
 		}
 		
-		@Override
-		protected AdzerkAd doInBackground(String... params) {
+		//TODO test using the 'page' pattern, but how should we enter the params to the HTTP POST (not get!)
+//		@Override
+//		protected Void doInBackground(String... params) {
+//			SSAdzerkAdPage.getInstance().getPage(divId, new SSPageCallback() {
+//				@Override
+//				public void onGetPageResult(SSPageGetResult aPageGetResult) {
+//					AdzerkAd ad = SSAdzerkAdPage.getInstance().getAd();
+//					
+//					if(ad != null) {
+//						GetAdzerkAdTask.this.adCallBack.onAdResult(ad);
+//					}
+//				}
+//			});
+//
+//			return null;
+//		}
+		
+		protected Void doInBackground(String... params) {
 			AdzerkAd ad = null;
 			
 			try {
@@ -348,7 +365,7 @@ public class DazooCore {
 				this.adCallBack.onAdResult(ad);
 			}
 			
-			return ad;
+			return null;
 		}
 		
 		private class AdzerkJSONObjectRequest {

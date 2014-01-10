@@ -5,40 +5,27 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.content.model.Broadcast;
-import com.millicom.secondscreen.content.model.Link;
-
-import android.util.Log;
 
 public class SSBroadcastsFromSeriesPage extends SSPage{
 	public static final String	TAG	= "SSBroadcastsFromSeriesPage";
-	public String				mPageUrl;
 
-	// private constructor prevents instantiation from other classes
-	private SSBroadcastsFromSeriesPage() {};
-	
-	private static class SSBroadcastsFromSeriesPageHolder{
-		public static final SSBroadcastsFromSeriesPage  INSTANCE = new SSBroadcastsFromSeriesPage();
+	private static SSBroadcastsFromSeriesPage	sInstance;
+	public static SSBroadcastsFromSeriesPage getInstance() {
+		if (sInstance == null) { 
+			sInstance = new SSBroadcastsFromSeriesPage();
+		}
+		return sInstance;
 	}
 	
-	public static SSBroadcastsFromSeriesPage getInstance(){
-		return SSBroadcastsFromSeriesPageHolder.INSTANCE;
+	public boolean getPage(String seriesId, SSPageCallback aSSPageCallback) {
+		String url = Consts.MILLICOM_SECONDSCREEN_SERIES + seriesId + Consts.MILLICOM_SECONDSCREEN_API_UPCOMING_BROADCASTS;
+		return super.getPage(url, aSSPageCallback);
 	}
-
-	public boolean getPage(String seriesId, SSPageCallback pageCallback) {
-		Log.d(TAG, "getPage");
-		// Remember the callback
-		super.mPageCallback = pageCallback;
-		mPageUrl = Consts.MILLICOM_SECONDSCREEN_SERIES + seriesId + Consts.MILLICOM_SECONDSCREEN_API_UPCOMING_BROADCASTS;
 		
-		Link startPageLink = new Link();
-		startPageLink.setUrl(mPageUrl);
-
-		super.getPage(startPageLink, pageCallback);
-		return true;
-	}
-
 	public ArrayList<Broadcast> getSeriesUpcomingBroadcasts() {
 		Log.d(TAG, "get series upcoming broadcasts");
 		return super.getSeriesUpcomingBroadcasts();
@@ -54,25 +41,6 @@ public class SSBroadcastsFromSeriesPage extends SSPage{
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-	}
-
-	protected void handleGetStartPageUriResult() {
-
-		Log.d(TAG, "handleGetStartPageUriResult");
-
-		// If get start page uri failed or get start page fails
-		if (!getPage(mPageUrl, mPageCallback)) {
-
-			Log.d(TAG, "Get start page uri or get start page failed");
-
-			// If we have a callback
-			if (mPageCallback != null) {
-
-				// Tell our callback about it
-				SSPageGetResult pageGetResult = new SSPageGetResult(this);
-				mPageCallback.onGetPageResult(pageGetResult);
-			}
 		}
 	}
 

@@ -56,6 +56,7 @@ public abstract class Consts {
 	public static final String MILLICOM_SECONDSCREEN_PROGRAMS 								= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/programs/";
 	public static final String MILLICOM_SECONDSCREEN_SERIES 								= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/series/";
 	public static final String MILLICOM_SECONDSCREEN_POPULAR 								= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/broadcasts/popular/";
+	public static final String MILLICOM_SECONDSCREEN_CONFIGURATION 							= MILLICOM_SECONDSCREEN_SERVER_URL + "configuration";
 
 	public static final String NOTIFY_BROADCAST_URL_PREFIX 									= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/channels/";
 

@@ -24,7 +24,7 @@
                 android:id="@+id/tvguide_channel_iv"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/guide_image_margin"
                 android:adjustViewBounds="true"
                 android:clickable="false"
                 android:focusableInTouchMode="false" />

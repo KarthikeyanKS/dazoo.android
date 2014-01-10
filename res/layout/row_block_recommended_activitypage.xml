@@ -61,7 +61,6 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="5dp"
                 android:layout_toRightOf="@id/row_block_recommended_text_title_tv"
-                android:src="@drawable/ic_launcher"
                 android:visibility="gone" />
 
             <com.millicom.secondscreen.customviews.FontTextView
@@ -91,8 +90,7 @@
                 android:layout_height="32dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:layout_margin="5dp"
-                android:src="@drawable/ic_launcher" />
+                android:layout_margin="5dp" />
         </RelativeLayout>
     </LinearLayout>
 

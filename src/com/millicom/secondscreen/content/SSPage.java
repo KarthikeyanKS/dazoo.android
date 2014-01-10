@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
+import com.millicom.secondscreen.content.model.AdzerkAd;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.Guide;
@@ -22,6 +23,7 @@ import com.millicom.secondscreen.manager.ContentParser;
 public abstract class SSPage {
 
 	private static final String				TAG				= "SSPage";
+	private String 							mPageUrl;
 	protected SSPageCallback				mPageCallback	= null;
 	private SSHttpClient<SSPageGetResult>	mHttpClient		= new SSHttpClient<SSPageGetResult>();
 	private ContentParser					mContentParser	= new ContentParser();
@@ -33,15 +35,30 @@ public abstract class SSPage {
 	private ArrayList<Channel>				mChannels;
 	private ArrayList<Tag>					mTags;
 	private Broadcast						mBroadcast;
+	private AdzerkAd						mAdzerkAd;
 	private ArrayList<Broadcast>			mSeriesUpcomingBroadcasts;
 	private ArrayList<Broadcast> mProgramBroadcasts;
 
+	public SSPage(String url) {
+		this.mPageUrl = url;
+	}
+	
+	public SSPage(){}
+	
 	public void cancelGetPage() {
 		mHttpClient.cancelRequest();
 	}
+	
+	public boolean getPage(SSPageCallback aSSPageCallback) {
+		return getPage(this.mPageUrl, aSSPageCallback);
+	}
 
-	public boolean getPage(Link aLink, SSPageCallback aSSPageCallback) {
+	public boolean getPage(String url, SSPageCallback aSSPageCallback) {
 		Log.d(TAG, "get Page");
+				
+		Link aLink = new Link();
+		aLink.setUrl(url);
+		
 		mPageCallback = aSSPageCallback;
 		return mHttpClient.doHttpGet(aLink.getUrl(), new SSHttpClientCallback<SSPageGetResult>() {
 
@@ -74,6 +91,22 @@ public abstract class SSPage {
 
 	protected abstract void parseGetPageResult(JSONObject jsonObject, SSPageGetResult pageGetResult);
 
+	protected void handleGetStartPageUriResult() {
+		Log.d(TAG, "handleGetStartPageUriResult");
+
+		// If get start page uri failed or get start page fails
+		if (!getPage(mPageUrl, mPageCallback)) {
+			Log.d(TAG, "Get page uri or get page failed");
+
+			// If we have a callback
+			if (mPageCallback != null) {
+				// Tell our callback about it
+				SSPageGetResult pageGetResult = new SSPageGetResult(this);
+				mPageCallback.onGetPageResult(pageGetResult);
+			}
+		}
+	}
+	
 	protected SSPageGetResult handleHttpGetResult(SSHttpClientGetResult aHttpClientGetResult) {
 		Log.d(TAG, "In onHandleHttpGetResult");
 		JSONArray jsonArray = aHttpClientGetResult.getJsonArray();
@@ -144,6 +177,10 @@ public abstract class SSPage {
 	public Broadcast getBroadcast() {
 		return mBroadcast;
 	}
+	
+	public AdzerkAd getAd() {
+		return mAdzerkAd;
+	}
 
 	public void parseBroadcast(JSONObject jsonObject) throws Exception {
 		this.mBroadcast = mContentParser.parseBroadcast(jsonObject);
@@ -163,5 +200,9 @@ public abstract class SSPage {
 	
 	public void parseProgramBroadcasts(JSONArray jsonArray) throws Exception{
 		this.mProgramBroadcasts = mContentParser.parseProgramBroadcasts(jsonArray);
+	}
+	
+	public void parseAdzerkAd(String divId, JSONObject jsonObject) throws Exception {
+		this.mAdzerkAd = mContentParser.parseAd(divId, jsonObject);
 	}
 }

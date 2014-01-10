@@ -92,7 +92,6 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:padding="3dp"
-                        android:src="@drawable/ic_launcher"
                         android:visibility="gone" />
 
                     <com.millicom.secondscreen.customviews.FontTextView
@@ -134,7 +133,6 @@
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:padding="3dp"
-                        android:src="@drawable/ic_launcher"
                         android:visibility="gone" />
 
                     <com.millicom.secondscreen.customviews.FontTextView
@@ -175,7 +173,6 @@
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:padding="3dp"
-                        android:src="@drawable/ic_launcher"
                         android:visibility="gone" />
 
                     <com.millicom.secondscreen.customviews.FontTextView
@@ -216,7 +213,6 @@
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:padding="3dp"
-                        android:src="@drawable/ic_launcher"
                         android:visibility="gone" />
 
                     <com.millicom.secondscreen.customviews.FontTextView
@@ -422,4 +418,5 @@
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
+
 </RelativeLayout>
