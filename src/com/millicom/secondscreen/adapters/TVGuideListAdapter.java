@@ -19,7 +19,6 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -33,17 +32,15 @@ import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Program;
 import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.tvguide.ChannelPageActivity;
-import com.millicom.secondscreen.manager.AppConfigurationManager;
 import com.millicom.secondscreen.manager.DazooCore;
 import com.millicom.secondscreen.manager.DazooCore.AdCallBack;
-import com.millicom.secondscreen.manager.GenericTrackingManager;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-public class TVGuideListAdapter extends BaseAdapter {
+public class TVGuideListAdapter extends AdListAdapter<Guide> {
 
 	private static final int SCREEN_WIDTH_SMALL 	= 240;
 	private static final int SCREEN_WIDTH_MEDIUM 	= 320;
@@ -64,6 +61,7 @@ public class TVGuideListAdapter extends BaseAdapter {
 	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
 	public TVGuideListAdapter(Activity activity, ArrayList<Guide> guide, TvDate date, int hour, boolean isToday) {
+		super(guide);
 		this.mGuide = guide;
 		this.mActivity = activity;
 		this.mDate = date;
@@ -335,65 +333,6 @@ public class TVGuideListAdapter extends BaseAdapter {
 		public RelativeLayout	mContainer;
 		public ImageView		mChannelIconIv;
 		public TextView			mTextView;
-	}
-
-	@Override
-	public int getCount() {
-		int finalCount = 0;
-		if (mGuide != null) {
-			int count = mGuide.size();
-			double multiple = 1 + (1/AppConfigurationManager.getInstance().getCellCountBetweenAdCells());
-			finalCount = (int) Math.ceil((double)count * multiple);
-		}
-
-		return finalCount;
-	}
-	
-	public boolean isAdPosition(int position) {
-		boolean isAdPosition = false;
-		
-		if(position % (1 + AppConfigurationManager.getInstance().getCellCountBetweenAdCells()) == 0) {
-			isAdPosition = true;
-		}
-		
-		return isAdPosition;
-	}
-	
-	public int positionExcludingAds(int position) {
-		int adsUntilThisPosition = (int) Math.floor((double)position / (double)(AppConfigurationManager.getInstance().getCellCountBetweenAdCells() + 1));
-		int positionExcludingAds = position - adsUntilThisPosition;
-		return positionExcludingAds;
-	}
-
-	@Override
-	public Guide getItem(int position) {
-		Guide guide = null;
-		if (mGuide != null) {
-			if(!isAdPosition(position)) {
-				int positionExcludingAds = positionExcludingAds(position);
-				guide = mGuide.get(positionExcludingAds);
-			}
-		}
-		return guide;
-	}
-	
-	@Override
-	public int getItemViewType(int position) {
-		if(isAdPosition(position)) {
-			return 0;
-		} else {
-			return 1;
-		}
-	}
-
-	@Override
-	public int getViewTypeCount() {
-		return 2;
-	}
-
-	@Override
-	public long getItemId(int arg0) {
-		return -1;
 	}
 
 	public void refreshList(int selectedHour) {
