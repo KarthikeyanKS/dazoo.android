@@ -154,7 +154,8 @@ public class BroadcastMainBlockPopulator {
 		}
 		// broadcast is in the future: show time
 		else {
-			timeTv.setText(broadcast.getDayOfWeekWithTimeString());
+			timeTv.setText(broadcast.getDayOfWeekString() + " " + broadcast.getBeginTimeStringLocalDayMonth() + "\n" + 
+						   broadcast.getBeginTimeStringLocal() + " - " + broadcast.getEndTimeStringLocal());
 		}
 
 		String synopsis = program.getSynopsisShort();

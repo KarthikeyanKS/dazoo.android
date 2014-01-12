@@ -140,8 +140,7 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_alignParentLeft="true"
-                    android:adjustViewBounds="true"
-                    android:paddingBottom="5dp" />
+                    android:adjustViewBounds="true" />
 
                 <RelativeLayout
                     android:id="@+id/block_broadcastpage_progress_time_container"
