@@ -6,13 +6,12 @@
     android:orientation="vertical" >
 
     
-<!--         android:layout_width="0dp" -->
+<!--         android:adjustViewBounds="true" -->
+<!--         android:scaleType="centerCrop" -->
     <ImageView
         android:id="@+id/ad_space_imageview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerInside"
-        android:adjustViewBounds="true"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="@dimen/guide_image_margin"
         android:visibility="gone" />
