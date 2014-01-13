@@ -22,12 +22,15 @@
         <item name="android:homeAsUpIndicator" tools:ignore="NewApi">@drawable/ic_up_indicator</item>
         <item name="homeAsUpIndicator">@drawable/ic_up_indicator</item>
         <item name="android:windowAnimationStyle">@null</item>
+        
+        <item name="android:icon">@drawable/ic_nav_bar</item>
     </style>
 
     <style name="HomePage" parent="@style/Theme.AppCompat.Light">
         <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
         <item name="android:actionDropDownStyle" tools:ignore="NewApi">@style/ActionBarDropDown</item>
         
+        <item name="android:icon">@drawable/ic_nav_bar</item>
         <item name="android:windowAnimationStyle">@null</item>
     </style>
 
@@ -43,7 +46,10 @@
         <item name="android:homeAsUpIndicator" tools:ignore="NewApi">@drawable/ic_up_indicator</item>
         <item name="android:actionBarStyle" tools:ignore="NewApi">@style/WhiteActionBar</item>
 
+        <item name="android:icon">@drawable/ic_nav_bar</item>
+        
         <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:src">@drawable/ic_nav_bar</item>
         
         <!-- Support library compatibility -->
         <item name="actionBarStyle">@style/WhiteActionBar</item>

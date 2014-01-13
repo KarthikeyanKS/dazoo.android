@@ -9,15 +9,8 @@ import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.protocol.ClientContext;
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.json.JSONArray;
@@ -25,13 +18,11 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import android.annotation.TargetApi;
-import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
 
 import com.damnhandy.uri.template.UriTemplate;
-import com.millicom.secondscreen.Consts;
 
 public class SSHttpClient<T_Result> {
 
@@ -68,6 +59,7 @@ public class SSHttpClient<T_Result> {
 		}
 	}
 
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public boolean doHttpGet(String uri, SSHttpClientCallback<T_Result> httpClientCallback) {
 
 		mHttpClientCallback = httpClientCallback;
@@ -239,21 +231,6 @@ public class SSHttpClient<T_Result> {
 			return sHttpClient;
 		}
 	}
-
-	// protected void getResponseFromStream(SSHttpClientGetResult httpClientGetResult, InputStream responseStream) throws Exception {
-	// Log.d(TAG, "Get response stream as string");
-	// // Get response stream as a string
-	// String response = NetworkUtils.convertStreamToString(responseStream);
-	// Log.d(TAG, "Save response stream as json object in result");
-	// // Set response string as a json object in result
-	//
-	// // httpClientGetResult.setJson(new JSONObject(response));
-	// try {
-	// httpClientGetResult.setJsonArray(new JSONArray(response));
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
 
 	protected void getResponseFromStream(SSHttpClientGetResult httpClientGetResult, InputStream responseStream) throws Exception {
 		// Get response stream as an object

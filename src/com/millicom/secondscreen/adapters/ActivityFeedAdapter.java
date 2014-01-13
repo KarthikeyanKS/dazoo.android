@@ -1,7 +1,6 @@
 package com.millicom.secondscreen.adapters;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -37,7 +35,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-public class ActivityFeedAdapter extends BaseAdapter {
+public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 
 	private static final String		TAG									= "ActivityFeedAdapter";
 	private Activity				mActivity;
@@ -45,11 +43,12 @@ public class ActivityFeedAdapter extends BaseAdapter {
 	private LayoutInflater			mLayoutInflater;
 
 	private int						DAZOO_ACTIVITY_BLOCKS_TYPE_NUMBER	= 5;
-	private static final int		ITEM_TYPE_BROADCAST					= 0;
-	private static final int		ITEM_TYPE_RECOMMENDED_BROADCAST		= 1;
-	private static final int		ITEM_TYPE_POPULAR_BROADCASTS		= 2;
-	private static final int		ITEM_TYPE_POPULAR_TWITTER			= 3;
-	private static final int		ITEM_TYPE_POPULAR_BROADCAST			= 4;
+	
+	private static final int		ITEM_TYPE_BROADCAST					= 1; //0 is reserved for ads
+	private static final int		ITEM_TYPE_RECOMMENDED_BROADCAST		= 2;
+	private static final int		ITEM_TYPE_POPULAR_BROADCASTS		= 3;
+	private static final int		ITEM_TYPE_POPULAR_TWITTER			= 4;
+	private static final int		ITEM_TYPE_POPULAR_BROADCAST			= 5;
 
 	private String					mToken;
 	private int						mNotificationId;
@@ -61,6 +60,7 @@ public class ActivityFeedAdapter extends BaseAdapter {
 	private boolean					mIsLiked							= false, mIsSet = false;
 
 	public ActivityFeedAdapter(Activity activity, ArrayList<FeedItem> feedItems, String token) {
+		super(TAG, activity, feedItems);
 		this.mActivity = activity;
 		this.mFeedItems = feedItems;
 		this.mToken = token;
@@ -69,27 +69,8 @@ public class ActivityFeedAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public int getCount() {
-		if (mFeedItems != null) {
-			return mFeedItems.size();
-		} else return 0;
-	}
-
-	@Override
-	public FeedItem getItem(int position) {
-		if (mFeedItems != null) {
-			return mFeedItems.get(position);
-		} else return null;
-	}
-
-	@Override
 	public int getViewTypeCount() {
-		return DAZOO_ACTIVITY_BLOCKS_TYPE_NUMBER;
-	}
-
-	@Override
-	public long getItemId(int position) {
-		return position;
+		return super.getViewTypeCount() + DAZOO_ACTIVITY_BLOCKS_TYPE_NUMBER;
 	}
 
 	public void addItem(final FeedItem item) {
@@ -105,19 +86,24 @@ public class ActivityFeedAdapter extends BaseAdapter {
 	@Override
 	public int getItemViewType(int position) {
 		FeedItem item = getItem(position);
-		String feedItemType = item.getItemType();
-		if (Consts.DAZOO_FEED_ITEM_TYPE_POPULAR_BROADCASTS.equals(feedItemType)) {
-			return ITEM_TYPE_POPULAR_BROADCASTS;
-		} else if (Consts.DAZOO_FEED_ITEM_TYPE_BROADCAST.equals(feedItemType)) {
-			return ITEM_TYPE_BROADCAST;
-		} else if (Consts.DAZOO_FEED_ITEM_TYPE_RECOMMENDED_BROADCAST.equals(feedItemType)) {
-			return ITEM_TYPE_RECOMMENDED_BROADCAST;
-		} else if (Consts.DAZOO_FEED_ITEM_TYPE_POPULAR_TWITTER.equals(feedItemType)) {
-			return ITEM_TYPE_POPULAR_TWITTER;
-		} else if (Consts.DAZOO_FEED_ITEM_POPULAR_BROADCAST.equals(feedItemType)) {
-			return ITEM_TYPE_POPULAR_BROADCAST;
+		if (item != null) {
+			String feedItemType = item.getItemType();
+			if (Consts.DAZOO_FEED_ITEM_TYPE_POPULAR_BROADCASTS.equals(feedItemType)) {
+				return ITEM_TYPE_POPULAR_BROADCASTS;
+			} else if (Consts.DAZOO_FEED_ITEM_TYPE_BROADCAST.equals(feedItemType)) {
+				return ITEM_TYPE_BROADCAST;
+			} else if (Consts.DAZOO_FEED_ITEM_TYPE_RECOMMENDED_BROADCAST.equals(feedItemType)) {
+				return ITEM_TYPE_RECOMMENDED_BROADCAST;
+			} else if (Consts.DAZOO_FEED_ITEM_TYPE_POPULAR_TWITTER.equals(feedItemType)) {
+				return ITEM_TYPE_POPULAR_TWITTER;
+			} else if (Consts.DAZOO_FEED_ITEM_POPULAR_BROADCAST.equals(feedItemType)) {
+				return ITEM_TYPE_POPULAR_BROADCAST;
+			} else {
+				return ITEM_TYPE_BROADCAST;
+			}
+		} else {
+			return super.getItemViewType(position);
 		}
-		return ITEM_TYPE_BROADCAST;
 	}
 
 	public void populatePopularItemAtIndex(PopularBroadcastsViewHolder viewHolder, ArrayList<Broadcast> broadcasts, int popularRowIndex) {
@@ -251,6 +237,17 @@ public class ActivityFeedAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		/* Superclass AdListAdapter will create view if this is a position of an ad. */
+		View rowView = super.getView(position, convertView, parent);
+		
+		if(rowView == null) {
+			rowView = getViewForFeedItemCell(position, convertView, parent);
+		}
+		
+		return rowView;
+	}
+	
+	public View getViewForFeedItemCell(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 
 		int type = getItemViewType(position);

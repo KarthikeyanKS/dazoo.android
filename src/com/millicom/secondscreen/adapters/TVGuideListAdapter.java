@@ -87,6 +87,11 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 		Log.d(TAG, "Screenwidth: " + screenWidth);
 	}
 	
+	@Override
+	public int getViewTypeCount() {
+		return super.getViewTypeCount() + 1;
+	}
+	
 	public View getViewForGuideCell(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 		mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);

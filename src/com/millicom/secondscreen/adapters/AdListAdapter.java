@@ -79,7 +79,7 @@ public class AdListAdapter<T> extends BaseAdapter {
 
 	@Override
 	public int getViewTypeCount() {
-		return 2;
+		return 1;
 	}
 
 	@Override
@@ -177,8 +177,7 @@ public class AdListAdapter<T> extends BaseAdapter {
 	
 	private int globalIndexToAdIndex(int globalIndex) {
 		int cellsPerAd = cellCountBetweenAdCells + 1;
-		int adIndex = (globalIndex/cellsPerAd); //Zero indexed
-		Log.e("REMOVE ME", "globalIndex: " + globalIndex + " adIndex: " + adIndex);
+		int adIndex = (globalIndex/cellsPerAd); //Zero indexedbc
 		return adIndex;
 	}
 	
