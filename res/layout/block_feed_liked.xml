@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
     android:id="@+id/block_feed_liked_main_container"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     android:background="@color/white"
@@ -26,7 +26,7 @@
 
     <FrameLayout
         android:id="@+id/block_feed_liked_content_image_frame"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/block_feed_liked_header_tv" >
 
@@ -38,7 +38,7 @@
 
             <ImageView
                 android:id="@+id/block_feed_liked_content_iv"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop" />
@@ -56,7 +56,7 @@
 
     <RelativeLayout
         android:id="@+id/block_feed_liked_content_details_container"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/block_feed_liked_content_image_frame"
         android:orientation="horizontal" >
@@ -113,7 +113,7 @@
 
         <com.millicom.secondscreen.customviews.FontTextView
             android:id="@+id/block_feed_liked_timeleft_tv"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/block_feed_liked_details_tv"
             android:layout_marginLeft="10dp"
@@ -125,7 +125,7 @@
         <ProgressBar
             android:id="@+id/block_feed_liked_progressbar"
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/block_feed_liked_timeleft_tv"
             android:layout_marginLeft="10dp"
@@ -137,14 +137,14 @@
 
         <View
             android:id="@+id/block_feed_liked_divider"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@id/block_feed_liked_details_tv"
             android:background="@color/grey1" />
 
         <include
             android:id="@+id/block_feed_social_items"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/block_feed_liked_divider"
             layout="@layout/element_social_buttons" />

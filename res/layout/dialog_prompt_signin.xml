@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
     android:id="@+id/dialog_prompt_signin_container"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical" >
 
     <com.millicom.secondscreen.customviews.FontTextView
         android:id="@+id/dialog_prompt_title_tv"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|center_horizontal"
         android:layout_margin="5dp"
@@ -21,14 +21,14 @@
 
     <View
         android:id="@+id/dialog_prompt_signin_title_divider"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/dialog_prompt_title_tv"
         android:background="@color/grey1" />
 
     <com.millicom.secondscreen.customviews.FontTextView
         android:id="@+id/dialog_prompt_signin_tv"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/dialog_prompt_signin_title_divider"
         android:layout_gravity="center_vertical|center_horizontal"
@@ -44,14 +44,14 @@
 
     <View
         android:id="@+id/dialog_prompt_signin_buttons_divider"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/dialog_prompt_signin_tv"
         android:background="@color/grey1" />
 
     <LinearLayout
         android:id="@+id/dialog_prompt_signin_button_container"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/dialog_prompt_signin_buttons_divider"
         android:gravity="center"
@@ -60,7 +60,7 @@
 
         <com.millicom.secondscreen.customviews.FontButton
             android:id="@+id/dialog_prompt_signin_button_cancel"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/white"
@@ -76,7 +76,7 @@
 
         <com.millicom.secondscreen.customviews.FontButton
             android:id="@+id/dialog_prompt_signin_button_signin"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/white"

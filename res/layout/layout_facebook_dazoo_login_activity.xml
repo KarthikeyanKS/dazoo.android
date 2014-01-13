@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.millicom.seconscreen.customviews"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/white"
     android:fillViewport="true"
     android:orientation="vertical" >
 
     <RelativeLayout
         android:id="@+id/facebook_dazoo_login_container"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
@@ -39,7 +39,7 @@
 
         <RelativeLayout
             android:id="@+id/facebook_dazoo_set_channels_container"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/facebook_dazoo_login_text_tv"
             android:layout_marginBottom="10dp"
@@ -64,7 +64,7 @@
 
         <RelativeLayout
             android:id="@+id/facebook_dazoo_connect_with_friends_container"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/facebook_dazoo_set_channels_container"
             android:layout_marginBottom="10dp"
@@ -90,7 +90,7 @@
 
         <RelativeLayout
             android:id="@+id/facebook_dazoo_take_tour_container"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/facebook_dazoo_set_channels_container"
             android:layout_marginBottom="30dp"
@@ -115,7 +115,7 @@
 
         <RelativeLayout
             android:id="@+id/facebook_dazoo_skip_container"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/facebook_dazoo_take_tour_container"
             android:layout_marginBottom="10dp"

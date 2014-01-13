@@ -2,29 +2,29 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
     android:id="@+id/settings_list_container"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical" >
 
     <!-- ABOUT TEXTVIEW -->
 
     <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_above="@id/tab_selector_container"
         android:background="@color/grey1"
         android:fillViewport="true"
         android:orientation="vertical" >
 
         <RelativeLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/grey1"
             android:paddingBottom="10dp" >
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/settings_about_textview"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="30dp"
@@ -38,7 +38,7 @@
 
             <RelativeLayout
                 android:id="@+id/settings_menu_container"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/settings_about_textview"
                 android:layout_marginBottom="10dp"
@@ -49,7 +49,7 @@
 
                 <com.millicom.secondscreen.customviews.FontButton
                     android:id="@+id/settings_contact_button"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="1dp"
                     android:background="@color/grey1"
@@ -59,7 +59,7 @@
 
                 <com.millicom.secondscreen.customviews.FontButton
                     android:id="@+id/settings_terms_button"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/settings_contact_button"
                     android:layout_margin="1dp"
@@ -71,7 +71,7 @@
 
                 <com.millicom.secondscreen.customviews.FontButton
                     android:id="@+id/settings_help_button"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/settings_terms_button"
                     android:layout_margin="1dp"
@@ -113,7 +113,7 @@
     </ScrollView>
 
     <include
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/tab_selector_container"
         layout="@layout/layout_request_callbacks_holder_layout" />

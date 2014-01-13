@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
     android:id="@+id/repeating_list_container"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical" >
@@ -15,7 +15,7 @@
         layout="@layout/block_bottom_tabs" />
 
     <include
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
         android:layout_above="@id/tab_selector_container"
@@ -23,7 +23,7 @@
 
     <ListView
         android:id="@+id/repeating_list_listview"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/tab_selector_container"
         android:layout_alignParentTop="true"

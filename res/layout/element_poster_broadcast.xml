@@ -2,15 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
     android:id="@+id/element_poster_broadcast_container"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/background_color_selector"
     android:orientation="vertical" >
 
       <RelativeLayout
         android:id="@+id/element_poster_broadcast_header_container"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:background="@color/grey4"
         android:visibility="gone" >
@@ -33,7 +33,7 @@
     
     <LinearLayout
         android:id="@+id/element_poster_broadcast_info_container"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/element_poster_broadcast_header_container"
         android:orientation="horizontal" >
@@ -73,7 +73,7 @@
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/element_poster_broadcast_title_tv"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginRight="10dp"
@@ -99,7 +99,7 @@
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/element_poster_broadcast_channel_tv"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/element_poster_broadcast_time_tv"
                 android:layout_marginBottom="5dp"
@@ -111,7 +111,7 @@
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/element_poster_broadcast_type_tv"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/element_poster_broadcast_channel_tv"
                 android:layout_marginBottom="5dp"
@@ -137,7 +137,7 @@
             <ProgressBar
                 android:id="@+id/element_poster_broadcast_progressbar"
                 style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/element_poster_broadcast_timeleft_tv"
                 android:layout_marginRight="10dp"
@@ -149,7 +149,7 @@
 
     <View
         android:id="@+id/element_poster_broadcast_divider"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/divider_height"
         android:layout_below="@id/element_poster_broadcast_info_container"
         android:background="@color/grey1" />

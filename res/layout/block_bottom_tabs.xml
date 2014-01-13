@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="@dimen/bottom_tabs_height"
     android:layout_alignParentBottom="true"
     android:gravity="center"
@@ -9,8 +9,8 @@
 
     <RelativeLayout
         android:id="@+id/show_tvguide"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:orientation="vertical" >
@@ -51,8 +51,8 @@
 
     <RelativeLayout
         android:id="@+id/show_activity"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:orientation="vertical" >
@@ -93,8 +93,8 @@
 
     <RelativeLayout
         android:id="@+id/show_me"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:orientation="vertical" >

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/background_color_selector"
     android:orientation="vertical" >
@@ -10,8 +10,8 @@
 
     <RelativeLayout
         android:id="@+id/row_upcoming_episodes_header_container"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:background="@color/grey4"
         android:visibility="gone" >
@@ -36,7 +36,7 @@
 
     <LinearLayout
         android:id="@+id/row_upcoming_episodes_listitem_info_container"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/row_upcoming_episodes_header_container"
         android:orientation="horizontal"
@@ -109,7 +109,7 @@
 
     <View
         android:id="@+id/row_upcoming_episodes_listitem_bottom_divider"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/row_upcoming_episodes_listitem_info_container"
         android:background="@color/grey1" />

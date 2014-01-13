@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:id="@+id/block_popular_feed_container"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
@@ -37,7 +37,7 @@
 
         <RelativeLayout
             android:id="@+id/block_popular_feed_details_container"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_weight="0.65"
@@ -94,7 +94,7 @@
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/block_popular_feed_timeleft_tv"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_popular_feed_details_extra_tv"
                 android:layout_marginLeft="10dp"
@@ -105,7 +105,7 @@
             <ProgressBar
                 android:id="@+id/block_popular_feed_progressbar"
                 style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_popular_feed_timeleft_tv"
                 android:layout_marginLeft="10dp"
@@ -117,7 +117,7 @@
 
     <View
         android:id="@+id/block_feed_popular_divider"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/block_popular_feed_container"
         android:layout_margin="20dp"

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/grey1"
     android:orientation="vertical" >
 
     <LinearLayout
         android:id="@+id/block_broadcastpage_main_content_container"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical" >
@@ -24,7 +24,7 @@
 
             <ImageView
                 android:id="@+id/block_broadcastpage_poster_iv"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="170dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop" />
@@ -41,7 +41,7 @@
 
         <RelativeLayout
             android:id="@+id/block_broadcastpage_broadcast_details_container"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp" >
@@ -129,7 +129,7 @@
 
             <RelativeLayout
                 android:id="@+id/block_broadcastpage_broadcast_channel_time_container"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_broadcastpage_broadcast_details_episode_name_tv" >
 
@@ -175,7 +175,7 @@
                     <ProgressBar
                         android:id="@+id/block_broadcastpage_broadcast_progressbar"
                         style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/block_broadcastpage_broadcast_timeleft_tv"
                         android:layout_marginLeft="10dp"
@@ -188,7 +188,7 @@
 
             <View
                 android:id="@+id/divider"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@id/block_broadcastpage_broadcast_channel_time_container"
                 android:layout_marginBottom="10dp"
@@ -237,7 +237,7 @@
 
         <View
             android:id="@+id/block_broadcastpage_broadcast_details_bottom_divider"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/grey1" />
 

@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.millicom.seconscreen.customviews"
     android:id="@+id/facebooklogin_container"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/grey1"
     android:orientation="vertical" >
 
     <com.millicom.secondscreen.customviews.FontTextView
         android:id="@+id/resetpassword_title_tv"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:layout_marginLeft="20dp"

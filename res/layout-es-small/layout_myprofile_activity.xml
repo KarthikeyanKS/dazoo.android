@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
     android:id="@+id/activity_container"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical" >
 
     <!-- FOOTER: BOTTOM NAVIGATION TABS -->
@@ -14,15 +14,15 @@
         layout="@layout/block_bottom_tabs" />
 
     <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_above="@id/tab_selector_container"
         android:background="@color/white"
         android:fillViewport="true"
         android:orientation="vertical" >
 
         <RelativeLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/grey1"
             android:paddingBottom="10dp" >
@@ -31,7 +31,7 @@
 
             <RelativeLayout
                 android:id="@+id/myprofile_menu_container"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@drawable/layout_rounded_corners_white"
@@ -63,7 +63,7 @@
 
                     <com.millicom.secondscreen.customviews.FontTextView
                         android:id="@+id/myprofile_name_tv"
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/myprofile_avatar_iv"
@@ -78,7 +78,7 @@
 
                 <RelativeLayout
                     android:id="@+id/myprofile_reminders_container"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/myprofile_person_container"
                     android:layout_margin="1dp"
@@ -119,7 +119,7 @@
 
                 <RelativeLayout
                     android:id="@+id/myprofile_likes_container"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/myprofile_reminders_container"
                     android:layout_margin="1dp"
@@ -160,7 +160,7 @@
 
                 <RelativeLayout
                     android:id="@+id/myprofile_my_channels_container"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/myprofile_likes_container"
                     android:layout_margin="1dp"
@@ -201,7 +201,7 @@
 
                 <RelativeLayout
                     android:id="@+id/myprofile_settings_container"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/myprofile_my_channels_container"
                     android:layout_margin="1dp"
@@ -235,7 +235,7 @@
 
             <RelativeLayout
                 android:id="@+id/myprofile_signin_container"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/myprofile_menu_container"
                 android:layout_marginBottom="10dp"
@@ -272,7 +272,7 @@
 
                 <View
                     android:id="@+id/signin_container_divider"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@id/myprofile_signin_text_tv"
                     android:layout_margin="10dp"
@@ -282,7 +282,7 @@
 
                 <RelativeLayout
                     android:id="@+id/myprofile_signin_facebook_container"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_below="@id/signin_container_divider"
                     android:layout_marginLeft="10dp"
@@ -322,7 +322,7 @@
 
                 <RelativeLayout
                     android:id="@+id/myprofile_or_container"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/myprofile_signin_facebook_container"
                     android:layout_margin="10dp"
@@ -330,7 +330,7 @@
 
                     <View
                         android:id="@+id/container_or_divider"
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_centerVertical="true"
                         android:background="@color/grey1" />
@@ -353,7 +353,7 @@
 
                 <RelativeLayout
                     android:id="@+id/myprofile_signup_email_container"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="65dp"
                     android:layout_below="@id/myprofile_or_container"
                     android:layout_marginBottom="10dp"
@@ -379,7 +379,7 @@
 
                 <View
                     android:id="@+id/myprofile_container_email_divider"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@id/myprofile_signup_email_container"
                     android:layout_margin="10dp"

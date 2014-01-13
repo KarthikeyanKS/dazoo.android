@@ -2,15 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
     android:id="@+id/mychannels_list_container"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/grey1" >
 
     <!-- HEADER WITH CHANNELS NUMBER COUNTER -->
 
     <RelativeLayout
         android:id="@+id/mychannels_header_container"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:focusableInTouchMode="true"
@@ -18,7 +18,7 @@
 
         <RelativeLayout
             android:id="@+id/mychannels_header_selected_container"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
@@ -46,7 +46,7 @@
 
         <com.millicom.secondscreen.customviews.FontEditText
             android:id="@+id/mychannels_header_search_ev"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/mychannels_header_selected_container"
             android:layout_marginLeft="5dp"
@@ -68,7 +68,7 @@
         layout="@layout/block_bottom_tabs" />
 
     <include
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/tab_selector_container"
         layout="@layout/layout_request_callbacks_holder_layout" />
@@ -77,7 +77,7 @@
 
     <ListView
         android:id="@+id/listview"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/tab_selector_container"
         android:layout_below="@id/mychannels_header_container"

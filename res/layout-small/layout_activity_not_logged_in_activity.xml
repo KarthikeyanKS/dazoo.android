@@ -9,8 +9,8 @@
 
     <ScrollView
         android:id="@+id/tvguide_scrollview"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_above="@id/tab_selector_container"
         android:layout_alignParentRight="true"
         android:layout_below="@id/tvguide_table_side_clock_iv"
@@ -19,15 +19,15 @@
         android:orientation="vertical" >
 
         <RelativeLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
             <!--
                   ImageView
                 android:id="@+id/activity_poster"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:scaleType="fitXY"
                 android:src="@color/grey1" /
             -->
@@ -66,7 +66,7 @@
 
             <RelativeLayout
                 android:id="@+id/activity_not_logged_in_signin_container"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/activity_not_logged_in_title_details"
                 android:layout_marginLeft="10dp"
@@ -81,7 +81,7 @@
 
                 <RelativeLayout
                     android:id="@+id/activity_not_logged_in_facebook_container"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
@@ -120,7 +120,7 @@
 
                 <RelativeLayout
                     android:id="@+id/activity_not_logged_in_or_container"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/activity_not_logged_in_facebook_container"
                     android:layout_margin="5dp"
@@ -128,7 +128,7 @@
 
                     <View
                         android:id="@+id/container_or_divider"
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_centerVertical="true"
                         android:background="@color/grey1" />
@@ -151,7 +151,7 @@
 
                 <RelativeLayout
                     android:id="@+id/activity_not_logged_in_signup_email_container"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_below="@id/activity_not_logged_in_or_container"
                     android:layout_marginLeft="10dp"
@@ -174,7 +174,7 @@
 
                 <View
                     android:id="@+id/activity_not_logged_in_divider"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@id/activity_not_logged_in_signup_email_container"
                     android:layout_centerVertical="true"
@@ -186,14 +186,14 @@
 
                 <RelativeLayout
                     android:id="@+id/activity_not_logged_in_already_registered_container"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/activity_not_logged_in_divider"
                     android:orientation="vertical" >
 
                     <com.millicom.secondscreen.customviews.FontTextView
                         android:id="@+id/activity_not_logged_in_already_registered_text_tv"
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:gravity="center_horizontal"
@@ -204,7 +204,7 @@
 
                     <com.millicom.secondscreen.customviews.FontButton
                         android:id="@+id/activity_not_logged_in_login_btn"
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/activity_not_logged_in_already_registered_text_tv"
                         android:layout_marginBottom="5dp"
@@ -226,7 +226,7 @@
         layout="@layout/block_bottom_tabs" />
 
     <include
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/tab_selector_container"
         layout="@layout/layout_request_callbacks_holder_layout" />

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@drawable/listview_item_selector" >
 
     <!-- HEADER -->
 
     <RelativeLayout
         android:id="@+id/row_reminders_header_container"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:background="@color/grey4"
         android:visibility="gone" >
@@ -35,7 +35,7 @@
 
     <LinearLayout
         android:id="@+id/row_reminders_container"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/row_reminders_header_container"
         android:background="@color/white"
@@ -131,7 +131,7 @@
 
     <View
         android:id="@+id/row_reminders_header_divider"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/row_reminders_container"
         android:background="@color/grey1" />

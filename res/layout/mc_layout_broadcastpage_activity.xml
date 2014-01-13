@@ -20,7 +20,7 @@
 		    
 			<RelativeLayout 
 			    android:id="@+id/broadcast_scrollview_container"
-			    android:layout_width="fill_parent"
+			    android:layout_width="match_parent"
 			    android:layout_height="wrap_content"
 			    android:orientation="vertical"
 			    android:padding="10dp" >
@@ -29,7 +29,7 @@
 
 		        <LinearLayout
 		            android:id="@+id/block_broadcastpage_main_content_container"
-		            android:layout_width="fill_parent"
+		            android:layout_width="match_parent"
 		            android:layout_height="wrap_content"
 		            android:background="@color/white"
 		            android:orientation="vertical" >"
@@ -38,15 +38,15 @@
 		
 		            <RelativeLayout
 		                android:id="@+id/block_broadcastpage_poster_container"
-		                android:layout_width="fill_parent"
+		                android:layout_width="match_parent"
 		                android:layout_height="160dp"
 		                android:background="@color/white"
 		                android:padding="2dp" >
 		
 		                <ImageView
 		                    android:id="@+id/block_broadcastpage_poster_iv"
-		                    android:layout_width="fill_parent"
-		                    android:layout_height="fill_parent"
+		                    android:layout_width="match_parent"
+		                    android:layout_height="match_parent"
 		                    android:layout_centerHorizontal="true"
 		                    android:adjustViewBounds="true"
 		                    android:scaleType="centerCrop" />		
@@ -64,7 +64,7 @@
 		
 		            <RelativeLayout
 		                android:id="@+id/block_broadcastpage_broadcast_details_container"
-		                android:layout_width="fill_parent"
+		                android:layout_width="match_parent"
 		                android:layout_height="wrap_content"
 		                android:layout_marginTop="10dp"
 		                android:padding="10dp" >
@@ -144,7 +144,7 @@
 		                
 		                <RelativeLayout 
 		                    android:id="@+id/block_broadcastpage_broadcast_progress_container"
-		                    android:layout_width="fill_parent"
+		                    android:layout_width="match_parent"
 		           			android:layout_height="wrap_content"
 		           			android:layout_below="@id/block_broadcastpage_broadcast_details_episode_name_tv" >
 		           			
@@ -203,7 +203,7 @@
 					            <ProgressBar
 						            android:id="@+id/channelpage_broadcast_details_progressbar"
 						            style="?android:attr/progressBarStyleHorizontal"
-						            android:layout_width="fill_parent"
+						            android:layout_width="match_parent"
 						            android:layout_height="wrap_content"
 						            android:layout_below="@id/block_broadcastpage_broadcast_progress_timeleft_tv"
 								    android:layout_marginLeft="10dp"
@@ -218,7 +218,7 @@
 		                
 		              	<View
 						    android:id="@+id/block_broadcastpage_broadcast_details_divider"
-						    android:layout_width="fill_parent"
+						    android:layout_width="match_parent"
 						    android:layout_height="1dp"
 						    android:layout_below="@id/block_broadcastpage_broadcast_progress_container"
 						    android:layout_marginTop="20dp"
@@ -323,7 +323,7 @@
 		               
 			        <View
 					    android:id="@+id/block_broadcastpage_broadcast_details_bottom_divider"
-					    android:layout_width="fill_parent"
+					    android:layout_width="match_parent"
 					    android:layout_height="1dp"
 					    android:layout_marginTop="25dp"
 					    android:background="@color/grey1" />
@@ -332,7 +332,7 @@
 		
 				    <LinearLayout
 				        android:id="@+id/block_social_panel_container"
-				        android:layout_width="fill_parent"
+				        android:layout_width="match_parent"
 				        android:layout_height="wrap_content"
 				        android:orientation="horizontal"
 				        android:padding="5dp"
@@ -447,7 +447,7 @@
 	
     <LinearLayout
         android:id="@+id/tab_selector_container"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:background="@color/grey1"
@@ -457,8 +457,8 @@
         <com.millicom.secondscreen.customviews.FontButton
             android:id="@+id/show_tvguide"
             style="@style/homepage_tab_selector"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:paddingBottom="2dp"
             android:text="@string/tab_tv_guide"
@@ -468,8 +468,8 @@
         <com.millicom.secondscreen.customviews.FontButton
             android:id="@+id/show_activity"
             style="@style/homepage_tab_selector"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:paddingBottom="2dp"
             android:text="@string/tab_activity"
@@ -479,8 +479,8 @@
         <com.millicom.secondscreen.customviews.FontButton
             android:id="@+id/show_me"
             style="@style/homepage_tab_selector"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:paddingBottom="2dp"
             android:text="@string/tab_me"
