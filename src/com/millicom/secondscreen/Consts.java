@@ -394,9 +394,10 @@ public abstract class Consts {
 	public static final String	DAZOO_FEED_ITEM_BROADCASTS							= "broadcasts";
 	
 	/* JSON KEYS FOR CONFIGURATION */
-	public static final String JSON_KEY_CONFIGURATION_FIRST_HOUR_OF_TV_DAY			= "firstHourOfTVDay";
+	public static final String JSON_KEY_CONFIGURATION_FIRST_HOUR_OF_TV_DAY			= "firstHourOfDay";
 	public static final String JSON_KEY_CONFIGURATION_ADZERK_NETWORK_ID				= "adzerkNetworkId";
 	public static final String JSON_KEY_CONFIGURATION_ADZERK_SITE_ID				= "adzerkSiteId";
+	public static final String JSON_KEY_CONFIGURATION_ADZERK_AD_FORMATS				= "adzerkFormats";
 	public static final String JSON_KEY_CONFIGURATION_GOOGLE_ANALYTICS_ENABLED		= "android.googleAnalyticsEnabled";
 	public static final String JSON_KEY_CONFIGURATION_GOOGLE_ANALYTICS_TRACKING_ID	= "android.googleAnalyticsTrackingId";
 	public static final String JSON_KEY_CONFIGURATION_GOOGLE_ANALYTICS_SAMPLE_RATE	= "android.googleAnalyticsSampleRate";
@@ -405,11 +406,15 @@ public abstract class Consts {
 	
 	/* PREFERENCES KEYS */
 	public static final String PREFS_KEY_APP_WAS_PREINSTALLED						= "APP_WAS_PREINSTALLED";
+	public static final String PREFS_KEY_APP_WAS_NOT_PREINSTALLED					= "APP_WAS_PREINSTALLED";
 	
 	/* GOOGLE ANALYTICS KEYS */
-	public static final String GA_KEY_VERSION										= "APP_VERSION";
+	public static final String GA_KEY_APP_VERSION									= "APP_VERSION";
 	public static final String GA_KEY_DEVICE_ID										= "ANDROID_DEVICE_ID";
 	public static final String GA_KEY_APP_WAS_PREINSTALLED							= "APP_WAS_PREINSTALLED";
+	
+	/* GOOGLE ANALYTICS VALUES */
+	public static final String GA_APP_VERSION_NOT_SET								= "ERROR_APP_VERSION_NOT_SET";
 	
 	/* ADZERK URL */
 	public static final String ADS_POST_URL							= MILLICON_SECONDSCREEN_HTTP_SCHEME + "engine.adzerk.net/api/v2";

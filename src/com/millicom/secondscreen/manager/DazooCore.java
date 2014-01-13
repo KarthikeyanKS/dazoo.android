@@ -1,9 +1,7 @@
 package com.millicom.secondscreen.manager;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +28,7 @@ import com.google.gson.Gson;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
-import com.millicom.secondscreen.content.SSAdzerkAdPage;
+import com.millicom.secondscreen.content.SSAppConfigurationPage;
 import com.millicom.secondscreen.content.SSChannelPage;
 import com.millicom.secondscreen.content.SSGuidePage;
 import com.millicom.secondscreen.content.SSPageCallback;
@@ -48,7 +46,6 @@ import com.millicom.secondscreen.like.LikeService;
 import com.millicom.secondscreen.mychannels.MyChannelsService;
 import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.storage.DazooStoreOperations;
-import com.millicom.secondscreen.utilities.JSONUtilities;
 
 public class DazooCore {
 	private static final String			TAG					= "DazooCore";
@@ -270,6 +267,43 @@ public class DazooCore {
 		}
 	}
 	
+	public static interface AppConfigurationCallback {
+		public void onAppConfigurationResult();
+	}
+	
+	public static void getAppConfiguration(AppConfigurationCallback appConfigCallBack) {
+		GetAppConfigurationTask getAppConfigurationTask = new GetAppConfigurationTask(appConfigCallBack);
+		getAppConfigurationTask.execute();
+	}
+	
+	private static class GetAppConfigurationTask extends AsyncTask<String, Void, Void> {
+
+		private AppConfigurationCallback appConfigCallBack = null;
+
+		public GetAppConfigurationTask(AppConfigurationCallback appConfigCallBack) {
+			this.appConfigCallBack = appConfigCallBack;
+		}
+
+		@Override
+		protected Void doInBackground(String... params) {
+			SSAppConfigurationPage.getInstance().getPage(new SSPageCallback() {
+
+				@Override
+				public void onGetPageResult(SSPageGetResult pageGetResult) {
+					if (appConfigCallBack != null) {
+						appConfigCallBack.onAppConfigurationResult();
+					}
+				}
+			});
+
+			// if(appConfigCallBack != null) {
+			// appConfigCallBack.onAppConfigurationResult();
+			// }
+
+			return null;
+		}
+	}
+	
 	public static void getAdzerkAd(String divId, AdCallBack callback) {
 		GetAdzerkAdTask getAdzerkAdTask = new GetAdzerkAdTask(divId, callback);
 		getAdzerkAdTask.execute();
@@ -278,7 +312,7 @@ public class DazooCore {
 	public static interface AdCallBack {
 		public void onAdResult(AdzerkAd ad);
 	}
-	
+		
 	private static class GetAdzerkAdTask extends AsyncTask<String, Void, Void> {
 
 		private final String TAG = "GetAdzerkAdTask";

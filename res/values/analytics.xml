@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Replace placeholder ID with your tracking ID -->
-    <string name="ga_trackingId">UA-46899989-1</string>
+    <!-- Being overriden by ID from configuration call -->
+<!--     <string name="ga_trackingId">UA-46899989-1</string> -->
 
     <!-- Enable automatic activity tracking -->
     <bool name="ga_autoActivityTracking">true</bool>

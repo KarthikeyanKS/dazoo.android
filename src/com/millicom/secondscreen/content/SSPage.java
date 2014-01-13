@@ -18,6 +18,7 @@ import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.http.SSHttpClient;
 import com.millicom.secondscreen.http.SSHttpClientCallback;
 import com.millicom.secondscreen.http.SSHttpClientGetResult;
+import com.millicom.secondscreen.manager.AppConfigurationManager;
 import com.millicom.secondscreen.manager.ContentParser;
 
 public abstract class SSPage {
@@ -35,7 +36,6 @@ public abstract class SSPage {
 	private ArrayList<Channel>				mChannels;
 	private ArrayList<Tag>					mTags;
 	private Broadcast						mBroadcast;
-	private AdzerkAd						mAdzerkAd;
 	private ArrayList<Broadcast>			mSeriesUpcomingBroadcasts;
 	private ArrayList<Broadcast> mProgramBroadcasts;
 
@@ -178,8 +178,8 @@ public abstract class SSPage {
 		return mBroadcast;
 	}
 	
-	public AdzerkAd getAd() {
-		return mAdzerkAd;
+	public void parseAndUpdateAppConfiguration(JSONObject configurationJSONObject) throws Exception {
+		AppConfigurationManager.getInstance().updateConfiguration(configurationJSONObject);
 	}
 
 	public void parseBroadcast(JSONObject jsonObject) throws Exception {
@@ -202,7 +202,5 @@ public abstract class SSPage {
 		this.mProgramBroadcasts = mContentParser.parseProgramBroadcasts(jsonArray);
 	}
 	
-	public void parseAdzerkAd(String divId, JSONObject jsonObject) throws Exception {
-		this.mAdzerkAd = mContentParser.parseAd(divId, jsonObject);
-	}
+
 }

@@ -14,8 +14,12 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
+import com.millicom.secondscreen.manager.AppConfigurationManager;
+import com.millicom.secondscreen.manager.DazooCore;
+import com.millicom.secondscreen.manager.DazooCore.AppConfigurationCallback;
 import com.millicom.secondscreen.utilities.BootCompletedReceiver;
 import com.millicom.secondscreen.utilities.DeviceUtilities;
 import com.millicom.secondscreen.utilities.ObscuredSharedPreferences;
@@ -71,12 +75,15 @@ public class SecondScreenApplication extends Application {
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		// TODO: handle configuration changes
 	}
 	
-	private void trackApplicationMetaData() {
-		String appVersion = "ERROR_NOT_SET";
-		String wasPreinstalled = BootCompletedReceiver.wasPreinstalled() ? "WAS PREINSTALLED" : "WAS NOT PREINSTALLED";
+	private void setupGoogleAnalytics() {
+		String trackingId = AppConfigurationManager.getInstance().getGoogleAnalyticsTrackingId();
+		GoogleAnalytics googleAnalyticsInstance = GoogleAnalytics.getInstance(this);
+		Tracker tracker = googleAnalyticsInstance.getTracker(trackingId);
+		
+		String appVersion = Consts.GA_APP_VERSION_NOT_SET;
+		String wasPreinstalled = BootCompletedReceiver.wasPreinstalled() ? Consts.PREFS_KEY_APP_WAS_PREINSTALLED : Consts.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
 		String deviceId = DeviceUtilities.getDeviceId();
 		
 		PackageInfo pinfo;
@@ -87,11 +94,15 @@ public class SecondScreenApplication extends Application {
 			e.printStackTrace();
 		}
 		
-		GoogleAnalytics googleAnalyticsInstance = GoogleAnalytics.getInstance(this);
-		Tracker tracker = googleAnalyticsInstance.getDefaultTracker();
-		tracker.set(Consts.GA_KEY_VERSION, appVersion);
+		tracker.set(Consts.GA_KEY_APP_VERSION, appVersion);
 		tracker.set(Consts.GA_KEY_DEVICE_ID, deviceId);
 		tracker.set(Consts.GA_KEY_APP_WAS_PREINSTALLED, wasPreinstalled);
+		
+		double sampleRateDecimal = AppConfigurationManager.getInstance().getGoogleAnalyticsSampleRate();
+		double sampleRateAsPercentage = sampleRateDecimal * 100.0d;
+		String sampleRateAsString = String.valueOf(sampleRateAsPercentage);
+		
+		tracker.set(Fields.SAMPLE_RATE, sampleRateAsString);
 	}
 
 	@Override
@@ -99,12 +110,18 @@ public class SecondScreenApplication extends Application {
 		super.onCreate();
 		sInstance = this;
 		
-		/* Initialize Google Analytics */
-		String gaId = getResources().getString(R.string.ga_trackingId);
-		GoogleAnalytics.getInstance(this).getTracker(gaId);
-		
-		trackApplicationMetaData();
-		
+		/* Fetch and update app configuration */
+		DazooCore.getAppConfiguration(new AppConfigurationCallback() {
+			@Override
+			public void onAppConfigurationResult() {
+				/* Initialize Google Analytics */
+				boolean googleAnalyticsEnabled = AppConfigurationManager.getInstance().isGoogleAnalyticsEnabled();
+				if(googleAnalyticsEnabled) {
+					setupGoogleAnalytics();
+				}
+			}
+		});
+						
 		// sSharedPreferences = getSharedPreferences(Consts.SHARED_PREFS_MAIN_NAME, Context.MODE_PRIVATE);
 		sSharedPreferences = new ObscuredSharedPreferences(this, this.getSharedPreferences(Consts.SHARED_PREFS_MAIN_NAME, Context.MODE_PRIVATE));
 

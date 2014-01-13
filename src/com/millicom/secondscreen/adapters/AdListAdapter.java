@@ -37,6 +37,7 @@ public class AdListAdapter<T> extends BaseAdapter {
 	private List<T> items;
 	private HashMap<Integer, AdzerkAd> adItems = new HashMap<Integer, AdzerkAd>();
 	private int cellCountBetweenAdCells;
+	private boolean isAdsEnabled;
 	
 	public AdListAdapter(String tag, Activity activity, List<T> items) {
 		super();
@@ -44,6 +45,7 @@ public class AdListAdapter<T> extends BaseAdapter {
 		this.activity = activity;
 		this.items = items;
 		
+		this.isAdsEnabled = AppConfigurationManager.getInstance().isAdsEnabled();
 		this.cellCountBetweenAdCells = AppConfigurationManager.getInstance().getCellCountBetweenAdCells();
 		
 		downloadAds();
@@ -51,9 +53,11 @@ public class AdListAdapter<T> extends BaseAdapter {
 	
 	@Override
 	public int getCount() {
-		int finalCount = 0;
+		int finalCount = items.size();
 		if (items != null) {
-			finalCount = getAdCount() + items.size();
+			if(isAdsEnabled) {
+				finalCount += getAdCount();
+			}
 		}
 
 		return finalCount;
@@ -133,10 +137,10 @@ public class AdListAdapter<T> extends BaseAdapter {
 									@Override
 									public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
 										/* Set the size of the imageView according to the size of the ad image */
-										LayoutParams params = holder.mImageView.getLayoutParams();
-										params.width = ad.getWidth();
-										params.height = ad.getHeight();
-										holder.mImageView.setLayoutParams(params);
+//										LayoutParams params = holder.mImageView.getLayoutParams();
+//										params.width = ad.getWidth();
+//										params.height = ad.getHeight();
+//										holder.mImageView.setLayoutParams(params);
 										
 										/* Image loaded, show imageView */
 										holder.mImageView.setVisibility(View.VISIBLE);
@@ -225,7 +229,7 @@ public class AdListAdapter<T> extends BaseAdapter {
 	public boolean isAdPosition(int position) {
 		boolean isAdPosition = false;
 		
-		if(position % (1 + cellCountBetweenAdCells) == cellCountBetweenAdCells) {
+		if(isAdsEnabled && position % (1 + cellCountBetweenAdCells) == cellCountBetweenAdCells) {
 			isAdPosition = true;
 		}
 		

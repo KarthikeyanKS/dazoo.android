@@ -1,8 +1,10 @@
 package com.millicom.secondscreen.manager;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.millicom.secondscreen.Consts;
@@ -45,33 +47,25 @@ public class AppConfigurationManager {
 		this.adsEnabled = adsEnabled;
 	}
 	public int getCellCountBetweenAdCells() {
-//		return cellCountBetweenAdCells;
-		//TODO return real config value
-		return 2;
+		return cellCountBetweenAdCells;
 	}
 	public void setCellCountBetweenAdCells(int cellCountBetweenAdCells) {
 		this.cellCountBetweenAdCells = cellCountBetweenAdCells;
 	}
 	public List<Integer> getAdzerkAdFormats() {
-//		return adzerkAdFormats;
-		//TODO return real config values
-		return Arrays.asList(5);
+		return adzerkAdFormats;
 	}
 	public void setAdzerkAdFormats(List<Integer> adzerkAdFormats) {
 		this.adzerkAdFormats = adzerkAdFormats;
 	}
 	public int getAdzerkNetworkId() {
-//		return adzerkNetworkId;
-		//TODO return real config value
-		return 8667;
+		return adzerkNetworkId;
 	}
 	public void setAdzerkNetworkId(int adzerkNetworkId) {
 		this.adzerkNetworkId = adzerkNetworkId;
 	}
 	public int getAdzerkSiteId() {
-//		return adzerkSiteId;
-		//TODO return real config value
-		return 53853;
+		return adzerkSiteId;
 	}
 	public void setAdzerkSiteId(int adzerkSiteId) {
 		this.adzerkSiteId = adzerkSiteId;
@@ -97,6 +91,18 @@ public class AppConfigurationManager {
 	
 	public void updateConfiguration(JSONObject configurationJSONObject) {		
 		if(configurationJSONObject != null) {
+			
+			List<Integer> adFormats = new ArrayList<Integer>();
+			JSONArray adFormatsJson = configurationJSONObject.optJSONArray(Consts.JSON_KEY_CONFIGURATION_ADZERK_AD_FORMATS);
+			try {
+				for(int i = 0; i < adFormatsJson.length(); ++i) {
+					int adFormat = adFormatsJson.getInt(i);
+					adFormats.add(adFormat);
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			
 			String firstHourOfTVDayString = configurationJSONObject.optString(Consts.JSON_KEY_CONFIGURATION_FIRST_HOUR_OF_TV_DAY);
 			
 			String adsEnabledString = configurationJSONObject.optString(Consts.JSON_KEY_CONFIGURATION_ADS_ENABLED);
@@ -118,6 +124,7 @@ public class AppConfigurationManager {
 			boolean googleAnalyticsEnabled = Boolean.parseBoolean(googleAnalyticsEnabledString);
 			double googleAnalyticsSampleRate = Double.parseDouble(googleAnalyticsSampleRateString);
 			
+			getInstance().setAdzerkAdFormats(adFormats);
 			getInstance().setFirstHourOfTVDay(firstHourOfTVDay);
 			
 			getInstance().setAdsEnabled(adsEnabled);
