@@ -177,7 +177,7 @@ public class RemindersListAdapter extends BaseAdapter {
 				holder.mChannelTv.setText(channel.getName());
 			}
 
-			holder.mBroadcastTimeTv.setText(broadcast.getBeginTimeStringLocalHourAndMinute());
+			holder.mBroadcastTimeTv.setText(broadcast.getDayOfWeekWithTimeString());
 			holder.mInformationContainer.setOnClickListener(new View.OnClickListener() {
 
 				@Override

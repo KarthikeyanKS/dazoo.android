@@ -63,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/row_upcoming_episodes_listitem_season_episode"
-                android:lineSpacingExtra="-2sp"
+                android:lineSpacingExtra="-1sp"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 font:fonttextview="Roboto-MiTV-Medium.ttf" />

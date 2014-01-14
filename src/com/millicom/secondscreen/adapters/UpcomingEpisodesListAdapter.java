@@ -168,7 +168,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 				holder.mSeasonEpisodeTv.setText(mActivity.getResources().getString(R.string.season) + " " + season + " " + mActivity.getResources().getString(R.string.episode) + " " + episode);
 			}
 
-			holder.mTimeTv.setText(broadcast.getBeginTimeStringLocalHourAndMinute());
+			holder.mTimeTv.setText(broadcast.getDayOfWeekWithTimeString());
 
 			// Set channel
 			String channel = broadcast.getChannel().getName();

@@ -166,7 +166,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 
 			holder.mSeasonEpisodeTv.setVisibility(View.GONE);
 
-			holder.mTimeTv.setText(broadcast.getBeginTimeStringLocalHourAndMinute());
+			holder.mTimeTv.setText(broadcast.getDayOfWeekWithTimeString());
 			// Set channel
 			String channel = broadcast.getChannel().getName();
 			if (channel != null) {

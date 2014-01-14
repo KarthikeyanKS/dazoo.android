@@ -90,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/element_poster_broadcast_title_tv"
-                android:lineSpacingExtra="-4sp"
+                android:lineSpacingExtra="-1sp"
                 android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/ingress" />

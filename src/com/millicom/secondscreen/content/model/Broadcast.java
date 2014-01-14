@@ -38,26 +38,26 @@ public class Broadcast implements Parcelable {
 	private long endTimeMillisGmt;
 	private long beginTimeMillisLocal;
 	private long endTimeMillisLocal;
-	
+
 	private String beginTimeStringGmt;
 	private String endTimeStringGmt;
-	
+
 	private String beginTimeStringLocal;
 	private String endTimeStringLocal;
-	
+
 	private String beginTimeStringLocalHourAndMinute;
 	private String beginTimeStringLocalDayMonth;
-	
+
 	private long timeToBegin;
 	private long timeToEnd;
-	
+
 	private String dayOfWeekString;
 	private String dayOfWeekWithTimeString;
 	private String tvDateString; // yyyy-mm-dd
-	
+
 	public Broadcast() {
 	}
-	
+
 	public String getBeginTimeStringLocal() {
 		return beginTimeStringLocal;
 	}
@@ -90,15 +90,15 @@ public class Broadcast implements Parcelable {
 	public String getBroadcastType() {
 		return this.broadcastType;
 	}
-	
+
 	public long getEndTimeMillisGmt() {
 		return this.endTimeMillisGmt;
 	}
-	
+
 	public void setEndTimeMillisGmt(long endTimeMillisGmt) {
 		this.endTimeMillisGmt = endTimeMillisGmt;
 	}
-	
+
 	public long getBeginTimeMillisLocal() {
 		return beginTimeMillisLocal;
 	}
@@ -146,11 +146,11 @@ public class Broadcast implements Parcelable {
 	public void setBeginTimeStringGmt(String beginTimeStringGmt) {
 		this.beginTimeStringGmt = beginTimeStringGmt;
 	}
-	
+
 	public String getBeginTimeStringLocalHourAndMinute() {		
 		return this.beginTimeStringLocalHourAndMinute;
 	}
-	
+
 	public void setBeginTimeStringLocalHourAndMinute(String beginTimeStringLocalHourAndMinute) {
 		this.beginTimeStringLocalHourAndMinute = beginTimeStringLocalHourAndMinute;
 	}
@@ -197,7 +197,7 @@ public class Broadcast implements Parcelable {
 	public long getBeginTimeMillisGmt() {
 		return this.beginTimeMillisGmt;
 	}
-	
+
 	public void setShareUrl(String shareUrl) {
 		this.shareUrl = shareUrl;
 	}
@@ -210,8 +210,8 @@ public class Broadcast implements Parcelable {
 		this.dayOfWeekString = dayOfWeekString;
 	}
 
-	
-	
+
+
 	public String getDayOfWeekWithTimeString() {
 		return dayOfWeekWithTimeString;
 	}
@@ -223,7 +223,7 @@ public class Broadcast implements Parcelable {
 	public String getShareUrl() {
 		return this.shareUrl;
 	}
-	
+
 	@Override
 	public int describeContents() {
 		return 0;
@@ -241,7 +241,7 @@ public class Broadcast implements Parcelable {
 		}
 		return false;
 	}		
-	
+
 	public Broadcast(Parcel in) {
 		channel = (Channel) in.readParcelable(Channel.class.getClassLoader());
 		program = (Program) in.readParcelable(Program.class.getClassLoader());
@@ -253,15 +253,15 @@ public class Broadcast implements Parcelable {
 		endTimeMillisGmt = in.readLong();
 		beginTimeMillisLocal = in.readLong();
 		endTimeMillisLocal = in.readLong();
-		
+
 		this.calculateAndSetTimeData();
-		
+
 		beginTimeStringLocal = in.readString();
 		endTimeStringLocal = in.readString();
 		beginTimeStringLocalHourAndMinute = in.readString();
 		beginTimeStringLocalDayMonth = in.readString();	
 	}
-	
+
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeParcelable(channel, flags);
@@ -279,7 +279,7 @@ public class Broadcast implements Parcelable {
 		dest.writeString(beginTimeStringLocalHourAndMinute);
 		dest.writeString(beginTimeStringLocalDayMonth);
 	}
-	
+
 	public Broadcast(NotificationDbItem item) {
 		String beginTimeStringLocal = item.getBroadcastBeginTimeStringLocal();
 		this.setBeginTimeStringGmt(beginTimeStringLocal);
@@ -291,14 +291,21 @@ public class Broadcast implements Parcelable {
 		program.setTitle(item.getProgramTitle());
 		String programType = item.getProgramType();
 		program.setProgramType(programType);
-		
+
 		long millisLocal = DateUtilities.convertTimeStampToLocalTime(millisGmt);
 		String beginTimeStringLocalHourAndMinute = DateUtilities.getTimeOfDayFormatted(millisLocal);
 		this.setBeginTimeStringLocalHourAndMinute(beginTimeStringLocalHourAndMinute);
-		
+
 		try {
 			String beginTimeStringLocalDayMonth = DateUtilities.tvDateStringToDatePickerString(millisLocal);
 			this.setBeginTimeStringLocalDayMonth(beginTimeStringLocalDayMonth);
+
+			String dayOfWeekString = DateUtilities.isoStringToDayOfWeek(millisLocal);
+			dayOfWeekString = Character.toUpperCase(dayOfWeekString.charAt(0)) + dayOfWeekString.substring(1);
+			this.setDayOfWeekString(dayOfWeekString);
+
+			String dayOfWeekAndTimeString = new StringBuilder().append(dayOfWeekString).append(", ").append(beginTimeStringLocalHourAndMinute).toString();
+			this.setDayOfWeekWithTimeString(dayOfWeekAndTimeString);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -333,63 +340,63 @@ public class Broadcast implements Parcelable {
 
 		this.setChannel(channel);
 	}
-	
+
 	public void calculateAndSetTimeData() {
 		String beginTimeStringLocalHourAndMinute = DateUtilities.getTimeOfDayFormatted(beginTimeMillisLocal);
 		this.setBeginTimeStringLocalHourAndMinute(beginTimeStringLocalHourAndMinute);
-		
+
 		try {
 			long endTimeMillisGmt = DateUtilities.isoStringToLong(endTimeStringGmt);
 			long endTimeMillisLocal = DateUtilities.convertTimeStampToLocalTime(endTimeMillisGmt);
-			
+
 			this.setEndTimeMillisGmt(endTimeMillisGmt);
 			this.setEndTimeMillisLocal(endTimeMillisLocal);
-			
+
 
 			String beginTimeStringLocalDayMonth = DateUtilities.tvDateStringToDatePickerString(beginTimeMillisLocal);
 			this.setBeginTimeStringLocalDayMonth(beginTimeStringLocalDayMonth);
-			
+
 			String dayOfWeekString = DateUtilities.isoStringToDayOfWeek(beginTimeMillisLocal);
 			dayOfWeekString = Character.toUpperCase(dayOfWeekString.charAt(0)) + dayOfWeekString.substring(1);
 			this.setDayOfWeekString(dayOfWeekString);
-			
-			String dayOfWeekAndTimeString = new StringBuilder().append(dayOfWeekString).append(" - ").append(beginTimeStringLocalHourAndMinute).toString();
+
+			String dayOfWeekAndTimeString = new StringBuilder().append(dayOfWeekString).append(", ").append(beginTimeStringLocalHourAndMinute).toString();
 			this.setDayOfWeekWithTimeString(dayOfWeekAndTimeString);
-			
-			
+
+
 			String tvDateString = DateUtilities.isoDateToTvDateString(beginTimeMillisLocal);
 			this.setTvDateString(tvDateString);
-			
+
 			String beginTimeStringLocal = DateUtilities.timeToTimeString(beginTimeMillisLocal);
 			this.setBeginTimeStringLocal(beginTimeStringLocal);
-			
+
 			String endTimeStringLocal = DateUtilities.timeToTimeString(endTimeMillisLocal);
 			this.setEndTimeStringLocal(endTimeStringLocal);
-			
+
 			updateTimeToBeginAndTimeToEnd();
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	public Broadcast(JSONObject jsonBroadcast) {
 		String beginTimeStringGmt = jsonBroadcast.optString(Consts.DAZOO_BROADCAST_BEGIN_TIME);
 		String endTimeStringGmt = jsonBroadcast.optString(Consts.DAZOO_BROADCAST_END_TIME);
 		long beginTimeMillisGMT = jsonBroadcast.optLong(Consts.DAZOO_BROADCAST_BEGIN_TIME_MILLIS);
 		long beginTimeMillisLocal = DateUtilities.convertTimeStampToLocalTime(beginTimeMillisGMT);
-		
-		
+
+
 		this.setBeginTimeStringGmt(beginTimeStringGmt);
 		this.setEndTimeStringGmt(endTimeStringGmt);
-		
+
 		this.setBeginTimeMillisGmt(beginTimeMillisGMT);
 		this.setBeginTimeMillisLocal(beginTimeMillisLocal);
 
 		this.setShareUrl(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_SHARE_URL));
-		
+
 		this.calculateAndSetTimeData();
-		
+
 		JSONObject jsonChannel = jsonBroadcast.optJSONObject(Consts.DAZOO_BROADCAST_CHANNEL);
 		if (jsonChannel != null) {
 			Channel channel = new Channel(jsonChannel);
@@ -442,14 +449,14 @@ public class Broadcast implements Parcelable {
 	public String toString() {
 		return "\n beginTime: " + beginTimeStringGmt + "\n endTime: " + endTimeStringGmt + "\n channel: " + channel + "\n program: " + program + "\n shareUrl" + shareUrl;
 	}
-	
+
 	public static int getClosestBroadcastIndexUsingTime(ArrayList<Broadcast> broadcastList, long timeNow) {
 		int nearestIndex = -1;
 
 		for (int i = 0; i < broadcastList.size(); i++) {
 			Broadcast broadcast = broadcastList.get(i);
 			boolean hasNotEnded = broadcast.hasNotEnded(timeNow);
-			
+
 			if(hasNotEnded) {
 				nearestIndex = i;
 				break;
@@ -457,37 +464,37 @@ public class Broadcast implements Parcelable {
 		}
 		return nearestIndex;
 	}
-	
+
 	public boolean isRunning(long timeNow) {
 		boolean isRunning = false;
-		
+
 		boolean hasStarted = hasStarted(timeNow);
 		boolean hasNotEnded = hasNotEnded(timeNow);
-		
+
 		if(hasStarted &&  hasNotEnded) {
 			isRunning = true;
 		}
-		
+
 		return isRunning;
 	}
-	
+
 	public boolean isRunning() {
 		long timeNow = new Date().getTime();
 		return isRunning(timeNow);
 	}
-	
+
 	public boolean hasStarted(long timeNow)	{
 		long beginTime = getBeginTimeMillisGmt();
 		boolean hasStarted = timeNow >= beginTime;
-		
+
 		return hasStarted;
 	}
-	
+
 	public boolean hasStarted() {
 		long timeNow = new Date().getTime();
 		return hasStarted(timeNow);
 	}
-	
+
 	public int minutesSinceStart() {
 		int minutesSinceStart = (int) Math.abs(timeToBegin / (1000 * 60));
 		if(!hasStarted()) {
@@ -495,14 +502,14 @@ public class Broadcast implements Parcelable {
 		}
 		return minutesSinceStart;
 	}
-	
+
 	public boolean hasNotEnded(long timeNow)	{
 		long endTime = getEndTimeMillisGmt();
 		boolean hasNotEnded = (timeNow <= endTime);
-		
+
 		return hasNotEnded;
 	}
-	
+
 	public boolean hasNotEnded() {
 		long timeNow = new Date().getTime();
 		return hasNotEnded(timeNow);
@@ -536,29 +543,29 @@ public class Broadcast implements Parcelable {
 		}
 		return nextBroadcasts;
 	}
-	
+
 	public void updateTimeToBeginAndTimeToEnd() {
 		try {
 			long timeToBegin = DateUtilities.getAbsoluteTimeDifference(beginTimeMillisGmt);
 			long timeToEnd = DateUtilities.getAbsoluteTimeDifference(endTimeMillisGmt);
-			
+
 			this.setTimeToBegin(timeToBegin);
 			this.setTimeToEnd(timeToEnd);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public int getDurationInMinutes() {
 		this.updateTimeToBeginAndTimeToEnd();
 
 		int durationInMinutes = 0;
 		durationInMinutes = (int) (timeToBegin - timeToEnd) / (1000 * 60);
-	
+
 		durationInMinutes = Math.abs(durationInMinutes);
-		
+
 		return durationInMinutes;
 	}
-	
-	
+
+
 }

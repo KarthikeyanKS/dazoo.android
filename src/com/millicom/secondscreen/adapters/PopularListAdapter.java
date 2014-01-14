@@ -148,7 +148,7 @@ public class PopularListAdapter extends BaseAdapter {
 				holder.mTitleTv.setText(broadcast.getProgram().getTitle());
 			}
 
-			holder.mTimeTv.setText(broadcast.getBeginTimeStringLocalHourAndMinute());
+			holder.mTimeTv.setText(broadcast.getDayOfWeekWithTimeString());
 
 			holder.mChannelNameTv.setText(broadcast.getChannel().getName());
 

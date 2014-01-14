@@ -66,20 +66,20 @@ public class TrippleBroadcastBlockPopulator {
 			switch (position) {
 			case 0: {
 				mContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_one);
-				mDivider = (View) topContentView.findViewById(R.id.block_tripple_broadcast_one_bottom_divider);
-				mDivider.setVisibility(View.VISIBLE);
 				mReminderOneImageView = (ImageView) mContainer.findViewById(R.id.block_tripple_broadcast_addreminder);
 				break;
 			}
 			case 1: {
 				mContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_two);
-				mDivider = (View) topContentView.findViewById(R.id.block_tripple_broadcast_two_bottom_divider);
+				mDivider = (View) topContentView.findViewById(R.id.block_tripple_broadcast_one_bottom_divider);
 				mDivider.setVisibility(View.VISIBLE);
 				mReminderTwoImageView = (ImageView) mContainer.findViewById(R.id.block_tripple_broadcast_addreminder);
 				break;
 			}
 			case 2: {
 				mContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_three);
+				mDivider = (View) topContentView.findViewById(R.id.block_tripple_broadcast_two_bottom_divider);
+				mDivider.setVisibility(View.VISIBLE);
 				mReminderThreeImageView = (ImageView) mContainer.findViewById(R.id.block_tripple_broadcast_addreminder);
 			}
 			}
