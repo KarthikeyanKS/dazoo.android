@@ -39,6 +39,15 @@
         <item name="android:dropDownSelector">@color/grey1</item>
         <item name="android:background">@drawable/actionbar_spinner_arrow_selector</item>
     </style>
+    
+    <style name="scrollview_clock_swype">
+        <item name="android:scrollbarAlwaysDrawVerticalTrack">true</item>
+        <item name="android:scrollbarStyle">outsideOverlay</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:fadeScrollbars">false</item>
+        <item name="android:fillViewport">true</item>
+        <item name="android:scrollbarThumbVertical">@drawable/time_bar_container</item>
+    </style>
 
     <!-- ACTIONBAR WITH BOLD WHITE TITLE -->
 

@@ -11,7 +11,7 @@
     <ImageView
         android:id="@+id/ad_space_imageview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="@dimen/guide_image_margin"
         android:visibility="gone" />
