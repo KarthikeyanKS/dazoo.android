@@ -167,9 +167,9 @@
         <item quantity="one">hora</item>
         <item quantity="other">horas</item>
     </plurals>
-        <plurals name="left">
-        <item quantity="one">queda</item>
-        <item quantity="other">quedan</item>
+    <plurals name="left">
+        <item quantity="one">Queda</item>
+        <item quantity="other">Quedan</item>
     </plurals>
 
     <!-- LOGIN PAGE -->

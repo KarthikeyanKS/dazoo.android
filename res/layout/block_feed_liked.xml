@@ -4,150 +4,158 @@
     android:id="@+id/block_feed_liked_main_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:background="@color/white"
+    android:background="@color/grey1"
     android:orientation="vertical" >
 
-    <!-- CONTENT LABEL -->
+    <RelativeLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:background="@color/white"
+	    android:orientation="vertical"
+	    android:layout_marginLeft="10dp"
+	    android:layout_marginRight="10dp">
+	    <!-- CONTENT LABEL -->
+	
+	    <com.millicom.secondscreen.customviews.FontTextView
+	        android:id="@+id/block_feed_liked_header_tv"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentTop="true"
+	        android:layout_marginBottom="5dp"
+	        android:layout_marginLeft="10dp"
+	        android:layout_marginRight="10dp"
+	        android:layout_marginTop="10dp"
+	        android:textSize="22sp"
+	        font:fonttextview="Roboto-MiTV-Medium.ttf" />
+	
+	    <!-- PRODUCT IMAGE -->
+	
+	    <FrameLayout
+	        android:id="@+id/block_feed_liked_content_image_frame"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@id/block_feed_liked_header_tv" >
+	
+	        <RelativeLayout
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:orientation="horizontal"
+	            android:padding="2dp" >
+	
+	            <ImageView
+	                android:id="@+id/block_feed_liked_content_iv"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:adjustViewBounds="true"
+	                android:scaleType="centerCrop" />
+	
+	            <ProgressBar
+	                android:id="@+id/block_feed_liked_content_iv_progressbar"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_centerInParent="true"
+	                android:visibility="gone" />
+	        </RelativeLayout>
+	    </FrameLayout>
+	
+	    <!-- CONTENT DETAILS -->
+	
+	    <RelativeLayout
+	        android:id="@+id/block_feed_liked_content_details_container"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@id/block_feed_liked_content_image_frame"
+	        android:orientation="horizontal" >
+	
+	        <com.millicom.secondscreen.customviews.FontTextView
+	            android:id="@+id/block_feed_liked_title_tv"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginBottom="5dp"
+	            android:layout_marginLeft="10dp"
+	            android:layout_marginRight="10dp"
+	            android:layout_marginTop="10dp"
+	            android:gravity="left"
+	            android:lines="1"
+	            android:textColor="@color/black"
+	            android:textSize="@dimen/header_2"
+	            android:textStyle="bold" />
+	
+	        <com.millicom.secondscreen.customviews.FontTextView
+	            android:id="@+id/block_feed_liked_time_tv"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_below="@id/block_feed_liked_title_tv"
+	            android:layout_marginLeft="10dp"
+	            android:gravity="left"
+	            android:lineSpacingExtra="0sp"
+	            android:textColor="@color/black"
+	            android:textSize="16sp"
+	            font:fonttextview="Roboto-MiTV-Medium.ttf" />
+	
+	        <com.millicom.secondscreen.customviews.FontTextView
+	            android:id="@+id/block_feed_liked_channel_tv"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_below="@id/block_feed_liked_time_tv"
+	            android:layout_marginLeft="10dp"
+	            android:gravity="left"
+	            android:textColor="@color/black"
+	            android:textSize="16sp"
+	            font:fonttextview="Roboto-MiTV-Medium.ttf" />
+	
+	        <com.millicom.secondscreen.customviews.FontTextView
+	            android:id="@+id/block_feed_liked_details_tv"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_below="@id/block_feed_liked_channel_tv"
+	            android:layout_marginLeft="10dp"
+	            android:layout_marginTop="5dp"
+	            android:gravity="left"
+	            android:paddingBottom="10dp"
+	            android:textColor="@color/grey2"
+	            android:textSize="@dimen/ingress"
+	            font:fonttextview="Roboto-MiTV-Medium.ttf" />
+	
+	        <com.millicom.secondscreen.customviews.FontTextView
+	            android:id="@+id/block_feed_liked_timeleft_tv"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_below="@id/block_feed_liked_details_tv"
+	            android:layout_marginLeft="10dp"
+	            android:textColor="@color/red"
+	            android:textSize="16sp"
+	            android:visibility="gone"
+	            font:fonttextview="Roboto-MiTV-Medium.ttf" />
+	
+	        <ProgressBar
+	            android:id="@+id/block_feed_liked_progressbar"
+	            style="?android:attr/progressBarStyleHorizontal"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_below="@id/block_feed_liked_timeleft_tv"
+	            android:layout_marginLeft="10dp"
+	            android:layout_marginRight="10dp"
+	            android:progressDrawable="@drawable/progress_horizontal"
+	            android:visibility="gone" />
+	
+	        <!-- FOOTER: BOTTOM NAVIGATION TABS -->
+	
+	        <View
+	            android:id="@+id/block_feed_liked_divider"
+	            android:layout_width="match_parent"
+	            android:layout_height="1dp"
+	            android:layout_below="@id/block_feed_liked_details_tv"
+	            android:background="@color/grey1" />
+	
+	        <include
+	            android:id="@+id/block_feed_social_items"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_below="@id/block_feed_liked_divider"
+	            layout="@layout/element_social_buttons" />
+	    </RelativeLayout>
 
-    <com.millicom.secondscreen.customviews.FontTextView
-        android:id="@+id/block_feed_liked_header_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:textSize="22sp"
-        font:fonttextview="Roboto-MiTV-Medium.ttf" />
-
-    <!-- PRODUCT IMAGE -->
-
-    <FrameLayout
-        android:id="@+id/block_feed_liked_content_image_frame"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/block_feed_liked_header_tv" >
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="2dp" >
-
-            <ImageView
-                android:id="@+id/block_feed_liked_content_iv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop" />
-
-            <ProgressBar
-                android:id="@+id/block_feed_liked_content_iv_progressbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:visibility="gone" />
-        </RelativeLayout>
-    </FrameLayout>
-
-    <!-- CONTENT DETAILS -->
-
-    <RelativeLayout
-        android:id="@+id/block_feed_liked_content_details_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/block_feed_liked_content_image_frame"
-        android:orientation="horizontal" >
-
-        <com.millicom.secondscreen.customviews.FontTextView
-            android:id="@+id/block_feed_liked_title_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:gravity="left"
-            android:lines="1"
-            android:textColor="@color/black"
-            android:textSize="@dimen/header_2"
-            android:textStyle="bold" />
-
-        <com.millicom.secondscreen.customviews.FontTextView
-            android:id="@+id/block_feed_liked_time_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/block_feed_liked_title_tv"
-            android:layout_marginLeft="10dp"
-            android:gravity="left"
-            android:lineSpacingExtra="0sp"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            font:fonttextview="Roboto-MiTV-Medium.ttf" />
-
-        <com.millicom.secondscreen.customviews.FontTextView
-            android:id="@+id/block_feed_liked_channel_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/block_feed_liked_time_tv"
-            android:layout_marginLeft="10dp"
-            android:gravity="left"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            font:fonttextview="Roboto-MiTV-Medium.ttf" />
-
-        <com.millicom.secondscreen.customviews.FontTextView
-            android:id="@+id/block_feed_liked_details_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/block_feed_liked_channel_tv"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:gravity="left"
-            android:paddingBottom="10dp"
-            android:textColor="@color/grey2"
-            android:textSize="@dimen/ingress"
-            font:fonttextview="Roboto-MiTV-Medium.ttf" />
-
-        <com.millicom.secondscreen.customviews.FontTextView
-            android:id="@+id/block_feed_liked_timeleft_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/block_feed_liked_details_tv"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/red"
-            android:textSize="16sp"
-            android:visibility="gone"
-            font:fonttextview="Roboto-MiTV-Medium.ttf" />
-
-        <ProgressBar
-            android:id="@+id/block_feed_liked_progressbar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/block_feed_liked_timeleft_tv"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:progressDrawable="@drawable/progress_horizontal"
-            android:visibility="gone" />
-
-        <!-- FOOTER: BOTTOM NAVIGATION TABS -->
-
-        <View
-            android:id="@+id/block_feed_liked_divider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/block_feed_liked_details_tv"
-            android:background="@color/grey1" />
-
-        <include
-            android:id="@+id/block_feed_social_items"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/block_feed_liked_divider"
-            layout="@layout/element_social_buttons" />
     </RelativeLayout>
-
+    
 </RelativeLayout>
