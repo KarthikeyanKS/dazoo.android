@@ -36,17 +36,19 @@ public class AdListAdapter<T> extends BaseAdapter {
 	private Activity activity;
 	private List<T> items;
 	private HashMap<Integer, AdzerkAd> adItems = new HashMap<Integer, AdzerkAd>();
+	private List<Integer> adFormats;
 	private int cellCountBetweenAdCells;
 	private boolean isAdsEnabled;
 	
-	public AdListAdapter(String tag, Activity activity, List<T> items) {
+	public AdListAdapter(String tag, Activity activity, List<T> items, int cellCountBetweenAdCells, List<Integer> adFormats) {
 		super();
 		TAG = tag;
 		this.activity = activity;
 		this.items = items;
+		this.adFormats = adFormats;
 		
-		this.isAdsEnabled = AppConfigurationManager.getInstance().isAdsEnabled();
-		this.cellCountBetweenAdCells = AppConfigurationManager.getInstance().getCellCountBetweenAdCells();
+		this.cellCountBetweenAdCells = cellCountBetweenAdCells;
+		this.isAdsEnabled = (cellCountBetweenAdCells > 0);
 		
 		downloadAds();
 	}
@@ -64,7 +66,10 @@ public class AdListAdapter<T> extends BaseAdapter {
 	}
 	
 	public int getAdCount() {
-		int adCount = (int) Math.floor(items.size()/cellCountBetweenAdCells);
+		int adCount = 0;
+		if(isAdsEnabled) {
+			adCount = (int) Math.floor(items.size()/cellCountBetweenAdCells);
+		}
 		return adCount;
 	}
 
@@ -197,7 +202,7 @@ public class AdListAdapter<T> extends BaseAdapter {
 		for(int i = 0; i < adCount; ++i) {
 			final int index = i;
 			String divId = new StringBuilder().append(TAG).append("AdWithId").append(i).toString();
-			DazooCore.getAdzerkAd(divId, new AdCallBack() {
+			DazooCore.getAdzerkAd(divId, adFormats, new AdCallBack() {
 				@Override
 				public void onAdResult(final AdzerkAd ad) {
 					if (ad != null) {
@@ -237,8 +242,11 @@ public class AdListAdapter<T> extends BaseAdapter {
 	}
 	
 	public int positionExcludingAds(int position) {
-		int adsUntilThisPosition = (int) Math.floor((double)position / (double)(cellCountBetweenAdCells + 1));
-		int positionExcludingAds = position - adsUntilThisPosition;
+		int positionExcludingAds = position;
+		if(isAdsEnabled) {
+			int adsUntilThisPosition = (int) Math.floor((double)position / (double)(cellCountBetweenAdCells + 1));
+			positionExcludingAds = position - adsUntilThisPosition;
+		}
 		return positionExcludingAds;
 	}
 }

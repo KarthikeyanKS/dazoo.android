@@ -98,19 +98,6 @@
         <item name="fadeDelay">1000</item>
     </style>
 
-    <!-- Clock text views -->
-    <style name="ClockTextView" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/grey3</item>
-        <item name="android:background">@color/white</item>
-        <item name="android:gravity">center</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:textSize">12sp</item>
-        <item name="android:layout_height">18dp</item>
-        <item name="android:layout_width">@dimen/clock_scroll_area</item>
-        <item name="android:onClick">onClockTextClick</item>
-        <item name="android:clickable">true</item>
-    </style>
-
     <!-- Homepage Tabs -->
     <style name="homepage_tab_selector" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/black</item>

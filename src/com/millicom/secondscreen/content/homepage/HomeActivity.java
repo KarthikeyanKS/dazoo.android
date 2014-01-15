@@ -377,14 +377,6 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		// No call for super(). Bug on API Level > 11.
 	}
 
-	public void onClockTextClick(View v) {
-		String hourTag = (String) v.getTag();
-		Intent intent = new Intent(Consts.INTENT_EXTRA_CLOCK_SELECTION);
-		intent.putExtra(Consts.INTENT_EXTRA_CLOCK_SELECTION_VALUE, hourTag);
-		SecondScreenApplication.getInstance().setSelectedHour(Integer.valueOf(hourTag));
-		LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(intent);
-	}
-
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();

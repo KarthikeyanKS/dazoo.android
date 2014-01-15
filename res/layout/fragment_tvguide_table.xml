@@ -23,38 +23,23 @@
             android:paddingRight="4dp"
             android:scrollbars="none" />
 
-        <ImageView
-            android:id="@+id/tvguide_table_side_clock_iv"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="3dp"
-            android:clickable="true"
-            android:onClick="onClockImageClick"
-            android:src="@drawable/ic_guide_clock" />
+        <!-- <TextView -->
+        <!-- android:id="@+id/timebar_toast_textview" -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:layout_centerInParent="true" -->
+        <!-- android:background="@drawable/shape_rounded_corners" -->
+        <!-- android:padding="15dp" -->
+        <!-- android:textColor="@color/white" -->
+        <!-- android:textSize="40sp" -->
+        <!-- android:visibility="gone" /> -->
 
-        <TextView
-            android:id="@+id/timebar_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="@drawable/shape_rounded_corners"
-            android:padding="15dp"
-            android:textColor="@color/white"
-            android:textSize="40sp"
-            android:visibility="gone" />
-
-        <include
+        <com.millicom.secondscreen.customviews.SwypeClockBar
+            android:id="@+id/tvguide_swype_clock_bar"
             android:layout_width="30dp"
             android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/tvguide_table_side_clock_iv"
-            layout="@layout/element_timebar"
-            android:fillViewport="true" />
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true" />
     </RelativeLayout>
 
     <include layout="@layout/layout_request_callbacks_holder_layout" />

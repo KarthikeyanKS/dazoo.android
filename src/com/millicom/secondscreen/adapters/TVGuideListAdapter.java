@@ -29,6 +29,7 @@ import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Program;
 import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.tvguide.ChannelPageActivity;
+import com.millicom.secondscreen.manager.AppConfigurationManager;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -54,7 +55,7 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
 	public TVGuideListAdapter(Activity activity, ArrayList<Guide> guide, TvDate date, int hour, boolean isToday) {
-		super(TAG, activity, guide);
+		super(TAG, activity, guide, AppConfigurationManager.getInstance().getCellCountBetweenAdCellsGuide(), AppConfigurationManager.getInstance().getAdzerkAdFormatsGuide());
 		this.mGuide = guide;
 		this.mActivity = activity;
 		this.mDate = date;

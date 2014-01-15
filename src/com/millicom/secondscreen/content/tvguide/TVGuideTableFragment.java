@@ -1,27 +1,23 @@
 package com.millicom.secondscreen.content.tvguide;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.SweepGradient;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -36,8 +32,7 @@ import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Tag;
 import com.millicom.secondscreen.content.model.TvDate;
-import com.millicom.secondscreen.customviews.VerticalSeekBar;
-import com.millicom.secondscreen.manager.AppConfigurationManager;
+import com.millicom.secondscreen.customviews.SwypeClockBar;
 import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.DateUtilities;
 
@@ -49,11 +44,11 @@ public class TVGuideTableFragment extends SSPageFragment {
 	private Activity				mActivity;
 	private ListView				mTVGuideListView;
 	private ImageView				mClockIv;
-	private LinearLayout			mClockIndexView;
 	private ArrayList<Guide>		mGuides;
 	private TvDate					mTvDate;
 	private Tag						mTag;
 	private int						mTvDatePosition;
+	private SwypeClockBar			mSwypeClockBar;
 	private TVGuideListAdapter		mTVGuideListAdapter;
 	private DazooStore				dazooStore;
 	private boolean					mIsLoggedIn	= false, mIsToday = false;
@@ -62,12 +57,6 @@ public class TVGuideTableFragment extends SSPageFragment {
 	private int						mHour;
 	private TextView				mCurrentHourTv;
 	
-	private VerticalSeekBar seekBar;
-	private ListView timeListView;
-	private TextView textView;
-	private static final int hoursPerDay = 24;
-	private static int firstHourOfDay;
-
 	public static TVGuideTableFragment newInstance(Tag tag, TvDate date, int position) {
 
 		TVGuideTableFragment fragment = new TVGuideTableFragment();
@@ -96,7 +85,6 @@ public class TVGuideTableFragment extends SSPageFragment {
 		mTvDatePosition = bundle.getInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION);
 		mTag = dazooStore.getTag(mTagStr);
 
-		firstHourOfDay = AppConfigurationManager.getInstance().getFirstHourOfTVDay();
 	}
 
 	@Override
@@ -120,28 +108,10 @@ public class TVGuideTableFragment extends SSPageFragment {
 
 			mRootView = inflater.inflate(R.layout.fragment_tvguide_table, null);
 			mTVGuideListView = (ListView) mRootView.findViewById(R.id.tvguide_table_listview);
-			mClockIndexView = (LinearLayout) mRootView.findViewById(R.id.tvguide_table_side_clock_index);
 
-			mClockIv = (ImageView) mRootView.findViewById(R.id.tvguide_table_side_clock_iv);
-			mClockIv.setOnTouchListener(vTouch);
-			
-			textView = (TextView) mRootView.findViewById(R.id.timebar_textview);
-			seekBar = (VerticalSeekBar) mRootView.findViewById(R.id.timebar_seekbar);
-			
-			/* Link the textview with the seekbar */
-			seekBar.setTextView(textView);
-			timeListView = (ListView) mRootView.findViewById(R.id.timebar_listview);
-
-			if (timeListView != null) {
-				TimeListAdapter timeListAdapter = new TimeListAdapter(hoursPerDay, firstHourOfDay);
-				timeListView.setAdapter(timeListAdapter);
-			}
-
-			//styleCurrentHourSelection();
-			//TODO set progress in seekbar?
-
+			mSwypeClockBar = (SwypeClockBar) mRootView.findViewById(R.id.tvguide_swype_clock_bar);
+			mSwypeClockBar.setHour(mHour);
 		} else {
-
 			mRootView = inflater.inflate(R.layout.fragment_tvguide_tag_type, null);
 			mTVGuideListView = (ListView) mRootView.findViewById(R.id.fragment_tvguide_type_tag_listview);
 		}
@@ -258,29 +228,11 @@ public class TVGuideTableFragment extends SSPageFragment {
 		}
 	}
 
-	private View.OnTouchListener	vTouch					= new View.OnTouchListener() {
-
-		@Override
-		public boolean onTouch(View v, MotionEvent event) {
-			// UX: highlighting the clock on press
-			// if (event.getAction() == MotionEvent.ACTION_UP) {
-			// mClockIndexView.setBackgroundColor(mActivity.getResources().getColor(R.color.white));
-			// } else {
-			// mClockIndexView.setBackgroundColor(mActivity.getResources().getColor(R.color.red));
-			// }
-			return true;
-		}
-	};
-
 	BroadcastReceiver				mBroadcastReceiverClock	= new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction() != null && intent.getAction().equals(Consts.INTENT_EXTRA_CLOCK_SELECTION)) {
-				mHour = Integer.valueOf(intent.getExtras().getString(Consts.INTENT_EXTRA_CLOCK_SELECTION_VALUE));
-				
-				//styleCurrentHourSelection();
-				
-				//TODO set progress in seekbar?
+				mHour = intent.getExtras().getInt(Consts.INTENT_EXTRA_CLOCK_SELECTION_VALUE);
 				mTVGuideListAdapter.refreshList(Integer.valueOf(mHour));
 			}
 		}
@@ -307,83 +259,5 @@ public class TVGuideTableFragment extends SSPageFragment {
 				}
 			}
 		});
-	}
-	
-	private class TimeListAdapter extends BaseAdapter {
-
-		private List<Integer> hours;
-		private int hoursPerDay = 24;
-		private int firstHourOfDay = 6;
-
-		private List<Integer> generate24Hours() {
-			List<Integer> hours = new ArrayList<Integer>();
-			int hour = firstHourOfDay;
-			for (int i = 0; i < hoursPerDay; ++i) {
-				hours.add(hour);
-				hour = (hour + 1) % hoursPerDay;
-			}
-
-			return hours;
-		}
-
-		public TimeListAdapter(int hoursPerDay, int firstHourOfDay) {
-			this.hoursPerDay = hoursPerDay;
-			this.firstHourOfDay = firstHourOfDay;
-			this.hours = generate24Hours();
-		}
-
-		@Override
-		public boolean isEnabled(int position) {
-			return false;
-		}
-
-		@Override
-		public int getCount() {
-			return hours.size();
-		}
-
-		@Override
-		public Object getItem(int position) {
-			return hours.get(position);
-		}
-
-		@Override
-		public long getItemId(int position) {
-			return -1;
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			View rowView = convertView;
-
-			if (rowView == null) {
-				LayoutInflater layoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				rowView = layoutInflater.inflate(R.layout.row_timebar, null);
-				ViewHolder viewHolder = new ViewHolder();
-				viewHolder.textView = (TextView) rowView.findViewById(R.id.row_tomebar_textview);
-				rowView.setTag(viewHolder);
-			}
-			
-			ViewHolder holder = (ViewHolder) rowView.getTag();
-
-			final int hour = (Integer) getItem(position);
-
-			// Set the text
-			String hourString = String.format("%02d", hour);
-			holder.textView.setText(hourString);
-			holder.textView.setTextSize(9.5f);
-			holder.textView.setGravity(Gravity.CENTER_HORIZONTAL);
-			
-//			LayoutParams params = rowView.getLayoutParams();
-//			params.height = 10;
-//			rowView.setLayoutParams(params);
-			
-			return rowView;
-		}
-
-		private class ViewHolder {
-			public TextView textView;
-		}
-
 	}
 }

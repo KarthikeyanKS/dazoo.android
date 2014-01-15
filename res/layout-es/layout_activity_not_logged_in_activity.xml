@@ -7,12 +7,13 @@
     android:background="@color/white"
     android:orientation="vertical" >
 
+    
+<!--         android:layout_below="@id/tvguide_table_side_clock_iv" -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/tab_selector_container"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/tvguide_table_side_clock_iv"
        android:background="@drawable/poster_activity"
         android:fillViewport="true"
         android:orientation="vertical" >
