@@ -1,9 +1,5 @@
-package android.widget;
+package com.millicom.secondscreen.customviews;
 
-
-import com.broadthumb.R;
-
-import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,6 +13,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.widget.SeekBar;
 
 public class VerticalSeekBarBroadThumb extends SeekBar {
 
