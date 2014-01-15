@@ -7,12 +7,15 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -99,6 +102,37 @@ public class SwypeClockBar extends LinearLayout implements OnSeekBarChangeListen
 			TimeListAdapter timeListAdapter = new TimeListAdapter(hoursPerDay, firstHourOfDay, hours);
 			timeListView.setAdapter(timeListAdapter);
 		}
+
+		/*
+		 * Start the view as invisible, when the height is known, update the
+		 * height of each row and change visibility to visible
+		 */
+		this.setVisibility(View.INVISIBLE);
+		this.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+			@Override
+			public void onGlobalLayout() {
+				// gets called after layout has been done but before display, so
+				// we can get the view
+				int selfHeigt = SwypeClockBar.this.timeListView.getHeight(); // Ahaha! Gotcha
+				TimeListAdapter timeListAdapter = ((TimeListAdapter) SwypeClockBar.this.timeListView.getAdapter());
+				timeListAdapter.setListViewHeight(selfHeigt);
+				timeListAdapter.notifyDataSetChanged();
+
+				SwypeClockBar.removeOnGlobalLayoutListener(SwypeClockBar.this, this);
+				SwypeClockBar.this.setVisibility(View.VISIBLE);
+			}
+
+		});
+	}
+
+	@SuppressLint("NewApi")
+	public static void removeOnGlobalLayoutListener(View v, ViewTreeObserver.OnGlobalLayoutListener listener) {
+		if (Build.VERSION.SDK_INT < 16) {
+			v.getViewTreeObserver().removeGlobalOnLayoutListener(listener);
+		} else {
+			v.getViewTreeObserver().removeOnGlobalLayoutListener(listener);
+		}
 	}
 
 	private List<Integer> generate24Hours() {
@@ -117,11 +151,21 @@ public class SwypeClockBar extends LinearLayout implements OnSeekBarChangeListen
 		private List<Integer> hours;
 		private int hoursPerDay = 24;
 		private int firstHourOfDay = 6;
+		private int listViewHeight;
+
+		public void setListViewHeight(int listViewHeight) {
+			this.listViewHeight = listViewHeight;
+		}
 
 		public TimeListAdapter(int hoursPerDay, int firstHourOfDay, List<Integer> hours) {
+			this(hoursPerDay, firstHourOfDay, hours, -1);
+		}
+
+		public TimeListAdapter(int hoursPerDay, int firstHourOfDay, List<Integer> hours, int listViewHeight) {
 			this.hoursPerDay = hoursPerDay;
 			this.firstHourOfDay = firstHourOfDay;
 			this.hours = hours;
+			this.listViewHeight = listViewHeight;
 		}
 
 		@Override
@@ -165,9 +209,16 @@ public class SwypeClockBar extends LinearLayout implements OnSeekBarChangeListen
 			holder.textView.setText(hourString);
 			holder.textView.setTextSize(12.5f);
 
-			// LayoutParams params = rowView.getLayoutParams();
-			// params.height = 10;
-			// rowView.setLayoutParams(params);
+			if (listViewHeight > 0) {
+				int cellHeight = listViewHeight / hoursPerDay;
+
+				AbsListView.LayoutParams params = (AbsListView.LayoutParams) rowView.getLayoutParams();
+				if (params == null) {
+					params = new AbsListView.LayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, cellHeight));
+				}
+				params.height = cellHeight;
+				rowView.setLayoutParams(params);
+			}
 
 			return rowView;
 		}
