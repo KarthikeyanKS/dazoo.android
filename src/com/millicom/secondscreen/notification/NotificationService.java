@@ -2,8 +2,6 @@ package com.millicom.secondscreen.notification;
 
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Random;
 
 import android.app.Activity;
@@ -28,7 +26,6 @@ import android.widget.Toast;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
-import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.NotificationDbItem;
@@ -162,14 +159,14 @@ public class NotificationService {
 		broadcastPageIntent.putExtra(Consts.INTENT_EXTRA_BROADCAST_URL, broadcastUrl);
 		broadcastPageIntent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
 		broadcastPageIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	
+		Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.mitv_notification_large_icon);
 
-		Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(),
-                R.drawable.ic_launcher);
 		
 		NotificationCompat.Builder notificationBuilder;
 		try {
 			notificationBuilder = new NotificationCompat.Builder(context)
-			.setSmallIcon(R.drawable.ic_launcher)
+			.setSmallIcon(R.drawable.mitv_notification_small_icon)
 			.setLargeIcon(largeIcon)
 			.setContentTitle(broadcastName)
 			.setContentText(DateUtilities.timeToTimeString(DateUtilities.convertTimeStampToLocalTime(DateUtilities.isoStringToLong(broadcastTime))) + " " +channelName)
