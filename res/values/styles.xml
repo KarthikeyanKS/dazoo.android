@@ -39,6 +39,15 @@
         <item name="android:dropDownSelector">@color/grey1</item>
         <item name="android:background">@drawable/actionbar_spinner_arrow_selector</item>
     </style>
+    
+    <style name="scrollview_clock_swype">
+        <item name="android:scrollbarAlwaysDrawVerticalTrack">true</item>
+        <item name="android:scrollbarStyle">outsideOverlay</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:fadeScrollbars">false</item>
+        <item name="android:fillViewport">true</item>
+        <item name="android:scrollbarThumbVertical">@drawable/time_bar_container</item>
+    </style>
 
     <!-- ACTIONBAR WITH BOLD WHITE TITLE -->
 
@@ -87,19 +96,6 @@
         <item name="android:background">@color/grey2</item>
         <item name="fadeLength">1000</item>
         <item name="fadeDelay">1000</item>
-    </style>
-
-    <!-- Clock text views -->
-    <style name="ClockTextView" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/grey3</item>
-        <item name="android:background">@color/white</item>
-        <item name="android:gravity">center</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:textSize">12sp</item>
-        <item name="android:layout_height">18dp</item>
-        <item name="android:layout_width">@dimen/clock_scroll_area</item>
-        <item name="android:onClick">onClockTextClick</item>
-        <item name="android:clickable">true</item>
     </style>
 
     <!-- Homepage Tabs -->

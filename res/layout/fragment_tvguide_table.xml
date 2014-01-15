@@ -23,216 +23,23 @@
             android:paddingRight="4dp"
             android:scrollbars="none" />
 
-        <!--
-              LinearLayout
-            android:id="@+id/tvguide_table_side_clock_index"
-            android:layout_width="40dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/layout_selector_side_clock"
-            android:orientation="vertical"
-        -->
+        <!-- <TextView -->
+        <!-- android:id="@+id/timebar_toast_textview" -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:layout_centerInParent="true" -->
+        <!-- android:background="@drawable/shape_rounded_corners" -->
+        <!-- android:padding="15dp" -->
+        <!-- android:textColor="@color/white" -->
+        <!-- android:textSize="40sp" -->
+        <!-- android:visibility="gone" /> -->
 
-        <ImageView
-            android:id="@+id/tvguide_table_side_clock_iv"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentRight="true"
+        <com.millicom.secondscreen.customviews.SwypeClockBar
+            android:id="@+id/tvguide_swype_clock_bar"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="3dp"
-            android:clickable="true"
-            android:onClick="onClockImageClick"
-            android:src="@drawable/ic_guide_clock" />
-
-        <ScrollView
-            android:id="@+id/tvguide_scrollview"
-            android:layout_width="40dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/tvguide_table_side_clock_iv"
-            android:background="@color/white"
-            android:fillViewport="true"
-            android:orientation="vertical" >
-
-            <LinearLayout
-                android:id="@+id/tvguide_table_side_clock_index"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:id="@+id/clock_06"
-                    style="@style/ClockTextView"
-                    android:layout_weight="1"
-                    android:tag="6"
-                    android:text="06" />
-
-                <TextView
-                    android:id="@+id/clock_07"
-                    style="@style/ClockTextView"
-                    android:layout_weight="1"
-                    android:tag="7"
-                    android:text="07" />
-
-                <TextView
-                    android:id="@+id/clock_08"
-                    style="@style/ClockTextView"
-                    android:layout_weight="1"
-                    android:tag="8"
-                    android:text="08" />
-
-                <TextView
-                    android:id="@+id/clock_09"
-                    style="@style/ClockTextView"
-                    android:layout_weight="1"
-                    android:tag="9"
-                    android:text="09" />
-
-                <TextView
-                    android:id="@+id/clock_10"
-                    style="@style/ClockTextView"
-                    android:layout_weight="1"
-                    android:tag="10"
-                    android:text="10" />
-
-                <TextView
-                    android:id="@+id/clock_11"
-                    style="@style/ClockTextView"
-                    android:layout_weight="1"
-                    android:tag="11"
-                    android:text="11" />
-
-                <TextView
-                    android:id="@+id/clock_12"
-                    style="@style/ClockTextView"
-                    android:layout_weight="1"
-                    android:tag="12"
-                    android:text="12" />
-
-                <TextView
-                    android:id="@+id/clock_13"
-                    style="@style/ClockTextView"
-                    android:layout_weight="1"
-                    android:tag="13"
-                    android:text="13" />
-
-                <TextView
-                    android:id="@+id/clock_14"
-                    style="@style/ClockTextView"
-                    android:layout_weight="1"
-                    android:tag="14"
-                    android:text="14" />
-
-                <TextView
-                    android:id="@+id/clock_15"
-                    style="@style/ClockTextView"
-                    android:layout_weight="1"
-                    android:tag="15"
-                    android:text="15" />
-
-                <TextView
-                    android:id="@+id/clock_16"
-                    style="@style/ClockTextView"
-                    android:layout_weight="1"
-                    android:tag="16"
-                    android:text="16" />
-
-                <TextView
-                    android:id="@+id/clock_17"
-                    style="@style/ClockTextView"
-                    android:layout_weight="1"
-                    android:tag="17"
-                    android:text="17" />
-
-                <TextView
-                    android:id="@+id/clock_18"
-                    style="@style/ClockTextView"
-                    android:layout_weight="1"
-                    android:tag="18"
-                    android:text="18" />
-
-                <TextView
-                    android:id="@+id/clock_19"
-                    style="@style/ClockTextView"
-                    android:layout_weight="1"
-                    android:tag="19"
-                    android:text="19" />
-
-                <TextView
-                    android:id="@+id/clock_20"
-                    style="@style/ClockTextView"
-                    android:layout_weight="1"
-                    android:tag="20"
-                    android:text="20" />
-
-                <TextView
-                    android:id="@+id/clock_21"
-                    style="@style/ClockTextView"
-                    android:layout_weight="1"
-                    android:tag="21"
-                    android:text="21" />
-
-                <TextView
-                    android:id="@+id/clock_22"
-                    style="@style/ClockTextView"
-                    android:tag="22"
-                    android:text="22" />
-
-                <TextView
-                    android:id="@+id/clock_23"
-                    style="@style/ClockTextView"
-                    android:layout_weight="1"
-                    android:tag="23"
-                    android:text="23" />
-
-                <TextView
-                    android:id="@+id/clock_24"
-                    style="@style/ClockTextView"
-                    android:layout_weight="1"
-                    android:tag="0"
-                    android:text="24" />
-
-                <TextView
-                    android:id="@+id/clock_01"
-                    style="@style/ClockTextView"
-                    android:layout_weight="1"
-                    android:tag="1"
-                    android:text="01" />
-
-                <TextView
-                    android:id="@+id/clock_02"
-                    style="@style/ClockTextView"
-                    android:layout_weight="1"
-                    android:tag="2"
-                    android:text="02" />
-
-                <TextView
-                    android:id="@+id/clock_03"
-                    style="@style/ClockTextView"
-                    android:layout_weight="1"
-                    android:tag="3"
-                    android:text="03" />
-
-                <TextView
-                    android:id="@+id/clock_04"
-                    style="@style/ClockTextView"
-                    android:layout_weight="1"
-                    android:tag="4"
-                    android:text="04" />
-
-                <TextView
-                    android:id="@+id/clock_05"
-                    style="@style/ClockTextView"
-                    android:layout_weight="1"
-                    android:tag="5"
-                    android:text="05" />
-                <!-- /LinearLayout -->
-
-            </LinearLayout>
-        </ScrollView>
+            android:layout_alignParentRight="true" />
     </RelativeLayout>
 
     <include layout="@layout/layout_request_callbacks_holder_layout" />

@@ -2,13 +2,12 @@ package com.millicom.secondscreen.content.tvguide;
 
 import java.util.ArrayList;
 
-import android.R.integer;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Typeface;
+import android.graphics.SweepGradient;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
@@ -19,10 +18,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.millicom.secondscreen.Consts;
@@ -33,10 +29,10 @@ import com.millicom.secondscreen.adapters.TVGuideListAdapter;
 import com.millicom.secondscreen.adapters.TVGuideTagListAdapter;
 import com.millicom.secondscreen.content.SSPageFragment;
 import com.millicom.secondscreen.content.model.Broadcast;
-import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Tag;
 import com.millicom.secondscreen.content.model.TvDate;
+import com.millicom.secondscreen.customviews.SwypeClockBar;
 import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.DateUtilities;
 
@@ -48,12 +44,11 @@ public class TVGuideTableFragment extends SSPageFragment {
 	private Activity				mActivity;
 	private ListView				mTVGuideListView;
 	private ImageView				mClockIv;
-	private LinearLayout			mClockIndexView;
-	private ScrollView				mClockScrollView;
 	private ArrayList<Guide>		mGuides;
 	private TvDate					mTvDate;
 	private Tag						mTag;
 	private int						mTvDatePosition;
+	private SwypeClockBar			mSwypeClockBar;
 	private TVGuideListAdapter		mTVGuideListAdapter;
 	private DazooStore				dazooStore;
 	private boolean					mIsLoggedIn	= false, mIsToday = false;
@@ -61,7 +56,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 	private TVGuideTagListAdapter	mTVTagListAdapter;
 	private int						mHour;
 	private TextView				mCurrentHourTv;
-
+	
 	public static TVGuideTableFragment newInstance(Tag tag, TvDate date, int position) {
 
 		TVGuideTableFragment fragment = new TVGuideTableFragment();
@@ -83,7 +78,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 		if (token != null && TextUtils.isEmpty(token) != true) {
 			mIsLoggedIn = true;
 		}
-
+		
 		Bundle bundle = getArguments();
 		mTagStr = bundle.getString(Consts.FRAGMENT_EXTRA_TAG);
 		mTvDate = bundle.getParcelable(Consts.FRAGMENT_EXTRA_TVDATE);
@@ -113,16 +108,10 @@ public class TVGuideTableFragment extends SSPageFragment {
 
 			mRootView = inflater.inflate(R.layout.fragment_tvguide_table, null);
 			mTVGuideListView = (ListView) mRootView.findViewById(R.id.tvguide_table_listview);
-			mClockIndexView = (LinearLayout) mRootView.findViewById(R.id.tvguide_table_side_clock_index);
-			mClockScrollView = (ScrollView) mRootView.findViewById(R.id.tvguide_scrollview);
 
-			mClockIv = (ImageView) mRootView.findViewById(R.id.tvguide_table_side_clock_iv);
-			mClockIv.setOnTouchListener(vTouch);
-
-			styleCurrentHourSelection();
-
+			mSwypeClockBar = (SwypeClockBar) mRootView.findViewById(R.id.tvguide_swype_clock_bar);
+			mSwypeClockBar.setHour(mHour);
 		} else {
-
 			mRootView = inflater.inflate(R.layout.fragment_tvguide_tag_type, null);
 			mTVGuideListView = (ListView) mRootView.findViewById(R.id.fragment_tvguide_type_tag_listview);
 		}
@@ -239,26 +228,11 @@ public class TVGuideTableFragment extends SSPageFragment {
 		}
 	}
 
-	private View.OnTouchListener	vTouch					= new View.OnTouchListener() {
-
-		@Override
-		public boolean onTouch(View v, MotionEvent event) {
-			// UX: highlighting the clock on press
-			// if (event.getAction() == MotionEvent.ACTION_UP) {
-			// mClockIndexView.setBackgroundColor(mActivity.getResources().getColor(R.color.white));
-			// } else {
-			// mClockIndexView.setBackgroundColor(mActivity.getResources().getColor(R.color.red));
-			// }
-			return true;
-		}
-	};
-
 	BroadcastReceiver				mBroadcastReceiverClock	= new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction() != null && intent.getAction().equals(Consts.INTENT_EXTRA_CLOCK_SELECTION)) {
-				mHour = Integer.valueOf(intent.getExtras().getString(Consts.INTENT_EXTRA_CLOCK_SELECTION_VALUE));
-				styleCurrentHourSelection();
+				mHour = intent.getExtras().getInt(Consts.INTENT_EXTRA_CLOCK_SELECTION_VALUE);
 				mTVGuideListAdapter.refreshList(Integer.valueOf(mHour));
 			}
 		}
@@ -274,55 +248,16 @@ public class TVGuideTableFragment extends SSPageFragment {
 		LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mBroadcastReceiverClock);
 	}
 
-	private static TextView getViewByTag(ViewGroup root, String tag) {
-		final int childCount = root.getChildCount();
-		for (int i = 0; i < childCount; i++) {
-			final View child = root.getChildAt(i);
-
-			final Object tagObj = child.getTag();
-			if (tagObj != null && tagObj.equals(tag)) {
-				TextView textView = (TextView) child;
-				return textView;
-			}
-		}
-		return null;
-	}
-
 	private final void focusOnView() {
 		new Handler().post(new Runnable() {
 			@Override
 			public void run() {
 				if(mCurrentHourTv!=null){
 					Log.d(TAG, "FOCUS ON VIEW");
-					mClockScrollView.smoothScrollTo(0, mCurrentHourTv.getTop());
+					//TODO do equivivalent!
+					//mClockScrollView.smoothScrollTo(0, mCurrentHourTv.getTop());
 				}
 			}
 		});
-	}
-
-	private void styleCurrentHourSelection() {
-		// if the there is styled hour remove styling
-		if (mCurrentHourTv != null) {
-			mCurrentHourTv.setTextColor(getActivity().getResources().getColor(R.color.grey3));
-			mCurrentHourTv.setTextSize(12);
-			mCurrentHourTv.setTypeface(Typeface.DEFAULT);
-			LinearLayout.LayoutParams p = (LayoutParams) mCurrentHourTv.getLayoutParams();
-			p.setMargins(0, 0, 0, 0);
-			p.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-			mCurrentHourTv.setLayoutParams(p);
-			mCurrentHourTv.setBackgroundColor(getResources().getColor(R.color.white));
-		} 
-
-		mCurrentHourTv = getViewByTag(mClockIndexView, String.valueOf(mHour));
-		if (mCurrentHourTv != null) {
-			mCurrentHourTv.setTextColor(getActivity().getResources().getColor(R.color.white));
-			mCurrentHourTv.setTextSize(15);
-			mCurrentHourTv.setTypeface(Typeface.DEFAULT_BOLD);
-			mCurrentHourTv.setBackgroundResource(R.drawable.layout_rounded_corners_red);
-			LinearLayout.LayoutParams p = (LayoutParams) mCurrentHourTv.getLayoutParams();
-			p.setMargins(5, 5, 5, 5);
-			p.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-			mCurrentHourTv.setLayoutParams(p);
-		}
 	}
 }

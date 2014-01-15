@@ -397,12 +397,14 @@ public abstract class Consts {
 	public static final String JSON_KEY_CONFIGURATION_FIRST_HOUR_OF_TV_DAY			= "firstHourOfDay";
 	public static final String JSON_KEY_CONFIGURATION_ADZERK_NETWORK_ID				= "adzerkNetworkId";
 	public static final String JSON_KEY_CONFIGURATION_ADZERK_SITE_ID				= "adzerkSiteId";
-	public static final String JSON_KEY_CONFIGURATION_ADZERK_AD_FORMATS				= "adzerkFormats";
 	public static final String JSON_KEY_CONFIGURATION_GOOGLE_ANALYTICS_ENABLED		= "android.googleAnalyticsEnabled";
 	public static final String JSON_KEY_CONFIGURATION_GOOGLE_ANALYTICS_TRACKING_ID	= "android.googleAnalyticsTrackingId";
 	public static final String JSON_KEY_CONFIGURATION_GOOGLE_ANALYTICS_SAMPLE_RATE	= "android.googleAnalyticsSampleRate";
 	public static final String JSON_KEY_CONFIGURATION_ADS_ENABLED					= "android.adsEnabled";
-	public static final String JSON_KEY_CONFIGURATION_CELL_COUNT_BETWEEN_AD_CELLS	= "android.cellCountBetweenAdCells";
+	public static final String JSON_KEY_CONFIGURATION_CELLS_BETWEEN_AD_CELLS_GUIDE		= "android.guide.cellCountBetweenAdCells";
+	public static final String JSON_KEY_CONFIGURATION_ADZERK_AD_FORMATS_GUIDE			= "android.guide.adzerkFormats";
+	public static final String JSON_KEY_CONFIGURATION_CELLS_BETWEEN_AD_CELLS_ACTIVITY	= "android.activity.cellCountBetweenAdCells";
+	public static final String JSON_KEY_CONFIGURATION_ADZERK_AD_FORMATS_ACTIVITY		= "android.activity.adzerkFormats";
 	
 	/* PREFERENCES KEYS */
 	public static final String PREFS_KEY_APP_WAS_PREINSTALLED						= "APP_WAS_PREINSTALLED";

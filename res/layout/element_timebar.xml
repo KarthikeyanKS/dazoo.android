@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/transparent" >
+
+    <ListView
+        android:id="@+id/timebar_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent"
+        android:cacheColorHint="@color/transparent"
+        android:divider="@null"
+        android:dividerHeight="-4.5dp" />
+
+    <com.millicom.secondscreen.customviews.VerticalSeekBar
+        android:id="@+id/timebar_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:max="23"
+        android:progressDrawable="@color/transparent" />
+
+</FrameLayout>

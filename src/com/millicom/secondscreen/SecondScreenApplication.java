@@ -144,7 +144,7 @@ public class SecondScreenApplication extends Application {
 		.discCacheSize(50 * 1024 * 1024)
 	    .discCacheFileCount(100)
 		.tasksProcessingOrder(QueueProcessingType.LIFO)
-		.writeDebugLogs()
+//		.writeDebugLogs()
 		.build();
 		ImageLoader.getInstance().init(config);
 	}

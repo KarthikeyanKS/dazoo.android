@@ -304,8 +304,8 @@ public class DazooCore {
 		}
 	}
 	
-	public static void getAdzerkAd(String divId, AdCallBack callback) {
-		GetAdzerkAdTask getAdzerkAdTask = new GetAdzerkAdTask(divId, callback);
+	public static void getAdzerkAd(String divId, List<Integer> adFormats, AdCallBack callback) {
+		GetAdzerkAdTask getAdzerkAdTask = new GetAdzerkAdTask(divId, adFormats, callback);
 		getAdzerkAdTask.execute();
 	}
 	
@@ -319,9 +319,11 @@ public class DazooCore {
 		
 		private String divId;
 		private AdCallBack adCallBack = null;
+		private List<Integer> adFormats;
 		
-		public GetAdzerkAdTask(String divId, AdCallBack adCallBack) {
+		public GetAdzerkAdTask(String divId, List<Integer> adFormats, AdCallBack adCallBack) {
 			this.divId = divId;
+			this.adFormats = adFormats;
 			this.adCallBack = adCallBack;
 		}
 		
@@ -351,9 +353,8 @@ public class DazooCore {
 				
 				int networkId = AppConfigurationManager.getInstance().getAdzerkNetworkId();
 				int siteId = AppConfigurationManager.getInstance().getAdzerkSiteId();
-				List<Integer> adTypes = AppConfigurationManager.getInstance().getAdzerkAdFormats();
 				
-				AdzerkJSONObjectPlacement placement = new AdzerkJSONObjectPlacement(divId, networkId, siteId, adTypes);
+				AdzerkJSONObjectPlacement placement = new AdzerkJSONObjectPlacement(divId, networkId, siteId, adFormats);
 				
 				List<AdzerkJSONObjectPlacement> placements = Arrays.asList(placement);
 				
