@@ -35,30 +35,7 @@ public class ContentParser {
 
 		for (int i = 0; i < mainArray.length(); i++) {
 			JSONObject jsonGuide = mainArray.getJSONObject(i);
-
-			Guide guide = new Guide();
-			guide.setId(jsonGuide.optString(Consts.DAZOO_GUIDE_CHANNEL_ID));
-			guide.setName(jsonGuide.optString(Consts.DAZOO_GUIDE_CHANNEL_NAME));
-
-			JSONObject logosJson = jsonGuide.optJSONObject(Consts.DAZOO_GUIDE_LOGO);
-			if (logosJson != null) {
-				guide.setLogoSHref(logosJson.optString(Consts.DAZOO_IMAGE_SMALL));
-				guide.setLogoMHref(logosJson.optString(Consts.DAZOO_IMAGE_MEDIUM));
-				guide.setLogoLHref(logosJson.optString(Consts.DAZOO_IMAGE_LARGE));
-			}
-
-			JSONArray broadcastsJson = jsonGuide.optJSONArray(Consts.DAZOO_GUIDE_BROADCASTS);
-
-			if (broadcastsJson != null) {
-				ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
-				for (int j = 0; j < broadcastsJson.length(); j++) {
-					JSONObject jsonBroadcast = broadcastsJson.optJSONObject(j);
-					if (jsonBroadcast != null) {
-						broadcasts.add(parseBroadcast(jsonBroadcast));
-					}
-				}
-				guide.setBroadcasts(broadcasts);
-			}
+			Guide guide = new Guide(jsonGuide);
 			guides.add(guide);
 		}
 		return guides;

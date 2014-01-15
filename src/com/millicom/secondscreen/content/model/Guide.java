@@ -1,82 +1,129 @@
 package com.millicom.secondscreen.content.model;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 
-import com.millicom.secondscreen.Consts;
-import com.millicom.secondscreen.utilities.DateUtilities;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import android.content.res.Configuration;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
-public class Guide implements Parcelable{
+import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.SecondScreenApplication;
+import com.millicom.secondscreen.utilities.DateUtilities;
+
+public class Guide implements Parcelable {
 
 	private String id;
 	private String name;
 	private String logoSHref;
 	private String logoMHref;
 	private String logoLHref;
+
 	private ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
-	
+
 	/* Used for caching broadcast indexes */
 	private HashMap<Long, Integer> broadcastIndexCache = new HashMap<Long, Integer>();
-	
-	public Guide(){
+
+	public Guide() {
 	}
 
-	public void setId(String id){
+	public Guide(JSONObject jsonGuide) {
+		this.setId(jsonGuide.optString(Consts.DAZOO_GUIDE_CHANNEL_ID));
+		this.setName(jsonGuide.optString(Consts.DAZOO_GUIDE_CHANNEL_NAME));
+
+		JSONObject logosJson = jsonGuide.optJSONObject(Consts.DAZOO_GUIDE_LOGO);
+		if (logosJson != null) {
+			this.setLogoSHref(logosJson.optString(Consts.DAZOO_IMAGE_SMALL));
+			this.setLogoMHref(logosJson.optString(Consts.DAZOO_IMAGE_MEDIUM));
+			this.setLogoLHref(logosJson.optString(Consts.DAZOO_IMAGE_LARGE));
+		}
+
+		JSONArray broadcastsJson = jsonGuide.optJSONArray(Consts.DAZOO_GUIDE_BROADCASTS);
+
+		if (broadcastsJson != null) {
+			ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
+			for (int j = 0; j < broadcastsJson.length(); j++) {
+				JSONObject jsonBroadcast = broadcastsJson.optJSONObject(j);
+				if (jsonBroadcast != null) {
+					Broadcast broadcast = new Broadcast(jsonBroadcast);
+					broadcasts.add(broadcast);
+				}
+			}
+			this.setBroadcasts(broadcasts);
+		}
+	}
+
+	public String getLogoUrl() {
+		int screenSize = SecondScreenApplication.getInstance().getScreenSizeMask();
+		boolean connectedToWifi = SecondScreenApplication.getInstance().isConnectedToWifi();
+
+		String logoUrl;
+
+//		if (connectedToWifi) {
+//			switch (screenSize) {
+//			case Configuration.SCREENLAYOUT_SIZE_LARGE:
+//				logoUrl = logoLHref;
+//				break;
+//			case Configuration.SCREENLAYOUT_SIZE_NORMAL:
+//				logoUrl = logoMHref;
+//				break;
+//			case Configuration.SCREENLAYOUT_SIZE_SMALL:
+//				logoUrl = logoSHref;
+//				break;
+//			default:
+//				logoUrl = logoMHref;
+//			}
+//		} else {
+//			logoUrl = logoMHref;
+//		}
+		
+		//TODO use code above
+		logoUrl = logoLHref;
+		
+		return logoUrl;
+	}
+
+	public void setId(String id) {
 		this.id = id;
 	}
-	
-	public String getId(){
+
+	public String getId() {
 		return this.id;
 	}
-	
-	public void setName(String name){
+
+	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public String getName(){
+
+	public String getName() {
 		return this.name;
 	}
-	
-	public void setLogoSHref(String logoSHref){
+
+	public void setLogoSHref(String logoSHref) {
 		this.logoSHref = logoSHref;
 	}
-	
-	public String getLogoSHref(){
-		return this.logoSHref;
-	}
-	
-	public void setLogoMHref(String logoMHref){
+
+	public void setLogoMHref(String logoMHref) {
 		this.logoMHref = logoMHref;
 	}
-	
-	public String getLogoMHref(){
-		return this.logoMHref;
-	}
-	
-	public void setLogoLHref(String logoLHref){
+
+	public void setLogoLHref(String logoLHref) {
 		this.logoLHref = logoLHref;
 	}
-	
-	public String getLogoLHref(){
-		return this.logoLHref;
-	}
-	
-	public void setBroadcasts(ArrayList<Broadcast> broadcasts){
+
+	public void setBroadcasts(ArrayList<Broadcast> broadcasts) {
 		this.broadcasts = broadcasts;
 	}
-	
-	public ArrayList<Broadcast> getBroadcasts(){
+
+	public ArrayList<Broadcast> getBroadcasts() {
 		return this.broadcasts;
 	}
-	
-	public Guide(Parcel in){
+
+	public Guide(Parcel in) {
 		id = in.readString();
 		name = in.readString();
 		logoSHref = in.readString();
@@ -84,7 +131,7 @@ public class Guide implements Parcelable{
 		logoLHref = in.readString();
 		in.readTypedList(broadcasts, Broadcast.CREATOR);
 	}
-	
+
 	@Override
 	public int describeContents() {
 		return 0;
@@ -97,9 +144,9 @@ public class Guide implements Parcelable{
 		dest.writeString(logoSHref);
 		dest.writeString(logoMHref);
 		dest.writeString(logoLHref);
-		dest.writeTypedList(broadcasts);	
+		dest.writeTypedList(broadcasts);
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Guide) {
@@ -110,8 +157,8 @@ public class Guide implements Parcelable{
 		}
 		return false;
 	}
-	
-	public static final Parcelable.Creator<Guide>	CREATOR	= new Parcelable.Creator<Guide>() {
+
+	public static final Parcelable.Creator<Guide> CREATOR = new Parcelable.Creator<Guide>() {
 		public Guide createFromParcel(Parcel in) {
 			return new Guide(in);
 		}
@@ -120,50 +167,48 @@ public class Guide implements Parcelable{
 			return new Guide[size];
 		}
 	};
-		
+
 	public int getClosestBroadcastIndexFromTime(ArrayList<Broadcast> broadcastList, int hour, TvDate date) {
 		int nearestIndex = 0;
 
 		long timeNow = DateUtilities.timeAsLongFromTvDateAndHour(date, hour);
-	
-		nearestIndex = getBroadcastIndex(broadcastList, timeNow);
-		
-		return nearestIndex;
-	}
-	
-	public int getClosestBroadcastIndex(ArrayList<Broadcast> broadcastList) {
-		int nearestIndex = 0;
-		
-		// get the time now
-		Date currentDate = new Date();
-		long timeNow = currentDate.getTime();
-		
+
 		nearestIndex = getBroadcastIndex(broadcastList, timeNow);
 
 		return nearestIndex;
 	}
-	
-	
-	
+
+	public int getClosestBroadcastIndex(ArrayList<Broadcast> broadcastList) {
+		int nearestIndex = 0;
+
+		// get the time now
+		Date currentDate = new Date();
+		long timeNow = currentDate.getTime();
+
+		nearestIndex = getBroadcastIndex(broadcastList, timeNow);
+
+		return nearestIndex;
+	}
+
 	public int getBroadcastIndex(ArrayList<Broadcast> broadcastList, long timeNow) {
 		int nearestIndex = 0;
 		Integer nearestIndexObj = null;
 		Long timeLongObject = Long.valueOf(timeNow);
-		if(broadcastIndexCache.containsKey(timeLongObject)) {
+		if (broadcastIndexCache.containsKey(timeLongObject)) {
 			nearestIndexObj = broadcastIndexCache.get(timeLongObject);
-			if(nearestIndexObj != null) {
+			if (nearestIndexObj != null) {
 				/* Cache hit! */
 				nearestIndex = nearestIndexObj.intValue();
 			}
 		}
-		
-		if(nearestIndexObj == null) {
+
+		if (nearestIndexObj == null) {
 			/* Cache miss */
 			nearestIndex = Broadcast.getClosestBroadcastIndexUsingTime(broadcastList, timeNow);
-			
+
 			broadcastIndexCache.put(timeLongObject, Integer.valueOf(nearestIndex));
 		}
-		
+
 		return nearestIndex;
 	}
 }

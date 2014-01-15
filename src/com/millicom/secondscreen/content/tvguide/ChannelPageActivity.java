@@ -376,7 +376,7 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 	@Override
 	protected void loadPage() {
 		ImageAware imageAware = new ImageViewAware(mChannelIconIv, false);
-		ImageLoader.getInstance().displayImage(mChannelGuide.getLogoMHref(), imageAware);
+		ImageLoader.getInstance().displayImage(mChannelGuide.getLogoUrl(), imageAware);
 		mIndexOfNearestBroadcast = Broadcast.getClosestBroadcastIndex(mBroadcasts);
 		if (mIndexOfNearestBroadcast >= 0) {
 			mFollowingBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());
