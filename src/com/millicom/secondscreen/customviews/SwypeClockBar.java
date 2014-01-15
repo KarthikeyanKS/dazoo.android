@@ -36,7 +36,6 @@ public class SwypeClockBar extends LinearLayout implements OnSeekBarChangeListen
 	private Activity activity;
 	private VerticalSeekBar seekBar;
 	private ListView timeListView;
-	private TextView textView;
 	private ImageView clockImage;
 	private List<Integer> hours;
 	private static final int hoursPerDay = 24;
@@ -85,12 +84,7 @@ public class SwypeClockBar extends LinearLayout implements OnSeekBarChangeListen
 		inflater.inflate(R.layout.swype_clock_bar, this);
 		clockImage = (ImageView) this.findViewById(R.id.swype_clock_bar_clock_image);
 
-		textView = (TextView) this.findViewById(R.id.timebar_toast_textview);
 		seekBar = (VerticalSeekBar) this.findViewById(R.id.timebar_seekbar);
-
-		/* Link the textview with the seekbar */
-		seekBar.setTextView(textView);
-
 		seekBar.setOnSeekBarChangeListener(this);
 
 		// TODO use this way of accessing the activity directly in the

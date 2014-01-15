@@ -4,7 +4,6 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
-import android.drm.DrmStore.Action;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -13,11 +12,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,12 +23,6 @@ public class VerticalSeekBar extends SeekBar {
 
 	private static final String tag = "VerticalSeekBarSmallThumb (internal)";
 
-	private static final int millisDelay = 300;
-	private static final int fadeOutAnimationDuration = 650;
-
-	private static boolean aboutToHideTextView;
-
-	private TextView textView;
 	private Activity activity;
 	private Toast toast;
 
@@ -54,11 +42,6 @@ public class VerticalSeekBar extends SeekBar {
 	}
 
 	private void setup() {
-		aboutToHideTextView = false;
-	}
-
-	public void setTextView(TextView textView) {
-		this.textView = textView;
 	}
 
 	public void setActivity(Activity activity) {
@@ -77,10 +60,6 @@ public class VerticalSeekBar extends SeekBar {
 		int firstHourOfDay = AppConfigurationManager.getInstance().getFirstHourOfTVDay();
 		int hour = (getProgress() + firstHourOfDay) % hoursPerDay;
 		String hourString = String.format(Locale.getDefault(), "%02d:00", hour);
-		// if (textView != null) {
-		// textView.setVisibility(View.VISIBLE);
-		// textView.setText(hourString);
-		// }
 
 		TextView text = (TextView) toast.getView().findViewById(R.id.timebar_toast_textview);
 		text.setText(hourString);
@@ -88,40 +67,6 @@ public class VerticalSeekBar extends SeekBar {
 		if (null == toast.getView().getWindowToken())
 		{
 			toast.show();
-		}
-	}
-
-	private void hideTextView() {
-		if (textView != null) {
-
-			/* Don't post more than one "job" */
-			if (!aboutToHideTextView) {
-				aboutToHideTextView = true;
-				Animation animationFadeOut = new AlphaAnimation(1, 0);
-				animationFadeOut.setInterpolator(new AccelerateInterpolator());
-
-				animationFadeOut.setDuration(fadeOutAnimationDuration);
-				animationFadeOut.setStartOffset(millisDelay);
-				animationFadeOut.setAnimationListener(new AnimationListener() {
-					@Override
-					public void onAnimationStart(Animation animation) {
-					}
-
-					@Override
-					public void onAnimationRepeat(Animation animation) {
-					}
-
-					@Override
-					public void onAnimationEnd(Animation animation) {
-						textView.setVisibility(View.GONE);
-						aboutToHideTextView = false;
-					}
-				});
-
-				textView.setAnimation(animationFadeOut);
-				animationFadeOut.start();
-
-			}
 		}
 	}
 
@@ -160,10 +105,6 @@ public class VerticalSeekBar extends SeekBar {
 			Log.e(tag, "ACTION_CANCEL");
 			break;
 		}
-		}
-
-		if (event.getAction() == MotionEvent.ACTION_UP) {
-			hideTextView();
 		}
 
 		return true;

@@ -95,11 +95,10 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 
 		final Guide guide = getItem(position);
 
-		if (guide.getLogoLHref() != null) {
+		if (guide.getLogoUrl() != null) {
 			ImageAware imageAware = new ImageViewAware(holder.mImageView, false);
-			ImageLoader.getInstance().displayImage(guide.getLogoSHref(), imageAware);
-		} 
-		else {
+			ImageLoader.getInstance().displayImage(guide.getLogoUrl(), imageAware);
+		} else {
 			holder.mImageView.setImageResource(R.color.white);
 		}
 

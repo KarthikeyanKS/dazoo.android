@@ -10,6 +10,8 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
@@ -70,6 +72,22 @@ public class SecondScreenApplication extends Application {
 			sInstance = new SecondScreenApplication();
 		}
 		return sInstance;
+	}
+	
+	public int getScreenSizeMask() {
+		int screenSizeMask = getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
+		return screenSizeMask;
+	}
+	
+	public boolean isConnectedToWifi() {
+		ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+		boolean isConnectedToWifi = false;
+		if (mWifi.isConnected()) {
+			isConnectedToWifi = true;
+		}
+		return isConnectedToWifi;
 	}
 
 	@Override
