@@ -46,11 +46,11 @@ public class RepetitionsListAdapter extends BaseAdapter {
 	private Broadcast 				mRunningBroadcast;
 	private DazooStore				dazooStore;
 	private ArrayList<TvDate>		mTvDates;
-	
+
 	private int reminderPosition;
 
 	public RepetitionsListAdapter(Activity activity, ArrayList<Broadcast> repeatingBroadcasts, Program program, Broadcast runningBroadcast) {
-		
+
 		/* Remove running broadcast */
 		boolean foundRunningBroadcast = false;
 		int indexOfRunningBroadcast = 0;
@@ -62,11 +62,11 @@ public class RepetitionsListAdapter extends BaseAdapter {
 				break;
 			}
 		}
-		
+
 		if(foundRunningBroadcast) {
 			repeatingBroadcasts.remove(indexOfRunningBroadcast);
 		}
-		
+
 		this.mActivity = activity;
 		this.mProgram = program;
 		this.mRunningBroadcast = runningBroadcast;
@@ -75,7 +75,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 
 		dazooStore = DazooStore.getInstance();
 		mTvDates = dazooStore.getTvDates();
-		
+
 		mPosIsSet = new boolean[getCount()];
 		mPosNotificationId = new int[getCount()];
 	}
@@ -132,7 +132,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 			int dateIndex = 0;
 			boolean dateOutOfWeek = false;
 			for (int i = 0; i < mTvDates.size(); i++) {
-				if (broadcast.getBeginTimeStringGmt().contains(mTvDates.get(i).getDate())) {
+				if (broadcast.getTvDateString().equals(mTvDates.get(i).getDate())) {
 					dateIndex = i;
 					break;
 				}
@@ -141,27 +141,25 @@ public class RepetitionsListAdapter extends BaseAdapter {
 				}
 			}
 
-			try {
-				holder.mHeaderContainer.setVisibility(View.GONE);
-				holder.mDivider.setVisibility(View.VISIBLE);
-				if (position == 0
-						|| DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmt()).equals(
-								DateUtilities.tvDateStringToDatePickerString(getItem(position - 1).getBeginTimeStringGmt())) == false) {
-					if (dateOutOfWeek == false) {
-
-						if (mTvDates != null && mTvDates.isEmpty() != true) {
-							holder.mHeader.setText(mTvDates.get(dateIndex).getName() + " " + DateUtilities.tvDateStringToDatePickerString(mTvDates.get(dateIndex).getDate()));
-							holder.mHeaderContainer.setVisibility(View.VISIBLE);
-						}
+			holder.mHeaderContainer.setVisibility(View.GONE);
+			holder.mDivider.setVisibility(View.VISIBLE);
+			if (position == 0 || broadcast.getBeginTimeStringLocalDayMonth().equals(
+					(getItem(position - 1)).getBeginTimeStringLocalDayMonth()) == false) {
+				if (dateOutOfWeek == false) {
+					if (mTvDates != null && mTvDates.isEmpty() != true) {
+						holder.mHeader.setText(mTvDates.get(dateIndex).getName() + " " + broadcast.getBeginTimeStringLocalDayMonth());
+						holder.mHeaderContainer.setVisibility(View.VISIBLE);
 					}
 				}
-				if (position != (getCount() - 1)
-						&& DateUtilities.tvDateStringToDatePickerString(broadcast.getBeginTimeStringGmt()).equals(
-								DateUtilities.tvDateStringToDatePickerString(getItem(position + 1).getBeginTimeStringGmt())) == false) {
-					holder.mDivider.setVisibility(View.GONE);
+				else {
+					holder.mHeader.setText(broadcast.getDayOfWeekString() + " " + broadcast.getBeginTimeStringLocalDayMonth());
+					holder.mHeaderContainer.setVisibility(View.VISIBLE);
 				}
-			} catch (ParseException e) {
-				e.printStackTrace();
+			}
+			if (position != (getCount() - 1)
+					&& broadcast.getBeginTimeStringLocalDayMonth().equals(
+							(getItem(position + 1)).getBeginTimeStringLocalDayMonth()) == false) {
+				holder.mDivider.setVisibility(View.GONE);
 			}
 
 			holder.mSeasonEpisodeTv.setVisibility(View.GONE);
@@ -173,7 +171,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 				holder.mChannelTv.setText(channel);
 			}
 
-			
+
 			if (!broadcast.hasStarted()) {
 				NotificationDbItem dbItem = new NotificationDbItem();
 				dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());

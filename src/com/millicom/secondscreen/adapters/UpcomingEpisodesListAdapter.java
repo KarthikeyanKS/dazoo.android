@@ -46,11 +46,11 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 
 	private DazooStore				dazooStore;
 	private ArrayList<TvDate>		mTvDates;
-	
+
 	private int reminderPosition;
 
 	public UpcomingEpisodesListAdapter(Activity activity, ArrayList<Broadcast> upcomingBroadcasts, Broadcast runningBroadcast) {
-		
+
 		boolean foundRunningBroadcast = false;
 		int indexOfRunningBroadcast = 0;
 		for (int i = 0; i < upcomingBroadcasts.size(); ++i) {
@@ -73,7 +73,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 
 		dazooStore = DazooStore.getInstance();
 		mTvDates = dazooStore.getTvDates();
-		
+
 		mPosIsSet = new boolean[getCount()];
 		mPosNotificationId = new int[getCount()];
 	}
@@ -129,8 +129,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 			int dateIndex = 0;
 			boolean dateOutOfWeek = false;
 			for (int i = 0; i < mTvDates.size(); i++) {
-				// verify works
-				if (broadcast.getBeginTimeStringGmt().contains(mTvDates.get(i).getDate())) {
+				if (broadcast.getTvDateString().equals(mTvDates.get(i).getDate())) {
 					dateIndex = i;
 					break;
 				}
@@ -139,26 +138,25 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 				}
 			}
 
-			try {
-				holder.mHeaderContainer.setVisibility(View.GONE);
-				holder.mDivider.setVisibility(View.VISIBLE);
-				if (position == 0 || broadcast.getBeginTimeStringLocalDayMonth().equals(
-						(getItem(position - 1)).getBeginTimeStringLocalDayMonth()) == false) {
-					if (dateOutOfWeek == false) {
-						if (mTvDates != null && mTvDates.isEmpty() != true) {
-
-							holder.mHeader.setText(mTvDates.get(dateIndex).getName() + " " + DateUtilities.tvDateStringToDatePickerString(mTvDates.get(dateIndex).getDate()));
-							holder.mHeaderContainer.setVisibility(View.VISIBLE);
-						}
+			holder.mHeaderContainer.setVisibility(View.GONE);
+			holder.mDivider.setVisibility(View.VISIBLE);
+			if (position == 0 || broadcast.getBeginTimeStringLocalDayMonth().equals(
+					(getItem(position - 1)).getBeginTimeStringLocalDayMonth()) == false) {
+				if (dateOutOfWeek == false) {
+					if (mTvDates != null && mTvDates.isEmpty() != true) {
+						holder.mHeader.setText(mTvDates.get(dateIndex).getName() + " " + broadcast.getBeginTimeStringLocalDayMonth());
+						holder.mHeaderContainer.setVisibility(View.VISIBLE);
 					}
 				}
-				if (position != (getCount() - 1)
-						&& broadcast.getBeginTimeStringLocalDayMonth().equals(
-								(getItem(position + 1)).getBeginTimeStringLocalDayMonth()) == false) {
-					holder.mDivider.setVisibility(View.GONE);
+				else {
+					holder.mHeader.setText(broadcast.getDayOfWeekString() + " " + broadcast.getBeginTimeStringLocalDayMonth());
+					holder.mHeaderContainer.setVisibility(View.VISIBLE);
 				}
-			} catch (ParseException e) {
-				e.printStackTrace();
+			}
+			if (position != (getCount() - 1)
+					&& broadcast.getBeginTimeStringLocalDayMonth().equals(
+							(getItem(position + 1)).getBeginTimeStringLocalDayMonth()) == false) {
+				holder.mDivider.setVisibility(View.GONE);
 			}
 
 			// Set season and episode

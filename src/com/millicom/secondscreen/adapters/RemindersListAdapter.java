@@ -107,11 +107,14 @@ public class RemindersListAdapter extends BaseAdapter {
 
 			// Get the correct date name index
 			int dateIndex = 0;
-
+			boolean dateOutOfWeek = false;
 			for (int i = 0; i < mTvDates.size(); i++) {
 				if (broadcast.getBeginTimeStringGmt().contains(mTvDates.get(i).getDate())) {
 					dateIndex = i;
 					break;
+				}
+				if (i == (mTvDates.size() - 1)) {
+					dateOutOfWeek = true;
 				}
 			}
 
@@ -131,10 +134,15 @@ public class RemindersListAdapter extends BaseAdapter {
 
 			if ((position == 0) || !stringCurrent.equals(stringPrevious)) {
 				holder.mHeaderContainer.setVisibility(View.VISIBLE);
-				if (mTvDates != null && mTvDates.isEmpty() != true) {
-					holder.mHeaderTv.setText(mTvDates.get(dateIndex).getName().toUpperCase(Locale.getDefault()));
-				} else {
-					holder.mHeaderTv.setVisibility(View.GONE);
+				if (dateOutOfWeek == false) {
+					if (mTvDates != null && mTvDates.isEmpty() != true) {
+						holder.mHeaderTv.setText(mTvDates.get(dateIndex).getName().toUpperCase(Locale.getDefault()) + " " + broadcast.getBeginTimeStringLocalDayMonth());
+					} else {
+						holder.mHeaderTv.setVisibility(View.GONE);
+					}
+				}
+				else {
+					holder.mHeaderTv.setText(broadcast.getDayOfWeekString() + " " + broadcast.getBeginTimeStringLocalDayMonth());
 				}
 			}
 			if (position != (getCount() - 1) && !stringCurrent.equals(stringNext)) {
