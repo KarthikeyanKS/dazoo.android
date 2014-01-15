@@ -11,6 +11,7 @@ import android.graphics.Point;
 import android.os.Build;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextPaint;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Display;
@@ -20,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
@@ -36,11 +38,6 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 public class TVGuideListAdapter extends AdListAdapter<Guide> {
 
-	private static final int SCREEN_WIDTH_SMALL 	= 240;
-	private static final int SCREEN_WIDTH_MEDIUM 	= 320;
-	private static final int SCREEN_WIDTH_LARGE 	= 480;
-	private static final int SCREEN_WIDTH_X_LARGE 	= 720;
-	private static final int SCREEN_WIDTH_X_X_LARGE = 1080;
 	private static final String	TAG	= "TVGuideListAdapter";
 
 	private LayoutInflater		mLayoutInflater;
@@ -50,7 +47,7 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 	private int					mIndexOfNearestBroadcast;
 	private int					mHour, mCurrentHour;
 	private boolean				mIsToday;
-	private int 				maxRowLenght;
+	private int 				screenWidth;
 
 	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
@@ -63,29 +60,15 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 		this.mIsToday = isToday;
 		
 		Display display = activity.getWindowManager().getDefaultDisplay();
-		int screenWidth;
 		
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
 			Point size = new Point();
 			display.getSize(size);
 			screenWidth = size.x;
-		} else {
+		} 
+		else {
 			screenWidth = display.getWidth();
 		}
-		
-		
-		int baseRowLenght = 22;
-		
-		float scalingFactorOfScreenFactor = 0.8f;
-		float screenFactor = ((float)screenWidth/(float)SCREEN_WIDTH_X_X_LARGE);
-		
-		/* Decrease the magnitude which the scaling is done */
-		screenFactor /= scalingFactorOfScreenFactor;
-		
-		int extraRowLenght = (int)(screenFactor*15.0f);
-		maxRowLenght = baseRowLenght + extraRowLenght;
-		Log.d(TAG, "Maxrowlength: " + maxRowLenght);
-		Log.d(TAG, "Screenwidth: " + screenWidth);
 	}
 	
 	@Override
@@ -95,6 +78,7 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 	
 	public View getViewForGuideCell(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
+		
 		mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 		if (rowView == null) {
@@ -106,6 +90,7 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 
 			rowView.setTag(viewHolder);
 		}
+		
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 
 		final Guide guide = getItem(position);
@@ -113,20 +98,18 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 		if (guide.getLogoLHref() != null) {
 			ImageAware imageAware = new ImageViewAware(holder.mImageView, false);
 			ImageLoader.getInstance().displayImage(guide.getLogoSHref(), imageAware);
-		} else {
+		} 
+		else {
 			holder.mImageView.setImageResource(R.color.white);
 		}
 
 		holder.mContainer.setOnClickListener(new View.OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
-
 				Intent intent = new Intent(mActivity, ChannelPageActivity.class);
 				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, guide.getId());
 				intent.putExtra(Consts.INTENT_EXTRA_CHOSEN_DATE_TVGUIDE, mDate);
 				intent.putExtra(Consts.INTENT_EXTRA_TV_GUIDE_HOUR, mHour);
-
 				mActivity.startActivity(intent);
 			}
 		});
@@ -155,17 +138,12 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 					
 					String rowInfo = broadcast.getBeginTimeStringLocalHourAndMinute();
 					rowInfo += "   ";
-					
-					boolean isMovie = false;
-					boolean isLive = false;
+
 					if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
 						rowInfo += stringIconMovie;
-						isMovie = true;
 					} else if (Consts.DAZOO_BROADCAST_TYPE_LIVE.equals(broadcastType)) {
 						rowInfo += stringIconLive;
-						isLive = true;
 					}
-					
 					
 					String showName = null;
 	                if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
@@ -176,23 +154,25 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 					
 					rowInfo += showName;
 					
+					TextPaint testPaint = holder.mTextView.getPaint();
+					float textWidth = testPaint.measureText(rowInfo);
+					int limitIndex = rowInfo.length()-1;
+					int maxTextWidth = (int)(0.5d*screenWidth);
+					boolean deletedChars = false;
+					
+					/* Calculate max amount of characters that fits */
+					while (textWidth > maxTextWidth && limitIndex > 0) {
+						deletedChars = true;
+						limitIndex--;
+						rowInfo = rowInfo.substring(0, limitIndex);
+						textWidth = testPaint.measureText(rowInfo);
+					}
+					
 					String ellipsisString = "...";
-					
-					int rowLenght = rowInfo.length();
-					
-					if(isMovie) {
-						/* The 'movie'-char is three times as wide as other chars */
-						rowLenght += 2; 
-					} else if(isLive) {
-						/* The 'live'-char is five times as wide as other chars */
-						rowLenght += 4;
+					if (deletedChars) {
+						rowInfo = rowInfo.replace(rowInfo.substring(limitIndex-3, rowInfo.length()), ellipsisString);
 					}
-					
-					if(rowLenght > maxRowLenght) {
-						Log.d(TAG, "Rowlength on row " + position + ": " + rowLenght);
-						rowInfo = rowInfo.replace(rowInfo.substring(maxRowLenght-3, rowInfo.length()), ellipsisString);
-					}
-					
+
 					if (broadcast.isRunning()) {
 						textStartIndexToMarkAsOngoing = textForThreeBroadcasts.length();
 						textIndexToMarkAsOngoing = textForThreeBroadcasts.length() + rowInfo.length();
@@ -200,7 +180,6 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 					
 					textForThreeBroadcasts += rowInfo + "\n";
 				}
-				
 				
 				Spannable wordtoSpan = new SpannableString(textForThreeBroadcasts);     
 				
@@ -211,11 +190,9 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 				wordtoSpan.setSpan(new ForegroundColorSpan(resources.getColor(R.color.grey3)), textIndexToMarkAsOngoing+1, wordtoSpan.length() , Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			    
 				holder.mTextView.setText(wordtoSpan, TextView.BufferType.SPANNABLE);
-			
-
+				
 			}
 		}
-		
 		return rowView;
 	}
 	

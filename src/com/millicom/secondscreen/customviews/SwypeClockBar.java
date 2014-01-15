@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
+import com.facebook.Session.NewPermissionsRequest;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
@@ -196,7 +198,7 @@ public class SwypeClockBar extends LinearLayout implements OnSeekBarChangeListen
 				LayoutInflater layoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				rowView = layoutInflater.inflate(R.layout.row_timebar, null);
 				ViewHolder viewHolder = new ViewHolder();
-				viewHolder.textView = (TextView) rowView.findViewById(R.id.row_tomebar_textview);
+				viewHolder.textView = (FontFitTextView) rowView.findViewById(R.id.row_tomebar_textview);
 				rowView.setTag(viewHolder);
 			}
 
@@ -207,7 +209,9 @@ public class SwypeClockBar extends LinearLayout implements OnSeekBarChangeListen
 			// Set the text
 			String hourString = String.format("%02d", hour);
 			holder.textView.setText(hourString);
-			holder.textView.setTextSize(12.5f);
+			//holder.textView.setTextSize(20f);
+//			Log.d(VIEW_LOG_TAG, "" + holder.textView.getMeasuredHeight());
+
 
 			if (listViewHeight > 0) {
 				int cellHeight = listViewHeight / hoursPerDay;
@@ -224,7 +228,7 @@ public class SwypeClockBar extends LinearLayout implements OnSeekBarChangeListen
 		}
 
 		private class ViewHolder {
-			public TextView textView;
+			public FontFitTextView textView;
 		}
 
 	}

@@ -3,14 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
   	android:background="@color/transparent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:gravity="center" >
     
-    <TextView 
+    <com.millicom.secondscreen.customviews.FontFitTextView
         android:id="@+id/row_tomebar_textview"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:textColor="@color/black"
         android:gravity="center_horizontal"
-        android:textSize="14sp"/>
+        android:textSize="16sp"/>
 
 </LinearLayout>
