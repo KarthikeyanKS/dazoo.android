@@ -180,14 +180,11 @@ public class SwypeClockBar extends LinearLayout implements OnSeekBarChangeListen
 
 	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-		// if (fromUser) {
-		Log.e("SwypeClockBar", "progress changed, sending intent!");
 		int hour = progressToHour(progress);
 		Intent intent = new Intent(Consts.INTENT_EXTRA_CLOCK_SELECTION);
 		intent.putExtra(Consts.INTENT_EXTRA_CLOCK_SELECTION_VALUE, hour);
 		SecondScreenApplication.getInstance().setSelectedHour(Integer.valueOf(hour));
 		LocalBroadcastManager.getInstance(activity.getBaseContext()).sendBroadcast(intent);
-		// }
 	}
 
 	@Override
