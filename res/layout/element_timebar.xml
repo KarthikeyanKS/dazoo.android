@@ -12,7 +12,7 @@
         android:background="@color/transparent"
         android:cacheColorHint="@color/transparent"
         android:divider="@null"
-        android:dividerHeight="-4.5dp" />
+        android:dividerHeight="0dp"/>
 
     <com.millicom.secondscreen.customviews.VerticalSeekBar
         android:id="@+id/timebar_seekbar"
