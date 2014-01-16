@@ -32,7 +32,7 @@ import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Tag;
 import com.millicom.secondscreen.content.model.TvDate;
-import com.millicom.secondscreen.customviews.SwypeClockBar;
+import com.millicom.secondscreen.customviews.SwipeClockBar;
 import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.DateUtilities;
 
@@ -48,7 +48,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 	private TvDate					mTvDate;
 	private Tag						mTag;
 	private int						mTvDatePosition;
-	private SwypeClockBar			mSwypeClockBar;
+	private SwipeClockBar			mSwipeClockBar;
 	private TVGuideListAdapter		mTVGuideListAdapter;
 	private DazooStore				dazooStore;
 	private boolean					mIsLoggedIn	= false, mIsToday = false;
@@ -109,8 +109,8 @@ public class TVGuideTableFragment extends SSPageFragment {
 			mRootView = inflater.inflate(R.layout.fragment_tvguide_table, null);
 			mTVGuideListView = (ListView) mRootView.findViewById(R.id.tvguide_table_listview);
 
-			mSwypeClockBar = (SwypeClockBar) mRootView.findViewById(R.id.tvguide_swype_clock_bar);
-			mSwypeClockBar.setHour(mHour);
+			mSwipeClockBar = (SwipeClockBar) mRootView.findViewById(R.id.tvguide_swype_clock_bar);
+			mSwipeClockBar.setHour(mHour);
 		} else {
 			mRootView = inflater.inflate(R.layout.fragment_tvguide_tag_type, null);
 			mTVGuideListView = (ListView) mRootView.findViewById(R.id.fragment_tvguide_type_tag_listview);

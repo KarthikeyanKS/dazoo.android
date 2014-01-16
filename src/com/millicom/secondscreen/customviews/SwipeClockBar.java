@@ -31,7 +31,7 @@ import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.manager.AppConfigurationManager;
 import com.millicom.secondscreen.manager.FontManager;
 
-public class SwypeClockBar extends LinearLayout implements OnSeekBarChangeListener {
+public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListener {
 
 	private Activity activity;
 	private VerticalSeekBar seekBar;
@@ -42,18 +42,18 @@ public class SwypeClockBar extends LinearLayout implements OnSeekBarChangeListen
 	private static int firstHourOfDay;
 	private TimeListAdapter listAdapter;
 
-	public SwypeClockBar(Context context) {
+	public SwipeClockBar(Context context) {
 		super(context);
 		setup(context);
 	}
 
-	public SwypeClockBar(Context context, AttributeSet attrs) {
+	public SwipeClockBar(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		setup(context);
 	}
 
 	@SuppressLint("NewApi")
-	public SwypeClockBar(Context context, AttributeSet attrs, int defStyle) {
+	public SwipeClockBar(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		setup(context);
 	}
@@ -82,8 +82,8 @@ public class SwypeClockBar extends LinearLayout implements OnSeekBarChangeListen
 		firstHourOfDay = AppConfigurationManager.getInstance().getFirstHourOfTVDay();
 
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		inflater.inflate(R.layout.swype_clock_bar, this);
-		clockIconTextView = (FontTextView) this.findViewById(R.id.swype_clock_bar_clock_icon_textview);
+		inflater.inflate(R.layout.swipe_clock_bar, this);
+		clockIconTextView = (FontTextView) this.findViewById(R.id.swipe_clock_bar_clock_icon_textview);
 
 		seekBar = (VerticalSeekBar) this.findViewById(R.id.timebar_seekbar);
 		seekBar.setOnSeekBarChangeListener(this);
@@ -111,14 +111,14 @@ public class SwypeClockBar extends LinearLayout implements OnSeekBarChangeListen
 			public void onGlobalLayout() {
 				// gets called after layout has been done but before display, so
 				// we can get the view
-				int selfHeigt = SwypeClockBar.this.timeListView.getHeight(); // Ahaha!
+				int selfHeigt = SwipeClockBar.this.timeListView.getHeight(); // Ahaha!
 																				// Gotcha
-				TimeListAdapter timeListAdapter = ((TimeListAdapter) SwypeClockBar.this.timeListView.getAdapter());
+				TimeListAdapter timeListAdapter = ((TimeListAdapter) SwipeClockBar.this.timeListView.getAdapter());
 				timeListAdapter.setListViewHeight(selfHeigt);
 				timeListAdapter.notifyDataSetChanged();
 
-				SwypeClockBar.removeOnGlobalLayoutListener(SwypeClockBar.this, this);
-				SwypeClockBar.this.setVisibility(View.VISIBLE);
+				SwipeClockBar.removeOnGlobalLayoutListener(SwipeClockBar.this, this);
+				SwipeClockBar.this.setVisibility(View.VISIBLE);
 			}
 
 		});
