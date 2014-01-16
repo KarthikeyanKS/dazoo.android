@@ -15,7 +15,7 @@
         android:layout_marginTop="10dp"
         android:textColor="@color/black"
         android:textSize="@dimen/header_1"
-        font:fonttextview="Roboto-MiTV-Medium.ttf" />
+        font:fonttextview="Roboto_MiTV_Medium.ttf" />
 
     <!-- FIRST UPCOMING EPISODE -->
     <include
@@ -81,6 +81,6 @@
         android:textColor="@color/grey2"
         android:textSize="@dimen/header_3"
         android:visibility="gone"
-        font:fonttextview="Roboto-MiTV-Medium.ttf" />
+        font:fonttextview="Roboto_MiTV_Medium.ttf" />
 
 </RelativeLayout>

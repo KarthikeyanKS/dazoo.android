@@ -26,7 +26,7 @@
 	        android:layout_marginRight="10dp"
 	        android:layout_marginTop="10dp"
 	        android:textSize="22sp"
-	        font:fonttextview="Roboto-MiTV-Medium.ttf" />
+	        font:fonttextview="Roboto_MiTV_Medium.ttf" />
 	
 	    <!-- PRODUCT IMAGE -->
 	
@@ -91,7 +91,7 @@
 	            android:lineSpacingExtra="0sp"
 	            android:textColor="@color/black"
 	            android:textSize="16sp"
-	            font:fonttextview="Roboto-MiTV-Medium.ttf" />
+	            font:fonttextview="Roboto_MiTV_Medium.ttf" />
 	
 	        <com.millicom.secondscreen.customviews.FontTextView
 	            android:id="@+id/block_feed_liked_channel_tv"
@@ -102,7 +102,7 @@
 	            android:gravity="left"
 	            android:textColor="@color/black"
 	            android:textSize="16sp"
-	            font:fonttextview="Roboto-MiTV-Medium.ttf" />
+	            font:fonttextview="Roboto_MiTV_Medium.ttf" />
 	
 	        <com.millicom.secondscreen.customviews.FontTextView
 	            android:id="@+id/block_feed_liked_details_tv"
@@ -115,7 +115,7 @@
 	            android:paddingBottom="10dp"
 	            android:textColor="@color/grey2"
 	            android:textSize="@dimen/ingress"
-	            font:fonttextview="Roboto-MiTV-Medium.ttf" />
+	            font:fonttextview="Roboto_MiTV_Medium.ttf" />
 	
 	        <com.millicom.secondscreen.customviews.FontTextView
 	            android:id="@+id/block_feed_liked_timeleft_tv"
@@ -126,7 +126,7 @@
 	            android:textColor="@color/red"
 	            android:textSize="16sp"
 	            android:visibility="gone"
-	            font:fonttextview="Roboto-MiTV-Medium.ttf" />
+	            font:fonttextview="Roboto_MiTV_Medium.ttf" />
 	
 	        <ProgressBar
 	            android:id="@+id/block_feed_liked_progressbar"

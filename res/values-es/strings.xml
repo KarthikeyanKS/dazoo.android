@@ -17,25 +17,7 @@
     <string name="tomorrow">Mañana</string>
 
     <!-- ICONS -->
-    <string name="icon_timetable">&#xe803;</string>
-    <string name="icon_clock"> &#xe809; </string>
-    <string name="icon_live"> &#xe80d; </string>
-    <string name="icon_settings"> &#xe811;</string>
-    <string name="icon_magnet"> &#xe805;</string>
-    <string name="icon_series"> &#xe801;</string>
-    <string name="icon_letter"> &#xe80a;</string>
-    <string name="icon_feed"> &#xe806;</string>
-    <string name="icon_search"> &#xe812;</string>
-    <string name="icon_pin"> &#xe800;</string>
-    <string name="icon_me"> &#xe807;</string>
-    <string name="icon_facebook"> &#xe80b;</string>
-    <string name="icon_heart"> &#xe80f;</string>
-    <string name="icon_movie"> &#xe802;</string>
-    <string name="icon_trending"> &#xe80e;</string>
-    <string name="icon_clock"> &#xe808;</string>
-    <string name="icon_twitter"> &#xe80c;</string>
-    <string name="icon_blocks"> &#xe810;</string>
-    <string name="icon_bookmark"> &#xe804;</string>
+
 
     <string-array name="twenty_four_hours_in_strings">
         <item>0</item>

@@ -16,7 +16,7 @@
         android:layout_marginTop="-8dp"
         android:layout_marginBottom="-8dp"
         android:textColor="@color/grey4"
-        font:fonttextview="Roboto-MiTV-Medium.ttf" />
+        font:fonttextview="Roboto_MiTV_Medium.ttf" />
 
     <include
         android:layout_width="match_parent"

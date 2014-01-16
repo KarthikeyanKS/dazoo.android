@@ -15,6 +15,6 @@
         android:gravity="center"
         android:textColor="@color/grey4"
         android:textSize="14sp"
-        font:fonttextview="Roboto-MiTV-Medium.ttf" />
+        font:fonttextview="Roboto_MiTV_Medium.ttf" />
 
 </LinearLayout>

@@ -28,7 +28,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
-            font:fonttextview="Roboto-MiTV-Medium.ttf" />
+            font:fonttextview="Roboto_MiTV_Medium.ttf" />
     </RelativeLayout>
     
     <LinearLayout

@@ -26,7 +26,7 @@
         android:layout_margin="5dp"
         android:textSize="14sp"
         android:textStyle="bold" 
-        font:fonttextview="Roboto-MiTV-Medium.ttf" />
+        font:fonttextview="Roboto_MiTV_Medium.ttf" />
 
     <CheckBox
         android:id="@+id/row_mychannels_checkbox"

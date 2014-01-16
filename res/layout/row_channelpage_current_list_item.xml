@@ -49,7 +49,7 @@
             android:textColor="@color/red"
             android:textSize="@dimen/header_3"
             android:textStyle="bold"
-            font:fonttextview="Roboto-MiTV-Medium.ttf" />
+            font:fonttextview="Roboto_MiTV_Medium.ttf" />
 
         <com.millicom.secondscreen.customviews.FontTextView
             android:id="@+id/channelpage_broadcast_details_title_tv"
@@ -63,7 +63,7 @@
             android:textColor="@color/red"
             android:textSize="@dimen/header_3"
             android:textStyle="bold"
-            font:fonttextview="Roboto-MiTV-Medium.ttf" />
+            font:fonttextview="Roboto_MiTV_Medium.ttf" />
 
         <com.millicom.secondscreen.customviews.FontTextView
             android:id="@+id/channelpage_broadcast_timeleft"
@@ -74,7 +74,7 @@
             android:textColor="@color/red"
             android:lineSpacingExtra="-2sp"
             android:textSize="13sp"
-            font:fonttextview="Roboto-MiTV-Medium.ttf" />
+            font:fonttextview="Roboto_MiTV_Medium.ttf" />
 
         <ProgressBar
             android:id="@+id/channelpage_broadcast_details_progressbar"
@@ -101,7 +101,7 @@
             android:maxLines="3"
             android:textColor="@color/grey2"
             android:textSize="@dimen/ingress"
-            font:fonttextview="Roboto-MiTV-Medium.ttf" />
+            font:fonttextview="Roboto_MiTV_Medium.ttf" />
 
         <View
             android:layout_width="match_parent"

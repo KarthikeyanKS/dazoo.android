@@ -20,10 +20,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="@string/icon_timetable"
+            android:text="@string/icon_tvguide"
             android:textColor="@color/white"
             android:textSize="26sp"
-            font:fonttextview="Roboto-MiTV-Medium.ttf" />
+            font:fonttextview="Roboto_MiTV_Medium.ttf" />
 
         <com.millicom.secondscreen.customviews.FontTextView
             android:layout_width="wrap_content"
@@ -62,10 +62,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="@string/icon_feed"
+            android:text="@string/icon_activity"
             android:textColor="@color/white"
             android:textSize="26sp"
-            font:fonttextview="Roboto-MiTV-Medium.ttf" />
+            font:fonttextview="Roboto_MiTV_Medium.ttf" />
 
         <com.millicom.secondscreen.customviews.FontTextView
             android:layout_width="wrap_content"
@@ -104,10 +104,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="@string/icon_me"
+            android:text="@string/icon_my_profile"
             android:textColor="@color/white"
             android:textSize="26sp"
-            font:fonttextview="Roboto-MiTV-Medium.ttf" />
+            font:fonttextview="Roboto_MiTV_Medium.ttf" />
 
         <com.millicom.secondscreen.customviews.FontTextView
             android:layout_width="wrap_content"
