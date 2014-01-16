@@ -1,93 +1,52 @@
 package com.millicom.secondscreen.customviews;
 
 import android.content.Context;
-import android.graphics.Paint;
-import android.text.TextUtils;
+import android.text.Layout;
+import android.text.TextUtils.TruncateAt;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.widget.TextView;
 
-public class FontFitTextView extends FontTextView {
+public class FontFitTextView extends TextView {
 
-    // Attributes
-    private Paint mTestPaint;
-    private float defaultTextSize;
+  public FontFitTextView(Context context, AttributeSet attrs, int defStyle) {
+    super(context, attrs, defStyle);
+    setSingleLine();
+    setEllipsize(TruncateAt.END);
+  }
 
-    public FontFitTextView(Context context) {
-        super(context);
-        initialize();
-    }
+  public FontFitTextView(Context context, AttributeSet attrs) {
+    super(context, attrs);
+    setSingleLine();
+    setEllipsize(TruncateAt.END);
+  }
 
-    public FontFitTextView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        initialize();
-    }
+  public FontFitTextView(Context context) {
+    super(context);
+    setSingleLine();
+    setEllipsize(TruncateAt.END);
+  }
 
-    private void initialize() {
-        mTestPaint = new Paint();
-        mTestPaint.set(this.getPaint());
-        defaultTextSize = getTextSize();
-    }
+  @Override
+  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-    /* Re size the font so the specified text fits in the text box
-     * assuming the text box is the specified width.
-     */
-	private void refitText(String text, int textWidth) {
+    final Layout layout = getLayout();
+    if (layout != null) {
+      final int lineCount = layout.getLineCount();
+      if (lineCount > 0) {
+        final int ellipsisCount = layout.getEllipsisCount(lineCount - 1);
+        if (ellipsisCount > 0) {
 
-        if (textWidth <= 0 || TextUtils.isEmpty(text))
-            return;
+          final float textSize = getTextSize();
 
-        int targetWidth = textWidth - this.getPaddingLeft() - this.getPaddingRight();
+          // textSize is already expressed in pixels
+          setTextSize(TypedValue.COMPLEX_UNIT_PX, (textSize - 1));
 
-        // this is most likely a non-relevant call
-        if( targetWidth<=2 )
-            return;
-
-        // text already fits with the xml-defined font size?
-        mTestPaint.set(this.getPaint());
-        mTestPaint.setTextSize(defaultTextSize);
-        if(mTestPaint.measureText(text) <= targetWidth) {
-            this.setTextSize(TypedValue.COMPLEX_UNIT_PX, defaultTextSize);
-            return;
+          super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         }
-
-        // adjust text size using binary search for efficiency
-        float hi = defaultTextSize;
-        float lo = 2;
-        final float threshold = 1f; // How close we have to be
-        while (hi - lo > threshold) {
-            float size = (hi + lo) / 2;
-            mTestPaint.setTextSize(size);
-            if(mTestPaint.measureText(text) >= targetWidth ) 
-                hi = size; // too big
-            else 
-                lo = size; // too small
-
-        }
-
-        // Use lo so that we undershoot rather than overshoot
-        this.setTextSize(TypedValue.COMPLEX_UNIT_PX, lo);
+      }
     }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int parentWidth = MeasureSpec.getSize(widthMeasureSpec);
-        int height = getMeasuredHeight();
-        refitText(this.getText().toString(), parentWidth);
-        this.setMeasuredDimension(parentWidth, height);
-    }
-
-    @Override
-    protected void onTextChanged(final CharSequence text, final int start,
-            final int before, final int after) {
-        refitText(text.toString(), this.getWidth());
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        if (w != oldw || h != oldh) {
-            refitText(this.getText().toString(), w);
-        }
-    }
+  }
 
 }

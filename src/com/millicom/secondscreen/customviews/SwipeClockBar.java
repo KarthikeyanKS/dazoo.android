@@ -204,7 +204,8 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 				// TODO use FontFitTextView instead
 				// viewHolder.textView = (FontFitTextView)
 				// rowView.findViewById(R.id.row_timebar_textview);
-				viewHolder.textView = (FontTextView) rowView.findViewById(R.id.row_timebar_textview);
+				//viewHolder.textView = (FontTextView) rowView.findViewById(R.id.row_timebar_textview);
+				viewHolder.textView = (FontFitTextView) rowView.findViewById(R.id.row_timebar_textview);
 				// viewHolder.textView = (TextView)
 				// rowView.findViewById(R.id.row_timebar_textview);
 				rowView.setTag(viewHolder);
@@ -238,7 +239,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 			Typeface textFont = FontManager.getTypefaceStatic(activity, fontName);
 
 			// TODO use FontFitTextView instead, DON'T set fontsize
-			holder.textView.setTextSize(fontSize);
+			//holder.textView.setTextSize(fontSize);
 			holder.textView.setTextColor(textColor);
 			holder.textView.setTypeface(textFont);
 
@@ -258,8 +259,8 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 
 		private class ViewHolder {
 			// TODO use FontFitTextView instead
-			public FontTextView textView;
-			// public FontFitTextView textView;
+			//public FontTextView textView;
+			 public FontFitTextView textView;
 			// public TextView textView;
 		}
 
