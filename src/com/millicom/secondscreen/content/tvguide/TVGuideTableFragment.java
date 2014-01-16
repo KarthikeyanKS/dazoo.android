@@ -210,7 +210,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 					public void run() {
 						ArrayList<Broadcast> toRemove = new ArrayList<Broadcast>();
 						for (int i = index; i < mTaggedBroadcasts.size(); i++) {
-							if(index < mTaggedBroadcasts.size()-1) {
+							if(index < mTaggedBroadcasts.size()-1 && index >= 0) {
 								if (mTaggedBroadcasts.get(i).hasNotEnded() == false) {
 									toRemove.add(mTaggedBroadcasts.get(i));
 								}

@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-  	android:background="@color/transparent"
-    android:orientation="vertical"
-    android:gravity="center" >
-    
-    <com.millicom.secondscreen.customviews.FontFitTextView
-        android:id="@+id/row_tomebar_textview"
+    android:background="@color/transparent"
+    android:orientation="vertical" >
+
+    <!-- <com.millicom.secondscreen.customviews.FontFitText -->
+
+    <com.millicom.secondscreen.customviews.FontTextView
+        android:id="@+id/row_timebar_textview"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:textColor="@color/black"
         android:gravity="center_horizontal"
-        android:textSize="16sp"/>
+        android:textColor="@color/grey4"
+        android:textSize="14sp"
+        font:fonttextview="Roboto-MiTV-Medium.ttf" />
 
 </LinearLayout>

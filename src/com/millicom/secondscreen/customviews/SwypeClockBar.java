@@ -7,10 +7,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,11 +25,11 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-import com.facebook.Session.NewPermissionsRequest;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.manager.AppConfigurationManager;
+import com.millicom.secondscreen.manager.FontManager;
 
 public class SwypeClockBar extends LinearLayout implements OnSeekBarChangeListener {
 
@@ -40,6 +40,7 @@ public class SwypeClockBar extends LinearLayout implements OnSeekBarChangeListen
 	private List<Integer> hours;
 	private static final int hoursPerDay = 24;
 	private static int firstHourOfDay;
+	private TimeListAdapter listAdapter;
 
 	public SwypeClockBar(Context context) {
 		super(context);
@@ -95,8 +96,8 @@ public class SwypeClockBar extends LinearLayout implements OnSeekBarChangeListen
 		this.hours = generate24Hours();
 
 		if (timeListView != null) {
-			TimeListAdapter timeListAdapter = new TimeListAdapter(hoursPerDay, firstHourOfDay, hours);
-			timeListView.setAdapter(timeListAdapter);
+			this.listAdapter = new TimeListAdapter(hoursPerDay, firstHourOfDay, hours);
+			timeListView.setAdapter(listAdapter);
 		}
 
 		/*
@@ -110,7 +111,8 @@ public class SwypeClockBar extends LinearLayout implements OnSeekBarChangeListen
 			public void onGlobalLayout() {
 				// gets called after layout has been done but before display, so
 				// we can get the view
-				int selfHeigt = SwypeClockBar.this.timeListView.getHeight(); // Ahaha! Gotcha
+				int selfHeigt = SwypeClockBar.this.timeListView.getHeight(); // Ahaha!
+																				// Gotcha
 				TimeListAdapter timeListAdapter = ((TimeListAdapter) SwypeClockBar.this.timeListView.getAdapter());
 				timeListAdapter.setListViewHeight(selfHeigt);
 				timeListAdapter.notifyDataSetChanged();
@@ -148,6 +150,11 @@ public class SwypeClockBar extends LinearLayout implements OnSeekBarChangeListen
 		private int hoursPerDay = 24;
 		private int firstHourOfDay = 6;
 		private int listViewHeight;
+		private int indexOfSelectedHour;
+
+		private void setSelectedHour(int indexOfSelectedHour) {
+			this.indexOfSelectedHour = indexOfSelectedHour;
+		}
 
 		public void setListViewHeight(int listViewHeight) {
 			this.listViewHeight = listViewHeight;
@@ -158,6 +165,7 @@ public class SwypeClockBar extends LinearLayout implements OnSeekBarChangeListen
 		}
 
 		public TimeListAdapter(int hoursPerDay, int firstHourOfDay, List<Integer> hours, int listViewHeight) {
+			this.indexOfSelectedHour = -1; /* not set */
 			this.hoursPerDay = hoursPerDay;
 			this.firstHourOfDay = firstHourOfDay;
 			this.hours = hours;
@@ -192,7 +200,13 @@ public class SwypeClockBar extends LinearLayout implements OnSeekBarChangeListen
 				LayoutInflater layoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				rowView = layoutInflater.inflate(R.layout.row_timebar, null);
 				ViewHolder viewHolder = new ViewHolder();
-				viewHolder.textView = (FontFitTextView) rowView.findViewById(R.id.row_tomebar_textview);
+
+				// TODO use FontFitTextView instead
+				// viewHolder.textView = (FontFitTextView)
+				// rowView.findViewById(R.id.row_timebar_textview);
+				viewHolder.textView = (FontTextView) rowView.findViewById(R.id.row_timebar_textview);
+				// viewHolder.textView = (TextView)
+				// rowView.findViewById(R.id.row_timebar_textview);
 				rowView.setTag(viewHolder);
 			}
 
@@ -203,9 +217,30 @@ public class SwypeClockBar extends LinearLayout implements OnSeekBarChangeListen
 			// Set the text
 			String hourString = String.format("%02d", hour);
 			holder.textView.setText(hourString);
-			//holder.textView.setTextSize(20f);
-//			Log.d(VIEW_LOG_TAG, "" + holder.textView.getMeasuredHeight());
 
+			String fontName;
+			int colorId;
+			float fontSize;
+			if (position == indexOfSelectedHour) {
+				fontSize = 12.5f;
+				colorId = R.color.white;
+				fontName = FontManager.FONT_BOLD;
+				
+				rowView.setBackgroundColor(activity.getResources().getColor(R.color.grey4));
+			} else {
+				fontSize = 12.5f;
+				colorId = R.color.black;
+				fontName = FontManager.FONT_LIGHT;
+				
+				rowView.setBackgroundColor(activity.getResources().getColor(R.color.transparent));
+			}
+			int textColor = activity.getResources().getColor(colorId);
+			Typeface textFont = FontManager.getTypefaceStatic(activity, fontName);
+
+			// TODO use FontFitTextView instead, DON'T set fontsize
+			holder.textView.setTextSize(fontSize);
+			holder.textView.setTextColor(textColor);
+			holder.textView.setTypeface(textFont);
 
 			if (listViewHeight > 0) {
 				int cellHeight = listViewHeight / hoursPerDay;
@@ -222,7 +257,10 @@ public class SwypeClockBar extends LinearLayout implements OnSeekBarChangeListen
 		}
 
 		private class ViewHolder {
-			public FontFitTextView textView;
+			// TODO use FontFitTextView instead
+			public FontTextView textView;
+			// public FontFitTextView textView;
+			// public TextView textView;
 		}
 
 	}
@@ -230,6 +268,16 @@ public class SwypeClockBar extends LinearLayout implements OnSeekBarChangeListen
 	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 		int hour = progressToHour(progress);
+		broadcastClockSelectionChanged(hour);
+		styleSelectedHour(progress);
+	}
+
+	private void styleSelectedHour(int index) {
+		listAdapter.setSelectedHour(index);
+		listAdapter.notifyDataSetChanged();
+	}
+
+	private void broadcastClockSelectionChanged(int hour) {
 		Intent intent = new Intent(Consts.INTENT_EXTRA_CLOCK_SELECTION);
 		intent.putExtra(Consts.INTENT_EXTRA_CLOCK_SELECTION_VALUE, hour);
 		SecondScreenApplication.getInstance().setSelectedHour(Integer.valueOf(hour));

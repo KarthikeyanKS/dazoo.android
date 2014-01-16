@@ -61,7 +61,7 @@ public class VerticalSeekBar extends SeekBar {
 		int hour = (getProgress() + firstHourOfDay) % hoursPerDay;
 		String hourString = String.format(Locale.getDefault(), "%02d:00", hour);
 
-		TextView text = (TextView) toast.getView().findViewById(R.id.timebar_toast_textview);
+		FontTextView text = (FontTextView) toast.getView().findViewById(R.id.timebar_toast_textview);
 		text.setText(hourString);
 		
 		if (null == toast.getView().getWindowToken())

@@ -5,9 +5,8 @@ import android.graphics.Paint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-import android.widget.TextView;
 
-public class FontFitTextView extends TextView {
+public class FontFitTextView extends FontTextView {
 
     // Attributes
     private Paint mTestPaint;

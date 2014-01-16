@@ -12,13 +12,16 @@
         android:background="@color/transparent"
         android:cacheColorHint="@color/transparent"
         android:divider="@null"
-        android:dividerHeight="0dp"/>
+        android:dividerHeight="0dp" />
+
+    <!-- android:thumb="@drawable/ic_timebar_active_gradient" -->
 
     <com.millicom.secondscreen.customviews.VerticalSeekBar
         android:id="@+id/timebar_seekbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:max="23"
-        android:progressDrawable="@color/transparent" />
+        android:progressDrawable="@color/transparent"
+        android:thumb="@color/transparent" />
 
 </FrameLayout>
