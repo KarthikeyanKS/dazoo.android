@@ -14,9 +14,6 @@ public class Channel extends ThreeImageResolutions implements Parcelable {
 
 	private String channelId = "";
 	private String name = "";
-//	private String logoSUrl;
-//	private String logoMUrl;
-//	private String logoLUrl;
 	
 	public Channel(){		
 	}
@@ -36,31 +33,7 @@ public class Channel extends ThreeImageResolutions implements Parcelable {
 	public String getName(){
 		return this.name;
 	}
-	
-//	public void setLogoSUrl(String logoSUrl){
-//		this.logoSUrl = logoSUrl;
-//	}
-//	
-//	public String getLogoSUrl(){
-//		return this.logoSUrl;
-//	}
-//	
-//	public void setLogoMUrl(String logoMUrl){
-//		this.logoMUrl = logoMUrl;
-//	}
-//	
-//	public String getLogoMUrl(){
-//		return this.logoMUrl;
-//	}
-//	
-//	public void setLogoLUrl(String logoLUrl){
-//		this.logoLUrl = logoLUrl;
-//	}
-//	
-//	public String getLogoLUrl(){
-//		return this.logoLUrl;
-//	}
-	
+		
 	public void setChannelPageUrl(String channelPageUrl){
 		this.channelId = channelId;
 	}
@@ -75,11 +48,7 @@ public class Channel extends ThreeImageResolutions implements Parcelable {
 		String urlLowRes = in.readString();
 		String urlMediumRes = in.readString();
 		String urlHighRes = in.readString();
-		
-//		logoSHref = urlLowRes;
-//		logoMHref = urlMediumRes;
-//		logoLHref = urlHighRes;
-		
+				
 		setImageUrlPortraitOrSquareLow(urlLowRes);
 		setImageUrlPortraitOrSquareMedium(urlMediumRes);
 		setImageUrlPortraitOrSquareHigh(urlHighRes);

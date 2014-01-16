@@ -17,10 +17,7 @@ public class Guide extends ThreeImageResolutions implements Parcelable {
 
 	private String id;
 	private String name;
-//	private String logoSHref;
-//	private String logoMHref;
-//	private String logoLHref;
-
+	
 	private ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
 
 	/* Used for caching broadcast indexes */
@@ -71,18 +68,6 @@ public class Guide extends ThreeImageResolutions implements Parcelable {
 		return this.name;
 	}
 
-//	public void setLogoSHref(String logoSHref) {
-//		this.logoSHref = logoSHref;
-//	}
-//
-//	public void setLogoMHref(String logoMHref) {
-//		this.logoMHref = logoMHref;
-//	}
-//
-//	public void setLogoLHref(String logoLHref) {
-//		this.logoLHref = logoLHref;
-//	}
-
 	public void setBroadcasts(ArrayList<Broadcast> broadcasts) {
 		this.broadcasts = broadcasts;
 	}
@@ -98,10 +83,6 @@ public class Guide extends ThreeImageResolutions implements Parcelable {
 		String urlLowRes = in.readString();
 		String urlMediumRes = in.readString();
 		String urlHighRes = in.readString();
-		
-//		logoSHref = urlLowRes;
-//		logoMHref = urlMediumRes;
-//		logoLHref = urlHighRes;
 		
 		setImageUrlPortraitOrSquareLow(urlLowRes);
 		setImageUrlPortraitOrSquareMedium(urlMediumRes);
