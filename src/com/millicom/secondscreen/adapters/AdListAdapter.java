@@ -3,22 +3,19 @@ package com.millicom.secondscreen.adapters;
 import java.util.HashMap;
 import java.util.List;
 
-
-import com.millicom.secondscreen.R;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.adapters.TVGuideListAdapter.ViewHolder;
 import com.millicom.secondscreen.content.model.AdzerkAd;
 import com.millicom.secondscreen.manager.AppConfigurationManager;
@@ -48,7 +45,11 @@ public class AdListAdapter<T> extends BaseAdapter {
 		this.adFormats = adFormats;
 		
 		this.cellCountBetweenAdCells = cellCountBetweenAdCells;
-		this.isAdsEnabled = (cellCountBetweenAdCells > 0);
+		
+		boolean globalAdsEnabled = AppConfigurationManager.getInstance().isAdsEnabled();
+		boolean localAdsEnabled = (cellCountBetweenAdCells > 0);
+		
+		this.isAdsEnabled = globalAdsEnabled && localAdsEnabled;
 		
 		downloadAds();
 	}
