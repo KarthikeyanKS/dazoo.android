@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <ImageView
-        android:id="@+id/swype_clock_bar_clock_image"
+    <com.millicom.secondscreen.customviews.FontTextView
+        android:id="@+id/swype_clock_bar_clock_icon_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_guide_clock" />
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:textSize="26sp"
+        android:text="@string/icon_clock"
+        android:layout_marginTop="-8dp"
+        android:layout_marginBottom="-8dp"
+        android:textColor="@color/grey4"
+        font:fonttextview="Roboto-MiTV-Medium.ttf" />
 
     <include
         android:layout_width="match_parent"

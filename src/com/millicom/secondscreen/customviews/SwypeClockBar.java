@@ -36,7 +36,7 @@ public class SwypeClockBar extends LinearLayout implements OnSeekBarChangeListen
 	private Activity activity;
 	private VerticalSeekBar seekBar;
 	private ListView timeListView;
-	private ImageView clockImage;
+	private FontTextView clockIconTextView;
 	private List<Integer> hours;
 	private static final int hoursPerDay = 24;
 	private static int firstHourOfDay;
@@ -83,7 +83,7 @@ public class SwypeClockBar extends LinearLayout implements OnSeekBarChangeListen
 
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.swype_clock_bar, this);
-		clockImage = (ImageView) this.findViewById(R.id.swype_clock_bar_clock_image);
+		clockIconTextView = (FontTextView) this.findViewById(R.id.swype_clock_bar_clock_icon_textview);
 
 		seekBar = (VerticalSeekBar) this.findViewById(R.id.timebar_seekbar);
 		seekBar.setOnSeekBarChangeListener(this);

@@ -25,7 +25,7 @@
 
         <com.millicom.secondscreen.customviews.SwypeClockBar
             android:id="@+id/tvguide_swype_clock_bar"
-            android:layout_width="20dp"
+            android:layout_width="30dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true" />
