@@ -6,15 +6,12 @@
     android:background="@color/transparent"
     android:orientation="vertical" >
 
-    <!-- <com.millicom.secondscreen.customviews.FontFitText -->
-
     <com.millicom.secondscreen.customviews.FontTextView
         android:id="@+id/row_timebar_textview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:textColor="@color/grey4"
-        android:textSize="14sp"
-        font:fonttextview="Roboto_MiTV_Medium.ttf" />
+        font:fonttextview="Roboto-MiTV-Medium.ttf" />
 
 </LinearLayout>
