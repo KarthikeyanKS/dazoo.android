@@ -336,7 +336,7 @@ public class Broadcast implements Parcelable {
 		Channel channel = new Channel();
 		channel.setChannelId(item.getChannelId());
 		channel.setName(item.getChannelName());
-		channel.setLogoSUrl(item.getChannelLogoUrl());
+		channel.setAllImageUrls(item.getChannelLogoUrl());
 
 		this.setChannel(channel);
 	}

@@ -10,13 +10,13 @@ import com.millicom.secondscreen.Consts;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Channel implements Parcelable {
+public class Channel extends ThreeImageResolutions implements Parcelable {
 
 	private String channelId = "";
 	private String name = "";
-	private String logoSUrl = "";
-	private String logoMUrl = "";
-	private String logoLUrl = "";
+//	private String logoSUrl;
+//	private String logoMUrl;
+//	private String logoLUrl;
 	
 	public Channel(){		
 	}
@@ -37,29 +37,29 @@ public class Channel implements Parcelable {
 		return this.name;
 	}
 	
-	public void setLogoSUrl(String logoSUrl){
-		this.logoSUrl = logoSUrl;
-	}
-	
-	public String getLogoSUrl(){
-		return this.logoSUrl;
-	}
-	
-	public void setLogoMUrl(String logoMUrl){
-		this.logoMUrl = logoMUrl;
-	}
-	
-	public String getLogoMUrl(){
-		return this.logoMUrl;
-	}
-	
-	public void setLogoLUrl(String logoLUrl){
-		this.logoLUrl = logoLUrl;
-	}
-	
-	public String getLogoLUrl(){
-		return this.logoLUrl;
-	}
+//	public void setLogoSUrl(String logoSUrl){
+//		this.logoSUrl = logoSUrl;
+//	}
+//	
+//	public String getLogoSUrl(){
+//		return this.logoSUrl;
+//	}
+//	
+//	public void setLogoMUrl(String logoMUrl){
+//		this.logoMUrl = logoMUrl;
+//	}
+//	
+//	public String getLogoMUrl(){
+//		return this.logoMUrl;
+//	}
+//	
+//	public void setLogoLUrl(String logoLUrl){
+//		this.logoLUrl = logoLUrl;
+//	}
+//	
+//	public String getLogoLUrl(){
+//		return this.logoLUrl;
+//	}
 	
 	public void setChannelPageUrl(String channelPageUrl){
 		this.channelId = channelId;
@@ -72,9 +72,17 @@ public class Channel implements Parcelable {
 	public Channel(Parcel in){
 		channelId = in.readString();
 		name = in.readString();
-		logoSUrl = in.readString();
-		logoMUrl = in.readString();
-		logoLUrl = in.readString();
+		String urlLowRes = in.readString();
+		String urlMediumRes = in.readString();
+		String urlHighRes = in.readString();
+		
+//		logoSHref = urlLowRes;
+//		logoMHref = urlMediumRes;
+//		logoLHref = urlHighRes;
+		
+		setImageUrlPortraitOrSquareLow(urlLowRes);
+		setImageUrlPortraitOrSquareMedium(urlMediumRes);
+		setImageUrlPortraitOrSquareHigh(urlHighRes);
 	}
 	
 	public Channel(JSONObject jsonChannel) {
@@ -84,9 +92,9 @@ public class Channel implements Parcelable {
 		try {
 			JSONObject jsonPoster = jsonChannel.getJSONObject(Consts.DAZOO_CHANNEL_LOGO);
 			if (jsonPoster != null) {
-				this.setLogoSUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_SMALL));
-				this.setLogoMUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_MEDIUM));
-				this.setLogoLUrl(jsonPoster.optString(Consts.DAZOO_IMAGE_LARGE));
+				this.setImageUrlPortraitOrSquareLow(jsonPoster.optString(Consts.DAZOO_IMAGE_SMALL));
+				this.setImageUrlPortraitOrSquareMedium(jsonPoster.optString(Consts.DAZOO_IMAGE_MEDIUM));
+				this.setImageUrlPortraitOrSquareHigh(jsonPoster.optString(Consts.DAZOO_IMAGE_LARGE));
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -102,9 +110,9 @@ public class Channel implements Parcelable {
 	public void writeToParcel(Parcel dest, int flag) {
 		dest.writeString(channelId);
 		dest.writeString(name);
-		dest.writeString(logoSUrl);
-		dest.writeString(logoMUrl);	
-		dest.writeString(logoLUrl);
+		dest.writeString(imageUrlLowRes);
+		dest.writeString(imageUrlMediumRes);
+		dest.writeString(imageUrlHighRes);
 		}
 	
 	@Override
@@ -130,6 +138,6 @@ public class Channel implements Parcelable {
 
 	@Override
 	public String toString() {
-	    return "Id: " + channelId + "\n name: " + name + "\n logoSUrl: " + logoSUrl + "\n logoMUrl: " + logoMUrl + "\n logoLUrl: " + logoLUrl; 
+	    return "Id: " + channelId + "\n name: " + name + "\n logoSUrl: " + imageUrlLowRes + "\n logoMUrl: " + imageUrlMediumRes + "\n logoLUrl: " + imageUrlHighRes; 
 	}
 }

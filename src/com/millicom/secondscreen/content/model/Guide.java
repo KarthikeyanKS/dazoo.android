@@ -7,21 +7,19 @@ import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import android.content.res.Configuration;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.millicom.secondscreen.Consts;
-import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.utilities.DateUtilities;
 
-public class Guide implements Parcelable {
+public class Guide extends ThreeImageResolutions implements Parcelable {
 
 	private String id;
 	private String name;
-	private String logoSHref;
-	private String logoMHref;
-	private String logoLHref;
+//	private String logoSHref;
+//	private String logoMHref;
+//	private String logoLHref;
 
 	private ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
 
@@ -37,9 +35,9 @@ public class Guide implements Parcelable {
 
 		JSONObject logosJson = jsonGuide.optJSONObject(Consts.DAZOO_GUIDE_LOGO);
 		if (logosJson != null) {
-			this.setLogoSHref(logosJson.optString(Consts.DAZOO_IMAGE_SMALL));
-			this.setLogoMHref(logosJson.optString(Consts.DAZOO_IMAGE_MEDIUM));
-			this.setLogoLHref(logosJson.optString(Consts.DAZOO_IMAGE_LARGE));
+			this.setImageUrlPortraitOrSquareLow(logosJson.optString(Consts.DAZOO_IMAGE_SMALL));
+			this.setImageUrlPortraitOrSquareMedium(logosJson.optString(Consts.DAZOO_IMAGE_MEDIUM));
+			this.setImageUrlPortraitOrSquareHigh(logosJson.optString(Consts.DAZOO_IMAGE_LARGE));
 		}
 
 		JSONArray broadcastsJson = jsonGuide.optJSONArray(Consts.DAZOO_GUIDE_BROADCASTS);
@@ -55,36 +53,6 @@ public class Guide implements Parcelable {
 			}
 			this.setBroadcasts(broadcasts);
 		}
-	}
-
-	public String getLogoUrl() {
-		int screenSize = SecondScreenApplication.getInstance().getScreenSizeMask();
-		boolean connectedToWifi = SecondScreenApplication.getInstance().isConnectedToWifi();
-
-		String logoUrl;
-
-//		if (connectedToWifi) {
-//			switch (screenSize) {
-//			case Configuration.SCREENLAYOUT_SIZE_LARGE:
-//				logoUrl = logoLHref;
-//				break;
-//			case Configuration.SCREENLAYOUT_SIZE_NORMAL:
-//				logoUrl = logoMHref;
-//				break;
-//			case Configuration.SCREENLAYOUT_SIZE_SMALL:
-//				logoUrl = logoSHref;
-//				break;
-//			default:
-//				logoUrl = logoMHref;
-//			}
-//		} else {
-//			logoUrl = logoMHref;
-//		}
-		
-		//TODO use code above
-		logoUrl = logoLHref;
-		
-		return logoUrl;
 	}
 
 	public void setId(String id) {
@@ -103,17 +71,17 @@ public class Guide implements Parcelable {
 		return this.name;
 	}
 
-	public void setLogoSHref(String logoSHref) {
-		this.logoSHref = logoSHref;
-	}
-
-	public void setLogoMHref(String logoMHref) {
-		this.logoMHref = logoMHref;
-	}
-
-	public void setLogoLHref(String logoLHref) {
-		this.logoLHref = logoLHref;
-	}
+//	public void setLogoSHref(String logoSHref) {
+//		this.logoSHref = logoSHref;
+//	}
+//
+//	public void setLogoMHref(String logoMHref) {
+//		this.logoMHref = logoMHref;
+//	}
+//
+//	public void setLogoLHref(String logoLHref) {
+//		this.logoLHref = logoLHref;
+//	}
 
 	public void setBroadcasts(ArrayList<Broadcast> broadcasts) {
 		this.broadcasts = broadcasts;
@@ -126,9 +94,19 @@ public class Guide implements Parcelable {
 	public Guide(Parcel in) {
 		id = in.readString();
 		name = in.readString();
-		logoSHref = in.readString();
-		logoMHref = in.readString();
-		logoLHref = in.readString();
+		
+		String urlLowRes = in.readString();
+		String urlMediumRes = in.readString();
+		String urlHighRes = in.readString();
+		
+//		logoSHref = urlLowRes;
+//		logoMHref = urlMediumRes;
+//		logoLHref = urlHighRes;
+		
+		setImageUrlPortraitOrSquareLow(urlLowRes);
+		setImageUrlPortraitOrSquareMedium(urlMediumRes);
+		setImageUrlPortraitOrSquareHigh(urlHighRes);
+		
 		in.readTypedList(broadcasts, Broadcast.CREATOR);
 	}
 
@@ -141,9 +119,9 @@ public class Guide implements Parcelable {
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(id);
 		dest.writeString(name);
-		dest.writeString(logoSHref);
-		dest.writeString(logoMHref);
-		dest.writeString(logoLHref);
+		dest.writeString(imageUrlLowRes);
+		dest.writeString(imageUrlMediumRes);
+		dest.writeString(imageUrlHighRes);
 		dest.writeTypedList(broadcasts);
 	}
 

@@ -144,7 +144,7 @@ public class BroadcastMainBlockPopulator {
 
 		if (broadcast.getChannel() != null) {
 			ImageAware imageAware = new ImageViewAware(channelIv, false);
-			ImageLoader.getInstance().displayImage(broadcast.getChannel().getLogoSUrl(), imageAware);
+			ImageLoader.getInstance().displayImage(broadcast.getChannel().getImageUrl(), imageAware);
 		}
 
 		// broadcast is currently on air: show progress

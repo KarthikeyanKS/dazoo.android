@@ -197,19 +197,21 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 					getRepetitionBroadcasts(mBroadcast.getProgram().getProgramId());
 
 					// if we have the data in the singleton about the channel - set it completely
-					mChannel = dazooStore.getChannelFromAll(mChannelId);
-					if (mChannel != null) {
-						mBroadcast.setChannel(mChannel);
-
-					} else {
-						// otherwise - just use the id that we got with the notification intent
-						Channel channel = new Channel();
-						channel.setChannelId(mChannelId);
-						if (mChannelLogoUrl != null) {
-							channel.setLogoSUrl(mChannelLogoUrl);
+					if(mBroadcast.getChannel() == null) {
+						mChannel = dazooStore.getChannelFromAll(mChannelId);
+						if (mChannel != null) {
+							mBroadcast.setChannel(mChannel);
+	
+						} else {
+							// otherwise - just use the id that we got with the notification intent
+							Channel channel = new Channel();
+							channel.setChannelId(mChannelId);
+							if (mChannelLogoUrl != null) {
+								channel.setAllImageUrls(mChannelLogoUrl);
+							}
+	
+							mBroadcast.setChannel(channel);
 						}
-
-						mBroadcast.setChannel(channel);
 					}
 
 					updateUI(REQUEST_STATUS.SUCCESSFUL);

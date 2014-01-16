@@ -60,7 +60,7 @@ public class AlarmSetter extends BroadcastReceiver {
 			Channel channel = new Channel();
 			channel.setChannelId(item.getChannelId());
 			channel.setName(item.getChannelName());
-			channel.setLogoSUrl(item.getChannelLogoUrl());
+			channel.setAllImageUrls(item.getChannelLogoUrl());
 			
 			broadcast.setChannel(channel);
 			

@@ -90,7 +90,7 @@ public class MyChannelsListAdapter extends BaseAdapter {
 		holder.mChannelNameTv.setText(channel.getName());
 
 		ImageAware imageAware = new ImageViewAware(holder.mChannelLogoIv, false);
-		ImageLoader.getInstance().displayImage(channel.getLogoLUrl(), imageAware);
+		ImageLoader.getInstance().displayImage(channel.getImageUrl(), imageAware);
 
 		holder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
