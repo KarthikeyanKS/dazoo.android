@@ -247,7 +247,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 
 				AbsListView.LayoutParams params = (AbsListView.LayoutParams) rowView.getLayoutParams();
 				if (params == null) {
-					params = new AbsListView.LayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, cellHeight));
+					params = new AbsListView.LayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, cellHeight));
 				}
 				params.height = cellHeight;
 				rowView.setLayoutParams(params);
