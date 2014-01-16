@@ -6,10 +6,7 @@
     android:background="@color/transparent"
     android:orientation="vertical" >
 
-    <!-- <com.millicom.secondscreen.customviews.FontTextView -->
-    <!-- android:textSize="14sp" -->
-
-    <com.millicom.secondscreen.customviews.FontFitTextView
+    <com.millicom.secondscreen.customviews.FontTextView
         android:id="@+id/row_timebar_textview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

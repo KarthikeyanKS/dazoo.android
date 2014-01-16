@@ -10,7 +10,11 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.StaticLayout;
+import android.text.TextPaint;
+import android.text.Layout.Alignment;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +22,10 @@ import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
-import android.widget.TextView;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
@@ -41,6 +43,8 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 	private static final int hoursPerDay = 24;
 	private static int firstHourOfDay;
 	private TimeListAdapter listAdapter;
+	private boolean firstView = true;
+	private float savedTextSize;
 
 	public SwipeClockBar(Context context) {
 		super(context);
@@ -112,7 +116,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 				// gets called after layout has been done but before display, so
 				// we can get the view
 				int selfHeigt = SwipeClockBar.this.timeListView.getHeight(); // Ahaha!
-																				// Gotcha
+																			 // Gotcha
 				TimeListAdapter timeListAdapter = ((TimeListAdapter) SwipeClockBar.this.timeListView.getAdapter());
 				timeListAdapter.setListViewHeight(selfHeigt);
 				timeListAdapter.notifyDataSetChanged();
@@ -122,6 +126,8 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 			}
 
 		});
+
+
 	}
 
 	@SuppressLint("NewApi")
@@ -200,14 +206,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 				LayoutInflater layoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				rowView = layoutInflater.inflate(R.layout.row_timebar, null);
 				ViewHolder viewHolder = new ViewHolder();
-
-				// TODO use FontFitTextView instead
-				// viewHolder.textView = (FontFitTextView)
-				// rowView.findViewById(R.id.row_timebar_textview);
-				//viewHolder.textView = (FontTextView) rowView.findViewById(R.id.row_timebar_textview);
-				viewHolder.textView = (FontFitTextView) rowView.findViewById(R.id.row_timebar_textview);
-				// viewHolder.textView = (TextView)
-				// rowView.findViewById(R.id.row_timebar_textview);
+				viewHolder.textView = (FontTextView) rowView.findViewById(R.id.row_timebar_textview);
 				rowView.setTag(viewHolder);
 			}
 
@@ -221,25 +220,21 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 
 			String fontName;
 			int colorId;
-			float fontSize;
+			
 			if (position == indexOfSelectedHour) {
-				fontSize = 12.5f;
 				colorId = R.color.white;
 				fontName = FontManager.FONT_BOLD;
-				
 				rowView.setBackgroundColor(activity.getResources().getColor(R.color.grey4));
-			} else {
-				fontSize = 12.5f;
+			} 
+			else {
 				colorId = R.color.black;
 				fontName = FontManager.FONT_LIGHT;
-				
 				rowView.setBackgroundColor(activity.getResources().getColor(R.color.transparent));
 			}
+			
 			int textColor = activity.getResources().getColor(colorId);
 			Typeface textFont = FontManager.getTypefaceStatic(activity, fontName);
 
-			// TODO use FontFitTextView instead, DON'T set fontsize
-			//holder.textView.setTextSize(fontSize);
 			holder.textView.setTextColor(textColor);
 			holder.textView.setTypeface(textFont);
 
@@ -252,16 +247,56 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 				}
 				params.height = cellHeight;
 				rowView.setLayoutParams(params);
+
+				// If this is the first view, calculate text size
+				if (firstView == true) {
+					firstView = false;
+
+					int width = cellHeight;
+					int height = cellHeight;
+					CharSequence text = hourString;
+
+					// Get the text view's paint object
+					TextPaint textPaint = holder.textView.getPaint();
+
+					float mMaxTextSize = 50;
+					float mMinTextSize = 12;
+
+					// Bisection method: fast & precise
+					float lower = mMinTextSize;
+					float upper = mMaxTextSize;
+
+					float targetTextSize = (lower + upper) / 2;
+					int textHeight = getTextHeight(text, textPaint, width, targetTextSize);
+
+					while (upper - lower > 1) {
+						targetTextSize = (lower + upper) / 2;
+						textHeight = getTextHeight(text, textPaint, width, targetTextSize);
+						if (textHeight > height) {
+							upper = targetTextSize;
+						}
+						else {
+							lower = targetTextSize;
+						}
+					}
+
+					targetTextSize = lower;
+					textHeight = getTextHeight(text, textPaint, width, targetTextSize);
+					holder.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, targetTextSize);
+
+					savedTextSize = targetTextSize;
+				}
+				// If we already calulated text size, use the saved value
+				else {
+					holder.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, savedTextSize);
+				}
 			}
 
 			return rowView;
 		}
 
 		private class ViewHolder {
-			// TODO use FontFitTextView instead
-			//public FontTextView textView;
-			 public FontFitTextView textView;
-			// public TextView textView;
+			public FontTextView textView;
 		}
 
 	}
@@ -295,5 +330,18 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 	public void onStopTrackingTouch(SeekBar arg0) {
 		// TODO Auto-generated method stub
 
+	}
+
+	// Set the text size of the text paint object and use a static layout to render text off screen before measuring
+	private int getTextHeight(CharSequence source, TextPaint originalPaint, int width, float textSize) {
+		// modified: make a copy of the original TextPaint object for measuring
+		// (apparently the object gets modified while measuring, see also the
+		// docs for TextView.getPaint() (which states to access it read-only)
+		TextPaint paint = new TextPaint(originalPaint);
+		// Update the text paint object
+		paint.setTextSize(textSize);
+		// Measure using a static layout
+		StaticLayout layout = new StaticLayout(source, paint, width, Alignment.ALIGN_NORMAL, 1.0f, 0.0f, true);
+		return layout.getHeight();
 	}
 }
