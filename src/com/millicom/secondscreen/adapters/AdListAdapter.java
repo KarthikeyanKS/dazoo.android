@@ -21,6 +21,7 @@ import com.millicom.secondscreen.content.model.AdzerkAd;
 import com.millicom.secondscreen.manager.AppConfigurationManager;
 import com.millicom.secondscreen.manager.DazooCore;
 import com.millicom.secondscreen.manager.DazooCore.AdCallBack;
+import com.millicom.secondscreen.storage.DazooStore;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
@@ -29,7 +30,7 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 public class AdListAdapter<T> extends BaseAdapter {
 
-	private String TAG;
+	private String fragmentName;
 	private Activity activity;
 	private List<T> items;
 	private HashMap<Integer, AdzerkAd> adItems = new HashMap<Integer, AdzerkAd>();
@@ -39,7 +40,7 @@ public class AdListAdapter<T> extends BaseAdapter {
 	
 	public AdListAdapter(String fragmentName, Activity activity, List<T> items) {
 		super();
-		TAG = fragmentName;
+		this.fragmentName = fragmentName;
 		this.activity = activity;
 
 		this.adFormats = AppConfigurationManager.getInstance().getAdFormatsForFragment(fragmentName);
@@ -53,11 +54,42 @@ public class AdListAdapter<T> extends BaseAdapter {
 		
 		this.isAdsEnabled = globalAdsEnabled && localAdsEnabled;
 		
-		if(this.isAdsEnabled) {
-			downloadAds();
+		if (this.isAdsEnabled) {
+			adItems = DazooStore.getInstance().getAdsForFragment(fragmentName);
+			if(adItems == null) {
+				adItems = new HashMap<Integer, AdzerkAd>();
+				downloadAds();
+			}
 		}
 	}
 	
+	private void downloadAds() {
+		final int adCount = getAdCount();
+		for(int i = 0; i < adCount; ++i) {
+			final int index = i;
+			String divId = new StringBuilder().append(fragmentName).append("AdWithId").append(i).toString();
+			DazooCore.getAdzerkAd(divId, adFormats, new AdCallBack() {
+				@Override
+				public void onAdResult(final AdzerkAd ad) {
+					if (ad != null) {
+						adItems.put(index, ad);
+					}
+					
+					if(index == adCount-1) {
+						DazooStore.getInstance().addAdsForFragment(fragmentName, adItems);
+						
+						activity.runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								AdListAdapter.this.notifyDataSetChanged();
+							}
+						});
+					}
+				}
+			});
+		}
+	}
+
 	@Override
 	public int getCount() {
 		int finalCount = items.size();
@@ -191,32 +223,7 @@ public class AdListAdapter<T> extends BaseAdapter {
 		
 		return ad;
 	}
-	
-	private void downloadAds() {
-		final int adCount = getAdCount();
-		for(int i = 0; i < adCount; ++i) {
-			final int index = i;
-			String divId = new StringBuilder().append(TAG).append("AdWithId").append(i).toString();
-			DazooCore.getAdzerkAd(divId, adFormats, new AdCallBack() {
-				@Override
-				public void onAdResult(final AdzerkAd ad) {
-					if (ad != null) {
-						adItems.put(index, ad);
-					}
-					
-					if(index == adCount-1) {
-						activity.runOnUiThread(new Runnable() {
-							@Override
-							public void run() {
-								AdListAdapter.this.notifyDataSetChanged();
-							}
-						});
-					}
-				}
-			});
-		}
-	}
-	
+		
 	@Override
 	public int getItemViewType(int position) {
 		if(isAdPosition(position)) {

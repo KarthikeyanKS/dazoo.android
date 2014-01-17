@@ -2,11 +2,11 @@ package com.millicom.secondscreen.storage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
 
-import android.util.Log;
-
+import com.millicom.secondscreen.content.model.AdzerkAd;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.FeedItem;
@@ -29,6 +29,7 @@ public class DazooStore {
 	private HashMap<String, Channel>					mAllChannels		= new HashMap<String, Channel>();
 
 	private ArrayList<Tag>								mTags				= new ArrayList<Tag>();
+	private HashMap<String, HashMap<Integer, AdzerkAd>> mFragmentToAdsMap 	= new HashMap<String, HashMap<Integer, AdzerkAd>>();
 	private HashMap<GuideKey, Guide>					mGuides				= new HashMap<GuideKey, Guide>();
 	private HashMap<GuideKey, Guide>					mMyGuides			= new HashMap<GuideKey, Guide>();
 	private HashMap<BroadcastKey, ArrayList<Broadcast>>	mTaggedBroadcasts	= new HashMap<BroadcastKey, ArrayList<Broadcast>>();
@@ -424,5 +425,13 @@ public class DazooStore {
 		this.mTaggedBroadcasts.clear();
 		this.mMyTaggedBroadcasts.clear();
 		this.mLikeIds.clear();
+	}
+
+	public void addAdsForFragment(String fragmentName, HashMap<Integer, AdzerkAd> adItems) {
+		mFragmentToAdsMap.put(fragmentName, adItems);
+	}
+	
+	public HashMap<Integer, AdzerkAd> getAdsForFragment(String fragmentName) {
+		return mFragmentToAdsMap.get(fragmentName);
 	}
 }
