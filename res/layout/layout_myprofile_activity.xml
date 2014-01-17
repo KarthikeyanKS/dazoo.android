@@ -103,7 +103,7 @@
                         android:text="@string/reminders"
                         android:textSize="18sp"
                         android:textStyle="bold"
-                        font:fonttextview="Roboto_MiTV_Medium.ttf" />
+                        font:fonttextview="roboto_mitv_medium.ttf" />
 
                     <com.millicom.secondscreen.customviews.FontTextView
                         android:id="@+id/myprofile_reminders_button_tv"
@@ -143,7 +143,7 @@
                         android:layout_toRightOf="@id/myprofile_likes_icon"
                         android:textSize="18sp"
                         android:textStyle="bold"
-                        font:fonttextview="Roboto_MiTV_Medium.ttf" />
+                        font:fonttextview="roboto_mitv_medium.ttf" />
 
                     <com.millicom.secondscreen.customviews.FontTextView
                         android:id="@+id/myprofile_likes_button_tv"
@@ -183,7 +183,7 @@
                         android:layout_toRightOf="@id/myprofile_my_channels_icon"
                         android:textSize="18sp"
                         android:textStyle="bold"
-                        font:fonttextview="Roboto_MiTV_Medium.ttf" />
+                        font:fonttextview="roboto_mitv_medium.ttf" />
 
                     <com.millicom.secondscreen.customviews.FontTextView
                         android:id="@+id/myprofile_my_channels_button_tv"
@@ -223,7 +223,7 @@
                         android:layout_toRightOf="@id/myprofile_settings_icon"
                         android:textSize="18sp"
                         android:textStyle="bold"
-                        font:fonttextview="Roboto_MiTV_Medium.ttf" />
+                        font:fonttextview="roboto_mitv_medium.ttf" />
                 </RelativeLayout>
             </RelativeLayout>
 

@@ -29,7 +29,7 @@
             android:textColor="@color/grey2"
             android:textSize="18sp"
             android:textStyle="bold"
-            font:fonttextview="Roboto_MiTV_Medium.ttf" />
+            font:fonttextview="roboto_mitv_medium.ttf" />
     </RelativeLayout>
 
     <!-- ITEM -->
@@ -66,7 +66,7 @@
                 android:lineSpacingExtra="-1sp"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                font:fonttextview="Roboto_MiTV_Medium.ttf" />
+                font:fonttextview="roboto_mitv_medium.ttf" />
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/row_upcoming_episodes_listitem_channel"
@@ -75,7 +75,7 @@
                 android:layout_below="@id/row_upcoming_episodes_listitem_title_time"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                font:fonttextview="Roboto_MiTV_Medium.ttf" />
+                font:fonttextview="roboto_mitv_medium.ttf" />
         </RelativeLayout>
 
         <!-- REMIND BUTTON -->

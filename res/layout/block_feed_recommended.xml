@@ -18,7 +18,7 @@
         android:layout_alignParentTop="true"
         android:layout_margin="20dp"
         android:textSize="20sp"
-        font:fonttextview="Roboto_MiTV_Medium.ttf" />
+        font:fonttextview="roboto_mitv_medium.ttf" />
 
     <!-- PRODUCT IMAGE -->
 
@@ -78,7 +78,7 @@
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
-            font:fonttextview="Roboto_MiTV_Medium.ttf"
+            font:fonttextview="roboto_mitv_medium.ttf"
             android:lines="1" />
 
         <com.millicom.secondscreen.customviews.FontTextView
@@ -91,7 +91,7 @@
             android:gravity="left"
             android:textColor="@color/black"
             android:textSize="16sp"
-            font:fonttextview="Roboto_MiTV_Medium.ttf" />
+            font:fonttextview="roboto_mitv_medium.ttf" />
 
         <com.millicom.secondscreen.customviews.FontTextView
             android:id="@+id/block_feed_recommended_channel_tv"
@@ -102,7 +102,7 @@
             android:gravity="left"
             android:textColor="@color/black"
             android:textSize="16sp"
-            font:fonttextview="Roboto_MiTV_Medium.ttf" />
+            font:fonttextview="roboto_mitv_medium.ttf" />
 
         <com.millicom.secondscreen.customviews.FontTextView
             android:id="@+id/block_feed_recommended_details_tv"
@@ -114,7 +114,7 @@
             android:gravity="left"
             android:textColor="@color/grey2"
             android:textSize="14sp"
-            font:fonttextview="Roboto_MiTV_Medium.ttf" />
+            font:fonttextview="roboto_mitv_medium.ttf" />
 
         <com.millicom.secondscreen.customviews.FontTextView
             android:id="@+id/block_feed_recommended_timeleft_tv"
@@ -125,7 +125,7 @@
             android:layout_marginTop="10dp"
             android:textColor="@color/red"
             android:visibility="gone"
-            font:fonttextview="Roboto_MiTV_Medium.ttf" />
+            font:fonttextview="roboto_mitv_medium.ttf" />
 
         <ProgressBar
             android:id="@+id/block_feed_recommended_progressbar"

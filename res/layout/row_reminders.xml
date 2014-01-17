@@ -28,7 +28,7 @@
             android:textColor="@color/grey2"
             android:textSize="18sp"
             android:textStyle="bold"
-            font:fonttextview="Roboto_MiTV_Medium.ttf" />
+            font:fonttextview="roboto_mitv_medium.ttf" />
     </RelativeLayout>
 
     <!-- REMINDERS CONTAINER -->

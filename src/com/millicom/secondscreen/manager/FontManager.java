@@ -12,10 +12,10 @@ public class FontManager {
 	private static FontManager selfInstance;
 	private HashMap<String, Typeface> fontMap;
 	
-	public static final String FONT_MEDIUM 		= "Roboto_MiTV_Medium.ttf";
-	public static final String FONT_BOLD 		= "Roboto_MiTV_Bold.ttf";
-	public static final String FONT_LIGHT 		= "Roboto_MiTV_Light.ttf";
-	public static final String FONT_REGULAR 	= "Roboto_MiTV_Regular.ttf";
+	public static final String FONT_MEDIUM 		= "roboto_mitv_medium.ttf";
+	public static final String FONT_BOLD 		= "roboto_mitv_bold.ttf";
+	public static final String FONT_LIGHT 		= "roboto_mitv_light.ttf";
+	public static final String FONT_REGULAR 	= "roboto_mitv_regular.ttf";
 
 	public FontManager() {
 		this.fontMap = new HashMap<String, Typeface>();

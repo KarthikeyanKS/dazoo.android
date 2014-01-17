@@ -25,7 +25,7 @@
         android:text="@string/general_error_message_message"
         android:textColor="@color/black"
         android:textSize="14sp"
-        font:fonttextview="Roboto_MiTV_Medium.ttf" />
+        font:fonttextview="roboto_mitv_medium.ttf" />
 
     <com.millicom.secondscreen.customviews.FontButton
         android:id="@+id/bad_request_reload_button"

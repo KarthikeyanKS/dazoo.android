@@ -463,7 +463,7 @@
             android:paddingBottom="2dp"
             android:text="@string/tab_tv_guide"
             android:textSize="15sp"
-            font:fontbutton="Roboto_MiTV_Medium.ttf" />
+            font:fontbutton="roboto_mitv_medium.ttf" />
 
         <com.millicom.secondscreen.customviews.FontButton
             android:id="@+id/show_activity"
@@ -474,7 +474,7 @@
             android:paddingBottom="2dp"
             android:text="@string/tab_activity"
             android:textSize="15sp"
-            font:fontbutton="Roboto_MiTV_Medium.ttf" />
+            font:fontbutton="roboto_mitv_medium.ttf" />
 
         <com.millicom.secondscreen.customviews.FontButton
             android:id="@+id/show_me"
@@ -485,7 +485,7 @@
             android:paddingBottom="2dp"
             android:text="@string/tab_me"
             android:textSize="15sp"
-            font:fontbutton="Roboto_MiTV_Medium.ttf" />
+            font:fontbutton="roboto_mitv_medium.ttf" />
         
     </LinearLayout>
     

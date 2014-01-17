@@ -16,7 +16,7 @@
         android:singleLine="true"
         android:textColor="@color/black"
         android:textSize="@dimen/header_3"
-        font:fonttextview="Roboto_MiTV_Medium.ttf" />
+        font:fonttextview="roboto_mitv_medium.ttf" />
 
     <RelativeLayout 
         android:id="@+id/channelpage_list_item_title_container"
@@ -41,7 +41,7 @@
 		        android:singleLine="true"
 		        android:textColor="@color/black"
 		        android:textSize="@dimen/header_3"
-		        font:fonttextview="Roboto_MiTV_Medium.ttf" />
+		        font:fonttextview="roboto_mitv_medium.ttf" />
 		
 		    <com.millicom.secondscreen.customviews.FontTextView
 		        android:id="@+id/channelpage_list_item_description_tv"
@@ -52,7 +52,7 @@
 		        android:textColor="@color/grey2"
 		        android:textSize="@dimen/ingress"
 		        android:visibility="gone"
-		        font:fonttextview="Roboto_MiTV_Medium.ttf" />
+		        font:fonttextview="roboto_mitv_medium.ttf" />
 		    
 	    </RelativeLayout>
 	    

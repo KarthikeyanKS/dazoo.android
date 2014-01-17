@@ -19,6 +19,6 @@
         android:textColor="@color/grey3"
         android:textSize="14sp"
         android:maxLines="3"
-        font:fonttextview="Roboto_MiTV_Medium.ttf" />
+        font:fonttextview="roboto_mitv_medium.ttf" />
 
 </RelativeLayout>
