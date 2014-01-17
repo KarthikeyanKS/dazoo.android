@@ -43,8 +43,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 	private static final int hoursPerDay = 24;
 	private static int firstHourOfDay;
 	private TimeListAdapter listAdapter;
-	private boolean firstView = true;
-	private float savedTextSize;
+	private float savedTextSize = -1;
 
 	public SwipeClockBar(Context context) {
 		super(context);
@@ -247,9 +246,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 				rowView.setLayoutParams(params);
 
 				// If this is the first view, calculate text size
-				if (firstView == true) {
-					firstView = false;
-
+				if (savedTextSize < 0) {
 					int width = cellHeight;
 					int height = cellHeight;
 					CharSequence text = hourString;
@@ -283,9 +280,8 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 					holder.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, targetTextSize);
 
 					savedTextSize = targetTextSize;
-				}
-				// If we already calulated text size, use the saved value
-				else {
+				} else {
+					/* Already calculated text size, use the saved value */
 					holder.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, savedTextSize);
 				}
 			}
