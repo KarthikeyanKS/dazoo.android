@@ -287,7 +287,7 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 					/* Don't allow negative values */
 					adjustedPosition = 0;
 				}
-				intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, mFollowingBroadcasts.get(position - 1).getBeginTimeMillisGmt());
+				intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, mFollowingBroadcasts.get(adjustedPosition).getBeginTimeMillisGmt());
 				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, mChannel.getChannelId());
 				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, mTvDateSelected.getDate());
 
