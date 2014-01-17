@@ -113,10 +113,8 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 
 			@Override
 			public void onGlobalLayout() {
-				// gets called after layout has been done but before display, so
-				// we can get the view
-				int selfHeigt = SwipeClockBar.this.timeListView.getHeight(); // Ahaha!
-																			 // Gotcha
+				// gets called after layout has been done but before it gets displayed, so we can get the height of the view
+				int selfHeigt = SwipeClockBar.this.timeListView.getHeight();
 				TimeListAdapter timeListAdapter = ((TimeListAdapter) SwipeClockBar.this.timeListView.getAdapter());
 				timeListAdapter.setListViewHeight(selfHeigt);
 				timeListAdapter.notifyDataSetChanged();
