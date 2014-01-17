@@ -1,20 +1,19 @@
 package com.millicom.secondscreen.content.tvguide;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.SweepGradient;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -25,6 +24,7 @@ import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
+import com.millicom.secondscreen.adapters.AdListAdapter;
 import com.millicom.secondscreen.adapters.TVGuideListAdapter;
 import com.millicom.secondscreen.adapters.TVGuideTagListAdapter;
 import com.millicom.secondscreen.content.SSPageFragment;
@@ -56,10 +56,12 @@ public class TVGuideTableFragment extends SSPageFragment {
 	private TVGuideTagListAdapter	mTVTagListAdapter;
 	private int						mHour;
 	private TextView				mCurrentHourTv;
+	public HashMap<String, AdListAdapter> adapterMap;
 	
-	public static TVGuideTableFragment newInstance(Tag tag, TvDate date, int position) {
+	public static TVGuideTableFragment newInstance(Tag tag, TvDate date, int position, HashMap<String, AdListAdapter> adapterMap) {
 
 		TVGuideTableFragment fragment = new TVGuideTableFragment();
+		fragment.adapterMap = adapterMap;
 		Bundle bundle = new Bundle();
 		bundle.putParcelable(Consts.FRAGMENT_EXTRA_TVDATE, date);
 		bundle.putInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION, position);
@@ -78,18 +80,17 @@ public class TVGuideTableFragment extends SSPageFragment {
 		if (token != null && TextUtils.isEmpty(token) != true) {
 			mIsLoggedIn = true;
 		}
-		
-		Bundle bundle = getArguments();
-		mTagStr = bundle.getString(Consts.FRAGMENT_EXTRA_TAG);
-		mTvDate = bundle.getParcelable(Consts.FRAGMENT_EXTRA_TVDATE);
-		mTvDatePosition = bundle.getInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION);
-		mTag = dazooStore.getTag(mTagStr);
-
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+		Bundle bundle = getArguments();
+		mTagStr = bundle.getString(Consts.FRAGMENT_EXTRA_TAG);
+		mTvDate = bundle.getParcelable(Consts.FRAGMENT_EXTRA_TVDATE);
+		mTvDatePosition = bundle.getInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION);
+		mTag = dazooStore.getTag(mTagStr);
+		
 		if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
 
 			// check if it is a current day
@@ -197,7 +198,12 @@ public class TVGuideTableFragment extends SSPageFragment {
 	protected void updateUI(REQUEST_STATUS status) {
 		if (super.requestIsSuccesfull(status)) {
 			if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
-				mTVGuideListAdapter = new TVGuideListAdapter(mActivity, mGuides, mTvDate, mHour, mIsToday);
+				mTVGuideListAdapter = (TVGuideListAdapter) adapterMap.get(mTagStr);
+				if(mTVGuideListAdapter == null) {
+					mTVGuideListAdapter = new TVGuideListAdapter(mActivity, mGuides, mTvDate, mHour, mIsToday);
+					adapterMap.put(mTagStr, mTVGuideListAdapter);
+				}
+				
 				mTVGuideListView.setAdapter(mTVGuideListAdapter);
 				mTVGuideListAdapter.notifyDataSetChanged();
 				focusOnView();
@@ -222,11 +228,20 @@ public class TVGuideTableFragment extends SSPageFragment {
 					}
 				}.run();
 				Log.d(TAG, "index: " + index);
-				mTVTagListAdapter = new TVGuideTagListAdapter(mActivity, mTaggedBroadcasts, index, mTvDate);
+				
+				
+				mTVTagListAdapter = (TVGuideTagListAdapter) adapterMap.get(mTagStr);
+				if(mTVTagListAdapter == null) {
+					mTVTagListAdapter = new TVGuideTagListAdapter(mActivity, mTagStr, mTaggedBroadcasts, index, mTvDate);
+					adapterMap.put(mTagStr, mTVTagListAdapter);
+				}
+				
+				
 				mTVGuideListView.setAdapter(mTVTagListAdapter);
 			}
 		}
 	}
+	
 
 	BroadcastReceiver				mBroadcastReceiverClock	= new BroadcastReceiver() {
 		@Override

@@ -52,7 +52,7 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
 	public TVGuideListAdapter(Activity activity, ArrayList<Guide> guide, TvDate date, int hour, boolean isToday) {
-		super(TAG, activity, guide, AppConfigurationManager.getInstance().getCellCountBetweenAdCellsGuide(), AppConfigurationManager.getInstance().getAdzerkAdFormatsGuide());
+		super(Consts.JSON_AND_FRAGMENT_KEY_GUIDE, activity, guide);
 		this.mGuide = guide;
 		this.mActivity = activity;
 		this.mDate = date;

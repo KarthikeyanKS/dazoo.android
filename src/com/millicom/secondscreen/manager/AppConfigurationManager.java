@@ -1,7 +1,9 @@
 package com.millicom.secondscreen.manager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,10 +26,12 @@ public class AppConfigurationManager {
 
 	/* Ad configuration */
 	private boolean adsEnabled;
-	private int cellCountBetweenAdCellsGuide;
-	private int cellCountBetweenAdCellsActivity;
-	private List<Integer> adzerkAdFormatsGuide;
-	private List<Integer> adzerkAdFormatsActivity;
+//	private int cellCountBetweenAdCellsGuide;
+//	private int cellCountBetweenAdCellsActivity;
+//	private List<Integer> adzerkAdFormatsGuide;
+//	private List<Integer> adzerkAdFormatsActivity;
+	private HashMap<String, List<Integer>> fragmentToAdFormatsMap = new HashMap<String, List<Integer>>();
+	private HashMap<String, Integer> fragmentToCellsBetweenAdCellsCount = new HashMap<String, Integer>();
 	private int adzerkNetworkId;
 	private int adzerkSiteId;
 
@@ -52,37 +56,37 @@ public class AppConfigurationManager {
 		this.adsEnabled = adsEnabled;
 	}
 
-	public int getCellCountBetweenAdCellsGuide() {
-		return cellCountBetweenAdCellsGuide;
-	}
+//	public int getCellCountBetweenAdCellsGuide() {
+//		return cellCountBetweenAdCellsGuide;
+//	}
+//
+//	public void setCellCountBetweenAdCellsGuide(int cellCountBetweenAdCellsGuide) {
+//		this.cellCountBetweenAdCellsGuide = cellCountBetweenAdCellsGuide;
+//	}
+//
+//	public int getCellCountBetweenAdCellsActivity() {
+//		return cellCountBetweenAdCellsActivity;
+//	}
+//
+//	public void setCellCountBetweenAdCellsActivity(int cellCountBetweenAdCellsActivity) {
+//		this.cellCountBetweenAdCellsActivity = cellCountBetweenAdCellsActivity;
+//	}
 
-	public void setCellCountBetweenAdCellsGuide(int cellCountBetweenAdCellsGuide) {
-		this.cellCountBetweenAdCellsGuide = cellCountBetweenAdCellsGuide;
-	}
-
-	public int getCellCountBetweenAdCellsActivity() {
-		return cellCountBetweenAdCellsActivity;
-	}
-
-	public void setCellCountBetweenAdCellsActivity(int cellCountBetweenAdCellsActivity) {
-		this.cellCountBetweenAdCellsActivity = cellCountBetweenAdCellsActivity;
-	}
-
-	public List<Integer> getAdzerkAdFormatsGuide() {
-		return adzerkAdFormatsGuide;
-	}
-
-	public void setAdzerkAdFormatsGuide(List<Integer> adzerkAdFormatsGuide) {
-		this.adzerkAdFormatsGuide = adzerkAdFormatsGuide;
-	}
-
-	public List<Integer> getAdzerkAdFormatsActivity() {
-		return adzerkAdFormatsActivity;
-	}
-
-	public void setAdzerkAdFormatsActivity(List<Integer> adzerkAdFormatsActivity) {
-		this.adzerkAdFormatsActivity = adzerkAdFormatsActivity;
-	}
+//	public List<Integer> getAdzerkAdFormatsGuide() {
+//		return adzerkAdFormatsGuide;
+//	}
+//
+//	public void setAdzerkAdFormatsGuide(List<Integer> adzerkAdFormatsGuide) {
+//		this.adzerkAdFormatsGuide = adzerkAdFormatsGuide;
+//	}
+//
+//	public List<Integer> getAdzerkAdFormatsActivity() {
+//		return adzerkAdFormatsActivity;
+//	}
+//
+//	public void setAdzerkAdFormatsActivity(List<Integer> adzerkAdFormatsActivity) {
+//		this.adzerkAdFormatsActivity = adzerkAdFormatsActivity;
+//	}
 
 	public int getAdzerkNetworkId() {
 		return adzerkNetworkId;
@@ -127,14 +131,14 @@ public class AppConfigurationManager {
 	public List<Integer> adFormatsFromJSON(JSONObject configurationJSONObject, String adFormatsJSONKey) {
 		List<Integer> adFormatsGuide = new ArrayList<Integer>();
 		try {
-			JSONArray adFormatsJson = configurationJSONObject.optJSONArray(Consts.JSON_KEY_CONFIGURATION_ADZERK_AD_FORMATS_GUIDE);
+			JSONArray adFormatsJson = configurationJSONObject.optJSONArray(adFormatsJSONKey);
 			if (adFormatsJson != null) {
 				for (int i = 0; i < adFormatsJson.length(); ++i) {
 					int adFormat = adFormatsJson.getInt(i);
 					adFormatsGuide.add(adFormat);
 				}
 			} else {
-				Integer adFormat = configurationJSONObject.optInt(Consts.JSON_KEY_CONFIGURATION_ADZERK_AD_FORMATS_GUIDE);
+				Integer adFormat = configurationJSONObject.optInt(adFormatsJSONKey);
 				adFormatsGuide.add(adFormat);
 			}
 
@@ -144,12 +148,60 @@ public class AppConfigurationManager {
 		return adFormatsGuide;
 	}
 
+	public int getCellsBetweenAdCellsCountForFragment(String fragmentName) {
+		Integer cellCountBetweenAdCellsObj = fragmentToCellsBetweenAdCellsCount.get(fragmentName);
+		int cellCountBetweenAdCells = -1;
+		if(cellCountBetweenAdCellsObj != null) {
+			cellCountBetweenAdCells = cellCountBetweenAdCellsObj.intValue();
+		}
+		return cellCountBetweenAdCells;
+	}
+	
+	public List<Integer> getAdFormatsForFragment(String fragmentName) {
+		List<Integer> adFormats = fragmentToAdFormatsMap.get(fragmentName);
+		return adFormats;
+	}
+	
+	private String jsonKeyForFragment(String fragment, String base) {
+		String jsonKey = String.format(Locale.getDefault(), base, fragment);
+		return jsonKey;
+	}
+	
+	private String jsonKeyForAdFormatsForFragment(String fragment) {
+		String jsonKey = jsonKeyForFragment(fragment, Consts.JSON_KEY_CONFIGURATION_ADZERK_AD_FORMATS_BASE);
+		return jsonKey;
+	}
+	
+	private String jsonKeyForCellCountBetweenAdCellsForFragment(String fragment) {
+		String jsonKey = jsonKeyForFragment(fragment, Consts.JSON_KEY_CONFIGURATION_CELLS_BETWEEN_AD_CELLS_BASE);
+		return jsonKey;
+	}
+	
+	private String jsonKeyAdFormatsGuide() {
+		String jsonKeyAdFormatsGuide = jsonKeyForAdFormatsForFragment(Consts.JSON_AND_FRAGMENT_KEY_GUIDE);
+		return jsonKeyAdFormatsGuide;
+	}
+	
+	private String jsonKeyAdFormatsActivity() {
+		String jsonKeyAdFormatsActivity = jsonKeyForAdFormatsForFragment(Consts.JSON_AND_FRAGMENT_KEY_ACTIVITY);
+		return jsonKeyAdFormatsActivity;
+	}
+	
 	public void updateConfiguration(JSONObject configurationJSONObject) {
 		if (configurationJSONObject != null) {
-			List<Integer> adFormatsGuide = adFormatsFromJSON(configurationJSONObject, Consts.JSON_KEY_CONFIGURATION_ADZERK_AD_FORMATS_GUIDE);
-			getInstance().setAdzerkAdFormatsGuide(adFormatsGuide);
-			List<Integer> adFormatsActivity = adFormatsFromJSON(configurationJSONObject, Consts.JSON_KEY_CONFIGURATION_ADZERK_AD_FORMATS_ACTIVITY);
-			getInstance().setAdzerkAdFormatsActivity(adFormatsActivity);
+			String jsonKeyAdFormatsGuide = jsonKeyAdFormatsGuide();
+			String jsonKeyAdFormatsActivity = jsonKeyAdFormatsActivity();
+			
+			String jsonKeyCellCountBetweenAdCellsGuide = jsonKeyForCellCountBetweenAdCellsForFragment(Consts.JSON_AND_FRAGMENT_KEY_GUIDE);
+			String jsonKeyCellCountBetweenAdCellsActivity = jsonKeyForCellCountBetweenAdCellsForFragment(Consts.JSON_AND_FRAGMENT_KEY_ACTIVITY);
+			
+			List<Integer> adFormatsGuide = adFormatsFromJSON(configurationJSONObject, jsonKeyAdFormatsGuide);
+//			getInstance().setAdzerkAdFormatsGuide(adFormatsGuide);
+			List<Integer> adFormatsActivity = adFormatsFromJSON(configurationJSONObject, jsonKeyAdFormatsActivity);
+//			getInstance().setAdzerkAdFormatsActivity(adFormatsActivity);
+			
+			fragmentToAdFormatsMap.put(Consts.JSON_AND_FRAGMENT_KEY_GUIDE, adFormatsGuide);
+			fragmentToAdFormatsMap.put(Consts.JSON_AND_FRAGMENT_KEY_ACTIVITY, adFormatsActivity);
 
 			String firstHourOfTVDayString = configurationJSONObject.optString(Consts.JSON_KEY_CONFIGURATION_FIRST_HOUR_OF_TV_DAY);
 
@@ -171,12 +223,14 @@ public class AppConfigurationManager {
 			double googleAnalyticsSampleRate = Double.parseDouble(googleAnalyticsSampleRateString);
 
 			/* Ordinary cell count per ad cell for each view with ads in them */
-			String cellCountBetweenAdCellsGuideString = configurationJSONObject.optString(Consts.JSON_KEY_CONFIGURATION_CELLS_BETWEEN_AD_CELLS_GUIDE);
+			String cellCountBetweenAdCellsGuideString = configurationJSONObject.optString(jsonKeyCellCountBetweenAdCellsGuide);
 			int cellCountBetweenAdCellsGuide = Integer.parseInt(cellCountBetweenAdCellsGuideString);
-			getInstance().setCellCountBetweenAdCellsGuide(cellCountBetweenAdCellsGuide);
-			String cellCountBetweenAdCellsActivityString = configurationJSONObject.optString(Consts.JSON_KEY_CONFIGURATION_CELLS_BETWEEN_AD_CELLS_ACTIVITY);
+//			getInstance().setCellCountBetweenAdCellsGuide(cellCountBetweenAdCellsGuide);
+			String cellCountBetweenAdCellsActivityString = configurationJSONObject.optString(jsonKeyCellCountBetweenAdCellsActivity);
 			int cellCountBetweenAdCellsActivity = Integer.parseInt(cellCountBetweenAdCellsActivityString);
-			getInstance().setCellCountBetweenAdCellsActivity(cellCountBetweenAdCellsActivity);
+//			getInstance().setCellCountBetweenAdCellsActivity(cellCountBetweenAdCellsActivity);
+			fragmentToCellsBetweenAdCellsCount.put(Consts.JSON_AND_FRAGMENT_KEY_GUIDE, cellCountBetweenAdCellsGuide);
+			fragmentToCellsBetweenAdCellsCount.put(Consts.JSON_AND_FRAGMENT_KEY_ACTIVITY, cellCountBetweenAdCellsActivity);
 
 			getInstance().setFirstHourOfTVDay(firstHourOfTVDay);
 

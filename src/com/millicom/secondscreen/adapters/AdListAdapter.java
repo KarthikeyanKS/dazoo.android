@@ -37,21 +37,25 @@ public class AdListAdapter<T> extends BaseAdapter {
 	private int cellCountBetweenAdCells;
 	private boolean isAdsEnabled;
 	
-	public AdListAdapter(String tag, Activity activity, List<T> items, int cellCountBetweenAdCells, List<Integer> adFormats) {
+	public AdListAdapter(String fragmentName, Activity activity, List<T> items) {
 		super();
-		TAG = tag;
+		TAG = fragmentName;
 		this.activity = activity;
-		this.items = items;
-		this.adFormats = adFormats;
+
+		this.adFormats = AppConfigurationManager.getInstance().getAdFormatsForFragment(fragmentName);
+		this.cellCountBetweenAdCells = AppConfigurationManager.getInstance().getCellsBetweenAdCellsCountForFragment(fragmentName);
 		
-		this.cellCountBetweenAdCells = cellCountBetweenAdCells;
+		this.items = items;
+
 		
 		boolean globalAdsEnabled = AppConfigurationManager.getInstance().isAdsEnabled();
 		boolean localAdsEnabled = (cellCountBetweenAdCells > 0);
 		
 		this.isAdsEnabled = globalAdsEnabled && localAdsEnabled;
 		
-		downloadAds();
+		if(this.isAdsEnabled) {
+			downloadAds();
+		}
 	}
 	
 	@Override
@@ -86,7 +90,7 @@ public class AdListAdapter<T> extends BaseAdapter {
 		
 		return item;
 	}
-
+	
 	@Override
 	public int getViewTypeCount() {
 		return 1;

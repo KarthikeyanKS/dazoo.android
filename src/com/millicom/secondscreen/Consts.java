@@ -401,10 +401,12 @@ public abstract class Consts {
 	public static final String JSON_KEY_CONFIGURATION_GOOGLE_ANALYTICS_TRACKING_ID	= "android.googleAnalyticsTrackingId";
 	public static final String JSON_KEY_CONFIGURATION_GOOGLE_ANALYTICS_SAMPLE_RATE	= "android.googleAnalyticsSampleRate";
 	public static final String JSON_KEY_CONFIGURATION_ADS_ENABLED					= "android.adsEnabled";
-	public static final String JSON_KEY_CONFIGURATION_CELLS_BETWEEN_AD_CELLS_GUIDE		= "android.guide.cellCountBetweenAdCells";
-	public static final String JSON_KEY_CONFIGURATION_ADZERK_AD_FORMATS_GUIDE			= "android.guide.adzerkFormats";
-	public static final String JSON_KEY_CONFIGURATION_CELLS_BETWEEN_AD_CELLS_ACTIVITY	= "android.activity.cellCountBetweenAdCells";
-	public static final String JSON_KEY_CONFIGURATION_ADZERK_AD_FORMATS_ACTIVITY		= "android.activity.adzerkFormats";
+	public static final String JSON_KEY_CONFIGURATION_CELLS_BETWEEN_AD_CELLS_BASE	= "android.%s.cellCountBetweenAdCells";
+	public static final String JSON_KEY_CONFIGURATION_ADZERK_AD_FORMATS_BASE		= "android.%s.adzerkFormats";
+	
+	/* This CANNOT be changed since they are used as part of JSON_KEY, should be: guide, activity */
+	public static final String JSON_AND_FRAGMENT_KEY_GUIDE 							= "guide";
+	public static final String JSON_AND_FRAGMENT_KEY_ACTIVITY 						= "activity";
 	
 	/* PREFERENCES KEYS */
 	public static final String PREFS_KEY_APP_WAS_PREINSTALLED						= "APP_WAS_PREINSTALLED";

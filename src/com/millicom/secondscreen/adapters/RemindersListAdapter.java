@@ -238,9 +238,11 @@ public class RemindersListAdapter extends BaseAdapter {
 	public Runnable yesProc() {
 		return new Runnable() {
 			public void run() {
-				mBroadcasts.remove(currentPosition);
-				mInterface.setValues(mBroadcasts.size());
-				notifyDataSetChanged();
+				if(currentPosition >= 0 && currentPosition < mBroadcasts.size()) {
+					mBroadcasts.remove(currentPosition);
+					mInterface.setValues(mBroadcasts.size());
+					notifyDataSetChanged();
+				}
 			}
 		};
 	}

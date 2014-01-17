@@ -1,7 +1,6 @@
 package com.millicom.secondscreen.adapters;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -26,7 +24,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-public class TVGuideTagListAdapter extends BaseAdapter {
+public class TVGuideTagListAdapter extends AdListAdapter<Broadcast> {
 
 	private static final String		TAG	= "TVGuideListAdapter";
 
@@ -36,15 +34,33 @@ public class TVGuideTagListAdapter extends BaseAdapter {
 	private int						mCurrentPosition;
 	private TvDate					mDate;
 
-	public TVGuideTagListAdapter(Activity activity, ArrayList<Broadcast> taggedBroadcasts, int currentPosition, TvDate date) {
+	public TVGuideTagListAdapter(Activity activity, String fragmentName, ArrayList<Broadcast> taggedBroadcasts, int currentPosition, TvDate date) {
+		super(fragmentName, activity, taggedBroadcasts);
 		this.mTaggedBroadcasts = taggedBroadcasts;
 		this.mActivity = activity;
 		this.mCurrentPosition = currentPosition;
 		this.mDate = date;
 	}
-
+	
+	@Override
+	public int getViewTypeCount() {
+		return super.getViewTypeCount() + 1;
+	}
+	
+	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		/* Superclass AdListAdapter will create view if this is a position of an ad. */
+		View rowView = super.getView(position, convertView, parent);
+		
+		if(rowView == null) {
+			rowView = getViewForBroadCastCell(position, convertView, parent);
+		}
+		
+		return rowView;
+	}
+	
+	public View getViewForBroadCastCell(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 
 		// get the item with the displacement depending on the scheduled time on air

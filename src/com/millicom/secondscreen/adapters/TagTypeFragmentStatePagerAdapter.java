@@ -1,21 +1,16 @@
 package com.millicom.secondscreen.adapters;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.imbryk.viewPager.LoopViewPager;
 import com.millicom.secondscreen.content.model.Tag;
 import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.tvguide.TVGuideTableFragment;
-
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
 
 public class TagTypeFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
 
@@ -24,6 +19,8 @@ public class TagTypeFragmentStatePagerAdapter extends FragmentStatePagerAdapter 
 	private TvDate mTvDate;
 	private int mDatePosition;
 	private boolean createBackground;
+
+	private HashMap<String, AdListAdapter> adapterMap = new HashMap<String, AdListAdapter>();
 	
 	public TagTypeFragmentStatePagerAdapter(FragmentManager fm, ArrayList<Tag> tags, TvDate tvDate, int datePosition) {
 		super(fm);
@@ -36,7 +33,7 @@ public class TagTypeFragmentStatePagerAdapter extends FragmentStatePagerAdapter 
 	@Override
 	public Fragment getItem(int position) {
 		position = LoopViewPager.toRealPosition(position, getCount());
-		return TVGuideTableFragment.newInstance(mTags.get(position), mTvDate, mDatePosition);
+		return TVGuideTableFragment.newInstance(mTags.get(position), mTvDate, mDatePosition, adapterMap);
 	}
 	
 	@Override

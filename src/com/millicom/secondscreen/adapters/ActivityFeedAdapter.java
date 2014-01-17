@@ -24,7 +24,6 @@ import com.millicom.secondscreen.content.model.NotificationDbItem;
 import com.millicom.secondscreen.content.model.Program;
 import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
 import com.millicom.secondscreen.like.LikeService;
-import com.millicom.secondscreen.manager.AppConfigurationManager;
 import com.millicom.secondscreen.notification.NotificationDataSource;
 import com.millicom.secondscreen.notification.NotificationDialogHandler;
 import com.millicom.secondscreen.notification.NotificationService;
@@ -61,7 +60,7 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 	private boolean					mIsLiked							= false, mIsSet = false;
 
 	public ActivityFeedAdapter(Activity activity, ArrayList<FeedItem> feedItems, String token) {
-		super(TAG, activity, feedItems, AppConfigurationManager.getInstance().getCellCountBetweenAdCellsActivity(), AppConfigurationManager.getInstance().getAdzerkAdFormatsActivity());
+		super(Consts.JSON_AND_FRAGMENT_KEY_ACTIVITY, activity, feedItems);
 		this.mActivity = activity;
 		this.mFeedItems = feedItems;
 		this.mToken = token;
