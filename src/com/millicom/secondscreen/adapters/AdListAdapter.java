@@ -146,16 +146,6 @@ public class AdListAdapter<T> extends BaseAdapter {
 
 									@Override
 									public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-										/* Set the size of the imageView according to the size of the ad image */
-//										LayoutParams params = holder.mImageView.getLayoutParams();
-//										params.width = ad.getWidth();
-//										params.height = ad.getHeight();
-//										holder.mImageView.setLayoutParams(params);
-										
-										/* Image loaded, show imageView */
-										holder.mImageView.setVisibility(View.VISIBLE);
-										separator.setVisibility(View.VISIBLE);
-										
 										/*
 										 * Register Ad as shown when image has loaded completely
 										 */

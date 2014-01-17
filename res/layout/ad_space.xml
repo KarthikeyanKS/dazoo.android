@@ -13,15 +13,13 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="@dimen/guide_image_margin"
-        android:visibility="gone" />
+        android:layout_marginLeft="@dimen/guide_image_margin"/>
 
     <View
         android:id="@+id/ad_space_separator"
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider_height"
         android:layout_below="@id/ad_space_imageview"
-        android:background="@color/grey1"
-        android:visibility="gone"  />
+        android:background="@color/grey1"  />
 
 </RelativeLayout>
