@@ -66,14 +66,14 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 		
 		Display display = activity.getWindowManager().getDefaultDisplay();
 		
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-			Point size = new Point();
-			display.getSize(size);
-			screenWidth = size.x;
-		} 
-		else {
-			screenWidth = display.getWidth();
-		}
+//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+//			Point size = new Point();
+//			display.getSize(size);
+//			screenWidth = size.x;
+//		} 
+//		else {
+//			screenWidth = display.getWidth();
+//		}
 	}
 	
 	@Override
@@ -184,24 +184,26 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 					TextPaint testPaint = holder.mTextView.getPaint();
 					float textWidth = testPaint.measureText(rowInfo);
 					int limitIndex = rowInfo.length()-1;
-					int maxTextWidth = (int)(0.5d*screenWidth);
+					int maxTextWidth;
+//					int maxTextWidth =  = (int)(0.5d*screenWidth);
 					boolean deletedChars = false;
 					
 					if (rowWidth > 0) {
 						maxTextWidth = rowWidth;
-					}
 					
-					/* Calculate max amount of characters that fits */
-					while (textWidth > maxTextWidth && limitIndex > 0) {
-						deletedChars = true;
-						limitIndex--;
-						rowInfo = rowInfo.substring(0, limitIndex);
-						textWidth = testPaint.measureText(rowInfo);
-					}
 					
-					String ellipsisString = "...";
-					if (deletedChars) {
-						rowInfo = rowInfo.replace(rowInfo.substring(limitIndex-3, rowInfo.length()), ellipsisString);
+						/* Calculate max amount of characters that fits */
+						while (textWidth > maxTextWidth && limitIndex > 0) {
+							deletedChars = true;
+							limitIndex--;
+							rowInfo = rowInfo.substring(0, limitIndex);
+							textWidth = testPaint.measureText(rowInfo);
+						}
+						
+						String ellipsisString = "...";
+						if (deletedChars) {
+							rowInfo = rowInfo.replace(rowInfo.substring(limitIndex-3, rowInfo.length()), ellipsisString);
+						}
 					}
 
 					if (broadcast.isRunning()) {
