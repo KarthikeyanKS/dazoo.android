@@ -19,6 +19,7 @@ import com.millicom.secondscreen.content.model.FeedItem;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Program;
 import com.millicom.secondscreen.content.model.ProgramType;
+import com.millicom.secondscreen.content.model.SearchResult;
 import com.millicom.secondscreen.content.model.Season;
 import com.millicom.secondscreen.content.model.Series;
 import com.millicom.secondscreen.content.model.SportType;
@@ -39,6 +40,11 @@ public class ContentParser {
 			guides.add(guide);
 		}
 		return guides;
+	}
+	
+	public SearchResult parseSearchResult(JSONObject jsonObject) throws Exception {
+		SearchResult searchResult = new SearchResult(jsonObject);
+		return searchResult;
 	}
 	
 	public AdzerkAd parseAd(String divId, JSONObject jsonAd) throws Exception {

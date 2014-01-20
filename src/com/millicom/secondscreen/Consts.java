@@ -57,6 +57,7 @@ public abstract class Consts {
 	public static final String MILLICOM_SECONDSCREEN_SERIES 								= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/series/";
 	public static final String MILLICOM_SECONDSCREEN_POPULAR 								= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/broadcasts/popular/";
 	public static final String MILLICOM_SECONDSCREEN_CONFIGURATION 							= MILLICOM_SECONDSCREEN_SERVER_URL + "configuration";
+	public static final String MILLICOM_SECONDSCREEN_SEARCH		 							= MILLICOM_SECONDSCREEN_SERVER_URL + "search?=";
 
 	public static final String NOTIFY_BROADCAST_URL_PREFIX 									= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/channels/";
 
@@ -99,6 +100,10 @@ public abstract class Consts {
 	public static enum REQUEST_STATUS {
 		LOADING, FAILED, EMPTY_RESPONSE, SUCCESSFUL, BAD_REQUEST
 	};
+	
+	public static enum ITEM_TYPE {
+		BROADCAST
+	}
 
 	public static String		DAZOO_BACK_STACK									= "com.millicom.secondscreen.dazoo.back.stack";
 
@@ -449,5 +454,10 @@ public abstract class Consts {
 	public static final String JSON_KEY_ADS_IMAGE_WIDTH 			= "width";
 	public static final String JSON_KEY_ADS_IMAGE_HEIGHT 			= "height";
 
-	
+	/* JSON KEYS FOR SEARCH RESULTS */
+	public static final String JSON_KEY_SEARCH_RESULT_SUGGESTION		= "suggestion";
+	public static final String JSON_KEY_SEARCH_RESULT_NUMBER_OF_RESULTS	= "numberOfResults";
+	public static final String JSON_KEY_SEARCH_RESULT_ITEMS				= "items";
+	public static final String JSON_KEY_SEARCH_RESULT_ITEM_DISPLAY_TEXT	= "displayText";
+	public static final String JSON_KEY_SEARCH_RESULT_ITEM_TYPE			= "itemType";
 }

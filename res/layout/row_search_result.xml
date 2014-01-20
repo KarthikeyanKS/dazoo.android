@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
+    android:layout_width="match_parent"
+    android:layout_height="20dp"
+    android:orientation="vertical" >
+    
+    <com.millicom.secondscreen.customviews.FontTextView
+        android:id="@+id/row_search_result_textview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="12sp"
+        android:textColor="@color/grey4"
+        font:fonttextview="roboto_mitv_medium.ttf" />
+
+</LinearLayout>

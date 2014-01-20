@@ -67,6 +67,7 @@ public class DazooCore {
 	private static ArrayList<String>	mMyChannelsIds		= new ArrayList<String>();
 	private static ArrayList<String>	mAllChannelsIds		= new ArrayList<String>();
 	private static ArrayList<String>	mDefaultChannelsIds	= new ArrayList<String>();
+	
 
 	// private constructor prevents instantiation from other classes
 	private DazooCore() {
@@ -266,7 +267,7 @@ public class DazooCore {
 			return null;
 		}
 	}
-	
+		
 	public static interface AppConfigurationCallback {
 		public void onAppConfigurationResult();
 	}

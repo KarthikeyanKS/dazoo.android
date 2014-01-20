@@ -24,7 +24,7 @@
     <string name="icon_heart"> 		&#x0398;</string>
     <string name="icon_live"> 		&#x0399;</string>
     <string name="icon_blocks"> 	&#x039A;</string>
-    <string name="icon_search"> 	&#xE812;</string>
+    <string name="icon_search"> 	&#x039B;</string>
     <string name="icon_settings"> 	&#x039C;</string>
 <!--     share should go here -->
     <string name="icon_twitter"> 	&#x039E;</string>
@@ -230,5 +230,10 @@
     <string name="check_popular">Check out Some Popular Shows</string>
     <string name="hello">Hello</string>
     <string name="popular">Popular</string>
+    
+    <!-- SEARCH PAGE -->
+    <string name="search_hint">Search</string>
+    <string name="search_page_instructions">Search for movies, series, sports events and channels</string>
+    
 
 </resources>

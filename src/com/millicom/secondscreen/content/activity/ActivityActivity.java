@@ -339,7 +339,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			// tab to activity page
 			Intent intentMe = new Intent(ActivityActivity.this, MyProfileActivity.class);
 			startActivity(intentMe);
-			
+						
 			break;
 		case R.id.activity_not_logged_in_facebook_container:
 			// facebook sign in

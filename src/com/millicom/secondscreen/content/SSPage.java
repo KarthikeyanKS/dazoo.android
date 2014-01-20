@@ -7,12 +7,12 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-import com.millicom.secondscreen.content.model.AdzerkAd;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Link;
 import com.millicom.secondscreen.content.model.ProgramType;
+import com.millicom.secondscreen.content.model.SearchResult;
 import com.millicom.secondscreen.content.model.Tag;
 import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.http.SSHttpClient;
@@ -24,7 +24,7 @@ import com.millicom.secondscreen.manager.ContentParser;
 public abstract class SSPage {
 
 	private static final String				TAG				= "SSPage";
-	private String 							mPageUrl;
+	protected String 							mPageUrl;
 	protected SSPageCallback				mPageCallback	= null;
 	private SSHttpClient<SSPageGetResult>	mHttpClient		= new SSHttpClient<SSPageGetResult>();
 	private ContentParser					mContentParser	= new ContentParser();
@@ -37,6 +37,7 @@ public abstract class SSPage {
 	private ArrayList<Tag>					mTags;
 	private Broadcast						mBroadcast;
 	private ArrayList<Broadcast>			mSeriesUpcomingBroadcasts;
+	private SearchResult					mSearchResult;
 	private ArrayList<Broadcast> mProgramBroadcasts;
 
 	public SSPage(String url) {
@@ -153,7 +154,15 @@ public abstract class SSPage {
 	public void parseGuide(JSONArray jsonArray) throws Exception {
 		this.mGuide = mContentParser.parseGuide(jsonArray);
 	}
+	
+	public void parseSearchResult(JSONObject jsonObject) throws Exception {
+		this.mSearchResult = mContentParser.parseSearchResult(jsonObject);
+	}
 
+	public SearchResult getSearchResult() {
+		return mSearchResult;
+	}
+	
 	public ArrayList<Guide> getGuide() {
 		return mGuide;
 	}

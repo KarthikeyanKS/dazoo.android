@@ -3,8 +3,8 @@
     package="com.millicom.secondscreen"
     android:installLocation="preferExternal"
     android:largeHeap="true"
-    android:versionCode="31"
-    android:versionName="1.0.31" >
+    android:versionCode="32"
+    android:versionName="1.0.32" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -72,10 +72,9 @@
         <!-- SEARCH PAGE -->
         <activity
             android:name="com.millicom.secondscreen.content.search.SearchPageActivity"
-            android:configChanges="keyboardHidden|orientation"
+            android:configChanges="keyboard|orientation"
             android:screenOrientation="portrait"
-    		android:icon="@drawable/ic_nav_bar"
-            android:theme="@style/Theme.AppCompat.Light" />
+            android:theme="@style/WhiteTitleActionBar" />
 
         <!-- LIKES -->
         <activity

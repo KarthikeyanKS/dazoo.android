@@ -77,7 +77,7 @@ public class TVHolderFragment extends Fragment {
 		mTags = DazooStore.getInstance().getTags();
 		
 		mViewPager = (ViewPager) v.findViewById(R.id.home_pager);
-	//	mViewPager.setOffscreenPageLimit(mTags.size()-1);
+		mViewPager.setOffscreenPageLimit(mTags.size());
 		mViewPager.setEnabled(false);
 		mPageTabIndicator = (TabPageIndicator) v.findViewById(R.id.home_indicator);
 		setAdapter(mTabSelectedIndex);

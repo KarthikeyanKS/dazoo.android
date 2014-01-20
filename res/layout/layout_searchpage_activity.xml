@@ -1,14 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <TextView
+    <com.millicom.secondscreen.customviews.FontEditText
+        android:id="@+id/search_page_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="15dp"
-        android:text="Here will be search page with suggestions"
+        android:hint="@string/search_hint"
         android:textSize="18sp" />
+
+    <LinearLayout
+        android:id="@+id/search_page_instruction_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="40dp"
+        android:layout_gravity="top|center_horizontal"
+        android:orientation="vertical" >
+
+        <com.millicom.secondscreen.customviews.FontTextView
+            android:id="@+id/search_page_search_icon_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/icon_search"
+            android:textColor="@color/grey2"
+            android:textSize="150sp"
+            font:fonttextview="roboto_mitv_medium.ttf" />
+
+        <com.millicom.secondscreen.customviews.FontTextView
+            android:id="@+id/search_page_instruction_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/search_page_instructions"
+            android:textColor="@color/grey2"
+            android:textSize="20sp"
+            font:fonttextview="roboto_mitv_medium.ttf" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/search_page_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
 </LinearLayout>
