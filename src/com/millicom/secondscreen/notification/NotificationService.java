@@ -170,8 +170,10 @@ public class NotificationService {
 			.setLargeIcon(largeIcon)
 			.setContentTitle(broadcastName)
 			.setContentText(DateUtilities.timeToTimeString(DateUtilities.convertTimeStampToLocalTime(DateUtilities.isoStringToLong(broadcastTime))) + " " +channelName)
-					.setContentIntent(PendingIntent.getActivity(context, 0, broadcastPageIntent, 0))
-					.setAutoCancel(true).setWhen(System.currentTimeMillis()).setDefaults(Notification.DEFAULT_ALL); // default sound, vibration, light
+			.setContentIntent(PendingIntent.getActivity(context, 1, broadcastPageIntent, PendingIntent.FLAG_UPDATE_CURRENT))
+			.setAutoCancel(true)
+			.setWhen(System.currentTimeMillis())
+			.setDefaults(Notification.DEFAULT_ALL); // default sound, vibration, light
 			notificationManager.notify(notificationId, notificationBuilder.build());
 		} catch (ParseException e) {
 			e.printStackTrace();
