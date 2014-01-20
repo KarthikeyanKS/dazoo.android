@@ -51,6 +51,7 @@
                 android:singleLine="false"
                 android:textColor="@color/grey3"
                 android:textSize="14sp"
+                android:ellipsize="none"
                 font:fonttextview="roboto_mitv_medium.ttf" />
         </RelativeLayout>
     </LinearLayout>

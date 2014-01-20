@@ -2,6 +2,7 @@ package com.millicom.secondscreen.adapters;
 
 import java.util.ArrayList;
 
+import android.R.integer;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -18,6 +19,8 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -31,6 +34,7 @@ import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Program;
 import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.tvguide.ChannelPageActivity;
+import com.millicom.secondscreen.customviews.SwipeClockBar;
 import com.millicom.secondscreen.manager.AppConfigurationManager;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -48,6 +52,7 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 	private int					mHour, mCurrentHour;
 	private boolean				mIsToday;
 	private int 				screenWidth;
+	private int 				rowWidth = -1;
 
 	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
@@ -61,14 +66,14 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 		
 		Display display = activity.getWindowManager().getDefaultDisplay();
 		
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-			Point size = new Point();
-			display.getSize(size);
-			screenWidth = size.x;
-		} 
-		else {
-			screenWidth = display.getWidth();
-		}
+//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+//			Point size = new Point();
+//			display.getSize(size);
+//			screenWidth = size.x;
+//		} 
+//		else {
+//			screenWidth = display.getWidth();
+//		}
 	}
 	
 	@Override
@@ -91,7 +96,30 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 			rowView.setTag(viewHolder);
 		}
 		
-		ViewHolder holder = (ViewHolder) rowView.getTag();
+		final ViewHolder holder = (ViewHolder) rowView.getTag();
+		
+		if (rowWidth < 0) {
+			/*
+			 * Start the view as invisible, when the height is known, update the
+			 * height of each row and change visibility to visible
+			 */
+			holder.mTextView.setVisibility(View.INVISIBLE);
+			holder.mTextView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+	
+				@Override
+				public void onGlobalLayout() {
+					// gets called after layout has been done but before it gets displayed, so we can get the height of the view
+					int width = holder.mTextView.getWidth();
+					TVGuideListAdapter timeListAdapter = ((TVGuideListAdapter) TVGuideListAdapter.this);
+					timeListAdapter.setRowWidth(width);
+					timeListAdapter.notifyDataSetChanged();
+	
+					SwipeClockBar.removeOnGlobalLayoutListener(holder.mTextView, this);
+					holder.mTextView.setVisibility(View.VISIBLE);
+				}
+	
+			});
+		}
 
 		final Guide guide = getItem(position);
 
@@ -156,20 +184,26 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 					TextPaint testPaint = holder.mTextView.getPaint();
 					float textWidth = testPaint.measureText(rowInfo);
 					int limitIndex = rowInfo.length()-1;
-					int maxTextWidth = (int)(0.5d*screenWidth);
+					int maxTextWidth;
+//					int maxTextWidth =  = (int)(0.5d*screenWidth);
 					boolean deletedChars = false;
 					
-					/* Calculate max amount of characters that fits */
-					while (textWidth > maxTextWidth && limitIndex > 0) {
-						deletedChars = true;
-						limitIndex--;
-						rowInfo = rowInfo.substring(0, limitIndex);
-						textWidth = testPaint.measureText(rowInfo);
-					}
+					if (rowWidth > 0) {
+						maxTextWidth = rowWidth;
 					
-					String ellipsisString = "...";
-					if (deletedChars) {
-						rowInfo = rowInfo.replace(rowInfo.substring(limitIndex-3, rowInfo.length()), ellipsisString);
+					
+						/* Calculate max amount of characters that fits */
+						while (textWidth > maxTextWidth && limitIndex > 0) {
+							deletedChars = true;
+							limitIndex--;
+							rowInfo = rowInfo.substring(0, limitIndex);
+							textWidth = testPaint.measureText(rowInfo);
+						}
+						
+						String ellipsisString = "...";
+						if (deletedChars) {
+							rowInfo = rowInfo.replace(rowInfo.substring(limitIndex-3, rowInfo.length()), ellipsisString);
+						}
 					}
 
 					if (broadcast.isRunning()) {
@@ -218,5 +252,18 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 
 		SecondScreenApplication.getInstance().setSelectedHour(mHour);
 		notifyDataSetChanged();
+	}
+	
+	public void setRowWidth(int width) {
+		this.rowWidth = width;
+	}
+	
+	@SuppressLint("NewApi")
+	public static void removeOnGlobalLayoutListener(View v, ViewTreeObserver.OnGlobalLayoutListener listener) {
+		if (Build.VERSION.SDK_INT < 16) {
+			v.getViewTreeObserver().removeGlobalOnLayoutListener(listener);
+		} else {
+			v.getViewTreeObserver().removeOnGlobalLayoutListener(listener);
+		}
 	}
 }
