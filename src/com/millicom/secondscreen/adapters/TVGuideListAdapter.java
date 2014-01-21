@@ -86,7 +86,7 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 		}
 		
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
-		
+		holder.mTextView.setVisibility(View.INVISIBLE);
 		if (rowWidth < 0) {
 			/*
 			 * Start the view as invisible, when the height is known, update the
@@ -173,8 +173,10 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 					TextPaint testPaint = holder.mTextView.getPaint();
 					float textWidth = testPaint.measureText(rowInfo);
 					int limitIndex = rowInfo.length() - 1;
-
+					
 					boolean deletedChars = false;
+					
+					String toShow = "";
 					
 					if (rowWidth > 0) {
 						int maxTextWidth = rowWidth;
@@ -191,14 +193,16 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 						if (deletedChars) {
 							rowInfo = rowInfo.replace(rowInfo.substring(limitIndex-3, rowInfo.length()), ellipsisString);
 						}
+						holder.mTextView.setVisibility(View.VISIBLE);
+						toShow = rowInfo;
 					}
 
 					if (broadcast.isRunning()) {
 						textStartIndexToMarkAsOngoing = textForThreeBroadcasts.length();
-						textIndexToMarkAsOngoing = textForThreeBroadcasts.length() + rowInfo.length();
+						textIndexToMarkAsOngoing = textForThreeBroadcasts.length() + toShow.length();
 					}
 					
-					textForThreeBroadcasts += rowInfo + "\n";
+					textForThreeBroadcasts += toShow + "\n";
 				}
 				
 				Spannable wordtoSpan = new SpannableString(textForThreeBroadcasts);     
