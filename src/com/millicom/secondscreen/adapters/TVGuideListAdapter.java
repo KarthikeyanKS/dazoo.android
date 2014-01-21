@@ -63,17 +63,6 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 		this.mDate = date;
 		this.mHour = hour;
 		this.mIsToday = isToday;
-		
-		Display display = activity.getWindowManager().getDefaultDisplay();
-		
-//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-//			Point size = new Point();
-//			display.getSize(size);
-//			screenWidth = size.x;
-//		} 
-//		else {
-//			screenWidth = display.getWidth();
-//		}
 	}
 	
 	@Override
@@ -110,11 +99,11 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 				public void onGlobalLayout() {
 					// gets called after layout has been done but before it gets displayed, so we can get the height of the view
 					int width = holder.mTextView.getWidth();
-					TVGuideListAdapter timeListAdapter = ((TVGuideListAdapter) TVGuideListAdapter.this);
-					timeListAdapter.setRowWidth(width);
-					timeListAdapter.notifyDataSetChanged();
-	
-					SwipeClockBar.removeOnGlobalLayoutListener(holder.mTextView, this);
+					TVGuideListAdapter guideListAdapter = ((TVGuideListAdapter) TVGuideListAdapter.this);
+					guideListAdapter.setRowWidth(width);
+					guideListAdapter.notifyDataSetChanged();
+
+					TVGuideListAdapter.removeOnGlobalLayoutListener(holder.mTextView, this);
 					holder.mTextView.setVisibility(View.VISIBLE);
 				}
 	
@@ -183,14 +172,12 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 					
 					TextPaint testPaint = holder.mTextView.getPaint();
 					float textWidth = testPaint.measureText(rowInfo);
-					int limitIndex = rowInfo.length()-1;
-					int maxTextWidth;
-//					int maxTextWidth =  = (int)(0.5d*screenWidth);
+					int limitIndex = rowInfo.length() - 1;
+
 					boolean deletedChars = false;
 					
 					if (rowWidth > 0) {
-						maxTextWidth = rowWidth;
-					
+						int maxTextWidth = rowWidth;
 					
 						/* Calculate max amount of characters that fits */
 						while (textWidth > maxTextWidth && limitIndex > 0) {
@@ -233,7 +220,7 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		/* Superclass AdListAdapter will create view if this is a position of an ad. */
 		View rowView = super.getView(position, convertView, parent);
-		
+
 		if(rowView == null) {
 			rowView = getViewForGuideCell(position, convertView, parent);
 		}
