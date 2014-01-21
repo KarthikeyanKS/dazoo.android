@@ -3,8 +3,8 @@
     package="com.millicom.secondscreen"
     android:installLocation="preferExternal"
     android:largeHeap="true"
-    android:versionCode="32"
-    android:versionName="1.0.32" >
+    android:versionCode="33"
+    android:versionName="1.0.33" >
 
     <uses-sdk
         android:minSdkVersion="8"

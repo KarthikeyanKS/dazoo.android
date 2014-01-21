@@ -14,6 +14,7 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.Layout.Alignment;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -117,13 +118,12 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 				TimeListAdapter timeListAdapter = ((TimeListAdapter) SwipeClockBar.this.timeListView.getAdapter());
 				timeListAdapter.setListViewHeight(selfHeigt);
 				timeListAdapter.notifyDataSetChanged();
-
+				
 				SwipeClockBar.removeOnGlobalLayoutListener(SwipeClockBar.this, this);
 				SwipeClockBar.this.setVisibility(View.VISIBLE);
 			}
 
 		});
-
 
 	}
 
