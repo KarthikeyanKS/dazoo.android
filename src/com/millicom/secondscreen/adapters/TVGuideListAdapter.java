@@ -193,7 +193,6 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 						if (deletedChars) {
 							rowInfo = rowInfo.replace(rowInfo.substring(limitIndex-3, rowInfo.length()), ellipsisString);
 						}
-						holder.mTextView.setVisibility(View.VISIBLE);
 						toShow = rowInfo;
 					}
 
@@ -204,6 +203,7 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 					
 					textForThreeBroadcasts += toShow + "\n";
 				}
+				holder.mTextView.setVisibility(View.VISIBLE);
 				
 				Spannable wordtoSpan = new SpannableString(textForThreeBroadcasts);     
 				

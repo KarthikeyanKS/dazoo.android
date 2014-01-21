@@ -210,7 +210,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 			ViewHolder holder = (ViewHolder) rowView.getTag();
 
 			final int hour = (Integer) getItem(position);
-
+			rowView.setVisibility(View.INVISIBLE);
 			// Set the text
 			String hourString = String.format("%02d", hour);
 			holder.textView.setText(hourString);
@@ -284,6 +284,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 					/* Already calculated text size, use the saved value */
 					holder.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, savedTextSize);
 				}
+				rowView.setVisibility(View.VISIBLE);
 			}
 
 			return rowView;
