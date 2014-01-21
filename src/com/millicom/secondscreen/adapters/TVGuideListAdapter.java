@@ -202,8 +202,9 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 					}
 					
 					textForThreeBroadcasts += toShow + "\n";
+					
+					holder.mTextView.setVisibility(View.VISIBLE);
 				}
-				holder.mTextView.setVisibility(View.VISIBLE);
 				
 				Spannable wordtoSpan = new SpannableString(textForThreeBroadcasts);     
 				
