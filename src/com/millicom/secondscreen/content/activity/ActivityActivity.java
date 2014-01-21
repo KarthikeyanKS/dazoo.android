@@ -8,7 +8,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.IllegalFormatCodePointException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,47 +31,38 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import android.R.integer;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.Toast;
 
-import com.google.analytics.tracking.android.EasyTracker;
-import com.millicom.secondscreen.Consts.REQUEST_STATUS;
+import com.actionbarsherlock.app.ActionBar;
 import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.adapters.ActivityFeedAdapter;
 import com.millicom.secondscreen.authentication.DazooLoginActivity;
 import com.millicom.secondscreen.authentication.FacebookLoginActivity;
-import com.millicom.secondscreen.authentication.SignInActivity;
 import com.millicom.secondscreen.authentication.SignUpActivity;
 import com.millicom.secondscreen.content.SSActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.model.FeedItem;
 import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
-import com.millicom.secondscreen.content.search.SearchPageActivity;
 import com.millicom.secondscreen.http.NetworkUtils;
 import com.millicom.secondscreen.manager.ContentParser;
 import com.millicom.secondscreen.manager.LoginManager;
@@ -295,29 +285,6 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			// Show/hide the scroll spinner
 			mListFooterView.setVisibility(aShow ? View.VISIBLE : View.GONE);
 		}
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle presses on the action bar items
-		switch (item.getItemId()) {
-		// hide search for beta release
-		// case R.id.menu_search:
-		// Intent toSearchPage = new Intent(ActivityActivity.this, SearchPageActivity.class);
-		// startActivity(toSearchPage);
-		// 
-		// return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu items for use in the action bar
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu_homepage, menu);
-		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override

@@ -6,11 +6,11 @@ import android.content.pm.ActivityInfo;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -19,7 +19,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.analytics.tracking.android.EasyTracker;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.R;
@@ -30,6 +29,7 @@ import com.millicom.secondscreen.authentication.SignUpActivity;
 import com.millicom.secondscreen.content.SSActivity;
 import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
+import com.millicom.secondscreen.content.search.SearchPageActivity;
 import com.millicom.secondscreen.notification.NotificationDataSource;
 import com.millicom.secondscreen.storage.DazooStore;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -195,29 +195,6 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 			mMyProfileContainer.setVisibility(View.GONE);
 			mSigninContainer.setVisibility(View.VISIBLE);
 		}
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle presses on the action bar items
-		switch (item.getItemId()) {
-		// hide search for beta release
-		// case R.id.menu_search:
-		// Intent toSearchPage = new Intent(MyProfileActivity.this, SearchPageActivity.class);
-		// startActivity(toSearchPage);
-		// 
-		// return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu items for use in the action bar
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu_homepage, menu);
-		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override

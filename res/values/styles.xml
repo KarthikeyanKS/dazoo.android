@@ -17,7 +17,7 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
-    <style name="ChannelPage" parent="@style/Theme.AppCompat.Light">
+    <style name="ChannelPage" parent="@style/Theme.Sherlock.Light">
         <item name="android:actionDropDownStyle" tools:ignore="NewApi">@style/ActionBarDropDown</item>
         <item name="android:homeAsUpIndicator" tools:ignore="NewApi">@drawable/ic_up_indicator</item>
         <item name="homeAsUpIndicator">@drawable/ic_up_indicator</item>
@@ -26,7 +26,7 @@
         <item name="android:icon">@drawable/ic_nav_bar</item>
     </style>
 
-    <style name="HomePage" parent="@style/Theme.AppCompat.Light">
+    <style name="HomePage" parent="@style/Theme.Sherlock.Light">
         <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
         <item name="android:actionDropDownStyle" tools:ignore="NewApi">@style/ActionBarDropDown</item>
         
@@ -34,7 +34,7 @@
         <item name="android:windowAnimationStyle">@null</item>
     </style>
 
-    <style name="ActionBarDropDown" parent="Widget.AppCompat.Light.Spinner.DropDown.ActionBar">
+    <style name="ActionBarDropDown" parent="@style/Widget.Sherlock.Light.Spinner.DropDown.ActionBar">
         <item name="android:popupBackground">@color/grey1</item>
         <item name="android:dropDownSelector">@color/grey1</item>
         <item name="android:background">@drawable/actionbar_spinner_arrow_selector</item>
@@ -42,7 +42,7 @@
     
     <!-- ACTIONBAR WITH BOLD WHITE TITLE -->
 
-    <style name="WhiteTitleActionBar" parent="@style/Theme.AppCompat.Light">
+    <style name="WhiteTitleActionBar" parent="@style/Theme.Sherlock.Light">
         <item name="android:homeAsUpIndicator" tools:ignore="NewApi">@drawable/ic_up_indicator</item>
         <item name="android:actionBarStyle" tools:ignore="NewApi">@style/WhiteActionBar</item>
 
@@ -56,14 +56,14 @@
         <item name="homeAsUpIndicator">@drawable/ic_up_indicator</item>
     </style>
 
-    <style name="WhiteActionBar" parent="@style/Widget.AppCompat.ActionBar">
+    <style name="WhiteActionBar" parent="@style/Widget.Sherlock.ActionBar">
         <item name="android:titleTextStyle" tools:ignore="NewApi">@style/WhiteActionBarTitleText</item>
 
         <!-- Support library compatibility -->
         <item name="titleTextStyle">@style/WhiteActionBarTitleText</item>
     </style>
 
-    <style name="WhiteActionBarTitleText" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+    <style name="WhiteActionBarTitleText" parent="@style/TextAppearance.Sherlock.Widget.ActionBar.Title">
         <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">bold</item>
     </style>

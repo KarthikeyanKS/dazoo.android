@@ -1,5 +1,6 @@
 package com.millicom.secondscreen;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -14,6 +15,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 import android.view.Display;
+import android.view.ViewConfiguration;
 import android.view.WindowManager;
 
 import com.google.analytics.tracking.android.Fields;
@@ -165,6 +167,21 @@ public class SecondScreenApplication extends Application {
 //		.writeDebugLogs()
 		.build();
 		ImageLoader.getInstance().init(config);
+		
+		getOverflowMenu();
+	}
+	
+	private void getOverflowMenu() {
+	     try {
+	        ViewConfiguration config = ViewConfiguration.get(this);
+	        Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+	        if(menuKeyField != null) {
+	            menuKeyField.setAccessible(true);
+	            menuKeyField.setBoolean(config, false);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 	}
 
 	/**
