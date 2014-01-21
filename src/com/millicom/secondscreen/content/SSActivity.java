@@ -1,21 +1,26 @@
 package com.millicom.secondscreen.content;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
+import com.millicom.secondscreen.content.search.SearchPageActivity;
 import com.millicom.secondscreen.http.NetworkUtils;
 
-public abstract class SSActivity extends ActionBarActivity {
+public abstract class SSActivity extends SherlockFragmentActivity {
 
 	private static final String	TAG	= "SSActivity";
 	private EasyTracker tracker;
@@ -44,6 +49,30 @@ public abstract class SSActivity extends ActionBarActivity {
 		this.tracker = EasyTracker.getInstance(this);
 		tracker.activityStart(this);
 	};
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu items for use in the action bar
+		MenuInflater inflater = getSupportMenuInflater();
+		inflater.inflate(R.menu.menu_homepage, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle presses on the action bar items
+
+		// hide search for beta release
+		switch (item.getItemId()) {
+		case R.id.menu_search:
+			Intent toSearchPage = new Intent(SSActivity.this, SearchPageActivity.class);
+			startActivity(toSearchPage);
+
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
 	
 	@Override
 	protected void onStop() {

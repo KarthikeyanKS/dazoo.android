@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:dazoo = "http://schemas.android.com/apk/res/com.millicom.secondscreen">
+    xmlns:dazoo="http://schemas.android.com/apk/res/com.millicom.secondscreen" >
+
+    <item
+        android:id="@+id/menu_search"
+        android:icon="@drawable/ic_action_search"
+        android:showAsAction="ifRoom"
+        android:title="@string/search_hint"/>
     
-    
-   <!-- HIDE THE SEARCH ICON FOR THE BETA RELEASE -->
-    <!--  item android:id="@+id/menu_search"
-          android:title="Search"
-          android:icon="@drawable/ic_action_search"
-          dazoo:showAsAction="always" /-->
 </menu>

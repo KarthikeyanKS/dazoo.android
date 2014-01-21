@@ -1,16 +1,15 @@
 package com.millicom.secondscreen.content;
 
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
-import com.millicom.secondscreen.http.NetworkUtils;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
+import com.millicom.secondscreen.http.NetworkUtils;
 
 public abstract class SSPageFragmentActivity extends SSActivity {
 
