@@ -1,6 +1,10 @@
 package com.millicom.secondscreen.content.search;
 
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 import android.content.Context;
 import android.content.pm.ActivityInfo;
@@ -34,12 +38,15 @@ public class SearchPageActivity extends SSActivity implements TextWatcher, OnEdi
 	private static final String TAG = "SearchPageActivity";
 
 	private int SEARCH_DELAY = 1000;
+	private int MINIMUM_NUMBER_OF_CHARS_REQUIRED_FOR_SEARCH = 2;
 	private Handler mHandler;
 	private FontEditText mSearchBar;
 	private ListView mListView;
 	private SearchPageListAdapter mListAdapter;
 	private LinearLayout mSearchInstructionsContainer;
 	private SearchTask mSearchTask;
+	private ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+	private ScheduledFuture<?> pendingQuery;
 	private boolean mCancelSearch;
 
 	@Override
@@ -71,7 +78,7 @@ public class SearchPageActivity extends SSActivity implements TextWatcher, OnEdi
 
 		mSearchInstructionsContainer = (LinearLayout) findViewById(R.id.search_page_instruction_container);
 		mSearchBar = (FontEditText) findViewById(R.id.search_page_edittext);
-		// mSearchBar.addTextChangedListener(this);
+		 mSearchBar.addTextChangedListener(this);
 		mSearchBar.setOnEditorActionListener(this);
 
 		mListView = (ListView) findViewById(R.id.search_page_listview);
@@ -174,6 +181,33 @@ public class SearchPageActivity extends SSActivity implements TextWatcher, OnEdi
 			mListView.setVisibility(View.VISIBLE);
 		}
 	}
+	
+	public void search(final String searchQuery){
+		
+		if (pendingQuery != null && !pendingQuery.isDone()) {
+			pendingQuery.cancel(false);
+		}
+		
+		if (searchQuery == null || searchQuery.length() < MINIMUM_NUMBER_OF_CHARS_REQUIRED_FOR_SEARCH) {
+//			resetView();
+//			hideButtons(mProgressBar);
+		} else {
+//			hideButtons(mEditTextClearBtn);
+			pendingQuery = executor.schedule(query(searchQuery), SEARCH_DELAY, TimeUnit.MILLISECONDS);
+			
+		}
+	}
+	
+	private Runnable query(final String inputQuery) {
+		return new Runnable() {
+			
+			@Override
+			public void run() {				
+				initSearchTask();
+				mSearchTask.execute();
+			}
+		};
+	}
 
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
 
@@ -183,16 +217,16 @@ public class SearchPageActivity extends SSActivity implements TextWatcher, OnEdi
 	}
 
 	public void afterTextChanged(Editable s) {
-		if (s != null && s.length() > 0) {
-
-			// stop any current search thread
-			if (mSearchTask != null && !mSearchTask.isCancelled()) {
-				mSearchTask.cancel(true);
-				Log.e(TAG, "Cancel search task");
-			}
-			initSearchTask();
-			trySearch();
-		}
+//
+//			// stop any current search thread
+//			if (mSearchTask != null && !mSearchTask.isCancelled()) {
+//				mSearchTask.cancel(true);
+//				Log.e(TAG, "Cancel search task");
+//			}
+//			initSearchTask();
+//			trySearch();
+			String searchWord = s.toString();
+			search(searchWord);
 	}
 
 	@Override

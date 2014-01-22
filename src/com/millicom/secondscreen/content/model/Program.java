@@ -184,8 +184,10 @@ public class Program implements Parcelable {
 		} else if ((Consts.DAZOO_PROGRAM_TYPE_SPORT).equals(programType)) {
 			this.setTournament(jsonProgram.optString(Consts.DAZOO_PROGRAM_TOURNAMENT));
 			JSONObject sportTypeJSON = jsonProgram.optJSONObject(Consts.DAZOO_PROGRAM_SPORTTYPE);
-			SportType sportType = new SportType(sportTypeJSON);
-			this.setSportType(sportType);
+			if (sportTypeJSON != null) {
+				SportType sportType = new SportType(sportTypeJSON);
+				this.setSportType(sportType);
+			}
 		} else if ((Consts.DAZOO_PROGRAM_TYPE_OTHER).equals(programType)) {
 			this.setCategory(jsonProgram.optString(Consts.DAZOO_PROGRAM_CATEGORY));
 		}
