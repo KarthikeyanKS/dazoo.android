@@ -283,9 +283,8 @@ public class ContentParser {
 		return feedItem;
 	}
 
-	public ArrayList<Broadcast> parseSeriesUpcomingBroadcasts(JSONArray jsonArray) {
-		ArrayList<Broadcast> seriesUpcomingBroadcasts = new ArrayList<Broadcast>();
-
+	public static ArrayList<Broadcast> parseBroadcasts(JSONArray jsonArray) {
+		ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
 		int size = jsonArray.length();
 		for (int i = 0; i < size; i++) {
 			JSONObject jsonObject;
@@ -293,27 +292,7 @@ public class ContentParser {
 				jsonObject = jsonArray.getJSONObject(i);
 				if (jsonObject != null) {
 					Broadcast broadcast = parseBroadcast(jsonObject);
-					seriesUpcomingBroadcasts.add(broadcast);
-				}
-			} catch (JSONException e) {
-				e.printStackTrace();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return seriesUpcomingBroadcasts;
-	}
-
-	public ArrayList<Broadcast> parseProgramBroadcasts(JSONArray jsonArray) {
-		ArrayList<Broadcast> programBroadcasts = new ArrayList<Broadcast>();
-		int size = jsonArray.length();
-		for (int i = 0; i < size; i++) {
-			JSONObject jsonObject;
-			try {
-				jsonObject = jsonArray.getJSONObject(i);
-				if (jsonObject != null) {
-					Broadcast broadcast = parseBroadcast(jsonObject);
-					programBroadcasts.add(broadcast);
+					broadcasts.add(broadcast);
 
 				}
 			} catch (JSONException e) {
@@ -322,6 +301,6 @@ public class ContentParser {
 				e.printStackTrace();
 			}
 		}
-		return programBroadcasts;
+		return broadcasts;
 	}
 }
