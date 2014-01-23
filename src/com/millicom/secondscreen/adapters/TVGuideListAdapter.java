@@ -2,20 +2,16 @@ package com.millicom.secondscreen.adapters;
 
 import java.util.ArrayList;
 
-import android.R.integer;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Point;
 import android.os.Build;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextPaint;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +20,6 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
@@ -34,8 +29,6 @@ import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.Program;
 import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.tvguide.ChannelPageActivity;
-import com.millicom.secondscreen.customviews.SwipeClockBar;
-import com.millicom.secondscreen.manager.AppConfigurationManager;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;

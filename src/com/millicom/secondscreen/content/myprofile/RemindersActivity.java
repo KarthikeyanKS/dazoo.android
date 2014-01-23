@@ -2,29 +2,21 @@ package com.millicom.secondscreen.content.myprofile;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import android.support.v7.app.ActionBar;
+import android.view.MenuItem;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.R;
@@ -34,10 +26,7 @@ import com.millicom.secondscreen.content.SSActivity;
 import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.model.Broadcast;
-import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.NotificationDbItem;
-import com.millicom.secondscreen.content.model.Program;
-import com.millicom.secondscreen.content.model.Season;
 import com.millicom.secondscreen.notification.NotificationDataSource;
 
 public class RemindersActivity extends SSActivity implements RemindersCountInterface, OnClickListener {

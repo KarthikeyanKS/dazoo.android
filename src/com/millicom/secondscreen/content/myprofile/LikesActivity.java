@@ -6,19 +6,15 @@ import java.util.Collections;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.text.SpannableString;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
@@ -30,7 +26,6 @@ import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.content.model.DazooLike;
 import com.millicom.secondscreen.like.LikeService;
-import com.millicom.secondscreen.storage.DazooStore;
 
 public class LikesActivity extends SSActivity implements LikesCountInterface, OnClickListener {
 

@@ -39,6 +39,7 @@ import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.Guide;
 import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
+import com.millicom.secondscreen.content.search.SearchPageActivity;
 import com.millicom.secondscreen.manager.DazooCore;
 import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.DateUtilities;
@@ -317,29 +318,6 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu items for use in the action bar
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu_homepage, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle presses on the action bar items
-		switch (item.getItemId()) {
-		// hide search for beta release
-		// case R.id.menu_search:
-		// Intent toSearchPage = new Intent(ChannelPageActivity.this, SearchPageActivity.class);
-		// startActivity(toSearchPage);
-		// 
-		// return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
 	}
 
 	@Override

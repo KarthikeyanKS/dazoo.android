@@ -1,5 +1,6 @@
 package com.millicom.secondscreen;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -12,8 +13,10 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.util.Log;
 import android.view.Display;
+import android.view.ViewConfiguration;
 import android.view.WindowManager;
 
 import com.google.analytics.tracking.android.Fields;
@@ -30,12 +33,16 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.utils.L;
+
 //import com.testflightapp.lib.TestFlight;
 
 public class SecondScreenApplication extends Application {
 
 	private static final String				TAG								= "SecondScreenApplication";
 
+	private static String userAgent;
+	private static String session;
 	private static SecondScreenApplication	sInstance						= null;
 
 	public static int						sImageSizeThumbnailWidth		= 0;
@@ -66,7 +73,68 @@ public class SecondScreenApplication extends Application {
 
 	public SecondScreenApplication() {
 	}
+	/**
+	 * Get/Set User session from saved preferences
+	 * 
+	 * @return
+	 */
+	public static String getSession() {
+		
+		Log.i("SESSION", "Get stored session");
+		if (session == null) {
+			session = sSharedPreferences.getString(Consts.MILLICOM_SESSION, null);
+		}
+		Log.i("SESSION", "Session: " + session);
+		return session;
+	}
 
+	public static void setSession(String session) {
+		
+		Log.i("SESSION", "Save cookie session");
+		SecondScreenApplication.session = session;
+		if (sSharedPreferences != null) {
+			sSharedPreferences.edit().putString(Consts.MILLICOM_SESSION, session).commit();
+		}
+	}
+
+	/**
+	 * Get default user agent
+	 * 
+	 * @return
+	 */
+	public static String getUserAgent() {
+		if (userAgent == null) {
+			userAgent = getDefaultUserAgent();
+		}
+		return userAgent;
+	}
+
+	private static String getDefaultUserAgent() {
+		StringBuilder result = new StringBuilder(64);
+		result.append("Dalvik/");
+		result.append(System.getProperty("java.vm.version")); // such as 1.1.0
+		result.append(" (Linux; U; Android ");
+
+		String version = Build.VERSION.RELEASE; // "1.0" or "3.4b5"
+		result.append(version.length() > 0 ? version : "1.0");
+
+		// add the model for the release build
+		if ("REL".equals(Build.VERSION.CODENAME)) {
+			String model = Build.MODEL;
+			if (model.length() > 0) {
+				result.append("; ");
+				result.append(model);
+			}
+		}
+		String id = Build.ID; // "MASTER" or "M4-rc20"
+		if (id.length() > 0) {
+			result.append(" Build/");
+			result.append(id);
+		}
+		result.append(")");
+		return result.toString();
+	}
+	
 	public static SecondScreenApplication getInstance() {
 		if (sInstance == null) {
 			sInstance = new SecondScreenApplication();
@@ -165,6 +233,24 @@ public class SecondScreenApplication extends Application {
 //		.writeDebugLogs()
 		.build();
 		ImageLoader.getInstance().init(config);
+		
+
+		L.disableLogging();
+		
+//		getOverflowMenu();
+	}
+	
+	private void getOverflowMenu() {
+	     try {
+	        ViewConfiguration config = ViewConfiguration.get(this);
+	        Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+	        if(menuKeyField != null) {
+	            menuKeyField.setAccessible(true);
+	            menuKeyField.setBoolean(config, false);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 	}
 
 	/**

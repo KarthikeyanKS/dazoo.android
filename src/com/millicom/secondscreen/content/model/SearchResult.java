@@ -6,6 +6,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 import com.millicom.secondscreen.Consts;
 
 public class SearchResult {
@@ -20,7 +22,7 @@ public class SearchResult {
 
 		ArrayList<SearchResultItem> items = new ArrayList<SearchResultItem>();
 		try {
-			JSONArray itemsJson = jsonObject.getJSONArray(Consts.JSON_KEY_SEARCH_RESULT_ITEMS);
+			JSONArray itemsJson = jsonObject.getJSONArray(Consts.JSON_KEY_SEARCH_RESULT_RESULTS);
 			if (itemsJson != null) {
 				if (itemsJson.length() > 0) {
 					JSONObject contentsObject;
@@ -33,11 +35,14 @@ public class SearchResult {
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
+		} catch (NullPointerException e) {
+			e.printStackTrace();
 		}
 		
 		this.setSuggestion(suggestion);
 		this.setNumberOfResults(numberOfResults);
 		this.setItems(items);
+	
 	}
 
 	public String getSuggestion() {

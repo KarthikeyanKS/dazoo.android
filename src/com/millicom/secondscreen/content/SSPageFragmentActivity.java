@@ -1,16 +1,15 @@
 package com.millicom.secondscreen.content;
 
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
-import com.millicom.secondscreen.http.NetworkUtils;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
+import com.millicom.secondscreen.http.NetworkUtils;
 
 public abstract class SSPageFragmentActivity extends SSActivity {
 
@@ -89,15 +88,20 @@ public abstract class SSPageFragmentActivity extends SSActivity {
 
 		mRequestFailedLayout = (RelativeLayout) findViewById(R.id.request_failed_main_layout);
 		mRequestFailedButton = (Button) findViewById(R.id.request_failed_reload_button);
-		mRequestFailedButton.setOnClickListener(mOnRequestFailedClickListener);
-
+		if(mRequestFailedButton != null) {
+			mRequestFailedButton.setOnClickListener(mOnRequestFailedClickListener);
+		}
+		
 		mRequestLoadingLayout = (RelativeLayout) findViewById(R.id.request_loading_main_layout);
 
 		mRequestEmptyLayout = (RelativeLayout) findViewById(R.id.request_empty_main_layout);
 
 		mRequestBadLayout = (RelativeLayout) findViewById(R.id.bad_request_main_layout);
 		mRequestBadButton = (Button) findViewById(R.id.bad_request_reload_button);
-		mRequestBadButton.setOnClickListener(mOnRequestFailedClickListener);
+		
+		if(mRequestBadButton != null) {
+			mRequestBadButton.setOnClickListener(mOnRequestFailedClickListener);
+		}
 	}
 
 	OnClickListener	mOnRequestFailedClickListener	= new OnClickListener() {

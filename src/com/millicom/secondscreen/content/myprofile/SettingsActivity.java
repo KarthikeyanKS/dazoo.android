@@ -1,5 +1,17 @@
 package com.millicom.secondscreen.content.myprofile;
 
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import android.support.v7.app.ActionBar;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.R;
@@ -7,31 +19,7 @@ import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.content.SSActivity;
 import com.millicom.secondscreen.content.activity.ActivityActivity;
 import com.millicom.secondscreen.content.homepage.HomeActivity;
-import com.millicom.secondscreen.manager.DazooCore;
 import com.millicom.secondscreen.manager.LoginManager;
-import com.millicom.secondscreen.storage.DazooStore;
-
-import android.app.Activity;
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.res.Configuration;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.text.SpannableString;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class SettingsActivity extends SSActivity implements OnClickListener {
 
