@@ -5,32 +5,25 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <com.millicom.secondscreen.customviews.FontEditText
-        android:id="@+id/search_page_edittext"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/search_hint"
-        android:singleLine="true"
-        android:imeOptions="actionSearch"
-        android:inputType="text"
-        android:textSize="18sp" />
-
     <LinearLayout
         android:id="@+id/search_page_instruction_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="40dp"
         android:layout_gravity="top|center_horizontal"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp" >
 
         <com.millicom.secondscreen.customviews.FontTextView
             android:id="@+id/search_page_search_icon_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="-20dp"
+            android:layout_marginTop="-30dp"
             android:gravity="center"
             android:text="@string/icon_search"
             android:textColor="@color/grey2"
-            android:textSize="150sp"
+            android:textSize="140sp"
             font:fonttextview="roboto_mitv_medium.ttf" />
 
         <com.millicom.secondscreen.customviews.FontTextView

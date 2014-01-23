@@ -15,6 +15,8 @@ public abstract class Consts {
 
 	public static final Charset	UTF8_CHARSET												= Charset.forName("UTF-8");
 
+	public static final String MILLICOM_SESSION												= "com.millicom.session";
+	
 	/* Shared preferences */
 	public static final String	SHARED_PREFS_MAIN_NAME										= "com.millicom.secondscreen.shared.prefs";
 	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_ACCESS_TOKEN				= "com.millicom.secondscreen.user.account.access.token";

@@ -1,96 +1,251 @@
 package com.millicom.secondscreen.content.search;
 
-import java.util.ArrayList;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
-
-import android.content.Context;
+import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
+import android.support.v7.app.ActionBar;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.content.SSActivity;
-import com.millicom.secondscreen.content.model.SearchResult;
 import com.millicom.secondscreen.content.model.SearchResultItem;
-import com.millicom.secondscreen.content.search.SearchTask.SearchResultCallback;
-import com.millicom.secondscreen.customviews.FontEditText;
+import com.millicom.secondscreen.customviews.InstantAutoComplete;
 
-public class SearchPageActivity extends SSActivity implements TextWatcher, OnEditorActionListener {
+public class SearchPageActivity extends SSActivity implements OnItemClickListener, OnEditorActionListener, OnClickListener, SearchActivityListeners { 
 
 	private static final String TAG = "SearchPageActivity";
 
-	private int SEARCH_DELAY = 1000;
-	private int MINIMUM_NUMBER_OF_CHARS_REQUIRED_FOR_SEARCH = 2;
-	private Handler mHandler;
-	private FontEditText mSearchBar;
-	private ListView mListView;
-	private SearchPageListAdapter mListAdapter;
+	private SearchPageListAdapter mAutoCompleteAdapter;
 	private LinearLayout mSearchInstructionsContainer;
-	private SearchTask mSearchTask;
-	private ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-	private ScheduledFuture<?> pendingQuery;
-	private boolean mCancelSearch;
+
+	private RelativeLayout mBackButton;
+	private ActionBar actionBar;
+	private InstantAutoComplete mEditTextSearch;
+	private RelativeLayout mEditTextClearBtn;
+	private RelativeLayout mProgressBar;
+	
+	private Handler mHandler= new Handler();
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);		
 		setContentView(R.layout.layout_searchpage_activity);
-
+		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN); 
+		
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
+		
+		// CUSTOMIZE DEFAULT ACTIONBAR
+		
+		initSupportActionbar();
+		initAutoCompleteLayout();
+		initAutoCompleteListeners();
+		loadAutoCompleteView();
+		initMainLayout();
 
-		mHandler = new Handler();
-
-		initViews();
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+//		showKeyboard();
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		hideKeyboard();
 	}
 
-	private void initViews() {
-		// styling the Action Bar
-		final ActionBar actionBar = getSupportActionBar();
+	private void initSupportActionbar() {
+		actionBar = getSupportActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.setDisplayShowCustomEnabled(true);
-		actionBar.setDisplayUseLogoEnabled(false);
-		actionBar.setDisplayShowHomeEnabled(false);
-		actionBar.setCustomView(R.layout.actionbar_searchpage);
+        actionBar.setDisplayUseLogoEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(false);
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        
+	    View customActionBarView = getLayoutInflater().inflate(R.layout.actionbar_search_activity, null);
+	    actionBar.setCustomView(customActionBarView,
+	                            new ActionBar.LayoutParams(
+	                            		ActionBar.LayoutParams.MATCH_PARENT,
+	                            		ActionBar.LayoutParams.MATCH_PARENT));
+	    actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+	    
+	
+	    mBackButton = (RelativeLayout) actionBar.getCustomView().findViewById(R.id.actionbar_back);
+	    mBackButton.setOnClickListener(this);
+	}
+	
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//		// Inflate the menu items for use in the action bar
+//		MenuInflater inflater = getMenuInflater();
+//		inflater.inflate(R.menu.main, menu);
+//		
+//		MenuItem menuItem = menu.findItem(R.id.action_search);
+//		menuItem.setVisible(false);
+//		
+//		return super.onCreateOptionsMenu(menu);
+//	}
+	
+	
+	private void initAutoCompleteLayout() {
+	    mProgressBar = (RelativeLayout) actionBar.getCustomView().findViewById(R.id.searchbar_progress);
+	    mEditTextClearBtn = (RelativeLayout) actionBar.getCustomView().findViewById(R.id.searchbar_clear);	    
+	    mEditTextSearch = (InstantAutoComplete) actionBar.getCustomView().findViewById(R.id.searchbar_edittext);
+	    mEditTextSearch.setHint(getString(R.string.search_hint));
 
-		final int actionBarColor = getResources().getColor(R.color.blue1);
-		actionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
+	}
+	
+	private void initAutoCompleteListeners() {
+		mEditTextClearBtn.setOnClickListener(this);
+	    mEditTextSearch.setOnItemClickListener(this);
+	    mEditTextSearch.setOnEditorActionListener(this);
+	    
+	    mEditTextSearch.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				mEditTextSearch.showDropDown();
+				return false;
+			}
+		});
+	    
+	}
+	private void loadAutoCompleteView() {
+	    mAutoCompleteAdapter = new SearchPageListAdapter(SearchPageActivity.this);
+	    mEditTextSearch.setThreshold(1);	    
+	    mEditTextSearch.setDropDownWidth(200); //TODO check this value
+	    mEditTextSearch.setAdapter(mAutoCompleteAdapter);
+	}
 
+	private void initMainLayout() {
 		mSearchInstructionsContainer = (LinearLayout) findViewById(R.id.search_page_instruction_container);
-		mSearchBar = (FontEditText) findViewById(R.id.search_page_edittext);
-		 mSearchBar.addTextChangedListener(this);
-		mSearchBar.setOnEditorActionListener(this);
+	}
 
-		mListView = (ListView) findViewById(R.id.search_page_listview);
+	
+	@Override
+	public void showProgressLoading(boolean isLoading) {
+		if (isLoading) {
+			mProgressBar.setVisibility(View.VISIBLE);
+			mEditTextClearBtn.setVisibility(View.GONE);
+		} else {
+			mProgressBar.setVisibility(View.GONE);
+			mEditTextClearBtn.setVisibility(View.VISIBLE);
+		}
+	}
+	@Override
+	public void isRecentListEmpty(boolean isEmpty) {
+		mSearchInstructionsContainer.setVisibility(View.VISIBLE);
+	}
+	
+	private void showKeyboard() {
+		mHandler.post(
+			    new Runnable() {
+			        public void run() {
+			            InputMethodManager inputMethodManager =  (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+			            inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+			            triggerAutoComplete();
+			        }
+			    });
+	}
+	private void hideKeyboard() {
+	    InputMethodManager inputMethodManager = (InputMethodManager)  getSystemService(Activity.INPUT_METHOD_SERVICE);
+	    if(inputMethodManager != null)
+	    	inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);	
+	}
+	
 
-		mListAdapter = new SearchPageListAdapter();
-		mListView.setAdapter(mListAdapter);
+	
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        hideKeyboard();
+    }
+    
+	// Click listener for both recent list and search auto complete view
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+    	
+    	SearchResultItem result = (SearchResultItem) adapterView.getItemAtPosition(position);
+    	Intent intent = new Intent();
+    	intent.putExtra("stuff", "stuff from result"); // use result here
+	  	startActivity(intent);
+	  	
+    }
+    
+    private void navigateUp() {
+//		Intent upIntent = NavUtils.getParentActivityIntent(this);
+//		NavUtils.navigateUpTo(this, upIntent);
+    	finish();
+    }
+    
+	@Override
+	public void onClick(View v) {
+		
+		switch (v.getId()) {
+			case R.id.searchbar_clear:
+				mEditTextSearch.setText("");
+				mEditTextSearch.dismissDropDown();
+				mEditTextSearch.setAdapter(new SearchPageListAdapter(SearchPageActivity.this));
+				break;
+			case R.id.actionbar_back:
+				navigateUp();
+				break;
+				
+			case R.id.searchbar_edittext:
+				mEditTextSearch.showDropDown();
+				break;
+		}
 	}
 
 	@Override
+	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+        	triggerAutoComplete();
+        	if (mEditTextSearch.getText().toString().length() >= 1) {
+        		hideKeyboard();
+        	}
+            return true;
+        }
+        return false;
+    }
+	
+
+	private void triggerAutoComplete() {
+    	String query = mEditTextSearch.getText().toString();
+    	int pos = query.length();
+    	mEditTextSearch.setSelection(pos);
+    	mAutoCompleteAdapter.getFilter().filter(query);
+	    mEditTextSearch.showDropDown();
+	}
+	
+	
+	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-
 		finish();
 	}
 
@@ -100,134 +255,6 @@ public class SearchPageActivity extends SSActivity implements TextWatcher, OnEdi
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 
-	private void trySearch() {
-		Log.e(TAG, "Try search");
-		Runnable searchRunnable = new Runnable() {
-
-			@Override
-			public void run() {
-				if (!mSearchTask.isCancelled()) {
-					Log.e(TAG, "Executing search task");
-					mSearchTask.execute();
-				} else {
-					Log.e(TAG, "Skipping search since it is canceled");
-				}
-			}
-		};
-
-		mHandler.postDelayed(searchRunnable, SEARCH_DELAY);
-	}
-
-	public void initSearchTask() {
-		final String searchWord = mSearchBar.getText().toString();
-		mSearchTask = null;
-		mSearchTask = new SearchTask(searchWord, new SearchResultCallback() {
-			@Override
-			public void onResult(SearchResult result) {
-
-				SearchPageListAdapter listAdapter = SearchPageActivity.this.mListAdapter;
-
-				boolean noResult = true;
-
-				if (result != null) {
-					String suggestion = result.getSuggestion(); // TODO
-																// use
-																// this?
-					ArrayList<SearchResultItem> items = result.getItems();
-
-					if (items != null && !items.isEmpty()) {
-						noResult = false;
-						listAdapter.setSearchResultItems(items);
-					}
-
-					Log.e(TAG, "Suggestion: " + suggestion);
-				}
-
-				if (noResult) {
-					// TODO display "no result found"
-				}
-
-				listAdapter.notifyDataSetChanged();
-				hideInstructionView();
-				hideKeyboard();
-			}
-		});
-	}
-
-	@Override
-	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-		if (event != null) {
-			if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-				initSearchTask();
-				mSearchTask.execute();
-			}
-		}
-		return false;
-	}
-
-	private void hideKeyboard() {
-		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-		imm.hideSoftInputFromWindow(mSearchBar.getWindowToken(), 0);
-	}
-	
-	private void showKeyboard() {
-		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-		imm.showSoftInput(mSearchBar, 0);
-	}
-
-	private void hideInstructionView() {
-		if (mListView.getVisibility() == View.GONE) {
-			mSearchInstructionsContainer.setVisibility(View.GONE);
-			mListView.setVisibility(View.VISIBLE);
-		}
-	}
-	
-	public void search(final String searchQuery){
-		
-		if (pendingQuery != null && !pendingQuery.isDone()) {
-			pendingQuery.cancel(false);
-		}
-		
-		if (searchQuery == null || searchQuery.length() < MINIMUM_NUMBER_OF_CHARS_REQUIRED_FOR_SEARCH) {
-//			resetView();
-//			hideButtons(mProgressBar);
-		} else {
-//			hideButtons(mEditTextClearBtn);
-			pendingQuery = executor.schedule(query(searchQuery), SEARCH_DELAY, TimeUnit.MILLISECONDS);
-			
-		}
-	}
-	
-	private Runnable query(final String inputQuery) {
-		return new Runnable() {
-			
-			@Override
-			public void run() {				
-				initSearchTask();
-				mSearchTask.execute();
-			}
-		};
-	}
-
-	public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-	}
-
-	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-	}
-
-	public void afterTextChanged(Editable s) {
-//
-//			// stop any current search thread
-//			if (mSearchTask != null && !mSearchTask.isCancelled()) {
-//				mSearchTask.cancel(true);
-//				Log.e(TAG, "Cancel search task");
-//			}
-//			initSearchTask();
-//			trySearch();
-			String searchWord = s.toString();
-			search(searchWord);
-	}
 
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
