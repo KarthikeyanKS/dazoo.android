@@ -2,6 +2,7 @@ package com.millicom.secondscreen.content.search;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,9 +19,14 @@ import android.widget.Filterable;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxStatus;
 import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.Consts.ENTITY_TYPE;
 import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.content.model.Broadcast;
+import com.millicom.secondscreen.content.model.Channel;
+import com.millicom.secondscreen.content.model.Program;
 import com.millicom.secondscreen.content.model.SearchResult;
 import com.millicom.secondscreen.content.model.SearchResultItem;
+import com.millicom.secondscreen.content.model.Series;
 import com.millicom.secondscreen.content.search.SearchTask.SearchResultCallback;
 import com.millicom.secondscreen.customviews.FontTextView;
 import com.millicom.secondscreen.http.MiTVCallback;
@@ -49,7 +55,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		super(context, 0);
 		this.context = context;
 		this.aq = new AQuery(context);
-//		this.mViewListener = (SearchActivityListeners) context;
+//		this.mViewListener = listener;
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 		this.mSearchTask = initSearchTask();
@@ -114,6 +120,56 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 	public void setSearchResultItems(ArrayList<SearchResultItem> searchResultItems) {
 		this.searchResultItems = searchResultItems;
 	}
+	
+	public String getTimeString(Broadcast broadcast) {
+		return "Starts in 5 hours";
+	}
+	
+	public String getTimeString(ArrayList<Broadcast> broadcasts) {
+		Broadcast closestBroadcastInTime = broadcasts.get(0);
+		return getTimeString(closestBroadcastInTime);
+	}
+	
+	public void populateProgramView(ViewHolder viewHolder, Program program, ArrayList<Broadcast> broadcasts) {
+		String programType = program.getProgramType();
+		
+		if(programType.equals(Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE)) {
+			programType = Consts.DAZOO_PROGRAM_DISPLAY_STRING_TV_EPISODE;
+		} else if(programType.equals(Consts.DAZOO_PROGRAM_TYPE_MOVIE)) {
+			programType = Consts.DAZOO_PROGRAM_DISPLAY_STRING_MOVIE;
+		} else if(programType.equals(Consts.DAZOO_PROGRAM_TYPE_OTHER)) {
+			programType = Consts.DAZOO_PROGRAM_DISPLAY_STRING_OTHER;
+		} else if(programType.equals(Consts.DAZOO_PROGRAM_TYPE_SPORT)) {
+			programType = Consts.DAZOO_PROGRAM_DISPLAY_STRING_SPORT;
+		}
+		
+		viewHolder.mType.setText(programType);
+		
+		String title = program.getTitle();
+		viewHolder.mTitle.setText(title);
+		
+		String time = getTimeString(broadcasts);
+		viewHolder.mTime.setText(time);
+	}
+		
+	public void populateSeriesView(ViewHolder viewHolder, Series series, ArrayList<Broadcast> broadcasts) {
+		viewHolder.mType.setText(Consts.DAZOO_SERIES_DISPLAY_STRING);
+		
+		String title = series.getName();
+		viewHolder.mTitle.setText(title);
+		
+		String time = getTimeString(broadcasts);
+		viewHolder.mTime.setText(time);
+	}
+	
+	public void populateChannelView(ViewHolder viewHolder, Channel channel) {
+		viewHolder.mType.setText(Consts.DAZOO_CHANNEL_DISPLAY_STRING);
+		
+		String title = channel.getName();
+		viewHolder.mTitle.setText(title);
+		
+		viewHolder.mTime.setVisibility(View.GONE);
+	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -122,7 +178,9 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		if (rowView == null) {
 			rowView = inflater.inflate(R.layout.row_search_result, null);
 			ViewHolder viewHolder = new ViewHolder();
-			viewHolder.mTextView = (FontTextView) rowView.findViewById(R.id.row_search_result_textview);
+			viewHolder.mTitle = (FontTextView) rowView.findViewById(R.id.row_search_result_title);
+			viewHolder.mType = (FontTextView) rowView.findViewById(R.id.row_search_result_type);
+			viewHolder.mTime = (FontTextView) rowView.findViewById(R.id.row_search_result_time);
 
 			rowView.setTag(viewHolder);
 		}
@@ -130,14 +188,34 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
 		
 		SearchResultItem resultItem = getItem(position);
-		String displayText = resultItem.getDisplayText();
-		holder.mTextView.setText(displayText);
+		
+		ENTITY_TYPE type = resultItem.getEntityType();
+		switch (type) {
+		case PROGRAM: {
+			Program program = (Program) resultItem.getEntity();
+			populateProgramView(holder, program, resultItem.getBroadcasts());
+			break;
+		}
+		case SERIES: {
+			Series series = (Series) resultItem.getEntity();
+			populateSeriesView(holder, series, resultItem.getBroadcasts());
+			break;
+		}
+		case CHANNEL: {
+			Channel channel = (Channel) resultItem.getEntity();
+			populateChannelView(holder, channel);
+			break;
+		}
+		}
+		
 		
 		return rowView;
 	}
 
 	static class ViewHolder {
-		public FontTextView mTextView;
+		public FontTextView mTitle;
+		public FontTextView mType;
+		public FontTextView mTime;
 	}
 
 	@Override
@@ -218,7 +296,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 			}
 		};
 
-		String completeSearchUrl = new StringBuilder(Consts.MILLICOM_SECONDSCREEN_SEARCH).append(q).toString();
+		String completeSearchUrl = String.format(Locale.getDefault(), Consts.MILLICOM_SECONDSCREEN_SEARCH, q);
 		
 		aq.ajax(completeSearchUrl, String.class, -1, cb);
 		cb.block();
@@ -232,6 +310,8 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		try {
 			jsonFromString = new JSONObject(jsonString);
 		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
 		

@@ -17,8 +17,6 @@ public class SearchResult {
 
 	public SearchResult(JSONObject jsonObject) {
 		String suggestion = jsonObject.optString(Consts.JSON_KEY_SEARCH_RESULT_SUGGESTION);
-		String numberOfResultsString = jsonObject.optString(Consts.JSON_KEY_SEARCH_RESULT_NUMBER_OF_RESULTS);
-		int numberOfResults = Integer.valueOf(numberOfResultsString);
 
 		ArrayList<SearchResultItem> items = new ArrayList<SearchResultItem>();
 		try {
@@ -37,6 +35,12 @@ public class SearchResult {
 			e.printStackTrace();
 		} catch (NullPointerException e) {
 			e.printStackTrace();
+		}
+		
+		String numberOfResultsString = jsonObject.optString(Consts.JSON_KEY_SEARCH_RESULT_NUMBER_OF_RESULTS);
+		int numberOfResults = items.size();
+		if(numberOfResultsString != null && numberOfResultsString.length() > 0) {
+			numberOfResults = Integer.valueOf(numberOfResultsString);
 		}
 		
 		this.setSuggestion(suggestion);
