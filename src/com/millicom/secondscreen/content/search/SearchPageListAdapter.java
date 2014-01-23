@@ -32,13 +32,6 @@ import com.millicom.secondscreen.customviews.FontTextView;
 import com.millicom.secondscreen.http.MiTVCallback;
 
 public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implements Filterable {
-	
-	public interface SearchActivityListeners {
-		public void showProgressLoading(boolean isLoading);
-		
-		public void isRecentListEmpty(boolean isEmpty);
-	}
-
 	private static final String TAG = "SearchListAdapter";
 	
 	private ArrayList<SearchResultItem> searchResultItems;
@@ -51,11 +44,11 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 	private SearchTask mSearchTask;
 	private MiTVCallback cb;
 	
-	public SearchPageListAdapter(Context context) {
+	public SearchPageListAdapter(Context context, SearchActivityListeners listener) {
 		super(context, 0);
 		this.context = context;
 		this.aq = new AQuery(context);
-//		this.mViewListener = listener;
+		this.mViewListener = listener;
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 		this.mSearchTask = initSearchTask();
@@ -100,12 +93,25 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		if(searchResultItems != null) {
 			count = searchResultItems.size();
 		}
+		if(count == 0) {
+			count = 1; // no results 
+		}
 		return count;
 	}
+	
+	@Override
+	public int getViewTypeCount() {
+		return 2;
+	}
+	
 
 	@Override
 	public SearchResultItem getItem(int position) {
-		return searchResultItems.get(position);
+		SearchResultItem item = null;
+		if(searchResultItems.size() > 0) {
+			item = searchResultItems.get(position);
+		}
+		return item;
 	}
 
 	@Override
@@ -125,12 +131,12 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		return "Starts in 5 hours";
 	}
 	
-	public String getTimeString(ArrayList<Broadcast> broadcasts) {
-		Broadcast closestBroadcastInTime = broadcasts.get(0);
+	public String getTimeString(SearchResultItem resultItem) {
+		Broadcast closestBroadcastInTime = resultItem.getNextBroadcast();
 		return getTimeString(closestBroadcastInTime);
 	}
 	
-	public void populateProgramView(ViewHolder viewHolder, Program program, ArrayList<Broadcast> broadcasts) {
+	public void populateProgramView(ViewHolder viewHolder, SearchResultItem resultItem, Program program) {
 		String programType = program.getProgramType();
 		
 		if(programType.equals(Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE)) {
@@ -146,19 +152,22 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		viewHolder.mType.setText(programType);
 		
 		String title = program.getTitle();
+		if(title.length() == 0) {
+			title = "No title";
+		}
 		viewHolder.mTitle.setText(title);
 		
-		String time = getTimeString(broadcasts);
+		String time = getTimeString(resultItem);
 		viewHolder.mTime.setText(time);
 	}
 		
-	public void populateSeriesView(ViewHolder viewHolder, Series series, ArrayList<Broadcast> broadcasts) {
+	public void populateSeriesView(ViewHolder viewHolder, SearchResultItem resultItem, Series series) {
 		viewHolder.mType.setText(Consts.DAZOO_SERIES_DISPLAY_STRING);
 		
 		String title = series.getName();
 		viewHolder.mTitle.setText(title);
 		
-		String time = getTimeString(broadcasts);
+		String time = getTimeString(resultItem);
 		viewHolder.mTime.setText(time);
 	}
 	
@@ -174,7 +183,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
-		
+
 		if (rowView == null) {
 			rowView = inflater.inflate(R.layout.row_search_result, null);
 			ViewHolder viewHolder = new ViewHolder();
@@ -184,31 +193,35 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 
 			rowView.setTag(viewHolder);
 		}
-		
+
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
-		
-		SearchResultItem resultItem = getItem(position);
-		
-		ENTITY_TYPE type = resultItem.getEntityType();
-		switch (type) {
-		case PROGRAM: {
-			Program program = (Program) resultItem.getEntity();
-			populateProgramView(holder, program, resultItem.getBroadcasts());
-			break;
+
+		if (searchResultItems.size() > 0) {
+
+			SearchResultItem resultItem = getItem(position);
+
+			ENTITY_TYPE type = resultItem.getEntityType();
+			switch (type) {
+			case PROGRAM: {
+				Program program = (Program) resultItem.getEntity();
+				populateProgramView(holder, resultItem, program);
+				break;
+			}
+			case SERIES: {
+				Series series = (Series) resultItem.getEntity();
+				populateSeriesView(holder, resultItem, series);
+				break;
+			}
+			case CHANNEL: {
+				Channel channel = (Channel) resultItem.getEntity();
+				populateChannelView(holder, channel);
+				break;
+			}
+			}
+		} else {
+			holder.mTitle.setText(context.getString(R.string.no_search_result));
 		}
-		case SERIES: {
-			Series series = (Series) resultItem.getEntity();
-			populateSeriesView(holder, series, resultItem.getBroadcasts());
-			break;
-		}
-		case CHANNEL: {
-			Channel channel = (Channel) resultItem.getEntity();
-			populateChannelView(holder, channel);
-			break;
-		}
-		}
-		
-		
+
 		return rowView;
 	}
 
@@ -216,6 +229,10 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		public FontTextView mTitle;
 		public FontTextView mType;
 		public FontTextView mTime;
+	}
+	
+	private void noSearchResult() {
+		//TODO do stuff
 	}
 
 	@Override
@@ -237,6 +254,10 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 					// Assign the data to the FilterResults
 					filterResults.values = searchResultItems;
 					filterResults.count = searchResultItems.size();
+					
+					if(searchResultItems.size() == 0) {
+						noSearchResult();
+					}
 				}
 				return filterResults;
 			}
@@ -246,10 +267,8 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 				if (results != null && results.count > 0) {
 					clear();
 					addAll((List<SearchResultItem>) results.values);
-					notifyDataSetChanged();
-				} else {
-					notifyDataSetInvalidated();
 				}
+				notifyDataSetChanged();
 			}
 		};
 		return filter;

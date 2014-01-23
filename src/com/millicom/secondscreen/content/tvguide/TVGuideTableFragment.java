@@ -248,7 +248,9 @@ public class TVGuideTableFragment extends SSPageFragment {
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction() != null && intent.getAction().equals(Consts.INTENT_EXTRA_CLOCK_SELECTION)) {
 				mHour = intent.getExtras().getInt(Consts.INTENT_EXTRA_CLOCK_SELECTION_VALUE);
-				mTVGuideListAdapter.refreshList(Integer.valueOf(mHour));
+				if(mTVGuideListAdapter != null) {
+					mTVGuideListAdapter.refreshList(Integer.valueOf(mHour));
+				}
 			}
 		}
 	};

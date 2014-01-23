@@ -12,7 +12,6 @@ import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,11 +31,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.content.SSActivity;
+import com.millicom.secondscreen.content.model.Broadcast;
+import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.SearchResultItem;
+import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
 import com.millicom.secondscreen.customviews.InstantAutoComplete;
 
 public class SearchPageActivity extends SSActivity implements OnItemClickListener, OnEditorActionListener, OnClickListener, SearchActivityListeners {
@@ -159,7 +162,7 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 	}
 
 	private void loadAutoCompleteView() {
-		mAutoCompleteAdapter = new SearchPageListAdapter(SearchPageActivity.this);
+		mAutoCompleteAdapter = new SearchPageListAdapter(SearchPageActivity.this, this);
 		mEditTextSearch.setThreshold(1);
 	
 		int width = getScreenWidth();
@@ -220,10 +223,29 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 	public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 
 		SearchResultItem result = (SearchResultItem) adapterView.getItemAtPosition(position);
-		Intent intent = new Intent();
-		intent.putExtra("stuff", "stuff from result"); // use result here
-		startActivity(intent);
+	
+		// open the detail view for the individual broadcast
+		Intent intent = new Intent(SearchPageActivity.this, BroadcastPageActivity.class);
 
+		// we take one position less as we have a header view
+		int adjustedPosition = position - 1;
+		if(adjustedPosition < 0) {
+			/* Don't allow negative values */
+			adjustedPosition = 0;
+		}
+		
+		Broadcast nextBroadcast = result.getNextBroadcast();
+		
+		intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, nextBroadcast.getBeginTimeMillisGmt());
+		
+		Channel channel = nextBroadcast.getChannel();
+		String channelId = channel.getChannelId();
+		intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, channelId);
+		
+		String date = nextBroadcast.getTvDateString();
+		intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, date);
+		
+		startActivity(intent);
 	}
 
 	private void navigateUp() {
@@ -239,7 +261,7 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 		case R.id.searchbar_clear:
 			mEditTextSearch.setText("");
 			mEditTextSearch.dismissDropDown();
-			mEditTextSearch.setAdapter(new SearchPageListAdapter(SearchPageActivity.this));
+			mEditTextSearch.setAdapter(new SearchPageListAdapter(SearchPageActivity.this, this));
 			break;
 		case R.id.actionbar_back:
 			navigateUp();

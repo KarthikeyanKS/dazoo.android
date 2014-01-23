@@ -16,6 +16,18 @@ public class SearchResultItem {
 	private ArrayList<Broadcast> broadcasts;
 	private Object entity;
 
+	public Broadcast getNextBroadcast() {
+		Broadcast broadcast = null;
+		
+		if(broadcasts != null) {
+			if(broadcasts.size() > 0) {
+				broadcast = broadcasts.get(0);
+			}
+		}
+	
+		return broadcast;
+	}
+	
 	public SearchResultItem(JSONObject jsonObject) {
 		String displayText = jsonObject.optString(Consts.JSON_KEY_SEARCH_RESULT_ITEM_DISPLAY_TEXT);
 		String entityTypeString = jsonObject.optString(Consts.JSON_KEY_SEARCH_RESULT_ITEM_ENTITY_TYPE);
