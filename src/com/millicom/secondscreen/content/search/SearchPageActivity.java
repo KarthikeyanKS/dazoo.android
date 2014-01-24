@@ -186,6 +186,7 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 		
 		mEditTextSearch.setDropDownWidth(width);
 		mEditTextSearch.setAdapter(mAutoCompleteAdapter);
+		mEditTextSearch.setDropDownVerticalOffset(0);
 	}
 
 	private void initMainLayout() {
