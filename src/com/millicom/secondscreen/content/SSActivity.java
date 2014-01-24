@@ -55,6 +55,10 @@ public abstract class SSActivity extends ActionBarActivity {
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main, menu);
+		
+		MenuItem searchFieldItem = menu.findItem(R.id.searchfield);
+		searchFieldItem.setVisible(false);
+		
 		return super.onCreateOptionsMenu(menu);
 	}
 	
@@ -64,7 +68,7 @@ public abstract class SSActivity extends ActionBarActivity {
 
 		// hide search for beta release
 		switch (item.getItemId()) {
-		case R.id.action_search:
+		case R.id.action_start_search:
 			Intent toSearchPage = new Intent(SSActivity.this, SearchPageActivity.class);
 			startActivity(toSearchPage);
 

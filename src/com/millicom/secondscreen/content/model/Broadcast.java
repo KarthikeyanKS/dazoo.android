@@ -1,27 +1,23 @@
 package com.millicom.secondscreen.content.model;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import org.json.JSONObject;
 
-import com.millicom.secondscreen.Consts;
-import com.millicom.secondscreen.utilities.DateUtilities;
-
-import android.R.integer;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
+
+import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.SecondScreenApplication;
+import com.millicom.secondscreen.utilities.DateUtilities;
 
 public class Broadcast implements Parcelable {
 
@@ -293,6 +289,7 @@ public class Broadcast implements Parcelable {
 		program.setProgramType(programType);
 
 		long millisLocal = DateUtilities.convertTimeStampToLocalTime(millisGmt);
+			
 		String beginTimeStringLocalHourAndMinute = DateUtilities.getTimeOfDayFormatted(millisLocal);
 		this.setBeginTimeStringLocalHourAndMinute(beginTimeStringLocalHourAndMinute);
 
@@ -379,13 +376,40 @@ public class Broadcast implements Parcelable {
 		}
 
 	}
+	
+	public String getStartsInTimeString() {
+		Resources res = SecondScreenApplication.getInstance().getApplicationContext().getResources();
+		
+		String startsInTimeString = "Not set";
+		try {
+			int daysLeft = DateUtilities.getDifferenceInDays(this.beginTimeMillisGmt);
+			if(daysLeft > 0) {
+				startsInTimeString = String.format(Locale.getDefault(), "%s %d %s", res.getString(R.string.search_starts_in), daysLeft, res.getQuantityString(R.plurals.day, daysLeft));
+			} else {
+				int hoursLeft = DateUtilities.getDifferenceInHours(this.beginTimeMillisGmt);
+				if(hoursLeft > 0) {
+					startsInTimeString = String.format(Locale.getDefault(), "%s %d %s", res.getString(R.string.search_starts_in), hoursLeft, res.getQuantityString(R.plurals.hour, hoursLeft));
+				} else {
+					int minutesLeft = DateUtilities.getDifferenceInMinutes(this.beginTimeMillisGmt);
+					if(minutesLeft > 0) {
+						startsInTimeString = String.format(Locale.getDefault(), "%s %d %s", res.getString(R.string.search_starts_in), minutesLeft, res.getString(R.string.minutes));
+					} else {
+						startsInTimeString = "Has finished";
+					}
+				}
+			}
+		} catch (ParseException e) {
+			startsInTimeString = "Parse error";
+		}
+		
+		return startsInTimeString;
+	}
 
 	public Broadcast(JSONObject jsonBroadcast) {
 		String beginTimeStringGmt = jsonBroadcast.optString(Consts.DAZOO_BROADCAST_BEGIN_TIME);
 		String endTimeStringGmt = jsonBroadcast.optString(Consts.DAZOO_BROADCAST_END_TIME);
 		long beginTimeMillisGMT = jsonBroadcast.optLong(Consts.DAZOO_BROADCAST_BEGIN_TIME_MILLIS);
 		long beginTimeMillisLocal = DateUtilities.convertTimeStampToLocalTime(beginTimeMillisGMT);
-
 
 		this.setBeginTimeStringGmt(beginTimeStringGmt);
 		this.setEndTimeStringGmt(endTimeStringGmt);
