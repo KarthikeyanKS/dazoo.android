@@ -9,6 +9,7 @@ import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -50,7 +51,8 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 	private LinearLayout mSearchInstructionsContainer;
 
 	private ImageView mBackButton;
-	private ActionBar actionBar;
+	private ActionBar mActionBar;
+	private Menu mMenu;
 	private InstantAutoComplete mEditTextSearch;
 	private ImageView mEditTextClearBtn;
 	private ProgressBar mProgressBar;
@@ -72,9 +74,6 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 
 		initMainLayout();
 		initSupportActionbar();
-		initAutoCompleteLayout();
-		initAutoCompleteListeners();
-		loadAutoCompleteView();
 
 	}
 
@@ -91,19 +90,11 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 	}
 
 	private void initSupportActionbar() {
-		actionBar = getSupportActionBar();
-		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.setDisplayUseLogoEnabled(true);
-		actionBar.setDisplayShowCustomEnabled(true);
-		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-
-		View customActionBarView = getLayoutInflater().inflate(R.layout.actionbar_search_activity, null);
-		actionBar.setCustomView(customActionBarView, new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT));
-		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-
-		mBackButton = (ImageView) actionBar.getCustomView().findViewById(R.id.actionbar_back);
-		mBackButton.setOnClickListener(this);
+		mActionBar = getSupportActionBar();
+		mActionBar.setDisplayShowTitleEnabled(false);
+		mActionBar.setDisplayUseLogoEnabled(true);
+		mActionBar.setDisplayHomeAsUpEnabled(true);
+		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 	}
 
 	@Override
@@ -112,17 +103,41 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main, menu);
 
-		MenuItem menuItem = menu.findItem(R.id.action_search);
-		menuItem.setVisible(false);
+		MenuItem startSearchMenuItem = menu.findItem(R.id.action_start_search);
+		startSearchMenuItem.setVisible(false);
+		
+		MenuItem searchField = menu.findItem(R.id.searchfield);
+		searchField.setVisible(true);
+		
+		this.mMenu = menu;
+		
+
+		initAutoCompleteLayout();
+		initAutoCompleteListeners();
+		loadAutoCompleteView();
 
 		return true;
 	}
+	
+	@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case android.R.id.home:
+        	navigateUp();
+        	return true;
+        default:
+            return super.onOptionsItemSelected(item);
+        }
+    }
 
 	private void initAutoCompleteLayout() {
-		mProgressBar = (ProgressBar) actionBar.getCustomView().findViewById(R.id.searchbar_progress);
-		mEditTextClearBtn = (ImageView) actionBar.getCustomView().findViewById(R.id.searchbar_clear);
-		mEditTextSearch = (InstantAutoComplete) actionBar.getCustomView().findViewById(R.id.searchbar_edittext);
-		mEditTextSearch.setHint(getString(R.string.search_hint));
+		MenuItem searchField = mMenu.findItem(R.id.searchfield);
+		View searchFieldView = MenuItemCompat.getActionView(searchField);
+		
+		mProgressBar = (ProgressBar) searchFieldView.findViewById(R.id.searchbar_progress);
+		mEditTextClearBtn = (ImageView) searchFieldView.findViewById(R.id.searchbar_clear);
+		mEditTextSearch = (InstantAutoComplete) searchFieldView.findViewById(R.id.searchbar_edittext);
+		mEditTextSearch.requestFocus();
 
 	}
 
@@ -196,16 +211,18 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 			public void run() {
 				InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 				inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-				// triggerAutoComplete();
+				 triggerAutoComplete();
 			}
 		});
 	}
 
 	private void hideKeyboard() {
 		InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-		if (inputMethodManager != null)
-			inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-	}
+		if (inputMethodManager != null) {
+			inputMethodManager.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+		}
+		
+}
 
 	@Override
 	protected void onDestroy() {
@@ -258,18 +275,16 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 	public void onClick(View v) {
 
 		switch (v.getId()) {
-		case R.id.searchbar_clear:
+		case R.id.searchbar_clear: {
 			mEditTextSearch.setText("");
 			mEditTextSearch.dismissDropDown();
 			mEditTextSearch.setAdapter(new SearchPageListAdapter(SearchPageActivity.this, this));
 			break;
-		case R.id.actionbar_back:
-			navigateUp();
-			break;
-
-		case R.id.searchbar_edittext:
+		}
+		case R.id.searchbar_edittext: {
 			mEditTextSearch.showDropDown();
 			break;
+		}
 		}
 	}
 
@@ -286,11 +301,13 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 	}
 
 	private void triggerAutoComplete() {
-		String query = mEditTextSearch.getText().toString();
-		int pos = query.length();
-		mEditTextSearch.setSelection(pos);
-		mAutoCompleteAdapter.getFilter().filter(query);
-		mEditTextSearch.showDropDown();
+		if(mEditTextSearch != null) { 
+			String query = mEditTextSearch.getText().toString();
+			int pos = query.length();
+			mEditTextSearch.setSelection(pos);
+			mAutoCompleteAdapter.getFilter().filter(query);
+			mEditTextSearch.showDropDown();
+		}
 	}
 
 	@Override

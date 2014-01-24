@@ -108,8 +108,10 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 	@Override
 	public SearchResultItem getItem(int position) {
 		SearchResultItem item = null;
-		if(searchResultItems.size() > 0) {
-			item = searchResultItems.get(position);
+		if(searchResultItems != null) {
+			if(searchResultItems.size() > 0) {
+				item = searchResultItems.get(position);
+			}
 		}
 		return item;
 	}
@@ -196,7 +198,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
 
-		if (searchResultItems.size() > 0) {
+		if (searchResultItems != null && searchResultItems.size() > 0) {
 
 			SearchResultItem resultItem = getItem(position);
 

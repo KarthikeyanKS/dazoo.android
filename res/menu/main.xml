@@ -18,9 +18,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 
     <item
-        android:id="@+id/action_search"
+        android:id="@+id/action_start_search"
         android:icon="@drawable/ic_action_search"
-        app:showAsAction="always"
-        android:title="@string/search_hint"/>
+        android:title="@string/search_hint"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/searchfield"
+        app:actionLayout="@layout/element_actionbar_searchfield"
+        android:title="NO TITLE"
+        app:showAsAction="ifRoom"/>
 
 </menu>
