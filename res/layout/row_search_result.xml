@@ -21,6 +21,7 @@
         font:fonttextview="roboto_mitv_light.ttf" />
 
     <LinearLayout
+        android:id="@+id/row_search_result_meta_data_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"

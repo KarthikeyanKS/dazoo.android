@@ -384,15 +384,15 @@ public class Broadcast implements Parcelable {
 		try {
 			int daysLeft = DateUtilities.getDifferenceInDays(this.beginTimeMillisGmt);
 			if(daysLeft > 0) {
-				startsInTimeString = String.format(Locale.getDefault(), "%d %s %s", daysLeft, res.getQuantityString(R.plurals.day, daysLeft), res.getString(R.string.search_time_left));
+				startsInTimeString = String.format(Locale.getDefault(), "%s %d %s", res.getString(R.string.search_starts_in), daysLeft, res.getQuantityString(R.plurals.day, daysLeft));
 			} else {
 				int hoursLeft = DateUtilities.getDifferenceInHours(this.beginTimeMillisGmt);
 				if(hoursLeft > 0) {
-					startsInTimeString = String.format(Locale.getDefault(), "%d %s %s", hoursLeft, res.getQuantityString(R.plurals.hour, hoursLeft), res.getString(R.string.search_time_left));
+					startsInTimeString = String.format(Locale.getDefault(), "%s %d %s", res.getString(R.string.search_starts_in), hoursLeft, res.getQuantityString(R.plurals.hour, hoursLeft));
 				} else {
 					int minutesLeft = DateUtilities.getDifferenceInMinutes(this.beginTimeMillisGmt);
 					if(minutesLeft > 0) {
-						startsInTimeString = String.format(Locale.getDefault(), "%d %s %s", minutesLeft, res.getString(R.string.minutes), res.getString(R.string.search_time_left));
+						startsInTimeString = String.format(Locale.getDefault(), "%s %d %s", res.getString(R.string.search_starts_in), minutesLeft, res.getString(R.string.minutes));
 					} else {
 						startsInTimeString = "Has finished";
 					}

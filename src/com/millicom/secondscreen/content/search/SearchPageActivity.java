@@ -177,7 +177,7 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 	    }
 		return screenWidth;
 	}
-
+	
 	private void loadAutoCompleteView() {
 		mAutoCompleteAdapter = new SearchPageListAdapter(SearchPageActivity.this, this);
 		mEditTextSearch.setThreshold(1);

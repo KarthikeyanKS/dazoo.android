@@ -8,6 +8,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +17,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.LinearLayout;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxStatus;
 import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.Consts.ENTITY_TYPE;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.content.model.Broadcast;
@@ -30,12 +34,14 @@ import com.millicom.secondscreen.content.model.Series;
 import com.millicom.secondscreen.content.search.SearchTask.SearchResultCallback;
 import com.millicom.secondscreen.customviews.FontTextView;
 import com.millicom.secondscreen.http.MiTVCallback;
+import com.millicom.secondscreen.manager.FontManager;
+import com.millicom.secondscreen.utilities.CustomTypefaceSpan;
 
 public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implements Filterable {
 	private static final String TAG = "SearchListAdapter";
 	
 	private ArrayList<SearchResultItem> searchResultItems;
-	private String query;
+	private String mQuery;
 	private String lastSearch = "";
 	private Context context;
 	private AQuery aq;
@@ -131,7 +137,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 	
 
 	
-	public void setTimeString(ViewHolder viewHolder, SearchResultItem resultItem) {
+	private void setTimeString(ViewHolder viewHolder, SearchResultItem resultItem) {
 		Broadcast closestBroadcastInTime = resultItem.getNextBroadcast();
 
 
@@ -149,7 +155,62 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		viewHolder.mTime.setText(timeString);
 	}
 	
-	public void populateProgramView(ViewHolder viewHolder, SearchResultItem resultItem, Program program) {
+	private Spannable getCustomFontSpannableUsingThreeStrings(String beforeBold, String toBold, String afterBold) {		
+		int partOneStart = 0;
+		int partOneEnd = beforeBold.length();
+		int partTwoStart = partOneEnd;
+		int partTwoEnd = partTwoStart + toBold.length();
+		int partThreeStart = partTwoEnd;
+		int partThreeEnd = partThreeStart + afterBold.length();
+		
+		// Create a new spannable with the two strings
+		Spannable spannable = new SpannableString(beforeBold + toBold + afterBold);
+
+		// Set the custom typeface to span over a section of the spannable object
+		spannable.setSpan( new CustomTypefaceSpan(FontManager.getFontLight(context)), partOneStart, partOneEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spannable.setSpan( new CustomTypefaceSpan(FontManager.getFontBold(context)), partTwoStart, partTwoEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spannable.setSpan( new CustomTypefaceSpan(FontManager.getFontLight(context)), partThreeStart, partThreeEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+		return spannable;
+	}
+	
+	private Spannable getCustomFontSpannable(String title, String matchedString) {
+		Spannable spannable = null;
+		if (title != null && matchedString != null && title.length() > 0 && matchedString.length() > 0) {
+			String titleLowercaseOnly = title.toLowerCase(SecondScreenApplication.getCurrentLocale());
+			String matchedStringLowercaseOnly = matchedString.toLowerCase(SecondScreenApplication.getCurrentLocale());
+			int matchedStringStartIndex = titleLowercaseOnly.indexOf(matchedStringLowercaseOnly);
+			if (matchedStringStartIndex >= 0) {
+				/* Title contains matchedString */
+				String beforeBold = title.substring(0, matchedStringStartIndex);
+				
+				int toBoldStartIndex = beforeBold.length();
+				int toBoldEndIndex = toBoldStartIndex + matchedString.length();
+				String toBold = title.substring(toBoldStartIndex, toBoldEndIndex);
+				
+				int afterBoldStartIndex = beforeBold.length() + toBold.length();
+				String afterBold = title.substring(afterBoldStartIndex, title.length());
+				spannable = getCustomFontSpannableUsingThreeStrings(beforeBold, toBold, afterBold);
+			}
+		}
+		return spannable;
+	}
+	
+	private void setTitleString(ViewHolder viewHolder, String title, String matchedString) {
+		Spannable spannable = getCustomFontSpannable(title, matchedString);
+		
+		if(spannable != null) {
+			viewHolder.mTitle.setText(spannable);
+		} else {
+			viewHolder.mTitle.setText(title);
+		}
+	}
+	
+	private void setTitleString(ViewHolder viewHolder, String title) {
+		setTitleString(viewHolder, title, mQuery);
+	}
+		
+	private void populateProgramView(ViewHolder viewHolder, SearchResultItem resultItem, Program program) {
 		String programType = program.getProgramType();
 		
 		if(programType.equals(Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE)) {
@@ -168,25 +229,26 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		if(title.length() == 0) {
 			title = "No title";
 		}
-		viewHolder.mTitle.setText(title);
+		
+		setTitleString(viewHolder, title);
 		
 		setTimeString(viewHolder, resultItem);
 	}
 		
-	public void populateSeriesView(ViewHolder viewHolder, SearchResultItem resultItem, Series series) {
+	private void populateSeriesView(ViewHolder viewHolder, SearchResultItem resultItem, Series series) {
 		viewHolder.mType.setText(Consts.DAZOO_SERIES_DISPLAY_STRING);
 		
 		String title = series.getName();
-		viewHolder.mTitle.setText(title);
+		setTitleString(viewHolder, title);
 
 		setTimeString(viewHolder, resultItem);
 	}
 	
-	public void populateChannelView(ViewHolder viewHolder, Channel channel) {
+	private void populateChannelView(ViewHolder viewHolder, Channel channel) {
 		viewHolder.mType.setText(Consts.DAZOO_CHANNEL_DISPLAY_STRING);
 		
 		String title = channel.getName();
-		viewHolder.mTitle.setText(title);
+		setTitleString(viewHolder, title);
 		
 		viewHolder.mTime.setVisibility(View.GONE);
 	}
@@ -198,6 +260,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		if (rowView == null) {
 			rowView = inflater.inflate(R.layout.row_search_result, null);
 			ViewHolder viewHolder = new ViewHolder();
+			viewHolder.mMetaDataContainer = (LinearLayout) rowView.findViewById(R.id.row_search_result_meta_data_container);
 			viewHolder.mTitle = (FontTextView) rowView.findViewById(R.id.row_search_result_title);
 			viewHolder.mType = (FontTextView) rowView.findViewById(R.id.row_search_result_type);
 			viewHolder.mTime = (FontTextView) rowView.findViewById(R.id.row_search_result_time);
@@ -208,7 +271,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
 
 		if (searchResultItems != null && searchResultItems.size() > 0) {
-
+			holder.mMetaDataContainer.setVisibility(View.VISIBLE);
 			SearchResultItem resultItem = getItem(position);
 
 			ENTITY_TYPE type = resultItem.getEntityType();
@@ -230,6 +293,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 			}
 			}
 		} else {
+			holder.mMetaDataContainer.setVisibility(View.GONE);
 			holder.mTitle.setText(context.getString(R.string.search_empty));
 		}
 
@@ -237,6 +301,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 	}
 
 	static class ViewHolder {
+		public LinearLayout mMetaDataContainer;
 		public FontTextView mTitle;
 		public FontTextView mType;
 		public FontTextView mTime;
@@ -255,12 +320,12 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 			protected FilterResults performFiltering(CharSequence constraint) {
 				FilterResults filterResults = new FilterResults();
 				if (constraint != null) {
-					query = constraint.toString().trim();
-					if (!query.equals(lastSearch) && !(query.length() == 0)) {
+					mQuery = constraint.toString().trim();
+					if (!mQuery.equals(lastSearch) && !(mQuery.length() == 0)) {
 						
 						// Retrieve the autocomplete results.
 						searchResultItems = autocomplete(constraint.toString());
-						lastSearch = query;
+						lastSearch = mQuery;
 					}
 					// Assign the data to the FilterResults
 					filterResults.values = searchResultItems;

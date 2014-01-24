@@ -235,8 +235,8 @@
     <!-- SEARCH PAGE -->
     <string name="search_hint">Search</string>
     <string name="search_page_instructions">Search for movies, series, sports events and channels</string>
-    <string name="search_empty">No search result</string>
+    <string name="search_empty">No results found.</string>
     <string name="search_on_air_now">On air now</string>
-    <string name="search_time_left">until start</string>
+    <string name="search_starts_in">in</string>
 
 </resources>

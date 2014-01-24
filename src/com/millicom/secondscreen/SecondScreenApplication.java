@@ -2,6 +2,7 @@ package com.millicom.secondscreen;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.app.Application;
@@ -141,6 +142,13 @@ public class SecondScreenApplication extends Application {
 		}
 		return sInstance;
 	}
+	
+
+	public static Locale getCurrentLocale() {
+		Locale current = getInstance().getApplicationContext().getResources().getConfiguration().locale;
+		return current;
+	}
+
 	
 	public int getScreenSizeMask() {
 		int screenSizeMask = getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
