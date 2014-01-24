@@ -1,9 +1,13 @@
 package com.millicom.secondscreen.customviews;
 
+import com.millicom.secondscreen.manager.FontManager;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -16,14 +20,45 @@ public class InstantAutoComplete extends AutoCompleteTextView {
 	
 	public InstantAutoComplete(Context context) {
         super(context);
+        setup(context);
     }
 
-    public InstantAutoComplete(Context arg0, AttributeSet arg1) {
-        super(arg0, arg1);
+    public InstantAutoComplete(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        setup(context);
+        final Context contextFinal = context;
+        addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable arg0) {
+				if(arg0.toString().length()<=0){
+					setTypeface(FontManager.getFontLight(contextFinal));
+	            } else {
+	            	setTypeface(FontManager.getFontBold(contextFinal));
+	            }
+			}
+		});
     }
 
-    public InstantAutoComplete(Context arg0, AttributeSet arg1, int arg2) {
-        super(arg0, arg1, arg2);
+    public InstantAutoComplete(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        setup(context);
+    }
+    
+    private void setup(Context context) {
+    	setTypeface(FontManager.getFontLight(context));
     }
 
     @Override
