@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/searchbar_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+    <com.millicom.secondscreen.customviews.InstantAutoComplete
+        android:id="@+id/searchbar_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/white"
+        android:drawableLeft="@android:drawable/ic_menu_search"
+        android:hint="@string/search_hint"
+        android:imeOptions="actionSearch"
+        android:maxLines="1"
+        android:paddingRight="30dp"
+        android:singleLine="true"
+        android:textColor="@color/grey4"
+        android:textSize="14sp" />
+
+    <ProgressBar
+        android:id="@+id/searchbar_progress"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/searchbar_clear"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:clickable="true"
+        android:src="@drawable/close_button_icon" />
+
+</RelativeLayout>

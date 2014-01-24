@@ -27,43 +27,10 @@
         android:layout_toRightOf="@+id/actionbar_back"
         android:src="@drawable/ic_launcher" />
 
-    <com.millicom.secondscreen.customviews.InstantAutoComplete
-        android:id="@+id/searchbar_edittext"
+    <include
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_height="match_parent"
         android:layout_toRightOf="@+id/actionbar_app_icon"
-        android:background="@color/white"
-        android:drawableLeft="@android:drawable/ic_menu_search"
-        android:hint="@string/search_hint"
-        android:imeOptions="actionSearch"
-        android:maxLines="1"
-        android:paddingRight="30dp"
-        android:singleLine="true"
-        android:textColor="@color/grey4"
-        android:textSize="14sp" />
-
-    <ProgressBar
-        android:id="@+id/searchbar_progress"
-        style="?android:attr/progressBarStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:visibility="gone" />
-
-    <ImageView
-        android:id="@+id/searchbar_clear"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
-        android:clickable="true"
-        android:src="@drawable/close_button_icon" />
-
+        layout="@layout/element_actionbar_searchfield"/>
+    
 </RelativeLayout>
