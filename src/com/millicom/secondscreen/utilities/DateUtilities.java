@@ -529,11 +529,12 @@ public class DateUtilities {
 	 * @return number of minutes as integer
 	 */
 	public static int getDifferenceInMinutes(long timeSubmitted, long timeCurrent) throws ParseException {
-		long difference = timeCurrent - timeSubmitted;
-
+		long difference = getAbsoluteTimeDifference(timeSubmitted);
 		int days = (int) (difference / (1000 * 60 * 60 * 24));
 		int hours = (int) ((difference - (1000 * 60 * 60 * 24 * days)) / (1000 * 60 * 60));
-		return (int) (difference - (1000 * 60 * 60 * 24 * days) - (1000 * 60 * 60 * hours)) / (1000 * 60);
+		int minutes = (int) (difference - (1000 * 60 * 60 * 24 * days) - (1000 * 60 * 60 * hours)) / (1000 * 60);
+		
+		return minutes;
 	}
 
 	/**
@@ -544,12 +545,32 @@ public class DateUtilities {
 	public static int getDifferenceInMinutes(long timeSubmitted) throws ParseException {
 		Date currentDate = new Date();
 		long timeCurrent = currentDate.getTime();
-
-		long difference = timeCurrent - timeSubmitted;
+		return getDifferenceInMinutes(timeSubmitted, timeCurrent);
+	}
+		
+	/**
+	 * Get the difference in hours between current time and submitted
+	 * 
+	 * @return number of hours as integer
+	 */
+	public static int getDifferenceInHours(long timeSubmitted) throws ParseException {
+		long difference = getAbsoluteTimeDifference(timeSubmitted);
 
 		int days = (int) (difference / (1000 * 60 * 60 * 24));
 		int hours = (int) ((difference - (1000 * 60 * 60 * 24 * days)) / (1000 * 60 * 60));
-		return (int) (difference - (1000 * 60 * 60 * 24 * days) - (1000 * 60 * 60 * hours)) / (1000 * 60);
+		return hours;
+	}
+	
+	/**
+	 * Get the difference in days between current time and submitted
+	 * 
+	 * @return number of days as integer
+	 */
+	public static int getDifferenceInDays(long timeSubmitted) throws ParseException {
+		long difference = getAbsoluteTimeDifference(timeSubmitted);
+
+		int days = (int) (difference / (1000 * 60 * 60 * 24));
+		return days;
 	}
 
 	/**

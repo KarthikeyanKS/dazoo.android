@@ -31,8 +31,10 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 
 import com.millicom.secondscreen.Consts;
+import com.millicom.secondscreen.Consts.ENTITY_TYPE;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
@@ -240,29 +242,33 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 	public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 
 		SearchResultItem result = (SearchResultItem) adapterView.getItemAtPosition(position);
+		
+		if(result.getEntityType() != ENTITY_TYPE.CHANNEL) {
+			// open the detail view for the individual broadcast
+			Intent intent = new Intent(SearchPageActivity.this, BroadcastPageActivity.class);
 	
-		// open the detail view for the individual broadcast
-		Intent intent = new Intent(SearchPageActivity.this, BroadcastPageActivity.class);
-
-		// we take one position less as we have a header view
-		int adjustedPosition = position - 1;
-		if(adjustedPosition < 0) {
-			/* Don't allow negative values */
-			adjustedPosition = 0;
+			// we take one position less as we have a header view
+			int adjustedPosition = position - 1;
+			if(adjustedPosition < 0) {
+				/* Don't allow negative values */
+				adjustedPosition = 0;
+			}
+			
+			Broadcast nextBroadcast = result.getNextBroadcast();
+			
+			intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, nextBroadcast.getBeginTimeMillisGmt());
+			
+			Channel channel = nextBroadcast.getChannel();
+			String channelId = channel.getChannelId();
+			intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, channelId);
+			
+			String date = nextBroadcast.getTvDateString();
+			intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, date);
+			
+			startActivity(intent);
+		} else {
+			Toast.makeText(this, "Channel pressed, behavior unspecified", Toast.LENGTH_SHORT).show();
 		}
-		
-		Broadcast nextBroadcast = result.getNextBroadcast();
-		
-		intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, nextBroadcast.getBeginTimeMillisGmt());
-		
-		Channel channel = nextBroadcast.getChannel();
-		String channelId = channel.getChannelId();
-		intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, channelId);
-		
-		String date = nextBroadcast.getTvDateString();
-		intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, date);
-		
-		startActivity(intent);
 	}
 
 	private void navigateUp() {

@@ -129,13 +129,24 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		this.searchResultItems = searchResultItems;
 	}
 	
-	public String getTimeString(Broadcast broadcast) {
-		return "Starts in 5 hours";
-	}
+
 	
-	public String getTimeString(SearchResultItem resultItem) {
+	public void setTimeString(ViewHolder viewHolder, SearchResultItem resultItem) {
 		Broadcast closestBroadcastInTime = resultItem.getNextBroadcast();
-		return getTimeString(closestBroadcastInTime);
+
+
+		String timeString = "";
+		int textColor;
+		if(closestBroadcastInTime.isRunning()) {
+			timeString = context.getString(R.string.search_on_air_now);
+			textColor = context.getResources().getColor(R.color.red);
+		} else {
+			timeString = closestBroadcastInTime.getStartsInTimeString();
+			textColor = context.getResources().getColor(R.color.grey3);
+		}
+		
+		viewHolder.mTime.setTextColor(textColor);
+		viewHolder.mTime.setText(timeString);
 	}
 	
 	public void populateProgramView(ViewHolder viewHolder, SearchResultItem resultItem, Program program) {
@@ -159,8 +170,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		}
 		viewHolder.mTitle.setText(title);
 		
-		String time = getTimeString(resultItem);
-		viewHolder.mTime.setText(time);
+		setTimeString(viewHolder, resultItem);
 	}
 		
 	public void populateSeriesView(ViewHolder viewHolder, SearchResultItem resultItem, Series series) {
@@ -168,9 +178,8 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		
 		String title = series.getName();
 		viewHolder.mTitle.setText(title);
-		
-		String time = getTimeString(resultItem);
-		viewHolder.mTime.setText(time);
+
+		setTimeString(viewHolder, resultItem);
 	}
 	
 	public void populateChannelView(ViewHolder viewHolder, Channel channel) {
@@ -221,7 +230,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 			}
 			}
 		} else {
-			holder.mTitle.setText(context.getString(R.string.no_search_result));
+			holder.mTitle.setText(context.getString(R.string.search_empty));
 		}
 
 		return rowView;
