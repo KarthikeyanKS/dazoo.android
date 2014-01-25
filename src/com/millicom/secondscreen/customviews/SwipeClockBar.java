@@ -48,6 +48,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 	private static int firstHourOfDay;
 	private TimeListAdapter listAdapter;
 	private float savedTextSize = -1;
+	private boolean isToday;
 
 	public SwipeClockBar(Context context) {
 		super(context);
@@ -226,7 +227,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 				fontName = FontManager.FONT_BOLD;
 				rowView.setBackgroundColor(activity.getResources().getColor(R.color.grey4));
 			} 
-			else if (isEarlier(hour, Integer.parseInt(DateUtilities.getCurrentHourString()))) {
+			else if (isToday && isEarlier(hour, Integer.parseInt(DateUtilities.getCurrentHourString()))) {
 				colorId = R.color.grey1;
 				fontName = FontManager.FONT_LIGHT;
 				rowView.setBackgroundColor(activity.getResources().getColor(R.color.transparent));
@@ -356,5 +357,9 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 		else {
 			return false;
 		}
+	}
+	
+	public void setToday(boolean isToday) {
+		this.isToday = isToday;
 	}
 }

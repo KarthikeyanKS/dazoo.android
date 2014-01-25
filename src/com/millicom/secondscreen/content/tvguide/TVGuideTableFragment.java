@@ -112,6 +112,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 
 			mSwipeClockBar = (SwipeClockBar) mRootView.findViewById(R.id.tvguide_swype_clock_bar);
 			mSwipeClockBar.setHour(mHour);
+			mSwipeClockBar.setToday(mIsToday);
 		} else {
 			mRootView = inflater.inflate(R.layout.fragment_tvguide_tag_type, null);
 			mTVGuideListView = (ListView) mRootView.findViewById(R.id.fragment_tvguide_type_tag_listview);
