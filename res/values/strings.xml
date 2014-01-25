@@ -165,7 +165,7 @@
     <string name="sign_in">Sing in</string>
     <string name="cancel">Cancel</string>
     <string name="sign_in_to_dazoo_title">Sign in to mi.tv</string>
-    <string name="sign_in_to_dazoo_text">You need to sign in to mi.tv to like shows and get better personal recommendations</string>
+    <string name="sign_in_to_dazoo_text">You need to sign in to mi.tv to like shows and get better personal recommendations.</string>
     <string name="sign_up_with_email">Sign up with email</string>
     <string name="already_registered">Already registered?</string>
     <string name="login_with_email">login with email</string>

@@ -228,7 +228,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 				rowView.setBackgroundColor(activity.getResources().getColor(R.color.grey4));
 			} 
 			else if (isToday && isEarlier(hour, Integer.parseInt(DateUtilities.getCurrentHourString()))) {
-				colorId = R.color.grey1;
+				colorId = R.color.grey2;
 				fontName = FontManager.FONT_LIGHT;
 				rowView.setBackgroundColor(activity.getResources().getColor(R.color.transparent));
 			}

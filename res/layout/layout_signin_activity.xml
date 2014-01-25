@@ -200,22 +200,16 @@
         <RelativeLayout
             android:id="@+id/signin_already_registered_container"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_below="@id/signin_container_email_divider"
-            android:layout_centerInParent="true" 
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal" >
+            android:orientation="vertical" >
 
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/signin_already_registered_text_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:layout_alignParentLeft="true"
+                android:layout_centerHorizontal="true"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="@string/already_registered"
                 android:textSize="18sp"
@@ -224,16 +218,16 @@
 
             <com.millicom.secondscreen.customviews.FontButton
                 android:id="@+id/signin_login_btn"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/signin_already_registered_text_tv"
-                android:gravity="center_vertical|center_horizontal"
-                android:padding="10dp"
-                android:text="@string/login"
+                android:layout_below="@id/signin_already_registered_text_tv"
+                android:layout_marginBottom="5dp"
+                android:background="@color/white"
+                android:gravity="center_horizontal"
+                android:text="@string/login_here"
+                android:textColor="@color/blue1"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:background="@drawable/layout_rounded_corners_grey" />
+                android:textStyle="bold" />
         </RelativeLayout>
     </RelativeLayout>
 
