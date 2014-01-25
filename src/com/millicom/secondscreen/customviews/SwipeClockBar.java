@@ -1,5 +1,6 @@
 package com.millicom.secondscreen.customviews;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,7 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SeekBar;
+import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.millicom.secondscreen.Consts;
@@ -33,6 +35,7 @@ import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.manager.AppConfigurationManager;
 import com.millicom.secondscreen.manager.FontManager;
+import com.millicom.secondscreen.utilities.DateUtilities;
 
 public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListener {
 
@@ -223,6 +226,11 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 				fontName = FontManager.FONT_BOLD;
 				rowView.setBackgroundColor(activity.getResources().getColor(R.color.grey4));
 			} 
+			else if (isEarlier(hour, Integer.parseInt(DateUtilities.getCurrentHourString()))) {
+				colorId = R.color.grey1;
+				fontName = FontManager.FONT_LIGHT;
+				rowView.setBackgroundColor(activity.getResources().getColor(R.color.transparent));
+			}
 			else {
 				colorId = R.color.black;
 				fontName = FontManager.FONT_LIGHT;
@@ -338,5 +346,15 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 		// Measure using a static layout
 		StaticLayout layout = new StaticLayout(source, paint, width, Alignment.ALIGN_NORMAL, 1.0f, 0.0f, true);
 		return layout.getHeight();
+	}
+	
+	/* If first is earlier than second, return true. */
+	private boolean isEarlier(int first, int second) {
+		if (first < second && first >= firstHourOfDay) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }

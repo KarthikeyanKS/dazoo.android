@@ -93,6 +93,7 @@
         <item quantity="one">Queda</item>
         <item quantity="other">Quedan</item>
     </plurals>
+    <string name="broadcast_info">Información</string>
 
     <!-- LOGIN PAGE -->
     <string name="login_with_facebook">Iniciar sesión con Facebook</string>

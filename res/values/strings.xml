@@ -136,6 +136,7 @@
     <string name="tv_series">TV Series</string>
     <string name="repetitions">Repetitions</string>
     <string name="repetitions_more">Show more repetitions</string>
+    <string name="broadcast_info">Broadcast info</string>
 
     <plurals name="hour">
         <item quantity="one">hour</item>
