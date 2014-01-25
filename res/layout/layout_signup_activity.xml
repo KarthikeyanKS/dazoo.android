@@ -26,7 +26,8 @@
             android:textColorHint="@color/grey2"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:background="@drawable/edittext_standard" />
+            android:background="@drawable/edittext_standard"
+            android:lines="1" />
 
         <com.millicom.secondscreen.customviews.FontEditText
             android:id="@+id/signup_lastname_edittext"
@@ -42,7 +43,8 @@
             android:textColorHint="@color/grey2"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:background="@drawable/edittext_standard" />
+            android:background="@drawable/edittext_standard"
+            android:lines="1" />
 
         <com.millicom.secondscreen.customviews.FontEditText
             android:id="@+id/signup_email_edittext"
@@ -58,7 +60,8 @@
             android:textColorHint="@color/grey2"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:background="@drawable/edittext_standard" />
+            android:background="@drawable/edittext_standard"
+            android:lines="1" />
 
         <com.millicom.secondscreen.customviews.FontEditText
             android:id="@+id/signup_password_edittext"
@@ -74,7 +77,8 @@
             android:textColorHint="@color/grey2"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:background="@drawable/edittext_standard" />
+            android:background="@drawable/edittext_standard"
+            android:lines="1" />
 
         <com.millicom.secondscreen.customviews.FontTextView
             android:id="@+id/signup_error_textview"
