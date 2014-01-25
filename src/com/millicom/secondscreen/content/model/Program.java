@@ -162,26 +162,32 @@ public class Program implements Parcelable {
 		}
 
 		if ((Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE).equals(programType)) {
-			int tempInt = jsonProgram.optInt(Consts.DAZOO_PROGRAM_EPISODE);
-			if (temp.length() > 0) this.setEpisodeNumber(tempInt);
-			else this.setEpisodeNumber(-1);
 
+			int tempInt = jsonProgram.optInt(Consts.DAZOO_PROGRAM_EPISODE);
+			if (temp.length() > 0) {
+				this.setEpisodeNumber(tempInt);
+			} else {
+				this.setEpisodeNumber(-1);
+			}
 			JSONObject seasonJSON = jsonProgram.optJSONObject(Consts.DAZOO_PROGRAM_SEASON);
 			Season season = new Season(seasonJSON);
 			this.setSeason(season);
-
 			JSONObject seriesJSON = jsonProgram.optJSONObject(Consts.DAZOO_PROGRAM_SERIES);
-			Series series = new Series(seriesJSON);
-			this.setSeries(series);
-
+			if (seriesJSON != null) {
+				Series series = new Series(seriesJSON);
+				this.setSeries(series);
+			}
 		} else if ((Consts.DAZOO_PROGRAM_TYPE_MOVIE).equals(programType)) {
+
 			this.setYear(jsonProgram.optInt(Consts.DAZOO_PROGRAM_YEAR));
 			this.setGenre(jsonProgram.optString(Consts.DAZOO_PROGRAM_GENRE));
 		} else if ((Consts.DAZOO_PROGRAM_TYPE_SPORT).equals(programType)) {
 			this.setTournament(jsonProgram.optString(Consts.DAZOO_PROGRAM_TOURNAMENT));
 			JSONObject sportTypeJSON = jsonProgram.optJSONObject(Consts.DAZOO_PROGRAM_SPORTTYPE);
-			SportType sportType = new SportType(sportTypeJSON);
-			this.setSportType(sportType);
+			if (sportTypeJSON != null) {
+				SportType sportType = new SportType(sportTypeJSON);
+				this.setSportType(sportType);
+			}
 		} else if ((Consts.DAZOO_PROGRAM_TYPE_OTHER).equals(programType)) {
 			this.setCategory(jsonProgram.optString(Consts.DAZOO_PROGRAM_CATEGORY));
 		}

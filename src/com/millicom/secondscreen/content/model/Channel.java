@@ -1,14 +1,12 @@
 package com.millicom.secondscreen.content.model;
 
-import java.util.ArrayList;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.millicom.secondscreen.Consts;
-
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.millicom.secondscreen.Consts;
 
 public class Channel extends ThreeImageResolutions implements Parcelable {
 

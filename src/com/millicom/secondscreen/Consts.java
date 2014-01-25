@@ -15,6 +15,8 @@ public abstract class Consts {
 
 	public static final Charset	UTF8_CHARSET												= Charset.forName("UTF-8");
 
+	public static final String MILLICOM_SESSION												= "com.millicom.session";
+	
 	/* Shared preferences */
 	public static final String	SHARED_PREFS_MAIN_NAME										= "com.millicom.secondscreen.shared.prefs";
 	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_ACCESS_TOKEN				= "com.millicom.secondscreen.user.account.access.token";
@@ -34,7 +36,7 @@ public abstract class Consts {
 	public static final String MILLICON_SECONDSCREEN_HTTPS_SCHEME							= "https://";
 	public static final String MILLICOM_SECONDSCREEN_MI_TV_BASE_URL							= "android.api.mi.tv/";
 	public static final String MILLICOM_SECONDSCREEN_GITR_BASE_URL							= "android.api.gitrgitr.com/";
-	public static final String MILLICON_SECONDSCREEN_BASE_API_URL_USED 						= MILLICOM_SECONDSCREEN_MI_TV_BASE_URL;
+	public static final String MILLICON_SECONDSCREEN_BASE_API_URL_USED 						= MILLICOM_SECONDSCREEN_GITR_BASE_URL;
 	public static final String MILLICOM_SECONDSCREEN_SERVER_URL_SECURE 						= MILLICON_SECONDSCREEN_HTTPS_SCHEME + MILLICON_SECONDSCREEN_BASE_API_URL_USED;
 	public static final String MILLICOM_SECONDSCREEN_SERVER_URL								= MILLICON_SECONDSCREEN_HTTP_SCHEME + MILLICON_SECONDSCREEN_BASE_API_URL_USED;
 	public static String 	   MILLICOM_SECONDSCREEN_TRACKING_URL 							= MILLICON_SECONDSCREEN_HTTP_SCHEME + "tracking.gitrgitr.com/track/unique?verb=views&key=program_id&value=%s&uid=%s";
@@ -57,7 +59,7 @@ public abstract class Consts {
 	public static final String MILLICOM_SECONDSCREEN_SERIES 								= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/series/";
 	public static final String MILLICOM_SECONDSCREEN_POPULAR 								= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/broadcasts/popular/";
 	public static final String MILLICOM_SECONDSCREEN_CONFIGURATION 							= MILLICOM_SECONDSCREEN_SERVER_URL + "configuration";
-	public static final String MILLICOM_SECONDSCREEN_SEARCH		 							= MILLICOM_SECONDSCREEN_SERVER_URL + "search?=";
+	public static final String MILLICOM_SECONDSCREEN_SEARCH		 							= MILLICOM_SECONDSCREEN_SERVER_URL + "search?query=%s*";
 
 	public static final String NOTIFY_BROADCAST_URL_PREFIX 									= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/channels/";
 
@@ -101,10 +103,6 @@ public abstract class Consts {
 		LOADING, FAILED, EMPTY_RESPONSE, SUCCESSFUL, BAD_REQUEST
 	};
 	
-	public static enum ITEM_TYPE {
-		BROADCAST
-	}
-
 	public static String		DAZOO_BACK_STACK									= "com.millicom.secondscreen.dazoo.back.stack";
 
 	public static final String	ISO_DATE_FORMAT										= "yyyy-MM-dd'T'HH:mm:ss'Z'";
@@ -291,6 +289,12 @@ public abstract class Consts {
 
 	public static final String	DAZOO_LIKE_ENTITY_TYPE_PROGRAM						= "PROGRAM";
 	public static final String	DAZOO_LIKE_ENTITY_TYPE_SERIES						= "SERIES";
+	public static final String 	DAZOO_SERIES_DISPLAY_STRING							= "Series";
+	public static final String 	DAZOO_CHANNEL_DISPLAY_STRING						= "Channel";
+	public static final String 	DAZOO_PROGRAM_DISPLAY_STRING_TV_EPISODE				= "TV Episode";
+	public static final String 	DAZOO_PROGRAM_DISPLAY_STRING_MOVIE					= "Movie";
+	public static final String 	DAZOO_PROGRAM_DISPLAY_STRING_OTHER					= "Other";
+	public static final String 	DAZOO_PROGRAM_DISPLAY_STRING_SPORT					= "Sport";
 
 	/* BROADCAST fields */
 	public static final String	DAZOO_BROADCAST_PROGRAM								= "program";
@@ -457,7 +461,14 @@ public abstract class Consts {
 	/* JSON KEYS FOR SEARCH RESULTS */
 	public static final String JSON_KEY_SEARCH_RESULT_SUGGESTION		= "suggestion";
 	public static final String JSON_KEY_SEARCH_RESULT_NUMBER_OF_RESULTS	= "numberOfResults";
-	public static final String JSON_KEY_SEARCH_RESULT_ITEMS				= "items";
+	public static final String JSON_KEY_SEARCH_RESULT_RESULTS			= "results";
+	public static final String JSON_KEY_SEARCH_RESULT_ITEM_ENTITY		= "entity";
 	public static final String JSON_KEY_SEARCH_RESULT_ITEM_DISPLAY_TEXT	= "displayText";
-	public static final String JSON_KEY_SEARCH_RESULT_ITEM_TYPE			= "itemType";
+	public static final String JSON_KEY_SEARCH_RESULT_ITEM_ENTITY_TYPE	= "entityType";
+	public static final String JSON_KEY_SEARCH_ENTITY_BROADCASTS		= "broadcasts";
+	public static final String JSON_KEY_SEARCH_ENTITY_NAME				= "name";
+	
+	public static enum ENTITY_TYPE {
+		SERIES, PROGRAM, CHANNEL
+	}
 }

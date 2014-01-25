@@ -200,7 +200,7 @@ public abstract class SSPage {
 	}
 	
 	public void parseSeriesUpcomingBroadcasts(JSONArray jsonArray) throws Exception {
-		this.mSeriesUpcomingBroadcasts = mContentParser.parseSeriesUpcomingBroadcasts(jsonArray);
+		this.mSeriesUpcomingBroadcasts = mContentParser.parseBroadcasts(jsonArray);
 	}
 	
 	public ArrayList<Broadcast> getProgramBroadcasts(){
@@ -208,7 +208,7 @@ public abstract class SSPage {
 	}
 	
 	public void parseProgramBroadcasts(JSONArray jsonArray) throws Exception{
-		this.mProgramBroadcasts = mContentParser.parseProgramBroadcasts(jsonArray);
+		this.mProgramBroadcasts = mContentParser.parseBroadcasts(jsonArray);
 	}
 	
 
