@@ -158,12 +158,9 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 		}
 		}
 
-		boolean hideView = true;
-
 		if (popularRowIndex < broadcasts.size()) {
 			final Broadcast broadcast = broadcasts.get(popularRowIndex);
 			if (broadcast != null) {
-				hideView = false;
 				broadcast.updateTimeToBeginAndTimeToEnd();
 				final Program program = broadcast.getProgram();
 
@@ -227,10 +224,9 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 					}
 				});
 			}
-
-			if (hideView) {
-				containerLayout.setVisibility(View.GONE);
-			}
+		}
+		else {
+			containerLayout.setVisibility(View.GONE);
 		}
 	}
 
@@ -268,74 +264,84 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 
 			/* Many broadcasts */
 			if (type == ITEM_TYPE_POPULAR_BROADCASTS) {
+				
+				final ArrayList<Broadcast> broadcasts = feedItem.getBroadcasts();
+				// If there are atleast 2 broadcasts in popular list
+				if (broadcasts.size() > 1) {
+					if (rowView == null) {
+						mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-				if (rowView == null) {
-					mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+						PopularBroadcastsViewHolder viewHolder = new PopularBroadcastsViewHolder();
+						rowView = mLayoutInflater.inflate(R.layout.block_feed_popular, null);
 
-					PopularBroadcastsViewHolder viewHolder = new PopularBroadcastsViewHolder();
-					rowView = mLayoutInflater.inflate(R.layout.block_feed_popular, null);
+						viewHolder.header = (TextView) rowView.findViewById(R.id.block_popular_header_tv);
 
-					viewHolder.header = (TextView) rowView.findViewById(R.id.block_popular_header_tv);
+						// one
+						RelativeLayout elementOne = (RelativeLayout) rowView.findViewById(R.id.block_popular_element_one);
+						viewHolder.mContainerOne = elementOne;
+						viewHolder.mPosterOne = (ImageView) elementOne.findViewById(R.id.element_popular_list_item_image_iv);
+						viewHolder.mTitleOne = (TextView) elementOne.findViewById(R.id.element_popular_list_item_title_tv);
+						viewHolder.mTimeOne = (TextView) elementOne.findViewById(R.id.element_popular_list_item_time_tv);
+						viewHolder.mChannelNameOne = (TextView) elementOne.findViewById(R.id.element_popular_list_item_channel_tv);
+						viewHolder.mDetailsOne = (TextView) elementOne.findViewById(R.id.element_popular_list_item_type_tv);
+						viewHolder.mProgressBarTitleOne = (TextView) elementOne.findViewById(R.id.element_popular_list_item_timeleft_tv);
+						viewHolder.mProgressBarOne = (ProgressBar) elementOne.findViewById(R.id.element_popular_list_item_progressbar);
+
+						// two
+						RelativeLayout elementTwo = (RelativeLayout) rowView.findViewById(R.id.block_popular_element_two);
+						viewHolder.mContainerTwo = elementTwo;// (LinearLayout) elementTwo.findViewById(R.id.block_popular_feed_container);
+						viewHolder.mPosterTwo = (ImageView) elementTwo.findViewById(R.id.element_popular_list_item_image_iv);
+						viewHolder.mTitleTwo = (TextView) elementTwo.findViewById(R.id.element_popular_list_item_title_tv);
+						viewHolder.mTimeTwo = (TextView) elementTwo.findViewById(R.id.element_popular_list_item_time_tv);
+						viewHolder.mChannelNameTwo = (TextView) elementTwo.findViewById(R.id.element_popular_list_item_channel_tv);
+						viewHolder.mDetailsTwo = (TextView) elementTwo.findViewById(R.id.element_popular_list_item_type_tv);
+						viewHolder.mProgressBarTitleTwo = (TextView) elementTwo.findViewById(R.id.element_popular_list_item_timeleft_tv);
+						viewHolder.mProgressBarTwo = (ProgressBar) elementTwo.findViewById(R.id.element_popular_list_item_progressbar);
+
+						// three
+						RelativeLayout elementThree = (RelativeLayout) rowView.findViewById(R.id.block_popular_element_three);
+						viewHolder.mContainerThree = elementThree;// (LinearLayout) elementThree.findViewById(R.id.block_popular_feed_container);
+						viewHolder.mPosterThree = (ImageView) elementThree.findViewById(R.id.element_popular_list_item_image_iv);
+						viewHolder.mTitleThree = (TextView) elementThree.findViewById(R.id.element_popular_list_item_title_tv);
+						viewHolder.mTimeThree = (TextView) elementThree.findViewById(R.id.element_popular_list_item_time_tv);
+						viewHolder.mChannelNameThree = (TextView) elementThree.findViewById(R.id.element_popular_list_item_channel_tv);
+						viewHolder.mDetailsThree = (TextView) elementThree.findViewById(R.id.element_popular_list_item_type_tv);
+						viewHolder.mProgressBarTitleThree = (TextView) elementThree.findViewById(R.id.element_popular_list_item_timeleft_tv);
+						viewHolder.mProgressBarThree = (ProgressBar) elementThree.findViewById(R.id.element_popular_list_item_progressbar);
+
+						rowView.setTag(viewHolder);
+					}
+
+					final PopularBroadcastsViewHolder holderPBC = (PopularBroadcastsViewHolder) rowView.getTag();
 
 					// one
-					RelativeLayout elementOne = (RelativeLayout) rowView.findViewById(R.id.block_popular_element_one);
-					viewHolder.mContainerOne = elementOne;
-					viewHolder.mPosterOne = (ImageView) elementOne.findViewById(R.id.element_popular_list_item_image_iv);
-					viewHolder.mTitleOne = (TextView) elementOne.findViewById(R.id.element_popular_list_item_title_tv);
-					viewHolder.mTimeOne = (TextView) elementOne.findViewById(R.id.element_popular_list_item_time_tv);
-					viewHolder.mChannelNameOne = (TextView) elementOne.findViewById(R.id.element_popular_list_item_channel_tv);
-					viewHolder.mDetailsOne = (TextView) elementOne.findViewById(R.id.element_popular_list_item_type_tv);
-					viewHolder.mProgressBarTitleOne = (TextView) elementOne.findViewById(R.id.element_popular_list_item_timeleft_tv);
-					viewHolder.mProgressBarOne = (ProgressBar) elementOne.findViewById(R.id.element_popular_list_item_progressbar);
+					populatePopularItemAtIndex(holderPBC, broadcasts, 0);
 
 					// two
-					RelativeLayout elementTwo = (RelativeLayout) rowView.findViewById(R.id.block_popular_element_two);
-					viewHolder.mContainerTwo = elementTwo;// (LinearLayout) elementTwo.findViewById(R.id.block_popular_feed_container);
-					viewHolder.mPosterTwo = (ImageView) elementTwo.findViewById(R.id.element_popular_list_item_image_iv);
-					viewHolder.mTitleTwo = (TextView) elementTwo.findViewById(R.id.element_popular_list_item_title_tv);
-					viewHolder.mTimeTwo = (TextView) elementTwo.findViewById(R.id.element_popular_list_item_time_tv);
-					viewHolder.mChannelNameTwo = (TextView) elementTwo.findViewById(R.id.element_popular_list_item_channel_tv);
-					viewHolder.mDetailsTwo = (TextView) elementTwo.findViewById(R.id.element_popular_list_item_type_tv);
-					viewHolder.mProgressBarTitleTwo = (TextView) elementTwo.findViewById(R.id.element_popular_list_item_timeleft_tv);
-					viewHolder.mProgressBarTwo = (ProgressBar) elementTwo.findViewById(R.id.element_popular_list_item_progressbar);
+					populatePopularItemAtIndex(holderPBC, broadcasts, 1);
 
 					// three
-					RelativeLayout elementThree = (RelativeLayout) rowView.findViewById(R.id.block_popular_element_three);
-					viewHolder.mContainerThree = elementThree;// (LinearLayout) elementThree.findViewById(R.id.block_popular_feed_container);
-					viewHolder.mPosterThree = (ImageView) elementThree.findViewById(R.id.element_popular_list_item_image_iv);
-					viewHolder.mTitleThree = (TextView) elementThree.findViewById(R.id.element_popular_list_item_title_tv);
-					viewHolder.mTimeThree = (TextView) elementThree.findViewById(R.id.element_popular_list_item_time_tv);
-					viewHolder.mChannelNameThree = (TextView) elementThree.findViewById(R.id.element_popular_list_item_channel_tv);
-					viewHolder.mDetailsThree = (TextView) elementThree.findViewById(R.id.element_popular_list_item_type_tv);
-					viewHolder.mProgressBarTitleThree = (TextView) elementThree.findViewById(R.id.element_popular_list_item_timeleft_tv);
-					viewHolder.mProgressBarThree = (ProgressBar) elementThree.findViewById(R.id.element_popular_list_item_progressbar);
+					populatePopularItemAtIndex(holderPBC, broadcasts, 2);
 
-					rowView.setTag(viewHolder);
+					RelativeLayout footer = (RelativeLayout) rowView.findViewById(R.id.block_popular_show_more_container);
+					footer.setOnClickListener(new View.OnClickListener() {
+
+						@Override
+						public void onClick(View v) {
+							Intent intent = new Intent(mActivity, PopularPageActivity.class);
+							mActivity.startActivity(intent);
+						}
+					});
+
 				}
-
-				final PopularBroadcastsViewHolder holderPBC = (PopularBroadcastsViewHolder) rowView.getTag();
-				final ArrayList<Broadcast> broadcasts = feedItem.getBroadcasts();
-
-				// one
-				populatePopularItemAtIndex(holderPBC, broadcasts, 0);
-
-				// two
-				populatePopularItemAtIndex(holderPBC, broadcasts, 1);
-
-				// three
-				populatePopularItemAtIndex(holderPBC, broadcasts, 2);
-
-				RelativeLayout footer = (RelativeLayout) rowView.findViewById(R.id.block_popular_show_more_container);
-				footer.setOnClickListener(new View.OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						Intent intent = new Intent(mActivity, PopularPageActivity.class);
-						mActivity.startActivity(intent);
-					}
-				});
-
-			} else {
+				//If there is only one broadcast in popular list, show as popular card
+				else if (broadcasts.size() > 0) {
+					feedItem.setBroadcast(broadcasts.get(0));
+					feedItem.setItemType(Consts.DAZOO_FEED_ITEM_POPULAR_BROADCAST);
+					getViewForFeedItemCell(position, convertView, parent);
+				}
+			} 
+			else {
 
 				/* One broadcast */
 				final Broadcast broadcast = feedItem.getBroadcast();
