@@ -109,7 +109,7 @@ public class SignUpActivity extends SSActivity implements OnClickListener {
 		mDazooRegisterButton = (Button) findViewById(R.id.signup_register_button);
 		mDazooRegisterButton.setOnClickListener(this);
 
-		setTextWatchers();
+//		setTextWatchers();
 
 		// TODO: Static drawable background is not properly set, causing a flickering effect. Quickfix!
 		mFirstNameEditText.setBackgroundResource(R.drawable.edittext_standard);

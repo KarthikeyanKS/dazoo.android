@@ -154,8 +154,10 @@
     <string name="login_with_dazoo">Login with mi.tv</string>
     <string name="logout_from_dazoo">Logout from mi.tv</string>
     <string name="register_with_dazoo">Register with mi.tv</string>
-    <string name="hint_password">Password</string>
-    <string name="hint_email">E-mail</string>
+    <!-- string name="hint_password">Password</string>
+    <string name="hint_email">E-mail</string-->
+    <string name="hint_password">Password, at least 6 characters</string>
+    <string name="hint_email">E-mail, example@abc.com</string>
     <string name="hint_firstname">First name</string>
     <string name="hint_lastname">Last name</string>
     <string name="hint_enter_email">Enter e-mail</string>
