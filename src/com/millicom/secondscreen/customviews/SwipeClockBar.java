@@ -76,12 +76,14 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 	}
 
 	private int hourToProgress(int hour) {
-		if (hour > firstHourOfDay) {
-			return (hour - firstHourOfDay) % hoursPerDay;
+		int index;
+		if (hour >= firstHourOfDay) {
+			index = (hour - firstHourOfDay) % hoursPerDay;
 		}
 		else {
-			return (hoursPerDay - firstHourOfDay + hour);
+			index = (hoursPerDay - firstHourOfDay + hour);
 		}
+		return index;
 	}
 
 	private int progressToHour(int progress) {

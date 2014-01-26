@@ -121,7 +121,7 @@ public class PopularListAdapter extends BaseAdapter {
 					holder.mHeaderContainer.setVisibility(View.VISIBLE);
 				}
 			}
-
+			/* Old implementation, not adjusting if received too much/little data from backend */
 			//			try {
 			//				mCurrentPosition = (Integer) holder.mTitleTv.getTag();
 			//				Log.d(TAG, "currentPosition:" + mCurrentPosition);
