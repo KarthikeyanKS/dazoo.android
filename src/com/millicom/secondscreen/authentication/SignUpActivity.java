@@ -58,6 +58,7 @@ public class SignUpActivity extends SSActivity implements OnClickListener {
 	private String				userEmailRegister, userPasswordRegister, userFirstNameRegister, userLastNameRegister, dazooToken;
 	private TextView			mErrorTextView;
 	private TextDrawable		mEmailTextDrawable, mPasswordTextDrawable;
+	private String 				mBadResponseString;
 
 	private final int			REGISTER_FIRSTNAME_MISSING	= 0;
 	private final int			REGISTER_LASTNAME_MISSING	= 1;
@@ -259,7 +260,20 @@ public class SignUpActivity extends SSActivity implements OnClickListener {
 						mEmailRegisterEditText.setEnabled(true);
 						mPasswordRegisterEditText.setEnabled(true);
 						
-						mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_register_error));
+						if (mBadResponseString.equals(Consts.BAD_RESPONSE_STRING_EMAIL_ALREADY_TAKEN)) {
+							mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_register_error) + ": Email taken");
+						}
+						else if (mBadResponseString.equals(Consts.BAD_RESPONSE_STRING_NOT_REAL_EMAIL)) {
+							mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_register_error));
+						}
+						else if (mBadResponseString.equals(Consts.BAD_RESPONSE_STRING_PASSWORD_TOO_SHORT)) {
+							mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_register_error));
+						}
+						else if (mBadResponseString.equals(Consts.BAD_RESPONSE_STRING_FIRSTNAME_NOT_SUPPLIED)) {
+							mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_register_error));
+						}
+						
+						mErrorTextView.setText(mBadResponseString);
 						mErrorTextView.setVisibility(View.VISIBLE);
 						mEmailRegisterEditText.setBackgroundResource(R.drawable.edittext_activated);
 						mEmailRegisterEditText.requestFocus();
@@ -349,6 +363,7 @@ public class SignUpActivity extends SSActivity implements OnClickListener {
 					return responseBody;
 				} else if (response.getStatusLine().getStatusCode() == Consts.BAD_RESPONSE) {
 					Log.d(TAG, "Invalid Token!");
+					mBadResponseString = response.getStatusLine().getReasonPhrase();
 					return Consts.EMPTY_STRING;
 				}
 			} catch (UnsupportedEncodingException e) {
