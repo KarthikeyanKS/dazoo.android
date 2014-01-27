@@ -44,6 +44,7 @@ import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.SearchResultItem;
 import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
 import com.millicom.secondscreen.customviews.InstantAutoComplete;
+import com.millicom.secondscreen.utilities.HardwareUtilities;
 
 public class SearchPageActivity extends SSActivity implements OnItemClickListener, OnEditorActionListener, OnClickListener, SearchActivityListeners {
 
@@ -157,32 +158,12 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 		});
 
 	}
-	
-	@SuppressLint("NewApi")
-	private int getScreenWidth() {
-		int screenWidth = 0;
-		if (Build.VERSION.SDK_INT >= 11) {
-	        Point size = new Point();
-	        try {
-	            this.getWindowManager().getDefaultDisplay().getRealSize(size);
-	            screenWidth = size.x;
-	        } catch (NoSuchMethodError e) {
-	            Log.i(TAG, "Error it can't work");
-	        }
-
-	    } else {
-	        DisplayMetrics metrics = new DisplayMetrics();
-	        this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-	        screenWidth = metrics.widthPixels;
-	    }
-		return screenWidth;
-	}
-	
+		
 	private void loadAutoCompleteView() {
 		mAutoCompleteAdapter = new SearchPageListAdapter(SearchPageActivity.this, this);
 		mEditTextSearch.setThreshold(1);
 	
-		int width = getScreenWidth();
+		int width = HardwareUtilities.getScreenWidth(this);
 		
 		mEditTextSearch.setDropDownWidth(width);
 		mEditTextSearch.setAdapter(mAutoCompleteAdapter);

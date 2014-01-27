@@ -240,6 +240,7 @@
     <string name="search_page_instructions">Search for movies, series, sports events and channels</string>
     <string name="search_empty">No results found.</string>
     <string name="search_on_air_now">On air now</string>
+    <string name="search_no_upcoming_broadcasts">No upcoming broadcasts</string>
     <string name="search_starts_in">in</string>
 
 </resources>
