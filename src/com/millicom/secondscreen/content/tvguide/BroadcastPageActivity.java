@@ -128,11 +128,16 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 		updateUI(REQUEST_STATUS.LOADING);
 		Log.d(TAG, "LOADING");
 		// check if the network connection exists
+
+		boolean loadIndividualBroadcast = true;
+		boolean useStandardChannel = true;
+
 		if (!NetworkUtils.checkConnection(mActivity)) {
 			updateUI(REQUEST_STATUS.FAILED);
 		} else {
 			token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
-			if (mBroadcastPageUrl == null) mBroadcastPageUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + mChannelId + Consts.NOTIFY_BROADCAST_URL_MIDDLE + mBeginTimeInMillis;
+			if (mBroadcastPageUrl == null)
+				mBroadcastPageUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + mChannelId + Consts.NOTIFY_BROADCAST_URL_MIDDLE + mBeginTimeInMillis;
 
 			if (!mIsFromActivity) {
 				if (!mIsFromNotification) {
@@ -143,6 +148,7 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 						mChannel = dazooStore.getChannelFromAll(mChannelId);
 
 						if (mBroadcast != null) {
+							loadIndividualBroadcast = false;
 							mIsBroadcast = true;
 
 							if (mChannel != null) {
@@ -163,17 +169,19 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 
 							updateUI(REQUEST_STATUS.SUCCESSFUL);
 						}
-					} else {
-						Log.d(TAG, "NOT LOGGED IN");
-						mChannel = dazooStore.getChannelFromDefault(mChannelId);
-						getIndividualBroadcast(mBroadcastPageUrl);
 					}
+
 				} else {
-					Log.d(TAG, "FROM NOTIFICATION");
-					getIndividualBroadcast(mBroadcastPageUrl);
+					useStandardChannel = false;
 				}
-			} else {
-				mChannel = dazooStore.getChannelFromAll(mChannelId);
+			}
+
+			if (loadIndividualBroadcast) {
+				Log.d(TAG, "NOT LOGGED IN");
+				if (useStandardChannel) {
+					mChannel = dazooStore.getChannelFromDefault(mChannelId);
+				}
+
 				getIndividualBroadcast(mBroadcastPageUrl);
 			}
 		}
