@@ -315,13 +315,15 @@ public class DazooStore {
 
 	public Broadcast getBroadcastFromMy(String date, String channelId, long beginTimeInMillis) {
 		Guide myChannelGuide = getChannelGuideFromMy(date, channelId);
-		ArrayList<Broadcast> myChannelBroadcasts = myChannelGuide.getBroadcasts();
-		int size = myChannelBroadcasts.size();
-
-		for (int i = 0; i < size; i++) {
-			long temp = myChannelBroadcasts.get(i).getBeginTimeMillisGmt();
-			if (beginTimeInMillis == temp) {
-				return myChannelBroadcasts.get(i);
+		if(myChannelGuide != null) {
+			ArrayList<Broadcast> myChannelBroadcasts = myChannelGuide.getBroadcasts();
+			int size = myChannelBroadcasts.size();
+	
+			for (int i = 0; i < size; i++) {
+				long temp = myChannelBroadcasts.get(i).getBeginTimeMillisGmt();
+				if (beginTimeInMillis == temp) {
+					return myChannelBroadcasts.get(i);
+				}
 			}
 		}
 		return null;
