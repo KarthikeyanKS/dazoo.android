@@ -223,7 +223,7 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 	private void initViews() {
 		// styling the Action Bar
 		mActionBar = getSupportActionBar();
-		mActionBar.setTitle(mActivity.getResources().getString(R.string.tv_guide));
+		mActionBar.setTitle(mActivity.getResources().getString(R.string.broadcast_info));
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 
 		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);

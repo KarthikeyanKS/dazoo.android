@@ -93,6 +93,7 @@
         <item quantity="one">Queda</item>
         <item quantity="other">Quedan</item>
     </plurals>
+    <string name="broadcast_info">Información</string>
 
     <!-- LOGIN PAGE -->
     <string name="login_with_facebook">Iniciar sesión con Facebook</string>
@@ -101,8 +102,10 @@
     <string name="login_with_dazoo">Iniciar sesión con tu correo electrónico</string>
     <string name="logout_from_dazoo">Cerrar sesión</string>
     <string name="register_with_dazoo">Registrarse con tu correo electrónico</string>
-    <string name="hint_password">Contraseña</string>
-    <string name="hint_email">Correo electrónico</string>
+    <!-- string name="hint_password">Contraseña</string>
+    <string name="hint_email">Correo electrónico</string-->
+    <string name="hint_password">Contraseña, al menos 6 caracteres</string>
+    <string name="hint_email">Correo electrónico, yo@mi.tv</string>
     <string name="hint_firstname">Nombre</string>
     <string name="hint_lastname">Apellido</string>
     <string name="hint_enter_email">Introduce correo electrónico</string>

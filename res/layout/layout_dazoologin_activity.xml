@@ -163,34 +163,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/dazoologin_divider"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:orientation="horizontal" >
+            android:orientation="vertical" >
             
             <com.millicom.secondscreen.customviews.FontTextView
                 android:id="@+id/dazoologin_forgot_password_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_vertical|center_horizontal"
                 android:text="@string/forgot_password"
-                android:textColor="@color/grey2"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textSize="18sp"
+	            android:textStyle="bold"
+	            android:textColor="@color/grey2" />
 
             <com.millicom.secondscreen.customviews.FontButton
                 android:id="@+id/dazoologin_forgot_password_button"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/dazoologin_forgot_password_tv"
-                android:background="@drawable/layout_rounded_corners_grey"
-                android:padding="8dp"
+                android:layout_below="@id/dazoologin_forgot_password_tv"
+                android:layout_marginBottom="5dp"
+                android:background="@color/white"
+                android:gravity="center_horizontal"
                 android:text="@string/reset_password"
-                android:textColor="@color/white"
+                android:textColor="@color/blue1"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </RelativeLayout>

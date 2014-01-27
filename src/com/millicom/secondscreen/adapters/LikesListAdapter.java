@@ -93,17 +93,18 @@ public class LikesListAdapter extends BaseAdapter {
 			final DazooLikeEntity entity = like.getEntity();
 			if (entity != null) {
 
-				holder.mHeaderContainer.setVisibility(View.GONE);
-				holder.mDividerView.setVisibility(View.VISIBLE);
-				// Logic to show header with first character
-				if (position == 0 || entity.getTitle().toUpperCase().charAt(0) != getItem(position - 1).getEntity().getTitle().toUpperCase().charAt(0)) {
-					holder.mHeaderContainer.setVisibility(View.VISIBLE);
-					holder.mHeaderTv.setText("" + entity.getTitle().toUpperCase().charAt(0));
-
-				}
-				if (position != (getCount() - 1) && entity.getTitle().toUpperCase().charAt(0) != getItem(position + 1).getEntity().getTitle().toUpperCase().charAt(0)) {
-					holder.mDividerView.setVisibility(View.GONE);
-				}
+				/*Disabled headers for now*/
+//				holder.mHeaderContainer.setVisibility(View.GONE);
+//				holder.mDividerView.setVisibility(View.VISIBLE);
+//				// Logic to show header with first character
+//				if (position == 0 || entity.getTitle().toUpperCase().charAt(0) != getItem(position - 1).getEntity().getTitle().toUpperCase().charAt(0)) {
+//					holder.mHeaderContainer.setVisibility(View.VISIBLE);
+//					holder.mHeaderTv.setText("" + entity.getTitle().toUpperCase().charAt(0));
+//
+//				}
+//				if (position != (getCount() - 1) && entity.getTitle().toUpperCase().charAt(0) != getItem(position + 1).getEntity().getTitle().toUpperCase().charAt(0)) {
+//					holder.mDividerView.setVisibility(View.GONE);
+//				}
 
 				holder.mProgramTitleTv.setText(entity.getTitle());
 				// Set appropriate description depending on program type

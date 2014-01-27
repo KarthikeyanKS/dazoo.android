@@ -79,7 +79,7 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 		}
 		
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
-		holder.mTextView.setVisibility(View.INVISIBLE);
+		
 		if (rowWidth < 0) {
 			/*
 			 * Start the view as invisible, when the height is known, update the
@@ -195,8 +195,6 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 					}
 					
 					textForThreeBroadcasts += toShow + "\n";
-					
-					holder.mTextView.setVisibility(View.VISIBLE);
 				}
 				
 				Spannable wordtoSpan = new SpannableString(textForThreeBroadcasts);     
@@ -210,6 +208,12 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 				holder.mTextView.setText(wordtoSpan, TextView.BufferType.SPANNABLE);
 				
 			}
+		}
+		if (textForThreeBroadcasts.equals("")) {
+			rowView.setVisibility(View.INVISIBLE);
+		}
+		else {
+			rowView.setVisibility(View.VISIBLE);
 		}
 		return rowView;
 	}

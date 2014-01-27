@@ -136,6 +136,7 @@
     <string name="tv_series">TV Series</string>
     <string name="repetitions">Repetitions</string>
     <string name="repetitions_more">Show more repetitions</string>
+    <string name="broadcast_info">Broadcast info</string>
 
     <plurals name="hour">
         <item quantity="one">hour</item>
@@ -153,8 +154,10 @@
     <string name="login_with_dazoo">Login with mi.tv</string>
     <string name="logout_from_dazoo">Logout from mi.tv</string>
     <string name="register_with_dazoo">Register with mi.tv</string>
-    <string name="hint_password">Password</string>
-    <string name="hint_email">E-mail</string>
+    <!-- string name="hint_password">Password</string>
+    <string name="hint_email">E-mail</string-->
+    <string name="hint_password">Password, at least 6 characters</string>
+    <string name="hint_email">E-mail, example@abc.com</string>
     <string name="hint_firstname">First name</string>
     <string name="hint_lastname">Last name</string>
     <string name="hint_enter_email">Enter e-mail</string>
@@ -164,7 +167,7 @@
     <string name="sign_in">Sing in</string>
     <string name="cancel">Cancel</string>
     <string name="sign_in_to_dazoo_title">Sign in to mi.tv</string>
-    <string name="sign_in_to_dazoo_text">You need to sign in to mi.tv to like shows and get better personal recommendations</string>
+    <string name="sign_in_to_dazoo_text">You need to sign in to mi.tv to like shows and get better personal recommendations.</string>
     <string name="sign_up_with_email">Sign up with email</string>
     <string name="already_registered">Already registered?</string>
     <string name="login_with_email">login with email</string>
@@ -225,7 +228,7 @@
     <!-- ACTIVITY PAGE -->
     <string name="login_for_activity">Get personal recommendations\n here by signing in</string>
     <string name="popular_now">Popular now</string>
-    <string name="show_all">Show all &#8230;</string>
+    <string name="show_all">Show all popular this week</string>
     <string name="from">from</string>
     <string name="know_more">Let us know what shows you like and get better recommendations</string>
     <string name="check_popular">Check out Some Popular Shows</string>

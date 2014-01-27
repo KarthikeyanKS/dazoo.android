@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -117,6 +118,7 @@ public class PopularPageActivity extends SSActivity implements OnClickListener {
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
 		if (super.requestIsSuccesfull(status)) {
+			Collections.sort(mPopularBroadcasts, new Broadcast.BroadcastComparatorByTime());
 			mAdapter = new PopularListAdapter(this, token, mPopularBroadcasts);
 			mListView.setAdapter(mAdapter);
 			mListView.setVisibility(View.VISIBLE);

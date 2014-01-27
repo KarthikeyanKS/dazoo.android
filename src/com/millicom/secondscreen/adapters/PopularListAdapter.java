@@ -108,20 +108,34 @@ public class PopularListAdapter extends BaseAdapter {
 					break;
 				}
 			}
-			try {
-				mCurrentPosition = (Integer) holder.mTitleTv.getTag();
-				Log.d(TAG, "currentPosition:" + mCurrentPosition);
-				if (position % Consts.MILLICOM_SECONDSCREEN_API_POPULAR_COUNT_DEFAULT == 0) {
-					if (mTvDates != null && mTvDates.isEmpty() != true) {
-						holder.mHeaderTv.setText(mTvDates.get(dateIndex).getName() + " " + DateUtilities.tvDateStringToDatePickerString(mTvDates.get(dateIndex).getDate()));
-						holder.mHeaderContainer.setVisibility(View.VISIBLE);
-					}
-				} else {
-					holder.mHeaderContainer.setVisibility(View.GONE);
+
+			holder.mHeaderContainer.setVisibility(View.GONE);
+			if (position == 0 || broadcast.getBeginTimeStringLocalDayMonth().equals(
+					(getItem(position - 1)).getBeginTimeStringLocalDayMonth()) == false) {
+				if (mTvDates != null && mTvDates.isEmpty() != true) {
+					holder.mHeaderTv.setText(mTvDates.get(dateIndex).getName() + " " + broadcast.getBeginTimeStringLocalDayMonth());
+					holder.mHeaderContainer.setVisibility(View.VISIBLE);
 				}
-			} catch (ParseException e) {
-				e.printStackTrace();
+				else {
+					holder.mHeaderTv.setText(broadcast.getDayOfWeekString() + " " + broadcast.getBeginTimeStringLocalDayMonth());
+					holder.mHeaderContainer.setVisibility(View.VISIBLE);
+				}
 			}
+			/* Old implementation, not adjusting if received too much/little data from backend */
+			//			try {
+			//				mCurrentPosition = (Integer) holder.mTitleTv.getTag();
+			//				Log.d(TAG, "currentPosition:" + mCurrentPosition);
+			//				if (position % Consts.MILLICOM_SECONDSCREEN_API_POPULAR_COUNT_DEFAULT == 0) {
+			//					if (mTvDates != null && mTvDates.isEmpty() != true) {
+			//						holder.mHeaderTv.setText(mTvDates.get(dateIndex).getName() + " " + DateUtilities.tvDateStringToDatePickerString(mTvDates.get(dateIndex).getDate()));
+			//						holder.mHeaderContainer.setVisibility(View.VISIBLE);
+			//					}
+			//				} else {
+			//					holder.mHeaderContainer.setVisibility(View.GONE);
+			//				}
+			//			} catch (ParseException e) {
+			//				e.printStackTrace();
+			//			}
 			holder.mContainer.setOnClickListener(new View.OnClickListener() {
 
 				@Override
@@ -141,7 +155,7 @@ public class PopularListAdapter extends BaseAdapter {
 
 			ImageAware imageAware = new ImageViewAware(holder.mPosterIv, false);
 			ImageLoader.getInstance().displayImage(broadcast.getProgram().getPortMUrl(), imageAware);
-			
+
 			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 				holder.mTitleTv.setText(broadcast.getProgram().getSeries().getName());
 			} else {

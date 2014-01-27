@@ -399,39 +399,34 @@
 
                 <RelativeLayout
                     android:id="@+id/myprofile_already_registered_container"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/myprofile_container_email_divider"
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:orientation="horizontal" >
+                    android:orientation="vertical" >
 
                     <com.millicom.secondscreen.customviews.FontTextView
                         android:id="@+id/myprofile_already_registered_text_tv"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="5dp"
+                        android:gravity="center_horizontal"
                         android:text="@string/already_registered"
                         android:textColor="@color/grey2"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
-                    <com.millicom.secondscreen.customviews.FontButton
-                        android:id="@+id/myprofile_login_btn"
-                        android:layout_width="wrap_content"
+		           <com.millicom.secondscreen.customviews.FontButton
+		               android:id="@+id/myprofile_login_btn"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/myprofile_already_registered_text_tv"
-                        android:background="@drawable/layout_rounded_corners_grey"
-                        android:layout_centerVertical="true"
-                        android:padding="5dp"
-                        android:text="@string/login"
-                        android:textColor="@color/white"
+                        android:layout_below="@id/myprofile_already_registered_text_tv"
+                        android:layout_marginBottom="5dp"
+                        android:background="@color/white"
+                        android:gravity="center_horizontal"
+                        android:text="@string/login_here"
+                        android:textColor="@color/blue1"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"  />
                 </RelativeLayout>
             </RelativeLayout>
         </RelativeLayout>

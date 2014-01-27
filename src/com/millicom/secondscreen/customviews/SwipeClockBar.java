@@ -1,5 +1,6 @@
 package com.millicom.secondscreen.customviews;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,7 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SeekBar;
+import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.millicom.secondscreen.Consts;
@@ -33,6 +35,7 @@ import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.manager.AppConfigurationManager;
 import com.millicom.secondscreen.manager.FontManager;
+import com.millicom.secondscreen.utilities.DateUtilities;
 
 public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListener {
 
@@ -45,6 +48,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 	private static int firstHourOfDay;
 	private TimeListAdapter listAdapter;
 	private float savedTextSize = -1;
+	private boolean isToday;
 
 	public SwipeClockBar(Context context) {
 		super(context);
@@ -72,8 +76,14 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 	}
 
 	private int hourToProgress(int hour) {
-		int indexOfHour = (hour - firstHourOfDay) % hoursPerDay;
-		return indexOfHour;
+		int index;
+		if (hour >= firstHourOfDay) {
+			index = (hour - firstHourOfDay) % hoursPerDay;
+		}
+		else {
+			index = (hoursPerDay - firstHourOfDay + hour);
+		}
+		return index;
 	}
 
 	private int progressToHour(int progress) {
@@ -223,6 +233,11 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 				fontName = FontManager.FONT_BOLD;
 				rowView.setBackgroundColor(activity.getResources().getColor(R.color.grey4));
 			} 
+			else if (isToday && isEarlier(hour, Integer.parseInt(DateUtilities.getCurrentHourString()))) {
+				colorId = R.color.grey2;
+				fontName = FontManager.FONT_LIGHT;
+				rowView.setBackgroundColor(activity.getResources().getColor(R.color.transparent));
+			}
 			else {
 				colorId = R.color.black;
 				fontName = FontManager.FONT_LIGHT;
@@ -338,5 +353,19 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 		// Measure using a static layout
 		StaticLayout layout = new StaticLayout(source, paint, width, Alignment.ALIGN_NORMAL, 1.0f, 0.0f, true);
 		return layout.getHeight();
+	}
+	
+	/* If first is earlier than second, return true. */
+	private boolean isEarlier(int first, int second) {
+		if (first < second && first >= firstHourOfDay) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public void setToday(boolean isToday) {
+		this.isToday = isToday;
 	}
 }
