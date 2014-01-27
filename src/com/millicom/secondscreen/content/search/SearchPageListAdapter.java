@@ -341,10 +341,8 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 			@Override
 			protected void publishResults(CharSequence constraint, FilterResults results) {
 				if (results != null && results.count > 0) {
-					clear();
-					addAll((List<SearchResultItem>) results.values);
+					notifyDataSetChanged();
 				}
-				notifyDataSetChanged();
 			}
 		};
 		return filter;
