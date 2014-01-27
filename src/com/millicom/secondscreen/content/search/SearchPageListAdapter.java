@@ -1,7 +1,6 @@
 package com.millicom.secondscreen.content.search;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import org.json.JSONException;
@@ -22,16 +21,15 @@ import android.widget.LinearLayout;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxStatus;
 import com.millicom.secondscreen.Consts;
-import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.Consts.ENTITY_TYPE;
 import com.millicom.secondscreen.R;
+import com.millicom.secondscreen.SecondScreenApplication;
 import com.millicom.secondscreen.content.model.Broadcast;
 import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.Program;
 import com.millicom.secondscreen.content.model.SearchResult;
 import com.millicom.secondscreen.content.model.SearchResultItem;
 import com.millicom.secondscreen.content.model.Series;
-import com.millicom.secondscreen.content.search.SearchTask.SearchResultCallback;
 import com.millicom.secondscreen.customviews.FontTextView;
 import com.millicom.secondscreen.http.MiTVCallback;
 import com.millicom.secondscreen.manager.FontManager;
@@ -40,64 +38,27 @@ import com.millicom.secondscreen.utilities.CustomTypefaceSpan;
 public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implements Filterable {
 	private static final String TAG = "SearchListAdapter";
 	
-	private ArrayList<SearchResultItem> searchResultItems;
+	private ArrayList<SearchResultItem> mSearchResultItems;
 	private String mQuery;
-	private String lastSearch = "";
-	private Context context;
-	private AQuery aq;
+	private String mLastSearch = "";
+	private Context mContext;
+	private AQuery mAq;
 	private SearchActivityListeners mViewListener;
-	private static LayoutInflater inflater;
-	private SearchTask mSearchTask;
-	private MiTVCallback cb;
+	private static LayoutInflater mInflater;
 	
 	public SearchPageListAdapter(Context context, SearchActivityListeners listener) {
 		super(context, 0);
-		this.context = context;
-		this.aq = new AQuery(context);
+		this.mContext = context;
+		this.mAq = new AQuery(context);
 		this.mViewListener = listener;
-		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	}
 		
-		this.mSearchTask = initSearchTask();
-	}
-	
-	private SearchResultCallback initCallback() {
-		return new SearchResultCallback() {
-			@Override
-			public void onResult(SearchResult result) {
-				boolean noResult = true;
-
-				if (result != null) {
-					String suggestion = result.getSuggestion(); // TODO
-																// use
-																// this?
-					ArrayList<SearchResultItem> items = result.getItems();
-
-					if (items != null && !items.isEmpty()) {
-						noResult = false;
-						setSearchResultItems(items);
-					}
-
-					Log.e(TAG, "Suggestion: " + suggestion);
-				}
-
-				if (noResult) {
-					// TODO display "no result found"
-				}
-
-				notifyDataSetChanged();
-			}
-		};
-	}
-	
-	private SearchTask initSearchTask() {
-		return new SearchTask(initCallback());
-	}
-	
 	@Override
 	public int getCount() {
 		int count = 0;
-		if(searchResultItems != null) {
-			count = searchResultItems.size();
+		if(mSearchResultItems != null) {
+			count = mSearchResultItems.size();
 		}
 		if(count == 0) {
 			count = 1; // no results 
@@ -114,9 +75,9 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 	@Override
 	public SearchResultItem getItem(int position) {
 		SearchResultItem item = null;
-		if(searchResultItems != null) {
-			if(searchResultItems.size() > 0) {
-				item = searchResultItems.get(position);
+		if(mSearchResultItems != null) {
+			if(mSearchResultItems.size() > 0) {
+				item = mSearchResultItems.get(position);
 			}
 		}
 		return item;
@@ -128,11 +89,11 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 	}
 	
 	public ArrayList<SearchResultItem> getSearchResultItems() {
-		return searchResultItems;
+		return mSearchResultItems;
 	}
 
 	public void setSearchResultItems(ArrayList<SearchResultItem> searchResultItems) {
-		this.searchResultItems = searchResultItems;
+		this.mSearchResultItems = searchResultItems;
 	}
 	
 
@@ -144,11 +105,11 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		String timeString = "";
 		int textColor;
 		if(closestBroadcastInTime.isRunning()) {
-			timeString = context.getString(R.string.search_on_air_now);
-			textColor = context.getResources().getColor(R.color.red);
+			timeString = mContext.getString(R.string.search_on_air_now);
+			textColor = mContext.getResources().getColor(R.color.red);
 		} else {
 			timeString = closestBroadcastInTime.getStartsInTimeString();
-			textColor = context.getResources().getColor(R.color.grey3);
+			textColor = mContext.getResources().getColor(R.color.grey3);
 		}
 		
 		viewHolder.mTime.setTextColor(textColor);
@@ -167,9 +128,9 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		Spannable spannable = new SpannableString(beforeBold + toBold + afterBold);
 
 		// Set the custom typeface to span over a section of the spannable object
-		spannable.setSpan( new CustomTypefaceSpan(FontManager.getFontLight(context)), partOneStart, partOneEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		spannable.setSpan( new CustomTypefaceSpan(FontManager.getFontBold(context)), partTwoStart, partTwoEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		spannable.setSpan( new CustomTypefaceSpan(FontManager.getFontLight(context)), partThreeStart, partThreeEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spannable.setSpan( new CustomTypefaceSpan(FontManager.getFontLight(mContext)), partOneStart, partOneEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spannable.setSpan( new CustomTypefaceSpan(FontManager.getFontBold(mContext)), partTwoStart, partTwoEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spannable.setSpan( new CustomTypefaceSpan(FontManager.getFontLight(mContext)), partThreeStart, partThreeEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 		return spannable;
 	}
@@ -258,7 +219,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		View rowView = convertView;
 
 		if (rowView == null) {
-			rowView = inflater.inflate(R.layout.row_search_result, null);
+			rowView = mInflater.inflate(R.layout.row_search_result, null);
 			ViewHolder viewHolder = new ViewHolder();
 			viewHolder.mMetaDataContainer = (LinearLayout) rowView.findViewById(R.id.row_search_result_meta_data_container);
 			viewHolder.mTitle = (FontTextView) rowView.findViewById(R.id.row_search_result_title);
@@ -270,7 +231,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
 
-		if (searchResultItems != null && searchResultItems.size() > 0) {
+		if (mSearchResultItems != null && mSearchResultItems.size() > 0) {
 			holder.mMetaDataContainer.setVisibility(View.VISIBLE);
 			SearchResultItem resultItem = getItem(position);
 
@@ -294,7 +255,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 			}
 		} else {
 			holder.mMetaDataContainer.setVisibility(View.GONE);
-			holder.mTitle.setText(context.getString(R.string.search_empty));
+			holder.mTitle.setText(mContext.getString(R.string.search_empty));
 		}
 
 		return rowView;
@@ -321,17 +282,17 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 				FilterResults filterResults = new FilterResults();
 				if (constraint != null) {
 					mQuery = constraint.toString().trim();
-					if (!mQuery.equals(lastSearch) && !(mQuery.length() == 0)) {
+					if (!mQuery.equals(mLastSearch) && !(mQuery.length() == 0)) {
 						
 						// Retrieve the autocomplete results.
-						searchResultItems = autocomplete(constraint.toString());
-						lastSearch = mQuery;
+						mSearchResultItems = autocomplete(constraint.toString());
+						mLastSearch = mQuery;
 					}
 					// Assign the data to the FilterResults
-					filterResults.values = searchResultItems;
-					filterResults.count = searchResultItems.size();
+					filterResults.values = mSearchResultItems;
+					filterResults.count = mSearchResultItems.size();
 					
-					if(searchResultItems.size() == 0) {
+					if(mSearchResultItems.size() == 0) {
 						noSearchResult();
 					}
 				}
@@ -353,7 +314,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		
 		
 		
-		((SearchPageActivity)context).runOnUiThread(new Runnable() {
+		((SearchPageActivity)mContext).runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				if(mViewListener != null) {
@@ -362,7 +323,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 			}
 		});
 		
-		cb = new MiTVCallback<String>() {
+		MiTVCallback cb = new MiTVCallback<String>() {
 			@Override
 			public void mitvCallback(String url, String json, AjaxStatus status) {				
 		    	switch (status.getCode()) {
@@ -391,12 +352,8 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 
 		String completeSearchUrl = String.format(Locale.getDefault(), Consts.MILLICOM_SECONDSCREEN_SEARCH, q);
 		
-		aq.ajax(completeSearchUrl, String.class, -1, cb);
+		mAq.ajax(completeSearchUrl, String.class, -1, cb);
 		cb.block();
-		
-		
-//		cb.url(completeSearchUrl);
-//		aq.sync(cb);
 		
 		String jsonString = (String) cb.getResult();
 		JSONObject jsonFromString = null;
@@ -408,12 +365,10 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 			e.printStackTrace();
 		}
 		
-		
-		
 		SearchResult searchResult = new SearchResult(jsonFromString); //gson.fromJson(result, SearchResult.class);
 		ArrayList<SearchResultItem> resultItems = searchResult.getItems();
 		
-		((SearchPageActivity)context).runOnUiThread(new Runnable() {
+		((SearchPageActivity)mContext).runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				if(mViewListener != null) {
