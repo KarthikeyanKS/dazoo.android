@@ -23,6 +23,7 @@ public class AppConfigurationManager {
 	}
 
 	private int firstHourOfTVDay;
+	private String welcomeToast;
 
 	/* Ad configuration */
 	private boolean adsEnabled;
@@ -127,6 +128,14 @@ public class AppConfigurationManager {
 	public void setGoogleAnalyticsTrackingId(String googleAnalyticsTrackingId) {
 		this.googleAnalyticsTrackingId = googleAnalyticsTrackingId;
 	}
+	
+	public void setWelcomeToast(String welcomeToast) {
+		this.welcomeToast = welcomeToast;
+	}
+	
+	public String getWelcomeToast() {
+		return welcomeToast;
+	}
 
 	public List<Integer> adFormatsFromJSON(JSONObject configurationJSONObject, String adFormatsJSONKey) {
 		List<Integer> adFormatsGuide = new ArrayList<Integer>();
@@ -214,6 +223,8 @@ public class AppConfigurationManager {
 			String googleAnalyticsTrackingId = configurationJSONObject.optString(Consts.JSON_KEY_CONFIGURATION_GOOGLE_ANALYTICS_TRACKING_ID);
 
 			int firstHourOfTVDay = Integer.parseInt(firstHourOfTVDayString);
+			
+			String welcomeToast = configurationJSONObject.optString(Consts.JSON_KEY_CONFIGURATION_WELCOME_TOAST);
 
 			boolean adsEnabled = Boolean.parseBoolean(adsEnabledString);
 			int adzerkNetworkId = Integer.parseInt(adzerkNetworkIdString);
@@ -233,6 +244,7 @@ public class AppConfigurationManager {
 			fragmentToCellsBetweenAdCellsCount.put(Consts.JSON_AND_FRAGMENT_KEY_ACTIVITY, cellCountBetweenAdCellsActivity);
 
 			getInstance().setFirstHourOfTVDay(firstHourOfTVDay);
+			getInstance().setWelcomeToast(welcomeToast);
 
 			getInstance().setAdsEnabled(adsEnabled);
 			getInstance().setAdzerkNetworkId(adzerkNetworkId);

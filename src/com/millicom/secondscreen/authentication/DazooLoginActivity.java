@@ -166,7 +166,7 @@ public class DazooLoginActivity extends SSActivity implements OnClickListener {
 								DazooCore.resetAll();
 								// clear all the running before activities and start the application from the whole beginning
 								SecondScreenApplication.getInstance().clearActivityBacktrace();
-
+								
 								startActivity(new Intent(DazooLoginActivity.this, HomeActivity.class));
 							} else {
 								//Toast.makeText(getApplicationContext(), "Failed to fetch the user information from backend", Toast.LENGTH_SHORT).show();

@@ -412,6 +412,7 @@ public abstract class Consts {
 	public static final String JSON_KEY_CONFIGURATION_ADS_ENABLED					= "android.adsEnabled";
 	public static final String JSON_KEY_CONFIGURATION_CELLS_BETWEEN_AD_CELLS_BASE	= "android.%s.cellCountBetweenAdCells";
 	public static final String JSON_KEY_CONFIGURATION_ADZERK_AD_FORMATS_BASE		= "android.%s.adzerkFormats";
+	public static final String JSON_KEY_CONFIGURATION_WELCOME_TOAST					= "android.welcometoast";
 	
 	/* This CANNOT be changed since they are used as part of JSON_KEY, should be: guide, activity */
 	public static final String JSON_AND_FRAGMENT_KEY_GUIDE 							= "guide";
