@@ -28,6 +28,7 @@ import org.json.JSONObject;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.ColorDrawable;
+import android.net.nsd.NsdManager.RegistrationListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -90,14 +91,14 @@ public class SignUpActivity extends SSActivity implements OnClickListener {
 	protected void loadPage() {
 		/* Have to have this method here since SSActivity has this method abstract */
 	}
-	
+
 	private void initViews() {
 		mActionBar = getSupportActionBar();
 		mActionBar.setDisplayShowTitleEnabled(true);
 		mActionBar.setDisplayShowCustomEnabled(true);
 		mActionBar.setDisplayUseLogoEnabled(true);
 		mActionBar.setDisplayShowHomeEnabled(true);
-	    mActionBar.setDisplayHomeAsUpEnabled(true);
+		mActionBar.setDisplayHomeAsUpEnabled(true);
 
 
 		final int actionBarColor = getResources().getColor(R.color.blue1);
@@ -113,7 +114,7 @@ public class SignUpActivity extends SSActivity implements OnClickListener {
 		mDazooRegisterButton = (Button) findViewById(R.id.signup_register_button);
 		mDazooRegisterButton.setOnClickListener(this);
 
-//		setTextWatchers();
+		//		setTextWatchers();
 
 		// TODO: Static drawable background is not properly set, causing a flickering effect. Quickfix!
 		mFirstNameEditText.setBackgroundResource(R.drawable.edittext_standard);
@@ -172,157 +173,96 @@ public class SignUpActivity extends SSActivity implements OnClickListener {
 		});
 	}
 
-	private boolean verifyRegisterInput() {
-		String emailInput = mEmailRegisterEditText.getText().toString();
-		String firstNameInput = mFirstNameEditText.getText().toString();
-		String lastNameInput = mLastNameEditText.getText().toString();
-		String passwordInput = mPasswordRegisterEditText.getText().toString();
-		if ((!firstNameInput.equals("")) && (!lastNameInput.equals("")) && (!passwordInput.equals("")) && (!emailInput.equals(""))
-				&& (passwordInput.length() >= Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MIN) && (passwordInput.length() <= Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MAX)
-				&& (!passwordInput.matches("[%,#/|<>]+")) && (PatternCheck.checkEmail(emailInput) == true)) {
-			return true;
-		} else return false;
-	}
-
-	private int findWrongRegisterInput() {
-		String emailInput = mEmailRegisterEditText.getText().toString();
-		String firstNameInput = mFirstNameEditText.getText().toString();
-		String lastNameInput = mLastNameEditText.getText().toString();
-		String passwordInput = mPasswordRegisterEditText.getText().toString();
-		if ((firstNameInput.equals(""))) {
-			return REGISTER_FIRSTNAME_MISSING;
-		}
-		if ((lastNameInput.equals(""))) {
-			return REGISTER_LASTNAME_MISSING;
-		} else if ((emailInput.equals("")) || (PatternCheck.checkEmail(emailInput) == false)) {
-			return REGISTER_EMAIL_WRONG;
-		} else if ((passwordInput.length() <= Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MIN) || (passwordInput.length() >= Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MAX)) {
-			return PASSWORD_LENGTH_WRONG;
-		} else if (passwordInput.matches("[%,#/|<>]+")) {
-			return PASSWORD_ILLEGAL_CHARACTERS;
-		}
-		return -1;
-	}
-
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();
 		switch (id) {
 		case R.id.signup_register_button:
-			if (verifyRegisterInput()) {
-				mFirstNameEditText.setEnabled(false);
-				mLastNameEditText.setEnabled(false);
-				mEmailRegisterEditText.setEnabled(false);
-				mPasswordRegisterEditText.setEnabled(false);
-				
-				mFirstNameEditText.setBackgroundResource(R.drawable.edittext_standard);
-				mLastNameEditText.setBackgroundResource(R.drawable.edittext_standard);
-				mEmailRegisterEditText.setBackgroundResource(R.drawable.edittext_standard);
-				mPasswordRegisterEditText.setBackgroundResource(R.drawable.edittext_standard);
+			mFirstNameEditText.setEnabled(false);
+			mLastNameEditText.setEnabled(false);
+			mEmailRegisterEditText.setEnabled(false);
+			mPasswordRegisterEditText.setEnabled(false);
 
-				userEmailRegister = mEmailRegisterEditText.getText().toString();
-				userPasswordRegister = mPasswordRegisterEditText.getText().toString();
-				userFirstNameRegister = mFirstNameEditText.getText().toString();
-				userLastNameRegister = mLastNameEditText.getText().toString();
+			mFirstNameEditText.setBackgroundResource(R.drawable.edittext_standard);
+			mLastNameEditText.setBackgroundResource(R.drawable.edittext_standard);
+			mEmailRegisterEditText.setBackgroundResource(R.drawable.edittext_standard);
+			mPasswordRegisterEditText.setBackgroundResource(R.drawable.edittext_standard);
 
-				DazooRegistrationTask dazooRegisterTask = new DazooRegistrationTask();
-				try {
-					// dazooToken = dazooRegisterTask.execute(userEmailRegister, userPasswordRegister, userFirstNameRegister, userLastNameRegister).get();
-					String responseStr = dazooRegisterTask.execute(userEmailRegister, userPasswordRegister, userFirstNameRegister, userLastNameRegister).get();
-					// if (responseStr != null && responseStr.isEmpty() != true) {
-					if (responseStr != null && TextUtils.isEmpty(responseStr) != true) {
-						JSONObject dazooRegJSON = new JSONObject(responseStr);
-						dazooToken = dazooRegJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_TOKEN);
-						Log.d(TAG, "DazooToken: " + dazooToken + "is saved");
+			userEmailRegister = mEmailRegisterEditText.getText().toString();
+			userPasswordRegister = mPasswordRegisterEditText.getText().toString();
+			userFirstNameRegister = mFirstNameEditText.getText().toString();
+			userLastNameRegister = mLastNameEditText.getText().toString();
 
-						// if (dazooToken.isEmpty() != true && dazooToken.length() > 0) {
-						if (dazooToken != null && TextUtils.isEmpty(dazooToken) != true) {
-							((SecondScreenApplication) getApplicationContext()).setAccessToken(dazooToken);
-							if (AuthenticationService.storeUserInformation(this, dazooRegJSON)) {
-								//Toast.makeText(getApplicationContext(), "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName(), Toast.LENGTH_SHORT).show();
-								Log.d(TAG, "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName());
-								
-								// go to Start page
-								Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
-								startActivity(intent);
-								finish();
+			DazooRegistrationTask dazooRegisterTask = new DazooRegistrationTask();
+			try {
+				// dazooToken = dazooRegisterTask.execute(userEmailRegister, userPasswordRegister, userFirstNameRegister, userLastNameRegister).get();
+				String responseStr = dazooRegisterTask.execute(userEmailRegister, userPasswordRegister, userFirstNameRegister, userLastNameRegister).get();
+				// if (responseStr != null && responseStr.isEmpty() != true) {
+				if (responseStr != null && TextUtils.isEmpty(responseStr) != true) {
+					JSONObject dazooRegJSON = new JSONObject(responseStr);
+					dazooToken = dazooRegJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_TOKEN);
+					Log.d(TAG, "DazooToken: " + dazooToken + "is saved");
 
-							} else {
-								//Toast.makeText(getApplicationContext(), "Failed to fetch the user information from backend.", Toast.LENGTH_SHORT).show();
-								Log.d(TAG, "!!! Failed to fetch the user information from backend !!!");
-							}
+					// if (dazooToken.isEmpty() != true && dazooToken.length() > 0) {
+					if (dazooToken != null && TextUtils.isEmpty(dazooToken) != true) {
+						((SecondScreenApplication) getApplicationContext()).setAccessToken(dazooToken);
+						if (AuthenticationService.storeUserInformation(this, dazooRegJSON)) {
+							//Toast.makeText(getApplicationContext(), "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName(), Toast.LENGTH_SHORT).show();
+							Log.d(TAG, "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName());
+
+							// go to Start page
+							Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
+							startActivity(intent);
+							finish();
+
 						} else {
-							//Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with Dazoo. Please, try again later!", Toast.LENGTH_LONG).show();
-							Log.d(TAG, "Error! Something went wrong while creating an account with Dazoo. Please, try again later!");
+							//Toast.makeText(getApplicationContext(), "Failed to fetch the user information from backend.", Toast.LENGTH_SHORT).show();
+							Log.d(TAG, "!!! Failed to fetch the user information from backend !!!");
 						}
 					} else {
-//						Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with us. Please, try again later!", Toast.LENGTH_SHORT).show();
-						Log.d(TAG, "Error! Dazoo Login: level response from backend");
-						mFirstNameEditText.setEnabled(true);
-						mLastNameEditText.setEnabled(true);
-						mEmailRegisterEditText.setEnabled(true);
-						mPasswordRegisterEditText.setEnabled(true);
-						
-						if (mBadResponseString.equals(Consts.BAD_RESPONSE_STRING_EMAIL_ALREADY_TAKEN)) {
-							mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_register_error) + ": Email taken");
-						}
-						else if (mBadResponseString.equals(Consts.BAD_RESPONSE_STRING_NOT_REAL_EMAIL)) {
-							mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_register_error));
-						}
-						else if (mBadResponseString.equals(Consts.BAD_RESPONSE_STRING_PASSWORD_TOO_SHORT)) {
-							mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_register_error));
-						}
-						else if (mBadResponseString.equals(Consts.BAD_RESPONSE_STRING_FIRSTNAME_NOT_SUPPLIED)) {
-							mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_register_error));
-						}
-						
-						mErrorTextView.setText(mBadResponseString);
-						mErrorTextView.setVisibility(View.VISIBLE);
+						//Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with Dazoo. Please, try again later!", Toast.LENGTH_LONG).show();
+						Log.d(TAG, "Error! Something went wrong while creating an account with Dazoo. Please, try again later!");
+					}
+				} else {
+					//						Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with us. Please, try again later!", Toast.LENGTH_SHORT).show();
+					Log.d(TAG, "Error! Dazoo Login: level response from backend");
+					mFirstNameEditText.setEnabled(true);
+					mLastNameEditText.setEnabled(true);
+					mEmailRegisterEditText.setEnabled(true);
+					mPasswordRegisterEditText.setEnabled(true);
+
+					// Set error textview 
+					if (mBadResponseString.equals(Consts.BAD_RESPONSE_STRING_EMAIL_ALREADY_TAKEN)) {
+						mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_already_registered));
 						mEmailRegisterEditText.setBackgroundResource(R.drawable.edittext_activated);
 						mEmailRegisterEditText.requestFocus();
 					}
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				} catch (ExecutionException e) {
-					e.printStackTrace();
-				} catch (JSONException e) {
-					e.printStackTrace();
+					else if (mBadResponseString.equals(Consts.BAD_RESPONSE_STRING_NOT_REAL_EMAIL)) {
+						mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_incorrect));
+						mEmailRegisterEditText.setBackgroundResource(R.drawable.edittext_activated);
+						mEmailRegisterEditText.requestFocus();
+					}
+					else if (mBadResponseString.equals(Consts.BAD_RESPONSE_STRING_PASSWORD_TOO_SHORT)) {
+						mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_passwordlength) + " " 
+								+ Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MIN + " "
+								+ getResources().getString(R.string.signup_with_email_characters));
+						mPasswordRegisterEditText.setBackgroundResource(R.drawable.edittext_activated);
+						mPasswordRegisterEditText.requestFocus();
+					}
+					else if (mBadResponseString.equals(Consts.BAD_RESPONSE_STRING_FIRSTNAME_NOT_SUPPLIED)) {
+						mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_firstname));
+						mFirstNameEditText.setBackgroundResource(R.drawable.edittext_activated);
+						mFirstNameEditText.requestFocus();
+					}
+
+					mErrorTextView.setVisibility(View.VISIBLE);
 				}
-			} else {
-				int errorId = findWrongRegisterInput();
-				switch (errorId) {
-				case REGISTER_FIRSTNAME_MISSING:
-					mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_firstname));
-					mFirstNameEditText.setBackgroundResource(R.drawable.edittext_activated);
-					mFirstNameEditText.requestFocus();
-					break;
-				case REGISTER_LASTNAME_MISSING:
-					mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_lastname));
-					mLastNameEditText.setBackgroundResource(R.drawable.edittext_activated);
-					mLastNameEditText.requestFocus();
-					break;
-				case REGISTER_EMAIL_WRONG:
-					mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email));
-					mEmailRegisterEditText.setBackgroundResource(R.drawable.edittext_activated);
-					mEmailRegisterEditText.requestFocus();
-					break;
-				case PASSWORD_LENGTH_WRONG:
-					mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_passwordlength) + " " + Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MIN + " "
-							+ getResources().getString(R.string.signup_with_email_characters));
-					mPasswordRegisterEditText.setBackgroundResource(R.drawable.edittext_activated);
-					mPasswordRegisterEditText.requestFocus();
-					break;
-				case PASSWORD_ILLEGAL_CHARACTERS:
-					mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_passwordcharacters));
-					mPasswordRegisterEditText.setBackgroundResource(R.drawable.edittext_activated);
-					mPasswordRegisterEditText.requestFocus();
-					break;
-				}
-				mErrorTextView.setVisibility(TextView.VISIBLE);
-				mFirstNameEditText.setEnabled(true);
-				mLastNameEditText.setEnabled(true);
-				mEmailRegisterEditText.setEnabled(true);
-				mPasswordRegisterEditText.setEnabled(true);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				e.printStackTrace();
+			} catch (JSONException e) {
+				e.printStackTrace();
 			}
 			break;
 		}
@@ -366,11 +306,12 @@ public class SignUpActivity extends SSActivity implements OnClickListener {
 					return responseBody;
 				} else if (response.getStatusLine().getStatusCode() == Consts.BAD_RESPONSE) {
 					Log.d(TAG, "Invalid Token!");
-					mBadResponseString = response.getStatusLine().getReasonPhrase();
-					
+
+					// Get response string (reason) from bad response
 					HttpEntity httpentity = response.getEntity();
-					String responseString = EntityUtils.toString(httpentity);
-					mBadResponseString = responseString;
+					mBadResponseString = EntityUtils.toString(httpentity);
+					Log.d(TAG, "Registration error: " + mBadResponseString);
+
 					return Consts.EMPTY_STRING;
 				}
 			} catch (UnsupportedEncodingException e) {

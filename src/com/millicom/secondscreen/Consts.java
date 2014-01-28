@@ -238,8 +238,8 @@ public abstract class Consts {
 	/* Response strings*/
 	public static final String 	BAD_RESPONSE_STRING_EMAIL_ALREADY_TAKEN				= "Email already taken";
 	public static final String 	BAD_RESPONSE_STRING_NOT_REAL_EMAIL					= "Not a real email";
-	public static final String 	BAD_RESPONSE_STRING_PASSWORD_TOO_SHORT				= "Password too short";
-	public static final String 	BAD_RESPONSE_STRING_FIRSTNAME_NOT_SUPPLIED			= "FirstName not supplied";
+	public static final String 	BAD_RESPONSE_STRING_PASSWORD_TOO_SHORT				= "Password not secure";
+	public static final String 	BAD_RESPONSE_STRING_FIRSTNAME_NOT_SUPPLIED			= "First name not supplied";
 
 	/* Notifications */
 	public static final int		NOTIFY_MINUTES_BEFORE_THE_BROADCAST					= -15;
