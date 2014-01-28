@@ -30,6 +30,7 @@ public abstract class Consts {
 	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_MY_CHANNELS_IDS_JSON		= "com.millicom.secondscreen.user.account.my.channels.ids.json";
 	public static final String	MILLICOM_SECONDSCREEN_TV_GUIDE_HOUR							= "com.millicom.secondscreen.tv.guide.hour";
 	public static final String	MILLICOM_SECONDSCREEN_HOMEPAGE_AGAIN						= "com.millicom.secondscreen.homepage.again";
+	public static final String 	MILLICOM_SECONDSCREEN_API_VERSION_SHARED_PREF				= "com.millicom.secondscreen.api.version";
 
 	/* API URLs */
 	public static final String MILLICON_SECONDSCREEN_HTTP_SCHEME							= "http://";
@@ -60,6 +61,7 @@ public abstract class Consts {
 	public static final String MILLICOM_SECONDSCREEN_POPULAR 								= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/broadcasts/popular/";
 	public static final String MILLICOM_SECONDSCREEN_CONFIGURATION 							= MILLICOM_SECONDSCREEN_SERVER_URL + "configuration";
 	public static final String MILLICOM_SECONDSCREEN_SEARCH		 							= MILLICOM_SECONDSCREEN_SERVER_URL + "search?query=%s*";
+	public static final String MILLICOM_SECONDSCREEN_API_VERSION							= MILLICOM_SECONDSCREEN_SERVER_URL + "versions";
 
 	public static final String NOTIFY_BROADCAST_URL_PREFIX 									= MILLICOM_SECONDSCREEN_SERVER_URL + "epg/channels/";
 
@@ -419,6 +421,10 @@ public abstract class Consts {
 	public static final String JSON_KEY_CONFIGURATION_CELLS_BETWEEN_AD_CELLS_BASE	= "android.%s.cellCountBetweenAdCells";
 	public static final String JSON_KEY_CONFIGURATION_ADZERK_AD_FORMATS_BASE		= "android.%s.adzerkFormats";
 	public static final String JSON_KEY_CONFIGURATION_WELCOME_TOAST					= "android.welcometoast";
+	
+	/* JSON KEYS FOR API VERSION*/
+	public static final String JSON_KEY_API_VERSION_NAME							= "name";
+	public static final String JSON_KEY_API_VERSION_VALUE 							= "value";
 	
 	/* This CANNOT be changed since they are used as part of JSON_KEY, should be: guide, activity */
 	public static final String JSON_AND_FRAGMENT_KEY_GUIDE 							= "guide";
