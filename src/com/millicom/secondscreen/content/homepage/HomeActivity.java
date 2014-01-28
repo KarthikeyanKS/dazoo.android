@@ -312,7 +312,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			attachFragment();
 			if (showWelcomeToast) {
 				mWelcomeToast = AppConfigurationManager.getInstance().getWelcomeToast();
-				Toast.makeText(getApplicationContext(), mWelcomeToast + " API Version: " + SecondScreenApplication.getInstance().getApiVersion(), Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), mWelcomeToast, Toast.LENGTH_LONG).show();
 				showWelcomeToast = false;
 			}
 			// createFragments();
