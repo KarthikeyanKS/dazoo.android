@@ -1,6 +1,7 @@
 package com.millicom.secondscreen.authentication;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
@@ -8,6 +9,7 @@ import java.util.concurrent.ExecutionException;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -48,6 +50,7 @@ import com.millicom.secondscreen.content.homepage.HomeActivity;
 import com.millicom.secondscreen.utilities.JSONUtilities;
 import com.millicom.secondscreen.utilities.PatternCheck;
 import com.millicom.secondscreen.utilities.TextDrawable;
+import com.nostra13.universalimageloader.utils.IoUtils;
 
 public class SignUpActivity extends SSActivity implements OnClickListener {
 
@@ -364,6 +367,10 @@ public class SignUpActivity extends SSActivity implements OnClickListener {
 				} else if (response.getStatusLine().getStatusCode() == Consts.BAD_RESPONSE) {
 					Log.d(TAG, "Invalid Token!");
 					mBadResponseString = response.getStatusLine().getReasonPhrase();
+					
+					HttpEntity httpentity = response.getEntity();
+					String responseString = EntityUtils.toString(httpentity);
+					mBadResponseString = responseString;
 					return Consts.EMPTY_STRING;
 				}
 			} catch (UnsupportedEncodingException e) {
