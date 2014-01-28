@@ -1,18 +1,13 @@
 package com.millicom.secondscreen.content.search;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.Point;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -104,7 +99,7 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.main, menu);
+		inflater.inflate(R.menu.actionbar_menu, menu);
 
 		MenuItem startSearchMenuItem = menu.findItem(R.id.action_start_search);
 		startSearchMenuItem.setVisible(false);

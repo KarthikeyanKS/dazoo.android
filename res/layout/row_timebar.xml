@@ -7,13 +7,12 @@
     android:orientation="vertical" >
 
     <com.millicom.secondscreen.customviews.FontTextView
-        android:id="@+id/row_timebar_textview"
+        android:id="@+id/row_timebar_textview"	
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:textColor="@color/grey4"
         android:layout_marginTop="-4dp"
         android:layout_marginBottom="-4dp"
+        android:textColor="@color/grey4"
         font:fonttextview="roboto_mitv_medium.ttf" />
-
 </LinearLayout>
