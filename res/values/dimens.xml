@@ -1,7 +1,7 @@
 <resources>
 
     <dimen name="gallery_size_padding">35dp</dimen>
-	<dimen name="bottom_tabs_height">60dp</dimen>
+	<dimen name="bottom_tabs_height">48dp</dimen>
     
 	<!-- font sizes -->
 	<dimen name="action_bar_header_font_size">20sp</dimen>
@@ -23,4 +23,7 @@
 	<dimen name="channel_logo_margin">15dp</dimen>
 	<dimen name="clock_scroll_area">20dp</dimen>
 	<dimen name="clock_side_margin">10dp</dimen>
+	<dimen name="tab_margin_between_icon_and_text">-7dp</dimen>
+	<dimen name="tab_margin_to_icon">-3dp</dimen>
+	
 </resources>

@@ -71,7 +71,8 @@ import com.millicom.secondscreen.storage.DazooStore;
 public class ActivityActivity extends SSActivity implements OnClickListener {
 
 	private static final String	TAG				= "ActivityActivity";
-	private RelativeLayout		mTabTvGuide, mTabProfile, mTabActivity, mSigninContainer, mFacebookContainer, mSignUpContainer, mTabDividerLeftContainer, mTabDividerRightContainer;
+	private RelativeLayout		mTabTvGuide, mTabProfile, mTabActivity, mSigninContainer, mFacebookContainer, mSignUpContainer;
+	private View 				mTabDividerLeft, mTabDividerRight;
 	private TextView			mSignInTv, mGreetingTv;
 	private Button				mCheckPopularBtn, mLoginBtn;
 	private ActionBar			mActionBar;
@@ -121,18 +122,18 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 	}
 	
 	private void initStandardViews() {
-		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);
+		mTabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
 		mTabTvGuide.setOnClickListener(this);
-		mTabActivity = (RelativeLayout) findViewById(R.id.show_activity);
+		mTabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
 		mTabActivity.setOnClickListener(this);
-		mTabProfile = (RelativeLayout) findViewById(R.id.show_me);
+		mTabProfile = (RelativeLayout) findViewById(R.id.tab_me);
 		mTabProfile.setOnClickListener(this);
 
-		mTabDividerLeftContainer = (RelativeLayout) findViewById(R.id.tab_left_divider_container);
-		mTabDividerRightContainer = (RelativeLayout) findViewById(R.id.tab_right_divider_container);
+		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
+		mTabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
 
-		mTabDividerLeftContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
-		mTabDividerRightContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+		mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+		mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
 
 		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTabActivity.setBackgroundColor(getResources().getColor(R.color.red));
@@ -291,7 +292,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 	public void onClick(View v) {
 		int id = v.getId();
 		switch (id) {
-		case R.id.show_tvguide:
+		case R.id.tab_tv_guide:
 			// tab to home page
 			Intent intentHome = new Intent(ActivityActivity.this, HomeActivity.class);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -299,10 +300,10 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			startActivity(intentHome);
 			
 			break;
-		case R.id.show_activity:
+		case R.id.tab_activity:
 			// we are here: do nothing
 			break;
-		case R.id.show_me:
+		case R.id.tab_me:
 			// tab to activity page
 			Intent intentMe = new Intent(ActivityActivity.this, MyProfileActivity.class);
 			startActivity(intentMe);

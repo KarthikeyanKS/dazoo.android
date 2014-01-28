@@ -55,7 +55,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 	private static String				userToken;
 	private ListView					mListView;
 	private TextView					mChannelCountTv;
-	private RelativeLayout				mTabTvGuide, mTabProfile, mTabActivity, mTabDividerLeftContainer, mTabDividerRightContainer;
+	private RelativeLayout				mTabTvGuide, mTabProfile, mTabActivity;private View mTabDividerLeft, mTabDividerRight;
 	private EditText					mSearchChannelInputEditText;
 	private MyChannelsListAdapter		mAdapter;
 	private ArrayList<Channel>			mChannels				= new ArrayList<Channel>();
@@ -94,18 +94,18 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 		
 		// styling bottom navigation tabs
 
-		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);
+		mTabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
 		mTabTvGuide.setOnClickListener(this);
-		mTabActivity = (RelativeLayout) findViewById(R.id.show_activity);
+		mTabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
 		mTabActivity.setOnClickListener(this);
-		mTabProfile = (RelativeLayout) findViewById(R.id.show_me);
+		mTabProfile = (RelativeLayout) findViewById(R.id.tab_me);
 		mTabProfile.setOnClickListener(this);
 		
-		mTabDividerLeftContainer = (RelativeLayout) findViewById(R.id.tab_left_divider_container);
-		mTabDividerRightContainer = (RelativeLayout) findViewById(R.id.tab_right_divider_container);
+		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
+		mTabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
 
-		mTabDividerLeftContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
-		mTabDividerRightContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+		mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+		mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
 
 		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
@@ -282,7 +282,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 	public void onClick(View v) {
 		int id = v.getId();
 		switch (id) {
-		case R.id.show_tvguide:
+		case R.id.tab_tv_guide:
 			updateChannelList();
 			Intent intentHome = new Intent(MyChannelsActivity.this, HomeActivity.class);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -290,13 +290,13 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 			startActivity(intentHome);
 			
 			break;
-		case R.id.show_activity:
+		case R.id.tab_activity:
 			updateChannelList();
 			Intent intentActivity = new Intent(MyChannelsActivity.this, ActivityActivity.class);
 			startActivity(intentActivity);
 			
 			break;
-		case R.id.show_me:
+		case R.id.tab_me:
 			updateChannelList();
 			Intent returnIntent = new Intent();
 			if (mIsChanged == true) {

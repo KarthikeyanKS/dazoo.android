@@ -40,8 +40,9 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 
 	private static final String	TAG			= "MyProfileFragment";
 
-	private RelativeLayout		mRemindersContainer, mLikesContainer, mMyChannelsContainer, mSettingsContainer, mMyProfileContainer, mSigninContainer, mFacebookContainer, mSignUpContainer,
-								mTabDividerLeftContainer, mTabDividerRightContainer;
+	private RelativeLayout		mRemindersContainer, mLikesContainer, mMyChannelsContainer, mSettingsContainer, mMyProfileContainer, mSigninContainer, mFacebookContainer, mSignUpContainer;
+
+	private View mTabDividerLeft, mTabDividerRight;
 	private ProgressBar			mAvatarProgressBar;
 	private ImageView			mAvatarImageView;
 	private TextView			mUserNameTextView, mRemindersTextView, mLikesTextView, mMyChannelsTextView, mSettingsTextView, mRemindersCountTextView, mLikesCountTextView, mMyChannelsCountTextView;
@@ -77,18 +78,18 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 	}
 	
 	private void initViews() {
-		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);
+		mTabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
 		mTabTvGuide.setOnClickListener(this);
-		mTabActivity = (RelativeLayout) findViewById(R.id.show_activity);
+		mTabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
 		mTabActivity.setOnClickListener(this);
-		mTabProfile = (RelativeLayout) findViewById(R.id.show_me);
+		mTabProfile = (RelativeLayout) findViewById(R.id.tab_me);
 		mTabProfile.setOnClickListener(this);
 		
-		mTabDividerLeftContainer = (RelativeLayout) findViewById(R.id.tab_left_divider_container);
-		mTabDividerRightContainer = (RelativeLayout) findViewById(R.id.tab_right_divider_container);
+		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
+		mTabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
 
-		mTabDividerLeftContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
-		mTabDividerRightContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+		mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+		mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
 
 		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
@@ -248,7 +249,7 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 			startActivity(intentLogin);
 			
 			break;
-		case R.id.show_tvguide:
+		case R.id.tab_tv_guide:
 			// tab to home page
 			Intent intentHome = new Intent(MyProfileActivity.this, HomeActivity.class);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -256,13 +257,13 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 			startActivity(intentHome);
 			
 			break;
-		case R.id.show_activity:
+		case R.id.tab_activity:
 			// tab to activity page
 			Intent intentMe = new Intent(MyProfileActivity.this, ActivityActivity.class);
 			startActivity(intentMe);
 			
 			break;
-		case R.id.show_me:
+		case R.id.tab_me:
 			// we are here: do nothing
 			break;
 		}

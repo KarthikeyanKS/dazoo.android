@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
     android:layout_width="match_parent"
     android:layout_height="@dimen/bottom_tabs_height"
     android:layout_alignParentBottom="true"
     android:gravity="center"
-    android:orientation="horizontal" >
+    android:orientation="horizontal"
+    android:weightSum="3" >
 
     <RelativeLayout
-        android:id="@+id/show_tvguide"
+        android:id="@+id/tab_tv_guide"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -16,41 +16,25 @@
         android:orientation="vertical" >
 
         <com.millicom.secondscreen.customviews.FontTextView
-            android:id="@+id/icon_tv_guide"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="@string/icon_tvguide"
-            android:textColor="@color/white"
-            android:textSize="26sp"
-            font:fonttextview="roboto_mitv_medium.ttf" />
+            android:id="@+id/elemement_tab_icon_guide"
+            style="@style/TabsIcon"
+            android:layout_marginTop="@dimen/tab_margin_to_icon"
+            android:text="@string/icon_tvguide" />
 
         <com.millicom.secondscreen.customviews.FontTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/icon_tv_guide"
-            android:layout_centerHorizontal="true"
-            android:text="@string/tab_tv_guide"
-            android:textColor="@color/white"
-            android:textSize="10dp"
-            android:textStyle="bold" />
+            style="@style/TabsText"
+            android:layout_below="@id/elemement_tab_icon_guide"
+            android:layout_marginTop="@dimen/tab_margin_between_icon_and_text"
+            android:text="@string/tab_tv_guide" />
     </RelativeLayout>
 
-    <RelativeLayout
+    <View
         android:id="@+id/tab_left_divider_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-        <View
-            android:id="@+id/tab_left_divider"
-            android:layout_width="1dp"
-            android:layout_height="@dimen/bottom_tabs_height"
-            android:layout_centerInParent="true" />
-    </RelativeLayout>
+        android:layout_width="1dp"
+        android:layout_height="@dimen/bottom_tabs_height" />
 
     <RelativeLayout
-        android:id="@+id/show_activity"
+        android:id="@+id/tab_activity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -58,41 +42,25 @@
         android:orientation="vertical" >
 
         <com.millicom.secondscreen.customviews.FontTextView
-            android:id="@+id/icon_activity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="@string/icon_activity"
-            android:textColor="@color/white"
-            android:textSize="26sp"
-            font:fonttextview="roboto_mitv_medium.ttf" />
+            android:id="@+id/elemement_tab_icon_activity"
+            style="@style/TabsIcon"
+            android:layout_marginTop="@dimen/tab_margin_to_icon"
+            android:text="@string/icon_activity" />
 
         <com.millicom.secondscreen.customviews.FontTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/icon_activity"
-            android:layout_centerHorizontal="true"
-            android:text="@string/tab_activity"
-            android:textColor="@color/white"
-            android:textSize="10sp"
-            android:textStyle="bold" />
+            style="@style/TabsText"
+            android:layout_below="@id/elemement_tab_icon_activity"
+            android:layout_marginTop="@dimen/tab_margin_between_icon_and_text"
+            android:text="@string/tab_activity" />
     </RelativeLayout>
 
-    <RelativeLayout
+    <View
         android:id="@+id/tab_right_divider_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-        <View
-            android:id="@+id/tab_right_divider"
-            android:layout_width="1dp"
-            android:layout_height="@dimen/bottom_tabs_height"
-            android:layout_centerInParent="true" />
-    </RelativeLayout>
+        android:layout_width="1dp"
+        android:layout_height="@dimen/bottom_tabs_height" />
 
     <RelativeLayout
-        android:id="@+id/show_me"
+        android:id="@+id/tab_me"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -100,24 +68,16 @@
         android:orientation="vertical" >
 
         <com.millicom.secondscreen.customviews.FontTextView
-            android:id="@+id/icon_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="@string/icon_my_profile"
-            android:textColor="@color/white"
-            android:textSize="26sp"
-            font:fonttextview="roboto_mitv_medium.ttf" />
+            android:id="@+id/elemement_tab_icon_me"
+            style="@style/TabsIcon"
+            android:layout_marginTop="@dimen/tab_margin_to_icon"
+            android:text="@string/icon_my_profile" />
 
         <com.millicom.secondscreen.customviews.FontTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/icon_profile"
-            android:layout_centerHorizontal="true"
-            android:text="@string/tab_me"
-            android:textColor="@color/white"
-            android:textSize="10sp"
-            android:textStyle="bold" />
+            style="@style/TabsText"
+            android:layout_below="@id/elemement_tab_icon_me"
+            android:layout_marginTop="@dimen/tab_margin_between_icon_and_text"
+            android:text="@string/tab_me" />
     </RelativeLayout>
 
 </LinearLayout>

@@ -103,14 +103,17 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 
 
 		String timeString = "";
-		int textColor;
-		if(closestBroadcastInTime.isRunning()) {
-			timeString = mContext.getString(R.string.search_on_air_now);
-			textColor = mContext.getResources().getColor(R.color.red);
+		int textColor = mContext.getResources().getColor(R.color.grey3);
+		if (closestBroadcastInTime != null) {
+			if (closestBroadcastInTime.isRunning()) {
+				timeString = mContext.getString(R.string.search_on_air_now);
+				textColor = mContext.getResources().getColor(R.color.red);
+			} else {
+				timeString = closestBroadcastInTime.getStartsInTimeString();
+			}
 		} else {
-			timeString = closestBroadcastInTime.getStartsInTimeString();
-			textColor = mContext.getResources().getColor(R.color.grey3);
-		}
+			timeString = mContext.getString(R.string.search_no_upcoming_broadcasts);
+		}	
 		
 		viewHolder.mTime.setTextColor(textColor);
 		viewHolder.mTime.setText(timeString);
