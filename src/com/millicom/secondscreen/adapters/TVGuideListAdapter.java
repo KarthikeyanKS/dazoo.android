@@ -172,7 +172,7 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 					String toShow = "";
 					
 					if (rowWidth > 0) {
-						int maxTextWidth = rowWidth;
+						int maxTextWidth = (int) (rowWidth * 0.9);
 					
 						/* Calculate max amount of characters that fits */
 						while (textWidth > maxTextWidth && limitIndex > 0) {

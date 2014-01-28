@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.Consts.REQUEST_STATUS;
@@ -36,6 +37,7 @@ import com.millicom.secondscreen.content.tvguide.TVHolderFragment;
 import com.millicom.secondscreen.content.tvguide.TVHolderFragment.OnViewPagerIndexChangedListener;
 import com.millicom.secondscreen.customviews.FontTextView;
 import com.millicom.secondscreen.http.NetworkUtils;
+import com.millicom.secondscreen.manager.AppConfigurationManager;
 import com.millicom.secondscreen.manager.DazooCore;
 import com.millicom.secondscreen.storage.DazooStore;
 import com.millicom.secondscreen.utilities.DateUtilities;
@@ -59,6 +61,9 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 	private int									mStartingPosition	= 0;
 	private boolean								mChannelUpdate		= false;
+	
+	private String 								mWelcomeToast = "";
+	private boolean 							showWelcomeToast = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +90,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverBadRequest, new IntentFilter(Consts.INTENT_EXTRA_BAD_REQUEST));
 
 		SecondScreenApplication.getInstance().setSelectedHour(Integer.valueOf(DateUtilities.getCurrentHourString()));
-
+		
 		initViews();
 
 		// HOCKEY-APP
@@ -307,6 +312,11 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			mActionBar.setListNavigationCallbacks(mDayAdapter, this);
 
 			attachFragment();
+			if (showWelcomeToast) {
+				mWelcomeToast = AppConfigurationManager.getInstance().getWelcomeToast();
+				Toast.makeText(getApplicationContext(), mWelcomeToast, Toast.LENGTH_LONG).show();
+				showWelcomeToast = false;
+			}
 			// createFragments();
 		}
 	}
