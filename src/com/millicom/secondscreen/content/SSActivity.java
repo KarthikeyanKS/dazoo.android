@@ -54,7 +54,7 @@ public abstract class SSActivity extends ActionBarActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.main, menu);
+		inflater.inflate(R.menu.actionbar_menu, menu);
 		
 		MenuItem searchFieldItem = menu.findItem(R.id.searchfield);
 		searchFieldItem.setVisible(false);

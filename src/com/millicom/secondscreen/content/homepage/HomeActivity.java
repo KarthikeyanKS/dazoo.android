@@ -19,6 +19,7 @@ import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ import com.millicom.secondscreen.content.model.TvDate;
 import com.millicom.secondscreen.content.myprofile.MyProfileActivity;
 import com.millicom.secondscreen.content.tvguide.TVHolderFragment;
 import com.millicom.secondscreen.content.tvguide.TVHolderFragment.OnViewPagerIndexChangedListener;
+import com.millicom.secondscreen.customviews.FontTextView;
 import com.millicom.secondscreen.http.NetworkUtils;
 import com.millicom.secondscreen.manager.AppConfigurationManager;
 import com.millicom.secondscreen.manager.DazooCore;
@@ -43,7 +45,8 @@ import com.millicom.secondscreen.utilities.DateUtilities;
 public class HomeActivity extends SSPageFragmentActivity implements OnClickListener, ActionBar.OnNavigationListener {
 
 	private static final String					TAG					= "HomeActivity";
-	private RelativeLayout						mTabTvGuide, mTabPopular, mTabFeed, mTabDividerLeftContainer, mTabDividerRightContainer;
+	private RelativeLayout						mTabTvGuide, mTabPopular, mTabFeed;
+	private View 								mTabDividerLeft, mTabDividerRight;
 	private ActionBar							mActionBar;
 	private ActionBarDropDownDateListAdapter	mDayAdapter;
 	public static int							mBroadcastSelection	= -1;
@@ -230,19 +233,21 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	}
 	
 	private void initViews() {
-		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);
+		mTabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
 		mTabTvGuide.setOnClickListener(this);
 
-		mTabPopular = (RelativeLayout) findViewById(R.id.show_activity);
+		mTabPopular = (RelativeLayout) findViewById(R.id.tab_activity);
 		mTabPopular.setOnClickListener(this);
-		mTabFeed = (RelativeLayout) findViewById(R.id.show_me);
+
+		
+		mTabFeed = (RelativeLayout) findViewById(R.id.tab_me);
 		mTabFeed.setOnClickListener(this);
 
-		mTabDividerLeftContainer = (RelativeLayout) findViewById(R.id.tab_left_divider_container);
-		mTabDividerRightContainer = (RelativeLayout) findViewById(R.id.tab_right_divider_container);
+		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
+		mTabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
 		
-		mTabDividerLeftContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
-		mTabDividerRightContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+		mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+		mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
 	
 		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
 		mTabPopular.setBackgroundColor(getResources().getColor(R.color.yellow));
@@ -363,16 +368,16 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	public void onClick(View v) {
 		int id = v.getId();
 		switch (id) {
-		case R.id.show_tvguide:
+		case R.id.tab_tv_guide:
 			// we are already here, nothing happens
 			break;
-		case R.id.show_activity:
+		case R.id.tab_activity:
 			// tab to activity page
 			Intent intentActivity = new Intent(HomeActivity.this, ActivityActivity.class);
 			startActivity(intentActivity);
 			
 			break;
-		case R.id.show_me:
+		case R.id.tab_me:
 			// tab to activity page
 			Intent intentMe = new Intent(HomeActivity.this, MyProfileActivity.class);
 			startActivity(intentMe);

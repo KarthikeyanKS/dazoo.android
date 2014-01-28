@@ -27,7 +27,8 @@ public class SettingsActivity extends SSActivity implements OnClickListener {
 	private ActionBar			mActionBar;
 	private boolean				mIsChange	= false;
 	private Button				mContactButton, mTermsButton, mHelpButton, mLogoutButton;
-	private RelativeLayout		mTabTvGuide, mTabActivity, mTabProfile, mTabDividerLeftContainer, mTabDividerRightContainer;
+	private RelativeLayout		mTabTvGuide, mTabActivity, mTabProfile;
+	private View mTabDividerLeft, mTabDividerRight;
 	private TextView			mVersionTextView;
 	private String				mToken;
 
@@ -67,18 +68,18 @@ public class SettingsActivity extends SSActivity implements OnClickListener {
 
 		// styling bottom navigation tabs
 
-		mTabTvGuide = (RelativeLayout) findViewById(R.id.show_tvguide);
+		mTabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
 		mTabTvGuide.setOnClickListener(this);
-		mTabActivity = (RelativeLayout) findViewById(R.id.show_activity);
+		mTabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
 		mTabActivity.setOnClickListener(this);
-		mTabProfile = (RelativeLayout) findViewById(R.id.show_me);
+		mTabProfile = (RelativeLayout) findViewById(R.id.tab_me);
 		mTabProfile.setOnClickListener(this);
 		
-		mTabDividerLeftContainer = (RelativeLayout) findViewById(R.id.tab_left_divider_container);
-		mTabDividerRightContainer = (RelativeLayout) findViewById(R.id.tab_right_divider_container);
+		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
+		mTabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
 
-		mTabDividerLeftContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
-		mTabDividerRightContainer.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+		mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+		mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
 
 		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 		mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
@@ -151,19 +152,19 @@ public class SettingsActivity extends SSActivity implements OnClickListener {
 			//
 			//
 			break;
-		case R.id.show_tvguide:
+		case R.id.tab_tv_guide:
 			// tab to home page
 			Intent intentHome = new Intent(SettingsActivity.this, HomeActivity.class);
 			startActivity(intentHome);
 			
 			break;
-		case R.id.show_activity:
+		case R.id.tab_activity:
 			// tab to home page
 			Intent intentActivity = new Intent(SettingsActivity.this, ActivityActivity.class);
 			startActivity(intentActivity);
 			
 			break;
-		case R.id.show_me:
+		case R.id.tab_me:
 			Intent returnIntent = new Intent();
 			if (mIsChange == true) {
 				setResult(Consts.INFO_UPDATE_LOGOUT, returnIntent);

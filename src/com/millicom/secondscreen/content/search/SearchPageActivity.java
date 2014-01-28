@@ -1,18 +1,13 @@
 package com.millicom.secondscreen.content.search;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.Point;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -44,6 +39,7 @@ import com.millicom.secondscreen.content.model.Channel;
 import com.millicom.secondscreen.content.model.SearchResultItem;
 import com.millicom.secondscreen.content.tvguide.BroadcastPageActivity;
 import com.millicom.secondscreen.customviews.InstantAutoComplete;
+import com.millicom.secondscreen.utilities.HardwareUtilities;
 
 public class SearchPageActivity extends SSActivity implements OnItemClickListener, OnEditorActionListener, OnClickListener, SearchActivityListeners {
 
@@ -103,7 +99,7 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.main, menu);
+		inflater.inflate(R.menu.actionbar_menu, menu);
 
 		MenuItem startSearchMenuItem = menu.findItem(R.id.action_start_search);
 		startSearchMenuItem.setVisible(false);
@@ -157,32 +153,12 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 		});
 
 	}
-	
-	@SuppressLint("NewApi")
-	private int getScreenWidth() {
-		int screenWidth = 0;
-		if (Build.VERSION.SDK_INT >= 11) {
-	        Point size = new Point();
-	        try {
-	            this.getWindowManager().getDefaultDisplay().getRealSize(size);
-	            screenWidth = size.x;
-	        } catch (NoSuchMethodError e) {
-	            Log.i(TAG, "Error it can't work");
-	        }
-
-	    } else {
-	        DisplayMetrics metrics = new DisplayMetrics();
-	        this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-	        screenWidth = metrics.widthPixels;
-	    }
-		return screenWidth;
-	}
-	
+		
 	private void loadAutoCompleteView() {
 		mAutoCompleteAdapter = new SearchPageListAdapter(SearchPageActivity.this, this);
 		mEditTextSearch.setThreshold(1);
 	
-		int width = getScreenWidth();
+		int width = HardwareUtilities.getScreenWidth(this);
 		
 		mEditTextSearch.setDropDownWidth(width);
 		mEditTextSearch.setAdapter(mAutoCompleteAdapter);
