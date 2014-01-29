@@ -23,8 +23,10 @@ import android.view.WindowManager;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
+import com.millicom.secondscreen.content.SSApiVersionPage;
 import com.millicom.secondscreen.manager.AppConfigurationManager;
 import com.millicom.secondscreen.manager.DazooCore;
+import com.millicom.secondscreen.manager.DazooCore.ApiVersionCallback;
 import com.millicom.secondscreen.manager.DazooCore.AppConfigurationCallback;
 import com.millicom.secondscreen.utilities.BootCompletedReceiver;
 import com.millicom.secondscreen.utilities.DeviceUtilities;
@@ -213,6 +215,14 @@ public class SecondScreenApplication extends Application {
 				if(googleAnalyticsEnabled) {
 					setupGoogleAnalytics();
 				}
+			}
+		});
+		
+		/* Fetch api version */
+		DazooCore.getApiVersion(new ApiVersionCallback() {
+			@Override
+			public void onApiVersionResult() {
+				setApiVersion(SSApiVersionPage.getInstance().getApiVersionString());
 			}
 		});
 						
@@ -421,6 +431,23 @@ public class SecondScreenApplication extends Application {
 		editor.putBoolean(Consts.MILLICOM_SECONDSCREEN_HOMEPAGE_AGAIN, isHomePage);
 		editor.commit();
 	}
+	
+	/**
+	 * Get api version
+	 */
+	public String getApiVersion() {
+		return sSharedPreferences.getString(Consts.MILLICOM_SECONDSCREEN_API_VERSION_SHARED_PREF, null);
+	}
+	
+	/**
+	 * Set api version
+	 */
+	public void setApiVersion(String apiVersion) {
+		editor = sSharedPreferences.edit();
+		editor.putString(Consts.MILLICOM_SECONDSCREEN_API_VERSION_SHARED_PREF, apiVersion);
+		editor.commit();
+	}
+	
 
 	/**
 	 * Calculate the sizes of the image thumbnails that are used across the app.

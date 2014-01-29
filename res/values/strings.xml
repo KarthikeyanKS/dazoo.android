@@ -188,13 +188,11 @@
     <string name="take_the_tour">Take the tour</string>
     <string name="skip">Skip</string>
     <string name="or">OR</string>
-    <string name="signup_with_email_error_firstname">First name was not input right!</string>
-    <string name="signup_with_email_error_lastname">Last name was not input right!</string>
-    <string name="signup_with_email_error_email">E-mail was not input right!</string>
-    <string name="signup_with_email_error_email_register_error">Something wrong when registering</string>
-    <string name="signup_with_email_error_passwordlength">Your password must contain </string>
+    <string name="signup_with_email_error_firstname">You need to provide a first name.</string>
+    <string name="signup_with_email_error_email_incorrect">E-mail is not input correctly.</string>
+    <string name="signup_with_email_error_email_already_registered">E-mail is already registered.</string>
+    <string name="signup_with_email_error_passwordlength">Your password must contain at least </string>
     <string name="signup_with_email_characters"> characters!</string>
-    <string name="signup_with_email_error_passwordcharacters">Password contained illegal characters!</string>
     <string name="signup_characters">at least 6 characters</string>
     <string name="signup_email_example">example@abc.com</string>
     <string name="login_with_dazoo_wrong_info">The input e-mail or password is incorrect!</string>

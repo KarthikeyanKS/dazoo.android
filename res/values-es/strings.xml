@@ -136,10 +136,10 @@
     <string name="or">o</string>
     <string name="signup_with_email_error_firstname">El nombre introducido no es correcto </string>
     <string name="signup_with_email_error_lastname">El apellido introducido no es correcto </string>
-    <string name="signup_with_email_error_email">El correo electrónico introducido no es correcto </string>
+    <string name="signup_with_email_error_email_incorrect">El correo electrónico introducido no es correcto </string>
+    <string name="signup_with_email_error_email_already_registered">El correo electrónico ya está registrado </string>
     <string name="signup_with_email_error_passwordlength">El contraseña debe contener </string>
     <string name="signup_with_email_characters"> caracteres</string>
-    <string name="signup_with_email_error_passwordcharacters">La contraseña no puede contener caracteres especiales (solo podrá usar letras, números)</string>
     <string name="signup_characters">al menos 6 caracteres</string>
     <string name="signup_email_example">yo@mi.tv</string>
 

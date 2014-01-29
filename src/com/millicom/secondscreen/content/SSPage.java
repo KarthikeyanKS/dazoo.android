@@ -24,7 +24,7 @@ import com.millicom.secondscreen.manager.ContentParser;
 public abstract class SSPage {
 
 	private static final String				TAG				= "SSPage";
-	protected String 							mPageUrl;
+	protected String 						mPageUrl;
 	protected SSPageCallback				mPageCallback	= null;
 	private SSHttpClient<SSPageGetResult>	mHttpClient		= new SSHttpClient<SSPageGetResult>();
 	private ContentParser					mContentParser	= new ContentParser();
@@ -38,7 +38,8 @@ public abstract class SSPage {
 	private Broadcast						mBroadcast;
 	private ArrayList<Broadcast>			mSeriesUpcomingBroadcasts;
 	private SearchResult					mSearchResult;
-	private ArrayList<Broadcast> mProgramBroadcasts;
+	private ArrayList<Broadcast> 			mProgramBroadcasts;	
+	private String							mApiVersion;
 
 	public SSPage(String url) {
 		this.mPageUrl = url;
@@ -209,6 +210,14 @@ public abstract class SSPage {
 	
 	public void parseProgramBroadcasts(JSONArray jsonArray) throws Exception{
 		this.mProgramBroadcasts = mContentParser.parseBroadcasts(jsonArray);
+	}
+	
+	public void parseApiVersion(JSONArray versionJSONArray) {
+		this.mApiVersion = mContentParser.parseApiVersion(versionJSONArray);
+	}
+	
+	public String getApiVersionString() {
+		return mApiVersion;
 	}
 	
 

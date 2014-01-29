@@ -155,6 +155,8 @@ public class SettingsActivity extends SSActivity implements OnClickListener {
 		case R.id.tab_tv_guide:
 			// tab to home page
 			Intent intentHome = new Intent(SettingsActivity.this, HomeActivity.class);
+			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intentHome);
 			
 			break;

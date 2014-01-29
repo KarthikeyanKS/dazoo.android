@@ -28,6 +28,7 @@ import com.google.gson.Gson;
 import com.millicom.secondscreen.Consts;
 import com.millicom.secondscreen.R;
 import com.millicom.secondscreen.SecondScreenApplication;
+import com.millicom.secondscreen.content.SSApiVersionPage;
 import com.millicom.secondscreen.content.SSAppConfigurationPage;
 import com.millicom.secondscreen.content.SSChannelPage;
 import com.millicom.secondscreen.content.SSGuidePage;
@@ -441,6 +442,43 @@ public class DazooCore {
 			public AdzerkJSONObjectUser(String userKey) {
 				this.userKey = userKey;
 			}
+		}
+	}
+	
+	public static interface ApiVersionCallback {
+		public void onApiVersionResult();
+	}
+	
+	public static void getApiVersion(ApiVersionCallback apiVersionCallback) {
+		GetApiVersionTask getApiVersionTask = new GetApiVersionTask(apiVersionCallback);
+		getApiVersionTask.execute();
+	}
+	
+	private static class GetApiVersionTask extends AsyncTask<String, Void, Void> {
+
+		private ApiVersionCallback apiVersionCallback = null;
+
+		public GetApiVersionTask(ApiVersionCallback apiVersionCallback) {
+			this.apiVersionCallback = apiVersionCallback;
+		}
+
+		@Override
+		protected Void doInBackground(String... params) {
+			SSApiVersionPage.getInstance().getPage(new SSPageCallback() {
+
+				@Override
+				public void onGetPageResult(SSPageGetResult pageGetResult) {
+					if (apiVersionCallback != null) {
+						apiVersionCallback.onApiVersionResult();
+					}
+				}
+			});
+
+			// if(appConfigCallBack != null) {
+			// appConfigCallBack.onAppConfigurationResult();
+			// }
+
+			return null;
 		}
 	}
 	
