@@ -35,14 +35,13 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.mitv.Consts;
+import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.Consts.REQUEST_STATUS;
-import com.mitv.content.SSActivity;
 import com.mitv.utilities.JSONUtilities;
 import com.mitv.utilities.PatternCheck;
 
-public class ResetPasswordActivity extends SSActivity implements OnClickListener {
+public class ResetPasswordActivity extends SSSignInSignupBaseActivity implements OnClickListener {
 
 	private static final String	TAG	= "ResetPasswordActivity";
 	private ActionBar			mActionBar;

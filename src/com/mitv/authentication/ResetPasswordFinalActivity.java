@@ -14,7 +14,7 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.content.SSActivity;
 
-public class ResetPasswordFinalActivity extends SSActivity implements OnClickListener {
+public class ResetPasswordFinalActivity extends SSSignInSignupBaseActivity implements OnClickListener {
 
 	private static final String	TAG	= "ResetPasswordFinalActivity";
 	private ActionBar			mActionBar;

@@ -53,7 +53,7 @@ import com.mitv.utilities.PatternCheck;
 import com.mitv.utilities.TextDrawable;
 import com.nostra13.universalimageloader.utils.IoUtils;
 
-public class SignUpActivity extends SSActivity implements OnClickListener {
+public class SignUpActivity extends SSSignInSignupBaseActivity implements OnClickListener {
 
 	private static final String	TAG							= "SignUpActivity";
 	private ActionBar			mActionBar;

@@ -49,7 +49,7 @@ import com.mitv.storage.DazooStore;
 import com.mitv.utilities.JSONUtilities;
 import com.mitv.utilities.PatternCheck;
 
-public class DazooLoginActivity extends SSActivity implements OnClickListener {
+public class DazooLoginActivity extends SSSignInSignupBaseActivity implements OnClickListener {
 
 	private static final String	TAG	= "DazooLoginActivity";
 	private ActionBar			mActionBar;

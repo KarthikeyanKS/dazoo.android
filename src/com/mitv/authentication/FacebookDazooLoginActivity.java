@@ -9,14 +9,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 
+import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.Consts.REQUEST_STATUS;
-import com.mitv.content.SSActivity;
 import com.mitv.homepage.HomeActivity;
 import com.mitv.myprofile.MyChannelsActivity;
 
-public class FacebookDazooLoginActivity extends SSActivity implements OnClickListener {
+public class FacebookDazooLoginActivity extends SSSignInSignupBaseActivity implements OnClickListener {
 
 	private static final String	TAG	= "FacebookDazooLoginActivity";
 	private ActionBar			mActionBar;
