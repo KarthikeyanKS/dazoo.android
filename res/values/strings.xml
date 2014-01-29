@@ -151,9 +151,9 @@
     <string name="login_with_facebook">Login with Facebook</string>
     <string name="logout_from_facebook">Logout from Facebook</string>
     <string name="login_with_twitter">Login with Twitter</string>
-    <string name="login_with_dazoo">Login with mi.tv</string>
-    <string name="logout_from_dazoo">Logout from mi.tv</string>
-    <string name="register_with_dazoo">Register with mi.tv</string>
+    <string name="login_with_mitv">Login with mi.tv</string>
+    <string name="logout_from_mitv">Logout from mi.tv</string>
+    <string name="register_with_mitv">Register with mi.tv</string>
     <!-- string name="hint_password">Password</string>
     <string name="hint_email">E-mail</string-->
     <string name="hint_password">Password, at least 6 characters</string>
@@ -166,8 +166,8 @@
     <string name="reset_password">Reset Password</string>
     <string name="sign_in">Sing in</string>
     <string name="cancel">Cancel</string>
-    <string name="sign_in_to_dazoo_title">Sign in to mi.tv</string>
-    <string name="sign_in_to_dazoo_text">You need to sign in to mi.tv to like shows and get better personal recommendations.</string>
+    <string name="sign_in_to_title">Sign in to mi.tv</string>
+    <string name="sign_in_to_text">You need to sign in to mi.tv to like shows and get better personal recommendations.</string>
     <string name="sign_up_with_email">Sign up with email</string>
     <string name="already_registered">Already registered?</string>
     <string name="login_with_email">login with email</string>
@@ -195,8 +195,8 @@
     <string name="signup_with_email_characters"> characters!</string>
     <string name="signup_characters">at least 6 characters</string>
     <string name="signup_email_example">example@abc.com</string>
-    <string name="login_with_dazoo_wrong_info">The input e-mail or password is incorrect!</string>
-    <string name="login_with_dazoo_wrong_format">Check if e-mail and password were input right!</string>
+    <string name="login_with_wrong_info">The input e-mail or password is incorrect!</string>
+    <string name="login_with_wrong_format">Check if e-mail and password were input right!</string>
 
     <!-- MY CHANNELS PAGE -->
     <string name="get_my_channels">Get My Channels</string>
@@ -212,9 +212,9 @@
     <string name="share_action_title">Share via &#8230;</string>
 
     <!-- NOTIFICATION SERVICE -->
-    <string name="dazoo_notification_text_start">mi.tv would like to remind you that </string>
-    <string name="dazoo_notification_text_middle"> in 15 minutes at the channel </string>
-    <string name="dazoo_notification_text_end">. Enjoy! :)</string>
+    <string name="notification_text_start">mi.tv would like to remind you that </string>
+    <string name="notification_text_middle"> in 15 minutes at the channel </string>
+    <string name="notification_text_end">. Enjoy! :)</string>
     <string name="reminder_text_set">A notification was set for this broadcast 15 minutes before on air</string>
     <string name="reminder_text_remove">"Do you really want to remove the reminder for "</string>
 

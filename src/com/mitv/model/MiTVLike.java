@@ -5,13 +5,13 @@ import java.util.Comparator;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class DazooLike implements Parcelable{
+public class MiTVLike implements Parcelable{
 	private String likeType;
-	private DazooLikeEntity entity;
+	private MiTVLikeEntity entity;
 	private String nextBroadcastChannelId; 
 	private long nextBroadcastBegintimeMillis;
 	
-	public DazooLike(){
+	public MiTVLike(){
 	}
 	
 	public void setLikeType(String likeType){
@@ -22,11 +22,11 @@ public class DazooLike implements Parcelable{
 		return this.likeType;
 	}
 	
-	public void setEntity(DazooLikeEntity entity){
+	public void setEntity(MiTVLikeEntity entity){
 		this.entity = entity;
 	}
 	
-	public DazooLikeEntity getEntity(){
+	public MiTVLikeEntity getEntity(){
 		return this.entity;
 	}
 	
@@ -60,27 +60,27 @@ public class DazooLike implements Parcelable{
 		dest.writeLong(nextBroadcastBegintimeMillis);
 	}
 	
-	public DazooLike(Parcel in){
+	public MiTVLike(Parcel in){
 		likeType = in.readString();
-		entity = (DazooLikeEntity) in.readParcelable(DazooLikeEntity.class.getClassLoader());
+		entity = (MiTVLikeEntity) in.readParcelable(MiTVLikeEntity.class.getClassLoader());
 		nextBroadcastChannelId = in.readString();
 		nextBroadcastBegintimeMillis = in.readLong();
 	}
 	
-	public static final Parcelable.Creator<DazooLike>	CREATOR	= new Parcelable.Creator<DazooLike>() {
-		public DazooLike createFromParcel(Parcel in) {
-			return new DazooLike(in);
+	public static final Parcelable.Creator<MiTVLike>	CREATOR	= new Parcelable.Creator<MiTVLike>() {
+		public MiTVLike createFromParcel(Parcel in) {
+			return new MiTVLike(in);
 		}
 
-		public DazooLike[] newArray(int size) {
-			return new DazooLike[size];
+		public MiTVLike[] newArray(int size) {
+			return new MiTVLike[size];
 		}
 	};
 	
-	public static class DazooLikeComparatorByTitle implements Comparator<DazooLike> {
+	public static class MiTVLikeComparatorByTitle implements Comparator<MiTVLike> {
 
 		@Override
-		public int compare(DazooLike a, DazooLike b) {
+		public int compare(MiTVLike a, MiTVLike b) {
 			return a.getEntity().getTitle().compareTo(b.getEntity().getTitle());
 		}
 	}

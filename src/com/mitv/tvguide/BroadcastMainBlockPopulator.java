@@ -27,7 +27,7 @@ import com.mitv.notification.NotificationDataSource;
 import com.mitv.notification.NotificationDialogHandler;
 import com.mitv.notification.NotificationService;
 import com.mitv.share.ShareAction;
-import com.mitv.storage.DazooStore;
+import com.mitv.storage.MiTVStore;
 import com.mitv.utilities.AnimationUtilities;
 import com.mitv.utilities.ProgressBarUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -96,7 +96,7 @@ public class BroadcastMainBlockPopulator {
 		Program program = broadcast.getProgram();
 		String programType = program.getProgramType();
 
-		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+		if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 			mProgramId = broadcast.getProgram().getSeries().getSeriesId();
 			mContentTitle = broadcast.getProgram().getSeries().getName();
 			if (!program.getSeason().getNumber().equals("0")) {
@@ -119,7 +119,7 @@ public class BroadcastMainBlockPopulator {
 				episodeNameTv.setVisibility(View.VISIBLE);
 			}
 
-		} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
+		} else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) {
 			mProgramId = broadcast.getProgram().getSportType().getSportTypeId();
 			mContentTitle = broadcast.getProgram().getSportType().getName();
 			titleTv.setText(program.getTitle());
@@ -165,20 +165,20 @@ public class BroadcastMainBlockPopulator {
 
 		int duration = broadcast.getDurationInMinutes();
 		String extras = "";
-		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+		if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 			extras = mActivity.getResources().getString(R.string.tv_series) + "  "
 					+ ((program.getYear() == 0) ? "" : String.valueOf(program.getYear()) + "  ")
 					+ ((duration == 0) ? "" : duration + " " + mActivity.getResources().getString(R.string.minutes) + "  ")
 					+ ((program.getGenre() == null) ? "" : (program.getGenre()));
-		} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
+		} else if (Consts.PROGRAM_TYPE_MOVIE.equals(programType)) {
 			extras = mActivity.getResources().getString(R.string.movie) + "  " 
 					+ ((program.getYear() == 0) ? "" : String.valueOf(program.getYear()) + "  ")
 					+ ((duration == 0) ? "" : duration + " " + mActivity.getResources().getString(R.string.minutes) + "  ")
 					+ ((program.getGenre() == null) ? "" : (program.getGenre()));
-		} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
+		} else if (Consts.PROGRAM_TYPE_OTHER.equals(programType)) {
 			extras = program.getCategory() + "  "
 					+ ((duration == 0) ? "" : duration + " " + mActivity.getResources().getString(R.string.minutes));
-		} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
+		} else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) {
 			extras = mActivity.getResources().getString(R.string.sport) + "  "
 					+ ((duration == 0) ? "" : duration + " " + mActivity.getResources().getString(R.string.minutes) + "  ")
 					+ program.getSportType().getName();
@@ -220,7 +220,7 @@ public class BroadcastMainBlockPopulator {
 
 		if (mIsLoggedIn) {
 			// mIsLiked = LikeService.isLiked(mToken, broadcast.getProgram().getProgramId());
-			mIsLiked = DazooStore.getInstance().isInTheLikesList(mProgramId);
+			mIsLiked = MiTVStore.getInstance().isInTheLikesList(mProgramId);
 		}
 
 		if (mIsLiked) mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
@@ -235,7 +235,7 @@ public class BroadcastMainBlockPopulator {
 						if (LikeService.addLike(mToken, mProgramId, mLikeType)) {
 							BroadcastPageActivity.toast = LikeService.showSetLikeToast(mActivity, mContentTitle);
 
-							DazooStore.getInstance().addLikeIdToList(mProgramId);
+							MiTVStore.getInstance().addLikeIdToList(mProgramId);
 
 							mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
 
@@ -252,7 +252,7 @@ public class BroadcastMainBlockPopulator {
 						// likeDlg.showRemoveLikeDialog(mActivity, mToken, mLikeType, broadcast.getProgram().getProgramId(), yesLikeProc(), noLikeProc());
 						LikeService.removeLike(mToken, mProgramId, mLikeType);
 
-						DazooStore.getInstance().deleteLikeIdFromList(mProgramId);
+						MiTVStore.getInstance().deleteLikeIdFromList(mProgramId);
 
 						mIsLiked = false;
 						mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));

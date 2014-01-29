@@ -39,31 +39,30 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mitv.Consts;
+import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.Consts.REQUEST_STATUS;
-import com.mitv.content.SSActivity;
 import com.mitv.homepage.HomeActivity;
-import com.mitv.manager.DazooCore;
-import com.mitv.storage.DazooStore;
+import com.mitv.manager.MiTVCore;
+import com.mitv.storage.MiTVStore;
 import com.mitv.utilities.JSONUtilities;
 import com.mitv.utilities.PatternCheck;
 
-public class DazooLoginActivity extends SSSignInSignupBaseActivity implements OnClickListener {
+public class MiTVLoginActivity extends SSSignInSignupBaseActivity implements OnClickListener {
 
-	private static final String	TAG	= "DazooLoginActivity";
+	private static final String	TAG	= "MiTVLoginActivity";
 	private ActionBar			mActionBar;
-	private Button				mDazooLoginButton, mForgetPasswordButton;
+	private Button				mMiTVLoginButton, mForgetPasswordButton;
 	private EditText			mEmailLoginEditText, mPasswordLoginEditText;
 	private RelativeLayout		mFacebookContainer;
 	private TextView			mErrorTv;
 
-	private String				dazooToken	= "", userToken = "", userId = "", userEmailLogin, userPasswordLogin;
+	private String				miTVToken	= "", userToken = "", userId = "", userEmailLogin, userPasswordLogin;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.layout_dazoologin_activity);
+		setContentView(R.layout.layout_mitvlogin_activity);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		// add the activity to the list of running activities
@@ -95,17 +94,17 @@ public class DazooLoginActivity extends SSSignInSignupBaseActivity implements On
 
 		mActionBar.setTitle(getResources().getString(R.string.login));
 
-		mFacebookContainer = (RelativeLayout) findViewById(R.id.dazoologin_facebook_container);
+		mFacebookContainer = (RelativeLayout) findViewById(R.id.mitvlogin_facebook_container);
 		mFacebookContainer.setOnClickListener(this);
 
-		mDazooLoginButton = (Button) findViewById(R.id.dazoologin_login_button);
-		mDazooLoginButton.setOnClickListener(this);
-		mEmailLoginEditText = (EditText) findViewById(R.id.dazoologin_login_email_edittext);
-		mPasswordLoginEditText = (EditText) findViewById(R.id.dazoologin_login_password_edittext);
+		mMiTVLoginButton = (Button) findViewById(R.id.mitvlogin_login_button);
+		mMiTVLoginButton.setOnClickListener(this);
+		mEmailLoginEditText = (EditText) findViewById(R.id.mitvlogin_login_email_edittext);
+		mPasswordLoginEditText = (EditText) findViewById(R.id.mitvlogin_login_password_edittext);
 		
-		mErrorTv = (TextView) findViewById(R.id.dazoologin_error_tv);
+		mErrorTv = (TextView) findViewById(R.id.mitvlogin_error_tv);
 
-		mForgetPasswordButton = (Button) findViewById(R.id.dazoologin_forgot_password_button);
+		mForgetPasswordButton = (Button) findViewById(R.id.mitvlogin_forgot_password_button);
 		mForgetPasswordButton.setOnClickListener(this);
 	}
 	
@@ -117,8 +116,8 @@ public class DazooLoginActivity extends SSSignInSignupBaseActivity implements On
 	private boolean verifyLoginInput() {
 		String emailInput = mEmailLoginEditText.getText().toString();
 		String passwordInput = mPasswordLoginEditText.getText().toString();
-		if ((passwordInput != null) && (emailInput != null) && (passwordInput.length() >= Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MIN)
-				&& (passwordInput.length() <= Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MAX) && (!passwordInput.matches("[%,#/|<>]+")) && (PatternCheck.checkEmail(emailInput) == true)) {
+		if ((passwordInput != null) && (emailInput != null) && (passwordInput.length() >= Consts.PASSWORD_LENGTH_MIN)
+				&& (passwordInput.length() <= Consts.PASSWORD_LENGTH_MAX) && (!passwordInput.matches("[%,#/|<>]+")) && (PatternCheck.checkEmail(emailInput) == true)) {
 			return true;
 		} else return false;
 	}
@@ -127,47 +126,47 @@ public class DazooLoginActivity extends SSSignInSignupBaseActivity implements On
 	public void onClick(View v) {
 		int id = v.getId();
 		switch (id) {
-		case R.id.dazoologin_facebook_container:
-			Intent intentFacebook = new Intent(DazooLoginActivity.this, FacebookLoginActivity.class);
+		case R.id.mitvlogin_facebook_container:
+			Intent intentFacebook = new Intent(MiTVLoginActivity.this, FacebookLoginActivity.class);
 			startActivity(intentFacebook);
 			break;
 
-		case R.id.dazoologin_forgot_password_button:
-			Intent intentReset = new Intent(DazooLoginActivity.this, ResetPasswordActivity.class);
+		case R.id.mitvlogin_forgot_password_button:
+			Intent intentReset = new Intent(MiTVLoginActivity.this, ResetPasswordActivity.class);
 			startActivity(intentReset);
 			break;
-		case R.id.dazoologin_login_button:
+		case R.id.mitvlogin_login_button:
 			if (verifyLoginInput()) {
 				mEmailLoginEditText.setEnabled(false);
 				mPasswordLoginEditText.setEnabled(false);
 
 				userEmailLogin = mEmailLoginEditText.getText().toString();
 				userPasswordLogin = mPasswordLoginEditText.getText().toString();
-				DazooLoginTask dazooLoginTask = new DazooLoginTask();
+				MiTVLoginTask mitvLoginTask = new MiTVLoginTask();
 				try {
-					// dazooToken = dazooLoginTask.execute(userEmailLogin, userPasswordLogin).get();
-					String responseStr = dazooLoginTask.execute(userEmailLogin, userPasswordLogin).get();
+					// mitvToken = mitvLoginTask.execute(userEmailLogin, userPasswordLogin).get();
+					String responseStr = mitvLoginTask.execute(userEmailLogin, userPasswordLogin).get();
 					// if (responseStr != null && responseStr.isEmpty() != true) {
 					if (responseStr != null && TextUtils.isEmpty(responseStr) != true) {
-						JSONObject dazooJSON = new JSONObject(responseStr);
-						dazooToken = dazooJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_TOKEN);
+						JSONObject mitvJSON = new JSONObject(responseStr);
+						miTVToken = mitvJSON.optString(Consts.API_TOKEN);
 
-						// if (dazooToken.isEmpty() != true && dazooToken.length() > 0) {
-						if (dazooToken != null && TextUtils.isEmpty(dazooToken) != true) {
-							((SecondScreenApplication) getApplicationContext()).setAccessToken(dazooToken);
-							Log.d(TAG, "DazooToken: " + dazooToken + "is saved");
+						// if (mitvToken.isEmpty() != true && mitvToken.length() > 0) {
+						if (miTVToken != null && TextUtils.isEmpty(miTVToken) != true) {
+							((SecondScreenApplication) getApplicationContext()).setAccessToken(miTVToken);
+							Log.d(TAG, "MitvToken: " + miTVToken + "is saved");
 
-							if (AuthenticationService.storeUserInformation(this, dazooJSON)) {
+							if (AuthenticationService.storeUserInformation(this, mitvJSON)) {
 								//Toast.makeText(getApplicationContext(), "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName(), Toast.LENGTH_SHORT).show();
 								Log.d(TAG, "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName()); 
 								
-								DazooStore.getInstance().clearAll();
-								DazooStore.getInstance().reinitializeAll();
-								DazooCore.resetAll();
+								MiTVStore.getInstance().clearAll();
+								MiTVStore.getInstance().reinitializeAll();
+								MiTVCore.resetAll();
 								// clear all the running before activities and start the application from the whole beginning
 								SecondScreenApplication.getInstance().clearActivityBacktrace();
 								
-								startActivity(new Intent(DazooLoginActivity.this, HomeActivity.class));
+								startActivity(new Intent(MiTVLoginActivity.this, HomeActivity.class));
 							} else {
 								//Toast.makeText(getApplicationContext(), "Failed to fetch the user information from backend", Toast.LENGTH_SHORT).show();
 								Log.d(TAG, "!!! Failed to fetch the user information from backend !!!");
@@ -177,10 +176,10 @@ public class DazooLoginActivity extends SSSignInSignupBaseActivity implements On
 							Log.d(TAG,"!!! Error! Something went wrong while creating an account with us. Please, try again later! !!!");
 						}
 					} else {
-						mErrorTv.setText(getResources().getString(R.string.login_with_dazoo_wrong_info));
+						mErrorTv.setText(getResources().getString(R.string.login_with_wrong_info));
 						mErrorTv.setVisibility(View.VISIBLE);
 //						Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with us. Please, try again later!", Toast.LENGTH_SHORT).show();
-						Log.d(TAG, "Error! Dazoo Login: level response from backend");
+						Log.d(TAG, "Error! MiTV Login: level response from backend");
 						mEmailLoginEditText.setEnabled(true);
 						mPasswordLoginEditText.setEnabled(true);
 					}
@@ -193,7 +192,7 @@ public class DazooLoginActivity extends SSSignInSignupBaseActivity implements On
 					e.printStackTrace();
 				}
 			} else {
-				mErrorTv.setText(getResources().getString(R.string.login_with_dazoo_wrong_format));
+				mErrorTv.setText(getResources().getString(R.string.login_with_wrong_format));
 				mErrorTv.setVisibility(View.VISIBLE);
 //				Toast.makeText(getApplicationContext(), "check if email/password were input right", Toast.LENGTH_LONG).show();
 				mEmailLoginEditText.setEnabled(true);
@@ -202,7 +201,7 @@ public class DazooLoginActivity extends SSSignInSignupBaseActivity implements On
 		}
 	}
 
-	private class DazooLoginTask extends AsyncTask<String, Void, String> {
+	private class MiTVLoginTask extends AsyncTask<String, Void, String> {
 
 		@Override
 		protected String doInBackground(String... params) {
@@ -222,8 +221,8 @@ public class DazooLoginActivity extends SSSignInSignupBaseActivity implements On
 				// Set verifier
 				HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
 
-				HttpPost httpPost = new HttpPost(Consts.MILLICOM_SECONDSCREEN_DAZOO_LOGIN_URL);
-				JSONObject holder = JSONUtilities.createJSONObjectWithKeysValues(Arrays.asList(Consts.MILLICOM_SECONDSCREEN_API_EMAIL, Consts.MILLICOM_SECONDSCREEN_API_PASSWORD),
+				HttpPost httpPost = new HttpPost(Consts.URL_LOGIN);
+				JSONObject holder = JSONUtilities.createJSONObjectWithKeysValues(Arrays.asList(Consts.API_EMAIL, Consts.API_PASSWORD),
 						Arrays.asList(params[0], params[1]));
 
 				StringEntity entity = new StringEntity(holder.toString());

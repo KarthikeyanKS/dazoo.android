@@ -56,7 +56,7 @@ import com.mitv.manager.ContentParser;
 import com.mitv.manager.LoginManager;
 import com.mitv.model.Broadcast;
 import com.mitv.myprofile.MyProfileActivity;
-import com.mitv.storage.DazooStore;
+import com.mitv.storage.MiTVStore;
 
 public class PopularPageActivity extends SSActivity implements OnClickListener {
 
@@ -134,9 +134,9 @@ public class PopularPageActivity extends SSActivity implements OnClickListener {
 		if (!NetworkUtils.checkConnection(this)) {
 			updateUI(REQUEST_STATUS.FAILED);
 		} else {
-			if (DazooStore.getInstance().getPopularFeed().size() > 0) {
+			if (MiTVStore.getInstance().getPopularFeed().size() > 0) {
 				Log.d(TAG, "RESTORED POPULAR");
-				mPopularBroadcasts = DazooStore.getInstance().getPopularFeed();
+				mPopularBroadcasts = MiTVStore.getInstance().getPopularFeed();
 				updateUI(REQUEST_STATUS.SUCCESSFUL);
 			} else {
 				GetPopularTask getPopularTask = new GetPopularTask();
@@ -184,7 +184,7 @@ public class PopularPageActivity extends SSActivity implements OnClickListener {
 			if (result) {
 				if (mPopularBroadcasts != null) {
 					if (mPopularBroadcasts.isEmpty() != true) {
-						DazooStore.getInstance().setPopularFeed(mPopularBroadcasts);
+						MiTVStore.getInstance().setPopularFeed(mPopularBroadcasts);
 						updateUI(REQUEST_STATUS.SUCCESSFUL);
 					} else {
 						updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
@@ -215,9 +215,9 @@ public class PopularPageActivity extends SSActivity implements OnClickListener {
 				HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
 
 				List<NameValuePair> urlParams = new LinkedList<NameValuePair>();
-				urlParams.add(new BasicNameValuePair(Consts.MILLICOM_SECONDSCREEN_API_POPULAR_COUNT, String.valueOf(Consts.MILLICOM_SECONDSCREEN_API_POPULAR_COUNT_DEFAULT)));
+				urlParams.add(new BasicNameValuePair(Consts.API_POPULAR_COUNT, String.valueOf(Consts.API_POPULAR_COUNT_DEFAULT)));
 
-				URI uri = new URI(Consts.MILLICOM_SECONDSCREEN_POPULAR + "?" + URLEncodedUtils.format(urlParams, "utf-8"));
+				URI uri = new URI(Consts.URL_POPULAR + "?" + URLEncodedUtils.format(urlParams, "utf-8"));
 
 				HttpGet httpGet = new HttpGet(uri);
 				httpGet.setHeader("Content-type", "application/json; charset=UTF-8");

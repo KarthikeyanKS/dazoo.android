@@ -14,9 +14,9 @@ import com.mitv.model.Guide;
 import com.mitv.model.Tag;
 import com.mitv.model.TvDate;
 
-public class DazooStoreOperations {
+public class MiTVStoreOperations {
 
-	private static final String	TAG	= "DazooStoreOperations";
+	private static final String	TAG	= "MiTVStoreOperations";
 
 	public static void saveDefaultChannels(ArrayList<Channel> defaultChannels) {
 		HashMap<String, Channel> defaultChannelsMap = new HashMap<String, Channel>();
@@ -27,9 +27,9 @@ public class DazooStoreOperations {
 			defaultChannelsMap.put(defaultChannels.get(i).getChannelId(), defaultChannels.get(i));
 			defaultChannelIds.add(defaultChannels.get(i).getChannelId());
 		}
-		DazooStore dazooStore = DazooStore.getInstance();
-		dazooStore.setDefaultChannels(defaultChannelsMap);
-		dazooStore.setDefaultChannelIds(defaultChannelIds);
+		MiTVStore mitvStore = MiTVStore.getInstance();
+		mitvStore.setDefaultChannels(defaultChannelsMap);
+		mitvStore.setDefaultChannelIds(defaultChannelIds);
 	}
 
 	public static void saveAllChannels(ArrayList<Channel> allChannels) {
@@ -42,9 +42,9 @@ public class DazooStoreOperations {
 			allChannelsIds.add(allChannels.get(i).getChannelId());
 		}
 
-		DazooStore dazooStore = DazooStore.getInstance();
-		dazooStore.setAllChannels(allChannelsMap);
-		dazooStore.setAllChannelIds(allChannelsIds);
+		MiTVStore mitvStore = MiTVStore.getInstance();
+		mitvStore.setAllChannels(allChannelsMap);
+		mitvStore.setAllChannelIds(allChannelsIds);
 	}
 
 	public static void saveMyChannels(ArrayList<Channel> channels) {
@@ -56,43 +56,43 @@ public class DazooStoreOperations {
 			channelsMap.put(channels.get(i).getChannelId(), channels.get(i));
 			channelIds.add(channels.get(i).getChannelId());
 		}
-		DazooStore dazooStore = DazooStore.getInstance();
-		dazooStore.setMyChannels(channelsMap);
-		dazooStore.setMyChannelIds(channelIds);
+		MiTVStore mitvStore = MiTVStore.getInstance();
+		mitvStore.setMyChannels(channelsMap);
+		mitvStore.setMyChannelIds(channelIds);
 	}
 
 	public static void saveTvDates(ArrayList<TvDate> tvDates) {
-		DazooStore dazooStore = DazooStore.getInstance();
-		dazooStore.setTvDates(tvDates);
+		MiTVStore mitvStore = MiTVStore.getInstance();
+		mitvStore.setTvDates(tvDates);
 	}
 
 	public static void setTags(ArrayList<Tag> tags) {
-		DazooStore dazooStore = DazooStore.getInstance();
-		dazooStore.setTags(tags);
+		MiTVStore mitvStore = MiTVStore.getInstance();
+		mitvStore.setTags(tags);
 	}
 
 	public static boolean saveGuide(Guide guide, String tvDate, String channelId) {
-		DazooStore dazooStore = DazooStore.getInstance();
-		HashMap<GuideKey, Guide> guides = dazooStore.getGuides();
+		MiTVStore mitvStore = MiTVStore.getInstance();
+		HashMap<GuideKey, Guide> guides = mitvStore.getGuides();
 		GuideKey guideKey = new GuideKey();
 		guideKey.setDate(tvDate);
 		guideKey.setChannelId(channelId);
 		
 		guides.put(guideKey, guide);
-		dazooStore.setGuides(guides);
+		mitvStore.setGuides(guides);
 
 		return true;
 	}
 
 	public static boolean saveMyGuide(Guide guide, String tvDate, String channelId) {
-		DazooStore dazooStore = DazooStore.getInstance();
-		HashMap<GuideKey, Guide> myGuides = dazooStore.getMyGuides();
+		MiTVStore mitvStore = MiTVStore.getInstance();
+		HashMap<GuideKey, Guide> myGuides = mitvStore.getMyGuides();
 
 		GuideKey guideKey = new GuideKey();
 		guideKey.setDate(tvDate);
 		guideKey.setChannelId(channelId);
 		myGuides.put(guideKey, guide);
-		dazooStore.setMyGuides(myGuides);
+		mitvStore.setMyGuides(myGuides);
 		return true;
 	}
 
@@ -121,33 +121,33 @@ public class DazooStoreOperations {
 	}
 
 	public static void saveTaggedBroadcast(TvDate date, Tag tag, ArrayList<Broadcast> broadcasts) {
-		DazooStore dazooStore = DazooStore.getInstance();
-		HashMap<BroadcastKey, ArrayList<Broadcast>> broadcastsList = dazooStore.getBroadcastsList();
+		MiTVStore mitvStore = MiTVStore.getInstance();
+		HashMap<BroadcastKey, ArrayList<Broadcast>> broadcastsList = mitvStore.getBroadcastsList();
 
 		BroadcastKey broadcastKey = new BroadcastKey();
 		broadcastKey.setDate(date);
 		broadcastKey.setTag(tag);
 
 		broadcastsList.put(broadcastKey, broadcasts);
-		dazooStore.setBroadcastsList(broadcastsList);
+		mitvStore.setBroadcastsList(broadcastsList);
 	}
 
 	public static void saveMyTaggedBroadcast(TvDate date, Tag tag, ArrayList<Broadcast> broadcasts) {
-		DazooStore dazooStore = DazooStore.getInstance();
-		HashMap<BroadcastKey, ArrayList<Broadcast>> broadcastsList = dazooStore.getMyBroadcastsList();
+		MiTVStore mitvStore = MiTVStore.getInstance();
+		HashMap<BroadcastKey, ArrayList<Broadcast>> broadcastsList = mitvStore.getMyBroadcastsList();
 
 		BroadcastKey broadcastKey = new BroadcastKey();
 		broadcastKey.setDate(date);
 		broadcastKey.setTag(tag);
 
 		broadcastsList.put(broadcastKey, broadcasts);
-		dazooStore.setMyBroadcastsList(broadcastsList);
+		mitvStore.setMyBroadcastsList(broadcastsList);
 	}
 
 	// filtering guides by tags
 	public static ArrayList<Broadcast> getTaggedBroadcasts(String date, Tag tag) {
-		DazooStore dazooStore = DazooStore.getInstance();
-		ArrayList<Guide> guideTable = dazooStore.getGuideTable(date);
+		MiTVStore mitvStore = MiTVStore.getInstance();
+		ArrayList<Guide> guideTable = mitvStore.getGuideTable(date);
 		String tagName = tag.getId();
 		
 		ArrayList<Broadcast> taggedBroadcasts = new ArrayList<Broadcast>();
@@ -168,7 +168,7 @@ public class DazooStoreOperations {
 					// Log.d(TAG,"" + oneGuideBroadcasts.get(j).getBeginTime());
 					
 					Broadcast broadcastToAdd = oneGuideBroadcasts.get(j);
-					Channel channel = DazooStore.getInstance().getChannelFromDefault(channelId);
+					Channel channel = MiTVStore.getInstance().getChannelFromDefault(channelId);
 					
 					broadcastToAdd.setChannel(channel);
 					
@@ -184,8 +184,8 @@ public class DazooStoreOperations {
 	}
 
 	public static ArrayList<Broadcast> getMyTaggedBroadcasts(String date, Tag tag) {
-		DazooStore dazooStore = DazooStore.getInstance();
-		ArrayList<Guide> guideTable = dazooStore.getMyGuideTable(date);
+		MiTVStore mitvStore = MiTVStore.getInstance();
+		ArrayList<Guide> guideTable = mitvStore.getMyGuideTable(date);
 		String tagName = tag.getId();
 		
 		ArrayList<Broadcast> taggedBroadcasts = new ArrayList<Broadcast>();
@@ -202,7 +202,7 @@ public class DazooStoreOperations {
 				if (oneGuideBroadcasts.get(j).getProgram().getTags().contains(tagName)) {
 					
 					Broadcast broadcastToAdd = oneGuideBroadcasts.get(j);
-					Channel channel = DazooStore.getInstance().getChannelFromAll(channelId);
+					Channel channel = MiTVStore.getInstance().getChannelFromAll(channelId);
 					broadcastToAdd.setChannel(channel);
 					taggedBroadcasts.add(broadcastToAdd);
 				}

@@ -15,8 +15,8 @@ public class Credit implements Parcelable{
 	public Credit() {}
 	
 	public Credit(JSONObject jsonObject) {
-		this.setName(jsonObject.optString(Consts.DAZOO_CREDIT_NAME));
-		this.setType(jsonObject.optString(Consts.DAZOO_CREDIT_TYPE));
+		this.setName(jsonObject.optString(Consts.CREDIT_NAME));
+		this.setType(jsonObject.optString(Consts.CREDIT_TYPE));
 	}
 	
 	public void setName(String name){

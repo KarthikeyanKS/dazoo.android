@@ -15,7 +15,7 @@ public class Season implements Parcelable  {
 	}
 	
 	public Season(JSONObject jsonSeason) {
-		this.setNumber(jsonSeason.optString(Consts.DAZOO_SEASON_NUMBER));
+		this.setNumber(jsonSeason.optString(Consts.SEASON_NUMBER));
 	}
 	
 	public void setNumber(String number){

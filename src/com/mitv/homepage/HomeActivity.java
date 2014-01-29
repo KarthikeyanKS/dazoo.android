@@ -34,11 +34,11 @@ import com.mitv.content.SSPageFragmentActivity;
 import com.mitv.content.activity.ActivityActivity;
 import com.mitv.http.NetworkUtils;
 import com.mitv.manager.AppConfigurationManager;
-import com.mitv.manager.DazooCore;
+import com.mitv.manager.MiTVCore;
 import com.mitv.model.Channel;
 import com.mitv.model.TvDate;
 import com.mitv.myprofile.MyProfileActivity;
-import com.mitv.storage.DazooStore;
+import com.mitv.storage.MiTVStore;
 import com.mitv.tvguide.TVHolderFragment;
 import com.mitv.tvguide.TVHolderFragment.OnViewPagerIndexChangedListener;
 import com.mitv.utilities.DateUtilities;
@@ -256,9 +256,9 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		super.onResume();
 		if (mStateChanged) {
 			removeActiveFragment();
-			DazooStore.getInstance().clearAndReinitializeForMyChannels();
+			MiTVStore.getInstance().clearAndReinitializeForMyChannels();
 			mChannelUpdate = true;
-			DazooCore.getGuide(mDateSelectedIndex, false);
+			MiTVCore.getGuide(mDateSelectedIndex, false);
 			mStateChanged = false;
 		} else {
 			Log.d(TAG, "We have resumed!");
@@ -313,12 +313,12 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		updateUI(REQUEST_STATUS.LOADING);
 		Log.d(TAG, "UI: LOADING");
 
-		DazooCore.getInstance(this, mDateSelectedIndex).fetchContent();
+		MiTVCore.getInstance(this, mDateSelectedIndex).fetchContent();
 	}
 
 	private void reloadPage() {
 		updateUI(REQUEST_STATUS.LOADING);
-		DazooCore.getGuide(mDateSelectedIndex, false);
+		MiTVCore.getGuide(mDateSelectedIndex, false);
 	}
 
 	@Override
@@ -327,8 +327,8 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 		Log.d(TAG, "pageHoldsData()");
 		// mTags = null;
-		mTvDates = DazooStore.getInstance().getTvDates();
-		// mTags = DazooStore.getInstance().getTags();
+		mTvDates = MiTVStore.getInstance().getTvDates();
+		// mTags = MiTVStore.getInstance().getTags();
 
 		if (mTvDates != null) {
 			if (mTvDates.isEmpty()) {

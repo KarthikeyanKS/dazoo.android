@@ -48,7 +48,7 @@ import com.mitv.utilities.JSONUtilities;
 public class FacebookLoginActivity extends SSSignInSignupBaseActivity {
 
 	private static final String	TAG	= "FacebookLoginActivity";
-	private String				facebookToken	= "", facebookSessionToken = "", dazooToken = "";
+	private String				facebookToken	= "", facebookSessionToken = "", mitvToken = "";
 	private ActionBar			mActionBar;
 	private static Activity		mActivity;
 
@@ -130,14 +130,14 @@ public class FacebookLoginActivity extends SSSignInSignupBaseActivity {
 						if (user != null) {
 							facebookSessionToken = session.getAccessToken();
 							Log.d(TAG, "facebook:" + facebookSessionToken);
-							if (getDazooToken()) {
+							if (getMiTVToken()) {
 
 								// for beta-release - direct to the HomePage even if it is first time user
 								boolean firstTime = ((SecondScreenApplication) getApplicationContext()).getUserExistringFlag();
 								// if (firstTime) {
 								// // first time registration/login
-								// // go to facebook dazoo login success page
-								// Intent intent = new Intent(FacebookLoginActivity.this, FacebookDazooLoginActivity.class);
+								// // go to facebook mitv login success page
+								// Intent intent = new Intent(FacebookLoginActivity.this, FacebookMiTVLoginActivity.class);
 								// startActivity(intent);
 								// //finish();
 								// } else {
@@ -161,14 +161,14 @@ public class FacebookLoginActivity extends SSSignInSignupBaseActivity {
 		}
 	};
 
-	public boolean getDazooToken() {
+	public boolean getMiTVToken() {
 		if (facebookSessionToken.length() > 0) {
 			FacebookLoginTask facebookLoginTask = new FacebookLoginTask();
 			try {
 				String responseStr = facebookLoginTask.execute(facebookSessionToken).get();
 				if (responseStr != null && TextUtils.isEmpty(responseStr) != true) {
 					JSONObject fbJSON = new JSONObject(responseStr);
-					facebookToken = fbJSON.getString(Consts.MILLICOM_SECONDSCREEN_API_TOKEN);
+					facebookToken = fbJSON.getString(Consts.API_TOKEN);
 					if (facebookToken != null && TextUtils.isEmpty(facebookToken) != true) {
 						// save access token in the application
 						((SecondScreenApplication) getApplicationContext()).setAccessToken(facebookToken);
@@ -221,8 +221,8 @@ public class FacebookLoginActivity extends SSSignInSignupBaseActivity {
 				// Set verifier
 				HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
 
-				HttpPost httpPost = new HttpPost(Consts.MILLICOM_SECONDSCREEN_FACEBOOK_TOKEN_URL);
-				JSONObject holder = JSONUtilities.createJSONObjectWithKeysValues(Arrays.asList(Consts.MILLICOM_SECONDSCREEN_API_FACEBOOK_TOKEN), Arrays.asList(params[0]));
+				HttpPost httpPost = new HttpPost(Consts.URL_FACEBOOK_TOKEN);
+				JSONObject holder = JSONUtilities.createJSONObjectWithKeysValues(Arrays.asList(Consts.API_FACEBOOK_TOKEN), Arrays.asList(params[0]));
 
 				StringEntity entity = new StringEntity(holder.toString());
 
@@ -235,7 +235,7 @@ public class FacebookLoginActivity extends SSSignInSignupBaseActivity {
 				if (response.getStatusLine().getStatusCode() == Consts.GOOD_RESPONSE) {
 					String responseBody = EntityUtils.toString(response.getEntity());
 					// JSONObject jObj = new JSONObject(responseBody);
-					// String responseToken = jObj.getString(Consts.MILLICOM_SECONDSCREEN_API_TOKEN);
+					// String responseToken = jObj.getString(Consts.API_TOKEN);
 					// return responseToken;
 					return responseBody;
 				} else if (response.getStatusLine().getStatusCode() == Consts.BAD_RESPONSE) {

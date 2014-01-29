@@ -1,8 +1,6 @@
 package com.mitv.adapters;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,9 +19,8 @@ import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.model.Broadcast;
 import com.mitv.model.TvDate;
-import com.mitv.storage.DazooStore;
+import com.mitv.storage.MiTVStore;
 import com.mitv.tvguide.BroadcastPageActivity;
-import com.mitv.utilities.DateUtilities;
 import com.mitv.utilities.ProgressBarUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -40,7 +37,7 @@ public class PopularListAdapter extends BaseAdapter {
 	private String					mToken;
 	private int						mCurrentPosition	= -1;
 
-	private DazooStore				dazooStore;
+	private MiTVStore				mitvStore;
 	private ArrayList<TvDate>		mTvDates;
 
 	public PopularListAdapter(Activity activity, String token, ArrayList<Broadcast> popularBroadcasts) {
@@ -48,8 +45,8 @@ public class PopularListAdapter extends BaseAdapter {
 		this.mPopularBroadcasts = popularBroadcasts;
 		this.mToken = token;
 
-		dazooStore = DazooStore.getInstance();
-		mTvDates = dazooStore.getTvDates();
+		mitvStore = MiTVStore.getInstance();
+		mTvDates = mitvStore.getTvDates();
 	}
 
 	@Override
@@ -125,7 +122,7 @@ public class PopularListAdapter extends BaseAdapter {
 			//			try {
 			//				mCurrentPosition = (Integer) holder.mTitleTv.getTag();
 			//				Log.d(TAG, "currentPosition:" + mCurrentPosition);
-			//				if (position % Consts.MILLICOM_SECONDSCREEN_API_POPULAR_COUNT_DEFAULT == 0) {
+			//				if (position % Consts.API_POPULAR_COUNT_DEFAULT == 0) {
 			//					if (mTvDates != null && mTvDates.isEmpty() != true) {
 			//						holder.mHeaderTv.setText(mTvDates.get(dateIndex).getName() + " " + DateUtilities.tvDateStringToDatePickerString(mTvDates.get(dateIndex).getDate()));
 			//						holder.mHeaderContainer.setVisibility(View.VISIBLE);
@@ -156,7 +153,7 @@ public class PopularListAdapter extends BaseAdapter {
 			ImageAware imageAware = new ImageViewAware(holder.mPosterIv, false);
 			ImageLoader.getInstance().displayImage(broadcast.getProgram().getPortMUrl(), imageAware);
 
-			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+			if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 				holder.mTitleTv.setText(broadcast.getProgram().getSeries().getName());
 			} else {
 				holder.mTitleTv.setText(broadcast.getProgram().getTitle());
@@ -174,9 +171,9 @@ public class PopularListAdapter extends BaseAdapter {
 			}
 
 			if (programType != null) {
-				if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
+				if (Consts.PROGRAM_TYPE_MOVIE.equals(programType)) {
 					holder.mDetailsTv.setText(broadcast.getProgram().getGenre() + " " + broadcast.getProgram().getYear());
-				} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+				} else if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 					String season = broadcast.getProgram().getSeason().getNumber();
 					int episode = broadcast.getProgram().getEpisodeNumber();
 					String seasonEpisode = "";
@@ -187,9 +184,9 @@ public class PopularListAdapter extends BaseAdapter {
 						seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + episode;
 					}
 					holder.mDetailsTv.setText(seasonEpisode);
-				} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
+				} else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) {
 					holder.mDetailsTv.setText(broadcast.getProgram().getSportType().getName() + " " + broadcast.getProgram().getTournament());
-				} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
+				} else if (Consts.PROGRAM_TYPE_OTHER.equals(programType)) {
 					holder.mDetailsTv.setText(broadcast.getProgram().getCategory());
 				}
 			}

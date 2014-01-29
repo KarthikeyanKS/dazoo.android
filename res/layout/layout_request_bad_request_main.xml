@@ -13,7 +13,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="65dp"
         android:gravity="center_horizontal"
-        android:src="@drawable/ic_error_state_dazoo" />
+        android:src="@drawable/ic_error_state_mitv" />
 
     <com.mitv.customviews.FontTextView
         android:id="@+id/bad_request_details_tv"

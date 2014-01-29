@@ -28,9 +28,9 @@ import com.google.analytics.tracking.android.Tracker;
 import com.mitv.R;
 import com.mitv.content.SSApiVersionPage;
 import com.mitv.manager.AppConfigurationManager;
-import com.mitv.manager.DazooCore;
-import com.mitv.manager.DazooCore.ApiVersionCallback;
-import com.mitv.manager.DazooCore.AppConfigurationCallback;
+import com.mitv.manager.MiTVCore;
+import com.mitv.manager.MiTVCore.ApiVersionCallback;
+import com.mitv.manager.MiTVCore.AppConfigurationCallback;
 import com.mitv.utilities.DeviceUtilities;
 import com.mitv.utilities.ObscuredSharedPreferences;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
@@ -87,7 +87,7 @@ public class SecondScreenApplication extends Application {
 		
 		Log.i("SESSION", "Get stored session");
 		if (session == null) {
-			session = sSharedPreferences.getString(Consts.MILLICOM_SESSION, null);
+			session = sSharedPreferences.getString(Consts.MITV_SESSION, null);
 		}
 		Log.i("SESSION", "Session: " + session);
 		return session;
@@ -98,7 +98,7 @@ public class SecondScreenApplication extends Application {
 		Log.i("SESSION", "Save cookie session");
 		SecondScreenApplication.session = session;
 		if (sSharedPreferences != null) {
-			sSharedPreferences.edit().putString(Consts.MILLICOM_SESSION, session).commit();
+			sSharedPreferences.edit().putString(Consts.MITV_SESSION, session).commit();
 		}
 	}
 
@@ -157,7 +157,7 @@ public class SecondScreenApplication extends Application {
 		File myDir = new File(filePath);
 		myDir.mkdirs();
 
-		String fname = Consts.MILLICOM_SECONDSCREEN_APP_WAS_PREINSTALLED_FILE_NAME;
+		String fname = Consts.APP_WAS_PREINSTALLED_FILE_NAME;
 		File file = new File(myDir, fname);
 		
 		return file;
@@ -247,7 +247,7 @@ public class SecondScreenApplication extends Application {
 		sInstance = this;
 		
 		/* Fetch and update app configuration */
-		DazooCore.getAppConfiguration(new AppConfigurationCallback() {
+		MiTVCore.getAppConfiguration(new AppConfigurationCallback() {
 			@Override
 			public void onAppConfigurationResult() {
 				/* Initialize Google Analytics */
@@ -259,7 +259,7 @@ public class SecondScreenApplication extends Application {
 		});
 		
 		/* Fetch api version */
-		DazooCore.getApiVersion(new ApiVersionCallback() {
+		MiTVCore.getApiVersion(new ApiVersionCallback() {
 			@Override
 			public void onApiVersionResult() {
 				setApiVersion(SSApiVersionPage.getInstance().getApiVersionString());
@@ -300,12 +300,12 @@ public class SecondScreenApplication extends Application {
 	
 	public void setWasPreinstalled() {
 		editor = sSharedPreferences.edit();
-		editor.putBoolean(Consts.MILLICOM_SECONDSCREEN_APP_WAS_PREINSTALLED, true);
+		editor.putBoolean(Consts.APP_WAS_PREINSTALLED, true);
 		editor.commit();
 	}
 	
 	public boolean getWasPreinstalled() {
-		return sSharedPreferences.getBoolean(Consts.MILLICOM_SECONDSCREEN_APP_WAS_PREINSTALLED, false);
+		return sSharedPreferences.getBoolean(Consts.APP_WAS_PREINSTALLED, false);
 	}
 
 	/**
@@ -313,7 +313,7 @@ public class SecondScreenApplication extends Application {
 	 */
 	public void setAccessToken(String token) {
 		editor = sSharedPreferences.edit();
-		editor.putString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_ACCESS_TOKEN, token);
+		editor.putString(Consts.USER_ACCOUNT_ACCESS_TOKEN, token);
 		editor.commit();
 	}
 
@@ -321,7 +321,7 @@ public class SecondScreenApplication extends Application {
 	 * Retrieve user account access token
 	 */
 	public String getAccessToken() {
-		return sSharedPreferences.getString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_ACCESS_TOKEN, "");
+		return sSharedPreferences.getString(Consts.USER_ACCOUNT_ACCESS_TOKEN, "");
 	}
 
 	/**
@@ -329,7 +329,7 @@ public class SecondScreenApplication extends Application {
 	 */
 	public void setUserEmail(String email) {
 		editor = sSharedPreferences.edit();
-		editor.putString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_EMAIL, email);
+		editor.putString(Consts.USER_ACCOUNT_EMAIL, email);
 		editor.commit();
 	}
 
@@ -337,7 +337,7 @@ public class SecondScreenApplication extends Application {
 	 * Get user email
 	 */
 	public String getUserEmail() {
-		return sSharedPreferences.getString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_EMAIL, "");
+		return sSharedPreferences.getString(Consts.USER_ACCOUNT_EMAIL, "");
 	}
 
 	/**
@@ -345,7 +345,7 @@ public class SecondScreenApplication extends Application {
 	 */
 	public void setUserPassword(String password) {
 		editor = sSharedPreferences.edit();
-		editor.putString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_PASSWORD, password);
+		editor.putString(Consts.USER_ACCOUNT_PASSWORD, password);
 		editor.commit();
 	}
 
@@ -353,7 +353,7 @@ public class SecondScreenApplication extends Application {
 	 * Get user password
 	 */
 	public String getUserPassword() {
-		return sSharedPreferences.getString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_PASSWORD, "");
+		return sSharedPreferences.getString(Consts.USER_ACCOUNT_PASSWORD, "");
 	}
 
 	/**
@@ -361,7 +361,7 @@ public class SecondScreenApplication extends Application {
 	 */
 	public void setUserFirstName(String firstName) {
 		editor = sSharedPreferences.edit();
-		editor.putString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_FIRST_NAME, firstName);
+		editor.putString(Consts.USER_ACCOUNT_FIRST_NAME, firstName);
 		editor.commit();
 	}
 
@@ -369,7 +369,7 @@ public class SecondScreenApplication extends Application {
 	 * Get user first name
 	 */
 	public String getUserFirstName() {
-		return sSharedPreferences.getString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_FIRST_NAME, "");
+		return sSharedPreferences.getString(Consts.USER_ACCOUNT_FIRST_NAME, "");
 	}
 
 	/**
@@ -377,7 +377,7 @@ public class SecondScreenApplication extends Application {
 	 */
 	public void setUserLastName(String lastName) {
 		editor = sSharedPreferences.edit();
-		editor.putString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_LAST_NAME, lastName);
+		editor.putString(Consts.USER_ACCOUNT_LAST_NAME, lastName);
 		editor.commit();
 	}
 
@@ -385,7 +385,7 @@ public class SecondScreenApplication extends Application {
 	 * Get user last name
 	 */
 	public String getUserLastName() {
-		return sSharedPreferences.getString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_LAST_NAME, "");
+		return sSharedPreferences.getString(Consts.USER_ACCOUNT_LAST_NAME, "");
 	}
 
 	/**
@@ -393,7 +393,7 @@ public class SecondScreenApplication extends Application {
 	 */
 	public void setUserId(String id) {
 		editor = sSharedPreferences.edit();
-		editor.putString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_USER_ID, id);
+		editor.putString(Consts.USER_ACCOUNT_USER_ID, id);
 		editor.commit();
 	}
 
@@ -401,7 +401,7 @@ public class SecondScreenApplication extends Application {
 	 * Get user id
 	 */
 	public String getUserId() {
-		return sSharedPreferences.getString(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_USER_ID, "");
+		return sSharedPreferences.getString(Consts.USER_ACCOUNT_USER_ID, "");
 	}
 
 	/**
@@ -409,7 +409,7 @@ public class SecondScreenApplication extends Application {
 	 */
 	public void setUserExistringFlag(boolean flag) {
 		editor = sSharedPreferences.edit();
-		editor.putBoolean(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_EXISTING_FLAG, flag);
+		editor.putBoolean(Consts.USER_ACCOUNT_EXISTING_FLAG, flag);
 		editor.commit();
 	}
 
@@ -417,7 +417,7 @@ public class SecondScreenApplication extends Application {
 	 * Get user existing flag
 	 */
 	public boolean getUserExistringFlag() {
-		return sSharedPreferences.getBoolean(Consts.MILLICOM_SECONDSCREEN_USER_ACCOUNT_EXISTING_FLAG, false);
+		return sSharedPreferences.getBoolean(Consts.USER_ACCOUNT_EXISTING_FLAG, false);
 	}
 	
 	/**
@@ -425,7 +425,7 @@ public class SecondScreenApplication extends Application {
 	 */
 	public void setUserAvatarUrl(String url){
 		editor = sSharedPreferences.edit();
-		editor.putString(Consts.MILLICOM_SECONSCREEN_USER_ACCOUNT_AVATAR_URL, url);
+		editor.putString(Consts.USER_ACCOUNT_AVATAR_URL, url);
 		editor.commit();
 	}
 	
@@ -433,7 +433,7 @@ public class SecondScreenApplication extends Application {
 	 * Get user avatar url
 	 */
 	public String getUserAvatarUrl(){
-		return sSharedPreferences.getString(Consts.MILLICOM_SECONSCREEN_USER_ACCOUNT_AVATAR_URL, "");
+		return sSharedPreferences.getString(Consts.USER_ACCOUNT_AVATAR_URL, "");
 	}
 	
 	
@@ -442,7 +442,7 @@ public class SecondScreenApplication extends Application {
 	 */
 	public void setSelectedHour(int hour) {
 		editor = sSharedPreferences.edit();
-		editor.putInt(Consts.MILLICOM_SECONDSCREEN_TV_GUIDE_HOUR, hour);
+		editor.putInt(Consts.TV_GUIDE_HOUR, hour);
 		editor.commit();
 	}
 
@@ -450,14 +450,14 @@ public class SecondScreenApplication extends Application {
 	 * Get the selected hour
 	 */
 	public int getSelectedHour() {
-		return sSharedPreferences.getInt(Consts.MILLICOM_SECONDSCREEN_TV_GUIDE_HOUR, 6);
+		return sSharedPreferences.getInt(Consts.TV_GUIDE_HOUR, 6);
 	}
 
 	/**
 	 * Get if are back to the start page
 	 */
 	public boolean getIsOnStartAgain() {
-		return sSharedPreferences.getBoolean(Consts.MILLICOM_SECONDSCREEN_HOMEPAGE_AGAIN, false);
+		return sSharedPreferences.getBoolean(Consts.HOMEPAGE_AGAIN, false);
 	}
 
 	/**
@@ -465,7 +465,7 @@ public class SecondScreenApplication extends Application {
 	 */
 	public void setIsOnStartAgain(boolean isHomePage) {
 		editor = sSharedPreferences.edit();
-		editor.putBoolean(Consts.MILLICOM_SECONDSCREEN_HOMEPAGE_AGAIN, isHomePage);
+		editor.putBoolean(Consts.HOMEPAGE_AGAIN, isHomePage);
 		editor.commit();
 	}
 	
@@ -473,7 +473,7 @@ public class SecondScreenApplication extends Application {
 	 * Get api version
 	 */
 	public String getApiVersion() {
-		return sSharedPreferences.getString(Consts.MILLICOM_SECONDSCREEN_API_VERSION_SHARED_PREF, null);
+		return sSharedPreferences.getString(Consts.API_VERSION_SHARED_PREF, null);
 	}
 	
 	/**
@@ -481,7 +481,7 @@ public class SecondScreenApplication extends Application {
 	 */
 	public void setApiVersion(String apiVersion) {
 		editor = sSharedPreferences.edit();
-		editor.putString(Consts.MILLICOM_SECONDSCREEN_API_VERSION_SHARED_PREF, apiVersion);
+		editor.putString(Consts.API_VERSION_SHARED_PREF, apiVersion);
 		editor.commit();
 	}
 	

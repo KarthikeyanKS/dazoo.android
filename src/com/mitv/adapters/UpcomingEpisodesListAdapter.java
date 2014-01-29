@@ -24,7 +24,7 @@ import com.mitv.model.TvDate;
 import com.mitv.notification.NotificationDataSource;
 import com.mitv.notification.NotificationDialogHandler;
 import com.mitv.notification.NotificationService;
-import com.mitv.storage.DazooStore;
+import com.mitv.storage.MiTVStore;
 import com.mitv.tvguide.BroadcastPageActivity;
 import com.mitv.utilities.AnimationUtilities;
 import com.mitv.utilities.DateUtilities;
@@ -44,7 +44,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 	private boolean 				mPosIsSet[];
 	private Broadcast				mRunningBroadcast;
 
-	private DazooStore				dazooStore;
+	private MiTVStore				mitvStore;
 	private ArrayList<TvDate>		mTvDates;
 
 	private int reminderPosition;
@@ -71,8 +71,8 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 		this.mActivity = activity;
 		mNotificationDataSource = new NotificationDataSource(mActivity);
 
-		dazooStore = DazooStore.getInstance();
-		mTvDates = dazooStore.getTvDates();
+		mitvStore = MiTVStore.getInstance();
+		mTvDates = mitvStore.getTvDates();
 
 		mPosIsSet = new boolean[getCount()];
 		mPosNotificationId = new int[getCount()];

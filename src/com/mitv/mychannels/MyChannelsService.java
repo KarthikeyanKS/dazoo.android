@@ -29,7 +29,7 @@ import com.mitv.Consts;
 import com.mitv.SecondScreenApplication;
 import com.mitv.manager.ContentParser;
 import com.mitv.manager.LoginManager;
-import com.mitv.storage.DazooStore;
+import com.mitv.storage.MiTVStore;
 
 public class MyChannelsService {
 
@@ -67,7 +67,7 @@ public class MyChannelsService {
 				// the extra check for ERROR_STRING was added to distinguish between empty response (there are no stored channels to this user) and empty response in case of error
 				ArrayList<String> channelIds = new ArrayList<String>();
 				channelIds = ContentParser.parseChannelIds(new JSONArray(responseStr));
-				DazooStore.getInstance().setMyChannelIds(channelIds);
+				MiTVStore.getInstance().setMyChannelIds(channelIds);
 
 				return true;
 			} else return false;
@@ -92,7 +92,7 @@ public class MyChannelsService {
 				HttpGet httpGet = new HttpGet();
 				httpGet.setHeader("Authorization", "Bearer " + params[0]);
 				httpGet.setHeader("Content-type", "application/json; charset=UTF-8");
-				httpGet.setURI(new URI(Consts.MILLICOM_SECONDSCREEN_MY_CHANNELS_URL));
+				httpGet.setURI(new URI(Consts.URL_MY_CHANNELS));
 
 				HttpResponse response = httpClient.execute(httpGet);
 				if (Consts.GOOD_RESPONSE == response.getStatusLine().getStatusCode()) {
@@ -135,7 +135,7 @@ public class MyChannelsService {
 			try {
 				HttpClient client = new DefaultHttpClient();
 
-				HttpPost httpPost = new HttpPost(Consts.MILLICOM_SECONDSCREEN_MY_CHANNELS_URL);
+				HttpPost httpPost = new HttpPost(Consts.URL_MY_CHANNELS);
 				httpPost.setHeader("Authorization", "Bearer " + params[0]);
 				httpPost.setHeader("Accept", "application/json");
 				httpPost.setHeader("Content-Type", "application/json");

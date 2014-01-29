@@ -232,9 +232,9 @@
                 android:value="com.mitv.content.myprofile.MyProfileActivity" />
         </activity>
 
-        <!-- DAZOO LOGIN -->
+        <!-- MiTV LOGIN -->
         <activity
-            android:name="com.mitv.authentication.DazooLoginActivity"
+            android:name="com.mitv.authentication.MiTVLoginActivity"
             android:configChanges="keyboardHidden|orientation"
             android:parentActivityName="com.mitv.myprofile.MyProfileActivity"
             android:screenOrientation="portrait"
@@ -260,13 +260,13 @@
         <activity
             android:name="com.mitv.authentication.ResetPasswordActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.mitv.authentication.DazooLoginActivity"
+            android:parentActivityName="com.mitv.authentication.MiTVLoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.authentication.DazooLoginActivity" />
+                android:value="com.mitv.authentication.MiTVLoginActivity" />
         </activity>
 
         <!-- PASSWORD RESET FINAL -->
@@ -282,9 +282,9 @@
                 android:value="com.mitv.content.homepage.HomeActivity" />
         </activity>
 
-        <!-- FACEBOOK DAZOO ACCOUNT CREATED -->
+        <!-- FACEBOOK MiTV ACCOUNT CREATED -->
         <activity
-            android:name="com.mitv.authentication.FacebookDazooLoginActivity"
+            android:name="com.mitv.authentication.FacebookMiTVLoginActivity"
             android:configChanges="keyboardHidden|orientation"
             android:icon="@drawable/ic_nav_bar"
             android:screenOrientation="portrait"
@@ -297,7 +297,7 @@
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
-                <action android:name="DAZOO_NOTIFICATION" />
+                <action android:name="NOTIFICATION" />
             </intent-filter>
         </receiver>
         <receiver

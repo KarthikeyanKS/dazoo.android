@@ -17,7 +17,7 @@
         <!-- FACEBOOK SIGN-IN BAR -->
 
         <RelativeLayout
-            android:id="@+id/dazoologin_facebook_container"
+            android:id="@+id/mitvlogin_facebook_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -33,7 +33,7 @@
                 android:layout_centerInParent="true" >
 
                 <ImageView
-                    android:id="@+id/dazoologin_facebook_icon"
+                    android:id="@+id/mitvlogin_facebook_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -42,11 +42,11 @@
                     android:src="@drawable/ic_facebook" />
 
                 <com.mitv.customviews.FontTextView
-                    android:id="@+id/dazoologin_facebook_tv"
+                    android:id="@+id/mitvlogin_facebook_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/dazoologin_facebook_icon"
+                    android:layout_toRightOf="@id/mitvlogin_facebook_icon"
                     android:lines="1"
                     android:text="@string/login_with_facebook"
                     android:textColor="@color/white"
@@ -58,10 +58,10 @@
         <!-- OR BAR -->
 
         <RelativeLayout
-            android:id="@+id/dazoo_or_container"
+            android:id="@+id/or_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/dazoologin_facebook_container"
+            android:layout_below="@id/mitvlogin_facebook_container"
             android:orientation="horizontal" >
 
             <View
@@ -85,13 +85,13 @@
                 android:textStyle="bold" />
         </RelativeLayout>
 
-        <!-- DAZOO LOGIN -->
+        <!-- MiTV LOGIN -->
 
         <com.mitv.customviews.FontEditText
-            android:id="@+id/dazoologin_login_email_edittext"
+            android:id="@+id/mitvlogin_login_email_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/dazoo_or_container"
+            android:layout_below="@id/or_container"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="5dp"
@@ -103,10 +103,10 @@
             android:textSize="16sp" />
 
         <com.mitv.customviews.FontEditText
-            android:id="@+id/dazoologin_login_password_edittext"
+            android:id="@+id/mitvlogin_login_password_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/dazoologin_login_email_edittext"
+            android:layout_below="@id/mitvlogin_login_email_edittext"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
@@ -119,10 +119,10 @@
             android:textSize="16sp" />
 
         <com.mitv.customviews.FontTextView
-            android:id="@+id/dazoologin_error_tv"
+            android:id="@+id/mitvlogin_error_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/dazoologin_login_password_edittext"
+            android:layout_below="@id/mitvlogin_login_password_edittext"
             android:layout_centerHorizontal="true"
             android:layout_margin="5dp"
             android:textColor="@color/red"
@@ -130,10 +130,10 @@
             android:visibility="gone" />
 
         <com.mitv.customviews.FontButton
-            android:id="@+id/dazoologin_login_button"
+            android:id="@+id/mitvlogin_login_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/dazoologin_error_tv"
+            android:layout_below="@id/mitvlogin_error_tv"
             android:layout_centerInParent="true"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="30dp"
@@ -141,17 +141,17 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/layout_rounded_corners_blue"
             android:padding="10dp"
-            android:text="@string/login_with_dazoo"
+            android:text="@string/login_with_mitv"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
         <!-- DIVIDER -->
 
         <View
-            android:id="@+id/dazoologin_divider"
+            android:id="@+id/mitvlogin_divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@id/dazoologin_login_button"
+            android:layout_below="@id/mitvlogin_login_button"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:background="@color/grey1" />
@@ -159,14 +159,14 @@
         <!-- FORGOT YOUR PASSWORD -->
 
         <RelativeLayout
-            android:id="@+id/dazoologin_forgot_password_container"
+            android:id="@+id/mitvlogin_forgot_password_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/dazoologin_divider"
+            android:layout_below="@id/mitvlogin_divider"
             android:orientation="vertical" >
             
             <com.mitv.customviews.FontTextView
-                android:id="@+id/dazoologin_forgot_password_tv"
+                android:id="@+id/mitvlogin_forgot_password_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
@@ -178,10 +178,10 @@
 	            android:textColor="@color/grey2" />
 
             <com.mitv.customviews.FontButton
-                android:id="@+id/dazoologin_forgot_password_button"
+                android:id="@+id/mitvlogin_forgot_password_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/dazoologin_forgot_password_tv"
+                android:layout_below="@id/mitvlogin_forgot_password_tv"
                 android:layout_marginBottom="5dp"
                 android:background="@color/white"
                 android:gravity="center_horizontal"

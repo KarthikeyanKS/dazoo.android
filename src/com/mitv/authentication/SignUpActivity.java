@@ -58,8 +58,8 @@ public class SignUpActivity extends SSSignInSignupBaseActivity implements OnClic
 	private static final String	TAG							= "SignUpActivity";
 	private ActionBar			mActionBar;
 	private EditText			mFirstNameEditText, mLastNameEditText, mPasswordRegisterEditText, mEmailRegisterEditText, mEmailResetPasswordEditText;
-	private Button				mDazooRegisterButton;
-	private String				userEmailRegister, userPasswordRegister, userFirstNameRegister, userLastNameRegister, dazooToken;
+	private Button				mMiTVRegisterButton;
+	private String				userEmailRegister, userPasswordRegister, userFirstNameRegister, userLastNameRegister, mitvToken;
 	private TextView			mErrorTextView;
 	private TextDrawable		mEmailTextDrawable, mPasswordTextDrawable;
 	private String 				mBadResponseString;
@@ -111,8 +111,8 @@ public class SignUpActivity extends SSSignInSignupBaseActivity implements OnClic
 		mEmailRegisterEditText = (EditText) findViewById(R.id.signup_email_edittext);
 		mPasswordRegisterEditText = (EditText) findViewById(R.id.signup_password_edittext);
 		mErrorTextView = (TextView) findViewById(R.id.signup_error_textview);
-		mDazooRegisterButton = (Button) findViewById(R.id.signup_register_button);
-		mDazooRegisterButton.setOnClickListener(this);
+		mMiTVRegisterButton = (Button) findViewById(R.id.signup_register_button);
+		mMiTVRegisterButton.setOnClickListener(this);
 
 		//		setTextWatchers();
 
@@ -193,20 +193,20 @@ public class SignUpActivity extends SSSignInSignupBaseActivity implements OnClic
 			userFirstNameRegister = mFirstNameEditText.getText().toString();
 			userLastNameRegister = mLastNameEditText.getText().toString();
 
-			DazooRegistrationTask dazooRegisterTask = new DazooRegistrationTask();
+			MiTVRegistrationTask mitvRegisterTask = new MiTVRegistrationTask();
 			try {
-				// dazooToken = dazooRegisterTask.execute(userEmailRegister, userPasswordRegister, userFirstNameRegister, userLastNameRegister).get();
-				String responseStr = dazooRegisterTask.execute(userEmailRegister, userPasswordRegister, userFirstNameRegister, userLastNameRegister).get();
+				// mitvToken = mitvRegisterTask.execute(userEmailRegister, userPasswordRegister, userFirstNameRegister, userLastNameRegister).get();
+				String responseStr = mitvRegisterTask.execute(userEmailRegister, userPasswordRegister, userFirstNameRegister, userLastNameRegister).get();
 				// if (responseStr != null && responseStr.isEmpty() != true) {
 				if (responseStr != null && TextUtils.isEmpty(responseStr) != true) {
-					JSONObject dazooRegJSON = new JSONObject(responseStr);
-					dazooToken = dazooRegJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_TOKEN);
-					Log.d(TAG, "DazooToken: " + dazooToken + "is saved");
+					JSONObject mitvRegJSON = new JSONObject(responseStr);
+					mitvToken = mitvRegJSON.optString(Consts.API_TOKEN);
+					Log.d(TAG, "mitvToken: " + mitvToken + "is saved");
 
-					// if (dazooToken.isEmpty() != true && dazooToken.length() > 0) {
-					if (dazooToken != null && TextUtils.isEmpty(dazooToken) != true) {
-						((SecondScreenApplication) getApplicationContext()).setAccessToken(dazooToken);
-						if (AuthenticationService.storeUserInformation(this, dazooRegJSON)) {
+					// if (mitvToken.isEmpty() != true && mitvToken.length() > 0) {
+					if (mitvToken != null && TextUtils.isEmpty(mitvToken) != true) {
+						((SecondScreenApplication) getApplicationContext()).setAccessToken(mitvToken);
+						if (AuthenticationService.storeUserInformation(this, mitvRegJSON)) {
 							//Toast.makeText(getApplicationContext(), "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName(), Toast.LENGTH_SHORT).show();
 							Log.d(TAG, "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName());
 
@@ -220,12 +220,12 @@ public class SignUpActivity extends SSSignInSignupBaseActivity implements OnClic
 							Log.d(TAG, "!!! Failed to fetch the user information from backend !!!");
 						}
 					} else {
-						//Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with Dazoo. Please, try again later!", Toast.LENGTH_LONG).show();
-						Log.d(TAG, "Error! Something went wrong while creating an account with Dazoo. Please, try again later!");
+						//Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with MiTV. Please, try again later!", Toast.LENGTH_LONG).show();
+						Log.d(TAG, "Error! Something went wrong while creating an account with MiTV. Please, try again later!");
 					}
 				} else {
 					//						Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with us. Please, try again later!", Toast.LENGTH_SHORT).show();
-					Log.d(TAG, "Error! Dazoo Login: level response from backend");
+					Log.d(TAG, "Error! MiTV Login: level response from backend");
 					mFirstNameEditText.setEnabled(true);
 					mLastNameEditText.setEnabled(true);
 					mEmailRegisterEditText.setEnabled(true);
@@ -244,7 +244,7 @@ public class SignUpActivity extends SSSignInSignupBaseActivity implements OnClic
 					}
 					else if (mBadResponseString.equals(Consts.BAD_RESPONSE_STRING_PASSWORD_TOO_SHORT)) {
 						mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_passwordlength) + " " 
-								+ Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MIN + " "
+								+ Consts.PASSWORD_LENGTH_MIN + " "
 								+ getResources().getString(R.string.signup_with_email_characters));
 						mPasswordRegisterEditText.setBackgroundResource(R.drawable.edittext_activated);
 						mPasswordRegisterEditText.requestFocus();
@@ -268,7 +268,7 @@ public class SignUpActivity extends SSSignInSignupBaseActivity implements OnClic
 		}
 	}
 
-	private class DazooRegistrationTask extends AsyncTask<String, Void, String> {
+	private class MiTVRegistrationTask extends AsyncTask<String, Void, String> {
 
 		@Override
 		protected String doInBackground(String... params) {
@@ -287,10 +287,10 @@ public class SignUpActivity extends SSSignInSignupBaseActivity implements OnClic
 				DefaultHttpClient httpClient = new DefaultHttpClient(mgr, client.getParams());
 				// Set verifier
 				HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
-				HttpPost httpPost = new HttpPost(Consts.MILLICOM_SECONDSCREEN_DAZOO_REGISTER_URL);
+				HttpPost httpPost = new HttpPost(Consts.URL_REGISTER);
 
-				JSONObject holder = JSONUtilities.createJSONObjectWithKeysValues(Arrays.asList(Consts.MILLICOM_SECONDSCREEN_API_EMAIL, Consts.MILLICOM_SECONDSCREEN_API_PASSWORD,
-						Consts.MILLICOM_SECONDSCREEN_API_FIRSTNAME, Consts.MILLICOM_SECONDSCREEN_API_LASTNAME), Arrays.asList(params[0], params[1], params[2], params[3]));
+				JSONObject holder = JSONUtilities.createJSONObjectWithKeysValues(Arrays.asList(Consts.API_EMAIL, Consts.API_PASSWORD,
+						Consts.API_FIRSTNAME, Consts.API_LASTNAME), Arrays.asList(params[0], params[1], params[2], params[3]));
 
 				StringEntity entity = new StringEntity(holder.toString());
 

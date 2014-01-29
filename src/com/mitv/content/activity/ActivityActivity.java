@@ -56,7 +56,7 @@ import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.adapters.ActivityFeedAdapter;
-import com.mitv.authentication.DazooLoginActivity;
+import com.mitv.authentication.MiTVLoginActivity;
 import com.mitv.authentication.FacebookLoginActivity;
 import com.mitv.authentication.SignUpActivity;
 import com.mitv.content.SSActivity;
@@ -66,7 +66,7 @@ import com.mitv.manager.ContentParser;
 import com.mitv.manager.LoginManager;
 import com.mitv.model.FeedItem;
 import com.mitv.myprofile.MyProfileActivity;
-import com.mitv.storage.DazooStore;
+import com.mitv.storage.MiTVStore;
 
 public class ActivityActivity extends SSActivity implements OnClickListener {
 
@@ -174,7 +174,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 	}
 
 	private void setAdapter() {
-		if (Consts.DAZOO_FEED_ITEM_TYPE_POPULAR_BROADCASTS.equals(activityFeed.get(0).getItemType())) {
+		if (Consts.FEED_ITEM_TYPE_POPULAR_BROADCASTS.equals(activityFeed.get(0).getItemType())) {
 			View header = getLayoutInflater().inflate(R.layout.block_feed_no_likes, null);
 			mListView.addHeaderView(header);
 
@@ -199,9 +199,9 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		if (!NetworkUtils.checkConnection(this)) {
 			updateUI(REQUEST_STATUS.FAILED);
 		} else {
-			if (DazooStore.getInstance().getActivityFeed().size() > 0) {
+			if (MiTVStore.getInstance().getActivityFeed().size() > 0) {
 				Log.d(TAG, "READ FROM STORAGE");
-				activityFeed = DazooStore.getInstance().getActivityFeed();
+				activityFeed = MiTVStore.getInstance().getActivityFeed();
 				updateUI(REQUEST_STATUS.SUCCESSFUL);
 			} else {
 				new GetFeedTask().execute();
@@ -321,7 +321,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			
 			break;
 		case R.id.activity_not_logged_in_login_btn:
-			Intent intentLogin = new Intent(ActivityActivity.this, DazooLoginActivity.class);
+			Intent intentLogin = new Intent(ActivityActivity.this, MiTVLoginActivity.class);
 			startActivity(intentLogin);
 			
 			break;
@@ -340,7 +340,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		protected void onPostExecute(Boolean result) {
 			Log.d(TAG, "result: " + result);
 			if (result) {
-				DazooStore.getInstance().addItemsToActivityFeed(moreFeedItems);
+				MiTVStore.getInstance().addItemsToActivityFeed(moreFeedItems);
 				mAdapter.addItems(moreFeedItems);
 				mStartIndex = mStartIndex + mNextStep;
 			} else {
@@ -373,10 +373,10 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 				HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
 
 				List<NameValuePair> urlParams = new LinkedList<NameValuePair>();
-				urlParams.add(new BasicNameValuePair(Consts.MILLICOM_SECONDSCREEN_API_SKIP, String.valueOf(mStartIndex)));
-				urlParams.add(new BasicNameValuePair(Consts.MILLICOM_SECONDSCREEN_API_LIMIT, String.valueOf(mNextStep)));
+				urlParams.add(new BasicNameValuePair(Consts.API_SKIP, String.valueOf(mStartIndex)));
+				urlParams.add(new BasicNameValuePair(Consts.API_LIMIT, String.valueOf(mNextStep)));
 
-				URI uri = new URI(Consts.MILLICOM_SECONDSCREEN_ACTIVITY_FEED_URL + "?" + URLEncodedUtils.format(urlParams, "utf-8"));
+				URI uri = new URI(Consts.URL_ACTIVITY_FEED + "?" + URLEncodedUtils.format(urlParams, "utf-8"));
 
 				Log.d(TAG, "mStartIndex: " + String.valueOf(mStartIndex) + " mNextStep: " + String.valueOf(mNextStep));
 				Log.d(TAG, "Feed more items: " + uri.toString());
@@ -463,7 +463,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 
 				@Override
 				public void run() {
-					DazooStore.getInstance().reinitializeFeed();
+					MiTVStore.getInstance().reinitializeFeed();
 					activityFeed.clear();
 					activityFeed = new ArrayList<FeedItem>();
 					loadPage();
@@ -479,7 +479,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 				if (activityFeed != null) {
 					if (activityFeed.isEmpty() != true) {
 
-						DazooStore.getInstance().setActivityFeed(activityFeed);
+						MiTVStore.getInstance().setActivityFeed(activityFeed);
 
 						Log.d(TAG, "//////////////");
 						updateUI(REQUEST_STATUS.SUCCESSFUL);
@@ -520,10 +520,10 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 				HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
 
 				List<NameValuePair> urlParams = new LinkedList<NameValuePair>();
-				urlParams.add(new BasicNameValuePair(Consts.MILLICOM_SECONDSCREEN_API_SKIP, String.valueOf(mStartIndex)));
-				urlParams.add(new BasicNameValuePair(Consts.MILLICOM_SECONDSCREEN_API_LIMIT, String.valueOf(mStep)));
+				urlParams.add(new BasicNameValuePair(Consts.API_SKIP, String.valueOf(mStartIndex)));
+				urlParams.add(new BasicNameValuePair(Consts.API_LIMIT, String.valueOf(mStep)));
 
-				URI uri = new URI(Consts.MILLICOM_SECONDSCREEN_ACTIVITY_FEED_URL + "?" + URLEncodedUtils.format(urlParams, "utf-8"));
+				URI uri = new URI(Consts.URL_ACTIVITY_FEED + "?" + URLEncodedUtils.format(urlParams, "utf-8"));
 
 				HttpGet httpGet = new HttpGet(uri);
 				httpGet.setHeader("Authorization", "Bearer " + token);

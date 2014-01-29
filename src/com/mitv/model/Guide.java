@@ -27,17 +27,17 @@ public class Guide extends ThreeImageResolutions implements Parcelable {
 	}
 
 	public Guide(JSONObject jsonGuide) {
-		this.setId(jsonGuide.optString(Consts.DAZOO_GUIDE_CHANNEL_ID));
-		this.setName(jsonGuide.optString(Consts.DAZOO_GUIDE_CHANNEL_NAME));
+		this.setId(jsonGuide.optString(Consts.GUIDE_CHANNEL_ID));
+		this.setName(jsonGuide.optString(Consts.GUIDE_CHANNEL_NAME));
 
-		JSONObject logosJson = jsonGuide.optJSONObject(Consts.DAZOO_GUIDE_LOGO);
+		JSONObject logosJson = jsonGuide.optJSONObject(Consts.GUIDE_LOGO);
 		if (logosJson != null) {
-			this.setImageUrlPortraitOrSquareLow(logosJson.optString(Consts.DAZOO_IMAGE_SMALL));
-			this.setImageUrlPortraitOrSquareMedium(logosJson.optString(Consts.DAZOO_IMAGE_MEDIUM));
-			this.setImageUrlPortraitOrSquareHigh(logosJson.optString(Consts.DAZOO_IMAGE_LARGE));
+			this.setImageUrlPortraitOrSquareLow(logosJson.optString(Consts.IMAGE_SMALL));
+			this.setImageUrlPortraitOrSquareMedium(logosJson.optString(Consts.IMAGE_MEDIUM));
+			this.setImageUrlPortraitOrSquareHigh(logosJson.optString(Consts.IMAGE_LARGE));
 		}
 
-		JSONArray broadcastsJson = jsonGuide.optJSONArray(Consts.DAZOO_GUIDE_BROADCASTS);
+		JSONArray broadcastsJson = jsonGuide.optJSONArray(Consts.GUIDE_BROADCASTS);
 
 		if (broadcastsJson != null) {
 			ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();

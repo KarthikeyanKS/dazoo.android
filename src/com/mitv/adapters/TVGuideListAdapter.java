@@ -148,14 +148,14 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 					String rowInfo = broadcast.getBeginTimeStringLocalHourAndMinute();
 					rowInfo += "   ";
 
-					if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
+					if (Consts.PROGRAM_TYPE_MOVIE.equals(programType)) {
 						rowInfo += stringIconMovie;
-					} else if (Consts.DAZOO_BROADCAST_TYPE_LIVE.equals(broadcastType)) {
+					} else if (Consts.BROADCAST_TYPE_LIVE.equals(broadcastType)) {
 						rowInfo += stringIconLive;
 					}
 					
 					String showName = null;
-	                if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+	                if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 	                	showName = program.getSeries().getName();
                     } else {
                     	showName = program.getTitle();

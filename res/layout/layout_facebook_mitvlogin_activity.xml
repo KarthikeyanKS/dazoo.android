@@ -8,13 +8,13 @@
     android:orientation="vertical" >
 
     <RelativeLayout
-        android:id="@+id/facebook_dazoo_login_container"
+        android:id="@+id/facebook_login_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
         <com.mitv.customviews.FontTextView
-            android:id="@+id/facebook_dazoo_login_title_tv"
+            android:id="@+id/facebook_login_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -25,10 +25,10 @@
             android:textStyle="bold" />
 
         <com.mitv.customviews.FontTextView
-            android:id="@+id/facebook_dazoo_login_text_tv"
+            android:id="@+id/facebook_login_text_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/facebook_dazoo_login_title_tv"
+            android:layout_below="@id/facebook_login_title_tv"
             android:layout_gravity="center"
             android:gravity="center_horizontal"
             android:layout_margin="10dp"
@@ -38,10 +38,10 @@
         <!-- SET YOUR CHANNELS -->
 
         <RelativeLayout
-            android:id="@+id/facebook_dazoo_set_channels_container"
+            android:id="@+id/facebook_set_channels_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/facebook_dazoo_login_text_tv"
+            android:layout_below="@id/facebook_login_text_tv"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
@@ -50,7 +50,7 @@
             android:padding="10dp" >
 
             <com.mitv.customviews.FontTextView
-                android:id="@+id/facebook_dazoo_set_channels_title_tv"
+                android:id="@+id/facebook_set_channels_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -63,10 +63,10 @@
         <!-- CONNECT WITH FRIENDS -->
 
         <RelativeLayout
-            android:id="@+id/facebook_dazoo_connect_with_friends_container"
+            android:id="@+id/facebook_connect_with_friends_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/facebook_dazoo_set_channels_container"
+            android:layout_below="@id/facebook_set_channels_container"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
@@ -76,7 +76,7 @@
             android:visibility="gone">
 
             <com.mitv.customviews.FontTextView
-                android:id="@+id/facebook_dazoo_connect_with_friends_title_tv"
+                android:id="@+id/facebook_connect_with_friends_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -89,10 +89,10 @@
         <!-- TAKE THE TOUR -->
 
         <RelativeLayout
-            android:id="@+id/facebook_dazoo_take_tour_container"
+            android:id="@+id/facebook_take_tour_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/facebook_dazoo_set_channels_container"
+            android:layout_below="@id/facebook_set_channels_container"
             android:layout_marginBottom="30dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
@@ -101,7 +101,7 @@
             android:padding="10dp" >
 
             <com.mitv.customviews.FontTextView
-                android:id="@+id/facebook_dazoo_take_tour_title_tv"
+                android:id="@+id/facebook_take_tour_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -114,10 +114,10 @@
         <!-- SKIP -->
 
         <RelativeLayout
-            android:id="@+id/facebook_dazoo_skip_container"
+            android:id="@+id/facebook_skip_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/facebook_dazoo_take_tour_container"
+            android:layout_below="@id/facebook_take_tour_container"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
@@ -126,7 +126,7 @@
             android:padding="10dp" >
 
             <com.mitv.customviews.FontTextView
-                android:id="@+id/facebook_dazoo_skip_title_tv"
+                android:id="@+id/facebook_skip_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"

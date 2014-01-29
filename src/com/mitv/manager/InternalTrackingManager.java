@@ -29,7 +29,7 @@ public class InternalTrackingManager extends GenericTrackingManager {
 	public void trackBroadcast(Broadcast broadcast) {
 		if (broadcast != null) {
 			if (broadcast.getProgram() != null) {
-				String trackingUrl = String.format(Consts.MILLICOM_SECONDSCREEN_TRACKING_URL, broadcast.getProgram().getProgramId(), deviceId);
+				String trackingUrl = String.format(Consts.URL_INTERNAL_TRACKING, broadcast.getProgram().getProgramId(), deviceId);
 				super.trackUrl(trackingUrl);
 			}
 		}

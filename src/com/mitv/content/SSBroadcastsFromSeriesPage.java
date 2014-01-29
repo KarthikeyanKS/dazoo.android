@@ -22,7 +22,7 @@ public class SSBroadcastsFromSeriesPage extends SSPage{
 	}
 	
 	public boolean getPage(String seriesId, SSPageCallback aSSPageCallback) {
-		String url = Consts.MILLICOM_SECONDSCREEN_SERIES + seriesId + Consts.MILLICOM_SECONDSCREEN_API_UPCOMING_BROADCASTS;
+		String url = Consts.URL_SERIES + seriesId + Consts.API_UPCOMING_BROADCASTS;
 		return super.getPage(url, aSSPageCallback);
 	}
 		

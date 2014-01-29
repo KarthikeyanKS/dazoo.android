@@ -112,10 +112,10 @@ public class ChannelPageListAdapter extends BaseAdapter {
 			String title = broadcast.getProgram().getTitle();
 			
 			if (programType != null) {
-				if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
+				if (Consts.PROGRAM_TYPE_MOVIE.equals(programType)) {
 					holder.mTitleTv.setText(mActivity.getResources().getString(R.string.icon_movie) + " " + title);
 					holder.mDescTv.setText(broadcast.getProgram().getGenre() + " " + broadcast.getProgram().getYear());
-				} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+				} else if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 					int season = Integer.parseInt(broadcast.getProgram().getSeason().getNumber());
 					int episode = broadcast.getProgram().getEpisodeNumber();
 					String seasonEpisode = "";
@@ -127,15 +127,15 @@ public class ChannelPageListAdapter extends BaseAdapter {
 					}
 					holder.mDescTv.setText(seasonEpisode);
 					holder.mTitleTv.setText(broadcast.getProgram().getSeries().getName());
-				} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
-					if (Consts.DAZOO_BROADCAST_TYPE_LIVE.equals(broadcastType)) {
+				} else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) {
+					if (Consts.BROADCAST_TYPE_LIVE.equals(broadcastType)) {
 						holder.mTitleTv.setText(mActivity.getResources().getString(R.string.icon_live) + " " + title);
 						holder.mDescTv.setText(broadcast.getProgram().getSportType().getName() + ": " + broadcast.getProgram().getTournament());
 					} else {
 						holder.mDescTv.setText(broadcast.getProgram().getSportType().getName() + ": " + broadcast.getProgram().getTournament());
 						holder.mTitleTv.setText(title);
 					}
-				} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
+				} else if (Consts.PROGRAM_TYPE_OTHER.equals(programType)) {
 					holder.mTitleTv.setText(title);
 					holder.mDescTv.setText(broadcast.getProgram().getCategory());
 				}

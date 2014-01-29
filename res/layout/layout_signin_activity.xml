@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_margin="10dp"
-            android:text="@string/sign_in_to_dazoo_title"
+            android:text="@string/sign_in_to_title"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -33,7 +33,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
-            android:text="@string/sign_in_to_dazoo_text"
+            android:text="@string/sign_in_to_text"
             android:textSize="18sp"
             android:textColor="@color/grey2" />
 

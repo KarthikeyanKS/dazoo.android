@@ -22,7 +22,7 @@ public class SSBroadcastsFromProgramPage extends SSPage {
 	}
 	
 	public boolean getPage(String programId, SSPageCallback aSSPageCallback) {
-		String url = Consts.MILLICOM_SECONDSCREEN_PROGRAMS + programId + Consts.MILLICOM_SECONDSCREEN_API_BROADCASTS;
+		String url = Consts.URL_PROGRAMS + programId + Consts.API_BROADCASTS;
 		return super.getPage(url, aSSPageCallback);
 	}
 	

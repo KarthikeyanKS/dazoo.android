@@ -34,14 +34,14 @@ import com.mitv.adapters.ChannelPageListAdapter;
 import com.mitv.content.SSActivity;
 import com.mitv.content.activity.ActivityActivity;
 import com.mitv.homepage.HomeActivity;
-import com.mitv.manager.DazooCore;
+import com.mitv.manager.MiTVCore;
 import com.mitv.model.Broadcast;
 import com.mitv.model.Channel;
 import com.mitv.model.Guide;
 import com.mitv.model.TvDate;
 import com.mitv.myprofile.MyProfileActivity;
 import com.mitv.search.SearchPageActivity;
-import com.mitv.storage.DazooStore;
+import com.mitv.storage.MiTVStore;
 import com.mitv.utilities.DateUtilities;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -65,7 +65,7 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 	private ArrayList<Broadcast>				mBroadcasts, mFollowingBroadcasts;
 	private ArrayList<TvDate>					mTvDates;
 	private int									mSelectedIndex	= -1, mIndexOfNearestBroadcast, mHour;
-	private DazooStore							dazooStore;
+	private MiTVStore							mitvStore;
 	private boolean								mIsLoggedIn		= false, mIsReady = false, mFirstHit = true, mIsToday = false;
 	private Handler								mHandler;
 
@@ -83,21 +83,21 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 		mDateTvGuide = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHOSEN_DATE_TVGUIDE);
 		mHour = intent.getIntExtra(Consts.INTENT_EXTRA_TV_GUIDE_HOUR, 6);
 
-		dazooStore = DazooStore.getInstance();
+		mitvStore = MiTVStore.getInstance();
 
 		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 		if (token != null && TextUtils.isEmpty(token) != true) {
 			mIsLoggedIn = true;
-			mChannel = dazooStore.getChannelFromAll(mChannelId);
-			mChannelGuide = dazooStore.getChannelGuideFromMy(mDateTvGuide.getDate(), mChannelId);
+			mChannel = mitvStore.getChannelFromAll(mChannelId);
+			mChannelGuide = mitvStore.getChannelGuideFromMy(mDateTvGuide.getDate(), mChannelId);
 		} else {
-			mChannel = dazooStore.getChannelFromDefault(mChannelId);
-			mChannelGuide = dazooStore.getChannelGuideFromDefault(mDateTvGuide.getDate(), mChannelId);
+			mChannel = mitvStore.getChannelFromDefault(mChannelId);
+			mChannelGuide = mitvStore.getChannelGuideFromDefault(mDateTvGuide.getDate(), mChannelId);
 		}
 
 		mBroadcasts = mChannelGuide.getBroadcasts();
-		mTvDates = dazooStore.getTvDates();
-		mSelectedIndex = dazooStore.getDateIndex(mTvGuideDate);
+		mTvDates = mitvStore.getTvDates();
+		mSelectedIndex = mitvStore.getDateIndex(mTvGuideDate);
 
 		updateIsToday();
 
@@ -125,9 +125,9 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 			mIsReady = intent.getBooleanExtra(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE_VALUE, false);
 			if (mIsReady) {
 				if (mIsLoggedIn) {
-					mChannelGuide = dazooStore.getChannelGuideFromMy(mTvDateSelected.getDate(), mChannelId);
+					mChannelGuide = mitvStore.getChannelGuideFromMy(mTvDateSelected.getDate(), mChannelId);
 				} else {
-					mChannelGuide = dazooStore.getChannelGuideFromDefault(mTvDateSelected.getDate(), mChannelId);
+					mChannelGuide = mitvStore.getChannelGuideFromDefault(mTvDateSelected.getDate(), mChannelId);
 				}
 				mBroadcasts = mChannelGuide.getBroadcasts();
 				mFollowingBroadcasts = null;
@@ -161,9 +161,9 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 		mChannelGuide = null;
 		mBroadcasts = null;
 		if (mIsLoggedIn) {
-			mChannelGuide = dazooStore.getChannelGuideFromMy(mTvDateSelected.getDate(), mChannelId);
+			mChannelGuide = mitvStore.getChannelGuideFromMy(mTvDateSelected.getDate(), mChannelId);
 		} else {
-			mChannelGuide = dazooStore.getChannelGuideFromDefault(mTvDateSelected.getDate(), mChannelId);
+			mChannelGuide = mitvStore.getChannelGuideFromDefault(mTvDateSelected.getDate(), mChannelId);
 		}
 
 		if (mChannelGuide != null) {
@@ -182,7 +182,7 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 			Log.d(TAG, "CHANNELGUIDE: " + mChannelGuide.getName() + mFollowingBroadcasts.size());
 			updateUI(REQUEST_STATUS.SUCCESSFUL);
 		} else {
-			DazooCore.getGuide(mSelectedIndex, true);
+			MiTVCore.getGuide(mSelectedIndex, true);
 			Log.d(TAG, "get guide");
 		}
 	}

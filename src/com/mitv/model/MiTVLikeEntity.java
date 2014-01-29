@@ -1,11 +1,9 @@
 package com.mitv.model;
 
-import java.util.ArrayList;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class DazooLikeEntity implements Parcelable {
+public class MiTVLikeEntity implements Parcelable {
 
 	private String	title;
 	// likeType = SERIES
@@ -21,7 +19,7 @@ public class DazooLikeEntity implements Parcelable {
 	//likeTyoe = SPORT_TYPE
 	private String sportTypeId;
 
-	public DazooLikeEntity() {
+	public MiTVLikeEntity() {
 	}
 
 	public void setTitle(String title) {
@@ -105,7 +103,7 @@ public class DazooLikeEntity implements Parcelable {
 		dest.writeString(sportTypeId);
 	}
 
-	public DazooLikeEntity(Parcel in) {
+	public MiTVLikeEntity(Parcel in) {
 		title = in.readString();
 		seriesId = in.readString();
 		programType = in.readString();
@@ -118,8 +116,8 @@ public class DazooLikeEntity implements Parcelable {
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof DazooLikeEntity) {
-			DazooLikeEntity other = (DazooLikeEntity) o;
+		if (o instanceof MiTVLikeEntity) {
+			MiTVLikeEntity other = (MiTVLikeEntity) o;
 			if (getTitle() != null && other.getTitle() != null && getTitle().equals(other.getTitle())) {
 				return true;
 			}
@@ -127,13 +125,13 @@ public class DazooLikeEntity implements Parcelable {
 		return false;
 	}
 
-	public static final Parcelable.Creator<DazooLikeEntity>	CREATOR	= new Parcelable.Creator<DazooLikeEntity>() {
-		public DazooLikeEntity createFromParcel(Parcel in) {
-			return new DazooLikeEntity(in);
+	public static final Parcelable.Creator<MiTVLikeEntity>	CREATOR	= new Parcelable.Creator<MiTVLikeEntity>() {
+		public MiTVLikeEntity createFromParcel(Parcel in) {
+			return new MiTVLikeEntity(in);
 		}
 
-		public DazooLikeEntity[] newArray(int size) {
-			return new DazooLikeEntity[size];
+		public MiTVLikeEntity[] newArray(int size) {
+			return new MiTVLikeEntity[size];
 		}
 	};
 
