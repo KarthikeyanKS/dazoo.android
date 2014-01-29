@@ -14,7 +14,7 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.content.SSActivity;
 
-public class SignInActivity extends SSActivity {
+public class SignInActivity extends SSSignInSignupBaseActivity {
 
 	private ActionBar	mActionBar;
 	private RelativeLayout	mFacebookContainer, mSignUpContainer;

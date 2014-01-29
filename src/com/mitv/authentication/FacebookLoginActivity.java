@@ -39,14 +39,13 @@ import com.facebook.Session.OpenRequest;
 import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.mitv.Consts;
+import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.Consts.REQUEST_STATUS;
-import com.mitv.content.SSActivity;
 import com.mitv.homepage.HomeActivity;
 import com.mitv.utilities.JSONUtilities;
 
-public class FacebookLoginActivity extends SSActivity {
+public class FacebookLoginActivity extends SSSignInSignupBaseActivity {
 
 	private static final String	TAG	= "FacebookLoginActivity";
 	private String				facebookToken	= "", facebookSessionToken = "", dazooToken = "";
@@ -69,7 +68,7 @@ public class FacebookLoginActivity extends SSActivity {
 		// generation of the ssh key for the facebook
 		//PackageInfo info;
 		//try {
-		//	info = getPackageManager().getPackageInfo("com.millicom.secondscreen", PackageManager.GET_SIGNATURES);
+		//	info = getPackageManager().getPackageInfo("com.mitv", PackageManager.GET_SIGNATURES);
 		//	for (Signature signature : info.signatures) {
 		//		MessageDigest md = MessageDigest.getInstance("SHA");
 		//		md.update(signature.toByteArray());

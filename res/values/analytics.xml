@@ -11,28 +11,28 @@
     <bool name="ga_reportUncaughtExceptions">true</bool>
 
     <!-- The screen names that will appear in your reporting -->
-    <string name="com.millicom.secondscreen.content.homepage.HomeActivity">Home</string>
-    <string name="com.millicom.secondscreen.content.activity.ActivityActivity">Activity</string>
-    <string name="com.millicom.secondscreen.content.activity.PopularPageActivity">Popular</string>
-    <string name="com.millicom.secondscreen.content.myprofile.MyProfileActivity">MyProfile</string>
-	<string name="com.millicom.secondscreen.content.search.SearchPageActivity">Search</string>
-	<string name="com.millicom.secondscreen.content.myprofile.LikesActivity">Likes</string>
-	<string name="com.millicom.secondscreen.content.myprofile.MyChannelsActivity">MyChannels</string>
-	<string name="com.millicom.secondscreen.content.myprofile.RemindersActivity">Reminders</string>
-	<string name="com.millicom.secondscreen.content.myprofile.SettingsActivity">Settings</string>
-	<string name="com.millicom.secondscreen.content.myprofile.ContactActivity">Contact</string>
-	<string name="com.millicom.secondscreen.content.myprofile.TermsActivity">Terms</string>
-	<string name="com.millicom.secondscreen.content.myprofile.HelpActivity">Help</string>
-	<string name="com.millicom.secondscreen.content.tvguide.BroadcastPageActivity">Broadcast</string>
-	<string name="com.millicom.secondscreen.content.tvguide.UpcomingeEpisodesPageActivity">UpcomingEpisodes</string>
-	<string name="com.millicom.secondscreen.content.tvguide.RepetitionsPageActivity">Repetitions</string>
-	<string name="com.millicom.secondscreen.content.tvguide.ChannelPageActivity">Channel</string>
-	<string name="com.millicom.secondscreen.authentication.SignInActivity">SignIn</string>
-	<string name="com.millicom.secondscreen.authentication.SignUpActivity">SignUp</string>
-	<string name="com.millicom.secondscreen.authentication.DazooLoginActivity">Login</string>
-	<string name="com.millicom.secondscreen.authentication.FacebookLoginActivity">FacebookLogin</string>
-	<string name="com.millicom.secondscreen.authentication.ResetPasswordActivity">ResetPassword</string>
-	<string name="com.millicom.secondscreen.authentication.ResetPasswordFinalActivity">PasswordReset</string>
-	<string name="com.millicom.secondscreen.authentication.FacebookDazooLoginActivity">FacebookLogin</string>
+    <string name="com.mitv.content.homepage.HomeActivity">Home</string>
+    <string name="com.mitv.content.activity.ActivityActivity">Activity</string>
+    <string name="com.mitv.content.activity.PopularPageActivity">Popular</string>
+    <string name="com.mitv.content.myprofile.MyProfileActivity">MyProfile</string>
+	<string name="com.mitv.content.search.SearchPageActivity">Search</string>
+	<string name="com.mitv.content.myprofile.LikesActivity">Likes</string>
+	<string name="com.mitv.content.myprofile.MyChannelsActivity">MyChannels</string>
+	<string name="com.mitv.content.myprofile.RemindersActivity">Reminders</string>
+	<string name="com.mitv.content.myprofile.SettingsActivity">Settings</string>
+	<string name="com.mitv.content.myprofile.ContactActivity">Contact</string>
+	<string name="com.mitv.content.myprofile.TermsActivity">Terms</string>
+	<string name="com.mitv.content.myprofile.HelpActivity">Help</string>
+	<string name="com.mitv.content.tvguide.BroadcastPageActivity">Broadcast</string>
+	<string name="com.mitv.content.tvguide.UpcomingeEpisodesPageActivity">UpcomingEpisodes</string>
+	<string name="com.mitv.content.tvguide.RepetitionsPageActivity">Repetitions</string>
+	<string name="com.mitv.content.tvguide.ChannelPageActivity">Channel</string>
+	<string name="com.mitv.authentication.SignInActivity">SignIn</string>
+	<string name="com.mitv.authentication.SignUpActivity">SignUp</string>
+	<string name="com.mitv.authentication.DazooLoginActivity">Login</string>
+	<string name="com.mitv.authentication.FacebookLoginActivity">FacebookLogin</string>
+	<string name="com.mitv.authentication.ResetPasswordActivity">ResetPassword</string>
+	<string name="com.mitv.authentication.ResetPasswordFinalActivity">PasswordReset</string>
+	<string name="com.mitv.authentication.FacebookDazooLoginActivity">FacebookLogin</string>
 
 </resources>

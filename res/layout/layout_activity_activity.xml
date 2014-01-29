@@ -24,7 +24,7 @@
         android:background="@color/white" />
 
     <!--
-    com.millicom.secondscreen.content.activity.FeedScrollView
+    com.mitv.content.activity.FeedScrollView
         android:id="@+id/activity_feed_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -41,7 +41,7 @@
             android:orientation="vertical"
             android:padding="10dp" >
         </LinearLayout>
-    </com.millicom.secondscreen.content.activity.FeedScrollView
+    </com.mitv.content.activity.FeedScrollView
     -->
 
     <!--  RelativeLayout

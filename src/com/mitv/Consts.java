@@ -17,20 +17,20 @@ public abstract class Consts {
 	public static final String MILLICOM_SESSION												= "com.millicom.session";
 	
 	/* Shared preferences */
-	public static final String SHARED_PREFS_MAIN_NAME										= "com.millicom.secondscreen.shared.prefs";
-	public static final String MILLICOM_SECONDSCREEN_USER_ACCOUNT_ACCESS_TOKEN				= "com.millicom.secondscreen.user.account.access.token";
-	public static final String MILLICOM_SECONDSCREEN_USER_ACCOUNT_USER_ID					= "com.millicom.secondscreen.user.account.user.id";
-	public static final String MILLICOM_SECONDSCREEN_USER_ACCOUNT_FIRST_NAME				= "com.millicom.secondscreen.user.first.name";
-	public static final String MILLICOM_SECONDSCREEN_USER_ACCOUNT_LAST_NAME					= "com.millicom.secondscreen.user.last.name";
-	public static final String MILLICOM_SECONDSCREEN_USER_ACCOUNT_EXISTING_FLAG				= "com.millicom.secondscreen.user.existing.flag";
-	public static final String MILLICOM_SECONDSCREEN_USER_ACCOUNT_EMAIL						= "com.millicom.secondscreen.user.account.email";
-	public static final String MILLICOM_SECONDSCREEN_USER_ACCOUNT_PASSWORD					= "com.millicom.secondscreen.user.account.password";
-	public static final String MILLICOM_SECONSCREEN_USER_ACCOUNT_AVATAR_URL					= "com.millicom.secondscreen.user.account.avatar.url";
-	public static final String MILLICOM_SECONDSCREEN_USER_ACCOUNT_MY_CHANNELS_IDS_JSON		= "com.millicom.secondscreen.user.account.my.channels.ids.json";
-	public static final String MILLICOM_SECONDSCREEN_TV_GUIDE_HOUR							= "com.millicom.secondscreen.tv.guide.hour";
-	public static final String MILLICOM_SECONDSCREEN_HOMEPAGE_AGAIN							= "com.millicom.secondscreen.homepage.again";
-	public static final String MILLICOM_SECONDSCREEN_API_VERSION_SHARED_PREF				= "com.millicom.secondscreen.api.version";
-	public static final String MILLICOM_SECONDSCREEN_APP_WAS_PREINSTALLED					= "com.millicom.secondscreen.app.preinstalled";
+	public static final String SHARED_PREFS_MAIN_NAME										= "com.mitv.shared.prefs";
+	public static final String MILLICOM_SECONDSCREEN_USER_ACCOUNT_ACCESS_TOKEN				= "com.mitv.user.account.access.token";
+	public static final String MILLICOM_SECONDSCREEN_USER_ACCOUNT_USER_ID					= "com.mitv.user.account.user.id";
+	public static final String MILLICOM_SECONDSCREEN_USER_ACCOUNT_FIRST_NAME				= "com.mitv.user.first.name";
+	public static final String MILLICOM_SECONDSCREEN_USER_ACCOUNT_LAST_NAME					= "com.mitv.user.last.name";
+	public static final String MILLICOM_SECONDSCREEN_USER_ACCOUNT_EXISTING_FLAG				= "com.mitv.user.existing.flag";
+	public static final String MILLICOM_SECONDSCREEN_USER_ACCOUNT_EMAIL						= "com.mitv.user.account.email";
+	public static final String MILLICOM_SECONDSCREEN_USER_ACCOUNT_PASSWORD					= "com.mitv.user.account.password";
+	public static final String MILLICOM_SECONSCREEN_USER_ACCOUNT_AVATAR_URL					= "com.mitv.user.account.avatar.url";
+	public static final String MILLICOM_SECONDSCREEN_USER_ACCOUNT_MY_CHANNELS_IDS_JSON		= "com.mitv.user.account.my.channels.ids.json";
+	public static final String MILLICOM_SECONDSCREEN_TV_GUIDE_HOUR							= "com.mitv.tv.guide.hour";
+	public static final String MILLICOM_SECONDSCREEN_HOMEPAGE_AGAIN							= "com.mitv.homepage.again";
+	public static final String MILLICOM_SECONDSCREEN_API_VERSION_SHARED_PREF				= "com.mitv.api.version";
+	public static final String MILLICOM_SECONDSCREEN_APP_WAS_PREINSTALLED					= "com.mitv.app.preinstalled";
 	public static final String MILLICOM_SECONDSCREEN_APP_WAS_PREINSTALLED_FILE_NAME			= "59b039d2c0c0a7fbe163";
 
 	/* API URLs */
@@ -106,17 +106,17 @@ public abstract class Consts {
 		LOADING, FAILED, EMPTY_RESPONSE, SUCCESSFUL, BAD_REQUEST
 	};
 	
-	public static String		DAZOO_BACK_STACK									= "com.millicom.secondscreen.dazoo.back.stack";
+	public static String		DAZOO_BACK_STACK									= "com.mitv.dazoo.back.stack";
 
 	public static final String	ISO_DATE_FORMAT										= "yyyy-MM-dd'T'HH:mm:ss'Z'";
 	public static final String	TVDATE_DATE_FORMAT									= "yyyy-MM-dd";
 
 	/* Activity page content block types */
-	public static final String	BLOCK_TYPE_PRODUCT_TV								= "com.millicom.secondscreen.content.product.tv";
-	public static final String	BLOCK_TYPE_PRODUCT_MOVIE							= "com.millicom.secondscreen.content.product.movie";
-	public static final String	BLOCK_TYPE_PRODUCT_SPORT							= "com.millicom.secondscreen.content.product.sport";
-	public static final String	BLOCK_TYPE_PRODUCT_KIDS								= "com.millicom.secondscreen.content.product.kids";
-	public static final String	BLOCK_TYPE_PRODUCT_RECOMMENDED_LIST					= "com.millicom.secondscreen.content.product.list.recommended";
+	public static final String	BLOCK_TYPE_PRODUCT_TV								= "com.mitv.content.product.tv";
+	public static final String	BLOCK_TYPE_PRODUCT_MOVIE							= "com.mitv.content.product.movie";
+	public static final String	BLOCK_TYPE_PRODUCT_SPORT							= "com.mitv.content.product.sport";
+	public static final String	BLOCK_TYPE_PRODUCT_KIDS								= "com.mitv.content.product.kids";
+	public static final String	BLOCK_TYPE_PRODUCT_RECOMMENDED_LIST					= "com.mitv.content.product.list.recommended";
 
 	/* Broadcast intents */
 	public static final String	BROADCAST_SORTING_SELECTED							= "com.broadcast.sorting.selected";
@@ -129,82 +129,82 @@ public abstract class Consts {
 	public static final String	SECTION_ID_ME										= "secondscreen.section.me";
 
 	/* Data extra intents */
-	public static final String	INTENT_EXTRA_SECTION								= "com.millicom.secondscreen.intent.extra.section";
-	public static final String	INTENT_EXTRA_GUIDE									= "com.millicom.secondscreen.intent.extra.guide";
-	public static final String	INTENT_EXTRA_CHANNEL								= "com.millicom.secondscreen.intent.extra.channel";
-	public static final String	INTENT_EXTRA_CHANNEL_PAGE_LINK						= "com.millicom.secondscreen.intent.extra.channel.page.link";
-	public static final String	INTENT_EXTRA_CHANNEL_ID								= "com.millicom.secondscreen.intent.extra.channel.id";
-	public static final String	INTENT_EXTRA_CHANNEL_GUIDE							= "com.millicom.secondscreen.intent.extra.channel.guide";
-	public static final String	INTENT_EXTRA_CHANNEL_SORTING						= "com.millicom.secondscreen.intent.extra.channel.sorting";
-	public static final String	INTENT_EXTRA_CHANNEL_SORTING_VALUE					= "com.millicom.secondscreen.intent.extra.channel.sorting.value";
-	public static final String	INTENT_EXTRA_CHANNEL_CHOSEN_DATE					= "com.millicom.secondscreen.intent.extra.channel.chosen.date";
-	public static final String	INTENT_EXTRA_CHANNEL_LOGO_URL						= "com.millicom.secondscreen.intent.extra.channel.logo.url";
-	public static final String	INTENT_EXTRA_TVGUIDE_SORTING						= "com.millicom.secondscreen.intent.extra.tvguide.sorting";
-	public static final String	INTENT_EXTRA_TVGUIDE_SORTING_VALUE					= "com.millicom.secondscreen.intent.extra.tvguide.sorting.value";
-	public static final String	INTENT_EXTRA_TVGUIDE_SORTING_TYPE					= "com.millicom.secondscreen.intent.extra,tvguide.sorting.type";
-	public static final String	INTENT_EXTRA_TVGUIDE_PAGE_URL						= "com.millicom.secondscreen.intent.extra.tvguide.page.url";
-	public static final String	INTENT_EXTRA_TVGUIDE_TVDATE							= "com.millicom.secondscreen.intent.extra.tvguide.tvdate";
-	public static final String	INTENT_EXTRA_CHOSEN_DATE_TVGUIDE					= "com.millicom.secondscreen.intent.extra.chosen.date.tvguide";
-	public static final String	INTENT_EXTRA_BROADCAST								= "com.millicom.secondscreen.intent.extra.broadcast";
-	public static final String	INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS			= "com.millicom.secondscreen.intent.extra.begintimeinmillis";
+	public static final String	INTENT_EXTRA_SECTION								= "com.mitv.intent.extra.section";
+	public static final String	INTENT_EXTRA_GUIDE									= "com.mitv.intent.extra.guide";
+	public static final String	INTENT_EXTRA_CHANNEL								= "com.mitv.intent.extra.channel";
+	public static final String	INTENT_EXTRA_CHANNEL_PAGE_LINK						= "com.mitv.intent.extra.channel.page.link";
+	public static final String	INTENT_EXTRA_CHANNEL_ID								= "com.mitv.intent.extra.channel.id";
+	public static final String	INTENT_EXTRA_CHANNEL_GUIDE							= "com.mitv.intent.extra.channel.guide";
+	public static final String	INTENT_EXTRA_CHANNEL_SORTING						= "com.mitv.intent.extra.channel.sorting";
+	public static final String	INTENT_EXTRA_CHANNEL_SORTING_VALUE					= "com.mitv.intent.extra.channel.sorting.value";
+	public static final String	INTENT_EXTRA_CHANNEL_CHOSEN_DATE					= "com.mitv.intent.extra.channel.chosen.date";
+	public static final String	INTENT_EXTRA_CHANNEL_LOGO_URL						= "com.mitv.intent.extra.channel.logo.url";
+	public static final String	INTENT_EXTRA_TVGUIDE_SORTING						= "com.mitv.intent.extra.tvguide.sorting";
+	public static final String	INTENT_EXTRA_TVGUIDE_SORTING_VALUE					= "com.mitv.intent.extra.tvguide.sorting.value";
+	public static final String	INTENT_EXTRA_TVGUIDE_SORTING_TYPE					= "com.mitv.intent.extra,tvguide.sorting.type";
+	public static final String	INTENT_EXTRA_TVGUIDE_PAGE_URL						= "com.mitv.intent.extra.tvguide.page.url";
+	public static final String	INTENT_EXTRA_TVGUIDE_TVDATE							= "com.mitv.intent.extra.tvguide.tvdate";
+	public static final String	INTENT_EXTRA_CHOSEN_DATE_TVGUIDE					= "com.mitv.intent.extra.chosen.date.tvguide";
+	public static final String	INTENT_EXTRA_BROADCAST								= "com.mitv.intent.extra.broadcast";
+	public static final String	INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS			= "com.mitv.intent.extra.begintimeinmillis";
 	public static final String	INTENT_EXTRA_BROADCAST_URL							= "com.millicom.secondscren.intent,extra.broadcast.url";
-	public static final String	INTENT_EXTRA_NOTIFICATION_TO_SET					= "com.millicom.secondscreen.intent.extra.notification.to.set";
-	public static final String	INTENT_EXTRA_NOTIFICATION_ID						= "com.millicom.secondscreen.intent.extra.notification.id";
-	public static final String	INTENT_EXTRA_DAZOO_CORE								= "com.millicom.secondscreen.intent.extra.dazoo.core";
-	public static final String	INTENT_EXTRA_GUIDE_AVAILABLE						= "com.millicom.secondscreen.intent.extra.guide.available";
-	public static final String	INTENT_EXTRA_GUIDE_AVAILABLE_VALUE					= "com.millicom.secondscreen.intent.extra.guide.available.value";
-	public static final String	INTENT_EXTRA_TVGUIDE_SORTING_VALUE_POSITION			= "com.millicom.secondscreen.intent.extra.tvguide.sorting.value.position";
-	public static final String	INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE				= "com.millicom.secondscreen.intent.extra.channel.guide.available";
-	public static final String	INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE_VALUE			= "com.millicom.secondscreen.intent.extra.channel.guide.available.value";
-	public static final String	INTENT_EXTRA_TAG_GUIDE_AVAILABLE					= "com.millicom.secondscreen.intent.extra.tag.guide.available";
-	public static final String	INTENT_EXTRA_TAG_GUIDE_AVAILABLE_VALUE				= "com.millicom.secondscreen.intent.extra.tag.guide.available.value";
-	public static final String	INTENT_EXTRA_DATE_DATE								= "com.millicom.secondscreen.intent.extra.date.date";
-	public static final String	INTENT_EXTRA_MY_CHANNELS_CHANGED					= "com.millicom.secondscreen.intent.extra.my.channels.changed";
-	public static final String	INTENT_EXTRA_LOG_OUT_ACTION							= "com.millicom.secondscreen.intent.extra.log.out.action";
-	public static final String	INTENT_EXTRA_LOG_IN_ACTION							= "com.millicom.secondscreen.intent.extra.log.in.action";
-	public static final String	INTENT_EXTRA_DATA_FETCHING							= "com.millicom.secondscreen.intent.extra.log.in.action";
-	public static final String	INTENT_EXTRA_UPCOMING_BROADCASTS					= "com.millicom.secondscreen.intent.extra.upcoming.broadcasts";
-	public static final String	INTENT_EXTRA_REPEATING_BROADCASTS					= "com.millicom.secondscreen.intent.extra.repeating.broadcasts";
-	public static final String	INTENT_EXTRA_REPEATING_PROGRAM						= "com.millicom.secondscreen.intent.extra.repeating.program";
-	public static final String	INTENT_EXTRA_RUNNING_BROADCAST						= "com.millicom.secondscreen.intent.extra.repeating.runningBroadcast";
-	public static final String	INTENT_EXTRA_CLOCK_SELECTION						= "com.millicom.secondscreen.intent.extra.clock.selection";
-	public static final String	INTENT_EXTRA_CLOCK_SELECTION_VALUE					= "com.millicom.secondscreen.intent.extra.clock.selection.value";
-	public static final String	INTENT_EXTRA_TV_GUIDE_HOUR							= "com.millicom.secondscreen.intent.extra.tvguide.hour";
-	public static final String	INTENT_EXTRA_BAD_REQUEST							= "com.millicom.secondscreen.intent.extra.bad.request";
+	public static final String	INTENT_EXTRA_NOTIFICATION_TO_SET					= "com.mitv.intent.extra.notification.to.set";
+	public static final String	INTENT_EXTRA_NOTIFICATION_ID						= "com.mitv.intent.extra.notification.id";
+	public static final String	INTENT_EXTRA_DAZOO_CORE								= "com.mitv.intent.extra.dazoo.core";
+	public static final String	INTENT_EXTRA_GUIDE_AVAILABLE						= "com.mitv.intent.extra.guide.available";
+	public static final String	INTENT_EXTRA_GUIDE_AVAILABLE_VALUE					= "com.mitv.intent.extra.guide.available.value";
+	public static final String	INTENT_EXTRA_TVGUIDE_SORTING_VALUE_POSITION			= "com.mitv.intent.extra.tvguide.sorting.value.position";
+	public static final String	INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE				= "com.mitv.intent.extra.channel.guide.available";
+	public static final String	INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE_VALUE			= "com.mitv.intent.extra.channel.guide.available.value";
+	public static final String	INTENT_EXTRA_TAG_GUIDE_AVAILABLE					= "com.mitv.intent.extra.tag.guide.available";
+	public static final String	INTENT_EXTRA_TAG_GUIDE_AVAILABLE_VALUE				= "com.mitv.intent.extra.tag.guide.available.value";
+	public static final String	INTENT_EXTRA_DATE_DATE								= "com.mitv.intent.extra.date.date";
+	public static final String	INTENT_EXTRA_MY_CHANNELS_CHANGED					= "com.mitv.intent.extra.my.channels.changed";
+	public static final String	INTENT_EXTRA_LOG_OUT_ACTION							= "com.mitv.intent.extra.log.out.action";
+	public static final String	INTENT_EXTRA_LOG_IN_ACTION							= "com.mitv.intent.extra.log.in.action";
+	public static final String	INTENT_EXTRA_DATA_FETCHING							= "com.mitv.intent.extra.log.in.action";
+	public static final String	INTENT_EXTRA_UPCOMING_BROADCASTS					= "com.mitv.intent.extra.upcoming.broadcasts";
+	public static final String	INTENT_EXTRA_REPEATING_BROADCASTS					= "com.mitv.intent.extra.repeating.broadcasts";
+	public static final String	INTENT_EXTRA_REPEATING_PROGRAM						= "com.mitv.intent.extra.repeating.program";
+	public static final String	INTENT_EXTRA_RUNNING_BROADCAST						= "com.mitv.intent.extra.repeating.runningBroadcast";
+	public static final String	INTENT_EXTRA_CLOCK_SELECTION						= "com.mitv.intent.extra.clock.selection";
+	public static final String	INTENT_EXTRA_CLOCK_SELECTION_VALUE					= "com.mitv.intent.extra.clock.selection.value";
+	public static final String	INTENT_EXTRA_TV_GUIDE_HOUR							= "com.mitv.intent.extra.tvguide.hour";
+	public static final String	INTENT_EXTRA_BAD_REQUEST							= "com.mitv.intent.extra.bad.request";
 
 	/* Alarm extras */
 	public static final String	INTENT_DAZOO_NOTIFICATION							= "DAZOO_NOTIFICATION";
-	public static final String	INTENT_ALARM_EXTRA_BROADCAST_BEGINTIMEMILLIS		= "com.millicom.secondscreen.intent.alarm.extra.broadcast.begintimemillis";
-	public static final String	INTENT_ALARM_EXTRA_CHANNELID						= "com.millicom.secondscreen.intent.alarm.extra.channelid";
-	public static final String	INTENT_ALARM_EXTRA_NOTIFICIATION_ID					= "com.millicom.secondscreen.intent.alarm.extra.notification.id";
-	public static final String	INTENT_ALARM_EXTRA_BROADCAST_NAME					= "com.millicom.secondscreen.intent.alarm.extra.broadcast.name";
-	public static final String	INTENT_ALARM_EXTRA_CHANNEL_NAME						= "com.millicom.secondscreen.intent.alarm.extra.channel.name";
-	public static final String	INTENT_ALARM_EXTRA_CHANNEL_LOGO_URL					= "com.millicom.secondscreen.intent.alarm.extra.channel.logo.url";
-	public static final String	INTENT_ALARM_EXTRA_DATE_DATE						= "com.millicom.secondscreen.intent.alarm.extra.date.date";
-	public static final String	INTENT_ALARM_EXTRA_BROADCAST_TIME					= "com.millicom.secondscreen.intent.alarm.extra.broadcast.time";
+	public static final String	INTENT_ALARM_EXTRA_BROADCAST_BEGINTIMEMILLIS		= "com.mitv.intent.alarm.extra.broadcast.begintimemillis";
+	public static final String	INTENT_ALARM_EXTRA_CHANNELID						= "com.mitv.intent.alarm.extra.channelid";
+	public static final String	INTENT_ALARM_EXTRA_NOTIFICIATION_ID					= "com.mitv.intent.alarm.extra.notification.id";
+	public static final String	INTENT_ALARM_EXTRA_BROADCAST_NAME					= "com.mitv.intent.alarm.extra.broadcast.name";
+	public static final String	INTENT_ALARM_EXTRA_CHANNEL_NAME						= "com.mitv.intent.alarm.extra.channel.name";
+	public static final String	INTENT_ALARM_EXTRA_CHANNEL_LOGO_URL					= "com.mitv.intent.alarm.extra.channel.logo.url";
+	public static final String	INTENT_ALARM_EXTRA_DATE_DATE						= "com.mitv.intent.alarm.extra.date.date";
+	public static final String	INTENT_ALARM_EXTRA_BROADCAST_TIME					= "com.mitv.intent.alarm.extra.broadcast.time";
 
-	public static final String	INTENT_EXTRA_FROM_NOTIFICATION						= "com.millicom.secondscreen.intent.extra.from.notification";
+	public static final String	INTENT_EXTRA_FROM_NOTIFICATION						= "com.mitv.intent.extra.from.notification";
 
 	/* Activity feed extras */
-	public static final String	INTENT_EXTRA_FROM_ACTIVITY							= "com.millicom.secondscreen.intent.extra.from.activity";
-	public static final String	INTENT_EXTRA_ACTIVITY_CARD_NUMBER					= "com.millicom.secondscreen.intent.extra.activity.card.number";
+	public static final String	INTENT_EXTRA_FROM_ACTIVITY							= "com.mitv.intent.extra.from.activity";
+	public static final String	INTENT_EXTRA_ACTIVITY_CARD_NUMBER					= "com.mitv.intent.extra.activity.card.number";
 
 	/* Profile extras */
-	public static final String	INTENT_EXTRA_FROM_PROFILE							= "com.millicom.secondscreen.intent.extra.from.profile";
+	public static final String	INTENT_EXTRA_FROM_PROFILE							= "com.mitv.intent.extra.from.profile";
 
 	/* Fragments extra arguments */
-	public static final String	FRAGMENT_EXTRA_TAG									= "com.millicom.secondscreen.fragment.extra.tag";
-	public static final String	FRAGMENT_EXTRA_TVDATE								= "com.millicom.secondscreen.fragment.extra.tvdate";
-	public static final String	FRAGMENT_EXTRA_TVDATE_POSITION						= "com.millicom.secondscreen.fragment.extra.tvdate.position";
+	public static final String	FRAGMENT_EXTRA_TAG									= "com.mitv.fragment.extra.tag";
+	public static final String	FRAGMENT_EXTRA_TVDATE								= "com.mitv.fragment.extra.tvdate";
+	public static final String	FRAGMENT_EXTRA_TVDATE_POSITION						= "com.mitv.fragment.extra.tvdate.position";
 
 	/* Custom data types */
-	public static final String	VALUE_TYPE_PROGRAMTYPE								= "com.millicom.secondscreen.value.type.programtype";
-	public static final String	VALUE_TYPE_TVDATE									= "com.millicom.secondscreen.value.type.tvdate";
-	public static final String	VALUE_TYPE_TAG										= "com.millicom.secondscreen.value.type.tag";
+	public static final String	VALUE_TYPE_PROGRAMTYPE								= "com.mitv.value.type.programtype";
+	public static final String	VALUE_TYPE_TVDATE									= "com.mitv.value.type.tvdate";
+	public static final String	VALUE_TYPE_TAG										= "com.mitv.value.type.tag";
 
 	/* TVGuide */
 	public static final int		TV_GUIDE_NEXT_PROGRAMS_NUMBER						= 3;
-	public static final String	TV_GUIDE_PAGE_NUMBER								= "com.millicom.secondscreen.tvguide.page.number";
+	public static final String	TV_GUIDE_PAGE_NUMBER								= "com.mitv.tvguide.page.number";
 
 	public static final String	IMAGE_MACHINE_SECURITY_KEY							= "24567hright";
 
@@ -221,9 +221,9 @@ public abstract class Consts {
 	public static final int		INFO_NO_UPDATE_LIKES								= 10;
 	public static final int		INFO_UPDATE_LOGOUT									= 111;
 	public static final int		INFO_UPDATE_MYCHANNELS								= 1111;
-	public static final String	INFO_UPDATE_LIKES_NUMBER							= "com.millicom.secondscreen.info.update.likes.number";
-	public static final String	INFO_UPDATE_REMINDERS_NUMBER						= "com.millicom.secondscreen.info.update.reminders.number";
-	public static final String	INFO_UPDATE_MYCHANNELS_NUMBER						= "com.millicom.secondscreen.info.update.mychannels.number";
+	public static final String	INFO_UPDATE_LIKES_NUMBER							= "com.mitv.info.update.likes.number";
+	public static final String	INFO_UPDATE_REMINDERS_NUMBER						= "com.mitv.info.update.reminders.number";
+	public static final String	INFO_UPDATE_MYCHANNELS_NUMBER						= "com.mitv.info.update.mychannels.number";
 
 	/* Response codes */
 	public static final int		GOOD_RESPONSE										= 200;
@@ -246,7 +246,7 @@ public abstract class Consts {
 
 	/* Notifications */
 	public static final int		NOTIFY_MINUTES_BEFORE_THE_BROADCAST					= -15;
-	public static final String	NOTIFY_NUMBER										= "com.millicom.secondscreen.notify.number";
+	public static final String	NOTIFY_NUMBER										= "com.mitv.notify.number";
 	public static final String	NOTIFY_BROADCAST_URL_MIDDLE							= "/broadcasts/";
 
 	/* Notifications database */
