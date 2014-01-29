@@ -81,7 +81,8 @@
                 android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/header_2"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                font:fonttextview="roboto_mitv_medium.ttf" />
 
             <!-- TIME -->
 
@@ -93,7 +94,8 @@
                 android:lineSpacingExtra="-1sp"
                 android:singleLine="true"
                 android:textColor="@color/black"
-                android:textSize="@dimen/ingress" />
+                android:textSize="@dimen/ingress"
+                font:fonttextview="roboto_mitv_medium.ttf" />
 
             <!-- CHANNEL -->
 
@@ -105,7 +107,8 @@
                 android:layout_marginBottom="5dp"
                 android:singleLine="true"
                 android:textColor="@color/black"
-                android:textSize="@dimen/ingress" />
+                android:textSize="@dimen/ingress"
+                font:fonttextview="roboto_mitv_medium.ttf" />
 
             <!-- TYPE -->
 
@@ -117,7 +120,8 @@
                 android:layout_marginBottom="5dp"
                 android:singleLine="true"
                 android:textColor="@color/grey2"
-                android:textSize="@dimen/ingress" />
+                android:textSize="@dimen/ingress"
+                font:fonttextview="roboto_mitv_medium.ttf" />
 
             <!-- TIME LEFT -->
 
@@ -130,7 +134,8 @@
                 android:singleLine="true"
                 android:textColor="@color/red"
                 android:textSize="@dimen/paragraph"
-                android:visibility="gone" />
+                android:visibility="gone" 
+                font:fonttextview="roboto_mitv_medium.ttf" />
 
             <!-- PROGRESS BAR -->
 
