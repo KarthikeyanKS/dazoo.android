@@ -182,7 +182,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		} else if(programType.equals(Consts.PROGRAM_TYPE_MOVIE)) {
 			programType = Consts.PROGRAM_DISPLAY_STRING_MOVIE;
 		} else if(programType.equals(Consts.PROGRAM_TYPE_OTHER)) {
-			programType = Consts.PROGRAM_DISPLAY_STRING_OTHER;
+			programType = program.getCategory();
 		} else if(programType.equals(Consts.PROGRAM_TYPE_SPORT)) {
 			programType = Consts.PROGRAM_DISPLAY_STRING_SPORT;
 		}
