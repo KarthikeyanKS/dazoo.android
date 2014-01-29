@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,6 +21,7 @@ import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -101,11 +104,14 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		if (!NetworkUtils.checkConnection(this)) {
 			updateUI(REQUEST_STATUS.FAILED);
 		} else {
-			loadPage();
+			if (checkApiVersion() == true) {
+				showUpdateDialog();
+			}
+			else {
+				loadPage();
+			}
 		}
 	}
-	
-	
 
 	private void checkForCrashes() {
 		CrashManager.register(this, Consts.HOCKEY_APP_TOKEN);
@@ -114,6 +120,40 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	private void checkForUpdates() {
 		// Remove this for store builds!
 		UpdateManager.register(this, Consts.HOCKEY_APP_TOKEN);
+	}
+	
+	private boolean checkApiVersion() {
+		String apiVersion = SecondScreenApplication.getInstance().getApiVersion();
+		if (apiVersion != null && !apiVersion.equals(Consts.API_VERSION)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public void showUpdateDialog() {
+		final Dialog dialog = new Dialog(this, R.style.remove_notification_dialog);
+		dialog.setContentView(R.layout.dialog_prompt_update);
+		dialog.setCancelable(false);
+		
+		Button okButton = (Button) dialog.findViewById(R.id.dialog_prompt_update_button);
+		okButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+//				final String appPackageName = getPackageName(); 
+				final String appPackageName = "com.google.android.apps.maps";
+				try {
+				    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+				} catch (android.content.ActivityNotFoundException anfe) {
+				    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)));
+				}
+				
+//				dialog.dismiss();
+			}
+		});
+		dialog.show();
 	}
 
 	BroadcastReceiver	mBroadcastReceiverBadRequest	= new BroadcastReceiver() {

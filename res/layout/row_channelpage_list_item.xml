@@ -21,7 +21,6 @@
         android:id="@+id/channelpage_list_item_title_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minHeight="50dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
@@ -32,7 +31,6 @@
 	        android:id="@+id/channelpage_list_item_title_tv"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_marginBottom="5dp"
 	        android:singleLine="true"
 	        android:textColor="@color/black"
 	        android:textSize="@dimen/header_3"
@@ -46,7 +44,7 @@
 	        android:singleLine="true"
 	        android:textColor="@color/grey2"
 	        android:textSize="@dimen/ingress"
-	        android:visibility="gone"
+	        android:visibility="visible"
 	        font:fonttextview="roboto_mitv_medium.ttf" />
 	    
     </RelativeLayout>

@@ -2,8 +2,6 @@ package com.mitv;
 
 import java.nio.charset.Charset;
 
-import android.R.integer;
-
 /**
  * Class for constant values declaration for the application
  * 
@@ -12,6 +10,7 @@ public abstract class Consts {
 
 	public static final String	TESTFLIGHT_TOKEN											= "343b5e95-cc27-4e8e-8a0d-ff5f7a181c5c";
 	public static final String	HOCKEY_APP_TOKEN											= "c90b5331b5a7086d88d98021508f2c16";
+	public static final String 	API_VERSION													= "1.0.0";
 
 	public static final Charset	UTF8_CHARSET												= Charset.forName("UTF-8");
 
@@ -425,6 +424,7 @@ public abstract class Consts {
 	public static final String JSON_KEY_CONFIGURATION_WELCOME_TOAST					= "android.welcometoast";
 	
 	/* JSON KEYS FOR API VERSION*/
+	public static final String JSON_KEY_API											= "api";
 	public static final String JSON_KEY_API_VERSION_NAME							= "name";
 	public static final String JSON_KEY_API_VERSION_VALUE 							= "value";
 	
