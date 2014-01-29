@@ -342,7 +342,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 				if (mSavedTextSize < 0) {
 					mSavedTextSize = getTextSize(cellHeight, holder.textView, hourString);
 					if (mSmallScreenMode) {
-						mSavedTextSize -= 4;
+						mSavedTextSize = 12;
 					}
 				}
 				holder.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mSavedTextSize);
