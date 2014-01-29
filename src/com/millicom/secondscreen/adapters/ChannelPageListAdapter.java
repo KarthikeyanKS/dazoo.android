@@ -149,12 +149,12 @@ public class ChannelPageListAdapter extends BaseAdapter {
 			holder.mDescTv.setText("");
 		}
 		
-		if (TextUtils.isEmpty(holder.mDescTv.getText().toString()) == false) {
-			holder.mDescTv.setVisibility(View.VISIBLE);
-		}
-		else {
-			holder.mDescTv.setVisibility(View.GONE);
-		}
+//		if (TextUtils.isEmpty(holder.mDescTv.getText().toString()) == false) {
+//			holder.mDescTv.setVisibility(View.VISIBLE);
+//		}
+//		else {
+//			holder.mDescTv.setVisibility(View.GONE);
+//		}
 
 		// animate the item - available for higher api levels only
 		// TranslateAnimation animation = null;

@@ -10,7 +10,7 @@ public abstract class Consts {
 
 	public static final String	TESTFLIGHT_TOKEN											= "343b5e95-cc27-4e8e-8a0d-ff5f7a181c5c";
 	public static final String	HOCKEY_APP_TOKEN											= "c90b5331b5a7086d88d98021508f2c16";
-	public static final String 	API_VERSION													= "v1.0.0";
+	public static final String 	API_VERSION													= "1.0.0";
 
 	public static final Charset	UTF8_CHARSET												= Charset.forName("UTF-8");
 
