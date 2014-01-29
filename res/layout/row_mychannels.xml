@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
+    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:id="@+id/row_mychannels_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -15,7 +15,7 @@
         android:layout_margin="5dp" 
         android:layout_alignParentLeft="true"/>
 
-    <com.millicom.secondscreen.customviews.FontTextView
+    <com.mitv.customviews.FontTextView
         android:id="@+id/row_mychannels_channel_text_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

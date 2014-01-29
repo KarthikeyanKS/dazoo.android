@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
+    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:layout_width="170dp"
     android:layout_height="match_parent"
     android:background="@color/grey1"
     android:padding="15dp" >
 
-    <com.millicom.secondscreen.customviews.FontTextView
+    <com.mitv.customviews.FontTextView
         android:id="@+id/layout_actionbar_dropdown_list_date_item_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
         android:textColor="@color/grey3"
         android:textSize="13dp" />
 
-    <com.millicom.secondscreen.customviews.FontTextView
+    <com.mitv.customviews.FontTextView
         android:id="@+id/layout_actionbar_dropdown_list_date_item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

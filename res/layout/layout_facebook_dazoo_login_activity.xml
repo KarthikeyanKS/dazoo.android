@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
-        <com.millicom.secondscreen.customviews.FontTextView
+        <com.mitv.customviews.FontTextView
             android:id="@+id/facebook_dazoo_login_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <com.millicom.secondscreen.customviews.FontTextView
+        <com.mitv.customviews.FontTextView
             android:id="@+id/facebook_dazoo_login_text_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
             android:orientation="horizontal"
             android:padding="10dp" >
 
-            <com.millicom.secondscreen.customviews.FontTextView
+            <com.mitv.customviews.FontTextView
                 android:id="@+id/facebook_dazoo_set_channels_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
             android:padding="10dp" 
             android:visibility="gone">
 
-            <com.millicom.secondscreen.customviews.FontTextView
+            <com.mitv.customviews.FontTextView
                 android:id="@+id/facebook_dazoo_connect_with_friends_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -100,7 +100,7 @@
             android:orientation="horizontal"
             android:padding="10dp" >
 
-            <com.millicom.secondscreen.customviews.FontTextView
+            <com.mitv.customviews.FontTextView
                 android:id="@+id/facebook_dazoo_take_tour_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
             android:orientation="horizontal"
             android:padding="10dp" >
 
-            <com.millicom.secondscreen.customviews.FontTextView
+            <com.mitv.customviews.FontTextView
                 android:id="@+id/facebook_dazoo_skip_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -32,7 +32,7 @@
         android:layout_below="@id/whatelseison_listview"
         android:background="@color/grey2" />
 
-    <com.millicom.secondscreen.customviews.FontTextView
+    <com.mitv.customviews.FontTextView
         android:id="@+id/whatelseison_show_all_programs_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

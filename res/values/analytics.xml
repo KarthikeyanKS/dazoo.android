@@ -2,7 +2,7 @@
 <resources>
 
     <!-- Being overriden by ID from configuration call -->
-<!--     <string name="ga_trackingId">UA-46899989-1</string> -->
+    <string name="ga_trackingId_mitv_hardcoded">UA-46899989-1</string>
 
     <!-- Enable automatic activity tracking -->
     <bool name="ga_autoActivityTracking">true</bool>

@@ -27,7 +27,7 @@
         android:textColor="@color/black"
         android:textSize="14sp" />
 
-    <com.millicom.secondscreen.customviews.FontTextButton
+    <com.mitv.customviews.FontTextButton
         android:id="@+id/content_failed_reload_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

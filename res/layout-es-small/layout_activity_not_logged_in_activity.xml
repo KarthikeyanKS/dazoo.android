@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
+    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:id="@+id/activity_not_logged_in_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -35,7 +35,7 @@
 
             <!-- TITLES -->
 
-            <com.millicom.secondscreen.customviews.FontTextView
+            <com.mitv.customviews.FontTextView
                 android:id="@+id/activity_not_logged_in_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
                 android:textSize="@dimen/header_1"
                 android:textStyle="bold" />
 
-            <com.millicom.secondscreen.customviews.FontTextView
+            <com.mitv.customviews.FontTextView
                 android:id="@+id/activity_not_logged_in_title_details"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -103,7 +103,7 @@
                             android:padding="5dp"
                             android:src="@drawable/ic_facebook" />
 
-                        <com.millicom.secondscreen.customviews.FontTextView
+                        <com.mitv.customviews.FontTextView
                             android:id="@+id/activity_not_logged_in_signin_facebook_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -133,7 +133,7 @@
                         android:layout_centerVertical="true"
                         android:background="@color/grey1" />
 
-                    <com.millicom.secondscreen.customviews.FontTextView
+                    <com.mitv.customviews.FontTextView
                         android:id="@+id/signin_or_textview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -160,7 +160,7 @@
                     android:orientation="vertical"
                     android:padding="10dp" >
 
-                    <com.millicom.secondscreen.customviews.FontTextView
+                    <com.mitv.customviews.FontTextView
                         android:id="@+id/activity_not_logged_in_signup_email_title_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -191,7 +191,7 @@
                     android:layout_below="@id/activity_not_logged_in_divider"
                     android:orientation="vertical" >
 
-                    <com.millicom.secondscreen.customviews.FontTextView
+                    <com.mitv.customviews.FontTextView
                         android:id="@+id/activity_not_logged_in_already_registered_text_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -202,7 +202,7 @@
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
-                    <com.millicom.secondscreen.customviews.FontButton
+                    <com.mitv.customviews.FontButton
                         android:id="@+id/activity_not_logged_in_login_btn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

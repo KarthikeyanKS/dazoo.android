@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
+    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:id="@+id/timebar_toast_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <com.millicom.secondscreen.customviews.FontTextView
+    <com.mitv.customviews.FontTextView
         android:id="@+id/timebar_toast_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

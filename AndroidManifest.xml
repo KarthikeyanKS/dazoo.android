@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.millicom.secondscreen"
+    package="com.mitv"
     android:installLocation="preferExternal"
     android:largeHeap="true"
     android:versionCode="37"
@@ -21,7 +21,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
-        android:name="com.millicom.secondscreen.SecondScreenApplication"
+        android:name="com.mitv.SecondScreenApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
@@ -34,7 +34,7 @@
 
         <!-- HOME ACTIVITY -->
         <activity
-            android:name="com.millicom.secondscreen.content.homepage.HomeActivity"
+            android:name="com.mitv.homepage.HomeActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:theme="@style/HomePage" >
@@ -47,7 +47,7 @@
 
         <!-- ACTIVITY PAGE -->
         <activity
-            android:name="com.millicom.secondscreen.content.activity.ActivityActivity"
+            android:name="com.mitv.content.activity.ActivityActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -55,9 +55,9 @@
 
         <!-- POPULAR CONTENT PAGE -->
         <activity
-            android:name="com.millicom.secondscreen.content.activity.PopularPageActivity"
+            android:name="com.mitv.content.activity.PopularPageActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.millicom.secondscreen.content.activity.ActivityActivity"
+            android:parentActivityName="com.mitv.content.activity.ActivityActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
@@ -67,7 +67,7 @@
 
         <!-- MYPROFILE ACTIVITY -->
         <activity
-            android:name="com.millicom.secondscreen.content.myprofile.MyProfileActivity"
+            android:name="com.mitv.myprofile.MyProfileActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -75,16 +75,16 @@
 
         <!-- SEARCH PAGE -->
         <activity
-            android:name="com.millicom.secondscreen.content.search.SearchPageActivity"
+            android:name="com.mitv.search.SearchPageActivity"
             android:configChanges="keyboard|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" />
 
         <!-- LIKES -->
         <activity
-            android:name="com.millicom.secondscreen.content.myprofile.LikesActivity"
+            android:name="com.mitv.myprofile.LikesActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.millicom.secondscreen.content.myprofile.MyProfileActivity"
+            android:parentActivityName="com.mitv.myprofile.MyProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="adjustPan" >
@@ -95,9 +95,9 @@
 
         <!-- MY CHANNELS -->
         <activity
-            android:name="com.millicom.secondscreen.content.myprofile.MyChannelsActivity"
+            android:name="com.mitv.myprofile.MyChannelsActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.millicom.secondscreen.content.myprofile.MyProfileActivity"
+            android:parentActivityName="com.mitv.myprofile.MyProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
@@ -107,9 +107,9 @@
 
         <!-- REMINDERS -->
         <activity
-            android:name="com.millicom.secondscreen.content.myprofile.RemindersActivity"
+            android:name="com.mitv.myprofile.RemindersActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.millicom.secondscreen.content.myprofile.MyProfileActivity"
+            android:parentActivityName="com.mitv.myprofile.MyProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
@@ -119,9 +119,9 @@
 
         <!-- SETTINGS -->
         <activity
-            android:name="com.millicom.secondscreen.content.myprofile.SettingsActivity"
+            android:name="com.mitv.myprofile.SettingsActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.millicom.secondscreen.content.myprofile.MyProfileActivity"
+            android:parentActivityName="com.mitv.myprofile.MyProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
@@ -131,7 +131,7 @@
 
         <!-- CONTACT -->
         <activity
-            android:name="com.millicom.secondscreen.content.myprofile.ContactActivity"
+            android:name="com.mitv.myprofile.ContactActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
@@ -142,7 +142,7 @@
 
         <!-- TERMS -->
         <activity
-            android:name="com.millicom.secondscreen.content.myprofile.TermsActivity"
+            android:name="com.mitv.myprofile.TermsActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
@@ -153,7 +153,7 @@
 
         <!-- HELP -->
         <activity
-            android:name="com.millicom.secondscreen.content.myprofile.HelpActivity"
+            android:name="com.mitv.myprofile.HelpActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
@@ -164,10 +164,10 @@
 
         <!-- BROADCAST PAGE -->
         <activity
-            android:name="com.millicom.secondscreen.content.tvguide.BroadcastPageActivity"
+            android:name="com.mitv.tvguide.BroadcastPageActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
-            android:parentActivityName="com.millicom.secondscreen.content.homepage.HomeActivity"
+            android:parentActivityName="com.mitv.homepage.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
@@ -177,9 +177,9 @@
 
         <!-- UPCOMING EPISODES PAGE -->
         <activity
-            android:name="com.millicom.secondscreen.content.tvguide.UpcomingeEpisodesPageActivity"
+            android:name="com.mitv.tvguide.UpcomingeEpisodesPageActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.millicom.secondscreen.content.tvguide.BroadcastPageActivity"
+            android:parentActivityName="com.mitv.tvguide.BroadcastPageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
@@ -189,9 +189,9 @@
 
         <!-- REPEATITIONS PAGE -->
         <activity
-            android:name="com.millicom.secondscreen.content.tvguide.RepetitionsPageActivity"
+            android:name="com.mitv.tvguide.RepetitionsPageActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.millicom.secondscreen.content.tvguide.BroadcastPageActivity"
+            android:parentActivityName="com.mitv.tvguide.BroadcastPageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
@@ -201,9 +201,9 @@
 
         <!-- CHANNEL PAGE -->
         <activity
-            android:name="com.millicom.secondscreen.content.tvguide.ChannelPageActivity"
+            android:name="com.mitv.tvguide.ChannelPageActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.millicom.secondscreen.content.homepage.HomeActivity"
+            android:parentActivityName="com.mitv.homepage.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ChannelPage" >
             <meta-data
@@ -213,7 +213,7 @@
 
         <!-- SIGN IN -->
         <activity
-            android:name="com.millicom.secondscreen.authentication.SignInActivity"
+            android:name="com.mitv.authentication.SignInActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
@@ -221,9 +221,9 @@
 
         <!-- SIGN UP -->
         <activity
-            android:name="com.millicom.secondscreen.authentication.SignUpActivity"
+            android:name="com.mitv.authentication.SignUpActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.millicom.secondscreen.content.myprofile.MyProfileActivity"
+            android:parentActivityName="com.mitv.myprofile.MyProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
@@ -234,9 +234,9 @@
 
         <!-- DAZOO LOGIN -->
         <activity
-            android:name="com.millicom.secondscreen.authentication.DazooLoginActivity"
+            android:name="com.mitv.authentication.DazooLoginActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.millicom.secondscreen.content.myprofile.MyProfileActivity"
+            android:parentActivityName="com.mitv.myprofile.MyProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
@@ -247,7 +247,7 @@
 
         <!-- FACEBOOK LOGIN -->
         <activity
-            android:name="com.millicom.secondscreen.authentication.FacebookLoginActivity"
+            android:name="com.mitv.authentication.FacebookLoginActivity"
             android:configChanges="keyboardHidden|orientation"
             android:icon="@drawable/ic_nav_bar"
             android:screenOrientation="portrait"
@@ -258,9 +258,9 @@
 
         <!-- PASSWORD RESET -->
         <activity
-            android:name="com.millicom.secondscreen.authentication.ResetPasswordActivity"
+            android:name="com.mitv.authentication.ResetPasswordActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.millicom.secondscreen.authentication.DazooLoginActivity"
+            android:parentActivityName="com.mitv.authentication.DazooLoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
@@ -271,9 +271,9 @@
 
         <!-- PASSWORD RESET FINAL -->
         <activity
-            android:name="com.millicom.secondscreen.authentication.ResetPasswordFinalActivity"
+            android:name="com.mitv.authentication.ResetPasswordFinalActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.millicom.secondscreen.content.homepage.HomeActivity"
+            android:parentActivityName="com.mitv.homepage.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
@@ -284,7 +284,7 @@
 
         <!-- FACEBOOK DAZOO ACCOUNT CREATED -->
         <activity
-            android:name="com.millicom.secondscreen.authentication.FacebookDazooLoginActivity"
+            android:name="com.mitv.authentication.FacebookDazooLoginActivity"
             android:configChanges="keyboardHidden|orientation"
             android:icon="@drawable/ic_nav_bar"
             android:screenOrientation="portrait"
@@ -293,7 +293,7 @@
         <!-- android:theme="@style/Theme.Sherlock.Light" -->
 
         <receiver
-            android:name="com.millicom.secondscreen.notification.AlarmReceiver"
+            android:name="com.mitv.notification.AlarmReceiver"
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
@@ -301,7 +301,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="com.millicom.secondscreen.notification.AlarmSetter"
+            android:name="com.mitv.notification.AlarmSetter"
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
@@ -309,7 +309,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="com.millicom.secondscreen.services.BootCompletedReceiver"
+            android:name="com.mitv.services.BootCompletedReceiver"
             android:enabled="true"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
             android:exported="true" >
