@@ -311,7 +311,7 @@ public class ContentParser {
 				JSONObject jsonObject = jsonArray.getJSONObject(i);
 				if (jsonObject != null) {
 					String name = jsonObject.getString(Consts.JSON_KEY_API_VERSION_NAME);
-					if (name.equals("android")) {
+					if (name.equals(Consts.JSON_KEY_API)) {
 						String version = jsonObject.getString(Consts.JSON_KEY_API_VERSION_VALUE);
 						Log.d(TAG, "Parsed api version: " + version);
 						return version;
