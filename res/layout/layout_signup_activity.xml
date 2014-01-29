@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:hint="@string/hint_firstname"
             android:inputType="text"
             android:padding="8dp"
@@ -27,15 +27,26 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             android:background="@drawable/edittext_standard" />
+        
+		<com.mitv.customviews.FontTextView
+            android:id="@+id/signup_error_firstname_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="-10dp"
+            android:layout_below="@id/signup_firstname_edittext"
+            android:padding="8dp"
+            android:textColor="@color/red"
+            android:gravity="center"/>
 
         <com.mitv.customviews.FontEditText
             android:id="@+id/signup_lastname_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/signup_firstname_edittext"
+            android:layout_below="@id/signup_error_firstname_textview"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="20dp"
             android:hint="@string/hint_lastname"
             android:inputType="text"
             android:padding="8dp"
@@ -43,15 +54,26 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             android:background="@drawable/edittext_standard" />
+        
+		<com.mitv.customviews.FontTextView
+            android:id="@+id/signup_error_lastname_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="-10dp"
+            android:layout_below="@id/signup_lastname_edittext"
+            android:padding="8dp"
+            android:textColor="@color/red"
+            android:gravity="center"/>
 
         <com.mitv.customviews.FontEditText
             android:id="@+id/signup_email_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/signup_lastname_edittext"
+            android:layout_below="@id/signup_error_lastname_textview"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="20dp"
             android:hint="@string/hint_email"
             android:inputType="textEmailAddress"
             android:padding="8dp"
@@ -59,6 +81,18 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             android:background="@drawable/edittext_standard" />
+        
+		<com.mitv.customviews.FontTextView
+            android:id="@+id/signup_error_email_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="-10dp"
+            android:layout_below="@id/signup_email_edittext"
+            android:padding="8dp"
+            android:textColor="@color/red"
+            android:gravity="center"/>
 
         <com.mitv.customviews.FontEditText
             android:id="@+id/signup_password_edittext"
@@ -66,8 +100,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="20dp"
-            android:layout_below="@id/signup_email_edittext"
+            android:layout_below="@id/signup_error_email_textview"
             android:hint="@string/hint_password"
             android:inputType="textPassword"
             android:padding="8dp"
@@ -77,29 +110,27 @@
             android:background="@drawable/edittext_standard" />
 
         <com.mitv.customviews.FontTextView
-            android:id="@+id/signup_error_textview"
+            android:id="@+id/signup_error_password_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="-10dp"
             android:layout_below="@id/signup_password_edittext"
             android:padding="8dp"
             android:textColor="@color/red"
-            android:gravity="center"
-            android:visibility="gone"/>
+            android:gravity="center"/>
 
         <com.mitv.customviews.FontButton
             android:id="@+id/signup_register_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/signup_error_textview"
+            android:layout_below="@id/signup_error_password_textview"
             android:layout_centerInParent="true"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:padding="10dp"
             android:text="@string/join"
             android:textColor="@color/white"

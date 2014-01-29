@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutionException;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -19,6 +20,7 @@ import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.SingleClientConnManager;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
 import android.content.Intent;
@@ -33,6 +35,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
@@ -47,6 +50,8 @@ public class ResetPasswordActivity extends SSSignInSignupBaseActivity implements
 	private ActionBar			mActionBar;
 	private Button				mDazooResetPassword;
 	private EditText			mEmailResetPasswordEditText;
+	private TextView			mErrorTextView;
+	private String 				mBadResponseString;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +91,7 @@ public class ResetPasswordActivity extends SSSignInSignupBaseActivity implements
 		mDazooResetPassword = (Button) findViewById(R.id.resetpassword_button);
 		mDazooResetPassword.setOnClickListener(this);
 		mEmailResetPasswordEditText = (EditText) findViewById(R.id.resetpassword_email_edittext);
+		mErrorTextView = (TextView) findViewById(R.id.resetpassword_error_tv);
 
 	}
 
@@ -112,6 +118,10 @@ public class ResetPasswordActivity extends SSSignInSignupBaseActivity implements
 
 					} else if (Consts.BAD_RESPONSE == responseCode) {
 						//Toast.makeText(getApplicationContext(), "Error! Email is not found!", Toast.LENGTH_SHORT).show();
+						if (Consts.BAD_RESPONSE_STRING_EMAIL_NOT_FOUND.equals(mBadResponseString)) {
+							mErrorTextView.setText(getResources().getString(R.string.reset_password_email_not_found));
+							mEmailResetPasswordEditText.setEnabled(true);
+						}
 						Log.d(TAG, "Error! Reset password : level backend");
 					}
 				} catch (InterruptedException e) {
@@ -122,6 +132,7 @@ public class ResetPasswordActivity extends SSSignInSignupBaseActivity implements
 			} else {
 				mEmailResetPasswordEditText.setEnabled(true);
 				//Toast.makeText(getApplicationContext(), "Please enter a valid e-mail address", Toast.LENGTH_SHORT).show();
+				mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_incorrect));
 				Log.d(TAG, "Email input is required");
 			}
 			break;
@@ -129,6 +140,7 @@ public class ResetPasswordActivity extends SSSignInSignupBaseActivity implements
 	}
 
 	private class ResetPasswordTask extends AsyncTask<String, Void, Integer> {
+
 		@Override
 		protected Integer doInBackground(String... params) {
 			try {
@@ -157,8 +169,16 @@ public class ResetPasswordActivity extends SSSignInSignupBaseActivity implements
 
 				// HttpResponse response = client.execute(httpPost);
 				HttpResponse response = httpClient.execute(httpPost);
-
-				return response.getStatusLine().getStatusCode();
+				
+				int responseCode = response.getStatusLine().getStatusCode();
+				if (responseCode == Consts.GOOD_RESPONSE) {
+					return responseCode;
+				}
+				else if (responseCode == Consts.BAD_RESPONSE) {
+					HttpEntity httpentity = response.getEntity();
+					mBadResponseString = EntityUtils.toString(httpentity);
+					return responseCode;
+				}
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			} catch (ClientProtocolException e) {

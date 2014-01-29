@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:font="http://schemas.android.com/apk/res/com.millicom.seconscreen.customviews"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -19,40 +18,32 @@
         <RelativeLayout
             android:id="@+id/dazoologin_facebook_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/layout_rounded_corners_blue"
             android:orientation="horizontal" >
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true" >
+         <ImageView
+             android:id="@+id/dazoologin_facebook_icon"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignParentLeft="true"
+             android:layout_centerVertical="true"
+             android:layout_marginLeft="10dp"
+             android:src="@drawable/ic_facebook" />
 
-                <ImageView
-                    android:id="@+id/dazoologin_facebook_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:padding="5dp"
-                    android:src="@drawable/ic_facebook" />
+         <com.mitv.customviews.FontTextView
+             android:id="@+id/dazoologin_facebook_tv"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_centerInParent="true"
+             android:text="@string/login_with_facebook"
+             android:textColor="@color/white"
+             android:textSize="18sp"
+             android:textStyle="bold" />
 
-                <com.mitv.customviews.FontTextView
-                    android:id="@+id/dazoologin_facebook_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/dazoologin_facebook_icon"
-                    android:lines="1"
-                    android:text="@string/login_with_facebook"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
         </RelativeLayout>
 
         <!-- OR BAR -->

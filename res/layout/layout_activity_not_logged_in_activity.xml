@@ -7,8 +7,8 @@
     android:background="@color/white"
     android:orientation="vertical" >
 
-    
-<!--         android:layout_below="@id/tvguide_table_side_clock_iv" -->
+    <!-- android:layout_below="@id/tvguide_table_side_clock_iv" -->
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -83,37 +83,31 @@
                     android:id="@+id/activity_not_logged_in_facebook_container"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:layout_below="@id/activity_not_logged_in_signin_container"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/layout_rounded_corners_blue"
-                    android:orientation="vertical" >
+                    android:orientation="horizontal" >
 
-                    <RelativeLayout
+                    <ImageView
+                        android:id="@+id/activity_not_logged_in_signin_facebook_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true" >
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/ic_facebook" />
 
-                        <ImageView
-                            android:id="@+id/activity_not_logged_in_signin_facebook_icon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_centerVertical="true"
-                            android:padding="5dp"
-                            android:src="@drawable/ic_facebook" />
-
-                        <com.mitv.customviews.FontTextView
-                            android:id="@+id/activity_not_logged_in_signin_facebook_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_toRightOf="@id/activity_not_logged_in_signin_facebook_icon"
-                            android:text="@string/login_with_facebook"
-                            android:textColor="@color/white"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </RelativeLayout>
+                    <com.mitv.customviews.FontTextView
+                        android:id="@+id/activity_not_logged_in_signin_facebook_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="@string/login_with_facebook"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
                 </RelativeLayout>
 
                 <!-- OR BAR -->
@@ -152,13 +146,14 @@
                 <RelativeLayout
                     android:id="@+id/activity_not_logged_in_signup_email_container"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:layout_below="@id/activity_not_logged_in_or_container"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/layout_rounded_corners_blue"
                     android:orientation="vertical"
-                    android:padding="10dp" >
+                    android:padding="10dp"
+                    android:minHeight="50dp" >
 
                     <com.mitv.customviews.FontTextView
                         android:id="@+id/activity_not_logged_in_signup_email_title_tv"

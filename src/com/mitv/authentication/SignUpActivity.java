@@ -57,18 +57,15 @@ public class SignUpActivity extends SSSignInSignupBaseActivity implements OnClic
 
 	private static final String	TAG							= "SignUpActivity";
 	private ActionBar			mActionBar;
-	private EditText			mFirstNameEditText, mLastNameEditText, mPasswordRegisterEditText, mEmailRegisterEditText, mEmailResetPasswordEditText;
+	private EditText			mFirstNameEditText, mLastNameEditText, mPasswordRegisterEditText, mEmailRegisterEditText;
 	private Button				mDazooRegisterButton;
 	private String				userEmailRegister, userPasswordRegister, userFirstNameRegister, userLastNameRegister, dazooToken;
-	private TextView			mErrorTextView;
+	private TextView			mFirstnameErrorTextView;
+	private TextView			mLastnameErrorTextView;
+	private TextView			mEmailErrorTextView;
+	private TextView			mPasswordErrorTextView;
 	private TextDrawable		mEmailTextDrawable, mPasswordTextDrawable;
 	private String 				mBadResponseString;
-
-	private final int			REGISTER_FIRSTNAME_MISSING	= 0;
-	private final int			REGISTER_LASTNAME_MISSING	= 1;
-	private final int			REGISTER_EMAIL_WRONG		= 2;
-	private final int			PASSWORD_LENGTH_WRONG		= 3;
-	private final int			PASSWORD_ILLEGAL_CHARACTERS	= 4;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -104,13 +101,16 @@ public class SignUpActivity extends SSSignInSignupBaseActivity implements OnClic
 		final int actionBarColor = getResources().getColor(R.color.blue1);
 		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
 
-		mActionBar.setTitle(getResources().getString(R.string.sign_up_with_email));
+		mActionBar.setTitle(getResources().getString(R.string.sign_up));
 
 		mFirstNameEditText = (EditText) findViewById(R.id.signup_firstname_edittext);
 		mLastNameEditText = (EditText) findViewById(R.id.signup_lastname_edittext);
 		mEmailRegisterEditText = (EditText) findViewById(R.id.signup_email_edittext);
 		mPasswordRegisterEditText = (EditText) findViewById(R.id.signup_password_edittext);
-		mErrorTextView = (TextView) findViewById(R.id.signup_error_textview);
+		mFirstnameErrorTextView = (TextView) findViewById(R.id.signup_error_firstname_textview);
+		mLastnameErrorTextView = (TextView) findViewById(R.id.signup_error_lastname_textview);
+		mEmailErrorTextView = (TextView) findViewById(R.id.signup_error_email_textview);
+		mPasswordErrorTextView = (TextView) findViewById(R.id.signup_error_password_textview);
 		mDazooRegisterButton = (Button) findViewById(R.id.signup_register_button);
 		mDazooRegisterButton.setOnClickListener(this);
 
@@ -182,6 +182,11 @@ public class SignUpActivity extends SSSignInSignupBaseActivity implements OnClic
 			mLastNameEditText.setEnabled(false);
 			mEmailRegisterEditText.setEnabled(false);
 			mPasswordRegisterEditText.setEnabled(false);
+			
+			mEmailErrorTextView.setText("");
+			mFirstnameErrorTextView.setText("");
+			mLastnameErrorTextView.setText("");
+			mPasswordErrorTextView.setText("");
 
 			mFirstNameEditText.setBackgroundResource(R.drawable.edittext_standard);
 			mLastNameEditText.setBackgroundResource(R.drawable.edittext_standard);
@@ -231,31 +236,29 @@ public class SignUpActivity extends SSSignInSignupBaseActivity implements OnClic
 					mEmailRegisterEditText.setEnabled(true);
 					mPasswordRegisterEditText.setEnabled(true);
 
-					// Set error textview 
+					// Set error textviews and highlighting
 					if (mBadResponseString.equals(Consts.BAD_RESPONSE_STRING_EMAIL_ALREADY_TAKEN)) {
-						mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_already_registered));
+						mEmailErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_already_registered));
 						mEmailRegisterEditText.setBackgroundResource(R.drawable.edittext_activated);
 						mEmailRegisterEditText.requestFocus();
 					}
 					else if (mBadResponseString.equals(Consts.BAD_RESPONSE_STRING_NOT_REAL_EMAIL)) {
-						mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_incorrect));
+						mEmailErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_incorrect));
 						mEmailRegisterEditText.setBackgroundResource(R.drawable.edittext_activated);
 						mEmailRegisterEditText.requestFocus();
 					}
 					else if (mBadResponseString.equals(Consts.BAD_RESPONSE_STRING_PASSWORD_TOO_SHORT)) {
-						mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_passwordlength) + " " 
+						mPasswordErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_passwordlength) + " " 
 								+ Consts.MILLICOM_SECONSCREEN_PASSWORD_LENGTH_MIN + " "
 								+ getResources().getString(R.string.signup_with_email_characters));
 						mPasswordRegisterEditText.setBackgroundResource(R.drawable.edittext_activated);
 						mPasswordRegisterEditText.requestFocus();
 					}
 					else if (mBadResponseString.equals(Consts.BAD_RESPONSE_STRING_FIRSTNAME_NOT_SUPPLIED)) {
-						mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_firstname));
+						mFirstnameErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_firstname));
 						mFirstNameEditText.setBackgroundResource(R.drawable.edittext_activated);
 						mFirstNameEditText.requestFocus();
 					}
-
-					mErrorTextView.setVisibility(View.VISIBLE);
 				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
