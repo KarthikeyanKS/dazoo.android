@@ -1,4 +1,4 @@
-package com.mitv.notification;
+package com.mitv.receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.mitv.Consts;
 import com.mitv.model.Broadcast;
 import com.mitv.model.Channel;
+import com.mitv.notification.NotificationService;
 
 public class AlarmReceiver extends BroadcastReceiver {
 	

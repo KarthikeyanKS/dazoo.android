@@ -1,4 +1,4 @@
-package com.mitv.services;
+package com.mitv.receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

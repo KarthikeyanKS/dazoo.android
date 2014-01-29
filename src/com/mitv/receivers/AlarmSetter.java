@@ -1,4 +1,4 @@
-package com.mitv.notification;
+package com.mitv.receivers;
 
 import java.util.List;
 
@@ -7,6 +7,8 @@ import com.mitv.model.Channel;
 import com.mitv.model.NotificationDbItem;
 import com.mitv.model.Program;
 import com.mitv.model.Season;
+import com.mitv.notification.NotificationDataSource;
+import com.mitv.notification.NotificationService;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;

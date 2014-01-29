@@ -42,6 +42,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 
 	private static final String TAG = "SwipeClockBar";
 	public static final int SCREEN_HEIGHT_SMALL = 320;
+	public static final int SCREEN_HEIGHT_TABLET = 1280;
 	
 	private Activity mActivity;
 	private VerticalSeekBar mSeekBar;
@@ -343,6 +344,8 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 					mSavedTextSize = getTextSize(cellHeight, holder.textView, hourString);
 					if (mSmallScreenMode) {
 						mSavedTextSize = 12;
+					} else if (mScreenHeight >= SCREEN_HEIGHT_TABLET) {
+						mSavedTextSize = 34;
 					}
 				}
 				holder.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mSavedTextSize);
