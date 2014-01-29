@@ -10,8 +10,8 @@ import com.facebook.model.GraphUser;
 public class Slot {
 
 	private static final String CACHE_NAME_FORMAT = "TokenCache%d";
-    private static final String CACHE_USER_ID_KEY = "MillicomSecondScreenUserId";
-    private static final String CACHE_USER_NAME_KEY = "MillicomSecondScreenUserName";
+    private static final String CACHE_USER_ID_KEY = "MiTVUserId";
+    private static final String CACHE_USER_NAME_KEY = "MiTVUserName";
 
     private String tokenCacheName;
     private String userName;
