@@ -306,13 +306,11 @@ public class ContentParser {
 	
 	// Parse api version
 	public static String parseApiVersion(JSONArray jsonArray) {
-		Log.d(TAG, "Parsing api version");
 		for (int i = 0; i < jsonArray.length(); i++) {
 			try {
 				JSONObject jsonObject = jsonArray.getJSONObject(i);
 				if (jsonObject != null) {
 					String name = jsonObject.getString(Consts.JSON_KEY_API_VERSION_NAME);
-					Log.d(TAG, "Parsing api version name: " + name);
 					if (name.equals("android")) {
 						String version = jsonObject.getString(Consts.JSON_KEY_API_VERSION_VALUE);
 						Log.d(TAG, "Parsed api version: " + version);

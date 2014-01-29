@@ -240,5 +240,9 @@
     <string name="search_on_air_now">On air now</string>
     <string name="search_no_upcoming_broadcasts">No upcoming broadcasts</string>
     <string name="search_starts_in">in</string>
+    
+    <!-- UPDATE DIALOG -->
+    <string name="dialog_prompt_update_text">You must update mi.tv to the latest version!</string>
+    <string name="dialog_prompt_update_google_play">Go to Google play</string>
 
 </resources>
