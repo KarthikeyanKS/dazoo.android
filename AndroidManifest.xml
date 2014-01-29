@@ -293,7 +293,7 @@
         <!-- android:theme="@style/Theme.Sherlock.Light" -->
 
         <receiver
-            android:name="com.mitv.notification.AlarmReceiver"
+            android:name="com.mitv.receivers.AlarmReceiver"
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
@@ -301,7 +301,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="com.mitv.notification.AlarmSetter"
+            android:name="com.mitv.receivers.AlarmSetter"
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
@@ -309,7 +309,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="com.mitv.services.BootCompletedReceiver"
+            android:name="com.mitv.receivers.BootCompletedReceiver"
             android:enabled="true"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
             android:exported="true" >
