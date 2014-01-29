@@ -30,6 +30,7 @@ public abstract class Consts {
 	public static final String	MILLICOM_SECONDSCREEN_TV_GUIDE_HOUR							= "com.millicom.secondscreen.tv.guide.hour";
 	public static final String	MILLICOM_SECONDSCREEN_HOMEPAGE_AGAIN						= "com.millicom.secondscreen.homepage.again";
 	public static final String 	MILLICOM_SECONDSCREEN_API_VERSION_SHARED_PREF				= "com.millicom.secondscreen.api.version";
+	public static final String 	MILLICOM_SECONDSCREEN_APP_WAS_PREINSTALLED					= "com.millicom.secondscreen.app.preinstalled";
 
 	/* API URLs */
 	public static final String MILLICON_SECONDSCREEN_HTTP_SCHEME							= "http://";

@@ -254,21 +254,18 @@ public class SecondScreenApplication extends Application {
 		
 
 		L.disableLogging();
-		
-//		getOverflowMenu();
 	}
 	
-	private void getOverflowMenu() {
-	     try {
-	        ViewConfiguration config = ViewConfiguration.get(this);
-	        Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
-	        if(menuKeyField != null) {
-	            menuKeyField.setAccessible(true);
-	            menuKeyField.setBoolean(config, false);
-	        }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
+
+	
+	public void setWasPreinstalled() {
+		editor = sSharedPreferences.edit();
+		editor.putBoolean(Consts.MILLICOM_SECONDSCREEN_APP_WAS_PREINSTALLED, true);
+		editor.commit();
+	}
+	
+	public boolean getWasPreinstalled() {
+		return sSharedPreferences.getBoolean(Consts.MILLICOM_SECONDSCREEN_APP_WAS_PREINSTALLED, false);
 	}
 
 	/**
