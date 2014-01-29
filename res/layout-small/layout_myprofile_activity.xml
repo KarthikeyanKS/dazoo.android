@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
+    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:id="@+id/activity_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -60,7 +60,7 @@
                             android:visibility="gone" />
                     </RelativeLayout>
 
-                    <com.millicom.secondscreen.customviews.FontTextView
+                    <com.mitv.customviews.FontTextView
                         android:id="@+id/myprofile_name_tv"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
@@ -93,7 +93,7 @@
                         android:padding="3dp"
                         android:visibility="gone" />
 
-                    <com.millicom.secondscreen.customviews.FontTextView
+                    <com.mitv.customviews.FontTextView
                         android:id="@+id/myprofile_reminders_title_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
                         android:textStyle="bold"
                         font:fonttextview="roboto_mitv_medium.ttf" />
 
-                    <com.millicom.secondscreen.customviews.FontTextView
+                    <com.mitv.customviews.FontTextView
                         android:id="@+id/myprofile_reminders_button_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
                         android:padding="3dp"
                         android:visibility="gone" />
 
-                    <com.millicom.secondscreen.customviews.FontTextView
+                    <com.mitv.customviews.FontTextView
                         android:id="@+id/myprofile_likes_title_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -144,7 +144,7 @@
                         android:textStyle="bold"
                         font:fonttextview="roboto_mitv_medium.ttf" />
 
-                    <com.millicom.secondscreen.customviews.FontTextView
+                    <com.mitv.customviews.FontTextView
                         android:id="@+id/myprofile_likes_button_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -174,7 +174,7 @@
                         android:padding="3dp"
                         android:visibility="gone" />
 
-                    <com.millicom.secondscreen.customviews.FontTextView
+                    <com.mitv.customviews.FontTextView
                         android:id="@+id/myprofile_my_channels_title_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -184,7 +184,7 @@
                         android:textStyle="bold"
                         font:fonttextview="roboto_mitv_medium.ttf" />
 
-                    <com.millicom.secondscreen.customviews.FontTextView
+                    <com.mitv.customviews.FontTextView
                         android:id="@+id/myprofile_my_channels_button_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -214,7 +214,7 @@
                         android:padding="3dp"
                         android:visibility="gone" />
 
-                    <com.millicom.secondscreen.customviews.FontTextView
+                    <com.mitv.customviews.FontTextView
                         android:id="@+id/myprofile_settings_title_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -243,7 +243,7 @@
                 android:paddingRight="5dp"
                 android:visibility="gone" >
 
-                <com.millicom.secondscreen.customviews.FontTextView
+                <com.mitv.customviews.FontTextView
                     android:id="@+id/myprofile_signin_title_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -256,7 +256,7 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <com.millicom.secondscreen.customviews.FontTextView
+                <com.mitv.customviews.FontTextView
                     android:id="@+id/myprofile_signin_text_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -309,7 +309,7 @@
                             android:padding="3dp"
                             android:src="@drawable/ic_facebook" />
 
-                        <com.millicom.secondscreen.customviews.FontTextView
+                        <com.mitv.customviews.FontTextView
                             android:id="@+id/myprofile_signin_facebook_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -342,7 +342,7 @@
                         android:layout_centerVertical="true"
                         android:background="@color/grey1" />
 
-                    <com.millicom.secondscreen.customviews.FontTextView
+                    <com.mitv.customviews.FontTextView
                         android:id="@+id/signin_or_textview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -370,7 +370,7 @@
                     android:background="@drawable/layout_rounded_corners_blue"
                     android:orientation="horizontal" >
 
-                    <com.millicom.secondscreen.customviews.FontTextView
+                    <com.mitv.customviews.FontTextView
                         android:id="@+id/myprofile_signup_email_title_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -404,7 +404,7 @@
                     android:layout_below="@id/myprofile_container_email_divider"
                     android:orientation="vertical" >
 
-                    <com.millicom.secondscreen.customviews.FontTextView
+                    <com.mitv.customviews.FontTextView
                         android:id="@+id/myprofile_already_registered_text_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -415,7 +415,7 @@
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
-		           <com.millicom.secondscreen.customviews.FontButton
+		           <com.mitv.customviews.FontButton
 		               android:id="@+id/myprofile_login_btn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

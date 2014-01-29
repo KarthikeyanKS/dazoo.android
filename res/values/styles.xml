@@ -1,4 +1,4 @@
-<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen">
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" xmlns:font="http://schemas.android.com/apk/res/com.mitv">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced

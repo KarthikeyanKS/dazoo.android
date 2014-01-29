@@ -7,7 +7,7 @@
     android:background="@color/grey1"
     android:orientation="vertical" >
 
-    <com.millicom.secondscreen.customviews.FontTextView
+    <com.mitv.customviews.FontTextView
         android:id="@+id/resetpassword_title_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

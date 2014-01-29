@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
+    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -14,7 +14,7 @@
         android:paddingLeft="40dp"
         android:paddingRight="40dp" >
 
-        <com.millicom.secondscreen.customviews.FontTextView
+        <com.mitv.customviews.FontTextView
             android:id="@+id/search_page_search_icon_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
             android:textSize="140sp"
             font:fonttextview="roboto_mitv_medium.ttf" />
 
-        <com.millicom.secondscreen.customviews.FontTextView
+        <com.mitv.customviews.FontTextView
             android:id="@+id/search_page_instruction_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

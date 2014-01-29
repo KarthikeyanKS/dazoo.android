@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
+    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/listview_item_selector" >
@@ -15,7 +15,7 @@
         android:background="@color/grey4"
         android:visibility="gone" >
 
-        <com.millicom.secondscreen.customviews.FontTextView
+        <com.mitv.customviews.FontTextView
             android:id="@+id/row_reminders_header_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
 
             <!-- TITLE -->
 
-            <com.millicom.secondscreen.customviews.FontTextView
+            <com.mitv.customviews.FontTextView
                 android:id="@+id/row_reminders_text_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
 
             <!-- TIME AND DATE -->
 
-            <com.millicom.secondscreen.customviews.FontTextView
+            <com.mitv.customviews.FontTextView
                 android:id="@+id/row_reminders_text_time_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
 
             <!-- CHANNEL -->
 
-            <com.millicom.secondscreen.customviews.FontTextView
+            <com.mitv.customviews.FontTextView
                 android:id="@+id/row_reminders_text_channel_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
 
             <!-- DETAILS - SEASON - EPISODE -->
 
-            <com.millicom.secondscreen.customviews.FontTextView
+            <com.mitv.customviews.FontTextView
                 android:id="@+id/row_reminders_text_details_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

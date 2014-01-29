@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
+	xmlns:font="http://schemas.android.com/apk/res/com.mitv"
    	android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -92,7 +92,7 @@
 		                    
 		                <!-- TITLE -->
 		
-		                <com.millicom.secondscreen.customviews.FontTextView
+		                <com.mitv.customviews.FontTextView
 		                    android:id="@+id/block_broadcastpage_broadcast_details_title_tv"
 		                    android:layout_width="wrap_content"
 		                    android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
 		
 		                <!-- SEASON -->
 		
-		                <com.millicom.secondscreen.customviews.FontTextView
+		                <com.mitv.customviews.FontTextView
 		                    android:id="@+id/block_broadcastpage_broadcast_details_season_tv"
 		                    android:layout_width="wrap_content"
 		                    android:layout_height="wrap_content"
@@ -116,7 +116,7 @@
 		
 		                <!-- EPISODE -->
 		
-		                <com.millicom.secondscreen.customviews.FontTextView
+		                <com.mitv.customviews.FontTextView
 		                    android:id="@+id/block_broadcastpage_broadcast_details_episode_tv"
 		                    android:layout_width="wrap_content"
 		                    android:layout_height="wrap_content"
@@ -129,7 +129,7 @@
 		                
 		                <!-- EPISODE NAME -->
 		                
-		                <com.millicom.secondscreen.customviews.FontTextView
+		                <com.mitv.customviews.FontTextView
 		                    android:id="@+id/block_broadcastpage_broadcast_details_episode_name_tv"
 		                    android:layout_width="wrap_content"
 		                    android:layout_height="wrap_content"
@@ -172,7 +172,7 @@
 			                    
 			                 	<!-- TIME LEFT -->
 			                 	
-			                    <com.millicom.secondscreen.customviews.FontTextView
+			                    <com.mitv.customviews.FontTextView
 			                        android:id="@+id/block_broadcastpage_broadcast_progress_timeleft_tv"
 			                        android:layout_width="wrap_content"
 			           				android:layout_height="wrap_content"
@@ -182,7 +182,7 @@
 				                    
 			                    <!-- DATE -->
 				
-				                <com.millicom.secondscreen.customviews.FontTextView
+				                <com.mitv.customviews.FontTextView
 				                    android:id="@+id/block_broadcastpage_broadcast_details_date_tv"
 				                    android:layout_width="wrap_content"
 				                    android:layout_height="wrap_content"
@@ -192,7 +192,7 @@
 				                    
 								<!-- TIME -->
 			
-				                <com.millicom.secondscreen.customviews.FontTextView
+				                <com.mitv.customviews.FontTextView
 				                    android:id="@+id/block_broadcastpage_broadcast_details_time_tv"
 				                    android:layout_width="wrap_content"
 				                    android:layout_height="wrap_content"
@@ -226,7 +226,7 @@
 		               
 		               <!-- SYNOPSIS -->
 		               
-		               <com.millicom.secondscreen.customviews.FontTextView
+		               <com.mitv.customviews.FontTextView
 		                    android:id="@+id/block_broadcastpage_broadcast_details_synopsis_tv"
 		                    android:layout_width="wrap_content"
 		                    android:layout_height="wrap_content"
@@ -238,7 +238,7 @@
 		
 		               <!-- CATEGORY -->
 		               
-		               <com.millicom.secondscreen.customviews.FontTextView
+		               <com.mitv.customviews.FontTextView
 		                    android:id="@+id/block_broadcastpage_broadcast_details_category_tv"
 		                    android:layout_width="wrap_content"
 		                    android:layout_height="wrap_content"
@@ -250,7 +250,7 @@
 		               
 		               <!-- YEAR -->
 		               
-		               <com.millicom.secondscreen.customviews.FontTextView
+		               <com.mitv.customviews.FontTextView
 		                    android:id="@+id/block_broadcastpage_broadcast_details_year_tv"
 		                    android:layout_width="wrap_content"
 		                    android:layout_height="wrap_content"
@@ -265,7 +265,7 @@
 		               
 		               <!-- COUNTRY -->
 		               
-		               <com.millicom.secondscreen.customviews.FontTextView
+		               <com.mitv.customviews.FontTextView
 		                    android:id="@+id/block_broadcastpage_broadcast_details_country_tv"
 		                    android:layout_width="wrap_content"
 		                    android:layout_height="wrap_content"
@@ -280,7 +280,7 @@
 		               
 		               <!-- DURATION -->
 		               
-		               <com.millicom.secondscreen.customviews.FontTextView
+		               <com.mitv.customviews.FontTextView
 		                    android:id="@+id/block_broadcastpage_broadcast_details_duration_tv"
 		                    android:layout_width="wrap_content"
 		                    android:layout_height="wrap_content"
@@ -294,7 +294,7 @@
 		               
 		               <!-- GENRE -->
 		               
-		               <com.millicom.secondscreen.customviews.FontTextView
+		               <com.mitv.customviews.FontTextView
 		                    android:id="@+id/block_broadcastpage_broadcast_details_genre_tv"
 		                    android:layout_width="wrap_content"
 		                    android:layout_height="wrap_content"
@@ -306,7 +306,7 @@
 		               
 		               <!-- PARENTAL RATING -->
 		               
-		               <com.millicom.secondscreen.customviews.FontTextView
+		               <com.mitv.customviews.FontTextView
 		                    android:id="@+id/block_broadcastpage_broadcast_details_parental_rating_tv"
 		                    android:layout_width="wrap_content"
 		                    android:layout_height="wrap_content"

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:font="http://schemas.android.com/apk/res/com.millicom.secondscreen"
+    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_color_selector"
     android:orientation="vertical" >
 
-    <com.millicom.secondscreen.customviews.FontTextView
+    <com.mitv.customviews.FontTextView
         android:id="@+id/channelpage_list_item_time_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
         android:layout_toRightOf="@id/channelpage_list_item_time_tv" >
 	       
             
-	    <com.millicom.secondscreen.customviews.FontTextView
+	    <com.mitv.customviews.FontTextView
 	        android:id="@+id/channelpage_list_item_title_tv"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
 	        android:textSize="@dimen/header_3"
 	        font:fonttextview="roboto_mitv_medium.ttf" />
 	
-	    <com.millicom.secondscreen.customviews.FontTextView
+	    <com.mitv.customviews.FontTextView
 	        android:id="@+id/channelpage_list_item_description_tv"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"

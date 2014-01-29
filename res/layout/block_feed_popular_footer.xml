@@ -20,7 +20,7 @@
         android:orientation="vertical"
         android:padding="10dp" >
 
-        <com.millicom.secondscreen.customviews.FontTextView
+        <com.mitv.customviews.FontTextView
             android:id="@+id/block_popular_show_more_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

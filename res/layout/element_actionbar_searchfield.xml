@@ -6,7 +6,7 @@
     android:paddingRight="10dp"
     android:orientation="horizontal" >
 
-    <com.millicom.secondscreen.customviews.InstantAutoComplete
+    <com.mitv.customviews.InstantAutoComplete
         android:id="@+id/searchbar_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
