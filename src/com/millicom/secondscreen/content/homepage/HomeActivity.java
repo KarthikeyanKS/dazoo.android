@@ -90,6 +90,8 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		SecondScreenApplication.getInstance().setSelectedHour(Integer.valueOf(DateUtilities.getCurrentHourString()));
 		
 		initViews();
+		
+        boolean wasPreinstalled = SecondScreenApplication.getInstance().getWasPreinstalled();
 
 		// HOCKEY-APP
 		// checkForUpdates();
