@@ -91,7 +91,9 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		
 		initViews();
 		
-        boolean wasPreinstalled = SecondScreenApplication.getInstance().getWasPreinstalled();
+        boolean wasPreinstalledSharedPref = SecondScreenApplication.getInstance().getWasPreinstalled();
+        boolean wasPreinstalledExternalStorage = SecondScreenApplication.getInstance().wasPreinstalledFileExists();
+        
 
 		// HOCKEY-APP
 		// checkForUpdates();

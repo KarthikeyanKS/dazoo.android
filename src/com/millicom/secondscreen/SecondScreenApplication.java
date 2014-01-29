@@ -1,6 +1,8 @@
 package com.millicom.secondscreen;
 
-import java.lang.reflect.Field;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -15,9 +17,9 @@ import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Display;
-import android.view.ViewConfiguration;
 import android.view.WindowManager;
 
 import com.google.analytics.tracking.android.Fields;
@@ -28,7 +30,6 @@ import com.millicom.secondscreen.manager.AppConfigurationManager;
 import com.millicom.secondscreen.manager.DazooCore;
 import com.millicom.secondscreen.manager.DazooCore.ApiVersionCallback;
 import com.millicom.secondscreen.manager.DazooCore.AppConfigurationCallback;
-import com.millicom.secondscreen.utilities.BootCompletedReceiver;
 import com.millicom.secondscreen.utilities.DeviceUtilities;
 import com.millicom.secondscreen.utilities.ObscuredSharedPreferences;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
@@ -145,6 +146,42 @@ public class SecondScreenApplication extends Application {
 		return sInstance;
 	}
 	
+	private File appWasPreinstalledFile() {
+		String root = Environment.getExternalStorageDirectory().toString();
+		
+		String packageName = getPackageName();
+		
+		String filePath = String.format(getCurrentLocale(), "%s/Android/data/%s", root, packageName);
+		
+		File myDir = new File(filePath);
+		myDir.mkdirs();
+
+		String fname = Consts.MILLICOM_SECONDSCREEN_APP_WAS_PREINSTALLED_FILE_NAME;
+		File file = new File(myDir, fname);
+		
+		return file;
+	}
+	
+	public boolean wasPreinstalledFileExists() {
+		File file = appWasPreinstalledFile();
+		boolean wasPreinstalledFileExists = file.exists();
+		
+		return wasPreinstalledFileExists;
+	}
+	
+	public void saveWasPreinstalledFile() {
+		File file = appWasPreinstalledFile();
+		if (!wasPreinstalledFileExists()) {
+			try {
+				FileOutputStream os = new FileOutputStream(file, true);
+				OutputStreamWriter out = new OutputStreamWriter(os);
+				out.write("app was preinstalled");
+				out.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	public static Locale getCurrentLocale() {
 		Locale current = getInstance().getApplicationContext().getResources().getConfiguration().locale;
@@ -179,7 +216,8 @@ public class SecondScreenApplication extends Application {
 		Tracker tracker = googleAnalyticsInstance.getTracker(trackingId);
 		
 		String appVersion = Consts.GA_APP_VERSION_NOT_SET;
-		String wasPreinstalled = BootCompletedReceiver.wasPreinstalled() ? Consts.PREFS_KEY_APP_WAS_PREINSTALLED : Consts.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
+		String wasPreinstalledSharedPrefs = getWasPreinstalled() ? Consts.PREFS_KEY_APP_WAS_PREINSTALLED : Consts.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
+		String wasPreinstalledExternalStorage = wasPreinstalledFileExists() ? Consts.PREFS_KEY_APP_WAS_PREINSTALLED : Consts.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
 		String deviceId = DeviceUtilities.getDeviceId();
 		
 		PackageInfo pinfo;
@@ -192,7 +230,8 @@ public class SecondScreenApplication extends Application {
 		
 		tracker.set(Consts.GA_KEY_APP_VERSION, appVersion);
 		tracker.set(Consts.GA_KEY_DEVICE_ID, deviceId);
-		tracker.set(Consts.GA_KEY_APP_WAS_PREINSTALLED, wasPreinstalled);
+		tracker.set(Consts.GA_KEY_APP_WAS_PREINSTALLED_SHARED_PREFS, wasPreinstalledSharedPrefs);
+		tracker.set(Consts.GA_KEY_APP_WAS_PREINSTALLED_EXTERNAL_STORAGE, wasPreinstalledExternalStorage);
 		
 		double sampleRateDecimal = AppConfigurationManager.getInstance().getGoogleAnalyticsSampleRate();
 		double sampleRateAsPercentage = sampleRateDecimal * 100.0d;

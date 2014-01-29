@@ -18,20 +18,21 @@ public abstract class Consts {
 	public static final String MILLICOM_SESSION												= "com.millicom.session";
 	
 	/* Shared preferences */
-	public static final String	SHARED_PREFS_MAIN_NAME										= "com.millicom.secondscreen.shared.prefs";
-	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_ACCESS_TOKEN				= "com.millicom.secondscreen.user.account.access.token";
-	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_USER_ID					= "com.millicom.secondscreen.user.account.user.id";
-	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_FIRST_NAME				= "com.millicom.secondscreen.user.first.name";
-	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_LAST_NAME				= "com.millicom.secondscreen.user.last.name";
-	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_EXISTING_FLAG			= "com.millicom.secondscreen.user.existing.flag";
-	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_EMAIL					= "com.millicom.secondscreen.user.account.email";
-	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_PASSWORD					= "com.millicom.secondscreen.user.account.password";
-	public static final String	MILLICOM_SECONSCREEN_USER_ACCOUNT_AVATAR_URL				= "com.millicom.secondscreen.user.account.avatar.url";
-	public static final String	MILLICOM_SECONDSCREEN_USER_ACCOUNT_MY_CHANNELS_IDS_JSON		= "com.millicom.secondscreen.user.account.my.channels.ids.json";
-	public static final String	MILLICOM_SECONDSCREEN_TV_GUIDE_HOUR							= "com.millicom.secondscreen.tv.guide.hour";
-	public static final String	MILLICOM_SECONDSCREEN_HOMEPAGE_AGAIN						= "com.millicom.secondscreen.homepage.again";
-	public static final String 	MILLICOM_SECONDSCREEN_API_VERSION_SHARED_PREF				= "com.millicom.secondscreen.api.version";
-	public static final String 	MILLICOM_SECONDSCREEN_APP_WAS_PREINSTALLED					= "com.millicom.secondscreen.app.preinstalled";
+	public static final String SHARED_PREFS_MAIN_NAME										= "com.millicom.secondscreen.shared.prefs";
+	public static final String MILLICOM_SECONDSCREEN_USER_ACCOUNT_ACCESS_TOKEN				= "com.millicom.secondscreen.user.account.access.token";
+	public static final String MILLICOM_SECONDSCREEN_USER_ACCOUNT_USER_ID					= "com.millicom.secondscreen.user.account.user.id";
+	public static final String MILLICOM_SECONDSCREEN_USER_ACCOUNT_FIRST_NAME				= "com.millicom.secondscreen.user.first.name";
+	public static final String MILLICOM_SECONDSCREEN_USER_ACCOUNT_LAST_NAME					= "com.millicom.secondscreen.user.last.name";
+	public static final String MILLICOM_SECONDSCREEN_USER_ACCOUNT_EXISTING_FLAG				= "com.millicom.secondscreen.user.existing.flag";
+	public static final String MILLICOM_SECONDSCREEN_USER_ACCOUNT_EMAIL						= "com.millicom.secondscreen.user.account.email";
+	public static final String MILLICOM_SECONDSCREEN_USER_ACCOUNT_PASSWORD					= "com.millicom.secondscreen.user.account.password";
+	public static final String MILLICOM_SECONSCREEN_USER_ACCOUNT_AVATAR_URL					= "com.millicom.secondscreen.user.account.avatar.url";
+	public static final String MILLICOM_SECONDSCREEN_USER_ACCOUNT_MY_CHANNELS_IDS_JSON		= "com.millicom.secondscreen.user.account.my.channels.ids.json";
+	public static final String MILLICOM_SECONDSCREEN_TV_GUIDE_HOUR							= "com.millicom.secondscreen.tv.guide.hour";
+	public static final String MILLICOM_SECONDSCREEN_HOMEPAGE_AGAIN							= "com.millicom.secondscreen.homepage.again";
+	public static final String MILLICOM_SECONDSCREEN_API_VERSION_SHARED_PREF				= "com.millicom.secondscreen.api.version";
+	public static final String MILLICOM_SECONDSCREEN_APP_WAS_PREINSTALLED					= "com.millicom.secondscreen.app.preinstalled";
+	public static final String MILLICOM_SECONDSCREEN_APP_WAS_PREINSTALLED_FILE_NAME			= "59b039d2c0c0a7fbe163";
 
 	/* API URLs */
 	public static final String MILLICON_SECONDSCREEN_HTTP_SCHEME							= "http://";
@@ -438,7 +439,9 @@ public abstract class Consts {
 	/* GOOGLE ANALYTICS KEYS */
 	public static final String GA_KEY_APP_VERSION									= "APP_VERSION";
 	public static final String GA_KEY_DEVICE_ID										= "ANDROID_DEVICE_ID";
-	public static final String GA_KEY_APP_WAS_PREINSTALLED							= "APP_WAS_PREINSTALLED";
+	public static final String GA_KEY_DEVICE_WITH_PREINSTALLED_APP_FIRST_BOOT		= "DEVICE_WITH_PREINSTALLED_APP_FIRST_BOOT";
+	public static final String GA_KEY_APP_WAS_PREINSTALLED_SHARED_PREFS				= "APP_WAS_PREINSTALLED_SHARED_PREFS";
+	public static final String GA_KEY_APP_WAS_PREINSTALLED_EXTERNAL_STORAGE			= "APP_WAS_PREINSTALLED_EXTERNAL_STORAGE";
 	
 	/* GOOGLE ANALYTICS VALUES */
 	public static final String GA_APP_VERSION_NOT_SET								= "ERROR_APP_VERSION_NOT_SET";
