@@ -62,7 +62,7 @@
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.millicom.secondscreen.content.activity.ActivityActivity" />
+                android:value="com.mitv.content.activity.ActivityActivity" />
         </activity>
 
         <!-- MYPROFILE ACTIVITY -->
@@ -90,7 +90,7 @@
             android:windowSoftInputMode="adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.millicom.secondscreen.content.myprofile.MyProfileActivity" />
+                android:value="com.mitv.content.myprofile.MyProfileActivity" />
         </activity>
 
         <!-- MY CHANNELS -->
@@ -102,7 +102,7 @@
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.millicom.secondscreen.content.myprofile.MyProfileActivity" />
+                android:value="com.mitv.content.myprofile.MyProfileActivity" />
         </activity>
 
         <!-- REMINDERS -->
@@ -114,7 +114,7 @@
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.millicom.secondscreen.content.myprofile.MyProfileActivity" />
+                android:value="com.mitv.content.myprofile.MyProfileActivity" />
         </activity>
 
         <!-- SETTINGS -->
@@ -126,7 +126,7 @@
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.millicom.secondscreen.content.myprofile.MyProfileActivity" />
+                android:value="com.mitv.content.myprofile.MyProfileActivity" />
         </activity>
 
         <!-- CONTACT -->
@@ -137,7 +137,7 @@
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.millicom.secondscreen.content.myprofile.SettingsActivity" />
+                android:value="com.mitv.content.myprofile.SettingsActivity" />
         </activity>
 
         <!-- TERMS -->
@@ -148,7 +148,7 @@
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.millicom.secondscreen.content.myprofile.SettingsActivity" />
+                android:value="com.mitv.content.myprofile.SettingsActivity" />
         </activity>
 
         <!-- HELP -->
@@ -159,7 +159,7 @@
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.millicom.secondscreen.content.myprofile.SettingsActivity" />
+                android:value="com.mitv.content.myprofile.SettingsActivity" />
         </activity>
 
         <!-- BROADCAST PAGE -->
@@ -172,7 +172,7 @@
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.millicom.secondscreen.content.homepage.HomeActivity" />
+                android:value="com.mitv.content.homepage.HomeActivity" />
         </activity>
 
         <!-- UPCOMING EPISODES PAGE -->
@@ -184,7 +184,7 @@
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.millicom.secondscreen.content.tvguide.BroadcastPageActivity" />
+                android:value="com.mitv.content.tvguide.BroadcastPageActivity" />
         </activity>
 
         <!-- REPEATITIONS PAGE -->
@@ -196,7 +196,7 @@
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.millicom.secondscreen.content.tvguide.BroadcastPageActivity" />
+                android:value="com.mitv.content.tvguide.BroadcastPageActivity" />
         </activity>
 
         <!-- CHANNEL PAGE -->
@@ -208,7 +208,7 @@
             android:theme="@style/ChannelPage" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.millicom.secondscreen.content.homepage.HomeActivity" />
+                android:value="com.mitv.content.homepage.HomeActivity" />
         </activity>
 
         <!-- SIGN IN -->
@@ -229,7 +229,7 @@
             android:windowSoftInputMode="stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.millicom.secondscreen.content.myprofile.MyProfileActivity" />
+                android:value="com.mitv.content.myprofile.MyProfileActivity" />
         </activity>
 
         <!-- DAZOO LOGIN -->
@@ -242,7 +242,7 @@
             android:windowSoftInputMode="stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.millicom.secondscreen.content.myprofile.MyProfileActivity" />
+                android:value="com.mitv.content.myprofile.MyProfileActivity" />
         </activity>
 
         <!-- FACEBOOK LOGIN -->
@@ -266,7 +266,7 @@
             android:windowSoftInputMode="stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.millicom.secondscreen.authentication.DazooLoginActivity" />
+                android:value="com.mitv.authentication.DazooLoginActivity" />
         </activity>
 
         <!-- PASSWORD RESET FINAL -->
@@ -279,7 +279,7 @@
             android:windowSoftInputMode="stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.millicom.secondscreen.content.homepage.HomeActivity" />
+                android:value="com.mitv.content.homepage.HomeActivity" />
         </activity>
 
         <!-- FACEBOOK DAZOO ACCOUNT CREATED -->
@@ -327,7 +327,7 @@
             android:theme="@style/Theme.AppCompat.Light" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.millicom.secondscreen.content.tvguide.BroadcastPageActivity" />
+                android:value="com.mitv.content.tvguide.BroadcastPageActivity" />
         </activity>
         <!-- android:theme="@style/Theme.Sherlock.Light" -->
 
