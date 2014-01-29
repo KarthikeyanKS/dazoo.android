@@ -11,6 +11,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
@@ -183,6 +184,43 @@ public class SecondScreenApplication extends Application {
 			}
 		}
 	}
+	
+	public static boolean applicationIsSystemApp(Context context) {
+		String packageName = context.getPackageName();
+	    try {
+	        ApplicationInfo applicationInfo = context.getPackageManager().getApplicationInfo(packageName, 0);        
+	        String appLocation = applicationInfo.publicSourceDir; 
+	        // OR String appLocation = applicationInfo.sourceDir;  
+	        // Both returns the same
+	        // if package is pre-installed then output will be /system/app/application_name.apk
+	        // if package is installed by user then output will be /data/app/application_name.apk
+
+	        // Check if package is system app 
+	        if (appLocation != null && appLocation.startsWith("/system/app/")) {
+	            return true; 
+	        }
+	    } catch (NameNotFoundException e) {
+	        e.printStackTrace(); // TODO Can handle as your logic
+	    }
+	    return false; 
+	}
+	
+	public static boolean applicationIsSystemAppUsingFlag(Context context) {
+		String packageName = context.getPackageName();
+	    try {
+	        ApplicationInfo applicationInfo = context.getPackageManager().getApplicationInfo(packageName, 0);   
+	        // FLAG_SYSTEM is only set to system applications, 
+	        // this will work even if application is installed in external storage
+
+	        // Check if package is system app 
+	        if ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
+	            return true; 
+	        }
+	    } catch (NameNotFoundException e) {
+	        e.printStackTrace(); // TODO Can handle as your logic
+	    }
+	    return false; 
+	}
 
 	public static Locale getCurrentLocale() {
 		Locale current = getInstance().getApplicationContext().getResources().getConfiguration().locale;
@@ -212,6 +250,7 @@ public class SecondScreenApplication extends Application {
 	}
 	
 	private void setupGoogleAnalytics() {
+		appWasPreinstalledFile();
 		String trackingId = AppConfigurationManager.getInstance().getGoogleAnalyticsTrackingId();
 		GoogleAnalytics googleAnalyticsInstance = GoogleAnalytics.getInstance(this);
 		Tracker tracker = googleAnalyticsInstance.getTracker(trackingId);
@@ -219,6 +258,13 @@ public class SecondScreenApplication extends Application {
 		String appVersion = Consts.GA_APP_VERSION_NOT_SET;
 		String wasPreinstalledSharedPrefs = getWasPreinstalled() ? Consts.PREFS_KEY_APP_WAS_PREINSTALLED : Consts.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
 		String wasPreinstalledExternalStorage = wasPreinstalledFileExists() ? Consts.PREFS_KEY_APP_WAS_PREINSTALLED : Consts.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
+		
+    	boolean preinstalledUsingSystemAppDetectionCheckLocation = applicationIsSystemApp(getApplicationContext());
+    	boolean preinstalledUsingSystemAppDetectionCheckFlag = applicationIsSystemAppUsingFlag(getApplicationContext());
+    	String wasPreinstalledSystemAppLocation = preinstalledUsingSystemAppDetectionCheckLocation ? Consts.PREFS_KEY_APP_WAS_PREINSTALLED : Consts.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
+    	String wasPreinstalledSystemAppFlag = preinstalledUsingSystemAppDetectionCheckFlag ? Consts.PREFS_KEY_APP_WAS_PREINSTALLED : Consts.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
+		
+		
 		String deviceId = DeviceUtilities.getDeviceId();
 		
 		PackageInfo pinfo;
@@ -231,8 +277,13 @@ public class SecondScreenApplication extends Application {
 		
 		tracker.set(Consts.GA_KEY_APP_VERSION, appVersion);
 		tracker.set(Consts.GA_KEY_DEVICE_ID, deviceId);
+		
+		/* Information regarding if the app was preinstalled or not */
 		tracker.set(Consts.GA_KEY_APP_WAS_PREINSTALLED_SHARED_PREFS, wasPreinstalledSharedPrefs);
 		tracker.set(Consts.GA_KEY_APP_WAS_PREINSTALLED_EXTERNAL_STORAGE, wasPreinstalledExternalStorage);
+		tracker.set(Consts.GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_LOCATION, wasPreinstalledSystemAppLocation);
+		tracker.set(Consts.GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_FLAG, wasPreinstalledSystemAppFlag);
+		
 		
 		double sampleRateDecimal = AppConfigurationManager.getInstance().getGoogleAnalyticsSampleRate();
 		double sampleRateAsPercentage = sampleRateDecimal * 100.0d;

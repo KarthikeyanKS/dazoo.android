@@ -3,8 +3,9 @@ package com.mitv.receivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 
-import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.google.analytics.tracking.android.Tracker;
@@ -46,9 +47,10 @@ public class BootCompletedReceiver extends BroadcastReceiver {
 	    				  .build()                                   			// Build and return the Map to the send method.
 	    				);
         	}
-	    }
-		
+	    }		
 	}
+	
+	
 	
 //	public static void setWasPreinstalled() {
 //		SecondScreenApplication application = SecondScreenApplication.getInstance();
