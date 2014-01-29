@@ -309,19 +309,19 @@ public class Broadcast implements Parcelable {
 			e.printStackTrace();
 		}
 
-		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+		if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 			program.setEpisodeNumber(item.getProgramEpisodeNumber());
 			Season season = new Season();
 			season.setNumber(item.getProgramSeason());
 			program.setSeason(season);
-		} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
+		} else if (Consts.PROGRAM_TYPE_MOVIE.equals(programType)) {
 			program.setYear(item.getProgramYear());
 			program.setGenre(item.getProgramGenre());
 		}
-		else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
+		else if (Consts.PROGRAM_TYPE_OTHER.equals(programType)) {
 			program.setCategory(item.getProgramCategory());
 		}
-		else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
+		else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) {
 			SportType sportType = new SportType();
 			sportType.setName(item.getProgramCategory()); //Use category for sport type name 
 			program.setSportType(sportType);
@@ -427,9 +427,9 @@ public class Broadcast implements Parcelable {
 	}
 
 	public Broadcast(JSONObject jsonBroadcast) {
-		String beginTimeStringGmt = jsonBroadcast.optString(Consts.DAZOO_BROADCAST_BEGIN_TIME);
-		String endTimeStringGmt = jsonBroadcast.optString(Consts.DAZOO_BROADCAST_END_TIME);
-		long beginTimeMillisGMT = jsonBroadcast.optLong(Consts.DAZOO_BROADCAST_BEGIN_TIME_MILLIS);
+		String beginTimeStringGmt = jsonBroadcast.optString(Consts.BROADCAST_BEGIN_TIME);
+		String endTimeStringGmt = jsonBroadcast.optString(Consts.BROADCAST_END_TIME);
+		long beginTimeMillisGMT = jsonBroadcast.optLong(Consts.BROADCAST_BEGIN_TIME_MILLIS);
 		long beginTimeMillisLocal = DateUtilities.convertTimeStampToLocalTime(beginTimeMillisGMT);
 
 		this.setBeginTimeStringGmt(beginTimeStringGmt);
@@ -438,11 +438,11 @@ public class Broadcast implements Parcelable {
 		this.setBeginTimeMillisGmt(beginTimeMillisGMT);
 		this.setBeginTimeMillisLocal(beginTimeMillisLocal);
 
-		this.setShareUrl(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_SHARE_URL));
+		this.setShareUrl(jsonBroadcast.optString(Consts.BROADCAST_SHARE_URL));
 
 		this.calculateAndSetTimeData();
 
-		JSONObject jsonChannel = jsonBroadcast.optJSONObject(Consts.DAZOO_BROADCAST_CHANNEL);
+		JSONObject jsonChannel = jsonBroadcast.optJSONObject(Consts.BROADCAST_CHANNEL);
 		if (jsonChannel != null) {
 			Channel channel = new Channel(jsonChannel);
 			if(channel != null) {
@@ -450,7 +450,7 @@ public class Broadcast implements Parcelable {
 			}
 		}
 
-		JSONObject jsonProgram = jsonBroadcast.optJSONObject(Consts.DAZOO_BROADCAST_PROGRAM);
+		JSONObject jsonProgram = jsonBroadcast.optJSONObject(Consts.BROADCAST_PROGRAM);
 		if (jsonProgram != null) {
 			Program program = new Program(jsonProgram);
 			if(program != null) {
@@ -458,7 +458,7 @@ public class Broadcast implements Parcelable {
 			}
 		}
 
-		this.setBroadcastType(jsonBroadcast.optString(Consts.DAZOO_BROADCAST_BROADCAST_TYPE));
+		this.setBroadcastType(jsonBroadcast.optString(Consts.BROADCAST_BROADCAST_TYPE));
 	}
 
 	public static class BroadcastComparatorByTime implements Comparator<Broadcast> {

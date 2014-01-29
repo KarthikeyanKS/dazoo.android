@@ -29,10 +29,10 @@
 	<string name="com.mitv.content.tvguide.ChannelPageActivity">Channel</string>
 	<string name="com.mitv.authentication.SignInActivity">SignIn</string>
 	<string name="com.mitv.authentication.SignUpActivity">SignUp</string>
-	<string name="com.mitv.authentication.DazooLoginActivity">Login</string>
+	<string name="com.mitv.authentication.MiTVLoginActivity">Login</string>
 	<string name="com.mitv.authentication.FacebookLoginActivity">FacebookLogin</string>
 	<string name="com.mitv.authentication.ResetPasswordActivity">ResetPassword</string>
 	<string name="com.mitv.authentication.ResetPasswordFinalActivity">PasswordReset</string>
-	<string name="com.mitv.authentication.FacebookDazooLoginActivity">FacebookLogin</string>
+	<string name="com.mitv.authentication.FacebookMiTVLoginActivity">FacebookLogin</string>
 
 </resources>

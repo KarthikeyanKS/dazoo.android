@@ -6,7 +6,7 @@ import android.text.TextUtils;
 
 import com.mitv.SecondScreenApplication;
 import com.mitv.myprofile.MyProfileActivity;
-import com.mitv.storage.DazooStore;
+import com.mitv.storage.MiTVStore;
 
 public class LoginManager {
 	private static LoginManager selfInstance;
@@ -56,8 +56,8 @@ public class LoginManager {
 		application.setUserId(null);
 		application.setUserExistringFlag(false);
 
-		DazooStore.getInstance().clearAll();
-		DazooStore.getInstance().reinitializeAll();
-		DazooCore.resetAll();
+		MiTVStore.getInstance().clearAll();
+		MiTVStore.getInstance().reinitializeAll();
+		MiTVCore.resetAll();
 	}
 }

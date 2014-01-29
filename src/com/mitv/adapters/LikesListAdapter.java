@@ -19,10 +19,10 @@ import android.widget.TextView;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.like.LikeDialogHandler;
-import com.mitv.model.DazooLike;
-import com.mitv.model.DazooLikeEntity;
+import com.mitv.model.MiTVLike;
+import com.mitv.model.MiTVLikeEntity;
 import com.mitv.myprofile.LikesCountInterface;
-import com.mitv.storage.DazooStore;
+import com.mitv.storage.MiTVStore;
 import com.mitv.tvguide.BroadcastPageActivity;
 
 @SuppressLint("DefaultLocale")
@@ -32,12 +32,12 @@ public class LikesListAdapter extends BaseAdapter {
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
-	private ArrayList<DazooLike>	mLikes;
+	private ArrayList<MiTVLike>	mLikes;
 	private LikesCountInterface		mInterface;
 	private String					mToken, mLikeIdToRemove, mLikeId;
 	private int						currentPosition	= -1;
 
-	public LikesListAdapter(Activity activity, ArrayList<DazooLike> likes, String token, LikesCountInterface likesInterface) {
+	public LikesListAdapter(Activity activity, ArrayList<MiTVLike> likes, String token, LikesCountInterface likesInterface) {
 		this.mLikes = likes;
 		this.mActivity = activity;
 		this.mToken = token;
@@ -52,7 +52,7 @@ public class LikesListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public DazooLike getItem(int position) {
+	public MiTVLike getItem(int position) {
 		if (mLikes != null) {
 			return mLikes.get(position);
 		} else return null;
@@ -87,10 +87,10 @@ public class LikesListAdapter extends BaseAdapter {
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 
-		final DazooLike like = getItem(position);
+		final MiTVLike like = getItem(position);
 
 		if (like != null) {
-			final DazooLikeEntity entity = like.getEntity();
+			final MiTVLikeEntity entity = like.getEntity();
 			if (entity != null) {
 
 				/*Disabled headers for now*/
@@ -109,18 +109,18 @@ public class LikesListAdapter extends BaseAdapter {
 				holder.mProgramTitleTv.setText(entity.getTitle());
 				// Set appropriate description depending on program type
 				String likeType = like.getLikeType();
-				if (Consts.DAZOO_LIKE_TYPE_SPORT_TYPE.equals(likeType)) {
+				if (Consts.LIKE_TYPE_SPORT_TYPE.equals(likeType)) {
 					holder.mProgramTypeTv.setText(mActivity.getResources().getString(R.string.sport));
-				} else if (Consts.DAZOO_LIKE_TYPE_SERIES.equals(likeType)) {
+				} else if (Consts.LIKE_TYPE_SERIES.equals(likeType)) {
 					if (entity.getYear() != 0) {
 						holder.mProgramTypeTv.setText(mActivity.getResources().getString(R.string.tv_series) + " " + entity.getYear() + "-");
 					} else {
 						holder.mProgramTypeTv.setText(mActivity.getResources().getString(R.string.tv_series));
 					}
-				} else if (Consts.DAZOO_LIKE_TYPE_PROGRAM.equals(likeType)) {
-					if (Consts.DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_MOVIE.equals(entity.getProgramType())) {
+				} else if (Consts.LIKE_TYPE_PROGRAM.equals(likeType)) {
+					if (Consts.LIKE_PROGRAM_PROGRAM_TYPE_MOVIE.equals(entity.getProgramType())) {
 						holder.mProgramTypeTv.setText(mActivity.getResources().getString(R.string.movie) + " " + entity.getYear());
-					} else if (Consts.DAZOO_LIKE_PROGRAM_PROGRAM_TYPE_OTHER.equals(entity.getProgramType())) {
+					} else if (Consts.LIKE_PROGRAM_PROGRAM_TYPE_OTHER.equals(entity.getProgramType())) {
 						holder.mProgramTypeTv.setText(entity.getCategory());
 					}
 				}
@@ -131,7 +131,7 @@ public class LikesListAdapter extends BaseAdapter {
 					public void onClick(View v) {
 						Log.d(TAG, "Channelid: " + like.getNextBroadcastChannelId() + " Begintimemillis: " + like.getNextBroadcastBegintimeMillis());
 						if (like.getNextBroadcastChannelId() != null && like.getNextBroadcastBegintimeMillis() != 0) {
-							String broadcastUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + like.getNextBroadcastChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + like.getNextBroadcastBegintimeMillis();
+							String broadcastUrl = Consts.URL_NOTIFY_BROADCAST_PREFIX + like.getNextBroadcastChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + like.getNextBroadcastBegintimeMillis();
 							Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
 							intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, like.getNextBroadcastChannelId());
 							intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_URL, broadcastUrl);
@@ -150,11 +150,11 @@ public class LikesListAdapter extends BaseAdapter {
 
 						String likeType = like.getLikeType();
 						String likeId = null;
-						if (Consts.DAZOO_LIKE_TYPE_SERIES.equals(likeType)) {
+						if (Consts.LIKE_TYPE_SERIES.equals(likeType)) {
 							mLikeId = like.getEntity().getSeriesId();
-						} else if (Consts.DAZOO_LIKE_TYPE_PROGRAM.equals(likeType)) {
+						} else if (Consts.LIKE_TYPE_PROGRAM.equals(likeType)) {
 							mLikeId = like.getEntity().getProgramId();
-						} else if (Consts.DAZOO_LIKE_TYPE_SPORT_TYPE.equals(likeType)) {
+						} else if (Consts.LIKE_TYPE_SPORT_TYPE.equals(likeType)) {
 							mLikeId = like.getEntity().getSportTypeId();
 						}
 
@@ -203,7 +203,7 @@ public class LikesListAdapter extends BaseAdapter {
 
 	private void removeLikeId() {
 
-		Iterator iterator = DazooStore.getInstance().getLikeIds().iterator();
+		Iterator iterator = MiTVStore.getInstance().getLikeIds().iterator();
 		String strElement = "";
 		while (iterator.hasNext()) {
 			strElement = (String) iterator.next();

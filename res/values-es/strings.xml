@@ -98,13 +98,17 @@
     <string name="login_with_facebook">Iniciar sesión con Facebook</string>
     <string name="logout_from_facebook">Cerrar sesión</string>
     <string name="login_with_twitter">Iniciar sesión con Twitter</string>
-    <string name="login_with_dazoo">Iniciar sesión</string>
-    <string name="logout_from_dazoo">Cerrar sesión</string>
-    <string name="register_with_dazoo">Registrarse con tu correo electrónico</string>
+    <string name="login_with_mitv">Iniciar sesión</string>
+    <string name="logout_from_mitv">Cerrar sesión</string>
+    <string name="register_with_mitv">Registrarse con tu correo electrónico</string>
     <string name="hint_password">Contraseña</string>
     <string name="hint_email">Correo electrónico</string>
     <string name="hint_password_long">Contraseña, al menos 6 caracteres</string>
     <string name="hint_email_long">Correo electrónico, yo@mi.tv</string>
+    <!-- string name="hint_password">Contraseña</string>
+    <string name="hint_email">Correo electrónico</string-->
+    <string name="hint_password">Contraseña, al menos 6 caracteres</string>
+    <string name="hint_email">Correo electrónico, yo@mi.tv</string>
     <string name="hint_firstname">Nombre</string>
     <string name="hint_lastname">Apellido</string>
     <string name="hint_enter_email">Introduce correo electrónico</string>
@@ -112,8 +116,8 @@
     <string name="reset_password">Cambiar tu contraseña</string>
     <string name="sign_in">Iniciar sesión</string>
     <string name="cancel">Cancelar</string>
-    <string name="sign_in_to_dazoo_title">Iniciar sesión a mi.tv</string>
-    <string name="sign_in_to_dazoo_text">Tienes que registrarte o iniciar sesión con tu cuenta para empezar añadir tus programas de TV favoritos.</string>
+    <string name="sign_in_to_title">Iniciar sesión a mi.tv</string>
+    <string name="sign_in_to_text">Tienes que registrarte o iniciar sesión con tu cuenta para empezar añadir tus programas de TV favoritos.</string>
     <string name="sign_up_with_email">Registrarse con tu correo electrónico</string>
     <string name="sign_up">Registrarse</string>
     <string name="already_registered">¿Ya estás registrado?</string>
@@ -155,9 +159,9 @@
     <string name="share_action_title">Compartir con &#8230;</string>
 
     <!-- NOTIFICATION SERVICE -->
-    <string name="dazoo_notification_text_start">mi.tv would like to remind you that </string>
-    <string name="dazoo_notification_text_middle"> in 15 minutes at the channel </string>
-    <string name="dazoo_notification_text_end">. Enjoy! :)</string>
+    <string name="notification_text_start">mi.tv would like to remind you that </string>
+    <string name="notification_text_middle"> in 15 minutes at the channel </string>
+    <string name="notification_text_end">. Enjoy! :)</string>
     <string name="reminder_text_set">El recordatorio para este programa se activará 15 minutos antes de empezar.</string>
     <string name="reminder_text_remove">"Confirma usted la supresión de este recordatorio "</string>
 

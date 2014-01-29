@@ -20,7 +20,7 @@ public class SSApiVersionPage extends SSPage {
 	}
 	
 	public SSApiVersionPage() {
-		super(Consts.MILLICOM_SECONDSCREEN_API_VERSION);
+		super(Consts.URL_API_VERSION);
 	}
 
 	@Override

@@ -57,7 +57,7 @@ public class SearchResultItem {
 			}
 			
 			if(parseBroadcasts) {
-				JSONArray broadcastsJson = entityJsonObject.getJSONArray(Consts.DAZOO_FEED_ITEM_BROADCASTS);
+				JSONArray broadcastsJson = entityJsonObject.getJSONArray(Consts.FEED_ITEM_BROADCASTS);
 				if(broadcastsJson != null) {
 					ArrayList<Broadcast> broadcasts = ContentParser.parseBroadcasts(broadcastsJson);
 					this.setBroadcasts(broadcasts);

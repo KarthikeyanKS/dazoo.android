@@ -16,8 +16,8 @@ public class Series implements Parcelable{
 	}
 	
 	public Series(JSONObject jsonObject) {
-		this.setName(jsonObject.optString(Consts.DAZOO_SERIES_NAME));
-		this.setSeriesId(jsonObject.optString(Consts.DAZOO_SERIES_SERIES_ID));
+		this.setName(jsonObject.optString(Consts.SERIES_NAME));
+		this.setSeriesId(jsonObject.optString(Consts.SERIES_SERIES_ID));
 	}
 	
 	public void setName(String name){

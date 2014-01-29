@@ -40,11 +40,11 @@ import com.mitv.content.SSPageCallback;
 import com.mitv.content.SSPageGetResult;
 import com.mitv.content.activity.ActivityActivity;
 import com.mitv.homepage.HomeActivity;
-import com.mitv.manager.DazooCore;
+import com.mitv.manager.MiTVCore;
 import com.mitv.model.Channel;
 import com.mitv.mychannels.MyChannelsService;
-import com.mitv.storage.DazooStore;
-import com.mitv.storage.DazooStoreOperations;
+import com.mitv.storage.MiTVStore;
+import com.mitv.storage.MiTVStoreOperations;
 import com.mitv.utilities.JSONUtilities;
 
 public class MyChannelsActivity extends SSActivity implements MyChannelsCountInterface, OnClickListener {
@@ -118,7 +118,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 	}
 
 	private void populateViews() {
-		mChannelsMap = DazooStore.getInstance().getAllChannels();
+		mChannelsMap = MiTVStore.getInstance().getAllChannels();
 		if (mChannelsMap != null && mChannelsMap.isEmpty() != true) {
 
 			int allChannelsIndex = 0;
@@ -205,7 +205,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 			// }
 			// }
 			// mCount = newIdsList.size();
-			// if (MyChannelsService.updateMyChannelsList(userToken, JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.DAZOO_CHANNEL_CHANNEL_ID, newIdsList))) {
+			// if (MyChannelsService.updateMyChannelsList(userToken, JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.CHANNEL_CHANNEL_ID, newIdsList))) {
 
 			// do not allow dublications in the list of channels
 			HashSet myCheckedChannelsSet = new HashSet();
@@ -214,10 +214,10 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 			mCheckedChannelsIds.addAll(myCheckedChannelsSet);
 
 			mCount = mCheckedChannelsIds.size();
-			if (MyChannelsService.updateMyChannelsList(userToken, JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.DAZOO_CHANNEL_CHANNEL_ID, mCheckedChannelsIds))) {
+			if (MyChannelsService.updateMyChannelsList(userToken, JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.CHANNEL_CHANNEL_ID, mCheckedChannelsIds))) {
 
 				// clear guides
-				DazooStore.getInstance().clearMyGuidesStorage();
+				MiTVStore.getInstance().clearMyGuidesStorage();
 				// update the my channels list
 				MyChannelsService.getMyChannels(userToken);
 
@@ -257,7 +257,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 
 	private boolean getUserMyChannelsIdsJSON() {
 		if (MyChannelsService.getMyChannels(userToken)) {
-			myChannelIds = DazooStore.getInstance().getMyChannelIds();
+			myChannelIds = MiTVStore.getInstance().getMyChannelIds();
 			mCheckedChannelsIds = myChannelIds;
 
 			for (int j = 0; j < myChannelIds.size(); j++) {
@@ -321,7 +321,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 
 	@Override
 	protected void loadPage() {
-		SSChannelPage.getInstance().getPage(Consts.MILLICOM_SECONDSCREEN_CHANNELS_ALL_PAGE_URL, new SSPageCallback() {
+		SSChannelPage.getInstance().getPage(Consts.URL_CHANNELS_ALL, new SSPageCallback() {
 			@Override
 			public void onGetPageResult(SSPageGetResult aPageGetResult) {
 				ArrayList<Channel> mAllChannels = SSChannelPage.getInstance().getChannels();
@@ -329,13 +329,13 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 				if (mAllChannels != null && mAllChannels.isEmpty() != true) {
 					Log.d(TAG, "ALL Channels: " + mAllChannels.size());
 					// store the list channels (used in the my profile/my guide)
-					DazooStoreOperations.saveAllChannels(mAllChannels);
+					MiTVStoreOperations.saveAllChannels(mAllChannels);
 
 					// get info only about user channels
 					if (MyChannelsService.getMyChannels(userToken)) {
-						DazooCore.mIsMyChannels = true;
+						MiTVCore.mIsMyChannels = true;
 					}
-					DazooCore.mIsAllChannels = true;
+					MiTVCore.mIsAllChannels = true;
 					updateUI(REQUEST_STATUS.SUCCESSFUL);
 				}
 			}

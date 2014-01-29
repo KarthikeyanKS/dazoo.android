@@ -20,7 +20,7 @@ public class SSAppConfigurationPage extends SSPage {
 	}
 	
 	public SSAppConfigurationPage() {
-		super(Consts.MILLICOM_SECONDSCREEN_CONFIGURATION);
+		super(Consts.URL_CONFIGURATION);
 	}
 
 	@Override

@@ -84,7 +84,7 @@ public class JSONUtilities {
 				if (jArray != null) {
 					for (int i = 0; i < jArray.length(); i++) {
 						JSONObject channelIdJSON = jArray.getJSONObject(i);
-						output.add(channelIdJSON.getString(Consts.MILLICOM_SECONDSCREEN_API_CHANNEL_ID));
+						output.add(channelIdJSON.getString(Consts.API_CHANNEL_ID));
 
 						Log.d(TAG, "ChannelId json: " + channelIdJSON.toString());
 					}
@@ -107,7 +107,7 @@ public class JSONUtilities {
 				if (jArray != null) {
 					for (int i = 0; i < jArray.length(); i++) {
 						JSONObject channelIdJSON = jArray.getJSONObject(i);
-						output.add(channelIdJSON.getString(Consts.MILLICOM_SECONDSCREEN_API_CHANNEL_ID));
+						output.add(channelIdJSON.getString(Consts.API_CHANNEL_ID));
 
 						Log.d(TAG, "ChannelId json: " + channelIdJSON.toString());
 					}

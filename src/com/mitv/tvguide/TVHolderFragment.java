@@ -16,11 +16,11 @@ import android.view.ViewGroup;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.TagTypeFragmentStatePagerAdapter;
-import com.mitv.manager.DazooCore;
+import com.mitv.manager.MiTVCore;
 import com.mitv.model.Guide;
 import com.mitv.model.Tag;
 import com.mitv.model.TvDate;
-import com.mitv.storage.DazooStore;
+import com.mitv.storage.MiTVStore;
 import com.viewpagerindicator.TabPageIndicator;
 
 public class TVHolderFragment extends Fragment {
@@ -73,8 +73,8 @@ public class TVHolderFragment extends Fragment {
 
 		View v = inflater.inflate(R.layout.fragment_tvguide_holder_layout, null);
 
-		mDates = DazooStore.getInstance().getTvDates();
-		mTags = DazooStore.getInstance().getTags();
+		mDates = MiTVStore.getInstance().getTvDates();
+		mTags = MiTVStore.getInstance().getTags();
 		
 		mViewPager = (ViewPager) v.findViewById(R.id.home_pager);
 		mViewPager.setOffscreenPageLimit(mTags.size());

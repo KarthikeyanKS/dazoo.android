@@ -15,15 +15,15 @@ public class AuthenticationService {
 	private static final String	TAG	= "AuthenticationService";
 
 	public static boolean storeUserInformation(Context context, JSONObject jsonString) {
-		String userDataString = jsonString.optString(Consts.MILLICOM_SECONDSCREEN_API_USER);
-		String profileImageString = jsonString.optString(Consts.MILLICOM_SECONDSCREEN_API_PROFILEIMAGE);
+		String userDataString = jsonString.optString(Consts.API_USER);
+		String profileImageString = jsonString.optString(Consts.API_PROFILEIMAGE);
 
 		if (profileImageString != null && TextUtils.isEmpty(profileImageString) != true) {
 			JSONObject avatarUrlJSON;
 			try {
 				avatarUrlJSON = new JSONObject(profileImageString);
 				if (avatarUrlJSON != null) {
-					String avatarUrl = avatarUrlJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_URL);
+					String avatarUrl = avatarUrlJSON.optString(Consts.API_URL);
 					((SecondScreenApplication) context.getApplicationContext()).setUserAvatarUrl(avatarUrl);
 					Log.d(TAG, "User Avatar Url: " + avatarUrl);
 				}
@@ -38,19 +38,19 @@ public class AuthenticationService {
 				userJSON = new JSONObject(userDataString);
 				Log.d(TAG, "userJSON:" + userJSON);
 
-				String userFirstName = userJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_FIRSTNAME);
+				String userFirstName = userJSON.optString(Consts.API_FIRSTNAME);
 				((SecondScreenApplication) context.getApplicationContext()).setUserFirstName(userFirstName);
 				Log.d(TAG, "First Name: " + userFirstName + " is saved");
 
-				String userLastName = userJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_LASTNAME);
+				String userLastName = userJSON.optString(Consts.API_LASTNAME);
 				((SecondScreenApplication) context.getApplicationContext()).setUserLastName(userLastName);
 				Log.d(TAG, "Last Name: " + userLastName + " is saved");
 
-				String userId = userJSON.optString(Consts.MILLICOM_SECONDSCREEN_API_USER_ID);
+				String userId = userJSON.optString(Consts.API_USER_ID);
 				((SecondScreenApplication) context.getApplicationContext()).setUserId(userId);
 				Log.d(TAG, "User Id: " + userId + " is saved");
 
-				boolean userExistingFlag = userJSON.optBoolean(Consts.MILLICOM_SECONDSCREEN_API_CREATED);
+				boolean userExistingFlag = userJSON.optBoolean(Consts.API_CREATED);
 				((SecondScreenApplication) context.getApplicationContext()).setUserExistringFlag(userExistingFlag);
 				Log.d(TAG, "User login first time: " + userExistingFlag);
 

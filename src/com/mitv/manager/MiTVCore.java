@@ -45,11 +45,11 @@ import com.mitv.model.Guide;
 import com.mitv.model.Tag;
 import com.mitv.model.TvDate;
 import com.mitv.mychannels.MyChannelsService;
-import com.mitv.storage.DazooStore;
-import com.mitv.storage.DazooStoreOperations;
+import com.mitv.storage.MiTVStore;
+import com.mitv.storage.MiTVStoreOperations;
 
-public class DazooCore {
-	private static final String			TAG					= "DazooCore";
+public class MiTVCore {
+	private static final String			TAG					= "MiTVCore";
 	private static Context				mContext;
 	private static String				token;
 	private static int					mDateIndex			= 0;
@@ -71,21 +71,21 @@ public class DazooCore {
 	
 
 	// private constructor prevents instantiation from other classes
-	private DazooCore() {
+	private MiTVCore() {
 	};
 
 	/**
-	 * DazooCoreHolder is loaded on the first execution of DazooCore.getInstance() or the first access to the DazooCoreHolder.INSTANCE, not before
+	 * MiTVCoreHolder is loaded on the first execution of MiTVCore.getInstance() or the first access to the MiTVCoreHolder.INSTANCE, not before
 	 */
-	private static class DazooCoreHolder {
-		public static final DazooCore	INSTANCE	= new DazooCore();
+	private static class MiTVCoreHolder {
+		public static final MiTVCore	INSTANCE	= new MiTVCore();
 	}
 
-	public static DazooCore getInstance(Context context, int dateIndex) {
+	public static MiTVCore getInstance(Context context, int dateIndex) {
 		mContext = context;
 		token = ((SecondScreenApplication) context.getApplicationContext()).getAccessToken();
 		mDateIndex = dateIndex;
-		return DazooCoreHolder.INSTANCE;
+		return MiTVCoreHolder.INSTANCE;
 	}
 
 	public void fetchContent() {
@@ -93,12 +93,12 @@ public class DazooCore {
 	}
 
 	private static void getTagsDatesChannels() {
-		if (DazooStore.getInstance().getTvDates() == null || DazooStore.getInstance().getTvDates().isEmpty()) {
+		if (MiTVStore.getInstance().getTvDates() == null || MiTVStore.getInstance().getTvDates().isEmpty()) {
 			GetTvDates tvDatesTask = new GetTvDates();
 			tvDatesTask.execute();
 		}
 
-		if (DazooStore.getInstance().getTags() == null || DazooStore.getInstance().getTags().isEmpty()) {
+		if (MiTVStore.getInstance().getTags() == null || MiTVStore.getInstance().getTags().isEmpty()) {
 			GetTags tagsTask = new GetTags();
 			tagsTask.execute();
 		}
@@ -106,20 +106,20 @@ public class DazooCore {
 		if (token != null && TextUtils.isEmpty(token) != true) {
 
 			// get all channels
-			if (DazooStore.getInstance().getAllChannels() == null || DazooStore.getInstance().getAllChannels().isEmpty()) {
+			if (MiTVStore.getInstance().getAllChannels() == null || MiTVStore.getInstance().getAllChannels().isEmpty()) {
 				GetAllChannels allChannelsTask = new GetAllChannels();
 				allChannelsTask.execute();
 
 				// get info only about user channels
 				if (MyChannelsService.getMyChannels(token)) {
-					mMyChannelsIds = DazooStore.getInstance().getMyChannelIds();
+					mMyChannelsIds = MiTVStore.getInstance().getMyChannelIds();
 					mIsMyChannels = true;
 				} else {
-					mDefaultChannelsIds = DazooStore.getInstance().getDefaultChannelIds();
+					mDefaultChannelsIds = MiTVStore.getInstance().getDefaultChannelIds();
 				}
 			}
 		} else {
-			if (DazooStore.getInstance().getDefaultChannels() == null || DazooStore.getInstance().getDefaultChannels().isEmpty()) {
+			if (MiTVStore.getInstance().getDefaultChannels() == null || MiTVStore.getInstance().getDefaultChannels().isEmpty()) {
 				// get the default package of channels
 				GetDefaultChannels defaultChannelsTask = new GetDefaultChannels();
 				defaultChannelsTask.execute();
@@ -135,11 +135,11 @@ public class DazooCore {
 					ArrayList<Broadcast> taggedBroadcasts = null;
 					
 					if(useMy) {
-						taggedBroadcasts = DazooStoreOperations.getMyTaggedBroadcasts(date.getDate(), mTags.get(i));
-						DazooStoreOperations.saveMyTaggedBroadcast(date, mTags.get(i), taggedBroadcasts);
+						taggedBroadcasts = MiTVStoreOperations.getMyTaggedBroadcasts(date.getDate(), mTags.get(i));
+						MiTVStoreOperations.saveMyTaggedBroadcast(date, mTags.get(i), taggedBroadcasts);
 					} else {
-						taggedBroadcasts = DazooStoreOperations.getTaggedBroadcasts(date.getDate(), mTags.get(i));
-						DazooStoreOperations.saveTaggedBroadcast(date, mTags.get(i), taggedBroadcasts);
+						taggedBroadcasts = MiTVStoreOperations.getTaggedBroadcasts(date.getDate(), mTags.get(i));
+						MiTVStoreOperations.saveTaggedBroadcast(date, mTags.get(i), taggedBroadcasts);
 					}
 				}
 				return true;
@@ -169,7 +169,7 @@ public class DazooCore {
 
 					if (mTvDates != null && mTvDates.isEmpty() != true) {
 						Log.d(TAG, "Dates: " + mTvDates.size());
-						DazooStore.getInstance().setTvDates(mTvDates);
+						MiTVStore.getInstance().setTvDates(mTvDates);
 						mIsTvDate = true;
 
 						// attempt the common callback interface
@@ -203,7 +203,7 @@ public class DazooCore {
 						tagAll.setName(mContext.getResources().getString(R.string.all_categories_name));
 						mTags.add(0, tagAll);
 
-						DazooStore.getInstance().setTags(mTags);
+						MiTVStore.getInstance().setTags(mTags);
 						mIsTags = true;
 						// attempt the get the guide
 						getGuide(mDateIndex, false);
@@ -221,7 +221,7 @@ public class DazooCore {
 
 		@Override
 		protected Void doInBackground(String... params) {
-			SSChannelPage.getInstance().getPage(Consts.MILLICOM_SECONDSCREEN_CHANNELS_ALL_PAGE_URL, new SSPageCallback() {
+			SSChannelPage.getInstance().getPage(Consts.URL_CHANNELS_ALL, new SSPageCallback() {
 				@Override
 				public void onGetPageResult(SSPageGetResult aPageGetResult) {
 					mAllChannels = SSChannelPage.getInstance().getChannels();
@@ -229,7 +229,7 @@ public class DazooCore {
 					if (mAllChannels != null && mAllChannels.isEmpty() != true) {
 						Log.d(TAG, "ALL Channels: " + mAllChannels.size());
 						// store the list channels (used in the my profile/my guide)
-						DazooStoreOperations.saveAllChannels(mAllChannels);
+						MiTVStoreOperations.saveAllChannels(mAllChannels);
 						mIsAllChannels = true;
 
 						// attempt the common callback interface
@@ -248,14 +248,14 @@ public class DazooCore {
 
 		@Override
 		protected Void doInBackground(String... params) {
-			SSChannelPage.getInstance().getPage(Consts.MILLICOM_SECONDSCREEN_CHANNELS_DEFAULT_PAGE_URL, new SSPageCallback() {
+			SSChannelPage.getInstance().getPage(Consts.URL_CHANNELS_DEFAULT, new SSPageCallback() {
 				@Override
 				public void onGetPageResult(SSPageGetResult aPageGetResult) {
 					mDefaultChannels = SSChannelPage.getInstance().getChannels();
 					if (mDefaultChannels != null && mDefaultChannels.isEmpty() != true) {
 						Log.d(TAG, "DefaultChannels: " + mDefaultChannels.size());
 
-						DazooStoreOperations.saveDefaultChannels(mDefaultChannels);
+						MiTVStoreOperations.saveDefaultChannels(mDefaultChannels);
 						mIsDefaultChannels = true;
 
 						// attempt the common callback interface
@@ -501,17 +501,17 @@ public class DazooCore {
 			// get guide for the date
 			String guidePageUrl = null;
 			if (loggedIn) {
-				mMyChannelsIds = DazooStore.getInstance().getMyChannelIds();
+				mMyChannelsIds = MiTVStore.getInstance().getMyChannelIds();
 				
 				if(mMyChannelsIds.isEmpty()) {
 					//TODO Show text saying "you have not chosen any channels...."
 					Log.w(TAG, "No Channels selected, will try to send request using all channels to fetch guide.");
-					mMyChannelsIds = DazooStore.getInstance().getAllChannelIds();
+					mMyChannelsIds = MiTVStore.getInstance().getAllChannelIds();
 				}
 				
 				guidePageUrl = getPageUrl(mDate.getDate(), mMyChannelsIds);
 			} else {
-				mDefaultChannelsIds = DazooStore.getInstance().getDefaultChannelIds();
+				mDefaultChannelsIds = MiTVStore.getInstance().getDefaultChannelIds();
 				guidePageUrl = getPageUrl(mDate.getDate(), mDefaultChannelsIds);
 			}
 
@@ -523,9 +523,9 @@ public class DazooCore {
 					if (mGuides != null && mGuides.isEmpty() != true) {
 						boolean guideSaveOperationSuccessfull;
 						if (loggedIn) {
-							guideSaveOperationSuccessfull = DazooStoreOperations.saveMyGuides(mGuides, mDate.getDate());
+							guideSaveOperationSuccessfull = MiTVStoreOperations.saveMyGuides(mGuides, mDate.getDate());
 						} else {
-							guideSaveOperationSuccessfull = DazooStoreOperations.saveGuides(mGuides, mDate.getDate());
+							guideSaveOperationSuccessfull = MiTVStoreOperations.saveGuides(mGuides, mDate.getDate());
 						}
 							
 						if(guideSaveOperationSuccessfull) {
@@ -543,9 +543,9 @@ public class DazooCore {
 							}
 							
 							if(loggedIn) {
-								// get the list of likes and save in DazooStore to avoid excessive backend requests
+								// get the list of likes and save in MiTVStore to avoid excessive backend requests
 								ArrayList<String> likeIds = LikeService.getLikeIdsList(token);
-								DazooStore.getInstance().setLikeIds(likeIds);
+								MiTVStore.getInstance().setLikeIds(likeIds);
 							}
 						}
 					}
@@ -565,7 +565,7 @@ public class DazooCore {
 
 			if (mIsTvDate == true && mIsTags == true && mIsAllChannels) {
 				TvDate date = mTvDates.get(dateIndex);
-				if (DazooStore.getInstance().isMyGuideForDate(date.getDate())) {
+				if (MiTVStore.getInstance().isMyGuideForDate(date.getDate())) {
 					// notify the HomeActivity that the guide is available and UI may be updated
 
 					Log.d(TAG, "There is a ready My one!");
@@ -580,7 +580,7 @@ public class DazooCore {
 			Log.d(TAG, "mIsTvDate:" + mIsTvDate + "  mIsTags: " + mIsTags + "   mIsDefaultChannels: " + mIsDefaultChannels);
 			if (mIsTvDate == true && mIsTags == true && mIsDefaultChannels) {
 				TvDate date = mTvDates.get(dateIndex);
-				if (DazooStore.getInstance().isGuideForDate(date.getDate())) {
+				if (MiTVStore.getInstance().isGuideForDate(date.getDate())) {
 					// notify the HomeActivity that the guide is available and UI may be updated
 
 					Log.d(TAG, "There is a ready one!");
@@ -595,15 +595,15 @@ public class DazooCore {
 	}
 
 	public static boolean filterGuideByTag(TvDate tvDate, Tag tag) {
-		ArrayList<Broadcast> taggedBroadcasts = DazooStoreOperations.getTaggedBroadcasts(tvDate.getDate(), tag);
+		ArrayList<Broadcast> taggedBroadcasts = MiTVStoreOperations.getTaggedBroadcasts(tvDate.getDate(), tag);
 		if (taggedBroadcasts != null && taggedBroadcasts.isEmpty() != true) {
-			DazooStoreOperations.saveTaggedBroadcast(tvDate, tag, taggedBroadcasts);
+			MiTVStoreOperations.saveTaggedBroadcast(tvDate, tag, taggedBroadcasts);
 			return true;
 		} else return false;
 	}
 
 	public static boolean filterGuides(TvDate tvDate, int count) {
-		ArrayList<Tag> tags = DazooStore.getInstance().getTags();
+		ArrayList<Tag> tags = MiTVStore.getInstance().getTags();
 		boolean result = false;
 		for (int i = 1; i < count; i++) {
 			filterGuideByTag(tvDate, tags.get(i));
@@ -613,7 +613,7 @@ public class DazooCore {
 	}
 
 	public boolean filterMyGuidesByTag(TvDate tvDate, Tag tag, int count) {
-		ArrayList<Tag> tags = DazooStore.getInstance().getTags();
+		ArrayList<Tag> tags = MiTVStore.getInstance().getTags();
 		boolean result = false;
 		for (int i = 1; i < count; i++) {
 			filterMyGuideByTag(tvDate, tags.get(i));
@@ -623,9 +623,9 @@ public class DazooCore {
 	}
 
 	public static boolean filterMyGuideByTag(TvDate tvDate, Tag tag) {
-		ArrayList<Broadcast> myTaggedBroadcasts = DazooStoreOperations.getMyTaggedBroadcasts(tvDate.getDate(), tag);
+		ArrayList<Broadcast> myTaggedBroadcasts = MiTVStoreOperations.getMyTaggedBroadcasts(tvDate.getDate(), tag);
 		if (myTaggedBroadcasts != null && myTaggedBroadcasts.isEmpty() != true) {
-			DazooStoreOperations.saveMyTaggedBroadcast(tvDate, tag, myTaggedBroadcasts);
+			MiTVStoreOperations.saveMyTaggedBroadcast(tvDate, tag, myTaggedBroadcasts);
 
 			// notify responsible fragments that the data is there
 			LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE_VALUE, true));
@@ -636,7 +636,7 @@ public class DazooCore {
 	// construct the url for the guide
 	private static String getPageUrl(String date, ArrayList<String> channelIds) {
 		StringBuilder sB = new StringBuilder();
-		sB.append(Consts.MILLICOM_SECONDSCREEN_GUIDE_PAGE_URL);
+		sB.append(Consts.URL_GUIDE);
 
 		sB.append(Consts.REQUEST_QUERY_SEPARATOR);
 		sB.append(date);
@@ -644,11 +644,11 @@ public class DazooCore {
 		sB.append(Consts.REQUEST_PARAMETER_SEPARATOR);
 		for (int i = 0; i < channelIds.size(); i++) {
 			if (i == 0) {
-				sB.append(Consts.MILLICOM_SECONDSCREEN_API_CHANNEL_ID_WITH_EQUALS_SIGN);
+				sB.append(Consts.API_CHANNEL_ID_WITH_EQUALS_SIGN);
 				sB.append(channelIds.get(i));
 			} else {
 				sB.append(Consts.REQUEST_QUERY_AND);
-				sB.append(Consts.MILLICOM_SECONDSCREEN_API_CHANNEL_ID_WITH_EQUALS_SIGN);
+				sB.append(Consts.API_CHANNEL_ID_WITH_EQUALS_SIGN);
 				sB.append(channelIds.get(i));
 			}
 		}

@@ -158,14 +158,14 @@ public class WhatElseIsOnListAdapter extends BaseAdapter {
 			// Set program type
 			String type = broadcast.getProgram().getProgramType();
 			if (type != null) {
-				if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(type)) {
+				if (Consts.PROGRAM_TYPE_MOVIE.equals(type)) {
 					holder.mDescTv.setText(broadcast.getProgram().getGenre() + " " + broadcast.getProgram().getYear());
-				} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(type)) {
+				} else if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(type)) {
 					holder.mDescTv.setText(mActivity.getResources().getString(R.string.season) + " " + broadcast.getProgram().getSeason().getNumber() + " "
 							+ mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(broadcast.getProgram().getEpisodeNumber()));
-				} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(type)) {
+				} else if (Consts.PROGRAM_TYPE_SPORT.equals(type)) {
 					holder.mDescTv.setText(broadcast.getProgram().getSportType().getName() + ": " + broadcast.getProgram().getTournament());
-				} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(type)) {
+				} else if (Consts.PROGRAM_TYPE_OTHER.equals(type)) {
 					holder.mDescTv.setText(broadcast.getProgram().getCategory());
 				}
 			} else {

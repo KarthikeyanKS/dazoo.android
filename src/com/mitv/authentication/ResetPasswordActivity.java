@@ -48,7 +48,7 @@ public class ResetPasswordActivity extends SSSignInSignupBaseActivity implements
 
 	private static final String	TAG	= "ResetPasswordActivity";
 	private ActionBar			mActionBar;
-	private Button				mDazooResetPassword;
+	private Button				mMiTVResetPassword;
 	private EditText			mEmailResetPasswordEditText;
 	private TextView			mErrorTextView;
 	private String 				mBadResponseString;
@@ -88,8 +88,8 @@ public class ResetPasswordActivity extends SSSignInSignupBaseActivity implements
 
 		mActionBar.setTitle(getResources().getString(R.string.reset_password));
 
-		mDazooResetPassword = (Button) findViewById(R.id.resetpassword_button);
-		mDazooResetPassword.setOnClickListener(this);
+		mMiTVResetPassword = (Button) findViewById(R.id.resetpassword_button);
+		mMiTVResetPassword.setOnClickListener(this);
 		mEmailResetPasswordEditText = (EditText) findViewById(R.id.resetpassword_email_edittext);
 		mErrorTextView = (TextView) findViewById(R.id.resetpassword_error_tv);
 
@@ -158,9 +158,9 @@ public class ResetPasswordActivity extends SSSignInSignupBaseActivity implements
 				DefaultHttpClient httpClient = new DefaultHttpClient(mgr, client.getParams());
 				// Set verifier
 				HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
-				HttpPost httpPost = new HttpPost(Consts.MILLICOM_SECONDSCREEN_RESET_PASSWORD_URL);
+				HttpPost httpPost = new HttpPost(Consts.URL_RESET_PASSWORD);
 
-				JSONObject holder = JSONUtilities.createJSONObjectWithKeysValues(Arrays.asList(Consts.MILLICOM_SECONDSCREEN_API_EMAIL), Arrays.asList(params[0]));
+				JSONObject holder = JSONUtilities.createJSONObjectWithKeysValues(Arrays.asList(Consts.API_EMAIL), Arrays.asList(params[0]));
 				StringEntity entity = new StringEntity(holder.toString());
 
 				httpPost.setEntity(entity);

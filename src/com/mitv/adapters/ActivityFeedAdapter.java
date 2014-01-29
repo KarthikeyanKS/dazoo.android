@@ -27,7 +27,7 @@ import com.mitv.notification.NotificationDataSource;
 import com.mitv.notification.NotificationDialogHandler;
 import com.mitv.notification.NotificationService;
 import com.mitv.share.ShareAction;
-import com.mitv.storage.DazooStore;
+import com.mitv.storage.MiTVStore;
 import com.mitv.tvguide.BroadcastPageActivity;
 import com.mitv.utilities.AnimationUtilities;
 import com.mitv.utilities.ProgressBarUtils;
@@ -42,7 +42,7 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 	private ArrayList<FeedItem>		mFeedItems;
 	private LayoutInflater			mLayoutInflater;
 
-	private int						DAZOO_ACTIVITY_BLOCKS_TYPE_NUMBER	= 5;
+	private int						ACTIVITY_BLOCKS_TYPE_NUMBER	= 5;
 
 	private static final int		ITEM_TYPE_BROADCAST					= 1; //0 is reserved for ads
 	private static final int		ITEM_TYPE_RECOMMENDED_BROADCAST		= 2;
@@ -70,7 +70,7 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 
 	@Override
 	public int getViewTypeCount() {
-		return super.getViewTypeCount() + DAZOO_ACTIVITY_BLOCKS_TYPE_NUMBER;
+		return super.getViewTypeCount() + ACTIVITY_BLOCKS_TYPE_NUMBER;
 	}
 
 	public void addItem(final FeedItem item) {
@@ -88,19 +88,19 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 		FeedItem item = getItem(position);
 		if (item != null) {
 			String feedItemType = item.getItemType();
-			if (Consts.DAZOO_FEED_ITEM_TYPE_POPULAR_BROADCASTS.equals(feedItemType)) {
+			if (Consts.FEED_ITEM_TYPE_POPULAR_BROADCASTS.equals(feedItemType)) {
 				return ITEM_TYPE_POPULAR_BROADCASTS;
 			} 
-			else if (Consts.DAZOO_FEED_ITEM_TYPE_BROADCAST.equals(feedItemType)) {
+			else if (Consts.FEED_ITEM_TYPE_BROADCAST.equals(feedItemType)) {
 				return ITEM_TYPE_BROADCAST;
 			} 
-			else if (Consts.DAZOO_FEED_ITEM_TYPE_RECOMMENDED_BROADCAST.equals(feedItemType)) {
+			else if (Consts.FEED_ITEM_TYPE_RECOMMENDED_BROADCAST.equals(feedItemType)) {
 				return ITEM_TYPE_RECOMMENDED_BROADCAST;
 			} 
-			else if (Consts.DAZOO_FEED_ITEM_TYPE_POPULAR_TWITTER.equals(feedItemType)) {
+			else if (Consts.FEED_ITEM_TYPE_POPULAR_TWITTER.equals(feedItemType)) {
 				return ITEM_TYPE_POPULAR_TWITTER;
 			} 
-			else if (Consts.DAZOO_FEED_ITEM_POPULAR_BROADCAST.equals(feedItemType)) {
+			else if (Consts.FEED_ITEM_POPULAR_BROADCAST.equals(feedItemType)) {
 				return ITEM_TYPE_POPULAR_BROADCAST;
 			} 
 			else {
@@ -169,7 +169,7 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 				ImageAware imageAware = new ImageViewAware(imageView, false);
 				ImageLoader.getInstance().displayImage(broadcast.getProgram().getPortMUrl(), imageAware);
 
-				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+				if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 					title.setText(broadcast.getProgram().getSeries().getName());
 				} 
 				else {
@@ -181,10 +181,10 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 				channelName.setText(broadcast.getChannel().getName());
 
 				if (programType != null) {
-					if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
+					if (Consts.PROGRAM_TYPE_MOVIE.equals(programType)) {
 						details.setText(broadcast.getProgram().getGenre() + " " + broadcast.getProgram().getYear());
 					} 
-					else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+					else if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 						if (broadcast != null) {
 							if (program != null) {
 								String season = program.getSeason().getNumber();
@@ -200,10 +200,10 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 							}
 						}
 					} 
-					else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
+					else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) {
 						details.setText(broadcast.getProgram().getSportType().getName() + " " + broadcast.getProgram().getTournament());
 					} 
-					else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
+					else if (Consts.PROGRAM_TYPE_OTHER.equals(programType)) {
 						details.setText(broadcast.getProgram().getCategory());
 					}
 				}
@@ -337,7 +337,7 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 				//If there is only one broadcast in popular list, show as popular card
 				else if (broadcasts.size() > 0) {
 					feedItem.setBroadcast(broadcasts.get(0));
-					feedItem.setItemType(Consts.DAZOO_FEED_ITEM_POPULAR_BROADCAST);
+					feedItem.setItemType(Consts.FEED_ITEM_POPULAR_BROADCAST);
 					getViewForFeedItemCell(position, convertView, parent);
 				}
 			} 
@@ -388,14 +388,14 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 
 					final String programType = program.getProgramType();
 					// determine like
-					if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-						mIsLiked = DazooStore.getInstance().isInTheLikesList(program.getSeries().getSeriesId());
+					if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+						mIsLiked = MiTVStore.getInstance().isInTheLikesList(program.getSeries().getSeriesId());
 					} 
-					else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
-						mIsLiked = DazooStore.getInstance().isInTheLikesList(program.getSportType().getSportTypeId());
+					else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) {
+						mIsLiked = MiTVStore.getInstance().isInTheLikesList(program.getSportType().getSportTypeId());
 					} 
 					else {
-						mIsLiked = DazooStore.getInstance().isInTheLikesList(program.getProgramId());
+						mIsLiked = MiTVStore.getInstance().isInTheLikesList(program.getProgramId());
 					}
 
 					if (ITEM_TYPE_POPULAR_TWITTER == type) {
@@ -408,7 +408,7 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 					ImageAware imageAware = new ImageViewAware(holderBC.landscapeIv, false);
 					ImageLoader.getInstance().displayImage(program.getLandLUrl(), imageAware);
 
-					if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+					if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 						holderBC.titleTv.setText(program.getSeries().getName());
 					} 
 					else {
@@ -419,10 +419,10 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 					holderBC.channelTv.setText(broadcast.getChannel().getName());
 
 					if (programType != null) {
-						if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
+						if (Consts.PROGRAM_TYPE_MOVIE.equals(programType)) {
 							holderBC.detailsTv.setText(program.getGenre() + " " + program.getYear());
 						} 
-						else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+						else if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 							String season = program.getSeason().getNumber();
 							int episode = program.getEpisodeNumber();
 							String seasonEpisode = "";
@@ -437,10 +437,10 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 							}
 							holderBC.detailsTv.setText(seasonEpisode);
 						} 
-						else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
+						else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) {
 							holderBC.detailsTv.setText(program.getSportType().getName() + " " + program.getTournament());
 						} 
-						else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
+						else if (Consts.PROGRAM_TYPE_OTHER.equals(programType)) {
 							holderBC.detailsTv.setText(program.getCategory());
 						}
 					}
@@ -513,10 +513,10 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 							String likeType = LikeService.getLikeType(programType);
 
 							String programId, contentTitle;
-							if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+							if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 								programId = program.getSeries().getSeriesId();
 								contentTitle = program.getSeries().getName();
-							} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
+							} else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) {
 								programId = program.getSportType().getSportTypeId();
 								contentTitle = program.getSportType().getName();
 							} else {
@@ -526,7 +526,7 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 
 							if (mIsLiked == false) {
 								if (LikeService.addLike(mToken, programId, likeType)) {
-									DazooStore.getInstance().addLikeIdToList(programId);
+									MiTVStore.getInstance().addLikeIdToList(programId);
 
 									ActivityActivity.toast = LikeService.showSetLikeToast(mActivity, contentTitle);
 									holderBC.likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
@@ -540,7 +540,7 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 								}
 							} else {
 								LikeService.removeLike(mToken, likeType, programId);
-								DazooStore.getInstance().deleteLikeIdFromList(programId);
+								MiTVStore.getInstance().deleteLikeIdFromList(programId);
 
 								mIsLiked = false;
 								holderBC.likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));

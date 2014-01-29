@@ -143,12 +143,12 @@ public class SettingsActivity extends SSActivity implements OnClickListener {
 			//
 			// mIsChange = true;
 			// // check if the token was really cleared
-			// String dazooToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
-			// // if (dazooToken.isEmpty() == true) {
-			// if (TextUtils.isEmpty(dazooToken) == true) {
+			// String mitvToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
+			// // if (mitvToken.isEmpty() == true) {
+			// if (TextUtils.isEmpty(mitvToken) == true) {
 			// Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
 			// } else {
-			// Log.d(TAG, "Log out from Dazoo failed");
+			// Log.d(TAG, "Log out from MiTV failed");
 			// }
 			//
 			//

@@ -2,8 +2,6 @@ package com.mitv.storage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import com.mitv.model.AdzerkAd;
@@ -14,8 +12,8 @@ import com.mitv.model.Guide;
 import com.mitv.model.Tag;
 import com.mitv.model.TvDate;
 
-public class DazooStore {
-	private static final String							TAG					= "DazooStore";
+public class MiTVStore {
+	private static final String							TAG					= "MiTVStore";
 
 	private ArrayList<TvDate>							mTvDates			= new ArrayList<TvDate>();
 
@@ -41,19 +39,19 @@ public class DazooStore {
 	private ArrayList<Broadcast>						mPopularFeed		= new ArrayList<Broadcast>();
 
 	// private constructor prevents instantiation from other classes
-	private DazooStore() {
+	private MiTVStore() {
 	};
 
 	/**
-	 * DazooStoreHolder is loaded on the first execution of the DazooStore.getInstance() or the first access to DazooStoreHolder.INSTANCE, not before
+	 * MiTVStoreHolder is loaded on the first execution of the MiTVStore.getInstance() or the first access to MiTVStoreHolder.INSTANCE, not before
 	 */
 
-	private static class DazooStoreHolder {
-		public static final DazooStore	INSTANCE	= new DazooStore();
+	private static class MiTVStoreHolder {
+		public static final MiTVStore	INSTANCE	= new MiTVStore();
 	}
 
-	public static DazooStore getInstance() {
-		return DazooStoreHolder.INSTANCE;
+	public static MiTVStore getInstance() {
+		return MiTVStoreHolder.INSTANCE;
 	}
 
 	// tags

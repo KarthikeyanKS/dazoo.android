@@ -87,7 +87,7 @@ public class BlockPopularListViewAdapter extends BaseAdapter {
 
 			ImageAware imageAware = new ImageViewAware(holder.mPoster, false);
 			ImageLoader.getInstance().displayImage(broadcast.getProgram().getPortMUrl(), imageAware);
-			if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+			if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 				holder.mTitle.setText(broadcast.getProgram().getSeries().getName());
 			} else {
 				holder.mTitle.setText(broadcast.getProgram().getTitle());
@@ -98,14 +98,14 @@ public class BlockPopularListViewAdapter extends BaseAdapter {
 			holder.mChannelName.setText(broadcast.getChannel().getName());
 
 			if (programType != null) {
-				if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(programType)) {
+				if (Consts.PROGRAM_TYPE_MOVIE.equals(programType)) {
 					holder.mDetails.setText(broadcast.getProgram().getGenre() + " " + broadcast.getProgram().getYear());
-				} else if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+				} else if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 					holder.mDetails.setText(mActivity.getResources().getString(R.string.season) + " " + broadcast.getProgram().getSeason().getNumber() + " "
 							+ mActivity.getResources().getString(R.string.episode) + " " + broadcast.getProgram().getEpisodeNumber());
-				} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(programType)) {
+				} else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) {
 					holder.mDetails.setText(broadcast.getProgram().getSportType().getName() + " " + broadcast.getProgram().getTournament());
-				} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(programType)) {
+				} else if (Consts.PROGRAM_TYPE_OTHER.equals(programType)) {
 					holder.mDetails.setText(broadcast.getProgram().getCategory());
 				}
 			}

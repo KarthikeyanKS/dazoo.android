@@ -23,7 +23,7 @@ import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.Consts.REQUEST_STATUS;
-import com.mitv.authentication.DazooLoginActivity;
+import com.mitv.authentication.MiTVLoginActivity;
 import com.mitv.authentication.FacebookLoginActivity;
 import com.mitv.authentication.SignUpActivity;
 import com.mitv.content.SSActivity;
@@ -31,7 +31,7 @@ import com.mitv.content.activity.ActivityActivity;
 import com.mitv.homepage.HomeActivity;
 import com.mitv.notification.NotificationDataSource;
 import com.mitv.search.SearchPageActivity;
-import com.mitv.storage.DazooStore;
+import com.mitv.storage.MiTVStore;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -163,16 +163,16 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 			}
 
 			mLikesTextView.setText(getResources().getString(R.string.icon_heart) + " " + getResources().getString(R.string.likes));
-			if (DazooStore.getInstance().getLikeIds() != null && DazooStore.getInstance().getLikeIds().isEmpty() != true) {
-				mLikesCountTextView.setText("(" + String.valueOf(DazooStore.getInstance().getLikeIds().size()) + ")");
+			if (MiTVStore.getInstance().getLikeIds() != null && MiTVStore.getInstance().getLikeIds().isEmpty() != true) {
+				mLikesCountTextView.setText("(" + String.valueOf(MiTVStore.getInstance().getLikeIds().size()) + ")");
 			}
 			else {
 				mLikesCountTextView.setText("(0)");
 			}
 
 			mMyChannelsTextView.setText(getResources().getString(R.string.icon_blocks) + " " + getResources().getString(R.string.my_channels));
-			if (DazooStore.getInstance().getAllChannelIds() != null && DazooStore.getInstance().getAllChannelIds().isEmpty() != true) {
-				mMyChannelsCountTextView.setText("(" + String.valueOf(DazooStore.getInstance().getMyChannelIds().size()) + ")");
+			if (MiTVStore.getInstance().getAllChannelIds() != null && MiTVStore.getInstance().getAllChannelIds().isEmpty() != true) {
+				mMyChannelsCountTextView.setText("(" + String.valueOf(MiTVStore.getInstance().getMyChannelIds().size()) + ")");
 			}
 
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -245,7 +245,7 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 			
 			break;
 		case R.id.myprofile_login_btn:
-			Intent intentLogin = new Intent(MyProfileActivity.this, DazooLoginActivity.class);
+			Intent intentLogin = new Intent(MyProfileActivity.this, MiTVLoginActivity.class);
 			startActivity(intentLogin);
 			
 			break;

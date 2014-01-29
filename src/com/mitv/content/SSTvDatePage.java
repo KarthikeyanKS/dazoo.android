@@ -24,7 +24,7 @@ public class SSTvDatePage extends SSPage {
 	}
 
 	public SSTvDatePage() {
-		super(Consts.MILLICOM_SECONDSCREEN_DATES_PAGE_URL);
+		super(Consts.URL_DATES);
 	}
 	
 	public ArrayList<TvDate> getTvDates() {

@@ -177,14 +177,14 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 	private void populateProgramView(ViewHolder viewHolder, SearchResultItem resultItem, Program program) {
 		String programType = program.getProgramType();
 		
-		if(programType.equals(Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE)) {
-			programType = Consts.DAZOO_PROGRAM_DISPLAY_STRING_TV_EPISODE;
-		} else if(programType.equals(Consts.DAZOO_PROGRAM_TYPE_MOVIE)) {
-			programType = Consts.DAZOO_PROGRAM_DISPLAY_STRING_MOVIE;
-		} else if(programType.equals(Consts.DAZOO_PROGRAM_TYPE_OTHER)) {
-			programType = Consts.DAZOO_PROGRAM_DISPLAY_STRING_OTHER;
-		} else if(programType.equals(Consts.DAZOO_PROGRAM_TYPE_SPORT)) {
-			programType = Consts.DAZOO_PROGRAM_DISPLAY_STRING_SPORT;
+		if(programType.equals(Consts.PROGRAM_TYPE_TV_EPISODE)) {
+			programType = Consts.PROGRAM_DISPLAY_STRING_TV_EPISODE;
+		} else if(programType.equals(Consts.PROGRAM_TYPE_MOVIE)) {
+			programType = Consts.PROGRAM_DISPLAY_STRING_MOVIE;
+		} else if(programType.equals(Consts.PROGRAM_TYPE_OTHER)) {
+			programType = program.getCategory();
+		} else if(programType.equals(Consts.PROGRAM_TYPE_SPORT)) {
+			programType = Consts.PROGRAM_DISPLAY_STRING_SPORT;
 		}
 		
 		viewHolder.mType.setText(programType);
@@ -200,7 +200,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 	}
 		
 	private void populateSeriesView(ViewHolder viewHolder, SearchResultItem resultItem, Series series) {
-		viewHolder.mType.setText(Consts.DAZOO_SERIES_DISPLAY_STRING);
+		viewHolder.mType.setText(Consts.SERIES_DISPLAY_STRING);
 		
 		String title = series.getName();
 		setTitleString(viewHolder, title);
@@ -209,7 +209,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 	}
 	
 	private void populateChannelView(ViewHolder viewHolder, Channel channel) {
-		viewHolder.mType.setText(Consts.DAZOO_CHANNEL_DISPLAY_STRING);
+		viewHolder.mType.setText(Consts.CHANNEL_DISPLAY_STRING);
 		
 		String title = channel.getName();
 		setTitleString(viewHolder, title);
@@ -353,7 +353,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 			}
 		};
 
-		String completeSearchUrl = String.format(Locale.getDefault(), Consts.MILLICOM_SECONDSCREEN_SEARCH, q);
+		String completeSearchUrl = String.format(Locale.getDefault(), Consts.URL_SEARCH, q);
 		
 		mAq.ajax(completeSearchUrl, String.class, -1, cb);
 		cb.block();

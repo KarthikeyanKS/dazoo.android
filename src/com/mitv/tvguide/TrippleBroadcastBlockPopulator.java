@@ -103,7 +103,7 @@ public class TrippleBroadcastBlockPopulator {
 
 			if (!mUsedForRepetitions) {
 				Program programLocal = broadcast.getProgram();
-				if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(programLocal.getProgramType())) {
+				if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programLocal.getProgramType())) {
 					String season = programLocal.getSeason().getNumber();
 					int episode = programLocal.getEpisodeNumber();
 					String seasonEpisode = "";

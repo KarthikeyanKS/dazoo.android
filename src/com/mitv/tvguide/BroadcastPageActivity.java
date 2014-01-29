@@ -39,7 +39,7 @@ import com.mitv.model.Channel;
 import com.mitv.model.Program;
 import com.mitv.model.TvDate;
 import com.mitv.myprofile.MyProfileActivity;
-import com.mitv.storage.DazooStore;
+import com.mitv.storage.MiTVStore;
 import com.mitv.utilities.DateUtilities;
 
 public class BroadcastPageActivity extends SSActivity implements OnClickListener {
@@ -56,7 +56,7 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 			mIsFromProfile = false;
 	private RelativeLayout			mTabTvGuide, mTabActivity, mTabProfile;
 	private View mTabDividerLeft, mTabDividerRight;
-	private DazooStore				dazooStore;
+	private MiTVStore				mitvStore;
 	private Activity				mActivity;
 	private Intent					intent;
 	private ArrayList<Broadcast>	mUpcomingBroadcasts;
@@ -71,7 +71,7 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 		
 		setContentView(R.layout.layout_broadcastpage_activity);
 
-		dazooStore = DazooStore.getInstance();
+		mitvStore = MiTVStore.getInstance();
 		mActivity = this;
 
 		// get the info about the program to be displayed from tv-guide listview
@@ -138,15 +138,15 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 		} else {
 			token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 			if (mBroadcastPageUrl == null)
-				mBroadcastPageUrl = Consts.NOTIFY_BROADCAST_URL_PREFIX + mChannelId + Consts.NOTIFY_BROADCAST_URL_MIDDLE + mBeginTimeInMillis;
+				mBroadcastPageUrl = Consts.URL_NOTIFY_BROADCAST_PREFIX + mChannelId + Consts.NOTIFY_BROADCAST_URL_MIDDLE + mBeginTimeInMillis;
 
 			if (!mIsFromActivity) {
 				if (!mIsFromNotification) {
 					if (token != null && TextUtils.isEmpty(token) != true) {
 						Log.d(TAG, "LOGGED IN!");
 						mIsLoggedIn = true;
-						mBroadcast = dazooStore.getBroadcastFromMy(mTvDate, mChannelId, mBeginTimeInMillis);
-						mChannel = dazooStore.getChannelFromAll(mChannelId);
+						mBroadcast = mitvStore.getBroadcastFromMy(mTvDate, mChannelId, mBeginTimeInMillis);
+						mChannel = mitvStore.getChannelFromAll(mChannelId);
 
 						if (mBroadcast != null) {
 							loadIndividualBroadcast = false;
@@ -160,7 +160,7 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 								mBroadcast.setChannel(channel);
 							}
 
-							if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(mBroadcast.getProgram().getProgramType())) {
+							if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(mBroadcast.getProgram().getProgramType())) {
 								getUpcomingSeriesBroadcasts(mBroadcast.getProgram().getSeries().getSeriesId());
 							} else {
 								mIsUpcoming = true;
@@ -180,7 +180,7 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 			if (loadIndividualBroadcast) {
 				Log.d(TAG, "NOT LOGGED IN");
 				if (useStandardChannel) {
-					mChannel = dazooStore.getChannelFromDefault(mChannelId);
+					mChannel = mitvStore.getChannelFromDefault(mChannelId);
 				}
 
 				getIndividualBroadcast(mBroadcastPageUrl);
@@ -197,7 +197,7 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 				if (mBroadcast != null) {
 					mIsBroadcast = true;
 
-					if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(mBroadcast.getProgram().getProgramType())) {
+					if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(mBroadcast.getProgram().getProgramType())) {
 						getUpcomingSeriesBroadcasts(mBroadcast.getProgram().getSeries().getSeriesId());
 					} else {
 						mIsUpcoming = true;
@@ -207,7 +207,7 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 
 					// if we have the data in the singleton about the channel - set it completely
 					if(mBroadcast.getChannel() == null) {
-						mChannel = dazooStore.getChannelFromAll(mChannelId);
+						mChannel = mitvStore.getChannelFromAll(mChannelId);
 						if (mChannel != null) {
 							mBroadcast.setChannel(mChannel);
 	
@@ -284,7 +284,7 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 
 		// Remove upcoming broadcasts with season 0 and episode 0
 		LinkedList<Broadcast> upcomingToRemove = new LinkedList<Broadcast>();
-		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(mBroadcast.getProgram().getProgramType())) {
+		if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(mBroadcast.getProgram().getProgramType())) {
 			Program program = mBroadcast.getProgram();
 			if (program.getSeason().getNumber().equals("0") && program.getEpisodeNumber() == 0) {
 				for (int i = 0; i < mUpcomingBroadcasts.size(); i++) {
@@ -427,7 +427,7 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 					// Log.d(TAG, "hour: " + hour + " TvDate: " + tvDate.getDate());
 				} else {
 					hour = ((SecondScreenApplication) getApplicationContext()).getSelectedHour();
-					tvDate = DazooStore.getInstance().getDate(mTvDate);
+					tvDate = MiTVStore.getInstance().getDate(mTvDate);
 					// Log.d(TAG, "hour: " + hour + " TvDate: " + tvDate.getDate());
 				}
 

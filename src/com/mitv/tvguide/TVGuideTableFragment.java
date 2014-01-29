@@ -33,7 +33,7 @@ import com.mitv.model.Broadcast;
 import com.mitv.model.Guide;
 import com.mitv.model.Tag;
 import com.mitv.model.TvDate;
-import com.mitv.storage.DazooStore;
+import com.mitv.storage.MiTVStore;
 import com.mitv.utilities.DateUtilities;
 
 public class TVGuideTableFragment extends SSPageFragment {
@@ -50,7 +50,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 	private int						mTvDatePosition;
 	private SwipeClockBar			mSwipeClockBar;
 	private TVGuideListAdapter		mTVGuideListAdapter;
-	private DazooStore				dazooStore;
+	private MiTVStore				mitvStore;
 	private boolean					mIsLoggedIn	= false, mIsToday = false;
 	private ArrayList<Broadcast>	mTaggedBroadcasts;
 	private TVGuideTagListAdapter	mTVTagListAdapter;
@@ -74,7 +74,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		dazooStore = DazooStore.getInstance();
+		mitvStore = MiTVStore.getInstance();
 
 		token = ((SecondScreenApplication) getActivity().getApplicationContext()).getAccessToken();
 		if (token != null && TextUtils.isEmpty(token) != true) {
@@ -89,7 +89,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 		mTagStr = bundle.getString(Consts.FRAGMENT_EXTRA_TAG);
 		mTvDate = bundle.getParcelable(Consts.FRAGMENT_EXTRA_TVDATE);
 		mTvDatePosition = bundle.getInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION);
-		mTag = dazooStore.getTag(mTagStr);
+		mTag = mitvStore.getTag(mTagStr);
 		
 		if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
 
@@ -138,26 +138,26 @@ public class TVGuideTableFragment extends SSPageFragment {
 		mGuides = null;
 		mTaggedBroadcasts = null;
 
-		// read the data from the DazooStore singleton
+		// read the data from the mitvStore singleton
 		if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
 
 			if (mIsLoggedIn) {
-				mGuides = dazooStore.getMyGuideTable(mTvDate.getDate());
+				mGuides = mitvStore.getMyGuideTable(mTvDate.getDate());
 				Log.d(TAG, "My date: " + mTvDate.getDate());
 				Log.d(TAG, "MY mGuides size: " + mGuides.size());
 
 			} else {
-				mGuides = dazooStore.getGuideTable(mTvDate.getDate());
+				mGuides = mitvStore.getGuideTable(mTvDate.getDate());
 				Log.d(TAG, "date: " + mTvDate.getDate());
 				Log.d(TAG, "mGuides size: " + mGuides.size());
 			}
 		} else {
 			if (mIsLoggedIn) {
-				mTaggedBroadcasts = dazooStore.getMyTaggedBroadcasts(mTvDate, mTag);
+				mTaggedBroadcasts = mitvStore.getMyTaggedBroadcasts(mTvDate, mTag);
 				Log.d(TAG, "My tagged broadcasts");
 
 			} else {
-				mTaggedBroadcasts = dazooStore.getTaggedBroadcasts(mTvDate, mTag);
+				mTaggedBroadcasts = mitvStore.getTaggedBroadcasts(mTvDate, mTag);
 				Log.d(TAG, "default tagged broadcasts");
 			}
 		}

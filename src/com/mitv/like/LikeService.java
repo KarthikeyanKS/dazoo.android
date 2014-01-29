@@ -55,8 +55,8 @@ import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.manager.ContentParser;
 import com.mitv.manager.LoginManager;
-import com.mitv.model.DazooLike;
-import com.mitv.model.DazooLikeEntity;
+import com.mitv.model.MiTVLike;
+import com.mitv.model.MiTVLikeEntity;
 import com.mitv.notification.NotificationService;
 import com.mitv.utilities.JSONUtilities;
 
@@ -65,26 +65,26 @@ public class LikeService {
 	private static final String	TAG	= "LikeService";
 
 	public static String getLikeType(String programType) {
-		if (programType.equals(Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE)) {
-			return Consts.DAZOO_LIKE_TYPE_SERIES;
-		} else if (programType.equals(Consts.DAZOO_PROGRAM_TYPE_SPORT)) {
-			return Consts.DAZOO_LIKE_TYPE_SPORT_TYPE;
+		if (programType.equals(Consts.PROGRAM_TYPE_TV_EPISODE)) {
+			return Consts.LIKE_TYPE_SERIES;
+		} else if (programType.equals(Consts.PROGRAM_TYPE_SPORT)) {
+			return Consts.LIKE_TYPE_SPORT_TYPE;
 		} else {
-			return Consts.DAZOO_LIKE_TYPE_PROGRAM;
+			return Consts.LIKE_TYPE_PROGRAM;
 		}
 	}
 
 	public static boolean isLiked(String token, String programId) {
-		ArrayList<DazooLike> likesList = new ArrayList<DazooLike>();
+		ArrayList<MiTVLike> likesList = new ArrayList<MiTVLike>();
 		likesList = LikeService.getLikesList(token);
 		ArrayList<String> likeEntityIds = new ArrayList<String>();
 		for (int i = 0; i < likesList.size(); i++) {
 			String likeType = likesList.get(i).getLikeType();
-			if (Consts.DAZOO_LIKE_TYPE_SERIES.equals(likeType)) {
+			if (Consts.LIKE_TYPE_SERIES.equals(likeType)) {
 				likeEntityIds.add(likesList.get(i).getEntity().getSeriesId());
-			} else if (Consts.DAZOO_LIKE_TYPE_PROGRAM.equalsIgnoreCase(likeType)) {
+			} else if (Consts.LIKE_TYPE_PROGRAM.equalsIgnoreCase(likeType)) {
 				likeEntityIds.add(likesList.get(i).getEntity().getProgramId());
-			} else if (Consts.DAZOO_LIKE_TYPE_SPORT_TYPE.equals(likeType)) {
+			} else if (Consts.LIKE_TYPE_SPORT_TYPE.equals(likeType)) {
 				likeEntityIds.add(likesList.get(i).getEntity().getSportTypeId());
 			}
 		}
@@ -114,7 +114,7 @@ public class LikeService {
 	}
 
 	public static ArrayList<String> getLikeIdsList(String token) {
-		ArrayList<String> dazooLikeIdsList = new ArrayList<String>();
+		ArrayList<String> mitvLikeIdsList = new ArrayList<String>();
 		GetLikesTask getLikesTask = new GetLikesTask();
 		String jsonString = "";
 		try {
@@ -123,9 +123,9 @@ public class LikeService {
 				JSONArray likesListJson = new JSONArray(jsonString);
 				int size = likesListJson.length();
 				for (int i = 0; i < size; i++) {
-					dazooLikeIdsList.add(ContentParser.parseDazooLikeIds(likesListJson.getJSONObject(i)));
+					mitvLikeIdsList.add(ContentParser.parseMiTVLikeIds(likesListJson.getJSONObject(i)));
 				}
-				Log.d(TAG,"dazooLikeIdsList: " + dazooLikeIdsList.size());
+				Log.d(TAG,"mitvLikeIdsList: " + mitvLikeIdsList.size());
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -134,11 +134,11 @@ public class LikeService {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		return dazooLikeIdsList;
+		return mitvLikeIdsList;
 	}
 
-	public static ArrayList<DazooLike> getLikesList(String token) {
-		ArrayList<DazooLike> dazooLikesList = new ArrayList<DazooLike>();
+	public static ArrayList<MiTVLike> getLikesList(String token) {
+		ArrayList<MiTVLike> mitvLikesList = new ArrayList<MiTVLike>();
 		GetLikesTask getLikesTask = new GetLikesTask();
 		String jsonString = "";
 		try {
@@ -147,7 +147,7 @@ public class LikeService {
 				JSONArray likesListJson = new JSONArray(jsonString);
 				int size = likesListJson.length();
 				for (int i = 0; i < size; i++) {
-					dazooLikesList.add(ContentParser.parseDazooLike(likesListJson.getJSONObject(i)));
+					mitvLikesList.add(ContentParser.parseMiTVLike(likesListJson.getJSONObject(i)));
 				}
 			}
 		} catch (InterruptedException e) {
@@ -157,7 +157,7 @@ public class LikeService {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		return dazooLikesList;
+		return mitvLikesList;
 	}
 
 	public static boolean addLike(String token, String entityId, String likeType) {
@@ -229,7 +229,7 @@ public class LikeService {
 				HttpGet httpGet = new HttpGet();
 				httpGet.setHeader("Authorization", "Bearer " + params[0]);
 				httpGet.setHeader("Content-type", "application/json; charset=UTF-8");
-				httpGet.setURI(new URI(Consts.MILLICOM_SECONDSCREEN_LIKES_WITH_UPCOMING_URL));
+				httpGet.setURI(new URI(Consts.URL_LIKES_WITH_UPCOMING));
 
 				HttpResponse response = httpClient.execute(httpGet);
 				if (Consts.GOOD_RESPONSE == response.getStatusLine().getStatusCode()) {
@@ -284,8 +284,8 @@ public class LikeService {
 				// Set verifier
 				HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
 
-				Log.d(TAG, Consts.MILLICOM_SECONDSCREEN_LIKES_URL + "/" + params[1] + "/" + params[2]);
-				HttpDelete httpDelete = new HttpDelete(Consts.MILLICOM_SECONDSCREEN_LIKES_URL + "/" + params[1] + "/" + params[2]);
+				Log.d(TAG, Consts.URL_LIKES + "/" + params[1] + "/" + params[2]);
+				HttpDelete httpDelete = new HttpDelete(Consts.URL_LIKES + "/" + params[1] + "/" + params[2]);
 				httpDelete.setHeader("Authorization", "Bearer " + params[0]);
 
 				// HttpResponse response = client.execute(httpDelete);
@@ -308,12 +308,12 @@ public class LikeService {
 		protected Integer doInBackground(String... params) {
 			try {
 				HttpClient client = new DefaultHttpClient();
-				HttpPost httpPost = new HttpPost(Consts.MILLICOM_SECONDSCREEN_LIKES_URL);
+				HttpPost httpPost = new HttpPost(Consts.URL_LIKES);
 				httpPost.setHeader("Authorization", "Bearer " + params[0]);
 				httpPost.setHeader("Accept", "application/json");
 				httpPost.setHeader("Content-type", "application/json");
 
-				JSONObject holder = JSONUtilities.createJSONObjectWithKeysValues(Arrays.asList(Consts.MILLICOM_SECONDSCREEN_API_LIKETYPE, Consts.MILLICOM_SECONDSCREEN_API_ENTITY_ID),
+				JSONObject holder = JSONUtilities.createJSONObjectWithKeysValues(Arrays.asList(Consts.API_LIKETYPE, Consts.API_ENTITY_ID),
 						Arrays.asList(params[2], params[1]));
 				Log.d(TAG, "Add like holder: " + holder);
 				StringEntity entity = new StringEntity(holder.toString());

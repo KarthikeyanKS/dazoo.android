@@ -23,7 +23,7 @@ public class SSTagsPage extends SSPage {
 	}
 	
 	public SSTagsPage() {
-		super(Consts.MILLICOM_SECONDSCREEN_TAGS_PAGE_URL);
+		super(Consts.URL_TAGS_PAGE);
 	}
 
 	public ArrayList<Tag> getTags() {

@@ -53,15 +53,15 @@ public class Channel extends ThreeImageResolutions implements Parcelable {
 	}
 	
 	public Channel(JSONObject jsonChannel) {
-		this.setChannelId(jsonChannel.optString(Consts.DAZOO_CHANNEL_CHANNEL_ID));
-		this.setName(jsonChannel.optString(Consts.DAZOO_CHANNEL_NAME));
+		this.setChannelId(jsonChannel.optString(Consts.CHANNEL_CHANNEL_ID));
+		this.setName(jsonChannel.optString(Consts.CHANNEL_NAME));
 
 		try {
-			JSONObject jsonPoster = jsonChannel.getJSONObject(Consts.DAZOO_CHANNEL_LOGO);
+			JSONObject jsonPoster = jsonChannel.getJSONObject(Consts.CHANNEL_LOGO);
 			if (jsonPoster != null) {
-				this.setImageUrlPortraitOrSquareLow(jsonPoster.optString(Consts.DAZOO_IMAGE_SMALL));
-				this.setImageUrlPortraitOrSquareMedium(jsonPoster.optString(Consts.DAZOO_IMAGE_MEDIUM));
-				this.setImageUrlPortraitOrSquareHigh(jsonPoster.optString(Consts.DAZOO_IMAGE_LARGE));
+				this.setImageUrlPortraitOrSquareLow(jsonPoster.optString(Consts.IMAGE_SMALL));
+				this.setImageUrlPortraitOrSquareMedium(jsonPoster.optString(Consts.IMAGE_MEDIUM));
+				this.setImageUrlPortraitOrSquareHigh(jsonPoster.optString(Consts.IMAGE_LARGE));
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();

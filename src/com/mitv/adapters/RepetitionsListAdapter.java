@@ -25,7 +25,7 @@ import com.mitv.model.TvDate;
 import com.mitv.notification.NotificationDataSource;
 import com.mitv.notification.NotificationDialogHandler;
 import com.mitv.notification.NotificationService;
-import com.mitv.storage.DazooStore;
+import com.mitv.storage.MiTVStore;
 import com.mitv.tvguide.BroadcastPageActivity;
 import com.mitv.utilities.AnimationUtilities;
 import com.mitv.utilities.DateUtilities;
@@ -44,7 +44,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 	private boolean 				mPosIsSet[];
 	private Program					mProgram;
 	private Broadcast 				mRunningBroadcast;
-	private DazooStore				dazooStore;
+	private MiTVStore				mitvStore;
 	private ArrayList<TvDate>		mTvDates;
 
 	private int reminderPosition;
@@ -73,8 +73,8 @@ public class RepetitionsListAdapter extends BaseAdapter {
 		this.mRepeatingEpisodes =repeatingBroadcasts;
 		mNotificationDataSource = new NotificationDataSource(mActivity);
 
-		dazooStore = DazooStore.getInstance();
-		mTvDates = dazooStore.getTvDates();
+		mitvStore = MiTVStore.getInstance();
+		mTvDates = mitvStore.getTvDates();
 
 		mPosIsSet = new boolean[getCount()];
 		mPosNotificationId = new int[getCount()];

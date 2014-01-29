@@ -26,7 +26,7 @@ import com.mitv.homepage.HomeActivity;
 import com.mitv.http.NetworkUtils;
 import com.mitv.model.Broadcast;
 import com.mitv.myprofile.MyProfileActivity;
-import com.mitv.storage.DazooStore;
+import com.mitv.storage.MiTVStore;
 
 public class UpcomingeEpisodesPageActivity extends SSActivity implements OnClickListener {
 

@@ -18,10 +18,10 @@ import android.widget.RelativeLayout;
 import com.mitv.R;
 import com.mitv.adapters.TVGuideListAdapter.ViewHolder;
 import com.mitv.manager.AppConfigurationManager;
-import com.mitv.manager.DazooCore;
-import com.mitv.manager.DazooCore.AdCallBack;
+import com.mitv.manager.MiTVCore;
+import com.mitv.manager.MiTVCore.AdCallBack;
 import com.mitv.model.AdzerkAd;
-import com.mitv.storage.DazooStore;
+import com.mitv.storage.MiTVStore;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
@@ -55,7 +55,7 @@ public class AdListAdapter<T> extends BaseAdapter {
 		this.isAdsEnabled = globalAdsEnabled && localAdsEnabled;
 		
 		if (this.isAdsEnabled) {
-			adItems = DazooStore.getInstance().getAdsForFragment(fragmentName);
+			adItems = MiTVStore.getInstance().getAdsForFragment(fragmentName);
 			if(adItems == null) {
 				adItems = new HashMap<Integer, AdzerkAd>();
 				downloadAds();
@@ -68,7 +68,7 @@ public class AdListAdapter<T> extends BaseAdapter {
 		for(int i = 0; i < adCount; ++i) {
 			final int index = i;
 			String divId = new StringBuilder().append(fragmentName).append("AdWithId").append(i).toString();
-			DazooCore.getAdzerkAd(divId, adFormats, new AdCallBack() {
+			MiTVCore.getAdzerkAd(divId, adFormats, new AdCallBack() {
 				@Override
 				public void onAdResult(final AdzerkAd ad) {
 					if (ad != null) {
@@ -76,7 +76,7 @@ public class AdListAdapter<T> extends BaseAdapter {
 					}
 					
 					if(index == adCount-1) {
-						DazooStore.getInstance().addAdsForFragment(fragmentName, adItems);
+						MiTVStore.getInstance().addAdsForFragment(fragmentName, adItems);
 						
 						activity.runOnUiThread(new Runnable() {
 							@Override

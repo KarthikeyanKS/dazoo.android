@@ -23,14 +23,14 @@ public class NotificationDialogHandler {
 		answerNo = bProcedure;
 		
 		String reminderText = "";
-		if (Consts.DAZOO_PROGRAM_TYPE_TV_EPISODE.equals(broadcast.getProgram().getProgramType())) {
+		if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(broadcast.getProgram().getProgramType())) {
 			reminderText = context.getString(R.string.reminder_text_remove) + broadcast.getProgram().getTitle() + ", " + context.getString(R.string.season) + " "
 					+ broadcast.getProgram().getSeason().getNumber() + ", " + context.getString(R.string.episode) + " " + broadcast.getProgram().getEpisodeNumber() + "?";
-		} else if (Consts.DAZOO_PROGRAM_TYPE_MOVIE.equals(broadcast.getProgram().getProgramType())) {
+		} else if (Consts.PROGRAM_TYPE_MOVIE.equals(broadcast.getProgram().getProgramType())) {
 			reminderText = context.getString(R.string.reminder_text_remove) + broadcast.getProgram().getTitle() + "?";
-		} else if (Consts.DAZOO_PROGRAM_TYPE_OTHER.equals(broadcast.getProgram().getProgramType())) {
+		} else if (Consts.PROGRAM_TYPE_OTHER.equals(broadcast.getProgram().getProgramType())) {
 			reminderText = context.getString(R.string.reminder_text_remove) + broadcast.getProgram().getTitle() + "?";
-		} else if (Consts.DAZOO_PROGRAM_TYPE_SPORT.equals(broadcast.getProgram().getProgramType())) {
+		} else if (Consts.PROGRAM_TYPE_SPORT.equals(broadcast.getProgram().getProgramType())) {
 			reminderText = context.getString(R.string.reminder_text_remove) + broadcast.getProgram().getTitle() + "?";
 		}
 

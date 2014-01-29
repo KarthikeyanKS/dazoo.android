@@ -21,7 +21,7 @@ public class SSSearchResultPage extends SSPage {
 	}
 	
 	public SSSearchResultPage() {
-		super(Consts.MILLICOM_SECONDSCREEN_SEARCH);
+		super(Consts.URL_SEARCH);
 	}
 	
 	public SearchResult getSearchResult() {
