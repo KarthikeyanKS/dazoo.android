@@ -120,9 +120,9 @@ public class ResetPasswordActivity extends SSSignInSignupBaseActivity implements
 						//Toast.makeText(getApplicationContext(), "Error! Email is not found!", Toast.LENGTH_SHORT).show();
 						if (Consts.BAD_RESPONSE_STRING_EMAIL_NOT_FOUND.equals(mBadResponseString)) {
 							mErrorTextView.setText(getResources().getString(R.string.reset_password_email_not_found));
-							mEmailResetPasswordEditText.setEnabled(true);
 						}
-						Log.d(TAG, "Error! Reset password : level backend");
+						mEmailResetPasswordEditText.setEnabled(true);
+						Log.d(TAG, "Bad response: " + mBadResponseString);
 					}
 				} catch (InterruptedException e) {
 					e.printStackTrace();
@@ -171,7 +171,7 @@ public class ResetPasswordActivity extends SSSignInSignupBaseActivity implements
 				HttpResponse response = httpClient.execute(httpPost);
 				
 				int responseCode = response.getStatusLine().getStatusCode();
-				if (responseCode == Consts.GOOD_RESPONSE) {
+				if (responseCode == Consts.GOOD_RESPONSE_RESET_PASSWORD) {
 					return responseCode;
 				}
 				else if (responseCode == Consts.BAD_RESPONSE) {
