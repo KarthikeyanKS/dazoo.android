@@ -40,6 +40,7 @@
 
     <!-- ACTIVITY PAGE -->
     <string name="activity_title">Actividad</string>
+	<string name="activity_page">Actividad</string>
     <string name="like">Me gusta</string>
     <string name="share">Compartir</string>
 
@@ -63,7 +64,7 @@
     <string name="terms_temp">Términos y Condiciones de Uso</string>
     <string name="help_title">Ayuda</string>
     <string name="help_temp">Ayuda</string>
-    <string name="no_reminders">No tienes recordatorios todavía</string>
+    
 
     <!-- BROADCAST PAGE -->
     <string name="cast_and_crew">Elenco</string>
@@ -93,6 +94,15 @@
         <item quantity="other">Quedan</item>
     </plurals>
     <string name="broadcast_info">Programa</string>
+	
+    <plurals name="hour">
+        <item quantity="one">hora</item>
+        <item quantity="other">horas</item>
+    </plurals>
+    <plurals name="day">
+        <item quantity="one">diá</item>
+        <item quantity="other">diás</item>
+    </plurals>
 
     <!-- LOGIN PAGE -->
     <string name="login_with_facebook">Inicia sesión con Facebook</string>
@@ -107,12 +117,11 @@
     <string name="hint_email_long">Correo electrónico</string>
     <!-- string name="hint_password">Contraseña</string>
     <string name="hint_email">Correo electrónico</string-->
-    <string name="hint_password">Contraseña</string>
-    <string name="hint_email">Correo electrónico</string>
     <string name="hint_firstname">Nombre</string>
     <string name="hint_lastname">Apellido</string>
     <string name="hint_enter_email">Correo electrónico</string>
-    <string name="login">"Iniciar sesión"</string>
+    <string name="login">Inicia sesión</string>
+	<string name="login_here">Inicia sesión</string>
     <string name="reset_password">Cambia tu contraseña</string>
     <string name="sign_in">Inicia sesión</string>
     <string name="cancel">Cancelar</string>
@@ -127,7 +136,7 @@
     <string name="forgot_your_password">¿Olvidaste tu contraseña?</string>
     <string name="reset_password_text">Escribe tu correo electrónico y te enviaremos instrucciones para cambiar tu contraseña.</string>
     <string name="reset_password_email_not_found">No encontramos tu correo electrónico</string>
-    <string name="check_your_email">Busca en tu correo electrónico!</string>
+    <string name="check_your_email">¡Busca en tu correo electrónico!</string>
     <string name="reset_password_mail_text">Te hemos enviado un correo con las instrucciones para cambiar tu contraseña.</string>
     <string name="reset_password_mail_spam_text">¿No encuentras el correo electrónico que te enviamos? Checa en tu correo no deseado.</string>
     <string name="submit">Continuar</string>
@@ -139,14 +148,16 @@
     <string name="take_the_tour">Toma un tour</string>
     <string name="skip">Saltar</string>
     <string name="or">o</string>
-    <string name="signup_with_email_error_firstname">¿Seguro que así te llamas? </string>
-    <string name="signup_with_email_error_lastname">¿Seguro que éste es tu apellido? </string>
-    <string name="signup_with_email_error_email_incorrect">Tu correo electrónico se ve raro </string>
+    <string name="signup_with_email_error_firstname">Nos encantaría conocer tu nombre</string>
+    <string name="signup_with_email_error_lastname">Nos encantaría conocer tu nombre apellido? </string>
+    <string name="signup_with_email_error_email_incorrect">Por favor introduce tu correo electrónico (e.g. yo@mi.tv) </string>
     <string name="signup_with_email_error_email_already_registered">Este correo electrónico ya está registrado </string>
     <string name="signup_with_email_error_passwordlength">La contraseña debe contener </string>
     <string name="signup_with_email_characters"> caracteres</string>
     <string name="signup_characters">al menos 6 caracteres</string>
     <string name="signup_email_example">yo@mi.tv</string>
+    <string name="login_with_wrong_info">Algo es raro con la contraseña o tu correo electrónico.</string>
+    <string name="login_with_wrong_format">Check if e-mail and password were input right!</string>
 
     <!-- MY CHANNELS PAGE -->
     <string name="get_my_channels">Obtener mis canales</string>
@@ -154,6 +165,9 @@
     <string name="remove_from_my_channels">Eliminar de mis canales</string>
     <string name="selected_channels">Canales seleccionados:</string>
     <string name="search_channels">Buscar canales</string>
+
+	 <!-- REMINDERS -->
+	<string name="no_reminders">No tienes recordatorios todavía</string>
 
     <!-- SHARE PROVIDER -->
     <string name="share_action_title">Compartir con&#8230;</string>
@@ -186,6 +200,10 @@
     <string name="popular">Populares</string>
 
     <string name="search_page_instructions">Buscar por pelis, series, deportes o canales</string>
+    <string name="search_empty">No se encontraron programas</string>
+    <string name="search_on_air_now">Ahora</string>
+    <string name="search_no_upcoming_broadcasts">No hay programas</string>
+    <string name="search_starts_in">en</string>
     
     <!-- UPDATE DIALOG -->
     <string name="dialog_prompt_update_text">Tienes que actualizar mi.tv a una versión más nueva</string>
