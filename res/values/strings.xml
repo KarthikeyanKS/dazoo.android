@@ -223,7 +223,9 @@
     <string name="notification_text_start">mi.tv would like to remind you that </string>
     <string name="notification_text_middle"> in 15 minutes at the channel </string>
     <string name="notification_text_end">. Enjoy! :)</string>
-    <string name="reminder_text_set">A reminder was set 15 minutes before on air</string>
+    <string name="reminder_text_set_start">A reminder was set</string>
+    <string name="reminder_text_set_middle">15 minutes</string>
+    <string name="reminder_text_set_end">before on air</string>
     <string name="reminder_text_remove">"Remove the reminder for "</string>
 
     <!-- LIKE SERVICE -->
