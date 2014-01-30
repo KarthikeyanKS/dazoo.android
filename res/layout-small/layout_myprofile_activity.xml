@@ -23,7 +23,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/grey2"
+            android:background="@color/grey1"
             android:paddingBottom="10dp" >
 
             <!-- CONTAINER FOR PROFILE MENU -->
@@ -40,7 +40,7 @@
                     android:id="@+id/myprofile_person_container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_margin="10dp"
                     android:orientation="horizontal" >
 
                     <ImageView
@@ -63,14 +63,15 @@
                     <com.mitv.customviews.FontTextView
                         android:id="@+id/myprofile_name_tv"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/myprofile_avatar_iv"
                         android:gravity="center_vertical"
                         android:maxLines="1"
                         android:padding="10dp"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/header_1" />
+                        android:textSize="@dimen/header_1"
+       	 				font:fonttextview="roboto_mitv_medium.ttf" />
                 </RelativeLayout>
 
                 <!-- REMINDERS BAR -->
@@ -233,14 +234,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/myprofile_menu_container"
-                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/layout_rounded_corners_white"
                 android:orientation="vertical"
                 android:paddingBottom="10dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:visibility="gone" >
 
                 <com.mitv.customviews.FontTextView
@@ -248,13 +248,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
+                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="5dp"
                     android:text="@string/sign_in_to_title"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/header_1"
+                    android:textStyle="bold"
+       	 			font:fonttextview="roboto_mitv_medium.ttf" />
 
                 <com.mitv.customviews.FontTextView
                     android:id="@+id/myprofile_signin_text_tv"
@@ -262,24 +262,18 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/myprofile_signin_title_tv"
                     android:layout_gravity="left"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_margin="10dp"
                     android:text="@string/sign_in_to_text"
-                    android:textColor="@color/grey1"
-                    android:textSize="18sp"
-                    android:visibility="gone" />
+                    android:textColor="@color/grey2"
+                    android:textSize="@dimen/header_2"
+       	 			font:fonttextview="roboto_mitv_medium.ttf"  />
 
                 <View
                     android:id="@+id/signin_container_divider"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@id/myprofile_signin_text_tv"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_margin="10dp"
                     android:background="@color/grey1" />
 
                 <!-- FACEBOOK SIGN-IN BAR -->
@@ -291,35 +285,30 @@
                     android:layout_below="@id/signin_container_divider"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     android:background="@drawable/layout_rounded_corners_blue"
                     android:orientation="horizontal" >
 
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true" >
+	                <ImageView
+	                    android:id="@+id/myprofile_signin_facebook_icon"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_alignParentLeft="true"
+	                    android:layout_centerVertical="true"
+	                    android:layout_marginLeft="10dp"
+	                    android:src="@drawable/ic_facebook" />
+	
+	                <com.mitv.customviews.FontTextView
+	                    android:id="@+id/myprofile_signin_facebook_tv"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_centerInParent="true"
+	                    android:text="@string/login_with_facebook"
+	                    android:textColor="@color/white"
+	                    android:textSize="18sp"
+	                    android:textStyle="bold"
+       	 				font:fonttextview="roboto_mitv_bold.ttf"  />
 
-                        <ImageView
-                            android:id="@+id/myprofile_signin_facebook_icon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_centerVertical="true"
-                            android:padding="3dp"
-                            android:src="@drawable/ic_facebook" />
-
-                        <com.mitv.customviews.FontTextView
-                            android:id="@+id/myprofile_signin_facebook_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_toRightOf="@id/myprofile_signin_facebook_icon"
-                            android:text="@string/login_with_facebook"
-                            android:textColor="@color/white"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </RelativeLayout>
                 </RelativeLayout>
 
                 <!-- OR BAR -->
@@ -329,10 +318,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/myprofile_signin_facebook_container"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_margin="10dp"
                     android:orientation="horizontal" >
 
                     <View
@@ -349,12 +335,12 @@
                         android:layout_centerInParent="true"
                         android:layout_centerVertical="true"
                         android:background="@color/white"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
+                        android:padding="5dp"
                         android:text="@string/or"
-                        android:textColor="@color/grey1"
+                        android:textColor="@color/grey2"
                         android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+       	 				font:fonttextview="roboto_mitv_medium.ttf"  />
                 </RelativeLayout>
 
                 <!-- SIGN UP WITH EMAIL BAR -->
@@ -362,13 +348,15 @@
                 <RelativeLayout
                     android:id="@+id/myprofile_signup_email_container"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:layout_below="@id/myprofile_or_container"
+                    android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginBottom="5dp"
                     android:background="@drawable/layout_rounded_corners_blue"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:minHeight="50dp" >
 
                     <com.mitv.customviews.FontTextView
                         android:id="@+id/myprofile_signup_email_title_tv"
@@ -379,7 +367,8 @@
                         android:text="@string/sign_up_with_email"
                         android:textColor="@color/white"
                         android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+       	 				font:fonttextview="roboto_mitv_bold.ttf"  />
                 </RelativeLayout>
 
                 <!-- DIVIDER -->
@@ -389,10 +378,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@id/myprofile_signup_email_container"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_margin="10dp"
                     android:background="@color/grey1" />
 
                 <!-- ALREADY REGISTERED BOX -->
@@ -413,7 +399,8 @@
                         android:text="@string/already_registered"
                         android:textColor="@color/grey2"
                         android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+       	 				font:fonttextview="roboto_mitv_medium.ttf"  />
 
 		           <com.mitv.customviews.FontButton
 		               android:id="@+id/myprofile_login_btn"
@@ -426,7 +413,8 @@
                         android:text="@string/login_here"
                         android:textColor="@color/blue1"
                         android:textSize="16sp"
-                        android:textStyle="bold"  />
+                        android:textStyle="bold"
+       	 				font:fonttextview="roboto_mitv_medium.ttf"   />
                 </RelativeLayout>
             </RelativeLayout>
         </RelativeLayout>
