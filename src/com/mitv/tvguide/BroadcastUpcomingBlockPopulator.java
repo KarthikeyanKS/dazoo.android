@@ -9,7 +9,7 @@ public class BroadcastUpcomingBlockPopulator extends TrippleBroadcastBlockPopula
 
 	private static final String		TAG				= "BroadcastUpcomingBlockPopulator";
 
-	public BroadcastUpcomingBlockPopulator(Activity activity, ScrollView containerView, String tvDate, boolean isSeries, Broadcast runningBroadcast) {
-		super(TAG, false, activity, containerView, tvDate, runningBroadcast);
+	public BroadcastUpcomingBlockPopulator(Activity activity, ScrollView containerView, boolean isSeries, Broadcast runningBroadcast) {
+		super(TAG, false, activity, containerView, runningBroadcast);
 	}
 }

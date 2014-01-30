@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.mitv.Consts;
 import com.mitv.R;
+import com.mitv.customviews.ReminderView;
 import com.mitv.model.Broadcast;
 import com.mitv.model.NotificationDbItem;
 import com.mitv.model.TvDate;
@@ -114,8 +115,10 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 			viewHolder.mSeasonEpisodeTv = (TextView) rowView.findViewById(R.id.row_upcoming_episodes_listitem_season_episode);
 			viewHolder.mTimeTv = (TextView) rowView.findViewById(R.id.row_upcoming_episodes_listitem_title_time);
 			viewHolder.mChannelTv = (TextView) rowView.findViewById(R.id.row_upcoming_episodes_listitem_channel);
-			viewHolder.mReminderIv = (ImageView) rowView.findViewById(R.id.row_upcoming_episodes_listitem_remind_iv);
-			viewHolder.mReminderContainer = (RelativeLayout) rowView.findViewById(R.id.row_upcoming_episodes_listitem_remind_container);
+			
+			RelativeLayout reminderContainer = (RelativeLayout) rowView.findViewById(R.id.row_upcoming_episodes_reminder_view);
+			viewHolder.mReminderView = (ReminderView) reminderContainer.findViewById(R.id.element_reminder_image_View);
+			
 			viewHolder.mContainer = (LinearLayout) rowView.findViewById(R.id.row_upcoming_episodes_listitem_info_container);
 
 			viewHolder.mDivider = (View) rowView.findViewById(R.id.row_upcoming_episodes_listitem_bottom_divider);
@@ -125,6 +128,8 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
 
 		if (broadcast != null) {
+			holder.mReminderView.setBroadcast(broadcast);
+			
 			// Get the correct date name index
 			int dateIndex = 0;
 			boolean dateOutOfWeek = false;
@@ -179,67 +184,6 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 				holder.mChannelTv.setText(channel);
 			}
 
-			if (!broadcast.hasStarted()) {
-				NotificationDbItem dbItem = new NotificationDbItem();
-				dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
-				if (dbItem.getNotificationId() != 0) {
-					mIsSet = true;
-					mPosIsSet[position] = true;
-					mNotificationId = dbItem.getNotificationId();
-					mPosNotificationId[position] = dbItem.getNotificationId();
-				} else {
-					mIsSet = false;
-					mPosIsSet[position] = false;
-					mNotificationId = -1;
-					mPosNotificationId[position] = -1;
-				}
-
-				if (mIsSet) holder.mReminderIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
-				else holder.mReminderIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
-			} else {
-				holder.mReminderIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_dissabled));
-			}
-
-			holder.mReminderContainer.setOnClickListener(new View.OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					mIsSet = mPosIsSet[position];
-					mNotificationId = mPosNotificationId[position];
-					if (!broadcast.hasStarted()) {
-						if (mIsSet == false) {
-							if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), broadcast.getTvDateString())) {
-								NotificationService.showSetNotificationToast(mActivity);
-								holder.mReminderIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
-
-								NotificationDbItem dbItem = new NotificationDbItem();
-								dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
-
-								mNotificationId = dbItem.getNotificationId();
-								mPosNotificationId[position] = dbItem.getNotificationId();
-
-								AnimationUtilities.animationSet(holder.mReminderIv);
-
-								mIsSet = true;
-								mPosIsSet[position] = true;
-							} else {
-								// Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
-								Log.d(TAG, "!!! Setting notification faced an error !!!");
-							}
-						} else {
-							if (mNotificationId != -1) {
-								reminderPosition = position;
-								NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
-								notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId, yesNotificationProc(holder.mReminderIv), noNotificationProc());
-							} else {
-								// Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
-								Log.d(TAG, "!!! Could not find such reminder in DB !!!");
-							}
-						}
-					}
-				}
-			});
-
 			holder.mContainer.setOnClickListener(new View.OnClickListener() {
 
 				@Override
@@ -277,35 +221,15 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 		return rowView;
 	}
 
-	public Runnable yesNotificationProc(final ImageView view) {
-		return new Runnable() {
-			public void run() {
-				view.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
-				mIsSet = false;
-				mPosIsSet[reminderPosition] = false;
-				mPosNotificationId[reminderPosition] = -1;
-				mNotificationId = -1;
-			}
-		};
-	}
-
-	public Runnable noNotificationProc() {
-		return new Runnable() {
-			public void run() {
-			}
-		};
-	}
-
 	static class ViewHolder {
-		RelativeLayout	mHeaderContainer;
-		TextView		mHeader;
-		LinearLayout	mContainer;
-		TextView		mSeasonEpisodeTv;
-		TextView		mTimeTv;
-		TextView		mChannelTv;
-		ImageView		mReminderIv;
-		RelativeLayout	mReminderContainer;
+		RelativeLayout		mHeaderContainer;
+		TextView			mHeader;
+		LinearLayout		mContainer;
+		TextView			mSeasonEpisodeTv;
+		TextView			mTimeTv;
+		TextView			mChannelTv;
+		ReminderView	mReminderView;
 
-		View			mDivider;
+		View				mDivider;
 	}
 }

@@ -36,6 +36,7 @@ import com.mitv.utilities.DateUtilities;
 public class NotificationService {
 
 	private static final String	TAG	= "NotificationService";
+	public static Toast sToast;
 
 	public static boolean resetAlarm(Context context, Broadcast broadcast, Channel channel, int notificationId){
 
@@ -207,20 +208,20 @@ public class NotificationService {
 		LayoutInflater inflater = activity.getLayoutInflater();
 		View layout = inflater.inflate(R.layout.toast_notification_set, (ViewGroup) activity.findViewById(R.id.notification_set_toast_container));
 
-		final Toast toast = new Toast(activity.getApplicationContext());
+		sToast = new Toast(activity.getApplicationContext());
 
 		TextView text = (TextView) layout.findViewById(R.id.notification_set_toast_tv);
 		text.setText(activity.getResources().getString(R.string.reminder_text_set));
 
 		if (android.os.Build.VERSION.SDK_INT >= 13) {
-			toast.setGravity(Gravity.BOTTOM, 0, ((int) activity.getResources().getDimension(R.dimen.bottom_tabs_height) + 5)); //200
+			sToast.setGravity(Gravity.BOTTOM, 0, ((int) activity.getResources().getDimension(R.dimen.bottom_tabs_height) + 5)); //200
 		} else {
-			toast.setGravity(Gravity.BOTTOM, 0, ((int) activity.getResources().getDimension(R.dimen.bottom_tabs_height) + 5)); //100
+			sToast.setGravity(Gravity.BOTTOM, 0, ((int) activity.getResources().getDimension(R.dimen.bottom_tabs_height) + 5)); //100
 		}
-		toast.setDuration(Toast.LENGTH_SHORT);
-		toast.setView(layout);
-		toast.show();
-		return toast;
+		sToast.setDuration(Toast.LENGTH_SHORT);
+		sToast.setView(layout);
+		sToast.show();
+		return sToast;
 	}
 
 	public static void showRemoveNotificationDialog(final Context context, Broadcast broadcast, final int notificationId) {

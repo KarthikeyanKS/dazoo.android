@@ -9,8 +9,8 @@ public class BroadcastRepetitionsBlockPopulator extends TrippleBroadcastBlockPop
 
 	private static String TAG = "BroadcastRepetitionsBlockPopulator";
 	
-	public BroadcastRepetitionsBlockPopulator(Activity activity, ScrollView containerView, String tvDate, Broadcast runningBroadcast)  {
-		super(TAG, true, activity, containerView, tvDate, runningBroadcast);
+	public BroadcastRepetitionsBlockPopulator(Activity activity, ScrollView containerView, Broadcast runningBroadcast)  {
+		super(TAG, true, activity, containerView, runningBroadcast);
 	}
 
 }

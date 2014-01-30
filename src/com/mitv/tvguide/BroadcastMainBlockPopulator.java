@@ -1,7 +1,5 @@
 package com.mitv.tvguide;
 
-import java.util.Locale;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -19,13 +17,11 @@ import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.authentication.PromptSignInDialogHandler;
 import com.mitv.authentication.SignInActivity;
+import com.mitv.customviews.ReminderView;
 import com.mitv.like.LikeService;
 import com.mitv.model.Broadcast;
-import com.mitv.model.NotificationDbItem;
 import com.mitv.model.Program;
 import com.mitv.notification.NotificationDataSource;
-import com.mitv.notification.NotificationDialogHandler;
-import com.mitv.notification.NotificationService;
 import com.mitv.share.ShareAction;
 import com.mitv.storage.MiTVStore;
 import com.mitv.utilities.AnimationUtilities;
@@ -41,17 +37,13 @@ public class BroadcastMainBlockPopulator {
 	private Activity				mActivity;
 	private ScrollView				mContainerView;
 	private ImageView				mLikeIv, mRemindIv;
-	private NotificationDataSource	mNotificationDataSource;
-	private boolean					mIsSet			= false, mIsLiked = false, mIsLoggedIn = false;
-	private int						mNotificationId	= -1;
-	private String					mToken, mProgramId, mLikeType, mTvDate, mContentTitle;
+	private boolean					mIsLiked = false, mIsLoggedIn = false;
+	private String					mToken, mProgramId, mLikeType, mContentTitle;
 
-	public BroadcastMainBlockPopulator(Activity activity, ScrollView containerView, String token, String tvDate) {
+	public BroadcastMainBlockPopulator(Activity activity, ScrollView containerView, String token) {
 		this.mActivity = activity;
 		this.mToken = token;
-		this.mTvDate = tvDate;
 		this.mContainerView = containerView;
-		this.mNotificationDataSource = new NotificationDataSource(mActivity);
 	}
 
 	public void createBlock(final Broadcast broadcast) {
@@ -69,14 +61,15 @@ public class BroadcastMainBlockPopulator {
 		TextView synopsisTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_synopsis_tv);
 		TextView extraTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_extra_tv);
 		TextView tagsTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_tags_tv);
+		
+		ReminderView reminderView = (ReminderView) topContentView.findViewById(R.id.element_social_buttons_reminder);
+		reminderView.setBroadcast(broadcast);
 
 		mLikeIv = (ImageView) topContentView.findViewById(R.id.element_social_buttons_like_button_iv);
 		ImageView mShareIv = (ImageView) topContentView.findViewById(R.id.element_social_buttons_share_button_iv);
-		mRemindIv = (ImageView) topContentView.findViewById(R.id.element_social_buttons_remind_button_iv);
 
 		RelativeLayout likeContainer = (RelativeLayout) topContentView.findViewById(R.id.element_social_buttons_like_button_container);
 		RelativeLayout shareContainer = (RelativeLayout) topContentView.findViewById(R.id.element_social_buttons_share_button_container);
-		RelativeLayout remindContainer = (RelativeLayout) topContentView.findViewById(R.id.element_social_buttons_remind_button_container);
 
 		// RelativeLayout progressBarContainer = (RelativeLayout) topContentView.findViewById(R.id.block_broadcastpage_broadcast_progress_container);
 		ProgressBar progressBar = (ProgressBar) topContentView.findViewById(R.id.block_broadcastpage_broadcast_progressbar);
@@ -186,38 +179,6 @@ public class BroadcastMainBlockPopulator {
 		extraTv.setText(extras);
 		extraTv.setVisibility(View.VISIBLE);
 
-		// StringBuilder sb = new StringBuilder();
-		// for (int i = 0; i < program.getTags().size(); i++) {
-		// sb.append(program.getTags().get(i));
-		// sb.append(" ");
-		// }
-		//
-		// tagsTv.setText(sb.toString());
-		// tagsTv.setVisibility(View.VISIBLE);
-
-		if (!broadcast.hasStarted()) {
-			NotificationDbItem dbItem = new NotificationDbItem();
-			// Sometime channel is null, avoiding crash
-			if (broadcast.getChannel() == null) {
-				// Toast.makeText(mActivity, "Channel null", Toast.LENGTH_LONG).show();
-				Log.d(TAG, "Channe is null");
-			} else {
-				dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
-			}
-			if (dbItem.getNotificationId() != 0) {
-				mIsSet = true;
-				mNotificationId = dbItem.getNotificationId();
-			} else {
-				mIsSet = false;
-				mNotificationId = -1;
-			}
-
-			if (mIsSet) mRemindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
-			else mRemindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
-		} else {
-			mRemindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_dissabled));
-		}
-
 		if (mIsLoggedIn) {
 			// mIsLiked = LikeService.isLiked(mToken, broadcast.getProgram().getProgramId());
 			mIsLiked = MiTVStore.getInstance().isInTheLikesList(mProgramId);
@@ -276,43 +237,6 @@ public class BroadcastMainBlockPopulator {
 			}
 		});
 
-		remindContainer.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				if (!broadcast.hasStarted()) {
-					if (mIsSet == false) {
-						if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), mTvDate)) {
-							BroadcastPageActivity.toast = NotificationService.showSetNotificationToast(mActivity);
-							mRemindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
-
-							NotificationDbItem dbItem = new NotificationDbItem();
-							dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
-
-							mNotificationId = dbItem.getNotificationId();
-
-							AnimationUtilities.animationSet(mRemindIv);
-
-							mIsSet = true;
-						} else {
-							// Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
-							Log.d(TAG, "!!! Setting notification faced an error !!!");
-						}
-					} else {
-						if (mNotificationId != -1) {
-							if (BroadcastPageActivity.toast != null) {
-								BroadcastPageActivity.toast.cancel();
-							}
-							NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
-							notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId, yesNotificationProc(), noNotificationProc());
-						} else {
-							// Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
-							Log.d(TAG, "!!! Could not find such reminder in DB !!!");
-						}
-					}
-				}
-			}
-		});
 		topContentView.setVisibility(View.VISIBLE);
 
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -351,21 +275,4 @@ public class BroadcastMainBlockPopulator {
 			}
 		};
 	}
-
-	public Runnable yesNotificationProc() {
-		return new Runnable() {
-			public void run() {
-				mRemindIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
-				mIsSet = false;
-			}
-		};
-	}
-
-	public Runnable noNotificationProc() {
-		return new Runnable() {
-			public void run() {
-			}
-		};
-	}
-
 }

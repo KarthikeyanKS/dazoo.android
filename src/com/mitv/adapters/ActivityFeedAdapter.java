@@ -18,6 +18,7 @@ import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.content.activity.ActivityActivity;
 import com.mitv.content.activity.PopularPageActivity;
+import com.mitv.customviews.ReminderView;
 import com.mitv.like.LikeService;
 import com.mitv.model.Broadcast;
 import com.mitv.model.FeedItem;
@@ -51,8 +52,6 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 	private static final int		ITEM_TYPE_POPULAR_BROADCAST			= 5;
 
 	private String					mToken;
-	private int						mNotificationId;
-	private NotificationDataSource	mNotificationDataSource;
 	private ArrayList<String>		mLikeIds;
 	private int						currentPosition						= -1;
 
@@ -64,7 +63,6 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 		this.mActivity = activity;
 		this.mFeedItems = feedItems;
 		this.mToken = token;
-		this.mNotificationDataSource = new NotificationDataSource(mActivity);
 		this.mLikeIds = LikeService.getLikeIdsList(token);
 	}
 
@@ -376,8 +374,7 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 						viewHolder.likeLikeIv = (ImageView) rowView.findViewById(R.id.element_social_buttons_like_button_iv);
 						viewHolder.shareContainer = (RelativeLayout) rowView.findViewById(R.id.element_social_buttons_share_button_container);
 						viewHolder.shareIv = (ImageView) rowView.findViewById(R.id.element_social_buttons_share_button_iv);
-						viewHolder.remindContainer = (RelativeLayout) rowView.findViewById(R.id.element_social_buttons_remind_button_container);
-						viewHolder.remindLikeIv = (ImageView) rowView.findViewById(R.id.element_social_buttons_remind_button_iv);
+						viewHolder.reminderView = (ReminderView) rowView.findViewById(R.id.element_social_buttons_reminder);
 
 						viewHolder.container.setTag(Integer.valueOf(position));
 						rowView.setTag(viewHolder);
@@ -385,6 +382,8 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 
 					final BroadcastViewHolder holderBC = (BroadcastViewHolder) rowView.getTag();
 					// mIsLiked = LikeService.isLiked(mToken, program.getProgramId());
+					
+					holderBC.reminderView.setBroadcast(broadcast);
 
 					final String programType = program.getProgramType();
 					// determine like
@@ -469,36 +468,6 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 						holderBC.progressBar.setVisibility(View.GONE);
 					}
 
-					if (!broadcast.hasStarted()) {
-						NotificationDbItem dbItem = new NotificationDbItem();
-						// Sometime channel is null, avoiding crash
-						if (broadcast.getChannel() == null) {
-							// Toast.makeText(mActivity, "Channel null", Toast.LENGTH_LONG).show();
-							Log.d(TAG, "Channe is null");
-						} 
-						else {
-							dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
-						}
-						if (dbItem.getNotificationId() != 0) {
-							mIsSet = true;
-							mNotificationId = dbItem.getNotificationId();
-						} else {
-							mIsSet = false;
-							mNotificationId = -1;
-						}
-
-
-						if (mIsSet) { 
-							holderBC.remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
-						}
-						else { 
-							holderBC.remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
-						}
-					} 
-					else {
-						holderBC.remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_dissabled));
-					}
-
 					if (mIsLiked) {
 						holderBC.likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
 					}
@@ -558,58 +527,6 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 						}
 					});
 
-					holderBC.remindContainer.setOnClickListener(new View.OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-							if (!broadcast.hasStarted()) {
-								NotificationDbItem dbItem = new NotificationDbItem();
-
-								dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
-
-								if (dbItem.getNotificationId() != 0) {
-									Log.d(TAG, "dbItem: " + dbItem.getProgramTitle() + " " + dbItem.getNotificationId());
-									mNotificationId = dbItem.getNotificationId();
-									mIsSet = true;
-								} 
-								else {
-									mIsSet = false;
-								}
-
-								if (mIsSet == false) {
-									if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), broadcast.getTvDateString())) {
-										ActivityActivity.toast = NotificationService.showSetNotificationToast(mActivity);
-										holderBC.remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
-
-										NotificationDbItem dbItemRemind = new NotificationDbItem();
-										dbItemRemind = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
-										mNotificationId = dbItemRemind.getNotificationId();
-
-										AnimationUtilities.animationSet(holderBC.remindLikeIv);
-
-										mIsSet = true;
-									} 
-									else {
-										// Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
-										Log.d(TAG, "!!! Setting notification faced an error !!!");
-									}
-								} 
-								else {
-									if (mNotificationId != -1) {
-										if (ActivityActivity.toast != null) {
-											ActivityActivity.toast.cancel();
-										}
-										NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
-										notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId, yesNotificationProc(holderBC.remindLikeIv), noNotificationProc());
-									} 
-									else {
-										// Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
-										Log.d(TAG, "!!! Could not find such reminder in DB !!!");
-									}
-								}
-							}
-						}
-					});
 					break;
 
 				case ITEM_TYPE_POPULAR_BROADCASTS:
@@ -634,31 +551,6 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 		};
 	}
 
-	public Runnable yesNotificationProc(final ImageView remindLikeIv) {
-		return new Runnable() {
-			public void run() {
-				remindLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
-				mIsSet = false;
-			}
-		};
-	}
-
-	public Runnable yesNotificationRecProc(final ImageView remindRecIv) {
-		return new Runnable() {
-			public void run() {
-				remindRecIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
-				mIsSet = false;
-			}
-		};
-	}
-
-	public Runnable noNotificationProc() {
-		return new Runnable() {
-			public void run() {
-			}
-		};
-	}
-
 	static class BroadcastViewHolder {
 		RelativeLayout	container;
 		TextView		headerTv;
@@ -674,8 +566,7 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 		ImageView		likeLikeIv;
 		RelativeLayout	shareContainer;
 		ImageView		shareIv;
-		RelativeLayout	remindContainer;
-		ImageView		remindLikeIv;
+		ReminderView reminderView;
 	}
 
 	static class PopularBroadcastsViewHolder {

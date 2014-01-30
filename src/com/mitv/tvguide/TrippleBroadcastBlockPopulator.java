@@ -2,101 +2,96 @@ package com.mitv.tvguide;
 
 import java.util.ArrayList;
 
-import android.R.integer;
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mitv.Consts;
 import com.mitv.R;
+import com.mitv.customviews.ReminderView;
 import com.mitv.model.Broadcast;
-import com.mitv.model.NotificationDbItem;
 import com.mitv.model.Program;
-import com.mitv.notification.NotificationDataSource;
-import com.mitv.notification.NotificationDialogHandler;
-import com.mitv.notification.NotificationService;
-import com.mitv.utilities.AnimationUtilities;
 
 public class TrippleBroadcastBlockPopulator {
 
-	private static String mTag;
+	private static String TAG;
 
 	private Activity mActivity;
 	private ScrollView mContainerView;
-	private int mNotificationId = -1;
-	private int mPosNotificationId[] = new int[3];
-	private NotificationDataSource mNotificationDataSource;
-	private ImageView mReminderImageView;
-	private ImageView mReminderOneImageView;
-	private ImageView mReminderTwoImageView;
-	private ImageView mReminderThreeImageView;
-	private String mTvDate;
 	private Broadcast mRunningBroadcast;
 	private ArrayList<Broadcast> mBroadcasts;
-	private boolean mIsSet;
-	private boolean mPosIsSet[] = new boolean[3];
+	private ReminderView reminderViewOne, reminderViewTwo, reminderViewThree;
 
-	private int reminderPosition;
 
 	/* If false, then block populator is used for upcoming episodes */
 	private boolean mUsedForRepetitions;
 
-	public TrippleBroadcastBlockPopulator(String tag, boolean usedForRepetitions, Activity activity, ScrollView containerView, String tvDate, Broadcast runningBroadcast) {
-		this.mTag = tag;
+	public TrippleBroadcastBlockPopulator(String tag, boolean usedForRepetitions, Activity activity, ScrollView containerView, Broadcast runningBroadcast) {
+		this.TAG = tag;
 		this.mActivity = activity;
 		this.mContainerView = containerView;
-		this.mTvDate = tvDate;
 		this.mRunningBroadcast = runningBroadcast;
 		this.mUsedForRepetitions = usedForRepetitions;
-		mNotificationDataSource = new NotificationDataSource(mActivity);
 	}
 
 	public void populatePartOfBlock(final int position, ArrayList<Broadcast> broadcastList, final Program program, View topContentView) {
 		if (broadcastList.size() > position && broadcastList.get(position) != null) {
+			final Broadcast broadcast = broadcastList.get(position);
 			LinearLayout mContainer = null;
-			View mDivider = null;
+
 			switch (position) {
 			case 0: {
 				mContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_one);
-				mReminderOneImageView = (ImageView) mContainer.findViewById(R.id.block_tripple_broadcast_addreminder);
+
+				// RelativeLayout reminderContainer = (RelativeLayout)
+				// topContentView.findViewById(R.id.block_tripple_broadcast_reminder_view);
+				// reminderViewOne = (ReminderImageView)
+				// reminderContainer.findViewById(R.id.element_reminder_image_View);
+				reminderViewOne = (ReminderView) mContainer.findViewById(R.id.block_tripple_broadcast_reminder_view);
+				reminderViewOne.setBroadcast(broadcast);
+
 				break;
 			}
 			case 1: {
 				mContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_two);
-				mDivider = (View) topContentView.findViewById(R.id.block_tripple_broadcast_one_bottom_divider);
-				mDivider.setVisibility(View.VISIBLE);
-				mReminderTwoImageView = (ImageView) mContainer.findViewById(R.id.block_tripple_broadcast_addreminder);
+
+				// RelativeLayout reminderContainer = (RelativeLayout)
+				// topContentView.findViewById(R.id.block_tripple_broadcast_reminder_view);
+				// reminderViewTwo = (ReminderImageView)
+				// reminderContainer.findViewById(R.id.element_reminder_image_View);
+				reminderViewTwo = (ReminderView) mContainer.findViewById(R.id.block_tripple_broadcast_reminder_view);
+				reminderViewTwo.setBroadcast(broadcast);
+
 				break;
 			}
 			case 2: {
 				mContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_three);
-				mDivider = (View) topContentView.findViewById(R.id.block_tripple_broadcast_two_bottom_divider);
-				mDivider.setVisibility(View.VISIBLE);
-				mReminderThreeImageView = (ImageView) mContainer.findViewById(R.id.block_tripple_broadcast_addreminder);
+
+				// RelativeLayout reminderContainer = (RelativeLayout)
+				// topContentView.findViewById(R.id.block_tripple_broadcast_reminder_view);
+				// reminderViewThree = (ReminderImageView)
+				// reminderContainer.findViewById(R.id.element_reminder_image_View);
+				reminderViewThree = (ReminderView) mContainer.findViewById(R.id.block_tripple_broadcast_reminder_view);
+				reminderViewThree.setBroadcast(broadcast);
+
 			}
 			}
 
+			
 			TextView mSeasonEpisodeTv = (TextView) mContainer.findViewById(R.id.block_tripple_broadcast_season_episode);
 			TextView mTitleTimeTv = (TextView) mContainer.findViewById(R.id.block_tripple_broadcast_title_time);
 			TextView mChannelTv = (TextView) mContainer.findViewById(R.id.block_tripple_broadcast_channel);
-			mReminderImageView = (ImageView) mContainer.findViewById(R.id.block_tripple_broadcast_addreminder);
-			RelativeLayout mReminderContainer = (RelativeLayout) mContainer.findViewById(R.id.block_broadcast_remind_button_container);
-
-			final Broadcast broadcast = broadcastList.get(position);
+			
 			if(mUsedForRepetitions) {
 				broadcast.setProgram(program);
 			}
 
 			mContainer.setVisibility(View.VISIBLE);
-			mReminderContainer.setVisibility(View.VISIBLE);
 
 			mTitleTimeTv.setText(broadcast.getDayOfWeekWithTimeString());
 			mChannelTv.setText(broadcast.getChannel().getName());
@@ -119,83 +114,6 @@ public class TrippleBroadcastBlockPopulator {
 				}
 				mSeasonEpisodeTv.setVisibility(View.VISIBLE);
 			}
-
-			if (!broadcast.hasStarted()) {
-				NotificationDbItem dbItem = new NotificationDbItem();
-				dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
-				if (dbItem.getNotificationId() != 0) {
-					mIsSet = true;
-					mPosIsSet[position] = true;
-					mNotificationId = dbItem.getNotificationId();
-					mPosNotificationId[position] = dbItem.getNotificationId();
-				} else {
-					mIsSet = false;
-					mPosIsSet[position] = false;
-					mNotificationId = -1;
-					mPosNotificationId[position] = -1;
-				}
-
-				if (mIsSet) {
-					mReminderImageView.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
-				} else {
-					mReminderImageView.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
-				}
-			} else {
-				mReminderImageView.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_dissabled));
-			}
-
-			mReminderContainer.setOnClickListener(new View.OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					if (!broadcast.hasStarted()) {
-						if (position == 0) {
-							mReminderImageView = mReminderOneImageView;
-						}
-						else if (position == 1) {
-							mReminderImageView = mReminderTwoImageView;
-						}
-						else if (position == 2) {
-							mReminderImageView = mReminderThreeImageView;
-						}
-						mIsSet = mPosIsSet[position];
-						mNotificationId = mPosNotificationId[position];
-						if (mIsSet == false) {
-							if (NotificationService.setAlarm(mActivity, broadcast, broadcast.getChannel(), mTvDate)) {
-								BroadcastPageActivity.toast = NotificationService.showSetNotificationToast(mActivity);
-								mReminderImageView.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
-
-								NotificationDbItem dbItem = new NotificationDbItem();
-								dbItem = mNotificationDataSource.getNotification(broadcast.getChannel().getChannelId(), broadcast.getBeginTimeMillisGmt());
-
-								mNotificationId = dbItem.getNotificationId();
-								mPosNotificationId[position] = dbItem.getNotificationId();
-
-								AnimationUtilities.animationSet(mReminderImageView);
-
-								mIsSet = true;
-								mPosIsSet[position] = true;
-							} else {
-								// Toast.makeText(mActivity, "Setting notification faced an error", Toast.LENGTH_SHORT).show();
-								Log.d(mTag, "!!! Setting notification faced an error !!!");
-							}
-						} else {
-							if (mNotificationId != -1) {
-								reminderPosition = position;
-								if (BroadcastPageActivity.toast != null) {
-									BroadcastPageActivity.toast.cancel();
-								}
-								NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
-								notificationDlg
-								.showRemoveNotificationDialog(mActivity, broadcast, mNotificationId, yesNotificationProc(), noNotificationProc());
-							} else {
-								// Toast.makeText(mActivity, "Could not find such reminder in DB", Toast.LENGTH_SHORT).show();
-								Log.d(mTag, "!!! Could not find such reminder in DB !!!");
-							}
-						}
-					}
-				}
-			});
 
 			mContainer.setOnClickListener(new View.OnClickListener() {
 
@@ -288,24 +206,4 @@ public class TrippleBroadcastBlockPopulator {
 		}
 
 	}
-
-	public Runnable yesNotificationProc() {
-		return new Runnable() {
-			public void run() {
-				mReminderImageView.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
-				mIsSet = false;
-				mPosIsSet[reminderPosition] = false;
-				mPosNotificationId[reminderPosition] = -1;
-				mNotificationId = -1;
-			}
-		};
-	}
-
-	public Runnable noNotificationProc() {
-		return new Runnable() {
-			public void run() {
-			}
-		};
-	}
-
 }

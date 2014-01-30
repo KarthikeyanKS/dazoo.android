@@ -78,33 +78,19 @@
                 font:fonttextview="roboto_mitv_medium.ttf" />
         </RelativeLayout>
 
+        <View
+            android:layout_width="1dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:background="@color/grey1" />
+
         <!-- REMIND BUTTON -->
 
-        <RelativeLayout
-            android:id="@+id/row_upcoming_episodes_listitem_remind_container"
+        <com.mitv.customviews.ReminderView
+            android:id="@+id/row_upcoming_episodes_reminder_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="0.2"
-            android:background="@drawable/background_color_selector"
-            android:orientation="horizontal" >
-
-            <ImageView
-                android:id="@+id/row_upcoming_episodes_listitem_remind_iv"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="5dp" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="30dp"
-                android:layout_centerVertical="true"
-                android:layout_margin="10dp"
-                android:layout_toLeftOf="@id/row_upcoming_episodes_listitem_remind_iv"
-                android:background="@color/grey1" />
-        </RelativeLayout>
+            android:layout_weight="0.2" />
     </LinearLayout>
 
     <View

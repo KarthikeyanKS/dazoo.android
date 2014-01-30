@@ -279,7 +279,7 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 		Log.d(TAG, "populateBlocks");
 
 		// add main content block
-		BroadcastMainBlockPopulator mainBlockPopulator = new BroadcastMainBlockPopulator(mActivity, mScrollView, token, mTvDate);
+		BroadcastMainBlockPopulator mainBlockPopulator = new BroadcastMainBlockPopulator(mActivity, mScrollView, token);
 		mainBlockPopulator.createBlock(mBroadcast);
 
 		// Remove upcoming broadcasts with season 0 and episode 0
@@ -302,13 +302,13 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 
 		// repetitions
 		if (mRepeatBroadcasts != null && mRepeatBroadcasts.isEmpty() != true) {
-			BroadcastRepetitionsBlockPopulator repeatitionsBlock = new BroadcastRepetitionsBlockPopulator(mActivity, mScrollView, mTvDate, mBroadcast);
+			BroadcastRepetitionsBlockPopulator repeatitionsBlock = new BroadcastRepetitionsBlockPopulator(mActivity, mScrollView, mBroadcast);
 			repeatitionsBlock.createBlock(mRepeatBroadcasts, mBroadcast.getProgram());
 		}
 
 		// upcoming episodes
 		if (mUpcomingBroadcasts != null && mUpcomingBroadcasts.isEmpty() != true) {
-			BroadcastUpcomingBlockPopulator upcomingBlock = new BroadcastUpcomingBlockPopulator(mActivity, mScrollView, mTvDate, mIsSeries, mBroadcast);
+			BroadcastUpcomingBlockPopulator upcomingBlock = new BroadcastUpcomingBlockPopulator(mActivity, mScrollView, mIsSeries, mBroadcast);
 			upcomingBlock.createBlock(mUpcomingBroadcasts, null);
 		}
 

@@ -75,11 +75,11 @@
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@id/block_feed_recommended_icon"
             android:gravity="left"
+            android:lines="1"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
-            font:fonttextview="roboto_mitv_medium.ttf"
-            android:lines="1" />
+            font:fonttextview="roboto_mitv_medium.ttf" />
 
         <com.mitv.customviews.FontTextView
             android:id="@+id/block_feed_recommended_time_tv"
@@ -155,11 +155,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/block_feed_recommended_divider"
         android:background="@color/white"
-		android:paddingTop="5dp"
-		android:paddingBottom="5dp"
-		android:paddingRight="10dp"
-		android:paddingLeft="10dp"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp" >
 
         <!-- LIKE BUTTON -->
 
@@ -167,10 +167,10 @@
             android:id="@+id/block_feed_recommended_like_button_container"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical"
-			android:layout_gravity="center" >
+            android:orientation="vertical" >
 
             <ImageView
                 android:id="@+id/block_feed_recommended_like_button_iv"
@@ -200,10 +200,10 @@
             android:id="@+id/block_feed_recommended_share_button_container"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
-            android:padding="5dp"
-			android:layout_gravity="center" >
+            android:padding="5dp" >
 
             <ImageView
                 android:id="@+id/block_feed_recommended_share_button_iv"
@@ -229,22 +229,15 @@
 
         <!-- REMIND BUTTON -->
 
-        <LinearLayout
-            android:id="@+id/block_feed_recommended_remind_button_container"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        <com.mitv.customviews.ReminderView
+            android:id="@+id/row_upcoming_episodes_reminder_view"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:layout_margin="7dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:padding="5dp"
-			android:layout_gravity="center" >
-
-            <ImageView
-                android:id="@+id/block_feed_recommended_remind_button_iv"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_margin="7dp"
-                android:src="@drawable/ic_guide_clock" />
-        </LinearLayout>
+            android:padding="5dp" />
     </LinearLayout>
 
 </RelativeLayout>

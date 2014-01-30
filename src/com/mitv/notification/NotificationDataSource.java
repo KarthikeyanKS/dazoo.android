@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mitv.Consts;
+import com.mitv.SecondScreenApplication;
 import com.mitv.model.NotificationDbItem;
 
 import android.content.ContentValues;
@@ -59,8 +60,7 @@ public class NotificationDataSource {
 	public NotificationDbItem getNotification(String channelId, long beginTimeMillis) {
 		SQLiteDatabase database = dbHelper.getReadableDatabase();
 
-		String query = "SELECT * FROM " + Consts.NOTIFICATION_DB_TABLE_NOTIFICATIONS + " WHERE " + Consts.NOTIFICATION_DB_COLUMN_BROADCAST_BEGINTIMEMILLIS + " = " + beginTimeMillis + " AND "
-				+ Consts.NOTIFICATION_DB_COLUMN_CHANNEL_ID + " = " + "'" + channelId + "'";
+		String query = String.format(SecondScreenApplication.getCurrentLocale(), "SELECT * FROM %s WHERE %s = %s AND %s = '%s'", Consts.NOTIFICATION_DB_TABLE_NOTIFICATIONS, Consts.NOTIFICATION_DB_COLUMN_BROADCAST_BEGINTIMEMILLIS, beginTimeMillis, Consts.NOTIFICATION_DB_COLUMN_CHANNEL_ID, channelId);
 
 		Cursor cursor = database.rawQuery(query, null);
 		if (cursor != null) {
@@ -104,7 +104,7 @@ public class NotificationDataSource {
 
 	public void deleteNotification(int notificationId) {
 		SQLiteDatabase database = dbHelper.getWritableDatabase();
-		String selectQuery = "SELECT * FROM notifications WHERE notification_id = " + notificationId;
+		String selectQuery = String.format(SecondScreenApplication.getCurrentLocale(), "SELECT * FROM %s WHERE %s = %s", Consts.NOTIFICATION_DB_TABLE_NOTIFICATIONS, Consts.NOTIFICATION_DB_COLUMN_NOTIFICATION_ID, notificationId);
 		Cursor cursor = database.rawQuery(selectQuery, null);
 		if (cursor != null) {cursor.moveToFirst();}
 		else{

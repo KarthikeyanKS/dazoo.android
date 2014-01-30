@@ -70,23 +70,14 @@
             android:layout_centerInParent="true"
             android:background="@color/grey1" />
     </RelativeLayout>
+
     <!-- REMIND BUTTON -->
 
-    <RelativeLayout
-        android:id="@+id/element_social_buttons_remind_button_container"
+    <com.mitv.customviews.ReminderView
+        android:id="@+id/element_social_buttons_reminder"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_weight="1"
-        android:background="@drawable/background_color_selector"
-        android:padding="10dp" >
-
-        <ImageView
-            android:id="@+id/element_social_buttons_remind_button_iv"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_centerInParent="true"
-            android:layout_margin="5dp" />
-    </RelativeLayout>
+        android:layout_weight="1" />
 
 </LinearLayout>
