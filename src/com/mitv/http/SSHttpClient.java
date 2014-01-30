@@ -82,13 +82,28 @@ public class SSHttpClient<T_Result> {
 		return true;
 	}
 	
-	public static String urlByAppendingLocaleAndTimezone(String plainUrl) {
+
+	public static String urlByAppendingLocaleAndTimezoneWithQuestionMark(String plainUrl) {
+		return urlByAppendingLocaleAndTimezone(true, plainUrl);
+	}
+	
+	public static String urlByAppendingLocaleAndTimezoneWithAndChar(String plainUrl) {
+		return urlByAppendingLocaleAndTimezone(false, plainUrl);
+	}
+	
+	public static String urlByAppendingLocaleAndTimezone(boolean questionMark, String plainUrl) {
 		Locale locale = SecondScreenApplication.getCurrentLocale();
 		TimeZone tz = TimeZone.getDefault();
 		int timeZoneOffsetInMinutes = tz.getRawOffset() / 60000;
 		
+		String startChar = "";
+		if(questionMark) {
+			startChar = "?";
+		} else {
+			startChar = "&";
+		}
 		
-		String urlWithAppendedInfo = String.format(locale, "%s?%s=%s&%s=%d", plainUrl, Consts.HTTP_REQUEST_DATA_LOCALE, locale.toString(), Consts.HTTP_REQUEST_DATA_TIME_ZONE_OFFSET, timeZoneOffsetInMinutes);
+		String urlWithAppendedInfo = String.format(locale, "%s%s%s=%s&%s=%d", plainUrl, startChar, Consts.HTTP_REQUEST_DATA_LOCALE, locale.toString(), Consts.HTTP_REQUEST_DATA_TIME_ZONE_OFFSET, timeZoneOffsetInMinutes);
 		
 		return urlWithAppendedInfo;
 	}
@@ -127,7 +142,7 @@ public class SSHttpClient<T_Result> {
 			// If we have any input
 			if (requestUrl != null) {
 				
-				requestUrl = urlByAppendingLocaleAndTimezone(requestUrl);
+				requestUrl = urlByAppendingLocaleAndTimezoneWithQuestionMark(requestUrl);
 
 				Log.d(TAG, "Create http client");
 

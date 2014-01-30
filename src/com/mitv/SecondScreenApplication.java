@@ -250,8 +250,10 @@ public class SecondScreenApplication extends Application {
 	
 	private void setupGoogleAnalytics() {
 		String trackingId = AppConfigurationManager.getInstance().getGoogleAnalyticsTrackingId();
+		
 		GoogleAnalytics googleAnalyticsInstance = GoogleAnalytics.getInstance(this);
 		Tracker tracker = googleAnalyticsInstance.getTracker(trackingId);
+		googleAnalyticsInstance.setDefaultTracker(tracker);
 		
 		String appVersion = Consts.GA_APP_VERSION_NOT_SET;
 		
@@ -276,6 +278,12 @@ public class SecondScreenApplication extends Application {
 			e.printStackTrace();
 		}
 		
+		
+		double sampleRateDecimal = AppConfigurationManager.getInstance().getGoogleAnalyticsSampleRate();
+		double sampleRateAsPercentage = sampleRateDecimal * 100.0d;
+		String sampleRateAsString = String.valueOf(sampleRateAsPercentage);
+		
+		
 		tracker.set(Consts.GA_KEY_APP_VERSION, appVersion);
 		tracker.set(Consts.GA_KEY_DEVICE_ID, deviceId);
 		
@@ -283,13 +291,7 @@ public class SecondScreenApplication extends Application {
 		tracker.set(Consts.GA_KEY_APP_WAS_PREINSTALLED_SHARED_PREFS, wasPreinstalledSharedPrefs);
 		tracker.set(Consts.GA_KEY_APP_WAS_PREINSTALLED_EXTERNAL_STORAGE, wasPreinstalledExternalStorage);
 		tracker.set(Consts.GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_LOCATION, wasPreinstalledSystemAppLocation);
-		tracker.set(Consts.GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_FLAG, wasPreinstalledSystemAppFlag);
-		
-		
-		double sampleRateDecimal = AppConfigurationManager.getInstance().getGoogleAnalyticsSampleRate();
-		double sampleRateAsPercentage = sampleRateDecimal * 100.0d;
-		String sampleRateAsString = String.valueOf(sampleRateAsPercentage);
-		
+		tracker.set(Consts.GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_FLAG, wasPreinstalledSystemAppFlag);	
 		tracker.set(Fields.SAMPLE_RATE, sampleRateAsString);
 	}
 

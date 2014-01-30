@@ -3,8 +3,6 @@ package com.mitv.receivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
 
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.MapBuilder;
@@ -12,6 +10,7 @@ import com.google.analytics.tracking.android.Tracker;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.manager.AppConfigurationManager;
 
 public class BootCompletedReceiver extends BroadcastReceiver {
 
@@ -41,6 +40,7 @@ public class BootCompletedReceiver extends BroadcastReceiver {
 	    		
 	    		
 	    		String gaValue = Consts.GA_KEY_DEVICE_WITH_PREINSTALLED_APP_FIRST_BOOT;
+	    		AppConfigurationManager.replaceDashWithEnDash(gaValue);
 	    		
 	    		tracker.send(MapBuilder
 	    				  .createEvent("SystemEvent", "OnBoot", gaValue, null) 	// Set any additional fields for this hit.

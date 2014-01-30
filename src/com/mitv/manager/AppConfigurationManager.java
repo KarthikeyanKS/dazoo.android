@@ -9,10 +9,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 import com.mitv.Consts;
+import com.mitv.SecondScreenApplication;
 
 public class AppConfigurationManager {
 
+	private static final String TAG = AppConfigurationManager.class.toString();
+	
 	private static AppConfigurationManager selfInstance;
 
 	public static AppConfigurationManager getInstance() {
@@ -27,10 +32,6 @@ public class AppConfigurationManager {
 
 	/* Ad configuration */
 	private boolean adsEnabled;
-//	private int cellCountBetweenAdCellsGuide;
-//	private int cellCountBetweenAdCellsActivity;
-//	private List<Integer> adzerkAdFormatsGuide;
-//	private List<Integer> adzerkAdFormatsActivity;
 	private HashMap<String, List<Integer>> fragmentToAdFormatsMap = new HashMap<String, List<Integer>>();
 	private HashMap<String, Integer> fragmentToCellsBetweenAdCellsCount = new HashMap<String, Integer>();
 	private int adzerkNetworkId;
@@ -56,38 +57,6 @@ public class AppConfigurationManager {
 	public void setAdsEnabled(boolean adsEnabled) {
 		this.adsEnabled = adsEnabled;
 	}
-
-//	public int getCellCountBetweenAdCellsGuide() {
-//		return cellCountBetweenAdCellsGuide;
-//	}
-//
-//	public void setCellCountBetweenAdCellsGuide(int cellCountBetweenAdCellsGuide) {
-//		this.cellCountBetweenAdCellsGuide = cellCountBetweenAdCellsGuide;
-//	}
-//
-//	public int getCellCountBetweenAdCellsActivity() {
-//		return cellCountBetweenAdCellsActivity;
-//	}
-//
-//	public void setCellCountBetweenAdCellsActivity(int cellCountBetweenAdCellsActivity) {
-//		this.cellCountBetweenAdCellsActivity = cellCountBetweenAdCellsActivity;
-//	}
-
-//	public List<Integer> getAdzerkAdFormatsGuide() {
-//		return adzerkAdFormatsGuide;
-//	}
-//
-//	public void setAdzerkAdFormatsGuide(List<Integer> adzerkAdFormatsGuide) {
-//		this.adzerkAdFormatsGuide = adzerkAdFormatsGuide;
-//	}
-//
-//	public List<Integer> getAdzerkAdFormatsActivity() {
-//		return adzerkAdFormatsActivity;
-//	}
-//
-//	public void setAdzerkAdFormatsActivity(List<Integer> adzerkAdFormatsActivity) {
-//		this.adzerkAdFormatsActivity = adzerkAdFormatsActivity;
-//	}
 
 	public int getAdzerkNetworkId() {
 		return adzerkNetworkId;
@@ -124,8 +93,16 @@ public class AppConfigurationManager {
 	public String getGoogleAnalyticsTrackingId() {
 		return googleAnalyticsTrackingId;
 	}
+	
+	public static void replaceDashWithEnDash(String googleAnalyticsTrackingId) {
+		if (googleAnalyticsTrackingId.contains("-")) {
+			Log.e(TAG, String.format(SecondScreenApplication.getCurrentLocale(), "GoogleAnalytics TrackingID (%s) contains ordinary dash instead of 'en dash' => replacing with 'en dash' chars!", googleAnalyticsTrackingId));
+			googleAnalyticsTrackingId = googleAnalyticsTrackingId.replace("-", "Ð");
+		}
+	}
 
 	public void setGoogleAnalyticsTrackingId(String googleAnalyticsTrackingId) {
+		replaceDashWithEnDash(googleAnalyticsTrackingId);
 		this.googleAnalyticsTrackingId = googleAnalyticsTrackingId;
 	}
 	
@@ -205,9 +182,7 @@ public class AppConfigurationManager {
 			String jsonKeyCellCountBetweenAdCellsActivity = jsonKeyForCellCountBetweenAdCellsForFragment(Consts.JSON_AND_FRAGMENT_KEY_ACTIVITY);
 			
 			List<Integer> adFormatsGuide = adFormatsFromJSON(configurationJSONObject, jsonKeyAdFormatsGuide);
-//			getInstance().setAdzerkAdFormatsGuide(adFormatsGuide);
 			List<Integer> adFormatsActivity = adFormatsFromJSON(configurationJSONObject, jsonKeyAdFormatsActivity);
-//			getInstance().setAdzerkAdFormatsActivity(adFormatsActivity);
 			
 			fragmentToAdFormatsMap.put(Consts.JSON_AND_FRAGMENT_KEY_GUIDE, adFormatsGuide);
 			fragmentToAdFormatsMap.put(Consts.JSON_AND_FRAGMENT_KEY_ACTIVITY, adFormatsActivity);
@@ -236,10 +211,8 @@ public class AppConfigurationManager {
 			/* Ordinary cell count per ad cell for each view with ads in them */
 			String cellCountBetweenAdCellsGuideString = configurationJSONObject.optString(jsonKeyCellCountBetweenAdCellsGuide);
 			int cellCountBetweenAdCellsGuide = Integer.parseInt(cellCountBetweenAdCellsGuideString);
-//			getInstance().setCellCountBetweenAdCellsGuide(cellCountBetweenAdCellsGuide);
 			String cellCountBetweenAdCellsActivityString = configurationJSONObject.optString(jsonKeyCellCountBetweenAdCellsActivity);
 			int cellCountBetweenAdCellsActivity = Integer.parseInt(cellCountBetweenAdCellsActivityString);
-//			getInstance().setCellCountBetweenAdCellsActivity(cellCountBetweenAdCellsActivity);
 			fragmentToCellsBetweenAdCellsCount.put(Consts.JSON_AND_FRAGMENT_KEY_GUIDE, cellCountBetweenAdCellsGuide);
 			fragmentToCellsBetweenAdCellsCount.put(Consts.JSON_AND_FRAGMENT_KEY_ACTIVITY, cellCountBetweenAdCellsActivity);
 

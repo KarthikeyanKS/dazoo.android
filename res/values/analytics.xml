@@ -2,13 +2,16 @@
 <resources>
 
     <!-- Being overriden by ID from configuration call -->
-    <string name="ga_trackingId_mitv_hardcoded">UA-46899989-1</string>
+    <string name="ga_trackingId_mitv_hardcoded">UA–46899989–1</string>
 
     <!-- Enable automatic activity tracking -->
     <bool name="ga_autoActivityTracking">true</bool>
 
     <!-- Enable automatic exception tracking -->
     <bool name="ga_reportUncaughtExceptions">true</bool>
+    
+    <!-- Enable debug -->
+	<bool name="ga_debug">true</bool>
 
     <!-- The screen names that will appear in your reporting -->
     <string name="com.mitv.content.homepage.HomeActivity">Home</string>

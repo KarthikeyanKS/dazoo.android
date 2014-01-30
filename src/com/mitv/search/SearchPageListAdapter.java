@@ -355,7 +355,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		};
 
 		String completeSearchUrl = String.format(Locale.getDefault(), Consts.URL_SEARCH, q);
-		completeSearchUrl = SSHttpClient.urlByAppendingLocaleAndTimezone(completeSearchUrl);
+		completeSearchUrl = SSHttpClient.urlByAppendingLocaleAndTimezoneWithAndChar(completeSearchUrl);
 		
 		mAq.ajax(completeSearchUrl, String.class, -1, cb);
 		cb.block();
