@@ -664,43 +664,60 @@ public class MiTVCore {
 		mIsMyChannels = false;
 		mIsGuide = false;
 
-		if (!mTvDates.isEmpty()) {
-			mTvDates.clear();
-			mTvDates = new ArrayList<TvDate>();
-		}
-		if (!mDefaultChannels.isEmpty()) {
-			mDefaultChannels.clear();
-			mDefaultChannels = new ArrayList<Channel>();
-		}
-		if (!mAllChannels.isEmpty()) {
-			mAllChannels.clear();
-			mAllChannels = new ArrayList<Channel>();
+		if (mTvDates != null) {
+			if (!mTvDates.isEmpty()) {
+				mTvDates.clear();
+				mTvDates = new ArrayList<TvDate>();
+			}
 		}
 
-		if (!mTags.isEmpty()) {
-			mTags.clear();
-			mTags = new ArrayList<Tag>();
+		if (mDefaultChannels != null) {
+			if (!mDefaultChannels.isEmpty()) {
+				mDefaultChannels.clear();
+				mDefaultChannels = new ArrayList<Channel>();
+			}
 		}
 
-		if (!mGuides.isEmpty()) {
-			mGuides.clear();
-			mGuides = new ArrayList<Guide>();
+		if (mAllChannels != null) {
+			if (!mAllChannels.isEmpty()) {
+				mAllChannels.clear();
+				mAllChannels = new ArrayList<Channel>();
+			}
 		}
 
-		if (!mMyChannelsIds.isEmpty()) {
-			mMyChannelsIds.clear();
-			mMyChannelsIds = new ArrayList<String>();
+		if (mTags != null) {
+			if (!mTags.isEmpty()) {
+				mTags.clear();
+				mTags = new ArrayList<Tag>();
+			}
 		}
 
-		if (!mAllChannelsIds.isEmpty()) {
-			mAllChannelsIds.clear();
-			mAllChannelsIds = new ArrayList<String>();
+		if (mGuides != null) {
+			if (!mGuides.isEmpty()) {
+				mGuides.clear();
+				mGuides = new ArrayList<Guide>();
+			}
 		}
 
-		if (!mDefaultChannelsIds.isEmpty()) {
-			mDefaultChannelsIds.clear();
-			mDefaultChannelsIds = new ArrayList<String>();
+		if (mMyChannelsIds != null) {
+			if (!mMyChannelsIds.isEmpty()) {
+				mMyChannelsIds.clear();
+				mMyChannelsIds = new ArrayList<String>();
+			}
 		}
 
+		if (mAllChannelsIds != null) {
+			if (!mAllChannelsIds.isEmpty()) {
+				mAllChannelsIds.clear();
+				mAllChannelsIds = new ArrayList<String>();
+			}
+		}
+
+		if (mDefaultChannelsIds != null) {
+			if (!mDefaultChannelsIds.isEmpty()) {
+				mDefaultChannelsIds.clear();
+				mDefaultChannelsIds = new ArrayList<String>();
+			}
+		}
 	}
 }
