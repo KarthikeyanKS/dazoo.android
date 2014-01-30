@@ -28,11 +28,11 @@
 
     <!-- GENERAL ERRORS -->
     <string name="connection_failed_title">Se perdió la conexión a internet</string>
-    <string name="connection_failed_message">Verifica la conexión de red y vuelve a intertalo.</string>
+    <string name="connection_failed_message">Verifica la conexión a internet y vuelve a intentarlo.</string>
     <string name="general_error_message_title">Ocurrió algo extraño.</string>
-    <string name="general_error_message_message">No se pueden cargar el contenido en este momento. Por favor vuelve a intertalo más tarde.</string>
+    <string name="general_error_message_message">No se pueden cargar el contenido en este momento. Por favor vuelve a intentarlo más tarde.</string>
     <string name="general_error_message_button">Intentar nuevamente</string>
-    <string name="general_no_content_available">No se pueden cargar el contenido en este momento. Por favor vuelve a intertalo más tarde.</string>
+    <string name="general_no_content_available">No se pueden cargar el contenido en este momento. Por favor vuelve a intentarlo más tarde.</string>
     <string name="error_connection_lost">Se perdió la conexión a internet</string>
 
     <!-- CONTENT ERRORS -->
@@ -47,7 +47,7 @@
     <string name="myprofile_title">Mi Perfil</string>
     <string name="reminders">Recordatorios</string>
     <string name="likes">Me gusta</string>
-    <string name="my_channels">Establece tus canales</string>
+    <string name="my_channels">Selecciona tus canales</string>
     <string name="settings">Configuración</string>
     <string name="liked">Te gusta</string>
 
@@ -59,11 +59,11 @@
     <string name="settings_version">Versión</string>
     <string name="contact_title">Contáctanos</string>
     <string name="contact_temp">Contáctanos</string>
-    <string name="terms_title">Terms of use</string>
+    <string name="terms_title">Términos y Condiciones de Uso</string>
     <string name="terms_temp">Términos y Condiciones de Uso</string>
     <string name="help_title">Ayuda</string>
     <string name="help_temp">Ayuda</string>
-    <string name="no_reminders">No has agregado ningún recordatorio todavía</string>
+    <string name="no_reminders">No tienes recordatorios todavía</string>
 
     <!-- BROADCAST PAGE -->
     <string name="cast_and_crew">Elenco</string>
@@ -92,58 +92,58 @@
         <item quantity="one">Queda</item>
         <item quantity="other">Quedan</item>
     </plurals>
-    <string name="broadcast_info">Información</string>
+    <string name="broadcast_info">Programa</string>
 
     <!-- LOGIN PAGE -->
-    <string name="login_with_facebook">Iniciar sesión con Facebook</string>
+    <string name="login_with_facebook">Inicia sesión con Facebook</string>
     <string name="logout_from_facebook">Cerrar sesión</string>
-    <string name="login_with_twitter">Iniciar sesión con Twitter</string>
-    <string name="login_with_mitv">Iniciar sesión</string>
+    <string name="login_with_twitter">Inicia sesión con Twitter</string>
+    <string name="login_with_mitv">Inicia sesión</string>
     <string name="logout_from_mitv">Cerrar sesión</string>
-    <string name="register_with_mitv">Registrarse con tu correo electrónico</string>
+    <string name="register_with_mitv">Regístrate con tu correo electrónico</string>
     <string name="hint_password">Contraseña</string>
     <string name="hint_email">Correo electrónico</string>
-    <string name="hint_password_long">Contraseña, al menos 6 caracteres</string>
-    <string name="hint_email_long">Correo electrónico, yo@mi.tv</string>
+    <string name="hint_password_long">Contraseña</string>
+    <string name="hint_email_long">Correo electrónico</string>
     <!-- string name="hint_password">Contraseña</string>
     <string name="hint_email">Correo electrónico</string-->
-    <string name="hint_password">Contraseña, al menos 6 caracteres</string>
-    <string name="hint_email">Correo electrónico, yo@mi.tv</string>
+    <string name="hint_password">Contraseña</string>
+    <string name="hint_email">Correo electrónico</string>
     <string name="hint_firstname">Nombre</string>
     <string name="hint_lastname">Apellido</string>
-    <string name="hint_enter_email">Introduce correo electrónico</string>
-    <string name="login">"Iniciar &#10;sesión"</string>
-    <string name="reset_password">Cambiar tu contraseña</string>
-    <string name="sign_in">Iniciar sesión</string>
+    <string name="hint_enter_email">Correo electrónico</string>
+    <string name="login">"Iniciar sesión"</string>
+    <string name="reset_password">Cambia tu contraseña</string>
+    <string name="sign_in">Inicia sesión</string>
     <string name="cancel">Cancelar</string>
-    <string name="sign_in_to_title">Iniciar sesión a mi.tv</string>
-    <string name="sign_in_to_text">Tienes que registrarte o iniciar sesión con tu cuenta para empezar añadir tus programas de TV favoritos.</string>
-    <string name="sign_up_with_email">Registrarse con tu correo electrónico</string>
-    <string name="sign_up">Registrarse</string>
+    <string name="sign_in_to_title">¿Tienes cuenta?</string>
+    <string name="sign_in_to_text">Inicia sesión para añadir tus programas favoritos</string>
+    <string name="sign_up_with_email">Regístrate con tu correo electrónico</string>
+    <string name="sign_up">Regístrate</string>
     <string name="already_registered">¿Ya estás registrado?</string>
     <string name="login_with_email">Inicia sesión con tu correo electrónico</string>
     <string name="forgot_password">¿Olvidaste tu contraseña?</string>
-    <string name="join">Registrarse</string>
+    <string name="join">Regístrate</string>
     <string name="forgot_your_password">¿Olvidaste tu contraseña?</string>
-    <string name="reset_password_text">Si ha olvidado su contraseña, introduzca tu correo electrónico y le enviaremos un email con las instrucciones para restablecer su contraseña.</string>
-    <string name="reset_password_email_not_found">El correo electrónico que no se encuentra.</string>
+    <string name="reset_password_text">Escribe tu correo electrónico y te enviaremos instrucciones para cambiar tu contraseña.</string>
+    <string name="reset_password_email_not_found">No encontramos tu correo electrónico</string>
     <string name="check_your_email">Busca en tu correo electrónico!</string>
-    <string name="reset_password_mail_text">Te hemos enviado un correo con las instrucciones para restablecer su contraseña. </string>
-    <string name="reset_password_mail_spam_text">¿No encuentras el correo? Verifique su carpeta de correos basura. </string>
+    <string name="reset_password_mail_text">Te hemos enviado un correo con las instrucciones para cambiar tu contraseña.</string>
+    <string name="reset_password_mail_spam_text">¿No encuentras el correo electrónico que te enviamos? Checa en tu correo no deseado.</string>
     <string name="submit">Continuar</string>
-    <string name="facebook_login_proceeds">Facebook está trabajando para registrarse &#8230;</string>
+    <string name="facebook_login_proceeds">Esperando respuesta de Facebook&#8230;</string>
     <string name="success_account_created_title">¡Tu cuenta ha sido creada con éxito!</string>
-    <string name="success_account_created_text">Ya eres un mi.tv usuario</string>
+    <string name="success_account_created_text">Ya eres un usuario de mi.tv</string>
     <string name="set_your_channels">Selecciona tus canales</string>
     <string name="connect_with_friends">Conéctate con amigos</string>
-    <string name="take_the_tour">Realiza un tour</string>
+    <string name="take_the_tour">Toma un tour</string>
     <string name="skip">Saltar</string>
     <string name="or">o</string>
-    <string name="signup_with_email_error_firstname">El nombre introducido no es correcto </string>
-    <string name="signup_with_email_error_lastname">El apellido introducido no es correcto </string>
-    <string name="signup_with_email_error_email_incorrect">El correo electrónico introducido no es correcto </string>
-    <string name="signup_with_email_error_email_already_registered">El correo electrónico ya está registrado </string>
-    <string name="signup_with_email_error_passwordlength">El contraseña debe contener </string>
+    <string name="signup_with_email_error_firstname">¿Seguro que así te llamas? </string>
+    <string name="signup_with_email_error_lastname">¿Seguro que éste es tu apellido? </string>
+    <string name="signup_with_email_error_email_incorrect">Tu correo electrónico se ve raro </string>
+    <string name="signup_with_email_error_email_already_registered">Este correo electrónico ya está registrado </string>
+    <string name="signup_with_email_error_passwordlength">La contraseña debe contener </string>
     <string name="signup_with_email_characters"> caracteres</string>
     <string name="signup_characters">al menos 6 caracteres</string>
     <string name="signup_email_example">yo@mi.tv</string>
@@ -172,7 +172,7 @@
 
     <!-- ACTIVITY PAGE -->
     <string name="activity_page">Actividad</string>
-    <string name="activity_page_subtitle">Solo tienes que registrarse, y nosotros nos encargaremos de buscar sugerencias especialmente para ti.</string>
+    <string name="activity_page_subtitle">Regístrate y nosotros nos encargamos de buscar sugerencias especialmente para ti.</string>
     <string name="login_here">Iniciar sesión</string>
     <string name="login_for_activity">Solo tienes que registrarse, y nosotros nos encargaremos de buscar sugerencias especialmente para ti.</string>
     <string name="popular_now">Populares</string>
