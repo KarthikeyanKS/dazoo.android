@@ -26,6 +26,7 @@ import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.customviews.FontTextView;
 import com.mitv.http.MiTVCallback;
+import com.mitv.http.SSHttpClient;
 import com.mitv.manager.FontManager;
 import com.mitv.model.Broadcast;
 import com.mitv.model.Channel;
@@ -354,6 +355,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		};
 
 		String completeSearchUrl = String.format(Locale.getDefault(), Consts.URL_SEARCH, q);
+		completeSearchUrl = SSHttpClient.urlByAppendingLocaleAndTimezone(completeSearchUrl);
 		
 		mAq.ajax(completeSearchUrl, String.class, -1, cb);
 		cb.block();

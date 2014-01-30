@@ -1,6 +1,8 @@
 package com.mitv.http;
 
 import java.io.InputStream;
+import java.util.Locale;
+import java.util.TimeZone;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.http.HttpEntity;
@@ -23,6 +25,8 @@ import android.os.Build;
 import android.util.Log;
 
 import com.damnhandy.uri.template.UriTemplate;
+import com.mitv.Consts;
+import com.mitv.SecondScreenApplication;
 
 public class SSHttpClient<T_Result> {
 
@@ -77,6 +81,17 @@ public class SSHttpClient<T_Result> {
 		}
 		return true;
 	}
+	
+	public static String urlByAppendingLocaleAndTimezone(String plainUrl) {
+		Locale locale = SecondScreenApplication.getCurrentLocale();
+		TimeZone tz = TimeZone.getDefault();
+		int timeZoneOffsetInMinutes = tz.getRawOffset() / 60000;
+		
+		
+		String urlWithAppendedInfo = String.format(locale, "%s?%s=%s&%s=%d", plainUrl, Consts.HTTP_REQUEST_DATA_LOCALE, locale.toString(), Consts.HTTP_REQUEST_DATA_TIME_ZONE_OFFSET, timeZoneOffsetInMinutes);
+		
+		return urlWithAppendedInfo;
+	}
 
 	private class SSHttpClientGetTask extends AsyncTask<String, Void, T_Result> {
 
@@ -100,15 +115,19 @@ public class SSHttpClient<T_Result> {
 				mLock.unlock();
 			}
 		}
-
+		
 		@Override
 		protected T_Result doInBackground(String... params) {
 
 			SSHttpClientGetResult httpClientGetResult = new SSHttpClientGetResult();
 			T_Result result = null;
 
+			String requestUrl = params[0];
+
 			// If we have any input
-			if (params[0] != null) {
+			if (requestUrl != null) {
+				
+				requestUrl = urlByAppendingLocaleAndTimezone(requestUrl);
 
 				Log.d(TAG, "Create http client");
 
@@ -117,15 +136,16 @@ public class SSHttpClient<T_Result> {
 				try {
 					Log.d(TAG, "Create http get request");
 					// Remember the Uri
-					httpClientGetResult.setUri(params[0]);
+					httpClientGetResult.setUri(requestUrl);
 					// If we can create the http get request
 					if (createHttpGet(httpClientGetResult.getUri())) {
 
 						Log.d(TAG, "Do http get request");
 
-						// Do http get request, with our context to keep track of cookies
+						// Do http get request, with our context to keep track
+						// of cookies
 						HttpResponse httpResponse = httpClient.execute(mHttpGet, sHttpContext);
-						
+
 						// Get http response entity
 						HttpEntity httpResponseEntity = httpResponse.getEntity();
 						if (httpResponseEntity != null) {
@@ -139,12 +159,14 @@ public class SSHttpClient<T_Result> {
 								getResponseFromStream(httpClientGetResult, responseStream);
 								// Set result
 								httpClientGetResult.setResult(httpResponse.getStatusLine().getStatusCode());
-								// If we have a callback and the task isn't cancelled
+								// If we have a callback and the task isn't
+								// cancelled
 								if ((mHttpClientCallback != null) && !isCancelled()) {
 
 									Log.d(TAG, "Let callback handle result");
 
-									// Give it the possibility to handle the result in background as well
+									// Give it the possibility to handle the
+									// result in background as well
 									result = mHttpClientCallback.onHandleHttpGetResultInBackground(httpClientGetResult);
 								}
 							} finally {

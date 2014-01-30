@@ -64,6 +64,10 @@ public abstract class Consts {
 	public static final String URL_SEARCH		 					= URL_SERVER + "search?query=%s*";
 	public static final String URL_API_VERSION						= URL_SERVER + "versions";
 	public static final String URL_NOTIFY_BROADCAST_PREFIX 			= URL_SERVER + "epg/channels/";
+	
+	/* Used as meta data in all HTTP requests */
+	public static final String HTTP_REQUEST_DATA_LOCALE 			= "lang";
+	public static final String HTTP_REQUEST_DATA_TIME_ZONE_OFFSET 	= "timeZoneOffset";
 
 	/* API request strings */
 	public static final String	API_CHANNEL_ID_WITH_EQUALS_SIGN		= "channelId=";
@@ -105,7 +109,7 @@ public abstract class Consts {
 		LOADING, FAILED, EMPTY_RESPONSE, SUCCESSFUL, BAD_REQUEST
 	};
 	
-	public static String		BACK_STACK									= "com.mitv.back.stack";
+	public static String		BACK_STACK											= "com.mitv.back.stack";
 
 	public static final String	ISO_DATE_FORMAT										= "yyyy-MM-dd'T'HH:mm:ss'Z'";
 	public static final String	TVDATE_DATE_FORMAT									= "yyyy-MM-dd";
@@ -172,7 +176,7 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_BAD_REQUEST							= "com.mitv.intent.extra.bad.request";
 
 	/* Alarm extras */
-	public static final String	INTENT_NOTIFICATION							= "NOTIFICATION";
+	public static final String	INTENT_NOTIFICATION									= "NOTIFICATION";
 	public static final String	INTENT_ALARM_EXTRA_BROADCAST_BEGINTIMEMILLIS		= "com.mitv.intent.alarm.extra.broadcast.begintimemillis";
 	public static final String	INTENT_ALARM_EXTRA_CHANNELID						= "com.mitv.intent.alarm.extra.channelid";
 	public static final String	INTENT_ALARM_EXTRA_NOTIFICIATION_ID					= "com.mitv.intent.alarm.extra.notification.id";

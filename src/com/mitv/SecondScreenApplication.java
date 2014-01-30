@@ -153,7 +153,7 @@ public class SecondScreenApplication extends Application {
 		
 		String packageName = getPackageName();
 		
-		String filePath = String.format(getCurrentLocale(), "%s/Android/data/%s", root, packageName);
+		String filePath = String.format(getCurrentLocale(), "%s/Android/data/%s/", root, packageName);
 		
 		File myDir = new File(filePath);
 		myDir.mkdirs();
@@ -177,7 +177,6 @@ public class SecondScreenApplication extends Application {
 			try {
 				FileOutputStream os = new FileOutputStream(file, true);
 				OutputStreamWriter out = new OutputStreamWriter(os);
-				out.write("app was preinstalled");
 				out.close();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -250,17 +249,19 @@ public class SecondScreenApplication extends Application {
 	}
 	
 	private void setupGoogleAnalytics() {
-		appWasPreinstalledFile();
 		String trackingId = AppConfigurationManager.getInstance().getGoogleAnalyticsTrackingId();
 		GoogleAnalytics googleAnalyticsInstance = GoogleAnalytics.getInstance(this);
 		Tracker tracker = googleAnalyticsInstance.getTracker(trackingId);
 		
 		String appVersion = Consts.GA_APP_VERSION_NOT_SET;
-		String wasPreinstalledSharedPrefs = getWasPreinstalled() ? Consts.PREFS_KEY_APP_WAS_PREINSTALLED : Consts.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
-		String wasPreinstalledExternalStorage = wasPreinstalledFileExists() ? Consts.PREFS_KEY_APP_WAS_PREINSTALLED : Consts.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
 		
+		boolean preinstalledCheckingSharedPrefs	= getWasPreinstalled();
+		boolean preinstalledCheckingExternalStorage = wasPreinstalledFileExists();
     	boolean preinstalledUsingSystemAppDetectionCheckLocation = applicationIsSystemApp(getApplicationContext());
     	boolean preinstalledUsingSystemAppDetectionCheckFlag = applicationIsSystemAppUsingFlag(getApplicationContext());
+    	
+		String wasPreinstalledSharedPrefs = preinstalledCheckingSharedPrefs ? Consts.PREFS_KEY_APP_WAS_PREINSTALLED : Consts.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
+		String wasPreinstalledExternalStorage = preinstalledCheckingExternalStorage ? Consts.PREFS_KEY_APP_WAS_PREINSTALLED : Consts.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
     	String wasPreinstalledSystemAppLocation = preinstalledUsingSystemAppDetectionCheckLocation ? Consts.PREFS_KEY_APP_WAS_PREINSTALLED : Consts.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
     	String wasPreinstalledSystemAppFlag = preinstalledUsingSystemAppDetectionCheckFlag ? Consts.PREFS_KEY_APP_WAS_PREINSTALLED : Consts.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
 		
