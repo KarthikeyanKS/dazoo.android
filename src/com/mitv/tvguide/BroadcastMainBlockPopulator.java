@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.mitv.Consts;
 import com.mitv.R;
+import com.mitv.authentication.MiTVLoginActivity;
 import com.mitv.authentication.PromptSignInDialogHandler;
 import com.mitv.authentication.SignInActivity;
 import com.mitv.customviews.ReminderView;
@@ -247,7 +248,7 @@ public class BroadcastMainBlockPopulator {
 	public Runnable yesLoginProc() {
 		return new Runnable() {
 			public void run() {
-				Intent intent = new Intent(mActivity, SignInActivity.class);
+				Intent intent = new Intent(mActivity, MiTVLoginActivity.class);
 				mActivity.startActivity(intent);
 			}
 		};
