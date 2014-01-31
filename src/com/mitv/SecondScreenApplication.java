@@ -353,7 +353,7 @@ public class SecondScreenApplication extends Application {
 		calculateSizes();
 		
 		DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
-		.resetViewBeforeLoading(true)
+//		.resetViewBeforeLoading(true)
 		.cacheInMemory(true)
 		.cacheOnDisc(true)
 		.build();
