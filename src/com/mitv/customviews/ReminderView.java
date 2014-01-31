@@ -86,6 +86,7 @@ public class ReminderView extends RelativeLayout implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+//		if(mBroadcast != null )
 		if (mIsSet == false) {
 			if (NotificationService.setAlarm(mContext, mBroadcast, mBroadcast.getChannel(), mBroadcast.getTvDateString())) {
 				NotificationService.showSetNotificationToast(mActivity);

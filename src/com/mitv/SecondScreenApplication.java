@@ -45,6 +45,10 @@ import com.nostra13.universalimageloader.utils.L;
 
 public class SecondScreenApplication extends Application {
 
+	public static interface CheckApiVersionListener {
+		public void onApiVersionChecked(boolean needsUpdate);
+	}
+	
 	private static final String				TAG								= "SecondScreenApplication";
 
 	private static String userAgent;
@@ -68,6 +72,7 @@ public class SecondScreenApplication extends Application {
 
 	public static final double				IMAGE_WIDTH_COEFFICIENT_POSTER	= 0.88;
 	public static final double				IMAGE_HEIGHT_COEFFICIENT_POSTER	= 1.4;
+	private CheckApiVersionListener 		mCheckApiVersionListner;
 
 	private final static double				POSTER_WIDTH_DIVIDER			= 2.1;
 
@@ -77,6 +82,10 @@ public class SecondScreenApplication extends Application {
 	private static SharedPreferences		sSharedPreferences;
 	private static Editor					editor;
 
+	public void setCheckApiVersionListener(CheckApiVersionListener listener) {
+		mCheckApiVersionListner = listener;
+	}
+	
 	public SecondScreenApplication() {
 	}
 	/**
@@ -294,6 +303,16 @@ public class SecondScreenApplication extends Application {
 		tracker.set(Consts.GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_FLAG, wasPreinstalledSystemAppFlag);	
 		tracker.set(Fields.SAMPLE_RATE, sampleRateAsString);
 	}
+	
+	private boolean checkApiVersion() {
+		String apiVersion = getApiVersion();
+		if (apiVersion != null && !apiVersion.equals(Consts.API_VERSION)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 
 	@Override
 	public void onCreate() {
@@ -317,9 +336,13 @@ public class SecondScreenApplication extends Application {
 			@Override
 			public void onApiVersionResult() {
 				setApiVersion(SSApiVersionPage.getInstance().getApiVersionString());
+				boolean needsUpdate = checkApiVersion();
+				if(mCheckApiVersionListner != null) {
+					mCheckApiVersionListner.onApiVersionChecked(needsUpdate);
+				}
 			}
 		});
-						
+							
 		// sSharedPreferences = getSharedPreferences(Consts.SHARED_PREFS_MAIN_NAME, Context.MODE_PRIVATE);
 		sSharedPreferences = new ObscuredSharedPreferences(this, this.getSharedPreferences(Consts.SHARED_PREFS_MAIN_NAME, Context.MODE_PRIVATE));
 

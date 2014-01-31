@@ -26,9 +26,10 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.mitv.Consts;
+import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.Consts.REQUEST_STATUS;
+import com.mitv.SecondScreenApplication.CheckApiVersionListener;
 import com.mitv.adapters.ActionBarDropDownDateListAdapter;
 import com.mitv.content.SSPageFragmentActivity;
 import com.mitv.content.activity.ActivityActivity;
@@ -43,7 +44,7 @@ import com.mitv.tvguide.TVHolderFragment;
 import com.mitv.tvguide.TVHolderFragment.OnViewPagerIndexChangedListener;
 import com.mitv.utilities.DateUtilities;
 
-public class HomeActivity extends SSPageFragmentActivity implements OnClickListener, ActionBar.OnNavigationListener {
+public class HomeActivity extends SSPageFragmentActivity implements OnClickListener, ActionBar.OnNavigationListener, CheckApiVersionListener {
 
 	private static final String					TAG					= "HomeActivity";
 	private RelativeLayout						mTabTvGuide, mTabPopular, mTabFeed;
@@ -91,25 +92,15 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverBadRequest, new IntentFilter(Consts.INTENT_EXTRA_BAD_REQUEST));
 
 		SecondScreenApplication.getInstance().setSelectedHour(Integer.valueOf(DateUtilities.getCurrentHourString()));
-		
+		SecondScreenApplication.getInstance().setCheckApiVersionListener(this);
+
 		initViews();
-		
-        boolean wasPreinstalledSharedPref = SecondScreenApplication.getInstance().getWasPreinstalled();
-        boolean wasPreinstalledExternalStorage = SecondScreenApplication.getInstance().wasPreinstalledFileExists();
-        
 
 		// HOCKEY-APP
 		// checkForUpdates();
 
 		if (!NetworkUtils.checkConnection(this)) {
 			updateUI(REQUEST_STATUS.FAILED);
-		} else {
-			if (checkApiVersion() == true) {
-				showUpdateDialog();
-			}
-			else {
-				loadPage();
-			}
 		}
 	}
 
@@ -121,17 +112,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		// Remove this for store builds!
 		UpdateManager.register(this, Consts.HOCKEY_APP_TOKEN);
 	}
-	
-	private boolean checkApiVersion() {
-		String apiVersion = SecondScreenApplication.getInstance().getApiVersion();
-		if (apiVersion != null && !apiVersion.equals(Consts.API_VERSION)) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-	
+
 	public void showUpdateDialog() {
 		final Dialog dialog = new Dialog(this, R.style.remove_notification_dialog);
 		dialog.setContentView(R.layout.dialog_prompt_update);
@@ -417,14 +398,24 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			// tab to activity page
 			Intent intentActivity = new Intent(HomeActivity.this, ActivityActivity.class);
 			startActivity(intentActivity);
-			
+
 			break;
 		case R.id.tab_me:
 			// tab to activity page
 			Intent intentMe = new Intent(HomeActivity.this, MyProfileActivity.class);
 			startActivity(intentMe);
-			
+
 			break;
 		}
+	}
+
+	@Override
+	public void onApiVersionChecked(boolean needsUpdate) {
+		if (needsUpdate) {
+			showUpdateDialog();
+		} else {
+			loadPage();
+		}
+
 	}
 }
