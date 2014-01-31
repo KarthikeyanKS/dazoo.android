@@ -211,11 +211,11 @@ public class NotificationService {
 		sToast = new Toast(activity.getApplicationContext());
 
 		String toastText = String.format("%s %s %s %s %s", 
-				activity.getResources().getString(R.string.reminder_text_set_start), 
+				activity.getResources().getString(R.string.reminder_text_set_top), 
 				"<b>", 
 				activity.getResources().getString(R.string.reminder_text_set_middle), 
 				"</b>", 
-				activity.getResources().getString(R.string.reminder_text_set_end));
+				activity.getResources().getString(R.string.reminder_text_set_bottom));
 
 		TextView text = (TextView) layout.findViewById(R.id.notification_and_like_set_toast_tv);
 		text.setText(Html.fromHtml(toastText));

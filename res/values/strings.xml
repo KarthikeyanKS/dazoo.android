@@ -202,6 +202,8 @@
     <string name="signup_email_example">example@abc.com</string>
     <string name="login_with_wrong_info">Something is wrong with the email or the password entered</string>
     <string name="login_with_wrong_format">Check if e-mail and password were input right!</string>
+    <string name="sign_up_terms_info">By signing up, you agree to the</string>
+    <string name="sign_up_terms_link"><a href="http://www.mi.tv/terminos">Terms of Service</a></string>
 
     <!-- MY CHANNELS PAGE -->
     <string name="get_my_channels">Get My Channels</string>

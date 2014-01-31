@@ -158,6 +158,8 @@
     <string name="signup_email_example">yo@mi.tv</string>
     <string name="login_with_wrong_info">Algo se ve raro con la contraseña o tu correo electrónico.</string>
     <string name="login_with_wrong_format">Algo se ve raro con la contraseña o tu correo electrónico.</string>
+    <string name="sign_up_terms_info">Al registrarte, aceptas las</string>
+    <string name="sign_up_terms_link"><a href="http://www.mi.tv/terminos">Condiciones de Servicio</a></string>
 
     <!-- MY CHANNELS PAGE -->
     <string name="get_my_channels">Obtener mis canales</string>
@@ -175,11 +177,11 @@
     <!-- NOTIFICATION SERVICE -->
 
     <string name="reminder_text_set">Te recordaremos 15 minutos antes del programa.</string>
-    <string name="reminder_text_set_start">Te recordaremos</string>
+    <string name="reminder_text_set_top">Te recordaremos</string>
     <string name="reminder_text_set_middle">15 minutos</string>
-    <string name="reminder_text_set_end">antes del programa.</string>
+    <string name="reminder_text_set_bottom">antes del programa.</string>
     <string name="reminder_text_remove">"Eliminar el recordatorio para "</string>
-
+    
     <!-- LIKE SERVICE -->
     <string name="like_set_text">" se ha agregado a tus preferencias"</string>
     <string name="like_remove_text">"Ya no te gusta este programa? Nuestras sugerencias cambiarán."</string>
