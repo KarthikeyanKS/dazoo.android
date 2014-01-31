@@ -64,7 +64,7 @@ public class ResetPasswordFinalActivity extends SSSignInSignupBaseActivity imple
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.resetpassword_already_login_btn:
-			Intent intentSignIn = new Intent(ResetPasswordFinalActivity.this, SignInActivity.class);
+			Intent intentSignIn = new Intent(ResetPasswordFinalActivity.this, MiTVLoginActivity.class);
 			startActivity(intentSignIn);
 			break;
 		}
