@@ -217,6 +217,10 @@
     <string name="share_action_title">Share via&#8230;</string>
 
     <!-- NOTIFICATION SERVICE -->
+    
+    <string name="reminder_text_set_top">A reminder was set</string>
+    <string name="reminder_text_set_middle">15 minutes</string>
+    <string name="reminder_text_set_bottom">before on air</string>
 	<string name="reminder_text_set">A reminder was set 15 minutes before on air</string>
     <string name="reminder_text_remove">"Remove the reminder for "</string>
 
