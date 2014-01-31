@@ -166,20 +166,18 @@ public class NotificationService {
 
 
 		NotificationCompat.Builder notificationBuilder;
-		try {
+		
 			notificationBuilder = new NotificationCompat.Builder(context)
 			.setSmallIcon(R.drawable.mitv_notification_small_icon)
 			.setLargeIcon(largeIcon)
 			.setContentTitle(broadcastName)
-			.setContentText(DateUtilities.timeToTimeString(DateUtilities.convertTimeStampToLocalTime(DateUtilities.isoStringToLong(broadcastTime))) + " " +channelName)
+			.setContentText(broadcastTime + " " + channelName)
 			.setContentIntent(PendingIntent.getActivity(context, 1, broadcastPageIntent, PendingIntent.FLAG_UPDATE_CURRENT))
 			.setAutoCancel(true)
 			.setWhen(System.currentTimeMillis())
 			.setDefaults(Notification.DEFAULT_ALL); // default sound, vibration, light
 			notificationManager.notify(notificationId, notificationBuilder.build());
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		
 
 		// remove the notification from the database
 		NotificationDataSource notificationDataSource = new NotificationDataSource(context);

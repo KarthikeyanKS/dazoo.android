@@ -28,8 +28,9 @@ public class AlarmSetter extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		// set the alarms on the phone reboot
-		
-		scheduleAlarms(context);
+		if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
+			scheduleAlarms(context);
+		}
 	}
 
 	static void scheduleAlarms(Context context) {
