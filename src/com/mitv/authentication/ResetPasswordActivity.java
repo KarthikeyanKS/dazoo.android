@@ -108,7 +108,7 @@ public class ResetPasswordActivity extends SSSignInSignupBaseActivity implements
 					ResetPasswordTask resetPasswordTask = new ResetPasswordTask();
 					int responseCode = resetPasswordTask.execute(emailInput).get();
 					Log.d(TAG, "responseCode: " + responseCode);
-					if (Consts.GOOD_RESPONSE_RESET_PASSWORD == responseCode) {
+					if (Consts.GOOD_RESPONSE_RESET_PASSWORD == responseCode || Consts.GOOD_RESPONSE == responseCode) {
 						//Toast.makeText(getApplicationContext(), "The password is successfully reset. Check your mailbox!", Toast.LENGTH_SHORT).show();
 						Log.d(TAG, "Password is reset");
 
@@ -171,7 +171,7 @@ public class ResetPasswordActivity extends SSSignInSignupBaseActivity implements
 				HttpResponse response = httpClient.execute(httpPost);
 				
 				int responseCode = response.getStatusLine().getStatusCode();
-				if (responseCode == Consts.GOOD_RESPONSE_RESET_PASSWORD) {
+				if (responseCode == Consts.GOOD_RESPONSE_RESET_PASSWORD ||  responseCode == Consts.GOOD_RESPONSE) {
 					return responseCode;
 				}
 				else if (responseCode == Consts.BAD_RESPONSE) {

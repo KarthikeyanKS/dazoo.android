@@ -176,9 +176,9 @@
     <string name="notification_text_start">mi.tv would like to remind you that </string>
     <string name="notification_text_middle"> in 15 minutes at the channel </string>
     <string name="notification_text_end">. Enjoy! :)</string>
-    <string name="reminder_text_set_top">Te recordaremos</string>
+    <string name="reminder_text_set_start">Te recordaremos</string>
     <string name="reminder_text_set_middle">15 minutos</string>
-    <string name="reminder_text_set_bottom">antes del programa.</string>
+    <string name="reminder_text_set_end">antes del programa.</string>
     <string name="reminder_text_remove">"Eliminar el recordatorio para "</string>
 
     <!-- LIKE SERVICE -->
