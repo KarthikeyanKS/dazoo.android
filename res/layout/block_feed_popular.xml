@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/grey1"
@@ -19,11 +21,12 @@
 	        android:id="@+id/block_popular_header_tv"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_marginTop="10dp"
 	        android:layout_marginLeft="10dp"
-	        android:layout_marginBottom="5dp"
+	        android:layout_marginRight="10dp"
+	        android:layout_marginTop="10dp"
+	        android:text="@string/popular_now"
 	        android:textSize="22sp"
-	        android:text="@string/popular_now" />
+	        font:fonttextview="roboto_mitv_medium.ttf" />
 	    
 		<!-- ITEM 1 -->
 	    <include
@@ -67,7 +70,8 @@
 	            android:layout_alignParentLeft="true"
 	            android:text="@string/show_all"
 	            android:textSize="@dimen/header_3" 
-	            android:textColor="@color/grey2"/>
+	            android:textColor="@color/grey2"
+	        	font:fonttextview="roboto_mitv_medium.ttf"/>
 	    </RelativeLayout>
     
     </RelativeLayout>

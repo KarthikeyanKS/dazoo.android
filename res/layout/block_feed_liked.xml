@@ -29,34 +29,29 @@
 	        font:fonttextview="roboto_mitv_medium.ttf" />
 	
 	    <!-- PRODUCT IMAGE -->
-	
-	    <FrameLayout
+
+        <RelativeLayout
 	        android:id="@+id/block_feed_liked_content_image_frame"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_below="@id/block_feed_liked_header_tv" >
-	
-	        <RelativeLayout
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:orientation="horizontal"
-	            android:padding="2dp" >
-	
-	            <ImageView
-	                android:id="@+id/block_feed_liked_content_iv"
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:adjustViewBounds="true"
-	                android:scaleType="centerCrop" />
-	
-	            <ProgressBar
-	                android:id="@+id/block_feed_liked_content_iv_progressbar"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_centerInParent="true"
-	                android:visibility="gone" />
-	        </RelativeLayout>
-	    </FrameLayout>
+	        android:layout_below="@id/block_feed_liked_header_tv" 
+            android:orientation="horizontal"
+            android:padding="2dp" >
+
+            <ImageView
+                android:id="@+id/block_feed_liked_content_iv"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop" />
+
+            <ProgressBar
+                android:id="@+id/block_feed_liked_content_iv_progressbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone" />
+        </RelativeLayout>
 	
 	    <!-- CONTENT DETAILS -->
 	
@@ -145,7 +140,7 @@
 	            android:id="@+id/block_feed_liked_divider"
 	            android:layout_width="match_parent"
 	            android:layout_height="1dp"
-	            android:layout_below="@id/block_feed_liked_details_tv"
+	            android:layout_below="@id/block_feed_liked_progressbar"
 	            android:background="@color/grey1" />
 	
 	        <include
