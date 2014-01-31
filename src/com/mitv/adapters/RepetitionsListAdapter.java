@@ -121,8 +121,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 			viewHolder.mTimeTv = (TextView) rowView.findViewById(R.id.row_upcoming_episodes_listitem_title_time);
 			viewHolder.mChannelTv = (TextView) rowView.findViewById(R.id.row_upcoming_episodes_listitem_channel);
 
-			RelativeLayout reminderContainer = (RelativeLayout) rowView.findViewById(R.id.row_upcoming_episodes_reminder_view);
-			viewHolder.mReminderView = (ReminderView) reminderContainer.findViewById(R.id.element_reminder_image_View);
+			viewHolder.mReminderView = (ReminderView) rowView.findViewById(R.id.row_upcoming_episodes_reminder_view);
 			
 			viewHolder.mContainer = (LinearLayout) rowView.findViewById(R.id.row_upcoming_episodes_listitem_info_container);
 

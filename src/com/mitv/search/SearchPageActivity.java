@@ -232,7 +232,7 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 			}
 			
 			Broadcast nextBroadcast = result.getNextBroadcast();
-			
+			if(nextBroadcast != null) {
 			intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, nextBroadcast.getBeginTimeMillisGmt());
 			
 			Channel channel = nextBroadcast.getChannel();
@@ -243,6 +243,9 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 			intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, date);
 			
 			startActivity(intent);
+			} else {
+				Toast.makeText(this, "No upcoming broadcast", Toast.LENGTH_SHORT).show();
+			}
 		} else {
 			Toast.makeText(this, "Channel pressed, behavior unspecified", Toast.LENGTH_SHORT).show();
 		}
