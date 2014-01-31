@@ -86,34 +86,35 @@ public class ReminderView extends RelativeLayout implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-//		if(mBroadcast != null )
-		if (mIsSet == false) {
-			if (NotificationService.setAlarm(mContext, mBroadcast, mBroadcast.getChannel(), mBroadcast.getTvDateString())) {
-				NotificationService.showSetNotificationToast(mActivity);
-				mImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_reminder_selected));
-
-				NotificationDbItem dbItemRemind = mNotificationDataSource.getNotification(mBroadcast.getChannel().getChannelId(),
-						mBroadcast.getBeginTimeMillisGmt());
-				mNotificationId = dbItemRemind.getNotificationId();
-
-				AnimationUtilities.animationSet(this);
-
-				mIsSet = true;
-			} else {
-				Log.d(TAG, "!!! Setting notification faced an error !!!");
-			}
-		} else {
-			if (mNotificationId != -1) {
-				if (NotificationService.sToast != null) {
-					NotificationService.sToast.cancel();
+		//TODO instead of checking if not has started, check if it is 15 min to start (because now you can set reminders for show that start in 14, 13 ,12 min etc.)
+		if(mBroadcast != null && !mBroadcast.hasStarted()) {
+			if (mIsSet == false) {
+				if (NotificationService.setAlarm(mContext, mBroadcast, mBroadcast.getChannel(), mBroadcast.getTvDateString())) {
+					NotificationService.showSetNotificationToast(mActivity);
+					mImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_reminder_selected));
+	
+					NotificationDbItem dbItemRemind = mNotificationDataSource.getNotification(mBroadcast.getChannel().getChannelId(),
+							mBroadcast.getBeginTimeMillisGmt());
+					mNotificationId = dbItemRemind.getNotificationId();
+	
+					AnimationUtilities.animationSet(this);
+	
+					mIsSet = true;
+				} else {
+					Log.d(TAG, "!!! Setting notification faced an error !!!");
 				}
-				NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
-				notificationDlg.showRemoveNotificationDialog(mContext, mBroadcast, mNotificationId, yesNotificationProc(), noNotificationProc());
 			} else {
-				Log.d(TAG, "!!! Could not find such reminder in DB !!!");
+				if (mNotificationId != -1) {
+					if (NotificationService.sToast != null) {
+						NotificationService.sToast.cancel();
+					}
+					NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
+					notificationDlg.showRemoveNotificationDialog(mContext, mBroadcast, mNotificationId, yesNotificationProc(), noNotificationProc());
+				} else {
+					Log.d(TAG, "!!! Could not find such reminder in DB !!!");
+				}
 			}
 		}
-
 	}
 
 	public Runnable yesNotificationProc() {
