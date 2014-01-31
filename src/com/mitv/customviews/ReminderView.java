@@ -63,11 +63,9 @@ public class ReminderView extends RelativeLayout implements OnClickListener {
 		this.mBroadcast = broadcast;
 		
 		if (!mBroadcast.hasStarted()) {
-			NotificationDbItem dbItem = new NotificationDbItem();
+			NotificationDbItem dbItem = mNotificationDataSource.getNotification(mBroadcast.getChannel().getChannelId(), mBroadcast.getBeginTimeMillisGmt());
 
-			dbItem = mNotificationDataSource.getNotification(mBroadcast.getChannel().getChannelId(), mBroadcast.getBeginTimeMillisGmt());
-
-			if (dbItem.getNotificationId() != 0) {
+			if (dbItem != null && dbItem.getNotificationId() != 0) {
 				Log.d(TAG, "dbItem: " + dbItem.getProgramTitle() + " " + dbItem.getNotificationId());
 				mNotificationId = dbItem.getNotificationId();
 				mIsSet = true;

@@ -1,5 +1,6 @@
 package com.mitv.receivers;
 
+import java.text.ParseException;
 import java.util.List;
 
 import com.mitv.model.Broadcast;
@@ -9,6 +10,7 @@ import com.mitv.model.Program;
 import com.mitv.model.Season;
 import com.mitv.notification.NotificationDataSource;
 import com.mitv.notification.NotificationService;
+import com.mitv.utilities.DateUtilities;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -44,7 +46,18 @@ public class AlarmSetter extends BroadcastReceiver {
 			
 			Broadcast broadcast = new Broadcast();
 			broadcast.setBeginTimeStringGmt(item.getBroadcastBeginTimeStringLocal());
-			broadcast.setBeginTimeMillisGmt(Long.parseLong(item.getBroadcastBeginTimeInMillisGmtAsString()));
+			long beginTimeMillisGmt = Long.parseLong(item.getBroadcastBeginTimeInMillisGmtAsString());
+			broadcast.setBeginTimeMillisGmt(beginTimeMillisGmt);
+			
+			long beginTimeMillisLocal = DateUtilities.convertTimeStampToLocalTime(beginTimeMillisGmt);
+			String tvDateString = "";
+			try {
+				tvDateString = DateUtilities.isoDateToTvDateString(beginTimeMillisLocal);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			broadcast.setTvDateString(tvDateString);
+			
 			
 			Program program = new Program();
 			program.setProgramId(item.getProgramId());

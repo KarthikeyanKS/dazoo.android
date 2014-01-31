@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 import android.util.Log;
@@ -42,10 +43,7 @@ public class NotificationService {
 	public static boolean resetAlarm(Context context, Broadcast broadcast, Channel channel, int notificationId){
 
 		// call alarm manager to set the notification at the certain time
-		Intent intent = new Intent(Consts.INTENT_NOTIFICATION);
-		intent.putExtra(Consts.INTENT_EXTRA_BROADCAST, broadcast);
-		intent.putExtra(Consts.INTENT_EXTRA_CHANNEL, channel);
-		intent.putExtra(Consts.INTENT_EXTRA_NOTIFICATION_ID, notificationId);
+		Intent intent = getAlarmIntent(notificationId, broadcast, channel, broadcast.getTvDateString());
 
 		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, notificationId, intent, 0);
@@ -62,18 +60,10 @@ public class NotificationService {
 		}
 		return false;
 	}
-
-	public static boolean setAlarm(Context context, Broadcast broadcast, Channel channel, String dateDate) {
-
-		Random random = new Random();
-		int notificationId = random.nextInt(Integer.MAX_VALUE);
-		Log.d(TAG,"NOTIFICATION ID: " + notificationId);
-
-		// call alarm manager to set the notification at the certain time
+	
+	
+	private static Intent getAlarmIntent(int notificationId, Broadcast broadcast, Channel channel, String dateDate) {
 		Intent intent = new Intent(Consts.INTENT_NOTIFICATION);
-		//intent.putExtra(Consts.INTENT_EXTRA_BROADCAST, broadcast);
-		//intent.putExtra(Consts.INTENT_EXTRA_CHANNEL, channel);
-		//intent.putExtra(Consts.INTENT_EXTRA_NOTIFICATION_ID, notificationId);
 
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_BEGINTIMEMILLIS, broadcast.getBeginTimeMillisGmt());
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_CHANNELID, channel.getChannelId());
@@ -83,7 +73,18 @@ public class NotificationService {
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_NAME, broadcast.getProgram().getTitle());
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_TIME, broadcast.getBeginTimeStringGmt());
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_DATE_DATE, dateDate);
+		
+		return intent;
+	}
 
+	public static boolean setAlarm(Context context, Broadcast broadcast, Channel channel, String dateDate) {
+
+		Random random = new Random();
+		int notificationId = random.nextInt(Integer.MAX_VALUE);
+		Log.d(TAG,"NOTIFICATION ID: " + notificationId);
+
+		// call alarm manager to set the notification at the certain time
+		Intent intent = getAlarmIntent(notificationId, broadcast, channel, dateDate);
 
 		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, notificationId, intent, 0);
