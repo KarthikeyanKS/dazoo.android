@@ -85,28 +85,40 @@
                     android:layout_height="50dp"
                     android:layout_below="@id/activity_not_logged_in_signin_container"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/layout_rounded_corners_blue"
+                    android:background="@drawable/layout_rounded_corners_facebook_blue"
                     android:orientation="horizontal" >
+                    
+                    <RelativeLayout
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="match_parent"
+	                    android:orientation="horizontal" 
+	                    android:layout_centerInParent="true">
+	                    
+                        <com.mitv.customviews.FontTextView
+	                        android:id="@+id/activity_not_logged_in_signin_facebook_icon"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_marginRight="5dp"
+	                        android:layout_centerVertical="true"
+	                        android:text="@string/icon_facebook"
+	                        android:textColor="@color/white"
+	                        android:textSize="34sp"
+	                		font:fonttextview="roboto_mitv_bold.ttf"/>
 
-                    <ImageView
-                        android:id="@+id/activity_not_logged_in_signin_facebook_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
-                        android:src="@drawable/ic_facebook" />
-
-                    <com.mitv.customviews.FontTextView
-                        android:id="@+id/activity_not_logged_in_signin_facebook_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:text="@string/login_with_facebook"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                		font:fonttextview="roboto_mitv_bold.ttf" />
+	                    <com.mitv.customviews.FontTextView
+	                        android:id="@+id/activity_not_logged_in_signin_facebook_tv"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_toRightOf="@id/activity_not_logged_in_signin_facebook_icon"
+	                        android:layout_centerVertical="true"
+	                        android:text="@string/login_with_facebook"
+	                        android:textColor="@color/white"
+	                        android:textSize="18sp"
+	                        android:textStyle="bold"
+	                		font:fonttextview="roboto_mitv_bold.ttf" />
+						
+					</RelativeLayout>
+					
                 </RelativeLayout>
 
                 <!-- OR BAR -->

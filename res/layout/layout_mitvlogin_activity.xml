@@ -23,28 +23,39 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/layout_rounded_corners_blue"
+            android:background="@drawable/layout_rounded_corners_facebook_blue"
             android:orientation="horizontal" >
 
-         <ImageView
-             android:id="@+id/mitvlogin_facebook_icon"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_alignParentLeft="true"
-             android:layout_centerVertical="true"
-             android:layout_marginLeft="10dp"
-             android:src="@drawable/ic_facebook" />
+                    <RelativeLayout
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="match_parent"
+	                    android:orientation="horizontal" 
+	                    android:layout_centerInParent="true">
+	                    
+                        <com.mitv.customviews.FontTextView
+	                        android:id="@+id/mitvlogin_facebook_icon"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_marginRight="5dp"
+	                        android:layout_centerVertical="true"
+	                        android:text="@string/icon_facebook"
+	                        android:textColor="@color/white"
+	                        android:textSize="34sp"
+	                		font:fonttextview="roboto_mitv_bold.ttf"/>
 
-         <com.mitv.customviews.FontTextView
-             android:id="@+id/mitvlogin_facebook_tv"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_centerInParent="true"
-             android:text="@string/login_with_facebook"
-             android:textColor="@color/white"
-             android:textSize="18sp"
-             android:textStyle="bold"
-       	 	 font:fonttextview="roboto_mitv_bold.ttf"  />
+	                    <com.mitv.customviews.FontTextView
+	                        android:id="@+id/mitvlogin_facebook_tv"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_toRightOf="@id/mitvlogin_facebook_icon"
+	                        android:layout_centerVertical="true"
+	                        android:text="@string/login_with_facebook"
+	                        android:textColor="@color/white"
+	                        android:textSize="18sp"
+	                        android:textStyle="bold"
+	                		font:fonttextview="roboto_mitv_bold.ttf" />
+
+                	</RelativeLayout>
 
         </RelativeLayout>
 
