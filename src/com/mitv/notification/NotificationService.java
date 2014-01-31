@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
+import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -54,14 +55,14 @@ public class NotificationService {
 			calendar = DateUtilities.getTimeFifteenMinBefore(broadcast.getBeginTimeStringGmt());
 
 			alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-			
+
 			return true;
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
-	
+
 	public static boolean setAlarm(Context context, Broadcast broadcast, Channel channel, String dateDate) {
 
 		Random random = new Random();
@@ -73,7 +74,7 @@ public class NotificationService {
 		//intent.putExtra(Consts.INTENT_EXTRA_BROADCAST, broadcast);
 		//intent.putExtra(Consts.INTENT_EXTRA_CHANNEL, channel);
 		//intent.putExtra(Consts.INTENT_EXTRA_NOTIFICATION_ID, notificationId);
-		
+
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_BEGINTIMEMILLIS, broadcast.getBeginTimeMillisGmt());
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_CHANNELID, channel.getChannelId());
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_NOTIFICIATION_ID, notificationId);
@@ -82,7 +83,7 @@ public class NotificationService {
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_NAME, broadcast.getProgram().getTitle());
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_TIME, broadcast.getBeginTimeStringGmt());
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_DATE_DATE, dateDate);
-		
+
 
 		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, notificationId, intent, 0);
@@ -102,7 +103,7 @@ public class NotificationService {
 			dbNotification.setNotificationId(notificationId);
 			dbNotification.setBroadcstUrl(Consts.URL_NOTIFY_BROADCAST_PREFIX + channel.getChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillisGmt());
 			dbNotification.setProgramId(broadcast.getProgram().getProgramId());
-			
+
 			Program program = broadcast.getProgram();
 			String titleString = null;
 			if(program.getSeries() != null) {
@@ -110,7 +111,7 @@ public class NotificationService {
 			} else {
 				titleString = program.getTitle();
 			}
-			
+
 			dbNotification.setProgramTitle(titleString);
 
 			String programType = broadcast.getProgram().getProgramType();
@@ -130,7 +131,7 @@ public class NotificationService {
 				dbNotification.setProgramCategory(broadcast.getProgram().getSportType().getName()); //Use category for sport type name 
 				dbNotification.setProgramGenre(broadcast.getProgram().getTournament()); //And genre for tournament name
 			}
-			
+
 			dbNotification.setChannelName(channel.getName());
 			dbNotification.setChannelId(channel.getChannelId());
 			dbNotification.setChannelLogoUrl(channel.getImageUrl());
@@ -160,10 +161,10 @@ public class NotificationService {
 		broadcastPageIntent.putExtra(Consts.INTENT_EXTRA_BROADCAST_URL, broadcastUrl);
 		broadcastPageIntent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
 		broadcastPageIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-	
+
 		Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.mitv_notification_large_icon);
 
-		
+
 		NotificationCompat.Builder notificationBuilder;
 		try {
 			notificationBuilder = new NotificationCompat.Builder(context)
@@ -203,20 +204,28 @@ public class NotificationService {
 
 		return true;
 	}
-	
+
 	public static Toast showSetNotificationToast(Activity activity) {
 		LayoutInflater inflater = activity.getLayoutInflater();
-		View layout = inflater.inflate(R.layout.toast_notification_set, (ViewGroup) activity.findViewById(R.id.notification_set_toast_container));
+		View layout = inflater.inflate(R.layout.toast_notification_and_like_set, (ViewGroup) activity.findViewById(R.id.notification_and_like_set_toast_container));
 
 		sToast = new Toast(activity.getApplicationContext());
 
-		TextView text = (TextView) layout.findViewById(R.id.notification_set_toast_tv);
-		text.setText(activity.getResources().getString(R.string.reminder_text_set));
+		String toastText = String.format("%s %s %s %s %s", 
+				activity.getResources().getString(R.string.reminder_text_set_start), 
+				"<b>", 
+				activity.getResources().getString(R.string.reminder_text_set_middle), 
+				"</b>", 
+				activity.getResources().getString(R.string.reminder_text_set_end));
+
+		TextView text = (TextView) layout.findViewById(R.id.notification_and_like_set_toast_tv);
+		text.setText(Html.fromHtml(toastText));
 
 		if (android.os.Build.VERSION.SDK_INT >= 13) {
-			sToast.setGravity(Gravity.BOTTOM, 0, ((int) activity.getResources().getDimension(R.dimen.bottom_tabs_height) + 5)); //200
-		} else {
-			sToast.setGravity(Gravity.BOTTOM, 0, ((int) activity.getResources().getDimension(R.dimen.bottom_tabs_height) + 5)); //100
+			sToast.setGravity(Gravity.BOTTOM, 0, ((int) activity.getResources().getDimension(R.dimen.bottom_tabs_height) + 10)); //200
+		} 
+		else {
+			sToast.setGravity(Gravity.BOTTOM, 0, ((int) activity.getResources().getDimension(R.dimen.bottom_tabs_height) + 10)); //100
 		}
 		sToast.setDuration(Toast.LENGTH_SHORT);
 		sToast.setView(layout);

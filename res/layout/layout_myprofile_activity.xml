@@ -7,7 +7,6 @@
     android:orientation="vertical" >
 
     <!-- FOOTER: BOTTOM NAVIGATION TABS -->
-
     <include
         android:id="@+id/tab_selector_container"
         android:layout_alignParentBottom="true"
@@ -71,7 +70,8 @@
                         android:maxLines="1"
                         android:padding="10dp"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/header_1" />
+                        android:textSize="@dimen/header_1"
+       	 				font:fonttextview="roboto_mitv_medium.ttf" />
                 </RelativeLayout>
 
                 <!-- REMINDERS BAR -->
@@ -253,7 +253,8 @@
                     android:layout_marginRight="10dp"
                     android:text="@string/sign_in_to_title"
                     android:textSize="@dimen/header_1"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+        			font:fonttextview="roboto_mitv_medium.ttf" />
 
                 <com.mitv.customviews.FontTextView
                     android:id="@+id/myprofile_signin_text_tv"
@@ -264,7 +265,8 @@
                     android:layout_margin="10dp"
                     android:text="@string/sign_in_to_text"
                     android:textColor="@color/grey2"
-                    android:textSize="@dimen/header_2" />
+                    android:textSize="@dimen/header_2"
+        			font:fonttextview="roboto_mitv_medium.ttf" />
 
                 <View
                     android:id="@+id/signin_container_divider"
@@ -304,7 +306,8 @@
 	                    android:text="@string/login_with_facebook"
 	                    android:textColor="@color/white"
 	                    android:textSize="18sp"
-	                    android:textStyle="bold" />
+	                    android:textStyle="bold"
+       	 				font:fonttextview="roboto_mitv_bold.ttf" />
 
                 </RelativeLayout>
 
@@ -336,7 +339,8 @@
                         android:text="@string/or"
                         android:textColor="@color/grey2"
                         android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+       	 				font:fonttextview="roboto_mitv_medium.ttf" />
                 </RelativeLayout>
 
                 <!-- SIGN UP WITH EMAIL BAR -->
@@ -363,7 +367,8 @@
                         android:text="@string/sign_up_with_email"
                         android:textColor="@color/white"
                         android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+       	 				font:fonttextview="roboto_mitv_bold.ttf" />
                 </RelativeLayout>
 
                 <!-- DIVIDER -->
@@ -394,7 +399,8 @@
                         android:text="@string/already_registered"
                         android:textColor="@color/grey2"
                         android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+       	 				font:fonttextview="roboto_mitv_bold.ttf" />
 
 		           <com.mitv.customviews.FontButton
 		               android:id="@+id/myprofile_login_btn"
@@ -407,7 +413,8 @@
                         android:text="@string/login_here"
                         android:textColor="@color/blue1"
                         android:textSize="16sp"
-                        android:textStyle="bold"  />
+                        android:textStyle="bold"
+       	 				font:fonttextview="roboto_mitv_medium.ttf"  />
                 </RelativeLayout>
             </RelativeLayout>
         </RelativeLayout>
