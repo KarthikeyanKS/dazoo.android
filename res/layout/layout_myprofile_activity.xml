@@ -238,9 +238,6 @@
                 android:layout_marginRight="10dp"
                 android:background="@drawable/layout_rounded_corners_white"
                 android:orientation="vertical"
-                android:paddingBottom="10dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:visibility="gone" >
 
                 <com.mitv.customviews.FontTextView
@@ -408,7 +405,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/myprofile_already_registered_text_tv"
                         android:layout_marginBottom="5dp"
-                        android:background="@color/white"
+                        android:background="@drawable/layout_rounded_corners_white"
                         android:gravity="center_horizontal"
                         android:text="@string/login_here"
                         android:textColor="@color/blue1"

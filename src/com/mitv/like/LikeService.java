@@ -200,7 +200,7 @@ public class LikeService {
 		} catch (ExecutionException e) {
 			e.printStackTrace();
 		}
-		if (Consts.GOOD_RESPONSE_LIKE_IS_DELETED == isDeleted) {
+		if (Consts.GOOD_RESPONSE_LIKE_IS_DELETED == isDeleted || Consts.GOOD_RESPONSE == isDeleted) {
 			return true;
 		} else {
 			return false;

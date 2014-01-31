@@ -144,7 +144,8 @@ public class MyChannelsService {
 
 				HttpResponse response = client.execute(httpPost);
 
-				if (Consts.GOOD_RESPONSE_CHANNELS_ARE_ADDED == response.getStatusLine().getStatusCode()) {
+				if (Consts.GOOD_RESPONSE_CHANNELS_ARE_ADDED == response.getStatusLine().getStatusCode() ||
+						Consts.GOOD_RESPONSE == response.getStatusLine().getStatusCode()) {
 					Log.d(TAG, "Update MY CHANNELS: SUCCESS");
 					return true;
 				} else if (Consts.BAD_RESPONSE_INVALID_TOKEN == response.getStatusLine().getStatusCode()) {

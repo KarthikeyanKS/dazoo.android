@@ -46,7 +46,8 @@
                 android:text="@string/activity_page"
                 android:textColor="@color/white"
                 android:textSize="@dimen/header_1"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                font:fonttextview="roboto_mitv_bold.ttf" />
 
             <com.mitv.customviews.FontTextView
                 android:id="@+id/activity_not_logged_in_title_details"
@@ -60,7 +61,8 @@
                 android:text="@string/activity_page_subtitle"
                 android:textColor="@color/white"
                 android:textSize="@dimen/header_2"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                font:fonttextview="roboto_mitv_bold.ttf" />
 
             <!-- LOGIN BLOCK -->
 
@@ -69,9 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/activity_not_logged_in_title_details"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_margin="10dp"
                 android:background="@drawable/layout_rounded_corners_white"
                 android:orientation="vertical"
                 android:paddingLeft="10dp"
@@ -84,8 +84,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_below="@id/activity_not_logged_in_signin_container"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/layout_rounded_corners_blue"
                     android:orientation="horizontal" >
@@ -107,7 +105,8 @@
                         android:text="@string/login_with_facebook"
                         android:textColor="@color/white"
                         android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                		font:fonttextview="roboto_mitv_bold.ttf" />
                 </RelativeLayout>
 
                 <!-- OR BAR -->
@@ -117,7 +116,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/activity_not_logged_in_facebook_container"
-                    android:layout_margin="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:orientation="horizontal" >
 
                     <View
@@ -148,8 +148,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/activity_not_logged_in_or_container"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
                     android:background="@drawable/layout_rounded_corners_blue"
                     android:orientation="vertical"
                     android:padding="10dp"
@@ -164,7 +162,8 @@
                         android:text="@string/sign_up_with_email"
                         android:textColor="@color/white"
                         android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+              		  	font:fonttextview="roboto_mitv_bold.ttf" />
                 </RelativeLayout>
 
                 <View
@@ -174,7 +173,7 @@
                     android:layout_below="@id/activity_not_logged_in_signup_email_container"
                     android:layout_centerVertical="true"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:background="@color/grey1" />
 
                 <!-- ALREADY REGISTERED BOX -->
@@ -195,7 +194,8 @@
                         android:text="@string/already_registered"
                         android:textColor="@color/grey2"
                         android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                		font:fonttextview="roboto_mitv_bold.ttf" />
 
                     <com.mitv.customviews.FontButton
                         android:id="@+id/activity_not_logged_in_login_btn"
@@ -208,7 +208,8 @@
                         android:text="@string/login_here"
                         android:textColor="@color/blue1"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                		font:fonttextview="roboto_mitv_bold.ttf" />
                 </RelativeLayout>
             </RelativeLayout>
         </RelativeLayout>
