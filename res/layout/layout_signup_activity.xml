@@ -124,12 +124,43 @@
             android:textColor="@color/red"
             android:gravity="center" 
         	font:fonttextview="roboto_mitv_medium.ttf" />
+        
+        <com.mitv.customviews.FontTextView
+            android:id="@+id/signup_terms_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="-10dp"
+            android:layout_below="@id/signup_error_password_textview"
+            android:padding="8dp"
+            android:textColor="@color/grey5"
+            android:gravity="center" 
+            android:textSize="16sp"
+            android:text="@string/sign_up_terms_info"
+        	font:fonttextview="roboto_mitv_medium.ttf" />
+        
+         <com.mitv.customviews.FontTextView
+            android:id="@+id/signup_terms_link"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="-10dp"
+            android:layout_below="@id/signup_terms_info"
+            android:padding="8dp"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:linksClickable="true"
+            android:textColorLink="@color/grey2"
+            android:text="@string/sign_up_terms_link"
+        	font:fonttextview="roboto_mitv_bold.ttf" />
 
         <com.mitv.customviews.FontButton
             android:id="@+id/signup_register_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/signup_error_password_textview"
+            android:layout_below="@id/signup_terms_link"
             android:layout_centerInParent="true"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="30dp"

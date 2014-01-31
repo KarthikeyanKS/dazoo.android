@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.webkit.WebView;
 import android.widget.RelativeLayout;
 
 import android.support.v7.app.ActionBar;
@@ -25,6 +26,7 @@ public class TermsActivity extends SSActivity implements OnClickListener {
 	private boolean				mIsChange	= false;
 	private RelativeLayout		mTabTvGuide, mTabActivity, mTabProfile;
 	private View mTabDividerLeft, mTabDividerRight;
+	private WebView				mWebview;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,6 +52,8 @@ public class TermsActivity extends SSActivity implements OnClickListener {
 		mTabActivity.setOnClickListener(this);
 		mTabProfile = (RelativeLayout) findViewById(R.id.tab_me);
 		mTabProfile.setOnClickListener(this);
+		
+		mWebview = (WebView) findViewById(R.id.terms_webview);
 		
 		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
 		mTabDividerRight = (View) findViewById(R.id.tab_right_divider_container);

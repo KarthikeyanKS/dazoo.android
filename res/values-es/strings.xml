@@ -125,7 +125,7 @@
     <string name="reset_password">Cambia tu contraseña</string>
     <string name="sign_in">Inicia sesión</string>
     <string name="cancel">Cancelar</string>
-    <string name="sign_in_to_title">¿Tienes cuenta?</string>
+    <string name="sign_in_to_title">¿No tienes cuenta?</string>
     <string name="sign_in_to_text">Inicia sesión para añadir tus programas favoritos</string>
     <string name="sign_up_with_email">Regístrate con tu correo electrónico</string>
     <string name="sign_up">Regístrate</string>
@@ -156,8 +156,10 @@
     <string name="signup_with_email_characters"> caracteres</string>
     <string name="signup_characters">al menos 6 caracteres</string>
     <string name="signup_email_example">yo@mi.tv</string>
-    <string name="login_with_wrong_info">Algo es raro con la contraseña o tu correo electrónico.</string>
-    <string name="login_with_wrong_format">Check if e-mail and password were input right!</string>
+    <string name="login_with_wrong_info">Algo se ve raro con la contraseña o tu correo electrónico.</string>
+    <string name="login_with_wrong_format">Algo se ve raro con la contraseña o tu correo electrónico.</string>
+    <string name="sign_up_terms_info">Al registrarte, aceptas las</string>
+    <string name="sign_up_terms_link"><a href="http://www.mi.tv/terminos">Condiciones de Servicio</a></string>
 
     <!-- MY CHANNELS PAGE -->
     <string name="get_my_channels">Obtener mis canales</string>
@@ -173,14 +175,13 @@
     <string name="share_action_title">Compartir con&#8230;</string>
 
     <!-- NOTIFICATION SERVICE -->
-    <string name="notification_text_start">mi.tv would like to remind you that </string>
-    <string name="notification_text_middle"> in 15 minutes at the channel </string>
-    <string name="notification_text_end">. Enjoy! :)</string>
-    <string name="reminder_text_set_start">Te recordaremos</string>
-    <string name="reminder_text_set_middle">15 minutos</string>
-    <string name="reminder_text_set_end">antes del programa.</string>
-    <string name="reminder_text_remove">"Eliminar el recordatorio para "</string>
 
+    <string name="reminder_text_set">Te recordaremos 15 minutos antes del programa.</string>
+    <string name="reminder_text_set_top">Te recordaremos</string>
+    <string name="reminder_text_set_middle">15 minutos</string>
+    <string name="reminder_text_set_bottom">antes del programa.</string>
+    <string name="reminder_text_remove">"Eliminar el recordatorio para "</string>
+    
     <!-- LIKE SERVICE -->
     <string name="like_set_text">" se ha agregado a tus preferencias"</string>
     <string name="like_remove_text">"Ya no te gusta este programa? Nuestras sugerencias cambiarán."</string>
@@ -189,7 +190,7 @@
     <!-- ACTIVITY PAGE -->
     <string name="activity_page">Actividad</string>
     <string name="activity_page_subtitle">Regístrate y nosotros nos encargamos de buscar sugerencias especiales para ti.</string>
-    <string name="login_here">Iniciar sesión</string>
+    <string name="login_here">Inicia sesión</string>
     <string name="login_for_activity">Regístrate y nosotros nos encargamos de buscar sugerencias especiales para ti.</string>
     <string name="popular_now">Populares</string>
     <string name="show_all">Ver todos los populares</string>

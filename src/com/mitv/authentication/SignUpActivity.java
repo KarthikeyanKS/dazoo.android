@@ -31,8 +31,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
+import android.text.style.URLSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -44,6 +48,7 @@ import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.customviews.FontTextView;
 import com.mitv.homepage.HomeActivity;
 import com.mitv.utilities.JSONUtilities;
 import com.mitv.utilities.TextDrawable;
@@ -56,6 +61,7 @@ public class SignUpActivity extends SSSignInSignupBaseActivity implements OnClic
 	private TextView			mLastnameErrorTextView;
 	private TextView			mEmailErrorTextView;
 	private TextView			mPasswordErrorTextView;
+	private FontTextView		mTermsWebLink;
 	private EditText			mFirstNameEditText, mLastNameEditText, mPasswordRegisterEditText, mEmailRegisterEditText, mEmailResetPasswordEditText;
 	private Button				mMiTVRegisterButton;
 	private String				userEmailRegister, userPasswordRegister, userFirstNameRegister, userLastNameRegister, mitvToken;
@@ -85,6 +91,31 @@ public class SignUpActivity extends SSSignInSignupBaseActivity implements OnClic
 		/* Have to have this method here since SSActivity has this method abstract */
 	}
 
+	private class URLSpanNoUnderline extends URLSpan {
+		public URLSpanNoUnderline(String url) {
+			super(url);
+		}
+
+		@Override
+		public void updateDrawState(TextPaint ds) {
+			super.updateDrawState(ds);
+			ds.setUnderlineText(false);
+		}
+	}
+
+	private void stripUnderlines(TextView textView) {
+		Spannable s = (Spannable) textView.getText();
+		URLSpan[] spans = s.getSpans(0, s.length(), URLSpan.class);
+		for (URLSpan span : spans) {
+			int start = s.getSpanStart(span);
+			int end = s.getSpanEnd(span);
+			s.removeSpan(span);
+			span = new URLSpanNoUnderline(span.getURL());
+			s.setSpan(span, start, end, 0);
+		}
+		textView.setText(s);
+	}
+
 	private void initViews() {
 		mActionBar = getSupportActionBar();
 		mActionBar.setDisplayShowTitleEnabled(true);
@@ -109,6 +140,10 @@ public class SignUpActivity extends SSSignInSignupBaseActivity implements OnClic
 		mPasswordErrorTextView = (TextView) findViewById(R.id.signup_error_password_textview);
 		mMiTVRegisterButton = (Button) findViewById(R.id.signup_register_button);
 		mMiTVRegisterButton.setOnClickListener(this);
+		
+		mTermsWebLink = (FontTextView) findViewById(R.id.signup_terms_link);
+		mTermsWebLink.setMovementMethod(LinkMovementMethod.getInstance());
+		stripUnderlines(mTermsWebLink);
 
 		//		setTextWatchers();
 
