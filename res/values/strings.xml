@@ -81,7 +81,7 @@
     <string name="connection_failed_title">Could not connect to the network</string>
     <string name="connection_failed_message">Check your internet connection or try again later</string>
     <string name="general_error_message_title">Something went wrong</string>
-    <string name="general_error_message_message">We cannot load the content right noq.\nPlease try again later.</string>
+    <string name="general_error_message_message">We cannot load the content right now.\nPlease try again later.</string>
     <string name="general_error_message_button">Try again</string>
     <string name="general_no_content_available">No content is available</string>
     <string name="error_connection_lost">Connection Lost</string>
@@ -168,7 +168,7 @@
     <string name="reset_password">Reset Password</string>
     <string name="sign_in">Log in</string>
     <string name="cancel">Cancel</string>
-    <string name="sign_in_to_title">Have an account?</string>
+    <string name="sign_in_to_title">Don\'t have an account?</string>
     <string name="sign_in_to_text">Sign up to add your favorites shows and get better personal recommendations.</string>
     <string name="sign_up_with_email">Sign up with email</string>
     <string name="sign_up">Sign up</string>
@@ -217,15 +217,7 @@
     <string name="share_action_title">Share via&#8230;</string>
 
     <!-- NOTIFICATION SERVICE -->
-    <string name="mitv_notification_text_start">mi.tv would like to remind you that </string>
-    <string name="mitv_notification_text_middle"> in 15 minutes at the channel </string>
-    <string name="mitv_notification_text_end">. Enjoy! :)</string>
-    <string name="notification_text_start">mi.tv would like to remind you that </string>
-    <string name="notification_text_middle"> in 15 minutes at the channel </string>
-    <string name="notification_text_end">. Enjoy! :)</string>
-    <string name="reminder_text_set_start">A reminder was set</string>
-    <string name="reminder_text_set_middle">15 minutes</string>
-    <string name="reminder_text_set_end">before on air</string>
+	<string name="reminder_text_set">A reminder was set 15 minutes before on air</string>
     <string name="reminder_text_remove">"Remove the reminder for "</string>
 
     <!-- LIKE SERVICE -->
