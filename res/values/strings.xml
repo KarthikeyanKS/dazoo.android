@@ -154,8 +154,6 @@
     <string name="login_with_mitv">Login</string>
     <string name="logout_from_mitv">Logout</string>
     <string name="register_with_mitv">Sign up with email</string>
-    <!-- string name="hint_password">Password</string>
-    <string name="hint_email">E-mail</string-->
     <string name="hint_password">Password</string>
     <string name="hint_email">E-mail</string>
     <string name="hint_password_long">Password</string>
@@ -200,8 +198,9 @@
     <string name="signup_with_email_characters"> characters!</string>
     <string name="signup_characters">at least 6 characters</string>
     <string name="signup_email_example">example@abc.com</string>
-    <string name="login_with_wrong_info">Something is wrong with the email or the password entered</string>
-    <string name="login_with_wrong_format">Check if e-mail and password were input right!</string>
+    <string name="login_with_wrong_info">Email or password were incorrect.</string>
+    <string name="login_with_wrong_format_email">Check if password was input right!</string>
+    <string name="login_with_wrong_format_password">Check if e-mail was input right!</string>
     <string name="sign_up_terms_info">By signing up, you agree to the</string>
     <string name="sign_up_terms_link"><a href="http://www.mi.tv/terminos">Terms of Service</a></string>
     <string name="success_account_created_title">Hello, </string>

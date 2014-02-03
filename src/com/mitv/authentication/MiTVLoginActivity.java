@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutionException;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -55,7 +56,8 @@ public class MiTVLoginActivity extends SSSignInSignupBaseActivity implements OnC
 	private Button				mMiTVLoginButton, mForgetPasswordButton;
 	private EditText			mEmailLoginEditText, mPasswordLoginEditText;
 	private RelativeLayout		mFacebookContainer;
-	private TextView			mErrorTv;
+	private TextView			mPasswordErrorTv;
+	private TextView			mEmailErrorTv;
 
 	private String				miTVToken	= "", userToken = "", userId = "", userEmailLogin, userPasswordLogin;
 
@@ -70,7 +72,7 @@ public class MiTVLoginActivity extends SSSignInSignupBaseActivity implements OnC
 
 		initViews();
 	}
-	
+
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
 		/* Have to have this method here since SSActivity has this method abstract */
@@ -98,25 +100,38 @@ public class MiTVLoginActivity extends SSSignInSignupBaseActivity implements OnC
 		mMiTVLoginButton.setOnClickListener(this);
 		mEmailLoginEditText = (EditText) findViewById(R.id.mitvlogin_login_email_edittext);
 		mPasswordLoginEditText = (EditText) findViewById(R.id.mitvlogin_login_password_edittext);
-		
-		mErrorTv = (TextView) findViewById(R.id.mitvlogin_error_tv);
+
+		mPasswordErrorTv = (TextView) findViewById(R.id.mitvlogin_login_password_error_tv);
+		mEmailErrorTv = (TextView) findViewById(R.id.mitvlogin_login_email_error_tv);
+
 
 		mForgetPasswordButton = (Button) findViewById(R.id.mitvlogin_forgot_password_button);
 		mForgetPasswordButton.setOnClickListener(this);
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
 	}
 
-	private boolean verifyLoginInput() {
-		String emailInput = mEmailLoginEditText.getText().toString();
+	private boolean verifyPasswordInput() {
 		String passwordInput = mPasswordLoginEditText.getText().toString();
-		if ((passwordInput != null) && (emailInput != null) && (passwordInput.length() >= Consts.PASSWORD_LENGTH_MIN)
-				&& (passwordInput.length() <= Consts.PASSWORD_LENGTH_MAX) && (!passwordInput.matches("[%,#/|<>]+")) && (PatternCheck.checkEmail(emailInput) == true)) {
+		if ((passwordInput != null) && (passwordInput.length() >= Consts.PASSWORD_LENGTH_MIN)
+				&& (passwordInput.length() <= Consts.PASSWORD_LENGTH_MAX) && (!passwordInput.matches("[%,#/|<>]+"))) {
 			return true;
-		} else return false;
+		} else {
+			return false;
+		}
+	}
+
+	private boolean verifyEmailInput() {
+		String emailInput = mEmailLoginEditText.getText().toString();
+		if ((emailInput != null) && (PatternCheck.checkEmail(emailInput) == true)) {
+			return true;
+		} 
+		else {
+			return false;
+		}
 	}
 
 	@Override
@@ -133,68 +148,83 @@ public class MiTVLoginActivity extends SSSignInSignupBaseActivity implements OnC
 			startActivity(intentReset);
 			break;
 		case R.id.mitvlogin_login_button:
-			if (verifyLoginInput()) {
-				mEmailLoginEditText.setEnabled(false);
-				mPasswordLoginEditText.setEnabled(false);
+			mEmailErrorTv.setVisibility(View.INVISIBLE);
+			mPasswordErrorTv.setVisibility(View.INVISIBLE);
+			if (verifyEmailInput()) {
+				if (verifyPasswordInput()) {
+					mEmailLoginEditText.setEnabled(false);
+					mPasswordLoginEditText.setEnabled(false);
 
-				userEmailLogin = mEmailLoginEditText.getText().toString();
-				userPasswordLogin = mPasswordLoginEditText.getText().toString();
-				MiTVLoginTask mitvLoginTask = new MiTVLoginTask();
-				try {
-					// mitvToken = mitvLoginTask.execute(userEmailLogin, userPasswordLogin).get();
-					String responseStr = mitvLoginTask.execute(userEmailLogin, userPasswordLogin).get();
-					// if (responseStr != null && responseStr.isEmpty() != true) {
-					if (responseStr != null && TextUtils.isEmpty(responseStr) != true) {
-						JSONObject mitvJSON = new JSONObject(responseStr);
-						miTVToken = mitvJSON.optString(Consts.API_TOKEN);
+					userEmailLogin = mEmailLoginEditText.getText().toString();
+					userPasswordLogin = mPasswordLoginEditText.getText().toString();
+					MiTVLoginTask mitvLoginTask = new MiTVLoginTask();
+					try {
+						// mitvToken = mitvLoginTask.execute(userEmailLogin, userPasswordLogin).get();
+						String responseStr = mitvLoginTask.execute(userEmailLogin, userPasswordLogin).get();
+						// if (responseStr != null && responseStr.isEmpty() != true) {
+						if (responseStr != null && TextUtils.isEmpty(responseStr) != true) {
+							JSONObject mitvJSON = new JSONObject(responseStr);
+							miTVToken = mitvJSON.optString(Consts.API_TOKEN);
 
-						// if (mitvToken.isEmpty() != true && mitvToken.length() > 0) {
-						if (miTVToken != null && TextUtils.isEmpty(miTVToken) != true) {
-							((SecondScreenApplication) getApplicationContext()).setAccessToken(miTVToken);
-							Log.d(TAG, "MitvToken: " + miTVToken + "is saved");
+							// if (mitvToken.isEmpty() != true && mitvToken.length() > 0) {
+							if (miTVToken != null && TextUtils.isEmpty(miTVToken) != true) {
+								((SecondScreenApplication) getApplicationContext()).setAccessToken(miTVToken);
+								Log.d(TAG, "MitvToken: " + miTVToken + "is saved");
 
-							if (AuthenticationService.storeUserInformation(this, mitvJSON)) {
-								//Toast.makeText(getApplicationContext(), "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName(), Toast.LENGTH_SHORT).show();
-								Log.d(TAG, "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName()); 
-								
-								MiTVStore.getInstance().clearAll();
-								MiTVStore.getInstance().reinitializeAll();
-								MiTVCore.resetAll();
-								// clear all the running before activities and start the application from the whole beginning
-								SecondScreenApplication.getInstance().clearActivityBacktrace();
-								
-								Intent intent = new Intent(MiTVLoginActivity.this, HomeActivity.class);
-								intent.putExtra(Consts.INTENT_EXTRA_LOG_IN_ACTION, true);
-								
-								startActivity(intent);
+								if (AuthenticationService.storeUserInformation(this, mitvJSON)) {
+									//Toast.makeText(getApplicationContext(), "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName(), Toast.LENGTH_SHORT).show();
+									Log.d(TAG, "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName()); 
+
+									MiTVStore.getInstance().clearAll();
+									MiTVStore.getInstance().reinitializeAll();
+									MiTVCore.resetAll();
+									// clear all the running before activities and start the application from the whole beginning
+									SecondScreenApplication.getInstance().clearActivityBacktrace();
+
+									Intent intent = new Intent(MiTVLoginActivity.this, HomeActivity.class);
+									intent.putExtra(Consts.INTENT_EXTRA_LOG_IN_ACTION, true);
+
+									startActivity(intent);
+								} else {
+									//Toast.makeText(getApplicationContext(), "Failed to fetch the user information from backend", Toast.LENGTH_SHORT).show();
+									Log.d(TAG, "!!! Failed to fetch the user information from backend !!!");
+								}
 							} else {
-								//Toast.makeText(getApplicationContext(), "Failed to fetch the user information from backend", Toast.LENGTH_SHORT).show();
-								Log.d(TAG, "!!! Failed to fetch the user information from backend !!!");
+								//Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with us. Please, try again later!", Toast.LENGTH_SHORT).show();
+								Log.d(TAG,"!!! Error! Something went wrong while creating an account with us. Please, try again later! !!!");
 							}
-						} else {
-							//Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with us. Please, try again later!", Toast.LENGTH_SHORT).show();
-							Log.d(TAG,"!!! Error! Something went wrong while creating an account with us. Please, try again later! !!!");
-						}
-					} else {
-						mErrorTv.setText(getResources().getString(R.string.login_with_wrong_info));
-						mErrorTv.setVisibility(View.VISIBLE);
-//						Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with us. Please, try again later!", Toast.LENGTH_SHORT).show();
-						Log.d(TAG, "Error! MiTV Login: level response from backend");
-						mEmailLoginEditText.setEnabled(true);
-						mPasswordLoginEditText.setEnabled(true);
-					}
 
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				} catch (ExecutionException e) {
-					e.printStackTrace();
-				} catch (JSONException e) {
-					e.printStackTrace();
+						} else {
+							// On bad response, email or password wrong
+							mPasswordErrorTv.setText(getResources().getString(R.string.login_with_wrong_info));
+							mPasswordErrorTv.setVisibility(View.VISIBLE);
+							//						Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with us. Please, try again later!", Toast.LENGTH_SHORT).show();
+							Log.d(TAG, "Error! MiTV Login: level response from backend");
+							mEmailLoginEditText.setEnabled(true);
+							mPasswordLoginEditText.setEnabled(true);
+						}
+
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} catch (ExecutionException e) {
+						e.printStackTrace();
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
 				}
-			} else {
-				mErrorTv.setText(getResources().getString(R.string.login_with_wrong_format));
-				mErrorTv.setVisibility(View.VISIBLE);
-//				Toast.makeText(getApplicationContext(), "check if email/password were input right", Toast.LENGTH_LONG).show();
+				else {
+					// Wrong password input
+					mPasswordErrorTv.setText(getResources().getString(R.string.login_with_wrong_format_email));
+					mPasswordErrorTv.setVisibility(View.VISIBLE);
+					mEmailLoginEditText.setEnabled(true);
+					mPasswordLoginEditText.setEnabled(true);
+				}
+			} 
+			else {
+				//Wrong email input
+				mEmailErrorTv.setText(getResources().getString(R.string.login_with_wrong_format_password));
+				mEmailErrorTv.setVisibility(View.VISIBLE);
+				//				Toast.makeText(getApplicationContext(), "check if email/password were input right", Toast.LENGTH_LONG).show();
 				mEmailLoginEditText.setEnabled(true);
 				mPasswordLoginEditText.setEnabled(true);
 			}
@@ -202,6 +232,8 @@ public class MiTVLoginActivity extends SSSignInSignupBaseActivity implements OnC
 	}
 
 	private class MiTVLoginTask extends AsyncTask<String, Void, String> {
+
+		private String mBadResponseString;
 
 		@Override
 		protected String doInBackground(String... params) {

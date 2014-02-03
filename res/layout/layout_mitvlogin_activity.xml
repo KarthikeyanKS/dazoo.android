@@ -106,12 +106,25 @@
             android:padding="8dp"
             android:textColorHint="@color/grey2"
             android:textSize="16sp" />
+        
+        <com.mitv.customviews.FontTextView
+            android:id="@+id/mitvlogin_login_email_error_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="-10dp"
+            android:layout_below="@id/mitvlogin_login_email_edittext"
+            android:padding="8dp"
+            android:textColor="@color/red"
+            android:gravity="center"
+        	font:fonttextview="roboto_mitv_medium.ttf" />
 
         <com.mitv.customviews.FontEditText
             android:id="@+id/mitvlogin_login_password_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/mitvlogin_login_email_edittext"
+            android:layout_below="@id/mitvlogin_login_email_error_tv"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="10dp"
@@ -123,21 +136,23 @@
             android:textSize="16sp" />
 
         <com.mitv.customviews.FontTextView
-            android:id="@+id/mitvlogin_error_tv"
-            android:layout_width="wrap_content"
+            android:id="@+id/mitvlogin_login_password_error_tv"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="-10dp"
             android:layout_below="@id/mitvlogin_login_password_edittext"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="5dp"
+            android:padding="8dp"
             android:textColor="@color/red"
-            android:textSize="16sp"
-            font:fonttextview="roboto_mitv_medium.ttf"  />
+            android:gravity="center"
+        	font:fonttextview="roboto_mitv_medium.ttf" />
 
         <com.mitv.customviews.FontButton
             android:id="@+id/mitvlogin_login_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/mitvlogin_error_tv"
+            android:layout_below="@id/mitvlogin_login_password_error_tv"
             android:layout_centerInParent="true"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="30dp"

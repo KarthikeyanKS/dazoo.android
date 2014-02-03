@@ -115,8 +115,6 @@
     <string name="hint_email">Correo electrónico</string>
     <string name="hint_password_long">Contraseña</string>
     <string name="hint_email_long">Correo electrónico</string>
-    <!-- string name="hint_password">Contraseña</string>
-    <string name="hint_email">Correo electrónico</string-->
     <string name="hint_firstname">Nombre</string>
     <string name="hint_lastname">Apellido</string>
     <string name="hint_enter_email">Correo electrónico</string>
@@ -156,8 +154,11 @@
     <string name="signup_with_email_characters"> caracteres</string>
     <string name="signup_characters">al menos 6 caracteres</string>
     <string name="signup_email_example">yo@mi.tv</string>
-    <string name="login_with_wrong_info">Algo se ve raro con la contraseña o tu correo electrónico.</string>
-    <string name="login_with_wrong_format">Algo se ve raro con la contraseña o tu correo electrónico.</string>
+    <string name="login_with_wrong_info">Email or password were incorrect.</string>
+    <string name="login_with_wrong_format_email">Check if password was input right!</string>
+    <string name="login_with_wrong_format_password">Check if e-mail was input right!</string>
+    <!--string name="login_with_wrong_info">Algo se ve raro con la contraseña o tu correo electrónico.</string>
+    <string name="login_with_wrong_format">Algo se ve raro con la contraseña o tu correo electrónico.</string-->
     <string name="sign_up_terms_info">Al registrarte, aceptas las</string>
     <string name="sign_up_terms_link"><a href="http://www.mi.tv/terminos">Condiciones de Servicio</a></string>
     <string name="success_account_created_title">Hola, </string>
