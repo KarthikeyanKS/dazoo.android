@@ -97,26 +97,13 @@ public class PopularListAdapter extends BaseAdapter {
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 		if (broadcast != null) {
-			// Get the correct date name index
-			int dateIndex = 0;
-			for (int i = 0; i < mTvDates.size(); i++) {
-				if (broadcast.getBeginTimeStringGmt().contains(mTvDates.get(i).getDate())) {
-					dateIndex = i;
-					break;
-				}
-			}
 
 			holder.mHeaderContainer.setVisibility(View.GONE);
 			if (position == 0 || broadcast.getBeginTimeStringLocalDayMonth().equals(
 					(getItem(position - 1)).getBeginTimeStringLocalDayMonth()) == false) {
-				if (mTvDates != null && mTvDates.isEmpty() != true) {
-					holder.mHeaderTv.setText(mTvDates.get(dateIndex).getName() + " " + broadcast.getBeginTimeStringLocalDayMonth());
-					holder.mHeaderContainer.setVisibility(View.VISIBLE);
-				}
-				else {
-					holder.mHeaderTv.setText(broadcast.getDayOfWeekString() + " " + broadcast.getBeginTimeStringLocalDayMonth());
-					holder.mHeaderContainer.setVisibility(View.VISIBLE);
-				}
+				holder.mHeaderTv.setText(broadcast.getDayOfWeekString() + " " + broadcast.getBeginTimeStringLocalDayMonth());
+				holder.mHeaderContainer.setVisibility(View.VISIBLE);
+
 			}
 			/* Old implementation, not adjusting if received too much/little data from backend */
 			//			try {

@@ -105,19 +105,6 @@ public class RemindersListAdapter extends BaseAdapter {
 			final Channel channel = broadcast.getChannel();
 			Program program = broadcast.getProgram();
 
-			// Get the correct date name index
-			int dateIndex = 0;
-			boolean dateOutOfWeek = false;
-			for (int i = 0; i < mTvDates.size(); i++) {
-				if (broadcast.getBeginTimeStringGmt().contains(mTvDates.get(i).getDate())) {
-					dateIndex = i;
-					break;
-				}
-				if (i == (mTvDates.size() - 1)) {
-					dateOutOfWeek = true;
-				}
-			}
-
 			// If first or the previous broadcast is not the same date, show header.
 			holder.mHeaderContainer.setVisibility(View.GONE);
 			holder.mDividerView.setVisibility(View.VISIBLE);
@@ -133,18 +120,10 @@ public class RemindersListAdapter extends BaseAdapter {
 			String stringNext = broadcastNextPosition.getBeginTimeStringLocalDayMonth();
 
 			if ((position == 0) || !stringCurrent.equals(stringPrevious)) {
+				holder.mHeaderTv.setText(broadcast.getDayOfWeekString() + " " + broadcast.getBeginTimeStringLocalDayMonth());
 				holder.mHeaderContainer.setVisibility(View.VISIBLE);
-				if (dateOutOfWeek == false) {
-					if (mTvDates != null && mTvDates.isEmpty() != true) {
-						holder.mHeaderTv.setText(mTvDates.get(dateIndex).getName().toUpperCase(Locale.getDefault()) + " " + broadcast.getBeginTimeStringLocalDayMonth());
-					} else {
-						holder.mHeaderTv.setVisibility(View.GONE);
-					}
-				}
-				else {
-					holder.mHeaderTv.setText(broadcast.getDayOfWeekString() + " " + broadcast.getBeginTimeStringLocalDayMonth());
-				}
 			}
+
 			if (position != (getCount() - 1) && !stringCurrent.equals(stringNext)) {
 				holder.mDividerView.setVisibility(View.GONE);
 			}

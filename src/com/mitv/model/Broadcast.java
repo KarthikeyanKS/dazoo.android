@@ -299,9 +299,28 @@ public class Broadcast implements Parcelable {
 			String beginTimeStringLocalDayMonth = DateUtilities.tvDateStringToDatePickerString(millisLocal);
 			this.setBeginTimeStringLocalDayMonth(beginTimeStringLocalDayMonth);
 
-			String dayOfWeekString = DateUtilities.isoStringToDayOfWeek(millisLocal);
-			dayOfWeekString = Character.toUpperCase(dayOfWeekString.charAt(0)) + dayOfWeekString.substring(1);
-			this.setDayOfWeekString(dayOfWeekString);
+			Date now = new Date();
+			Calendar today = Calendar.getInstance();
+			today.setTime(now);
+			
+			Calendar tomorrow = Calendar.getInstance();
+			tomorrow.setTime(now);
+			tomorrow.add(Calendar.DAY_OF_YEAR, 1);
+			
+			Calendar date = Calendar.getInstance();
+			date.setTimeInMillis(millisLocal);
+			
+			if (today.get(Calendar.YEAR) == date.get(Calendar.YEAR) && today.get(Calendar.DAY_OF_YEAR) == date.get(Calendar.DAY_OF_YEAR)) {
+				this.setDayOfWeekString(SecondScreenApplication.getInstance().getResources().getString(R.string.today));
+			}
+			else if (tomorrow.get(Calendar.YEAR) == date.get(Calendar.YEAR) && tomorrow.get(Calendar.DAY_OF_YEAR) == date.get(Calendar.DAY_OF_YEAR)) {
+				this.setDayOfWeekString(SecondScreenApplication.getInstance().getResources().getString(R.string.tomorrow));
+			}
+			else {
+				String dayOfWeekString = DateUtilities.isoStringToDayOfWeek(millisLocal);
+				dayOfWeekString = Character.toUpperCase(dayOfWeekString.charAt(0)) + dayOfWeekString.substring(1);
+				this.setDayOfWeekString(dayOfWeekString);
+			}
 
 			String dayOfWeekAndTimeString = new StringBuilder().append(dayOfWeekString).append(", ").append(beginTimeStringLocalHourAndMinute).toString();
 			this.setDayOfWeekWithTimeString(dayOfWeekAndTimeString);

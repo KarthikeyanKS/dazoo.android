@@ -115,9 +115,9 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 			viewHolder.mSeasonEpisodeTv = (TextView) rowView.findViewById(R.id.row_upcoming_episodes_listitem_season_episode);
 			viewHolder.mTimeTv = (TextView) rowView.findViewById(R.id.row_upcoming_episodes_listitem_title_time);
 			viewHolder.mChannelTv = (TextView) rowView.findViewById(R.id.row_upcoming_episodes_listitem_channel);
-			
+
 			viewHolder.mReminderView = (ReminderView) rowView.findViewById(R.id.row_upcoming_episodes_reminder_view);
-			
+
 			viewHolder.mContainer = (LinearLayout) rowView.findViewById(R.id.row_upcoming_episodes_listitem_info_container);
 
 			viewHolder.mDivider = (View) rowView.findViewById(R.id.row_upcoming_episodes_listitem_bottom_divider);
@@ -128,34 +128,13 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 
 		if (broadcast != null) {
 			holder.mReminderView.setBroadcast(broadcast);
-			
-			// Get the correct date name index
-			int dateIndex = 0;
-			boolean dateOutOfWeek = false;
-			for (int i = 0; i < mTvDates.size(); i++) {
-				if (broadcast.getTvDateString().equals(mTvDates.get(i).getDate())) {
-					dateIndex = i;
-					break;
-				}
-				if (i == (mTvDates.size() - 1)) {
-					dateOutOfWeek = true;
-				}
-			}
 
 			holder.mHeaderContainer.setVisibility(View.GONE);
 			holder.mDivider.setVisibility(View.VISIBLE);
 			if (position == 0 || broadcast.getBeginTimeStringLocalDayMonth().equals(
 					(getItem(position - 1)).getBeginTimeStringLocalDayMonth()) == false) {
-				if (dateOutOfWeek == false) {
-					if (mTvDates != null && mTvDates.isEmpty() != true) {
-						holder.mHeader.setText(mTvDates.get(dateIndex).getName() + " " + broadcast.getBeginTimeStringLocalDayMonth());
-						holder.mHeaderContainer.setVisibility(View.VISIBLE);
-					}
-				}
-				else {
-					holder.mHeader.setText(broadcast.getDayOfWeekString() + " " + broadcast.getBeginTimeStringLocalDayMonth());
-					holder.mHeaderContainer.setVisibility(View.VISIBLE);
-				}
+				holder.mHeader.setText(broadcast.getDayOfWeekString() + " " + broadcast.getBeginTimeStringLocalDayMonth());
+				holder.mHeaderContainer.setVisibility(View.VISIBLE);
 			}
 			if (position != (getCount() - 1)
 					&& broadcast.getBeginTimeStringLocalDayMonth().equals(
