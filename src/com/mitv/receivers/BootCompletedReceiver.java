@@ -40,7 +40,7 @@ public class BootCompletedReceiver extends BroadcastReceiver {
 	    		
 	    		
 	    		String gaValue = Consts.GA_KEY_DEVICE_WITH_PREINSTALLED_APP_FIRST_BOOT;
-	    		AppConfigurationManager.replaceDashWithEnDash(gaValue);
+	    		gaValue = AppConfigurationManager.replaceDashWithEnDash(gaValue);
 	    		
 	    		tracker.send(MapBuilder
 	    				  .createEvent("SystemEvent", "OnBoot", gaValue, null) 	// Set any additional fields for this hit.

@@ -94,15 +94,17 @@ public class AppConfigurationManager {
 		return googleAnalyticsTrackingId;
 	}
 	
-	public static void replaceDashWithEnDash(String googleAnalyticsTrackingId) {
+	public static String replaceDashWithEnDash(String googleAnalyticsTrackingId) {
+		String replacedOrSame = googleAnalyticsTrackingId;
 		if (googleAnalyticsTrackingId.contains("-")) {
 			Log.e(TAG, String.format(SecondScreenApplication.getCurrentLocale(), "GoogleAnalytics TrackingID (%s) contains ordinary dash instead of 'en dash' => replacing with 'en dash' chars!", googleAnalyticsTrackingId));
-			googleAnalyticsTrackingId = googleAnalyticsTrackingId.replace("-", "Ð");
+			replacedOrSame = googleAnalyticsTrackingId.replace("-", "Ð");
 		}
+		return replacedOrSame;
 	}
 
 	public void setGoogleAnalyticsTrackingId(String googleAnalyticsTrackingId) {
-		replaceDashWithEnDash(googleAnalyticsTrackingId);
+		googleAnalyticsTrackingId = replaceDashWithEnDash(googleAnalyticsTrackingId);
 		this.googleAnalyticsTrackingId = googleAnalyticsTrackingId;
 	}
 	
