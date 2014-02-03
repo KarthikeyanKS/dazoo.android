@@ -29,6 +29,7 @@ import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.SecondScreenApplication.AppConfigurationListener;
 import com.mitv.SecondScreenApplication.CheckApiVersionListener;
 import com.mitv.adapters.ActionBarDropDownDateListAdapter;
 import com.mitv.content.SSPageFragmentActivity;
@@ -44,7 +45,7 @@ import com.mitv.tvguide.TVHolderFragment;
 import com.mitv.tvguide.TVHolderFragment.OnViewPagerIndexChangedListener;
 import com.mitv.utilities.DateUtilities;
 
-public class HomeActivity extends SSPageFragmentActivity implements OnClickListener, ActionBar.OnNavigationListener, CheckApiVersionListener {
+public class HomeActivity extends SSPageFragmentActivity implements OnClickListener, ActionBar.OnNavigationListener, CheckApiVersionListener, AppConfigurationListener {
 
 	private static final String					TAG					= "HomeActivity";
 	private RelativeLayout						mTabTvGuide, mTabPopular, mTabFeed;
@@ -93,6 +94,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 		SecondScreenApplication.getInstance().setSelectedHour(Integer.valueOf(DateUtilities.getCurrentHourString()));
 		SecondScreenApplication.getInstance().setCheckApiVersionListener(this);
+		SecondScreenApplication.getInstance().setAppConfigurationListener(this);
 
 		initViews();
 
@@ -127,8 +129,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			
 			@Override
 			public void onClick(View v) {
-//				final String appPackageName = getPackageName(); 
-				final String appPackageName = "com.google.android.apps.maps";
+				final String appPackageName = getPackageName(); 
 				try {
 				    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
 				} catch (android.content.ActivityNotFoundException anfe) {
@@ -337,11 +338,6 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			mActionBar.setListNavigationCallbacks(mDayAdapter, this);
 
 			attachFragment();
-			if (showWelcomeToast) {
-				mWelcomeToast = AppConfigurationManager.getInstance().getWelcomeToast();
-				Toast.makeText(getApplicationContext(), mWelcomeToast, Toast.LENGTH_LONG).show();
-				showWelcomeToast = false;
-			}
 			// createFragments();
 		}
 	}
@@ -418,6 +414,14 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		} else {
 			loadPage();
 		}
-
+	}
+	
+	@Override
+	public void onAppConfigurationListener() {
+		if (showWelcomeToast) {
+			mWelcomeToast = AppConfigurationManager.getInstance().getWelcomeToast();
+			Toast.makeText(getApplicationContext(), mWelcomeToast, Toast.LENGTH_LONG).show();
+			showWelcomeToast = false;
+		}
 	}
 }
