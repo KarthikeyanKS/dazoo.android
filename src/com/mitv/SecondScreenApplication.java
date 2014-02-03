@@ -281,7 +281,7 @@ public class SecondScreenApplication extends Application {
 //		googleAnalyticsInstance.setDefaultTracker(tracker);
 		
 		
-		String gaId = getResources().getString(R.string.ga_trackingId);
+		String gaId = getResources().getString(R.string.ga_trackingId_mitv_hardcoded);
 
 		String trackingId = AppConfigurationManager.getInstance().getGoogleAnalyticsTrackingId();
 		if(gaId.equals(trackingId)) {
