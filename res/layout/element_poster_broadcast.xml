@@ -54,7 +54,8 @@
                 android:layout_height="150dp"
                 android:clickable="false"
                 android:focusableInTouchMode="false"
-                android:padding="10dp" />
+                android:padding="10dp"
+            android:src="@drawable/loading_placeholder_vertical" />
         </RelativeLayout>
 
         <!-- INFO CONTAINER -->
