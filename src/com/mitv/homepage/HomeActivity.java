@@ -127,8 +127,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			
 			@Override
 			public void onClick(View v) {
-//				final String appPackageName = getPackageName(); 
-				final String appPackageName = "com.google.android.apps.maps";
+				final String appPackageName = getPackageName(); 
 				try {
 				    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
 				} catch (android.content.ActivityNotFoundException anfe) {
