@@ -233,8 +233,6 @@ public class MiTVLoginActivity extends SSSignInSignupBaseActivity implements OnC
 
 	private class MiTVLoginTask extends AsyncTask<String, Void, String> {
 
-		private String mBadResponseString;
-
 		@Override
 		protected String doInBackground(String... params) {
 			try {
