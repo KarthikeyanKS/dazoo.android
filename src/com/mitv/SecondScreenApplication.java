@@ -26,7 +26,6 @@ import android.view.WindowManager;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
-import com.mitv.R;
 import com.mitv.content.SSApiVersionPage;
 import com.mitv.manager.AppConfigurationManager;
 import com.mitv.manager.MiTVCore;
@@ -362,6 +361,7 @@ public class SecondScreenApplication extends Application {
 //		.resetViewBeforeLoading(true)
 		.cacheInMemory(true)
 		.cacheOnDisc(true)
+		.showImageOnLoading(getResources().getDrawable(R.drawable.loading_placeholder_horizontal))
 		.build();
 		
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
