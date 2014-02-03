@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:background="@color/grey4"
+        android:background="@color/grey1"
         android:visibility="gone" >
 
         <com.mitv.customviews.FontTextView
@@ -22,7 +22,7 @@
             android:layout_centerVertical="true"
             android:gravity="left"
             android:textAllCaps="true"
-            android:textColor="@color/grey2"
+            android:textColor="@color/grey4"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginTop="15dp"

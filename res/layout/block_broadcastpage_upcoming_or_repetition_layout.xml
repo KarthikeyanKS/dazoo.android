@@ -33,7 +33,7 @@
         android:layout_marginRight="10dp"
         android:layout_below="@id/block_broadcast_upcoming_one"
         android:background="@color/grey1"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <!-- SECOND UPCOMING EPISODE -->
     <include
@@ -51,7 +51,7 @@
         android:layout_marginRight="10dp"
         android:layout_below="@id/block_broadcast_upcoming_two"
         android:background="@color/grey1"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <!-- THIRD UPCOMING EPISODE -->
     <include

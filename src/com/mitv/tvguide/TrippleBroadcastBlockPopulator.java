@@ -26,6 +26,7 @@ public class TrippleBroadcastBlockPopulator {
 	private Broadcast mRunningBroadcast;
 	private ArrayList<Broadcast> mBroadcasts;
 	private ReminderView reminderViewOne, reminderViewTwo, reminderViewThree;
+	private View dividerView;
 
 
 	/* If false, then block populator is used for upcoming episodes */
@@ -54,7 +55,7 @@ public class TrippleBroadcastBlockPopulator {
 				// reminderContainer.findViewById(R.id.element_reminder_image_View);
 				reminderViewOne = (ReminderView) mContainer.findViewById(R.id.block_tripple_broadcast_reminder_view);
 				reminderViewOne.setBroadcast(broadcast);
-
+				
 				break;
 			}
 			case 1: {
@@ -66,7 +67,10 @@ public class TrippleBroadcastBlockPopulator {
 				// reminderContainer.findViewById(R.id.element_reminder_image_View);
 				reminderViewTwo = (ReminderView) mContainer.findViewById(R.id.block_tripple_broadcast_reminder_view);
 				reminderViewTwo.setBroadcast(broadcast);
-
+			
+				dividerView = topContentView.findViewById(R.id.block_tripple_broadcast_one_bottom_divider);
+				dividerView.setVisibility(View.VISIBLE);
+				
 				break;
 			}
 			case 2: {
@@ -78,7 +82,9 @@ public class TrippleBroadcastBlockPopulator {
 				// reminderContainer.findViewById(R.id.element_reminder_image_View);
 				reminderViewThree = (ReminderView) mContainer.findViewById(R.id.block_tripple_broadcast_reminder_view);
 				reminderViewThree.setBroadcast(broadcast);
-
+				
+				dividerView = topContentView.findViewById(R.id.block_tripple_broadcast_two_bottom_divider);
+				dividerView.setVisibility(View.VISIBLE);
 			}
 			}
 
@@ -200,7 +206,7 @@ public class TrippleBroadcastBlockPopulator {
 		topContentView.setVisibility(View.VISIBLE);
 
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-		layoutParams.setMargins(10, 10, 10, 10);
+		layoutParams.setMargins(20, 10, 20, 10);
 		if (mBroadcasts.size() > 0) {
 			containerView.addView(topContentView, layoutParams);
 		}
