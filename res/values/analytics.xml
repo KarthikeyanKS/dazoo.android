@@ -37,5 +37,4 @@
 	<string name="com.mitv.authentication.ResetPasswordActivity">ResetPassword</string>
 	<string name="com.mitv.authentication.ResetPasswordFinalActivity">PasswordReset</string>
 	<string name="com.mitv.authentication.FacebookMiTVLoginActivity">FacebookLogin</string>
-
 </resources>
