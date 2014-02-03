@@ -92,8 +92,14 @@ public class GATrackingManager {
 		mTracker.set(Fields.SAMPLE_RATE, sampleRateAsString);
 	}
 	
-
+	private String viewNameWithSuffix(String viewName) {
+		return viewName + "Backup";
+	}
+	
 	public void sendViewInstance(String viewName) {
+		viewName = viewNameWithSuffix(viewName);
+		
+		// Send a screen view for "Home Screen"
 		// Set screen name on the tracker to be sent with all hits.
 		mTracker.set(Fields.SCREEN_NAME, viewName);
 
@@ -112,6 +118,8 @@ public class GATrackingManager {
 	}
 	
 	public void stopTrackingViewInstance(String viewName) {
+		viewName = viewNameWithSuffix(viewName);
+		
 		mTracker.set(Fields.SCREEN_NAME, null);
 		Log.d(TAG, "GATrackingManager: stopTracking, viewName: " + viewName);
 	}

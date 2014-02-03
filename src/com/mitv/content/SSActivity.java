@@ -49,6 +49,7 @@ public abstract class SSActivity extends ActionBarActivity {
 
 		/* Google Analytics tracking */	
 		this.mViewName = this.getClass().getName();
+		EasyTracker.getInstance(this).activityStart(this);
 		GATrackingManager.sendView(mViewName);
 	};
 	
@@ -87,6 +88,7 @@ public abstract class SSActivity extends ActionBarActivity {
 
 		/* Google Analytics tracking */
 		GATrackingManager.stopTrackingView(this.mViewName);
+		EasyTracker.getInstance(this).activityStop(this);
 	}
 	
 	// Init the callback layouts for this page
