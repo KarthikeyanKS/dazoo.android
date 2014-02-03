@@ -370,10 +370,8 @@ public class SecondScreenApplication extends Application {
 		calculateSizes();
 		
 		DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
-//		.resetViewBeforeLoading(true)
 		.cacheInMemory(true)
 		.cacheOnDisc(true)
-		.showImageOnLoading(getResources().getDrawable(R.drawable.loading_placeholder_horizontal))
 		.build();
 		
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
@@ -383,7 +381,6 @@ public class SecondScreenApplication extends Application {
 		.discCacheSize(50 * 1024 * 1024)
 	    .discCacheFileCount(100)
 		.tasksProcessingOrder(QueueProcessingType.LIFO)
-//		.writeDebugLogs()
 		.build();
 		ImageLoader.getInstance().init(config);
 		
