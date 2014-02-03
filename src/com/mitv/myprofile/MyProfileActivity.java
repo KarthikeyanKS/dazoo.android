@@ -103,9 +103,6 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 		mActionBar.setDisplayUseLogoEnabled(true);
 		mActionBar.setDisplayShowHomeEnabled(true);
 
-		final int actionBarColor = getResources().getColor(R.color.blue1);
-		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
-
 		mMyProfileContainer = (RelativeLayout) findViewById(R.id.myprofile_person_container);
 
 		// user information

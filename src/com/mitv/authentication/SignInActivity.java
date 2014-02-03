@@ -50,9 +50,6 @@ public class SignInActivity extends SSSignInSignupBaseActivity {
 		mActionBar.setDisplayShowHomeEnabled(true);
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 
-		final int actionBarColor = getResources().getColor(R.color.blue1);
-		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
-
 		mActionBar.setTitle(getResources().getString(R.string.sign_in));
 
 		mFacebookContainer = (RelativeLayout) findViewById(R.id.signin_facebook_container);

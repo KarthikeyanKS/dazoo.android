@@ -89,9 +89,6 @@ public class MiTVLoginActivity extends SSSignInSignupBaseActivity implements OnC
 		mActionBar.setDisplayShowHomeEnabled(true);
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 
-		final int actionBarColor = getResources().getColor(R.color.blue1);
-		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
-
 		mActionBar.setTitle(getResources().getString(R.string.login));
 
 		mFacebookContainer = (RelativeLayout) findViewById(R.id.mitvlogin_facebook_container);

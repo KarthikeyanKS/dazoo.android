@@ -51,9 +51,6 @@ public class ResetPasswordFinalActivity extends SSSignInSignupBaseActivity imple
 		mActionBar.setDisplayShowHomeEnabled(true);
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 
-		final int actionBarColor = getResources().getColor(R.color.blue1);
-		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
-
 		mActionBar.setTitle(getResources().getString(R.string.reset_password));
 
 		mLoginBtn = (Button) findViewById(R.id.resetpassword_already_login_btn);
