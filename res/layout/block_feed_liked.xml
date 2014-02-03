@@ -42,6 +42,7 @@
                 android:id="@+id/block_feed_liked_content_iv"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
+                android:src="@drawable/loading_placeholder_horizontal"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop" />
 

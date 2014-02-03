@@ -26,7 +26,6 @@ import android.view.WindowManager;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
-import com.mitv.R;
 import com.mitv.content.SSApiVersionPage;
 import com.mitv.manager.AppConfigurationManager;
 import com.mitv.manager.MiTVCore;
@@ -371,7 +370,6 @@ public class SecondScreenApplication extends Application {
 		calculateSizes();
 		
 		DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
-//		.resetViewBeforeLoading(true)
 		.cacheInMemory(true)
 		.cacheOnDisc(true)
 		.build();
@@ -383,7 +381,6 @@ public class SecondScreenApplication extends Application {
 		.discCacheSize(50 * 1024 * 1024)
 	    .discCacheFileCount(100)
 		.tasksProcessingOrder(QueueProcessingType.LIFO)
-//		.writeDebugLogs()
 		.build();
 		ImageLoader.getInstance().init(config);
 		

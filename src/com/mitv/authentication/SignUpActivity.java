@@ -124,10 +124,6 @@ public class SignUpActivity extends SSSignInSignupBaseActivity implements OnClic
 		mActionBar.setDisplayShowHomeEnabled(true);
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 
-
-		final int actionBarColor = getResources().getColor(R.color.blue1);
-		mActionBar.setBackgroundDrawable(new ColorDrawable(actionBarColor));
-
 		mActionBar.setTitle(getResources().getString(R.string.sign_up));
 
 		mFirstNameEditText = (EditText) findViewById(R.id.signup_firstname_edittext);
