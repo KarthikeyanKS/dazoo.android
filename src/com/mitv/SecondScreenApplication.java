@@ -270,12 +270,27 @@ public class SecondScreenApplication extends Application {
 	}
 	
 	private void setupGoogleAnalytics() {
+//		String trackingId = AppConfigurationManager.getInstance().getGoogleAnalyticsTrackingId();
+//		
+//		if(trackingId == null || trackingId.length() == 0) {
+//			trackingId = getString(R.string.ga_trackingId_mitv_hardcoded);
+//		}
+//		
+//		GoogleAnalytics googleAnalyticsInstance = GoogleAnalytics.getInstance(this);
+//		Tracker tracker = googleAnalyticsInstance.getTracker(trackingId);
+//		googleAnalyticsInstance.setDefaultTracker(tracker);
+		
+		
+		String gaId = getResources().getString(R.string.ga_trackingId);
+
 		String trackingId = AppConfigurationManager.getInstance().getGoogleAnalyticsTrackingId();
+		if(gaId.equals(trackingId)) {
+			Log.e(TAG, "same");
+		}
 		
 		GoogleAnalytics googleAnalyticsInstance = GoogleAnalytics.getInstance(this);
-		Tracker tracker = googleAnalyticsInstance.getTracker(trackingId);
-		googleAnalyticsInstance.setDefaultTracker(tracker);
-		
+		Tracker tracker = googleAnalyticsInstance.getTracker(gaId);
+
 		String appVersion = Consts.GA_APP_VERSION_NOT_SET;
 		
 		boolean preinstalledCheckingSharedPrefs	= getWasPreinstalled();
@@ -313,7 +328,7 @@ public class SecondScreenApplication extends Application {
 		tracker.set(Consts.GA_KEY_APP_WAS_PREINSTALLED_EXTERNAL_STORAGE, wasPreinstalledExternalStorage);
 		tracker.set(Consts.GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_LOCATION, wasPreinstalledSystemAppLocation);
 		tracker.set(Consts.GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_FLAG, wasPreinstalledSystemAppFlag);	
-		tracker.set(Fields.SAMPLE_RATE, sampleRateAsString);
+//		tracker.set(Fields.SAMPLE_RATE, sampleRateAsString);
 	}
 	
 	private boolean checkApiVersion() {

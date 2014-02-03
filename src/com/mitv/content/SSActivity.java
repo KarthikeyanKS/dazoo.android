@@ -2,7 +2,6 @@ package com.mitv.content;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -14,17 +13,21 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.GoogleAnalytics;
+import com.google.analytics.tracking.android.Tracker;
+import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.http.NetworkUtils;
+import com.mitv.manager.AppConfigurationManager;
 import com.mitv.search.SearchPageActivity;
 
 public abstract class SSActivity extends ActionBarActivity {
 
 	private static final String	TAG	= "SSActivity";
-	private EasyTracker tracker;
 	
+	private EasyTracker 		mTracker;
 	private View				mRequestEmptyLayout;
 	private View				mRequestFailedLayout;
 	private View				mRequestLoadingLayout;
@@ -45,9 +48,17 @@ public abstract class SSActivity extends ActionBarActivity {
 		// add to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
-		/* Google Analytics tracking */
-		this.tracker = EasyTracker.getInstance(this);
+
+//		GoogleAnalytics googleAnalyticsInstance = GoogleAnalytics.getInstance(this);
+//		Tracker tracker = googleAnalyticsInstance.getTracker(trackingId);
+//		String trackingId = AppConfigurationManager.getInstance().getGoogleAnalyticsTrackingId();
+		
+		/* Google Analytics tracking */		
+		EasyTracker tracker = EasyTracker.getInstance(this);
+//		tracker.set(Fields.TRACKING_ID, trackingId);
 		tracker.activityStart(this);
+		this.mTracker = tracker;
+		
 	};
 	
 	@Override
@@ -84,7 +95,7 @@ public abstract class SSActivity extends ActionBarActivity {
 		super.onStop();
 
 		/* Google Analytics tracking */
-		tracker.activityStop(this);
+		mTracker.activityStop(this);
 	}
 	
 	// Init the callback layouts for this page
