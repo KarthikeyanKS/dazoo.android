@@ -19,10 +19,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mitv.Consts;
@@ -67,6 +70,8 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	
 	private String 								mWelcomeToast = "";
 	private boolean 							showWelcomeToast = true;
+	
+	private boolean 							mIsFromLogin, mIsFromSignup;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +79,15 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		
 		setContentView(R.layout.layout_home_activity);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
+		// If homeactivity is launched from login, fetch flag and later make toast.
+		Intent intent =  getIntent();
+		if (intent.hasExtra(Consts.INTENT_EXTRA_LOG_IN_ACTION)) {
+			mIsFromLogin = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_LOG_IN_ACTION);
+		}
+		else if (intent.hasExtra(Consts.INTENT_EXTRA_SIGN_UP_ACTION)) {
+			mIsFromSignup = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_SIGN_UP_ACTION);
+		}
 
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
@@ -105,6 +119,19 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			updateUI(REQUEST_STATUS.FAILED);
 		} else {
 			if(!SecondScreenApplication.getInstance().isFirstStart()) {
+				String signupTitle = String.format("%s %s", getResources().getString(R.string.success_account_created_title), SecondScreenApplication.getInstance().getUserFirstName());
+
+				if (mIsFromLogin) {
+					Toast toast = Toast.makeText(this, signupTitle, Toast.LENGTH_LONG);
+					((TextView) ((LinearLayout)toast.getView()).getChildAt(0)).setGravity(Gravity.CENTER_HORIZONTAL);
+					toast.show();
+				}
+				else if (mIsFromSignup) {
+					String signupText = getResources().getString(R.string.success_account_created_text);
+					Toast toast = Toast.makeText(this, signupTitle + "\n" + signupText, Toast.LENGTH_LONG);
+					((TextView) ((LinearLayout)toast.getView()).getChildAt(0)).setGravity(Gravity.CENTER_HORIZONTAL);
+					toast.show();
+				}
 				loadPage();
 			}
 		}
@@ -340,7 +367,6 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			mActionBar.setListNavigationCallbacks(mDayAdapter, this);
 
 			attachFragment();
-			// createFragments();
 		}
 	}
 

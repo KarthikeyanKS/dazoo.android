@@ -166,7 +166,10 @@ public class MiTVLoginActivity extends SSSignInSignupBaseActivity implements OnC
 								// clear all the running before activities and start the application from the whole beginning
 								SecondScreenApplication.getInstance().clearActivityBacktrace();
 								
-								startActivity(new Intent(MiTVLoginActivity.this, HomeActivity.class));
+								Intent intent = new Intent(MiTVLoginActivity.this, HomeActivity.class);
+								intent.putExtra(Consts.INTENT_EXTRA_LOG_IN_ACTION, true);
+								
+								startActivity(intent);
 							} else {
 								//Toast.makeText(getApplicationContext(), "Failed to fetch the user information from backend", Toast.LENGTH_SHORT).show();
 								Log.d(TAG, "!!! Failed to fetch the user information from backend !!!");

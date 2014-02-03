@@ -248,6 +248,7 @@ public class SignUpActivity extends SSSignInSignupBaseActivity implements OnClic
 
 							// go to Start page
 							Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
+							intent.putExtra(Consts.INTENT_EXTRA_SIGN_UP_ACTION, true);
 							startActivity(intent);
 							finish();
 

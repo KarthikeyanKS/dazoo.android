@@ -144,6 +144,7 @@ public class FacebookLoginActivity extends SSSignInSignupBaseActivity {
 								// returning client
 								// go to start page
 								Intent intent = new Intent(FacebookLoginActivity.this, HomeActivity.class);
+								intent.putExtra(Consts.INTENT_EXTRA_LOG_IN_ACTION, true);
 								startActivity(intent);
 								finish();
 								// }

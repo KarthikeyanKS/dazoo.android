@@ -165,6 +165,7 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_MY_CHANNELS_CHANGED					= "com.mitv.intent.extra.my.channels.changed";
 	public static final String	INTENT_EXTRA_LOG_OUT_ACTION							= "com.mitv.intent.extra.log.out.action";
 	public static final String	INTENT_EXTRA_LOG_IN_ACTION							= "com.mitv.intent.extra.log.in.action";
+	public static final String	INTENT_EXTRA_SIGN_UP_ACTION							= "com.mitv.intent.extra.sign.up.action";
 	public static final String	INTENT_EXTRA_DATA_FETCHING							= "com.mitv.intent.extra.log.in.action";
 	public static final String	INTENT_EXTRA_UPCOMING_BROADCASTS					= "com.mitv.intent.extra.upcoming.broadcasts";
 	public static final String	INTENT_EXTRA_REPEATING_BROADCASTS					= "com.mitv.intent.extra.repeating.broadcasts";
