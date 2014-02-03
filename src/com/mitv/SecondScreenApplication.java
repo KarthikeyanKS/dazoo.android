@@ -48,6 +48,9 @@ public class SecondScreenApplication extends Application {
 	public static interface CheckApiVersionListener {
 		public void onApiVersionChecked(boolean needsUpdate);
 	}
+	public static interface AppConfigurationListener {
+		public void onAppConfigurationListener();
+	}
 	
 	private static final String				TAG								= "SecondScreenApplication";
 
@@ -73,6 +76,7 @@ public class SecondScreenApplication extends Application {
 	public static final double				IMAGE_WIDTH_COEFFICIENT_POSTER	= 0.88;
 	public static final double				IMAGE_HEIGHT_COEFFICIENT_POSTER	= 1.4;
 	private CheckApiVersionListener 		mCheckApiVersionListner;
+	private AppConfigurationListener		mAppConfigurationListener;
 
 	private final static double				POSTER_WIDTH_DIVIDER			= 2.1;
 	private boolean 						mIsFirstStart = true;
@@ -85,6 +89,10 @@ public class SecondScreenApplication extends Application {
 
 	public void setCheckApiVersionListener(CheckApiVersionListener listener) {
 		mCheckApiVersionListner = listener;
+	}
+	
+	public void setAppConfigurationListener(AppConfigurationListener listener) {
+		mAppConfigurationListener = listener;
 	}
 	
 	public boolean isFirstStart() {
@@ -332,6 +340,10 @@ public class SecondScreenApplication extends Application {
 				boolean googleAnalyticsEnabled = AppConfigurationManager.getInstance().isGoogleAnalyticsEnabled();
 				if(googleAnalyticsEnabled) {
 					setupGoogleAnalytics();
+				}
+				if(mAppConfigurationListener != null) {
+					getInstance().mIsFirstStart = false;
+					mAppConfigurationListener.onAppConfigurationListener();
 				}
 			}
 		});
