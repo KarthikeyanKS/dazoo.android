@@ -101,6 +101,10 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 		if (!NetworkUtils.checkConnection(this)) {
 			updateUI(REQUEST_STATUS.FAILED);
+		} else {
+			if(!SecondScreenApplication.getInstance().isFirstStart()) {
+				loadPage();
+			}
 		}
 	}
 

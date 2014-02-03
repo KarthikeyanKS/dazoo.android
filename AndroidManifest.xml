@@ -3,9 +3,9 @@
     package="com.mitv"
     android:installLocation="preferExternal"
     android:largeHeap="true"
-    android:versionCode="43"
+    android:versionCode="45"
     android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
-    android:versionName="1.0.43" >
+    android:versionName="1.0.45" >
 
     <uses-sdk
         android:minSdkVersion="8"

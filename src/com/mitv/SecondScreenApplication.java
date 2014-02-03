@@ -75,6 +75,7 @@ public class SecondScreenApplication extends Application {
 	private CheckApiVersionListener 		mCheckApiVersionListner;
 
 	private final static double				POSTER_WIDTH_DIVIDER			= 2.1;
+	private boolean 						mIsFirstStart = true;
 
 	private ArrayList<Activity>				mRunningActivities				= new ArrayList<Activity>();
 
@@ -84,6 +85,10 @@ public class SecondScreenApplication extends Application {
 
 	public void setCheckApiVersionListener(CheckApiVersionListener listener) {
 		mCheckApiVersionListner = listener;
+	}
+	
+	public boolean isFirstStart() {
+		return mIsFirstStart;
 	}
 	
 	public SecondScreenApplication() {
@@ -338,6 +343,7 @@ public class SecondScreenApplication extends Application {
 				setApiVersion(SSApiVersionPage.getInstance().getApiVersionString());
 				boolean needsUpdate = checkApiVersion();
 				if(mCheckApiVersionListner != null) {
+					getInstance().mIsFirstStart = false;
 					mCheckApiVersionListner.onApiVersionChecked(needsUpdate);
 				}
 			}

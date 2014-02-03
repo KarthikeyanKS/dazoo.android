@@ -48,7 +48,6 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 	private int 				rowWidth = -1;
 
 	@SuppressLint("NewApi")
-	@SuppressWarnings("deprecation")
 	public TVGuideListAdapter(Activity activity, ArrayList<Guide> guide, TvDate date, int hour, boolean isToday) {
 		super(Consts.JSON_AND_FRAGMENT_KEY_GUIDE, activity, guide);
 		this.mGuide = guide;
