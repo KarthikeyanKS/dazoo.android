@@ -2,10 +2,8 @@
 <resources>
 
     <!-- Being overriden by ID from configuration call -->
-    <string name="ga_trackingId_mitv_hardcoded">UA–46899989–1</string>
+    <string name="ga_trackingId_mitv_hardcoded">UA-46899989-1</string>
     
-    <string name="ga_trackingId">UA–46899989–1</string>
-
     <!-- Enable automatic activity tracking -->
     <bool name="ga_autoActivityTracking">true</bool>
 
@@ -13,25 +11,25 @@
     <bool name="ga_reportUncaughtExceptions">true</bool>
     
     <!-- Enable debug -->
-	<bool name="ga_debug">true</bool>
+	<bool name="ga_debug">false</bool>
 
     <!-- The screen names that will appear in your reporting -->
-    <string name="com.mitv.content.homepage.HomeActivity">Home</string>
-    <string name="com.mitv.content.activity.ActivityActivity">Activity</string>
-    <string name="com.mitv.content.activity.PopularPageActivity">Popular</string>
-    <string name="com.mitv.content.myprofile.MyProfileActivity">MyProfile</string>
-	<string name="com.mitv.content.search.SearchPageActivity">Search</string>
-	<string name="com.mitv.content.myprofile.LikesActivity">Likes</string>
-	<string name="com.mitv.content.myprofile.MyChannelsActivity">MyChannels</string>
-	<string name="com.mitv.content.myprofile.RemindersActivity">Reminders</string>
-	<string name="com.mitv.content.myprofile.SettingsActivity">Settings</string>
-	<string name="com.mitv.content.myprofile.ContactActivity">Contact</string>
-	<string name="com.mitv.content.myprofile.TermsActivity">Terms</string>
-	<string name="com.mitv.content.myprofile.HelpActivity">Help</string>
-	<string name="com.mitv.content.tvguide.BroadcastPageActivity">Broadcast</string>
-	<string name="com.mitv.content.tvguide.UpcomingeEpisodesPageActivity">UpcomingEpisodes</string>
-	<string name="com.mitv.content.tvguide.RepetitionsPageActivity">Repetitions</string>
-	<string name="com.mitv.content.tvguide.ChannelPageActivity">Channel</string>
+    <string name="com.mitv.homepage.HomeActivity">Home</string>
+    <string name="com.mitv.activity.ActivityActivity">Activity</string>
+    <string name="com.mitv.activity.PopularPageActivity">Popular</string>
+    <string name="com.mitv.myprofile.MyProfileActivity">MyProfile</string>
+	<string name="com.mitv.search.SearchPageActivity">Search</string>
+	<string name="com.mitv.myprofile.LikesActivity">Likes</string>
+	<string name="com.mitv.myprofile.MyChannelsActivity">MyChannels</string>
+	<string name="com.mitv.myprofile.RemindersActivity">Reminders</string>
+	<string name="com.mitv.myprofile.SettingsActivity">Settings</string>
+	<string name="com.mitv.myprofile.ContactActivity">Contact</string>
+	<string name="com.mitv.myprofile.TermsActivity">Terms</string>
+	<string name="com.mitv.myprofile.HelpActivity">Help</string>
+	<string name="com.mitv.tvguide.BroadcastPageActivity">Broadcast</string>
+	<string name="com.mitv.tvguide.UpcomingeEpisodesPageActivity">UpcomingEpisodes</string>
+	<string name="com.mitv.tvguide.RepetitionsPageActivity">Repetitions</string>
+	<string name="com.mitv.tvguide.ChannelPageActivity">Channel</string>
 	<string name="com.mitv.authentication.SignInActivity">SignIn</string>
 	<string name="com.mitv.authentication.SignUpActivity">SignUp</string>
 	<string name="com.mitv.authentication.MiTVLoginActivity">Login</string>
@@ -40,4 +38,27 @@
 	<string name="com.mitv.authentication.ResetPasswordFinalActivity">PasswordReset</string>
 	<string name="com.mitv.authentication.FacebookMiTVLoginActivity">FacebookLogin</string>
 
+	<string name="com.mitv.homepage.HomeActivityBackup">HomeBackup</string>
+    <string name="com.mitv.activity.ActivityActivityBackup">ActivityBackup</string>
+    <string name="com.mitv.activity.PopularPageActivityBackup">PopularBackup</string>
+    <string name="com.mitv.myprofile.MyProfileActivityBackup">MyProfileBackup</string>
+	<string name="com.mitv.search.SearchPageActivityBackup">SearchBackup</string>
+	<string name="com.mitv.myprofile.LikesActivityBackup">LikesBackup</string>
+	<string name="com.mitv.myprofile.MyChannelsActivityBackup">MyChannelsBackup</string>
+	<string name="com.mitv.myprofile.RemindersActivityBackup">RemindersBackup</string>
+	<string name="com.mitv.myprofile.SettingsActivityBackup">SettingsBackup</string>
+	<string name="com.mitv.myprofile.ContactActivityBackup">ContactBackup</string>
+	<string name="com.mitv.myprofile.TermsActivityBackup">TermsBackup</string>
+	<string name="com.mitv.myprofile.HelpActivityBackup">HelpBackup</string>
+	<string name="com.mitv.tvguide.BroadcastPageActivityBackup">BroadcastBackup</string>
+	<string name="com.mitv.tvguide.UpcomingeEpisodesPageActivityBackup">UpcomingEpisodesBackup</string>
+	<string name="com.mitv.tvguide.RepetitionsPageActivityBackup">RepetitionsBackup</string>
+	<string name="com.mitv.tvguide.ChannelPageActivityBackup">ChannelBackup</string>
+	<string name="com.mitv.authentication.SignInActivityBackup">SignInBackup</string>
+	<string name="com.mitv.authentication.SignUpActivityBackup">SignUpBackup</string>
+	<string name="com.mitv.authentication.MiTVLoginActivityBackup">LoginBackup</string>
+	<string name="com.mitv.authentication.FacebookLoginActivityBackup">FacebookLoginBackup</string>
+	<string name="com.mitv.authentication.ResetPasswordActivityBackup">ResetPasswordBackup</string>
+	<string name="com.mitv.authentication.ResetPasswordFinalActivityBackup">PasswordResetBackup</string>
+	<string name="com.mitv.authentication.FacebookMiTVLoginActivityBackup">FacebookLoginBackup</string>
 </resources>

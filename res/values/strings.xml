@@ -167,7 +167,7 @@
     <string name="sign_in">Log in</string>
     <string name="cancel">Cancel</string>
     <string name="sign_in_to_title">Don\'t have an account?</string>
-    <string name="sign_in_to_text">Sign up to add your favorites shows and get better personal recommendations.</string>
+    <string name="sign_in_to_text">Sign up to add your favorite shows and get better personal recommendations.</string>
     <string name="sign_up_with_email">Sign up with email</string>
     <string name="sign_up">Sign up</string>
     <string name="already_registered">Already registered?</string>
@@ -249,6 +249,9 @@
     <string name="search_on_air_now">On air now</string>
     <string name="search_no_upcoming_broadcasts">No upcoming broadcasts</string>
     <string name="search_starts_in">in</string>
+	<string name="search_result_tv_episode">TV episode</string>
+	<string name="search_result_movie">Movie</string>
+	<string name="search_result_series">TV Series</string>
     
     <!-- UPDATE DIALOG -->
     <string name="dialog_prompt_update_text">You must update mi.tv to the latest version!</string>
