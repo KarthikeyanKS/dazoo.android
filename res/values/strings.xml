@@ -18,6 +18,7 @@
 
     <!-- ICONS -->
 
+    <string name="icon_reminder"> 	&#x0393;</string>
     <string name="icon_clock"> 		&#x0394;</string>
     <string name="icon_letter"> 	&#x0395;</string>
     <string name="icon_facebook"> 	&#x0396;</string>
@@ -98,24 +99,40 @@
 
     <!-- MY PROFILE -->
     <string name="myprofile_title">My Profile</string>
-    <string name="reminders">Reminders</string>
+    <string name="reminders">My Reminders</string>
     <string name="likes">Likes</string>
-    <string name="my_channels">Set your channels</string>
+    <string name="myprofile_my_channels">Set your channels</string>
+    <string name="myprofile_about_us">About us</string>
+    <string name="myprofile_have_account">Have an account?</string>
+    <string name="myprofile_logged_in_as">Logged in as:</string>
+    <string name="myprofile_info">Add your favorite shows and get recommendations.</string>
+    <string name="myprofile_terms_of_use">Terms &amp; conditions</string>
     <string name="settings">Settings</string>
+    <string name="myprofile_support_bar">SUPPORT</string>
     <string name="liked">Liked</string>
 
     <!-- SETTINGS -->
-    <string name="settings_about">About</string>
     <string name="settings_contact">Contact</string>
     <string name="settings_terms">Terms of use</string>
     <string name="settings_help">Tutorials &amp; Help</string>
     <string name="settings_version">Version</string>
     <string name="contact_title">Contact</string>
     <string name="contact_temp">Contact information</string>
-    <string name="terms_title">Terms of use</string>
     <string name="terms_temp">Terms information</string>
     <string name="help_title">Tutorials &amp; Help</string>
     <string name="help_temp">Help information</string>
+
+    <!-- ABOUT ACTIVITY -->
+    <string name="about_title">About</string>
+    <string name="about_header">About this app</string>
+    <string name="about_info">Mi.tv - we guide, inspire and socialise your TV experience so you never miss a thing!</string>
+    <string name="about_link"><![CDATA[<a href="http://www.mi.tv/acercade">See more info here</a>]]></string>
+
+    <!-- TERMS ACTIVITY -->
+    <string name="terms_title">Terms of use</string>
+    <string name="terms_header">Terms of use</string>
+    <string name="terms_info"> You can learn more regarding the terms and conditions of use related to this app in our website</string>
+    <string name="terms_link"><![CDATA[<a href="http://www.mi.tv/terminos">Go to the Terms of Service</a>]]></string>
 
     <!-- BROADCAST PAGE -->
     <string name="cast_and_crew">Cast &amp; Crew</string>
@@ -153,7 +170,6 @@
     <string name="login_with_twitter">Login with Twitter</string>
     <string name="login_with_mitv">Login</string>
     <string name="logout_from_mitv">Logout</string>
-    <string name="register_with_mitv">Sign up with email</string>
     <string name="hint_password">Password</string>
     <string name="hint_email">E-mail</string>
     <string name="hint_password_long">Password</string>
@@ -191,7 +207,7 @@
     <string name="skip">Skip</string>
     <string name="or">or</string>
     <string name="signup_with_email_error_firstname">We\'d love to know your name</string>
-	<string name="signup_with_email_error_lastname">We\'d love to know your last name</string>
+    <string name="signup_with_email_error_lastname">We\'d love to know your last name</string>
     <string name="signup_with_email_error_email_incorrect">Please enter your email (e.g. example@mi.tv)</string>
     <string name="signup_with_email_error_email_already_registered">This e-mail is already used</string>
     <string name="signup_with_email_error_passwordlength">Your password must contain at least </string>
@@ -202,7 +218,6 @@
     <string name="login_with_wrong_format_email">Check if password was input right!</string>
     <string name="login_with_wrong_format_password">Check if e-mail was input right!</string>
     <string name="sign_up_terms_info">By signing up, you agree to the</string>
-    <string name="sign_up_terms_link"><a href="http://www.mi.tv/terminos">Terms of Service</a></string>
     <string name="success_account_created_title">Hello, </string>
     <string name="success_account_created_text">Your account was created!</string>
 
@@ -220,11 +235,11 @@
     <string name="share_action_title">Share via&#8230;</string>
 
     <!-- NOTIFICATION SERVICE -->
-    
+
     <string name="reminder_text_set_top">A reminder was set</string>
     <string name="reminder_text_set_middle">15 minutes</string>
     <string name="reminder_text_set_bottom">before on air</string>
-	<string name="reminder_text_set">A reminder was set 15 minutes before on air</string>
+    <string name="reminder_text_set">A reminder was set 15 minutes before on air</string>
     <string name="reminder_text_remove">"Remove the reminder for "</string>
 
     <!-- LIKE SERVICE -->
@@ -249,12 +264,12 @@
     <string name="search_on_air_now">On air now</string>
     <string name="search_no_upcoming_broadcasts">No upcoming broadcasts</string>
     <string name="search_starts_in">in</string>
-	<string name="search_result_tv_episode">TV episode</string>
-	<string name="search_result_movie">Movie</string>
-	<string name="search_result_series">TV Series</string>
-	<string name="search_result_sport">Sport</string>
-	<string name="search_result_channel">Channel</string>
-    
+    <string name="search_result_tv_episode">TV episode</string>
+    <string name="search_result_movie">Movie</string>
+    <string name="search_result_series">TV Series</string>
+    <string name="search_result_sport">Sport</string>
+    <string name="search_result_channel">Channel</string>
+
     <!-- UPDATE DIALOG -->
     <string name="dialog_prompt_update_text">You must update mi.tv to the latest version!</string>
     <string name="dialog_prompt_update_google_play">Go to Google play</string>

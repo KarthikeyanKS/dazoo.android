@@ -37,7 +37,7 @@
                 android:padding="2dp" >
 
                 <RelativeLayout
-                    android:id="@+id/myprofile_person_container"
+                    android:id="@+id/myprofile_person_container_signed_in"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
@@ -80,7 +80,7 @@
                     android:id="@+id/myprofile_reminders_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/myprofile_person_container"
+                    android:layout_below="@id/myprofile_person_container_signed_in"
                     android:layout_margin="1dp"
                     android:background="@color/grey1"
                     android:orientation="horizontal"

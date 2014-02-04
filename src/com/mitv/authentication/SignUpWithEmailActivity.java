@@ -53,7 +53,7 @@ import com.mitv.homepage.HomeActivity;
 import com.mitv.utilities.JSONUtilities;
 import com.mitv.utilities.TextDrawable;
 
-public class SignUpActivity extends SSSignInSignupBaseActivity implements OnClickListener {
+public class SignUpWithEmailActivity extends SSSignInSignupBaseActivity implements OnClickListener {
 
 	private static final String	TAG							= "SignUpActivity";
 	private ActionBar			mActionBar;
@@ -243,7 +243,7 @@ public class SignUpActivity extends SSSignInSignupBaseActivity implements OnClic
 							Log.d(TAG, "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName());
 
 							// go to Start page
-							Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
+							Intent intent = new Intent(SignUpWithEmailActivity.this, HomeActivity.class);
 							intent.putExtra(Consts.INTENT_EXTRA_SIGN_UP_ACTION, true);
 							startActivity(intent);
 							finish();

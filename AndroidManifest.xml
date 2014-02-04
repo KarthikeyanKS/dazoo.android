@@ -3,8 +3,8 @@
     package="com.mitv"
     android:installLocation="preferExternal"
     android:largeHeap="true"
-    android:versionCode="46"
     android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
+    android:versionCode="46"
     android:versionName="1.0.46" >
 
     <uses-sdk
@@ -117,18 +117,6 @@
                 android:value="com.mitv.content.myprofile.MyProfileActivity" />
         </activity>
 
-        <!-- SETTINGS -->
-        <activity
-            android:name="com.mitv.myprofile.SettingsActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.mitv.myprofile.MyProfileActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/WhiteTitleActionBar" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.content.myprofile.MyProfileActivity" />
-        </activity>
-
         <!-- CONTACT -->
         <activity
             android:name="com.mitv.myprofile.ContactActivity"
@@ -137,7 +125,7 @@
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.content.myprofile.SettingsActivity" />
+                android:value="com.mitv.content.myprofile.MyProfileActivity" />
         </activity>
 
         <!-- TERMS -->
@@ -148,7 +136,18 @@
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.content.myprofile.SettingsActivity" />
+                android:value="com.mitv.content.myprofile.MyProfileActivity" />
+        </activity>
+
+        <!-- TERMS -->
+        <activity
+            android:name="com.mitv.myprofile.AboutUsActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/WhiteTitleActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mitv.content.myprofile.MyProfileActivity" />
         </activity>
 
         <!-- HELP -->
@@ -213,7 +212,7 @@
 
         <!-- SIGN IN -->
         <activity
-            android:name="com.mitv.authentication.SignInActivity"
+            android:name="com.mitv.authentication.SignInOrSignupWithFacebookActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
@@ -221,7 +220,7 @@
 
         <!-- SIGN UP -->
         <activity
-            android:name="com.mitv.authentication.SignUpActivity"
+            android:name="com.mitv.authentication.SignUpWithEmailActivity"
             android:configChanges="keyboardHidden|orientation"
             android:parentActivityName="com.mitv.myprofile.MyProfileActivity"
             android:screenOrientation="portrait"
@@ -311,8 +310,8 @@
         <receiver
             android:name="com.mitv.receivers.BootCompletedReceiver"
             android:enabled="true"
-            android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
-            android:exported="true" >
+            android:exported="true"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>

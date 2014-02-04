@@ -14,7 +14,7 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.content.SSActivity;
 
-public class SignInActivity extends SSSignInSignupBaseActivity {
+public class SignInOrSignupWithFacebookActivity extends SSSignInSignupBaseActivity {
 
 	private ActionBar	mActionBar;
 	private RelativeLayout	mFacebookContainer, mSignUpContainer;
@@ -57,7 +57,7 @@ public class SignInActivity extends SSSignInSignupBaseActivity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(SignInActivity.this, FacebookLoginActivity.class);
+				Intent intent = new Intent(SignInOrSignupWithFacebookActivity.this, FacebookLoginActivity.class);
 				startActivity(intent);
 				finish();
 			}
@@ -68,7 +68,7 @@ public class SignInActivity extends SSSignInSignupBaseActivity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
+				Intent intent = new Intent(SignInOrSignupWithFacebookActivity.this, SignUpWithEmailActivity.class);
 				startActivity(intent);
 			}
 		});
@@ -78,7 +78,7 @@ public class SignInActivity extends SSSignInSignupBaseActivity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(SignInActivity.this, MiTVLoginActivity.class);
+				Intent intent = new Intent(SignInOrSignupWithFacebookActivity.this, MiTVLoginActivity.class);
 				startActivity(intent);
 			}
 		});

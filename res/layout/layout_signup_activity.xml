@@ -153,7 +153,7 @@
             android:textSize="16sp"
             android:linksClickable="true"
             android:textColorLink="@color/grey2"
-            android:text="@string/sign_up_terms_link"
+            android:text="@string/terms_link"
         	font:fonttextview="roboto_mitv_bold.ttf" />
 
         <com.mitv.customviews.FontButton

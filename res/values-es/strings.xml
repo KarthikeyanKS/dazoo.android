@@ -1,4 +1,5 @@
 <resources>
+
     <string name="yes">Si</string>
     <string name="no">No</string>
 
@@ -40,7 +41,7 @@
 
     <!-- ACTIVITY PAGE -->
     <string name="activity_title">Actividad</string>
-	<string name="activity_page">Actividad</string>
+    <string name="activity_page">Actividad</string>
     <string name="like">Me gusta</string>
     <string name="share">Compartir</string>
 
@@ -48,12 +49,17 @@
     <string name="myprofile_title">Mi Perfil</string>
     <string name="reminders">Recordatorios</string>
     <string name="likes">Me gusta</string>
-    <string name="my_channels">Selecciona tus canales</string>
+    <string name="myprofile_my_channels">Selecciona tus canales</string>
     <string name="settings">Configuración</string>
+    <string name="myprofile_about_us">Sobre nosotros</string>
+    <string name="myprofile_have_account">¿Tienes cuenta?</string>
+    <string name="myprofile_logged_in_as">Conectado como:</string>
+    <string name="myprofile_info">Regístrate para añadir tus programas favoritos</string>
+    <string name="myprofile_terms_of_use">Términos y Condiciones de Uso</string>
+    <string name="myprofile_support_bar">SOPORTE</string>
     <string name="liked">Te gusta</string>
 
     <!-- SETTINGS -->
-    <string name="settings_about">Acerca de nosotros</string>
     <string name="settings_contact">Contáctanos</string>
     <string name="settings_terms">Términos y Condiciones de Uso</string>
     <string name="settings_help">Ayuda</string>
@@ -64,7 +70,18 @@
     <string name="terms_temp">Términos y Condiciones de Uso</string>
     <string name="help_title">Ayuda</string>
     <string name="help_temp">Ayuda</string>
-    
+
+    <!-- ABOUT ACTIVITY -->
+    <string name="about_title">Acerca De</string>
+    <string name="about_header">Acerca de esta aplicación</string>
+    <string name="about_info">Mi.tv - guiamos, inspiramos y socializamos tu experiencia de TV para que nunca te pierdas de nada.</string>
+    <string name="about_link"><a href="http://www.mi.tv/acercade">Haga clic aquí</a></string>
+
+    <!-- TERMS ACTIVITY -->
+    <string name="terms_title">Términos y Condiciones de Uso</string>
+    <string name="terms_header">Términos y Condiciones de Uso</string>
+    <string name="terms_info"> Puedes aprender más acerca de los términos y condiciones de uso relacionados con esta aplicación en nuestro sitio web.</string>
+    <string name="terms_link"><a href="http://www.mi.tv/terminos">Ve en el sitio web</a></string>
 
     <!-- BROADCAST PAGE -->
     <string name="cast_and_crew">Elenco</string>
@@ -85,6 +102,7 @@
     <string name="tv_series">Series de TV</string>
     <string name="repetitions">Repeticiónes</string>
     <string name="repetitions_more">Ver más repeticiónes</string>
+
     <plurals name="hour">
         <item quantity="one">hora</item>
         <item quantity="other">horas</item>
@@ -93,8 +111,9 @@
         <item quantity="one">Queda</item>
         <item quantity="other">Quedan</item>
     </plurals>
+
     <string name="broadcast_info">Programa</string>
-	
+
     <plurals name="hour">
         <item quantity="one">hora</item>
         <item quantity="other">horas</item>
@@ -110,7 +129,6 @@
     <string name="login_with_twitter">Inicia sesión con Twitter</string>
     <string name="login_with_mitv">Inicia sesión</string>
     <string name="logout_from_mitv">Cerrar sesión</string>
-    <string name="register_with_mitv">Regístrate con tu correo electrónico</string>
     <string name="hint_password">Contraseña</string>
     <string name="hint_email">Correo electrónico</string>
     <string name="hint_password_long">Contraseña</string>
@@ -119,7 +137,7 @@
     <string name="hint_lastname">Apellido</string>
     <string name="hint_enter_email">Correo electrónico</string>
     <string name="login">Inicia sesión</string>
-	<string name="login_here">Inicia sesión</string>
+    <string name="login_here">Inicia sesión</string>
     <string name="reset_password">Cambia tu contraseña</string>
     <string name="sign_in">Inicia sesión</string>
     <string name="cancel">Cancelar</string>
@@ -157,10 +175,12 @@
     <string name="login_with_wrong_info">Algo se ve raro con la contraseña o tu correo electrónico</string>
     <string name="login_with_wrong_format_email">Algo se ve raro con la contraseña</string>
     <string name="login_with_wrong_format_password">Algo se ve raro con tu correo electrónico</string>
-    <!--string name="login_with_wrong_info">Algo se ve raro con la contraseña o tu correo electrónico.</string>
-    <string name="login_with_wrong_format">Algo se ve raro con la contraseña o tu correo electrónico.</string-->
+    <!--
+    string name="login_with_wrong_info">Algo se ve raro con la contraseña o tu correo electrónico.</string>
+    <string name="login_with_wrong_format">Algo se ve raro con la contraseña o tu correo electrónico.</string
+    -->
     <string name="sign_up_terms_info">Al registrarte, aceptas las</string>
-    <string name="sign_up_terms_link"><a href="http://www.mi.tv/terminos">Condiciones de Servicio</a></string>
+    <string name="terms_link"><a href="http://www.mi.tv/terminos">Condiciones de Servicio</a></string>
     <string name="success_account_created_title">Hola, </string>
     <string name="success_account_created_text">¡Tu cuenta ha sido creada con éxito!</string>
 
@@ -171,8 +191,8 @@
     <string name="selected_channels">Canales seleccionados:</string>
     <string name="search_channels">Buscar canales</string>
 
-	 <!-- REMINDERS -->
-	<string name="no_reminders">No tienes recordatorios todavía</string>
+    <!-- REMINDERS -->
+    <string name="no_reminders">No tienes recordatorios todavía</string>
 
     <!-- SHARE PROVIDER -->
     <string name="share_action_title">Compartir con&#8230;</string>
@@ -184,7 +204,7 @@
     <string name="reminder_text_set_middle">15 minutos</string>
     <string name="reminder_text_set_bottom">antes del programa.</string>
     <string name="reminder_text_remove">"Eliminar el recordatorio para "</string>
-    
+
     <!-- LIKE SERVICE -->
     <string name="like_set_text">" se ha agregado a tus preferencias"</string>
     <string name="like_remove_text">"Ya no te gusta este programa? Nuestras sugerencias cambiarán."</string>
@@ -204,19 +224,19 @@
     <string name="check_popular">Buscar más programs populares</string>
     <string name="hello">Hola</string>
     <string name="popular">Populares</string>
-
     <string name="search_page_instructions">Buscar por pelis, series, deportes o canales</string>
     <string name="search_empty">No se encontraron programas</string>
     <string name="search_on_air_now">Ahora</string>
     <string name="search_no_upcoming_broadcasts">No hay programas</string>
     <string name="search_starts_in">en</string>
-	<string name="search_result_tv_episode">Episodio</string>
-	<string name="search_result_movie">Película</string>
-	<string name="search_result_series">Series</string>
-	<string name="search_result_sport">Deportes</string>
-	<string name="search_result_channel">Canal</string>
-    
+    <string name="search_result_tv_episode">Episodio</string>
+    <string name="search_result_movie">Película</string>
+    <string name="search_result_series">Series</string>
+    <string name="search_result_sport">Deportes</string>
+    <string name="search_result_channel">Canal</string>
+
     <!-- UPDATE DIALOG -->
     <string name="dialog_prompt_update_text">Tienes que actualizar mi.tv a una versión más nueva</string>
     <string name="dialog_prompt_update_google_play">Ve a Google Play</string>
+
 </resources>

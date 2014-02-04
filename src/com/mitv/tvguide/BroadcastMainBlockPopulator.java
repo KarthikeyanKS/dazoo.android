@@ -17,7 +17,7 @@ import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.authentication.MiTVLoginActivity;
 import com.mitv.authentication.PromptSignInDialogHandler;
-import com.mitv.authentication.SignInActivity;
+import com.mitv.authentication.SignInOrSignupWithFacebookActivity;
 import com.mitv.customviews.ReminderView;
 import com.mitv.like.LikeService;
 import com.mitv.model.Broadcast;

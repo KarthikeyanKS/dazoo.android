@@ -58,7 +58,7 @@ import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.adapters.ActivityFeedAdapter;
 import com.mitv.authentication.MiTVLoginActivity;
 import com.mitv.authentication.FacebookLoginActivity;
-import com.mitv.authentication.SignUpActivity;
+import com.mitv.authentication.SignUpWithEmailActivity;
 import com.mitv.content.SSActivity;
 import com.mitv.homepage.HomeActivity;
 import com.mitv.http.NetworkUtils;
@@ -316,7 +316,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			
 			break;
 		case R.id.activity_not_logged_in_signup_email_container:
-			Intent intentSignUp = new Intent(ActivityActivity.this, SignUpActivity.class);
+			Intent intentSignUp = new Intent(ActivityActivity.this, SignUpWithEmailActivity.class);
 			startActivity(intentSignUp);
 			
 			break;

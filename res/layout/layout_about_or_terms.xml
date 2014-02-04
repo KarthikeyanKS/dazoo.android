@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey1"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/about_or_terms_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="10dp" >
+
+        <com.mitv.customviews.FontTextView
+            android:id="@+id/about_and_terms_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            font:fonttextview="roboto_mitv_bold.ttf" />
+
+        <com.mitv.customviews.FontTextView
+            android:id="@+id/about_and_terms_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="left"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            font:fonttextview="roboto_mitv_regular.ttf" />
+
+        <com.mitv.customviews.FontTextView
+            android:id="@+id/about_and_terms_link"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="left"
+            android:linksClickable="true"
+            android:text="@string/terms_link"
+            android:textColorLink="@color/grey2"
+            android:textSize="16sp"
+            font:fonttextview="roboto_mitv_medium.ttf" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/about_and_terms_version_number_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/about_or_terms_container"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        android:orientation="horizontal" >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_centerVertical="true"
+            android:background="@color/grey2" />
+
+        <com.mitv.customviews.FontTextView
+            android:id="@+id/about_and_terms_version_number_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:background="@color/grey1"
+            android:padding="5dp"
+            android:text="@string/myprofile_support_bar"
+            android:textColor="@color/grey2"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            font:fonttextview="roboto_mitv_medium.ttf" />
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/tab_selector_container"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/about_and_terms_version_number_container"
+        layout="@layout/block_bottom_tabs" />
+
+</RelativeLayout>

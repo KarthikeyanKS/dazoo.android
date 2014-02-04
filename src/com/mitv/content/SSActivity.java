@@ -2,6 +2,7 @@ package com.mitv.content;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -98,6 +99,9 @@ public abstract class SSActivity extends ActionBarActivity {
 
 		mActivity = this;
 		mActionBar = getSupportActionBar();
+		
+		mActionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.blue1)));
+		
 		mActionBar.setDisplayShowTitleEnabled(true);
 		mActionBar.setDisplayShowCustomEnabled(true);
 		mActionBar.setDisplayUseLogoEnabled(true);
