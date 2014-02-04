@@ -28,6 +28,7 @@ import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
 import com.mitv.content.SSApiVersionPage;
 import com.mitv.manager.AppConfigurationManager;
+import com.mitv.manager.GATrackingManager;
 import com.mitv.manager.MiTVCore;
 import com.mitv.manager.MiTVCore.ApiVersionCallback;
 import com.mitv.manager.MiTVCore.AppConfigurationCallback;
@@ -270,65 +271,7 @@ public class SecondScreenApplication extends Application {
 	}
 	
 	private void setupGoogleAnalytics() {
-//		String trackingId = AppConfigurationManager.getInstance().getGoogleAnalyticsTrackingId();
-//		
-//		if(trackingId == null || trackingId.length() == 0) {
-//			trackingId = getString(R.string.ga_trackingId_mitv_hardcoded);
-//		}
-//		
-//		GoogleAnalytics googleAnalyticsInstance = GoogleAnalytics.getInstance(this);
-//		Tracker tracker = googleAnalyticsInstance.getTracker(trackingId);
-//		googleAnalyticsInstance.setDefaultTracker(tracker);
-		
-		
-		String gaId = getResources().getString(R.string.ga_trackingId);
-
-		String trackingId = AppConfigurationManager.getInstance().getGoogleAnalyticsTrackingId();
-		if(gaId.equals(trackingId)) {
-			Log.e(TAG, "same");
-		}
-		
-		GoogleAnalytics googleAnalyticsInstance = GoogleAnalytics.getInstance(this);
-		Tracker tracker = googleAnalyticsInstance.getTracker(gaId);
-
-		String appVersion = Consts.GA_APP_VERSION_NOT_SET;
-		
-		boolean preinstalledCheckingSharedPrefs	= getWasPreinstalled();
-		boolean preinstalledCheckingExternalStorage = wasPreinstalledFileExists();
-    	boolean preinstalledUsingSystemAppDetectionCheckLocation = applicationIsSystemApp(getApplicationContext());
-    	boolean preinstalledUsingSystemAppDetectionCheckFlag = applicationIsSystemAppUsingFlag(getApplicationContext());
-    	
-		String wasPreinstalledSharedPrefs = preinstalledCheckingSharedPrefs ? Consts.PREFS_KEY_APP_WAS_PREINSTALLED : Consts.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
-		String wasPreinstalledExternalStorage = preinstalledCheckingExternalStorage ? Consts.PREFS_KEY_APP_WAS_PREINSTALLED : Consts.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
-    	String wasPreinstalledSystemAppLocation = preinstalledUsingSystemAppDetectionCheckLocation ? Consts.PREFS_KEY_APP_WAS_PREINSTALLED : Consts.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
-    	String wasPreinstalledSystemAppFlag = preinstalledUsingSystemAppDetectionCheckFlag ? Consts.PREFS_KEY_APP_WAS_PREINSTALLED : Consts.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
-		
-		
-		String deviceId = DeviceUtilities.getDeviceId();
-		
-		PackageInfo pinfo;
-		try {
-			pinfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
-			appVersion = "" + pinfo.versionCode;
-		} catch (NameNotFoundException e) {
-			e.printStackTrace();
-		}
-		
-		
-		double sampleRateDecimal = AppConfigurationManager.getInstance().getGoogleAnalyticsSampleRate();
-		double sampleRateAsPercentage = sampleRateDecimal * 100.0d;
-		String sampleRateAsString = String.valueOf(sampleRateAsPercentage);
-		
-		
-		tracker.set(Consts.GA_KEY_APP_VERSION, appVersion);
-		tracker.set(Consts.GA_KEY_DEVICE_ID, deviceId);
-		
-		/* Information regarding if the app was preinstalled or not */
-		tracker.set(Consts.GA_KEY_APP_WAS_PREINSTALLED_SHARED_PREFS, wasPreinstalledSharedPrefs);
-		tracker.set(Consts.GA_KEY_APP_WAS_PREINSTALLED_EXTERNAL_STORAGE, wasPreinstalledExternalStorage);
-		tracker.set(Consts.GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_LOCATION, wasPreinstalledSystemAppLocation);
-		tracker.set(Consts.GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_FLAG, wasPreinstalledSystemAppFlag);	
-//		tracker.set(Fields.SAMPLE_RATE, sampleRateAsString);
+		GATrackingManager.getInstance();
 	}
 	
 	private boolean checkApiVersion() {

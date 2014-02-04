@@ -13,21 +13,20 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.http.NetworkUtils;
-import com.mitv.manager.AppConfigurationManager;
+import com.mitv.manager.GATrackingManager;
 import com.mitv.search.SearchPageActivity;
 
 public abstract class SSActivity extends ActionBarActivity {
 
 	private static final String	TAG	= "SSActivity";
 	
-	private EasyTracker 		mTracker;
+	private String				mViewName;
+	private Tracker 			mTracker;
 	private View				mRequestEmptyLayout;
 	private View				mRequestFailedLayout;
 	private View				mRequestLoadingLayout;
@@ -48,17 +47,10 @@ public abstract class SSActivity extends ActionBarActivity {
 		// add to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
-
-//		GoogleAnalytics googleAnalyticsInstance = GoogleAnalytics.getInstance(this);
-//		Tracker tracker = googleAnalyticsInstance.getTracker(trackingId);
-//		String trackingId = AppConfigurationManager.getInstance().getGoogleAnalyticsTrackingId();
-		
-		/* Google Analytics tracking */		
-		EasyTracker tracker = EasyTracker.getInstance(this);
-//		tracker.set(Fields.TRACKING_ID, trackingId);
-		tracker.activityStart(this);
-		this.mTracker = tracker;
-		
+		/* Google Analytics tracking */	
+		this.mViewName = this.getClass().getName();
+		EasyTracker.getInstance(this).activityStart(this);
+		GATrackingManager.sendView(mViewName);
 	};
 	
 	@Override
@@ -95,7 +87,8 @@ public abstract class SSActivity extends ActionBarActivity {
 		super.onStop();
 
 		/* Google Analytics tracking */
-		mTracker.activityStop(this);
+		GATrackingManager.stopTrackingView(this.mViewName);
+		EasyTracker.getInstance(this).activityStop(this);
 	}
 	
 	// Init the callback layouts for this page
