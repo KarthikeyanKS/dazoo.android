@@ -179,13 +179,13 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		String programType = program.getProgramType();
 		
 		if(programType.equals(Consts.PROGRAM_TYPE_TV_EPISODE)) {
-			programType = Consts.PROGRAM_DISPLAY_STRING_TV_EPISODE;
+			programType = mContext.getString(R.string.search_result_tv_episode);
 		} else if(programType.equals(Consts.PROGRAM_TYPE_MOVIE)) {
-			programType = Consts.PROGRAM_DISPLAY_STRING_MOVIE;
+			programType = mContext.getString(R.string.search_result_movie);
 		} else if(programType.equals(Consts.PROGRAM_TYPE_OTHER)) {
 			programType = program.getCategory();
 		} else if(programType.equals(Consts.PROGRAM_TYPE_SPORT)) {
-			programType = Consts.PROGRAM_DISPLAY_STRING_SPORT;
+			programType = mContext.getString(R.string.search_result_sport);
 		}
 		
 		viewHolder.mType.setText(programType);
@@ -201,7 +201,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 	}
 		
 	private void populateSeriesView(ViewHolder viewHolder, SearchResultItem resultItem, Series series) {
-		viewHolder.mType.setText(Consts.SERIES_DISPLAY_STRING);
+		viewHolder.mType.setText(mContext.getString(R.string.search_result_series));
 		
 		String title = series.getName();
 		setTitleString(viewHolder, title);
@@ -210,7 +210,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 	}
 	
 	private void populateChannelView(ViewHolder viewHolder, Channel channel) {
-		viewHolder.mType.setText(Consts.CHANNEL_DISPLAY_STRING);
+		viewHolder.mType.setText(mContext.getString(R.string.search_result_channel));
 		
 		String title = channel.getName();
 		setTitleString(viewHolder, title);

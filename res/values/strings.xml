@@ -252,6 +252,8 @@
 	<string name="search_result_tv_episode">TV episode</string>
 	<string name="search_result_movie">Movie</string>
 	<string name="search_result_series">TV Series</string>
+	<string name="search_result_sport">Sport</string>
+	<string name="search_result_channel">Channel</string>
     
     <!-- UPDATE DIALOG -->
     <string name="dialog_prompt_update_text">You must update mi.tv to the latest version!</string>
