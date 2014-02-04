@@ -210,6 +210,9 @@
     <string name="search_on_air_now">Ahora</string>
     <string name="search_no_upcoming_broadcasts">No hay programas</string>
     <string name="search_starts_in">en</string>
+	<string name="search_result_tv_episode">Episodio</string>
+	<string name="search_result_movie">Película</string>
+	<string name="search_result_series">Series</string>
     
     <!-- UPDATE DIALOG -->
     <string name="dialog_prompt_update_text">Tienes que actualizar mi.tv a una versión más nueva</string>
