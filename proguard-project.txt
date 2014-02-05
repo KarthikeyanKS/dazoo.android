@@ -14,6 +14,10 @@
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Application
 
+-dontwarn com.googlecode.**
+-dontwarn org.apache.**
+-dontwarn com.androidquery.**
+
 # If your project uses WebView with JS, uncomment the following
 # and specify the fully qualified class name to the JavaScript interface
 # class:
