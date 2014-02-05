@@ -30,7 +30,6 @@
                     android:id="@+id/myprofile_sign_in_or_sign_up_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_above="@+id/myprofile_reminders_container"
                     android:layout_margin="10dp"
                     android:background="@color/white"
                     android:baselineAligned="false"
@@ -87,7 +86,7 @@
                             android:orientation="horizontal" >
 
                             <com.mitv.customviews.FontTextView
-                                android:id="@+id/myprofile_signup_container_text"
+                                android:id="@+id/myprofile_signup_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_centerInParent="true"
@@ -384,8 +383,8 @@
 
             <RelativeLayout
                 android:id="@+id/myprofile_logout_container"
-                android:layout_width="80dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/myprofile_terms_of_use_container"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
@@ -394,11 +393,13 @@
 
                 <com.mitv.customviews.FontTextView
                     android:id="@+id/myprofile_logout_container_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                	android:padding="10dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="50dp"
                     android:layout_centerInParent="true"
                     android:gravity="center_vertical|center_horizontal"
-                    android:text="@string/logout_from_mitv"
+                   	android:text="@string/logout_from_mitv"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold"

@@ -2,17 +2,17 @@ package com.mitv.authentication;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.Consts.REQUEST_STATUS;
-import com.mitv.content.SSActivity;
 
 public class SignInOrSignupWithFacebookActivity extends SSSignInSignupBaseActivity {
 
@@ -41,6 +41,19 @@ public class SignInOrSignupWithFacebookActivity extends SSSignInSignupBaseActivi
 	protected void loadPage() {
 		/* Have to have this method here since SSActivity has this method abstract */
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		// Respond to the action bar's Up/Home button
+		// update the likes list on Up/Home button press too
+		case android.R.id.home:
+			Intent upIntent = NavUtils.getParentActivityIntent(this);
+			startActivity(upIntent);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 
 	private void initViews() {
 		mActionBar = getSupportActionBar();
@@ -50,7 +63,7 @@ public class SignInOrSignupWithFacebookActivity extends SSSignInSignupBaseActivi
 		mActionBar.setDisplayShowHomeEnabled(true);
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 
-		mActionBar.setTitle(getResources().getString(R.string.sign_in));
+		mActionBar.setTitle(getResources().getString(R.string.sign_up));
 
 		mFacebookContainer = (RelativeLayout) findViewById(R.id.signin_facebook_container);
 		mFacebookContainer.setOnClickListener(new View.OnClickListener() {

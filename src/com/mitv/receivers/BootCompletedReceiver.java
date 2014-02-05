@@ -43,7 +43,7 @@ public class BootCompletedReceiver extends BroadcastReceiver {
 	    		gaValue = AppConfigurationManager.replaceDashWithEnDash(gaValue);
 	    		
 	    		tracker.send(MapBuilder
-	    				  .createEvent("SystemEvent", "OnBoot", gaValue, null) 	// Set any additional fields for this hit.
+	    				  .createEvent(Consts.GA_EVENT_KEY_SYSTEM_EVENT, "OnBoot", gaValue, null) 	// Set any additional fields for this hit.
 	    				  .build()                                   			// Build and return the Map to the send method.
 	    				);
         	}

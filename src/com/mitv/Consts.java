@@ -38,7 +38,7 @@ public abstract class Consts {
 	public static final String HTTPS_SCHEME							= "https://";
 	public static final String URL_MITV_BASE						= "android.api.mi.tv/";
 	public static final String URL_GITR_BASE						= "android.api.gitrgitr.com/";
-	public static final String BASE_API_URL_USED 					= URL_GITR_BASE;
+	public static final String BASE_API_URL_USED 					= URL_MITV_BASE;
 	public static final String URL_SERVER_SECURE 					= HTTPS_SCHEME + BASE_API_URL_USED;
 	public static final String URL_SERVER							= HTTP_SCHEME + BASE_API_URL_USED;
 	public static String 	   URL_INTERNAL_TRACKING 				= HTTP_SCHEME + "tracking.gitrgitr.com/track/unique?verb=views&key=program_id&value=%s&uid=%s";
@@ -442,6 +442,12 @@ public abstract class Consts {
 	public static final String PREFS_KEY_APP_WAS_NOT_PREINSTALLED					= "APP_WAS_NOT_PREINSTALLED";
 	
 	/* GOOGLE ANALYTICS KEYS */
+	public static final String GA_KEY_APP_WAS_PREINSTALLED_SHARED_PREFS				= "APP_WAS_PREINSTALLED_SHARED_PREFS";
+	public static final String GA_KEY_APP_WAS_PREINSTALLED_EXTERNAL_STORAGE			= "APP_WAS_PREINSTALLED_EXTERNAL_STORAGE";
+	public static final String GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_LOCATION		= "APP_WAS_PREINSTALLED_SYSTEM_APP_LOCATION";
+	public static final String GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_FLAG			= "APP_WAS_PREINSTALLED_SYSTEM_APP_FLAG";
+	public static final String GA_EVENT_KEY_SYSTEM_EVENT							= "SystemEvent";
+
 	public static final String GA_KEY_APP_VERSION									= "APP_VERSION";
 	public static final String GA_KEY_DEVICE_ID										= "ANDROID_DEVICE_ID";
 	public static final String GA_KEY_DEVICE_WITH_PREINSTALLED_APP_FIRST_BOOT		= "DEVICE_WITH_PREINSTALLED_APP_FIRST_BOOT";

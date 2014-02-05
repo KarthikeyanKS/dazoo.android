@@ -38,6 +38,8 @@ import com.mitv.customviews.InstantAutoComplete;
 import com.mitv.model.Broadcast;
 import com.mitv.model.Channel;
 import com.mitv.model.SearchResultItem;
+import com.mitv.myprofile.MyChannelsActivity;
+import com.mitv.myprofile.MyProfileActivity;
 import com.mitv.tvguide.BroadcastPageActivity;
 import com.mitv.utilities.HardwareUtilities;
 
@@ -247,7 +249,9 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 				Toast.makeText(this, "No upcoming broadcast", Toast.LENGTH_SHORT).show();
 			}
 		} else {
-			Toast.makeText(this, "Channel pressed, behavior unspecified", Toast.LENGTH_SHORT).show();
+			Intent intentMyChannels = new Intent(SearchPageActivity.this, MyChannelsActivity.class);
+			startActivity(intentMyChannels);
+			
 		}
 	}
 

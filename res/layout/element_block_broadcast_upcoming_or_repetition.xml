@@ -57,11 +57,11 @@
         android:padding="5dp" >
 
         <View
+            android:id="@+id/block_tripple_broadcast_view_next_to_reminder_view"
             android:layout_width="1dp"
             android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_margin="10dp"
-            android:layout_toLeftOf="@+id/block_tripple_broadcast_reminder_view"
             android:background="@color/grey1" />
 
         <!-- REMIND BUTTON -->
@@ -70,6 +70,7 @@
             android:id="@+id/block_tripple_broadcast_reminder_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_toRightOf="@id/block_tripple_broadcast_view_next_to_reminder_view"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:padding="0dp" />

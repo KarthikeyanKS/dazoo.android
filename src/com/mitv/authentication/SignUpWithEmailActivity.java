@@ -31,6 +31,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.Editable;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.TextPaint;
 import android.text.TextUtils;
@@ -145,6 +146,9 @@ public class SignUpWithEmailActivity extends SSSignInSignupBaseActivity implemen
 		mMiTVRegisterButton.setOnClickListener(this);
 		
 		mTermsWebLink = (FontTextView) findViewById(R.id.signup_terms_link);
+
+		String linkText = getString(R.string.terms_link);
+		mTermsWebLink.setText(Html.fromHtml(linkText));
 		mTermsWebLink.setMovementMethod(LinkMovementMethod.getInstance());
 		stripUnderlines(mTermsWebLink);
 

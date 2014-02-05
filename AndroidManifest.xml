@@ -4,8 +4,8 @@
     android:installLocation="preferExternal"
     android:largeHeap="true"
     android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
-    android:versionCode="50"
-    android:versionName="1.0.50" >
+    android:versionCode="57"
+    android:versionName="1.0.57" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -47,7 +47,7 @@
 
         <!-- ACTIVITY PAGE -->
         <activity
-            android:name="com.mitv.activity.ActivityActivity"
+            android:name="com.mitv.content.activity.ActivityActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -55,7 +55,7 @@
 
         <!-- POPULAR CONTENT PAGE -->
         <activity
-            android:name="com.mitv.activity.PopularPageActivity"
+            android:name="com.mitv.content.activity.PopularPageActivity"
             android:configChanges="keyboardHidden|orientation"
             android:parentActivityName="com.mitv.activity.ActivityActivity"
             android:screenOrientation="portrait"
@@ -149,8 +149,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.mitv.myprofile.MyProfileActivity" />
         </activity>
-        
-        
+
         <!-- About OR Terms -->
         <activity
             android:name="com.mitv.myprofile.AboutOrTermsActivity"
@@ -227,8 +226,13 @@
             android:name="com.mitv.authentication.SignInOrSignupWithFacebookActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
+            android:parentActivityName="com.mitv.myprofile.MyProfileActivity"
             android:theme="@style/WhiteTitleActionBar"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mitv.myprofile.MyProfileActivity" />
+        </activity>
 
         <!-- SIGN UP -->
         <activity

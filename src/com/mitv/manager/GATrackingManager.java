@@ -64,26 +64,11 @@ public class GATrackingManager {
 		String wasPreinstalledExternalStorage = preinstalledCheckingExternalStorage ? Consts.PREFS_KEY_APP_WAS_PREINSTALLED : Consts.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
     	String wasPreinstalledSystemAppLocation = preinstalledUsingSystemAppDetectionCheckLocation ? Consts.PREFS_KEY_APP_WAS_PREINSTALLED : Consts.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
     	String wasPreinstalledSystemAppFlag = preinstalledUsingSystemAppDetectionCheckFlag ? Consts.PREFS_KEY_APP_WAS_PREINSTALLED : Consts.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
-		
-		
-		String deviceId = DeviceUtilities.getDeviceId();
-		String appVersion = Consts.GA_APP_VERSION_NOT_SET;
-		try {
-			PackageInfo pinfo = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
-			appVersion = "" + pinfo.versionCode;
-		} catch (NameNotFoundException e) {
-			e.printStackTrace();
-		}
-		
-		
+				
 		double sampleRateDecimal = AppConfigurationManager.getInstance().getGoogleAnalyticsSampleRate();
 		double sampleRateAsPercentage = sampleRateDecimal * 100.0d;
 		String sampleRateAsString = String.valueOf(sampleRateAsPercentage);
-		
-		
-		mTracker.set(Consts.GA_KEY_APP_VERSION, appVersion);
-		mTracker.set(Consts.GA_KEY_DEVICE_ID, deviceId);
-		
+				
 		/* Information regarding if the app was preinstalled or not */
 		
 		/* APP_WAS_PREINSTALLED_SHARED_PREFS is at index 1 */
@@ -103,6 +88,23 @@ public class GATrackingManager {
 		
 		/* NOW SEND THE DATA!!!! */
 		mTracker.send(MapBuilder.createAppView().build());
+		
+		/* BACKUP/RDUNDANCY OF ANALYTICS PREINSTALL FLAGS */
+		mTracker.send(MapBuilder
+				.createEvent(Consts.GA_EVENT_KEY_SYSTEM_EVENT, Consts.GA_KEY_APP_WAS_PREINSTALLED_SHARED_PREFS, wasPreinstalledSharedPrefs, null)
+				.build());
+
+		mTracker.send(MapBuilder
+				.createEvent(Consts.GA_EVENT_KEY_SYSTEM_EVENT, Consts.GA_KEY_APP_WAS_PREINSTALLED_EXTERNAL_STORAGE, wasPreinstalledExternalStorage, null)
+				.build());
+
+		mTracker.send(MapBuilder
+				.createEvent(Consts.GA_EVENT_KEY_SYSTEM_EVENT, Consts.GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_LOCATION, wasPreinstalledSystemAppLocation, null)
+				.build());
+
+		mTracker.send(MapBuilder
+				.createEvent(Consts.GA_EVENT_KEY_SYSTEM_EVENT, Consts.GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_FLAG, wasPreinstalledSystemAppFlag, null)
+				.build());
 	}
 	
 	private String viewNameWithSuffix(String viewName) {
