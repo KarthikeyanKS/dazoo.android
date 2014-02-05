@@ -180,6 +180,14 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 			mLogoutContainer.setVisibility(View.GONE);
 		}
 	}
+	
+
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		
+		finish();
+	}
 
 	@Override
 	public void onClick(View v) {

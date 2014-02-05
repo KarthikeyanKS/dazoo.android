@@ -5,12 +5,14 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.URLSpan;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
@@ -79,6 +81,24 @@ public class AboutOrTermsActivity extends SSActivity implements OnClickListener 
 		mVersionNumberTv = (FontTextView) findViewById(R.id.about_and_terms_version_number_tv);
 	}
 
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		// Respond to the action bar's Up/Home button
+		// update the likes list on Up/Home button press too
+		case android.R.id.home:
+			Intent upIntent = NavUtils.getParentActivityIntent(this);
+			NavUtils.navigateUpTo(this, upIntent);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
 	private void populateViews() {
 		String title = "";
 		String headerText = "";

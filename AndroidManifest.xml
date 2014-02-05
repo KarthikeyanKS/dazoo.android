@@ -4,8 +4,8 @@
     android:installLocation="preferExternal"
     android:largeHeap="true"
     android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
-    android:versionCode="47"
-    android:versionName="1.0.47" >
+    android:versionCode="50"
+    android:versionName="1.0.50" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -47,7 +47,7 @@
 
         <!-- ACTIVITY PAGE -->
         <activity
-            android:name="com.mitv.content.activity.ActivityActivity"
+            android:name="com.mitv.activity.ActivityActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -55,14 +55,14 @@
 
         <!-- POPULAR CONTENT PAGE -->
         <activity
-            android:name="com.mitv.content.activity.PopularPageActivity"
+            android:name="com.mitv.activity.PopularPageActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.mitv.content.activity.ActivityActivity"
+            android:parentActivityName="com.mitv.activity.ActivityActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.content.activity.ActivityActivity" />
+                android:value="com.mitv.activity.ActivityActivity" />
         </activity>
 
         <!-- MYPROFILE ACTIVITY -->
@@ -90,7 +90,7 @@
             android:windowSoftInputMode="adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.content.myprofile.MyProfileActivity" />
+                android:value="com.mitv.myprofile.MyProfileActivity" />
         </activity>
 
         <!-- MY CHANNELS -->
@@ -102,7 +102,7 @@
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.content.myprofile.MyProfileActivity" />
+                android:value="com.mitv.myprofile.MyProfileActivity" />
         </activity>
 
         <!-- REMINDERS -->
@@ -114,7 +114,7 @@
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.content.myprofile.MyProfileActivity" />
+                android:value="com.mitv.myprofile.MyProfileActivity" />
         </activity>
 
         <!-- CONTACT -->
@@ -125,7 +125,7 @@
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.content.myprofile.MyProfileActivity" />
+                android:value="com.mitv.myprofile.MyProfileActivity" />
         </activity>
 
         <!-- TERMS -->
@@ -136,10 +136,10 @@
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.content.myprofile.MyProfileActivity" />
+                android:value="com.mitv.myprofile.MyProfileActivity" />
         </activity>
 
-        <!-- TERMS -->
+        <!-- About -->
         <activity
             android:name="com.mitv.myprofile.AboutUsActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -147,7 +147,19 @@
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.content.myprofile.MyProfileActivity" />
+                android:value="com.mitv.myprofile.MyProfileActivity" />
+        </activity>
+        
+        
+        <!-- About OR Terms -->
+        <activity
+            android:name="com.mitv.myprofile.AboutOrTermsActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/WhiteTitleActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mitv.myprofile.MyProfileActivity" />
         </activity>
 
         <!-- HELP -->
@@ -158,7 +170,7 @@
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.content.myprofile.SettingsActivity" />
+                android:value="com.mitv.myprofile.SettingsActivity" />
         </activity>
 
         <!-- BROADCAST PAGE -->
@@ -171,7 +183,7 @@
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.content.homepage.HomeActivity" />
+                android:value="com.mitv.homepage.HomeActivity" />
         </activity>
 
         <!-- UPCOMING EPISODES PAGE -->
@@ -183,7 +195,7 @@
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.content.tvguide.BroadcastPageActivity" />
+                android:value="com.mitv.tvguide.BroadcastPageActivity" />
         </activity>
 
         <!-- REPEATITIONS PAGE -->
@@ -195,7 +207,7 @@
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.content.tvguide.BroadcastPageActivity" />
+                android:value="com.mitv.tvguide.BroadcastPageActivity" />
         </activity>
 
         <!-- CHANNEL PAGE -->
@@ -207,7 +219,7 @@
             android:theme="@style/ChannelPage" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.content.homepage.HomeActivity" />
+                android:value="com.mitv.homepage.HomeActivity" />
         </activity>
 
         <!-- SIGN IN -->
@@ -228,7 +240,7 @@
             android:windowSoftInputMode="stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.content.myprofile.MyProfileActivity" />
+                android:value="com.mitv.myprofile.MyProfileActivity" />
         </activity>
 
         <!-- MiTV LOGIN -->
@@ -241,7 +253,7 @@
             android:windowSoftInputMode="stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.content.myprofile.MyProfileActivity" />
+                android:value="com.mitv.myprofile.MyProfileActivity" />
         </activity>
 
         <!-- FACEBOOK LOGIN -->
@@ -278,7 +290,7 @@
             android:windowSoftInputMode="stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.content.homepage.HomeActivity" />
+                android:value="com.mitv.homepage.HomeActivity" />
         </activity>
 
         <!-- FACEBOOK MiTV ACCOUNT CREATED -->
@@ -326,7 +338,7 @@
             android:theme="@style/Theme.AppCompat.Light" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.content.tvguide.BroadcastPageActivity" />
+                android:value="com.mitv.tvguide.BroadcastPageActivity" />
         </activity>
         <!-- android:theme="@style/Theme.Sherlock.Light" -->
 
