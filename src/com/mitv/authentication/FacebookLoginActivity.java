@@ -2,6 +2,8 @@ package com.mitv.authentication;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
@@ -26,10 +28,15 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.Signature;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 
 import com.facebook.Request;
@@ -73,19 +80,19 @@ public class FacebookLoginActivity extends SSSignInSignupBaseActivity {
 		initViews();
 
 		// generation of the ssh key for the facebook
-		//PackageInfo info;
-		//try {
-		//	info = getPackageManager().getPackageInfo("com.mitv", PackageManager.GET_SIGNATURES);
-		//	for (Signature signature : info.signatures) {
-		//		MessageDigest md = MessageDigest.getInstance("SHA");
-		//		md.update(signature.toByteArray());
-		//		Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-		//	}
-		//} catch (NameNotFoundException e) {
-		//	e.printStackTrace();
-		//} catch (NoSuchAlgorithmException e) {
-		//	e.printStackTrace();
-		//}
+		PackageInfo info;
+		try {
+			info = getPackageManager().getPackageInfo("com.mitv", PackageManager.GET_SIGNATURES);
+			for (Signature signature : info.signatures) {
+				MessageDigest md = MessageDigest.getInstance("SHA");
+				md.update(signature.toByteArray());
+				Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+			}
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
 
 		openFacebookSession(this, true, statusCallback);
 	}
