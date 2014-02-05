@@ -149,8 +149,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.mitv.myprofile.MyProfileActivity" />
         </activity>
-        
-        
+
         <!-- About OR Terms -->
         <activity
             android:name="com.mitv.myprofile.AboutOrTermsActivity"
@@ -227,8 +226,13 @@
             android:name="com.mitv.authentication.SignInOrSignupWithFacebookActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
+            android:parentActivityName="com.mitv.myprofile.MyProfileActivity"
             android:theme="@style/WhiteTitleActionBar"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mitv.myprofile.MyProfileActivity" />
+        </activity>
 
         <!-- SIGN UP -->
         <activity

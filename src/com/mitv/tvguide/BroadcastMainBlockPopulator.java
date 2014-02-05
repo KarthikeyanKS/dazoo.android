@@ -248,7 +248,7 @@ public class BroadcastMainBlockPopulator {
 	public Runnable yesLoginProc() {
 		return new Runnable() {
 			public void run() {
-				Intent intent = new Intent(mActivity, MiTVLoginActivity.class);
+				Intent intent = new Intent(mActivity, SignInOrSignupWithFacebookActivity.class);
 				mActivity.startActivity(intent);
 			}
 		};

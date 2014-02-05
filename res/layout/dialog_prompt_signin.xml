@@ -61,7 +61,7 @@
         <com.mitv.customviews.FontButton
             android:id="@+id/dialog_prompt_signin_button_cancel"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/white"
             android:text="@string/cancel"
@@ -77,10 +77,10 @@
         <com.mitv.customviews.FontButton
             android:id="@+id/dialog_prompt_signin_button_signin"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/white"
-            android:text="@string/sign_in"
+            android:text="@string/sign_up"
             android:textColor="@color/blue1"
             android:textSize="@dimen/header_3"
             android:textStyle="bold" />
