@@ -66,7 +66,7 @@
     <string name="settings_version">Versión</string>
     <string name="contact_title">Contáctanos</string>
     <string name="contact_temp">Contáctanos</string>
-    <string name="terms_title">Términos y Condiciones de Uso</string>
+    <string name="terms_title">Términos y Condiciones</string>
     <string name="terms_temp">Términos y Condiciones de Uso</string>
     <string name="help_title">Ayuda</string>
     <string name="help_temp">Ayuda</string>
@@ -81,7 +81,7 @@
     <string name="terms_title">Términos y Condiciones de Uso</string>
     <string name="terms_header">Términos y Condiciones de Uso</string>
     <string name="terms_info">Puedes aprender más acerca de los términos y condiciones de uso relacionados con esta aplicación en nuestro sitio web.</string>
-    <string name="terms_link"><![CDATA[<a href="http://www.mi.tv/terminos">Ve al sitio web</a>]]></string>
+    <string name="terms_link"><![CDATA[<a href="http://www.mi.tv/terminos">Lee más aquí</a>]]></string>
 
     <!-- BROADCAST PAGE -->
     <string name="cast_and_crew">Elenco</string>
