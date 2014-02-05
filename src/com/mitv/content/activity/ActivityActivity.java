@@ -60,6 +60,7 @@ import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.adapters.ActivityFeedAdapter;
 import com.mitv.authentication.MiTVLoginActivity;
 import com.mitv.authentication.FacebookLoginActivity;
+import com.mitv.authentication.SignInOrSignupWithFacebookActivity;
 import com.mitv.authentication.SignUpWithEmailActivity;
 import com.mitv.content.SSActivity;
 import com.mitv.homepage.HomeActivity;
@@ -335,9 +336,9 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			break;
 		case R.id.activity_not_logged_in_facebook_container:
 			// facebook sign in
-			Intent intentFacebookSignIn = new Intent(ActivityActivity.this, FacebookLoginActivity.class);
-			intentFacebookSignIn.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
-			startActivity(intentFacebookSignIn);
+			Intent intent = new Intent(ActivityActivity.this, FacebookLoginActivity.class);
+			startActivity(intent);
+			finish();
 			
 			break;
 		case R.id.activity_not_logged_in_signup_email_container:
