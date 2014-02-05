@@ -400,7 +400,7 @@
                     android:minHeight="50dp"
                     android:layout_centerInParent="true"
                     android:gravity="center_vertical|center_horizontal"
-                    android:text="@string/sign_up"
+                   	android:text="@string/logout_from_mitv"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold"
