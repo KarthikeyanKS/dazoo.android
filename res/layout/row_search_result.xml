@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:layout_below="@+id/row_search_result_title"
+        android:layout_below="@id/row_search_result_title"
         android:weightSum="1.0" >
 
         <com.mitv.customviews.FontTextView
