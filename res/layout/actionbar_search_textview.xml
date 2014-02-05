@@ -5,20 +5,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/actionbar_search_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:padding="8dp"
+	android:background="@drawable/background_color_selector_day_selector_adapter_header" >
     
 	<com.mitv.customviews.FontTextView 
 	    android:id="@+id/actionbar_search_tv"
 	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_centerInParent="true"
+	    android:layout_height="match_parent"
 	    android:text="@string/icon_search"
-	    android:textSize="40sp"
+	    android:textSize="36sp"
 	    android:textColor="@color/white"
-	    android:background="@drawable/background_color_selector_day_selector_adapter_header"
 	    font:fonttextview="roboto_mitv_medium.ttf"
-		android:padding="10dp"
-    	android:layout_marginTop="-22dp"
-    	android:onClick="clickEvent"/>
+    	android:onClick="clickEvent" 
+    	android:layout_marginTop="-8dp"/>
 
 </RelativeLayout>
