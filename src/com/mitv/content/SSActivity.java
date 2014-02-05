@@ -3,6 +3,7 @@ package com.mitv.content;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -61,7 +62,8 @@ public abstract class SSActivity extends ActionBarActivity {
 		inflater.inflate(R.menu.actionbar_menu, menu);
 		
 		MenuItem searchIcon = menu.findItem(R.id.action_start_search);
-		searchIcon.getActionView().setOnClickListener(new OnClickListener() {
+		View seachIconView = MenuItemCompat.getActionView(searchIcon);
+		seachIconView.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
