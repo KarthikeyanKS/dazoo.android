@@ -41,8 +41,8 @@ public abstract class Consts {
 	public static final String BASE_API_URL_USED 					= URL_MITV_BASE;
 	public static final String URL_SERVER_SECURE 					= HTTPS_SCHEME + BASE_API_URL_USED;
 	public static final String URL_SERVER							= HTTP_SCHEME + BASE_API_URL_USED;
-	public static String 	   URL_INTERNAL_TRACKING 				= HTTP_SCHEME + "tracking.gitrgitr.com/track/unique?verb=views&key=program_id&value=%s&uid=%s";
-//	public static String 	   URL_INTERNAL_TRACKING 				= HTTP_SCHEME + "tracking.mi.tv/track/unique?verb=views&key=program_id&value=%s&uid=%s";
+//	public static String 	   URL_INTERNAL_TRACKING 				= HTTP_SCHEME + "tracking.gitrgitr.com/track/unique?verb=views&key=program_id&value=%s&uid=%s";
+	public static String 	   URL_INTERNAL_TRACKING 				= HTTP_SCHEME + "tracking.mi.tv/track/unique?verb=views&key=program_id&value=%s&uid=%s";
 
 	public static final String URL_GUIDE 							= URL_SERVER + "epg/guide";
 	public static final String URL_DATES 							= URL_SERVER + "epg/dates";
