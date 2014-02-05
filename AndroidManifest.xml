@@ -47,7 +47,7 @@
 
         <!-- ACTIVITY PAGE -->
         <activity
-            android:name="com.mitv.activity.ActivityActivity"
+            android:name="com.mitv.content.activity.ActivityActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -55,7 +55,7 @@
 
         <!-- POPULAR CONTENT PAGE -->
         <activity
-            android:name="com.mitv.activity.PopularPageActivity"
+            android:name="com.mitv.content.activity.PopularPageActivity"
             android:configChanges="keyboardHidden|orientation"
             android:parentActivityName="com.mitv.activity.ActivityActivity"
             android:screenOrientation="portrait"
