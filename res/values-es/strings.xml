@@ -75,13 +75,13 @@
     <string name="about_title">Acerca De</string>
     <string name="about_header">Acerca de esta aplicación</string>
     <string name="about_info">Mi.tv - guiamos, inspiramos y socializamos tu experiencia de TV para que nunca te pierdas de nada.</string>
-    <string name="about_link"><a href="http://www.mi.tv/acercade">Haga clic aquí</a></string>
+    <string name="about_link"><![CDATA[<a href="http://www.mi.tv/acercade">Haga clic aquí</a>]]></string>
 
     <!-- TERMS ACTIVITY -->
     <string name="terms_title">Términos y Condiciones de Uso</string>
     <string name="terms_header">Términos y Condiciones de Uso</string>
     <string name="terms_info">Puedes aprender más acerca de los términos y condiciones de uso relacionados con esta aplicación en nuestro sitio web.</string>
-    <string name="terms_link"><a href="http://www.mi.tv/terminos">Ve al sitio web</a></string>
+    <string name="terms_link"><![CDATA[<a href="http://www.mi.tv/terminos">Ve al sitio web</a>]]></string>
 
     <!-- BROADCAST PAGE -->
     <string name="cast_and_crew">Elenco</string>
