@@ -30,7 +30,6 @@
                     android:id="@+id/myprofile_sign_in_or_sign_up_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_above="@+id/myprofile_reminders_container"
                     android:layout_margin="10dp"
                     android:background="@color/white"
                     android:baselineAligned="false"
@@ -87,7 +86,7 @@
                             android:orientation="horizontal" >
 
                             <com.mitv.customviews.FontTextView
-                                android:id="@+id/myprofile_signup_container_text"
+                                android:id="@+id/myprofile_signup_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_centerInParent="true"
