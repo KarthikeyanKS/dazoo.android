@@ -43,6 +43,7 @@ import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.content.activity.ActivityActivity;
 import com.mitv.homepage.HomeActivity;
 import com.mitv.manager.MiTVCore;
 import com.mitv.storage.MiTVStore;
@@ -58,6 +59,7 @@ public class MiTVLoginActivity extends SSSignInSignupBaseActivity implements OnC
 	private RelativeLayout		mFacebookContainer;
 	private TextView			mPasswordErrorTv;
 	private TextView			mEmailErrorTv;
+	private boolean 			mIsFromActivity;
 
 	private String				miTVToken	= "", userToken = "", userId = "", userEmailLogin, userPasswordLogin;
 
@@ -66,6 +68,11 @@ public class MiTVLoginActivity extends SSSignInSignupBaseActivity implements OnC
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_mitvlogin_activity);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
+		Intent intent = getIntent();
+		if (intent.hasExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY)) {
+			mIsFromActivity = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_FROM_ACTIVITY);
+		}
 
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
@@ -181,7 +188,13 @@ public class MiTVLoginActivity extends SSSignInSignupBaseActivity implements OnC
 									// clear all the running before activities and start the application from the whole beginning
 									SecondScreenApplication.getInstance().clearActivityBacktrace();
 
-									Intent intent = new Intent(MiTVLoginActivity.this, HomeActivity.class);
+									Intent intent;
+									if (mIsFromActivity) {
+										intent = new Intent(MiTVLoginActivity.this, ActivityActivity.class);
+									}
+									else {
+										intent = new Intent(MiTVLoginActivity.this, HomeActivity.class);
+									}
 									intent.putExtra(Consts.INTENT_EXTRA_LOG_IN_ACTION, true);
 
 									startActivity(intent);

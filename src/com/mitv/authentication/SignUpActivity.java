@@ -48,6 +48,7 @@ import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.content.activity.ActivityActivity;
 import com.mitv.customviews.FontTextView;
 import com.mitv.homepage.HomeActivity;
 import com.mitv.utilities.JSONUtilities;
@@ -68,12 +69,18 @@ public class SignUpActivity extends SSSignInSignupBaseActivity implements OnClic
 	private TextView			mErrorTextView;
 	private TextDrawable		mEmailTextDrawable, mPasswordTextDrawable;
 	private String 				mBadResponseString;
+	private boolean				mIsFromActivity;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_signup_activity);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
+		Intent intent = getIntent();
+		if (intent.hasExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY)) {
+			mIsFromActivity = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_FROM_ACTIVITY);
+		}
 
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
@@ -243,7 +250,13 @@ public class SignUpActivity extends SSSignInSignupBaseActivity implements OnClic
 							Log.d(TAG, "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName());
 
 							// go to Start page
-							Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
+							Intent intent;
+							if (mIsFromActivity) {
+								intent = new Intent(SignUpActivity.this, ActivityActivity.class);
+							}
+							else {
+								intent = new Intent(SignUpActivity.this, HomeActivity.class);
+							}
 							intent.putExtra(Consts.INTENT_EXTRA_SIGN_UP_ACTION, true);
 							startActivity(intent);
 							finish();

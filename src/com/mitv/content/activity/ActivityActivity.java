@@ -40,12 +40,14 @@ import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -89,10 +91,19 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 	private int					mRequestAge, mRequestMaxAge, mNextRequestTime;
 	
 	public static Toast 		toast;
+	private boolean 			mIsFromLogin, mIsFromSignup;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		Intent intent =  getIntent();
+		if (intent.hasExtra(Consts.INTENT_EXTRA_LOG_IN_ACTION)) {
+			mIsFromLogin = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_LOG_IN_ACTION);
+		}
+		else if (intent.hasExtra(Consts.INTENT_EXTRA_SIGN_UP_ACTION)) {
+			mIsFromSignup = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_SIGN_UP_ACTION);
+		}
 		
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
@@ -110,6 +121,19 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			if (!NetworkUtils.checkConnection(this)) {
 				updateUI(REQUEST_STATUS.FAILED);
 			} else {
+				String signupTitle = String.format("%s %s", getResources().getString(R.string.success_account_created_title), SecondScreenApplication.getInstance().getUserFirstName());
+
+				if (mIsFromLogin) {
+					Toast toast = Toast.makeText(this, signupTitle, Toast.LENGTH_LONG);
+					((TextView) ((LinearLayout)toast.getView()).getChildAt(0)).setGravity(Gravity.CENTER_HORIZONTAL);
+					toast.show();
+				}
+				else if (mIsFromSignup) {
+					String signupText = getResources().getString(R.string.success_account_created_text);
+					Toast toast = Toast.makeText(this, signupTitle + "\n" + signupText, Toast.LENGTH_LONG);
+					((TextView) ((LinearLayout)toast.getView()).getChildAt(0)).setGravity(Gravity.CENTER_HORIZONTAL);
+					toast.show();
+				}
 				loadPage();
 			}
 
@@ -312,16 +336,19 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		case R.id.activity_not_logged_in_facebook_container:
 			// facebook sign in
 			Intent intentFacebookSignIn = new Intent(ActivityActivity.this, FacebookLoginActivity.class);
+			intentFacebookSignIn.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
 			startActivity(intentFacebookSignIn);
 			
 			break;
 		case R.id.activity_not_logged_in_signup_email_container:
 			Intent intentSignUp = new Intent(ActivityActivity.this, SignUpActivity.class);
+			intentSignUp.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
 			startActivity(intentSignUp);
 			
 			break;
 		case R.id.activity_not_logged_in_login_btn:
 			Intent intentLogin = new Intent(ActivityActivity.this, MiTVLoginActivity.class);
+			intentLogin.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
 			startActivity(intentLogin);
 			
 			break;
