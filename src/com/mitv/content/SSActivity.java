@@ -60,6 +60,17 @@ public abstract class SSActivity extends ActionBarActivity {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.actionbar_menu, menu);
 		
+		MenuItem searchIcon = menu.findItem(R.id.action_start_search);
+		searchIcon.getActionView().setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent toSearchPage = new Intent(SSActivity.this, SearchPageActivity.class);
+				startActivity(toSearchPage);
+				
+			}
+		});
+		
 		MenuItem searchFieldItem = menu.findItem(R.id.searchfield);
 		searchFieldItem.setVisible(false);
 		
@@ -72,7 +83,7 @@ public abstract class SSActivity extends ActionBarActivity {
 
 		// hide search for beta release
 		switch (item.getItemId()) {
-		case R.id.action_start_search:
+		case R.id.action_start_search:		//Might be dead with actionView instead of icon...
 			Intent toSearchPage = new Intent(SSActivity.this, SearchPageActivity.class);
 			startActivity(toSearchPage);
 

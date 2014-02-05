@@ -125,22 +125,23 @@ public class LikesListAdapter extends BaseAdapter {
 					}
 				}
 
-				holder.mInformationContainer.setOnClickListener(new View.OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						Log.d(TAG, "Channelid: " + like.getNextBroadcastChannelId() + " Begintimemillis: " + like.getNextBroadcastBegintimeMillis());
-						if (like.getNextBroadcastChannelId() != null && like.getNextBroadcastBegintimeMillis() != 0) {
-							String broadcastUrl = Consts.URL_NOTIFY_BROADCAST_PREFIX + like.getNextBroadcastChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + like.getNextBroadcastBegintimeMillis();
-							Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-							intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, like.getNextBroadcastChannelId());
-							intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_URL, broadcastUrl);
-							intent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
-							intent.putExtra(Consts.INTENT_EXTRA_FROM_PROFILE, true);
-							mActivity.startActivity(intent);
-						}
-					}
-				});
+				// Navigate to the next broadcast
+//				holder.mInformationContainer.setOnClickListener(new View.OnClickListener() {
+//
+//					@Override
+//					public void onClick(View v) {
+//						Log.d(TAG, "Channelid: " + like.getNextBroadcastChannelId() + " Begintimemillis: " + like.getNextBroadcastBegintimeMillis());
+//						if (like.getNextBroadcastChannelId() != null && like.getNextBroadcastBegintimeMillis() != 0) {
+//							String broadcastUrl = Consts.URL_NOTIFY_BROADCAST_PREFIX + like.getNextBroadcastChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + like.getNextBroadcastBegintimeMillis();
+//							Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
+//							intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, like.getNextBroadcastChannelId());
+//							intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_URL, broadcastUrl);
+//							intent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
+//							intent.putExtra(Consts.INTENT_EXTRA_FROM_PROFILE, true);
+//							mActivity.startActivity(intent);
+//						}
+//					}
+//				});
 
 				holder.mButtonContainer.setOnClickListener(new View.OnClickListener() {
 

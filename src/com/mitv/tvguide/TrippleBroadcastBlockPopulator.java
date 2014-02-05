@@ -164,10 +164,13 @@ public class TrippleBroadcastBlockPopulator {
 		TextView title = (TextView) topContentView.findViewById(R.id.block_tripple_broadcast_title_textview);
 
 		String titleString = null;
+		String showMoreString = null;
 		if(mUsedForRepetitions) {
 			titleString = mActivity.getResources().getString(R.string.repetitions);
+			showMoreString = mActivity.getResources().getString(R.string.repetitions_more);
 		} else {
 			titleString = mActivity.getResources().getString(R.string.upcoming_episodes);
+			showMoreString = mActivity.getResources().getString(R.string.upcoming_episodes_more);
 		}
 		title.setText(titleString);
 
@@ -180,7 +183,7 @@ public class TrippleBroadcastBlockPopulator {
 			View divider = (View) topContentView.findViewById(R.id.block_tripple_broadcast_three_bottom_divider);
 			divider.setVisibility(View.VISIBLE);
 			TextView showMoreTxt = (TextView) topContentView.findViewById(R.id.block_tripple_broadcast_more_textview);
-			showMoreTxt.setText(mActivity.getResources().getString(R.string.repetitions_more));
+			showMoreTxt.setText(showMoreString);
 			showMoreTxt.setVisibility(View.VISIBLE);
 			showMoreTxt.setOnClickListener(new View.OnClickListener() {
 

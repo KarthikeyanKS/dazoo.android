@@ -42,6 +42,7 @@ import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.content.activity.ActivityActivity;
 import com.mitv.homepage.HomeActivity;
 import com.mitv.utilities.JSONUtilities;
 
@@ -51,6 +52,7 @@ public class FacebookLoginActivity extends SSSignInSignupBaseActivity {
 	private String				facebookToken	= "", facebookSessionToken = "", mitvToken = "";
 	private ActionBar			mActionBar;
 	private static Activity		mActivity;
+	private boolean 			mIsFromActivity;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,11 @@ public class FacebookLoginActivity extends SSSignInSignupBaseActivity {
 		setContentView(R.layout.layout_facebooklogin_activity);
 
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
+		Intent intent = getIntent();
+		if (intent.hasExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY)) {
+			mIsFromActivity = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_FROM_ACTIVITY);
+		}
 
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
@@ -143,7 +150,13 @@ public class FacebookLoginActivity extends SSSignInSignupBaseActivity {
 								// } else {
 								// returning client
 								// go to start page
-								Intent intent = new Intent(FacebookLoginActivity.this, HomeActivity.class);
+								Intent intent;
+								if (mIsFromActivity) {
+									intent = new Intent(FacebookLoginActivity.this, ActivityActivity.class);
+								}
+								else {
+									intent = new Intent(FacebookLoginActivity.this, HomeActivity.class);
+								}
 								intent.putExtra(Consts.INTENT_EXTRA_LOG_IN_ACTION, true);
 								startActivity(intent);
 								finish();

@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:id="@+id/searchbar_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingRight="10dp"
     android:orientation="horizontal" >
-
+    
+	<com.mitv.customviews.FontTextView 
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_centerVertical="true"
+	    android:layout_marginLeft="5dp"
+	    android:text="@string/icon_search"
+	    android:textSize="30sp"
+	    android:textColor="@color/white"
+	    font:fonttextview="roboto_mitv_medium.ttf" />
+	
     <com.mitv.customviews.InstantAutoComplete
         android:id="@+id/searchbar_edittext"
         android:layout_width="match_parent"
@@ -13,7 +24,6 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:background="@drawable/custom_theme_edit_text_holo_light"
-        android:drawableLeft="@drawable/ic_search"
         android:drawablePadding="10dp"
         android:hint="@string/search_hint"
         android:imeOptions="actionSearch"
@@ -21,7 +31,8 @@
         android:textColorHint="@color/white"
         android:singleLine="true"
         android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:paddingLeft="30dp" />
 
     <ProgressBar
         android:id="@+id/searchbar_progress"
