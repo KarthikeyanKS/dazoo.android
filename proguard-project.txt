@@ -13,6 +13,9 @@
 # Add any project specific keep options here:
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Application
+-keep class com.facebook.** {
+   *;
+}
 
 -dontwarn com.googlecode.**
 -dontwarn org.apache.**
