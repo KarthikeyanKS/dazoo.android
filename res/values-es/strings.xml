@@ -51,7 +51,7 @@
     <string name="likes">Me gusta</string>
     <string name="myprofile_my_channels">Selecciona tus canales</string>
     <string name="settings">Configuración</string>
-    <string name="myprofile_about_us">Sobre nosotros</string>
+    <string name="myprofile_about_us">Acerca de</string>
     <string name="myprofile_have_account">¿Tienes cuenta?</string>
     <string name="myprofile_logged_in_as">Conectado como:</string>
     <string name="myprofile_info">Regístrate para añadir tus programas favoritos</string>
@@ -80,8 +80,8 @@
     <!-- TERMS ACTIVITY -->
     <string name="terms_title">Términos y Condiciones de Uso</string>
     <string name="terms_header">Términos y Condiciones de Uso</string>
-    <string name="terms_info"> Puedes aprender más acerca de los términos y condiciones de uso relacionados con esta aplicación en nuestro sitio web.</string>
-    <string name="terms_link"><a href="http://www.mi.tv/terminos">Ve en el sitio web</a></string>
+    <string name="terms_info">Puedes aprender más acerca de los términos y condiciones de uso relacionados con esta aplicación en nuestro sitio web.</string>
+    <string name="terms_link"><a href="http://www.mi.tv/terminos">Ve al sitio web</a></string>
 
     <!-- BROADCAST PAGE -->
     <string name="cast_and_crew">Elenco</string>
