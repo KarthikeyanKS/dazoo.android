@@ -85,11 +85,24 @@ public class GATrackingManager {
 		mTracker.set(Consts.GA_KEY_DEVICE_ID, deviceId);
 		
 		/* Information regarding if the app was preinstalled or not */
-		mTracker.set(Consts.GA_KEY_APP_WAS_PREINSTALLED_SHARED_PREFS, wasPreinstalledSharedPrefs);
-		mTracker.set(Consts.GA_KEY_APP_WAS_PREINSTALLED_EXTERNAL_STORAGE, wasPreinstalledExternalStorage);
-		mTracker.set(Consts.GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_LOCATION, wasPreinstalledSystemAppLocation);
-		mTracker.set(Consts.GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_FLAG, wasPreinstalledSystemAppFlag);	
+		
+		/* APP_WAS_PREINSTALLED_SHARED_PREFS is at index 1 */
+		mTracker.set(Fields.customDimension(1), wasPreinstalledSharedPrefs);
+		
+		/* APP_WAS_PREINSTALLED_EXTERNAL_STORAGE is at index 2 */
+		mTracker.set(Fields.customDimension(2), wasPreinstalledExternalStorage);
+		
+		/* APP_WAS_PREINSTALLED_SYSTEM_APP_LOCATION is at index 3 */
+		mTracker.set(Fields.customDimension(3), wasPreinstalledSystemAppLocation);
+		
+		/* APP_WAS_PREINSTALLED_SYSTEM_APP_FLAG is at index 3 */
+		mTracker.set(Fields.customDimension(4), wasPreinstalledSystemAppFlag);
+		
+		/* Set the SAMPLE RATE */
 		mTracker.set(Fields.SAMPLE_RATE, sampleRateAsString);
+		
+		/* NOW SEND THE DATA!!!! */
+		mTracker.send(MapBuilder.createAppView().build());
 	}
 	
 	private String viewNameWithSuffix(String viewName) {
