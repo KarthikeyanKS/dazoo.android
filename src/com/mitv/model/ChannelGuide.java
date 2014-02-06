@@ -13,7 +13,7 @@ import android.os.Parcelable;
 import com.mitv.Consts;
 import com.mitv.utilities.DateUtilities;
 
-public class Guide extends ThreeImageResolutions implements Parcelable {
+public class ChannelGuide extends ThreeImageResolutions implements Parcelable {
 
 	private String id;
 	private String name;
@@ -23,10 +23,10 @@ public class Guide extends ThreeImageResolutions implements Parcelable {
 	/* Used for caching broadcast indexes */
 	private HashMap<Long, Integer> broadcastIndexCache = new HashMap<Long, Integer>();
 
-	public Guide() {
+	public ChannelGuide() {
 	}
 
-	public Guide(JSONObject jsonGuide) {
+	public ChannelGuide(JSONObject jsonGuide) {
 		this.setId(jsonGuide.optString(Consts.GUIDE_CHANNEL_ID));
 		this.setName(jsonGuide.optString(Consts.GUIDE_CHANNEL_NAME));
 
@@ -76,7 +76,7 @@ public class Guide extends ThreeImageResolutions implements Parcelable {
 		return this.broadcasts;
 	}
 
-	public Guide(Parcel in) {
+	public ChannelGuide(Parcel in) {
 		id = in.readString();
 		name = in.readString();
 		
@@ -108,8 +108,8 @@ public class Guide extends ThreeImageResolutions implements Parcelable {
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof Guide) {
-			Guide other = (Guide) o;
+		if (o instanceof ChannelGuide) {
+			ChannelGuide other = (ChannelGuide) o;
 			if (getId() != null && other.getId() != null && getId().equals(other.getId())) {
 				return true;
 			}
@@ -117,13 +117,13 @@ public class Guide extends ThreeImageResolutions implements Parcelable {
 		return false;
 	}
 
-	public static final Parcelable.Creator<Guide> CREATOR = new Parcelable.Creator<Guide>() {
-		public Guide createFromParcel(Parcel in) {
-			return new Guide(in);
+	public static final Parcelable.Creator<ChannelGuide> CREATOR = new Parcelable.Creator<ChannelGuide>() {
+		public ChannelGuide createFromParcel(Parcel in) {
+			return new ChannelGuide(in);
 		}
 
-		public Guide[] newArray(int size) {
-			return new Guide[size];
+		public ChannelGuide[] newArray(int size) {
+			return new ChannelGuide[size];
 		}
 	};
 

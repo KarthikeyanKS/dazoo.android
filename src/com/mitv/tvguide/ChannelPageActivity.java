@@ -37,7 +37,7 @@ import com.mitv.homepage.HomeActivity;
 import com.mitv.manager.MiTVCore;
 import com.mitv.model.Broadcast;
 import com.mitv.model.Channel;
-import com.mitv.model.Guide;
+import com.mitv.model.ChannelGuide;
 import com.mitv.model.TvDate;
 import com.mitv.myprofile.MyProfileActivity;
 import com.mitv.search.SearchPageActivity;
@@ -60,7 +60,7 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 	private ChannelPageListAdapter				mFollowingBroadcastsListAdapter;
 	private String								mChannelId, mDate, mTvGuideDate, token;
 	private TvDate								mTvDateSelected, mDateTvGuide;
-	private Guide								mChannelGuide;
+	private ChannelGuide								mChannelGuide;
 	private Channel								mChannel;
 	private ArrayList<Broadcast>				mBroadcasts, mFollowingBroadcasts;
 	private ArrayList<TvDate>					mTvDates;

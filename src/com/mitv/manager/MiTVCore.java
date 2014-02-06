@@ -41,7 +41,7 @@ import com.mitv.like.LikeService;
 import com.mitv.model.AdzerkAd;
 import com.mitv.model.Broadcast;
 import com.mitv.model.Channel;
-import com.mitv.model.Guide;
+import com.mitv.model.ChannelGuide;
 import com.mitv.model.Tag;
 import com.mitv.model.TvDate;
 import com.mitv.mychannels.MyChannelsService;
@@ -64,7 +64,7 @@ public class MiTVCore {
 	private static ArrayList<Channel>	mDefaultChannels	= new ArrayList<Channel>();
 	private static ArrayList<Channel>	mAllChannels		= new ArrayList<Channel>();
 	private static ArrayList<Tag>		mTags				= new ArrayList<Tag>();
-	private static ArrayList<Guide>		mGuides				= new ArrayList<Guide>();
+	private static ArrayList<ChannelGuide>		mGuide				= new ArrayList<ChannelGuide>();
 	private static ArrayList<String>	mMyChannelsIds		= new ArrayList<String>();
 	private static ArrayList<String>	mAllChannelsIds		= new ArrayList<String>();
 	private static ArrayList<String>	mDefaultChannelsIds	= new ArrayList<String>();
@@ -130,7 +130,7 @@ public class MiTVCore {
 	// prepare tagged broadcasts for the specific date
 	private static boolean prepareTaggedContent(TvDate date, boolean useMy) {
 		if (mTags != null && mTags.isEmpty() != true) {
-			if (mGuides != null && mGuides.isEmpty() != true) {
+			if (mGuide != null && mGuide.isEmpty() != true) {
 				for (int i = 1; i < mTags.size(); i++) {
 					ArrayList<Broadcast> taggedBroadcasts = null;
 					
@@ -518,14 +518,14 @@ public class MiTVCore {
 			SSGuidePage.getInstance().getPage(guidePageUrl, new SSPageCallback() {
 				@Override
 				public void onGetPageResult(SSPageGetResult aPageGetResult) {
-					mGuides = SSGuidePage.getInstance().getGuide();
+					mGuide = SSGuidePage.getInstance().getGuide();
 
-					if (mGuides != null && mGuides.isEmpty() != true) {
+					if (mGuide != null && mGuide.isEmpty() != true) {
 						boolean guideSaveOperationSuccessfull;
 						if (loggedIn) {
-							guideSaveOperationSuccessfull = MiTVStoreOperations.saveMyGuides(mGuides, mDate.getDate());
+							guideSaveOperationSuccessfull = MiTVStoreOperations.saveMyGuides(mGuide, mDate.getDate());
 						} else {
-							guideSaveOperationSuccessfull = MiTVStoreOperations.saveGuides(mGuides, mDate.getDate());
+							guideSaveOperationSuccessfull = MiTVStoreOperations.saveGuides(mGuide, mDate.getDate());
 						}
 							
 						if(guideSaveOperationSuccessfull) {
@@ -551,7 +551,7 @@ public class MiTVCore {
 					}
 				}
 			});
-			mGuides = null;
+			mGuide = null;
 			return null;
 		}
 
@@ -692,10 +692,10 @@ public class MiTVCore {
 			}
 		}
 
-		if (mGuides != null) {
-			if (!mGuides.isEmpty()) {
-				mGuides.clear();
-				mGuides = new ArrayList<Guide>();
+		if (mGuide != null) {
+			if (!mGuide.isEmpty()) {
+				mGuide.clear();
+				mGuide = new ArrayList<ChannelGuide>();
 			}
 		}
 

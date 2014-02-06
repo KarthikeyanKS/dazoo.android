@@ -30,7 +30,7 @@ import com.mitv.adapters.TVGuideTagListAdapter;
 import com.mitv.content.SSPageFragment;
 import com.mitv.customviews.SwipeClockBar;
 import com.mitv.model.Broadcast;
-import com.mitv.model.Guide;
+import com.mitv.model.ChannelGuide;
 import com.mitv.model.Tag;
 import com.mitv.model.TvDate;
 import com.mitv.storage.MiTVStore;
@@ -44,7 +44,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 	private Activity				mActivity;
 	private ListView				mTVGuideListView;
 	private ImageView				mClockIv;
-	private ArrayList<Guide>		mGuides;
+	private ArrayList<ChannelGuide>		mGuides;
 	private TvDate					mTvDate;
 	private Tag						mTag;
 	private int						mTvDatePosition;

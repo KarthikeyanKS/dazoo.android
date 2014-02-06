@@ -10,7 +10,7 @@ import android.util.Log;
 
 import com.mitv.model.Broadcast;
 import com.mitv.model.Channel;
-import com.mitv.model.Guide;
+import com.mitv.model.ChannelGuide;
 import com.mitv.model.Tag;
 import com.mitv.model.TvDate;
 
@@ -71,9 +71,9 @@ public class MiTVStoreOperations {
 		mitvStore.setTags(tags);
 	}
 
-	public static boolean saveGuide(Guide guide, String tvDate, String channelId) {
+	public static boolean saveGuide(ChannelGuide guide, String tvDate, String channelId) {
 		MiTVStore mitvStore = MiTVStore.getInstance();
-		HashMap<GuideKey, Guide> guides = mitvStore.getGuides();
+		HashMap<GuideKey, ChannelGuide> guides = mitvStore.getGuides();
 		GuideKey guideKey = new GuideKey();
 		guideKey.setDate(tvDate);
 		guideKey.setChannelId(channelId);
@@ -84,9 +84,9 @@ public class MiTVStoreOperations {
 		return true;
 	}
 
-	public static boolean saveMyGuide(Guide guide, String tvDate, String channelId) {
+	public static boolean saveMyGuide(ChannelGuide guide, String tvDate, String channelId) {
 		MiTVStore mitvStore = MiTVStore.getInstance();
-		HashMap<GuideKey, Guide> myGuides = mitvStore.getMyGuides();
+		HashMap<GuideKey, ChannelGuide> myGuides = mitvStore.getMyGuides();
 
 		GuideKey guideKey = new GuideKey();
 		guideKey.setDate(tvDate);
@@ -96,24 +96,24 @@ public class MiTVStoreOperations {
 		return true;
 	}
 
-	public static boolean saveGuides(ArrayList<Guide> guide, String tvDate) {
+	public static boolean saveGuides(ArrayList<ChannelGuide> guide, String tvDate) {
 		int size = guide.size();
 		boolean success = false;
 		for (int i = 0; i < size; i++) {
 			String channelId = guide.get(i).getId();
-			Guide guideToSave = guide.get(i);
+			ChannelGuide guideToSave = guide.get(i);
 			saveGuide(guideToSave, tvDate, channelId);
 			success = true;
 		}
 		return success;
 	}
 
-	public static boolean saveMyGuides(ArrayList<Guide> myGuide, String tvDate) {
+	public static boolean saveMyGuides(ArrayList<ChannelGuide> myGuide, String tvDate) {
 		int size = myGuide.size();
 		boolean success = false;
 		for (int j = 0; j < size; j++) {
 			String channelId = myGuide.get(j).getId();
-			Guide myGuideToSave = myGuide.get(j);
+			ChannelGuide myGuideToSave = myGuide.get(j);
 			saveMyGuide(myGuideToSave, tvDate, channelId);
 			success = true;
 		}
@@ -147,7 +147,7 @@ public class MiTVStoreOperations {
 	// filtering guides by tags
 	public static ArrayList<Broadcast> getTaggedBroadcasts(String date, Tag tag) {
 		MiTVStore mitvStore = MiTVStore.getInstance();
-		ArrayList<Guide> guideTable = mitvStore.getGuideTable(date);
+		ArrayList<ChannelGuide> guideTable = mitvStore.getGuideTable(date);
 		String tagName = tag.getId();
 		
 		ArrayList<Broadcast> taggedBroadcasts = new ArrayList<Broadcast>();
@@ -185,7 +185,7 @@ public class MiTVStoreOperations {
 
 	public static ArrayList<Broadcast> getMyTaggedBroadcasts(String date, Tag tag) {
 		MiTVStore mitvStore = MiTVStore.getInstance();
-		ArrayList<Guide> guideTable = mitvStore.getMyGuideTable(date);
+		ArrayList<ChannelGuide> guideTable = mitvStore.getMyGuideTable(date);
 		String tagName = tag.getId();
 		
 		ArrayList<Broadcast> taggedBroadcasts = new ArrayList<Broadcast>();

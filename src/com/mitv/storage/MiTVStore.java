@@ -8,7 +8,7 @@ import com.mitv.model.AdzerkAd;
 import com.mitv.model.Broadcast;
 import com.mitv.model.Channel;
 import com.mitv.model.FeedItem;
-import com.mitv.model.Guide;
+import com.mitv.model.ChannelGuide;
 import com.mitv.model.Tag;
 import com.mitv.model.TvDate;
 
@@ -28,8 +28,8 @@ public class MiTVStore {
 
 	private ArrayList<Tag>								mTags				= new ArrayList<Tag>();
 	private HashMap<String, HashMap<Integer, AdzerkAd>> mFragmentToAdsMap 	= new HashMap<String, HashMap<Integer, AdzerkAd>>();
-	private HashMap<GuideKey, Guide>					mGuides				= new HashMap<GuideKey, Guide>();
-	private HashMap<GuideKey, Guide>					mMyGuides			= new HashMap<GuideKey, Guide>();
+	private HashMap<GuideKey, ChannelGuide>					mGuides				= new HashMap<GuideKey, ChannelGuide>();
+	private HashMap<GuideKey, ChannelGuide>					mMyGuides			= new HashMap<GuideKey, ChannelGuide>();
 	private HashMap<BroadcastKey, ArrayList<Broadcast>>	mTaggedBroadcasts	= new HashMap<BroadcastKey, ArrayList<Broadcast>>();
 	private HashMap<BroadcastKey, ArrayList<Broadcast>>	mMyTaggedBroadcasts	= new HashMap<BroadcastKey, ArrayList<Broadcast>>();
 
@@ -194,28 +194,28 @@ public class MiTVStore {
 	}
 
 	// guide
-	public void setGuides(HashMap<GuideKey, Guide> guides) {
+	public void setGuides(HashMap<GuideKey, ChannelGuide> guides) {
 		this.mGuides = guides;
 	}
 
-	public HashMap<GuideKey, Guide> getGuides() {
+	public HashMap<GuideKey, ChannelGuide> getGuides() {
 		return this.mGuides;
 	}
 
-	public void setMyGuides(HashMap<GuideKey, Guide> myGuides) {
+	public void setMyGuides(HashMap<GuideKey, ChannelGuide> myGuides) {
 		this.mMyGuides = myGuides;
 	}
 
-	public HashMap<GuideKey, Guide> getMyGuides() {
+	public HashMap<GuideKey, ChannelGuide> getMyGuides() {
 		return this.mMyGuides;
 	}
 
-	public Guide getChannelGuideFromDefault(String tvDate, String channelId) {
+	public ChannelGuide getChannelGuideFromDefault(String tvDate, String channelId) {
 		GuideKey currentKey = new GuideKey();
 		currentKey.setDate(tvDate);
 		currentKey.setChannelId(channelId);
 
-		for (Entry<GuideKey, Guide> entry : mGuides.entrySet()) {
+		for (Entry<GuideKey, ChannelGuide> entry : mGuides.entrySet()) {
 			if ((entry.getKey().getChannelId().equals(currentKey.getChannelId())) & (entry.getKey().getDate().equals(currentKey.getDate()))) {
 				return entry.getValue();
 			}
@@ -223,12 +223,12 @@ public class MiTVStore {
 		return null;
 	}
 
-	public Guide getChannelGuideFromMy(String tvDate, String channelId) {
+	public ChannelGuide getChannelGuideFromMy(String tvDate, String channelId) {
 		GuideKey currentKey = new GuideKey();
 		currentKey.setDate(tvDate);
 		currentKey.setChannelId(channelId);
 
-		for (Entry<GuideKey, Guide> entry : mMyGuides.entrySet()) {
+		for (Entry<GuideKey, ChannelGuide> entry : mMyGuides.entrySet()) {
 			if ((entry.getKey().getChannelId().equals(currentKey.getChannelId())) && (entry.getKey().getDate().equals(currentKey.getDate()))) {
 				return entry.getValue();
 			}
@@ -236,11 +236,11 @@ public class MiTVStore {
 		return null;
 	}
 
-	public ArrayList<Guide> getMyGuideTable(String tvDate) {
-		ArrayList<Guide> myGuideTable = new ArrayList<Guide>();
+	public ArrayList<ChannelGuide> getMyGuideTable(String tvDate) {
+		ArrayList<ChannelGuide> myGuideTable = new ArrayList<ChannelGuide>();
 		int size = mMyChannelIds.size();
 		for (int i = 0; i < size; i++) {
-			Guide myGuide = getChannelGuideFromMy(tvDate, mMyChannelIds.get(i));
+			ChannelGuide myGuide = getChannelGuideFromMy(tvDate, mMyChannelIds.get(i));
 			if (myGuide != null) {
 				myGuideTable.add(myGuide);
 			}
@@ -248,11 +248,11 @@ public class MiTVStore {
 		return myGuideTable;
 	}
 
-	public ArrayList<Guide> getGuideTable(String tvDate) {
-		ArrayList<Guide> guideTable = new ArrayList<Guide>();
+	public ArrayList<ChannelGuide> getGuideTable(String tvDate) {
+		ArrayList<ChannelGuide> guideTable = new ArrayList<ChannelGuide>();
 		int size = mDefaultChannelIds.size();
 		for (int i = 0; i < size; i++) {
-			Guide guide = getChannelGuideFromDefault(tvDate, mDefaultChannelIds.get(i));
+			ChannelGuide guide = getChannelGuideFromDefault(tvDate, mDefaultChannelIds.get(i));
 			if (guide != null) {
 				guideTable.add(guide);
 
@@ -298,7 +298,7 @@ public class MiTVStore {
 	}
 
 	public Broadcast getBroadcastFromDefault(String date, String channelId, long beginTimeInMillis) {
-		Guide channelGuide = getChannelGuideFromDefault(date, channelId);
+		ChannelGuide channelGuide = getChannelGuideFromDefault(date, channelId);
 		ArrayList<Broadcast> channelBroadcasts = channelGuide.getBroadcasts();
 		int size = channelBroadcasts.size();
 
@@ -312,7 +312,7 @@ public class MiTVStore {
 	}
 
 	public Broadcast getBroadcastFromMy(String date, String channelId, long beginTimeInMillis) {
-		Guide myChannelGuide = getChannelGuideFromMy(date, channelId);
+		ChannelGuide myChannelGuide = getChannelGuideFromMy(date, channelId);
 		if(myChannelGuide != null) {
 			ArrayList<Broadcast> myChannelBroadcasts = myChannelGuide.getBroadcasts();
 			int size = myChannelBroadcasts.size();
@@ -380,7 +380,7 @@ public class MiTVStore {
 	public void clearMyGuidesStorage() {
 		this.mMyGuides.clear();
 		this.mMyTaggedBroadcasts.clear();
-		this.mMyGuides = new HashMap<GuideKey, Guide>();
+		this.mMyGuides = new HashMap<GuideKey, ChannelGuide>();
 		this.mMyTaggedBroadcasts = new HashMap<BroadcastKey, ArrayList<Broadcast>>();
 	}
 
@@ -393,8 +393,8 @@ public class MiTVStore {
 		this.mDefaultChannelIds = new ArrayList<String>();
 		this.mMyChannels = new HashMap<String, Channel>();
 		this.mMyChannelIds = new ArrayList<String>();
-		this.mGuides = new HashMap<GuideKey, Guide>();
-		this.mMyGuides = new HashMap<GuideKey, Guide>();
+		this.mGuides = new HashMap<GuideKey, ChannelGuide>();
+		this.mMyGuides = new HashMap<GuideKey, ChannelGuide>();
 		this.mTaggedBroadcasts = new HashMap<BroadcastKey, ArrayList<Broadcast>>();
 		this.mMyTaggedBroadcasts = new HashMap<BroadcastKey, ArrayList<Broadcast>>();
 		this.mLikeIds = new ArrayList<String>();
@@ -405,8 +405,8 @@ public class MiTVStore {
 		this.mMyGuides.clear();
 		this.mTaggedBroadcasts.clear();
 		this.mMyTaggedBroadcasts.clear();
-		this.mGuides = new HashMap<GuideKey, Guide>();
-		this.mMyGuides = new HashMap<GuideKey, Guide>();
+		this.mGuides = new HashMap<GuideKey, ChannelGuide>();
+		this.mMyGuides = new HashMap<GuideKey, ChannelGuide>();
 		this.mTaggedBroadcasts = new HashMap<BroadcastKey, ArrayList<Broadcast>>();
 		this.mMyTaggedBroadcasts = new HashMap<BroadcastKey, ArrayList<Broadcast>>();
 	}

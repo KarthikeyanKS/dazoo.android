@@ -17,7 +17,7 @@ import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.TagTypeFragmentStatePagerAdapter;
 import com.mitv.manager.MiTVCore;
-import com.mitv.model.Guide;
+import com.mitv.model.ChannelGuide;
 import com.mitv.model.Tag;
 import com.mitv.model.TvDate;
 import com.mitv.storage.MiTVStore;
