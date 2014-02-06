@@ -161,17 +161,6 @@
                 android:value="com.mitv.myprofile.MyProfileActivity" />
         </activity>
 
-        <!-- HELP -->
-        <activity
-            android:name="com.mitv.myprofile.HelpActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"
-            android:theme="@style/WhiteTitleActionBar" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.myprofile.SettingsActivity" />
-        </activity>
-
         <!-- BROADCAST PAGE -->
         <activity
             android:name="com.mitv.tvguide.BroadcastPageActivity"
