@@ -42,7 +42,7 @@ public class RepetitionsPageActivity extends SSActivity implements OnClickListen
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_repeating_list_activity);
 
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 

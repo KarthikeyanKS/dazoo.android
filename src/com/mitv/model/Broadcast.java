@@ -231,14 +231,16 @@ public class Broadcast implements Parcelable {
 	public boolean equals(Object o) {
 		if (o instanceof Broadcast) {
 			Broadcast other = (Broadcast) o;
-			if (getBeginTimeMillisGmt() != 0 && other.getBeginTimeMillisGmt() != 0 && getBeginTimeMillisGmt() == other.getBeginTimeMillisGmt()
-					&& getChannel().getChannelId() != null && other.getChannel().getChannelId() != null
-					&& (getChannel().getChannelId()).equals(other.getChannel().getChannelId())) {
-				return true;
+			if (other != null && other.getChannel() != null) {
+				if (getBeginTimeMillisGmt() != 0 && other.getBeginTimeMillisGmt() != 0 && getBeginTimeMillisGmt() == other.getBeginTimeMillisGmt()
+						&& getChannel().getChannelId() != null && other.getChannel().getChannelId() != null
+						&& (getChannel().getChannelId()).equals(other.getChannel().getChannelId())) {
+					return true;
+				}
 			}
 		}
 		return false;
-	}		
+	}	
 
 	public Broadcast(Parcel in) {
 		channel = (Channel) in.readParcelable(Channel.class.getClassLoader());

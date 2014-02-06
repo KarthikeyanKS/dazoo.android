@@ -59,7 +59,7 @@ public class FacebookLoginActivity extends SSSignInSignupBaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_facebooklogin_activity);
 
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 		
 		Intent intent = getIntent();
 		if (intent.hasExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY)) {
@@ -140,7 +140,7 @@ public class FacebookLoginActivity extends SSSignInSignupBaseActivity {
 							if (getMiTVToken()) {
 
 								// for beta-release - direct to the HomePage even if it is first time user
-								boolean firstTime = ((SecondScreenApplication) getApplicationContext()).getUserExistringFlag();
+								boolean firstTime = ((SecondScreenApplication) getApplicationContext()).getUserExistingFlag();
 								// if (firstTime) {
 								// // first time registration/login
 								// // go to facebook mitv login success page

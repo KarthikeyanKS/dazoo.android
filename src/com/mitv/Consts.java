@@ -53,7 +53,7 @@ public abstract class Consts {
 	public static final String URL_REGISTER 						= URL_SERVER + "auth/login/dazoo/register";
 	public static final String URL_RESET_PASSWORD 					= URL_SERVER + "auth/login/dazoo/sendResetPasswordEmail";
 	public static final String URL_TAGS_PAGE 						= URL_SERVER + "epg/tags/visible";
-	public static final String URL_MY_CHANNELS 						= URL_SERVER + "my/channels";
+	public static final String URL_MY_CHANNEL_IDS 					= URL_SERVER + "my/channels";
 	public static final String URL_LIKES 							= URL_SERVER + "my/likes";
 	public static final String URL_LIKES_WITH_UPCOMING 				= URL_SERVER + "my/likes/broadcasts";
 	public static final String URL_ACTIVITY_FEED 					= URL_SERVER + "my/feed";
@@ -166,7 +166,6 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_LOG_OUT_ACTION							= "com.mitv.intent.extra.log.out.action";
 	public static final String	INTENT_EXTRA_LOG_IN_ACTION							= "com.mitv.intent.extra.log.in.action";
 	public static final String	INTENT_EXTRA_SIGN_UP_ACTION							= "com.mitv.intent.extra.sign.up.action";
-	public static final String	INTENT_EXTRA_DATA_FETCHING							= "com.mitv.intent.extra.log.in.action";
 	public static final String	INTENT_EXTRA_UPCOMING_BROADCASTS					= "com.mitv.intent.extra.upcoming.broadcasts";
 	public static final String	INTENT_EXTRA_REPEATING_BROADCASTS					= "com.mitv.intent.extra.repeating.broadcasts";
 	public static final String	INTENT_EXTRA_REPEATING_PROGRAM						= "com.mitv.intent.extra.repeating.program";

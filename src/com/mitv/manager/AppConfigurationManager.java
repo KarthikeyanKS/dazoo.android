@@ -97,7 +97,7 @@ public class AppConfigurationManager {
 	public static String replaceDashWithEnDash(String googleAnalyticsTrackingId) {
 		String replacedOrSame = googleAnalyticsTrackingId;
 		if (containsWrongDashChars(googleAnalyticsTrackingId)) {
-			Log.e(TAG, String.format(SecondScreenApplication.getCurrentLocale(), "GoogleAnalytics TrackingID (%s) contains ordinary dash instead of 'en dash' => replacing with 'en dash' chars!", googleAnalyticsTrackingId));
+			Log.d(TAG, String.format(SecondScreenApplication.getCurrentLocale(), "GoogleAnalytics TrackingID (%s) contains ordinary dash instead of 'en dash' => replacing with 'en dash' chars!", googleAnalyticsTrackingId));
 			replacedOrSame = googleAnalyticsTrackingId.replace("-", "Ð");
 		}
 		return replacedOrSame;

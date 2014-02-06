@@ -50,9 +50,9 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 	private LinearLayout			mBlockContainer;
 	private ActionBar				mActionBar;
 	private Channel					mChannel;
-	private String					token, mChannelId, mBroadcastPageUrl;
+	private String					mChannelId, mBroadcastPageUrl;
 	private long					mBeginTimeInMillis;
-	private boolean					mIsFromNotification	= false, mIsFromActivity = false, mIsLoggedIn = false, mIsBroadcast = false, mIsUpcoming = false, mIsSeries = false, mIsRepeat = false,
+	private boolean					mIsFromNotification	= false, mIsFromActivity = false, mIsBroadcast = false, mIsUpcoming = false, mIsSeries = false, mIsRepeat = false,
 			mIsFromProfile = false;
 	private RelativeLayout			mTabTvGuide, mTabActivity, mTabProfile;
 	private View mTabDividerLeft, mTabDividerRight;
@@ -136,17 +136,15 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 		if (!NetworkUtils.checkConnection(mActivity)) {
 			updateUI(REQUEST_STATUS.FAILED);
 		} else {
-			token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 			if (mBroadcastPageUrl == null)
 				mBroadcastPageUrl = Consts.URL_NOTIFY_BROADCAST_PREFIX + mChannelId + Consts.NOTIFY_BROADCAST_URL_MIDDLE + mBeginTimeInMillis;
 
 			if (!mIsFromActivity) {
 				if (!mIsFromNotification) {
-					if (token != null && TextUtils.isEmpty(token) != true) {
+					if (SecondScreenApplication.isLoggedIn()) {
 						Log.d(TAG, "LOGGED IN!");
-						mIsLoggedIn = true;
-						mBroadcast = mitvStore.getBroadcastFromMy(mTvDate, mChannelId, mBeginTimeInMillis);
-						mChannel = mitvStore.getChannelFromAll(mChannelId);
+						mBroadcast = mitvStore.getBroadcast(mTvDate, mChannelId, mBeginTimeInMillis);
+						mChannel = mitvStore.getChannelById(mChannelId);
 
 						if (mBroadcast != null) {
 							loadIndividualBroadcast = false;
@@ -180,7 +178,7 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 			if (loadIndividualBroadcast) {
 				Log.d(TAG, "NOT LOGGED IN");
 				if (useStandardChannel) {
-					mChannel = mitvStore.getChannelFromDefault(mChannelId);
+					mChannel = mitvStore.getChannelById(mChannelId);
 				}
 
 				getIndividualBroadcast(mBroadcastPageUrl);
@@ -207,7 +205,7 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 
 					// if we have the data in the singleton about the channel - set it completely
 					if(mBroadcast.getChannel() == null) {
-						mChannel = mitvStore.getChannelFromAll(mChannelId);
+						mChannel = mitvStore.getChannelById(mChannelId);
 						if (mChannel != null) {
 							mBroadcast.setChannel(mChannel);
 	
@@ -279,7 +277,7 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 		Log.d(TAG, "populateBlocks");
 
 		// add main content block
-		BroadcastMainBlockPopulator mainBlockPopulator = new BroadcastMainBlockPopulator(mActivity, mScrollView, token);
+		BroadcastMainBlockPopulator mainBlockPopulator = new BroadcastMainBlockPopulator(mActivity, mScrollView);
 		mainBlockPopulator.createBlock(mBroadcast);
 
 		// Remove upcoming broadcasts with season 0 and episode 0
@@ -329,7 +327,7 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 	}
 
 	@Override

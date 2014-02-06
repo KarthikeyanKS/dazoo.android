@@ -86,14 +86,14 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 		mitvStore = MiTVStore.getInstance();
 
 		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
+
+		mChannel = mitvStore.getChannelById(mChannelId);
 		if (token != null && TextUtils.isEmpty(token) != true) {
 			mIsLoggedIn = true;
-			mChannel = mitvStore.getChannelFromAll(mChannelId);
-			mChannelGuide = mitvStore.getChannelGuideFromMy(mDateTvGuide.getDate(), mChannelId);
-		} else {
-			mChannel = mitvStore.getChannelFromDefault(mChannelId);
-			mChannelGuide = mitvStore.getChannelGuideFromDefault(mDateTvGuide.getDate(), mChannelId);
+			mChannel = mitvStore.getChannelById(mChannelId);
 		}
+		
+		mChannelGuide = mitvStore.getChannelGuide(mDateTvGuide.getDate(), mChannelId);
 
 		mBroadcasts = mChannelGuide.getBroadcasts();
 		mTvDates = mitvStore.getTvDates();
@@ -124,11 +124,9 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 		public void onReceive(Context context, Intent intent) {
 			mIsReady = intent.getBooleanExtra(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE_VALUE, false);
 			if (mIsReady) {
-				if (mIsLoggedIn) {
-					mChannelGuide = mitvStore.getChannelGuideFromMy(mTvDateSelected.getDate(), mChannelId);
-				} else {
-					mChannelGuide = mitvStore.getChannelGuideFromDefault(mTvDateSelected.getDate(), mChannelId);
-				}
+
+				mChannelGuide = mitvStore.getChannelGuide(mTvDateSelected.getDate(), mChannelId);
+				
 				mBroadcasts = mChannelGuide.getBroadcasts();
 				mFollowingBroadcasts = null;
 				mFollowingBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());
@@ -160,11 +158,8 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 		updateIsToday();
 		mChannelGuide = null;
 		mBroadcasts = null;
-		if (mIsLoggedIn) {
-			mChannelGuide = mitvStore.getChannelGuideFromMy(mTvDateSelected.getDate(), mChannelId);
-		} else {
-			mChannelGuide = mitvStore.getChannelGuideFromDefault(mTvDateSelected.getDate(), mChannelId);
-		}
+
+		mChannelGuide = mitvStore.getChannelGuide(mTvDateSelected.getDate(), mChannelId);
 
 		if (mChannelGuide != null) {
 			mBroadcasts = mChannelGuide.getBroadcasts();
@@ -318,7 +313,7 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 	}
 
 	@Override

@@ -141,16 +141,8 @@ public class TVGuideTableFragment extends SSPageFragment {
 		// read the data from the mitvStore singleton
 		if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
 
-			if (mIsLoggedIn) {
-				mGuides = mitvStore.getMyGuideTable(mTvDate.getDate());
-				Log.d(TAG, "My date: " + mTvDate.getDate());
-				Log.d(TAG, "MY mGuides size: " + mGuides.size());
 
-			} else {
-				mGuides = mitvStore.getGuideTable(mTvDate.getDate());
-				Log.d(TAG, "date: " + mTvDate.getDate());
-				Log.d(TAG, "mGuides size: " + mGuides.size());
-			}
+			mGuides = mitvStore.getGuideTable(mTvDate.getDate());
 		} else {
 			if (mIsLoggedIn) {
 				mTaggedBroadcasts = mitvStore.getMyTaggedBroadcasts(mTvDate, mTag);
