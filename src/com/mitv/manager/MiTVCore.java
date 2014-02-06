@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -41,7 +42,7 @@ import com.mitv.like.LikeService;
 import com.mitv.model.AdzerkAd;
 import com.mitv.model.Broadcast;
 import com.mitv.model.Channel;
-import com.mitv.model.Guide;
+import com.mitv.model.ChannelGuide;
 import com.mitv.model.Tag;
 import com.mitv.model.TvDate;
 import com.mitv.mychannels.MyChannelsService;
@@ -51,23 +52,16 @@ import com.mitv.storage.MiTVStoreOperations;
 public class MiTVCore {
 	private static final String			TAG					= "MiTVCore";
 	private static Context				mContext;
-	private static String				token;
 	private static int					mDateIndex			= 0;
-	private static boolean				mIsTvDate			= false;
-	private static boolean				mIsTags				= false;
-	private static boolean				mIsDefaultChannels	= false;
-	public static boolean				mIsAllChannels		= false;
-	public static boolean				mIsMyChannels		= false;
-	private static boolean				mIsGuide			= false;
+	private static boolean				mHasFetchedTvDate			= false;
+	private static boolean				mHasFetchedTags				= false;
+	private static boolean				mHasFetchedChannels			= false;
 
-	private static ArrayList<TvDate>	mTvDates			= new ArrayList<TvDate>();
-	private static ArrayList<Channel>	mDefaultChannels	= new ArrayList<Channel>();
-	private static ArrayList<Channel>	mAllChannels		= new ArrayList<Channel>();
-	private static ArrayList<Tag>		mTags				= new ArrayList<Tag>();
-	private static ArrayList<Guide>		mGuides				= new ArrayList<Guide>();
-	private static ArrayList<String>	mMyChannelsIds		= new ArrayList<String>();
-	private static ArrayList<String>	mAllChannelsIds		= new ArrayList<String>();
-	private static ArrayList<String>	mDefaultChannelsIds	= new ArrayList<String>();
+	private static ArrayList<TvDate>		mTvDates		= new ArrayList<TvDate>();
+	private static ArrayList<Channel>		mChannels		= new ArrayList<Channel>();
+	private static ArrayList<Tag>			mTags			= new ArrayList<Tag>();
+	private static ArrayList<ChannelGuide>	mChannelGuides	= new ArrayList<ChannelGuide>();
+	private static ArrayList<String>		mChannelsIds	= new ArrayList<String>();
 	
 
 	// private constructor prevents instantiation from other classes
@@ -83,78 +77,66 @@ public class MiTVCore {
 
 	public static MiTVCore getInstance(Context context, int dateIndex) {
 		mContext = context;
-		token = ((SecondScreenApplication) context.getApplicationContext()).getAccessToken();
 		mDateIndex = dateIndex;
 		return MiTVCoreHolder.INSTANCE;
 	}
 
 	public void fetchContent() {
-		getTagsDatesChannels();
+		getDates();
+		getTags();
+		getChannels();
 	}
+	
 
-	private static void getTagsDatesChannels() {
-		if (MiTVStore.getInstance().getTvDates() == null || MiTVStore.getInstance().getTvDates().isEmpty()) {
-			GetTvDates tvDatesTask = new GetTvDates();
-			tvDatesTask.execute();
-		}
-
+	private void getTags() {
 		if (MiTVStore.getInstance().getTags() == null || MiTVStore.getInstance().getTags().isEmpty()) {
 			GetTags tagsTask = new GetTags();
 			tagsTask.execute();
 		}
-
-		if (token != null && TextUtils.isEmpty(token) != true) {
-
-			// get all channels
-			if (MiTVStore.getInstance().getAllChannels() == null || MiTVStore.getInstance().getAllChannels().isEmpty()) {
-				GetAllChannels allChannelsTask = new GetAllChannels();
+	}
+	
+	private void getDates() {
+		if (MiTVStore.getInstance().getTvDates() == null || MiTVStore.getInstance().getTvDates().isEmpty()) {
+			GetTvDates tvDatesTask = new GetTvDates();
+			tvDatesTask.execute();
+		}
+	}
+	
+	private void getChannels() {
+		HashMap<String, Channel> allChannels = MiTVStore.getInstance().getDisplayedChannels();
+		
+		/* Channels not fetched, go fetch!!! */
+		if (allChannels == null || allChannels.isEmpty()) {
+			
+			/* If logged in, fetch ALL channels, and fetch your selected channels ids using the 'MyChannelService' */
+			if (SecondScreenApplication.isLoggedIn()) {
+				MyChannelsService.getMyChannels();
+				GetAllChannelsTask allChannelsTask = new GetAllChannelsTask();
 				allChannelsTask.execute();
-
-				// get info only about user channels
-				if (MyChannelsService.getMyChannels(token)) {
-					mMyChannelsIds = MiTVStore.getInstance().getMyChannelIds();
-					mIsMyChannels = true;
-				} else {
-					mDefaultChannelsIds = MiTVStore.getInstance().getDefaultChannelIds();
-				}
-			}
-		} else {
-			if (MiTVStore.getInstance().getDefaultChannels() == null || MiTVStore.getInstance().getDefaultChannels().isEmpty()) {
-				// get the default package of channels
-				GetDefaultChannels defaultChannelsTask = new GetDefaultChannels();
+			} else {
+				GetDefaultChannelsTask defaultChannelsTask = new GetDefaultChannelsTask();
 				defaultChannelsTask.execute();
 			}
+		} else {
+			/* Channels already fetched, try fetch guide */
+			mHasFetchedChannels = true;
+			getGuide(mDateIndex, false);
 		}
 	}
 
 	// prepare tagged broadcasts for the specific date
-	private static boolean prepareTaggedContent(TvDate date, boolean useMy) {
+	private static boolean prepareTaggedContent(TvDate date) {
 		if (mTags != null && mTags.isEmpty() != true) {
-			if (mGuides != null && mGuides.isEmpty() != true) {
+			if (mChannelGuides != null && mChannelGuides.isEmpty() != true) {
 				for (int i = 1; i < mTags.size(); i++) {
 					ArrayList<Broadcast> taggedBroadcasts = null;
-					
-					if(useMy) {
-						taggedBroadcasts = MiTVStoreOperations.getMyTaggedBroadcasts(date.getDate(), mTags.get(i));
-						MiTVStoreOperations.saveMyTaggedBroadcast(date, mTags.get(i), taggedBroadcasts);
-					} else {
-						taggedBroadcasts = MiTVStoreOperations.getTaggedBroadcasts(date.getDate(), mTags.get(i));
-						MiTVStoreOperations.saveTaggedBroadcast(date, mTags.get(i), taggedBroadcasts);
-					}
+					taggedBroadcasts = MiTVStoreOperations.getTaggedBroadcasts(date.getDate(), mTags.get(i));
+					MiTVStoreOperations.saveTaggedBroadcast(date, mTags.get(i), taggedBroadcasts);
 				}
 				return true;
 			}
 		}
 		return false;
-	}
-	
-	private static boolean prepareTaggedContent(TvDate date) {
-		return prepareTaggedContent(date, false);
-	}
-
-	// prepare my tagged broadcasts for the specific date
-	private static boolean prepareMyTaggedContent(TvDate date) {
-		return prepareTaggedContent(date, true);
 	}
 	
 	// task to get the tv-dates
@@ -170,7 +152,7 @@ public class MiTVCore {
 					if (mTvDates != null && mTvDates.isEmpty() != true) {
 						Log.d(TAG, "Dates: " + mTvDates.size());
 						MiTVStore.getInstance().setTvDates(mTvDates);
-						mIsTvDate = true;
+						mHasFetchedTvDate = true;
 
 						// attempt the common callback interface
 						getGuide(mDateIndex, false);
@@ -204,7 +186,7 @@ public class MiTVCore {
 						mTags.add(0, tagAll);
 
 						MiTVStore.getInstance().setTags(mTags);
-						mIsTags = true;
+						mHasFetchedTags = true;
 						// attempt the get the guide
 						getGuide(mDateIndex, false);
 					} else {
@@ -217,21 +199,26 @@ public class MiTVCore {
 	}
 
 	// task to get all channels to be listed in the channel selection list under MyProfile/MyChannels
-	private static class GetAllChannels extends AsyncTask<String, String, Void> {
+	private static class GetChannelsTask extends AsyncTask<String, String, Void> {
 
 		@Override
 		protected Void doInBackground(String... params) {
-			SSChannelPage.getInstance().getPage(Consts.URL_CHANNELS_ALL, new SSPageCallback() {
+			
+			String getChannelsBaseUrl = params[0];
+			
+			SSChannelPage.getInstance().getPage(getChannelsBaseUrl, new SSPageCallback() {
 				@Override
 				public void onGetPageResult(SSPageGetResult aPageGetResult) {
-					mAllChannels = SSChannelPage.getInstance().getChannels();
+					ArrayList<Channel>	channels = SSChannelPage.getInstance().getChannels();
+					mChannels = channels;
 
-					if (mAllChannels != null && mAllChannels.isEmpty() != true) {
-						Log.d(TAG, "ALL Channels: " + mAllChannels.size());
+					if (mChannels != null && mChannels.isEmpty() != true) {
+						Log.d(TAG, "ALL Channels: " + mChannels.size());
 						// store the list channels (used in the my profile/my guide)
-						MiTVStoreOperations.saveAllChannels(mAllChannels);
-						mIsAllChannels = true;
+						MiTVStoreOperations.saveChannels(mChannels);
 
+						mHasFetchedChannels = true;
+						
 						// attempt the common callback interface
 						getGuide(mDateIndex, false);
 					} else {
@@ -242,31 +229,21 @@ public class MiTVCore {
 			return null;
 		}
 	}
-
-	// task to get the channels in the default package
-	private static class GetDefaultChannels extends AsyncTask<String, String, Void> {
-
+	
+	private static class GetAllChannelsTask extends GetChannelsTask {
 		@Override
 		protected Void doInBackground(String... params) {
-			SSChannelPage.getInstance().getPage(Consts.URL_CHANNELS_DEFAULT, new SSPageCallback() {
-				@Override
-				public void onGetPageResult(SSPageGetResult aPageGetResult) {
-					mDefaultChannels = SSChannelPage.getInstance().getChannels();
-					if (mDefaultChannels != null && mDefaultChannels.isEmpty() != true) {
-						Log.d(TAG, "DefaultChannels: " + mDefaultChannels.size());
-
-						MiTVStoreOperations.saveDefaultChannels(mDefaultChannels);
-						mIsDefaultChannels = true;
-
-						// attempt the common callback interface
-						getGuide(mDateIndex, false);
-					} else {
-						LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(Consts.INTENT_EXTRA_BAD_REQUEST));
-					}
-				}
-			});
-			return null;
+			return super.doInBackground(Consts.URL_CHANNELS_ALL);
 		}
+		
+	}
+	
+	private static class GetDefaultChannelsTask extends GetChannelsTask {
+		@Override
+		protected Void doInBackground(String... params) {
+			return super.doInBackground(Consts.URL_CHANNELS_DEFAULT);
+		}
+		
 	}
 		
 	public static interface AppConfigurationCallback {
@@ -297,10 +274,6 @@ public class MiTVCore {
 					}
 				}
 			});
-
-			// if(appConfigCallBack != null) {
-			// appConfigCallBack.onAppConfigurationResult();
-			// }
 
 			return null;
 		}
@@ -474,10 +447,6 @@ public class MiTVCore {
 				}
 			});
 
-			// if(appConfigCallBack != null) {
-			// appConfigCallBack.onAppConfigurationResult();
-			// }
-
 			return null;
 		}
 	}
@@ -497,39 +466,25 @@ public class MiTVCore {
 
 		@Override
 		protected Void doInBackground(Context... params) {
-			final boolean loggedIn = token != null && TextUtils.isEmpty(token) != true;
 			// get guide for the date
-			String guidePageUrl = null;
-			if (loggedIn) {
-				mMyChannelsIds = MiTVStore.getInstance().getMyChannelIds();
-				
-				if(mMyChannelsIds.isEmpty()) {
-					//TODO Show text saying "you have not chosen any channels...."
-					Log.w(TAG, "No Channels selected, will try to send request using all channels to fetch guide.");
-					mMyChannelsIds = MiTVStore.getInstance().getAllChannelIds();
-				}
-				
-				guidePageUrl = getPageUrl(mDate.getDate(), mMyChannelsIds);
-			} else {
-				mDefaultChannelsIds = MiTVStore.getInstance().getDefaultChannelIds();
-				guidePageUrl = getPageUrl(mDate.getDate(), mDefaultChannelsIds);
-			}
+			ArrayList<String> channelIds = MiTVStore.getInstance().getChannelIds();
+			
+			mChannelsIds = channelIds;
 
+			String guidePageUrl = getPageUrl(mDate.getDate(), mChannelsIds);
+			
 			SSGuidePage.getInstance().getPage(guidePageUrl, new SSPageCallback() {
 				@Override
 				public void onGetPageResult(SSPageGetResult aPageGetResult) {
-					mGuides = SSGuidePage.getInstance().getGuide();
+					ArrayList<ChannelGuide> channelGuides = SSGuidePage.getInstance().getGuide();
+					mChannelGuides = channelGuides;
 
-					if (mGuides != null && mGuides.isEmpty() != true) {
+					if (mChannelGuides != null && mChannelGuides.isEmpty() != true) {
 						boolean guideSaveOperationSuccessfull;
-						if (loggedIn) {
-							guideSaveOperationSuccessfull = MiTVStoreOperations.saveMyGuides(mGuides, mDate.getDate());
-						} else {
-							guideSaveOperationSuccessfull = MiTVStoreOperations.saveGuides(mGuides, mDate.getDate());
-						}
-							
+
+						guideSaveOperationSuccessfull = MiTVStoreOperations.saveGuides(mChannelGuides, mDate.getDate());
 						if(guideSaveOperationSuccessfull) {
-							if (prepareTaggedContent(mDate, loggedIn)) {
+							if (prepareTaggedContent(mDate)) {
 	
 								Intent intent = null;
 								if (mIsChannel) {
@@ -542,54 +497,34 @@ public class MiTVCore {
 								LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
 							}
 							
-							if(loggedIn) {
+							if(SecondScreenApplication.isLoggedIn()) {
 								// get the list of likes and save in MiTVStore to avoid excessive backend requests
-								ArrayList<String> likeIds = LikeService.getLikeIdsList(token);
+								ArrayList<String> likeIds = LikeService.getLikeIdsList();
 								MiTVStore.getInstance().setLikeIds(likeIds);
 							}
 						}
 					}
 				}
 			});
-			mGuides = null;
+			mChannelGuides = null;
 			return null;
 		}
 
 	}
 
 	public static void getGuide(int dateIndex, boolean isChannel) {
-		Log.d(TAG, "APPROACH GUIDE!!!: ");
+		Log.d(TAG, "mHasFetchedTvDate:" + mHasFetchedTvDate + "  mHasFetchedTags: " + mHasFetchedTags +  " hasFetchedChannels " + mHasFetchedChannels);
+		if (mHasFetchedTvDate && mHasFetchedTags && mHasFetchedChannels) {
+			TvDate date = mTvDates.get(dateIndex);
+			if (MiTVStore.getInstance().isGuideForDate(date.getDate())) {
+				// notify the HomeActivity that the guide is available and UI may be updated
 
-		if (token != null && TextUtils.isEmpty(token) != true) {
-			Log.d(TAG, "mIsTvDate:" + mIsTvDate + "  mIsTags: " + mIsTags + "  mIsAllChannels: " + mIsAllChannels);
+				Log.d(TAG, "There is a ready one!");
+				LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(Consts.INTENT_EXTRA_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, true));
+			} else {
 
-			if (mIsTvDate == true && mIsTags == true && mIsAllChannels) {
-				TvDate date = mTvDates.get(dateIndex);
-				if (MiTVStore.getInstance().isMyGuideForDate(date.getDate())) {
-					// notify the HomeActivity that the guide is available and UI may be updated
-
-					Log.d(TAG, "There is a ready My one!");
-					LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(Consts.INTENT_EXTRA_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, true));
-				} else {
-
-					GetGuide getGuideTask = new GetGuide(date, isChannel);
-					getGuideTask.execute(mContext);
-				}
-			}
-		} else {
-			Log.d(TAG, "mIsTvDate:" + mIsTvDate + "  mIsTags: " + mIsTags + "   mIsDefaultChannels: " + mIsDefaultChannels);
-			if (mIsTvDate == true && mIsTags == true && mIsDefaultChannels) {
-				TvDate date = mTvDates.get(dateIndex);
-				if (MiTVStore.getInstance().isGuideForDate(date.getDate())) {
-					// notify the HomeActivity that the guide is available and UI may be updated
-
-					Log.d(TAG, "There is a ready one!");
-					LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(Consts.INTENT_EXTRA_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, true));
-				} else {
-
-					GetGuide getGuideTask = new GetGuide(date, isChannel);
-					getGuideTask.execute(mContext);
-				}
+				GetGuide getGuideTask = new GetGuide(date, isChannel);
+				getGuideTask.execute(mContext);
 			}
 		}
 	}
@@ -610,27 +545,6 @@ public class MiTVCore {
 			result = true;
 		}
 		return result;
-	}
-
-	public boolean filterMyGuidesByTag(TvDate tvDate, Tag tag, int count) {
-		ArrayList<Tag> tags = MiTVStore.getInstance().getTags();
-		boolean result = false;
-		for (int i = 1; i < count; i++) {
-			filterMyGuideByTag(tvDate, tags.get(i));
-			result = true;
-		}
-		return result;
-	}
-
-	public static boolean filterMyGuideByTag(TvDate tvDate, Tag tag) {
-		ArrayList<Broadcast> myTaggedBroadcasts = MiTVStoreOperations.getMyTaggedBroadcasts(tvDate.getDate(), tag);
-		if (myTaggedBroadcasts != null && myTaggedBroadcasts.isEmpty() != true) {
-			MiTVStoreOperations.saveMyTaggedBroadcast(tvDate, tag, myTaggedBroadcasts);
-
-			// notify responsible fragments that the data is there
-			LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE).putExtra(Consts.INTENT_EXTRA_TAG_GUIDE_AVAILABLE_VALUE, true));
-			return true;
-		} else return false;
 	}
 
 	// construct the url for the guide
@@ -657,12 +571,8 @@ public class MiTVCore {
 
 	public static void resetAll() {
 		mDateIndex = 0;
-		mIsTvDate = false;
-		mIsTags = false;
-		mIsDefaultChannels = false;
-		mIsAllChannels = false;
-		mIsMyChannels = false;
-		mIsGuide = false;
+		mHasFetchedTvDate = false;
+		mHasFetchedTags = false;
 
 		if (mTvDates != null) {
 			if (!mTvDates.isEmpty()) {
@@ -671,17 +581,10 @@ public class MiTVCore {
 			}
 		}
 
-		if (mDefaultChannels != null) {
-			if (!mDefaultChannels.isEmpty()) {
-				mDefaultChannels.clear();
-				mDefaultChannels = new ArrayList<Channel>();
-			}
-		}
-
-		if (mAllChannels != null) {
-			if (!mAllChannels.isEmpty()) {
-				mAllChannels.clear();
-				mAllChannels = new ArrayList<Channel>();
+		if (mChannels != null) {
+			if (!mChannels.isEmpty()) {
+				mChannels.clear();
+				mChannels = new ArrayList<Channel>();
 			}
 		}
 
@@ -692,32 +595,19 @@ public class MiTVCore {
 			}
 		}
 
-		if (mGuides != null) {
-			if (!mGuides.isEmpty()) {
-				mGuides.clear();
-				mGuides = new ArrayList<Guide>();
+		if (mChannelGuides != null) {
+			if (!mChannelGuides.isEmpty()) {
+				mChannelGuides.clear();
+				mChannelGuides = new ArrayList<ChannelGuide>();
 			}
 		}
 
-		if (mMyChannelsIds != null) {
-			if (!mMyChannelsIds.isEmpty()) {
-				mMyChannelsIds.clear();
-				mMyChannelsIds = new ArrayList<String>();
+		if (mChannelsIds != null) {
+			if (!mChannelsIds.isEmpty()) {
+				mChannelsIds.clear();
+				mChannelsIds = new ArrayList<String>();
 			}
 		}
 
-		if (mAllChannelsIds != null) {
-			if (!mAllChannelsIds.isEmpty()) {
-				mAllChannelsIds.clear();
-				mAllChannelsIds = new ArrayList<String>();
-			}
-		}
-
-		if (mDefaultChannelsIds != null) {
-			if (!mDefaultChannelsIds.isEmpty()) {
-				mDefaultChannelsIds.clear();
-				mDefaultChannelsIds = new ArrayList<String>();
-			}
-		}
 	}
 }

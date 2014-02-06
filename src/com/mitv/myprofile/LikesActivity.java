@@ -44,7 +44,7 @@ public class LikesActivity extends SSActivity implements LikesCountInterface, On
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_likes_activity);
 		
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 		
@@ -109,7 +109,7 @@ public class LikesActivity extends SSActivity implements LikesCountInterface, On
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 	}
 
 	@Override

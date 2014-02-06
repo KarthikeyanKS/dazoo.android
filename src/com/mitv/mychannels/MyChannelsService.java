@@ -35,11 +35,11 @@ public class MyChannelsService {
 
 	private static final String	TAG	= "MyChannelsService";
 
-	public static boolean updateMyChannelsList(String userToken, String channelsJSON) {
+	public static boolean updateMyChannelsList(String channelsJSON) {
 		UpdateMyChannelsTask addChannelToMyChannelsTask = new UpdateMyChannelsTask();
 
 		try {
-			boolean isAdded = addChannelToMyChannelsTask.execute(userToken, channelsJSON).get();
+			boolean isAdded = addChannelToMyChannelsTask.execute(channelsJSON).get();
 			if (isAdded == true) {
 				Log.d(TAG, "Channels are updated!");
 				return true;
@@ -55,30 +55,23 @@ public class MyChannelsService {
 		return false;
 	}
 
-	public static boolean getMyChannels(String userToken) {
+	public static void getMyChannels() {
 		GetMyChannelsTask getMyChannelsTask = new GetMyChannelsTask();
 
 		String responseStr;
 		try {
-			responseStr = getMyChannelsTask.execute(userToken).get();
+			responseStr = getMyChannelsTask.execute().get();
 			Log.d(TAG, "List of My Channels: " + responseStr);
 
 			if (responseStr != null && TextUtils.isEmpty(responseStr) != true && responseStr != Consts.ERROR_STRING) {
 				// the extra check for ERROR_STRING was added to distinguish between empty response (there are no stored channels to this user) and empty response in case of error
 				ArrayList<String> channelIds = new ArrayList<String>();
 				channelIds = ContentParser.parseChannelIds(new JSONArray(responseStr));
-				MiTVStore.getInstance().setMyChannelIds(channelIds);
-
-				return true;
-			} else return false;
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
+				MiTVStore.getInstance().storeMyChannelIds(channelIds);
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return false;
 	}
 
 	// fetch the "My channels" of the logged in user
@@ -90,9 +83,9 @@ public class MyChannelsService {
 			try {
 				HttpClient httpClient = new DefaultHttpClient();
 				HttpGet httpGet = new HttpGet();
-				httpGet.setHeader("Authorization", "Bearer " + params[0]);
+				httpGet.setHeader("Authorization", "Bearer " + SecondScreenApplication.getInstance().getAccessToken());
 				httpGet.setHeader("Content-type", "application/json; charset=UTF-8");
-				httpGet.setURI(new URI(Consts.URL_MY_CHANNELS));
+				httpGet.setURI(new URI(Consts.URL_MY_CHANNEL_IDS));
 
 				HttpResponse response = httpClient.execute(httpGet);
 				if (Consts.GOOD_RESPONSE == response.getStatusLine().getStatusCode()) {
@@ -135,7 +128,7 @@ public class MyChannelsService {
 			try {
 				HttpClient client = new DefaultHttpClient();
 
-				HttpPost httpPost = new HttpPost(Consts.URL_MY_CHANNELS);
+				HttpPost httpPost = new HttpPost(Consts.URL_MY_CHANNEL_IDS);
 				httpPost.setHeader("Authorization", "Bearer " + params[0]);
 				httpPost.setHeader("Accept", "application/json");
 				httpPost.setHeader("Content-Type", "application/json");

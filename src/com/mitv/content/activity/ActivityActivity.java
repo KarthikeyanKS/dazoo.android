@@ -80,8 +80,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 	private Button				mCheckPopularBtn, mLoginBtn;
 	private ActionBar			mActionBar;
 	private ArrayList<FeedItem>	activityFeed	= new ArrayList<FeedItem>();
-	private String				token;
-	private Boolean				mIsLoggenIn		= false, mNoMoreItems = false, mNoTask = true;
+	private Boolean				mNoMoreItems = false, mNoTask = true;
 	private int					mStartIndex		= 0, mStep = 10, mNextStep = 5, mEndIndex = 0;
 	private ListView			mListView;
 	private RelativeLayout		mListFooter;
@@ -110,11 +109,9 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 		mActivity = this;
 
-		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
-		if (token != null && TextUtils.isEmpty(token) != true) {
+		if (SecondScreenApplication.isLoggedIn()) {
 			setContentView(R.layout.layout_activity_activity);
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-			mIsLoggenIn = true;
+			
 			initStandardViews();
 			initFeedViews();
 			super.initCallbackLayouts();
@@ -140,7 +137,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 
 		} else {
 			setContentView(R.layout.layout_activity_not_logged_in_activity);
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			
 			initStandardViews();
 			initInactiveViews();
 		}
@@ -212,7 +209,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		}
 
 		mListView.setOnScrollListener(mOnScrollListener);
-		mAdapter = new ActivityFeedAdapter(this, activityFeed, token);
+		mAdapter = new ActivityFeedAdapter(this, activityFeed);
 		mListView.setAdapter(mAdapter);
 		mListView.setVisibility(View.VISIBLE);
 	}
@@ -410,7 +407,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 				Log.d(TAG, "Feed more items: " + uri.toString());
 
 				HttpGet httpGet = new HttpGet(uri);
-				httpGet.setHeader("Authorization", "Bearer " + token);
+				httpGet.setHeader("Authorization", "Bearer " + SecondScreenApplication.getInstance().getAccessToken());
 				// header to accept the json in a correct encoding
 				httpGet.setHeader("Content-type", "application/json; charset=UTF-8");
 				HttpResponse response = httpClient.execute(httpGet);
@@ -554,7 +551,8 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 				URI uri = new URI(Consts.URL_ACTIVITY_FEED + "?" + URLEncodedUtils.format(urlParams, "utf-8"));
 
 				HttpGet httpGet = new HttpGet(uri);
-				httpGet.setHeader("Authorization", "Bearer " + token);
+				
+				httpGet.setHeader("Authorization", "Bearer " + SecondScreenApplication.getInstance().getAccessToken());
 				// header to accept the json in a correct encoding
 				httpGet.setHeader("Content-type", "application/json; charset=UTF-8");
 				HttpResponse response = httpClient.execute(httpGet);

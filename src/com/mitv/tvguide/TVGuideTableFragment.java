@@ -30,7 +30,7 @@ import com.mitv.adapters.TVGuideTagListAdapter;
 import com.mitv.content.SSPageFragment;
 import com.mitv.customviews.SwipeClockBar;
 import com.mitv.model.Broadcast;
-import com.mitv.model.Guide;
+import com.mitv.model.ChannelGuide;
 import com.mitv.model.Tag;
 import com.mitv.model.TvDate;
 import com.mitv.storage.MiTVStore;
@@ -44,7 +44,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 	private Activity				mActivity;
 	private ListView				mTVGuideListView;
 	private ImageView				mClockIv;
-	private ArrayList<Guide>		mGuides;
+	private ArrayList<ChannelGuide>		mGuides;
 	private TvDate					mTvDate;
 	private Tag						mTag;
 	private int						mTvDatePosition;
@@ -141,16 +141,8 @@ public class TVGuideTableFragment extends SSPageFragment {
 		// read the data from the mitvStore singleton
 		if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
 
-			if (mIsLoggedIn) {
-				mGuides = mitvStore.getMyGuideTable(mTvDate.getDate());
-				Log.d(TAG, "My date: " + mTvDate.getDate());
-				Log.d(TAG, "MY mGuides size: " + mGuides.size());
 
-			} else {
-				mGuides = mitvStore.getGuideTable(mTvDate.getDate());
-				Log.d(TAG, "date: " + mTvDate.getDate());
-				Log.d(TAG, "mGuides size: " + mGuides.size());
-			}
+			mGuides = mitvStore.getGuideTable(mTvDate.getDate());
 		} else {
 			if (mIsLoggedIn) {
 				mTaggedBroadcasts = mitvStore.getMyTaggedBroadcasts(mTvDate, mTag);

@@ -47,19 +47,17 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 	private static final int		ITEM_TYPE_POPULAR_TWITTER			= 4;
 	private static final int		ITEM_TYPE_POPULAR_BROADCAST			= 5;
 
-	private String					mToken;
 	private ArrayList<String>		mLikeIds;
 	private int						currentPosition						= -1;
 
 	// private ImageView likeLikeIv, remindLikeIv, likeRecIv, remindRecIv, likeTwitterIv, remindTwitterIv;
 	private boolean					mIsLiked							= false, mIsSet = false;
 
-	public ActivityFeedAdapter(Activity activity, ArrayList<FeedItem> feedItems, String token) {
+	public ActivityFeedAdapter(Activity activity, ArrayList<FeedItem> feedItems) {
 		super(Consts.JSON_AND_FRAGMENT_KEY_ACTIVITY, activity, feedItems);
 		this.mActivity = activity;
 		this.mFeedItems = feedItems;
-		this.mToken = token;
-		this.mLikeIds = LikeService.getLikeIdsList(token);
+		this.mLikeIds = LikeService.getLikeIdsList();
 	}
 
 	@Override
@@ -490,7 +488,7 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 							}
 
 							if (mIsLiked == false) {
-								if (LikeService.addLike(mToken, programId, likeType)) {
+								if (LikeService.addLike(programId, likeType)) {
 									MiTVStore.getInstance().addLikeIdToList(programId);
 
 									ActivityActivity.toast = LikeService.showSetLikeToast(mActivity, contentTitle);
@@ -504,7 +502,7 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 									Log.d(TAG, "!!! Adding a like faced an error !!!");
 								}
 							} else {
-								LikeService.removeLike(mToken, likeType, programId);
+								LikeService.removeLike(likeType, programId);
 								MiTVStore.getInstance().deleteLikeIdFromList(programId);
 
 								mIsLiked = false;

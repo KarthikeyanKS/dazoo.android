@@ -65,7 +65,7 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 		setContentView(R.layout.layout_searchpage_activity);
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
@@ -309,7 +309,7 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 	}
 
 	@Override

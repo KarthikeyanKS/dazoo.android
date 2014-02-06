@@ -59,7 +59,7 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 
 		setContentView(R.layout.layout_my_profile);
 
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
@@ -161,8 +161,8 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 				mLikesCountTv.setText("(0)");
 			}
 
-			if (MiTVStore.getInstance().getAllChannelIds() != null && MiTVStore.getInstance().getAllChannelIds().isEmpty() != true) {
-				mChannelCountTv.setText("(" + String.valueOf(MiTVStore.getInstance().getMyChannelIds().size()) + ")");
+			if (MiTVStore.getInstance().getChannelIds() != null && MiTVStore.getInstance().getChannelIds().isEmpty() != true) {
+				mChannelCountTv.setText("(" + String.valueOf(MiTVStore.getInstance().getChannelIds().size()) + ")");
 			}
 
 			if (mUserFirstName != null && mUserLastName != null && mUserFirstName.length() > 0 && mUserLastName.length() > 0) {

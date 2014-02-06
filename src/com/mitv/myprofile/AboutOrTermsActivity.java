@@ -42,7 +42,7 @@ public class AboutOrTermsActivity extends SSActivity implements OnClickListener 
 
 		this.mIsAboutView = this.getClass().equals(AboutUsActivity.class);
 		
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 

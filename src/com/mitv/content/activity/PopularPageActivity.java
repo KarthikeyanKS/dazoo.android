@@ -76,7 +76,7 @@ public class PopularPageActivity extends SSActivity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_popular_list_activity);
 
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 

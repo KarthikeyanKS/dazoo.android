@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-import com.mitv.model.Guide;
+import com.mitv.model.ChannelGuide;
 
 public class SSGuidePage  extends SSPage {
 
@@ -21,7 +21,7 @@ public class SSGuidePage  extends SSPage {
 		return sInstance;
 	}
 	
-	public ArrayList<Guide> getGuide() {
+	public ArrayList<ChannelGuide> getGuide() {
 		Log.d(TAG, "get Guide");
 		return super.getGuide();
 	}

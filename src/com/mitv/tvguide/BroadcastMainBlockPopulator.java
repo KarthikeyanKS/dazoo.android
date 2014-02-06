@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.mitv.Consts;
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.authentication.MiTVLoginActivity;
 import com.mitv.authentication.PromptSignInDialogHandler;
 import com.mitv.authentication.SignInOrSignupWithFacebookActivity;
@@ -37,13 +38,12 @@ public class BroadcastMainBlockPopulator {
 
 	private Activity				mActivity;
 	private ScrollView				mContainerView;
-	private ImageView				mLikeIv, mRemindIv;
-	private boolean					mIsLiked = false, mIsLoggedIn = false;
-	private String					mToken, mProgramId, mLikeType, mContentTitle;
+	private ImageView				mLikeIv;
+	private boolean					mIsLiked = false;
+	private String					mProgramId, mLikeType, mContentTitle;
 
-	public BroadcastMainBlockPopulator(Activity activity, ScrollView containerView, String token) {
+	public BroadcastMainBlockPopulator(Activity activity, ScrollView containerView) {
 		this.mActivity = activity;
-		this.mToken = token;
 		this.mContainerView = containerView;
 	}
 
@@ -72,20 +72,8 @@ public class BroadcastMainBlockPopulator {
 		RelativeLayout likeContainer = (RelativeLayout) topContentView.findViewById(R.id.element_social_buttons_like_button_container);
 		RelativeLayout shareContainer = (RelativeLayout) topContentView.findViewById(R.id.element_social_buttons_share_button_container);
 
-		// RelativeLayout progressBarContainer = (RelativeLayout) topContentView.findViewById(R.id.block_broadcastpage_broadcast_progress_container);
 		ProgressBar progressBar = (ProgressBar) topContentView.findViewById(R.id.block_broadcastpage_broadcast_progressbar);
 		TextView progressTxt = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_timeleft_tv);
-
-		// try {
-		// mIsFuture = DateUtilities.isTimeInFuture(broadcast.getBeginTimeMillisLocal());
-		// } catch (ParseException e1) {
-		// e1.printStackTrace();
-		// }
-
-		if (mToken != null && TextUtils.isEmpty(mToken) != true) {
-			Log.d(TAG, "LOGGED IN!");
-			mIsLoggedIn = true;
-		}
 
 		Program program = broadcast.getProgram();
 		String programType = program.getProgramType();
@@ -180,7 +168,7 @@ public class BroadcastMainBlockPopulator {
 		extraTv.setText(extras);
 		extraTv.setVisibility(View.VISIBLE);
 
-		if (mIsLoggedIn) {
+		if (SecondScreenApplication.isLoggedIn()) {
 			// mIsLiked = LikeService.isLiked(mToken, broadcast.getProgram().getProgramId());
 			mIsLiked = MiTVStore.getInstance().isInTheLikesList(mProgramId);
 		}
@@ -192,9 +180,9 @@ public class BroadcastMainBlockPopulator {
 
 			@Override
 			public void onClick(View v) {
-				if (mIsLoggedIn) {
+				if (SecondScreenApplication.isLoggedIn()) {
 					if (mIsLiked == false) {
-						if (LikeService.addLike(mToken, mProgramId, mLikeType)) {
+						if (LikeService.addLike(mProgramId, mLikeType)) {
 							BroadcastPageActivity.toast = LikeService.showSetLikeToast(mActivity, mContentTitle);
 
 							MiTVStore.getInstance().addLikeIdToList(mProgramId);
@@ -205,14 +193,11 @@ public class BroadcastMainBlockPopulator {
 
 							mIsLiked = true;
 						} else {
-							// Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
 							Log.d(TAG, "!!! Adding a like faced an error !!!");
 						}
 
 					} else {
-						// LikeDialogHandler likeDlg = new LikeDialogHandler();
-						// likeDlg.showRemoveLikeDialog(mActivity, mToken, mLikeType, broadcast.getProgram().getProgramId(), yesLikeProc(), noLikeProc());
-						LikeService.removeLike(mToken, mProgramId, mLikeType);
+						LikeService.removeLike(mProgramId, mLikeType);
 
 						MiTVStore.getInstance().deleteLikeIdFromList(mProgramId);
 

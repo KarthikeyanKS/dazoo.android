@@ -160,7 +160,7 @@ public class LikesListAdapter extends BaseAdapter {
 						}
 
 						LikeDialogHandler likeDlg = new LikeDialogHandler();
-						likeDlg.showRemoveLikeDialog(mActivity, mToken, mLikeId, likeType, yesProc(), noProc());
+						likeDlg.showRemoveLikeDialog(mActivity, mLikeId, likeType, yesProc(), noProc());
 
 					}
 				});

@@ -113,12 +113,12 @@ public class LikeService {
 		return toast;
 	}
 
-	public static ArrayList<String> getLikeIdsList(String token) {
+	public static ArrayList<String> getLikeIdsList() {
 		ArrayList<String> mitvLikeIdsList = new ArrayList<String>();
 		GetLikesTask getLikesTask = new GetLikesTask();
 		String jsonString = "";
 		try {
-			jsonString = getLikesTask.execute(token).get();
+			jsonString = getLikesTask.execute(SecondScreenApplication.getInstance().getAccessToken()).get();
 			if (jsonString != null && TextUtils.isEmpty(jsonString) != true && !jsonString.equals(Consts.ERROR_STRING)) {
 				JSONArray likesListJson = new JSONArray(jsonString);
 				int size = likesListJson.length();
@@ -160,12 +160,12 @@ public class LikeService {
 		return mitvLikesList;
 	}
 
-	public static boolean addLike(String token, String entityId, String likeType) {
+	public static boolean addLike(String entityId, String likeType) {
 
 		AddLikeTask addLikeTask = new AddLikeTask();
 		int result = 0;
 		try {
-			result = addLikeTask.execute(token, entityId, likeType).get();
+			result = addLikeTask.execute(SecondScreenApplication.getInstance().getAccessToken(), entityId, likeType).get();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (ExecutionException e) {
@@ -189,11 +189,11 @@ public class LikeService {
 		}
 	}
 
-	public static boolean removeLike(String token, String entityId, String likeType) {
+	public static boolean removeLike(String entityId, String likeType) {
 		DeleteLikeTask deleteLikeTask = new DeleteLikeTask();
 		int isDeleted = 0;
 		try {
-			isDeleted = deleteLikeTask.execute(token, entityId, likeType).get();
+			isDeleted = deleteLikeTask.execute(SecondScreenApplication.getInstance().getAccessToken(), entityId, likeType).get();
 			Log.d(TAG, "delete code: " + isDeleted);
 		} catch (InterruptedException e) {
 			e.printStackTrace();

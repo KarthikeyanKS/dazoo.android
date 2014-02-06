@@ -53,7 +53,6 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 	private ActionBar					mActionBar;
 	private boolean						isChange				= false;
 	private Button						mGetMyChannelsButton, mAddToMyChannelsButton;
-	private static String				userToken;
 	private ListView					mListView;
 	private TextView					mChannelCountTv;
 	private RelativeLayout				mTabTvGuide, mTabProfile, mTabActivity;private View mTabDividerLeft, mTabDividerRight;
@@ -77,11 +76,10 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_mychannels_activity);
 
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
-		userToken = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 		initLayout();
 		super.initCallbackLayouts();
 		populateViews();
@@ -118,7 +116,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 	}
 
 	private void populateViews() {
-		mChannelsMap = MiTVStore.getInstance().getAllChannels();
+		mChannelsMap = MiTVStore.getInstance().getDisplayedChannels();
 		if (mChannelsMap != null && mChannelsMap.isEmpty() != true) {
 
 			int allChannelsIndex = 0;
@@ -135,7 +133,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 
 			mIsCheckedArray = new boolean[mAllChannelsIds.size()];
 
-			if (userToken != null && TextUtils.isEmpty(userToken) != true) {
+			if (SecondScreenApplication.isLoggedIn()) {
 				// get user channels
 				if (getUserMyChannelsIdsJSON()) {
 					mChannelCounter = myChannelIds.size();
@@ -214,12 +212,12 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 			mCheckedChannelsIds.addAll(myCheckedChannelsSet);
 
 			mCount = mCheckedChannelsIds.size();
-			if (MyChannelsService.updateMyChannelsList(userToken, JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.CHANNEL_CHANNEL_ID, mCheckedChannelsIds))) {
+			if (MyChannelsService.updateMyChannelsList(JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.CHANNEL_CHANNEL_ID, mCheckedChannelsIds))) {
 
 				// clear guides
 				MiTVStore.getInstance().clearMyGuidesStorage();
 				// update the my channels list
-				MyChannelsService.getMyChannels(userToken);
+				MyChannelsService.getMyChannels();
 
 				LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
 
@@ -252,23 +250,21 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 	}
 
 	private boolean getUserMyChannelsIdsJSON() {
-		if (MyChannelsService.getMyChannels(userToken)) {
-			myChannelIds = MiTVStore.getInstance().getMyChannelIds();
+		MyChannelsService.getMyChannels();
+		myChannelIds = MiTVStore.getInstance().getChannelIds();
+		if (myChannelIds != null && !myChannelIds.isEmpty()) {
 			mCheckedChannelsIds = myChannelIds;
-
 			for (int j = 0; j < myChannelIds.size(); j++) {
 				if (mAllChannelsIds.contains(myChannelIds.get(j))) {
 					mIsCheckedArray[mAllChannelsIds.indexOf(myChannelIds.get(j))] = true;
 				}
 			}
-
 			return true;
 		} else {
-			Log.d(TAG, "List of Channels cannot be read");
 			return false;
 		}
 	}
@@ -321,7 +317,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 
 	@Override
 	protected void loadPage() {
-		SSChannelPage.getInstance().getPage(Consts.URL_CHANNELS_ALL, new SSPageCallback() {
+		SSChannelPage.getInstance().getPage(Consts.URL_MY_CHANNEL_IDS, new SSPageCallback() {
 			@Override
 			public void onGetPageResult(SSPageGetResult aPageGetResult) {
 				ArrayList<Channel> mAllChannels = SSChannelPage.getInstance().getChannels();
@@ -329,13 +325,8 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 				if (mAllChannels != null && mAllChannels.isEmpty() != true) {
 					Log.d(TAG, "ALL Channels: " + mAllChannels.size());
 					// store the list channels (used in the my profile/my guide)
-					MiTVStoreOperations.saveAllChannels(mAllChannels);
+					MiTVStoreOperations.saveChannels(mAllChannels);
 
-					// get info only about user channels
-					if (MyChannelsService.getMyChannels(userToken)) {
-						MiTVCore.mIsMyChannels = true;
-					}
-					MiTVCore.mIsAllChannels = true;
 					updateUI(REQUEST_STATUS.SUCCESSFUL);
 				}
 			}

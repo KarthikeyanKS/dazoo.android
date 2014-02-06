@@ -25,7 +25,7 @@ import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.model.Broadcast;
-import com.mitv.model.Guide;
+import com.mitv.model.ChannelGuide;
 import com.mitv.model.Program;
 import com.mitv.model.TvDate;
 import com.mitv.tvguide.ChannelPageActivity;
@@ -33,13 +33,13 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-public class TVGuideListAdapter extends AdListAdapter<Guide> {
+public class TVGuideListAdapter extends AdListAdapter<ChannelGuide> {
 
 	private static final String	TAG	= "TVGuideListAdapter";
 
 	private LayoutInflater		mLayoutInflater;
 	private Activity			mActivity;
-	private ArrayList<Guide>	mGuide;
+	private ArrayList<ChannelGuide>	mGuide;
 	private TvDate				mDate;
 	private int					mIndexOfNearestBroadcast;
 	private int					mHour, mCurrentHour;
@@ -48,7 +48,7 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 	private int 				rowWidth = -1;
 
 	@SuppressLint("NewApi")
-	public TVGuideListAdapter(Activity activity, ArrayList<Guide> guide, TvDate date, int hour, boolean isToday) {
+	public TVGuideListAdapter(Activity activity, ArrayList<ChannelGuide> guide, TvDate date, int hour, boolean isToday) {
 		super(Consts.JSON_AND_FRAGMENT_KEY_GUIDE, activity, guide);
 		this.mGuide = guide;
 		this.mActivity = activity;
@@ -102,7 +102,7 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 			});
 		}
 
-		final Guide guide = getItem(position);
+		final ChannelGuide guide = getItem(position);
 
 		if (guide.getImageUrl() != null) {
 			ImageAware imageAware = new ImageViewAware(holder.mImageView, false);

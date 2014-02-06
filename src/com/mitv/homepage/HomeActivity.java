@@ -72,13 +72,15 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	private boolean 							showWelcomeToast = true;
 	
 	private boolean 							mIsFromLogin, mIsFromSignup;
+	private BroadcastReceiver					mBroadcastReceiverBadRequest, mBroadcastReceiverMyChannels, mBroadcastReceiverContent, mBroadcastReceiverDate;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.layout_home_activity);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+	
+		initReceivers();
 		
 		// If homeactivity is launched from login, fetch flag and later make toast.
 		Intent intent =  getIntent();
@@ -93,18 +95,6 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
 		getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
-		// broadcast receiver for date selection
-		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverDate, new IntentFilter(Consts.INTENT_EXTRA_TVGUIDE_SORTING));
-
-		// broadcast receiver for content availability
-		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverContent, new IntentFilter(Consts.INTENT_EXTRA_GUIDE_AVAILABLE));
-
-		// broadcast receiver for my channels have changed
-		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverMyChannels, new IntentFilter(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
-
-		// broadcast receiver for request timeout
-		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverBadRequest, new IntentFilter(Consts.INTENT_EXTRA_BAD_REQUEST));
 
 		SecondScreenApplication.getInstance().setSelectedHour(Integer.valueOf(DateUtilities.getCurrentHourString()));
 		SecondScreenApplication.getInstance().setCheckApiVersionListener(this);
@@ -135,6 +125,101 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 				loadPage();
 			}
 		}
+	}
+	
+	private void registerReceivers() {
+		// broadcast receiver for request timeout
+		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverBadRequest, new IntentFilter(Consts.INTENT_EXTRA_BAD_REQUEST));
+	
+		// broadcast receiver for my channels have changed
+		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverMyChannels, new IntentFilter(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
+		
+		// broadcast receiver for content availability
+		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverContent, new IntentFilter(Consts.INTENT_EXTRA_GUIDE_AVAILABLE));
+		
+		// broadcast receiver for date selection
+		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverDate, new IntentFilter(Consts.INTENT_EXTRA_TVGUIDE_SORTING));
+	}
+	
+	private void unregisterReceivers() {
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverBadRequest);
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverMyChannels);
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverContent);
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverDate);
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		unregisterReceivers();
+	}
+	
+	private void initReceivers() {
+		mBroadcastReceiverBadRequest	= new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				// bad request to the backend: timeout or anything similar
+				updateUI(REQUEST_STATUS.BAD_REQUEST);
+			}
+		};
+		
+		mBroadcastReceiverMyChannels	= new BroadcastReceiver() {
+
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				Log.d(TAG, "CHANNELS HAVE CHANGED!!!!");
+				mStateChanged = true;
+			}
+		};
+		
+		mBroadcastReceiverContent		= new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				Log.d(TAG, " ON RECEIVE CONTENT");
+
+				mIsReady = intent.getBooleanExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, false);
+
+				Log.d(TAG, "content for TvGuide TABLE is ready: " + mIsReady);
+				Log.d(TAG, "mDateSelectedIndex: " + mDateSelectedIndex);
+				Log.d(TAG, "mChannelUpdate: " + mChannelUpdate);
+				Log.d(TAG, "mFirstHit " + mFirstHit);
+
+				if (mIsReady && (mDateSelectedIndex == 0) && !mChannelUpdate && mFirstHit) {
+					if (!pageHoldsData()) {
+
+						updateUI(REQUEST_STATUS.FAILED);
+					}
+				} else if (mIsReady && (mDateSelectedIndex != 0) && mChannelUpdate) {
+					attachFragment();
+					mChannelUpdate = false;
+				} else if (mIsReady && (mDateSelectedIndex == 0) && mChannelUpdate && !mFirstHit) {
+					attachFragment();
+					mChannelUpdate = false;
+				} else if (mIsReady && (mDateSelectedIndex != 0) && !mChannelUpdate && !mFirstHit) {
+					attachFragment();
+					mChannelUpdate = false;
+				} else if (mIsReady && (mDateSelectedIndex == 0) && !mChannelUpdate && !mFirstHit) {
+					attachFragment();
+					mChannelUpdate = false;
+				}
+			}
+		};
+		
+		mBroadcastReceiverDate	= new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+
+				Log.d(TAG, "ON TVGUIDE SORTING VALUE CHANGED");
+
+				mDate = intent.getStringExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE);
+				mDateSelectedIndex = intent.getIntExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE_POSITION, 0);
+
+				removeActiveFragment();
+
+				// reload the page with the new date
+				reloadPage();
+			}
+		};
 	}
 
 	private void checkForCrashes() {
@@ -168,57 +253,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		});
 		dialog.show();
 	}
-
-	BroadcastReceiver	mBroadcastReceiverBadRequest	= new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			// bad request to the backend: timeout or anything similar
-			updateUI(REQUEST_STATUS.BAD_REQUEST);
-		}
-	};
-
-	BroadcastReceiver	mBroadcastReceiverMyChannels	= new BroadcastReceiver() {
-
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			Log.d(TAG, "CHANNELS HAVE CHANGED!!!!");
-			mStateChanged = true;
-		}
-	};
-
-	BroadcastReceiver	mBroadcastReceiverContent		= new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			Log.d(TAG, " ON RECEIVE CONTENT");
-
-			mIsReady = intent.getBooleanExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, false);
-
-			Log.d(TAG, "content for TvGuide TABLE is ready: " + mIsReady);
-			Log.d(TAG, "mDateSelectedIndex: " + mDateSelectedIndex);
-			Log.d(TAG, "mChannelUpdate: " + mChannelUpdate);
-			Log.d(TAG, "mFirstHit " + mFirstHit);
-
-			if (mIsReady && (mDateSelectedIndex == 0) && !mChannelUpdate && mFirstHit) {
-				if (!pageHoldsData()) {
-
-					updateUI(REQUEST_STATUS.FAILED);
-				}
-			} else if (mIsReady && (mDateSelectedIndex != 0) && mChannelUpdate) {
-				attachFragment();
-				mChannelUpdate = false;
-			} else if (mIsReady && (mDateSelectedIndex == 0) && mChannelUpdate && !mFirstHit) {
-				attachFragment();
-				mChannelUpdate = false;
-			} else if (mIsReady && (mDateSelectedIndex != 0) && !mChannelUpdate && !mFirstHit) {
-				attachFragment();
-				mChannelUpdate = false;
-			} else if (mIsReady && (mDateSelectedIndex == 0) && !mChannelUpdate && !mFirstHit) {
-				attachFragment();
-				mChannelUpdate = false;
-			}
-		}
-	};
-
+	
 	private void attachFragment() {
 
 		mActiveFragment = TVHolderFragment.newInstance(mStartingPosition, mDateSelectedIndex, new OnViewPagerIndexChangedListener() {
@@ -248,22 +283,6 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		}
 	}
 
-	BroadcastReceiver	mBroadcastReceiverDate	= new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-
-			Log.d(TAG, "ON TVGUIDE SORTING VALUE CHANGED");
-
-			mDate = intent.getStringExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE);
-			mDateSelectedIndex = intent.getIntExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE_POSITION, 0);
-
-			removeActiveFragment();
-
-			// reload the page with the new date
-			reloadPage();
-		}
-	};
-
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -284,6 +303,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 				reloadPage();
 			}
 		}
+		registerReceivers();
 		checkForCrashes();
 	}
 	
@@ -384,7 +404,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 	}
 
 	@Override
