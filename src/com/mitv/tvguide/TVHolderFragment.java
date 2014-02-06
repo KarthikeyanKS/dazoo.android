@@ -87,7 +87,7 @@ public class TVHolderFragment extends Fragment {
 
 	private void setAdapter(int selectedIndex) {
 
-		mAdapter = new TagTypeFragmentStatePagerAdapter(getActivity().getSupportFragmentManager(), mTags, mDates.get(mDateSelectedIndex), mDateSelectedIndex);
+		mAdapter = new TagTypeFragmentStatePagerAdapter(getChildFragmentManager(), mTags, mDates.get(mDateSelectedIndex), mDateSelectedIndex);
 
 		mViewPager.setAdapter(mAdapter);
 		mAdapter.notifyDataSetChanged();
