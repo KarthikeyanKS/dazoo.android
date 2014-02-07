@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.http.HttpEntity;
@@ -55,7 +56,10 @@ public class MyChannelsService {
 		return false;
 	}
 
-	public static void getMyChannels() {
+	
+	
+	public static void getMyChannels() 
+	{
 		GetMyChannelsTask getMyChannelsTask = new GetMyChannelsTask();
 
 		String responseStr;
@@ -63,16 +67,24 @@ public class MyChannelsService {
 			responseStr = getMyChannelsTask.execute().get();
 			Log.d(TAG, "List of My Channels: " + responseStr);
 
-			if (responseStr != null && TextUtils.isEmpty(responseStr) != true && responseStr != Consts.ERROR_STRING) {
+			if (responseStr != null && 
+				TextUtils.isEmpty(responseStr) != true && 
+				responseStr != Consts.ERROR_STRING) 
+			{
 				// the extra check for ERROR_STRING was added to distinguish between empty response (there are no stored channels to this user) and empty response in case of error
 				ArrayList<String> channelIds = new ArrayList<String>();
 				channelIds = ContentParser.parseChannelIds(new JSONArray(responseStr));
+				
 				MiTVStore.getInstance().storeMyChannelIds(channelIds);
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 		}
 	}
+	
+	
 
 	// fetch the "My channels" of the logged in user
 	private static class GetMyChannelsTask extends AsyncTask<String, Void, String> {

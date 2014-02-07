@@ -4,6 +4,7 @@ package com.mitv.storage;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -27,6 +28,8 @@ public class MiTVStore
 	private ArrayList<TvDate>							mTvDates			= new ArrayList<TvDate>();
 
 	private ArrayList<String>							mChannelIds			= new ArrayList<String>();
+	private Calendar									mChannelIdsFetchTimestamp = null;	
+	
 	private HashMap<String, Channel>					mDisplayedChannels			= new HashMap<String, Channel>();
 
 	private ArrayList<Tag>								mTags				= new ArrayList<Tag>();
@@ -36,6 +39,7 @@ public class MiTVStore
 	private HashMap<BroadcastKey, ArrayList<Broadcast>>	mMyTaggedBroadcasts	= new HashMap<BroadcastKey, ArrayList<Broadcast>>();
 
 	private ArrayList<String>							mLikeIds			= new ArrayList<String>();
+	private Calendar									mLikeIdsFetchTimestamp = null;	
 
 	private ArrayList<FeedItem>							mActivityFeed		= new ArrayList<FeedItem>();
 	private ArrayList<Broadcast>						mPopularFeed		= new ArrayList<Broadcast>();
@@ -129,8 +133,12 @@ public class MiTVStore
 		return null;
 	}
 
-	public void storeMyChannelIds(ArrayList<String> ids) {
+	public void storeMyChannelIds(ArrayList<String> ids) 
+	{
+		Calendar now = Calendar.getInstance();
+		
 		this.mMyIdsSet = true;
+		this.mChannelIdsFetchTimestamp = now;
 		setChannelIds(ids);
 	}
 
@@ -143,8 +151,12 @@ public class MiTVStore
 	}
 
 	// likes
-	public void setLikeIds(ArrayList<String> likeIds) {
+	public void setLikeIds(ArrayList<String> likeIds) 
+	{
+		Calendar now = Calendar.getInstance();
+		
 		this.mLikeIds = likeIds;
+		this.mLikeIdsFetchTimestamp = now;
 	}
 
 	public ArrayList<String> getLikeIds() {
@@ -342,5 +354,19 @@ public class MiTVStore
 	public SparseArray<AdzerkAd> getAdsForFragment(String fragmentName) 
 	{
 		return mFragmentToAdsMap.get(fragmentName);
+	}
+	
+	
+	
+	public Calendar getmMyChannelIdsFetchTimestamp()
+	{
+		return mChannelIdsFetchTimestamp;
+	}
+
+	
+	
+	public Calendar getmLikeIdsFetchTimestamp()
+	{
+		return mLikeIdsFetchTimestamp;
 	}
 }

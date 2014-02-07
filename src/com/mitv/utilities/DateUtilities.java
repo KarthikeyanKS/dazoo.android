@@ -17,6 +17,7 @@ import com.mitv.model.TvDate;
 
 public class DateUtilities {
 
+	@SuppressWarnings("unused")
 	private static final String	TAG	= "DateUtilities";
 	
 	public static final String tvDateToYearNumber(String tvDate){
@@ -585,5 +586,30 @@ public class DateUtilities {
 		long difference = (timeSubmitted - timeCurrent);
 		
 		return difference;
+	}
+	
+	
+	
+	/**
+	 * Checks if the calendar is more then "differenceInMinutes" after the current calendar time 
+	 * 
+	 * @return Yes if the calendar is more then "differenceInMinutes" after the current calendar time. No otherwise
+	 */
+	public static boolean isElapsedTimeGreaterThan(
+			Calendar referenceCalendar,
+			long differenceInMinutes)
+	{
+		if(referenceCalendar == null ||
+		   differenceInMinutes <= 0)
+		{
+			return true;
+		}
+		// No need for else
+		
+		Calendar now = Calendar.getInstance();
+		
+		long difference = (now.getTimeInMillis() - referenceCalendar.getTimeInMillis());
+		
+		return difference >= (differenceInMinutes*1000*60);
 	}
 }
