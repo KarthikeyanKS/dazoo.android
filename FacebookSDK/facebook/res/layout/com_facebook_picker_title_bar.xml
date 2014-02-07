@@ -39,6 +39,7 @@
             />
     <LinearLayout
             android:id="@+id/com_facebook_picker_divider"
+            android:orientation="horizontal"
             android:layout_width="1dp"
             android:layout_height="fill_parent"
             android:background="#40000000"

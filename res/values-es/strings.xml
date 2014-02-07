@@ -26,7 +26,7 @@
 
     <!-- LAYOUT RESPONSES -->
     <string name="no_content_layout_title">Ocurrió algo extraño.</string>
-    <string name="no_content_layout_message">No hay programas en esta categoria.</string>
+    <string name="no_content_layout_message">No hay programas en esta categoría.</string>
 
     <!-- GENERAL ERRORS -->
     <string name="connection_failed_title">Se perdió la conexión a internet</string>
@@ -114,10 +114,6 @@
 
     <string name="broadcast_info">Programa</string>
 
-    <plurals name="hour">
-        <item quantity="one">hora</item>
-        <item quantity="other">horas</item>
-    </plurals>
     <plurals name="day">
         <item quantity="one">diá</item>
         <item quantity="other">diás</item>
