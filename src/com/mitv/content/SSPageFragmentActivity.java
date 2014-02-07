@@ -9,7 +9,7 @@ import android.widget.RelativeLayout;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.Consts.REQUEST_STATUS;
-import com.mitv.http.NetworkUtils;
+import com.mitv.utilities.NetworkUtils;
 
 public abstract class SSPageFragmentActivity extends SSActivity {
 

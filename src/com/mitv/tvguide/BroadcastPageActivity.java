@@ -32,7 +32,6 @@ import com.mitv.content.SSPageCallback;
 import com.mitv.content.SSPageGetResult;
 import com.mitv.content.activity.ActivityActivity;
 import com.mitv.homepage.HomeActivity;
-import com.mitv.http.NetworkUtils;
 import com.mitv.manager.InternalTrackingManager;
 import com.mitv.model.Broadcast;
 import com.mitv.model.Channel;
@@ -41,6 +40,7 @@ import com.mitv.model.TvDate;
 import com.mitv.myprofile.MyProfileActivity;
 import com.mitv.storage.MiTVStore;
 import com.mitv.utilities.DateUtilities;
+import com.mitv.utilities.NetworkUtils;
 
 public class BroadcastPageActivity extends SSActivity implements OnClickListener {
 

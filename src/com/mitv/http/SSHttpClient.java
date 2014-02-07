@@ -26,6 +26,7 @@ import android.util.Log;
 
 import com.mitv.Consts;
 import com.mitv.SecondScreenApplication;
+import com.mitv.utilities.NetworkUtils;
 
 public class SSHttpClient<T_Result> {
 
