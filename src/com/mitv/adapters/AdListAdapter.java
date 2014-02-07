@@ -1,4 +1,7 @@
+
 package com.mitv.adapters;
+
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,12 +32,14 @@ import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
+
+
 public class AdListAdapter<T> extends BaseAdapter {
 
 	private String fragmentName;
 	private Activity activity;
 	private List<T> items;
-	private HashMap<Integer, AdzerkAd> adItems = new HashMap<Integer, AdzerkAd>();
+	private SparseArray<AdzerkAd> adItems = new SparseArray<AdzerkAd>();
 	private List<Integer> adFormats;
 	private int cellCountBetweenAdCells;
 	private boolean isAdsEnabled;
@@ -54,10 +60,13 @@ public class AdListAdapter<T> extends BaseAdapter {
 		
 		this.isAdsEnabled = globalAdsEnabled && localAdsEnabled;
 		
-		if (this.isAdsEnabled) {
+		if (this.isAdsEnabled) 
+		{
 			adItems = MiTVStore.getInstance().getAdsForFragment(fragmentName);
-			if(adItems == null) {
-				adItems = new HashMap<Integer, AdzerkAd>();
+			
+			if(adItems == null) 
+			{
+				adItems = new SparseArray<AdzerkAd>();
 				downloadAds();
 			}
 		}
