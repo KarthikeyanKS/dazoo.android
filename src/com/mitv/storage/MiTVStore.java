@@ -24,7 +24,6 @@ public class MiTVStore {
 	private HashMap<String, HashMap<Integer, AdzerkAd>> mFragmentToAdsMap 	= new HashMap<String, HashMap<Integer, AdzerkAd>>();
 	private HashMap<GuideKey, ChannelGuide>				mGuides				= new HashMap<GuideKey, ChannelGuide>();
 	private HashMap<BroadcastKey, ArrayList<Broadcast>>	mTaggedBroadcasts	= new HashMap<BroadcastKey, ArrayList<Broadcast>>();
-	private HashMap<BroadcastKey, ArrayList<Broadcast>>	mMyTaggedBroadcasts	= new HashMap<BroadcastKey, ArrayList<Broadcast>>();
 
 	private ArrayList<String>							mLikeIds			= new ArrayList<String>();
 
@@ -231,27 +230,6 @@ public class MiTVStore {
 		}
 		return null;
 	}
-	// my broadcasts
-	public void setMyBroadcastsList(HashMap<BroadcastKey, ArrayList<Broadcast>> myTaggedBroadcasts) {
-		this.mMyTaggedBroadcasts = myTaggedBroadcasts;
-	}
-
-	public HashMap<BroadcastKey, ArrayList<Broadcast>> getMyBroadcastsList() {
-		return this.mMyTaggedBroadcasts;
-	}
-
-	public ArrayList<Broadcast> getMyTaggedBroadcasts(TvDate date, Tag tag) {
-		BroadcastKey broadcastKey = new BroadcastKey();
-		broadcastKey.setDate(date);
-		broadcastKey.setTag(tag);
-
-		for (Entry<BroadcastKey, ArrayList<Broadcast>> entry : mMyTaggedBroadcasts.entrySet()) {
-			if (entry.getKey().getDate().getDate().equals(broadcastKey.getDate().getDate()) && entry.getKey().getTag().getName().equals(broadcastKey.getTag().getName())) {
-				return entry.getValue();
-			}
-		}
-		return null;
-	}
 
 	// activity feed
 	public void setActivityFeed(ArrayList<FeedItem> activityFeed) {
@@ -281,11 +259,11 @@ public class MiTVStore {
 	}
 
 	// CLEAR DATA WHEN NEW CHANNEL IS ADDED TO THE SELECTION
-	public void clearMyGuidesStorage() {
+	public void clearGuidesStorage() {
 //		this.mMyGuides.clear();
-		this.mMyTaggedBroadcasts.clear();
+		this.mTaggedBroadcasts.clear();
 //		this.mMyGuides = new HashMap<GuideKey, ChannelGuide>();
-		this.mMyTaggedBroadcasts = new HashMap<BroadcastKey, ArrayList<Broadcast>>();
+		this.mTaggedBroadcasts = new HashMap<BroadcastKey, ArrayList<Broadcast>>();
 	}
 
 	public void reinitializeAll() {
@@ -295,17 +273,14 @@ public class MiTVStore {
 		this.mChannelIds = new ArrayList<String>();
 		this.mGuides = new HashMap<GuideKey, ChannelGuide>();
 		this.mTaggedBroadcasts = new HashMap<BroadcastKey, ArrayList<Broadcast>>();
-		this.mMyTaggedBroadcasts = new HashMap<BroadcastKey, ArrayList<Broadcast>>();
 		this.mLikeIds = new ArrayList<String>();
 	}
 
 	public void clearAndReinitializeForMyChannels() {
 		this.mGuides.clear();
 		this.mTaggedBroadcasts.clear();
-		this.mMyTaggedBroadcasts.clear();
 		this.mGuides = new HashMap<GuideKey, ChannelGuide>();
 		this.mTaggedBroadcasts = new HashMap<BroadcastKey, ArrayList<Broadcast>>();
-		this.mMyTaggedBroadcasts = new HashMap<BroadcastKey, ArrayList<Broadcast>>();
 	}
 
 	public void clearAll() {
@@ -315,7 +290,6 @@ public class MiTVStore {
 		this.mChannelIds.clear();
 		this.mGuides.clear();
 		this.mTaggedBroadcasts.clear();
-		this.mMyTaggedBroadcasts.clear();
 		this.mLikeIds.clear();
 	}
 
