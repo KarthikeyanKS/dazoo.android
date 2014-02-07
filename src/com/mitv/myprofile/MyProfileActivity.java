@@ -1,7 +1,9 @@
+
 package com.mitv.myprofile;
 
+
+
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
@@ -11,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -20,12 +23,17 @@ import com.mitv.content.SSActivity;
 import com.mitv.content.activity.ActivityActivity;
 import com.mitv.customviews.FontTextView;
 import com.mitv.homepage.HomeActivity;
+import com.mitv.like.LikeService;
 import com.mitv.manager.LoginManager;
+import com.mitv.mychannels.MyChannelsService;
 import com.mitv.notification.NotificationDataSource;
 import com.mitv.storage.MiTVStore;
+import com.mitv.utilities.DateUtilities;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
+
+
 
 public class MyProfileActivity extends SSActivity implements OnClickListener {
 
@@ -155,11 +163,30 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 				ImageLoader.getInstance().displayImage(mUserAvatarUrl, imageAware);
 			}
 
-			if (MiTVStore.getInstance().getLikeIds() != null && MiTVStore.getInstance().getLikeIds().isEmpty() != true) {
+			boolean refreshLikeIdsFromService = DateUtilities.isElapsedTimeGreaterThan(MiTVStore.getInstance().getmLikeIdsFetchTimestamp(), Consts.LIKE_IDS_REFRESH_INTERVAL_IN_MINUTES);
+			
+			if(refreshLikeIdsFromService)
+			{
+				// TODO: Refresh on a separate thread
+				LikeService.getLikeIdsList();
+			}
+			
+			if (MiTVStore.getInstance().getLikeIds() != null && MiTVStore.getInstance().getLikeIds().isEmpty() != true) 
+			{
 				mLikesCountTv.setText("(" + String.valueOf(MiTVStore.getInstance().getLikeIds().size()) + ")");
-			} else {
+			} 
+			else 
+			{
 				mLikesCountTv.setText("(0)");
 			}
+			
+			boolean refreshChannelIdsFromService = DateUtilities.isElapsedTimeGreaterThan(MiTVStore.getInstance().getmMyChannelIdsFetchTimestamp(), Consts.CHANNEL_IDS_REFRESH_INTERVAL_IN_MINUTES);
+
+			if(refreshChannelIdsFromService)
+			{	
+				MyChannelsService.getMyChannels();
+			}
+			// No need for else
 
 			if (MiTVStore.getInstance().getChannelIds() != null && MiTVStore.getInstance().getChannelIds().isEmpty() != true) {
 				mChannelCountTv.setText("(" + String.valueOf(MiTVStore.getInstance().getChannelIds().size()) + ")");

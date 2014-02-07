@@ -42,12 +42,15 @@ public class InstantAutoComplete extends AutoCompleteTextView {
 			}
 			
 			@Override
-			public void afterTextChanged(Editable arg0) {
+			public void afterTextChanged(Editable arg0) 
+			{
+				/*
 				if(arg0.toString().length()<=0){
 					setTypeface(FontManager.getFontLight(contextFinal));
 	            } else {
 	            	setTypeface(FontManager.getFontBold(contextFinal));
 	            }
+	            */
 			}
 		});
     }

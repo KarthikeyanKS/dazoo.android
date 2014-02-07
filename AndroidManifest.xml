@@ -20,6 +20,13 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true" />
+    
     <application
         android:name="com.mitv.SecondScreenApplication"
         android:allowBackup="true"
@@ -329,12 +336,5 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/app_id" />
     </application>
-
-    <supports-screens
-        android:anyDensity="true"
-        android:largeScreens="true"
-        android:normalScreens="true"
-        android:resizeable="true"
-        android:smallScreens="true" />
-
+    
 </manifest>

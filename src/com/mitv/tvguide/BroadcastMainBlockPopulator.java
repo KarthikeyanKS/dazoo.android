@@ -196,15 +196,26 @@ public class BroadcastMainBlockPopulator {
 							Log.d(TAG, "!!! Adding a like faced an error !!!");
 						}
 
-					} else {
-						LikeService.removeLike(mProgramId, mLikeType);
+					} 
+					else 
+					{
+						boolean removeSucceded = LikeService.removeLike(mLikeType, mProgramId);
 
-						MiTVStore.getInstance().deleteLikeIdFromList(mProgramId);
-
-						mIsLiked = false;
-						mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
+						if(removeSucceded)
+						{
+							MiTVStore.getInstance().deleteLikeIdFromList(mProgramId);
+	
+							mIsLiked = false;
+							mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
+						}
+						else
+						{
+							Log.w(TAG, "An error occured while removing a like from the webservice");
+						}
 					}
-				} else {
+				} 
+				else 
+				{
 					if (BroadcastPageActivity.toast != null) {
 						BroadcastPageActivity.toast.cancel();
 					}

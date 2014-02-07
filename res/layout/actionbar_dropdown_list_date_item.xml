@@ -14,7 +14,7 @@
         android:layout_centerVertical="true"
         android:background="@color/transparent"
         android:textColor="@drawable/text_color_selector_day_selector_adapter_item"
-        android:textSize="13dp" />
+        android:textSize="13sp" />
 
     <com.mitv.customviews.FontTextView
         android:id="@+id/layout_actionbar_dropdown_list_date_item_name"
