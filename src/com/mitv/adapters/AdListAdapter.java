@@ -3,9 +3,7 @@ package com.mitv.adapters;
 
 
 
-import java.util.HashMap;
 import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -18,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-
 import com.mitv.R;
 import com.mitv.adapters.TVGuideListAdapter.ViewHolder;
 import com.mitv.manager.AppConfigurationManager;

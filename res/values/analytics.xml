@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources tools:ignore="TypographyDashes" xmlns:tools="https://schemas.android.com/tools">
 
     <!-- Being overriden by ID from configuration call -->
-    <string name="ga_trackingId_mitv_hardcoded">UA-46899989-1</string>
+    <string name="ga_trackingId_mitv_hardcoded" translatable="false">UA-46899989-1</string>
     
     <!-- Enable automatic activity tracking -->
-    <bool name="ga_autoActivityTracking">true</bool>
+    <bool name="ga_autoActivityTracking" translatable="false">true</bool>
 
     <!-- Enable automatic exception tracking -->
-    <bool name="ga_reportUncaughtExceptions">true</bool>
+    <bool name="ga_reportUncaughtExceptions" translatable="false">true</bool>
     
     <!-- Enable debug -->
-	<bool name="ga_debug">false</bool>
+	<bool name="ga_debug" translatable="false">false</bool>
 
     <!-- The screen names that will appear in your reporting -->
     <string name="com.mitv.homepage.HomeActivity">Home</string>
