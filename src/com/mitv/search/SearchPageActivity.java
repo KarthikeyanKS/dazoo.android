@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -151,6 +153,26 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 			public boolean onTouch(View v, MotionEvent event) {
 				mEditTextSearch.showDropDown();
 				return false;
+			}
+		});
+		
+		mEditTextSearch.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (mEditTextSearch.getText().toString().equals("")) {
+					mEditTextClearBtn.setVisibility(View.INVISIBLE);
+				} else {
+					mEditTextClearBtn.setVisibility(View.VISIBLE);
+				}
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
 			}
 		});
 

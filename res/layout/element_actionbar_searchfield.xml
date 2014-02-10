@@ -50,6 +50,7 @@
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:clickable="true"
-        android:src="@drawable/cross_selector" />
+        android:src="@drawable/cross_selector"
+        android:visibility="invisible" />
 
 </RelativeLayout>
