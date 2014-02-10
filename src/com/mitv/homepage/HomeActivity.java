@@ -18,6 +18,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -486,7 +487,9 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	public void onAppConfigurationListener() {
 		if (showWelcomeToast) {
 			mWelcomeToast = AppConfigurationManager.getInstance().getWelcomeToast();
-			Toast.makeText(getApplicationContext(), mWelcomeToast, Toast.LENGTH_LONG).show();
+			if(mWelcomeToast != null && !TextUtils.isEmpty(mWelcomeToast)) {
+				Toast.makeText(getApplicationContext(), mWelcomeToast, Toast.LENGTH_LONG).show();
+			}
 			showWelcomeToast = false;
 		}
 	}
