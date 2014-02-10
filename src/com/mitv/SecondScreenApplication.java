@@ -272,7 +272,7 @@ public class SecondScreenApplication extends Application {
 	
 	private boolean checkApiVersion() {
 		String apiVersion = getApiVersion();
-		if (apiVersion != null && !apiVersion.equals(Consts.API_VERSION)) {
+		if (apiVersion != null && !TextUtils.isEmpty(apiVersion) && !apiVersion.equals(Consts.API_VERSION)) {
 			return true;
 		}
 		else {

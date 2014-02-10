@@ -51,7 +51,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 
 	private static final String			TAG						= "MyChannelsActivity";
 	private ActionBar					mActionBar;
-	private boolean						isChange				= false;
+	private boolean						mIsChange				= false;
 	private Button						mGetMyChannelsButton, mAddToMyChannelsButton;
 	private ListView					mListView;
 	private TextView					mChannelCountTv;
@@ -116,7 +116,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 	}
 
 	private void populateViews() {
-		mChannelsMap = MiTVStore.getInstance().getDisplayedChannels();
+		mChannelsMap = MiTVStore.getInstance().getChannels();
 		if (mChannelsMap != null && mChannelsMap.isEmpty() != true) {
 
 			int allChannelsIndex = 0;
@@ -193,50 +193,43 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 			loadPage();
 		}
 	}
+	
+	private void tryToUpdateChannelList() {
+		if (mIsChanged) {
+			updateChannelList();
+		}
+	}
 
 	private void updateChannelList() {
-		if (mIsChanged) {
-			// ArrayList<String> newIdsList = new ArrayList<String>();
-			// for (int i = 0; i < mIsCheckedArray.length; i++) {
-			// if (mIsCheckedArray[i]) {
-			// newIdsList.add(mAllChannelsIds.get(i));
-			// }
-			// }
-			// mCount = newIdsList.size();
-			// if (MyChannelsService.updateMyChannelsList(userToken, JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.CHANNEL_CHANNEL_ID, newIdsList))) {
+		mCount = mCheckedChannelsIds.size();
+		if (MyChannelsService.updateMyChannelsList(JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.CHANNEL_CHANNEL_ID, mCheckedChannelsIds))) {
 
-			// do not allow dublications in the list of channels
-			HashSet myCheckedChannelsSet = new HashSet();
-			myCheckedChannelsSet.addAll(mCheckedChannelsIds);
-			mCheckedChannelsIds.clear();
-			mCheckedChannelsIds.addAll(myCheckedChannelsSet);
+			// clear guides
+			MiTVStore.getInstance().clearGuidesStorage();
+			// update the my channels list
+			MyChannelsService.getMyChannels();
+//			MiTVCore.getInstance(context, dateIndex)
 
-			mCount = mCheckedChannelsIds.size();
-			if (MyChannelsService.updateMyChannelsList(JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.CHANNEL_CHANNEL_ID, mCheckedChannelsIds))) {
+			LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
 
-				// clear guides
-				MiTVStore.getInstance().clearGuidesStorage();
-				// update the my channels list
-				MyChannelsService.getMyChannels();
-
-				LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
-
-			} else {
-				Log.d(TAG, "Channel list is not updated!");
-			}
+		} else {
+			Log.d(TAG, "Channel list is not updated!");
 		}
+		mIsChanged = false;
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
 		// update channel list if user come back to the My Profile via Home Button
-		updateChannelList();
+
+		tryToUpdateChannelList();
+
 	}
 
 	@Override
 	public void onBackPressed() {
-		updateChannelList();
+		tryToUpdateChannelList();
 		Intent returnIntent = new Intent();
 		if (mIsChanged == true) {
 			setResult(Consts.INFO_UPDATE_MYCHANNELS, returnIntent);
@@ -258,9 +251,9 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 		myChannelIds = MiTVStore.getInstance().getChannelIds();
 		if (myChannelIds != null && !myChannelIds.isEmpty()) {
 			mCheckedChannelsIds = myChannelIds;
-			for (int j = 0; j < myChannelIds.size(); j++) {
-				if (mAllChannelsIds.contains(myChannelIds.get(j))) {
-					mIsCheckedArray[mAllChannelsIds.indexOf(myChannelIds.get(j))] = true;
+			for (int i = 0; i < myChannelIds.size(); i++) {
+				if (mAllChannelsIds.contains(myChannelIds.get(i))) {
+					mIsCheckedArray[mAllChannelsIds.indexOf(myChannelIds.get(i))] = true;
 				}
 			}
 			return true;
@@ -280,7 +273,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 		int id = v.getId();
 		switch (id) {
 		case R.id.tab_tv_guide:
-			updateChannelList();
+			tryToUpdateChannelList();
 			Intent intentHome = new Intent(MyChannelsActivity.this, HomeActivity.class);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -288,13 +281,13 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 			
 			break;
 		case R.id.tab_activity:
-			updateChannelList();
+			tryToUpdateChannelList();
 			Intent intentActivity = new Intent(MyChannelsActivity.this, ActivityActivity.class);
 			startActivity(intentActivity);
 			
 			break;
 		case R.id.tab_me:
-			updateChannelList();
+			tryToUpdateChannelList();
 			Intent returnIntent = new Intent();
 			if (mIsChanged == true) {
 				setResult(Consts.INFO_UPDATE_MYCHANNELS, returnIntent);
@@ -340,7 +333,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 		// Respond to the action bar's Up/Home button
 		// update the channel list on Up/Home button press too
 		case android.R.id.home:
-			updateChannelList();
+			tryToUpdateChannelList();
 			Intent upIntent = NavUtils.getParentActivityIntent(this);
 			if (mIsChanged == true) {
 				setResult(Consts.INFO_UPDATE_MYCHANNELS, upIntent);

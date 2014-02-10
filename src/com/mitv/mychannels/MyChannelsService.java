@@ -141,10 +141,10 @@ public class MyChannelsService {
 				HttpClient client = new DefaultHttpClient();
 
 				HttpPost httpPost = new HttpPost(Consts.URL_MY_CHANNEL_IDS);
-				httpPost.setHeader("Authorization", "Bearer " + params[0]);
+				httpPost.setHeader("Authorization", "Bearer " + SecondScreenApplication.getInstance().getAccessToken());
 				httpPost.setHeader("Accept", "application/json");
 				httpPost.setHeader("Content-Type", "application/json");
-				StringEntity jsonEntity = new StringEntity(params[1]);
+				StringEntity jsonEntity = new StringEntity(params[0]);
 				httpPost.setEntity(jsonEntity);
 
 				HttpResponse response = client.execute(httpPost);
