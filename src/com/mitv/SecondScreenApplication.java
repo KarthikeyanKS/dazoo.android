@@ -91,9 +91,20 @@ public class SecondScreenApplication extends Application {
 		mAppConfigurationListener = listener;
 	}
 	
+	
+	
 	public boolean isFirstStart() {
 		return mIsFirstStart;
 	}
+	
+	
+	
+	public void setisFirstStart(boolean isFirstStart)
+	{
+		mIsFirstStart = isFirstStart;
+	}
+	
+	
 	
 	public SecondScreenApplication() {
 	}
@@ -270,12 +281,16 @@ public class SecondScreenApplication extends Application {
 		GATrackingManager.getInstance();
 	}
 	
-	private boolean checkApiVersion() {
+	public boolean checkApiVersion() 
+	{
 		String apiVersion = getApiVersion();
-		if (apiVersion != null && !TextUtils.isEmpty(apiVersion) && !apiVersion.equals(Consts.API_VERSION)) {
+		
+		if (apiVersion != null && !TextUtils.isEmpty(apiVersion) && !apiVersion.equals(Consts.API_VERSION)) 
+		{
 			return true;
 		}
-		else {
+		else 
+		{
 			return false;
 		}
 	}
@@ -295,7 +310,6 @@ public class SecondScreenApplication extends Application {
 					setupGoogleAnalytics();
 				}
 				if(mAppConfigurationListener != null) {
-					getInstance().mIsFirstStart = false;
 					mAppConfigurationListener.onAppConfigurationListener();
 				}
 			}
@@ -308,7 +322,6 @@ public class SecondScreenApplication extends Application {
 				setApiVersion(SSApiVersionPage.getInstance().getApiVersionString());
 				boolean needsUpdate = checkApiVersion();
 				if(mCheckApiVersionListner != null) {
-					getInstance().mIsFirstStart = false;
 					mCheckApiVersionListner.onApiVersionChecked(needsUpdate);
 				}
 			}

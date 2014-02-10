@@ -1,6 +1,7 @@
 package com.mitv.http;
 
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.locks.ReentrantLock;
@@ -268,17 +269,27 @@ public class SSHttpClient<T_Result> {
 		}
 	}
 
-	protected void getResponseFromStream(SSHttpClientGetResult httpClientGetResult, InputStream responseStream) throws Exception {
+	
+	
+	protected void getResponseFromStream(
+			SSHttpClientGetResult httpClientGetResult, 
+			InputStream responseStream) 
+					throws Exception 
+	{
 		// Get response stream as an object
-		String response = NetworkUtils.convertStreamToString(responseStream);
+		String response = NetworkUtils.convertStreamToString(responseStream, Charset.forName("UTF-8"));
 
 		// Determine if we have an JSONArray or JSONObject as a response
 		Object json = new JSONTokener(response).nextValue();
-		if (json instanceof JSONObject) {
+		
+		if (json instanceof JSONObject) 
+		{
 			JSONObject jsonObject = (JSONObject) json;
 			// Set response string as a json object in result
 			httpClientGetResult.setJson(jsonObject);
-		} else if (json instanceof JSONArray) {
+		} 
+		else if (json instanceof JSONArray) 
+		{
 			JSONArray jsonArray = (JSONArray) json;
 			// Set response string as a json object in result
 			httpClientGetResult.setJsonArray(jsonArray);

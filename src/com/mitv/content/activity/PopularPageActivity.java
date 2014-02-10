@@ -126,32 +126,47 @@ public class PopularPageActivity extends SSActivity implements OnClickListener {
 		}
 	}
 
+	
+	
 	@Override
-	protected void loadPage() {
+	protected void loadPage() 
+	{
 		updateUI(REQUEST_STATUS.LOADING);
 
-		// check if the network connection exists
-		if (!NetworkUtils.isConnectedAndHostIsReachable(this))
+		if (NetworkUtils.isConnectedAndHostIsReachable(this))
 		{
-			updateUI(REQUEST_STATUS.FAILED);
-		} else {
-			if (MiTVStore.getInstance().getPopularFeed().size() > 0) {
+			if (MiTVStore.getInstance().getPopularFeed().size() > 0)
+			{
 				Log.d(TAG, "RESTORED POPULAR");
+				
 				mPopularBroadcasts = MiTVStore.getInstance().getPopularFeed();
+				
 				updateUI(REQUEST_STATUS.SUCCESSFUL);
-			} else {
+			} 
+			else
+			{
 				GetPopularTask getPopularTask = new GetPopularTask();
+				
 				getPopularTask.execute();
 			}
+		} 
+		else 
+		{
+			updateUI(REQUEST_STATUS.FAILED);
 		}
 	}
 
+	
+	
 	@Override
-	public void onBackPressed() {
+	public void onBackPressed() 
+	{
 		super.onBackPressed();
 		
 	}
 
+	
+	
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();

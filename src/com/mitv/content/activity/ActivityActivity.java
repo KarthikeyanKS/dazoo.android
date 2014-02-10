@@ -107,35 +107,59 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
+		
 		mActivity = this;
 
-		if (SecondScreenApplication.isLoggedIn()) {
+		if (SecondScreenApplication.isLoggedIn()) 
+		{
 			setContentView(R.layout.layout_activity_activity);
 			
 			initStandardViews();
 			initFeedViews();
+			
 			super.initCallbackLayouts();
 
-			if (!NetworkUtils.isConnectedAndHostIsReachable(this)) {
+			if (NetworkUtils.isConnectedAndHostIsReachable(this) == false)
+			{
 				updateUI(REQUEST_STATUS.FAILED);
-			} else {
-				String signupTitle = String.format("%s %s", getResources().getString(R.string.success_account_created_title), SecondScreenApplication.getInstance().getUserFirstName());
+				return;
+			}
+			// No need for else
+			
+			boolean isAPIUpToDate = SecondScreenApplication.getInstance().checkApiVersion();
 
-				if (mIsFromLogin) {
-					Toast toast = Toast.makeText(this, signupTitle, Toast.LENGTH_LONG);
-					((TextView) ((LinearLayout)toast.getView()).getChildAt(0)).setGravity(Gravity.CENTER_HORIZONTAL);
-					toast.show();
-				}
-				else if (mIsFromSignup) {
-					String signupText = getResources().getString(R.string.success_account_created_text);
-					Toast toast = Toast.makeText(this, signupTitle + "\n" + signupText, Toast.LENGTH_LONG);
-					((TextView) ((LinearLayout)toast.getView()).getChildAt(0)).setGravity(Gravity.CENTER_HORIZONTAL);
-					toast.show();
-				}
-				loadPage();
+			if(isAPIUpToDate == false)
+			{
+				updateUI(REQUEST_STATUS.FAILED);
+				return;
+			}
+			// No need for else
+
+			String signupTitle = String.format("%s %s", getResources().getString(R.string.success_account_created_title), SecondScreenApplication.getInstance().getUserFirstName());
+
+			if (mIsFromLogin) 
+			{
+				Toast toast = Toast.makeText(this, signupTitle, Toast.LENGTH_LONG);
+
+				((TextView) ((LinearLayout)toast.getView()).getChildAt(0)).setGravity(Gravity.CENTER_HORIZONTAL);
+
+				toast.show();
+			}
+			else if (mIsFromSignup) 
+			{
+				String signupText = getResources().getString(R.string.success_account_created_text);
+
+				Toast toast = Toast.makeText(this, signupTitle + "\n" + signupText, Toast.LENGTH_LONG);
+
+				((TextView) ((LinearLayout)toast.getView()).getChildAt(0)).setGravity(Gravity.CENTER_HORIZONTAL);
+
+				toast.show();
 			}
 
-		} else {
+			loadPage();
+		} 
+		else 
+		{
 			setContentView(R.layout.layout_activity_not_logged_in_activity);
 			
 			initStandardViews();
@@ -214,25 +238,39 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		mListView.setVisibility(View.VISIBLE);
 	}
 
+	
+	
 	@Override
-	protected void loadPage() {
+	protected void loadPage() 
+	{
 		updateUI(REQUEST_STATUS.LOADING);
-		// check if the network connection exists
-		if (!NetworkUtils.isConnectedAndHostIsReachable(this)) {
-			updateUI(REQUEST_STATUS.FAILED);
-		} else {
-			if (MiTVStore.getInstance().getActivityFeed().size() > 0) {
+
+		if (NetworkUtils.isConnectedAndHostIsReachable(this)) 
+		{
+			if (MiTVStore.getInstance().getActivityFeed().size() > 0) 
+			{
 				Log.d(TAG, "READ FROM STORAGE");
+				
 				activityFeed = MiTVStore.getInstance().getActivityFeed();
+				
 				updateUI(REQUEST_STATUS.SUCCESSFUL);
-			} else {
+			} 
+			else 
+			{
 				new GetFeedTask().execute();
 			}
+		} 
+		else 
+		{
+			updateUI(REQUEST_STATUS.FAILED);
 		}
 	}
+	
+	
 
 	@Override
-	public void onBackPressed() {
+	public void onBackPressed() 
+	{
 		super.onBackPressed();
 		
 		finish();

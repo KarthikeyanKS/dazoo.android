@@ -76,8 +76,11 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	private BroadcastReceiver					mBroadcastReceiverBadRequest, mBroadcastReceiverMyChannels, mBroadcastReceiverContent, mBroadcastReceiverDate;
 	private int 								mLastDateSelectedIndex = 0;
 
+	
+	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "Homepageactivity oncreate");
 
@@ -104,34 +107,44 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		SecondScreenApplication.getInstance().setAppConfigurationListener(this);
 
 		initViews();
-
+		
 		// HOCKEY-APP
 		// checkForUpdates();
 
-		if (!NetworkUtils.isConnectedAndHostIsReachable(this)) 
+		if (NetworkUtils.isConnectedAndHostIsReachable(this)) 
+		{
+			//boolean isFirstStart = SecondScreenApplication.getInstance().isFirstStart();
+			
+			String signupTitle = String.format("%s %s", getResources().getString(R.string.success_account_created_title), SecondScreenApplication.getInstance().getUserFirstName());
+
+			if (mIsFromLogin) 
+			{
+				Toast toast = Toast.makeText(this, signupTitle, Toast.LENGTH_LONG);
+				((TextView) ((LinearLayout)toast.getView()).getChildAt(0)).setGravity(Gravity.CENTER_HORIZONTAL);
+				toast.show();
+			}
+			else if (mIsFromSignup) 
+			{
+				String signupText = getResources().getString(R.string.success_account_created_text);
+				Toast toast = Toast.makeText(this, signupTitle + "\n" + signupText, Toast.LENGTH_LONG);
+				((TextView) ((LinearLayout)toast.getView()).getChildAt(0)).setGravity(Gravity.CENTER_HORIZONTAL);
+				toast.show();
+			}
+	
+			SecondScreenApplication.getInstance().setisFirstStart(false);
+			
+			loadPage();
+		} 
+		else 
 		{
 			updateUI(REQUEST_STATUS.FAILED);
-		} else {
-			if(!SecondScreenApplication.getInstance().isFirstStart()) {
-				String signupTitle = String.format("%s %s", getResources().getString(R.string.success_account_created_title), SecondScreenApplication.getInstance().getUserFirstName());
-
-				if (mIsFromLogin) {
-					Toast toast = Toast.makeText(this, signupTitle, Toast.LENGTH_LONG);
-					((TextView) ((LinearLayout)toast.getView()).getChildAt(0)).setGravity(Gravity.CENTER_HORIZONTAL);
-					toast.show();
-				}
-				else if (mIsFromSignup) {
-					String signupText = getResources().getString(R.string.success_account_created_text);
-					Toast toast = Toast.makeText(this, signupTitle + "\n" + signupText, Toast.LENGTH_LONG);
-					((TextView) ((LinearLayout)toast.getView()).getChildAt(0)).setGravity(Gravity.CENTER_HORIZONTAL);
-					toast.show();
-				}
-				loadPage();
-			}
 		}
 	}
 
-	private void registerReceivers() {
+	
+	
+	private void registerReceivers() 
+	{
 		// broadcast receiver for request timeout
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverBadRequest, new IntentFilter(Consts.INTENT_EXTRA_BAD_REQUEST));
 
@@ -145,41 +158,58 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverDate, new IntentFilter(Consts.INTENT_EXTRA_TVGUIDE_SORTING));
 	}
 
-	private void unregisterReceivers() {
+	
+	
+	private void unregisterReceivers() 
+	{
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverBadRequest);
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverMyChannels);
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverContent);
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverDate);
 	}
 
+	
+	
 	@Override
-	protected void onPause() {
+	protected void onPause() 
+	{
 		super.onPause();
+		
 		Log.d(TAG, "onPause");
+		
 		unregisterReceivers();
 	}
+	
+	
 
-	private void initReceivers() {
-		mBroadcastReceiverBadRequest	= new BroadcastReceiver() {
+	private void initReceivers() 
+	{
+		mBroadcastReceiverBadRequest = new BroadcastReceiver() 
+		{
 			@Override
-			public void onReceive(Context context, Intent intent) {
+			public void onReceive(Context context, Intent intent) 
+			{
 				// bad request to the backend: timeout or anything similar
 				updateUI(REQUEST_STATUS.BAD_REQUEST);
 			}
 		};
 
-		mBroadcastReceiverMyChannels	= new BroadcastReceiver() {
+		mBroadcastReceiverMyChannels = new BroadcastReceiver()
+		{
 
 			@Override
-			public void onReceive(Context context, Intent intent) {
+			public void onReceive(Context context, Intent intent)
+			{
 				Log.d(TAG, "CHANNELS HAVE CHANGED!!!!");
 				mStateChanged = true;
 			}
 		};
 
-		mBroadcastReceiverContent		= new BroadcastReceiver() {
+		mBroadcastReceiverContent = new BroadcastReceiver() 
+		{
 			@Override
-			public void onReceive(Context context, Intent intent) {
+			public void onReceive(Context context, Intent intent) 
+			{
 				Log.d(TAG, " ON RECEIVE CONTENT");
 
 				mIsReady = intent.getBooleanExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, false);
@@ -305,26 +335,36 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	}
 
 	@Override
-	protected void onResume() {
-		super.onResume();		
+	protected void onResume() 
+	{
+		super.onResume();
+		
 		registerReceivers();
-		if (mStateChanged) {
+		
+		if (mStateChanged) 
+		{
 			removeActiveFragment();
 			MiTVStore.getInstance().clearAndReinitializeForMyChannels();
 			mChannelUpdate = true;
 			MiTVCore.getGuide(mDateSelectedIndex, false);
 			mStateChanged = false;
-		} else {
+		} 
+		else 
+		{
 			Log.d(TAG, "We have resumed!");
-			if (!NetworkUtils.isConnectedAndHostIsReachable(this))
+			
+			if (NetworkUtils.isConnectedAndHostIsReachable(this))
 			{
-				updateUI(REQUEST_STATUS.FAILED);
-			} 
-			else {
 				// update current hour
 				int hour = Integer.valueOf(DateUtilities.getCurrentHourString());
+				
 				((SecondScreenApplication) getApplicationContext()).setSelectedHour(hour);
+				
 				reloadPage();
+			} 
+			else 
+			{
+				updateUI(REQUEST_STATUS.FAILED);
 			}
 		}
 
@@ -481,7 +521,8 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	public void onApiVersionChecked(boolean needsUpdate) {
 		if (needsUpdate) {
 			showUpdateDialog();
-		} else {
+		} else 
+		{
 			loadPage();
 		}
 	}

@@ -2,7 +2,10 @@ package com.mitv.content;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.graphics.drawable.ColorDrawable;
+import android.os.StrictMode;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -22,6 +25,7 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.manager.GATrackingManager;
 import com.mitv.search.SearchPageActivity;
 import com.mitv.utilities.NetworkUtils;
+import com.mitv.utilities.Utils;
 
 public abstract class SSActivity extends ActionBarActivity {
 
@@ -42,18 +46,52 @@ public abstract class SSActivity extends ActionBarActivity {
 
 	protected abstract void loadPage();
 
-	@Override
 	
-	protected void onCreate(android.os.Bundle savedInstanceState) {
+	
+	@Override
+	protected void onCreate(android.os.Bundle savedInstanceState) 
+	{
+		PackageInfo packageInfo = Utils.getPackageInfo(this);           
+		
+		int flags = packageInfo.applicationInfo.flags;
+		
+		boolean isDebugMode = (flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+		
+		if(isDebugMode) 
+		{
+			// TODO: Enable strict mode
+			/*
+			StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+			.detectDiskReads()
+			.detectDiskWrites()
+			.detectNetwork()   // or .detectAll() for all detectable problems
+			.penaltyLog()
+			.build());
+
+			StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+			.detectLeakedSqlLiteObjects()
+			.detectLeakedClosableObjects()
+			.penaltyLog()
+			.penaltyDeath()
+			.build());
+			*/
+		}
+		// No need for else
+
 		super.onCreate(savedInstanceState);
+		
 		// add to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
 		/* Google Analytics tracking */	
 		this.mViewName = this.getClass().getName();
+		
 		EasyTracker.getInstance(this).activityStart(this);
+		
 		GATrackingManager.sendView(mViewName);
-	};
+	}
+	
+	
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

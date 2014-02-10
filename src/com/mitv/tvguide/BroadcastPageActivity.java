@@ -118,12 +118,16 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 	}
 
 	@Override
-	protected void loadPage() {
+	protected void loadPage() 
+	{
 		// try to load page again when network is up
-		if (NetworkUtils.isConnectedAndHostIsReachable(mActivity)) {
+		if (NetworkUtils.isConnectedAndHostIsReachable(mActivity)) 
+		{
 			getIndividualBroadcast(mBroadcastPageUrl);
 		}
 	}
+	
+	
 
 	private void loadStartPage() {
 		updateUI(REQUEST_STATUS.LOADING);
@@ -133,9 +137,8 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 		boolean loadIndividualBroadcast = true;
 		boolean useStandardChannel = true;
 
-		if (!NetworkUtils.isConnectedAndHostIsReachable(mActivity)) {
-			updateUI(REQUEST_STATUS.FAILED);
-		} else {
+		if (NetworkUtils.isConnectedAndHostIsReachable(mActivity)) 
+		{
 			if (mBroadcastPageUrl == null)
 				mBroadcastPageUrl = Consts.URL_NOTIFY_BROADCAST_PREFIX + mChannelId + Consts.NOTIFY_BROADCAST_URL_MIDDLE + mBeginTimeInMillis;
 
@@ -183,10 +186,17 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 
 				getIndividualBroadcast(mBroadcastPageUrl);
 			}
+		} 
+		else 
+		{
+			updateUI(REQUEST_STATUS.FAILED);
 		}
 	}
 
-	private void getIndividualBroadcast(String broadcastPageUrl) {
+	
+	
+	private void getIndividualBroadcast(String broadcastPageUrl) 
+	{
 		SSBroadcastPage.getInstance().getPage(broadcastPageUrl, new SSPageCallback() {
 			@Override
 			public void onGetPageResult(SSPageGetResult pageGetResult) {

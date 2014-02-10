@@ -3,6 +3,7 @@ package com.mitv.manager;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -102,22 +103,29 @@ public class MiTVCore {
 		}
 	}
 	
-	private void getChannels() {
+	private void getChannels() 
+	{
 		HashMap<String, Channel> allChannels = MiTVStore.getInstance().getChannels();
 		
 		/* Channels not fetched, go fetch!!! */
-		if (allChannels == null || allChannels.isEmpty()) {
-			
+		if (allChannels == null || allChannels.isEmpty()) 
+		{	
 			/* If logged in, fetch ALL channels, and fetch your selected channels ids using the 'MyChannelService' */
-			if (SecondScreenApplication.isLoggedIn()) {
+			if (SecondScreenApplication.isLoggedIn()) 
+			{
 				MyChannelsService.getMyChannels();
+				
 				GetAllChannelsTask allChannelsTask = new GetAllChannelsTask();
 				allChannelsTask.execute();
-			} else {
+			} 
+			else 
+			{
 				GetDefaultChannelsTask defaultChannelsTask = new GetDefaultChannelsTask();
 				defaultChannelsTask.execute();
 			}
-		} else {
+		} 
+		else 
+		{
 			/* Channels already fetched, try fetch guide */
 			mHasFetchedChannels = true;
 			getGuide(mDateIndex, false);
@@ -147,7 +155,8 @@ public class MiTVCore {
 			SSTvDatePage.getInstance().getPage(new SSPageCallback() {
 				@Override
 				public void onGetPageResult(SSPageGetResult aPageGetResult) {
-					mTvDates = SSTvDatePage.getInstance().getTvDates();
+					ArrayList<TvDate> tmpDates =  SSTvDatePage.getInstance().getTvDates();
+					mTvDates = tmpDates;
 
 					if (mTvDates != null && mTvDates.isEmpty() != true) {
 						Log.d(TAG, "Dates: " + mTvDates.size());
@@ -166,6 +175,8 @@ public class MiTVCore {
 		}
 	}
 
+	
+	
 	// task to get the tags
 	private static class GetTags extends AsyncTask<String, String, Void> {
 
@@ -174,7 +185,8 @@ public class MiTVCore {
 			SSTagsPage.getInstance().getPage(new SSPageCallback() {
 				@Override
 				public void onGetPageResult(SSPageGetResult aPageGetResult) {
-					mTags = SSTagsPage.getInstance().getTags();
+					 ArrayList<Tag>	 tmpTags = SSTagsPage.getInstance().getTags();
+					mTags = tmpTags;
 
 					if (mTags != null && mTags.isEmpty() != true) {
 						Log.d(TAG, "Tags: " + mTags.size());
@@ -198,22 +210,29 @@ public class MiTVCore {
 		}
 	}
 
+	
+	
 	// task to get all channels to be listed in the channel selection list under MyProfile/MyChannels
-	private static class GetChannelsTask extends AsyncTask<String, String, Void> {
-
+	private static class GetChannelsTask extends AsyncTask<String, String,  Void> 
+	{
 		@Override
-		protected Void doInBackground(String... params) {
-			
+		protected Void doInBackground(String... params) 
+		{	
 			String getChannelsBaseUrl = params[0];
 			
-			SSChannelPage.getInstance().getPage(getChannelsBaseUrl, new SSPageCallback() {
+			SSChannelPage.getInstance().getPage(getChannelsBaseUrl, new SSPageCallback() 
+			{
 				@Override
-				public void onGetPageResult(SSPageGetResult aPageGetResult) {
+				public void onGetPageResult(SSPageGetResult aPageGetResult) 
+				{
 					ArrayList<Channel>	channels = SSChannelPage.getInstance().getChannels();
+					
 					mChannels = channels;
 
-					if (mChannels != null && mChannels.isEmpty() != true) {
+					if (mChannels != null && mChannels.isEmpty() != true)
+					{
 						Log.d(TAG, "ALL Channels: " + mChannels.size());
+						
 						// store the list channels (used in the my profile/my guide)
 						MiTVStoreOperations.saveChannels(mChannels);
 
@@ -221,7 +240,9 @@ public class MiTVCore {
 						
 						// attempt the common callback interface
 						getGuide(mDateIndex, false);
-					} else {
+					} 
+					else 
+					{
 						LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(Consts.INTENT_EXTRA_BAD_REQUEST));
 					}
 				}
@@ -345,20 +366,26 @@ public class MiTVCore {
 
 				HttpResponse response = client.execute(httpPost);
 
-				if (response.getStatusLine().getStatusCode() == Consts.GOOD_RESPONSE) {
+				if (response.getStatusLine().getStatusCode() == Consts.GOOD_RESPONSE) 
+				{
 					HttpEntity entity = response.getEntity();
+					
 					String result = null;
-					 if (entity != null) {
-				            InputStream instream = entity.getContent();
-				            result = NetworkUtils.convertStreamToString(instream);
-				            instream.close();
-				        }
 					
+					if (entity != null) 
+					{
+						InputStream instream = entity.getContent();
+						
+						result = NetworkUtils.convertStreamToString(instream, Charset.forName("UTF-8"));
+						
+						instream.close();
+					}
+
 					JSONObject jsonObj = new JSONObject(result);
-					
+
 					ad = new AdzerkAd(divId, jsonObj);
-					
-				} else if (response.getStatusLine().getStatusCode() == Consts.BAD_RESPONSE) {
+				} 
+				else if (response.getStatusLine().getStatusCode() == Consts.BAD_RESPONSE) {
 					Log.d(TAG, "Invalid Token!");
 				}
 			} catch (UnsupportedEncodingException e) {
