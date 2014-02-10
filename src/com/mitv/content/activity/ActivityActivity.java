@@ -113,7 +113,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 		if (token != null && TextUtils.isEmpty(token) != true) {
 			setContentView(R.layout.layout_activity_activity);
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			
 			mIsLoggenIn = true;
 			initStandardViews();
 			initFeedViews();
@@ -140,7 +140,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 
 		} else {
 			setContentView(R.layout.layout_activity_not_logged_in_activity);
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			
 			initStandardViews();
 			initInactiveViews();
 		}

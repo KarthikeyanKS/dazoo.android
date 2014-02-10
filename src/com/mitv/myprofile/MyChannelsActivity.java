@@ -77,7 +77,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_mychannels_activity);
 
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
@@ -252,7 +252,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 	}
 
 	private boolean getUserMyChannelsIdsJSON() {

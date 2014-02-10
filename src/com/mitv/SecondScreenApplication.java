@@ -12,27 +12,23 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
-import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.GoogleAnalytics;
-import com.google.analytics.tracking.android.Tracker;
 import com.mitv.content.SSApiVersionPage;
 import com.mitv.manager.AppConfigurationManager;
 import com.mitv.manager.GATrackingManager;
 import com.mitv.manager.MiTVCore;
 import com.mitv.manager.MiTVCore.ApiVersionCallback;
 import com.mitv.manager.MiTVCore.AppConfigurationCallback;
-import com.mitv.utilities.DeviceUtilities;
 import com.mitv.utilities.ObscuredSharedPreferences;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -275,8 +271,8 @@ public class SecondScreenApplication extends Application {
 	}
 	
 	private boolean checkApiVersion() {
-		String apiVersion = getApiVersion();
-		if (apiVersion != null && !apiVersion.equals(Consts.API_VERSION)) {
+		String apiVersion = getApiVersion();		
+		if (apiVersion != null && !TextUtils.isEmpty(apiVersion) && !apiVersion.equals(Consts.API_VERSION)) {
 			return true;
 		}
 		else {

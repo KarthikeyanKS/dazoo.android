@@ -45,7 +45,7 @@ public class UpcomingeEpisodesPageActivity extends SSActivity implements OnClick
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_upcoming_episodes_list_activity);
 
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 

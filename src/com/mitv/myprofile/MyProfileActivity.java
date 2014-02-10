@@ -59,7 +59,7 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 
 		setContentView(R.layout.layout_my_profile);
 
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 

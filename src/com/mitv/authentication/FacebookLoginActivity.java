@@ -59,7 +59,7 @@ public class FacebookLoginActivity extends SSSignInSignupBaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_facebooklogin_activity);
 
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 		
 		Intent intent = getIntent();
 		if (intent.hasExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY)) {

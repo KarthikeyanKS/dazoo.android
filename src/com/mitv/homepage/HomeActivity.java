@@ -11,13 +11,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -78,7 +78,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.layout_home_activity);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 		
 		// If homeactivity is launched from login, fetch flag and later make toast.
 		Intent intent =  getIntent();
@@ -384,7 +384,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 	}
 
 	@Override
@@ -446,7 +446,11 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	public void onAppConfigurationListener() {
 		if (showWelcomeToast) {
 			mWelcomeToast = AppConfigurationManager.getInstance().getWelcomeToast();
-			Toast.makeText(getApplicationContext(), mWelcomeToast, Toast.LENGTH_LONG).show();
+		
+			if(mWelcomeToast != null && !TextUtils.isEmpty(mWelcomeToast)) {
+				Toast.makeText(getApplicationContext(), mWelcomeToast, Toast.LENGTH_LONG).show();
+			}
+
 			showWelcomeToast = false;
 		}
 	}

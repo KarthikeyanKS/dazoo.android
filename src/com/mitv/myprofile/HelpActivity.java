@@ -29,7 +29,7 @@ public class HelpActivity extends SSActivity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_help_activity);
 
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
@@ -75,7 +75,7 @@ public class HelpActivity extends SSActivity implements OnClickListener {
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 	}
 
 	@Override

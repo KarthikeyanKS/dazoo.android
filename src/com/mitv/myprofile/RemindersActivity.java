@@ -45,7 +45,7 @@ public class RemindersActivity extends SSActivity implements RemindersCountInter
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_reminders_activity);
 
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
@@ -119,7 +119,7 @@ public class RemindersActivity extends SSActivity implements RemindersCountInter
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 	}
 
 	@Override

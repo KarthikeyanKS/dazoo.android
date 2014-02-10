@@ -76,7 +76,7 @@ public class SignUpWithEmailActivity extends SSSignInSignupBaseActivity implemen
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_signup_activity);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 		
 		Intent intent = getIntent();
 		if (intent.hasExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY)) {
