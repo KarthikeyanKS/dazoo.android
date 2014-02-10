@@ -11,15 +11,18 @@
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
 # Add any project specific keep options here:
--keep public class * extends android.app.Activity
--keep public class * extends android.app.Application
--keep class com.facebook.** {
-   *;
-}
+#-keep public class * extends android.app.Activity
+#-keep public class * extends android.app.Application
+#-keep public class com.mitv.adapters.AdListAdapter
+#AdzerkAd
+#MiTVCore
+#-keep class com.facebook.** {
+#   *;
+#}
 
--dontwarn com.googlecode.**
--dontwarn org.apache.**
--dontwarn com.androidquery.**
+#-dontwarn com.googlecode.**
+#-dontwarn org.apache.**
+#-dontwarn com.androidquery.**
 
 # If your project uses WebView with JS, uncomment the following
 # and specify the fully qualified class name to the JavaScript interface

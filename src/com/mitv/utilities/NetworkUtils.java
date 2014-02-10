@@ -1,4 +1,4 @@
-package com.mitv.http;
+package com.mitv.utilities;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -68,6 +68,8 @@ public class NetworkUtils {
 		return sb.toString();
 	}
 	
+	
+	// TODO: Replace with a proper implementation
 	public static boolean checkConnection(Context context){
 		final ConnectivityManager cm = (ConnectivityManager) context.getSystemService(
 				Context.CONNECTIVITY_SERVICE);

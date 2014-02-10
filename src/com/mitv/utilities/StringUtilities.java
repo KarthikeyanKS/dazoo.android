@@ -35,7 +35,8 @@ public class StringUtilities {
 		    return px/scaledDensity;
 		}
 		
-		String decodeUTF8(byte[] bytes){
+		String decodeUTF8(byte[] bytes)
+		{
 			return new String(bytes, Consts.UTF8_CHARSET);
 		}
 }

@@ -37,7 +37,6 @@ import com.mitv.content.SSPageCallback;
 import com.mitv.content.SSPageGetResult;
 import com.mitv.content.SSTagsPage;
 import com.mitv.content.SSTvDatePage;
-import com.mitv.http.NetworkUtils;
 import com.mitv.like.LikeService;
 import com.mitv.model.AdzerkAd;
 import com.mitv.model.Broadcast;
@@ -48,6 +47,7 @@ import com.mitv.model.TvDate;
 import com.mitv.mychannels.MyChannelsService;
 import com.mitv.storage.MiTVStore;
 import com.mitv.storage.MiTVStoreOperations;
+import com.mitv.utilities.NetworkUtils;
 
 public class MiTVCore {
 	private static final String			TAG					= "MiTVCore";

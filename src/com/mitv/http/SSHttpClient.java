@@ -24,9 +24,9 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
 
-import com.damnhandy.uri.template.UriTemplate;
 import com.mitv.Consts;
 import com.mitv.SecondScreenApplication;
+import com.mitv.utilities.NetworkUtils;
 
 public class SSHttpClient<T_Result> {
 
@@ -69,15 +69,14 @@ public class SSHttpClient<T_Result> {
 		mHttpClientCallback = httpClientCallback;
 		mHttpClientGetTask = new SSHttpClientGetTask();
 		// Only downloads, can be changed from anywhere
-		UriTemplate template = UriTemplate.fromTemplate(uri);
 
-		Log.d(TAG, "Get uri : " + template.expand());
+		Log.d(TAG, "Get uri : " + uri);
 
 		// Do http get in background
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			mHttpClientGetTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, template.expand());
+			mHttpClientGetTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, uri);
 		} else {
-			mHttpClientGetTask.execute(template.expand());
+			mHttpClientGetTask.execute(uri);
 		}
 		return true;
 	}

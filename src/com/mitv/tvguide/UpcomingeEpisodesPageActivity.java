@@ -23,10 +23,10 @@ import com.mitv.adapters.UpcomingEpisodesListAdapter;
 import com.mitv.content.SSActivity;
 import com.mitv.content.activity.ActivityActivity;
 import com.mitv.homepage.HomeActivity;
-import com.mitv.http.NetworkUtils;
 import com.mitv.model.Broadcast;
 import com.mitv.myprofile.MyProfileActivity;
 import com.mitv.storage.MiTVStore;
+import com.mitv.utilities.NetworkUtils;
 
 public class UpcomingeEpisodesPageActivity extends SSActivity implements OnClickListener {
 
