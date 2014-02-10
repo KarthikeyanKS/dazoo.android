@@ -66,6 +66,9 @@ public class GATrackingManager {
     	String wasPreinstalledSystemAppFlag = preinstalledUsingSystemAppDetectionCheckFlag ? Consts.PREFS_KEY_APP_WAS_PREINSTALLED : Consts.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
 				
 		double sampleRateDecimal = AppConfigurationManager.getInstance().getGoogleAnalyticsSampleRate();
+		if(sampleRateDecimal == 0) {
+			sampleRateDecimal = 1.0d;
+		}
 		double sampleRateAsPercentage = sampleRateDecimal * 100.0d;
 		String sampleRateAsString = String.valueOf(sampleRateAsPercentage);
 				
