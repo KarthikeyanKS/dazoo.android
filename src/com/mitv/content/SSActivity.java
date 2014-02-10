@@ -52,7 +52,7 @@ public abstract class SSActivity extends ActionBarActivity {
 		/* Google Analytics tracking */	
 		this.mViewName = this.getClass().getName();
 		EasyTracker.getInstance(this).activityStart(this);
-		GATrackingManager.sendView(mViewName);
+		GATrackingManager.trySendView(mViewName);
 	};
 	
 	@Override

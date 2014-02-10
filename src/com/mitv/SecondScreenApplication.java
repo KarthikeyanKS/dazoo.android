@@ -169,9 +169,7 @@ public class SecondScreenApplication extends Application {
 	private File appWasPreinstalledFile() {
 		String root = Environment.getExternalStorageDirectory().toString();
 		
-		String packageName = getPackageName();
-		
-		String filePath = String.format(getCurrentLocale(), "%s/Android/data/%s/", root, packageName);
+		String filePath = String.format(getCurrentLocale(), "%s/Android/data/", root);
 		
 		File myDir = new File(filePath);
 		myDir.mkdirs();
@@ -267,7 +265,7 @@ public class SecondScreenApplication extends Application {
 	}
 	
 	private void setupGoogleAnalytics() {
-		GATrackingManager.getInstance();
+		GATrackingManager.getInstance().updateConfiguration();
 	}
 	
 	private boolean checkApiVersion() {
