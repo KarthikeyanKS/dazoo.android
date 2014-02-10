@@ -215,7 +215,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 			if (MyChannelsService.updateMyChannelsList(JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.CHANNEL_CHANNEL_ID, mCheckedChannelsIds))) {
 
 				// clear guides
-				MiTVStore.getInstance().clearMyGuidesStorage();
+				MiTVStore.getInstance().clearGuidesStorage();
 				// update the my channels list
 				MyChannelsService.getMyChannels();
 

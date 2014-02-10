@@ -159,7 +159,8 @@ public class TVGuideTagListAdapter extends AdListAdapter<Broadcast> {
 				}
 			});
 		} else {
-			Log.w("TVGuideTagListAdapter", "Warning: index was -1, returning convert view, or what else should we return here?!");
+			/* No content */
+			rowView = LayoutInflater.from(mActivity).inflate(R.layout.no_data, null);
 		}
 		return rowView;
 	}

@@ -58,6 +58,7 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 		this.mActivity = activity;
 		this.mFeedItems = feedItems;
 		this.mLikeIds = LikeService.getLikeIdsList();
+		this.mLayoutInflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	@Override
@@ -92,7 +93,7 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 			else if (Consts.FEED_ITEM_TYPE_POPULAR_TWITTER.equals(feedItemType)) {
 				return ITEM_TYPE_POPULAR_TWITTER;
 			} 
-			else if (Consts.FEED_ITEM_POPULAR_BROADCAST.equals(feedItemType)) {
+			else if (Consts.FEED_ITEM_TYPE_POPULAR_BROADCAST.equals(feedItemType)) {
 				return ITEM_TYPE_POPULAR_BROADCAST;
 			} 
 			else {
@@ -244,6 +245,248 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 
 		return rowView;
 	}
+	
+	private View populateSingleBroadcastCell(View rowView, final Broadcast broadcast, int position, FeedItem feedItem) {
+		broadcast.updateTimeToBeginAndTimeToEnd();
+
+		final Program program = broadcast.getProgram();
+		if (rowView == null) {
+			BroadcastViewHolder viewHolder = new BroadcastViewHolder();
+
+			rowView = mLayoutInflater.inflate(R.layout.block_feed_liked, null);
+
+			viewHolder.container = (RelativeLayout) rowView.findViewById(R.id.block_feed_liked_main_container);
+			viewHolder.headerTv = (TextView) rowView.findViewById(R.id.block_feed_liked_header_tv);
+			viewHolder.landscapeIv = (ImageView) rowView.findViewById(R.id.block_feed_liked_content_iv);
+			viewHolder.landscapePb = (ProgressBar) rowView.findViewById(R.id.block_feed_liked_content_iv_progressbar);
+			viewHolder.titleTv = (TextView) rowView.findViewById(R.id.block_feed_liked_title_tv);
+			viewHolder.timeTv = (TextView) rowView.findViewById(R.id.block_feed_liked_time_tv);
+			viewHolder.channelTv = (TextView) rowView.findViewById(R.id.block_feed_liked_channel_tv);
+			viewHolder.detailsTv = (TextView) rowView.findViewById(R.id.block_feed_liked_details_tv);
+			viewHolder.progressbarTv = (TextView) rowView.findViewById(R.id.block_feed_liked_timeleft_tv);
+			viewHolder.progressBar = (ProgressBar) rowView.findViewById(R.id.block_feed_liked_progressbar);
+
+			viewHolder.likeContainer = (RelativeLayout) rowView.findViewById(R.id.element_social_buttons_like_button_container);
+			viewHolder.likeLikeIv = (ImageView) rowView.findViewById(R.id.element_social_buttons_like_button_iv);
+			viewHolder.shareContainer = (RelativeLayout) rowView.findViewById(R.id.element_social_buttons_share_button_container);
+			viewHolder.shareIv = (ImageView) rowView.findViewById(R.id.element_social_buttons_share_button_iv);
+			viewHolder.reminderView = (ReminderView) rowView.findViewById(R.id.element_social_buttons_reminder);
+
+			viewHolder.container.setTag(Integer.valueOf(position));
+			rowView.setTag(viewHolder);
+		}
+
+		final BroadcastViewHolder holderBC = (BroadcastViewHolder) rowView.getTag();
+	
+		if(holderBC != null) {
+			holderBC.reminderView.setBroadcast(broadcast);
+
+			final String programType = program.getProgramType();
+			// determine like
+			if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+				mIsLiked = MiTVStore.getInstance().isInTheLikesList(program.getSeries().getSeriesId());
+			} else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) {
+				mIsLiked = MiTVStore.getInstance().isInTheLikesList(program.getSportType().getSportTypeId());
+			} else {
+				mIsLiked = MiTVStore.getInstance().isInTheLikesList(program.getProgramId());
+			}
+
+			if (ITEM_TYPE_POPULAR_TWITTER == getItemViewType(position)) {
+				holderBC.headerTv.setText(mActivity.getResources().getString(R.string.icon_twitter) + " " + feedItem.getTitle());
+			} else {
+				holderBC.headerTv.setText(feedItem.getTitle());
+			}
+
+			ImageAware imageAware = new ImageViewAware(holderBC.landscapeIv, false);
+			ImageLoader.getInstance().displayImage(program.getLandLUrl(), imageAware);
+
+			if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+				holderBC.titleTv.setText(program.getSeries().getName());
+			} else {
+				holderBC.titleTv.setText(program.getTitle());
+			}
+
+			holderBC.timeTv.setText(broadcast.getDayOfWeekWithTimeString());
+			holderBC.channelTv.setText(broadcast.getChannel().getName());
+
+			if (programType != null) {
+				if (Consts.PROGRAM_TYPE_MOVIE.equals(programType)) {
+					holderBC.detailsTv.setText(program.getGenre() + " " + program.getYear());
+				} else if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+					String season = program.getSeason().getNumber();
+					int episode = program.getEpisodeNumber();
+					String seasonEpisode = "";
+					if (!season.equals("0")) {
+						seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + season + " ";
+					}
+					if (episode > 0) {
+						seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + episode;
+					}
+					if (season.equals("0") && episode == 0) {
+						holderBC.detailsTv.setVisibility(View.GONE);
+					}
+					holderBC.detailsTv.setText(seasonEpisode);
+				} else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) {
+					holderBC.detailsTv.setText(program.getSportType().getName() + " " + program.getTournament());
+				} else if (Consts.PROGRAM_TYPE_OTHER.equals(programType)) {
+					holderBC.detailsTv.setText(program.getCategory());
+				}
+			}
+
+			holderBC.container.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
+					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
+					intent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
+
+					mActivity.startActivityForResult(intent, 0);
+
+				}
+			});
+
+			if (broadcast.isRunning()) {
+				ProgressBarUtils.setupProgressBar(mActivity, broadcast, holderBC.progressBar, holderBC.progressbarTv);
+			} else {
+				holderBC.progressbarTv.setVisibility(View.GONE);
+				holderBC.progressBar.setVisibility(View.GONE);
+			}
+
+			if (mIsLiked) {
+				holderBC.likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
+			} else {
+				holderBC.likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
+			}
+
+			holderBC.likeContainer.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					String likeType = LikeService.getLikeType(programType);
+
+					String programId, contentTitle;
+					if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+						programId = program.getSeries().getSeriesId();
+						contentTitle = program.getSeries().getName();
+					} else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) {
+						programId = program.getSportType().getSportTypeId();
+						contentTitle = program.getSportType().getName();
+					} else {
+						programId = program.getProgramId();
+						contentTitle = program.getTitle();
+					}
+
+					if (mIsLiked == false) {
+						if (LikeService.addLike(programId, likeType)) {
+							MiTVStore.getInstance().addLikeIdToList(programId);
+
+							ActivityActivity.toast = LikeService.showSetLikeToast(mActivity, contentTitle);
+							holderBC.likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
+
+							AnimationUtilities.animationSet(holderBC.likeLikeIv);
+
+							mIsLiked = true;
+						} else {
+							// Toast.makeText(mActivity,
+							// "Adding a like faced an error",
+							// Toast.LENGTH_SHORT).show();
+							Log.d(TAG, "!!! Adding a like faced an error !!!");
+						}
+					} else {
+						LikeService.removeLike(likeType, programId);
+						MiTVStore.getInstance().deleteLikeIdFromList(programId);
+
+						mIsLiked = false;
+						holderBC.likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
+
+					}
+				}
+			});
+
+			holderBC.shareContainer.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					ShareAction.shareAction(mActivity, mActivity.getResources().getString(R.string.app_name), broadcast.getShareUrl(), mActivity.getResources()
+							.getString(R.string.share_action_title));
+				}
+			});
+		}
+		return rowView;
+	}
+	
+	private View populateMultipleBroadcastsCell(View rowView, ArrayList<Broadcast> broadcasts) {
+		if (rowView == null) {
+			PopularBroadcastsViewHolder viewHolder = new PopularBroadcastsViewHolder();
+			rowView = mLayoutInflater.inflate(R.layout.block_feed_popular, null);
+
+			viewHolder.header = (TextView) rowView.findViewById(R.id.block_popular_header_tv);
+
+			// one
+			RelativeLayout elementOne = (RelativeLayout) rowView.findViewById(R.id.block_popular_element_one);
+			viewHolder.mContainerOne = elementOne;
+			viewHolder.mPosterOne = (ImageView) elementOne.findViewById(R.id.element_popular_list_item_image_iv);
+			viewHolder.mTitleOne = (TextView) elementOne.findViewById(R.id.element_popular_list_item_title_tv);
+			viewHolder.mTimeOne = (TextView) elementOne.findViewById(R.id.element_popular_list_item_time_tv);
+			viewHolder.mChannelNameOne = (TextView) elementOne.findViewById(R.id.element_popular_list_item_channel_tv);
+			viewHolder.mDetailsOne = (TextView) elementOne.findViewById(R.id.element_popular_list_item_type_tv);
+			viewHolder.mProgressBarTitleOne = (TextView) elementOne.findViewById(R.id.element_popular_list_item_timeleft_tv);
+			viewHolder.mProgressBarOne = (ProgressBar) elementOne.findViewById(R.id.element_popular_list_item_progressbar);
+
+			// two
+			RelativeLayout elementTwo = (RelativeLayout) rowView.findViewById(R.id.block_popular_element_two);
+			viewHolder.mContainerTwo = elementTwo;// (LinearLayout)
+													// elementTwo.findViewById(R.id.block_popular_feed_container);
+			viewHolder.mPosterTwo = (ImageView) elementTwo.findViewById(R.id.element_popular_list_item_image_iv);
+			viewHolder.mTitleTwo = (TextView) elementTwo.findViewById(R.id.element_popular_list_item_title_tv);
+			viewHolder.mTimeTwo = (TextView) elementTwo.findViewById(R.id.element_popular_list_item_time_tv);
+			viewHolder.mChannelNameTwo = (TextView) elementTwo.findViewById(R.id.element_popular_list_item_channel_tv);
+			viewHolder.mDetailsTwo = (TextView) elementTwo.findViewById(R.id.element_popular_list_item_type_tv);
+			viewHolder.mProgressBarTitleTwo = (TextView) elementTwo.findViewById(R.id.element_popular_list_item_timeleft_tv);
+			viewHolder.mProgressBarTwo = (ProgressBar) elementTwo.findViewById(R.id.element_popular_list_item_progressbar);
+
+			// three
+			RelativeLayout elementThree = (RelativeLayout) rowView.findViewById(R.id.block_popular_element_three);
+			viewHolder.mContainerThree = elementThree;// (LinearLayout)
+														// elementThree.findViewById(R.id.block_popular_feed_container);
+			viewHolder.mPosterThree = (ImageView) elementThree.findViewById(R.id.element_popular_list_item_image_iv);
+			viewHolder.mTitleThree = (TextView) elementThree.findViewById(R.id.element_popular_list_item_title_tv);
+			viewHolder.mTimeThree = (TextView) elementThree.findViewById(R.id.element_popular_list_item_time_tv);
+			viewHolder.mChannelNameThree = (TextView) elementThree.findViewById(R.id.element_popular_list_item_channel_tv);
+			viewHolder.mDetailsThree = (TextView) elementThree.findViewById(R.id.element_popular_list_item_type_tv);
+			viewHolder.mProgressBarTitleThree = (TextView) elementThree.findViewById(R.id.element_popular_list_item_timeleft_tv);
+			viewHolder.mProgressBarThree = (ProgressBar) elementThree.findViewById(R.id.element_popular_list_item_progressbar);
+
+			rowView.setTag(viewHolder);
+		}
+
+		final PopularBroadcastsViewHolder holderPBC = (PopularBroadcastsViewHolder) rowView.getTag();
+
+		// one
+		populatePopularItemAtIndex(holderPBC, broadcasts, 0);
+
+		// two
+		populatePopularItemAtIndex(holderPBC, broadcasts, 1);
+
+		// three
+		populatePopularItemAtIndex(holderPBC, broadcasts, 2);
+
+		RelativeLayout footer = (RelativeLayout) rowView.findViewById(R.id.block_popular_show_more_container);
+		footer.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(mActivity, PopularPageActivity.class);
+				mActivity.startActivity(intent);
+			}
+		});
+
+		return rowView;
+	}
 
 	public View getViewForFeedItemCell(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
@@ -252,287 +495,34 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 
 		final FeedItem feedItem = getItem(position);
 
-		if (feedItem.getBroadcast() != null || (feedItem.getBroadcasts() != null && feedItem.getBroadcasts().size() > 0)) {
+		switch (type) {
+		case ITEM_TYPE_RECOMMENDED_BROADCAST:
+		case ITEM_TYPE_POPULAR_TWITTER:
+		case ITEM_TYPE_POPULAR_BROADCAST:
+		case ITEM_TYPE_BROADCAST:
+			/* One broadcast */
+			final Broadcast broadcast = feedItem.getBroadcast();
 
-			/* Many broadcasts */
-			if (type == ITEM_TYPE_POPULAR_BROADCASTS) {
-				
-				final ArrayList<Broadcast> broadcasts = feedItem.getBroadcasts();
-				// If there are atleast 2 broadcasts in popular list
-				if (broadcasts.size() > 1) {
-					if (rowView == null) {
-						mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-						PopularBroadcastsViewHolder viewHolder = new PopularBroadcastsViewHolder();
-						rowView = mLayoutInflater.inflate(R.layout.block_feed_popular, null);
-
-						viewHolder.header = (TextView) rowView.findViewById(R.id.block_popular_header_tv);
-
-						// one
-						RelativeLayout elementOne = (RelativeLayout) rowView.findViewById(R.id.block_popular_element_one);
-						viewHolder.mContainerOne = elementOne;
-						viewHolder.mPosterOne = (ImageView) elementOne.findViewById(R.id.element_popular_list_item_image_iv);
-						viewHolder.mTitleOne = (TextView) elementOne.findViewById(R.id.element_popular_list_item_title_tv);
-						viewHolder.mTimeOne = (TextView) elementOne.findViewById(R.id.element_popular_list_item_time_tv);
-						viewHolder.mChannelNameOne = (TextView) elementOne.findViewById(R.id.element_popular_list_item_channel_tv);
-						viewHolder.mDetailsOne = (TextView) elementOne.findViewById(R.id.element_popular_list_item_type_tv);
-						viewHolder.mProgressBarTitleOne = (TextView) elementOne.findViewById(R.id.element_popular_list_item_timeleft_tv);
-						viewHolder.mProgressBarOne = (ProgressBar) elementOne.findViewById(R.id.element_popular_list_item_progressbar);
-
-						// two
-						RelativeLayout elementTwo = (RelativeLayout) rowView.findViewById(R.id.block_popular_element_two);
-						viewHolder.mContainerTwo = elementTwo;// (LinearLayout) elementTwo.findViewById(R.id.block_popular_feed_container);
-						viewHolder.mPosterTwo = (ImageView) elementTwo.findViewById(R.id.element_popular_list_item_image_iv);
-						viewHolder.mTitleTwo = (TextView) elementTwo.findViewById(R.id.element_popular_list_item_title_tv);
-						viewHolder.mTimeTwo = (TextView) elementTwo.findViewById(R.id.element_popular_list_item_time_tv);
-						viewHolder.mChannelNameTwo = (TextView) elementTwo.findViewById(R.id.element_popular_list_item_channel_tv);
-						viewHolder.mDetailsTwo = (TextView) elementTwo.findViewById(R.id.element_popular_list_item_type_tv);
-						viewHolder.mProgressBarTitleTwo = (TextView) elementTwo.findViewById(R.id.element_popular_list_item_timeleft_tv);
-						viewHolder.mProgressBarTwo = (ProgressBar) elementTwo.findViewById(R.id.element_popular_list_item_progressbar);
-
-						// three
-						RelativeLayout elementThree = (RelativeLayout) rowView.findViewById(R.id.block_popular_element_three);
-						viewHolder.mContainerThree = elementThree;// (LinearLayout) elementThree.findViewById(R.id.block_popular_feed_container);
-						viewHolder.mPosterThree = (ImageView) elementThree.findViewById(R.id.element_popular_list_item_image_iv);
-						viewHolder.mTitleThree = (TextView) elementThree.findViewById(R.id.element_popular_list_item_title_tv);
-						viewHolder.mTimeThree = (TextView) elementThree.findViewById(R.id.element_popular_list_item_time_tv);
-						viewHolder.mChannelNameThree = (TextView) elementThree.findViewById(R.id.element_popular_list_item_channel_tv);
-						viewHolder.mDetailsThree = (TextView) elementThree.findViewById(R.id.element_popular_list_item_type_tv);
-						viewHolder.mProgressBarTitleThree = (TextView) elementThree.findViewById(R.id.element_popular_list_item_timeleft_tv);
-						viewHolder.mProgressBarThree = (ProgressBar) elementThree.findViewById(R.id.element_popular_list_item_progressbar);
-
-						rowView.setTag(viewHolder);
-					}
-
-					final PopularBroadcastsViewHolder holderPBC = (PopularBroadcastsViewHolder) rowView.getTag();
-
-					// one
-					populatePopularItemAtIndex(holderPBC, broadcasts, 0);
-
-					// two
-					populatePopularItemAtIndex(holderPBC, broadcasts, 1);
-
-					// three
-					populatePopularItemAtIndex(holderPBC, broadcasts, 2);
-
-					RelativeLayout footer = (RelativeLayout) rowView.findViewById(R.id.block_popular_show_more_container);
-					footer.setOnClickListener(new View.OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-							Intent intent = new Intent(mActivity, PopularPageActivity.class);
-							mActivity.startActivity(intent);
-						}
-					});
-
-				}
-				//If there is only one broadcast in popular list, show as popular card
-				else if (broadcasts.size() > 0) {
-					feedItem.setBroadcast(broadcasts.get(0));
-					feedItem.setItemType(Consts.FEED_ITEM_POPULAR_BROADCAST);
-					getViewForFeedItemCell(position, convertView, parent);
-				}
-			} 
-			else {
-
-				/* One broadcast */
-				final Broadcast broadcast = feedItem.getBroadcast();
-				broadcast.updateTimeToBeginAndTimeToEnd();
-
-				final Program program = broadcast.getProgram();
-
-				switch (type) {
-				case ITEM_TYPE_RECOMMENDED_BROADCAST:
-				case ITEM_TYPE_POPULAR_TWITTER:
-				case ITEM_TYPE_POPULAR_BROADCAST:
-				case ITEM_TYPE_BROADCAST:
-					if (rowView == null) {
-						mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-						BroadcastViewHolder viewHolder = new BroadcastViewHolder();
-
-						rowView = mLayoutInflater.inflate(R.layout.block_feed_liked, null);
-
-						viewHolder.container = (RelativeLayout) rowView.findViewById(R.id.block_feed_liked_main_container);
-						viewHolder.headerTv = (TextView) rowView.findViewById(R.id.block_feed_liked_header_tv);
-						viewHolder.landscapeIv = (ImageView) rowView.findViewById(R.id.block_feed_liked_content_iv);
-						viewHolder.landscapePb = (ProgressBar) rowView.findViewById(R.id.block_feed_liked_content_iv_progressbar);
-						viewHolder.titleTv = (TextView) rowView.findViewById(R.id.block_feed_liked_title_tv);
-						viewHolder.timeTv = (TextView) rowView.findViewById(R.id.block_feed_liked_time_tv);
-						viewHolder.channelTv = (TextView) rowView.findViewById(R.id.block_feed_liked_channel_tv);
-						viewHolder.detailsTv = (TextView) rowView.findViewById(R.id.block_feed_liked_details_tv);
-						viewHolder.progressbarTv = (TextView) rowView.findViewById(R.id.block_feed_liked_timeleft_tv);
-						viewHolder.progressBar = (ProgressBar) rowView.findViewById(R.id.block_feed_liked_progressbar);
-
-						viewHolder.likeContainer = (RelativeLayout) rowView.findViewById(R.id.element_social_buttons_like_button_container);
-						viewHolder.likeLikeIv = (ImageView) rowView.findViewById(R.id.element_social_buttons_like_button_iv);
-						viewHolder.shareContainer = (RelativeLayout) rowView.findViewById(R.id.element_social_buttons_share_button_container);
-						viewHolder.shareIv = (ImageView) rowView.findViewById(R.id.element_social_buttons_share_button_iv);
-						viewHolder.reminderView = (ReminderView) rowView.findViewById(R.id.element_social_buttons_reminder);
-
-						viewHolder.container.setTag(Integer.valueOf(position));
-						rowView.setTag(viewHolder);
-					}
-
-					final BroadcastViewHolder holderBC = (BroadcastViewHolder) rowView.getTag();
-					// mIsLiked = LikeService.isLiked(mToken, program.getProgramId());
-					
-					holderBC.reminderView.setBroadcast(broadcast);
-
-					final String programType = program.getProgramType();
-					// determine like
-					if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-						mIsLiked = MiTVStore.getInstance().isInTheLikesList(program.getSeries().getSeriesId());
-					} 
-					else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) {
-						mIsLiked = MiTVStore.getInstance().isInTheLikesList(program.getSportType().getSportTypeId());
-					} 
-					else {
-						mIsLiked = MiTVStore.getInstance().isInTheLikesList(program.getProgramId());
-					}
-
-					if (ITEM_TYPE_POPULAR_TWITTER == type) {
-						holderBC.headerTv.setText(mActivity.getResources().getString(R.string.icon_twitter) + " " + feedItem.getTitle());
-					} 
-					else {
-						holderBC.headerTv.setText(feedItem.getTitle());
-					}
-
-					ImageAware imageAware = new ImageViewAware(holderBC.landscapeIv, false);
-					ImageLoader.getInstance().displayImage(program.getLandLUrl(), imageAware);
-
-					if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-						holderBC.titleTv.setText(program.getSeries().getName());
-					} 
-					else {
-						holderBC.titleTv.setText(program.getTitle());
-					}
-
-					holderBC.timeTv.setText(broadcast.getDayOfWeekWithTimeString());
-					holderBC.channelTv.setText(broadcast.getChannel().getName());
-
-					if (programType != null) {
-						if (Consts.PROGRAM_TYPE_MOVIE.equals(programType)) {
-							holderBC.detailsTv.setText(program.getGenre() + " " + program.getYear());
-						} 
-						else if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-							String season = program.getSeason().getNumber();
-							int episode = program.getEpisodeNumber();
-							String seasonEpisode = "";
-							if (!season.equals("0")) {
-								seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + season + " ";
-							}
-							if (episode > 0) {
-								seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + episode;
-							}
-							if (season.equals("0") && episode == 0) {
-								holderBC.detailsTv.setVisibility(View.GONE);
-							}
-							holderBC.detailsTv.setText(seasonEpisode);
-						} 
-						else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) {
-							holderBC.detailsTv.setText(program.getSportType().getName() + " " + program.getTournament());
-						} 
-						else if (Consts.PROGRAM_TYPE_OTHER.equals(programType)) {
-							holderBC.detailsTv.setText(program.getCategory());
-						}
-					}
-
-					holderBC.container.setOnClickListener(new View.OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-							Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-							intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
-							intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
-							intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
-							intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
-							intent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
-
-							mActivity.startActivityForResult(intent, 0);
-
-						}
-					});
-
-					if (broadcast.isRunning()) {
-						ProgressBarUtils.setupProgressBar(mActivity, broadcast, holderBC.progressBar, holderBC.progressbarTv);
-					} 
-					else {
-						holderBC.progressbarTv.setVisibility(View.GONE);
-						holderBC.progressBar.setVisibility(View.GONE);
-					}
-
-					if (mIsLiked) {
-						holderBC.likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
-					}
-					else { 
-						holderBC.likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
-					}
-
-					holderBC.likeContainer.setOnClickListener(new View.OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-							String likeType = LikeService.getLikeType(programType);
-
-							String programId, contentTitle;
-							if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-								programId = program.getSeries().getSeriesId();
-								contentTitle = program.getSeries().getName();
-							} else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) {
-								programId = program.getSportType().getSportTypeId();
-								contentTitle = program.getSportType().getName();
-							} else {
-								programId = program.getProgramId();
-								contentTitle = program.getTitle();
-							}
-
-							if (mIsLiked == false) {
-								if (LikeService.addLike(programId, likeType)) {
-									MiTVStore.getInstance().addLikeIdToList(programId);
-
-									ActivityActivity.toast = LikeService.showSetLikeToast(mActivity, contentTitle);
-									holderBC.likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
-
-									AnimationUtilities.animationSet(holderBC.likeLikeIv);
-
-									mIsLiked = true;
-								} else {
-									// Toast.makeText(mActivity, "Adding a like faced an error", Toast.LENGTH_SHORT).show();
-									Log.d(TAG, "!!! Adding a like faced an error !!!");
-								}
-							} else {
-								LikeService.removeLike(likeType, programId);
-								MiTVStore.getInstance().deleteLikeIdFromList(programId);
-
-								mIsLiked = false;
-								holderBC.likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
-
-							}
-						}
-					});
-
-					holderBC.shareContainer.setOnClickListener(new View.OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-							ShareAction.shareAction(mActivity, mActivity.getResources().getString(R.string.app_name), broadcast.getShareUrl(),
-									mActivity.getResources().getString(R.string.share_action_title));
-						}
-					});
-
-					break;
-
-				case ITEM_TYPE_POPULAR_BROADCASTS:
-					/* Handled above */
-					break;
-				}
+			if (broadcast != null) {
+				rowView = populateSingleBroadcastCell(rowView, broadcast, position, feedItem);
 			}
+			break;
+
+		case ITEM_TYPE_POPULAR_BROADCASTS:
+
+			final ArrayList<Broadcast> broadcasts = feedItem.getBroadcasts();
+
+			if (broadcasts != null && broadcasts.size() > 0) {
+				rowView = populateMultipleBroadcastsCell(rowView, broadcasts);
+			}
+			break;
+
 		}
-		// else {
-		// /* No content */
-		// convertView = LayoutInflater.from(mActivity).inflate(R.layout.no_data, null);
-		// }
+
+		if (rowView == null) {
+			/* No content */
+			rowView = LayoutInflater.from(mActivity).inflate(R.layout.no_data, null);
+		}
 		return rowView;
 	}
 

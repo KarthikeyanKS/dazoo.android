@@ -114,17 +114,6 @@ public class MiTVStoreOperations {
 		mitvStore.setBroadcastsList(broadcastsList);
 	}
 
-	public static void saveMyTaggedBroadcast(TvDate date, Tag tag, ArrayList<Broadcast> broadcasts) {
-		MiTVStore mitvStore = MiTVStore.getInstance();
-		HashMap<BroadcastKey, ArrayList<Broadcast>> broadcastsList = mitvStore.getMyBroadcastsList();
-
-		BroadcastKey broadcastKey = new BroadcastKey();
-		broadcastKey.setDate(date);
-		broadcastKey.setTag(tag);
-
-		broadcastsList.put(broadcastKey, broadcasts);
-		mitvStore.setMyBroadcastsList(broadcastsList);
-	}
 
 	// filtering guides by tags
 	public static ArrayList<Broadcast> getTaggedBroadcasts(String date, Tag tag) {

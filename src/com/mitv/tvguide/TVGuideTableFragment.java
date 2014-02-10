@@ -39,7 +39,7 @@ import com.mitv.utilities.DateUtilities;
 public class TVGuideTableFragment extends SSPageFragment {
 
 	private static final String		TAG	= "TVGuideTableFragment";
-	private String					mTagStr, token;
+	private String					mTagStr;
 	private View					mRootView;
 	private Activity				mActivity;
 	private ListView				mTVGuideListView;
@@ -51,7 +51,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 	private SwipeClockBar			mSwipeClockBar;
 	private TVGuideListAdapter		mTVGuideListAdapter;
 	private MiTVStore				mitvStore;
-	private boolean					mIsLoggedIn	= false, mIsToday = false;
+	private boolean					mIsToday = false;
 	private ArrayList<Broadcast>	mTaggedBroadcasts;
 	private TVGuideTagListAdapter	mTVTagListAdapter;
 	private int						mHour;
@@ -75,11 +75,6 @@ public class TVGuideTableFragment extends SSPageFragment {
 		super.onCreate(savedInstanceState);
 
 		mitvStore = MiTVStore.getInstance();
-
-		token = ((SecondScreenApplication) getActivity().getApplicationContext()).getAccessToken();
-		if (token != null && TextUtils.isEmpty(token) != true) {
-			mIsLoggedIn = true;
-		}
 	}
 
 	@Override
@@ -140,18 +135,9 @@ public class TVGuideTableFragment extends SSPageFragment {
 
 		// read the data from the mitvStore singleton
 		if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
-
-
 			mGuides = mitvStore.getGuideTable(mTvDate.getDate());
 		} else {
-			if (mIsLoggedIn) {
-				mTaggedBroadcasts = mitvStore.getMyTaggedBroadcasts(mTvDate, mTag);
-				Log.d(TAG, "My tagged broadcasts");
-
-			} else {
-				mTaggedBroadcasts = mitvStore.getTaggedBroadcasts(mTvDate, mTag);
-				Log.d(TAG, "default tagged broadcasts");
-			}
+			mTaggedBroadcasts = mitvStore.getTaggedBroadcasts(mTvDate, mTag);
 		}
 
 		pageHoldsData();

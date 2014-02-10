@@ -256,7 +256,7 @@ public class ContentParser {
 		String itemType = jsonObject.optString(Consts.FEED_ITEM_ITEM_TYPE);
 		feedItem.setItemType(itemType);
 
-		if (Consts.FEED_ITEM_TYPE_BROADCAST.equals(itemType) || Consts.FEED_ITEM_POPULAR_BROADCAST.equals(itemType) || Consts.FEED_ITEM_TYPE_RECOMMENDED_BROADCAST.equals(itemType)
+		if (Consts.FEED_ITEM_TYPE_BROADCAST.equals(itemType) || Consts.FEED_ITEM_TYPE_POPULAR_BROADCAST.equals(itemType) || Consts.FEED_ITEM_TYPE_RECOMMENDED_BROADCAST.equals(itemType)
 				|| Consts.FEED_ITEM_TYPE_POPULAR_TWITTER.equals(itemType)) {
 			feedItem.setTitle(jsonObject.optString(Consts.FEED_ITEM_TITLE));
 			try {
@@ -278,7 +278,14 @@ public class ContentParser {
 					e.printStackTrace();
 				}
 			}
-			feedItem.setBroadcasts(broadcasts);
+			
+			if(broadcasts.size() == 1) {
+				feedItem.setItemType(Consts.FEED_ITEM_TYPE_POPULAR_BROADCAST);
+				Broadcast onlyBroadcast = broadcasts.get(0);
+				feedItem.setBroadcast(onlyBroadcast);
+			} else {
+				feedItem.setBroadcasts(broadcasts);
+			}
 		}
 		return feedItem;
 	}
