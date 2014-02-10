@@ -11,7 +11,9 @@
         android:id="@+id/signup_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:focusable="true" 
+        android:focusableInTouchMode="true" >
 
         <com.mitv.customviews.FontEditText
             android:id="@+id/signup_firstname_edittext"
