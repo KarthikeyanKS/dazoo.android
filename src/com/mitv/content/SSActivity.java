@@ -26,7 +26,7 @@ import com.mitv.search.SearchPageActivity;
 public abstract class SSActivity extends ActionBarActivity {
 
 	private static final String	TAG	= "SSActivity";
-	
+
 	private String				mViewName;
 	private Tracker 			mTracker;
 	private View				mRequestEmptyLayout;
@@ -43,7 +43,7 @@ public abstract class SSActivity extends ActionBarActivity {
 	protected abstract void loadPage();
 
 	@Override
-	
+
 	protected void onCreate(android.os.Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// add to the list of running activities
@@ -54,48 +54,36 @@ public abstract class SSActivity extends ActionBarActivity {
 		EasyTracker.getInstance(this).activityStart(this);
 		GATrackingManager.sendView(mViewName);
 	};
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.actionbar_menu, menu);
-		
-		MenuItem searchIcon = menu.findItem(R.id.action_start_search);
-		View seachIconView = MenuItemCompat.getActionView(searchIcon);
-		seachIconView.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent toSearchPage = new Intent(SSActivity.this, SearchPageActivity.class);
-				startActivity(toSearchPage);
-				
-			}
-		});
-		
+
 		MenuItem searchFieldItem = menu.findItem(R.id.searchfield);
 		searchFieldItem.setVisible(false);
-		
+
 		return super.onCreateOptionsMenu(menu);
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
 
 		// hide search for beta release
 		switch (item.getItemId()) {
-		case R.id.action_start_search:		//Might be dead with actionView instead of icon...
+		case R.id.action_start_search:		
 			Intent toSearchPage = new Intent(SSActivity.this, SearchPageActivity.class);
 			startActivity(toSearchPage);
 
 			return true;
-			
+
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
+
 	@Override
 	protected void onStop() {
 		super.onStop();
@@ -104,7 +92,7 @@ public abstract class SSActivity extends ActionBarActivity {
 		GATrackingManager.stopTrackingView(this.mViewName);
 		EasyTracker.getInstance(this).activityStop(this);
 	}
-	
+
 	// Init the callback layouts for this page
 	@Override
 	public void setContentView(int layoutResID) {
@@ -112,9 +100,9 @@ public abstract class SSActivity extends ActionBarActivity {
 
 		mActivity = this;
 		mActionBar = getSupportActionBar();
-		
+
 		mActionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.blue1)));
-		
+
 		mActionBar.setDisplayShowTitleEnabled(true);
 		mActionBar.setDisplayShowCustomEnabled(true);
 		mActionBar.setDisplayUseLogoEnabled(true);
@@ -171,7 +159,7 @@ public abstract class SSActivity extends ActionBarActivity {
 		if(mRequestFailedButton != null) {
 			mRequestFailedButton.setOnClickListener(mOnRequestFailedClickListener);
 		}
-		
+
 		mRequestLoadingLayout = (RelativeLayout) findViewById(R.id.request_loading_main_layout);
 
 		mRequestEmptyLayout = (RelativeLayout) findViewById(R.id.request_empty_main_layout);

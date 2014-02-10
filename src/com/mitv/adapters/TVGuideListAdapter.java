@@ -12,6 +12,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextPaint;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -209,11 +210,12 @@ public class TVGuideListAdapter extends AdListAdapter<ChannelGuide> {
 			}
 		}
 		if (textForThreeBroadcasts.equals("")) {
-			rowView.setVisibility(View.INVISIBLE);
+			holder.mTextView.setVisibility(View.INVISIBLE);
 		}
 		else {
-			rowView.setVisibility(View.VISIBLE);
+			holder.mTextView.setVisibility(View.VISIBLE);
 		}
+		Log.d(TAG, "Returning new view");
 		return rowView;
 	}
 	
