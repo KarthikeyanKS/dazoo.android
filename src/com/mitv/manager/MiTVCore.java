@@ -103,7 +103,7 @@ public class MiTVCore {
 	}
 	
 	private void getChannels() {
-		HashMap<String, Channel> allChannels = MiTVStore.getInstance().getDisplayedChannels();
+		HashMap<String, Channel> allChannels = MiTVStore.getInstance().getChannels();
 		
 		/* Channels not fetched, go fetch!!! */
 		if (allChannels == null || allChannels.isEmpty()) {

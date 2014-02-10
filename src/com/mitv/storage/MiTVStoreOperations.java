@@ -44,7 +44,7 @@ public class MiTVStoreOperations {
 		}
 
 		MiTVStore mitvStore = MiTVStore.getInstance();
-		mitvStore.setDisplayedChannels(channelsMap);
+		mitvStore.setChannels(channelsMap);
 		
 		/*  */
 		if((SecondScreenApplication.isLoggedIn() && !MiTVStore.getInstance().isMyIdsSet()) || !SecondScreenApplication.isLoggedIn()) {

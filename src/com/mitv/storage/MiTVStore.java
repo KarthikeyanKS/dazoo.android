@@ -18,7 +18,7 @@ public class MiTVStore {
 	private ArrayList<TvDate>							mTvDates			= new ArrayList<TvDate>();
 
 	private ArrayList<String>							mChannelIds			= new ArrayList<String>();
-	private HashMap<String, Channel>					mDisplayedChannels			= new HashMap<String, Channel>();
+	private HashMap<String, Channel>					mChannels			= new HashMap<String, Channel>();
 
 	private ArrayList<Tag>								mTags				= new ArrayList<Tag>();
 	private HashMap<String, HashMap<Integer, AdzerkAd>> mFragmentToAdsMap 	= new HashMap<String, HashMap<Integer, AdzerkAd>>();
@@ -100,18 +100,18 @@ public class MiTVStore {
 	}
 
 	// channels
-	public void setDisplayedChannels(HashMap<String, Channel> channels) {
-		this.mDisplayedChannels = channels;
+	public void setChannels(HashMap<String, Channel> channels) {
+		this.mChannels = channels;
 	}
 
-	public HashMap<String, Channel> getDisplayedChannels() {
-		return this.mDisplayedChannels;
+	public HashMap<String, Channel> getChannels() {
+		return this.mChannels;
 	}
 
 	
 
 	public Channel getChannelById(String channelId) {
-		for (Entry<String, Channel> entry : mDisplayedChannels.entrySet()) {
+		for (Entry<String, Channel> entry : mChannels.entrySet()) {
 			if (entry.getKey().equals(channelId)) {
 				return entry.getValue();
 			}
@@ -260,16 +260,15 @@ public class MiTVStore {
 
 	// CLEAR DATA WHEN NEW CHANNEL IS ADDED TO THE SELECTION
 	public void clearGuidesStorage() {
-//		this.mMyGuides.clear();
+		this.mChannels.clear();
+		this.mGuides.clear();
 		this.mTaggedBroadcasts.clear();
-//		this.mMyGuides = new HashMap<GuideKey, ChannelGuide>();
-		this.mTaggedBroadcasts = new HashMap<BroadcastKey, ArrayList<Broadcast>>();
 	}
 
 	public void reinitializeAll() {
 		this.mTvDates = new ArrayList<TvDate>();
 		this.mTags = new ArrayList<Tag>();
-		this.mDisplayedChannels = new HashMap<String, Channel>();
+		this.mChannels = new HashMap<String, Channel>();
 		this.mChannelIds = new ArrayList<String>();
 		this.mGuides = new HashMap<GuideKey, ChannelGuide>();
 		this.mTaggedBroadcasts = new HashMap<BroadcastKey, ArrayList<Broadcast>>();
@@ -286,7 +285,7 @@ public class MiTVStore {
 	public void clearAll() {
 		this.mTvDates.clear();
 		this.mTags.clear();
-		this.mDisplayedChannels.clear();
+		this.mChannels.clear();
 		this.mChannelIds.clear();
 		this.mGuides.clear();
 		this.mTaggedBroadcasts.clear();
