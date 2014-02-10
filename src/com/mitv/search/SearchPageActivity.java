@@ -155,7 +155,7 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 				return false;
 			}
 		});
-		
+		// Remove clear button when there is no text to clear
 		mEditTextSearch.addTextChangedListener(new TextWatcher() {
 
 			@Override
