@@ -1,8 +1,14 @@
+
 package com.mitv.storage;
 
+
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map.Entry;
+
+import android.util.SparseArray;
 
 import com.mitv.model.AdzerkAd;
 import com.mitv.model.Broadcast;
@@ -12,20 +18,27 @@ import com.mitv.model.ChannelGuide;
 import com.mitv.model.Tag;
 import com.mitv.model.TvDate;
 
-public class MiTVStore {
+
+
+public class MiTVStore 
+{
+	@SuppressWarnings("unused")
 	private static final String							TAG					= "MiTVStore";
 
 	private ArrayList<TvDate>							mTvDates			= new ArrayList<TvDate>();
 
 	private ArrayList<String>							mChannelIds			= new ArrayList<String>();
+	private Calendar									mChannelIdsFetchTimestamp = null;	
+	
 	private HashMap<String, Channel>					mChannels			= new HashMap<String, Channel>();
 
 	private ArrayList<Tag>								mTags				= new ArrayList<Tag>();
-	private HashMap<String, HashMap<Integer, AdzerkAd>> mFragmentToAdsMap 	= new HashMap<String, HashMap<Integer, AdzerkAd>>();
+	private HashMap<String, SparseArray<AdzerkAd>> 		mFragmentToAdsMap 	= new HashMap<String, SparseArray<AdzerkAd>>();
 	private HashMap<GuideKey, ChannelGuide>				mGuides				= new HashMap<GuideKey, ChannelGuide>();
 	private HashMap<BroadcastKey, ArrayList<Broadcast>>	mTaggedBroadcasts	= new HashMap<BroadcastKey, ArrayList<Broadcast>>();
 
 	private ArrayList<String>							mLikeIds			= new ArrayList<String>();
+	private Calendar									mLikeIdsFetchTimestamp = null;	
 
 	private ArrayList<FeedItem>							mActivityFeed		= new ArrayList<FeedItem>();
 	private ArrayList<Broadcast>						mPopularFeed		= new ArrayList<Broadcast>();
@@ -119,8 +132,12 @@ public class MiTVStore {
 		return null;
 	}
 
-	public void storeMyChannelIds(ArrayList<String> ids) {
+	public void storeMyChannelIds(ArrayList<String> ids) 
+	{
+		Calendar now = Calendar.getInstance();
+		
 		this.mMyIdsSet = true;
+		this.mChannelIdsFetchTimestamp = now;
 		setChannelIds(ids);
 	}
 
@@ -133,8 +150,12 @@ public class MiTVStore {
 	}
 
 	// likes
-	public void setLikeIds(ArrayList<String> likeIds) {
+	public void setLikeIds(ArrayList<String> likeIds) 
+	{
+		Calendar now = Calendar.getInstance();
+		
 		this.mLikeIds = likeIds;
+		this.mLikeIdsFetchTimestamp = now;
 	}
 
 	public ArrayList<String> getLikeIds() {
@@ -292,11 +313,33 @@ public class MiTVStore {
 		this.mLikeIds.clear();
 	}
 
-	public void addAdsForFragment(String fragmentName, HashMap<Integer, AdzerkAd> adItems) {
+	
+	
+	public void addAdsForFragment(
+			String fragmentName, 
+			SparseArray<AdzerkAd> adItems) 
+	{
 		mFragmentToAdsMap.put(fragmentName, adItems);
 	}
 	
-	public HashMap<Integer, AdzerkAd> getAdsForFragment(String fragmentName) {
+	
+	
+	public SparseArray<AdzerkAd> getAdsForFragment(String fragmentName) 
+	{
 		return mFragmentToAdsMap.get(fragmentName);
+	}
+	
+	
+	
+	public Calendar getmMyChannelIdsFetchTimestamp()
+	{
+		return mChannelIdsFetchTimestamp;
+	}
+
+	
+	
+	public Calendar getmLikeIdsFetchTimestamp()
+	{
+		return mLikeIdsFetchTimestamp;
 	}
 }

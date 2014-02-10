@@ -2,6 +2,8 @@ package com.mitv.http;
 
 import java.io.InputStream;
 
+import com.mitv.utilities.NetworkUtils;
+
 import android.util.Log;
 
 public class SSHttpRawDataClient<T_Result> extends SSHttpClient<T_Result> {

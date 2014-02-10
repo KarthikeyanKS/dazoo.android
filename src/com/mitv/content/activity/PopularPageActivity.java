@@ -51,12 +51,12 @@ import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.adapters.PopularListAdapter;
 import com.mitv.content.SSActivity;
 import com.mitv.homepage.HomeActivity;
-import com.mitv.http.NetworkUtils;
 import com.mitv.manager.ContentParser;
 import com.mitv.manager.LoginManager;
 import com.mitv.model.Broadcast;
 import com.mitv.myprofile.MyProfileActivity;
 import com.mitv.storage.MiTVStore;
+import com.mitv.utilities.NetworkUtils;
 
 public class PopularPageActivity extends SSActivity implements OnClickListener {
 

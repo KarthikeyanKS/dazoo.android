@@ -493,6 +493,10 @@ public abstract class Consts {
 	public static final String JSON_KEY_SEARCH_ENTITY_BROADCASTS		= "broadcasts";
 	public static final String JSON_KEY_SEARCH_ENTITY_NAME				= "name";
 	
+	/* REFRESH INTERVALS FOR LOCAL DATA */
+	public static final int LIKE_IDS_REFRESH_INTERVAL_IN_MINUTES 		= 1;
+	public static final int CHANNEL_IDS_REFRESH_INTERVAL_IN_MINUTES 	= 1;
+	
 	public static enum ENTITY_TYPE {
 		SERIES, PROGRAM, CHANNEL
 	}
