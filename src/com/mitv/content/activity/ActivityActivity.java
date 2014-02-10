@@ -334,6 +334,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 		case R.id.activity_not_logged_in_facebook_container:
 			// facebook sign in
 			Intent intent = new Intent(ActivityActivity.this, FacebookLoginActivity.class);
+			intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
 			startActivity(intent);
 			finish();
 			

@@ -102,7 +102,7 @@
     <string name="reminders">My Reminders</string>
     <string name="likes">Likes</string>
     <string name="myprofile_my_channels">Set your channels</string>
-    <string name="myprofile_about_us">About us</string>
+    <string name="myprofile_about_us">About and Contact us</string>
     <string name="myprofile_have_account">Have an account?</string>
     <string name="myprofile_logged_in_as">Logged in as:</string>
     <string name="myprofile_info">Add your favorite shows and get recommendations.</string>
@@ -126,7 +126,7 @@
     <string name="about_title">About</string>
     <string name="about_header">About this app</string>
     <string name="about_info">Mi.tv - we guide, inspire and socialise your TV experience so you never miss a thing!</string>
-    <string name="about_link"><![CDATA[<a href="http://www.mi.tv/acercade">See more info here</a>]]></string>
+    <string name="about_link"><![CDATA[<a href="http://www.mi.tv/acercade">See more info and contact us here</a>]]></string>
 
     <!-- TERMS ACTIVITY -->
     <string name="terms_title">Terms of Service</string>

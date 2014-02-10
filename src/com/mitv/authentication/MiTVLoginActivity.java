@@ -147,6 +147,7 @@ public class MiTVLoginActivity extends SSSignInSignupBaseActivity implements OnC
 		switch (id) {
 		case R.id.mitvlogin_facebook_container:
 			Intent intentFacebook = new Intent(MiTVLoginActivity.this, FacebookLoginActivity.class);
+			intentFacebook.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
 			startActivity(intentFacebook);
 			break;
 
