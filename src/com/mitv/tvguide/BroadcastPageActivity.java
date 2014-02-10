@@ -32,7 +32,6 @@ import com.mitv.content.SSPageCallback;
 import com.mitv.content.SSPageGetResult;
 import com.mitv.content.activity.ActivityActivity;
 import com.mitv.homepage.HomeActivity;
-import com.mitv.http.NetworkUtils;
 import com.mitv.manager.InternalTrackingManager;
 import com.mitv.model.Broadcast;
 import com.mitv.model.Channel;
@@ -41,6 +40,7 @@ import com.mitv.model.TvDate;
 import com.mitv.myprofile.MyProfileActivity;
 import com.mitv.storage.MiTVStore;
 import com.mitv.utilities.DateUtilities;
+import com.mitv.utilities.NetworkUtils;
 
 public class BroadcastPageActivity extends SSActivity implements OnClickListener {
 
@@ -120,7 +120,7 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 	@Override
 	protected void loadPage() {
 		// try to load page again when network is up
-		if (NetworkUtils.checkConnection(mActivity)) {
+		if (NetworkUtils.isConnectedAndHostIsReachable(mActivity)) {
 			getIndividualBroadcast(mBroadcastPageUrl);
 		}
 	}
@@ -133,7 +133,7 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 		boolean loadIndividualBroadcast = true;
 		boolean useStandardChannel = true;
 
-		if (!NetworkUtils.checkConnection(mActivity)) {
+		if (!NetworkUtils.isConnectedAndHostIsReachable(mActivity)) {
 			updateUI(REQUEST_STATUS.FAILED);
 		} else {
 			if (mBroadcastPageUrl == null)

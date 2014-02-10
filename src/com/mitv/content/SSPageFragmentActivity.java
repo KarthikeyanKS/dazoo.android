@@ -9,7 +9,7 @@ import android.widget.RelativeLayout;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.Consts.REQUEST_STATUS;
-import com.mitv.http.NetworkUtils;
+import com.mitv.utilities.NetworkUtils;
 
 public abstract class SSPageFragmentActivity extends SSActivity {
 
@@ -111,14 +111,14 @@ public abstract class SSPageFragmentActivity extends SSActivity {
 
 			switch (v.getId()) {
 			case R.id.request_failed_reload_button:
-				if (!NetworkUtils.checkConnection(mActivity)) {
+				if (!NetworkUtils.isConnectedAndHostIsReachable(mActivity)) {
 					updateUI(REQUEST_STATUS.FAILED);
 				} else {
 					loadPage();
 				}
 				break;
 			case R.id.bad_request_reload_button:
-				if (!NetworkUtils.checkConnection(mActivity)) {
+				if (!NetworkUtils.isConnectedAndHostIsReachable(mActivity)) {
 					updateUI(REQUEST_STATUS.FAILED);
 				} else {
 					loadPage();

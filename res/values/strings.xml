@@ -273,5 +273,8 @@
     <!-- UPDATE DIALOG -->
     <string name="dialog_prompt_update_text">You must update mi.tv to the latest version!</string>
     <string name="dialog_prompt_update_google_play">Go to Google play</string>
+    
+    <string name="host_name_for_connectivity_check" translatable="false">http://www.google.com"</string>
+    <integer name="timeout_in_miliseconds_for_connectivity_check" translatable="false">2000</integer>
 
 </resources>

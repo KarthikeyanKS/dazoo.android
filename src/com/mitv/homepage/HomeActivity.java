@@ -37,7 +37,6 @@ import com.mitv.SecondScreenApplication.CheckApiVersionListener;
 import com.mitv.adapters.ActionBarDropDownDateListAdapter;
 import com.mitv.content.SSPageFragmentActivity;
 import com.mitv.content.activity.ActivityActivity;
-import com.mitv.http.NetworkUtils;
 import com.mitv.manager.AppConfigurationManager;
 import com.mitv.manager.MiTVCore;
 import com.mitv.model.Channel;
@@ -47,6 +46,7 @@ import com.mitv.storage.MiTVStore;
 import com.mitv.tvguide.TVHolderFragment;
 import com.mitv.tvguide.TVHolderFragment.OnViewPagerIndexChangedListener;
 import com.mitv.utilities.DateUtilities;
+import com.mitv.utilities.NetworkUtils;
 
 public class HomeActivity extends SSPageFragmentActivity implements OnClickListener, ActionBar.OnNavigationListener, CheckApiVersionListener, AppConfigurationListener {
 
@@ -107,7 +107,8 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		// HOCKEY-APP
 		// checkForUpdates();
 
-		if (!NetworkUtils.checkConnection(this)) {
+		if (!NetworkUtils.isConnectedAndHostIsReachable(this)) 
+		{
 			updateUI(REQUEST_STATUS.FAILED);
 		} else {
 			if(!SecondScreenApplication.getInstance().isFirstStart()) {
@@ -314,9 +315,11 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			mStateChanged = false;
 		} else {
 			Log.d(TAG, "We have resumed!");
-			if (!NetworkUtils.checkConnection(this)) {
+			if (!NetworkUtils.isConnectedAndHostIsReachable(this))
+			{
 				updateUI(REQUEST_STATUS.FAILED);
-			} else {
+			} 
+			else {
 				// update current hour
 				int hour = Integer.valueOf(DateUtilities.getCurrentHourString());
 				((SecondScreenApplication) getApplicationContext()).setSelectedHour(hour);

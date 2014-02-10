@@ -19,9 +19,9 @@ import com.google.analytics.tracking.android.Tracker;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.http.NetworkUtils;
 import com.mitv.manager.GATrackingManager;
 import com.mitv.search.SearchPageActivity;
+import com.mitv.utilities.NetworkUtils;
 
 public abstract class SSActivity extends ActionBarActivity {
 
@@ -190,14 +190,14 @@ public abstract class SSActivity extends ActionBarActivity {
 
 			switch (v.getId()) {
 			case R.id.request_failed_reload_button:
-				if (!NetworkUtils.checkConnection(mActivity)) {
+				if (!NetworkUtils.isConnectedAndHostIsReachable(mActivity)) {
 					updateUI(REQUEST_STATUS.FAILED);
 				} else {
 					loadPage();
 				}
 				break;
 			case R.id.bad_request_reload_button:
-				if (!NetworkUtils.checkConnection(mActivity)) {
+				if (!NetworkUtils.isConnectedAndHostIsReachable(mActivity)) {
 					updateUI(REQUEST_STATUS.FAILED);
 				} else {
 					loadPage();

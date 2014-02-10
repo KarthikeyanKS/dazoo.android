@@ -64,12 +64,12 @@ import com.mitv.authentication.SignInOrSignupWithFacebookActivity;
 import com.mitv.authentication.SignUpWithEmailActivity;
 import com.mitv.content.SSActivity;
 import com.mitv.homepage.HomeActivity;
-import com.mitv.http.NetworkUtils;
 import com.mitv.manager.ContentParser;
 import com.mitv.manager.LoginManager;
 import com.mitv.model.FeedItem;
 import com.mitv.myprofile.MyProfileActivity;
 import com.mitv.storage.MiTVStore;
+import com.mitv.utilities.NetworkUtils;
 
 public class ActivityActivity extends SSActivity implements OnClickListener {
 
@@ -116,7 +116,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			initFeedViews();
 			super.initCallbackLayouts();
 
-			if (!NetworkUtils.checkConnection(this)) {
+			if (!NetworkUtils.isConnectedAndHostIsReachable(this)) {
 				updateUI(REQUEST_STATUS.FAILED);
 			} else {
 				String signupTitle = String.format("%s %s", getResources().getString(R.string.success_account_created_title), SecondScreenApplication.getInstance().getUserFirstName());
@@ -218,7 +218,7 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 	protected void loadPage() {
 		updateUI(REQUEST_STATUS.LOADING);
 		// check if the network connection exists
-		if (!NetworkUtils.checkConnection(this)) {
+		if (!NetworkUtils.isConnectedAndHostIsReachable(this)) {
 			updateUI(REQUEST_STATUS.FAILED);
 		} else {
 			if (MiTVStore.getInstance().getActivityFeed().size() > 0) {
