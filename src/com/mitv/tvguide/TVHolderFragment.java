@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.TagTypeFragmentStatePagerAdapter;
-import com.mitv.manager.MiTVCore;
+import com.mitv.manager.ApiClient;
 import com.mitv.model.ChannelGuide;
 import com.mitv.model.Tag;
 import com.mitv.model.TvDate;

@@ -47,8 +47,8 @@ public class LoginManager {
 		}
 	}
 
-	public static void logout() {
-
+	public static void logout() 
+	{
 		application.setAccessToken(null);
 		application.setUserFirstName(null);
 		application.setUserLastName(null);
@@ -56,8 +56,7 @@ public class LoginManager {
 		application.setUserId(null);
 		application.setUserExistringFlag(false);
 
-		MiTVStore.getInstance().clearAll();
-		MiTVStore.getInstance().reinitializeAll();
-		MiTVCore.resetAll();
+//		MiTVStore.getInstance().clearAll();
+//		MiTVStore.getInstance().reinitializeAll();
 	}
 }

@@ -1,40 +1,58 @@
 package com.mitv.authentication;
 
+
+
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
-
 import com.mitv.Consts;
 import com.mitv.SecondScreenApplication;
 
-public class AuthenticationService {
 
+
+public class AuthenticationService 
+{
 	private static final String	TAG	= "AuthenticationService";
 
-	public static boolean storeUserInformation(Context context, JSONObject jsonString) {
+	
+	
+	public static boolean storeUserInformation(Context context, JSONObject jsonString) 
+	{
 		String userDataString = jsonString.optString(Consts.API_USER);
+		
 		String profileImageString = jsonString.optString(Consts.API_PROFILEIMAGE);
 
-		if (profileImageString != null && TextUtils.isEmpty(profileImageString) != true) {
+		if (profileImageString != null && TextUtils.isEmpty(profileImageString) != true) 
+		{
 			JSONObject avatarUrlJSON;
-			try {
+			
+			try 
+			{
 				avatarUrlJSON = new JSONObject(profileImageString);
-				if (avatarUrlJSON != null) {
+				
+				if (avatarUrlJSON != null) 
+				{
 					String avatarUrl = avatarUrlJSON.optString(Consts.API_URL);
+					
 					((SecondScreenApplication) context.getApplicationContext()).setUserAvatarUrl(avatarUrl);
+					
 					Log.d(TAG, "User Avatar Url: " + avatarUrl);
 				}
-			} catch (JSONException e) {
+			} 
+			catch (JSONException e)
+			{
 				e.printStackTrace();
 			}
 		}
 
-		if (userDataString != null && TextUtils.isEmpty(userDataString) != true) {
+		if (userDataString != null && TextUtils.isEmpty(userDataString) != true)
+		{
 			JSONObject userJSON;
-			try {
+			
+			try
+			{
 				userJSON = new JSONObject(userDataString);
 				Log.d(TAG, "userJSON:" + userJSON);
 
@@ -54,10 +72,17 @@ public class AuthenticationService {
 				((SecondScreenApplication) context.getApplicationContext()).setUserExistringFlag(userExistingFlag);
 				Log.d(TAG, "User login first time: " + userExistingFlag);
 
-			} catch (JSONException e) {
+			} 
+			catch (JSONException e)
+			{
 				e.printStackTrace();
 			}
+			
 			return true;
-		} else return false;
+		} 
+		else
+		{
+			return false;
+		}
 	}
 }

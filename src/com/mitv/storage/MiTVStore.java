@@ -34,7 +34,7 @@ public class MiTVStore
 
 	private ArrayList<Tag>								mTags				= new ArrayList<Tag>();
 	private HashMap<String, SparseArray<AdzerkAd>> 		mFragmentToAdsMap 	= new HashMap<String, SparseArray<AdzerkAd>>();
-	private HashMap<GuideKey, ChannelGuide>				mGuides				= new HashMap<GuideKey, ChannelGuide>();
+	private HashMap<GuideKey, ChannelGuide>				mChannelGuides				= new HashMap<GuideKey, ChannelGuide>();
 	private HashMap<BroadcastKey, ArrayList<Broadcast>>	mTaggedBroadcasts	= new HashMap<BroadcastKey, ArrayList<Broadcast>>();
 
 	private ArrayList<String>							mLikeIds			= new ArrayList<String>();
@@ -44,9 +44,12 @@ public class MiTVStore
 	private ArrayList<Broadcast>						mPopularFeed		= new ArrayList<Broadcast>();
 	private boolean mMyIdsSet = false;
 
+	
+	
 	// private constructor prevents instantiation from other classes
-	private MiTVStore() {
-	};
+	private MiTVStore() {};
+	
+	
 	
 	public boolean isMyIdsSet() {
 		return mMyIdsSet;
@@ -117,20 +120,32 @@ public class MiTVStore
 		this.mChannels = channels;
 	}
 
-	public HashMap<String, Channel> getChannels() {
+	
+	
+	/*
+	 * Returns all channels when the user is not logged in and the user channels when the user is logged in
+	 */
+	public HashMap<String, Channel> getChannels()
+	{
 		return this.mChannels;
 	}
 
 	
 
-	public Channel getChannelById(String channelId) {
-		for (Entry<String, Channel> entry : mChannels.entrySet()) {
-			if (entry.getKey().equals(channelId)) {
+	public Channel getChannelById(String channelId) 
+	{
+		for (Entry<String, Channel> entry : mChannels.entrySet()) 
+		{
+			if (entry.getKey().equals(channelId)) 
+			{
 				return entry.getValue();
 			}
 		}
+		
 		return null;
 	}
+	
+	
 
 	public void storeMyChannelIds(ArrayList<String> ids) 
 	{
@@ -176,45 +191,74 @@ public class MiTVStore
 
 	// guide
 	public void setGuides(HashMap<GuideKey, ChannelGuide> guides) {
-		this.mGuides = guides;
+		this.mChannelGuides = guides;
 	}
 
 	public HashMap<GuideKey, ChannelGuide> getGuides() {
-		return this.mGuides;
+		return this.mChannelGuides;
+	}
+	
+	
+	
+	public ArrayList<ChannelGuide> getChannelGuides() 
+	{
+		ArrayList<ChannelGuide> channelGuides = new ArrayList<ChannelGuide>(mChannelGuides.values());
+		
+		return channelGuides;
 	}
 
-	public ChannelGuide getChannelGuide(String tvDate, String channelId) {
+
+	
+	public ArrayList<ChannelGuide> getChannelGuides(String tvDate) 
+	{
+		ArrayList<ChannelGuide> guideTable = new ArrayList<ChannelGuide>();
+		
+		for (String channelId : mChannelIds) 
+		{
+			ChannelGuide guide = getChannelGuide(tvDate, channelId);
+			
+			if (guide != null) 
+			{
+				guideTable.add(guide);
+			}
+		}
+		
+		return guideTable;
+	}
+	
+	
+	
+	public ChannelGuide getChannelGuide(String tvDate, String channelId)
+	{
 		GuideKey currentKey = new GuideKey();
 		currentKey.setDate(tvDate);
 		currentKey.setChannelId(channelId);
 
-		for (Entry<GuideKey, ChannelGuide> entry : mGuides.entrySet()) {
-			if ((entry.getKey().getChannelId().equals(currentKey.getChannelId())) & (entry.getKey().getDate().equals(currentKey.getDate()))) {
+		for (Entry<GuideKey, ChannelGuide> entry : mChannelGuides.entrySet()) 
+		{
+			if ((entry.getKey().getChannelId().equals(currentKey.getChannelId())) & (entry.getKey().getDate().equals(currentKey.getDate())))
+			{
 				return entry.getValue();
 			}
 		}
+		
 		return null;
 	}
+	
+	
 
-	public ArrayList<ChannelGuide> getGuideTable(String tvDate) {
-		ArrayList<ChannelGuide> guideTable = new ArrayList<ChannelGuide>();
-		int size = mChannelIds.size();
-		for (int i = 0; i < size; i++) {
-			ChannelGuide guide = getChannelGuide(tvDate, mChannelIds.get(i));
-			if (guide != null) {
-				guideTable.add(guide);
-
-			}
-		}
-		return guideTable;
-	}
-
-	// check if there is a pre-loaded guide data
-	public boolean isGuideForDate(String tvDate){
-		if(!getGuideTable(tvDate).isEmpty()){
+	// Check if there is a pre-loaded guide data
+	public boolean isGuideForDate(String tvDate)
+	{
+		if(!getChannelGuides(tvDate).isEmpty())
+		{
 			return true;
-		} else return false;
-	}	
+		} 
+		else return false;
+	}
+	
+	
+	
 	// broadcasts
 	public void setBroadcastsList(HashMap<BroadcastKey, ArrayList<Broadcast>> taggedBroadcasts) {
 		this.mTaggedBroadcasts = taggedBroadcasts;
@@ -280,38 +324,37 @@ public class MiTVStore
 	}
 
 	// CLEAR DATA WHEN NEW CHANNEL IS ADDED TO THE SELECTION
-	public void clearGuidesStorage() {
-		this.mChannels.clear();
-		this.mGuides.clear();
+	public void clearChannelGuides() {
+		this.mChannelGuides.clear();
 		this.mTaggedBroadcasts.clear();
 	}
 
-	public void reinitializeAll() {
-		this.mTvDates = new ArrayList<TvDate>();
-		this.mTags = new ArrayList<Tag>();
-		this.mChannels = new HashMap<String, Channel>();
-		this.mChannelIds = new ArrayList<String>();
-		this.mGuides = new HashMap<GuideKey, ChannelGuide>();
-		this.mTaggedBroadcasts = new HashMap<BroadcastKey, ArrayList<Broadcast>>();
-		this.mLikeIds = new ArrayList<String>();
-	}
+//	public void reinitializeAll() {
+//		this.mTvDates = new ArrayList<TvDate>();
+//		this.mTags = new ArrayList<Tag>();
+//		this.mChannels = new HashMap<String, Channel>();
+//		this.mChannelIds = new ArrayList<String>();
+//		this.mGuides = new HashMap<GuideKey, ChannelGuide>();
+//		this.mTaggedBroadcasts = new HashMap<BroadcastKey, ArrayList<Broadcast>>();
+//		this.mLikeIds = new ArrayList<String>();
+//	}
 
-	public void clearAndReinitializeForMyChannels() {
-		this.mGuides.clear();
-		this.mTaggedBroadcasts.clear();
-		this.mGuides = new HashMap<GuideKey, ChannelGuide>();
-		this.mTaggedBroadcasts = new HashMap<BroadcastKey, ArrayList<Broadcast>>();
-	}
+//	public void clearAndReinitializeForMyChannels() {
+//		this.mGuides.clear();
+//		this.mTaggedBroadcasts.clear();
+//		this.mGuides = new HashMap<GuideKey, ChannelGuide>();
+//		this.mTaggedBroadcasts = new HashMap<BroadcastKey, ArrayList<Broadcast>>();
+//	}
 
-	public void clearAll() {
-		this.mTvDates.clear();
-		this.mTags.clear();
-		this.mChannels.clear();
-		this.mChannelIds.clear();
-		this.mGuides.clear();
-		this.mTaggedBroadcasts.clear();
-		this.mLikeIds.clear();
-	}
+//	public void clearAll() {
+//		this.mTvDates.clear();
+//		this.mTags.clear();
+//		this.mChannels.clear();
+//		this.mChannelIds.clear();
+//		this.mGuides.clear();
+//		this.mTaggedBroadcasts.clear();
+//		this.mLikeIds.clear();
+//	}
 
 	
 	

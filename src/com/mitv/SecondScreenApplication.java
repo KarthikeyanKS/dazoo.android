@@ -1,11 +1,13 @@
+
 package com.mitv;
+
+
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Locale;
-
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -22,13 +24,12 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
-
+import com.millicom.interfaces.ApiVersionCallbackInterface;
 import com.mitv.content.SSApiVersionPage;
 import com.mitv.manager.AppConfigurationManager;
 import com.mitv.manager.GATrackingManager;
-import com.mitv.manager.MiTVCore;
-import com.mitv.manager.MiTVCore.ApiVersionCallback;
-import com.mitv.manager.MiTVCore.AppConfigurationCallback;
+import com.mitv.manager.ApiClient;
+import com.mitv.manager.ApiClient.AppConfigurationCallback;
 import com.mitv.utilities.ObscuredSharedPreferences;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -36,11 +37,13 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.utils.L;
-
 //import com.testflightapp.lib.TestFlight;
 
-public class SecondScreenApplication extends Application {
 
+
+public class SecondScreenApplication 
+	extends Application
+{
 	public static interface CheckApiVersionListener {
 		public void onApiVersionChecked(boolean needsUpdate);
 	}
@@ -301,7 +304,7 @@ public class SecondScreenApplication extends Application {
 		sInstance = this;
 		
 		/* Fetch and update app configuration */
-		MiTVCore.getAppConfiguration(new AppConfigurationCallback() {
+		ApiClient.getAppConfiguration(new AppConfigurationCallback() {
 			@Override
 			public void onAppConfigurationResult() {
 				/* Initialize Google Analytics */
@@ -316,7 +319,7 @@ public class SecondScreenApplication extends Application {
 		});
 		
 		/* Fetch api version */
-		MiTVCore.getApiVersion(new ApiVersionCallback() {
+		ApiClient.getApiVersion(new ApiVersionCallbackInterface() {
 			@Override
 			public void onApiVersionResult() {
 				setApiVersion(SSApiVersionPage.getInstance().getApiVersionString());

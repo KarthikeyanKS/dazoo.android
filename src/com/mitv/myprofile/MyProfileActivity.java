@@ -12,7 +12,6 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-
 import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
@@ -24,8 +23,8 @@ import com.mitv.content.activity.ActivityActivity;
 import com.mitv.customviews.FontTextView;
 import com.mitv.homepage.HomeActivity;
 import com.mitv.like.LikeService;
+import com.mitv.manager.ApiClient;
 import com.mitv.manager.LoginManager;
-import com.mitv.mychannels.MyChannelsService;
 import com.mitv.notification.NotificationDataSource;
 import com.mitv.storage.MiTVStore;
 import com.mitv.utilities.DateUtilities;
@@ -184,7 +183,7 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 
 			if(refreshChannelIdsFromService)
 			{	
-				MyChannelsService.getMyChannels();
+				ApiClient.getMyChannelIds();
 			}
 			// No need for else
 

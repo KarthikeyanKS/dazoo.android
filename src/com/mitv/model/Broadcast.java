@@ -1,4 +1,7 @@
+
 package com.mitv.model;
+
+
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -6,23 +9,21 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
-
-import org.apache.http.impl.cookie.DateUtils;
 import org.json.JSONObject;
-
-import android.content.Context;
 import android.content.res.Resources;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
-
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.utilities.DateUtilities;
 
-public class Broadcast implements Parcelable {
 
+
+public class Broadcast implements Parcelable 
+{
+	@SuppressWarnings("unused")
 	private static final String TAG = "Broadcast";
 
 	private String broadcastType;

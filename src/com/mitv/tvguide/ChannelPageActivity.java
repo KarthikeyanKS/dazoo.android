@@ -34,7 +34,7 @@ import com.mitv.adapters.ChannelPageListAdapter;
 import com.mitv.content.SSActivity;
 import com.mitv.content.activity.ActivityActivity;
 import com.mitv.homepage.HomeActivity;
-import com.mitv.manager.MiTVCore;
+import com.mitv.manager.ApiClient;
 import com.mitv.model.Broadcast;
 import com.mitv.model.Channel;
 import com.mitv.model.ChannelGuide;
@@ -173,11 +173,12 @@ public class ChannelPageActivity extends SSActivity implements OnClickListener, 
 				mFollowingBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());
 			}
 			setFollowingBroadcasts();
+			
 			mFollowingBroadcastsListAdapter.notifyDataSetChanged();
-			Log.d(TAG, "CHANNELGUIDE: " + mChannelGuide.getName() + mFollowingBroadcasts.size());
+
 			updateUI(REQUEST_STATUS.SUCCESSFUL);
 		} else {
-			MiTVCore.getGuide(mSelectedIndex, true);
+			ApiClient.getGuide(mSelectedIndex, true);
 			Log.d(TAG, "get guide");
 		}
 	}

@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -28,7 +27,6 @@ import android.widget.TextView;
 
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
-
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -40,15 +38,18 @@ import com.mitv.content.SSPageCallback;
 import com.mitv.content.SSPageGetResult;
 import com.mitv.content.activity.ActivityActivity;
 import com.mitv.homepage.HomeActivity;
-import com.mitv.manager.MiTVCore;
+import com.mitv.manager.ApiClient;
 import com.mitv.model.Channel;
-import com.mitv.mychannels.MyChannelsService;
 import com.mitv.storage.MiTVStore;
 import com.mitv.storage.MiTVStoreOperations;
 import com.mitv.utilities.JSONUtilities;
 
-public class MyChannelsActivity extends SSActivity implements MyChannelsCountInterface, OnClickListener {
 
+
+public class MyChannelsActivity 
+	extends SSActivity 
+	implements MyChannelsCountInterface, OnClickListener 
+{
 	private static final String			TAG						= "MyChannelsActivity";
 	private ActionBar					mActionBar;
 	private boolean						mIsChange				= false;
@@ -58,10 +59,13 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 	private RelativeLayout				mTabTvGuide, mTabProfile, mTabActivity;private View mTabDividerLeft, mTabDividerRight;
 	private EditText					mSearchChannelInputEditText;
 	private MyChannelsListAdapter		mAdapter;
+	
 	private ArrayList<Channel>			mChannels				= new ArrayList<Channel>();
 	private ArrayList<String>			mCheckedChannelsIds		= new ArrayList<String>();
 	private HashMap<String, Channel>	mChannelsMap			= new HashMap<String, Channel>();
+	
 	private boolean[]					mIsCheckedArray;
+	
 	private int							mChannelCounter			= 0;
 	private boolean						mIsChanged				= false;
 	private int							mCount					= 0;
@@ -72,21 +76,28 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 	private ArrayList<String>			myChannelIds			= new ArrayList<String>();
 	private ArrayList<String>			mAllChannelsIds			= new ArrayList<String>();
 
-	public void onCreate(Bundle savedInstanceState) {
+	
+	
+	public void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.layout_mychannels_activity);
 
-		
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
 		initLayout();
+		
 		super.initCallbackLayouts();
+		
 		populateViews();
 	}
 
-	private void initLayout() {
-
+	
+	
+	private void initLayout()
+	{
 		mActionBar = getSupportActionBar();
 		mActionBar.setTitle(getResources().getString(R.string.myprofile_my_channels));
 		mActionBar.setDisplayHomeAsUpEnabled(true);
@@ -115,35 +126,47 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 		mSearchChannelInputEditText = (EditText) findViewById(R.id.mychannels_header_search_ev);
 	}
 
-	private void populateViews() {
+	
+	
+	private void populateViews() 
+	{
 		mChannelsMap = MiTVStore.getInstance().getChannels();
-		if (mChannelsMap != null && mChannelsMap.isEmpty() != true) {
-
+		
+		if (mChannelsMap != null && 
+		    mChannelsMap.isEmpty() != true)
+		{
 			int allChannelsIndex = 0;
-			for (Entry<String, Channel> entry : mChannelsMap.entrySet()) {
+			
+			for (Entry<String, Channel> entry : mChannelsMap.entrySet())
+			{
 				mChannels.add(entry.getValue());
 				mAllChannelsIds.add(mChannels.get(allChannelsIndex).getChannelId());
 				allChannelsIndex++;
 			}
 
-			for (int i = 0; i < mChannels.size(); i++) {
+			for (int i = 0; i < mChannels.size(); i++)
+			{
 				mChannelInfoMap.put(mChannels.get(i).getName().toLowerCase(Locale.getDefault()), mChannels.get(i));
 				mChannelInfoToDisplay.add(mChannels.get(i));
 			}
 
 			mIsCheckedArray = new boolean[mAllChannelsIds.size()];
 
-			if (SecondScreenApplication.isLoggedIn()) {
+			if (SecondScreenApplication.isLoggedIn()) 
+			{
 				// get user channels
-				if (getUserMyChannelsIdsJSON()) {
+				if (getUserMyChannelsIdsJSON()) 
+				{
 					mChannelCounter = myChannelIds.size();
 					mChannelCountTv.setText(" " + String.valueOf(mChannelCounter));
 					mAdapter = new MyChannelsListAdapter(this, mChannelInfoToDisplay, mIsCheckedArray, this, mChannelCounter, mCheckedChannelsIds);
 					mListView.setAdapter(mAdapter);
 				}
-			} else {
+			}
+			else 
+			{
 				// Toast.makeText(getApplicationContext(), "You have to be logged in to perform this action :)", Toast.LENGTH_SHORT).show();
-				Log.d(TAG, "Login action is required to be done before this");
+				Log.w(TAG, "Login action is required to be done before this");
 			}
 
 			mSearchChannelInputEditText.addTextChangedListener(new TextWatcher() {
@@ -181,33 +204,42 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 				}
 
 				@Override
-				public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-				}
+				public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
 				@Override
-				public void onTextChanged(CharSequence s, int start, int before, int count) {
-				}
+				public void onTextChanged(CharSequence s, int start, int before, int count) {}
 			});
-		} else {
+		} 
+		else
+		{
 			updateUI(REQUEST_STATUS.LOADING);
+			
 			loadPage();
 		}
 	}
 	
-	private void tryToUpdateChannelList() {
-		if (mIsChanged) {
+	
+	
+	private void tryToUpdateChannelList() 
+	{
+		if (mIsChanged) 
+		{
 			updateChannelList();
 		}
 	}
 
-	private void updateChannelList() {
+	
+	
+	private void updateChannelList() 
+	{
 		mCount = mCheckedChannelsIds.size();
-		if (MyChannelsService.updateMyChannelsList(JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.CHANNEL_CHANNEL_ID, mCheckedChannelsIds))) {
+		
+		if (ApiClient.updateMyChannelsList(JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.CHANNEL_CHANNEL_ID, mCheckedChannelsIds))) {
 
 			// clear guides
-			MiTVStore.getInstance().clearGuidesStorage();
+			MiTVStore.getInstance().clearChannelGuides();
 			// update the my channels list
-			MyChannelsService.getMyChannels();
+			ApiClient.getMyChannelIds();
 //			MiTVCore.getInstance(context, dateIndex)
 
 			LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
@@ -241,27 +273,40 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 	}
 
 	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-		
+	public void onConfigurationChanged(Configuration newConfig) 
+	{
+		super.onConfigurationChanged(newConfig);	
 	}
 
-	private boolean getUserMyChannelsIdsJSON() {
-		MyChannelsService.getMyChannels();
+	
+	
+	private boolean getUserMyChannelsIdsJSON() 
+	{
+		ApiClient.getMyChannelIds();
+		
 		myChannelIds = MiTVStore.getInstance().getChannelIds();
-		if (myChannelIds != null && !myChannelIds.isEmpty()) {
+		
+		if (myChannelIds != null && !myChannelIds.isEmpty()) 
+		{
 			mCheckedChannelsIds = myChannelIds;
-			for (int i = 0; i < myChannelIds.size(); i++) {
-				if (mAllChannelsIds.contains(myChannelIds.get(i))) {
+			
+			for (int i = 0; i < myChannelIds.size(); i++) 
+			{
+				if (mAllChannelsIds.contains(myChannelIds.get(i))) 
+				{
 					mIsCheckedArray[mAllChannelsIds.indexOf(myChannelIds.get(i))] = true;
 				}
 			}
 			return true;
-		} else {
+		} 
+		else
+		{
 			return false;
 		}
 	}
 
+	
+	
 	@Override
 	public void setValues(int count) {
 		mChannelCountTv.setText(" " + String.valueOf(count));
@@ -300,23 +345,35 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 
 	}
 
+	
+	
 	@Override
-	protected void updateUI(REQUEST_STATUS status) {
-		if (super.requestIsSuccesfull(status)) {
+	protected void updateUI(REQUEST_STATUS status) 
+	{
+		if (super.requestIsSuccesfull(status)) 
+		{
 			Log.d(TAG, "SUCCESSFUL");
+			
 			populateViews();
 		}
 	}
 
+	
+	
 	@Override
-	protected void loadPage() {
-		SSChannelPage.getInstance().getPage(Consts.URL_MY_CHANNEL_IDS, new SSPageCallback() {
+	protected void loadPage() 
+	{
+		SSChannelPage.getInstance().getPage(Consts.URL_MY_CHANNEL_IDS, new SSPageCallback() 
+		{
 			@Override
-			public void onGetPageResult(SSPageGetResult aPageGetResult) {
+			public void onGetPageResult(SSPageGetResult aPageGetResult)
+			{
 				ArrayList<Channel> mAllChannels = SSChannelPage.getInstance().getChannels();
 
-				if (mAllChannels != null && mAllChannels.isEmpty() != true) {
+				if (mAllChannels != null && mAllChannels.isEmpty() != true) 
+				{
 					Log.d(TAG, "ALL Channels: " + mAllChannels.size());
+					
 					// store the list channels (used in the my profile/my guide)
 					MiTVStoreOperations.saveChannels(mAllChannels);
 
@@ -327,21 +384,34 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 		});
 	}
 
+	
+	
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		// Respond to the action bar's Up/Home button
-		// update the channel list on Up/Home button press too
-		case android.R.id.home:
-			tryToUpdateChannelList();
-			Intent upIntent = NavUtils.getParentActivityIntent(this);
-			if (mIsChanged == true) {
-				setResult(Consts.INFO_UPDATE_MYCHANNELS, upIntent);
-				upIntent.putExtra(Consts.INFO_UPDATE_MYCHANNELS_NUMBER, mCount);
+	public boolean onOptionsItemSelected(MenuItem item) 
+	{
+		switch (item.getItemId()) 
+		{
+			// Respond to the action bar's Up/Home button
+			// update the channel list on Up/Home button press too
+			case android.R.id.home:
+			{
+				tryToUpdateChannelList();
+				
+				Intent upIntent = NavUtils.getParentActivityIntent(this);
+				
+				if(mIsChanged == true) 
+				{
+					setResult(Consts.INFO_UPDATE_MYCHANNELS, upIntent);
+					
+					upIntent.putExtra(Consts.INFO_UPDATE_MYCHANNELS_NUMBER, mCount);
+				}
+				
+				NavUtils.navigateUpTo(this, upIntent);
+				
+				return true;
 			}
-			NavUtils.navigateUpTo(this, upIntent);
-			return true;
 		}
+		
 		return super.onOptionsItemSelected(item);
 	}
 }

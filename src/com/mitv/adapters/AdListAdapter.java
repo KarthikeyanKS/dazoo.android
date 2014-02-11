@@ -16,11 +16,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import com.millicom.interfaces.AdCallBackInterface;
 import com.mitv.R;
 import com.mitv.adapters.TVGuideListAdapter.ViewHolder;
 import com.mitv.manager.AppConfigurationManager;
-import com.mitv.manager.MiTVCore;
-import com.mitv.manager.MiTVCore.AdCallBack;
+import com.mitv.manager.ApiClient;
 import com.mitv.model.AdzerkAd;
 import com.mitv.storage.MiTVStore;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -69,12 +69,17 @@ public class AdListAdapter<T> extends BaseAdapter {
 		}
 	}
 	
-	private void downloadAds() {
+	private void downloadAds() 
+	{
 		final int adCount = getAdCount();
-		for(int i = 0; i < adCount; ++i) {
+		
+		for(int i = 0; i < adCount; ++i) 
+		{
 			final int index = i;
 			String divId = new StringBuilder().append(fragmentName).append("AdWithId").append(i).toString();
-			MiTVCore.getAdzerkAd(divId, adFormats, new AdCallBack() {
+			
+			ApiClient.getAdzerkAd(divId, adFormats, new AdCallBackInterface() 
+			{
 				@Override
 				public void onAdResult(final AdzerkAd ad) {
 					if (ad != null) {

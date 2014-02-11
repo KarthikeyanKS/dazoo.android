@@ -126,14 +126,14 @@ public class ActivityActivity extends SSActivity implements OnClickListener {
 			}
 			// No need for else
 			
-			boolean isAPIUpToDate = SecondScreenApplication.getInstance().checkApiVersion();
-
-			if(isAPIUpToDate == false)
-			{
-				updateUI(REQUEST_STATUS.FAILED);
-				return;
-			}
-			// No need for else
+			// TODO: Check if the api is the correct one
+//			boolean isAPIUpToDate = SecondScreenApplication.getInstance().checkApiVersion();
+//
+//			if(isAPIUpToDate == false)
+//			{
+//				updateUI(REQUEST_STATUS.FAILED);
+//				return;
+//			}
 
 			String signupTitle = String.format("%s %s", getResources().getString(R.string.success_account_created_title), SecondScreenApplication.getInstance().getUserFirstName());
 

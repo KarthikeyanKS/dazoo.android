@@ -1,7 +1,9 @@
+
 package com.mitv.homepage;
 
-import java.util.ArrayList;
 
+
+import java.util.ArrayList;
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
 import android.app.Dialog;
@@ -9,9 +11,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,7 +28,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
@@ -39,8 +38,7 @@ import com.mitv.adapters.ActionBarDropDownDateListAdapter;
 import com.mitv.content.SSPageFragmentActivity;
 import com.mitv.content.activity.ActivityActivity;
 import com.mitv.manager.AppConfigurationManager;
-import com.mitv.manager.MiTVCore;
-import com.mitv.model.Channel;
+import com.mitv.manager.ApiClient;
 import com.mitv.model.TvDate;
 import com.mitv.myprofile.MyProfileActivity;
 import com.mitv.storage.MiTVStore;
@@ -49,8 +47,12 @@ import com.mitv.tvguide.TVHolderFragment.OnViewPagerIndexChangedListener;
 import com.mitv.utilities.DateUtilities;
 import com.mitv.utilities.NetworkUtils;
 
-public class HomeActivity extends SSPageFragmentActivity implements OnClickListener, ActionBar.OnNavigationListener, CheckApiVersionListener, AppConfigurationListener {
 
+
+public class HomeActivity 
+	extends SSPageFragmentActivity 
+	implements OnClickListener, ActionBar.OnNavigationListener, CheckApiVersionListener, AppConfigurationListener 
+{
 	private static final String					TAG					= "HomeActivity";
 	private RelativeLayout						mTabTvGuide, mTabPopular, mTabFeed;
 	private View 								mTabDividerLeft, mTabDividerRight;
@@ -59,10 +61,8 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	public static int							mBroadcastSelection	= -1;
 	private int									mTabSelectedIndex	= 0, mDateSelectedIndex;
 	private ArrayList<TvDate>					mTvDates			= new ArrayList<TvDate>();
-	private ArrayList<Channel>					mChannels;
-	private String								mDate;
 	private TvDate								mTvDateSelected;
-	private boolean								mIsReady			= false, mIsFirstLoad = true, mIsChannelListChanged, mStateChanged = false;
+	private boolean								mIsReady			= false, mIsFirstLoad = true, mIsChannelListChanged, mChannelsHasBeenChanged = false;
 
 	private Fragment							mActiveFragment;
 
@@ -90,11 +90,22 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 		// If homeactivity is launched from login, fetch flag and later make toast.
 		Intent intent =  getIntent();
-		if (intent.hasExtra(Consts.INTENT_EXTRA_LOG_IN_ACTION)) {
+		
+		if (intent.hasExtra(Consts.INTENT_EXTRA_LOG_IN_ACTION)) 
+		{
 			mIsFromLogin = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_LOG_IN_ACTION);
+			
+			Log.d(TAG, "Extra INTENT_EXTRA_LOG_IN_ACTION is present");
 		}
-		else if (intent.hasExtra(Consts.INTENT_EXTRA_SIGN_UP_ACTION)) {
+		else if (intent.hasExtra(Consts.INTENT_EXTRA_SIGN_UP_ACTION)) 
+		{
 			mIsFromSignup = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_SIGN_UP_ACTION);
+			
+			Log.d(TAG, "Extra INTENT_EXTRA_SIGN_UP_ACTION is present");
+		}
+		else
+		{
+			Log.d(TAG, "No extra is present");
 		}
 
 		// add the activity to the list of running activities
@@ -110,7 +121,12 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		
 		// HOCKEY-APP
 		// checkForUpdates();
-
+	}
+	
+	
+	
+	public void loadContent()
+	{
 		if (NetworkUtils.isConnectedAndHostIsReachable(this)) 
 		{
 			//boolean isFirstStart = SecondScreenApplication.getInstance().isFirstStart();
@@ -201,7 +217,8 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			public void onReceive(Context context, Intent intent)
 			{
 				Log.d(TAG, "CHANNELS HAVE CHANGED!!!!");
-				mStateChanged = true;
+				
+				mChannelsHasBeenChanged = true;
 			}
 		};
 
@@ -219,18 +236,25 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 				Log.d(TAG, "mChannelUpdate: " + mChannelUpdate);
 				Log.d(TAG, "mFirstHit " + mIsFirstLoad);
 
-				if (mIsReady) {
-					if (mIsFirstLoad) {
-						if (!pageHoldsData()) {
+				if (mIsReady) 
+				{
+					if (mIsFirstLoad) 
+					{
+						if (!pageHoldsData()) 
+						{
 							updateUI(REQUEST_STATUS.FAILED);
 						}
 					}
-					else if (mChannelUpdate) {
+					else if (mChannelUpdate) 
+					{
 						attachFragment();
+						
 						mChannelUpdate = false;
 					}
-					else if (mLastDateSelectedIndex != mDateSelectedIndex) {
+					else if (mLastDateSelectedIndex != mDateSelectedIndex) 
+					{
 						attachFragment();
+						
 						mLastDateSelectedIndex = mDateSelectedIndex;
 					}
 				}
@@ -256,13 +280,13 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			}
 		};
 
-		mBroadcastReceiverDate	= new BroadcastReceiver() {
+		mBroadcastReceiverDate	= new BroadcastReceiver() 
+		{
 			@Override
-			public void onReceive(Context context, Intent intent) {
-
+			public void onReceive(Context context, Intent intent) 
+			{
 				Log.d(TAG, "ON TVGUIDE SORTING VALUE CHANGED");
 
-				mDate = intent.getStringExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE);
 				mDateSelectedIndex = intent.getIntExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE_POSITION, 0);
 
 				removeActiveFragment();
@@ -273,45 +297,63 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		};
 	}
 
-	private void checkForCrashes() {
+	
+	
+	private void checkForCrashes() 
+	{
 		CrashManager.register(this, Consts.HOCKEY_APP_TOKEN);
 	}
 
-	private void checkForUpdates() {
+	
+	
+	private void checkForUpdates() 
+	{
 		// Remove this for store builds!
 		UpdateManager.register(this, Consts.HOCKEY_APP_TOKEN);
 	}
 
-	public void showUpdateDialog() {
+	
+	
+	public void showUpdateDialog()
+	{
 		final Dialog dialog = new Dialog(this, R.style.remove_notification_dialog);
+		
 		dialog.setContentView(R.layout.dialog_prompt_update);
+		
 		dialog.setCancelable(false);
 
 		Button okButton = (Button) dialog.findViewById(R.id.dialog_prompt_update_button);
-		okButton.setOnClickListener(new View.OnClickListener() {
-
+		
+		okButton.setOnClickListener(new View.OnClickListener()
+		{
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v) 
+			{
 				final String appPackageName = getPackageName(); 
-				try {
+				
+				try
+				{
 					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-				} catch (android.content.ActivityNotFoundException anfe) {
+				} 
+				catch (android.content.ActivityNotFoundException anfe)
+				{
 					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)));
 				}
-
-				//				dialog.dismiss();
 			}
 		});
+		
 		dialog.show();
 	}
 
-	private void attachFragment() {
-
-		mActiveFragment = TVHolderFragment.newInstance(mStartingPosition, mDateSelectedIndex, new OnViewPagerIndexChangedListener() {
-
+	
+	
+	private void attachFragment()
+	{
+		mActiveFragment = TVHolderFragment.newInstance(mStartingPosition, mDateSelectedIndex, new OnViewPagerIndexChangedListener()
+		{
 			@Override
-			public void onIndexSelected(int position) {
-
+			public void onIndexSelected(int position)
+			{
 				Log.d(TAG, "we updated the position : " + position);
 
 				mStartingPosition = position;
@@ -320,20 +362,27 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 		getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, mActiveFragment, (Integer.toString(mStartingPosition) + Integer.toString(mDateSelectedIndex))).commitAllowingStateLoss();
 	}
+	
+	
 
-	private void removeActiveFragment() {
-
-		try {
-
-			if (mActiveFragment != null) {
+	private void removeActiveFragment()
+	{
+		try
+		{
+			if (mActiveFragment != null)
+			{
 				Log.d(TAG, "remove the active fragment");
 				getSupportFragmentManager().beginTransaction().remove(mActiveFragment).commitAllowingStateLoss();
 			}
-		} catch (Exception e) {
+		} 
+		catch (Exception e)
+		{
 			e.printStackTrace();
 		}
 	}
 
+	
+	
 	@Override
 	protected void onResume() 
 	{
@@ -341,43 +390,45 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		
 		registerReceivers();
 		
-		if (mStateChanged) 
-		{
-			removeActiveFragment();
-			MiTVStore.getInstance().clearAndReinitializeForMyChannels();
-			mChannelUpdate = true;
-			MiTVCore.getGuide(mDateSelectedIndex, false);
-			mStateChanged = false;
-		} 
-		else 
-		{
-			Log.d(TAG, "We have resumed!");
-			
-			if (NetworkUtils.isConnectedAndHostIsReachable(this))
-			{
-				// update current hour
-				int hour = Integer.valueOf(DateUtilities.getCurrentHourString());
-				
-				((SecondScreenApplication) getApplicationContext()).setSelectedHour(hour);
-				
-				reloadPage();
-			} 
-			else 
-			{
-				updateUI(REQUEST_STATUS.FAILED);
-			}
-		}
+//		if (mChannelsHasBeenChanged)
+//		{
+//			removeActiveFragment();
+//			MiTVStore.getInstance().clearAndReinitializeForMyChannels();
+//			mChannelUpdate = true;
+//			ApiClient.getGuide(mDateSelectedIndex, false);
+//			mChannelsHasBeenChanged = false;
+//		} 
+//		else 
+//		{
+//			Log.d(TAG, "We have resumed!");
+//			
+//			if (NetworkUtils.isConnectedAndHostIsReachable(this))
+//			{
+//				// update current hour
+//				int hour = Integer.valueOf(DateUtilities.getCurrentHourString());
+//				
+//				((SecondScreenApplication) getApplicationContext()).setSelectedHour(hour);
+//				
+//				reloadPage();
+//			} 
+//			else 
+//			{
+//				updateUI(REQUEST_STATUS.FAILED);
+//			}
+//		}
 
 		checkForCrashes();
 	}
 
-	private void initViews() {
+	
+	
+	private void initViews() 
+	{
 		mTabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
 		mTabTvGuide.setOnClickListener(this);
 
 		mTabPopular = (RelativeLayout) findViewById(R.id.tab_activity);
 		mTabPopular.setOnClickListener(this);
-
 
 		mTabFeed = (RelativeLayout) findViewById(R.id.tab_me);
 		mTabFeed.setOnClickListener(this);
@@ -402,46 +453,68 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		Log.d(TAG, "INIT VIEWS");
 	}
 
+	
+	
 	@Override
-	protected void loadPage() {
+	protected void loadPage()
+	{
 		// The the initial state to be loading
 		updateUI(REQUEST_STATUS.LOADING);
+		
 		Log.d(TAG, "UI: LOADING");
 
-		MiTVCore.getInstance(this, mDateSelectedIndex).fetchContent();
+		ApiClient.getInstance(this, mDateSelectedIndex).fetchContent();
 	}
 
-	private void reloadPage() {
-		updateUI(REQUEST_STATUS.LOADING);
-		MiTVCore.getGuide(mDateSelectedIndex, false);
+	
+	
+	private void reloadPage() 
+	{
+		if(ApiClient.ismIsRefreshingGuide() == false)
+		{
+			updateUI(REQUEST_STATUS.LOADING);
+			ApiClient.getGuide(mDateSelectedIndex, false);
+		}
+		// TODO: Do something
 	}
 
+	
+	
 	@Override
-	protected boolean pageHoldsData() {
+	protected boolean pageHoldsData()
+	{
 		boolean result = false;
 
 		Log.d(TAG, "pageHoldsData()");
-		// mTags = null;
+		
 		mTvDates = MiTVStore.getInstance().getTvDates();
-		// mTags = MiTVStore.getInstance().getTags();
 
-		if (mTvDates != null) {
-			if (mTvDates.isEmpty()) {
+		if (mTvDates != null) 
+		{
+			if (mTvDates.isEmpty())
+			{
 				updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
-			} else {
+			} 
+			else
+			{
 				Log.d(TAG, "SUCCESSFUL");
+				
 				updateUI(REQUEST_STATUS.SUCCESSFUL);
+				
 				result = true;
 			}
 		}
+		
 		return result;
 	}
 
+	
+	
 	@Override
-	protected void updateUI(REQUEST_STATUS status) {
-
-		if (super.requestIsSuccesfull(status)) {
-
+	protected void updateUI(REQUEST_STATUS status) 
+	{
+		if (super.requestIsSuccesfull(status))
+		{
 			mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
 			mDayAdapter = new ActionBarDropDownDateListAdapter(mTvDates);
@@ -453,9 +526,12 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	}
 
 	@Override
-	public void onDestroy() {
+	public void onDestroy() 
+	{
 		super.onDestroy();
+		
 		Log.d(TAG, "onDestroy");
+		
 		// Stop listening to broadcast events
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverDate);
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverContent);
@@ -465,75 +541,108 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 		((SecondScreenApplication) getApplicationContext()).setSelectedHour(6);
 	};
 
+	
+	
 	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
+	public void onConfigurationChanged(Configuration newConfig)
+	{
 		super.onConfigurationChanged(newConfig);
-
 	}
 
+	
+	
 	@Override
-	public boolean onNavigationItemSelected(int position, long id) {
-		if (mIsFirstLoad) {
+	public boolean onNavigationItemSelected(int position, long id) 
+	{
+		if (mIsFirstLoad)
+		{
 			mDayAdapter.setSelectedIndex(0);
 			mActionBar.setSelectedNavigationItem(0);
 			mTvDateSelected = mTvDates.get(0);
 			mIsFirstLoad = false;
+			
 			return true;
-		} else {
+		}
+		else 
+		{
 			mDayAdapter.setSelectedIndex(position);
+			
 			mTvDateSelected = mTvDates.get(position);
+			
 			Log.d(TAG, "ON NAVIGATION ITEM SELECTED: " + position);
+			
 			LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(
 					new Intent(Consts.INTENT_EXTRA_TVGUIDE_SORTING).putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE, mTvDateSelected.getDate()).putExtra(
 							Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE_POSITION, position));
+			
 			return true;
 		}
 	}
 
+	
+	
 	@Override
-	protected void onSaveInstanceState(Bundle outState) {
+	protected void onSaveInstanceState(Bundle outState) 
+	{
 		// No call for super(). Bug on API Level > 11.
 	}
 
+	
+	
 	@Override
-	public void onClick(View v) {
+	public void onClick(View v) 
+	{
 		int id = v.getId();
-		switch (id) {
-		case R.id.tab_tv_guide:
-			// we are already here, nothing happens
-			break;
-		case R.id.tab_activity:
-			// tab to activity page
-			Intent intentActivity = new Intent(HomeActivity.this, ActivityActivity.class);
-			startActivity(intentActivity);
-
-			break;
-		case R.id.tab_me:
-			// tab to activity page
-			Intent intentMe = new Intent(HomeActivity.this, MyProfileActivity.class);
-			startActivity(intentMe);
-
-			break;
-		}
-	}
-
-	@Override
-	public void onApiVersionChecked(boolean needsUpdate) {
-		if (needsUpdate) {
-			showUpdateDialog();
-		} else 
+		
+		switch (id) 
 		{
-			loadPage();
+			case R.id.tab_tv_guide:
+				// we are already here, nothing happens
+				break;
+				
+			case R.id.tab_activity:
+				// tab to activity page
+				Intent intentActivity = new Intent(HomeActivity.this, ActivityActivity.class);
+				startActivity(intentActivity);
+				break;
+				
+			case R.id.tab_me:
+				// tab to activity page
+				Intent intentMe = new Intent(HomeActivity.this, MyProfileActivity.class);
+				startActivity(intentMe);
+				break;
 		}
 	}
 
+	
+	
 	@Override
-	public void onAppConfigurationListener() {
-		if (showWelcomeToast) {
+	public void onApiVersionChecked(boolean needsUpdate) 
+	{
+		if (needsUpdate) 
+		{
+			showUpdateDialog();
+		} 
+		else 
+		{
+			loadContent();
+		}
+	}
+
+	
+	
+	@Override
+	public void onAppConfigurationListener() 
+	{
+		if (showWelcomeToast) 
+		{
 			mWelcomeToast = AppConfigurationManager.getInstance().getWelcomeToast();
-			if(mWelcomeToast != null && !TextUtils.isEmpty(mWelcomeToast)) {
+			
+			if(mWelcomeToast != null && !TextUtils.isEmpty(mWelcomeToast)) 
+			{
 				Toast.makeText(getApplicationContext(), mWelcomeToast, Toast.LENGTH_LONG).show();
 			}
+			
 			showWelcomeToast = false;
 		}
 	}

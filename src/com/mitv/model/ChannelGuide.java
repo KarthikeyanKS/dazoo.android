@@ -16,7 +16,6 @@ import com.mitv.utilities.DateUtilities;
 public class ChannelGuide extends ThreeImageResolutions implements Parcelable {
 
 	private String id;
-	private String name;
 	
 	private ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
 
@@ -28,7 +27,6 @@ public class ChannelGuide extends ThreeImageResolutions implements Parcelable {
 
 	public ChannelGuide(JSONObject jsonGuide) {
 		this.setId(jsonGuide.optString(Consts.GUIDE_CHANNEL_ID));
-		this.setName(jsonGuide.optString(Consts.GUIDE_CHANNEL_NAME));
 
 		JSONObject logosJson = jsonGuide.optJSONObject(Consts.GUIDE_LOGO);
 		if (logosJson != null) {
@@ -60,14 +58,6 @@ public class ChannelGuide extends ThreeImageResolutions implements Parcelable {
 		return this.id;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
 	public void setBroadcasts(ArrayList<Broadcast> broadcasts) {
 		this.broadcasts = broadcasts;
 	}
@@ -76,9 +66,9 @@ public class ChannelGuide extends ThreeImageResolutions implements Parcelable {
 		return this.broadcasts;
 	}
 
-	public ChannelGuide(Parcel in) {
+	public ChannelGuide(Parcel in) 
+	{
 		id = in.readString();
-		name = in.readString();
 		
 		String urlLowRes = in.readString();
 		String urlMediumRes = in.readString();
@@ -99,7 +89,6 @@ public class ChannelGuide extends ThreeImageResolutions implements Parcelable {
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(id);
-		dest.writeString(name);
 		dest.writeString(imageUrlLowRes);
 		dest.writeString(imageUrlMediumRes);
 		dest.writeString(imageUrlHighRes);

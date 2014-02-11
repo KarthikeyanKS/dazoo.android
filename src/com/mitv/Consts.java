@@ -350,7 +350,6 @@ public abstract class Consts {
 
 	/* GUIDE fields */
 	public static final String	GUIDE_CHANNEL_ID								= "channelId";
-	public static final String	GUIDE_CHANNEL_NAME							= "name";
 	public static final String	GUIDE_LOGO									= "logo";
 	public static final String	GUIDE_BROADCASTS								= "broadcasts";
 

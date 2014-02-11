@@ -135,7 +135,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 
 		// read the data from the mitvStore singleton
 		if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
-			mGuides = mitvStore.getGuideTable(mTvDate.getDate());
+			mGuides = mitvStore.getChannelGuides(mTvDate.getDate());
 		} else {
 			mTaggedBroadcasts = mitvStore.getTaggedBroadcasts(mTvDate, mTag);
 		}
