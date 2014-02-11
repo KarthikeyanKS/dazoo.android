@@ -29,6 +29,7 @@ import com.mitv.manager.GATrackingManager;
 import com.mitv.manager.MiTVCore;
 import com.mitv.manager.MiTVCore.ApiVersionCallback;
 import com.mitv.manager.MiTVCore.AppConfigurationCallback;
+import com.mitv.utilities.FileUtilities;
 import com.mitv.utilities.ObscuredSharedPreferences;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -167,38 +168,61 @@ public class SecondScreenApplication extends Application {
 	}
 	
 	private File appWasPreinstalledFile() {
-		String root = Environment.getExternalStorageDirectory().toString();
-		
-		String filePath = String.format(getCurrentLocale(), "%s/Android/data/", root);
-		
-		File myDir = new File(filePath);
-		myDir.mkdirs();
+		File file = null;
 
-		String fname = Consts.APP_WAS_PREINSTALLED_FILE_NAME;
-		File file = new File(myDir, fname);
-		
+		if (FileUtilities.isExternalStorageWritable()) {
+			String root = Environment.getExternalStorageDirectory().toString();
+			try {
+				Locale locale = SecondScreenApplication.getCurrentLocale();
+				if (locale == null) {
+					locale = Locale.getDefault();
+				}
+
+				String filePath = String.format(locale, "%s/Android/data/", root);
+
+				File myDir = new File(filePath);
+				myDir.mkdirs();
+
+				String fname = Consts.APP_WAS_PREINSTALLED_FILE_NAME;
+				file = new File(myDir, fname);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
 		return file;
+
 	}
 	
+	
 	public boolean wasPreinstalledFileExists() {
+		boolean wasPreinstalledFileExists = false;
 		File file = appWasPreinstalledFile();
-		boolean wasPreinstalledFileExists = file.exists();
-		
+		if (FileUtilities.isExternalStorageReadable()) {
+			if (file != null) {
+				wasPreinstalledFileExists = file.exists();
+			}
+		}
 		return wasPreinstalledFileExists;
 	}
 	
 	public void saveWasPreinstalledFile() {
 		File file = appWasPreinstalledFile();
-		if (!wasPreinstalledFileExists()) {
-			try {
-				FileOutputStream os = new FileOutputStream(file, true);
-				OutputStreamWriter out = new OutputStreamWriter(os);
-				out.close();
-			} catch (Exception e) {
-				e.printStackTrace();
+		if (file != null) {
+			if (!wasPreinstalledFileExists()) {
+				if (FileUtilities.isExternalStorageWritable()) {
+					try {
+						FileOutputStream os = new FileOutputStream(file, true);
+						OutputStreamWriter out = new OutputStreamWriter(os);
+						out.close();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
 			}
 		}
 	}
+
 	
 	public static boolean applicationIsSystemApp(Context context) {
 		String packageName = context.getPackageName();
