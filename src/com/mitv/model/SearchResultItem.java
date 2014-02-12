@@ -46,7 +46,7 @@ public class SearchResultItem {
 				break;
 			}
 			case CHANNEL: {
-				entity = new Channel(entityJsonObject);
+				entity = new TVChannel(entityJsonObject);
 				break;
 			}
 			case PROGRAM: {

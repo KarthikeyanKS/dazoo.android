@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.model.Broadcast;
-import com.mitv.model.TvDate;
+import com.mitv.model.TVDate;
 import com.mitv.storage.MiTVStore;
 import com.mitv.tvguide.BroadcastPageActivity;
 import com.mitv.utilities.ProgressBarUtils;
@@ -38,7 +38,7 @@ public class PopularListAdapter extends BaseAdapter {
 	private int						mCurrentPosition	= -1;
 
 	private MiTVStore				mitvStore;
-	private ArrayList<TvDate>		mTvDates;
+	private ArrayList<TVDate>		mTvDates;
 
 	public PopularListAdapter(Activity activity, String token, ArrayList<Broadcast> popularBroadcasts) {
 		this.mActivity = activity;

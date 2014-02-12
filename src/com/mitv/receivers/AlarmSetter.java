@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.util.List;
 
 import com.mitv.model.Broadcast;
-import com.mitv.model.Channel;
+import com.mitv.model.TVChannel;
 import com.mitv.model.NotificationDbItem;
 import com.mitv.model.Program;
 import com.mitv.model.Season;
@@ -73,7 +73,7 @@ public class AlarmSetter extends BroadcastReceiver {
 			
 			broadcast.setProgram(program);
 			
-			Channel channel = new Channel();
+			TVChannel channel = new TVChannel();
 			channel.setChannelId(item.getChannelId());
 			channel.setName(item.getChannelName());
 			channel.setAllImageUrls(item.getChannelLogoUrl());

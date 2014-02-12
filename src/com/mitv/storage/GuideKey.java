@@ -3,7 +3,7 @@ package com.mitv.storage;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.mitv.model.TvDate;
+import com.mitv.model.TVDate;
 
 public class GuideKey implements Parcelable{
 	

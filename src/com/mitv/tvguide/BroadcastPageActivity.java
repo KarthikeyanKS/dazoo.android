@@ -34,9 +34,9 @@ import com.mitv.content.activity.ActivityActivity;
 import com.mitv.homepage.HomeActivity;
 import com.mitv.manager.InternalTrackingManager;
 import com.mitv.model.Broadcast;
-import com.mitv.model.Channel;
+import com.mitv.model.TVChannel;
 import com.mitv.model.Program;
-import com.mitv.model.TvDate;
+import com.mitv.model.TVDate;
 import com.mitv.myprofile.MyProfileActivity;
 import com.mitv.storage.MiTVStore;
 import com.mitv.utilities.DateUtilities;
@@ -49,7 +49,7 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 	private String					mTvDate, mChannelLogoUrl;
 	private LinearLayout			mBlockContainer;
 	private ActionBar				mActionBar;
-	private Channel					mChannel;
+	private TVChannel					mChannel;
 	private String					mChannelId, mBroadcastPageUrl;
 	private long					mBeginTimeInMillis;
 	private boolean					mIsFromNotification	= false, mIsFromActivity = false, mIsBroadcast = false, mIsUpcoming = false, mIsSeries = false, mIsRepeat = false,
@@ -156,7 +156,7 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 							if (mChannel != null) {
 								mBroadcast.setChannel(mChannel);
 							} else {
-								Channel channel = new Channel();
+								TVChannel channel = new TVChannel();
 								channel.setChannelId(mChannelId);
 								mBroadcast.setChannel(channel);
 							}
@@ -221,7 +221,7 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 	
 						} else {
 							// otherwise - just use the id that we got with the notification intent
-							Channel channel = new Channel();
+							TVChannel channel = new TVChannel();
 							channel.setChannelId(mChannelId);
 							if (mChannelLogoUrl != null) {
 								channel.setAllImageUrls(mChannelLogoUrl);
@@ -427,10 +427,10 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 			public void onGetPageResult(SSPageGetResult aPageGetResult) {
 				mRepeatBroadcasts = SSBroadcastsFromProgramPage.getInstance().getProgramBroadcasts();
 				int hour;
-				TvDate tvDate;
+				TVDate tvDate;
 				if (mIsFromNotification) {
 					hour = Integer.valueOf(DateUtilities.getCurrentHourString());
-					tvDate = new TvDate();
+					tvDate = new TVDate();
 					tvDate.setDate(mTvDate);
 					// Log.d(TAG, "hour: " + hour + " TvDate: " + tvDate.getDate());
 				} else {

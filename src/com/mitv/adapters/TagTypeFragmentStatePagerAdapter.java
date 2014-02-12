@@ -8,22 +8,22 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.imbryk.viewPager.LoopViewPager;
-import com.mitv.model.Tag;
-import com.mitv.model.TvDate;
+import com.mitv.model.TVTag;
+import com.mitv.model.TVDate;
 import com.mitv.tvguide.TVGuideTableFragment;
 
 public class TagTypeFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
 
 	private static final String TAG = "TagTypeFragmentStatePagerAdapter";
-	private ArrayList<Tag> mTags;
-	private TvDate mTvDate;
+	private ArrayList<TVTag> mTags;
+	private TVDate mTvDate;
 	private int mDatePosition;
 	private boolean createBackground;
 	private FragmentManager fm;
 
 	private HashMap<String, AdListAdapter> adapterMap = new HashMap<String, AdListAdapter>();
 	
-	public TagTypeFragmentStatePagerAdapter(FragmentManager fm, ArrayList<Tag> tags, TvDate tvDate, int datePosition) {
+	public TagTypeFragmentStatePagerAdapter(FragmentManager fm, ArrayList<TVTag> tags, TVDate tvDate, int datePosition) {
 		super(fm);
 		this.fm = fm;
 		this.mTags = tags;

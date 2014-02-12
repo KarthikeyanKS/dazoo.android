@@ -14,7 +14,7 @@ public class ChannelHour implements Parcelable{
 
 	String hour;
 	ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
-	Channel channel;
+	TVChannel channel;
 	
 	public ChannelHour(){
 	}
@@ -35,18 +35,18 @@ public class ChannelHour implements Parcelable{
 		return this.broadcasts;
 	}
 	
-	public void setChannel(Channel channel){
+	public void setChannel(TVChannel channel){
 		this.channel = channel;
 	}
 	
-	public Channel getChannel(){
+	public TVChannel getChannel(){
 		return this.channel;
 	}
 	
 	public ChannelHour(Parcel in){
 		hour = in.readString();
 		broadcasts = (ArrayList<Broadcast>)in.readArrayList(Broadcast.class.getClassLoader());
-		channel = (Channel)in.readParcelable(Channel.class.getClassLoader());
+		channel = (TVChannel)in.readParcelable(TVChannel.class.getClassLoader());
 	}
 	
 	

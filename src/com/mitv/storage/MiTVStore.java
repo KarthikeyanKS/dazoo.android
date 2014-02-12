@@ -12,11 +12,11 @@ import android.util.SparseArray;
 
 import com.mitv.model.AdzerkAd;
 import com.mitv.model.Broadcast;
-import com.mitv.model.Channel;
+import com.mitv.model.TVChannel;
 import com.mitv.model.FeedItem;
 import com.mitv.model.ChannelGuide;
-import com.mitv.model.Tag;
-import com.mitv.model.TvDate;
+import com.mitv.model.TVTag;
+import com.mitv.model.TVDate;
 
 
 
@@ -25,14 +25,14 @@ public class MiTVStore
 	@SuppressWarnings("unused")
 	private static final String							TAG					= "MiTVStore";
 
-	private ArrayList<TvDate>							mTvDates			= new ArrayList<TvDate>();
+	private ArrayList<TVDate>							mTvDates			= new ArrayList<TVDate>();
 
 	private ArrayList<String>							mChannelIds			= new ArrayList<String>();
 	private Calendar									mChannelIdsFetchTimestamp = null;	
 	
-	private HashMap<String, Channel>					mChannels			= new HashMap<String, Channel>();
+	private HashMap<String, TVChannel>					mChannels			= new HashMap<String, TVChannel>();
 
-	private ArrayList<Tag>								mTags				= new ArrayList<Tag>();
+	private ArrayList<TVTag>								mTags				= new ArrayList<TVTag>();
 	private HashMap<String, SparseArray<AdzerkAd>> 		mFragmentToAdsMap 	= new HashMap<String, SparseArray<AdzerkAd>>();
 	private HashMap<GuideKey, ChannelGuide>				mChannelGuides				= new HashMap<GuideKey, ChannelGuide>();
 	private HashMap<BroadcastKey, ArrayList<Broadcast>>	mTaggedBroadcasts	= new HashMap<BroadcastKey, ArrayList<Broadcast>>();
@@ -68,15 +68,15 @@ public class MiTVStore
 	}
 
 	// tags
-	public void setTags(ArrayList<Tag> tags) {
+	public void setTags(ArrayList<TVTag> tags) {
 		this.mTags = tags;
 	}
 
-	public ArrayList<Tag> getTags() {
+	public ArrayList<TVTag> getTags() {
 		return this.mTags;
 	}
 
-	public Tag getTag(String tagName) {
+	public TVTag getTag(String tagName) {
 		int size = mTags.size();
 		for (int i = 0; i < size; i++) {
 			if (mTags.get(i).getName().equals(tagName)) {
@@ -87,15 +87,15 @@ public class MiTVStore
 	}
 
 	// dates
-	public void setTvDates(ArrayList<TvDate> tvDates) {
+	public void setTvDates(ArrayList<TVDate> tvDates) {
 		this.mTvDates = tvDates;
 	}
 
-	public ArrayList<TvDate> getTvDates() {
+	public ArrayList<TVDate> getTvDates() {
 		return this.mTvDates;
 	}
 
-	public TvDate getDate(String dateRepresentation) {
+	public TVDate getDate(String dateRepresentation) {
 		int size = mTvDates.size();
 		for (int i = 0; i < size; i++) {
 			if (mTvDates.get(i).getDate().equals(dateRepresentation)) {
@@ -116,7 +116,7 @@ public class MiTVStore
 	}
 
 	// channels
-	public void setChannels(HashMap<String, Channel> channels) {
+	public void setChannels(HashMap<String, TVChannel> channels) {
 		this.mChannels = channels;
 	}
 
@@ -125,16 +125,16 @@ public class MiTVStore
 	/*
 	 * Returns all channels when the user is not logged in and the user channels when the user is logged in
 	 */
-	public HashMap<String, Channel> getChannels()
+	public HashMap<String, TVChannel> getChannels()
 	{
 		return this.mChannels;
 	}
 
 	
 
-	public Channel getChannelById(String channelId) 
+	public TVChannel getChannelById(String channelId) 
 	{
-		for (Entry<String, Channel> entry : mChannels.entrySet()) 
+		for (Entry<String, TVChannel> entry : mChannels.entrySet()) 
 		{
 			if (entry.getKey().equals(channelId)) 
 			{
@@ -268,7 +268,7 @@ public class MiTVStore
 		return this.mTaggedBroadcasts;
 	}
 
-	public ArrayList<Broadcast> getTaggedBroadcasts(TvDate date, Tag tag) {
+	public ArrayList<Broadcast> getTaggedBroadcasts(TVDate date, TVTag tag) {
 		BroadcastKey broadcastKey = new BroadcastKey();
 		broadcastKey.setDate(date);
 		broadcastKey.setTag(tag);

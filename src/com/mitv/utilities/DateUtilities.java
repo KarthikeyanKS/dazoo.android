@@ -13,7 +13,7 @@ import android.util.Log;
 import com.mitv.Consts;
 import com.mitv.SecondScreenApplication;
 import com.mitv.manager.AppConfigurationManager;
-import com.mitv.model.TvDate;
+import com.mitv.model.TVDate;
 
 public class DateUtilities {
 
@@ -64,21 +64,21 @@ public class DateUtilities {
 	}
 	
 	//TODO verify that this uses correct time zone!
-	public static String timeStringUsingTvDateAndHour(TvDate tvDate, int hour) {
+	public static String timeStringUsingTvDateAndHour(TVDate tvDate, int hour) {
 		SimpleDateFormat df = getDateFormat(Consts.ISO_DATE_FORMAT);
 		Date date = dateFromTvDateAndHour(tvDate, hour);
 		String timeNowStr = df.format(date);
 		return timeNowStr;
 	}
 	
-	public static long timeAsLongFromTvDateAndHour(TvDate tvDate, int hour) {
+	public static long timeAsLongFromTvDateAndHour(TVDate tvDate, int hour) {
 		long time = 0;
 		Date date = dateFromTvDateAndHour(tvDate, hour);
 		time = date.getTime();
 		return time;
 	}
 	
-	public static Date dateFromTvDateAndHour(TvDate tvDate, int hour) {
+	public static Date dateFromTvDateAndHour(TVDate tvDate, int hour) {
 		String year = DateUtilities.tvDateToYearNumber(tvDate.getDate());
 		String month = DateUtilities.tvDateToMonthNumber(tvDate.getDate());
 		String day = DateUtilities.tvDateToDayNumber(tvDate.getDate());

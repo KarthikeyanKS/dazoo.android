@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.model.Broadcast;
-import com.mitv.model.TvDate;
+import com.mitv.model.TVDate;
 import com.mitv.tvguide.BroadcastPageActivity;
 import com.mitv.utilities.ProgressBarUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -32,9 +32,9 @@ public class TVGuideTagListAdapter extends AdListAdapter<Broadcast> {
 	private Activity				mActivity;
 	private ArrayList<Broadcast>	mTaggedBroadcasts;
 	private int						mCurrentPosition;
-	private TvDate					mDate;
+	private TVDate					mDate;
 
-	public TVGuideTagListAdapter(Activity activity, String fragmentName, ArrayList<Broadcast> taggedBroadcasts, int currentPosition, TvDate date) {
+	public TVGuideTagListAdapter(Activity activity, String fragmentName, ArrayList<Broadcast> taggedBroadcasts, int currentPosition, TVDate date) {
 		super(fragmentName, activity, taggedBroadcasts);
 		this.mTaggedBroadcasts = taggedBroadcasts;
 		this.mActivity = activity;

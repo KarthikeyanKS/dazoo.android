@@ -31,8 +31,8 @@ import com.mitv.content.SSPageFragment;
 import com.mitv.customviews.SwipeClockBar;
 import com.mitv.model.Broadcast;
 import com.mitv.model.ChannelGuide;
-import com.mitv.model.Tag;
-import com.mitv.model.TvDate;
+import com.mitv.model.TVTag;
+import com.mitv.model.TVDate;
 import com.mitv.storage.MiTVStore;
 import com.mitv.utilities.DateUtilities;
 
@@ -45,8 +45,8 @@ public class TVGuideTableFragment extends SSPageFragment {
 	private ListView				mTVGuideListView;
 	private ImageView				mClockIv;
 	private ArrayList<ChannelGuide>		mGuides;
-	private TvDate					mTvDate;
-	private Tag						mTag;
+	private TVDate					mTvDate;
+	private TVTag						mTag;
 	private int						mTvDatePosition;
 	private SwipeClockBar			mSwipeClockBar;
 	private TVGuideListAdapter		mTVGuideListAdapter;
@@ -58,7 +58,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 	private TextView				mCurrentHourTv;
 	public HashMap<String, AdListAdapter> adapterMap;
 	
-	public static TVGuideTableFragment newInstance(Tag tag, TvDate date, int position, HashMap<String, AdListAdapter> adapterMap) {
+	public static TVGuideTableFragment newInstance(TVTag tag, TVDate date, int position, HashMap<String, AdListAdapter> adapterMap) {
 
 		TVGuideTableFragment fragment = new TVGuideTableFragment();
 		fragment.adapterMap = adapterMap;

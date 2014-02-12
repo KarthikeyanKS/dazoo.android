@@ -116,7 +116,7 @@ public class ChannelGuide extends ThreeImageResolutions implements Parcelable {
 		}
 	};
 
-	public int getClosestBroadcastIndexFromTime(ArrayList<Broadcast> broadcastList, int hour, TvDate date) {
+	public int getClosestBroadcastIndexFromTime(ArrayList<Broadcast> broadcastList, int hour, TVDate date) {
 		int nearestIndex = 0;
 
 		long timeNow = DateUtilities.timeAsLongFromTvDateAndHour(date, hour);

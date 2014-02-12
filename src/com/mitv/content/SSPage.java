@@ -13,13 +13,13 @@ import com.mitv.http.SSHttpClientGetResult;
 import com.mitv.manager.AppConfigurationManager;
 import com.mitv.manager.ContentParser;
 import com.mitv.model.Broadcast;
-import com.mitv.model.Channel;
+import com.mitv.model.TVChannel;
 import com.mitv.model.ChannelGuide;
 import com.mitv.model.Link;
 import com.mitv.model.ProgramType;
 import com.mitv.model.SearchResult;
-import com.mitv.model.Tag;
-import com.mitv.model.TvDate;
+import com.mitv.model.TVTag;
+import com.mitv.model.TVDate;
 
 public abstract class SSPage {
 
@@ -32,9 +32,9 @@ public abstract class SSPage {
 	// array with data
 	private ArrayList<ChannelGuide>				mGuide;
 	private ArrayList<ProgramType>			mProgramTypes;
-	private ArrayList<TvDate>				mTvDates;
-	private ArrayList<Channel>				mChannels;
-	private ArrayList<Tag>					mTags;
+	private ArrayList<TVDate>				mTvDates;
+	private ArrayList<TVChannel>				mChannels;
+	private ArrayList<TVTag>					mTags;
 	private Broadcast						mBroadcast;
 	private ArrayList<Broadcast>			mSeriesUpcomingBroadcasts;
 	private SearchResult					mSearchResult;
@@ -140,7 +140,7 @@ public abstract class SSPage {
 		this.mTvDates = mContentParser.parseDates(jsonArray);
 	}
 
-	public ArrayList<TvDate> getTvDates() {
+	public ArrayList<TVDate> getTvDates() {
 		return mTvDates;
 	}
 
@@ -172,7 +172,7 @@ public abstract class SSPage {
 		this.mChannels = mContentParser.parseChannels(jsonArray);
 	}
 
-	public ArrayList<Channel> getChannels() {
+	public ArrayList<TVChannel> getChannels() {
 		return mChannels;
 	}
 
@@ -180,7 +180,7 @@ public abstract class SSPage {
 		this.mTags = mContentParser.parseTags(jsonArray);
 	}
 
-	public ArrayList<Tag> getTags() {
+	public ArrayList<TVTag> getTags() {
 		return mTags;
 	}
 

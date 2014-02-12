@@ -8,12 +8,12 @@ import android.os.Parcelable;
 
 import com.mitv.Consts;
 
-public class Channel extends ThreeImageResolutions implements Parcelable {
+public class TVChannel extends ThreeImageResolutions implements Parcelable {
 
 	private String channelId = "";
 	private String name = "";
 	
-	public Channel(){		
+	public TVChannel(){		
 	}
 	
 	public void setChannelId(String channelId){
@@ -40,7 +40,7 @@ public class Channel extends ThreeImageResolutions implements Parcelable {
 		return this.channelId;
 	}
 	
-	public Channel(Parcel in){
+	public TVChannel(Parcel in){
 		channelId = in.readString();
 		name = in.readString();
 		String urlLowRes = in.readString();
@@ -52,7 +52,7 @@ public class Channel extends ThreeImageResolutions implements Parcelable {
 		setImageUrlPortraitOrSquareHigh(urlHighRes);
 	}
 	
-	public Channel(JSONObject jsonChannel) {
+	public TVChannel(JSONObject jsonChannel) {
 		this.setChannelId(jsonChannel.optString(Consts.CHANNEL_CHANNEL_ID));
 		this.setName(jsonChannel.optString(Consts.CHANNEL_NAME));
 
@@ -84,8 +84,8 @@ public class Channel extends ThreeImageResolutions implements Parcelable {
 	
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof Channel) {
-			Channel other = (Channel) o;
+		if (o instanceof TVChannel) {
+			TVChannel other = (TVChannel) o;
 			if (getChannelId() != null && other.getChannelId() != null && getChannelId().equals(other.getChannelId())) {
 				return true;
 			}
@@ -93,13 +93,13 @@ public class Channel extends ThreeImageResolutions implements Parcelable {
 		return false;
 	}
 	
-	public static final Parcelable.Creator<Channel>	CREATOR	= new Parcelable.Creator<Channel>() {
-		public Channel createFromParcel(Parcel in) {
-			return new Channel(in);
+	public static final Parcelable.Creator<TVChannel>	CREATOR	= new Parcelable.Creator<TVChannel>() {
+		public TVChannel createFromParcel(Parcel in) {
+			return new TVChannel(in);
 		}
 
-		public Channel[] newArray(int size) {
-			return new Channel[size];
+		public TVChannel[] newArray(int size) {
+			return new TVChannel[size];
 		}
 	};
 

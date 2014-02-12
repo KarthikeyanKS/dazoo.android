@@ -28,7 +28,7 @@ public class Broadcast implements Parcelable
 
 	private String broadcastType;
 
-	private Channel channel;
+	private TVChannel channel;
 	private Program program;
 	private String channelUrl;
 	private String shareUrl;
@@ -162,11 +162,11 @@ public class Broadcast implements Parcelable
 		return this.endTimeStringGmt;
 	}
 
-	public void setChannel(Channel channel) {
+	public void setChannel(TVChannel channel) {
 		this.channel = channel;
 	}
 
-	public Channel getChannel() {
+	public TVChannel getChannel() {
 		return this.channel;
 	}
 
@@ -244,7 +244,7 @@ public class Broadcast implements Parcelable
 	}	
 
 	public Broadcast(Parcel in) {
-		channel = (Channel) in.readParcelable(Channel.class.getClassLoader());
+		channel = (TVChannel) in.readParcelable(TVChannel.class.getClassLoader());
 		program = (Program) in.readParcelable(Program.class.getClassLoader());
 		channelUrl = in.readString();
 		shareUrl = in.readString();	
@@ -354,7 +354,7 @@ public class Broadcast implements Parcelable
 
 		this.setProgram(program);
 
-		Channel channel = new Channel();
+		TVChannel channel = new TVChannel();
 		channel.setChannelId(item.getChannelId());
 		channel.setName(item.getChannelName());
 		channel.setAllImageUrls(item.getChannelLogoUrl());
@@ -466,7 +466,7 @@ public class Broadcast implements Parcelable
 
 		JSONObject jsonChannel = jsonBroadcast.optJSONObject(Consts.BROADCAST_CHANNEL);
 		if (jsonChannel != null) {
-			Channel channel = new Channel(jsonChannel);
+			TVChannel channel = new TVChannel(jsonChannel);
 			if(channel != null) {
 				this.setChannel(channel);
 			}
@@ -592,7 +592,7 @@ public class Broadcast implements Parcelable
 		return nearestIndex;
 	}
 
-	public static int getClosestBroadcastIndexFromTime(ArrayList<Broadcast> broadcastList, int hour, TvDate date) {
+	public static int getClosestBroadcastIndexFromTime(ArrayList<Broadcast> broadcastList, int hour, TVDate date) {
 		int nearestIndex = 0;
 		long timeNow = DateUtilities.timeAsLongFromTvDateAndHour(date, hour);
 		nearestIndex = getClosestBroadcastIndexUsingTime(broadcastList, timeNow);

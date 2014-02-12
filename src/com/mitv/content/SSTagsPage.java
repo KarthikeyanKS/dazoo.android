@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import android.util.Log;
 
 import com.mitv.Consts;
-import com.mitv.model.Tag;
+import com.mitv.model.TVTag;
 
 public class SSTagsPage extends SSPage {
 
@@ -26,7 +26,7 @@ public class SSTagsPage extends SSPage {
 		super(Consts.URL_TAGS_PAGE);
 	}
 
-	public ArrayList<Tag> getTags() {
+	public ArrayList<TVTag> getTags() {
 		Log.d(TAG, "get tags");
 		return super.getTags();
 	}

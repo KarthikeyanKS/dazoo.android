@@ -19,10 +19,10 @@ import android.widget.Toast;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.model.Broadcast;
-import com.mitv.model.Channel;
+import com.mitv.model.TVChannel;
 import com.mitv.model.NotificationDbItem;
 import com.mitv.model.Program;
-import com.mitv.model.TvDate;
+import com.mitv.model.TVDate;
 import com.mitv.myprofile.RemindersCountInterface;
 import com.mitv.notification.NotificationDataSource;
 import com.mitv.notification.NotificationDialogHandler;
@@ -41,7 +41,7 @@ public class RemindersListAdapter extends BaseAdapter {
 	private int						currentPosition	= -1;
 
 	private MiTVStore				mitvStore;
-	private ArrayList<TvDate>		mTvDates;
+	private ArrayList<TVDate>		mTvDates;
 
 	public RemindersListAdapter(Activity mActivity, ArrayList<Broadcast> mBroadcasts, RemindersCountInterface remindersInterface) {
 		this.mBroadcasts = mBroadcasts;
@@ -102,7 +102,7 @@ public class RemindersListAdapter extends BaseAdapter {
 
 		final Broadcast broadcast = getItem(position);
 		if (broadcast != null) {
-			final Channel channel = broadcast.getChannel();
+			final TVChannel channel = broadcast.getChannel();
 			Program program = broadcast.getProgram();
 
 			// If first or the previous broadcast is not the same date, show header.

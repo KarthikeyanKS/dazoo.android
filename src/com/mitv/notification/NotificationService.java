@@ -29,7 +29,7 @@ import android.widget.Toast;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.model.Broadcast;
-import com.mitv.model.Channel;
+import com.mitv.model.TVChannel;
 import com.mitv.model.NotificationDbItem;
 import com.mitv.model.Program;
 import com.mitv.tvguide.BroadcastPageActivity;
@@ -40,7 +40,7 @@ public class NotificationService {
 	private static final String	TAG	= "NotificationService";
 	public static Toast sToast;
 
-	public static boolean resetAlarm(Context context, Broadcast broadcast, Channel channel, int notificationId){
+	public static boolean resetAlarm(Context context, Broadcast broadcast, TVChannel channel, int notificationId){
 
 		// call alarm manager to set the notification at the certain time
 		Intent intent = getAlarmIntent(notificationId, broadcast, channel, broadcast.getTvDateString());
@@ -62,7 +62,7 @@ public class NotificationService {
 	}
 	
 	
-	private static Intent getAlarmIntent(int notificationId, Broadcast broadcast, Channel channel, String dateDate) {
+	private static Intent getAlarmIntent(int notificationId, Broadcast broadcast, TVChannel channel, String dateDate) {
 		Intent intent = new Intent(Consts.INTENT_NOTIFICATION);
 
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_BEGINTIMEMILLIS, broadcast.getBeginTimeMillisGmt());
@@ -77,7 +77,7 @@ public class NotificationService {
 		return intent;
 	}
 
-	public static boolean setAlarm(Context context, Broadcast broadcast, Channel channel, String dateDate) {
+	public static boolean setAlarm(Context context, Broadcast broadcast, TVChannel channel, String dateDate) {
 
 		Random random = new Random();
 		int notificationId = random.nextInt(Integer.MAX_VALUE);

@@ -11,7 +11,7 @@ import android.util.Log;
 import com.mitv.Consts;
 import com.mitv.model.AdzerkAd;
 import com.mitv.model.Broadcast;
-import com.mitv.model.Channel;
+import com.mitv.model.TVChannel;
 import com.mitv.model.Credit;
 import com.mitv.model.MiTVLike;
 import com.mitv.model.MiTVLikeEntity;
@@ -23,8 +23,8 @@ import com.mitv.model.SearchResult;
 import com.mitv.model.Season;
 import com.mitv.model.Series;
 import com.mitv.model.SportType;
-import com.mitv.model.Tag;
-import com.mitv.model.TvDate;
+import com.mitv.model.TVTag;
+import com.mitv.model.TVDate;
 
 public class ContentParser {
 
@@ -73,15 +73,15 @@ public class ContentParser {
 		return programTypes;
 	}
 
-	public Tag parseTag(JSONObject jsonTag) throws Exception {
-		Tag tag = new Tag();
+	public TVTag parseTag(JSONObject jsonTag) throws Exception {
+		TVTag tag = new TVTag();
 		tag.setId(jsonTag.optString(Consts.TAG_ID));
 		tag.setName(jsonTag.optString(Consts.TAG_NAME));
 		return tag;
 	}
 
-	public ArrayList<Tag> parseTags(JSONArray mainArray) throws Exception {
-		ArrayList<Tag> tags = new ArrayList<Tag>();
+	public ArrayList<TVTag> parseTags(JSONArray mainArray) throws Exception {
+		ArrayList<TVTag> tags = new ArrayList<TVTag>();
 
 		Log.d(TAG, "TAGS PAGE SIZE:" + mainArray.length());
 
@@ -94,15 +94,15 @@ public class ContentParser {
 		return tags;
 	}
 
-	public ArrayList<TvDate> parseDates(JSONArray mainArray) throws Exception {
-		ArrayList<TvDate> tvDates = new ArrayList<TvDate>();
+	public ArrayList<TVDate> parseDates(JSONArray mainArray) throws Exception {
+		ArrayList<TVDate> tvDates = new ArrayList<TVDate>();
 
 		Log.d(TAG, "DATES PAGE SIZE:" + mainArray.length());
 
 		for (int i = 0; i < mainArray.length(); i++) {
 			JSONObject jsonTvDate = mainArray.getJSONObject(i);
 
-			TvDate tvDate = new TvDate();
+			TVDate tvDate = new TVDate();
 			tvDate.setId(jsonTvDate.optString(Consts.DATE_ID));
 			tvDate.setName(jsonTvDate.optString(Consts.DATE_NAME));
 			tvDate.setDate(jsonTvDate.optString(Consts.DATE_DATE));
@@ -112,11 +112,11 @@ public class ContentParser {
 		return tvDates;
 	}
 
-	public ArrayList<Channel> parseChannels(JSONArray mainArray) throws Exception {
+	public ArrayList<TVChannel> parseChannels(JSONArray mainArray) throws Exception {
 
 		Log.d(TAG, "CHANNELS PAGE SIZE:" + mainArray.length());
 
-		ArrayList<Channel> channels = new ArrayList<Channel>();
+		ArrayList<TVChannel> channels = new ArrayList<TVChannel>();
 
 		for (int i = 0; i < mainArray.length(); i++) {
 			JSONObject jsonChannel = mainArray.getJSONObject(i);
@@ -128,8 +128,8 @@ public class ContentParser {
 		return channels;
 	}
 
-	public static Channel parseChannel(JSONObject jsonChannel) throws Exception {
-		Channel channel = new Channel(jsonChannel);
+	public static TVChannel parseChannel(JSONObject jsonChannel) throws Exception {
+		TVChannel channel = new TVChannel(jsonChannel);
 
 		return channel;
 	}
@@ -157,16 +157,16 @@ public class ContentParser {
 		return season;
 	}
 
-	public TvDate parseTvDate(JSONObject jsonTvDate) throws Exception {
-		TvDate tvDate = new TvDate();
+	public TVDate parseTvDate(JSONObject jsonTvDate) throws Exception {
+		TVDate tvDate = new TVDate();
 		tvDate.setId(jsonTvDate.optString(Consts.DATE_ID));
 		tvDate.setName(jsonTvDate.optString(Consts.DATE_NAME));
 		tvDate.setDate(jsonTvDate.optString(Consts.DATE_DATE));
 		return tvDate;
 	}
 
-	public ArrayList<TvDate> parseTvDates(JSONArray mainArray) throws Exception {
-		ArrayList<TvDate> tvDates = new ArrayList<TvDate>();
+	public ArrayList<TVDate> parseTvDates(JSONArray mainArray) throws Exception {
+		ArrayList<TVDate> tvDates = new ArrayList<TVDate>();
 		for (int i = 0; i < mainArray.length(); i++) {
 			JSONObject jsonTvDate = mainArray.getJSONObject(i);
 			if (jsonTvDate != null) {

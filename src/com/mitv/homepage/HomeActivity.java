@@ -39,7 +39,7 @@ import com.mitv.content.SSPageFragmentActivity;
 import com.mitv.content.activity.ActivityActivity;
 import com.mitv.manager.AppConfigurationManager;
 import com.mitv.manager.ApiClient;
-import com.mitv.model.TvDate;
+import com.mitv.model.TVDate;
 import com.mitv.myprofile.MyProfileActivity;
 import com.mitv.storage.MiTVStore;
 import com.mitv.tvguide.TVHolderFragment;
@@ -60,8 +60,8 @@ public class HomeActivity
 	private ActionBarDropDownDateListAdapter	mDayAdapter;
 	public static int							mBroadcastSelection	= -1;
 	private int									mTabSelectedIndex	= 0, mDateSelectedIndex;
-	private ArrayList<TvDate>					mTvDates			= new ArrayList<TvDate>();
-	private TvDate								mTvDateSelected;
+	private ArrayList<TVDate>					mTvDates			= new ArrayList<TVDate>();
+	private TVDate								mTvDateSelected;
 	private boolean								mIsReady			= false, mIsFirstLoad = true, mIsChannelListChanged, mChannelsHasBeenChanged = false;
 
 	private Fragment							mActiveFragment;

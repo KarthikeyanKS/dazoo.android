@@ -18,8 +18,8 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.TagTypeFragmentStatePagerAdapter;
 import com.mitv.manager.ApiClient;
 import com.mitv.model.ChannelGuide;
-import com.mitv.model.Tag;
-import com.mitv.model.TvDate;
+import com.mitv.model.TVTag;
+import com.mitv.model.TVDate;
 import com.mitv.storage.MiTVStore;
 import com.viewpagerindicator.TabPageIndicator;
 
@@ -30,12 +30,12 @@ public class TVHolderFragment extends Fragment {
 	private PagerAdapter							mAdapter;
 	private int										mTabSelectedIndex	= 0, mDateSelectedIndex;
 	private TabPageIndicator						mPageTabIndicator;
-	private ArrayList<Tag>							mTags				= new ArrayList<Tag>();
+	private ArrayList<TVTag>							mTags				= new ArrayList<TVTag>();
 	private ArrayList<String>						mTabTitles;
 	private ViewPager								mViewPager;
 
 	private String									mDate;
-	private ArrayList<TvDate>						mDates;
+	private ArrayList<TVDate>						mDates;
 	
 	private String token;
 	private boolean mIsLoggedIn;

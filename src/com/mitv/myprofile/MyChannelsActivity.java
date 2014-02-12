@@ -39,7 +39,7 @@ import com.mitv.content.SSPageGetResult;
 import com.mitv.content.activity.ActivityActivity;
 import com.mitv.homepage.HomeActivity;
 import com.mitv.manager.ApiClient;
-import com.mitv.model.Channel;
+import com.mitv.model.TVChannel;
 import com.mitv.storage.MiTVStore;
 import com.mitv.storage.MiTVStoreOperations;
 import com.mitv.utilities.JSONUtilities;
@@ -60,9 +60,9 @@ public class MyChannelsActivity
 	private EditText					mSearchChannelInputEditText;
 	private MyChannelsListAdapter		mAdapter;
 	
-	private ArrayList<Channel>			mChannels				= new ArrayList<Channel>();
+	private ArrayList<TVChannel>			mChannels				= new ArrayList<TVChannel>();
 	private ArrayList<String>			mCheckedChannelsIds		= new ArrayList<String>();
-	private HashMap<String, Channel>	mChannelsMap			= new HashMap<String, Channel>();
+	private HashMap<String, TVChannel>	mChannelsMap			= new HashMap<String, TVChannel>();
 	
 	private boolean[]					mIsCheckedArray;
 	
@@ -70,8 +70,8 @@ public class MyChannelsActivity
 	private boolean						mIsChanged				= false;
 	private int							mCount					= 0;
 
-	private ArrayList<Channel>			mChannelInfoToDisplay	= new ArrayList<Channel>();
-	private Map<String, Channel>		mChannelInfoMap			= new HashMap<String, Channel>();
+	private ArrayList<TVChannel>			mChannelInfoToDisplay	= new ArrayList<TVChannel>();
+	private Map<String, TVChannel>		mChannelInfoMap			= new HashMap<String, TVChannel>();
 
 	private ArrayList<String>			myChannelIds			= new ArrayList<String>();
 	private ArrayList<String>			mAllChannelsIds			= new ArrayList<String>();
@@ -137,7 +137,7 @@ public class MyChannelsActivity
 		{
 			int allChannelsIndex = 0;
 			
-			for (Entry<String, Channel> entry : mChannelsMap.entrySet())
+			for (Entry<String, TVChannel> entry : mChannelsMap.entrySet())
 			{
 				mChannels.add(entry.getValue());
 				mAllChannelsIds.add(mChannels.get(allChannelsIndex).getChannelId());
@@ -184,9 +184,9 @@ public class MyChannelsActivity
 							search = search.substring(0, 3);
 						}
 						mChannelInfoToDisplay.clear();
-						for (Map.Entry<String, Channel> entry : mChannelInfoMap.entrySet()) {
+						for (Map.Entry<String, TVChannel> entry : mChannelInfoMap.entrySet()) {
 							String key = entry.getKey();
-							Channel channel = entry.getValue();
+							TVChannel channel = entry.getValue();
 							if (key.toLowerCase().contains(search.toLowerCase())) {
 								// mark the correct channels in the global list
 
@@ -368,7 +368,7 @@ public class MyChannelsActivity
 			@Override
 			public void onGetPageResult(SSPageGetResult aPageGetResult)
 			{
-				ArrayList<Channel> mAllChannels = SSChannelPage.getInstance().getChannels();
+				ArrayList<TVChannel> mAllChannels = SSChannelPage.getInstance().getChannels();
 
 				if (mAllChannels != null && mAllChannels.isEmpty() != true) 
 				{

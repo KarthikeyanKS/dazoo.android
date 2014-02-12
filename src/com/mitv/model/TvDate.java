@@ -3,13 +3,13 @@ package com.mitv.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class TvDate implements Parcelable{
+public class TVDate implements Parcelable{
 	
 	String id;
 	String name;
 	String date;
 	
-	public TvDate(){		
+	public TVDate(){		
 	}
 	
 	public void setId(String id){
@@ -36,7 +36,7 @@ public class TvDate implements Parcelable{
 		return this.date;
 	}
 	
-	public TvDate(Parcel in){
+	public TVDate(Parcel in){
 		id = in.readString();
 		name = in.readString();
 		date = in.readString();
@@ -56,8 +56,8 @@ public class TvDate implements Parcelable{
 	
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof TvDate) {
-			TvDate other = (TvDate) o;
+		if (o instanceof TVDate) {
+			TVDate other = (TVDate) o;
 			if (getDate() != null && other.getDate() != null && getDate().equals(other.getDate()) &&
 					getId() != null && other.getDate() != null && getId().equals(other.getId())) {
 				return true;
@@ -66,13 +66,13 @@ public class TvDate implements Parcelable{
 		return false;
 	}
 	
-	public static final Parcelable.Creator<TvDate>	CREATOR	= new Parcelable.Creator<TvDate>() {
-		public TvDate createFromParcel(Parcel in) {
-			return new TvDate(in);
+	public static final Parcelable.Creator<TVDate>	CREATOR	= new Parcelable.Creator<TVDate>() {
+		public TVDate createFromParcel(Parcel in) {
+			return new TVDate(in);
 		}
 
-		public TvDate[] newArray(int size) {
-			return new TvDate[size];
+		public TVDate[] newArray(int size) {
+			return new TVDate[size];
 		}
 	};
 

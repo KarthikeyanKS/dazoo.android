@@ -29,7 +29,7 @@ import com.mitv.http.MiTVCallback;
 import com.mitv.http.SSHttpClient;
 import com.mitv.manager.FontManager;
 import com.mitv.model.Broadcast;
-import com.mitv.model.Channel;
+import com.mitv.model.TVChannel;
 import com.mitv.model.Program;
 import com.mitv.model.SearchResult;
 import com.mitv.model.SearchResultItem;
@@ -209,7 +209,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		setTimeString(viewHolder, resultItem);
 	}
 	
-	private void populateChannelView(ViewHolder viewHolder, Channel channel) {
+	private void populateChannelView(ViewHolder viewHolder, TVChannel channel) {
 		viewHolder.mType.setText(mContext.getString(R.string.search_result_channel));
 		
 		String title = channel.getName();
@@ -252,7 +252,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 				break;
 			}
 			case CHANNEL: {
-				Channel channel = (Channel) resultItem.getEntity();
+				TVChannel channel = (TVChannel) resultItem.getEntity();
 				populateChannelView(holder, channel);
 				break;
 			}

@@ -9,10 +9,10 @@ import java.util.HashMap;
 import android.util.Log;
 import com.mitv.SecondScreenApplication;
 import com.mitv.model.Broadcast;
-import com.mitv.model.Channel;
+import com.mitv.model.TVChannel;
 import com.mitv.model.ChannelGuide;
-import com.mitv.model.Tag;
-import com.mitv.model.TvDate;
+import com.mitv.model.TVTag;
+import com.mitv.model.TVDate;
 
 
 
@@ -23,9 +23,9 @@ public class MiTVStoreOperations
 
 
 	
-	public static void saveChannels(ArrayList<Channel> channels) 
+	public static void saveChannels(ArrayList<TVChannel> channels) 
 	{
-		HashMap<String, Channel> channelsMap = new HashMap<String, Channel>();
+		HashMap<String, TVChannel> channelsMap = new HashMap<String, TVChannel>();
 		ArrayList<String> channelsIds = new ArrayList<String>();
 
 		int size = channels.size();
@@ -45,7 +45,7 @@ public class MiTVStoreOperations
 
 
 	
-	public static void setTvDates(ArrayList<TvDate> tvDates) 
+	public static void setTvDates(ArrayList<TVDate> tvDates) 
 	{
 		MiTVStore mitvStore = MiTVStore.getInstance();
 		mitvStore.setTvDates(tvDates);
@@ -53,7 +53,7 @@ public class MiTVStoreOperations
 
 	
 	
-	public static void setTags(ArrayList<Tag> tags) 
+	public static void setTags(ArrayList<TVTag> tags) 
 	{
 		MiTVStore mitvStore = MiTVStore.getInstance();
 		mitvStore.setTags(tags);
@@ -96,7 +96,7 @@ public class MiTVStoreOperations
 	}
 
 
-	public static void saveTaggedBroadcast(TvDate date, Tag tag, ArrayList<Broadcast> broadcasts) 
+	public static void saveTaggedBroadcast(TVDate date, TVTag tag, ArrayList<Broadcast> broadcasts) 
 	{
 		MiTVStore mitvStore = MiTVStore.getInstance();
 		HashMap<BroadcastKey, ArrayList<Broadcast>> broadcastsList = mitvStore.getBroadcastsList();
@@ -111,7 +111,7 @@ public class MiTVStoreOperations
 
 
 	// filtering guides by tags
-	public static ArrayList<Broadcast> getTaggedBroadcasts(String date, Tag tag)
+	public static ArrayList<Broadcast> getTaggedBroadcasts(String date, TVTag tag)
 	{
 		MiTVStore mitvStore = MiTVStore.getInstance();
 		ArrayList<ChannelGuide> channelGuides = mitvStore.getChannelGuides(date);
@@ -136,7 +136,7 @@ public class MiTVStoreOperations
 				
 				if (broadcastToAdd != null && broadcastToAdd.getProgram().getTags().contains(tagName)) 
 				{
-					Channel channel = MiTVStore.getInstance().getChannelById(channelId);
+					TVChannel channel = MiTVStore.getInstance().getChannelById(channelId);
 					broadcastToAdd.setChannel(channel);
 					taggedBroadcasts.add(broadcastToAdd);
 				}

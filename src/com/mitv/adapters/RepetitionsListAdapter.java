@@ -22,7 +22,7 @@ import com.mitv.customviews.ReminderView;
 import com.mitv.model.Broadcast;
 import com.mitv.model.NotificationDbItem;
 import com.mitv.model.Program;
-import com.mitv.model.TvDate;
+import com.mitv.model.TVDate;
 import com.mitv.notification.NotificationDataSource;
 import com.mitv.notification.NotificationDialogHandler;
 import com.mitv.notification.NotificationService;
@@ -46,7 +46,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 	private Program					mProgram;
 	private Broadcast 				mRunningBroadcast;
 	private MiTVStore				mitvStore;
-	private ArrayList<TvDate>		mTvDates;
+	private ArrayList<TVDate>		mTvDates;
 
 	private int reminderPosition;
 
