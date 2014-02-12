@@ -293,7 +293,7 @@ public class Broadcast implements Parcelable {
 		program.setProgramType(programType);
 
 		long millisLocal = DateUtilities.convertTimeStampToLocalTime(millisGmt);
-			
+
 		String beginTimeStringLocalHourAndMinute = DateUtilities.getTimeOfDayFormatted(millisLocal);
 		this.setBeginTimeStringLocalHourAndMinute(beginTimeStringLocalHourAndMinute);
 
@@ -304,28 +304,34 @@ public class Broadcast implements Parcelable {
 			Date now = new Date();
 			Calendar today = Calendar.getInstance();
 			today.setTime(now);
-			
+
 			Calendar tomorrow = Calendar.getInstance();
 			tomorrow.setTime(now);
 			tomorrow.add(Calendar.DAY_OF_YEAR, 1);
-			
+
 			Calendar date = Calendar.getInstance();
 			date.setTimeInMillis(millisLocal);
-			
+
+			String dayOfWeekAndTimeString;
 			if (today.get(Calendar.YEAR) == date.get(Calendar.YEAR) && today.get(Calendar.DAY_OF_YEAR) == date.get(Calendar.DAY_OF_YEAR)) {
 				this.setDayOfWeekString(SecondScreenApplication.getInstance().getResources().getString(R.string.today));
+				dayOfWeekAndTimeString = new StringBuilder().append(dayOfWeekString).append(", ").append(beginTimeStringLocalHourAndMinute).toString();
 			}
 			else if (tomorrow.get(Calendar.YEAR) == date.get(Calendar.YEAR) && tomorrow.get(Calendar.DAY_OF_YEAR) == date.get(Calendar.DAY_OF_YEAR)) {
 				this.setDayOfWeekString(SecondScreenApplication.getInstance().getResources().getString(R.string.tomorrow));
+				dayOfWeekAndTimeString = new StringBuilder().append(dayOfWeekString).append(", ").append(beginTimeStringLocalHourAndMinute).toString();
 			}
 			else {
 				String dayOfWeekString = DateUtilities.isoStringToDayOfWeek(millisLocal);
 				dayOfWeekString = Character.toUpperCase(dayOfWeekString.charAt(0)) + dayOfWeekString.substring(1);
 				this.setDayOfWeekString(dayOfWeekString);
+				dayOfWeekAndTimeString = new StringBuilder().append(dayOfWeekString)
+						.append(" ")
+						.append(DateUtilities.tvDateStringToDatePickerString(beginTimeMillisLocal))
+						.append(", ").append(beginTimeStringLocalHourAndMinute).toString();
 			}
-
-			String dayOfWeekAndTimeString = new StringBuilder().append(dayOfWeekString).append(", ").append(beginTimeStringLocalHourAndMinute).toString();
 			this.setDayOfWeekWithTimeString(dayOfWeekAndTimeString);
+			
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -379,27 +385,32 @@ public class Broadcast implements Parcelable {
 			Date now = new Date();
 			Calendar today = Calendar.getInstance();
 			today.setTime(now);
-			
+
 			Calendar tomorrow = Calendar.getInstance();
 			tomorrow.setTime(now);
 			tomorrow.add(Calendar.DAY_OF_YEAR, 1);
-			
+
 			Calendar date = Calendar.getInstance();
 			date.setTimeInMillis(beginTimeMillisLocal);
-			
-			if (today.get(Calendar.YEAR) == date.get(Calendar.YEAR) && today.get(Calendar.DAY_OF_YEAR) == date.get(Calendar.DAY_OF_YEAR)) {
-				this.setDayOfWeekString(SecondScreenApplication.getInstance().getResources().getString(R.string.today));
-			}
-			else if (tomorrow.get(Calendar.YEAR) == date.get(Calendar.YEAR) && tomorrow.get(Calendar.DAY_OF_YEAR) == date.get(Calendar.DAY_OF_YEAR)) {
-				this.setDayOfWeekString(SecondScreenApplication.getInstance().getResources().getString(R.string.tomorrow));
-			}
-			else {
-				String dayOfWeekString = DateUtilities.isoStringToDayOfWeek(beginTimeMillisLocal);
-				dayOfWeekString = Character.toUpperCase(dayOfWeekString.charAt(0)) + dayOfWeekString.substring(1);
-				this.setDayOfWeekString(dayOfWeekString);
-			}
 
-			String dayOfWeekAndTimeString = new StringBuilder().append(dayOfWeekString).append(", ").append(beginTimeStringLocalHourAndMinute).toString();
+			String dayOfWeekAndTimeString;
+				if (today.get(Calendar.YEAR) == date.get(Calendar.YEAR) && today.get(Calendar.DAY_OF_YEAR) == date.get(Calendar.DAY_OF_YEAR)) {
+					this.setDayOfWeekString(SecondScreenApplication.getInstance().getResources().getString(R.string.today));
+					dayOfWeekAndTimeString = new StringBuilder().append(dayOfWeekString).append(", ").append(beginTimeStringLocalHourAndMinute).toString();
+				}
+				else if (tomorrow.get(Calendar.YEAR) == date.get(Calendar.YEAR) && tomorrow.get(Calendar.DAY_OF_YEAR) == date.get(Calendar.DAY_OF_YEAR)) {
+					this.setDayOfWeekString(SecondScreenApplication.getInstance().getResources().getString(R.string.tomorrow));
+					dayOfWeekAndTimeString = new StringBuilder().append(dayOfWeekString).append(", ").append(beginTimeStringLocalHourAndMinute).toString();
+				}
+				else {
+					String dayOfWeekString = DateUtilities.isoStringToDayOfWeek(beginTimeMillisLocal);
+					dayOfWeekString = Character.toUpperCase(dayOfWeekString.charAt(0)) + dayOfWeekString.substring(1);
+					this.setDayOfWeekString(dayOfWeekString);
+					dayOfWeekAndTimeString = new StringBuilder().append(dayOfWeekString)
+							.append(" ")
+							.append(DateUtilities.tvDateStringToDatePickerString(beginTimeMillisLocal))
+							.append(", ").append(beginTimeStringLocalHourAndMinute).toString();
+				}
 			this.setDayOfWeekWithTimeString(dayOfWeekAndTimeString);
 
 
@@ -418,10 +429,10 @@ public class Broadcast implements Parcelable {
 		}
 
 	}
-	
+
 	public String getStartsInTimeString() {
 		Resources res = SecondScreenApplication.getInstance().getApplicationContext().getResources();
-		
+
 		String startsInTimeString = "Not set";
 		try {
 			int daysLeft = DateUtilities.getDifferenceInDays(this.beginTimeMillisGmt);
@@ -443,7 +454,7 @@ public class Broadcast implements Parcelable {
 		} catch (ParseException e) {
 			startsInTimeString = "Parse error";
 		}
-		
+
 		return startsInTimeString;
 	}
 
