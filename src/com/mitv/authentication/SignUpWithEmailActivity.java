@@ -53,6 +53,7 @@ import com.mitv.content.activity.ActivityActivity;
 import com.mitv.customviews.FontTextView;
 import com.mitv.homepage.HomeActivity;
 import com.mitv.utilities.JSONUtilities;
+import com.mitv.utilities.KeyboardUtilities;
 import com.mitv.utilities.TextDrawable;
 
 public class SignUpWithEmailActivity extends SSSignInSignupBaseActivity implements OnClickListener {
@@ -87,8 +88,22 @@ public class SignUpWithEmailActivity extends SSSignInSignupBaseActivity implemen
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
 		initViews();
+
+		KeyboardUtilities.showKeyboard(this);
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		KeyboardUtilities.showKeyboard(this);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		KeyboardUtilities.hideKeyboard(this);
+	}
+	
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
 		/* Have to have this method here since SSActivity has this method abstract */

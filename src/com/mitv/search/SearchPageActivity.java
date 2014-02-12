@@ -1,8 +1,6 @@
 package com.mitv.search;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,7 +16,6 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
@@ -29,19 +26,19 @@ import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.mitv.Consts;
-import com.mitv.R;
-import com.mitv.SecondScreenApplication;
 import com.mitv.Consts.ENTITY_TYPE;
 import com.mitv.Consts.REQUEST_STATUS;
+import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.content.SSActivity;
 import com.mitv.customviews.InstantAutoComplete;
 import com.mitv.model.Broadcast;
 import com.mitv.model.Channel;
 import com.mitv.model.SearchResultItem;
 import com.mitv.myprofile.MyChannelsActivity;
-import com.mitv.myprofile.MyProfileActivity;
 import com.mitv.tvguide.BroadcastPageActivity;
 import com.mitv.utilities.HardwareUtilities;
+import com.mitv.utilities.KeyboardUtilities;
 
 public class SearchPageActivity extends SSActivity implements OnItemClickListener, OnEditorActionListener, OnClickListener, SearchActivityListeners {
 
@@ -80,13 +77,13 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 	@Override
 	public void onResume() {
 		super.onResume();
-		showKeyboard();
+		KeyboardUtilities.showKeyboard(this);
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-		hideKeyboard();
+		KeyboardUtilities.hideKeyboard(this);
 	}
 
 	private void initSupportActionbar() {
@@ -187,33 +184,15 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 		mSearchInstructionsContainer.setVisibility(View.VISIBLE);
 	}
 
-	private void showKeyboard() {
-		mHandler.post(new Runnable() {
-			public void run() {
-				InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-				inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-				 triggerAutoComplete();
-			}
-		});
-	}
-
-	private void hideKeyboard() {
-		InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-		if (inputMethodManager != null) {
-			inputMethodManager.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
-		}
-		
-}
-
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		hideKeyboard();
+		KeyboardUtilities.hideKeyboard(this);
 	}
 
 	@Override
 	public void finish() {
-		hideKeyboard();
+		KeyboardUtilities.hideKeyboard(this);
 		super.finish();
 	}
 
@@ -283,7 +262,7 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 		if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 			triggerAutoComplete();
 			if (mEditTextSearch.getText().toString().length() >= 1) {
-				hideKeyboard();
+				KeyboardUtilities.hideKeyboard(this);
 			}
 			return true;
 		}
