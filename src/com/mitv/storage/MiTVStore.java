@@ -328,6 +328,21 @@ public class MiTVStore
 		this.mChannelGuides.clear();
 		this.mTaggedBroadcasts.clear();
 	}
+	
+	public void clearChannelIds() {
+		this.mChannelIds.clear();
+		this.mMyIdsSet = false;
+	}
+	
+	public void clearChannelsAndIds() {
+		clearChannelIds();
+		this.mChannels.clear();
+	}
+	
+	public void clearChannelsAndIdsAndGuide() {
+		clearChannelsAndIds();
+		clearChannelGuides();
+	}
 
 //	public void reinitializeAll() {
 //		this.mTvDates = new ArrayList<TvDate>();

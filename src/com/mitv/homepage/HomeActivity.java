@@ -82,6 +82,7 @@ public class HomeActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+		
 		Log.d(TAG, "Homepageactivity oncreate");
 
 		setContentView(R.layout.layout_home_activity);
@@ -125,12 +126,83 @@ public class HomeActivity
 	
 	
 	
-	public void loadContent()
+	@Override
+	protected void onResume() 
+	{
+		super.onResume();
+		
+		registerReceivers();
+		
+		Log.d(TAG, "We have resumed!");
+		
+		if(ApiClient.ismShouldRefreshGuide() && !mIsFirstLoad)
+		{
+			loadPage();
+		}
+		
+		
+//		if (mChannelsHasBeenChanged)
+//		{
+//			removeActiveFragment();
+//			MiTVStore.getInstance().clearAndReinitializeForMyChannels();
+//			mChannelUpdate = true;
+//			ApiClient.getGuide(mDateSelectedIndex, false);
+			
+//			mChannelsHasBeenChanged = false;
+//		} 
+//		else 
+//		{
+//			if (NetworkUtils.isConnectedAndHostIsReachable(this))
+//			{
+//				// update current hour
+//				int hour = Integer.valueOf(DateUtilities.getCurrentHourString());
+//				
+//				((SecondScreenApplication) getApplicationContext()).setSelectedHour(hour);
+//				
+//				reloadPage();
+//			} 
+//			else 
+//			{
+//				updateUI(REQUEST_STATUS.FAILED);
+//			}
+//		}
+
+		checkForCrashes();
+	}
+
+	
+	
+	@Override
+	protected void onPause() 
+	{
+		super.onPause();
+		
+		Log.d(TAG, "onPause");
+		
+		unregisterReceivers();
+	}
+	
+	
+	
+	@Override
+	public void onDestroy() 
+	{
+		super.onDestroy();
+		
+		Log.d(TAG, "onDestroy");
+		
+		unregisterReceivers();
+		
+		// clear the clock selection setting
+		((SecondScreenApplication) getApplicationContext()).setSelectedHour(6);
+	}
+	
+	
+	
+	private void loadContent()
 	{
 		if (NetworkUtils.isConnectedAndHostIsReachable(this)) 
 		{
-			//boolean isFirstStart = SecondScreenApplication.getInstance().isFirstStart();
-			
 			String signupTitle = String.format("%s %s", getResources().getString(R.string.success_account_created_title), SecondScreenApplication.getInstance().getUserFirstName());
 
 			if (mIsFromLogin) 
@@ -155,45 +227,6 @@ public class HomeActivity
 		{
 			updateUI(REQUEST_STATUS.FAILED);
 		}
-	}
-
-	
-	
-	private void registerReceivers() 
-	{
-		// broadcast receiver for request timeout
-		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverBadRequest, new IntentFilter(Consts.INTENT_EXTRA_BAD_REQUEST));
-
-		// broadcast receiver for my channels have changed
-		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverMyChannels, new IntentFilter(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
-
-		// broadcast receiver for content availability
-		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverContent, new IntentFilter(Consts.INTENT_EXTRA_GUIDE_AVAILABLE));
-
-		// broadcast receiver for date selection
-		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverDate, new IntentFilter(Consts.INTENT_EXTRA_TVGUIDE_SORTING));
-	}
-
-	
-	
-	private void unregisterReceivers() 
-	{
-		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverBadRequest);
-		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverMyChannels);
-		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverContent);
-		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverDate);
-	}
-
-	
-	
-	@Override
-	protected void onPause() 
-	{
-		super.onPause();
-		
-		Log.d(TAG, "onPause");
-		
-		unregisterReceivers();
 	}
 	
 	
@@ -230,6 +263,7 @@ public class HomeActivity
 				Log.d(TAG, " ON RECEIVE CONTENT");
 
 				mIsReady = intent.getBooleanExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, false);
+				
 
 				Log.d(TAG, "content for TvGuide TABLE is ready: " + mIsReady);
 				Log.d(TAG, "mDateSelectedIndex: " + mDateSelectedIndex);
@@ -238,6 +272,7 @@ public class HomeActivity
 
 				if (mIsReady) 
 				{
+
 					if (mIsFirstLoad) 
 					{
 						if (!pageHoldsData()) 
@@ -295,6 +330,33 @@ public class HomeActivity
 				reloadPage();
 			}
 		};
+	}
+	
+	
+	
+	private void registerReceivers() 
+	{
+		// broadcast receiver for request timeout
+		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverBadRequest, new IntentFilter(Consts.INTENT_EXTRA_BAD_REQUEST));
+
+		// broadcast receiver for my channels have changed
+		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverMyChannels, new IntentFilter(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
+
+		// broadcast receiver for content availability
+		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverContent, new IntentFilter(Consts.INTENT_EXTRA_GUIDE_AVAILABLE));
+
+		// broadcast receiver for date selection
+		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverDate, new IntentFilter(Consts.INTENT_EXTRA_TVGUIDE_SORTING));
+	}
+
+	
+	
+	private void unregisterReceivers() 
+	{
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverBadRequest);
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverMyChannels);
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverContent);
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverDate);
 	}
 
 	
@@ -383,45 +445,6 @@ public class HomeActivity
 
 	
 	
-	@Override
-	protected void onResume() 
-	{
-		super.onResume();
-		
-		registerReceivers();
-		
-//		if (mChannelsHasBeenChanged)
-//		{
-//			removeActiveFragment();
-//			MiTVStore.getInstance().clearAndReinitializeForMyChannels();
-//			mChannelUpdate = true;
-//			ApiClient.getGuide(mDateSelectedIndex, false);
-//			mChannelsHasBeenChanged = false;
-//		} 
-//		else 
-//		{
-//			Log.d(TAG, "We have resumed!");
-//			
-//			if (NetworkUtils.isConnectedAndHostIsReachable(this))
-//			{
-//				// update current hour
-//				int hour = Integer.valueOf(DateUtilities.getCurrentHourString());
-//				
-//				((SecondScreenApplication) getApplicationContext()).setSelectedHour(hour);
-//				
-//				reloadPage();
-//			} 
-//			else 
-//			{
-//				updateUI(REQUEST_STATUS.FAILED);
-//			}
-//		}
-
-		checkForCrashes();
-	}
-
-	
-	
 	private void initViews() 
 	{
 		mTabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
@@ -473,6 +496,7 @@ public class HomeActivity
 		if(ApiClient.ismIsRefreshingGuide() == false)
 		{
 			updateUI(REQUEST_STATUS.LOADING);
+			
 			ApiClient.getGuide(mDateSelectedIndex, false);
 		}
 		// TODO: Do something
@@ -525,22 +549,6 @@ public class HomeActivity
 		}
 	}
 
-	@Override
-	public void onDestroy() 
-	{
-		super.onDestroy();
-		
-		Log.d(TAG, "onDestroy");
-		
-		// Stop listening to broadcast events
-		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverDate);
-		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverContent);
-		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverMyChannels);
-
-		// clear the clock selection setting
-		((SecondScreenApplication) getApplicationContext()).setSelectedHour(6);
-	};
-
 	
 	
 	@Override
@@ -560,7 +568,6 @@ public class HomeActivity
 			mActionBar.setSelectedNavigationItem(0);
 			mTvDateSelected = mTvDates.get(0);
 			mIsFirstLoad = false;
-			
 			return true;
 		}
 		else 

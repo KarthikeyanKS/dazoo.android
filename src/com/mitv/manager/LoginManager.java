@@ -55,6 +55,11 @@ public class LoginManager {
 		application.setUserEmail(null);
 		application.setUserId(null);
 		application.setUserExistringFlag(false);
+		
+		//TODO do something more effective here??
+		MiTVStore.getInstance().clearChannelsAndIdsAndGuide();
+		
+		ContentManager.updateContent();
 
 //		MiTVStore.getInstance().clearAll();
 //		MiTVStore.getInstance().reinitializeAll();
