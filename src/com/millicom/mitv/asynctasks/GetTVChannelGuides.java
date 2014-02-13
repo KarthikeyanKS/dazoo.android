@@ -2,28 +2,28 @@ package com.millicom.mitv.asynctasks;
 
 import java.util.List;
 
-import com.millicom.mitv.asynctasks.builders.GetChannelGuidesBuilder;
+import com.millicom.mitv.asynctasks.builders.GetTVChannelGuidesBuilder;
 import com.millicom.mitv.http.URLParameters;
 import com.millicom.mitv.models.TVChannelId;
 import com.mitv.Consts;
-import com.mitv.model.ChannelGuide;
+import com.mitv.model.TVChannelGuide;
 import com.mitv.model.TVDate;
 
-public class GetChannelGuides extends AsyncTaskBase<ChannelGuide> {
+public class GetTVChannelGuides extends AsyncTaskBase<TVChannelGuide> {
 	
 	private static final String URL_SUFFIX = Consts.URL_GUIDE;
 	
 	
-	public static GetChannelGuides getChannelGuide(TVDate tvDate, List<TVChannelId> tvChannelIds) {
-		GetChannelGuidesBuilder channelGuideBuilder = new GetChannelGuidesBuilder();
+	public static GetTVChannelGuides getTVChannelGuide(TVDate tvDate, List<TVChannelId> tvChannelIds) {
+		GetTVChannelGuidesBuilder channelGuideBuilder = new GetTVChannelGuidesBuilder();
 		channelGuideBuilder.setTVDate(tvDate);
 		channelGuideBuilder.setTVChannelIds(tvChannelIds);
-		GetChannelGuides getChannelGuides = channelGuideBuilder.build();
+		GetTVChannelGuides getChannelGuides = channelGuideBuilder.build();
 		return getChannelGuides;
 	}
 
-	public GetChannelGuides() {
-		super(ChannelGuide.class, URL_SUFFIX, new URLParameters());
+	public GetTVChannelGuides() {
+		super(TVChannelGuide.class, URL_SUFFIX, new URLParameters());
 	}
 		
 	@Override

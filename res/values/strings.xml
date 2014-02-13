@@ -62,6 +62,9 @@
     <!-- <string name="icon_bookmark"> 	&#xE804;</string> -->
 
 
+    <!-- SPLASH SCREEN ACTIVITY -->
+    <string name="splash_screen_activity_text">We guide, inspire and socialize your TV experience so you never miss a thing</string>
+
     <!-- HOMEPAGE : FILTER BY CATEGORY -->
     <string name="tv_guide">TV Guide</string>
     <string name="all">All</string>

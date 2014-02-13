@@ -17,4 +17,10 @@ public class AppVersionData implements Serializable, JsonDeserializer<AppVersion
 		return null;
 	}
 
+	//TODO create pojo maching http://android.api.mi.tv/versions
+	
+	//TODO maybe we need to rename this
+	public String getApiVersion() {
+		return null;
+	}
 }

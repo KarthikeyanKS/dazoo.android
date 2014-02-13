@@ -14,7 +14,7 @@ import com.mitv.manager.AppConfigurationManager;
 import com.mitv.manager.ContentParser;
 import com.mitv.model.Broadcast;
 import com.mitv.model.TVChannel;
-import com.mitv.model.ChannelGuide;
+import com.mitv.model.TVChannelGuide;
 import com.mitv.model.Link;
 import com.mitv.model.ProgramType;
 import com.mitv.model.SearchResult;
@@ -30,7 +30,7 @@ public abstract class SSPage {
 	private ContentParser					mContentParser	= new ContentParser();
 
 	// array with data
-	private ArrayList<ChannelGuide>				mGuide;
+	private ArrayList<TVChannelGuide>				mGuide;
 	private ArrayList<ProgramType>			mProgramTypes;
 	private ArrayList<TVDate>				mTvDates;
 	private ArrayList<TVChannel>				mChannels;
@@ -164,7 +164,7 @@ public abstract class SSPage {
 		return mSearchResult;
 	}
 	
-	public ArrayList<ChannelGuide> getGuide() {
+	public ArrayList<TVChannelGuide> getGuide() {
 		return mGuide;
 	}
 

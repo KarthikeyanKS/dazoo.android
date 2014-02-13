@@ -16,7 +16,7 @@ import com.mitv.model.Credit;
 import com.mitv.model.MiTVLike;
 import com.mitv.model.MiTVLikeEntity;
 import com.mitv.model.FeedItem;
-import com.mitv.model.ChannelGuide;
+import com.mitv.model.TVChannelGuide;
 import com.mitv.model.Program;
 import com.mitv.model.ProgramType;
 import com.mitv.model.SearchResult;
@@ -30,13 +30,13 @@ public class ContentParser {
 
 	private static final String	TAG	= "ContentParser";
 
-	public ArrayList<ChannelGuide> parseGuide(JSONArray mainArray) throws Exception {
+	public ArrayList<TVChannelGuide> parseGuide(JSONArray mainArray) throws Exception {
 
-		ArrayList<ChannelGuide> guides = new ArrayList<ChannelGuide>();
+		ArrayList<TVChannelGuide> guides = new ArrayList<TVChannelGuide>();
 
 		for (int i = 0; i < mainArray.length(); i++) {
 			JSONObject jsonGuide = mainArray.getJSONObject(i);
-			ChannelGuide guide = new ChannelGuide(jsonGuide);
+			TVChannelGuide guide = new TVChannelGuide(jsonGuide);
 			guides.add(guide);
 		}
 		return guides;

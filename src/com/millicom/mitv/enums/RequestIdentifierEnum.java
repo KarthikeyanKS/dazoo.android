@@ -12,13 +12,14 @@ public enum RequestIdentifierEnum {
 	USER_SIGN_UP(8),
 	USER_FB_TOKEN(9), /* This is used when fetching a MiTV token from BE, using a FB token */
 	USER_LIKES(10),
-	USER_GET_CHANNELS(11),
+	TV_CHANNEL_IDS_USER(11),
 	USER_SET_CHANNELS(12),
 	USER_ADD_LIKE(13),
 	USER_REMOVE_LIKE(14),
 	USER_RESET_PASSWORD(15),
 	USER_ACTIVITY_FEED_ITEM(16),
-	POPULAR_ITEMS(17);
+	POPULAR_ITEMS(17),
+	TV_CHANNEL_IDS_DEFAULT(18);
 	
 	private final int id;
 	

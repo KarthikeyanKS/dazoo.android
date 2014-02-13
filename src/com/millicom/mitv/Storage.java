@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import android.text.TextUtils;
 import android.util.SparseArray;
 
 import com.millicom.mitv.models.AppConfigurationData;
@@ -11,7 +12,7 @@ import com.millicom.mitv.models.AppVersionData;
 import com.millicom.mitv.models.TVChannelId;
 import com.mitv.model.AdzerkAd;
 import com.mitv.model.Broadcast;
-import com.mitv.model.ChannelGuide;
+import com.mitv.model.TVChannelGuide;
 import com.mitv.model.FeedItem;
 import com.mitv.model.TVChannel;
 import com.mitv.model.TVDate;
@@ -25,7 +26,7 @@ public class Storage {
 	private ArrayList<TVDate> tvDates;
 	private ArrayList<TVChannelId> tvChannelIds;
 	private ArrayList<TVChannel> tvChannels;
-	private ArrayList<ChannelGuide> channelGuides;
+	private ArrayList<TVChannelGuide> tvChannelGuides;
 
 	private ArrayList<String> likeIds;
 	
@@ -36,9 +37,13 @@ public class Storage {
 	private ArrayList<Broadcast> popularFeed;
 	
 	private String userToken;
+	private int dateSelectedIndex;
 	
 	private AppVersionData appVersionData;
 	private AppConfigurationData appConfigData;
+		
+	/* Ads */
+	private HashMap<String, SparseArray<AdzerkAd>> mFragmentToAdsMap;
 	
 	public static Storage sharedInstance() {
 		if(sharedInstance == null) {
@@ -47,8 +52,13 @@ public class Storage {
 		return sharedInstance;
 	}
 	
-	/* Ads */
-	private HashMap<String, SparseArray<AdzerkAd>> mFragmentToAdsMap;
+	public boolean isLoggedIn() {
+		boolean isLoggedIn = false;
+		if(!TextUtils.isEmpty(userToken)) {
+			isLoggedIn = true;
+		}
+		return isLoggedIn;
+	}
 
 	public ArrayList<TVTag> getTvTags() {
 		return sharedInstance.tvTags;
@@ -82,12 +92,12 @@ public class Storage {
 		this.tvChannels = tvChannels;
 	}
 
-	public ArrayList<ChannelGuide> getChannelGuides() {
-		return channelGuides;
+	public ArrayList<TVChannelGuide> getTVChannelGuides() {
+		return tvChannelGuides;
 	}
 
-	public void setChannelGuides(ArrayList<ChannelGuide> channelGuides) {
-		this.channelGuides = channelGuides;
+	public void setTVChannelGuides(ArrayList<TVChannelGuide> channelGuides) {
+		this.tvChannelGuides = channelGuides;
 	}
 
 	public ArrayList<String> getLikeIds() {
@@ -160,6 +170,14 @@ public class Storage {
 
 	public void setAppConfigData(AppConfigurationData appConfigData) {
 		this.appConfigData = appConfigData;
+	}
+
+	public int getDateSelectedIndex() {
+		return dateSelectedIndex;
+	}
+
+	public void setDateSelectedIndex(int dateSelectedIndex) {
+		this.dateSelectedIndex = dateSelectedIndex;
 	}
 	
 	

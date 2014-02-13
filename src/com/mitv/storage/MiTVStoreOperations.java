@@ -10,7 +10,7 @@ import android.util.Log;
 import com.mitv.SecondScreenApplication;
 import com.mitv.model.Broadcast;
 import com.mitv.model.TVChannel;
-import com.mitv.model.ChannelGuide;
+import com.mitv.model.TVChannelGuide;
 import com.mitv.model.TVTag;
 import com.mitv.model.TVDate;
 
@@ -61,11 +61,11 @@ public class MiTVStoreOperations
 
 	
 	
-	public static boolean saveGuide(ChannelGuide guide, String tvDate, String channelId) 
+	public static boolean saveGuide(TVChannelGuide guide, String tvDate, String channelId) 
 	{
 		MiTVStore mitvStore = MiTVStore.getInstance();
 		
-		HashMap<GuideKey, ChannelGuide> guides = mitvStore.getGuides();
+		HashMap<GuideKey, TVChannelGuide> guides = mitvStore.getGuides();
 		
 		GuideKey guideKey = new GuideKey();
 		guideKey.setDate(tvDate);
@@ -79,11 +79,11 @@ public class MiTVStoreOperations
 	
 	
 
-	public static boolean saveGuides(ArrayList<ChannelGuide> channelGuide, String tvDate) 
+	public static boolean saveGuides(ArrayList<TVChannelGuide> channelGuide, String tvDate) 
 	{
 		boolean success = false;
 		
-		for (ChannelGuide channelGuideElement : channelGuide)
+		for (TVChannelGuide channelGuideElement : channelGuide)
 		{
 			String channelId = channelGuideElement.getId();
 			
@@ -114,7 +114,7 @@ public class MiTVStoreOperations
 	public static ArrayList<Broadcast> getTaggedBroadcasts(String date, TVTag tag)
 	{
 		MiTVStore mitvStore = MiTVStore.getInstance();
-		ArrayList<ChannelGuide> channelGuides = mitvStore.getChannelGuides(date);
+		ArrayList<TVChannelGuide> channelGuides = mitvStore.getChannelGuides(date);
 		String tagName = tag.getId();
 		
 		ArrayList<Broadcast> taggedBroadcasts = new ArrayList<Broadcast>();

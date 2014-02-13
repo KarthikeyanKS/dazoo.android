@@ -8,7 +8,7 @@ import com.millicom.mitv.enums.RequestIdentifierEnum;
  * @author consultant_hdme
  *
  */
-public interface ContentCallback {
+public interface ContentCallbackListener {
 	
 	/** 
 	 * This method is called by the AsyncTask in the onPostExecute method. After JSON data has been parsed.
@@ -19,6 +19,6 @@ public interface ContentCallback {
 	 * @param httpResponseCode - the response code returned by the HTTPCore for this request
 	 * @param data - the data object/model, parsed from JSON. Can be null if 'successful' = false, but never otherwise.
 	 */
-	public void onResult(ActivityCallback activityCallback, boolean successful, RequestIdentifierEnum requestIdentifier, int httpResponseCode, Object data);
+	public void onResult(ActivityCallbackListener activityCallback, boolean successful, RequestIdentifierEnum requestIdentifier, int httpResponseCode, Object data);
 
 }

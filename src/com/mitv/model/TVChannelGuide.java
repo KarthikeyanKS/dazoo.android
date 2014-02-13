@@ -13,7 +13,7 @@ import android.os.Parcelable;
 import com.mitv.Consts;
 import com.mitv.utilities.DateUtilities;
 
-public class ChannelGuide extends ThreeImageResolutions implements Parcelable {
+public class TVChannelGuide extends ThreeImageResolutions implements Parcelable {
 
 	private String id;
 	
@@ -22,10 +22,10 @@ public class ChannelGuide extends ThreeImageResolutions implements Parcelable {
 	/* Used for caching broadcast indexes */
 	private HashMap<Long, Integer> broadcastIndexCache = new HashMap<Long, Integer>();
 
-	public ChannelGuide() {
+	public TVChannelGuide() {
 	}
 
-	public ChannelGuide(JSONObject jsonGuide) {
+	public TVChannelGuide(JSONObject jsonGuide) {
 		this.setId(jsonGuide.optString(Consts.GUIDE_CHANNEL_ID));
 
 		JSONObject logosJson = jsonGuide.optJSONObject(Consts.GUIDE_LOGO);
@@ -66,7 +66,7 @@ public class ChannelGuide extends ThreeImageResolutions implements Parcelable {
 		return this.broadcasts;
 	}
 
-	public ChannelGuide(Parcel in) 
+	public TVChannelGuide(Parcel in) 
 	{
 		id = in.readString();
 		
@@ -97,8 +97,8 @@ public class ChannelGuide extends ThreeImageResolutions implements Parcelable {
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof ChannelGuide) {
-			ChannelGuide other = (ChannelGuide) o;
+		if (o instanceof TVChannelGuide) {
+			TVChannelGuide other = (TVChannelGuide) o;
 			if (getId() != null && other.getId() != null && getId().equals(other.getId())) {
 				return true;
 			}
@@ -106,13 +106,13 @@ public class ChannelGuide extends ThreeImageResolutions implements Parcelable {
 		return false;
 	}
 
-	public static final Parcelable.Creator<ChannelGuide> CREATOR = new Parcelable.Creator<ChannelGuide>() {
-		public ChannelGuide createFromParcel(Parcel in) {
-			return new ChannelGuide(in);
+	public static final Parcelable.Creator<TVChannelGuide> CREATOR = new Parcelable.Creator<TVChannelGuide>() {
+		public TVChannelGuide createFromParcel(Parcel in) {
+			return new TVChannelGuide(in);
 		}
 
-		public ChannelGuide[] newArray(int size) {
-			return new ChannelGuide[size];
+		public TVChannelGuide[] newArray(int size) {
+			return new TVChannelGuide[size];
 		}
 	};
 

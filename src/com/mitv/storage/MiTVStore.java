@@ -14,7 +14,7 @@ import com.mitv.model.AdzerkAd;
 import com.mitv.model.Broadcast;
 import com.mitv.model.TVChannel;
 import com.mitv.model.FeedItem;
-import com.mitv.model.ChannelGuide;
+import com.mitv.model.TVChannelGuide;
 import com.mitv.model.TVTag;
 import com.mitv.model.TVDate;
 
@@ -34,7 +34,7 @@ public class MiTVStore
 
 	private ArrayList<TVTag>								mTags				= new ArrayList<TVTag>();
 	private HashMap<String, SparseArray<AdzerkAd>> 		mFragmentToAdsMap 	= new HashMap<String, SparseArray<AdzerkAd>>();
-	private HashMap<GuideKey, ChannelGuide>				mChannelGuides				= new HashMap<GuideKey, ChannelGuide>();
+	private HashMap<GuideKey, TVChannelGuide>				mChannelGuides				= new HashMap<GuideKey, TVChannelGuide>();
 	private HashMap<BroadcastKey, ArrayList<Broadcast>>	mTaggedBroadcasts	= new HashMap<BroadcastKey, ArrayList<Broadcast>>();
 
 	private ArrayList<String>							mLikeIds			= new ArrayList<String>();
@@ -190,32 +190,32 @@ public class MiTVStore
 	}
 
 	// guide
-	public void setGuides(HashMap<GuideKey, ChannelGuide> guides) {
+	public void setGuides(HashMap<GuideKey, TVChannelGuide> guides) {
 		this.mChannelGuides = guides;
 	}
 
-	public HashMap<GuideKey, ChannelGuide> getGuides() {
+	public HashMap<GuideKey, TVChannelGuide> getGuides() {
 		return this.mChannelGuides;
 	}
 	
 	
 	
-	public ArrayList<ChannelGuide> getChannelGuides() 
+	public ArrayList<TVChannelGuide> getChannelGuides() 
 	{
-		ArrayList<ChannelGuide> channelGuides = new ArrayList<ChannelGuide>(mChannelGuides.values());
+		ArrayList<TVChannelGuide> channelGuides = new ArrayList<TVChannelGuide>(mChannelGuides.values());
 		
 		return channelGuides;
 	}
 
 
 	
-	public ArrayList<ChannelGuide> getChannelGuides(String tvDate) 
+	public ArrayList<TVChannelGuide> getChannelGuides(String tvDate) 
 	{
-		ArrayList<ChannelGuide> guideTable = new ArrayList<ChannelGuide>();
+		ArrayList<TVChannelGuide> guideTable = new ArrayList<TVChannelGuide>();
 		
 		for (String channelId : mChannelIds) 
 		{
-			ChannelGuide guide = getChannelGuide(tvDate, channelId);
+			TVChannelGuide guide = getChannelGuide(tvDate, channelId);
 			
 			if (guide != null) 
 			{
@@ -228,13 +228,13 @@ public class MiTVStore
 	
 	
 	
-	public ChannelGuide getChannelGuide(String tvDate, String channelId)
+	public TVChannelGuide getChannelGuide(String tvDate, String channelId)
 	{
 		GuideKey currentKey = new GuideKey();
 		currentKey.setDate(tvDate);
 		currentKey.setChannelId(channelId);
 
-		for (Entry<GuideKey, ChannelGuide> entry : mChannelGuides.entrySet()) 
+		for (Entry<GuideKey, TVChannelGuide> entry : mChannelGuides.entrySet()) 
 		{
 			if ((entry.getKey().getChannelId().equals(currentKey.getChannelId())) & (entry.getKey().getDate().equals(currentKey.getDate())))
 			{
@@ -283,7 +283,7 @@ public class MiTVStore
 	}
 
 	public Broadcast getBroadcast(String date, String channelId, long beginTimeInMillis) {
-		ChannelGuide channelGuide = getChannelGuide(date, channelId);
+		TVChannelGuide channelGuide = getChannelGuide(date, channelId);
 		ArrayList<Broadcast> channelBroadcasts = channelGuide.getBroadcasts();
 		int size = channelBroadcasts.size();
 

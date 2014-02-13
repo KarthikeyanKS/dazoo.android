@@ -1,6 +1,8 @@
 package com.millicom.mitv.interfaces;
 
-public interface ActivityCallback {
+import com.millicom.mitv.enums.FetchRequestResult;
+
+public interface ActivityCallbackListener {
 	
 	/** 
 	 * This method is called from the ContentManager when all the 
@@ -13,8 +15,8 @@ public interface ActivityCallback {
 	 * Use this method to achieve navigation in the app, based on the result. 
 	 * Such as start another activity when data is downloaded or similar.
 	 * 
-	 * @param successful - boolean telling if the request was performed successfully or not.
-	 * @param message - a message that corresponds to the result of the HTTP request.
+	 * @param fetchRequestResult - this variable holds detailed information reguarding the result of the request. 
+	 * Either the request was sucessful, or not, then the reason is specified.
 	 */
-	public void onResult(final boolean successful, final String message);
+	public void onResult(final FetchRequestResult fetchRequestResult);
 }

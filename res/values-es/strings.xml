@@ -13,6 +13,10 @@
     <!-- HOMEPAGE : FILTERING BY DAY -->
     <string name="today">Hoy</string>
     <string name="tomorrow">Mañana</string>
+    
+    
+    <!-- SPLASH SCREEN ACTIVITY -->
+    <string name="splash_screen_activity_text">Guiamos, inspiramos y socializamos tu experiencia de TV para que nunca te pierdas de nada</string>
 
     <!-- HOMEPAGE : FILTER BY CATEGORY -->
     <string name="all">All</string>

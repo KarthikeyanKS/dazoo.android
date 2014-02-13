@@ -2,13 +2,13 @@ package com.millicom.mitv.asynctasks.builders;
 
 import java.util.List;
 
-import com.millicom.mitv.asynctasks.GetChannelGuides;
+import com.millicom.mitv.asynctasks.GetTVChannelGuides;
 import com.millicom.mitv.http.URLParameters;
 import com.millicom.mitv.models.TVChannelId;
 import com.mitv.Consts;
 import com.mitv.model.TVDate;
 
-public class GetChannelGuidesBuilder {
+public class GetTVChannelGuidesBuilder {
 	
 	private TVDate tvDate;
 	private List<TVChannelId> tvChannelIds;
@@ -21,8 +21,8 @@ public class GetChannelGuidesBuilder {
 		this.tvChannelIds = tvChannelIds;
 	}
 	
-	public GetChannelGuides build() {
-		GetChannelGuides getChannelGuides = new GetChannelGuides();
+	public GetTVChannelGuides build() {
+		GetTVChannelGuides getChannelGuides = new GetTVChannelGuides();
 		URLParameters urlParameters = new URLParameters();
 		
 		//TODO check if getDate is what we want to do

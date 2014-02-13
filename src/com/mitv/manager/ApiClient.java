@@ -33,7 +33,7 @@ import com.mitv.content.SSTvDatePage;
 import com.mitv.like.LikeService;
 import com.mitv.model.Broadcast;
 import com.mitv.model.TVChannel;
-import com.mitv.model.ChannelGuide;
+import com.mitv.model.TVChannelGuide;
 import com.mitv.model.TVTag;
 import com.mitv.model.TVDate;
 import com.mitv.storage.MiTVStore;
@@ -188,7 +188,7 @@ public class ApiClient
 		if (tags != null && 
 			tags.isEmpty() != true) 
 		{
-			ArrayList<ChannelGuide> channelGuides = MiTVStore.getInstance().getChannelGuides();
+			ArrayList<TVChannelGuide> channelGuides = MiTVStore.getInstance().getChannelGuides();
 			
 			if (channelGuides != null && channelGuides.isEmpty() != true) 
 			{
@@ -425,7 +425,7 @@ public class ApiClient
 				@Override
 				public void onGetPageResult(SSPageGetResult aPageGetResult) 
 				{
-					ArrayList<ChannelGuide> channelGuides = SSGuidePage.getInstance().getGuide();
+					ArrayList<TVChannelGuide> channelGuides = SSGuidePage.getInstance().getGuide();
 					
 					if (channelGuides != null && channelGuides.isEmpty() != true)
 					{
