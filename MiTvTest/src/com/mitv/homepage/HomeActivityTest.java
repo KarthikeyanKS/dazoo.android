@@ -1,6 +1,7 @@
 package com.mitv.homepage;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.widget.EditText;
 
 import com.mitv.R;
 import com.robotium.solo.Solo;
@@ -58,8 +59,8 @@ public class HomeActivityTest extends ActivityInstrumentationTestCase2<HomeActiv
     	solo.clickOnView(solo.getView(R.id.myprofile_login_container_text));
     	
     	solo.waitForView(solo.getView(R.id.mitvlogin_login_email_edittext));
-    	solo.typeText(R.id.mitvlogin_login_email_edittext, "test1@test.se");
-    	solo.typeText(R.id.mitvlogin_login_password_edittext, "asdqwe");
+    	solo.typeText((EditText) solo.getView(R.id.mitvlogin_login_email_edittext), "test1@test.se");
+    	solo.typeText((EditText) solo.getView(R.id.mitvlogin_login_password_edittext), "asdqwe");
     	solo.clickOnView(solo.getView(R.id.mitvlogin_login_button));
     	
     	solo.sleep(TIMEOUT_LARGE);
