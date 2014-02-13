@@ -19,7 +19,8 @@ public enum RequestIdentifierEnum {
 	USER_RESET_PASSWORD(15),
 	USER_ACTIVITY_FEED_ITEM(16),
 	POPULAR_ITEMS(17),
-	TV_CHANNEL_IDS_DEFAULT(18);
+	TV_CHANNEL_IDS_DEFAULT(18),
+	USER_LOGOUT(19);
 	
 	private final int id;
 	

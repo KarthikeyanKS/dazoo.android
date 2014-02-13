@@ -3,6 +3,7 @@ package com.millicom.mitv;
 import java.util.List;
 
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
+import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.models.TVChannelId;
 import com.mitv.model.TVDate;
 
@@ -58,5 +59,7 @@ public class APIClient {
 	public void performUserSignUp(ActivityCallbackListener activityCallBack, String email, String password, String firstname, String lastname) {}
 	
 	public void performUserPasswordReset(ActivityCallbackListener activityCallBack) {}
+	
+	public void performUserLogout(ActivityCallbackListener activityCallBack) {}
 	
 }
