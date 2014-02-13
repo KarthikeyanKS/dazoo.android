@@ -6,6 +6,15 @@ import com.millicom.mitv.models.TVChannelId;
 
 public class APIClient {
 	
+	private static APIClient sharedInstance;
+	
+	public static APIClient sharedInstance() {
+		if(sharedInstance == null) {
+			sharedInstance = new APIClient();
+		}
+		return sharedInstance;
+	}
+	
 	public void getAppConfiguration() {}
 	
 	public void getAppVersion() {}

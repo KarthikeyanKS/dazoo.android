@@ -2,6 +2,8 @@ package com.millicom.mitv.http;
 
 import java.io.Serializable;
 
+import android.text.TextUtils;
+
 public class URLParameter
 	implements Serializable
 {
@@ -43,7 +45,7 @@ public class URLParameter
 	{
 		StringBuilder sb = new StringBuilder();
 		
-		if(header.length() > 0)
+		if(!TextUtils.isEmpty(header))
 		{
 			sb.append(header);
 			sb.append(QUERYSTRING_EQUALS);

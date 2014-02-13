@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
+import com.millicom.mitv.models.AppConfigurationData;
 import com.mitv.Consts;
 import com.mitv.SecondScreenApplication;
 
@@ -179,6 +180,10 @@ public class AppConfigurationManager {
 		String jsonKeyAdFormatsActivity = jsonKeyForAdFormatsForFragment(Consts.JSON_AND_FRAGMENT_KEY_ACTIVITY);
 		return jsonKeyAdFormatsActivity;
 	}
+	
+	public static void store(AppConfigurationData appConfigData) {
+		//TODO implement me
+	} 
 	
 	public void updateConfiguration(JSONObject configurationJSONObject) {
 		if (configurationJSONObject != null) {

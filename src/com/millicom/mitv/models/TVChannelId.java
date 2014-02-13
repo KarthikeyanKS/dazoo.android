@@ -17,7 +17,7 @@ public class TVChannelId implements Serializable, JsonDeserializer<TVChannelId>{
 	public TVChannelId() {}
 	
 	@Override
-	public TVChannelId deserialize(JsonElement arg0, Type arg1, JsonDeserializationContext arg2) throws JsonParseException {
+	public TVChannelId deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 		return null;
 	}
 

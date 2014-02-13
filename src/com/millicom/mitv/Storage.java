@@ -6,6 +6,8 @@ import java.util.HashMap;
 
 import android.util.SparseArray;
 
+import com.millicom.mitv.models.AppConfigurationData;
+import com.millicom.mitv.models.AppVersionData;
 import com.millicom.mitv.models.TVChannelId;
 import com.mitv.model.AdzerkAd;
 import com.mitv.model.Broadcast;
@@ -16,6 +18,8 @@ import com.mitv.model.TVDate;
 import com.mitv.model.TVTag;
 
 public class Storage {
+
+	private static Storage sharedInstance;
 
 	private ArrayList<TVTag> tvTags;
 	private ArrayList<TVDate> tvDates;
@@ -33,11 +37,21 @@ public class Storage {
 	
 	private String userToken;
 	
+	private AppVersionData appVersionData;
+	private AppConfigurationData appConfigData;
+	
+	public static Storage sharedInstance() {
+		if(sharedInstance == null) {
+			sharedInstance = new Storage();
+		}
+		return sharedInstance;
+	}
+	
 	/* Ads */
 	private HashMap<String, SparseArray<AdzerkAd>> mFragmentToAdsMap;
 
 	public ArrayList<TVTag> getTvTags() {
-		return tvTags;
+		return sharedInstance.tvTags;
 	}
 
 	public void setTvTags(ArrayList<TVTag> tvTags) {
@@ -130,6 +144,22 @@ public class Storage {
 
 	public void setmFragmentToAdsMap(HashMap<String, SparseArray<AdzerkAd>> mFragmentToAdsMap) {
 		this.mFragmentToAdsMap = mFragmentToAdsMap;
+	}
+
+	public AppVersionData getAppVersionData() {
+		return appVersionData;
+	}
+
+	public void setAppVersionData(AppVersionData appVersionData) {
+		this.appVersionData = appVersionData;
+	}
+
+	public AppConfigurationData getAppConfigData() {
+		return appConfigData;
+	}
+
+	public void setAppConfigData(AppConfigurationData appConfigData) {
+		this.appConfigData = appConfigData;
 	}
 	
 	
