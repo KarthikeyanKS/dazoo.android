@@ -6,12 +6,13 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import com.millicom.mitv.activities.BaseActivity;
+import com.millicom.mitv.utilities.NetworkUtils;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.Consts.REQUEST_STATUS;
-import com.mitv.utilities.NetworkUtils;
 
-public abstract class SSPageFragmentActivity extends SSActivity {
+public abstract class SSPageFragmentActivity extends BaseActivity {
 
 	private static final String	TAG	= "SSPageFragmentActivity";
 

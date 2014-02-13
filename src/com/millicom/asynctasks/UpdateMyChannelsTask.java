@@ -14,7 +14,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import com.mitv.Consts;
 import com.mitv.SecondScreenApplication;
-import com.mitv.manager.LoginManager;
+import com.mitv.manager.ApiClient;
 
 
 
@@ -50,13 +50,13 @@ public class UpdateMyChannelsTask
 			else if (Consts.BAD_RESPONSE_INVALID_TOKEN == response.getStatusLine().getStatusCode())
 			{
 				Log.d(TAG, "Update MY CHANNELS: Invalid token");
-				LoginManager.forceLogin();
+				ApiClient.forceLogin();
 				return false;
 			} 
 			else if (Consts.BAD_RESPONSE_MISSING_TOKEN == response.getStatusLine().getStatusCode())
 			{
 				Log.d(TAG, "Update MY CHANNELS: Missing token");
-				LoginManager.forceLogin();
+				ApiClient.forceLogin();
 				return false;
 			} 
 			else 

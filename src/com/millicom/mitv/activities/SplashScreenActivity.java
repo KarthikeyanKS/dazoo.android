@@ -18,7 +18,6 @@ import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.mitv.Consts;
 import com.mitv.R;
-import com.mitv.homepage.HomeActivity;
 
 public class SplashScreenActivity extends ActionBarActivity implements ActivityCallbackListener {
 	

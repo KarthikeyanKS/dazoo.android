@@ -26,7 +26,7 @@ import org.apache.http.impl.conn.SingleClientConnManager;
 import android.os.AsyncTask;
 import android.util.Log;
 import com.mitv.Consts;
-import com.mitv.manager.LoginManager;
+import com.mitv.manager.ApiClient;
 
 
 
@@ -94,14 +94,14 @@ public class GetLikesTask
 			else if (Consts.BAD_RESPONSE_INVALID_TOKEN == response.getStatusLine().getStatusCode())
 			{
 				Log.d(TAG, "Get My Likes: Invalid token");
-				LoginManager.forceLogin();
+				ApiClient.forceLogin();
 				
 				return Consts.ERROR_STRING;
 			}
 			else if (Consts.BAD_RESPONSE_MISSING_TOKEN == response.getStatusLine().getStatusCode())
 			{
 				Log.d(TAG, "Get My Likes: Missing token");
-				LoginManager.forceLogin();
+				ApiClient.forceLogin();
 				
 				return Consts.ERROR_STRING;
 			}

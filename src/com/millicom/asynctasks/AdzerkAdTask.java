@@ -22,10 +22,10 @@ import android.os.AsyncTask;
 import android.util.Log;
 import com.google.gson.Gson;
 import com.millicom.interfaces.AdCallBackInterface;
+import com.millicom.mitv.utilities.NetworkUtils;
 import com.mitv.Consts;
 import com.mitv.manager.AppConfigurationManager;
 import com.mitv.model.AdzerkAd;
-import com.mitv.utilities.NetworkUtils;
 
 
 

@@ -1,4 +1,7 @@
+
 package com.millicom.asynctasks;
+
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -37,8 +40,8 @@ import android.util.Log;
 import com.mitv.Consts;
 import com.mitv.SecondScreenApplication;
 import com.mitv.Consts.REQUEST_STATUS;
+import com.mitv.manager.ApiClient;
 import com.mitv.manager.ContentParser;
-import com.mitv.manager.LoginManager;
 import com.mitv.storage.MiTVStore;
 
 
@@ -177,10 +180,10 @@ public class GetFeedTask
 				}
 			} else if (Consts.BAD_RESPONSE_INVALID_TOKEN == response.getStatusLine().getStatusCode()) {
 				Log.d(TAG, "Get Activity Feed: Invalid");
-				LoginManager.forceLogin();
+				ApiClient.forceLogin();
 			} else if (Consts.BAD_RESPONSE_MISSING_TOKEN == response.getStatusLine().getStatusCode()) {
 				Log.d(TAG, "Get Activity Feed: Missing token");
-				LoginManager.forceLogin();
+				ApiClient.forceLogin();
 			}
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();

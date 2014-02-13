@@ -13,8 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mitv.R;
+import com.mitv.interfaces.MyChannelsCountInterface;
 import com.mitv.model.TVChannel;
-import com.mitv.myprofile.MyChannelsCountInterface;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;

@@ -8,9 +8,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.imbryk.viewPager.LoopViewPager;
+import com.millicom.mitv.fragments.TVGuideTableFragment;
 import com.mitv.model.TVTag;
 import com.mitv.model.TVDate;
-import com.mitv.tvguide.TVGuideTableFragment;
 
 public class TagTypeFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
 

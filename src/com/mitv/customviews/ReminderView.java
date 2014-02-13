@@ -11,10 +11,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.mitv.R;
+import com.mitv.handlers.NotificationDialogHandler;
 import com.mitv.model.Broadcast;
 import com.mitv.model.NotificationDbItem;
 import com.mitv.notification.NotificationDataSource;
-import com.mitv.notification.NotificationDialogHandler;
 import com.mitv.notification.NotificationService;
 import com.mitv.utilities.AnimationUtilities;
 

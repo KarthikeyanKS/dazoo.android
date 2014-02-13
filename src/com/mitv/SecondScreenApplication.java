@@ -30,7 +30,7 @@ import com.mitv.manager.AppConfigurationManager;
 import com.mitv.manager.GATrackingManager;
 import com.mitv.manager.ApiClient;
 import com.mitv.manager.ApiClient.AppConfigurationCallback;
-import com.mitv.utilities.ObscuredSharedPreferences;
+import com.mitv.storage.ObscuredSharedPreferences;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;

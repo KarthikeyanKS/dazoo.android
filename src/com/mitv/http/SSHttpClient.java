@@ -25,9 +25,9 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
 
+import com.millicom.mitv.utilities.NetworkUtils;
 import com.mitv.Consts;
 import com.mitv.SecondScreenApplication;
-import com.mitv.utilities.NetworkUtils;
 
 public class SSHttpClient<T_Result> {
 

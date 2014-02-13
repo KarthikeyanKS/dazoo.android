@@ -16,18 +16,18 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.customviews.ReminderView;
+import com.mitv.handlers.NotificationDialogHandler;
 import com.mitv.model.Broadcast;
 import com.mitv.model.NotificationDbItem;
 import com.mitv.model.Program;
 import com.mitv.model.TVDate;
 import com.mitv.notification.NotificationDataSource;
-import com.mitv.notification.NotificationDialogHandler;
 import com.mitv.notification.NotificationService;
 import com.mitv.storage.MiTVStore;
-import com.mitv.tvguide.BroadcastPageActivity;
 import com.mitv.utilities.AnimationUtilities;
 import com.mitv.utilities.DateUtilities;
 

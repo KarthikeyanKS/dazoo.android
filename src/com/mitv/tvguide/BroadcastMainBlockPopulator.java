@@ -13,21 +13,22 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.millicom.mitv.activities.BroadcastPageActivity;
+import com.millicom.mitv.activities.authentication.MiTVLoginActivity;
+import com.millicom.mitv.activities.authentication.SignInOrSignupWithFacebookActivity;
 import com.mitv.Consts;
+import com.mitv.LikeService;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.authentication.MiTVLoginActivity;
-import com.mitv.authentication.PromptSignInDialogHandler;
-import com.mitv.authentication.SignInOrSignupWithFacebookActivity;
 import com.mitv.customviews.ReminderView;
-import com.mitv.like.LikeService;
+import com.mitv.handlers.PromptSignInDialogHandler;
 import com.mitv.model.Broadcast;
 import com.mitv.model.Program;
 import com.mitv.notification.NotificationDataSource;
-import com.mitv.share.ShareAction;
 import com.mitv.storage.MiTVStore;
 import com.mitv.utilities.AnimationUtilities;
 import com.mitv.utilities.ProgressBarUtils;
+import com.mitv.utilities.ShareUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -230,7 +231,7 @@ public class BroadcastMainBlockPopulator {
 
 			@Override
 			public void onClick(View v) {
-				ShareAction.shareAction(mActivity, mActivity.getResources().getString(R.string.app_name), broadcast.getShareUrl(), mActivity.getResources().getString(R.string.share_action_title));
+				ShareUtils.shareAction(mActivity, mActivity.getResources().getString(R.string.app_name), broadcast.getShareUrl(), mActivity.getResources().getString(R.string.share_action_title));
 			}
 		});
 

@@ -26,13 +26,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.model.Broadcast;
 import com.mitv.model.TVChannel;
 import com.mitv.model.NotificationDbItem;
 import com.mitv.model.Program;
-import com.mitv.tvguide.BroadcastPageActivity;
 import com.mitv.utilities.DateUtilities;
 
 public class NotificationService {

@@ -11,6 +11,9 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.millicom.mitv.activities.BroadcastPageActivity;
+import com.millicom.mitv.activities.RepetitionsPageActivity;
+import com.millicom.mitv.activities.UpcomingEpisodesPageActivity;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.customviews.ReminderView;
@@ -197,7 +200,7 @@ public class TrippleBroadcastBlockPopulator {
 						mActivity.startActivity(intent);
 					}
 					else {
-						Intent intent = new Intent(mActivity, UpcomingeEpisodesPageActivity.class);
+						Intent intent = new Intent(mActivity, UpcomingEpisodesPageActivity.class);
 						intent.putParcelableArrayListExtra(Consts.INTENT_EXTRA_UPCOMING_BROADCASTS, repeatingBroadcasts);
 						intent.putExtra(Consts.INTENT_EXTRA_RUNNING_BROADCAST, mRunningBroadcast);
 						mActivity.startActivity(intent);

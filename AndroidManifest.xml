@@ -34,12 +34,13 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:theme="@style/Theme.AppCompat.Light" android:debuggable="true">
+        android:theme="@style/Theme.AppCompat.Light" 
+        android:debuggable="true">
         
         
         <!-- SPLASH SCREEN ACTIVITY -->
         <activity
-            android:name="com.mitv.homepage.SplashScreenActivity"
+            android:name="com.millicom.mitv.activities.SplashScreenActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -54,7 +55,7 @@
 
         <!-- HOME ACTIVITY -->
         <activity
-            android:name="com.mitv.homepage.HomeActivity"
+            android:name="com.millicom.mitv.activities.HomeActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/HomePage" >
@@ -62,7 +63,7 @@
 
         <!-- ACTIVITY PAGE -->
         <activity
-            android:name="com.mitv.content.activity.ActivityActivity"
+            android:name="com.millicom.mitv.activities.ActivityActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -70,7 +71,7 @@
 
         <!-- POPULAR CONTENT PAGE -->
         <activity
-            android:name="com.mitv.content.activity.PopularPageActivity"
+            android:name="com.millicom.mitv.activities.PopularPageActivity"
             android:configChanges="keyboardHidden|orientation"
             android:parentActivityName="com.mitv.activity.ActivityActivity"
             android:screenOrientation="portrait"
@@ -82,7 +83,7 @@
 
         <!-- MYPROFILE ACTIVITY -->
         <activity
-            android:name="com.mitv.myprofile.MyProfileActivity"
+            android:name="com.millicom.mitv.activities.MyProfileActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -90,16 +91,16 @@
 
         <!-- SEARCH PAGE -->
         <activity
-            android:name="com.mitv.search.SearchPageActivity"
+            android:name="com.millicom.mitv.activities.SearchPageActivity"
             android:configChanges="keyboard|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" />
 
         <!-- LIKES -->
         <activity
-            android:name="com.mitv.myprofile.LikesActivity"
+            android:name="com.millicom.mitv.activities.LikesActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.mitv.myprofile.MyProfileActivity"
+            android:parentActivityName="com.millicom.mitv.activities.MyProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="adjustPan" >
@@ -110,9 +111,9 @@
 
         <!-- MY CHANNELS -->
         <activity
-            android:name="com.mitv.myprofile.MyChannelsActivity"
+            android:name="com.millicom.mitv.activities.MyChannelsActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.mitv.myprofile.MyProfileActivity"
+            android:parentActivityName="com.millicom.mitv.activities.MyProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
@@ -122,9 +123,9 @@
 
         <!-- REMINDERS -->
         <activity
-            android:name="com.mitv.myprofile.RemindersActivity"
+            android:name="com.millicom.mitv.activities.RemindersActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.mitv.myprofile.MyProfileActivity"
+            android:parentActivityName="com.millicom.mitv.activities.MyProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
@@ -134,7 +135,7 @@
 
         <!-- TERMS -->
         <activity
-            android:name="com.mitv.myprofile.TermsActivity"
+            android:name="com.millicom.mitv.activities.TermsActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
@@ -145,7 +146,7 @@
 
         <!-- About -->
         <activity
-            android:name="com.mitv.myprofile.AboutUsActivity"
+            android:name="com.millicom.mitv.activities.AboutUsActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
@@ -156,7 +157,7 @@
 
         <!-- About OR Terms -->
         <activity
-            android:name="com.mitv.myprofile.AboutOrTermsActivity"
+            android:name="com.millicom.mitv.activities.AboutOrTermsActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
@@ -167,10 +168,10 @@
 
         <!-- BROADCAST PAGE -->
         <activity
-            android:name="com.mitv.tvguide.BroadcastPageActivity"
+            android:name="com.millicom.mitv.activities.BroadcastPageActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
-            android:parentActivityName="com.mitv.homepage.HomeActivity"
+            android:parentActivityName="com.millicom.mitv.activities.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
@@ -180,9 +181,9 @@
 
         <!-- UPCOMING EPISODES PAGE -->
         <activity
-            android:name="com.mitv.tvguide.UpcomingeEpisodesPageActivity"
+            android:name="com.millicom.mitv.activities.UpcomingEpisodesPageActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.mitv.tvguide.BroadcastPageActivity"
+            android:parentActivityName="com.millicom.mitv.activities.BroadcastPageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
@@ -192,9 +193,9 @@
 
         <!-- REPEATITIONS PAGE -->
         <activity
-            android:name="com.mitv.tvguide.RepetitionsPageActivity"
+            android:name="com.millicom.mitv.activities.RepetitionsPageActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.mitv.tvguide.BroadcastPageActivity"
+            android:parentActivityName="com.millicom.mitv.activities.BroadcastPageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
@@ -204,9 +205,9 @@
 
         <!-- CHANNEL PAGE -->
         <activity
-            android:name="com.mitv.tvguide.ChannelPageActivity"
+            android:name="com.millicom.mitv.activities.ChannelPageActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.mitv.homepage.HomeActivity"
+            android:parentActivityName="com.millicom.mitv.activities.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ChannelPage" >
             <meta-data
@@ -216,9 +217,9 @@
 
         <!-- SIGN IN -->
         <activity
-            android:name="com.mitv.authentication.SignInOrSignupWithFacebookActivity"
+            android:name="com.millicom.mitv.activities.authentication.SignInOrSignupWithFacebookActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.mitv.myprofile.MyProfileActivity"
+            android:parentActivityName="com.millicom.mitv.activities.MyProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
@@ -229,9 +230,9 @@
 
         <!-- SIGN UP -->
         <activity
-            android:name="com.mitv.authentication.SignUpWithEmailActivity"
+            android:name="com.millicom.mitv.activities.authentication.SignUpWithEmailActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.mitv.myprofile.MyProfileActivity"
+            android:parentActivityName="com.millicom.mitv.activities.MyProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
@@ -242,9 +243,9 @@
 
         <!-- MiTV LOGIN -->
         <activity
-            android:name="com.mitv.authentication.MiTVLoginActivity"
+            android:name="com.millicom.mitv.activities.authentication.MiTVLoginActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.mitv.myprofile.MyProfileActivity"
+            android:parentActivityName="com.millicom.mitv.activities.MyProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
@@ -255,7 +256,7 @@
 
         <!-- FACEBOOK LOGIN -->
         <activity
-            android:name="com.mitv.authentication.FacebookLoginActivity"
+            android:name="com.millicom.mitv.activities.authentication.FacebookLoginActivity"
             android:configChanges="keyboardHidden|orientation"
             android:icon="@drawable/ic_nav_bar"
             android:screenOrientation="portrait"
@@ -266,9 +267,9 @@
 
         <!-- PASSWORD RESET -->
         <activity
-            android:name="com.mitv.authentication.ResetPasswordActivity"
+            android:name="com.millicom.mitv.activities.authentication.ResetPasswordActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.mitv.authentication.MiTVLoginActivity"
+            android:parentActivityName="com.millicom.mitv.activities.authentication.MiTVLoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
@@ -279,9 +280,9 @@
 
         <!-- PASSWORD RESET FINAL -->
         <activity
-            android:name="com.mitv.authentication.ResetPasswordFinalActivity"
+            android:name="com.millicom.mitv.activities.authentication.ResetPasswordFinalActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.mitv.homepage.HomeActivity"
+            android:parentActivityName="com.millicom.mitv.activities.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
@@ -292,7 +293,7 @@
 
         <!-- FACEBOOK MiTV ACCOUNT CREATED -->
         <activity
-            android:name="com.mitv.authentication.FacebookMiTVLoginActivity"
+            android:name="com.millicom.mitv.activities.authentication.FacebookMiTVLoginActivity"
             android:configChanges="keyboardHidden|orientation"
             android:icon="@drawable/ic_nav_bar"
             android:screenOrientation="portrait"
@@ -314,7 +315,7 @@
         <activity android:name="net.hockeyapp.android.FeedbackActivity" />
 
         <receiver
-            android:name="com.mitv.receivers.AlarmReceiver"
+            android:name="com.mitv.broadcastreceivers.AlarmReceiver"
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
@@ -322,7 +323,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="com.mitv.receivers.AlarmSetter"
+            android:name="com.mitv.broadcastreceivers.AlarmSetter"
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
@@ -330,7 +331,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="com.mitv.receivers.BootCompletedReceiver"
+            android:name="com.mitv.broadcastreceivers.BootCompletedReceiver"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED" >

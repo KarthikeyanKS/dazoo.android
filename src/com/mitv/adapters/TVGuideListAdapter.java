@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.millicom.mitv.activities.ChannelPageActivity;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -28,7 +29,6 @@ import com.mitv.model.Broadcast;
 import com.mitv.model.TVChannelGuide;
 import com.mitv.model.Program;
 import com.mitv.model.TVDate;
-import com.mitv.tvguide.ChannelPageActivity;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;

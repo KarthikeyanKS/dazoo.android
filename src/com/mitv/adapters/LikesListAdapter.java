@@ -16,14 +16,14 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.mitv.Consts;
 import com.mitv.R;
-import com.mitv.like.LikeDialogHandler;
+import com.mitv.handlers.LikeDialogHandler;
+import com.mitv.interfaces.LikesCountInterface;
 import com.mitv.model.TVLike;
 import com.mitv.model.MiTVLikeEntity;
-import com.mitv.myprofile.LikesCountInterface;
 import com.mitv.storage.MiTVStore;
-import com.mitv.tvguide.BroadcastPageActivity;
 
 @SuppressLint("DefaultLocale")
 public class LikesListAdapter extends BaseAdapter {

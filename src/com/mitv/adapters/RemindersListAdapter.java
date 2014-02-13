@@ -16,18 +16,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.mitv.Consts;
 import com.mitv.R;
+import com.mitv.handlers.NotificationDialogHandler;
+import com.mitv.interfaces.RemindersCountInterface;
 import com.mitv.model.Broadcast;
 import com.mitv.model.TVChannel;
 import com.mitv.model.NotificationDbItem;
 import com.mitv.model.Program;
 import com.mitv.model.TVDate;
-import com.mitv.myprofile.RemindersCountInterface;
 import com.mitv.notification.NotificationDataSource;
-import com.mitv.notification.NotificationDialogHandler;
 import com.mitv.storage.MiTVStore;
-import com.mitv.tvguide.BroadcastPageActivity;
 
 public class RemindersListAdapter extends BaseAdapter {
 
