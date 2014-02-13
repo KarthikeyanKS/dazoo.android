@@ -21,7 +21,7 @@ import com.mitv.content.activity.PopularPageActivity;
 import com.mitv.customviews.ReminderView;
 import com.mitv.like.LikeService;
 import com.mitv.model.Broadcast;
-import com.mitv.model.FeedItem;
+import com.mitv.model.TVFeedItem;
 import com.mitv.model.Program;
 import com.mitv.share.ShareAction;
 import com.mitv.storage.MiTVStore;
@@ -32,11 +32,11 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
+public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 
 	private static final String		TAG									= "ActivityFeedAdapter";
 	private Activity				mActivity;
-	private ArrayList<FeedItem>		mFeedItems;
+	private ArrayList<TVFeedItem>		mFeedItems;
 	private LayoutInflater			mLayoutInflater;
 
 	private int						ACTIVITY_BLOCKS_TYPE_NUMBER	= 5;
@@ -53,7 +53,7 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 	// private ImageView likeLikeIv, remindLikeIv, likeRecIv, remindRecIv, likeTwitterIv, remindTwitterIv;
 	private boolean					mIsLiked							= false, mIsSet = false;
 
-	public ActivityFeedAdapter(Activity activity, ArrayList<FeedItem> feedItems) {
+	public ActivityFeedAdapter(Activity activity, ArrayList<TVFeedItem> feedItems) {
 		super(Consts.JSON_AND_FRAGMENT_KEY_ACTIVITY, activity, feedItems);
 		this.mActivity = activity;
 		this.mFeedItems = feedItems;
@@ -66,19 +66,19 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 		return super.getViewTypeCount() + ACTIVITY_BLOCKS_TYPE_NUMBER;
 	}
 
-	public void addItem(final FeedItem item) {
+	public void addItem(final TVFeedItem item) {
 		mFeedItems.add(item);
 		notifyDataSetChanged();
 	}
 
-	public void addItems(ArrayList<FeedItem> items) {
+	public void addItems(ArrayList<TVFeedItem> items) {
 		mFeedItems.addAll(items);
 		notifyDataSetChanged();
 	}
 
 	@Override
 	public int getItemViewType(int position) {
-		FeedItem item = getItem(position);
+		TVFeedItem item = getItem(position);
 		if (item != null) {
 			String feedItemType = item.getItemType();
 			if (Consts.FEED_ITEM_TYPE_POPULAR_BROADCASTS.equals(feedItemType)) {
@@ -246,7 +246,7 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 		return rowView;
 	}
 	
-	private View populateSingleBroadcastCell(View rowView, final Broadcast broadcast, int position, FeedItem feedItem) {
+	private View populateSingleBroadcastCell(View rowView, final Broadcast broadcast, int position, TVFeedItem feedItem) {
 		broadcast.updateTimeToBeginAndTimeToEnd();
 
 		final Program program = broadcast.getProgram();
@@ -493,7 +493,7 @@ public class ActivityFeedAdapter extends AdListAdapter<FeedItem> {
 
 		int type = getItemViewType(position);
 
-		final FeedItem feedItem = getItem(position);
+		final TVFeedItem feedItem = getItem(position);
 
 		switch (type) {
 		case ITEM_TYPE_RECOMMENDED_BROADCAST:

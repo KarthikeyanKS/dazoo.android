@@ -4,16 +4,16 @@ import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.mitv.Consts;
-import com.mitv.model.TVDate;
+import com.mitv.model.TVChannel;
+import com.mitv.model.TVTag;
 
-public class GetTVDates extends AsyncTaskWithRelativeURL<TVDate> {
+public class GetTVChannels extends AsyncTaskWithRelativeURL<TVChannel> {
 	
-	private static final String URL_SUFFIX = Consts.URL_DATES;
-	
-	public GetTVDates(
+	public GetTVChannels(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener) {
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.TV_DATE, TVDate.class, URL_SUFFIX);
+			ActivityCallbackListener activityCallBackListener,
+			String channelURLSuffix) {
+		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.TV_CHANNEL, TVChannel.class, channelURLSuffix);
 	}
 	
 	@Override

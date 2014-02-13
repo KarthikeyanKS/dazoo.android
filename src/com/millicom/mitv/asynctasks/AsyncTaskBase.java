@@ -1,25 +1,43 @@
 package com.millicom.mitv.asynctasks;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.millicom.mitv.http.URLParameters;
-
 import android.os.AsyncTask;
 
-public class AsyncTaskBase<T> extends AsyncTask<String, Void, Void> {
-	
-	private String urlSuffix;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.millicom.mitv.enums.FetchRequestResultEnum;
+import com.millicom.mitv.enums.RequestIdentifierEnum;
+import com.millicom.mitv.http.URLParameters;
+import com.millicom.mitv.interfaces.ActivityCallbackListener;
+import com.millicom.mitv.interfaces.ContentCallbackListener;
+
+public class AsyncTaskBase<T> extends AsyncTask<String, Void, Void> 
+{	
+	private boolean isRelativeURL;
+	private String url;
 	protected URLParameters urlParameters;
 	private Gson gson;
 	private Class<T> clazz;
+	private ContentCallbackListener contentCallbackListener;
+	private ActivityCallbackListener activityCallBackListener;
+	private RequestIdentifierEnum requestIdentifier;
 	
-	public AsyncTaskBase(Class<T> clazz, String urlSuffix) {
-		this(clazz, urlSuffix, new URLParameters());
+	protected FetchRequestResultEnum requestResult;
+	protected Object content;
+	
+	
+	
+	public AsyncTaskBase(ContentCallbackListener contentCallbackListener, ActivityCallbackListener activityCallBackListener, RequestIdentifierEnum requestIdentifier, Class<T> clazz, boolean isRelativeURL, String url) {
+		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, isRelativeURL, url, new URLParameters());
 	}
 	
-	public AsyncTaskBase(Class<T> clazz, String urlSuffix, URLParameters urlParameters) {
-		this.urlSuffix = urlSuffix;
+	public AsyncTaskBase(ContentCallbackListener contentCallbackListener, ActivityCallbackListener activityCallBackListener, RequestIdentifierEnum requestIdentifier, Class<T> clazz, boolean isRelativeURL, String url, URLParameters urlParameters) {
+		this.contentCallbackListener = contentCallbackListener;
+		this.activityCallBackListener = activityCallBackListener;
+		this.isRelativeURL = isRelativeURL;
+		this.url = url;
 		this.urlParameters = urlParameters;
+		this.requestIdentifier = requestIdentifier;
+		this.requestResult = FetchRequestResultEnum.UNKNOWN_ERROR;
 		
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		try {
@@ -37,4 +55,13 @@ public class AsyncTaskBase<T> extends AsyncTask<String, Void, Void> {
 		/* Use fancy HTTPCore stuff */
 		return null;
 	}
+
+	@Override
+	protected void onPostExecute(Void result) {
+		// TODO Auto-generated method stub
+		super.onPostExecute(result);
+		contentCallbackListener.onResult(activityCallBackListener, requestIdentifier, requestResult, content);
+	}
+	
+	
 }

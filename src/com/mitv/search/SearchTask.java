@@ -1,7 +1,5 @@
 package com.mitv.search;
 
-import android.os.AsyncTask;
-
 import com.mitv.content.SSPageCallback;
 import com.mitv.content.SSPageGetResult;
 import com.mitv.content.SSSearchResultPage;

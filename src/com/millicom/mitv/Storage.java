@@ -13,7 +13,7 @@ import com.millicom.mitv.models.TVChannelId;
 import com.millicom.mitv.models.TVGuide;
 import com.mitv.model.AdzerkAd;
 import com.mitv.model.Broadcast;
-import com.mitv.model.FeedItem;
+import com.mitv.model.TVFeedItem;
 import com.mitv.model.TVChannel;
 import com.mitv.model.TVChannelGuide;
 import com.mitv.model.TVDate;
@@ -36,7 +36,7 @@ public class Storage {
 	private Calendar likeIdsFetchedTimestamp;
 	private Calendar userChannelIdsFetchedTimestamp;
 	
-	private ArrayList<FeedItem> activityFeed;
+	private ArrayList<TVFeedItem> activityFeed;
 	private ArrayList<Broadcast> popularFeed;
 	
 	private String userToken;
@@ -142,11 +142,11 @@ public class Storage {
 		this.userChannelIdsFetchedTimestamp = userChannelIdsFetchedTimestamp;
 	}
 
-	public ArrayList<FeedItem> getActivityFeed() {
+	public ArrayList<TVFeedItem> getActivityFeed() {
 		return activityFeed;
 	}
 
-	public void setActivityFeed(ArrayList<FeedItem> activityFeed) {
+	public void setActivityFeed(ArrayList<TVFeedItem> activityFeed) {
 		this.activityFeed = activityFeed;
 	}
 

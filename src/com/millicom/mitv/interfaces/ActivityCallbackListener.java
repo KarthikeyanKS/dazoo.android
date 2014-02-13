@@ -1,6 +1,6 @@
 package com.millicom.mitv.interfaces;
 
-import com.millicom.mitv.enums.FetchRequestResult;
+import com.millicom.mitv.enums.FetchRequestResultEnum;
 
 public interface ActivityCallbackListener {
 	
@@ -18,5 +18,5 @@ public interface ActivityCallbackListener {
 	 * @param fetchRequestResult - this variable holds detailed information reguarding the result of the request. 
 	 * Either the request was sucessful, or not, then the reason is specified.
 	 */
-	public void onResult(final FetchRequestResult fetchRequestResult);
+	public void onResult(final FetchRequestResultEnum fetchRequestResult);
 }

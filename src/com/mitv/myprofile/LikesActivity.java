@@ -25,7 +25,7 @@ import com.mitv.content.SSActivity;
 import com.mitv.content.activity.ActivityActivity;
 import com.mitv.homepage.HomeActivity;
 import com.mitv.like.LikeService;
-import com.mitv.model.MiTVLike;
+import com.mitv.model.TVLike;
 
 public class LikesActivity extends SSActivity implements LikesCountInterface, OnClickListener {
 
@@ -82,14 +82,14 @@ public class LikesActivity extends SSActivity implements LikesCountInterface, On
 	}
 
 	private void populateLayout() {
-		ArrayList<MiTVLike> likes = new ArrayList<MiTVLike>();
+		ArrayList<TVLike> likes = new ArrayList<TVLike>();
 		likes = LikeService.getLikesList(token);
 		
 		if(likes.isEmpty()){
 			mErrorTv.setVisibility(View.VISIBLE);
 		}
 		
-		Collections.sort(likes, new MiTVLike.MiTVLikeComparatorByTitle());
+		Collections.sort(likes, new TVLike.MiTVLikeComparatorByTitle());
 		mAdapter = new LikesListAdapter(this, likes, token, this);
 		mListView.setAdapter(mAdapter);
 	}

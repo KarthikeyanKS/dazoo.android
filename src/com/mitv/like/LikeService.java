@@ -24,7 +24,7 @@ import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.manager.ContentParser;
 import com.mitv.manager.LoginManager;
-import com.mitv.model.MiTVLike;
+import com.mitv.model.TVLike;
 
 
 
@@ -53,7 +53,7 @@ public class LikeService
 	
 	public static boolean isLiked(String token, String programId) 
 	{
-		ArrayList<MiTVLike> likesList = new ArrayList<MiTVLike>();
+		ArrayList<TVLike> likesList = new ArrayList<TVLike>();
 		
 		likesList = LikeService.getLikesList(token);
 		
@@ -162,9 +162,9 @@ public class LikeService
 
 	
 	
-	public static ArrayList<MiTVLike> getLikesList(String token) 
+	public static ArrayList<TVLike> getLikesList(String token) 
 	{
-		ArrayList<MiTVLike> mitvLikesList = new ArrayList<MiTVLike>();
+		ArrayList<TVLike> mitvLikesList = new ArrayList<TVLike>();
 		
 		GetLikesTask getLikesTask = new GetLikesTask();
 		

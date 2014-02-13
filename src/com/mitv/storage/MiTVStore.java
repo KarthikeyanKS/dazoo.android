@@ -13,7 +13,7 @@ import android.util.SparseArray;
 import com.mitv.model.AdzerkAd;
 import com.mitv.model.Broadcast;
 import com.mitv.model.TVChannel;
-import com.mitv.model.FeedItem;
+import com.mitv.model.TVFeedItem;
 import com.mitv.model.TVChannelGuide;
 import com.mitv.model.TVTag;
 import com.mitv.model.TVDate;
@@ -40,7 +40,7 @@ public class MiTVStore
 	private ArrayList<String>							mLikeIds			= new ArrayList<String>();
 	private Calendar									mLikeIdsFetchTimestamp = null;	
 
-	private ArrayList<FeedItem>							mActivityFeed		= new ArrayList<FeedItem>();
+	private ArrayList<TVFeedItem>							mActivityFeed		= new ArrayList<TVFeedItem>();
 	private ArrayList<Broadcast>						mPopularFeed		= new ArrayList<Broadcast>();
 	private boolean mMyIdsSet = false;
 
@@ -297,20 +297,20 @@ public class MiTVStore
 	}
 
 	// activity feed
-	public void setActivityFeed(ArrayList<FeedItem> activityFeed) {
+	public void setActivityFeed(ArrayList<TVFeedItem> activityFeed) {
 		this.mActivityFeed = activityFeed;
 	}
 
-	public ArrayList<FeedItem> getActivityFeed() {
+	public ArrayList<TVFeedItem> getActivityFeed() {
 		return this.mActivityFeed;
 	}
 
 	public void reinitializeFeed() {
 		this.mActivityFeed.clear();
-		this.mActivityFeed = new ArrayList<FeedItem>();
+		this.mActivityFeed = new ArrayList<TVFeedItem>();
 	}
 
-	public void addItemsToActivityFeed(ArrayList<FeedItem> newItems) {
+	public void addItemsToActivityFeed(ArrayList<TVFeedItem> newItems) {
 		this.mActivityFeed.addAll(newItems);
 	}
 	

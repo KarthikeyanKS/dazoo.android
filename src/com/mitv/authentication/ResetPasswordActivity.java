@@ -155,7 +155,7 @@ public class ResetPasswordActivity extends SSSignInSignupBaseActivity implements
 				DefaultHttpClient httpClient = new DefaultHttpClient(mgr, client.getParams());
 				// Set verifier
 				HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
-				HttpPost httpPost = new HttpPost(Consts.URL_RESET_PASSWORD);
+				HttpPost httpPost = new HttpPost(Consts.URL_RESET_PASSWORD_SEND_EMAIL);
 
 				JSONObject holder = JSONUtilities.createJSONObjectWithKeysValues(Arrays.asList(Consts.API_EMAIL), Arrays.asList(params[0]));
 				StringEntity entity = new StringEntity(holder.toString());

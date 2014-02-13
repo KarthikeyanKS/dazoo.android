@@ -5,13 +5,13 @@ import java.util.Comparator;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class MiTVLike implements Parcelable{
+public class TVLike implements Parcelable{
 	private String likeType;
 	private MiTVLikeEntity entity;
 	private String nextBroadcastChannelId; 
 	private long nextBroadcastBegintimeMillis;
 	
-	public MiTVLike(){
+	public TVLike(){
 	}
 	
 	public void setLikeType(String likeType){
@@ -60,27 +60,27 @@ public class MiTVLike implements Parcelable{
 		dest.writeLong(nextBroadcastBegintimeMillis);
 	}
 	
-	public MiTVLike(Parcel in){
+	public TVLike(Parcel in){
 		likeType = in.readString();
 		entity = (MiTVLikeEntity) in.readParcelable(MiTVLikeEntity.class.getClassLoader());
 		nextBroadcastChannelId = in.readString();
 		nextBroadcastBegintimeMillis = in.readLong();
 	}
 	
-	public static final Parcelable.Creator<MiTVLike>	CREATOR	= new Parcelable.Creator<MiTVLike>() {
-		public MiTVLike createFromParcel(Parcel in) {
-			return new MiTVLike(in);
+	public static final Parcelable.Creator<TVLike>	CREATOR	= new Parcelable.Creator<TVLike>() {
+		public TVLike createFromParcel(Parcel in) {
+			return new TVLike(in);
 		}
 
-		public MiTVLike[] newArray(int size) {
-			return new MiTVLike[size];
+		public TVLike[] newArray(int size) {
+			return new TVLike[size];
 		}
 	};
 	
-	public static class MiTVLikeComparatorByTitle implements Comparator<MiTVLike> {
+	public static class MiTVLikeComparatorByTitle implements Comparator<TVLike> {
 
 		@Override
-		public int compare(MiTVLike a, MiTVLike b) {
+		public int compare(TVLike a, TVLike b) {
 			return a.getEntity().getTitle().compareTo(b.getEntity().getTitle());
 		}
 	}

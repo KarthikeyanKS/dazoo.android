@@ -20,8 +20,8 @@ import android.widget.LinearLayout;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxStatus;
+import com.millicom.mitv.enums.ContentTypeEnum;
 import com.mitv.Consts;
-import com.mitv.Consts.ENTITY_TYPE;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.customviews.FontTextView;
@@ -29,11 +29,11 @@ import com.mitv.http.MiTVCallback;
 import com.mitv.http.SSHttpClient;
 import com.mitv.manager.FontManager;
 import com.mitv.model.Broadcast;
-import com.mitv.model.TVChannel;
 import com.mitv.model.Program;
 import com.mitv.model.SearchResult;
 import com.mitv.model.SearchResultItem;
 import com.mitv.model.Series;
+import com.mitv.model.TVChannel;
 import com.mitv.utilities.CustomTypefaceSpan;
 
 public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implements Filterable {
@@ -239,7 +239,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 			holder.mMetaDataContainer.setVisibility(View.VISIBLE);
 			SearchResultItem resultItem = getItem(position);
 
-			ENTITY_TYPE type = resultItem.getEntityType();
+			ContentTypeEnum type = resultItem.getEntityType();
 			switch (type) {
 			case PROGRAM: {
 				Program program = (Program) resultItem.getEntity();

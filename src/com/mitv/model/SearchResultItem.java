@@ -6,13 +6,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.millicom.mitv.enums.ContentTypeEnum;
 import com.mitv.Consts;
-import com.mitv.Consts.ENTITY_TYPE;
 import com.mitv.manager.ContentParser;
 
 public class SearchResultItem {
 	private String displayText;
-	private ENTITY_TYPE entityType;
+	private ContentTypeEnum entityType;
 	private ArrayList<Broadcast> broadcasts;
 	private Object entity;
 
@@ -31,7 +31,7 @@ public class SearchResultItem {
 	public SearchResultItem(JSONObject jsonObject) {
 		String displayText = jsonObject.optString(Consts.JSON_KEY_SEARCH_RESULT_ITEM_DISPLAY_TEXT);
 		String entityTypeString = jsonObject.optString(Consts.JSON_KEY_SEARCH_RESULT_ITEM_ENTITY_TYPE);
-		ENTITY_TYPE entityType = ENTITY_TYPE.valueOf(entityTypeString);
+		ContentTypeEnum entityType = ContentTypeEnum.valueOf(entityTypeString);
 
 		Object entity = null;
 		JSONObject entityJsonObject;
@@ -98,11 +98,11 @@ public class SearchResultItem {
 		this.entity = entity;
 	}
 
-	public ENTITY_TYPE getEntityType() {
+	public ContentTypeEnum getEntityType() {
 		return entityType;
 	}
 
-	public void setEntityType(ENTITY_TYPE entityType) {
+	public void setEntityType(ContentTypeEnum entityType) {
 		this.entityType = entityType;
 	}
 

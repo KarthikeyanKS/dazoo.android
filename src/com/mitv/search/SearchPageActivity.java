@@ -2,7 +2,6 @@ package com.mitv.search;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,18 +27,17 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
+import com.millicom.mitv.enums.ContentTypeEnum;
 import com.mitv.Consts;
+import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.Consts.ENTITY_TYPE;
-import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.content.SSActivity;
 import com.mitv.customviews.InstantAutoComplete;
 import com.mitv.model.Broadcast;
-import com.mitv.model.TVChannel;
 import com.mitv.model.SearchResultItem;
+import com.mitv.model.TVChannel;
 import com.mitv.myprofile.MyChannelsActivity;
-import com.mitv.myprofile.MyProfileActivity;
 import com.mitv.tvguide.BroadcastPageActivity;
 import com.mitv.utilities.HardwareUtilities;
 
@@ -222,7 +220,7 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 
 		SearchResultItem result = (SearchResultItem) adapterView.getItemAtPosition(position);
 		
-		if(result.getEntityType() != ENTITY_TYPE.CHANNEL) {
+		if(result.getEntityType() != ContentTypeEnum.CHANNEL) {
 			// open the detail view for the individual broadcast
 			Intent intent = new Intent(SearchPageActivity.this, BroadcastPageActivity.class);
 	

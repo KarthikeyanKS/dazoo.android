@@ -5,7 +5,7 @@ import java.util.List;
 
 import android.text.TextUtils;
 
-import com.millicom.mitv.enums.FetchRequestResult;
+import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
@@ -44,7 +44,7 @@ public class ContentManager implements ContentCallbackListener {
 
 	public ContentManager() {
 		this.storage = Storage.sharedInstance();
-		this.apiClient = APIClient.sharedInstance();
+		this.apiClient = new APIClient(this);
 	}
 
 	public static ContentManager sharedInstance() {
@@ -55,54 +55,53 @@ public class ContentManager implements ContentCallbackListener {
 	}
 
 	/* METHODS FOR FETCHING DATA FROM BACKEND USING THE API CLIENT */
-	public void fetchAppData(ActivityCallbackListener activityCallBack) {
-		apiClient.getAppConfiguration(activityCallBack);
-		apiClient.getAppVersion(activityCallBack);
+	public void fetchAppData(ActivityCallbackListener activityCallBackListener) {
+		apiClient.getAppConfiguration(activityCallBackListener);
+		apiClient.getAppVersion(activityCallBackListener);
 	}
 
-	public void fetchTVDataOnFirstStart(ActivityCallbackListener activityCallBack) {
-		apiClient.getTVTags(activityCallBack);
-		apiClient.getTVDates(activityCallBack);
-		apiClient.getTVChannelsAll(activityCallBack);
-		apiClient.getDefaultTVChannelIds(activityCallBack);
+	public void fetchTVDataOnFirstStart(ActivityCallbackListener activityCallBackListener) {
+		apiClient.getTVTags(activityCallBackListener);
+		apiClient.getTVDates(activityCallBackListener);
+		apiClient.getTVChannelsAll(activityCallBackListener);
+		apiClient.getDefaultTVChannelIds(activityCallBackListener);
 
 		if (storage.isLoggedIn()) {
-			apiClient.getUserTVChannelIds(activityCallBack);
+			apiClient.getUserTVChannelIds(activityCallBackListener);
 		}
 	}
 	
-	public void fetchTVDataOnUserStatusChange(ActivityCallbackListener activityCallBack) {
+	public void fetchTVDataOnUserStatusChange(ActivityCallbackListener activityCallBackListener) {
 		channelsChange = true;
-		apiClient.getUserTVChannelIds(activityCallBack);
+		apiClient.getUserTVChannelIds(activityCallBackListener);
 	}
 	
-	public void fetchTVGuideForSelectedDay(ActivityCallbackListener activityCallBack) {
+	public void fetchTVGuideForSelectedDay(ActivityCallbackListener activityCallBackListener) {
 		TVDate tvDate = storage.getTvDateSelected();
-		fetchTVGuide(activityCallBack, tvDate);
+		fetchTVGuide(activityCallBackListener, tvDate);
 	}
 			
-	public void fetchTVGuide(ActivityCallbackListener activityCallBack, TVDate tvDate) {
+	public void fetchTVGuide(ActivityCallbackListener activityCallBackListener, TVDate tvDate) {
 		ArrayList<TVChannelId> tvChannelIds = storage.getTvChannelIdsUsed();
-		apiClient.getTVChannelGuides(activityCallBack, tvDate, tvChannelIds);
+		apiClient.getTVChannelGuides(activityCallBackListener, tvDate, tvChannelIds);
 	}
 	
 	/* METHODS FOR "GETTING" THE TV DATA, EITHER FROM STORAGE, OR FETCHING FROM BACKEND */
-	public void getTVGuideUsingTVDate(ActivityCallbackListener activityCallBack, boolean forceDownload, TVDate tvDate) {
+	public void getTVGuideUsingTVDate(ActivityCallbackListener activityCallBackListener, boolean forceDownload, TVDate tvDate) {
 		if(!forceDownload && storage.containsTVGuideForTVDate(tvDate)) {
-			activityCallBack.onResult(FetchRequestResult.SUCCESS);
+			activityCallBackListener.onResult(FetchRequestResultEnum.SUCCESS);
 		} else {
 			
 		}
 	}
 
 	@Override
-	public void onResult(ActivityCallbackListener activityCallback, boolean successful, RequestIdentifierEnum requestIdentifier, int httpResponseCode,
-			Object data) {
+	public void onResult(ActivityCallbackListener activityCallBackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content) {
 	
 			switch (requestIdentifier) {
 			case APP_CONFIGURATION:
 			case APP_VERSION: {
-				handleAppDataResponse(activityCallback, successful, requestIdentifier, data);
+				handleAppDataResponse(activityCallBackListener, result, requestIdentifier, content);
 				break;
 			}
 			case TV_DATE:
@@ -110,26 +109,26 @@ public class ContentManager implements ContentCallbackListener {
 			case TV_CHANNEL:
 			case TV_CHANNEL_IDS_USER:
 			case TV_CHANNEL_IDS_DEFAULT: {
-				handleTVDataResponse(activityCallback, successful, requestIdentifier, data);
+				handleTVDataResponse(activityCallBackListener, result, requestIdentifier, content);
 				break;
 			}
 			case TV_GUIDE: {
-				handleTVChannelGuidesForSelectedDayResponse(activityCallback, successful, data);
+				handleTVChannelGuidesForSelectedDayResponse(activityCallBackListener, result, content);
 				break;
 			}
 			case ADS: {
 				break;
 			}
 			case USER_LOGIN: {
-				handleLoginResponse(activityCallback, successful, data);
+				handleLoginResponse(activityCallBackListener, result, content);
 				break;
 			}
 			case USER_SIGN_UP: {
-				handleSignUpResponse(activityCallback, successful, data);
+				handleSignUpResponse(activityCallBackListener, result, content);
 				break;
 			}
 			case USER_LOGOUT: {
-				handleLogoutResponse(activityCallback);
+				handleLogoutResponse(activityCallBackListener);
 				break;
 			}
 			case USER_FB_TOKEN: {
@@ -139,7 +138,7 @@ public class ContentManager implements ContentCallbackListener {
 				break;
 			}
 			case USER_SET_CHANNELS: {
-				handleSetChannelsResponse(activityCallback, successful);
+				handleSetChannelsResponse(activityCallBackListener, result);
 				break;
 			}
 			case USER_ADD_LIKE: {
@@ -148,7 +147,10 @@ public class ContentManager implements ContentCallbackListener {
 			case USER_REMOVE_LIKE: {
 				break;
 			}
-			case USER_RESET_PASSWORD: {
+			case USER_RESET_PASSWORD_SEND_EMAIL: {
+				break;
+			}
+			case USER_RESET_PASSWORD_SEND_CONFIRM_PASSWORD: {
 				break;
 			}
 			case USER_ACTIVITY_FEED_ITEM: {
@@ -161,8 +163,8 @@ public class ContentManager implements ContentCallbackListener {
 	}
 	
 	/* METHODS FOR HANDLING THE RESPONSES */
-	private void handleAppDataResponse(ActivityCallbackListener activityCallback, boolean successful, RequestIdentifierEnum requestIdentifier, Object data) {
-		if (successful && data != null) {
+	private void handleAppDataResponse(ActivityCallbackListener activityCallBackListener, FetchRequestResultEnum result, RequestIdentifierEnum requestIdentifier, Object data) {
+		if (result.wasSuccessful() && data != null) {
 			completedCountAppData++;
 			
 			switch (requestIdentifier) {
@@ -187,9 +189,9 @@ public class ContentManager implements ContentCallbackListener {
 				boolean apiTooOld = checkApiVersion(apiVersion);
 				if (!apiTooOld) {
 					/* App version not too old, continue fetching tv data */
-					fetchTVDataOnFirstStart(activityCallback);
+					fetchTVDataOnFirstStart(activityCallBackListener);
 				} else {
-					activityCallback.onResult(FetchRequestResult.API_VERSION_TOO_OLD);
+					activityCallBackListener.onResult(FetchRequestResultEnum.API_VERSION_TOO_OLD);
 				}
 			}
 		} else {
@@ -197,8 +199,8 @@ public class ContentManager implements ContentCallbackListener {
 		}
 	}
 
-	private void handleTVDataResponse(ActivityCallbackListener activityCallback, boolean successful, RequestIdentifierEnum requestIdentifier, Object data) {
-		if (successful && data != null) {
+	private void handleTVDataResponse(ActivityCallbackListener activityCallBackListener, FetchRequestResultEnum result, RequestIdentifierEnum requestIdentifier, Object data) {
+		if (result.wasSuccessful() && data != null) {
 			completedCountTVData++;
 	
 			switch (requestIdentifier) {
@@ -250,7 +252,7 @@ public class ContentManager implements ContentCallbackListener {
 			
 			if (completedCountTVData >= completedCountTVDataThreshold) {
 				completedCountTVData = 0;
-				fetchTVGuideForSelectedDay(activityCallback);
+				fetchTVGuideForSelectedDay(activityCallBackListener);
 			}
 			
 		} else {
@@ -258,8 +260,8 @@ public class ContentManager implements ContentCallbackListener {
 		}
 	}
 	
-	private void handleTVChannelGuidesForSelectedDayResponse(ActivityCallbackListener activityCallback, boolean successful, Object data) {
-		if (successful && data != null) {
+	private void handleTVChannelGuidesForSelectedDayResponse(ActivityCallbackListener activityCallBackListener, FetchRequestResultEnum result, Object data) {
+		if (result.wasSuccessful() && data != null) {
 			ArrayList<TVChannelGuide> tvChannelGuides = (ArrayList<TVChannelGuide>) data;
 			
 			TVDate tvDate = storage.getTvDateSelected();
@@ -267,48 +269,49 @@ public class ContentManager implements ContentCallbackListener {
 			
 			storage.addTVGuide(tvDate, tvGuide);
 			
-			activityCallback.onResult(FetchRequestResult.SUCCESS);
+			activityCallBackListener.onResult(FetchRequestResultEnum.SUCCESS);
 		} else {
 			//TODO handle this
 		}
 	}
 
-	public void handleSignUpResponse(ActivityCallbackListener activityCallBack, boolean successful, Object data) {
-		if (successful && data != null) {
+	public void handleSignUpResponse(ActivityCallbackListener activityCallBackListener, FetchRequestResultEnum result, Object data) {
+		if (result.wasSuccessful() && data != null) {
 			//TODO change to use SignUpCompleteData object instead??
 			String userToken = (String) data;
 			storage.setUserToken(userToken);
 			
-			fetchTVDataOnUserStatusChange(activityCallBack);
+			fetchTVDataOnUserStatusChange(activityCallBackListener);
 		} else {
 			//TODO handle this
 		}
 	}
 	
-	public void handleLoginResponse(ActivityCallbackListener activityCallBack, boolean successful, Object data) {
-		if (successful && data != null) {
+	public void handleLoginResponse(ActivityCallbackListener activityCallBackListener, FetchRequestResultEnum result, Object data) {
+		if (result.wasSuccessful() && data != null) {
 			String userToken = (String) data;
 			storage.setUserToken(userToken);
 			
-			fetchTVDataOnUserStatusChange(activityCallBack);
+			fetchTVDataOnUserStatusChange(activityCallBackListener);
 		} else {
 			//TODO handle this
 		}
 	}
 	
-	public void handleLogoutResponse(ActivityCallbackListener activityCallBack) {
+	public void handleLogoutResponse(ActivityCallbackListener activityCallBackListener) {
 		channelsChange = true;
 		
 		storage.clearUserToken();
 		storage.clearTVChannelIdsUser();
 		storage.useDefaultChannelIds();
 		
-		fetchTVGuideForSelectedDay(activityCallBack);
+		fetchTVGuideForSelectedDay(activityCallBackListener);
 	}
 	
-	public void handleSetChannelsResponse(ActivityCallbackListener activityCallBack, boolean successful) {
-		if (successful) {
-			fetchTVDataOnUserStatusChange(activityCallBack);
+	public void handleSetChannelsResponse(ActivityCallbackListener activityCallBackListener, FetchRequestResultEnum result) {
+		//TODO use switch case instead???
+		if (result.wasSuccessful()) {
+			fetchTVDataOnUserStatusChange(activityCallBackListener);
 		} else {
 			//TODO handle this
 		}
@@ -316,20 +319,20 @@ public class ContentManager implements ContentCallbackListener {
 	
 	
 	/* USER METHODS REGUARDING SIGNUP, LOGIN AND LOGOUT */
-	public void signUp(ActivityCallbackListener activityCallBack, String email, String password, String firstname, String lastname) {
-		apiClient.performUserSignUp(activityCallBack, email, password, firstname, lastname);
+	public void signUp(ActivityCallbackListener activityCallBackListener, String email, String password, String firstname, String lastname) {
+		apiClient.performUserSignUp(activityCallBackListener, email, password, firstname, lastname);
 	}
 	
-	public void login(ActivityCallbackListener activityCallBack, String username, String password) {
-		apiClient.performUserLogin(activityCallBack, username, password);
+	public void login(ActivityCallbackListener activityCallBackListener, String username, String password) {
+		apiClient.performUserLogin(activityCallBackListener, username, password);
 	}
 	
-	public void logout(ActivityCallbackListener activityCallBack) {
-		apiClient.performUserLogout(activityCallBack);
+	public void logout(ActivityCallbackListener activityCallBackListener) {
+		apiClient.performUserLogout(activityCallBackListener);
 	}
 	
-	public void setUserChannels(ActivityCallbackListener activityCallBack, List<TVChannelId> tvChannelIds) {
-		apiClient.setUserTVChannelIds(activityCallBack, tvChannelIds);
+	public void setUserChannels(ActivityCallbackListener activityCallBackListener, List<TVChannelId> tvChannelIds) {
+		apiClient.setUserTVChannelIds(activityCallBackListener, tvChannelIds);
 	}
 	
 	public ArrayList<TVChannelId> getTVChannelIdsUser() {

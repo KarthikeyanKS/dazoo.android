@@ -13,9 +13,9 @@ import com.mitv.model.AdzerkAd;
 import com.mitv.model.Broadcast;
 import com.mitv.model.TVChannel;
 import com.mitv.model.Credit;
-import com.mitv.model.MiTVLike;
+import com.mitv.model.TVLike;
 import com.mitv.model.MiTVLikeEntity;
-import com.mitv.model.FeedItem;
+import com.mitv.model.TVFeedItem;
 import com.mitv.model.TVChannelGuide;
 import com.mitv.model.Program;
 import com.mitv.model.ProgramType;
@@ -203,8 +203,8 @@ public class ContentParser {
 		return series;
 	}
 
-	public static MiTVLike parseMiTVLike(JSONObject jsonObject) {
-		MiTVLike mitvLike = new MiTVLike();
+	public static TVLike parseMiTVLike(JSONObject jsonObject) {
+		TVLike mitvLike = new TVLike();
 		String likeType = jsonObject.optString(Consts.LIKE_LIKETYPE);
 		mitvLike.setLikeType(likeType);
 
@@ -251,8 +251,8 @@ public class ContentParser {
 		return null;
 	}
 
-	public static FeedItem parseFeedItem(JSONObject jsonObject) {
-		FeedItem feedItem = new FeedItem();
+	public static TVFeedItem parseFeedItem(JSONObject jsonObject) {
+		TVFeedItem feedItem = new TVFeedItem();
 		String itemType = jsonObject.optString(Consts.FEED_ITEM_ITEM_TYPE);
 		feedItem.setItemType(itemType);
 

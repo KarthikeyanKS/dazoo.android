@@ -1,14 +1,19 @@
 package com.millicom.mitv.asynctasks;
 
+import com.millicom.mitv.enums.RequestIdentifierEnum;
+import com.millicom.mitv.interfaces.ActivityCallbackListener;
+import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.mitv.Consts;
 import com.mitv.model.TVTag;
 
-public class GetTVTags extends AsyncTaskBase<TVTag> {
+public class GetTVTags extends AsyncTaskWithRelativeURL<TVTag> {
 	
 	private static final String URL_SUFFIX = Consts.URL_TAGS_PAGE;
 	
-	public GetTVTags() {
-		super(TVTag.class, URL_SUFFIX);
+	public GetTVTags(
+			ContentCallbackListener contentCallbackListener,
+			ActivityCallbackListener activityCallBackListener) {
+		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.TV_TAG, TVTag.class, URL_SUFFIX);
 	}
 	
 	@Override
@@ -16,9 +21,4 @@ public class GetTVTags extends AsyncTaskBase<TVTag> {
 		return null;
 	}
 
-	@Override
-	protected void onPostExecute(Void result) {
-		super.onPostExecute(result);
-		/* Parse JSON data using GSON */
-	}
 }

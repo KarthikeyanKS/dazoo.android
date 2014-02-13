@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.like.LikeDialogHandler;
-import com.mitv.model.MiTVLike;
+import com.mitv.model.TVLike;
 import com.mitv.model.MiTVLikeEntity;
 import com.mitv.myprofile.LikesCountInterface;
 import com.mitv.storage.MiTVStore;
@@ -32,12 +32,12 @@ public class LikesListAdapter extends BaseAdapter {
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
-	private ArrayList<MiTVLike>	mLikes;
+	private ArrayList<TVLike>	mLikes;
 	private LikesCountInterface		mInterface;
 	private String					mToken, mLikeIdToRemove, mLikeId;
 	private int						currentPosition	= -1;
 
-	public LikesListAdapter(Activity activity, ArrayList<MiTVLike> likes, String token, LikesCountInterface likesInterface) {
+	public LikesListAdapter(Activity activity, ArrayList<TVLike> likes, String token, LikesCountInterface likesInterface) {
 		this.mLikes = likes;
 		this.mActivity = activity;
 		this.mToken = token;
@@ -52,7 +52,7 @@ public class LikesListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public MiTVLike getItem(int position) {
+	public TVLike getItem(int position) {
 		if (mLikes != null) {
 			return mLikes.get(position);
 		} else return null;
@@ -87,7 +87,7 @@ public class LikesListAdapter extends BaseAdapter {
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 
-		final MiTVLike like = getItem(position);
+		final TVLike like = getItem(position);
 
 		if (like != null) {
 			final MiTVLikeEntity entity = like.getEntity();

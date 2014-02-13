@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.millicom.mitv.asynctasks.GetTVChannelGuides;
 import com.millicom.mitv.http.URLParameters;
+import com.millicom.mitv.interfaces.ActivityCallbackListener;
+import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.models.TVChannelId;
 import com.mitv.Consts;
 import com.mitv.model.TVDate;
@@ -21,8 +23,9 @@ public class GetTVChannelGuidesBuilder {
 		this.tvChannelIds = tvChannelIds;
 	}
 	
-	public GetTVChannelGuides build() {
-		GetTVChannelGuides getChannelGuides = new GetTVChannelGuides();
+	public GetTVChannelGuides build(ContentCallbackListener contentCallbackListener,
+			ActivityCallbackListener activityCallBackListener) {
+		GetTVChannelGuides getChannelGuides = new GetTVChannelGuides(contentCallbackListener, activityCallBackListener);
 		URLParameters urlParameters = new URLParameters();
 		
 		//TODO check if getDate is what we want to do
@@ -35,6 +38,5 @@ public class GetTVChannelGuidesBuilder {
 		getChannelGuides.setUrlParameters(urlParameters);
 		
 		return getChannelGuides;
-	}
-	
+	}	
 }

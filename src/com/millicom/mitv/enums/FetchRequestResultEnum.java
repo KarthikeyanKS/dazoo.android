@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 
 
-public enum FetchRequestResult 
+public enum FetchRequestResultEnum 
    implements Serializable
 {
    SUCCESS(
@@ -52,7 +52,7 @@ public enum FetchRequestResult
 
 
 
-   FetchRequestResult(int statusCode,
+   FetchRequestResultEnum(int statusCode,
 		   			String description)
 	{
 	   this.statusCode = statusCode;
@@ -83,9 +83,9 @@ public enum FetchRequestResult
 
 
    
-   public static FetchRequestResult GetWebserviceResult(int code)
+   public static FetchRequestResultEnum GetWebserviceResult(int code)
    {
-	   for(FetchRequestResult result: FetchRequestResult.values())
+	   for(FetchRequestResultEnum result: FetchRequestResultEnum.values())
 	   {
 		   if(result.getStatusCode() == code) 
 		   {
@@ -94,14 +94,14 @@ public enum FetchRequestResult
 		   // No need for else
 	   }
 
-	   return FetchRequestResult.UNKNOWN_ERROR;
+	   return FetchRequestResultEnum.UNKNOWN_ERROR;
    }
 
 
 
-   public static FetchRequestResult GetWebserviceResult(String codeAsString)
+   public static FetchRequestResultEnum GetWebserviceResult(String codeAsString)
    {
-	   int value = FetchRequestResult.UNKNOWN_ERROR.getStatusCode();
+	   int value = FetchRequestResultEnum.UNKNOWN_ERROR.getStatusCode();
 
 	   try
 	   {
@@ -109,7 +109,7 @@ public enum FetchRequestResult
 	   }
 	   catch(NumberFormatException nfex)
 	   {
-		   return FetchRequestResult.UNKNOWN_ERROR;
+		   return FetchRequestResultEnum.UNKNOWN_ERROR;
 	   }
 
 	   return GetWebserviceResult(value);

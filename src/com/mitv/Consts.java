@@ -51,7 +51,8 @@ public abstract class Consts {
 	public static final String URL_FACEBOOK_TOKEN 					= URL_SERVER + "auth/login/facebook";
 	public static final String URL_LOGIN 							= URL_SERVER + "auth/login/dazoo";
 	public static final String URL_REGISTER 						= URL_SERVER + "auth/login/dazoo/register";
-	public static final String URL_RESET_PASSWORD 					= URL_SERVER + "auth/login/dazoo/sendResetPasswordEmail";
+	public static final String URL_RESET_PASSWORD_SEND_EMAIL		= URL_SERVER + "auth/login/dazoo/sendResetPasswordEmail";
+	public static final String URL_RESET_AND_CONFIRM_PASSWORD 		= URL_SERVER + "auth/login/dazoo/resetPassword";
 	public static final String URL_TAGS_PAGE 						= URL_SERVER + "epg/tags/visible";
 	public static final String URL_MY_CHANNEL_IDS 					= URL_SERVER + "my/channels";
 	public static final String URL_LIKES 							= URL_SERVER + "my/likes";
@@ -495,8 +496,4 @@ public abstract class Consts {
 	/* REFRESH INTERVALS FOR LOCAL DATA */
 	public static final int LIKE_IDS_REFRESH_INTERVAL_IN_MINUTES 		= 1;
 	public static final int CHANNEL_IDS_REFRESH_INTERVAL_IN_MINUTES 	= 1;
-	
-	public static enum ENTITY_TYPE {
-		SERIES, PROGRAM, CHANNEL
-	}
 }

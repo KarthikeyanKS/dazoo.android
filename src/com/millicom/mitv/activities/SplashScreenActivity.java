@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.millicom.mitv.ContentManager;
-import com.millicom.mitv.enums.FetchRequestResult;
+import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.mitv.Consts;
 import com.mitv.R;
@@ -115,7 +115,7 @@ public class SplashScreenActivity extends ActionBarActivity implements ActivityC
 
 
 	@Override
-	public void onResult(final FetchRequestResult fetchRequestResult) {
+	public void onResult(final FetchRequestResultEnum fetchRequestResult) {
 		switch (fetchRequestResult) {
 		case SUCCESS: {
 			startPrimaryActivity();
