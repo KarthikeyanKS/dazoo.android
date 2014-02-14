@@ -30,17 +30,7 @@ public class AddUserLikes
 		
 		// TODO: Complete this
 		urlParameters.add(Consts.API_ENTITY_ID, contentId);
-	}
-	
-	
-	
-	@Override
-	protected Void doInBackground(String... params) 
-	{
-		super.doInBackground(params);
 		
-		// TODO; Execute the task itself
-		
-		return null;
+		// TODO - Transform parameter data fields into json data
 	}
 }

@@ -24,13 +24,4 @@ public class GetAppConfigurationData extends AsyncTaskWithRelativeURL<AppVersion
 	{
 		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.APP_CONFIGURATION, AppVersionData.class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
 	}
-	
-	
-	
-	@Override
-	protected Void doInBackground(String... params) 
-	{
-		return null;
-	}
-
 }

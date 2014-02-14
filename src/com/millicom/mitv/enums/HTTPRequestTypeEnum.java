@@ -14,6 +14,8 @@ public enum HTTPRequestTypeEnum
 	
 	private final int id;
 	
+	
+	
 	HTTPRequestTypeEnum(int id) 
 	{
 		this.id = id;

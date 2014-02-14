@@ -10,7 +10,8 @@ import com.mitv.Consts;
 
 
 
-public class PerformInternalTracking extends AsyncTaskBase<DummyData> 
+public class PerformInternalTracking 
+	extends AsyncTaskBase<DummyData> 
 {	
 	private static final String URL_SUFFIX = Consts.URL_INTERNAL_TRACKING;
 	
@@ -20,17 +21,5 @@ public class PerformInternalTracking extends AsyncTaskBase<DummyData>
 			ActivityCallbackListener activityCallBackListener) 
 	{
 		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.ADS, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, false, URL_SUFFIX);
-	}
-	
-	
-	
-	@Override
-	protected Void doInBackground(String... params) 
-	{
-		super.doInBackground(params);
-		
-		// TODO; Execute the task itself
-		
-		return null;
 	}
 }

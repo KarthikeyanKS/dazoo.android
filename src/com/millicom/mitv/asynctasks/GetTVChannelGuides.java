@@ -45,15 +45,7 @@ public class GetTVChannelGuides
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener) 
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.TV_GUIDE, OldTVChannelGuide.class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, new URLParameters());
-	}
-	
-	
-	
-	@Override
-	protected Void doInBackground(String... params) 
-	{
-		return null;
+		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.TV_GUIDE, OldTVChannelGuide.class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
 	}
 
 	

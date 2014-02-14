@@ -21,16 +21,4 @@ public class GetTVChannels
 	{
 		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.TV_CHANNEL, OldTVChannel.class, HTTPRequestTypeEnum.HTTP_GET, channelURLSuffix);
 	}
-	
-	
-	
-	@Override
-	protected Void doInBackground(String... params)
-	{
-		super.doInBackground(params);
-		
-		// TODO; Execute the task itself
-		
-		return null;
-	}
 }

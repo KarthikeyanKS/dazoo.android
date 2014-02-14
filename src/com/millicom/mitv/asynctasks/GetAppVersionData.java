@@ -25,16 +25,4 @@ public class GetAppVersionData
 	{
 		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.APP_VERSION, AppVersionData.class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
 	}
-	
-	
-	
-	@Override
-	protected Void doInBackground(String... params) 
-	{
-		super.doInBackground(params);
-		
-		// TODO; Execute the task itself
-		
-		return null;
-	}
 }

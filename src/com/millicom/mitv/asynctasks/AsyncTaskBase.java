@@ -3,6 +3,7 @@ package com.millicom.mitv.asynctasks;
 
 
 
+import java.util.Collections;
 import java.util.Map;
 import android.os.AsyncTask;
 import com.google.gson.Gson;
@@ -31,12 +32,13 @@ public class AsyncTaskBase<T>
 	private HTTPRequestTypeEnum httpRequestType;
 	private boolean isRelativeURL;
 	private String url;
-	protected URLParameters urlParameters;
-	private Map<String, String> headerParameters;
-	private String bodyContentData;
 	
-	protected FetchRequestResultEnum requestResult;
-	protected Object content;
+	protected URLParameters urlParameters;
+	protected Map<String, String> headerParameters;
+	protected String bodyContentData;
+	
+	protected FetchRequestResultEnum requestResultStatus;
+	protected Object requestResultObjectContent;
 	
 	
 	
@@ -49,7 +51,7 @@ public class AsyncTaskBase<T>
 			boolean isRelativeURL,
 			String url) 
 	{
-		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, httpRequestType, isRelativeURL, url, new URLParameters());
+		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, httpRequestType, isRelativeURL, url, new URLParameters(), Collections.<String, String> emptyMap(), null);
 	}
 	
 	
@@ -62,16 +64,23 @@ public class AsyncTaskBase<T>
 			HTTPRequestTypeEnum httpRequestType,
 			boolean isRelativeURL,
 			String url,
-			URLParameters urlParameters)
+			URLParameters urlParameters,
+			Map<String, String> headerParameters,
+			String bodyContentData)
 	{
 		this.contentCallbackListener = contentCallbackListener;
 		this.activityCallBackListener = activityCallBackListener;
+		this.requestIdentifier = requestIdentifier;
+		
 		this.httpRequestType = httpRequestType;
 		this.isRelativeURL = isRelativeURL;
 		this.url = url;
 		this.urlParameters = urlParameters;
-		this.requestIdentifier = requestIdentifier;
-		this.requestResult = FetchRequestResultEnum.UNKNOWN_ERROR;
+		this.headerParameters = headerParameters;
+		this.bodyContentData = bodyContentData;
+		
+		this.requestResultStatus = FetchRequestResultEnum.UNKNOWN_ERROR;
+		this.requestResultObjectContent = null;
 		
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		
@@ -97,7 +106,7 @@ public class AsyncTaskBase<T>
 	{
 		HTTPCoreResponse response = HTTPCore.sharedInstance().executeRequest(httpRequestType, url, urlParameters, headerParameters, bodyContentData);
 		
-		this.requestResult = FetchRequestResultEnum.getFetchRequestResultEnumFromCode(response.getStatusCode());
+		this.requestResultStatus = FetchRequestResultEnum.getFetchRequestResultEnumFromCode(response.getStatusCode());
 		
 		if(response.hasResponseString())
 		{
@@ -105,11 +114,13 @@ public class AsyncTaskBase<T>
 			
 			// TODO - Parse string into json
 			
+			// gson.
+			
 			// this.content =
 		}
 		else
 		{
-			this.content = null;
+			this.requestResultObjectContent = null;
 		}
 				
 		return null;
@@ -120,6 +131,6 @@ public class AsyncTaskBase<T>
 	@Override
 	protected void onPostExecute(Void result)
 	{
-		contentCallbackListener.onResult(activityCallBackListener, requestIdentifier, requestResult, content);
+		contentCallbackListener.onResult(activityCallBackListener, requestIdentifier, requestResultStatus, requestResultObjectContent);
 	}	
 }

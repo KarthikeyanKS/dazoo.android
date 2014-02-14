@@ -24,16 +24,4 @@ public class GetTVDates
 	{
 		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.TV_DATE, OldTVDate.class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
 	}
-	
-	
-	
-	@Override
-	protected Void doInBackground(String... params) 
-	{
-		super.doInBackground(params);
-		
-		// TODO; Execute the task itself
-		
-		return null;
-	}
 }

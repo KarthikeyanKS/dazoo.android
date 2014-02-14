@@ -25,16 +25,4 @@ public class GetFeedItems
 	{
 		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_ACTIVITY_FEED_ITEM, OldTVFeedItem.class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
 	}
-	
-	
-	
-	@Override
-	protected Void doInBackground(String... params) 
-	{
-		super.doInBackground(params);
-		
-		// TODO; Execute the task itself
-		
-		return null;
-	}
 }

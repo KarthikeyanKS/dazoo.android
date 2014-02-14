@@ -20,16 +20,4 @@ public class PerformUserHasSeenAd
 	{
 		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.ADS, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, false, url);
 	}
-
-	
-	
-	@Override
-	protected Void doInBackground(String... params) 
-	{
-		super.doInBackground(params);
-		
-		// TODO; Execute the task itself
-		
-		return null;
-	}
 }

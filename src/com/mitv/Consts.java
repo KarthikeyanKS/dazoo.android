@@ -505,4 +505,8 @@ public abstract class Consts {
 	/* NETWORK CONNECTIVITY CHECK CONFIGURATIONS */
 	public static final String HOST_NAME_FOR_CONNECTIVITY_CHECK = "http://www.google.com";
     public static final int HOST_TIMEOUT_IN_MILISECONDS_FOR_CONNECTIVITY_CHECK = 2000;
+    
+    /* USER AUTHORIZATION TOKEN */
+    public static final String USER_AUTHORIZATION_HEADER_KEY = "Authorization";
+    public static final String USER_AUTHORIZATION_HEADER_VALUE_PREFIX = "Bearer";
 }

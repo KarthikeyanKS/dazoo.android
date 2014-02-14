@@ -18,11 +18,7 @@ public class RemoveUserLikes
 {
 	private static final String URL_SUFFIX = Consts.URL_LIKES;
 	
-	
-	private ContentTypeEnum contentType;
-	private String contentId;
-	
-	
+
 	
 	public RemoveUserLikes(
 			ContentCallbackListener contentCallbackListener,
@@ -33,22 +29,9 @@ public class RemoveUserLikes
 		// TODO: Append something to url
 		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_REMOVE_LIKE, OldTVLike.class, HTTPRequestTypeEnum.HTTP_DELETE, URL_SUFFIX);
 		
-		this.contentType = contentType;
-		this.contentId = contentId;
-		
 		// TODO: Complete this
 		urlParameters.add(Consts.API_ENTITY_ID, contentId);
-	}
-	
-	
-	
-	@Override
-	protected Void doInBackground(String... params) 
-	{
-		super.doInBackground(params);
 		
-		// TODO; Execute the task itself
-		
-		return null;
+		// TODO - Transform parameter data fields into json data
 	}
 }

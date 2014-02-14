@@ -23,16 +23,4 @@ public class GetTVTags extends AsyncTaskWithRelativeURL<OldTVTag>
 	{
 		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.TV_TAG, OldTVTag.class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
 	}
-	
-	
-	
-	@Override
-	protected Void doInBackground(String... params) 
-	{
-		super.doInBackground(params);
-		
-		// TODO; Execute the task itself
-		
-		return null;
-	}
 }

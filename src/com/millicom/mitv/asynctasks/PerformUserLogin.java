@@ -18,10 +18,6 @@ public class PerformUserLogin
 	private static final String URL_SUFFIX = Consts.URL_LOGIN;
 	
 	
-	private String username;
-	private String password;
-	
-	
 	
 	public PerformUserLogin(
 			ContentCallbackListener contentCallbackListener,
@@ -31,19 +27,6 @@ public class PerformUserLogin
 	{
 		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_LOGIN, UserData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
 		
-		this.username = username;
-		this.password = password;
-	}
-	
-	
-	
-	@Override
-	protected Void doInBackground(String... params) 
-	{
-		super.doInBackground(params);
-		
-		// TODO; Execute the task itself
-		
-		return null;
+		// TODO - Transform parameter data fields into json data
 	}
 }

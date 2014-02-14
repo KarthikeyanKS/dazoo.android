@@ -18,12 +18,6 @@ public class PerformUserSignUp
 	private static final String URL_SUFFIX = Consts.URL_REGISTER;
 	
 	
-	private String email;
-	private String password;
-	private String firstname;
-	private String lastname;
-	
-	
 	
 	public PerformUserSignUp(
 			ContentCallbackListener contentCallbackListener,
@@ -35,21 +29,6 @@ public class PerformUserSignUp
 	{
 		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_SIGN_UP, UserData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
 		
-		this.email = email;
-		this.password = password;
-		this.firstname = firstname;
-		this.lastname = lastname;
-	}
-	
-	
-	
-	@Override
-	protected Void doInBackground(String... params) 
-	{
-		super.doInBackground(params);
-		
-		// TODO; Execute the task itself
-		
-		return null;
+		// TODO - Transform parameter data fields into json data
 	}
 }

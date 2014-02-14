@@ -24,12 +24,4 @@ public class GetTVChannelIdsDefault
 	{
 		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.TV_CHANNEL_IDS_DEFAULT, TVChannelId.class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
 	}
-	
-	
-	
-	@Override
-	protected Void doInBackground(String... params)
-	{
-		return null;
-	}
 }
