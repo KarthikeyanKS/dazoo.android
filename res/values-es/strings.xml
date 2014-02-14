@@ -106,23 +106,21 @@
     <string name="tv_series">Series de TV</string>
     <string name="repetitions">Repeticiónes</string>
     <string name="repetitions_more">Ver más repeticiónes</string>
+	<string name="broadcast_info">Programa</string>
 
     <plurals name="hour">
         <item quantity="one">hora</item>
         <item quantity="other">horas</item>
     </plurals>
-    <plurals name="left">
-        <item quantity="one">Queda</item>
-        <item quantity="other">Quedan</item>
-    </plurals>
-
-    <string name="broadcast_info">Programa</string>
-
     <plurals name="day">
         <item quantity="one">diá</item>
         <item quantity="other">diás</item>
     </plurals>
-
+    <plurals name="left">
+        <item quantity="one">Queda</item>
+        <item quantity="other">Quedan</item>
+    </plurals>
+    
     <!-- LOGIN PAGE -->
     <string name="login_with_facebook">Inicia sesión con Facebook</string>
     <string name="logout_from_facebook">Cerrar sesión</string>

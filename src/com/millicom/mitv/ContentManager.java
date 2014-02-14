@@ -42,7 +42,7 @@ public class ContentManager implements ContentCallbackListener {
 	private static final int COMPLETED_COUNT_TV_DATA_LOGGED_IN_THRESHOLD = 5;
 	private int completedCountTVData = 0;
 
-	public ContentManager() {
+	private ContentManager() {
 		this.storage = Storage.sharedInstance();
 		this.apiClient = new APIClient(this);
 	}

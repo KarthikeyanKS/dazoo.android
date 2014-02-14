@@ -36,6 +36,7 @@ public abstract class Consts {
 	/* API URLs */
 	public static final String HTTP_SCHEME							= "http://";
 	public static final String HTTPS_SCHEME							= "https://";
+	public static final String JSON_MIME_TYPE 						= "application/json";
 	public static final String URL_MITV_BASE						= "android.api.mi.tv/";
 	public static final String URL_GITR_BASE						= "android.api.gitrgitr.com/";
 	public static final String BASE_API_URL_USED 					= URL_MITV_BASE;
@@ -496,4 +497,16 @@ public abstract class Consts {
 	/* REFRESH INTERVALS FOR LOCAL DATA */
 	public static final int LIKE_IDS_REFRESH_INTERVAL_IN_MINUTES 		= 1;
 	public static final int CHANNEL_IDS_REFRESH_INTERVAL_IN_MINUTES 	= 1;
+	
+	/* HTTP CORE REQUEST TIMEOUT DEFAULT VALUES */
+	public static final int HTTP_CORE_CONNECTION_TIMEOUT_IN_MILISECONDS = 2000;
+	public static final int HTTP_CORE_SOCKET_TIMEOUT_IN_MILISECONDS = 2000;
+	
+	/* NETWORK CONNECTIVITY CHECK CONFIGURATIONS */
+	public static final String HOST_NAME_FOR_CONNECTIVITY_CHECK = "http://www.google.com";
+    public static final int HOST_TIMEOUT_IN_MILISECONDS_FOR_CONNECTIVITY_CHECK = 2000;
+    
+    /* USER AUTHORIZATION TOKEN */
+    public static final String USER_AUTHORIZATION_HEADER_KEY = "Authorization";
+    public static final String USER_AUTHORIZATION_HEADER_VALUE_PREFIX = "Bearer";
 }

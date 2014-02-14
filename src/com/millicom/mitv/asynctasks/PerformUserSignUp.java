@@ -3,6 +3,7 @@ package com.millicom.mitv.asynctasks;
 
 
 
+import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
@@ -11,7 +12,8 @@ import com.mitv.Consts;
 
 
 
-public class PerformUserSignUp extends AsyncTaskWithRelativeURL<UserData> 
+public class PerformUserSignUp 
+	extends AsyncTaskWithRelativeURL<UserData> 
 {
 	private static final String URL_SUFFIX = Consts.URL_REGISTER;
 	
@@ -19,16 +21,14 @@ public class PerformUserSignUp extends AsyncTaskWithRelativeURL<UserData>
 	
 	public PerformUserSignUp(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener) 
+			ActivityCallbackListener activityCallBackListener,
+			String email,
+			String password,
+			String firstname,
+			String lastname)
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_SIGN_UP, UserData.class, URL_SUFFIX);
-	}
-	
-	
-	
-	@Override
-	protected Void doInBackground(String... params) 
-	{
-		return null;
+		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_SIGN_UP, UserData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
+		
+		// TODO - Transform parameter data fields into json data
 	}
 }

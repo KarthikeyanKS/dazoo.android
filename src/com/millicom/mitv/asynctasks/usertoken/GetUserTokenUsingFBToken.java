@@ -1,8 +1,9 @@
+
 package com.millicom.mitv.asynctasks.usertoken;
 
 
 
-import com.millicom.mitv.asynctasks.AsyncTaskWithRelativeURL;
+import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
@@ -11,7 +12,8 @@ import com.mitv.Consts;
 
 
 
-public class GetUserTokenUsingFBToken extends AsyncTaskWithUserToken<UserData> 
+public class GetUserTokenUsingFBToken 
+	extends AsyncTaskWithUserToken<UserData> 
 {
 	private static final String URL_SUFFIX = Consts.URL_FACEBOOK_TOKEN;
 	
@@ -19,17 +21,11 @@ public class GetUserTokenUsingFBToken extends AsyncTaskWithUserToken<UserData>
 	
 	public GetUserTokenUsingFBToken(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener) 
+			ActivityCallbackListener activityCallBackListener,
+			String facebookToken) 
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_FB_TOKEN, UserData.class, URL_SUFFIX);
+		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_FB_TOKEN, UserData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
+		
+		// TODO - Transform parameter data fields into json data
 	}
-	
-	
-	
-	@Override
-	protected Void doInBackground(String... params) 
-	{
-		return null;
-	}
-
 }

@@ -3,30 +3,31 @@ package com.millicom.mitv.asynctasks.usertoken;
 
 
 
+import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.models.DummyData;
 import com.mitv.Consts;
-import com.mitv.model.OldTVLike;
 
 
 
-public class PerformUserPasswordConfirmation extends AsyncTaskWithUserToken<DummyData> 
+public class PerformUserPasswordConfirmation 
+	extends AsyncTaskWithUserToken<DummyData> 
 {
 	private static final String URL_SUFFIX = Consts.URL_RESET_AND_CONFIRM_PASSWORD;
 	
-	public PerformUserPasswordConfirmation(ContentCallbackListener contentCallbackListener, ActivityCallbackListener activityCallBackListener) 
-	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_RESET_PASSWORD_SEND_CONFIRM_PASSWORD, DummyData.class, URL_SUFFIX);
-	}
-	
 
-	@Override
-	protected Void doInBackground(String... params) 
+	
+	public PerformUserPasswordConfirmation(
+			ContentCallbackListener contentCallbackListener, 
+			ActivityCallbackListener activityCallBackListener,
+			String email,
+			String newPassword,
+			String resetPasswordToken) 
 	{
-		/* Parse JSON data using GSON */
+		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_RESET_PASSWORD_SEND_CONFIRM_PASSWORD, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
 		
-		return null;
+		// TODO - Transform parameter data fields into json data
 	}
 }
