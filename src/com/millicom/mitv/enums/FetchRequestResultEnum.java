@@ -83,7 +83,7 @@ public enum FetchRequestResultEnum
 
 
    
-   public static FetchRequestResultEnum GetWebserviceResult(int code)
+   public static FetchRequestResultEnum getFetchRequestResultEnumFromCode(int code)
    {
 	   for(FetchRequestResultEnum result: FetchRequestResultEnum.values())
 	   {
@@ -99,7 +99,7 @@ public enum FetchRequestResultEnum
 
 
 
-   public static FetchRequestResultEnum GetWebserviceResult(String codeAsString)
+   public static FetchRequestResultEnum getFetchRequestResultEnumFromCode(String codeAsString)
    {
 	   int value = FetchRequestResultEnum.UNKNOWN_ERROR.getStatusCode();
 
@@ -112,7 +112,7 @@ public enum FetchRequestResultEnum
 		   return FetchRequestResultEnum.UNKNOWN_ERROR;
 	   }
 
-	   return GetWebserviceResult(value);
+	   return getFetchRequestResultEnumFromCode(value);
    }
    
    
