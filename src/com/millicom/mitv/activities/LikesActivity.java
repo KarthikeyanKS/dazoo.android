@@ -23,7 +23,7 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.adapters.LikesListAdapter;
 import com.mitv.interfaces.LikesCountInterface;
-import com.mitv.model.TVLike;
+import com.mitv.model.OldTVLike;
 
 public class LikesActivity extends BaseActivity implements LikesCountInterface, OnClickListener {
 
@@ -80,14 +80,14 @@ public class LikesActivity extends BaseActivity implements LikesCountInterface, 
 	}
 
 	private void populateLayout() {
-		ArrayList<TVLike> likes = new ArrayList<TVLike>();
+		ArrayList<OldTVLike> likes = new ArrayList<OldTVLike>();
 		likes = LikeService.getLikesList(token);
 		
 		if(likes.isEmpty()){
 			mErrorTv.setVisibility(View.VISIBLE);
 		}
 		
-		Collections.sort(likes, new TVLike.MiTVLikeComparatorByTitle());
+		Collections.sort(likes, new OldTVLike.MiTVLikeComparatorByTitle());
 		mAdapter = new LikesListAdapter(this, likes, token, this);
 		mListView.setAdapter(mAdapter);
 	}

@@ -1,7 +1,7 @@
 package com.mitv.manager;
 
 import com.mitv.Consts;
-import com.mitv.model.Broadcast;
+import com.mitv.model.OldBroadcast;
 import com.mitv.utilities.DeviceUtilities;
 
 public class InternalTrackingManager extends GenericTrackingManager {
@@ -22,11 +22,11 @@ public class InternalTrackingManager extends GenericTrackingManager {
 		deviceId = DeviceUtilities.getDeviceId();
 	}
 
-	public static void trackBroadcastStatic(Broadcast broadcast) {
+	public static void trackBroadcastStatic(OldBroadcast broadcast) {
 		getInstance().trackBroadcast(broadcast);
 	}
 
-	public void trackBroadcast(Broadcast broadcast) {
+	public void trackBroadcast(OldBroadcast broadcast) {
 		if (broadcast != null) {
 			if (broadcast.getProgram() != null) {
 				String trackingUrl = String.format(Consts.URL_INTERNAL_TRACKING, broadcast.getProgram().getProgramId(), deviceId);

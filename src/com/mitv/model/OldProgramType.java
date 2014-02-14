@@ -3,13 +3,13 @@ package com.mitv.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class ProgramType implements Parcelable  {
+public class OldProgramType implements Parcelable  {
 
 	private String id;
 	private String name;
 	private String alias;
 	
-	public ProgramType(){
+	public OldProgramType(){
 		
 	}
 	
@@ -37,7 +37,7 @@ public class ProgramType implements Parcelable  {
 		return this.alias;
 	}
 	
-	public ProgramType(Parcel in){
+	public OldProgramType(Parcel in){
 		id = in.readString();
 		name = in.readString();
 		alias = in.readString();
@@ -57,8 +57,8 @@ public class ProgramType implements Parcelable  {
 	
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof ProgramType) {
-			ProgramType other = (ProgramType) o;
+		if (o instanceof OldProgramType) {
+			OldProgramType other = (OldProgramType) o;
 			if (getId() != null && other.getId() != null && getId().equals(other.getId())) {
 				return true;
 			}
@@ -66,13 +66,13 @@ public class ProgramType implements Parcelable  {
 		return false;
 	}
 	
-	public static final Parcelable.Creator<ProgramType>	CREATOR	= new Parcelable.Creator<ProgramType>() {
-		public ProgramType createFromParcel(Parcel in) {
-			return new ProgramType(in);
+	public static final Parcelable.Creator<OldProgramType>	CREATOR	= new Parcelable.Creator<OldProgramType>() {
+		public OldProgramType createFromParcel(Parcel in) {
+			return new OldProgramType(in);
 		}
 
-		public ProgramType[] newArray(int size) {
-			return new ProgramType[size];
+		public OldProgramType[] newArray(int size) {
+			return new OldProgramType[size];
 		}
 	};
 

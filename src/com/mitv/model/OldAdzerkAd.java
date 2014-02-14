@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 import com.mitv.Consts;
 
-public class AdzerkAd {
+public class OldAdzerkAd {
 
 	/* Ids % keys */
 	private String userKey;
@@ -91,7 +91,7 @@ public class AdzerkAd {
 		this.height = height;
 	}
 	
-	public AdzerkAd(String divId, JSONObject jsonObjectForAd) {
+	public OldAdzerkAd(String divId, JSONObject jsonObjectForAd) {
 		this.divId = divId;
 		
 		String userKey = "";

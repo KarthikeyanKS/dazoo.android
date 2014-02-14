@@ -21,10 +21,10 @@ import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.customviews.ReminderView;
 import com.mitv.handlers.NotificationDialogHandler;
-import com.mitv.model.Broadcast;
-import com.mitv.model.NotificationDbItem;
-import com.mitv.model.Program;
-import com.mitv.model.TVDate;
+import com.mitv.model.OldBroadcast;
+import com.mitv.model.OldNotificationDbItem;
+import com.mitv.model.OldProgram;
+import com.mitv.model.OldTVDate;
 import com.mitv.notification.NotificationDataSource;
 import com.mitv.notification.NotificationService;
 import com.mitv.storage.MiTVStore;
@@ -36,27 +36,27 @@ public class RepetitionsListAdapter extends BaseAdapter {
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
-	private ArrayList<Broadcast>	mRepeatingEpisodes;
+	private ArrayList<OldBroadcast>	mRepeatingEpisodes;
 	private NotificationDataSource	mNotificationDataSource;
 	private int						mLastPosition	= -1;
 	private int 					mNotificationId = -1;
 	private int 					mPosNotificationId[];
 	private boolean					mIsSet			= false;
 	private boolean 				mPosIsSet[];
-	private Program					mProgram;
-	private Broadcast 				mRunningBroadcast;
+	private OldProgram					mProgram;
+	private OldBroadcast 				mRunningBroadcast;
 	private MiTVStore				mitvStore;
-	private ArrayList<TVDate>		mTvDates;
+	private ArrayList<OldTVDate>		mTvDates;
 
 	private int reminderPosition;
 
-	public RepetitionsListAdapter(Activity activity, ArrayList<Broadcast> repeatingBroadcasts, Program program, Broadcast runningBroadcast) {
+	public RepetitionsListAdapter(Activity activity, ArrayList<OldBroadcast> repeatingBroadcasts, OldProgram program, OldBroadcast runningBroadcast) {
 
 		/* Remove running broadcast */
 		boolean foundRunningBroadcast = false;
 		int indexOfRunningBroadcast = 0;
 		for(int i = 0; i < repeatingBroadcasts.size(); ++i) {
-			Broadcast repeatingBroadcast = repeatingBroadcasts.get(i);
+			OldBroadcast repeatingBroadcast = repeatingBroadcasts.get(i);
 			if(repeatingBroadcast.equals(runningBroadcast)) {
 				foundRunningBroadcast = true;
 				indexOfRunningBroadcast = i;
@@ -89,7 +89,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public Broadcast getItem(int position) {
+	public OldBroadcast getItem(int position) {
 		if (mRepeatingEpisodes != null) {
 			return mRepeatingEpisodes.get(position);
 		} else return null;
@@ -104,7 +104,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 
-		final Broadcast broadcast = getItem(position);
+		final OldBroadcast broadcast = getItem(position);
 		broadcast.setProgram(mProgram);
 
 		if (rowView == null) {

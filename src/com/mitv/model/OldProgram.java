@@ -11,7 +11,7 @@ import com.mitv.Consts;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Program implements Parcelable {
+public class OldProgram implements Parcelable {
 
 	private String				programId;
 	private String				programType;
@@ -31,21 +31,21 @@ public class Program implements Parcelable {
 	private String				portLUrl;
 
 	private ArrayList<String>	tags	= new ArrayList<String>();
-	private ArrayList<Credit>	credits	= new ArrayList<Credit>();
+	private ArrayList<OldCredit>	credits	= new ArrayList<OldCredit>();
 	// specific for programType = "TV_EPISODE"
 	private int					episodeNumber;
-	private Season				season;
-	private Series				series;
+	private OldSeason				season;
+	private OldSeries				series;
 	// specific for programType = "MOVIE"
 	private int					year;
 	private String				genre;
 	// specific for programType = "SPORT"
-	private SportType			sportType;
+	private OldSportType			sportType;
 	private String				tournament;
 	// specific for programType = "OTHER"
 	private String				category;
 
-	public Program() {
+	public OldProgram() {
 	}
 
 	public void setProgramId(String programId) {
@@ -88,7 +88,7 @@ public class Program implements Parcelable {
 		return this.synopsisLong;
 	}
 	
-	public Program(JSONObject jsonProgram) {
+	public OldProgram(JSONObject jsonProgram) {
 		this.setProgramId(jsonProgram.optString(Consts.PROGRAM_ID));
 
 		String programType = jsonProgram.optString(Consts.PROGRAM_TYPE);
@@ -147,12 +147,12 @@ public class Program implements Parcelable {
 
 		JSONArray jsonCredits = jsonProgram.optJSONArray(Consts.PROGRAM_CREDITS);
 		if (jsonCredits != null) {
-			ArrayList<Credit> credits = new ArrayList<Credit>();
+			ArrayList<OldCredit> credits = new ArrayList<OldCredit>();
 			for (int k = 0; k < jsonCredits.length(); k++) {
 				JSONObject jsonCredit;
 				try {
 					jsonCredit = jsonCredits.getJSONObject(k);
-					Credit credit = new Credit(jsonCredit);
+					OldCredit credit = new OldCredit(jsonCredit);
 					credits.add(credit);
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -170,11 +170,11 @@ public class Program implements Parcelable {
 				this.setEpisodeNumber(-1);
 			}
 			JSONObject seasonJSON = jsonProgram.optJSONObject(Consts.PROGRAM_SEASON);
-			Season season = new Season(seasonJSON);
+			OldSeason season = new OldSeason(seasonJSON);
 			this.setSeason(season);
 			JSONObject seriesJSON = jsonProgram.optJSONObject(Consts.PROGRAM_SERIES);
 			if (seriesJSON != null) {
-				Series series = new Series(seriesJSON);
+				OldSeries series = new OldSeries(seriesJSON);
 				this.setSeries(series);
 			}
 		} else if ((Consts.PROGRAM_TYPE_MOVIE).equals(programType)) {
@@ -185,7 +185,7 @@ public class Program implements Parcelable {
 			this.setTournament(jsonProgram.optString(Consts.PROGRAM_TOURNAMENT));
 			JSONObject sportTypeJSON = jsonProgram.optJSONObject(Consts.PROGRAM_SPORTTYPE);
 			if (sportTypeJSON != null) {
-				SportType sportType = new SportType(sportTypeJSON);
+				OldSportType sportType = new OldSportType(sportTypeJSON);
 				this.setSportType(sportType);
 			}
 		} else if ((Consts.PROGRAM_TYPE_OTHER).equals(programType)) {
@@ -274,11 +274,11 @@ public class Program implements Parcelable {
 		return this.tags;
 	}
 
-	public void setCredits(ArrayList<Credit> credits) {
+	public void setCredits(ArrayList<OldCredit> credits) {
 		this.credits = credits;
 	}
 
-	public ArrayList<Credit> getCredits() {
+	public ArrayList<OldCredit> getCredits() {
 		return this.credits;
 	}
 
@@ -290,19 +290,19 @@ public class Program implements Parcelable {
 		return this.episodeNumber;
 	}
 
-	public void setSeason(Season season) {
+	public void setSeason(OldSeason season) {
 		this.season = season;
 	}
 
-	public Season getSeason() {
+	public OldSeason getSeason() {
 		return this.season;
 	}
 
-	public void setSeries(Series series) {
+	public void setSeries(OldSeries series) {
 		this.series = series;
 	}
 
-	public Series getSeries() {
+	public OldSeries getSeries() {
 		return this.series;
 	}
 
@@ -322,11 +322,11 @@ public class Program implements Parcelable {
 		return this.genre;
 	}
 
-	public void setSportType(SportType sportType) {
+	public void setSportType(OldSportType sportType) {
 		this.sportType = sportType;
 	}
 
-	public SportType getSportType() {
+	public OldSportType getSportType() {
 		return this.sportType;
 	}
 
@@ -380,7 +380,7 @@ public class Program implements Parcelable {
 		dest.writeString(category);
 	}
 
-	public Program(Parcel in) {
+	public OldProgram(Parcel in) {
 		programId = in.readString();
 		programType = in.readString();
 		title = in.readString();
@@ -399,19 +399,19 @@ public class Program implements Parcelable {
 		tags = (ArrayList<String>) in.readSerializable();
 		// credits = in.readArrayList(Credit.class.getClassLoader());
 		episodeNumber = in.readInt();
-		season = in.readParcelable(Season.class.getClassLoader());
-		series = in.readParcelable(Series.class.getClassLoader());
+		season = in.readParcelable(OldSeason.class.getClassLoader());
+		series = in.readParcelable(OldSeries.class.getClassLoader());
 		year = in.readInt();
 		genre = in.readString();
-		sportType = in.readParcelable(SportType.class.getClassLoader());
+		sportType = in.readParcelable(OldSportType.class.getClassLoader());
 		tournament = in.readString();
 		category = in.readString();
 	}
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof Program) {
-			Program other = (Program) o;
+		if (o instanceof OldProgram) {
+			OldProgram other = (OldProgram) o;
 			if (getProgramId() != null && other.getProgramId() != null && getProgramId().equals(other.getProgramId())) {
 				return true;
 			}
@@ -419,13 +419,13 @@ public class Program implements Parcelable {
 		return false;
 	}
 
-	public static final Parcelable.Creator<Program>	CREATOR	= new Parcelable.Creator<Program>() {
-		public Program createFromParcel(Parcel in) {
-			return new Program(in);
+	public static final Parcelable.Creator<OldProgram>	CREATOR	= new Parcelable.Creator<OldProgram>() {
+		public OldProgram createFromParcel(Parcel in) {
+			return new OldProgram(in);
 		}
 
-		public Program[] newArray(int size) {
-			return new Program[size];
+		public OldProgram[] newArray(int size) {
+			return new OldProgram[size];
 		}
 	};
 

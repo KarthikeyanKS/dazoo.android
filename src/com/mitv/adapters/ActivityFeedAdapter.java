@@ -21,9 +21,9 @@ import com.mitv.Consts;
 import com.mitv.LikeService;
 import com.mitv.R;
 import com.mitv.customviews.ReminderView;
-import com.mitv.model.Broadcast;
-import com.mitv.model.TVFeedItem;
-import com.mitv.model.Program;
+import com.mitv.model.OldBroadcast;
+import com.mitv.model.OldTVFeedItem;
+import com.mitv.model.OldProgram;
 import com.mitv.storage.MiTVStore;
 import com.mitv.utilities.AnimationUtilities;
 import com.mitv.utilities.ProgressBarUtils;
@@ -32,11 +32,11 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
+public class ActivityFeedAdapter extends AdListAdapter<OldTVFeedItem> {
 
 	private static final String		TAG									= "ActivityFeedAdapter";
 	private Activity				mActivity;
-	private ArrayList<TVFeedItem>		mFeedItems;
+	private ArrayList<OldTVFeedItem>		mFeedItems;
 	private LayoutInflater			mLayoutInflater;
 
 	private int						ACTIVITY_BLOCKS_TYPE_NUMBER	= 5;
@@ -53,7 +53,7 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 	// private ImageView likeLikeIv, remindLikeIv, likeRecIv, remindRecIv, likeTwitterIv, remindTwitterIv;
 	private boolean					mIsLiked							= false, mIsSet = false;
 
-	public ActivityFeedAdapter(Activity activity, ArrayList<TVFeedItem> feedItems) {
+	public ActivityFeedAdapter(Activity activity, ArrayList<OldTVFeedItem> feedItems) {
 		super(Consts.JSON_AND_FRAGMENT_KEY_ACTIVITY, activity, feedItems);
 		this.mActivity = activity;
 		this.mFeedItems = feedItems;
@@ -66,19 +66,19 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 		return super.getViewTypeCount() + ACTIVITY_BLOCKS_TYPE_NUMBER;
 	}
 
-	public void addItem(final TVFeedItem item) {
+	public void addItem(final OldTVFeedItem item) {
 		mFeedItems.add(item);
 		notifyDataSetChanged();
 	}
 
-	public void addItems(ArrayList<TVFeedItem> items) {
+	public void addItems(ArrayList<OldTVFeedItem> items) {
 		mFeedItems.addAll(items);
 		notifyDataSetChanged();
 	}
 
 	@Override
 	public int getItemViewType(int position) {
-		TVFeedItem item = getItem(position);
+		OldTVFeedItem item = getItem(position);
 		if (item != null) {
 			String feedItemType = item.getItemType();
 			if (Consts.FEED_ITEM_TYPE_POPULAR_BROADCASTS.equals(feedItemType)) {
@@ -105,7 +105,7 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 		}
 	}
 
-	public void populatePopularItemAtIndex(PopularBroadcastsViewHolder viewHolder, ArrayList<Broadcast> broadcasts, int popularRowIndex) {
+	public void populatePopularItemAtIndex(PopularBroadcastsViewHolder viewHolder, ArrayList<OldBroadcast> broadcasts, int popularRowIndex) {
 		ImageView imageView = null;
 		TextView title = null;
 		TextView time = null;
@@ -152,10 +152,10 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 		}
 
 		if (popularRowIndex < broadcasts.size()) {
-			final Broadcast broadcast = broadcasts.get(popularRowIndex);
+			final OldBroadcast broadcast = broadcasts.get(popularRowIndex);
 			if (broadcast != null) {
 				broadcast.updateTimeToBeginAndTimeToEnd();
-				final Program program = broadcast.getProgram();
+				final OldProgram program = broadcast.getProgram();
 
 				String programType = broadcast.getProgram().getProgramType();
 
@@ -223,7 +223,7 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 		}
 	}
 
-	private void popularBroadcastClicked(Broadcast broadcast) {
+	private void popularBroadcastClicked(OldBroadcast broadcast) {
 		Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
 		intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
 		intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
@@ -246,10 +246,10 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 		return rowView;
 	}
 	
-	private View populateSingleBroadcastCell(View rowView, final Broadcast broadcast, int position, TVFeedItem feedItem) {
+	private View populateSingleBroadcastCell(View rowView, final OldBroadcast broadcast, int position, OldTVFeedItem feedItem) {
 		broadcast.updateTimeToBeginAndTimeToEnd();
 
-		final Program program = broadcast.getProgram();
+		final OldProgram program = broadcast.getProgram();
 		if (rowView == null) {
 			BroadcastViewHolder viewHolder = new BroadcastViewHolder();
 
@@ -419,7 +419,7 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 		return rowView;
 	}
 	
-	private View populateMultipleBroadcastsCell(View rowView, ArrayList<Broadcast> broadcasts) {
+	private View populateMultipleBroadcastsCell(View rowView, ArrayList<OldBroadcast> broadcasts) {
 		if (rowView == null) {
 			PopularBroadcastsViewHolder viewHolder = new PopularBroadcastsViewHolder();
 			rowView = mLayoutInflater.inflate(R.layout.block_feed_popular, null);
@@ -493,7 +493,7 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 
 		int type = getItemViewType(position);
 
-		final TVFeedItem feedItem = getItem(position);
+		final OldTVFeedItem feedItem = getItem(position);
 
 		switch (type) {
 		case ITEM_TYPE_RECOMMENDED_BROADCAST:
@@ -501,7 +501,7 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 		case ITEM_TYPE_POPULAR_BROADCAST:
 		case ITEM_TYPE_BROADCAST:
 			/* One broadcast */
-			final Broadcast broadcast = feedItem.getBroadcast();
+			final OldBroadcast broadcast = feedItem.getBroadcast();
 
 			if (broadcast != null) {
 				rowView = populateSingleBroadcastCell(rowView, broadcast, position, feedItem);
@@ -510,7 +510,7 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 
 		case ITEM_TYPE_POPULAR_BROADCASTS:
 
-			final ArrayList<Broadcast> broadcasts = feedItem.getBroadcasts();
+			final ArrayList<OldBroadcast> broadcasts = feedItem.getBroadcasts();
 
 			if (broadcasts != null && broadcasts.size() > 0) {
 				rowView = populateMultipleBroadcastsCell(rowView, broadcasts);

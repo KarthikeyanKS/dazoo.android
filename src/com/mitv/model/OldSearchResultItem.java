@@ -10,14 +10,14 @@ import com.millicom.mitv.enums.ContentTypeEnum;
 import com.mitv.Consts;
 import com.mitv.manager.ContentParser;
 
-public class SearchResultItem {
+public class OldSearchResultItem {
 	private String displayText;
 	private ContentTypeEnum entityType;
-	private ArrayList<Broadcast> broadcasts;
+	private ArrayList<OldBroadcast> broadcasts;
 	private Object entity;
 
-	public Broadcast getNextBroadcast() {
-		Broadcast broadcast = null;
+	public OldBroadcast getNextBroadcast() {
+		OldBroadcast broadcast = null;
 		
 		if(broadcasts != null) {
 			if(broadcasts.size() > 0) {
@@ -28,7 +28,7 @@ public class SearchResultItem {
 		return broadcast;
 	}
 	
-	public SearchResultItem(JSONObject jsonObject) {
+	public OldSearchResultItem(JSONObject jsonObject) {
 		String displayText = jsonObject.optString(Consts.JSON_KEY_SEARCH_RESULT_ITEM_DISPLAY_TEXT);
 		String entityTypeString = jsonObject.optString(Consts.JSON_KEY_SEARCH_RESULT_ITEM_ENTITY_TYPE);
 		ContentTypeEnum entityType = ContentTypeEnum.valueOf(entityTypeString);
@@ -41,16 +41,16 @@ public class SearchResultItem {
 			boolean parseBroadcasts = false;
 			switch (entityType) {
 			case SERIES: {
-				entity = new Series(entityJsonObject);
+				entity = new OldSeries(entityJsonObject);
 				parseBroadcasts = true;
 				break;
 			}
 			case CHANNEL: {
-				entity = new TVChannel(entityJsonObject);
+				entity = new OldTVChannel(entityJsonObject);
 				break;
 			}
 			case PROGRAM: {
-				entity = new Program(entityJsonObject);
+				entity = new OldProgram(entityJsonObject);
 				parseBroadcasts = true;
 				break;
 			}
@@ -59,7 +59,7 @@ public class SearchResultItem {
 			if(parseBroadcasts) {
 				JSONArray broadcastsJson = entityJsonObject.getJSONArray(Consts.FEED_ITEM_BROADCASTS);
 				if(broadcastsJson != null) {
-					ArrayList<Broadcast> broadcasts = ContentParser.parseBroadcasts(broadcastsJson);
+					ArrayList<OldBroadcast> broadcasts = ContentParser.parseBroadcasts(broadcastsJson);
 					this.setBroadcasts(broadcasts);
 				}
 			}
@@ -78,11 +78,11 @@ public class SearchResultItem {
 		return displayText;
 	}
 
-	public ArrayList<Broadcast> getBroadcasts() {
+	public ArrayList<OldBroadcast> getBroadcasts() {
 		return broadcasts;
 	}
 
-	public void setBroadcasts(ArrayList<Broadcast> broadcasts) {
+	public void setBroadcasts(ArrayList<OldBroadcast> broadcasts) {
 		this.broadcasts = broadcasts;
 	}
 

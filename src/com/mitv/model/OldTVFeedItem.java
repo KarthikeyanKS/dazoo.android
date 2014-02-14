@@ -5,18 +5,18 @@ import java.util.ArrayList;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class TVFeedItem implements Parcelable{
+public class OldTVFeedItem implements Parcelable{
 	
 	private static final String TAG = "FeedItem";
 	
 	private String itemType;
 	//itemType = BROADCAST and RECOMMENDED_BROADCAST
 	private String title;
-	private Broadcast broadcast;
+	private OldBroadcast broadcast;
 	// itemType = POPULAR_BROADCASTS
-	private ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
+	private ArrayList<OldBroadcast> broadcasts = new ArrayList<OldBroadcast>();
 	
-	public TVFeedItem(){
+	public OldTVFeedItem(){
 	}
 	
 	public void setItemType(String itemType){
@@ -35,27 +35,27 @@ public class TVFeedItem implements Parcelable{
 		return this.title;
 	}
 	
-	public void setBroadcast(Broadcast broadcast){
+	public void setBroadcast(OldBroadcast broadcast){
 		this.broadcast = broadcast;
 	}
 	
-	public Broadcast getBroadcast(){
+	public OldBroadcast getBroadcast(){
 		return this.broadcast;
 	}
 	
-	public void setBroadcasts(ArrayList<Broadcast> broadcasts){
+	public void setBroadcasts(ArrayList<OldBroadcast> broadcasts){
 		this.broadcasts = broadcasts;
 	}
 	
-	public ArrayList<Broadcast> getBroadcasts(){
+	public ArrayList<OldBroadcast> getBroadcasts(){
 		return this.broadcasts;
 	}
 
-	public TVFeedItem(Parcel in){
+	public OldTVFeedItem(Parcel in){
 		itemType = in.readString();
 		title = in.readString();
-		broadcast = (Broadcast) in.readParcelable(Broadcast.class.getClassLoader());
-		in.readTypedList(broadcasts, Broadcast.CREATOR);
+		broadcast = (OldBroadcast) in.readParcelable(OldBroadcast.class.getClassLoader());
+		in.readTypedList(broadcasts, OldBroadcast.CREATOR);
 	}
 	
 	
@@ -75,8 +75,8 @@ public class TVFeedItem implements Parcelable{
 	
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof TVFeedItem) {
-			TVFeedItem other = (TVFeedItem) o;
+		if (o instanceof OldTVFeedItem) {
+			OldTVFeedItem other = (OldTVFeedItem) o;
 			if (getItemType() != null && other.getItemType() != null && getItemType().equals(other.getItemType()) && getTitle() != null
 					&& other.getTitle() != null && (getTitle()).equals(other.getTitle())) {
 				return true;
@@ -85,13 +85,13 @@ public class TVFeedItem implements Parcelable{
 		return false;
 	}
 	
-	public static final Parcelable.Creator<TVFeedItem>	CREATOR	= new Parcelable.Creator<TVFeedItem>() {
-		public TVFeedItem createFromParcel(Parcel in) {
-			return new TVFeedItem(in);
+	public static final Parcelable.Creator<OldTVFeedItem>	CREATOR	= new Parcelable.Creator<OldTVFeedItem>() {
+		public OldTVFeedItem createFromParcel(Parcel in) {
+			return new OldTVFeedItem(in);
 		}
 
-		public TVFeedItem[] newArray(int size) {
-			return new TVFeedItem[size];
+		public OldTVFeedItem[] newArray(int size) {
+			return new OldTVFeedItem[size];
 		}
 	};
 

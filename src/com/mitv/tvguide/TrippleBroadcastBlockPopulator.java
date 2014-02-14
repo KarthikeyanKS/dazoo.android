@@ -17,8 +17,8 @@ import com.millicom.mitv.activities.UpcomingEpisodesPageActivity;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.customviews.ReminderView;
-import com.mitv.model.Broadcast;
-import com.mitv.model.Program;
+import com.mitv.model.OldBroadcast;
+import com.mitv.model.OldProgram;
 
 public class TrippleBroadcastBlockPopulator {
 
@@ -26,8 +26,8 @@ public class TrippleBroadcastBlockPopulator {
 
 	private Activity mActivity;
 	private ScrollView mContainerView;
-	private Broadcast mRunningBroadcast;
-	private ArrayList<Broadcast> mBroadcasts;
+	private OldBroadcast mRunningBroadcast;
+	private ArrayList<OldBroadcast> mBroadcasts;
 	private ReminderView reminderViewOne, reminderViewTwo, reminderViewThree;
 	private View dividerView;
 
@@ -35,7 +35,7 @@ public class TrippleBroadcastBlockPopulator {
 	/* If false, then block populator is used for upcoming episodes */
 	private boolean mUsedForRepetitions;
 
-	public TrippleBroadcastBlockPopulator(String tag, boolean usedForRepetitions, Activity activity, ScrollView containerView, Broadcast runningBroadcast) {
+	public TrippleBroadcastBlockPopulator(String tag, boolean usedForRepetitions, Activity activity, ScrollView containerView, OldBroadcast runningBroadcast) {
 		this.TAG = tag;
 		this.mActivity = activity;
 		this.mContainerView = containerView;
@@ -43,9 +43,9 @@ public class TrippleBroadcastBlockPopulator {
 		this.mUsedForRepetitions = usedForRepetitions;
 	}
 
-	public void populatePartOfBlock(final int position, ArrayList<Broadcast> broadcastList, final Program program, View topContentView) {
+	public void populatePartOfBlock(final int position, ArrayList<OldBroadcast> broadcastList, final OldProgram program, View topContentView) {
 		if (broadcastList.size() > position && broadcastList.get(position) != null) {
-			final Broadcast broadcast = broadcastList.get(position);
+			final OldBroadcast broadcast = broadcastList.get(position);
 			LinearLayout mContainer = null;
 
 			switch (position) {
@@ -106,7 +106,7 @@ public class TrippleBroadcastBlockPopulator {
 			mChannelTv.setText(broadcast.getChannel().getName());
 
 			if (!mUsedForRepetitions) {
-				Program programLocal = broadcast.getProgram();
+				OldProgram programLocal = broadcast.getProgram();
 				if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programLocal.getProgramType())) {
 					String season = programLocal.getSeason().getNumber();
 					int episode = programLocal.getEpisodeNumber();
@@ -140,12 +140,12 @@ public class TrippleBroadcastBlockPopulator {
 		}
 	}
 
-	public void createBlock(final ArrayList<Broadcast> repeatingBroadcasts, final Program program) {
+	public void createBlock(final ArrayList<OldBroadcast> repeatingBroadcasts, final OldProgram program) {
 		/* Remove running broadcast */
 		boolean foundRunningBroadcast = false;
 		int indexOfRunningBroadcast = 0;
 		for (int i = 0; i < repeatingBroadcasts.size(); ++i) {
-			Broadcast repeatingBroadcast = repeatingBroadcasts.get(i);
+			OldBroadcast repeatingBroadcast = repeatingBroadcasts.get(i);
 			if (repeatingBroadcast.equals(mRunningBroadcast)) {
 				foundRunningBroadcast = true;
 				indexOfRunningBroadcast = i;

@@ -8,10 +8,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.mitv.R;
-import com.mitv.model.Broadcast;
+import com.mitv.model.OldBroadcast;
 
 public class ProgressBarUtils {
-	public static void setupProgressBar(Activity mActivity, Broadcast broadcast, ProgressBar progressBar, TextView progressTxt){
+	public static void setupProgressBar(Activity mActivity, OldBroadcast broadcast, ProgressBar progressBar, TextView progressTxt){
 		progressBar.setMax(broadcast.getDurationInMinutes() + 1);
 
 		// Calculate the current progress of the ProgressBar and update.

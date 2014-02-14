@@ -25,22 +25,22 @@ import com.millicom.mitv.activities.ChannelPageActivity;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.model.Broadcast;
-import com.mitv.model.TVChannelGuide;
-import com.mitv.model.Program;
-import com.mitv.model.TVDate;
+import com.mitv.model.OldBroadcast;
+import com.mitv.model.OldTVChannelGuide;
+import com.mitv.model.OldProgram;
+import com.mitv.model.OldTVDate;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-public class TVGuideListAdapter extends AdListAdapter<TVChannelGuide> {
+public class TVGuideListAdapter extends AdListAdapter<OldTVChannelGuide> {
 
 	private static final String	TAG	= "TVGuideListAdapter";
 
 	private LayoutInflater		mLayoutInflater;
 	private Activity			mActivity;
-	private ArrayList<TVChannelGuide>	mGuide;
-	private TVDate				mDate;
+	private ArrayList<OldTVChannelGuide>	mGuide;
+	private OldTVDate				mDate;
 	private int					mIndexOfNearestBroadcast;
 	private int					mHour, mCurrentHour;
 	private boolean				mIsToday;
@@ -48,7 +48,7 @@ public class TVGuideListAdapter extends AdListAdapter<TVChannelGuide> {
 	private int 				rowWidth = -1;
 
 	@SuppressLint("NewApi")
-	public TVGuideListAdapter(Activity activity, ArrayList<TVChannelGuide> guide, TVDate date, int hour, boolean isToday) {
+	public TVGuideListAdapter(Activity activity, ArrayList<OldTVChannelGuide> guide, OldTVDate date, int hour, boolean isToday) {
 		super(Consts.JSON_AND_FRAGMENT_KEY_GUIDE, activity, guide);
 		this.mGuide = guide;
 		this.mActivity = activity;
@@ -102,7 +102,7 @@ public class TVGuideListAdapter extends AdListAdapter<TVChannelGuide> {
 			});
 		}
 
-		final TVChannelGuide guide = getItem(position);
+		final OldTVChannelGuide guide = getItem(position);
 
 		if (guide.getImageUrl() != null) {
 			ImageAware imageAware = new ImageViewAware(holder.mImageView, false);
@@ -122,7 +122,7 @@ public class TVGuideListAdapter extends AdListAdapter<TVChannelGuide> {
 			}
 		});
 
-		ArrayList<Broadcast> broadcasts = guide.getBroadcasts();
+		ArrayList<OldBroadcast> broadcasts = guide.getBroadcasts();
 
 		String stringIconMovie = mActivity.getResources().getString(R.string.icon_movie) + " ";
 		String stringIconLive = mActivity.getResources().getString(R.string.icon_live) + " ";
@@ -136,11 +136,11 @@ public class TVGuideListAdapter extends AdListAdapter<TVChannelGuide> {
 			mIndexOfNearestBroadcast = guide.getClosestBroadcastIndexFromTime(broadcasts, mHour, mDate);
 
 			if (mIndexOfNearestBroadcast != -1) {
-				ArrayList<Broadcast> nextBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, broadcasts, Consts.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
+				ArrayList<OldBroadcast> nextBroadcasts = OldBroadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, broadcasts, Consts.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
 			
 				for (int j = 0; j < Math.min(nextBroadcasts.size(), 3); j++) {
-					Broadcast broadcast = nextBroadcasts.get(j);
-					Program program = broadcast.getProgram();
+					OldBroadcast broadcast = nextBroadcasts.get(j);
+					OldProgram program = broadcast.getProgram();
 					String programType = program.getProgramType();
 					String broadcastType = broadcast.getBroadcastType();
 					

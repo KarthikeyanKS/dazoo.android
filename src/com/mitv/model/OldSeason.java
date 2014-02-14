@@ -7,14 +7,14 @@ import com.mitv.Consts;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Season implements Parcelable  {
+public class OldSeason implements Parcelable  {
 
 	private String number;
 	
-	public Season(){	
+	public OldSeason(){	
 	}
 	
-	public Season(JSONObject jsonSeason) {
+	public OldSeason(JSONObject jsonSeason) {
 		this.setNumber(jsonSeason.optString(Consts.SEASON_NUMBER));
 	}
 	
@@ -26,7 +26,7 @@ public class Season implements Parcelable  {
 		return number;
 	}
 		
-	public Season(Parcel in){
+	public OldSeason(Parcel in){
 		number = in.readString();
 	}
 		
@@ -42,8 +42,8 @@ public class Season implements Parcelable  {
 	
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof Season) {
-			Season other = (Season) o;
+		if (o instanceof OldSeason) {
+			OldSeason other = (OldSeason) o;
 			if (getNumber() != null && other.getNumber() != null && getNumber().equals(other.getNumber())) {
 				return true;
 			}
@@ -51,13 +51,13 @@ public class Season implements Parcelable  {
 		return false;
 	}
 	
-	public static final Parcelable.Creator<Season>	CREATOR	= new Parcelable.Creator<Season>() {
-		public Season createFromParcel(Parcel in) {
-			return new Season(in);
+	public static final Parcelable.Creator<OldSeason>	CREATOR	= new Parcelable.Creator<OldSeason>() {
+		public OldSeason createFromParcel(Parcel in) {
+			return new OldSeason(in);
 		}
 
-		public Season[] newArray(int size) {
-			return new Season[size];
+		public OldSeason[] newArray(int size) {
+			return new OldSeason[size];
 		}
 	};
 }

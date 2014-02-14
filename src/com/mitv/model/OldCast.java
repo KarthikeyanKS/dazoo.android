@@ -4,13 +4,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 // domain model for cast and crew to the movie or series
-public class Cast implements Parcelable{
+public class OldCast implements Parcelable{
 
 	String actorName;
 	String characterName;
 	String posterUrl;
 	
-	public Cast(){
+	public OldCast(){
 	}
 	
 	public void setActorName(String actorName){
@@ -37,7 +37,7 @@ public class Cast implements Parcelable{
 		return this.posterUrl;
 	}
 	
-	public Cast(Parcel in){
+	public OldCast(Parcel in){
 		actorName = in.readString();
 		characterName = in.readString();
 		posterUrl = in.readString();
@@ -55,13 +55,13 @@ public class Cast implements Parcelable{
 		dest.writeString(posterUrl);
 	}
 
-	public static final Parcelable.Creator<Cast>	CREATOR	= new Parcelable.Creator<Cast>() {
-		public Cast createFromParcel(Parcel in) {
-			return new Cast(in);
+	public static final Parcelable.Creator<OldCast>	CREATOR	= new Parcelable.Creator<OldCast>() {
+		public OldCast createFromParcel(Parcel in) {
+			return new OldCast(in);
 		}
 
-		public Cast[] newArray(int size) {
-			return new Cast[size];
+		public OldCast[] newArray(int size) {
+			return new OldCast[size];
 		}
 	};
 }

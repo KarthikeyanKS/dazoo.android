@@ -12,17 +12,17 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.mitv.R;
-import com.mitv.model.TVDate;
+import com.mitv.model.OldTVDate;
 import com.mitv.utilities.DateUtilities;
 
 public class ActionBarDropDownDateListAdapter extends BaseAdapter implements SpinnerAdapter {
 
 	private static final String	TAG				= "ActionBarDropDownDateListAdapter";
-	private ArrayList<TVDate>	mDays;
+	private ArrayList<OldTVDate>	mDays;
 
 	private int					mSelectedIndex	= -1;
 
-	public ActionBarDropDownDateListAdapter(ArrayList<TVDate> mDays) {
+	public ActionBarDropDownDateListAdapter(ArrayList<OldTVDate> mDays) {
 		this.mDays = mDays;
 	}
 
@@ -34,7 +34,7 @@ public class ActionBarDropDownDateListAdapter extends BaseAdapter implements Spi
 	}
 
 	@Override
-	public TVDate getItem(int position) {
+	public OldTVDate getItem(int position) {
 		if (mDays != null) {
 			return mDays.get(position);
 		} else return null;
@@ -59,7 +59,7 @@ public class ActionBarDropDownDateListAdapter extends BaseAdapter implements Spi
 		// do not display when no selection
 		if (mSelectedIndex != -1) {
 
-			TVDate tvDate = getItem(position);
+			OldTVDate tvDate = getItem(position);
 			try {
 				txtName.setText(tvDate.getName());
 				txtNumber.setText(DateUtilities.tvDateStringToDatePickerString(tvDate.getDate()));
@@ -94,7 +94,7 @@ public class ActionBarDropDownDateListAdapter extends BaseAdapter implements Spi
 		// do not display when no selection
 		if (mSelectedIndex != -1) {
 
-			TVDate tvDate = getItem(position);
+			OldTVDate tvDate = getItem(position);
 			try {
 				txtName.setText(tvDate.getName());
 				txtNumber.setText(DateUtilities.tvDateStringToDatePickerString(tvDate.getDate()));

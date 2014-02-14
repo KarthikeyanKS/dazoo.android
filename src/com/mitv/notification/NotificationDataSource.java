@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.mitv.Consts;
 import com.mitv.SecondScreenApplication;
-import com.mitv.model.NotificationDbItem;
+import com.mitv.model.OldNotificationDbItem;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -31,7 +31,7 @@ public class NotificationDataSource {
 		dbHelper = new NotificationDatabaseHelper(context);
 	}
 
-	public void addNotification(NotificationDbItem notification) {
+	public void addNotification(OldNotificationDbItem notification) {
 		SQLiteDatabase database = dbHelper.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
@@ -57,7 +57,7 @@ public class NotificationDataSource {
 		database.close();
 	}
 
-	public NotificationDbItem getNotification(String channelId, long beginTimeMillis) {
+	public OldNotificationDbItem getNotification(String channelId, long beginTimeMillis) {
 		SQLiteDatabase database = dbHelper.getReadableDatabase();
 
 		String query = String.format(SecondScreenApplication.getCurrentLocale(), "SELECT * FROM %s WHERE %s = %s AND %s = '%s'", Consts.NOTIFICATION_DB_TABLE_NOTIFICATIONS, Consts.NOTIFICATION_DB_COLUMN_BROADCAST_BEGINTIMEMILLIS, beginTimeMillis, Consts.NOTIFICATION_DB_COLUMN_CHANNEL_ID, channelId);
@@ -84,15 +84,15 @@ public class NotificationDataSource {
 		return count;
 	}
 
-	public List<NotificationDbItem> getAllNotifications() {
-		List<NotificationDbItem> notificationList = new ArrayList<NotificationDbItem>();
+	public List<OldNotificationDbItem> getAllNotifications() {
+		List<OldNotificationDbItem> notificationList = new ArrayList<OldNotificationDbItem>();
 		String selectQuery = "SELECT * FROM " + Consts.NOTIFICATION_DB_TABLE_NOTIFICATIONS;
 
 		SQLiteDatabase database = dbHelper.getReadableDatabase();
 		Cursor cursor = database.rawQuery(selectQuery, null);
 		if (cursor.moveToFirst()) {
 			do {
-				NotificationDbItem notification = setCursorValues(cursor);
+				OldNotificationDbItem notification = setCursorValues(cursor);
 				notificationList.add(notification);
 			} while (cursor.moveToNext());
 		}
@@ -116,8 +116,8 @@ public class NotificationDataSource {
 		database.close();
 	}
 
-	public NotificationDbItem setCursorValues(Cursor cursor) {
-		NotificationDbItem notification = new NotificationDbItem();
+	public OldNotificationDbItem setCursorValues(Cursor cursor) {
+		OldNotificationDbItem notification = new OldNotificationDbItem();
 		if (cursor.getCount() > 0) {
 			if (!cursor.isNull(0)) {
 				notification.setNotificationId(cursor.getInt(0));

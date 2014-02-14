@@ -9,10 +9,10 @@ import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.models.TVChannelId;
 import com.mitv.Consts;
-import com.mitv.model.TVChannelGuide;
-import com.mitv.model.TVDate;
+import com.mitv.model.OldTVChannelGuide;
+import com.mitv.model.OldTVDate;
 
-public class GetTVChannelGuides extends AsyncTaskWithRelativeURL<TVChannelGuide> {
+public class GetTVChannelGuides extends AsyncTaskWithRelativeURL<OldTVChannelGuide> {
 	
 	private static final String URL_SUFFIX = Consts.URL_GUIDE;
 	
@@ -20,7 +20,7 @@ public class GetTVChannelGuides extends AsyncTaskWithRelativeURL<TVChannelGuide>
 	public static GetTVChannelGuides newGetTVChannelGuidesTask(
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener,
-			TVDate tvDate,
+			OldTVDate tvDate,
 			List<TVChannelId> tvChannelIds) {
 		GetTVChannelGuidesBuilder channelGuideBuilder = new GetTVChannelGuidesBuilder();
 		channelGuideBuilder.setTVDate(tvDate);
@@ -33,7 +33,7 @@ public class GetTVChannelGuides extends AsyncTaskWithRelativeURL<TVChannelGuide>
 	public GetTVChannelGuides(
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener) {
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.TV_GUIDE, TVChannelGuide.class, URL_SUFFIX, new URLParameters());
+		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.TV_GUIDE, OldTVChannelGuide.class, URL_SUFFIX, new URLParameters());
 	}
 		
 	@Override

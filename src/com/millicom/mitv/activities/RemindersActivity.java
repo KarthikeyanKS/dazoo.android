@@ -24,8 +24,8 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.adapters.RemindersListAdapter;
 import com.mitv.interfaces.RemindersCountInterface;
-import com.mitv.model.Broadcast;
-import com.mitv.model.NotificationDbItem;
+import com.mitv.model.OldBroadcast;
+import com.mitv.model.OldNotificationDbItem;
 import com.mitv.notification.NotificationDataSource;
 
 public class RemindersActivity extends BaseActivity implements RemindersCountInterface, OnClickListener {
@@ -81,13 +81,13 @@ public class RemindersActivity extends BaseActivity implements RemindersCountInt
 	}
 
 	private void populateViews() {
-		ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
+		ArrayList<OldBroadcast> broadcasts = new ArrayList<OldBroadcast>();
 
 		NotificationDataSource notificationDataSource = new NotificationDataSource(this);
-		List<NotificationDbItem> notificationList = notificationDataSource.getAllNotifications();
+		List<OldNotificationDbItem> notificationList = notificationDataSource.getAllNotifications();
 		for (int i = 0; i < notificationList.size(); i++) {
-			NotificationDbItem item = notificationList.get(i);
-			Broadcast broadcast = new Broadcast(item);
+			OldNotificationDbItem item = notificationList.get(i);
+			OldBroadcast broadcast = new OldBroadcast(item);
 			broadcasts.add(broadcast);
 		}
 		// If empty - show notification.
@@ -95,7 +95,7 @@ public class RemindersActivity extends BaseActivity implements RemindersCountInt
 			mErrorTv.setVisibility(View.VISIBLE);
 		} else {
 			// Sort the list of broadcasts by time.
-			Collections.sort(broadcasts, new Broadcast.BroadcastComparatorByTime());
+			Collections.sort(broadcasts, new OldBroadcast.BroadcastComparatorByTime());
 
 			mAdapter = new RemindersListAdapter(this, broadcasts, this);
 			mListView.setAdapter(mAdapter);

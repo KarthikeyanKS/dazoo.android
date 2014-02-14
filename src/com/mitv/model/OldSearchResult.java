@@ -10,15 +10,15 @@ import android.util.Log;
 
 import com.mitv.Consts;
 
-public class SearchResult {
+public class OldSearchResult {
 	private String suggestion;
 	private int numberOfResults;
-	private ArrayList<SearchResultItem> items;
+	private ArrayList<OldSearchResultItem> items;
 
-	public SearchResult(JSONObject jsonObject) {
+	public OldSearchResult(JSONObject jsonObject) {
 		String suggestion = jsonObject.optString(Consts.JSON_KEY_SEARCH_RESULT_SUGGESTION);
 
-		ArrayList<SearchResultItem> items = new ArrayList<SearchResultItem>();
+		ArrayList<OldSearchResultItem> items = new ArrayList<OldSearchResultItem>();
 		try {
 			JSONArray itemsJson = jsonObject.getJSONArray(Consts.JSON_KEY_SEARCH_RESULT_RESULTS);
 			if (itemsJson != null) {
@@ -26,7 +26,7 @@ public class SearchResult {
 					JSONObject contentsObject;
 					for (int i = 0; i < itemsJson.length(); ++i) {
 						contentsObject = (JSONObject) itemsJson.get(i);
-						SearchResultItem item = new SearchResultItem(contentsObject);
+						OldSearchResultItem item = new OldSearchResultItem(contentsObject);
 						items.add(item);
 					}
 				}
@@ -65,11 +65,11 @@ public class SearchResult {
 		this.numberOfResults = numberOfResults;
 	}
 
-	public ArrayList<SearchResultItem> getItems() {
+	public ArrayList<OldSearchResultItem> getItems() {
 		return items;
 	}
 
-	public void setItems(ArrayList<SearchResultItem> items) {
+	public void setItems(ArrayList<OldSearchResultItem> items) {
 		this.items = items;
 	}
 

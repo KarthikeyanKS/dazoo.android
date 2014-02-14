@@ -5,13 +5,13 @@ import java.util.Comparator;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class TVLike implements Parcelable{
+public class OldTVLike implements Parcelable{
 	private String likeType;
-	private MiTVLikeEntity entity;
+	private OldMiTVLikeEntity entity;
 	private String nextBroadcastChannelId; 
 	private long nextBroadcastBegintimeMillis;
 	
-	public TVLike(){
+	public OldTVLike(){
 	}
 	
 	public void setLikeType(String likeType){
@@ -22,11 +22,11 @@ public class TVLike implements Parcelable{
 		return this.likeType;
 	}
 	
-	public void setEntity(MiTVLikeEntity entity){
+	public void setEntity(OldMiTVLikeEntity entity){
 		this.entity = entity;
 	}
 	
-	public MiTVLikeEntity getEntity(){
+	public OldMiTVLikeEntity getEntity(){
 		return this.entity;
 	}
 	
@@ -60,27 +60,27 @@ public class TVLike implements Parcelable{
 		dest.writeLong(nextBroadcastBegintimeMillis);
 	}
 	
-	public TVLike(Parcel in){
+	public OldTVLike(Parcel in){
 		likeType = in.readString();
-		entity = (MiTVLikeEntity) in.readParcelable(MiTVLikeEntity.class.getClassLoader());
+		entity = (OldMiTVLikeEntity) in.readParcelable(OldMiTVLikeEntity.class.getClassLoader());
 		nextBroadcastChannelId = in.readString();
 		nextBroadcastBegintimeMillis = in.readLong();
 	}
 	
-	public static final Parcelable.Creator<TVLike>	CREATOR	= new Parcelable.Creator<TVLike>() {
-		public TVLike createFromParcel(Parcel in) {
-			return new TVLike(in);
+	public static final Parcelable.Creator<OldTVLike>	CREATOR	= new Parcelable.Creator<OldTVLike>() {
+		public OldTVLike createFromParcel(Parcel in) {
+			return new OldTVLike(in);
 		}
 
-		public TVLike[] newArray(int size) {
-			return new TVLike[size];
+		public OldTVLike[] newArray(int size) {
+			return new OldTVLike[size];
 		}
 	};
 	
-	public static class MiTVLikeComparatorByTitle implements Comparator<TVLike> {
+	public static class MiTVLikeComparatorByTitle implements Comparator<OldTVLike> {
 
 		@Override
-		public int compare(TVLike a, TVLike b) {
+		public int compare(OldTVLike a, OldTVLike b) {
 			return a.getEntity().getTitle().compareTo(b.getEntity().getTitle());
 		}
 	}

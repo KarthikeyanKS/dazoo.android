@@ -32,10 +32,10 @@ import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.adapters.ActionBarDropDownDateListAdapter;
 import com.mitv.adapters.ChannelPageListAdapter;
 import com.mitv.manager.ApiClient;
-import com.mitv.model.Broadcast;
-import com.mitv.model.TVChannel;
-import com.mitv.model.TVChannelGuide;
-import com.mitv.model.TVDate;
+import com.mitv.model.OldBroadcast;
+import com.mitv.model.OldTVChannel;
+import com.mitv.model.OldTVChannelGuide;
+import com.mitv.model.OldTVDate;
 import com.mitv.storage.MiTVStore;
 import com.mitv.utilities.DateUtilities;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -54,11 +54,11 @@ public class ChannelPageActivity extends BaseActivity implements OnClickListener
 	private ImageView							mChannelIconIv;
 	private ChannelPageListAdapter				mFollowingBroadcastsListAdapter;
 	private String								mChannelId, mDate, mTvGuideDate, token;
-	private TVDate								mTvDateSelected, mDateTvGuide;
-	private TVChannelGuide								mChannelGuide;
-	private TVChannel								mChannel;
-	private ArrayList<Broadcast>				mBroadcasts, mFollowingBroadcasts;
-	private ArrayList<TVDate>					mTvDates;
+	private OldTVDate								mTvDateSelected, mDateTvGuide;
+	private OldTVChannelGuide								mChannelGuide;
+	private OldTVChannel								mChannel;
+	private ArrayList<OldBroadcast>				mBroadcasts, mFollowingBroadcasts;
+	private ArrayList<OldTVDate>					mTvDates;
 	private int									mSelectedIndex	= -1, mIndexOfNearestBroadcast, mHour;
 	private MiTVStore							mitvStore;
 	private boolean								mIsLoggedIn		= false, mIsReady = false, mFirstHit = true, mIsToday = false;
@@ -124,7 +124,7 @@ public class ChannelPageActivity extends BaseActivity implements OnClickListener
 				
 				mBroadcasts = mChannelGuide.getBroadcasts();
 				mFollowingBroadcasts = null;
-				mFollowingBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());
+				mFollowingBroadcasts = OldBroadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());
 				setFollowingBroadcasts();
 				updateUI(REQUEST_STATUS.SUCCESSFUL);
 			}
@@ -159,13 +159,13 @@ public class ChannelPageActivity extends BaseActivity implements OnClickListener
 		if (mChannelGuide != null) {
 			mBroadcasts = mChannelGuide.getBroadcasts();
 			if (mIsToday) {
-				mIndexOfNearestBroadcast = Broadcast.getClosestBroadcastIndexFromTime(mBroadcasts, mHour, mTvDateSelected);
+				mIndexOfNearestBroadcast = OldBroadcast.getClosestBroadcastIndexFromTime(mBroadcasts, mHour, mTvDateSelected);
 			} else {
 				mIndexOfNearestBroadcast = 0;
 			}
 			if (mIndexOfNearestBroadcast >= 0) {
 				mFollowingBroadcasts = null;
-				mFollowingBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());
+				mFollowingBroadcasts = OldBroadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());
 			}
 			setFollowingBroadcasts();
 			
@@ -347,9 +347,9 @@ public class ChannelPageActivity extends BaseActivity implements OnClickListener
 	protected void loadPage() {
 		ImageAware imageAware = new ImageViewAware(mChannelIconIv, false);
 		ImageLoader.getInstance().displayImage(mChannelGuide.getImageUrl(), imageAware);
-		mIndexOfNearestBroadcast = Broadcast.getClosestBroadcastIndex(mBroadcasts);
+		mIndexOfNearestBroadcast = OldBroadcast.getClosestBroadcastIndex(mBroadcasts);
 		if (mIndexOfNearestBroadcast >= 0) {
-			mFollowingBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());
+			mFollowingBroadcasts = OldBroadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());
 			setFollowingBroadcasts();
 		}
 	}

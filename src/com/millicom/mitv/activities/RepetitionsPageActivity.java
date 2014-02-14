@@ -18,8 +18,8 @@ import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.adapters.RepetitionsListAdapter;
-import com.mitv.model.Broadcast;
-import com.mitv.model.Program;
+import com.mitv.model.OldBroadcast;
+import com.mitv.model.OldProgram;
 
 public class RepetitionsPageActivity extends BaseActivity implements OnClickListener {
 
@@ -29,9 +29,9 @@ public class RepetitionsPageActivity extends BaseActivity implements OnClickList
 	private ActionBar				mActionBar;
 	private ListView				mListView;
 	private RepetitionsListAdapter	mAdapter;
-	private ArrayList<Broadcast>	mRepeatingBroadcasts	= new ArrayList<Broadcast>();
-	private Program					mRepeatingProgram;
-	private Broadcast				mRunningBroadcast;
+	private ArrayList<OldBroadcast>	mRepeatingBroadcasts	= new ArrayList<OldBroadcast>();
+	private OldProgram					mRepeatingProgram;
+	private OldBroadcast				mRunningBroadcast;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

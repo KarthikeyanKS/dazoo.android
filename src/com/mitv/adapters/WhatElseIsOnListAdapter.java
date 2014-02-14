@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.mitv.Consts;
 import com.mitv.R;
-import com.mitv.model.Broadcast;
+import com.mitv.model.OldBroadcast;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -27,9 +27,9 @@ public class WhatElseIsOnListAdapter extends BaseAdapter {
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
-	private ArrayList<Broadcast>	mFollowingEpisodes;
+	private ArrayList<OldBroadcast>	mFollowingEpisodes;
 
-	public WhatElseIsOnListAdapter(Activity activity, ArrayList<Broadcast> followingBroadcasts) {
+	public WhatElseIsOnListAdapter(Activity activity, ArrayList<OldBroadcast> followingBroadcasts) {
 		this.mFollowingEpisodes = followingBroadcasts;
 		this.mActivity = activity;
 	}
@@ -42,7 +42,7 @@ public class WhatElseIsOnListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public Broadcast getItem(int position) {
+	public OldBroadcast getItem(int position) {
 		if (mFollowingEpisodes != null) {
 			return mFollowingEpisodes.get(position);
 		} else return null;
@@ -57,7 +57,7 @@ public class WhatElseIsOnListAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 
-		final Broadcast broadcast = getItem(position);
+		final OldBroadcast broadcast = getItem(position);
 
 		if (rowView == null) {
 			mLayoutInflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

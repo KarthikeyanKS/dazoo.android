@@ -1,26 +1,26 @@
 package com.mitv.storage;
 
-import com.mitv.model.TVTag;
-import com.mitv.model.TVDate;
+import com.mitv.model.OldTVTag;
+import com.mitv.model.OldTVDate;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 public class BroadcastKey implements Parcelable{
 
-	TVDate date;
-	TVTag tag;
+	OldTVDate date;
+	OldTVTag tag;
 	
 	public BroadcastKey(){
 	}
 
 	// Date component
 	
-	public void setDate(TVDate date){
+	public void setDate(OldTVDate date){
 		this.date = date;
 	}
 	
-	public TVDate getDate(){
+	public OldTVDate getDate(){
 		return this.date;
 	}
 	
@@ -38,11 +38,11 @@ public class BroadcastKey implements Parcelable{
 	
 	// Tag component
 	
-	public void setTag(TVTag tag){
+	public void setTag(OldTVTag tag){
 		this.tag = tag;
 	}
 	
-	public TVTag getTag(){
+	public OldTVTag getTag(){
 		return this.tag;
 	}
 	
@@ -62,8 +62,8 @@ public class BroadcastKey implements Parcelable{
 	}
 	
 	public BroadcastKey(Parcel in){
-		date = (TVDate) in.readParcelable(TVDate.class.getClassLoader());
-		tag = (TVTag) in.readParcelable(TVTag.class.getClassLoader());
+		date = (OldTVDate) in.readParcelable(OldTVDate.class.getClassLoader());
+		tag = (OldTVTag) in.readParcelable(OldTVTag.class.getClassLoader());
 	}
 	
 	

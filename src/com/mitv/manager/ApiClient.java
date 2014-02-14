@@ -32,11 +32,11 @@ import com.mitv.content.SSPageCallback;
 import com.mitv.content.SSPageGetResult;
 import com.mitv.content.SSTagsPage;
 import com.mitv.content.SSTvDatePage;
-import com.mitv.model.Broadcast;
-import com.mitv.model.TVChannel;
-import com.mitv.model.TVChannelGuide;
-import com.mitv.model.TVTag;
-import com.mitv.model.TVDate;
+import com.mitv.model.OldBroadcast;
+import com.mitv.model.OldTVChannel;
+import com.mitv.model.OldTVChannelGuide;
+import com.mitv.model.OldTVTag;
+import com.mitv.model.OldTVDate;
 import com.mitv.storage.MiTVStore;
 import com.mitv.storage.MiTVStoreOperations;
 
@@ -116,7 +116,7 @@ public class ApiClient
 	
 	private void getTags() 
 	{
-		ArrayList<TVTag> tags = MiTVStore.getInstance().getTags();
+		ArrayList<OldTVTag> tags = MiTVStore.getInstance().getTags();
 		
 		if (tags == null || tags.isEmpty()) 
 		{
@@ -135,7 +135,7 @@ public class ApiClient
 	
 	private void getDates() 
 	{
-		ArrayList<TVDate> tvDates = MiTVStore.getInstance().getTvDates();
+		ArrayList<OldTVDate> tvDates = MiTVStore.getInstance().getTvDates();
 		
 		if (tvDates == null || tvDates.isEmpty()) 
 		{
@@ -154,7 +154,7 @@ public class ApiClient
 	
 	private void getChannels() 
 	{
-		HashMap<String, TVChannel> channels = MiTVStore.getInstance().getChannels();
+		HashMap<String, OldTVChannel> channels = MiTVStore.getInstance().getChannels();
 		
 		if (channels == null || channels.isEmpty()) 
 		{	
@@ -183,20 +183,20 @@ public class ApiClient
 	
 	
 	// prepare tagged broadcasts for the specific date
-	private static boolean prepareTaggedContent(TVDate date) 
+	private static boolean prepareTaggedContent(OldTVDate date) 
 	{
-		ArrayList<TVTag> tags = MiTVStore.getInstance().getTags();
+		ArrayList<OldTVTag> tags = MiTVStore.getInstance().getTags();
 		
 		if (tags != null && 
 			tags.isEmpty() != true) 
 		{
-			ArrayList<TVChannelGuide> channelGuides = MiTVStore.getInstance().getChannelGuides();
+			ArrayList<OldTVChannelGuide> channelGuides = MiTVStore.getInstance().getChannelGuides();
 			
 			if (channelGuides != null && channelGuides.isEmpty() != true) 
 			{
-				for (TVTag tag : tags)
+				for (OldTVTag tag : tags)
 				{
-					ArrayList<Broadcast> taggedBroadcasts = null;
+					ArrayList<OldBroadcast> taggedBroadcasts = null;
 					
 					taggedBroadcasts = MiTVStoreOperations.getTaggedBroadcasts(date.getDate(), tag);
 					
@@ -219,7 +219,7 @@ public class ApiClient
 			SSTvDatePage.getInstance().getPage(new SSPageCallback() {
 				@Override
 				public void onGetPageResult(SSPageGetResult aPageGetResult) {
-					ArrayList<TVDate> tvDates =  SSTvDatePage.getInstance().getTvDates();
+					ArrayList<OldTVDate> tvDates =  SSTvDatePage.getInstance().getTvDates();
 
 					if (tvDates != null && tvDates.isEmpty() != true) {
 						Log.d(TAG, "Dates: " + tvDates.size());
@@ -251,14 +251,14 @@ public class ApiClient
 				@Override
 				public void onGetPageResult(SSPageGetResult aPageGetResult) 
 				{
-					ArrayList<TVTag> tags = SSTagsPage.getInstance().getTags();
+					ArrayList<OldTVTag> tags = SSTagsPage.getInstance().getTags();
 
 					if (tags != null && tags.isEmpty() != true) 
 					{
 						Log.d(TAG, "Tags: " + tags.size());
 
 						// insert general Tag category in the list
-						TVTag tagAll = new TVTag();
+						OldTVTag tagAll = new OldTVTag();
 						tagAll.setId(mContext.getResources().getString(R.string.all_categories_id));
 						tagAll.setName(mContext.getResources().getString(R.string.all_categories_name));
 						tags.add(0, tagAll);
@@ -295,7 +295,7 @@ public class ApiClient
 				@Override
 				public void onGetPageResult(SSPageGetResult aPageGetResult) 
 				{
-					ArrayList<TVChannel> channels = SSChannelPage.getInstance().getChannels();
+					ArrayList<OldTVChannel> channels = SSChannelPage.getInstance().getChannels();
 
 					if (channels != null && channels.isEmpty() != true)
 					{
@@ -393,10 +393,10 @@ public class ApiClient
 	// task to get the tvguide for all the channels
 	private static class GetGuideTask extends AsyncTask<Context, String, Void> 
 	{
-		private TVDate	mDate;
+		private OldTVDate	mDate;
 		private boolean	mIsChannel;
 
-		public GetGuideTask(TVDate date, boolean isChannel) 
+		public GetGuideTask(OldTVDate date, boolean isChannel) 
 		{
 			this.mDate = date;
 			this.mIsChannel = isChannel;
@@ -427,7 +427,7 @@ public class ApiClient
 				@Override
 				public void onGetPageResult(SSPageGetResult aPageGetResult) 
 				{
-					ArrayList<TVChannelGuide> channelGuides = SSGuidePage.getInstance().getGuide();
+					ArrayList<OldTVChannelGuide> channelGuides = SSGuidePage.getInstance().getGuide();
 					
 					if (channelGuides != null && channelGuides.isEmpty() != true)
 					{
@@ -486,9 +486,9 @@ public class ApiClient
 		
 		if (mHasFetchedTvDate && mHasFetchedTags && mHasFetchedChannels) 
 		{
-			ArrayList<TVDate> tvDates = MiTVStore.getInstance().getTvDates();
+			ArrayList<OldTVDate> tvDates = MiTVStore.getInstance().getTvDates();
 			
-			TVDate date = tvDates.get(dateIndex);
+			OldTVDate date = tvDates.get(dateIndex);
 			
 			if(mShouldRefreshGuide)
 			{
@@ -513,16 +513,16 @@ public class ApiClient
 		}
 	}
 
-	public static boolean filterGuideByTag(TVDate tvDate, TVTag tag) {
-		ArrayList<Broadcast> taggedBroadcasts = MiTVStoreOperations.getTaggedBroadcasts(tvDate.getDate(), tag);
+	public static boolean filterGuideByTag(OldTVDate tvDate, OldTVTag tag) {
+		ArrayList<OldBroadcast> taggedBroadcasts = MiTVStoreOperations.getTaggedBroadcasts(tvDate.getDate(), tag);
 		if (taggedBroadcasts != null && taggedBroadcasts.isEmpty() != true) {
 			MiTVStoreOperations.saveTaggedBroadcast(tvDate, tag, taggedBroadcasts);
 			return true;
 		} else return false;
 	}
 
-	public static boolean filterGuides(TVDate tvDate, int count) {
-		ArrayList<TVTag> tags = MiTVStore.getInstance().getTags();
+	public static boolean filterGuides(OldTVDate tvDate, int count) {
+		ArrayList<OldTVTag> tags = MiTVStore.getInstance().getTags();
 		boolean result = false;
 		for (int i = 1; i < count; i++) {
 			filterGuideByTag(tvDate, tags.get(i));

@@ -30,18 +30,18 @@ import com.mitv.handlers.SearchActivityListeners;
 import com.mitv.http.MiTVCallback;
 import com.mitv.http.SSHttpClient;
 import com.mitv.manager.FontManager;
-import com.mitv.model.Broadcast;
-import com.mitv.model.Program;
-import com.mitv.model.SearchResult;
-import com.mitv.model.SearchResultItem;
-import com.mitv.model.Series;
-import com.mitv.model.TVChannel;
+import com.mitv.model.OldBroadcast;
+import com.mitv.model.OldProgram;
+import com.mitv.model.OldSearchResult;
+import com.mitv.model.OldSearchResultItem;
+import com.mitv.model.OldSeries;
+import com.mitv.model.OldTVChannel;
 import com.mitv.utilities.CustomTypefaceSpan;
 
-public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implements Filterable {
+public class SearchPageListAdapter extends ArrayAdapter<OldSearchResultItem> implements Filterable {
 	private static final String TAG = "SearchListAdapter";
 	
-	private ArrayList<SearchResultItem> mSearchResultItems;
+	private ArrayList<OldSearchResultItem> mSearchResultItems;
 	private String mQuery;
 	private String mLastSearch = "";
 	private Context mContext;
@@ -76,8 +76,8 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 	
 
 	@Override
-	public SearchResultItem getItem(int position) {
-		SearchResultItem item = null;
+	public OldSearchResultItem getItem(int position) {
+		OldSearchResultItem item = null;
 		if(mSearchResultItems != null) {
 			if(mSearchResultItems.size() > 0) {
 				item = mSearchResultItems.get(position);
@@ -91,18 +91,18 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		return -1;
 	}
 	
-	public ArrayList<SearchResultItem> getSearchResultItems() {
+	public ArrayList<OldSearchResultItem> getSearchResultItems() {
 		return mSearchResultItems;
 	}
 
-	public void setSearchResultItems(ArrayList<SearchResultItem> searchResultItems) {
+	public void setSearchResultItems(ArrayList<OldSearchResultItem> searchResultItems) {
 		this.mSearchResultItems = searchResultItems;
 	}
 	
 
 	
-	private void setTimeString(ViewHolder viewHolder, SearchResultItem resultItem) {
-		Broadcast closestBroadcastInTime = resultItem.getNextBroadcast();
+	private void setTimeString(ViewHolder viewHolder, OldSearchResultItem resultItem) {
+		OldBroadcast closestBroadcastInTime = resultItem.getNextBroadcast();
 
 
 		String timeString = "";
@@ -177,7 +177,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		setTitleString(viewHolder, title, mQuery);
 	}
 		
-	private void populateProgramView(ViewHolder viewHolder, SearchResultItem resultItem, Program program) {
+	private void populateProgramView(ViewHolder viewHolder, OldSearchResultItem resultItem, OldProgram program) {
 		String programType = program.getProgramType();
 		
 		if(programType.equals(Consts.PROGRAM_TYPE_TV_EPISODE)) {
@@ -202,7 +202,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		setTimeString(viewHolder, resultItem);
 	}
 		
-	private void populateSeriesView(ViewHolder viewHolder, SearchResultItem resultItem, Series series) {
+	private void populateSeriesView(ViewHolder viewHolder, OldSearchResultItem resultItem, OldSeries series) {
 		viewHolder.mType.setText(mContext.getString(R.string.search_result_series));
 		
 		String title = series.getName();
@@ -211,7 +211,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		setTimeString(viewHolder, resultItem);
 	}
 	
-	private void populateChannelView(ViewHolder viewHolder, TVChannel channel) {
+	private void populateChannelView(ViewHolder viewHolder, OldTVChannel channel) {
 		viewHolder.mType.setText(mContext.getString(R.string.search_result_channel));
 		
 		String title = channel.getName();
@@ -239,22 +239,22 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 
 		if (mSearchResultItems != null && mSearchResultItems.size() > 0) {
 			holder.mMetaDataContainer.setVisibility(View.VISIBLE);
-			SearchResultItem resultItem = getItem(position);
+			OldSearchResultItem resultItem = getItem(position);
 
 			ContentTypeEnum type = resultItem.getEntityType();
 			switch (type) {
 			case PROGRAM: {
-				Program program = (Program) resultItem.getEntity();
+				OldProgram program = (OldProgram) resultItem.getEntity();
 				populateProgramView(holder, resultItem, program);
 				break;
 			}
 			case SERIES: {
-				Series series = (Series) resultItem.getEntity();
+				OldSeries series = (OldSeries) resultItem.getEntity();
 				populateSeriesView(holder, resultItem, series);
 				break;
 			}
 			case CHANNEL: {
-				TVChannel channel = (TVChannel) resultItem.getEntity();
+				OldTVChannel channel = (OldTVChannel) resultItem.getEntity();
 				populateChannelView(holder, channel);
 				break;
 			}
@@ -315,7 +315,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		return filter;
 	}
 	
-	public ArrayList<SearchResultItem> autocomplete(String q) {
+	public ArrayList<OldSearchResultItem> autocomplete(String q) {
 
 		
 		
@@ -372,8 +372,8 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 			e.printStackTrace();
 		}
 		
-		SearchResult searchResult = new SearchResult(jsonFromString); //gson.fromJson(result, SearchResult.class);
-		ArrayList<SearchResultItem> resultItems = searchResult.getItems();
+		OldSearchResult searchResult = new OldSearchResult(jsonFromString); //gson.fromJson(result, SearchResult.class);
+		ArrayList<OldSearchResultItem> resultItems = searchResult.getItems();
 		
 		((SearchPageActivity)mContext).runOnUiThread(new Runnable() {
 			@Override

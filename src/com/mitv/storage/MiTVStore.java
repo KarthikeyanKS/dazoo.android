@@ -10,13 +10,13 @@ import java.util.Map.Entry;
 
 import android.util.SparseArray;
 
-import com.mitv.model.AdzerkAd;
-import com.mitv.model.Broadcast;
-import com.mitv.model.TVChannel;
-import com.mitv.model.TVFeedItem;
-import com.mitv.model.TVChannelGuide;
-import com.mitv.model.TVTag;
-import com.mitv.model.TVDate;
+import com.mitv.model.OldAdzerkAd;
+import com.mitv.model.OldBroadcast;
+import com.mitv.model.OldTVChannel;
+import com.mitv.model.OldTVFeedItem;
+import com.mitv.model.OldTVChannelGuide;
+import com.mitv.model.OldTVTag;
+import com.mitv.model.OldTVDate;
 
 
 
@@ -25,23 +25,23 @@ public class MiTVStore
 	@SuppressWarnings("unused")
 	private static final String							TAG					= "MiTVStore";
 
-	private ArrayList<TVDate>							mTvDates			= new ArrayList<TVDate>();
+	private ArrayList<OldTVDate>							mTvDates			= new ArrayList<OldTVDate>();
 
 	private ArrayList<String>							mChannelIds			= new ArrayList<String>();
 	private Calendar									mChannelIdsFetchTimestamp = null;	
 	
-	private HashMap<String, TVChannel>					mChannels			= new HashMap<String, TVChannel>();
+	private HashMap<String, OldTVChannel>					mChannels			= new HashMap<String, OldTVChannel>();
 
-	private ArrayList<TVTag>								mTags				= new ArrayList<TVTag>();
-	private HashMap<String, SparseArray<AdzerkAd>> 		mFragmentToAdsMap 	= new HashMap<String, SparseArray<AdzerkAd>>();
-	private HashMap<GuideKey, TVChannelGuide>				mChannelGuides				= new HashMap<GuideKey, TVChannelGuide>();
-	private HashMap<BroadcastKey, ArrayList<Broadcast>>	mTaggedBroadcasts	= new HashMap<BroadcastKey, ArrayList<Broadcast>>();
+	private ArrayList<OldTVTag>								mTags				= new ArrayList<OldTVTag>();
+	private HashMap<String, SparseArray<OldAdzerkAd>> 		mFragmentToAdsMap 	= new HashMap<String, SparseArray<OldAdzerkAd>>();
+	private HashMap<GuideKey, OldTVChannelGuide>				mChannelGuides				= new HashMap<GuideKey, OldTVChannelGuide>();
+	private HashMap<BroadcastKey, ArrayList<OldBroadcast>>	mTaggedBroadcasts	= new HashMap<BroadcastKey, ArrayList<OldBroadcast>>();
 
 	private ArrayList<String>							mLikeIds			= new ArrayList<String>();
 	private Calendar									mLikeIdsFetchTimestamp = null;	
 
-	private ArrayList<TVFeedItem>							mActivityFeed		= new ArrayList<TVFeedItem>();
-	private ArrayList<Broadcast>						mPopularFeed		= new ArrayList<Broadcast>();
+	private ArrayList<OldTVFeedItem>							mActivityFeed		= new ArrayList<OldTVFeedItem>();
+	private ArrayList<OldBroadcast>						mPopularFeed		= new ArrayList<OldBroadcast>();
 	private boolean mMyIdsSet = false;
 
 	
@@ -68,15 +68,15 @@ public class MiTVStore
 	}
 
 	// tags
-	public void setTags(ArrayList<TVTag> tags) {
+	public void setTags(ArrayList<OldTVTag> tags) {
 		this.mTags = tags;
 	}
 
-	public ArrayList<TVTag> getTags() {
+	public ArrayList<OldTVTag> getTags() {
 		return this.mTags;
 	}
 
-	public TVTag getTag(String tagName) {
+	public OldTVTag getTag(String tagName) {
 		int size = mTags.size();
 		for (int i = 0; i < size; i++) {
 			if (mTags.get(i).getName().equals(tagName)) {
@@ -87,15 +87,15 @@ public class MiTVStore
 	}
 
 	// dates
-	public void setTvDates(ArrayList<TVDate> tvDates) {
+	public void setTvDates(ArrayList<OldTVDate> tvDates) {
 		this.mTvDates = tvDates;
 	}
 
-	public ArrayList<TVDate> getTvDates() {
+	public ArrayList<OldTVDate> getTvDates() {
 		return this.mTvDates;
 	}
 
-	public TVDate getDate(String dateRepresentation) {
+	public OldTVDate getDate(String dateRepresentation) {
 		int size = mTvDates.size();
 		for (int i = 0; i < size; i++) {
 			if (mTvDates.get(i).getDate().equals(dateRepresentation)) {
@@ -116,7 +116,7 @@ public class MiTVStore
 	}
 
 	// channels
-	public void setChannels(HashMap<String, TVChannel> channels) {
+	public void setChannels(HashMap<String, OldTVChannel> channels) {
 		this.mChannels = channels;
 	}
 
@@ -125,16 +125,16 @@ public class MiTVStore
 	/*
 	 * Returns all channels when the user is not logged in and the user channels when the user is logged in
 	 */
-	public HashMap<String, TVChannel> getChannels()
+	public HashMap<String, OldTVChannel> getChannels()
 	{
 		return this.mChannels;
 	}
 
 	
 
-	public TVChannel getChannelById(String channelId) 
+	public OldTVChannel getChannelById(String channelId) 
 	{
-		for (Entry<String, TVChannel> entry : mChannels.entrySet()) 
+		for (Entry<String, OldTVChannel> entry : mChannels.entrySet()) 
 		{
 			if (entry.getKey().equals(channelId)) 
 			{
@@ -190,32 +190,32 @@ public class MiTVStore
 	}
 
 	// guide
-	public void setGuides(HashMap<GuideKey, TVChannelGuide> guides) {
+	public void setGuides(HashMap<GuideKey, OldTVChannelGuide> guides) {
 		this.mChannelGuides = guides;
 	}
 
-	public HashMap<GuideKey, TVChannelGuide> getGuides() {
+	public HashMap<GuideKey, OldTVChannelGuide> getGuides() {
 		return this.mChannelGuides;
 	}
 	
 	
 	
-	public ArrayList<TVChannelGuide> getChannelGuides() 
+	public ArrayList<OldTVChannelGuide> getChannelGuides() 
 	{
-		ArrayList<TVChannelGuide> channelGuides = new ArrayList<TVChannelGuide>(mChannelGuides.values());
+		ArrayList<OldTVChannelGuide> channelGuides = new ArrayList<OldTVChannelGuide>(mChannelGuides.values());
 		
 		return channelGuides;
 	}
 
 
 	
-	public ArrayList<TVChannelGuide> getChannelGuides(String tvDate) 
+	public ArrayList<OldTVChannelGuide> getChannelGuides(String tvDate) 
 	{
-		ArrayList<TVChannelGuide> guideTable = new ArrayList<TVChannelGuide>();
+		ArrayList<OldTVChannelGuide> guideTable = new ArrayList<OldTVChannelGuide>();
 		
 		for (String channelId : mChannelIds) 
 		{
-			TVChannelGuide guide = getChannelGuide(tvDate, channelId);
+			OldTVChannelGuide guide = getChannelGuide(tvDate, channelId);
 			
 			if (guide != null) 
 			{
@@ -228,13 +228,13 @@ public class MiTVStore
 	
 	
 	
-	public TVChannelGuide getChannelGuide(String tvDate, String channelId)
+	public OldTVChannelGuide getChannelGuide(String tvDate, String channelId)
 	{
 		GuideKey currentKey = new GuideKey();
 		currentKey.setDate(tvDate);
 		currentKey.setChannelId(channelId);
 
-		for (Entry<GuideKey, TVChannelGuide> entry : mChannelGuides.entrySet()) 
+		for (Entry<GuideKey, OldTVChannelGuide> entry : mChannelGuides.entrySet()) 
 		{
 			if ((entry.getKey().getChannelId().equals(currentKey.getChannelId())) & (entry.getKey().getDate().equals(currentKey.getDate())))
 			{
@@ -260,20 +260,20 @@ public class MiTVStore
 	
 	
 	// broadcasts
-	public void setBroadcastsList(HashMap<BroadcastKey, ArrayList<Broadcast>> taggedBroadcasts) {
+	public void setBroadcastsList(HashMap<BroadcastKey, ArrayList<OldBroadcast>> taggedBroadcasts) {
 		this.mTaggedBroadcasts = taggedBroadcasts;
 	}
 
-	public HashMap<BroadcastKey, ArrayList<Broadcast>> getBroadcastsList() {
+	public HashMap<BroadcastKey, ArrayList<OldBroadcast>> getBroadcastsList() {
 		return this.mTaggedBroadcasts;
 	}
 
-	public ArrayList<Broadcast> getTaggedBroadcasts(TVDate date, TVTag tag) {
+	public ArrayList<OldBroadcast> getTaggedBroadcasts(OldTVDate date, OldTVTag tag) {
 		BroadcastKey broadcastKey = new BroadcastKey();
 		broadcastKey.setDate(date);
 		broadcastKey.setTag(tag);
 
-		for (Entry<BroadcastKey, ArrayList<Broadcast>> entry : mTaggedBroadcasts.entrySet()) {
+		for (Entry<BroadcastKey, ArrayList<OldBroadcast>> entry : mTaggedBroadcasts.entrySet()) {
 
 			if (entry.getKey().getDate().getDate().equals(broadcastKey.getDate().getDate()) && entry.getKey().getTag().getName().equals(broadcastKey.getTag().getName())) {
 				return entry.getValue();
@@ -282,9 +282,9 @@ public class MiTVStore
 		return null;
 	}
 
-	public Broadcast getBroadcast(String date, String channelId, long beginTimeInMillis) {
-		TVChannelGuide channelGuide = getChannelGuide(date, channelId);
-		ArrayList<Broadcast> channelBroadcasts = channelGuide.getBroadcasts();
+	public OldBroadcast getBroadcast(String date, String channelId, long beginTimeInMillis) {
+		OldTVChannelGuide channelGuide = getChannelGuide(date, channelId);
+		ArrayList<OldBroadcast> channelBroadcasts = channelGuide.getBroadcasts();
 		int size = channelBroadcasts.size();
 
 		for (int i = 0; i < size; i++) {
@@ -297,29 +297,29 @@ public class MiTVStore
 	}
 
 	// activity feed
-	public void setActivityFeed(ArrayList<TVFeedItem> activityFeed) {
+	public void setActivityFeed(ArrayList<OldTVFeedItem> activityFeed) {
 		this.mActivityFeed = activityFeed;
 	}
 
-	public ArrayList<TVFeedItem> getActivityFeed() {
+	public ArrayList<OldTVFeedItem> getActivityFeed() {
 		return this.mActivityFeed;
 	}
 
 	public void reinitializeFeed() {
 		this.mActivityFeed.clear();
-		this.mActivityFeed = new ArrayList<TVFeedItem>();
+		this.mActivityFeed = new ArrayList<OldTVFeedItem>();
 	}
 
-	public void addItemsToActivityFeed(ArrayList<TVFeedItem> newItems) {
+	public void addItemsToActivityFeed(ArrayList<OldTVFeedItem> newItems) {
 		this.mActivityFeed.addAll(newItems);
 	}
 	
 	// popular feed
-	public void setPopularFeed(ArrayList<Broadcast> popularFeed){
+	public void setPopularFeed(ArrayList<OldBroadcast> popularFeed){
 		this.mPopularFeed = popularFeed;
 	}
 	
-	public ArrayList<Broadcast> getPopularFeed(){
+	public ArrayList<OldBroadcast> getPopularFeed(){
 		return this.mPopularFeed;
 	}
 
@@ -375,14 +375,14 @@ public class MiTVStore
 	
 	public void addAdsForFragment(
 			String fragmentName, 
-			SparseArray<AdzerkAd> adItems) 
+			SparseArray<OldAdzerkAd> adItems) 
 	{
 		mFragmentToAdsMap.put(fragmentName, adItems);
 	}
 	
 	
 	
-	public SparseArray<AdzerkAd> getAdsForFragment(String fragmentName) 
+	public SparseArray<OldAdzerkAd> getAdsForFragment(String fragmentName) 
 	{
 		return mFragmentToAdsMap.get(fragmentName);
 	}

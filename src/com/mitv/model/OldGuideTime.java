@@ -1,11 +1,11 @@
 package com.mitv.model;
 
 
-public class GuideTime implements Comparable<GuideTime> {
+public class OldGuideTime implements Comparable<OldGuideTime> {
 
 	private int	timeOfDay;
 
-	public GuideTime() {
+	public OldGuideTime() {
 	}
 
 	public void setTimeOfDay(int timeOfDay) {
@@ -17,7 +17,7 @@ public class GuideTime implements Comparable<GuideTime> {
 	}
 
 	@Override
-	public int compareTo(GuideTime guideTime) {
+	public int compareTo(OldGuideTime guideTime) {
 		int otherTimeOfDay = guideTime.getTimeOfDay();
 		if (this.timeOfDay == otherTimeOfDay) {
 			return 1;

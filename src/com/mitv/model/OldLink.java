@@ -6,12 +6,12 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-public class Link implements Parcelable {
+public class OldLink implements Parcelable {
 
 	private static final String TAG = "Link";
 	public String		url;
 	
-	public Link() {
+	public OldLink() {
 	}
 
 	public void setUrl(String URL){
@@ -22,11 +22,11 @@ public class Link implements Parcelable {
 		return url;
 	}
 	
-	public Link(JSONObject aJsonObject) throws Exception {
+	public OldLink(JSONObject aJsonObject) throws Exception {
 		setUrl(aJsonObject.getString("href"));
 	}
 
-	public Link(Parcel in) {
+	public OldLink(Parcel in) {
 		url = in.readString();
 	}
 
@@ -35,15 +35,15 @@ public class Link implements Parcelable {
 		return 0;
 	}
 
-	public static final Parcelable.Creator<Link>	CREATOR	= new Parcelable.Creator<Link>() {
+	public static final Parcelable.Creator<OldLink>	CREATOR	= new Parcelable.Creator<OldLink>() {
 		@Override
-		public Link createFromParcel(Parcel in) {
-			return new Link(in);
+		public OldLink createFromParcel(Parcel in) {
+			return new OldLink(in);
 		}
 
 		@Override
-		public Link[] newArray(int size) {
-			return new Link[size];
+		public OldLink[] newArray(int size) {
+			return new OldLink[size];
 		}
 	};
 	

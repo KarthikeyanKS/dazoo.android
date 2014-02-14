@@ -3,11 +3,11 @@ package com.mitv.broadcastreceivers;
 import java.text.ParseException;
 import java.util.List;
 
-import com.mitv.model.Broadcast;
-import com.mitv.model.TVChannel;
-import com.mitv.model.NotificationDbItem;
-import com.mitv.model.Program;
-import com.mitv.model.Season;
+import com.mitv.model.OldBroadcast;
+import com.mitv.model.OldTVChannel;
+import com.mitv.model.OldNotificationDbItem;
+import com.mitv.model.OldProgram;
+import com.mitv.model.OldSeason;
 import com.mitv.notification.NotificationDataSource;
 import com.mitv.notification.NotificationService;
 import com.mitv.utilities.DateUtilities;
@@ -38,13 +38,13 @@ public class AlarmSetter extends BroadcastReceiver {
 	static void scheduleAlarms(Context context) {
 		// get the list of alarms
 		NotificationDataSource notificationDataSource = new NotificationDataSource(context);
-		List<NotificationDbItem> notificationList = notificationDataSource.getAllNotifications();
+		List<OldNotificationDbItem> notificationList = notificationDataSource.getAllNotifications();
 		
 		for(int i=0; i<notificationList.size(); i++){
 		
-			NotificationDbItem item = notificationList.get(i);
+			OldNotificationDbItem item = notificationList.get(i);
 			
-			Broadcast broadcast = new Broadcast();
+			OldBroadcast broadcast = new OldBroadcast();
 			broadcast.setBeginTimeStringGmt(item.getBroadcastBeginTimeStringLocal());
 			long beginTimeMillisGmt = Long.parseLong(item.getBroadcastBeginTimeInMillisGmtAsString());
 			broadcast.setBeginTimeMillisGmt(beginTimeMillisGmt);
@@ -59,12 +59,12 @@ public class AlarmSetter extends BroadcastReceiver {
 			broadcast.setTvDateString(tvDateString);
 			
 			
-			Program program = new Program();
+			OldProgram program = new OldProgram();
 			program.setProgramId(item.getProgramId());
 			program.setTitle(item.getProgramTitle());
 			program.setProgramType(item.getProgramType());
 			
-			Season season = new Season();
+			OldSeason season = new OldSeason();
 			season.setNumber(item.getProgramSeason());
 			
 			program.setSeason(season);
@@ -73,7 +73,7 @@ public class AlarmSetter extends BroadcastReceiver {
 			
 			broadcast.setProgram(program);
 			
-			TVChannel channel = new TVChannel();
+			OldTVChannel channel = new OldTVChannel();
 			channel.setChannelId(item.getChannelId());
 			channel.setName(item.getChannelName());
 			channel.setAllImageUrls(item.getChannelLogoUrl());

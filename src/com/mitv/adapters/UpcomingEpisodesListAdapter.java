@@ -21,9 +21,9 @@ import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.customviews.ReminderView;
 import com.mitv.handlers.NotificationDialogHandler;
-import com.mitv.model.Broadcast;
-import com.mitv.model.NotificationDbItem;
-import com.mitv.model.TVDate;
+import com.mitv.model.OldBroadcast;
+import com.mitv.model.OldNotificationDbItem;
+import com.mitv.model.OldTVDate;
 import com.mitv.notification.NotificationDataSource;
 import com.mitv.notification.NotificationService;
 import com.mitv.storage.MiTVStore;
@@ -36,26 +36,26 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
-	private ArrayList<Broadcast>	mUpcomingEpisodes;
+	private ArrayList<OldBroadcast>	mUpcomingEpisodes;
 	private NotificationDataSource	mNotificationDataSource;
 	private int						mLastPosition	= -1;
 	private int 					mNotificationId = -1;
 	private int 					mPosNotificationId[];
 	private boolean					mIsSet = false;
 	private boolean 				mPosIsSet[];
-	private Broadcast				mRunningBroadcast;
+	private OldBroadcast				mRunningBroadcast;
 
 	private MiTVStore				mitvStore;
-	private ArrayList<TVDate>		mTvDates;
+	private ArrayList<OldTVDate>		mTvDates;
 
 	private int reminderPosition;
 
-	public UpcomingEpisodesListAdapter(Activity activity, ArrayList<Broadcast> upcomingBroadcasts, Broadcast runningBroadcast) {
+	public UpcomingEpisodesListAdapter(Activity activity, ArrayList<OldBroadcast> upcomingBroadcasts, OldBroadcast runningBroadcast) {
 
 		boolean foundRunningBroadcast = false;
 		int indexOfRunningBroadcast = 0;
 		for (int i = 0; i < upcomingBroadcasts.size(); ++i) {
-			Broadcast repeatingBroadcast = upcomingBroadcasts.get(i);
+			OldBroadcast repeatingBroadcast = upcomingBroadcasts.get(i);
 			if (repeatingBroadcast.equals(mRunningBroadcast)) {
 				foundRunningBroadcast = true;
 				indexOfRunningBroadcast = i;
@@ -87,7 +87,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public Broadcast getItem(int position) {
+	public OldBroadcast getItem(int position) {
 		if (mUpcomingEpisodes != null) {
 			return mUpcomingEpisodes.get(position);
 		} else return null;
@@ -102,7 +102,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 
-		final Broadcast broadcast = getItem(position);
+		final OldBroadcast broadcast = getItem(position);
 		// Log.d(TAG, "broadcast: " + broadcast);
 
 		if (rowView == null) {

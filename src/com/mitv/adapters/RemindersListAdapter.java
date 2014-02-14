@@ -21,11 +21,11 @@ import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.handlers.NotificationDialogHandler;
 import com.mitv.interfaces.RemindersCountInterface;
-import com.mitv.model.Broadcast;
-import com.mitv.model.TVChannel;
-import com.mitv.model.NotificationDbItem;
-import com.mitv.model.Program;
-import com.mitv.model.TVDate;
+import com.mitv.model.OldBroadcast;
+import com.mitv.model.OldTVChannel;
+import com.mitv.model.OldNotificationDbItem;
+import com.mitv.model.OldProgram;
+import com.mitv.model.OldTVDate;
 import com.mitv.notification.NotificationDataSource;
 import com.mitv.storage.MiTVStore;
 
@@ -35,15 +35,15 @@ public class RemindersListAdapter extends BaseAdapter {
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
-	private ArrayList<Broadcast>	mBroadcasts;
+	private ArrayList<OldBroadcast>	mBroadcasts;
 	private RemindersCountInterface	mInterface;
 	private int						notificationId;
 	private int						currentPosition	= -1;
 
 	private MiTVStore				mitvStore;
-	private ArrayList<TVDate>		mTvDates;
+	private ArrayList<OldTVDate>		mTvDates;
 
-	public RemindersListAdapter(Activity mActivity, ArrayList<Broadcast> mBroadcasts, RemindersCountInterface remindersInterface) {
+	public RemindersListAdapter(Activity mActivity, ArrayList<OldBroadcast> mBroadcasts, RemindersCountInterface remindersInterface) {
 		this.mBroadcasts = mBroadcasts;
 		this.mActivity = mActivity;
 		this.mInterface = remindersInterface;
@@ -60,7 +60,7 @@ public class RemindersListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public Broadcast getItem(int position) {
+	public OldBroadcast getItem(int position) {
 		if (mBroadcasts != null) {
 			return mBroadcasts.get(position);
 		} else return null;
@@ -100,10 +100,10 @@ public class RemindersListAdapter extends BaseAdapter {
 
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
 
-		final Broadcast broadcast = getItem(position);
+		final OldBroadcast broadcast = getItem(position);
 		if (broadcast != null) {
-			final TVChannel channel = broadcast.getChannel();
-			Program program = broadcast.getProgram();
+			final OldTVChannel channel = broadcast.getChannel();
+			OldProgram program = broadcast.getProgram();
 
 			// If first or the previous broadcast is not the same date, show header.
 			holder.mHeaderContainer.setVisibility(View.GONE);
@@ -112,8 +112,8 @@ public class RemindersListAdapter extends BaseAdapter {
 			int prevPos = Math.max(position - 1, 0);
 
 			int nextPos = Math.min(position + 1, (mBroadcasts.size() - 1));
-			Broadcast broadcastPreviousPosition = getItem(prevPos);
-			Broadcast broadcastNextPosition = getItem(nextPos);
+			OldBroadcast broadcastPreviousPosition = getItem(prevPos);
+			OldBroadcast broadcastNextPosition = getItem(nextPos);
 
 			String stringCurrent = broadcast.getBeginTimeStringLocalDayMonth();
 			String stringPrevious = broadcastPreviousPosition.getBeginTimeStringLocalDayMonth();
@@ -188,7 +188,7 @@ public class RemindersListAdapter extends BaseAdapter {
 
 					NotificationDataSource notificationDataSource = new NotificationDataSource(mActivity);
 
-					NotificationDbItem notificationDbItem = new NotificationDbItem();
+					OldNotificationDbItem notificationDbItem = new OldNotificationDbItem();
 					notificationDbItem = notificationDataSource.getNotification(channel.getChannelId(), Long.valueOf(broadcast.getBeginTimeMillisGmt()));
 					if (notificationDbItem != null) {
 						notificationId = notificationDbItem.getNotificationId();

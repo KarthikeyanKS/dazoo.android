@@ -1,11 +1,11 @@
 
 package com.millicom.interfaces;
 
-import com.mitv.model.AdzerkAd;
+import com.mitv.model.OldAdzerkAd;
 
 
 
 public interface AdCallBackInterface 
 {
-	public void onAdResult(AdzerkAd ad);
+	public void onAdResult(OldAdzerkAd ad);
 }

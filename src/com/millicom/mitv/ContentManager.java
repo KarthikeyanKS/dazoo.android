@@ -14,10 +14,10 @@ import com.millicom.mitv.models.AppVersionData;
 import com.millicom.mitv.models.TVChannelId;
 import com.millicom.mitv.models.TVGuide;
 import com.mitv.Consts;
-import com.mitv.model.TVChannel;
-import com.mitv.model.TVChannelGuide;
-import com.mitv.model.TVDate;
-import com.mitv.model.TVTag;
+import com.mitv.model.OldTVChannel;
+import com.mitv.model.OldTVChannelGuide;
+import com.mitv.model.OldTVDate;
+import com.mitv.model.OldTVTag;
 
 public class ContentManager implements ContentCallbackListener {
 
@@ -77,17 +77,17 @@ public class ContentManager implements ContentCallbackListener {
 	}
 	
 	public void fetchTVGuideForSelectedDay(ActivityCallbackListener activityCallBackListener) {
-		TVDate tvDate = storage.getTvDateSelected();
+		OldTVDate tvDate = storage.getTvDateSelected();
 		fetchTVGuide(activityCallBackListener, tvDate);
 	}
 			
-	public void fetchTVGuide(ActivityCallbackListener activityCallBackListener, TVDate tvDate) {
+	public void fetchTVGuide(ActivityCallbackListener activityCallBackListener, OldTVDate tvDate) {
 		ArrayList<TVChannelId> tvChannelIds = storage.getTvChannelIdsUsed();
 		apiClient.getTVChannelGuides(activityCallBackListener, tvDate, tvChannelIds);
 	}
 	
 	/* METHODS FOR "GETTING" THE TV DATA, EITHER FROM STORAGE, OR FETCHING FROM BACKEND */
-	public void getTVGuideUsingTVDate(ActivityCallbackListener activityCallBackListener, boolean forceDownload, TVDate tvDate) {
+	public void getTVGuideUsingTVDate(ActivityCallbackListener activityCallBackListener, boolean forceDownload, OldTVDate tvDate) {
 		if(!forceDownload && storage.containsTVGuideForTVDate(tvDate)) {
 			activityCallBackListener.onResult(FetchRequestResultEnum.SUCCESS);
 		} else {
@@ -205,12 +205,12 @@ public class ContentManager implements ContentCallbackListener {
 	
 			switch (requestIdentifier) {
 			case TV_DATE: {
-				ArrayList<TVDate> tvDates = (ArrayList<TVDate>) data;
+				ArrayList<OldTVDate> tvDates = (ArrayList<OldTVDate>) data;
 				storage.setTvDates(tvDates);
 				
 				/* We will only get here ONCE, at the start of the app, no TVDate has been selected, set it! */
 				if(!tvDates.isEmpty()) {
-					TVDate tvDate = tvDates.get(0);
+					OldTVDate tvDate = tvDates.get(0);
 					storage.setTvDateSelected(tvDate);
 				} else {
 					//TODO handle this...?
@@ -218,12 +218,12 @@ public class ContentManager implements ContentCallbackListener {
 				break;
 			}
 			case TV_TAG: {
-				ArrayList<TVTag> tvTags = (ArrayList<TVTag>) data;
+				ArrayList<OldTVTag> tvTags = (ArrayList<OldTVTag>) data;
 				storage.setTvTags(tvTags);
 				break;
 			}
 			case TV_CHANNEL: {
-				ArrayList<TVChannel> tvChannels = (ArrayList<TVChannel>) data;
+				ArrayList<OldTVChannel> tvChannels = (ArrayList<OldTVChannel>) data;
 				storage.setTvChannels(tvChannels);
 				break;
 			}
@@ -262,9 +262,9 @@ public class ContentManager implements ContentCallbackListener {
 	
 	private void handleTVChannelGuidesForSelectedDayResponse(ActivityCallbackListener activityCallBackListener, FetchRequestResultEnum result, Object data) {
 		if (result.wasSuccessful() && data != null) {
-			ArrayList<TVChannelGuide> tvChannelGuides = (ArrayList<TVChannelGuide>) data;
+			ArrayList<OldTVChannelGuide> tvChannelGuides = (ArrayList<OldTVChannelGuide>) data;
 			
-			TVDate tvDate = storage.getTvDateSelected();
+			OldTVDate tvDate = storage.getTvDateSelected();
 			TVGuide tvGuide = new TVGuide(tvDate, tvChannelGuides);
 			
 			storage.addTVGuide(tvDate, tvGuide);

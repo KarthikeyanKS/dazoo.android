@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import android.util.Log;
 
 import com.mitv.Consts;
-import com.mitv.model.Broadcast;
+import com.mitv.model.OldBroadcast;
 
 public class SSBroadcastsFromSeriesPage extends SSPage{
 	public static final String	TAG	= "SSBroadcastsFromSeriesPage";
@@ -26,7 +26,7 @@ public class SSBroadcastsFromSeriesPage extends SSPage{
 		return super.getPage(url, aSSPageCallback);
 	}
 		
-	public ArrayList<Broadcast> getSeriesUpcomingBroadcasts() {
+	public ArrayList<OldBroadcast> getSeriesUpcomingBroadcasts() {
 		Log.d(TAG, "get series upcoming broadcasts");
 		return super.getSeriesUpcomingBroadcasts();
 	}

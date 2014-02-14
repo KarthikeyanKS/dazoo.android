@@ -17,24 +17,24 @@ import android.widget.TextView;
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.mitv.Consts;
 import com.mitv.R;
-import com.mitv.model.Broadcast;
-import com.mitv.model.TVDate;
+import com.mitv.model.OldBroadcast;
+import com.mitv.model.OldTVDate;
 import com.mitv.utilities.ProgressBarUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-public class TVGuideTagListAdapter extends AdListAdapter<Broadcast> {
+public class TVGuideTagListAdapter extends AdListAdapter<OldBroadcast> {
 
 	private static final String		TAG	= "TVGuideListAdapter";
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
-	private ArrayList<Broadcast>	mTaggedBroadcasts;
+	private ArrayList<OldBroadcast>	mTaggedBroadcasts;
 	private int						mCurrentPosition;
-	private TVDate					mDate;
+	private OldTVDate					mDate;
 
-	public TVGuideTagListAdapter(Activity activity, String fragmentName, ArrayList<Broadcast> taggedBroadcasts, int currentPosition, TVDate date) {
+	public TVGuideTagListAdapter(Activity activity, String fragmentName, ArrayList<OldBroadcast> taggedBroadcasts, int currentPosition, OldTVDate date) {
 		super(fragmentName, activity, taggedBroadcasts);
 		this.mTaggedBroadcasts = taggedBroadcasts;
 		this.mActivity = activity;
@@ -66,7 +66,7 @@ public class TVGuideTagListAdapter extends AdListAdapter<Broadcast> {
 		// get the item with the displacement depending on the scheduled time on air
 		int indexForBroadcast = mCurrentPosition + position;
 		if (indexForBroadcast >= 0) {
-			final Broadcast broadcast = getItem(indexForBroadcast);
+			final OldBroadcast broadcast = getItem(indexForBroadcast);
 
 			if (rowView == null) {
 				mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -186,7 +186,7 @@ public class TVGuideTagListAdapter extends AdListAdapter<Broadcast> {
 	}
 
 	@Override
-	public Broadcast getItem(int position) {
+	public OldBroadcast getItem(int position) {
 		if (mTaggedBroadcasts != null) {
 			return mTaggedBroadcasts.get(position);
 		} else {

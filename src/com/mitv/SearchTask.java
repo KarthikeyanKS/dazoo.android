@@ -3,14 +3,14 @@ package com.mitv;
 import com.mitv.content.SSPageCallback;
 import com.mitv.content.SSPageGetResult;
 import com.mitv.content.SSSearchResultPage;
-import com.mitv.model.SearchResult;
+import com.mitv.model.OldSearchResult;
 
 public class SearchTask { //extends AsyncTask<String, Void, Void> {
 
 	private static final String TAG = "SearchTask";
 	
 	public static interface SearchResultCallback {
-		public void onResult(SearchResult result);
+		public void onResult(OldSearchResult result);
 	}
 	
 	private SearchResultCallback searchResultcallback;
@@ -32,7 +32,7 @@ public class SearchTask { //extends AsyncTask<String, Void, Void> {
 			@Override
 			public void onGetPageResult(SSPageGetResult pageGetResult) {
 				if (searchResultcallback != null) {
-					SearchResult result = SSSearchResultPage.getInstance().getSearchResult();
+					OldSearchResult result = SSSearchResultPage.getInstance().getSearchResult();
 					searchResultcallback.onResult(result);
 				}
 			}

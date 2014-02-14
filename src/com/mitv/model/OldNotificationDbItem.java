@@ -1,6 +1,6 @@
 package com.mitv.model;
 
-public class NotificationDbItem {
+public class OldNotificationDbItem {
 	private int notificationId;
 	private String broadcastUrl;
 	private String programId;

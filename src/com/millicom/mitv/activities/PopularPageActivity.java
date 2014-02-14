@@ -52,7 +52,7 @@ import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.adapters.PopularListAdapter;
 import com.mitv.manager.ApiClient;
 import com.mitv.manager.ContentParser;
-import com.mitv.model.Broadcast;
+import com.mitv.model.OldBroadcast;
 import com.mitv.storage.MiTVStore;
 
 public class PopularPageActivity extends BaseActivity implements OnClickListener {
@@ -65,7 +65,7 @@ public class PopularPageActivity extends BaseActivity implements OnClickListener
 	private ActionBar				mActionBar;
 	private ListView				mListView;
 	private PopularListAdapter		mAdapter;
-	private ArrayList<Broadcast>	mPopularBroadcasts	= new ArrayList<Broadcast>();
+	private ArrayList<OldBroadcast>	mPopularBroadcasts	= new ArrayList<OldBroadcast>();
 
 	// EXTENDED VIEW OF THE POPULAR BLOCK AT THE ACTIVITY PAGE
 	@Override
@@ -116,7 +116,7 @@ public class PopularPageActivity extends BaseActivity implements OnClickListener
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
 		if (super.requestIsSuccesfull(status)) {
-			Collections.sort(mPopularBroadcasts, new Broadcast.BroadcastComparatorByTime());
+			Collections.sort(mPopularBroadcasts, new OldBroadcast.BroadcastComparatorByTime());
 			mAdapter = new PopularListAdapter(this, token, mPopularBroadcasts);
 			mListView.setAdapter(mAdapter);
 			mListView.setVisibility(View.VISIBLE);

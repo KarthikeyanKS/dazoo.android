@@ -25,7 +25,7 @@ import com.millicom.interfaces.AdCallBackInterface;
 import com.millicom.mitv.utilities.NetworkUtils;
 import com.mitv.Consts;
 import com.mitv.manager.AppConfigurationManager;
-import com.mitv.model.AdzerkAd;
+import com.mitv.model.OldAdzerkAd;
 
 
 
@@ -66,7 +66,7 @@ public class AdzerkAdTask
 	
 	protected Void doInBackground(String... params)
 	{
-		AdzerkAd ad = null;
+		OldAdzerkAd ad = null;
 		
 		try
 		{
@@ -109,7 +109,7 @@ public class AdzerkAdTask
 
 				JSONObject jsonObj = new JSONObject(result);
 
-				ad = new AdzerkAd(divId, jsonObj);
+				ad = new OldAdzerkAd(divId, jsonObj);
 			} 
 			else if (response.getStatusLine().getStatusCode() == Consts.BAD_RESPONSE)
 			{

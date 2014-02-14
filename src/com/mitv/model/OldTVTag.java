@@ -3,12 +3,12 @@ package com.mitv.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class TVTag implements Parcelable  {
+public class OldTVTag implements Parcelable  {
 
 	private String id;
 	private String name;
 	
-	public TVTag(){	
+	public OldTVTag(){	
 	}
 	
 	public void setId(String id){
@@ -27,7 +27,7 @@ public class TVTag implements Parcelable  {
 		return this.name;
 	}
 	
-	public TVTag(Parcel in){
+	public OldTVTag(Parcel in){
 		id = in.readString();
 		name = in.readString();
 	}
@@ -45,8 +45,8 @@ public class TVTag implements Parcelable  {
 	
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof TVTag) {
-			TVTag other = (TVTag) o;
+		if (o instanceof OldTVTag) {
+			OldTVTag other = (OldTVTag) o;
 			if (getId() != null && other.getId() != null && getId().equals(other.getId())) {
 				return true;
 			}
@@ -54,13 +54,13 @@ public class TVTag implements Parcelable  {
 		return false;
 	}
 	
-	public static final Parcelable.Creator<TVTag>	CREATOR	= new Parcelable.Creator<TVTag>() {
-		public TVTag createFromParcel(Parcel in) {
-			return new TVTag(in);
+	public static final Parcelable.Creator<OldTVTag>	CREATOR	= new Parcelable.Creator<OldTVTag>() {
+		public OldTVTag createFromParcel(Parcel in) {
+			return new OldTVTag(in);
 		}
 
-		public TVTag[] newArray(int size) {
-			return new TVTag[size];
+		public OldTVTag[] newArray(int size) {
+			return new OldTVTag[size];
 		}
 	};
 

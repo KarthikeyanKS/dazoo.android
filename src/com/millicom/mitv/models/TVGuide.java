@@ -2,8 +2,8 @@ package com.millicom.mitv.models;
 
 import java.util.ArrayList;
 
-import com.mitv.model.TVChannelGuide;
-import com.mitv.model.TVDate;
+import com.mitv.model.OldTVChannelGuide;
+import com.mitv.model.OldTVDate;
 
 /**
  * This is an object, not created using JSON.
@@ -12,19 +12,19 @@ import com.mitv.model.TVDate;
  */
 public class TVGuide {
 
-	private TVDate tvDate;
-	private ArrayList<TVChannelGuide> tvChannelGuides;
+	private OldTVDate tvDate;
+	private ArrayList<OldTVChannelGuide> tvChannelGuides;
 	
-	public TVGuide(TVDate tvDate, ArrayList<TVChannelGuide> tvChannelGuides) {
+	public TVGuide(OldTVDate tvDate, ArrayList<OldTVChannelGuide> tvChannelGuides) {
 		this.tvDate = tvDate;
 		this.tvChannelGuides = tvChannelGuides;
 	}
 	
-	public TVDate getTvDate() {
+	public OldTVDate getTvDate() {
 		return tvDate;
 	}
 
-	public ArrayList<TVChannelGuide> getTvChannelGuides() {
+	public ArrayList<OldTVChannelGuide> getTvChannelGuides() {
 		return tvChannelGuides;
 	}
 
