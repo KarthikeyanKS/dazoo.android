@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.millicom.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.TagTypeFragmentStatePagerAdapter;
@@ -28,14 +29,14 @@ public class TVHolderFragment extends Fragment {
 	private static final String TAG = "TVHolderFragment";
 	
 	private PagerAdapter							mAdapter;
-	private int										mTabSelectedIndex	= 0, mDateSelectedIndex;
+	private int										mTabSelectedIndex	= 0;//, mDateSelectedIndex;
 	private TabPageIndicator						mPageTabIndicator;
 	private ArrayList<OldTVTag>							mTags				= new ArrayList<OldTVTag>();
 	private ArrayList<String>						mTabTitles;
 	private ViewPager								mViewPager;
 
 	private String									mDate;
-	private ArrayList<OldTVDate>						mDates;
+//	private ArrayList<OldTVDate>						mDates;
 	
 	private String token;
 	private boolean mIsLoggedIn;
@@ -46,12 +47,11 @@ public class TVHolderFragment extends Fragment {
 		public void onIndexSelected(int position);
 	}
 
-	public static TVHolderFragment newInstance(int startingIndex, int dateSelection, OnViewPagerIndexChangedListener listener) {
+	public static TVHolderFragment newInstance(int startingIndex, OnViewPagerIndexChangedListener listener) {
 		mListener = listener;
 
 		TVHolderFragment fragment = new TVHolderFragment();
 		Bundle bundle = new Bundle();
-		bundle.putInt("holder_date", dateSelection);
 		bundle.putInt("starting_index", startingIndex);
 
 		fragment.setArguments(bundle);
@@ -64,7 +64,6 @@ public class TVHolderFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 
 		Bundle bundle = getArguments();
-		mDateSelectedIndex = bundle.getInt("holder_date");
 		mTabSelectedIndex = bundle.getInt("starting_index");
 	}
 
@@ -73,8 +72,9 @@ public class TVHolderFragment extends Fragment {
 
 		View v = inflater.inflate(R.layout.fragment_tvguide_holder_layout, null);
 
-		mDates = MiTVStore.getInstance().getTvDates();
-		mTags = MiTVStore.getInstance().getTags();
+//		mDates = MiTVStore.getInstance().getTvDates();
+//		mTags = MiTVStore.getInstance().getTags();
+		mTags = ContentManager.sharedInstance().getTVTags();
 		
 		mViewPager = (ViewPager) v.findViewById(R.id.home_pager);
 		mViewPager.setOffscreenPageLimit(mTags.size());
@@ -86,8 +86,8 @@ public class TVHolderFragment extends Fragment {
 	}
 
 	private void setAdapter(int selectedIndex) {
-
-		mAdapter = new TagTypeFragmentStatePagerAdapter(getChildFragmentManager(), mTags, mDates.get(mDateSelectedIndex), mDateSelectedIndex);
+		OldTVDate tvDate = ContentManager.sharedInstance().getTVDateSelected();
+		mAdapter = new TagTypeFragmentStatePagerAdapter(getChildFragmentManager(), mTags, tvDate);
 
 		mViewPager.setAdapter(mAdapter);
 		mAdapter.notifyDataSetChanged();

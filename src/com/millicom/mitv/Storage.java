@@ -13,16 +13,12 @@ import com.millicom.mitv.models.TVChannelId;
 import com.millicom.mitv.models.TVGuide;
 import com.mitv.model.OldAdzerkAd;
 import com.mitv.model.OldBroadcast;
-import com.mitv.model.OldTVFeedItem;
 import com.mitv.model.OldTVChannel;
-import com.mitv.model.OldTVChannelGuide;
 import com.mitv.model.OldTVDate;
+import com.mitv.model.OldTVFeedItem;
 import com.mitv.model.OldTVTag;
 
 public class Storage {
-
-	private static Storage sharedInstance;
-
 	private ArrayList<OldTVTag> tvTags;
 	private ArrayList<OldTVDate> tvDates;
 	private ArrayList<TVChannelId> tvChannelIdsDefault;
@@ -48,17 +44,11 @@ public class Storage {
 	/* Ads */
 	private HashMap<String, SparseArray<OldAdzerkAd>> fragmentToAdsMap;
 	
+	/* Should only be used by the ContentManager */
 	public Storage() {
 		this.tvGuides = new HashMap<String, TVGuide>();
 	}
-	
-	public static Storage sharedInstance() {
-		if(sharedInstance == null) {
-			sharedInstance = new Storage();
-		}
-		return sharedInstance;
-	}
-	
+		
 	public boolean isLoggedIn() {
 		boolean isLoggedIn = false;
 		if(!TextUtils.isEmpty(userToken)) {
@@ -71,14 +61,6 @@ public class Storage {
 		return tvGuides;
 	}
 	
-	public OldTVDate getTvDateSelected() {
-		return tvDateSelected;
-	}
-
-	public void setTvDateSelected(OldTVDate tvDateSelected) {
-		this.tvDateSelected = tvDateSelected;
-	}
-
 	public void addTVGuide(OldTVDate tvDate, TVGuide tvGuide) {
 		this.tvGuides.put(tvDate.getId(), tvGuide);
 	}
@@ -95,7 +77,7 @@ public class Storage {
 	}
 
 	public ArrayList<OldTVTag> getTvTags() {
-		return sharedInstance.tvTags;
+		return tvTags;
 	}
 
 	public void setTvTags(ArrayList<OldTVTag> tvTags) {
@@ -239,5 +221,24 @@ public class Storage {
 		TVGuide tvGuide = getTVGuideUsingTVDate(tvDate);
 		boolean containsTVGuideForTVDate = (tvGuide != null);
 		return containsTVGuideForTVDate;
+	}
+	
+	public OldTVDate getTvDateSelected() {
+		return tvDateSelected;
+	}
+
+	
+	/**
+	 * This method is probably not used by the contentManager, since the HomeActivity does not pass a TVDate object
+	 * but rather an index (0-6). So this method is probably used by the
+	 * @param tvDateSelected
+	 */
+	public void setTvDateSelected(OldTVDate tvDateSelected) {
+		this.tvDateSelected = tvDateSelected;
+	}
+	
+	public void setTvDateSelectedUsingIndex(int tvDateSelectedIndex) {
+		OldTVDate tvDateSelected = tvDates.get(tvDateSelectedIndex);
+		setTvDateSelected(tvDateSelected);
 	}
 }

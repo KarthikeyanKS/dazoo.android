@@ -43,7 +43,7 @@ public class ContentManager implements ContentCallbackListener {
 	private int completedCountTVData = 0;
 
 	private ContentManager() {
-		this.storage = Storage.sharedInstance();
+		this.storage = new Storage();
 		this.apiClient = new APIClient(this);
 	}
 
@@ -78,10 +78,10 @@ public class ContentManager implements ContentCallbackListener {
 	
 	public void fetchTVGuideForSelectedDay(ActivityCallbackListener activityCallBackListener) {
 		OldTVDate tvDate = storage.getTvDateSelected();
-		fetchTVGuide(activityCallBackListener, tvDate);
+		fetchTVGuideUsingTVDate(activityCallBackListener, tvDate);
 	}
 			
-	public void fetchTVGuide(ActivityCallbackListener activityCallBackListener, OldTVDate tvDate) {
+	public void fetchTVGuideUsingTVDate(ActivityCallbackListener activityCallBackListener, OldTVDate tvDate) {
 		ArrayList<TVChannelId> tvChannelIds = storage.getTvChannelIdsUsed();
 		apiClient.getTVChannelGuides(activityCallBackListener, tvDate, tvChannelIds);
 	}
@@ -91,7 +91,7 @@ public class ContentManager implements ContentCallbackListener {
 		if(!forceDownload && storage.containsTVGuideForTVDate(tvDate)) {
 			activityCallBackListener.onResult(FetchRequestResultEnum.SUCCESS);
 		} else {
-			
+			fetchTVGuideUsingTVDate(activityCallBackListener, tvDate);
 		}
 	}
 
@@ -339,6 +339,36 @@ public class ContentManager implements ContentCallbackListener {
 		ArrayList<TVChannelId> tvChannelIdsUser = storage.getTvChannelIdsUsed();
 		return tvChannelIdsUser;
 	}
+	
+	public void setTVDateSelectedUsingIndexAndFetchGuideForDay(ActivityCallbackListener activityCallBackListener, int tvDateIndex) {
+		/* Update the index in the storage */
+		setTVDateSelectedUsingIndex(tvDateIndex);
+		
+		/* Fetch TVDate object from storage, using new TVDate index */
+		OldTVDate tvDate = storage.getTvDateSelected();
+		
+		/* Since selected TVDate has been changed, set/fetch the TVGuide for that day */
+		getTVGuideUsingTVDate(activityCallBackListener, false, tvDate);
+	}
+	
+	/* GETTERS & SETTERS */
+	/* TVDate getters and setters */
+	public OldTVDate getTVDateSelected() {
+		OldTVDate tvDateSelected = storage.getTvDateSelected();
+		return tvDateSelected;
+	}
+	
+	private void setTVDateSelectedUsingIndex(int tvDateIndex) {
+		/* Update the index in the storage */
+		storage.setTvDateSelectedUsingIndex(tvDateIndex);
+	}
+	
+	/* TVTags getters (and setters?) */
+	public ArrayList<OldTVTag> getTVTags() {
+		ArrayList<OldTVTag> tvTags = storage.getTvTags();
+		return tvTags;
+	}
+	
 	
 	/* HELPER METHODS */
 	public boolean checkApiVersion(String apiVersion) {
