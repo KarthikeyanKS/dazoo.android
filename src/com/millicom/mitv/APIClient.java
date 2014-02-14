@@ -9,7 +9,7 @@ import com.millicom.mitv.asynctasks.usertoken.RemoveUserLikes;
 import com.millicom.mitv.enums.ContentTypeEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
-import com.millicom.mitv.models.TVChannelId;
+import com.millicom.mitv.models.gson.TVChannelId;
 import com.mitv.model.OldTVDate;
 
 public class APIClient {

@@ -6,7 +6,7 @@ package com.millicom.mitv.asynctasks;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
-import com.millicom.mitv.models.AppVersionData;
+import com.millicom.mitv.models.gson.AppVersionData;
 import com.mitv.Consts;
 
 

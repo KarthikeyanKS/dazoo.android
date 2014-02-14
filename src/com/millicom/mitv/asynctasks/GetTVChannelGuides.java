@@ -7,7 +7,7 @@ import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.http.URLParameters;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
-import com.millicom.mitv.models.TVChannelId;
+import com.millicom.mitv.models.gson.TVChannelId;
 import com.mitv.Consts;
 import com.mitv.model.OldTVChannelGuide;
 import com.mitv.model.OldTVDate;

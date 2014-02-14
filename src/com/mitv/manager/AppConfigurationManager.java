@@ -11,7 +11,7 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-import com.millicom.mitv.models.AppConfigurationData;
+import com.millicom.mitv.models.gson.AppConfigurationData;
 import com.mitv.Consts;
 import com.mitv.SecondScreenApplication;
 
