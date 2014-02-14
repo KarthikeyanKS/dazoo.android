@@ -115,13 +115,11 @@ public enum FetchRequestResultEnum
 	   return GetWebserviceResult(value);
    }
    
-   public boolean wasSuccessful() {
+   
+   
+   public boolean wasSuccessful() 
+   {
 	   boolean wasSuccessful = (this == SUCCESS);
 	   return wasSuccessful;
    }
-   
 }
-    
-    
-
-

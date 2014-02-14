@@ -36,6 +36,7 @@ public abstract class Consts {
 	/* API URLs */
 	public static final String HTTP_SCHEME							= "http://";
 	public static final String HTTPS_SCHEME							= "https://";
+	public static final String JSON_MIME_TYPE 						= "application/json";
 	public static final String URL_MITV_BASE						= "android.api.mi.tv/";
 	public static final String URL_GITR_BASE						= "android.api.gitrgitr.com/";
 	public static final String BASE_API_URL_USED 					= URL_MITV_BASE;

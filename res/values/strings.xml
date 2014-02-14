@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">mi.tv</string>
-    <string name="app_id">265897563561764</string>
+    <!-- APP ID SETTINGS -->
+    <string name="app_name" translatable="false">mi.tv</string>
+    <string name="app_id" translatable="false">265897563561764</string>
+    
+    <!-- HTTP CORE REQUEST TIMEOUT DEFAULT VALUES -->
+    <integer name="api_connection_timeout_in_miliseconds" translatable="false">2000</integer>
+	<integer name="api_socket_timeout_in_miliseconds" translatable="false">2000</integer>
+	
+    <!-- NETWORK CONNECTIVITY CHECK CONFIGURATIONS -->
+    <string name="host_name_for_connectivity_check" translatable="false">http://www.google.com"</string>
+    <integer name="timeout_in_miliseconds_for_connectivity_check" translatable="false">2000</integer>
+    
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
@@ -166,6 +176,10 @@
         <item quantity="one">days</item>
         <item quantity="other">days</item>
     </plurals>
+    <plurals name="left">
+        <item quantity="one">Queda</item>
+        <item quantity="other">Quedan</item>
+    </plurals>
 
     <!-- LOGIN PAGE -->
     <string name="login_with_facebook">Login with Facebook</string>
@@ -276,8 +290,5 @@
     <!-- UPDATE DIALOG -->
     <string name="dialog_prompt_update_text">You must update mi.tv to the latest version!</string>
     <string name="dialog_prompt_update_google_play">Go to Google play</string>
-    
-    <string name="host_name_for_connectivity_check" translatable="false">http://www.google.com"</string>
-    <integer name="timeout_in_miliseconds_for_connectivity_check" translatable="false">2000</integer>
 
 </resources>
