@@ -3,13 +3,13 @@ package com.mitv.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class TVDate implements Parcelable{
+public class OldTVDate implements Parcelable{
 	
 	String id;
 	String name;
 	String date;
 	
-	public TVDate(){		
+	public OldTVDate(){		
 	}
 	
 	public void setId(String id){
@@ -36,7 +36,7 @@ public class TVDate implements Parcelable{
 		return this.date;
 	}
 	
-	public TVDate(Parcel in){
+	public OldTVDate(Parcel in){
 		id = in.readString();
 		name = in.readString();
 		date = in.readString();
@@ -56,8 +56,8 @@ public class TVDate implements Parcelable{
 	
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof TVDate) {
-			TVDate other = (TVDate) o;
+		if (o instanceof OldTVDate) {
+			OldTVDate other = (OldTVDate) o;
 			if (getDate() != null && other.getDate() != null && getDate().equals(other.getDate()) &&
 					getId() != null && other.getDate() != null && getId().equals(other.getId())) {
 				return true;
@@ -66,13 +66,13 @@ public class TVDate implements Parcelable{
 		return false;
 	}
 	
-	public static final Parcelable.Creator<TVDate>	CREATOR	= new Parcelable.Creator<TVDate>() {
-		public TVDate createFromParcel(Parcel in) {
-			return new TVDate(in);
+	public static final Parcelable.Creator<OldTVDate>	CREATOR	= new Parcelable.Creator<OldTVDate>() {
+		public OldTVDate createFromParcel(Parcel in) {
+			return new OldTVDate(in);
 		}
 
-		public TVDate[] newArray(int size) {
-			return new TVDate[size];
+		public OldTVDate[] newArray(int size) {
+			return new OldTVDate[size];
 		}
 	};
 

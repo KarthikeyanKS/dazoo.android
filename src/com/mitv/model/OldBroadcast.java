@@ -21,15 +21,15 @@ import com.mitv.utilities.DateUtilities;
 
 
 
-public class Broadcast implements Parcelable 
+public class OldBroadcast implements Parcelable 
 {
 	@SuppressWarnings("unused")
 	private static final String TAG = "Broadcast";
 
 	private String broadcastType;
 
-	private TVChannel channel;
-	private Program program;
+	private OldTVChannel channel;
+	private OldProgram program;
 	private String channelUrl;
 	private String shareUrl;
 
@@ -54,7 +54,7 @@ public class Broadcast implements Parcelable
 	private String dayOfWeekWithTimeString;
 	private String tvDateString; // yyyy-mm-dd
 
-	public Broadcast() {
+	public OldBroadcast() {
 	}
 
 	public String getBeginTimeStringLocal() {
@@ -162,19 +162,19 @@ public class Broadcast implements Parcelable
 		return this.endTimeStringGmt;
 	}
 
-	public void setChannel(TVChannel channel) {
+	public void setChannel(OldTVChannel channel) {
 		this.channel = channel;
 	}
 
-	public TVChannel getChannel() {
+	public OldTVChannel getChannel() {
 		return this.channel;
 	}
 
-	public void setProgram(Program program) {
+	public void setProgram(OldProgram program) {
 		this.program = program;
 	}
 
-	public Program getProgram() {
+	public OldProgram getProgram() {
 		return this.program;
 	}
 
@@ -230,8 +230,8 @@ public class Broadcast implements Parcelable
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof Broadcast) {
-			Broadcast other = (Broadcast) o;
+		if (o instanceof OldBroadcast) {
+			OldBroadcast other = (OldBroadcast) o;
 			if (other != null && other.getChannel() != null) {
 				if (getBeginTimeMillisGmt() != 0 && other.getBeginTimeMillisGmt() != 0 && getBeginTimeMillisGmt() == other.getBeginTimeMillisGmt()
 						&& getChannel().getChannelId() != null && other.getChannel().getChannelId() != null
@@ -243,9 +243,9 @@ public class Broadcast implements Parcelable
 		return false;
 	}	
 
-	public Broadcast(Parcel in) {
-		channel = (TVChannel) in.readParcelable(TVChannel.class.getClassLoader());
-		program = (Program) in.readParcelable(Program.class.getClassLoader());
+	public OldBroadcast(Parcel in) {
+		channel = (OldTVChannel) in.readParcelable(OldTVChannel.class.getClassLoader());
+		program = (OldProgram) in.readParcelable(OldProgram.class.getClassLoader());
 		channelUrl = in.readString();
 		shareUrl = in.readString();	
 		beginTimeStringGmt = in.readString();
@@ -281,14 +281,14 @@ public class Broadcast implements Parcelable
 		dest.writeString(beginTimeStringLocalDayMonth);
 	}
 
-	public Broadcast(NotificationDbItem item) {
+	public OldBroadcast(OldNotificationDbItem item) {
 		String beginTimeStringLocal = item.getBroadcastBeginTimeStringLocal();
 		this.setBeginTimeStringGmt(beginTimeStringLocal);
 		String millisGmtString = item.getBroadcastBeginTimeInMillisGmtAsString();
 		long millisGmt = Long.parseLong(millisGmtString);
 		this.setBeginTimeMillisGmt(millisGmt);
 
-		Program program = new Program();
+		OldProgram program = new OldProgram();
 		program.setTitle(item.getProgramTitle());
 		String programType = item.getProgramType();
 		program.setProgramType(programType);
@@ -333,7 +333,7 @@ public class Broadcast implements Parcelable
 
 		if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 			program.setEpisodeNumber(item.getProgramEpisodeNumber());
-			Season season = new Season();
+			OldSeason season = new OldSeason();
 			season.setNumber(item.getProgramSeason());
 			program.setSeason(season);
 		} else if (Consts.PROGRAM_TYPE_MOVIE.equals(programType)) {
@@ -344,7 +344,7 @@ public class Broadcast implements Parcelable
 			program.setCategory(item.getProgramCategory());
 		}
 		else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) {
-			SportType sportType = new SportType();
+			OldSportType sportType = new OldSportType();
 			sportType.setName(item.getProgramCategory()); //Use category for sport type name 
 			program.setSportType(sportType);
 			program.setTournament(item.getProgramGenre()); //And genre for tournament name
@@ -354,7 +354,7 @@ public class Broadcast implements Parcelable
 
 		this.setProgram(program);
 
-		TVChannel channel = new TVChannel();
+		OldTVChannel channel = new OldTVChannel();
 		channel.setChannelId(item.getChannelId());
 		channel.setName(item.getChannelName());
 		channel.setAllImageUrls(item.getChannelLogoUrl());
@@ -448,7 +448,7 @@ public class Broadcast implements Parcelable
 		return startsInTimeString;
 	}
 
-	public Broadcast(JSONObject jsonBroadcast) {
+	public OldBroadcast(JSONObject jsonBroadcast) {
 		String beginTimeStringGmt = jsonBroadcast.optString(Consts.BROADCAST_BEGIN_TIME);
 		String endTimeStringGmt = jsonBroadcast.optString(Consts.BROADCAST_END_TIME);
 		long beginTimeMillisGMT = jsonBroadcast.optLong(Consts.BROADCAST_BEGIN_TIME_MILLIS);
@@ -466,7 +466,7 @@ public class Broadcast implements Parcelable
 
 		JSONObject jsonChannel = jsonBroadcast.optJSONObject(Consts.BROADCAST_CHANNEL);
 		if (jsonChannel != null) {
-			TVChannel channel = new TVChannel(jsonChannel);
+			OldTVChannel channel = new OldTVChannel(jsonChannel);
 			if(channel != null) {
 				this.setChannel(channel);
 			}
@@ -474,7 +474,7 @@ public class Broadcast implements Parcelable
 
 		JSONObject jsonProgram = jsonBroadcast.optJSONObject(Consts.BROADCAST_PROGRAM);
 		if (jsonProgram != null) {
-			Program program = new Program(jsonProgram);
+			OldProgram program = new OldProgram(jsonProgram);
 			if(program != null) {
 				this.setProgram(program);
 			}
@@ -483,10 +483,10 @@ public class Broadcast implements Parcelable
 		this.setBroadcastType(jsonBroadcast.optString(Consts.BROADCAST_BROADCAST_TYPE));
 	}
 
-	public static class BroadcastComparatorByTime implements Comparator<Broadcast> {
+	public static class BroadcastComparatorByTime implements Comparator<OldBroadcast> {
 
 		@Override
-		public int compare(Broadcast lhs, Broadcast rhs) {
+		public int compare(OldBroadcast lhs, OldBroadcast rhs) {
 			long left = lhs.getBeginTimeMillisGmt();
 			long right = rhs.getBeginTimeMillisGmt();
 
@@ -502,13 +502,13 @@ public class Broadcast implements Parcelable
 		}
 	}
 
-	public static final Parcelable.Creator<Broadcast> CREATOR = new Parcelable.Creator<Broadcast>() {
-		public Broadcast createFromParcel(Parcel in) {
-			return new Broadcast(in);
+	public static final Parcelable.Creator<OldBroadcast> CREATOR = new Parcelable.Creator<OldBroadcast>() {
+		public OldBroadcast createFromParcel(Parcel in) {
+			return new OldBroadcast(in);
 		}
 
-		public Broadcast[] newArray(int size) {
-			return new Broadcast[size];
+		public OldBroadcast[] newArray(int size) {
+			return new OldBroadcast[size];
 		}
 	};
 
@@ -517,11 +517,11 @@ public class Broadcast implements Parcelable
 		return "\n beginTime: " + beginTimeStringGmt + "\n endTime: " + endTimeStringGmt + "\n channel: " + channel + "\n program: " + program + "\n shareUrl" + shareUrl;
 	}
 
-	public static int getClosestBroadcastIndexUsingTime(ArrayList<Broadcast> broadcastList, long timeNow) {
+	public static int getClosestBroadcastIndexUsingTime(ArrayList<OldBroadcast> broadcastList, long timeNow) {
 		int nearestIndex = -1;
 
 		for (int i = 0; i < broadcastList.size(); i++) {
-			Broadcast broadcast = broadcastList.get(i);
+			OldBroadcast broadcast = broadcastList.get(i);
 			boolean hasNotEnded = broadcast.hasNotEnded(timeNow);
 
 			if(hasNotEnded) {
@@ -582,7 +582,7 @@ public class Broadcast implements Parcelable
 		return hasNotEnded(timeNow);
 	}
 
-	public static int getClosestBroadcastIndex(ArrayList<Broadcast> broadcastList) {
+	public static int getClosestBroadcastIndex(ArrayList<OldBroadcast> broadcastList) {
 		int nearestIndex = -1;
 		Date currentDate = new Date();
 		long timeNow = currentDate.getTime();
@@ -592,7 +592,7 @@ public class Broadcast implements Parcelable
 		return nearestIndex;
 	}
 
-	public static int getClosestBroadcastIndexFromTime(ArrayList<Broadcast> broadcastList, int hour, TVDate date) {
+	public static int getClosestBroadcastIndexFromTime(ArrayList<OldBroadcast> broadcastList, int hour, OldTVDate date) {
 		int nearestIndex = 0;
 		long timeNow = DateUtilities.timeAsLongFromTvDateAndHour(date, hour);
 		nearestIndex = getClosestBroadcastIndexUsingTime(broadcastList, timeNow);
@@ -600,8 +600,8 @@ public class Broadcast implements Parcelable
 		return nearestIndex;
 	}
 
-	public static ArrayList<Broadcast> getBroadcastsStartingFromPosition(int index, ArrayList<Broadcast> broadcastList, int numberOfClosest) {
-		ArrayList<Broadcast> nextBroadcasts = new ArrayList<Broadcast>();
+	public static ArrayList<OldBroadcast> getBroadcastsStartingFromPosition(int index, ArrayList<OldBroadcast> broadcastList, int numberOfClosest) {
+		ArrayList<OldBroadcast> nextBroadcasts = new ArrayList<OldBroadcast>();
 
 		for (int j = index; j < index + numberOfClosest; j++) {
 			if (j < broadcastList.size()) {

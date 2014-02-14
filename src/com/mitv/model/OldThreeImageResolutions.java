@@ -4,7 +4,7 @@ import android.content.res.Configuration;
 
 import com.mitv.SecondScreenApplication;
 
-public class ThreeImageResolutions {
+public class OldThreeImageResolutions {
 		
 	protected String imageUrlLowRes;
 	protected String imageUrlMediumRes;

@@ -35,9 +35,9 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.SearchPageListAdapter;
 import com.mitv.customviews.InstantAutoComplete;
 import com.mitv.handlers.SearchActivityListeners;
-import com.mitv.model.Broadcast;
-import com.mitv.model.SearchResultItem;
-import com.mitv.model.TVChannel;
+import com.mitv.model.OldBroadcast;
+import com.mitv.model.OldSearchResultItem;
+import com.mitv.model.OldTVChannel;
 import com.mitv.utilities.HardwareUtilities;
 
 public class SearchPageActivity extends BaseActivity implements OnItemClickListener, OnEditorActionListener, OnClickListener, SearchActivityListeners {
@@ -217,7 +217,7 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 	// Click listener for both recent list and search auto complete view
 	public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 
-		SearchResultItem result = (SearchResultItem) adapterView.getItemAtPosition(position);
+		OldSearchResultItem result = (OldSearchResultItem) adapterView.getItemAtPosition(position);
 		
 		if(result.getEntityType() != ContentTypeEnum.CHANNEL) {
 			// open the detail view for the individual broadcast
@@ -230,11 +230,11 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 				adjustedPosition = 0;
 			}
 			
-			Broadcast nextBroadcast = result.getNextBroadcast();
+			OldBroadcast nextBroadcast = result.getNextBroadcast();
 			if(nextBroadcast != null) {
 			intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, nextBroadcast.getBeginTimeMillisGmt());
 			
-			TVChannel channel = nextBroadcast.getChannel();
+			OldTVChannel channel = nextBroadcast.getChannel();
 			String channelId = channel.getChannelId();
 			intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, channelId);
 			

@@ -8,7 +8,7 @@ import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.models.DummyData;
 import com.mitv.Consts;
-import com.mitv.model.TVLike;
+import com.mitv.model.OldTVLike;
 
 
 

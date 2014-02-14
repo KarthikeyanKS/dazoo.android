@@ -21,8 +21,8 @@ import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.handlers.LikeDialogHandler;
 import com.mitv.interfaces.LikesCountInterface;
-import com.mitv.model.TVLike;
-import com.mitv.model.MiTVLikeEntity;
+import com.mitv.model.OldTVLike;
+import com.mitv.model.OldMiTVLikeEntity;
 import com.mitv.storage.MiTVStore;
 
 @SuppressLint("DefaultLocale")
@@ -32,12 +32,12 @@ public class LikesListAdapter extends BaseAdapter {
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
-	private ArrayList<TVLike>	mLikes;
+	private ArrayList<OldTVLike>	mLikes;
 	private LikesCountInterface		mInterface;
 	private String					mToken, mLikeIdToRemove, mLikeId;
 	private int						currentPosition	= -1;
 
-	public LikesListAdapter(Activity activity, ArrayList<TVLike> likes, String token, LikesCountInterface likesInterface) {
+	public LikesListAdapter(Activity activity, ArrayList<OldTVLike> likes, String token, LikesCountInterface likesInterface) {
 		this.mLikes = likes;
 		this.mActivity = activity;
 		this.mToken = token;
@@ -52,7 +52,7 @@ public class LikesListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public TVLike getItem(int position) {
+	public OldTVLike getItem(int position) {
 		if (mLikes != null) {
 			return mLikes.get(position);
 		} else return null;
@@ -87,10 +87,10 @@ public class LikesListAdapter extends BaseAdapter {
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 
-		final TVLike like = getItem(position);
+		final OldTVLike like = getItem(position);
 
 		if (like != null) {
-			final MiTVLikeEntity entity = like.getEntity();
+			final OldMiTVLikeEntity entity = like.getEntity();
 			if (entity != null) {
 
 				/*Disabled headers for now*/

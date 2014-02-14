@@ -6,9 +6,9 @@ import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.mitv.Consts;
-import com.mitv.model.TVLike;
+import com.mitv.model.OldTVLike;
 
-public class RemoveUserLikes extends AsyncTaskWithUserToken<TVLike> 
+public class RemoveUserLikes extends AsyncTaskWithUserToken<OldTVLike> 
 {
 	private static final String URL_SUFFIX = Consts.URL_LIKES;
 	
@@ -21,7 +21,7 @@ public class RemoveUserLikes extends AsyncTaskWithUserToken<TVLike>
 			String contentId) 
 	{
 		// TODO: Append something to url
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_REMOVE_LIKE, TVLike.class, URL_SUFFIX);
+		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_REMOVE_LIKE, OldTVLike.class, URL_SUFFIX);
 		
 		// TODO: Complete this
 		urlParameters.add(Consts.API_ENTITY_ID, contentId);

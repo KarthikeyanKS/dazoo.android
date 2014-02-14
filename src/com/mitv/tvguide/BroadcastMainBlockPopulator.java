@@ -22,8 +22,8 @@ import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.customviews.ReminderView;
 import com.mitv.handlers.PromptSignInDialogHandler;
-import com.mitv.model.Broadcast;
-import com.mitv.model.Program;
+import com.mitv.model.OldBroadcast;
+import com.mitv.model.OldProgram;
 import com.mitv.notification.NotificationDataSource;
 import com.mitv.storage.MiTVStore;
 import com.mitv.utilities.AnimationUtilities;
@@ -48,7 +48,7 @@ public class BroadcastMainBlockPopulator {
 		this.mContainerView = containerView;
 	}
 
-	public void createBlock(final Broadcast broadcast) {
+	public void createBlock(final OldBroadcast broadcast) {
 		LinearLayout containerView = (LinearLayout) mContainerView.findViewById(R.id.broacastpage_block_container_layout);
 
 		View topContentView = LayoutInflater.from(mActivity).inflate(R.layout.block_broadcastpage_main_content, null);
@@ -76,7 +76,7 @@ public class BroadcastMainBlockPopulator {
 		ProgressBar progressBar = (ProgressBar) topContentView.findViewById(R.id.block_broadcastpage_broadcast_progressbar);
 		TextView progressTxt = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_timeleft_tv);
 
-		Program program = broadcast.getProgram();
+		OldProgram program = broadcast.getProgram();
 		String programType = program.getProgramType();
 
 		if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {

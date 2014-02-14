@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.mitv.Consts;
 import com.mitv.R;
-import com.mitv.model.Broadcast;
+import com.mitv.model.OldBroadcast;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -29,9 +29,9 @@ public class BlockPopularListViewAdapter extends BaseAdapter {
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
-	private ArrayList<Broadcast>	mPopularBroadcasts;
+	private ArrayList<OldBroadcast>	mPopularBroadcasts;
 
-	public BlockPopularListViewAdapter(Activity activity, ArrayList<Broadcast> popularBroadcasts) {
+	public BlockPopularListViewAdapter(Activity activity, ArrayList<OldBroadcast> popularBroadcasts) {
 		this.mActivity = activity;
 		this.mPopularBroadcasts = popularBroadcasts;
 	}
@@ -44,7 +44,7 @@ public class BlockPopularListViewAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public Broadcast getItem(int position) {
+	public OldBroadcast getItem(int position) {
 		if (mPopularBroadcasts != null) {
 			return mPopularBroadcasts.get(position);
 		} else return null;
@@ -59,7 +59,7 @@ public class BlockPopularListViewAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 
-		final Broadcast broadcast = getItem(position);
+		final OldBroadcast broadcast = getItem(position);
 		Log.d(TAG,"BROADCAST NAME: " + broadcast.getProgram().getTitle());
 
 		if (rowView == null) {

@@ -5,11 +5,11 @@ import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.mitv.Consts;
-import com.mitv.model.AdzerkAd;
+import com.mitv.model.OldAdzerkAd;
 
 
 
-public class GetAds extends AsyncTaskWithRelativeURL<AdzerkAd> 
+public class GetAds extends AsyncTaskWithRelativeURL<OldAdzerkAd> 
 {	
 	private static final String URL_SUFFIX = Consts.URL_ACTIVITY_FEED;
 	
@@ -17,7 +17,7 @@ public class GetAds extends AsyncTaskWithRelativeURL<AdzerkAd>
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener) 
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.ADS, AdzerkAd.class, URL_SUFFIX);
+		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.ADS, OldAdzerkAd.class, URL_SUFFIX);
 	}
 	
 	@Override

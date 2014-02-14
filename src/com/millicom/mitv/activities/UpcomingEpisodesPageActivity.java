@@ -21,7 +21,7 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.adapters.PopularListAdapter;
 import com.mitv.adapters.UpcomingEpisodesListAdapter;
-import com.mitv.model.Broadcast;
+import com.mitv.model.OldBroadcast;
 import com.mitv.storage.MiTVStore;
 
 public class UpcomingEpisodesPageActivity extends BaseActivity implements OnClickListener {
@@ -32,8 +32,8 @@ public class UpcomingEpisodesPageActivity extends BaseActivity implements OnClic
 	private ActionBar					mActionBar;
 	private ListView					mListView;
 	private UpcomingEpisodesListAdapter	mAdapter;
-	private Broadcast 					mRunningBroadcast;
-	private ArrayList<Broadcast>		mUpcomingBroadcasts	= new ArrayList<Broadcast>();
+	private OldBroadcast 					mRunningBroadcast;
+	private ArrayList<OldBroadcast>		mUpcomingBroadcasts	= new ArrayList<OldBroadcast>();
 	
 
 	@Override

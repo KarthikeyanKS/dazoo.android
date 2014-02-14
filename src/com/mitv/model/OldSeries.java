@@ -7,15 +7,15 @@ import com.mitv.Consts;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Series implements Parcelable{
+public class OldSeries implements Parcelable{
 	
 	private String name;
 	private String seriesId;
 
-	public Series(){
+	public OldSeries(){
 	}
 	
-	public Series(JSONObject jsonObject) {
+	public OldSeries(JSONObject jsonObject) {
 		this.setName(jsonObject.optString(Consts.SERIES_NAME));
 		this.setSeriesId(jsonObject.optString(Consts.SERIES_SERIES_ID));
 	}
@@ -36,7 +36,7 @@ public class Series implements Parcelable{
 		return this.seriesId;
 	}
 	
-	public Series(Parcel in){
+	public OldSeries(Parcel in){
 		name = in.readString();
 		seriesId = in.readString();
 	}
@@ -54,8 +54,8 @@ public class Series implements Parcelable{
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof Series) {
-			Series other = (Series) o;
+		if (o instanceof OldSeries) {
+			OldSeries other = (OldSeries) o;
 			if (getName() != null && other.getName() != null && getName().equals(other.getName())) {
 				return true;
 			}
@@ -63,13 +63,13 @@ public class Series implements Parcelable{
 		return false;
 	}
 	
-	public static final Parcelable.Creator<Series>	CREATOR	= new Parcelable.Creator<Series>() {
-		public Series createFromParcel(Parcel in) {
-			return new Series(in);
+	public static final Parcelable.Creator<OldSeries>	CREATOR	= new Parcelable.Creator<OldSeries>() {
+		public OldSeries createFromParcel(Parcel in) {
+			return new OldSeries(in);
 		}
 
-		public Series[] newArray(int size) {
-			return new Series[size];
+		public OldSeries[] newArray(int size) {
+			return new OldSeries[size];
 		}
 	};
 	

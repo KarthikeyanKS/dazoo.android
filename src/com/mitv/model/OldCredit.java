@@ -7,14 +7,14 @@ import com.mitv.Consts;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Credit implements Parcelable{
+public class OldCredit implements Parcelable{
 	
 	private String name;
 	private String type;
 	
-	public Credit() {}
+	public OldCredit() {}
 	
-	public Credit(JSONObject jsonObject) {
+	public OldCredit(JSONObject jsonObject) {
 		this.setName(jsonObject.optString(Consts.CREDIT_NAME));
 		this.setType(jsonObject.optString(Consts.CREDIT_TYPE));
 	}
@@ -46,15 +46,15 @@ public class Credit implements Parcelable{
 		dest.writeString(type);
 	}
 	
-	public Credit(Parcel in){
+	public OldCredit(Parcel in){
 		name = in.readString();
 		type = in.readString();
 	}
 	
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof Credit) {
-			Credit other = (Credit) o;
+		if (o instanceof OldCredit) {
+			OldCredit other = (OldCredit) o;
 			if (getName() != null && other.getName() != null && getName().equals(other.getName())) {
 				return true;
 			}
@@ -62,13 +62,13 @@ public class Credit implements Parcelable{
 		return false;
 	}
 	
-	public static final Parcelable.Creator<Credit>	CREATOR	= new Parcelable.Creator<Credit>() {
-		public Credit createFromParcel(Parcel in) {
-			return new Credit(in);
+	public static final Parcelable.Creator<OldCredit>	CREATOR	= new Parcelable.Creator<OldCredit>() {
+		public OldCredit createFromParcel(Parcel in) {
+			return new OldCredit(in);
 		}
 
-		public Credit[] newArray(int size) {
-			return new Credit[size];
+		public OldCredit[] newArray(int size) {
+			return new OldCredit[size];
 		}
 	};
 	

@@ -7,15 +7,15 @@ import com.mitv.Consts;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class SportType implements Parcelable{
+public class OldSportType implements Parcelable{
 	
 	private String name;
 	private String sportTypeId;
 
-	public SportType(){
+	public OldSportType(){
 	}
 	
-	public SportType(JSONObject jsonSportType) {
+	public OldSportType(JSONObject jsonSportType) {
 		this.setName(jsonSportType.optString(Consts.SPORTTYPE_NAME));
 		this.setSportTypeId(jsonSportType.optString(Consts.SPORTTYPE_SPORTTYPEID));
 	}
@@ -36,7 +36,7 @@ public class SportType implements Parcelable{
 		return this.sportTypeId;
 	}
 	
-	public SportType(Parcel in){
+	public OldSportType(Parcel in){
 		name = in.readString();
 		sportTypeId = in.readString();
 	}
@@ -54,8 +54,8 @@ public class SportType implements Parcelable{
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof SportType) {
-			SportType other = (SportType) o;
+		if (o instanceof OldSportType) {
+			OldSportType other = (OldSportType) o;
 			if (getSportTypeId() != null && other.getSportTypeId() != null && getSportTypeId().equals(other.getSportTypeId())) {
 				return true;
 			}
@@ -63,13 +63,13 @@ public class SportType implements Parcelable{
 		return false;
 	}
 	
-	public static final Parcelable.Creator<SportType>	CREATOR	= new Parcelable.Creator<SportType>() {
-		public SportType createFromParcel(Parcel in) {
-			return new SportType(in);
+	public static final Parcelable.Creator<OldSportType>	CREATOR	= new Parcelable.Creator<OldSportType>() {
+		public OldSportType createFromParcel(Parcel in) {
+			return new OldSportType(in);
 		}
 
-		public SportType[] newArray(int size) {
-			return new SportType[size];
+		public OldSportType[] newArray(int size) {
+			return new OldSportType[size];
 		}
 	};
 	

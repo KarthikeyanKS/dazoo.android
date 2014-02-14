@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-import com.mitv.model.Broadcast;
+import com.mitv.model.OldBroadcast;
 
 public class SSBroadcastPage extends SSPage {
 
@@ -19,7 +19,7 @@ public class SSBroadcastPage extends SSPage {
 		return sInstance;
 	}
 
-	public Broadcast getBroadcast() {
+	public OldBroadcast getBroadcast() {
 		Log.d(TAG, "get broadcast");
 		return super.getBroadcast();
 	}

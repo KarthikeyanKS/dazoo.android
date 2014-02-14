@@ -10,7 +10,7 @@ import com.millicom.mitv.enums.ContentTypeEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.models.TVChannelId;
-import com.mitv.model.TVDate;
+import com.mitv.model.OldTVDate;
 
 public class APIClient {
 	
@@ -62,7 +62,7 @@ public class APIClient {
 		removeUserLikes.execute();
 	}
 	
-	public void getTVChannelGuides(ActivityCallbackListener activityCallBackListener, TVDate tvDate, List<TVChannelId> tvChannelIds) {
+	public void getTVChannelGuides(ActivityCallbackListener activityCallBackListener, OldTVDate tvDate, List<TVChannelId> tvChannelIds) {
 		GetTVChannelGuides getTvChannelGuides = GetTVChannelGuides.newGetTVChannelGuidesTask(contentCallbackListener, activityCallBackListener, tvDate, tvChannelIds);
 		getTvChannelGuides.execute();
 	}

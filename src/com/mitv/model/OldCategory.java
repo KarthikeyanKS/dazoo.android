@@ -3,13 +3,13 @@ package com.mitv.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Category implements Parcelable{
+public class OldCategory implements Parcelable{
 
 	private String categoryId;
 	private String name;
 	private String alias;
 	
-	public Category(){
+	public OldCategory(){
 		
 	}
 	
@@ -37,7 +37,7 @@ public class Category implements Parcelable{
 		return this.alias;
 	}
 	
-	public Category(Parcel in){
+	public OldCategory(Parcel in){
 		categoryId = in.readString();
 		name = in.readString();
 		alias = in.readString();

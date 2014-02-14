@@ -18,8 +18,8 @@ import android.widget.TextView;
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.mitv.Consts;
 import com.mitv.R;
-import com.mitv.model.Broadcast;
-import com.mitv.model.TVDate;
+import com.mitv.model.OldBroadcast;
+import com.mitv.model.OldTVDate;
 import com.mitv.storage.MiTVStore;
 import com.mitv.utilities.ProgressBarUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -32,15 +32,15 @@ public class PopularListAdapter extends BaseAdapter {
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
-	private ArrayList<Broadcast>	mPopularBroadcasts;
+	private ArrayList<OldBroadcast>	mPopularBroadcasts;
 	private ImageLoader				mImageLoader;
 	private String					mToken;
 	private int						mCurrentPosition	= -1;
 
 	private MiTVStore				mitvStore;
-	private ArrayList<TVDate>		mTvDates;
+	private ArrayList<OldTVDate>		mTvDates;
 
-	public PopularListAdapter(Activity activity, String token, ArrayList<Broadcast> popularBroadcasts) {
+	public PopularListAdapter(Activity activity, String token, ArrayList<OldBroadcast> popularBroadcasts) {
 		this.mActivity = activity;
 		this.mPopularBroadcasts = popularBroadcasts;
 		this.mToken = token;
@@ -57,7 +57,7 @@ public class PopularListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public Broadcast getItem(int position) {
+	public OldBroadcast getItem(int position) {
 		if (mPopularBroadcasts != null) {
 			return mPopularBroadcasts.get(position);
 		} else return null;
@@ -71,7 +71,7 @@ public class PopularListAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 
-		final Broadcast broadcast = getItem(position);
+		final OldBroadcast broadcast = getItem(position);
 
 		View rowView = convertView;
 		if (rowView == null) {

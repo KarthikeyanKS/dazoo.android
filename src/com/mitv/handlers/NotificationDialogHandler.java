@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.mitv.Consts;
 import com.mitv.R;
-import com.mitv.model.Broadcast;
+import com.mitv.model.OldBroadcast;
 import com.mitv.notification.NotificationService;
 
 public class NotificationDialogHandler {
@@ -19,7 +19,7 @@ public class NotificationDialogHandler {
 	public Runnable answerYes = null;
 	public Runnable answerNo = null;
 	
-	public boolean showRemoveNotificationDialog(final Context context, Broadcast broadcast, final int notificationId, Runnable aProcedure, Runnable bProcedure) {
+	public boolean showRemoveNotificationDialog(final Context context, OldBroadcast broadcast, final int notificationId, Runnable aProcedure, Runnable bProcedure) {
 		answerYes = aProcedure;
 		answerNo = bProcedure;
 		

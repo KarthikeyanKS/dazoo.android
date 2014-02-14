@@ -8,14 +8,14 @@ import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.models.TVChannelId;
 import com.mitv.Consts;
-import com.mitv.model.TVDate;
+import com.mitv.model.OldTVDate;
 
 public class GetTVChannelGuidesBuilder {
 	
-	private TVDate tvDate;
+	private OldTVDate tvDate;
 	private List<TVChannelId> tvChannelIds;
 	
-	public void setTVDate(TVDate tvDate) {
+	public void setTVDate(OldTVDate tvDate) {
 		this.tvDate = tvDate;
 	}
 	

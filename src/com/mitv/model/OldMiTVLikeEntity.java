@@ -3,7 +3,7 @@ package com.mitv.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class MiTVLikeEntity implements Parcelable {
+public class OldMiTVLikeEntity implements Parcelable {
 
 	private String	title;
 	// likeType = SERIES
@@ -19,7 +19,7 @@ public class MiTVLikeEntity implements Parcelable {
 	//likeTyoe = SPORT_TYPE
 	private String sportTypeId;
 
-	public MiTVLikeEntity() {
+	public OldMiTVLikeEntity() {
 	}
 
 	public void setTitle(String title) {
@@ -103,7 +103,7 @@ public class MiTVLikeEntity implements Parcelable {
 		dest.writeString(sportTypeId);
 	}
 
-	public MiTVLikeEntity(Parcel in) {
+	public OldMiTVLikeEntity(Parcel in) {
 		title = in.readString();
 		seriesId = in.readString();
 		programType = in.readString();
@@ -116,8 +116,8 @@ public class MiTVLikeEntity implements Parcelable {
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof MiTVLikeEntity) {
-			MiTVLikeEntity other = (MiTVLikeEntity) o;
+		if (o instanceof OldMiTVLikeEntity) {
+			OldMiTVLikeEntity other = (OldMiTVLikeEntity) o;
 			if (getTitle() != null && other.getTitle() != null && getTitle().equals(other.getTitle())) {
 				return true;
 			}
@@ -125,13 +125,13 @@ public class MiTVLikeEntity implements Parcelable {
 		return false;
 	}
 
-	public static final Parcelable.Creator<MiTVLikeEntity>	CREATOR	= new Parcelable.Creator<MiTVLikeEntity>() {
-		public MiTVLikeEntity createFromParcel(Parcel in) {
-			return new MiTVLikeEntity(in);
+	public static final Parcelable.Creator<OldMiTVLikeEntity>	CREATOR	= new Parcelable.Creator<OldMiTVLikeEntity>() {
+		public OldMiTVLikeEntity createFromParcel(Parcel in) {
+			return new OldMiTVLikeEntity(in);
 		}
 
-		public MiTVLikeEntity[] newArray(int size) {
-			return new MiTVLikeEntity[size];
+		public OldMiTVLikeEntity[] newArray(int size) {
+			return new OldMiTVLikeEntity[size];
 		}
 	};
 

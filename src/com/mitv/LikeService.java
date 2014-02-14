@@ -22,7 +22,7 @@ import com.millicom.asynctasks.GetLikesTask;
 import com.mitv.R;
 import com.mitv.manager.ApiClient;
 import com.mitv.manager.ContentParser;
-import com.mitv.model.TVLike;
+import com.mitv.model.OldTVLike;
 
 
 
@@ -51,7 +51,7 @@ public class LikeService
 	
 	public static boolean isLiked(String token, String programId) 
 	{
-		ArrayList<TVLike> likesList = new ArrayList<TVLike>();
+		ArrayList<OldTVLike> likesList = new ArrayList<OldTVLike>();
 		
 		likesList = LikeService.getLikesList(token);
 		
@@ -160,9 +160,9 @@ public class LikeService
 
 	
 	
-	public static ArrayList<TVLike> getLikesList(String token) 
+	public static ArrayList<OldTVLike> getLikesList(String token) 
 	{
-		ArrayList<TVLike> mitvLikesList = new ArrayList<TVLike>();
+		ArrayList<OldTVLike> mitvLikesList = new ArrayList<OldTVLike>();
 		
 		GetLikesTask getLikesTask = new GetLikesTask();
 		

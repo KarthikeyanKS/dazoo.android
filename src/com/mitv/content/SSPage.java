@@ -12,14 +12,14 @@ import com.mitv.http.SSHttpClientCallback;
 import com.mitv.http.SSHttpClientGetResult;
 import com.mitv.manager.AppConfigurationManager;
 import com.mitv.manager.ContentParser;
-import com.mitv.model.Broadcast;
-import com.mitv.model.TVChannel;
-import com.mitv.model.TVChannelGuide;
-import com.mitv.model.Link;
-import com.mitv.model.ProgramType;
-import com.mitv.model.SearchResult;
-import com.mitv.model.TVTag;
-import com.mitv.model.TVDate;
+import com.mitv.model.OldBroadcast;
+import com.mitv.model.OldTVChannel;
+import com.mitv.model.OldTVChannelGuide;
+import com.mitv.model.OldLink;
+import com.mitv.model.OldProgramType;
+import com.mitv.model.OldSearchResult;
+import com.mitv.model.OldTVTag;
+import com.mitv.model.OldTVDate;
 
 public abstract class SSPage {
 
@@ -30,15 +30,15 @@ public abstract class SSPage {
 	private ContentParser					mContentParser	= new ContentParser();
 
 	// array with data
-	private ArrayList<TVChannelGuide>				mGuide;
-	private ArrayList<ProgramType>			mProgramTypes;
-	private ArrayList<TVDate>				mTvDates;
-	private ArrayList<TVChannel>				mChannels;
-	private ArrayList<TVTag>					mTags;
-	private Broadcast						mBroadcast;
-	private ArrayList<Broadcast>			mSeriesUpcomingBroadcasts;
-	private SearchResult					mSearchResult;
-	private ArrayList<Broadcast> 			mProgramBroadcasts;	
+	private ArrayList<OldTVChannelGuide>				mGuide;
+	private ArrayList<OldProgramType>			mProgramTypes;
+	private ArrayList<OldTVDate>				mTvDates;
+	private ArrayList<OldTVChannel>				mChannels;
+	private ArrayList<OldTVTag>					mTags;
+	private OldBroadcast						mBroadcast;
+	private ArrayList<OldBroadcast>			mSeriesUpcomingBroadcasts;
+	private OldSearchResult					mSearchResult;
+	private ArrayList<OldBroadcast> 			mProgramBroadcasts;	
 	private String							mApiVersion;
 
 	public SSPage(String url) {
@@ -58,7 +58,7 @@ public abstract class SSPage {
 	public boolean getPage(String url, SSPageCallback aSSPageCallback) {
 		Log.d(TAG, "get Page");
 				
-		Link aLink = new Link();
+		OldLink aLink = new OldLink();
 		aLink.setUrl(url);
 		
 		mPageCallback = aSSPageCallback;
@@ -140,7 +140,7 @@ public abstract class SSPage {
 		this.mTvDates = mContentParser.parseDates(jsonArray);
 	}
 
-	public ArrayList<TVDate> getTvDates() {
+	public ArrayList<OldTVDate> getTvDates() {
 		return mTvDates;
 	}
 
@@ -148,7 +148,7 @@ public abstract class SSPage {
 		this.mProgramTypes = mContentParser.parseProgramTypes(jsonArray);
 	}
 
-	public ArrayList<ProgramType> getProgramTypes() {
+	public ArrayList<OldProgramType> getProgramTypes() {
 		return mProgramTypes;
 	}
 
@@ -160,11 +160,11 @@ public abstract class SSPage {
 		this.mSearchResult = mContentParser.parseSearchResult(jsonObject);
 	}
 
-	public SearchResult getSearchResult() {
+	public OldSearchResult getSearchResult() {
 		return mSearchResult;
 	}
 	
-	public ArrayList<TVChannelGuide> getGuide() {
+	public ArrayList<OldTVChannelGuide> getGuide() {
 		return mGuide;
 	}
 
@@ -172,7 +172,7 @@ public abstract class SSPage {
 		this.mChannels = mContentParser.parseChannels(jsonArray);
 	}
 
-	public ArrayList<TVChannel> getChannels() {
+	public ArrayList<OldTVChannel> getChannels() {
 		return mChannels;
 	}
 
@@ -180,11 +180,11 @@ public abstract class SSPage {
 		this.mTags = mContentParser.parseTags(jsonArray);
 	}
 
-	public ArrayList<TVTag> getTags() {
+	public ArrayList<OldTVTag> getTags() {
 		return mTags;
 	}
 
-	public Broadcast getBroadcast() {
+	public OldBroadcast getBroadcast() {
 		return mBroadcast;
 	}
 	
@@ -196,7 +196,7 @@ public abstract class SSPage {
 		this.mBroadcast = mContentParser.parseBroadcast(jsonObject);
 	}
 
-	public ArrayList<Broadcast> getSeriesUpcomingBroadcasts() {
+	public ArrayList<OldBroadcast> getSeriesUpcomingBroadcasts() {
 		return mSeriesUpcomingBroadcasts;
 	}
 	
@@ -204,7 +204,7 @@ public abstract class SSPage {
 		this.mSeriesUpcomingBroadcasts = mContentParser.parseBroadcasts(jsonArray);
 	}
 	
-	public ArrayList<Broadcast> getProgramBroadcasts(){
+	public ArrayList<OldBroadcast> getProgramBroadcasts(){
 		return mProgramBroadcasts;
 	}
 	

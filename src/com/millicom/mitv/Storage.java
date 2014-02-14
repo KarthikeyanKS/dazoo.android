@@ -11,24 +11,24 @@ import com.millicom.mitv.models.AppConfigurationData;
 import com.millicom.mitv.models.AppVersionData;
 import com.millicom.mitv.models.TVChannelId;
 import com.millicom.mitv.models.TVGuide;
-import com.mitv.model.AdzerkAd;
-import com.mitv.model.Broadcast;
-import com.mitv.model.TVFeedItem;
-import com.mitv.model.TVChannel;
-import com.mitv.model.TVChannelGuide;
-import com.mitv.model.TVDate;
-import com.mitv.model.TVTag;
+import com.mitv.model.OldAdzerkAd;
+import com.mitv.model.OldBroadcast;
+import com.mitv.model.OldTVFeedItem;
+import com.mitv.model.OldTVChannel;
+import com.mitv.model.OldTVChannelGuide;
+import com.mitv.model.OldTVDate;
+import com.mitv.model.OldTVTag;
 
 public class Storage {
 
 	private static Storage sharedInstance;
 
-	private ArrayList<TVTag> tvTags;
-	private ArrayList<TVDate> tvDates;
+	private ArrayList<OldTVTag> tvTags;
+	private ArrayList<OldTVDate> tvDates;
 	private ArrayList<TVChannelId> tvChannelIdsDefault;
 	private ArrayList<TVChannelId> tvChannelIdsUser;
 	private ArrayList<TVChannelId> tvChannelIdsUsed;
-	private ArrayList<TVChannel> tvChannels;
+	private ArrayList<OldTVChannel> tvChannels;
 	private HashMap<String, TVGuide> tvGuides; /* Key is the id from the TVDate */
 
 	private ArrayList<String> likeIds;
@@ -36,17 +36,17 @@ public class Storage {
 	private Calendar likeIdsFetchedTimestamp;
 	private Calendar userChannelIdsFetchedTimestamp;
 	
-	private ArrayList<TVFeedItem> activityFeed;
-	private ArrayList<Broadcast> popularFeed;
+	private ArrayList<OldTVFeedItem> activityFeed;
+	private ArrayList<OldBroadcast> popularFeed;
 	
 	private String userToken;
-	private TVDate tvDateSelected;
+	private OldTVDate tvDateSelected;
 	
 	private AppVersionData appVersionData;
 	private AppConfigurationData appConfigData;
 		
 	/* Ads */
-	private HashMap<String, SparseArray<AdzerkAd>> fragmentToAdsMap;
+	private HashMap<String, SparseArray<OldAdzerkAd>> fragmentToAdsMap;
 	
 	public Storage() {
 		this.tvGuides = new HashMap<String, TVGuide>();
@@ -71,50 +71,50 @@ public class Storage {
 		return tvGuides;
 	}
 	
-	public TVDate getTvDateSelected() {
+	public OldTVDate getTvDateSelected() {
 		return tvDateSelected;
 	}
 
-	public void setTvDateSelected(TVDate tvDateSelected) {
+	public void setTvDateSelected(OldTVDate tvDateSelected) {
 		this.tvDateSelected = tvDateSelected;
 	}
 
-	public void addTVGuide(TVDate tvDate, TVGuide tvGuide) {
+	public void addTVGuide(OldTVDate tvDate, TVGuide tvGuide) {
 		this.tvGuides.put(tvDate.getId(), tvGuide);
 	}
 	
-	public TVGuide getTVGuideUsingTVDate(TVDate tvDate) {
+	public TVGuide getTVGuideUsingTVDate(OldTVDate tvDate) {
 		TVGuide tvGuide = tvGuides.get(tvDate.getId());
 		return tvGuide;
 	}
 	
 	public TVGuide getTVGuideForToday() {
-		TVDate tvDate = tvDates.get(0);
+		OldTVDate tvDate = tvDates.get(0);
 		TVGuide tvGuide = tvGuides.get(tvDate.getId());
 		return tvGuide;
 	}
 
-	public ArrayList<TVTag> getTvTags() {
+	public ArrayList<OldTVTag> getTvTags() {
 		return sharedInstance.tvTags;
 	}
 
-	public void setTvTags(ArrayList<TVTag> tvTags) {
+	public void setTvTags(ArrayList<OldTVTag> tvTags) {
 		this.tvTags = tvTags;
 	}
 
-	public ArrayList<TVDate> getTvDates() {
+	public ArrayList<OldTVDate> getTvDates() {
 		return tvDates;
 	}
 
-	public void setTvDates(ArrayList<TVDate> tvDates) {
+	public void setTvDates(ArrayList<OldTVDate> tvDates) {
 		this.tvDates = tvDates;
 	}
 
-	public ArrayList<TVChannel> getTvChannels() {
+	public ArrayList<OldTVChannel> getTvChannels() {
 		return tvChannels;
 	}
 
-	public void setTvChannels(ArrayList<TVChannel> tvChannels) {
+	public void setTvChannels(ArrayList<OldTVChannel> tvChannels) {
 		this.tvChannels = tvChannels;
 	}
 
@@ -142,19 +142,19 @@ public class Storage {
 		this.userChannelIdsFetchedTimestamp = userChannelIdsFetchedTimestamp;
 	}
 
-	public ArrayList<TVFeedItem> getActivityFeed() {
+	public ArrayList<OldTVFeedItem> getActivityFeed() {
 		return activityFeed;
 	}
 
-	public void setActivityFeed(ArrayList<TVFeedItem> activityFeed) {
+	public void setActivityFeed(ArrayList<OldTVFeedItem> activityFeed) {
 		this.activityFeed = activityFeed;
 	}
 
-	public ArrayList<Broadcast> getPopularFeed() {
+	public ArrayList<OldBroadcast> getPopularFeed() {
 		return popularFeed;
 	}
 
-	public void setPopularFeed(ArrayList<Broadcast> popularFeed) {
+	public void setPopularFeed(ArrayList<OldBroadcast> popularFeed) {
 		this.popularFeed = popularFeed;
 	}
 
@@ -166,11 +166,11 @@ public class Storage {
 		this.userToken = userToken;
 	}
 
-	public HashMap<String, SparseArray<AdzerkAd>> getFragmentToAdsMap() {
+	public HashMap<String, SparseArray<OldAdzerkAd>> getFragmentToAdsMap() {
 		return fragmentToAdsMap;
 	}
 
-	public void setFragmentToAdsMap(HashMap<String, SparseArray<AdzerkAd>> mFragmentToAdsMap) {
+	public void setFragmentToAdsMap(HashMap<String, SparseArray<OldAdzerkAd>> mFragmentToAdsMap) {
 		this.fragmentToAdsMap = mFragmentToAdsMap;
 	}
 
@@ -235,7 +235,7 @@ public class Storage {
 		return containsTVChannels;
 	}
 	
-	public boolean containsTVGuideForTVDate(TVDate tvDate) {
+	public boolean containsTVGuideForTVDate(OldTVDate tvDate) {
 		TVGuide tvGuide = getTVGuideUsingTVDate(tvDate);
 		boolean containsTVGuideForTVDate = (tvGuide != null);
 		return containsTVGuideForTVDate;

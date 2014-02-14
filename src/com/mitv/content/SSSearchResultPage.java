@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import android.util.Log;
 
 import com.mitv.Consts;
-import com.mitv.model.SearchResult;
+import com.mitv.model.OldSearchResult;
 
 public class SSSearchResultPage extends SSPage {
 
@@ -24,7 +24,7 @@ public class SSSearchResultPage extends SSPage {
 		super(Consts.URL_SEARCH);
 	}
 	
-	public SearchResult getSearchResult() {
+	public OldSearchResult getSearchResult() {
 		return super.getSearchResult();
 	}
 	

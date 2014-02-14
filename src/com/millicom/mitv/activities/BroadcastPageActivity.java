@@ -31,10 +31,10 @@ import com.mitv.content.SSBroadcastsFromSeriesPage;
 import com.mitv.content.SSPageCallback;
 import com.mitv.content.SSPageGetResult;
 import com.mitv.manager.InternalTrackingManager;
-import com.mitv.model.Broadcast;
-import com.mitv.model.TVChannel;
-import com.mitv.model.Program;
-import com.mitv.model.TVDate;
+import com.mitv.model.OldBroadcast;
+import com.mitv.model.OldTVChannel;
+import com.mitv.model.OldProgram;
+import com.mitv.model.OldTVDate;
 import com.mitv.storage.MiTVStore;
 import com.mitv.tvguide.BroadcastMainBlockPopulator;
 import com.mitv.tvguide.BroadcastRepetitionsBlockPopulator;
@@ -44,11 +44,11 @@ import com.mitv.utilities.DateUtilities;
 public class BroadcastPageActivity extends BaseActivity implements OnClickListener {
 
 	private static final String		TAG	= "BroadcastPageActivity";
-	private Broadcast				mBroadcast;
+	private OldBroadcast				mBroadcast;
 	private String					mTvDate, mChannelLogoUrl;
 	private LinearLayout			mBlockContainer;
 	private ActionBar				mActionBar;
-	private TVChannel					mChannel;
+	private OldTVChannel					mChannel;
 	private String					mChannelId, mBroadcastPageUrl;
 	private long					mBeginTimeInMillis;
 	private boolean					mIsFromNotification	= false, mIsFromActivity = false, mIsBroadcast = false, mIsUpcoming = false, mIsSeries = false, mIsRepeat = false,
@@ -58,8 +58,8 @@ public class BroadcastPageActivity extends BaseActivity implements OnClickListen
 	private MiTVStore				mitvStore;
 	private Activity				mActivity;
 	private Intent					intent;
-	private ArrayList<Broadcast>	mUpcomingBroadcasts;
-	private ArrayList<Broadcast>	mRepeatBroadcasts;
+	private ArrayList<OldBroadcast>	mUpcomingBroadcasts;
+	private ArrayList<OldBroadcast>	mRepeatBroadcasts;
 	private ScrollView				mScrollView;
 	private int						mActivityCardNumber;
 	public static Toast 			toast;
@@ -155,7 +155,7 @@ public class BroadcastPageActivity extends BaseActivity implements OnClickListen
 							if (mChannel != null) {
 								mBroadcast.setChannel(mChannel);
 							} else {
-								TVChannel channel = new TVChannel();
+								OldTVChannel channel = new OldTVChannel();
 								channel.setChannelId(mChannelId);
 								mBroadcast.setChannel(channel);
 							}
@@ -220,7 +220,7 @@ public class BroadcastPageActivity extends BaseActivity implements OnClickListen
 	
 						} else {
 							// otherwise - just use the id that we got with the notification intent
-							TVChannel channel = new TVChannel();
+							OldTVChannel channel = new OldTVChannel();
 							channel.setChannelId(mChannelId);
 							if (mChannelLogoUrl != null) {
 								channel.setAllImageUrls(mChannelLogoUrl);
@@ -290,20 +290,20 @@ public class BroadcastPageActivity extends BaseActivity implements OnClickListen
 		mainBlockPopulator.createBlock(mBroadcast);
 
 		// Remove upcoming broadcasts with season 0 and episode 0
-		LinkedList<Broadcast> upcomingToRemove = new LinkedList<Broadcast>();
+		LinkedList<OldBroadcast> upcomingToRemove = new LinkedList<OldBroadcast>();
 		if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(mBroadcast.getProgram().getProgramType())) {
-			Program program = mBroadcast.getProgram();
+			OldProgram program = mBroadcast.getProgram();
 			if (program.getSeason().getNumber().equals("0") && program.getEpisodeNumber() == 0) {
 				for (int i = 0; i < mUpcomingBroadcasts.size(); i++) {
-					Broadcast b = mUpcomingBroadcasts.get(i);
-					Program p = b.getProgram();
+					OldBroadcast b = mUpcomingBroadcasts.get(i);
+					OldProgram p = b.getProgram();
 					if (p.getSeason().getNumber().equals("0") && p.getEpisodeNumber() == 0) {
 						upcomingToRemove.add(b);
 					}
 				}
 			}
 		}
-		for (Broadcast b : upcomingToRemove) {
+		for (OldBroadcast b : upcomingToRemove) {
 			mUpcomingBroadcasts.remove(b);
 		}
 
@@ -426,10 +426,10 @@ public class BroadcastPageActivity extends BaseActivity implements OnClickListen
 			public void onGetPageResult(SSPageGetResult aPageGetResult) {
 				mRepeatBroadcasts = SSBroadcastsFromProgramPage.getInstance().getProgramBroadcasts();
 				int hour;
-				TVDate tvDate;
+				OldTVDate tvDate;
 				if (mIsFromNotification) {
 					hour = Integer.valueOf(DateUtilities.getCurrentHourString());
-					tvDate = new TVDate();
+					tvDate = new OldTVDate();
 					tvDate.setDate(mTvDate);
 					// Log.d(TAG, "hour: " + hour + " TvDate: " + tvDate.getDate());
 				} else {
@@ -440,14 +440,14 @@ public class BroadcastPageActivity extends BaseActivity implements OnClickListen
 
 				int indexOfNearestBroadcast = 0;
 				if (tvDate != null) {
-					indexOfNearestBroadcast = Broadcast.getClosestBroadcastIndexFromTime(mRepeatBroadcasts, hour, tvDate);
+					indexOfNearestBroadcast = OldBroadcast.getClosestBroadcastIndexFromTime(mRepeatBroadcasts, hour, tvDate);
 				} else {
 					Log.e(TAG, "TvDate was null");
-					indexOfNearestBroadcast = Broadcast.getClosestBroadcastIndex(mRepeatBroadcasts);
+					indexOfNearestBroadcast = OldBroadcast.getClosestBroadcastIndex(mRepeatBroadcasts);
 				}
 
 				if (indexOfNearestBroadcast >= 0) {
-					mRepeatBroadcasts = Broadcast.getBroadcastsStartingFromPosition(indexOfNearestBroadcast, mRepeatBroadcasts, mRepeatBroadcasts.size());
+					mRepeatBroadcasts = OldBroadcast.getBroadcastsStartingFromPosition(indexOfNearestBroadcast, mRepeatBroadcasts, mRepeatBroadcasts.size());
 					// Log.d(TAG, "broadcasts from program: " + mRepeatBroadcasts.size());
 				}
 				mIsRepeat = true;

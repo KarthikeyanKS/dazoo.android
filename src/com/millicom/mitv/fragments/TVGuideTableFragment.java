@@ -28,10 +28,10 @@ import com.mitv.adapters.AdListAdapter;
 import com.mitv.adapters.TVGuideListAdapter;
 import com.mitv.adapters.TVGuideTagListAdapter;
 import com.mitv.customviews.SwipeClockBar;
-import com.mitv.model.Broadcast;
-import com.mitv.model.TVChannelGuide;
-import com.mitv.model.TVTag;
-import com.mitv.model.TVDate;
+import com.mitv.model.OldBroadcast;
+import com.mitv.model.OldTVChannelGuide;
+import com.mitv.model.OldTVTag;
+import com.mitv.model.OldTVDate;
 import com.mitv.storage.MiTVStore;
 import com.mitv.utilities.DateUtilities;
 
@@ -43,21 +43,21 @@ public class TVGuideTableFragment extends BaseFragment {
 	private Activity				mActivity;
 	private ListView				mTVGuideListView;
 	private ImageView				mClockIv;
-	private ArrayList<TVChannelGuide>		mGuides;
-	private TVDate					mTvDate;
-	private TVTag						mTag;
+	private ArrayList<OldTVChannelGuide>		mGuides;
+	private OldTVDate					mTvDate;
+	private OldTVTag						mTag;
 	private int						mTvDatePosition;
 	private SwipeClockBar			mSwipeClockBar;
 	private TVGuideListAdapter		mTVGuideListAdapter;
 	private MiTVStore				mitvStore;
 	private boolean					mIsToday = false;
-	private ArrayList<Broadcast>	mTaggedBroadcasts;
+	private ArrayList<OldBroadcast>	mTaggedBroadcasts;
 	private TVGuideTagListAdapter	mTVTagListAdapter;
 	private int						mHour;
 	private TextView				mCurrentHourTv;
 	public HashMap<String, AdListAdapter> adapterMap;
 	
-	public static TVGuideTableFragment newInstance(TVTag tag, TVDate date, int position, HashMap<String, AdListAdapter> adapterMap) {
+	public static TVGuideTableFragment newInstance(OldTVTag tag, OldTVDate date, int position, HashMap<String, AdListAdapter> adapterMap) {
 
 		TVGuideTableFragment fragment = new TVGuideTableFragment();
 		fragment.adapterMap = adapterMap;
@@ -186,13 +186,13 @@ public class TVGuideTableFragment extends BaseFragment {
 				mTVGuideListAdapter.notifyDataSetChanged();
 				focusOnView();
 			} else {
-				final int index = Broadcast.getClosestBroadcastIndex(mTaggedBroadcasts);
+				final int index = OldBroadcast.getClosestBroadcastIndex(mTaggedBroadcasts);
 				//Remove all broadcasts that already ended
 				new Runnable() {
 					
 					@Override
 					public void run() {
-						ArrayList<Broadcast> toRemove = new ArrayList<Broadcast>();
+						ArrayList<OldBroadcast> toRemove = new ArrayList<OldBroadcast>();
 						for (int i = index; i < mTaggedBroadcasts.size(); i++) {
 							if(index < mTaggedBroadcasts.size()-1 && index >= 0) {
 								if (mTaggedBroadcasts.get(i).hasNotEnded() == false) {
@@ -200,7 +200,7 @@ public class TVGuideTableFragment extends BaseFragment {
 								}
 							}
 						}
-						for (Broadcast broadcast : toRemove) {
+						for (OldBroadcast broadcast : toRemove) {
 							mTaggedBroadcasts.remove(broadcast);
 						}
 					}

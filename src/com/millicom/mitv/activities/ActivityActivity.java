@@ -66,7 +66,7 @@ import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.adapters.ActivityFeedAdapter;
 import com.mitv.manager.ApiClient;
 import com.mitv.manager.ContentParser;
-import com.mitv.model.TVFeedItem;
+import com.mitv.model.OldTVFeedItem;
 import com.mitv.storage.MiTVStore;
 
 public class ActivityActivity extends BaseActivity implements OnClickListener {
@@ -77,7 +77,7 @@ public class ActivityActivity extends BaseActivity implements OnClickListener {
 	private TextView			mSignInTv, mGreetingTv;
 	private Button				mCheckPopularBtn, mLoginBtn;
 	private ActionBar			mActionBar;
-	private ArrayList<TVFeedItem>	activityFeed	= new ArrayList<TVFeedItem>();
+	private ArrayList<OldTVFeedItem>	activityFeed	= new ArrayList<OldTVFeedItem>();
 	private Boolean				mNoMoreItems = false, mNoTask = true;
 	private int					mStartIndex		= 0, mStep = 10, mNextStep = 5, mEndIndex = 0;
 	private ListView			mListView;
@@ -396,7 +396,7 @@ public class ActivityActivity extends BaseActivity implements OnClickListener {
 
 	class GetFeedMoreTask extends AsyncTask<Void, Void, Boolean> {
 
-		ArrayList<TVFeedItem>	moreFeedItems	= new ArrayList<TVFeedItem>();
+		ArrayList<OldTVFeedItem>	moreFeedItems	= new ArrayList<OldTVFeedItem>();
 
 		protected void onPostExecute(Boolean result) {
 			Log.d(TAG, "result: " + result);
@@ -526,7 +526,7 @@ public class ActivityActivity extends BaseActivity implements OnClickListener {
 				public void run() {
 					MiTVStore.getInstance().reinitializeFeed();
 					activityFeed.clear();
-					activityFeed = new ArrayList<TVFeedItem>();
+					activityFeed = new ArrayList<OldTVFeedItem>();
 					loadPage();
 				}
 			}, mNextRequestTime * 1000);

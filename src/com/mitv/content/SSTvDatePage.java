@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import android.util.Log;
 
 import com.mitv.Consts;
-import com.mitv.model.TVDate;
+import com.mitv.model.OldTVDate;
 
 public class SSTvDatePage extends SSPage {
 
@@ -27,7 +27,7 @@ public class SSTvDatePage extends SSPage {
 		super(Consts.URL_DATES);
 	}
 	
-	public ArrayList<TVDate> getTvDates() {
+	public ArrayList<OldTVDate> getTvDates() {
 		Log.d(TAG, "get Tv Dates");
 		return super.getTvDates();
 	}

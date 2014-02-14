@@ -29,10 +29,10 @@ import android.widget.Toast;
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.mitv.Consts;
 import com.mitv.R;
-import com.mitv.model.Broadcast;
-import com.mitv.model.TVChannel;
-import com.mitv.model.NotificationDbItem;
-import com.mitv.model.Program;
+import com.mitv.model.OldBroadcast;
+import com.mitv.model.OldTVChannel;
+import com.mitv.model.OldNotificationDbItem;
+import com.mitv.model.OldProgram;
 import com.mitv.utilities.DateUtilities;
 
 public class NotificationService {
@@ -40,7 +40,7 @@ public class NotificationService {
 	private static final String	TAG	= "NotificationService";
 	public static Toast sToast;
 
-	public static boolean resetAlarm(Context context, Broadcast broadcast, TVChannel channel, int notificationId){
+	public static boolean resetAlarm(Context context, OldBroadcast broadcast, OldTVChannel channel, int notificationId){
 
 		// call alarm manager to set the notification at the certain time
 		Intent intent = getAlarmIntent(notificationId, broadcast, channel, broadcast.getTvDateString());
@@ -62,7 +62,7 @@ public class NotificationService {
 	}
 	
 	
-	private static Intent getAlarmIntent(int notificationId, Broadcast broadcast, TVChannel channel, String dateDate) {
+	private static Intent getAlarmIntent(int notificationId, OldBroadcast broadcast, OldTVChannel channel, String dateDate) {
 		Intent intent = new Intent(Consts.INTENT_NOTIFICATION);
 
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_BEGINTIMEMILLIS, broadcast.getBeginTimeMillisGmt());
@@ -77,7 +77,7 @@ public class NotificationService {
 		return intent;
 	}
 
-	public static boolean setAlarm(Context context, Broadcast broadcast, TVChannel channel, String dateDate) {
+	public static boolean setAlarm(Context context, OldBroadcast broadcast, OldTVChannel channel, String dateDate) {
 
 		Random random = new Random();
 		int notificationId = random.nextInt(Integer.MAX_VALUE);
@@ -100,12 +100,12 @@ public class NotificationService {
 
 			NotificationDataSource notificationDataSource = new NotificationDataSource(context);
 
-			NotificationDbItem dbNotification = new NotificationDbItem();
+			OldNotificationDbItem dbNotification = new OldNotificationDbItem();
 			dbNotification.setNotificationId(notificationId);
 			dbNotification.setBroadcstUrl(Consts.URL_NOTIFY_BROADCAST_PREFIX + channel.getChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillisGmt());
 			dbNotification.setProgramId(broadcast.getProgram().getProgramId());
 
-			Program program = broadcast.getProgram();
+			OldProgram program = broadcast.getProgram();
 			String titleString = null;
 			if(program.getSeries() != null) {
 				titleString = program.getSeries().getName();
@@ -232,7 +232,7 @@ public class NotificationService {
 		return sToast;
 	}
 
-	public static void showRemoveNotificationDialog(final Context context, Broadcast broadcast, final int notificationId) {
+	public static void showRemoveNotificationDialog(final Context context, OldBroadcast broadcast, final int notificationId) {
 		String reminderText = "";
 		if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(broadcast.getProgram().getProgramType())) {
 			reminderText = context.getString(R.string.reminder_text_remove) + broadcast.getProgram().getTitle() + ", " + context.getString(R.string.season) + " "

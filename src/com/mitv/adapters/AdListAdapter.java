@@ -21,7 +21,7 @@ import com.mitv.R;
 import com.mitv.adapters.TVGuideListAdapter.ViewHolder;
 import com.mitv.manager.AppConfigurationManager;
 import com.mitv.manager.ApiClient;
-import com.mitv.model.AdzerkAd;
+import com.mitv.model.OldAdzerkAd;
 import com.mitv.storage.MiTVStore;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -36,7 +36,7 @@ public class AdListAdapter<T> extends BaseAdapter {
 	private String fragmentName;
 	private Activity activity;
 	private List<T> items;
-	private SparseArray<AdzerkAd> adItems = new SparseArray<AdzerkAd>();
+	private SparseArray<OldAdzerkAd> adItems = new SparseArray<OldAdzerkAd>();
 	private List<Integer> adFormats;
 	private int cellCountBetweenAdCells;
 	private boolean isAdsEnabled;
@@ -63,7 +63,7 @@ public class AdListAdapter<T> extends BaseAdapter {
 			
 			if(adItems == null) 
 			{
-				adItems = new SparseArray<AdzerkAd>();
+				adItems = new SparseArray<OldAdzerkAd>();
 				downloadAds();
 			}
 		}
@@ -81,7 +81,7 @@ public class AdListAdapter<T> extends BaseAdapter {
 			ApiClient.getAdzerkAd(divId, adFormats, new AdCallBackInterface() 
 			{
 				@Override
-				public void onAdResult(final AdzerkAd ad) {
+				public void onAdResult(final OldAdzerkAd ad) {
 					if (ad != null) {
 						adItems.put(index, ad);
 					}
@@ -163,7 +163,7 @@ public class AdListAdapter<T> extends BaseAdapter {
 			final ViewHolder holder = (ViewHolder) rowView.getTag();
 			
 			if (holder.mImageView != null) {
-				final AdzerkAd ad = getAdAtGlobalIndex(position);
+				final OldAdzerkAd ad = getAdAtGlobalIndex(position);
 				if (ad != null) {
 					final String imageUrl = ad.getImageUrl();
 					final String impressionUrl = ad.getImpressionUrl();
@@ -228,9 +228,9 @@ public class AdListAdapter<T> extends BaseAdapter {
 		return adIndex;
 	}
 	
-	private AdzerkAd getAdAtGlobalIndex(int globalIndex) {
+	private OldAdzerkAd getAdAtGlobalIndex(int globalIndex) {
 		int adIndex = globalIndexToAdIndex(globalIndex);
-		AdzerkAd ad = adItems.get(adIndex);
+		OldAdzerkAd ad = adItems.get(adIndex);
 		
 		return ad;
 	}

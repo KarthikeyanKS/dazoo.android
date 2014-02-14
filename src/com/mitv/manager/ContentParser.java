@@ -9,60 +9,60 @@ import org.json.JSONObject;
 import android.util.Log;
 
 import com.mitv.Consts;
-import com.mitv.model.AdzerkAd;
-import com.mitv.model.Broadcast;
-import com.mitv.model.TVChannel;
-import com.mitv.model.Credit;
-import com.mitv.model.TVLike;
-import com.mitv.model.MiTVLikeEntity;
-import com.mitv.model.TVFeedItem;
-import com.mitv.model.TVChannelGuide;
-import com.mitv.model.Program;
-import com.mitv.model.ProgramType;
-import com.mitv.model.SearchResult;
-import com.mitv.model.Season;
-import com.mitv.model.Series;
-import com.mitv.model.SportType;
-import com.mitv.model.TVTag;
-import com.mitv.model.TVDate;
+import com.mitv.model.OldAdzerkAd;
+import com.mitv.model.OldBroadcast;
+import com.mitv.model.OldTVChannel;
+import com.mitv.model.OldCredit;
+import com.mitv.model.OldTVLike;
+import com.mitv.model.OldMiTVLikeEntity;
+import com.mitv.model.OldTVFeedItem;
+import com.mitv.model.OldTVChannelGuide;
+import com.mitv.model.OldProgram;
+import com.mitv.model.OldProgramType;
+import com.mitv.model.OldSearchResult;
+import com.mitv.model.OldSeason;
+import com.mitv.model.OldSeries;
+import com.mitv.model.OldSportType;
+import com.mitv.model.OldTVTag;
+import com.mitv.model.OldTVDate;
 
 public class ContentParser {
 
 	private static final String	TAG	= "ContentParser";
 
-	public ArrayList<TVChannelGuide> parseGuide(JSONArray mainArray) throws Exception {
+	public ArrayList<OldTVChannelGuide> parseGuide(JSONArray mainArray) throws Exception {
 
-		ArrayList<TVChannelGuide> guides = new ArrayList<TVChannelGuide>();
+		ArrayList<OldTVChannelGuide> guides = new ArrayList<OldTVChannelGuide>();
 
 		for (int i = 0; i < mainArray.length(); i++) {
 			JSONObject jsonGuide = mainArray.getJSONObject(i);
-			TVChannelGuide guide = new TVChannelGuide(jsonGuide);
+			OldTVChannelGuide guide = new OldTVChannelGuide(jsonGuide);
 			guides.add(guide);
 		}
 		return guides;
 	}
 	
-	public SearchResult parseSearchResult(JSONObject jsonObject) throws Exception {
-		SearchResult searchResult = new SearchResult(jsonObject);
+	public OldSearchResult parseSearchResult(JSONObject jsonObject) throws Exception {
+		OldSearchResult searchResult = new OldSearchResult(jsonObject);
 		return searchResult;
 	}
 	
-	public AdzerkAd parseAd(String divId, JSONObject jsonAd) throws Exception {
-		AdzerkAd ad = new AdzerkAd(divId, jsonAd);
+	public OldAdzerkAd parseAd(String divId, JSONObject jsonAd) throws Exception {
+		OldAdzerkAd ad = new OldAdzerkAd(divId, jsonAd);
 		
 		return ad;
 	}
 
-	public ProgramType parseProgramType(JSONObject jsonProgramType) throws Exception {
-		ProgramType programType = new ProgramType();
+	public OldProgramType parseProgramType(JSONObject jsonProgramType) throws Exception {
+		OldProgramType programType = new OldProgramType();
 		programType.setId(jsonProgramType.optString(Consts.TAG_ID));
 		programType.setName(jsonProgramType.optString(Consts.TAG_NAME));
 		programType.setAlias(jsonProgramType.optString(Consts.TAG_ALIAS));
 		return programType;
 	}
 
-	public ArrayList<ProgramType> parseProgramTypes(JSONArray mainArray) throws Exception {
-		ArrayList<ProgramType> programTypes = new ArrayList<ProgramType>();
+	public ArrayList<OldProgramType> parseProgramTypes(JSONArray mainArray) throws Exception {
+		ArrayList<OldProgramType> programTypes = new ArrayList<OldProgramType>();
 
 		for (int i = 0; i < mainArray.length(); i++) {
 			JSONObject jsonProgramType = mainArray.getJSONObject(i);
@@ -73,15 +73,15 @@ public class ContentParser {
 		return programTypes;
 	}
 
-	public TVTag parseTag(JSONObject jsonTag) throws Exception {
-		TVTag tag = new TVTag();
+	public OldTVTag parseTag(JSONObject jsonTag) throws Exception {
+		OldTVTag tag = new OldTVTag();
 		tag.setId(jsonTag.optString(Consts.TAG_ID));
 		tag.setName(jsonTag.optString(Consts.TAG_NAME));
 		return tag;
 	}
 
-	public ArrayList<TVTag> parseTags(JSONArray mainArray) throws Exception {
-		ArrayList<TVTag> tags = new ArrayList<TVTag>();
+	public ArrayList<OldTVTag> parseTags(JSONArray mainArray) throws Exception {
+		ArrayList<OldTVTag> tags = new ArrayList<OldTVTag>();
 
 		Log.d(TAG, "TAGS PAGE SIZE:" + mainArray.length());
 
@@ -94,15 +94,15 @@ public class ContentParser {
 		return tags;
 	}
 
-	public ArrayList<TVDate> parseDates(JSONArray mainArray) throws Exception {
-		ArrayList<TVDate> tvDates = new ArrayList<TVDate>();
+	public ArrayList<OldTVDate> parseDates(JSONArray mainArray) throws Exception {
+		ArrayList<OldTVDate> tvDates = new ArrayList<OldTVDate>();
 
 		Log.d(TAG, "DATES PAGE SIZE:" + mainArray.length());
 
 		for (int i = 0; i < mainArray.length(); i++) {
 			JSONObject jsonTvDate = mainArray.getJSONObject(i);
 
-			TVDate tvDate = new TVDate();
+			OldTVDate tvDate = new OldTVDate();
 			tvDate.setId(jsonTvDate.optString(Consts.DATE_ID));
 			tvDate.setName(jsonTvDate.optString(Consts.DATE_NAME));
 			tvDate.setDate(jsonTvDate.optString(Consts.DATE_DATE));
@@ -112,11 +112,11 @@ public class ContentParser {
 		return tvDates;
 	}
 
-	public ArrayList<TVChannel> parseChannels(JSONArray mainArray) throws Exception {
+	public ArrayList<OldTVChannel> parseChannels(JSONArray mainArray) throws Exception {
 
 		Log.d(TAG, "CHANNELS PAGE SIZE:" + mainArray.length());
 
-		ArrayList<TVChannel> channels = new ArrayList<TVChannel>();
+		ArrayList<OldTVChannel> channels = new ArrayList<OldTVChannel>();
 
 		for (int i = 0; i < mainArray.length(); i++) {
 			JSONObject jsonChannel = mainArray.getJSONObject(i);
@@ -128,45 +128,45 @@ public class ContentParser {
 		return channels;
 	}
 
-	public static TVChannel parseChannel(JSONObject jsonChannel) throws Exception {
-		TVChannel channel = new TVChannel(jsonChannel);
+	public static OldTVChannel parseChannel(JSONObject jsonChannel) throws Exception {
+		OldTVChannel channel = new OldTVChannel(jsonChannel);
 
 		return channel;
 	}
 
-	public static Broadcast parseBroadcast(JSONObject jsonBroadcast) throws Exception {
-		Broadcast broadcast = new Broadcast(jsonBroadcast);
+	public static OldBroadcast parseBroadcast(JSONObject jsonBroadcast) throws Exception {
+		OldBroadcast broadcast = new OldBroadcast(jsonBroadcast);
 
 		return broadcast;
 	}
 
-	public static Program parseProgram(JSONObject jsonProgram) throws Exception {
-		Program program = new Program();
+	public static OldProgram parseProgram(JSONObject jsonProgram) throws Exception {
+		OldProgram program = new OldProgram();
 
 		return program;
 	}
 
-	public static SportType parseSportType(JSONObject jsonSportType) throws Exception {
-		SportType sportType = new SportType(jsonSportType);
+	public static OldSportType parseSportType(JSONObject jsonSportType) throws Exception {
+		OldSportType sportType = new OldSportType(jsonSportType);
 
 		return sportType;
 	}
 
-	public static Season parseSeason(JSONObject jsonSeason) throws Exception {
-		Season season = new Season(jsonSeason);
+	public static OldSeason parseSeason(JSONObject jsonSeason) throws Exception {
+		OldSeason season = new OldSeason(jsonSeason);
 		return season;
 	}
 
-	public TVDate parseTvDate(JSONObject jsonTvDate) throws Exception {
-		TVDate tvDate = new TVDate();
+	public OldTVDate parseTvDate(JSONObject jsonTvDate) throws Exception {
+		OldTVDate tvDate = new OldTVDate();
 		tvDate.setId(jsonTvDate.optString(Consts.DATE_ID));
 		tvDate.setName(jsonTvDate.optString(Consts.DATE_NAME));
 		tvDate.setDate(jsonTvDate.optString(Consts.DATE_DATE));
 		return tvDate;
 	}
 
-	public ArrayList<TVDate> parseTvDates(JSONArray mainArray) throws Exception {
-		ArrayList<TVDate> tvDates = new ArrayList<TVDate>();
+	public ArrayList<OldTVDate> parseTvDates(JSONArray mainArray) throws Exception {
+		ArrayList<OldTVDate> tvDates = new ArrayList<OldTVDate>();
 		for (int i = 0; i < mainArray.length(); i++) {
 			JSONObject jsonTvDate = mainArray.getJSONObject(i);
 			if (jsonTvDate != null) {
@@ -193,22 +193,22 @@ public class ContentParser {
 		} else return null;
 	}
 
-	public static Credit parseCredit(JSONObject jsonObject) {
-		Credit credit = new Credit(jsonObject);
+	public static OldCredit parseCredit(JSONObject jsonObject) {
+		OldCredit credit = new OldCredit(jsonObject);
 		return credit;
 	}
 
-	public static Series parseSeries(JSONObject jsonObject) {
-		Series series = new Series(jsonObject);
+	public static OldSeries parseSeries(JSONObject jsonObject) {
+		OldSeries series = new OldSeries(jsonObject);
 		return series;
 	}
 
-	public static TVLike parseMiTVLike(JSONObject jsonObject) {
-		TVLike mitvLike = new TVLike();
+	public static OldTVLike parseMiTVLike(JSONObject jsonObject) {
+		OldTVLike mitvLike = new OldTVLike();
 		String likeType = jsonObject.optString(Consts.LIKE_LIKETYPE);
 		mitvLike.setLikeType(likeType);
 
-		MiTVLikeEntity mitvLikeEntity = new MiTVLikeEntity();
+		OldMiTVLikeEntity mitvLikeEntity = new OldMiTVLikeEntity();
 		if (Consts.LIKE_TYPE_SERIES.equals(likeType)) {
 			mitvLikeEntity.setTitle(jsonObject.optString(Consts.LIKE_SERIES_TITLE));
 			mitvLikeEntity.setSeriesId(jsonObject.optString(Consts.LIKE_SERIES_SERIES_ID));
@@ -251,8 +251,8 @@ public class ContentParser {
 		return null;
 	}
 
-	public static TVFeedItem parseFeedItem(JSONObject jsonObject) {
-		TVFeedItem feedItem = new TVFeedItem();
+	public static OldTVFeedItem parseFeedItem(JSONObject jsonObject) {
+		OldTVFeedItem feedItem = new OldTVFeedItem();
 		String itemType = jsonObject.optString(Consts.FEED_ITEM_ITEM_TYPE);
 		feedItem.setItemType(itemType);
 
@@ -269,10 +269,10 @@ public class ContentParser {
 			feedItem.setTitle(jsonObject.optString(Consts.FEED_ITEM_TITLE));
 			JSONArray broadcastsJSONArray = jsonObject.optJSONArray(Consts.FEED_ITEM_BROADCASTS);
 			int size = broadcastsJSONArray.length();
-			ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
+			ArrayList<OldBroadcast> broadcasts = new ArrayList<OldBroadcast>();
 			for (int i = 0; i < size; i++) {
 				try {
-					Broadcast broadcast = parseBroadcast(broadcastsJSONArray.optJSONObject(i));
+					OldBroadcast broadcast = parseBroadcast(broadcastsJSONArray.optJSONObject(i));
 					broadcasts.add(broadcast);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -281,7 +281,7 @@ public class ContentParser {
 			
 			if(broadcasts.size() == 1) {
 				feedItem.setItemType(Consts.FEED_ITEM_TYPE_POPULAR_BROADCAST);
-				Broadcast onlyBroadcast = broadcasts.get(0);
+				OldBroadcast onlyBroadcast = broadcasts.get(0);
 				feedItem.setBroadcast(onlyBroadcast);
 			} else {
 				feedItem.setBroadcasts(broadcasts);
@@ -290,15 +290,15 @@ public class ContentParser {
 		return feedItem;
 	}
 
-	public static ArrayList<Broadcast> parseBroadcasts(JSONArray jsonArray) {
-		ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
+	public static ArrayList<OldBroadcast> parseBroadcasts(JSONArray jsonArray) {
+		ArrayList<OldBroadcast> broadcasts = new ArrayList<OldBroadcast>();
 		int size = jsonArray.length();
 		for (int i = 0; i < size; i++) {
 			JSONObject jsonObject;
 			try {
 				jsonObject = jsonArray.getJSONObject(i);
 				if (jsonObject != null) {
-					Broadcast broadcast = parseBroadcast(jsonObject);
+					OldBroadcast broadcast = parseBroadcast(jsonObject);
 					broadcasts.add(broadcast);
 
 				}

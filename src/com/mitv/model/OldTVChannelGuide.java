@@ -13,19 +13,19 @@ import android.os.Parcelable;
 import com.mitv.Consts;
 import com.mitv.utilities.DateUtilities;
 
-public class TVChannelGuide extends ThreeImageResolutions implements Parcelable {
+public class OldTVChannelGuide extends OldThreeImageResolutions implements Parcelable {
 
 	private String id;
 	
-	private ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
+	private ArrayList<OldBroadcast> broadcasts = new ArrayList<OldBroadcast>();
 
 	/* Used for caching broadcast indexes */
 	private HashMap<Long, Integer> broadcastIndexCache = new HashMap<Long, Integer>();
 
-	public TVChannelGuide() {
+	public OldTVChannelGuide() {
 	}
 
-	public TVChannelGuide(JSONObject jsonGuide) {
+	public OldTVChannelGuide(JSONObject jsonGuide) {
 		this.setId(jsonGuide.optString(Consts.GUIDE_CHANNEL_ID));
 
 		JSONObject logosJson = jsonGuide.optJSONObject(Consts.GUIDE_LOGO);
@@ -38,11 +38,11 @@ public class TVChannelGuide extends ThreeImageResolutions implements Parcelable 
 		JSONArray broadcastsJson = jsonGuide.optJSONArray(Consts.GUIDE_BROADCASTS);
 
 		if (broadcastsJson != null) {
-			ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
+			ArrayList<OldBroadcast> broadcasts = new ArrayList<OldBroadcast>();
 			for (int j = 0; j < broadcastsJson.length(); j++) {
 				JSONObject jsonBroadcast = broadcastsJson.optJSONObject(j);
 				if (jsonBroadcast != null) {
-					Broadcast broadcast = new Broadcast(jsonBroadcast);
+					OldBroadcast broadcast = new OldBroadcast(jsonBroadcast);
 					broadcasts.add(broadcast);
 				}
 			}
@@ -58,15 +58,15 @@ public class TVChannelGuide extends ThreeImageResolutions implements Parcelable 
 		return this.id;
 	}
 
-	public void setBroadcasts(ArrayList<Broadcast> broadcasts) {
+	public void setBroadcasts(ArrayList<OldBroadcast> broadcasts) {
 		this.broadcasts = broadcasts;
 	}
 
-	public ArrayList<Broadcast> getBroadcasts() {
+	public ArrayList<OldBroadcast> getBroadcasts() {
 		return this.broadcasts;
 	}
 
-	public TVChannelGuide(Parcel in) 
+	public OldTVChannelGuide(Parcel in) 
 	{
 		id = in.readString();
 		
@@ -78,7 +78,7 @@ public class TVChannelGuide extends ThreeImageResolutions implements Parcelable 
 		setImageUrlPortraitOrSquareMedium(urlMediumRes);
 		setImageUrlPortraitOrSquareHigh(urlHighRes);
 		
-		in.readTypedList(broadcasts, Broadcast.CREATOR);
+		in.readTypedList(broadcasts, OldBroadcast.CREATOR);
 	}
 
 	@Override
@@ -97,8 +97,8 @@ public class TVChannelGuide extends ThreeImageResolutions implements Parcelable 
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof TVChannelGuide) {
-			TVChannelGuide other = (TVChannelGuide) o;
+		if (o instanceof OldTVChannelGuide) {
+			OldTVChannelGuide other = (OldTVChannelGuide) o;
 			if (getId() != null && other.getId() != null && getId().equals(other.getId())) {
 				return true;
 			}
@@ -106,17 +106,17 @@ public class TVChannelGuide extends ThreeImageResolutions implements Parcelable 
 		return false;
 	}
 
-	public static final Parcelable.Creator<TVChannelGuide> CREATOR = new Parcelable.Creator<TVChannelGuide>() {
-		public TVChannelGuide createFromParcel(Parcel in) {
-			return new TVChannelGuide(in);
+	public static final Parcelable.Creator<OldTVChannelGuide> CREATOR = new Parcelable.Creator<OldTVChannelGuide>() {
+		public OldTVChannelGuide createFromParcel(Parcel in) {
+			return new OldTVChannelGuide(in);
 		}
 
-		public TVChannelGuide[] newArray(int size) {
-			return new TVChannelGuide[size];
+		public OldTVChannelGuide[] newArray(int size) {
+			return new OldTVChannelGuide[size];
 		}
 	};
 
-	public int getClosestBroadcastIndexFromTime(ArrayList<Broadcast> broadcastList, int hour, TVDate date) {
+	public int getClosestBroadcastIndexFromTime(ArrayList<OldBroadcast> broadcastList, int hour, OldTVDate date) {
 		int nearestIndex = 0;
 
 		long timeNow = DateUtilities.timeAsLongFromTvDateAndHour(date, hour);
@@ -126,7 +126,7 @@ public class TVChannelGuide extends ThreeImageResolutions implements Parcelable 
 		return nearestIndex;
 	}
 
-	public int getClosestBroadcastIndex(ArrayList<Broadcast> broadcastList) {
+	public int getClosestBroadcastIndex(ArrayList<OldBroadcast> broadcastList) {
 		int nearestIndex = 0;
 
 		// get the time now
@@ -138,7 +138,7 @@ public class TVChannelGuide extends ThreeImageResolutions implements Parcelable 
 		return nearestIndex;
 	}
 
-	public int getBroadcastIndex(ArrayList<Broadcast> broadcastList, long timeNow) {
+	public int getBroadcastIndex(ArrayList<OldBroadcast> broadcastList, long timeNow) {
 		int nearestIndex = 0;
 		Integer nearestIndexObj = null;
 		Long timeLongObject = Long.valueOf(timeNow);
@@ -152,7 +152,7 @@ public class TVChannelGuide extends ThreeImageResolutions implements Parcelable 
 
 		if (nearestIndexObj == null) {
 			/* Cache miss */
-			nearestIndex = Broadcast.getClosestBroadcastIndexUsingTime(broadcastList, timeNow);
+			nearestIndex = OldBroadcast.getClosestBroadcastIndexUsingTime(broadcastList, timeNow);
 
 			broadcastIndexCache.put(timeLongObject, Integer.valueOf(nearestIndex));
 		}

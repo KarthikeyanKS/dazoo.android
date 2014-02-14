@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.mitv.R;
 import com.mitv.interfaces.MyChannelsCountInterface;
-import com.mitv.model.TVChannel;
+import com.mitv.model.OldTVChannel;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -25,7 +25,7 @@ public class MyChannelsListAdapter extends BaseAdapter {
 
 	private LayoutInflater				mLayoutInflater;
 	private Context						mContext;
-	private ArrayList<TVChannel>			mChannels;
+	private ArrayList<OldTVChannel>			mChannels;
 	private ArrayList<String>			mCheckedChannelIds;
 	private boolean[]					mIsCheckedArray;
 	private TextView					mCounterTextView;
@@ -35,7 +35,7 @@ public class MyChannelsListAdapter extends BaseAdapter {
 
 	private MyChannelsCountInterface	mCountInterface;
 
-	public MyChannelsListAdapter(Context context, ArrayList<TVChannel> channels, boolean[] isCheckedArray, MyChannelsCountInterface countInterface, int selectedCount, ArrayList<String> checkedChannelIds) {
+	public MyChannelsListAdapter(Context context, ArrayList<OldTVChannel> channels, boolean[] isCheckedArray, MyChannelsCountInterface countInterface, int selectedCount, ArrayList<String> checkedChannelIds) {
 		this.mContext = context;
 		this.mChannels = channels;
 		this.mCheckedChannelIds = checkedChannelIds;
@@ -52,7 +52,7 @@ public class MyChannelsListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public TVChannel getItem(int position) {
+	public OldTVChannel getItem(int position) {
 		if (mChannels != null) {
 			return mChannels.get(position);
 		} else return null;
@@ -84,7 +84,7 @@ public class MyChannelsListAdapter extends BaseAdapter {
 
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
 
-		final TVChannel channel = getItem(position);
+		final OldTVChannel channel = getItem(position);
 		currentPosition = (Integer) holder.mChannelNameTv.getTag();
 
 		holder.mChannelNameTv.setText(channel.getName());

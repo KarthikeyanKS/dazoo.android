@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.mitv.Consts;
 import com.mitv.R;
-import com.mitv.model.Broadcast;
+import com.mitv.model.OldBroadcast;
 import com.mitv.utilities.ProgressBarUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -28,12 +28,12 @@ public class ChannelPageListAdapter extends BaseAdapter {
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
-	private ArrayList<Broadcast>	mFollowingBroadcasts;
+	private ArrayList<OldBroadcast>	mFollowingBroadcasts;
 
 	private int						mLastPosition	= -1;
 	private ViewHolder				holder;
 
-	public ChannelPageListAdapter(Activity activity, ArrayList<Broadcast> followingBroadcasts) {
+	public ChannelPageListAdapter(Activity activity, ArrayList<OldBroadcast> followingBroadcasts) {
 		this.mFollowingBroadcasts = followingBroadcasts;
 		this.mActivity = activity;
 	}
@@ -46,7 +46,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public Broadcast getItem(int position) {
+	public OldBroadcast getItem(int position) {
 		if (mFollowingBroadcasts != null) {
 			return mFollowingBroadcasts.get(position);
 		} else return null;
@@ -65,7 +65,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 
-		final Broadcast broadcast = getItem(position);
+		final OldBroadcast broadcast = getItem(position);
 		broadcast.updateTimeToBeginAndTimeToEnd();
 		String broadcastType = broadcast.getBroadcastType();
 		String programType = broadcast.getProgram().getProgramType();
@@ -180,7 +180,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 
 	@Override
 	public int getItemViewType(int position) {
-		Broadcast broadcast = getItem(position);
+		OldBroadcast broadcast = getItem(position);
 		if (broadcast.isRunning()) {
 			return 0;
 		}

@@ -8,11 +8,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import android.util.Log;
 import com.mitv.SecondScreenApplication;
-import com.mitv.model.Broadcast;
-import com.mitv.model.TVChannel;
-import com.mitv.model.TVChannelGuide;
-import com.mitv.model.TVTag;
-import com.mitv.model.TVDate;
+import com.mitv.model.OldBroadcast;
+import com.mitv.model.OldTVChannel;
+import com.mitv.model.OldTVChannelGuide;
+import com.mitv.model.OldTVTag;
+import com.mitv.model.OldTVDate;
 
 
 
@@ -23,9 +23,9 @@ public class MiTVStoreOperations
 
 
 	
-	public static void saveChannels(ArrayList<TVChannel> channels) 
+	public static void saveChannels(ArrayList<OldTVChannel> channels) 
 	{
-		HashMap<String, TVChannel> channelsMap = new HashMap<String, TVChannel>();
+		HashMap<String, OldTVChannel> channelsMap = new HashMap<String, OldTVChannel>();
 		ArrayList<String> channelsIds = new ArrayList<String>();
 
 		int size = channels.size();
@@ -45,7 +45,7 @@ public class MiTVStoreOperations
 
 
 	
-	public static void setTvDates(ArrayList<TVDate> tvDates) 
+	public static void setTvDates(ArrayList<OldTVDate> tvDates) 
 	{
 		MiTVStore mitvStore = MiTVStore.getInstance();
 		mitvStore.setTvDates(tvDates);
@@ -53,7 +53,7 @@ public class MiTVStoreOperations
 
 	
 	
-	public static void setTags(ArrayList<TVTag> tags) 
+	public static void setTags(ArrayList<OldTVTag> tags) 
 	{
 		MiTVStore mitvStore = MiTVStore.getInstance();
 		mitvStore.setTags(tags);
@@ -61,11 +61,11 @@ public class MiTVStoreOperations
 
 	
 	
-	public static boolean saveGuide(TVChannelGuide guide, String tvDate, String channelId) 
+	public static boolean saveGuide(OldTVChannelGuide guide, String tvDate, String channelId) 
 	{
 		MiTVStore mitvStore = MiTVStore.getInstance();
 		
-		HashMap<GuideKey, TVChannelGuide> guides = mitvStore.getGuides();
+		HashMap<GuideKey, OldTVChannelGuide> guides = mitvStore.getGuides();
 		
 		GuideKey guideKey = new GuideKey();
 		guideKey.setDate(tvDate);
@@ -79,11 +79,11 @@ public class MiTVStoreOperations
 	
 	
 
-	public static boolean saveGuides(ArrayList<TVChannelGuide> channelGuide, String tvDate) 
+	public static boolean saveGuides(ArrayList<OldTVChannelGuide> channelGuide, String tvDate) 
 	{
 		boolean success = false;
 		
-		for (TVChannelGuide channelGuideElement : channelGuide)
+		for (OldTVChannelGuide channelGuideElement : channelGuide)
 		{
 			String channelId = channelGuideElement.getId();
 			
@@ -96,10 +96,10 @@ public class MiTVStoreOperations
 	}
 
 
-	public static void saveTaggedBroadcast(TVDate date, TVTag tag, ArrayList<Broadcast> broadcasts) 
+	public static void saveTaggedBroadcast(OldTVDate date, OldTVTag tag, ArrayList<OldBroadcast> broadcasts) 
 	{
 		MiTVStore mitvStore = MiTVStore.getInstance();
-		HashMap<BroadcastKey, ArrayList<Broadcast>> broadcastsList = mitvStore.getBroadcastsList();
+		HashMap<BroadcastKey, ArrayList<OldBroadcast>> broadcastsList = mitvStore.getBroadcastsList();
 
 		BroadcastKey broadcastKey = new BroadcastKey();
 		broadcastKey.setDate(date);
@@ -111,19 +111,19 @@ public class MiTVStoreOperations
 
 
 	// filtering guides by tags
-	public static ArrayList<Broadcast> getTaggedBroadcasts(String date, TVTag tag)
+	public static ArrayList<OldBroadcast> getTaggedBroadcasts(String date, OldTVTag tag)
 	{
 		MiTVStore mitvStore = MiTVStore.getInstance();
-		ArrayList<TVChannelGuide> channelGuides = mitvStore.getChannelGuides(date);
+		ArrayList<OldTVChannelGuide> channelGuides = mitvStore.getChannelGuides(date);
 		String tagName = tag.getId();
 		
-		ArrayList<Broadcast> taggedBroadcasts = new ArrayList<Broadcast>();
+		ArrayList<OldBroadcast> taggedBroadcasts = new ArrayList<OldBroadcast>();
 		
 		int channelGuideCount = channelGuides.size();
 		
 		for (int i = 0; i < channelGuideCount; i++) 
 		{
-			ArrayList<Broadcast> broadcastsForChannelGuide = channelGuides.get(i).getBroadcasts();
+			ArrayList<OldBroadcast> broadcastsForChannelGuide = channelGuides.get(i).getBroadcasts();
 
 			//get the broadcast channel
 			String channelId = channelGuides.get(i).getId();
@@ -132,11 +132,11 @@ public class MiTVStoreOperations
 			
 			for (int j = 0; j < broadcastCoundForChannelGuide; j++) 
 			{
-				Broadcast broadcastToAdd = broadcastsForChannelGuide.get(j);
+				OldBroadcast broadcastToAdd = broadcastsForChannelGuide.get(j);
 				
 				if (broadcastToAdd != null && broadcastToAdd.getProgram().getTags().contains(tagName)) 
 				{
-					TVChannel channel = MiTVStore.getInstance().getChannelById(channelId);
+					OldTVChannel channel = MiTVStore.getInstance().getChannelById(channelId);
 					broadcastToAdd.setChannel(channel);
 					taggedBroadcasts.add(broadcastToAdd);
 				}
@@ -144,7 +144,7 @@ public class MiTVStoreOperations
 		}
 		
 		// sort by broadcast time
-		Collections.sort(taggedBroadcasts, new Broadcast.BroadcastComparatorByTime());
+		Collections.sort(taggedBroadcasts, new OldBroadcast.BroadcastComparatorByTime());
 
 		return taggedBroadcasts;
 	}
