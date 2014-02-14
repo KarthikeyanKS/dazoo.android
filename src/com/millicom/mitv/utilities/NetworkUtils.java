@@ -12,7 +12,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
-import com.mitv.R;
+import com.mitv.Consts;
 import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -51,7 +51,7 @@ public class NetworkUtils
 		
 		return convertStreamToString(inputStream, charset);
 	}
-		
+	
 	
 	
 	public static String convertStreamToString(
@@ -97,7 +97,7 @@ public class NetworkUtils
 	
 	public static Boolean isConnectedAndHostIsReachable(final Context context)
 	{
-		return isConnected(context) && isHostReachable(context);
+		return isConnected(context) && isHostReachable();
 	}
 	
 	
@@ -127,25 +127,25 @@ public class NetworkUtils
 	
 	
 	
-	private static boolean isHostReachable(final Context context)
+	private static boolean isHostReachable()
 	{
 		boolean isHostReachable = false;
 		
 	    try 
 	    {
-	    	URL url = new URL(context.getResources().getString(R.string.host_name_for_connectivity_check));
+	    	URL url = new URL(Consts.HOST_NAME_FOR_CONNECTIVITY_CHECK);
 	    	
 	    	HttpURLConnection urlc = (HttpURLConnection) (url).openConnection();
 	    	urlc.setRequestProperty("User-Agent", "Test");
 	    	urlc.setRequestProperty("Connection", "close");
-	    	urlc.setConnectTimeout(context.getResources().getInteger(R.integer.timeout_in_miliseconds_for_connectivity_check)); 
+	    	urlc.setConnectTimeout(Consts.HOST_TIMEOUT_IN_MILISECONDS_FOR_CONNECTIVITY_CHECK); 
 	    	urlc.connect();
 	    	
 	    	isHostReachable = (urlc.getResponseCode() == 200);
 	    	
 	    	StringBuilder sb = new StringBuilder();
 	    	sb.append("Success: Host ");
-	    	sb.append(context.getResources().getString(R.string.host_name_for_connectivity_check));
+	    	sb.append(Consts.HOST_NAME_FOR_CONNECTIVITY_CHECK);
 	    	sb.append(" is reachable.");
 	    	Log.d(TAG, sb.toString());
 	    } 

@@ -29,14 +29,10 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
-
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.ssl.HttpClientWraper;
 import com.mitv.Consts;
-import com.mitv.R;
-import android.content.Context;
 import android.util.Log;
-
 
 
 
@@ -68,7 +64,7 @@ public class HTTPCore
 	}
 	
 	
-	
+	/*
 	public HTTPCoreResponse httpGet(
 			final String url,
 			final URLParameters urlParameters,
@@ -202,16 +198,51 @@ public class HTTPCore
 
 		return response;
 	}
+	*/
+	
+	
+	
+	public HTTPCoreResponse executeRequest(
+			final HTTPRequestTypeEnum httpRequestType,
+			final String url,
+			final URLParameters urlParameters,
+			final Map<String, String> headerParameters,
+			final String bodyContentData)
+	{
+		StringBuilder messageSB = new StringBuilder();
+        messageSB.append("HTTP Get request for url: ");
+        messageSB.append(url);
+        Log.d(TAG, messageSB.toString());
+
+        HTTPCoreResponse response = executeRequest(
+        		httpRequestType,
+        		url,
+        		urlParameters,
+        		headerParameters,
+        		Consts.JSON_MIME_TYPE,
+        		Consts.JSON_MIME_TYPE,
+				bodyContentData,
+				Consts.HTTP_CORE_CONNECTION_TIMEOUT_IN_MILISECONDS,
+				Consts.HTTP_CORE_SOCKET_TIMEOUT_IN_MILISECONDS,
+				false,
+				new String(),
+				0,
+				new String(),
+				new String(),
+				false);
+
+		return response;
+	}
 	
 	
 	
 	private HTTPCoreResponse executeRequest(
+			final HTTPRequestTypeEnum httpRequestType,
 			final String url,
 			final URLParameters urlParameters,
-			final Map<String, String> headerData,
+			final Map<String, String> headerParameters,
 			final String acceptType,
 			final String contentType,
-			final HTTPRequestTypeEnum httpRequestType,
 			final String httpBodyData,
 			final int connectionTimeout,
 			final int socketTimeout,
@@ -322,9 +353,8 @@ public class HTTPCore
 		            errorMessageSB.append(uex.getStackTrace());
 		            Log.e(TAG, errorMessageSB.toString());
 		        }
-		 
-				
 			}
+			break;
 			
 			case HTTP_PUT:
 			{
@@ -361,6 +391,7 @@ public class HTTPCore
 			{
 				request = new HttpDelete(serviceUrl.toString());
 			}
+			break;
 			
 			default:
 			case HTTP_GET:
@@ -382,7 +413,7 @@ public class HTTPCore
 		}
 		// No need for else (do not add header)
 
-		for(Entry<String, String> entry : headerData.entrySet())
+		for(Entry<String, String> entry : headerParameters.entrySet())
 		{
 			request.setHeader(entry.getKey(), entry.getValue());
 		}
