@@ -369,6 +369,22 @@ public class ContentManager implements ContentCallbackListener {
 		return tvTags;
 	}
 	
+	/* UserToken getter */
+	/**
+	 * This method should only be used by the AsyncTaskWithUserToken class. A part from that class
+	 * no other class should ever access or modify the user token directly. All login/logout/sign up
+	 * logic should be handled by this class.
+	 * @return
+	 */
+	public String getUserToken() {
+		String userToken = storage.getUserToken();
+		return userToken;
+	}
+	
+	public boolean isLoggedIn() {
+		boolean isLoggedIn = storage.isLoggedIn();
+		return isLoggedIn;
+	}
 	
 	/* HELPER METHODS */
 	public boolean checkApiVersion(String apiVersion) {
