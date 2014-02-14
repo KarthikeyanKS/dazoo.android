@@ -7,7 +7,7 @@ import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
-import com.millicom.mitv.models.AppVersionData;
+import com.millicom.mitv.models.gson.AppVersionData;
 import com.mitv.Consts;
 
 
@@ -24,17 +24,5 @@ public class GetAppVersionData
 			ActivityCallbackListener activityCallBackListener)
 	{
 		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.APP_VERSION, AppVersionData.class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
-	}
-	
-	
-	
-	@Override
-	protected Void doInBackground(String... params) 
-	{
-		super.doInBackground(params);
-		
-		// TODO; Execute the task itself
-		
-		return null;
 	}
 }

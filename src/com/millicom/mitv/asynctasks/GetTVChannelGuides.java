@@ -11,7 +11,7 @@ import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.http.URLParameters;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
-import com.millicom.mitv.models.TVChannelId;
+import com.millicom.mitv.models.gson.TVChannelId;
 import com.mitv.Consts;
 import com.mitv.model.OldTVChannelGuide;
 import com.mitv.model.OldTVDate;
@@ -45,15 +45,7 @@ public class GetTVChannelGuides
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener) 
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.TV_GUIDE, OldTVChannelGuide.class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX, new URLParameters());
-	}
-	
-	
-	
-	@Override
-	protected Void doInBackground(String... params) 
-	{
-		return null;
+		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.TV_GUIDE, OldTVChannelGuide.class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
 	}
 
 	

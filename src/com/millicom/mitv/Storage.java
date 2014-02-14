@@ -7,10 +7,10 @@ import java.util.HashMap;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
-import com.millicom.mitv.models.AppConfigurationData;
-import com.millicom.mitv.models.AppVersionData;
-import com.millicom.mitv.models.TVChannelId;
 import com.millicom.mitv.models.TVGuide;
+import com.millicom.mitv.models.gson.AppConfigurationData;
+import com.millicom.mitv.models.gson.AppVersionData;
+import com.millicom.mitv.models.gson.TVChannelId;
 import com.mitv.model.OldAdzerkAd;
 import com.mitv.model.OldBroadcast;
 import com.mitv.model.OldTVChannel;

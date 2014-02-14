@@ -18,9 +18,6 @@ public class PerformUserPasswordResetSendEmail
 	private static final String URL_SUFFIX = Consts.URL_RESET_PASSWORD_SEND_EMAIL;
 	
 	
-	private String email;
-	
-	
 	
 	public PerformUserPasswordResetSendEmail(
 			ContentCallbackListener contentCallbackListener, 
@@ -29,18 +26,6 @@ public class PerformUserPasswordResetSendEmail
 	{
 		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_RESET_PASSWORD_SEND_EMAIL, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
 		
-		this.email = email;
-	}
-	
-
-	
-	@Override
-	protected Void doInBackground(String... params) 
-	{
-		super.doInBackground(params);
-		
-		// TODO; Execute the task itself
-		
-		return null;
+		// TODO - Transform parameter data fields into json data
 	}
 }

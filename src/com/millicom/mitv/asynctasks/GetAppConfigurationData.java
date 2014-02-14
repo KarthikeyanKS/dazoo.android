@@ -7,7 +7,7 @@ import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
-import com.millicom.mitv.models.AppVersionData;
+import com.millicom.mitv.models.gson.AppVersionData;
 import com.mitv.Consts;
 
 
@@ -24,13 +24,4 @@ public class GetAppConfigurationData extends AsyncTaskWithRelativeURL<AppVersion
 	{
 		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.APP_CONFIGURATION, AppVersionData.class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
 	}
-	
-	
-	
-	@Override
-	protected Void doInBackground(String... params) 
-	{
-		return null;
-	}
-
 }

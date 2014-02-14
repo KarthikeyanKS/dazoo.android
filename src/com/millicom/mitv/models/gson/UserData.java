@@ -1,5 +1,5 @@
 
-package com.millicom.mitv.models;
+package com.millicom.mitv.models.gson;
 
 
 

@@ -18,20 +18,10 @@ public class GetUserLikes extends AsyncTaskWithUserToken<OldTVLike>
 	
 	
 	
-	public GetUserLikes(ContentCallbackListener contentCallbackListener, ActivityCallbackListener activityCallBackListener) 
+	public GetUserLikes(
+			ContentCallbackListener contentCallbackListener,
+			ActivityCallbackListener activityCallBackListener) 
 	{
 		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_LIKES, OldTVLike.class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
-	}
-	
-	
-	
-	@Override
-	protected Void doInBackground(String... params) 
-	{
-		super.doInBackground(params);
-		
-		// TODO; Execute the task itself
-		
-		return null;
 	}
 }

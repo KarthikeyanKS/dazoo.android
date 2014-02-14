@@ -1,4 +1,4 @@
-package com.millicom.mitv.models;
+package com.millicom.mitv.models.gson;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
