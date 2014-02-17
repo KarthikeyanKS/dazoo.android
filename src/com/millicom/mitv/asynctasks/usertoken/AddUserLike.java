@@ -13,23 +13,19 @@ import com.mitv.model.OldTVLike;
 
 
 
-public class AddUserLikes 
+public class AddUserLike 
 	extends AsyncTaskWithUserToken<OldTVLike> 
 {
 	private static final String URL_SUFFIX = Consts.URL_LIKES;
 	
 	
-	public AddUserLikes(
+	public AddUserLike(
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener,
 			ContentTypeEnum likeType,
 			String contentId) 
 	{
-		// TODO: Append something to url
 		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_ADD_LIKE, OldTVLike.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
-		
-		// TODO: Complete this
-		urlParameters.add(Consts.API_ENTITY_ID, contentId);
 		
 		// TODO - Transform parameter data fields into json data
 	}

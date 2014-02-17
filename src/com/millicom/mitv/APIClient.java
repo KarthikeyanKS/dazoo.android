@@ -7,22 +7,27 @@ import java.util.List;
 import com.millicom.mitv.asynctasks.GetAds;
 import com.millicom.mitv.asynctasks.GetAppConfigurationData;
 import com.millicom.mitv.asynctasks.GetAppVersionData;
+import com.millicom.mitv.asynctasks.GetTVBroadcastDetails;
+import com.millicom.mitv.asynctasks.GetTVBroadcastsFromProgram;
+import com.millicom.mitv.asynctasks.GetTVBroadcastsFromSeries;
 import com.millicom.mitv.asynctasks.GetTVChannelGuides;
 import com.millicom.mitv.asynctasks.GetTVChannelIdsDefault;
-import com.millicom.mitv.asynctasks.GetTVChannels;
+import com.millicom.mitv.asynctasks.GetTVChannelsAll;
 import com.millicom.mitv.asynctasks.GetTVDates;
 import com.millicom.mitv.asynctasks.GetTVTags;
 import com.millicom.mitv.asynctasks.PerformUserLogin;
 import com.millicom.mitv.asynctasks.PerformUserSignUp;
 import com.millicom.mitv.asynctasks.PerformUserHasSeenAd;
-import com.millicom.mitv.asynctasks.usertoken.AddUserLikes;
+import com.millicom.mitv.asynctasks.usertoken.AddUserLike;
 import com.millicom.mitv.asynctasks.usertoken.GetFeedItems;
 import com.millicom.mitv.asynctasks.usertoken.GetUserLikes;
 import com.millicom.mitv.asynctasks.usertoken.GetUserTVChannelIds;
 import com.millicom.mitv.asynctasks.usertoken.GetUserTokenUsingFBToken;
 import com.millicom.mitv.asynctasks.usertoken.PerformUserPasswordConfirmation;
 import com.millicom.mitv.asynctasks.usertoken.PerformUserPasswordResetSendEmail;
+import com.millicom.mitv.asynctasks.usertoken.PerformUserLogout;
 import com.millicom.mitv.asynctasks.usertoken.RemoveUserLikes;
+import com.millicom.mitv.asynctasks.usertoken.SetUserTVChannelIds;
 import com.millicom.mitv.enums.ContentTypeEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
@@ -77,14 +82,13 @@ public class APIClient
 	}
 	
 	
+	
 	public void getTVChannelsAll(ActivityCallbackListener activityCallBackListener)
 	{
-		// TODO - Set correct suffix
-		String urlSuffix = "";
-		
-		GetTVChannels getTVChannels = new GetTVChannels(contentCallbackListener, activityCallBackListener, urlSuffix);
-		getTVChannels.execute();
+		GetTVChannelsAll getTVChannelsAll = new GetTVChannelsAll(contentCallbackListener, activityCallBackListener);
+		getTVChannelsAll.execute();
 	}
+	
 	
 	
 	public void getDefaultTVChannelIds(ActivityCallbackListener activityCallBackListener) 
@@ -94,18 +98,20 @@ public class APIClient
 	}
 	
 	
+	
 	public void getUserTVChannelIds(ActivityCallbackListener activityCallBackListener) 
 	{
-		// TODO - Set correct suffix
-		String urlSuffix = "";
-		
-		GetUserTVChannelIds getUserTVChannelIds = new GetUserTVChannelIds(contentCallbackListener, activityCallBackListener, urlSuffix);
+		GetUserTVChannelIds getUserTVChannelIds = new GetUserTVChannelIds(contentCallbackListener, activityCallBackListener);
 		getUserTVChannelIds.execute();
 	}
 	
 	
+	
 	public void setUserTVChannelIds(ActivityCallbackListener activityCallBackListener, List<TVChannelId> tvChannelIds) 
-	{}
+	{
+		SetUserTVChannelIds setUserTVChannelIds = new SetUserTVChannelIds(contentCallbackListener, activityCallBackListener, tvChannelIds);
+		setUserTVChannelIds.execute();
+	}
 	
 	
 	public void getFeedItems(ActivityCallbackListener activityCallBackListener) 
@@ -115,8 +121,29 @@ public class APIClient
 	}
 	
 	
-	public void getRepetionsForBroadcast(ActivityCallbackListener activityCallBackListener)
-	{}
+	
+	public void getTVBroadcastDetails(ActivityCallbackListener activityCallBackListener, TVChannelId tvChannelId, long beginTime)
+	{
+		GetTVBroadcastDetails getTVBroadcastDetails = GetTVBroadcastDetails.newGetTVBroadcastDetailsTask(contentCallbackListener, activityCallBackListener, tvChannelId, beginTime);
+		getTVBroadcastDetails.execute();
+	}
+	
+	
+	
+	public void getTVBroadcastsFromSeries(ActivityCallbackListener activityCallBackListener, String tvSeriesId)
+	{
+		GetTVBroadcastsFromSeries getTVBroadcastsFromSeries = GetTVBroadcastsFromSeries.newGetTVBroadcastsFromSeriesTask(contentCallbackListener, activityCallBackListener, tvSeriesId);
+		getTVBroadcastsFromSeries.execute();
+	}
+	
+	
+	
+	public void getTVBroadcastsFromProgram(ActivityCallbackListener activityCallBackListener, String tvProgramId)
+	{
+		GetTVBroadcastsFromProgram getTVBroadcastsFromProgram = GetTVBroadcastsFromProgram.newGetTVBroadcastsFromProgramTask(contentCallbackListener, activityCallBackListener, tvProgramId);
+		getTVBroadcastsFromProgram.execute();
+	}
+	
 	
 	
 	public void getUserLikes(ActivityCallbackListener activityCallBackListener)
@@ -129,7 +156,7 @@ public class APIClient
 	/* The content ID is either a seriesId, or a sportTypesId or programId */
 	public void addUserLike(ActivityCallbackListener activityCallBackListener, ContentTypeEnum likeType, String contentId) 
 	{
-		AddUserLikes addUserLikes = new AddUserLikes(contentCallbackListener, activityCallBackListener, likeType, contentId);
+		AddUserLike addUserLikes = new AddUserLike(contentCallbackListener, activityCallBackListener, likeType, contentId);
 		addUserLikes.execute();
 	}
 
@@ -198,6 +225,7 @@ public class APIClient
 	
 	public void performUserLogout(ActivityCallbackListener activityCallBackListener) 
 	{
-		// No task is currently called for logout
+		PerformUserLogout performuserLogout = PerformUserLogout.newGetTVBroadcastsFromSeriesTask(contentCallbackListener, activityCallBackListener);
+		performuserLogout.execute();
 	}
 }

@@ -66,6 +66,7 @@ public abstract class Consts {
 	public static final String URL_SEARCH		 					= URL_SERVER + "search?query=%s*";
 	public static final String URL_API_VERSION						= URL_SERVER + "versions";
 	public static final String URL_NOTIFY_BROADCAST_PREFIX 			= URL_SERVER + "epg/channels/";
+	public static final String URL_AUTH_TOKENS 					 	= URL_SERVER + "auth/tokens/";
 	
 	/* Used as meta data in all HTTP requests */
 	public static final String HTTP_REQUEST_DATA_LOCALE 			= "lang";
