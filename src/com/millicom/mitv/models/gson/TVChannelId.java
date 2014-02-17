@@ -15,8 +15,10 @@ public class TVChannelId {
 		return channelId;
 	}
 
+
 	public void setChannelId(String channelId) {
 		this.channelId = channelId;
 	}
 	
+
 }

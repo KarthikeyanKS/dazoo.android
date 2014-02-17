@@ -8,9 +8,14 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.gson.Gson;
+<<<<<<< Updated upstream
 import com.google.gson.GsonBuilder;
+=======
+import com.google.gson.JsonSyntaxException;
+>>>>>>> Stashed changes
 import com.millicom.mitv.models.gson.TVChannel;
 import com.mitv.Consts;
 
@@ -28,6 +33,7 @@ public class TVChannelGSONTest extends Tests {
 		Gson gson = gsonBuilder.create();
 
 		tvChannels = Arrays.asList(gson.fromJson(jsonString, TVChannel[].class));
+
 	}
 
 	@Test
@@ -45,7 +51,9 @@ public class TVChannelGSONTest extends Tests {
 			Assert.assertFalse(TextUtils.isEmpty(tvChannel.getName()));
 
 			Assert.assertNotNull(tvChannel.getChannelId());
-			// Assert.assertFalse(TextUtils.isEmpty(tvChannel.getChannelId().getChannelId()));
+
+			Assert.assertFalse(TextUtils.isEmpty(tvChannel.getChannelId().getChannelId()));
+			
 
 			Assert.assertNotNull(tvChannel.getLogo().getSmall());
 			Assert.assertFalse(TextUtils.isEmpty(tvChannel.getLogo().getSmall()));
