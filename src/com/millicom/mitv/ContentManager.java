@@ -98,67 +98,91 @@ public class ContentManager implements ContentCallbackListener {
 	@Override
 	public void onResult(ActivityCallbackListener activityCallBackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content) {
 	
-			switch (requestIdentifier) {
-			case APP_CONFIGURATION:
-			case APP_VERSION: {
-				handleAppDataResponse(activityCallBackListener, result, requestIdentifier, content);
-				break;
-			}
-			case TV_DATE:
-			case TV_TAG:
-			case TV_CHANNEL:
-			case TV_CHANNEL_IDS_USER:
-			case TV_CHANNEL_IDS_DEFAULT: {
-				handleTVDataResponse(activityCallBackListener, result, requestIdentifier, content);
-				break;
-			}
-			case TV_GUIDE: {
-				handleTVChannelGuidesForSelectedDayResponse(activityCallBackListener, result, content);
-				break;
-			}
-			case ADS: {
-				break;
-			}
-			case USER_LOGIN: {
-				handleLoginResponse(activityCallBackListener, result, content);
-				break;
-			}
-			case USER_SIGN_UP: {
-				handleSignUpResponse(activityCallBackListener, result, content);
-				break;
-			}
-			case USER_LOGOUT: {
-				handleLogoutResponse(activityCallBackListener);
-				break;
-			}
-			case USER_FB_TOKEN: {
-				break;
-			}
-			case USER_LIKES: {
-				break;
-			}
-			case USER_SET_CHANNELS: {
-				handleSetChannelsResponse(activityCallBackListener, result);
-				break;
-			}
-			case USER_ADD_LIKE: {
-				break;
-			}
-			case USER_REMOVE_LIKE: {
-				break;
-			}
-			case USER_RESET_PASSWORD_SEND_EMAIL: {
-				break;
-			}
-			case USER_RESET_PASSWORD_SEND_CONFIRM_PASSWORD: {
-				break;
-			}
-			case USER_ACTIVITY_FEED_ITEM: {
-				break;
-			}
-			case POPULAR_ITEMS: {
-				break;
-			}
+			switch (requestIdentifier)
+			{
+				case APP_CONFIGURATION:
+				case APP_VERSION: {
+					handleAppDataResponse(activityCallBackListener, result, requestIdentifier, content);
+					break;
+				}
+				case TV_DATE:
+				case TV_TAG:
+				case TV_CHANNEL:
+				case TV_CHANNEL_IDS_USER:
+				case TV_CHANNEL_IDS_DEFAULT: {
+					handleTVDataResponse(activityCallBackListener, result, requestIdentifier, content);
+					break;
+				}
+				case TV_GUIDE: {
+					handleTVChannelGuidesForSelectedDayResponse(activityCallBackListener, result, content);
+					break;
+				}
+				case ADS: {
+					break;
+				}
+				case USER_LOGIN: {
+					handleLoginResponse(activityCallBackListener, result, content);
+					break;
+				}
+				case USER_SIGN_UP: {
+					handleSignUpResponse(activityCallBackListener, result, content);
+					break;
+				}
+				case USER_LOGOUT: {
+					handleLogoutResponse(activityCallBackListener);
+					break;
+				}
+				case USER_FB_TOKEN: {
+					break;
+				}
+				case USER_LIKES: {
+					break;
+				}
+				case USER_SET_CHANNELS: {
+					handleSetChannelsResponse(activityCallBackListener, result);
+					break;
+				}
+				case USER_ADD_LIKE: {
+					break;
+				}
+				case USER_REMOVE_LIKE:
+				{
+					// TODO
+					break;
+				}
+				case USER_RESET_PASSWORD_SEND_EMAIL: 
+				{
+					// TODO
+					break;
+				}
+				case USER_RESET_PASSWORD_SEND_CONFIRM_PASSWORD: 
+				{
+					// TODO
+					break;
+				}
+				case USER_ACTIVITY_FEED_ITEM:
+				{
+					// TODO
+					break;
+				}
+				case POPULAR_ITEMS: {
+					break;
+				}
+				case BROADCAST_DETAILS :
+				{
+					// TODO
+					break;
+				}
+				case BROADCASTS_FROM_PROGRAMS :
+				{
+					// TODO
+					break;
+				}
+				case BROADCASTS_FROM_SERIES_UPCOMING :
+				{
+					// TODO
+					break;
+				}
 			}
 	}
 	
@@ -203,40 +227,56 @@ public class ContentManager implements ContentCallbackListener {
 		if (result.wasSuccessful() && data != null) {
 			completedCountTVData++;
 	
-			switch (requestIdentifier) {
-			case TV_DATE: {
-				ArrayList<OldTVDate> tvDates = (ArrayList<OldTVDate>) data;
-				storage.setTvDates(tvDates);
-				
-				/* We will only get here ONCE, at the start of the app, no TVDate has been selected, set it! */
-				if(!tvDates.isEmpty()) {
-					OldTVDate tvDate = tvDates.get(0);
-					storage.setTvDateSelected(tvDate);
-				} else {
-					//TODO handle this...?
+			switch (requestIdentifier) 
+			{
+				case TV_DATE: {
+					ArrayList<OldTVDate> tvDates = (ArrayList<OldTVDate>) data;
+					storage.setTvDates(tvDates);
+					
+					/* We will only get here ONCE, at the start of the app, no TVDate has been selected, set it! */
+					if(!tvDates.isEmpty()) {
+						OldTVDate tvDate = tvDates.get(0);
+						storage.setTvDateSelected(tvDate);
+					} else {
+						//TODO handle this...?
+					}
+					break;
 				}
-				break;
-			}
-			case TV_TAG: {
-				ArrayList<OldTVTag> tvTags = (ArrayList<OldTVTag>) data;
-				storage.setTvTags(tvTags);
-				break;
-			}
-			case TV_CHANNEL: {
-				ArrayList<OldTVChannel> tvChannels = (ArrayList<OldTVChannel>) data;
-				storage.setTvChannels(tvChannels);
-				break;
-			}
-			case TV_CHANNEL_IDS_DEFAULT: {
-				ArrayList<TVChannelId> tvChannelIdsDefault = (ArrayList<TVChannelId>) data;
-				storage.setTvChannelIdsDefault(tvChannelIdsDefault);
-				break;
-			}
-			case TV_CHANNEL_IDS_USER: {
-				ArrayList<TVChannelId> tvChannelIdsUser = (ArrayList<TVChannelId>) data;
-				storage.setTvChannelIdsUser(tvChannelIdsUser);
-				break;
-			}
+				case TV_TAG: {
+					ArrayList<OldTVTag> tvTags = (ArrayList<OldTVTag>) data;
+					storage.setTvTags(tvTags);
+					break;
+				}
+				case TV_CHANNEL: {
+					ArrayList<OldTVChannel> tvChannels = (ArrayList<OldTVChannel>) data;
+					storage.setTvChannels(tvChannels);
+					break;
+				}
+				case TV_CHANNEL_IDS_DEFAULT: {
+					ArrayList<TVChannelId> tvChannelIdsDefault = (ArrayList<TVChannelId>) data;
+					storage.setTvChannelIdsDefault(tvChannelIdsDefault);
+					break;
+				}
+				case TV_CHANNEL_IDS_USER: {
+					ArrayList<TVChannelId> tvChannelIdsUser = (ArrayList<TVChannelId>) data;
+					storage.setTvChannelIdsUser(tvChannelIdsUser);
+					break;
+				}
+				case BROADCAST_DETAILS :
+				{
+					// TODO
+					break;
+				}
+				case BROADCASTS_FROM_PROGRAMS :
+				{
+					// TODO
+					break;
+				}
+				case BROADCASTS_FROM_SERIES_UPCOMING :
+				{
+					// TODO
+					break;
+				}
 			}
 	
 			int completedCountTVDataThreshold;

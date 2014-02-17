@@ -6,8 +6,11 @@ package com.millicom.mitv.asynctasks;
 import java.util.Collections;
 import java.util.Map;
 import android.os.AsyncTask;
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
@@ -22,11 +25,14 @@ import com.millicom.mitv.interfaces.ContentCallbackListener;
 public class AsyncTaskBase<T> 
 	extends AsyncTask<String, Void, Void> 
 {	
+	private static final String TAG = "AsyncTaskBase";
+	
 	private ContentCallbackListener contentCallbackListener;
 	private ActivityCallbackListener activityCallBackListener;
 	private RequestIdentifierEnum requestIdentifier;
 	
-	private Gson gson;
+	protected Gson gson;   // This is protected due to its use in classes that need to serialize data into the bodyContentData
+	
 	private Class<T> clazz;
 	
 	private HTTPRequestTypeEnum httpRequestType;
@@ -89,13 +95,13 @@ public class AsyncTaskBase<T>
 			gsonBuilder.registerTypeAdapter(clazz, clazz.newInstance());
 			this.gson = gsonBuilder.create();
 		} 
-		catch (InstantiationException e)
+		catch (InstantiationException iex)
 		{
-			e.printStackTrace();
+			Log.e(TAG, iex.getMessage(), iex);
 		} 
-		catch (IllegalAccessException e) 
+		catch (IllegalAccessException ilaex) 
 		{
-			e.printStackTrace();
+			Log.e(TAG, ilaex.getMessage(), ilaex);
 		}
 	}
 	
@@ -106,21 +112,29 @@ public class AsyncTaskBase<T>
 	{
 		HTTPCoreResponse response = HTTPCore.sharedInstance().executeRequest(httpRequestType, url, urlParameters, headerParameters, bodyContentData);
 		
-		this.requestResultStatus = FetchRequestResultEnum.getFetchRequestResultEnumFromCode(response.getStatusCode());
+		requestResultStatus = FetchRequestResultEnum.getFetchRequestResultEnumFromCode(response.getStatusCode());
 		
-		if(response.hasResponseString())
+		boolean hasResponseString = response.hasResponseString();
+		
+		if(hasResponseString)
 		{
-			String contentAsString = response.getResponseString();
+			String responseString = response.getResponseString();
 			
-			// TODO - Parse string into json
-			
-			// gson.
-			
-			// this.content =
+			try
+			{
+				requestResultObjectContent = gson.fromJson(responseString, clazz);
+			}
+			catch(JsonSyntaxException jsex)
+			{
+				Log.e(TAG, jsex.getMessage(), jsex);
+				
+				requestResultStatus = FetchRequestResultEnum.UNKNOWN_ERROR;
+				requestResultObjectContent = null;
+			}
 		}
 		else
 		{
-			this.requestResultObjectContent = null;
+			requestResultObjectContent = null;
 		}
 				
 		return null;
