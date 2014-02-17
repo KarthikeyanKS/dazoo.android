@@ -164,7 +164,7 @@ public class APIClient
 	/* The content ID is either a seriesId, or a sportTypesId or programId */
 	public void removeUserLike(ActivityCallbackListener activityCallBackListener, ContentTypeEnum likeType, String contentId) 
 	{
-		RemoveUserLikes removeUserLikes = new RemoveUserLikes(contentCallbackListener, activityCallBackListener, likeType, contentId);
+		RemoveUserLikes removeUserLikes = RemoveUserLikes.newRemoveUserLikesTask(contentCallbackListener, activityCallBackListener, likeType, contentId);
 		removeUserLikes.execute();
 	}
 	
