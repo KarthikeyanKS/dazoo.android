@@ -9,7 +9,7 @@ import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.models.BroadcastDetails;
-import com.millicom.mitv.models.TVChannelId;
+import com.millicom.mitv.models.gson.TVChannelId;
 
 
 
@@ -25,7 +25,7 @@ public class GetTVBroadcastDetails
 			long beginTime)
 	{
 		GetTVBroadcastsDetailsBuilder getTVBroadcastsDetailsBuilder = new GetTVBroadcastsDetailsBuilder();
-		getTVBroadcastsDetailsBuilder.setTvChannelId(tvChannelId.getTvChannelId());
+		getTVBroadcastsDetailsBuilder.setTvChannelId(tvChannelId.getChannelId());
 		getTVBroadcastsDetailsBuilder.setBeginTime(beginTime);
 		
 		GetTVBroadcastDetails getTVBroadcastDetails = getTVBroadcastsDetailsBuilder.build(contentCallbackListener, activityCallBackListener);

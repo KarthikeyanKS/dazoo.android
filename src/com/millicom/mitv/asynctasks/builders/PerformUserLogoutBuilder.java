@@ -3,7 +3,7 @@ package com.millicom.mitv.asynctasks.builders;
 
 
 
-import com.millicom.mitv.Storage;
+import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.asynctasks.usertoken.PerformUserLogout;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
@@ -17,7 +17,7 @@ public class PerformUserLogoutBuilder
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener)
 	{
-		String userToken = Storage.sharedInstance().getUserToken();
+		String userToken = ContentManager.sharedInstance().getUserToken();
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append(Consts.URL_AUTH_TOKENS);

@@ -4,7 +4,7 @@ package com.millicom.mitv.models.gson.serialization;
 
 
 import java.util.List;
-import com.millicom.mitv.models.TVChannelId;
+import com.millicom.mitv.models.gson.TVChannelId;
 
 
 
