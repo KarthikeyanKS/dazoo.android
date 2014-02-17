@@ -2,26 +2,18 @@ package com.mitv.test;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
-import java.util.Arrays;
-import java.util.List;
-
-import junit.framework.Assert;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.junit.Test;
-import org.w3c.dom.Text;
-
-import com.google.gson.Gson;
-import com.millicom.mitv.models.gson.TVDates;
-import com.millicom.mitv.utilities.NetworkUtils;
-import com.mitv.Consts;
 
 import android.test.InstrumentationTestCase;
 import android.util.Log;
+
+import com.millicom.mitv.utilities.NetworkUtils;
+import com.mitv.Consts;
 
 public class Tests extends InstrumentationTestCase {
 		

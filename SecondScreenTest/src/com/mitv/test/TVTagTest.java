@@ -39,8 +39,8 @@ public class TVTagTest extends Tests {
 			Assert.assertNotNull(tvTags.getId());
 			Assert.assertFalse(TextUtils.isEmpty(tvTags.getId()));
 			
-			Assert.assertNotNull(tvTags.getDisplayname());
-			Assert.assertFalse(TextUtils.isEmpty(tvTags.getDisplayname()));
+			Assert.assertNotNull(tvTags.getDisplayName());
+			Assert.assertFalse(TextUtils.isEmpty(tvTags.getDisplayName()));
 		}
 	}
 

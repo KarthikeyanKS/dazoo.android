@@ -1,32 +1,22 @@
 package com.millicom.mitv.models.gson;
 
-import java.io.Serializable;
-import java.lang.reflect.Type;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
+public class TVChannelId {
 
-public class TVChannelId implements Serializable, JsonDeserializer<TVChannelId>{
+	private String channelId;
 
-	private static final long serialVersionUID = 4700191329599444606L;
-	private String tvChannelId;
+	public TVChannelId(){}
 
-	/* Important to have empty constructor for GSON deserialization!!! */
-	public TVChannelId() {}
+	public TVChannelId(String channelId) {
+		this.channelId = channelId;
+	}
 	
-	@Override
-	public TVChannelId deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-		return null;
+	public String getChannelId() {
+		return channelId;
 	}
 
-	public String getTvChannelId() {
-		return tvChannelId;
-	}
-
-	public void setTvChannelId(String tvChannelId) {
-		this.tvChannelId = tvChannelId;
+	public void setChannelId(String channelId) {
+		this.channelId = channelId;
 	}
 	
 }

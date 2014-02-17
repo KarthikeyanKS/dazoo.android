@@ -40,7 +40,7 @@ public class GetTVChannelGuidesBuilder
 		
 		for(TVChannelId tvChannelId : tvChannelIds) 
 		{
-			String tvChannelIdAsString = tvChannelId.getTvChannelId();
+			String tvChannelIdAsString = tvChannelId.getChannelId();
 			urlParameters.add(Consts.API_CHANNEL_ID, tvChannelIdAsString);
 		}
 		

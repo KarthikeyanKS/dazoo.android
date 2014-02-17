@@ -7,14 +7,14 @@ public class TVTag implements Serializable {
 	private static final long serialVersionUID = 5062447937304870213L;
 
 	private String id;
-	private String displayname;
+	private String displayName;
 	
 	public String getId() {
 		return id;
 	}
 	
-	public String getDisplayname() {
-		return displayname;
+	public String getDisplayName() {
+		return displayName;
 	}
 	
 	

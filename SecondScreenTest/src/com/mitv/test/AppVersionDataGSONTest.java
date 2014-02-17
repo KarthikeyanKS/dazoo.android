@@ -1,7 +1,6 @@
 package com.mitv.test;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -12,7 +11,6 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.millicom.mitv.models.gson.AppVersionDataPart;
-import com.millicom.mitv.models.gson.TVDates;
 import com.mitv.Consts;
 
 public class AppVersionDataGSONTest extends Tests {

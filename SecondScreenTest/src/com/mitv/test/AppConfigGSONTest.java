@@ -1,17 +1,11 @@
 package com.mitv.test;
 
-import java.util.Arrays;
-import java.util.List;
+import org.junit.Test;
 
 import junit.framework.Assert;
 
-import org.junit.Test;
-
-import android.text.TextUtils;
-
 import com.google.gson.Gson;
 import com.millicom.mitv.models.gson.AppConfigurationData;
-import com.millicom.mitv.models.gson.TVDates;
 import com.mitv.Consts;
 
 public class AppConfigGSONTest extends Tests {
