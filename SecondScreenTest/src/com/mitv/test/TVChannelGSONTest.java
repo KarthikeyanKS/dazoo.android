@@ -8,14 +8,9 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.google.gson.Gson;
-<<<<<<< Updated upstream
 import com.google.gson.GsonBuilder;
-=======
-import com.google.gson.JsonSyntaxException;
->>>>>>> Stashed changes
 import com.millicom.mitv.models.gson.TVChannel;
 import com.mitv.Consts;
 

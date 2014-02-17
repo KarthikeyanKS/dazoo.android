@@ -59,7 +59,7 @@ public class TVBroadcastProgramTest extends Tests {
 			Assert.assertNotNull(tvBroadcastProgram.getBeginTimeMillis());
 			
 			Assert.assertNotNull(tvBroadcastProgram.getBeginTime());
-			Assert.assertTrue(tvBroadcastProgram.getBeginTime().getYear()> TIMESTAMP_OF_YEAR_2000);
+			Assert.assertTrue(tvBroadcastProgram.getBeginTime().getTime() > TIMESTAMP_OF_YEAR_2000);
 			
 			Assert.assertNotNull(tvBroadcastProgram.getEndTime());
 			/* Check if endTime is after today or something? */
