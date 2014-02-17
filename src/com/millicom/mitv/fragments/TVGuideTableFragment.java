@@ -46,7 +46,7 @@ public class TVGuideTableFragment extends BaseFragment {
 	private ArrayList<OldTVChannelGuide>		mGuides;
 	private OldTVDate					mTvDate;
 	private OldTVTag						mTag;
-	private int						mTvDatePosition;
+//	private int						mTvDatePosition;
 	private SwipeClockBar			mSwipeClockBar;
 	private TVGuideListAdapter		mTVGuideListAdapter;
 	private MiTVStore				mitvStore;
@@ -57,13 +57,13 @@ public class TVGuideTableFragment extends BaseFragment {
 	private TextView				mCurrentHourTv;
 	public HashMap<String, AdListAdapter> adapterMap;
 	
-	public static TVGuideTableFragment newInstance(OldTVTag tag, OldTVDate date, int position, HashMap<String, AdListAdapter> adapterMap) {
+	public static TVGuideTableFragment newInstance(OldTVTag tag, OldTVDate date, HashMap<String, AdListAdapter> adapterMap) {
 
 		TVGuideTableFragment fragment = new TVGuideTableFragment();
 		fragment.adapterMap = adapterMap;
 		Bundle bundle = new Bundle();
 		bundle.putParcelable(Consts.FRAGMENT_EXTRA_TVDATE, date);
-		bundle.putInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION, position);
+//		bundle.putInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION, position);
 		bundle.putString(Consts.FRAGMENT_EXTRA_TAG, tag.getName());
 		fragment.setArguments(bundle);
 		return fragment;
@@ -82,7 +82,7 @@ public class TVGuideTableFragment extends BaseFragment {
 		Bundle bundle = getArguments();
 		mTagStr = bundle.getString(Consts.FRAGMENT_EXTRA_TAG);
 		mTvDate = bundle.getParcelable(Consts.FRAGMENT_EXTRA_TVDATE);
-		mTvDatePosition = bundle.getInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION);
+//		mTvDatePosition = bundle.getInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION);
 		mTag = mitvStore.getTag(mTagStr);
 		
 		if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {

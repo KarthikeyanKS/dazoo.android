@@ -6,7 +6,7 @@ import com.millicom.mitv.asynctasks.GetTVChannelGuides;
 import com.millicom.mitv.http.URLParameters;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
-import com.millicom.mitv.models.TVChannelId;
+import com.millicom.mitv.models.gson.TVChannelId;
 import com.mitv.Consts;
 import com.mitv.model.OldTVDate;
 
@@ -40,7 +40,7 @@ public class GetTVChannelGuidesBuilder
 		
 		for(TVChannelId tvChannelId : tvChannelIds) 
 		{
-			String tvChannelIdAsString = tvChannelId.getTvChannelId();
+			String tvChannelIdAsString = tvChannelId.getChannelId();
 			urlParameters.add(Consts.API_CHANNEL_ID, tvChannelIdAsString);
 		}
 		

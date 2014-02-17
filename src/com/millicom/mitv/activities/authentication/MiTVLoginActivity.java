@@ -4,8 +4,10 @@ package com.millicom.mitv.activities.authentication;
 
 
 import java.util.concurrent.ExecutionException;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -17,15 +19,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.millicom.asynctasks.LoginTask;
 import com.millicom.mitv.activities.ActivityActivity;
 import com.millicom.mitv.activities.HomeActivity;
+import com.mitv.AuthenticationService;
 import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
-import com.mitv.AuthenticationService;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.manager.ContentManager;
 import com.mitv.utilities.PatternCheck;
 
 
@@ -218,7 +220,7 @@ public class MiTVLoginActivity
 									
 									intent.putExtra(Consts.INTENT_EXTRA_LOG_IN_ACTION, true);
 
-									ContentManager.updateContent();
+//									ContentManager.updateContent();
 									
 									startActivity(intent);
 								}

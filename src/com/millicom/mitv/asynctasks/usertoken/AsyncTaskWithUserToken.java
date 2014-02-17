@@ -4,6 +4,8 @@ package com.millicom.mitv.asynctasks.usertoken;
 
 
 import android.util.Log;
+
+import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.Storage;
 import com.millicom.mitv.asynctasks.AsyncTaskWithRelativeURL;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
@@ -37,13 +39,13 @@ public class AsyncTaskWithUserToken<T>
 	@Override
 	protected Void doInBackground(String... params) 
 	{
-		String userToken = Storage.sharedInstance().getUserToken();
+		String userToken = ContentManager.sharedInstance().getUserToken();
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append(Consts.USER_AUTHORIZATION_HEADER_VALUE_PREFIX);
 		sb.append(" ");
 		
-		if(Storage.sharedInstance().isLoggedIn())
+		if(ContentManager.sharedInstance().isLoggedIn())
 		{
 			sb.append(userToken);
 		}

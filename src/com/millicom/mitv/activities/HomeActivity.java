@@ -4,15 +4,11 @@ package com.millicom.mitv.activities;
 
 
 import java.util.ArrayList;
-import net.hockeyapp.android.CrashManager;
-import net.hockeyapp.android.UpdateManager;
-import android.app.Dialog;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -23,34 +19,33 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.millicom.mitv.ContentManager;
+import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.fragments.TVHolderFragment;
 import com.millicom.mitv.fragments.TVHolderFragment.OnViewPagerIndexChangedListener;
+import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.utilities.NetworkUtils;
 import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.SecondScreenApplication.AppConfigurationListener;
-import com.mitv.SecondScreenApplication.CheckApiVersionListener;
 import com.mitv.adapters.ActionBarDropDownDateListAdapter;
 import com.mitv.content.SSPageFragmentActivity;
-import com.mitv.manager.AppConfigurationManager;
 import com.mitv.manager.ApiClient;
+import com.mitv.manager.AppConfigurationManager;
 import com.mitv.model.OldTVDate;
-import com.mitv.storage.MiTVStore;
 import com.mitv.utilities.DateUtilities;
 
 
 
 public class HomeActivity 
 	extends SSPageFragmentActivity 
-	implements OnClickListener, ActionBar.OnNavigationListener, CheckApiVersionListener, AppConfigurationListener 
+	implements OnClickListener, ActionBar.OnNavigationListener, ActivityCallbackListener
 {
 	private static final String					TAG					= "HomeActivity";
 	private RelativeLayout						mTabTvGuide, mTabPopular, mTabFeed;
@@ -58,22 +53,22 @@ public class HomeActivity
 	private ActionBar							mActionBar;
 	private ActionBarDropDownDateListAdapter	mDayAdapter;
 	public static int							mBroadcastSelection	= -1;
-	private int									mTabSelectedIndex	= 0, mDateSelectedIndex;
-	private ArrayList<OldTVDate>					mTvDates			= new ArrayList<OldTVDate>();
-	private OldTVDate								mTvDateSelected;
-	private boolean								mIsReady			= false, mIsFirstLoad = true, mIsChannelListChanged, mChannelsHasBeenChanged = false;
+//	private int									mTabSelectedIndex	= 0, mDateSelectedIndex;
+//	private ArrayList<OldTVDate>					mTvDates			= new ArrayList<OldTVDate>();
+//	private OldTVDate								mTvDateSelected;
+//	private boolean								mIsReady			= false, mIsFirstLoad = true, mIsChannelListChanged, mChannelsHasBeenChanged = false;
 
 	private Fragment							mActiveFragment;
 
 	private int									mStartingPosition	= 0;
-	private boolean								mChannelUpdate		= false;
+//	private boolean								mChannelUpdate		= false;
 
 	private String 								mWelcomeToast = "";
-	private boolean 							showWelcomeToast = true;
+	private boolean 							hasShowWelcomeToast = false;
 
-	private boolean 							mIsFromLogin, mIsFromSignup;
-	private BroadcastReceiver					mBroadcastReceiverBadRequest, mBroadcastReceiverMyChannels, mBroadcastReceiverContent, mBroadcastReceiverDate;
-	private int 								mLastDateSelectedIndex = 0;
+//	private boolean 							mIsFromLogin, mIsFromSignup;
+	private BroadcastReceiver					mBroadcastReceiverDate; //mBroadcastReceiverBadRequest, mBroadcastReceiverMyChannels, mBroadcastReceiverContent, ;
+//	private int 								mLastDateSelectedIndex = 0;
 
 	
 	
@@ -89,24 +84,24 @@ public class HomeActivity
 		initReceivers();
 
 		// If homeactivity is launched from login, fetch flag and later make toast.
-		Intent intent =  getIntent();
-		
-		if (intent.hasExtra(Consts.INTENT_EXTRA_LOG_IN_ACTION)) 
-		{
-			mIsFromLogin = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_LOG_IN_ACTION);
-			
-			Log.d(TAG, "Extra INTENT_EXTRA_LOG_IN_ACTION is present");
-		}
-		else if (intent.hasExtra(Consts.INTENT_EXTRA_SIGN_UP_ACTION)) 
-		{
-			mIsFromSignup = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_SIGN_UP_ACTION);
-			
-			Log.d(TAG, "Extra INTENT_EXTRA_SIGN_UP_ACTION is present");
-		}
-		else
-		{
-			Log.d(TAG, "No extra is present");
-		}
+//		Intent intent =  getIntent();
+//		
+//		if (intent.hasExtra(Consts.INTENT_EXTRA_LOG_IN_ACTION)) 
+//		{
+//			mIsFromLogin = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_LOG_IN_ACTION);
+//			
+//			Log.d(TAG, "Extra INTENT_EXTRA_LOG_IN_ACTION is present");
+//		}
+//		else if (intent.hasExtra(Consts.INTENT_EXTRA_SIGN_UP_ACTION)) 
+//		{
+//			mIsFromSignup = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_SIGN_UP_ACTION);
+//			
+//			Log.d(TAG, "Extra INTENT_EXTRA_SIGN_UP_ACTION is present");
+//		}
+//		else
+//		{
+//			Log.d(TAG, "No extra is present");
+//		}
 
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
@@ -114,16 +109,30 @@ public class HomeActivity
 		getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
 		SecondScreenApplication.getInstance().setSelectedHour(Integer.valueOf(DateUtilities.getCurrentHourString()));
-		SecondScreenApplication.getInstance().setCheckApiVersionListener(this);
-		SecondScreenApplication.getInstance().setAppConfigurationListener(this);
+//		SecondScreenApplication.getInstance().setCheckApiVersionListener(this);
+//		SecondScreenApplication.getInstance().setAppConfigurationListener(this);
 
 		initViews();
+		
+		tryShowWelcomeToast();
 		
 		// HOCKEY-APP
 		// checkForUpdates();
 	}
 	
-	
+	private void tryShowWelcomeToast() {
+		if (!hasShowWelcomeToast) 
+		{
+			mWelcomeToast = AppConfigurationManager.getInstance().getWelcomeToast();
+			
+			if(mWelcomeToast != null && !TextUtils.isEmpty(mWelcomeToast)) 
+			{
+				Toast.makeText(getApplicationContext(), mWelcomeToast, Toast.LENGTH_LONG).show();
+			}
+			
+			hasShowWelcomeToast = true;
+		}
+	}
 	
 	@Override
 	protected void onResume() 
@@ -134,10 +143,10 @@ public class HomeActivity
 		
 		Log.d(TAG, "We have resumed!");
 		
-		if(ApiClient.ismShouldRefreshGuide() && !mIsFirstLoad)
-		{
-			loadPage();
-		}
+//		if(ApiClient.ismShouldRefreshGuide() && !mIsFirstLoad)
+//		{
+//			loadPage();
+//		}
 		
 		
 //		if (mChannelsHasBeenChanged)
@@ -166,7 +175,7 @@ public class HomeActivity
 //			}
 //		}
 
-		checkForCrashes();
+//		checkForCrashes();
 	}
 
 	
@@ -198,121 +207,121 @@ public class HomeActivity
 	
 	
 	
-	private void loadContent()
-	{
-		if (NetworkUtils.isConnectedAndHostIsReachable(this)) 
-		{
-			String signupTitle = String.format("%s %s", getResources().getString(R.string.success_account_created_title), SecondScreenApplication.getInstance().getUserFirstName());
-
-			if (mIsFromLogin) 
-			{
-				Toast toast = Toast.makeText(this, signupTitle, Toast.LENGTH_LONG);
-				((TextView) ((LinearLayout)toast.getView()).getChildAt(0)).setGravity(Gravity.CENTER_HORIZONTAL);
-				toast.show();
-			}
-			else if (mIsFromSignup) 
-			{
-				String signupText = getResources().getString(R.string.success_account_created_text);
-				Toast toast = Toast.makeText(this, signupTitle + "\n" + signupText, Toast.LENGTH_LONG);
-				((TextView) ((LinearLayout)toast.getView()).getChildAt(0)).setGravity(Gravity.CENTER_HORIZONTAL);
-				toast.show();
-			}
-	
-			SecondScreenApplication.getInstance().setisFirstStart(false);
-			
-			loadPage();
-		} 
-		else 
-		{
-			updateUI(REQUEST_STATUS.FAILED);
-		}
-	}
+//	private void loadContent()
+//	{
+//		if (NetworkUtils.isConnectedAndHostIsReachable(this)) 
+//		{
+//			String signupTitle = String.format("%s %s", getResources().getString(R.string.success_account_created_title), SecondScreenApplication.getInstance().getUserFirstName());
+//
+//			if (mIsFromLogin) 
+//			{
+//				Toast toast = Toast.makeText(this, signupTitle, Toast.LENGTH_LONG);
+//				((TextView) ((LinearLayout)toast.getView()).getChildAt(0)).setGravity(Gravity.CENTER_HORIZONTAL);
+//				toast.show();
+//			}
+//			else if (mIsFromSignup) 
+//			{
+//				String signupText = getResources().getString(R.string.success_account_created_text);
+//				Toast toast = Toast.makeText(this, signupTitle + "\n" + signupText, Toast.LENGTH_LONG);
+//				((TextView) ((LinearLayout)toast.getView()).getChildAt(0)).setGravity(Gravity.CENTER_HORIZONTAL);
+//				toast.show();
+//			}
+//	
+//			SecondScreenApplication.getInstance().setisFirstStart(false);
+//			
+//			loadPage();
+//		} 
+//		else 
+//		{
+//			updateUI(REQUEST_STATUS.FAILED);
+//		}
+//	}
 	
 	
 
 	private void initReceivers() 
 	{
-		mBroadcastReceiverBadRequest = new BroadcastReceiver() 
-		{
-			@Override
-			public void onReceive(Context context, Intent intent) 
-			{
-				// bad request to the backend: timeout or anything similar
-				updateUI(REQUEST_STATUS.BAD_REQUEST);
-			}
-		};
-
-		mBroadcastReceiverMyChannels = new BroadcastReceiver()
-		{
-
-			@Override
-			public void onReceive(Context context, Intent intent)
-			{
-				Log.d(TAG, "CHANNELS HAVE CHANGED!!!!");
-				
-				mChannelsHasBeenChanged = true;
-			}
-		};
-
-		mBroadcastReceiverContent = new BroadcastReceiver() 
-		{
-			@Override
-			public void onReceive(Context context, Intent intent) 
-			{
-				Log.d(TAG, " ON RECEIVE CONTENT");
-
-				mIsReady = intent.getBooleanExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, false);
-				
-
-				Log.d(TAG, "content for TvGuide TABLE is ready: " + mIsReady);
-				Log.d(TAG, "mDateSelectedIndex: " + mDateSelectedIndex);
-				Log.d(TAG, "mChannelUpdate: " + mChannelUpdate);
-				Log.d(TAG, "mFirstHit " + mIsFirstLoad);
-
-				if (mIsReady) 
-				{
-
-					if (mIsFirstLoad) 
-					{
-						if (!pageHoldsData()) 
-						{
-							updateUI(REQUEST_STATUS.FAILED);
-						}
-					}
-					else if (mChannelUpdate) 
-					{
-						attachFragment();
-						
-						mChannelUpdate = false;
-					}
-					else if (mLastDateSelectedIndex != mDateSelectedIndex) 
-					{
-						attachFragment();
-						
-						mLastDateSelectedIndex = mDateSelectedIndex;
-					}
-				}
-
-//				if (mIsReady && (mDateSelectedIndex == 0) && !mChannelUpdate && mIsFirstLoad) {
-//					if (!pageHoldsData()) {
+//		mBroadcastReceiverBadRequest = new BroadcastReceiver() 
+//		{
+//			@Override
+//			public void onReceive(Context context, Intent intent) 
+//			{
+//				// bad request to the backend: timeout or anything similar
+//				updateUI(REQUEST_STATUS.BAD_REQUEST);
+//			}
+//		};
 //
-//						updateUI(REQUEST_STATUS.FAILED);
+//		mBroadcastReceiverMyChannels = new BroadcastReceiver()
+//		{
+//
+//			@Override
+//			public void onReceive(Context context, Intent intent)
+//			{
+//				Log.d(TAG, "CHANNELS HAVE CHANGED!!!!");
+//				
+//				mChannelsHasBeenChanged = true;
+//			}
+//		};
+
+//		mBroadcastReceiverContent = new BroadcastReceiver() 
+//		{
+//			@Override
+//			public void onReceive(Context context, Intent intent) 
+//			{
+//				Log.d(TAG, " ON RECEIVE CONTENT");
+//
+//				mIsReady = intent.getBooleanExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, false);
+//				
+//
+//				Log.d(TAG, "content for TvGuide TABLE is ready: " + mIsReady);
+//				Log.d(TAG, "mDateSelectedIndex: " + mDateSelectedIndex);
+//				Log.d(TAG, "mChannelUpdate: " + mChannelUpdate);
+//				Log.d(TAG, "mFirstHit " + mIsFirstLoad);
+//
+//				if (mIsReady) 
+//				{
+//
+//					if (mIsFirstLoad) 
+//					{
+//						if (!pageHoldsData()) 
+//						{
+//							updateUI(REQUEST_STATUS.FAILED);
+//						}
 //					}
-//				} else if (mIsReady && (mDateSelectedIndex != 0) && mChannelUpdate) {
-//					attachFragment();
-//					mChannelUpdate = false;
-//				} else if (mIsReady && (mDateSelectedIndex == 0) && mChannelUpdate && !mIsFirstLoad) {
-//					attachFragment();
-//					mChannelUpdate = false;
-//				} else if (mIsReady && (mDateSelectedIndex != 0) && !mChannelUpdate && !mIsFirstLoad) {
-//					attachFragment();
-//					mChannelUpdate = false;
-//				} else if (mIsReady && (mDateSelectedIndex == 0) && !mChannelUpdate && !mIsFirstLoad) {
-//					attachFragment();
-//					mChannelUpdate = false;
+//					else if (mChannelUpdate) 
+//					{
+//						attachFragment();
+//						
+//						mChannelUpdate = false;
+//					}
+//					else if (mLastDateSelectedIndex != mDateSelectedIndex) 
+//					{
+//						attachFragment();
+//						
+//						mLastDateSelectedIndex = mDateSelectedIndex;
+//					}
 //				}
-			}
-		};
+//
+////				if (mIsReady && (mDateSelectedIndex == 0) && !mChannelUpdate && mIsFirstLoad) {
+////					if (!pageHoldsData()) {
+////
+////						updateUI(REQUEST_STATUS.FAILED);
+////					}
+////				} else if (mIsReady && (mDateSelectedIndex != 0) && mChannelUpdate) {
+////					attachFragment();
+////					mChannelUpdate = false;
+////				} else if (mIsReady && (mDateSelectedIndex == 0) && mChannelUpdate && !mIsFirstLoad) {
+////					attachFragment();
+////					mChannelUpdate = false;
+////				} else if (mIsReady && (mDateSelectedIndex != 0) && !mChannelUpdate && !mIsFirstLoad) {
+////					attachFragment();
+////					mChannelUpdate = false;
+////				} else if (mIsReady && (mDateSelectedIndex == 0) && !mChannelUpdate && !mIsFirstLoad) {
+////					attachFragment();
+////					mChannelUpdate = false;
+////				}
+//			}
+//		};
 
 		mBroadcastReceiverDate	= new BroadcastReceiver() 
 		{
@@ -321,28 +330,62 @@ public class HomeActivity
 			{
 				Log.d(TAG, "ON TVGUIDE SORTING VALUE CHANGED");
 
-				mDateSelectedIndex = intent.getIntExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE_POSITION, 0);
-
+				int selectedTVDateIndex = intent.getIntExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE_POSITION, 0);
+				handleTVDateIndexSelect(selectedTVDateIndex);
+				
 				removeActiveFragment();
 
 				// reload the page with the new date
-				reloadPage();
+//				reloadPage();
 			}
 		};
 	}
 	
+	private void handleTVDateIndexSelect(int index) {
+		mDayAdapter.setSelectedIndex(index);	
+		ContentManager.sharedInstance().setTVDateSelectedUsingIndexAndFetchGuideForDay(this, index);
+	}
 	
+	@Override
+	public boolean onNavigationItemSelected(int position, long id) 
+	{
+		handleTVDateIndexSelect(position);
+		return true;
+		
+//		if (mIsFirstLoad)
+//		{
+//			mDayAdapter.setSelectedIndex(0);
+//			mActionBar.setSelectedNavigationItem(0);
+//			mTvDateSelected = mTvDates.get(0);
+//			mIsFirstLoad = false;
+//			return true;
+//		}
+//		else 
+//		{
+//			mDayAdapter.setSelectedIndex(position);
+//			
+//			mTvDateSelected = mTvDates.get(position);
+//			
+//			Log.d(TAG, "ON NAVIGATION ITEM SELECTED: " + position);
+//			
+//			LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(
+//					new Intent(Consts.INTENT_EXTRA_TVGUIDE_SORTING).putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE, mTvDateSelected.getDate()).putExtra(
+//							Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE_POSITION, position));
+//			
+//			return true;
+//		}
+	}
 	
 	private void registerReceivers() 
 	{
-		// broadcast receiver for request timeout
-		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverBadRequest, new IntentFilter(Consts.INTENT_EXTRA_BAD_REQUEST));
-
-		// broadcast receiver for my channels have changed
-		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverMyChannels, new IntentFilter(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
-
-		// broadcast receiver for content availability
-		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverContent, new IntentFilter(Consts.INTENT_EXTRA_GUIDE_AVAILABLE));
+//		// broadcast receiver for request timeout
+//		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverBadRequest, new IntentFilter(Consts.INTENT_EXTRA_BAD_REQUEST));
+//
+//		// broadcast receiver for my channels have changed
+//		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverMyChannels, new IntentFilter(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
+//
+//		// broadcast receiver for content availability
+//		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverContent, new IntentFilter(Consts.INTENT_EXTRA_GUIDE_AVAILABLE));
 
 		// broadcast receiver for date selection
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverDate, new IntentFilter(Consts.INTENT_EXTRA_TVGUIDE_SORTING));
@@ -352,65 +395,15 @@ public class HomeActivity
 	
 	private void unregisterReceivers() 
 	{
-		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverBadRequest);
-		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverMyChannels);
-		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverContent);
+//		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverBadRequest);
+//		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverMyChannels);
+//		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverContent);
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverDate);
 	}
-
-	
-	
-	private void checkForCrashes() 
-	{
-		CrashManager.register(this, Consts.HOCKEY_APP_TOKEN);
-	}
-
-	
-	
-	private void checkForUpdates() 
-	{
-		// Remove this for store builds!
-		UpdateManager.register(this, Consts.HOCKEY_APP_TOKEN);
-	}
-
-	
-	
-	public void showUpdateDialog()
-	{
-		final Dialog dialog = new Dialog(this, R.style.remove_notification_dialog);
-		
-		dialog.setContentView(R.layout.dialog_prompt_update);
-		
-		dialog.setCancelable(false);
-
-		Button okButton = (Button) dialog.findViewById(R.id.dialog_prompt_update_button);
-		
-		okButton.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v) 
-			{
-				final String appPackageName = getPackageName(); 
-				
-				try
-				{
-					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-				} 
-				catch (android.content.ActivityNotFoundException anfe)
-				{
-					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)));
-				}
-			}
-		});
-		
-		dialog.show();
-	}
-
-	
 	
 	private void attachFragment()
 	{
-		mActiveFragment = TVHolderFragment.newInstance(mStartingPosition, mDateSelectedIndex, new OnViewPagerIndexChangedListener()
+		mActiveFragment = TVHolderFragment.newInstance(mStartingPosition, new OnViewPagerIndexChangedListener()
 		{
 			@Override
 			public void onIndexSelected(int position)
@@ -420,12 +413,10 @@ public class HomeActivity
 				mStartingPosition = position;
 			}
 		});
-
-		getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, mActiveFragment, (Integer.toString(mStartingPosition) + Integer.toString(mDateSelectedIndex))).commitAllowingStateLoss();
+//		getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, mActiveFragment, (Integer.toString(mStartingPosition) + Integer.toString(mDateSelectedIndex))).commitAllowingStateLoss();
+		getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, mActiveFragment, null).commitAllowingStateLoss();
 	}
 	
-	
-
 	private void removeActiveFragment()
 	{
 		try
@@ -476,115 +467,96 @@ public class HomeActivity
 	}
 
 	
-	
 	@Override
 	protected void loadPage()
 	{
-		// The the initial state to be loading
-		updateUI(REQUEST_STATUS.LOADING);
-		
-		Log.d(TAG, "UI: LOADING");
-
-		ApiClient.getInstance(this, mDateSelectedIndex).fetchContent();
+		//TODO remove me!
 	}
-
-	
-	
-	private void reloadPage() 
-	{
-		if(ApiClient.ismIsRefreshingGuide() == false)
-		{
-			updateUI(REQUEST_STATUS.LOADING);
-			
-			ApiClient.getGuide(mDateSelectedIndex, false);
-		}
-		// TODO: Do something
-	}
-
-	
 	
 	@Override
 	protected boolean pageHoldsData()
 	{
-		boolean result = false;
-
-		Log.d(TAG, "pageHoldsData()");
-		
-		mTvDates = MiTVStore.getInstance().getTvDates();
-
-		if (mTvDates != null) 
-		{
-			if (mTvDates.isEmpty())
-			{
-				updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
-			} 
-			else
-			{
-				Log.d(TAG, "SUCCESSFUL");
-				
-				updateUI(REQUEST_STATUS.SUCCESSFUL);
-				
-				result = true;
-			}
-		}
-		
-		return result;
+		//TODO remove me!
+		return false;
 	}
-
-	
 	
 	@Override
 	protected void updateUI(REQUEST_STATUS status) 
 	{
-		if (super.requestIsSuccesfull(status))
-		{
-			mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-
-			mDayAdapter = new ActionBarDropDownDateListAdapter(mTvDates);
-			mDayAdapter.setSelectedIndex(mDateSelectedIndex);
-			mActionBar.setListNavigationCallbacks(mDayAdapter, this);
-
-			attachFragment();
-		}
+		//TODO remove me!
 	}
+	
+	
+//	@Override
+//	protected void loadPage()
+//	{
+//		// The the initial state to be loading
+//		updateUI(REQUEST_STATUS.LOADING);
+//		
+//		Log.d(TAG, "UI: LOADING");
+//
+//		ApiClient.getInstance(this, mDateSelectedIndex).fetchContent();
+//	}
+//
+//	
+//	
+//	private void reloadPage() 
+//	{
+//		if(ApiClient.ismIsRefreshingGuide() == false)
+//		{
+//			updateUI(REQUEST_STATUS.LOADING);
+//			
+//			ApiClient.getGuide(mDateSelectedIndex, false);
+//		}
+//		// TODO: Do something
+//	}
 
 	
 	
-	@Override
-	public void onConfigurationChanged(Configuration newConfig)
-	{
-		super.onConfigurationChanged(newConfig);
-	}
+//	@Override
+//	protected boolean pageHoldsData()
+//	{
+//		boolean result = false;
+//
+//		Log.d(TAG, "pageHoldsData()");
+//		
+//		mTvDates = MiTVStore.getInstance().getTvDates();
+//
+//		if (mTvDates != null) 
+//		{
+//			if (mTvDates.isEmpty())
+//			{
+//				updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
+//			} 
+//			else
+//			{
+//				Log.d(TAG, "SUCCESSFUL");
+//				
+//				updateUI(REQUEST_STATUS.SUCCESSFUL);
+//				
+//				result = true;
+//			}
+//		}
+//		
+//		return result;
+//	}
 
 	
 	
-	@Override
-	public boolean onNavigationItemSelected(int position, long id) 
-	{
-		if (mIsFirstLoad)
-		{
-			mDayAdapter.setSelectedIndex(0);
-			mActionBar.setSelectedNavigationItem(0);
-			mTvDateSelected = mTvDates.get(0);
-			mIsFirstLoad = false;
-			return true;
-		}
-		else 
-		{
-			mDayAdapter.setSelectedIndex(position);
-			
-			mTvDateSelected = mTvDates.get(position);
-			
-			Log.d(TAG, "ON NAVIGATION ITEM SELECTED: " + position);
-			
-			LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(
-					new Intent(Consts.INTENT_EXTRA_TVGUIDE_SORTING).putExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE, mTvDateSelected.getDate()).putExtra(
-							Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE_POSITION, position));
-			
-			return true;
-		}
-	}
-
+//	@Override
+//	protected void updateUI(REQUEST_STATUS status) 
+//	{
+//		if (super.requestIsSuccesfull(status))
+//		{
+//			mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+//
+//			mDayAdapter = new ActionBarDropDownDateListAdapter(mTvDates);
+//			mDayAdapter.setSelectedIndex(mDateSelectedIndex);
+//			mActionBar.setListNavigationCallbacks(mDayAdapter, this);
+//
+//			attachFragment();
+//		}
+//	}
 	
 	
 	@Override
@@ -622,34 +594,42 @@ public class HomeActivity
 
 	
 	
-	@Override
-	public void onApiVersionChecked(boolean needsUpdate) 
-	{
-		if (needsUpdate) 
-		{
-			showUpdateDialog();
-		} 
-		else 
-		{
-			loadContent();
-		}
-	}
+//	@Override
+//	public void onApiVersionChecked(boolean needsUpdate) 
+//	{
+//		if (needsUpdate) 
+//		{
+//			showUpdateDialog();
+//		} 
+//		else 
+//		{
+//			loadContent();
+//		}
+//	}
 
 	
 	
+//	@Override
+//	public void onAppConfigurationListener() 
+//	{
+//		if (showWelcomeToast) 
+//		{
+//			mWelcomeToast = AppConfigurationManager.getInstance().getWelcomeToast();
+//			
+//			if(mWelcomeToast != null && !TextUtils.isEmpty(mWelcomeToast)) 
+//			{
+//				Toast.makeText(getApplicationContext(), mWelcomeToast, Toast.LENGTH_LONG).show();
+//			}
+//			
+//			showWelcomeToast = false;
+//		}
+//	}
+
+
+
 	@Override
-	public void onAppConfigurationListener() 
-	{
-		if (showWelcomeToast) 
-		{
-			mWelcomeToast = AppConfigurationManager.getInstance().getWelcomeToast();
-			
-			if(mWelcomeToast != null && !TextUtils.isEmpty(mWelcomeToast)) 
-			{
-				Toast.makeText(getApplicationContext(), mWelcomeToast, Toast.LENGTH_LONG).show();
-			}
-			
-			showWelcomeToast = false;
-		}
+	public void onResult(FetchRequestResultEnum fetchRequestResult) {
+		// TODO Auto-generated method stub
+		
 	}
 }
