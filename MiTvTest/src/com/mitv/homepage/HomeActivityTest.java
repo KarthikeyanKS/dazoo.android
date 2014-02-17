@@ -4,6 +4,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.widget.EditText;
 
 import com.mitv.R;
+import com.mitv.homepage.HomeActivity;
 import com.robotium.solo.Solo;
 import com.robotium.solo.Solo.Config;
 
