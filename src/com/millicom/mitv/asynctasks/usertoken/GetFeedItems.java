@@ -14,15 +14,49 @@ import com.mitv.model.OldTVFeedItem;
 
 public class GetFeedItems
 	extends AsyncTaskWithUserToken<OldTVFeedItem> 
-{	
+{
 	private static final String URL_SUFFIX = Consts.URL_ACTIVITY_FEED;
 	
 	
 	
 	public GetFeedItems(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener) 
+			ActivityCallbackListener activityCallBackListener)
+	{
+		this(contentCallbackListener, activityCallBackListener, false, 0, false, 0);
+	}
+	
+	
+	
+	public GetFeedItems(
+			ContentCallbackListener contentCallbackListener,
+			ActivityCallbackListener activityCallBackListener,
+			int itemStartIndex,
+			int itemLimit)
+	{
+		this(contentCallbackListener, activityCallBackListener, true, itemStartIndex, true, itemLimit);
+	}
+	
+	
+	
+	private GetFeedItems(
+			ContentCallbackListener contentCallbackListener,
+			ActivityCallbackListener activityCallBackListener,
+			boolean useItemStartIndex,
+			int itemStartIndex,
+			boolean useItemLimit,
+			int itemLimit)
 	{
 		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_ACTIVITY_FEED_ITEM, OldTVFeedItem.class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+		
+		if(useItemStartIndex)
+		{
+			this.urlParameters.add(Consts.API_SKIP, String.valueOf(itemStartIndex));
+		}
+		
+		if(useItemLimit)
+		{
+			this.urlParameters.add(Consts.API_LIMIT, String.valueOf(itemLimit));
+		}
 	}
 }

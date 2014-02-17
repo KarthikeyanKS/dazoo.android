@@ -4,6 +4,7 @@ package com.millicom.mitv.http;
 
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -12,6 +13,7 @@ import java.util.Map.Entry;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.methods.HttpDelete;
@@ -96,7 +98,7 @@ public class HTTPCore
 
 		return response;
 	}
-	
+
 	
 	
 	private HTTPCoreResponse executeRequest(
@@ -116,62 +118,21 @@ public class HTTPCore
 			final String proxyCredentialPassword,
 			final boolean ignoreInvalidSSLCertificates) 
 	{
-		int httpStatusResult = DEFAULT_HTTP_STATUS_RESULT;
+		HttpParams httpParameters = new BasicHttpParams();
+		HttpConnectionParams.setConnectionTimeout(httpParameters, connectionTimeout);
+		HttpConnectionParams.setSoTimeout(httpParameters, socketTimeout);
 		
-		String httpBodyContentResult = new String();
-
-		HttpParams myParams = new BasicHttpParams();
-		
-		HttpContext localContext = new BasicHttpContext();
-		
-		HttpConnectionParams.setConnectionTimeout(myParams, connectionTimeout);
-		
-		HttpConnectionParams.setSoTimeout(myParams, socketTimeout);
-		
-		DefaultHttpClient httpClient = new DefaultHttpClient(myParams);
+		DefaultHttpClient httpClient = new DefaultHttpClient(httpParameters);
 
 		if(url.startsWith(Consts.HTTPS_SCHEME) && ignoreInvalidSSLCertificates)
 		{
-			Log.w(TAG, "Ignoring all invalid SSL certificates!");
-
-			try
-			{
-				httpClient = HttpClientWraper.wrapClient(httpClient);
-			}
-			catch(Exception e)
-			{
-				StringBuilder errorMessageSB = new StringBuilder();
-				errorMessageSB.append("Failed to ignore invalid certificates: ");
-				errorMessageSB.append(e.getMessage());
-				errorMessageSB.append("\n");
-				errorMessageSB.append("Stack Trace: ");
-				
-				if(e.getStackTrace() != null)
-				{
-					for(StackTraceElement element : e.getStackTrace())
-					{
-						errorMessageSB.append(element.toString());
-						errorMessageSB.append("\n");
-					}
-				}
-				Log.e(TAG, errorMessageSB.toString());
-			}
+			setIgnoreInvalidSSLCertificates(httpClient);
 		}
 		// No need for else
 	
 		if(useProxy)
 		{
-			HttpHost proxy = new HttpHost(proxyAddress, proxyPort);
-
-			httpClient.getCredentialsProvider().setCredentials(
-					AuthScope.ANY,
-					new UsernamePasswordCredentials(
-							proxyCredentialUsername,
-							proxyCredentialPassword));
-
-			httpClient.getParams().setParameter(
-					ConnRoutePNames.DEFAULT_PROXY, 
-					proxy);
+			setProxyParameters(httpClient, proxyAddress, proxyPort, proxyCredentialUsername, proxyCredentialPassword);
 		}
 		// No need for else
 
@@ -179,18 +140,74 @@ public class HTTPCore
 		StringBuilder serviceUrl = new StringBuilder();
 		serviceUrl.append(url);
 		serviceUrl.append(urlParameters.toString());
+				
+		HttpRequestBase request = initRequest(httpClient, httpRequestType, serviceUrl.toString(), urlParameters, headerParameters, acceptType, contentType, httpBodyData);
+
+		HttpContext httpContext = new BasicHttpContext();
 		
 		HttpResponse response;
 		
-		StringEntity tmp;
+		try 
+		{
+			response = httpClient.execute(request, httpContext);
+		}
+		catch(IOException ioex)
+		{
+			StringBuilder errorMessageSB = new StringBuilder();
+			errorMessageSB.append("Error invoking service: ");
+			errorMessageSB.append(ioex.getMessage());
+			errorMessageSB.append("\n");
+			errorMessageSB.append("Stack Trace: ");
+			if(ioex.getStackTrace() != null)
+			{
+				for(StackTraceElement element : ioex.getStackTrace())
+				{
+					errorMessageSB.append(element.toString());
+					errorMessageSB.append("\n");
+				}
+			}
+			// No need for else
+			
+			Log.e(TAG, errorMessageSB.toString());
+			
+			response = null;
+		}
 		
+		HTTPCoreResponse httpCoreResponse;
+		
+		if(response != null)
+		{
+			httpCoreResponse = parseResponse(response);
+		}
+		else
+		{
+			httpCoreResponse = new HTTPCoreResponse(DEFAULT_HTTP_STATUS_RESULT);
+		}
+		
+		return httpCoreResponse;
+	}
+	
+	
+	
+	private HttpRequestBase initRequest(
+			DefaultHttpClient httpClient,
+			final HTTPRequestTypeEnum httpRequestType,
+			final String serviceUrl,
+			final URLParameters urlParameters,
+			final Map<String, String> headerParameters,
+			final String acceptType,
+			final String contentType,
+			final String httpBodyData)
+	{
 		HttpRequestBase request;
+		
+		StringEntity tmp;
 		
 		switch(httpRequestType)
 		{
 			case HTTP_POST:
 			{
-				request = new HttpPost(serviceUrl.toString());
+				request = new HttpPost(serviceUrl);
 				httpClient.getParams().setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.RFC_2109);
 				
 				try 
@@ -221,7 +238,7 @@ public class HTTPCore
 			
 			case HTTP_PUT:
 			{
-				request = new HttpPut(serviceUrl.toString());
+				request = new HttpPut(serviceUrl);
 				httpClient.getParams().setParameter(ClientPNames.COOKIE_POLICY, CookiePolicy.RFC_2109);
 				
 				try
@@ -252,14 +269,14 @@ public class HTTPCore
 			
 			case HTTP_DELETE:
 			{
-				request = new HttpDelete(serviceUrl.toString());
+				request = new HttpDelete(serviceUrl);
 			}
 			break;
 			
 			default:
 			case HTTP_GET:
 			{
-				request = new HttpGet(serviceUrl.toString());
+				request = new HttpGet(serviceUrl);
 			}
 			break;
 		}
@@ -280,66 +297,151 @@ public class HTTPCore
 		{
 			request.setHeader(entry.getKey(), entry.getValue());
 		}
+		
+		return request;
+	}
+	
+	
+	
+	private HTTPCoreResponse parseResponse(final HttpResponse response)
+	{
+		int httpStatusResult = DEFAULT_HTTP_STATUS_RESULT;
+		
+		String httpBodyContentResult = new String();
+		
+		if (response != null) 
+		{               
+			StatusLine statusLine = response.getStatusLine();
+			
+			if(statusLine != null)
+			{
+				httpStatusResult = response.getStatusLine().getStatusCode();
 
-		try 
-		{
-			response = httpClient.execute(request, localContext);
+				HttpEntity entity = response.getEntity();
 
-			if (response != null) 
-			{               
-				if(response.getStatusLine() != null)
+				if (entity != null)
 				{
-					httpStatusResult = response.getStatusLine().getStatusCode();
-
-					HttpEntity entity = response.getEntity();
-
-					if (entity != null)
+					InputStream content;
+					
+					try 
 					{
-						InputStream content = entity.getContent();
+						content = entity.getContent();
+					} 
+					catch (IllegalStateException isex) 
+					{
+						Log.e(TAG, isex.getMessage(), isex);
+						content = null;
+					}
+					catch (IOException ioex) 
+					{
+						Log.e(TAG, ioex.getMessage(), ioex);
+						content = null;
+					}
 
-						if(content != null)
+					if(content != null)
+					{
+						BufferedReader br;
+						
+						try 
 						{
-							BufferedReader br = new BufferedReader(new InputStreamReader((content), DEAFULT_ENCODING));
-
+							br = new BufferedReader(new InputStreamReader((content), DEAFULT_ENCODING));
+						} 
+						catch (UnsupportedEncodingException unencex) 
+						{
+							Log.e(TAG, unencex.getMessage(), unencex);
+							br = null;
+						}
+						
+						if(br != null)
+						{
 							String output = new String();
 							StringBuilder temp = new StringBuilder();
-
-							while ((output = br.readLine()) != null) 
+	
+							try 
 							{
-								temp.append(output);
+								while ((output = br.readLine()) != null) 
+								{
+									temp.append(output);
+								}
+							} 
+							catch (IOException ioex) 
+							{
+								Log.e(TAG, ioex.getMessage(), ioex);
 							}
-
+	
 							httpBodyContentResult = temp.toString();
-
+	
 							Log.v(TAG, "WebService body content: " + httpBodyContentResult);
-						}
-						else
-						{
-							Log.v(TAG, "WebService had null body content");
 						}
 					}
 					else
 					{
-						Log.v(TAG, "WebService had null entity");
+						Log.v(TAG, "WebService had null body content");
 					}
 				}
 				else
 				{
-					Log.v(TAG, "WebService result: Returned status code was null");
+					Log.v(TAG, "WebService had null entity");
 				}
 			}
 			else
 			{
-				Log.v(TAG, "WebService result: Response = null");
+				Log.v(TAG, "WebService result: Returned status code was null");
 			}
 		}
-		catch (Exception e) 
+		else
+		{
+			Log.v(TAG, "WebService result: Response = null");
+		}
+
+		HTTPCoreResponse httpCoreResponse = new HTTPCoreResponse(
+				httpStatusResult,
+				httpBodyContentResult);
+		
+		return httpCoreResponse;
+	}
+	
+	
+	
+	private void setProxyParameters(
+			DefaultHttpClient httpClient,
+			final String proxyAddress,
+			final int proxyPort,
+			final String proxyCredentialUsername,
+			final String proxyCredentialPassword)
+	{
+		HttpHost proxy = new HttpHost(proxyAddress, proxyPort);
+
+		httpClient.getCredentialsProvider().setCredentials(
+				AuthScope.ANY,
+				new UsernamePasswordCredentials(
+						proxyCredentialUsername,
+						proxyCredentialPassword));
+
+		httpClient.getParams().setParameter(
+				ConnRoutePNames.DEFAULT_PROXY, 
+				proxy);
+	}
+	
+	
+	
+	private void setIgnoreInvalidSSLCertificates(
+			DefaultHttpClient httpClient)
+	{
+		Log.w(TAG, "Ignoring all invalid SSL certificates!");
+
+		try
+		{
+			httpClient = HttpClientWraper.wrapClient(httpClient);
+		}
+		catch(Exception e)
 		{
 			StringBuilder errorMessageSB = new StringBuilder();
-			errorMessageSB.append("Error invoking WebService: ");
+			errorMessageSB.append("Failed to ignore invalid certificates: ");
 			errorMessageSB.append(e.getMessage());
 			errorMessageSB.append("\n");
 			errorMessageSB.append("Stack Trace: ");
+			
 			if(e.getStackTrace() != null)
 			{
 				for(StackTraceElement element : e.getStackTrace())
@@ -348,14 +450,7 @@ public class HTTPCore
 					errorMessageSB.append("\n");
 				}
 			}
-			// No need for else
 			Log.e(TAG, errorMessageSB.toString());
 		}
-
-		HTTPCoreResponse httpCoreResponse = new HTTPCoreResponse(
-				httpStatusResult,
-				httpBodyContentResult);
-
-		return httpCoreResponse;
 	}
 }

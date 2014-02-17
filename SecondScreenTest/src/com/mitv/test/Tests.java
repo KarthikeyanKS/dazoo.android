@@ -2,6 +2,7 @@ package com.mitv.test;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -12,14 +13,38 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
+import com.millicom.mitv.enums.HTTPRequestTypeEnum;
+import com.millicom.mitv.http.HTTPCore;
+import com.millicom.mitv.http.HTTPCoreResponse;
+import com.millicom.mitv.http.URLParameters;
 import com.millicom.mitv.utilities.NetworkUtils;
 import com.mitv.Consts;
 
-public class Tests extends InstrumentationTestCase {
-		
+public class Tests 
+	extends InstrumentationTestCase 
+{		
 	public static final long TIMESTAMP_OF_YEAR_2000 = 946684800L;
 	
-	public String deserializeJson(String url) {
+	
+	
+	public HTTPCoreResponse executeRequest(
+			final HTTPRequestTypeEnum httpRequestType,
+			final String url,
+			final URLParameters urlParameters,
+			final Map<String, String> headerParameters,
+			final String bodyContentData)
+	{
+		HTTPCore httpCore = HTTPCore.sharedInstance();
+		
+		HTTPCoreResponse httpCoreResponse = httpCore.executeRequest(httpRequestType, url, urlParameters, headerParameters, bodyContentData);
+		
+		return httpCoreResponse;
+	}
+	
+	
+	
+	public String deserializeJson(String url) 
+	{
 		try
 		{
 			HttpClient client = new DefaultHttpClient();
@@ -58,5 +83,4 @@ public class Tests extends InstrumentationTestCase {
 		} 
 		return null;
 	}
-
 }

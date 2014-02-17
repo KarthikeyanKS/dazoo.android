@@ -7,11 +7,12 @@ import com.google.gson.annotations.SerializedName;
 
 public enum ContentTypeEnum 
 {
-	/* DO NOT CHANGE THIS NAMES, DEPENDENT ON BACKEND, i think.., check class SearchResultItem, where this ENUM is created from String from JSON */
 	@SerializedName("SERIES")
 	SERIES(0),
+	
 	@SerializedName("PROGRAM")
 	PROGRAM(1),
+	
 	@SerializedName("CHANNEL")
 	CHANNEL(2);
 	
