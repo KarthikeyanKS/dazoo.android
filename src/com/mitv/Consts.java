@@ -507,6 +507,9 @@ public abstract class Consts {
 	public static final String JSON_USER_LIKE_PROGRAM_MOVIE_GENRE = "genre";
 	public static final String JSON_USER_LIKE_PROGRAM_MOVIE_YEAR = "year";
 	
+	public static final String JSON_USER_FEED_ITEM_BROADCAST = "broadcast";
+	public static final String JSON_USER_FEED_ITEM_BROADCASTS = "broadcasts";
+	
 	
 	/* REFRESH INTERVALS FOR LOCAL DATA */
 	public static final int LIKE_IDS_REFRESH_INTERVAL_IN_MINUTES 		= 1;

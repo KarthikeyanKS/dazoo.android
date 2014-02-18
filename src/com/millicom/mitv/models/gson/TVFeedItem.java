@@ -13,6 +13,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.annotations.Expose;
+import com.millicom.mitv.enums.FeedItemTypeEnum;
+import com.mitv.Consts;
 
 
 
@@ -62,20 +64,49 @@ public class TVFeedItem
 		
 		JsonObject jsonObject = jsonElement.getAsJsonObject();
 		
-//		switch (baseObject.getItemType())
-//		{
-//			
-//		}
+		switch (baseObject.getItemType())
+		{
+			case BROADCAST:
+			case POPULAR_BROADCAST:
+			case RECOMMENDED_BROADCAST:
+			case POPULAR_TWITTER:
+			{
+				broadcasts = null;
+				
+				JsonElement jsonBroadcastElement = jsonObject.get(Consts.JSON_USER_FEED_ITEM_BROADCAST);
+				
+//				broadcast =
+			}
+			break;
+			
+			case POPULAR_BROADCASTS:
+			{
+				broadcast = null;
+				
+				JsonElement jsonBroadcastsElement = jsonObject.get(Consts.JSON_USER_FEED_ITEM_BROADCASTS);
+				
+//				broadcasts = 
+			}
+			break;
+			
+			case UNKNOWN:
+			default:
+			{
+				broadcast = null;
+				broadcasts = null;
+			}
+			break;
+		}
 		
 		return baseObject;
 	}
 	
 	
 	
-//	public String getItemType()
-//	{
-//		return LikeTypeEnum.getLikeTypeEnumFromCode(likeType);
-//	}
+	public FeedItemTypeEnum getItemType()
+	{
+		return FeedItemTypeEnum.getFeedItemTypeEnumFromCode(itemType);
+	}
 	
 	
 	

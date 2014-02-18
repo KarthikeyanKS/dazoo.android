@@ -21,7 +21,7 @@ import com.millicom.mitv.asynctasks.PerformUserPasswordResetSendEmail;
 import com.millicom.mitv.asynctasks.PerformUserSignUp;
 import com.millicom.mitv.asynctasks.PerformUserHasSeenAd;
 import com.millicom.mitv.asynctasks.usertoken.AddUserLike;
-import com.millicom.mitv.asynctasks.usertoken.GetFeedItems;
+import com.millicom.mitv.asynctasks.usertoken.GetUserTVFeedItems;
 import com.millicom.mitv.asynctasks.usertoken.GetUserLikes;
 import com.millicom.mitv.asynctasks.usertoken.GetUserTVChannelIds;
 import com.millicom.mitv.asynctasks.usertoken.GetUserTokenUsingFBToken;
@@ -116,7 +116,7 @@ public class APIClient
 	
 	public void getFeedItems(ActivityCallbackListener activityCallBackListener) 
 	{
-		GetFeedItems getFeedItems = new GetFeedItems(contentCallbackListener, activityCallBackListener);
+		GetUserTVFeedItems getFeedItems = new GetUserTVFeedItems(contentCallbackListener, activityCallBackListener);
 		getFeedItems.execute();
 	}
 	

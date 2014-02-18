@@ -12,14 +12,14 @@ import com.mitv.Consts;
 
 
 
-public class GetFeedItems
+public class GetUserTVFeedItems
 	extends AsyncTaskWithUserToken<TVFeedItem[]> 
 {
 	private static final String URL_SUFFIX = Consts.URL_ACTIVITY_FEED;
 	
 	
 	
-	public GetFeedItems(
+	public GetUserTVFeedItems(
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener)
 	{
@@ -28,7 +28,7 @@ public class GetFeedItems
 	
 	
 	
-	public GetFeedItems(
+	public GetUserTVFeedItems(
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener,
 			int itemStartIndex,
@@ -39,7 +39,7 @@ public class GetFeedItems
 	
 	
 	
-	private GetFeedItems(
+	private GetUserTVFeedItems(
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener,
 			boolean useItemStartIndex,

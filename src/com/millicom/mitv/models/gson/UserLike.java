@@ -154,7 +154,7 @@ public class UserLike
 	
 	public ProgramTypeEnum getProgramType() 
 	{
-		return ProgramTypeEnum.getLikeTypeEnumFromCode(programType);
+		return ProgramTypeEnum.getProgramTypeEnumFromCode(programType);
 	}
 
 
