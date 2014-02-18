@@ -16,13 +16,16 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
+import com.millicom.mitv.models.gson.Broadcast;
 import com.millicom.mitv.models.gson.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
+import com.millicom.mitv.models.gson.TVChannelGuide;
+import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
 
 
 
-public class TVBroadcastProgramTest extends TestCore {
+public class TVBroadcastProgramTest extends TestBaseWithGuide {
 	
 	private List<TVBroadcastWithChannelInfo> tvBroadcastsWithChannelInfo;
 	private static final String	TAG	= "TVBroadcastProgramTest";
@@ -31,7 +34,10 @@ public class TVBroadcastProgramTest extends TestCore {
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		String programId = "90958923-a34d-41d7-80fe-86f6c803f96a";
+		TVChannelGuide someGuide = tvChannelGuides.get(0);
+		Broadcast broadcast = someGuide.getBroadcasts().get(0);
+		TVProgram tvProgram = broadcast.getProgram();
+		String programId = tvProgram.getProgramId();
 		
 		StringBuilder url = new StringBuilder();
 		url.append(Consts.URL_PROGRAMS);

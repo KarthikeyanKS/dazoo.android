@@ -21,23 +21,22 @@ import com.millicom.mitv.models.gson.TVDate;
 import com.mitv.Consts;
 
 public class TVChannelGuidesGSONTest 
-	extends TestCore
+	extends TestBaseWithGuide
 {	
-	private List<TVChannelGuide> tvChannelGuides;
-
-	
+		
 	@Override
 	protected void setUp() 
 			throws Exception 
 	{
 		super.setUp();
-		tvChannelGuides = testFetchTVChannelGuides();
 	}
 
 	public static List<TVChannelGuide> testFetchTVChannelGuides() {
 		TVChannelGuidesGSONTest instance = new TVChannelGuidesGSONTest();
 
-		List<TVDate> tvDates = TVDatesGSONTest.testFetchTVDates();
+		getTVDates();
+		getTVChannelIdsUser();
+		
 		TVDate tvDateToday = tvDates.get(0);
 		
 		StringBuilder sb = new StringBuilder(Consts.URL_GUIDE);
@@ -45,7 +44,6 @@ public class TVChannelGuidesGSONTest
 		sb.append(tvDateToday.getId());
 		String url = sb.toString();
 		
-		List<TVChannelId> tvChannelIdsUser = GetUserTVChannelIdsTest.getUserTVChannelIds();
 		
 		URLParameters urlParameters = new URLParameters();
 				
