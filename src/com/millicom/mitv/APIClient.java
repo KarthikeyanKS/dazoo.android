@@ -4,6 +4,7 @@ package com.millicom.mitv;
 
 
 import java.util.List;
+
 import com.millicom.mitv.asynctasks.GetAds;
 import com.millicom.mitv.asynctasks.GetAppConfigurationData;
 import com.millicom.mitv.asynctasks.GetAppVersionData;
@@ -15,11 +16,11 @@ import com.millicom.mitv.asynctasks.GetTVChannelIdsDefault;
 import com.millicom.mitv.asynctasks.GetTVChannelsAll;
 import com.millicom.mitv.asynctasks.GetTVDates;
 import com.millicom.mitv.asynctasks.GetTVTags;
+import com.millicom.mitv.asynctasks.PerformUserHasSeenAd;
 import com.millicom.mitv.asynctasks.PerformUserLogin;
 import com.millicom.mitv.asynctasks.PerformUserPasswordResetConfirmation;
 import com.millicom.mitv.asynctasks.PerformUserPasswordResetSendEmail;
 import com.millicom.mitv.asynctasks.PerformUserSignUp;
-import com.millicom.mitv.asynctasks.PerformUserHasSeenAd;
 import com.millicom.mitv.asynctasks.usertoken.AddUserLike;
 import com.millicom.mitv.asynctasks.usertoken.GetFeedItems;
 import com.millicom.mitv.asynctasks.usertoken.GetUserLikes;
@@ -32,7 +33,7 @@ import com.millicom.mitv.enums.ContentTypeEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.models.gson.TVChannelId;
-import com.mitv.model.OldTVDate;
+import com.millicom.mitv.models.gson.TVDate;
 
 
 
@@ -169,7 +170,7 @@ public class APIClient
 	}
 	
 	
-	public void getTVChannelGuides(ActivityCallbackListener activityCallBackListener, OldTVDate tvDate, List<TVChannelId> tvChannelIds)
+	public void getTVChannelGuides(ActivityCallbackListener activityCallBackListener, TVDate tvDate, List<TVChannelId> tvChannelIds)
 	{
 		GetTVChannelGuides getTvChannelGuides = GetTVChannelGuides.newGetTVChannelGuidesTask(contentCallbackListener, activityCallBackListener, tvDate, tvChannelIds);
 		getTvChannelGuides.execute();

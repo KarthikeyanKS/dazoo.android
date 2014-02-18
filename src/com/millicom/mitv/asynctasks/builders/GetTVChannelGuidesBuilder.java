@@ -7,19 +7,19 @@ import com.millicom.mitv.http.URLParameters;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.models.gson.TVChannelId;
+import com.millicom.mitv.models.gson.TVDate;
 import com.mitv.Consts;
-import com.mitv.model.OldTVDate;
 
 
 
 public class GetTVChannelGuidesBuilder
 {	
-	private OldTVDate tvDate;
+	private TVDate tvDate;
 	private List<TVChannelId> tvChannelIds;
 	
 	
 	
-	public void setTVDate(OldTVDate tvDate) 
+	public void setTVDate(TVDate tvDate) 
 	{
 		this.tvDate = tvDate;
 	}
@@ -32,12 +32,14 @@ public class GetTVChannelGuidesBuilder
 	public GetTVChannelGuides build(ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener)
 	{
-		GetTVChannelGuides getChannelGuides = new GetTVChannelGuides(contentCallbackListener, activityCallBackListener);
+		StringBuilder sb = new StringBuilder();
+		sb.append(Consts.URL_GUIDE);
+		sb.append(tvDate.getId());
+		String url = sb.toString();
+		
+		GetTVChannelGuides getChannelGuides = new GetTVChannelGuides(contentCallbackListener, activityCallBackListener, url);
 		URLParameters urlParameters = new URLParameters();
-		
-		//TODO check if getDate is what we want to do
-		urlParameters.add("", tvDate.getDate());
-		
+			
 		for(TVChannelId tvChannelId : tvChannelIds) 
 		{
 			String tvChannelIdAsString = tvChannelId.getChannelId();

@@ -31,7 +31,7 @@ import com.mitv.Consts;
  *
  */
 public class TVProgramAndChannelInfoTest 
-	extends Tests 
+	extends TestCore 
 {
 	private static final String	TAG	= "TVBroadcastDetailsTest";
 	
@@ -53,7 +53,7 @@ public class TVProgramAndChannelInfoTest
 		sb.append(beginTimeMillis);
 		String url = sb.toString();
 		
-		HTTPCoreResponse httpCoreResponse = executeGetRequest(url);
+		HTTPCoreResponse httpCoreResponse = executeRequestGet(url);
 		
 		String jsonString = httpCoreResponse.getResponseString();
 				

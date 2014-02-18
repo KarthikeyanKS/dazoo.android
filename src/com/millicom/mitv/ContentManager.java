@@ -12,12 +12,12 @@ import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.gson.AppConfigurationData;
 import com.millicom.mitv.models.gson.AppVersionData;
+import com.millicom.mitv.models.gson.TVChannel;
+import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;
+import com.millicom.mitv.models.gson.TVDate;
+import com.millicom.mitv.models.gson.TVTag;
 import com.mitv.Consts;
-import com.mitv.model.OldTVChannel;
-import com.mitv.model.OldTVChannelGuide;
-import com.mitv.model.OldTVDate;
-import com.mitv.model.OldTVTag;
 
 public class ContentManager implements ContentCallbackListener {
 
@@ -29,7 +29,7 @@ public class ContentManager implements ContentCallbackListener {
 	 * The total completed data fetch count needed in order to proceed with
 	 * fetching the TV data
 	 */
-	private static final int COMPLETED_COUNT_APP_DATA_THRESHOLD = 2;
+	private static final int COMPLETED_COUNT_APP_DATA_THRESH = 2;
 	private int completedCountAppData = 0;
 	private boolean channelsChange = false;
 
@@ -37,9 +37,9 @@ public class ContentManager implements ContentCallbackListener {
 	 * The total completed data fetch count needed in order to proceed with
 	 * fetching the TV guide, using TV data
 	 */
-	private static final int COMPLETED_COUNT_TV_DATA_CHANNEL_CHANGE_THRESHOLD = 1;
-	private static final int COMPLETED_COUNT_TV_DATA_NOT_LOGGED_IN_THRESHOLD = 4;
-	private static final int COMPLETED_COUNT_TV_DATA_LOGGED_IN_THRESHOLD = 5;
+	private static final int COMPLETED_COUNT_TV_DATA_CHANNEL_CHANGE_THRESH = 1;
+	private static final int COMPLETED_COUNT_TV_DATA_NOT_LOGGED_IN_THRESH = 4;
+	private static final int COMPLETED_COUNT_TV_DATA_LOGGED_IN_THRESH = 5;
 	private int completedCountTVData = 0;
 
 	private ContentManager() {
@@ -77,17 +77,17 @@ public class ContentManager implements ContentCallbackListener {
 	}
 	
 	public void fetchTVGuideForSelectedDay(ActivityCallbackListener activityCallBackListener) {
-		OldTVDate tvDate = storage.getTvDateSelected();
+		TVDate tvDate = storage.getTvDateSelected();
 		fetchTVGuideUsingTVDate(activityCallBackListener, tvDate);
 	}
 			
-	public void fetchTVGuideUsingTVDate(ActivityCallbackListener activityCallBackListener, OldTVDate tvDate) {
+	public void fetchTVGuideUsingTVDate(ActivityCallbackListener activityCallBackListener, TVDate tvDate) {
 		ArrayList<TVChannelId> tvChannelIds = storage.getTvChannelIdsUsed();
 		apiClient.getTVChannelGuides(activityCallBackListener, tvDate, tvChannelIds);
 	}
 	
 	/* METHODS FOR "GETTING" THE TV DATA, EITHER FROM STORAGE, OR FETCHING FROM BACKEND */
-	public void getTVGuideUsingTVDate(ActivityCallbackListener activityCallBackListener, boolean forceDownload, OldTVDate tvDate) {
+	public void getTVGuideUsingTVDate(ActivityCallbackListener activityCallBackListener, boolean forceDownload, TVDate tvDate) {
 		if(!forceDownload && storage.containsTVGuideForTVDate(tvDate)) {
 			activityCallBackListener.onResult(FetchRequestResultEnum.SUCCESS);
 		} else {
@@ -206,13 +206,13 @@ public class ContentManager implements ContentCallbackListener {
 			}
 			}
 	
-			if (completedCountAppData >= COMPLETED_COUNT_APP_DATA_THRESHOLD) {
+			if (completedCountAppData >= COMPLETED_COUNT_APP_DATA_THRESH) {
 				completedCountAppData = 0;
 				String apiVersion = storage.getAppVersionData().getApiVersion();
 	
-				boolean apiTooOld = checkApiVersion(apiVersion);
-				if (!apiTooOld) {
-					/* App version not too old, continue fetching tv data */
+				boolean apiToo = checkApiVersion(apiVersion);
+				if (!apiToo) {
+					/* App version not too , continue fetching tv data */
 					fetchTVDataOnFirstStart(activityCallBackListener);
 				} else {
 					activityCallBackListener.onResult(FetchRequestResultEnum.API_VERSION_TOO_OLD);
@@ -230,12 +230,12 @@ public class ContentManager implements ContentCallbackListener {
 			switch (requestIdentifier) 
 			{
 				case TV_DATE: {
-					ArrayList<OldTVDate> tvDates = (ArrayList<OldTVDate>) data;
+					ArrayList<TVDate> tvDates = (ArrayList<TVDate>) data;
 					storage.setTvDates(tvDates);
 					
 					/* We will only get here ONCE, at the start of the app, no TVDate has been selected, set it! */
 					if(!tvDates.isEmpty()) {
-						OldTVDate tvDate = tvDates.get(0);
+						TVDate tvDate = tvDates.get(0);
 						storage.setTvDateSelected(tvDate);
 					} else {
 						//TODO handle this...?
@@ -243,12 +243,12 @@ public class ContentManager implements ContentCallbackListener {
 					break;
 				}
 				case TV_TAG: {
-					ArrayList<OldTVTag> tvTags = (ArrayList<OldTVTag>) data;
+					ArrayList<TVTag> tvTags = (ArrayList<TVTag>) data;
 					storage.setTvTags(tvTags);
 					break;
 				}
 				case TV_CHANNEL: {
-					ArrayList<OldTVChannel> tvChannels = (ArrayList<OldTVChannel>) data;
+					ArrayList<TVChannel> tvChannels = (ArrayList<TVChannel>) data;
 					storage.setTvChannels(tvChannels);
 					break;
 				}
@@ -279,18 +279,18 @@ public class ContentManager implements ContentCallbackListener {
 				}
 			}
 	
-			int completedCountTVDataThreshold;
+			int completedCountTVDataThresh;
 			if(channelsChange) {
 				channelsChange = false;
-				completedCountTVDataThreshold = COMPLETED_COUNT_TV_DATA_CHANNEL_CHANGE_THRESHOLD;
+				completedCountTVDataThresh = COMPLETED_COUNT_TV_DATA_CHANNEL_CHANGE_THRESH;
 			} else {
-				completedCountTVDataThreshold = COMPLETED_COUNT_TV_DATA_NOT_LOGGED_IN_THRESHOLD;
+				completedCountTVDataThresh = COMPLETED_COUNT_TV_DATA_NOT_LOGGED_IN_THRESH;
 				if(storage.isLoggedIn()) {
-					completedCountTVDataThreshold = COMPLETED_COUNT_TV_DATA_LOGGED_IN_THRESHOLD;
+					completedCountTVDataThresh = COMPLETED_COUNT_TV_DATA_LOGGED_IN_THRESH;
 				}
 			}
 			
-			if (completedCountTVData >= completedCountTVDataThreshold) {
+			if (completedCountTVData >= completedCountTVDataThresh) {
 				completedCountTVData = 0;
 				fetchTVGuideForSelectedDay(activityCallBackListener);
 			}
@@ -302,9 +302,9 @@ public class ContentManager implements ContentCallbackListener {
 	
 	private void handleTVChannelGuidesForSelectedDayResponse(ActivityCallbackListener activityCallBackListener, FetchRequestResultEnum result, Object data) {
 		if (result.wasSuccessful() && data != null) {
-			ArrayList<OldTVChannelGuide> tvChannelGuides = (ArrayList<OldTVChannelGuide>) data;
+			ArrayList<TVChannelGuide> tvChannelGuides = (ArrayList<TVChannelGuide>) data;
 			
-			OldTVDate tvDate = storage.getTvDateSelected();
+			TVDate tvDate = storage.getTvDateSelected();
 			TVGuide tvGuide = new TVGuide(tvDate, tvChannelGuides);
 			
 			storage.addTVGuide(tvDate, tvGuide);
@@ -385,7 +385,7 @@ public class ContentManager implements ContentCallbackListener {
 		setTVDateSelectedUsingIndex(tvDateIndex);
 		
 		/* Fetch TVDate object from storage, using new TVDate index */
-		OldTVDate tvDate = storage.getTvDateSelected();
+		TVDate tvDate = storage.getTvDateSelected();
 		
 		/* Since selected TVDate has been changed, set/fetch the TVGuide for that day */
 		getTVGuideUsingTVDate(activityCallBackListener, false, tvDate);
@@ -393,8 +393,8 @@ public class ContentManager implements ContentCallbackListener {
 	
 	/* GETTERS & SETTERS */
 	/* TVDate getters and setters */
-	public OldTVDate getTVDateSelected() {
-		OldTVDate tvDateSelected = storage.getTvDateSelected();
+	public TVDate getTVDateSelected() {
+		TVDate tvDateSelected = storage.getTvDateSelected();
 		return tvDateSelected;
 	}
 	
@@ -404,8 +404,8 @@ public class ContentManager implements ContentCallbackListener {
 	}
 	
 	/* TVTags getters (and setters?) */
-	public ArrayList<OldTVTag> getTVTags() {
-		ArrayList<OldTVTag> tvTags = storage.getTvTags();
+	public ArrayList<TVTag> getTVTags() {
+		ArrayList<TVTag> tvTags = storage.getTvTags();
 		return tvTags;
 	}
 	
