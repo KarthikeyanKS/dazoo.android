@@ -17,7 +17,7 @@ import com.mitv.Consts;
 
 
 public class TVTagTest 
-	extends Tests 
+	extends TestCore 
 {
 	private List<TVTag> tvTag;
 

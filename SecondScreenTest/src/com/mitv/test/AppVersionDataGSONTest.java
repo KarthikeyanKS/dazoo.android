@@ -11,7 +11,7 @@ import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.models.gson.AppVersionDataPart;
 import com.mitv.Consts;
 
-public class AppVersionDataGSONTest extends Tests {
+public class AppVersionDataGSONTest extends TestCore {
 	
 	private List<AppVersionDataPart> appVersionData;
 	

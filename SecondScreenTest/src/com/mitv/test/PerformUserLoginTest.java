@@ -18,7 +18,7 @@ import com.mitv.Consts;
 
 
 public class PerformUserLoginTest 
-	extends Tests
+	extends TestCore
 {
 	private static final String	TAG	= "PerformUserLoginTest";
 	
@@ -53,7 +53,7 @@ public class PerformUserLoginTest
 		
 		String responseString = httpCoreResponse.getResponseString();
 		
-		UserLoginData receivedData = null;
+		UserLoginData receivedData;
 		
 		try
 		{
@@ -62,6 +62,8 @@ public class PerformUserLoginTest
 		catch(JsonSyntaxException jsex)
 		{
 			Log.e(TAG, jsex.getMessage(), jsex);
+			
+			receivedData = null;
 		}
 		
 		return receivedData;

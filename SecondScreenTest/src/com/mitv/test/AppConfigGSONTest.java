@@ -14,7 +14,7 @@ import com.mitv.Consts;
 
 
 public class AppConfigGSONTest 
-	extends Tests
+	extends TestCore
 {	
 	private AppConfigurationData appConfigData;
 

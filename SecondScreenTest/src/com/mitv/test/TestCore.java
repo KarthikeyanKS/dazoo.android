@@ -12,10 +12,11 @@ import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCore;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.http.URLParameters;
+import com.mitv.Consts;
 
 
 
-public class Tests 
+public class TestCore 
 	extends InstrumentationTestCase 
 {
 	protected static final long TIMESTAMP_OF_YEAR_2000 = 946684800L;
@@ -41,13 +42,7 @@ public class Tests
 			final HTTPRequestTypeEnum httpRequestType,
 			final String url)
 	{
-		URLParameters urlParameters = new URLParameters();
-		
-		Map<String, String> headerParameters = new HashMap<String, String>();
-		
-		String bodyContentData = null;
-		
-		HTTPCoreResponse httpCoreResponse = this.executeRequest(httpRequestType, url, urlParameters, headerParameters, bodyContentData);
+		HTTPCoreResponse httpCoreResponse = this.executeRequest(httpRequestType, url, null);
 		
 		return httpCoreResponse;
 	}
@@ -68,6 +63,19 @@ public class Tests
 		return httpCoreResponse;
 	}
 	
+	
+	
+	protected HTTPCoreResponse executeRequest(
+			final HTTPRequestTypeEnum httpRequestType,
+			final String url,
+			final URLParameters urlParameters,
+			final Map<String, String> headerParameters)
+	{
+		HTTPCoreResponse httpCoreResponse = this.executeRequest(httpRequestType, url, urlParameters, headerParameters, null);
+		
+		return httpCoreResponse;
+	}
+	
 		
 	
 	protected HTTPCoreResponse executeRequest(
@@ -82,5 +90,21 @@ public class Tests
 		HTTPCoreResponse httpCoreResponse = httpCore.executeRequest(httpRequestType, url, urlParameters, headerParameters, bodyContentData);
 		
 		return httpCoreResponse;
+	}
+	
+	
+	
+	protected static Map<String, String> getHeaderParametersWithUserToken(String userToken)
+	{
+		Map<String, String> headerParameters = new HashMap<String, String>(1);
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(Consts.USER_AUTHORIZATION_HEADER_VALUE_PREFIX);
+		sb.append(" ");
+		sb.append(userToken);
+		
+		headerParameters.put(Consts.USER_AUTHORIZATION_HEADER_KEY, sb.toString());
+		
+		return headerParameters;
 	}
 }

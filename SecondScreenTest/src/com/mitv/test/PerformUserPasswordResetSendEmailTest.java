@@ -15,7 +15,7 @@ import com.mitv.Consts;
 
 
 public class PerformUserPasswordResetSendEmailTest 
-	extends Tests
+	extends TestCore
 {
 	@SuppressWarnings("unused")
 	private static final String	TAG	= "PerformUserPasswordResetSendEmailTest";

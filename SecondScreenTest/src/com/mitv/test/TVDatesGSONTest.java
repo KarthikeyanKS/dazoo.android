@@ -24,7 +24,7 @@ import com.mitv.Consts;
 
 
 public class TVDatesGSONTest 
-	extends Tests
+	extends TestCore
 {	
 	private List<TVDates> tvDates;
 

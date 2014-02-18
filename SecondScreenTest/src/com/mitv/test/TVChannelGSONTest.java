@@ -1,25 +1,23 @@
+
 package com.mitv.test;
 
+
+
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import junit.framework.Assert;
-
 import org.junit.Test;
-
 import android.text.TextUtils;
-
 import com.google.gson.Gson;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.http.URLParameters;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.mitv.Consts;
 
+
+
 public class TVChannelGSONTest 
-	extends Tests
+	extends TestCore
 {
 	private List<TVChannel> tvChannels;
 

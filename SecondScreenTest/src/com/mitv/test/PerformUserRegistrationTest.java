@@ -17,7 +17,7 @@ import com.mitv.Consts;
 
 
 public class PerformUserRegistrationTest 
-	extends Tests
+	extends TestCore
 {
 	private static final String	TAG	= "PerformUserLoginTest";
 	

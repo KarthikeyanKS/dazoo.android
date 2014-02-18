@@ -20,7 +20,7 @@ import com.mitv.Consts;
 
 
 public class TVBroadcastDetailsTest 
-	extends Tests 
+	extends TestCore 
 {
 	private static final String	TAG	= "TVBroadcastDetailsTest";
 	
