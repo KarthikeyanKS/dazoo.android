@@ -2,6 +2,7 @@ package com.mitv.test;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.http.HttpEntity;
@@ -57,6 +58,12 @@ public class Tests
 		return httpCoreResponse;
 	}
 	
+	public HTTPCoreResponse executeGetRequest(final String url) {
+		URLParameters urlParameters = new URLParameters();
+		Map<String, String> headerParameters = new HashMap<String, String>();
+		
+		return executeRequest(HTTPRequestTypeEnum.HTTP_GET, url, urlParameters, headerParameters, null);	
+	}
 	
 	
 	@Deprecated
