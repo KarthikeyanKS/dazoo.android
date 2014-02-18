@@ -36,7 +36,9 @@ public class TestCore
 		this.gson = gsonBuilder.create();
 	}
 	
-	
+	protected HTTPCoreResponse executeRequestGet(final String url) {
+		return executeRequest(HTTPRequestTypeEnum.HTTP_GET, url);
+	}
 	
 	protected HTTPCoreResponse executeRequest(
 			final HTTPRequestTypeEnum httpRequestType,

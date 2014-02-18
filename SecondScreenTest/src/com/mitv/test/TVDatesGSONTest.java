@@ -40,7 +40,7 @@ public class TVDatesGSONTest
 		String url = Consts.URL_DATES;
 		
 	
-		HTTPCoreResponse httpCoreResponse = instance.executeGetRequest(url);
+		HTTPCoreResponse httpCoreResponse = instance.executeRequestGet(url);
 
 		String jsonString = httpCoreResponse.getResponseString();
 

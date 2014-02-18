@@ -78,6 +78,7 @@ public class TVProgramAndChannelInfoTest
 		TVChannelGSONTest.testTVChannelObject(tvChannel);
 		
 		TVProgram tvProgram = tvBroadcastDetails.getTvProgram();
+		testTVProgram(tvProgram);
 	}
 	
 	public static void testTVProgram(TVProgram program) {

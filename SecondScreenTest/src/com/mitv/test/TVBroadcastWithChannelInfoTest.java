@@ -72,7 +72,6 @@ public class TVBroadcastWithChannelInfoTest extends Tests {
 		Assert.assertTrue(broadcast.getBeginTime().getTime() > TIMESTAMP_OF_YEAR_2000);
 		
 		Assert.assertNotNull(broadcast.getEndTime());
-		/* Check if endTime is after today or something? */
 		
 		Assert.assertNotNull(broadcast.getBroadcastType());
 		Assert.assertTrue(broadcast.getBroadcastType() != BroadcastTypeEnum.UNKNOWN);
