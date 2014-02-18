@@ -1,21 +1,22 @@
 
-package com.millicom.mitv.asynctasks.usertoken;
+package com.millicom.mitv.asynctasks;
 
 
 
 import android.util.Log;
+
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.models.DummyData;
-import com.millicom.mitv.models.gson.serialization.UserPasswordConfirmationData;
+import com.millicom.mitv.models.gson.serialization.UserPasswordResetConfirmationData;
 import com.mitv.Consts;
 
 
 
-public class PerformUserPasswordConfirmation 
-	extends AsyncTaskWithUserToken<DummyData> 
+public class PerformUserPasswordResetConfirmation 
+	extends AsyncTaskWithRelativeURL<DummyData> 
 {
 	private static final String TAG = "PerformUserPasswordConfirmation";
 	
@@ -23,7 +24,7 @@ public class PerformUserPasswordConfirmation
 	
 
 	
-	public PerformUserPasswordConfirmation(
+	public PerformUserPasswordResetConfirmation(
 			ContentCallbackListener contentCallbackListener, 
 			ActivityCallbackListener activityCallBackListener,
 			String email,
@@ -32,12 +33,12 @@ public class PerformUserPasswordConfirmation
 	{
 		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_RESET_PASSWORD_SEND_CONFIRM_PASSWORD, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
 		
-		UserPasswordConfirmationData userPasswordConfirmationData = new UserPasswordConfirmationData();
-		userPasswordConfirmationData.setEmail(email);
-		userPasswordConfirmationData.setNewPassword(newPassword);
-		userPasswordConfirmationData.setResetPasswordToken(resetPasswordToken);
+		UserPasswordResetConfirmationData postData = new UserPasswordResetConfirmationData();
+		postData.setEmail(email);
+		postData.setNewPassword(newPassword);
+		postData.setResetPasswordToken(resetPasswordToken);
 		
-		this.bodyContentData = gson.toJson(userPasswordConfirmationData);
+		this.bodyContentData = gson.toJson(postData);
 		
 		Log.v(TAG, "Gson data for request: " + bodyContentData);
 	}

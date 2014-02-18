@@ -1,37 +1,42 @@
 
-package com.millicom.asynctasks;
+package com.mitv.asynctasks;
 
 
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.SingleClientConnManager;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 import android.os.AsyncTask;
 import android.util.Log;
 import com.mitv.Consts;
+import com.mitv.utilities.JSONUtilities;
 
 
 
-public class DeleteLikeTask
-	extends AsyncTask<String, Void, Integer>
+public class LoginTask 
+	extends AsyncTask<String, Void, String> 
 {
-	private static final String	TAG	= "DeleteLikeTask";
+	private static final String	TAG	= "LoginTask";
 	
 	
 	
 	@Override
-	protected Integer doInBackground(String... params) 
+	protected String doInBackground(String... params)
 	{
 		try 
 		{
@@ -42,7 +47,7 @@ public class DeleteLikeTask
 			SchemeRegistry registry = new SchemeRegistry();
 			
 			registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-			
+
 			SSLSocketFactory socketFactory = SSLSocketFactory.getSocketFactory();
 			
 			socketFactory.setHostnameVerifier(SSLSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
@@ -53,19 +58,36 @@ public class DeleteLikeTask
 
 			DefaultHttpClient httpClient = new DefaultHttpClient(mgr, client.getParams());
 			
+			// Set verifier
 			HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
 
-			Log.d(TAG, Consts.URL_LIKES + "/" + params[1] + "/" + params[2]);
+			HttpPost httpPost = new HttpPost(Consts.URL_LOGIN);
 			
-			HttpDelete httpDelete = new HttpDelete(Consts.URL_LIKES + "/" + params[1] + "/" + params[2]);
+			JSONObject holder = JSONUtilities.createJSONObjectWithKeysValues(Arrays.asList(Consts.API_EMAIL, Consts.API_PASSWORD),
+					Arrays.asList(params[0], params[1]));
+
+			StringEntity entity = new StringEntity(holder.toString());
+			httpPost.setEntity(entity);
 			
-			httpDelete.setHeader("Authorization", "Bearer " + params[0]);
+			httpPost.setHeader("Accept", "application/json");
+			httpPost.setHeader("Content-type", "application/json");
 
-			HttpResponse response = httpClient.execute(httpDelete);
+			HttpResponse response = httpClient.execute(httpPost);
 
-			return response.getStatusLine().getStatusCode();
+			if (response.getStatusLine().getStatusCode() == Consts.GOOD_RESPONSE) 
+			{
+				String responseBody = EntityUtils.toString(response.getEntity());
+				
+				return responseBody;
+			} 
+			else if (response.getStatusLine().getStatusCode() == Consts.BAD_RESPONSE)
+			{
+				Log.d(TAG, "Invalid Token!");
+				
+				return Consts.EMPTY_STRING;
+			}
 		} 
-		catch (UnsupportedEncodingException e)
+		catch (UnsupportedEncodingException e) 
 		{
 			e.printStackTrace();
 		} 
@@ -78,6 +100,6 @@ public class DeleteLikeTask
 			e.printStackTrace();
 		}
 		
-		return Consts.BAD_RESPONSE;
+		return Consts.EMPTY_STRING;
 	}
 }

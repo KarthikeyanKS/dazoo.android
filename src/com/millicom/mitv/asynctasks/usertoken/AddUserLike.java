@@ -31,11 +31,11 @@ public class AddUserLike
 	{
 		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_ADD_LIKE, OldTVLike.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
 		
-		UserLikeData userLikeData = new UserLikeData();
-		userLikeData.setLikeType(likeType);
-		userLikeData.setEntityId(contentId);
+		UserLikeData postData = new UserLikeData();
+		postData.setLikeType(likeType);
+		postData.setEntityId(contentId);
 		
-		this.bodyContentData = gson.toJson(userLikeData);
+		this.bodyContentData = gson.toJson(postData);
 		
 		Log.v(TAG, "Gson data for request: " + bodyContentData);
 	}

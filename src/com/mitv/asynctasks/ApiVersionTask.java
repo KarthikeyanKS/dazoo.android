@@ -1,13 +1,13 @@
 
-package com.millicom.asynctasks;
+package com.mitv.asynctasks;
 
 
 
 import android.os.AsyncTask;
-import com.millicom.interfaces.ApiVersionCallbackInterface;
 import com.mitv.content.SSApiVersionPage;
 import com.mitv.content.SSPageCallback;
 import com.mitv.content.SSPageGetResult;
+import com.mitv.interfaces.ApiVersionCallbackInterface;
 
 
 

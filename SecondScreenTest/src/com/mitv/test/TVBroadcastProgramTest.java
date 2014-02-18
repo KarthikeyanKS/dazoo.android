@@ -1,24 +1,24 @@
+
 package com.mitv.test;
+
+
 
 import java.util.Arrays;
 import java.util.List;
-
 import junit.framework.Assert;
-
 import org.junit.Test;
-
 import android.text.TextUtils;
 import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.millicom.mitv.models.gson.TVBroadcastDetails;
+import com.millicom.mitv.enums.HTTPRequestTypeEnum;
+import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.models.gson.TVBroadcastPrograms;
-import com.millicom.mitv.models.gson.TVChannel;
-import com.millicom.mitv.models.gson.TVTag;
 import com.mitv.Consts;
 
-public class TVBroadcastProgramTest extends Tests {
+
+
+public class TVBroadcastProgramTest extends TestCore {
 	
 	private List<TVBroadcastPrograms> tvBroadcastPrograms;
 	private static final String	TAG	= "TVBroadcastProgramTest";
@@ -29,16 +29,18 @@ public class TVBroadcastProgramTest extends Tests {
 		
 		String programId = "90958923-a34d-41d7-80fe-86f6c803f96a";
 		
-		StringBuilder sb = new StringBuilder();
-		sb.append(Consts.URL_PROGRAMS);
-		sb.append(programId);
-		sb.append(Consts.API_BROADCASTS);
+		StringBuilder url = new StringBuilder();
+		url.append(Consts.URL_PROGRAMS);
+		url.append(programId);
+		url.append(Consts.API_BROADCASTS);
 		
-		String jsonString = super.deserializeJson(sb.toString());
+		HTTPCoreResponse httpCoreResponse = executeRequest(HTTPRequestTypeEnum.HTTP_GET, url.toString());
+		
+		String responseString = httpCoreResponse.getResponseString();
 		
 		try
 		{
-			tvBroadcastPrograms = Arrays.asList(new Gson().fromJson(jsonString, TVBroadcastPrograms[].class));
+			tvBroadcastPrograms = Arrays.asList(new Gson().fromJson(responseString, TVBroadcastPrograms[].class));
 		}
 		catch(JsonSyntaxException jsex)
 		{

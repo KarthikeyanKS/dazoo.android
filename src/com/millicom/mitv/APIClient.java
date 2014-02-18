@@ -16,6 +16,8 @@ import com.millicom.mitv.asynctasks.GetTVChannelsAll;
 import com.millicom.mitv.asynctasks.GetTVDates;
 import com.millicom.mitv.asynctasks.GetTVTags;
 import com.millicom.mitv.asynctasks.PerformUserLogin;
+import com.millicom.mitv.asynctasks.PerformUserPasswordResetConfirmation;
+import com.millicom.mitv.asynctasks.PerformUserPasswordResetSendEmail;
 import com.millicom.mitv.asynctasks.PerformUserSignUp;
 import com.millicom.mitv.asynctasks.PerformUserHasSeenAd;
 import com.millicom.mitv.asynctasks.usertoken.AddUserLike;
@@ -23,8 +25,6 @@ import com.millicom.mitv.asynctasks.usertoken.GetFeedItems;
 import com.millicom.mitv.asynctasks.usertoken.GetUserLikes;
 import com.millicom.mitv.asynctasks.usertoken.GetUserTVChannelIds;
 import com.millicom.mitv.asynctasks.usertoken.GetUserTokenUsingFBToken;
-import com.millicom.mitv.asynctasks.usertoken.PerformUserPasswordConfirmation;
-import com.millicom.mitv.asynctasks.usertoken.PerformUserPasswordResetSendEmail;
 import com.millicom.mitv.asynctasks.usertoken.PerformUserLogout;
 import com.millicom.mitv.asynctasks.usertoken.RemoveUserLikes;
 import com.millicom.mitv.asynctasks.usertoken.SetUserTVChannelIds;
@@ -223,7 +223,7 @@ public class APIClient
 	
 	public void performUserPasswordResetConfirmPassword(ActivityCallbackListener activityCallBackListener, String email, String newPassword, String resetPasswordToken)
 	{
-		PerformUserPasswordConfirmation performUserPasswordConfirmation = new PerformUserPasswordConfirmation(contentCallbackListener, activityCallBackListener, email, newPassword, resetPasswordToken);
+		PerformUserPasswordResetConfirmation performUserPasswordConfirmation = new PerformUserPasswordResetConfirmation(contentCallbackListener, activityCallBackListener, email, newPassword, resetPasswordToken);
 		performUserPasswordConfirmation.execute();
 	}
 	

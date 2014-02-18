@@ -2,7 +2,7 @@ package com.millicom.mitv.models.gson.serialization;
 
 
 
-public class UserPasswordConfirmationData 
+public class UserPasswordResetConfirmationData 
 {
 	/*
 	 * The names of these variables should not be changed unless the backend API call parameters changes too.
@@ -16,7 +16,7 @@ public class UserPasswordConfirmationData
 	/*
 	 * The empty constructor is needed by gson. Do not remove.
 	 */
-	public UserPasswordConfirmationData()
+	public UserPasswordResetConfirmationData()
 	{}
 
 

@@ -1,40 +1,59 @@
+
 package com.mitv.test;
+
+
 
 import java.util.Arrays;
 import java.util.List;
-
 import junit.framework.Assert;
-
 import org.junit.Test;
-
 import android.text.TextUtils;
-
 import com.google.gson.Gson;
+import com.millicom.mitv.enums.HTTPRequestTypeEnum;
+import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.mitv.Consts;
 
-public class TVChannelGSONTest extends Tests {
 
+
+public class TVChannelGSONTest 
+	extends TestCore
+{
 	private List<TVChannel> tvChannels;
 
+	
+	
 	@Override
-	protected void setUp() throws Exception {
+	protected void setUp() 
+			throws Exception 
+	{
 		super.setUp();
-		String jsonString = super.deserializeJson(Consts.URL_CHANNELS_ALL);
-
-		tvChannels = Arrays.asList(new Gson().fromJson(jsonString, TVChannel[].class));
-
+		
+		String url = Consts.URL_CHANNELS_ALL;
+		
+		HTTPCoreResponse httpCoreResponse = executeRequest(HTTPRequestTypeEnum.HTTP_GET, url);
+		
+		String responseString = httpCoreResponse.getResponseString();
+		
+		tvChannels = Arrays.asList(new Gson().fromJson(responseString, TVChannel[].class));
 	}
 
+	
+	
 	@Test
-	public void testNotNull() {
+	public void testNotNull() 
+	{
 		Assert.assertNotNull(tvChannels);
 		Assert.assertFalse(tvChannels.isEmpty());
 	}
 
+	
+	
 	@Test
-	public void testAllVariablesNotNull() {
-		for (TVChannel tvChannel : tvChannels) {
+	public void testAllVariablesNotNull() 
+	{
+		for (TVChannel tvChannel : tvChannels) 
+		{
 			Assert.assertNotNull(tvChannel);
 
 			Assert.assertNotNull(tvChannel.getName());
@@ -55,5 +74,4 @@ public class TVChannelGSONTest extends Tests {
 			Assert.assertFalse(TextUtils.isEmpty(tvChannel.getLogo().getLarge()));
 		}
 	}
-
 }

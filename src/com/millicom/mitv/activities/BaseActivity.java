@@ -22,12 +22,12 @@ import android.widget.RelativeLayout;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Tracker;
+import com.millicom.mitv.utilities.GenericUtils;
 import com.millicom.mitv.utilities.NetworkUtils;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.manager.GATrackingManager;
-import com.mitv.utilities.GenericUtils;
 
 
 
