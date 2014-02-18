@@ -77,4 +77,13 @@ public enum FeedItemTypeEnum
 
 		return getFeedItemTypeEnumFromCode(value);
 	}
+	
+	
+	
+	public static FeedItemTypeEnum getFeedItemTypeEnumFromStringRepresentation(String enumStringRepresentation)
+	{
+		FeedItemTypeEnum feedItemType = FeedItemTypeEnum.valueOf(enumStringRepresentation);
+
+		return feedItemType;
+	}
 }

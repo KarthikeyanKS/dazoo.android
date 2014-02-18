@@ -71,4 +71,13 @@ public enum ProgramTypeEnum
 
 		return getProgramTypeEnumFromCode(value);
 	}
+	
+	
+	
+	public static ProgramTypeEnum getLikeTypeEnumFromStringRepresentation(String enumStringRepresentation)
+	{
+		ProgramTypeEnum programType = ProgramTypeEnum.valueOf(enumStringRepresentation);
+
+		return programType;
+	}
 }

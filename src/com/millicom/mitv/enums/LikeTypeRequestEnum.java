@@ -64,4 +64,13 @@ public enum LikeTypeRequestEnum
 
 		return getLikeTypeRequestEnumFromCode(value);
 	}
+	
+	
+	
+	public static LikeTypeRequestEnum getLikeTypeEnumFromStringRepresentation(String enumStringRepresentation)
+	{
+		LikeTypeRequestEnum likeType = LikeTypeRequestEnum.valueOf(enumStringRepresentation);
+
+		return likeType;
+	}
 }
