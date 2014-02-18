@@ -5,16 +5,13 @@ import com.google.gson.annotations.SerializedName;
 
 
 
-public enum ContentTypeEnum
+public enum LikeTypeRequestEnum 
 {
 	@SerializedName("SERIES")
 	SERIES(0),
 	
 	@SerializedName("PROGRAM")
-	PROGRAM(1),
-	
-	@SerializedName("CHANNEL")
-	CHANNEL(2);
+	PROGRAM(1);
 	
 	
 	
@@ -22,7 +19,7 @@ public enum ContentTypeEnum
 	
 	
 	
-	ContentTypeEnum(int id) 
+	LikeTypeRequestEnum(int id) 
 	{
 		this.id = id;
 	}
@@ -36,9 +33,9 @@ public enum ContentTypeEnum
 	
 
 
-	public static ContentTypeEnum getContentTypeEnumFromCode(int code)
+	public static LikeTypeRequestEnum getLikeTypeRequestEnumFromCode(int code)
 	{
-		for(ContentTypeEnum result: ContentTypeEnum.values())
+		for(LikeTypeRequestEnum result: LikeTypeRequestEnum.values())
 		{
 			if(result.getId() == code) 
 			{
@@ -47,14 +44,14 @@ public enum ContentTypeEnum
 			// No need for else
 		}
 
-		return ContentTypeEnum.SERIES;
+		return LikeTypeRequestEnum.SERIES;
 	}
 
 
 
-	public static ContentTypeEnum getContentTypeEnumFromCode(String codeAsString)
+	public static LikeTypeRequestEnum getLikeTypeRequestEnumFromCode(String codeAsString)
 	{
-		int value = ContentTypeEnum.SERIES.getId();
+		int value = LikeTypeRequestEnum.SERIES.getId();
 
 		try
 		{
@@ -62,9 +59,9 @@ public enum ContentTypeEnum
 		}
 		catch(NumberFormatException nfex)
 		{
-			return ContentTypeEnum.SERIES;
+			return LikeTypeRequestEnum.SERIES;
 		}
 
-		return getContentTypeEnumFromCode(value);
+		return getLikeTypeRequestEnumFromCode(value);
 	}
 }

@@ -1,13 +1,15 @@
 
 package com.millicom.mitv.models.gson.serialization;
 
-import com.millicom.mitv.enums.ContentTypeEnum;
+
+
+import com.millicom.mitv.enums.LikeTypeRequestEnum;
 
 
 
 public class UserLikeData
 {
-	private ContentTypeEnum likeType;
+	private LikeTypeRequestEnum likeType;
 	private String entityId;
 	
 	
@@ -19,13 +21,13 @@ public class UserLikeData
 
 
 	
-	public ContentTypeEnum getLikeType() {
+	public LikeTypeRequestEnum getLikeType() {
 		return likeType;
 	}
 
 
 
-	public void setLikeType(ContentTypeEnum likeType) {
+	public void setLikeType(LikeTypeRequestEnum likeType) {
 		this.likeType = likeType;
 	}
 

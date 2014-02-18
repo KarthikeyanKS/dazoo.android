@@ -25,8 +25,8 @@ public class URLParameters
 	
 	
 	public void add(
-			String header,
-			String value)
+			final String header,
+			final String value)
 	{
 		URLParameter queryStringParameter = new URLParameter(header, value);
 		

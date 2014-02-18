@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import junit.framework.Assert;
 import org.junit.Test;
+import android.text.TextUtils;
 import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -20,7 +21,7 @@ import com.mitv.Consts;
 
 
 
-public class GetFeedItemsTest
+public class GetUserTVFeedItemsTest
 	extends TestCore
 {
 	private static final String	TAG	= "GetTVFeedItemsTest";
@@ -49,12 +50,12 @@ public class GetFeedItemsTest
 		}
 		// No need for else
 		
-		receivedData = getUserTVChannelIds(token);
+		receivedData = getUserTVFeedItems(token);
 	}
 	
 	
 	
-	private static List<TVFeedItem> getUserTVChannelIds(String token)
+	private static List<TVFeedItem> getUserTVFeedItems(String token)
 	{
 		GetUserTVChannelIdsTest instance = new GetUserTVChannelIdsTest();
 		
@@ -100,8 +101,36 @@ public class GetFeedItemsTest
 	{
 		for(TVFeedItem tvFeedItem : receivedData) 
 		{
-//			Assert.assertNotNull(tvFeedItem.getChannelId());
-//			Assert.assertFalse(TextUtils.isEmpty(tvFeedItem.getChannelId()));
+			Assert.assertNotNull(tvFeedItem.getTitle());
+			Assert.assertFalse(TextUtils.isEmpty(tvFeedItem.getTitle()));
+			
+			Assert.assertNotNull(tvFeedItem.getItemType());
+			
+			switch (tvFeedItem.getItemType())
+			{
+				case BROADCAST:
+				case POPULAR_BROADCAST:
+				case RECOMMENDED_BROADCAST:
+				case POPULAR_TWITTER:
+				{
+					Assert.assertNotNull(tvFeedItem.getBroadcast());
+				}
+				break;
+				
+				case POPULAR_BROADCASTS:
+				{
+					Assert.assertNotNull(tvFeedItem.getBroadcasts());
+					Assert.assertFalse(tvFeedItem.getBroadcasts().isEmpty());
+				}
+				break;
+				
+				case UNKNOWN:
+				default:
+				{
+					Assert.assertFalse(true);
+				}
+				break;
+			}
 		}
 	}
 }
