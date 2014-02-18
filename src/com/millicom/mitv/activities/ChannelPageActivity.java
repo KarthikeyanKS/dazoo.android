@@ -53,7 +53,7 @@ public class ChannelPageActivity extends BaseActivity implements OnClickListener
 	private ListView							mFollowingBroadcastsLv;
 	private ImageView							mChannelIconIv;
 	private ChannelPageListAdapter				mFollowingBroadcastsListAdapter;
-	private String								mChannelId, mDate, mTvGuideDate, token;
+	private String								mChannelId, mDate, mTvGuideDate; //, token;
 	private OldTVDate								mTvDateSelected, mDateTvGuide;
 	private OldTVChannelGuide								mChannelGuide;
 	private OldTVChannel								mChannel;
@@ -61,7 +61,7 @@ public class ChannelPageActivity extends BaseActivity implements OnClickListener
 	private ArrayList<OldTVDate>					mTvDates;
 	private int									mSelectedIndex	= -1, mIndexOfNearestBroadcast, mHour;
 	private MiTVStore							mitvStore;
-	private boolean								mIsLoggedIn		= false, mIsReady = false, mFirstHit = true, mIsToday = false;
+	private boolean								mIsReady = false, mFirstHit = true, mIsToday = false; //mIsLoggedIn		= false, 
 	private Handler								mHandler;
 
 	@Override
@@ -80,7 +80,7 @@ public class ChannelPageActivity extends BaseActivity implements OnClickListener
 
 		mitvStore = MiTVStore.getInstance();
 
-		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
+//		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 
 		mChannel = mitvStore.getChannelById(mChannelId);
 		if (token != null && TextUtils.isEmpty(token) != true) {

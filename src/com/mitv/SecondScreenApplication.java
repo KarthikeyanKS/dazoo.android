@@ -382,15 +382,15 @@ public class SecondScreenApplication
 	/**
 	 * Retrieve user account access token
 	 */
-	public String getAccessToken() {
-		return sSharedPreferences.getString(Consts.USER_ACCOUNT_ACCESS_TOKEN, "");
-	}
+//	public String getAccessToken() {
+//		return sSharedPreferences.getString(Consts.USER_ACCOUNT_ACCESS_TOKEN, "");
+//	}
 	
-	public static boolean isLoggedIn() {
-		String authToken = getInstance().getAccessToken();
-		boolean isLoggedIn = (authToken != null && TextUtils.isEmpty(authToken) != true);
-		return isLoggedIn;
-	}
+//	public static boolean isLoggedIn() {
+//		String authToken = getInstance().getAccessToken();
+//		boolean isLoggedIn = (authToken != null && TextUtils.isEmpty(authToken) != true);
+//		return isLoggedIn;
+//	}
 
 	/**
 	 * Store user email

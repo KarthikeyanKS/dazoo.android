@@ -17,7 +17,7 @@ public class PerformUserLogoutBuilder
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener)
 	{
-		String userToken = ContentManager.sharedInstance().getUserToken();
+		String userToken = ContentManager.sharedInstance().getFromStorageUserToken();
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append(Consts.URL_AUTH_TOKENS);

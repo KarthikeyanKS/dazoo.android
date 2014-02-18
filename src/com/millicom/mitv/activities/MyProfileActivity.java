@@ -33,7 +33,6 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 public class MyProfileActivity extends BaseActivity implements OnClickListener {
 
-	private boolean mIsLoggedIn;
 	private String mUserFirstName;
 	private String mUserLastName;
 	private String mUserAvatarUrl;

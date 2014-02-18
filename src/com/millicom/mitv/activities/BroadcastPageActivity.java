@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.utilities.NetworkUtils;
 import com.mitv.Consts;
 import com.mitv.R;
@@ -143,7 +144,7 @@ public class BroadcastPageActivity extends BaseActivity implements OnClickListen
 
 			if (!mIsFromActivity) {
 				if (!mIsFromNotification) {
-					if (SecondScreenApplication.isLoggedIn()) {
+					if (ContentManager.sharedInstance().isLoggedIn()) {
 						Log.d(TAG, "LOGGED IN!");
 						mBroadcast = mitvStore.getBroadcast(mTvDate, mChannelId, mBeginTimeInMillis);
 						mChannel = mitvStore.getChannelById(mChannelId);

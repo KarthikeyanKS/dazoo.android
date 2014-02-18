@@ -107,7 +107,7 @@ public class APIClient
 	
 	
 	
-	public void setUserTVChannelIds(ActivityCallbackListener activityCallBackListener, List<TVChannelId> tvChannelIds) 
+	public void performSetUserTVChannelIds(ActivityCallbackListener activityCallBackListener, List<TVChannelId> tvChannelIds) 
 	{
 		SetUserTVChannelIds setUserTVChannelIds = new SetUserTVChannelIds(contentCallbackListener, activityCallBackListener, tvChannelIds);
 		setUserTVChannelIds.execute();
