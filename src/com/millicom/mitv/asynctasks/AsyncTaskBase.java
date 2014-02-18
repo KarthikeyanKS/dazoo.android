@@ -146,6 +146,13 @@ public class AsyncTaskBase<T>
 	@Override
 	protected void onPostExecute(Void result)
 	{
-		contentCallbackListener.onResult(activityCallBackListener, requestIdentifier, requestResultStatus, requestResultObjectContent);
+		if(contentCallbackListener != null)
+		{
+			contentCallbackListener.onResult(activityCallBackListener, requestIdentifier, requestResultStatus, requestResultObjectContent);
+		}
+		else
+		{
+			Log.w(TAG, "Content callback listener is null. No result action will be performed.");
+		}
 	}	
 }

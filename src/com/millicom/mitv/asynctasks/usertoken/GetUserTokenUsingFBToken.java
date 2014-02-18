@@ -8,14 +8,14 @@ import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
-import com.millicom.mitv.models.gson.UserData;
+import com.millicom.mitv.models.gson.UserLoginData;
 import com.millicom.mitv.models.gson.serialization.UserFacebookTokenData;
 import com.mitv.Consts;
 
 
 
 public class GetUserTokenUsingFBToken 
-	extends AsyncTaskWithUserToken<UserData> 
+	extends AsyncTaskWithUserToken<UserLoginData> 
 {
 	private static final String TAG = "GetUserTokenUsingFBToken";
 	
@@ -28,7 +28,7 @@ public class GetUserTokenUsingFBToken
 			ActivityCallbackListener activityCallBackListener,
 			String facebookToken) 
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_FB_TOKEN, UserData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
+		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_FB_TOKEN, UserLoginData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
 		
 		UserFacebookTokenData userFacebookTokenData = new UserFacebookTokenData();
 		userFacebookTokenData.setFacebookToken(facebookToken);

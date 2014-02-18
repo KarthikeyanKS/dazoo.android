@@ -46,5 +46,5 @@ public class GetTVBroadcastsDetailsBuilder
 	public void setBeginTime(long beginTime) 
 	{
 		this.beginTime = beginTime;
-	}	
+	}
 }

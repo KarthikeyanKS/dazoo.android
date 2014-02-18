@@ -8,12 +8,12 @@ import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
-import com.millicom.mitv.models.gson.UserData;
+import com.millicom.mitv.models.gson.UserLoginData;
 
 
 
 public class PerformUserLogout
-	extends AsyncTaskWithUserToken<UserData> 
+	extends AsyncTaskWithUserToken<UserLoginData> 
 {
 	public static PerformUserLogout newGetTVBroadcastsFromSeriesTask(
 			ContentCallbackListener contentCallbackListener,
@@ -33,6 +33,6 @@ public class PerformUserLogout
 			ActivityCallbackListener activityCallBackListener,
 			String url) 
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_LOGOUT, UserData.class, HTTPRequestTypeEnum.HTTP_DELETE, url);
+		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_LOGOUT, UserLoginData.class, HTTPRequestTypeEnum.HTTP_DELETE, url);
 	}
 }

@@ -96,8 +96,8 @@ public class ContentManager implements ContentCallbackListener {
 	}
 
 	@Override
-	public void onResult(ActivityCallbackListener activityCallBackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content) {
-	
+	public void onResult(ActivityCallbackListener activityCallBackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content) 
+	{
 			switch (requestIdentifier)
 			{
 				case APP_CONFIGURATION:
