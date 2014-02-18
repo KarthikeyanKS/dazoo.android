@@ -5,22 +5,26 @@ package com.mitv.test;
 
 import java.util.Arrays;
 import java.util.List;
+
 import junit.framework.Assert;
+
 import org.junit.Test;
-import android.text.TextUtils;
+
 import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.models.gson.TVBroadcastPrograms;
+import com.millicom.mitv.models.gson.TVBroadcastWithChannelInfo;
+import com.millicom.mitv.models.gson.TVChannel;
 import com.mitv.Consts;
 
 
 
 public class TVBroadcastProgramTest extends TestCore {
 	
-	private List<TVBroadcastPrograms> tvBroadcastPrograms;
+	private List<TVBroadcastWithChannelInfo> tvBroadcastsWithChannelInfo;
 	private static final String	TAG	= "TVBroadcastProgramTest";
 	
 	@Override
@@ -40,7 +44,7 @@ public class TVBroadcastProgramTest extends TestCore {
 		
 		try
 		{
-			tvBroadcastPrograms = Arrays.asList(new Gson().fromJson(responseString, TVBroadcastPrograms[].class));
+			tvBroadcastsWithChannelInfo = Arrays.asList(new Gson().fromJson(responseString, TVBroadcastWithChannelInfo[].class));
 		}
 		catch(JsonSyntaxException jsex)
 		{
@@ -50,44 +54,18 @@ public class TVBroadcastProgramTest extends TestCore {
 
 	@Test
 	public void testNotNull() {
-		Assert.assertNotNull(tvBroadcastPrograms);
+		Assert.assertNotNull(tvBroadcastsWithChannelInfo);
 	}
 	
 	@Test
 	public void testAllVariablesNotNull() {
-		for(TVBroadcastPrograms tvBroadcastProgram : tvBroadcastPrograms) {
-			Assert.assertNotNull(tvBroadcastPrograms);
+		for(TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo : tvBroadcastsWithChannelInfo) {
+			Assert.assertNotNull(tvBroadcastWithChannelInfo);
 			
-			Assert.assertNotNull(tvBroadcastProgram.getBeginTimeMillis());
+			TVBroadcastWithChannelInfoTest.testBroadcast(tvBroadcastWithChannelInfo);
 			
-			Assert.assertNotNull(tvBroadcastProgram.getBeginTime());
-			Assert.assertTrue(tvBroadcastProgram.getBeginTime().getTime() > TIMESTAMP_OF_YEAR_2000);
-			
-			Assert.assertNotNull(tvBroadcastProgram.getEndTime());
-			/* Check if endTime is after today or something? */
-			
-			Assert.assertNotNull(tvBroadcastProgram.getBroadcastType());
-			Assert.assertFalse(TextUtils.isEmpty(tvBroadcastProgram.getBroadcastType()));
-			
-			Assert.assertNotNull(tvBroadcastProgram.getShareUrl());
-			Assert.assertFalse(TextUtils.isEmpty(tvBroadcastProgram.getShareUrl()));
-			
-			
-			/* channelId tests */
-			Assert.assertNotNull(tvBroadcastProgram.getChannel().getName());
-			Assert.assertFalse(TextUtils.isEmpty(tvBroadcastProgram.getChannel().getName()));
-			
-			Assert.assertNotNull(tvBroadcastProgram.getChannel().getChannelId());
-			Assert.assertFalse(TextUtils.isEmpty(tvBroadcastProgram.getChannel().getChannelId().getChannelId()));
-			
-			Assert.assertNotNull(tvBroadcastProgram.getChannel().getLogo().getSmall());
-			Assert.assertFalse(TextUtils.isEmpty(tvBroadcastProgram.getChannel().getLogo().getSmall()));
-			
-			Assert.assertNotNull(tvBroadcastProgram.getChannel().getLogo().getMedium());
-			Assert.assertFalse(TextUtils.isEmpty(tvBroadcastProgram.getChannel().getLogo().getMedium()));
-			
-			Assert.assertNotNull(tvBroadcastProgram.getChannel().getLogo().getLarge());
-			Assert.assertFalse(TextUtils.isEmpty(tvBroadcastProgram.getChannel().getLogo().getLarge()));
+			TVChannel tvChannel = tvBroadcastWithChannelInfo.getChannel();
+			TVChannelGSONTest.testTVChannelObject(tvChannel);
 		}
 	}
 }

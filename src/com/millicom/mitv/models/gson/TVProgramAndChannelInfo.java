@@ -1,7 +1,7 @@
 package com.millicom.mitv.models.gson;
 
 
-public class TVBroadcastDetails {
+public class TVProgramAndChannelInfo {
 	
 	private TVChannel channel;
 	private TVProgram program;

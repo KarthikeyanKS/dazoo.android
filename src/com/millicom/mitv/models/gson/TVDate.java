@@ -7,7 +7,7 @@ import java.util.Date;
 import com.mitv.Consts;
 import com.mitv.utilities.DateUtilities;
 
-public class TVDates {
+public class TVDate {
 
 	private String id;
 	private String date;
@@ -33,5 +33,5 @@ public class TVDates {
 	public String getDisplayName() {
 		return displayName;
 	}
-	
+
 }
