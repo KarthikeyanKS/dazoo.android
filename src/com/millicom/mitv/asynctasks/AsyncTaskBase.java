@@ -93,6 +93,7 @@ public class AsyncTaskBase<T>
 		try 
 		{
 			gsonBuilder.registerTypeAdapter(clazz, clazz.newInstance());
+			gsonBuilder.excludeFieldsWithoutExposeAnnotation();
 			this.gson = gsonBuilder.create();
 		} 
 		catch (InstantiationException iex)

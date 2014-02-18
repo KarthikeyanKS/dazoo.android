@@ -1,10 +1,7 @@
 package com.millicom.mitv.models.gson;
 
-import java.io.Serializable;
 
-public class TVTag implements Serializable {
-
-	private static final long serialVersionUID = 5062447937304870213L;
+public class TVTag {
 
 	private String id;
 	private String displayName;
