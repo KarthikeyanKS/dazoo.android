@@ -8,14 +8,14 @@ import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
-import com.millicom.mitv.models.gson.UserData;
+import com.millicom.mitv.models.gson.UserLoginData;
 import com.millicom.mitv.models.gson.serialization.UserRegistrationData;
 import com.mitv.Consts;
 
 
 
 public class PerformUserSignUp 
-	extends AsyncTaskWithRelativeURL<UserData> 
+	extends AsyncTaskWithRelativeURL<UserLoginData> 
 {
 	private static final String TAG = "PerformUserSignUp";
 	
@@ -31,15 +31,15 @@ public class PerformUserSignUp
 			String firstname,
 			String lastname)
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_SIGN_UP, UserData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
+		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_SIGN_UP, UserLoginData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
 		
-		UserRegistrationData userRegistrationData = new UserRegistrationData();
-		userRegistrationData.setEmail(email);
-		userRegistrationData.setPassword(password);
-		userRegistrationData.setFirstName(firstname);
-		userRegistrationData.setLastName(lastname);
+		UserRegistrationData postData = new UserRegistrationData();
+		postData.setEmail(email);
+		postData.setPassword(password);
+		postData.setFirstName(firstname);
+		postData.setLastName(lastname);
 		
-		this.bodyContentData = gson.toJson(userRegistrationData);
+		this.bodyContentData = gson.toJson(postData);
 		
 		Log.v(TAG, "Gson data for request: " + bodyContentData);
 	}

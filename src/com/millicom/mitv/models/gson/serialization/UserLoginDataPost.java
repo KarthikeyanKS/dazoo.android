@@ -3,7 +3,7 @@ package com.millicom.mitv.models.gson.serialization;
 
 
 
-public class UserLoginData
+public class UserLoginDataPost
 {
 	/*
 	 * The names of these variables should not be changed unless the backend API call parameters changes too.
@@ -16,7 +16,7 @@ public class UserLoginData
 	/*
 	 * The empty constructor is needed by gson. Do not remove.
 	 */
-	public UserLoginData()
+	public UserLoginDataPost()
 	{}
 	
 	

@@ -13,6 +13,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCore;
 import com.millicom.mitv.http.HTTPCoreResponse;
@@ -22,8 +24,22 @@ import com.mitv.Consts;
 
 public class Tests 
 	extends InstrumentationTestCase 
-{		
+{
 	public static final long TIMESTAMP_OF_YEAR_2000 = 946684800L;
+	
+	
+	protected Gson gson;
+	
+	
+	
+	@Override
+	protected void setUp()
+			throws Exception 
+	{
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		
+		this.gson = gsonBuilder.create();
+	}
 	
 	
 	
@@ -43,6 +59,7 @@ public class Tests
 	
 	
 	
+	@Deprecated
 	public String deserializeJson(String url) 
 	{
 		try
