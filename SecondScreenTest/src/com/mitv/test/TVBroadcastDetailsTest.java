@@ -1,8 +1,5 @@
 package com.mitv.test;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -13,8 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.http.URLParameters;
-import com.millicom.mitv.models.gson.TVBroadcastDetails;
+import com.millicom.mitv.models.gson.TVProgramAndChannelInfo;
 import com.mitv.Consts;
 
 
@@ -24,7 +20,7 @@ public class TVBroadcastDetailsTest
 {
 	private static final String	TAG	= "TVBroadcastDetailsTest";
 	
-	private TVBroadcastDetails tvBroadcastDetails;
+	private TVProgramAndChannelInfo tvBroadcastDetails;
 	
 	
 	
@@ -51,7 +47,7 @@ public class TVBroadcastDetailsTest
 		
 		try
 		{
-			tvBroadcastDetails = new Gson().fromJson(responseString, TVBroadcastDetails.class);
+			tvBroadcastDetails = new Gson().fromJson(responseString, TVProgramAndChannelInfo.class);
 		}
 		catch(JsonSyntaxException jsex)
 		{

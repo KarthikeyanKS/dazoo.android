@@ -39,7 +39,7 @@ public abstract class Consts {
 	public static final String JSON_MIME_TYPE 						= "application/json";
 	public static final String URL_MITV_BASE						= "android.api.mi.tv/";
 	public static final String URL_GITR_BASE						= "android.api.gitrgitr.com/";
-	public static final String BASE_API_URL_USED 					= URL_MITV_BASE;
+	public static final String BASE_API_URL_USED 					= URL_GITR_BASE;
 	public static final String URL_SERVER_SECURE 					= HTTPS_SCHEME + BASE_API_URL_USED;
 	public static final String URL_SERVER							= HTTP_SCHEME + BASE_API_URL_USED;
 //	public static String 	   URL_INTERNAL_TRACKING 				= HTTP_SCHEME + "tracking.gitrgitr.com/track/unique?verb=views&key=program_id&value=%s&uid=%s";
