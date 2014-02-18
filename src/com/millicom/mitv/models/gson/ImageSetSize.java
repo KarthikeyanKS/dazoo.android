@@ -17,8 +17,7 @@ import android.util.DisplayMetrics;
 
 
 
-public class ImageSetSize implements JsonDeserializer<ImageSetSize>
-{
+public class ImageSetSize {
 	@SuppressWarnings("unused")
 	private static final String TAG = ImageSetSize.class.getName();
 	
@@ -27,7 +26,6 @@ public class ImageSetSize implements JsonDeserializer<ImageSetSize>
 	private String smallImageURI;
 	private String mediumImageURI;
 	private String largeImageURI;	
-	
 	
 	
 	public ImageSetSize(
@@ -47,7 +45,6 @@ public class ImageSetSize implements JsonDeserializer<ImageSetSize>
 		this.largeImageURI = "";
 	}
 
-	
 	
 	
 	public String getImageURLForDensityDPI(int densityDpi)
@@ -115,14 +112,6 @@ public class ImageSetSize implements JsonDeserializer<ImageSetSize>
 		return sb.toString();
 	}
 
-
-
-	@Override
-	public ImageSetSize deserialize(JsonElement arg0, Type arg1,
-			JsonDeserializationContext arg2) throws JsonParseException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public void setSmallImageURI(String smallImageURI) {
 		this.smallImageURI = smallImageURI;

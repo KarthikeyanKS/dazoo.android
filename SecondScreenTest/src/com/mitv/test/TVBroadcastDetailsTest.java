@@ -7,9 +7,7 @@ import org.junit.Test;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
-import com.millicom.mitv.models.gson.DeserializeManuallyAnnotationExclusionStrategy;
 import com.millicom.mitv.models.gson.TVBroadcastDetails;
 import com.mitv.Consts;
 
@@ -38,15 +36,10 @@ public class TVBroadcastDetailsTest
 		sb.append(beginTimeMillis);
 		
 		String jsonString = super.deserializeJson(sb.toString());
-		
-		GsonBuilder gsonBuilder = new GsonBuilder();
-		gsonBuilder.registerTypeAdapter(TVBroadcastDetails.class, new TVBroadcastDetails());
-		gsonBuilder.addDeserializationExclusionStrategy(new DeserializeManuallyAnnotationExclusionStrategy());
-		Gson gson = gsonBuilder.create();
-		
+				
 		try
 		{
-			tvBroadcastDetails = gson.fromJson(jsonString, TVBroadcastDetails.class);
+			tvBroadcastDetails = new Gson().fromJson(jsonString, TVBroadcastDetails.class);
 		}
 		catch(JsonSyntaxException jsex)
 		{
