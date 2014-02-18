@@ -82,8 +82,6 @@ public class TVProgramAndChannelInfoTest
 	}
 	
 	public static void testTVProgram(TVProgram program) {
-		TVBroadcastWithChannelInfoTest.testBroadcast(program);
-		
 		/* All program types */
 		Assert.assertNotNull(program.getProgramId());
 		Assert.assertFalse(TextUtils.isEmpty(program.getProgramId()));

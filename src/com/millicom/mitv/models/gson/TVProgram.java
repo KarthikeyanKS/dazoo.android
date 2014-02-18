@@ -14,7 +14,7 @@ import com.google.gson.annotations.Expose;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.mitv.Consts;
 
-public class TVProgram extends Broadcast implements JsonDeserializer<TVProgram> {
+public class TVProgram implements JsonDeserializer<TVProgram> {
 	
 	@Expose
 	private ProgramTypeEnum programType;
@@ -77,6 +77,16 @@ public class TVProgram extends Broadcast implements JsonDeserializer<TVProgram> 
 		
 		TVProgram tvProgramWithStandardFieldsSet = gson.fromJson(jsonElement, TVProgram.class);
 
+		this.programType = tvProgramWithStandardFieldsSet.programType;
+		this.programId = tvProgramWithStandardFieldsSet.programId;
+		this.title = tvProgramWithStandardFieldsSet.title;
+		this.synopsisShort = tvProgramWithStandardFieldsSet.synopsisShort;
+		this.synopsisLong = tvProgramWithStandardFieldsSet.synopsisLong;
+		this.images = tvProgramWithStandardFieldsSet.images;
+		this.tags = tvProgramWithStandardFieldsSet.tags;
+		this.credits = tvProgramWithStandardFieldsSet.credits;
+		
+		
 		/* Custom parsing of variables that varies depending on Program Type */
 		JsonObject jsonObject = jsonElement.getAsJsonObject();
 		

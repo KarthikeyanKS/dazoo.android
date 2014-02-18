@@ -41,6 +41,7 @@ public class TVChannelGuidesGSONTest
 		TVDate tvDateToday = tvDates.get(0);
 		
 		StringBuilder sb = new StringBuilder(Consts.URL_GUIDE);
+		sb.append(Consts.REQUEST_QUERY_SEPARATOR);
 		sb.append(tvDateToday.getId());
 		String url = sb.toString();
 		
