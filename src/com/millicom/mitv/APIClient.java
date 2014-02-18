@@ -120,6 +120,11 @@ public class APIClient
 		getFeedItems.execute();
 	}
 	
+	public void getFeedItemsWithOffsetAndLimit(ActivityCallbackListener activityCallbackListener, int offset, int limit)
+	{
+		GetFeedItems getFeedItems = new GetFeedItems(contentCallbackListener, activityCallbackListener, offset, limit);
+		getFeedItems.execute();
+	}
 	
 	
 	public void getTVBroadcastDetails(ActivityCallbackListener activityCallBackListener, TVChannelId tvChannelId, long beginTime)

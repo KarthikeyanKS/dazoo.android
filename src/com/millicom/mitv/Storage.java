@@ -131,6 +131,13 @@ public class Storage {
 	public void setActivityFeed(ArrayList<OldTVFeedItem> activityFeed) {
 		this.activityFeed = activityFeed;
 	}
+	
+	public void addMoreActivityFeedItems(ArrayList<OldTVFeedItem> additionalActivityFeedItems) {
+		if(this.activityFeed == null) {
+			activityFeed = new ArrayList<OldTVFeedItem>();
+		}
+		activityFeed.addAll(additionalActivityFeedItems);
+	}
 
 	public ArrayList<OldBroadcast> getPopularFeed() {
 		return popularFeed;
@@ -221,6 +228,11 @@ public class Storage {
 		TVGuide tvGuide = getTVGuideUsingTVDate(tvDate);
 		boolean containsTVGuideForTVDate = (tvGuide != null);
 		return containsTVGuideForTVDate;
+	}
+	
+	public boolean containsActivityFeedData() {
+		boolean containsActivityFeedData = (activityFeed != null && !activityFeed.isEmpty());
+		return containsActivityFeedData;
 	}
 	
 	public OldTVDate getTvDateSelected() {

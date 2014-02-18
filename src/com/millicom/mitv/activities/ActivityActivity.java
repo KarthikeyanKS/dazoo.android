@@ -54,10 +54,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.millicom.asynctasks.GetFeedTask;
+import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.authentication.FacebookLoginActivity;
 import com.millicom.mitv.activities.authentication.MiTVLoginActivity;
 import com.millicom.mitv.activities.authentication.SignInOrSignupWithFacebookActivity;
 import com.millicom.mitv.activities.authentication.SignUpWithEmailActivity;
+import com.millicom.mitv.enums.FetchRequestResultEnum;
+import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.utilities.NetworkUtils;
 import com.mitv.Consts;
 import com.mitv.R;
@@ -69,7 +72,7 @@ import com.mitv.manager.ContentParser;
 import com.mitv.model.OldTVFeedItem;
 import com.mitv.storage.MiTVStore;
 
-public class ActivityActivity extends BaseActivity implements OnClickListener {
+public class ActivityActivity extends BaseActivity implements OnClickListener, ActivityCallbackListener {
 
 	private static final String	TAG				= "ActivityActivity";
 	private RelativeLayout		mTabTvGuide, mTabProfile, mTabActivity, mSigninContainer, mFacebookContainer, mSignUpContainer;
@@ -108,7 +111,7 @@ public class ActivityActivity extends BaseActivity implements OnClickListener {
 		
 		mActivity = this;
 
-		if (SecondScreenApplication.isLoggedIn()) 
+		if (ContentManager.sharedInstance().isLoggedIn()) 
 		{
 			setContentView(R.layout.layout_activity_activity);
 			
@@ -116,12 +119,14 @@ public class ActivityActivity extends BaseActivity implements OnClickListener {
 			initFeedViews();
 			
 			super.initCallbackLayouts();
-
-			if (NetworkUtils.isConnectedAndHostIsReachable(this) == false)
-			{
-				updateUI(REQUEST_STATUS.FAILED);
-				return;
-			}
+			
+			getActivityFeedData();
+			
+//			if (NetworkUtils.isConnectedAndHostIsReachable(this) == false)
+//			{
+//				updateUI(REQUEST_STATUS.FAILED);
+//				return;
+//			}
 			// No need for else
 			
 			// TODO: Check if the api is the correct one
@@ -133,28 +138,28 @@ public class ActivityActivity extends BaseActivity implements OnClickListener {
 //				return;
 //			}
 
-			String signupTitle = String.format("%s %s", getResources().getString(R.string.success_account_created_title), SecondScreenApplication.getInstance().getUserFirstName());
-
-			if (mIsFromLogin) 
-			{
-				Toast toast = Toast.makeText(this, signupTitle, Toast.LENGTH_LONG);
-
-				((TextView) ((LinearLayout)toast.getView()).getChildAt(0)).setGravity(Gravity.CENTER_HORIZONTAL);
-
-				toast.show();
-			}
-			else if (mIsFromSignup) 
-			{
-				String signupText = getResources().getString(R.string.success_account_created_text);
-
-				Toast toast = Toast.makeText(this, signupTitle + "\n" + signupText, Toast.LENGTH_LONG);
-
-				((TextView) ((LinearLayout)toast.getView()).getChildAt(0)).setGravity(Gravity.CENTER_HORIZONTAL);
-
-				toast.show();
-			}
-
-			loadPage();
+//			String signupTitle = String.format("%s %s", getResources().getString(R.string.success_account_created_title), SecondScreenApplication.getInstance().getUserFirstName());
+//
+//			if (mIsFromLogin) 
+//			{
+//				Toast toast = Toast.makeText(this, signupTitle, Toast.LENGTH_LONG);
+//
+//				((TextView) ((LinearLayout)toast.getView()).getChildAt(0)).setGravity(Gravity.CENTER_HORIZONTAL);
+//
+//				toast.show();
+//			}
+//			else if (mIsFromSignup) 
+//			{
+//				String signupText = getResources().getString(R.string.success_account_created_text);
+//
+//				Toast toast = Toast.makeText(this, signupTitle + "\n" + signupText, Toast.LENGTH_LONG);
+//
+//				((TextView) ((LinearLayout)toast.getView()).getChildAt(0)).setGravity(Gravity.CENTER_HORIZONTAL);
+//
+//				toast.show();
+//			}
+//
+//			loadPage();
 		} 
 		else 
 		{
@@ -163,6 +168,11 @@ public class ActivityActivity extends BaseActivity implements OnClickListener {
 			initStandardViews();
 			initInactiveViews();
 		}
+	}
+	
+	private void getActivityFeedData() {
+		updateUI(REQUEST_STATUS.LOADING);
+		ContentManager.sharedInstance().getActivityFeedData(this, false);
 	}
 	
 	private void initStandardViews() {
@@ -241,27 +251,27 @@ public class ActivityActivity extends BaseActivity implements OnClickListener {
 	@Override
 	protected void loadPage() 
 	{
-		updateUI(REQUEST_STATUS.LOADING);
-
-		if (NetworkUtils.isConnectedAndHostIsReachable(this)) 
-		{
-			if (MiTVStore.getInstance().getActivityFeed().size() > 0) 
-			{
-				Log.d(TAG, "READ FROM STORAGE");
-				
-				activityFeed = MiTVStore.getInstance().getActivityFeed();
-				
-				updateUI(REQUEST_STATUS.SUCCESSFUL);
-			} 
-			else 
-			{
-				new GetFeedTask(0, 5).execute();
-			}
-		} 
-		else 
-		{
-			updateUI(REQUEST_STATUS.FAILED);
-		}
+//		updateUI(REQUEST_STATUS.LOADING);
+//
+//		if (NetworkUtils.isConnectedAndHostIsReachable(this)) 
+//		{
+//			if (MiTVStore.getInstance().getActivityFeed().size() > 0) 
+//			{
+//				Log.d(TAG, "READ FROM STORAGE");
+//				
+//				activityFeed = MiTVStore.getInstance().getActivityFeed();
+//				
+//				updateUI(REQUEST_STATUS.SUCCESSFUL);
+//			} 
+//			else 
+//			{
+//				new GetFeedTask(0, 5).execute();
+//			}
+//		} 
+//		else 
+//		{
+//			updateUI(REQUEST_STATUS.FAILED);
+//		}
 	}
 	
 	
@@ -530,6 +540,15 @@ public class ActivityActivity extends BaseActivity implements OnClickListener {
 					loadPage();
 				}
 			}, mNextRequestTime * 1000);
+		}
+	}
+
+	@Override
+	public void onResult(FetchRequestResultEnum fetchRequestResult) {
+		if(fetchRequestResult == FetchRequestResultEnum.SUCCESS) {
+			updateUI(REQUEST_STATUS.SUCCESSFUL);
+		} else {
+			updateUI(REQUEST_STATUS.FAILED);
 		}
 	}
 }

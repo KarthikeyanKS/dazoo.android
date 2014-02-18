@@ -23,7 +23,7 @@ public class GetFeedItems
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener)
 	{
-		this(contentCallbackListener, activityCallBackListener, false, 0, false, 0);
+		this(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_ACTIVITY_FEED_ITEM, false, 0, false, 0);
 	}
 	
 	
@@ -34,7 +34,7 @@ public class GetFeedItems
 			int itemStartIndex,
 			int itemLimit)
 	{
-		this(contentCallbackListener, activityCallBackListener, true, itemStartIndex, true, itemLimit);
+		this(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_ACTIVITY_FEED_ITEM_MORE, true, itemStartIndex, true, itemLimit);
 	}
 	
 	
@@ -42,12 +42,13 @@ public class GetFeedItems
 	private GetFeedItems(
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener,
+			RequestIdentifierEnum requestIdentifier, 
 			boolean useItemStartIndex,
 			int itemStartIndex,
 			boolean useItemLimit,
 			int itemLimit)
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_ACTIVITY_FEED_ITEM, OldTVFeedItem.class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+		super(contentCallbackListener, activityCallBackListener, requestIdentifier, OldTVFeedItem.class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
 		
 		if(useItemStartIndex)
 		{
