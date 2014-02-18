@@ -37,6 +37,7 @@ public abstract class Consts {
 	public static final String HTTP_SCHEME							= "http://";
 	public static final String HTTPS_SCHEME							= "https://";
 	public static final String JSON_MIME_TYPE 						= "application/json";
+	
 	public static final String URL_MITV_BASE						= "android.api.mi.tv/";
 	public static final String URL_GITR_BASE						= "android.api.gitrgitr.com/";
 	public static final String BASE_API_URL_USED 					= URL_GITR_BASE;
@@ -404,7 +405,7 @@ public abstract class Consts {
 	public static final String	SERIES_SERIES_ID							= "seriesId";
 
 	/* SPORT TYPE fields */
-	public static final String	SPORTTYPE_SPORTTYPEID							= "sportTypeId";
+	public static final String	SPORTTYPE_SPORTTYPEID						= "sportTypeId";
 	public static final String	SPORTTYPE_NAME								= "name";
 
 	/* FEED fields */
@@ -495,6 +496,20 @@ public abstract class Consts {
 	public static final String JSON_KEY_SEARCH_RESULT_ITEM_ENTITY_TYPE	= "entityType";
 	public static final String JSON_KEY_SEARCH_ENTITY_BROADCASTS		= "broadcasts";
 	public static final String JSON_KEY_SEARCH_ENTITY_NAME				= "name";
+	
+	
+	/* JSON KEYS FOR DESERIALIZATION */
+	public static final String JSON_USER_LIKE_SERIES_SERIES_ID = "seriesId";
+	public static final String JSON_USER_LIKE_SPORT_TYPE_ID = "sportTypeId";
+	public static final String JSON_USER_LIKE_PROGRAM_ID = "programId";
+	public static final String JSON_USER_LIKE_PROGRAM_TYPE = "programType";
+	public static final String JSON_USER_LIKE_PROGRAM_OTHER_CATEGORY = "category";
+	public static final String JSON_USER_LIKE_PROGRAM_MOVIE_GENRE = "genre";
+	public static final String JSON_USER_LIKE_PROGRAM_MOVIE_YEAR = "year";
+	
+	public static final String JSON_USER_FEED_ITEM_BROADCAST = "broadcast";
+	public static final String JSON_USER_FEED_ITEM_BROADCASTS = "broadcasts";
+	
 	
 	/* REFRESH INTERVALS FOR LOCAL DATA */
 	public static final int LIKE_IDS_REFRESH_INTERVAL_IN_MINUTES 		= 1;

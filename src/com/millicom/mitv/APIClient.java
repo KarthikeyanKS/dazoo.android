@@ -22,12 +22,12 @@ import com.millicom.mitv.asynctasks.PerformUserPasswordResetConfirmation;
 import com.millicom.mitv.asynctasks.PerformUserPasswordResetSendEmail;
 import com.millicom.mitv.asynctasks.PerformUserSignUp;
 import com.millicom.mitv.asynctasks.usertoken.AddUserLike;
-import com.millicom.mitv.asynctasks.usertoken.GetFeedItems;
+import com.millicom.mitv.asynctasks.usertoken.GetUserTVFeedItems;
 import com.millicom.mitv.asynctasks.usertoken.GetUserLikes;
 import com.millicom.mitv.asynctasks.usertoken.GetUserTVChannelIds;
 import com.millicom.mitv.asynctasks.usertoken.GetUserTokenUsingFBToken;
 import com.millicom.mitv.asynctasks.usertoken.PerformUserLogout;
-import com.millicom.mitv.asynctasks.usertoken.RemoveUserLikes;
+import com.millicom.mitv.asynctasks.usertoken.RemoveUserLike;
 import com.millicom.mitv.asynctasks.usertoken.SetUserTVChannelIds;
 import com.millicom.mitv.enums.ContentTypeEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
@@ -117,7 +117,7 @@ public class APIClient
 	
 	public void getFeedItems(ActivityCallbackListener activityCallBackListener) 
 	{
-		GetFeedItems getFeedItems = new GetFeedItems(contentCallbackListener, activityCallBackListener);
+		GetUserTVFeedItems getFeedItems = new GetUserTVFeedItems(contentCallbackListener, activityCallBackListener);
 		getFeedItems.execute();
 	}
 	
@@ -165,7 +165,7 @@ public class APIClient
 	/* The content ID is either a seriesId, or a sportTypesId or programId */
 	public void removeUserLike(ActivityCallbackListener activityCallBackListener, ContentTypeEnum likeType, String contentId) 
 	{
-		RemoveUserLikes removeUserLikes = RemoveUserLikes.newRemoveUserLikesTask(contentCallbackListener, activityCallBackListener, likeType, contentId);
+		RemoveUserLike removeUserLikes = RemoveUserLike.newRemoveUserLikesTask(contentCallbackListener, activityCallBackListener, likeType, contentId);
 		removeUserLikes.execute();
 	}
 	

@@ -9,14 +9,14 @@ import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
+import com.millicom.mitv.models.gson.UserLike;
 import com.millicom.mitv.models.gson.serialization.UserLikeData;
 import com.mitv.Consts;
-import com.mitv.model.OldTVLike;
 
 
 
 public class AddUserLike 
-	extends AsyncTaskWithUserToken<OldTVLike> 
+	extends AsyncTaskWithUserToken<UserLike> 
 {
 	private static final String TAG = "AddUserLike";
 	
@@ -29,7 +29,7 @@ public class AddUserLike
 			ContentTypeEnum likeType,
 			String contentId) 
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_ADD_LIKE, OldTVLike.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
+		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_ADD_LIKE, UserLike.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
 		
 		UserLikeData postData = new UserLikeData();
 		postData.setLikeType(likeType);

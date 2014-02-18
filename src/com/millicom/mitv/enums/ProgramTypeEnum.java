@@ -40,7 +40,7 @@ public enum ProgramTypeEnum
 	
 
 
-	public static ProgramTypeEnum getContentTypeEnumFromCode(int code)
+	public static ProgramTypeEnum getProgramTypeEnumFromCode(int code)
 	{
 		for(ProgramTypeEnum result: ProgramTypeEnum.values())
 		{
@@ -56,7 +56,7 @@ public enum ProgramTypeEnum
 
 
 
-	public static ProgramTypeEnum getContentTypeEnumFromCode(String codeAsString)
+	public static ProgramTypeEnum getProgramTypeEnumFromCode(String codeAsString)
 	{
 		int value = ProgramTypeEnum.UNKNOWN.getId();
 
@@ -69,6 +69,6 @@ public enum ProgramTypeEnum
 			return ProgramTypeEnum.UNKNOWN;
 		}
 
-		return getContentTypeEnumFromCode(value);
+		return getProgramTypeEnumFromCode(value);
 	}
 }

@@ -13,7 +13,7 @@ public enum FetchRequestResultEnum
            200, 
            "The service was successfully executed."),
  
-   NO_CONTENT(
+   SUCCESS_WITH_NO_CONTENT(
            204,
            "The service was successfully executed."),
    
@@ -124,7 +124,7 @@ public enum FetchRequestResultEnum
    
    public boolean wasSuccessful() 
    {
-	   boolean wasSuccessful = (this == SUCCESS);
+	   boolean wasSuccessful = (this == SUCCESS || this == SUCCESS_WITH_NO_CONTENT);
 	   
 	   return wasSuccessful;
    }
