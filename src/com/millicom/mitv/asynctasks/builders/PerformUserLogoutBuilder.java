@@ -19,11 +19,11 @@ public class PerformUserLogoutBuilder
 	{
 		String userToken = ContentManager.sharedInstance().getUserToken();
 		
-		StringBuilder sb = new StringBuilder();
-		sb.append(Consts.URL_AUTH_TOKENS);
-		sb.append(userToken);
+		StringBuilder url = new StringBuilder();
+		url.append(Consts.URL_AUTH_TOKENS);
+		url.append(userToken);
 				
-		PerformUserLogout performuserLogout = new PerformUserLogout(contentCallbackListener, activityCallBackListener, sb.toString());
+		PerformUserLogout performuserLogout = new PerformUserLogout(contentCallbackListener, activityCallBackListener, url.toString());
 		
 		return performuserLogout;
 	}

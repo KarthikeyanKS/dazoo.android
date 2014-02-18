@@ -7,13 +7,13 @@ import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
+import com.millicom.mitv.models.gson.TVFeedItem;
 import com.mitv.Consts;
-import com.mitv.model.OldTVFeedItem;
 
 
 
 public class GetFeedItems
-	extends AsyncTaskWithUserToken<OldTVFeedItem> 
+	extends AsyncTaskWithUserToken<TVFeedItem[]> 
 {
 	private static final String URL_SUFFIX = Consts.URL_ACTIVITY_FEED;
 	
@@ -47,7 +47,7 @@ public class GetFeedItems
 			boolean useItemLimit,
 			int itemLimit)
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_ACTIVITY_FEED_ITEM, OldTVFeedItem.class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_ACTIVITY_FEED_ITEM, TVFeedItem[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
 		
 		if(useItemStartIndex)
 		{

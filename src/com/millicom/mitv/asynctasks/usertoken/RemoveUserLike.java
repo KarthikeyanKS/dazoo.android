@@ -13,11 +13,11 @@ import com.millicom.mitv.models.DummyData;
 
 
 
-public class RemoveUserLikes 
+public class RemoveUserLike 
 	extends AsyncTaskWithUserToken<DummyData> 
 {	
 	
-	public static RemoveUserLikes newRemoveUserLikesTask(
+	public static RemoveUserLike newRemoveUserLikesTask(
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener,
 			ContentTypeEnum likeType,
@@ -27,17 +27,17 @@ public class RemoveUserLikes
 		removeLikesBuilder.setContentId(contentId);
 		removeLikesBuilder.setLikeType(likeType);
 		
-		RemoveUserLikes removeUserLikes = removeLikesBuilder.build(contentCallbackListener, activityCallBackListener, likeType, contentId);
+		RemoveUserLike removeUserLike = removeLikesBuilder.build(contentCallbackListener, activityCallBackListener, likeType, contentId);
 		
-		return removeUserLikes;
+		return removeUserLike;
 	}
 	
 	
 	
-	public RemoveUserLikes(
+	public RemoveUserLike(
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener,
-			String url) 
+			String url)
 	{
 		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_REMOVE_LIKE, DummyData.class, HTTPRequestTypeEnum.HTTP_DELETE, url);
 	}
