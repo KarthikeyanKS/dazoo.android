@@ -13,14 +13,17 @@ public class HTTPCoreResponse
 	private static final long serialVersionUID = 2977961269214430910L;
 	
 	
-	
+	private String requestURL;
 	private int statusCode;
 	private String responseString;
 
 
 	
-	public HTTPCoreResponse(int statusCode)
+	public HTTPCoreResponse(
+			String requestURL,
+			int statusCode)
 	{
+		this.requestURL = requestURL;
 		this.statusCode = statusCode;
 		this.responseString = new String();
 	}
@@ -28,13 +31,26 @@ public class HTTPCoreResponse
 
 
 	public HTTPCoreResponse(
+			String requestURL,
 			int statusCode,
 			String responseString)
 	{
+		this.requestURL = requestURL;
 		this.statusCode = statusCode;
 		this.responseString = responseString;
 	}
+	
+	
+	
+	/**
+	 * @return the original request url
+	 */
+	public String getRequestURL() 
+	{
+		return requestURL;
+	}
 
+	
 	
 	/**
 	 * @return the status code
