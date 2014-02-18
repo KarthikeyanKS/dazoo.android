@@ -1,7 +1,12 @@
+
 package com.mitv.test;
 
+
+
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import junit.framework.Assert;
 
@@ -10,16 +15,21 @@ import org.junit.Test;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
+import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.models.gson.TVDate;
 import com.mitv.Consts;
 
-public class TVDatesGSONTest extends Tests {
-
+public class TVDatesGSONTest 
+	extends TestCore
+{	
 	private List<TVDate> tvDates;
 
+	
 	@Override
-	protected void setUp() throws Exception {
+	protected void setUp() 
+			throws Exception 
+	{
 		super.setUp();
 		tvDates = testFetchTVDates();
 	}
@@ -28,7 +38,8 @@ public class TVDatesGSONTest extends Tests {
 		TVDatesGSONTest instance = new TVDatesGSONTest();
 
 		String url = Consts.URL_DATES;
-
+		
+	
 		HTTPCoreResponse httpCoreResponse = instance.executeGetRequest(url);
 
 		String jsonString = httpCoreResponse.getResponseString();
@@ -39,8 +50,11 @@ public class TVDatesGSONTest extends Tests {
 		return tvDates;
 	}
 
+	
+	
 	@Test
-	public void testNotNull() {
+	public void testNotNull() 
+	{
 		Assert.assertNotNull(tvDates);
 		Assert.assertFalse(tvDates.isEmpty());
 	}

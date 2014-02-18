@@ -1,8 +1,10 @@
 package com.mitv.manager;
 
+import com.millicom.mitv.utilities.GenericUtils;
 import com.mitv.Consts;
 import com.mitv.model.OldBroadcast;
-import com.mitv.utilities.DeviceUtilities;
+
+
 
 public class InternalTrackingManager extends GenericTrackingManager {
 
@@ -19,7 +21,7 @@ public class InternalTrackingManager extends GenericTrackingManager {
 	}
 
 	public InternalTrackingManager() {
-		deviceId = DeviceUtilities.getDeviceId();
+		deviceId = GenericUtils.getDeviceId();
 	}
 
 	public static void trackBroadcastStatic(OldBroadcast broadcast) {

@@ -20,15 +20,15 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.millicom.asynctasks.LoginTask;
 import com.millicom.mitv.activities.ActivityActivity;
 import com.millicom.mitv.activities.HomeActivity;
+import com.millicom.mitv.utilities.RegularExpressionUtils;
 import com.mitv.AuthenticationService;
 import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.utilities.PatternCheck;
+import com.mitv.asynctasks.LoginTask;
 
 
 
@@ -133,7 +133,7 @@ public class MiTVLoginActivity
 	{
 		String emailInput = mEmailLoginEditText.getText().toString();
 		
-		if ((emailInput != null) && (PatternCheck.checkEmail(emailInput) == true)) {
+		if ((emailInput != null) && (RegularExpressionUtils.checkEmail(emailInput) == true)) {
 			return true;
 		} 
 		else

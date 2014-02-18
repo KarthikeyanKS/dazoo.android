@@ -8,9 +8,11 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.annotations.Expose;
 import com.millicom.mitv.enums.ProgramTypeEnum;
+import com.mitv.Consts;
 
 public class TVProgram extends Broadcast implements JsonDeserializer<TVProgram> {
 	
@@ -74,10 +76,21 @@ public class TVProgram extends Broadcast implements JsonDeserializer<TVProgram> 
 		Gson gson = gsonBuilder.create();
 		
 		TVProgram tvProgramWithStandardFieldsSet = gson.fromJson(jsonElement, TVProgram.class);
+
+		/* Custom parsing of variables that varies depending on Program Type */
+		JsonObject jsonObject = jsonElement.getAsJsonObject();
+		
 		
 		switch (tvProgramWithStandardFieldsSet.getProgramType()) {
 		case MOVIE: {
 			
+			/* Year */
+			JsonElement jsonYearElement = jsonObject.get(Consts.PROGRAM_YEAR);
+			this.year = jsonYearElement.getAsInt();
+			
+			/* Genre */
+			JsonElement jsonGenreElement = jsonObject.get(Consts.PROGRAM_GENRE);
+			this.genre = jsonGenreElement.getAsString();
 			break;
 		}
 		case TV_EPISODE: {

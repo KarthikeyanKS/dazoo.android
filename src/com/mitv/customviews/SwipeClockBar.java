@@ -30,13 +30,13 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
+import com.millicom.mitv.utilities.GenericUtils;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.manager.AppConfigurationManager;
 import com.mitv.manager.FontManager;
 import com.mitv.utilities.DateUtilities;
-import com.mitv.utilities.HardwareUtilities;
 
 public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListener {
 
@@ -118,7 +118,8 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 
 		this.mHours = generate24Hours();
 
-		this.mScreenHeight = HardwareUtilities.getScreenHeight((Activity) context);
+		this.mScreenHeight = GenericUtils.getScreenHeight((Activity) context);
+		
 		if(mScreenHeight <= SCREEN_HEIGHT_SMALL) {
 			mSmallScreenMode = true;
 		} else {

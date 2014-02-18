@@ -37,12 +37,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.millicom.mitv.utilities.RegularExpressionUtils;
 import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.utilities.JSONUtilities;
-import com.mitv.utilities.PatternCheck;
 
 public class ResetPasswordActivity extends SSSignInSignupBaseActivity implements OnClickListener {
 
@@ -99,7 +99,7 @@ public class ResetPasswordActivity extends SSSignInSignupBaseActivity implements
 		case R.id.resetpassword_button:
 			String emailInput = mEmailResetPasswordEditText.getText().toString();
 			// if (emailInput != null && emailInput.isEmpty() != true && PatternCheck.checkEmail(emailInput) == true) {
-			if (emailInput != null && TextUtils.isEmpty(emailInput) != true && PatternCheck.checkEmail(emailInput) == true) {
+			if (emailInput != null && TextUtils.isEmpty(emailInput) != true && RegularExpressionUtils.checkEmail(emailInput) == true) {
 				mEmailResetPasswordEditText.setEnabled(false);
 				try {
 					ResetPasswordTask resetPasswordTask = new ResetPasswordTask();

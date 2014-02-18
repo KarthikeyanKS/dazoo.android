@@ -12,7 +12,7 @@ import com.google.analytics.tracking.android.Tracker;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.utilities.DeviceUtilities;
+
 
 
 public class GATrackingManager {

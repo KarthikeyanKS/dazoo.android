@@ -1,5 +1,5 @@
 
-package com.millicom.interfaces;
+package com.mitv.interfaces;
 
 import com.mitv.model.OldAdzerkAd;
 

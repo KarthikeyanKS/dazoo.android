@@ -1,9 +1,10 @@
 
-package com.millicom.mitv.asynctasks.usertoken;
+package com.millicom.mitv.asynctasks;
 
 
 
 import android.util.Log;
+
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
@@ -15,7 +16,7 @@ import com.mitv.Consts;
 
 
 public class PerformUserPasswordResetSendEmail 
-	extends AsyncTaskWithUserToken<DummyData> 
+	extends AsyncTaskWithRelativeURL<DummyData> 
 {
 	private static final String TAG = "PerformUserPasswordResetSendEmail";
 	
@@ -30,10 +31,10 @@ public class PerformUserPasswordResetSendEmail
 	{
 		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_RESET_PASSWORD_SEND_EMAIL, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
 		
-		UserPasswordResetPasswordData userPasswordResetPasswordData = new UserPasswordResetPasswordData();
-		userPasswordResetPasswordData.setEmail(email);
+		UserPasswordResetPasswordData postData = new UserPasswordResetPasswordData();
+		postData.setEmail(email);
 		
-		this.bodyContentData = gson.toJson(userPasswordResetPasswordData);
+		this.bodyContentData = gson.toJson(postData);
 		
 		Log.v(TAG, "Gson data for request: " + bodyContentData);
 	}

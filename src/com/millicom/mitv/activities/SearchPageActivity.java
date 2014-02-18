@@ -28,6 +28,7 @@ import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.millicom.mitv.enums.ContentTypeEnum;
+import com.millicom.mitv.utilities.GenericUtils;
 import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
@@ -38,7 +39,6 @@ import com.mitv.handlers.SearchActivityListeners;
 import com.mitv.model.OldBroadcast;
 import com.mitv.model.OldSearchResultItem;
 import com.mitv.model.OldTVChannel;
-import com.mitv.utilities.HardwareUtilities;
 
 public class SearchPageActivity extends BaseActivity implements OnItemClickListener, OnEditorActionListener, OnClickListener, SearchActivityListeners {
 
@@ -157,7 +157,7 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 		mAutoCompleteAdapter = new SearchPageListAdapter(SearchPageActivity.this, this);
 		mEditTextSearch.setThreshold(1);
 	
-		int width = HardwareUtilities.getScreenWidth(this);
+		int width = GenericUtils.getScreenWidth(this);
 		
 		mEditTextSearch.setDropDownWidth(width);
 		mEditTextSearch.setAdapter(mAutoCompleteAdapter);

@@ -2,26 +2,32 @@ package com.mitv.test;
 
 import java.util.Arrays;
 import java.util.List;
-
 import junit.framework.Assert;
-
 import org.junit.Test;
-
 import android.text.TextUtils;
-
 import com.google.gson.Gson;
+import com.millicom.mitv.enums.HTTPRequestTypeEnum;
+import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.models.gson.AppVersionDataPart;
 import com.mitv.Consts;
 
-public class AppVersionDataGSONTest extends Tests {
+public class AppVersionDataGSONTest extends TestCore {
 	
 	private List<AppVersionDataPart> appVersionData;
 	
 	@Override
-	protected void setUp() throws Exception {
+	protected void setUp() 
+			throws Exception
+	{
 		super.setUp();
-		String jsonString = super.deserializeJson(Consts.URL_API_VERSION);
-		appVersionData = Arrays.asList(new Gson().fromJson(jsonString, AppVersionDataPart[].class));
+		
+		String url = Consts.URL_API_VERSION;
+		
+		HTTPCoreResponse httpCoreResponse = executeRequest(HTTPRequestTypeEnum.HTTP_GET, url);
+		
+		String responseString = httpCoreResponse.getResponseString();
+		
+		appVersionData = Arrays.asList(new Gson().fromJson(responseString, AppVersionDataPart[].class));
 	}
 
 	@Test
