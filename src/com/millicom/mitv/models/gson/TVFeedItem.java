@@ -131,7 +131,7 @@ public class TVFeedItem
 	
 	public FeedItemTypeEnum getItemType()
 	{
-		return FeedItemTypeEnum.getFeedItemTypeEnumFromCode(itemType);
+		return FeedItemTypeEnum.getFeedItemTypeEnumFromStringRepresentation(itemType);
 	}
 	
 	

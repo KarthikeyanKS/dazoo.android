@@ -32,7 +32,6 @@ public class TVBroadcastDetailsTest
 	{
 		super.setUp();
 
-		
 		TVChannelGuide someGuide = tvChannelGuides.get(0);
 		Broadcast broadcast = someGuide.getBroadcasts().get(0);
 		String channelId = someGuide.getChannelId().getChannelId();

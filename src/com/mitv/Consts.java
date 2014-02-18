@@ -516,8 +516,8 @@ public abstract class Consts {
 	public static final int CHANNEL_IDS_REFRESH_INTERVAL_IN_MINUTES 	= 1;
 	
 	/* HTTP CORE REQUEST TIMEOUT DEFAULT VALUES */
-	public static final int HTTP_CORE_CONNECTION_TIMEOUT_IN_MILISECONDS = 2000;
-	public static final int HTTP_CORE_SOCKET_TIMEOUT_IN_MILISECONDS = 2000;
+	public static final int HTTP_CORE_CONNECTION_TIMEOUT_IN_MILISECONDS = 10000;
+	public static final int HTTP_CORE_SOCKET_TIMEOUT_IN_MILISECONDS = 10000;
 	
 	/* NETWORK CONNECTIVITY CHECK CONFIGURATIONS */
 	public static final String HOST_NAME_FOR_CONNECTIVITY_CHECK = "http://www.google.com";

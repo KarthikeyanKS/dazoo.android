@@ -11,13 +11,16 @@ import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.LikeTypeRequestEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.http.URLParameters;
+import com.millicom.mitv.models.gson.Broadcast;
+import com.millicom.mitv.models.gson.TVChannelGuide;
+import com.millicom.mitv.models.gson.TVProgram;
 import com.millicom.mitv.models.gson.UserLoginData;
 import com.mitv.Consts;
 
 
 
 public class RemoveUserLikeTest 
-	extends TestCore
+	extends TestBaseWithGuide
 {
 	@SuppressWarnings("unused")
 	private static final String	TAG	= "RemoveUserLikeTest";
@@ -32,8 +35,12 @@ public class RemoveUserLikeTest
 	{
 		super.setUp();
 		
+		TVChannelGuide someGuide = tvChannelGuides.get(0);
+		Broadcast broadcast = someGuide.getBroadcasts().get(0);
+		TVProgram tvProgram = broadcast.getProgram();
+		String programId = tvProgram.getProgramId();
+		
 		LikeTypeRequestEnum likeType = LikeTypeRequestEnum.PROGRAM;
-		String entityId = "5393752d-6df3-4673-989b-85b78d1bf7bc";
 		
 		String token = "";
 		
@@ -49,7 +56,7 @@ public class RemoveUserLikeTest
 		}
 		// No need for else
 		
-		httpCoreResponse = removeUserLike(token, likeType, entityId);
+		httpCoreResponse = removeUserLike(token, likeType, programId);
 	}
 	
 	

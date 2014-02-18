@@ -86,6 +86,8 @@ public class HTTPCoreResponse
 	 {
 		 StringBuilder sb = new StringBuilder();
 		 sb.append("{");
+		 sb.append(requestURL);
+		 sb.append(", ");
 		 sb.append(statusCode);
 		 sb.append(", ");
 		 sb.append(responseString);

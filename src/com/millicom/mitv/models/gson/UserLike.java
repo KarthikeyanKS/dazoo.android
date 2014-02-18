@@ -147,14 +147,14 @@ public class UserLike
 	
 	public LikeTypeResponseEnum getLikeType() 
 	{
-		return LikeTypeResponseEnum.getLikeTypeEnumFromCode(likeType);
+		return LikeTypeResponseEnum.getLikeTypeEnumFromStringRepresentation(likeType);
 	}
 	
 	
 	
 	public ProgramTypeEnum getProgramType() 
 	{
-		return ProgramTypeEnum.getProgramTypeEnumFromCode(programType);
+		return ProgramTypeEnum.getLikeTypeEnumFromStringRepresentation(programType);
 	}
 
 

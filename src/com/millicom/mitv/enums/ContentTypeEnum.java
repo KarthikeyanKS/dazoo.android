@@ -67,4 +67,13 @@ public enum ContentTypeEnum
 
 		return getContentTypeEnumFromCode(value);
 	}
+	
+	
+	
+	public static ContentTypeEnum getContentTypeEnumFromStringRepresentation(String enumStringRepresentation)
+	{
+		ContentTypeEnum contentType = ContentTypeEnum.valueOf(enumStringRepresentation);
+
+		return contentType;
+	}
 }
