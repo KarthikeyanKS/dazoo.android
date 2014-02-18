@@ -1,5 +1,5 @@
 
-package com.millicom.asynctasks;
+package com.mitv.asynctasks;
 
 
 
@@ -21,9 +21,9 @@ import org.json.JSONObject;
 import android.os.AsyncTask;
 import android.util.Log;
 import com.google.gson.Gson;
-import com.millicom.interfaces.AdCallBackInterface;
 import com.millicom.mitv.utilities.NetworkUtils;
 import com.mitv.Consts;
+import com.mitv.interfaces.AdCallBackInterface;
 import com.mitv.manager.AppConfigurationManager;
 import com.mitv.model.OldAdzerkAd;
 

@@ -23,12 +23,12 @@ import com.facebook.Session;
 import com.facebook.Session.OpenRequest;
 import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
-import com.millicom.asynctasks.FacebookLoginTask;
 import com.millicom.mitv.activities.ActivityActivity;
 import com.millicom.mitv.activities.HomeActivity;
 import com.mitv.AuthenticationService;
 import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
+import com.mitv.asynctasks.FacebookLoginTask;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 

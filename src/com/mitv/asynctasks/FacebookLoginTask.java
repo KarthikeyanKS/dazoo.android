@@ -1,5 +1,5 @@
 
-package com.millicom.asynctasks;
+package com.mitv.asynctasks;
 
 
 
@@ -28,55 +28,49 @@ import com.mitv.utilities.JSONUtilities;
 
 
 
-public class LoginTask 
-	extends AsyncTask<String, Void, String> 
+public class FacebookLoginTask 
+	extends AsyncTask<String, Void, String>
 {
-	private static final String	TAG	= "LoginTask";
+	private static final String	TAG	= "FacebookLoginTask";
 	
 	
 	
 	@Override
-	protected String doInBackground(String... params)
+	protected String doInBackground(String... params) 
 	{
 		try 
 		{
 			HttpClient client = new DefaultHttpClient();
-			
 			HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
-			
 			SchemeRegistry registry = new SchemeRegistry();
-			
 			registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
 
 			SSLSocketFactory socketFactory = SSLSocketFactory.getSocketFactory();
-			
 			socketFactory.setHostnameVerifier(SSLSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
-			
 			registry.register(new Scheme("https", socketFactory, 443));
-			
 			SingleClientConnManager mgr = new SingleClientConnManager(client.getParams(), registry);
 
 			DefaultHttpClient httpClient = new DefaultHttpClient(mgr, client.getParams());
-			
 			// Set verifier
 			HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
 
-			HttpPost httpPost = new HttpPost(Consts.URL_LOGIN);
-			
-			JSONObject holder = JSONUtilities.createJSONObjectWithKeysValues(Arrays.asList(Consts.API_EMAIL, Consts.API_PASSWORD),
-					Arrays.asList(params[0], params[1]));
+			HttpPost httpPost = new HttpPost(Consts.URL_FACEBOOK_TOKEN);
+			JSONObject holder = JSONUtilities.createJSONObjectWithKeysValues(Arrays.asList(Consts.API_FACEBOOK_TOKEN), Arrays.asList(params[0]));
 
 			StringEntity entity = new StringEntity(holder.toString());
+
 			httpPost.setEntity(entity);
-			
 			httpPost.setHeader("Accept", "application/json");
 			httpPost.setHeader("Content-type", "application/json");
 
 			HttpResponse response = httpClient.execute(httpPost);
-
 			if (response.getStatusLine().getStatusCode() == Consts.GOOD_RESPONSE) 
 			{
 				String responseBody = EntityUtils.toString(response.getEntity());
+				
+				// JSONObject jObj = new JSONObject(responseBody);
+				// String responseToken = jObj.getString(Consts.API_TOKEN);
+				// return responseToken;
 				
 				return responseBody;
 			} 
@@ -91,11 +85,11 @@ public class LoginTask
 		{
 			e.printStackTrace();
 		} 
-		catch (ClientProtocolException e)
+		catch (ClientProtocolException e) 
 		{
 			e.printStackTrace();
 		} 
-		catch (IOException e)
+		catch (IOException e) 
 		{
 			e.printStackTrace();
 		}

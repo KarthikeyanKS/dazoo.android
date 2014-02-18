@@ -32,11 +32,11 @@ public class PerformUserLogin
 	{
 		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_LOGIN, UserLoginData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
 		
-		UserLoginDataPost userLoginData = new UserLoginDataPost();
-		userLoginData.setEmail(username);
-		userLoginData.setPassword(password);
+		UserLoginDataPost postData = new UserLoginDataPost();
+		postData.setEmail(username);
+		postData.setPassword(password);
 		
-		this.bodyContentData = gson.toJson(userLoginData);
+		this.bodyContentData = gson.toJson(postData);
 		
 		Log.v(TAG, "Gson data for request: " + bodyContentData);
 	}

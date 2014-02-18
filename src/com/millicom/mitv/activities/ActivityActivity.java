@@ -53,7 +53,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.millicom.asynctasks.GetFeedTask;
 import com.millicom.mitv.activities.authentication.FacebookLoginActivity;
 import com.millicom.mitv.activities.authentication.MiTVLoginActivity;
 import com.millicom.mitv.activities.authentication.SignInOrSignupWithFacebookActivity;
@@ -64,6 +63,7 @@ import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.adapters.ActivityFeedAdapter;
+import com.mitv.asynctasks.GetFeedTask;
 import com.mitv.manager.ApiClient;
 import com.mitv.manager.ContentParser;
 import com.mitv.model.OldTVFeedItem;

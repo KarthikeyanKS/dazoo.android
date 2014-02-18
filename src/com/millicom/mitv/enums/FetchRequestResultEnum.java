@@ -78,7 +78,12 @@ public enum FetchRequestResultEnum
    @Override
    public String toString() 
    {
-	   return this.statusCode + ": " + this.description;
+	   StringBuilder sb = new StringBuilder();
+	   sb.append(this.statusCode);
+	   sb.append(": ");
+	   sb.append(this.description);
+	   
+	   return sb.toString();
    }
 
 
@@ -120,6 +125,7 @@ public enum FetchRequestResultEnum
    public boolean wasSuccessful() 
    {
 	   boolean wasSuccessful = (this == SUCCESS);
+	   
 	   return wasSuccessful;
    }
 }

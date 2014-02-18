@@ -4,9 +4,7 @@ package com.millicom.mitv.asynctasks.usertoken;
 
 
 import android.util.Log;
-
 import com.millicom.mitv.ContentManager;
-import com.millicom.mitv.Storage;
 import com.millicom.mitv.asynctasks.AsyncTaskWithRelativeURL;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;

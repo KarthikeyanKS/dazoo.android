@@ -3,21 +3,14 @@ package com.mitv.test;
 
 
 
-import java.util.HashMap;
-import java.util.Map;
-
 import junit.framework.Assert;
-
 import org.junit.Test;
-
 import android.text.TextUtils;
 import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.http.URLParameters;
 import com.millicom.mitv.models.gson.UserLoginData;
 import com.millicom.mitv.models.gson.serialization.UserLoginDataPost;
 import com.mitv.Consts;
@@ -42,21 +35,21 @@ public class PerformUserLoginTest
 		receivedData = login();
 	}
 	
-	public static UserLoginData login(){
-
-		PerformUserLoginTest instance = new PerformUserLoginTest();
-		String url = Consts.URL_LOGIN;
-		URLParameters urlParameters = new URLParameters();
 	
-		Map<String, String> headerParameters = new HashMap<String, String>();
+	
+	public static UserLoginData login()
+	{
+		PerformUserLoginTest instance = new PerformUserLoginTest();
 		
+		String url = Consts.URL_LOGIN;
+
 		UserLoginDataPost postData = new UserLoginDataPost();
-		postData.setEmail("oskar.tvjunkie@gmail.com");
-		postData.setPassword("ilovetv");
+		postData.setEmail(DEFAULT_TEST_USER_EMAIL);
+		postData.setPassword(DEFAULT_TEST_USER_PASSWORD);
 		
 		String bodyContentData = new Gson().toJson(postData);
 		
-		HTTPCoreResponse httpCoreResponse = instance.executeRequest(HTTPRequestTypeEnum.HTTP_POST, url, urlParameters, headerParameters, bodyContentData);
+		HTTPCoreResponse httpCoreResponse = instance.executeRequest(HTTPRequestTypeEnum.HTTP_POST, url, bodyContentData);
 		
 		String responseString = httpCoreResponse.getResponseString();
 		
@@ -73,6 +66,8 @@ public class PerformUserLoginTest
 		
 		return receivedData;
 	}
+	
+	
 	
 	@Test
 	public void testNotNull()
