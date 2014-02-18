@@ -17,8 +17,8 @@ public class URLParameter
 	
 	
 	public URLParameter(
-			String header,
-			String value)
+			final String header,
+			final String value)
 	{
 		this.header = header;
 		this.value = value;

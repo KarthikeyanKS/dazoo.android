@@ -6,9 +6,9 @@ package com.mitv.test;
 import java.util.Map;
 import junit.framework.Assert;
 import org.junit.Test;
-import com.millicom.mitv.enums.ContentTypeEnum;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
+import com.millicom.mitv.enums.LikeTypeRequestEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.http.URLParameters;
 import com.millicom.mitv.models.gson.UserLoginData;
@@ -32,7 +32,7 @@ public class RemoveUserLikeTest
 	{
 		super.setUp();
 		
-		ContentTypeEnum likeType = ContentTypeEnum.CHANNEL;
+		LikeTypeRequestEnum likeType = LikeTypeRequestEnum.PROGRAM;
 		String entityId = "5393752d-6df3-4673-989b-85b78d1bf7bc";
 		
 		String token = "";
@@ -56,7 +56,7 @@ public class RemoveUserLikeTest
 	
 	private static HTTPCoreResponse removeUserLike(
 			String token,
-			ContentTypeEnum likeType,
+			LikeTypeRequestEnum likeType,
 			String entityId)
 	{
 		RemoveUserLikeTest instance = new RemoveUserLikeTest();

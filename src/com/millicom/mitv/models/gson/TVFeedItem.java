@@ -4,7 +4,11 @@ package com.millicom.mitv.models.gson;
 
 
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.List;
+
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -12,6 +16,7 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.annotations.Expose;
 import com.millicom.mitv.enums.FeedItemTypeEnum;
 import com.mitv.Consts;
@@ -21,6 +26,9 @@ import com.mitv.Consts;
 public class TVFeedItem
 	implements JsonDeserializer<TVFeedItem>
 {
+	private static final String	TAG	= "TVFeedItem";
+	
+	
 	/*
 	 * The names of these variables should not be changed unless the backend API call parameters changes too.
 	 */
@@ -75,7 +83,16 @@ public class TVFeedItem
 				
 				JsonElement jsonBroadcastElement = jsonObject.get(Consts.JSON_USER_FEED_ITEM_BROADCAST);
 				
-//				broadcast =
+				try
+				{
+					broadcast = gson.fromJson(jsonBroadcastElement, Broadcast.class);
+				}
+				catch(JsonSyntaxException jsex)
+				{
+					Log.e(TAG, jsex.getMessage(), jsex);
+					
+					broadcast = null;
+				}
 			}
 			break;
 			
@@ -85,7 +102,16 @@ public class TVFeedItem
 				
 				JsonElement jsonBroadcastsElement = jsonObject.get(Consts.JSON_USER_FEED_ITEM_BROADCASTS);
 				
-//				broadcasts = 
+				try
+				{
+					broadcasts = Arrays.asList(gson.fromJson(jsonBroadcastsElement, Broadcast[].class));
+				}
+				catch(JsonSyntaxException jsex)
+				{
+					Log.e(TAG, jsex.getMessage(), jsex);
+					
+					broadcasts = null;
+				}
 			}
 			break;
 			

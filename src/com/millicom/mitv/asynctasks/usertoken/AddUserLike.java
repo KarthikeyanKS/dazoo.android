@@ -4,8 +4,8 @@ package com.millicom.mitv.asynctasks.usertoken;
 
 
 import android.util.Log;
-import com.millicom.mitv.enums.ContentTypeEnum;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
+import com.millicom.mitv.enums.LikeTypeRequestEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
@@ -26,7 +26,7 @@ public class AddUserLike
 	public AddUserLike(
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener,
-			ContentTypeEnum likeType,
+			LikeTypeRequestEnum likeType,
 			String contentId) 
 	{
 		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_ADD_LIKE, UserLike.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);

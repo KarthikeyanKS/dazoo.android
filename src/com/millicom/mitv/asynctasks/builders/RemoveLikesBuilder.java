@@ -4,7 +4,7 @@ package com.millicom.mitv.asynctasks.builders;
 
 
 import com.millicom.mitv.asynctasks.usertoken.RemoveUserLike;
-import com.millicom.mitv.enums.ContentTypeEnum;
+import com.millicom.mitv.enums.LikeTypeRequestEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.mitv.Consts;
@@ -13,7 +13,7 @@ import com.mitv.Consts;
 
 public class RemoveLikesBuilder
 {
-	private ContentTypeEnum likeType;
+	private LikeTypeRequestEnum likeType;
 	private String contentId;
 	
 	
@@ -21,7 +21,7 @@ public class RemoveLikesBuilder
 	public RemoveUserLike build(
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener,
-			ContentTypeEnum likeType,
+			LikeTypeRequestEnum likeType,
 			String contentId)
 	{
 		StringBuilder sb = new StringBuilder();
@@ -37,13 +37,13 @@ public class RemoveLikesBuilder
 
 
 
-	public ContentTypeEnum getLikeType() {
+	public LikeTypeRequestEnum getLikeType() {
 		return likeType;
 	}
 
 
 
-	public void setLikeType(ContentTypeEnum likeType) {
+	public void setLikeType(LikeTypeRequestEnum likeType) {
 		this.likeType = likeType;
 	}
 

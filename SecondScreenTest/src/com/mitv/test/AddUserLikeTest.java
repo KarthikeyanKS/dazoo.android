@@ -10,8 +10,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.millicom.mitv.enums.ContentTypeEnum;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
+import com.millicom.mitv.enums.LikeTypeRequestEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.http.URLParameters;
 import com.millicom.mitv.models.gson.UserLike;
@@ -36,7 +36,7 @@ public class AddUserLikeTest
 	{
 		super.setUp();
 		
-		ContentTypeEnum likeType = ContentTypeEnum.CHANNEL;
+		LikeTypeRequestEnum likeType = LikeTypeRequestEnum.PROGRAM;
 		String entityId = "5393752d-6df3-4673-989b-85b78d1bf7bc";
 				
 		String token = "";
@@ -60,7 +60,7 @@ public class AddUserLikeTest
 	
 	private UserLike addUserLike(
 			String token,
-			ContentTypeEnum likeType,
+			LikeTypeRequestEnum likeType,
 			String entityId)
 	{
 		AddUserLikeTest instance = new AddUserLikeTest();
@@ -99,10 +99,10 @@ public class AddUserLikeTest
 	
 	public static void testUserLikeDataFields(UserLike userLike)
 	{
-		Assert.assertNotNull(userLike.getLikeType());
-
 		Assert.assertNotNull(userLike.getTitle());
 		Assert.assertFalse(TextUtils.isEmpty(userLike.getTitle()));
+		
+		Assert.assertNotNull(userLike.getLikeType());
 		
 		switch (userLike.getLikeType())
 		{

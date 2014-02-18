@@ -20,8 +20,8 @@ public class HTTPCoreResponse
 
 	
 	public HTTPCoreResponse(
-			String requestURL,
-			int statusCode)
+			final String requestURL,
+			final int statusCode)
 	{
 		this.requestURL = requestURL;
 		this.statusCode = statusCode;
@@ -31,9 +31,9 @@ public class HTTPCoreResponse
 
 
 	public HTTPCoreResponse(
-			String requestURL,
-			int statusCode,
-			String responseString)
+			final String requestURL,
+			final int statusCode,
+			final String responseString)
 	{
 		this.requestURL = requestURL;
 		this.statusCode = statusCode;

@@ -12,7 +12,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.annotations.Expose;
-import com.millicom.mitv.enums.LikeTypeEnum;
+import com.millicom.mitv.enums.LikeTypeResponseEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.mitv.Consts;
 
@@ -145,9 +145,9 @@ public class UserLike
 	
 	
 	
-	public LikeTypeEnum getLikeType() 
+	public LikeTypeResponseEnum getLikeType() 
 	{
-		return LikeTypeEnum.getLikeTypeEnumFromCode(likeType);
+		return LikeTypeResponseEnum.getLikeTypeEnumFromCode(likeType);
 	}
 	
 	

@@ -29,7 +29,7 @@ import com.millicom.mitv.asynctasks.usertoken.GetUserTokenUsingFBToken;
 import com.millicom.mitv.asynctasks.usertoken.PerformUserLogout;
 import com.millicom.mitv.asynctasks.usertoken.RemoveUserLike;
 import com.millicom.mitv.asynctasks.usertoken.SetUserTVChannelIds;
-import com.millicom.mitv.enums.ContentTypeEnum;
+import com.millicom.mitv.enums.LikeTypeRequestEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.models.gson.TVChannelId;
@@ -155,7 +155,7 @@ public class APIClient
 	
 	
 	/* The content ID is either a seriesId, or a sportTypesId or programId */
-	public void addUserLike(ActivityCallbackListener activityCallBackListener, ContentTypeEnum likeType, String contentId) 
+	public void addUserLike(ActivityCallbackListener activityCallBackListener, LikeTypeRequestEnum likeType, String contentId) 
 	{
 		AddUserLike addUserLikes = new AddUserLike(contentCallbackListener, activityCallBackListener, likeType, contentId);
 		addUserLikes.execute();
@@ -163,7 +163,7 @@ public class APIClient
 
 	
 	/* The content ID is either a seriesId, or a sportTypesId or programId */
-	public void removeUserLike(ActivityCallbackListener activityCallBackListener, ContentTypeEnum likeType, String contentId) 
+	public void removeUserLike(ActivityCallbackListener activityCallBackListener, LikeTypeRequestEnum likeType, String contentId) 
 	{
 		RemoveUserLike removeUserLikes = RemoveUserLike.newRemoveUserLikesTask(contentCallbackListener, activityCallBackListener, likeType, contentId);
 		removeUserLikes.execute();

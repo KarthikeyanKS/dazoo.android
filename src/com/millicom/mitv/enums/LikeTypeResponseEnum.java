@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 
 
-public enum LikeTypeEnum 
+public enum LikeTypeResponseEnum 
 {
 	@SerializedName("SERIES")
 	SERIES(0),
@@ -22,7 +22,7 @@ public enum LikeTypeEnum
 	
 	
 	
-	LikeTypeEnum(int id) 
+	LikeTypeResponseEnum(int id) 
 	{
 		this.id = id;
 	}
@@ -36,9 +36,9 @@ public enum LikeTypeEnum
 	
 
 
-	public static LikeTypeEnum getLikeTypeEnumFromCode(int code)
+	public static LikeTypeResponseEnum getLikeTypeEnumFromCode(int code)
 	{
-		for(LikeTypeEnum result: LikeTypeEnum.values())
+		for(LikeTypeResponseEnum result: LikeTypeResponseEnum.values())
 		{
 			if(result.getId() == code) 
 			{
@@ -47,14 +47,14 @@ public enum LikeTypeEnum
 			// No need for else
 		}
 
-		return LikeTypeEnum.SERIES;
+		return LikeTypeResponseEnum.SERIES;
 	}
 
 
 
-	public static LikeTypeEnum getLikeTypeEnumFromCode(String codeAsString)
+	public static LikeTypeResponseEnum getLikeTypeEnumFromCode(String codeAsString)
 	{
-		int value = LikeTypeEnum.SERIES.getId();
+		int value = LikeTypeResponseEnum.SERIES.getId();
 
 		try
 		{
@@ -62,7 +62,7 @@ public enum LikeTypeEnum
 		}
 		catch(NumberFormatException nfex)
 		{
-			return LikeTypeEnum.SERIES;
+			return LikeTypeResponseEnum.SERIES;
 		}
 
 		return getLikeTypeEnumFromCode(value);
