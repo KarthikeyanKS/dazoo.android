@@ -5,14 +5,6 @@ package com.millicom.mitv.models.gson;
 
 
 
-import java.io.Serializable;
-import java.lang.reflect.Type;
-
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
-
 import android.util.DisplayMetrics;
 
 
@@ -21,31 +13,27 @@ public class ImageSetSize {
 	@SuppressWarnings("unused")
 	private static final String TAG = ImageSetSize.class.getName();
 	
-	
-	
-	private String smallImageURI;
-	private String mediumImageURI;
-	private String largeImageURI;	
+	private String small;
+	private String medium;
+	private String large;	
 	
 	
 	public ImageSetSize(
-			String smallImageURI,
-			String mediumImageURI,
-			String largeImageURI)
+			String small,
+			String medium,
+			String large)
 	{
-		this.smallImageURI = smallImageURI;
-		this.mediumImageURI = mediumImageURI;
-		this.largeImageURI = largeImageURI;
+		this.small = small;
+		this.medium = medium;
+		this.large = large;
 	}
 	
 	public ImageSetSize()
 	{
-		this.smallImageURI = "";
-		this.mediumImageURI = "";
-		this.largeImageURI = "";
+		this.small = "";
+		this.medium = "";
+		this.large = "";
 	}
-
-	
 	
 	public String getImageURLForDensityDPI(int densityDpi)
 	{
@@ -54,76 +42,50 @@ public class ImageSetSize {
 		switch(densityDpi)
 		{
 			case DisplayMetrics.DENSITY_LOW:
-				imageURL = smallImageURI;
+				imageURL = small;
 				break;
 	
 			case DisplayMetrics.DENSITY_MEDIUM:
-				imageURL = mediumImageURI;
+				imageURL = medium;
 				break;
 	
 			case DisplayMetrics.DENSITY_HIGH:
-				imageURL = largeImageURI;
+				imageURL = large;
 				break;
 	
 			default:
-				imageURL = largeImageURI;
+				imageURL = large;
 				break;
 		}
 		
 		return imageURL;
 	}
-
-
-
-	public String getSmallImageURI() 
-	{
-		return smallImageURI;
+	
+	public String getSmall() {
+		return small;
 	}
 
-
-	
-	public String getMediumImageURI() 
-	{
-		return mediumImageURI;
+	public String getMedium() {
+		return medium;
 	}
 
-	
-
-	public String getLargeImageURI() 
-	{
-		return largeImageURI;
+	public String getLarge() {
+		return large;
 	}
-	
-	
-	
+
 	@Override
 	public String toString()
 	{
 		StringBuilder sb = new StringBuilder();
 		sb.append("Small image:");
-		sb.append(smallImageURI);
+		sb.append(small);
 		sb.append("\n");
 		sb.append("Medium image: ");
-		sb.append(mediumImageURI);
+		sb.append(medium);
 		sb.append("\n");
 		sb.append("Large image: ");
-		sb.append(largeImageURI);
+		sb.append(large);
 		
 		return sb.toString();
-	}
-
-
-	public void setSmallImageURI(String smallImageURI) {
-		this.smallImageURI = smallImageURI;
-	}
-
-	public void setMediumImageURI(String mediumImageURI) {
-		this.mediumImageURI = mediumImageURI;
-	}
-
-	public void setLargeImageURI(String largeImageURI) {
-		this.largeImageURI = largeImageURI;
-	}
-	
-	
+	}	
 }

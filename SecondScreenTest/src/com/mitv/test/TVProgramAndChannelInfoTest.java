@@ -12,6 +12,7 @@ import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.models.gson.Broadcast;
+import com.millicom.mitv.models.gson.ImageSetOrientation;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVCredit;
@@ -98,7 +99,8 @@ public class TVProgramAndChannelInfoTest
 		Assert.assertFalse(TextUtils.isEmpty(program.getSynopsisLong()));
 		
 		/* All program types - Images */
-		testImages(program);
+		ImageSetOrientation images = program.getImages();
+		testImages(images);
 		
 		/* All program types - tags */
 		Assert.assertNotNull(program.getTags());
@@ -134,26 +136,28 @@ public class TVProgramAndChannelInfoTest
 			}
 		}
 	}
-	public static void testImages(TVProgram program) {
+	public static void testImages(ImageSetOrientation images) {
+		Assert.assertNotNull(images);
+		
 		/* Portrait */
-		Assert.assertNotNull(program.getImages().getPortrait().getSmallImageURI());
-		Assert.assertFalse(TextUtils.isEmpty(program.getImages().getPortrait().getSmallImageURI()));
+		Assert.assertNotNull(images.getPortrait().getSmall());
+		Assert.assertFalse(TextUtils.isEmpty(images.getPortrait().getSmall()));
 		
-		Assert.assertNotNull(program.getImages().getPortrait().getMediumImageURI());
-		Assert.assertFalse(TextUtils.isEmpty(program.getImages().getPortrait().getMediumImageURI()));
+		Assert.assertNotNull(images.getPortrait().getMedium());
+		Assert.assertFalse(TextUtils.isEmpty(images.getPortrait().getMedium()));
 		
-		Assert.assertNotNull(program.getImages().getPortrait().getLargeImageURI());
-		Assert.assertFalse(TextUtils.isEmpty(program.getImages().getPortrait().getLargeImageURI()));
+		Assert.assertNotNull(images.getPortrait().getLarge());
+		Assert.assertFalse(TextUtils.isEmpty(images.getPortrait().getLarge()));
 		
 		/* Landscape */
-		Assert.assertNotNull(program.getImages().getLandscape().getSmallImageURI());
-		Assert.assertFalse(TextUtils.isEmpty(program.getImages().getLandscape().getSmallImageURI()));
+		Assert.assertNotNull(images.getLandscape().getSmall());
+		Assert.assertFalse(TextUtils.isEmpty(images.getLandscape().getSmall()));
 		
-		Assert.assertNotNull(program.getImages().getLandscape().getMediumImageURI());
-		Assert.assertFalse(TextUtils.isEmpty(program.getImages().getLandscape().getMediumImageURI()));
+		Assert.assertNotNull(images.getLandscape().getMedium());
+		Assert.assertFalse(TextUtils.isEmpty(images.getLandscape().getMedium()));
 		
-		Assert.assertNotNull(program.getImages().getLandscape().getLargeImageURI());
-		Assert.assertFalse(TextUtils.isEmpty(program.getImages().getLandscape().getLargeImageURI()));
+		Assert.assertNotNull(images.getLandscape().getLarge());
+		Assert.assertFalse(TextUtils.isEmpty(images.getLandscape().getLarge()));
 	}
 	
 	public static void testCredits(TVCredit tvCredit) {
