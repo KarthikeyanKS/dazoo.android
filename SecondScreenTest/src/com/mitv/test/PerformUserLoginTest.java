@@ -13,6 +13,7 @@ import org.junit.Test;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
@@ -38,6 +39,12 @@ public class PerformUserLoginTest
 	{
 		super.setUp();
 
+		receivedData = login();
+	}
+	
+	public static UserLoginData login(){
+
+		PerformUserLoginTest instance = new PerformUserLoginTest();
 		String url = Consts.URL_LOGIN;
 		URLParameters urlParameters = new URLParameters();
 	
@@ -47,23 +54,25 @@ public class PerformUserLoginTest
 		postData.setEmail("oskar.tvjunkie@gmail.com");
 		postData.setPassword("ilovetv");
 		
-		String bodyContentData = gson.toJson(postData);
+		String bodyContentData = new Gson().toJson(postData);
 		
-		HTTPCoreResponse httpCoreResponse = executeRequest(HTTPRequestTypeEnum.HTTP_POST, url, urlParameters, headerParameters, bodyContentData);
+		HTTPCoreResponse httpCoreResponse = instance.executeRequest(HTTPRequestTypeEnum.HTTP_POST, url, urlParameters, headerParameters, bodyContentData);
 		
 		String responseString = httpCoreResponse.getResponseString();
 		
+		UserLoginData receivedData = null;
+		
 		try
 		{
-			receivedData = gson.fromJson(responseString, UserLoginData.class);
+			receivedData = new Gson().fromJson(responseString, UserLoginData.class);
 		}
 		catch(JsonSyntaxException jsex)
 		{
 			Log.e(TAG, jsex.getMessage(), jsex);
 		}
+		
+		return receivedData;
 	}
-	
-	
 	
 	@Test
 	public void testNotNull()
