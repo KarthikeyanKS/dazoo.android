@@ -12,10 +12,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.millicom.mitv.models.gson.TVBroadcastDetails;
 import com.millicom.mitv.models.gson.TVBroadcastPrograms;
-import com.millicom.mitv.models.gson.TVChannel;
-import com.millicom.mitv.models.gson.TVTag;
 import com.mitv.Consts;
 
 public class TVBroadcastProgramTest extends Tests {
@@ -70,22 +67,6 @@ public class TVBroadcastProgramTest extends Tests {
 			Assert.assertNotNull(tvBroadcastProgram.getShareUrl());
 			Assert.assertFalse(TextUtils.isEmpty(tvBroadcastProgram.getShareUrl()));
 			
-			
-			/* channelId tests */
-			Assert.assertNotNull(tvBroadcastProgram.getChannel().getName());
-			Assert.assertFalse(TextUtils.isEmpty(tvBroadcastProgram.getChannel().getName()));
-			
-			Assert.assertNotNull(tvBroadcastProgram.getChannel().getChannelId());
-			Assert.assertFalse(TextUtils.isEmpty(tvBroadcastProgram.getChannel().getChannelId().getChannelId()));
-			
-			Assert.assertNotNull(tvBroadcastProgram.getChannel().getLogo().getSmall());
-			Assert.assertFalse(TextUtils.isEmpty(tvBroadcastProgram.getChannel().getLogo().getSmall()));
-			
-			Assert.assertNotNull(tvBroadcastProgram.getChannel().getLogo().getMedium());
-			Assert.assertFalse(TextUtils.isEmpty(tvBroadcastProgram.getChannel().getLogo().getMedium()));
-			
-			Assert.assertNotNull(tvBroadcastProgram.getChannel().getLogo().getLarge());
-			Assert.assertFalse(TextUtils.isEmpty(tvBroadcastProgram.getChannel().getLogo().getLarge()));
 		}
 	}
 }

@@ -9,6 +9,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.models.gson.TVBroadcastDetails;
+import com.millicom.mitv.models.gson.TVChannel;
 import com.mitv.Consts;
 
 
@@ -55,7 +56,8 @@ public class TVBroadcastDetailsTest
 	@Test
 	public void testAllVariablesNotNull() {
 		
-		Assert.assertNotNull(tvBroadcastDetails.getChannel());
+		TVChannel tvChannel = tvBroadcastDetails.getChannel();
+		TVChannelGSONTest.testTVChannelObject(tvChannel);
 		
 		//Assert.assertNotNull(tvBroadcastDetails.getTvProgram());
 	}
