@@ -1,12 +1,9 @@
 package com.millicom.mitv.models.gson;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 
-public class AppConfigurationData implements Serializable {//, JsonDeserializer<AppConfigurationData>{
-
-	private static final long serialVersionUID = -1644608436707247798L;
+public class AppConfigurationData {
 	
 	private int firstHourOfDay;
 	private String welcomeToast;
@@ -52,11 +49,5 @@ public class AppConfigurationData implements Serializable {//, JsonDeserializer<
 	public String getGoogleAnalyticsTrackingId() {
 		return googleAnalyticsTrackingId;
 	}
-	
-//	@Override
-//	public AppConfigurationData deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-//		return this;
-//	}
-
 	
 }
