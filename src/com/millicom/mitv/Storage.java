@@ -10,21 +10,21 @@ import android.util.SparseArray;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.gson.AppConfigurationData;
 import com.millicom.mitv.models.gson.AppVersionData;
+import com.millicom.mitv.models.gson.Broadcast;
+import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelId;
+import com.millicom.mitv.models.gson.TVDate;
+import com.millicom.mitv.models.gson.TVTag;
 import com.mitv.model.OldAdzerkAd;
-import com.mitv.model.OldBroadcast;
-import com.mitv.model.OldTVChannel;
-import com.mitv.model.OldTVDate;
 import com.mitv.model.OldTVFeedItem;
-import com.mitv.model.OldTVTag;
 
 public class Storage {
-	private ArrayList<OldTVTag> tvTags;
-	private ArrayList<OldTVDate> tvDates;
+	private ArrayList<TVTag> tvTags;
+	private ArrayList<TVDate> tvDates;
 	private ArrayList<TVChannelId> tvChannelIdsDefault;
 	private ArrayList<TVChannelId> tvChannelIdsUser;
 	private ArrayList<TVChannelId> tvChannelIdsUsed;
-	private ArrayList<OldTVChannel> tvChannels;
+	private ArrayList<TVChannel> tvChannels;
 	private HashMap<String, TVGuide> tvGuides; /* Key is the id from the TVDate */
 
 	private ArrayList<String> likeIds;
@@ -33,10 +33,10 @@ public class Storage {
 	private Calendar userChannelIdsFetchedTimestamp;
 	
 	private ArrayList<OldTVFeedItem> activityFeed;
-	private ArrayList<OldBroadcast> popularFeed;
+	private ArrayList<Broadcast> popularFeed;
 	
 	private String userToken;
-	private OldTVDate tvDateSelected;
+	private TVDate tvDateSelected;
 	
 	private AppVersionData appVersionData;
 	private AppConfigurationData appConfigData;
@@ -61,42 +61,42 @@ public class Storage {
 		return tvGuides;
 	}
 	
-	public void addTVGuide(OldTVDate tvDate, TVGuide tvGuide) {
+	public void addTVGuide(TVDate tvDate, TVGuide tvGuide) {
 		this.tvGuides.put(tvDate.getId(), tvGuide);
 	}
 	
-	public TVGuide getTVGuideUsingTVDate(OldTVDate tvDate) {
+	public TVGuide getTVGuideUsingTVDate(TVDate tvDate) {
 		TVGuide tvGuide = tvGuides.get(tvDate.getId());
 		return tvGuide;
 	}
 	
 	public TVGuide getTVGuideForToday() {
-		OldTVDate tvDate = tvDates.get(0);
+		TVDate tvDate = tvDates.get(0);
 		TVGuide tvGuide = tvGuides.get(tvDate.getId());
 		return tvGuide;
 	}
 
-	public ArrayList<OldTVTag> getTvTags() {
+	public ArrayList<TVTag> getTvTags() {
 		return tvTags;
 	}
 
-	public void setTvTags(ArrayList<OldTVTag> tvTags) {
+	public void setTvTags(ArrayList<TVTag> tvTags) {
 		this.tvTags = tvTags;
 	}
 
-	public ArrayList<OldTVDate> getTvDates() {
+	public ArrayList<TVDate> getTvDates() {
 		return tvDates;
 	}
 
-	public void setTvDates(ArrayList<OldTVDate> tvDates) {
+	public void setTvDates(ArrayList<TVDate> tvDates) {
 		this.tvDates = tvDates;
 	}
 
-	public ArrayList<OldTVChannel> getTvChannels() {
+	public ArrayList<TVChannel> getTvChannels() {
 		return tvChannels;
 	}
 
-	public void setTvChannels(ArrayList<OldTVChannel> tvChannels) {
+	public void setTvChannels(ArrayList<TVChannel> tvChannels) {
 		this.tvChannels = tvChannels;
 	}
 
@@ -132,11 +132,11 @@ public class Storage {
 		this.activityFeed = activityFeed;
 	}
 
-	public ArrayList<OldBroadcast> getPopularFeed() {
+	public ArrayList<Broadcast> getPopularFeed() {
 		return popularFeed;
 	}
 
-	public void setPopularFeed(ArrayList<OldBroadcast> popularFeed) {
+	public void setPopularFeed(ArrayList<Broadcast> popularFeed) {
 		this.popularFeed = popularFeed;
 	}
 
@@ -217,13 +217,13 @@ public class Storage {
 		return containsTVChannels;
 	}
 	
-	public boolean containsTVGuideForTVDate(OldTVDate tvDate) {
+	public boolean containsTVGuideForTVDate(TVDate tvDate) {
 		TVGuide tvGuide = getTVGuideUsingTVDate(tvDate);
 		boolean containsTVGuideForTVDate = (tvGuide != null);
 		return containsTVGuideForTVDate;
 	}
 	
-	public OldTVDate getTvDateSelected() {
+	public TVDate getTvDateSelected() {
 		return tvDateSelected;
 	}
 
@@ -233,12 +233,12 @@ public class Storage {
 	 * but rather an index (0-6). So this method is probably used by the
 	 * @param tvDateSelected
 	 */
-	public void setTvDateSelected(OldTVDate tvDateSelected) {
+	public void setTvDateSelected(TVDate tvDateSelected) {
 		this.tvDateSelected = tvDateSelected;
 	}
 	
 	public void setTvDateSelectedUsingIndex(int tvDateSelectedIndex) {
-		OldTVDate tvDateSelected = tvDates.get(tvDateSelectedIndex);
+		TVDate tvDateSelected = tvDates.get(tvDateSelectedIndex);
 		setTvDateSelected(tvDateSelected);
 	}
 }

@@ -66,6 +66,16 @@ public class TestCore
 	}
 	
 	
+	protected HTTPCoreResponse executeRequestNoBody(
+			final HTTPRequestTypeEnum httpRequestType,
+			final String url,
+			final URLParameters urlParameters) {
+		Map<String, String> headerParameters = new HashMap<String, String>();
+		
+		HTTPCoreResponse httpCoreResponse = this.executeRequest(httpRequestType, url, urlParameters, headerParameters, null);
+		
+		return httpCoreResponse;
+	}
 	
 	protected HTTPCoreResponse executeRequest(
 			final HTTPRequestTypeEnum httpRequestType,

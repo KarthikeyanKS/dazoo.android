@@ -1,7 +1,5 @@
 package com.mitv.test;
 
-import java.util.ArrayList;
-
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -13,10 +11,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.models.gson.TVCredit;
-import com.millicom.mitv.models.gson.TVProgramAndChannelInfo;
+import com.millicom.mitv.models.gson.Broadcast;
 import com.millicom.mitv.models.gson.TVChannel;
+import com.millicom.mitv.models.gson.TVChannelGuide;
+import com.millicom.mitv.models.gson.TVCredit;
 import com.millicom.mitv.models.gson.TVProgram;
+import com.millicom.mitv.models.gson.TVProgramAndChannelInfo;
 import com.millicom.mitv.models.gson.TVSeries;
 import com.millicom.mitv.models.gson.TVSeriesSeason;
 import com.mitv.Consts;
@@ -31,7 +31,7 @@ import com.mitv.Consts;
  *
  */
 public class TVProgramAndChannelInfoTest 
-	extends Tests 
+	extends TestBaseWithGuide 
 {
 	private static final String	TAG	= "TVBroadcastDetailsTest";
 	
@@ -40,9 +40,11 @@ public class TVProgramAndChannelInfoTest
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		
-		String channelId = "b24378bd-0a04-4427-814d-499b68eefd39";
-		long beginTimeMillis = 1392737400000L;
+				
+		TVChannelGuide someGuide = tvChannelGuides.get(0);
+		Broadcast broadcast = someGuide.getBroadcasts().get(0);
+		String channelId = someGuide.getChannelId().getChannelId();
+		Long beginTimeMillis = broadcast.getBeginTimeMillis();
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append(Consts.URL_CHANNELS_ALL);
@@ -53,7 +55,7 @@ public class TVProgramAndChannelInfoTest
 		sb.append(beginTimeMillis);
 		String url = sb.toString();
 		
-		HTTPCoreResponse httpCoreResponse = executeGetRequest(url);
+		HTTPCoreResponse httpCoreResponse = executeRequestGet(url);
 		
 		String jsonString = httpCoreResponse.getResponseString();
 				
@@ -82,8 +84,6 @@ public class TVProgramAndChannelInfoTest
 	}
 	
 	public static void testTVProgram(TVProgram program) {
-		TVBroadcastWithChannelInfoTest.testBroadcast(program);
-		
 		/* All program types */
 		Assert.assertNotNull(program.getProgramId());
 		Assert.assertFalse(TextUtils.isEmpty(program.getProgramId()));
