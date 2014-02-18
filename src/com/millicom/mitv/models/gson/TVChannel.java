@@ -3,17 +3,19 @@ package com.millicom.mitv.models.gson;
 import java.lang.reflect.Type;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.millicom.mitv.interfaces.DeserializeManuallyAnnotation;
 import com.mitv.Consts;
-
 
 public class TVChannel implements JsonDeserializer<TVChannel> {
 
-	private transient TVChannelId channelId;
+	@DeserializeManuallyAnnotation
+	private TVChannelId channelId;
 	private String name;
 	private Logo logo;
 	
@@ -42,7 +44,10 @@ public class TVChannel implements JsonDeserializer<TVChannel> {
 		this.channelId = tvChannelId;
 		
 		/* Automatic parsing of non transient variable fields, store in tmp object */
-		Gson gson = new Gson();
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.addDeserializationExclusionStrategy(new DeserializeManuallyAnnotationExclusionStrategy());
+		Gson gson = gsonBuilder.create();
+		
 		TVChannel tvChannel = gson.fromJson(jsonElement, TVChannel.class);
 		this.name = tvChannel.name;
 		this.logo = tvChannel.logo;

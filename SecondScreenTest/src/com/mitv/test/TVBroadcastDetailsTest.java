@@ -1,17 +1,15 @@
 package com.mitv.test;
 
-import java.util.Arrays;
-
 import junit.framework.Assert;
 
 import org.junit.Test;
 
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
-import com.millicom.mitv.models.gson.AppVersionDataPart;
+import com.millicom.mitv.models.gson.DeserializeManuallyAnnotationExclusionStrategy;
 import com.millicom.mitv.models.gson.TVBroadcastDetails;
 import com.mitv.Consts;
 
@@ -29,7 +27,7 @@ public class TVBroadcastDetailsTest
 		super.setUp();
 		
 		String channelId = "b24378bd-0a04-4427-814d-499b68eefd39";
-		long beginTimeMillis = 1392628200000L;
+		long beginTimeMillis = 1392737400000L;
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append(Consts.URL_CHANNELS_ALL);
@@ -41,9 +39,14 @@ public class TVBroadcastDetailsTest
 		
 		String jsonString = super.deserializeJson(sb.toString());
 		
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.registerTypeAdapter(TVBroadcastDetails.class, new TVBroadcastDetails());
+		gsonBuilder.addDeserializationExclusionStrategy(new DeserializeManuallyAnnotationExclusionStrategy());
+		Gson gson = gsonBuilder.create();
+		
 		try
 		{
-			tvBroadcastDetails = new Gson().fromJson(jsonString, TVBroadcastDetails.class);
+			tvBroadcastDetails = gson.fromJson(jsonString, TVBroadcastDetails.class);
 		}
 		catch(JsonSyntaxException jsex)
 		{

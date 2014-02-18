@@ -11,6 +11,7 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.millicom.mitv.models.gson.DeserializeManuallyAnnotationExclusionStrategy;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.mitv.Consts;
 
@@ -25,6 +26,7 @@ public class TVChannelGSONTest extends Tests {
 
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(TVChannel.class, new TVChannel());
+		gsonBuilder.addDeserializationExclusionStrategy(new DeserializeManuallyAnnotationExclusionStrategy());
 		Gson gson = gsonBuilder.create();
 
 		tvChannels = Arrays.asList(gson.fromJson(jsonString, TVChannel[].class));
