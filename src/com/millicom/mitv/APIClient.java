@@ -11,6 +11,7 @@ import com.millicom.mitv.asynctasks.GetAppVersionData;
 import com.millicom.mitv.asynctasks.GetTVBroadcastDetails;
 import com.millicom.mitv.asynctasks.GetTVBroadcastsFromProgram;
 import com.millicom.mitv.asynctasks.GetTVBroadcastsFromSeries;
+import com.millicom.mitv.asynctasks.GetTVBroadcastsPopular;
 import com.millicom.mitv.asynctasks.GetTVChannelGuides;
 import com.millicom.mitv.asynctasks.GetTVChannelIdsDefault;
 import com.millicom.mitv.asynctasks.GetTVChannelsAll;
@@ -137,15 +138,16 @@ public class APIClient
 		getTVBroadcastsFromSeries.execute();
 	}
 	
-	
+	public void getTVBroadcastsPopular(ActivityCallbackListener activityCallbackListener) {
+		GetTVBroadcastsPopular getTVBroadcastsPopular = new GetTVBroadcastsPopular(contentCallbackListener, activityCallbackListener);
+		getTVBroadcastsPopular.execute();
+	}
 	
 	public void getTVBroadcastsFromProgram(ActivityCallbackListener activityCallBackListener, String tvProgramId)
 	{
 		GetTVBroadcastsFromProgram getTVBroadcastsFromProgram = GetTVBroadcastsFromProgram.newGetTVBroadcastsFromProgramTask(contentCallbackListener, activityCallBackListener, tvProgramId);
 		getTVBroadcastsFromProgram.execute();
 	}
-	
-	
 	
 	public void getUserLikes(ActivityCallbackListener activityCallBackListener)
 	{

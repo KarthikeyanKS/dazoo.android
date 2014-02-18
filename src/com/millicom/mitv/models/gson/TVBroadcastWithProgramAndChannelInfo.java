@@ -1,16 +1,11 @@
 package com.millicom.mitv.models.gson;
 
 
-public class TVProgramAndChannelInfo {
+public class TVBroadcastWithProgramAndChannelInfo extends Broadcast {
 	
 	private TVChannel channel;
-	private TVProgram program;
 		
 	public TVChannel getChannel() {
 		return channel;
-	}
-
-	public TVProgram getTvProgram() {
-		return program;
 	}
 }

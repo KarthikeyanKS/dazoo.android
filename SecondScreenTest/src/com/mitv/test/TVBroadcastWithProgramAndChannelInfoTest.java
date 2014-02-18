@@ -13,11 +13,11 @@ import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.models.gson.Broadcast;
 import com.millicom.mitv.models.gson.ImageSetOrientation;
+import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVCredit;
 import com.millicom.mitv.models.gson.TVProgram;
-import com.millicom.mitv.models.gson.TVProgramAndChannelInfo;
 import com.millicom.mitv.models.gson.TVSeries;
 import com.millicom.mitv.models.gson.TVSeriesSeason;
 import com.mitv.Consts;
@@ -31,12 +31,12 @@ import com.mitv.Consts;
  * @author atsampikakis
  *
  */
-public class TVProgramAndChannelInfoTest 
+public class TVBroadcastWithProgramAndChannelInfoTest 
 	extends TestBaseWithGuide 
 {
 	private static final String	TAG	= "TVBroadcastDetailsTest";
 	
-	private TVProgramAndChannelInfo tvBroadcastDetails;
+	private TVBroadcastWithProgramAndChannelInfo tvBroadcastWithChannelAndProgramInfo;
 	
 	@Override
 	protected void setUp() throws Exception {
@@ -62,7 +62,7 @@ public class TVProgramAndChannelInfoTest
 				
 		try
 		{
-			tvBroadcastDetails = new Gson().fromJson(jsonString, TVProgramAndChannelInfo.class);
+			tvBroadcastWithChannelAndProgramInfo = new Gson().fromJson(jsonString, TVBroadcastWithProgramAndChannelInfo.class);
 		}
 		catch(JsonSyntaxException jsex)
 		{
@@ -72,15 +72,17 @@ public class TVProgramAndChannelInfoTest
 
 	@Test
 	public void testNotNull() {
-		Assert.assertNotNull(tvBroadcastDetails);
+		Assert.assertNotNull(tvBroadcastWithChannelAndProgramInfo);
 	}
 	
 	@Test
 	public void testAllVariablesNotNull() {
-		TVChannel tvChannel = tvBroadcastDetails.getChannel();
+		TVBroadcastWithChannelInfoTest.testBroadcast(tvBroadcastWithChannelAndProgramInfo);
+		
+		TVChannel tvChannel = tvBroadcastWithChannelAndProgramInfo.getChannel();
 		TVChannelGSONTest.testTVChannelObject(tvChannel);
 		
-		TVProgram tvProgram = tvBroadcastDetails.getTvProgram();
+		TVProgram tvProgram = tvBroadcastWithChannelAndProgramInfo.getProgram();
 		testTVProgram(tvProgram);
 	}
 	

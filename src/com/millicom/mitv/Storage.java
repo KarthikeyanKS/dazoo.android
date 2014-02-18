@@ -11,6 +11,7 @@ import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.gson.AppConfigurationData;
 import com.millicom.mitv.models.gson.AppVersionData;
 import com.millicom.mitv.models.gson.Broadcast;
+import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelId;
 import com.millicom.mitv.models.gson.TVDate;
@@ -33,7 +34,7 @@ public class Storage {
 	private Calendar userChannelIdsFetchedTimestamp;
 	
 	private ArrayList<OldTVFeedItem> activityFeed;
-	private ArrayList<Broadcast> popularFeed;
+	private ArrayList<TVBroadcastWithProgramAndChannelInfo> popularFeed;
 	
 	private String userToken;
 	private TVDate tvDateSelected;
@@ -132,11 +133,11 @@ public class Storage {
 		this.activityFeed = activityFeed;
 	}
 
-	public ArrayList<Broadcast> getPopularFeed() {
+	public ArrayList<TVBroadcastWithProgramAndChannelInfo> getPopularFeed() {
 		return popularFeed;
 	}
 
-	public void setPopularFeed(ArrayList<Broadcast> popularFeed) {
+	public void setPopularFeed(ArrayList<TVBroadcastWithProgramAndChannelInfo> popularFeed) {
 		this.popularFeed = popularFeed;
 	}
 

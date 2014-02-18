@@ -12,7 +12,7 @@ import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.models.gson.Broadcast;
 import com.millicom.mitv.models.gson.TVChannelGuide;
-import com.millicom.mitv.models.gson.TVProgramAndChannelInfo;
+import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
 import com.mitv.Consts;
 
 
@@ -22,7 +22,7 @@ public class TVBroadcastDetailsTest
 {
 	private static final String	TAG	= "TVBroadcastDetailsTest";
 	
-	private TVProgramAndChannelInfo tvBroadcastDetails;
+	private TVBroadcastWithProgramAndChannelInfo tvBroadcastDetails;
 	
 	
 	
@@ -52,7 +52,7 @@ public class TVBroadcastDetailsTest
 		
 		try
 		{
-			tvBroadcastDetails = new Gson().fromJson(responseString, TVProgramAndChannelInfo.class);
+			tvBroadcastDetails = new Gson().fromJson(responseString, TVBroadcastWithProgramAndChannelInfo.class);
 		}
 		catch(JsonSyntaxException jsex)
 		{

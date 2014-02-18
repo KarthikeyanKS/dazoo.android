@@ -12,6 +12,7 @@ import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.gson.AppConfigurationData;
 import com.millicom.mitv.models.gson.AppVersionData;
+import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;
@@ -84,6 +85,10 @@ public class ContentManager implements ContentCallbackListener {
 	public void fetchTVGuideUsingTVDate(ActivityCallbackListener activityCallBackListener, TVDate tvDate) {
 		ArrayList<TVChannelId> tvChannelIds = storage.getTvChannelIdsUsed();
 		apiClient.getTVChannelGuides(activityCallBackListener, tvDate, tvChannelIds);
+	}
+	
+	public void fetchTVBroadcastsPopular(ActivityCallbackListener activityCallbackListener) {
+		apiClient.getTVBroadcastsPopular(activityCallbackListener);
 	}
 	
 	/* METHODS FOR "GETTING" THE TV DATA, EITHER FROM STORAGE, OR FETCHING FROM BACKEND */
@@ -166,6 +171,7 @@ public class ContentManager implements ContentCallbackListener {
 					break;
 				}
 				case POPULAR_ITEMS: {
+					handleTVBroadcastsPopularResponse(activityCallBackListener, result, content);
 					break;
 				}
 				case BROADCAST_DETAILS :
@@ -314,6 +320,15 @@ public class ContentManager implements ContentCallbackListener {
 			//TODO handle this
 		}
 	}
+	
+	public void handleTVBroadcastsPopularResponse(ActivityCallbackListener activityCallBackListener, FetchRequestResultEnum result, Object data) {
+		if (result.wasSuccessful() && data != null) {
+			ArrayList<TVBroadcastWithProgramAndChannelInfo> broadcastsPopular = (ArrayList<TVBroadcastWithProgramAndChannelInfo>) data;
+			storage.setPopularFeed(broadcastsPopular);
+		} else {
+			//TODO handle this
+		}
+	}
 
 	public void handleSignUpResponse(ActivityCallbackListener activityCallBackListener, FetchRequestResultEnum result, Object data) {
 		if (result.wasSuccessful() && data != null) {
@@ -326,7 +341,7 @@ public class ContentManager implements ContentCallbackListener {
 			//TODO handle this
 		}
 	}
-	
+		
 	public void handleLoginResponse(ActivityCallbackListener activityCallBackListener, FetchRequestResultEnum result, Object data) {
 		if (result.wasSuccessful() && data != null) {
 			String userToken = (String) data;
