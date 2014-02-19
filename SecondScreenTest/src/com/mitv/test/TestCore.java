@@ -6,13 +6,10 @@ package com.mitv.test;
 import java.util.HashMap;
 import java.util.Map;
 import android.test.InstrumentationTestCase;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCore;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.http.URLParameters;
-import com.millicom.mitv.models.gson.AppConfiguration;
 import com.millicom.mitv.models.gson.serialization.UserRegistrationData;
 import com.millicom.mitv.utilities.GenericUtils;
 import com.mitv.Consts;
@@ -31,20 +28,14 @@ public class TestCore
 	protected static final String DEFAULT_NEW_TEST_USER_PASSWORD = "ilovetvtoo";
 	protected static final String DEFAULT_NEW_TEST_USER_FIRST_NAME = "User";
 	
-	protected Gson gson;
-	
 	
 	
 	@Override
 	protected void setUp()
 			throws Exception 
-	{
-		GsonBuilder gsonBuilder = new GsonBuilder();
-		gsonBuilder.registerTypeAdapter(AppConfiguration.class, new AppConfiguration());
-		gsonBuilder.excludeFieldsWithoutExposeAnnotation();
-		
-		this.gson = gsonBuilder.create();
-	}
+	{}
+	
+	
 	
 	protected HTTPCoreResponse executeRequestGet(final String url) {
 		return executeRequest(HTTPRequestTypeEnum.HTTP_GET, url);

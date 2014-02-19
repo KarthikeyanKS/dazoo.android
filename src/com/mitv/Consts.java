@@ -64,7 +64,8 @@ public abstract class Consts {
 	public static final String URL_SERIES 							= URL_SERVER + "epg/series/";
 	public static final String URL_POPULAR 							= URL_SERVER + "epg/broadcasts/popular/";
 	public static final String URL_CONFIGURATION 					= URL_SERVER + "configuration";
-	public static final String URL_SEARCH		 					= URL_SERVER + "search?query=%s*";
+	public static final String URL_SEARCH		 					= URL_SERVER + "search";
+	public static final String URL_SEARCH_OLD		 				= URL_SERVER + "search?query=%s*";
 	public static final String URL_API_VERSION						= URL_SERVER + "versions";
 	public static final String URL_NOTIFY_BROADCAST_PREFIX 			= URL_SERVER + "epg/channels/";
 	public static final String URL_AUTH_TOKENS 					 	= URL_SERVER + "auth/tokens/";
@@ -497,6 +498,9 @@ public abstract class Consts {
 	public static final String JSON_KEY_SEARCH_ENTITY_BROADCASTS		= "broadcasts";
 	public static final String JSON_KEY_SEARCH_ENTITY_NAME				= "name";
 	
+	/* QUERYSTRING KEYS USED IN SEARCH */
+	public static final String SEARCH_QUERYSTRING_PARAMETER_QUERY_KEY = "query";
+	public static final String SEARCH_WILDCARD = "*";
 	
 	/* JSON KEYS FOR DESERIALIZATION */
 	public static final String JSON_USER_LIKE_SERIES_SERIES_ID = "seriesId";

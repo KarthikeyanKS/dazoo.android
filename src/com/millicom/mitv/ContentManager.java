@@ -11,7 +11,6 @@ import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.models.AppVersionData;
 import com.millicom.mitv.models.TVGuide;
-import com.millicom.mitv.models.gson.AppVersion;
 import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
@@ -138,17 +137,23 @@ public class ContentManager implements ContentCallbackListener {
 					handleLogoutResponse(activityCallBackListener);
 					break;
 				}
-				case USER_FB_TOKEN: {
+				case USER_FB_TOKEN: 
+				{
+					// TODO
 					break;
 				}
-				case USER_LIKES: {
+				case USER_LIKES: 
+				{
+					// TODO
 					break;
 				}
 				case USER_SET_CHANNELS: {
 					handleSetChannelsResponse(activityCallBackListener, result);
 					break;
 				}
-				case USER_ADD_LIKE: {
+				case USER_ADD_LIKE: 
+				{
+					// TODO
 					break;
 				}
 				case USER_REMOVE_LIKE:
@@ -190,6 +195,11 @@ public class ContentManager implements ContentCallbackListener {
 					// TODO
 					break;
 				}
+				case SEARCH:
+				{
+					// TODO
+					break;
+				}
 			}
 	}
 	
@@ -208,9 +218,7 @@ public class ContentManager implements ContentCallbackListener {
 	
 			case APP_VERSION: 
 			{
-				AppVersion[] appVersionDataFromService = (AppVersion[]) data;
-				
-				AppVersionData appVersionData = new AppVersionData(appVersionDataFromService);
+				AppVersionData appVersionData = (AppVersionData) data;
 				
 				storage.setAppVersionData(appVersionData);
 				break;

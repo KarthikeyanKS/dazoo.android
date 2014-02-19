@@ -7,6 +7,9 @@ import org.junit.Test;
 import junit.framework.Assert;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
@@ -38,6 +41,12 @@ public class AppConfigurationTest
 		
 		try
 		{
+			GsonBuilder gsonBuilder = new GsonBuilder();
+			gsonBuilder.registerTypeAdapter(AppConfiguration.class, new AppConfiguration());
+			gsonBuilder.excludeFieldsWithoutExposeAnnotation();
+			
+			Gson gson = gsonBuilder.create();
+			
 			receivedData = gson.fromJson(responseString, AppConfiguration.class);
 		}
 		catch(JsonSyntaxException jsex)

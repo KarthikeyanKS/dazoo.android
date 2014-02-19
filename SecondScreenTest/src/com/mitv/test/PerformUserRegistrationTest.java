@@ -7,6 +7,8 @@ import junit.framework.Assert;
 import org.junit.Test;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
@@ -42,7 +44,7 @@ public class PerformUserRegistrationTest
 		
 		UserRegistrationData postData = getNewRandomUserData();
 		
-		String bodyContentData = gson.toJson(postData);
+		String bodyContentData = new Gson().toJson(postData);
 		
 		httpCoreResponse = executeRequest(HTTPRequestTypeEnum.HTTP_POST, url, bodyContentData);
 		
@@ -50,7 +52,7 @@ public class PerformUserRegistrationTest
 		
 		try
 		{
-			receivedData = gson.fromJson(responseString, UserLoginData.class);
+			receivedData = new Gson().fromJson(responseString, UserLoginData.class);
 		}
 		catch(JsonSyntaxException jsex)
 		{
