@@ -14,7 +14,7 @@ import com.mitv.Consts;
 
 
 
-public class AsyncTaskWithUserToken<T> 
+public abstract class AsyncTaskWithUserToken<T> 
 	extends AsyncTaskWithRelativeURL<T> 
 {	
 	private static final String TAG = AsyncTaskWithUserToken.class.getName();

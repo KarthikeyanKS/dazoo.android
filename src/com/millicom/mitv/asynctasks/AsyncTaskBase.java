@@ -22,7 +22,7 @@ import com.millicom.mitv.interfaces.ContentCallbackListener;
 
 
 
-public class AsyncTaskBase<T> 
+public abstract class AsyncTaskBase<T> 
 	extends AsyncTask<String, Void, Void> 
 {	
 	private static final String TAG = "AsyncTaskBase";

@@ -56,7 +56,7 @@ public class TVSearchResult
 	{
 		boolean areFieldsValid = (displayText != null && 
 								  entityType != null && entityType.length() > 0 &&
-								  entity.areDataFieldsValid());
+								  entity != null && entity.areDataFieldsValid());
 
 		return areFieldsValid;
 	}

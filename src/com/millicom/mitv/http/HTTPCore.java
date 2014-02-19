@@ -44,7 +44,7 @@ public class HTTPCore
 	
 	
 	private static final String DEAFULT_ENCODING = "UTF-8";
-	private static final int DEFAULT_HTTP_STATUS_RESULT = 500;
+	private static final int DEFAULT_HTTP_STATUS_RESULT = 1000;
 	
 	private static HTTPCore sharedInstance;
 	
@@ -177,11 +177,11 @@ public class HTTPCore
 		
 		if(response != null)
 		{
-			httpCoreResponse = parseResponse(url, response);
+			httpCoreResponse = parseResponse(serviceUrl.toString(), response);
 		}
 		else
 		{
-			httpCoreResponse = new HTTPCoreResponse(url, DEFAULT_HTTP_STATUS_RESULT);
+			httpCoreResponse = new HTTPCoreResponse(serviceUrl.toString(), DEFAULT_HTTP_STATUS_RESULT);
 		}
 		
 		return httpCoreResponse;

@@ -13,7 +13,7 @@ import com.millicom.mitv.interfaces.ContentCallbackListener;
 
 
 
-public class AsyncTaskWithRelativeURL<T> 
+public abstract class AsyncTaskWithRelativeURL<T> 
 	extends AsyncTaskBase<T>
 {
 	public AsyncTaskWithRelativeURL(

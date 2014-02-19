@@ -122,7 +122,14 @@ public class ContentManager implements ContentCallbackListener {
 					handleTVChannelGuidesForSelectedDayResponse(activityCallBackListener, result, content);
 					break;
 				}
-				case ADS: {
+				case ADS_ADZERK_GET: 
+				{
+					// TODO
+					break;
+				}
+				case ADS_ADZERK_SEEN: 
+				{
+					// TODO
 					break;
 				}
 				case USER_LOGIN: {
@@ -196,6 +203,11 @@ public class ContentManager implements ContentCallbackListener {
 					break;
 				}
 				case SEARCH:
+				{
+					// TODO
+					break;
+				}
+				case INTERNAL_TRACKING:
 				{
 					// TODO
 					break;

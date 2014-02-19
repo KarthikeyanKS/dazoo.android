@@ -3,33 +3,31 @@ package com.millicom.mitv.asynctasks.usertoken;
 
 
 
-import com.millicom.mitv.asynctasks.builders.RemoveLikesBuilder;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.LikeTypeRequestEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.models.DummyData;
+import com.mitv.Consts;
 
 
 
 public class RemoveUserLike 
 	extends AsyncTaskWithUserToken<DummyData> 
 {	
-	
-	public static RemoveUserLike newRemoveUserLikesTask(
-			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener,
+	private static String buildURL(
 			LikeTypeRequestEnum likeType,
 			String contentId)
 	{
-		RemoveLikesBuilder removeLikesBuilder = new RemoveLikesBuilder();
-		removeLikesBuilder.setContentId(contentId);
-		removeLikesBuilder.setLikeType(likeType);
+		StringBuilder url = new StringBuilder();
+		url.append(Consts.URL_LIKES);
+		url.append(Consts.REQUEST_QUERY_SEPARATOR);
+		url.append(likeType);
+		url.append(Consts.REQUEST_QUERY_SEPARATOR);
+		url.append(contentId);
 		
-		RemoveUserLike removeUserLike = removeLikesBuilder.build(contentCallbackListener, activityCallBackListener, likeType, contentId);
-		
-		return removeUserLike;
+		return url.toString();
 	}
 	
 	
@@ -37,8 +35,9 @@ public class RemoveUserLike
 	public RemoveUserLike(
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener,
-			String url)
+			LikeTypeRequestEnum likeType,
+			String contentId)
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_REMOVE_LIKE, DummyData.class, HTTPRequestTypeEnum.HTTP_DELETE, url);
+		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_REMOVE_LIKE, DummyData.class, HTTPRequestTypeEnum.HTTP_DELETE, buildURL(likeType, contentId));
 	}
 }

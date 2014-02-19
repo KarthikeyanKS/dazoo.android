@@ -5,21 +5,21 @@ import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
+import com.millicom.mitv.models.gson.AdAdzerk;
 import com.mitv.Consts;
-import com.mitv.model.OldAdzerkAd;
 
 
 
-public class GetAds 
-	extends AsyncTaskWithRelativeURL<OldAdzerkAd> 
+public class GetAdsAdzerk 
+	extends AsyncTaskWithRelativeURL<AdAdzerk> 
 {	
-	private static final String URL_SUFFIX = Consts.URL_ACTIVITY_FEED;
+	private static final String URL_SUFFIX = Consts.ADS_POST_URL;
 	
 	
-	public GetAds(
+	public GetAdsAdzerk(
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener) 
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.ADS, OldAdzerkAd.class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.ADS_ADZERK_GET, AdAdzerk.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
 	}
 }

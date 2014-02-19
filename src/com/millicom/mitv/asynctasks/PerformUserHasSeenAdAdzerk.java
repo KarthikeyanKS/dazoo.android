@@ -10,14 +10,14 @@ import com.millicom.mitv.models.DummyData;
 
 
 
-public class PerformUserHasSeenAd 
+public class PerformUserHasSeenAdAdzerk 
 	extends AsyncTaskBase<DummyData> 
 {	
-	public PerformUserHasSeenAd(
+	public PerformUserHasSeenAdAdzerk(
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener,
 			String url) 
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.ADS, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, false, url);
+		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.ADS_ADZERK_SEEN, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, false, url);
 	}
 }
