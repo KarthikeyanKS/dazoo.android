@@ -24,13 +24,14 @@ public class RemoveLikesBuilder
 			LikeTypeRequestEnum likeType,
 			String contentId)
 	{
-		StringBuilder sb = new StringBuilder();
-		sb.append(Consts.URL_LIKES);
-		sb.append(likeType);
-		sb.append(Consts.REQUEST_QUERY_SEPARATOR);
-		sb.append(contentId);
+		StringBuilder url = new StringBuilder();
+		url.append(Consts.URL_LIKES);
+		url.append(Consts.REQUEST_QUERY_SEPARATOR);
+		url.append(likeType);
+		url.append(Consts.REQUEST_QUERY_SEPARATOR);
+		url.append(contentId);
 		
-		RemoveUserLike removeUserLike = new RemoveUserLike(contentCallbackListener, activityCallBackListener, sb.toString());
+		RemoveUserLike removeUserLike = new RemoveUserLike(contentCallbackListener, activityCallBackListener, url.toString());
 		
 		return removeUserLike;
 	}

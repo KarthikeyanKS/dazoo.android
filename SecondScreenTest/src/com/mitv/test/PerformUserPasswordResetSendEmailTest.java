@@ -45,6 +45,6 @@ public class PerformUserPasswordResetSendEmailTest
 	@Test
 	public void testReponseIsOK()
 	{
-		Assert.assertFalse(httpCoreResponse.getStatusCode() != FetchRequestResultEnum.SUCCESS.getStatusCode());
+		Assert.assertFalse(httpCoreResponse.getStatusCode() != FetchRequestResultEnum.SUCCESS_WITH_NO_CONTENT.getStatusCode());
 	}
 }
