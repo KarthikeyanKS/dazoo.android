@@ -16,7 +16,14 @@ import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
 import com.mitv.Consts;
 
 
-
+/**
+ * This class tests the fetched broadcast detailed information. Returns objects with field from broadcast, channel object and program object.
+ * 
+ * GET /epg/channels/{channelId}/broadcasts/{beginTimeMillis}
+ * 
+ * @author atsampikakis
+ *
+ */
 public class TVBroadcastDetailsTest 
 	extends TestBaseWithGuide 
 {

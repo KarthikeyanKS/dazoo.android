@@ -10,9 +10,9 @@ import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
+import com.millicom.mitv.models.AppVersionData;
 import com.millicom.mitv.models.TVGuide;
-import com.millicom.mitv.models.gson.AppConfigurationData;
-import com.millicom.mitv.models.gson.AppVersionData;
+import com.millicom.mitv.models.gson.AppConfiguration;
 import com.millicom.mitv.models.gson.Broadcast;
 import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
@@ -203,7 +203,10 @@ public class ContentManager implements ContentCallbackListener {
 			handleTVChannelGuidesForSelectedDayResponse(activityCallBackListener, result, content);
 			break;
 		}
-		case ADS: {
+		case ADS_ADZERK_GET: {
+			break;
+		}
+		case ADS_ADZERK_SEEN: {
 			break;
 		}
 		case USER_LOGIN: {
@@ -256,15 +259,29 @@ public class ContentManager implements ContentCallbackListener {
 			handleTVBroadcastsPopularBroadcastsResponse(activityCallBackListener, result, content);
 			break;
 		}
-		case BROADCAST_DETAILS: {
+		
+		case BROADCAST_DETAILS :
+		{
 			// TODO
 			break;
 		}
-		case BROADCASTS_FROM_PROGRAMS: {
+		case BROADCASTS_FROM_PROGRAMS :
+		{
 			// TODO
 			break;
 		}
-		case BROADCASTS_FROM_SERIES_UPCOMING: {
+		case BROADCASTS_FROM_SERIES_UPCOMING :
+		{
+			// TODO
+			break;
+		}
+		case SEARCH:
+		{
+			// TODO
+			break;
+		}
+		case INTERNAL_TRACKING:
+		{
 			// TODO
 			break;
 		}
@@ -297,7 +314,7 @@ public class ContentManager implements ContentCallbackListener {
 
 			switch (requestIdentifier) {
 			case APP_CONFIGURATION:
-				AppConfigurationData appConfigData = (AppConfigurationData) content;
+				AppConfiguration appConfigData = (AppConfiguration) content;
 				// TODO decide if use Storage class here or not (if we should
 				// put
 				// the app config data in the storage class or not)

@@ -3,36 +3,36 @@ package com.millicom.mitv.asynctasks.usertoken;
 
 
 
-import com.millicom.mitv.asynctasks.builders.PerformUserLogoutBuilder;
+import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.models.gson.UserLoginData;
+import com.mitv.Consts;
 
 
 
 public class PerformUserLogout
 	extends AsyncTaskWithUserToken<UserLoginData> 
 {
-	public static PerformUserLogout newGetTVBroadcastsFromSeriesTask(
-			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener) 
+	private static String buildURL()
 	{
-		PerformUserLogoutBuilder performUserLogoutBuilder = new PerformUserLogoutBuilder();
+		String userToken = ContentManager.sharedInstance().getFromStorageUserToken();
 		
-		PerformUserLogout performuserLogout = performUserLogoutBuilder.build(contentCallbackListener, activityCallBackListener);
+		StringBuilder url = new StringBuilder();
+		url.append(Consts.URL_AUTH_TOKENS);
+		url.append(userToken);
 		
-		return performuserLogout;
+		return url.toString();
 	}
 	
 	
 	
 	public PerformUserLogout(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener,
-			String url) 
+			ActivityCallbackListener activityCallBackListener) 
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_LOGOUT, UserLoginData.class, HTTPRequestTypeEnum.HTTP_DELETE, url);
+		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_LOGOUT, UserLoginData.class, HTTPRequestTypeEnum.HTTP_DELETE, buildURL());
 	}
 }

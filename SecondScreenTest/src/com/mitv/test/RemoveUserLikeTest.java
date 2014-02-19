@@ -14,7 +14,6 @@ import com.millicom.mitv.http.URLParameters;
 import com.millicom.mitv.models.gson.Broadcast;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVProgram;
-import com.millicom.mitv.models.gson.UserLoginData;
 import com.mitv.Consts;
 
 
@@ -41,22 +40,8 @@ public class RemoveUserLikeTest
 		String programId = tvProgram.getProgramId();
 		
 		LikeTypeRequestEnum likeType = LikeTypeRequestEnum.PROGRAM;
-		
-		String token = "";
-		
-		if(token.isEmpty())
-		{
-			UserLoginData data = PerformUserLoginTest.login();
-			
-			if(data != null)
-			{
-				token = data.getToken();
-			}
-			// No need for else
-		}
-		// No need for else
-		
-		httpCoreResponse = removeUserLike(token, likeType, programId);
+				
+		httpCoreResponse = removeUserLike(userToken, likeType, programId);
 	}
 	
 	
@@ -70,6 +55,7 @@ public class RemoveUserLikeTest
 		
 		StringBuilder url = new StringBuilder();
 		url.append(Consts.URL_LIKES);
+		url.append(Consts.REQUEST_QUERY_SEPARATOR);
 		url.append(likeType);
 		url.append(Consts.REQUEST_QUERY_SEPARATOR);
 		url.append(entityId);

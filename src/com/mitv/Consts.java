@@ -44,8 +44,10 @@ public abstract class Consts {
 	public static final String URL_SERVER_SECURE 					= HTTPS_SCHEME + BASE_API_URL_USED;
 	public static final String URL_SERVER							= HTTP_SCHEME + BASE_API_URL_USED;
 //	public static String 	   URL_INTERNAL_TRACKING 				= HTTP_SCHEME + "tracking.gitrgitr.com/track/unique?verb=views&key=program_id&value=%s&uid=%s";
-	public static String 	   URL_INTERNAL_TRACKING 				= HTTP_SCHEME + "tracking.mi.tv/track/unique?verb=views&key=program_id&value=%s&uid=%s";
-
+	public static String 	   URL_INTERNAL_TRACKING_OLD 			= HTTP_SCHEME + "tracking.mi.tv/track/unique?verb=views&key=program_id&value=%s&uid=%s";
+	public static String 	   URL_INTERNAL_TRACKING 				= HTTP_SCHEME + "tracking.mi.tv/track/unique";
+	
+	
 	public static final String URL_GUIDE 							= URL_SERVER + "epg/guide";
 	public static final String URL_DATES 							= URL_SERVER + "epg/dates";
 	public static final String URL_CHANNELS_ALL 					= URL_SERVER + "epg/channels";
@@ -64,7 +66,8 @@ public abstract class Consts {
 	public static final String URL_SERIES 							= URL_SERVER + "epg/series/";
 	public static final String URL_POPULAR 							= URL_SERVER + "epg/broadcasts/popular/";
 	public static final String URL_CONFIGURATION 					= URL_SERVER + "configuration";
-	public static final String URL_SEARCH		 					= URL_SERVER + "search?query=%s*";
+	public static final String URL_SEARCH		 					= URL_SERVER + "search";
+	public static final String URL_SEARCH_OLD		 				= URL_SERVER + "search?query=%s*";
 	public static final String URL_API_VERSION						= URL_SERVER + "versions";
 	public static final String URL_NOTIFY_BROADCAST_PREFIX 			= URL_SERVER + "epg/channels/";
 	public static final String URL_AUTH_TOKENS 					 	= URL_SERVER + "auth/tokens/";
@@ -497,6 +500,17 @@ public abstract class Consts {
 	public static final String JSON_KEY_SEARCH_ENTITY_BROADCASTS		= "broadcasts";
 	public static final String JSON_KEY_SEARCH_ENTITY_NAME				= "name";
 	
+	/* QUERYSTRING KEYS USED IN SEARCH */
+	public static final String SEARCH_QUERYSTRING_PARAMETER_QUERY_KEY = "query";
+	public static final String SEARCH_WILDCARD = "*";
+	
+	/* QUERYSTRING KEYS USED IN INTERNAL TRACKING */
+	public static final String INTERNAL_TRACKING_QUERYSTRING_PARAMETER_VERB_KEY = "verb";
+	public static final String INTERNAL_TRACKING_QUERYSTRING_PARAMETER_VERB_VALUE_VIEWS = "views";
+	public static final String INTERNAL_TRACKING_QUERYSTRING_PARAMETER_KEY_KEY = "key";
+	public static final String INTERNAL_TRACKING_QUERYSTRING_PARAMETER_VALUE_PROGRAM_ID = "program_id";
+	public static final String INTERNAL_TRACKING_QUERYSTRING_PARAMETER_KEY_VALUE = "value";
+	public static final String INTERNAL_TRACKING_QUERYSTRING_PARAMETER_KEY_UID = "uid";
 	
 	/* JSON KEYS FOR DESERIALIZATION */
 	public static final String JSON_USER_LIKE_SERIES_SERIES_ID = "seriesId";
@@ -510,6 +524,9 @@ public abstract class Consts {
 	public static final String JSON_USER_FEED_ITEM_BROADCAST = "broadcast";
 	public static final String JSON_USER_FEED_ITEM_BROADCASTS = "broadcasts";
 	
+	public static final String JSON_VERSIONS_KEY_NAME = "api";
+	public static final String JSON_VERSIONS_KEY_PROMOTION = "promotion";
+	public static final String JSON_VERSIONS_KEY_ANDROID = "android";
 	
 	/* REFRESH INTERVALS FOR LOCAL DATA */
 	public static final int LIKE_IDS_REFRESH_INTERVAL_IN_MINUTES 		= 1;

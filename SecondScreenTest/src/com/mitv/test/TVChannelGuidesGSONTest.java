@@ -20,6 +20,14 @@ import com.millicom.mitv.models.gson.TVChannelId;
 import com.millicom.mitv.models.gson.TVDate;
 import com.mitv.Consts;
 
+/**
+ * This class tests the fetching Guide data. Returns a list of objects containing fields from channel, list of broadcasts (with fields from broadcast and program object).
+ * 
+ * GET /epg/guide/{date}?timeZoneOffset=&channelId=&channelId=
+ * 
+ * @author atsampikakis
+ *
+ */
 public class TVChannelGuidesGSONTest 
 	extends TestBaseWithGuide
 {	

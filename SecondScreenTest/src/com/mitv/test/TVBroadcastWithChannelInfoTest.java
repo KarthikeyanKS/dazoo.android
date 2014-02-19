@@ -21,6 +21,14 @@ import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
 
+/**
+ * This class tests the fetch broadcasts from program with channel info. Returns a list of fields from broadcast and channel object.
+ * 
+ * GET /epg/programs/{programid}/broadcasts
+ * 
+ * @author atsampikakis
+ *
+ */
 public class TVBroadcastWithChannelInfoTest extends TestBaseWithGuide {
 	
 	private List<TVBroadcastWithChannelInfo> tvProgramBroadcasts;

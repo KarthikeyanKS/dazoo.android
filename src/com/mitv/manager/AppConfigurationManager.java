@@ -11,9 +11,9 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-import com.millicom.mitv.models.gson.AppConfigurationData;
 import com.mitv.Consts;
 import com.mitv.SecondScreenApplication;
+import com.mitv.model.OldAppConfigurationData;
 
 public class AppConfigurationManager {
 
@@ -99,7 +99,7 @@ public class AppConfigurationManager {
 		String replacedOrSame = googleAnalyticsTrackingId;
 		if (containsWrongDashChars(googleAnalyticsTrackingId)) {
 			Log.d(TAG, String.format(SecondScreenApplication.getCurrentLocale(), "GoogleAnalytics TrackingID (%s) contains ordinary dash instead of 'en dash' => replacing with 'en dash' chars!", googleAnalyticsTrackingId));
-			replacedOrSame = googleAnalyticsTrackingId.replace("-", "Ð");
+			replacedOrSame = googleAnalyticsTrackingId.replace("-", "ï¿½");
 		}
 		return replacedOrSame;
 	}
@@ -181,7 +181,7 @@ public class AppConfigurationManager {
 		return jsonKeyAdFormatsActivity;
 	}
 	
-	public static void store(AppConfigurationData appConfigData) {
+	public static void store(OldAppConfigurationData appConfigData) {
 		//TODO implement me
 	} 
 	

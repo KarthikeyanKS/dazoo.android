@@ -5,7 +5,7 @@ package com.millicom.mitv;
 
 import java.util.List;
 
-import com.millicom.mitv.asynctasks.GetAds;
+import com.millicom.mitv.asynctasks.GetAdsAdzerk;
 import com.millicom.mitv.asynctasks.GetAppConfigurationData;
 import com.millicom.mitv.asynctasks.GetAppVersionData;
 import com.millicom.mitv.asynctasks.GetTVBroadcastDetails;
@@ -17,7 +17,8 @@ import com.millicom.mitv.asynctasks.GetTVChannelIdsDefault;
 import com.millicom.mitv.asynctasks.GetTVChannelsAll;
 import com.millicom.mitv.asynctasks.GetTVDates;
 import com.millicom.mitv.asynctasks.GetTVTags;
-import com.millicom.mitv.asynctasks.PerformUserHasSeenAd;
+import com.millicom.mitv.asynctasks.PerformInternalTracking;
+import com.millicom.mitv.asynctasks.PerformUserHasSeenAdAdzerk;
 import com.millicom.mitv.asynctasks.PerformUserLogin;
 import com.millicom.mitv.asynctasks.PerformUserPasswordResetConfirmation;
 import com.millicom.mitv.asynctasks.PerformUserPasswordResetSendEmail;
@@ -65,7 +66,7 @@ public class APIClient
 	
 	public void getAds(ActivityCallbackListener activityCallBackListener)
 	{
-		GetAds getAds = new GetAds(contentCallbackListener, activityCallBackListener);
+		GetAdsAdzerk getAds = new GetAdsAdzerk(contentCallbackListener, activityCallBackListener);
 		getAds.execute();
 	}
 	
@@ -131,7 +132,7 @@ public class APIClient
 	
 	public void getTVBroadcastDetails(ActivityCallbackListener activityCallBackListener, TVChannelId tvChannelId, long beginTime)
 	{
-		GetTVBroadcastDetails getTVBroadcastDetails = GetTVBroadcastDetails.newGetTVBroadcastDetailsTask(contentCallbackListener, activityCallBackListener, tvChannelId, beginTime);
+		GetTVBroadcastDetails getTVBroadcastDetails = new GetTVBroadcastDetails(contentCallbackListener, activityCallBackListener, tvChannelId, beginTime);
 		getTVBroadcastDetails.execute();
 	}
 	
@@ -139,20 +140,25 @@ public class APIClient
 	
 	public void getTVBroadcastsFromSeries(ActivityCallbackListener activityCallBackListener, String tvSeriesId)
 	{
-		GetTVBroadcastsFromSeries getTVBroadcastsFromSeries = GetTVBroadcastsFromSeries.newGetTVBroadcastsFromSeriesTask(contentCallbackListener, activityCallBackListener, tvSeriesId);
+		GetTVBroadcastsFromSeries getTVBroadcastsFromSeries = new GetTVBroadcastsFromSeries(contentCallbackListener, activityCallBackListener, tvSeriesId);
 		getTVBroadcastsFromSeries.execute();
 	}
 	
-	public void getTVBroadcastsPopular(ActivityCallbackListener activityCallbackListener) {
+	
+	public void getTVBroadcastsPopular(ActivityCallbackListener activityCallbackListener) 
+	{
 		GetTVBroadcastsPopular getTVBroadcastsPopular = new GetTVBroadcastsPopular(contentCallbackListener, activityCallbackListener);
 		getTVBroadcastsPopular.execute();
 	}
 	
+	
+	
 	public void getTVBroadcastsFromProgram(ActivityCallbackListener activityCallBackListener, String tvProgramId)
 	{
-		GetTVBroadcastsFromProgram getTVBroadcastsFromProgram = GetTVBroadcastsFromProgram.newGetTVBroadcastsFromProgramTask(contentCallbackListener, activityCallBackListener, tvProgramId);
+		GetTVBroadcastsFromProgram getTVBroadcastsFromProgram = new GetTVBroadcastsFromProgram(contentCallbackListener, activityCallBackListener, tvProgramId);
 		getTVBroadcastsFromProgram.execute();
 	}
+	
 	
 	public void getUserLikes(ActivityCallbackListener activityCallBackListener)
 	{
@@ -172,14 +178,14 @@ public class APIClient
 	/* The content ID is either a seriesId, or a sportTypesId or programId */
 	public void removeUserLike(ActivityCallbackListener activityCallBackListener, LikeTypeRequestEnum likeType, String contentId) 
 	{
-		RemoveUserLike removeUserLikes = RemoveUserLike.newRemoveUserLikesTask(contentCallbackListener, activityCallBackListener, likeType, contentId);
-		removeUserLikes.execute();
+		RemoveUserLike removeUserLike = new RemoveUserLike(contentCallbackListener, activityCallBackListener, likeType, contentId);
+		removeUserLike.execute();
 	}
 	
 	
 	public void getTVChannelGuides(ActivityCallbackListener activityCallBackListener, TVDate tvDate, List<TVChannelId> tvChannelIds)
 	{
-		GetTVChannelGuides getTvChannelGuides = GetTVChannelGuides.newGetTVChannelGuidesTask(contentCallbackListener, activityCallBackListener, tvDate, tvChannelIds);
+		GetTVChannelGuides getTvChannelGuides = new GetTVChannelGuides(contentCallbackListener, activityCallBackListener, tvDate, tvChannelIds);
 		getTvChannelGuides.execute();
 	}
 	
@@ -189,7 +195,7 @@ public class APIClient
 		// TODO - Set correct suffix
 		String url = "";
 				
-		PerformUserHasSeenAd performUserHasSeenAd = new PerformUserHasSeenAd(contentCallbackListener, activityCallBackListener, url);
+		PerformUserHasSeenAdAdzerk performUserHasSeenAd = new PerformUserHasSeenAdAdzerk(contentCallbackListener, activityCallBackListener, url);
 		performUserHasSeenAd.execute();
 	}
 	
@@ -233,7 +239,14 @@ public class APIClient
 	
 	public void performUserLogout(ActivityCallbackListener activityCallBackListener) 
 	{
-		PerformUserLogout performuserLogout = PerformUserLogout.newGetTVBroadcastsFromSeriesTask(contentCallbackListener, activityCallBackListener);
+		PerformUserLogout performuserLogout = new PerformUserLogout(contentCallbackListener, activityCallBackListener);
 		performuserLogout.execute();
+	}
+	
+
+	public void performInternalTracking(ActivityCallbackListener activityCallBackListener, String tvProgramId, String deviceId)
+	{
+		PerformInternalTracking performInternalTracking = new PerformInternalTracking(contentCallbackListener, activityCallBackListener, tvProgramId, deviceId);
+		performInternalTracking.execute();
 	}
 }

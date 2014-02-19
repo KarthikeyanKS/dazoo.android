@@ -6,12 +6,12 @@ package com.mitv.test;
 import java.util.HashMap;
 import java.util.Map;
 import android.test.InstrumentationTestCase;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCore;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.http.URLParameters;
+import com.millicom.mitv.models.gson.serialization.UserRegistrationData;
+import com.millicom.mitv.utilities.GenericUtils;
 import com.mitv.Consts;
 
 
@@ -22,19 +22,21 @@ public class TestCore
 	protected static final long TIMESTAMP_OF_YEAR_2000 = 946684800L;
 	protected static final String DEFAULT_TEST_USER_EMAIL = "oskar.tvjunkie@gmail.com";
 	protected static final String DEFAULT_TEST_USER_PASSWORD = "ilovetv";
+	protected static final String DEFAULT_TEST_USER_FACEBOOK_TOKEN = "CAAClasp4TkwBADDZAZA1HbYpSAoZCtoKZCFRToE3KxZAD53Qrm0x5kFNd6ipZC7XqBxwxhu01HgYRroFw0ikbJ8yvTsXjzX7oZAGvakAKiK8S8buSxe5TVsVtZBV2iy3n2XYBATkHAd2ITOZBOOn3ueLobreI0xCEfGOBZAQnHG3OQZB81bQ2p9GCuHspQ4MMC3lta0wb5OMW3O7nXo6pgX4f8QOBv8zHsyyxxZBQBSlhbwZAKwZDZD";
 	
-	protected Gson gson;
+	protected static final String DEFAULT_NEW_TEST_USER_EMAIL_PREFIX = "test_user_";
+	protected static final String DEFAULT_NEW_TEST_USER_EMAIL_SUFFIX = "@gmail.com";
+	protected static final String DEFAULT_NEW_TEST_USER_PASSWORD = "ilovetvtoo";
+	protected static final String DEFAULT_NEW_TEST_USER_FIRST_NAME = "User";
 	
 	
 	
 	@Override
 	protected void setUp()
 			throws Exception 
-	{
-		GsonBuilder gsonBuilder = new GsonBuilder();
-		
-		this.gson = gsonBuilder.create();
-	}
+	{}
+	
+	
 	
 	protected HTTPCoreResponse executeRequestGet(final String url) {
 		return executeRequest(HTTPRequestTypeEnum.HTTP_GET, url);
@@ -118,5 +120,26 @@ public class TestCore
 		headerParameters.put(Consts.USER_AUTHORIZATION_HEADER_KEY, sb.toString());
 		
 		return headerParameters;
+	}
+	
+	
+	
+	protected static UserRegistrationData getNewRandomUserData()
+	{
+		UserRegistrationData data = new UserRegistrationData();
+		
+		int randomNumber = GenericUtils.getRandomNumberBetween();
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(DEFAULT_NEW_TEST_USER_EMAIL_PREFIX);
+		sb.append(randomNumber);
+		sb.append(DEFAULT_NEW_TEST_USER_EMAIL_SUFFIX);
+		
+		data.setFirstName(DEFAULT_NEW_TEST_USER_FIRST_NAME);
+		data.setLastName(new Integer(randomNumber).toString());
+		data.setEmail(sb.toString());
+		data.setPassword(DEFAULT_NEW_TEST_USER_PASSWORD);
+		
+		return data;
 	}
 }

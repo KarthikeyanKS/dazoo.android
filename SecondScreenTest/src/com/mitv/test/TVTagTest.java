@@ -15,7 +15,14 @@ import com.millicom.mitv.models.gson.TVTag;
 import com.mitv.Consts;
 
 
-
+/**
+ * This class tests the fetched tags. Returns a list of tag objects (id and displayname).
+ * 
+ * GET /epg/tags/visible
+ * 
+ * @author atsampikakis
+ *
+ */
 public class TVTagTest 
 	extends TestCore 
 {

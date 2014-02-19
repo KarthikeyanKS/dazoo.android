@@ -3,11 +3,11 @@ package com.millicom.mitv.asynctasks;
 
 
 
-import com.millicom.mitv.asynctasks.builders.GetTVBroadcastsFromProgramBuilder;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
+import com.mitv.Consts;
 import com.mitv.model.OldBroadcast;
 
 
@@ -15,17 +15,14 @@ import com.mitv.model.OldBroadcast;
 public class GetTVBroadcastsFromProgram 
 	extends AsyncTaskWithRelativeURL<OldBroadcast>
 {
-	public static GetTVBroadcastsFromProgram newGetTVBroadcastsFromProgramTask(
-			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener,
-			String tvProgramId) 
+	private static String buildURL(String tvProgramId)
 	{
-		GetTVBroadcastsFromProgramBuilder getTVBroadcastsFromProgramBuilder = new GetTVBroadcastsFromProgramBuilder();
-		getTVBroadcastsFromProgramBuilder.setTvProgramId(tvProgramId);
+		StringBuilder url = new StringBuilder();
+		url.append(Consts.URL_PROGRAMS);
+		url.append(tvProgramId);
+		url.append(Consts.API_BROADCASTS);
 		
-		GetTVBroadcastsFromProgram getTVBroadcastsFromProgram = getTVBroadcastsFromProgramBuilder.build(contentCallbackListener, activityCallBackListener);
-		
-		return getTVBroadcastsFromProgram;
+		return url.toString();
 	}
 	
 	
@@ -33,8 +30,8 @@ public class GetTVBroadcastsFromProgram
 	public GetTVBroadcastsFromProgram(
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener,
-			String url) 
+			String tvProgramId) 
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.BROADCASTS_FROM_PROGRAMS, OldBroadcast.class, HTTPRequestTypeEnum.HTTP_GET, url);
+		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.BROADCASTS_FROM_PROGRAMS, OldBroadcast.class, HTTPRequestTypeEnum.HTTP_GET, buildURL(tvProgramId));
 	}
 }

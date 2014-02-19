@@ -1,9 +1,12 @@
 
 package com.millicom.mitv.models.gson;
 
+import com.millicom.mitv.interfaces.GSONDataFieldValidation;
 
 
-public class UserFieldsData 
+
+public class UserFieldsData
+	implements GSONDataFieldValidation
 {
 	/*
 	 * The names of these variables should not be changed unless the backend API call parameters changes too.
@@ -50,5 +53,18 @@ public class UserFieldsData
 	
 	public boolean isCreated() {
 		return created;
+	}
+
+
+
+	@Override
+	public boolean areDataFieldsValid() 
+	{
+		boolean areFieldsValid = (userId != null && userId.length() > 0 &&
+								  email != null && email.length() > 0 &&
+								  firstName != null && firstName.length() > 0 &&
+								  lastName != null && lastName.length() > 0);
+
+		return areFieldsValid;
 	}
 }

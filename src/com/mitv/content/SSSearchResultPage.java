@@ -21,7 +21,7 @@ public class SSSearchResultPage extends SSPage {
 	}
 	
 	public SSSearchResultPage() {
-		super(Consts.URL_SEARCH);
+		super(Consts.URL_SEARCH_OLD);
 	}
 	
 	public OldSearchResult getSearchResult() {

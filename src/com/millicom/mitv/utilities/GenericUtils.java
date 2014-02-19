@@ -4,6 +4,7 @@ package com.millicom.mitv.utilities;
 
 
 import java.util.Locale;
+import java.util.Random;
 
 import com.mitv.SecondScreenApplication;
 
@@ -26,6 +27,33 @@ import android.view.inputmethod.InputMethodManager;
 public class GenericUtils 
 {
 	private static final String	TAG	= "Utils";
+	
+	
+	
+	public static int getRandomNumberBetween() 
+	{
+		return getRandomNumberBetween(0, Integer.MAX_VALUE);
+	}
+	
+	
+	
+	public static int getRandomNumberBetween(
+			final int min,
+			final int max) 
+	{
+        Random foo = new Random();
+        
+        int randomNumber = foo.nextInt(max - min) + min;
+        
+        if(randomNumber == min) 
+        {
+            return min + 1;
+        }
+        else 
+        {
+            return randomNumber;
+        }
+    }
 	
 	
 	

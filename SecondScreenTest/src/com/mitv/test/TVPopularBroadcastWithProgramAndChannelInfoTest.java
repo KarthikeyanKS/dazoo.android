@@ -25,9 +25,9 @@ import com.mitv.Consts;
 
 
 /**
- * This test class tests the "broadcast details" call, which returns a list of objects with program (extends Broadcast) and channel fields
+ * This class tests the broadcast popular. Returns a list of objects containing channel object, program object and fields from broadcast.
  * 
- * GET /epg/channels/{channelId}/broadcasts/{beginTimeMillis}
+ * GET /epg/broadcasts/popular
  * 
  * @author atsampikakis
  *

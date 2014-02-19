@@ -31,7 +31,7 @@ public class InternalTrackingManager extends GenericTrackingManager {
 	public void trackBroadcast(OldBroadcast broadcast) {
 		if (broadcast != null) {
 			if (broadcast.getProgram() != null) {
-				String trackingUrl = String.format(Consts.URL_INTERNAL_TRACKING, broadcast.getProgram().getProgramId(), deviceId);
+				String trackingUrl = String.format(Consts.URL_INTERNAL_TRACKING_OLD, broadcast.getProgram().getProgramId(), deviceId);
 				super.trackUrl(trackingUrl);
 			}
 		}

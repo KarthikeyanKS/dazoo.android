@@ -49,7 +49,14 @@ public class GetUserLikesTest
 		}
 		// No need for else
 		
-		receivedData = getUserLikes(token);
+		if(token.isEmpty() == false)
+		{
+			receivedData = getUserLikes(token);
+		}
+		else
+		{
+			Log.w(TAG, "Login has failed.");
+		}
 	}
 	
 	
