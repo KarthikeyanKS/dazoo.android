@@ -211,7 +211,6 @@ public class TVGuideListAdapter extends AdListAdapter<ChannelGuide> {
 			//If there is no data, show message "No content is available". TODO: What to do here?
 			else {
 				holder.mTextView.setText(mActivity.getResources().getString(R.string.general_no_content_available));
-				return rowView;
 			}
 		}
 		if (textForThreeBroadcasts.equals("")) {
