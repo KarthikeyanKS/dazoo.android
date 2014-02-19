@@ -1,14 +1,35 @@
+
 package com.millicom.mitv.models.gson;
+
+
 
 import java.util.Date;
 
-public class AppVersionDataPart {
+
+
+public class AppVersion
+{
 
 	private String name;
 	private String value;
 	private Date expires;
 	
-	public String getName() {
+	
+	
+	public AppVersion()
+	{}
+	
+	
+	
+	public boolean hasExpires()
+	{
+		return (expires != null);
+	}
+	
+	
+	
+	public String getName() 
+	{
 		return name;
 	}
 	
@@ -16,8 +37,9 @@ public class AppVersionDataPart {
 		return value;
 	}
 	
+	
+	
 	public Date getExpires() {
 		return expires;
 	}
-	
 }

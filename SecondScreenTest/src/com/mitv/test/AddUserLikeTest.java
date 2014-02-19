@@ -18,7 +18,6 @@ import com.millicom.mitv.models.gson.Broadcast;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVProgram;
 import com.millicom.mitv.models.gson.UserLike;
-import com.millicom.mitv.models.gson.UserLoginData;
 import com.millicom.mitv.models.gson.serialization.UserLikeData;
 import com.mitv.Consts;
 
@@ -46,21 +45,7 @@ public class AddUserLikeTest
 		
 		LikeTypeRequestEnum likeType = LikeTypeRequestEnum.PROGRAM;
 		
-		String token = "";
-		
-		if(token.isEmpty())
-		{
-			UserLoginData data = PerformUserLoginTest.login();
-			
-			if(data != null)
-			{
-				token = data.getToken();
-			}
-			// No need for else
-		}
-		// No need for else
-		
-		receivedData = addUserLike(token, likeType, programId);
+		receivedData = addUserLike(userToken, likeType, programId);
 	}
 	
 	

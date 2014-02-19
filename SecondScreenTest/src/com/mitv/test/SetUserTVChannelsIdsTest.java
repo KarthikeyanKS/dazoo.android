@@ -13,15 +13,14 @@ import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.http.URLParameters;
+import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;
-import com.millicom.mitv.models.gson.UserLoginData;
-import com.millicom.mitv.models.gson.serialization.UserTVChannelIdsData;
 import com.mitv.Consts;
 
 
 
 public class SetUserTVChannelsIdsTest 
-	extends TestCore
+	extends TestBaseWithGuide
 {
 	@SuppressWarnings("unused")
 	private static final String	TAG	= "SetUserTVChannelsIdsTest";
@@ -36,26 +35,13 @@ public class SetUserTVChannelsIdsTest
 	{
 		super.setUp();
 		
-		TVChannelId tvChannelId = new TVChannelId("5393752d-6df3-4673-989b-85b78d1bf7bc");
+		TVChannelGuide someGuide = tvChannelGuides.get(0);		
+		TVChannelId tvChannelId = someGuide.getChannelId();
 		
 		List<TVChannelId> channelIds = new ArrayList<TVChannelId>();
 		channelIds.add(tvChannelId);
 		
-		String token = "";
-		
-		if(token.isEmpty())
-		{
-			UserLoginData data = PerformUserLoginTest.login();
-			
-			if(data != null)
-			{
-				token = data.getToken();
-			}
-			// No need for else
-		}
-		// No need for else
-		
-		httpCoreResponse = setUserTVChannelIds(token, channelIds);
+		httpCoreResponse = setUserTVChannelIds(userToken, channelIds);
 	}
 	
 	
@@ -72,10 +58,7 @@ public class SetUserTVChannelsIdsTest
 		
 		Map<String, String> headerParameters = getHeaderParametersWithUserToken(token);
 		
-		UserTVChannelIdsData postData = new UserTVChannelIdsData();
-		postData.setChannelIds(channelIds);
-		
-		String bodyContentData = new Gson().toJson(postData);
+		String bodyContentData = new Gson().toJson(channelIds);
 		
 		HTTPCoreResponse httpCoreResponse = instance.executeRequest(HTTPRequestTypeEnum.HTTP_POST, url, urlParameters, headerParameters, bodyContentData);
 				

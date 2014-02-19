@@ -12,6 +12,9 @@ import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCore;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.http.URLParameters;
+import com.millicom.mitv.models.gson.AppConfiguration;
+import com.millicom.mitv.models.gson.serialization.UserRegistrationData;
+import com.millicom.mitv.utilities.GenericUtils;
 import com.mitv.Consts;
 
 
@@ -23,6 +26,11 @@ public class TestCore
 	protected static final String DEFAULT_TEST_USER_EMAIL = "oskar.tvjunkie@gmail.com";
 	protected static final String DEFAULT_TEST_USER_PASSWORD = "ilovetv";
 	
+	protected static final String DEFAULT_NEW_TEST_USER_EMAIL_PREFIX = "test_user_";
+	protected static final String DEFAULT_NEW_TEST_USER_EMAIL_SUFFIX = "@gmail.com";
+	protected static final String DEFAULT_NEW_TEST_USER_PASSWORD = "ilovetvtoo";
+	protected static final String DEFAULT_NEW_TEST_USER_FIRST_NAME = "User";
+	
 	protected Gson gson;
 	
 	
@@ -32,6 +40,8 @@ public class TestCore
 			throws Exception 
 	{
 		GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.registerTypeAdapter(AppConfiguration.class, new AppConfiguration());
+		gsonBuilder.excludeFieldsWithoutExposeAnnotation();
 		
 		this.gson = gsonBuilder.create();
 	}
@@ -118,5 +128,26 @@ public class TestCore
 		headerParameters.put(Consts.USER_AUTHORIZATION_HEADER_KEY, sb.toString());
 		
 		return headerParameters;
+	}
+	
+	
+	
+	protected static UserRegistrationData getNewRandomUserData()
+	{
+		UserRegistrationData data = new UserRegistrationData();
+		
+		int randomNumber = GenericUtils.getRandomNumberBetween();
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(DEFAULT_NEW_TEST_USER_EMAIL_PREFIX);
+		sb.append(randomNumber);
+		sb.append(DEFAULT_NEW_TEST_USER_EMAIL_SUFFIX);
+		
+		data.setFirstName(DEFAULT_NEW_TEST_USER_FIRST_NAME);
+		data.setLastName(new Integer(randomNumber).toString());
+		data.setEmail(sb.toString());
+		data.setPassword(DEFAULT_NEW_TEST_USER_PASSWORD);
+		
+		return data;
 	}
 }

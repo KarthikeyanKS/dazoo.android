@@ -21,8 +21,8 @@ public class PerformUserRegistrationTest
 {
 	private static final String	TAG	= "PerformUserLoginTest";
 	
+	private HTTPCoreResponse httpCoreResponse;
 	private UserLoginData receivedData;
-	
 	
 	
 	@Override
@@ -31,17 +31,20 @@ public class PerformUserRegistrationTest
 	{
 		super.setUp();
 
+		register();
+	}
+	
+	
+	
+	private void register()
+	{
 		String url = Consts.URL_REGISTER;
 		
-		UserRegistrationData postData = new UserRegistrationData();
-		postData.setEmail("filipe.castro@millicom.com");
-		postData.setPassword("123456");
-		postData.setFirstName("Test");
-		postData.setLastName("User");
-				
+		UserRegistrationData postData = getNewRandomUserData();
+		
 		String bodyContentData = gson.toJson(postData);
 		
-		HTTPCoreResponse httpCoreResponse = executeRequest(HTTPRequestTypeEnum.HTTP_POST, url, bodyContentData);
+		httpCoreResponse = executeRequest(HTTPRequestTypeEnum.HTTP_POST, url, bodyContentData);
 		
 		String responseString = httpCoreResponse.getResponseString();
 		
@@ -52,6 +55,8 @@ public class PerformUserRegistrationTest
 		catch(JsonSyntaxException jsex)
 		{
 			Log.e(TAG, jsex.getMessage(), jsex);
+			
+			receivedData = null;
 		}
 	}
 	
@@ -66,7 +71,7 @@ public class PerformUserRegistrationTest
 	
 	
 	@Test
-	public void testAllVariablesNotNull() 
+	public void testAllVariablesNotNull()
 	{
 		Assert.assertNotNull(receivedData.getToken());
 		Assert.assertFalse(TextUtils.isEmpty(receivedData.getToken()));

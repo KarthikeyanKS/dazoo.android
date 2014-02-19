@@ -9,9 +9,9 @@ import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
+import com.millicom.mitv.models.AppVersionData;
 import com.millicom.mitv.models.TVGuide;
-import com.millicom.mitv.models.gson.AppConfigurationData;
-import com.millicom.mitv.models.gson.AppVersionData;
+import com.millicom.mitv.models.gson.AppVersion;
 import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
@@ -19,6 +19,7 @@ import com.millicom.mitv.models.gson.TVChannelId;
 import com.millicom.mitv.models.gson.TVDate;
 import com.millicom.mitv.models.gson.TVTag;
 import com.mitv.Consts;
+import com.mitv.model.OldAppConfigurationData;
 
 public class ContentManager implements ContentCallbackListener {
 
@@ -199,14 +200,18 @@ public class ContentManager implements ContentCallbackListener {
 			
 			switch (requestIdentifier) {
 			case APP_CONFIGURATION:
-				AppConfigurationData appConfigData = (AppConfigurationData) data;
+				OldAppConfigurationData appConfigData = (OldAppConfigurationData) data;
 				// TODO decide if use Storage class here or not (if we should put
 				// the app config data in the storage class or not)
 				storage.setAppConfigData(appConfigData);
 				break;
 	
-			case APP_VERSION: {
-				AppVersionData appVersionData = (AppVersionData) data;
+			case APP_VERSION: 
+			{
+				AppVersion[] appVersionDataFromService = (AppVersion[]) data;
+				
+				AppVersionData appVersionData = new AppVersionData(appVersionDataFromService);
+				
 				storage.setAppVersionData(appVersionData);
 				break;
 			}

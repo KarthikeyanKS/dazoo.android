@@ -1,9 +1,9 @@
-package com.millicom.mitv.models.gson;
+package com.mitv.model;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class AppConfigurationData {
+public class OldAppConfigurationData {
 	
 	private int firstHourOfDay;
 	private String welcomeToast;

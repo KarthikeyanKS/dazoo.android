@@ -510,6 +510,9 @@ public abstract class Consts {
 	public static final String JSON_USER_FEED_ITEM_BROADCAST = "broadcast";
 	public static final String JSON_USER_FEED_ITEM_BROADCASTS = "broadcasts";
 	
+	public static final String JSON_VERSIONS_KEY_NAME = "api";
+	public static final String JSON_VERSIONS_KEY_PROMOTION = "promotion";
+	public static final String JSON_VERSIONS_KEY_ANDROID = "android";
 	
 	/* REFRESH INTERVALS FOR LOCAL DATA */
 	public static final int LIKE_IDS_REFRESH_INTERVAL_IN_MINUTES 		= 1;
