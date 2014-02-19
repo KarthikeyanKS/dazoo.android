@@ -24,7 +24,7 @@ import com.mitv.Consts;
 
 
 /**
- * This test class tests the "broadcast details" call, which returns a list of objects with program (extends Broadcast) and channel fields
+ * This class tests the fetched broadcast detailed information with channel info. Returns a list of fields from broadcast and channel object.
  * 
  * GET /epg/channels/{channelId}/broadcasts/{beginTimeMillis}
  * 

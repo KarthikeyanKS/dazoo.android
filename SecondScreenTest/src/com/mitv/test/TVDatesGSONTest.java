@@ -17,6 +17,14 @@ import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.models.gson.TVDate;
 import com.mitv.Consts;
 
+/**
+ * This class tests the fetched dates. Returns a list of date objects.
+ * 
+ * GET /epg/dates
+ * 
+ * @author atsampikakis
+ *
+ */
 public class TVDatesGSONTest 
 	extends TestCore
 {	

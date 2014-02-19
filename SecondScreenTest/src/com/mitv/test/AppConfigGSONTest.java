@@ -12,7 +12,12 @@ import com.millicom.mitv.models.gson.AppConfigurationData;
 import com.mitv.Consts;
 
 
-
+/**
+ * This class tests the app configuration. TODO below.
+ * 
+ * @author atsampikakis
+ *
+ */
 public class AppConfigGSONTest 
 	extends TestCore
 {	

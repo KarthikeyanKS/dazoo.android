@@ -6,6 +6,11 @@ import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;
 import com.millicom.mitv.models.gson.TVDate;
 
+/**
+ * 
+ * @author atsampikakis
+ *
+ */
 public class TestBaseWithGuide extends TestCore {
 	
 	@Override

@@ -11,6 +11,12 @@ import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.models.gson.AppVersionDataPart;
 import com.mitv.Consts;
 
+/**
+ * This class tests the version data is fetched.
+ * 
+ * @author atsampikakis
+ *
+ */
 public class AppVersionDataGSONTest extends TestCore {
 	
 	private List<AppVersionDataPart> appVersionData;

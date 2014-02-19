@@ -15,7 +15,14 @@ import com.millicom.mitv.models.gson.TVChannel;
 import com.mitv.Consts;
 
 
-
+/**
+ * This test class tests the fetching of all the channels. Returns a list of channel fields.
+ * 
+ * GET /epg/channels
+ * 
+ * @author atsampikakis
+ *
+ */
 public class TVChannelGSONTest 
 	extends TestCore
 {
