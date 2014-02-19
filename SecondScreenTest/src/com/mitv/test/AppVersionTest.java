@@ -1,5 +1,7 @@
 package com.mitv.test;
 
+
+
 import java.util.Arrays;
 import java.util.List;
 import junit.framework.Assert;
@@ -8,18 +10,17 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.models.gson.AppVersionDataPart;
+import com.millicom.mitv.models.gson.AppVersion;
 import com.mitv.Consts;
 
-/**
- * This class tests the version data is fetched.
- * 
- * @author atsampikakis
- *
- */
-public class AppVersionDataGSONTest extends TestCore {
+
+
+public class AppVersionTest 
+	extends TestCore 
+{
+	private List<AppVersion> receivedData;
 	
-	private List<AppVersionDataPart> appVersionData;
+
 	
 	@Override
 	protected void setUp() 
@@ -33,19 +34,26 @@ public class AppVersionDataGSONTest extends TestCore {
 		
 		String responseString = httpCoreResponse.getResponseString();
 		
-		appVersionData = Arrays.asList(new Gson().fromJson(responseString, AppVersionDataPart[].class));
+		receivedData = Arrays.asList(new Gson().fromJson(responseString, AppVersion[].class));
 	}
 
-	@Test
-	public void testNotNull() {
-		Assert.assertNotNull(appVersionData);
-		Assert.assertFalse(appVersionData.isEmpty());
-	}
+	
 	
 	@Test
-	public void testAllVariablesNotNull() {
-		for(AppVersionDataPart appVersionDataParts : appVersionData) {
-			Assert.assertNotNull(appVersionData);
+	public void testNotNull()
+	{
+		Assert.assertNotNull(receivedData);
+		Assert.assertFalse(receivedData.isEmpty());
+	}
+	
+	
+	
+	@Test
+	public void testAllVariablesNotNull() 
+	{
+		for(AppVersion appVersionDataParts : receivedData) 
+		{
+			Assert.assertNotNull(receivedData);
 			
 			Assert.assertNotNull(appVersionDataParts.getName());
 			Assert.assertFalse(TextUtils.isEmpty(appVersionDataParts.getName()));
@@ -53,10 +61,10 @@ public class AppVersionDataGSONTest extends TestCore {
 			Assert.assertNotNull(appVersionDataParts.getValue());
 			Assert.assertFalse(TextUtils.isEmpty(appVersionDataParts.getValue()));
 
-			if(appVersionDataParts.getExpires() != null) {
+			if(appVersionDataParts.hasExpires()) 
+			{
 				Assert.assertTrue(appVersionDataParts.getExpires().getTime() > TIMESTAMP_OF_YEAR_2000);
 			}
 		}
 	}
-
 }
