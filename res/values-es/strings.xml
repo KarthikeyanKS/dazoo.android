@@ -100,7 +100,7 @@
     <string name="movie">Película</string>
     <string name="sport">Deportes</string>
     <string name="tv_series">Series de TV</string>
-    <string name="repetitions">Repeticiónes</string>
+    <string name="repetitions">Repeticiónes de este episodio</string>
     <string name="repetitions_more">Ver más repeticiónes</string>
 
     <plurals name="hour">
@@ -130,6 +130,7 @@
     <string name="login_with_mitv">Inicia sesión</string>
     <string name="logout_from_mitv">Cerrar sesión</string>
     <string name="hint_password">Contraseña</string>
+    <string name="hint_password_min_chars">Contraseña (al menos 6 cars.)</string>
     <string name="hint_email">Correo electrónico</string>
     <string name="hint_password_long">Contraseña</string>
     <string name="hint_email_long">Correo electrónico</string>

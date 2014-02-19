@@ -151,7 +151,7 @@
     <string name="movie">Movie</string>
     <string name="sport">Sport</string>
     <string name="tv_series">TV Series</string>
-    <string name="repetitions">Repetitions</string>
+    <string name="repetitions">Repetitions of this episode</string>
     <string name="repetitions_more">Show more repetitions</string>
     <string name="broadcast_info">Program info</string>
 
@@ -171,6 +171,7 @@
     <string name="login_with_mitv">Login</string>
     <string name="logout_from_mitv">Logout</string>
     <string name="hint_password">Password</string>
+    <string name="hint_password_min_chars">Password (min 6 chars)</string>
     <string name="hint_email">E-mail</string>
     <string name="hint_password_long">Password</string>
     <string name="hint_email_long">E-mail</string>
@@ -264,7 +265,7 @@
     <string name="search_on_air_now">On air now</string>
     <string name="search_no_upcoming_broadcasts">No upcoming broadcasts</string>
     <string name="search_starts_in">in</string>
-    <string name="search_result_tv_episode">TV episode</string>
+    <string name="search_result_tv_episode">TV Episode</string>
     <string name="search_result_movie">Movie</string>
     <string name="search_result_series">TV Series</string>
     <string name="search_result_sport">Sport</string>

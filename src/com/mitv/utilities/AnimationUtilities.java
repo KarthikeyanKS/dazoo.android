@@ -12,13 +12,13 @@ public class AnimationUtilities {
 	public static void animationSet(final View v){
 		AnimationSet as = new AnimationSet(true);
 		ScaleAnimation animationUp = new ScaleAnimation(1, 1, (float) 1.1, (float) 1.1, Animation.RELATIVE_TO_SELF, (float) 0.5, Animation.RELATIVE_TO_SELF, (float) 0.5);
-		animationUp.setDuration(200);
+		animationUp.setDuration(30);
 		as.addAnimation(animationUp);
 
 		ScaleAnimation animationDown = new ScaleAnimation((float) 1.1, (float)1.3, 1, 1, Animation.RELATIVE_TO_SELF, (float) 0.5, Animation.RELATIVE_TO_SELF, (float) 0.5);
 
-		animationDown.setDuration(200);
-		animationDown.setStartOffset(200);
+		animationDown.setDuration(30);
+		animationDown.setStartOffset(-3000); /* Think a delay of -3000 ms is the same as 0 ms. Cannot notice any difference. */
 		as.addAnimation(animationDown);
 		
 		v.startAnimation(as);
@@ -44,7 +44,7 @@ public class AnimationUtilities {
 		};
 
 		// 1dp/ms
-		a.setDuration((int) (targtetHeight / v.getContext().getResources().getDisplayMetrics().density));
+		a.setDuration((int) (targtetHeight / (2*v.getContext().getResources().getDisplayMetrics().density)));
 		v.startAnimation(a);
 	}
 
@@ -69,7 +69,7 @@ public class AnimationUtilities {
 		};
 
 		// 1dp/ms
-		a.setDuration((int) (initialHeight / v.getContext().getResources().getDisplayMetrics().density));
+		a.setDuration((int) (initialHeight / (2*v.getContext().getResources().getDisplayMetrics().density)));
 		v.startAnimation(a);
 	}
 }

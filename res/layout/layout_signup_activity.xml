@@ -104,7 +104,7 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_below="@id/signup_error_email_textview"
-            android:hint="@string/hint_password"
+            android:hint="@string/hint_password_min_chars"
             android:inputType="textPassword"
             android:padding="8dp"
             android:textColorHint="@color/grey2"

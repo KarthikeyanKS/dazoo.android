@@ -201,7 +201,18 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 	}
 		
 	private void populateSeriesView(ViewHolder viewHolder, SearchResultItem resultItem, Series series) {
-		viewHolder.mType.setText(mContext.getString(R.string.search_result_series));
+		Broadcast closestBroadcastInTime = resultItem.getNextBroadcast();
+		Program program = closestBroadcastInTime.getProgram();
+		String episodeTitle = program.getTitle();
+		
+		StringBuilder sb = new StringBuilder(mContext.getString(R.string.search_result_tv_episode));
+		if(!episodeTitle.isEmpty()) {
+			sb.append(" - ");
+			sb.append(episodeTitle);
+		}
+		
+		String seriesString = sb.toString();
+		viewHolder.mType.setText(seriesString);
 		
 		String title = series.getName();
 		setTitleString(viewHolder, title);
