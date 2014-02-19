@@ -6,10 +6,14 @@ package com.mitv.test;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
 import junit.framework.Assert;
+
 import org.junit.Test;
+
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
@@ -36,6 +40,15 @@ public class GetUserTVChannelIdsTest
 	{
 		super.setUp();
 		
+		receivedData = getUserTVChannelIds();
+	}
+	
+	public static List<TVChannelId> getUserTVChannelIds() {
+		String token = getUserToken();
+		return getUserTVChannelIds(token);
+	}
+	
+	public static String getUserToken() {
 		String token = "";
 		
 		if(token.isEmpty())
@@ -48,12 +61,9 @@ public class GetUserTVChannelIdsTest
 			}
 			// No need for else
 		}
-		// No need for else
 		
-		receivedData = getUserTVChannelIds(token);
+		return token;
 	}
-	
-	
 	
 	private static List<TVChannelId> getUserTVChannelIds(String token)
 	{

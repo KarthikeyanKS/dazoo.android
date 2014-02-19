@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -16,27 +15,31 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.millicom.mitv.ContentManager;
+import com.millicom.mitv.enums.FetchRequestResultEnum;
+import com.millicom.mitv.interfaces.ActivityCallbackListener;
+import com.millicom.mitv.models.gson.UserLike;
 import com.mitv.Consts;
-import com.mitv.LikeService;
+import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.adapters.LikesListAdapter;
 import com.mitv.interfaces.LikesCountInterface;
 import com.mitv.model.OldTVLike;
 
-public class LikesActivity extends BaseActivity implements LikesCountInterface, OnClickListener {
+public class LikesActivity extends BaseActivity implements ActivityCallbackListener, LikesCountInterface, OnClickListener {
 
 	private static final String	TAG			= "LikesActivity";
 	private ActionBar			mActionBar;
 	private boolean				mIsChange	= false;
 	private ListView			mListView;
 	private LikesListAdapter	mAdapter;
-	private String				token;
+//	private String				token;
 	private RelativeLayout		mTabTvGuide, mTabActivity, mTabProfile;
 	private View mTabDividerLeft, mTabDividerRight;
 	private TextView mErrorTv;
 	private int mCount = 0;
+	private ArrayList<UserLike> mLikes;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,10 +49,25 @@ public class LikesActivity extends BaseActivity implements LikesCountInterface, 
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 		
-		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
+//		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
+		fetchUserLikesData();
 		initLayout();
 		super.initCallbackLayouts();
 		populateLayout();
+	}
+	
+	private void fetchUserLikesData() {
+		ContentManager.sharedInstance().getElseFetchFromServiceUserLikes(this, false);
+	}
+	
+	@Override
+	public void onResult(FetchRequestResultEnum fetchRequestResult) {
+		if(fetchRequestResult.wasSuccessful()) {
+			
+		} else {
+			mErrorTv.setVisibility(View.VISIBLE);
+		}
+		
 	}
 
 	private void initLayout() {
@@ -80,15 +98,8 @@ public class LikesActivity extends BaseActivity implements LikesCountInterface, 
 	}
 
 	private void populateLayout() {
-		ArrayList<OldTVLike> likes = new ArrayList<OldTVLike>();
-		likes = LikeService.getLikesList(token);
-		
-		if(likes.isEmpty()){
-			mErrorTv.setVisibility(View.VISIBLE);
-		}
-		
-		Collections.sort(likes, new OldTVLike.MiTVLikeComparatorByTitle());
-		mAdapter = new LikesListAdapter(this, likes, token, this);
+		Collections.sort(mLikes, new UserLike.UserLikeComparatorByTitle());
+		mAdapter = new LikesListAdapter(this, mLikes, this);
 		mListView.setAdapter(mAdapter);
 	}
 

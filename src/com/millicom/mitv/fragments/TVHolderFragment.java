@@ -7,21 +7,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.millicom.mitv.ContentManager;
+import com.millicom.mitv.models.gson.TVDate;
+import com.millicom.mitv.models.gson.TVTag;
 import com.mitv.R;
-import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.TagTypeFragmentStatePagerAdapter;
-import com.mitv.manager.ApiClient;
-import com.mitv.model.OldTVChannelGuide;
-import com.mitv.model.OldTVTag;
-import com.mitv.model.OldTVDate;
-import com.mitv.storage.MiTVStore;
 import com.viewpagerindicator.TabPageIndicator;
 
 public class TVHolderFragment extends Fragment {
@@ -31,12 +25,12 @@ public class TVHolderFragment extends Fragment {
 	private PagerAdapter							mAdapter;
 	private int										mTabSelectedIndex	= 0;//, mDateSelectedIndex;
 	private TabPageIndicator						mPageTabIndicator;
-	private ArrayList<OldTVTag>							mTags				= new ArrayList<OldTVTag>();
+	private ArrayList<TVTag>							mTags				= new ArrayList<TVTag>();
 	private ArrayList<String>						mTabTitles;
 	private ViewPager								mViewPager;
 
 	private String									mDate;
-//	private ArrayList<OldTVDate>						mDates;
+//	private ArrayList<TVDate>						mDates;
 	
 	private String token;
 	private boolean mIsLoggedIn;
@@ -86,7 +80,7 @@ public class TVHolderFragment extends Fragment {
 	}
 
 	private void setAdapter(int selectedIndex) {
-		OldTVDate tvDate = ContentManager.sharedInstance().getFromStorageTVDateSelected();
+		TVDate tvDate = ContentManager.sharedInstance().getFromStorageTVDateSelected();
 		mAdapter = new TagTypeFragmentStatePagerAdapter(getChildFragmentManager(), mTags, tvDate);
 
 		mViewPager.setAdapter(mAdapter);

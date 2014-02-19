@@ -10,17 +10,19 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.models.gson.TVProgramAndChannelInfo;
+import com.millicom.mitv.models.gson.Broadcast;
+import com.millicom.mitv.models.gson.TVChannelGuide;
+import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
 import com.mitv.Consts;
 
 
 
 public class TVBroadcastDetailsTest 
-	extends TestCore 
+	extends TestBaseWithGuide 
 {
 	private static final String	TAG	= "TVBroadcastDetailsTest";
 	
-	private TVProgramAndChannelInfo tvBroadcastDetails;
+	private TVBroadcastWithProgramAndChannelInfo tvBroadcastDetails;
 	
 	
 	
@@ -29,9 +31,11 @@ public class TVBroadcastDetailsTest
 			throws Exception 
 	{
 		super.setUp();
-		
-		String channelId = "b24378bd-0a04-4427-814d-499b68eefd39";
-		long beginTimeMillis = 1392737400000L;
+
+		TVChannelGuide someGuide = tvChannelGuides.get(0);
+		Broadcast broadcast = someGuide.getBroadcasts().get(0);
+		String channelId = someGuide.getChannelId().getChannelId();
+		Long beginTimeMillis = broadcast.getBeginTimeMillis();
 		
 		StringBuilder url = new StringBuilder();
 		url.append(Consts.URL_CHANNELS_ALL);
@@ -47,7 +51,7 @@ public class TVBroadcastDetailsTest
 		
 		try
 		{
-			tvBroadcastDetails = new Gson().fromJson(responseString, TVProgramAndChannelInfo.class);
+			tvBroadcastDetails = new Gson().fromJson(responseString, TVBroadcastWithProgramAndChannelInfo.class);
 		}
 		catch(JsonSyntaxException jsex)
 		{

@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Locale;
+
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -24,12 +25,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
-import com.mitv.content.SSApiVersionPage;
-import com.mitv.interfaces.ApiVersionCallbackInterface;
-import com.mitv.manager.AppConfigurationManager;
+
 import com.mitv.manager.GATrackingManager;
-import com.mitv.manager.ApiClient;
-import com.mitv.manager.ApiClient.AppConfigurationCallback;
 import com.mitv.storage.ObscuredSharedPreferences;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -303,32 +300,33 @@ public class SecondScreenApplication
 		super.onCreate();
 		sInstance = this;
 		
-		/* Fetch and update app configuration */
-		ApiClient.getAppConfiguration(new AppConfigurationCallback() {
-			@Override
-			public void onAppConfigurationResult() {
-				/* Initialize Google Analytics */
-				boolean googleAnalyticsEnabled = AppConfigurationManager.getInstance().isGoogleAnalyticsEnabled();
-				if(googleAnalyticsEnabled) {
-					setupGoogleAnalytics();
-				}
-				if(mAppConfigurationListener != null) {
-					mAppConfigurationListener.onAppConfigurationListener();
-				}
-			}
-		});
-		
-		/* Fetch api version */
-		ApiClient.getApiVersion(new ApiVersionCallbackInterface() {
-			@Override
-			public void onApiVersionResult() {
-				setApiVersion(SSApiVersionPage.getInstance().getApiVersionString());
-				boolean needsUpdate = checkApiVersion();
-				if(mCheckApiVersionListner != null) {
-					mCheckApiVersionListner.onApiVersionChecked(needsUpdate);
-				}
-			}
-		});
+		//TODO verify that we dont actually need this here, it is fetched from SplashScreenActivity, right?
+//		/* Fetch and update app configuration */
+//		ApiClient.getAppConfiguration(new AppConfigurationCallback() {
+//			@Override
+//			public void onAppConfigurationResult() {
+//				/* Initialize Google Analytics */
+//				boolean googleAnalyticsEnabled = AppConfigurationManager.getInstance().isGoogleAnalyticsEnabled();
+//				if(googleAnalyticsEnabled) {
+//					setupGoogleAnalytics();
+//				}
+//				if(mAppConfigurationListener != null) {
+//					mAppConfigurationListener.onAppConfigurationListener();
+//				}
+//			}
+//		});
+//		
+//		/* Fetch api version */
+//		ApiClient.getApiVersion(new ApiVersionCallbackInterface() {
+//			@Override
+//			public void onApiVersionResult() {
+//				setApiVersion(SSApiVersionPage.getInstance().getApiVersionString());
+//				boolean needsUpdate = checkApiVersion();
+//				if(mCheckApiVersionListner != null) {
+//					mCheckApiVersionListner.onApiVersionChecked(needsUpdate);
+//				}
+//			}
+//		});
 							
 		// sSharedPreferences = getSharedPreferences(Consts.SHARED_PREFS_MAIN_NAME, Context.MODE_PRIVATE);
 		sSharedPreferences = new ObscuredSharedPreferences(this, this.getSharedPreferences(Consts.SHARED_PREFS_MAIN_NAME, Context.MODE_PRIVATE));

@@ -74,17 +74,24 @@ public class BroadcastPageActivity extends BaseActivity implements OnClickListen
 		mitvStore = MiTVStore.getInstance();
 		mActivity = this;
 
+		/*  */
 		// get the info about the program to be displayed from tv-guide listview
 		intent = getIntent();
-		mBeginTimeInMillis = intent.getLongExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, 0);
-		mChannelId = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_ID);
-		mTvDate = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE);
-		mIsFromNotification = intent.getBooleanExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, false);
-		mBroadcastPageUrl = intent.getStringExtra(Consts.INTENT_EXTRA_BROADCAST_URL);
+
 		mIsFromActivity = intent.getBooleanExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, false);
 		mIsFromProfile = intent.getBooleanExtra(Consts.INTENT_EXTRA_FROM_PROFILE, false);
-		mChannelLogoUrl = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_LOGO_URL);
-		mActivityCardNumber = intent.getIntExtra(Consts.INTENT_EXTRA_ACTIVITY_CARD_NUMBER, -1);
+		mIsFromNotification = intent.getBooleanExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, false);
+		if(mIsFromNotification) {
+			mBeginTimeInMillis = intent.getLongExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, 0);
+			mChannelId = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_ID);
+			mTvDate = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE);
+			mBroadcastPageUrl = intent.getStringExtra(Consts.INTENT_EXTRA_BROADCAST_URL);
+			mChannelLogoUrl = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_LOGO_URL);
+			mActivityCardNumber = intent.getIntExtra(Consts.INTENT_EXTRA_ACTIVITY_CARD_NUMBER, -1);
+		} else {
+			//TODO handle this, read date from ContentManager, the nonpersistent tmp set data....
+//			Broadcast broadcast
+		}
 
 		Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		Log.d(TAG, "BeginTimeInMillis: " + String.valueOf(mBeginTimeInMillis));
@@ -288,7 +295,9 @@ public class BroadcastPageActivity extends BaseActivity implements OnClickListen
 
 		// add main content block
 		BroadcastMainBlockPopulator mainBlockPopulator = new BroadcastMainBlockPopulator(mActivity, mScrollView);
-		mainBlockPopulator.createBlock(mBroadcast);
+		
+		//TODO fix this
+//		mainBlockPopulator.createBlock(mBroadcast);
 
 		// Remove upcoming broadcasts with season 0 and episode 0
 		LinkedList<OldBroadcast> upcomingToRemove = new LinkedList<OldBroadcast>();
@@ -308,23 +317,24 @@ public class BroadcastPageActivity extends BaseActivity implements OnClickListen
 			mUpcomingBroadcasts.remove(b);
 		}
 
-		// repetitions
-		if (mRepeatBroadcasts != null && mRepeatBroadcasts.isEmpty() != true) {
-			BroadcastRepetitionsBlockPopulator repeatitionsBlock = new BroadcastRepetitionsBlockPopulator(mActivity, mScrollView, mBroadcast);
-			repeatitionsBlock.createBlock(mRepeatBroadcasts, mBroadcast.getProgram());
-		}
+		
+		
+		
+		
+		//TODO fix this
+//		// repetitions
+//		if (mRepeatBroadcasts != null && mRepeatBroadcasts.isEmpty() != true) {
+//			BroadcastRepetitionsBlockPopulator repeatitionsBlock = new BroadcastRepetitionsBlockPopulator(mActivity, mScrollView, mBroadcast);
+//			repeatitionsBlock.createBlock(mRepeatBroadcasts, mBroadcast.getProgram());
+//		}
+//
+//		// upcoming episodes
+//		if (mUpcomingBroadcasts != null && mUpcomingBroadcasts.isEmpty() != true) {
+//			BroadcastUpcomingBlockPopulator upcomingBlock = new BroadcastUpcomingBlockPopulator(mActivity, mScrollView, mIsSeries, mBroadcast);
+//			upcomingBlock.createBlock(mUpcomingBroadcasts, null);
+//		}
 
-		// upcoming episodes
-		if (mUpcomingBroadcasts != null && mUpcomingBroadcasts.isEmpty() != true) {
-			BroadcastUpcomingBlockPopulator upcomingBlock = new BroadcastUpcomingBlockPopulator(mActivity, mScrollView, mIsSeries, mBroadcast);
-			upcomingBlock.createBlock(mUpcomingBroadcasts, null);
-		}
 
-		// cast & crew
-
-		// similar shows today
-
-		// what else is on
 	}
 
 	@Override

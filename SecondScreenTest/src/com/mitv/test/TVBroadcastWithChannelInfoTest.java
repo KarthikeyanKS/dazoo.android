@@ -17,9 +17,11 @@ import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.models.gson.Broadcast;
 import com.millicom.mitv.models.gson.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
+import com.millicom.mitv.models.gson.TVChannelGuide;
+import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
 
-public class TVBroadcastWithChannelInfoTest extends Tests {
+public class TVBroadcastWithChannelInfoTest extends TestBaseWithGuide {
 	
 	private List<TVBroadcastWithChannelInfo> tvProgramBroadcasts;
 	private static final String	TAG	= "TVBroadcastProgramTest";
@@ -28,7 +30,10 @@ public class TVBroadcastWithChannelInfoTest extends Tests {
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		String programId = "90958923-a34d-41d7-80fe-86f6c803f96a";
+		TVChannelGuide someGuide = tvChannelGuides.get(0);
+		Broadcast broadcast = someGuide.getBroadcasts().get(0);
+		TVProgram tvProgram = broadcast.getProgram();
+		String programId = tvProgram.getProgramId();
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append(Consts.URL_PROGRAMS);
@@ -36,7 +41,7 @@ public class TVBroadcastWithChannelInfoTest extends Tests {
 		sb.append(Consts.API_BROADCASTS);
 		String url = sb.toString();
 				
-		HTTPCoreResponse httpCoreResponse = executeGetRequest(url);
+		HTTPCoreResponse httpCoreResponse = executeRequestGet(url);
 		
 		String jsonString = httpCoreResponse.getResponseString();
 		

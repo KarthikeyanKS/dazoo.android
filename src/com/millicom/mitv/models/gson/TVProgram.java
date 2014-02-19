@@ -14,7 +14,7 @@ import com.google.gson.annotations.Expose;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.mitv.Consts;
 
-public class TVProgram extends Broadcast implements JsonDeserializer<TVProgram> {
+public class TVProgram implements JsonDeserializer<TVProgram> {
 	
 	@Expose
 	private ProgramTypeEnum programType;
@@ -77,38 +77,73 @@ public class TVProgram extends Broadcast implements JsonDeserializer<TVProgram> 
 		
 		TVProgram tvProgramWithStandardFieldsSet = gson.fromJson(jsonElement, TVProgram.class);
 
+		this.programType = tvProgramWithStandardFieldsSet.programType;
+		this.programId = tvProgramWithStandardFieldsSet.programId;
+		this.title = tvProgramWithStandardFieldsSet.title;
+		this.synopsisShort = tvProgramWithStandardFieldsSet.synopsisShort;
+		this.synopsisLong = tvProgramWithStandardFieldsSet.synopsisLong;
+		this.images = tvProgramWithStandardFieldsSet.images;
+		this.tags = tvProgramWithStandardFieldsSet.tags;
+		this.credits = tvProgramWithStandardFieldsSet.credits;
+		
+		
 		/* Custom parsing of variables that varies depending on Program Type */
 		JsonObject jsonObject = jsonElement.getAsJsonObject();
 		
 		
 		switch (tvProgramWithStandardFieldsSet.getProgramType()) {
-		case MOVIE: {
-			
-			/* Year */
-			JsonElement jsonYearElement = jsonObject.get(Consts.PROGRAM_YEAR);
-			this.year = jsonYearElement.getAsInt();
-			
-			/* Genre */
-			JsonElement jsonGenreElement = jsonObject.get(Consts.PROGRAM_GENRE);
-			this.genre = jsonGenreElement.getAsString();
-			break;
-		}
-		case TV_EPISODE: {
-			
-			break;
-		}
-		case SPORT: {
-			
-			break;
-		}
-		case OTHER: {
-			
-			break;
-		}
-		case UNKNOWN:
-		default: {
-			/* Do nothing */
-		}
+			case MOVIE: {
+				
+				/* Year */
+				JsonElement jsonYearElement = jsonObject.get(Consts.PROGRAM_YEAR);
+				this.year = jsonYearElement.getAsInt();
+				
+				/* Genre */
+				JsonElement jsonGenreElement = jsonObject.get(Consts.PROGRAM_GENRE);
+				this.genre = jsonGenreElement.getAsString();
+				break;
+			}
+			case TV_EPISODE: {
+				/* Series */
+				JsonElement jsonSeriesElement = jsonObject.get(Consts.PROGRAM_SERIES);
+				TVSeries tvSeries = gson.fromJson(jsonSeriesElement, TVSeries.class);
+				this.series = tvSeries;
+				
+				/* Season */
+				JsonElement jsonSeriesSeasonElement = jsonObject.get(Consts.PROGRAM_GENRE);
+				TVSeriesSeason tvSeriesSeason = gson.fromJson(jsonSeriesSeasonElement, TVSeriesSeason.class);
+				this.season = tvSeriesSeason;
+				
+				/* EpisodNumber */
+				JsonElement jsonEpisodNumberElement = jsonObject.get(Consts.PROGRAM_EPISODE);
+				this.episodeNumber = jsonEpisodNumberElement.getAsInt();
+				break;
+			}
+			case SPORT: {
+				JsonElement jsonSeriesElement = jsonObject.get(Consts.PROGRAM_SERIES);
+				TVSeries tvSeries = gson.fromJson(jsonSeriesElement, TVSeries.class);
+				this.series = tvSeries;
+				
+				/* SportType */
+				JsonElement jsonSportTypeElement = jsonObject.get(Consts.PROGRAM_GENRE);
+				TVSportType tvSportType = gson.fromJson(jsonSportTypeElement, TVSportType.class);
+				this.sportType = tvSportType;
+				
+				/* Tournament */
+				JsonElement jsonTournamentElement = jsonObject.get(Consts.PROGRAM_TOURNAMENT);
+				this.tournament = jsonTournamentElement.getAsString();
+				break;
+			}
+			case OTHER: {
+				/* category */
+				JsonElement jsonCategoryElement = jsonObject.get(Consts.PROGRAM_CATEGORY);
+				this.category = jsonCategoryElement.getAsString();
+				break;
+			}
+			case UNKNOWN:
+			default: {
+				/* Do nothing */
+			}
 		}
 		
 		return null;

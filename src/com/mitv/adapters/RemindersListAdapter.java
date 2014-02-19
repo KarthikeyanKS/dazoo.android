@@ -1,12 +1,10 @@
 package com.mitv.adapters;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,17 +12,17 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.millicom.mitv.activities.BroadcastPageActivity;
+import com.millicom.mitv.enums.ProgramTypeEnum;
+import com.millicom.mitv.models.gson.Broadcast;
+import com.millicom.mitv.models.gson.TVChannel;
+import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.handlers.NotificationDialogHandler;
 import com.mitv.interfaces.RemindersCountInterface;
-import com.mitv.model.OldBroadcast;
-import com.mitv.model.OldTVChannel;
 import com.mitv.model.OldNotificationDbItem;
-import com.mitv.model.OldProgram;
 import com.mitv.model.OldTVDate;
 import com.mitv.notification.NotificationDataSource;
 import com.mitv.storage.MiTVStore;
@@ -35,7 +33,7 @@ public class RemindersListAdapter extends BaseAdapter {
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
-	private ArrayList<OldBroadcast>	mBroadcasts;
+	private ArrayList<Broadcast>	mBroadcasts;
 	private RemindersCountInterface	mInterface;
 	private int						notificationId;
 	private int						currentPosition	= -1;
@@ -43,7 +41,7 @@ public class RemindersListAdapter extends BaseAdapter {
 	private MiTVStore				mitvStore;
 	private ArrayList<OldTVDate>		mTvDates;
 
-	public RemindersListAdapter(Activity mActivity, ArrayList<OldBroadcast> mBroadcasts, RemindersCountInterface remindersInterface) {
+	public RemindersListAdapter(Activity mActivity, ArrayList<Broadcast> mBroadcasts, RemindersCountInterface remindersInterface) {
 		this.mBroadcasts = mBroadcasts;
 		this.mActivity = mActivity;
 		this.mInterface = remindersInterface;
@@ -60,7 +58,7 @@ public class RemindersListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public OldBroadcast getItem(int position) {
+	public Broadcast getItem(int position) {
 		if (mBroadcasts != null) {
 			return mBroadcasts.get(position);
 		} else return null;
@@ -100,10 +98,10 @@ public class RemindersListAdapter extends BaseAdapter {
 
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
 
-		final OldBroadcast broadcast = getItem(position);
+		final Broadcast broadcast = getItem(position);
 		if (broadcast != null) {
-			final OldTVChannel channel = broadcast.getChannel();
-			OldProgram program = broadcast.getProgram();
+			final TVChannel channel = broadcast.getChannel();
+			TVProgram program = broadcast.getProgram();
 
 			// If first or the previous broadcast is not the same date, show header.
 			holder.mHeaderContainer.setVisibility(View.GONE);
@@ -112,8 +110,8 @@ public class RemindersListAdapter extends BaseAdapter {
 			int prevPos = Math.max(position - 1, 0);
 
 			int nextPos = Math.min(position + 1, (mBroadcasts.size() - 1));
-			OldBroadcast broadcastPreviousPosition = getItem(prevPos);
-			OldBroadcast broadcastNextPosition = getItem(nextPos);
+			Broadcast broadcastPreviousPosition = getItem(prevPos);
+			Broadcast broadcastNextPosition = getItem(nextPos);
 
 			String stringCurrent = broadcast.getBeginTimeStringLocalDayMonth();
 			String stringPrevious = broadcastPreviousPosition.getBeginTimeStringLocalDayMonth();
@@ -132,9 +130,9 @@ public class RemindersListAdapter extends BaseAdapter {
 				holder.mBroadcastTitleTv.setText(program.getTitle());
 				holder.mBroadcastDetailsTv.setVisibility(View.VISIBLE);
 
-				String programType = program.getProgramType();
+				ProgramTypeEnum programType = program.getProgramType();
 				if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-					String season = broadcast.getProgram().getSeason().getNumber();
+					String season = broadcast.getProgram().getSeason().getNumber().toString();
 					int seasonNumber = Integer.parseInt(season);
 					int episode = broadcast.getProgram().getEpisodeNumber();
 					String seasonEpisode = "";
@@ -189,7 +187,7 @@ public class RemindersListAdapter extends BaseAdapter {
 					NotificationDataSource notificationDataSource = new NotificationDataSource(mActivity);
 
 					OldNotificationDbItem notificationDbItem = new OldNotificationDbItem();
-					notificationDbItem = notificationDataSource.getNotification(channel.getChannelId(), Long.valueOf(broadcast.getBeginTimeMillisGmt()));
+					notificationDbItem = notificationDataSource.getNotification(channel.getChannelId().getChannelId(), Long.valueOf(broadcast.getBeginTimeMillisGmt()));
 					if (notificationDbItem != null) {
 						notificationId = notificationDbItem.getNotificationId();
 						NotificationDialogHandler notificationDlg = new NotificationDialogHandler();

@@ -37,9 +37,10 @@ public abstract class Consts {
 	public static final String HTTP_SCHEME							= "http://";
 	public static final String HTTPS_SCHEME							= "https://";
 	public static final String JSON_MIME_TYPE 						= "application/json";
+	
 	public static final String URL_MITV_BASE						= "android.api.mi.tv/";
 	public static final String URL_GITR_BASE						= "android.api.gitrgitr.com/";
-	public static final String BASE_API_URL_USED 					= URL_GITR_BASE;
+	public static final String BASE_API_URL_USED 					= URL_MITV_BASE;
 	public static final String URL_SERVER_SECURE 					= HTTPS_SCHEME + BASE_API_URL_USED;
 	public static final String URL_SERVER							= HTTP_SCHEME + BASE_API_URL_USED;
 //	public static String 	   URL_INTERNAL_TRACKING 				= HTTP_SCHEME + "tracking.gitrgitr.com/track/unique?verb=views&key=program_id&value=%s&uid=%s";
@@ -151,7 +152,7 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_TVGUIDE_SORTING_TYPE					= "com.mitv.intent.extra,tvguide.sorting.type";
 	public static final String	INTENT_EXTRA_TVGUIDE_PAGE_URL						= "com.mitv.intent.extra.tvguide.page.url";
 	public static final String	INTENT_EXTRA_TVGUIDE_TVDATE							= "com.mitv.intent.extra.tvguide.tvdate";
-	public static final String	INTENT_EXTRA_CHOSEN_DATE_TVGUIDE					= "com.mitv.intent.extra.chosen.date.tvguide";
+//	public static final String	INTENT_EXTRA_CHOSEN_DATE_TVGUIDE					= "com.mitv.intent.extra.chosen.date.tvguide";
 	public static final String	INTENT_EXTRA_BROADCAST_OBJECT						= "com.mitv.intent.extra.broadcast.object";
 	public static final String	INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS			= "com.mitv.intent.extra.begintimeinmillis";
 	public static final String	INTENT_EXTRA_BROADCAST_URL							= "com.mitv.intent.extra.broadcast.url";
@@ -170,13 +171,13 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_LOG_OUT_ACTION							= "com.mitv.intent.extra.log.out.action";
 	public static final String	INTENT_EXTRA_LOG_IN_ACTION							= "com.mitv.intent.extra.log.in.action";
 	public static final String	INTENT_EXTRA_SIGN_UP_ACTION							= "com.mitv.intent.extra.sign.up.action";
-	public static final String	INTENT_EXTRA_UPCOMING_BROADCASTS					= "com.mitv.intent.extra.upcoming.broadcasts";
-	public static final String	INTENT_EXTRA_REPEATING_BROADCASTS					= "com.mitv.intent.extra.repeating.broadcasts";
-	public static final String	INTENT_EXTRA_REPEATING_PROGRAM						= "com.mitv.intent.extra.repeating.program";
-	public static final String	INTENT_EXTRA_RUNNING_BROADCAST						= "com.mitv.intent.extra.repeating.runningBroadcast";
+//	public static final String	INTENT_EXTRA_UPCOMING_BROADCASTS					= "com.mitv.intent.extra.upcoming.broadcasts";
+//	public static final String	INTENT_EXTRA_REPEATING_BROADCASTS					= "com.mitv.intent.extra.repeating.broadcasts";
+//	public static final String	INTENT_EXTRA_REPEATING_PROGRAM						= "com.mitv.intent.extra.repeating.program";
+//	public static final String	INTENT_EXTRA_RUNNING_BROADCAST						= "com.mitv.intent.extra.repeating.runningBroadcast";
 	public static final String	INTENT_EXTRA_CLOCK_SELECTION						= "com.mitv.intent.extra.clock.selection";
 	public static final String	INTENT_EXTRA_CLOCK_SELECTION_VALUE					= "com.mitv.intent.extra.clock.selection.value";
-	public static final String	INTENT_EXTRA_TV_GUIDE_HOUR							= "com.mitv.intent.extra.tvguide.hour";
+//	public static final String	INTENT_EXTRA_TV_GUIDE_HOUR							= "com.mitv.intent.extra.tvguide.hour";
 	public static final String	INTENT_EXTRA_BAD_REQUEST							= "com.mitv.intent.extra.bad.request";
 
 	/* Alarm extras */
@@ -404,7 +405,7 @@ public abstract class Consts {
 	public static final String	SERIES_SERIES_ID							= "seriesId";
 
 	/* SPORT TYPE fields */
-	public static final String	SPORTTYPE_SPORTTYPEID							= "sportTypeId";
+	public static final String	SPORTTYPE_SPORTTYPEID						= "sportTypeId";
 	public static final String	SPORTTYPE_NAME								= "name";
 
 	/* FEED fields */
@@ -496,13 +497,27 @@ public abstract class Consts {
 	public static final String JSON_KEY_SEARCH_ENTITY_BROADCASTS		= "broadcasts";
 	public static final String JSON_KEY_SEARCH_ENTITY_NAME				= "name";
 	
+	
+	/* JSON KEYS FOR DESERIALIZATION */
+	public static final String JSON_USER_LIKE_SERIES_SERIES_ID = "seriesId";
+	public static final String JSON_USER_LIKE_SPORT_TYPE_ID = "sportTypeId";
+	public static final String JSON_USER_LIKE_PROGRAM_ID = "programId";
+	public static final String JSON_USER_LIKE_PROGRAM_TYPE = "programType";
+	public static final String JSON_USER_LIKE_PROGRAM_OTHER_CATEGORY = "category";
+	public static final String JSON_USER_LIKE_PROGRAM_MOVIE_GENRE = "genre";
+	public static final String JSON_USER_LIKE_PROGRAM_MOVIE_YEAR = "year";
+	
+	public static final String JSON_USER_FEED_ITEM_BROADCAST = "broadcast";
+	public static final String JSON_USER_FEED_ITEM_BROADCASTS = "broadcasts";
+	
+	
 	/* REFRESH INTERVALS FOR LOCAL DATA */
 	public static final int LIKE_IDS_REFRESH_INTERVAL_IN_MINUTES 		= 1;
 	public static final int CHANNEL_IDS_REFRESH_INTERVAL_IN_MINUTES 	= 1;
 	
 	/* HTTP CORE REQUEST TIMEOUT DEFAULT VALUES */
-	public static final int HTTP_CORE_CONNECTION_TIMEOUT_IN_MILISECONDS = 2000;
-	public static final int HTTP_CORE_SOCKET_TIMEOUT_IN_MILISECONDS = 2000;
+	public static final int HTTP_CORE_CONNECTION_TIMEOUT_IN_MILISECONDS = 10000;
+	public static final int HTTP_CORE_SOCKET_TIMEOUT_IN_MILISECONDS = 10000;
 	
 	/* NETWORK CONNECTIVITY CHECK CONFIGURATIONS */
 	public static final String HOST_NAME_FOR_CONNECTIVITY_CHECK = "http://www.google.com";

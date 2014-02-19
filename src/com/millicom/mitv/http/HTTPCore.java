@@ -177,11 +177,11 @@ public class HTTPCore
 		
 		if(response != null)
 		{
-			httpCoreResponse = parseResponse(response);
+			httpCoreResponse = parseResponse(url, response);
 		}
 		else
 		{
-			httpCoreResponse = new HTTPCoreResponse(DEFAULT_HTTP_STATUS_RESULT);
+			httpCoreResponse = new HTTPCoreResponse(url, DEFAULT_HTTP_STATUS_RESULT);
 		}
 		
 		return httpCoreResponse;
@@ -303,7 +303,9 @@ public class HTTPCore
 	
 	
 	
-	private HTTPCoreResponse parseResponse(final HttpResponse response)
+	private HTTPCoreResponse parseResponse(
+			final String requestURL,
+			final HttpResponse response)
 	{
 		int httpStatusResult = DEFAULT_HTTP_STATUS_RESULT;
 		
@@ -395,6 +397,7 @@ public class HTTPCore
 		}
 
 		HTTPCoreResponse httpCoreResponse = new HTTPCoreResponse(
+				requestURL,
 				httpStatusResult,
 				httpBodyContentResult);
 		

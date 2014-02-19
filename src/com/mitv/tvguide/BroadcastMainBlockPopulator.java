@@ -13,18 +13,18 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.BroadcastPageActivity;
-import com.millicom.mitv.activities.authentication.MiTVLoginActivity;
 import com.millicom.mitv.activities.authentication.SignInOrSignupWithFacebookActivity;
+import com.millicom.mitv.enums.ProgramTypeEnum;
+import com.millicom.mitv.models.gson.Broadcast;
+import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
 import com.mitv.LikeService;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.customviews.ReminderView;
 import com.mitv.handlers.PromptSignInDialogHandler;
-import com.mitv.model.OldBroadcast;
-import com.mitv.model.OldProgram;
-import com.mitv.notification.NotificationDataSource;
 import com.mitv.storage.MiTVStore;
 import com.mitv.utilities.AnimationUtilities;
 import com.mitv.utilities.ProgressBarUtils;
@@ -41,14 +41,14 @@ public class BroadcastMainBlockPopulator {
 	private ScrollView				mContainerView;
 	private ImageView				mLikeIv;
 	private boolean					mIsLiked = false;
-	private String					mProgramId, mLikeType, mContentTitle;
+	private String					mProgramId, mContentTitle, mLikeType;
 
 	public BroadcastMainBlockPopulator(Activity activity, ScrollView containerView) {
 		this.mActivity = activity;
 		this.mContainerView = containerView;
 	}
 
-	public void createBlock(final OldBroadcast broadcast) {
+	public void createBlock(final Broadcast broadcast) {
 		LinearLayout containerView = (LinearLayout) mContainerView.findViewById(R.id.broacastpage_block_container_layout);
 
 		View topContentView = LayoutInflater.from(mActivity).inflate(R.layout.block_broadcastpage_main_content, null);
@@ -76,53 +76,102 @@ public class BroadcastMainBlockPopulator {
 		ProgressBar progressBar = (ProgressBar) topContentView.findViewById(R.id.block_broadcastpage_broadcast_progressbar);
 		TextView progressTxt = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_timeleft_tv);
 
-		OldProgram program = broadcast.getProgram();
-		String programType = program.getProgramType();
-
-		if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-			mProgramId = broadcast.getProgram().getSeries().getSeriesId();
-			mContentTitle = broadcast.getProgram().getSeries().getName();
-			if (!program.getSeason().getNumber().equals("0")) {
-				seasonTv.setText(mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " ");
-				seasonTv.setVisibility(View.VISIBLE);
+		TVProgram program = broadcast.getProgram();
+		ProgramTypeEnum programType = program.getProgramType();
+//		String programType = program.getProgramType();
+		
+		switch (programType) {
+			case TV_EPISODE: {
+				mProgramId = broadcast.getProgram().getSeries().getSeriesId();
+				mContentTitle = broadcast.getProgram().getSeries().getName();
+				if (!program.getSeason().getNumber().equals("0")) {
+					seasonTv.setText(mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " ");
+					seasonTv.setVisibility(View.VISIBLE);
+				}
+				if (program.getEpisodeNumber() > 0) {
+					episodeTv.setText(mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(program.getEpisodeNumber()));
+					episodeTv.setVisibility(View.VISIBLE);
+				}
+				if (program.getSeason().getNumber().equals("0") && program.getEpisodeNumber() == 0) {
+					episodeNameTv.setTextSize(18);
+				}
+	
+				titleTv.setText(program.getSeries().getName());
+				
+				String episodeName = program.getTitle();
+				if (episodeName.length() > 0) {
+					episodeNameTv.setText(episodeName);
+					episodeNameTv.setVisibility(View.VISIBLE);
+				}
+				break;
 			}
-			if (program.getEpisodeNumber() > 0) {
-				episodeTv.setText(mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(program.getEpisodeNumber()));
-				episodeTv.setVisibility(View.VISIBLE);
+			case SPORT: {
+				mProgramId = broadcast.getProgram().getSportType().getSportTypeId();
+				mContentTitle = broadcast.getProgram().getSportType().getName();
+				titleTv.setText(program.getTitle());
+				if (program.getTournament() != null) {
+					episodeNameTv.setText(program.getTournament());
+					episodeNameTv.setVisibility(View.VISIBLE);
+				} else {
+					episodeNameTv.setText(program.getSportType().getName());
+					episodeNameTv.setVisibility(View.VISIBLE);
+				}
+				break;
 			}
-			if (program.getSeason().getNumber().equals("0") && program.getEpisodeNumber() == 0) {
-				episodeNameTv.setTextSize(18);
+			default: {
+				mContentTitle = broadcast.getProgram().getTitle();
+				mProgramId = broadcast.getProgram().getProgramId();
+				titleTv.setText(program.getTitle());
+				break;
 			}
-
-			titleTv.setText(program.getSeries().getName());
-			
-			String episodeName = program.getTitle();
-			if (episodeName.length() > 0) {
-				episodeNameTv.setText(episodeName);
-				episodeNameTv.setVisibility(View.VISIBLE);
-			}
-
-		} else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) {
-			mProgramId = broadcast.getProgram().getSportType().getSportTypeId();
-			mContentTitle = broadcast.getProgram().getSportType().getName();
-			titleTv.setText(program.getTitle());
-			if (program.getTournament() != null) {
-				episodeNameTv.setText(program.getTournament());
-				episodeNameTv.setVisibility(View.VISIBLE);
-			} else {
-				episodeNameTv.setText(program.getSportType().getName());
-				episodeNameTv.setVisibility(View.VISIBLE);
-			}
-		} else {
-			mContentTitle = broadcast.getProgram().getTitle();
-			mProgramId = broadcast.getProgram().getProgramId();
-			titleTv.setText(program.getTitle());
 		}
-		mLikeType = LikeService.getLikeType(programType);
 
-		if (program.getPortSUrl() != null && TextUtils.isEmpty(program.getPortSUrl()) != true) {
+//		if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+//			mProgramId = broadcast.getProgram().getSeries().getSeriesId();
+//			mContentTitle = broadcast.getProgram().getSeries().getName();
+//			if (!program.getSeason().getNumber().equals("0")) {
+//				seasonTv.setText(mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " ");
+//				seasonTv.setVisibility(View.VISIBLE);
+//			}
+//			if (program.getEpisodeNumber() > 0) {
+//				episodeTv.setText(mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(program.getEpisodeNumber()));
+//				episodeTv.setVisibility(View.VISIBLE);
+//			}
+//			if (program.getSeason().getNumber().equals("0") && program.getEpisodeNumber() == 0) {
+//				episodeNameTv.setTextSize(18);
+//			}
+//
+//			titleTv.setText(program.getSeries().getName());
+//			
+//			String episodeName = program.getTitle();
+//			if (episodeName.length() > 0) {
+//				episodeNameTv.setText(episodeName);
+//				episodeNameTv.setVisibility(View.VISIBLE);
+//			}
+//
+//		} else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) {
+//			mProgramId = broadcast.getProgram().getSportType().getSportTypeId();
+//			mContentTitle = broadcast.getProgram().getSportType().getName();
+//			titleTv.setText(program.getTitle());
+//			if (program.getTournament() != null) {
+//				episodeNameTv.setText(program.getTournament());
+//				episodeNameTv.setVisibility(View.VISIBLE);
+//			} else {
+//				episodeNameTv.setText(program.getSportType().getName());
+//				episodeNameTv.setVisibility(View.VISIBLE);
+//			}
+//		} else {
+//			mContentTitle = broadcast.getProgram().getTitle();
+//			mProgramId = broadcast.getProgram().getProgramId();
+//			titleTv.setText(program.getTitle());
+//		}
+		
+		//TOOD use similar method to LikeService.getLikeType, but using new enums ProgramTypeEnum
+		mLikeType = null;//LikeService.getLikeType(programType);
+
+		if (program.getImages().getPortrait().getLarge() != null && TextUtils.isEmpty(program.getImages().getPortrait().getLarge()) != true) {
 			ImageAware imageAware = new ImageViewAware(posterIv, false);
-			ImageLoader.getInstance().displayImage(program.getLandLUrl(), imageAware);
+			ImageLoader.getInstance().displayImage(program.getImages().getPortrait().getLarge(), imageAware);
 		}
 
 		if (broadcast.getChannel() != null) {
@@ -169,7 +218,7 @@ public class BroadcastMainBlockPopulator {
 		extraTv.setText(extras);
 		extraTv.setVisibility(View.VISIBLE);
 
-		if (SecondScreenApplication.isLoggedIn()) {
+		if (ContentManager.sharedInstance().isLoggedIn()) {
 			// mIsLiked = LikeService.isLiked(mToken, broadcast.getProgram().getProgramId());
 			mIsLiked = MiTVStore.getInstance().isInTheLikesList(mProgramId);
 		}
@@ -181,38 +230,40 @@ public class BroadcastMainBlockPopulator {
 
 			@Override
 			public void onClick(View v) {
-				if (SecondScreenApplication.isLoggedIn()) {
+				if (ContentManager.sharedInstance().isLoggedIn()) {
 					if (mIsLiked == false) {
-						if (LikeService.addLike(mProgramId, mLikeType)) {
-							BroadcastPageActivity.toast = LikeService.showSetLikeToast(mActivity, mContentTitle);
-
-							MiTVStore.getInstance().addLikeIdToList(mProgramId);
-
-							mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
-
-							AnimationUtilities.animationSet(mLikeIv);
-
-							mIsLiked = true;
-						} else {
-							Log.d(TAG, "!!! Adding a like faced an error !!!");
-						}
+						//TODO add like using new async task, THROUGH ContentManager
+//						if (LikeService.addLike(mProgramId, mLikeType)) {
+//							BroadcastPageActivity.toast = LikeService.showSetLikeToast(mActivity, mContentTitle);
+//
+//							MiTVStore.getInstance().addLikeIdToList(mProgramId);
+//
+//							mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
+//
+//							AnimationUtilities.animationSet(mLikeIv);
+//
+//							mIsLiked = true;
+//						} else {
+//							Log.d(TAG, "!!! Adding a like faced an error !!!");
+//						}
 
 					} 
 					else 
 					{
-						boolean removeSucceded = LikeService.removeLike(mLikeType, mProgramId);
-
-						if(removeSucceded)
-						{
-							MiTVStore.getInstance().deleteLikeIdFromList(mProgramId);
-	
-							mIsLiked = false;
-							mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
-						}
-						else
-						{
-							Log.w(TAG, "An error occured while removing a like from the webservice");
-						}
+						//TODO remove like using new async task, THROUGH ContentManager
+//						boolean removeSucceded = LikeService.removeLike(mLikeType, mProgramId);
+//
+//						if(removeSucceded)
+//						{
+//							MiTVStore.getInstance().deleteLikeIdFromList(mProgramId);
+//	
+//							mIsLiked = false;
+//							mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
+//						}
+//						else
+//						{
+//							Log.w(TAG, "An error occured while removing a like from the webservice");
+//						}
 					}
 				} 
 				else 

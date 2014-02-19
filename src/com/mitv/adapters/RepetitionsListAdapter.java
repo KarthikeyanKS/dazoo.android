@@ -1,62 +1,54 @@
 package com.mitv.adapters;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.millicom.mitv.activities.BroadcastPageActivity;
+import com.millicom.mitv.models.gson.Broadcast;
+import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.customviews.ReminderView;
-import com.mitv.handlers.NotificationDialogHandler;
-import com.mitv.model.OldBroadcast;
-import com.mitv.model.OldNotificationDbItem;
-import com.mitv.model.OldProgram;
 import com.mitv.model.OldTVDate;
 import com.mitv.notification.NotificationDataSource;
-import com.mitv.notification.NotificationService;
 import com.mitv.storage.MiTVStore;
-import com.mitv.utilities.AnimationUtilities;
-import com.mitv.utilities.DateUtilities;
 
 public class RepetitionsListAdapter extends BaseAdapter {
 	private static final String		TAG	= "UpcomingEpisodesListAdapter";
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
-	private ArrayList<OldBroadcast>	mRepeatingEpisodes;
+	private ArrayList<Broadcast>	mRepeatingEpisodes;
 	private NotificationDataSource	mNotificationDataSource;
 	private int						mLastPosition	= -1;
 	private int 					mNotificationId = -1;
 	private int 					mPosNotificationId[];
 	private boolean					mIsSet			= false;
 	private boolean 				mPosIsSet[];
-	private OldProgram					mProgram;
-	private OldBroadcast 				mRunningBroadcast;
+	private TVProgram					mProgram;
+	private Broadcast 				mRunningBroadcast;
 	private MiTVStore				mitvStore;
 	private ArrayList<OldTVDate>		mTvDates;
 
 	private int reminderPosition;
 
-	public RepetitionsListAdapter(Activity activity, ArrayList<OldBroadcast> repeatingBroadcasts, OldProgram program, OldBroadcast runningBroadcast) {
+	public RepetitionsListAdapter(Activity activity, ArrayList<Broadcast> repeatingBroadcasts, TVProgram program, Broadcast runningBroadcast) {
 
 		/* Remove running broadcast */
 		boolean foundRunningBroadcast = false;
 		int indexOfRunningBroadcast = 0;
 		for(int i = 0; i < repeatingBroadcasts.size(); ++i) {
-			OldBroadcast repeatingBroadcast = repeatingBroadcasts.get(i);
+			Broadcast repeatingBroadcast = repeatingBroadcasts.get(i);
 			if(repeatingBroadcast.equals(runningBroadcast)) {
 				foundRunningBroadcast = true;
 				indexOfRunningBroadcast = i;
@@ -89,7 +81,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public OldBroadcast getItem(int position) {
+	public Broadcast getItem(int position) {
 		if (mRepeatingEpisodes != null) {
 			return mRepeatingEpisodes.get(position);
 		} else return null;
@@ -104,8 +96,9 @@ public class RepetitionsListAdapter extends BaseAdapter {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 
-		final OldBroadcast broadcast = getItem(position);
-		broadcast.setProgram(mProgram);
+		final Broadcast broadcast = getItem(position);
+		//TODO why do this? Why should we need to set the program?
+//		broadcast.setProgram(mProgram);
 
 		if (rowView == null) {
 			mLayoutInflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -161,7 +154,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
 					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
-					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId().getChannelId());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
 

@@ -71,4 +71,13 @@ public enum BroadcastTypeEnum {
 
 		return getContentTypeEnumFromCode(value);
 	}
+	
+	
+	
+	public static BroadcastTypeEnum getBroadcastTypeEnumFromStringRepresentation(String enumStringRepresentation)
+	{
+		BroadcastTypeEnum broadcastType = BroadcastTypeEnum.valueOf(enumStringRepresentation);
+
+		return broadcastType;
+	}
 }

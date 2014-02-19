@@ -4,7 +4,9 @@ package com.mitv.test;
 
 
 import junit.framework.Assert;
+
 import org.junit.Test;
+
 import com.google.gson.Gson;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;

@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
+import com.millicom.mitv.ContentManager;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -66,7 +67,7 @@ public class MyChannelsActivity
 	private boolean[]					mIsCheckedArray;
 	
 	private int							mChannelCounter			= 0;
-	private boolean						mIsChanged				= false;
+//	private boolean						mIsChanged				= false;
 	private int							mCount					= 0;
 
 	private ArrayList<OldTVChannel>			mChannelInfoToDisplay	= new ArrayList<OldTVChannel>();
@@ -151,16 +152,17 @@ public class MyChannelsActivity
 
 			mIsCheckedArray = new boolean[mAllChannelsIds.size()];
 
-			if (SecondScreenApplication.isLoggedIn()) 
+			if (ContentManager.sharedInstance().isLoggedIn()) 
 			{
-				// get user channels
-				if (getUserMyChannelsIdsJSON()) 
-				{
-					mChannelCounter = myChannelIds.size();
-					mChannelCountTv.setText(" " + String.valueOf(mChannelCounter));
-					mAdapter = new MyChannelsListAdapter(this, mChannelInfoToDisplay, mIsCheckedArray, this, mChannelCounter, mCheckedChannelsIds);
-					mListView.setAdapter(mAdapter);
-				}
+				//TODO no need for fetching channels right, should already have all.
+				// (not needed) get user channels
+//				if (getUserMyChannelsIdsJSON()) 
+//				{
+//					mChannelCounter = myChannelIds.size();
+//					mChannelCountTv.setText(" " + String.valueOf(mChannelCounter));
+//					mAdapter = new MyChannelsListAdapter(this, mChannelInfoToDisplay, mIsCheckedArray, this, mChannelCounter, mCheckedChannelsIds);
+//					mListView.setAdapter(mAdapter);
+//				}
 			}
 			else 
 			{
@@ -219,53 +221,55 @@ public class MyChannelsActivity
 	
 	
 	
-	private void tryToUpdateChannelList() 
-	{
-		if (mIsChanged) 
-		{
-			updateChannelList();
-		}
-	}
+//	private void tryToUpdateChannelList() 
+//	{
+//		if (mIsChanged) 
+//		{
+//			updateChannelList();
+//		}
+//	}
 
 	
 	
-	private void updateChannelList() 
-	{
-		mCount = mCheckedChannelsIds.size();
-		
-		if (ApiClient.updateMyChannelsList(JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.CHANNEL_CHANNEL_ID, mCheckedChannelsIds))) {
-
-			// clear guides
-			MiTVStore.getInstance().clearChannelGuides();
-			// update the my channels list
-			ApiClient.getMyChannelIds();
-//			MiTVCore.getInstance(context, dateIndex)
-
-			LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
-
-		} else {
-			Log.d(TAG, "Channel list is not updated!");
-		}
-		mIsChanged = false;
-	}
+//	private void updateChannelList() 
+//	{
+//		mCount = mCheckedChannelsIds.size();
+//		
+//		if (ApiClient.updateMyChannelsList(JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.CHANNEL_CHANNEL_ID, mCheckedChannelsIds))) {
+//
+//			// clear guides
+//			MiTVStore.getInstance().clearChannelGuides();
+//			// update the my channels list
+//			ApiClient.getMyChannelIds();
+////			MiTVCore.getInstance(context, dateIndex)
+//
+//			LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
+//
+//		} else {
+//			Log.d(TAG, "Channel list is not updated!");
+//		}
+//		mIsChanged = false;
+//	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
 		// update channel list if user come back to the My Profile via Home Button
 
-		tryToUpdateChannelList();
+		//TODO use content manager here somehow
+//		tryToUpdateChannelList();
 
 	}
 
 	@Override
 	public void onBackPressed() {
-		tryToUpdateChannelList();
-		Intent returnIntent = new Intent();
-		if (mIsChanged == true) {
-			setResult(Consts.INFO_UPDATE_MYCHANNELS, returnIntent);
-			returnIntent.putExtra(Consts.INFO_UPDATE_MYCHANNELS_NUMBER, mCount);
-		}
+		//TODO use content manager here somehow
+//		tryToUpdateChannelList();
+//		Intent returnIntent = new Intent();
+//		if (mIsChanged == true) {
+//			setResult(Consts.INFO_UPDATE_MYCHANNELS, returnIntent);
+//			returnIntent.putExtra(Consts.INFO_UPDATE_MYCHANNELS_NUMBER, mCount);
+//		}
 		super.onBackPressed();
 		
 		finish();
@@ -279,37 +283,37 @@ public class MyChannelsActivity
 
 	
 	
-	private boolean getUserMyChannelsIdsJSON() 
-	{
-		ApiClient.getMyChannelIds();
-		
-		myChannelIds = MiTVStore.getInstance().getChannelIds();
-		
-		if (myChannelIds != null && !myChannelIds.isEmpty()) 
-		{
-			mCheckedChannelsIds = myChannelIds;
-			
-			for (int i = 0; i < myChannelIds.size(); i++) 
-			{
-				if (mAllChannelsIds.contains(myChannelIds.get(i))) 
-				{
-					mIsCheckedArray[mAllChannelsIds.indexOf(myChannelIds.get(i))] = true;
-				}
-			}
-			return true;
-		} 
-		else
-		{
-			return false;
-		}
-	}
+//	private boolean getUserMyChannelsIdsJSON() 
+//	{
+//		ApiClient.getMyChannelIds();
+//		
+//		myChannelIds = MiTVStore.getInstance().getChannelIds();
+//		
+//		if (myChannelIds != null && !myChannelIds.isEmpty()) 
+//		{
+//			mCheckedChannelsIds = myChannelIds;
+//			
+//			for (int i = 0; i < myChannelIds.size(); i++) 
+//			{
+//				if (mAllChannelsIds.contains(myChannelIds.get(i))) 
+//				{
+//					mIsCheckedArray[mAllChannelsIds.indexOf(myChannelIds.get(i))] = true;
+//				}
+//			}
+//			return true;
+//		} 
+//		else
+//		{
+//			return false;
+//		}
+//	}
 
 	
 	
 	@Override
 	public void setValues(int count) {
 		mChannelCountTv.setText(" " + String.valueOf(count));
-		mIsChanged = true;
+//		mIsChanged = true;
 	}
 
 	@Override
@@ -317,7 +321,8 @@ public class MyChannelsActivity
 		int id = v.getId();
 		switch (id) {
 		case R.id.tab_tv_guide:
-			tryToUpdateChannelList();
+			//TODO use content manager here instead
+//			tryToUpdateChannelList();
 			Intent intentHome = new Intent(MyChannelsActivity.this, HomeActivity.class);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -325,18 +330,20 @@ public class MyChannelsActivity
 			
 			break;
 		case R.id.tab_activity:
-			tryToUpdateChannelList();
+			//TODO use content manager here instead
+//			tryToUpdateChannelList();
 			Intent intentActivity = new Intent(MyChannelsActivity.this, ActivityActivity.class);
 			startActivity(intentActivity);
 			
 			break;
 		case R.id.tab_me:
-			tryToUpdateChannelList();
-			Intent returnIntent = new Intent();
-			if (mIsChanged == true) {
-				setResult(Consts.INFO_UPDATE_MYCHANNELS, returnIntent);
-				returnIntent.putExtra(Consts.INFO_UPDATE_MYCHANNELS_NUMBER, mCount);
-			}
+			//TODO use content manager here instead
+//			tryToUpdateChannelList();
+//			Intent returnIntent = new Intent();
+//			if (mIsChanged == true) {
+//				setResult(Consts.INFO_UPDATE_MYCHANNELS, returnIntent);
+//				returnIntent.putExtra(Consts.INFO_UPDATE_MYCHANNELS_NUMBER, mCount);
+//			}
 			finish();
 			
 			break;
@@ -362,25 +369,27 @@ public class MyChannelsActivity
 	@Override
 	protected void loadPage() 
 	{
-		SSChannelPage.getInstance().getPage(Consts.URL_MY_CHANNEL_IDS, new SSPageCallback() 
-		{
-			@Override
-			public void onGetPageResult(SSPageGetResult aPageGetResult)
-			{
-				ArrayList<OldTVChannel> mAllChannels = SSChannelPage.getInstance().getChannels();
-
-				if (mAllChannels != null && mAllChannels.isEmpty() != true) 
-				{
-					Log.d(TAG, "ALL Channels: " + mAllChannels.size());
-					
-					// store the list channels (used in the my profile/my guide)
-					MiTVStoreOperations.saveChannels(mAllChannels);
-
-					updateUI(REQUEST_STATUS.SUCCESSFUL);
-				}
-			}
-
-		});
+		//TODO NO need to fetch data right? should already be in storage!
+//		ContentManager.sharedInstance().getElse
+//		SSChannelPage.getInstance().getPage(Consts.URL_MY_CHANNEL_IDS, new SSPageCallback() 
+//		{
+//			@Override
+//			public void onGetPageResult(SSPageGetResult aPageGetResult)
+//			{
+//				ArrayList<OldTVChannel> mAllChannels = SSChannelPage.getInstance().getChannels();
+//
+//				if (mAllChannels != null && mAllChannels.isEmpty() != true) 
+//				{
+//					Log.d(TAG, "ALL Channels: " + mAllChannels.size());
+//					
+//					// store the list channels (used in the my profile/my guide)
+//					MiTVStoreOperations.saveChannels(mAllChannels);
+//
+//					updateUI(REQUEST_STATUS.SUCCESSFUL);
+//				}
+//			}
+//
+//		});
 	}
 
 	
@@ -394,17 +403,17 @@ public class MyChannelsActivity
 			// update the channel list on Up/Home button press too
 			case android.R.id.home:
 			{
-				tryToUpdateChannelList();
+//				tryToUpdateChannelList();
 				
 				Intent upIntent = NavUtils.getParentActivityIntent(this);
 				
-				if(mIsChanged == true) 
-				{
-					setResult(Consts.INFO_UPDATE_MYCHANNELS, upIntent);
-					
-					upIntent.putExtra(Consts.INFO_UPDATE_MYCHANNELS_NUMBER, mCount);
-				}
-				
+//				if(mIsChanged == true) 
+//				{
+//					setResult(Consts.INFO_UPDATE_MYCHANNELS, upIntent);
+//					
+//					upIntent.putExtra(Consts.INFO_UPDATE_MYCHANNELS_NUMBER, mCount);
+//				}
+//				
 				NavUtils.navigateUpTo(this, upIntent);
 				
 				return true;

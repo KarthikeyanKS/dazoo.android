@@ -1,7 +1,5 @@
 package com.mitv.test;
 
-import java.util.ArrayList;
-
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -13,9 +11,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.models.gson.TVCredit;
-import com.millicom.mitv.models.gson.TVProgramAndChannelInfo;
+import com.millicom.mitv.models.gson.Broadcast;
+import com.millicom.mitv.models.gson.ImageSetOrientation;
+import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
+import com.millicom.mitv.models.gson.TVChannelGuide;
+import com.millicom.mitv.models.gson.TVCredit;
 import com.millicom.mitv.models.gson.TVProgram;
 import com.millicom.mitv.models.gson.TVSeries;
 import com.millicom.mitv.models.gson.TVSeriesSeason;
@@ -30,19 +31,21 @@ import com.mitv.Consts;
  * @author atsampikakis
  *
  */
-public class TVProgramAndChannelInfoTest 
-	extends Tests 
+public class TVBroadcastWithProgramAndChannelInfoTest 
+	extends TestBaseWithGuide 
 {
 	private static final String	TAG	= "TVBroadcastDetailsTest";
 	
-	private TVProgramAndChannelInfo tvBroadcastDetails;
+	private TVBroadcastWithProgramAndChannelInfo tvBroadcastWithChannelAndProgramInfo;
 	
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		
-		String channelId = "b24378bd-0a04-4427-814d-499b68eefd39";
-		long beginTimeMillis = 1392737400000L;
+				
+		TVChannelGuide someGuide = tvChannelGuides.get(0);
+		Broadcast broadcast = someGuide.getBroadcasts().get(0);
+		String channelId = someGuide.getChannelId().getChannelId();
+		Long beginTimeMillis = broadcast.getBeginTimeMillis();
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append(Consts.URL_CHANNELS_ALL);
@@ -53,13 +56,13 @@ public class TVProgramAndChannelInfoTest
 		sb.append(beginTimeMillis);
 		String url = sb.toString();
 		
-		HTTPCoreResponse httpCoreResponse = executeGetRequest(url);
+		HTTPCoreResponse httpCoreResponse = executeRequestGet(url);
 		
 		String jsonString = httpCoreResponse.getResponseString();
 				
 		try
 		{
-			tvBroadcastDetails = new Gson().fromJson(jsonString, TVProgramAndChannelInfo.class);
+			tvBroadcastWithChannelAndProgramInfo = new Gson().fromJson(jsonString, TVBroadcastWithProgramAndChannelInfo.class);
 		}
 		catch(JsonSyntaxException jsex)
 		{
@@ -69,21 +72,21 @@ public class TVProgramAndChannelInfoTest
 
 	@Test
 	public void testNotNull() {
-		Assert.assertNotNull(tvBroadcastDetails);
+		Assert.assertNotNull(tvBroadcastWithChannelAndProgramInfo);
 	}
 	
 	@Test
 	public void testAllVariablesNotNull() {
-		TVChannel tvChannel = tvBroadcastDetails.getChannel();
+		TVBroadcastWithChannelInfoTest.testBroadcast(tvBroadcastWithChannelAndProgramInfo);
+		
+		TVChannel tvChannel = tvBroadcastWithChannelAndProgramInfo.getChannel();
 		TVChannelGSONTest.testTVChannelObject(tvChannel);
 		
-		TVProgram tvProgram = tvBroadcastDetails.getTvProgram();
+		TVProgram tvProgram = tvBroadcastWithChannelAndProgramInfo.getProgram();
 		testTVProgram(tvProgram);
 	}
 	
 	public static void testTVProgram(TVProgram program) {
-		TVBroadcastWithChannelInfoTest.testBroadcast(program);
-		
 		/* All program types */
 		Assert.assertNotNull(program.getProgramId());
 		Assert.assertFalse(TextUtils.isEmpty(program.getProgramId()));
@@ -98,7 +101,8 @@ public class TVProgramAndChannelInfoTest
 		Assert.assertFalse(TextUtils.isEmpty(program.getSynopsisLong()));
 		
 		/* All program types - Images */
-		testImages(program);
+		ImageSetOrientation images = program.getImages();
+		testImages(images);
 		
 		/* All program types - tags */
 		Assert.assertNotNull(program.getTags());
@@ -134,26 +138,28 @@ public class TVProgramAndChannelInfoTest
 			}
 		}
 	}
-	public static void testImages(TVProgram program) {
+	public static void testImages(ImageSetOrientation images) {
+		Assert.assertNotNull(images);
+		
 		/* Portrait */
-		Assert.assertNotNull(program.getImages().getPortrait().getSmallImageURI());
-		Assert.assertFalse(TextUtils.isEmpty(program.getImages().getPortrait().getSmallImageURI()));
+		Assert.assertNotNull(images.getPortrait().getSmall());
+		Assert.assertFalse(TextUtils.isEmpty(images.getPortrait().getSmall()));
 		
-		Assert.assertNotNull(program.getImages().getPortrait().getMediumImageURI());
-		Assert.assertFalse(TextUtils.isEmpty(program.getImages().getPortrait().getMediumImageURI()));
+		Assert.assertNotNull(images.getPortrait().getMedium());
+		Assert.assertFalse(TextUtils.isEmpty(images.getPortrait().getMedium()));
 		
-		Assert.assertNotNull(program.getImages().getPortrait().getLargeImageURI());
-		Assert.assertFalse(TextUtils.isEmpty(program.getImages().getPortrait().getLargeImageURI()));
+		Assert.assertNotNull(images.getPortrait().getLarge());
+		Assert.assertFalse(TextUtils.isEmpty(images.getPortrait().getLarge()));
 		
 		/* Landscape */
-		Assert.assertNotNull(program.getImages().getLandscape().getSmallImageURI());
-		Assert.assertFalse(TextUtils.isEmpty(program.getImages().getLandscape().getSmallImageURI()));
+		Assert.assertNotNull(images.getLandscape().getSmall());
+		Assert.assertFalse(TextUtils.isEmpty(images.getLandscape().getSmall()));
 		
-		Assert.assertNotNull(program.getImages().getLandscape().getMediumImageURI());
-		Assert.assertFalse(TextUtils.isEmpty(program.getImages().getLandscape().getMediumImageURI()));
+		Assert.assertNotNull(images.getLandscape().getMedium());
+		Assert.assertFalse(TextUtils.isEmpty(images.getLandscape().getMedium()));
 		
-		Assert.assertNotNull(program.getImages().getLandscape().getLargeImageURI());
-		Assert.assertFalse(TextUtils.isEmpty(program.getImages().getLandscape().getLargeImageURI()));
+		Assert.assertNotNull(images.getLandscape().getLarge());
+		Assert.assertFalse(TextUtils.isEmpty(images.getLandscape().getLarge()));
 	}
 	
 	public static void testCredits(TVCredit tvCredit) {

@@ -10,9 +10,9 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.millicom.mitv.models.gson.Broadcast;
 import com.mitv.R;
 import com.mitv.handlers.NotificationDialogHandler;
-import com.mitv.model.OldBroadcast;
 import com.mitv.model.OldNotificationDbItem;
 import com.mitv.notification.NotificationDataSource;
 import com.mitv.notification.NotificationService;
@@ -23,7 +23,7 @@ public class ReminderView extends RelativeLayout implements OnClickListener {
 	private static final String TAG = ReminderView.class.toString();
 
 	private boolean mIsSet;
-	private OldBroadcast mBroadcast;
+	private Broadcast mBroadcast;
 	private Context mContext;
 	private Activity mActivity;
 	private int mNotificationId;
@@ -59,11 +59,11 @@ public class ReminderView extends RelativeLayout implements OnClickListener {
 		this.setOnClickListener(this);
 	}
 
-	public void setBroadcast(OldBroadcast broadcast) {
+	public void setBroadcast(Broadcast broadcast) {
 		this.mBroadcast = broadcast;
 		
 		if (!mBroadcast.hasStarted()) {
-			OldNotificationDbItem dbItem = mNotificationDataSource.getNotification(mBroadcast.getChannel().getChannelId(), mBroadcast.getBeginTimeMillisGmt());
+			OldNotificationDbItem dbItem = mNotificationDataSource.getNotification(mBroadcast.getChannel().getChannelId().getChannelId(), mBroadcast.getBeginTimeMillisGmt());
 
 			if (dbItem != null && dbItem.getNotificationId() != 0) {
 				Log.d(TAG, "dbItem: " + dbItem.getProgramTitle() + " " + dbItem.getNotificationId());
@@ -91,7 +91,7 @@ public class ReminderView extends RelativeLayout implements OnClickListener {
 					NotificationService.showSetNotificationToast(mActivity);
 					mImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_reminder_selected));
 	
-					OldNotificationDbItem dbItemRemind = mNotificationDataSource.getNotification(mBroadcast.getChannel().getChannelId(),
+					OldNotificationDbItem dbItemRemind = mNotificationDataSource.getNotification(mBroadcast.getChannel().getChannelId().getChannelId(),
 							mBroadcast.getBeginTimeMillisGmt());
 					mNotificationId = dbItemRemind.getNotificationId();
 	

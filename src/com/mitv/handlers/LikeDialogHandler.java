@@ -44,7 +44,8 @@ public class LikeDialogHandler {
 			public void onClick(View v) {
 				// remove the like
 				answerYes.run();
-				LikeService.removeLike(likeType, entityId);
+				//TODO replace with our logic....
+//				LikeService.removeLike(likeType, entityId);
 				dialog.dismiss();
 			}
 		});

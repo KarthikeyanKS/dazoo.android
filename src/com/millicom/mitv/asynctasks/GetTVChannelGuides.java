@@ -12,22 +12,18 @@ import com.millicom.mitv.http.URLParameters;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.models.gson.TVChannelId;
-import com.mitv.Consts;
+import com.millicom.mitv.models.gson.TVDate;
 import com.mitv.model.OldTVChannelGuide;
-import com.mitv.model.OldTVDate;
 
 
 
 public class GetTVChannelGuides 
 	extends AsyncTaskWithRelativeURL<OldTVChannelGuide>
 {	
-	private static final String URL_SUFFIX = Consts.URL_GUIDE;
-	
-	
 	public static GetTVChannelGuides newGetTVChannelGuidesTask(
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener,
-			OldTVDate tvDate,
+			TVDate tvDate,
 			List<TVChannelId> tvChannelIds) 
 	{
 		GetTVChannelGuidesBuilder channelGuideBuilder = new GetTVChannelGuidesBuilder();
@@ -43,9 +39,9 @@ public class GetTVChannelGuides
 	
 	public GetTVChannelGuides(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener) 
+			ActivityCallbackListener activityCallBackListener, final String url) 
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.TV_GUIDE, OldTVChannelGuide.class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.TV_GUIDE, OldTVChannelGuide.class, HTTPRequestTypeEnum.HTTP_GET, url);
 	}
 
 	
@@ -53,5 +49,15 @@ public class GetTVChannelGuides
 	public void setUrlParameters(URLParameters urlParameters) 
 	{
 		this.urlParameters = urlParameters;
+	}
+	
+	@Override
+	protected Void doInBackground(String... params) 
+	{
+		super.doInBackground(params);
+		
+		/* TVGuide is created */
+		
+		return null;
 	}
 }

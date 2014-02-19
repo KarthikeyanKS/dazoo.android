@@ -621,7 +621,7 @@ public class HomeActivity
 
 	@Override
 	public void onResult(FetchRequestResultEnum fetchRequestResult) {
-		// TODO Auto-generated method stub
+		// TODO implement me
 		
 	}
 }

@@ -11,7 +11,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,22 +19,26 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.millicom.mitv.ContentManager;
+import com.millicom.mitv.enums.FetchRequestResultEnum;
+import com.millicom.mitv.interfaces.ActivityCallbackListener;
+import com.millicom.mitv.models.TVGuide;
+import com.millicom.mitv.models.gson.Broadcast;
+import com.millicom.mitv.models.gson.TVChannelGuide;
+import com.millicom.mitv.models.gson.TVDate;
+import com.millicom.mitv.models.gson.TVTag;
 import com.mitv.Consts;
+import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.adapters.AdListAdapter;
 import com.mitv.adapters.TVGuideListAdapter;
 import com.mitv.adapters.TVGuideTagListAdapter;
 import com.mitv.customviews.SwipeClockBar;
-import com.mitv.model.OldBroadcast;
-import com.mitv.model.OldTVChannelGuide;
-import com.mitv.model.OldTVTag;
-import com.mitv.model.OldTVDate;
 import com.mitv.storage.MiTVStore;
 import com.mitv.utilities.DateUtilities;
 
-public class TVGuideTableFragment extends BaseFragment {
+public class TVGuideTableFragment extends BaseFragment implements ActivityCallbackListener {
 
 	private static final String		TAG	= "TVGuideTableFragment";
 	private String					mTagStr;
@@ -43,28 +46,52 @@ public class TVGuideTableFragment extends BaseFragment {
 	private Activity				mActivity;
 	private ListView				mTVGuideListView;
 	private ImageView				mClockIv;
-	private ArrayList<OldTVChannelGuide>		mGuides;
-	private OldTVDate					mTvDate;
-	private OldTVTag						mTag;
+	private ArrayList<TVChannelGuide>		mGuides;
+//	private TVDate					mTvDate;
+//	private TVTag						mTag;
 //	private int						mTvDatePosition;
 	private SwipeClockBar			mSwipeClockBar;
 	private TVGuideListAdapter		mTVGuideListAdapter;
 	private MiTVStore				mitvStore;
 	private boolean					mIsToday = false;
-	private ArrayList<OldBroadcast>	mTaggedBroadcasts;
+	private ArrayList<Broadcast>	mTaggedBroadcasts;
 	private TVGuideTagListAdapter	mTVTagListAdapter;
 	private int						mHour;
 	private TextView				mCurrentHourTv;
 	public HashMap<String, AdListAdapter> adapterMap;
+	private BroadcastReceiver		mBroadcastReceiverClock;
 	
-	public static TVGuideTableFragment newInstance(OldTVTag tag, OldTVDate date, HashMap<String, AdListAdapter> adapterMap) {
+	private void initBroadcastReceivers() {
+		mBroadcastReceiverClock = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				if (intent.getAction() != null && intent.getAction().equals(Consts.INTENT_EXTRA_CLOCK_SELECTION)) {
+					mHour = intent.getExtras().getInt(Consts.INTENT_EXTRA_CLOCK_SELECTION_VALUE);
+					if(mTVGuideListAdapter != null) 
+					{
+						mTVGuideListAdapter.refreshList(Integer.valueOf(mHour));
+					}
+				}
+			}
+		};
+	}
+	
+	private void registerBroadcastReceivers() {
+		LocalBroadcastManager.getInstance(mActivity).registerReceiver(mBroadcastReceiverClock, new IntentFilter(Consts.INTENT_EXTRA_CLOCK_SELECTION));
+	}
+	
+	private void unregisterBroadcastReceivers() {
+		LocalBroadcastManager.getInstance(mActivity).unregisterReceiver(mBroadcastReceiverClock);
+	}
+	
+	public static TVGuideTableFragment newInstance(TVTag tag, TVDate date, HashMap<String, AdListAdapter> adapterMap) {
 
 		TVGuideTableFragment fragment = new TVGuideTableFragment();
 		fragment.adapterMap = adapterMap;
 		Bundle bundle = new Bundle();
-		bundle.putParcelable(Consts.FRAGMENT_EXTRA_TVDATE, date);
+//		bundle.putParcelable(Consts.FRAGMENT_EXTRA_TVDATE, date.getId());
 //		bundle.putInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION, position);
-		bundle.putString(Consts.FRAGMENT_EXTRA_TAG, tag.getName());
+		bundle.putString(Consts.FRAGMENT_EXTRA_TAG, tag.getDisplayName());
 		fragment.setArguments(bundle);
 		return fragment;
 	}
@@ -72,6 +99,8 @@ public class TVGuideTableFragment extends BaseFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		initBroadcastReceivers();
 
 		mitvStore = MiTVStore.getInstance();
 	}
@@ -81,15 +110,14 @@ public class TVGuideTableFragment extends BaseFragment {
 
 		Bundle bundle = getArguments();
 		mTagStr = bundle.getString(Consts.FRAGMENT_EXTRA_TAG);
-		mTvDate = bundle.getParcelable(Consts.FRAGMENT_EXTRA_TVDATE);
+//		mTvDate = bundle.getParcelable(Consts.FRAGMENT_EXTRA_TVDATE);
 //		mTvDatePosition = bundle.getInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION);
-		mTag = mitvStore.getTag(mTagStr);
+//		mTag = mitvStore.getTag(mTagStr);
 		
 		if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
 
 			// check if it is a current day
-			String tvDateToday = DateUtilities.todayDateAsTvDate();
-			if (mTvDate.getDate().equals(tvDateToday)) {
+			if (ContentManager.sharedInstance().selectedTVDateIsToday()) {
 				mIsToday = true;
 				if (!SecondScreenApplication.getInstance().getIsOnStartAgain()) {
 					mHour = Integer.valueOf(DateUtilities.getCurrentHourString());
@@ -119,11 +147,13 @@ public class TVGuideTableFragment extends BaseFragment {
 
 		if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
 			// register a receiver for the tv-table fragment to respond to the clock selection
-			LocalBroadcastManager.getInstance(mActivity).registerReceiver(mBroadcastReceiverClock, new IntentFilter(Consts.INTENT_EXTRA_CLOCK_SELECTION));
+			registerBroadcastReceivers();
 		}
 
 		return mRootView;
 	}
+	
+	
 
 	@Override
 	protected void loadPage() {
@@ -134,9 +164,11 @@ public class TVGuideTableFragment extends BaseFragment {
 
 		// read the data from the mitvStore singleton
 		if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
-			mGuides = mitvStore.getChannelGuides(mTvDate.getDate());
+//			mGuides = mitvStore.getChannelGuides(mTvDate.getDate());
+			ContentManager.sharedInstance().getElseFetchFromServiceTVGuideUsingSelectedTVDate(this, false);
 		} else {
-			mTaggedBroadcasts = mitvStore.getTaggedBroadcasts(mTvDate, mTag);
+//			mTaggedBroadcasts = mitvStore.getTaggedBroadcasts(mTvDate, mTag);
+			ContentManager.sharedInstance().getElseFetchFromServiceTaggedBroadcastsForSelectedTVDate(this, false);
 		}
 
 		pageHoldsData();
@@ -178,7 +210,8 @@ public class TVGuideTableFragment extends BaseFragment {
 			if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
 				mTVGuideListAdapter = (TVGuideListAdapter) adapterMap.get(mTagStr);
 				if(mTVGuideListAdapter == null) {
-					mTVGuideListAdapter = new TVGuideListAdapter(mActivity, mGuides, mTvDate, mHour, mIsToday);
+					TVDate tvDateSelected = ContentManager.sharedInstance().getFromStorageTVDateSelected();
+					mTVGuideListAdapter = new TVGuideListAdapter(mActivity, mGuides, tvDateSelected, mHour, mIsToday);
 					adapterMap.put(mTagStr, mTVGuideListAdapter);
 				}
 				
@@ -186,13 +219,13 @@ public class TVGuideTableFragment extends BaseFragment {
 				mTVGuideListAdapter.notifyDataSetChanged();
 				focusOnView();
 			} else {
-				final int index = OldBroadcast.getClosestBroadcastIndex(mTaggedBroadcasts);
+				final int index = Broadcast.getClosestBroadcastIndex(mTaggedBroadcasts);
 				//Remove all broadcasts that already ended
 				new Runnable() {
 					
 					@Override
 					public void run() {
-						ArrayList<OldBroadcast> toRemove = new ArrayList<OldBroadcast>();
+						ArrayList<Broadcast> toRemove = new ArrayList<Broadcast>();
 						for (int i = index; i < mTaggedBroadcasts.size(); i++) {
 							if(index < mTaggedBroadcasts.size()-1 && index >= 0) {
 								if (mTaggedBroadcasts.get(i).hasNotEnded() == false) {
@@ -200,7 +233,7 @@ public class TVGuideTableFragment extends BaseFragment {
 								}
 							}
 						}
-						for (OldBroadcast broadcast : toRemove) {
+						for (Broadcast broadcast : toRemove) {
 							mTaggedBroadcasts.remove(broadcast);
 						}
 					}
@@ -210,7 +243,8 @@ public class TVGuideTableFragment extends BaseFragment {
 				
 				mTVTagListAdapter = (TVGuideTagListAdapter) adapterMap.get(mTagStr);
 				if(mTVTagListAdapter == null) {
-					mTVTagListAdapter = new TVGuideTagListAdapter(mActivity, mTagStr, mTaggedBroadcasts, index, mTvDate);
+					TVDate tvDateSelected = ContentManager.sharedInstance().getFromStorageTVDateSelected();
+					mTVTagListAdapter = new TVGuideTagListAdapter(mActivity, mTagStr, mTaggedBroadcasts, index, tvDateSelected);
 					adapterMap.put(mTagStr, mTVTagListAdapter);
 				}
 				
@@ -220,18 +254,19 @@ public class TVGuideTableFragment extends BaseFragment {
 		}
 	}
 	
+	
+	
+	@Override
+	public void onPause() {
+		unregisterBroadcastReceivers();
+		super.onPause();
+	}
 
-	BroadcastReceiver				mBroadcastReceiverClock	= new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction() != null && intent.getAction().equals(Consts.INTENT_EXTRA_CLOCK_SELECTION)) {
-				mHour = intent.getExtras().getInt(Consts.INTENT_EXTRA_CLOCK_SELECTION_VALUE);
-				if(mTVGuideListAdapter != null) {
-					mTVGuideListAdapter.refreshList(Integer.valueOf(mHour));
-				}
-			}
-		}
-	};
+	@Override
+	public void onResume() {
+		registerBroadcastReceivers();
+		super.onResume();
+	}
 
 	@Override
 	public void onDetach() {
@@ -256,5 +291,23 @@ public class TVGuideTableFragment extends BaseFragment {
 				}
 			}
 		});
+	}
+
+	@Override
+	public void onResult(FetchRequestResultEnum fetchRequestResult) {
+		// TODO complete implementation of me
+		if(fetchRequestResult.wasSuccessful() ) {
+		if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
+//			mGuides = mitvStore.getChannelGuides(mTvDate.getDate());
+			TVGuide tvGuideForSelectedDay = ContentManager.sharedInstance().getFromStorageTVGuideForSelectedDay();
+			//TODO scrap mGuides variable and use TVGuide instead?
+			mGuides = tvGuideForSelectedDay.getTvChannelGuides();
+		} else {
+//			mTaggedBroadcasts = mitvStore.getTaggedBroadcasts(mTvDate, mTag);
+			mTaggedBroadcasts = ContentManager.sharedInstance().getFromStorageTaggedBroadcastsForSelectedTVDate();
+		}
+		} else {
+			//TODO fix me!
+		}
 	}
 }

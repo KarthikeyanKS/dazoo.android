@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,13 +25,12 @@ import com.millicom.mitv.activities.authentication.MiTVLoginActivity;
 import com.millicom.mitv.activities.authentication.SignUpWithEmailActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
+import com.millicom.mitv.models.gson.TVFeedItem;
 import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.ActivityFeedAdapter;
-import com.mitv.model.OldTVFeedItem;
-import com.mitv.storage.MiTVStore;
 
 public class ActivityActivity extends BaseActivity implements OnClickListener, ActivityCallbackListener, OnScrollListener {
 
@@ -42,7 +40,7 @@ public class ActivityActivity extends BaseActivity implements OnClickListener, A
 	private TextView			mSignInTv, mGreetingTv;
 	private Button				mCheckPopularBtn, mLoginBtn;
 	private ActionBar			mActionBar;
-//	private ArrayList<OldTVFeedItem>	activityFeed	= new ArrayList<OldTVFeedItem>();
+//	private ArrayList<TVFeedItem>	activityFeed	= new ArrayList<TVFeedItem>();
 	private Boolean				mNoMoreItems = false, mNoTask = true;
 //	private int					mStartIndex		= 0, mStep = 10, mNextStep = 5, mEndIndex = 0;
 	private ListView			mListView;
@@ -190,7 +188,7 @@ public class ActivityActivity extends BaseActivity implements OnClickListener, A
 	}
 
 	private void setAdapter() {
-		ArrayList<OldTVFeedItem> activityFeed = ContentManager.sharedInstance().getFromStorageActivityFeedData();
+		ArrayList<TVFeedItem> activityFeed = ContentManager.sharedInstance().getFromStorageActivityFeedData();
 		if (activityFeed.get(0).getItemType().equals(Consts.FEED_ITEM_TYPE_POPULAR_BROADCASTS)) {
 			View header = getLayoutInflater().inflate(R.layout.block_feed_no_likes, null);
 			mListView.addHeaderView(header);
@@ -336,7 +334,7 @@ public class ActivityActivity extends BaseActivity implements OnClickListener, A
 
 //	class GetFeedMoreTask extends AsyncTask<Void, Void, Boolean> {
 //
-//		ArrayList<OldTVFeedItem>	moreFeedItems	= new ArrayList<OldTVFeedItem>();
+//		ArrayList<TVFeedItem>	moreFeedItems	= new ArrayList<TVFeedItem>();
 //
 //		protected void onPostExecute(Boolean result) {
 //			Log.d(TAG, "result: " + result);
@@ -466,7 +464,7 @@ public class ActivityActivity extends BaseActivity implements OnClickListener, A
 //				public void run() {
 //					MiTVStore.getInstance().reinitializeFeed();
 //					activityFeed.clear();
-//					activityFeed = new ArrayList<OldTVFeedItem>();
+//					activityFeed = new ArrayList<TVFeedItem>();
 //					loadPage();
 //				}
 //			}, mNextRequestTime * 1000);

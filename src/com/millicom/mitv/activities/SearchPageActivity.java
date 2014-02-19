@@ -232,16 +232,17 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 			
 			OldBroadcast nextBroadcast = result.getNextBroadcast();
 			if(nextBroadcast != null) {
-			intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, nextBroadcast.getBeginTimeMillisGmt());
-			
-			OldTVChannel channel = nextBroadcast.getChannel();
-			String channelId = channel.getChannelId();
-			intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, channelId);
-			
-			String date = nextBroadcast.getTvDateString();
-			intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, date);
-			
-			startActivity(intent);
+				intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, nextBroadcast.getBeginTimeMillisGmt());
+				
+				OldTVChannel channel = nextBroadcast.getChannel();
+				String channelId = channel.getChannelId();
+				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, channelId);
+				
+				String date = nextBroadcast.getTvDateString();
+				//TODO TMP DATA intercommunication
+//				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, date);
+				
+				startActivity(intent);
 			} else {
 				Toast.makeText(this, "No upcoming broadcast", Toast.LENGTH_SHORT).show();
 			}

@@ -9,21 +9,21 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.imbryk.viewPager.LoopViewPager;
 import com.millicom.mitv.fragments.TVGuideTableFragment;
-import com.mitv.model.OldTVTag;
-import com.mitv.model.OldTVDate;
+import com.millicom.mitv.models.gson.TVDate;
+import com.millicom.mitv.models.gson.TVTag;
 
 public class TagTypeFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
 
 	private static final String TAG = "TagTypeFragmentStatePagerAdapter";
-	private ArrayList<OldTVTag> mTags;
-	private OldTVDate mTvDate;
+	private ArrayList<TVTag> mTags;
+	private TVDate mTvDate;
 //	private int mDatePosition;
 //	private boolean createBackground;
 	private FragmentManager fm;
 
 	private HashMap<String, AdListAdapter> adapterMap = new HashMap<String, AdListAdapter>();
 	
-	public TagTypeFragmentStatePagerAdapter(FragmentManager fm, ArrayList<OldTVTag> tags, OldTVDate tvDate) {
+	public TagTypeFragmentStatePagerAdapter(FragmentManager fm, ArrayList<TVTag> tags, TVDate tvDate) {
 		super(fm);
 		this.fm = fm;
 		this.mTags = tags;
@@ -40,7 +40,8 @@ public class TagTypeFragmentStatePagerAdapter extends FragmentStatePagerAdapter 
 	
 	@Override
 	public CharSequence getPageTitle(int position) {
-		return mTags.get(position % mTags.size()).getName();
+		TVTag tvTag = mTags.get(position % mTags.size());
+		return tvTag.getDisplayName();
 	}
 
 	@Override
