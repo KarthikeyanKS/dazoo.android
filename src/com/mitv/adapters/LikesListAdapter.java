@@ -6,7 +6,6 @@ import java.util.Iterator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +15,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.millicom.mitv.activities.BroadcastPageActivity;
+import com.millicom.mitv.models.gson.UserLike;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.handlers.LikeDialogHandler;
 import com.mitv.interfaces.LikesCountInterface;
-import com.mitv.model.OldTVLike;
 import com.mitv.model.OldMiTVLikeEntity;
 import com.mitv.storage.MiTVStore;
 
@@ -32,15 +30,15 @@ public class LikesListAdapter extends BaseAdapter {
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
-	private ArrayList<OldTVLike>	mLikes;
+	private ArrayList<UserLike>	mLikes;
 	private LikesCountInterface		mInterface;
 	private String					mToken, mLikeIdToRemove, mLikeId;
 	private int						currentPosition	= -1;
 
-	public LikesListAdapter(Activity activity, ArrayList<OldTVLike> likes, String token, LikesCountInterface likesInterface) {
+	public LikesListAdapter(Activity activity, ArrayList<UserLike> likes, LikesCountInterface likesInterface) {
 		this.mLikes = likes;
 		this.mActivity = activity;
-		this.mToken = token;
+//		this.mToken = token;
 		this.mInterface = likesInterface;
 	}
 
@@ -52,7 +50,7 @@ public class LikesListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public OldTVLike getItem(int position) {
+	public UserLike getItem(int position) {
 		if (mLikes != null) {
 			return mLikes.get(position);
 		} else return null;
@@ -87,85 +85,55 @@ public class LikesListAdapter extends BaseAdapter {
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 
-		final OldTVLike like = getItem(position);
+		final UserLike like = getItem(position);
 
-		if (like != null) {
-			final OldMiTVLikeEntity entity = like.getEntity();
-			if (entity != null) {
-
-				/*Disabled headers for now*/
-//				holder.mHeaderContainer.setVisibility(View.GONE);
-//				holder.mDividerView.setVisibility(View.VISIBLE);
-//				// Logic to show header with first character
-//				if (position == 0 || entity.getTitle().toUpperCase().charAt(0) != getItem(position - 1).getEntity().getTitle().toUpperCase().charAt(0)) {
-//					holder.mHeaderContainer.setVisibility(View.VISIBLE);
-//					holder.mHeaderTv.setText("" + entity.getTitle().toUpperCase().charAt(0));
+		//TODO implement this
+//		if (like != null) {
+//			final OldMiTVLikeEntity entity = like.getEntity();
+//			if (entity != null) {
 //
+//				holder.mProgramTitleTv.setText(entity.getTitle());
+//				// Set appropriate description depending on program type
+//				String likeType = like.getLikeType();
+//				if (Consts.LIKE_TYPE_SPORT_TYPE.equals(likeType)) {
+//					holder.mProgramTypeTv.setText(mActivity.getResources().getString(R.string.sport));
+//				} else if (Consts.LIKE_TYPE_SERIES.equals(likeType)) {
+//					if (entity.getYear() != 0) {
+//						holder.mProgramTypeTv.setText(mActivity.getResources().getString(R.string.tv_series) + " " + entity.getYear() + "-");
+//					} else {
+//						holder.mProgramTypeTv.setText(mActivity.getResources().getString(R.string.tv_series));
+//					}
+//				} else if (Consts.LIKE_TYPE_PROGRAM.equals(likeType)) {
+//					if (Consts.LIKE_PROGRAM_PROGRAM_TYPE_MOVIE.equals(entity.getProgramType())) {
+//						holder.mProgramTypeTv.setText(mActivity.getResources().getString(R.string.movie) + " " + entity.getYear());
+//					} else if (Consts.LIKE_PROGRAM_PROGRAM_TYPE_OTHER.equals(entity.getProgramType())) {
+//						holder.mProgramTypeTv.setText(entity.getCategory());
+//					}
 //				}
-//				if (position != (getCount() - 1) && entity.getTitle().toUpperCase().charAt(0) != getItem(position + 1).getEntity().getTitle().toUpperCase().charAt(0)) {
-//					holder.mDividerView.setVisibility(View.GONE);
-//				}
-
-				holder.mProgramTitleTv.setText(entity.getTitle());
-				// Set appropriate description depending on program type
-				String likeType = like.getLikeType();
-				if (Consts.LIKE_TYPE_SPORT_TYPE.equals(likeType)) {
-					holder.mProgramTypeTv.setText(mActivity.getResources().getString(R.string.sport));
-				} else if (Consts.LIKE_TYPE_SERIES.equals(likeType)) {
-					if (entity.getYear() != 0) {
-						holder.mProgramTypeTv.setText(mActivity.getResources().getString(R.string.tv_series) + " " + entity.getYear() + "-");
-					} else {
-						holder.mProgramTypeTv.setText(mActivity.getResources().getString(R.string.tv_series));
-					}
-				} else if (Consts.LIKE_TYPE_PROGRAM.equals(likeType)) {
-					if (Consts.LIKE_PROGRAM_PROGRAM_TYPE_MOVIE.equals(entity.getProgramType())) {
-						holder.mProgramTypeTv.setText(mActivity.getResources().getString(R.string.movie) + " " + entity.getYear());
-					} else if (Consts.LIKE_PROGRAM_PROGRAM_TYPE_OTHER.equals(entity.getProgramType())) {
-						holder.mProgramTypeTv.setText(entity.getCategory());
-					}
-				}
-
-				// Navigate to the next broadcast
-//				holder.mInformationContainer.setOnClickListener(new View.OnClickListener() {
+//
+//				holder.mButtonContainer.setOnClickListener(new View.OnClickListener() {
 //
 //					@Override
 //					public void onClick(View v) {
-//						Log.d(TAG, "Channelid: " + like.getNextBroadcastChannelId() + " Begintimemillis: " + like.getNextBroadcastBegintimeMillis());
-//						if (like.getNextBroadcastChannelId() != null && like.getNextBroadcastBegintimeMillis() != 0) {
-//							String broadcastUrl = Consts.URL_NOTIFY_BROADCAST_PREFIX + like.getNextBroadcastChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + like.getNextBroadcastBegintimeMillis();
-//							Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-//							intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, like.getNextBroadcastChannelId());
-//							intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_URL, broadcastUrl);
-//							intent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
-//							intent.putExtra(Consts.INTENT_EXTRA_FROM_PROFILE, true);
-//							mActivity.startActivity(intent);
+//						currentPosition = (Integer) v.getTag();
+//
+//						String likeType = like.getLikeType();
+//						String likeId = null;
+//						if (Consts.LIKE_TYPE_SERIES.equals(likeType)) {
+//							mLikeId = like.getEntity().getSeriesId();
+//						} else if (Consts.LIKE_TYPE_PROGRAM.equals(likeType)) {
+//							mLikeId = like.getEntity().getProgramId();
+//						} else if (Consts.LIKE_TYPE_SPORT_TYPE.equals(likeType)) {
+//							mLikeId = like.getEntity().getSportTypeId();
 //						}
+//
+//						LikeDialogHandler likeDlg = new LikeDialogHandler();
+//						likeDlg.showRemoveLikeDialog(mActivity, mLikeId, likeType, yesProc(), noProc());
+//
 //					}
 //				});
-
-				holder.mButtonContainer.setOnClickListener(new View.OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						currentPosition = (Integer) v.getTag();
-
-						String likeType = like.getLikeType();
-						String likeId = null;
-						if (Consts.LIKE_TYPE_SERIES.equals(likeType)) {
-							mLikeId = like.getEntity().getSeriesId();
-						} else if (Consts.LIKE_TYPE_PROGRAM.equals(likeType)) {
-							mLikeId = like.getEntity().getProgramId();
-						} else if (Consts.LIKE_TYPE_SPORT_TYPE.equals(likeType)) {
-							mLikeId = like.getEntity().getSportTypeId();
-						}
-
-						LikeDialogHandler likeDlg = new LikeDialogHandler();
-						likeDlg.showRemoveLikeDialog(mActivity, mLikeId, likeType, yesProc(), noProc());
-
-					}
-				});
-			}
-		}
+//			}
+//		}
 
 		return rowView;
 	}

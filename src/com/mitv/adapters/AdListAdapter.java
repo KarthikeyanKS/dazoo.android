@@ -71,34 +71,35 @@ public class AdListAdapter<T> extends BaseAdapter {
 	
 	private void downloadAds() 
 	{
-		final int adCount = getAdCount();
-		
-		for(int i = 0; i < adCount; ++i) 
-		{
-			final int index = i;
-			String divId = new StringBuilder().append(fragmentName).append("AdWithId").append(i).toString();
-			
-			ApiClient.getAdzerkAd(divId, adFormats, new AdCallBackInterface() 
-			{
-				@Override
-				public void onAdResult(final OldAdzerkAd ad) {
-					if (ad != null) {
-						adItems.put(index, ad);
-					}
-					
-					if(index == adCount-1) {
-						MiTVStore.getInstance().addAdsForFragment(fragmentName, adItems);
-						
-						activity.runOnUiThread(new Runnable() {
-							@Override
-							public void run() {
-								AdListAdapter.this.notifyDataSetChanged();
-							}
-						});
-					}
-				}
-			});
-		}
+		//TODO USSE ContentManager here!!
+//		final int adCount = getAdCount();
+//		
+//		for(int i = 0; i < adCount; ++i) 
+//		{
+//			final int index = i;
+//			String divId = new StringBuilder().append(fragmentName).append("AdWithId").append(i).toString();
+//			
+//			ApiClient.getAdzerkAd(divId, adFormats, new AdCallBackInterface() 
+//			{
+//				@Override
+//				public void onAdResult(final OldAdzerkAd ad) {
+//					if (ad != null) {
+//						adItems.put(index, ad);
+//					}
+//					
+//					if(index == adCount-1) {
+//						MiTVStore.getInstance().addAdsForFragment(fragmentName, adItems);
+//						
+//						activity.runOnUiThread(new Runnable() {
+//							@Override
+//							public void run() {
+//								AdListAdapter.this.notifyDataSetChanged();
+//							}
+//						});
+//					}
+//				}
+//			});
+//		}
 	}
 
 	@Override

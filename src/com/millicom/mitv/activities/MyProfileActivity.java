@@ -13,8 +13,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.authentication.MiTVLoginActivity;
 import com.millicom.mitv.activities.authentication.SignInOrSignupWithFacebookActivity;
+import com.millicom.mitv.enums.FetchRequestResultEnum;
+import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.LikeService;
@@ -31,9 +34,8 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 
-public class MyProfileActivity extends BaseActivity implements OnClickListener {
+public class MyProfileActivity extends BaseActivity implements ActivityCallbackListener, OnClickListener {
 
-	private boolean mIsLoggedIn;
 	private String mUserFirstName;
 	private String mUserLastName;
 	private String mUserAvatarUrl;
@@ -67,18 +69,24 @@ public class MyProfileActivity extends BaseActivity implements OnClickListener {
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
-		String token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
+//		String token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 
-		if (token != null && TextUtils.isEmpty(token) != true) {
-			mIsLoggedIn = true;
+//		if (token != null && TextUtils.isEmpty(token) != true) {
+//			mIsLoggedIn = true;
 
+		if(ContentManager.sharedInstance().isLoggedIn()) {
 			mUserFirstName = ((SecondScreenApplication) getApplicationContext()).getUserFirstName();
 			mUserLastName = ((SecondScreenApplication) getApplicationContext()).getUserLastName();
 			mUserAvatarUrl = ((SecondScreenApplication) getApplicationContext()).getUserAvatarUrl();
 		}
 
+		fetchUserData();
 		initViews();
 		populateViews();
+	}
+	
+	private void fetchUserData() {
+		ContentManager.sharedInstance().getElseFetchFromServiceUserLikes(this, false);
 	}
 
 	private void initViews() {
@@ -150,7 +158,7 @@ public class MyProfileActivity extends BaseActivity implements OnClickListener {
 		NotificationDataSource notificationDataSource = new NotificationDataSource(this);
 		mReminderCountTv.setText("(" + String.valueOf(notificationDataSource.getNumberOfNotifications()) + ")");
 
-		if (mIsLoggedIn) {
+		if (ContentManager.sharedInstance().isLoggedIn()) {
 			mPersonalView.setVisibility(View.VISIBLE);
 			mSignInOrSignUpView.setVisibility(View.GONE);
 			
@@ -159,13 +167,13 @@ public class MyProfileActivity extends BaseActivity implements OnClickListener {
 				ImageLoader.getInstance().displayImage(mUserAvatarUrl, imageAware);
 			}
 
-			boolean refreshLikeIdsFromService = DateUtilities.isElapsedTimeGreaterThan(MiTVStore.getInstance().getmLikeIdsFetchTimestamp(), Consts.LIKE_IDS_REFRESH_INTERVAL_IN_MINUTES);
-			
-			if(refreshLikeIdsFromService)
-			{
-				// TODO: Refresh on a separate thread
-				LikeService.getLikeIdsList();
-			}
+//			boolean refreshLikeIdsFromService = DateUtilities.isElapsedTimeGreaterThan(MiTVStore.getInstance().getmLikeIdsFetchTimestamp(), Consts.LIKE_IDS_REFRESH_INTERVAL_IN_MINUTES);
+//			
+//			if(refreshLikeIdsFromService)
+//			{
+//				// TODO: Refresh on a separate thread
+//				LikeService.getLikeIdsList();
+//			}
 			
 			if (MiTVStore.getInstance().getLikeIds() != null && MiTVStore.getInstance().getLikeIds().isEmpty() != true) 
 			{
@@ -176,14 +184,16 @@ public class MyProfileActivity extends BaseActivity implements OnClickListener {
 				mLikesCountTv.setText("(0)");
 			}
 			
-			boolean refreshChannelIdsFromService = DateUtilities.isElapsedTimeGreaterThan(MiTVStore.getInstance().getmMyChannelIdsFetchTimestamp(), Consts.CHANNEL_IDS_REFRESH_INTERVAL_IN_MINUTES);
-
-			if(refreshChannelIdsFromService)
-			{	
-				ApiClient.getMyChannelIds();
-			}
+//			boolean refreshChannelIdsFromService = DateUtilities.isElapsedTimeGreaterThan(MiTVStore.getInstance().getmMyChannelIdsFetchTimestamp(), Consts.CHANNEL_IDS_REFRESH_INTERVAL_IN_MINUTES);
+//
+//			if(refreshChannelIdsFromService)
+//			{	
+////				ApiClient.getMyChannelIds();
+//			}
 			// No need for else
 
+
+			
 			if (MiTVStore.getInstance().getChannelIds() != null && MiTVStore.getInstance().getChannelIds().isEmpty() != true) {
 				mChannelCountTv.setText("(" + String.valueOf(MiTVStore.getInstance().getChannelIds().size()) + ")");
 			}
@@ -267,7 +277,10 @@ public class MyProfileActivity extends BaseActivity implements OnClickListener {
 		}
 
 		case R.id.myprofile_logout_container: {
-			ApiClient.logout();
+			//TODO is this for us
+			ContentManager.sharedInstance().performLogout(this);
+//			ApiClient.logout();
+			
 			// clear all the running activities and start the application from
 			// the whole beginning
 			SecondScreenApplication.getInstance().clearActivityBacktrace();
@@ -305,6 +318,12 @@ public class MyProfileActivity extends BaseActivity implements OnClickListener {
 
 	@Override
 	protected void loadPage() {
+	}
+
+	@Override
+	public void onResult(FetchRequestResultEnum fetchRequestResult) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

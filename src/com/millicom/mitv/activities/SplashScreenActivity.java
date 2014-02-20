@@ -54,7 +54,7 @@ public class SplashScreenActivity extends ActionBarActivity implements ActivityC
 		};
 		mCountTimer.start();
 		
-		ContentManager.sharedInstance().fetchAppData(this);
+		ContentManager.sharedInstance().fetchFromServiceAppData(this);
 	}
 
 

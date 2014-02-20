@@ -5,26 +5,24 @@ import java.util.Collections;
 import java.util.List;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import android.support.v7.app.ActionBar;
-import android.view.MenuItem;
-
+import com.millicom.mitv.models.gson.Broadcast;
 import com.mitv.Consts;
+import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.adapters.RemindersListAdapter;
 import com.mitv.interfaces.RemindersCountInterface;
-import com.mitv.model.OldBroadcast;
 import com.mitv.model.OldNotificationDbItem;
 import com.mitv.notification.NotificationDataSource;
 
@@ -81,13 +79,14 @@ public class RemindersActivity extends BaseActivity implements RemindersCountInt
 	}
 
 	private void populateViews() {
-		ArrayList<OldBroadcast> broadcasts = new ArrayList<OldBroadcast>();
+		ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
 
 		NotificationDataSource notificationDataSource = new NotificationDataSource(this);
 		List<OldNotificationDbItem> notificationList = notificationDataSource.getAllNotifications();
 		for (int i = 0; i < notificationList.size(); i++) {
 			OldNotificationDbItem item = notificationList.get(i);
-			OldBroadcast broadcast = new OldBroadcast(item);
+			//TODO create some constructor for some Broadcast related class from database item...
+			Broadcast broadcast = null;// = new Broadcast(item);
 			broadcasts.add(broadcast);
 		}
 		// If empty - show notification.
@@ -95,7 +94,7 @@ public class RemindersActivity extends BaseActivity implements RemindersCountInt
 			mErrorTv.setVisibility(View.VISIBLE);
 		} else {
 			// Sort the list of broadcasts by time.
-			Collections.sort(broadcasts, new OldBroadcast.BroadcastComparatorByTime());
+			Collections.sort(broadcasts, new Broadcast.BroadcastComparatorByTime());
 
 			mAdapter = new RemindersListAdapter(this, broadcasts, this);
 			mListView.setAdapter(mAdapter);

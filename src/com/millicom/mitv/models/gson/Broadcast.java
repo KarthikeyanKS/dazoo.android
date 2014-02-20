@@ -2,6 +2,8 @@ package com.millicom.mitv.models.gson;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 
 import com.millicom.mitv.enums.BroadcastTypeEnum;
@@ -58,4 +60,122 @@ public class Broadcast {
 		return shareUrl;
 	}
 	
+	
+	
+	
+	//TODO Determine which of those dummy methods we need, and implement them
+	/* HERE COMES DUMMY METHODS, ALL OF THEM MAY NOT BE NEEDED, INVESTIGATE! */
+	
+	public boolean isRunning() {
+		//TODO implement or delete me
+		return false;
+	}
+	
+	public int getDurationInMinutes() {
+		//TODO implement or delete me
+		return 0;
+	}
+	
+	public int minutesSinceStart() {
+		//TODO implement or delete me
+		return 0;
+	}
+	
+	public int getBeginTimeMillisGmt() {
+		//TODO implement or delete me
+				return 0;
+	}
+	
+	public TVChannel getChannel() {
+		//TODO implement or delete me
+		return null;
+	}
+	
+	public String getTvDateString() {
+		//TODO implement or delete me
+		return null;
+	}
+	
+	public String getDayOfWeekWithTimeString() {
+		//TODO implement or delete me
+		return null;
+	}
+	
+	public boolean hasStarted() {
+		//TODO implement or delete me
+		return false;
+	}
+	
+	public boolean hasNotEnded() {
+		//TODO implement or delete me
+		return false;
+	}
+	
+	public String getBeginTimeStringGmt() {
+		//TODO implement or delete me
+		return null;
+	}
+	
+	public String getBeginTimeStringLocalHourAndMinute() {
+		//TODO implement or delete me
+		return null;
+	}
+	
+	public String getEndTimeStringLocal() {
+		//TODO implement or delete me
+		return null;
+	}
+	
+	public static int getClosestBroadcastIndex(ArrayList<Broadcast>	broadcasts) {
+		//TODO implement or delete me
+		return 0;
+	}
+	
+	public static ArrayList<Broadcast> getBroadcastsStartingFromPosition(int indexOfNearestBroadcast, ArrayList<Broadcast> broadcasts, int howMany) {
+		//TODO implement or delete me
+		return null;
+	}
+	
+	public String getBeginTimeStringLocalDayMonth() {
+		//TODO implement or delete me
+		return null;
+	}
+	
+	public String getDayOfWeekString() {
+		//TODO implement or delete me
+		return null;
+	}
+	
+	public static int getClosestBroadcastIndexFromTime(ArrayList<Broadcast> broadcastList, int hour, TVDate date) {
+		//TODO implement or delete me
+		return 0;
+	}
+	
+	public void updateTimeToBeginAndTimeToEnd() {
+		//TODO implement or delete me
+	}
+	
+	public long getTimeToBegin() {
+		//TODO implement or delete me
+		return 0;
+	}
+	
+	public static class BroadcastComparatorByTime implements Comparator<Broadcast> {
+
+		@Override
+		public int compare(Broadcast lhs, Broadcast rhs) {
+			long left = lhs.getBeginTimeMillisGmt();
+			long right = rhs.getBeginTimeMillisGmt();
+
+			if (left > right) {
+				return 1;
+			} else if (left < right) {
+				return -1;
+			} else {
+				String leftProgramName = lhs.getProgram().getTitle();
+				String rightProgramName = rhs.getProgram().getTitle();
+				return leftProgramName.compareTo(rightProgramName);
+			}
+		}
+	}
 }

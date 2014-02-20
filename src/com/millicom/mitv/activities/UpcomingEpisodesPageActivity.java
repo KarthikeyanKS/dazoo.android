@@ -1,39 +1,32 @@
 package com.millicom.mitv.activities;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import com.millicom.mitv.utilities.NetworkUtils;
-import com.mitv.Consts;
+import com.millicom.mitv.ContentManager;
+import com.millicom.mitv.models.gson.Broadcast;
+import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.Consts.REQUEST_STATUS;
-import com.mitv.adapters.PopularListAdapter;
 import com.mitv.adapters.UpcomingEpisodesListAdapter;
-import com.mitv.model.OldBroadcast;
-import com.mitv.storage.MiTVStore;
 
 public class UpcomingEpisodesPageActivity extends BaseActivity implements OnClickListener {
 
 	private static final String			TAG					= "UpcomingeEpisodesPageActivity";
-	private String						token;
+//	private String						token;
 	private RelativeLayout				mTabTvGuide, mTabProfile, mTabActivity;private View mTabDividerLeft, mTabDividerRight;
 	private ActionBar					mActionBar;
 	private ListView					mListView;
 	private UpcomingEpisodesListAdapter	mAdapter;
-	private OldBroadcast 					mRunningBroadcast;
-	private ArrayList<OldBroadcast>		mUpcomingBroadcasts	= new ArrayList<OldBroadcast>();
+	private Broadcast 					mRunningBroadcast;
+	private ArrayList<Broadcast>		mUpcomingBroadcasts;
 	
 
 	@Override
@@ -46,10 +39,12 @@ public class UpcomingEpisodesPageActivity extends BaseActivity implements OnClic
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
 		Intent intent = getIntent();
-		mUpcomingBroadcasts = intent.getParcelableArrayListExtra(Consts.INTENT_EXTRA_UPCOMING_BROADCASTS);
-		mRunningBroadcast = intent.getParcelableExtra(Consts.INTENT_EXTRA_RUNNING_BROADCAST);
+//		mUpcomingBroadcasts = intent.getParcelableArrayListExtra(Consts.INTENT_EXTRA_UPCOMING_BROADCASTS);
+//		mRunningBroadcast = intent.getParcelableExtra(Consts.INTENT_EXTRA_RUNNING_BROADCAST);
+		mUpcomingBroadcasts = ContentManager.sharedInstance().getFromStorageUpcomingBroadcasts();
+		mRunningBroadcast = ContentManager.sharedInstance().getFromStorageSelectedBroadcast();
 
-		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
+//		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 
 		initViews();
 

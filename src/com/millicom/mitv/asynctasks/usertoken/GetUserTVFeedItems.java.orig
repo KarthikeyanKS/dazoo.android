@@ -48,7 +48,11 @@ public class GetUserTVFeedItems
 			boolean useItemLimit,
 			int itemLimit)
 	{
+<<<<<<< HEAD:src/com/millicom/mitv/asynctasks/usertoken/GetFeedItems.java
+		super(contentCallbackListener, activityCallBackListener, requestIdentifier, OldTVFeedItem.class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+=======
 		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_ACTIVITY_FEED_ITEM, TVFeedItem[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+>>>>>>> backend-refactoring:src/com/millicom/mitv/asynctasks/usertoken/GetUserTVFeedItems.java
 		
 		if(useItemStartIndex)
 		{

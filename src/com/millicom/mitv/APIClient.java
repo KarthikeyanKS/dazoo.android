@@ -24,9 +24,9 @@ import com.millicom.mitv.asynctasks.PerformUserPasswordResetConfirmation;
 import com.millicom.mitv.asynctasks.PerformUserPasswordResetSendEmail;
 import com.millicom.mitv.asynctasks.PerformUserSignUp;
 import com.millicom.mitv.asynctasks.usertoken.AddUserLike;
-import com.millicom.mitv.asynctasks.usertoken.GetUserTVFeedItems;
 import com.millicom.mitv.asynctasks.usertoken.GetUserLikes;
 import com.millicom.mitv.asynctasks.usertoken.GetUserTVChannelIds;
+import com.millicom.mitv.asynctasks.usertoken.GetUserTVFeedItems;
 import com.millicom.mitv.asynctasks.usertoken.GetUserTokenUsingFBToken;
 import com.millicom.mitv.asynctasks.usertoken.PerformUserLogout;
 import com.millicom.mitv.asynctasks.usertoken.RemoveUserLike;
@@ -110,7 +110,7 @@ public class APIClient
 	
 	
 	
-	public void setUserTVChannelIds(ActivityCallbackListener activityCallBackListener, List<TVChannelId> tvChannelIds) 
+	public void performSetUserTVChannelIds(ActivityCallbackListener activityCallBackListener, List<TVChannelId> tvChannelIds) 
 	{
 		SetUserTVChannelIds setUserTVChannelIds = new SetUserTVChannelIds(contentCallbackListener, activityCallBackListener, tvChannelIds);
 		setUserTVChannelIds.execute();
@@ -123,6 +123,11 @@ public class APIClient
 		getFeedItems.execute();
 	}
 	
+	public void getFeedItemsWithOffsetAndLimit(ActivityCallbackListener activityCallbackListener, int offset, int limit)
+	{
+		GetUserTVFeedItems getFeedItems = new GetUserTVFeedItems(contentCallbackListener, activityCallbackListener, offset, limit);
+		getFeedItems.execute();
+	}
 	
 	
 	public void getTVBroadcastDetails(ActivityCallbackListener activityCallBackListener, TVChannelId tvChannelId, long beginTime)

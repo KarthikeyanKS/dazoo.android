@@ -4,6 +4,8 @@ package com.millicom.mitv.models.gson;
 
 
 import java.lang.reflect.Type;
+import java.util.Comparator;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -15,6 +17,7 @@ import com.google.gson.annotations.Expose;
 import com.millicom.mitv.enums.LikeTypeResponseEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.mitv.Consts;
+import com.mitv.model.OldTVLike;
 
 
 
@@ -143,59 +146,51 @@ public class UserLike
 		return baseObject;
 	}
 	
-	
-	
-	public LikeTypeResponseEnum getLikeType() 
-	{
+	public LikeTypeResponseEnum getLikeType() {
 		return LikeTypeResponseEnum.getLikeTypeEnumFromStringRepresentation(likeType);
 	}
 	
-	
-	
-	public ProgramTypeEnum getProgramType() 
-	{
+	public ProgramTypeEnum getProgramType() {
 		return ProgramTypeEnum.getLikeTypeEnumFromStringRepresentation(programType);
 	}
 
-
-
-	public String getTitle() 
-	{
+	public String getTitle() {
 		return title;
 	}
-	
 	
 	public String getSeriesId() {
 		return seriesId;
 	}
 
-
-
 	public String getProgramId() {
 		return programId;
 	}
-
-
 
 	public String getGenre() {
 		return genre;
 	}
 
-
-
 	public Integer getYear() {
 		return year;
 	}
 
-
-
 	public String getCategory() {
 		return category;
 	}
-
-
-
+	
 	public String getSportTypeId() {
 		return sportTypeId;
+	}
+	
+	
+	
+	//TODO Determine which of those dummy methods we need, and implement them
+	/* HERE COMES DUMMY METHODS, ALL OF THEM MAY NOT BE NEEDED, INVESTIGATE! */
+	public static class UserLikeComparatorByTitle implements Comparator<UserLike> {
+
+		@Override
+		public int compare(UserLike a, UserLike b) {
+			return a.getTitle().compareTo(b.getTitle());
+		}
 	}
 }

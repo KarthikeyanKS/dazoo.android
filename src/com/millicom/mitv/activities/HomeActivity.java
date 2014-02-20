@@ -3,8 +3,6 @@ package com.millicom.mitv.activities;
 
 
 
-import java.util.ArrayList;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -16,12 +14,9 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.millicom.mitv.ContentManager;
@@ -29,16 +24,13 @@ import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.fragments.TVHolderFragment;
 import com.millicom.mitv.fragments.TVHolderFragment.OnViewPagerIndexChangedListener;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
-import com.millicom.mitv.utilities.NetworkUtils;
 import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.ActionBarDropDownDateListAdapter;
 import com.mitv.content.SSPageFragmentActivity;
-import com.mitv.manager.ApiClient;
 import com.mitv.manager.AppConfigurationManager;
-import com.mitv.model.OldTVDate;
 import com.mitv.utilities.DateUtilities;
 
 
@@ -629,7 +621,7 @@ public class HomeActivity
 
 	@Override
 	public void onResult(FetchRequestResultEnum fetchRequestResult) {
-		// TODO Auto-generated method stub
+		// TODO implement me
 		
 	}
 }

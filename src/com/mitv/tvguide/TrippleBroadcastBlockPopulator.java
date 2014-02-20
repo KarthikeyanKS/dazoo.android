@@ -7,18 +7,18 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.activities.RepetitionsPageActivity;
 import com.millicom.mitv.activities.UpcomingEpisodesPageActivity;
+import com.millicom.mitv.models.gson.Broadcast;
+import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.customviews.ReminderView;
-import com.mitv.model.OldBroadcast;
-import com.mitv.model.OldProgram;
 
 public class TrippleBroadcastBlockPopulator {
 
@@ -26,8 +26,8 @@ public class TrippleBroadcastBlockPopulator {
 
 	private Activity mActivity;
 	private ScrollView mContainerView;
-	private OldBroadcast mRunningBroadcast;
-	private ArrayList<OldBroadcast> mBroadcasts;
+	private Broadcast mRunningBroadcast;
+	private ArrayList<Broadcast> mBroadcasts;
 	private ReminderView reminderViewOne, reminderViewTwo, reminderViewThree;
 	private View dividerView;
 
@@ -35,7 +35,7 @@ public class TrippleBroadcastBlockPopulator {
 	/* If false, then block populator is used for upcoming episodes */
 	private boolean mUsedForRepetitions;
 
-	public TrippleBroadcastBlockPopulator(String tag, boolean usedForRepetitions, Activity activity, ScrollView containerView, OldBroadcast runningBroadcast) {
+	public TrippleBroadcastBlockPopulator(String tag, boolean usedForRepetitions, Activity activity, ScrollView containerView, Broadcast runningBroadcast) {
 		this.TAG = tag;
 		this.mActivity = activity;
 		this.mContainerView = containerView;
@@ -43,9 +43,9 @@ public class TrippleBroadcastBlockPopulator {
 		this.mUsedForRepetitions = usedForRepetitions;
 	}
 
-	public void populatePartOfBlock(final int position, ArrayList<OldBroadcast> broadcastList, final OldProgram program, View topContentView) {
+	public void populatePartOfBlock(final int position, ArrayList<Broadcast> broadcastList, final TVProgram program, View topContentView) {
 		if (broadcastList.size() > position && broadcastList.get(position) != null) {
-			final OldBroadcast broadcast = broadcastList.get(position);
+			final Broadcast broadcast = broadcastList.get(position);
 			LinearLayout mContainer = null;
 
 			switch (position) {
@@ -97,7 +97,8 @@ public class TrippleBroadcastBlockPopulator {
 			TextView mChannelTv = (TextView) mContainer.findViewById(R.id.block_tripple_broadcast_channel);
 			
 			if(mUsedForRepetitions) {
-				broadcast.setProgram(program);
+				//TODO should we really set program here, why?
+//				broadcast.setProgram(program);
 			}
 
 			mContainer.setVisibility(View.VISIBLE);
@@ -106,9 +107,9 @@ public class TrippleBroadcastBlockPopulator {
 			mChannelTv.setText(broadcast.getChannel().getName());
 
 			if (!mUsedForRepetitions) {
-				OldProgram programLocal = broadcast.getProgram();
+				TVProgram programLocal = broadcast.getProgram();
 				if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programLocal.getProgramType())) {
-					String season = programLocal.getSeason().getNumber();
+					String season = programLocal.getSeason().getNumber().toString();
 					int episode = programLocal.getEpisodeNumber();
 					String seasonEpisode = "";
 					if (!season.equals("0")) {
@@ -130,8 +131,8 @@ public class TrippleBroadcastBlockPopulator {
 				public void onClick(View v) {
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
 					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
-					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
-					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId().getChannelId());
+//					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
 					mActivity.finish();
 					mActivity.startActivity(intent);
@@ -140,12 +141,12 @@ public class TrippleBroadcastBlockPopulator {
 		}
 	}
 
-	public void createBlock(final ArrayList<OldBroadcast> repeatingBroadcasts, final OldProgram program) {
+	public void createBlock(final ArrayList<Broadcast> repeatingOrUpcomingBroadcasts, final TVProgram program) {
 		/* Remove running broadcast */
 		boolean foundRunningBroadcast = false;
 		int indexOfRunningBroadcast = 0;
-		for (int i = 0; i < repeatingBroadcasts.size(); ++i) {
-			OldBroadcast repeatingBroadcast = repeatingBroadcasts.get(i);
+		for (int i = 0; i < repeatingOrUpcomingBroadcasts.size(); ++i) {
+			Broadcast repeatingBroadcast = repeatingOrUpcomingBroadcasts.get(i);
 			if (repeatingBroadcast.equals(mRunningBroadcast)) {
 				foundRunningBroadcast = true;
 				indexOfRunningBroadcast = i;
@@ -154,10 +155,10 @@ public class TrippleBroadcastBlockPopulator {
 		}
 
 		if (foundRunningBroadcast) {
-			repeatingBroadcasts.remove(indexOfRunningBroadcast);
+			repeatingOrUpcomingBroadcasts.remove(indexOfRunningBroadcast);
 		}
 
-		mBroadcasts = repeatingBroadcasts;
+		mBroadcasts = repeatingOrUpcomingBroadcasts;
 
 		// the same layout as for the Upcoming Episodes for series is used, as the elements are the same, except for the title
 		LinearLayout containerView = (LinearLayout) mContainerView.findViewById(R.id.broacastpage_block_container_layout);
@@ -177,11 +178,11 @@ public class TrippleBroadcastBlockPopulator {
 		}
 		title.setText(titleString);
 
-		populatePartOfBlock(0, repeatingBroadcasts, program, topContentView);
-		populatePartOfBlock(1, repeatingBroadcasts, program, topContentView);
-		populatePartOfBlock(2, repeatingBroadcasts, program, topContentView);
+		populatePartOfBlock(0, repeatingOrUpcomingBroadcasts, program, topContentView);
+		populatePartOfBlock(1, repeatingOrUpcomingBroadcasts, program, topContentView);
+		populatePartOfBlock(2, repeatingOrUpcomingBroadcasts, program, topContentView);
 
-		if (repeatingBroadcasts.size() > 3) {
+		if (repeatingOrUpcomingBroadcasts.size() > 3) {
 
 			View divider = (View) topContentView.findViewById(R.id.block_tripple_broadcast_three_bottom_divider);
 			divider.setVisibility(View.VISIBLE);
@@ -192,19 +193,24 @@ public class TrippleBroadcastBlockPopulator {
 
 				@Override
 				public void onClick(View v) {
+
+					ContentManager.sharedInstance().setSelectedBroadcast(mRunningBroadcast);
 					if (mUsedForRepetitions) {
 						Intent intent = new Intent(mActivity, RepetitionsPageActivity.class);
-						intent.putParcelableArrayListExtra(Consts.INTENT_EXTRA_REPEATING_BROADCASTS, repeatingBroadcasts);
-						intent.putExtra(Consts.INTENT_EXTRA_REPEATING_PROGRAM, program);
-						intent.putExtra(Consts.INTENT_EXTRA_RUNNING_BROADCAST, mRunningBroadcast);
+//						intent.putParcelableArrayListExtra(Consts.INTENT_EXTRA_REPEATING_BROADCASTS, repeatingBroadcasts);
+//						intent.putExtra(Consts.INTENT_EXTRA_REPEATING_PROGRAM, program);
+//						intent.putExtra(Consts.INTENT_EXTRA_RUNNING_BROADCAST, mRunningBroadcast);
+						ContentManager.sharedInstance().setRepeatingBroadcasts(repeatingOrUpcomingBroadcasts);
 						mActivity.startActivity(intent);
 					}
 					else {
 						Intent intent = new Intent(mActivity, UpcomingEpisodesPageActivity.class);
-						intent.putParcelableArrayListExtra(Consts.INTENT_EXTRA_UPCOMING_BROADCASTS, repeatingBroadcasts);
-						intent.putExtra(Consts.INTENT_EXTRA_RUNNING_BROADCAST, mRunningBroadcast);
+//						intent.putParcelableArrayListExtra(Consts.INTENT_EXTRA_UPCOMING_BROADCASTS, repeatingBroadcasts);
+//						intent.putExtra(Consts.INTENT_EXTRA_RUNNING_BROADCAST, mRunningBroadcast);
+						ContentManager.sharedInstance().setUpcomingBroadcasts(repeatingOrUpcomingBroadcasts);
 						mActivity.startActivity(intent);
 					}
+
 				}
 			});
 		}

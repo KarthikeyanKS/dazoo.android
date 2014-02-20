@@ -1,11 +1,9 @@
 package com.mitv.adapters;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +12,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.millicom.mitv.enums.BroadcastTypeEnum;
+import com.millicom.mitv.enums.ProgramTypeEnum;
+import com.millicom.mitv.models.gson.Broadcast;
 import com.mitv.Consts;
 import com.mitv.R;
-import com.mitv.model.OldBroadcast;
 import com.mitv.utilities.ProgressBarUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -28,12 +28,12 @@ public class ChannelPageListAdapter extends BaseAdapter {
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
-	private ArrayList<OldBroadcast>	mFollowingBroadcasts;
+	private ArrayList<Broadcast>	mFollowingBroadcasts;
 
 	private int						mLastPosition	= -1;
 	private ViewHolder				holder;
 
-	public ChannelPageListAdapter(Activity activity, ArrayList<OldBroadcast> followingBroadcasts) {
+	public ChannelPageListAdapter(Activity activity, ArrayList<Broadcast> followingBroadcasts) {
 		this.mFollowingBroadcasts = followingBroadcasts;
 		this.mActivity = activity;
 	}
@@ -46,7 +46,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public OldBroadcast getItem(int position) {
+	public Broadcast getItem(int position) {
 		if (mFollowingBroadcasts != null) {
 			return mFollowingBroadcasts.get(position);
 		} else return null;
@@ -65,10 +65,10 @@ public class ChannelPageListAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 
-		final OldBroadcast broadcast = getItem(position);
+		final Broadcast broadcast = getItem(position);
 		broadcast.updateTimeToBeginAndTimeToEnd();
-		String broadcastType = broadcast.getBroadcastType();
-		String programType = broadcast.getProgram().getProgramType();
+		BroadcastTypeEnum broadcastType = broadcast.getBroadcastType();
+		ProgramTypeEnum programType = broadcast.getProgram().getProgramType();
 		long timeToBegin = broadcast.getTimeToBegin();
 
 		if (rowView == null) {
@@ -101,7 +101,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 			if (getItemViewType(position) == 0) {
 				// MC - Set the image for current broadcast.
 				ImageAware imageAware = new ImageViewAware(holder.mIconIv, false);
-				ImageLoader.getInstance().displayImage(broadcast.getProgram().getLandLUrl(), imageAware);
+				ImageLoader.getInstance().displayImage(broadcast.getProgram().getImages().getLandscape().getLarge(), imageAware);
 				
 				ProgressBarUtils.setupProgressBar(mActivity, broadcast, holder.mDurationPb, holder.mTimeleftTv);
 			}
@@ -116,7 +116,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 					holder.mTitleTv.setText(mActivity.getResources().getString(R.string.icon_movie) + " " + title);
 					holder.mDescTv.setText(broadcast.getProgram().getGenre() + " " + broadcast.getProgram().getYear());
 				} else if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-					int season = Integer.parseInt(broadcast.getProgram().getSeason().getNumber());
+					int season = broadcast.getProgram().getSeason().getNumber();
 					int episode = broadcast.getProgram().getEpisodeNumber();
 					String seasonEpisode = "";
 					if (season > 0) {
@@ -180,7 +180,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 
 	@Override
 	public int getItemViewType(int position) {
-		OldBroadcast broadcast = getItem(position);
+		Broadcast broadcast = getItem(position);
 		if (broadcast.isRunning()) {
 			return 0;
 		}

@@ -1,34 +1,26 @@
 package com.mitv.adapters;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.millicom.mitv.activities.BroadcastPageActivity;
+import com.millicom.mitv.models.gson.Broadcast;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.customviews.ReminderView;
-import com.mitv.handlers.NotificationDialogHandler;
-import com.mitv.model.OldBroadcast;
-import com.mitv.model.OldNotificationDbItem;
 import com.mitv.model.OldTVDate;
 import com.mitv.notification.NotificationDataSource;
-import com.mitv.notification.NotificationService;
 import com.mitv.storage.MiTVStore;
-import com.mitv.utilities.AnimationUtilities;
-import com.mitv.utilities.DateUtilities;
 
 public class UpcomingEpisodesListAdapter extends BaseAdapter {
 
@@ -36,26 +28,26 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
-	private ArrayList<OldBroadcast>	mUpcomingEpisodes;
+	private ArrayList<Broadcast>	mUpcomingEpisodes;
 	private NotificationDataSource	mNotificationDataSource;
 	private int						mLastPosition	= -1;
 	private int 					mNotificationId = -1;
 	private int 					mPosNotificationId[];
 	private boolean					mIsSet = false;
 	private boolean 				mPosIsSet[];
-	private OldBroadcast				mRunningBroadcast;
+	private Broadcast				mRunningBroadcast;
 
 	private MiTVStore				mitvStore;
 	private ArrayList<OldTVDate>		mTvDates;
 
 	private int reminderPosition;
 
-	public UpcomingEpisodesListAdapter(Activity activity, ArrayList<OldBroadcast> upcomingBroadcasts, OldBroadcast runningBroadcast) {
+	public UpcomingEpisodesListAdapter(Activity activity, ArrayList<Broadcast> upcomingBroadcasts, Broadcast runningBroadcast) {
 
 		boolean foundRunningBroadcast = false;
 		int indexOfRunningBroadcast = 0;
 		for (int i = 0; i < upcomingBroadcasts.size(); ++i) {
-			OldBroadcast repeatingBroadcast = upcomingBroadcasts.get(i);
+			Broadcast repeatingBroadcast = upcomingBroadcasts.get(i);
 			if (repeatingBroadcast.equals(mRunningBroadcast)) {
 				foundRunningBroadcast = true;
 				indexOfRunningBroadcast = i;
@@ -87,7 +79,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public OldBroadcast getItem(int position) {
+	public Broadcast getItem(int position) {
 		if (mUpcomingEpisodes != null) {
 			return mUpcomingEpisodes.get(position);
 		} else return null;
@@ -102,7 +94,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 
-		final OldBroadcast broadcast = getItem(position);
+		final Broadcast broadcast = getItem(position);
 		// Log.d(TAG, "broadcast: " + broadcast);
 
 		if (rowView == null) {
@@ -143,7 +135,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 			}
 
 			// Set season and episode
-			String season = broadcast.getProgram().getSeason().getNumber();
+			String season = broadcast.getProgram().getSeason().getNumber().toString();
 			int episode = broadcast.getProgram().getEpisodeNumber();
 			String seasonEpisode = "";
 			if (!season.equals("0")) {
@@ -169,8 +161,9 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
 					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
-					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
-					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId().getChannelId());
+					//TODO TMP DATA intercommunication
+//					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
 

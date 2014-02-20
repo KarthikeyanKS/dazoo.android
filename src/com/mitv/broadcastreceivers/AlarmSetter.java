@@ -3,23 +3,18 @@ package com.mitv.broadcastreceivers;
 import java.text.ParseException;
 import java.util.List;
 
-import com.mitv.model.OldBroadcast;
-import com.mitv.model.OldTVChannel;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+
+import com.millicom.mitv.models.dto.TVBroadcastWithChannelInfoDTO;
+import com.millicom.mitv.models.dto.TVChannelDTO;
 import com.mitv.model.OldNotificationDbItem;
 import com.mitv.model.OldProgram;
 import com.mitv.model.OldSeason;
 import com.mitv.notification.NotificationDataSource;
 import com.mitv.notification.NotificationService;
 import com.mitv.utilities.DateUtilities;
-
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.os.SystemClock;
-import android.util.Log;
-import android.widget.Toast;
 
 public class AlarmSetter extends BroadcastReceiver {
 
@@ -42,45 +37,47 @@ public class AlarmSetter extends BroadcastReceiver {
 		
 		for(int i=0; i<notificationList.size(); i++){
 		
-			OldNotificationDbItem item = notificationList.get(i);
+			//TODO fix this stuff using DTOs? or other approach?
 			
-			OldBroadcast broadcast = new OldBroadcast();
-			broadcast.setBeginTimeStringGmt(item.getBroadcastBeginTimeStringLocal());
-			long beginTimeMillisGmt = Long.parseLong(item.getBroadcastBeginTimeInMillisGmtAsString());
-			broadcast.setBeginTimeMillisGmt(beginTimeMillisGmt);
-			
-			long beginTimeMillisLocal = DateUtilities.convertTimeStampToLocalTime(beginTimeMillisGmt);
-			String tvDateString = "";
-			try {
-				tvDateString = DateUtilities.isoDateToTvDateString(beginTimeMillisLocal);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			broadcast.setTvDateString(tvDateString);
-			
-			
-			OldProgram program = new OldProgram();
-			program.setProgramId(item.getProgramId());
-			program.setTitle(item.getProgramTitle());
-			program.setProgramType(item.getProgramType());
-			
-			OldSeason season = new OldSeason();
-			season.setNumber(item.getProgramSeason());
-			
-			program.setSeason(season);
-			program.setEpisodeNumber(item.getProgramEpisodeNumber());
-			program.setYear(item.getProgramYear());
-			
-			broadcast.setProgram(program);
-			
-			OldTVChannel channel = new OldTVChannel();
-			channel.setChannelId(item.getChannelId());
-			channel.setName(item.getChannelName());
-			channel.setAllImageUrls(item.getChannelLogoUrl());
-			
-			broadcast.setChannel(channel);
-			
-			NotificationService.resetAlarm(context, broadcast, channel, item.getNotificationId());
+//			OldNotificationDbItem item = notificationList.get(i);
+//			
+//			TVBroadcastWithChannelInfoDTO broadcast = new TVBroadcastWithChannelInfoDTO();
+//			broadcast.setBeginTimeStringGmt(item.getBroadcastBeginTimeStringLocal());
+//			long beginTimeMillisGmt = Long.parseLong(item.getBroadcastBeginTimeInMillisGmtAsString());
+//			broadcast.setBeginTimeMillisGmt(beginTimeMillisGmt);
+//			
+//			long beginTimeMillisLocal = DateUtilities.convertTimeStampToLocalTime(beginTimeMillisGmt);
+//			String tvDateString = "";
+//			try {
+//				tvDateString = DateUtilities.isoDateToTvDateString(beginTimeMillisLocal);
+//			} catch (ParseException e) {
+//				e.printStackTrace();
+//			}
+//			broadcast.setTvDateString(tvDateString);
+//			
+//			
+//			OldProgram program = new OldProgram();
+//			program.setProgramId(item.getProgramId());
+//			program.setTitle(item.getProgramTitle());
+//			program.setProgramType(item.getProgramType());
+//			
+//			OldSeason season = new OldSeason();
+//			season.setNumber(item.getProgramSeason());
+//			
+//			program.setSeason(season);
+//			program.setEpisodeNumber(item.getProgramEpisodeNumber());
+//			program.setYear(item.getProgramYear());
+//			
+//			broadcast.setProgram(program);
+//			
+//			TVChannelDTO channel = new TVChannelDTO();
+//			channel.setChannelId(item.getChannelId());
+//			channel.setName(item.getChannelName());
+//			channel.setAllImageUrls(item.getChannelLogoUrl());
+//			
+//			broadcast.setChannel(channel);
+//			
+//			NotificationService.setAlarm(context, broadcast, channel, item.getNotificationId());
 		}
 	}
 }

@@ -9,15 +9,18 @@ import android.util.SparseArray;
 
 import com.millicom.mitv.models.AppVersionData;
 import com.millicom.mitv.models.TVGuide;
+import com.millicom.mitv.models.gson.AdzerkAd;
+import com.millicom.mitv.models.gson.AppConfiguration;
 import com.millicom.mitv.models.gson.Broadcast;
 import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
+import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;
 import com.millicom.mitv.models.gson.TVDate;
+import com.millicom.mitv.models.gson.TVFeedItem;
 import com.millicom.mitv.models.gson.TVTag;
-import com.mitv.model.OldAdzerkAd;
+import com.millicom.mitv.models.gson.UserLike;
 import com.mitv.model.OldAppConfigurationData;
-import com.mitv.model.OldTVFeedItem;
 
 public class Storage {
 	private ArrayList<TVTag> tvTags;
@@ -27,23 +30,32 @@ public class Storage {
 	private ArrayList<TVChannelId> tvChannelIdsUsed;
 	private ArrayList<TVChannel> tvChannels;
 	private HashMap<String, TVGuide> tvGuides; /* Key is the id from the TVDate */
+	private HashMap<String, ArrayList<Broadcast>> taggedBroadcastsForAllDays; /* Key is the id from the TVDate */
 
-	private ArrayList<String> likeIds;
+	private ArrayList<UserLike> userLikes;
 	
 	private Calendar likeIdsFetchedTimestamp;
 	private Calendar userChannelIdsFetchedTimestamp;
 	
-	private ArrayList<OldTVFeedItem> activityFeed;
-	private ArrayList<TVBroadcastWithProgramAndChannelInfo> popularFeed;
+	private ArrayList<TVFeedItem> activityFeed;
+	private ArrayList<TVBroadcastWithProgramAndChannelInfo> popularBroadcasts;
 	
 	private String userToken;
 	private TVDate tvDateSelected;
 	
 	private AppVersionData appVersionData;
-	private OldAppConfigurationData appConfigData;
+	private AppConfiguration appConfigData;
 		
 	/* Ads */
-	private HashMap<String, SparseArray<OldAdzerkAd>> fragmentToAdsMap;
+	private HashMap<String, SparseArray<AdzerkAd>> fragmentToAdsMap;
+	
+	/* NON-PERSISTENT USER DATA, USED FOR PASSING DATA BETWEEN ACTIVITIES */
+	private Broadcast nonPersistentSelectedBroadcast;
+	private ArrayList<Broadcast> nonPersistentUpcomingBroadcasts;
+	private ArrayList<Broadcast> nonPersistentRepeatingBroadcasts;
+	private Integer nonPersistentSelectedHour;
+	private TVChannelId nonPersistentSelectedTVChannelId;
+	
 	
 	/* Should only be used by the ContentManager */
 	public Storage() {
@@ -100,13 +112,15 @@ public class Storage {
 	public void setTvChannels(ArrayList<TVChannel> tvChannels) {
 		this.tvChannels = tvChannels;
 	}
-
-	public ArrayList<String> getLikeIds() {
-		return likeIds;
-	}
-
-	public void setLikeIds(ArrayList<String> likeIds) {
-		this.likeIds = likeIds;
+	
+	//TODO dont iterate through a list, change tvChannels to a Map instead?
+	public TVChannel getTVChannelById(TVChannelId tvChannelId) {
+		for(TVChannel tvChannel : tvChannels) {
+			if(tvChannel.getChannelId().equals(tvChannelId)) {
+				return tvChannel;
+			}
+		}
+		return null;
 	}
 
 	public Calendar getLikeIdsFetchedTimestamp() {
@@ -125,20 +139,27 @@ public class Storage {
 		this.userChannelIdsFetchedTimestamp = userChannelIdsFetchedTimestamp;
 	}
 
-	public ArrayList<OldTVFeedItem> getActivityFeed() {
+	public ArrayList<TVFeedItem> getActivityFeed() {
 		return activityFeed;
 	}
 
-	public void setActivityFeed(ArrayList<OldTVFeedItem> activityFeed) {
+	public void setActivityFeed(ArrayList<TVFeedItem> activityFeed) {
 		this.activityFeed = activityFeed;
 	}
-
-	public ArrayList<TVBroadcastWithProgramAndChannelInfo> getPopularFeed() {
-		return popularFeed;
+	
+	public void addMoreActivityFeedItems(ArrayList<TVFeedItem> additionalActivityFeedItems) {
+		if(this.activityFeed == null) {
+			activityFeed = new ArrayList<TVFeedItem>();
+		}
+		activityFeed.addAll(additionalActivityFeedItems);
 	}
 
-	public void setPopularFeed(ArrayList<TVBroadcastWithProgramAndChannelInfo> popularFeed) {
-		this.popularFeed = popularFeed;
+	public ArrayList<TVBroadcastWithProgramAndChannelInfo> getPopularBroadcasts() {
+		return popularBroadcasts;
+	}
+
+	public void setPopularBroadcasts(ArrayList<TVBroadcastWithProgramAndChannelInfo> popularFeed) {
+		this.popularBroadcasts = popularFeed;
 	}
 
 	public String getUserToken() {
@@ -148,12 +169,20 @@ public class Storage {
 	public void setUserToken(String userToken) {
 		this.userToken = userToken;
 	}
+	
+	public ArrayList<UserLike> getUserLikes() {
+		return userLikes;
+	}
 
-	public HashMap<String, SparseArray<OldAdzerkAd>> getFragmentToAdsMap() {
+	public void setUserLikes(ArrayList<UserLike> userLikes) {
+		this.userLikes = userLikes;
+	}
+	
+	public HashMap<String, SparseArray<AdzerkAd>> getFragmentToAdsMap() {
 		return fragmentToAdsMap;
 	}
 
-	public void setFragmentToAdsMap(HashMap<String, SparseArray<OldAdzerkAd>> mFragmentToAdsMap) {
+	public void setFragmentToAdsMap(HashMap<String, SparseArray<AdzerkAd>> mFragmentToAdsMap) {
 		this.fragmentToAdsMap = mFragmentToAdsMap;
 	}
 
@@ -165,11 +194,11 @@ public class Storage {
 		this.appVersionData = appVersionData;
 	}
 
-	public OldAppConfigurationData getAppConfigData() {
+	public AppConfiguration getAppConfigData() {
 		return appConfigData;
 	}
 
-	public void setAppConfigData(OldAppConfigurationData appConfigData) {
+	public void setAppConfigData(AppConfiguration appConfigData) {
 		this.appConfigData = appConfigData;
 	}
 	
@@ -203,6 +232,48 @@ public class Storage {
 		this.tvChannelIdsUsed = tvChannelIdsUsed;
 	}
 	
+	public TVChannelGuide getTVChannelGuideUsingTVChannelIdForSelectedDay(TVChannelId tvChannelId) {
+		TVDate selectedTVDate = getTvDateSelected();
+		return getTVChannelGuideUsingTVChannelIdAndTVDate(tvChannelId, selectedTVDate);
+	}
+	
+	public TVChannelGuide getTVChannelGuideUsingTVChannelIdAndTVDate(TVChannelId tvChannelId, TVDate tvDate) {
+		TVGuide tvGuide = getTVGuideUsingTVDate(tvDate);
+		ArrayList<TVChannelGuide> tvChannelGuides = tvGuide.getTvChannelGuides();
+		
+		TVChannelGuide tvChannelGuideFound = null;
+		
+		for(TVChannelGuide tvChannelGuide : tvChannelGuides) {
+			if(tvChannelGuide.getChannelId().getChannelId().equals(tvChannelId.getChannelId())) {
+				tvChannelGuideFound = tvChannelGuide;
+				break;
+			}
+		}
+		
+		return tvChannelGuideFound;
+	}
+	
+	public void setTaggedBroadcastsForAllDays(HashMap<String, ArrayList<Broadcast>> taggedBroadcastsForAllDays) {
+		this.taggedBroadcastsForAllDays = taggedBroadcastsForAllDays;
+	}
+	
+	public HashMap<String, ArrayList<Broadcast>> getTaggedBroadcastsForAllDays() {
+		return taggedBroadcastsForAllDays;
+	}
+	
+	public void addTaggedBroadcastsForDay(ArrayList<Broadcast> taggedBroadcastForDay, TVDate tvDate) {
+		if(taggedBroadcastsForAllDays == null) {
+			taggedBroadcastsForAllDays = new HashMap<String, ArrayList<Broadcast>>();
+		}
+		taggedBroadcastsForAllDays.put(tvDate.getId(), taggedBroadcastForDay);
+	}
+	
+	public ArrayList<Broadcast> getTaggedBroadcastsUsingTVDate(TVDate tvDateAsKey) {
+		ArrayList<Broadcast> taggedBroadcastForDay = taggedBroadcastsForAllDays.get(tvDateAsKey.getId());
+		return taggedBroadcastForDay;
+	}
+	
+	
 	public boolean containsTVDates() {
 		boolean containsTVDates = (tvDates != null && !tvDates.isEmpty());
 		return containsTVDates;
@@ -224,8 +295,24 @@ public class Storage {
 		return containsTVGuideForTVDate;
 	}
 	
-	public TVDate getTvDateSelected() {
-		return tvDateSelected;
+	public boolean containsTaggedBroadcastsForTVDate(TVDate tvDate) {
+		boolean containsTaggedBroadcastsForTVDate = taggedBroadcastsForAllDays.containsKey(tvDate.getId());
+		return containsTaggedBroadcastsForTVDate;
+	}
+	
+	public boolean containsActivityFeedData() {
+		boolean containsActivityFeedData = (activityFeed != null && !activityFeed.isEmpty());
+		return containsActivityFeedData;
+	}
+	
+	public boolean containsPopularBroadcasts() {
+		boolean containsPopularBroadcasts = (popularBroadcasts != null && !popularBroadcasts.isEmpty());
+		return containsPopularBroadcasts;
+	}
+	
+	public boolean containsUserLikes() {
+		boolean containsUserLikes = (userLikes != null && !userLikes.isEmpty());
+		return containsUserLikes;
 	}
 
 	
@@ -238,8 +325,56 @@ public class Storage {
 		this.tvDateSelected = tvDateSelected;
 	}
 	
+	public TVDate getTvDateSelected() {
+		return tvDateSelected;
+	}
+	
 	public void setTvDateSelectedUsingIndex(int tvDateSelectedIndex) {
 		TVDate tvDateSelected = tvDates.get(tvDateSelectedIndex);
 		setTvDateSelected(tvDateSelected);
+	}
+	
+	/* NON PERSISTENT USER DATA */
+	/**
+	 * Non-persistent
+	 */
+	public Integer getNonPersistentSelectedHour() {
+		return nonPersistentSelectedHour;
+	}
+	
+	public void setNonPersistentSelectedHour(Integer seletectedHour) {
+		this.nonPersistentSelectedHour = seletectedHour;
+	}
+	
+	public void setNonPersistentDataUpcomingBroadcast(ArrayList<Broadcast> nonPersistentUpcomingBroadcasts) {
+		this.nonPersistentUpcomingBroadcasts = nonPersistentUpcomingBroadcasts;
+	}
+	
+	public void setNonPersistentDataRepeatingBroadcast(ArrayList<Broadcast> nonPersistentRepeatingBroadcasts) {
+		this.nonPersistentRepeatingBroadcasts = nonPersistentRepeatingBroadcasts;
+	}
+	
+	public ArrayList<Broadcast> getNonPersistentDataRepeatingBroadcast() {
+		return nonPersistentRepeatingBroadcasts;
+	}
+	
+	public ArrayList<Broadcast> getNonPersistentDataUpcomingBroadcast() {
+		return nonPersistentUpcomingBroadcasts;
+	}
+	
+	public void setNonPersistentSelectedBroadcast(Broadcast runningBroadcast) {
+		this.nonPersistentSelectedBroadcast = runningBroadcast;
+	}
+	
+	public Broadcast getNonPersistentSelectedBroadcast() {
+		return nonPersistentSelectedBroadcast;
+	}
+	
+	public void setNonPersistentTVChannelId(TVChannelId tvChannelId) {
+		this.nonPersistentSelectedTVChannelId = tvChannelId;
+	}
+	
+	public TVChannelId getNonPersistentTVChannelId() {
+		return nonPersistentSelectedTVChannelId;
 	}
 }

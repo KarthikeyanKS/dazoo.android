@@ -21,34 +21,37 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.ChannelPageActivity;
+import com.millicom.mitv.enums.BroadcastTypeEnum;
+import com.millicom.mitv.enums.ProgramTypeEnum;
+import com.millicom.mitv.models.gson.Broadcast;
+import com.millicom.mitv.models.gson.TVChannelGuide;
+import com.millicom.mitv.models.gson.TVDate;
+import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.model.OldBroadcast;
-import com.mitv.model.OldTVChannelGuide;
-import com.mitv.model.OldProgram;
-import com.mitv.model.OldTVDate;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-public class TVGuideListAdapter extends AdListAdapter<OldTVChannelGuide> {
+public class TVGuideListAdapter extends AdListAdapter<TVChannelGuide> {
 
 	private static final String	TAG	= "TVGuideListAdapter";
 
 	private LayoutInflater		mLayoutInflater;
 	private Activity			mActivity;
-	private ArrayList<OldTVChannelGuide>	mGuide;
-	private OldTVDate				mDate;
+	private ArrayList<TVChannelGuide>	mGuide;
+	private TVDate				mDate;
 	private int					mIndexOfNearestBroadcast;
-	private int					mHour, mCurrentHour;
+	private int					mHour;
 	private boolean				mIsToday;
 	private int 				screenWidth;
 	private int 				rowWidth = -1;
 
 	@SuppressLint("NewApi")
-	public TVGuideListAdapter(Activity activity, ArrayList<OldTVChannelGuide> guide, OldTVDate date, int hour, boolean isToday) {
+	public TVGuideListAdapter(Activity activity, ArrayList<TVChannelGuide> guide, TVDate date, int hour, boolean isToday) {
 		super(Consts.JSON_AND_FRAGMENT_KEY_GUIDE, activity, guide);
 		this.mGuide = guide;
 		this.mActivity = activity;
@@ -102,7 +105,7 @@ public class TVGuideListAdapter extends AdListAdapter<OldTVChannelGuide> {
 			});
 		}
 
-		final OldTVChannelGuide guide = getItem(position);
+		final TVChannelGuide guide = getItem(position);
 
 		if (guide.getImageUrl() != null) {
 			ImageAware imageAware = new ImageViewAware(holder.mImageView, false);
@@ -115,14 +118,17 @@ public class TVGuideListAdapter extends AdListAdapter<OldTVChannelGuide> {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(mActivity, ChannelPageActivity.class);
-				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, guide.getId());
-				intent.putExtra(Consts.INTENT_EXTRA_CHOSEN_DATE_TVGUIDE, mDate);
-				intent.putExtra(Consts.INTENT_EXTRA_TV_GUIDE_HOUR, mHour);
+				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, guide.getChannelId().getChannelId());
+//				intent.putExtra(Consts.INTENT_EXTRA_CHOSEN_DATE_TVGUIDE, mDate);
+//				intent.putExtra(Consts.INTENT_EXTRA_TV_GUIDE_HOUR, mHour);
+				
+				ContentManager.sharedInstance().setSelectedTVChannelId(guide.getChannelId());
+				ContentManager.sharedInstance().setSelectedHour(mHour);
 				mActivity.startActivity(intent);
 			}
 		});
 
-		ArrayList<OldBroadcast> broadcasts = guide.getBroadcasts();
+		ArrayList<Broadcast> broadcasts = guide.getBroadcasts();
 
 		String stringIconMovie = mActivity.getResources().getString(R.string.icon_movie) + " ";
 		String stringIconLive = mActivity.getResources().getString(R.string.icon_live) + " ";
@@ -136,31 +142,51 @@ public class TVGuideListAdapter extends AdListAdapter<OldTVChannelGuide> {
 			mIndexOfNearestBroadcast = guide.getClosestBroadcastIndexFromTime(broadcasts, mHour, mDate);
 
 			if (mIndexOfNearestBroadcast != -1) {
-				ArrayList<OldBroadcast> nextBroadcasts = OldBroadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, broadcasts, Consts.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
+				ArrayList<Broadcast> nextBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, broadcasts, Consts.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
 			
 				for (int j = 0; j < Math.min(nextBroadcasts.size(), 3); j++) {
-					OldBroadcast broadcast = nextBroadcasts.get(j);
-					OldProgram program = broadcast.getProgram();
-					String programType = program.getProgramType();
-					String broadcastType = broadcast.getBroadcastType();
+					Broadcast broadcast = nextBroadcasts.get(j);
+					TVProgram program = broadcast.getProgram();
+					ProgramTypeEnum programType = program.getProgramType();
+					BroadcastTypeEnum broadcastType = broadcast.getBroadcastType();
 					
 					String rowInfo = broadcast.getBeginTimeStringLocalHourAndMinute();
 					rowInfo += "   ";
-
-					if (Consts.PROGRAM_TYPE_MOVIE.equals(programType)) {
-						rowInfo += stringIconMovie;
-					} else if (Consts.BROADCAST_TYPE_LIVE.equals(broadcastType)) {
-						rowInfo += stringIconLive;
+					
+					String showName = program.getSeries().getName();
+					switch (programType) {
+						case MOVIE: {
+							rowInfo += stringIconMovie;
+							break;
+						}
+						default: {
+							if(broadcastType == BroadcastTypeEnum.LIVE) {
+		                    	showName = program.getTitle();
+							}
+							break;
+						}
 					}
-					
-					String showName = null;
-	                if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-	                	showName = program.getSeries().getName();
-                    } else {
-                    	showName = program.getTitle();
-                    }
-					
 					rowInfo += showName;
+					
+					
+					
+//					String programType = program.getProgramType();
+//					String broadcastType = broadcast.getBroadcastType();
+//					
+//
+//					if (Consts.PROGRAM_TYPE_MOVIE.equals(programType)) {
+//						rowInfo += stringIconMovie;
+//					} else if (Consts.BROADCAST_TYPE_LIVE.equals(broadcastType)) {
+//						rowInfo += stringIconLive;
+//					}
+//					
+//					String showName = null;
+//	                if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+//	                	showName = program.getSeries().getName();
+//                    } else {
+//                    }
+//					
+//					rowInfo += showName;
 					
 					TextPaint testPaint = holder.mTextView.getPaint();
 					float textWidth = testPaint.measureText(rowInfo);

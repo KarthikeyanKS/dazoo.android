@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,29 +13,30 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.millicom.mitv.activities.ActivityActivity;
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.activities.PopularPageActivity;
+import com.millicom.mitv.enums.FeedItemTypeEnum;
+import com.millicom.mitv.enums.LikeTypeResponseEnum;
+import com.millicom.mitv.enums.ProgramTypeEnum;
+import com.millicom.mitv.models.gson.Broadcast;
+import com.millicom.mitv.models.gson.TVFeedItem;
+import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
 import com.mitv.LikeService;
 import com.mitv.R;
 import com.mitv.customviews.ReminderView;
-import com.mitv.model.OldBroadcast;
-import com.mitv.model.OldTVFeedItem;
-import com.mitv.model.OldProgram;
 import com.mitv.storage.MiTVStore;
-import com.mitv.utilities.AnimationUtilities;
 import com.mitv.utilities.ProgressBarUtils;
 import com.mitv.utilities.ShareUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-public class ActivityFeedAdapter extends AdListAdapter<OldTVFeedItem> {
+public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 
 	private static final String		TAG									= "ActivityFeedAdapter";
 	private Activity				mActivity;
-	private ArrayList<OldTVFeedItem>		mFeedItems;
+	private ArrayList<TVFeedItem>		mFeedItems;
 	private LayoutInflater			mLayoutInflater;
 
 	private int						ACTIVITY_BLOCKS_TYPE_NUMBER	= 5;
@@ -53,11 +53,12 @@ public class ActivityFeedAdapter extends AdListAdapter<OldTVFeedItem> {
 	// private ImageView likeLikeIv, remindLikeIv, likeRecIv, remindRecIv, likeTwitterIv, remindTwitterIv;
 	private boolean					mIsLiked							= false, mIsSet = false;
 
-	public ActivityFeedAdapter(Activity activity, ArrayList<OldTVFeedItem> feedItems) {
+	public ActivityFeedAdapter(Activity activity, ArrayList<TVFeedItem> feedItems) {
 		super(Consts.JSON_AND_FRAGMENT_KEY_ACTIVITY, activity, feedItems);
 		this.mActivity = activity;
 		this.mFeedItems = feedItems;
-		this.mLikeIds = LikeService.getLikeIdsList();
+		//TODO fetch likes using contentmanager
+//		this.mLikeIds = LikeService.getLikeIdsList();
 		this.mLayoutInflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
@@ -66,21 +67,24 @@ public class ActivityFeedAdapter extends AdListAdapter<OldTVFeedItem> {
 		return super.getViewTypeCount() + ACTIVITY_BLOCKS_TYPE_NUMBER;
 	}
 
-	public void addItem(final OldTVFeedItem item) {
+	public void addItem(final TVFeedItem item) {
 		mFeedItems.add(item);
 		notifyDataSetChanged();
 	}
 
-	public void addItems(ArrayList<OldTVFeedItem> items) {
+	public void addItems(ArrayList<TVFeedItem> items) {
 		mFeedItems.addAll(items);
 		notifyDataSetChanged();
 	}
 
 	@Override
 	public int getItemViewType(int position) {
-		OldTVFeedItem item = getItem(position);
+		TVFeedItem item = getItem(position);
 		if (item != null) {
-			String feedItemType = item.getItemType();
+//			String feedItemType = item.getItemType();
+			FeedItemTypeEnum feedItemType = item.getItemType();
+			//TODO use switch on feedItemType instead
+			
 			if (Consts.FEED_ITEM_TYPE_POPULAR_BROADCASTS.equals(feedItemType)) {
 				return ITEM_TYPE_POPULAR_BROADCASTS;
 			} 
@@ -105,7 +109,7 @@ public class ActivityFeedAdapter extends AdListAdapter<OldTVFeedItem> {
 		}
 	}
 
-	public void populatePopularItemAtIndex(PopularBroadcastsViewHolder viewHolder, ArrayList<OldBroadcast> broadcasts, int popularRowIndex) {
+	public void populatePopularItemAtIndex(PopularBroadcastsViewHolder viewHolder, ArrayList<Broadcast> broadcasts, int popularRowIndex) {
 		ImageView imageView = null;
 		TextView title = null;
 		TextView time = null;
@@ -152,15 +156,16 @@ public class ActivityFeedAdapter extends AdListAdapter<OldTVFeedItem> {
 		}
 
 		if (popularRowIndex < broadcasts.size()) {
-			final OldBroadcast broadcast = broadcasts.get(popularRowIndex);
+			final Broadcast broadcast = broadcasts.get(popularRowIndex);
 			if (broadcast != null) {
 				broadcast.updateTimeToBeginAndTimeToEnd();
-				final OldProgram program = broadcast.getProgram();
+				final TVProgram program = broadcast.getProgram();
 
-				String programType = broadcast.getProgram().getProgramType();
+//				String programType = broadcast.getProgram().getProgramType();
+				ProgramTypeEnum programType = broadcast.getProgram().getProgramType();
 
 				ImageAware imageAware = new ImageViewAware(imageView, false);
-				ImageLoader.getInstance().displayImage(broadcast.getProgram().getPortMUrl(), imageAware);
+				ImageLoader.getInstance().displayImage(broadcast.getProgram().getImages().getPortrait().getMedium(), imageAware);
 
 				if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 					title.setText(broadcast.getProgram().getSeries().getName());
@@ -180,7 +185,7 @@ public class ActivityFeedAdapter extends AdListAdapter<OldTVFeedItem> {
 					else if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 						if (broadcast != null) {
 							if (program != null) {
-								String season = program.getSeason().getNumber();
+								String season = program.getSeason().getNumber().toString();
 								int episode = program.getEpisodeNumber();
 								String seasonEpisode = "";
 								if (!season.equals("0")) {
@@ -223,10 +228,10 @@ public class ActivityFeedAdapter extends AdListAdapter<OldTVFeedItem> {
 		}
 	}
 
-	private void popularBroadcastClicked(OldBroadcast broadcast) {
+	private void popularBroadcastClicked(Broadcast broadcast) {
 		Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
 		intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
-		intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
+		intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId().getChannelId());
 		intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
 		intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
 		intent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
@@ -246,10 +251,10 @@ public class ActivityFeedAdapter extends AdListAdapter<OldTVFeedItem> {
 		return rowView;
 	}
 	
-	private View populateSingleBroadcastCell(View rowView, final OldBroadcast broadcast, int position, OldTVFeedItem feedItem) {
+	private View populateSingleBroadcastCell(View rowView, final Broadcast broadcast, int position, TVFeedItem feedItem) {
 		broadcast.updateTimeToBeginAndTimeToEnd();
 
-		final OldProgram program = broadcast.getProgram();
+		final TVProgram program = broadcast.getProgram();
 		if (rowView == null) {
 			BroadcastViewHolder viewHolder = new BroadcastViewHolder();
 
@@ -281,7 +286,7 @@ public class ActivityFeedAdapter extends AdListAdapter<OldTVFeedItem> {
 		if(holderBC != null) {
 			holderBC.reminderView.setBroadcast(broadcast);
 
-			final String programType = program.getProgramType();
+			final ProgramTypeEnum programType = program.getProgramType();
 			// determine like
 			if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 				mIsLiked = MiTVStore.getInstance().isInTheLikesList(program.getSeries().getSeriesId());
@@ -298,7 +303,7 @@ public class ActivityFeedAdapter extends AdListAdapter<OldTVFeedItem> {
 			}
 
 			ImageAware imageAware = new ImageViewAware(holderBC.landscapeIv, false);
-			ImageLoader.getInstance().displayImage(program.getLandLUrl(), imageAware);
+			ImageLoader.getInstance().displayImage(program.getImages().getLandscape().getLarge(), imageAware);
 
 			if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 				holderBC.titleTv.setText(program.getSeries().getName());
@@ -313,7 +318,7 @@ public class ActivityFeedAdapter extends AdListAdapter<OldTVFeedItem> {
 				if (Consts.PROGRAM_TYPE_MOVIE.equals(programType)) {
 					holderBC.detailsTv.setText(program.getGenre() + " " + program.getYear());
 				} else if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-					String season = program.getSeason().getNumber();
+					String season = program.getSeason().getNumber().toString();
 					int episode = program.getEpisodeNumber();
 					String seasonEpisode = "";
 					if (!season.equals("0")) {
@@ -339,7 +344,7 @@ public class ActivityFeedAdapter extends AdListAdapter<OldTVFeedItem> {
 				public void onClick(View v) {
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
 					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
-					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId().getChannelId());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
@@ -366,7 +371,8 @@ public class ActivityFeedAdapter extends AdListAdapter<OldTVFeedItem> {
 
 				@Override
 				public void onClick(View v) {
-					String likeType = LikeService.getLikeType(programType);
+					//TOOD convert from program type to LikeType
+					LikeTypeResponseEnum likeType;// = LikeService.getLikeType(programType);
 
 					String programId, contentTitle;
 					if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
@@ -381,27 +387,30 @@ public class ActivityFeedAdapter extends AdListAdapter<OldTVFeedItem> {
 					}
 
 					if (mIsLiked == false) {
-						if (LikeService.addLike(programId, likeType)) {
-							MiTVStore.getInstance().addLikeIdToList(programId);
-
-							ActivityActivity.toast = LikeService.showSetLikeToast(mActivity, contentTitle);
-							holderBC.likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
-
-							AnimationUtilities.animationSet(holderBC.likeLikeIv);
-
-							mIsLiked = true;
-						} else {
-							// Toast.makeText(mActivity,
-							// "Adding a like faced an error",
-							// Toast.LENGTH_SHORT).show();
-							Log.d(TAG, "!!! Adding a like faced an error !!!");
-						}
+						//TODO use ContentManager architecture for likes
+//						if (LikeService.addLike(programId, likeType)) {
+//							MiTVStore.getInstance().addLikeIdToList(programId);
+//
+//							ActivityActivity.toast = LikeService.showSetLikeToast(mActivity, contentTitle);
+//							holderBC.likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
+//
+//							AnimationUtilities.animationSet(holderBC.likeLikeIv);
+//
+//							mIsLiked = true;
+//						} else {
+//							// Toast.makeText(mActivity,
+//							// "Adding a like faced an error",
+//							// Toast.LENGTH_SHORT).show();
+//							Log.d(TAG, "!!! Adding a like faced an error !!!");
+//						}
 					} else {
-						LikeService.removeLike(likeType, programId);
-						MiTVStore.getInstance().deleteLikeIdFromList(programId);
 
-						mIsLiked = false;
-						holderBC.likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
+						//TODO use ContentManager architecture for likes
+//						LikeService.removeLike(likeType, programId);
+//						MiTVStore.getInstance().deleteLikeIdFromList(programId);
+//
+//						mIsLiked = false;
+//						holderBC.likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
 
 					}
 				}
@@ -419,7 +428,7 @@ public class ActivityFeedAdapter extends AdListAdapter<OldTVFeedItem> {
 		return rowView;
 	}
 	
-	private View populateMultipleBroadcastsCell(View rowView, ArrayList<OldBroadcast> broadcasts) {
+	private View populateMultipleBroadcastsCell(View rowView, ArrayList<Broadcast> broadcasts) {
 		if (rowView == null) {
 			PopularBroadcastsViewHolder viewHolder = new PopularBroadcastsViewHolder();
 			rowView = mLayoutInflater.inflate(R.layout.block_feed_popular, null);
@@ -493,7 +502,7 @@ public class ActivityFeedAdapter extends AdListAdapter<OldTVFeedItem> {
 
 		int type = getItemViewType(position);
 
-		final OldTVFeedItem feedItem = getItem(position);
+		final TVFeedItem feedItem = getItem(position);
 
 		switch (type) {
 		case ITEM_TYPE_RECOMMENDED_BROADCAST:
@@ -501,7 +510,7 @@ public class ActivityFeedAdapter extends AdListAdapter<OldTVFeedItem> {
 		case ITEM_TYPE_POPULAR_BROADCAST:
 		case ITEM_TYPE_BROADCAST:
 			/* One broadcast */
-			final OldBroadcast broadcast = feedItem.getBroadcast();
+			final Broadcast broadcast = feedItem.getBroadcast();
 
 			if (broadcast != null) {
 				rowView = populateSingleBroadcastCell(rowView, broadcast, position, feedItem);
@@ -510,7 +519,7 @@ public class ActivityFeedAdapter extends AdListAdapter<OldTVFeedItem> {
 
 		case ITEM_TYPE_POPULAR_BROADCASTS:
 
-			final ArrayList<OldBroadcast> broadcasts = feedItem.getBroadcasts();
+			final ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>(feedItem.getBroadcasts());
 
 			if (broadcasts != null && broadcasts.size() > 0) {
 				rowView = populateMultipleBroadcastsCell(rowView, broadcasts);

@@ -1,37 +1,34 @@
 package com.millicom.mitv.activities;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import com.mitv.Consts;
+import com.millicom.mitv.ContentManager;
+import com.millicom.mitv.models.gson.Broadcast;
+import com.millicom.mitv.models.gson.TVProgram;
+import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.adapters.RepetitionsListAdapter;
-import com.mitv.model.OldBroadcast;
-import com.mitv.model.OldProgram;
 
 public class RepetitionsPageActivity extends BaseActivity implements OnClickListener {
 
 	private static final String		TAG						= "RepeatitionsPageActivity";
-	private String					token;
+//	private String					token;
 	private RelativeLayout			mTabTvGuide, mTabProfile, mTabActivity;private View mTabDividerLeft, mTabDividerRight;
 	private ActionBar				mActionBar;
 	private ListView				mListView;
 	private RepetitionsListAdapter	mAdapter;
-	private ArrayList<OldBroadcast>	mRepeatingBroadcasts	= new ArrayList<OldBroadcast>();
-	private OldProgram					mRepeatingProgram;
-	private OldBroadcast				mRunningBroadcast;
+	private ArrayList<Broadcast>	mRepeatingBroadcasts	= new ArrayList<Broadcast>();
+	private TVProgram					mRepeatingProgram;
+	private Broadcast				mRunningBroadcast;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +39,14 @@ public class RepetitionsPageActivity extends BaseActivity implements OnClickList
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
-		Intent intent = getIntent();
-		mRepeatingBroadcasts = intent.getParcelableArrayListExtra(Consts.INTENT_EXTRA_REPEATING_BROADCASTS);
-		mRepeatingProgram = intent.getParcelableExtra(Consts.INTENT_EXTRA_REPEATING_PROGRAM);
-		mRunningBroadcast = intent.getParcelableExtra(Consts.INTENT_EXTRA_RUNNING_BROADCAST);
+//		Intent intent = getIntent();
+//		mRepeatingBroadcasts = intent.getParcelableArrayListExtra(Consts.INTENT_EXTRA_REPEATING_BROADCASTS);
+//		mRepeatingProgram = intent.getParcelableExtra(Consts.INTENT_EXTRA_REPEATING_PROGRAM);
+//		mRunningBroadcast = intent.getParcelableExtra(Consts.INTENT_EXTRA_RUNNING_BROADCAST);
+		mRepeatingBroadcasts = ContentManager.sharedInstance().getFromStorageRepeatingBroadcasts();
+		mRunningBroadcast = ContentManager.sharedInstance().getFromStorageSelectedBroadcast();
 
-		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
+//		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 
 		initViews();
 

@@ -3,10 +3,10 @@ package com.millicom.mitv.models.gson;
 
 public class TVChannel {
 
-	private String channelId;
-	private String name;
-	private Logo logo;
-	private transient TVChannelId tvChannelIdObject;
+	protected String channelId;
+	protected String name;
+	protected ImageSetSize logo;
+	protected transient TVChannelId tvChannelIdObject;
 	
 	public TVChannelId getChannelId() {
 		if(tvChannelIdObject == null) {
@@ -19,9 +19,17 @@ public class TVChannel {
 		return name;
 	}
 
-	public Logo getLogo() {
+	public ImageSetSize getLogo() {
 		return logo;
 	}
 
 
+	//TODO determine if those are good methods
+	/* Partially implemented method */
+	public String getImageUrl() {
+		//TODO use getImageURLForDensityDPI instead?
+		//String imageUrl = logo.getImageURLForDensityDPI(densityDpi)
+		
+		return logo.getLarge();
+	}
 }
