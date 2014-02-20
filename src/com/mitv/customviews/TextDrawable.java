@@ -21,7 +21,7 @@
 * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-package com.mitv.utilities;
+package com.mitv.customviews;
 
 import android.content.Context;
 import android.content.res.ColorStateList;

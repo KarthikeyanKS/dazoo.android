@@ -53,8 +53,8 @@ import com.mitv.AuthenticationService;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.customviews.FontTextView;
+import com.mitv.customviews.TextDrawable;
 import com.mitv.utilities.JSONUtilities;
-import com.mitv.utilities.TextDrawable;
 
 public class SignUpWithEmailActivity extends SSSignInSignupBaseActivity implements OnClickListener {
 

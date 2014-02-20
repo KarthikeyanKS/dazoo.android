@@ -1,4 +1,7 @@
+
 package com.mitv.utilities;
+
+
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -6,38 +9,50 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-
 import android.content.Context;
 import android.util.Log;
-
 import com.mitv.Consts;
 import com.mitv.SecondScreenApplication;
 import com.mitv.manager.AppConfigurationManager;
 import com.mitv.model.OldTVDate;
 
-public class DateUtilities {
 
+
+public class DateUtilities 
+{
 	@SuppressWarnings("unused")
 	private static final String	TAG	= "DateUtilities";
 	
-	public static final String tvDateToYearNumber(String tvDate){
+	
+	
+	public static final String tvDateToYearNumber(String tvDate)
+	{
 		SimpleDateFormat dfmInput = getDateFormat(Consts.TVDATE_DATE_FORMAT);
 		SimpleDateFormat dfmOutput = getDateFormat("yyyy");
 		
 		long time = 0;
-		if (tvDate != null && !tvDate.equals("")) {
-			try {
+		
+		if (tvDate != null && !tvDate.equals("")) 
+		{
+			try 
+			{
 				time = dfmInput.parse(tvDate).getTime();
-			} catch (ParseException e) {
+			} 
+			catch (ParseException e)
+			{
 				e.printStackTrace();
 			}
 		}
 		
 		String output = dfmOutput.format(time);
+		
 		return output;
 	}
 	
-	public static final long convertTimeStampToLocalTime(long timestamp) {
+	
+	
+	public static final long convertTimeStampToLocalTime(long timestamp) 
+	{
 		Date gmtTime = new Date(timestamp);
 		Date localTime = new Date(gmtTime.getTime() + TimeZone.getDefault().getOffset(gmtTime.getTime()));
 		long localTimeLong = localTime.getTime();
@@ -45,40 +60,58 @@ public class DateUtilities {
 		return localTimeLong;
 	}
 	
+	
+	
 	//TODO verify that this uses correct time zone!
-	public static final String tvDateToMonthNumber(String tvDate){
+	public static final String tvDateToMonthNumber(String tvDate)
+	{
 		SimpleDateFormat dfmInput = getDateFormat(Consts.TVDATE_DATE_FORMAT);
 		SimpleDateFormat dfmOutput = getDateFormat("MM");
 		
 		long time = 0;
-		if (tvDate != null && !tvDate.equals("")) {
-			try {
+		
+		if (tvDate != null && !tvDate.equals("")) 
+		{
+			try
+			{
 				time = dfmInput.parse(tvDate).getTime();
-			} catch (ParseException e) {
+			}
+			catch (ParseException e)
+			{
 				e.printStackTrace();
 			}
 		}
 		
 		String output = dfmOutput.format(time);
+		
 		return output;
 	}
 	
+	
+	
 	//TODO verify that this uses correct time zone!
-	public static String timeStringUsingTvDateAndHour(OldTVDate tvDate, int hour) {
+	public static String timeStringUsingTvDateAndHour(OldTVDate tvDate, int hour)
+	{
 		SimpleDateFormat df = getDateFormat(Consts.ISO_DATE_FORMAT);
 		Date date = dateFromTvDateAndHour(tvDate, hour);
 		String timeNowStr = df.format(date);
 		return timeNowStr;
 	}
 	
-	public static long timeAsLongFromTvDateAndHour(OldTVDate tvDate, int hour) {
+	
+	
+	public static long timeAsLongFromTvDateAndHour(OldTVDate tvDate, int hour) 
+	{
 		long time = 0;
 		Date date = dateFromTvDateAndHour(tvDate, hour);
 		time = date.getTime();
 		return time;
 	}
 	
-	public static Date dateFromTvDateAndHour(OldTVDate tvDate, int hour) {
+	
+	
+	public static Date dateFromTvDateAndHour(OldTVDate tvDate, int hour) 
+	{
 		String year = DateUtilities.tvDateToYearNumber(tvDate.getDate());
 		String month = DateUtilities.tvDateToMonthNumber(tvDate.getDate());
 		String day = DateUtilities.tvDateToDayNumber(tvDate.getDate());
@@ -100,6 +133,8 @@ public class DateUtilities {
 		
 		return date;
 	}
+	
+	
 	
 	public static final String tvDateToDayNumber(String tvDate){
 		SimpleDateFormat dfmInput = getDateFormat(Consts.TVDATE_DATE_FORMAT);

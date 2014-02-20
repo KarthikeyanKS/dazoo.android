@@ -25,6 +25,7 @@ import com.millicom.mitv.enums.ContentTypeEnum;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.customviews.CustomTypefaceSpan;
 import com.mitv.customviews.FontTextView;
 import com.mitv.handlers.SearchActivityListeners;
 import com.mitv.http.MiTVCallback;
@@ -36,7 +37,6 @@ import com.mitv.model.OldSearchResult;
 import com.mitv.model.OldSearchResultItem;
 import com.mitv.model.OldSeries;
 import com.mitv.model.OldTVChannel;
-import com.mitv.utilities.CustomTypefaceSpan;
 
 public class SearchPageListAdapter extends ArrayAdapter<OldSearchResultItem> implements Filterable {
 	private static final String TAG = "SearchListAdapter";
