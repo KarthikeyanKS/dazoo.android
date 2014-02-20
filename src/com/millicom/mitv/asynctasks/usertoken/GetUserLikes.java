@@ -22,6 +22,6 @@ public class GetUserLikes extends AsyncTaskWithUserToken<UserLike[]>
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener) 
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_LIKES, UserLike[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_LIKES, UserLike[].class, UserLike.class, true, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
 	}
 }

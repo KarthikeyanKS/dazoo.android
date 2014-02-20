@@ -89,11 +89,6 @@ public class ContentManager implements ContentCallbackListener {
 		fetchFromServiceTVGuideUsingTVDate(activityCallBackListener, tvDate);
 	}
 	
-	public void fetchTVGuideForSelectedDay(ActivityCallbackListener activityCallBackListener) {
-		TVDate tvDate = storage.getTvDateSelected();
-		fetchFromServiceTVGuideUsingTVDate(activityCallBackListener, tvDate);
-	}
-
 	private void fetchFromServiceTVGuideUsingTVDate(ActivityCallbackListener activityCallBackListener, TVDate tvDate) {
 		ArrayList<TVChannelId> tvChannelIds = storage.getTvChannelIdsUsed();
 		apiClient.getTVChannelGuides(activityCallBackListener, tvDate, tvChannelIds);
@@ -317,9 +312,6 @@ public class ContentManager implements ContentCallbackListener {
 			switch (requestIdentifier) {
 			case APP_CONFIGURATION:
 				AppConfiguration appConfigData = (AppConfiguration) content;
-				// TODO decide if use Storage class here or not (if we should
-				// put
-				// the app config data in the storage class or not)
 				storage.setAppConfigData(appConfigData);
 				break;
 
@@ -353,22 +345,21 @@ public class ContentManager implements ContentCallbackListener {
 		if (result.wasSuccessful() && content != null) {
 			completedCountTVData++;
 	
-			switch (requestIdentifier) 
-			{
-				case TV_DATE: {
-					ArrayList<TVDate> tvDates = (ArrayList<TVDate>) content;
-					storage.setTvDates(tvDates);
-					
-					/* We will only get here ONCE, at the start of the app, no TVDate has been selected, set it! */
-					if(!tvDates.isEmpty()) {
-						TVDate tvDate = tvDates.get(0);
-						storage.setTvDateSelected(tvDate);
-					} else {
-						//TODO handle this...?
-					}
-					break;
+			switch (requestIdentifier) {
+			case TV_DATE: {
+				ArrayList<TVDate> tvDates = (ArrayList<TVDate>) content;
+				storage.setTvDates(tvDates);
+
+				/* We will only get here ONCE, at the start of the app, no TVDate has been selected, set it! */
+				if (!tvDates.isEmpty()) {
+					TVDate tvDate = tvDates.get(0);
+					storage.setTvDateSelected(tvDate);
+				} else {
+					// TODO handle this...?
 				}
-			
+				break;
+			}
+
 			case TV_TAG: {
 				ArrayList<TVTag> tvTags = (ArrayList<TVTag>) content;
 				storage.setTvTags(tvTags);

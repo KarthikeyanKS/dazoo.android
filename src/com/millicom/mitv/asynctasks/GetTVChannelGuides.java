@@ -4,8 +4,13 @@ package com.millicom.mitv.asynctasks;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+import android.util.Log;
 
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
@@ -66,7 +71,8 @@ public class GetTVChannelGuides
 		/* Important to call super first, which creates the content, which in this case is */
 		super.doInBackground(params);
 		
-		ArrayList<TVChannelGuide> tvChannelGuides = (ArrayList<TVChannelGuide>) requestResultObjectContent;
+		TVChannelGuide[] contentAsArray = (TVChannelGuide[]) requestResultObjectContent;
+		ArrayList<TVChannelGuide> tvChannelGuides = new ArrayList<TVChannelGuide>(Arrays.asList(contentAsArray));
 		HashMap<String, ArrayList<Broadcast>> mapTagToTaggedBroadcastForDate = createMapTagToTaggedBroadcastForDate(tvChannelGuides);
 		TVGuide tvGuide = new TVGuide(tvDate, tvChannelGuides);
 		TVGuideAndTaggedBroadcasts tvGuideAndTaggedBroadcasts = new TVGuideAndTaggedBroadcasts(tvGuide, mapTagToTaggedBroadcastForDate);
@@ -83,8 +89,12 @@ public class GetTVChannelGuides
 	 * @return
 	 */
 	public HashMap<String, ArrayList<Broadcast>> createMapTagToTaggedBroadcastForDate(ArrayList<TVChannelGuide> tvChannelGuides) {
-		/* TVTag id is used as key */
-		HashMap<String, ArrayList<Broadcast>> mapTagToTaggedBroadcastForDate = new HashMap<String, ArrayList<Broadcast>>();
+
+		ArrayList<String> tvTagsAsStrings = tvTagIds();
+
+		/* TVTag id is used as key. STRANGEST JAVA BUG EVER: For some reason we MUST set the size of the map to 3 times as big as the expected
+		 * size of that map. We MUST set a size, else the values will be overwritten even though keys are not the same! */
+		HashMap<String, ArrayList<Broadcast>> mapTagToTaggedBroadcastForDate = new HashMap<String, ArrayList<Broadcast>>(tvTagsAsStrings.size() * 3);
 
 		for (TVChannelGuide tvChannelGuide : tvChannelGuides) {
 			ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>(tvChannelGuide.getBroadcasts());
@@ -96,7 +106,7 @@ public class GetTVChannelGuides
 				ArrayList<String> tagNames = program.getTags();
 
 				/* Filter out only the relevant tags that are being used in the app */
-				ArrayList<String> filteredTagNames = filterOutOnlyRelevantTagNames(tagNames);
+				ArrayList<String> filteredTagNames = filterOutOnlyRelevantTagNames(tvTagsAsStrings, tagNames);
 
 				/*
 				 * For each relevant tag for this broadcast add the broadcast to the list of tagged broadcasts for said tag. E.g. the tag
@@ -120,7 +130,17 @@ public class GetTVChannelGuides
 				}
 			}
 		}
+
 		return mapTagToTaggedBroadcastForDate;
+	}
+	
+	private ArrayList<String> tvTagIds() {
+		ArrayList<TVTag> tvTags = ContentManager.sharedInstance().getFromStorageTVTags();
+		ArrayList<String> tvTagsAsString = new ArrayList<String>();
+		for(TVTag tvTag : tvTags) {
+			tvTagsAsString.add(tvTag.getId());
+		}
+		return tvTagsAsString;
 	}
 	
 	/**
@@ -131,8 +151,16 @@ public class GetTVChannelGuides
 	 * @param tagNames the list of TVTags for a specific program (for a broadcast), which may contain irrelevant tags.
 	 * @return A list of only the relevant broadcasts.
 	 */
-	private ArrayList<String> filterOutOnlyRelevantTagNames(ArrayList<String> tagNames) {
-		return null;
+	private ArrayList<String> filterOutOnlyRelevantTagNames(ArrayList<String> allRelevantTVTags, ArrayList<String> tagNames) {		
+		ArrayList<String> onlyRelevantTVTags = new ArrayList<String>();
+				
+		for(String tagName : tagNames) {
+			if(allRelevantTVTags.contains(tagName)) {
+				onlyRelevantTVTags.add(tagName);
+			}
+		}
+		
+		return onlyRelevantTVTags;
 	}
 	
 }

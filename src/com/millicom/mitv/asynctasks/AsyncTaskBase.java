@@ -47,7 +47,6 @@ public abstract class AsyncTaskBase<T>
 	protected Object requestResultObjectContent;
 	
 	
-	
 	public AsyncTaskBase(
 			ContentCallbackListener contentCallbackListener, 
 			ActivityCallbackListener activityCallBackListener,
@@ -57,7 +56,34 @@ public abstract class AsyncTaskBase<T>
 			boolean isRelativeURL,
 			String url) 
 	{
-		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, httpRequestType, isRelativeURL, url, new URLParameters(), Collections.<String, String> emptyMap(), null);
+		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, false, httpRequestType, isRelativeURL, url);
+	}
+	
+	public AsyncTaskBase(
+			ContentCallbackListener contentCallbackListener, 
+			ActivityCallbackListener activityCallBackListener,
+			RequestIdentifierEnum requestIdentifier, 
+			Class<T> clazz,
+			Class clazzSingle,
+			boolean manualDeserialization,
+			HTTPRequestTypeEnum httpRequestType,
+			boolean isRelativeURL,
+			String url) 
+	{
+		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, clazzSingle, manualDeserialization, httpRequestType, isRelativeURL, url, new URLParameters(), Collections.<String, String> emptyMap(), null);
+	}
+	
+	public AsyncTaskBase(
+			ContentCallbackListener contentCallbackListener, 
+			ActivityCallbackListener activityCallBackListener,
+			RequestIdentifierEnum requestIdentifier, 
+			Class<T> clazz,
+			boolean manualDeserialization,
+			HTTPRequestTypeEnum httpRequestType,
+			boolean isRelativeURL,
+			String url) 
+	{
+		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, isRelativeURL, url, new URLParameters(), Collections.<String, String> emptyMap(), null);
 	}
 	
 	
@@ -67,6 +93,8 @@ public abstract class AsyncTaskBase<T>
 			ActivityCallbackListener activityCallBackListener,
 			RequestIdentifierEnum requestIdentifier,
 			Class<T> clazz,
+			Class clazzSingle,
+			boolean manualDeserialization,
 			HTTPRequestTypeEnum httpRequestType,
 			boolean isRelativeURL,
 			String url,
@@ -77,7 +105,7 @@ public abstract class AsyncTaskBase<T>
 		this.contentCallbackListener = contentCallbackListener;
 		this.activityCallBackListener = activityCallBackListener;
 		this.requestIdentifier = requestIdentifier;
-		
+		this.clazz = clazz;
 		this.httpRequestType = httpRequestType;
 		this.isRelativeURL = isRelativeURL;
 		this.url = url;
@@ -92,8 +120,16 @@ public abstract class AsyncTaskBase<T>
 		
 		try 
 		{
-			gsonBuilder.registerTypeAdapter(clazz, clazz.newInstance());
-			gsonBuilder.excludeFieldsWithoutExposeAnnotation();
+			if(manualDeserialization) {
+				Object classIntance = null;
+				if(clazz.isArray()) {
+					classIntance = clazzSingle.newInstance();
+				} else {
+					classIntance = clazz.newInstance();
+				}
+				gsonBuilder.registerTypeAdapter(clazz, classIntance);
+				gsonBuilder.excludeFieldsWithoutExposeAnnotation();
+			}
 			this.gson = gsonBuilder.create();
 		} 
 		catch (InstantiationException iex)

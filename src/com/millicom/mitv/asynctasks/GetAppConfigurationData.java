@@ -22,6 +22,6 @@ public class GetAppConfigurationData extends AsyncTaskWithRelativeURL<AppConfigu
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener)
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.APP_CONFIGURATION, AppConfiguration.class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.APP_CONFIGURATION, AppConfiguration.class, true, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
 	}
 }
