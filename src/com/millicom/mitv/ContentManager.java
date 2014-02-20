@@ -13,6 +13,7 @@ import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.models.AppVersionData;
 import com.millicom.mitv.models.Broadcast;
 import com.millicom.mitv.models.TVGuide;
+import com.millicom.mitv.models.TVGuideAndTaggedBroadcasts;
 import com.millicom.mitv.models.gson.AppConfiguration;
 import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
@@ -426,15 +427,13 @@ public class ContentManager implements ContentCallbackListener {
 
 	private void handleTVChannelGuidesForSelectedDayResponse(ActivityCallbackListener activityCallBackListener, FetchRequestResultEnum result, Object content) {
 		if (result.wasSuccessful() && content != null) {
-			ArrayList<TVChannelGuide> tvChannelGuides = (ArrayList<TVChannelGuide>) content;
+			TVGuideAndTaggedBroadcasts tvGuideAndTaggedBroadcasts = (TVGuideAndTaggedBroadcasts) content;
 
-			TVDate tvDate = storage.getTvDateSelected();
-			TVGuide tvGuide = new TVGuide(tvDate, tvChannelGuides);
-
-			storage.addTVGuide(tvDate, tvGuide);
+			TVGuide tvGuide = tvGuideAndTaggedBroadcasts.getTvGuide();
+			HashMap<String, ArrayList<Broadcast>> mapTagToTaggedBroadcastForDate = tvGuideAndTaggedBroadcasts.getMapTagToTaggedBroadcastForDate();
 			
-			HashMap<String, ArrayList<Broadcast>> map = createTaggedBroadcastUsingTVGuide(tvGuide);
-//			storage.add
+			storage.addTVGuideForSelectedDay(tvGuide);
+			storage.addTaggedBroadcastsForSelectedDay(mapTagToTaggedBroadcastForDate);
 
 			activityCallBackListener.onResult(FetchRequestResultEnum.SUCCESS);
 		} else {
@@ -683,34 +682,6 @@ public class ContentManager implements ContentCallbackListener {
 	}
 
 	/* HELPER METHODS */
-	/* MAJOR HELPER METHODS */
-	public HashMap<String, ArrayList<Broadcast>> createTaggedBroadcastUsingTVGuide(TVGuide tvGuide) {
-		/* TVTag string representation is used as key */
-		ArrayList<TVTag> tvTags = getFromStorageTVTags();
-		
-		//TODO FIXME implement me, should be done in O(C*B*t), and not O(C*B*T*t) as in older version
-		//where C=number of TVChannelGuides, B=number of broadcasts, T=number of global visible tags, t=number of tags for broadcast
-		HashMap<String, ArrayList<Broadcast>> tagBroadcastMap = new HashMap<String, ArrayList<Broadcast>>();
-		
-		for(TVTag tvTag : tvTags) {
-			for(TVChannelGuide tvChannelGuide : tvGuide.getTvChannelGuides()) {
-				ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>(tvChannelGuide.getBroadcasts());
-				
-				for(Broadcast broadcast : broadcasts) {
-					TVProgram program = broadcast.getProgram();
-					ArrayList<String> tagNames = program.getTags();
-					for(String tagName : tagNames) {
-						
-					}
-					
-				}
-				
-			}
-		}
-		return tagBroadcastMap;
-	}
-	
-	/* MINOR HELPER METHODS */
 	public boolean checkApiVersion(String apiVersion) {
 		if (apiVersion != null && !TextUtils.isEmpty(apiVersion) && !apiVersion.equals(Consts.API_VERSION)) {
 			return true;

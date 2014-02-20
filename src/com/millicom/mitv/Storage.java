@@ -27,11 +27,34 @@ public class Storage {
 	private ArrayList<TVDate> tvDates;
 	private ArrayList<TVChannelId> tvChannelIdsDefault;
 	private ArrayList<TVChannelId> tvChannelIdsUser;
+	
+	/* We only need to use this variable, and not "tvChannelIdsDefault" or "tvChannelIdsUser",
+	 * "tvChannelIdsUsed" will hold either of those variables above mentioned. When you login/logout
+	 * the data held by this variable will change between those two. */
 	private ArrayList<TVChannelId> tvChannelIdsUsed;
+	
+	/* Should contain ALL channels provided by the backend, some hundreds or so */
 	private ArrayList<TVChannel> tvChannels;
-	private HashMap<String, TVGuide> tvGuides; /* Key is the id from the TVDate */
-	private HashMap<String, ArrayList<Broadcast>> taggedBroadcastsForAllDays; /* Key is the id from the TVDate */
-
+	
+	/* Key is the id from the TVDate */
+	private HashMap<String, TVGuide> tvGuides;
+	
+	/* Key for the wrapping Map, wMap, is the id from the TVDate, which gets you an inner Map, iMap, which key is a TVTag
+	 * The value stored in iMap is a list of "tagged" broadcasts for the TVTag provided as key to iMap. 
+	 * E.g.
+	 * 
+	 * wMap:
+	 * {"2014-02-20" = iMap1,
+	 * "2014-02-21" = iMap2}
+	 * 
+	 * WHERE:
+	 * iMap1:
+	 * {"MOVIE" = [BroadcastA, BroadcastB],
+	 * "SPORT" = [BroadcastX, BroadcastY]} 
+	 * 
+	 * */
+	private HashMap<String, HashMap<String, ArrayList<Broadcast>>> taggedBroadcastsForAllDays;
+	
 	private ArrayList<UserLike> userLikes;
 	
 	private Calendar likeIdsFetchedTimestamp;
@@ -72,6 +95,11 @@ public class Storage {
 	
 	public HashMap<String, TVGuide> getTvGuides() {
 		return tvGuides;
+	}
+	
+	public void addTVGuideForSelectedDay(TVGuide tvGuide) {
+		TVDate tvDate = getTvDateSelected();
+		addTVGuide(tvDate, tvGuide);
 	}
 	
 	public void addTVGuide(TVDate tvDate, TVGuide tvGuide) {
@@ -252,27 +280,27 @@ public class Storage {
 		
 		return tvChannelGuideFound;
 	}
-	
-	public void setTaggedBroadcastsForAllDays(HashMap<String, ArrayList<Broadcast>> taggedBroadcastsForAllDays) {
-		this.taggedBroadcastsForAllDays = taggedBroadcastsForAllDays;
-	}
-	
-	public HashMap<String, ArrayList<Broadcast>> getTaggedBroadcastsForAllDays() {
+		
+	public HashMap<String, HashMap<String, ArrayList<Broadcast>>> getTaggedBroadcastsForAllDays() {
 		return taggedBroadcastsForAllDays;
 	}
 	
-	public void addTaggedBroadcastsForDay(ArrayList<Broadcast> taggedBroadcastForDay, TVDate tvDate) {
+	public void addTaggedBroadcastsForSelectedDay(HashMap<String, ArrayList<Broadcast>> taggedBroadcastForDay) {
+		TVDate tvDate = getTvDateSelected();
+		addTaggedBroadcastsForDay(taggedBroadcastForDay, tvDate);
+	}
+	
+	public void addTaggedBroadcastsForDay(HashMap<String, ArrayList<Broadcast>> taggedBroadcastForDay, TVDate tvDate) {
 		if(taggedBroadcastsForAllDays == null) {
-			taggedBroadcastsForAllDays = new HashMap<String, ArrayList<Broadcast>>();
+			taggedBroadcastsForAllDays = new HashMap<String, HashMap<String, ArrayList<Broadcast>>>();
 		}
 		taggedBroadcastsForAllDays.put(tvDate.getId(), taggedBroadcastForDay);
 	}
 	
-	public ArrayList<Broadcast> getTaggedBroadcastsUsingTVDate(TVDate tvDateAsKey) {
-		ArrayList<Broadcast> taggedBroadcastForDay = taggedBroadcastsForAllDays.get(tvDateAsKey.getId());
+	public HashMap<String, ArrayList<Broadcast>> getTaggedBroadcastsUsingTVDate(TVDate tvDateAsKey) {
+		HashMap<String, ArrayList<Broadcast>> taggedBroadcastForDay = taggedBroadcastsForAllDays.get(tvDateAsKey.getId());
 		return taggedBroadcastForDay;
 	}
-	
 	
 	public boolean containsTVDates() {
 		boolean containsTVDates = (tvDates != null && !tvDates.isEmpty());
