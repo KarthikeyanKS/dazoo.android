@@ -25,7 +25,7 @@ import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.ChannelPageActivity;
 import com.millicom.mitv.enums.BroadcastTypeEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
-import com.millicom.mitv.models.Broadcast;
+import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVDate;
 import com.millicom.mitv.models.gson.TVProgram;
@@ -128,7 +128,7 @@ public class TVGuideListAdapter extends AdListAdapter<TVChannelGuide> {
 			}
 		});
 
-		ArrayList<Broadcast> broadcasts = guide.getBroadcasts();
+		ArrayList<TVBroadcast> broadcasts = guide.getBroadcasts();
 
 		String stringIconMovie = mActivity.getResources().getString(R.string.icon_movie) + " ";
 		String stringIconLive = mActivity.getResources().getString(R.string.icon_live) + " ";
@@ -142,10 +142,10 @@ public class TVGuideListAdapter extends AdListAdapter<TVChannelGuide> {
 			mIndexOfNearestBroadcast = guide.getClosestBroadcastIndexFromTime(broadcasts, mHour, mDate);
 
 			if (mIndexOfNearestBroadcast != -1) {
-				ArrayList<Broadcast> nextBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, broadcasts, Consts.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
+				ArrayList<TVBroadcast> nextBroadcasts = TVBroadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, broadcasts, Consts.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
 			
 				for (int j = 0; j < Math.min(nextBroadcasts.size(), 3); j++) {
-					Broadcast broadcast = nextBroadcasts.get(j);
+					TVBroadcast broadcast = nextBroadcasts.get(j);
 					TVProgram program = broadcast.getProgram();
 					ProgramTypeEnum programType = program.getProgramType();
 					BroadcastTypeEnum broadcastType = broadcast.getBroadcastType();
@@ -214,7 +214,7 @@ public class TVGuideListAdapter extends AdListAdapter<TVChannelGuide> {
 						toShow = rowInfo;
 					}
 
-					if (broadcast.isRunning()) {
+					if (broadcast.isBroadcastCurrentlyAiring()) {
 						textStartIndexToMarkAsOngoing = textForThreeBroadcasts.length();
 						textIndexToMarkAsOngoing = textForThreeBroadcasts.length() + toShow.length();
 					}

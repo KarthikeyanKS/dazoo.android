@@ -14,7 +14,7 @@ import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.LikeTypeRequestEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.http.URLParameters;
-import com.millicom.mitv.models.Broadcast;
+import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVProgram;
 import com.millicom.mitv.models.gson.UserLike;
@@ -39,7 +39,7 @@ public class AddUserLikeTest
 		super.setUp();
 		
 		TVChannelGuide someGuide = tvChannelGuides.get(0);
-		Broadcast broadcast = someGuide.getBroadcasts().get(0);
+		TVBroadcast broadcast = someGuide.getBroadcasts().get(0);
 		TVProgram tvProgram = broadcast.getProgram();
 		String programId = tvProgram.getProgramId();
 		

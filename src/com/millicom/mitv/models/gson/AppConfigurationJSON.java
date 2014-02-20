@@ -15,8 +15,8 @@ import com.google.gson.JsonParseException;
 
 
 
-public class AppConfiguration
-	implements JsonDeserializer<AppConfiguration>
+public class AppConfigurationJSON
+	implements JsonDeserializer<AppConfigurationJSON>
 {
 	private int firstHourOfDay;
 	private String welcomeToast;
@@ -51,7 +51,7 @@ public class AppConfiguration
 	
 	
 	
-	public AppConfiguration()
+	public AppConfigurationJSON()
 	{
 		this.adzerkFormatsForAndroidGuide = new ArrayList<Integer>();
 		this.adzerkFormatsForActivity = new ArrayList<Integer>();
@@ -61,7 +61,7 @@ public class AppConfiguration
 	
 	
 	@Override
-	public AppConfiguration deserialize(
+	public AppConfigurationJSON deserialize(
 			JsonElement jsonTopElement, 
 			Type type,
 			JsonDeserializationContext jsonDeserializationContext) 

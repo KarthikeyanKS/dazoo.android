@@ -11,7 +11,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.millicom.mitv.ContentManager;
-import com.millicom.mitv.models.Broadcast;
+import com.millicom.mitv.models.TVBroadcast;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -25,8 +25,8 @@ public class UpcomingEpisodesPageActivity extends BaseActivity implements OnClic
 	private ActionBar					mActionBar;
 	private ListView					mListView;
 	private UpcomingEpisodesListAdapter	mAdapter;
-	private Broadcast 					mRunningBroadcast;
-	private ArrayList<Broadcast>		mUpcomingBroadcasts;
+	private TVBroadcast 					mRunningBroadcast;
+	private ArrayList<TVBroadcast>		mUpcomingBroadcasts;
 	
 
 	@Override

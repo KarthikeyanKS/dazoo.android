@@ -15,14 +15,14 @@ import android.widget.TextView;
 
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.enums.ProgramTypeEnum;
-import com.millicom.mitv.models.Broadcast;
+import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.handlers.NotificationDialogHandler;
 import com.mitv.interfaces.RemindersCountInterface;
-import com.mitv.model.OldNotificationDbItem;
+import com.mitv.model.NotificationDbItem;
 import com.mitv.model.OldTVDate;
 import com.mitv.notification.NotificationDataSource;
 import com.mitv.storage.MiTVStore;
@@ -33,7 +33,7 @@ public class RemindersListAdapter extends BaseAdapter {
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
-	private ArrayList<Broadcast>	mBroadcasts;
+	private ArrayList<TVBroadcast>	mBroadcasts;
 	private RemindersCountInterface	mInterface;
 	private int						notificationId;
 	private int						currentPosition	= -1;
@@ -41,7 +41,7 @@ public class RemindersListAdapter extends BaseAdapter {
 	private MiTVStore				mitvStore;
 	private ArrayList<OldTVDate>		mTvDates;
 
-	public RemindersListAdapter(Activity mActivity, ArrayList<Broadcast> mBroadcasts, RemindersCountInterface remindersInterface) {
+	public RemindersListAdapter(Activity mActivity, ArrayList<TVBroadcast> mBroadcasts, RemindersCountInterface remindersInterface) {
 		this.mBroadcasts = mBroadcasts;
 		this.mActivity = mActivity;
 		this.mInterface = remindersInterface;
@@ -58,7 +58,7 @@ public class RemindersListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public Broadcast getItem(int position) {
+	public TVBroadcast getItem(int position) {
 		if (mBroadcasts != null) {
 			return mBroadcasts.get(position);
 		} else return null;
@@ -98,7 +98,7 @@ public class RemindersListAdapter extends BaseAdapter {
 
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
 
-		final Broadcast broadcast = getItem(position);
+		final TVBroadcast broadcast = getItem(position);
 		if (broadcast != null) {
 			final TVChannel channel = broadcast.getChannel();
 			TVProgram program = broadcast.getProgram();
@@ -110,8 +110,8 @@ public class RemindersListAdapter extends BaseAdapter {
 			int prevPos = Math.max(position - 1, 0);
 
 			int nextPos = Math.min(position + 1, (mBroadcasts.size() - 1));
-			Broadcast broadcastPreviousPosition = getItem(prevPos);
-			Broadcast broadcastNextPosition = getItem(nextPos);
+			TVBroadcast broadcastPreviousPosition = getItem(prevPos);
+			TVBroadcast broadcastNextPosition = getItem(nextPos);
 
 			String stringCurrent = broadcast.getBeginTimeStringLocalDayMonth();
 			String stringPrevious = broadcastPreviousPosition.getBeginTimeStringLocalDayMonth();
@@ -167,7 +167,7 @@ public class RemindersListAdapter extends BaseAdapter {
 
 				@Override
 				public void onClick(View v) {
-					String broadcastUrl = Consts.URL_NOTIFY_BROADCAST_PREFIX + channel.getChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillisGmt();
+					String broadcastUrl = Consts.URL_NOTIFY_BROADCAST_PREFIX + channel.getChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillis();
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
 					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_URL, broadcastUrl);
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_LOGO_URL, channel.getImageUrl());
@@ -186,8 +186,8 @@ public class RemindersListAdapter extends BaseAdapter {
 
 					NotificationDataSource notificationDataSource = new NotificationDataSource(mActivity);
 
-					OldNotificationDbItem notificationDbItem = new OldNotificationDbItem();
-					notificationDbItem = notificationDataSource.getNotification(channel.getChannelId().getChannelId(), Long.valueOf(broadcast.getBeginTimeMillisGmt()));
+					NotificationDbItem notificationDbItem = new NotificationDbItem();
+					notificationDbItem = notificationDataSource.getNotification(channel.getChannelId().getChannelId(), Long.valueOf(broadcast.getBeginTimeMillis()));
 					if (notificationDbItem != null) {
 						notificationId = notificationDbItem.getNotificationId();
 						NotificationDialogHandler notificationDlg = new NotificationDialogHandler();

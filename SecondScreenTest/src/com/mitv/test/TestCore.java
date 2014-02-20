@@ -22,8 +22,7 @@ public class TestCore
 	protected static final int YEAR_OF_2000 = 2000;
 	protected static final String DEFAULT_TEST_USER_EMAIL = "oskar.tvjunkie@gmail.com";
 	protected static final String DEFAULT_TEST_USER_PASSWORD = "ilovetv";
-	protected static final String DEFAULT_TEST_USER_FACEBOOK_TOKEN = "CAAClasp4TkwBADDZAZA1HbYpSAoZCtoKZCFRToE3KxZAD53Qrm0x5kFNd6ipZC7XqBxwxhu01HgYRroFw0ikbJ8yvTsXjzX7oZAGvakAKiK8S8buSxe5TVsVtZBV2iy3n2XYBATkHAd2ITOZBOOn3ueLobreI0xCEfGOBZAQnHG3OQZB81bQ2p9GCuHspQ4MMC3lta0wb5OMW3O7nXo6pgX4f8QOBv8zHsyyxxZBQBSlhbwZAKwZDZD";
-	
+	protected static final String DEFAULT_TEST_USER_FACEBOOK_TOKEN = "CAADx1RnSnyQBAKfO3m8ZALzlwa9O9ybGfH4nmM0BAW3zN2uWSecJZBURfspqZBYKZAQ2ZCATjcUFZCkxyr2ARZCIxsAQ67u63JtrL80oKZBvsRCTY0dqfebDUuPZBevROWPZCJyWutPOAq0ZAie2Spk6SgZBzd7OxBV80ejFs9Up6MqAFutYMeoSSEtD7iZCCqFwiGm4Ej8uKmP6hsMoGaeYfkwqazfZCHLxDYfDvR9SGqNFQ0oQZDZD";
 	protected static final String DEFAULT_NEW_TEST_USER_EMAIL_PREFIX = "test_user_";
 	protected static final String DEFAULT_NEW_TEST_USER_EMAIL_SUFFIX = "@gmail.com";
 	protected static final String DEFAULT_NEW_TEST_USER_PASSWORD = "ilovetvtoo";

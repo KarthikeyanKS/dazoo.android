@@ -1,37 +1,37 @@
+
 package com.mitv.notification;
+
+
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.mitv.Consts;
 import com.mitv.SecondScreenApplication;
-import com.mitv.model.OldNotificationDbItem;
-
+import com.mitv.model.NotificationDbItem;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-public class NotificationDataSource {
 
-	private static final String			TAG			= "NotificationDataSource";
 
-	private SQLiteDatabase				database;
+public class NotificationDataSource 
+{
+	private static final String	TAG	= NotificationDataSource.class.getName();
+
 	private NotificationDatabaseHelper	dbHelper;
-	private String[]					allColumns	= { Consts.NOTIFICATION_DB_COLUMN_NOTIFICATION_ID, Consts.NOTIFICATION_DB_COLUMN_BROADCAST_URL, Consts.NOTIFICATION_DB_COLUMN_PROGRAM_ID,
-			Consts.NOTIFICATION_DB_COLUMN_PROGRAM_TITLE, Consts.NOTIFICATION_DB_COLUMN_PROGRAM_TYPE, Consts.NOTIFICATION_DB_COLUMN_PROGRAM_SEASON, Consts.NOTIFICATION_DB_COLUMN_PROGRAM_EPISODE,
-			Consts.NOTIFICATION_DB_COLUMN_PROGRAM_YEAR, Consts.NOTIFICATION_DB_COLUMN_PROGRAM_TAG, Consts.NOTIFICATION_DB_COLUMN_PROGRAM_GENRE, 
-			Consts.NOTIFICATION_DB_COLUMN_CHANNEL_ID, Consts.NOTIFICATION_DB_COLUMN_CHANNEL_NAME,
-			Consts.NOTIFICATION_DB_COLUMN_CHANNEL_LOGO_URL,
-			Consts.NOTIFICATION_DB_COLUMN_BROADCAST_BEGINTIME, Consts.NOTIFICATION_DB_COLUMN_BROADCAST_BEGINTIMEMILLIS, Consts.NOTIFICATION_DB_COLUMN_PROGRAM_CATEGORY};
 
-	public NotificationDataSource(Context context) {
+
+	public NotificationDataSource(Context context) 
+	{
 		dbHelper = new NotificationDatabaseHelper(context);
 	}
 
-	public void addNotification(OldNotificationDbItem notification) {
+	
+	
+	public void addNotification(NotificationDbItem notification)
+	{
 		SQLiteDatabase database = dbHelper.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
@@ -48,16 +48,21 @@ public class NotificationDataSource {
 		values.put(Consts.NOTIFICATION_DB_COLUMN_CHANNEL_ID, notification.getChannelId());
 		values.put(Consts.NOTIFICATION_DB_COLUMN_CHANNEL_NAME, notification.getChannelName());
 		values.put(Consts.NOTIFICATION_DB_COLUMN_CHANNEL_LOGO_URL	, notification.getChannelLogoUrl());
-		values.put(Consts.NOTIFICATION_DB_COLUMN_BROADCAST_BEGINTIME, notification.getBroadcastBeginTimeStringLocal());
+//		values.put(Consts.NOTIFICATION_DB_COLUMN_BROADCAST_BEGINTIME, notification.getBroadcastBeginTimeStringLocal());
 		values.put(Consts.NOTIFICATION_DB_COLUMN_BROADCAST_BEGINTIMEMILLIS, notification.getBroadcastBeginTimeInMillisGmtAsString());
 		values.put(Consts.NOTIFICATION_DB_COLUMN_PROGRAM_CATEGORY, notification.getProgramCategory());
+		
 		long rowId = database.insert(Consts.NOTIFICATION_DB_TABLE_NOTIFICATIONS, null, values);
+		
 		Log.d(TAG,"ROW IS INSERTED: " + String.valueOf(rowId));
 		
 		database.close();
 	}
 
-	public OldNotificationDbItem getNotification(String channelId, long beginTimeMillis) {
+	
+	
+	public NotificationDbItem getNotification(String channelId, long beginTimeMillis) 
+	{
 		SQLiteDatabase database = dbHelper.getReadableDatabase();
 
 		String query = String.format(SecondScreenApplication.getCurrentLocale(), "SELECT * FROM %s WHERE %s = %s AND %s = '%s'", Consts.NOTIFICATION_DB_TABLE_NOTIFICATIONS, Consts.NOTIFICATION_DB_COLUMN_BROADCAST_BEGINTIMEMILLIS, beginTimeMillis, Consts.NOTIFICATION_DB_COLUMN_CHANNEL_ID, channelId);
@@ -73,6 +78,8 @@ public class NotificationDataSource {
 		}
 	}
 	
+	
+	
 	public int getNumberOfNotifications(){
 		String selectQuery = "SELECT * FROM " + Consts.NOTIFICATION_DB_TABLE_NOTIFICATIONS;
 
@@ -84,15 +91,18 @@ public class NotificationDataSource {
 		return count;
 	}
 
-	public List<OldNotificationDbItem> getAllNotifications() {
-		List<OldNotificationDbItem> notificationList = new ArrayList<OldNotificationDbItem>();
+	
+	
+	public List<NotificationDbItem> getAllNotifications()
+	{
+		List<NotificationDbItem> notificationList = new ArrayList<NotificationDbItem>();
 		String selectQuery = "SELECT * FROM " + Consts.NOTIFICATION_DB_TABLE_NOTIFICATIONS;
 
 		SQLiteDatabase database = dbHelper.getReadableDatabase();
 		Cursor cursor = database.rawQuery(selectQuery, null);
 		if (cursor.moveToFirst()) {
 			do {
-				OldNotificationDbItem notification = setCursorValues(cursor);
+				NotificationDbItem notification = setCursorValues(cursor);
 				notificationList.add(notification);
 			} while (cursor.moveToNext());
 		}
@@ -102,7 +112,8 @@ public class NotificationDataSource {
 		return notificationList;
 	}
 
-	public void deleteNotification(int notificationId) {
+	public void deleteNotification(int notificationId) 
+	{
 		SQLiteDatabase database = dbHelper.getWritableDatabase();
 		String selectQuery = String.format(SecondScreenApplication.getCurrentLocale(), "SELECT * FROM %s WHERE %s = %s", Consts.NOTIFICATION_DB_TABLE_NOTIFICATIONS, Consts.NOTIFICATION_DB_COLUMN_NOTIFICATION_ID, notificationId);
 		Cursor cursor = database.rawQuery(selectQuery, null);
@@ -115,10 +126,15 @@ public class NotificationDataSource {
 		cursor.close();
 		database.close();
 	}
+	
+	
 
-	public OldNotificationDbItem setCursorValues(Cursor cursor) {
-		OldNotificationDbItem notification = new OldNotificationDbItem();
-		if (cursor.getCount() > 0) {
+	public NotificationDbItem setCursorValues(Cursor cursor) 
+	{
+		NotificationDbItem notification = new NotificationDbItem();
+		
+		if (cursor.getCount() > 0) 
+		{
 			if (!cursor.isNull(0)) {
 				notification.setNotificationId(cursor.getInt(0));
 				notification.setBroadcstUrl(cursor.getString(1));
@@ -136,18 +152,19 @@ public class NotificationDataSource {
 					notification.setProgramGenre(cursor.getString(9));
 				} else if (Consts.PROGRAM_TYPE_OTHER.equals(programType)) {
 					notification.setProgramType(programType);
-					notification.setProgramCategory(cursor.getString(15));
+					notification.setProgramCategory(cursor.getString(14));
 				} else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) {
 					notification.setProgramType(programType);
-					notification.setProgramCategory(cursor.getString(15));
+					notification.setProgramCategory(cursor.getString(14));
 					notification.setProgramGenre(cursor.getString(9));
 				}
+				
 				notification.setProgramTag(cursor.getString(8));
 				notification.setChannelId(cursor.getString(10));
 				notification.setChannelName(cursor.getString(11));
 				notification.setChannelLogoUrl(cursor.getString(12));
-				notification.setBroadcastBeginTimeStringLocal(cursor.getString(13));
-				notification.setBroadcastBeginTimeMillisGmtAsString(cursor.getString(14));
+//				notification.setBroadcastBeginTimeStringLocal(cursor.getString(13));
+				notification.setBroadcastBeginTimeMillisGmtAsString(cursor.getString(13));
 			}
 		}
 		return notification;

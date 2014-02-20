@@ -9,14 +9,14 @@ import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
-import com.millicom.mitv.models.AppVersionData;
-import com.millicom.mitv.models.gson.AppVersion;
+import com.millicom.mitv.models.AppVersion;
+import com.millicom.mitv.models.gson.AppVersionJSON;
 import com.mitv.Consts;
 
 
 
 public class GetAppVersionData 
-	extends AsyncTaskWithRelativeURL<AppVersion[]> 
+	extends AsyncTaskWithRelativeURL<AppVersionJSON[]> 
 {
 	private static final String TAG = "GetAppVersionData";
 	
@@ -28,7 +28,7 @@ public class GetAppVersionData
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener)
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.APP_VERSION, AppVersion[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.APP_VERSION, AppVersionJSON[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
 	}
 	
 	
@@ -40,9 +40,9 @@ public class GetAppVersionData
 		
 		if(requestResultObjectContent != null)
 		{
-			AppVersion[] appVersionDataRawList = (AppVersion[]) requestResultObjectContent;
+			AppVersionJSON[] appVersionDataRawList = (AppVersionJSON[]) requestResultObjectContent;
 			
-			AppVersionData appVersionDataObject = new AppVersionData(appVersionDataRawList);
+			AppVersion appVersionDataObject = new AppVersion(appVersionDataRawList);
 			
 			requestResultObjectContent = appVersionDataObject;
 		}

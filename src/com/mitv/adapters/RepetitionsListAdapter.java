@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.millicom.mitv.activities.BroadcastPageActivity;
-import com.millicom.mitv.models.Broadcast;
+import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
 import com.mitv.R;
@@ -28,7 +28,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
-	private ArrayList<Broadcast>	mRepeatingEpisodes;
+	private ArrayList<TVBroadcast>	mRepeatingEpisodes;
 	private NotificationDataSource	mNotificationDataSource;
 	private int						mLastPosition	= -1;
 	private int 					mNotificationId = -1;
@@ -36,19 +36,19 @@ public class RepetitionsListAdapter extends BaseAdapter {
 	private boolean					mIsSet			= false;
 	private boolean 				mPosIsSet[];
 	private TVProgram					mProgram;
-	private Broadcast 				mRunningBroadcast;
+	private TVBroadcast 				mRunningBroadcast;
 	private MiTVStore				mitvStore;
 	private ArrayList<OldTVDate>		mTvDates;
 
 	private int reminderPosition;
 
-	public RepetitionsListAdapter(Activity activity, ArrayList<Broadcast> repeatingBroadcasts, TVProgram program, Broadcast runningBroadcast) {
+	public RepetitionsListAdapter(Activity activity, ArrayList<TVBroadcast> repeatingBroadcasts, TVProgram program, TVBroadcast runningBroadcast) {
 
 		/* Remove running broadcast */
 		boolean foundRunningBroadcast = false;
 		int indexOfRunningBroadcast = 0;
 		for(int i = 0; i < repeatingBroadcasts.size(); ++i) {
-			Broadcast repeatingBroadcast = repeatingBroadcasts.get(i);
+			TVBroadcast repeatingBroadcast = repeatingBroadcasts.get(i);
 			if(repeatingBroadcast.equals(runningBroadcast)) {
 				foundRunningBroadcast = true;
 				indexOfRunningBroadcast = i;
@@ -81,7 +81,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public Broadcast getItem(int position) {
+	public TVBroadcast getItem(int position) {
 		if (mRepeatingEpisodes != null) {
 			return mRepeatingEpisodes.get(position);
 		} else return null;
@@ -96,7 +96,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 
-		final Broadcast broadcast = getItem(position);
+		final TVBroadcast broadcast = getItem(position);
 		//TODO why do this? Why should we need to set the program?
 //		broadcast.setProgram(mProgram);
 
@@ -150,12 +150,13 @@ public class RepetitionsListAdapter extends BaseAdapter {
 			holder.mContainer.setOnClickListener(new View.OnClickListener() {
 
 				@Override
-				public void onClick(View v) {
+				public void onClick(View v) 
+				{
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
 					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId().getChannelId());
-					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getBeginTimeDateRepresentation());
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
 
 					mActivity.startActivity(intent);

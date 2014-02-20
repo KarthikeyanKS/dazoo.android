@@ -1,9 +1,9 @@
 package com.millicom.mitv.models.gson;
 
-import com.millicom.mitv.models.Broadcast;
+import com.millicom.mitv.models.TVBroadcast;
 
 
-public class TVBroadcastWithProgramAndChannelInfo extends Broadcast {
+public class TVBroadcastWithProgramAndChannelInfo extends TVBroadcast {
 	
 	private TVChannel channel;
 		

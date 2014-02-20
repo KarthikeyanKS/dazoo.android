@@ -19,7 +19,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.annotations.Expose;
 import com.millicom.mitv.enums.FeedItemTypeEnum;
-import com.millicom.mitv.models.Broadcast;
+import com.millicom.mitv.models.TVBroadcast;
 import com.mitv.Consts;
 
 
@@ -42,11 +42,11 @@ public class TVFeedItem
 	
 	/* This variable is used if itemType == "BROADCAST" or itemType == "RECOMMENDED_BROADCAST" or itemType == "POPULAR_BROADCAST" or itemType == "POPULAR_TWITTER" */
 	@Expose (deserialize = false)
-	private Broadcast broadcast;
+	private TVBroadcast broadcast;
 	
 	/* This variable is used if itemType == "POPULAR_BROADCASTS" */
 	@Expose (deserialize = false)
-	private List<Broadcast> broadcasts;
+	private List<TVBroadcast> broadcasts;
 	
 	
 	
@@ -86,7 +86,7 @@ public class TVFeedItem
 				
 				try
 				{
-					broadcast = gson.fromJson(jsonBroadcastElement, Broadcast.class);
+					broadcast = gson.fromJson(jsonBroadcastElement, TVBroadcast.class);
 				}
 				catch(JsonSyntaxException jsex)
 				{
@@ -105,7 +105,7 @@ public class TVFeedItem
 				
 				try
 				{
-					broadcasts = Arrays.asList(gson.fromJson(jsonBroadcastsElement, Broadcast[].class));
+					broadcasts = Arrays.asList(gson.fromJson(jsonBroadcastsElement, TVBroadcast[].class));
 				}
 				catch(JsonSyntaxException jsex)
 				{
@@ -143,13 +143,13 @@ public class TVFeedItem
 
 
 
-	public Broadcast getBroadcast() {
+	public TVBroadcast getBroadcast() {
 		return broadcast;
 	}
 
 
 
-	public List<Broadcast> getBroadcasts() {
+	public List<TVBroadcast> getBroadcasts() {
 		return broadcasts;
 	}
 }

@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.http.URLParameters;
-import com.millicom.mitv.models.Broadcast;
+import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;
 import com.millicom.mitv.models.gson.TVDate;
@@ -84,8 +84,8 @@ public class TVChannelGuidesGSONTest
 	public void testAllVariablesNotNull() {
 		Assert.assertNotNull(tvChannelGuides);
 		for (TVChannelGuide tvChannelGuide : tvChannelGuides) {
-			List<Broadcast> broadcastsForTVChannel = tvChannelGuide.getBroadcasts();
-			for(Broadcast broadcast : broadcastsForTVChannel) {
+			List<TVBroadcast> broadcastsForTVChannel = tvChannelGuide.getBroadcasts();
+			for(TVBroadcast broadcast : broadcastsForTVChannel) {
 				TVBroadcastWithChannelInfoTest.testBroadcast(broadcast);
 			}
 		}

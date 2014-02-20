@@ -11,7 +11,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.millicom.mitv.ContentManager;
-import com.millicom.mitv.models.Broadcast;
+import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
@@ -26,9 +26,9 @@ public class RepetitionsPageActivity extends BaseActivity implements OnClickList
 	private ActionBar				mActionBar;
 	private ListView				mListView;
 	private RepetitionsListAdapter	mAdapter;
-	private ArrayList<Broadcast>	mRepeatingBroadcasts	= new ArrayList<Broadcast>();
+	private ArrayList<TVBroadcast>	mRepeatingBroadcasts	= new ArrayList<TVBroadcast>();
 	private TVProgram					mRepeatingProgram;
-	private Broadcast				mRunningBroadcast;
+	private TVBroadcast				mRunningBroadcast;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

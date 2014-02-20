@@ -17,55 +17,55 @@ import com.mitv.Consts;
 public class TVProgram implements JsonDeserializer<TVProgram> {
 	
 	@Expose
-	private ProgramTypeEnum programType;
+	protected ProgramTypeEnum programType;
 	
 	@Expose
-	private String programId;
+	protected String programId;
 	
 	@Expose
-	private String title;
+	protected String title;
 	
 	@Expose
-	private String synopsisShort;
+	protected String synopsisShort;
 	
 	@Expose
-	private String synopsisLong;
+	protected String synopsisLong;
 	
 	@Expose
-	private ImageSetOrientation images;
+	protected ImageSetOrientation images;
 	
 	@Expose
-	private ArrayList<String> tags;
+	protected ArrayList<String> tags;
 	
 	@Expose
-	private ArrayList<TVCredit> credits;
+	protected ArrayList<TVCredit> credits;
 	
 	/* This variable is used if programType == "OTHER" */
 	@Expose (deserialize = false)
-	private String category; 
+	protected String category; 
 	
 	/* The following variables are being used if programType == "TV_EPISODE" */
-	private TVSeries series;
+	protected TVSeries series;
 	
 	@Expose (deserialize = false)
-	private TVSeriesSeason season;
+	protected TVSeriesSeason season;
 
 	@Expose (deserialize = false)
-	private Integer episodeNumber;
+	protected Integer episodeNumber;
 	
 	/* The following variables are being used if programType == "MOVIE" */
 	@Expose (deserialize = false)
-	private Integer year;
+	protected Integer year;
 	
 	@Expose (deserialize = false)
-	private String genre;
+	protected String genre;
 	
 	/* The following variables are being used if programType == "SPORT" */
 	@Expose (deserialize = false)
-	private TVSportType sportType;
+	protected TVSportType sportType;
 
 	@Expose (deserialize = false)
-	private String tournament;
+	protected String tournament;
 
 	@Override
 	public TVProgram deserialize(JsonElement jsonElement, Type type,
@@ -212,6 +212,4 @@ public class TVProgram implements JsonDeserializer<TVProgram> {
 	public String getTournament() {
 		return tournament;
 	}
-	
-	
 }

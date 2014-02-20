@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.millicom.mitv.enums.BroadcastTypeEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
-import com.millicom.mitv.models.Broadcast;
+import com.millicom.mitv.models.TVBroadcast;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.utilities.ProgressBarUtils;
@@ -28,12 +28,12 @@ public class ChannelPageListAdapter extends BaseAdapter {
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
-	private ArrayList<Broadcast>	mFollowingBroadcasts;
+	private ArrayList<TVBroadcast>	mFollowingBroadcasts;
 
 	private int						mLastPosition	= -1;
 	private ViewHolder				holder;
 
-	public ChannelPageListAdapter(Activity activity, ArrayList<Broadcast> followingBroadcasts) {
+	public ChannelPageListAdapter(Activity activity, ArrayList<TVBroadcast> followingBroadcasts) {
 		this.mFollowingBroadcasts = followingBroadcasts;
 		this.mActivity = activity;
 	}
@@ -46,7 +46,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public Broadcast getItem(int position) {
+	public TVBroadcast getItem(int position) {
 		if (mFollowingBroadcasts != null) {
 			return mFollowingBroadcasts.get(position);
 		} else return null;
@@ -65,11 +65,9 @@ public class ChannelPageListAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 
-		final Broadcast broadcast = getItem(position);
-		broadcast.updateTimeToBeginAndTimeToEnd();
+		final TVBroadcast broadcast = getItem(position);
 		BroadcastTypeEnum broadcastType = broadcast.getBroadcastType();
 		ProgramTypeEnum programType = broadcast.getProgram().getProgramType();
-		long timeToBegin = broadcast.getTimeToBegin();
 
 		if (rowView == null) {
 			mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -180,8 +178,8 @@ public class ChannelPageListAdapter extends BaseAdapter {
 
 	@Override
 	public int getItemViewType(int position) {
-		Broadcast broadcast = getItem(position);
-		if (broadcast.isRunning()) {
+		TVBroadcast broadcast = getItem(position);
+		if (broadcast.isBroadcastCurrentlyAiring()) {
 			return 0;
 		}
 		return 1;

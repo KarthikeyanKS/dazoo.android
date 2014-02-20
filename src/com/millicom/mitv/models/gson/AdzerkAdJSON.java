@@ -1,6 +1,6 @@
 package com.millicom.mitv.models.gson;
 
-public class AdzerkAd {
+public class AdzerkAdJSON {
 	private String userKey;
 	private String divId;
 	private String adId;

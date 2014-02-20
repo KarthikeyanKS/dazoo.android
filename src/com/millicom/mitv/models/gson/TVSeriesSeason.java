@@ -1,9 +1,16 @@
+
 package com.millicom.mitv.models.gson;
 
-public class TVSeriesSeason {
-	private Integer number;
+
+
+public class TVSeriesSeason 
+{
+	protected Integer number;
 	
-	public Integer getNumber() {
+	
+	
+	public Integer getNumber() 
+	{
 		return number;
 	}
 }

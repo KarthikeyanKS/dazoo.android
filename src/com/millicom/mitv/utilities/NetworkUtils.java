@@ -22,7 +22,7 @@ import android.util.Log;
 
 public class NetworkUtils
 {	
-	private static final String	TAG = "NetworkUtils";
+	private static final String TAG = NetworkUtils.class.getName();
 	
 	
 	

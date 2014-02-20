@@ -15,7 +15,7 @@ import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.enums.BroadcastTypeEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.models.Broadcast;
+import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.gson.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
@@ -65,7 +65,7 @@ public class TVSeriesUpcomingBroadcastTest extends TestBaseWithGuide {
 
 	private String getSomeSeriesId() {
 		for (TVChannelGuide someGuide : tvChannelGuides) {
-			for (Broadcast broadcast : someGuide.getBroadcasts()) {
+			for (TVBroadcast broadcast : someGuide.getBroadcasts()) {
 				TVProgram tvProgram = broadcast.getProgram();
 				if (tvProgram.getProgramType() == ProgramTypeEnum.TV_EPISODE) {
 					if (tvProgram.getSeries() != null

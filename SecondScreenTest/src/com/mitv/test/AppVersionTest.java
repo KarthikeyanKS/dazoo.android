@@ -10,7 +10,7 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.models.gson.AppVersion;
+import com.millicom.mitv.models.gson.AppVersionJSON;
 import com.mitv.Consts;
 
 
@@ -18,7 +18,7 @@ import com.mitv.Consts;
 public class AppVersionTest 
 	extends TestCore 
 {
-	private List<AppVersion> receivedData;
+	private List<AppVersionJSON> receivedData;
 	
 
 	
@@ -34,7 +34,7 @@ public class AppVersionTest
 		
 		String responseString = httpCoreResponse.getResponseString();
 		
-		receivedData = Arrays.asList(new Gson().fromJson(responseString, AppVersion[].class));
+		receivedData = Arrays.asList(new Gson().fromJson(responseString, AppVersionJSON[].class));
 	}
 
 	
@@ -51,7 +51,7 @@ public class AppVersionTest
 	@Test
 	public void testAllVariablesNotNull() 
 	{
-		for(AppVersion appVersionDataParts : receivedData) 
+		for(AppVersionJSON appVersionDataParts : receivedData) 
 		{
 			Assert.assertNotNull(receivedData);
 			

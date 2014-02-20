@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
-import com.millicom.mitv.models.Broadcast;
+import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
@@ -87,7 +87,7 @@ public class PopularPageActivity extends BaseActivity implements OnClickListener
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
 		if (super.requestIsSuccesfull(status)) {
-			Collections.sort(mPopularBroadcasts, new Broadcast.BroadcastComparatorByTime());
+			Collections.sort(mPopularBroadcasts, new TVBroadcast.BroadcastComparatorByTime());
 			mAdapter = new PopularListAdapter(this, mPopularBroadcasts);
 			mListView.setAdapter(mAdapter);
 			mListView.setVisibility(View.VISIBLE);

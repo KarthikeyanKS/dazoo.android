@@ -14,7 +14,7 @@ import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.activities.RepetitionsPageActivity;
 import com.millicom.mitv.activities.UpcomingEpisodesPageActivity;
-import com.millicom.mitv.models.Broadcast;
+import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
 import com.mitv.R;
@@ -26,8 +26,8 @@ public class TrippleBroadcastBlockPopulator {
 
 	private Activity mActivity;
 	private ScrollView mContainerView;
-	private Broadcast mRunningBroadcast;
-	private ArrayList<Broadcast> mBroadcasts;
+	private TVBroadcast mRunningBroadcast;
+	private ArrayList<TVBroadcast> mBroadcasts;
 	private ReminderView reminderViewOne, reminderViewTwo, reminderViewThree;
 	private View dividerView;
 
@@ -35,7 +35,7 @@ public class TrippleBroadcastBlockPopulator {
 	/* If false, then block populator is used for upcoming episodes */
 	private boolean mUsedForRepetitions;
 
-	public TrippleBroadcastBlockPopulator(String tag, boolean usedForRepetitions, Activity activity, ScrollView containerView, Broadcast runningBroadcast) {
+	public TrippleBroadcastBlockPopulator(String tag, boolean usedForRepetitions, Activity activity, ScrollView containerView, TVBroadcast runningBroadcast) {
 		this.TAG = tag;
 		this.mActivity = activity;
 		this.mContainerView = containerView;
@@ -43,9 +43,9 @@ public class TrippleBroadcastBlockPopulator {
 		this.mUsedForRepetitions = usedForRepetitions;
 	}
 
-	public void populatePartOfBlock(final int position, ArrayList<Broadcast> broadcastList, final TVProgram program, View topContentView) {
+	public void populatePartOfBlock(final int position, ArrayList<TVBroadcast> broadcastList, final TVProgram program, View topContentView) {
 		if (broadcastList.size() > position && broadcastList.get(position) != null) {
-			final Broadcast broadcast = broadcastList.get(position);
+			final TVBroadcast broadcast = broadcastList.get(position);
 			LinearLayout mContainer = null;
 
 			switch (position) {
@@ -130,7 +130,7 @@ public class TrippleBroadcastBlockPopulator {
 				@Override
 				public void onClick(View v) {
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId().getChannelId());
 //					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
@@ -141,12 +141,12 @@ public class TrippleBroadcastBlockPopulator {
 		}
 	}
 
-	public void createBlock(final ArrayList<Broadcast> repeatingOrUpcomingBroadcasts, final TVProgram program) {
+	public void createBlock(final ArrayList<TVBroadcast> repeatingOrUpcomingBroadcasts, final TVProgram program) {
 		/* Remove running broadcast */
 		boolean foundRunningBroadcast = false;
 		int indexOfRunningBroadcast = 0;
 		for (int i = 0; i < repeatingOrUpcomingBroadcasts.size(); ++i) {
-			Broadcast repeatingBroadcast = repeatingOrUpcomingBroadcasts.get(i);
+			TVBroadcast repeatingBroadcast = repeatingOrUpcomingBroadcasts.get(i);
 			if (repeatingBroadcast.equals(mRunningBroadcast)) {
 				foundRunningBroadcast = true;
 				indexOfRunningBroadcast = i;

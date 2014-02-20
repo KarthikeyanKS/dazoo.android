@@ -1,6 +1,6 @@
 package com.mitv.model;
 
-public class OldNotificationDbItem {
+public class NotificationDbItem {
 	private int notificationId;
 	private String broadcastUrl;
 	private String programId;
@@ -15,7 +15,7 @@ public class OldNotificationDbItem {
 	private String channelId;
 	private String channelName;
 	private String channelLogoUrl;
-	private String broadcastBeginTimeStringLocal;
+//	private String broadcastBeginTimeStringLocal;
 	private String broadcastBeginTimeInMillisGmtAsString;
 	
 	public void setNotificationId(int id){
@@ -130,13 +130,13 @@ public class OldNotificationDbItem {
 		return this.channelLogoUrl;
 	}
 	
-	public void setBroadcastBeginTimeStringLocal(String broadcastBeginTimeStringLocal){
-		this.broadcastBeginTimeStringLocal = broadcastBeginTimeStringLocal;
-	}
+//	public void setBroadcastBeginTimeStringLocal(String broadcastBeginTimeStringLocal){
+//		this.broadcastBeginTimeStringLocal = broadcastBeginTimeStringLocal;
+//	}
 	
-	public String getBroadcastBeginTimeStringLocal(){
-		return this.broadcastBeginTimeStringLocal;
-	}
+//	public String getBroadcastBeginTimeStringLocal(){
+//		return this.broadcastBeginTimeStringLocal;
+//	}
 	
 	public void setBroadcastBeginTimeMillisGmtAsString(String broadcastBeginTimeMillisGmtAsString){
 		this.broadcastBeginTimeInMillisGmtAsString = broadcastBeginTimeMillisGmtAsString;
