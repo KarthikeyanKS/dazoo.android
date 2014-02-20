@@ -1,4 +1,4 @@
-package com.mitv.utilities;
+package com.mitv.customviews;
 
 import android.graphics.Paint;
 import android.graphics.Typeface;
