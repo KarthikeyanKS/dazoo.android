@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.millicom.mitv.models.gson.Broadcast;
+import com.millicom.mitv.models.Broadcast;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.notification.NotificationService;

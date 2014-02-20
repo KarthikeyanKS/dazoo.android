@@ -11,7 +11,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.mitv.Consts;
-import com.mitv.utilities.DateUtilities;
+import com.mitv.utilities.OldDateUtilities;
 
 public class OldTVChannelGuide extends OldThreeImageResolutions implements Parcelable {
 
@@ -119,7 +119,7 @@ public class OldTVChannelGuide extends OldThreeImageResolutions implements Parce
 	public int getClosestBroadcastIndexFromTime(ArrayList<OldBroadcast> broadcastList, int hour, OldTVDate date) {
 		int nearestIndex = 0;
 
-		long timeNow = DateUtilities.timeAsLongFromTvDateAndHour(date, hour);
+		long timeNow = OldDateUtilities.timeAsLongFromTvDateAndHour(date, hour);
 
 		nearestIndex = getBroadcastIndex(broadcastList, timeNow);
 

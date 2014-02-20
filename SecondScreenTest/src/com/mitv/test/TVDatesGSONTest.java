@@ -79,7 +79,7 @@ public class TVDatesGSONTest
 		Assert.assertFalse(TextUtils.isEmpty(tvDate.getId()));
 
 		Assert.assertNotNull(tvDate.getDate());
-		Assert.assertTrue(tvDate.getDate().getTime() > TIMESTAMP_OF_YEAR_2000);
+		Assert.assertTrue(tvDate.getDate().getTime() > YEAR_OF_2000);
 
 		Assert.assertNotNull(tvDate.getDisplayName());
 		Assert.assertFalse(TextUtils.isEmpty(tvDate.getDisplayName()));

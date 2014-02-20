@@ -23,7 +23,7 @@ import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.models.TVGuide;
-import com.millicom.mitv.models.gson.Broadcast;
+import com.millicom.mitv.models.Broadcast;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVDate;
 import com.millicom.mitv.models.gson.TVTag;
@@ -36,7 +36,7 @@ import com.mitv.adapters.TVGuideListAdapter;
 import com.mitv.adapters.TVGuideTagListAdapter;
 import com.mitv.customviews.SwipeClockBar;
 import com.mitv.storage.MiTVStore;
-import com.mitv.utilities.DateUtilities;
+import com.mitv.utilities.OldDateUtilities;
 
 public class TVGuideTableFragment extends BaseFragment implements ActivityCallbackListener {
 
@@ -120,7 +120,7 @@ public class TVGuideTableFragment extends BaseFragment implements ActivityCallba
 			if (ContentManager.sharedInstance().selectedTVDateIsToday()) {
 				mIsToday = true;
 				if (!SecondScreenApplication.getInstance().getIsOnStartAgain()) {
-					mHour = Integer.valueOf(DateUtilities.getCurrentHourString());
+					mHour = Integer.valueOf(OldDateUtilities.getCurrentHourString());
 					SecondScreenApplication.getInstance().setSelectedHour(mHour);
 					SecondScreenApplication.getInstance().setIsOnStartAgain(true);
 				} else {

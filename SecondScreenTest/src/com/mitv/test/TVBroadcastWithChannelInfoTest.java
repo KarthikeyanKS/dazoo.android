@@ -1,6 +1,7 @@
 package com.mitv.test;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -11,10 +12,11 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.enums.BroadcastTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.models.gson.Broadcast;
+import com.millicom.mitv.models.Broadcast;
 import com.millicom.mitv.models.gson.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
@@ -52,7 +54,7 @@ public class TVBroadcastWithChannelInfoTest extends TestBaseWithGuide {
 		HTTPCoreResponse httpCoreResponse = executeRequestGet(url);
 		
 		String jsonString = httpCoreResponse.getResponseString();
-		
+				
 		try
 		{
 			tvProgramBroadcasts = Arrays.asList(new Gson().fromJson(jsonString, TVBroadcastWithChannelInfo[].class));
@@ -82,9 +84,12 @@ public class TVBroadcastWithChannelInfoTest extends TestBaseWithGuide {
 		Assert.assertNotNull(broadcast.getBeginTimeMillis());
 		
 		Assert.assertNotNull(broadcast.getBeginTime());
-		Assert.assertTrue(broadcast.getBeginTime().getTime() > TIMESTAMP_OF_YEAR_2000);
+		Assert.assertFalse(TextUtils.isEmpty(broadcast.getBeginTime()));
+		Assert.assertTrue(broadcast.getBeginTimeCalendar().get(Calendar.YEAR) > YEAR_OF_2000);
 		
 		Assert.assertNotNull(broadcast.getEndTime());
+		Assert.assertFalse(TextUtils.isEmpty(broadcast.getEndTime()));
+		Assert.assertTrue(broadcast.getEndTimeCalendar().get(Calendar.YEAR) > YEAR_OF_2000);
 		
 		Assert.assertNotNull(broadcast.getBroadcastType());
 		Assert.assertTrue(broadcast.getBroadcastType() != BroadcastTypeEnum.UNKNOWN);

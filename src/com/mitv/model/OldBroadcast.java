@@ -18,6 +18,7 @@ import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.utilities.DateUtilities;
+import com.mitv.utilities.OldDateUtilities;
 
 
 
@@ -293,13 +294,13 @@ public class OldBroadcast implements Parcelable
 		String programType = item.getProgramType();
 		program.setProgramType(programType);
 
-		long millisLocal = DateUtilities.convertTimeStampToLocalTime(millisGmt);
+		long millisLocal = OldDateUtilities.convertTimeStampToLocalTime(millisGmt);
 			
-		String beginTimeStringLocalHourAndMinute = DateUtilities.getTimeOfDayFormatted(millisLocal);
+		String beginTimeStringLocalHourAndMinute = OldDateUtilities.getTimeOfDayFormatted(millisLocal);
 		this.setBeginTimeStringLocalHourAndMinute(beginTimeStringLocalHourAndMinute);
 
 		try {
-			String beginTimeStringLocalDayMonth = DateUtilities.tvDateStringToDatePickerString(millisLocal);
+			String beginTimeStringLocalDayMonth = OldDateUtilities.tvDateStringToDatePickerString(millisLocal);
 			this.setBeginTimeStringLocalDayMonth(beginTimeStringLocalDayMonth);
 
 			Date now = new Date();
@@ -320,7 +321,7 @@ public class OldBroadcast implements Parcelable
 				this.setDayOfWeekString(SecondScreenApplication.getInstance().getResources().getString(R.string.tomorrow));
 			}
 			else {
-				String dayOfWeekString = DateUtilities.isoStringToDayOfWeek(millisLocal);
+				String dayOfWeekString = OldDateUtilities.isoStringToDayOfWeek(millisLocal);
 				dayOfWeekString = Character.toUpperCase(dayOfWeekString.charAt(0)) + dayOfWeekString.substring(1);
 				this.setDayOfWeekString(dayOfWeekString);
 			}
@@ -363,18 +364,24 @@ public class OldBroadcast implements Parcelable
 	}
 
 	public void calculateAndSetTimeData() {
-		String beginTimeStringLocalHourAndMinute = DateUtilities.getTimeOfDayFormatted(beginTimeMillisLocal);
+		String beginTimeStringLocalHourAndMinute = OldDateUtilities.getTimeOfDayFormatted(beginTimeMillisLocal);
 		this.setBeginTimeStringLocalHourAndMinute(beginTimeStringLocalHourAndMinute);
 
-		try {
-			long endTimeMillisGmt = DateUtilities.isoStringToLong(endTimeStringGmt);
-			long endTimeMillisLocal = DateUtilities.convertTimeStampToLocalTime(endTimeMillisGmt);
+		
+
+		
+		try 
+		{
+			Calendar endTimeCalendar = DateUtilities.convertFromStringToCalendar("");
+			
+			long endTimeMillisGmt = OldDateUtilities.isoStringToLong(endTimeStringGmt);
+			long endTimeMillisLocal = OldDateUtilities.convertTimeStampToLocalTime(endTimeMillisGmt);
 
 			this.setEndTimeMillisGmt(endTimeMillisGmt);
 			this.setEndTimeMillisLocal(endTimeMillisLocal);
 
 
-			String beginTimeStringLocalDayMonth = DateUtilities.tvDateStringToDatePickerString(beginTimeMillisLocal);
+			String beginTimeStringLocalDayMonth = OldDateUtilities.tvDateStringToDatePickerString(beginTimeMillisLocal);
 			this.setBeginTimeStringLocalDayMonth(beginTimeStringLocalDayMonth);
 
 			Date now = new Date();
@@ -395,7 +402,7 @@ public class OldBroadcast implements Parcelable
 				this.setDayOfWeekString(SecondScreenApplication.getInstance().getResources().getString(R.string.tomorrow));
 			}
 			else {
-				String dayOfWeekString = DateUtilities.isoStringToDayOfWeek(beginTimeMillisLocal);
+				String dayOfWeekString = OldDateUtilities.isoStringToDayOfWeek(beginTimeMillisLocal);
 				dayOfWeekString = Character.toUpperCase(dayOfWeekString.charAt(0)) + dayOfWeekString.substring(1);
 				this.setDayOfWeekString(dayOfWeekString);
 			}
@@ -404,13 +411,13 @@ public class OldBroadcast implements Parcelable
 			this.setDayOfWeekWithTimeString(dayOfWeekAndTimeString);
 
 
-			String tvDateString = DateUtilities.isoDateToTvDateString(beginTimeMillisLocal);
+			String tvDateString = OldDateUtilities.isoDateToTvDateString(beginTimeMillisLocal);
 			this.setTvDateString(tvDateString);
 
-			String beginTimeStringLocal = DateUtilities.timeToTimeString(beginTimeMillisLocal);
+			String beginTimeStringLocal = OldDateUtilities.timeToTimeString(beginTimeMillisLocal);
 			this.setBeginTimeStringLocal(beginTimeStringLocal);
 
-			String endTimeStringLocal = DateUtilities.timeToTimeString(endTimeMillisLocal);
+			String endTimeStringLocal = OldDateUtilities.timeToTimeString(endTimeMillisLocal);
 			this.setEndTimeStringLocal(endTimeStringLocal);
 
 			updateTimeToBeginAndTimeToEnd();
@@ -425,15 +432,15 @@ public class OldBroadcast implements Parcelable
 		
 		String startsInTimeString = "Not set";
 		try {
-			int daysLeft = DateUtilities.getDifferenceInDays(this.beginTimeMillisGmt);
+			int daysLeft = OldDateUtilities.getDifferenceInDays(this.beginTimeMillisGmt);
 			if(daysLeft > 0) {
 				startsInTimeString = String.format(Locale.getDefault(), "%s %d %s", res.getString(R.string.search_starts_in), daysLeft, res.getQuantityString(R.plurals.day, daysLeft));
 			} else {
-				int hoursLeft = DateUtilities.getDifferenceInHours(this.beginTimeMillisGmt);
+				int hoursLeft = OldDateUtilities.getDifferenceInHours(this.beginTimeMillisGmt);
 				if(hoursLeft > 0) {
 					startsInTimeString = String.format(Locale.getDefault(), "%s %d %s", res.getString(R.string.search_starts_in), hoursLeft, res.getQuantityString(R.plurals.hour, hoursLeft));
 				} else {
-					int minutesLeft = DateUtilities.getDifferenceInMinutes(this.beginTimeMillisGmt);
+					int minutesLeft = OldDateUtilities.getDifferenceInMinutes(this.beginTimeMillisGmt);
 					if(minutesLeft > 0) {
 						startsInTimeString = String.format(Locale.getDefault(), "%s %d %s", res.getString(R.string.search_starts_in), minutesLeft, res.getString(R.string.minutes));
 					} else {
@@ -452,8 +459,8 @@ public class OldBroadcast implements Parcelable
 		String beginTimeStringGmt = jsonBroadcast.optString(Consts.BROADCAST_BEGIN_TIME);
 		String endTimeStringGmt = jsonBroadcast.optString(Consts.BROADCAST_END_TIME);
 		long beginTimeMillisGMT = jsonBroadcast.optLong(Consts.BROADCAST_BEGIN_TIME_MILLIS);
-		long beginTimeMillisLocal = DateUtilities.convertTimeStampToLocalTime(beginTimeMillisGMT);
-
+		long beginTimeMillisLocal = OldDateUtilities.convertTimeStampToLocalTime(beginTimeMillisGMT);
+				
 		this.setBeginTimeStringGmt(beginTimeStringGmt);
 		this.setEndTimeStringGmt(endTimeStringGmt);
 
@@ -594,7 +601,7 @@ public class OldBroadcast implements Parcelable
 
 	public static int getClosestBroadcastIndexFromTime(ArrayList<OldBroadcast> broadcastList, int hour, OldTVDate date) {
 		int nearestIndex = 0;
-		long timeNow = DateUtilities.timeAsLongFromTvDateAndHour(date, hour);
+		long timeNow = OldDateUtilities.timeAsLongFromTvDateAndHour(date, hour);
 		nearestIndex = getClosestBroadcastIndexUsingTime(broadcastList, timeNow);
 
 		return nearestIndex;
@@ -613,8 +620,8 @@ public class OldBroadcast implements Parcelable
 
 	public void updateTimeToBeginAndTimeToEnd() {
 		try {
-			long timeToBegin = DateUtilities.getAbsoluteTimeDifference(beginTimeMillisGmt);
-			long timeToEnd = DateUtilities.getAbsoluteTimeDifference(endTimeMillisGmt);
+			long timeToBegin = OldDateUtilities.getAbsoluteTimeDifference(beginTimeMillisGmt);
+			long timeToEnd = OldDateUtilities.getAbsoluteTimeDifference(endTimeMillisGmt);
 
 			this.setTimeToBegin(timeToBegin);
 			this.setTimeToEnd(timeToEnd);

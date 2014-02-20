@@ -18,7 +18,7 @@ import com.millicom.mitv.activities.PopularPageActivity;
 import com.millicom.mitv.enums.FeedItemTypeEnum;
 import com.millicom.mitv.enums.LikeTypeResponseEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
-import com.millicom.mitv.models.gson.Broadcast;
+import com.millicom.mitv.models.Broadcast;
 import com.millicom.mitv.models.gson.TVFeedItem;
 import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;

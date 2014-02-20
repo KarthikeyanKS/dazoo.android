@@ -19,6 +19,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.annotations.Expose;
 import com.millicom.mitv.enums.FeedItemTypeEnum;
+import com.millicom.mitv.models.Broadcast;
 import com.mitv.Consts;
 
 

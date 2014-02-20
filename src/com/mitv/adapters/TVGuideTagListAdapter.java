@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.enums.ProgramTypeEnum;
-import com.millicom.mitv.models.gson.Broadcast;
+import com.millicom.mitv.models.Broadcast;
 import com.millicom.mitv.models.gson.TVDate;
 import com.mitv.Consts;
 import com.mitv.R;

@@ -15,7 +15,7 @@ import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.enums.BroadcastTypeEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.models.gson.Broadcast;
+import com.millicom.mitv.models.Broadcast;
 import com.millicom.mitv.models.gson.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
@@ -90,22 +90,7 @@ public class TVSeriesUpcomingBroadcastTest extends TestBaseWithGuide {
 			TVChannel tvChannel = tvProgramBroadcast.getChannel();
 			TVChannelGSONTest.testTVChannelObject(tvChannel);
 
-			testBroadcast(tvProgramBroadcast);
+			TVBroadcastWithChannelInfoTest.testBroadcast(tvProgramBroadcast);
 		}
-	}
-
-	public static void testBroadcast(Broadcast broadcast) {
-		Assert.assertNotNull(broadcast.getBeginTimeMillis());
-
-		Assert.assertNotNull(broadcast.getBeginTime());
-		Assert.assertTrue(broadcast.getBeginTime().getTime() > TIMESTAMP_OF_YEAR_2000);
-
-		Assert.assertNotNull(broadcast.getEndTime());
-
-		Assert.assertNotNull(broadcast.getBroadcastType());
-		Assert.assertTrue(broadcast.getBroadcastType() != BroadcastTypeEnum.UNKNOWN);
-
-		Assert.assertNotNull(broadcast.getShareUrl());
-		Assert.assertFalse(TextUtils.isEmpty(broadcast.getShareUrl()));
 	}
 }

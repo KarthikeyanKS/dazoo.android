@@ -3,7 +3,7 @@ package com.mitv.tvguide;
 import android.app.Activity;
 import android.widget.ScrollView;
 
-import com.millicom.mitv.models.gson.Broadcast;
+import com.millicom.mitv.models.Broadcast;
 
 public class BroadcastRepetitionsBlockPopulator extends TrippleBroadcastBlockPopulator {
 

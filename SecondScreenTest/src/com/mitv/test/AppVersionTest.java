@@ -63,7 +63,7 @@ public class AppVersionTest
 
 			if(appVersionDataParts.hasExpires()) 
 			{
-				Assert.assertTrue(appVersionDataParts.getExpires().getTime() > TIMESTAMP_OF_YEAR_2000);
+				Assert.assertTrue(appVersionDataParts.getExpires().getTime() > YEAR_OF_2000);
 			}
 		}
 	}

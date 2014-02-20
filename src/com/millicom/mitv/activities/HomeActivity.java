@@ -31,7 +31,7 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.ActionBarDropDownDateListAdapter;
 import com.mitv.content.SSPageFragmentActivity;
 import com.mitv.manager.AppConfigurationManager;
-import com.mitv.utilities.DateUtilities;
+import com.mitv.utilities.OldDateUtilities;
 
 
 
@@ -100,7 +100,7 @@ public class HomeActivity
 
 		getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
-		SecondScreenApplication.getInstance().setSelectedHour(Integer.valueOf(DateUtilities.getCurrentHourString()));
+		SecondScreenApplication.getInstance().setSelectedHour(Integer.valueOf(OldDateUtilities.getCurrentHourString()));
 //		SecondScreenApplication.getInstance().setCheckApiVersionListener(this);
 //		SecondScreenApplication.getInstance().setAppConfigurationListener(this);
 

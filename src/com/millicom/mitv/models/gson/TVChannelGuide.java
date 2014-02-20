@@ -2,6 +2,8 @@ package com.millicom.mitv.models.gson;
 
 import java.util.ArrayList;
 
+import com.millicom.mitv.models.Broadcast;
+
 public class TVChannelGuide extends TVChannel {
 	private ArrayList<Broadcast> broadcasts;
 

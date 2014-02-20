@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.mitv.R;
 import com.mitv.model.OldTVDate;
-import com.mitv.utilities.DateUtilities;
+import com.mitv.utilities.OldDateUtilities;
 
 public class ActionBarDropDownDateListAdapter extends BaseAdapter implements SpinnerAdapter {
 
@@ -62,7 +62,7 @@ public class ActionBarDropDownDateListAdapter extends BaseAdapter implements Spi
 			OldTVDate tvDate = getItem(position);
 			try {
 				txtName.setText(tvDate.getName());
-				txtNumber.setText(DateUtilities.tvDateStringToDatePickerString(tvDate.getDate()));
+				txtNumber.setText(OldDateUtilities.tvDateStringToDatePickerString(tvDate.getDate()));
 			} catch (Exception e) {
 				e.printStackTrace();
 				txtName.setText("");
@@ -97,7 +97,7 @@ public class ActionBarDropDownDateListAdapter extends BaseAdapter implements Spi
 			OldTVDate tvDate = getItem(position);
 			try {
 				txtName.setText(tvDate.getName());
-				txtNumber.setText(DateUtilities.tvDateStringToDatePickerString(tvDate.getDate()));
+				txtNumber.setText(OldDateUtilities.tvDateStringToDatePickerString(tvDate.getDate()));
 			} catch (Exception e) {
 				e.printStackTrace();
 				txtName.setText("");

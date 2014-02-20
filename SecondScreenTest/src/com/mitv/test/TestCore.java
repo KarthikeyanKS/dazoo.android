@@ -19,7 +19,7 @@ import com.mitv.Consts;
 public class TestCore 
 	extends InstrumentationTestCase 
 {
-	protected static final long TIMESTAMP_OF_YEAR_2000 = 946684800L;
+	protected static final int YEAR_OF_2000 = 2000;
 	protected static final String DEFAULT_TEST_USER_EMAIL = "oskar.tvjunkie@gmail.com";
 	protected static final String DEFAULT_TEST_USER_PASSWORD = "ilovetv";
 	protected static final String DEFAULT_TEST_USER_FACEBOOK_TOKEN = "CAAClasp4TkwBADDZAZA1HbYpSAoZCtoKZCFRToE3KxZAD53Qrm0x5kFNd6ipZC7XqBxwxhu01HgYRroFw0ikbJ8yvTsXjzX7oZAGvakAKiK8S8buSxe5TVsVtZBV2iy3n2XYBATkHAd2ITOZBOOn3ueLobreI0xCEfGOBZAQnHG3OQZB81bQ2p9GCuHspQ4MMC3lta0wb5OMW3O7nXo6pgX4f8QOBv8zHsyyxxZBQBSlhbwZAKwZDZD";

@@ -27,7 +27,7 @@ import com.mitv.customviews.FontTextView;
 import com.mitv.manager.ApiClient;
 import com.mitv.notification.NotificationDataSource;
 import com.mitv.storage.MiTVStore;
-import com.mitv.utilities.DateUtilities;
+import com.mitv.utilities.OldDateUtilities;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;

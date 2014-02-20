@@ -10,7 +10,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.millicom.mitv.models.gson.Broadcast;
+import com.millicom.mitv.models.Broadcast;
 import com.mitv.R;
 import com.mitv.handlers.NotificationDialogHandler;
 import com.mitv.model.OldNotificationDbItem;

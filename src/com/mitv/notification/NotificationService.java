@@ -26,13 +26,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.millicom.mitv.activities.BroadcastPageActivity;
-import com.millicom.mitv.models.gson.Broadcast;
+import com.millicom.mitv.models.Broadcast;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.model.OldNotificationDbItem;
-import com.mitv.utilities.DateUtilities;
+import com.mitv.utilities.OldDateUtilities;
 
 public class NotificationService {
 
@@ -49,7 +49,7 @@ public class NotificationService {
 
 		Calendar calendar;
 		try {
-			calendar = DateUtilities.getTimeFifteenMinBefore(broadcast.getBeginTimeStringGmt());
+			calendar = OldDateUtilities.getTimeFifteenMinBefore(broadcast.getBeginTimeStringGmt());
 
 			alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
@@ -90,7 +90,7 @@ public class NotificationService {
 
 		Calendar calendar;
 		try {
-			calendar = DateUtilities.getTimeFifteenMinBefore(broadcast.getBeginTimeStringGmt());
+			calendar = OldDateUtilities.getTimeFifteenMinBefore(broadcast.getBeginTimeStringGmt());
 
 			alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 

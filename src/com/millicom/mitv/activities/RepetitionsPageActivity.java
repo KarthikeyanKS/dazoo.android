@@ -11,7 +11,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.millicom.mitv.ContentManager;
-import com.millicom.mitv.models.gson.Broadcast;
+import com.millicom.mitv.models.Broadcast;
 import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;

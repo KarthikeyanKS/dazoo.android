@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.millicom.mitv.enums.BroadcastTypeEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
-import com.millicom.mitv.models.gson.Broadcast;
+import com.millicom.mitv.models.Broadcast;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.utilities.ProgressBarUtils;

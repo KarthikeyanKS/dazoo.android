@@ -11,15 +11,16 @@ import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.models.AppVersionData;
+import com.millicom.mitv.models.Broadcast;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.gson.AppConfiguration;
-import com.millicom.mitv.models.gson.Broadcast;
 import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;
 import com.millicom.mitv.models.gson.TVDate;
 import com.millicom.mitv.models.gson.TVFeedItem;
+import com.millicom.mitv.models.gson.TVProgram;
 import com.millicom.mitv.models.gson.TVTag;
 import com.millicom.mitv.models.gson.UserLike;
 import com.mitv.Consts;
@@ -685,17 +686,26 @@ public class ContentManager implements ContentCallbackListener {
 	/* MAJOR HELPER METHODS */
 	public HashMap<String, ArrayList<Broadcast>> createTaggedBroadcastUsingTVGuide(TVGuide tvGuide) {
 		/* TVTag string representation is used as key */
+		ArrayList<TVTag> tvTags = getFromStorageTVTags();
 		
-		//TODO FIXME implement me, should be done in O(C*B), and not O(C*B*T) as in older version, where C=number of TVChannelGuides, B=number of broadcasts, T=number of tags
+		//TODO FIXME implement me, should be done in O(C*B*t), and not O(C*B*T*t) as in older version
+		//where C=number of TVChannelGuides, B=number of broadcasts, T=number of global visible tags, t=number of tags for broadcast
 		HashMap<String, ArrayList<Broadcast>> tagBroadcastMap = new HashMap<String, ArrayList<Broadcast>>();
 		
-		for(TVChannelGuide tvChannelGuide : tvGuide.getTvChannelGuides()) {
-			ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>(tvChannelGuide.getBroadcasts());
-			
-			for(Broadcast broadcast : broadcasts) {
+		for(TVTag tvTag : tvTags) {
+			for(TVChannelGuide tvChannelGuide : tvGuide.getTvChannelGuides()) {
+				ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>(tvChannelGuide.getBroadcasts());
+				
+				for(Broadcast broadcast : broadcasts) {
+					TVProgram program = broadcast.getProgram();
+					ArrayList<String> tagNames = program.getTags();
+					for(String tagName : tagNames) {
+						
+					}
+					
+				}
 				
 			}
-			
 		}
 		return tagBroadcastMap;
 	}

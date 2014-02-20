@@ -15,7 +15,7 @@ import android.util.Log;
 import com.mitv.Consts;
 import com.mitv.SecondScreenApplication;
 import com.mitv.notification.NotificationService;
-import com.mitv.utilities.DateUtilities;
+import com.mitv.utilities.OldDateUtilities;
 
 public class AlarmReceiver extends BroadcastReceiver {
 	
@@ -34,7 +34,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 			String broadcastTime = intent.getStringExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_TIME);
 			
 			try {
-				broadcastTime = DateUtilities.timeToTimeString(DateUtilities.convertTimeStampToLocalTime(DateUtilities.isoStringToLong(broadcastTime)));
+				broadcastTime = OldDateUtilities.timeToTimeString(OldDateUtilities.convertTimeStampToLocalTime(OldDateUtilities.isoStringToLong(broadcastTime)));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}

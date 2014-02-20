@@ -14,7 +14,7 @@ import com.mitv.model.OldProgram;
 import com.mitv.model.OldSeason;
 import com.mitv.notification.NotificationDataSource;
 import com.mitv.notification.NotificationService;
-import com.mitv.utilities.DateUtilities;
+import com.mitv.utilities.OldDateUtilities;
 
 public class AlarmSetter extends BroadcastReceiver {
 

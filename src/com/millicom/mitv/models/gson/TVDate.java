@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.mitv.Consts;
-import com.mitv.utilities.DateUtilities;
+import com.mitv.utilities.OldDateUtilities;
 
 public class TVDate {
 
@@ -20,7 +20,7 @@ public class TVDate {
 
 	public Date getDate() {
 		if(dateObject == null) {
-			SimpleDateFormat dfmInput = DateUtilities.getDateFormat(Consts.TVDATE_DATE_FORMAT);
+			SimpleDateFormat dfmInput = OldDateUtilities.getDateFormat(Consts.TVDATE_DATE_FORMAT);
 			try {
 				dateObject = dfmInput.parse(date);
 			} catch (ParseException e) {

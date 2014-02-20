@@ -25,7 +25,7 @@ import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.ChannelPageActivity;
 import com.millicom.mitv.enums.BroadcastTypeEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
-import com.millicom.mitv.models.gson.Broadcast;
+import com.millicom.mitv.models.Broadcast;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVDate;
 import com.millicom.mitv.models.gson.TVProgram;

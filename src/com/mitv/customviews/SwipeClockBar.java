@@ -36,7 +36,7 @@ import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.manager.AppConfigurationManager;
 import com.mitv.manager.FontManager;
-import com.mitv.utilities.DateUtilities;
+import com.mitv.utilities.OldDateUtilities;
 
 public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListener {
 
@@ -314,7 +314,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 				colorId = R.color.white;
 				fontName = FontManager.FONT_BOLD;
 				rowView.setBackgroundColor(mActivity.getResources().getColor(R.color.grey4));
-			} else if (mIsToday && isEarlier(hour, Integer.parseInt(DateUtilities.getCurrentHourString()))) {
+			} else if (mIsToday && isEarlier(hour, Integer.parseInt(OldDateUtilities.getCurrentHourString()))) {
 				colorId = R.color.grey2;
 				fontName = FontManager.FONT_LIGHT;
 				rowView.setBackgroundColor(mActivity.getResources().getColor(R.color.transparent));

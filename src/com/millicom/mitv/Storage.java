@@ -11,7 +11,7 @@ import com.millicom.mitv.models.AppVersionData;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.gson.AdzerkAd;
 import com.millicom.mitv.models.gson.AppConfiguration;
-import com.millicom.mitv.models.gson.Broadcast;
+import com.millicom.mitv.models.Broadcast;
 import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;

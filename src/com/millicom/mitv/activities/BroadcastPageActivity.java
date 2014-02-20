@@ -40,7 +40,7 @@ import com.mitv.storage.MiTVStore;
 import com.mitv.tvguide.BroadcastMainBlockPopulator;
 import com.mitv.tvguide.BroadcastRepetitionsBlockPopulator;
 import com.mitv.tvguide.BroadcastUpcomingBlockPopulator;
-import com.mitv.utilities.DateUtilities;
+import com.mitv.utilities.OldDateUtilities;
 
 public class BroadcastPageActivity extends BaseActivity implements OnClickListener {
 
@@ -439,7 +439,7 @@ public class BroadcastPageActivity extends BaseActivity implements OnClickListen
 				int hour;
 				OldTVDate tvDate;
 				if (mIsFromNotification) {
-					hour = Integer.valueOf(DateUtilities.getCurrentHourString());
+					hour = Integer.valueOf(OldDateUtilities.getCurrentHourString());
 					tvDate = new OldTVDate();
 					tvDate.setDate(mTvDate);
 					// Log.d(TAG, "hour: " + hour + " TvDate: " + tvDate.getDate());
