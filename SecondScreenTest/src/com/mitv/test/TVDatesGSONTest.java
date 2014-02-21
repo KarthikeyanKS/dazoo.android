@@ -14,7 +14,7 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.models.gson.TVDate;
+import com.millicom.mitv.models.TVDate;
 import com.mitv.Consts;
 
 /**
@@ -78,8 +78,8 @@ public class TVDatesGSONTest
 		Assert.assertNotNull(tvDate.getId());
 		Assert.assertFalse(TextUtils.isEmpty(tvDate.getId()));
 
-		Assert.assertNotNull(tvDate.getDate());
-		Assert.assertTrue(tvDate.getDate().getTime() > YEAR_OF_2000);
+		Assert.assertNotNull(tvDate.getDateCalendar());
+		Assert.assertTrue(tvDate.getDateCalendar().getTimeInMillis() > YEAR_OF_2000);
 
 		Assert.assertNotNull(tvDate.getDisplayName());
 		Assert.assertFalse(TextUtils.isEmpty(tvDate.getDisplayName()));
