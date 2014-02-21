@@ -6,7 +6,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -16,43 +15,29 @@ import android.widget.Button;
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
+import com.millicom.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.Consts;
 import com.mitv.R;
+import com.mitv.customviews.FontTextView;
 
-public class SplashScreenActivity extends ActionBarActivity implements ActivityCallbackListener {
+public class SplashScreenActivity extends ActionBarActivity implements ActivityCallbackListener, FetchDataProgressCallbackListener {
 	
 	private static final String					TAG					= "SplashScreenActivity";
-//	private boolean mTimeHasElapsed = false;
+	private FontTextView progressTextView;
 	
 	private static final long MINUMUM_DISPLAY_TIME = 3000l;
-	
-//	private CountDownTimer mCountTimer;
-
+	private int fetchedDataCount = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_splash_screen_activity);
+		progressTextView = (FontTextView) findViewById(R.id.splash_screen_activity_progress_text);
 		
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.hide();
 		
-//		mCountTimer = new CountDownTimer(MINUMUM_DISPLAY_TIME, MINUMUM_DISPLAY_TIME) {
-//			
-//			@Override
-//			public void onTick(long millisUntilFinished) {
-//			}
-//			
-//			@Override
-//			public void onFinish() {
-//				mTimeHasElapsed = true;
-//				startPrimaryActivity();
-//				
-//			}
-//		};
-//		mCountTimer.start();
-		
-		ContentManager.sharedInstance().fetchFromServiceAppData(this);
+		ContentManager.sharedInstance().fetchFromServiceAppData(this, this);
 	}
 
 
@@ -104,10 +89,8 @@ public class SplashScreenActivity extends ActionBarActivity implements ActivityC
 	};
 
 	private void startPrimaryActivity() {
-//		if(mTimeHasElapsed) {
-			Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
-			startActivity(intent);
-//		}
+		Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
+		startActivity(intent);
 	}
 
 
@@ -126,6 +109,18 @@ public class SplashScreenActivity extends ActionBarActivity implements ActivityC
 			// TODO show toast with error message? Implement a retry mechanism?
 			break;
 		}
+	}
+
+
+	@Override
+	public void onFetchDataProgress(int totalSteps, String message) {
+		fetchedDataCount++;
+		StringBuilder sb = new StringBuilder();
+		sb.append(fetchedDataCount + "/" + totalSteps);
+		sb.append(" - ");
+		sb.append(message);
+		String progressMessage = sb.toString();
+		progressTextView.setText(progressMessage);
 	}
 }
 
