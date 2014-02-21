@@ -21,7 +21,7 @@ public abstract class DateUtils
 {	
 	private static final String TAG = DateUtils.class.getName();
 	
-	private static float TOTAL_MILISECOUNDS_IN_ONE_MINUTE = 60000;
+	public static long TOTAL_MILISECOUNDS_IN_ONE_MINUTE = 60000;
 	
 	
 	

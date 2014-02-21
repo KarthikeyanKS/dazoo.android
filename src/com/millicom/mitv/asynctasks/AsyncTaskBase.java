@@ -4,7 +4,10 @@ package com.millicom.mitv.asynctasks;
 
 
 import java.util.Collections;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
+
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -19,13 +22,16 @@ import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.http.URLParameters;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
+import com.millicom.mitv.utilities.DateUtils;
+import com.mitv.Consts;
+import com.mitv.SecondScreenApplication;
 
 
 
 public abstract class AsyncTaskBase<T> 
 	extends AsyncTask<String, Void, Void> 
 {	
-	private static final String TAG = "AsyncTaskBase";
+	private static final String TAG = AsyncTaskBase.class.getName();
 	
 	private ContentCallbackListener contentCallbackListener;
 	private ActivityCallbackListener activityCallBackListener;
@@ -115,6 +121,24 @@ public abstract class AsyncTaskBase<T>
 		
 		this.requestResultStatus = FetchRequestResultEnum.UNKNOWN_ERROR;
 		this.requestResultObjectContent = null;
+		
+		/* Add the locale to the header data */
+		Locale locale = SecondScreenApplication.getCurrentLocale();
+		TimeZone timeZone = TimeZone.getDefault();
+		
+		if(locale != null && timeZone != null)
+		{
+			int timeZoneOffsetInMinutesAsInt = (int) (timeZone.getRawOffset() / DateUtils.TOTAL_MILISECOUNDS_IN_ONE_MINUTE);
+		
+			Integer timeZoneOffsetInMinutes = Integer.valueOf(timeZoneOffsetInMinutesAsInt);
+		
+			urlParameters.add(Consts.HTTP_REQUEST_DATA_LOCALE, locale.toString());
+			urlParameters.add(Consts.HTTP_REQUEST_DATA_TIME_ZONE_OFFSET, timeZoneOffsetInMinutes.toString());
+		}
+		else
+		{
+			Log.w(TAG, "Either locale or timeZone have null values.");
+		}
 		
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		

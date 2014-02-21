@@ -72,10 +72,6 @@ public abstract class Consts {
 	public static final String URL_NOTIFY_BROADCAST_PREFIX 			= URL_SERVER + "epg/channels/";
 	public static final String URL_AUTH_TOKENS 					 	= URL_SERVER + "auth/tokens/";
 	
-	/* Used as meta data in all HTTP requests */
-	public static final String HTTP_REQUEST_DATA_LOCALE 			= "lang";
-	public static final String HTTP_REQUEST_DATA_TIME_ZONE_OFFSET 	= "timeZoneOffset";
-
 	/* API request strings */
 	public static final String	API_CHANNEL_ID_WITH_EQUALS_SIGN		= "channelId=";
 	public static final String	API_CHANNEL_ID						= "channelId";
@@ -542,9 +538,13 @@ public abstract class Consts {
 	public static final String HOST_NAME_FOR_CONNECTIVITY_CHECK = "http://www.google.com";
     public static final int HOST_TIMEOUT_IN_MILISECONDS_FOR_CONNECTIVITY_CHECK = 2000;
     
-    /* USER AUTHORIZATION TOKEN */
+    /* USER AUTHORIZATION TOKEN FOR HTTP REQUESTS */
     public static final String USER_AUTHORIZATION_HEADER_KEY = "Authorization";
     public static final String USER_AUTHORIZATION_HEADER_VALUE_PREFIX = "Bearer";
+    
+    /* LOCALE TOKENS FOR HTTP REQUESTS */
+	public static final String HTTP_REQUEST_DATA_LOCALE = "lang";
+	public static final String HTTP_REQUEST_DATA_TIME_ZONE_OFFSET = "timeZoneOffset";
     
     public static final int MAXIMUM_REMINDER_TIME_FOR_SHOW = 15;
 }

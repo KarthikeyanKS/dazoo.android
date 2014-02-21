@@ -4,21 +4,32 @@ package com.mitv.test;
 
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
+
 import android.test.InstrumentationTestCase;
+import android.util.Log;
+
+import com.millicom.mitv.asynctasks.AsyncTaskBase;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCore;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.http.URLParameters;
 import com.millicom.mitv.models.gson.serialization.UserRegistrationData;
+import com.millicom.mitv.utilities.DateUtils;
 import com.millicom.mitv.utilities.GenericUtils;
 import com.mitv.Consts;
+import com.mitv.SecondScreenApplication;
 
 
 
 public class TestCore 
 	extends InstrumentationTestCase 
 {
+	private static final String TAG = TestCore.class.getName();
+	
+	
 	protected static final int YEAR_OF_2000 = 2000;
 	protected static final String DEFAULT_TEST_USER_EMAIL = "oskar.tvjunkie@gmail.com";
 	protected static final String DEFAULT_TEST_USER_PASSWORD = "ilovetv";
@@ -99,6 +110,24 @@ public class TestCore
 			final String bodyContentData)
 	{
 		HTTPCore httpCore = HTTPCore.sharedInstance();
+		
+		/* Add the locale to the header data */
+		Locale locale = SecondScreenApplication.getCurrentLocale();
+		TimeZone timeZone = TimeZone.getDefault();
+		
+		if(locale != null && timeZone != null)
+		{
+			int timeZoneOffsetInMinutesAsInt = (int) (timeZone.getRawOffset() / DateUtils.TOTAL_MILISECOUNDS_IN_ONE_MINUTE);
+		
+			Integer timeZoneOffsetInMinutes = Integer.valueOf(timeZoneOffsetInMinutesAsInt);
+		
+			urlParameters.add(Consts.HTTP_REQUEST_DATA_LOCALE, locale.toString());
+			urlParameters.add(Consts.HTTP_REQUEST_DATA_TIME_ZONE_OFFSET, timeZoneOffsetInMinutes.toString());
+		}
+		else
+		{
+			Log.w(TAG, "Either locale or timeZone have null values.");
+		}
 		
 		HTTPCoreResponse httpCoreResponse = httpCore.executeRequest(httpRequestType, url, urlParameters, headerParameters, bodyContentData);
 		
