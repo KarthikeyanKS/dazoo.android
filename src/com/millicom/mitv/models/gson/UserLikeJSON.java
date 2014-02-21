@@ -19,8 +19,8 @@ import com.mitv.Consts;
 
 
 
-public class UserLike 
-	implements JsonDeserializer<UserLike>
+public class UserLikeJSON 
+	implements JsonDeserializer<UserLikeJSON>
 {
 	/*
 	 * The names of these variables should not be changed unless the backend API call parameters changes too.
@@ -65,13 +65,13 @@ public class UserLike
 	/*
 	 * The empty constructor is needed by gson. Do not remove.
 	 */
-	public UserLike()
+	public UserLikeJSON()
 	{}
 	
 	
 	
 	@Override
-	public UserLike deserialize(
+	public UserLikeJSON deserialize(
 			JsonElement jsonElement, 
 			Type type,
 			JsonDeserializationContext jsonDeserializationContext) 
@@ -81,7 +81,7 @@ public class UserLike
 		gsonBuilder.excludeFieldsWithoutExposeAnnotation();
 		Gson gson = gsonBuilder.create();
 		
-		UserLike baseObject = gson.fromJson(jsonElement, UserLike.class);
+		UserLikeJSON baseObject = gson.fromJson(jsonElement, UserLikeJSON.class);
 		
 		JsonObject jsonObject = jsonElement.getAsJsonObject();
 
@@ -184,10 +184,11 @@ public class UserLike
 	
 	//TODO Determine which of those dummy methods we need, and implement them
 	/* HERE COMES DUMMY METHODS, ALL OF THEM MAY NOT BE NEEDED, INVESTIGATE! */
-	public static class UserLikeComparatorByTitle implements Comparator<UserLike> {
-
+	public static class UserLikeComparatorByTitle implements Comparator<UserLikeJSON> 
+	{
 		@Override
-		public int compare(UserLike a, UserLike b) {
+		public int compare(UserLikeJSON a, UserLikeJSON b) 
+		{
 			return a.getTitle().compareTo(b.getTitle());
 		}
 	}

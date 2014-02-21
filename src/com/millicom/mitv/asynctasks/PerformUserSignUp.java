@@ -4,11 +4,12 @@ package com.millicom.mitv.asynctasks;
 
 
 import android.util.Log;
+
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
-import com.millicom.mitv.models.gson.UserLoginData;
+import com.millicom.mitv.models.UserLoginData;
 import com.millicom.mitv.models.gson.serialization.UserRegistrationData;
 import com.mitv.Consts;
 

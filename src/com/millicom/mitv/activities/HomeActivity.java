@@ -39,6 +39,7 @@ public class HomeActivity extends SSPageFragmentActivity implements ActionBar.On
 
 	private Fragment activeFragment;
 
+
 	private String welcomeMessage = "";
 	private boolean hasShowWelcomeToast = false;
 

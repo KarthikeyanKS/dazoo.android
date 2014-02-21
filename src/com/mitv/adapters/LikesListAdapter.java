@@ -15,17 +15,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.millicom.mitv.models.gson.UserLike;
-import com.mitv.Consts;
+import com.millicom.mitv.models.UserLike;
 import com.mitv.R;
-import com.mitv.handlers.LikeDialogHandler;
 import com.mitv.interfaces.LikesCountInterface;
-import com.mitv.model.OldMiTVLikeEntity;
 import com.mitv.storage.MiTVStore;
 
 @SuppressLint("DefaultLocale")
-public class LikesListAdapter extends BaseAdapter {
-
+public class LikesListAdapter 
+	extends BaseAdapter
+{
 	private static final String		TAG				= "LikesListAdapter";
 
 	private LayoutInflater			mLayoutInflater;

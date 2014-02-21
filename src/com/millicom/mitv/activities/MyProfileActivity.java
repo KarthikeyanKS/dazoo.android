@@ -30,8 +30,13 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 
-public class MyProfileActivity extends BaseActivity implements ActivityCallbackListener, OnClickListener {
-
+public class MyProfileActivity 
+	extends BaseActivity 
+	implements ActivityCallbackListener, OnClickListener 
+{
+	@SuppressWarnings("unused")
+	private static final String TAG = MyProfileActivity.class.getName();
+	
 	private String mUserFirstName;
 	private String mUserLastName;
 	private String mUserAvatarUrl;

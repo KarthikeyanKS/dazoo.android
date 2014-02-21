@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Locale;
-
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -19,13 +18,13 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.millicom.mitv.utilities.RegularExpressionUtils;
 import com.mitv.manager.GATrackingManager;
 import com.mitv.storage.ObscuredSharedPreferences;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
@@ -34,13 +33,15 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.utils.L;
-//import com.testflightapp.lib.TestFlight;
+
 
 
 
 public class SecondScreenApplication 
 	extends Application
 {
+	private static final String TAG = SecondScreenApplication.class.getName();
+	
 	public static interface CheckApiVersionListener {
 		public void onApiVersionChecked(boolean needsUpdate);
 	}
@@ -48,8 +49,6 @@ public class SecondScreenApplication
 		public void onAppConfigurationListener();
 	}
 	
-	private static final String				TAG								= "SecondScreenApplication";
-
 	private static String userAgent;
 	private static String session;
 	private static SecondScreenApplication	sInstance						= null;

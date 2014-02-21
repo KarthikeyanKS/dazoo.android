@@ -22,7 +22,9 @@ import com.mitv.customviews.FontTextView;
 
 public class SplashScreenActivity extends ActionBarActivity implements ActivityCallbackListener, FetchDataProgressCallbackListener {
 	
-	private static final String					TAG					= "SplashScreenActivity";
+	private static final String TAG = SplashScreenActivity.class.getName();
+	
+	
 	private FontTextView progressTextView;
 	private int fetchedDataCount = 0;
 

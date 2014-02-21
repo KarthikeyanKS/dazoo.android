@@ -23,13 +23,13 @@ import com.millicom.mitv.models.TVDate;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.TVGuideAndTaggedBroadcasts;
 import com.millicom.mitv.models.UpcomingBroadcastsForBroadcast;
+import com.millicom.mitv.models.UserLike;
+import com.millicom.mitv.models.UserLoginData;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;
 import com.millicom.mitv.models.gson.TVFeedItem;
 import com.millicom.mitv.models.gson.TVTag;
-import com.millicom.mitv.models.gson.UserLike;
-import com.millicom.mitv.models.gson.UserLoginData;
 import com.millicom.mitv.utilities.GenericUtils;
 import com.mitv.Consts;
 
@@ -568,13 +568,18 @@ public class ContentManager implements ContentCallbackListener {
 		fetchFromServiceTVGuideForSelectedDay(activityCallBackListener);
 	}
 	
-	public void handleUserLikesResponse(ActivityCallbackListener activityCallBackListener, FetchRequestResultEnum result, Object content) {
-		if (result.wasSuccessful() && content != null) {
+	public void handleUserLikesResponse(ActivityCallbackListener activityCallBackListener, FetchRequestResultEnum result, Object content) 
+	{
+		if (result.wasSuccessful() && content != null) 
+		{
 			ArrayList<UserLike> userLikes = (ArrayList<UserLike>) content;
+			
 			storage.setUserLikes(userLikes);
 			
 			activityCallBackListener.onResult(FetchRequestResultEnum.SUCCESS);
-		} else {
+		} 
+		else 
+		{
 			//TODO handle this better?
 			activityCallBackListener.onResult(FetchRequestResultEnum.UNKNOWN_ERROR);
 		}
@@ -591,8 +596,10 @@ public class ContentManager implements ContentCallbackListener {
 	}
 	
 	/* This method does not require any ActivityCallbackListener, "fire and forget". */
-	public void performInternalTracking(TVBroadcast broadcast) {
-		if(broadcast != null && broadcast.getProgram() != null && broadcast.getProgram().getProgramId() != null && !TextUtils.isEmpty(broadcast.getProgram().getProgramId())) {
+	public void performInternalTracking(TVBroadcast broadcast) 
+	{
+		if(broadcast != null && broadcast.getProgram() != null && broadcast.getProgram().getProgramId() != null && !TextUtils.isEmpty(broadcast.getProgram().getProgramId())) 
+		{
 			String tvProgramId = broadcast.getProgram().getProgramId();
 			
 			//TODO NewArc use a better method for device id!

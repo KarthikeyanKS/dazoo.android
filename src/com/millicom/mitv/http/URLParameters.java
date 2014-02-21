@@ -1,12 +1,20 @@
 
 package com.millicom.mitv.http;
 
+
+
 import java.io.Serializable;
 import java.util.ArrayList;
+
+
 
 public class URLParameters 
 	implements Serializable
 {
+	@SuppressWarnings("unused")
+	private static final String TAG = URLParameters.class.getName();
+	
+	
 	private static final long serialVersionUID = 5091937835853178956L;
 	private static final String QUERYSTRING_FIRST_SEPARATOR = "?";
 	private static final String QUERYSTRING_SEPARATOR = "&";

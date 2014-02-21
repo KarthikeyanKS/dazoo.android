@@ -3,8 +3,10 @@ package com.mitv.test;
 
 
 
-import org.junit.Test;
 import junit.framework.Assert;
+
+import org.junit.Test;
+
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -13,7 +15,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.models.gson.AppConfiguration;
+import com.millicom.mitv.models.AppConfiguration;
 import com.mitv.Consts;
 
 

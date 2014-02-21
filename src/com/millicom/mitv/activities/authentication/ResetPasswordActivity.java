@@ -1,4 +1,7 @@
+
 package com.millicom.mitv.activities.authentication;
+
+
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -24,8 +27,6 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -44,9 +45,15 @@ import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.utilities.JSONUtilities;
 
-public class ResetPasswordActivity extends SSSignInSignupBaseActivity implements OnClickListener {
 
-	private static final String	TAG	= "ResetPasswordActivity";
+
+public class ResetPasswordActivity 
+	extends SSSignInSignupBaseActivity 
+	implements OnClickListener
+{
+	private static final String TAG = ResetPasswordActivity.class.getName();
+	
+	
 	private ActionBar			mActionBar;
 	private Button				mMiTVResetPassword;
 	private EditText			mEmailResetPasswordEditText;

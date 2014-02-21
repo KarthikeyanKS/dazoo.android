@@ -14,6 +14,25 @@ import com.mitv.SecondScreenApplication;
 public class TVDate 
 	extends TVDateJSON
 {
+	@SuppressWarnings("unused")
+	private static final String TAG = TVDate.class.getName();
+	
+	
+	
+	public TVDate(String dateRepresentation)
+	{
+		Context context = SecondScreenApplication.getInstance().getApplicationContext();
+		
+		this.id = dateRepresentation;
+		this.date = dateRepresentation;
+		
+		this.dateCalendar = DateUtils.convertFromStringToCalendar(dateRepresentation, context);
+		
+		this.displayName = DateUtils.buildDayOfTheWeekAsString(dateCalendar, context);
+	}
+	
+	
+	
 	public Calendar getDateCalendar() 
 	{
 		if(dateCalendar == null) 

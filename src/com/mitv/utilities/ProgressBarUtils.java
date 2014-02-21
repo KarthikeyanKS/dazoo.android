@@ -1,4 +1,7 @@
+
 package com.mitv.utilities;
+
+
 
 import java.util.Locale;
 
@@ -9,6 +12,8 @@ import android.widget.TextView;
 
 import com.millicom.mitv.models.TVBroadcast;
 import com.mitv.R;
+
+
 
 public class ProgressBarUtils
 {
@@ -24,29 +29,37 @@ public class ProgressBarUtils
 		// different representation of "X min left" for Spanish and all other languages
 		if (Locale.getDefault().getLanguage().endsWith("es")) 
 		{
-			if (timeLeft > 60) {
+			if (timeLeft > 60) 
+			{
 				int hours = timeLeft / 60;
 				int minutes = timeLeft - hours * 60;
+				
 				progressTxt.setText(mActivity.getResources().getQuantityString(R.plurals.left, hours) + " " + hours + " " + 
 						mActivity.getResources().getQuantityString(R.plurals.hour, hours) + " " + 
 						mActivity.getResources().getString(R.string.and) + " " + minutes + " " + 
 						mActivity.getResources().getString(R.string.minutes));
 			}
-			else {
+			else 
+			{
 				progressTxt.setText(mActivity.getResources().getString(R.string.left) + " " + String.valueOf(timeLeft) + " " + 
 						mActivity.getResources().getString(R.string.minutes));
 			}
 		} 
-		else {
-			if (timeLeft > 60) {
+		else 
+		{
+			if (timeLeft > 60) 
+			{
 				int hours = timeLeft / 60;
+				
 				int minutes = timeLeft - hours * 60;
+				
 				progressTxt.setText(hours + " " + mActivity.getResources().getQuantityString(R.plurals.hour, hours) + " " + 
 						mActivity.getResources().getString(R.string.and) + " " + minutes + " " + 
 						mActivity.getResources().getString(R.string.minutes) + " " + 
 						mActivity.getResources().getString(R.string.left));
 			}
-			else {
+			else 
+			{
 				progressTxt.setText(timeLeft + " " + mActivity.getResources().getString(R.string.minutes) + " " + 
 						mActivity.getResources().getString(R.string.left));
 			}

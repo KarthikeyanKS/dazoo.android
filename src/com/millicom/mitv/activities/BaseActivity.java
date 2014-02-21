@@ -85,15 +85,22 @@ public abstract class BaseActivity extends ActionBarActivity implements OnClickL
 
 		boolean isDebugMode = (flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
 
-		if (isDebugMode) {
-			// TODO: Enable strict mode
-			/*
-			 * StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder() .detectDiskReads() .detectDiskWrites() .detectNetwork() //
-			 * or .detectAll() for all detectable problems .penaltyLog() .build());
-			 * 
-			 * StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder() .detectLeakedSqlLiteObjects() .detectLeakedClosableObjects()
-			 * .penaltyLog() .penaltyDeath() .build());
-			 */
+		if(isDebugMode) 
+		{
+			// TODO Enable strict mode
+//			StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+//			.detectDiskReads()
+//			.detectDiskWrites()
+//			.detectNetwork()   // or .detectAll() for all detectable problems
+//			.penaltyLog()
+//			.build());
+//
+//			StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+//			.detectLeakedSqlLiteObjects()
+//			.detectLeakedClosableObjects()
+//			.penaltyLog()
+//			.penaltyDeath()
+//			.build());
 		}
 		// No need for else
 

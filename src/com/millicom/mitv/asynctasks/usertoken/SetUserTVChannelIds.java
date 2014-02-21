@@ -18,7 +18,8 @@ import com.mitv.Consts;
 public class SetUserTVChannelIds 
 	extends AsyncTaskWithUserToken<DummyData> 
 {
-	private static final String TAG = "SetUserTVChannelIds";
+	private static final String TAG = SetUserTVChannelIds.class.getName();
+	
 	
 	private static final String URL_SUFFIX = Consts.URL_MY_CHANNEL_IDS;
 	

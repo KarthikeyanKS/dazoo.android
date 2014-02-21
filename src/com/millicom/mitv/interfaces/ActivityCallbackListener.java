@@ -1,9 +1,14 @@
+
 package com.millicom.mitv.interfaces;
+
+
 
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 
-public interface ActivityCallbackListener {
-	
+
+
+public interface ActivityCallbackListener 
+{	
 	/** 
 	 * This method is called from the ContentManager when all the 
 	 * request operations has finished and the result of said operations

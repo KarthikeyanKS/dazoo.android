@@ -1,7 +1,12 @@
+
 package com.millicom.mitv.interfaces;
+
+
 
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
+
+
 
 /**
  * This interface is to be implemented by the ContentManager, in order to pass data back from
@@ -9,8 +14,8 @@ import com.millicom.mitv.enums.RequestIdentifierEnum;
  * @author consultant_hdme
  *
  */
-public interface ContentCallbackListener {
-	
+public interface ContentCallbackListener
+{	
 	/** 
 	 * This method is called by the AsyncTask in the onPostExecute method. After JSON data has been parsed.
 	 * It is used to notify the content manager when the request has finished (successful or not).
@@ -20,5 +25,4 @@ public interface ContentCallbackListener {
 	 * @param content - the data object/model, parsed from JSON. Can be null if 'successful' = false, but never otherwise.
 	 */
 	public void onResult(ActivityCallbackListener activityCallBackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content);
-
 }

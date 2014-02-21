@@ -1,7 +1,6 @@
 package com.mitv.utilities;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -10,12 +9,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.mitv.Consts;
-import com.mitv.SecondScreenApplication;
-
-import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.mitv.Consts;
 
 public class JSONUtilities {
 

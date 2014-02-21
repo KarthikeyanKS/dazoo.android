@@ -37,17 +37,22 @@ public class MiTVLoginActivity
 	extends SSSignInSignupBaseActivity 
 	implements OnClickListener 
 {
-	private static final String	TAG	= "MiTVLoginActivity";
+	private static final String TAG = MiTVLoginActivity.class.getName();
 	
 	private ActionBar			mActionBar;
-	private Button				mMiTVLoginButton, mForgetPasswordButton;
-	private EditText			mEmailLoginEditText, mPasswordLoginEditText;
+	private Button				mMiTVLoginButton;
+	private Button				mForgetPasswordButton;
+	private EditText			mEmailLoginEditText;
+	private EditText			mPasswordLoginEditText;
 	private RelativeLayout		mFacebookContainer;
 	private TextView			mPasswordErrorTv;
 	private TextView			mEmailErrorTv;
+	
 	private boolean 			mIsFromActivity;
-
-	private String				miTVToken	= "", userEmailLogin, userPasswordLogin;
+	
+	private String				userEmailLogin;
+	private String				userPasswordLogin;
+	private String				miTVToken	= "";
 	
 	
 	

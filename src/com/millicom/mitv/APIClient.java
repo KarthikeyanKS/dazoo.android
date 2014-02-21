@@ -4,6 +4,7 @@ package com.millicom.mitv;
 
 
 import java.util.List;
+
 import com.millicom.mitv.asynctasks.GetAdsAdzerk;
 import com.millicom.mitv.asynctasks.GetAppConfigurationData;
 import com.millicom.mitv.asynctasks.GetAppVersionData;
