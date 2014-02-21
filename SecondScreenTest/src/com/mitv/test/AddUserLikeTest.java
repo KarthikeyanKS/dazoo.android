@@ -4,10 +4,14 @@ package com.mitv.test;
 
 
 import java.util.Map;
+
 import junit.framework.Assert;
+
 import org.junit.Test;
+
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
@@ -15,9 +19,9 @@ import com.millicom.mitv.enums.LikeTypeRequestEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.http.URLParameters;
 import com.millicom.mitv.models.TVBroadcast;
+import com.millicom.mitv.models.UserLike;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVProgram;
-import com.millicom.mitv.models.gson.UserLike;
 import com.millicom.mitv.models.gson.serialization.UserLikeData;
 import com.mitv.Consts;
 

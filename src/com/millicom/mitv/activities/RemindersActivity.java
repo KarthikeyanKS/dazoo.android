@@ -27,14 +27,22 @@ import com.mitv.interfaces.RemindersCountInterface;
 import com.mitv.model.NotificationDbItem;
 import com.mitv.notification.NotificationDataSource;
 
-public class RemindersActivity extends BaseActivity implements RemindersCountInterface, OnClickListener {
-
+public class RemindersActivity 
+	extends BaseActivity 
+	implements RemindersCountInterface, OnClickListener
+{
+	@SuppressWarnings("unused")
 	private static final String TAG = RemindersActivity.class.getName();
+	
 	private ActionBar				mActionBar;
 	private boolean					mIsChange	= false;
 	private ListView				mListView;
 	private RemindersListAdapter	mAdapter;
-	private RelativeLayout			mTabTvGuide, mTabActivity, mTabProfile;private View mTabDividerLeft, mTabDividerRight;
+	private RelativeLayout			mTabTvGuide;
+	private RelativeLayout			mTabActivity;
+	private RelativeLayout			mTabProfile;
+	private View mTabDividerLeft;
+	private View mTabDividerRight;
 	private int						mCount		= 0;
 	private TextView				mErrorTv;
 

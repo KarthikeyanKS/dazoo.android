@@ -4,7 +4,9 @@ package com.mitv.test;
 
 
 import junit.framework.Assert;
+
 import org.junit.Test;
+
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -12,7 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.models.gson.UserLoginData;
+import com.millicom.mitv.models.UserLoginData;
 import com.millicom.mitv.models.gson.serialization.UserRegistrationData;
 import com.mitv.Consts;
 

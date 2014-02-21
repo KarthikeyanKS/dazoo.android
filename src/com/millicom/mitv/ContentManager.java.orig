@@ -8,6 +8,10 @@ import java.util.List;
 
 import android.text.TextUtils;
 
+<<<<<<< HEAD
+=======
+import com.millicom.mitv.enums.BroadcastTypeEnum;
+>>>>>>> backend-refactoring
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
@@ -16,21 +20,33 @@ import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.millicom.mitv.models.AppConfiguration;
 import com.millicom.mitv.models.AppVersion;
+<<<<<<< HEAD
+=======
 import com.millicom.mitv.models.RepeatingBroadcastsForBroadcast;
 import com.millicom.mitv.models.TVBroadcast;
+>>>>>>> backend-refactoring
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVDate;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.TVGuideAndTaggedBroadcasts;
-import com.millicom.mitv.models.UpcomingBroadcastsForBroadcast;
+<<<<<<< HEAD
 import com.millicom.mitv.models.UserLike;
 import com.millicom.mitv.models.UserLoginData;
+=======
+import com.millicom.mitv.models.UpcomingBroadcastsForBroadcast;
+import com.millicom.mitv.models.gson.AppConfigurationJSON;
+>>>>>>> backend-refactoring
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;
 import com.millicom.mitv.models.gson.TVFeedItem;
 import com.millicom.mitv.models.gson.TVTag;
+<<<<<<< HEAD
+=======
+import com.millicom.mitv.models.gson.UserLike;
+import com.millicom.mitv.models.gson.UserLoginData;
 import com.millicom.mitv.utilities.GenericUtils;
+>>>>>>> backend-refactoring
 import com.mitv.Consts;
 
 
@@ -596,10 +612,8 @@ public class ContentManager implements ContentCallbackListener {
 	}
 	
 	/* This method does not require any ActivityCallbackListener, "fire and forget". */
-	public void performInternalTracking(TVBroadcast broadcast) 
-	{
-		if(broadcast != null && broadcast.getProgram() != null && broadcast.getProgram().getProgramId() != null && !TextUtils.isEmpty(broadcast.getProgram().getProgramId())) 
-		{
+	public void performInternalTracking(TVBroadcast broadcast) {
+		if(broadcast != null && broadcast.getProgram() != null && broadcast.getProgram().getProgramId() != null && !TextUtils.isEmpty(broadcast.getProgram().getProgramId())) {
 			String tvProgramId = broadcast.getProgram().getProgramId();
 			
 			//TODO NewArc use a better method for device id!

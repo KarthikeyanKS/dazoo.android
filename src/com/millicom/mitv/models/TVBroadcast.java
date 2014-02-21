@@ -24,9 +24,7 @@ import com.mitv.SecondScreenApplication;
  * @author consultant_hdme
  * 
  */
-public class TVBroadcast
-	extends BroadcastJSON 
-{
+public class TVBroadcast extends BroadcastJSON {
 	@SuppressWarnings("unused")
 	private static final String TAG = TVBroadcast.class.getName();
 

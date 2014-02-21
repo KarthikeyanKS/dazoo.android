@@ -13,10 +13,14 @@ import com.millicom.mitv.models.RepeatingBroadcastsForBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVDate;
 import com.millicom.mitv.models.TVGuide;
-import com.millicom.mitv.models.UpcomingBroadcastsForBroadcast;
+<<<<<<< HEAD
 import com.millicom.mitv.models.UserLike;
 import com.millicom.mitv.models.UserLoginData;
+=======
+import com.millicom.mitv.models.UpcomingBroadcastsForBroadcast;
+>>>>>>> backend-refactoring
 import com.millicom.mitv.models.gson.AdAdzerkJSON;
+import com.millicom.mitv.models.gson.AppConfigurationJSON;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;

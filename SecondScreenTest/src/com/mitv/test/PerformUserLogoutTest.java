@@ -4,13 +4,16 @@ package com.mitv.test;
 
 
 import java.util.Map;
+
 import junit.framework.Assert;
+
 import org.junit.Test;
+
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.http.URLParameters;
-import com.millicom.mitv.models.gson.UserLoginData;
+import com.millicom.mitv.models.UserLoginData;
 import com.mitv.Consts;
 
 

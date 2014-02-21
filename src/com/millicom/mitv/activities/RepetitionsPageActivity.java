@@ -1,4 +1,7 @@
+
 package com.millicom.mitv.activities;
+
+
 
 import java.util.ArrayList;
 
@@ -11,7 +14,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.millicom.mitv.ContentManager;
-import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts.REQUEST_STATUS;
@@ -19,36 +21,42 @@ import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.RepetitionsListAdapter;
 
-public class RepetitionsPageActivity extends BaseActivity implements OnClickListener {
 
+
+public class RepetitionsPageActivity 
+	extends BaseActivity 
+	implements OnClickListener
+{
 	@SuppressWarnings("unused")
 	private static final String TAG = RepetitionsPageActivity.class.getName();
-//	private String					token;
-	private RelativeLayout			mTabTvGuide, mTabProfile, mTabActivity;private View mTabDividerLeft, mTabDividerRight;
-	private ActionBar				mActionBar;
-	private ListView				mListView;
-	private RepetitionsListAdapter	mAdapter;
-	private ArrayList<TVBroadcastWithChannelInfo>	mRepeatingBroadcasts;
-	private TVProgram					mRepeatingProgram;
-	private TVBroadcast				mRunningBroadcast;
 
+	private RelativeLayout tabTvGuide;
+	private RelativeLayout tabProfile;
+	private RelativeLayout tabActivity;
+	
+	private View tabDividerLeft;
+	private View tabDividerRight;
+	
+	private ActionBar mActionBar;
+	private ListView mListView;
+	private RepetitionsListAdapter mAdapter;
+	private ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts;
+	private TVProgram repeatingProgram;
+	private TVBroadcastWithChannelInfo runningBroadcast;
+
+	
+	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_repeating_list_activity);
 
-		
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
-//		Intent intent = getIntent();
-//		mRepeatingBroadcasts = intent.getParcelableArrayListExtra(Consts.INTENT_EXTRA_REPEATING_BROADCASTS);
-//		mRepeatingProgram = intent.getParcelableExtra(Consts.INTENT_EXTRA_REPEATING_PROGRAM);
-//		mRunningBroadcast = intent.getParcelableExtra(Consts.INTENT_EXTRA_RUNNING_BROADCAST);
-		mRepeatingBroadcasts = ContentManager.sharedInstance().getFromStorageRepeatingBroadcasts();
-		mRunningBroadcast = ContentManager.sharedInstance().getFromStorageSelectedBroadcastWithChannelInfo();
-
-//		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
+		runningBroadcast = ContentManager.sharedInstance().getFromStorageSelectedBroadcastWithChannelInfo();
+		repeatingBroadcasts = ContentManager.sharedInstance().getFromStorageRepeatingBroadcasts(runningBroadcast);
 
 		initViews();
 
@@ -56,23 +64,26 @@ public class RepetitionsPageActivity extends BaseActivity implements OnClickList
 		loadPage();
 	}
 
-	private void initViews() {
-		mTabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
-		mTabTvGuide.setOnClickListener(this);
-		mTabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
-		mTabActivity.setOnClickListener(this);
-		mTabProfile = (RelativeLayout) findViewById(R.id.tab_me);
-		mTabProfile.setOnClickListener(this);
+	
+	
+	private void initViews() 
+	{
+		tabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
+		tabTvGuide.setOnClickListener(this);
+		tabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
+		tabActivity.setOnClickListener(this);
+		tabProfile = (RelativeLayout) findViewById(R.id.tab_me);
+		tabProfile.setOnClickListener(this);
 
-		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
-		mTabActivity.setBackgroundColor(getResources().getColor(R.color.red));
-		mTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+		tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+		tabActivity.setBackgroundColor(getResources().getColor(R.color.red));
+		tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
 
-		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
-		mTabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
+		tabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
+		tabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
 
-		mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
-		mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+		tabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+		tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
 
 		mActionBar = getSupportActionBar();
 		mActionBar.setDisplayHomeAsUpEnabled(true);
@@ -84,55 +95,72 @@ public class RepetitionsPageActivity extends BaseActivity implements OnClickList
 		mListView = (ListView) findViewById(R.id.repeating_list_listview);
 	}
 
+	
+	
 	@Override
-	protected void updateUI(REQUEST_STATUS status) {
-		if (super.requestIsSuccesfull(status)) {
-			mAdapter = new RepetitionsListAdapter(this, mRepeatingBroadcasts, mRepeatingProgram, mRunningBroadcast);
+	protected void updateUI(REQUEST_STATUS status) 
+	{
+		if (super.requestIsSuccesfull(status)) 
+		{
+			mAdapter = new RepetitionsListAdapter(this, repeatingBroadcasts, repeatingProgram, runningBroadcast);
 			mListView.setAdapter(mAdapter);
 			mListView.setVisibility(View.VISIBLE);
 		}
-
 	}
 
+	
+	
 	@Override
-	protected void loadPage() {
+	protected void loadPage()
+	{
 		updateUI(REQUEST_STATUS.LOADING);
-		if (mRepeatingBroadcasts != null && mRepeatingBroadcasts.isEmpty() != true) {
+		
+		if (repeatingBroadcasts != null && repeatingBroadcasts.isEmpty() != true) 
+		{
 			updateUI(REQUEST_STATUS.SUCCESSFUL);
-		} else {
+		} 
+		else 
+		{
 			updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
 		}
 	}
 
-	public void onBackPressed() {
+	
+	
+	public void onBackPressed() 
+	{
 		super.onBackPressed();
-		
 	}
 
+	
+	
 	@Override
-	public void onClick(View v) {
+	public void onClick(View v) 
+	{
 		int id = v.getId();
-		switch (id) {
-		case R.id.tab_tv_guide:
-			// tab to home page
-			Intent intentHome = new Intent(RepetitionsPageActivity.this, HomeActivity.class);
-			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(intentHome);
-			
-			break;
-		case R.id.tab_activity:
-			// tab to activity page
-			Intent intentActivity = new Intent(RepetitionsPageActivity.this, ActivityActivity.class);
-			startActivity(intentActivity);
-			
-			break;
-		case R.id.tab_me:
-			// tab to profile page
-			Intent intentMe = new Intent(RepetitionsPageActivity.this, MyProfileActivity.class);
-			startActivity(intentMe);
-			
-			break;
+
+		switch (id) 
+		{
+			case R.id.tab_tv_guide:
+				// tab to home page
+				Intent intentHome = new Intent(RepetitionsPageActivity.this, HomeActivity.class);
+				intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivity(intentHome);
+	
+				break;
+			case R.id.tab_activity:
+				// tab to activity page
+				Intent intentActivity = new Intent(RepetitionsPageActivity.this, ActivityActivity.class);
+				startActivity(intentActivity);
+	
+				break;
+			case R.id.tab_me:
+				// tab to profile page
+				Intent intentMe = new Intent(RepetitionsPageActivity.this, MyProfileActivity.class);
+				startActivity(intentMe);
+	
+				break;
 		}
 	}
 }

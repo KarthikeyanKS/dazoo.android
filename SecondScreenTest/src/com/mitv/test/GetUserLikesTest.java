@@ -6,16 +6,20 @@ package com.mitv.test;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
 import junit.framework.Assert;
+
 import org.junit.Test;
+
 import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.http.URLParameters;
-import com.millicom.mitv.models.gson.UserLike;
-import com.millicom.mitv.models.gson.UserLoginData;
+import com.millicom.mitv.models.UserLike;
+import com.millicom.mitv.models.UserLoginData;
 import com.mitv.Consts;
 
 

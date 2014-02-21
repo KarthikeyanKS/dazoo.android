@@ -197,12 +197,12 @@ public class TrippleBroadcastBlockPopulator {
 					ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(runningBroadcast);
 					if (mUsedForRepetitions) {
 						Intent intent = new Intent(mActivity, RepetitionsPageActivity.class);
-						ContentManager.sharedInstance().setRepeatingBroadcasts(repeatingOrUpcomingBroadcasts);
+						ContentManager.sharedInstance().setRepeatingBroadcasts(runningBroadcast, repeatingOrUpcomingBroadcasts);
 						mActivity.startActivity(intent);
 					}
 					else {
 						Intent intent = new Intent(mActivity, UpcomingEpisodesPageActivity.class);
-						ContentManager.sharedInstance().setUpcomingBroadcasts(repeatingOrUpcomingBroadcasts);
+						ContentManager.sharedInstance().setUpcomingBroadcasts(runningBroadcast, repeatingOrUpcomingBroadcasts);
 						mActivity.startActivity(intent);
 					}
 
