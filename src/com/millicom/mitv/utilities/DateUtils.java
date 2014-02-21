@@ -23,6 +23,8 @@ public abstract class DateUtils
 	private static final String TAG = DateUtils.class.getName();
 	
 	public static final long TOTAL_MILISECOUNDS_IN_ONE_MINUTE = 60000;
+	public static final long TOTAL_MILISECOUNDS_IN_ONE_HOUR = TOTAL_MILISECOUNDS_IN_ONE_MINUTE*60;
+	public static final long TOTAL_MILISECOUNDS_IN_ONE_DAY = TOTAL_MILISECOUNDS_IN_ONE_HOUR*24;
 	
 	
 	
@@ -73,34 +75,60 @@ public abstract class DateUtils
 	 * It can optionally be set to always return the absolute difference.
 	 * 
 	 */
-	public static int calculateDifferenceInMinutesBetween(
+	public static int calculateDifferenceBetween(
 			final Calendar beginTimeCalendar, 
 			final Calendar endTimeCalendar,
+			final int differenceUnitType,
 			final boolean useAbslouteDifference,
 			final int defaultValueIfNegative)
 	{
-		float endTimeInMinutes = endTimeCalendar.getTimeInMillis() / TOTAL_MILISECOUNDS_IN_ONE_MINUTE;
+		float beginTime;
+		float endTime;
 		
-		float beginTimeInMinute = beginTimeCalendar.getTimeInMillis() / TOTAL_MILISECOUNDS_IN_ONE_MINUTE;
+		switch(differenceUnitType)
+		{
+			case Calendar.DAY_OF_MONTH:
+			{
+				beginTime = beginTimeCalendar.getTimeInMillis() / TOTAL_MILISECOUNDS_IN_ONE_DAY;
+				endTime = endTimeCalendar.getTimeInMillis() / TOTAL_MILISECOUNDS_IN_ONE_DAY;
+				break;
+			}
+			
+			case Calendar.HOUR_OF_DAY:
+			{
+				beginTime = beginTimeCalendar.getTimeInMillis() / TOTAL_MILISECOUNDS_IN_ONE_MINUTE;
+				endTime = endTimeCalendar.getTimeInMillis() / TOTAL_MILISECOUNDS_IN_ONE_MINUTE;
+				break;
+			}
+			
+			default:
+			case Calendar.MINUTE:
+			{
+				beginTime = beginTimeCalendar.getTimeInMillis() / TOTAL_MILISECOUNDS_IN_ONE_MINUTE;
+				endTime = endTimeCalendar.getTimeInMillis() / TOTAL_MILISECOUNDS_IN_ONE_MINUTE;
+				break;
+			}
+				
+		}
 		
-	    int differenceInMinutes = (int) (endTimeInMinutes - beginTimeInMinute);
+	    int difference = (int) (endTime - beginTime);
 	    
-	    if(differenceInMinutes < 0 && 
+	    if(difference < 0 && 
 	       useAbslouteDifference == false)
 	    {
 	    	Log.w(TAG, "The calculated time difference is negative.");
 	    }
 	    else
 	    {
-	    	differenceInMinutes = (int) differenceInMinutes;
+	    	difference = (int) difference;
 	    }
 	    
 	    if(useAbslouteDifference)
 	    {
-	    	differenceInMinutes = Math.abs(differenceInMinutes);
+	    	difference = Math.abs(difference);
 	    }
 	    
-	    return differenceInMinutes;
+	    return difference;
 	}
 	
 	

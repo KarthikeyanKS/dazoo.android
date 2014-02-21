@@ -4,9 +4,9 @@ import java.util.List;
 
 import android.util.Log;
 
+import com.millicom.mitv.models.TVDate;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;
-import com.millicom.mitv.models.gson.TVDate;
 import com.millicom.mitv.models.gson.UserLoginData;
 
 /**
