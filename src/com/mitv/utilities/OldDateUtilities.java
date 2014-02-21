@@ -21,7 +21,7 @@ public class OldDateUtilities {
 	private static final String	TAG	= "DateUtilities";
 	
 	public static final String tvDateToYearNumber(String tvDate){
-		SimpleDateFormat dfmInput = getDateFormat(Consts.TVDATE_DATE_FORMAT);
+		SimpleDateFormat dfmInput = getDateFormat(Consts.DATE_FORMAT_DATE);
 		SimpleDateFormat dfmOutput = getDateFormat("yyyy");
 		
 		long time = 0;
@@ -47,7 +47,7 @@ public class OldDateUtilities {
 	
 	//TODO verify that this uses correct time zone!
 	public static final String tvDateToMonthNumber(String tvDate){
-		SimpleDateFormat dfmInput = getDateFormat(Consts.TVDATE_DATE_FORMAT);
+		SimpleDateFormat dfmInput = getDateFormat(Consts.DATE_FORMAT_DATE);
 		SimpleDateFormat dfmOutput = getDateFormat("MM");
 		
 		long time = 0;
@@ -102,7 +102,7 @@ public class OldDateUtilities {
 	}
 	
 	public static final String tvDateToDayNumber(String tvDate){
-		SimpleDateFormat dfmInput = getDateFormat(Consts.TVDATE_DATE_FORMAT);
+		SimpleDateFormat dfmInput = getDateFormat(Consts.DATE_FORMAT_DATE);
 		SimpleDateFormat dfmOutput = getDateFormat("dd");
 		
 		long time = 0;
@@ -122,7 +122,7 @@ public class OldDateUtilities {
 	public static final String todayDateAsTvDate(){
 		SimpleDateFormat dfmInput = getDateFormat(Consts.ISO_DATE_FORMAT);
 		String dateNow = dfmInput.format(new Date());
-		SimpleDateFormat dfmOutput = getDateFormat(Consts.TVDATE_DATE_FORMAT);
+		SimpleDateFormat dfmOutput = getDateFormat(Consts.DATE_FORMAT_DATE);
 		
 		long time = 0;
 		if (dateNow != null && !dateNow.equals("")) {
@@ -144,7 +144,7 @@ public class OldDateUtilities {
 	}
 	
 	public static final String isoDateToTvDateString(long time) throws ParseException{
-		SimpleDateFormat dfmOutput = getDateFormat(Consts.TVDATE_DATE_FORMAT);
+		SimpleDateFormat dfmOutput = getDateFormat(Consts.DATE_FORMAT_DATE);
 		String output = dfmOutput.format(time);
 		return output;
 	}
@@ -171,7 +171,7 @@ public class OldDateUtilities {
 	 * Converts a TvDate date string YYYY-MM-DD to the user-friendly format DD/MM
 	 */
 	public static String tvDateStringToDatePickerString(String date) throws ParseException {
-		long time = timeWithStringAndFormat(date, Consts.TVDATE_DATE_FORMAT);
+		long time = timeWithStringAndFormat(date, Consts.DATE_FORMAT_DATE);
 		String output = tvDateStringToDatePickerString(time);
 		return output;
 	}
@@ -355,7 +355,7 @@ public class OldDateUtilities {
 	 * @throws ParseException
 	 */
 	public static long isoStringDatePartToLong(String date) throws ParseException {
-		long time = timeWithStringAndFormat(date, Consts.TVDATE_DATE_FORMAT);
+		long time = timeWithStringAndFormat(date, Consts.DATE_FORMAT_DATE);
 		return time;
 	}
 

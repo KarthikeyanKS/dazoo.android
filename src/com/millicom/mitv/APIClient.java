@@ -4,7 +4,6 @@ package com.millicom.mitv;
 
 
 import java.util.List;
-
 import com.millicom.mitv.asynctasks.GetAdsAdzerk;
 import com.millicom.mitv.asynctasks.GetAppConfigurationData;
 import com.millicom.mitv.asynctasks.GetAppVersionData;
@@ -34,8 +33,8 @@ import com.millicom.mitv.asynctasks.usertoken.SetUserTVChannelIds;
 import com.millicom.mitv.enums.LikeTypeRequestEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
+import com.millicom.mitv.models.TVDate;
 import com.millicom.mitv.models.gson.TVChannelId;
-import com.millicom.mitv.models.gson.TVDate;
 
 
 

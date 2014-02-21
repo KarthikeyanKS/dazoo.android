@@ -19,7 +19,7 @@ import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
-import com.millicom.mitv.models.gson.TVDate;
+import com.millicom.mitv.models.TVDate;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.utilities.ProgressBarUtils;
@@ -101,9 +101,9 @@ public class PopularListAdapter extends BaseAdapter {
 		if (broadcast != null) {
 
 			holder.mHeaderContainer.setVisibility(View.GONE);
-			if (position == 0 || broadcast.getBeginTimeStringLocalDayMonth().equals(
-					(getItem(position - 1)).getBeginTimeStringLocalDayMonth()) == false) {
-				holder.mHeaderTv.setText(broadcast.getBeginTimeDayOfTheWeekAndTimeAsString() + " " + broadcast.getBeginTimeStringLocalDayMonth());
+			if (position == 0 || broadcast.getBeginTimeDayAndMonthAsString().equals(
+					(getItem(position - 1)).getBeginTimeDayAndMonthAsString()) == false) {
+				holder.mHeaderTv.setText(broadcast.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString() + " " + broadcast.getBeginTimeDayAndMonthAsString());
 				holder.mHeaderContainer.setVisibility(View.VISIBLE);
 
 			}
@@ -141,7 +141,7 @@ public class PopularListAdapter extends BaseAdapter {
 			ImageAware imageAware = new ImageViewAware(holder.mPosterIv, false);
 			ImageLoader.getInstance().displayImage(broadcast.getProgram().getImages().getPortrait().getMedium(), imageAware);
 			
-			holder.mTimeTv.setText(broadcast.getBeginTimeDayOfTheWeekAndTimeAsString());
+			holder.mTimeTv.setText(broadcast.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
 
 			holder.mChannelNameTv.setText(broadcast.getChannel().getName());
 

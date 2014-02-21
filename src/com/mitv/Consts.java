@@ -116,9 +116,11 @@ public abstract class Consts {
 	public static String		BACK_STACK											= "com.mitv.back.stack";
 
 	public static final String	ISO_DATE_FORMAT										= "yyyy-MM-dd'T'HH:mm:ss'Z'";
-	public static final String	TVDATE_DATE_FORMAT									= "yyyy-MM-dd";
-	public static final String	TVDATE_DATE_FORMAT_SEPARATOR						= "-";
-	public static final String	TVDATE_DATE_HOUR_MINUTE_SEPARATOR					= ":";
+	public static final String	DATE_FORMAT_DATE									= "yyyy-MM-dd";
+	public static final String	DATE_FORMAT_HOUR_AND_MINUTE							= "HH:mm";
+	public static final String	DATE_FORMAT_HOUR_AND_MINUTE_WITH_AM_PM				= "HH:mm a";
+	public static final String	DATE_FORMAT_DAY_AND_MONTH							= "dd/MM";
+	
 	
 	/* Activity page content block types */
 	public static final String	BLOCK_TYPE_PRODUCT_TV								= "com.mitv.content.product.tv";

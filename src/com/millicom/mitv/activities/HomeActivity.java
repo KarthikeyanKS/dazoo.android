@@ -26,7 +26,7 @@ import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.fragments.TVHolderFragment;
 import com.millicom.mitv.fragments.TVHolderFragment.OnViewPagerIndexChangedListener;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
-import com.millicom.mitv.models.gson.TVDate;
+import com.millicom.mitv.models.TVDate;
 import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;

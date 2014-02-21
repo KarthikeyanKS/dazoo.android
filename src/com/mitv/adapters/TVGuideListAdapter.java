@@ -1,7 +1,9 @@
+
 package com.mitv.adapters;
 
-import java.util.ArrayList;
 
+
+import java.util.ArrayList;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -20,14 +22,13 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.ChannelPageActivity;
 import com.millicom.mitv.enums.BroadcastTypeEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.models.TVBroadcast;
+import com.millicom.mitv.models.TVDate;
 import com.millicom.mitv.models.gson.TVChannelGuide;
-import com.millicom.mitv.models.gson.TVDate;
 import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
 import com.mitv.R;
@@ -35,6 +36,8 @@ import com.mitv.SecondScreenApplication;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
+
+
 
 public class TVGuideListAdapter extends AdListAdapter<TVChannelGuide> {
 
@@ -142,7 +145,7 @@ public class TVGuideListAdapter extends AdListAdapter<TVChannelGuide> {
 			mIndexOfNearestBroadcast = guide.getClosestBroadcastIndexFromTime(broadcasts, mHour, mDate);
 
 			if (mIndexOfNearestBroadcast != -1) {
-				ArrayList<TVBroadcast> nextBroadcasts = TVBroadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, broadcasts, Consts.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
+				ArrayList<TVBroadcast> nextBroadcasts = TVBroadcast.getBroadcastsFromPosition(broadcasts, mIndexOfNearestBroadcast, Consts.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
 			
 				for (int j = 0; j < Math.min(nextBroadcasts.size(), 3); j++) {
 					TVBroadcast broadcast = nextBroadcasts.get(j);
@@ -150,7 +153,7 @@ public class TVGuideListAdapter extends AdListAdapter<TVChannelGuide> {
 					ProgramTypeEnum programType = program.getProgramType();
 					BroadcastTypeEnum broadcastType = broadcast.getBroadcastType();
 					
-					String rowInfo = broadcast.getBeginTimeStringLocalHourAndMinute();
+					String rowInfo = broadcast.getBeginTimeHourAndMinuteAsString();
 					rowInfo += "   ";
 					
 					String showName = program.getSeries().getName();

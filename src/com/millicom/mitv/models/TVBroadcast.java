@@ -3,14 +3,16 @@ package com.millicom.mitv.models;
 
 
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
+
+import android.content.Context;
+
 import com.millicom.mitv.models.gson.BroadcastJSON;
-import com.millicom.mitv.models.gson.TVDate;
 import com.millicom.mitv.utilities.DateUtils;
 import com.mitv.Consts;
+import com.mitv.SecondScreenApplication;
 
 
 
@@ -35,6 +37,9 @@ public class TVBroadcast
 	protected transient Calendar endTimeCalendar;
 	private transient int durationInMinutes = NO_INT_VALUE_SET;
 	private transient String beginTimeDateRepresentation = NO_STRING_VALUE_SET;
+	private transient String beginTimeDayAndMonthRepresentation = NO_STRING_VALUE_SET;
+	private transient String beginTimeHourAndMinuteRepresentation = NO_STRING_VALUE_SET;
+	private transient String endTimeHourAndMinuteRepresentation = NO_STRING_VALUE_SET;
 	
 	
 	
@@ -46,7 +51,9 @@ public class TVBroadcast
 	{
 		if(beginTimeCalendar == null) 
 		{
-			beginTimeCalendar = DateUtils.convertFromStringToCalendar(beginTime);
+			Context context = SecondScreenApplication.getInstance().getApplicationContext();
+			
+			beginTimeCalendar = DateUtils.convertFromStringToCalendar(beginTime, context);
 		}
 		
 		return beginTimeCalendar;
@@ -62,7 +69,9 @@ public class TVBroadcast
 	{
 		if(endTimeCalendar == null)
 		{
-			endTimeCalendar = DateUtils.convertFromStringToCalendar(endTime);
+			Context context = SecondScreenApplication.getInstance().getApplicationContext();
+			
+			endTimeCalendar = DateUtils.convertFromStringToCalendar(endTime, context);
 		}
 		
 		return endTimeCalendar;
@@ -127,39 +136,7 @@ public class TVBroadcast
 		return calendar;
 	}
 	
-	
-	
-	/*
-	 * Returns a string representation of the begin time calendar in the format "yyyy-MM-dd"
-	 */
-	public String getBeginTimeDateRepresentation() 
-	{
-		if(beginTimeDateRepresentation == NO_STRING_VALUE_SET)
-		{
-			int yearValue = getBeginTimeCalendar().get(Calendar.YEAR);
-			int monthValue = getBeginTimeCalendar().get(Calendar.MONTH)+1;  // In Java, months start at index 0, so we add 1 to the value
-			int dayValue = getBeginTimeCalendar().get(Calendar.DAY_OF_MONTH);
-			
-			NumberFormat nfWith2Digits = NumberFormat.getInstance();
-			nfWith2Digits.setMinimumIntegerDigits(2);
-			nfWith2Digits.setMaximumIntegerDigits(2);
-			nfWith2Digits.setMinimumFractionDigits(0);
-			nfWith2Digits.setMaximumFractionDigits(0);
-			
-			StringBuilder sb = new StringBuilder();
-			sb.append(yearValue);
-			sb.append(Consts.TVDATE_DATE_FORMAT_SEPARATOR);
-			sb.append(nfWith2Digits.format(monthValue));
-			sb.append(Consts.TVDATE_DATE_FORMAT_SEPARATOR);
-			sb.append(nfWith2Digits.format(dayValue));
-			
-			beginTimeDateRepresentation = sb.toString();
-		}
-		
-		return beginTimeDateRepresentation;
-	}
-	
-	
+
 	
 	public boolean isBroadcastAiringInOrInLessThan(int minutes) 
 	{
@@ -217,6 +194,151 @@ public class TVBroadcast
 	
 	
 	
+	/*
+	 * Returns a string representation of the begin time calendar in the format "yyyy-MM-dd"
+	 */
+	public String getBeginTimeDateRepresentation() 
+	{
+		if(beginTimeDateRepresentation == NO_STRING_VALUE_SET)
+		{
+			Context context = SecondScreenApplication.getInstance().getApplicationContext();
+			
+			beginTimeDateRepresentation = DateUtils.buildDateCompositionAsString(getBeginTimeCalendar(), context);
+		}
+		
+		return beginTimeDateRepresentation;
+	}
+	
+	
+	
+	/*
+	 * Returns a string representation of the begin time calendar in the format "dd/MM"
+	 */
+	public String getBeginTimeDayAndMonthAsString() 
+	{
+		if(beginTimeDayAndMonthRepresentation == NO_STRING_VALUE_SET)
+		{
+			Context context = SecondScreenApplication.getInstance().getApplicationContext();
+		
+			beginTimeDayAndMonthRepresentation = DateUtils.buildDayAndMonthCompositionAsString(getBeginTimeCalendar(), context);
+		}
+		
+		return beginTimeDayAndMonthRepresentation;
+	}
+	
+	
+	
+	/*
+	 * Returns a string representation of the begin time calendar in the format "HH:mm" or "HH:mm a"
+	 */
+	public String getBeginTimeHourAndMinuteAsString()
+	{	
+		if(beginTimeHourAndMinuteRepresentation == NO_STRING_VALUE_SET)
+		{
+			Context context = SecondScreenApplication.getInstance().getApplicationContext();
+		
+			beginTimeHourAndMinuteRepresentation = DateUtils.getHourAndMinuteCompositionAsString(getBeginTimeCalendar(), true, context);
+		}
+		
+		return beginTimeHourAndMinuteRepresentation;
+	}
+	
+	
+	/*
+	 * Returns a string representation of the end time calendar in the format "HH:mm" or "HH:mm a"
+	 */
+	public String getEndTimeHourAndMinuteAsString() 
+	{
+		if(endTimeHourAndMinuteRepresentation == NO_STRING_VALUE_SET)
+		{
+			Context context = SecondScreenApplication.getInstance().getApplicationContext();
+		
+			endTimeHourAndMinuteRepresentation = DateUtils.getHourAndMinuteCompositionAsString(getEndTimeCalendar(), true, context);
+		}
+		
+		return endTimeHourAndMinuteRepresentation;
+	}
+	
+	
+	
+	/*
+	 * Returns a string representation of the begin time calendar day of the week, with a localized representation if the day
+	 * is today or tomorrow (per comparison with the current time)
+	 */
+	public String getBeginTimeDayOfTheWeekAsString() 
+	{
+		Context context = SecondScreenApplication.getInstance().getApplicationContext();
+		
+		return DateUtils.buildDayOfTheWeekAsString(getBeginTimeCalendar(), context);
+	}
+
+	
+	
+	/*
+	 * Returns a string representation of the begin time calendar day of the week, with a localized representation if the day
+	 * is today or tomorrow (per comparison with the current time)
+	 */
+	public String getBeginTimeDayOfTheWeekWithHourAndMinuteAsString()
+	{
+		Context context = SecondScreenApplication.getInstance().getApplicationContext();
+		
+		String dayOfTheWeekAsString = DateUtils.buildDayOfTheWeekAsString(getBeginTimeCalendar(), context);
+		
+		String timeOfDayAsString = getBeginTimeHourAndMinuteAsString();
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(dayOfTheWeekAsString);
+		sb.append(", ");
+		sb.append(timeOfDayAsString);
+		
+		return sb.toString();
+	}
+	
+
+	
+	/*
+	 * STATIC UTILITY METHODS
+	 */
+	
+	public static ArrayList<TVBroadcast> getBroadcastsFromPosition(
+			final ArrayList<TVBroadcast> broadcasts, 
+			final int startIndex) 
+	{
+		return getBroadcastsFromPosition(broadcasts, startIndex, broadcasts.size());
+	}
+	
+	
+
+	public static ArrayList<TVBroadcast> getBroadcastsFromPosition(
+			final ArrayList<TVBroadcast> broadcasts, 
+			final int startIndex,
+			final int maximumBrodacasts) 
+	{
+		ArrayList<TVBroadcast> broadcastsToReturn = new ArrayList<TVBroadcast>(maximumBrodacasts);
+
+		if(startIndex >= 0 && 
+		   startIndex < broadcasts.size())
+		{
+			for(int i=startIndex; i<broadcasts.size(); i++)
+			{
+				if(broadcastsToReturn.size() < maximumBrodacasts)
+				{
+					TVBroadcast broadcast = broadcasts.get(i);
+					
+					broadcastsToReturn.add(broadcast);
+				}
+				else
+				{
+					break;
+				}
+			}
+		}
+		
+		return broadcastsToReturn;
+	}
+	
+	
+	
 	public static int getClosestBroadcastIndex(
 			final ArrayList<TVBroadcast> broadcasts, 
 			final int hour, 
@@ -225,7 +347,7 @@ public class TVBroadcast
 	{
 		int closestIndexFound = defaultValueIfNotFound;
 		
-		Calendar tvDateWithHourCalendar = DateUtils.buildCalendarWithDateAndSpecificHour(tvDate.getDate(), hour);
+		Calendar tvDateWithHourCalendar = DateUtils.buildCalendarWithDateAndSpecificHour(tvDate.getDateCalendar(), hour);
 		
 		for(int i=0; i<broadcasts.size(); i++)
 		{
@@ -242,6 +364,7 @@ public class TVBroadcast
 		
 		return closestIndexFound;
 	}
+	
 	
 	
 	/**
@@ -273,71 +396,8 @@ public class TVBroadcast
 		
 		return closestIndexFound;
 	}
+	
 		
-	public String getBeginTimeHourAndMinuteCompositionAsString()
-	{		
-		return DateUtils.getHourAndMinuteCompositionAsString(getBeginTimeCalendar());
-	}
-	
-
-
-	public String getBeginTimeDayOfTheWeekAsString() 
-	{
-		return DateUtils.getDayOfTheWeekAsString(getBeginTimeCalendar());
-	}
-
-	
-	
-	public String getBeginTimeDayOfTheWeekAndTimeAsString()
-	{
-		String dayOfTheWeekAsString = DateUtils.getDayOfTheWeekAsString(getBeginTimeCalendar());
-		
-		String timeOfDayAsString = DateUtils.getTimeOfDayAsString(getBeginTimeCalendar());
-		
-		StringBuilder sb = new StringBuilder();
-		sb.append(dayOfTheWeekAsString);
-		sb.append(", ");
-		sb.append(timeOfDayAsString);
-		
-		return sb.toString();
-	}
-	
-	
-	
-	public static ArrayList<TVBroadcast> getBroadcastsStartingFromPosition(
-			int indexOfNearestBroadcast, 
-			ArrayList<TVBroadcast> broadcasts, 
-			int howMany) 
-	{
-		// TODO implement or delete me
-		return null;
-	}
-	
-
-
-	
-	// TODO Determine which of those dummy methods we need, and implement them
-	/* HERE COMES DUMMY METHODS, ALL OF THEM MAY NOT BE NEEDED, INVESTIGATE! */
-	
-	public String getBeginTimeStringLocalDayMonth() {
-		// TODO implement or delete me
-		return null;
-	}
-	
-	public String getBeginTimeStringLocalHourAndMinute() {
-		// TODO implement or delete me
-		return null;
-	}
-	
-	
-	public String getEndTimeStringLocal() 
-	{
-		// TODO implement or delete me
-		return null;
-	}
-
-
-	
 
 	/* 
 	 * Comparison of the broadcasts is done using the begin time of each one 

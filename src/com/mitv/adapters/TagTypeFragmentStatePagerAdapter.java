@@ -1,16 +1,19 @@
+
 package com.mitv.adapters;
+
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-
 import com.imbryk.viewPager.LoopViewPager;
 import com.millicom.mitv.fragments.TVGuideTableFragment;
-import com.millicom.mitv.models.gson.TVDate;
+import com.millicom.mitv.models.TVDate;
 import com.millicom.mitv.models.gson.TVTag;
+
+
 
 public class TagTypeFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
 
