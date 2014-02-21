@@ -10,7 +10,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.millicom.mitv.models.TVBroadcast;
+import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.handlers.NotificationDialogHandler;
@@ -24,7 +24,7 @@ public class ReminderView extends RelativeLayout implements OnClickListener {
 	private static final String TAG = ReminderView.class.toString();
 
 	private boolean mIsSet;
-	private TVBroadcast mBroadcast;
+	private TVBroadcastWithChannelInfo mBroadcast;
 	private Context mContext;
 	private Activity mActivity;
 	private int mNotificationId;
@@ -60,7 +60,7 @@ public class ReminderView extends RelativeLayout implements OnClickListener {
 		this.setOnClickListener(this);
 	}
 
-	public void setBroadcast(TVBroadcast broadcast) 
+	public void setBroadcast(TVBroadcastWithChannelInfo broadcast) 
 	{
 		this.mBroadcast = broadcast;
 		

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.models.TVBroadcast;
+import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.gson.TVDate;
 import com.mitv.Consts;
 import com.mitv.R;
@@ -25,17 +26,17 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcast> {
+public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelInfo> {
 
 	private static final String		TAG	= "TVGuideListAdapter";
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
-	private ArrayList<TVBroadcast>	mTaggedBroadcasts;
+	private ArrayList<TVBroadcastWithChannelInfo>	mTaggedBroadcasts;
 	private int						mCurrentPosition;
 //	private TVDate					mDate;
 
-	public TVGuideTagListAdapter(Activity activity, String fragmentName, ArrayList<TVBroadcast> taggedBroadcasts, int currentPosition, TVDate date) {
+	public TVGuideTagListAdapter(Activity activity, String fragmentName, ArrayList<TVBroadcastWithChannelInfo> taggedBroadcasts, int currentPosition, TVDate date) {
 		super(fragmentName, activity, taggedBroadcasts);
 		this.mTaggedBroadcasts = taggedBroadcasts;
 		this.mActivity = activity;
@@ -67,7 +68,7 @@ public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcast> {
 		// get the item with the displacement depending on the scheduled time on air
 		int indexForBroadcast = mCurrentPosition + position;
 		if (indexForBroadcast >= 0) {
-			final TVBroadcast broadcast = getItem(indexForBroadcast);
+			final TVBroadcastWithChannelInfo broadcast = getItem(indexForBroadcast);
 
 			if (rowView == null) {
 				mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -146,6 +147,7 @@ public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcast> {
 				}
 				}
 				
+				//TODO remove code below, has been replaced with Enum and Switch above
 //				String type = broadcast.getProgram().getProgramType();
 //				if (type != null) {
 //					if (Consts.PROGRAM_TYPE_MOVIE.equals(type)) {
@@ -230,7 +232,7 @@ public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcast> {
 	}
 
 	@Override
-	public TVBroadcast getItem(int position) {
+	public TVBroadcastWithChannelInfo getItem(int position) {
 		if (mTaggedBroadcasts != null) {
 			return mTaggedBroadcasts.get(position);
 		} else {

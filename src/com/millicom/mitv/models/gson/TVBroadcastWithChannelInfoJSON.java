@@ -7,7 +7,7 @@ import com.millicom.mitv.models.TVBroadcast;
 
 
 
-public class TVBroadcastWithChannelInfo 
+public class TVBroadcastWithChannelInfoJSON 
 	extends TVBroadcast 
 {
 	protected TVChannel channel;

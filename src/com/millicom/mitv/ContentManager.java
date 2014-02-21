@@ -12,18 +12,18 @@ import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.models.AppVersion;
 import com.millicom.mitv.models.TVBroadcast;
+import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.TVGuideAndTaggedBroadcasts;
 import com.millicom.mitv.models.gson.AppConfigurationJSON;
-import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;
 import com.millicom.mitv.models.gson.TVDate;
 import com.millicom.mitv.models.gson.TVFeedItem;
-import com.millicom.mitv.models.gson.TVProgram;
 import com.millicom.mitv.models.gson.TVTag;
 import com.millicom.mitv.models.gson.UserLike;
+import com.millicom.mitv.models.gson.UserLoginData;
 import com.mitv.Consts;
 
 
@@ -64,6 +64,14 @@ public class ContentManager implements ContentCallbackListener {
 		return sharedInstance;
 	}
 
+	private void getElseFetchFromServiceTVData(ActivityCallbackListener activityCallBackListener, boolean forceDownload) {
+		if(!forceDownload && storage.containsTVGuideForSelectedDay()) {
+			activityCallBackListener.onResult(FetchRequestResultEnum.SUCCESS);
+		} else {
+			fetchFromServiceTVDataOnFirstStart(activityCallBackListener);
+		}
+	}
+	
 	/*
 	 * METHODS FOR FETCHING DATA FROM BACKEND USING THE API CLIENT, NEVER USE
 	 * THOSE EXTERNALLY, ALL SHOULD BE PRIVATE
@@ -341,7 +349,7 @@ public class ContentManager implements ContentCallbackListener {
 				if (!apiTooOld) 
 				{
 					/* App version not too old, continue fetching tv data */
-					fetchFromServiceTVDataOnFirstStart(activityCallBackListener);
+					getElseFetchFromServiceTVData(activityCallBackListener, false);
 				} 
 				else 
 				{
@@ -435,7 +443,7 @@ public class ContentManager implements ContentCallbackListener {
 			TVGuideAndTaggedBroadcasts tvGuideAndTaggedBroadcasts = (TVGuideAndTaggedBroadcasts) content;
 
 			TVGuide tvGuide = tvGuideAndTaggedBroadcasts.getTvGuide();
-			HashMap<String, ArrayList<TVBroadcast>> mapTagToTaggedBroadcastForDate = tvGuideAndTaggedBroadcasts.getMapTagToTaggedBroadcastForDate();
+			HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> mapTagToTaggedBroadcastForDate = tvGuideAndTaggedBroadcasts.getMapTagToTaggedBroadcastForDate();
 			
 			storage.addTVGuideForSelectedDay(tvGuide);
 			storage.addTaggedBroadcastsForSelectedDay(mapTagToTaggedBroadcastForDate);
@@ -449,7 +457,7 @@ public class ContentManager implements ContentCallbackListener {
 	
 	public void handleTVBroadcastsPopularBroadcastsResponse(ActivityCallbackListener activityCallBackListener, FetchRequestResultEnum result, Object content) {
 		if (result.wasSuccessful() && content != null) {
-			ArrayList<TVBroadcastWithProgramAndChannelInfo> broadcastsPopular = (ArrayList<TVBroadcastWithProgramAndChannelInfo>) content;
+			ArrayList<TVBroadcastWithChannelInfo> broadcastsPopular = (ArrayList<TVBroadcastWithChannelInfo>) content;
 			storage.setPopularBroadcasts(broadcastsPopular);
 			
 			activityCallBackListener.onResult(FetchRequestResultEnum.SUCCESS);
@@ -462,8 +470,8 @@ public class ContentManager implements ContentCallbackListener {
 	public void handleSignUpResponse(ActivityCallbackListener activityCallBackListener, FetchRequestResultEnum result, Object content) {
 		if (result.wasSuccessful() && content != null) {
 			// TODO change to use SignUpCompleteData object instead??
-			String userToken = (String) content;
-			storage.setUserToken(userToken);
+			UserLoginData userData = (UserLoginData) content;
+			storage.setUserData(userData);
 
 			fetchFromServiceTVDataOnUserStatusChange(activityCallBackListener);
 		} else {
@@ -474,8 +482,8 @@ public class ContentManager implements ContentCallbackListener {
 
 	public void handleLoginResponse(ActivityCallbackListener activityCallBackListener, FetchRequestResultEnum result, Object content) {
 		if (result.wasSuccessful() && content != null) {
-			String userToken = (String) content;
-			storage.setUserToken(userToken);
+			UserLoginData userData = (UserLoginData) content;
+			storage.setUserData(userData);
 
 			fetchFromServiceTVDataOnUserStatusChange(activityCallBackListener);
 		} else {
@@ -487,7 +495,7 @@ public class ContentManager implements ContentCallbackListener {
 	public void handleLogoutResponse(ActivityCallbackListener activityCallBackListener) {
 		channelsChange = true;
 
-		storage.clearUserToken();
+		storage.clearUserData();
 		storage.clearTVChannelIdsUser();
 		storage.useDefaultChannelIds();
 
@@ -620,21 +628,21 @@ public class ContentManager implements ContentCallbackListener {
 	}
 	
 	/* NON-PERSISTENT USER DATA, TEMPORARY SAVED IN STORAGE, IN ORDER TO PASS DATA BETWEEN ACTIVITES */
-	public void setUpcomingBroadcasts(ArrayList<TVBroadcast> upcomingBroadcasts) {
+	public void setUpcomingBroadcasts(ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts) {
 		storage.setNonPersistentDataUpcomingBroadcast(upcomingBroadcasts);
 	}
 	
-	public void setRepeatingBroadcasts(ArrayList<TVBroadcast> repeatingBroadcasts) {
+	public void setRepeatingBroadcasts(ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts) {
 		storage.setNonPersistentDataRepeatingBroadcast(repeatingBroadcasts);
 	}
 	
-	public ArrayList<TVBroadcast> getFromStorageUpcomingBroadcasts() {
-		ArrayList<TVBroadcast> upcomingBroadcasts = storage.getNonPersistentDataUpcomingBroadcast();
+	public ArrayList<TVBroadcastWithChannelInfo> getFromStorageUpcomingBroadcasts() {
+		ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts = storage.getNonPersistentDataUpcomingBroadcast();
 		return upcomingBroadcasts;
 	}
 	
-	public ArrayList<TVBroadcast> getFromStorageRepeatingBroadcasts() {
-		ArrayList<TVBroadcast> repeatingBroadcasts = storage.getNonPersistentDataRepeatingBroadcast();
+	public ArrayList<TVBroadcastWithChannelInfo> getFromStorageRepeatingBroadcasts() {
+		ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts = storage.getNonPersistentDataRepeatingBroadcast();
 		return repeatingBroadcasts;
 	}
 	
@@ -647,7 +655,7 @@ public class ContentManager implements ContentCallbackListener {
 		return runningBroadcast;
 	}
 	
-	public ArrayList<TVBroadcast> getFromStorageTaggedBroadcastsForSelectedTVDate() {
+	public HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> getFromStorageTaggedBroadcastsForSelectedTVDate() {
 		TVDate tvDate = getFromStorageTVDateSelected();
 		return getFromStorageTaggedBroadcastsUsingTVDate(tvDate);
 	}
@@ -670,21 +678,46 @@ public class ContentManager implements ContentCallbackListener {
 		return tvChannelId;
 	}
 	
-	// TODO Change the ChannelId to an Object instead of a String?
-	public TVChannel getTVChannelById(String channelId)
+	public String getFromStorageUserLastname() {
+		String userLastname = storage.getUserLastname();
+		return userLastname;
+	}
+	
+	public String getFromStorageUserFirstname() {
+		String userFirstname = storage.getUserFirstname();
+		return userFirstname;
+	}
+	
+	public String getFromStorageUserEmail() {
+		String userEmail = storage.getUserEmail();
+		return userEmail;
+	}
+	
+	public String getFromStorageUserId() {
+		String userId = storage.getUserId();
+		return userId;
+	}
+		
+	// TODO remove this?
+	public TVChannel getFromStorageTVChannelById(String channelId)
 	{
 		TVChannelId tvChannelId = new TVChannelId(channelId);
-		
+		return getFromStorageTVChannelById(tvChannelId);
+	}
+	
+	public TVChannel getFromStorageTVChannelById(TVChannelId tvChannelId)
+	{
 		return storage.getTVChannelById(tvChannelId);
 	}
 	
-	public ArrayList<TVBroadcast> getFromStorageTaggedBroadcastsUsingTVDate(TVDate tvDate) {
-		//TODO implement me!!!
-		return null;
+	
+	public HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> getFromStorageTaggedBroadcastsUsingTVDate(TVDate tvDate) {
+		HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcasts = storage.getTaggedBroadcastsUsingTVDate(tvDate);
+		return taggedBroadcasts;
 	}
 	
-	public ArrayList<TVBroadcastWithProgramAndChannelInfo> getFromStoragePopularBroadcasts() {
-		ArrayList<TVBroadcastWithProgramAndChannelInfo> popularBroadcasts = storage.getPopularBroadcasts();
+	public ArrayList<TVBroadcastWithChannelInfo> getFromStoragePopularBroadcasts() {
+		ArrayList<TVBroadcastWithChannelInfo> popularBroadcasts = storage.getPopularBroadcasts();
 		return popularBroadcasts;
 	}
 	

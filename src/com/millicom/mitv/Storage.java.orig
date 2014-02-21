@@ -12,7 +12,12 @@ import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.gson.AppConfigurationJSON;
+<<<<<<< HEAD
+import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.gson.AdAdzerkJSON;
+import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
+=======
+>>>>>>> backend-refactoring
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;

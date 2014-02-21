@@ -12,12 +12,11 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.enums.BroadcastTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.models.TVBroadcast;
-import com.millicom.mitv.models.gson.TVBroadcastWithChannelInfo;
+import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVProgram;
@@ -31,7 +30,7 @@ import com.mitv.Consts;
  * @author atsampikakis
  *
  */
-public class TVBroadcastWithChannelInfoTest extends TestBaseWithGuide {
+public class RepetitionsOfBroadcastTest extends TestBaseWithGuide {
 	
 	private List<TVBroadcastWithChannelInfo> tvProgramBroadcasts;
 	private static final String	TAG	= "TVBroadcastProgramTest";

@@ -75,9 +75,10 @@ public class MyProfileActivity extends BaseActivity implements ActivityCallbackL
 //			mIsLoggedIn = true;
 
 		if(ContentManager.sharedInstance().isLoggedIn()) {
-			mUserFirstName = ((SecondScreenApplication) getApplicationContext()).getUserFirstName();
-			mUserLastName = ((SecondScreenApplication) getApplicationContext()).getUserLastName();
-			mUserAvatarUrl = ((SecondScreenApplication) getApplicationContext()).getUserAvatarUrl();
+			mUserFirstName = ContentManager.sharedInstance().getFromStorageUserFirstname();
+			mUserLastName = ContentManager.sharedInstance().getFromStorageUserLastname();
+			//TDOO from where do we get the avatar?
+//			mUserAvatarUrl = ((SecondScreenApplication) getApplicationContext()).getUserAvatarUrl();
 		}
 
 		fetchUserData();

@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.ActivityActivity;
 import com.millicom.mitv.activities.HomeActivity;
 import com.millicom.mitv.utilities.RegularExpressionUtils;
@@ -191,14 +192,15 @@ public class MiTVLoginActivity
 							// if (mitvToken.isEmpty() != true && mitvToken.length() > 0) {
 							if (miTVToken != null && TextUtils.isEmpty(miTVToken) != true) 
 							{
-								((SecondScreenApplication) getApplicationContext()).setAccessToken(miTVToken);
+								//TODO do anything here?
+//								((SecondScreenApplication) getApplicationContext()).setAccessToken(miTVToken);
 								
 								Log.d(TAG, "MitvToken: " + miTVToken + "is saved");
 
 								if (AuthenticationService.storeUserInformation(this, mitvJSON))
 								{
 									//Toast.makeText(getApplicationContext(), "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName(), Toast.LENGTH_SHORT).show();
-									Log.d(TAG, "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName()); 
+									Log.d(TAG, "Hello, " + ContentManager.sharedInstance().getFromStorageUserFirstname()); 
 
 //									MiTVStore.getInstance().clearAll();
 //									MiTVStore.getInstance().reinitializeAll();

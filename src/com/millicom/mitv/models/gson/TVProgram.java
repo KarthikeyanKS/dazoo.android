@@ -12,6 +12,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.annotations.Expose;
 import com.millicom.mitv.enums.ProgramTypeEnum;
+import com.millicom.mitv.models.ImageSetOrientation;
 import com.mitv.Consts;
 
 public class TVProgram implements JsonDeserializer<TVProgram> {

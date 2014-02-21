@@ -11,8 +11,8 @@ import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.models.TVBroadcast;
+import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.gson.TVChannelGuide;
-import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
 import com.mitv.Consts;
 
 
@@ -29,7 +29,7 @@ public class TVBroadcastDetailsTest
 {
 	private static final String	TAG	= "TVBroadcastDetailsTest";
 	
-	private TVBroadcastWithProgramAndChannelInfo tvBroadcastDetails;
+	private TVBroadcastWithChannelInfo tvBroadcastDetails;
 	
 	
 	
@@ -58,7 +58,7 @@ public class TVBroadcastDetailsTest
 		
 		try
 		{
-			tvBroadcastDetails = new Gson().fromJson(responseString, TVBroadcastWithProgramAndChannelInfo.class);
+			tvBroadcastDetails = new Gson().fromJson(responseString, TVBroadcastWithChannelInfo.class);
 		}
 		catch(JsonSyntaxException jsex)
 		{

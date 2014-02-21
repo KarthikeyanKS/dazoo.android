@@ -16,7 +16,7 @@ import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.models.TVBroadcast;
-import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
+import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -32,7 +32,7 @@ public class PopularPageActivity extends BaseActivity implements OnClickListener
 	private ActionBar				mActionBar;
 	private ListView				mListView;
 	private PopularListAdapter		mAdapter;
-	private ArrayList<TVBroadcastWithProgramAndChannelInfo>	mPopularBroadcasts;
+	private ArrayList<TVBroadcastWithChannelInfo>	mPopularBroadcasts;
 
 	// EXTENDED VIEW OF THE POPULAR BLOCK AT THE ACTIVITY PAGE
 	@Override

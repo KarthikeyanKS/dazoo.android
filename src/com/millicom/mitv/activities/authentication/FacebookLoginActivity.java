@@ -283,81 +283,82 @@ public class FacebookLoginActivity
 	}
 
 	
-	
+	//TODO fix me
 	private boolean getMiTVToken(String facebookSessionToken)
 	{
-		if (facebookSessionToken.length() > 0) 
-		{
-			FacebookLoginTask facebookLoginTask = new FacebookLoginTask();
-			
-			try
-			{
-				String responseStr = facebookLoginTask.execute(facebookSessionToken).get();
-				
-				if (TextUtils.isEmpty(responseStr) != true)
-				{
-					JSONObject fbJSON = new JSONObject(responseStr);
-					
-					String facebookToken = fbJSON.getString(Consts.API_TOKEN);
-					
-					if (facebookToken != null && TextUtils.isEmpty(facebookToken) != true)
-					{
-						// Save access token in the application
-						((SecondScreenApplication) getApplicationContext()).setAccessToken(facebookToken);
-						
-						Log.d(TAG, "Token: " + facebookToken + " is saved");
-
-						boolean result = AuthenticationService.storeUserInformation(FacebookLoginActivity.this, fbJSON);
-						
-						if (result) 
-						{
-							return true;
-						} 
-						else
-						{
-							// TODO : Log this
-							return false;
-						}
-					}
-					else
-					{
-						// TODO : Log this
-						return false;
-					}
-				} 
-				else 
-				{
-					// Toast.makeText(getApplicationContext(), "Error! Something went wrong while authorization via Facebook. Please, try again!", Toast.LENGTH_SHORT).show();
-					Log.d(TAG, "Error! Something went wrong while authorization via Facebook. Please, try again!");
-					
-					return false;
-				}
-			} 
-			catch (InterruptedException e) 
-			{
-				Log.d(TAG, e.getMessage(), e);
-				
-				return false;
-			} 
-			catch (ExecutionException e)
-			{
-				Log.d(TAG, e.getMessage(), e);
-				
-				return false;
-			} 
-			catch (JSONException e) 
-			{
-				Log.d(TAG, e.getMessage(), e);
-				
-				return false;
-			}
-		}
-		else 
-		{
-			Log.d(TAG, "Error! Facebook authorization: level get Token from Facebook");
-			
-			return false;
-		}
+//		if (facebookSessionToken.length() > 0) 
+//		{
+//			FacebookLoginTask facebookLoginTask = new FacebookLoginTask();
+//			
+//			try
+//			{
+//				String responseStr = facebookLoginTask.execute(facebookSessionToken).get();
+//				
+//				if (TextUtils.isEmpty(responseStr) != true)
+//				{
+//					JSONObject fbJSON = new JSONObject(responseStr);
+//					
+//					String facebookToken = fbJSON.getString(Consts.API_TOKEN);
+//					
+//					if (facebookToken != null && TextUtils.isEmpty(facebookToken) != true)
+//					{
+//						// Save access token in the application
+//						((SecondScreenApplication) getApplicationContext()).setAccessToken(facebookToken);
+//						
+//						Log.d(TAG, "Token: " + facebookToken + " is saved");
+//
+//						boolean result = AuthenticationService.storeUserInformation(FacebookLoginActivity.this, fbJSON);
+//						
+//						if (result) 
+//						{
+//							return true;
+//						} 
+//						else
+//						{
+//							// TODO : Log this
+//							return false;
+//						}
+//					}
+//					else
+//					{
+//						// TODO : Log this
+//						return false;
+//					}
+//				} 
+//				else 
+//				{
+//					// Toast.makeText(getApplicationContext(), "Error! Something went wrong while authorization via Facebook. Please, try again!", Toast.LENGTH_SHORT).show();
+//					Log.d(TAG, "Error! Something went wrong while authorization via Facebook. Please, try again!");
+//					
+//					return false;
+//				}
+//			} 
+//			catch (InterruptedException e) 
+//			{
+//				Log.d(TAG, e.getMessage(), e);
+//				
+//				return false;
+//			} 
+//			catch (ExecutionException e)
+//			{
+//				Log.d(TAG, e.getMessage(), e);
+//				
+//				return false;
+//			} 
+//			catch (JSONException e) 
+//			{
+//				Log.d(TAG, e.getMessage(), e);
+//				
+//				return false;
+//			}
+//		}
+//		else 
+//		{
+//			Log.d(TAG, "Error! Facebook authorization: level get Token from Facebook");
+//			
+//			return false;
+//		}
+		return false;
 	}
 	
 	

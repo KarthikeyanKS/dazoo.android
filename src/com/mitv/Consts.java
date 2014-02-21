@@ -202,7 +202,8 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_FROM_PROFILE							= "com.mitv.intent.extra.from.profile";
 
 	/* Fragments extra arguments */
-	public static final String	FRAGMENT_EXTRA_TAG									= "com.mitv.fragment.extra.tag";
+	public static final String	FRAGMENT_EXTRA_TAG_DISPLAY_NAME									= "com.mitv.fragment.extra.tag.displayname";
+	public static final String	FRAGMENT_EXTRA_TAG_ID								= "com.mitv.fragment.extra.tag.id";
 	public static final String	FRAGMENT_EXTRA_TVDATE								= "com.mitv.fragment.extra.tvdate";
 	public static final String	FRAGMENT_EXTRA_TVDATE_POSITION						= "com.mitv.fragment.extra.tvdate.position";
 

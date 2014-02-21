@@ -329,32 +329,33 @@ public class SearchPageListAdapter extends ArrayAdapter<OldSearchResultItem> imp
 			}
 		});
 		
-		MiTVCallback cb = new MiTVCallback<String>() {
-			@Override
-			public void mitvCallback(String url, String json, AjaxStatus status) {				
-		    	switch (status.getCode()) {
-					case Consts.GOOD_RESPONSE:
-						Log.d(TAG, "Successful");
-						break;
-					case Consts.BAD_RESPONSE:
-						Log.e(TAG, "bad resp");
-						break;
-					case Consts.BAD_RESPONSE_MISSING_TOKEN:
-						Log.e(TAG, "bad resp missing token");
-						break;
-					case Consts.BAD_RESPONSE_INVALID_TOKEN:
-						Log.e(TAG, "bad resp invalid token");
-						break;
-					case Consts.BAD_RESPONSE_TIMEOUT:
-						Log.e(TAG, "bad resp timeout");
-						break;
-						
-					default:
-						break;
-					}
-			
-			}
-		};
+		//TODO use ContentManager and approriate task for search
+		MiTVCallback cb = null;//new MiTVCallback<String>() {
+//			@Override
+//			public void mitvCallback(String url, String json, AjaxStatus status) {				
+//		    	switch (status.getCode()) {
+//					case Consts.GOOD_RESPONSE:
+//						Log.d(TAG, "Successful");
+//						break;
+//					case Consts.BAD_RESPONSE:
+//						Log.e(TAG, "bad resp");
+//						break;
+//					case Consts.BAD_RESPONSE_MISSING_TOKEN:
+//						Log.e(TAG, "bad resp missing token");
+//						break;
+//					case Consts.BAD_RESPONSE_INVALID_TOKEN:
+//						Log.e(TAG, "bad resp invalid token");
+//						break;
+//					case Consts.BAD_RESPONSE_TIMEOUT:
+//						Log.e(TAG, "bad resp timeout");
+//						break;
+//						
+//					default:
+//						break;
+//					}
+//			
+//			}
+//		};
 
 		String completeSearchUrl = String.format(Locale.getDefault(), Consts.URL_SEARCH_OLD, q);
 		completeSearchUrl = SSHttpClient.urlByAppendingLocaleAndTimezoneWithAndChar(completeSearchUrl);

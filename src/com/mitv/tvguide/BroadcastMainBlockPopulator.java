@@ -3,7 +3,6 @@ package com.mitv.tvguide;
 import android.app.Activity;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,16 +16,13 @@ import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.activities.authentication.SignInOrSignupWithFacebookActivity;
 import com.millicom.mitv.enums.ProgramTypeEnum;
-import com.millicom.mitv.models.TVBroadcast;
+import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
-import com.mitv.LikeService;
 import com.mitv.R;
-import com.mitv.SecondScreenApplication;
 import com.mitv.customviews.ReminderView;
 import com.mitv.handlers.PromptSignInDialogHandler;
 import com.mitv.storage.MiTVStore;
-import com.mitv.utilities.AnimationUtilities;
 import com.mitv.utilities.ProgressBarUtils;
 import com.mitv.utilities.ShareUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -48,7 +44,7 @@ public class BroadcastMainBlockPopulator {
 		this.mContainerView = containerView;
 	}
 
-	public void createBlock(final TVBroadcast broadcast) {
+	public void createBlock(final TVBroadcastWithChannelInfo broadcast) {
 		LinearLayout containerView = (LinearLayout) mContainerView.findViewById(R.id.broacastpage_block_container_layout);
 
 		View topContentView = LayoutInflater.from(mActivity).inflate(R.layout.block_broadcastpage_main_content, null);

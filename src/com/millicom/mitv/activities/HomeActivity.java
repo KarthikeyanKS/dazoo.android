@@ -3,6 +3,8 @@ package com.millicom.mitv.activities;
 
 
 
+import java.util.ArrayList;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +26,7 @@ import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.fragments.TVHolderFragment;
 import com.millicom.mitv.fragments.TVHolderFragment.OnViewPagerIndexChangedListener;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
+import com.millicom.mitv.models.gson.TVDate;
 import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
@@ -100,13 +103,14 @@ public class HomeActivity
 
 		getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
-		SecondScreenApplication.getInstance().setSelectedHour(Integer.valueOf(OldDateUtilities.getCurrentHourString()));
+		ContentManager.sharedInstance().setSelectedHour(Integer.valueOf(OldDateUtilities.getCurrentHourString()));
 //		SecondScreenApplication.getInstance().setCheckApiVersionListener(this);
 //		SecondScreenApplication.getInstance().setAppConfigurationListener(this);
 
 		initViews();
 		
 		tryShowWelcomeToast();
+		attachFragment();
 		
 		// HOCKEY-APP
 		// checkForUpdates();
@@ -115,6 +119,7 @@ public class HomeActivity
 	private void tryShowWelcomeToast() {
 		if (!hasShowWelcomeToast) 
 		{
+			//TOOD get toast from ContentManager instead
 			mWelcomeToast = AppConfigurationManager.getInstance().getWelcomeToast();
 			
 			if(mWelcomeToast != null && !TextUtils.isEmpty(mWelcomeToast)) 
@@ -192,9 +197,6 @@ public class HomeActivity
 		Log.d(TAG, "onDestroy");
 		
 		unregisterReceivers();
-		
-		// clear the clock selection setting
-		((SecondScreenApplication) getApplicationContext()).setSelectedHour(6);
 	}
 	
 	
@@ -471,14 +473,7 @@ public class HomeActivity
 		//TODO remove me!
 		return false;
 	}
-	
-	@Override
-	protected void updateUI(REQUEST_STATUS status) 
-	{
-		//TODO remove me!
-	}
-	
-	
+		
 //	@Override
 //	protected void loadPage()
 //	{
@@ -535,20 +530,22 @@ public class HomeActivity
 
 	
 	
-//	@Override
-//	protected void updateUI(REQUEST_STATUS status) 
-//	{
-//		if (super.requestIsSuccesfull(status))
-//		{
-//			mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-//
-//			mDayAdapter = new ActionBarDropDownDateListAdapter(mTvDates);
+	@Override
+	protected void updateUI(REQUEST_STATUS status) 
+	{
+		if (super.requestIsSuccesfull(status))
+		{
+			mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+
+			ArrayList<TVDate> tvDates = ContentManager.sharedInstance().getFromStorageTVDates();
+			//TODO create dayAdapter
+//			mDayAdapter = new ActionBarDropDownDateListAdapter(tvDates);
 //			mDayAdapter.setSelectedIndex(mDateSelectedIndex);
-//			mActionBar.setListNavigationCallbacks(mDayAdapter, this);
-//
-//			attachFragment();
-//		}
-//	}
+			mActionBar.setListNavigationCallbacks(mDayAdapter, this);
+
+			attachFragment();
+		}
+	}
 	
 	
 	@Override
@@ -621,7 +618,7 @@ public class HomeActivity
 
 	@Override
 	public void onResult(FetchRequestResultEnum fetchRequestResult) {
-		// TODO implement me
+		Log.i("","");
 		
 	}
 }

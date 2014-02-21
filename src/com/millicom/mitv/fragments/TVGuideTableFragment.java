@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
+import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.gson.TVChannelGuide;
@@ -48,13 +49,13 @@ public class TVGuideTableFragment extends BaseFragment implements ActivityCallba
 	private ImageView				mClockIv;
 	private ArrayList<TVChannelGuide>		mGuides;
 //	private TVDate					mTvDate;
-//	private TVTag						mTag;
+	private String						mTag;
 //	private int						mTvDatePosition;
 	private SwipeClockBar			mSwipeClockBar;
 	private TVGuideListAdapter		mTVGuideListAdapter;
 	private MiTVStore				mitvStore;
 	private boolean					mIsToday = false;
-	private ArrayList<TVBroadcast>	mTaggedBroadcasts;
+	private ArrayList<TVBroadcastWithChannelInfo>	mTaggedBroadcasts;
 	private TVGuideTagListAdapter	mTVTagListAdapter;
 	private int						mHour;
 	private TextView				mCurrentHourTv;
@@ -91,7 +92,8 @@ public class TVGuideTableFragment extends BaseFragment implements ActivityCallba
 		Bundle bundle = new Bundle();
 //		bundle.putParcelable(Consts.FRAGMENT_EXTRA_TVDATE, date.getId());
 //		bundle.putInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION, position);
-		bundle.putString(Consts.FRAGMENT_EXTRA_TAG, tag.getDisplayName());
+		bundle.putString(Consts.FRAGMENT_EXTRA_TAG_DISPLAY_NAME, tag.getDisplayName());
+		bundle.putString(Consts.FRAGMENT_EXTRA_TAG_ID, tag.getId());
 		fragment.setArguments(bundle);
 		return fragment;
 	}
@@ -102,14 +104,15 @@ public class TVGuideTableFragment extends BaseFragment implements ActivityCallba
 		
 		initBroadcastReceivers();
 
-		mitvStore = MiTVStore.getInstance();
+//		mitvStore = MiTVStore.getInstance();
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		Bundle bundle = getArguments();
-		mTagStr = bundle.getString(Consts.FRAGMENT_EXTRA_TAG);
+		mTagStr = bundle.getString(Consts.FRAGMENT_EXTRA_TAG_DISPLAY_NAME);
+		mTag = bundle.getString(Consts.FRAGMENT_EXTRA_TAG_ID);
 //		mTvDate = bundle.getParcelable(Consts.FRAGMENT_EXTRA_TVDATE);
 //		mTvDatePosition = bundle.getInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION);
 //		mTag = mitvStore.getTag(mTagStr);
@@ -117,23 +120,27 @@ public class TVGuideTableFragment extends BaseFragment implements ActivityCallba
 		if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
 
 			// check if it is a current day
-			if (ContentManager.sharedInstance().selectedTVDateIsToday()) {
-				mIsToday = true;
-				if (!SecondScreenApplication.getInstance().getIsOnStartAgain()) {
-					mHour = Integer.valueOf(OldDateUtilities.getCurrentHourString());
-					SecondScreenApplication.getInstance().setSelectedHour(mHour);
-					SecondScreenApplication.getInstance().setIsOnStartAgain(true);
-				} else {
-					mHour = SecondScreenApplication.getInstance().getSelectedHour();
-				}
-
-			} else mHour = SecondScreenApplication.getInstance().getSelectedHour();
+//			if (ContentManager.sharedInstance().selectedTVDateIsToday()) {
+//				mIsToday = true;
+//				if (!SecondScreenApplication.getInstance().getIsOnStartAgain()) {
+//					mHour = Integer.valueOf(OldDateUtilities.getCurrentHourString());
+//					SecondScreenApplication.getInstance().setSelectedHour(mHour);
+//					SecondScreenApplication.getInstance().setIsOnStartAgain(true);
+//				} else {
+//					mHour = SecondScreenApplication.getInstance().getSelectedHour();
+//				}
+//
+//			} else mHour = SecondScreenApplication.getInstance().getSelectedHour();
+			
+			mHour = ContentManager.sharedInstance().getFromStorageSelectedHour();
 
 			mRootView = inflater.inflate(R.layout.fragment_tvguide_table, null);
 			mTVGuideListView = (ListView) mRootView.findViewById(R.id.tvguide_table_listview);
 
 			mSwipeClockBar = (SwipeClockBar) mRootView.findViewById(R.id.tvguide_swype_clock_bar);
 			mSwipeClockBar.setHour(mHour);
+			
+			//TODO figure this out?
 			mSwipeClockBar.setToday(mIsToday);
 		} else {
 			mRootView = inflater.inflate(R.layout.fragment_tvguide_tag_type, null);
@@ -221,7 +228,7 @@ public class TVGuideTableFragment extends BaseFragment implements ActivityCallba
 			} 
 			else 
 			{
-				final int index = TVBroadcast.getClosestBroadcastIndex(mTaggedBroadcasts, 0);
+				final int index = TVBroadcastWithChannelInfo.getClosestBroadcastIndex(mTaggedBroadcasts, 0);
 				
 				//Remove all broadcasts that already ended
 				new Runnable() {
@@ -317,7 +324,8 @@ public class TVGuideTableFragment extends BaseFragment implements ActivityCallba
 			mGuides = tvGuideForSelectedDay.getTvChannelGuides();
 		} else {
 //			mTaggedBroadcasts = mitvStore.getTaggedBroadcasts(mTvDate, mTag);
-			mTaggedBroadcasts = ContentManager.sharedInstance().getFromStorageTaggedBroadcastsForSelectedTVDate();
+			HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = ContentManager.sharedInstance().getFromStorageTaggedBroadcastsForSelectedTVDate();
+			mTaggedBroadcasts = taggedBroadcastForDay.get(mTag);
 		}
 		} else {
 			//TODO fix me!

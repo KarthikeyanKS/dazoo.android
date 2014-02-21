@@ -1,6 +1,6 @@
 package com.millicom.mitv.models.dto;
 
-import com.millicom.mitv.models.gson.ImageSetSize;
+import com.millicom.mitv.models.ImageSetSize;
 import com.millicom.mitv.models.gson.TVChannel;
 
 public class TVChannelDTO extends TVChannel {

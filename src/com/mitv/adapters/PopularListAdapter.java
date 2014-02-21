@@ -18,8 +18,7 @@ import android.widget.TextView;
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.enums.ProgramTypeEnum;
-import com.millicom.mitv.models.TVBroadcast;
-import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
+import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.gson.TVDate;
 import com.mitv.Consts;
 import com.mitv.R;
@@ -34,7 +33,7 @@ public class PopularListAdapter extends BaseAdapter {
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
-	private ArrayList<TVBroadcastWithProgramAndChannelInfo>	mPopularBroadcasts;
+	private ArrayList<TVBroadcastWithChannelInfo>	mPopularBroadcasts;
 	private ImageLoader				mImageLoader;
 //	private String					mToken;
 	private int						mCurrentPosition	= -1;
@@ -42,7 +41,7 @@ public class PopularListAdapter extends BaseAdapter {
 //	private MiTVStore				mitvStore;
 	private ArrayList<TVDate>		mTvDates;
 
-	public PopularListAdapter(Activity activity, ArrayList<TVBroadcastWithProgramAndChannelInfo> popularBroadcasts) {
+	public PopularListAdapter(Activity activity, ArrayList<TVBroadcastWithChannelInfo> popularBroadcasts) {
 		this.mActivity = activity;
 		this.mPopularBroadcasts = popularBroadcasts;
 //		this.mToken = token;
@@ -60,7 +59,7 @@ public class PopularListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public TVBroadcast getItem(int position) {
+	public TVBroadcastWithChannelInfo getItem(int position) {
 		if (mPopularBroadcasts != null) {
 			return mPopularBroadcasts.get(position);
 		} else return null;
@@ -74,7 +73,7 @@ public class PopularListAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 
-		final TVBroadcast broadcast = getItem(position);
+		final TVBroadcastWithChannelInfo broadcast = getItem(position);
 
 		View rowView = convertView;
 		if (rowView == null) {

@@ -197,8 +197,8 @@ public class ActivityActivity extends BaseActivity implements OnClickListener, A
 			mCheckPopularBtn = (Button) findViewById(R.id.block_feed_no_likes_btn);
 			mCheckPopularBtn.setOnClickListener(this);
 
-			mGreetingTv.setText(mActivity.getResources().getString(R.string.hello) + " " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName() + " "
-					+ ((SecondScreenApplication) getApplicationContext()).getUserLastName() + ",");
+			mGreetingTv.setText(mActivity.getResources().getString(R.string.hello) + " " + ContentManager.sharedInstance().getFromStorageUserFirstname() + " "
+					+ ContentManager.sharedInstance().getFromStorageUserLastname() + ",");
 		}
 
 		mListView.setOnScrollListener(this);

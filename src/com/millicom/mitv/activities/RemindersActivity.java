@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.millicom.mitv.models.TVBroadcast;
+import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
@@ -79,14 +80,14 @@ public class RemindersActivity extends BaseActivity implements RemindersCountInt
 	}
 
 	private void populateViews() {
-		ArrayList<TVBroadcast> broadcasts = new ArrayList<TVBroadcast>();
+		ArrayList<TVBroadcastWithChannelInfo> broadcasts = new ArrayList<TVBroadcastWithChannelInfo>();
 
 		NotificationDataSource notificationDataSource = new NotificationDataSource(this);
 		List<NotificationDbItem> notificationList = notificationDataSource.getAllNotifications();
 		for (int i = 0; i < notificationList.size(); i++) {
 			NotificationDbItem item = notificationList.get(i);
 			//TODO create some constructor for some Broadcast related class from database item...
-			TVBroadcast broadcast = null;// = new Broadcast(item);
+			TVBroadcastWithChannelInfo broadcast = null;// = new Broadcast(item);
 			broadcasts.add(broadcast);
 		}
 		// If empty - show notification.

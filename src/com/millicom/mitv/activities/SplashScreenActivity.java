@@ -22,11 +22,11 @@ import com.mitv.R;
 public class SplashScreenActivity extends ActionBarActivity implements ActivityCallbackListener {
 	
 	private static final String					TAG					= "SplashScreenActivity";
-	private boolean mTimeHasElapsed = false;
+//	private boolean mTimeHasElapsed = false;
 	
 	private static final long MINUMUM_DISPLAY_TIME = 3000l;
 	
-	private CountDownTimer mCountTimer;
+//	private CountDownTimer mCountTimer;
 
 
 	@Override
@@ -37,20 +37,20 @@ public class SplashScreenActivity extends ActionBarActivity implements ActivityC
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.hide();
 		
-		mCountTimer = new CountDownTimer(MINUMUM_DISPLAY_TIME, MINUMUM_DISPLAY_TIME) {
-			
-			@Override
-			public void onTick(long millisUntilFinished) {
-			}
-			
-			@Override
-			public void onFinish() {
-				mTimeHasElapsed = true;
-				startPrimaryActivity();
-				
-			}
-		};
-		mCountTimer.start();
+//		mCountTimer = new CountDownTimer(MINUMUM_DISPLAY_TIME, MINUMUM_DISPLAY_TIME) {
+//			
+//			@Override
+//			public void onTick(long millisUntilFinished) {
+//			}
+//			
+//			@Override
+//			public void onFinish() {
+//				mTimeHasElapsed = true;
+//				startPrimaryActivity();
+//				
+//			}
+//		};
+//		mCountTimer.start();
 		
 		ContentManager.sharedInstance().fetchFromServiceAppData(this);
 	}
@@ -107,7 +107,7 @@ public class SplashScreenActivity extends ActionBarActivity implements ActivityC
 //		if(mTimeHasElapsed) {
 			Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
 			startActivity(intent);
-//		} else //TODO need some retry function here...
+//		}
 	}
 
 

@@ -264,7 +264,7 @@ public class TVGuideListAdapter extends AdListAdapter<TVChannelGuide> {
 	public void refreshList(int selectedHour) {
 		mHour = selectedHour;
 
-		SecondScreenApplication.getInstance().setSelectedHour(mHour);
+		ContentManager.sharedInstance().setSelectedHour(mHour);
 		notifyDataSetChanged();
 	}
 	
