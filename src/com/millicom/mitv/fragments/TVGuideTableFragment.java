@@ -34,6 +34,7 @@ import com.mitv.customviews.SwipeClockBar;
 
 public class TVGuideTableFragment extends BaseFragment implements ActivityCallbackListener {
 
+	@SuppressWarnings("unused")
 	private static final String TAG = TVGuideTableFragment.class.getName();
 
 	private String tvTagDisplayName;

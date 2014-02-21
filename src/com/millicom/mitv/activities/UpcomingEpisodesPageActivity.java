@@ -20,7 +20,9 @@ import com.mitv.adapters.UpcomingEpisodesListAdapter;
 
 public class UpcomingEpisodesPageActivity extends BaseActivity implements OnClickListener {
 
-	private static final String			TAG					= "UpcomingeEpisodesPageActivity";
+	@SuppressWarnings("unused")
+	private static final String TAG = UpcomingEpisodesPageActivity.class.getName();
+	
 //	private String						token;
 	private RelativeLayout				mTabTvGuide, mTabProfile, mTabActivity;private View mTabDividerLeft, mTabDividerRight;
 	private ActionBar					mActionBar;

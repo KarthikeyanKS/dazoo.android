@@ -29,7 +29,7 @@ import com.mitv.notification.NotificationDataSource;
 
 public class RemindersActivity extends BaseActivity implements RemindersCountInterface, OnClickListener {
 
-	private static final String		TAG			= "RemindersActivity";
+	private static final String TAG = RemindersActivity.class.getName();
 	private ActionBar				mActionBar;
 	private boolean					mIsChange	= false;
 	private ListView				mListView;

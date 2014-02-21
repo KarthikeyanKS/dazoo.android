@@ -24,7 +24,9 @@ import com.mitv.adapters.PopularListAdapter;
 
 public class PopularPageActivity extends BaseActivity implements OnClickListener, ActivityCallbackListener {
 
-	private static final String		TAG					= "PopularPageActivity";
+	@SuppressWarnings("unused")
+	private static final String TAG = PopularPageActivity.class.getName();
+	
 //	private String					token;
 	private RelativeLayout			mTabTvGuide, mTabProfile, mTabActivity;
 	private View					mTabDividerLeft, mTabDividerRight;

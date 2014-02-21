@@ -40,7 +40,8 @@ import com.mitv.utilities.OldDateUtilities;
 
 public class BroadcastPageActivity extends BaseActivity implements OnClickListener {
 
-	private static final String		TAG	= "BroadcastPageActivity";
+	private static final String TAG = BroadcastPageActivity.class.getName();
+	
 	private OldBroadcast				mBroadcast;
 	private String					mTvDate, mChannelLogoUrl;
 	private LinearLayout			mBlockContainer;

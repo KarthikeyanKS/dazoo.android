@@ -27,6 +27,8 @@ public abstract class AsyncTaskWithRelativeURL<T>
 		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, null, false, httpRequestType, url);
 	}
 	
+	
+	
 	public AsyncTaskWithRelativeURL(
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener,
@@ -38,6 +40,8 @@ public abstract class AsyncTaskWithRelativeURL<T>
 	{
 		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, url, new URLParameters(), Collections.<String, String> emptyMap(), null);
 	}
+	
+	
 	
 	public AsyncTaskWithRelativeURL(
 			ContentCallbackListener contentCallbackListener,

@@ -34,7 +34,8 @@ import com.mitv.adapters.ActivityFeedAdapter;
 
 public class ActivityActivity extends BaseActivity implements OnClickListener, ActivityCallbackListener, OnScrollListener {
 
-	private static final String	TAG				= "ActivityActivity";
+	private static final String TAG = ActivityActivity.class.getName();
+	
 	private RelativeLayout		mTabTvGuide, mTabProfile, mTabActivity, mSigninContainer, mFacebookContainer, mSignUpContainer;
 	private View 				mTabDividerLeft, mTabDividerRight;
 	private TextView			mSignInTv, mGreetingTv;

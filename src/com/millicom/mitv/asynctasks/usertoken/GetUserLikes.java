@@ -7,7 +7,7 @@ import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
-import com.millicom.mitv.models.gson.UserLike;
+import com.millicom.mitv.models.UserLike;
 import com.mitv.Consts;
 
 

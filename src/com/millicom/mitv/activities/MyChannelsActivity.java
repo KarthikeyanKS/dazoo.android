@@ -1,21 +1,22 @@
 package com.millicom.mitv.activities;
 
+
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.ActionBar;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -25,24 +26,14 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import android.support.v7.app.ActionBar;
-import android.view.MenuItem;
-
 import com.millicom.mitv.ContentManager;
-import com.mitv.Consts;
+import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.adapters.MyChannelsListAdapter;
-import com.mitv.content.SSChannelPage;
-import com.mitv.content.SSPageCallback;
-import com.mitv.content.SSPageGetResult;
 import com.mitv.interfaces.MyChannelsCountInterface;
-import com.mitv.manager.ApiClient;
 import com.mitv.model.OldTVChannel;
 import com.mitv.storage.MiTVStore;
-import com.mitv.storage.MiTVStoreOperations;
-import com.mitv.utilities.JSONUtilities;
 
 
 
@@ -50,7 +41,8 @@ public class MyChannelsActivity
 	extends BaseActivity 
 	implements MyChannelsCountInterface, OnClickListener 
 {
-	private static final String			TAG						= "MyChannelsActivity";
+	private static final String TAG = MyChannelsActivity.class.getName();
+
 	private ActionBar					mActionBar;
 	private boolean						mIsChange				= false;
 	private Button						mGetMyChannelsButton, mAddToMyChannelsButton;

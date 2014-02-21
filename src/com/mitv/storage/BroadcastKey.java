@@ -11,8 +11,7 @@ public class BroadcastKey implements Parcelable{
 	OldTVDate date;
 	OldTVTag tag;
 	
-	public BroadcastKey(){
-	}
+	public BroadcastKey(){}
 
 	// Date component
 	

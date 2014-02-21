@@ -7,20 +7,20 @@ import java.util.HashMap;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
+import com.millicom.mitv.models.AppConfiguration;
 import com.millicom.mitv.models.AppVersion;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVDate;
 import com.millicom.mitv.models.TVGuide;
-import com.millicom.mitv.models.gson.AppConfigurationJSON;
+import com.millicom.mitv.models.UserLike;
+import com.millicom.mitv.models.UserLoginData;
 import com.millicom.mitv.models.gson.AdAdzerkJSON;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;
 import com.millicom.mitv.models.gson.TVFeedItem;
 import com.millicom.mitv.models.gson.TVTag;
-import com.millicom.mitv.models.gson.UserLike;
-import com.millicom.mitv.models.gson.UserLoginData;
 
 public class Storage {
 	private ArrayList<TVTag> tvTags;
@@ -67,7 +67,7 @@ public class Storage {
 	private TVDate tvDateSelected;
 	
 	private AppVersion appVersionData;
-	private AppConfigurationJSON appConfigData;
+	private AppConfiguration appConfigData;
 		
 	/* Ads */
 	private HashMap<String, SparseArray<AdAdzerkJSON>> fragmentToAdsMap;
@@ -239,11 +239,11 @@ public class Storage {
 		this.appVersionData = appVersionData;
 	}
 
-	public AppConfigurationJSON getAppConfigData() {
+	public AppConfiguration getAppConfigData() {
 		return appConfigData;
 	}
 
-	public void setAppConfigData(AppConfigurationJSON appConfigData) {
+	public void setAppConfigData(AppConfiguration appConfigData) {
 		this.appConfigData = appConfigData;
 	}
 	

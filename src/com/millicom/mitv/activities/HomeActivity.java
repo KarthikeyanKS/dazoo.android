@@ -42,7 +42,8 @@ public class HomeActivity
 	extends SSPageFragmentActivity 
 	implements OnClickListener, ActionBar.OnNavigationListener, ActivityCallbackListener
 {
-	private static final String					TAG					= "HomeActivity";
+	private static final String TAG = HomeActivity.class.getName();
+	
 	private RelativeLayout						mTabTvGuide, mTabPopular, mTabFeed;
 	private View 								mTabDividerLeft, mTabDividerRight;
 	private ActionBar							mActionBar;

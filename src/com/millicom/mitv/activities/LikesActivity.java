@@ -18,18 +18,19 @@ import android.widget.TextView;
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
-import com.millicom.mitv.models.gson.UserLike;
+import com.millicom.mitv.models.UserLike;
 import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.LikesListAdapter;
 import com.mitv.interfaces.LikesCountInterface;
-import com.mitv.model.OldTVLike;
 
 public class LikesActivity extends BaseActivity implements ActivityCallbackListener, LikesCountInterface, OnClickListener {
 
-	private static final String	TAG			= "LikesActivity";
+	@SuppressWarnings("unused")
+	private static final String TAG = LikesActivity.class.getName();
+	
 	private ActionBar			mActionBar;
 	private boolean				mIsChange	= false;
 	private ListView			mListView;

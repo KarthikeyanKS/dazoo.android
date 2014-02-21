@@ -21,7 +21,8 @@ import com.mitv.adapters.RepetitionsListAdapter;
 
 public class RepetitionsPageActivity extends BaseActivity implements OnClickListener {
 
-	private static final String		TAG						= "RepeatitionsPageActivity";
+	@SuppressWarnings("unused")
+	private static final String TAG = RepetitionsPageActivity.class.getName();
 //	private String					token;
 	private RelativeLayout			mTabTvGuide, mTabProfile, mTabActivity;private View mTabDividerLeft, mTabDividerRight;
 	private ActionBar				mActionBar;

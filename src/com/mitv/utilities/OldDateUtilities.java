@@ -1,3 +1,4 @@
+
 package com.mitv.utilities;
 
 import java.text.ParseException;
@@ -8,7 +9,6 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.mitv.Consts;
 import com.mitv.SecondScreenApplication;

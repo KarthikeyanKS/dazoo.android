@@ -1,12 +1,20 @@
+
 package com.millicom.mitv.http;
+
+
 
 import java.io.Serializable;
 
 import android.text.TextUtils;
 
+
+
 public class URLParameter
 	implements Serializable
 {
+	@SuppressWarnings("unused")
+	private static final String TAG = URLParameter.class.getName();
+	
 	private static final long serialVersionUID = 7023709735148035918L;
 	private static final String QUERYSTRING_EQUALS = "=";
 	

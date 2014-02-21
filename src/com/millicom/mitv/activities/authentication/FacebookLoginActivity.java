@@ -4,19 +4,12 @@ package com.millicom.mitv.activities.authentication;
 
 
 import java.util.Arrays;
-import java.util.concurrent.ExecutionException;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
-
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
@@ -25,10 +18,8 @@ import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.millicom.mitv.activities.ActivityActivity;
 import com.millicom.mitv.activities.HomeActivity;
-import com.mitv.AuthenticationService;
 import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
-import com.mitv.asynctasks.FacebookLoginTask;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 
@@ -37,7 +28,7 @@ import com.mitv.SecondScreenApplication;
 public class FacebookLoginActivity 
 	extends SSSignInSignupBaseActivity 
 {
-	private static final String	TAG	= "FacebookLoginActivity";
+	private static final String TAG = FacebookLoginActivity.class.getName();
 	
 	
 	private ActionBar				mActionBar;

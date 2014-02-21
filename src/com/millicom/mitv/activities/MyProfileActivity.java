@@ -18,24 +18,25 @@ import com.millicom.mitv.activities.authentication.MiTVLoginActivity;
 import com.millicom.mitv.activities.authentication.SignInOrSignupWithFacebookActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
-import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
-import com.mitv.LikeService;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.customviews.FontTextView;
-import com.mitv.manager.ApiClient;
 import com.mitv.notification.NotificationDataSource;
 import com.mitv.storage.MiTVStore;
-import com.mitv.utilities.OldDateUtilities;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 
-public class MyProfileActivity extends BaseActivity implements ActivityCallbackListener, OnClickListener {
-
+public class MyProfileActivity 
+	extends BaseActivity 
+	implements ActivityCallbackListener, OnClickListener 
+{
+	@SuppressWarnings("unused")
+	private static final String TAG = MyProfileActivity.class.getName();
+	
 	private String mUserFirstName;
 	private String mUserLastName;
 	private String mUserAvatarUrl;

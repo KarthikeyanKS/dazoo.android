@@ -20,7 +20,7 @@ import android.util.Log;
 
 
 
-public class NetworkUtils
+public abstract class NetworkUtils
 {	
 	private static final String TAG = NetworkUtils.class.getName();
 	

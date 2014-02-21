@@ -20,6 +20,7 @@ import com.viewpagerindicator.TabPageIndicator;
 
 public class TVHolderFragment extends Fragment implements OnPageChangeListener {
 
+	@SuppressWarnings("unused")
 	private static final String TAG = TVHolderFragment.class.getName();
 	private static final String BUNDLE_INFO_STARTING_INDEX = "BUNDLE_INFO_STARTING_INDEX";
 

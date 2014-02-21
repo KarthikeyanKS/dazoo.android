@@ -4,12 +4,13 @@ package com.millicom.mitv.asynctasks.usertoken;
 
 
 import android.util.Log;
+
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.LikeTypeRequestEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
-import com.millicom.mitv.models.gson.UserLike;
+import com.millicom.mitv.models.UserLike;
 import com.millicom.mitv.models.gson.serialization.UserLikeData;
 import com.mitv.Consts;
 
@@ -18,7 +19,7 @@ import com.mitv.Consts;
 public class AddUserLike 
 	extends AsyncTaskWithUserToken<UserLike> 
 {
-	private static final String TAG = "AddUserLike";
+	private static final String TAG = AddUserLike.class.getName();
 	
 	private static final String URL_SUFFIX = Consts.URL_LIKES;
 	

@@ -1,9 +1,12 @@
+
 package com.millicom.mitv.fragments;
+
+
+
 
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.Consts.REQUEST_STATUS;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -19,9 +22,12 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
-public abstract class BaseFragment extends Fragment {
 
-	public static final String	TAG				= "SSPageFragment";
+
+public abstract class BaseFragment 
+	extends Fragment
+{
+	private static final String TAG = BaseFragment.class.getName();
 
 	// Request [Failed]
 	public RelativeLayout		mRequestFailedLayout;

@@ -33,9 +33,9 @@ import com.mitv.manager.GATrackingManager;
 
 public abstract class BaseActivity 
 	extends ActionBarActivity
-	{
-
-	private static final String	TAG	= "ActivityBase";
+{
+	@SuppressWarnings("unused")
+	private static final String TAG = BaseActivity.class.getName();
 	
 	private String				mViewName;
 	private Tracker 			mTracker;
@@ -65,22 +65,20 @@ public abstract class BaseActivity
 		
 		if(isDebugMode) 
 		{
-			// TODO: Enable strict mode
-			/*
-			StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-			.detectDiskReads()
-			.detectDiskWrites()
-			.detectNetwork()   // or .detectAll() for all detectable problems
-			.penaltyLog()
-			.build());
-
-			StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-			.detectLeakedSqlLiteObjects()
-			.detectLeakedClosableObjects()
-			.penaltyLog()
-			.penaltyDeath()
-			.build());
-			*/
+			// TODO Enable strict mode
+//			StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+//			.detectDiskReads()
+//			.detectDiskWrites()
+//			.detectNetwork()   // or .detectAll() for all detectable problems
+//			.penaltyLog()
+//			.build());
+//
+//			StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+//			.detectLeakedSqlLiteObjects()
+//			.detectLeakedClosableObjects()
+//			.penaltyLog()
+//			.penaltyDeath()
+//			.build());
 		}
 		// No need for else
 

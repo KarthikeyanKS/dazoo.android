@@ -38,7 +38,7 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 public class ChannelPageActivity extends BaseActivity implements OnClickListener, ActionBar.OnNavigationListener {
 
-	private static final String					TAG	= "ChannelPageActivity";
+	private static final String TAG = ChannelPageActivity.class.getName();
 
 	private ActionBar							mActionBar;
 	private ActionBarDropDownDateListAdapter	mDayAdapter;

@@ -10,6 +10,9 @@ import java.io.Serializable;
 public class HTTPCoreResponse
 	implements Serializable 
 {
+	@SuppressWarnings("unused")
+	private static final String TAG = HTTPCoreResponse.class.getName();
+	
 	private static final long serialVersionUID = 2977961269214430910L;
 	
 	

@@ -41,6 +41,7 @@ import com.mitv.handlers.SearchActivityListeners;
 
 public class SearchPageActivity extends BaseActivity implements OnItemClickListener, OnEditorActionListener, OnClickListener, SearchActivityListeners {
 
+	@SuppressWarnings("unused")
 	private static final String TAG = SearchPageActivity.class.getName();
 
 	private SearchPageListAdapter mAutoCompleteAdapter;
