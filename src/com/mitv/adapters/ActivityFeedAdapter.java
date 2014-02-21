@@ -174,7 +174,7 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 					title.setText(broadcast.getProgram().getTitle());
 				}
 
-				time.setText(broadcast.getDayOfWeekWithTimeString());
+				time.setText(broadcast.getBeginTimeDayOfTheWeekAndTimeAsString());
 
 				channelName.setText(broadcast.getChannel().getName());
 
@@ -313,7 +313,7 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 				holderBC.titleTv.setText(program.getTitle());
 			}
 
-			holderBC.timeTv.setText(broadcast.getDayOfWeekWithTimeString());
+			holderBC.timeTv.setText(broadcast.getBeginTimeDayOfTheWeekAndTimeAsString());
 			holderBC.channelTv.setText(broadcast.getChannel().getName());
 
 			if (programType != null) {

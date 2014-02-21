@@ -9,9 +9,9 @@ import android.util.SparseArray;
 
 import com.millicom.mitv.models.AppVersion;
 import com.millicom.mitv.models.TVGuide;
-import com.millicom.mitv.models.gson.AdzerkAdJSON;
 import com.millicom.mitv.models.gson.AppConfigurationJSON;
 import com.millicom.mitv.models.TVBroadcast;
+import com.millicom.mitv.models.gson.AdAdzerkJSON;
 import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
@@ -70,7 +70,7 @@ public class Storage {
 	private AppConfigurationJSON appConfigData;
 		
 	/* Ads */
-	private HashMap<String, SparseArray<AdzerkAdJSON>> fragmentToAdsMap;
+	private HashMap<String, SparseArray<AdAdzerkJSON>> fragmentToAdsMap;
 	
 	/* NON-PERSISTENT USER DATA, USED FOR PASSING DATA BETWEEN ACTIVITIES */
 	private TVBroadcast nonPersistentSelectedBroadcast;
@@ -206,11 +206,11 @@ public class Storage {
 		this.userLikes = userLikes;
 	}
 	
-	public HashMap<String, SparseArray<AdzerkAdJSON>> getFragmentToAdsMap() {
+	public HashMap<String, SparseArray<AdAdzerkJSON>> getFragmentToAdsMap() {
 		return fragmentToAdsMap;
 	}
 
-	public void setFragmentToAdsMap(HashMap<String, SparseArray<AdzerkAdJSON>> mFragmentToAdsMap) {
+	public void setFragmentToAdsMap(HashMap<String, SparseArray<AdAdzerkJSON>> mFragmentToAdsMap) {
 		this.fragmentToAdsMap = mFragmentToAdsMap;
 	}
 

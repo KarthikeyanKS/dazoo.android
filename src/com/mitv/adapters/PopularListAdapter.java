@@ -104,7 +104,7 @@ public class PopularListAdapter extends BaseAdapter {
 			holder.mHeaderContainer.setVisibility(View.GONE);
 			if (position == 0 || broadcast.getBeginTimeStringLocalDayMonth().equals(
 					(getItem(position - 1)).getBeginTimeStringLocalDayMonth()) == false) {
-				holder.mHeaderTv.setText(broadcast.getDayOfWeekString() + " " + broadcast.getBeginTimeStringLocalDayMonth());
+				holder.mHeaderTv.setText(broadcast.getBeginTimeDayOfTheWeekAndTimeAsString() + " " + broadcast.getBeginTimeStringLocalDayMonth());
 				holder.mHeaderContainer.setVisibility(View.VISIBLE);
 
 			}
@@ -142,7 +142,7 @@ public class PopularListAdapter extends BaseAdapter {
 			ImageAware imageAware = new ImageViewAware(holder.mPosterIv, false);
 			ImageLoader.getInstance().displayImage(broadcast.getProgram().getImages().getPortrait().getMedium(), imageAware);
 			
-			holder.mTimeTv.setText(broadcast.getDayOfWeekWithTimeString());
+			holder.mTimeTv.setText(broadcast.getBeginTimeDayOfTheWeekAndTimeAsString());
 
 			holder.mChannelNameTv.setText(broadcast.getChannel().getName());
 

@@ -125,7 +125,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 			holder.mDivider.setVisibility(View.VISIBLE);
 			if (position == 0 || broadcast.getBeginTimeStringLocalDayMonth().equals(
 					(getItem(position - 1)).getBeginTimeStringLocalDayMonth()) == false) {
-				holder.mHeader.setText(broadcast.getDayOfWeekString() + " " + broadcast.getBeginTimeStringLocalDayMonth());
+				holder.mHeader.setText(broadcast.getBeginTimeDayOfTheWeekAsString() + " " + broadcast.getBeginTimeStringLocalDayMonth());
 				holder.mHeaderContainer.setVisibility(View.VISIBLE);
 			}
 			if (position != (getCount() - 1)
@@ -146,7 +146,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 			}
 			holder.mSeasonEpisodeTv.setText(seasonEpisode);
 
-			holder.mTimeTv.setText(broadcast.getDayOfWeekWithTimeString());
+			holder.mTimeTv.setText(broadcast.getBeginTimeDayOfTheWeekAndTimeAsString());
 
 			// Set channel
 			String channel = broadcast.getChannel().getName();

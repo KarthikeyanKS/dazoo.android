@@ -118,7 +118,7 @@ public class RemindersListAdapter extends BaseAdapter {
 			String stringNext = broadcastNextPosition.getBeginTimeStringLocalDayMonth();
 
 			if ((position == 0) || !stringCurrent.equals(stringPrevious)) {
-				holder.mHeaderTv.setText(broadcast.getDayOfWeekString() + " " + broadcast.getBeginTimeStringLocalDayMonth());
+				holder.mHeaderTv.setText(broadcast.getBeginTimeDayOfTheWeekAsString() + " " + broadcast.getBeginTimeStringLocalDayMonth());
 				holder.mHeaderContainer.setVisibility(View.VISIBLE);
 			}
 
@@ -162,7 +162,7 @@ public class RemindersListAdapter extends BaseAdapter {
 				holder.mChannelTv.setText(channel.getName());
 			}
 
-			holder.mBroadcastTimeTv.setText(broadcast.getDayOfWeekWithTimeString());
+			holder.mBroadcastTimeTv.setText(broadcast.getBeginTimeDayOfTheWeekAndTimeAsString());
 			holder.mInformationContainer.setOnClickListener(new View.OnClickListener() {
 
 				@Override

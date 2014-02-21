@@ -16,7 +16,7 @@ import com.mitv.Consts;
 
 
 /**
- * All varaibles in this class needs to be either transient or use the
+ * All variables in this class needs to be either transient or use the
  * @Expose(deserialize=false) annotation, else the JSON parsing using GSON will
  * fail.
  * 
@@ -119,10 +119,8 @@ public class TVBroadcast
 	
 	public Calendar getBroadcastBeginTimeForNotification()
 	{
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(getBeginTimeCalendar().getTime());
-		calendar.setTimeZone(getBeginTimeCalendar().getTimeZone());
-		
+		Calendar calendar = (Calendar) getBeginTimeCalendar().clone();
+
 		int minutesBeforeNotify = Consts.NOTIFY_MINUTES_BEFORE_THE_BROADCAST2;
 		
 		calendar.add(Calendar.MINUTE, -minutesBeforeNotify);
@@ -166,9 +164,7 @@ public class TVBroadcast
 	
 	public boolean isBroadcastAiringInOrInLessThan(int minutes) 
 	{
-		Calendar beginTimeWithincrement = Calendar.getInstance();
-		beginTimeWithincrement.setTime(getBeginTimeCalendar().getTime());
-		beginTimeWithincrement.setTimeZone(getBeginTimeCalendar().getTimeZone());
+		Calendar beginTimeWithincrement = (Calendar) getBeginTimeCalendar().clone();
 		beginTimeWithincrement.add(Calendar.MINUTE, minutes);
 		
 		Calendar now = Calendar.getInstance();
@@ -279,8 +275,31 @@ public class TVBroadcast
 		return DateUtils.getHourAndMinuteCompositionAsString(getBeginTimeCalendar());
 	}
 	
-	
 
+
+	public String getBeginTimeDayOfTheWeekAsString() 
+	{
+		return DateUtils.getDayOfTheWeekAsString(getBeginTimeCalendar());
+	}
+
+	
+	
+	public String getBeginTimeDayOfTheWeekAndTimeAsString()
+	{
+		String dayOfTheWeekAsString = DateUtils.getDayOfTheWeekAsString(getBeginTimeCalendar());
+		
+		String timeOfDayAsString = DateUtils.getTimeOfDayAsString(getBeginTimeCalendar());
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(dayOfTheWeekAsString);
+		sb.append(", ");
+		sb.append(timeOfDayAsString);
+		
+		return sb.toString();
+	}
+	
+	
+	
 	public static ArrayList<TVBroadcast> getBroadcastsStartingFromPosition(
 			int indexOfNearestBroadcast, 
 			ArrayList<TVBroadcast> broadcasts, 
@@ -289,23 +308,14 @@ public class TVBroadcast
 		// TODO implement or delete me
 		return null;
 	}
+	
 
-	
-	
-	
-	
-	
+
 	
 	// TODO Determine which of those dummy methods we need, and implement them
 	/* HERE COMES DUMMY METHODS, ALL OF THEM MAY NOT BE NEEDED, INVESTIGATE! */
 	
-	public String getDayOfWeekWithTimeString() {
-		// TODO implement or delete me
-		return null;
-	}
-	
-	public TVChannel getChannel() 
-	{
+	public String getBeginTimeStringLocalDayMonth() {
 		// TODO implement or delete me
 		return null;
 	}
@@ -314,19 +324,17 @@ public class TVBroadcast
 		// TODO implement or delete me
 		return null;
 	}
-
-	public String getEndTimeStringLocal() {
+	
+	
+	public String getEndTimeStringLocal() 
+	{
 		// TODO implement or delete me
 		return null;
 	}
 
 	
-	public String getBeginTimeStringLocalDayMonth() {
-		// TODO implement or delete me
-		return null;
-	}
-
-	public String getDayOfWeekString() {
+	public TVChannel getChannel() 
+	{
 		// TODO implement or delete me
 		return null;
 	}
