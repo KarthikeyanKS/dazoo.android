@@ -24,10 +24,8 @@ public class SplashScreenActivity extends ActionBarActivity implements ActivityC
 	private static final String					TAG					= "SplashScreenActivity";
 	private boolean mTimeHasElapsed = false;
 	
-	private static final int CALLS_BEFORE_STARTING_HOME_ACTIVITY = 2;
 	private static final long MINUMUM_DISPLAY_TIME = 3000l;
 	
-	private int mBackendCallsCompletedCount = 0;
 	private CountDownTimer mCountTimer;
 
 
@@ -106,10 +104,10 @@ public class SplashScreenActivity extends ActionBarActivity implements ActivityC
 	};
 
 	private void startPrimaryActivity() {
-		if(mTimeHasElapsed && mBackendCallsCompletedCount == CALLS_BEFORE_STARTING_HOME_ACTIVITY) {
+//		if(mTimeHasElapsed) {
 			Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
 			startActivity(intent);
-		}
+//		} else //TODO need some retry function here...
 	}
 
 

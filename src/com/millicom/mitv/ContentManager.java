@@ -13,6 +13,7 @@ import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.models.AppVersion;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVGuide;
+import com.millicom.mitv.models.TVGuideAndTaggedBroadcasts;
 import com.millicom.mitv.models.gson.AppConfigurationJSON;
 import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
@@ -88,11 +89,6 @@ public class ContentManager implements ContentCallbackListener {
 		fetchFromServiceTVGuideUsingTVDate(activityCallBackListener, tvDate);
 	}
 	
-	public void fetchTVGuideForSelectedDay(ActivityCallbackListener activityCallBackListener) {
-		TVDate tvDate = storage.getTvDateSelected();
-		fetchFromServiceTVGuideUsingTVDate(activityCallBackListener, tvDate);
-	}
-
 	private void fetchFromServiceTVGuideUsingTVDate(ActivityCallbackListener activityCallBackListener, TVDate tvDate) {
 		ArrayList<TVChannelId> tvChannelIds = storage.getTvChannelIdsUsed();
 		apiClient.getTVChannelGuides(activityCallBackListener, tvDate, tvChannelIds);
@@ -363,22 +359,21 @@ public class ContentManager implements ContentCallbackListener {
 		if (result.wasSuccessful() && content != null) {
 			completedCountTVData++;
 	
-			switch (requestIdentifier) 
-			{
-				case TV_DATE: {
-					ArrayList<TVDate> tvDates = (ArrayList<TVDate>) content;
-					storage.setTvDates(tvDates);
-					
-					/* We will only get here ONCE, at the start of the app, no TVDate has been selected, set it! */
-					if(!tvDates.isEmpty()) {
-						TVDate tvDate = tvDates.get(0);
-						storage.setTvDateSelected(tvDate);
-					} else {
-						//TODO handle this...?
-					}
-					break;
+			switch (requestIdentifier) {
+			case TV_DATE: {
+				ArrayList<TVDate> tvDates = (ArrayList<TVDate>) content;
+				storage.setTvDates(tvDates);
+
+				/* We will only get here ONCE, at the start of the app, no TVDate has been selected, set it! */
+				if (!tvDates.isEmpty()) {
+					TVDate tvDate = tvDates.get(0);
+					storage.setTvDateSelected(tvDate);
+				} else {
+					// TODO handle this...?
 				}
-			
+				break;
+			}
+
 			case TV_TAG: {
 				ArrayList<TVTag> tvTags = (ArrayList<TVTag>) content;
 				storage.setTvTags(tvTags);
@@ -437,15 +432,13 @@ public class ContentManager implements ContentCallbackListener {
 
 	private void handleTVChannelGuidesForSelectedDayResponse(ActivityCallbackListener activityCallBackListener, FetchRequestResultEnum result, Object content) {
 		if (result.wasSuccessful() && content != null) {
-			ArrayList<TVChannelGuide> tvChannelGuides = (ArrayList<TVChannelGuide>) content;
+			TVGuideAndTaggedBroadcasts tvGuideAndTaggedBroadcasts = (TVGuideAndTaggedBroadcasts) content;
 
-			TVDate tvDate = storage.getTvDateSelected();
-			TVGuide tvGuide = new TVGuide(tvDate, tvChannelGuides);
-
-			storage.addTVGuide(tvDate, tvGuide);
+			TVGuide tvGuide = tvGuideAndTaggedBroadcasts.getTvGuide();
+			HashMap<String, ArrayList<TVBroadcast>> mapTagToTaggedBroadcastForDate = tvGuideAndTaggedBroadcasts.getMapTagToTaggedBroadcastForDate();
 			
-			HashMap<String, ArrayList<TVBroadcast>> map = createTaggedBroadcastUsingTVGuide(tvGuide);
-//			storage.add
+			storage.addTVGuideForSelectedDay(tvGuide);
+			storage.addTaggedBroadcastsForSelectedDay(mapTagToTaggedBroadcastForDate);
 
 			activityCallBackListener.onResult(FetchRequestResultEnum.SUCCESS);
 		} else {
@@ -701,34 +694,6 @@ public class ContentManager implements ContentCallbackListener {
 	}
 
 	/* HELPER METHODS */
-	/* MAJOR HELPER METHODS */
-	public HashMap<String, ArrayList<TVBroadcast>> createTaggedBroadcastUsingTVGuide(TVGuide tvGuide) {
-		/* TVTag string representation is used as key */
-		ArrayList<TVTag> tvTags = getFromStorageTVTags();
-		
-		//TODO FIXME implement me, should be done in O(C*B*t), and not O(C*B*T*t) as in older version
-		//where C=number of TVChannelGuides, B=number of broadcasts, T=number of global visible tags, t=number of tags for broadcast
-		HashMap<String, ArrayList<TVBroadcast>> tagBroadcastMap = new HashMap<String, ArrayList<TVBroadcast>>();
-		
-		for(TVTag tvTag : tvTags) {
-			for(TVChannelGuide tvChannelGuide : tvGuide.getTvChannelGuides()) {
-				ArrayList<TVBroadcast> broadcasts = new ArrayList<TVBroadcast>(tvChannelGuide.getBroadcasts());
-				
-				for(TVBroadcast broadcast : broadcasts) {
-					TVProgram program = broadcast.getProgram();
-					ArrayList<String> tagNames = program.getTags();
-					for(String tagName : tagNames) {
-						
-					}
-					
-				}
-				
-			}
-		}
-		return tagBroadcastMap;
-	}
-	
-	/* MINOR HELPER METHODS */
 	public boolean checkApiVersion(String apiVersion) {
 		if (apiVersion != null && !TextUtils.isEmpty(apiVersion) && !apiVersion.equals(Consts.API_VERSION)) {
 			return true;

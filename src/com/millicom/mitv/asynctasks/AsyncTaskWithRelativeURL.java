@@ -24,7 +24,32 @@ public abstract class AsyncTaskWithRelativeURL<T>
 			HTTPRequestTypeEnum httpRequestType,
 			String url) 
 	{
-		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, httpRequestType, url, new URLParameters(), Collections.<String, String> emptyMap(), null);
+		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, null, false, httpRequestType, url);
+	}
+	
+	public AsyncTaskWithRelativeURL(
+			ContentCallbackListener contentCallbackListener,
+			ActivityCallbackListener activityCallBackListener,
+			RequestIdentifierEnum requestIdentifier,
+			Class<T> clazz,
+			boolean manualDeserialization,
+			HTTPRequestTypeEnum httpRequestType,
+			String url) 
+	{
+		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, url, new URLParameters(), Collections.<String, String> emptyMap(), null);
+	}
+	
+	public AsyncTaskWithRelativeURL(
+			ContentCallbackListener contentCallbackListener,
+			ActivityCallbackListener activityCallBackListener,
+			RequestIdentifierEnum requestIdentifier,
+			Class<T> clazz,
+			Class clazzSingle,
+			boolean manualDeserialization,
+			HTTPRequestTypeEnum httpRequestType,
+			String url) 
+	{
+		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, clazzSingle, manualDeserialization, httpRequestType, url, new URLParameters(), Collections.<String, String> emptyMap(), null);
 	}
 
 	
@@ -34,12 +59,14 @@ public abstract class AsyncTaskWithRelativeURL<T>
 			ActivityCallbackListener activityCallBackListener,
 			RequestIdentifierEnum requestIdentifier,
 			Class<T> clazz,
+			Class clazzSingle,
+			boolean manualDeserialization,
 			HTTPRequestTypeEnum httpRequestType,
 			String url,
 			URLParameters urlParameters,
 			Map<String, String> headerParameters,
 			String bodyContentData)
 	{
-		super(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, httpRequestType, true, url, urlParameters, headerParameters, bodyContentData);
+		super(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, clazzSingle, manualDeserialization, httpRequestType, true, url, urlParameters, headerParameters, bodyContentData);
 	}
 }

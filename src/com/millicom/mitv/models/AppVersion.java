@@ -41,7 +41,7 @@ public class AppVersion
 			
 			if(name.equalsIgnoreCase(Consts.JSON_VERSIONS_KEY_NAME))
 			{
-				value = name;
+				value = dataPart.getValue();
 				break;
 			}
 		}

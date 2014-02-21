@@ -19,7 +19,7 @@ public abstract class AsyncTaskWithUserToken<T>
 {	
 	private static final String TAG = AsyncTaskWithUserToken.class.getName();
 	
-	
+
 	
 	public AsyncTaskWithUserToken(
 			ContentCallbackListener contentCallbackListener,
@@ -29,10 +29,33 @@ public abstract class AsyncTaskWithUserToken<T>
 			HTTPRequestTypeEnum httpRequestType,
 			String urlSuffix) 
 	{
-		super(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, httpRequestType, urlSuffix);
+		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, null, false, httpRequestType, urlSuffix);
 	}
 
+	public AsyncTaskWithUserToken(
+			ContentCallbackListener contentCallbackListener,
+			ActivityCallbackListener activityCallBackListener, 
+			RequestIdentifierEnum requestIdentifier,
+			Class<T> clazz,
+			boolean manualDeserialization,
+			HTTPRequestTypeEnum httpRequestType,
+			String urlSuffix) 
+	{
+		super(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, urlSuffix);
+	}
 	
+	public AsyncTaskWithUserToken(
+			ContentCallbackListener contentCallbackListener,
+			ActivityCallbackListener activityCallBackListener, 
+			RequestIdentifierEnum requestIdentifier,
+			Class<T> clazz,
+			Class clazzSingle,
+			boolean manualDeserialization,
+			HTTPRequestTypeEnum httpRequestType,
+			String urlSuffix) 
+	{
+		super(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, clazzSingle, manualDeserialization, httpRequestType, urlSuffix);
+	}
 	
 	@Override
 	protected Void doInBackground(String... params) 
