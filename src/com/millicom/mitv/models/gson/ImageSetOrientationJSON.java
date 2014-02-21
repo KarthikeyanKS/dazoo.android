@@ -1,12 +1,14 @@
 package com.millicom.mitv.models.gson;
 
+import com.millicom.mitv.models.ImageSetSize;
 
-public class ImageSetOrientation {
+
+public class ImageSetOrientationJSON {
 	
 	private ImageSetSize landscape;
 	private ImageSetSize portrait;
 	
-	public ImageSetOrientation(
+	public ImageSetOrientationJSON(
 			String smallLandscape,
 			String mediumLandscape,
 			String largeLandscape,
@@ -19,7 +21,7 @@ public class ImageSetOrientation {
 		this.portrait = new ImageSetSize(smallPortrait, mediumPortrait, largePortrait);
 	}
 	
-	public ImageSetOrientation() 
+	public ImageSetOrientationJSON() 
 	{
 		this.landscape = new ImageSetSize();
 		
