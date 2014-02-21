@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.models.TVBroadcast;
+import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.customviews.ReminderView;
@@ -28,7 +29,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
-	private ArrayList<TVBroadcast>	mUpcomingEpisodes;
+	private ArrayList<TVBroadcastWithChannelInfo>	mUpcomingEpisodes;
 	private NotificationDataSource	mNotificationDataSource;
 	private int						mLastPosition	= -1;
 	private int 					mNotificationId = -1;
@@ -42,12 +43,12 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 
 	private int reminderPosition;
 
-	public UpcomingEpisodesListAdapter(Activity activity, ArrayList<TVBroadcast> upcomingBroadcasts, TVBroadcast runningBroadcast) {
+	public UpcomingEpisodesListAdapter(Activity activity, ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts, TVBroadcast runningBroadcast) {
 
 		boolean foundRunningBroadcast = false;
 		int indexOfRunningBroadcast = 0;
 		for (int i = 0; i < upcomingBroadcasts.size(); ++i) {
-			TVBroadcast repeatingBroadcast = upcomingBroadcasts.get(i);
+			TVBroadcastWithChannelInfo repeatingBroadcast = upcomingBroadcasts.get(i);
 			if (repeatingBroadcast.equals(mRunningBroadcast)) {
 				foundRunningBroadcast = true;
 				indexOfRunningBroadcast = i;
@@ -79,7 +80,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public TVBroadcast getItem(int position) {
+	public TVBroadcastWithChannelInfo getItem(int position) {
 		if (mUpcomingEpisodes != null) {
 			return mUpcomingEpisodes.get(position);
 		} else return null;
@@ -94,7 +95,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 
-		final TVBroadcast broadcast = getItem(position);
+		final TVBroadcastWithChannelInfo broadcast = getItem(position);
 		// Log.d(TAG, "broadcast: " + broadcast);
 
 		if (rowView == null) {

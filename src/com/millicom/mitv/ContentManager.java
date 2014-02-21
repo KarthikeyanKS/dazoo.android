@@ -628,21 +628,21 @@ public class ContentManager implements ContentCallbackListener {
 	}
 	
 	/* NON-PERSISTENT USER DATA, TEMPORARY SAVED IN STORAGE, IN ORDER TO PASS DATA BETWEEN ACTIVITES */
-	public void setUpcomingBroadcasts(ArrayList<TVBroadcast> upcomingBroadcasts) {
+	public void setUpcomingBroadcasts(ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts) {
 		storage.setNonPersistentDataUpcomingBroadcast(upcomingBroadcasts);
 	}
 	
-	public void setRepeatingBroadcasts(ArrayList<TVBroadcast> repeatingBroadcasts) {
+	public void setRepeatingBroadcasts(ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts) {
 		storage.setNonPersistentDataRepeatingBroadcast(repeatingBroadcasts);
 	}
 	
-	public ArrayList<TVBroadcast> getFromStorageUpcomingBroadcasts() {
-		ArrayList<TVBroadcast> upcomingBroadcasts = storage.getNonPersistentDataUpcomingBroadcast();
+	public ArrayList<TVBroadcastWithChannelInfo> getFromStorageUpcomingBroadcasts() {
+		ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts = storage.getNonPersistentDataUpcomingBroadcast();
 		return upcomingBroadcasts;
 	}
 	
-	public ArrayList<TVBroadcast> getFromStorageRepeatingBroadcasts() {
-		ArrayList<TVBroadcast> repeatingBroadcasts = storage.getNonPersistentDataRepeatingBroadcast();
+	public ArrayList<TVBroadcastWithChannelInfo> getFromStorageRepeatingBroadcasts() {
+		ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts = storage.getNonPersistentDataRepeatingBroadcast();
 		return repeatingBroadcasts;
 	}
 	

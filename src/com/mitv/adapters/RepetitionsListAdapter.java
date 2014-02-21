@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.models.TVBroadcast;
+import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
 import com.mitv.R;
@@ -28,7 +29,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
-	private ArrayList<TVBroadcast>	mRepeatingEpisodes;
+	private ArrayList<TVBroadcastWithChannelInfo>	mRepeatingEpisodes;
 	private NotificationDataSource	mNotificationDataSource;
 	private int						mLastPosition	= -1;
 	private int 					mNotificationId = -1;
@@ -42,13 +43,13 @@ public class RepetitionsListAdapter extends BaseAdapter {
 
 	private int reminderPosition;
 
-	public RepetitionsListAdapter(Activity activity, ArrayList<TVBroadcast> repeatingBroadcasts, TVProgram program, TVBroadcast runningBroadcast) {
+	public RepetitionsListAdapter(Activity activity, ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts, TVProgram program, TVBroadcast runningBroadcast) {
 
 		/* Remove running broadcast */
 		boolean foundRunningBroadcast = false;
 		int indexOfRunningBroadcast = 0;
 		for(int i = 0; i < repeatingBroadcasts.size(); ++i) {
-			TVBroadcast repeatingBroadcast = repeatingBroadcasts.get(i);
+			TVBroadcastWithChannelInfo repeatingBroadcast = repeatingBroadcasts.get(i);
 			if(repeatingBroadcast.equals(runningBroadcast)) {
 				foundRunningBroadcast = true;
 				indexOfRunningBroadcast = i;
@@ -81,7 +82,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public TVBroadcast getItem(int position) {
+	public TVBroadcastWithChannelInfo getItem(int position) {
 		if (mRepeatingEpisodes != null) {
 			return mRepeatingEpisodes.get(position);
 		} else return null;
@@ -96,7 +97,7 @@ public class RepetitionsListAdapter extends BaseAdapter {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 
-		final TVBroadcast broadcast = getItem(position);
+		final TVBroadcastWithChannelInfo broadcast = getItem(position);
 		//TODO why do this? Why should we need to set the program?
 //		broadcast.setProgram(mProgram);
 

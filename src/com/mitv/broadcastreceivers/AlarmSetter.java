@@ -5,11 +5,13 @@ package com.mitv.broadcastreceivers;
 
 import java.util.Calendar;
 import java.util.List;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+
 import com.millicom.mitv.enums.ProgramTypeEnum;
-import com.millicom.mitv.models.dto.TVBroadcastWithChannelInfoDTO;
+import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.dto.TVChannelDTO;
 import com.millicom.mitv.models.dto.TVProgramDTO;
 import com.millicom.mitv.models.dto.TVSeriesSeasonDTO;
@@ -57,7 +59,7 @@ public class AlarmSetter
 			// TODO - fetch this?
 			Calendar endTimeCalendar = null;
 						
-			TVBroadcastWithChannelInfoDTO broadcast = new TVBroadcastWithChannelInfoDTO();
+			TVBroadcastWithChannelInfo broadcast = new TVBroadcastWithChannelInfo();
 			
 			broadcast.setBeginTimeCalendar(beginTimeCalendar);
 			broadcast.setEndTimeCalendar(endTimeCalendar);

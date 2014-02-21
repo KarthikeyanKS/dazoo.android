@@ -74,8 +74,8 @@ public class Storage {
 	
 	/* NON-PERSISTENT USER DATA, USED FOR PASSING DATA BETWEEN ACTIVITIES */
 	private TVBroadcast nonPersistentSelectedBroadcast;
-	private ArrayList<TVBroadcast> nonPersistentUpcomingBroadcasts;
-	private ArrayList<TVBroadcast> nonPersistentRepeatingBroadcasts;
+	private ArrayList<TVBroadcastWithChannelInfo> nonPersistentUpcomingBroadcasts;
+	private ArrayList<TVBroadcastWithChannelInfo> nonPersistentRepeatingBroadcasts;
 	private Integer nonPersistentSelectedHour;
 	private TVChannelId nonPersistentSelectedTVChannelId;
 	
@@ -403,19 +403,19 @@ public class Storage {
 		this.nonPersistentSelectedHour = seletectedHour;
 	}
 	
-	public void setNonPersistentDataUpcomingBroadcast(ArrayList<TVBroadcast> nonPersistentUpcomingBroadcasts) {
+	public void setNonPersistentDataUpcomingBroadcast(ArrayList<TVBroadcastWithChannelInfo> nonPersistentUpcomingBroadcasts) {
 		this.nonPersistentUpcomingBroadcasts = nonPersistentUpcomingBroadcasts;
 	}
 	
-	public void setNonPersistentDataRepeatingBroadcast(ArrayList<TVBroadcast> nonPersistentRepeatingBroadcasts) {
+	public void setNonPersistentDataRepeatingBroadcast(ArrayList<TVBroadcastWithChannelInfo> nonPersistentRepeatingBroadcasts) {
 		this.nonPersistentRepeatingBroadcasts = nonPersistentRepeatingBroadcasts;
 	}
 	
-	public ArrayList<TVBroadcast> getNonPersistentDataRepeatingBroadcast() {
+	public ArrayList<TVBroadcastWithChannelInfo> getNonPersistentDataRepeatingBroadcast() {
 		return nonPersistentRepeatingBroadcasts;
 	}
 	
-	public ArrayList<TVBroadcast> getNonPersistentDataUpcomingBroadcast() {
+	public ArrayList<TVBroadcastWithChannelInfo> getNonPersistentDataUpcomingBroadcast() {
 		return nonPersistentUpcomingBroadcasts;
 	}
 	

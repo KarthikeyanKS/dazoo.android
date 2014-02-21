@@ -2,6 +2,7 @@ package com.mitv.notification;
 
 import java.util.Calendar;
 import java.util.Random;
+
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Dialog;
@@ -22,8 +23,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.models.TVBroadcast;
+import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
 import com.mitv.R;
@@ -36,7 +39,7 @@ public class NotificationService
 	public static Toast sToast;
 
 	
-	public static void setAlarm(Context context, TVBroadcast broadcast, int notificationId)
+	public static void setAlarm(Context context, TVBroadcastWithChannelInfo broadcast, int notificationId)
 	{
 		// Call alarm manager to set the notification at the certain time
 		Intent intent = getAlarmIntent(notificationId, broadcast);
@@ -51,7 +54,7 @@ public class NotificationService
 	}
 	
 	
-	private static Intent getAlarmIntent(int notificationId, TVBroadcast broadcast) 
+	private static Intent getAlarmIntent(int notificationId, TVBroadcastWithChannelInfo broadcast) 
 	{
 		Intent intent = new Intent(Consts.INTENT_NOTIFICATION);
 
@@ -69,7 +72,7 @@ public class NotificationService
 
 	
 	
-	public static void setAlarm(Context context, TVBroadcast broadcast) 
+	public static void setAlarm(Context context, TVBroadcastWithChannelInfo broadcast) 
 	{
 		Random random = new Random();
 		int notificationId = random.nextInt(Integer.MAX_VALUE);

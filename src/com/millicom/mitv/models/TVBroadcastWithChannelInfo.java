@@ -9,6 +9,8 @@ import com.millicom.mitv.models.gson.TVProgram;
 
 public class TVBroadcastWithChannelInfo extends TVBroadcastWithChannelInfoJSON {
 	
+	public TVBroadcastWithChannelInfo(){}
+	
 	public TVBroadcastWithChannelInfo(TVBroadcast broadcast) {
 		this.program = broadcast.getProgram();
 		this.beginTimeMillis = broadcast.getBeginTimeMillis();

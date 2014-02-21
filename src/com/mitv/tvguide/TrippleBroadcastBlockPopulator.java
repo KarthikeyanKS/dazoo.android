@@ -15,6 +15,7 @@ import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.activities.RepetitionsPageActivity;
 import com.millicom.mitv.activities.UpcomingEpisodesPageActivity;
 import com.millicom.mitv.models.TVBroadcast;
+import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
 import com.mitv.R;
@@ -27,7 +28,7 @@ public class TrippleBroadcastBlockPopulator {
 	private Activity mActivity;
 	private ScrollView mContainerView;
 	private TVBroadcast mRunningBroadcast;
-	private ArrayList<TVBroadcast> mBroadcasts;
+	private ArrayList<TVBroadcastWithChannelInfo> mBroadcasts;
 	private ReminderView reminderViewOne, reminderViewTwo, reminderViewThree;
 	private View dividerView;
 
@@ -43,9 +44,9 @@ public class TrippleBroadcastBlockPopulator {
 		this.mUsedForRepetitions = usedForRepetitions;
 	}
 
-	public void populatePartOfBlock(final int position, ArrayList<TVBroadcast> broadcastList, final TVProgram program, View topContentView) {
+	public void populatePartOfBlock(final int position, ArrayList<TVBroadcastWithChannelInfo> broadcastList, final TVProgram program, View topContentView) {
 		if (broadcastList.size() > position && broadcastList.get(position) != null) {
-			final TVBroadcast broadcast = broadcastList.get(position);
+			final TVBroadcastWithChannelInfo broadcast = broadcastList.get(position);
 			LinearLayout mContainer = null;
 
 			switch (position) {
@@ -141,12 +142,12 @@ public class TrippleBroadcastBlockPopulator {
 		}
 	}
 
-	public void createBlock(final ArrayList<TVBroadcast> repeatingOrUpcomingBroadcasts, final TVProgram program) {
+	public void createBlock(final ArrayList<TVBroadcastWithChannelInfo> repeatingOrUpcomingBroadcasts, final TVProgram program) {
 		/* Remove running broadcast */
 		boolean foundRunningBroadcast = false;
 		int indexOfRunningBroadcast = 0;
 		for (int i = 0; i < repeatingOrUpcomingBroadcasts.size(); ++i) {
-			TVBroadcast repeatingBroadcast = repeatingOrUpcomingBroadcasts.get(i);
+			TVBroadcastWithChannelInfo repeatingBroadcast = repeatingOrUpcomingBroadcasts.get(i);
 			if (repeatingBroadcast.equals(mRunningBroadcast)) {
 				foundRunningBroadcast = true;
 				indexOfRunningBroadcast = i;
