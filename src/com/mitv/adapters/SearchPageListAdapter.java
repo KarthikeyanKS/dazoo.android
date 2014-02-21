@@ -9,7 +9,6 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +18,10 @@ import android.widget.Filterable;
 import android.widget.LinearLayout;
 
 import com.androidquery.AQuery;
-import com.androidquery.callback.AjaxStatus;
 import com.millicom.mitv.activities.SearchPageActivity;
 import com.millicom.mitv.enums.ContentTypeEnum;
+import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
+import com.millicom.mitv.models.TVSearchResult;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -38,10 +38,10 @@ import com.mitv.model.OldSearchResultItem;
 import com.mitv.model.OldSeries;
 import com.mitv.model.OldTVChannel;
 
-public class SearchPageListAdapter extends ArrayAdapter<OldSearchResultItem> implements Filterable {
-	private static final String TAG = "SearchListAdapter";
+public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implements Filterable {
+	private static final String TAG = SearchPageListAdapter.class.getName();
 	
-	private ArrayList<OldSearchResultItem> mSearchResultItems;
+	private ArrayList<TVSearchResult> mSearchResultItems;
 	private String mQuery;
 	private String mLastSearch = "";
 	private Context mContext;
@@ -76,8 +76,8 @@ public class SearchPageListAdapter extends ArrayAdapter<OldSearchResultItem> imp
 	
 
 	@Override
-	public OldSearchResultItem getItem(int position) {
-		OldSearchResultItem item = null;
+	public TVSearchResult getItem(int position) {
+		TVSearchResult item = null;
 		if(mSearchResultItems != null) {
 			if(mSearchResultItems.size() > 0) {
 				item = mSearchResultItems.get(position);
@@ -91,18 +91,18 @@ public class SearchPageListAdapter extends ArrayAdapter<OldSearchResultItem> imp
 		return -1;
 	}
 	
-	public ArrayList<OldSearchResultItem> getSearchResultItems() {
+	public ArrayList<TVSearchResult> getSearchResultItems() {
 		return mSearchResultItems;
 	}
 
-	public void setSearchResultItems(ArrayList<OldSearchResultItem> searchResultItems) {
+	public void setSearchResultItems(ArrayList<TVSearchResult> searchResultItems) {
 		this.mSearchResultItems = searchResultItems;
 	}
 	
 
 	
-	private void setTimeString(ViewHolder viewHolder, OldSearchResultItem resultItem) {
-		OldBroadcast closestBroadcastInTime = resultItem.getNextBroadcast();
+	private void setTimeString(ViewHolder viewHolder, TVSearchResult resultItem) {
+		TVBroadcastWithChannelInfo closestBroadcastInTime = resultItem.getNextBroadcast();
 
 
 		String timeString = "";

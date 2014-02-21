@@ -8,20 +8,20 @@ import com.millicom.mitv.interfaces.GSONDataFieldValidation;
 
 
 
-public class TVSearchResult
+public class TVSearchResultJSON
 	implements GSONDataFieldValidation
 {
-	private String displayText;
+	protected String displayText;
 	
-	private int searchScore;
+	protected int searchScore;
 	
-	private String entityType;
+	protected String entityType;
 	
-	private TVSearchResultEntity entity;
+	protected TVSearchResultEntity entity;
 	
 	
 	
-	public TVSearchResult()
+	public TVSearchResultJSON()
 	{}
 	
 

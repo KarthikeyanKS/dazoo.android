@@ -74,12 +74,12 @@ public class Storage {
 	
 	/* NON-PERSISTENT USER DATA, USED FOR PASSING DATA BETWEEN ACTIVITIES */
 	private TVBroadcast nonPersistentSelectedBroadcast;
+	private TVBroadcastWithChannelInfo nonPersistentSelectedBroadcastWithChannelInfo;
 	private ArrayList<TVBroadcastWithChannelInfo> nonPersistentUpcomingBroadcasts;
 	private ArrayList<TVBroadcastWithChannelInfo> nonPersistentRepeatingBroadcasts;
 	private Integer nonPersistentSelectedHour;
 	private TVChannelId nonPersistentSelectedTVChannelId;
-	
-	
+		
 	/* Should only be used by the ContentManager */
 	public Storage() {
 		this.tvGuides = new HashMap<String, TVGuide>();
@@ -425,6 +425,14 @@ public class Storage {
 	
 	public TVBroadcast getNonPersistentSelectedBroadcast() {
 		return nonPersistentSelectedBroadcast;
+	}
+	
+	public void setNonPersistentSelectedBroadcastWithChannelInfo(TVBroadcastWithChannelInfo nonPersistentSelectedBroadcastWithChannelInfo) {
+		this.nonPersistentSelectedBroadcastWithChannelInfo = nonPersistentSelectedBroadcastWithChannelInfo;
+	}
+	
+	public TVBroadcastWithChannelInfo getNonPersistentSelectedBroadcastWithChannelInfo() {
+		return nonPersistentSelectedBroadcastWithChannelInfo;
 	}
 	
 	public void setNonPersistentTVChannelId(TVChannelId tvChannelId) {

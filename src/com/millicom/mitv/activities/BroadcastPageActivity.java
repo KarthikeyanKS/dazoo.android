@@ -5,12 +5,10 @@ import java.util.LinkedList;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,11 +19,11 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.millicom.mitv.ContentManager;
+import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.utilities.NetworkUtils;
 import com.mitv.Consts;
-import com.mitv.R;
-import com.mitv.SecondScreenApplication;
 import com.mitv.Consts.REQUEST_STATUS;
+import com.mitv.R;
 import com.mitv.content.SSBroadcastPage;
 import com.mitv.content.SSBroadcastsFromProgramPage;
 import com.mitv.content.SSBroadcastsFromSeriesPage;
@@ -33,13 +31,11 @@ import com.mitv.content.SSPageCallback;
 import com.mitv.content.SSPageGetResult;
 import com.mitv.manager.InternalTrackingManager;
 import com.mitv.model.OldBroadcast;
-import com.mitv.model.OldTVChannel;
 import com.mitv.model.OldProgram;
+import com.mitv.model.OldTVChannel;
 import com.mitv.model.OldTVDate;
 import com.mitv.storage.MiTVStore;
 import com.mitv.tvguide.BroadcastMainBlockPopulator;
-import com.mitv.tvguide.BroadcastRepetitionsBlockPopulator;
-import com.mitv.tvguide.BroadcastUpcomingBlockPopulator;
 import com.mitv.utilities.OldDateUtilities;
 
 public class BroadcastPageActivity extends BaseActivity implements OnClickListener {
@@ -90,7 +86,7 @@ public class BroadcastPageActivity extends BaseActivity implements OnClickListen
 			mActivityCardNumber = intent.getIntExtra(Consts.INTENT_EXTRA_ACTIVITY_CARD_NUMBER, -1);
 		} else {
 			//TODO handle this, read date from ContentManager, the nonpersistent tmp set data....
-//			Broadcast broadcast
+			TVBroadcastWithChannelInfo broadcastWithChannelInfo = ContentManager.sharedInstance().getFromStorageSelectedBroadcastWithChannelInfo();
 		}
 
 		Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!");

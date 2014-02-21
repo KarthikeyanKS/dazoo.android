@@ -13,11 +13,11 @@ import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 public class TVSearchResultEntity
 	implements GSONDataFieldValidation
 {
-	private String id;
+	protected String id;
 	
-	private String name;
+	protected String name;
 	
-	private ArrayList<TVBroadcastWithChannelInfo> broadcasts;
+	protected ArrayList<TVBroadcastWithChannelInfo> broadcasts;
 	
 	
 	
