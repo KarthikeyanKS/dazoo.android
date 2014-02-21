@@ -6,12 +6,12 @@ package com.millicom.mitv.models;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
-
 import android.content.Context;
-
+import android.content.res.Resources;
 import com.millicom.mitv.models.gson.BroadcastJSON;
 import com.millicom.mitv.utilities.DateUtils;
 import com.mitv.Consts;
+import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 
 
@@ -94,7 +94,7 @@ public class TVBroadcast
 	{
 		if(durationInMinutes == NO_INT_VALUE_SET)
 		{		    
-		    durationInMinutes = DateUtils.calculateDifferenceInMinutesBetween(getBeginTimeCalendar(), getEndTimeCalendar(), false, 0);
+		    durationInMinutes = DateUtils.calculateDifferenceBetween(getBeginTimeCalendar(), getEndTimeCalendar(), Calendar.MINUTE, false, 0);
 		}
 
 	    return durationInMinutes;
@@ -106,7 +106,7 @@ public class TVBroadcast
 	{
 		Calendar now = Calendar.getInstance();
 		
-	    int elapsedMinutesSinceBroadcastStarted = DateUtils.calculateDifferenceInMinutesBetween(getBeginTimeCalendar(), now, false, 0);
+	    int elapsedMinutesSinceBroadcastStarted = DateUtils.calculateDifferenceBetween(getBeginTimeCalendar(), now, Calendar.MINUTE, false, 0);
 	    
 	    return elapsedMinutesSinceBroadcastStarted;
 	}
@@ -117,7 +117,7 @@ public class TVBroadcast
 	{	    
 	    Calendar now = Calendar.getInstance();
 		
-	    int elapsedMinutesSinceBroadcastStarted = DateUtils.calculateDifferenceInMinutesBetween(now, getEndTimeCalendar(), false, 0);
+	    int elapsedMinutesSinceBroadcastStarted = DateUtils.calculateDifferenceBetween(now, getEndTimeCalendar(), Calendar.MINUTE, false, 0);
 	    
 	    return elapsedMinutesSinceBroadcastStarted;
 	}
@@ -290,6 +290,61 @@ public class TVBroadcast
 		sb.append(dayOfTheWeekAsString);
 		sb.append(", ");
 		sb.append(timeOfDayAsString);
+		
+		return sb.toString();
+	}
+	
+	
+	
+	public String getStartingTimeAsString()
+	{
+		Resources res = SecondScreenApplication.getInstance().getApplicationContext().getResources();
+		
+		StringBuilder sb = new StringBuilder();
+		
+		Calendar now = Calendar.getInstance();
+
+		int daysLeft = DateUtils.calculateDifferenceBetween(getBeginTimeCalendar(), now, Calendar.DAY_OF_MONTH, false, 0);
+
+		if(daysLeft > 0)
+		{
+			sb.append(res.getString(R.string.search_starts_in));
+			sb.append(" ");
+			sb.append(daysLeft);
+			sb.append(" ");
+			sb.append(res.getQuantityString(R.plurals.day, daysLeft));
+		} 
+		else 
+		{
+			int hoursLeft = DateUtils.calculateDifferenceBetween(getBeginTimeCalendar(), now, Calendar.HOUR_OF_DAY, false, 0);
+
+			if(hoursLeft > 0) 
+			{
+				sb.append(res.getString(R.string.search_starts_in));
+				sb.append(" ");
+				sb.append(hoursLeft);
+				sb.append(" ");
+				sb.append(res.getQuantityString(R.plurals.hour, hoursLeft));
+			} 
+			else 
+			{
+				int minutesLeft = DateUtils.calculateDifferenceBetween(getBeginTimeCalendar(), now, Calendar.MINUTE, false, 0);
+
+				if(minutesLeft > 0) 
+				{
+					sb.append(res.getString(R.string.search_starts_in));
+					sb.append(" ");
+					sb.append(minutesLeft);
+					sb.append(" ");
+					sb.append(res.getString(R.string.minutes));
+				} 
+				else 
+				{
+					// TODO NewArc - Move this into resources
+					sb.append("Has finished");
+				}
+			}
+		}
 		
 		return sb.toString();
 	}
