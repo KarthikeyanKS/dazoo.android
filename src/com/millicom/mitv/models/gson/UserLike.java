@@ -5,7 +5,6 @@ package com.millicom.mitv.models.gson;
 
 import java.lang.reflect.Type;
 import java.util.Comparator;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -17,7 +16,6 @@ import com.google.gson.annotations.Expose;
 import com.millicom.mitv.enums.LikeTypeResponseEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.mitv.Consts;
-import com.mitv.model.OldTVLike;
 
 
 

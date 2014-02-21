@@ -296,6 +296,11 @@ public class TVBroadcast
 	
 	
 	
+	/*
+	 * Returns a string representation of the total amount of time remaining for the broadcast to begin.
+	 * The representation can contain a formated number of days, hours, minutes, or if the broadcast is already finished.
+	 * 
+	 */
 	public String getStartingTimeAsString()
 	{
 		Resources res = SecondScreenApplication.getInstance().getApplicationContext().getResources();
