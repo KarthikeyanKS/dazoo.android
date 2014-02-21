@@ -18,11 +18,10 @@ import com.millicom.mitv.activities.PopularPageActivity;
 import com.millicom.mitv.enums.FeedItemTypeEnum;
 import com.millicom.mitv.enums.LikeTypeResponseEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
-import com.millicom.mitv.models.TVBroadcast;
+import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.gson.TVFeedItem;
 import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
-import com.mitv.LikeService;
 import com.mitv.R;
 import com.mitv.customviews.ReminderView;
 import com.mitv.storage.MiTVStore;
@@ -109,7 +108,7 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 		}
 	}
 
-	public void populatePopularItemAtIndex(PopularBroadcastsViewHolder viewHolder, ArrayList<TVBroadcast> broadcasts, int popularRowIndex) {
+	public void populatePopularItemAtIndex(PopularBroadcastsViewHolder viewHolder, ArrayList<TVBroadcastWithChannelInfo> broadcasts, int popularRowIndex) {
 		ImageView imageView = null;
 		TextView title = null;
 		TextView time = null;
@@ -156,7 +155,7 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 		}
 
 		if (popularRowIndex < broadcasts.size()) {
-			final TVBroadcast broadcast = broadcasts.get(popularRowIndex);
+			final TVBroadcastWithChannelInfo broadcast = broadcasts.get(popularRowIndex);
 			if (broadcast != null) 
 			{
 				final TVProgram program = broadcast.getProgram();
@@ -228,7 +227,7 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 		}
 	}
 
-	private void popularBroadcastClicked(TVBroadcast broadcast) 
+	private void popularBroadcastClicked(TVBroadcastWithChannelInfo broadcast) 
 	{
 		Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
 		intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
@@ -252,7 +251,7 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 		return rowView;
 	}
 	
-	private View populateSingleBroadcastCell(View rowView, final TVBroadcast broadcast, int position, TVFeedItem feedItem) 
+	private View populateSingleBroadcastCell(View rowView, final TVBroadcastWithChannelInfo broadcast, int position, TVFeedItem feedItem) 
 	{
 		final TVProgram program = broadcast.getProgram();
 		
@@ -430,7 +429,7 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 		return rowView;
 	}
 	
-	private View populateMultipleBroadcastsCell(View rowView, ArrayList<TVBroadcast> broadcasts) {
+	private View populateMultipleBroadcastsCell(View rowView, ArrayList<TVBroadcastWithChannelInfo> broadcasts) {
 		if (rowView == null) {
 			PopularBroadcastsViewHolder viewHolder = new PopularBroadcastsViewHolder();
 			rowView = mLayoutInflater.inflate(R.layout.block_feed_popular, null);
@@ -512,7 +511,7 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 		case ITEM_TYPE_POPULAR_BROADCAST:
 		case ITEM_TYPE_BROADCAST:
 			/* One broadcast */
-			final TVBroadcast broadcast = feedItem.getBroadcast();
+			final TVBroadcastWithChannelInfo broadcast = feedItem.getBroadcast();
 
 			if (broadcast != null) {
 				rowView = populateSingleBroadcastCell(rowView, broadcast, position, feedItem);
@@ -521,7 +520,7 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 
 		case ITEM_TYPE_POPULAR_BROADCASTS:
 
-			final ArrayList<TVBroadcast> broadcasts = new ArrayList<TVBroadcast>(feedItem.getBroadcasts());
+			final ArrayList<TVBroadcastWithChannelInfo> broadcasts = new ArrayList<TVBroadcastWithChannelInfo>(feedItem.getBroadcasts());
 
 			if (broadcasts != null && broadcasts.size() > 0) {
 				rowView = populateMultipleBroadcastsCell(rowView, broadcasts);

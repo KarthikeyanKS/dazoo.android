@@ -304,12 +304,6 @@ public class TVBroadcast
 		return null;
 	}
 	
-	public TVChannel getChannel() 
-	{
-		// TODO implement or delete me
-		return null;
-	}
-
 	public String getBeginTimeStringLocalHourAndMinute() {
 		// TODO implement or delete me
 		return null;

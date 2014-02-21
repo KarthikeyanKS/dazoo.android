@@ -12,6 +12,7 @@ import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.models.AppVersion;
 import com.millicom.mitv.models.TVBroadcast;
+import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.TVGuideAndTaggedBroadcasts;
 import com.millicom.mitv.models.gson.AppConfigurationJSON;
@@ -64,6 +65,14 @@ public class ContentManager implements ContentCallbackListener {
 		return sharedInstance;
 	}
 
+	private void getElseFetchFromServiceTVData(ActivityCallbackListener activityCallBackListener, boolean forceDownload) {
+		if(!forceDownload && storage.containsTVGuideForSelectedDay()) {
+			activityCallBackListener.onResult(FetchRequestResultEnum.SUCCESS);
+		} else {
+			fetchFromServiceTVDataOnFirstStart(activityCallBackListener);
+		}
+	}
+	
 	/*
 	 * METHODS FOR FETCHING DATA FROM BACKEND USING THE API CLIENT, NEVER USE
 	 * THOSE EXTERNALLY, ALL SHOULD BE PRIVATE
@@ -341,7 +350,7 @@ public class ContentManager implements ContentCallbackListener {
 				if (!apiTooOld) 
 				{
 					/* App version not too old, continue fetching tv data */
-					fetchFromServiceTVDataOnFirstStart(activityCallBackListener);
+					getElseFetchFromServiceTVData(activityCallBackListener, false);
 				} 
 				else 
 				{
@@ -435,7 +444,7 @@ public class ContentManager implements ContentCallbackListener {
 			TVGuideAndTaggedBroadcasts tvGuideAndTaggedBroadcasts = (TVGuideAndTaggedBroadcasts) content;
 
 			TVGuide tvGuide = tvGuideAndTaggedBroadcasts.getTvGuide();
-			HashMap<String, ArrayList<TVBroadcast>> mapTagToTaggedBroadcastForDate = tvGuideAndTaggedBroadcasts.getMapTagToTaggedBroadcastForDate();
+			HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> mapTagToTaggedBroadcastForDate = tvGuideAndTaggedBroadcasts.getMapTagToTaggedBroadcastForDate();
 			
 			storage.addTVGuideForSelectedDay(tvGuide);
 			storage.addTaggedBroadcastsForSelectedDay(mapTagToTaggedBroadcastForDate);
@@ -647,7 +656,7 @@ public class ContentManager implements ContentCallbackListener {
 		return runningBroadcast;
 	}
 	
-	public ArrayList<TVBroadcast> getFromStorageTaggedBroadcastsForSelectedTVDate() {
+	public HashMap<String, ArrayList<TVBroadcast>> getFromStorageTaggedBroadcastsForSelectedTVDate() {
 		TVDate tvDate = getFromStorageTVDateSelected();
 		return getFromStorageTaggedBroadcastsUsingTVDate(tvDate);
 	}
@@ -690,17 +699,22 @@ public class ContentManager implements ContentCallbackListener {
 		return userId;
 	}
 		
-	// TODO Change the ChannelId to an Object instead of a String?
-	public TVChannel getTVChannelById(String channelId)
+	// TODO remove this?
+	public TVChannel getFromStorageTVChannelById(String channelId)
 	{
 		TVChannelId tvChannelId = new TVChannelId(channelId);
-		
+		return getFromStorageTVChannelById(tvChannelId);
+	}
+	
+	public TVChannel getFromStorageTVChannelById(TVChannelId tvChannelId)
+	{
 		return storage.getTVChannelById(tvChannelId);
 	}
 	
-	public ArrayList<TVBroadcast> getFromStorageTaggedBroadcastsUsingTVDate(TVDate tvDate) {
-		//TODO implement me!!!
-		return null;
+	
+	public HashMap<String, ArrayList<TVBroadcast>> getFromStorageTaggedBroadcastsUsingTVDate(TVDate tvDate) {
+		HashMap<String, ArrayList<TVBroadcast>> taggedBroadcasts = storage.getTaggedBroadcastsUsingTVDate(tvDate);
+		return taggedBroadcasts;
 	}
 	
 	public ArrayList<TVBroadcastWithProgramAndChannelInfo> getFromStoragePopularBroadcasts() {

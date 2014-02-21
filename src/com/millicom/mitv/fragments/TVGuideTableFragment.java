@@ -48,7 +48,7 @@ public class TVGuideTableFragment extends BaseFragment implements ActivityCallba
 	private ImageView				mClockIv;
 	private ArrayList<TVChannelGuide>		mGuides;
 //	private TVDate					mTvDate;
-//	private TVTag						mTag;
+	private String						mTag;
 //	private int						mTvDatePosition;
 	private SwipeClockBar			mSwipeClockBar;
 	private TVGuideListAdapter		mTVGuideListAdapter;
@@ -91,7 +91,8 @@ public class TVGuideTableFragment extends BaseFragment implements ActivityCallba
 		Bundle bundle = new Bundle();
 //		bundle.putParcelable(Consts.FRAGMENT_EXTRA_TVDATE, date.getId());
 //		bundle.putInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION, position);
-		bundle.putString(Consts.FRAGMENT_EXTRA_TAG, tag.getDisplayName());
+		bundle.putString(Consts.FRAGMENT_EXTRA_TAG_DISPLAY_NAME, tag.getDisplayName());
+		bundle.putString(Consts.FRAGMENT_EXTRA_TAG_ID, tag.getId());
 		fragment.setArguments(bundle);
 		return fragment;
 	}
@@ -102,14 +103,15 @@ public class TVGuideTableFragment extends BaseFragment implements ActivityCallba
 		
 		initBroadcastReceivers();
 
-		mitvStore = MiTVStore.getInstance();
+//		mitvStore = MiTVStore.getInstance();
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		Bundle bundle = getArguments();
-		mTagStr = bundle.getString(Consts.FRAGMENT_EXTRA_TAG);
+		mTagStr = bundle.getString(Consts.FRAGMENT_EXTRA_TAG_DISPLAY_NAME);
+		mTag = bundle.getString(Consts.FRAGMENT_EXTRA_TAG_ID);
 //		mTvDate = bundle.getParcelable(Consts.FRAGMENT_EXTRA_TVDATE);
 //		mTvDatePosition = bundle.getInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION);
 //		mTag = mitvStore.getTag(mTagStr);
@@ -321,7 +323,8 @@ public class TVGuideTableFragment extends BaseFragment implements ActivityCallba
 			mGuides = tvGuideForSelectedDay.getTvChannelGuides();
 		} else {
 //			mTaggedBroadcasts = mitvStore.getTaggedBroadcasts(mTvDate, mTag);
-			mTaggedBroadcasts = ContentManager.sharedInstance().getFromStorageTaggedBroadcastsForSelectedTVDate();
+			HashMap<String, ArrayList<TVBroadcast>> taggedBroadcastForDay = ContentManager.sharedInstance().getFromStorageTaggedBroadcastsForSelectedTVDate();
+			mTaggedBroadcasts = taggedBroadcastForDay.get(mTag);
 		}
 		} else {
 			//TODO fix me!

@@ -9,6 +9,7 @@ import android.util.SparseArray;
 
 import com.millicom.mitv.models.AppVersion;
 import com.millicom.mitv.models.TVBroadcast;
+import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.gson.AdzerkAdJSON;
 import com.millicom.mitv.models.gson.AppConfigurationJSON;
@@ -53,7 +54,7 @@ public class Storage {
 	 * "SPORT" = [BroadcastX, BroadcastY]} 
 	 * 
 	 * */
-	private HashMap<String, HashMap<String, ArrayList<TVBroadcast>>> taggedBroadcastsForAllDays;
+	private HashMap<String, HashMap<String, ArrayList<TVBroadcastWithChannelInfo>>> taggedBroadcastsForAllDays;
 	
 	private ArrayList<UserLike> userLikes;
 	
@@ -188,7 +189,11 @@ public class Storage {
 	}
 
 	public String getUserToken() {
-		return userData.getToken();
+		String userToken = null;
+		if(userData != null) {
+			userToken = userData.getToken();
+		}
+		return userToken;
 	}
 	
 	public String getUserLastname() {
@@ -298,14 +303,14 @@ public class Storage {
 		return taggedBroadcastsForAllDays;
 	}
 	
-	public void addTaggedBroadcastsForSelectedDay(HashMap<String, ArrayList<TVBroadcast>> taggedBroadcastForDay) {
+	public void addTaggedBroadcastsForSelectedDay(HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay) {
 		TVDate tvDate = getTvDateSelected();
 		addTaggedBroadcastsForDay(taggedBroadcastForDay, tvDate);
 	}
 	
-	public void addTaggedBroadcastsForDay(HashMap<String, ArrayList<TVBroadcast>> taggedBroadcastForDay, TVDate tvDate) {
+	public void addTaggedBroadcastsForDay(HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay, TVDate tvDate) {
 		if(taggedBroadcastsForAllDays == null) {
-			taggedBroadcastsForAllDays = new HashMap<String, HashMap<String, ArrayList<TVBroadcast>>>();
+			taggedBroadcastsForAllDays = new HashMap<String, HashMap<String, ArrayList<TVBroadcastWithChannelInfo>>>();
 		}
 		taggedBroadcastsForAllDays.put(tvDate.getId(), taggedBroadcastForDay);
 	}
@@ -330,6 +335,15 @@ public class Storage {
 		return containsTVChannels;
 	}
 	
+	public boolean containsTVGuideForSelectedDay() {
+		TVDate tvDate = getTvDateSelected();
+		boolean containsTVGuideForSelectedDay = false;
+		if(tvDate != null) {
+			containsTVGuideForSelectedDay = containsTVGuideForTVDate(tvDate);
+		}
+		return containsTVGuideForSelectedDay;
+	}
+	
 	public boolean containsTVGuideForTVDate(TVDate tvDate) {
 		TVGuide tvGuide = getTVGuideUsingTVDate(tvDate);
 		boolean containsTVGuideForTVDate = (tvGuide != null);
@@ -337,7 +351,10 @@ public class Storage {
 	}
 	
 	public boolean containsTaggedBroadcastsForTVDate(TVDate tvDate) {
-		boolean containsTaggedBroadcastsForTVDate = taggedBroadcastsForAllDays.containsKey(tvDate.getId());
+		boolean containsTaggedBroadcastsForTVDate = false;
+		if(taggedBroadcastsForAllDays != null) {
+			containsTaggedBroadcastsForTVDate = taggedBroadcastsForAllDays.containsKey(tvDate.getId());
+		}
 		return containsTaggedBroadcastsForTVDate;
 	}
 	
