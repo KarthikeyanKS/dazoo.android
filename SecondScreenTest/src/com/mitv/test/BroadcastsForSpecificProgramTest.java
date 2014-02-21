@@ -30,7 +30,7 @@ import com.mitv.Consts;
  * @author atsampikakis
  *
  */
-public class TVBroadcastWithChannelInfoTest extends TestBaseWithGuide {
+public class BroadcastsForSpecificProgramTest extends TestBaseWithGuide {
 	
 	private List<TVBroadcastWithChannelInfo> tvProgramBroadcasts;
 	private static final String	TAG	= "TVBroadcastProgramTest";

@@ -13,7 +13,8 @@ import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.models.ImageSetOrientation;
 import com.millicom.mitv.models.TVBroadcast;
-import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
+import com.millicom.mitv.models.gson.ImageSetOrientation;
+import com.millicom.mitv.models.gson.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVCredit;
@@ -31,12 +32,12 @@ import com.mitv.Consts;
  * @author atsampikakis
  *
  */
-public class TVBroadcastWithProgramAndChannelInfoTest 
+public class BroadcastsWithChannelInfoTest 
 	extends TestBaseWithGuide 
 {
 	private static final String	TAG	= "TVBroadcastDetailsTest";
 	
-	private TVBroadcastWithProgramAndChannelInfo tvBroadcastWithChannelAndProgramInfo;
+	private TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo;
 	
 	@Override
 	protected void setUp() throws Exception {
@@ -62,7 +63,7 @@ public class TVBroadcastWithProgramAndChannelInfoTest
 				
 		try
 		{
-			tvBroadcastWithChannelAndProgramInfo = new Gson().fromJson(jsonString, TVBroadcastWithProgramAndChannelInfo.class);
+			tvBroadcastWithChannelInfo = new Gson().fromJson(jsonString, TVBroadcastWithChannelInfo.class);
 		}
 		catch(JsonSyntaxException jsex)
 		{
@@ -72,17 +73,17 @@ public class TVBroadcastWithProgramAndChannelInfoTest
 
 	@Test
 	public void testNotNull() {
-		Assert.assertNotNull(tvBroadcastWithChannelAndProgramInfo);
+		Assert.assertNotNull(tvBroadcastWithChannelInfo);
 	}
 	
 	@Test
 	public void testAllVariablesNotNull() {
-		TVBroadcastWithChannelInfoTest.testBroadcast(tvBroadcastWithChannelAndProgramInfo);
+		BroadcastsForSpecificProgramTest.testBroadcast(tvBroadcastWithChannelInfo);
 		
-		TVChannel tvChannel = tvBroadcastWithChannelAndProgramInfo.getChannel();
+		TVChannel tvChannel = tvBroadcastWithChannelInfo.getChannel();
 		TVChannelGSONTest.testTVChannelObject(tvChannel);
 		
-		TVProgram tvProgram = tvBroadcastWithChannelAndProgramInfo.getProgram();
+		TVProgram tvProgram = tvBroadcastWithChannelInfo.getProgram();
 		testTVProgram(tvProgram);
 	}
 	
@@ -95,10 +96,10 @@ public class TVBroadcastWithProgramAndChannelInfoTest
 		Assert.assertFalse(TextUtils.isEmpty(program.getTitle()));
 		
 		Assert.assertNotNull(program.getSynopsisShort());
-		Assert.assertFalse(TextUtils.isEmpty(program.getSynopsisShort()));
+		/* Sometimes short synopsis is empty, do not assert that it is not empty */
 		
 		Assert.assertNotNull(program.getSynopsisLong());
-		Assert.assertFalse(TextUtils.isEmpty(program.getSynopsisLong()));
+		/* Sometimes long synopsis is empty, do not assert that it is not empty */
 		
 		/* All program types - Images */
 		ImageSetOrientation images = program.getImages();

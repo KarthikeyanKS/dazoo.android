@@ -42,11 +42,11 @@ public class TVFeedItem
 	
 	/* This variable is used if itemType == "BROADCAST" or itemType == "RECOMMENDED_BROADCAST" or itemType == "POPULAR_BROADCAST" or itemType == "POPULAR_TWITTER" */
 	@Expose (deserialize = false)
-	private TVBroadcast broadcast;
+	private TVBroadcastWithChannelInfo broadcast;
 	
 	/* This variable is used if itemType == "POPULAR_BROADCASTS" */
 	@Expose (deserialize = false)
-	private List<TVBroadcast> broadcasts;
+	private List<TVBroadcastWithChannelInfo> broadcasts;
 	
 	
 	
@@ -86,7 +86,7 @@ public class TVFeedItem
 				
 				try
 				{
-					broadcast = gson.fromJson(jsonBroadcastElement, TVBroadcast.class);
+					broadcast = gson.fromJson(jsonBroadcastElement, TVBroadcastWithChannelInfo.class);
 				}
 				catch(JsonSyntaxException jsex)
 				{
@@ -105,7 +105,7 @@ public class TVFeedItem
 				
 				try
 				{
-					broadcasts = Arrays.asList(gson.fromJson(jsonBroadcastsElement, TVBroadcast[].class));
+					broadcasts = Arrays.asList(gson.fromJson(jsonBroadcastsElement, TVBroadcastWithChannelInfo[].class));
 				}
 				catch(JsonSyntaxException jsex)
 				{
@@ -143,13 +143,13 @@ public class TVFeedItem
 
 
 
-	public TVBroadcast getBroadcast() {
+	public TVBroadcastWithChannelInfo getBroadcast() {
 		return broadcast;
 	}
 
 
 
-	public List<TVBroadcast> getBroadcasts() {
+	public List<TVBroadcastWithChannelInfo> getBroadcasts() {
 		return broadcasts;
 	}
 }

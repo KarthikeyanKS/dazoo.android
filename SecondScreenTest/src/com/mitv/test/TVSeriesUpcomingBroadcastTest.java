@@ -88,7 +88,7 @@ public class TVSeriesUpcomingBroadcastTest extends TestBaseWithGuide {
 			TVChannel tvChannel = tvProgramBroadcast.getChannel();
 			TVChannelGSONTest.testTVChannelObject(tvChannel);
 
-			TVBroadcastWithChannelInfoTest.testBroadcast(tvProgramBroadcast);
+			BroadcastsForSpecificProgramTest.testBroadcast(tvProgramBroadcast);
 		}
 	}
 }

@@ -16,7 +16,7 @@ import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.TVGuideAndTaggedBroadcasts;
 import com.millicom.mitv.models.gson.AppConfigurationJSON;
-import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
+import com.millicom.mitv.models.gson.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;
@@ -458,7 +458,7 @@ public class ContentManager implements ContentCallbackListener {
 	
 	public void handleTVBroadcastsPopularBroadcastsResponse(ActivityCallbackListener activityCallBackListener, FetchRequestResultEnum result, Object content) {
 		if (result.wasSuccessful() && content != null) {
-			ArrayList<TVBroadcastWithProgramAndChannelInfo> broadcastsPopular = (ArrayList<TVBroadcastWithProgramAndChannelInfo>) content;
+			ArrayList<TVBroadcastWithChannelInfo> broadcastsPopular = (ArrayList<TVBroadcastWithChannelInfo>) content;
 			storage.setPopularBroadcasts(broadcastsPopular);
 			
 			activityCallBackListener.onResult(FetchRequestResultEnum.SUCCESS);
@@ -717,8 +717,8 @@ public class ContentManager implements ContentCallbackListener {
 		return taggedBroadcasts;
 	}
 	
-	public ArrayList<TVBroadcastWithProgramAndChannelInfo> getFromStoragePopularBroadcasts() {
-		ArrayList<TVBroadcastWithProgramAndChannelInfo> popularBroadcasts = storage.getPopularBroadcasts();
+	public ArrayList<TVBroadcastWithChannelInfo> getFromStoragePopularBroadcasts() {
+		ArrayList<TVBroadcastWithChannelInfo> popularBroadcasts = storage.getPopularBroadcasts();
 		return popularBroadcasts;
 	}
 	

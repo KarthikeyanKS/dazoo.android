@@ -13,7 +13,8 @@ import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.gson.AdzerkAdJSON;
 import com.millicom.mitv.models.gson.AppConfigurationJSON;
-import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
+import com.millicom.mitv.models.TVBroadcast;
+import com.millicom.mitv.models.gson.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;
@@ -62,7 +63,7 @@ public class Storage {
 	private Calendar userChannelIdsFetchedTimestamp;
 	
 	private ArrayList<TVFeedItem> activityFeed;
-	private ArrayList<TVBroadcastWithProgramAndChannelInfo> popularBroadcasts;
+	private ArrayList<TVBroadcastWithChannelInfo> popularBroadcasts;
 	
 	private UserLoginData userData;
 	private TVDate tvDateSelected;
@@ -180,11 +181,11 @@ public class Storage {
 		activityFeed.addAll(additionalActivityFeedItems);
 	}
 
-	public ArrayList<TVBroadcastWithProgramAndChannelInfo> getPopularBroadcasts() {
+	public ArrayList<TVBroadcastWithChannelInfo> getPopularBroadcasts() {
 		return popularBroadcasts;
 	}
 
-	public void setPopularBroadcasts(ArrayList<TVBroadcastWithProgramAndChannelInfo> popularFeed) {
+	public void setPopularBroadcasts(ArrayList<TVBroadcastWithChannelInfo> popularFeed) {
 		this.popularBroadcasts = popularFeed;
 	}
 

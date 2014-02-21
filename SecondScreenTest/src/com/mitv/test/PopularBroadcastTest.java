@@ -12,7 +12,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
+import com.millicom.mitv.models.gson.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
@@ -26,12 +26,12 @@ import com.mitv.Consts;
  * @author atsampikakis
  *
  */
-public class TVPopularBroadcastWithProgramAndChannelInfoTest 
+public class PopularBroadcastTest 
 	extends TestCore 
 {
 	private static final String	TAG	= "TVBroadcastDetailsTest";
 	
-	private List<TVBroadcastWithProgramAndChannelInfo> tvPopularBroadcastsWithChannelAndProgramInfo;
+	private List<TVBroadcastWithChannelInfo> tvPopularBroadcastsWithChannelInfo;
 	
 	@Override
 	protected void setUp() throws Exception {
@@ -45,7 +45,7 @@ public class TVPopularBroadcastWithProgramAndChannelInfoTest
 				
 		try
 		{
-			tvPopularBroadcastsWithChannelAndProgramInfo = Arrays.asList(new Gson().fromJson(jsonString, TVBroadcastWithProgramAndChannelInfo[].class));
+			tvPopularBroadcastsWithChannelInfo = Arrays.asList(new Gson().fromJson(jsonString, TVBroadcastWithChannelInfo[].class));
 		}
 		catch(JsonSyntaxException jsex)
 		{
@@ -55,20 +55,20 @@ public class TVPopularBroadcastWithProgramAndChannelInfoTest
 
 	@Test
 	public void testNotNull() {
-		Assert.assertNotNull(tvPopularBroadcastsWithChannelAndProgramInfo);
-		Assert.assertFalse(tvPopularBroadcastsWithChannelAndProgramInfo.isEmpty());
+		Assert.assertNotNull(tvPopularBroadcastsWithChannelInfo);
+		Assert.assertFalse(tvPopularBroadcastsWithChannelInfo.isEmpty());
 	}
 	
 	@Test
 	public void testAllVariablesNotNull() {
-		for(TVBroadcastWithProgramAndChannelInfo popular : tvPopularBroadcastsWithChannelAndProgramInfo) {
-			TVBroadcastWithChannelInfoTest.testBroadcast(popular);
+		for(TVBroadcastWithChannelInfo popular : tvPopularBroadcastsWithChannelInfo) {
+			BroadcastsForSpecificProgramTest.testBroadcast(popular);
 			
 			TVChannel tvChannel = popular.getChannel();
 			TVChannelGSONTest.testTVChannelObject(tvChannel);
 			
 			TVProgram tvProgram = popular.getProgram();
-			TVBroadcastWithProgramAndChannelInfoTest.testTVProgram(tvProgram);
+			BroadcastsWithChannelInfoTest.testTVProgram(tvProgram);
 		}
 	}
 }
