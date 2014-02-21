@@ -27,6 +27,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
+import android.text.Editable;
+import android.text.TextWatcher;
 
 import com.mitv.Consts;
 import com.mitv.R;
@@ -65,7 +67,7 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 		setContentView(R.layout.layout_searchpage_activity);
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-		
+
 
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
@@ -105,12 +107,12 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 
 		MenuItem startSearchMenuItem = menu.findItem(R.id.action_start_search);
 		startSearchMenuItem.setVisible(false);
-		
+
 		MenuItem searchField = menu.findItem(R.id.searchfield);
 		searchField.setVisible(true);
-		
+
 		this.mMenu = menu;
-		
+
 
 		initAutoCompleteLayout();
 		initAutoCompleteListeners();
@@ -118,22 +120,22 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 
 		return true;
 	}
-	
+
 	@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-        case android.R.id.home:
-        	navigateUp();
-        	return true;
-        default:
-            return super.onOptionsItemSelected(item);
-        }
-    }
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			navigateUp();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
 
 	private void initAutoCompleteLayout() {
 		MenuItem searchField = mMenu.findItem(R.id.searchfield);
 		View searchFieldView = MenuItemCompat.getActionView(searchField);
-		
+
 		mProgressBar = (ProgressBar) searchFieldView.findViewById(R.id.searchbar_progress);
 		mEditTextClearBtn = (ImageView) searchFieldView.findViewById(R.id.searchbar_clear);
 		mEditTextSearch = (InstantAutoComplete) searchFieldView.findViewById(R.id.searchbar_edittext);
@@ -154,14 +156,34 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 			}
 		});
 
+		// Remove clear button when there is no text to clear
+		mEditTextSearch.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (mEditTextSearch.getText().toString().equals("")) {
+					mEditTextClearBtn.setVisibility(View.INVISIBLE);
+				} else {
+					mEditTextClearBtn.setVisibility(View.VISIBLE);
+				}
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			}
+		});
 	}
-		
+
 	private void loadAutoCompleteView() {
 		mAutoCompleteAdapter = new SearchPageListAdapter(SearchPageActivity.this, this);
 		mEditTextSearch.setThreshold(1);
-	
+
 		int width = HardwareUtilities.getScreenWidth(this);
-		
+
 		mEditTextSearch.setDropDownWidth(width);
 		mEditTextSearch.setAdapter(mAutoCompleteAdapter);
 		mEditTextSearch.setDropDownVerticalOffset(0);
@@ -192,7 +214,7 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 			public void run() {
 				InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 				inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-				 triggerAutoComplete();
+				triggerAutoComplete();
 			}
 		});
 	}
@@ -202,8 +224,8 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 		if (inputMethodManager != null) {
 			inputMethodManager.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
 		}
-		
-}
+
+	}
 
 	@Override
 	protected void onDestroy() {
@@ -221,37 +243,37 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 	public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 
 		SearchResultItem result = (SearchResultItem) adapterView.getItemAtPosition(position);
-		
+
 		if(result.getEntityType() != ENTITY_TYPE.CHANNEL) {
 			// open the detail view for the individual broadcast
 			Intent intent = new Intent(SearchPageActivity.this, BroadcastPageActivity.class);
-	
+
 			// we take one position less as we have a header view
 			int adjustedPosition = position - 1;
 			if(adjustedPosition < 0) {
 				/* Don't allow negative values */
 				adjustedPosition = 0;
 			}
-			
+
 			Broadcast nextBroadcast = result.getNextBroadcast();
 			if(nextBroadcast != null) {
-			intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, nextBroadcast.getBeginTimeMillisGmt());
-			
-			Channel channel = nextBroadcast.getChannel();
-			String channelId = channel.getChannelId();
-			intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, channelId);
-			
-			String date = nextBroadcast.getTvDateString();
-			intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, date);
-			
-			startActivity(intent);
+				intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, nextBroadcast.getBeginTimeMillisGmt());
+
+				Channel channel = nextBroadcast.getChannel();
+				String channelId = channel.getChannelId();
+				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, channelId);
+
+				String date = nextBroadcast.getTvDateString();
+				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, date);
+
+				startActivity(intent);
 			} else {
 				Toast.makeText(this, "No upcoming broadcast", Toast.LENGTH_SHORT).show();
 			}
 		} else {
 			Intent intentMyChannels = new Intent(SearchPageActivity.this, MyChannelsActivity.class);
 			startActivity(intentMyChannels);
-			
+
 		}
 	}
 
@@ -309,7 +331,7 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		
+
 	}
 
 	@Override

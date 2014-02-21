@@ -61,17 +61,17 @@ public abstract class SSActivity extends ActionBarActivity {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.actionbar_menu, menu);
 		
-		MenuItem searchIcon = menu.findItem(R.id.action_start_search);
-		View seachIconView = MenuItemCompat.getActionView(searchIcon);
-		seachIconView.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent toSearchPage = new Intent(SSActivity.this, SearchPageActivity.class);
-				startActivity(toSearchPage);
-				
-			}
-		});
+//		MenuItem searchIcon = menu.findItem(R.id.action_start_search);
+//		View seachIconView = MenuItemCompat.getActionView(searchIcon);
+//		seachIconView.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				Intent toSearchPage = new Intent(SSActivity.this, SearchPageActivity.class);
+//				startActivity(toSearchPage);
+//				
+//			}
+//		});
 		
 		MenuItem searchFieldItem = menu.findItem(R.id.searchfield);
 		searchFieldItem.setVisible(false);
