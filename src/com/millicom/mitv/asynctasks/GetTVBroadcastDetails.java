@@ -7,14 +7,14 @@ import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
-import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
+import com.millicom.mitv.models.gson.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.gson.TVChannelId;
 import com.mitv.Consts;
 
 
 
 public class GetTVBroadcastDetails
-	extends AsyncTaskWithRelativeURL<TVBroadcastWithProgramAndChannelInfo>
+	extends AsyncTaskWithRelativeURL<TVBroadcastWithChannelInfo>
 {
 	private static String buildURL(
 			TVChannelId tvChannelId,
@@ -38,6 +38,6 @@ public class GetTVBroadcastDetails
 			TVChannelId tvChannelId,
 			long beginTime)
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.BROADCAST_DETAILS, TVBroadcastWithProgramAndChannelInfo.class, HTTPRequestTypeEnum.HTTP_GET, buildURL(tvChannelId, beginTime));
+		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.BROADCAST_DETAILS, TVBroadcastWithChannelInfo.class, HTTPRequestTypeEnum.HTTP_GET, buildURL(tvChannelId, beginTime));
 	}
 }
