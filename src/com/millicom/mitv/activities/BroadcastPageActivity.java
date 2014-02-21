@@ -19,85 +19,90 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.millicom.mitv.ContentManager;
+import com.millicom.mitv.enums.FetchRequestResultEnum;
+import com.millicom.mitv.interfaces.ActivityCallbackListener;
+import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
-import com.millicom.mitv.utilities.NetworkUtils;
+import com.millicom.mitv.models.TVDate;
+import com.millicom.mitv.models.gson.TVChannel;
+import com.millicom.mitv.models.gson.TVChannelId;
+import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
-import com.mitv.content.SSBroadcastPage;
-import com.mitv.content.SSBroadcastsFromProgramPage;
-import com.mitv.content.SSBroadcastsFromSeriesPage;
-import com.mitv.content.SSPageCallback;
-import com.mitv.content.SSPageGetResult;
-import com.mitv.manager.InternalTrackingManager;
-import com.mitv.model.OldBroadcast;
-import com.mitv.model.OldProgram;
-import com.mitv.model.OldTVChannel;
-import com.mitv.model.OldTVDate;
-import com.mitv.storage.MiTVStore;
 import com.mitv.tvguide.BroadcastMainBlockPopulator;
-import com.mitv.utilities.OldDateUtilities;
 
-public class BroadcastPageActivity extends BaseActivity implements OnClickListener {
+public class BroadcastPageActivity extends BaseActivity implements ActivityCallbackListener, OnClickListener {
 
-	private static final String		TAG	= "BroadcastPageActivity";
-	private OldBroadcast				mBroadcast;
-	private String					mTvDate, mChannelLogoUrl;
-	private LinearLayout			mBlockContainer;
-	private ActionBar				mActionBar;
-	private OldTVChannel					mChannel;
-	private String					mChannelId, mBroadcastPageUrl;
-	private long					mBeginTimeInMillis;
-	private boolean					mIsFromNotification	= false, mIsFromActivity = false, mIsBroadcast = false, mIsUpcoming = false, mIsSeries = false, mIsRepeat = false,
-			mIsFromProfile = false;
-	private RelativeLayout			mTabTvGuide, mTabActivity, mTabProfile;
-	private View mTabDividerLeft, mTabDividerRight;
-	private MiTVStore				mitvStore;
-	private Activity				mActivity;
-	private Intent					intent;
-	private ArrayList<OldBroadcast>	mUpcomingBroadcasts;
-	private ArrayList<OldBroadcast>	mRepeatBroadcasts;
-	private ScrollView				mScrollView;
-	private int						mActivityCardNumber;
-	public static Toast 			toast;
+	private static final String TAG = BroadcastPageActivity.class.getName();
+
+	private TVBroadcast broadcast;
+	private String channelLogoUrl;
+	private LinearLayout blockContainer;
+	private ActionBar actionBar;
+	private TVChannel channel;
+	private TVChannelId channelId;
+	private TVDate tvDate;
+	private String broadcastPageUrl;
+	private long beginTimeInMillis;
+	private boolean isFromNotification = false;
+	private boolean isFromActivity = false;
+	private boolean mIsBroadcast = false;
+	private boolean mIsUpcoming = false;
+	private boolean mIsRepeat = false;
+	private boolean isFromProfile = false;
+	private RelativeLayout tabTvGuide;
+	private RelativeLayout tabActivity;
+	private RelativeLayout tabProfile;
+	private View tabDividerLeft;
+	private View tabDividerRight;
+	private Activity activity;
+	private Intent intent;
+	private ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts;
+	private ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts;
+	private ScrollView scrollView;
+	private int activityCardNumber;
+	public static Toast toast;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.layout_broadcastpage_activity);
 
-		mitvStore = MiTVStore.getInstance();
-		mActivity = this;
+		activity = this;
 
 		/*  */
 		// get the info about the program to be displayed from tv-guide listview
 		intent = getIntent();
 
-		mIsFromActivity = intent.getBooleanExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, false);
-		mIsFromProfile = intent.getBooleanExtra(Consts.INTENT_EXTRA_FROM_PROFILE, false);
-		mIsFromNotification = intent.getBooleanExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, false);
-		if(mIsFromNotification) {
-			mBeginTimeInMillis = intent.getLongExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, 0);
-			mChannelId = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_ID);
-			mTvDate = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE);
-			mBroadcastPageUrl = intent.getStringExtra(Consts.INTENT_EXTRA_BROADCAST_URL);
-			mChannelLogoUrl = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_LOGO_URL);
-			mActivityCardNumber = intent.getIntExtra(Consts.INTENT_EXTRA_ACTIVITY_CARD_NUMBER, -1);
+		isFromActivity = intent.getBooleanExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, false);
+		isFromProfile = intent.getBooleanExtra(Consts.INTENT_EXTRA_FROM_PROFILE, false);
+		isFromNotification = intent.getBooleanExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, false);
+		if (isFromNotification) {
+			beginTimeInMillis = intent.getLongExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, 0);
+			String channelIdAsString = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_ID);
+			channelId = new TVChannelId(channelIdAsString);
+			String tvDateAsString = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE);
+			//TODO NewArc use constructor from Felipe to construct TVDate using string representation e.g.: "2014-02-21"
+			//tvDate = new TVDate(tvDateAsString);
+			broadcastPageUrl = intent.getStringExtra(Consts.INTENT_EXTRA_BROADCAST_URL);
+			channelLogoUrl = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_LOGO_URL);
+			activityCardNumber = intent.getIntExtra(Consts.INTENT_EXTRA_ACTIVITY_CARD_NUMBER, -1);
 		} else {
-			//TODO handle this, read date from ContentManager, the nonpersistent tmp set data....
+			// TODO handle this, read date from ContentManager, the nonpersistent tmp set data....
 			TVBroadcastWithChannelInfo broadcastWithChannelInfo = ContentManager.sharedInstance().getFromStorageSelectedBroadcastWithChannelInfo();
 		}
 
 		Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		Log.d(TAG, "BeginTimeInMillis: " + String.valueOf(mBeginTimeInMillis));
-		Log.d(TAG, "ChannelId: " + mChannelId);
-		Log.d(TAG, "TvDate: " + mTvDate);
-		Log.d(TAG, "BroadcastPageUrl: " + mBroadcastPageUrl);
-		Log.d(TAG, "ChannelLogoUrl" + mChannelLogoUrl);
-		Log.d(TAG, "from notification: " + mIsFromNotification);
-		Log.d(TAG, "from Activity: " + mIsFromActivity);
-		Log.d(TAG, "Activity card#" + String.valueOf(mActivityCardNumber));
+		Log.d(TAG, "BeginTimeInMillis: " + String.valueOf(beginTimeInMillis));
+		Log.d(TAG, "ChannelId: " + channelId);
+		Log.d(TAG, "TvDate: " + tvDate.getId());
+		Log.d(TAG, "BroadcastPageUrl: " + broadcastPageUrl);
+		Log.d(TAG, "ChannelLogoUrl" + channelLogoUrl);
+		Log.d(TAG, "from notification: " + isFromNotification);
+		Log.d(TAG, "from Activity: " + isFromActivity);
+		Log.d(TAG, "Activity card#" + String.valueOf(activityCardNumber));
 		Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
 		initViews();
@@ -105,10 +110,11 @@ public class BroadcastPageActivity extends BaseActivity implements OnClickListen
 		super.initCallbackLayouts();
 
 		loadStartPage();
-		
-		InternalTrackingManager.trackBroadcastStatic(mBroadcast);
+
+		/* Notify backend that we have entered the broadcast page for this broadcast, observe: no tracking will be performed if broadcast was created from notification */
+		ContentManager.sharedInstance().performInternalTracking(broadcast);
 	}
-	
+
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
 		Log.d(TAG, "mIsBroadcast: " + mIsBroadcast + " mIsUpcoming: " + mIsUpcoming);
@@ -121,229 +127,218 @@ public class BroadcastPageActivity extends BaseActivity implements OnClickListen
 	}
 
 	@Override
-	protected void loadPage() 
-	{
+	protected void loadPage() {
 		// try to load page again when network is up
-		if (NetworkUtils.isConnectedAndHostIsReachable(mActivity)) 
-		{
-			getIndividualBroadcast(mBroadcastPageUrl);
-		}
+		
+		//TODO NewArc fetch TVBroadcastWithChannelInfo version of TVBroadcast object (instance: variable "broadcast") here? or make Backend send TVBroadcastWithChannelInfo version with TVGuide!
+//		if (NetworkUtils.isConnectedAndHostIsReachable(activity)) {
+//			getIndividualBroadcast(broadcastPageUrl);
+//		}
 	}
-	
-	
 
 	private void loadStartPage() {
 		updateUI(REQUEST_STATUS.LOADING);
-		Log.d(TAG, "LOADING");
-		// check if the network connection exists
-
-		boolean loadIndividualBroadcast = true;
-		boolean useStandardChannel = true;
-
-		if (NetworkUtils.isConnectedAndHostIsReachable(mActivity)) 
-		{
-			if (mBroadcastPageUrl == null)
-				mBroadcastPageUrl = Consts.URL_NOTIFY_BROADCAST_PREFIX + mChannelId + Consts.NOTIFY_BROADCAST_URL_MIDDLE + mBeginTimeInMillis;
-
-			if (!mIsFromActivity) {
-				if (!mIsFromNotification) {
-					if (ContentManager.sharedInstance().isLoggedIn()) {
-						Log.d(TAG, "LOGGED IN!");
-						mBroadcast = mitvStore.getBroadcast(mTvDate, mChannelId, mBeginTimeInMillis);
-						mChannel = mitvStore.getChannelById(mChannelId);
-
-						if (mBroadcast != null) {
-							loadIndividualBroadcast = false;
-							mIsBroadcast = true;
-
-							if (mChannel != null) {
-								mBroadcast.setChannel(mChannel);
-							} else {
-								OldTVChannel channel = new OldTVChannel();
-								channel.setChannelId(mChannelId);
-								mBroadcast.setChannel(channel);
-							}
-
-							if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(mBroadcast.getProgram().getProgramType())) {
-								getUpcomingSeriesBroadcasts(mBroadcast.getProgram().getSeries().getSeriesId());
-							} else {
-								mIsUpcoming = true;
-							}
-
-							getRepetitionBroadcasts(mBroadcast.getProgram().getProgramId());
-
-							updateUI(REQUEST_STATUS.SUCCESSFUL);
-						}
-					}
-
-				} else {
-					useStandardChannel = false;
-				}
-			}
-
-			if (loadIndividualBroadcast) {
-				Log.d(TAG, "NOT LOGGED IN");
-				if (useStandardChannel) {
-					mChannel = mitvStore.getChannelById(mChannelId);
-				}
-
-				getIndividualBroadcast(mBroadcastPageUrl);
-			}
-		} 
-		else 
-		{
-			updateUI(REQUEST_STATUS.FAILED);
-		}
+		
+		//TODO NewArc fetch TVBroadcastWithChannelInfo version of TVBroadcast object (instance: variable "broadcast") here? or make Backend send TVBroadcastWithChannelInfo version with TVGuide!
+		
+//		boolean loadIndividualBroadcast = true;
+//		boolean useStandardChannel = true;
+//
+//		if (NetworkUtils.isConnectedAndHostIsReachable(activity)) {
+//			if (broadcastPageUrl == null)
+//				broadcastPageUrl = Consts.URL_NOTIFY_BROADCAST_PREFIX + channelId + Consts.NOTIFY_BROADCAST_URL_MIDDLE + beginTimeInMillis;
+//
+//			if (!isFromActivity) {
+//				if (!isFromNotification) {
+//					if (ContentManager.sharedInstance().isLoggedIn()) {
+//						Log.d(TAG, "LOGGED IN!");
+//						broadcast = mitvStore.getBroadcast(mTvDate, channelId, beginTimeInMillis);
+//						channel = mitvStore.getChannelById(channelId);
+//
+//						if (broadcast != null) {
+//							loadIndividualBroadcast = false;
+//							mIsBroadcast = true;
+//
+//							if (channel != null) {
+//								broadcast.setChannel(channel);
+//							} else {
+//								TVChannel channel = new TVChannel();
+//								channel.setChannelId(channelId);
+//								broadcast.setChannel(channel);
+//							}
+//
+//							if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(broadcast.getProgram().getProgramType())) {
+//								getUpcomingSeriesBroadcasts(broadcast.getProgram().getSeries().getSeriesId());
+//							} else {
+//								mIsUpcoming = true;
+//							}
+//
+//							getRepetitionBroadcasts(broadcast.getProgram().getProgramId());
+//
+//							updateUI(REQUEST_STATUS.SUCCESSFUL);
+//						}
+//					}
+//
+//				} else {
+//					useStandardChannel = false;
+//				}
+//			}
+//
+//			if (loadIndividualBroadcast) {
+//				Log.d(TAG, "NOT LOGGED IN");
+//				if (useStandardChannel) {
+//					channel = mitvStore.getChannelById(channelId);
+//				}
+//
+//				getIndividualBroadcast(broadcastPageUrl);
+//			}
+//		} else {
+//			updateUI(REQUEST_STATUS.FAILED);
+//		}
 	}
 
-	
-	
-	private void getIndividualBroadcast(String broadcastPageUrl) 
-	{
-		SSBroadcastPage.getInstance().getPage(broadcastPageUrl, new SSPageCallback() {
-			@Override
-			public void onGetPageResult(SSPageGetResult pageGetResult) {
-				mBroadcast = SSBroadcastPage.getInstance().getBroadcast();
-
-				if (mBroadcast != null) {
-					mIsBroadcast = true;
-
-					if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(mBroadcast.getProgram().getProgramType())) {
-						getUpcomingSeriesBroadcasts(mBroadcast.getProgram().getSeries().getSeriesId());
-					} else {
-						mIsUpcoming = true;
-					}
-
-					getRepetitionBroadcasts(mBroadcast.getProgram().getProgramId());
-
-					// if we have the data in the singleton about the channel - set it completely
-					if(mBroadcast.getChannel() == null) {
-						mChannel = mitvStore.getChannelById(mChannelId);
-						if (mChannel != null) {
-							mBroadcast.setChannel(mChannel);
-	
-						} else {
-							// otherwise - just use the id that we got with the notification intent
-							OldTVChannel channel = new OldTVChannel();
-							channel.setChannelId(mChannelId);
-							if (mChannelLogoUrl != null) {
-								channel.setAllImageUrls(mChannelLogoUrl);
-							}
-	
-							mBroadcast.setChannel(channel);
-						}
-					}
-
-					updateUI(REQUEST_STATUS.SUCCESSFUL);
-				}
-			}
-		});
-	}
+//	private void getIndividualBroadcast(String broadcastPageUrl) {
+//		SSBroadcastPage.getInstance().getPage(broadcastPageUrl, new SSPageCallback() {
+//			@Override
+//			public void onGetPageResult(SSPageGetResult pageGetResult) {
+//				broadcast = SSBroadcastPage.getInstance().getBroadcast();
+//
+//				if (broadcast != null) {
+//					mIsBroadcast = true;
+//
+//					if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(broadcast.getProgram().getProgramType())) {
+//						getUpcomingSeriesBroadcasts(broadcast.getProgram().getSeries().getSeriesId());
+//					} else {
+//						mIsUpcoming = true;
+//					}
+//
+//					getRepetitionBroadcasts(broadcast.getProgram().getProgramId());
+//
+//					// if we have the data in the singleton about the channel - set it completely
+//					if (broadcast.getChannel() == null) {
+//						channel = mitvStore.getChannelById(channelId);
+//						if (channel != null) {
+//							broadcast.setChannel(channel);
+//
+//						} else {
+//							// otherwise - just use the id that we got with the notification intent
+//							TVChannel channel = new TVChannel();
+//							channel.setChannelId(channelId);
+//							if (channelLogoUrl != null) {
+//								channel.setAllImageUrls(channelLogoUrl);
+//							}
+//
+//							broadcast.setChannel(channel);
+//						}
+//					}
+//
+//					updateUI(REQUEST_STATUS.SUCCESSFUL);
+//				}
+//			}
+//		});
+//	}
 
 	private void initViews() {
 		// styling the Action Bar
-		mActionBar = getSupportActionBar();
-		mActionBar.setTitle(mActivity.getResources().getString(R.string.broadcast_info));
-		mActionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar = getSupportActionBar();
+		actionBar.setTitle(activity.getResources().getString(R.string.broadcast_info));
+		actionBar.setDisplayHomeAsUpEnabled(true);
 
-		mTabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
-		mTabTvGuide.setOnClickListener(this);
-		mTabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
-		mTabActivity.setOnClickListener(this);
-		mTabProfile = (RelativeLayout) findViewById(R.id.tab_me);
-		mTabProfile.setOnClickListener(this);
+		tabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
+		tabTvGuide.setOnClickListener(this);
+		tabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
+		tabActivity.setOnClickListener(this);
+		tabProfile = (RelativeLayout) findViewById(R.id.tab_me);
+		tabProfile.setOnClickListener(this);
 
-		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
-		mTabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
+		tabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
+		tabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
 
-		if (mIsFromActivity) {
-			mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
-			mTabActivity.setBackgroundColor(getResources().getColor(R.color.red));
-			mTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+		if (isFromActivity) {
+			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+			tabActivity.setBackgroundColor(getResources().getColor(R.color.red));
+			tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
 
-			mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
-			mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+			tabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+			tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
 
-		} else if (mIsFromProfile) {
-			mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
-			mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
-			mTabProfile.setBackgroundColor(getResources().getColor(R.color.red));
+		} else if (isFromProfile) {
+			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+			tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+			tabProfile.setBackgroundColor(getResources().getColor(R.color.red));
 
-			mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
-			mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+			tabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+			tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
 
 		} else {
-			mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
-			mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
-			mTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
+			tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+			tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
 
-			mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
-			mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+			tabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+			tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
 
 		}
 
-		mBlockContainer = (LinearLayout) findViewById(R.id.broacastpage_block_container_layout);
-		mScrollView = (ScrollView) findViewById(R.id.broadcast_scroll);
+		blockContainer = (LinearLayout) findViewById(R.id.broacastpage_block_container_layout);
+		scrollView = (ScrollView) findViewById(R.id.broadcast_scroll);
 	}
 
 	private void populateBlocks() {
 		Log.d(TAG, "populateBlocks");
 
 		// add main content block
-		BroadcastMainBlockPopulator mainBlockPopulator = new BroadcastMainBlockPopulator(mActivity, mScrollView);
-		
-		//TODO fix this
-//		mainBlockPopulator.createBlock(mBroadcast);
+		BroadcastMainBlockPopulator mainBlockPopulator = new BroadcastMainBlockPopulator(activity, scrollView);
+
+		// TODO fix this
+		// mainBlockPopulator.createBlock(mBroadcast);
 
 		// Remove upcoming broadcasts with season 0 and episode 0
-		LinkedList<OldBroadcast> upcomingToRemove = new LinkedList<OldBroadcast>();
-		if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(mBroadcast.getProgram().getProgramType())) {
-			OldProgram program = mBroadcast.getProgram();
+		LinkedList<TVBroadcast> upcomingToRemove = new LinkedList<TVBroadcast>();
+		if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(broadcast.getProgram().getProgramType())) {
+			TVProgram program = broadcast.getProgram();
 			if (program.getSeason().getNumber().equals("0") && program.getEpisodeNumber() == 0) {
-				for (int i = 0; i < mUpcomingBroadcasts.size(); i++) {
-					OldBroadcast b = mUpcomingBroadcasts.get(i);
-					OldProgram p = b.getProgram();
+				for (int i = 0; i < upcomingBroadcasts.size(); i++) {
+					TVBroadcast b = upcomingBroadcasts.get(i);
+					TVProgram p = b.getProgram();
 					if (p.getSeason().getNumber().equals("0") && p.getEpisodeNumber() == 0) {
 						upcomingToRemove.add(b);
 					}
 				}
 			}
 		}
-		for (OldBroadcast b : upcomingToRemove) {
-			mUpcomingBroadcasts.remove(b);
+		for (TVBroadcast b : upcomingToRemove) {
+			upcomingBroadcasts.remove(b);
 		}
 
-		
-		
-		
-		
-		//TODO fix this
-//		// repetitions
-//		if (mRepeatBroadcasts != null && mRepeatBroadcasts.isEmpty() != true) {
-//			BroadcastRepetitionsBlockPopulator repeatitionsBlock = new BroadcastRepetitionsBlockPopulator(mActivity, mScrollView, mBroadcast);
-//			repeatitionsBlock.createBlock(mRepeatBroadcasts, mBroadcast.getProgram());
-//		}
-//
-//		// upcoming episodes
-//		if (mUpcomingBroadcasts != null && mUpcomingBroadcasts.isEmpty() != true) {
-//			BroadcastUpcomingBlockPopulator upcomingBlock = new BroadcastUpcomingBlockPopulator(mActivity, mScrollView, mIsSeries, mBroadcast);
-//			upcomingBlock.createBlock(mUpcomingBroadcasts, null);
-//		}
-
+		// TODO fix this
+		// // repetitions
+		// if (mRepeatBroadcasts != null && mRepeatBroadcasts.isEmpty() != true) {
+		// BroadcastRepetitionsBlockPopulator repeatitionsBlock = new BroadcastRepetitionsBlockPopulator(mActivity, mScrollView,
+		// mBroadcast);
+		// repeatitionsBlock.createBlock(mRepeatBroadcasts, mBroadcast.getProgram());
+		// }
+		//
+		// // upcoming episodes
+		// if (mUpcomingBroadcasts != null && mUpcomingBroadcasts.isEmpty() != true) {
+		// BroadcastUpcomingBlockPopulator upcomingBlock = new BroadcastUpcomingBlockPopulator(mActivity, mScrollView, mIsSeries,
+		// mBroadcast);
+		// upcomingBlock.createBlock(mUpcomingBroadcasts, null);
+		// }
 
 	}
 
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		
+
 		finish();
 	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		
+
 	}
 
 	@Override
@@ -368,9 +363,9 @@ public class BroadcastPageActivity extends BaseActivity implements OnClickListen
 			// NavUtils.navigateUpTo(this, upIntent);
 			// }
 
-			if (mIsFromActivity) {
+			if (isFromActivity) {
 				NavUtils.navigateUpTo(this, new Intent(BroadcastPageActivity.this, ActivityActivity.class));
-			} else if (mIsFromProfile) {
+			} else if (isFromProfile) {
 				NavUtils.navigateUpTo(this, new Intent(BroadcastPageActivity.this, MyProfileActivity.class));
 			}
 
@@ -395,73 +390,81 @@ public class BroadcastPageActivity extends BaseActivity implements OnClickListen
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intentHome);
-			
+
 			break;
 		case R.id.tab_activity:
 			// tab to activity page
 			Intent intentActivity = new Intent(BroadcastPageActivity.this, ActivityActivity.class);
 			startActivity(intentActivity);
-			
+
 			break;
 		case R.id.tab_me:
 			// tab to activity page
 			Intent intentMe = new Intent(BroadcastPageActivity.this, MyProfileActivity.class);
 			startActivity(intentMe);
-			
+
 			break;
 		}
 	}
 
 	// task to get the upcoming broadcasts from series
-	private void getUpcomingSeriesBroadcasts(String id) {
-		SSBroadcastsFromSeriesPage.getInstance().getPage(id, new SSPageCallback() {
-			@Override
-			public void onGetPageResult(SSPageGetResult aPageGetResult) {
-				mUpcomingBroadcasts = SSBroadcastsFromSeriesPage.getInstance().getSeriesUpcomingBroadcasts();
-
-				mIsSeries = true;
-				mIsUpcoming = true;
-				updateUI(REQUEST_STATUS.SUCCESSFUL);
-			}
-		});
+	private void getUpcomingSeriesBroadcasts(TVBroadcastWithChannelInfo broadcast) {
+//		SSBroadcastsFromSeriesPage.getInstance().getPage(id, new SSPageCallback() {
+//			@Override
+//			public void onGetPageResult(SSPageGetResult aPageGetResult) {
+//				upcomingBroadcasts = SSBroadcastsFromSeriesPage.getInstance().getSeriesUpcomingBroadcasts();
+//
+//				mIsSeries = true;
+//				mIsUpcoming = true;
+//				updateUI(REQUEST_STATUS.SUCCESSFUL);
+//			}
+//		});
+		ContentManager.sharedInstance().getElseFetchFromServiceUpcomingBroadcasts(this, false, broadcast);
 	}
 
 	// task to get the broadcasts of the same program
-	private void getRepetitionBroadcasts(String id) {
-		SSBroadcastsFromProgramPage.getInstance().getPage(id, new SSPageCallback() {
-			@Override
-			public void onGetPageResult(SSPageGetResult aPageGetResult) {
-				mRepeatBroadcasts = SSBroadcastsFromProgramPage.getInstance().getProgramBroadcasts();
-				int hour;
-				OldTVDate tvDate;
-				if (mIsFromNotification) {
-					hour = Integer.valueOf(OldDateUtilities.getCurrentHourString());
-					tvDate = new OldTVDate();
-					tvDate.setDate(mTvDate);
-					// Log.d(TAG, "hour: " + hour + " TvDate: " + tvDate.getDate());
-				} else {
-					hour = ContentManager.sharedInstance().getFromStorageSelectedHour();
-					tvDate = MiTVStore.getInstance().getDate(mTvDate);
-					// Log.d(TAG, "hour: " + hour + " TvDate: " + tvDate.getDate());
-				}
+	private void getRepetitionBroadcasts(TVBroadcastWithChannelInfo broadcast) {
+//		SSBroadcastsFromProgramPage.getInstance().getPage(id, new SSPageCallback() {
+//			@Override
+//			public void onGetPageResult(SSPageGetResult aPageGetResult) {
+//				repeatBroadcasts = SSBroadcastsFromProgramPage.getInstance().getProgramBroadcasts();
+//				int hour;
+//				OldTVDate tvDate;
+//				if (isFromNotification) {
+//					hour = Integer.valueOf(OldDateUtilities.getCurrentHourString());
+//					tvDate = new OldTVDate();
+//					tvDate.setDate(mTvDate);
+//					// Log.d(TAG, "hour: " + hour + " TvDate: " + tvDate.getDate());
+//				} else {
+//					hour = ContentManager.sharedInstance().getFromStorageSelectedHour();
+//					tvDate = MiTVStore.getInstance().getDate(mTvDate);
+//					// Log.d(TAG, "hour: " + hour + " TvDate: " + tvDate.getDate());
+//				}
+//
+//				int indexOfNearestBroadcast = 0;
+//				if (tvDate != null) {
+//					indexOfNearestBroadcast = TVBroadcast.getClosestBroadcastIndexFromTime(repeatBroadcasts, hour, tvDate);
+//				} else {
+//					Log.e(TAG, "TvDate was null");
+//					indexOfNearestBroadcast = TVBroadcast.getClosestBroadcastIndex(repeatBroadcasts);
+//				}
+//
+//				if (indexOfNearestBroadcast >= 0) {
+//					repeatBroadcasts = TVBroadcast.getBroadcastsStartingFromPosition(indexOfNearestBroadcast, repeatBroadcasts, repeatBroadcasts.size());
+//					// Log.d(TAG, "broadcasts from program: " + mRepeatBroadcasts.size());
+//				}
+//				mIsRepeat = true;
+//				updateUI(REQUEST_STATUS.SUCCESSFUL);
+//
+//			}
+//		});
+		ContentManager.sharedInstance().getElseFetchFromServiceRepeatingBroadcasts(this, false, broadcast);
+	}
 
-				int indexOfNearestBroadcast = 0;
-				if (tvDate != null) {
-					indexOfNearestBroadcast = OldBroadcast.getClosestBroadcastIndexFromTime(mRepeatBroadcasts, hour, tvDate);
-				} else {
-					Log.e(TAG, "TvDate was null");
-					indexOfNearestBroadcast = OldBroadcast.getClosestBroadcastIndex(mRepeatBroadcasts);
-				}
-
-				if (indexOfNearestBroadcast >= 0) {
-					mRepeatBroadcasts = OldBroadcast.getBroadcastsStartingFromPosition(indexOfNearestBroadcast, mRepeatBroadcasts, mRepeatBroadcasts.size());
-					// Log.d(TAG, "broadcasts from program: " + mRepeatBroadcasts.size());
-				}
-				mIsRepeat = true;
-				updateUI(REQUEST_STATUS.SUCCESSFUL);
-
-			}
-		});
+	@Override
+	public void onResult(FetchRequestResultEnum fetchRequestResult) {
+		//TODO NewArc fix me!
+		
 	}
 
 }

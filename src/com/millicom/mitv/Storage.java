@@ -8,12 +8,13 @@ import android.text.TextUtils;
 import android.util.SparseArray;
 
 import com.millicom.mitv.models.AppVersion;
-import com.millicom.mitv.models.TVBroadcast;
+import com.millicom.mitv.models.RepeatingBroadcastsForBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVDate;
 import com.millicom.mitv.models.TVGuide;
-import com.millicom.mitv.models.gson.AppConfigurationJSON;
+import com.millicom.mitv.models.UpcomingBroadcastsForBroadcast;
 import com.millicom.mitv.models.gson.AdAdzerkJSON;
+import com.millicom.mitv.models.gson.AppConfigurationJSON;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;
@@ -73,10 +74,11 @@ public class Storage {
 	private HashMap<String, SparseArray<AdAdzerkJSON>> fragmentToAdsMap;
 	
 	/* NON-PERSISTENT USER DATA, USED FOR PASSING DATA BETWEEN ACTIVITIES */
-	private TVBroadcast nonPersistentSelectedBroadcast;
 	private TVBroadcastWithChannelInfo nonPersistentSelectedBroadcastWithChannelInfo;
-	private ArrayList<TVBroadcastWithChannelInfo> nonPersistentUpcomingBroadcasts;
-	private ArrayList<TVBroadcastWithChannelInfo> nonPersistentRepeatingBroadcasts;
+//	private ArrayList<TVBroadcastWithChannelInfo> nonPersistentUpcomingBroadcasts;
+//	private ArrayList<TVBroadcastWithChannelInfo> nonPersistentRepeatingBroadcasts;
+	private UpcomingBroadcastsForBroadcast nonPersistentUpcomingBroadcasts;
+	private RepeatingBroadcastsForBroadcast nonPersistentRepeatingBroadcasts;
 	private Integer nonPersistentSelectedHour;
 	private TVChannelId nonPersistentSelectedTVChannelId;
 		
@@ -403,34 +405,66 @@ public class Storage {
 		this.nonPersistentSelectedHour = seletectedHour;
 	}
 	
-	public void setNonPersistentDataUpcomingBroadcast(ArrayList<TVBroadcastWithChannelInfo> nonPersistentUpcomingBroadcasts) {
-		this.nonPersistentUpcomingBroadcasts = nonPersistentUpcomingBroadcasts;
-	}
+//	public void setNonPersistentDataUpcomingBroadcast(ArrayList<TVBroadcastWithChannelInfo> nonPersistentUpcomingBroadcasts) {
+//		this.nonPersistentUpcomingBroadcasts = nonPersistentUpcomingBroadcasts;
+//	}
+//	
+//	public void setNonPersistentDataRepeatingBroadcast(ArrayList<TVBroadcastWithChannelInfo> nonPersistentRepeatingBroadcasts) {
+//		this.nonPersistentRepeatingBroadcasts = nonPersistentRepeatingBroadcasts;
+//	}
+//	
+//	public ArrayList<TVBroadcastWithChannelInfo> getNonPersistentDataRepeatingBroadcast() {
+//		return nonPersistentRepeatingBroadcasts;
+//	}
+//	
+//	public ArrayList<TVBroadcastWithChannelInfo> getNonPersistentDataUpcomingBroadcast() {
+//		return nonPersistentUpcomingBroadcasts;
+//	}
 	
-	public void setNonPersistentDataRepeatingBroadcast(ArrayList<TVBroadcastWithChannelInfo> nonPersistentRepeatingBroadcasts) {
-		this.nonPersistentRepeatingBroadcasts = nonPersistentRepeatingBroadcasts;
-	}
 	
-	public ArrayList<TVBroadcastWithChannelInfo> getNonPersistentDataRepeatingBroadcast() {
-		return nonPersistentRepeatingBroadcasts;
-	}
-	
-	public ArrayList<TVBroadcastWithChannelInfo> getNonPersistentDataUpcomingBroadcast() {
-		return nonPersistentUpcomingBroadcasts;
-	}
-	
-	public void setNonPersistentSelectedBroadcast(TVBroadcast runningBroadcast) {
-		this.nonPersistentSelectedBroadcast = runningBroadcast;
-	}
-	
-	public TVBroadcast getNonPersistentSelectedBroadcast() {
-		return nonPersistentSelectedBroadcast;
-	}
-	
+		
 	public void setNonPersistentSelectedBroadcastWithChannelInfo(TVBroadcastWithChannelInfo nonPersistentSelectedBroadcastWithChannelInfo) {
 		this.nonPersistentSelectedBroadcastWithChannelInfo = nonPersistentSelectedBroadcastWithChannelInfo;
 	}
 	
+	public UpcomingBroadcastsForBroadcast getNonPersistentUpcomingBroadcasts() {
+		return nonPersistentUpcomingBroadcasts;
+	}
+
+	public void setNonPersistentUpcomingBroadcasts(UpcomingBroadcastsForBroadcast nonPersistentUpcomingBroadcasts) {
+		this.nonPersistentUpcomingBroadcasts = nonPersistentUpcomingBroadcasts;
+	}
+	
+	public boolean containsUpcomingBroadcastsForBroadcast(TVBroadcastWithChannelInfo broadcast) {
+		boolean containsUpcomingBroadcastsForBroadcast = false;
+		
+		if(nonPersistentUpcomingBroadcasts != null) {
+			TVBroadcastWithChannelInfo broadcastForUpcomingBroadcastsInStorage = nonPersistentUpcomingBroadcasts.getBroadcast();
+			containsUpcomingBroadcastsForBroadcast = broadcast.equals(broadcastForUpcomingBroadcastsInStorage);
+		}
+		
+		return containsUpcomingBroadcastsForBroadcast;
+	}
+
+	public RepeatingBroadcastsForBroadcast getNonPersistentRepeatingBroadcasts() {
+		return nonPersistentRepeatingBroadcasts;
+	}
+		
+	public void setNonPersistentRepeatingBroadcasts(RepeatingBroadcastsForBroadcast nonPersistentRepeatingBroadcasts) {
+		this.nonPersistentRepeatingBroadcasts = nonPersistentRepeatingBroadcasts;
+	}
+	
+	public boolean containsRepeatingBroadcastsForBroadcast(TVBroadcastWithChannelInfo broadcast) {
+		boolean containsRepeatingBroadcastsForBroadcast = false;
+		
+		if(nonPersistentRepeatingBroadcasts != null) {
+			TVBroadcastWithChannelInfo broadcastForRepeatingBroadcastsInStorage = nonPersistentRepeatingBroadcasts.getBroadcast();
+			containsRepeatingBroadcastsForBroadcast = broadcast.equals(broadcastForRepeatingBroadcastsInStorage);
+		}
+		
+		return containsRepeatingBroadcastsForBroadcast;
+	}
+
 	public TVBroadcastWithChannelInfo getNonPersistentSelectedBroadcastWithChannelInfo() {
 		return nonPersistentSelectedBroadcastWithChannelInfo;
 	}

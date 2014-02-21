@@ -6,17 +6,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import android.text.TextUtils;
+
+import com.millicom.mitv.enums.BroadcastTypeEnum;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
+import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.millicom.mitv.models.AppVersion;
+import com.millicom.mitv.models.RepeatingBroadcastsForBroadcast;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVDate;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.TVGuideAndTaggedBroadcasts;
+import com.millicom.mitv.models.UpcomingBroadcastsForBroadcast;
 import com.millicom.mitv.models.gson.AppConfigurationJSON;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
@@ -25,6 +30,7 @@ import com.millicom.mitv.models.gson.TVFeedItem;
 import com.millicom.mitv.models.gson.TVTag;
 import com.millicom.mitv.models.gson.UserLike;
 import com.millicom.mitv.models.gson.UserLoginData;
+import com.millicom.mitv.utilities.GenericUtils;
 import com.mitv.Consts;
 
 
@@ -116,6 +122,25 @@ public class ContentManager implements ContentCallbackListener {
 	private void fetchFromServicePopularBroadcasts(ActivityCallbackListener activityCallbackListener) {
 		apiClient.getTVBroadcastsPopular(activityCallbackListener);
 	}
+	
+	private void fetchFromServiceUpcomingBroadcasts(ActivityCallbackListener activityCallBackListener, TVBroadcastWithChannelInfo broadcast) {
+		if (broadcast.getProgram() != null && broadcast.getProgram().getProgramType() == ProgramTypeEnum.TV_EPISODE) {
+			String tvSeriesId = broadcast.getProgram().getSeries().getSeriesId();
+			apiClient.getTVBroadcastsFromSeries(activityCallBackListener, tvSeriesId);
+		} else {
+			activityCallBackListener.onResult(FetchRequestResultEnum.BAD_REQUEST);
+		}
+	}
+
+	private void fetchFromServiceRepeatingBroadcasts(ActivityCallbackListener activityCallBackListener, TVBroadcastWithChannelInfo broadcast) {
+		if (broadcast.getProgram() != null) {
+			String programId = broadcast.getProgram().getSeries().getSeriesId();
+			apiClient.getTVBroadcastsFromProgram(activityCallBackListener, programId);
+		} else {
+			activityCallBackListener.onResult(FetchRequestResultEnum.BAD_REQUEST);
+		}
+	}
+	
 
 	/* PUBLIC FETCH METHODS WHERE IT DOES NOT MAKE ANY SENSE TO TRY FETCHING THE DATA FROM STORAGE */
 	public void fetchFromServiceAppData(ActivityCallbackListener activityCallBackListener, FetchDataProgressCallbackListener fetchDataProgressCallbackListener) 
@@ -189,6 +214,22 @@ public class ContentManager implements ContentCallbackListener {
 			activityCallBackListener.onResult(FetchRequestResultEnum.SUCCESS);
 		} else {
 			fetchFromServiceUserLikes(activityCallBackListener);
+		}
+	}
+	
+	public void getElseFetchFromServiceUpcomingBroadcasts(ActivityCallbackListener activityCallBackListener, boolean forceDownload, TVBroadcastWithChannelInfo broadcastKey) {
+		if (!forceDownload && storage.containsUpcomingBroadcastsForBroadcast(broadcastKey)) {
+			activityCallBackListener.onResult(FetchRequestResultEnum.SUCCESS);
+		} else {
+			fetchFromServiceUpcomingBroadcasts(activityCallBackListener, broadcastKey);
+		}
+	}
+	
+	public void getElseFetchFromServiceRepeatingBroadcasts(ActivityCallbackListener activityCallBackListener, boolean forceDownload, TVBroadcastWithChannelInfo broadcastKey) {
+		if (!forceDownload && storage.containsRepeatingBroadcastsForBroadcast(broadcastKey)) {
+			activityCallBackListener.onResult(FetchRequestResultEnum.SUCCESS);
+		} else {
+			fetchFromServiceRepeatingBroadcasts(activityCallBackListener, broadcastKey);
 		}
 	}
 	
@@ -548,6 +589,18 @@ public class ContentManager implements ContentCallbackListener {
 			activityCallBackListener.onResult(FetchRequestResultEnum.UNKNOWN_ERROR);
 		}
 	}
+	
+	/* This method does not require any ActivityCallbackListener, "fire and forget". */
+	public void performInternalTracking(TVBroadcast broadcast) {
+		if(broadcast != null && broadcast.getProgram() != null && broadcast.getProgram().getProgramId() != null && !TextUtils.isEmpty(broadcast.getProgram().getProgramId())) {
+			String tvProgramId = broadcast.getProgram().getProgramId();
+			
+			//TODO NewArc use a better method for device id!
+			String deviceId = GenericUtils.getDeviceId();
+			
+			apiClient.performInternalTracking(null, tvProgramId, deviceId);
+		}
+	}
 
 	/* USER METHODS REGUARDING SIGNUP, LOGIN AND LOGOUT */
 	public void performSignUp(ActivityCallbackListener activityCallBackListener, String email, String password, String firstname, String lastname) {
@@ -653,33 +706,32 @@ public class ContentManager implements ContentCallbackListener {
 	}
 	
 	/* NON-PERSISTENT USER DATA, TEMPORARY SAVED IN STORAGE, IN ORDER TO PASS DATA BETWEEN ACTIVITES */
-	public void setUpcomingBroadcasts(ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts) {
-		storage.setNonPersistentDataUpcomingBroadcast(upcomingBroadcasts);
+	public void setUpcomingBroadcasts(TVBroadcastWithChannelInfo broadcastKey, ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts) {
+		UpcomingBroadcastsForBroadcast upcomingBroadcastsObject = new UpcomingBroadcastsForBroadcast(broadcastKey, upcomingBroadcasts);
+		storage.setNonPersistentUpcomingBroadcasts(upcomingBroadcastsObject);
 	}
 	
-	public void setRepeatingBroadcasts(ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts) {
-		storage.setNonPersistentDataRepeatingBroadcast(repeatingBroadcasts);
+	public void setRepeatingBroadcasts(TVBroadcastWithChannelInfo broadcastKey, ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts) {
+		RepeatingBroadcastsForBroadcast repeatingBroadcastsObject = new RepeatingBroadcastsForBroadcast(broadcastKey, repeatingBroadcasts);
+		storage.setNonPersistentRepeatingBroadcasts(repeatingBroadcastsObject);
 	}
 	
-	public ArrayList<TVBroadcastWithChannelInfo> getFromStorageUpcomingBroadcasts() {
-		ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts = storage.getNonPersistentDataUpcomingBroadcast();
+	public ArrayList<TVBroadcastWithChannelInfo> getFromStorageUpcomingBroadcasts(TVBroadcastWithChannelInfo broadcastKey) {
+		ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts = null;
+		if(storage.containsUpcomingBroadcastsForBroadcast(broadcastKey)) {
+			storage.getNonPersistentUpcomingBroadcasts();
+		}
 		return upcomingBroadcasts;
 	}
 	
-	public ArrayList<TVBroadcastWithChannelInfo> getFromStorageRepeatingBroadcasts() {
-		ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts = storage.getNonPersistentDataRepeatingBroadcast();
-		return repeatingBroadcasts;
+	public ArrayList<TVBroadcastWithChannelInfo> getFromStorageRepeatingBroadcasts(TVBroadcastWithChannelInfo broadcastKey) {
+		ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts = null;
+		if(storage.containsRepeatingBroadcastsForBroadcast(broadcastKey)) {
+			storage.getNonPersistentRepeatingBroadcasts();
+		}
+		return upcomingBroadcasts;
 	}
-	
-//	public void setSelectedBroadcast(TVBroadcast selectedBroadcast) {
-//		storage.setNonPersistentSelectedBroadcast(selectedBroadcast);
-//	}
-//	
-//	public TVBroadcast getFromStorageSelectedBroadcast() {
-//		TVBroadcast runningBroadcast = storage.getNonPersistentSelectedBroadcast();
-//		return runningBroadcast;
-//	}
-	
+		
 	public void setSelectedBroadcastWithChannelInfo(TVBroadcastWithChannelInfo selectedBroadcast) {
 		storage.setNonPersistentSelectedBroadcastWithChannelInfo(selectedBroadcast);
 	}
