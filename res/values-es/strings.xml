@@ -100,7 +100,10 @@
     <string name="movie">Película</string>
     <string name="sport">Deportes</string>
     <string name="tv_series">Series de TV</string>
-    <string name="repetitions">Repeticiónes de este episodio</string>
+    <string name="repetitions_episode">Repeticiónes de este episodio</string>
+    <string name="repetitions_movie">Repeticiónes de esta peli</string>
+    <string name="repetitions_sport_event">Repeticiónes de este programa</string>
+    <string name="repetitions_other">Repeticiónes de este programa</string>
     <string name="repetitions_more">Ver más repeticiónes</string>
 
     <plurals name="hour">

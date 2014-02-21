@@ -166,7 +166,7 @@ public class TrippleBroadcastBlockPopulator {
 		String titleString = null;
 		String showMoreString = null;
 		if(mUsedForRepetitions) {
-			titleString = mActivity.getResources().getString(R.string.repetitions);
+			titleString = mActivity.getResources().getString(R.string.repetitions_episode);
 			showMoreString = mActivity.getResources().getString(R.string.repetitions_more);
 		} else {
 			titleString = mActivity.getResources().getString(R.string.upcoming_episodes);

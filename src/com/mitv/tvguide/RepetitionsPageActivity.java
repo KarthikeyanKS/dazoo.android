@@ -87,7 +87,19 @@ public class RepetitionsPageActivity extends SSActivity implements OnClickListen
 		mActionBar.setDisplayShowCustomEnabled(true);
 		mActionBar.setDisplayUseLogoEnabled(true);
 		mActionBar.setDisplayShowHomeEnabled(true);
-		mActionBar.setTitle(getResources().getString(R.string.repetitions));
+		
+		/* TODO: Change string equals to the enums after the refactoring */
+		String type = mRunningBroadcast.getProgram().getProgramType();
+		if(type.equals("TV_EPISODE")) {
+			mActionBar.setTitle(getResources().getString(R.string.repetitions_episode));
+		} else if(type.equals("MOVIE")) {
+			mActionBar.setTitle(getResources().getString(R.string.repetitions_movie));
+		} else if(type.equals("SPORT")) {
+			mActionBar.setTitle(getResources().getString(R.string.repetitions_sport_event));
+		} else if(type.equals("OTHER")) {
+			mActionBar.setTitle(getResources().getString(R.string.repetitions_other));
+		}
+		
 		mListView = (ListView) findViewById(R.id.repeating_list_listview);
 	}
 

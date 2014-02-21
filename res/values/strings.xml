@@ -151,7 +151,10 @@
     <string name="movie">Movie</string>
     <string name="sport">Sport</string>
     <string name="tv_series">TV Series</string>
-    <string name="repetitions">Repetitions of this episode</string>
+    <string name="repetitions_episode">Repetitions of this episode</string>
+    <string name="repetitions_movie">Repetitions of this movie</string>
+    <string name="repetitions_sport_event">Repetitions of this program</string>
+    <string name="repetitions_other">Repetitions of this program</string>
     <string name="repetitions_more">Show more repetitions</string>
     <string name="broadcast_info">Program info</string>
 
