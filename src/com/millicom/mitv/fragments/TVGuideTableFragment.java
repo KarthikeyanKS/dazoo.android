@@ -23,7 +23,7 @@ import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.models.TVGuide;
-import com.millicom.mitv.models.Broadcast;
+import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVDate;
 import com.millicom.mitv.models.gson.TVTag;
@@ -54,7 +54,7 @@ public class TVGuideTableFragment extends BaseFragment implements ActivityCallba
 	private TVGuideListAdapter		mTVGuideListAdapter;
 	private MiTVStore				mitvStore;
 	private boolean					mIsToday = false;
-	private ArrayList<Broadcast>	mTaggedBroadcasts;
+	private ArrayList<TVBroadcast>	mTaggedBroadcasts;
 	private TVGuideTagListAdapter	mTVTagListAdapter;
 	private int						mHour;
 	private TextView				mCurrentHourTv;
@@ -222,33 +222,46 @@ public class TVGuideTableFragment extends BaseFragment implements ActivityCallba
 				mTVGuideListView.setAdapter(mTVGuideListAdapter);
 				mTVGuideListAdapter.notifyDataSetChanged();
 				focusOnView();
-			} else {
-				final int index = Broadcast.getClosestBroadcastIndex(mTaggedBroadcasts);
+			} 
+			else 
+			{
+				final int index = TVBroadcast.getClosestBroadcastIndex(mTaggedBroadcasts, 0);
+				
 				//Remove all broadcasts that already ended
 				new Runnable() {
 					
 					@Override
-					public void run() {
-						ArrayList<Broadcast> toRemove = new ArrayList<Broadcast>();
-						for (int i = index; i < mTaggedBroadcasts.size(); i++) {
-							if(index < mTaggedBroadcasts.size()-1 && index >= 0) {
-								if (mTaggedBroadcasts.get(i).hasNotEnded() == false) {
+					public void run() 
+					{
+						ArrayList<TVBroadcast> toRemove = new ArrayList<TVBroadcast>();
+						
+						for (int i = index; i < mTaggedBroadcasts.size(); i++) 
+						{
+							if(index < mTaggedBroadcasts.size()-1 && index >= 0) 
+							{
+								if (mTaggedBroadcasts.get(i).hasEnded()) 
+								{
 									toRemove.add(mTaggedBroadcasts.get(i));
 								}
 							}
 						}
-						for (Broadcast broadcast : toRemove) {
+						
+						for (TVBroadcast broadcast : toRemove) 
+						{
 							mTaggedBroadcasts.remove(broadcast);
 						}
 					}
 				}.run();
-				Log.d(TAG, "index: " + index);
 				
 				
 				mTVTagListAdapter = (TVGuideTagListAdapter) adapterMap.get(mTagStr);
-				if(mTVTagListAdapter == null) {
+				
+				if(mTVTagListAdapter == null) 
+				{
 					TVDate tvDateSelected = ContentManager.sharedInstance().getFromStorageTVDateSelected();
+					
 					mTVTagListAdapter = new TVGuideTagListAdapter(mActivity, mTagStr, mTaggedBroadcasts, index, tvDateSelected);
+					
 					adapterMap.put(mTagStr, mTVTagListAdapter);
 				}
 				

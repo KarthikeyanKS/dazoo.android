@@ -21,7 +21,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.millicom.mitv.ContentManager;
-import com.millicom.mitv.models.Broadcast;
+import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;
@@ -53,7 +53,7 @@ public class ChannelPageActivity extends BaseActivity implements OnClickListener
 	private TVDate								mTvDateSelected, mDateTvGuide;
 	private TVChannelGuide								mChannelGuide;
 	private TVChannel								mChannel;
-	private ArrayList<Broadcast>				mBroadcasts, mFollowingBroadcasts;
+	private ArrayList<TVBroadcast>				mBroadcasts, mFollowingBroadcasts;
 	private ArrayList<TVDate>					mTvDates;
 	private int									mSelectedIndex	= -1, mIndexOfNearestBroadcast, mHour;
 //	private MiTVStore							mitvStore;
@@ -126,7 +126,7 @@ public class ChannelPageActivity extends BaseActivity implements OnClickListener
 				
 				mBroadcasts = mChannelGuide.getBroadcasts();
 				mFollowingBroadcasts = null;
-				mFollowingBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());
+				mFollowingBroadcasts = TVBroadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());
 				setFollowingBroadcasts();
 				updateUI(REQUEST_STATUS.SUCCESSFUL);
 			}
@@ -161,14 +161,17 @@ public class ChannelPageActivity extends BaseActivity implements OnClickListener
 
 		if (mChannelGuide != null) {
 			mBroadcasts = mChannelGuide.getBroadcasts();
-			if (mIsToday) {
-				mIndexOfNearestBroadcast = Broadcast.getClosestBroadcastIndexFromTime(mBroadcasts, mHour, mTvDateSelected);
-			} else {
+			if (mIsToday) 
+			{
+				mIndexOfNearestBroadcast = TVBroadcast.getClosestBroadcastIndex(mBroadcasts, mHour, mTvDateSelected, 0);
+			} 
+			else 
+			{
 				mIndexOfNearestBroadcast = 0;
 			}
 			if (mIndexOfNearestBroadcast >= 0) {
 				mFollowingBroadcasts = null;
-				mFollowingBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());
+				mFollowingBroadcasts = TVBroadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());
 			}
 			setFollowingBroadcasts();
 			
@@ -288,11 +291,11 @@ public class ChannelPageActivity extends BaseActivity implements OnClickListener
 					adjustedPosition = 0;
 				}
 				
-				Broadcast broadcastSelected = mFollowingBroadcasts.get(adjustedPosition);
+				TVBroadcast broadcastSelected = mFollowingBroadcasts.get(adjustedPosition);
 				ContentManager.sharedInstance().setSelectedBroadcast(broadcastSelected);
 				ContentManager.sharedInstance().setSelectedTVChannelId(mChannel.getChannelId());
 				
-				intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, mFollowingBroadcasts.get(adjustedPosition).getBeginTimeMillisGmt());
+				intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, mFollowingBroadcasts.get(adjustedPosition).getBeginTimeMillis());
 				
 				//TODO TMP DATA intercommunication
 //				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, mChannel.getChannelId());
@@ -351,19 +354,28 @@ public class ChannelPageActivity extends BaseActivity implements OnClickListener
 	}
 
 	@Override
-	protected void updateUI(REQUEST_STATUS status) {
-		if (super.requestIsSuccesfull(status)) {
+	protected void updateUI(REQUEST_STATUS status) 
+	{
+		if (super.requestIsSuccesfull(status)) 
+		{
 			Log.d(TAG, "succesfull!!!!! ");
 		}
 	}
 
+	
+	
 	@Override
-	protected void loadPage() {
+	protected void loadPage() 
+	{
 		ImageAware imageAware = new ImageViewAware(mChannelIconIv, false);
+		
 		ImageLoader.getInstance().displayImage(mChannelGuide.getImageUrl(), imageAware);
-		mIndexOfNearestBroadcast = Broadcast.getClosestBroadcastIndex(mBroadcasts);
-		if (mIndexOfNearestBroadcast >= 0) {
-			mFollowingBroadcasts = Broadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());
+		
+		mIndexOfNearestBroadcast = TVBroadcast.getClosestBroadcastIndex(mBroadcasts, 0);
+		
+		if (mIndexOfNearestBroadcast >= 0)
+		{
+			mFollowingBroadcasts = TVBroadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());
 			setFollowingBroadcasts();
 		}
 	}

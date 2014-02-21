@@ -3,7 +3,7 @@ package com.millicom.mitv.models.gson;
 
 
 
-public class AdAdzerk 
+public class AdAdzerkJSON 
 {
 	/* Ids & keys */
 	private String userKey;
@@ -24,7 +24,7 @@ public class AdAdzerk
 	
 	
 	
-	public AdAdzerk()
+	public AdAdzerkJSON()
 	{}
 
 

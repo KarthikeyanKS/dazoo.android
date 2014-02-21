@@ -17,7 +17,7 @@ import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.activities.authentication.SignInOrSignupWithFacebookActivity;
 import com.millicom.mitv.enums.ProgramTypeEnum;
-import com.millicom.mitv.models.Broadcast;
+import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
 import com.mitv.LikeService;
@@ -48,7 +48,7 @@ public class BroadcastMainBlockPopulator {
 		this.mContainerView = containerView;
 	}
 
-	public void createBlock(final Broadcast broadcast) {
+	public void createBlock(final TVBroadcast broadcast) {
 		LinearLayout containerView = (LinearLayout) mContainerView.findViewById(R.id.broacastpage_block_container_layout);
 
 		View topContentView = LayoutInflater.from(mActivity).inflate(R.layout.block_broadcastpage_main_content, null);
@@ -180,7 +180,7 @@ public class BroadcastMainBlockPopulator {
 		}
 
 		// broadcast is currently on air: show progress
-		if (broadcast.isRunning()) {
+		if (broadcast.isBroadcastCurrentlyAiring()) {
 			ProgressBarUtils.setupProgressBar(mActivity, broadcast, progressBar, progressTxt);
 			timeTv.setVisibility(View.GONE);
 		}
@@ -195,7 +195,7 @@ public class BroadcastMainBlockPopulator {
 			synopsisTv.setVisibility(View.VISIBLE);
 		}
 
-		int duration = broadcast.getDurationInMinutes();
+		int duration = broadcast.getBroadcastDurationInMinutes();
 		String extras = "";
 		if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 			extras = mActivity.getResources().getString(R.string.tv_series) + "  "

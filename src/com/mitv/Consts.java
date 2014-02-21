@@ -121,7 +121,9 @@ public abstract class Consts {
 
 	public static final String	ISO_DATE_FORMAT										= "yyyy-MM-dd'T'HH:mm:ss'Z'";
 	public static final String	TVDATE_DATE_FORMAT									= "yyyy-MM-dd";
-
+	public static final String	TVDATE_DATE_FORMAT_SEPARATOR						= "-";
+	public static final String	TVDATE_DATE_HOUR_MINUTE_SEPARATOR					= ":";
+	
 	/* Activity page content block types */
 	public static final String	BLOCK_TYPE_PRODUCT_TV								= "com.mitv.content.product.tv";
 	public static final String	BLOCK_TYPE_PRODUCT_MOVIE							= "com.mitv.content.product.movie";
@@ -192,7 +194,7 @@ public abstract class Consts {
 	public static final String	INTENT_ALARM_EXTRA_CHANNEL_NAME						= "com.mitv.intent.alarm.extra.channel.name";
 	public static final String	INTENT_ALARM_EXTRA_CHANNEL_LOGO_URL					= "com.mitv.intent.alarm.extra.channel.logo.url";
 	public static final String	INTENT_ALARM_EXTRA_DATE_DATE						= "com.mitv.intent.alarm.extra.date.date";
-	public static final String	INTENT_ALARM_EXTRA_BROADCAST_TIME					= "com.mitv.intent.alarm.extra.broadcast.time";
+	public static final String	INTENT_ALARM_EXTRA_BROADCAST_HOUR_AND_MINUTE_TIME	= "com.mitv.intent.alarm.extra.broadcast.time";
 
 	public static final String	INTENT_EXTRA_FROM_NOTIFICATION						= "com.mitv.intent.extra.from.notification";
 
@@ -257,7 +259,7 @@ public abstract class Consts {
 	public static final String 	BAD_RESPONSE_STRING_EMAIL_NOT_FOUND					= "Email not found";
 
 	/* Notifications */
-	public static final int		NOTIFY_MINUTES_BEFORE_THE_BROADCAST					= -15;
+	public static final int		NOTIFY_MINUTES_BEFORE_THE_BROADCAST2				= 15;
 	public static final String	NOTIFY_NUMBER										= "com.mitv.notify.number";
 	public static final String	NOTIFY_BROADCAST_URL_MIDDLE							= "/broadcasts/";
 
@@ -279,7 +281,7 @@ public abstract class Consts {
 	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_ID					= "channel_id";
 	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_NAME					= "channel_name";
 	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_LOGO_URL				= "channel_logo_url";
-	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_BEGINTIME			= "broadcast_begintime";
+//	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_BEGINTIME			= "broadcast_begintime";
 	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_BEGINTIMEMILLIS	= "begin_time_millis";
 
 	// =========================== CONTENT ================================
@@ -543,4 +545,6 @@ public abstract class Consts {
     /* USER AUTHORIZATION TOKEN */
     public static final String USER_AUTHORIZATION_HEADER_KEY = "Authorization";
     public static final String USER_AUTHORIZATION_HEADER_VALUE_PREFIX = "Bearer";
+    
+    public static final int MAXIMUM_REMINDER_TIME_FOR_SHOW = 15;
 }

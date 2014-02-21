@@ -1,24 +1,19 @@
+
 package com.mitv.broadcastreceivers;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.text.ParseException;
+
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
-
 import com.mitv.Consts;
-import com.mitv.SecondScreenApplication;
 import com.mitv.notification.NotificationService;
-import com.mitv.utilities.OldDateUtilities;
 
-public class AlarmReceiver extends BroadcastReceiver {
-	
+
+
+public class AlarmReceiver extends BroadcastReceiver 
+{	
 	private static final String TAG = "AlarmReceiver";
 
 	@Override
@@ -31,25 +26,19 @@ public class AlarmReceiver extends BroadcastReceiver {
 			String channelName = intent.getStringExtra(Consts.INTENT_ALARM_EXTRA_CHANNEL_NAME);
 			String channelLogo = intent.getStringExtra(Consts.INTENT_ALARM_EXTRA_CHANNEL_LOGO_URL);
 			String dateDate = intent.getStringExtra(Consts.INTENT_ALARM_EXTRA_DATE_DATE);
-			String broadcastTime = intent.getStringExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_TIME);
-			
-			try {
-				broadcastTime = OldDateUtilities.timeToTimeString(OldDateUtilities.convertTimeStampToLocalTime(OldDateUtilities.isoStringToLong(broadcastTime)));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-					
+			String broadcastHourAndMinuteRepresentation = intent.getStringExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_HOUR_AND_MINUTE_TIME);
+								
 			Log.e(TAG,"AlarmReceiver: broadcastBeginTimeMillis: " + String.valueOf(broadcastBeginTimeMillis));
 			Log.e(TAG,"AlarmReceiver: channelId: "+ channelId);
 			Log.e(TAG,"AlarmReceiver: channelName: " + channelName);
 			Log.e(TAG,"AlarmReceiver: channelLogo: " + channelLogo);
 			Log.e(TAG,"AlarmReceiver: broadcastName: " +  broadcastName);
 			Log.e(TAG,"AlarmReceiver: date: " + dateDate);
-			Log.e(TAG,"AlarmReceiver: broadcast time: " + broadcastTime);
+			Log.e(TAG,"AlarmReceiver: broadcast time: " + broadcastHourAndMinuteRepresentation);
 			
 			Log.e(TAG,"AlarmReceiver: Notification id: " + String.valueOf(notificationId));
 			
-			NotificationService.showNotification(context, broadcastBeginTimeMillis, broadcastTime, broadcastName, channelId, channelName, channelLogo, dateDate, notificationId);
+			NotificationService.showNotification(context, broadcastBeginTimeMillis, broadcastHourAndMinuteRepresentation, broadcastName, channelId, channelName, channelLogo, dateDate, notificationId);
 		}
 	}	
 }

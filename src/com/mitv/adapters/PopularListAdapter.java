@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.enums.ProgramTypeEnum;
-import com.millicom.mitv.models.Broadcast;
+import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
 import com.millicom.mitv.models.gson.TVDate;
 import com.mitv.Consts;
@@ -60,7 +60,7 @@ public class PopularListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public Broadcast getItem(int position) {
+	public TVBroadcast getItem(int position) {
 		if (mPopularBroadcasts != null) {
 			return mPopularBroadcasts.get(position);
 		} else return null;
@@ -74,7 +74,7 @@ public class PopularListAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 
-		final Broadcast broadcast = getItem(position);
+		final TVBroadcast broadcast = getItem(position);
 
 		View rowView = convertView;
 		if (rowView == null) {
@@ -129,7 +129,7 @@ public class PopularListAdapter extends BaseAdapter {
 				public void onClick(View v) {
 					// go to the corresponding Broadcast page
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId().getChannelId());
 					//TODO TMP DATA intercommunication
 //					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
@@ -146,7 +146,7 @@ public class PopularListAdapter extends BaseAdapter {
 
 			holder.mChannelNameTv.setText(broadcast.getChannel().getName());
 
-			if (broadcast.isRunning()) {
+			if (broadcast.isBroadcastCurrentlyAiring()) {
 				ProgressBarUtils.setupProgressBar(mActivity, broadcast, holder.mProgressBar, holder.mProgressBarTitleTv);
 			} else {
 				holder.mProgressBar.setVisibility(View.GONE);
@@ -228,7 +228,7 @@ public class PopularListAdapter extends BaseAdapter {
 				@Override
 				public void onClick(View v) {
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId().getChannelId());
 					//TODO TMP DATA intercommunication
 //					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());

@@ -7,21 +7,23 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.millicom.mitv.models.Broadcast;
+import com.millicom.mitv.models.TVBroadcast;
 import com.mitv.R;
 
-public class ProgressBarUtils {
-	public static void setupProgressBar(Activity mActivity, Broadcast broadcast, ProgressBar progressBar, TextView progressTxt){
-		progressBar.setMax(broadcast.getDurationInMinutes() + 1);
+public class ProgressBarUtils
+{
+	public static void setupProgressBar(Activity mActivity, TVBroadcast broadcast, ProgressBar progressBar, TextView progressTxt)
+	{
+		progressBar.setMax(broadcast.getBroadcastDurationInMinutes() + 1);
 
 		// Calculate the current progress of the ProgressBar and update.
 		int initialProgress = 0;
 
-		initialProgress = broadcast.minutesSinceStart();
-		int timeLeft = broadcast.getDurationInMinutes() - initialProgress;
+		int timeLeft = broadcast.getRemainingMinutesUntilBroadcastEnds();
 
 		// different representation of "X min left" for Spanish and all other languages
-		if (Locale.getDefault().getLanguage().endsWith("es")) {
+		if (Locale.getDefault().getLanguage().endsWith("es")) 
+		{
 			if (timeLeft > 60) {
 				int hours = timeLeft / 60;
 				int minutes = timeLeft - hours * 60;
@@ -49,6 +51,7 @@ public class ProgressBarUtils {
 						mActivity.getResources().getString(R.string.left));
 			}
 		}
+		
 		progressBar.setProgress(initialProgress + 1);
 		progressTxt.setVisibility(View.VISIBLE);
 		progressBar.setVisibility(View.VISIBLE);

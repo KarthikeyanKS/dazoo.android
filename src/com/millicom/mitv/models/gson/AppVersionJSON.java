@@ -7,7 +7,7 @@ import java.util.Date;
 
 
 
-public class AppVersion
+public class AppVersionJSON
 {
 
 	private String name;
@@ -16,7 +16,7 @@ public class AppVersion
 	
 	
 	
-	public AppVersion()
+	public AppVersionJSON()
 	{}
 	
 	

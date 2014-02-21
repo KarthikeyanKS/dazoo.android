@@ -7,11 +7,11 @@ import java.util.HashMap;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
-import com.millicom.mitv.models.AppVersionData;
-import com.millicom.mitv.models.Broadcast;
+import com.millicom.mitv.models.AppVersion;
+import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVGuide;
-import com.millicom.mitv.models.gson.AdzerkAd;
-import com.millicom.mitv.models.gson.AppConfiguration;
+import com.millicom.mitv.models.gson.AdzerkAdJSON;
+import com.millicom.mitv.models.gson.AppConfigurationJSON;
 import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
@@ -53,7 +53,7 @@ public class Storage {
 	 * "SPORT" = [BroadcastX, BroadcastY]} 
 	 * 
 	 * */
-	private HashMap<String, HashMap<String, ArrayList<Broadcast>>> taggedBroadcastsForAllDays;
+	private HashMap<String, HashMap<String, ArrayList<TVBroadcast>>> taggedBroadcastsForAllDays;
 	
 	private ArrayList<UserLike> userLikes;
 	
@@ -66,16 +66,16 @@ public class Storage {
 	private UserLoginData userData;
 	private TVDate tvDateSelected;
 	
-	private AppVersionData appVersionData;
-	private AppConfiguration appConfigData;
+	private AppVersion appVersionData;
+	private AppConfigurationJSON appConfigData;
 		
 	/* Ads */
-	private HashMap<String, SparseArray<AdzerkAd>> fragmentToAdsMap;
+	private HashMap<String, SparseArray<AdzerkAdJSON>> fragmentToAdsMap;
 	
 	/* NON-PERSISTENT USER DATA, USED FOR PASSING DATA BETWEEN ACTIVITIES */
-	private Broadcast nonPersistentSelectedBroadcast;
-	private ArrayList<Broadcast> nonPersistentUpcomingBroadcasts;
-	private ArrayList<Broadcast> nonPersistentRepeatingBroadcasts;
+	private TVBroadcast nonPersistentSelectedBroadcast;
+	private ArrayList<TVBroadcast> nonPersistentUpcomingBroadcasts;
+	private ArrayList<TVBroadcast> nonPersistentRepeatingBroadcasts;
 	private Integer nonPersistentSelectedHour;
 	private TVChannelId nonPersistentSelectedTVChannelId;
 	
@@ -219,27 +219,27 @@ public class Storage {
 		this.userLikes = userLikes;
 	}
 	
-	public HashMap<String, SparseArray<AdzerkAd>> getFragmentToAdsMap() {
+	public HashMap<String, SparseArray<AdzerkAdJSON>> getFragmentToAdsMap() {
 		return fragmentToAdsMap;
 	}
 
-	public void setFragmentToAdsMap(HashMap<String, SparseArray<AdzerkAd>> mFragmentToAdsMap) {
+	public void setFragmentToAdsMap(HashMap<String, SparseArray<AdzerkAdJSON>> mFragmentToAdsMap) {
 		this.fragmentToAdsMap = mFragmentToAdsMap;
 	}
 
-	public AppVersionData getAppVersionData() {
+	public AppVersion getAppVersionData() {
 		return appVersionData;
 	}
 
-	public void setAppVersionData(AppVersionData appVersionData) {
+	public void setAppVersionData(AppVersion appVersionData) {
 		this.appVersionData = appVersionData;
 	}
 
-	public AppConfiguration getAppConfigData() {
+	public AppConfigurationJSON getAppConfigData() {
 		return appConfigData;
 	}
 
-	public void setAppConfigData(AppConfiguration appConfigData) {
+	public void setAppConfigData(AppConfigurationJSON appConfigData) {
 		this.appConfigData = appConfigData;
 	}
 	
@@ -294,24 +294,24 @@ public class Storage {
 		return tvChannelGuideFound;
 	}
 		
-	public HashMap<String, HashMap<String, ArrayList<Broadcast>>> getTaggedBroadcastsForAllDays() {
+	public HashMap<String, HashMap<String, ArrayList<TVBroadcast>>> getTaggedBroadcastsForAllDays() {
 		return taggedBroadcastsForAllDays;
 	}
 	
-	public void addTaggedBroadcastsForSelectedDay(HashMap<String, ArrayList<Broadcast>> taggedBroadcastForDay) {
+	public void addTaggedBroadcastsForSelectedDay(HashMap<String, ArrayList<TVBroadcast>> taggedBroadcastForDay) {
 		TVDate tvDate = getTvDateSelected();
 		addTaggedBroadcastsForDay(taggedBroadcastForDay, tvDate);
 	}
 	
-	public void addTaggedBroadcastsForDay(HashMap<String, ArrayList<Broadcast>> taggedBroadcastForDay, TVDate tvDate) {
+	public void addTaggedBroadcastsForDay(HashMap<String, ArrayList<TVBroadcast>> taggedBroadcastForDay, TVDate tvDate) {
 		if(taggedBroadcastsForAllDays == null) {
-			taggedBroadcastsForAllDays = new HashMap<String, HashMap<String, ArrayList<Broadcast>>>();
+			taggedBroadcastsForAllDays = new HashMap<String, HashMap<String, ArrayList<TVBroadcast>>>();
 		}
 		taggedBroadcastsForAllDays.put(tvDate.getId(), taggedBroadcastForDay);
 	}
 	
-	public HashMap<String, ArrayList<Broadcast>> getTaggedBroadcastsUsingTVDate(TVDate tvDateAsKey) {
-		HashMap<String, ArrayList<Broadcast>> taggedBroadcastForDay = taggedBroadcastsForAllDays.get(tvDateAsKey.getId());
+	public HashMap<String, ArrayList<TVBroadcast>> getTaggedBroadcastsUsingTVDate(TVDate tvDateAsKey) {
+		HashMap<String, ArrayList<TVBroadcast>> taggedBroadcastForDay = taggedBroadcastsForAllDays.get(tvDateAsKey.getId());
 		return taggedBroadcastForDay;
 	}
 	
@@ -387,27 +387,27 @@ public class Storage {
 		this.nonPersistentSelectedHour = seletectedHour;
 	}
 	
-	public void setNonPersistentDataUpcomingBroadcast(ArrayList<Broadcast> nonPersistentUpcomingBroadcasts) {
+	public void setNonPersistentDataUpcomingBroadcast(ArrayList<TVBroadcast> nonPersistentUpcomingBroadcasts) {
 		this.nonPersistentUpcomingBroadcasts = nonPersistentUpcomingBroadcasts;
 	}
 	
-	public void setNonPersistentDataRepeatingBroadcast(ArrayList<Broadcast> nonPersistentRepeatingBroadcasts) {
+	public void setNonPersistentDataRepeatingBroadcast(ArrayList<TVBroadcast> nonPersistentRepeatingBroadcasts) {
 		this.nonPersistentRepeatingBroadcasts = nonPersistentRepeatingBroadcasts;
 	}
 	
-	public ArrayList<Broadcast> getNonPersistentDataRepeatingBroadcast() {
+	public ArrayList<TVBroadcast> getNonPersistentDataRepeatingBroadcast() {
 		return nonPersistentRepeatingBroadcasts;
 	}
 	
-	public ArrayList<Broadcast> getNonPersistentDataUpcomingBroadcast() {
+	public ArrayList<TVBroadcast> getNonPersistentDataUpcomingBroadcast() {
 		return nonPersistentUpcomingBroadcasts;
 	}
 	
-	public void setNonPersistentSelectedBroadcast(Broadcast runningBroadcast) {
+	public void setNonPersistentSelectedBroadcast(TVBroadcast runningBroadcast) {
 		this.nonPersistentSelectedBroadcast = runningBroadcast;
 	}
 	
-	public Broadcast getNonPersistentSelectedBroadcast() {
+	public TVBroadcast getNonPersistentSelectedBroadcast() {
 		return nonPersistentSelectedBroadcast;
 	}
 	

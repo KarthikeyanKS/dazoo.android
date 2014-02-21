@@ -16,14 +16,14 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.millicom.mitv.models.Broadcast;
+import com.millicom.mitv.models.TVBroadcast;
 import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.RemindersListAdapter;
 import com.mitv.interfaces.RemindersCountInterface;
-import com.mitv.model.OldNotificationDbItem;
+import com.mitv.model.NotificationDbItem;
 import com.mitv.notification.NotificationDataSource;
 
 public class RemindersActivity extends BaseActivity implements RemindersCountInterface, OnClickListener {
@@ -79,14 +79,14 @@ public class RemindersActivity extends BaseActivity implements RemindersCountInt
 	}
 
 	private void populateViews() {
-		ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>();
+		ArrayList<TVBroadcast> broadcasts = new ArrayList<TVBroadcast>();
 
 		NotificationDataSource notificationDataSource = new NotificationDataSource(this);
-		List<OldNotificationDbItem> notificationList = notificationDataSource.getAllNotifications();
+		List<NotificationDbItem> notificationList = notificationDataSource.getAllNotifications();
 		for (int i = 0; i < notificationList.size(); i++) {
-			OldNotificationDbItem item = notificationList.get(i);
+			NotificationDbItem item = notificationList.get(i);
 			//TODO create some constructor for some Broadcast related class from database item...
-			Broadcast broadcast = null;// = new Broadcast(item);
+			TVBroadcast broadcast = null;// = new Broadcast(item);
 			broadcasts.add(broadcast);
 		}
 		// If empty - show notification.
@@ -94,7 +94,7 @@ public class RemindersActivity extends BaseActivity implements RemindersCountInt
 			mErrorTv.setVisibility(View.VISIBLE);
 		} else {
 			// Sort the list of broadcasts by time.
-			Collections.sort(broadcasts, new Broadcast.BroadcastComparatorByTime());
+			Collections.sort(broadcasts, new TVBroadcast.BroadcastComparatorByTime());
 
 			mAdapter = new RemindersListAdapter(this, broadcasts, this);
 			mListView.setAdapter(mAdapter);

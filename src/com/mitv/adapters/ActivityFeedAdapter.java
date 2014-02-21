@@ -18,7 +18,7 @@ import com.millicom.mitv.activities.PopularPageActivity;
 import com.millicom.mitv.enums.FeedItemTypeEnum;
 import com.millicom.mitv.enums.LikeTypeResponseEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
-import com.millicom.mitv.models.Broadcast;
+import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.gson.TVFeedItem;
 import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
@@ -109,7 +109,7 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 		}
 	}
 
-	public void populatePopularItemAtIndex(PopularBroadcastsViewHolder viewHolder, ArrayList<Broadcast> broadcasts, int popularRowIndex) {
+	public void populatePopularItemAtIndex(PopularBroadcastsViewHolder viewHolder, ArrayList<TVBroadcast> broadcasts, int popularRowIndex) {
 		ImageView imageView = null;
 		TextView title = null;
 		TextView time = null;
@@ -156,9 +156,9 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 		}
 
 		if (popularRowIndex < broadcasts.size()) {
-			final Broadcast broadcast = broadcasts.get(popularRowIndex);
-			if (broadcast != null) {
-				broadcast.updateTimeToBeginAndTimeToEnd();
+			final TVBroadcast broadcast = broadcasts.get(popularRowIndex);
+			if (broadcast != null) 
+			{
 				final TVProgram program = broadcast.getProgram();
 
 //				String programType = broadcast.getProgram().getProgramType();
@@ -210,7 +210,7 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 				progressBar.setVisibility(View.GONE);
 				progressTextView.setVisibility(View.GONE);
 
-				if (broadcast.isRunning()) {
+				if (broadcast.isBroadcastCurrentlyAiring()) {
 					ProgressBarUtils.setupProgressBar(mActivity, broadcast, progressBar, progressTextView);
 				} 
 
@@ -228,11 +228,12 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 		}
 	}
 
-	private void popularBroadcastClicked(Broadcast broadcast) {
+	private void popularBroadcastClicked(TVBroadcast broadcast) 
+	{
 		Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-		intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
+		intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
 		intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId().getChannelId());
-		intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
+		intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getBeginTimeDateRepresentation());
 		intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
 		intent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
 
@@ -251,11 +252,12 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 		return rowView;
 	}
 	
-	private View populateSingleBroadcastCell(View rowView, final Broadcast broadcast, int position, TVFeedItem feedItem) {
-		broadcast.updateTimeToBeginAndTimeToEnd();
-
+	private View populateSingleBroadcastCell(View rowView, final TVBroadcast broadcast, int position, TVFeedItem feedItem) 
+	{
 		final TVProgram program = broadcast.getProgram();
-		if (rowView == null) {
+		
+		if (rowView == null) 
+		{
 			BroadcastViewHolder viewHolder = new BroadcastViewHolder();
 
 			rowView = mLayoutInflater.inflate(R.layout.block_feed_liked, null);
@@ -338,23 +340,23 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 				}
 			}
 
-			holderBC.container.setOnClickListener(new View.OnClickListener() {
-
+			holderBC.container.setOnClickListener(new View.OnClickListener() 
+			{
 				@Override
-				public void onClick(View v) {
+				public void onClick(View v) 
+				{
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId().getChannelId());
-					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getBeginTimeDateRepresentation());
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
 
 					mActivity.startActivityForResult(intent, 0);
-
 				}
 			});
 
-			if (broadcast.isRunning()) {
+			if (broadcast.isBroadcastCurrentlyAiring()) {
 				ProgressBarUtils.setupProgressBar(mActivity, broadcast, holderBC.progressBar, holderBC.progressbarTv);
 			} else {
 				holderBC.progressbarTv.setVisibility(View.GONE);
@@ -428,7 +430,7 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 		return rowView;
 	}
 	
-	private View populateMultipleBroadcastsCell(View rowView, ArrayList<Broadcast> broadcasts) {
+	private View populateMultipleBroadcastsCell(View rowView, ArrayList<TVBroadcast> broadcasts) {
 		if (rowView == null) {
 			PopularBroadcastsViewHolder viewHolder = new PopularBroadcastsViewHolder();
 			rowView = mLayoutInflater.inflate(R.layout.block_feed_popular, null);
@@ -510,7 +512,7 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 		case ITEM_TYPE_POPULAR_BROADCAST:
 		case ITEM_TYPE_BROADCAST:
 			/* One broadcast */
-			final Broadcast broadcast = feedItem.getBroadcast();
+			final TVBroadcast broadcast = feedItem.getBroadcast();
 
 			if (broadcast != null) {
 				rowView = populateSingleBroadcastCell(rowView, broadcast, position, feedItem);
@@ -519,7 +521,7 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 
 		case ITEM_TYPE_POPULAR_BROADCASTS:
 
-			final ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>(feedItem.getBroadcasts());
+			final ArrayList<TVBroadcast> broadcasts = new ArrayList<TVBroadcast>(feedItem.getBroadcasts());
 
 			if (broadcasts != null && broadcasts.size() > 0) {
 				rowView = populateMultipleBroadcastsCell(rowView, broadcasts);

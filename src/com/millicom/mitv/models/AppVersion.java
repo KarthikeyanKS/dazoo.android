@@ -6,25 +6,25 @@ package com.millicom.mitv.models;
 import java.util.Arrays;
 import java.util.List;
 
-import com.millicom.mitv.models.gson.AppVersion;
+import com.millicom.mitv.models.gson.AppVersionJSON;
 import com.mitv.Consts;
 
 
 
-public class AppVersionData 
+public class AppVersion 
 {
-	private List<AppVersion> appVersionDataParts;
+	private List<AppVersionJSON> appVersionDataParts;
 
 	
 	
-	public AppVersionData(AppVersion[] appVersionDataParts)
+	public AppVersion(AppVersionJSON[] appVersionDataParts)
 	{
 		this.appVersionDataParts = Arrays.asList(appVersionDataParts);
 	}
 	
 	
 	
-	public AppVersionData(List<AppVersion> appVersionDataParts)
+	public AppVersion(List<AppVersionJSON> appVersionDataParts)
 	{
 		this.appVersionDataParts = appVersionDataParts;
 	}
@@ -35,7 +35,7 @@ public class AppVersionData
 	{
 		String value = "";
 		
-		for(AppVersion dataPart : appVersionDataParts)
+		for(AppVersionJSON dataPart : appVersionDataParts)
 		{
 			String name = dataPart.getName();
 			
@@ -55,7 +55,7 @@ public class AppVersionData
 	{
 		String value = "";
 		
-		for(AppVersion dataPart : appVersionDataParts)
+		for(AppVersionJSON dataPart : appVersionDataParts)
 		{
 			String name = dataPart.getName();
 			

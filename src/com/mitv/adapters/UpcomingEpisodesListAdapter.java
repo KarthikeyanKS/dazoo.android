@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.millicom.mitv.activities.BroadcastPageActivity;
-import com.millicom.mitv.models.Broadcast;
+import com.millicom.mitv.models.TVBroadcast;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.customviews.ReminderView;
@@ -28,26 +28,26 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
-	private ArrayList<Broadcast>	mUpcomingEpisodes;
+	private ArrayList<TVBroadcast>	mUpcomingEpisodes;
 	private NotificationDataSource	mNotificationDataSource;
 	private int						mLastPosition	= -1;
 	private int 					mNotificationId = -1;
 	private int 					mPosNotificationId[];
 	private boolean					mIsSet = false;
 	private boolean 				mPosIsSet[];
-	private Broadcast				mRunningBroadcast;
+	private TVBroadcast				mRunningBroadcast;
 
 	private MiTVStore				mitvStore;
 	private ArrayList<OldTVDate>		mTvDates;
 
 	private int reminderPosition;
 
-	public UpcomingEpisodesListAdapter(Activity activity, ArrayList<Broadcast> upcomingBroadcasts, Broadcast runningBroadcast) {
+	public UpcomingEpisodesListAdapter(Activity activity, ArrayList<TVBroadcast> upcomingBroadcasts, TVBroadcast runningBroadcast) {
 
 		boolean foundRunningBroadcast = false;
 		int indexOfRunningBroadcast = 0;
 		for (int i = 0; i < upcomingBroadcasts.size(); ++i) {
-			Broadcast repeatingBroadcast = upcomingBroadcasts.get(i);
+			TVBroadcast repeatingBroadcast = upcomingBroadcasts.get(i);
 			if (repeatingBroadcast.equals(mRunningBroadcast)) {
 				foundRunningBroadcast = true;
 				indexOfRunningBroadcast = i;
@@ -79,7 +79,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public Broadcast getItem(int position) {
+	public TVBroadcast getItem(int position) {
 		if (mUpcomingEpisodes != null) {
 			return mUpcomingEpisodes.get(position);
 		} else return null;
@@ -94,7 +94,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 
-		final Broadcast broadcast = getItem(position);
+		final TVBroadcast broadcast = getItem(position);
 		// Log.d(TAG, "broadcast: " + broadcast);
 
 		if (rowView == null) {
@@ -160,7 +160,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 				public void onClick(View v) {
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
 					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId().getChannelId());
 					//TODO TMP DATA intercommunication
 //					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());

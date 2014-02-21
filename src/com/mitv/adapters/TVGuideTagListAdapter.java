@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.enums.ProgramTypeEnum;
-import com.millicom.mitv.models.Broadcast;
+import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.gson.TVDate;
 import com.mitv.Consts;
 import com.mitv.R;
@@ -25,17 +25,17 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-public class TVGuideTagListAdapter extends AdListAdapter<Broadcast> {
+public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcast> {
 
 	private static final String		TAG	= "TVGuideListAdapter";
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
-	private ArrayList<Broadcast>	mTaggedBroadcasts;
+	private ArrayList<TVBroadcast>	mTaggedBroadcasts;
 	private int						mCurrentPosition;
 //	private TVDate					mDate;
 
-	public TVGuideTagListAdapter(Activity activity, String fragmentName, ArrayList<Broadcast> taggedBroadcasts, int currentPosition, TVDate date) {
+	public TVGuideTagListAdapter(Activity activity, String fragmentName, ArrayList<TVBroadcast> taggedBroadcasts, int currentPosition, TVDate date) {
 		super(fragmentName, activity, taggedBroadcasts);
 		this.mTaggedBroadcasts = taggedBroadcasts;
 		this.mActivity = activity;
@@ -67,7 +67,7 @@ public class TVGuideTagListAdapter extends AdListAdapter<Broadcast> {
 		// get the item with the displacement depending on the scheduled time on air
 		int indexForBroadcast = mCurrentPosition + position;
 		if (indexForBroadcast >= 0) {
-			final Broadcast broadcast = getItem(indexForBroadcast);
+			final TVBroadcast broadcast = getItem(indexForBroadcast);
 
 			if (rowView == null) {
 				mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -89,7 +89,7 @@ public class TVGuideTagListAdapter extends AdListAdapter<Broadcast> {
 
 			if (broadcast != null) {
 				// If on air
-				if (broadcast.isRunning()) {
+				if (broadcast.isBroadcastCurrentlyAiring()) {
 					ProgressBarUtils.setupProgressBar(mActivity, broadcast, holder.mDurationPb, holder.mTimeLeftTv);
 				} else {
 					holder.mDurationPb.setVisibility(View.GONE);
@@ -195,7 +195,7 @@ public class TVGuideTagListAdapter extends AdListAdapter<Broadcast> {
 					Log.d(TAG, broadcast.getProgram().toString());
 
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId().getChannelId());
 //					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, mDate.getDate());
 
@@ -230,7 +230,7 @@ public class TVGuideTagListAdapter extends AdListAdapter<Broadcast> {
 	}
 
 	@Override
-	public Broadcast getItem(int position) {
+	public TVBroadcast getItem(int position) {
 		if (mTaggedBroadcasts != null) {
 			return mTaggedBroadcasts.get(position);
 		} else {

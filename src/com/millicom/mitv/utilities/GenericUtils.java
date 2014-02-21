@@ -26,7 +26,7 @@ import android.view.inputmethod.InputMethodManager;
 
 public class GenericUtils 
 {
-	private static final String	TAG	= "Utils";
+	private static final String TAG = GenericUtils.class.getName();
 	
 	
 	

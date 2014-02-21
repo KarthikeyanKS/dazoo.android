@@ -1,9 +1,7 @@
 package com.mitv.notification;
 
-import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Random;
-
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Dialog;
@@ -24,130 +22,126 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.millicom.mitv.activities.BroadcastPageActivity;
-import com.millicom.mitv.models.Broadcast;
-import com.millicom.mitv.models.gson.TVChannel;
+import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
 import com.mitv.R;
-import com.mitv.model.OldNotificationDbItem;
-import com.mitv.utilities.OldDateUtilities;
+import com.mitv.model.NotificationDbItem;
 
-public class NotificationService {
-
-	private static final String	TAG	= "NotificationService";
+public class NotificationService
+{
+	private static final String	TAG	= NotificationService.class.getName();
+	
 	public static Toast sToast;
 
-	public static boolean setAlarm(Context context, Broadcast broadcast, TVChannel channel, int notificationId){
-
-		// call alarm manager to set the notification at the certain time
-		Intent intent = getAlarmIntent(notificationId, broadcast, channel, broadcast.getTvDateString());
+	
+	public static void setAlarm(Context context, TVBroadcast broadcast, int notificationId)
+	{
+		// Call alarm manager to set the notification at the certain time
+		Intent intent = getAlarmIntent(notificationId, broadcast);
 
 		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+		
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, notificationId, intent, 0);
 
-		Calendar calendar;
-		try {
-			calendar = OldDateUtilities.getTimeFifteenMinBefore(broadcast.getBeginTimeStringGmt());
+		Calendar calendar = broadcast.getBroadcastBeginTimeForNotification();
 
-			alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-
-			return true;
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return false;
+		alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 	}
 	
 	
-	private static Intent getAlarmIntent(int notificationId, Broadcast broadcast, TVChannel channel, String dateDate) {
+	private static Intent getAlarmIntent(int notificationId, TVBroadcast broadcast) 
+	{
 		Intent intent = new Intent(Consts.INTENT_NOTIFICATION);
 
-		intent.putExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_BEGINTIMEMILLIS, broadcast.getBeginTimeMillisGmt());
-		intent.putExtra(Consts.INTENT_ALARM_EXTRA_CHANNELID, channel.getChannelId().getChannelId());
+		intent.putExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_BEGINTIMEMILLIS, broadcast.getBeginTimeMillis());
+		intent.putExtra(Consts.INTENT_ALARM_EXTRA_CHANNELID, broadcast.getChannel().getChannelId().getChannelId());
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_NOTIFICIATION_ID, notificationId);
-		intent.putExtra(Consts.INTENT_ALARM_EXTRA_CHANNEL_NAME, channel.getName());
-		intent.putExtra(Consts.INTENT_ALARM_EXTRA_CHANNEL_LOGO_URL, channel.getImageUrl());
+		intent.putExtra(Consts.INTENT_ALARM_EXTRA_CHANNEL_NAME, broadcast.getChannel().getName());
+		intent.putExtra(Consts.INTENT_ALARM_EXTRA_CHANNEL_LOGO_URL, broadcast.getChannel().getImageUrl());
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_NAME, broadcast.getProgram().getTitle());
-		intent.putExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_TIME, broadcast.getBeginTimeStringGmt());
-		intent.putExtra(Consts.INTENT_ALARM_EXTRA_DATE_DATE, dateDate);
+		intent.putExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_HOUR_AND_MINUTE_TIME, broadcast.getBeginTimeHourAndMinuteCompositionAsString());
+		intent.putExtra(Consts.INTENT_ALARM_EXTRA_DATE_DATE, broadcast.getBeginTimeDateRepresentation());
 		
 		return intent;
 	}
 
-	public static boolean setAlarm(Context context, Broadcast broadcast, TVChannel channel, String dateDate) {
-
+	
+	
+	public static void setAlarm(Context context, TVBroadcast broadcast) 
+	{
 		Random random = new Random();
 		int notificationId = random.nextInt(Integer.MAX_VALUE);
 		Log.d(TAG,"NOTIFICATION ID: " + notificationId);
 
-		// call alarm manager to set the notification at the certain time
-		Intent intent = getAlarmIntent(notificationId, broadcast, channel, dateDate);
+		// Call alarm manager to set the notification at the certain time
+		Intent intent = getAlarmIntent(notificationId, broadcast);
 
 		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, notificationId, intent, 0);
 
-		Calendar calendar;
-		try {
-			calendar = OldDateUtilities.getTimeFifteenMinBefore(broadcast.getBeginTimeStringGmt());
+		Calendar calendar = broadcast.getBroadcastBeginTimeForNotification();
 
-			alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+		alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
-			// for testing
-			//alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (10000), pendingIntent);
+		NotificationDataSource notificationDataSource = new NotificationDataSource(context);
 
-			NotificationDataSource notificationDataSource = new NotificationDataSource(context);
+		NotificationDbItem dbNotification = new NotificationDbItem();
+		dbNotification.setNotificationId(notificationId);
+		dbNotification.setBroadcstUrl(Consts.URL_NOTIFY_BROADCAST_PREFIX + broadcast.getChannel().getChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillis());
+		dbNotification.setProgramId(broadcast.getProgram().getProgramId());
 
-			OldNotificationDbItem dbNotification = new OldNotificationDbItem();
-			dbNotification.setNotificationId(notificationId);
-			dbNotification.setBroadcstUrl(Consts.URL_NOTIFY_BROADCAST_PREFIX + channel.getChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillisGmt());
-			dbNotification.setProgramId(broadcast.getProgram().getProgramId());
+		TVProgram program = broadcast.getProgram();
+		String titleString = null;
 
-			TVProgram program = broadcast.getProgram();
-			String titleString = null;
-			if(program.getSeries() != null) {
-				titleString = program.getSeries().getName();
-			} else {
-				titleString = program.getTitle();
-			}
-
-			dbNotification.setProgramTitle(titleString);
-
-			String programType = broadcast.getProgram().getProgramType().name();
-			if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-				dbNotification.setProgramType(programType);
-				dbNotification.setProgramSeason(broadcast.getProgram().getSeason().getNumber().toString());
-				dbNotification.setProgramEpisodeNumber(broadcast.getProgram().getEpisodeNumber());
-			} else if (Consts.PROGRAM_TYPE_MOVIE.equals(programType)){
-				dbNotification.setProgramType(programType);
-				dbNotification.setProgramYear(broadcast.getProgram().getYear());
-				dbNotification.setProgramGenre(broadcast.getProgram().getGenre());
-			} else if (Consts.PROGRAM_TYPE_OTHER.equals(programType)){
-				dbNotification.setProgramType(programType);
-				dbNotification.setProgramCategory(broadcast.getProgram().getCategory());
-			} else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) {
-				dbNotification.setProgramType(programType);
-				dbNotification.setProgramCategory(broadcast.getProgram().getSportType().getName()); //Use category for sport type name 
-				dbNotification.setProgramGenre(broadcast.getProgram().getTournament()); //And genre for tournament name
-			}
-
-			dbNotification.setChannelName(channel.getName());
-			dbNotification.setChannelId(channel.getChannelId().getChannelId());
-			dbNotification.setChannelLogoUrl(channel.getImageUrl());
-			dbNotification.setBroadcastBeginTimeStringLocal(broadcast.getBeginTimeStringGmt());
-			dbNotification.setBroadcastBeginTimeMillisGmtAsString(String.valueOf(broadcast.getBeginTimeMillisGmt()));
-
-			notificationDataSource.addNotification(dbNotification);
-
-			return true;
-		} catch (ParseException e) {
-			e.printStackTrace();
+		if(program.getSeries() != null)
+		{
+			titleString = program.getSeries().getName();
+		} 
+		else 
+		{
+			titleString = program.getTitle();
 		}
-		return false;
+
+		dbNotification.setProgramTitle(titleString);
+
+		String programType = broadcast.getProgram().getProgramType().name();
+
+		if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) 
+		{
+			dbNotification.setProgramType(programType);
+			dbNotification.setProgramSeason(broadcast.getProgram().getSeason().getNumber().toString());
+			dbNotification.setProgramEpisodeNumber(broadcast.getProgram().getEpisodeNumber());
+		} 
+		else if (Consts.PROGRAM_TYPE_MOVIE.equals(programType))
+		{
+			dbNotification.setProgramType(programType);
+			dbNotification.setProgramYear(broadcast.getProgram().getYear());
+			dbNotification.setProgramGenre(broadcast.getProgram().getGenre());
+		} 
+		else if (Consts.PROGRAM_TYPE_OTHER.equals(programType))
+		{
+			dbNotification.setProgramType(programType);
+			dbNotification.setProgramCategory(broadcast.getProgram().getCategory());
+		} 
+		else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) 
+		{
+			dbNotification.setProgramType(programType);
+			dbNotification.setProgramCategory(broadcast.getProgram().getSportType().getName()); //Use category for sport type name 
+			dbNotification.setProgramGenre(broadcast.getProgram().getTournament()); //And genre for tournament name
+		}
+
+		dbNotification.setChannelName(broadcast.getChannel().getName());
+		dbNotification.setChannelId(broadcast.getChannel().getChannelId().getChannelId());
+		dbNotification.setChannelLogoUrl(broadcast.getChannel().getImageUrl());
+		//			dbNotification.setBroadcastBeginTimeStringLocal(broadcast.getBeginTimeStringGmt());
+		dbNotification.setBroadcastBeginTimeMillisGmtAsString(String.valueOf(broadcast.getBeginTimeMillis()));
+
+		notificationDataSource.addNotification(dbNotification);
 	}
 
-	public static boolean showNotification (Context context, long broadcastBeginTimeMillis, String broadcastTime, String broadcastName, String channelId, String channelName, String channelLogoUrl, 
+	public static boolean showNotification (Context context, long broadcastBeginTimeMillis, String broadcastHourAndMinuteRepresentation, String broadcastName, String channelId, String channelName, String channelLogoUrl, 
 			String dateDate, int notificationId){
 
 		String broadcastUrl = Consts.URL_NOTIFY_BROADCAST_PREFIX + channelId + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcastBeginTimeMillis;
@@ -171,7 +165,7 @@ public class NotificationService {
 			.setSmallIcon(R.drawable.mitv_notification_small_icon)
 			.setLargeIcon(largeIcon)
 			.setContentTitle(broadcastName)
-			.setContentText(broadcastTime + " " + channelName)
+			.setContentText(broadcastHourAndMinuteRepresentation + " " + channelName)
 			.setContentIntent(PendingIntent.getActivity(context, 1, broadcastPageIntent, PendingIntent.FLAG_UPDATE_CURRENT))
 			.setAutoCancel(true)
 			.setWhen(System.currentTimeMillis())
@@ -231,7 +225,7 @@ public class NotificationService {
 		return sToast;
 	}
 
-	public static void showRemoveNotificationDialog(final Context context, Broadcast broadcast, final int notificationId) {
+	public static void showRemoveNotificationDialog(final Context context, TVBroadcast broadcast, final int notificationId) {
 		String reminderText = "";
 		if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(broadcast.getProgram().getProgramType())) {
 			reminderText = context.getString(R.string.reminder_text_remove) + broadcast.getProgram().getTitle() + ", " + context.getString(R.string.season) + " "

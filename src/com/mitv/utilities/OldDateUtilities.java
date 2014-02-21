@@ -167,19 +167,6 @@ public class OldDateUtilities {
 		else return false;
 	}
 
-	//TODO verify that this uses correct time zone!
-	public static Calendar getTimeFifteenMinBefore(String beginTime) throws ParseException {
-		SimpleDateFormat df = getDateFormat(Consts.ISO_DATE_FORMAT);
-
-		Date date = df.parse(beginTime);
-
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-		calendar.add(Calendar.MINUTE, Consts.NOTIFY_MINUTES_BEFORE_THE_BROADCAST);
-
-		return calendar;
-	}
-
 	/**
 	 * Converts a TvDate date string YYYY-MM-DD to the user-friendly format DD/MM
 	 */
@@ -221,7 +208,7 @@ public class OldDateUtilities {
 		SimpleDateFormat dfmOutput = getDateFormat("HH:mm");
 		
 		String output = dfmOutput.format(time);
-		String out2 = dfmOutput.format(time);
+
 		return output;
 	}
 

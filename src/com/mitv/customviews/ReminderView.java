@@ -10,10 +10,11 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.millicom.mitv.models.Broadcast;
+import com.millicom.mitv.models.TVBroadcast;
+import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.handlers.NotificationDialogHandler;
-import com.mitv.model.OldNotificationDbItem;
+import com.mitv.model.NotificationDbItem;
 import com.mitv.notification.NotificationDataSource;
 import com.mitv.notification.NotificationService;
 import com.mitv.utilities.AnimationUtilities;
@@ -23,7 +24,7 @@ public class ReminderView extends RelativeLayout implements OnClickListener {
 	private static final String TAG = ReminderView.class.toString();
 
 	private boolean mIsSet;
-	private Broadcast mBroadcast;
+	private TVBroadcast mBroadcast;
 	private Context mContext;
 	private Activity mActivity;
 	private int mNotificationId;
@@ -59,11 +60,13 @@ public class ReminderView extends RelativeLayout implements OnClickListener {
 		this.setOnClickListener(this);
 	}
 
-	public void setBroadcast(Broadcast broadcast) {
+	public void setBroadcast(TVBroadcast broadcast) 
+	{
 		this.mBroadcast = broadcast;
 		
-		if (!mBroadcast.hasStarted()) {
-			OldNotificationDbItem dbItem = mNotificationDataSource.getNotification(mBroadcast.getChannel().getChannelId().getChannelId(), mBroadcast.getBeginTimeMillisGmt());
+		if (!mBroadcast.isAiring())
+		{
+			NotificationDbItem dbItem = mNotificationDataSource.getNotification(mBroadcast.getChannel().getChannelId().getChannelId(), mBroadcast.getBeginTimeMillis());
 
 			if (dbItem != null && dbItem.getNotificationId() != 0) {
 				Log.d(TAG, "dbItem: " + dbItem.getProgramTitle() + " " + dbItem.getNotificationId());
@@ -77,31 +80,35 @@ public class ReminderView extends RelativeLayout implements OnClickListener {
 			} else {
 				mImageView.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 			}
-		} else {
+		} 
+		else 
+		{
 			mImageView.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_dissabled));
 		}
 	}
 
 	@Override
-	public void onClick(View v) {
-		//TODO instead of checking if not has started, check if it is 15 min to start (because now you can set reminders for show that start in 14, 13 ,12 min etc.)
-		if(mBroadcast != null && !mBroadcast.hasStarted()) {
-			if (mIsSet == false) {
-				if (NotificationService.setAlarm(mContext, mBroadcast, mBroadcast.getChannel(), mBroadcast.getTvDateString())) {
-					NotificationService.showSetNotificationToast(mActivity);
-					mImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_reminder_selected));
-	
-					OldNotificationDbItem dbItemRemind = mNotificationDataSource.getNotification(mBroadcast.getChannel().getChannelId().getChannelId(),
-							mBroadcast.getBeginTimeMillisGmt());
-					mNotificationId = dbItemRemind.getNotificationId();
-	
-					AnimationUtilities.animationSet(this);
-	
-					mIsSet = true;
-				} else {
-					Log.d(TAG, "!!! Setting notification faced an error !!!");
-				}
-			} else {
+	public void onClick(View v) 
+	{
+		if(mBroadcast != null && !mBroadcast.isBroadcastAiringInOrInLessThan(Consts.MAXIMUM_REMINDER_TIME_FOR_SHOW)) 
+		{
+			if (mIsSet == false) 
+			{
+				NotificationService.setAlarm(mContext, mBroadcast);
+				
+				NotificationService.showSetNotificationToast(mActivity);
+				mImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_reminder_selected));
+
+				NotificationDbItem dbItemRemind = mNotificationDataSource.getNotification(mBroadcast.getChannel().getChannelId().getChannelId(),
+						mBroadcast.getBeginTimeMillis());
+				mNotificationId = dbItemRemind.getNotificationId();
+
+				AnimationUtilities.animationSet(this);
+
+				mIsSet = true;
+			} 
+			else 
+			{
 				if (mNotificationId != -1) {
 					if (NotificationService.sToast != null) {
 						NotificationService.sToast.cancel();

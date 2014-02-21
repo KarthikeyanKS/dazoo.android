@@ -14,10 +14,11 @@ import android.content.res.Resources;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
+
+import com.millicom.mitv.utilities.DateUtils;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.utilities.DateUtilities;
 import com.mitv.utilities.OldDateUtilities;
 
 
@@ -282,8 +283,8 @@ public class OldBroadcast implements Parcelable
 		dest.writeString(beginTimeStringLocalDayMonth);
 	}
 
-	public OldBroadcast(OldNotificationDbItem item) {
-		String beginTimeStringLocal = item.getBroadcastBeginTimeStringLocal();
+	public OldBroadcast(NotificationDbItem item) {
+//		String beginTimeStringLocal = item.getBroadcastBeginTimeStringLocal();
 		this.setBeginTimeStringGmt(beginTimeStringLocal);
 		String millisGmtString = item.getBroadcastBeginTimeInMillisGmtAsString();
 		long millisGmt = Long.parseLong(millisGmtString);
@@ -372,7 +373,7 @@ public class OldBroadcast implements Parcelable
 		
 		try 
 		{
-			Calendar endTimeCalendar = DateUtilities.convertFromStringToCalendar("");
+			Calendar endTimeCalendar = DateUtils.convertFromStringToCalendar("");
 			
 			long endTimeMillisGmt = OldDateUtilities.isoStringToLong(endTimeStringGmt);
 			long endTimeMillisLocal = OldDateUtilities.convertTimeStampToLocalTime(endTimeMillisGmt);

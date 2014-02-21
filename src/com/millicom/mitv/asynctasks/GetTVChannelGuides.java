@@ -9,15 +9,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
 import android.util.Log;
-
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
-import com.millicom.mitv.models.Broadcast;
+import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.TVGuideAndTaggedBroadcasts;
 import com.millicom.mitv.models.gson.TVChannelGuide;
@@ -73,7 +71,7 @@ public class GetTVChannelGuides
 		
 		TVChannelGuide[] contentAsArray = (TVChannelGuide[]) requestResultObjectContent;
 		ArrayList<TVChannelGuide> tvChannelGuides = new ArrayList<TVChannelGuide>(Arrays.asList(contentAsArray));
-		HashMap<String, ArrayList<Broadcast>> mapTagToTaggedBroadcastForDate = createMapTagToTaggedBroadcastForDate(tvChannelGuides);
+		HashMap<String, ArrayList<TVBroadcast>> mapTagToTaggedBroadcastForDate = createMapTagToTaggedBroadcastForDate(tvChannelGuides);
 		TVGuide tvGuide = new TVGuide(tvDate, tvChannelGuides);
 		TVGuideAndTaggedBroadcasts tvGuideAndTaggedBroadcasts = new TVGuideAndTaggedBroadcasts(tvGuide, mapTagToTaggedBroadcastForDate);
 		
@@ -88,18 +86,18 @@ public class GetTVChannelGuides
 	 * @param tvChannelGuides
 	 * @return
 	 */
-	public HashMap<String, ArrayList<Broadcast>> createMapTagToTaggedBroadcastForDate(ArrayList<TVChannelGuide> tvChannelGuides) {
+	public HashMap<String, ArrayList<TVBroadcast>> createMapTagToTaggedBroadcastForDate(ArrayList<TVChannelGuide> tvChannelGuides) {
 
 		ArrayList<String> tvTagsAsStrings = tvTagIds();
 
 		/* TVTag id is used as key. STRANGEST JAVA BUG EVER: For some reason we MUST set the size of the map to 3 times as big as the expected
 		 * size of that map. We MUST set a size, else the values will be overwritten even though keys are not the same! */
-		HashMap<String, ArrayList<Broadcast>> mapTagToTaggedBroadcastForDate = new HashMap<String, ArrayList<Broadcast>>(tvTagsAsStrings.size() * 3);
+		HashMap<String, ArrayList<TVBroadcast>> mapTagToTaggedBroadcastForDate = new HashMap<String, ArrayList<TVBroadcast>>(tvTagsAsStrings.size() * 3);
 
 		for (TVChannelGuide tvChannelGuide : tvChannelGuides) {
-			ArrayList<Broadcast> broadcasts = new ArrayList<Broadcast>(tvChannelGuide.getBroadcasts());
+			ArrayList<TVBroadcast> broadcasts = new ArrayList<TVBroadcast>(tvChannelGuide.getBroadcasts());
 
-			for (Broadcast broadcast : broadcasts) {
+			for (TVBroadcast broadcast : broadcasts) {
 				TVProgram program = broadcast.getProgram();
 
 				/* Fetch list of all tags for this broadcast (program), WARNING: may contain irrelevant tags */
@@ -115,11 +113,11 @@ public class GetTVChannelGuides
 				 */
 				for (String tagName : filteredTagNames) {
 					/* Fetch current list of broadcasts for this tag */
-					ArrayList<Broadcast> broadcastsForTag = mapTagToTaggedBroadcastForDate.get(tagName);
+					ArrayList<TVBroadcast> broadcastsForTag = mapTagToTaggedBroadcastForDate.get(tagName);
 
 					/* If it is null (this is the first broadcast for this tag), instantiate it! */
 					if (broadcastsForTag == null) {
-						broadcastsForTag = new ArrayList<Broadcast>();
+						broadcastsForTag = new ArrayList<TVBroadcast>();
 					}
 
 					/* Add the broadcast for this tag to the list of tagged broadcasts for this tag */

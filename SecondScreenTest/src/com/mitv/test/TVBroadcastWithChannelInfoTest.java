@@ -16,7 +16,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.enums.BroadcastTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.models.Broadcast;
+import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.gson.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
@@ -41,7 +41,7 @@ public class TVBroadcastWithChannelInfoTest extends TestBaseWithGuide {
 		super.setUp();
 		
 		TVChannelGuide someGuide = tvChannelGuides.get(0);
-		Broadcast broadcast = someGuide.getBroadcasts().get(0);
+		TVBroadcast broadcast = someGuide.getBroadcasts().get(0);
 		TVProgram tvProgram = broadcast.getProgram();
 		String programId = tvProgram.getProgramId();
 		
@@ -80,7 +80,7 @@ public class TVBroadcastWithChannelInfoTest extends TestBaseWithGuide {
 		}
 	}
 	
-	public static void testBroadcast(Broadcast broadcast) {
+	public static void testBroadcast(TVBroadcast broadcast) {
 		Assert.assertNotNull(broadcast.getBeginTimeMillis());
 		
 		Assert.assertNotNull(broadcast.getBeginTime());
