@@ -3,7 +3,7 @@
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/listview_item_selector" >
+    android:background="@drawable/background_color_selector" >
 
     <!-- HEADER -->
 

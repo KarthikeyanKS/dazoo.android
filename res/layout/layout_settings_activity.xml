@@ -104,7 +104,7 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/layout_rounded_corners_blue"
+                android:background="@drawable/layout_rounded_corners_blue1"
                 android:padding="10dp"
                 android:text="@string/logout_from_mitv"
                 android:textColor="@color/white"

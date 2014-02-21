@@ -1,32 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
     android:background="@drawable/background_color_selector_day_selector_adapter_header"
-    android:padding="5dp" >
+    android:orientation="horizontal"
+    android:padding="5dp"
+    android:weightSum="1.0" >
 
     <com.mitv.customviews.FontTextView
         android:id="@+id/layout_actionbar_dropdown_list_date_header_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
+        android:layout_weight="0.3"
         android:textColor="@color/white"
         android:textSize="@dimen/action_bar_header_font_size"
-        android:textStyle="bold"/>
+        font:fonttextview="roboto_mitv_bold.ttf" />
 
     <com.mitv.customviews.FontTextView
         android:id="@+id/layout_actionbar_dropdown_list_date_header_number"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
-        android:layout_toRightOf="@id/layout_actionbar_dropdown_list_date_header_name"
-        android:textSize="@dimen/action_bar_header_font_size"
+        android:layout_weight="0.7"
         android:textColor="@color/white"
-        android:textStyle="bold" />
+        android:textSize="@dimen/action_bar_header_font_size"
+        font:fonttextview="roboto_mitv_bold.ttf" />
 
-</RelativeLayout>
+</LinearLayout>

@@ -82,7 +82,7 @@
                             android:id="@+id/myprofile_signup_container"
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
-                            android:background="@drawable/layout_rounded_corners_blue"
+                            android:background="@drawable/background_color_selector_signup_login_box"
                             android:orientation="horizontal" >
 
                             <com.mitv.customviews.FontTextView
@@ -103,7 +103,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
                             android:layout_marginTop="5dp"
-                            android:background="@drawable/layout_rounded_corners_white"
+                            android:background="@drawable/background_color_selector_login_link"
                             android:orientation="horizontal" >
 
                             <com.mitv.customviews.FontTextView
@@ -176,7 +176,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="1dp"
-                android:background="@color/white"
+                android:background="@drawable/background_color_selector_white"
                 android:orientation="horizontal"
                 android:padding="10dp" >
 
@@ -221,7 +221,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="1dp"
-                android:background="@color/white"
+                android:background="@drawable/background_color_selector_white"
                 android:orientation="horizontal"
                 android:padding="10dp" >
 
@@ -266,7 +266,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="1dp"
-                android:background="@color/white"
+                android:background="@drawable/background_color_selector_white"
                 android:orientation="horizontal"
                 android:padding="10dp" >
 
@@ -343,7 +343,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="1dp"
-                android:background="@color/white"
+                android:background="@drawable/background_color_selector_white"
                 android:orientation="horizontal"
                 android:padding="10dp" >
 
@@ -367,7 +367,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="1dp"
-                android:background="@color/white"
+                android:background="@drawable/background_color_selector_white"
                 android:orientation="horizontal"
                 android:padding="10dp" >
 
@@ -388,7 +388,7 @@
                 android:layout_below="@id/myprofile_terms_of_use_container"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/layout_rounded_corners_grey"
+                android:background="@drawable/background_color_selector_logout_box"
                 android:orientation="horizontal" >
 
                 <com.mitv.customviews.FontTextView

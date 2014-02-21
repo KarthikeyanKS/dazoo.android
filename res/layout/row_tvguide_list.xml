@@ -4,7 +4,7 @@
     android:id="@+id/item_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white" >
+    android:background="@drawable/background_color_selector" >
 
     <LinearLayout
         android:id="@+id/tvguide_list_container"

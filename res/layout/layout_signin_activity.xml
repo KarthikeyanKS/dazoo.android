@@ -56,7 +56,7 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/layout_rounded_corners_facebook_blue"
+            android:background="@drawable/background_color_selector_login_facebook"
             android:orientation="horizontal" >
 
             <RelativeLayout
@@ -133,7 +133,7 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/layout_rounded_corners_blue"
+            android:background="@drawable/background_color_selector_signup_login_box"
             android:orientation="horizontal" >
 
             <com.mitv.customviews.FontTextView
@@ -187,7 +187,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/signin_already_registered_text_tv"
                 android:layout_marginBottom="5dp"
-                android:background="@color/white"
+                android:background="@drawable/background_color_selector"
                 android:gravity="center_horizontal"
                 android:text="@string/login_here"
                 android:textColor="@color/blue1"

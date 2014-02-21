@@ -7,5 +7,5 @@
     <item android:state_enabled="true"
      android:state_selected="true" android:drawable="@color/grey0" />
     <item
-     android:drawable="@color/transparent" />
+     android:drawable="@color/white" />
 </selector>

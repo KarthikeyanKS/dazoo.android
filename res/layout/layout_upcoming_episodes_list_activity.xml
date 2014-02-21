@@ -4,7 +4,7 @@
     android:id="@+id/upcoming_episodes_list_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@drawable/background_color_selector"
     android:orientation="vertical" >
 
     <!-- BOTTOM NAVIGATION TABS -->

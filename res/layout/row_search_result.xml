@@ -8,6 +8,7 @@
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
     android:layout_margin="@dimen/guide_image_margin"
+    android:background="@drawable/background_color_selector"
     android:orientation="vertical" >
 
     <com.mitv.customviews.FontTextView

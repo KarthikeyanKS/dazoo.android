@@ -29,6 +29,7 @@ public class ReminderView extends RelativeLayout implements OnClickListener {
 	private int mNotificationId;
 	private NotificationDataSource mNotificationDataSource;
 	private ImageView mImageView;
+	private View mContainer;
 	private LayoutInflater mInflater;
 
 	public ReminderView(Context context) {
@@ -48,7 +49,7 @@ public class ReminderView extends RelativeLayout implements OnClickListener {
 
 	private void setup(Context context) {
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		mInflater.inflate(R.layout.element_reminder_view, this);
+		this.mContainer = mInflater.inflate(R.layout.element_reminder_view, this);
 		
 		this.mImageView = (ImageView) this.findViewById(R.id.element_reminder_image_View);
 		this.mContext = context;
@@ -77,8 +78,10 @@ public class ReminderView extends RelativeLayout implements OnClickListener {
 			} else {
 				mImageView.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 			}
+			mContainer.setBackground(getResources().getDrawable(R.drawable.background_color_selector));
 		} else {
 			mImageView.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_dissabled));
+			mContainer.setBackgroundColor(getResources().getColor(R.color.transparent));
 		}
 	}
 

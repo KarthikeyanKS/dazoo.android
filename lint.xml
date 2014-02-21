@@ -3,4 +3,5 @@
     <issue id="NewApi" severity="ignore">
         <ignore path="src/com/millicom/secondscreen/content/tvguide/ChannelPageFragment.java" />
     </issue>
+    <issue id="ResourceAsColor" severity="ignore" />
 </lint>

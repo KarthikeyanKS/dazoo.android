@@ -170,7 +170,7 @@
             android:text="@string/join"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:background="@drawable/layout_rounded_corners_blue"
+            android:background="@drawable/background_color_selector_signup_login_box"
             android:lines="1"
             font:fonttextview="roboto_mitv_bold.ttf" />
     </RelativeLayout>
