@@ -13,6 +13,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.millicom.mitv.ContentManager;
@@ -20,6 +22,7 @@ import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.fragments.TVHolderFragment;
 import com.millicom.mitv.fragments.TVHolderFragment.OnViewPagerIndexChangedListener;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
+import com.millicom.mitv.interfaces.ActivityWithTabs;
 import com.millicom.mitv.models.TVDate;
 import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
@@ -28,17 +31,16 @@ import com.mitv.adapters.ActionBarDropDownDateListAdapter;
 import com.mitv.content.SSPageFragmentActivity;
 import com.mitv.utilities.OldDateUtilities;
 
-public class HomeActivity extends SSPageFragmentActivity implements ActionBar.OnNavigationListener, ActivityCallbackListener {
+public class HomeActivity extends SSPageFragmentActivity implements ActivityCallbackListener, ActivityWithTabs, ActionBar.OnNavigationListener {
 	private static final String TAG = HomeActivity.class.getName();
 
 	private ActionBar actionBar;
 	private ActionBarDropDownDateListAdapter dayAdapter;
-	
+
 	private int selectedDayIndex = 0;
 	private int selectedTagIndex = 0;
 
 	private Fragment activeFragment;
-
 
 	private String welcomeMessage = "";
 	private boolean hasShowWelcomeToast = false;
@@ -64,6 +66,29 @@ public class HomeActivity extends SSPageFragmentActivity implements ActionBar.On
 
 		// HOCKEY-APP
 		// checkForUpdates();
+	}
+
+	@Override
+	public void initTabViews() {
+		tabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
+		tabTvGuide.setOnClickListener(this);
+
+		tabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
+		tabActivity.setOnClickListener(this);
+
+		tabProfile = (RelativeLayout) findViewById(R.id.tab_me);
+		tabProfile.setOnClickListener(this);
+
+		tabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
+		tabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
+
+		tabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+		tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+
+		tabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
+		tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+		tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+
 	}
 
 	private void tryShowWelcomeToast() {
@@ -164,96 +189,95 @@ public class HomeActivity extends SSPageFragmentActivity implements ActionBar.On
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				selectedDayIndex = intent.getIntExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE_POSITION, 0);
-				
+
 				/* Here we fetch guide for new date */
 				handleTVDateIndexSelect(selectedDayIndex);
 				removeActiveFragment();
 			}
 		};
 	}
-		
-		// mBroadcastReceiverBadRequest = new BroadcastReceiver()
-		// {
-		// @Override
-		// public void onReceive(Context context, Intent intent)
-		// {
-		// // bad request to the backend: timeout or anything similar
-		// updateUI(REQUEST_STATUS.BAD_REQUEST);
-		// }
-		// };
-		//
-		// mBroadcastReceiverMyChannels = new BroadcastReceiver()
-		// {
-		//
-		// @Override
-		// public void onReceive(Context context, Intent intent)
-		// {
-		// Log.d(TAG, "CHANNELS HAVE CHANGED!!!!");
-		//
-		// mChannelsHasBeenChanged = true;
-		// }
-		// };
 
-		// mBroadcastReceiverContent = new BroadcastReceiver()
-		// {
-		// @Override
-		// public void onReceive(Context context, Intent intent)
-		// {
-		// Log.d(TAG, " ON RECEIVE CONTENT");
-		//
-		// mIsReady = intent.getBooleanExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, false);
-		//
-		//
-		// Log.d(TAG, "content for TvGuide TABLE is ready: " + mIsReady);
-		// Log.d(TAG, "mDateSelectedIndex: " + mDateSelectedIndex);
-		// Log.d(TAG, "mChannelUpdate: " + mChannelUpdate);
-		// Log.d(TAG, "mFirstHit " + mIsFirstLoad);
-		//
-		// if (mIsReady)
-		// {
-		//
-		// if (mIsFirstLoad)
-		// {
-		// if (!pageHoldsData())
-		// {
-		// updateUI(REQUEST_STATUS.FAILED);
-		// }
-		// }
-		// else if (mChannelUpdate)
-		// {
-		// attachFragment();
-		//
-		// mChannelUpdate = false;
-		// }
-		// else if (mLastDateSelectedIndex != mDateSelectedIndex)
-		// {
-		// attachFragment();
-		//
-		// mLastDateSelectedIndex = mDateSelectedIndex;
-		// }
-		// }
-		//
-		// // if (mIsReady && (mDateSelectedIndex == 0) && !mChannelUpdate && mIsFirstLoad) {
-		// // if (!pageHoldsData()) {
-		// //
-		// // updateUI(REQUEST_STATUS.FAILED);
-		// // }
-		// // } else if (mIsReady && (mDateSelectedIndex != 0) && mChannelUpdate) {
-		// // attachFragment();
-		// // mChannelUpdate = false;
-		// // } else if (mIsReady && (mDateSelectedIndex == 0) && mChannelUpdate && !mIsFirstLoad) {
-		// // attachFragment();
-		// // mChannelUpdate = false;
-		// // } else if (mIsReady && (mDateSelectedIndex != 0) && !mChannelUpdate && !mIsFirstLoad) {
-		// // attachFragment();
-		// // mChannelUpdate = false;
-		// // } else if (mIsReady && (mDateSelectedIndex == 0) && !mChannelUpdate && !mIsFirstLoad) {
-		// // attachFragment();
-		// // mChannelUpdate = false;
-		// // }
-		// }
-		// };
-	
+	// mBroadcastReceiverBadRequest = new BroadcastReceiver()
+	// {
+	// @Override
+	// public void onReceive(Context context, Intent intent)
+	// {
+	// // bad request to the backend: timeout or anything similar
+	// updateUI(REQUEST_STATUS.BAD_REQUEST);
+	// }
+	// };
+	//
+	// mBroadcastReceiverMyChannels = new BroadcastReceiver()
+	// {
+	//
+	// @Override
+	// public void onReceive(Context context, Intent intent)
+	// {
+	// Log.d(TAG, "CHANNELS HAVE CHANGED!!!!");
+	//
+	// mChannelsHasBeenChanged = true;
+	// }
+	// };
+
+	// mBroadcastReceiverContent = new BroadcastReceiver()
+	// {
+	// @Override
+	// public void onReceive(Context context, Intent intent)
+	// {
+	// Log.d(TAG, " ON RECEIVE CONTENT");
+	//
+	// mIsReady = intent.getBooleanExtra(Consts.INTENT_EXTRA_GUIDE_AVAILABLE_VALUE, false);
+	//
+	//
+	// Log.d(TAG, "content for TvGuide TABLE is ready: " + mIsReady);
+	// Log.d(TAG, "mDateSelectedIndex: " + mDateSelectedIndex);
+	// Log.d(TAG, "mChannelUpdate: " + mChannelUpdate);
+	// Log.d(TAG, "mFirstHit " + mIsFirstLoad);
+	//
+	// if (mIsReady)
+	// {
+	//
+	// if (mIsFirstLoad)
+	// {
+	// if (!pageHoldsData())
+	// {
+	// updateUI(REQUEST_STATUS.FAILED);
+	// }
+	// }
+	// else if (mChannelUpdate)
+	// {
+	// attachFragment();
+	//
+	// mChannelUpdate = false;
+	// }
+	// else if (mLastDateSelectedIndex != mDateSelectedIndex)
+	// {
+	// attachFragment();
+	//
+	// mLastDateSelectedIndex = mDateSelectedIndex;
+	// }
+	// }
+	//
+	// // if (mIsReady && (mDateSelectedIndex == 0) && !mChannelUpdate && mIsFirstLoad) {
+	// // if (!pageHoldsData()) {
+	// //
+	// // updateUI(REQUEST_STATUS.FAILED);
+	// // }
+	// // } else if (mIsReady && (mDateSelectedIndex != 0) && mChannelUpdate) {
+	// // attachFragment();
+	// // mChannelUpdate = false;
+	// // } else if (mIsReady && (mDateSelectedIndex == 0) && mChannelUpdate && !mIsFirstLoad) {
+	// // attachFragment();
+	// // mChannelUpdate = false;
+	// // } else if (mIsReady && (mDateSelectedIndex != 0) && !mChannelUpdate && !mIsFirstLoad) {
+	// // attachFragment();
+	// // mChannelUpdate = false;
+	// // } else if (mIsReady && (mDateSelectedIndex == 0) && !mChannelUpdate && !mIsFirstLoad) {
+	// // attachFragment();
+	// // mChannelUpdate = false;
+	// // }
+	// }
+	// };
 
 	private void handleTVDateIndexSelect(int index) {
 		dayAdapter.setSelectedIndex(index);
@@ -393,8 +417,6 @@ public class HomeActivity extends SSPageFragmentActivity implements ActionBar.On
 		}
 	}
 
-
-
 	// @Override
 	// public void onApiVersionChecked(boolean needsUpdate)
 	// {
@@ -426,7 +448,7 @@ public class HomeActivity extends SSPageFragmentActivity implements ActionBar.On
 
 	@Override
 	public void onResult(FetchRequestResultEnum fetchRequestResult) {
-		if(fetchRequestResult.wasSuccessful()) {
+		if (fetchRequestResult.wasSuccessful()) {
 			attachFragment();
 		} else {
 			updateUI(REQUEST_STATUS.FAILED);

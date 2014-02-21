@@ -1,7 +1,4 @@
-
 package com.millicom.mitv.activities;
-
-
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +15,7 @@ import com.millicom.mitv.activities.authentication.MiTVLoginActivity;
 import com.millicom.mitv.activities.authentication.SignInOrSignupWithFacebookActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
+import com.millicom.mitv.interfaces.ActivityWithTabs;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -28,15 +26,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-
-
-public class MyProfileActivity 
-	extends BaseActivity 
-	implements ActivityCallbackListener, OnClickListener 
-{
+public class MyProfileActivity extends BaseActivity implements ActivityCallbackListener, ActivityWithTabs, OnClickListener {
 	@SuppressWarnings("unused")
 	private static final String TAG = MyProfileActivity.class.getName();
-	
+
 	private String mUserFirstName;
 	private String mUserLastName;
 	private String mUserAvatarUrl;
@@ -65,18 +58,41 @@ public class MyProfileActivity
 
 		setContentView(R.layout.layout_my_profile);
 
-		if(ContentManager.sharedInstance().isLoggedIn()) {
+		if (ContentManager.sharedInstance().isLoggedIn()) {
 			mUserFirstName = ContentManager.sharedInstance().getFromStorageUserFirstname();
 			mUserLastName = ContentManager.sharedInstance().getFromStorageUserLastname();
-			//TDOO from where do we get the avatar?
-//			mUserAvatarUrl = ((SecondScreenApplication) getApplicationContext()).getUserAvatarUrl();
+			// TDOO from where do we get the avatar?
+			// mUserAvatarUrl = ((SecondScreenApplication) getApplicationContext()).getUserAvatarUrl();
 		}
 
 		fetchUserData();
 		initViews();
 		populateViews();
 	}
-	
+
+	@Override
+	public void initTabViews() {
+		tabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
+		tabTvGuide.setOnClickListener(this);
+
+		tabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
+		tabActivity.setOnClickListener(this);
+
+		tabProfile = (RelativeLayout) findViewById(R.id.tab_me);
+		tabProfile.setOnClickListener(this);
+
+		tabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
+		tabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
+
+		tabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+		tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+
+		tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+		tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+		tabProfile.setBackgroundColor(getResources().getColor(R.color.red));
+
+	}
+
 	private void fetchUserData() {
 		ContentManager.sharedInstance().getElseFetchFromServiceUserLikes(this, false);
 	}
@@ -136,39 +152,38 @@ public class MyProfileActivity
 		if (ContentManager.sharedInstance().isLoggedIn()) {
 			mPersonalView.setVisibility(View.VISIBLE);
 			mSignInOrSignUpView.setVisibility(View.GONE);
-			
+
 			if (mUserAvatarUrl != null && TextUtils.isEmpty(mUserAvatarUrl) != true) {
 				ImageAware imageAware = new ImageViewAware(mAvatarImageView, false);
 				ImageLoader.getInstance().displayImage(mUserAvatarUrl, imageAware);
 			}
 
-//			boolean refreshLikeIdsFromService = DateUtilities.isElapsedTimeGreaterThan(MiTVStore.getInstance().getmLikeIdsFetchTimestamp(), Consts.LIKE_IDS_REFRESH_INTERVAL_IN_MINUTES);
-//			
-//			if(refreshLikeIdsFromService)
-//			{
-//				// TODO: Refresh on a separate thread
-//				LikeService.getLikeIdsList();
-//			}
-			
-			if (MiTVStore.getInstance().getLikeIds() != null && MiTVStore.getInstance().getLikeIds().isEmpty() != true) 
-			{
+			// boolean refreshLikeIdsFromService =
+			// DateUtilities.isElapsedTimeGreaterThan(MiTVStore.getInstance().getmLikeIdsFetchTimestamp(),
+			// Consts.LIKE_IDS_REFRESH_INTERVAL_IN_MINUTES);
+			//
+			// if(refreshLikeIdsFromService)
+			// {
+			// // TODO: Refresh on a separate thread
+			// LikeService.getLikeIdsList();
+			// }
+
+			if (MiTVStore.getInstance().getLikeIds() != null && MiTVStore.getInstance().getLikeIds().isEmpty() != true) {
 				mLikesCountTv.setText("(" + String.valueOf(MiTVStore.getInstance().getLikeIds().size()) + ")");
-			} 
-			else 
-			{
+			} else {
 				mLikesCountTv.setText("(0)");
 			}
-			
-//			boolean refreshChannelIdsFromService = DateUtilities.isElapsedTimeGreaterThan(MiTVStore.getInstance().getmMyChannelIdsFetchTimestamp(), Consts.CHANNEL_IDS_REFRESH_INTERVAL_IN_MINUTES);
-//
-//			if(refreshChannelIdsFromService)
-//			{	
-////				ApiClient.getMyChannelIds();
-//			}
+
+			// boolean refreshChannelIdsFromService =
+			// DateUtilities.isElapsedTimeGreaterThan(MiTVStore.getInstance().getmMyChannelIdsFetchTimestamp(),
+			// Consts.CHANNEL_IDS_REFRESH_INTERVAL_IN_MINUTES);
+			//
+			// if(refreshChannelIdsFromService)
+			// {
+			// // ApiClient.getMyChannelIds();
+			// }
 			// No need for else
 
-
-			
 			if (MiTVStore.getInstance().getChannelIds() != null && MiTVStore.getInstance().getChannelIds().isEmpty() != true) {
 				mChannelCountTv.setText("(" + String.valueOf(MiTVStore.getInstance().getChannelIds().size()) + ")");
 			}
@@ -181,19 +196,18 @@ public class MyProfileActivity
 
 		} else {
 			mSignInOrSignUpView.setVisibility(View.VISIBLE);
-			
+
 			mPersonalView.setVisibility(View.GONE);
 			mLikesContainer.setVisibility(View.GONE);
 			mChannelsContainer.setVisibility(View.GONE);
 			mLogoutContainer.setVisibility(View.GONE);
 		}
 	}
-	
 
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		
+
 		finish();
 	}
 
@@ -252,10 +266,10 @@ public class MyProfileActivity
 		}
 
 		case R.id.myprofile_logout_container: {
-			//TODO is this for us
+			// TODO is this for us
 			ContentManager.sharedInstance().performLogout(this);
-//			ApiClient.logout();
-			
+			// ApiClient.logout();
+
 			// clear all the running activities and start the application from
 			// the whole beginning
 			SecondScreenApplication.getInstance().clearActivityBacktrace();
@@ -277,7 +291,7 @@ public class MyProfileActivity
 	@Override
 	public void onResult(FetchRequestResultEnum fetchRequestResult) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

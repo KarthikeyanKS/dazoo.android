@@ -28,11 +28,11 @@ public abstract class BaseActivity extends ActionBarActivity implements OnClickL
 
 	private static final String TAG = BaseActivity.class.getName();
 
-	private RelativeLayout tabTvGuide;
-	private RelativeLayout tabActivity;
-	private RelativeLayout tabProfile;
-	private View tabDividerLeft;
-	private View tabDividerRight;
+	protected RelativeLayout tabTvGuide;
+	protected RelativeLayout tabActivity;
+	protected RelativeLayout tabProfile;
+	protected View tabDividerLeft;
+	protected View tabDividerRight;
 	
 	private String viewName;
 	private View requestEmptyLayout;
@@ -106,8 +106,6 @@ public abstract class BaseActivity extends ActionBarActivity implements OnClickL
 
 		super.onCreate(savedInstanceState);
 		
-		initViews();
-
 		// add to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 		
@@ -121,37 +119,6 @@ public abstract class BaseActivity extends ActionBarActivity implements OnClickL
 		GATrackingManager.sendView(viewName);
 	}
 	
-	private void initViews() {
-		tabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
-		tabTvGuide.setOnClickListener(this);
-
-		tabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
-		tabActivity.setOnClickListener(this);
-
-		tabProfile = (RelativeLayout) findViewById(R.id.tab_me);
-		tabProfile.setOnClickListener(this);
-
-		tabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
-		tabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
-
-		tabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
-		tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
-		
-		if(this instanceof HomeActivity) {
-			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
-			tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
-			tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
-		} else if(this instanceof ActivityActivity) {
-			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
-			tabActivity.setBackgroundColor(getResources().getColor(R.color.red));
-			tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
-		} else if(this instanceof MyProfileActivity) {
-			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
-			tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
-			tabProfile.setBackgroundColor(getResources().getColor(R.color.red));
-		}
-	}
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar

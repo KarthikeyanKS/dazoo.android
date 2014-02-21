@@ -25,16 +25,17 @@ import com.millicom.mitv.activities.authentication.MiTVLoginActivity;
 import com.millicom.mitv.activities.authentication.SignUpWithEmailActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
+import com.millicom.mitv.interfaces.ActivityWithTabs;
 import com.millicom.mitv.models.gson.TVFeedItem;
 import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.adapters.ActivityFeedAdapter;
 
-public class ActivityActivity extends BaseActivity implements OnClickListener, ActivityCallbackListener, OnScrollListener {
+public class ActivityActivity extends BaseActivity implements ActivityCallbackListener, ActivityWithTabs, OnClickListener, OnScrollListener {
 
 	private static final String TAG = ActivityActivity.class.getName();
-	
+
 	private RelativeLayout facebookContainer;
 	private RelativeLayout signUpContainer;
 	private TextView greetingTv;
@@ -49,7 +50,6 @@ public class ActivityActivity extends BaseActivity implements OnClickListener, A
 	private View listFooterView;
 
 	public static Toast toast;
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +112,29 @@ public class ActivityActivity extends BaseActivity implements OnClickListener, A
 			initStandardViews();
 			initInactiveViews();
 		}
+	}
+
+	@Override
+	public void initTabViews() {
+		tabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
+		tabTvGuide.setOnClickListener(this);
+
+		tabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
+		tabActivity.setOnClickListener(this);
+
+		tabProfile = (RelativeLayout) findViewById(R.id.tab_me);
+		tabProfile.setOnClickListener(this);
+
+		tabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
+		tabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
+
+		tabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+		tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+
+		tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+		tabActivity.setBackgroundColor(getResources().getColor(R.color.red));
+		tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+
 	}
 
 	private void getActivityFeedData() {
