@@ -1,7 +1,6 @@
 package com.mitv.adapters;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -12,10 +11,8 @@ import android.widget.BaseAdapter;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
-import com.millicom.mitv.models.gson.TVDate;
-import com.millicom.mitv.utilities.DateUtils;
+import com.millicom.mitv.models.TVDate;
 import com.mitv.R;
-import com.mitv.utilities.OldDateUtilities;
 
 public class ActionBarDropDownDateListAdapter extends BaseAdapter implements SpinnerAdapter {
 

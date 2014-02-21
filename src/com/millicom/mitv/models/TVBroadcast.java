@@ -428,4 +428,7 @@ public class TVBroadcast
 			}
 		}
 	}
+	
+	//TODO NewArc replace by code Felipe is writing
+	public String getStartsInTimeString() {return null;}
 }

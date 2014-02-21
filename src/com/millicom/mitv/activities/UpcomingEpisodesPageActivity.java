@@ -43,7 +43,7 @@ public class UpcomingEpisodesPageActivity extends BaseActivity implements OnClic
 //		mUpcomingBroadcasts = intent.getParcelableArrayListExtra(Consts.INTENT_EXTRA_UPCOMING_BROADCASTS);
 //		mRunningBroadcast = intent.getParcelableExtra(Consts.INTENT_EXTRA_RUNNING_BROADCAST);
 		mUpcomingBroadcasts = ContentManager.sharedInstance().getFromStorageUpcomingBroadcasts();
-		mRunningBroadcast = ContentManager.sharedInstance().getFromStorageSelectedBroadcast();
+		mRunningBroadcast = ContentManager.sharedInstance().getFromStorageSelectedBroadcastWithChannelInfo();
 
 //		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 

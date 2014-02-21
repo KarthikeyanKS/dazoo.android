@@ -148,7 +148,7 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_CHANNEL_GUIDE							= "com.mitv.intent.extra.channel.guide";
 	public static final String	INTENT_EXTRA_CHANNEL_SORTING						= "com.mitv.intent.extra.channel.sorting";
 	public static final String	INTENT_EXTRA_CHANNEL_SORTING_VALUE					= "com.mitv.intent.extra.channel.sorting.value";
-//	public static final String	INTENT_EXTRA_CHANNEL_CHOSEN_DATE					= "com.mitv.intent.extra.channel.chosen.date";
+	public static final String	INTENT_EXTRA_CHANNEL_CHOSEN_DATE					= "com.mitv.intent.extra.channel.chosen.date";
 	public static final String	INTENT_EXTRA_CHANNEL_LOGO_URL						= "com.mitv.intent.extra.channel.logo.url";
 	public static final String	INTENT_EXTRA_TVGUIDE_SORTING						= "com.mitv.intent.extra.tvguide.sorting";
 	public static final String	INTENT_EXTRA_TVGUIDE_SORTING_VALUE					= "com.mitv.intent.extra.tvguide.sorting.value";

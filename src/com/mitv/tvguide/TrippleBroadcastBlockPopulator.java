@@ -14,7 +14,6 @@ import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.activities.RepetitionsPageActivity;
 import com.millicom.mitv.activities.UpcomingEpisodesPageActivity;
-import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
@@ -23,11 +22,11 @@ import com.mitv.customviews.ReminderView;
 
 public class TrippleBroadcastBlockPopulator {
 
-	private static String TAG;
+	private static String TAG = TrippleBroadcastBlockPopulator.class.getName();
 
 	private Activity mActivity;
 	private ScrollView mContainerView;
-	private TVBroadcast mRunningBroadcast;
+	private TVBroadcastWithChannelInfo runningBroadcast;
 	private ArrayList<TVBroadcastWithChannelInfo> mBroadcasts;
 	private ReminderView reminderViewOne, reminderViewTwo, reminderViewThree;
 	private View dividerView;
@@ -36,11 +35,11 @@ public class TrippleBroadcastBlockPopulator {
 	/* If false, then block populator is used for upcoming episodes */
 	private boolean mUsedForRepetitions;
 
-	public TrippleBroadcastBlockPopulator(String tag, boolean usedForRepetitions, Activity activity, ScrollView containerView, TVBroadcast runningBroadcast) {
+	public TrippleBroadcastBlockPopulator(String tag, boolean usedForRepetitions, Activity activity, ScrollView containerView, TVBroadcastWithChannelInfo runningBroadcast) {
 		this.TAG = tag;
 		this.mActivity = activity;
 		this.mContainerView = containerView;
-		this.mRunningBroadcast = runningBroadcast;
+		this.runningBroadcast = runningBroadcast;
 		this.mUsedForRepetitions = usedForRepetitions;
 	}
 
@@ -148,7 +147,7 @@ public class TrippleBroadcastBlockPopulator {
 		int indexOfRunningBroadcast = 0;
 		for (int i = 0; i < repeatingOrUpcomingBroadcasts.size(); ++i) {
 			TVBroadcastWithChannelInfo repeatingBroadcast = repeatingOrUpcomingBroadcasts.get(i);
-			if (repeatingBroadcast.equals(mRunningBroadcast)) {
+			if (repeatingBroadcast.equals(runningBroadcast)) {
 				foundRunningBroadcast = true;
 				indexOfRunningBroadcast = i;
 				break;
@@ -195,19 +194,14 @@ public class TrippleBroadcastBlockPopulator {
 				@Override
 				public void onClick(View v) {
 
-					ContentManager.sharedInstance().setSelectedBroadcast(mRunningBroadcast);
+					ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(runningBroadcast);
 					if (mUsedForRepetitions) {
 						Intent intent = new Intent(mActivity, RepetitionsPageActivity.class);
-//						intent.putParcelableArrayListExtra(Consts.INTENT_EXTRA_REPEATING_BROADCASTS, repeatingBroadcasts);
-//						intent.putExtra(Consts.INTENT_EXTRA_REPEATING_PROGRAM, program);
-//						intent.putExtra(Consts.INTENT_EXTRA_RUNNING_BROADCAST, mRunningBroadcast);
 						ContentManager.sharedInstance().setRepeatingBroadcasts(repeatingOrUpcomingBroadcasts);
 						mActivity.startActivity(intent);
 					}
 					else {
 						Intent intent = new Intent(mActivity, UpcomingEpisodesPageActivity.class);
-//						intent.putParcelableArrayListExtra(Consts.INTENT_EXTRA_UPCOMING_BROADCASTS, repeatingBroadcasts);
-//						intent.putExtra(Consts.INTENT_EXTRA_RUNNING_BROADCAST, mRunningBroadcast);
 						ContentManager.sharedInstance().setUpcomingBroadcasts(repeatingOrUpcomingBroadcasts);
 						mActivity.startActivity(intent);
 					}
