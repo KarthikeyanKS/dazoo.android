@@ -28,6 +28,7 @@ import com.mitv.adapters.AdListAdapter;
 import com.mitv.adapters.TVGuideListAdapter;
 import com.mitv.adapters.TVGuideTagListAdapter;
 import com.mitv.content.SSPageFragment;
+import com.mitv.customviews.FontTextView;
 import com.mitv.customviews.SwipeClockBar;
 import com.mitv.model.Broadcast;
 import com.mitv.model.Guide;
@@ -113,6 +114,10 @@ public class TVGuideTableFragment extends SSPageFragment {
 			mSwipeClockBar = (SwipeClockBar) mRootView.findViewById(R.id.tvguide_swype_clock_bar);
 			mSwipeClockBar.setHour(mHour);
 			mSwipeClockBar.setToday(mIsToday);
+			
+			FontTextView selectedHourTextView = (FontTextView) mRootView.findViewById(R.id.timebar_selected_hour_textview);
+			mSwipeClockBar.setSelectedHourTextView(selectedHourTextView);
+			
 		} else {
 			mRootView = inflater.inflate(R.layout.fragment_tvguide_tag_type, null);
 			mTVGuideListView = (ListView) mRootView.findViewById(R.id.fragment_tvguide_type_tag_listview);
