@@ -7,6 +7,7 @@ import java.util.HashMap;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
+import com.millicom.mitv.models.AppConfiguration;
 import com.millicom.mitv.models.AppVersion;
 import com.millicom.mitv.models.RepeatingBroadcastsForBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
@@ -14,7 +15,6 @@ import com.millicom.mitv.models.TVDate;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.UpcomingBroadcastsForBroadcast;
 import com.millicom.mitv.models.gson.AdAdzerkJSON;
-import com.millicom.mitv.models.gson.AppConfigurationJSON;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;
@@ -68,7 +68,7 @@ public class Storage {
 	private TVDate tvDateSelected;
 	
 	private AppVersion appVersionData;
-	private AppConfigurationJSON appConfigData;
+	private AppConfiguration appConfigData;
 		
 	/* Ads */
 	private HashMap<String, SparseArray<AdAdzerkJSON>> fragmentToAdsMap;
@@ -85,6 +85,14 @@ public class Storage {
 	/* Should only be used by the ContentManager */
 	public Storage() {
 		this.tvGuides = new HashMap<String, TVGuide>();
+	}
+	
+	public String getWelcomeMessage() {
+		String welcomeMessage = "";
+		if(appConfigData != null) {
+			welcomeMessage = appConfigData.getWelcomeToast();
+		}
+		return welcomeMessage;
 	}
 		
 	public boolean isLoggedIn() {
@@ -241,11 +249,11 @@ public class Storage {
 		this.appVersionData = appVersionData;
 	}
 
-	public AppConfigurationJSON getAppConfigData() {
+	public AppConfiguration getAppConfigData() {
 		return appConfigData;
 	}
 
-	public void setAppConfigData(AppConfigurationJSON appConfigData) {
+	public void setAppConfigData(AppConfiguration appConfigData) {
 		this.appConfigData = appConfigData;
 	}
 	

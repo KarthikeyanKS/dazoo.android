@@ -11,10 +11,6 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
@@ -32,13 +28,12 @@ import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.tvguide.BroadcastMainBlockPopulator;
 
-public class BroadcastPageActivity extends BaseActivity implements ActivityCallbackListener, OnClickListener {
+public class BroadcastPageActivity extends BaseActivity implements ActivityCallbackListener {
 
 	private static final String TAG = BroadcastPageActivity.class.getName();
 
 	private TVBroadcast broadcast;
 	private String channelLogoUrl;
-	private LinearLayout blockContainer;
 	private ActionBar actionBar;
 	private TVChannel channel;
 	private TVChannelId channelId;
@@ -51,11 +46,6 @@ public class BroadcastPageActivity extends BaseActivity implements ActivityCallb
 	private boolean mIsUpcoming = false;
 	private boolean mIsRepeat = false;
 	private boolean isFromProfile = false;
-	private RelativeLayout tabTvGuide;
-	private RelativeLayout tabActivity;
-	private RelativeLayout tabProfile;
-	private View tabDividerLeft;
-	private View tabDividerRight;
 	private Activity activity;
 	private Intent intent;
 	private ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts;
@@ -244,43 +234,6 @@ public class BroadcastPageActivity extends BaseActivity implements ActivityCallb
 		actionBar.setTitle(activity.getResources().getString(R.string.broadcast_info));
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
-		tabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
-		tabTvGuide.setOnClickListener(this);
-		tabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
-		tabActivity.setOnClickListener(this);
-		tabProfile = (RelativeLayout) findViewById(R.id.tab_me);
-		tabProfile.setOnClickListener(this);
-
-		tabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
-		tabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
-
-		if (isFromActivity) {
-			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
-			tabActivity.setBackgroundColor(getResources().getColor(R.color.red));
-			tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
-
-			tabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
-			tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
-
-		} else if (isFromProfile) {
-			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
-			tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
-			tabProfile.setBackgroundColor(getResources().getColor(R.color.red));
-
-			tabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
-			tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
-
-		} else {
-			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
-			tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
-			tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
-
-			tabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
-			tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
-
-		}
-
-		blockContainer = (LinearLayout) findViewById(R.id.broacastpage_block_container_layout);
 		scrollView = (ScrollView) findViewById(R.id.broadcast_scroll);
 	}
 
@@ -380,32 +333,6 @@ public class BroadcastPageActivity extends BaseActivity implements ActivityCallb
 		return super.onOptionsItemSelected(item);
 	}
 
-	@Override
-	public void onClick(View v) {
-		int id = v.getId();
-		switch (id) {
-		case R.id.tab_tv_guide:
-			// tab to home page
-			Intent intentHome = new Intent(BroadcastPageActivity.this, HomeActivity.class);
-			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(intentHome);
-
-			break;
-		case R.id.tab_activity:
-			// tab to activity page
-			Intent intentActivity = new Intent(BroadcastPageActivity.this, ActivityActivity.class);
-			startActivity(intentActivity);
-
-			break;
-		case R.id.tab_me:
-			// tab to activity page
-			Intent intentMe = new Intent(BroadcastPageActivity.this, MyProfileActivity.class);
-			startActivity(intentMe);
-
-			break;
-		}
-	}
 
 	// task to get the upcoming broadcasts from series
 	private void getUpcomingSeriesBroadcasts(TVBroadcastWithChannelInfo broadcast) {

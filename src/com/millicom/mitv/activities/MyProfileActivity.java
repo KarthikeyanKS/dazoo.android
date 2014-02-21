@@ -18,16 +18,12 @@ import com.millicom.mitv.activities.authentication.MiTVLoginActivity;
 import com.millicom.mitv.activities.authentication.SignInOrSignupWithFacebookActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
-import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
-import com.mitv.LikeService;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.customviews.FontTextView;
-import com.mitv.manager.ApiClient;
 import com.mitv.notification.NotificationDataSource;
 import com.mitv.storage.MiTVStore;
-import com.mitv.utilities.OldDateUtilities;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -39,7 +35,6 @@ public class MyProfileActivity extends BaseActivity implements ActivityCallbackL
 	private String mUserFirstName;
 	private String mUserLastName;
 	private String mUserAvatarUrl;
-	private RelativeLayout mTabTvGuide, mTabActivity, mTabProfile;
 	private RelativeLayout mAboutContainer;
 	private RelativeLayout mTermsContainer;
 
@@ -65,15 +60,6 @@ public class MyProfileActivity extends BaseActivity implements ActivityCallbackL
 
 		setContentView(R.layout.layout_my_profile);
 
-		
-		// add the activity to the list of running activities
-		SecondScreenApplication.getInstance().getActivityList().add(this);
-
-//		String token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
-
-//		if (token != null && TextUtils.isEmpty(token) != true) {
-//			mIsLoggedIn = true;
-
 		if(ContentManager.sharedInstance().isLoggedIn()) {
 			mUserFirstName = ContentManager.sharedInstance().getFromStorageUserFirstname();
 			mUserLastName = ContentManager.sharedInstance().getFromStorageUserLastname();
@@ -91,23 +77,6 @@ public class MyProfileActivity extends BaseActivity implements ActivityCallbackL
 	}
 
 	private void initViews() {
-		mTabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
-		mTabTvGuide.setOnClickListener(this);
-		mTabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
-		mTabActivity.setOnClickListener(this);
-		mTabProfile = (RelativeLayout) findViewById(R.id.tab_me);
-		mTabProfile.setOnClickListener(this);
-
-		View tabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
-		View tabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
-
-		tabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
-		tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
-
-		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
-		mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
-		mTabProfile.setBackgroundColor(getResources().getColor(R.color.red));
-
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setTitle(getResources().getString(R.string.myprofile_title));
 
@@ -287,27 +256,6 @@ public class MyProfileActivity extends BaseActivity implements ActivityCallbackL
 			SecondScreenApplication.getInstance().clearActivityBacktrace();
 
 			startActivity(new Intent(MyProfileActivity.this, HomeActivity.class));
-			break;
-		}
-
-		case R.id.tab_tv_guide: {
-			// tab to home page
-			Intent intentHome = new Intent(MyProfileActivity.this, HomeActivity.class);
-			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(intentHome);
-
-			break;
-		}
-		case R.id.tab_activity: {
-			// tab to activity page
-			Intent intentMe = new Intent(MyProfileActivity.this, ActivityActivity.class);
-			startActivity(intentMe);
-
-			break;
-		}
-		case R.id.tab_me: {
-			// we are here: do nothing
 			break;
 		}
 		}

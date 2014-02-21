@@ -5,15 +5,16 @@ package com.millicom.mitv;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import android.text.TextUtils;
 
-import com.millicom.mitv.enums.BroadcastTypeEnum;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.interfaces.FetchDataProgressCallbackListener;
+import com.millicom.mitv.models.AppConfiguration;
 import com.millicom.mitv.models.AppVersion;
 import com.millicom.mitv.models.RepeatingBroadcastsForBroadcast;
 import com.millicom.mitv.models.TVBroadcast;
@@ -22,7 +23,6 @@ import com.millicom.mitv.models.TVDate;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.TVGuideAndTaggedBroadcasts;
 import com.millicom.mitv.models.UpcomingBroadcastsForBroadcast;
-import com.millicom.mitv.models.gson.AppConfigurationJSON;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;
@@ -376,7 +376,7 @@ public class ContentManager implements ContentCallbackListener {
 			switch (requestIdentifier) 
 			{
 				case APP_CONFIGURATION: {
-					AppConfigurationJSON appConfigData = (AppConfigurationJSON) content;
+					AppConfiguration appConfigData = (AppConfiguration) content;
 					storage.setAppConfigData(appConfigData);
 					notifyFetchDataProgressListenerMessage("Fetched app configuration data");
 					break;
@@ -669,9 +669,9 @@ public class ContentManager implements ContentCallbackListener {
 		return tvGuide;
 	}
 	
-	public AppConfigurationJSON getFromStorageAppConfiguration()
+	public AppConfiguration getFromStorageAppConfiguration()
 	{
-		AppConfigurationJSON appConfiguration = storage.getAppConfigData();
+		AppConfiguration appConfiguration = storage.getAppConfigData();
 		
 		return appConfiguration;
 	}
@@ -784,7 +784,7 @@ public class ContentManager implements ContentCallbackListener {
 		return userId;
 	}
 		
-	// TODO remove this?
+	// TODO NewArc remove this?
 	public TVChannel getFromStorageTVChannelById(String channelId)
 	{
 		TVChannelId tvChannelId = new TVChannelId(channelId);
@@ -796,6 +796,10 @@ public class ContentManager implements ContentCallbackListener {
 		return storage.getTVChannelById(tvChannelId);
 	}
 	
+	public String getFromStorageWelcomeMessage() {
+		String welcomeMessage = storage.getWelcomeMessage();
+		return welcomeMessage;
+	}
 	
 	public HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> getFromStorageTaggedBroadcastsUsingTVDate(TVDate tvDate) {
 		HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcasts = storage.getTaggedBroadcastsUsingTVDate(tvDate);

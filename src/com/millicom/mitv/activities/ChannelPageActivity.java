@@ -36,28 +36,26 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-public class ChannelPageActivity extends BaseActivity implements OnClickListener, ActionBar.OnNavigationListener {
+public class ChannelPageActivity extends BaseActivity implements ActionBar.OnNavigationListener {
 
-	private static final String					TAG	= "ChannelPageActivity";
+	private static final String TAG = ChannelPageActivity.class.getName();
 
-	private ActionBar							mActionBar;
-	private ActionBarDropDownDateListAdapter	mDayAdapter;
-	private RelativeLayout						mTabTvGuide, mTabActivity, mTabProfile;
-	private View								mTabDividerLeft, mTabDividerRight;
-	private ListView							mFollowingBroadcastsLv;
-	private ImageView							mChannelIconIv;
-	private ChannelPageListAdapter				mFollowingBroadcastsListAdapter;
-//	private String								mDate, mTvGuideDate; //, token; mChannelId
-	private TVChannelId							mChannelId;
-	private TVDate								mTvDateSelected, mDateTvGuide;
-	private TVChannelGuide								mChannelGuide;
-	private TVChannel								channel;
-	private ArrayList<TVBroadcast>				mFollowingBroadcasts; //, mBroadcasts;
-	private ArrayList<TVDate>					mTvDates;
-	private int									mSelectedIndex	= -1, mIndexOfNearestBroadcast, mHour;
-//	private MiTVStore							mitvStore;
-	private boolean								mIsReady = false, mFirstHit = true, mIsToday = false; //mIsLoggedIn		= false, 
-	private Handler								mHandler;
+	private ActionBar mActionBar;
+	private ActionBarDropDownDateListAdapter mDayAdapter;
+	private ListView mFollowingBroadcastsLv;
+	private ImageView mChannelIconIv;
+	private ChannelPageListAdapter mFollowingBroadcastsListAdapter;
+	// private String mDate, mTvGuideDate; //, token; mChannelId
+	private TVChannelId mChannelId;
+	private TVDate mTvDateSelected, mDateTvGuide;
+	private TVChannelGuide mChannelGuide;
+	private TVChannel channel;
+	private ArrayList<TVBroadcast> mFollowingBroadcasts; // , mBroadcasts;
+	private ArrayList<TVDate> mTvDates;
+	private int mSelectedIndex = -1, mIndexOfNearestBroadcast, mHour;
+	// private MiTVStore mitvStore;
+	private boolean mIsReady = false, mFirstHit = true, mIsToday = false; // mIsLoggedIn = false,
+	private Handler mHandler;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,20 +63,21 @@ public class ChannelPageActivity extends BaseActivity implements OnClickListener
 		setContentView(R.layout.layout_channelpage_activity);
 
 		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverDate, new IntentFilter(Consts.INTENT_EXTRA_CHANNEL_SORTING));
-//		LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverContent, new IntentFilter(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE));
+		// LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverContent, new
+		// IntentFilter(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE));
 
 		// get the info about the individual channel guide to be displayed from tv-guide listview
-//		Intent intent = getIntent();
-//		mChannelId = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_ID);
-		//TODO TMP DATA intercommunication
-//		mDateTvGuide = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHOSEN_DATE_TVGUIDE);
-//		mHour = intent.getIntExtra(Consts.INTENT_EXTRA_TV_GUIDE_HOUR, 6);
+		// Intent intent = getIntent();
+		// mChannelId = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_ID);
+		// TODO TMP DATA intercommunication
+		// mDateTvGuide = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHOSEN_DATE_TVGUIDE);
+		// mHour = intent.getIntExtra(Consts.INTENT_EXTRA_TV_GUIDE_HOUR, 6);
 		mHour = ContentManager.sharedInstance().getFromStorageSelectedHour();
 		mChannelId = ContentManager.sharedInstance().getFromStorageSelectedTVChannelId();
 		channel = ContentManager.sharedInstance().getFromStorageTVChannelById(mChannelId);
-		
-//		mChannelGuide = mitvStore.getChannelGuide(mDateTvGuide.getDate(), mChannelId);
-		
+
+		// mChannelGuide = mitvStore.getChannelGuide(mDateTvGuide.getDate(), mChannelId);
+
 		updateIsToday();
 
 		super.initCallbackLayouts();
@@ -87,36 +86,36 @@ public class ChannelPageActivity extends BaseActivity implements OnClickListener
 		loadPage();
 	}
 
-	BroadcastReceiver	mBroadcastReceiverDate		= new BroadcastReceiver() {
+	BroadcastReceiver mBroadcastReceiverDate = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-//			mDate = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_SORTING_VALUE);
-//			Log.d(TAG, "mDate" + mDate);
+			// mDate = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_SORTING_VALUE);
+			// Log.d(TAG, "mDate" + mDate);
 
 			// reload the page with the content to the new date
 			updateUI(REQUEST_STATUS.LOADING);
-			//TODO NewArc what to do here?
-//			reloadPage();
+			// TODO NewArc what to do here?
+			// reloadPage();
 		}
 	};
 
-//	BroadcastReceiver	mBroadcastReceiverContent	= new BroadcastReceiver() {
-//		@Override
-//		public void onReceive(Context context, Intent intent) {
-//			mIsReady = intent.getBooleanExtra(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE_VALUE, false);
-//			if (mIsReady) {
-//
-//				//TODO handle this
-////				mChannelGuide = mitvStore.getChannelGuide(mTvDateSelected.getDate(), mChannelId);
-//				
-//				mBroadcasts = mChannelGuide.getBroadcasts();
-//				mFollowingBroadcasts = null;
-//				mFollowingBroadcasts = TVBroadcast.getBroadcastsFromPosition(mBroadcasts, mIndexOfNearestBroadcast);
-//				setFollowingBroadcasts();
-//				updateUI(REQUEST_STATUS.SUCCESSFUL);
-//			}
-//		}
-//	};
+	// BroadcastReceiver mBroadcastReceiverContent = new BroadcastReceiver() {
+	// @Override
+	// public void onReceive(Context context, Intent intent) {
+	// mIsReady = intent.getBooleanExtra(Consts.INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE_VALUE, false);
+	// if (mIsReady) {
+	//
+	// //TODO handle this
+	// // mChannelGuide = mitvStore.getChannelGuide(mTvDateSelected.getDate(), mChannelId);
+	//
+	// mBroadcasts = mChannelGuide.getBroadcasts();
+	// mFollowingBroadcasts = null;
+	// mFollowingBroadcasts = TVBroadcast.getBroadcastsFromPosition(mBroadcasts, mIndexOfNearestBroadcast);
+	// setFollowingBroadcasts();
+	// updateUI(REQUEST_STATUS.SUCCESSFUL);
+	// }
+	// }
+	// };
 
 	@Override
 	public boolean onNavigationItemSelected(int position, long id) {
@@ -130,65 +129,65 @@ public class ChannelPageActivity extends BaseActivity implements OnClickListener
 			mDayAdapter.setSelectedIndex(position);
 			mTvDateSelected = mTvDates.get(position);
 			mSelectedIndex = position;
-			
+
 			Intent intent = new Intent(Consts.INTENT_EXTRA_CHANNEL_SORTING);
-//			intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_SORTING_VALUE, mTvDateSelected.getDate());
-			
+			// intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_SORTING_VALUE, mTvDateSelected.getDate());
+
 			LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(intent);
-			
+
 			return true;
 		}
 	}
 
-//	private void reloadPage() {
-//		updateIsToday();
-//		mChannelGuide = null;
-//		mBroadcasts = null;
-//
-////		mChannelGuide = mitvStore.getChannelGuide(mTvDateSelected.getDate(), mChannelId);
-//		mChannelGuide = ContentManager.sharedInstance().getFromStorageTVChannelGuideUsingTVChannelIdForSelectedDay(mChannelId);
-//
-//		if (mChannelGuide != null) {
-//			mBroadcasts = mChannelGuide.getBroadcasts();
-//			if (mIsToday) 
-//			{
-//				mIndexOfNearestBroadcast = TVBroadcast.getClosestBroadcastIndex(mBroadcasts, mHour, mTvDateSelected, 0);
-//			} 
-//			else 
-//			{
-//				mIndexOfNearestBroadcast = 0;
-//			}
-//			if (mIndexOfNearestBroadcast >= 0) {
-//				mFollowingBroadcasts = null;
-//				mFollowingBroadcasts = TVBroadcast.getBroadcastsFromPosition(mBroadcasts, mIndexOfNearestBroadcast);
-//			}
-//			setFollowingBroadcasts();
-//			
-//			mFollowingBroadcastsListAdapter.notifyDataSetChanged();
-//
-//			updateUI(REQUEST_STATUS.SUCCESSFUL);
-//		} else {
-//			//TODO get guide from ContentManager
-////			ApiClient.getGuide(mSelectedIndex, true);
-//			Log.d(TAG, "get guide");
-//		}
-//	}
-	
+	// private void reloadPage() {
+	// updateIsToday();
+	// mChannelGuide = null;
+	// mBroadcasts = null;
+	//
+	// // mChannelGuide = mitvStore.getChannelGuide(mTvDateSelected.getDate(), mChannelId);
+	// mChannelGuide = ContentManager.sharedInstance().getFromStorageTVChannelGuideUsingTVChannelIdForSelectedDay(mChannelId);
+	//
+	// if (mChannelGuide != null) {
+	// mBroadcasts = mChannelGuide.getBroadcasts();
+	// if (mIsToday)
+	// {
+	// mIndexOfNearestBroadcast = TVBroadcast.getClosestBroadcastIndex(mBroadcasts, mHour, mTvDateSelected, 0);
+	// }
+	// else
+	// {
+	// mIndexOfNearestBroadcast = 0;
+	// }
+	// if (mIndexOfNearestBroadcast >= 0) {
+	// mFollowingBroadcasts = null;
+	// mFollowingBroadcasts = TVBroadcast.getBroadcastsFromPosition(mBroadcasts, mIndexOfNearestBroadcast);
+	// }
+	// setFollowingBroadcasts();
+	//
+	// mFollowingBroadcastsListAdapter.notifyDataSetChanged();
+	//
+	// updateUI(REQUEST_STATUS.SUCCESSFUL);
+	// } else {
+	// //TODO get guide from ContentManager
+	// // ApiClient.getGuide(mSelectedIndex, true);
+	// Log.d(TAG, "get guide");
+	// }
+	// }
+
 	private void updateIsToday() {
-		//TODO handle this
-//		String tvDateToday = DateUtilities.todayDateAsTvDate();
-//		String tvDate = null;
-//		if(mTvDateSelected != null) {
-//			tvDate = mTvDateSelected.getDate();
-//		} else {
-//			tvDate = mDateTvGuide.getDate();
-//		}
-//		
-//		if (tvDate.equals(tvDateToday)) {
-//			mIsToday = true;
-//		} else {
-//			mIsToday = false;
-//		}
+		// TODO handle this
+		// String tvDateToday = DateUtilities.todayDateAsTvDate();
+		// String tvDate = null;
+		// if(mTvDateSelected != null) {
+		// tvDate = mTvDateSelected.getDate();
+		// } else {
+		// tvDate = mDateTvGuide.getDate();
+		// }
+		//
+		// if (tvDate.equals(tvDateToday)) {
+		// mIsToday = true;
+		// } else {
+		// mIsToday = false;
+		// }
 	}
 
 	private void initViews() {
@@ -218,25 +217,6 @@ public class ChannelPageActivity extends BaseActivity implements OnClickListener
 
 		mChannelIconIv = (ImageView) header.findViewById(R.id.channelpage_channel_icon_iv);
 
-		// styling bottom navigation tabs
-		mTabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
-		mTabTvGuide.setOnClickListener(this);
-		mTabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
-		mTabActivity.setOnClickListener(this);
-		mTabProfile = (RelativeLayout) findViewById(R.id.tab_me);
-		mTabProfile.setOnClickListener(this);
-
-		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
-		mTabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
-
-		mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
-		mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
-	
-		// the highlighted tab in the Channel activity is TV Guide
-		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
-		mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
-		mTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
-		
 		ImageAware imageAware = new ImageViewAware(mChannelIconIv, false);
 		ImageLoader.getInstance().displayImage(mChannelGuide.getImageUrl(), imageAware);
 	}
@@ -252,20 +232,20 @@ public class ChannelPageActivity extends BaseActivity implements OnClickListener
 
 				// we take one position less as we have a header view
 				int adjustedPosition = position - 1;
-				if(adjustedPosition < 0) {
+				if (adjustedPosition < 0) {
 					/* Don't allow negative values */
 					adjustedPosition = 0;
 				}
-				
+
 				TVBroadcast broadcastSelected = mFollowingBroadcasts.get(adjustedPosition);
 				TVBroadcastWithChannelInfo broadcastWithChannelInfo = new TVBroadcastWithChannelInfo(broadcastSelected);
 				broadcastWithChannelInfo.setChannel(channel);
-				
+
 				ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 				ContentManager.sharedInstance().setSelectedTVChannelId(channel.getChannelId());
-				
+
 				startActivity(intent);
-				
+
 			}
 		});
 	}
@@ -275,73 +255,43 @@ public class ChannelPageActivity extends BaseActivity implements OnClickListener
 		super.onDestroy();
 		// Stop listening to broadcast events
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverDate);
-//		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverContent);
+		// LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverContent);
 	};
 
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		
+
 		finish();
 	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		
+
 	}
 
 	@Override
-	public void onClick(View v) {
-		int id = v.getId();
-		switch (id) {
-		case R.id.tab_tv_guide:
-			// tab to home page
-			Intent intentHome = new Intent(ChannelPageActivity.this, HomeActivity.class);
-			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(intentHome);
-			break;
-		case R.id.tab_activity:
-			// tab to activity page
-			Intent intentActivity = new Intent(ChannelPageActivity.this, ActivityActivity.class);
-			startActivity(intentActivity);
-			break;
-		case R.id.tab_me:
-			// tab to activity page
-			Intent intentMe = new Intent(ChannelPageActivity.this, MyProfileActivity.class);
-			startActivity(intentMe);
-			break;
-		}
-	}
-
-	@Override
-	protected void updateUI(REQUEST_STATUS status) 
-	{
-		if (super.requestIsSuccesfull(status)) 
-		{
+	protected void updateUI(REQUEST_STATUS status) {
+		if (super.requestIsSuccesfull(status)) {
 			Log.d(TAG, "succesfull!!!!! ");
 		}
 	}
 
-	
-	
 	@Override
-	protected void loadPage() 
-	{
+	protected void loadPage() {
 		mChannelGuide = ContentManager.sharedInstance().getFromStorageTVChannelGuideUsingTVChannelIdForSelectedDay(mChannelId);
 
-//		mBroadcasts = mChannelGuide.getBroadcasts();
+		// mBroadcasts = mChannelGuide.getBroadcasts();
 		ArrayList<TVBroadcast> broadcasts = mChannelGuide.getBroadcasts();
 		mTvDates = ContentManager.sharedInstance().getFromStorageTVDates();
-		
+
 		mIndexOfNearestBroadcast = TVBroadcast.getClosestBroadcastIndex(broadcasts, 0);
-		
-		if (mIndexOfNearestBroadcast >= 0)
-		{
+
+		if (mIndexOfNearestBroadcast >= 0) {
 			mFollowingBroadcasts = TVBroadcast.getBroadcastsFromPosition(broadcasts, mIndexOfNearestBroadcast);
 			setFollowingBroadcasts();
 		}
-		
+
 	}
 }

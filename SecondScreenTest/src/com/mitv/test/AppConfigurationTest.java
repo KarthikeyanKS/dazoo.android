@@ -13,7 +13,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.models.gson.AppConfigurationJSON;
+import com.millicom.mitv.models.gson.AppConfiguration;
 import com.mitv.Consts;
 
 
@@ -23,7 +23,7 @@ public class AppConfigurationTest
 {
 	private static final String	TAG	= "AppConfigurationTest";
 	
-	private AppConfigurationJSON receivedData;
+	private AppConfiguration receivedData;
 
 	
 	
@@ -42,12 +42,12 @@ public class AppConfigurationTest
 		try
 		{
 			GsonBuilder gsonBuilder = new GsonBuilder();
-			gsonBuilder.registerTypeAdapter(AppConfigurationJSON.class, new AppConfigurationJSON());
+			gsonBuilder.registerTypeAdapter(AppConfiguration.class, new AppConfiguration());
 			gsonBuilder.excludeFieldsWithoutExposeAnnotation();
 			
 			Gson gson = gsonBuilder.create();
 			
-			receivedData = gson.fromJson(responseString, AppConfigurationJSON.class);
+			receivedData = gson.fromJson(responseString, AppConfiguration.class);
 		}
 		catch(JsonSyntaxException jsex)
 		{

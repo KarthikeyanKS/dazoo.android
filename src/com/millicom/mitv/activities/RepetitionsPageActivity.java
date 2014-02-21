@@ -19,7 +19,7 @@ import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.RepetitionsListAdapter;
 
-public class RepetitionsPageActivity extends BaseActivity implements OnClickListener {
+public class RepetitionsPageActivity extends BaseActivity {
 
 	private static final String TAG = RepetitionsPageActivity.class.getName();
 
@@ -105,32 +105,5 @@ public class RepetitionsPageActivity extends BaseActivity implements OnClickList
 	public void onBackPressed() {
 		super.onBackPressed();
 
-	}
-
-	@Override
-	public void onClick(View v) {
-		int id = v.getId();
-		switch (id) {
-		case R.id.tab_tv_guide:
-			// tab to home page
-			Intent intentHome = new Intent(RepetitionsPageActivity.this, HomeActivity.class);
-			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(intentHome);
-
-			break;
-		case R.id.tab_activity:
-			// tab to activity page
-			Intent intentActivity = new Intent(RepetitionsPageActivity.this, ActivityActivity.class);
-			startActivity(intentActivity);
-
-			break;
-		case R.id.tab_me:
-			// tab to profile page
-			Intent intentMe = new Intent(RepetitionsPageActivity.this, MyProfileActivity.class);
-			startActivity(intentMe);
-
-			break;
-		}
 	}
 }
