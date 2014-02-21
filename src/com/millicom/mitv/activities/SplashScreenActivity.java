@@ -24,8 +24,6 @@ public class SplashScreenActivity extends ActionBarActivity implements ActivityC
 	
 	private static final String					TAG					= "SplashScreenActivity";
 	private FontTextView progressTextView;
-	
-	private static final long MINUMUM_DISPLAY_TIME = 3000l;
 	private int fetchedDataCount = 0;
 
 	@Override

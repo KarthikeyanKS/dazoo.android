@@ -27,27 +27,25 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
+import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.ContentTypeEnum;
+import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
+import com.millicom.mitv.models.TVSearchResult;
 import com.millicom.mitv.utilities.GenericUtils;
-import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.SearchPageListAdapter;
 import com.mitv.customviews.InstantAutoComplete;
 import com.mitv.handlers.SearchActivityListeners;
-import com.mitv.model.OldBroadcast;
-import com.mitv.model.OldSearchResultItem;
-import com.mitv.model.OldTVChannel;
 
 public class SearchPageActivity extends BaseActivity implements OnItemClickListener, OnEditorActionListener, OnClickListener, SearchActivityListeners {
 
-	private static final String TAG = "SearchPageActivity";
+	private static final String TAG = SearchPageActivity.class.getName();
 
 	private SearchPageListAdapter mAutoCompleteAdapter;
 	private LinearLayout mSearchInstructionsContainer;
 
-	private ImageView mBackButton;
 	private ActionBar mActionBar;
 	private Menu mMenu;
 	private InstantAutoComplete mEditTextSearch;
@@ -62,16 +60,11 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 		setContentView(R.layout.layout_searchpage_activity);
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-		
-
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
-		// CUSTOMIZE DEFAULT ACTIONBAR
-
 		initMainLayout();
 		initSupportActionbar();
-
 	}
 
 	@Override
@@ -108,7 +101,6 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 		
 		this.mMenu = menu;
 		
-
 		initAutoCompleteLayout();
 		initAutoCompleteListeners();
 		loadAutoCompleteView();
@@ -217,7 +209,7 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 	// Click listener for both recent list and search auto complete view
 	public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 
-		OldSearchResultItem result = (OldSearchResultItem) adapterView.getItemAtPosition(position);
+		TVSearchResult result = (TVSearchResult) adapterView.getItemAtPosition(position);
 		
 		if(result.getEntityType() != ContentTypeEnum.CHANNEL) {
 			// open the detail view for the individual broadcast
@@ -230,18 +222,9 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 				adjustedPosition = 0;
 			}
 			
-			OldBroadcast nextBroadcast = result.getNextBroadcast();
+			TVBroadcastWithChannelInfo nextBroadcast = result.getNextBroadcast();
 			if(nextBroadcast != null) {
-				intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, nextBroadcast.getBeginTimeMillisGmt());
-				
-				OldTVChannel channel = nextBroadcast.getChannel();
-				String channelId = channel.getChannelId();
-				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, channelId);
-				
-				String date = nextBroadcast.getTvDateString();
-				//TODO TMP DATA intercommunication
-//				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, date);
-				
+				ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(nextBroadcast);
 				startActivity(intent);
 			} else {
 				Toast.makeText(this, "No upcoming broadcast", Toast.LENGTH_SHORT).show();

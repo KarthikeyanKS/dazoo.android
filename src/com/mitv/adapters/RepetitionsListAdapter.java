@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
@@ -154,14 +155,9 @@ public class RepetitionsListAdapter extends BaseAdapter {
 				public void onClick(View v) 
 				{
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
-					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId().getChannelId());
-					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getBeginTimeDateRepresentation());
+					ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcast);
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
-
 					mActivity.startActivity(intent);
-
 				}
 			});
 

@@ -11,18 +11,17 @@ import android.widget.BaseAdapter;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import com.millicom.mitv.models.TVDate;
 import com.mitv.R;
-import com.mitv.model.OldTVDate;
-import com.mitv.utilities.OldDateUtilities;
 
 public class ActionBarDropDownDateListAdapter extends BaseAdapter implements SpinnerAdapter {
 
-	private static final String	TAG				= "ActionBarDropDownDateListAdapter";
-	private ArrayList<OldTVDate>	mDays;
+	private static final String TAG = "ActionBarDropDownDateListAdapter";
+	private ArrayList<TVDate> mDays;
 
-	private int					mSelectedIndex	= -1;
+	private int mSelectedIndex = -1;
 
-	public ActionBarDropDownDateListAdapter(ArrayList<OldTVDate> mDays) {
+	public ActionBarDropDownDateListAdapter(ArrayList<TVDate> mDays) {
 		this.mDays = mDays;
 	}
 
@@ -30,14 +29,16 @@ public class ActionBarDropDownDateListAdapter extends BaseAdapter implements Spi
 	public int getCount() {
 		if (mDays != null) {
 			return mDays.size();
-		} else return 0;
+		} else
+			return 0;
 	}
 
 	@Override
-	public OldTVDate getItem(int position) {
+	public TVDate getItem(int position) {
 		if (mDays != null) {
 			return mDays.get(position);
-		} else return null;
+		} else
+			return null;
 	}
 
 	@Override
@@ -47,34 +48,56 @@ public class ActionBarDropDownDateListAdapter extends BaseAdapter implements Spi
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		return getViewForHeaderOrRow(position, convertView, parent, true);
+	}
+
+	private View getViewForHeaderOrRow(int position, View convertView, ViewGroup parent, boolean isHeader) {
 		View row = convertView;
 		if (row == null) {
 			LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			row = inflater.inflate(R.layout.actionbar_dropdown_list_date_header, parent, false);
+			if (isHeader) {
+				row = inflater.inflate(R.layout.actionbar_dropdown_list_date_header, parent, false);
+			} else {
+				row = inflater.inflate(R.layout.actionbar_dropdown_list_date_item, parent, false);
+			}
 		}
 
-		TextView txtName = (TextView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_header_name);
-		TextView txtNumber = (TextView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_header_number);
+		TextView dayName;
+		TextView dayAndMonth;
+
+		if (isHeader) {
+			dayName = (TextView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_header_name);
+			dayAndMonth = (TextView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_header_number);
+		} else {
+			dayName = (TextView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_item_name);
+			dayAndMonth = (TextView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_item_number);
+
+			// make the selected text position bold
+			if (position == mSelectedIndex) {
+				dayName.setTypeface(null, Typeface.BOLD);
+			}
+		}
 
 		// do not display when no selection
 		if (mSelectedIndex != -1) {
-
-			OldTVDate tvDate = getItem(position);
+			TVDate tvDate = getItem(position);
 			try {
-				txtName.setText(tvDate.getName());
-				txtNumber.setText(OldDateUtilities.tvDateStringToDatePickerString(tvDate.getDate()));
+				dayName.setText(tvDate.getDisplayName());
+				// TODO NewArc use calendar from TVDate object as sketch below
+				// /Calendar calendar = tvDate.getCalendar();
+				// txtNumber.setText(DateUtils.buildDayAndMonthCompositionAsString(calendar);
 			} catch (Exception e) {
 				e.printStackTrace();
-				txtName.setText("");
-				txtNumber.setText("");
+				dayName.setText("");
+				dayAndMonth.setText("");
 			}
 
-			txtName.setVisibility(View.VISIBLE);
-			txtNumber.setVisibility(View.VISIBLE);
+			dayName.setVisibility(View.VISIBLE);
+			dayAndMonth.setVisibility(View.VISIBLE);
 
 		} else {
-			txtName.setVisibility(View.GONE);
-			txtNumber.setVisibility(View.GONE);
+			dayName.setVisibility(View.GONE);
+			dayAndMonth.setVisibility(View.GONE);
 		}
 
 		return row;
@@ -82,42 +105,7 @@ public class ActionBarDropDownDateListAdapter extends BaseAdapter implements Spi
 
 	@Override
 	public View getDropDownView(int position, View convertView, ViewGroup parent) {
-		View row = convertView;
-		if (row == null) {
-			LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			row = inflater.inflate(R.layout.actionbar_dropdown_list_date_item, parent, false);
-		}
-
-		TextView txtName = (TextView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_item_name);
-		TextView txtNumber = (TextView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_item_number);
-
-		// do not display when no selection
-		if (mSelectedIndex != -1) {
-
-			OldTVDate tvDate = getItem(position);
-			try {
-				txtName.setText(tvDate.getName());
-				txtNumber.setText(OldDateUtilities.tvDateStringToDatePickerString(tvDate.getDate()));
-			} catch (Exception e) {
-				e.printStackTrace();
-				txtName.setText("");
-				txtNumber.setText("");
-			}
-
-			// make the selected text position bold
-			if(position==mSelectedIndex){
-				txtName.setTypeface(null, Typeface.BOLD);
-			}
-			
-			txtName.setVisibility(View.VISIBLE);
-			txtNumber.setVisibility(View.VISIBLE);
-
-		} else {
-			txtName.setVisibility(View.GONE);
-			txtNumber.setVisibility(View.GONE);
-		}
-
-		return row;
+		return getViewForHeaderOrRow(position, convertView, parent, false);
 	}
 
 	public void setSelectedIndex(int index) {

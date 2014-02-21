@@ -45,7 +45,7 @@ public class RepetitionsPageActivity extends BaseActivity implements OnClickList
 //		mRepeatingProgram = intent.getParcelableExtra(Consts.INTENT_EXTRA_REPEATING_PROGRAM);
 //		mRunningBroadcast = intent.getParcelableExtra(Consts.INTENT_EXTRA_RUNNING_BROADCAST);
 		mRepeatingBroadcasts = ContentManager.sharedInstance().getFromStorageRepeatingBroadcasts();
-		mRunningBroadcast = ContentManager.sharedInstance().getFromStorageSelectedBroadcast();
+		mRunningBroadcast = ContentManager.sharedInstance().getFromStorageSelectedBroadcastWithChannelInfo();
 
 //		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 

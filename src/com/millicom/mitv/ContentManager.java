@@ -671,12 +671,21 @@ public class ContentManager implements ContentCallbackListener {
 		return repeatingBroadcasts;
 	}
 	
-	public void setSelectedBroadcast(TVBroadcast selectedBroadcast) {
-		storage.setNonPersistentSelectedBroadcast(selectedBroadcast);
+//	public void setSelectedBroadcast(TVBroadcast selectedBroadcast) {
+//		storage.setNonPersistentSelectedBroadcast(selectedBroadcast);
+//	}
+//	
+//	public TVBroadcast getFromStorageSelectedBroadcast() {
+//		TVBroadcast runningBroadcast = storage.getNonPersistentSelectedBroadcast();
+//		return runningBroadcast;
+//	}
+	
+	public void setSelectedBroadcastWithChannelInfo(TVBroadcastWithChannelInfo selectedBroadcast) {
+		storage.setNonPersistentSelectedBroadcastWithChannelInfo(selectedBroadcast);
 	}
 	
-	public TVBroadcast getFromStorageSelectedBroadcast() {
-		TVBroadcast runningBroadcast = storage.getNonPersistentSelectedBroadcast();
+	public TVBroadcastWithChannelInfo getFromStorageSelectedBroadcastWithChannelInfo() {
+		TVBroadcastWithChannelInfo runningBroadcast = storage.getNonPersistentSelectedBroadcastWithChannelInfo();
 		return runningBroadcast;
 	}
 	

@@ -22,9 +22,9 @@ public abstract class DateUtils
 {	
 	private static final String TAG = DateUtils.class.getName();
 	
-	public static long TOTAL_MILISECOUNDS_IN_ONE_MINUTE = 60000;
-	public static long TOTAL_MILISECOUNDS_IN_ONE_HOUR = TOTAL_MILISECOUNDS_IN_ONE_MINUTE*60;
-	public static long TOTAL_MILISECOUNDS_IN_ONE_DAY = TOTAL_MILISECOUNDS_IN_ONE_HOUR*24;
+	public static final long TOTAL_MILISECOUNDS_IN_ONE_MINUTE = 60000;
+	public static final long TOTAL_MILISECOUNDS_IN_ONE_HOUR = TOTAL_MILISECOUNDS_IN_ONE_MINUTE*60;
+	public static final long TOTAL_MILISECOUNDS_IN_ONE_DAY = TOTAL_MILISECOUNDS_IN_ONE_HOUR*24;
 	
 	
 	

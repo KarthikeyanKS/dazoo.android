@@ -10,18 +10,22 @@ import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 
 
 
-public class TVSearchResultEntity
+public class TVSearchResultEntityJSON
 	implements GSONDataFieldValidation
 {
-	private String id;
+	protected String name;
 	
-	private String name;
+	//TODO NewArc give support in this class for not only TVSeries but TVChannel and TVProgram as well
+	/* IF SERIES */
+//	@Expose (deserialize = false)
+	protected String id;
 	
-	private ArrayList<TVBroadcastWithChannelInfo> broadcasts;
+//	@Expose (deserialize = false)
+	protected ArrayList<TVBroadcastWithChannelInfo> broadcasts;
 	
 	
 	
-	public TVSearchResultEntity()
+	public TVSearchResultEntityJSON()
 	{}
 
 

@@ -15,10 +15,11 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.BroadcastPageActivity;
-import com.mitv.Consts;
+import com.millicom.mitv.enums.ProgramTypeEnum;
+import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.R;
-import com.mitv.model.OldBroadcast;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -29,9 +30,9 @@ public class BlockPopularListViewAdapter extends BaseAdapter {
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
-	private ArrayList<OldBroadcast>	mPopularBroadcasts;
+	private ArrayList<TVBroadcastWithChannelInfo>	mPopularBroadcasts;
 
-	public BlockPopularListViewAdapter(Activity activity, ArrayList<OldBroadcast> popularBroadcasts) {
+	public BlockPopularListViewAdapter(Activity activity, ArrayList<TVBroadcastWithChannelInfo> popularBroadcasts) {
 		this.mActivity = activity;
 		this.mPopularBroadcasts = popularBroadcasts;
 	}
@@ -44,7 +45,7 @@ public class BlockPopularListViewAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public OldBroadcast getItem(int position) {
+	public TVBroadcastWithChannelInfo getItem(int position) {
 		if (mPopularBroadcasts != null) {
 			return mPopularBroadcasts.get(position);
 		} else return null;
@@ -59,8 +60,8 @@ public class BlockPopularListViewAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 
-		final OldBroadcast broadcast = getItem(position);
-		Log.d(TAG,"BROADCAST NAME: " + broadcast.getProgram().getTitle());
+		final TVBroadcastWithChannelInfo broadcastWithChannelInfo = getItem(position);
+		Log.d(TAG,"BROADCAST NAME: " + broadcastWithChannelInfo.getProgram().getTitle());
 
 		if (rowView == null) {
 			mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -81,35 +82,44 @@ public class BlockPopularListViewAdapter extends BaseAdapter {
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 
-		if (broadcast != null) {
+		if (broadcastWithChannelInfo != null) {
 			// different details about the broadcast program depending on the type
-			String programType = broadcast.getProgram().getProgramType();
 
 			ImageAware imageAware = new ImageViewAware(holder.mPoster, false);
-			ImageLoader.getInstance().displayImage(broadcast.getProgram().getPortMUrl(), imageAware);
-			if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-				holder.mTitle.setText(broadcast.getProgram().getSeries().getName());
+			ImageLoader.getInstance().displayImage(broadcastWithChannelInfo.getProgram().getImages().getPortrait().getMedium(), imageAware);
+			
+			//TODO NewArc veryfy that getBeginTimeDayOfTheWeekWithHourAndMinuteAsString is what we want here
+			holder.mTime.setText(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
+			holder.mChannelName.setText(broadcastWithChannelInfo.getChannel().getName());
+			
+			
+			ProgramTypeEnum programType = broadcastWithChannelInfo.getProgram().getProgramType();
+			if (programType == ProgramTypeEnum.TV_EPISODE) {
+				holder.mTitle.setText(broadcastWithChannelInfo.getProgram().getSeries().getName());
 			} else {
-				holder.mTitle.setText(broadcast.getProgram().getTitle());
+				holder.mTitle.setText(broadcastWithChannelInfo.getProgram().getTitle());
 			}
 			
-			holder.mTime.setText(broadcast.getDayOfWeekWithTimeString());
-		
-			holder.mChannelName.setText(broadcast.getChannel().getName());
-
-			if (programType != null) {
-				if (Consts.PROGRAM_TYPE_MOVIE.equals(programType)) {
-					holder.mDetails.setText(broadcast.getProgram().getGenre() + " " + broadcast.getProgram().getYear());
-				} else if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-					holder.mDetails.setText(mActivity.getResources().getString(R.string.season) + " " + broadcast.getProgram().getSeason().getNumber() + " "
-							+ mActivity.getResources().getString(R.string.episode) + " " + broadcast.getProgram().getEpisodeNumber());
-				} else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) {
-					holder.mDetails.setText(broadcast.getProgram().getSportType().getName() + " " + broadcast.getProgram().getTournament());
-				} else if (Consts.PROGRAM_TYPE_OTHER.equals(programType)) {
-					holder.mDetails.setText(broadcast.getProgram().getCategory());
-				}
+			
+			switch (programType) {
+			case MOVIE: {
+				holder.mDetails.setText(broadcastWithChannelInfo.getProgram().getGenre() + " " + broadcastWithChannelInfo.getProgram().getYear());
+				break;
 			}
-
+			case TV_EPISODE: {
+				holder.mDetails.setText(mActivity.getResources().getString(R.string.season) + " " + broadcastWithChannelInfo.getProgram().getSeason().getNumber() + " "
+						+ mActivity.getResources().getString(R.string.episode) + " " + broadcastWithChannelInfo.getProgram().getEpisodeNumber());
+				break;
+			}
+			case SPORT: {
+				holder.mDetails.setText(broadcastWithChannelInfo.getProgram().getSportType().getName() + " " + broadcastWithChannelInfo.getProgram().getTournament());
+				break;
+			}
+			case OTHER: {
+				holder.mDetails.setText(broadcastWithChannelInfo.getProgram().getCategory());
+				break;
+			}
+			}
 		}
 
 		holder.mContainer.setOnClickListener(new View.OnClickListener() {
@@ -117,10 +127,7 @@ public class BlockPopularListViewAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-				intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillisGmt());
-				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId());
-				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
-
+				ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 				mActivity.startActivity(intent);
 			}
 		});
