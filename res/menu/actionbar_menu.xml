@@ -19,10 +19,9 @@
 
     <item
         android:id="@+id/action_start_search"
-        android:icon="@null"
+        android:icon="@drawable/ic_action_search"
         android:title="@string/search_hint"
-        app:showAsAction="always"
-        app:actionLayout="@layout/actionbar_search_textview" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/searchfield"
         app:actionLayout="@layout/element_actionbar_searchfield"

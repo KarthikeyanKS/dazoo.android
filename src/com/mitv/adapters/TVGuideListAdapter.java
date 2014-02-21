@@ -209,10 +209,10 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 			}
 		}
 		if (textForThreeBroadcasts.equals("")) {
-			rowView.setVisibility(View.INVISIBLE);
+			holder.mTextView.setVisibility(View.INVISIBLE);
 		}
 		else {
-			rowView.setVisibility(View.VISIBLE);
+			holder.mTextView.setVisibility(View.VISIBLE);
 		}
 		return rowView;
 	}

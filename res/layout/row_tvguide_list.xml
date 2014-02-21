@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:font="http://schemas.android.com/apk/res/com.mitv"
+    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:id="@+id/item_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,46 +14,32 @@
         android:gravity="center"
         android:orientation="horizontal" >
 
-        <RelativeLayout
-            android:id="@+id/tvguide_channel_icon_container"
-            android:layout_width="0dp"
+        <ImageView
+            android:id="@+id/tvguide_channel_iv"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="@dimen/guide_image_margin"
+            android:adjustViewBounds="true"
+            android:clickable="false"
+            android:focusableInTouchMode="false" />
+
+        <com.mitv.customviews.FontTextView
+            android:id="@+id/tvguide_program_line_live"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.3" >
-
-            <ImageView
-                android:id="@+id/tvguide_channel_iv"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_margin="@dimen/guide_image_margin"
-                android:adjustViewBounds="true"
-                android:clickable="false"
-                android:focusableInTouchMode="false" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.7"
-            android:orientation="vertical" >
-
-            <com.mitv.customviews.FontTextView
-                android:id="@+id/tvguide_program_line_live"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_gravity="left"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp"
-                android:layout_marginTop="3dp"
-              	android:lineSpacingExtra="10dp"
-                android:maxLines="3"
-                android:paddingTop="10dp"
-                android:singleLine="false"
-                android:textColor="@color/grey3"
-                android:textSize="14sp"
-                android:ellipsize="none"
-                font:fonttextview="roboto_mitv_medium.ttf" />
-        </RelativeLayout>
+            android:layout_gravity="left"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="3dp"
+            android:ellipsize="none"
+            android:lineSpacingExtra="10dp"
+            android:maxLines="3"
+            android:paddingTop="10dp"
+            android:singleLine="false"
+            android:textColor="@color/grey3"
+            android:textSize="14sp"
+            font:fonttextview="roboto_mitv_medium.ttf" />
     </LinearLayout>
 
     <View

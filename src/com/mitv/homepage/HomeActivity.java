@@ -61,7 +61,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	private ArrayList<Channel>					mChannels;
 	private String								mDate;
 	private TvDate								mTvDateSelected;
-	private boolean								mIsReady			= false, mFirstHit = true, mIsChannelListChanged, mStateChanged = false;
+	private boolean								mIsReady			= false, mIsFirstLoad = true, mIsChannelListChanged, mStateChanged = false;
 
 	private Fragment							mActiveFragment;
 
@@ -72,6 +72,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	private boolean 							showWelcomeToast = true;
 	
 	private boolean 							mIsFromLogin, mIsFromSignup;
+	private int 								mLastDateSelectedIndex = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -187,6 +188,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	};
 
 	BroadcastReceiver	mBroadcastReceiverContent		= new BroadcastReceiver() {
+
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			Log.d(TAG, " ON RECEIVE CONTENT");
@@ -196,26 +198,24 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			Log.d(TAG, "content for TvGuide TABLE is ready: " + mIsReady);
 			Log.d(TAG, "mDateSelectedIndex: " + mDateSelectedIndex);
 			Log.d(TAG, "mChannelUpdate: " + mChannelUpdate);
-			Log.d(TAG, "mFirstHit " + mFirstHit);
+			Log.d(TAG, "mFirstHit " + mIsFirstLoad);
+			
+            if (mIsReady) {
+                if (mIsFirstLoad) {
+                    if (!pageHoldsData()) {
+                        updateUI(REQUEST_STATUS.FAILED);
+                    }
+                }
+                else if (mChannelUpdate) {
+                    attachFragment();
+                    mChannelUpdate = false;
+                }
+                else if (mLastDateSelectedIndex != mDateSelectedIndex) {
+                    attachFragment();
+                    mLastDateSelectedIndex = mDateSelectedIndex;
+                }
+            }
 
-			if (mIsReady && (mDateSelectedIndex == 0) && !mChannelUpdate && mFirstHit) {
-				if (!pageHoldsData()) {
-
-					updateUI(REQUEST_STATUS.FAILED);
-				}
-			} else if (mIsReady && (mDateSelectedIndex != 0) && mChannelUpdate) {
-				attachFragment();
-				mChannelUpdate = false;
-			} else if (mIsReady && (mDateSelectedIndex == 0) && mChannelUpdate && !mFirstHit) {
-				attachFragment();
-				mChannelUpdate = false;
-			} else if (mIsReady && (mDateSelectedIndex != 0) && !mChannelUpdate && !mFirstHit) {
-				attachFragment();
-				mChannelUpdate = false;
-			} else if (mIsReady && (mDateSelectedIndex == 0) && !mChannelUpdate && !mFirstHit) {
-				attachFragment();
-				mChannelUpdate = false;
-			}
 		}
 	};
 
@@ -389,11 +389,11 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 
 	@Override
 	public boolean onNavigationItemSelected(int position, long id) {
-		if (mFirstHit) {
+		if (mIsFirstLoad) {
 			mDayAdapter.setSelectedIndex(0);
 			mActionBar.setSelectedNavigationItem(0);
 			mTvDateSelected = mTvDates.get(0);
-			mFirstHit = false;
+			mIsFirstLoad = false;
 			return true;
 		} else {
 			mDayAdapter.setSelectedIndex(position);
