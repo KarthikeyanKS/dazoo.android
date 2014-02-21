@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.enums.ProgramTypeEnum;
-import com.millicom.mitv.models.TVBroadcast;
+import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
@@ -33,7 +33,7 @@ public class RemindersListAdapter extends BaseAdapter {
 
 	private LayoutInflater			mLayoutInflater;
 	private Activity				mActivity;
-	private ArrayList<TVBroadcast>	mBroadcasts;
+	private ArrayList<TVBroadcastWithChannelInfo>	mBroadcasts;
 	private RemindersCountInterface	mInterface;
 	private int						notificationId;
 	private int						currentPosition	= -1;
@@ -41,7 +41,7 @@ public class RemindersListAdapter extends BaseAdapter {
 	private MiTVStore				mitvStore;
 	private ArrayList<OldTVDate>		mTvDates;
 
-	public RemindersListAdapter(Activity mActivity, ArrayList<TVBroadcast> mBroadcasts, RemindersCountInterface remindersInterface) {
+	public RemindersListAdapter(Activity mActivity, ArrayList<TVBroadcastWithChannelInfo> mBroadcasts, RemindersCountInterface remindersInterface) {
 		this.mBroadcasts = mBroadcasts;
 		this.mActivity = mActivity;
 		this.mInterface = remindersInterface;
@@ -58,7 +58,7 @@ public class RemindersListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public TVBroadcast getItem(int position) {
+	public TVBroadcastWithChannelInfo getItem(int position) {
 		if (mBroadcasts != null) {
 			return mBroadcasts.get(position);
 		} else return null;
@@ -98,7 +98,7 @@ public class RemindersListAdapter extends BaseAdapter {
 
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
 
-		final TVBroadcast broadcast = getItem(position);
+		final TVBroadcastWithChannelInfo broadcast = getItem(position);
 		if (broadcast != null) {
 			final TVChannel channel = broadcast.getChannel();
 			TVProgram program = broadcast.getProgram();
@@ -110,8 +110,8 @@ public class RemindersListAdapter extends BaseAdapter {
 			int prevPos = Math.max(position - 1, 0);
 
 			int nextPos = Math.min(position + 1, (mBroadcasts.size() - 1));
-			TVBroadcast broadcastPreviousPosition = getItem(prevPos);
-			TVBroadcast broadcastNextPosition = getItem(nextPos);
+			TVBroadcastWithChannelInfo broadcastPreviousPosition = getItem(prevPos);
+			TVBroadcastWithChannelInfo broadcastNextPosition = getItem(nextPos);
 
 			String stringCurrent = broadcast.getBeginTimeStringLocalDayMonth();
 			String stringPrevious = broadcastPreviousPosition.getBeginTimeStringLocalDayMonth();

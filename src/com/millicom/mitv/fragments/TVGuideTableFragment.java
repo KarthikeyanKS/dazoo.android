@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
+import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.gson.TVChannelGuide;
@@ -54,7 +55,7 @@ public class TVGuideTableFragment extends BaseFragment implements ActivityCallba
 	private TVGuideListAdapter		mTVGuideListAdapter;
 	private MiTVStore				mitvStore;
 	private boolean					mIsToday = false;
-	private ArrayList<TVBroadcast>	mTaggedBroadcasts;
+	private ArrayList<TVBroadcastWithChannelInfo>	mTaggedBroadcasts;
 	private TVGuideTagListAdapter	mTVTagListAdapter;
 	private int						mHour;
 	private TextView				mCurrentHourTv;
@@ -227,7 +228,7 @@ public class TVGuideTableFragment extends BaseFragment implements ActivityCallba
 			} 
 			else 
 			{
-				final int index = TVBroadcast.getClosestBroadcastIndex(mTaggedBroadcasts, 0);
+				final int index = TVBroadcastWithChannelInfo.getClosestBroadcastIndex(mTaggedBroadcasts, 0);
 				
 				//Remove all broadcasts that already ended
 				new Runnable() {
@@ -323,7 +324,7 @@ public class TVGuideTableFragment extends BaseFragment implements ActivityCallba
 			mGuides = tvGuideForSelectedDay.getTvChannelGuides();
 		} else {
 //			mTaggedBroadcasts = mitvStore.getTaggedBroadcasts(mTvDate, mTag);
-			HashMap<String, ArrayList<TVBroadcast>> taggedBroadcastForDay = ContentManager.sharedInstance().getFromStorageTaggedBroadcastsForSelectedTVDate();
+			HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = ContentManager.sharedInstance().getFromStorageTaggedBroadcastsForSelectedTVDate();
 			mTaggedBroadcasts = taggedBroadcastForDay.get(mTag);
 		}
 		} else {

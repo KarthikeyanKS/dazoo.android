@@ -6,6 +6,7 @@ package com.millicom.mitv.models.gson;
 import java.util.ArrayList;
 
 import com.millicom.mitv.interfaces.GSONDataFieldValidation;
+import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 
 
 

@@ -16,7 +16,6 @@ import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.TVGuideAndTaggedBroadcasts;
 import com.millicom.mitv.models.gson.AppConfigurationJSON;
-import com.millicom.mitv.models.gson.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;
@@ -656,7 +655,7 @@ public class ContentManager implements ContentCallbackListener {
 		return runningBroadcast;
 	}
 	
-	public HashMap<String, ArrayList<TVBroadcast>> getFromStorageTaggedBroadcastsForSelectedTVDate() {
+	public HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> getFromStorageTaggedBroadcastsForSelectedTVDate() {
 		TVDate tvDate = getFromStorageTVDateSelected();
 		return getFromStorageTaggedBroadcastsUsingTVDate(tvDate);
 	}
@@ -712,8 +711,8 @@ public class ContentManager implements ContentCallbackListener {
 	}
 	
 	
-	public HashMap<String, ArrayList<TVBroadcast>> getFromStorageTaggedBroadcastsUsingTVDate(TVDate tvDate) {
-		HashMap<String, ArrayList<TVBroadcast>> taggedBroadcasts = storage.getTaggedBroadcastsUsingTVDate(tvDate);
+	public HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> getFromStorageTaggedBroadcastsUsingTVDate(TVDate tvDate) {
+		HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcasts = storage.getTaggedBroadcastsUsingTVDate(tvDate);
 		return taggedBroadcasts;
 	}
 	

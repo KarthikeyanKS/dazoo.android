@@ -7,8 +7,8 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
+
 import com.millicom.mitv.models.gson.BroadcastJSON;
-import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVDate;
 import com.millicom.mitv.utilities.DateUtils;
 import com.mitv.Consts;
@@ -249,7 +249,14 @@ public class TVBroadcast
 	}
 	
 	
-	
+	/**
+	 * WARNING WARNING! DUPLICATION OF CODE!
+	 * IF YOU CHANGE THIS METHOD YOU MUST CHANGE
+	 * ITS SIBLING METHOD HAVING THE SAME NAME.
+	 * 
+	 * SIBLING METHOD IS IN BROADCAST CLASS
+	 * WITH CHANNEL INFO THAT SUBCLASSES BROADCAST
+	 */
 	public static int getClosestBroadcastIndex(
 			final ArrayList<TVBroadcast> broadcasts,
 			final int defaultValueIfNotFound) 
@@ -271,9 +278,7 @@ public class TVBroadcast
 		
 		return closestIndexFound;
 	}
-	
-	
-	
+		
 	public String getBeginTimeHourAndMinuteCompositionAsString()
 	{		
 		return DateUtils.getHourAndMinuteCompositionAsString(getBeginTimeCalendar());

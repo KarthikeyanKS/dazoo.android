@@ -86,7 +86,7 @@ public class TVChannelGuidesGSONTest
 		for (TVChannelGuide tvChannelGuide : tvChannelGuides) {
 			List<TVBroadcast> broadcastsForTVChannel = tvChannelGuide.getBroadcasts();
 			for(TVBroadcast broadcast : broadcastsForTVChannel) {
-				BroadcastsForSpecificProgramTest.testBroadcast(broadcast);
+				RepetitionsOfBroadcastTest.testBroadcast(broadcast);
 			}
 		}
 	}

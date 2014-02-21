@@ -13,8 +13,6 @@ import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.gson.AdzerkAdJSON;
 import com.millicom.mitv.models.gson.AppConfigurationJSON;
-import com.millicom.mitv.models.TVBroadcast;
-import com.millicom.mitv.models.gson.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;
@@ -300,7 +298,7 @@ public class Storage {
 		return tvChannelGuideFound;
 	}
 		
-	public HashMap<String, HashMap<String, ArrayList<TVBroadcast>>> getTaggedBroadcastsForAllDays() {
+	public HashMap<String, HashMap<String, ArrayList<TVBroadcastWithChannelInfo>>> getTaggedBroadcastsForAllDays() {
 		return taggedBroadcastsForAllDays;
 	}
 	
@@ -316,8 +314,8 @@ public class Storage {
 		taggedBroadcastsForAllDays.put(tvDate.getId(), taggedBroadcastForDay);
 	}
 	
-	public HashMap<String, ArrayList<TVBroadcast>> getTaggedBroadcastsUsingTVDate(TVDate tvDateAsKey) {
-		HashMap<String, ArrayList<TVBroadcast>> taggedBroadcastForDay = taggedBroadcastsForAllDays.get(tvDateAsKey.getId());
+	public HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> getTaggedBroadcastsUsingTVDate(TVDate tvDateAsKey) {
+		HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = taggedBroadcastsForAllDays.get(tvDateAsKey.getId());
 		return taggedBroadcastForDay;
 	}
 	

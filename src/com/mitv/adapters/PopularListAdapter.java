@@ -18,8 +18,7 @@ import android.widget.TextView;
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.enums.ProgramTypeEnum;
-import com.millicom.mitv.models.TVBroadcast;
-import com.millicom.mitv.models.gson.TVBroadcastWithChannelInfo;
+import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.gson.TVDate;
 import com.mitv.Consts;
 import com.mitv.R;
@@ -60,7 +59,7 @@ public class PopularListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public TVBroadcast getItem(int position) {
+	public TVBroadcastWithChannelInfo getItem(int position) {
 		if (mPopularBroadcasts != null) {
 			return mPopularBroadcasts.get(position);
 		} else return null;
@@ -74,7 +73,7 @@ public class PopularListAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 
-		final TVBroadcast broadcast = getItem(position);
+		final TVBroadcastWithChannelInfo broadcast = getItem(position);
 
 		View rowView = convertView;
 		if (rowView == null) {

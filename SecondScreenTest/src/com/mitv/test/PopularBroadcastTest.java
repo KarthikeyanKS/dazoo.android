@@ -12,7 +12,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.models.gson.TVBroadcastWithChannelInfo;
+import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
@@ -62,7 +62,7 @@ public class PopularBroadcastTest
 	@Test
 	public void testAllVariablesNotNull() {
 		for(TVBroadcastWithChannelInfo popular : tvPopularBroadcastsWithChannelInfo) {
-			BroadcastsForSpecificProgramTest.testBroadcast(popular);
+			RepetitionsOfBroadcastTest.testBroadcast(popular);
 			
 			TVChannel tvChannel = popular.getChannel();
 			TVChannelGSONTest.testTVChannelObject(tvChannel);

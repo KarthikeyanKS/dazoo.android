@@ -13,8 +13,7 @@ import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.models.ImageSetOrientation;
 import com.millicom.mitv.models.TVBroadcast;
-import com.millicom.mitv.models.gson.ImageSetOrientation;
-import com.millicom.mitv.models.gson.TVBroadcastWithChannelInfo;
+import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVCredit;
@@ -78,7 +77,7 @@ public class BroadcastsWithChannelInfoTest
 	
 	@Test
 	public void testAllVariablesNotNull() {
-		BroadcastsForSpecificProgramTest.testBroadcast(tvBroadcastWithChannelInfo);
+		RepetitionsOfBroadcastTest.testBroadcast(tvBroadcastWithChannelInfo);
 		
 		TVChannel tvChannel = tvBroadcastWithChannelInfo.getChannel();
 		TVChannelGSONTest.testTVChannelObject(tvChannel);
