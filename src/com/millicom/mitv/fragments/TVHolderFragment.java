@@ -18,35 +18,28 @@ import com.mitv.R;
 import com.mitv.adapters.TagTypeFragmentStatePagerAdapter;
 import com.viewpagerindicator.TabPageIndicator;
 
-public class TVHolderFragment extends Fragment {
+public class TVHolderFragment extends Fragment implements OnPageChangeListener {
 
-	private static final String TAG = "TVHolderFragment";
-	
-	private PagerAdapter							mAdapter;
-	private int										mTabSelectedIndex	= 0;//, mDateSelectedIndex;
-	private TabPageIndicator						mPageTabIndicator;
-	private ArrayList<TVTag>							mTags				= new ArrayList<TVTag>();
-	private ArrayList<String>						mTabTitles;
-	private ViewPager								mViewPager;
+	private static final String TAG = TVHolderFragment.class.getName();
+	private static final String BUNDLE_INFO_STARTING_INDEX = "BUNDLE_INFO_STARTING_INDEX";
 
-	private String									mDate;
-//	private ArrayList<TVDate>						mDates;
-	
-	private String token;
-	private boolean mIsLoggedIn;
-
-	private static OnViewPagerIndexChangedListener	mListener;
+	private PagerAdapter pagerAdapter;
+	private int selectedTabIndex = 0;
+	private TabPageIndicator pageTabIndicator;
+	private ArrayList<TVTag> tvTags;
+	private ViewPager viewPager;
+	private static OnViewPagerIndexChangedListener viewPagerIndexChangedListener;
 
 	public interface OnViewPagerIndexChangedListener {
 		public void onIndexSelected(int position);
 	}
 
 	public static TVHolderFragment newInstance(int startingIndex, OnViewPagerIndexChangedListener listener) {
-		mListener = listener;
+		viewPagerIndexChangedListener = listener;
 
 		TVHolderFragment fragment = new TVHolderFragment();
 		Bundle bundle = new Bundle();
-		bundle.putInt("starting_index", startingIndex);
+		bundle.putInt(BUNDLE_INFO_STARTING_INDEX, startingIndex);
 
 		fragment.setArguments(bundle);
 
@@ -58,67 +51,60 @@ public class TVHolderFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 
 		Bundle bundle = getArguments();
-		mTabSelectedIndex = bundle.getInt("starting_index");
+		selectedTabIndex = bundle.getInt(BUNDLE_INFO_STARTING_INDEX);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
 		View v = inflater.inflate(R.layout.fragment_tvguide_holder_layout, null);
+		tvTags = ContentManager.sharedInstance().getFromStorageTVTags();
 
-//		mDates = MiTVStore.getInstance().getTvDates();
-//		mTags = MiTVStore.getInstance().getTags();
-		mTags = ContentManager.sharedInstance().getFromStorageTVTags();
-		
-		mViewPager = (ViewPager) v.findViewById(R.id.home_pager);
-		mViewPager.setOffscreenPageLimit(mTags.size());
-		mViewPager.setEnabled(false);
-		mPageTabIndicator = (TabPageIndicator) v.findViewById(R.id.home_indicator);
-		setAdapter(mTabSelectedIndex);
+		viewPager = (ViewPager) v.findViewById(R.id.home_pager);
+		viewPager.setOffscreenPageLimit(tvTags.size());
+		viewPager.setEnabled(false);
+		pageTabIndicator = (TabPageIndicator) v.findViewById(R.id.home_indicator);
+		setAdapter(selectedTabIndex);
 
 		return v;
 	}
 
-	private void setAdapter(int selectedIndex) {
-		TVDate tvDate = ContentManager.sharedInstance().getFromStorageTVDateSelected();
-		mAdapter = new TagTypeFragmentStatePagerAdapter(getChildFragmentManager(), mTags, tvDate);
-
-		mViewPager.setAdapter(mAdapter);
-		mAdapter.notifyDataSetChanged();
-		mViewPager.setCurrentItem(selectedIndex);
-
-		mViewPager.setVisibility(View.VISIBLE);
-		mPageTabIndicator.setVisibility(View.VISIBLE);
-
-		mPageTabIndicator.setViewPager(mViewPager);
-		mPageTabIndicator.notifyDataSetChanged();
-		mPageTabIndicator.setCurrentItem(selectedIndex);
-
-		mPageTabIndicator.setOnPageChangeListener(mOnPageChangeListener);
+	@Override
+	public void onPageSelected(int pos) {
+		selectedTabIndex = pos;
+		viewPagerIndexChangedListener.onIndexSelected(selectedTabIndex);
 	}
 
-	OnPageChangeListener	mOnPageChangeListener	= new OnPageChangeListener() {
+	@Override
+	public void onPageScrolled(int arg0, float arg1, int arg2) {
+	}
 
-		@Override
-		public void onPageSelected(int pos) {
-			mTabSelectedIndex = pos;
-			mListener.onIndexSelected(mTabSelectedIndex);
-		}
+	@Override
+	public void onPageScrollStateChanged(int arg0) {
+	}
 
-		@Override
-		public void onPageScrolled(int arg0, float arg1, int arg2) {
-		}
+	private void setAdapter(int selectedIndex) {
+		TVDate tvDate = ContentManager.sharedInstance().getFromStorageTVDateSelected();
+		pagerAdapter = new TagTypeFragmentStatePagerAdapter(getChildFragmentManager(), tvTags, tvDate);
 
-		@Override
-		public void onPageScrollStateChanged(int arg0) {
-		}
-	};
+		viewPager.setAdapter(pagerAdapter);
+		pagerAdapter.notifyDataSetChanged();
+		viewPager.setCurrentItem(selectedIndex);
+
+		viewPager.setVisibility(View.VISIBLE);
+		pageTabIndicator.setVisibility(View.VISIBLE);
+
+		pageTabIndicator.setViewPager(viewPager);
+		pageTabIndicator.notifyDataSetChanged();
+		pageTabIndicator.setCurrentItem(selectedIndex);
+
+		pageTabIndicator.setOnPageChangeListener(this);
+	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 	}
-	
+
 	@Override
 	public void onDetach() {
 		super.onDetach();
