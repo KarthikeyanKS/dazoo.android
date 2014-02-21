@@ -53,6 +53,11 @@ public class MyProfileActivityTest extends ActivityInstrumentationTestCase2<MyPr
     public void test_login() throws Exception {
     	solo.sleep(TIMEOUT_LARGE);
     	
+    	solo.waitForView(solo.getView(R.id.myprofile_logout_container));
+    	solo.clickOnView(solo.getView(R.id.myprofile_logout_container));
+    	
+    	solo.sleep(TIMEOUT_LARGE);
+    	
     	solo.waitForView(solo.getView(R.id.tab_me));
     	solo.clickOnView(solo.getView(R.id.tab_me));
     	

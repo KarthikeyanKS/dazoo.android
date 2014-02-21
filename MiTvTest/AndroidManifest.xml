@@ -22,18 +22,16 @@
     "adb shell am instrument -w com.mitv.tests/android.test.InstrumentationTestRunner"
     -->
 
-    <instrumentation
+    <!-- instrumentation
         android:name="com.zutubi.android.junitreport.JUnitReportTestRunner"
         android:label="Tests for com.mitv"
-        android:targetPackage="com.mitv" />
+        android:targetPackage="com.mitv" /-->
 
     <!-- For tests in Eclipse, uncomment instrumentation tag below and comment the instrumentation tag above! -->
 
-    <!--
-         instrumentation
+    <instrumentation
         android:name="android.test.InstrumentationTestRunner"
         android:label="Tests for com.mitv"
-        android:targetPackage="com.mitv" /
-    -->
+        android:targetPackage="com.mitv" />
 
 </manifest>
