@@ -247,33 +247,34 @@ public class SignUpWithEmailActivity extends SSSignInSignupBaseActivity implemen
 					mitvToken = mitvRegJSON.optString(Consts.API_TOKEN);
 					Log.d(TAG, "mitvToken: " + mitvToken + "is saved");
 
+					//TODO do anything here
 					// if (mitvToken.isEmpty() != true && mitvToken.length() > 0) {
-					if (mitvToken != null && TextUtils.isEmpty(mitvToken) != true) {
-						((SecondScreenApplication) getApplicationContext()).setAccessToken(mitvToken);
-						if (AuthenticationService.storeUserInformation(this, mitvRegJSON)) {
-							//Toast.makeText(getApplicationContext(), "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName(), Toast.LENGTH_SHORT).show();
-							Log.d(TAG, "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName());
-
-							// go to Start page
-							Intent intent;
-							if (mIsFromActivity) {
-								intent = new Intent(SignUpWithEmailActivity.this, ActivityActivity.class);
-							}
-							else {
-								intent = new Intent(SignUpWithEmailActivity.this, HomeActivity.class);
-							}
-							intent.putExtra(Consts.INTENT_EXTRA_SIGN_UP_ACTION, true);
-							startActivity(intent);
-							finish();
-
-						} else {
-							//Toast.makeText(getApplicationContext(), "Failed to fetch the user information from backend.", Toast.LENGTH_SHORT).show();
-							Log.d(TAG, "!!! Failed to fetch the user information from backend !!!");
-						}
-					} else {
-						//Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with MiTV. Please, try again later!", Toast.LENGTH_LONG).show();
-						Log.d(TAG, "Error! Something went wrong while creating an account with MiTV. Please, try again later!");
-					}
+//					if (mitvToken != null && TextUtils.isEmpty(mitvToken) != true) {
+//						((SecondScreenApplication) getApplicationContext()).setAccessToken(mitvToken);
+//						if (AuthenticationService.storeUserInformation(this, mitvRegJSON)) {
+//							//Toast.makeText(getApplicationContext(), "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName(), Toast.LENGTH_SHORT).show();
+//							Log.d(TAG, "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName());
+//
+//							// go to Start page
+//							Intent intent;
+//							if (mIsFromActivity) {
+//								intent = new Intent(SignUpWithEmailActivity.this, ActivityActivity.class);
+//							}
+//							else {
+//								intent = new Intent(SignUpWithEmailActivity.this, HomeActivity.class);
+//							}
+//							intent.putExtra(Consts.INTENT_EXTRA_SIGN_UP_ACTION, true);
+//							startActivity(intent);
+//							finish();
+//
+//						} else {
+//							//Toast.makeText(getApplicationContext(), "Failed to fetch the user information from backend.", Toast.LENGTH_SHORT).show();
+//							Log.d(TAG, "!!! Failed to fetch the user information from backend !!!");
+//						}
+//					} else {
+//						//Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with MiTV. Please, try again later!", Toast.LENGTH_LONG).show();
+//						Log.d(TAG, "Error! Something went wrong while creating an account with MiTV. Please, try again later!");
+//					}
 				} else {
 					//						Toast.makeText(getApplicationContext(), "Error! Something went wrong while creating an account with us. Please, try again later!", Toast.LENGTH_SHORT).show();
 					Log.d(TAG, "Error! MiTV Login: level response from backend");

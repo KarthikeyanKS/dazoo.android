@@ -83,92 +83,93 @@ public class SecondScreenApplication
 	private static SharedPreferences		sSharedPreferences;
 	private static Editor					editor;
 
-	public void setCheckApiVersionListener(CheckApiVersionListener listener) {
-		mCheckApiVersionListner = listener;
-	}
-	
-	public void setAppConfigurationListener(AppConfigurationListener listener) {
-		mAppConfigurationListener = listener;
-	}
-	
-	
-	
-	public boolean isFirstStart() {
-		return mIsFirstStart;
-	}
-	
-	
-	
-	public void setisFirstStart(boolean isFirstStart)
-	{
-		mIsFirstStart = isFirstStart;
-	}
+//	public void setCheckApiVersionListener(CheckApiVersionListener listener) {
+//		mCheckApiVersionListner = listener;
+//	}
+//	
+//	public void setAppConfigurationListener(AppConfigurationListener listener) {
+//		mAppConfigurationListener = listener;
+//	}
+//	
+//	
+//	
+//	public boolean isFirstStart() {
+//		return mIsFirstStart;
+//	}
+//	
+//	
+//	
+//	public void setisFirstStart(boolean isFirstStart)
+//	{
+//		mIsFirstStart = isFirstStart;
+//	}
 	
 	
 	
 	public SecondScreenApplication() {
 	}
-	/**
-	 * Get/Set User session from saved preferences
-	 * 
-	 * @return
-	 */
-	public static String getSession() {
-		
-		Log.i("SESSION", "Get stored session");
-		if (session == null) {
-			session = sSharedPreferences.getString(Consts.MITV_SESSION, null);
-		}
-		Log.i("SESSION", "Session: " + session);
-		return session;
-	}
+	
+//	/**
+//	 * Get/Set User session from saved preferences
+//	 * 
+//	 * @return
+//	 */
+//	public static String getSession() {
+//		
+//		Log.i("SESSION", "Get stored session");
+//		if (session == null) {
+//			session = sSharedPreferences.getString(Consts.MITV_SESSION, null);
+//		}
+//		Log.i("SESSION", "Session: " + session);
+//		return session;
+//	}
+//
+//	public static void setSession(String session) {
+//		
+//		Log.i("SESSION", "Save cookie session");
+//		SecondScreenApplication.session = session;
+//		if (sSharedPreferences != null) {
+//			sSharedPreferences.edit().putString(Consts.MITV_SESSION, session).commit();
+//		}
+//	}
 
-	public static void setSession(String session) {
-		
-		Log.i("SESSION", "Save cookie session");
-		SecondScreenApplication.session = session;
-		if (sSharedPreferences != null) {
-			sSharedPreferences.edit().putString(Consts.MITV_SESSION, session).commit();
-		}
-	}
+//	/**
+//	 * Get default user agent
+//	 * 
+//	 * @return
+//	 */
+//	public static String getUserAgent() {
+//		if (userAgent == null) {
+//			userAgent = getDefaultUserAgent();
+//		}
+//		return userAgent;
+//	}
 
-	/**
-	 * Get default user agent
-	 * 
-	 * @return
-	 */
-	public static String getUserAgent() {
-		if (userAgent == null) {
-			userAgent = getDefaultUserAgent();
-		}
-		return userAgent;
-	}
-
-	private static String getDefaultUserAgent() {
-		StringBuilder result = new StringBuilder(64);
-		result.append("Dalvik/");
-		result.append(System.getProperty("java.vm.version")); // such as 1.1.0
-		result.append(" (Linux; U; Android ");
-
-		String version = Build.VERSION.RELEASE; // "1.0" or "3.4b5"
-		result.append(version.length() > 0 ? version : "1.0");
-
-		// add the model for the release build
-		if ("REL".equals(Build.VERSION.CODENAME)) {
-			String model = Build.MODEL;
-			if (model.length() > 0) {
-				result.append("; ");
-				result.append(model);
-			}
-		}
-		String id = Build.ID; // "MASTER" or "M4-rc20"
-		if (id.length() > 0) {
-			result.append(" Build/");
-			result.append(id);
-		}
-		result.append(")");
-		return result.toString();
-	}
+//	private static String getDefaultUserAgent() {
+//		StringBuilder result = new StringBuilder(64);
+//		result.append("Dalvik/");
+//		result.append(System.getProperty("java.vm.version")); // such as 1.1.0
+//		result.append(" (Linux; U; Android ");
+//
+//		String version = Build.VERSION.RELEASE; // "1.0" or "3.4b5"
+//		result.append(version.length() > 0 ? version : "1.0");
+//
+//		// add the model for the release build
+//		if ("REL".equals(Build.VERSION.CODENAME)) {
+//			String model = Build.MODEL;
+//			if (model.length() > 0) {
+//				result.append("; ");
+//				result.append(model);
+//			}
+//		}
+//		String id = Build.ID; // "MASTER" or "M4-rc20"
+//		if (id.length() > 0) {
+//			result.append(" Build/");
+//			result.append(id);
+//		}
+//		result.append(")");
+//		return result.toString();
+//	}
 	
 	public static SecondScreenApplication getInstance() {
 		if (sInstance == null) {
@@ -281,19 +282,19 @@ public class SecondScreenApplication
 		GATrackingManager.getInstance();
 	}
 	
-	public boolean checkApiVersion() 
-	{
-		String apiVersion = getApiVersion();
-		
-		if (apiVersion != null && !TextUtils.isEmpty(apiVersion) && !apiVersion.equals(Consts.API_VERSION)) 
-		{
-			return true;
-		}
-		else 
-		{
-			return false;
-		}
-	}
+//	public boolean checkApiVersion() 
+//	{
+//		String apiVersion = getApiVersion();
+//		
+//		if (apiVersion != null && !TextUtils.isEmpty(apiVersion) && !apiVersion.equals(Consts.API_VERSION)) 
+//		{
+//			return true;
+//		}
+//		else 
+//		{
+//			return false;
+//		}
+//	}
 
 	@Override
 	public void onCreate() {
@@ -332,8 +333,8 @@ public class SecondScreenApplication
 		sSharedPreferences = new ObscuredSharedPreferences(this, this.getSharedPreferences(Consts.SHARED_PREFS_MAIN_NAME, Context.MODE_PRIVATE));
 
 		// re-initialize hour preference at every app start
-		setSelectedHour(6);
-		setIsOnStartAgain(false);
+//		setSelectedHour(6);
+//		setIsOnStartAgain(false);
 				
 		calculateSizes();
 		
@@ -368,14 +369,14 @@ public class SecondScreenApplication
 		return sSharedPreferences.getBoolean(Consts.APP_WAS_PREINSTALLED, false);
 	}
 
-	/**
-	 * Store user account access token
-	 */
-	public void setAccessToken(String token) {
-		editor = sSharedPreferences.edit();
-		editor.putString(Consts.USER_ACCOUNT_ACCESS_TOKEN, token);
-		editor.commit();
-	}
+//	/**
+//	 * Store user account access token
+//	 */
+//	public void setAccessToken(String token) {
+//		editor = sSharedPreferences.edit();
+//		editor.putString(Consts.USER_ACCOUNT_ACCESS_TOKEN, token);
+//		editor.commit();
+//	}
 
 	/**
 	 * Retrieve user account access token
@@ -390,166 +391,166 @@ public class SecondScreenApplication
 //		return isLoggedIn;
 //	}
 
-	/**
-	 * Store user email
-	 */
-	public void setUserEmail(String email) {
-		editor = sSharedPreferences.edit();
-		editor.putString(Consts.USER_ACCOUNT_EMAIL, email);
-		editor.commit();
-	}
-
-	/**
-	 * Get user email
-	 */
-	public String getUserEmail() {
-		return sSharedPreferences.getString(Consts.USER_ACCOUNT_EMAIL, "");
-	}
-
-	/**
-	 * Store user password
-	 */
-	public void setUserPassword(String password) {
-		editor = sSharedPreferences.edit();
-		editor.putString(Consts.USER_ACCOUNT_PASSWORD, password);
-		editor.commit();
-	}
-
-	/**
-	 * Get user password
-	 */
-	public String getUserPassword() {
-		return sSharedPreferences.getString(Consts.USER_ACCOUNT_PASSWORD, "");
-	}
-
-	/**
-	 * Store user first name
-	 */
-	public void setUserFirstName(String firstName) {
-		editor = sSharedPreferences.edit();
-		editor.putString(Consts.USER_ACCOUNT_FIRST_NAME, firstName);
-		editor.commit();
-	}
-
-	/**
-	 * Get user first name
-	 */
-	public String getUserFirstName() {
-		return sSharedPreferences.getString(Consts.USER_ACCOUNT_FIRST_NAME, "");
-	}
-
-	/**
-	 * Store user last name
-	 */
-	public void setUserLastName(String lastName) {
-		editor = sSharedPreferences.edit();
-		editor.putString(Consts.USER_ACCOUNT_LAST_NAME, lastName);
-		editor.commit();
-	}
-
-	/**
-	 * Get user last name
-	 */
-	public String getUserLastName() {
-		return sSharedPreferences.getString(Consts.USER_ACCOUNT_LAST_NAME, "");
-	}
-
-	/**
-	 * Store user id
-	 */
-	public void setUserId(String id) {
-		editor = sSharedPreferences.edit();
-		editor.putString(Consts.USER_ACCOUNT_USER_ID, id);
-		editor.commit();
-	}
-
-	/**
-	 * Get user id
-	 */
-	public String getUserId() {
-		return sSharedPreferences.getString(Consts.USER_ACCOUNT_USER_ID, "");
-	}
-
-	/**
-	 * Set user existing flag
-	 */
-	public void setUserExistringFlag(boolean flag) {
-		editor = sSharedPreferences.edit();
-		editor.putBoolean(Consts.USER_ACCOUNT_EXISTING_FLAG, flag);
-		editor.commit();
-	}
-
-	/**
-	 * Get user existing flag
-	 */
-	public boolean getUserExistingFlag() {
-		return sSharedPreferences.getBoolean(Consts.USER_ACCOUNT_EXISTING_FLAG, false);
-	}
+//	/**
+//	 * Store user email
+//	 */
+//	public void setUserEmail(String email) {
+//		editor = sSharedPreferences.edit();
+//		editor.putString(Consts.USER_ACCOUNT_EMAIL, email);
+//		editor.commit();
+//	}
+//
+//	/**
+//	 * Get user email
+//	 */
+//	public String getUserEmail() {
+//		return sSharedPreferences.getString(Consts.USER_ACCOUNT_EMAIL, "");
+//	}
+//
+//	/**
+//	 * Store user password
+//	 */
+//	public void setUserPassword(String password) {
+//		editor = sSharedPreferences.edit();
+//		editor.putString(Consts.USER_ACCOUNT_PASSWORD, password);
+//		editor.commit();
+//	}
+//
+//	/**
+//	 * Get user password
+//	 */
+//	public String getUserPassword() {
+//		return sSharedPreferences.getString(Consts.USER_ACCOUNT_PASSWORD, "");
+//	}
+//
+//	/**
+//	 * Store user first name
+//	 */
+//	public void setUserFirstName(String firstName) {
+//		editor = sSharedPreferences.edit();
+//		editor.putString(Consts.USER_ACCOUNT_FIRST_NAME, firstName);
+//		editor.commit();
+//	}
+//
+//	/**
+//	 * Get user first name
+//	 */
+//	public String getUserFirstName() {
+//		return sSharedPreferences.getString(Consts.USER_ACCOUNT_FIRST_NAME, "");
+//	}
+//
+//	/**
+//	 * Store user last name
+//	 */
+//	public void setUserLastName(String lastName) {
+//		editor = sSharedPreferences.edit();
+//		editor.putString(Consts.USER_ACCOUNT_LAST_NAME, lastName);
+//		editor.commit();
+//	}
+//
+//	/**
+//	 * Get user last name
+//	 */
+//	public String getUserLastName() {
+//		return sSharedPreferences.getString(Consts.USER_ACCOUNT_LAST_NAME, "");
+//	}
+//
+//	/**
+//	 * Store user id
+//	 */
+//	public void setUserId(String id) {
+//		editor = sSharedPreferences.edit();
+//		editor.putString(Consts.USER_ACCOUNT_USER_ID, id);
+//		editor.commit();
+//	}
+//
+//	/**
+//	 * Get user id
+//	 */
+//	public String getUserId() {
+//		return sSharedPreferences.getString(Consts.USER_ACCOUNT_USER_ID, "");
+//	}
+//
+//	/**
+//	 * Set user existing flag
+//	 */
+//	public void setUserExistringFlag(boolean flag) {
+//		editor = sSharedPreferences.edit();
+//		editor.putBoolean(Consts.USER_ACCOUNT_EXISTING_FLAG, flag);
+//		editor.commit();
+//	}
+//
+//	/**
+//	 * Get user existing flag
+//	 */
+//	public boolean getUserExistingFlag() {
+//		return sSharedPreferences.getBoolean(Consts.USER_ACCOUNT_EXISTING_FLAG, false);
+//	}
+//	
+//	/**
+//	 * Set user avatar url
+//	 */
+//	public void setUserAvatarUrl(String url){
+//		editor = sSharedPreferences.edit();
+//		editor.putString(Consts.USER_ACCOUNT_AVATAR_URL, url);
+//		editor.commit();
+//	}
+//	
+//	/**
+//	 * Get user avatar url
+//	 */
+//	public String getUserAvatarUrl(){
+//		return sSharedPreferences.getString(Consts.USER_ACCOUNT_AVATAR_URL, "");
+//	}
 	
-	/**
-	 * Set user avatar url
-	 */
-	public void setUserAvatarUrl(String url){
-		editor = sSharedPreferences.edit();
-		editor.putString(Consts.USER_ACCOUNT_AVATAR_URL, url);
-		editor.commit();
-	}
 	
-	/**
-	 * Get user avatar url
-	 */
-	public String getUserAvatarUrl(){
-		return sSharedPreferences.getString(Consts.USER_ACCOUNT_AVATAR_URL, "");
-	}
-	
-	
-	/**
-	 * Update the selected hour
-	 */
-	public void setSelectedHour(int hour) {
-		editor = sSharedPreferences.edit();
-		editor.putInt(Consts.TV_GUIDE_HOUR, hour);
-		editor.commit();
-	}
+//	/**
+//	 * Update the selected hour
+//	 */
+//	public void setSelectedHour(int hour) {
+//		editor = sSharedPreferences.edit();
+//		editor.putInt(Consts.TV_GUIDE_HOUR, hour);
+//		editor.commit();
+//	}
+//
+//	/**
+//	 * Get the selected hour
+//	 */
+//	public int getSelectedHour() {
+//		return sSharedPreferences.getInt(Consts.TV_GUIDE_HOUR, 6);
+//	}
 
-	/**
-	 * Get the selected hour
-	 */
-	public int getSelectedHour() {
-		return sSharedPreferences.getInt(Consts.TV_GUIDE_HOUR, 6);
-	}
-
-	/**
-	 * Get if are back to the start page
-	 */
-	public boolean getIsOnStartAgain() {
-		return sSharedPreferences.getBoolean(Consts.HOMEPAGE_AGAIN, false);
-	}
-
-	/**
-	 * Set if are back to the start page
-	 */
-	public void setIsOnStartAgain(boolean isHomePage) {
-		editor = sSharedPreferences.edit();
-		editor.putBoolean(Consts.HOMEPAGE_AGAIN, isHomePage);
-		editor.commit();
-	}
-	
-	/**
-	 * Get api version
-	 */
-	public String getApiVersion() {
-		return sSharedPreferences.getString(Consts.API_VERSION_SHARED_PREF, null);
-	}
-	
-	/**
-	 * Set api version
-	 */
-	public void setApiVersion(String apiVersion) {
-		editor = sSharedPreferences.edit();
-		editor.putString(Consts.API_VERSION_SHARED_PREF, apiVersion);
-		editor.commit();
-	}
+//	/**
+//	 * Get if are back to the start page
+//	 */
+//	public boolean getIsOnStartAgain() {
+//		return sSharedPreferences.getBoolean(Consts.HOMEPAGE_AGAIN, false);
+//	}
+//
+//	/**
+//	 * Set if are back to the start page
+//	 */
+//	public void setIsOnStartAgain(boolean isHomePage) {
+//		editor = sSharedPreferences.edit();
+//		editor.putBoolean(Consts.HOMEPAGE_AGAIN, isHomePage);
+//		editor.commit();
+//	}
+//	
+//	/**
+//	 * Get api version
+//	 */
+//	public String getApiVersion() {
+//		return sSharedPreferences.getString(Consts.API_VERSION_SHARED_PREF, null);
+//	}
+//	
+//	/**
+//	 * Set api version
+//	 */
+//	public void setApiVersion(String apiVersion) {
+//		editor = sSharedPreferences.edit();
+//		editor.putString(Consts.API_VERSION_SHARED_PREF, apiVersion);
+//		editor.commit();
+//	}
 	
 
 	/**

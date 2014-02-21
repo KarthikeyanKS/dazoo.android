@@ -117,23 +117,27 @@ public class TVGuideTableFragment extends BaseFragment implements ActivityCallba
 		if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
 
 			// check if it is a current day
-			if (ContentManager.sharedInstance().selectedTVDateIsToday()) {
-				mIsToday = true;
-				if (!SecondScreenApplication.getInstance().getIsOnStartAgain()) {
-					mHour = Integer.valueOf(OldDateUtilities.getCurrentHourString());
-					SecondScreenApplication.getInstance().setSelectedHour(mHour);
-					SecondScreenApplication.getInstance().setIsOnStartAgain(true);
-				} else {
-					mHour = SecondScreenApplication.getInstance().getSelectedHour();
-				}
-
-			} else mHour = SecondScreenApplication.getInstance().getSelectedHour();
+//			if (ContentManager.sharedInstance().selectedTVDateIsToday()) {
+//				mIsToday = true;
+//				if (!SecondScreenApplication.getInstance().getIsOnStartAgain()) {
+//					mHour = Integer.valueOf(OldDateUtilities.getCurrentHourString());
+//					SecondScreenApplication.getInstance().setSelectedHour(mHour);
+//					SecondScreenApplication.getInstance().setIsOnStartAgain(true);
+//				} else {
+//					mHour = SecondScreenApplication.getInstance().getSelectedHour();
+//				}
+//
+//			} else mHour = SecondScreenApplication.getInstance().getSelectedHour();
+			
+			mHour = ContentManager.sharedInstance().getFromStorageSelectedHour();
 
 			mRootView = inflater.inflate(R.layout.fragment_tvguide_table, null);
 			mTVGuideListView = (ListView) mRootView.findViewById(R.id.tvguide_table_listview);
 
 			mSwipeClockBar = (SwipeClockBar) mRootView.findViewById(R.id.tvguide_swype_clock_bar);
 			mSwipeClockBar.setHour(mHour);
+			
+			//TODO figure this out?
 			mSwipeClockBar.setToday(mIsToday);
 		} else {
 			mRootView = inflater.inflate(R.layout.fragment_tvguide_tag_type, null);

@@ -8,10 +8,10 @@ import android.text.TextUtils;
 import android.util.SparseArray;
 
 import com.millicom.mitv.models.AppVersionData;
+import com.millicom.mitv.models.Broadcast;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.gson.AdzerkAd;
 import com.millicom.mitv.models.gson.AppConfiguration;
-import com.millicom.mitv.models.Broadcast;
 import com.millicom.mitv.models.gson.TVBroadcastWithProgramAndChannelInfo;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
@@ -20,7 +20,7 @@ import com.millicom.mitv.models.gson.TVDate;
 import com.millicom.mitv.models.gson.TVFeedItem;
 import com.millicom.mitv.models.gson.TVTag;
 import com.millicom.mitv.models.gson.UserLike;
-import com.mitv.model.OldAppConfigurationData;
+import com.millicom.mitv.models.gson.UserLoginData;
 
 public class Storage {
 	private ArrayList<TVTag> tvTags;
@@ -63,7 +63,7 @@ public class Storage {
 	private ArrayList<TVFeedItem> activityFeed;
 	private ArrayList<TVBroadcastWithProgramAndChannelInfo> popularBroadcasts;
 	
-	private String userToken;
+	private UserLoginData userData;
 	private TVDate tvDateSelected;
 	
 	private AppVersionData appVersionData;
@@ -86,10 +86,7 @@ public class Storage {
 	}
 		
 	public boolean isLoggedIn() {
-		boolean isLoggedIn = false;
-		if(!TextUtils.isEmpty(userToken)) {
-			isLoggedIn = true;
-		}
+		boolean isLoggedIn = !TextUtils.isEmpty(getUserToken());
 		return isLoggedIn;
 	}
 	
@@ -191,12 +188,28 @@ public class Storage {
 	}
 
 	public String getUserToken() {
-		return userToken;
+		return userData.getToken();
+	}
+	
+	public String getUserLastname() {
+		return userData.getUser().getLastName();
+	}
+	
+	public String getUserFirstname() {
+		return userData.getUser().getFirstName();
+	}
+	
+	public String getUserEmail() {
+		return userData.getUser().getEmail();
+	}
+	
+	public String getUserId() {
+		return userData.getUser().getUserId();
 	}
 
-	public void setUserToken(String userToken) {
-		this.userToken = userToken;
-	}
+	public void setUserData(UserLoginData userData) {
+		this.userData = userData;
+	} 
 	
 	public ArrayList<UserLike> getUserLikes() {
 		return userLikes;
@@ -230,8 +243,8 @@ public class Storage {
 		this.appConfigData = appConfigData;
 	}
 	
-	public void clearUserToken() {
-		setUserToken(null);
+	public void clearUserData() {
+		userData = null;
 	}
 	
 	public void clearTVChannelIdsUser() {

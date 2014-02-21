@@ -21,9 +21,9 @@ import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;
 import com.millicom.mitv.models.gson.TVDate;
 import com.millicom.mitv.models.gson.TVFeedItem;
-import com.millicom.mitv.models.gson.TVProgram;
 import com.millicom.mitv.models.gson.TVTag;
 import com.millicom.mitv.models.gson.UserLike;
+import com.millicom.mitv.models.gson.UserLoginData;
 import com.mitv.Consts;
 
 
@@ -448,8 +448,8 @@ public class ContentManager implements ContentCallbackListener {
 	public void handleSignUpResponse(ActivityCallbackListener activityCallBackListener, FetchRequestResultEnum result, Object content) {
 		if (result.wasSuccessful() && content != null) {
 			// TODO change to use SignUpCompleteData object instead??
-			String userToken = (String) content;
-			storage.setUserToken(userToken);
+			UserLoginData userData = (UserLoginData) content;
+			storage.setUserData(userData);
 
 			fetchFromServiceTVDataOnUserStatusChange(activityCallBackListener);
 		} else {
@@ -460,8 +460,8 @@ public class ContentManager implements ContentCallbackListener {
 
 	public void handleLoginResponse(ActivityCallbackListener activityCallBackListener, FetchRequestResultEnum result, Object content) {
 		if (result.wasSuccessful() && content != null) {
-			String userToken = (String) content;
-			storage.setUserToken(userToken);
+			UserLoginData userData = (UserLoginData) content;
+			storage.setUserData(userData);
 
 			fetchFromServiceTVDataOnUserStatusChange(activityCallBackListener);
 		} else {
@@ -473,7 +473,7 @@ public class ContentManager implements ContentCallbackListener {
 	public void handleLogoutResponse(ActivityCallbackListener activityCallBackListener) {
 		channelsChange = true;
 
-		storage.clearUserToken();
+		storage.clearUserData();
 		storage.clearTVChannelIdsUser();
 		storage.useDefaultChannelIds();
 
@@ -649,6 +649,26 @@ public class ContentManager implements ContentCallbackListener {
 		return tvChannelId;
 	}
 	
+	public String getFromStorageUserLastname() {
+		String userLastname = storage.getUserLastname();
+		return userLastname;
+	}
+	
+	public String getFromStorageUserFirstname() {
+		String userFirstname = storage.getUserFirstname();
+		return userFirstname;
+	}
+	
+	public String getFromStorageUserEmail() {
+		String userEmail = storage.getUserEmail();
+		return userEmail;
+	}
+	
+	public String getFromStorageUserId() {
+		String userId = storage.getUserId();
+		return userId;
+	}
+		
 	// TODO Change the ChannelId to an Object instead of a String?
 	public TVChannel getTVChannelById(String channelId)
 	{

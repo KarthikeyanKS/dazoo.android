@@ -30,6 +30,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
+import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.utilities.GenericUtils;
 import com.mitv.Consts;
 import com.mitv.R;
@@ -417,7 +418,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 	private void broadcastClockSelectionChanged(int hour) {
 		Intent intent = new Intent(Consts.INTENT_EXTRA_CLOCK_SELECTION);
 		intent.putExtra(Consts.INTENT_EXTRA_CLOCK_SELECTION_VALUE, hour);
-		SecondScreenApplication.getInstance().setSelectedHour(Integer.valueOf(hour));
+		ContentManager.sharedInstance().setSelectedHour(Integer.valueOf(hour));
 		LocalBroadcastManager.getInstance(mActivity.getBaseContext()).sendBroadcast(intent);
 	}
 

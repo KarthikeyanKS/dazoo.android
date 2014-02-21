@@ -100,7 +100,7 @@ public class HomeActivity
 
 		getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
-		SecondScreenApplication.getInstance().setSelectedHour(Integer.valueOf(OldDateUtilities.getCurrentHourString()));
+		ContentManager.sharedInstance().setSelectedHour(Integer.valueOf(OldDateUtilities.getCurrentHourString()));
 //		SecondScreenApplication.getInstance().setCheckApiVersionListener(this);
 //		SecondScreenApplication.getInstance().setAppConfigurationListener(this);
 
@@ -192,9 +192,6 @@ public class HomeActivity
 		Log.d(TAG, "onDestroy");
 		
 		unregisterReceivers();
-		
-		// clear the clock selection setting
-		((SecondScreenApplication) getApplicationContext()).setSelectedHour(6);
 	}
 	
 	

@@ -444,7 +444,7 @@ public class BroadcastPageActivity extends BaseActivity implements OnClickListen
 					tvDate.setDate(mTvDate);
 					// Log.d(TAG, "hour: " + hour + " TvDate: " + tvDate.getDate());
 				} else {
-					hour = ((SecondScreenApplication) getApplicationContext()).getSelectedHour();
+					hour = ContentManager.sharedInstance().getFromStorageSelectedHour();
 					tvDate = MiTVStore.getInstance().getDate(mTvDate);
 					// Log.d(TAG, "hour: " + hour + " TvDate: " + tvDate.getDate());
 				}
