@@ -10,6 +10,7 @@ import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
+import com.millicom.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.millicom.mitv.models.AppVersion;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
@@ -32,6 +33,7 @@ public class ContentManager implements ContentCallbackListener {
 	private static ContentManager sharedInstance;
 	private Storage storage;
 	private APIClient apiClient;
+	private FetchDataProgressCallbackListener fetchDataProgressCallbackListener;
 	
 	private static final int ACTIVITY_FEED_ITEMS_BATCH_FETCH_COUNT = 10;
 
@@ -50,6 +52,7 @@ public class ContentManager implements ContentCallbackListener {
 	private static final int COMPLETED_COUNT_TV_DATA_CHANNEL_CHANGE_THRESHOLD = 1;
 	private static final int COMPLETED_COUNT_TV_DATA_NOT_LOGGED_IN_THRESHOLD = 4;
 	private static final int COMPLETED_COUNT_TV_DATA_LOGGED_IN_THRESHOLD = 5;
+	private static int completedCountTVDataForProgressMessage = COMPLETED_COUNT_TV_DATA_NOT_LOGGED_IN_THRESHOLD + 2; //+2 for guide and parsing of tagged broadcasts
 	private int completedCountTVData = 0;
 
 	private ContentManager() {
@@ -115,8 +118,9 @@ public class ContentManager implements ContentCallbackListener {
 	}
 
 	/* PUBLIC FETCH METHODS WHERE IT DOES NOT MAKE ANY SENSE TO TRY FETCHING THE DATA FROM STORAGE */
-	public void fetchFromServiceAppData(ActivityCallbackListener activityCallBackListener) 
+	public void fetchFromServiceAppData(ActivityCallbackListener activityCallBackListener, FetchDataProgressCallbackListener fetchDataProgressCallbackListener) 
 	{
+		this.fetchDataProgressCallbackListener = fetchDataProgressCallbackListener;
 		apiClient.getAppConfiguration(activityCallBackListener);
 		apiClient.getAppVersion(activityCallBackListener);
 	}
@@ -310,6 +314,14 @@ public class ContentManager implements ContentCallbackListener {
 		}
 	}
 
+	private void notifyFetchDataProgressListenerMessage(String message) {
+		if(fetchDataProgressCallbackListener != null) {
+			int totalSteps = completedCountTVDataForProgressMessage + COMPLETED_COUNT_APP_DATA_THRESHOLD;
+			fetchDataProgressCallbackListener.onFetchDataProgress(totalSteps, message);
+		}
+	}
+	
+	
 	private void handleAppDataResponse(
 			ActivityCallbackListener activityCallBackListener,
 			FetchRequestResultEnum result,
@@ -322,19 +334,19 @@ public class ContentManager implements ContentCallbackListener {
 
 			switch (requestIdentifier) 
 			{
-				case APP_CONFIGURATION:
+				case APP_CONFIGURATION: {
 					AppConfigurationJSON appConfigData = (AppConfigurationJSON) content;
 					storage.setAppConfigData(appConfigData);
-					break;
-	
-				case APP_VERSION: 
-				{
-					AppVersion appVersionData = (AppVersion) content;
-					storage.setAppVersionData(appVersionData);
+					notifyFetchDataProgressListenerMessage("Fetched app configuration data");
 					break;
 				}
-				default:
-				{
+				case APP_VERSION: {
+					AppVersion appVersionData = (AppVersion) content;
+					storage.setAppVersionData(appVersionData);
+					notifyFetchDataProgressListenerMessage("Fetched app version data");
+					break;
+				}
+				default: {
 					// Do nothing
 					break;
 				}
@@ -379,27 +391,33 @@ public class ContentManager implements ContentCallbackListener {
 				} else {
 					// TODO handle this...?
 				}
+
+				notifyFetchDataProgressListenerMessage("Fetched tv dates data");
 				break;
 			}
 
 			case TV_TAG: {
 				ArrayList<TVTag> tvTags = (ArrayList<TVTag>) content;
 				storage.setTvTags(tvTags);
+				notifyFetchDataProgressListenerMessage("Fetched tv genres data");
 				break;
 			}
 			case TV_CHANNEL: {
 				ArrayList<TVChannel> tvChannels = (ArrayList<TVChannel>) content;
 				storage.setTvChannels(tvChannels);
+				notifyFetchDataProgressListenerMessage("Fetched tv channel data");
 				break;
 			}
 			case TV_CHANNEL_IDS_DEFAULT: {
 				ArrayList<TVChannelId> tvChannelIdsDefault = (ArrayList<TVChannelId>) content;
 				storage.setTvChannelIdsDefault(tvChannelIdsDefault);
+				notifyFetchDataProgressListenerMessage("Fetched tv channel id data");
 				break;
 			}
 			case TV_CHANNEL_IDS_USER: {
 				ArrayList<TVChannelId> tvChannelIdsUser = (ArrayList<TVChannelId>) content;
 				storage.setTvChannelIdsUser(tvChannelIdsUser);
+				notifyFetchDataProgressListenerMessage("Fetched tv channel id data");
 				break;
 			}
 			case BROADCAST_DETAILS: {
@@ -424,6 +442,9 @@ public class ContentManager implements ContentCallbackListener {
 				completedCountTVDataThreshold = COMPLETED_COUNT_TV_DATA_NOT_LOGGED_IN_THRESHOLD;
 				if (storage.isLoggedIn()) {
 					completedCountTVDataThreshold = COMPLETED_COUNT_TV_DATA_LOGGED_IN_THRESHOLD;
+					
+					/* Increase global threshold by 1 since we are logged in */
+					completedCountTVDataForProgressMessage++;
 				}
 			}
 
@@ -445,8 +466,12 @@ public class ContentManager implements ContentCallbackListener {
 			TVGuide tvGuide = tvGuideAndTaggedBroadcasts.getTvGuide();
 			HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> mapTagToTaggedBroadcastForDate = tvGuideAndTaggedBroadcasts.getMapTagToTaggedBroadcastForDate();
 			
+			notifyFetchDataProgressListenerMessage("Fetched tv guide data");
+			
 			storage.addTVGuideForSelectedDay(tvGuide);
 			storage.addTaggedBroadcastsForSelectedDay(mapTagToTaggedBroadcastForDate);
+			
+			notifyFetchDataProgressListenerMessage("Parsed tagged broadcast");
 
 			activityCallBackListener.onResult(FetchRequestResultEnum.SUCCESS);
 		} else {

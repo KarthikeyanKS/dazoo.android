@@ -22,7 +22,7 @@
             android:src="@drawable/splash_logo" />
 
         <com.mitv.customviews.FontTextView
-            android:id="@+id/splash_screen_activity_text"
+            android:id="@+id/splash_screen_activity_info_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/splash_screen_activity_logo"
@@ -41,11 +41,29 @@
         <ProgressBar
             android:id="@+id/splash_screen_activity_progressbar"
             style="?android:attr/progressBarStyle"
-            android:layout_below="@id/splash_screen_activity_text"
+            android:layout_below="@id/splash_screen_activity_info_text"
             android:layout_marginTop="100dp"
             android:layout_centerHorizontal="true"
             android:layout_width="50dp"
             android:layout_height="50dp" />
+        
+        <com.mitv.customviews.FontTextView
+            android:id="@+id/splash_screen_activity_progress_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/splash_screen_activity_progressbar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/transparent"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:text="Step 1/6 fetching app configuration data"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            font:fonttextview="roboto_mitv_regular.ttf" />
     </RelativeLayout>
 
 </RelativeLayout>
