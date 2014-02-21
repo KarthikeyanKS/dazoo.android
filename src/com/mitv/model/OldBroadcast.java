@@ -10,6 +10,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 import org.json.JSONObject;
+
+import android.content.Context;
 import android.content.res.Resources;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -373,8 +375,6 @@ public class OldBroadcast implements Parcelable
 		
 		try 
 		{
-			Calendar endTimeCalendar = DateUtils.convertFromStringToCalendar("");
-			
 			long endTimeMillisGmt = OldDateUtilities.isoStringToLong(endTimeStringGmt);
 			long endTimeMillisLocal = OldDateUtilities.convertTimeStampToLocalTime(endTimeMillisGmt);
 
@@ -611,8 +611,10 @@ public class OldBroadcast implements Parcelable
 	public static ArrayList<OldBroadcast> getBroadcastsStartingFromPosition(int index, ArrayList<OldBroadcast> broadcastList, int numberOfClosest) {
 		ArrayList<OldBroadcast> nextBroadcasts = new ArrayList<OldBroadcast>();
 
-		for (int j = index; j < index + numberOfClosest; j++) {
-			if (j < broadcastList.size()) {
+		for (int j = index; j < index + numberOfClosest; j++) 
+		{
+			if (j < broadcastList.size()) 
+			{
 				nextBroadcasts.add(broadcastList.get(j));
 			}
 		}

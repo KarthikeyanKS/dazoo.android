@@ -22,17 +22,15 @@ import android.widget.RelativeLayout;
 
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.models.TVBroadcast;
+import com.millicom.mitv.models.TVDate;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;
-import com.millicom.mitv.models.gson.TVDate;
 import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.adapters.ActionBarDropDownDateListAdapter;
 import com.mitv.adapters.ChannelPageListAdapter;
-import com.mitv.manager.ApiClient;
-import com.mitv.utilities.OldDateUtilities;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -48,7 +46,7 @@ public class ChannelPageActivity extends BaseActivity implements OnClickListener
 	private ListView							mFollowingBroadcastsLv;
 	private ImageView							mChannelIconIv;
 	private ChannelPageListAdapter				mFollowingBroadcastsListAdapter;
-	private String								mDate, mTvGuideDate; //, token; mChannelId
+//	private String								mDate, mTvGuideDate; //, token; mChannelId
 	private TVChannelId							mChannelId;
 	private TVDate								mTvDateSelected, mDateTvGuide;
 	private TVChannelGuide								mChannelGuide;
@@ -106,8 +104,8 @@ public class ChannelPageActivity extends BaseActivity implements OnClickListener
 	BroadcastReceiver	mBroadcastReceiverDate		= new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			mDate = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_SORTING_VALUE);
-			Log.d(TAG, "mDate" + mDate);
+//			mDate = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_SORTING_VALUE);
+//			Log.d(TAG, "mDate" + mDate);
 
 			// reload the page with the content to the new date
 			updateUI(REQUEST_STATUS.LOADING);
@@ -126,7 +124,7 @@ public class ChannelPageActivity extends BaseActivity implements OnClickListener
 				
 				mBroadcasts = mChannelGuide.getBroadcasts();
 				mFollowingBroadcasts = null;
-				mFollowingBroadcasts = TVBroadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());
+				mFollowingBroadcasts = TVBroadcast.getBroadcastsFromPosition(mBroadcasts, mIndexOfNearestBroadcast);
 				setFollowingBroadcasts();
 				updateUI(REQUEST_STATUS.SUCCESSFUL);
 			}
@@ -145,8 +143,12 @@ public class ChannelPageActivity extends BaseActivity implements OnClickListener
 			mDayAdapter.setSelectedIndex(position);
 			mTvDateSelected = mTvDates.get(position);
 			mSelectedIndex = position;
-			LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(
-					new Intent(Consts.INTENT_EXTRA_CHANNEL_SORTING).putExtra(Consts.INTENT_EXTRA_CHANNEL_SORTING_VALUE, mTvDateSelected.getDate()));
+			
+			Intent intent = new Intent(Consts.INTENT_EXTRA_CHANNEL_SORTING);
+//			intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_SORTING_VALUE, mTvDateSelected.getDate());
+			
+			LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(intent);
+			
 			return true;
 		}
 	}
@@ -171,7 +173,7 @@ public class ChannelPageActivity extends BaseActivity implements OnClickListener
 			}
 			if (mIndexOfNearestBroadcast >= 0) {
 				mFollowingBroadcasts = null;
-				mFollowingBroadcasts = TVBroadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());
+				mFollowingBroadcasts = TVBroadcast.getBroadcastsFromPosition(mBroadcasts, mIndexOfNearestBroadcast);
 			}
 			setFollowingBroadcasts();
 			
@@ -299,7 +301,7 @@ public class ChannelPageActivity extends BaseActivity implements OnClickListener
 				
 				//TODO TMP DATA intercommunication
 //				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, mChannel.getChannelId());
-				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, mTvDateSelected.getDate());
+//				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, mTvDateSelected.getDate());
 
 				startActivity(intent);
 				
@@ -375,7 +377,7 @@ public class ChannelPageActivity extends BaseActivity implements OnClickListener
 		
 		if (mIndexOfNearestBroadcast >= 0)
 		{
-			mFollowingBroadcasts = TVBroadcast.getBroadcastsStartingFromPosition(mIndexOfNearestBroadcast, mBroadcasts, mBroadcasts.size());
+			mFollowingBroadcasts = TVBroadcast.getBroadcastsFromPosition(mBroadcasts, mIndexOfNearestBroadcast);
 			setFollowingBroadcasts();
 		}
 	}

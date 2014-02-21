@@ -104,7 +104,7 @@ public class TrippleBroadcastBlockPopulator {
 
 			mContainer.setVisibility(View.VISIBLE);
 
-			mTitleTimeTv.setText(broadcast.getBeginTimeDayOfTheWeekAndTimeAsString());
+			mTitleTimeTv.setText(broadcast.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
 			mChannelTv.setText(broadcast.getChannel().getName());
 
 			if (!mUsedForRepetitions) {

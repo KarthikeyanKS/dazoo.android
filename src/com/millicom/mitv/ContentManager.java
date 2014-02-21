@@ -1,11 +1,11 @@
 package com.millicom.mitv;
 
+
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import android.text.TextUtils;
-
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
@@ -13,13 +13,13 @@ import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.models.AppVersion;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
+import com.millicom.mitv.models.TVDate;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.TVGuideAndTaggedBroadcasts;
 import com.millicom.mitv.models.gson.AppConfigurationJSON;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;
-import com.millicom.mitv.models.gson.TVDate;
 import com.millicom.mitv.models.gson.TVFeedItem;
 import com.millicom.mitv.models.gson.TVTag;
 import com.millicom.mitv.models.gson.UserLike;

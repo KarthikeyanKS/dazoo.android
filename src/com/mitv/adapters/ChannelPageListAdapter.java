@@ -106,7 +106,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 
 			// MC - Set the begin time of the broadcast.
 
-			holder.mTimeTv.setText(broadcast.getBeginTimeStringLocalHourAndMinute());
+			holder.mTimeTv.setText(broadcast.getBeginTimeHourAndMinuteAsString());
 			String title = broadcast.getProgram().getTitle();
 			
 			if (programType != null) {

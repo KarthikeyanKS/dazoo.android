@@ -13,12 +13,10 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.enums.ProgramTypeEnum;
-import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
-import com.millicom.mitv.models.gson.TVDate;
+import com.millicom.mitv.models.TVDate;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.utilities.ProgressBarUtils;
@@ -101,7 +99,7 @@ public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelI
 				ImageLoader.getInstance().displayImage(broadcast.getProgram().getImages().getPortrait().getMedium(), imageAware);
 				
 
-				holder.mTimeTv.setText(broadcast.getBeginTimeStringLocalHourAndMinute());
+				holder.mTimeTv.setText(broadcast.getBeginTimeHourAndMinuteAsString());
 				holder.mChannelTv.setText(broadcast.getChannel().getName());
 
 				ProgramTypeEnum programType = broadcast.getProgram().getProgramType();

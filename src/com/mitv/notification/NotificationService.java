@@ -64,7 +64,7 @@ public class NotificationService
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_CHANNEL_NAME, broadcast.getChannel().getName());
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_CHANNEL_LOGO_URL, broadcast.getChannel().getImageUrl());
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_NAME, broadcast.getProgram().getTitle());
-		intent.putExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_HOUR_AND_MINUTE_TIME, broadcast.getBeginTimeHourAndMinuteCompositionAsString());
+		intent.putExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_HOUR_AND_MINUTE_TIME, broadcast.getBeginTimeHourAndMinuteAsString());
 		intent.putExtra(Consts.INTENT_ALARM_EXTRA_DATE_DATE, broadcast.getBeginTimeDateRepresentation());
 		
 		return intent;
