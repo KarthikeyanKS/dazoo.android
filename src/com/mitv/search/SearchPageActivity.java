@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 
 import com.mitv.Consts;
@@ -35,14 +36,19 @@ import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.Consts.ENTITY_TYPE;
 import com.mitv.Consts.REQUEST_STATUS;
+import com.mitv.authentication.SignInOrSignupWithFacebookActivity;
 import com.mitv.content.SSActivity;
 import com.mitv.customviews.InstantAutoComplete;
 import com.mitv.model.Broadcast;
 import com.mitv.model.Channel;
 import com.mitv.model.SearchResultItem;
+import com.mitv.model.TvDate;
 import com.mitv.myprofile.MyChannelsActivity;
 import com.mitv.myprofile.MyProfileActivity;
+import com.mitv.storage.MiTVStore;
 import com.mitv.tvguide.BroadcastPageActivity;
+import com.mitv.tvguide.ChannelPageActivity;
+import com.mitv.utilities.DateUtilities;
 import com.mitv.utilities.HardwareUtilities;
 
 public class SearchPageActivity extends SSActivity implements OnItemClickListener, OnEditorActionListener, OnClickListener, SearchActivityListeners {
@@ -270,10 +276,46 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 			} else {
 				Toast.makeText(this, "No upcoming broadcast", Toast.LENGTH_SHORT).show();
 			}
-		} else {
-			Intent intentMyChannels = new Intent(SearchPageActivity.this, MyChannelsActivity.class);
-			startActivity(intentMyChannels);
-
+		} 
+		// If search result is a channel
+		else {
+			// Fetch necessary data to load the channel
+			TvDate mDate = new TvDate();
+			mDate.setDate(DateUtilities.todayDateAsTvDate());
+			Channel channel = (Channel) result.getEntity();
+			String token = SecondScreenApplication.getInstance().getAccessToken();
+			// If the user is logged in
+			if (token != null && TextUtils.isEmpty(token) != true) {
+				// Check if the channel is within the loaded channels, if so load the channelpage
+				if (MiTVStore.getInstance().getMyChannelIds().contains(channel.getChannelId())) {
+					Intent intent = new Intent(SearchPageActivity.this, ChannelPageActivity.class);
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, channel.getChannelId());
+					intent.putExtra(Consts.INTENT_EXTRA_CHOSEN_DATE_TVGUIDE, mDate);
+					intent.putExtra(Consts.INTENT_EXTRA_TV_GUIDE_HOUR, Integer.parseInt(DateUtilities.getCurrentHourString())); // Instead use selected hour string?
+					startActivity(intent);
+				}
+				// If the channel is not within the loaded channels, ask user to add it
+				else {
+					Intent intentMyChannels = new Intent(SearchPageActivity.this, MyChannelsActivity.class);
+					startActivity(intentMyChannels);
+				}
+			}
+			// If the user is not logged in
+			else {
+				// Check if the channel is within the default loaded channels, if so load the channelpage
+				if (MiTVStore.getInstance().getDefaultChannelIds().contains(channel.getChannelId())) {
+					Intent intent = new Intent(SearchPageActivity.this, ChannelPageActivity.class);
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, channel.getChannelId());
+					intent.putExtra(Consts.INTENT_EXTRA_CHOSEN_DATE_TVGUIDE, mDate);
+					intent.putExtra(Consts.INTENT_EXTRA_TV_GUIDE_HOUR, Integer.parseInt(DateUtilities.getCurrentHourString()));
+					startActivity(intent);
+				}
+				// If the channel is not within the loaded channels, ask user to sign in/up to add it
+				else {
+					Intent intentLogin = new Intent(SearchPageActivity.this, SignInOrSignupWithFacebookActivity.class);
+					startActivity(intentLogin);
+				}
+			}
 		}
 	}
 
