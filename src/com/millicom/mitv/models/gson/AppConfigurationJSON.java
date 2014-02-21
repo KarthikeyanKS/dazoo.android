@@ -51,6 +51,9 @@ public class AppConfigurationJSON
 	
 	
 	
+	/*
+	 * The empty constructor is needed by gson. Do not remove.
+	 */
 	public AppConfigurationJSON()
 	{
 		this.adzerkFormatsForAndroidGuide = new ArrayList<Integer>();

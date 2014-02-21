@@ -24,6 +24,9 @@ public class AdAdzerkJSON
 	
 	
 	
+	/*
+	 * The empty constructor is needed by gson. Do not remove.
+	 */
 	public AdAdzerkJSON()
 	{}
 

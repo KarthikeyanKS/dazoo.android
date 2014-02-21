@@ -16,6 +16,9 @@ public class AppVersionJSON
 	
 	
 	
+	/*
+	 * The empty constructor is needed by gson. Do not remove.
+	 */
 	public AppVersionJSON()
 	{}
 	
