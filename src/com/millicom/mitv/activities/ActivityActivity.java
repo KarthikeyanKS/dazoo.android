@@ -233,27 +233,15 @@ public class ActivityActivity
 	
 	
 	@Override
-	public void onResult(FetchRequestResultEnum fetchRequestResult) 
-	{
+	public void onResult(FetchRequestResultEnum fetchRequestResult) {
 		super.onResult(fetchRequestResult);
-		
+
 		adapter.notifyDataSetChanged();
-		
-		switch(fetchRequestResult)
-		{
-			case SUCCESS:
-			{
-				updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
-				
-				break;
-			}
-			
-			default:
-			{
-				updateUI(UIStatusEnum.FAILED);
-				
-				break;
-			}
+
+		if (fetchRequestResult.wasSuccessful()) {
+			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+		} else {
+			updateUI(UIStatusEnum.FAILED);
 		}
 	}
 	

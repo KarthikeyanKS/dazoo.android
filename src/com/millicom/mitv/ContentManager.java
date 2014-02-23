@@ -254,7 +254,7 @@ public class ContentManager implements ContentCallbackListener {
 		{
 			case INTERNET_CONNECTIVITY:
 			{
-				handleInternetConnectionDataResponse(activityCallBackListener, result, requestIdentifier, content);
+				handleInternetConnectionDataResponse(activityCallBackListener, result);
 				break;
 			}
 		
@@ -388,18 +388,9 @@ public class ContentManager implements ContentCallbackListener {
 	
 	private void handleInternetConnectionDataResponse(
 			ActivityCallbackListener activityCallBackListener,
-			FetchRequestResultEnum result,
-			RequestIdentifierEnum requestIdentifier,
-			Object content)
+			FetchRequestResultEnum result)
 	{
-		if(result.wasSuccessful())
-		{
-			activityCallBackListener.onResult(FetchRequestResultEnum.SUCCESS);
-		}
-		else 
-		{
-			activityCallBackListener.onResult(FetchRequestResultEnum.UNKNOWN_ERROR);
-		}
+		activityCallBackListener.onResult(result);
 	}
 	
 	

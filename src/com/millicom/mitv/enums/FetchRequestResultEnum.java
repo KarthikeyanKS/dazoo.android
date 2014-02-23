@@ -131,7 +131,7 @@ public enum FetchRequestResultEnum
    
    public boolean wasSuccessful() 
    {
-	   boolean wasSuccessful = (this == SUCCESS || this == SUCCESS_WITH_NO_CONTENT);
+	   boolean wasSuccessful = (this == SUCCESS || this == SUCCESS_WITH_NO_CONTENT || this == INTERNET_CONNECTION_AVAILABLE);
 	   
 	   return wasSuccessful;
    }

@@ -34,7 +34,6 @@ public class HomeActivity extends TVDateSelectionActivity implements ActivityCal
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.layout_home_activity);
 
 		getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -44,6 +43,7 @@ public class HomeActivity extends TVDateSelectionActivity implements ActivityCal
 		initViews();
 
 		tryShowWelcomeToast();
+		
 
 		/* HOCKEY-APP */
 		// checkForUpdates();
@@ -108,18 +108,14 @@ public class HomeActivity extends TVDateSelectionActivity implements ActivityCal
 	{
 		super.onResult(fetchRequestResult);
 		
-		switch(fetchRequestResult)
+		if(fetchRequestResult != FetchRequestResultEnum.INTERNET_CONNECTION_AVAILABLE &&
+				fetchRequestResult != FetchRequestResultEnum.INTERNET_CONNECTION_NOT_AVAILABLE)
 		{
-			case SUCCESS:
-			{
-				attachFragment();
-				break;
-			}
-			
-			default:
-			{
+
+			if(fetchRequestResult.wasSuccessful()) {
+				updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+			} else {
 				updateUI(UIStatusEnum.FAILED);
-				break;
 			}
 		}
 	}

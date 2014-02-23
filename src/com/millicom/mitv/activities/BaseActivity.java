@@ -146,7 +146,7 @@ public abstract class BaseActivity
 			}
 		}
 		case R.id.request_failed_reload_button: {
-			if (!NetworkUtils.isConnectedAndHostIsReachable(activity)) {
+			if (!NetworkUtils.isConnectedAndHostIsReachable()) {
 				updateUI(UIStatusEnum.FAILED);
 			} else {
 				loadData();
@@ -154,7 +154,7 @@ public abstract class BaseActivity
 			break;
 		}
 		case R.id.bad_request_reload_button: {
-			if (!NetworkUtils.isConnectedAndHostIsReachable(activity)) {
+			if (!NetworkUtils.isConnectedAndHostIsReachable()) {
 				updateUI(UIStatusEnum.FAILED);
 			} else {
 				loadData();
@@ -170,8 +170,9 @@ public abstract class BaseActivity
 	@Override
 	protected void onResume() {
 		super.onResume();
+		initCallbackLayouts();
 		initTabViews();
-		loadData();
+		loadDataWithConnectivityCheck();
 	}
 
 
@@ -204,8 +205,6 @@ public abstract class BaseActivity
 
 		super.onCreate(savedInstanceState);
 		
-		loadDataWithConnectivityCheck();
-	
 		// add to the list of running activities
 		SecondScreenApplication.sharedInstance().getActivityList().add(this);
 		
@@ -215,6 +214,8 @@ public abstract class BaseActivity
 		
 		GATrackingManager.sendView(className);
 	}
+	
+	
 	
 	
 	@Override
@@ -327,8 +328,6 @@ public abstract class BaseActivity
 		updateUI(UIStatusEnum.LOADING);
 		
 		ContentManager.sharedInstance().checkNetworkConnectivity(this, this);
-		
-		NetworkUtils.isConnectedAndHostIsReachable(activity);
 	}
 	
 	
@@ -364,7 +363,7 @@ public abstract class BaseActivity
 	{
 		boolean activityNotNullOrFinishing = GenericUtils.isActivityNotNullOrFinishing(this);
 		
-		if (activityNotNullOrFinishing == false) 
+		if (activityNotNullOrFinishing) 
 		{
 			hideRequestStatusLayouts();
 
@@ -375,7 +374,7 @@ public abstract class BaseActivity
 					requestLoadingLayout.setVisibility(View.VISIBLE);
 					break;
 				}
-			
+							
 				case NO_CONNECTION_AVAILABLE:
 				{
 					requestBadLayout.setVisibility(View.VISIBLE);
