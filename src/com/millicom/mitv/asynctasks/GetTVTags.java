@@ -6,12 +6,16 @@ package com.millicom.mitv.asynctasks;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import android.content.Context;
+
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
-import com.millicom.mitv.models.gson.TVTag;
+import com.millicom.mitv.models.TVTag;
 import com.mitv.Consts;
+import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 
 
 
@@ -35,6 +39,15 @@ public class GetTVTags extends AsyncTaskWithRelativeURL<TVTag[]>
 		/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
 		TVTag[] contentAsArray = (TVTag[]) requestResultObjectContent;
 		ArrayList<TVTag> contentAsArrayList = new ArrayList<TVTag>(Arrays.asList(contentAsArray));
+		
+		/* Manually add the tag for "ALL CATEGORIES" */
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		String allCategoriesTag = context.getResources().getString(R.string.all_categories_name);
+		TVTag allCategoriesTVTag = new TVTag(allCategoriesTag, allCategoriesTag);
+		
+		/* Add the "All Categories" tag to the first slot in the list of TVTags */
+		contentAsArrayList.add(0, allCategoriesTVTag);
+		
 		requestResultObjectContent = contentAsArrayList;
 
 		return null;

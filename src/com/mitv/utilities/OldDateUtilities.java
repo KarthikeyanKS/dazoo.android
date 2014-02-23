@@ -417,7 +417,7 @@ public class OldDateUtilities {
 	}
 	
 	public static String getTimeOfDayFormatted(long time) {
-		Context appContext = SecondScreenApplication.getInstance().getApplicationContext();
+		Context appContext = SecondScreenApplication.sharedInstance().getApplicationContext();
 		return getTimeOfDayFormatted(appContext, time);
 	}
 

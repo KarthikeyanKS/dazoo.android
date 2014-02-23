@@ -107,7 +107,7 @@ public abstract class BaseActivity extends ActionBarActivity implements OnClickL
 		super.onCreate(savedInstanceState);
 		
 		// add to the list of running activities
-		SecondScreenApplication.getInstance().getActivityList().add(this);
+		SecondScreenApplication.sharedInstance().getActivityList().add(this);
 		
 		
 

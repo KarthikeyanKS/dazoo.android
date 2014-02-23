@@ -62,7 +62,7 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
 		// add the activity to the list of running activities
-		SecondScreenApplication.getInstance().getActivityList().add(this);
+		SecondScreenApplication.sharedInstance().getActivityList().add(this);
 
 		initMainLayout();
 		initSupportActionbar();

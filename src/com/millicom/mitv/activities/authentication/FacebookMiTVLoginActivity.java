@@ -42,7 +42,7 @@ public class FacebookMiTVLoginActivity
 		setContentView(R.layout.layout_facebook_mitvlogin_activity);
 		
 		// add the activity to the list of running activities
-		SecondScreenApplication.getInstance().getActivityList().add(this);
+		SecondScreenApplication.sharedInstance().getActivityList().add(this);
 		
 		initViews();
 	}

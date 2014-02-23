@@ -32,7 +32,7 @@ public class GATrackingManager {
 
 	public static GATrackingManager getInstance() {
 		if (selfInstance == null) {
-			Context context = SecondScreenApplication.getInstance().getApplicationContext();
+			Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
 			selfInstance = new GATrackingManager(context);
 		}
 		return selfInstance;
@@ -55,8 +55,8 @@ public class GATrackingManager {
 		GoogleAnalytics googleAnalyticsInstance = GoogleAnalytics.getInstance(mContext);
 		this.mTracker = googleAnalyticsInstance.getTracker(trackingId);
 		
-		boolean preinstalledCheckingSharedPrefs	= SecondScreenApplication.getInstance().getWasPreinstalled();
-		boolean preinstalledCheckingExternalStorage = SecondScreenApplication.getInstance().wasPreinstalledFileExists();
+		boolean preinstalledCheckingSharedPrefs	= SecondScreenApplication.sharedInstance().getWasPreinstalled();
+		boolean preinstalledCheckingExternalStorage = SecondScreenApplication.sharedInstance().wasPreinstalledFileExists();
     	boolean preinstalledUsingSystemAppDetectionCheckLocation = SecondScreenApplication.applicationIsSystemApp(mContext);
     	boolean preinstalledUsingSystemAppDetectionCheckFlag = SecondScreenApplication.applicationIsSystemAppUsingFlag(mContext);
     	

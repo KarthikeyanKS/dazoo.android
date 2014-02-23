@@ -21,7 +21,7 @@ public class TVDate
 	
 	public TVDate(String dateRepresentation)
 	{
-		Context context = SecondScreenApplication.getInstance().getApplicationContext();
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
 		
 		this.id = dateRepresentation;
 		this.date = dateRepresentation;
@@ -37,7 +37,7 @@ public class TVDate
 	{
 		if(dateCalendar == null) 
 		{
-			Context context = SecondScreenApplication.getInstance().getApplicationContext();
+			Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
 			
 			dateCalendar = DateUtils.convertFromStringToCalendar(date, context);
 		}

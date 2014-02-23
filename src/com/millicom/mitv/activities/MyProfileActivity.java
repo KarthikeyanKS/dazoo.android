@@ -272,7 +272,7 @@ public class MyProfileActivity extends BaseActivity implements ActivityCallbackL
 
 			// clear all the running activities and start the application from
 			// the whole beginning
-			SecondScreenApplication.getInstance().clearActivityBacktrace();
+			SecondScreenApplication.sharedInstance().clearActivityBacktrace();
 
 			startActivity(new Intent(MyProfileActivity.this, HomeActivity.class));
 			break;

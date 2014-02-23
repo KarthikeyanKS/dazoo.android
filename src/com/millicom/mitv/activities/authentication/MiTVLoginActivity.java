@@ -71,7 +71,7 @@ public class MiTVLoginActivity
 		}
 
 		// add the activity to the list of running activities
-		SecondScreenApplication.getInstance().getActivityList().add(this);
+		SecondScreenApplication.sharedInstance().getActivityList().add(this);
 
 		initViews();
 	}
@@ -212,7 +212,7 @@ public class MiTVLoginActivity
 
 									// clear all the running before activities and start the application from the whole beginning
 									
-									SecondScreenApplication.getInstance().clearActivityBacktrace();
+									SecondScreenApplication.sharedInstance().clearActivityBacktrace();
 
 									Intent intent;
 									

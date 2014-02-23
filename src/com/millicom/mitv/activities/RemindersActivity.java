@@ -52,7 +52,7 @@ public class RemindersActivity
 
 		
 		// add the activity to the list of running activities
-		SecondScreenApplication.getInstance().getActivityList().add(this);
+		SecondScreenApplication.sharedInstance().getActivityList().add(this);
 
 		initLayout();
 		super.initCallbackLayouts();

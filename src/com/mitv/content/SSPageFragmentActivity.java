@@ -33,7 +33,7 @@ public abstract class SSPageFragmentActivity extends BaseActivity {
 	protected void onCreate(android.os.Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// add to the list of running activities
-		SecondScreenApplication.getInstance().getActivityList().add(this);
+		SecondScreenApplication.sharedInstance().getActivityList().add(this);
 	};
 
 	// Init the callback layouts for this page

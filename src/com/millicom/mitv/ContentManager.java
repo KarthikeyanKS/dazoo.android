@@ -22,6 +22,7 @@ import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVDate;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.TVGuideAndTaggedBroadcasts;
+import com.millicom.mitv.models.TVTag;
 import com.millicom.mitv.models.UpcomingBroadcastsForBroadcast;
 import com.millicom.mitv.models.UserLike;
 import com.millicom.mitv.models.UserLoginData;
@@ -29,7 +30,6 @@ import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;
 import com.millicom.mitv.models.gson.TVFeedItem;
-import com.millicom.mitv.models.gson.TVTag;
 import com.millicom.mitv.utilities.GenericUtils;
 import com.mitv.Consts;
 
