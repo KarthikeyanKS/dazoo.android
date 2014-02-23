@@ -114,28 +114,28 @@ public class ActivityActivity extends BaseActivity implements ActivityCallbackLi
 		}
 	}
 
-	@Override
-	public void initTabViews() {
-		tabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
-		tabTvGuide.setOnClickListener(this);
-
-		tabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
-		tabActivity.setOnClickListener(this);
-
-		tabProfile = (RelativeLayout) findViewById(R.id.tab_me);
-		tabProfile.setOnClickListener(this);
-
-		tabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
-		tabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
-
-		tabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
-		tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
-
-		tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
-		tabActivity.setBackgroundColor(getResources().getColor(R.color.red));
-		tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
-
-	}
+//	@Override
+//	public void initTabViews() {
+//		tabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
+//		tabTvGuide.setOnClickListener(this);
+//
+//		tabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
+//		tabActivity.setOnClickListener(this);
+//
+//		tabProfile = (RelativeLayout) findViewById(R.id.tab_me);
+//		tabProfile.setOnClickListener(this);
+//
+//		tabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
+//		tabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
+//
+//		tabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+//		tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+//
+//		tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+//		tabActivity.setBackgroundColor(getResources().getColor(R.color.red));
+//		tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+//
+//	}
 
 	private void getActivityFeedData() {
 		updateUI(REQUEST_STATUS.LOADING);
@@ -268,32 +268,39 @@ public class ActivityActivity extends BaseActivity implements ActivityCallbackLi
 
 	@Override
 	public void onClick(View v) {
+		/* Important to call Super, since that handles tab selection */
+		super.onClick(v);
+		
 		int id = v.getId();
 		switch (id) {
-		case R.id.activity_not_logged_in_facebook_container:
+		case R.id.activity_not_logged_in_facebook_container: {
 			// facebook sign in
 			Intent intent = new Intent(ActivityActivity.this, FacebookLoginActivity.class);
 			startActivity(intent);
 			finish();
 
 			break;
-		case R.id.activity_not_logged_in_signup_email_container:
+		}
+		case R.id.activity_not_logged_in_signup_email_container: {
 			Intent intentSignUp = new Intent(ActivityActivity.this, SignUpWithEmailActivity.class);
 			intentSignUp.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
 			startActivity(intentSignUp);
 
 			break;
-		case R.id.activity_not_logged_in_login_btn:
+		}
+		case R.id.activity_not_logged_in_login_btn: {
 			Intent intentLogin = new Intent(ActivityActivity.this, MiTVLoginActivity.class);
 			intentLogin.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
 			startActivity(intentLogin);
 
 			break;
-		case R.id.block_feed_no_likes_btn:
+		}
+		case R.id.block_feed_no_likes_btn: {
 			Intent checkPopular = new Intent(ActivityActivity.this, PopularPageActivity.class);
 			startActivity(checkPopular);
 
 			break;
+		}
 		}
 	}
 

@@ -75,7 +75,8 @@ public abstract class AsyncTaskWithUserToken<T>
 			Log.e(TAG, "User is not logged in. Verify token status.");
 		}
 		
-		headerParameters.put(Consts.USER_AUTHORIZATION_HEADER_KEY, sb.toString());
+		String headerValue = sb.toString();
+		headerParameters.put(Consts.USER_AUTHORIZATION_HEADER_KEY, headerValue);
 		
 		return super.doInBackground(params);
 	}

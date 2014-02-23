@@ -48,18 +48,7 @@ public abstract class TVDateSelectionActivity extends BaseActivity implements Ac
 			return true;
 		}
 	}
-	
-//	@Override
-//	public boolean onNavigationItemSelected(int position, long id) {
-//		handleTVDateIndexSelect(position);
-//		return true;
-//	}
-	
-	private void handleTVDateIndexSelect(int index) {
-		dayAdapter.setSelectedIndex(index);
-		ContentManager.sharedInstance().setTVDateSelectedUsingIndexAndFetchGuideForDay(activityCallbackListener, index);
-	}
-	
+		
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
 		// TODO Auto-generated method stub

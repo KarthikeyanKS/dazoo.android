@@ -1,7 +1,5 @@
 package com.millicom.mitv.activities;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -19,15 +17,12 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.google.analytics.tracking.android.EasyTracker;
-import com.millicom.mitv.ContentManager;
-import com.millicom.mitv.interfaces.ActivityCallbackListener;
-import com.millicom.mitv.models.TVDate;
+import com.millicom.mitv.enums.TabSelectedEnum;
 import com.millicom.mitv.utilities.GenericUtils;
 import com.millicom.mitv.utilities.NetworkUtils;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.adapters.ActionBarDropDownDateListAdapter;
 import com.mitv.manager.GATrackingManager;
 
 public abstract class BaseActivity extends ActionBarActivity implements OnClickListener{
@@ -49,11 +44,61 @@ public abstract class BaseActivity extends ActionBarActivity implements OnClickL
 	private View requestBadLayout;
 	protected ActionBar actionBar;
 	private Activity activity;
-
+	private TabSelectedEnum tabSelectedEnum = TabSelectedEnum.TV_GUIDE;
+	
 	protected abstract void updateUI(REQUEST_STATUS status);
 
 	protected abstract void loadPage();
 	
+	public void initTabViews() {
+		tabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
+		tabTvGuide.setOnClickListener(this);
+
+		tabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
+		tabActivity.setOnClickListener(this);
+
+		tabProfile = (RelativeLayout) findViewById(R.id.tab_me);
+		tabProfile.setOnClickListener(this);
+
+		tabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
+		tabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
+
+		tabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+		tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+
+		switch (tabSelectedEnum) {
+		case TV_GUIDE: {
+			tabSelectedWasTVGuide();
+			break;
+		}
+		case ACTIVITY_FEED: {
+			tabSelectedWasActivityFeed();
+			break;
+		}
+		case MY_PROFILE: {
+			tabSelectedWasMyProfile();
+			break;
+		}
+		}
+	}
+	
+	private void tabSelectedWasTVGuide() {
+		tabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
+		tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+		tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+	}
+	
+	private void tabSelectedWasActivityFeed() {
+		tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+		tabActivity.setBackgroundColor(getResources().getColor(R.color.red));
+		tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+	}
+	
+	private void tabSelectedWasMyProfile() {
+		tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+		tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+		tabProfile.setBackgroundColor(getResources().getColor(R.color.red));
+	}
 	
 
 	@Override
@@ -63,6 +108,7 @@ public abstract class BaseActivity extends ActionBarActivity implements OnClickL
 		switch (id) {
 		case R.id.tab_tv_guide: {
 			if (!(this instanceof HomeActivity)) {
+				tabSelectedEnum = TabSelectedEnum.TV_GUIDE;
 				Intent intentActivity = new Intent(this, HomeActivity.class);
 				startActivity(intentActivity);
 			}
@@ -70,6 +116,7 @@ public abstract class BaseActivity extends ActionBarActivity implements OnClickL
 		}
 		case R.id.tab_activity: {
 			if (!(this instanceof ActivityActivity)) {
+				tabSelectedEnum = TabSelectedEnum.ACTIVITY_FEED;
 				Intent intentActivity = new Intent(this, ActivityActivity.class);
 				startActivity(intentActivity);
 				break;
@@ -77,13 +124,40 @@ public abstract class BaseActivity extends ActionBarActivity implements OnClickL
 		}
 		case R.id.tab_me: {
 			if (!(this instanceof MyProfileActivity)) {
+				tabSelectedEnum = TabSelectedEnum.MY_PROFILE;
 				Intent intentMe = new Intent(this, MyProfileActivity.class);
 				startActivity(intentMe);
 				break;
 			}
 		}
+		case R.id.request_failed_reload_button: {
+			if (!NetworkUtils.isConnectedAndHostIsReachable(activity)) {
+				updateUI(REQUEST_STATUS.FAILED);
+			} else {
+				loadPage();
+			}
+			break;
+		}
+		case R.id.bad_request_reload_button: {
+			if (!NetworkUtils.isConnectedAndHostIsReachable(activity)) {
+				updateUI(REQUEST_STATUS.FAILED);
+			} else {
+				loadPage();
+			}
+			break;
+		}
 		}
 	}
+	
+	
+	
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		initTabViews();
+	}
+
 
 	@Override
 	protected void onCreate(android.os.Bundle savedInstanceState) {
@@ -114,6 +188,7 @@ public abstract class BaseActivity extends ActionBarActivity implements OnClickL
 
 		super.onCreate(savedInstanceState);
 		
+	
 		// add to the list of running activities
 		SecondScreenApplication.sharedInstance().getActivityList().add(this);
 		
@@ -244,7 +319,7 @@ public abstract class BaseActivity extends ActionBarActivity implements OnClickL
 		requestFailedLayout = (RelativeLayout) findViewById(R.id.request_failed_main_layout);
 		requestFailedButton = (Button) findViewById(R.id.request_failed_reload_button);
 		if (requestFailedButton != null) {
-			requestFailedButton.setOnClickListener(mOnRequestFailedClickListener);
+			requestFailedButton.setOnClickListener(this);
 		}
 
 		requestLoadingLayout = (RelativeLayout) findViewById(R.id.request_loading_main_layout);
@@ -254,31 +329,7 @@ public abstract class BaseActivity extends ActionBarActivity implements OnClickL
 		requestBadLayout = (RelativeLayout) findViewById(R.id.bad_request_main_layout);
 		requestBadButton = (Button) findViewById(R.id.bad_request_reload_button);
 		if (requestBadButton != null) {
-			requestBadButton.setOnClickListener(mOnRequestFailedClickListener);
+			requestBadButton.setOnClickListener(this);
 		}
 	}
-
-	OnClickListener mOnRequestFailedClickListener = new OnClickListener() {
-
-		@Override
-		public void onClick(View v) {
-
-			switch (v.getId()) {
-			case R.id.request_failed_reload_button:
-				if (!NetworkUtils.isConnectedAndHostIsReachable(activity)) {
-					updateUI(REQUEST_STATUS.FAILED);
-				} else {
-					loadPage();
-				}
-				break;
-			case R.id.bad_request_reload_button:
-				if (!NetworkUtils.isConnectedAndHostIsReachable(activity)) {
-					updateUI(REQUEST_STATUS.FAILED);
-				} else {
-					loadPage();
-				}
-				break;
-			}
-		}
-	};
 }
