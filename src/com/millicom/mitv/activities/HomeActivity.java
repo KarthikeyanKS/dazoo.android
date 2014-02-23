@@ -1,16 +1,8 @@
 package com.millicom.mitv.activities;
 
-import java.util.ArrayList;
-
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -23,21 +15,14 @@ import com.millicom.mitv.fragments.TVHolderFragment;
 import com.millicom.mitv.fragments.TVHolderFragment.OnViewPagerIndexChangedListener;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ActivityWithTabs;
-import com.millicom.mitv.models.TVDate;
-import com.mitv.Consts;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
-import com.mitv.adapters.ActionBarDropDownDateListAdapter;
-import com.mitv.content.SSPageFragmentActivity;
 import com.mitv.utilities.OldDateUtilities;
 
-public class HomeActivity extends SSPageFragmentActivity implements ActivityCallbackListener, ActivityWithTabs, ActionBar.OnNavigationListener {
+public class HomeActivity extends TVDateSelectionActivity implements ActivityCallbackListener, ActivityWithTabs {
 	private static final String TAG = HomeActivity.class.getName();
 
-	private ActionBar actionBar;
-	private ActionBarDropDownDateListAdapter dayAdapter;
-
-	private int selectedDayIndex = 0;
+//	private ActionBarDropDownDateListAdapter dayAdapter;
 	private int selectedTagIndex = 0;
 
 	private Fragment activeFragment;
@@ -45,15 +30,20 @@ public class HomeActivity extends SSPageFragmentActivity implements ActivityCall
 	private String welcomeMessage = "";
 	private boolean hasShowWelcomeToast = false;
 
-	private BroadcastReceiver broadcastReceiverDate;
+//	private BroadcastReceiver broadcastReceiverDate;
 
+	@Override
+	protected void setActivityCallbackListener(){
+		activityCallbackListener = this;
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.layout_home_activity);
 
-		initReceivers();
+//		initReceivers();
 
 		getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
@@ -103,10 +93,10 @@ public class HomeActivity extends SSPageFragmentActivity implements ActivityCall
 		}
 	}
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		registerReceivers();
+//	@Override
+//	protected void onResume() {
+//		super.onResume();
+//		registerReceivers();
 		// if(ApiClient.ismShouldRefreshGuide() && !mIsFirstLoad)
 		// {
 		// loadPage();
@@ -139,19 +129,19 @@ public class HomeActivity extends SSPageFragmentActivity implements ActivityCall
 		// }
 
 		// checkForCrashes();
-	}
+//	}
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-		unregisterReceivers();
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		unregisterReceivers();
-	}
+//	@Override
+//	protected void onPause() {
+//		super.onPause();
+//		unregisterReceivers();
+//	}
+//
+//	@Override
+//	public void onDestroy() {
+//		super.onDestroy();
+//		unregisterReceivers();
+//	}
 
 	// private void loadContent()
 	// {
@@ -184,18 +174,18 @@ public class HomeActivity extends SSPageFragmentActivity implements ActivityCall
 	// }
 	// }
 
-	private void initReceivers() {
-		broadcastReceiverDate = new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				selectedDayIndex = intent.getIntExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE_POSITION, 0);
-
-				/* Here we fetch guide for new date */
-				handleTVDateIndexSelect(selectedDayIndex);
-				removeActiveFragment();
-			}
-		};
-	}
+//	private void initReceivers() {
+//		broadcastReceiverDate = new BroadcastReceiver() {
+//			@Override
+//			public void onReceive(Context context, Intent intent) {
+//				selectedDayIndex = intent.getIntExtra(Consts.INTENT_EXTRA_TVGUIDE_SORTING_VALUE_POSITION, 0);
+//
+//				/* Here we fetch guide for new date */
+//				handleTVDateIndexSelect(selectedDayIndex);
+//				removeActiveFragment();
+//			}
+//		};
+//	}
 
 	// mBroadcastReceiverBadRequest = new BroadcastReceiver()
 	// {
@@ -279,15 +269,15 @@ public class HomeActivity extends SSPageFragmentActivity implements ActivityCall
 	// }
 	// };
 
-	private void handleTVDateIndexSelect(int index) {
-		dayAdapter.setSelectedIndex(index);
-		ContentManager.sharedInstance().setTVDateSelectedUsingIndexAndFetchGuideForDay(this, index);
-	}
-
-	@Override
-	public boolean onNavigationItemSelected(int position, long id) {
-		handleTVDateIndexSelect(position);
-		return true;
+//	private void handleTVDateIndexSelect(int index) {
+//		dayAdapter.setSelectedIndex(index);
+//		ContentManager.sharedInstance().setTVDateSelectedUsingIndexAndFetchGuideForDay(this, index);
+//	}
+//
+//	@Override
+//	public boolean onNavigationItemSelected(int position, long id) {
+//		handleTVDateIndexSelect(position);
+//		return true;
 
 		// if (mIsFirstLoad)
 		// {
@@ -312,16 +302,16 @@ public class HomeActivity extends SSPageFragmentActivity implements ActivityCall
 		//
 		// return true;
 		// }
-	}
+//	}
 
-	private void registerReceivers() {
-		// broadcast receiver for date selection
-		LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiverDate, new IntentFilter(Consts.INTENT_EXTRA_TVGUIDE_SORTING));
-	}
-
-	private void unregisterReceivers() {
-		LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiverDate);
-	}
+//	private void registerReceivers() {
+//		// broadcast receiver for date selection
+//		LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiverDate, new IntentFilter(Consts.INTENT_EXTRA_TVGUIDE_SORTING));
+//	}
+//
+//	private void unregisterReceivers() {
+//		LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiverDate);
+//	}
 
 	private void attachFragment() {
 		activeFragment = TVHolderFragment.newInstance(selectedTagIndex, new OnViewPagerIndexChangedListener() {
@@ -345,23 +335,16 @@ public class HomeActivity extends SSPageFragmentActivity implements ActivityCall
 	}
 
 	private void initViews() {
-		actionBar = getSupportActionBar();
-
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setDisplayUseLogoEnabled(true);
 		actionBar.setDisplayShowHomeEnabled(true);
+		
 	}
 
 	@Override
 	protected void loadPage() {
 		// TODO remove me!
-	}
-
-	@Override
-	protected boolean pageHoldsData() {
-		// TODO remove me!
-		return false;
 	}
 
 	// @Override
@@ -406,12 +389,11 @@ public class HomeActivity extends SSPageFragmentActivity implements ActivityCall
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
 		if (super.requestIsSuccesfull(status)) {
-			actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
-			ArrayList<TVDate> tvDates = ContentManager.sharedInstance().getFromStorageTVDates();
-			dayAdapter = new ActionBarDropDownDateListAdapter(tvDates);
-			dayAdapter.setSelectedIndex(selectedDayIndex);
-			actionBar.setListNavigationCallbacks(dayAdapter, this);
+//			ArrayList<TVDate> tvDates = ContentManager.sharedInstance().getFromStorageTVDates();
+//			dayAdapter = new ActionBarDropDownDateListAdapter(tvDates);
+//			dayAdapter.setSelectedIndex(selectedDayIndex);
+//			actionBar.setListNavigationCallbacks(dayAdapter, this);
 
 			attachFragment();
 		}

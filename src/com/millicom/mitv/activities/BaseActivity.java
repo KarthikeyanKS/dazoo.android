@@ -1,5 +1,7 @@
 package com.millicom.mitv.activities;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -17,14 +19,18 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.google.analytics.tracking.android.EasyTracker;
+import com.millicom.mitv.ContentManager;
+import com.millicom.mitv.interfaces.ActivityCallbackListener;
+import com.millicom.mitv.models.TVDate;
 import com.millicom.mitv.utilities.GenericUtils;
 import com.millicom.mitv.utilities.NetworkUtils;
 import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.adapters.ActionBarDropDownDateListAdapter;
 import com.mitv.manager.GATrackingManager;
 
-public abstract class BaseActivity extends ActionBarActivity implements OnClickListener {
+public abstract class BaseActivity extends ActionBarActivity implements OnClickListener{
 
 	private static final String TAG = BaseActivity.class.getName();
 
@@ -41,12 +47,14 @@ public abstract class BaseActivity extends ActionBarActivity implements OnClickL
 	private Button requestFailedButton;
 	private Button requestBadButton;
 	private View requestBadLayout;
-	private ActionBar actionBar;
+	protected ActionBar actionBar;
 	private Activity activity;
 
 	protected abstract void updateUI(REQUEST_STATUS status);
 
 	protected abstract void loadPage();
+	
+	
 
 	@Override
 	public void onClick(View v) {
@@ -176,7 +184,7 @@ public abstract class BaseActivity extends ActionBarActivity implements OnClickL
 
 		activity = this;
 		actionBar = getSupportActionBar();
-
+	
 		actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.blue1)));
 
 		actionBar.setDisplayShowTitleEnabled(true);
