@@ -47,7 +47,7 @@ public class CheckNetworkConnectivity
 	@Override
 	protected Void doInBackground(String... params) 
 	{
-		isConnectedAndHostIsReachable = NetworkUtils.isConnectedAndHostIsReachable(context);
+		isConnectedAndHostIsReachable = NetworkUtils.isConnectedAndHostIsReachable();
 		
 		return null;
 	}

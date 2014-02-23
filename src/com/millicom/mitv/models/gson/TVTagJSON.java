@@ -1,10 +1,10 @@
 package com.millicom.mitv.models.gson;
 
 
-public class TVTag {
+public class TVTagJSON {
 
-	private String id;
-	private String displayName;
+	protected String id;
+	protected String displayName;
 	
 	public String getId() {
 		return id;

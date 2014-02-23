@@ -218,7 +218,7 @@ public abstract class GenericUtils
 	{
 		String deviceId = null;
 
-		Context context = SecondScreenApplication.getInstance().getApplicationContext();
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
 
 		TelephonyManager mTelephonyMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 

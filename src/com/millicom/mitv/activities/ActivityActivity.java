@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
@@ -36,7 +35,7 @@ import com.mitv.adapters.ActivityFeedAdapter;
 
 public class ActivityActivity 
 	extends BaseActivity 
-	implements ActivityCallbackListener, ActivityWithTabs, OnClickListener, OnScrollListener 
+	implements ActivityCallbackListener, OnClickListener, OnScrollListener 
 {
 	private static final String TAG = ActivityActivity.class.getName();
 
@@ -74,8 +73,6 @@ public class ActivityActivity
 
 			super.initCallbackLayouts();
 
-			loadDataWithConnectivityCheck();
-
 			// String signupTitle = String.format("%s %s", getResources().getString(R.string.success_account_created_title),
 			// SecondScreenApplication.getInstance().getUserFirstName());
 			//
@@ -108,36 +105,7 @@ public class ActivityActivity
 		}
 	}
 
-	
-	
-	@Override
-	public void initTabViews() 
-	{
-		tabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
-		tabTvGuide.setOnClickListener(this);
-
-		tabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
-		tabActivity.setOnClickListener(this);
-
-		tabProfile = (RelativeLayout) findViewById(R.id.tab_me);
-		tabProfile.setOnClickListener(this);
-
-		tabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
-		tabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
-
-		tabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
-		tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
-
-		tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
-		tabActivity.setBackgroundColor(getResources().getColor(R.color.red));
-		tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
-
-	}
-
-	
-	
-	private void initStandardViews() 
-	{
+	private void initStandardViews() {
 		actionBar = getSupportActionBar();
 		
 		actionBar.setDisplayShowTitleEnabled(true);
@@ -265,27 +233,15 @@ public class ActivityActivity
 	
 	
 	@Override
-	public void onResult(FetchRequestResultEnum fetchRequestResult) 
-	{
+	public void onResult(FetchRequestResultEnum fetchRequestResult) {
 		super.onResult(fetchRequestResult);
-		
+
 		adapter.notifyDataSetChanged();
-		
-		switch(fetchRequestResult)
-		{
-			case SUCCESS:
-			{
-				updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
-				
-				break;
-			}
-			
-			default:
-			{
-				updateUI(UIStatusEnum.FAILED);
-				
-				break;
-			}
+
+		if (fetchRequestResult.wasSuccessful()) {
+			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+		} else {
+			updateUI(UIStatusEnum.FAILED);
 		}
 	}
 	
@@ -313,62 +269,59 @@ public class ActivityActivity
 	
 	
 	@Override
-	public void onClick(View v) 
-	{
-		int id = v.getId();
+	public void onClick(View v) {
+		/* Important to call Super, since that handles tab selection */
+		super.onClick(v);
 		
-		switch (id) 
-		{
-			case R.id.activity_not_logged_in_facebook_container:
-			{
-				Intent intent = new Intent(ActivityActivity.this, FacebookLoginActivity.class);
-				
-				startActivity(intent);
-				
-				finish();
-				
-				break;
-			}
-			
-			case R.id.activity_not_logged_in_signup_email_container:
-			{
-				Intent intentSignUp = new Intent(ActivityActivity.this, SignUpWithEmailActivity.class);
-				
-				intentSignUp.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
-				
-				startActivity(intentSignUp);
-				
-				break;
-			}
-			
-			case R.id.activity_not_logged_in_login_btn:
-			{
-				Intent intentLogin = new Intent(ActivityActivity.this, MiTVLoginActivity.class);
-				
-				intentLogin.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
-				
-				startActivity(intentLogin);
-				
-				break;
-			}
-			
-			case R.id.block_feed_no_likes_btn:
-			{
-				Intent checkPopular = new Intent(ActivityActivity.this, PopularPageActivity.class);
-				
-				startActivity(checkPopular);
-				
-				break;
-			}
-			
-			default:
-			{
-				Log.w(TAG, "Unknown activity id: " + id);
-				
-				break;
-			}
+		int id = v.getId();
+
+		switch (id) {
+		case R.id.activity_not_logged_in_facebook_container: {
+			Intent intent = new Intent(ActivityActivity.this, FacebookLoginActivity.class);
+
+			startActivity(intent);
+
+			finish();
+
+			break;
+		}
+
+		case R.id.activity_not_logged_in_signup_email_container: {
+			Intent intentSignUp = new Intent(ActivityActivity.this, SignUpWithEmailActivity.class);
+
+			intentSignUp.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
+
+			startActivity(intentSignUp);
+
+			break;
+		}
+
+		case R.id.activity_not_logged_in_login_btn: {
+			Intent intentLogin = new Intent(ActivityActivity.this, MiTVLoginActivity.class);
+
+			intentLogin.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
+
+			startActivity(intentLogin);
+
+			break;
+		}
+
+		case R.id.block_feed_no_likes_btn: {
+			Intent checkPopular = new Intent(ActivityActivity.this, PopularPageActivity.class);
+
+			startActivity(checkPopular);
+
+			break;
+		}
+
+		default: {
+			Log.w(TAG, "Unknown activity id: " + id);
+
+			break;
+		}
 		}
 	}
+	
 
 	
 	

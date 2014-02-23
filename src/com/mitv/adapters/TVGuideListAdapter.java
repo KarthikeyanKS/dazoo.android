@@ -156,23 +156,26 @@ public class TVGuideListAdapter extends AdListAdapter<TVChannelGuide> {
 					String rowInfo = broadcast.getBeginTimeHourAndMinuteAsString();
 					rowInfo += "   ";
 					
-					String showName = program.getSeries().getName();
+					String showName = program.getTitle();
 					switch (programType) {
 						case MOVIE: {
 							rowInfo += stringIconMovie;
 							break;
 						}
+						case TV_EPISODE: {
+							showName = program.getSeries().getName();
+							break;
+						}
 						default: {
 							if(broadcastType == BroadcastTypeEnum.LIVE) {
-		                    	showName = program.getTitle();
+								rowInfo += stringIconLive;
 							}
 							break;
 						}
 					}
+	
 					rowInfo += showName;
-					
-					
-					
+									
 //					String programType = program.getProgramType();
 //					String broadcastType = broadcast.getBroadcastType();
 //					
@@ -227,7 +230,7 @@ public class TVGuideListAdapter extends AdListAdapter<TVChannelGuide> {
 				
 				Spannable wordtoSpan = new SpannableString(textForThreeBroadcasts);     
 				
-				Resources resources = SecondScreenApplication.getInstance().getApplicationContext().getResources();
+				Resources resources = SecondScreenApplication.sharedInstance().getApplicationContext().getResources();
 				if(textIndexToMarkAsOngoing > 0) {
 					wordtoSpan.setSpan(new ForegroundColorSpan(resources.getColor(R.color.red)), textStartIndexToMarkAsOngoing, textIndexToMarkAsOngoing, 0);
 				}

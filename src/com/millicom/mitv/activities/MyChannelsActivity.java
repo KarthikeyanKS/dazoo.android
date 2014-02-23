@@ -77,7 +77,7 @@ public class MyChannelsActivity
 		setContentView(R.layout.layout_mychannels_activity);
 
 		// add the activity to the list of running activities
-		SecondScreenApplication.getInstance().getActivityList().add(this);
+		SecondScreenApplication.sharedInstance().getActivityList().add(this);
 
 		initLayout();
 		

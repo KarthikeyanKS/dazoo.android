@@ -318,10 +318,10 @@ public class OldBroadcast implements Parcelable
 			date.setTimeInMillis(millisLocal);
 			
 			if (today.get(Calendar.YEAR) == date.get(Calendar.YEAR) && today.get(Calendar.DAY_OF_YEAR) == date.get(Calendar.DAY_OF_YEAR)) {
-				this.setDayOfWeekString(SecondScreenApplication.getInstance().getResources().getString(R.string.today));
+				this.setDayOfWeekString(SecondScreenApplication.sharedInstance().getResources().getString(R.string.today));
 			}
 			else if (tomorrow.get(Calendar.YEAR) == date.get(Calendar.YEAR) && tomorrow.get(Calendar.DAY_OF_YEAR) == date.get(Calendar.DAY_OF_YEAR)) {
-				this.setDayOfWeekString(SecondScreenApplication.getInstance().getResources().getString(R.string.tomorrow));
+				this.setDayOfWeekString(SecondScreenApplication.sharedInstance().getResources().getString(R.string.tomorrow));
 			}
 			else {
 				String dayOfWeekString = OldDateUtilities.isoStringToDayOfWeek(millisLocal);
@@ -397,10 +397,10 @@ public class OldBroadcast implements Parcelable
 			date.setTimeInMillis(beginTimeMillisLocal);
 			
 			if (today.get(Calendar.YEAR) == date.get(Calendar.YEAR) && today.get(Calendar.DAY_OF_YEAR) == date.get(Calendar.DAY_OF_YEAR)) {
-				this.setDayOfWeekString(SecondScreenApplication.getInstance().getResources().getString(R.string.today));
+				this.setDayOfWeekString(SecondScreenApplication.sharedInstance().getResources().getString(R.string.today));
 			}
 			else if (tomorrow.get(Calendar.YEAR) == date.get(Calendar.YEAR) && tomorrow.get(Calendar.DAY_OF_YEAR) == date.get(Calendar.DAY_OF_YEAR)) {
-				this.setDayOfWeekString(SecondScreenApplication.getInstance().getResources().getString(R.string.tomorrow));
+				this.setDayOfWeekString(SecondScreenApplication.sharedInstance().getResources().getString(R.string.tomorrow));
 			}
 			else {
 				String dayOfWeekString = OldDateUtilities.isoStringToDayOfWeek(beginTimeMillisLocal);
@@ -429,7 +429,7 @@ public class OldBroadcast implements Parcelable
 	}
 	
 	public String getStartsInTimeString() {
-		Resources res = SecondScreenApplication.getInstance().getApplicationContext().getResources();
+		Resources res = SecondScreenApplication.sharedInstance().getApplicationContext().getResources();
 		
 		String startsInTimeString = "Not set";
 		try {

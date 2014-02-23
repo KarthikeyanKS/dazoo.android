@@ -170,7 +170,7 @@ public class SecondScreenApplication
 //		return result.toString();
 //	}
 	
-	public static SecondScreenApplication getInstance() {
+	public static SecondScreenApplication sharedInstance() {
 		if (sInstance == null) {
 			sInstance = new SecondScreenApplication();
 		}
@@ -251,7 +251,7 @@ public class SecondScreenApplication
 	}
 
 	public static Locale getCurrentLocale() {
-		Locale current = getInstance().getApplicationContext().getResources().getConfiguration().locale;
+		Locale current = sharedInstance().getApplicationContext().getResources().getConfiguration().locale;
 		return current;
 	}
 

@@ -23,14 +23,14 @@ public class BootCompletedReceiver extends BroadcastReceiver {
 
 
         	/* Write to Shared Preferences */
-	        boolean startedOnceBeforeSharedPrefs = SecondScreenApplication.getInstance().getWasPreinstalled();
+	        boolean startedOnceBeforeSharedPrefs = SecondScreenApplication.sharedInstance().getWasPreinstalled();
 	        if(!startedOnceBeforeSharedPrefs) {
-	        	SecondScreenApplication.getInstance().setWasPreinstalled();
+	        	SecondScreenApplication.sharedInstance().setWasPreinstalled();
 	        }
 	        
 	        /* Write file to external storage */
-	        boolean startedOnceBeforeExternalStorage = SecondScreenApplication.getInstance().wasPreinstalledFileExists();
-        	SecondScreenApplication.getInstance().saveWasPreinstalledFile();
+	        boolean startedOnceBeforeExternalStorage = SecondScreenApplication.sharedInstance().wasPreinstalledFileExists();
+        	SecondScreenApplication.sharedInstance().saveWasPreinstalledFile();
         	
         	/* IF this was the first time the app started, using Google Analytics send "Preinstalled user booted device" */
         	if(startedOnceBeforeSharedPrefs && startedOnceBeforeExternalStorage) {

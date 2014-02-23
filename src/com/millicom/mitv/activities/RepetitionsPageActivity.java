@@ -52,7 +52,7 @@ public class RepetitionsPageActivity
 		setContentView(R.layout.layout_repeating_list_activity);
 
 		// add the activity to the list of running activities
-		SecondScreenApplication.getInstance().getActivityList().add(this);
+		SecondScreenApplication.sharedInstance().getActivityList().add(this);
 
 		runningBroadcast = ContentManager.sharedInstance().getFromStorageSelectedBroadcastWithChannelInfo();
 		repeatingBroadcasts = ContentManager.sharedInstance().getFromStorageRepeatingBroadcasts(runningBroadcast);

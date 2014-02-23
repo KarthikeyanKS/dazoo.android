@@ -48,7 +48,7 @@ public class LikesActivity extends BaseActivity implements ActivityCallbackListe
 		
 		
 		// add the activity to the list of running activities
-		SecondScreenApplication.getInstance().getActivityList().add(this);
+		SecondScreenApplication.sharedInstance().getActivityList().add(this);
 		
 //		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 		fetchUserLikesData();

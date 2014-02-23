@@ -36,7 +36,7 @@ public class PopularPageActivity extends BaseActivity implements OnClickListener
 		setContentView(R.layout.layout_popular_list_activity);
 
 		// add the activity to the list of running activities
-		SecondScreenApplication.getInstance().getActivityList().add(this);
+		SecondScreenApplication.sharedInstance().getActivityList().add(this);
 
 		// token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 

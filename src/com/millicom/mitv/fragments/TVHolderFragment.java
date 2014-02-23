@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.models.TVDate;
-import com.millicom.mitv.models.gson.TVTag;
+import com.millicom.mitv.models.TVTag;
 import com.mitv.R;
 import com.mitv.adapters.TagTypeFragmentStatePagerAdapter;
 import com.viewpagerindicator.TabPageIndicator;

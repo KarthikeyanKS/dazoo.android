@@ -56,7 +56,7 @@ public class FacebookLoginActivity
 
 		// add the activity to the list of running activities
 		// TODO: Why is this needed?
-		SecondScreenApplication.getInstance().getActivityList().add(this);
+		SecondScreenApplication.sharedInstance().getActivityList().add(this);
 
 		initViews();
 

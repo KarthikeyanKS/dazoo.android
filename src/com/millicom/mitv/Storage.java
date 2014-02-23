@@ -13,6 +13,7 @@ import com.millicom.mitv.models.RepeatingBroadcastsForBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVDate;
 import com.millicom.mitv.models.TVGuide;
+import com.millicom.mitv.models.TVTag;
 import com.millicom.mitv.models.UpcomingBroadcastsForBroadcast;
 import com.millicom.mitv.models.UserLike;
 import com.millicom.mitv.models.UserLoginData;
@@ -21,7 +22,6 @@ import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;
 import com.millicom.mitv.models.gson.TVFeedItem;
-import com.millicom.mitv.models.gson.TVTag;
 
 public class Storage {
 	private ArrayList<TVTag> tvTags;
@@ -65,7 +65,7 @@ public class Storage {
 	private ArrayList<TVBroadcastWithChannelInfo> popularBroadcasts;
 	
 	private UserLoginData userData;
-	private TVDate tvDateSelected;
+	private int tvDateSelectedIndex;
 	
 	private AppVersion appVersionData;
 	private AppConfiguration appConfigData;
@@ -85,6 +85,9 @@ public class Storage {
 	/* Should only be used by the ContentManager */
 	public Storage() {
 		this.tvGuides = new HashMap<String, TVGuide>();
+		
+		/* Default selected day to 0 */
+		setTvDateSelectedIndex(0);
 	}
 	
 	public String getWelcomeMessage() {
@@ -386,19 +389,26 @@ public class Storage {
 	/**
 	 * This method is probably not used by the contentManager, since the HomeActivity does not pass a TVDate object
 	 * but rather an index (0-6). So this method is probably used by the
-	 * @param tvDateSelected
+	 * @param tvDateSelectedIndex
 	 */
-	public void setTvDateSelected(TVDate tvDateSelected) {
-		this.tvDateSelected = tvDateSelected;
+	public void setTvDateSelectedIndex(int tvDateSelectedIndex) {
+		this.tvDateSelectedIndex = tvDateSelectedIndex;
 	}
 	
 	public TVDate getTvDateSelected() {
+		TVDate tvDateSelected = null;
+		if(tvDates != null) {
+			tvDateSelected = tvDates.get(tvDateSelectedIndex);
+		}
 		return tvDateSelected;
 	}
 	
+	public int getTvDateSelectedIndex() {
+		return tvDateSelectedIndex;
+	}
+	
 	public void setTvDateSelectedUsingIndex(int tvDateSelectedIndex) {
-		TVDate tvDateSelected = tvDates.get(tvDateSelectedIndex);
-		setTvDateSelected(tvDateSelected);
+		setTvDateSelectedIndex(tvDateSelectedIndex);
 	}
 	
 	/* NON PERSISTENT USER DATA */

@@ -11,8 +11,8 @@ public class OldThreeImageResolutions {
 	protected String imageUrlHighRes;
 	
 	public String getImageUrl() {
-		int screenSize = SecondScreenApplication.getInstance().getScreenSizeMask();
-		boolean connectedToWifi = SecondScreenApplication.getInstance().isConnectedToWifi();
+		int screenSize = SecondScreenApplication.sharedInstance().getScreenSizeMask();
+		boolean connectedToWifi = SecondScreenApplication.sharedInstance().isConnectedToWifi();
 
 		String logoUrl;
 

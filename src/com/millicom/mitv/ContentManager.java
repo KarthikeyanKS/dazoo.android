@@ -23,6 +23,7 @@ import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVDate;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.TVGuideAndTaggedBroadcasts;
+import com.millicom.mitv.models.TVTag;
 import com.millicom.mitv.models.UpcomingBroadcastsForBroadcast;
 import com.millicom.mitv.models.UserLike;
 import com.millicom.mitv.models.UserLoginData;
@@ -30,7 +31,6 @@ import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;
 import com.millicom.mitv.models.gson.TVFeedItem;
-import com.millicom.mitv.models.gson.TVTag;
 import com.millicom.mitv.utilities.GenericUtils;
 import com.mitv.Consts;
 
@@ -59,7 +59,7 @@ public class ContentManager implements ContentCallbackListener {
 	private static final int COMPLETED_COUNT_TV_DATA_CHANNEL_CHANGE_THRESHOLD = 1;
 	private static final int COMPLETED_COUNT_TV_DATA_NOT_LOGGED_IN_THRESHOLD = 4;
 	private static final int COMPLETED_COUNT_TV_DATA_LOGGED_IN_THRESHOLD = 5;
-	private static int completedCountTVDataForProgressMessage = COMPLETED_COUNT_TV_DATA_NOT_LOGGED_IN_THRESHOLD + 2; //+2 for guide and parsing of tagged broadcasts
+	private static int completedCountTVDataForProgressMessage = COMPLETED_COUNT_TV_DATA_NOT_LOGGED_IN_THRESHOLD + 1; //+1 for guide and parsing of tagged broadcasts
 	private int completedCountTVData = 0;
 
 	private ContentManager() {
@@ -254,7 +254,7 @@ public class ContentManager implements ContentCallbackListener {
 		{
 			case INTERNET_CONNECTIVITY:
 			{
-				handleInternetConnectionDataResponse(activityCallBackListener, result, requestIdentifier, content);
+				handleInternetConnectionDataResponse(activityCallBackListener, result);
 				break;
 			}
 		
@@ -388,18 +388,9 @@ public class ContentManager implements ContentCallbackListener {
 	
 	private void handleInternetConnectionDataResponse(
 			ActivityCallbackListener activityCallBackListener,
-			FetchRequestResultEnum result,
-			RequestIdentifierEnum requestIdentifier,
-			Object content)
+			FetchRequestResultEnum result)
 	{
-		if(result.wasSuccessful())
-		{
-			activityCallBackListener.onResult(FetchRequestResultEnum.SUCCESS);
-		}
-		else 
-		{
-			activityCallBackListener.onResult(FetchRequestResultEnum.UNKNOWN_ERROR);
-		}
+		activityCallBackListener.onResult(result);
 	}
 	
 	
@@ -464,14 +455,6 @@ public class ContentManager implements ContentCallbackListener {
 			case TV_DATE: {
 				ArrayList<TVDate> tvDates = (ArrayList<TVDate>) content;
 				storage.setTvDates(tvDates);
-
-				/* We will only get here ONCE, at the start of the app, no TVDate has been selected, set it! */
-				if (!tvDates.isEmpty()) {
-					TVDate tvDate = tvDates.get(0);
-					storage.setTvDateSelected(tvDate);
-				} else {
-					// TODO handle this...?
-				}
 
 				notifyFetchDataProgressListenerMessage("Fetched tv dates data");
 				break;
@@ -551,8 +534,6 @@ public class ContentManager implements ContentCallbackListener {
 			
 			storage.addTVGuideForSelectedDay(tvGuide);
 			storage.addTaggedBroadcastsForSelectedDay(mapTagToTaggedBroadcastForDate);
-			
-			notifyFetchDataProgressListenerMessage("Parsed tagged broadcast");
 
 			activityCallBackListener.onResult(FetchRequestResultEnum.SUCCESS);
 		} else {
@@ -690,6 +671,11 @@ public class ContentManager implements ContentCallbackListener {
 	public TVDate getFromStorageTVDateSelected() {
 		TVDate tvDateSelected = storage.getTvDateSelected();
 		return tvDateSelected;
+	}
+	
+	public int getFromStorageTVDateSelectedIndex() {
+		int tvDateSelectedIndex = storage.getTvDateSelectedIndex();
+		return tvDateSelectedIndex;
 	}
 	
 	public boolean selectedTVDateIsToday() {

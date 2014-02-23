@@ -13,6 +13,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
 import com.mitv.Consts;
+import com.mitv.SecondScreenApplication;
+
 import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -95,18 +97,19 @@ public abstract class NetworkUtils
 	
 	
 	
-	public static Boolean isConnectedAndHostIsReachable(final Context context)
+	public static Boolean isConnectedAndHostIsReachable()
 	{
-		return isConnected(context) && isHostReachable();
+		return isConnected() && isHostReachable();
 	}
 	
 	
 	
 	
-	private static boolean isConnected(final Context context)
+	private static boolean isConnected()
     {
 		boolean isConnected = false;
 		
+		final Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
     	ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Activity.CONNECTIVITY_SERVICE);
         
     	isConnected = (cm != null && 

@@ -5,6 +5,7 @@ package com.millicom.mitv.fragments;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.view.View.OnClickListener;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -12,11 +13,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
@@ -30,17 +31,17 @@ import com.mitv.R;
 
 public abstract class BaseFragment 
 	extends Fragment
-	implements ActivityCallbackListener
+	implements ActivityCallbackListener, OnClickListener
 {
 	private static final String TAG = BaseFragment.class.getName();
 
 	
-	public RelativeLayout mRequestFailedLayout;
-	public RelativeLayout mRequestLoadingLayout;
-	public RelativeLayout mRequestEmptyResponseLayout;
-	public Button mRequestEmptyResponseButton;
+	public RelativeLayout requestFailedLayout;
+	public RelativeLayout requestLoadingLayout;
+	public RelativeLayout requestEmptyResponseLayout;
+	public Button requestFailedButton;
 
-	private boolean	mForceReload = false;
+	private boolean	forceReload = false;
 
 	
 	/* This method implementation should update the user interface according to the received status */
@@ -48,16 +49,6 @@ public abstract class BaseFragment
 
 	/* This method implementation should load all the necessary data from the webservice */
 	protected abstract void loadData();
-
-	
-	
-	public OnClickListener mOnEmptyResponseClickListener = new OnClickListener()
-	{
-		@Override
-		public void onClick(View v) {}
-	};
-
-
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
@@ -71,7 +62,7 @@ public abstract class BaseFragment
 			{
 				Log.d(TAG, "FORCE RELOAD RECEIVED");
 
-				mForceReload = true;
+				forceReload = true;
 			}
 		}, new IntentFilter(Consts.BROADCAST_HOMEPAGE));
 	}
@@ -87,7 +78,7 @@ public abstract class BaseFragment
 		
 		ContentManager.sharedInstance().checkNetworkConnectivity(this, getActivity());
 		
-		NetworkUtils.isConnectedAndHostIsReachable(getActivity());
+		NetworkUtils.isConnectedAndHostIsReachable();
 	}
 
 	
@@ -96,7 +87,7 @@ public abstract class BaseFragment
 	{
 		boolean activityNotNullOrFinishing = GenericUtils.isActivityNotNullOrFinishing(getActivity());
 		
-		if (activityNotNullOrFinishing == false) 
+		if (activityNotNullOrFinishing) 
 		{
 			hideRequestStatusLayouts();
 
@@ -106,9 +97,9 @@ public abstract class BaseFragment
 			{	
 				case LOADING:
 				{
-					if (mRequestLoadingLayout != null) 
+					if (requestLoadingLayout != null) 
 					{
-						mRequestLoadingLayout.setVisibility(View.VISIBLE);
+						requestLoadingLayout.setVisibility(View.VISIBLE);
 					}
 					break;
 				}
@@ -116,26 +107,26 @@ public abstract class BaseFragment
 				case NO_CONNECTION_AVAILABLE:
 				case FAILED:
 				{
-					if (mRequestFailedLayout != null) 
+					if (requestFailedLayout != null) 
 					{
-						mRequestFailedLayout.setVisibility(View.VISIBLE);
-						mRequestFailedLayout.startAnimation(anim);
+						requestFailedLayout.setVisibility(View.VISIBLE);
+						requestFailedLayout.startAnimation(anim);
 					}
 					break;
 				}
 				
 				case SUCCEEDED_WITH_DATA:
 				{
-					mForceReload = false;
+					forceReload = false;
 					break;
 				}
 				
 				case SUCCEEDED_WITH_EMPTY_DATA:
 				{
-					if (mRequestEmptyResponseLayout != null) 
+					if (requestEmptyResponseLayout != null) 
 					{
-						mRequestEmptyResponseLayout.setVisibility(View.VISIBLE);
-						mRequestEmptyResponseLayout.startAnimation(anim);
+						requestEmptyResponseLayout.setVisibility(View.VISIBLE);
+						requestEmptyResponseLayout.startAnimation(anim);
 					}
 					break;
 				}
@@ -179,38 +170,48 @@ public abstract class BaseFragment
 	// Set the initial state of all request layouts to GONE
 	public void hideRequestStatusLayouts() 
 	{
-		if (mRequestFailedLayout != null)
+		if (requestFailedLayout != null)
 		{
-			mRequestFailedLayout.setVisibility(View.GONE);
+			requestFailedLayout.setVisibility(View.GONE);
 		}
 		
-		if (mRequestLoadingLayout != null)
+		if (requestLoadingLayout != null)
 		{
-			mRequestLoadingLayout.setVisibility(View.GONE);
+			requestLoadingLayout.setVisibility(View.GONE);
 		}
 		
-		if (mRequestEmptyResponseLayout != null)
+		if (requestEmptyResponseLayout != null)
 		{
-			mRequestEmptyResponseLayout.setVisibility(View.GONE);
+			requestEmptyResponseLayout.setVisibility(View.GONE);
 		}
 	}
 	
 	
 	public void initRequestCallbackLayouts(View v) 
 	{
-		mRequestFailedLayout = (RelativeLayout) v.findViewById(R.id.request_failed_main_layout);
-		// mRequestFailedButton = (Button) v.findViewById(R.id.request_failed_reload_button);
-		// mRequestFailedButton.setOnClickListener(mClickListener);
+		requestFailedLayout = (RelativeLayout) v.findViewById(R.id.request_failed_main_layout);
+		requestFailedButton = (Button) v.findViewById(R.id.request_failed_reload_button);
+		requestFailedButton.setOnClickListener(this);
 
-		mRequestEmptyResponseLayout = (RelativeLayout) v.findViewById(R.id.request_empty_main_layout);
+		requestEmptyResponseLayout = (RelativeLayout) v.findViewById(R.id.request_empty_main_layout);
 		
-		mRequestLoadingLayout = (RelativeLayout) v.findViewById(R.id.request_loading_main_layout);
+		requestLoadingLayout = (RelativeLayout) v.findViewById(R.id.request_loading_main_layout);
 	}
 	
+	@Override
+	public void onClick(View v) {
+		int id = v.getId();
+
+		switch (id) {
+		case R.id.request_failed_reload_button: {
+			loadDataWithConnectivityCheck();
+		}
+		}
+	}	
 	
 
 	public boolean shouldForceReload() 
 	{
-		return mForceReload;
+		return forceReload;
 	}
 }

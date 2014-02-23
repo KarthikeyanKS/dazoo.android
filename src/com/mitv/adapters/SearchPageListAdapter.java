@@ -17,7 +17,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.LinearLayout;
 
-import com.androidquery.AQuery;
 import com.millicom.mitv.activities.SearchPageActivity;
 import com.millicom.mitv.enums.ContentTypeEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
@@ -32,7 +31,6 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.customviews.CustomTypefaceSpan;
 import com.mitv.customviews.FontTextView;
 import com.mitv.handlers.SearchActivityListeners;
-import com.mitv.http.MiTVCallback;
 import com.mitv.http.SSHttpClient;
 import com.mitv.manager.FontManager;
 
@@ -43,14 +41,14 @@ public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implemen
 	private String mQuery;
 	private String mLastSearch = "";
 	private Context mContext;
-	private AQuery mAq;
+//	private AQuery mAq;
 	private SearchActivityListeners mViewListener;
 	private static LayoutInflater mInflater;
 	
 	public SearchPageListAdapter(Context context, SearchActivityListeners listener) {
 		super(context, 0);
 		this.mContext = context;
-		this.mAq = new AQuery(context);
+//		this.mAq = new AQuery(context);
 		this.mViewListener = listener;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
@@ -342,7 +340,7 @@ public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implemen
 		});
 		
 		//TODO use ContentManager and approriate task for search
-		MiTVCallback cb = null;//new MiTVCallback<String>() {
+//		MiTVCallback cb = null;//new MiTVCallback<String>() {
 //			@Override
 //			public void mitvCallback(String url, String json, AjaxStatus status) {				
 //		    	switch (status.getCode()) {
@@ -372,10 +370,10 @@ public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implemen
 		String completeSearchUrl = String.format(Locale.getDefault(), Consts.URL_SEARCH_OLD, q);
 		completeSearchUrl = SSHttpClient.urlByAppendingLocaleAndTimezoneWithAndChar(completeSearchUrl);
 		
-		mAq.ajax(completeSearchUrl, String.class, -1, cb);
-		cb.block();
-		
-		String jsonString = (String) cb.getResult();
+//		mAq.ajax(completeSearchUrl, String.class, -1, cb);
+//		cb.block();
+		//TODO NewArc use a-query?
+		String jsonString = null;//(String) cb.getResult();
 		JSONObject jsonFromString = null;
 		try {
 			jsonFromString = new JSONObject(jsonString);
