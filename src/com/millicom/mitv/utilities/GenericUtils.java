@@ -59,7 +59,20 @@ public abstract class GenericUtils
 	
 	public static Locale getCurrentLocale(final Context context)
 	{
-		return context.getResources().getConfiguration().locale;
+		Locale locale;
+		
+		if(context != null)
+		{
+			locale = context.getResources().getConfiguration().locale;
+		}
+		else
+		{
+			locale = Locale.getDefault();
+			
+			Log.w(TAG, "Context is null. Using default locale.");
+		}
+		
+		return locale;
 	}
 	
 	
@@ -86,7 +99,7 @@ public abstract class GenericUtils
 		{
 			pInfo = null;
 			
-			Log.e(TAG, "Failed to get PackageInfo", nnfex);
+			Log.e(TAG, "Failed to get PackageInfo.", nnfex);
 		}
 		
 		return pInfo;
@@ -116,9 +129,15 @@ public abstract class GenericUtils
 				}
 				// No need for else
 			}
-			// No need for else
+			else
+			{
+				Log.e(TAG, "InputMethodManager is null.");
+			}
 		}
-		// No need for else
+		else
+		{
+			Log.e(TAG, "Activity is null.");
+		}
 	}
     
     
@@ -147,7 +166,9 @@ public abstract class GenericUtils
 		else 
 		{
 	        DisplayMetrics metrics = new DisplayMetrics();
+	        
 	        activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+	        
 	        screenWidth = metrics.widthPixels;
 	    }
 		
@@ -180,7 +201,9 @@ public abstract class GenericUtils
 		else 
 		{
 	        DisplayMetrics metrics = new DisplayMetrics();
+	        
 	        activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+	        
 	        screenHeight = metrics.heightPixels;
 	    }
 		
@@ -202,7 +225,11 @@ public abstract class GenericUtils
 		if(mTelephonyMgr != null)
     	{
 			deviceId = mTelephonyMgr.getDeviceId();
-    	}	
+    	}
+		else
+		{
+			Log.e(TAG, "TelephonyManager is null");
+		}
 		
 		return deviceId;
 	}

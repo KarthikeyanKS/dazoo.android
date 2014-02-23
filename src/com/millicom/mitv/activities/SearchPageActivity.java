@@ -38,8 +38,10 @@ import com.mitv.adapters.SearchPageListAdapter;
 import com.mitv.customviews.InstantAutoComplete;
 import com.mitv.handlers.SearchActivityListeners;
 
-public class SearchPageActivity extends BaseActivity implements OnItemClickListener, OnEditorActionListener, OnClickListener, SearchActivityListeners {
-
+public class SearchPageActivity 
+	extends BaseActivity 
+	implements OnItemClickListener, OnEditorActionListener, OnClickListener, SearchActivityListeners 
+{
 	@SuppressWarnings("unused")
 	private static final String TAG = SearchPageActivity.class.getName();
 
