@@ -1,4 +1,7 @@
+
 package com.millicom.mitv.activities;
+
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,16 +19,18 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.Consts;
 import com.mitv.R;
-import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.RemindersListAdapter;
 import com.mitv.interfaces.RemindersCountInterface;
 import com.mitv.model.NotificationDbItem;
 import com.mitv.notification.NotificationDataSource;
+
+
 
 public class RemindersActivity 
 	extends BaseActivity 
@@ -34,32 +39,44 @@ public class RemindersActivity
 	@SuppressWarnings("unused")
 	private static final String TAG = RemindersActivity.class.getName();
 	
-	private ActionBar				mActionBar;
-	private boolean					mIsChange	= false;
-	private ListView				mListView;
-	private RemindersListAdapter	mAdapter;
-	private RelativeLayout			mTabTvGuide;
-	private RelativeLayout			mTabActivity;
-	private RelativeLayout			mTabProfile;
+	
+	private ActionBar mActionBar;
+	private ListView mListView;
+	private RemindersListAdapter mAdapter;
+	private RelativeLayout mTabTvGuide;
+	private RelativeLayout mTabActivity;
+	private RelativeLayout mTabProfile;
 	private View mTabDividerLeft;
 	private View mTabDividerRight;
-	private int						mCount		= 0;
-	private TextView				mErrorTv;
+	private TextView mErrorTv;
+	
+	private int	mCount = 0;
+	private boolean	mIsChange = false;
+	
 
-	public void onCreate(Bundle savedInstanceState) {
+	
+	
+	public void onCreate(Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.layout_reminders_activity);
 
-		
-		// add the activity to the list of running activities
-		SecondScreenApplication.sharedInstance().getActivityList().add(this);
-
 		initLayout();
-		super.initCallbackLayouts();
-		populateViews();
+	}
+	
+	
+	
+	@Override
+	protected void onResume() 
+	{
+		super.onResume();
 	}
 
-	private void initLayout() {
+	
+	
+	private void initLayout()
+	{
 		mActionBar = getSupportActionBar();
 		mActionBar.setTitle(getResources().getString(R.string.reminders));
 		mActionBar.setDisplayHomeAsUpEnabled(true);
@@ -87,21 +104,33 @@ public class RemindersActivity
 		mListView = (ListView) findViewById(R.id.listview);
 	}
 
-	private void populateViews() {
+	
+	
+	private void populateViews() 
+	{
 		ArrayList<TVBroadcastWithChannelInfo> broadcasts = new ArrayList<TVBroadcastWithChannelInfo>();
 
 		NotificationDataSource notificationDataSource = new NotificationDataSource(this);
+		
 		List<NotificationDbItem> notificationList = notificationDataSource.getAllNotifications();
-		for (int i = 0; i < notificationList.size(); i++) {
+		
+		for (int i = 0; i < notificationList.size(); i++) 
+		{
 			NotificationDbItem item = notificationList.get(i);
 			//TODO create some constructor for some Broadcast related class from database item...
+			
 			TVBroadcastWithChannelInfo broadcast = null;// = new Broadcast(item);
+			
 			broadcasts.add(broadcast);
 		}
+		
 		// If empty - show notification.
-		if (broadcasts.isEmpty()) {
+		if (broadcasts.isEmpty())
+		{
 			mErrorTv.setVisibility(View.VISIBLE);
-		} else {
+		} 
+		else
+		{
 			// Sort the list of broadcasts by time.
 			Collections.sort(broadcasts, new TVBroadcast.BroadcastComparatorByTime());
 
@@ -111,27 +140,39 @@ public class RemindersActivity
 	}
 
 	@Override
-	public void onBackPressed() {
+	public void onBackPressed() 
+	{
 		Intent returnIntent = new Intent();
-		if (mIsChange == true) {
+		
+		if (mIsChange == true) 
+		{
 			setResult(Consts.INFO_UPDATE_REMINDERS, returnIntent);
 			returnIntent.putExtra(Consts.INFO_UPDATE_REMINDERS_NUMBER, mCount);
 		}
+		
 		super.onBackPressed();
 		
 		finish();
 	}
 
+	
+	
 	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
+	public void onConfigurationChanged(Configuration newConfig) 
+	{
 		super.onConfigurationChanged(newConfig);
 		
 	}
 
+	
+	
 	@Override
-	public void onClick(View v) {
+	public void onClick(View v) 
+	{
 		int id = v.getId();
-		switch (id) {
+		
+		switch (id) 
+		{
 		case R.id.tab_tv_guide:
 			// tab to home page
 			Intent intentHome = new Intent(RemindersActivity.this, HomeActivity.class);
@@ -149,7 +190,9 @@ public class RemindersActivity
 		case R.id.tab_me:
 			// tab to my profile page
 			Intent returnIntent = new Intent();
-			if (mIsChange == true) {
+			
+			if (mIsChange == true) 
+			{
 				setResult(Consts.INFO_UPDATE_REMINDERS, returnIntent);
 				returnIntent.putExtra(Consts.INFO_UPDATE_REMINDERS_NUMBER, mCount);
 			}
@@ -177,7 +220,32 @@ public class RemindersActivity
 			mErrorTv.setVisibility(View.GONE);
 		}
 	}
-
+	
+	
+	
+	@Override
+	protected void loadData() 
+	{
+		updateUI(UIStatusEnum.LOADING);
+		
+		// TODO NewArc - Implement this
+	}
+	
+	
+	
+	@Override
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult) 
+	{
+		if (fetchRequestResult.wasSuccessful()) 
+		{
+			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+		} 
+		else
+		{
+			updateUI(UIStatusEnum.FAILED);
+		}
+	}
+	
 	
 	
 	@Override
@@ -189,7 +257,7 @@ public class RemindersActivity
 		{	
 			case SUCCEEDED_WITH_DATA:
 			{
-				// TODO NewArc - Do something here?
+				populateViews();
 				break;
 			}
 	
@@ -204,16 +272,10 @@ public class RemindersActivity
 	
 	
 	@Override
-	protected void loadData() 
+	public boolean onOptionsItemSelected(MenuItem item) 
 	{
-		// TODO NewArc - Implement this
-	}
-
-	
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
+		switch (item.getItemId()) 
+		{
 		// Respond to the action bar's Up/Home button
 		// update the reminders list on Up/Home button press too
 		case android.R.id.home:

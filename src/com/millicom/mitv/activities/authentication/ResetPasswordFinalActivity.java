@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.mitv.R;
-import com.mitv.SecondScreenApplication;
 
 
 
@@ -36,10 +36,38 @@ public class ResetPasswordFinalActivity
 		
 		setContentView(R.layout.layout_resetpasswordfinal_activity);
 
-		// add the activity to the list of running activities
-		SecondScreenApplication.sharedInstance().getActivityList().add(this);
-
 		initViews();
+	}
+	
+	
+	
+	@Override
+	protected void onResume() 
+	{
+		super.onResume();
+	}
+
+	
+	
+	@Override
+	protected void loadData() 
+	{
+		// TODO NewArc - Do something here?
+	}
+	
+	
+	
+	@Override
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult) 
+	{
+		if (fetchRequestResult.wasSuccessful()) 
+		{
+			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+		} 
+		else
+		{
+			updateUI(UIStatusEnum.FAILED);
+		}
 	}
 	
 	
@@ -63,14 +91,6 @@ public class ResetPasswordFinalActivity
 				break;
 			}
 		}
-	}
-
-	
-	
-	@Override
-	protected void loadData() 
-	{
-		// TODO NewArc - Do something here?
 	}
 
 	

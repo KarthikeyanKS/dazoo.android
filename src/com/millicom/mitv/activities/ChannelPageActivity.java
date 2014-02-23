@@ -1,4 +1,7 @@
+
 package com.millicom.mitv.activities;
+
+
 
 import java.util.ArrayList;
 
@@ -14,23 +17,27 @@ import android.widget.ListView;
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
-import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
+import com.millicom.mitv.models.TVChannel;
+import com.millicom.mitv.models.TVChannelId;
 import com.millicom.mitv.models.TVDate;
-import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
-import com.millicom.mitv.models.gson.TVChannelId;
 import com.mitv.R;
 import com.mitv.adapters.ChannelPageListAdapter;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-public class ChannelPageActivity extends TVDateSelectionActivity implements ActivityCallbackListener {
 
+
+public class ChannelPageActivity 
+	extends TVDateSelectionActivity 
+{
+	@SuppressWarnings("unused")
 	private static final String TAG = ChannelPageActivity.class.getName();
 
+	
 //	private ActionBar actionBar;
 //	private ActionBarDropDownDateListAdapter dayAdapter;
 	private ListView followingBroadcastsLv;
@@ -53,14 +60,20 @@ public class ChannelPageActivity extends TVDateSelectionActivity implements Acti
 	// private boolean mIsLoggedIn = false,
 	// private Handler handler;
 
+	
 	@Override
-	protected void setActivityCallbackListener(){
+	protected void setActivityCallbackListener()
+	{
 		activityCallbackListener = this;
 	}
 	
+	
+	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.layout_channelpage_activity);
 
 		// LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiverContent, new
@@ -69,6 +82,7 @@ public class ChannelPageActivity extends TVDateSelectionActivity implements Acti
 		// get the info about the individual channel guide to be displayed from tv-guide listview
 		// Intent intent = getIntent();
 		// mChannelId = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_ID);
+		
 		// TODO TMP DATA intercommunication
 		// mDateTvGuide = intent.getParcelableExtra(Consts.INTENT_EXTRA_CHOSEN_DATE_TVGUIDE);
 		// mHour = intent.getIntExtra(Consts.INTENT_EXTRA_TV_GUIDE_HOUR, 6);
@@ -78,15 +92,22 @@ public class ChannelPageActivity extends TVDateSelectionActivity implements Acti
 		channelId = ContentManager.sharedInstance().getFromStorageSelectedTVChannelId();
 		channel = ContentManager.sharedInstance().getFromStorageTVChannelById(channelId);
 
-		// mChannelGuide = mitvStore.getChannelGuide(mDateTvGuide.getDate(), mChannelId);
-
-		updateIsToday();
-
-		super.initCallbackLayouts();
-
-		initViews();
-		loadData();
+		// mChannelGuide = mitvStore.getChannelGuide(mDateTvGuide.getDate(), mChannelId);		
 	}
+	
+	
+	
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		
+		updateIsToday();
+		
+		initViews();
+	}
+	
+	
 
 //	private void initBroadcastReceivers() {
 //		broadcastReceiverDate = new BroadcastReceiver() {
@@ -194,24 +215,10 @@ public class ChannelPageActivity extends TVDateSelectionActivity implements Acti
 	// }
 	// }
 
-	private void updateIsToday() {
-		// TODO handle this
-		// String tvDateToday = DateUtilities.todayDateAsTvDate();
-		// String tvDate = null;
-		// if(mTvDateSelected != null) {
-		// tvDate = mTvDateSelected.getDate();
-		// } else {
-		// tvDate = mDateTvGuide.getDate();
-		// }
-		//
-		// if (tvDate.equals(tvDateToday)) {
-		// mIsToday = true;
-		// } else {
-		// mIsToday = false;
-		// }
-	}
+	
 
-	private void initViews() {
+	private void initViews() 
+	{
 		actionBar = getSupportActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -224,27 +231,38 @@ public class ChannelPageActivity extends TVDateSelectionActivity implements Acti
 		channelIconIv = (ImageView) header.findViewById(R.id.channelpage_channel_icon_iv);
 	}
 
-	private void setFollowingBroadcasts() {
+	
+	
+	private void setFollowingBroadcasts() 
+	{
 		followingBroadcastsListAdapter = new ChannelPageListAdapter(this, followingBroadcasts);
+		
 		followingBroadcastsLv.setAdapter(followingBroadcastsListAdapter);
 
-		followingBroadcastsLv.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+		followingBroadcastsLv.setOnItemClickListener(new OnItemClickListener() 
+		{
+			public void onItemClick(AdapterView<?> parent, View v, int position, long id) 
+			{
 				// open the detail view for the individual broadcast
 				Intent intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
 
 				// we take one position less as we have a header view
 				int adjustedPosition = position - 1;
-				if (adjustedPosition < 0) {
+				
+				if (adjustedPosition < 0)
+				{
 					/* Don't allow negative values */
 					adjustedPosition = 0;
 				}
 
 				TVBroadcast broadcastSelected = followingBroadcasts.get(adjustedPosition);
+				
 				TVBroadcastWithChannelInfo broadcastWithChannelInfo = new TVBroadcastWithChannelInfo(broadcastSelected);
+				
 				broadcastWithChannelInfo.setChannel(channel);
 
 				ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+				
 				ContentManager.sharedInstance().setSelectedTVChannelId(channel.getChannelId());
 
 				startActivity(intent);
@@ -256,7 +274,8 @@ public class ChannelPageActivity extends TVDateSelectionActivity implements Acti
 	
 	
 	@Override
-	public void onBackPressed() {
+	public void onBackPressed() 
+	{
 		super.onBackPressed();
 
 		finish();
@@ -268,9 +287,50 @@ public class ChannelPageActivity extends TVDateSelectionActivity implements Acti
 	public void onConfigurationChanged(Configuration newConfig) 
 	{
 		super.onConfigurationChanged(newConfig);
+	}
+
+	
+	
+	@Override
+	protected void loadData() 
+	{
+		updateUI(UIStatusEnum.LOADING);
+		
+		channelGuide = ContentManager.sharedInstance().getFromStorageTVChannelGuideUsingTVChannelIdForSelectedDay(channelId);
+		
+		ImageAware imageAware = new ImageViewAware(channelIconIv, false);
+		
+		ImageLoader.getInstance().displayImage(channelGuide.getImageUrl(), imageAware);
+
+		ArrayList<TVBroadcast> broadcasts = channelGuide.getBroadcasts();
+		
+		tvDates = ContentManager.sharedInstance().getFromStorageTVDates();
+
+		indexOfNearestBroadcast = TVBroadcast.getClosestBroadcastIndex(broadcasts, 0);
+
+		if (indexOfNearestBroadcast >= 0) 
+		{
+			followingBroadcasts = TVBroadcast.getBroadcastsFromPosition(broadcasts, indexOfNearestBroadcast);
+			setFollowingBroadcasts();
+		}
 
 	}
 
+	
+	
+	@Override
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult)
+	{
+		if (fetchRequestResult.wasSuccessful()) 
+		{
+			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+		} 
+		else 
+		{
+			updateUI(UIStatusEnum.FAILED);
+		}
+	}
+	
 	
 	
 	@Override
@@ -293,35 +353,24 @@ public class ChannelPageActivity extends TVDateSelectionActivity implements Acti
 			}
 		}
 	}
-
 	
 	
-	@Override
-	protected void loadData() {
-		channelGuide = ContentManager.sharedInstance().getFromStorageTVChannelGuideUsingTVChannelIdForSelectedDay(channelId);
-		ImageAware imageAware = new ImageViewAware(channelIconIv, false);
-		ImageLoader.getInstance().displayImage(channelGuide.getImageUrl(), imageAware);
-
-		// mBroadcasts = mChannelGuide.getBroadcasts();
-		ArrayList<TVBroadcast> broadcasts = channelGuide.getBroadcasts();
-		tvDates = ContentManager.sharedInstance().getFromStorageTVDates();
-
-		indexOfNearestBroadcast = TVBroadcast.getClosestBroadcastIndex(broadcasts, 0);
-
-		if (indexOfNearestBroadcast >= 0) {
-			followingBroadcasts = TVBroadcast.getBroadcastsFromPosition(broadcasts, indexOfNearestBroadcast);
-			setFollowingBroadcasts();
-		}
-
-	}
-
-	@Override
-	public void onResult(FetchRequestResultEnum fetchRequestResult) {
-		if (fetchRequestResult.wasSuccessful()) {
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
-		} else {
-			updateUI(UIStatusEnum.FAILED);
-		}
-
+	
+	// TODO Dummy method
+	private void updateIsToday() 
+	{
+		// String tvDateToday = DateUtilities.todayDateAsTvDate();
+		// String tvDate = null;
+		// if(mTvDateSelected != null) {
+		// tvDate = mTvDateSelected.getDate();
+		// } else {
+		// tvDate = mDateTvGuide.getDate();
+		// }
+		//
+		// if (tvDate.equals(tvDateToday)) {
+		// mIsToday = true;
+		// } else {
+		// mIsToday = false;
+		// }
 	}
 }

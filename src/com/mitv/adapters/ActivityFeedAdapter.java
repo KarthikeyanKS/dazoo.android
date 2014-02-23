@@ -1,4 +1,7 @@
+
 package com.mitv.adapters;
+
+
 
 import java.util.ArrayList;
 
@@ -20,8 +23,8 @@ import com.millicom.mitv.enums.FeedItemTypeEnum;
 import com.millicom.mitv.enums.LikeTypeResponseEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
-import com.millicom.mitv.models.gson.TVFeedItem;
-import com.millicom.mitv.models.gson.TVProgram;
+import com.millicom.mitv.models.TVFeedItem;
+import com.millicom.mitv.models.TVProgram;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.customviews.ReminderView;
@@ -32,11 +35,17 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 
-	private static final String		TAG									= "ActivityFeedAdapter";
+
+public class ActivityFeedAdapter 
+	extends AdListAdapter<TVFeedItem> 
+{
+	@SuppressWarnings("unused")
+	private static final String	TAG	= ActivityFeedAdapter.class.getName();
+	
+	
 	private Activity				mActivity;
-	private ArrayList<TVFeedItem>		mFeedItems;
+	private ArrayList<TVFeedItem>	mFeedItems;
 	private LayoutInflater			mLayoutInflater;
 
 	private int						ACTIVITY_BLOCKS_TYPE_NUMBER	= 5;
@@ -47,69 +56,93 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 	private static final int		ITEM_TYPE_POPULAR_TWITTER			= 4;
 	private static final int		ITEM_TYPE_POPULAR_BROADCAST			= 5;
 
-	private ArrayList<String>		mLikeIds;
-	private int						currentPosition						= -1;
+	private boolean	mIsLiked = false;
 
-	// private ImageView likeLikeIv, remindLikeIv, likeRecIv, remindRecIv, likeTwitterIv, remindTwitterIv;
-	private boolean					mIsLiked							= false, mIsSet = false;
-
-	public ActivityFeedAdapter(Activity activity, ArrayList<TVFeedItem> feedItems) {
+	
+	
+	public ActivityFeedAdapter(Activity activity, ArrayList<TVFeedItem> feedItems) 
+	{
 		super(Consts.JSON_AND_FRAGMENT_KEY_ACTIVITY, activity, feedItems);
+		
 		this.mActivity = activity;
+		
 		this.mFeedItems = feedItems;
-		//TODO fetch likes using contentmanager
-//		this.mLikeIds = LikeService.getLikeIdsList();
+
 		this.mLayoutInflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
+	
+	
 	@Override
-	public int getViewTypeCount() {
+	public int getViewTypeCount() 
+	{
 		return super.getViewTypeCount() + ACTIVITY_BLOCKS_TYPE_NUMBER;
 	}
 
-	public void addItem(final TVFeedItem item) {
+	
+	
+	public void addItem(final TVFeedItem item) 
+	{
 		mFeedItems.add(item);
 		notifyDataSetChanged();
 	}
 
-	public void addItems(ArrayList<TVFeedItem> items) {
+	
+	
+	public void addItems(ArrayList<TVFeedItem> items) 
+	{
 		mFeedItems.addAll(items);
 		notifyDataSetChanged();
 	}
 
+	
+	
 	@Override
-	public int getItemViewType(int position) {
+	public int getItemViewType(int position) 
+	{
 		TVFeedItem item = getItem(position);
-		if (item != null) {
+		
+		if (item != null) 
+		{
 //			String feedItemType = item.getItemType();
 			FeedItemTypeEnum feedItemType = item.getItemType();
 			//TODO use switch on feedItemType instead
 			
-			if (Consts.FEED_ITEM_TYPE_POPULAR_BROADCASTS.equals(feedItemType)) {
+			if (Consts.FEED_ITEM_TYPE_POPULAR_BROADCASTS.equals(feedItemType)) 
+			{
 				return ITEM_TYPE_POPULAR_BROADCASTS;
 			} 
-			else if (Consts.FEED_ITEM_TYPE_BROADCAST.equals(feedItemType)) {
+			else if (Consts.FEED_ITEM_TYPE_BROADCAST.equals(feedItemType)) 
+			{
 				return ITEM_TYPE_BROADCAST;
 			} 
-			else if (Consts.FEED_ITEM_TYPE_RECOMMENDED_BROADCAST.equals(feedItemType)) {
+			else if (Consts.FEED_ITEM_TYPE_RECOMMENDED_BROADCAST.equals(feedItemType))
+			{
 				return ITEM_TYPE_RECOMMENDED_BROADCAST;
 			} 
-			else if (Consts.FEED_ITEM_TYPE_POPULAR_TWITTER.equals(feedItemType)) {
+			else if (Consts.FEED_ITEM_TYPE_POPULAR_TWITTER.equals(feedItemType))
+			{
 				return ITEM_TYPE_POPULAR_TWITTER;
 			} 
-			else if (Consts.FEED_ITEM_TYPE_POPULAR_BROADCAST.equals(feedItemType)) {
+			else if (Consts.FEED_ITEM_TYPE_POPULAR_BROADCAST.equals(feedItemType)) 
+			{
 				return ITEM_TYPE_POPULAR_BROADCAST;
 			} 
-			else {
+			else 
+			{
 				return ITEM_TYPE_BROADCAST;
 			}
 		} 
-		else {
+		else 
+		{
 			return super.getItemViewType(position);
 		}
 	}
+	
+	
 
-	public void populatePopularItemAtIndex(PopularBroadcastsViewHolder viewHolder, ArrayList<TVBroadcastWithChannelInfo> broadcasts, int popularRowIndex) {
+	public void populatePopularItemAtIndex(PopularBroadcastsViewHolder viewHolder, ArrayList<TVBroadcastWithChannelInfo> broadcasts, int popularRowIndex) 
+	{
 		ImageView imageView = null;
 		TextView title = null;
 		TextView time = null;
@@ -119,44 +152,50 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 		ProgressBar progressBar = null;
 		RelativeLayout containerLayout = null;
 
-		switch (popularRowIndex) {
-		case 0: {
-			imageView = viewHolder.mPosterOne;
-			title = viewHolder.mTitleOne;
-			time = viewHolder.mTimeOne;
-			channelName = viewHolder.mChannelNameOne;
-			details = viewHolder.mDetailsOne;
-			progressBar = viewHolder.mProgressBarOne;
-			progressTextView = viewHolder.mProgressBarTitleOne;
-			containerLayout = viewHolder.mContainerOne;
-			break;
-		}
-		case 1: {
-			imageView = viewHolder.mPosterTwo;
-			title = viewHolder.mTitleTwo;
-			time = viewHolder.mTimeTwo;
-			channelName = viewHolder.mChannelNameTwo;
-			details = viewHolder.mDetailsTwo;
-			progressBar = viewHolder.mProgressBarTwo;
-			progressTextView = viewHolder.mProgressBarTitleTwo;
-			containerLayout = viewHolder.mContainerTwo;
-			break;
-		}
-		case 2: {
-			imageView = viewHolder.mPosterThree;
-			title = viewHolder.mTitleThree;
-			time = viewHolder.mTimeThree;
-			channelName = viewHolder.mChannelNameThree;
-			details = viewHolder.mDetailsThree;
-			progressBar = viewHolder.mProgressBarThree;
-			progressTextView = viewHolder.mProgressBarTitleThree;
-			containerLayout = viewHolder.mContainerThree;
-			break;
-		}
+		switch (popularRowIndex) 
+		{
+			case 0: 
+			{
+				imageView = viewHolder.mPosterOne;
+				title = viewHolder.mTitleOne;
+				time = viewHolder.mTimeOne;
+				channelName = viewHolder.mChannelNameOne;
+				details = viewHolder.mDetailsOne;
+				progressBar = viewHolder.mProgressBarOne;
+				progressTextView = viewHolder.mProgressBarTitleOne;
+				containerLayout = viewHolder.mContainerOne;
+				break;
+			}
+			case 1: 
+			{
+				imageView = viewHolder.mPosterTwo;
+				title = viewHolder.mTitleTwo;
+				time = viewHolder.mTimeTwo;
+				channelName = viewHolder.mChannelNameTwo;
+				details = viewHolder.mDetailsTwo;
+				progressBar = viewHolder.mProgressBarTwo;
+				progressTextView = viewHolder.mProgressBarTitleTwo;
+				containerLayout = viewHolder.mContainerTwo;
+				break;
+			}
+			case 2: 
+			{
+				imageView = viewHolder.mPosterThree;
+				title = viewHolder.mTitleThree;
+				time = viewHolder.mTimeThree;
+				channelName = viewHolder.mChannelNameThree;
+				details = viewHolder.mDetailsThree;
+				progressBar = viewHolder.mProgressBarThree;
+				progressTextView = viewHolder.mProgressBarTitleThree;
+				containerLayout = viewHolder.mContainerThree;
+				break;
+			}
 		}
 
-		if (popularRowIndex < broadcasts.size()) {
+		if (popularRowIndex < broadcasts.size()) 
+		{
 			final TVBroadcastWithChannelInfo broadcast = broadcasts.get(popularRowIndex);
+			
 			if (broadcast != null) 
 			{
 				final TVProgram program = broadcast.getProgram();
@@ -170,7 +209,8 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 				if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 					title.setText(broadcast.getProgram().getSeries().getName());
 				} 
-				else {
+				else 
+				{
 					title.setText(broadcast.getProgram().getTitle());
 				}
 
@@ -348,39 +388,53 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 				}
 			});
 
-			if (broadcast.isBroadcastCurrentlyAiring()) {
+			if (broadcast.isBroadcastCurrentlyAiring()) 
+			{
 				ProgressBarUtils.setupProgressBar(mActivity, broadcast, holderBC.progressBar, holderBC.progressbarTv);
-			} else {
+			}
+			else
+			{
 				holderBC.progressbarTv.setVisibility(View.GONE);
 				holderBC.progressBar.setVisibility(View.GONE);
 			}
 
-			if (mIsLiked) {
+			if (mIsLiked)
+			{
 				holderBC.likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
-			} else {
+			}
+			else
+			{
 				holderBC.likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
 			}
 
-			holderBC.likeContainer.setOnClickListener(new View.OnClickListener() {
-
+			holderBC.likeContainer.setOnClickListener(new View.OnClickListener() 
+			{
 				@Override
-				public void onClick(View v) {
+				public void onClick(View v) 
+				{
 					//TOOD convert from program type to LikeType
 					LikeTypeResponseEnum likeType;// = LikeService.getLikeType(programType);
 
 					String programId, contentTitle;
-					if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+					
+					if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) 
+					{
 						programId = program.getSeries().getSeriesId();
 						contentTitle = program.getSeries().getName();
-					} else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) {
+					} 
+					else if (Consts.PROGRAM_TYPE_SPORT.equals(programType))
+					{
 						programId = program.getSportType().getSportTypeId();
 						contentTitle = program.getSportType().getName();
-					} else {
+					} 
+					else
+					{
 						programId = program.getProgramId();
 						contentTitle = program.getTitle();
 					}
 
-					if (mIsLiked == false) {
+					if (mIsLiked == false) 
+					{
 						//TODO use ContentManager architecture for likes
 //						if (LikeService.addLike(programId, likeType)) {
 //							MiTVStore.getInstance().addLikeIdToList(programId);
@@ -410,21 +464,28 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 				}
 			});
 
-			holderBC.shareContainer.setOnClickListener(new View.OnClickListener() {
-
+			holderBC.shareContainer.setOnClickListener(new View.OnClickListener() 
+			{
 				@Override
-				public void onClick(View v) {
+				public void onClick(View v)
+				{
 					ShareUtils.shareAction(mActivity, mActivity.getResources().getString(R.string.app_name), broadcast.getShareUrl(), mActivity.getResources()
 							.getString(R.string.share_action_title));
 				}
 			});
 		}
+		
 		return rowView;
 	}
 	
-	private View populateMultipleBroadcastsCell(View rowView, ArrayList<TVBroadcastWithChannelInfo> broadcasts) {
-		if (rowView == null) {
+	
+	
+	private View populateMultipleBroadcastsCell(View rowView, ArrayList<TVBroadcastWithChannelInfo> broadcasts)
+	{
+		if (rowView == null) 
+		{
 			PopularBroadcastsViewHolder viewHolder = new PopularBroadcastsViewHolder();
+			
 			rowView = mLayoutInflater.inflate(R.layout.block_feed_popular, null);
 
 			viewHolder.header = (TextView) rowView.findViewById(R.id.block_popular_header_tv);
@@ -469,21 +530,21 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 
 		final PopularBroadcastsViewHolder holderPBC = (PopularBroadcastsViewHolder) rowView.getTag();
 
-		// one
 		populatePopularItemAtIndex(holderPBC, broadcasts, 0);
 
-		// two
 		populatePopularItemAtIndex(holderPBC, broadcasts, 1);
 
-		// three
 		populatePopularItemAtIndex(holderPBC, broadcasts, 2);
 
 		RelativeLayout footer = (RelativeLayout) rowView.findViewById(R.id.block_popular_show_more_container);
-		footer.setOnClickListener(new View.OnClickListener() {
-
+		
+		footer.setOnClickListener(new View.OnClickListener() 
+		{
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v) 
+			{
 				Intent intent = new Intent(mActivity, PopularPageActivity.class);
+				
 				mActivity.startActivity(intent);
 			}
 		});
@@ -491,14 +552,18 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 		return rowView;
 	}
 
-	public View getViewForFeedItemCell(int position, View convertView, ViewGroup parent) {
+	
+	
+	public View getViewForFeedItemCell(int position, View convertView, ViewGroup parent) 
+	{
 		View rowView = convertView;
 
 		int type = getItemViewType(position);
 
 		final TVFeedItem feedItem = getItem(position);
 
-		switch (type) {
+		switch (type) 
+		{
 		case ITEM_TYPE_RECOMMENDED_BROADCAST:
 		case ITEM_TYPE_POPULAR_TWITTER:
 		case ITEM_TYPE_POPULAR_BROADCAST:
@@ -522,23 +587,32 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 
 		}
 
-		if (rowView == null) {
+		if (rowView == null) 
+		{
 			/* No content */
 			rowView = LayoutInflater.from(mActivity).inflate(R.layout.no_data, null);
 		}
+		
 		return rowView;
 	}
 
-	public Runnable yesNotificationTwitterProc(final ImageView remindTwitterIv) {
-		return new Runnable() {
-			public void run() {
+	
+	
+	public Runnable yesNotificationTwitterProc(final ImageView remindTwitterIv) 
+	{
+		return new Runnable() 
+		{
+			public void run() 
+			{
 				remindTwitterIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
-				mIsSet = false;
 			}
 		};
 	}
 
-	static class BroadcastViewHolder {
+	
+	
+	static class BroadcastViewHolder 
+	{
 		RelativeLayout	container;
 		TextView		headerTv;
 		ImageView		landscapeIv;
@@ -556,7 +630,10 @@ public class ActivityFeedAdapter extends AdListAdapter<TVFeedItem> {
 		ReminderView reminderView;
 	}
 
-	static class PopularBroadcastsViewHolder {
+	
+	
+	static class PopularBroadcastsViewHolder 
+	{
 		TextView		header;
 		RelativeLayout	mContainerOne;
 		ImageView		mPosterOne;

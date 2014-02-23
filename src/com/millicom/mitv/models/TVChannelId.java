@@ -1,28 +1,33 @@
-package com.millicom.mitv.models.gson;
+
+package com.millicom.mitv.models;
 
 
-public class TVChannelId {
 
-	private String channelId;
+import com.millicom.mitv.models.gson.TVChannelIdJSON;
 
-	public TVChannelId(){}
 
-	public TVChannelId(String channelId) {
+
+public class TVChannelId
+	extends TVChannelIdJSON
+{
+	public TVChannelId(String channelId) 
+	{
 		this.channelId = channelId;
 	}
 	
-	public String getChannelId() {
-		return channelId;
-	}
-
+	
+	
 	@Override
-	public int hashCode() {
+	public int hashCode() 
+	{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((channelId == null) ? 0 : channelId.hashCode());
 		return result;
 	}
 
+	
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -44,5 +49,4 @@ public class TVChannelId {
 		}
 		return true;
 	}
-	
 }

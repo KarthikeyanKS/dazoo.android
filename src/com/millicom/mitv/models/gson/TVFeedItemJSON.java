@@ -6,9 +6,7 @@ package com.millicom.mitv.models.gson;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
-
 import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -24,10 +22,10 @@ import com.mitv.Consts;
 
 
 
-public class TVFeedItem
-	implements JsonDeserializer<TVFeedItem>
+public class TVFeedItemJSON
+	implements JsonDeserializer<TVFeedItemJSON>
 {
-	private static final String	TAG	= "TVFeedItem";
+	private static final String	TAG	= TVFeedItemJSON.class.getName();
 	
 	
 	/*
@@ -53,13 +51,13 @@ public class TVFeedItem
 	/*
 	 * The empty constructor is needed by gson. Do not remove.
 	 */
-	public TVFeedItem()
+	public TVFeedItemJSON()
 	{}
 
 
 
 	@Override
-	public TVFeedItem deserialize(
+	public TVFeedItemJSON deserialize(
 			JsonElement jsonElement, 
 			Type type,
 			JsonDeserializationContext jsonDeserializationContext)
@@ -69,7 +67,7 @@ public class TVFeedItem
 		gsonBuilder.excludeFieldsWithoutExposeAnnotation();
 		Gson gson = gsonBuilder.create();
 		
-		TVFeedItem baseObject = gson.fromJson(jsonElement, TVFeedItem.class);
+		TVFeedItemJSON baseObject = gson.fromJson(jsonElement, TVFeedItemJSON.class);
 		
 		JsonObject jsonObject = jsonElement.getAsJsonObject();
 		
@@ -94,8 +92,9 @@ public class TVFeedItem
 					
 					broadcast = null;
 				}
+				
+				break;
 			}
-			break;
 			
 			case POPULAR_BROADCASTS:
 			{
@@ -113,16 +112,19 @@ public class TVFeedItem
 					
 					broadcasts = null;
 				}
+				
+				break;
 			}
-			break;
+			
 			
 			case UNKNOWN:
 			default:
 			{
 				broadcast = null;
 				broadcasts = null;
+				
+				break;
 			}
-			break;
 		}
 		
 		return baseObject;
@@ -137,19 +139,22 @@ public class TVFeedItem
 	
 	
 	
-	public String getTitle() {
+	public String getTitle()
+	{
 		return title;
 	}
 
 
 
-	public TVBroadcastWithChannelInfo getBroadcast() {
+	public TVBroadcastWithChannelInfo getBroadcast()
+	{
 		return broadcast;
 	}
 
 
 
-	public List<TVBroadcastWithChannelInfo> getBroadcasts() {
+	public List<TVBroadcastWithChannelInfo> getBroadcasts() 
+	{
 		return broadcasts;
 	}
 }

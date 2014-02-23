@@ -12,9 +12,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.mitv.R;
-import com.mitv.SecondScreenApplication;
 
 
 
@@ -25,9 +25,9 @@ public class SignInOrSignupWithFacebookActivity
 	private static final String TAG = SignInOrSignupWithFacebookActivity.class.getName();
 
 	
-	private ActionBar mActionBar;
-	private RelativeLayout mFacebookContainer, mSignUpContainer;
-	private Button mLoginButton;
+	private ActionBar actionBar;
+	private RelativeLayout mFacebookContainer, signUpContainer;
+	private Button loginButton;
 
 	
 	
@@ -35,12 +35,41 @@ public class SignInOrSignupWithFacebookActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.layout_signin_activity);
 		
-		// add the activity to the list of running activities
-		SecondScreenApplication.sharedInstance().getActivityList().add(this);
-
 		initViews();
+	}
+	
+	
+	
+	@Override
+	protected void onResume() 
+	{
+		super.onResume();
+	}
+	
+	
+	
+	@Override
+	protected void loadData() 
+	{
+		// TODO NewArc - Do something here?
+	}
+	
+	
+	
+	@Override
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult) 
+	{
+		if (fetchRequestResult.wasSuccessful()) 
+		{
+			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+		} 
+		else
+		{
+			updateUI(UIStatusEnum.FAILED);
+		}
 	}
 	
 	
@@ -64,14 +93,6 @@ public class SignInOrSignupWithFacebookActivity
 				break;
 			}
 		}
-	}
-
-	
-	
-	@Override
-	protected void loadData() 
-	{
-		// TODO NewArc - Do something here?
 	}
 	
 	
@@ -98,14 +119,14 @@ public class SignInOrSignupWithFacebookActivity
 	
 	private void initViews() 
 	{
-		mActionBar = getSupportActionBar();
-		mActionBar.setDisplayShowTitleEnabled(true);
-		mActionBar.setDisplayShowCustomEnabled(true);
-		mActionBar.setDisplayUseLogoEnabled(true);
-		mActionBar.setDisplayShowHomeEnabled(true);
-		mActionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar = getSupportActionBar();
+		actionBar.setDisplayShowTitleEnabled(true);
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setDisplayUseLogoEnabled(true);
+		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.setDisplayHomeAsUpEnabled(true);
 
-		mActionBar.setTitle(getResources().getString(R.string.sign_up));
+		actionBar.setTitle(getResources().getString(R.string.sign_up));
 
 		mFacebookContainer = (RelativeLayout) findViewById(R.id.signin_facebook_container);
 		
@@ -122,9 +143,9 @@ public class SignInOrSignupWithFacebookActivity
 			}
 		});
 
-		mSignUpContainer = (RelativeLayout) findViewById(R.id.signin_signup_email_container);
+		signUpContainer = (RelativeLayout) findViewById(R.id.signin_signup_email_container);
 		
-		mSignUpContainer.setOnClickListener(new View.OnClickListener() 
+		signUpContainer.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v) 
@@ -134,9 +155,9 @@ public class SignInOrSignupWithFacebookActivity
 			}
 		});
 
-		mLoginButton = (Button) findViewById(R.id.signin_login_btn);
+		loginButton = (Button) findViewById(R.id.signin_login_btn);
 		
-		mLoginButton.setOnClickListener(new View.OnClickListener() 
+		loginButton.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v)

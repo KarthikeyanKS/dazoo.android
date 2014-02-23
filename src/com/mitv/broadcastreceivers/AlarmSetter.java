@@ -12,9 +12,9 @@ import android.content.Intent;
 
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
-import com.millicom.mitv.models.dto.TVChannelDTO;
-import com.millicom.mitv.models.dto.TVProgramDTO;
-import com.millicom.mitv.models.dto.TVSeriesSeasonDTO;
+import com.millicom.mitv.models.TVChannel;
+import com.millicom.mitv.models.TVProgram;
+import com.millicom.mitv.models.TVSeriesSeason;
 import com.mitv.model.NotificationDbItem;
 import com.mitv.notification.NotificationDataSource;
 import com.mitv.notification.NotificationService;
@@ -24,6 +24,7 @@ import com.mitv.notification.NotificationService;
 public class AlarmSetter 
 	extends BroadcastReceiver 
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = AlarmSetter.class.getName();
 	
 
@@ -40,7 +41,7 @@ public class AlarmSetter
 
 	
 	
-	static void scheduleAlarms(Context context) 
+	private static void scheduleAlarms(Context context) 
 	{
 		// Get the list of alarms
 		NotificationDataSource notificationDataSource = new NotificationDataSource(context);
@@ -64,7 +65,7 @@ public class AlarmSetter
 			broadcast.setBeginTimeCalendar(beginTimeCalendar);
 			broadcast.setEndTimeCalendar(endTimeCalendar);
 						
-			TVProgramDTO program = new TVProgramDTO();
+			TVProgram program = new TVProgram();
 			program.setProgramId(item.getProgramId());
 			program.setTitle(item.getProgramTitle());
 			
@@ -72,7 +73,7 @@ public class AlarmSetter
 			
 			program.setProgramType(progarmType);
 			
-			TVSeriesSeasonDTO season = new TVSeriesSeasonDTO();
+			TVSeriesSeason season = new TVSeriesSeason();
 			season.setNumber(Integer.parseInt(item.getProgramSeason()));
 			
 			program.setSeason(season);
@@ -81,12 +82,12 @@ public class AlarmSetter
 			
 			broadcast.setProgram(program);
 			
-			TVChannelDTO channel = new TVChannelDTO();
-			channel.setChannelId(item.getChannelId());
-			channel.setName(item.getChannelName());
-			channel.setAllImageUrls(item.getChannelLogoUrl());
+			TVChannel tvChannel = new TVChannel();
+			tvChannel.setChannelId(item.getChannelId());
+			tvChannel.setName(item.getChannelName());
+			tvChannel.setAllImageUrls(item.getChannelLogoUrl());
 			
-			broadcast.setChannel(channel);
+			broadcast.setChannel(tvChannel);
 			
 			NotificationService.setAlarm(context, broadcast, item.getNotificationId());
 		}

@@ -96,20 +96,19 @@ public abstract class NetworkUtils
 	
 	
 	
-	
 	public static Boolean isConnectedAndHostIsReachable()
 	{
-		return isConnected() && isHostReachable();
+		final Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		
+		return isConnected(context) && isHostReachable();
 	}
 	
 	
 	
-	
-	private static boolean isConnected()
+	private static boolean isConnected(final Context context)
     {
 		boolean isConnected = false;
 		
-		final Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
     	ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Activity.CONNECTIVITY_SERVICE);
         
     	isConnected = (cm != null && 

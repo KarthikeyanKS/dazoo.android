@@ -1,4 +1,7 @@
+
 package com.millicom.mitv.activities;
+
+
 
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -28,15 +31,17 @@ import android.widget.Toast;
 
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.ContentTypeEnum;
+import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVSearchResult;
 import com.millicom.mitv.utilities.GenericUtils;
 import com.mitv.R;
-import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.SearchPageListAdapter;
 import com.mitv.customviews.InstantAutoComplete;
 import com.mitv.handlers.SearchActivityListeners;
+
+
 
 public class SearchPageActivity 
 	extends BaseActivity 
@@ -45,6 +50,7 @@ public class SearchPageActivity
 	@SuppressWarnings("unused")
 	private static final String TAG = SearchPageActivity.class.getName();
 
+	
 	private SearchPageListAdapter mAutoCompleteAdapter;
 	private LinearLayout mSearchInstructionsContainer;
 
@@ -56,16 +62,19 @@ public class SearchPageActivity
 
 	private Handler mHandler = new Handler();
 
+	
+	
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.layout_searchpage_activity);
+		
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-		// add the activity to the list of running activities
-		SecondScreenApplication.sharedInstance().getActivityList().add(this);
-
 		initMainLayout();
+		
 		initSupportActionbar();
 	}
 
@@ -111,7 +120,8 @@ public class SearchPageActivity
 
 	
 	
-	private void initSupportActionbar() {
+	private void initSupportActionbar() 
+	{
 		mActionBar = getSupportActionBar();
 		mActionBar.setDisplayShowTitleEnabled(false);
 		mActionBar.setDisplayUseLogoEnabled(true);
@@ -119,10 +129,13 @@ public class SearchPageActivity
 		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 	}
 
+	
+	
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu items for use in the action bar
+	public boolean onCreateOptionsMenu(Menu menu) 
+	{
 		MenuInflater inflater = getMenuInflater();
+		
 		inflater.inflate(R.menu.actionbar_menu, menu);
 
 		MenuItem startSearchMenuItem = menu.findItem(R.id.action_start_search);
@@ -140,29 +153,43 @@ public class SearchPageActivity
 		return true;
 	}
 	
+	
+	
 	@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-        case android.R.id.home:
-        	navigateUp();
-        	return true;
-        default:
-            return super.onOptionsItemSelected(item);
+    public boolean onOptionsItemSelected(MenuItem item) 
+	{
+        switch (item.getItemId()) 
+        {
+	        case android.R.id.home:
+	        	navigateUp();
+	        	return true;
+	        	
+	        default:
+	            return super.onOptionsItemSelected(item);
         }
     }
 
-	private void initAutoCompleteLayout() {
+	
+	
+	private void initAutoCompleteLayout()
+	{
 		MenuItem searchField = mMenu.findItem(R.id.searchfield);
+		
 		View searchFieldView = MenuItemCompat.getActionView(searchField);
 		
 		mProgressBar = (ProgressBar) searchFieldView.findViewById(R.id.searchbar_progress);
+		
 		mEditTextClearBtn = (ImageView) searchFieldView.findViewById(R.id.searchbar_clear);
+		
 		mEditTextSearch = (InstantAutoComplete) searchFieldView.findViewById(R.id.searchbar_edittext);
+		
 		mEditTextSearch.requestFocus();
-
 	}
 
-	private void initAutoCompleteListeners() {
+	
+	
+	private void initAutoCompleteListeners()
+	{
 		mEditTextClearBtn.setOnClickListener(this);
 		mEditTextSearch.setOnItemClickListener(this);
 		mEditTextSearch.setOnEditorActionListener(this);
@@ -331,6 +358,29 @@ public class SearchPageActivity
 	
 	
 	@Override
+	protected void loadData() 
+	{
+		// TODO NewArc - Implement this
+	}
+	
+	
+	
+	@Override
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult) 
+	{
+		if (fetchRequestResult.wasSuccessful()) 
+		{
+			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+		} 
+		else
+		{
+			updateUI(UIStatusEnum.FAILED);
+		}
+	}
+	
+	
+	
+	@Override
 	protected void updateUI(UIStatusEnum status) 
 	{
 		super.updateUIBaseElements(status);
@@ -349,13 +399,5 @@ public class SearchPageActivity
 				break;
 			}
 		}
-	}
-
-	
-	
-	@Override
-	protected void loadData() 
-	{
-		// TODO NewArc - Implement this
 	}
 }

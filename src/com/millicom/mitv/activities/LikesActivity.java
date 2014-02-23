@@ -1,4 +1,7 @@
+
 package com.millicom.mitv.activities;
+
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,57 +21,65 @@ import android.widget.TextView;
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
-import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.models.UserLike;
 import com.mitv.Consts;
 import com.mitv.R;
-import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.LikesListAdapter;
 import com.mitv.interfaces.LikesCountInterface;
 
-public class LikesActivity extends BaseActivity implements ActivityCallbackListener, LikesCountInterface, OnClickListener {
 
+
+public class LikesActivity 
+	extends BaseActivity 
+	implements LikesCountInterface, OnClickListener 
+{
 	@SuppressWarnings("unused")
 	private static final String TAG = LikesActivity.class.getName();
 	
-	private ActionBar			mActionBar;
-	private boolean				mIsChange	= false;
-	private ListView			mListView;
-	private LikesListAdapter	mAdapter;
-//	private String				token;
-	private RelativeLayout		mTabTvGuide, mTabActivity, mTabProfile;
-	private View mTabDividerLeft, mTabDividerRight;
+	
+	private ActionBar mActionBar;
+	private ListView mListView;
+	private LikesListAdapter mAdapter;
+	private RelativeLayout mTabTvGuide;
+	private RelativeLayout mTabActivity;
+	private RelativeLayout mTabProfile;
+	private View mTabDividerLeft;
+	private View mTabDividerRight;
 	private TextView mErrorTv;
+	
+	private boolean mIsChange = false;
 	private int mCount = 0;
 	private ArrayList<UserLike> mLikes;
 	
-	public void onCreate(Bundle savedInstanceState) {
+	
+	
+	public void onCreate(Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.layout_likes_activity);
-		
-		
-		// add the activity to the list of running activities
-		SecondScreenApplication.sharedInstance().getActivityList().add(this);
-		
-//		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
-		fetchUserLikesData();
-		initLayout();
-		super.initCallbackLayouts();
-		populateLayout();
 	}
 	
-	private void fetchUserLikesData() {
-		ContentManager.sharedInstance().getElseFetchFromServiceUserLikes(this, false);
+	
+	
+	@Override
+	protected void onResume() 
+	{
+		super.onResume();
+
+		initLayout();
+		
+		populateLayout();
 	}
 	
 	
 
-	private void initLayout() {
+	private void initLayout() 
+	{
 		mActionBar = getSupportActionBar();
 		mActionBar.setTitle(getResources().getString(R.string.likes));
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 
-		// styling bottom navigation tabs
 		mTabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
 		mTabTvGuide.setOnClickListener(this);
 		mTabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
@@ -90,10 +101,14 @@ public class LikesActivity extends BaseActivity implements ActivityCallbackListe
 		mErrorTv = (TextView) findViewById(R.id.likes_error_tv);
 	}
 
+	
+	
 	private void populateLayout() 
 	{
 		Collections.sort(mLikes, new UserLike.UserLikeComparatorByTitle());
+		
 		mAdapter = new LikesListAdapter(this, mLikes, this);
+		
 		mListView.setAdapter(mAdapter);
 	}
 
@@ -103,10 +118,14 @@ public class LikesActivity extends BaseActivity implements ActivityCallbackListe
 	public void onBackPressed() 
 	{
 		Intent returnIntent = new Intent();
-		if (mIsChange == true) {
+		
+		if (mIsChange == true) 
+		{
 			setResult(Consts.INFO_UPDATE_LIKES, returnIntent);
+			
 			returnIntent.putExtra(Consts.INFO_UPDATE_LIKES_NUMBER, mCount);
 		}
+		
 		super.onBackPressed();
 		
 		finish();
@@ -118,7 +137,6 @@ public class LikesActivity extends BaseActivity implements ActivityCallbackListe
 	public void onConfigurationChanged(Configuration newConfig) 
 	{
 		super.onConfigurationChanged(newConfig);
-		
 	}
 
 	
@@ -131,28 +149,38 @@ public class LikesActivity extends BaseActivity implements ActivityCallbackListe
 		switch (id) 
 		{
 			case R.id.tab_tv_guide:
-				// tab to home page
+			{
 				Intent intentHome = new Intent(LikesActivity.this, HomeActivity.class);
+				
 				intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				startActivity(intentHome);
 				
 				break;
+			}
+				
 			case R.id.tab_activity:
-				// tab to home page
+			{
 				Intent intentActivity = new Intent(LikesActivity.this, ActivityActivity.class);
 				startActivity(intentActivity);
-				
 				break;
+			}
+				
 			case R.id.tab_me:
+			{
 				Intent returnIntent = new Intent();
-				if (mIsChange == true) {
+				
+				if (mIsChange == true) 
+				{
 					setResult(Consts.INFO_UPDATE_LIKES, returnIntent);
+					
 					returnIntent.putExtra(Consts.INFO_UPDATE_LIKES_NUMBER, mCount);
 				}
+				
 				finish();
 				
 				break;
+			}
 		}
 	}
 
@@ -178,6 +206,31 @@ public class LikesActivity extends BaseActivity implements ActivityCallbackListe
 	
 	
 	@Override
+	protected void loadData() 
+	{
+		updateUI(UIStatusEnum.LOADING);
+		
+		ContentManager.sharedInstance().getElseFetchFromServiceUserLikes(this, false);
+	}
+	
+	
+	
+	@Override
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult) 
+	{
+		if (fetchRequestResult.wasSuccessful()) 
+		{
+			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+		} 
+		else
+		{
+			updateUI(UIStatusEnum.FAILED);
+		}
+	}
+	
+	
+	
+	@Override
 	protected void updateUI(UIStatusEnum status) 
 	{
 		super.updateUIBaseElements(status);
@@ -187,40 +240,11 @@ public class LikesActivity extends BaseActivity implements ActivityCallbackListe
 			case SUCCEEDED_WITH_DATA:
 			{
 				// TODO NewArc - Do something here?
+				
+				mErrorTv.setVisibility(View.GONE);
 				break;
 			}
 	
-			default:
-			{
-				// Do nothing
-				break;
-			}
-		}
-	}
-
-	
-	
-	@Override
-	protected void loadData() 
-	{
-		// TODO NewArc - Do something here?
-	}
-	
-	
-	
-	@Override
-	public void onResult(FetchRequestResultEnum fetchRequestResult) 
-	{
-		super.onResult(fetchRequestResult);
-		
-		switch(fetchRequestResult)
-		{
-			case SUCCESS:
-			{
-				// TODO NewArc - Do something here?
-				break;
-			}
-			
 			default:
 			{
 				mErrorTv.setVisibility(View.VISIBLE);

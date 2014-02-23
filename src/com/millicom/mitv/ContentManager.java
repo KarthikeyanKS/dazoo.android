@@ -1,3 +1,4 @@
+
 package com.millicom.mitv;
 
 
@@ -6,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import android.content.Context;
 import android.text.TextUtils;
 
 import com.millicom.mitv.enums.FetchRequestResultEnum;
@@ -20,26 +20,29 @@ import com.millicom.mitv.models.AppVersion;
 import com.millicom.mitv.models.RepeatingBroadcastsForBroadcast;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
+import com.millicom.mitv.models.TVChannel;
+import com.millicom.mitv.models.TVChannelId;
 import com.millicom.mitv.models.TVDate;
+import com.millicom.mitv.models.TVFeedItem;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.TVGuideAndTaggedBroadcasts;
 import com.millicom.mitv.models.TVTag;
 import com.millicom.mitv.models.UpcomingBroadcastsForBroadcast;
 import com.millicom.mitv.models.UserLike;
 import com.millicom.mitv.models.UserLoginData;
-import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
-import com.millicom.mitv.models.gson.TVChannelId;
-import com.millicom.mitv.models.gson.TVFeedItem;
 import com.millicom.mitv.utilities.GenericUtils;
 import com.mitv.Consts;
 
 
-public class ContentManager implements ContentCallbackListener {
 
+public class ContentManager 
+	implements ContentCallbackListener 
+{
 	private static ContentManager sharedInstance;
 	private Storage storage;
 	private APIClient apiClient;
+	
 	private FetchDataProgressCallbackListener fetchDataProgressCallbackListener;
 	
 	private static final int ACTIVITY_FEED_ITEMS_BATCH_FETCH_COUNT = 10;
@@ -62,31 +65,49 @@ public class ContentManager implements ContentCallbackListener {
 	private static int completedCountTVDataForProgressMessage = COMPLETED_COUNT_TV_DATA_NOT_LOGGED_IN_THRESHOLD + 1; //+1 for guide and parsing of tagged broadcasts
 	private int completedCountTVData = 0;
 
-	private ContentManager() {
+	
+	
+	private ContentManager() 
+	{
 		this.storage = new Storage();
 		this.apiClient = new APIClient(this);
 	}
 
-	public static ContentManager sharedInstance() {
-		if (sharedInstance == null) {
+	
+	
+	public static ContentManager sharedInstance() 
+	{
+		if (sharedInstance == null) 
+		{
 			sharedInstance = new ContentManager();
 		}
+		
 		return sharedInstance;
 	}
 
-	private void getElseFetchFromServiceTVData(ActivityCallbackListener activityCallBackListener, boolean forceDownload) {
-		if(!forceDownload && storage.containsTVGuideForSelectedDay()) {
+	
+	
+	private void getElseFetchFromServiceTVData(ActivityCallbackListener activityCallBackListener, boolean forceDownload) 
+	{
+		if(!forceDownload && storage.containsTVGuideForSelectedDay())
+		{
 			activityCallBackListener.onResult(FetchRequestResultEnum.SUCCESS);
-		} else {
+		} 
+		else
+		{
 			fetchFromServiceTVDataOnFirstStart(activityCallBackListener);
 		}
 	}
+	
+	
 	
 	/*
 	 * METHODS FOR FETCHING DATA FROM BACKEND USING THE API CLIENT, NEVER USE
 	 * THOSE EXTERNALLY, ALL SHOULD BE PRIVATE
 	 */
-	private void fetchFromServiceTVDataOnFirstStart(ActivityCallbackListener activityCallBackListener) {
+	
+	private void fetchFromServiceTVDataOnFirstStart(ActivityCallbackListener activityCallBackListener) 
+	{
 		apiClient.getTVTags(activityCallBackListener);
 		apiClient.getTVDates(activityCallBackListener);
 		apiClient.getTVChannelsAll(activityCallBackListener);
@@ -97,6 +118,7 @@ public class ContentManager implements ContentCallbackListener {
 		}
 	}
 
+	
 	private void fetchFromServiceTVDataOnUserStatusChange(ActivityCallbackListener activityCallBackListener) {
 		channelsChange = true;
 		apiClient.getUserTVChannelIds(activityCallBackListener);
@@ -124,20 +146,28 @@ public class ContentManager implements ContentCallbackListener {
 		apiClient.getTVBroadcastsPopular(activityCallbackListener);
 	}
 	
-	private void fetchFromServiceUpcomingBroadcasts(ActivityCallbackListener activityCallBackListener, TVBroadcastWithChannelInfo broadcast) {
-		if (broadcast.getProgram() != null && broadcast.getProgram().getProgramType() == ProgramTypeEnum.TV_EPISODE) {
+	private void fetchFromServiceUpcomingBroadcasts(ActivityCallbackListener activityCallBackListener, TVBroadcastWithChannelInfo broadcast) 
+	{
+		if (broadcast.getProgram() != null && broadcast.getProgram().getProgramType() == ProgramTypeEnum.TV_EPISODE) 
+		{
 			String tvSeriesId = broadcast.getProgram().getSeries().getSeriesId();
 			apiClient.getTVBroadcastsFromSeries(activityCallBackListener, tvSeriesId);
-		} else {
+		} 
+		else 
+		{
 			activityCallBackListener.onResult(FetchRequestResultEnum.BAD_REQUEST);
 		}
 	}
 
-	private void fetchFromServiceRepeatingBroadcasts(ActivityCallbackListener activityCallBackListener, TVBroadcastWithChannelInfo broadcast) {
-		if (broadcast.getProgram() != null) {
+	private void fetchFromServiceRepeatingBroadcasts(ActivityCallbackListener activityCallBackListener, TVBroadcastWithChannelInfo broadcast) 
+	{
+		if (broadcast.getProgram() != null) 
+		{
 			String programId = broadcast.getProgram().getSeries().getSeriesId();
 			apiClient.getTVBroadcastsFromProgram(activityCallBackListener, programId);
-		} else {
+		} 
+		else 
+		{
 			activityCallBackListener.onResult(FetchRequestResultEnum.BAD_REQUEST);
 		}
 	}
@@ -146,11 +176,9 @@ public class ContentManager implements ContentCallbackListener {
 	
 	/* PUBLIC FETCH METHODS WHERE IT DOES NOT MAKE ANY SENSE TO TRY FETCHING THE DATA FROM STORAGE */
 	
-	public void checkNetworkConnectivity(
-			ActivityCallbackListener activityCallBackListener,
-			Context context) 
+	public void checkNetworkConnectivity(ActivityCallbackListener activityCallBackListener) 
 	{
-		apiClient.getNetworkConnectivityIsAvailable(activityCallBackListener, context);
+		apiClient.getNetworkConnectivityIsAvailable(activityCallBackListener);
 	}
 	
 	
@@ -247,9 +275,15 @@ public class ContentManager implements ContentCallbackListener {
 		}
 	}
 	
+	
+	
 	@Override
-	public void onResult(ActivityCallbackListener activityCallBackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result,
-			Object content) {
+	public void onResult(
+			ActivityCallbackListener activityCallBackListener,
+			RequestIdentifierEnum requestIdentifier, 
+			FetchRequestResultEnum result,
+			Object content)
+	{
 		switch (requestIdentifier) 
 		{
 			case INTERNET_CONNECTIVITY:
@@ -264,122 +298,146 @@ public class ContentManager implements ContentCallbackListener {
 				handleAppDataResponse(activityCallBackListener, result, requestIdentifier, content);
 				break;
 			}
-		case TV_DATE:
-		case TV_TAG:
-		case TV_CHANNEL:
-		case TV_CHANNEL_IDS_USER:
-		case TV_CHANNEL_IDS_DEFAULT: {
-			handleTVDataResponse(activityCallBackListener, result, requestIdentifier, content);
-			break;
-		}
-		case TV_GUIDE: {
-			handleTVChannelGuidesForSelectedDayResponse(activityCallBackListener, result, content);
-			break;
-		}
-		case ADS_ADZERK_GET: {
-			break;
-		}
-		case ADS_ADZERK_SEEN: {
-			break;
-		}
-		case USER_LOGIN: {
-			handleLoginResponse(activityCallBackListener, result, content);
-			break;
-		}
-		case USER_SIGN_UP: {
-			handleSignUpResponse(activityCallBackListener, result, content);
-			break;
-		}
-		case USER_LOGOUT: {
-			handleLogoutResponse(activityCallBackListener);
-			break;
-		}
-		case USER_FB_TOKEN: {
-			break;
-		}
-		case USER_LIKES: {
-			handleUserLikesResponse(activityCallBackListener, result, content);
-			break;
-		}
-		case USER_SET_CHANNELS: {
-			handleSetChannelsResponse(activityCallBackListener, result);
-			break;
-		}
-		case USER_ADD_LIKE: {
-			break;
-		}
-		case USER_REMOVE_LIKE: {
-			// TODO
-			break;
-		}
-		case USER_RESET_PASSWORD_SEND_EMAIL: {
-			// TODO
-			break;
-		}
-		case USER_RESET_PASSWORD_SEND_CONFIRM_PASSWORD: {
-			// TODO
-			break;
-		}
-		case USER_ACTIVITY_FEED_ITEM: {
-			handleActivityFeedResponse(activityCallBackListener, result, content, false);
-			break;
-		}
-		case USER_ACTIVITY_FEED_ITEM_MORE: {
-			handleActivityFeedResponse(activityCallBackListener, result, content, true);
-			break;
-		}
-		case POPULAR_ITEMS: {
-			handleTVBroadcastsPopularBroadcastsResponse(activityCallBackListener, result, content);
-			break;
-		}
-		
-		case BROADCAST_DETAILS :
-		{
-			// TODO
-			break;
-		}
-		case BROADCASTS_FROM_PROGRAMS :
-		{
-			// TODO
-			break;
-		}
-		case BROADCASTS_FROM_SERIES_UPCOMING :
-		{
-			// TODO
-			break;
-		}
-		case SEARCH:
-		{
-			// TODO
-			break;
-		}
-		case INTERNAL_TRACKING:
-		{
-			// TODO
-			break;
-		}
+			case TV_DATE:
+			case TV_TAG:
+			case TV_CHANNEL:
+			case TV_CHANNEL_IDS_USER:
+			case TV_CHANNEL_IDS_DEFAULT:
+			{
+				handleTVDataResponse(activityCallBackListener, result, requestIdentifier, content);
+				break;
+			}
+			case TV_GUIDE: 
+			{
+				handleTVChannelGuidesForSelectedDayResponse(activityCallBackListener, result, content);
+				break;
+			}
+			case ADS_ADZERK_GET: 
+			{
+				break;
+			}
+			case ADS_ADZERK_SEEN:
+			{
+				break;
+			}
+			case USER_LOGIN: {
+				handleLoginResponse(activityCallBackListener, result, content);
+				break;
+			}
+			case USER_SIGN_UP: {
+				handleSignUpResponse(activityCallBackListener, result, content);
+				break;
+			}
+			case USER_LOGOUT: {
+				handleLogoutResponse(activityCallBackListener);
+				break;
+			}
+			case USER_FB_TOKEN: {
+				break;
+			}
+			case USER_LIKES: {
+				handleUserLikesResponse(activityCallBackListener, result, content);
+				break;
+			}
+			case USER_SET_CHANNELS: {
+				handleSetChannelsResponse(activityCallBackListener, result);
+				break;
+			}
+			case USER_ADD_LIKE: {
+				break;
+			}
+			case USER_REMOVE_LIKE: {
+				// TODO
+				break;
+			}
+			case USER_RESET_PASSWORD_SEND_EMAIL: {
+				// TODO
+				break;
+			}
+			case USER_RESET_PASSWORD_SEND_CONFIRM_PASSWORD: {
+				// TODO
+				break;
+			}
+			case USER_ACTIVITY_FEED_ITEM: {
+				handleActivityFeedResponse(activityCallBackListener, result, content, false);
+				break;
+			}
+			case USER_ACTIVITY_FEED_ITEM_MORE: {
+				handleActivityFeedResponse(activityCallBackListener, result, content, true);
+				break;
+			}
+			case POPULAR_ITEMS: {
+				handleTVBroadcastsPopularBroadcastsResponse(activityCallBackListener, result, content);
+				break;
+			}
+			
+			case BROADCAST_DETAILS :
+			{
+				// TODO
+				break;
+			}
+			case BROADCASTS_FROM_PROGRAMS :
+			{
+				// TODO
+				break;
+			}
+			case BROADCASTS_FROM_SERIES_UPCOMING :
+			{
+				// TODO
+				break;
+			}
+			case SEARCH:
+			{
+				// TODO
+				break;
+			}
+			case INTERNAL_TRACKING:
+			{
+				// TODO
+				break;
+			}
 		}
 	}
 
+	
+	
 	/* METHODS FOR HANDLING THE RESPONSES */
-	private void handleActivityFeedResponse(ActivityCallbackListener activityCallBackListener, FetchRequestResultEnum result, Object content, boolean fetchedMore) {
-		if (result.wasSuccessful() && content != null) {
+	
+	private void handleActivityFeedResponse(
+			ActivityCallbackListener activityCallBackListener, 
+			FetchRequestResultEnum result, 
+			Object content, 
+			boolean fetchedMore) 
+	{
+		if (result.wasSuccessful() && content != null) 
+		{
 			ArrayList<TVFeedItem> feedItems = (ArrayList<TVFeedItem>) content;
-			if(fetchedMore) {
+			
+			if(fetchedMore) 
+			{
 				storage.addMoreActivityFeedItems(feedItems);
-			} else {
+			} 
+			else 
+			{
 				storage.setActivityFeed(feedItems);
 			}
 			activityCallBackListener.onResult(FetchRequestResultEnum.SUCCESS);
-		} else {
+		} 
+		else 
+		{
 			//TODO use some new "NO_CONTENT" enum here instead?
 			activityCallBackListener.onResult(FetchRequestResultEnum.UNKNOWN_ERROR);
 		}
 	}
+	
+	
 
-	private void notifyFetchDataProgressListenerMessage(String message) {
-		if(fetchDataProgressCallbackListener != null) {
+	private void notifyFetchDataProgressListenerMessage(String message) 
+	{
+		if(fetchDataProgressCallbackListener != null) 
+		{
 			int totalSteps = completedCountTVDataForProgressMessage + COMPLETED_COUNT_APP_DATA_THRESHOLD;
+			
 			fetchDataProgressCallbackListener.onFetchDataProgress(totalSteps, message);
 		}
 	}
@@ -392,6 +450,7 @@ public class ContentManager implements ContentCallbackListener {
 	{
 		activityCallBackListener.onResult(result);
 	}
+	
 	
 	
 	private void handleAppDataResponse(
@@ -445,13 +504,21 @@ public class ContentManager implements ContentCallbackListener {
 			activityCallBackListener.onResult(FetchRequestResultEnum.UNKNOWN_ERROR);
 		}
 	}
+	
+	
 
-	private void handleTVDataResponse(ActivityCallbackListener activityCallBackListener, FetchRequestResultEnum result,
-			RequestIdentifierEnum requestIdentifier, Object content) {
-		if (result.wasSuccessful() && content != null) {
+	private void handleTVDataResponse(
+			ActivityCallbackListener activityCallBackListener,
+			FetchRequestResultEnum result,
+			RequestIdentifierEnum requestIdentifier, 
+			Object content) 
+	{
+		if (result.wasSuccessful() && content != null)
+		{
 			completedCountTVData++;
 	
-			switch (requestIdentifier) {
+			switch (requestIdentifier) 
+			{
 			case TV_DATE: {
 				ArrayList<TVDate> tvDates = (ArrayList<TVDate>) content;
 				storage.setTvDates(tvDates);
@@ -643,10 +710,11 @@ public class ContentManager implements ContentCallbackListener {
 		apiClient.performUserLogout(activityCallBackListener);
 	}
 
-	public void performSetUserChannels(ActivityCallbackListener activityCallBackListener, List<TVChannelId> tvChannelIds) {
+	public void performSetUserChannels(ActivityCallbackListener activityCallBackListener, List<TVChannelId> tvChannelIds) 
+	{
 		apiClient.performSetUserTVChannelIds(activityCallBackListener, tvChannelIds);
 	}
-
+	
 	public ArrayList<TVChannelId> getFromStorageTVChannelIdsUser() {
 		ArrayList<TVChannelId> tvChannelIdsUser = storage.getTvChannelIdsUsed();
 		return tvChannelIdsUser;
@@ -723,20 +791,29 @@ public class ContentManager implements ContentCallbackListener {
 	 * 
 	 * @return
 	 */
-	public String getFromStorageUserToken() {
+	public String getFromStorageUserToken() 
+	{
 		String userToken = storage.getUserToken();
 		return userToken;
 	}
 	
-	public ArrayList<TVFeedItem> getFromStorageActivityFeedData() {
+	
+	
+	public ArrayList<TVFeedItem> getFromStorageActivityFeedData() 
+	{
 		ArrayList<TVFeedItem> activityFeedData = storage.getActivityFeed();
 		return activityFeedData;
 	}
 
-	public boolean isLoggedIn() {
+	
+	
+	public boolean isLoggedIn() 
+	{
 		boolean isLoggedIn = storage.isLoggedIn();
 		return isLoggedIn;
 	}
+	
+	
 	
 	/* NON-PERSISTENT USER DATA, TEMPORARY SAVED IN STORAGE, IN ORDER TO PASS DATA BETWEEN ACTIVITES */
 	public void setUpcomingBroadcasts(TVBroadcastWithChannelInfo broadcastKey, ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts) {
@@ -788,11 +865,13 @@ public class ContentManager implements ContentCallbackListener {
 		storage.setNonPersistentSelectedHour(selectedHour);
 	}
 	
-	public void setSelectedTVChannelId(TVChannelId tvChannelId) {
+	public void setSelectedTVChannelId(TVChannelId tvChannelId) 
+	{
 		storage.setNonPersistentTVChannelId(tvChannelId);
 	}
 	
-	public TVChannelId getFromStorageSelectedTVChannelId() {
+	public TVChannelId getFromStorageSelectedTVChannelId() 
+	{
 		TVChannelId tvChannelId = storage.getNonPersistentTVChannelId();
 		return tvChannelId;
 	}
@@ -850,10 +929,14 @@ public class ContentManager implements ContentCallbackListener {
 	}
 
 	/* HELPER METHODS */
-	public boolean checkApiVersion(String apiVersion) {
-		if (apiVersion != null && !TextUtils.isEmpty(apiVersion) && !apiVersion.equals(Consts.API_VERSION)) {
+	public boolean checkApiVersion(String apiVersion) 
+	{
+		if(!TextUtils.isEmpty(apiVersion) && !apiVersion.equals(Consts.API_VERSION)) 
+		{
 			return true;
-		} else {
+		} 
+		else 
+		{
 			return false;
 		}
 	}

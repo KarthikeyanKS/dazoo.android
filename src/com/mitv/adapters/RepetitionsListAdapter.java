@@ -1,4 +1,7 @@
+
 package com.mitv.adapters;
+
+
 
 import java.util.ArrayList;
 
@@ -17,98 +20,118 @@ import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
-import com.millicom.mitv.models.gson.TVProgram;
+import com.millicom.mitv.models.TVProgram;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.customviews.ReminderView;
-import com.mitv.model.OldTVDate;
-import com.mitv.notification.NotificationDataSource;
-import com.mitv.storage.MiTVStore;
 
-public class RepetitionsListAdapter extends BaseAdapter {
-	private static final String		TAG	= "UpcomingEpisodesListAdapter";
 
-	private LayoutInflater			mLayoutInflater;
-	private Activity				mActivity;
-	private ArrayList<TVBroadcastWithChannelInfo>	mRepeatingEpisodes;
-	private NotificationDataSource	mNotificationDataSource;
-	private int						mLastPosition	= -1;
-	private int 					mNotificationId = -1;
-	private int 					mPosNotificationId[];
-	private boolean					mIsSet			= false;
-	private boolean 				mPosIsSet[];
-	private TVProgram					mProgram;
-	private TVBroadcast 				mRunningBroadcast;
-	private MiTVStore				mitvStore;
-	private ArrayList<OldTVDate>		mTvDates;
 
-	private int reminderPosition;
+public class RepetitionsListAdapter 
+	extends BaseAdapter 
+{
+	@SuppressWarnings("unused")
+	private static final String	TAG	= RepetitionsListAdapter.class.getName();
 
-	public RepetitionsListAdapter(Activity activity, ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts, TVProgram program, TVBroadcast runningBroadcast) {
+	
+	private Activity activity;
+	private LayoutInflater layoutInflater;
+	private ArrayList<TVBroadcastWithChannelInfo> repeatingEpisodes;
+	private TVProgram tvProgram;
 
+	
+	
+	public RepetitionsListAdapter(
+			Activity activity, ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts, 
+			TVProgram program, 
+			TVBroadcast runningBroadcast) 
+	{
 		/* Remove running broadcast */
+		
 		boolean foundRunningBroadcast = false;
+		
 		int indexOfRunningBroadcast = 0;
-		for(int i = 0; i < repeatingBroadcasts.size(); ++i) {
+		
+		for(int i = 0; i < repeatingBroadcasts.size(); ++i) 
+		{
 			TVBroadcastWithChannelInfo repeatingBroadcast = repeatingBroadcasts.get(i);
-			if(repeatingBroadcast.equals(runningBroadcast)) {
+			
+			if(repeatingBroadcast.equals(runningBroadcast)) 
+			{
 				foundRunningBroadcast = true;
 				indexOfRunningBroadcast = i;
 				break;
 			}
 		}
 
-		if(foundRunningBroadcast) {
+		if(foundRunningBroadcast) 
+		{
 			repeatingBroadcasts.remove(indexOfRunningBroadcast);
 		}
 
-		this.mActivity = activity;
-		this.mProgram = program;
-		this.mRunningBroadcast = runningBroadcast;
-		this.mRepeatingEpisodes =repeatingBroadcasts;
-		mNotificationDataSource = new NotificationDataSource(mActivity);
-
-		mitvStore = MiTVStore.getInstance();
-		mTvDates = mitvStore.getTvDates();
-
-		mPosIsSet = new boolean[getCount()];
-		mPosNotificationId = new int[getCount()];
+		this.activity = activity;
+		this.tvProgram = program;
+		this.repeatingEpisodes =repeatingBroadcasts;
 	}
 
+	
+	
 	@Override
-	public int getCount() {
-		if (mRepeatingEpisodes != null) {
-			return mRepeatingEpisodes.size();
-		} else return 0;
+	public int getCount() 
+	{
+		if (repeatingEpisodes != null) 
+		{
+			return repeatingEpisodes.size();
+		} 
+		else 
+		{
+			return 0;
+		}
 	}
 
+	
+	
 	@Override
-	public TVBroadcastWithChannelInfo getItem(int position) {
-		if (mRepeatingEpisodes != null) {
-			return mRepeatingEpisodes.get(position);
-		} else return null;
+	public TVBroadcastWithChannelInfo getItem(int position) 
+	{
+		if (repeatingEpisodes != null) 
+		{
+			return repeatingEpisodes.get(position);
+		} 
+		else 
+		{
+			return null;
+		}
 	}
 
+	
+	
 	@Override
-	public long getItemId(int arg0) {
+	public long getItemId(int arg0) 
+	{
 		return -1;
 	}
 
+	
+	
 	@Override
-	public View getView(final int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) 
+	{
 		View rowView = convertView;
 
 		final TVBroadcastWithChannelInfo broadcast = getItem(position);
+		
 		//TODO why do this? Why should we need to set the program?
 //		broadcast.setProgram(mProgram);
 
-		if (rowView == null) {
-			mLayoutInflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		if (rowView == null) 
+		{
+			layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 			// the same layout is used as for the Upcoming Episodes for the
 			// series, just without the Season-Episode title which is hidden
 			// here
-			rowView = mLayoutInflater.inflate(R.layout.row_upcoming_episodes_list, null);
+			rowView = layoutInflater.inflate(R.layout.row_upcoming_episodes_list, null);
 			ViewHolder viewHolder = new ViewHolder();
 			viewHolder.mHeaderContainer = (RelativeLayout) rowView.findViewById(R.id.row_upcoming_episodes_header_container);
 			viewHolder.mHeader = (TextView) rowView.findViewById(R.id.row_upcoming_episodes_header_tv);
@@ -126,42 +149,51 @@ public class RepetitionsListAdapter extends BaseAdapter {
 
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
 
-		if (broadcast != null) {
+		if (broadcast != null) 
+		{
 			holder.mReminderView.setBroadcast(broadcast);
 
 			holder.mHeaderContainer.setVisibility(View.GONE);
 			holder.mDivider.setVisibility(View.VISIBLE);
-			if (position == 0 || broadcast.getBeginTimeDayAndMonthAsString().equals((getItem(position - 1)).getBeginTimeDayAndMonthAsString()) == false) {
+			
+			if (position == 0 || broadcast.getBeginTimeDayAndMonthAsString().equals((getItem(position - 1)).getBeginTimeDayAndMonthAsString()) == false) 
+			{
 				holder.mHeader.setText(broadcast.getBeginTimeDayOfTheWeekAsString() + " " + broadcast.getBeginTimeDayAndMonthAsString());
 				holder.mHeaderContainer.setVisibility(View.VISIBLE);
 			}
-			if (position != (getCount() - 1)
-					&& broadcast.getBeginTimeDayAndMonthAsString().equals((getItem(position + 1)).getBeginTimeDayAndMonthAsString()) == false) {
+			if (position != (getCount() - 1) && 
+				broadcast.getBeginTimeDayAndMonthAsString().equals((getItem(position + 1)).getBeginTimeDayAndMonthAsString()) == false) 
+			{
 				holder.mDivider.setVisibility(View.GONE);
 			}
 
 			holder.mSeasonEpisodeTv.setVisibility(View.GONE);
 
 			holder.mTimeTv.setText(broadcast.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
+			
 			// Set channel
 			String channel = broadcast.getChannel().getName();
-			if (channel != null) {
+			
+			if(channel != null) 
+			{
 				holder.mChannelTv.setText(channel);
 			}
 
-			holder.mContainer.setOnClickListener(new View.OnClickListener() {
-
+			holder.mContainer.setOnClickListener(new View.OnClickListener() 
+			{
 				@Override
 				public void onClick(View v) 
 				{
-					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
+					Intent intent = new Intent(activity, BroadcastPageActivity.class);
 					ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcast);
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
-					mActivity.startActivity(intent);
+					activity.startActivity(intent);
 				}
 			});
 
-		} else {
+		} 
+		else 
+		{
 			holder.mSeasonEpisodeTv.setText("");
 			holder.mTimeTv.setText("");
 			holder.mChannelTv.setText("");
@@ -170,16 +202,17 @@ public class RepetitionsListAdapter extends BaseAdapter {
 		return rowView;
 	}
 
-	static class ViewHolder {
-		RelativeLayout	mHeaderContainer;
-		TextView		mHeader;
-		LinearLayout	mContainer;
-		TextView		mSeasonEpisodeTv;
-		TextView		mTimeTv;
-		TextView		mChannelTv;
-		ReminderView		mReminderView;
-
-		View			mDivider;
+	
+	
+	static class ViewHolder 
+	{
+		RelativeLayout mHeaderContainer;
+		TextView mHeader;
+		LinearLayout mContainer;
+		TextView mSeasonEpisodeTv;
+		TextView mTimeTv;
+		TextView mChannelTv;
+		ReminderView mReminderView;
+		View mDivider;
 	}
-
 }

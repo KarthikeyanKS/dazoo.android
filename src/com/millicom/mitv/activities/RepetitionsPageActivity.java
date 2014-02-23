@@ -14,11 +14,11 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.millicom.mitv.ContentManager;
+import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
-import com.millicom.mitv.models.gson.TVProgram;
+import com.millicom.mitv.models.TVProgram;
 import com.mitv.R;
-import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.RepetitionsListAdapter;
 
 
@@ -49,18 +49,21 @@ public class RepetitionsPageActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+	
 		setContentView(R.layout.layout_repeating_list_activity);
-
-		// add the activity to the list of running activities
-		SecondScreenApplication.sharedInstance().getActivityList().add(this);
 
 		runningBroadcast = ContentManager.sharedInstance().getFromStorageSelectedBroadcastWithChannelInfo();
 		repeatingBroadcasts = ContentManager.sharedInstance().getFromStorageRepeatingBroadcasts(runningBroadcast);
 
 		initViews();
-
-		super.initCallbackLayouts();
-		loadData();
+	}
+	
+	
+	
+	@Override
+	protected void onResume() 
+	{
+		super.onResume();
 	}
 
 	
@@ -97,6 +100,66 @@ public class RepetitionsPageActivity
 	
 	
 	@Override
+	public void onClick(View v) 
+	{
+		int id = v.getId();
+
+		switch (id) 
+		{
+			case R.id.tab_tv_guide:
+			{
+				Intent intentHome = new Intent(RepetitionsPageActivity.this, HomeActivity.class);
+				
+				intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				
+				startActivity(intentHome);
+				
+				break;
+			}
+			
+			default:
+			{
+				// TODO Do something
+			}
+		}
+	}
+	
+	
+	
+	public void onBackPressed() 
+	{
+		super.onBackPressed();
+	}
+	
+	
+	
+	@Override
+	protected void loadData()
+	{
+		updateUI(UIStatusEnum.LOADING);
+		
+		// TODO Load data
+	}
+	
+	
+	
+	@Override
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult) 
+	{
+		if (fetchRequestResult.wasSuccessful()) 
+		{
+			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+		} 
+		else
+		{
+			updateUI(UIStatusEnum.FAILED);
+		}
+	}
+	
+	
+	
+	@Override
 	protected void updateUI(UIStatusEnum status) 
 	{
 		super.updateUIBaseElements(status);
@@ -116,49 +179,6 @@ public class RepetitionsPageActivity
 				// Do nothing
 				break;
 			}
-		}
-	}
-
-	
-	
-	@Override
-	protected void loadData()
-	{
-		updateUI(UIStatusEnum.LOADING);
-		
-		if (repeatingBroadcasts != null && repeatingBroadcasts.isEmpty() != true) 
-		{
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
-		} 
-		else 
-		{
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_EMPTY_DATA);
-		}
-	}
-
-	
-	
-	public void onBackPressed() 
-	{
-		super.onBackPressed();
-	}
-
-	
-	@Override
-	public void onClick(View v) 
-	{
-		int id = v.getId();
-
-		switch (id) 
-		{
-			case R.id.tab_tv_guide:
-				// tab to home page
-				Intent intentHome = new Intent(RepetitionsPageActivity.this, HomeActivity.class);
-				intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				startActivity(intentHome);
-	
-				break;
 		}
 	}
 }

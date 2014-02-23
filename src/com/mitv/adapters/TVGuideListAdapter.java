@@ -4,6 +4,7 @@ package com.mitv.adapters;
 
 
 import java.util.ArrayList;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -22,14 +23,15 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.ChannelPageActivity;
 import com.millicom.mitv.enums.BroadcastTypeEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVDate;
+import com.millicom.mitv.models.TVProgram;
 import com.millicom.mitv.models.gson.TVChannelGuide;
-import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -39,43 +41,52 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 
-public class TVGuideListAdapter extends AdListAdapter<TVChannelGuide> {
+public class TVGuideListAdapter 
+	extends AdListAdapter<TVChannelGuide> 
+{
+	@SuppressWarnings("unused")
+	private static final String	TAG	= TVGuideListAdapter.class.getName();
 
-	private static final String	TAG	= "TVGuideListAdapter";
+	private LayoutInflater mLayoutInflater;
+	private Activity mActivity;
+	private TVDate mDate;
+	private int	mIndexOfNearestBroadcast;
+	private int	mHour;
+	private int rowWidth = -1;
 
-	private LayoutInflater		mLayoutInflater;
-	private Activity			mActivity;
-	private ArrayList<TVChannelGuide>	mGuide;
-	private TVDate				mDate;
-	private int					mIndexOfNearestBroadcast;
-	private int					mHour;
-	private boolean				mIsToday;
-	private int 				screenWidth;
-	private int 				rowWidth = -1;
-
+	
+	
 	@SuppressLint("NewApi")
-	public TVGuideListAdapter(Activity activity, ArrayList<TVChannelGuide> guide, TVDate date, int hour, boolean isToday) {
+	public TVGuideListAdapter(Activity activity, ArrayList<TVChannelGuide> guide, TVDate date, int hour, boolean isToday) 
+	{
 		super(Consts.JSON_AND_FRAGMENT_KEY_GUIDE, activity, guide);
-		this.mGuide = guide;
 		this.mActivity = activity;
 		this.mDate = date;
 		this.mHour = hour;
-		this.mIsToday = isToday;
 	}
 	
+	
+	
 	@Override
-	public int getViewTypeCount() {
+	public int getViewTypeCount() 
+	{
 		return super.getViewTypeCount() + 1;
 	}
 	
-	public View getViewForGuideCell(int position, View convertView, ViewGroup parent) {
+	
+	
+	public View getViewForGuideCell(int position, View convertView, ViewGroup parent) 
+	{
 		View rowView = convertView;
 		
 		mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
-		if (rowView == null) {
+		if (rowView == null) 
+		{
 			rowView = mLayoutInflater.inflate(R.layout.row_tvguide_list, null);
+			
 			ViewHolder viewHolder = new ViewHolder();
+			
 			viewHolder.mContainer = (RelativeLayout) rowView.findViewById(R.id.item_container);
 			viewHolder.mImageView = (ImageView) rowView.findViewById(R.id.tvguide_channel_iv);
 			viewHolder.mTextView = (TextView) rowView.findViewById(R.id.tvguide_program_line_live);
@@ -85,23 +96,28 @@ public class TVGuideListAdapter extends AdListAdapter<TVChannelGuide> {
 		
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
 		
-		if (rowWidth < 0) {
+		if (rowWidth < 0)
+		{
 			/*
 			 * Start the view as invisible, when the height is known, update the
 			 * height of each row and change visibility to visible
 			 */
 			holder.mTextView.setVisibility(View.INVISIBLE);
-			holder.mTextView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-	
+			holder.mTextView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener()
+			{
 				@Override
-				public void onGlobalLayout() {
+				public void onGlobalLayout()
+				{
 					// gets called after layout has been done but before it gets displayed, so we can get the height of the view
 					int width = holder.mTextView.getWidth();
+					
 					TVGuideListAdapter guideListAdapter = ((TVGuideListAdapter) TVGuideListAdapter.this);
+					
 					guideListAdapter.setRowWidth(width);
 					guideListAdapter.notifyDataSetChanged();
 
 					TVGuideListAdapter.removeOnGlobalLayoutListener(holder.mTextView, this);
+					
 					holder.mTextView.setVisibility(View.VISIBLE);
 				}
 	
@@ -110,16 +126,22 @@ public class TVGuideListAdapter extends AdListAdapter<TVChannelGuide> {
 
 		final TVChannelGuide guide = getItem(position);
 
-		if (guide.getImageUrl() != null) {
+		if (guide.getImageUrl() != null)
+		{
 			ImageAware imageAware = new ImageViewAware(holder.mImageView, false);
+			
 			ImageLoader.getInstance().displayImage(guide.getImageUrl(), imageAware);
-		} else {
+		}
+		else
+		{
 			holder.mImageView.setImageResource(R.color.white);
 		}
 
-		holder.mContainer.setOnClickListener(new View.OnClickListener() {
+		holder.mContainer.setOnClickListener(new View.OnClickListener() 
+		{
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				Intent intent = new Intent(mActivity, ChannelPageActivity.class);
 				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, guide.getChannelId().getChannelId());
 //				intent.putExtra(Consts.INTENT_EXTRA_CHOSEN_DATE_TVGUIDE, mDate);
@@ -134,39 +156,55 @@ public class TVGuideListAdapter extends AdListAdapter<TVChannelGuide> {
 		ArrayList<TVBroadcast> broadcasts = guide.getBroadcasts();
 
 		String stringIconMovie = mActivity.getResources().getString(R.string.icon_movie) + " ";
+		
 		String stringIconLive = mActivity.getResources().getString(R.string.icon_live) + " ";
+		
 		String textForThreeBroadcasts = "";
+		
 		int textIndexToMarkAsOngoing = 0;
+		
 		int textStartIndexToMarkAsOngoing = 0;
 
-		if (broadcasts != null && broadcasts.size() > 0) {
+		if (broadcasts != null && broadcasts.size() > 0)
+		{
 			/* get the nearest broadcasts */
 
 			mIndexOfNearestBroadcast = guide.getClosestBroadcastIndexFromTime(broadcasts, mHour, mDate);
 
-			if (mIndexOfNearestBroadcast != -1) {
+			if (mIndexOfNearestBroadcast != -1) 
+			{
 				ArrayList<TVBroadcast> nextBroadcasts = TVBroadcast.getBroadcastsFromPosition(broadcasts, mIndexOfNearestBroadcast, Consts.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
 			
-				for (int j = 0; j < Math.min(nextBroadcasts.size(), 3); j++) {
+				for (int j = 0; j < Math.min(nextBroadcasts.size(), 3); j++) 
+				{
 					TVBroadcast broadcast = nextBroadcasts.get(j);
+					
 					TVProgram program = broadcast.getProgram();
+					
 					ProgramTypeEnum programType = program.getProgramType();
+					
 					BroadcastTypeEnum broadcastType = broadcast.getBroadcastType();
 					
 					String rowInfo = broadcast.getBeginTimeHourAndMinuteAsString();
+					
 					rowInfo += "   ";
 					
 					String showName = program.getTitle();
-					switch (programType) {
-						case MOVIE: {
+					
+					switch (programType) 
+					{
+						case MOVIE: 
+						{
 							rowInfo += stringIconMovie;
 							break;
 						}
-						case TV_EPISODE: {
+						case TV_EPISODE: 
+						{
 							showName = program.getSeries().getName();
 							break;
 						}
-						default: {
+						default: 
+						{
 							if(broadcastType == BroadcastTypeEnum.LIVE) {
 								rowInfo += stringIconLive;
 							}
@@ -195,33 +233,45 @@ public class TVGuideListAdapter extends AdListAdapter<TVChannelGuide> {
 //					rowInfo += showName;
 					
 					TextPaint testPaint = holder.mTextView.getPaint();
+					
 					float textWidth = testPaint.measureText(rowInfo);
+					
 					int limitIndex = rowInfo.length() - 1;
 					
 					boolean deletedChars = false;
 					
 					String toShow = "";
 					
-					if (rowWidth > 0) {
+					if (rowWidth > 0)
+					{
 						int maxTextWidth = (int) (rowWidth * 0.9);
 					
 						/* Calculate max amount of characters that fits */
-						while (textWidth > maxTextWidth && limitIndex > 0) {
+						while (textWidth > maxTextWidth && limitIndex > 0) 
+						{
 							deletedChars = true;
+							
 							limitIndex--;
+							
 							rowInfo = rowInfo.substring(0, limitIndex);
+							
 							textWidth = testPaint.measureText(rowInfo);
 						}
 						
 						String ellipsisString = "...";
-						if (deletedChars) {
+						
+						if (deletedChars) 
+						{
 							rowInfo = rowInfo.replace(rowInfo.substring(limitIndex-3, rowInfo.length()), ellipsisString);
 						}
+						
 						toShow = rowInfo;
 					}
 
-					if (broadcast.isBroadcastCurrentlyAiring()) {
+					if (broadcast.isBroadcastCurrentlyAiring()) 
+					{
 						textStartIndexToMarkAsOngoing = textForThreeBroadcasts.length();
+						
 						textIndexToMarkAsOngoing = textForThreeBroadcasts.length() + toShow.length();
 					}
 					
@@ -231,58 +281,84 @@ public class TVGuideListAdapter extends AdListAdapter<TVChannelGuide> {
 				Spannable wordtoSpan = new SpannableString(textForThreeBroadcasts);     
 				
 				Resources resources = SecondScreenApplication.sharedInstance().getApplicationContext().getResources();
-				if(textIndexToMarkAsOngoing > 0) {
+				
+				if(textIndexToMarkAsOngoing > 0) 
+				{
 					wordtoSpan.setSpan(new ForegroundColorSpan(resources.getColor(R.color.red)), textStartIndexToMarkAsOngoing, textIndexToMarkAsOngoing, 0);
 				}
+				
 				wordtoSpan.setSpan(new ForegroundColorSpan(resources.getColor(R.color.grey3)), textIndexToMarkAsOngoing+1, wordtoSpan.length() , Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			    
 				holder.mTextView.setText(wordtoSpan, TextView.BufferType.SPANNABLE);
 				
 			}
 		}
-		if (textForThreeBroadcasts.equals("")) {
+		
+		if (textForThreeBroadcasts.equals(""))
+		{
 			rowView.setVisibility(View.INVISIBLE);
 		}
-		else {
+		else
+		{
 			rowView.setVisibility(View.VISIBLE);
 		}
+		
 		return rowView;
 	}
 	
+	
+	
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(int position, View convertView, ViewGroup parent)
+	{
 		/* Superclass AdListAdapter will create view if this is a position of an ad. */
 		View rowView = super.getView(position, convertView, parent);
 
-		if(rowView == null) {
+		if(rowView == null)
+		{
 			rowView = getViewForGuideCell(position, convertView, parent);
 		}
 		
 		return rowView;
 	}
 
-	static class ViewHolder {
+	
+	
+	static class ViewHolder 
+	{
 		public RelativeLayout	mContainer;
 		public ImageView		mImageView;
 		public TextView			mTextView;
 	}
 
-	public void refreshList(int selectedHour) {
+	
+	
+	public void refreshList(int selectedHour)
+	{
 		mHour = selectedHour;
 
 		ContentManager.sharedInstance().setSelectedHour(mHour);
 		notifyDataSetChanged();
 	}
 	
-	public void setRowWidth(int width) {
+	
+	
+	public void setRowWidth(int width) 
+	{
 		this.rowWidth = width;
 	}
 	
+	
+	
 	@SuppressLint("NewApi")
-	public static void removeOnGlobalLayoutListener(View v, ViewTreeObserver.OnGlobalLayoutListener listener) {
-		if (Build.VERSION.SDK_INT < 16) {
+	public static void removeOnGlobalLayoutListener(View v, ViewTreeObserver.OnGlobalLayoutListener listener)
+	{
+		if (Build.VERSION.SDK_INT < 16) 
+		{
 			v.getViewTreeObserver().removeGlobalOnLayoutListener(listener);
-		} else {
+		} 
+		else 
+		{
 			v.getViewTreeObserver().removeOnGlobalLayoutListener(listener);
 		}
 	}

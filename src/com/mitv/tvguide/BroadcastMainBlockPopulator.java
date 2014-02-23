@@ -1,4 +1,7 @@
+
 package com.mitv.tvguide;
+
+
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,7 +20,7 @@ import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.activities.authentication.SignInOrSignupWithFacebookActivity;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
-import com.millicom.mitv.models.gson.TVProgram;
+import com.millicom.mitv.models.TVProgram;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.customviews.ReminderView;
@@ -29,22 +32,35 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-public class BroadcastMainBlockPopulator {
 
-	private static final String		TAG				= "BroadcastMainBlockPopulator";
 
-	private Activity				mActivity;
-	private ScrollView				mContainerView;
-	private ImageView				mLikeIv;
-	private boolean					mIsLiked = false;
-	private String					mProgramId, mContentTitle, mLikeType;
+public class BroadcastMainBlockPopulator 
+{
+	@SuppressWarnings("unused")
+	private static final String	TAG	= BroadcastMainBlockPopulator.class.getName();
 
-	public BroadcastMainBlockPopulator(Activity activity, ScrollView containerView) {
+	
+	private Activity mActivity;
+	private ScrollView mContainerView;
+	private ImageView mLikeIv;
+	private boolean	mIsLiked = false;
+	private String mProgramId;
+	private String mContentTitle;
+	private String mLikeType;
+
+	
+	
+	public BroadcastMainBlockPopulator(Activity activity, ScrollView containerView)
+	{
 		this.mActivity = activity;
+		
 		this.mContainerView = containerView;
 	}
 
-	public void createBlock(final TVBroadcastWithChannelInfo broadcast) {
+	
+	
+	public void createBlock(final TVBroadcastWithChannelInfo broadcast) 
+	{
 		LinearLayout containerView = (LinearLayout) mContainerView.findViewById(R.id.broacastpage_block_container_layout);
 
 		View topContentView = LayoutInflater.from(mActivity).inflate(R.layout.block_broadcastpage_main_content, null);

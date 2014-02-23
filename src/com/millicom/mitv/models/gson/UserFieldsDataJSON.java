@@ -5,7 +5,7 @@ import com.millicom.mitv.interfaces.GSONDataFieldValidation;
 
 
 
-public class UserFieldsData
+public class UserFieldsDataJSON
 	implements GSONDataFieldValidation
 {
 	/*
@@ -22,7 +22,7 @@ public class UserFieldsData
 	/*
 	 * The empty constructor is needed by gson. Do not remove.
 	 */
-	public UserFieldsData()
+	public UserFieldsDataJSON()
 	{}
 	
 	

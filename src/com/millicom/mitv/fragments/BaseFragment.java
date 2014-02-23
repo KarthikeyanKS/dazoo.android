@@ -3,28 +3,20 @@ package com.millicom.mitv.fragments;
 
 
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.view.View.OnClickListener;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.utilities.GenericUtils;
-import com.millicom.mitv.utilities.NetworkUtils;
-import com.mitv.Consts;
 import com.mitv.R;
 
 
@@ -41,8 +33,9 @@ public abstract class BaseFragment
 	public RelativeLayout requestEmptyResponseLayout;
 	public Button requestFailedButton;
 
-	private boolean	forceReload = false;
-
+	
+	
+	/* Abstract Methods */
 	
 	/* This method implementation should update the user interface according to the received status */
 	protected abstract void updateUI(UIStatusEnum status);
@@ -50,21 +43,15 @@ public abstract class BaseFragment
 	/* This method implementation should load all the necessary data from the webservice */
 	protected abstract void loadData();
 	
+	/* This method implementation should deal with changes after the data has been fetched */
+	protected abstract void onDataAvailable(FetchRequestResultEnum fetchRequestResult);
+	
+	
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-
-		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(new BroadcastReceiver() 
-		{
-			@Override
-			public void onReceive(Context context, Intent intent) 
-			{
-				Log.d(TAG, "FORCE RELOAD RECEIVED");
-
-				forceReload = true;
-			}
-		}, new IntentFilter(Consts.BROADCAST_HOMEPAGE));
 	}
 	
 	
@@ -76,9 +63,35 @@ public abstract class BaseFragment
 	{
 		updateUI(UIStatusEnum.LOADING);
 		
-		ContentManager.sharedInstance().checkNetworkConnectivity(this, getActivity());
-		
-		NetworkUtils.isConnectedAndHostIsReachable();
+		ContentManager.sharedInstance().checkNetworkConnectivity(this);
+	}
+	
+	
+	
+	@Override
+	final public void onResult(FetchRequestResultEnum fetchRequestResult) 
+	{
+		switch(fetchRequestResult)
+		{
+			case INTERNET_CONNECTION_AVAILABLE:
+			{
+				loadData();
+				break;
+			}
+			
+			case INTERNET_CONNECTION_NOT_AVAILABLE:
+			{
+				updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
+				break;
+			}
+			
+			default:
+			{
+				// The remaining cases should be handled by the subclasses
+				onDataAvailable(fetchRequestResult);
+				break;
+			}
+		}
 	}
 
 	
@@ -117,7 +130,6 @@ public abstract class BaseFragment
 				
 				case SUCCEEDED_WITH_DATA:
 				{
-					forceReload = false;
 					break;
 				}
 				
@@ -140,32 +152,6 @@ public abstract class BaseFragment
 	
 	
 	
-	@Override
-	public void onResult(FetchRequestResultEnum fetchRequestResult) 
-	{
-		switch(fetchRequestResult)
-		{
-			case INTERNET_CONNECTION_AVAILABLE:
-			{
-				loadData();
-				break;
-			}
-			
-			case INTERNET_CONNECTION_NOT_AVAILABLE:
-			{
-				updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
-				break;
-			}
-			
-			default:
-			{
-				// The remaining cases should be handled by the subclasses
-				break;
-			}
-		}
-	}
-
-	
 
 	// Set the initial state of all request layouts to GONE
 	public void hideRequestStatusLayouts() 
@@ -187,6 +173,7 @@ public abstract class BaseFragment
 	}
 	
 	
+	
 	public void initRequestCallbackLayouts(View v) 
 	{
 		requestFailedLayout = (RelativeLayout) v.findViewById(R.id.request_failed_main_layout);
@@ -198,20 +185,19 @@ public abstract class BaseFragment
 		requestLoadingLayout = (RelativeLayout) v.findViewById(R.id.request_loading_main_layout);
 	}
 	
+	
+	
 	@Override
-	public void onClick(View v) {
+	public void onClick(View v) 
+	{
 		int id = v.getId();
 
-		switch (id) {
-		case R.id.request_failed_reload_button: {
-			loadDataWithConnectivityCheck();
+		switch (id)
+		{
+			case R.id.request_failed_reload_button:
+			{
+				loadDataWithConnectivityCheck();
+			}
 		}
-		}
-	}	
-	
-
-	public boolean shouldForceReload() 
-	{
-		return forceReload;
 	}
 }

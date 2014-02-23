@@ -3,7 +3,7 @@ package com.millicom.mitv.models.gson;
 
 
 
-public class TVSeriesSeason 
+public class TVSeriesSeasonJSON 
 {
 	protected Integer number;
 	

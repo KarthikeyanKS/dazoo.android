@@ -3,11 +3,14 @@ package com.millicom.mitv.asynctasks.usertoken;
 
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
-import com.millicom.mitv.models.gson.TVFeedItem;
+import com.millicom.mitv.models.TVFeedItem;
 import com.mitv.Consts;
 
 
@@ -59,5 +62,20 @@ public class GetUserTVFeedItems
 		{
 			this.urlParameters.add(Consts.API_LIMIT, String.valueOf(itemLimit));
 		}
+	}
+	
+	
+	
+	@Override
+	protected Void doInBackground(String... params) 
+	{
+		super.doInBackground(params);
+		 
+		/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
+		TVFeedItem[] contentAsArray = (TVFeedItem[]) requestResultObjectContent;
+		ArrayList<TVFeedItem> contentAsArrayList = new ArrayList<TVFeedItem>(Arrays.asList(contentAsArray));
+		requestResultObjectContent = contentAsArrayList;
+		 
+		return null;
 	}
 }

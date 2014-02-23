@@ -1,17 +1,24 @@
+
 package com.millicom.mitv.models;
+
+
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import com.millicom.mitv.models.gson.TVBroadcastWithChannelInfoJSON;
-import com.millicom.mitv.models.gson.TVChannel;
-import com.millicom.mitv.models.gson.TVProgram;
 
-public class TVBroadcastWithChannelInfo extends TVBroadcastWithChannelInfoJSON {
-	
+
+
+public class TVBroadcastWithChannelInfo 
+	extends TVBroadcastWithChannelInfoJSON 
+{
 	public TVBroadcastWithChannelInfo(){}
+
 	
-	public TVBroadcastWithChannelInfo(TVBroadcast broadcast) {
+	
+	public TVBroadcastWithChannelInfo(TVBroadcast broadcast)
+	{
 		this.program = broadcast.getProgram();
 		this.beginTimeMillis = broadcast.getBeginTimeMillis();
 		this.beginTime = broadcast.getBeginTime();
@@ -22,10 +29,13 @@ public class TVBroadcastWithChannelInfo extends TVBroadcastWithChannelInfoJSON {
 		this.endTimeCalendar = broadcast.getEndTimeCalendar();
 	}
 	
+	
+	
 	public void setChannel(TVChannel channel) 
 	{
 		this.channel = channel;
 	}
+	
 	
 	
 	public void setProgram(TVProgram program) 
@@ -34,16 +44,20 @@ public class TVBroadcastWithChannelInfo extends TVBroadcastWithChannelInfoJSON {
 	}
 	
 	
+	
 	public void setBeginTimeCalendar(Calendar beginTimeCalendar) 
 	{
 		this.beginTimeCalendar = beginTimeCalendar;
 	}
 
 	
+	
 	public void setEndTimeCalendar(Calendar endTimeCalendar) 
 	{
 		this.endTimeCalendar = endTimeCalendar;
 	}
+	
+	
 	
 	/**
 	 * WARNING WARNING! DUPLICATION OF CODE!

@@ -1,6 +1,12 @@
+
 package com.millicom.mitv.models.gson;
 
+
+
 import com.millicom.mitv.enums.BroadcastTypeEnum;
+import com.millicom.mitv.models.TVProgram;
+
+
 
 public class BroadcastJSON 
 {
@@ -11,6 +17,8 @@ public class BroadcastJSON
 	protected BroadcastTypeEnum broadcastType;
 	protected String shareUrl;
 		
+	
+	
 	public TVProgram getProgram() {
 		return program;
 	}

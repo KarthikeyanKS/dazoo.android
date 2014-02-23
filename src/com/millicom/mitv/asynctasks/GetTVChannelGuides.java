@@ -8,8 +8,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import android.content.Context;
-
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
@@ -17,17 +15,15 @@ import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
+import com.millicom.mitv.models.TVChannel;
+import com.millicom.mitv.models.TVChannelId;
 import com.millicom.mitv.models.TVDate;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.TVGuideAndTaggedBroadcasts;
+import com.millicom.mitv.models.TVProgram;
 import com.millicom.mitv.models.TVTag;
-import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
-import com.millicom.mitv.models.gson.TVChannelId;
-import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
-import com.mitv.R;
-import com.mitv.SecondScreenApplication;
 
 
 
@@ -35,6 +31,8 @@ public class GetTVChannelGuides
 	extends AsyncTaskWithRelativeURL<TVChannelGuide[]>
 {	
 	private TVDate tvDate;
+	
+	
 	
 	private static String buildURL(TVDate tvDate)
 	{
@@ -69,14 +67,19 @@ public class GetTVChannelGuides
 
 
 	@Override
-	protected Void doInBackground(String... params) {
+	protected Void doInBackground(String... params) 
+	{
 		/* Important to call super first, which creates the content, which in this case is */
 		super.doInBackground(params);
 		
 		TVChannelGuide[] contentAsArray = (TVChannelGuide[]) requestResultObjectContent;
+		
 		ArrayList<TVChannelGuide> tvChannelGuides = new ArrayList<TVChannelGuide>(Arrays.asList(contentAsArray));
+		
 		HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> mapTagToTaggedBroadcastForDate = createMapTagToTaggedBroadcastForDate(tvChannelGuides);
+		
 		TVGuide tvGuide = new TVGuide(tvDate, tvChannelGuides);
+		
 		TVGuideAndTaggedBroadcasts tvGuideAndTaggedBroadcasts = new TVGuideAndTaggedBroadcasts(tvGuide, mapTagToTaggedBroadcastForDate);
 		
 		/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
@@ -85,26 +88,31 @@ public class GetTVChannelGuides
 		return null;
 	}
 	
+	
+	
 	/**
 	 * This method creates a map containing tagged broadcasts for a specific date.
 	 * @param tvChannelGuides
 	 * @return
 	 */
-	public HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> createMapTagToTaggedBroadcastForDate(ArrayList<TVChannelGuide> tvChannelGuides) {
-
+	public HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> createMapTagToTaggedBroadcastForDate(ArrayList<TVChannelGuide> tvChannelGuides) 
+	{
 		ArrayList<String> tvTagsAsStrings = tvTagIds();
 
 		/* TVTag id is used as key. STRANGEST JAVA BUG EVER: For some reason we MUST set the size of the map to 3 times as big as the expected
 		 * size of that map. We MUST set a size, else the values will be overwritten even though keys are not the same! */
 		HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> mapTagToTaggedBroadcastForDate = new HashMap<String, ArrayList<TVBroadcastWithChannelInfo>>(tvTagsAsStrings.size() * 3);
 		
-		for (TVChannelGuide tvChannelGuide : tvChannelGuides) {
+		for (TVChannelGuide tvChannelGuide : tvChannelGuides) 
+		{
 			TVChannelId tvChannelId = tvChannelGuide.getChannelId();
+			
 			TVChannel tvChannel = ContentManager.sharedInstance().getFromStorageTVChannelById(tvChannelId);
+			
 			ArrayList<TVBroadcast> broadcasts = new ArrayList<TVBroadcast>(tvChannelGuide.getBroadcasts());
 
-			for (TVBroadcast broadcast : broadcasts) {
-				
+			for (TVBroadcast broadcast : broadcasts) 
+			{	
 				TVProgram program = broadcast.getProgram();
 
 				/* Fetch list of all tags for this broadcast (program), WARNING: may contain irrelevant tags */
@@ -143,14 +151,23 @@ public class GetTVChannelGuides
 		return mapTagToTaggedBroadcastForDate;
 	}
 	
-	private ArrayList<String> tvTagIds() {
+	
+	
+	private ArrayList<String> tvTagIds() 
+	{
 		ArrayList<TVTag> tvTags = ContentManager.sharedInstance().getFromStorageTVTags();
+		
 		ArrayList<String> tvTagsAsString = new ArrayList<String>();
-		for(TVTag tvTag : tvTags) {
+		
+		for(TVTag tvTag : tvTags)
+		{
 			tvTagsAsString.add(tvTag.getId());
 		}
+		
 		return tvTagsAsString;
 	}
+	
+	
 	
 	/**
 	 * Some TVPrograms in some Broadcasts contains TVTags which are not being used in the app (meaning: matches TVTags fetched from backend).
@@ -160,16 +177,18 @@ public class GetTVChannelGuides
 	 * @param tagNames the list of TVTags for a specific program (for a broadcast), which may contain irrelevant tags.
 	 * @return A list of only the relevant broadcasts.
 	 */
-	private ArrayList<String> filterOutOnlyRelevantTagNames(ArrayList<String> allRelevantTVTags, ArrayList<String> tagNames) {		
+	private ArrayList<String> filterOutOnlyRelevantTagNames(ArrayList<String> allRelevantTVTags, ArrayList<String> tagNames)
+	{		
 		ArrayList<String> onlyRelevantTVTags = new ArrayList<String>();
 				
-		for(String tagName : tagNames) {
-			if(allRelevantTVTags.contains(tagName)) {
+		for(String tagName : tagNames)
+		{
+			if(allRelevantTVTags.contains(tagName))
+			{
 				onlyRelevantTVTags.add(tagName);
 			}
 		}
 		
 		return onlyRelevantTVTags;
 	}
-	
 }

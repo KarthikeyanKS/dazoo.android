@@ -44,6 +44,7 @@ public class TVGuideTableFragment
 	@SuppressWarnings("unused")
 	private static final String TAG = TVGuideTableFragment.class.getName();
 
+	
 	private String tvTagDisplayName;
 	private View rootView;
 	private Activity activity;
@@ -203,6 +204,64 @@ public class TVGuideTableFragment
 
 		return rootView;
 	}
+	
+	
+	
+	@Override
+	protected void loadData()
+	{
+		updateUI(UIStatusEnum.LOADING);
+
+		tvChannelGuides = null;
+		taggedBroadcasts = null;
+
+		if (getResources().getString(R.string.all_categories_name).equals(tvTagDisplayName)) 
+		{
+			ContentManager.sharedInstance().getElseFetchFromServiceTVGuideUsingSelectedTVDate(this, false);
+		} 
+		else 
+		{
+			ContentManager.sharedInstance().getElseFetchFromServiceTaggedBroadcastsForSelectedTVDate(this, false);
+		}
+	}
+	
+	
+	
+	@Override
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult) 
+	{
+		super.onResult(fetchRequestResult);
+		
+		switch(fetchRequestResult)
+		{
+			case SUCCESS:
+			{
+				if (getResources().getString(R.string.all_categories_name).equals(tvTagDisplayName)) 
+				{
+					// mGuides = mitvStore.getChannelGuides(mTvDate.getDate());
+					TVGuide tvGuideForSelectedDay = ContentManager.sharedInstance().getFromStorageTVGuideForSelectedDay();
+					
+					// TODO scrap mGuides variable and use TVGuide instead?
+					tvChannelGuides = tvGuideForSelectedDay.getTvChannelGuides();
+				} 
+				else 
+				{
+					// mTaggedBroadcasts = mitvStore.getTaggedBroadcasts(mTvDate, mTag);
+					
+					HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = ContentManager.sharedInstance().getFromStorageTaggedBroadcastsForSelectedTVDate();
+					
+					taggedBroadcasts = taggedBroadcastForDay.get(tvTagIdAsString);
+				}
+				break;
+			}
+			
+			default:
+			{
+				// TODO NewArc - Do something here?
+				break;
+			}
+		}
+	}
 
 	
 	
@@ -271,66 +330,6 @@ public class TVGuideTableFragment
 				// Do nothing
 				break;
 			}
-		}
-		
-			
-	}
-	
-	
-	
-	@Override
-	protected void loadData()
-	{
-		updateUI(UIStatusEnum.LOADING);
-
-		tvChannelGuides = null;
-		taggedBroadcasts = null;
-
-		// read the data from the mitvStore singleton
-		if (getResources().getString(R.string.all_categories_name).equals(tvTagDisplayName)) 
-		{
-			// mGuides = mitvStore.getChannelGuides(mTvDate.getDate());
-			ContentManager.sharedInstance().getElseFetchFromServiceTVGuideUsingSelectedTVDate(this, false);
-		} 
-		else 
-		{
-			// mTaggedBroadcasts = mitvStore.getTaggedBroadcasts(mTvDate, mTag);
-			ContentManager.sharedInstance().getElseFetchFromServiceTaggedBroadcastsForSelectedTVDate(this, false);
-		}
-	}
-	
-	
-	
-	@Override
-	public void onResult(FetchRequestResultEnum fetchRequestResult) 
-	{
-		super.onResult(fetchRequestResult);
-		
-		switch(fetchRequestResult)
-		{
-			case SUCCESS:
-			{
-				if (getResources().getString(R.string.all_categories_name).equals(tvTagDisplayName)) 
-				{
-					// mGuides = mitvStore.getChannelGuides(mTvDate.getDate());
-					TVGuide tvGuideForSelectedDay = ContentManager.sharedInstance().getFromStorageTVGuideForSelectedDay();
-					// TODO scrap mGuides variable and use TVGuide instead?
-					tvChannelGuides = tvGuideForSelectedDay.getTvChannelGuides();
-				} 
-				else 
-				{
-					// mTaggedBroadcasts = mitvStore.getTaggedBroadcasts(mTvDate, mTag);
-					HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = ContentManager.sharedInstance().getFromStorageTaggedBroadcastsForSelectedTVDate();
-					taggedBroadcasts = taggedBroadcastForDay.get(tvTagIdAsString);
-				}
-				break;
-			}
-			
-			default:
-			{
-				// TODO NewArc - Do something here?
-				break;
-			}
-		}
+		}		
 	}
 }

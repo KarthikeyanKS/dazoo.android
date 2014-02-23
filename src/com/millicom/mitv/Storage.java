@@ -1,4 +1,7 @@
+
 package com.millicom.mitv;
+
+
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -11,19 +14,22 @@ import com.millicom.mitv.models.AppConfiguration;
 import com.millicom.mitv.models.AppVersion;
 import com.millicom.mitv.models.RepeatingBroadcastsForBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
+import com.millicom.mitv.models.TVChannel;
+import com.millicom.mitv.models.TVChannelId;
 import com.millicom.mitv.models.TVDate;
+import com.millicom.mitv.models.TVFeedItem;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.TVTag;
 import com.millicom.mitv.models.UpcomingBroadcastsForBroadcast;
 import com.millicom.mitv.models.UserLike;
 import com.millicom.mitv.models.UserLoginData;
 import com.millicom.mitv.models.gson.AdAdzerkJSON;
-import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
-import com.millicom.mitv.models.gson.TVChannelId;
-import com.millicom.mitv.models.gson.TVFeedItem;
 
-public class Storage {
+
+
+public class Storage 
+{
 	private ArrayList<TVTag> tvTags;
 	private ArrayList<TVDate> tvDates;
 	private ArrayList<TVChannelId> tvChannelIdsDefault;
@@ -152,12 +158,16 @@ public class Storage {
 	}
 	
 	//TODO dont iterate through a list, change tvChannels to a Map instead?
-	public TVChannel getTVChannelById(TVChannelId tvChannelId) {
-		for(TVChannel tvChannel : tvChannels) {
-			if(tvChannel.getChannelId().equals(tvChannelId)) {
+	public TVChannel getTVChannelById(TVChannelId tvChannelId) 
+	{
+		for(TVChannel tvChannel : tvChannels) 
+		{
+			if(tvChannel.getChannelId().equals(tvChannelId))
+			{
 				return tvChannel;
 			}
 		}
+		
 		return null;
 	}
 
@@ -185,13 +195,20 @@ public class Storage {
 		this.activityFeed = activityFeed;
 	}
 	
-	public void addMoreActivityFeedItems(ArrayList<TVFeedItem> additionalActivityFeedItems) {
-		if(this.activityFeed == null) {
+	
+	
+	public void addMoreActivityFeedItems(ArrayList<TVFeedItem> additionalActivityFeedItems) 
+	{
+		if(this.activityFeed == null)
+		{
 			activityFeed = new ArrayList<TVFeedItem>();
 		}
+		
 		activityFeed.addAll(additionalActivityFeedItems);
 	}
 
+	
+	
 	public ArrayList<TVBroadcastWithChannelInfo> getPopularBroadcasts() {
 		return popularBroadcasts;
 	}

@@ -1,14 +1,25 @@
+
 package com.millicom.mitv.models.gson;
+
+
 
 import java.util.ArrayList;
 
 import com.millicom.mitv.models.TVBroadcast;
+import com.millicom.mitv.models.TVChannel;
 import com.millicom.mitv.models.TVDate;
 
-public class TVChannelGuide extends TVChannel {
+
+
+public class TVChannelGuide 
+	extends TVChannel
+{
 	private ArrayList<TVBroadcast> broadcasts;
 
-	public ArrayList<TVBroadcast> getBroadcasts() {
+	
+	
+	public ArrayList<TVBroadcast> getBroadcasts() 
+	{
 		return broadcasts;
 	}
 

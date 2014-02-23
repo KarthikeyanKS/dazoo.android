@@ -10,14 +10,14 @@ import com.millicom.mitv.models.TVSearchResult;
 
 
 
-public class TVSearchResults
+public class TVSearchResultsJSON
 	implements GSONDataFieldValidation
 {
 	private List<TVSearchResult> results;
 
 
 
-	public TVSearchResults()
+	public TVSearchResultsJSON()
 	{}
 
 	

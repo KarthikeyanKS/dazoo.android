@@ -1,4 +1,7 @@
+
 package com.millicom.mitv.activities;
+
+
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,10 +18,8 @@ import com.millicom.mitv.activities.authentication.MiTVLoginActivity;
 import com.millicom.mitv.activities.authentication.SignInOrSignupWithFacebookActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
-import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ActivityWithTabs;
 import com.mitv.R;
-import com.mitv.SecondScreenApplication;
 import com.mitv.customviews.FontTextView;
 import com.mitv.notification.NotificationDataSource;
 import com.mitv.storage.MiTVStore;
@@ -26,7 +27,12 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-public class MyProfileActivity extends BaseActivity implements ActivityCallbackListener, ActivityWithTabs, OnClickListener {
+
+
+public class MyProfileActivity 
+	extends BaseActivity 
+	implements ActivityWithTabs, OnClickListener 
+{
 	@SuppressWarnings("unused")
 	private static final String TAG = MyProfileActivity.class.getName();
 
@@ -52,26 +58,42 @@ public class MyProfileActivity extends BaseActivity implements ActivityCallbackL
 
 	private FontTextView mLikesCountTv, mChannelCountTv, mReminderCountTv;
 
+	
+	
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.layout_my_profile);
 
-		if (ContentManager.sharedInstance().isLoggedIn()) {
+		if (ContentManager.sharedInstance().isLoggedIn()) 
+		{
 			mUserFirstName = ContentManager.sharedInstance().getFromStorageUserFirstname();
 			mUserLastName = ContentManager.sharedInstance().getFromStorageUserLastname();
+			
 			// TDOO from where do we get the avatar?
 			// mUserAvatarUrl = ((SecondScreenApplication) getApplicationContext()).getUserAvatarUrl();
 		}
-
-		fetchUserData();
+	}
+	
+	
+	
+	@Override
+	protected void onResume() 
+	{
+		super.onResume();
+		
 		initViews();
+		
 		populateViews();
 	}
 
+	
+	
 	@Override
-	public void initTabViews() {
+	public void initTabViews() 
+	{
 		tabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
 		tabTvGuide.setOnClickListener(this);
 
@@ -90,14 +112,12 @@ public class MyProfileActivity extends BaseActivity implements ActivityCallbackL
 		tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 		tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
 		tabProfile.setBackgroundColor(getResources().getColor(R.color.red));
-
 	}
 
-	private void fetchUserData() {
-		ContentManager.sharedInstance().getElseFetchFromServiceUserLikes(this, false);
-	}
+	
 
-	private void initViews() {
+	private void initViews() 
+	{
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setTitle(getResources().getString(R.string.myprofile_title));
 
@@ -142,18 +162,23 @@ public class MyProfileActivity extends BaseActivity implements ActivityCallbackL
 
 		mAvatarImageView = (ImageView) findViewById(R.id.myprofile_avatar_iv);
 		mUserNameTextView = (FontTextView) findViewById(R.id.myprofile_name_tv);
-
 	}
 
-	private void populateViews() {
+	
+	
+	private void populateViews() 
+	{
 		NotificationDataSource notificationDataSource = new NotificationDataSource(this);
 		mReminderCountTv.setText("(" + String.valueOf(notificationDataSource.getNumberOfNotifications()) + ")");
 
-		if (ContentManager.sharedInstance().isLoggedIn()) {
+		if (ContentManager.sharedInstance().isLoggedIn())
+		{
 			mPersonalView.setVisibility(View.VISIBLE);
+			
 			mSignInOrSignUpView.setVisibility(View.GONE);
 
-			if (mUserAvatarUrl != null && TextUtils.isEmpty(mUserAvatarUrl) != true) {
+			if (mUserAvatarUrl != null && TextUtils.isEmpty(mUserAvatarUrl) != true) 
+			{
 				ImageAware imageAware = new ImageViewAware(mAvatarImageView, false);
 				ImageLoader.getInstance().displayImage(mUserAvatarUrl, imageAware);
 			}
@@ -194,7 +219,9 @@ public class MyProfileActivity extends BaseActivity implements ActivityCallbackL
 				mPersonalView.setVisibility(View.GONE);
 			}
 
-		} else {
+		} 
+		else 
+		{
 			mSignInOrSignUpView.setVisibility(View.VISIBLE);
 
 			mPersonalView.setVisibility(View.GONE);
@@ -204,17 +231,25 @@ public class MyProfileActivity extends BaseActivity implements ActivityCallbackL
 		}
 	}
 
+	
+	
 	@Override
-	public void onBackPressed() {
+	public void onBackPressed() 
+	{
 		super.onBackPressed();
 
 		finish();
 	}
 
+	
+	
 	@Override
-	public void onClick(View v) {
+	public void onClick(View v) 
+	{
 		int id = v.getId();
-		switch (id) {
+		
+		switch (id) 
+		{
 		case R.id.myprofile_likes_container: {
 			// likes
 			Intent intentLikes = new Intent(MyProfileActivity.this, LikesActivity.class);
@@ -265,21 +300,43 @@ public class MyProfileActivity extends BaseActivity implements ActivityCallbackL
 			break;
 		}
 
-		case R.id.myprofile_logout_container: {
-			// TODO is this for us
+		case R.id.myprofile_logout_container: 
+		{
+			// TODO
 			ContentManager.sharedInstance().performLogout(this);
-			// ApiClient.logout();
-
-			// clear all the running activities and start the application from
-			// the whole beginning
-			SecondScreenApplication.sharedInstance().clearActivityBacktrace();
 
 			startActivity(new Intent(MyProfileActivity.this, HomeActivity.class));
+			
 			break;
 		}
 		}
 	}
 
+
+	
+	@Override
+	protected void loadData() 
+	{
+		updateUI(UIStatusEnum.LOADING);
+		
+		ContentManager.sharedInstance().getElseFetchFromServiceUserLikes(this, false);
+	}
+
+	
+	
+	@Override
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult) 
+	{
+		if (fetchRequestResult.wasSuccessful()) 
+		{
+			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+		} 
+		else
+		{
+			updateUI(UIStatusEnum.FAILED);
+		}
+	}
+	
 	
 	
 	@Override
@@ -298,37 +355,6 @@ public class MyProfileActivity extends BaseActivity implements ActivityCallbackL
 			default:
 			{
 				// Do nothing
-				break;
-			}
-		}
-	}
-
-	
-	
-	@Override
-	protected void loadData() 
-	{
-		// TODO NewArc - Implement this
-	}
-
-	
-	
-	@Override
-	public void onResult(FetchRequestResultEnum fetchRequestResult) 
-	{
-		super.onResult(fetchRequestResult);
-		
-		switch(fetchRequestResult)
-		{
-			case SUCCESS:
-			{
-				// TODO NewArc - Do something here?
-				break;
-			}
-			
-			default:
-			{
-				// TODO NewArc - Do something here?
 				break;
 			}
 		}

@@ -38,8 +38,8 @@ import com.millicom.mitv.enums.LikeTypeRequestEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
+import com.millicom.mitv.models.TVChannelId;
 import com.millicom.mitv.models.TVDate;
-import com.millicom.mitv.models.gson.TVChannelId;
 
 
 
@@ -55,11 +55,9 @@ public class APIClient
 	
 	
 	
-	public void getNetworkConnectivityIsAvailable(
-			ActivityCallbackListener activityCallBackListener,
-			Context context) 
+	public void getNetworkConnectivityIsAvailable(ActivityCallbackListener activityCallBackListener) 
 	{
-		CheckNetworkConnectivity checkNetworkConnectivity = new CheckNetworkConnectivity(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.INTERNET_CONNECTIVITY, context);
+		CheckNetworkConnectivity checkNetworkConnectivity = new CheckNetworkConnectivity(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.INTERNET_CONNECTIVITY);
 		checkNetworkConnectivity.execute();
 	}
 	
@@ -91,6 +89,7 @@ public class APIClient
 		GetTVTags getTVTags = new GetTVTags(contentCallbackListener, activityCallBackListener);
 		getTVTags.execute();
 	}
+	
 	
 	
 	public void getTVDates(ActivityCallbackListener activityCallBackListener) 

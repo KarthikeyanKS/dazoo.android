@@ -23,12 +23,12 @@ import android.widget.TextView;
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.ActivityActivity;
 import com.millicom.mitv.activities.HomeActivity;
+import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.utilities.RegularExpressionUtils;
 import com.mitv.AuthenticationService;
 import com.mitv.Consts;
 import com.mitv.R;
-import com.mitv.SecondScreenApplication;
 import com.mitv.asynctasks.LoginTask;
 
 
@@ -39,6 +39,7 @@ public class MiTVLoginActivity
 {
 	private static final String TAG = MiTVLoginActivity.class.getName();
 	
+	
 	private ActionBar			mActionBar;
 	private Button				mMiTVLoginButton;
 	private Button				mForgetPasswordButton;
@@ -48,11 +49,10 @@ public class MiTVLoginActivity
 	private TextView			mPasswordErrorTv;
 	private TextView			mEmailErrorTv;
 	
-	private boolean 			mIsFromActivity;
-	
-	private String				userEmailLogin;
-	private String				userPasswordLogin;
-	private String				miTVToken	= "";
+	private boolean mIsFromActivity;
+	private String userEmailLogin;
+	private String userPasswordLogin;
+	private String miTVToken = "";
 	
 	
 	
@@ -70,12 +70,39 @@ public class MiTVLoginActivity
 			mIsFromActivity = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_FROM_ACTIVITY);
 		}
 
-		// add the activity to the list of running activities
-		SecondScreenApplication.sharedInstance().getActivityList().add(this);
-
 		initViews();
 	}
+	
+	
+	
+	@Override
+	protected void onResume() 
+	{
+		super.onResume();
+	}
 
+	
+	
+	@Override
+	protected void loadData() 
+	{
+		// TODO NewArc - Do something here?
+	}
+	
+	
+	@Override
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult) 
+	{
+		if (fetchRequestResult.wasSuccessful()) 
+		{
+			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+		} 
+		else
+		{
+			updateUI(UIStatusEnum.FAILED);
+		}
+	}
+	
 	
 	
 	@Override
@@ -101,15 +128,8 @@ public class MiTVLoginActivity
 
 	
 	
-	@Override
-	protected void loadData() 
+	private void initViews() 
 	{
-		// TODO NewArc - Do something here?
-	}
-
-	
-	
-	private void initViews() {
 		mActionBar = getSupportActionBar();
 		mActionBar.setDisplayShowTitleEnabled(true);
 		mActionBar.setDisplayShowCustomEnabled(true);
@@ -148,10 +168,14 @@ public class MiTVLoginActivity
 	private boolean verifyPasswordInput() 
 	{
 		String passwordInput = mPasswordLoginEditText.getText().toString();
-		if ((passwordInput != null) && (passwordInput.length() >= Consts.PASSWORD_LENGTH_MIN)
-				&& (passwordInput.length() <= Consts.PASSWORD_LENGTH_MAX) && (!passwordInput.matches("[%,#/|<>]+"))) {
+		
+		if ((passwordInput != null) && (passwordInput.length() >= Consts.PASSWORD_LENGTH_MIN) && 
+		    (passwordInput.length() <= Consts.PASSWORD_LENGTH_MAX) && (!passwordInput.matches("[%,#/|<>]+"))) 
+		{
 			return true;
-		} else {
+		} 
+		else 
+		{
 			return false;
 		}
 	}
@@ -162,7 +186,8 @@ public class MiTVLoginActivity
 	{
 		String emailInput = mEmailLoginEditText.getText().toString();
 		
-		if ((emailInput != null) && (RegularExpressionUtils.checkEmail(emailInput) == true)) {
+		if ((emailInput != null) && (RegularExpressionUtils.checkEmail(emailInput) == true))
+		{
 			return true;
 		} 
 		else
@@ -232,10 +257,6 @@ public class MiTVLoginActivity
 
 //									MiTVStore.getInstance().clearAll();
 //									MiTVStore.getInstance().reinitializeAll();
-
-									// clear all the running before activities and start the application from the whole beginning
-									
-									SecondScreenApplication.sharedInstance().clearActivityBacktrace();
 
 									Intent intent;
 									

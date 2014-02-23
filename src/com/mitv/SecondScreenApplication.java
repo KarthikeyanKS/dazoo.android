@@ -6,9 +6,8 @@ package com.mitv;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
 import java.util.Locale;
-import android.app.Activity;
+
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -19,12 +18,9 @@ import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
-import com.millicom.mitv.utilities.RegularExpressionUtils;
 import com.mitv.manager.GATrackingManager;
 import com.mitv.storage.ObscuredSharedPreferences;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
@@ -36,18 +32,24 @@ import com.nostra13.universalimageloader.utils.L;
 
 
 
-
 public class SecondScreenApplication 
 	extends Application
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = SecondScreenApplication.class.getName();
 	
-	public static interface CheckApiVersionListener {
+	
+	public static interface CheckApiVersionListener 
+	{
 		public void onApiVersionChecked(boolean needsUpdate);
 	}
-	public static interface AppConfigurationListener {
+	
+	
+	public static interface AppConfigurationListener 
+	{
 		public void onAppConfigurationListener();
 	}
+	
 	
 	private static String userAgent;
 	private static String session;
@@ -76,9 +78,7 @@ public class SecondScreenApplication
 	private final static double				POSTER_WIDTH_DIVIDER			= 2.1;
 	private boolean 						mIsFirstStart = true;
 
-	private ArrayList<Activity>				mRunningActivities				= new ArrayList<Activity>();
-
-	// SharedPreferences used to save stuffs
+	// SharedPreferences used to save stuff
 	private static SharedPreferences		sSharedPreferences;
 	private static Editor					editor;
 
@@ -105,8 +105,7 @@ public class SecondScreenApplication
 	
 	
 	
-	public SecondScreenApplication() {
-	}
+	public SecondScreenApplication() {}
 	
 //	/**
 //	 * Get/Set User session from saved preferences
@@ -555,15 +554,16 @@ public class SecondScreenApplication
 	/**
 	 * Calculate the sizes of the image thumbnails that are used across the app.
 	 */
-	private void calculateSizes() {
-
+	private void calculateSizes() 
+	{
 		WindowManager wm = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
 		Display display = wm.getDefaultDisplay();
 		int widthFullSize = display.getWidth();
 		int heightFullSize = display.getHeight();
 
 		// Checks if we are in landscape
-		if (display.getWidth() > display.getHeight()) {
+		if (display.getWidth() > display.getHeight()) 
+		{
 			widthFullSize = display.getHeight();
 		}
 
@@ -579,20 +579,5 @@ public class SecondScreenApplication
 
 		sImageSizePosterWidth = (int) Math.ceil(sImageSizeGalleryWidth / POSTER_WIDTH_DIVIDER);
 		sImageSizePosterHeight = (int) Math.ceil(sImageSizePosterWidth * IMAGE_HEIGHT_COEFFICIENT_POSTER);
-	}
-
-	// Add a activity to list of running activities
-	public ArrayList<Activity> getActivityList() {
-		return mRunningActivities;
-	}
-
-	// Clear all running activities
-	public void clearActivityBacktrace() {
-
-		for (Activity a : mRunningActivities) {
-
-			Log.d(TAG, "DELETE ACTIVITY");
-			if (a != null) a.finish();
-		}
 	}
 }

@@ -20,10 +20,10 @@ import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.millicom.mitv.activities.ActivityActivity;
 import com.millicom.mitv.activities.HomeActivity;
+import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.mitv.Consts;
 import com.mitv.R;
-import com.mitv.SecondScreenApplication;
 
 
 
@@ -53,10 +53,6 @@ public class FacebookLoginActivity
 		{
 			mIsFromActivity = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_FROM_ACTIVITY);
 		}
-
-		// add the activity to the list of running activities
-		// TODO: Why is this needed?
-		SecondScreenApplication.sharedInstance().getActivityList().add(this);
 
 		initViews();
 
@@ -88,6 +84,37 @@ public class FacebookLoginActivity
 	}
 	
 	
+
+	@Override
+	protected void onResume() 
+	{
+		super.onResume();
+	}
+	
+	
+
+	@Override
+	protected void loadData() 
+	{
+		// TODO NewArc - Do something here?
+	}
+	
+	
+	
+	@Override
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult) 
+	{
+		if (fetchRequestResult.wasSuccessful()) 
+		{
+			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+		} 
+		else
+		{
+			updateUI(UIStatusEnum.FAILED);
+		}
+	}
+	
+	
 	
 	@Override
 	protected void updateUI(UIStatusEnum status)
@@ -108,14 +135,6 @@ public class FacebookLoginActivity
 				break;
 			}
 		}
-	}
-
-	
-	
-	@Override
-	protected void loadData() 
-	{
-		// TODO NewArc - Do something here?
 	}
 	
 	

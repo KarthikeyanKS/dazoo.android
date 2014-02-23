@@ -1,4 +1,7 @@
+
 package com.millicom.mitv.activities;
+
+
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -17,10 +20,12 @@ import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.mitv.R;
-import com.mitv.SecondScreenApplication;
 import com.mitv.customviews.FontTextView;
+
+
 
 public class AboutOrTermsActivity 
 	extends BaseActivity 
@@ -48,9 +53,6 @@ public class AboutOrTermsActivity
 
 		this.isAboutView = this.getClass().equals(AboutUsActivity.class);
 		
-		// add the activity to the list of running activities
-		SecondScreenApplication.sharedInstance().getActivityList().add(this);
-
 		initLayout();
 		
 		populateViews();
@@ -216,7 +218,30 @@ public class AboutOrTermsActivity
 		textView.setText(s);
 	}
 
+	
+	
+	@Override
+	protected void loadData() 
+	{
+		// TODO NewArc - Implement this
+	}
+	
+	
+	
+	@Override
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult) 
+	{
+		if (fetchRequestResult.wasSuccessful()) 
+		{
+			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+		} 
+		else
+		{
+			updateUI(UIStatusEnum.FAILED);
+		}
+	}
 
+	
 
 	@Override
 	protected void updateUI(UIStatusEnum status) 
@@ -237,13 +262,5 @@ public class AboutOrTermsActivity
 				break;
 			}
 		}
-	}
-
-
-	
-	@Override
-	protected void loadData() 
-	{
-		// TODO NewArc - Implement this
 	}
 }

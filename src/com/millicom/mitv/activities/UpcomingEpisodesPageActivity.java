@@ -11,10 +11,10 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.millicom.mitv.ContentManager;
+import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.R;
-import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.UpcomingEpisodesListAdapter;
 
 
@@ -37,19 +37,22 @@ public class UpcomingEpisodesPageActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+	
 		setContentView(R.layout.layout_upcoming_episodes_list_activity);
 
-		// add the activity to the list of running activities
-		SecondScreenApplication.sharedInstance().getActivityList().add(this);
-
 		runningBroadcast = ContentManager.sharedInstance().getFromStorageSelectedBroadcastWithChannelInfo();
+		
 		upcomingBroadcasts = ContentManager.sharedInstance().getFromStorageUpcomingBroadcasts(runningBroadcast);
 
 		initViews();
-
-		super.initCallbackLayouts();
-		
-		loadData();
+	}
+	
+	
+	
+	@Override
+	protected void onResume() 
+	{
+		super.onResume();
 	}
 
 	
@@ -67,7 +70,40 @@ public class UpcomingEpisodesPageActivity
 	}
 	
 	
-
+	
+	@Override
+	public void onBackPressed() 
+	{
+		super.onBackPressed();
+	}
+	
+	
+	
+	@Override
+	protected void loadData() 
+	{
+		updateUI(UIStatusEnum.LOADING);
+		
+		// TODO NewArc - Do something here
+	}
+	
+	
+	
+	@Override
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult) 
+	{
+		if (fetchRequestResult.wasSuccessful()) 
+		{
+			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+		} 
+		else
+		{
+			updateUI(UIStatusEnum.FAILED);
+		}
+	}
+	
+	
+	
 	@Override
 	protected void updateUI(UIStatusEnum status) 
 	{
@@ -78,11 +114,8 @@ public class UpcomingEpisodesPageActivity
 			case SUCCEEDED_WITH_DATA:
 			{
 				adapter = new UpcomingEpisodesListAdapter(this, upcomingBroadcasts, runningBroadcast);
-				
 				listView.setAdapter(adapter);
-				
 				listView.setVisibility(View.VISIBLE);
-				
 				break;
 			}
 	
@@ -92,31 +125,5 @@ public class UpcomingEpisodesPageActivity
 				break;
 			}
 		}
-	}
-
-	
-	
-	@Override
-	protected void loadData() 
-	{
-		updateUI(UIStatusEnum.LOADING);
-		
-		if (upcomingBroadcasts != null && upcomingBroadcasts.isEmpty() != true) 
-		{
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
-		} 
-		else 
-		{
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_EMPTY_DATA);
-		}
-	}
-
-	
-	
-	@Override
-	public void onBackPressed() 
-	{
-		super.onBackPressed();
-
 	}
 }

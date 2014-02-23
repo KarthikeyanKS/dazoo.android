@@ -25,9 +25,7 @@ import com.millicom.mitv.activities.authentication.SignUpWithEmailActivity;
 import com.millicom.mitv.enums.FeedItemTypeEnum;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
-import com.millicom.mitv.interfaces.ActivityCallbackListener;
-import com.millicom.mitv.interfaces.ActivityWithTabs;
-import com.millicom.mitv.models.gson.TVFeedItem;
+import com.millicom.mitv.models.TVFeedItem;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.adapters.ActivityFeedAdapter;
@@ -35,10 +33,11 @@ import com.mitv.adapters.ActivityFeedAdapter;
 
 public class ActivityActivity 
 	extends BaseActivity 
-	implements ActivityCallbackListener, OnClickListener, OnScrollListener 
+	implements OnClickListener, OnScrollListener 
 {
 	private static final String TAG = ActivityActivity.class.getName();
 
+	
 	private RelativeLayout facebookContainer;
 	private RelativeLayout signUpContainer;
 	private TextView greetingTv;
@@ -49,7 +48,6 @@ public class ActivityActivity
 	private Boolean noTask = true;
 	private ListView listView;
 	private ActivityFeedAdapter adapter;
-	private Activity activity;
 	private View listFooterView;
 
 	public static Toast toast;
@@ -61,17 +59,15 @@ public class ActivityActivity
 	{
 		super.onCreate(savedInstanceState);
 
-		activity = this;
-
-		if (ContentManager.sharedInstance().isLoggedIn()) 
+		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+		
+		if (isLoggedIn) 
 		{
 			setContentView(R.layout.layout_activity_activity);
 
 			initStandardViews();
 			
 			initFeedViews();
-
-			super.initCallbackLayouts();
 
 			// String signupTitle = String.format("%s %s", getResources().getString(R.string.success_account_created_title),
 			// SecondScreenApplication.getInstance().getUserFirstName());
@@ -105,7 +101,18 @@ public class ActivityActivity
 		}
 	}
 
-	private void initStandardViews() {
+	
+	
+	@Override
+	protected void onResume() 
+	{
+		super.onResume();
+	}	
+		
+	
+	
+	private void initStandardViews() 
+	{
 		actionBar = getSupportActionBar();
 		
 		actionBar.setDisplayShowTitleEnabled(true);
@@ -170,7 +177,7 @@ public class ActivityActivity
 				checkPopularBtn.setOnClickListener(this);
 
 				StringBuilder sb = new StringBuilder();
-				sb.append(activity.getResources().getString(R.string.hello));
+				sb.append(getResources().getString(R.string.hello));
 				sb.append(" ");
 				sb.append(ContentManager.sharedInstance().getFromStorageUserFirstname());
 				sb.append(" ");
@@ -210,6 +217,21 @@ public class ActivityActivity
 	
 	
 	@Override
+	protected void onDataAvailable(FetchRequestResultEnum fetchRequestResult) 
+	{
+		if (fetchRequestResult.wasSuccessful()) 
+		{
+			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+		} 
+		else
+		{
+			updateUI(UIStatusEnum.FAILED);
+		}
+	}
+	
+	
+	
+	@Override
 	protected void updateUI(UIStatusEnum status) 
 	{
 		super.updateUIBaseElements(status);
@@ -230,22 +252,7 @@ public class ActivityActivity
 		}
 	}
 	
-	
-	
-	@Override
-	public void onResult(FetchRequestResultEnum fetchRequestResult) {
-		super.onResult(fetchRequestResult);
 
-		adapter.notifyDataSetChanged();
-
-		if (fetchRequestResult.wasSuccessful()) {
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
-		} else {
-			updateUI(UIStatusEnum.FAILED);
-		}
-	}
-	
-	
 	
 	@Override
 	public void onBackPressed() 
@@ -269,7 +276,8 @@ public class ActivityActivity
 	
 	
 	@Override
-	public void onClick(View v) {
+	public void onClick(View v) 
+	{
 		/* Important to call Super, since that handles tab selection */
 		super.onClick(v);
 		

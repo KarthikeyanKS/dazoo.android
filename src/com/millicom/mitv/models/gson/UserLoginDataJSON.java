@@ -1,7 +1,10 @@
 
 package com.millicom.mitv.models.gson;
 
+
+
 import com.millicom.mitv.interfaces.GSONDataFieldValidation;
+import com.millicom.mitv.models.UserFieldsData;
 
 
 

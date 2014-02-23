@@ -5,7 +5,7 @@ package com.millicom.mitv.activities;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import android.app.Activity;
+
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -15,16 +15,16 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ScrollView;
 import android.widget.Toast;
+
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
-import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
+import com.millicom.mitv.models.TVChannel;
+import com.millicom.mitv.models.TVChannelId;
 import com.millicom.mitv.models.TVDate;
-import com.millicom.mitv.models.gson.TVChannel;
-import com.millicom.mitv.models.gson.TVChannelId;
-import com.millicom.mitv.models.gson.TVProgram;
+import com.millicom.mitv.models.TVProgram;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.tvguide.BroadcastMainBlockPopulator;
@@ -32,12 +32,11 @@ import com.mitv.tvguide.BroadcastMainBlockPopulator;
 
 
 public class BroadcastPageActivity 
-	extends BaseActivity 
-	implements ActivityCallbackListener 
+	extends BaseActivity
 {
-
 	private static final String TAG = BroadcastPageActivity.class.getName();
 
+	
 	private TVBroadcast broadcast;
 	private String channelLogoUrl;
 	private ActionBar actionBar;
@@ -52,7 +51,6 @@ public class BroadcastPageActivity
 	private boolean mIsUpcoming = false;
 	private boolean mIsRepeat = false;
 	private boolean isFromProfile = false;
-	private Activity activity;
 	private Intent intent;
 	private ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts;
 	private ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts;
@@ -60,32 +58,41 @@ public class BroadcastPageActivity
 	private int activityCardNumber;
 	public static Toast toast;
 
+	
+	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.layout_broadcastpage_activity);
 
-		activity = this;
-
-		/*  */
-		// get the info about the program to be displayed from tv-guide listview
 		intent = getIntent();
 
 		isFromActivity = intent.getBooleanExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, false);
 		isFromProfile = intent.getBooleanExtra(Consts.INTENT_EXTRA_FROM_PROFILE, false);
 		isFromNotification = intent.getBooleanExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, false);
-		if (isFromNotification) {
+		
+		if (isFromNotification)
+		{
 			beginTimeInMillis = intent.getLongExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, 0);
+			
 			String channelIdAsString = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_ID);
+			
 			channelId = new TVChannelId(channelIdAsString);
+			
 			String tvDateAsString = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE);
+			
 			//TODO NewArc use constructor from Felipe to construct TVDate using string representation e.g.: "2014-02-21"
 			//tvDate = new TVDate(tvDateAsString);
 			broadcastPageUrl = intent.getStringExtra(Consts.INTENT_EXTRA_BROADCAST_URL);
+			
 			channelLogoUrl = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_LOGO_URL);
+			
 			activityCardNumber = intent.getIntExtra(Consts.INTENT_EXTRA_ACTIVITY_CARD_NUMBER, -1);
-		} else {
+		} 
+		else
+		{
 			// TODO handle this, read date from ContentManager, the nonpersistent tmp set data....
 			TVBroadcastWithChannelInfo broadcastWithChannelInfo = ContentManager.sharedInstance().getFromStorageSelectedBroadcastWithChannelInfo();
 		}
@@ -102,15 +109,47 @@ public class BroadcastPageActivity
 		Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
 		initViews();
-
-		super.initCallbackLayouts();
-
-		loadStartPage();
-
+		
 		/* Notify backend that we have entered the broadcast page for this broadcast, observe: no tracking will be performed if broadcast was created from notification */
 		ContentManager.sharedInstance().performInternalTracking(broadcast);
 	}
-
+	
+	
+	
+	@Override
+	protected void onResume() 
+	{
+		super.onResume();
+	}
+	
+	
+	
+	@Override
+	protected void loadData() 
+	{
+		updateUI(UIStatusEnum.LOADING);
+		
+		//TODO NewArc fetch TVBroadcastWithChannelInfo version of TVBroadcast object (instance: variable "broadcast") here? or make Backend send TVBroadcastWithChannelInfo version with TVGuide!
+//		getIndividualBroadcast(broadcastPageUrl);
+	}
+	
+	
+	
+	@Override
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult) 
+	{
+		if (fetchRequestResult.wasSuccessful()) 
+		{
+			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+		} 
+		else
+		{
+			updateUI(UIStatusEnum.FAILED);
+		}
+	}
+	
+	
+	
 	@Override
 	protected void updateUI(UIStatusEnum status) 
 	{
@@ -130,35 +169,12 @@ public class BroadcastPageActivity
 				break;
 			}
 		}
-		
-//		Log.d(TAG, "mIsBroadcast: " + mIsBroadcast + " mIsUpcoming: " + mIsUpcoming);
-//		
-//		if (mIsBroadcast && mIsUpcoming && mIsRepeat) 
-//		{
-//			if (super.requestIsSuccesfull(status)) 
-//			{
-//				Log.d(TAG, "SUCCESSFUL");
-//				populateBlocks();
-//			}
-//		}
 	}
 
 	
 	
-	@Override
-	protected void loadData() {
-		// try to load page again when network is up
-		
-		//TODO NewArc fetch TVBroadcastWithChannelInfo version of TVBroadcast object (instance: variable "broadcast") here? or make Backend send TVBroadcastWithChannelInfo version with TVGuide!
-//		if (NetworkUtils.isConnectedAndHostIsReachable(activity)) {
-//			getIndividualBroadcast(broadcastPageUrl);
-//		}
-	}
-
 	private void loadStartPage() 
 	{
-		updateUI(UIStatusEnum.LOADING);
-		
 		//TODO NewArc fetch TVBroadcastWithChannelInfo version of TVBroadcast object (instance: variable "broadcast") here? or make Backend send TVBroadcastWithChannelInfo version with TVGuide!
 		
 //		boolean loadIndividualBroadcast = true;
@@ -258,39 +274,51 @@ public class BroadcastPageActivity
 //		});
 //	}
 
-	private void initViews() {
-		// styling the Action Bar
+	
+	
+	private void initViews()
+	{
 		actionBar = getSupportActionBar();
-		actionBar.setTitle(activity.getResources().getString(R.string.broadcast_info));
+		actionBar.setTitle(getResources().getString(R.string.broadcast_info));
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		scrollView = (ScrollView) findViewById(R.id.broadcast_scroll);
 	}
 
-	private void populateBlocks() {
-		Log.d(TAG, "populateBlocks");
-
-		// add main content block
-		BroadcastMainBlockPopulator mainBlockPopulator = new BroadcastMainBlockPopulator(activity, scrollView);
+	
+	
+	private void populateBlocks()
+	{
+		BroadcastMainBlockPopulator mainBlockPopulator = new BroadcastMainBlockPopulator(this, scrollView);
 
 		// TODO fix this
 		// mainBlockPopulator.createBlock(mBroadcast);
 
 		// Remove upcoming broadcasts with season 0 and episode 0
 		LinkedList<TVBroadcast> upcomingToRemove = new LinkedList<TVBroadcast>();
-		if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(broadcast.getProgram().getProgramType())) {
+		
+		if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(broadcast.getProgram().getProgramType())) 
+		{
 			TVProgram program = broadcast.getProgram();
-			if (program.getSeason().getNumber().equals("0") && program.getEpisodeNumber() == 0) {
-				for (int i = 0; i < upcomingBroadcasts.size(); i++) {
+			
+			if (program.getSeason().getNumber().equals("0") && program.getEpisodeNumber() == 0) 
+			{
+				for (int i = 0; i < upcomingBroadcasts.size(); i++) 
+				{
 					TVBroadcast b = upcomingBroadcasts.get(i);
+					
 					TVProgram p = b.getProgram();
-					if (p.getSeason().getNumber().equals("0") && p.getEpisodeNumber() == 0) {
+					
+					if (p.getSeason().getNumber().equals("0") && p.getEpisodeNumber() == 0)
+					{
 						upcomingToRemove.add(b);
 					}
 				}
 			}
 		}
-		for (TVBroadcast b : upcomingToRemove) {
+		
+		for (TVBroadcast b : upcomingToRemove) 
+		{
 			upcomingBroadcasts.remove(b);
 		}
 
@@ -308,25 +336,33 @@ public class BroadcastPageActivity
 		// mBroadcast);
 		// upcomingBlock.createBlock(mUpcomingBroadcasts, null);
 		// }
-
 	}
 
+	
+	
 	@Override
-	public void onBackPressed() {
+	public void onBackPressed() 
+	{
 		super.onBackPressed();
 
 		finish();
 	}
 
+	
+	
 	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
+	public void onConfigurationChanged(Configuration newConfig) 
+	{
 		super.onConfigurationChanged(newConfig);
-
 	}
+	
+	
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
+	public boolean onOptionsItemSelected(MenuItem item) 
+	{
+		switch (item.getItemId())
+		{
 		// Respond to the action bar's Up/Home button
 		case android.R.id.home:
 			Intent upIntent = NavUtils.getParentActivityIntent(this);
@@ -417,11 +453,4 @@ public class BroadcastPageActivity
 //		});
 		ContentManager.sharedInstance().getElseFetchFromServiceRepeatingBroadcasts(this, false, broadcast);
 	}
-
-	@Override
-	public void onResult(FetchRequestResultEnum fetchRequestResult) {
-		//TODO NewArc fix me!
-		
-	}
-
 }

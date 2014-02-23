@@ -26,10 +26,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.mitv.Consts;
 import com.mitv.R;
-import com.mitv.SecondScreenApplication;
 import com.mitv.asynctasks.MiTVRegistrationTask;
 import com.mitv.customviews.FontTextView;
 import com.mitv.customviews.TextDrawable;
@@ -76,14 +76,42 @@ public class SignUpWithEmailActivity
 			mIsFromActivity = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_FROM_ACTIVITY);
 		}
 
-		// add the activity to the list of running activities
-		SecondScreenApplication.sharedInstance().getActivityList().add(this);
-
 		initViews();
+	}
+	
+	
+	
+	@Override
+	protected void onResume() 
+	{
+		super.onResume();
 	}
 
 	
 	
+	@Override
+	protected void loadData() 
+	{
+		// TODO NewArc - Do something here?
+	}
+	
+	
+	
+	@Override
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult) 
+	{
+		if (fetchRequestResult.wasSuccessful()) 
+		{
+			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+		} 
+		else
+		{
+			updateUI(UIStatusEnum.FAILED);
+		}
+	}
+	
+	
+
 	@Override
 	protected void updateUI(UIStatusEnum status) 
 	{
@@ -103,14 +131,6 @@ public class SignUpWithEmailActivity
 				break;
 			}
 		}
-	}
-
-	
-	
-	@Override
-	protected void loadData() 
-	{
-		// TODO NewArc - Do something here?
 	}
 
 	
@@ -136,14 +156,21 @@ public class SignUpWithEmailActivity
 	private void stripUnderlines(TextView textView) 
 	{
 		Spannable s = (Spannable) textView.getText();
+		
 		URLSpan[] spans = s.getSpans(0, s.length(), URLSpan.class);
-		for (URLSpan span : spans) {
+		
+		for (URLSpan span : spans) 
+		{
 			int start = s.getSpanStart(span);
 			int end = s.getSpanEnd(span);
+			
 			s.removeSpan(span);
+			
 			span = new URLSpanNoUnderline(span.getURL());
+			
 			s.setSpan(span, start, end, 0);
 		}
+		
 		textView.setText(s);
 	}
 
@@ -178,7 +205,7 @@ public class SignUpWithEmailActivity
 		mTermsWebLink.setMovementMethod(LinkMovementMethod.getInstance());
 		stripUnderlines(mTermsWebLink);
 
-		// setTextWatchers();
+		setTextWatchers();
 
 		// TODO: Static drawable background is not properly set, causing a flickering effect. Quickfix!
 		mFirstNameEditText.setBackgroundResource(R.drawable.edittext_standard);

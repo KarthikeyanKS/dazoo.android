@@ -27,9 +27,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.millicom.mitv.ContentManager;
+import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.mitv.R;
-import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.MyChannelsListAdapter;
 import com.mitv.interfaces.MyChannelsCountInterface;
 import com.mitv.model.OldTVChannel;
@@ -43,47 +43,55 @@ public class MyChannelsActivity
 {
 	private static final String TAG = MyChannelsActivity.class.getName();
 
-	private ActionBar					mActionBar;
-	private boolean						mIsChange				= false;
-	private Button						mGetMyChannelsButton, mAddToMyChannelsButton;
-	private ListView					mListView;
-	private TextView					mChannelCountTv;
-	private RelativeLayout				mTabTvGuide, mTabProfile, mTabActivity;private View mTabDividerLeft, mTabDividerRight;
-	private EditText					mSearchChannelInputEditText;
-	private MyChannelsListAdapter		mAdapter;
 	
-	private ArrayList<OldTVChannel>			mChannels				= new ArrayList<OldTVChannel>();
-	private ArrayList<String>			mCheckedChannelsIds		= new ArrayList<String>();
-	private HashMap<String, OldTVChannel>	mChannelsMap			= new HashMap<String, OldTVChannel>();
+	private ActionBar mActionBar;
+	private Button mGetMyChannelsButton;
+	private Button mAddToMyChannelsButton;
+	private ListView mListView;
+	private TextView mChannelCountTv;
+	private RelativeLayout mTabTvGuide;
+	private RelativeLayout mTabProfile;
+	private RelativeLayout mTabActivity;
+	private View mTabDividerLeft;
+	private View mTabDividerRight;
+	private EditText mSearchChannelInputEditText;
 	
-	private boolean[]					mIsCheckedArray;
+	private MyChannelsListAdapter mAdapter;
 	
-	private int							mChannelCounter			= 0;
-//	private boolean						mIsChanged				= false;
-	private int							mCount					= 0;
+	private ArrayList<OldTVChannel>	mChannels = new ArrayList<OldTVChannel>();
+	private ArrayList<String> mCheckedChannelsIds = new ArrayList<String>();
+	private HashMap<String, OldTVChannel> mChannelsMap = new HashMap<String, OldTVChannel>();
+	
+	private boolean mIsChange = false;
+	private boolean[] mIsCheckedArray;
+	private int	mChannelCounter = 0;
+//	private boolean	mIsChanged = false;
+	private int	mCount = 0;
 
-	private ArrayList<OldTVChannel>			mChannelInfoToDisplay	= new ArrayList<OldTVChannel>();
-	private Map<String, OldTVChannel>		mChannelInfoMap			= new HashMap<String, OldTVChannel>();
+	private ArrayList<OldTVChannel> mChannelInfoToDisplay = new ArrayList<OldTVChannel>();
+	private Map<String, OldTVChannel> mChannelInfoMap = new HashMap<String, OldTVChannel>();
 
-	private ArrayList<String>			myChannelIds			= new ArrayList<String>();
-	private ArrayList<String>			mAllChannelsIds			= new ArrayList<String>();
+	private ArrayList<String> myChannelIds = new ArrayList<String>();
+	private ArrayList<String> mAllChannelsIds = new ArrayList<String>();
 
 	
 	
+	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.layout_mychannels_activity);
-
-		// add the activity to the list of running activities
-		SecondScreenApplication.sharedInstance().getActivityList().add(this);
-
+		
 		initLayout();
-		
-		super.initCallbackLayouts();
-		
-		populateViews();
+	}
+	
+	
+	
+	@Override
+	protected void onResume() 
+	{
+		super.onResume();
 	}
 
 	
@@ -244,17 +252,20 @@ public class MyChannelsActivity
 //	}
 
 	@Override
-	protected void onStop() {
+	protected void onStop() 
+	{
 		super.onStop();
 		// update channel list if user come back to the My Profile via Home Button
 
 		//TODO use content manager here somehow
 //		tryToUpdateChannelList();
-
 	}
 
+	
+	
 	@Override
-	public void onBackPressed() {
+	public void onBackPressed() 
+	{
 		//TODO use content manager here somehow
 //		tryToUpdateChannelList();
 //		Intent returnIntent = new Intent();
@@ -267,6 +278,8 @@ public class MyChannelsActivity
 		finish();
 	}
 
+	
+	
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) 
 	{
@@ -303,16 +316,22 @@ public class MyChannelsActivity
 	
 	
 	@Override
-	public void setValues(int count) {
+	public void setValues(int count) 
+	{
 		mChannelCountTv.setText(" " + String.valueOf(count));
 //		mIsChanged = true;
 	}
+	
+	
 
 	@Override
-	public void onClick(View v) {
+	public void onClick(View v) 
+	{
 		int id = v.getId();
-		switch (id) {
-		case R.id.tab_tv_guide:
+		
+		switch (id) 
+		{
+			case R.id.tab_tv_guide:
 			//TODO use content manager here instead
 //			tryToUpdateChannelList();
 			Intent intentHome = new Intent(MyChannelsActivity.this, HomeActivity.class);
@@ -343,34 +362,13 @@ public class MyChannelsActivity
 
 	}
 
-	
-	
-	@Override
-	protected void updateUI(UIStatusEnum status) 
-	{
-		super.updateUIBaseElements(status);
 
-		switch (status) 
-		{	
-			case SUCCEEDED_WITH_DATA:
-			{
-				populateViews();
-				break;
-			}
-	
-			default:
-			{
-				// Do nothing
-				break;
-			}
-		}
-	}
-
-	
 	
 	@Override
 	protected void loadData() 
 	{
+		updateUI(UIStatusEnum.LOADING);
+		
 		//TODO NO need to fetch data right? should already be in storage!
 //		ContentManager.sharedInstance().getElse
 //		SSChannelPage.getInstance().getPage(Consts.URL_MY_CHANNEL_IDS, new SSPageCallback() 
@@ -392,6 +390,44 @@ public class MyChannelsActivity
 //			}
 //
 //		});
+	}
+	
+	
+	
+	@Override
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult) 
+	{
+		if (fetchRequestResult.wasSuccessful()) 
+		{
+			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+		} 
+		else
+		{
+			updateUI(UIStatusEnum.FAILED);
+		}
+	}
+	
+	
+	
+	@Override
+	protected void updateUI(UIStatusEnum status) 
+	{
+		super.updateUIBaseElements(status);
+
+		switch (status) 
+		{	
+			case SUCCEEDED_WITH_DATA:
+			{
+				populateViews();
+				break;
+			}
+	
+			default:
+			{
+				// Do nothing
+				break;
+			}
+		}
 	}
 
 	

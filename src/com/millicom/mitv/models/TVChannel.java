@@ -1,15 +1,14 @@
 
-package com.millicom.mitv.models.dto;
+package com.millicom.mitv.models;
 
 
 
-import com.millicom.mitv.models.ImageSetSize;
-import com.millicom.mitv.models.gson.TVChannel;
+import com.millicom.mitv.models.gson.TVChannelJSON;
 
 
 
-public class TVChannelDTO 
-	extends TVChannel
+public class TVChannel
+	extends TVChannelJSON
 {
 	public void setChannelId(String channelId) 
 	{

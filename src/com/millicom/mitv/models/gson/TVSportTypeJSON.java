@@ -1,13 +1,24 @@
+
 package com.millicom.mitv.models.gson;
 
-public class TVSportType {
+
+
+public class TVSportTypeJSON 
+{
 	private String sportTypeId;
 	private String name;
+
 	
-	public String getSportTypeId() {
+	
+	public String getSportTypeId() 
+	{
 		return sportTypeId;
 	}
-	public String getName() {
+	
+	
+	
+	public String getName() 
+	{
 		return name;
 	}
 }

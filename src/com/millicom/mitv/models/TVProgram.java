@@ -1,20 +1,16 @@
 
-package com.millicom.mitv.models.dto;
+package com.millicom.mitv.models;
 
 
 
 import com.millicom.mitv.enums.ProgramTypeEnum;
-import com.millicom.mitv.models.gson.TVProgram;
-import com.millicom.mitv.models.gson.TVSeriesSeason;
+import com.millicom.mitv.models.gson.TVProgramJSON;
 
 
 
-public class TVProgramDTO
-	extends TVProgram
+public class TVProgram
+	extends TVProgramJSON
 {
-	
-	
-	
 	public void setProgramId(String programId) 
 	{
 		this.programId = programId;

@@ -38,11 +38,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.utilities.RegularExpressionUtils;
 import com.mitv.Consts;
 import com.mitv.R;
-import com.mitv.SecondScreenApplication;
 import com.mitv.utilities.JSONUtilities;
 
 
@@ -60,16 +60,47 @@ public class ResetPasswordActivity
 	private TextView			mErrorTextView;
 	private String 				mBadResponseString;
 
+	
+	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.layout_resetpassword_activity);
 		
-
-		// add the activity to the list of running activities
-		SecondScreenApplication.sharedInstance().getActivityList().add(this);
-
 		initViews();
+	}
+	
+	
+	
+	@Override
+	protected void onResume() 
+	{
+		super.onResume();
+	}
+	
+	
+	
+	@Override
+	protected void loadData() 
+	{
+		// TODO NewArc - Do something here?
+	}
+	
+	
+	
+	@Override
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult) 
+	{
+		if (fetchRequestResult.wasSuccessful()) 
+		{
+			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+		} 
+		else
+		{
+			updateUI(UIStatusEnum.FAILED);
+		}
 	}
 	
 	
@@ -94,18 +125,11 @@ public class ResetPasswordActivity
 			}
 		}
 	}
+	
+	
 
-	
-	
-	@Override
-	protected void loadData() 
+	private void initViews()
 	{
-		// TODO NewArc - Do something here?
-	}
-	
-	
-
-	private void initViews() {
 		mActionBar = getSupportActionBar();
 		mActionBar.setDisplayShowTitleEnabled(true);
 		mActionBar.setDisplayShowCustomEnabled(true);
@@ -118,13 +142,17 @@ public class ResetPasswordActivity
 		mMiTVResetPassword = (Button) findViewById(R.id.resetpassword_button);
 		mMiTVResetPassword.setOnClickListener(this);
 		mEmailResetPasswordEditText = (EditText) findViewById(R.id.resetpassword_email_edittext);
+		
 		mErrorTextView = (TextView) findViewById(R.id.resetpassword_error_tv);
-
 	}
 
+	
+	
 	@Override
-	public void onClick(View v) {
+	public void onClick(View v) 
+	{
 		int id = v.getId();
+		
 		switch (id) {
 		case R.id.resetpassword_button:
 			String emailInput = mEmailResetPasswordEditText.getText().toString();

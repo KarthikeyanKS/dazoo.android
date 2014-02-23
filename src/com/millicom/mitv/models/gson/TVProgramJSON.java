@@ -1,4 +1,7 @@
+
 package com.millicom.mitv.models.gson;
+
+
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -13,10 +16,17 @@ import com.google.gson.JsonParseException;
 import com.google.gson.annotations.Expose;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.models.ImageSetOrientation;
+import com.millicom.mitv.models.TVCredit;
+import com.millicom.mitv.models.TVSeries;
+import com.millicom.mitv.models.TVSeriesSeason;
+import com.millicom.mitv.models.TVSportType;
 import com.mitv.Consts;
 
-public class TVProgram implements JsonDeserializer<TVProgram> {
-	
+
+
+public class TVProgramJSON 
+	implements JsonDeserializer<TVProgramJSON> 
+{	
 	@Expose
 	protected ProgramTypeEnum programType;
 	
@@ -68,15 +78,17 @@ public class TVProgram implements JsonDeserializer<TVProgram> {
 	@Expose (deserialize = false)
 	protected String tournament;
 
+	
+	
 	@Override
-	public TVProgram deserialize(JsonElement jsonElement, Type type,
-			JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-		
+	public TVProgramJSON deserialize(JsonElement jsonElement, Type type,
+			JsonDeserializationContext jsonDeserializationContext) throws JsonParseException 
+	{	
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.excludeFieldsWithoutExposeAnnotation();
 		Gson gson = gsonBuilder.create();
 		
-		TVProgram tvProgramWithStandardFieldsSet = gson.fromJson(jsonElement, TVProgram.class);
+		TVProgramJSON tvProgramWithStandardFieldsSet = gson.fromJson(jsonElement, TVProgramJSON.class);
 
 		this.programType = tvProgramWithStandardFieldsSet.programType;
 		this.programId = tvProgramWithStandardFieldsSet.programId;
@@ -93,8 +105,8 @@ public class TVProgram implements JsonDeserializer<TVProgram> {
 		
 		
 		switch (tvProgramWithStandardFieldsSet.getProgramType()) {
-			case MOVIE: {
-				
+			case MOVIE: 
+		{		
 				/* Year */
 				JsonElement jsonYearElement = jsonObject.get(Consts.PROGRAM_YEAR);
 				this.year = jsonYearElement.getAsInt();
@@ -104,7 +116,8 @@ public class TVProgram implements JsonDeserializer<TVProgram> {
 				this.genre = jsonGenreElement.getAsString();
 				break;
 			}
-			case TV_EPISODE: {
+			case TV_EPISODE: 
+			{
 				/* Series */
 				JsonElement jsonSeriesElement = jsonObject.get(Consts.PROGRAM_SERIES);
 				TVSeries tvSeries = gson.fromJson(jsonSeriesElement, TVSeries.class);

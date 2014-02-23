@@ -1,15 +1,21 @@
+
 package com.millicom.mitv.models.gson;
 
-public class TVSeries {
+
+
+public class TVSeriesJSON
+{
 	private String seriesId;
 	private String name;
 	
-	public String getSeriesId() {
+	public String getSeriesId() 
+	{
 		return seriesId;
 	}
-	public String getName() {
+	
+	
+	public String getName() 
+	{
 		return name;
 	}
-	
-	
 }

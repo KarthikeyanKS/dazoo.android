@@ -3,14 +3,13 @@ package com.millicom.mitv.asynctasks;
 
 
 
+import android.os.AsyncTask;
+import android.util.Log;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.utilities.NetworkUtils;
-import android.content.Context;
-import android.os.AsyncTask;
-import android.util.Log;
 
 
 
@@ -23,7 +22,6 @@ public class CheckNetworkConnectivity
 	private ActivityCallbackListener activityCallBackListener;
 	private RequestIdentifierEnum requestIdentifier;
 	
-	private Context context;
 	private Boolean isConnectedAndHostIsReachable;
 	
 	
@@ -31,14 +29,12 @@ public class CheckNetworkConnectivity
 	public CheckNetworkConnectivity(
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener,
-			RequestIdentifierEnum requestIdentifier,
-			final Context context)
+			RequestIdentifierEnum requestIdentifier)
 	{
 		this.contentCallbackListener = contentCallbackListener;
 		this.activityCallBackListener = activityCallBackListener;
 		this.requestIdentifier = requestIdentifier;
 		
-		this.context = context;
 		this.isConnectedAndHostIsReachable = false;
 	}
 	
