@@ -19,19 +19,24 @@ import android.widget.Toast;
 
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
+import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.fragments.TVHolderFragment;
 import com.millicom.mitv.fragments.TVHolderFragment.OnViewPagerIndexChangedListener;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ActivityWithTabs;
 import com.millicom.mitv.models.TVDate;
 import com.mitv.Consts;
-import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.adapters.ActionBarDropDownDateListAdapter;
 import com.mitv.content.SSPageFragmentActivity;
 import com.mitv.utilities.OldDateUtilities;
 
-public class HomeActivity extends SSPageFragmentActivity implements ActivityCallbackListener, ActivityWithTabs, ActionBar.OnNavigationListener {
+
+
+public class HomeActivity 
+	extends SSPageFragmentActivity 
+	implements ActivityCallbackListener, ActivityWithTabs, ActionBar.OnNavigationListener {
+	
 	private static final String TAG = HomeActivity.class.getName();
 
 	private ActionBar actionBar;
@@ -354,7 +359,7 @@ public class HomeActivity extends SSPageFragmentActivity implements ActivityCall
 	}
 
 	@Override
-	protected void loadPage() {
+	protected void loadData() {
 		// TODO remove me!
 	}
 
@@ -404,16 +409,30 @@ public class HomeActivity extends SSPageFragmentActivity implements ActivityCall
 	// }
 
 	@Override
-	protected void updateUI(REQUEST_STATUS status) {
-		if (super.requestIsSuccesfull(status)) {
-			actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+	protected void updateUI(UIStatusEnum status) 
+	{
+		super.updateUIBaseElements(status);
+			
+		switch (status) 
+		{	
+			case SUCCEEDED_WITH_DATA:
+			{
+				actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
-			ArrayList<TVDate> tvDates = ContentManager.sharedInstance().getFromStorageTVDates();
-			dayAdapter = new ActionBarDropDownDateListAdapter(tvDates);
-			dayAdapter.setSelectedIndex(selectedDayIndex);
-			actionBar.setListNavigationCallbacks(dayAdapter, this);
+				ArrayList<TVDate> tvDates = ContentManager.sharedInstance().getFromStorageTVDates();
+				dayAdapter = new ActionBarDropDownDateListAdapter(tvDates);
+				dayAdapter.setSelectedIndex(selectedDayIndex);
+				actionBar.setListNavigationCallbacks(dayAdapter, this);
 
-			attachFragment();
+				attachFragment();
+				break;
+			}
+	
+			default:
+			{
+				// Do nothing
+				break;
+			}
 		}
 	}
 
@@ -446,12 +465,26 @@ public class HomeActivity extends SSPageFragmentActivity implements ActivityCall
 	// }
 	// }
 
+	
+	
 	@Override
-	public void onResult(FetchRequestResultEnum fetchRequestResult) {
-		if (fetchRequestResult.wasSuccessful()) {
-			attachFragment();
-		} else {
-			updateUI(REQUEST_STATUS.FAILED);
+	public void onResult(FetchRequestResultEnum fetchRequestResult) 
+	{
+		super.onResult(fetchRequestResult);
+		
+		switch(fetchRequestResult)
+		{
+			case SUCCESS:
+			{
+				attachFragment();
+				break;
+			}
+			
+			default:
+			{
+				updateUI(UIStatusEnum.FAILED);
+				break;
+			}
 		}
 	}
 }

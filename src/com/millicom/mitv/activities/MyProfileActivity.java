@@ -14,9 +14,9 @@ import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.authentication.MiTVLoginActivity;
 import com.millicom.mitv.activities.authentication.SignInOrSignupWithFacebookActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
+import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ActivityWithTabs;
-import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.customviews.FontTextView;
@@ -280,18 +280,57 @@ public class MyProfileActivity extends BaseActivity implements ActivityCallbackL
 		}
 	}
 
+	
+	
 	@Override
-	protected void updateUI(REQUEST_STATUS status) {
+	protected void updateUI(UIStatusEnum status) 
+	{
+		super.updateUIBaseElements(status);
+
+		switch (status) 
+		{	
+			case SUCCEEDED_WITH_DATA:
+			{
+				// TODO NewArc - Do something here?
+				break;
+			}
+	
+			default:
+			{
+				// Do nothing
+				break;
+			}
+		}
 	}
 
+	
+	
 	@Override
-	protected void loadPage() {
+	protected void loadData() 
+	{
+		// TODO NewArc - Implement this
 	}
 
+	
+	
 	@Override
-	public void onResult(FetchRequestResultEnum fetchRequestResult) {
-		// TODO Auto-generated method stub
-
+	public void onResult(FetchRequestResultEnum fetchRequestResult) 
+	{
+		super.onResult(fetchRequestResult);
+		
+		switch(fetchRequestResult)
+		{
+			case SUCCESS:
+			{
+				// TODO NewArc - Do something here?
+				break;
+			}
+			
+			default:
+			{
+				// TODO NewArc - Do something here?
+				break;
+			}
+		}
 	}
-
 }

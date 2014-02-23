@@ -17,7 +17,7 @@ import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mitv.Consts.REQUEST_STATUS;
+import com.millicom.mitv.enums.UIStatusEnum;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.customviews.FontTextView;
@@ -162,6 +162,7 @@ public class AboutOrTermsActivity
 		switch (id) 
 		{
 			case R.id.tab_tv_guide:
+			{
 				// tab to home page
 				Intent intentHome = new Intent(AboutOrTermsActivity.this, HomeActivity.class);
 				intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -169,6 +170,7 @@ public class AboutOrTermsActivity
 				startActivity(intentHome);
 	
 				break;
+			}
 		}
 	}
 	
@@ -217,10 +219,31 @@ public class AboutOrTermsActivity
 
 
 	@Override
-	protected void updateUI(REQUEST_STATUS status) {}
+	protected void updateUI(UIStatusEnum status) 
+	{
+		super.updateUIBaseElements(status);
+
+		switch (status) 
+		{	
+			case SUCCEEDED_WITH_DATA:
+			{
+				// TODO NewArc - Do something here?
+				break;
+			}
+	
+			default:
+			{
+				// TODO NewArc - Do something here?
+				break;
+			}
+		}
+	}
 
 
 	
 	@Override
-	protected void loadPage() {}
+	protected void loadData() 
+	{
+		// TODO NewArc - Implement this
+	}
 }

@@ -109,10 +109,6 @@ public abstract class Consts {
 	public static final int PASSWORD_LENGTH_MAX						= 20;
 	public static final int API_POPULAR_COUNT_DEFAULT				= 3;
 
-	public static enum REQUEST_STATUS {
-		LOADING, FAILED, EMPTY_RESPONSE, SUCCESSFUL, BAD_REQUEST
-	};
-	
 	public static String		BACK_STACK											= "com.mitv.back.stack";
 
 	public static final String	ISO_DATE_FORMAT										= "yyyy-MM-dd'T'HH:mm:ss'Z'";

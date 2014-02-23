@@ -10,14 +10,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-import com.mitv.Consts.REQUEST_STATUS;
+import com.millicom.mitv.enums.UIStatusEnum;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 
 
 
 public class ResetPasswordFinalActivity 
-	extends SSSignInSignupBaseActivity 
+	extends SignInBaseActivity 
 	implements OnClickListener
 {
 	@SuppressWarnings("unused")
@@ -45,17 +45,32 @@ public class ResetPasswordFinalActivity
 	
 	
 	@Override
-	protected void updateUI(REQUEST_STATUS status)
+	protected void updateUI(UIStatusEnum status) 
 	{
-		/* Have to have this method here since SSActivity has this method abstract */
+		super.updateUIBaseElements(status);
+
+		switch (status) 
+		{	
+			case SUCCEEDED_WITH_DATA:
+			{
+				// TODO NewArc - Do something here?
+				break;
+			}
+	
+			default:
+			{
+				// TODO NewArc - Do something here?
+				break;
+			}
+		}
 	}
 
 	
 	
 	@Override
-	protected void loadPage() 
+	protected void loadData() 
 	{
-		/* Have to have this method here since SSActivity has this method abstract */
+		// TODO NewArc - Do something here?
 	}
 
 	

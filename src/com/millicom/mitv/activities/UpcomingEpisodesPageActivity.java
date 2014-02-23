@@ -1,4 +1,7 @@
+
 package com.millicom.mitv.activities;
+
+
 
 import java.util.ArrayList;
 
@@ -8,14 +11,18 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.millicom.mitv.ContentManager;
+import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
-import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.UpcomingEpisodesListAdapter;
 
-public class UpcomingEpisodesPageActivity extends BaseActivity {
 
+
+public class UpcomingEpisodesPageActivity 
+	extends BaseActivity 
+{
+	@SuppressWarnings("unused")
 	private static final String TAG = UpcomingEpisodesPageActivity.class.getName();
 		
 	private ActionBar actionBar;
@@ -24,8 +31,11 @@ public class UpcomingEpisodesPageActivity extends BaseActivity {
 	private TVBroadcastWithChannelInfo runningBroadcast;
 	private ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts;
 
+	
+	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_upcoming_episodes_list_activity);
 
@@ -38,10 +48,14 @@ public class UpcomingEpisodesPageActivity extends BaseActivity {
 		initViews();
 
 		super.initCallbackLayouts();
-		loadPage();
+		
+		loadData();
 	}
 
-	private void initViews() {
+	
+	
+	private void initViews() 
+	{
 		actionBar = getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(true);
@@ -51,28 +65,57 @@ public class UpcomingEpisodesPageActivity extends BaseActivity {
 		actionBar.setTitle(getResources().getString(R.string.upcoming_episodes));
 		listView = (ListView) findViewById(R.id.upcoming_episodes_list_listview);
 	}
+	
+	
 
 	@Override
-	protected void updateUI(REQUEST_STATUS status) {
-		if (super.requestIsSuccesfull(status)) {
-			adapter = new UpcomingEpisodesListAdapter(this, upcomingBroadcasts, runningBroadcast);
-			listView.setAdapter(adapter);
-			listView.setVisibility(View.VISIBLE);
+	protected void updateUI(UIStatusEnum status) 
+	{
+		super.updateUIBaseElements(status);
+
+		switch (status) 
+		{	
+			case SUCCEEDED_WITH_DATA:
+			{
+				adapter = new UpcomingEpisodesListAdapter(this, upcomingBroadcasts, runningBroadcast);
+				
+				listView.setAdapter(adapter);
+				
+				listView.setVisibility(View.VISIBLE);
+				
+				break;
+			}
+	
+			default:
+			{
+				// TODO NewArc - Do something here?
+				break;
+			}
 		}
 	}
 
+	
+	
 	@Override
-	protected void loadPage() {
-		updateUI(REQUEST_STATUS.LOADING);
-		if (upcomingBroadcasts != null && upcomingBroadcasts.isEmpty() != true) {
-			updateUI(REQUEST_STATUS.SUCCESSFUL);
-		} else {
-			updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
+	protected void loadData() 
+	{
+		updateUI(UIStatusEnum.LOADING);
+		
+		if (upcomingBroadcasts != null && upcomingBroadcasts.isEmpty() != true) 
+		{
+			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+		} 
+		else 
+		{
+			updateUI(UIStatusEnum.SUCCEEDED_WITH_EMPTY_DATA);
 		}
 	}
 
+	
+	
 	@Override
-	public void onBackPressed() {
+	public void onBackPressed() 
+	{
 		super.onBackPressed();
 
 	}

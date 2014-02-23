@@ -5,6 +5,9 @@ package com.millicom.mitv;
 
 import java.util.List;
 
+import android.content.Context;
+
+import com.millicom.mitv.asynctasks.CheckNetworkConnectivity;
 import com.millicom.mitv.asynctasks.GetAdsAdzerk;
 import com.millicom.mitv.asynctasks.GetAppConfigurationData;
 import com.millicom.mitv.asynctasks.GetAppVersionData;
@@ -32,6 +35,7 @@ import com.millicom.mitv.asynctasks.usertoken.PerformUserLogout;
 import com.millicom.mitv.asynctasks.usertoken.RemoveUserLike;
 import com.millicom.mitv.asynctasks.usertoken.SetUserTVChannelIds;
 import com.millicom.mitv.enums.LikeTypeRequestEnum;
+import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.models.TVDate;
@@ -48,6 +52,17 @@ public class APIClient
 	{
 		this.contentCallbackListener = contentCallbackListener;
 	}
+	
+	
+	
+	public void getNetworkConnectivityIsAvailable(
+			ActivityCallbackListener activityCallBackListener,
+			Context context) 
+	{
+		CheckNetworkConnectivity checkNetworkConnectivity = new CheckNetworkConnectivity(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.INTERNET_CONNECTIVITY, context);
+		checkNetworkConnectivity.execute();
+	}
+	
 	
 	
 	public void getAppConfiguration(ActivityCallbackListener activityCallBackListener) 

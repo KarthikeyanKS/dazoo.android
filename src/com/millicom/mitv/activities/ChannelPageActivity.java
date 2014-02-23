@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -19,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.millicom.mitv.ContentManager;
+import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVDate;
@@ -26,7 +26,6 @@ import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;
 import com.mitv.Consts;
-import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.adapters.ActionBarDropDownDateListAdapter;
 import com.mitv.adapters.ChannelPageListAdapter;
@@ -81,17 +80,19 @@ public class ChannelPageActivity extends BaseActivity implements ActionBar.OnNav
 		super.initCallbackLayouts();
 
 		initViews();
-		loadPage();
+		loadData();
 	}
 
-	BroadcastReceiver mBroadcastReceiverDate = new BroadcastReceiver() {
+	BroadcastReceiver mBroadcastReceiverDate = new BroadcastReceiver() 
+	{
 		@Override
-		public void onReceive(Context context, Intent intent) {
+		public void onReceive(Context context, Intent intent) 
+		{
 			// mDate = intent.getStringExtra(Consts.INTENT_EXTRA_CHANNEL_SORTING_VALUE);
 			// Log.d(TAG, "mDate" + mDate);
 
 			// reload the page with the content to the new date
-			updateUI(REQUEST_STATUS.LOADING);
+			updateUI(UIStatusEnum.LOADING);
 			// TODO NewArc what to do here?
 			// reloadPage();
 		}
@@ -248,46 +249,78 @@ public class ChannelPageActivity extends BaseActivity implements ActionBar.OnNav
 		});
 	}
 
+	
+	
 	@Override
-	public void onDestroy() {
+	public void onDestroy() 
+	{
 		super.onDestroy();
+		
 		// Stop listening to broadcast events
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverDate);
 		// LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiverContent);
 	};
 
+	
+	
 	@Override
-	public void onBackPressed() {
+	public void onBackPressed() 
+	{
 		super.onBackPressed();
 
 		finish();
 	}
 
+	
+	
 	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
+	public void onConfigurationChanged(Configuration newConfig) 
+	{
 		super.onConfigurationChanged(newConfig);
 
 	}
 
+	
+	
 	@Override
-	protected void updateUI(REQUEST_STATUS status) {
-		if (super.requestIsSuccesfull(status)) {
-			Log.d(TAG, "succesfull!!!!! ");
+	protected void updateUI(UIStatusEnum status) 
+	{
+		super.updateUIBaseElements(status);
+
+		switch (status) 
+		{	
+			case SUCCEEDED_WITH_DATA:
+			{
+				// TODO NewArc - Do something here?
+				break;
+			}
+	
+			default:
+			{
+				// Do nothing
+				break;
+			}
 		}
 	}
 
+	
+	
 	@Override
-	protected void loadPage() {
+	protected void loadData() 
+	{
 		mChannelGuide = ContentManager.sharedInstance().getFromStorageTVChannelGuideUsingTVChannelIdForSelectedDay(mChannelId);
 
 		// mBroadcasts = mChannelGuide.getBroadcasts();
 		ArrayList<TVBroadcast> broadcasts = mChannelGuide.getBroadcasts();
+		
 		mTvDates = ContentManager.sharedInstance().getFromStorageTVDates();
 
 		mIndexOfNearestBroadcast = TVBroadcast.getClosestBroadcastIndex(broadcasts, 0);
 
-		if (mIndexOfNearestBroadcast >= 0) {
+		if (mIndexOfNearestBroadcast >= 0) 
+		{
 			mFollowingBroadcasts = TVBroadcast.getBroadcastsFromPosition(broadcasts, mIndexOfNearestBroadcast);
+			
 			setFollowingBroadcasts();
 		}
 

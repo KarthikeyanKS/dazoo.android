@@ -26,8 +26,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.millicom.mitv.enums.UIStatusEnum;
 import com.mitv.Consts;
-import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.asynctasks.MiTVRegistrationTask;
@@ -37,7 +37,7 @@ import com.mitv.customviews.TextDrawable;
 
 
 public class SignUpWithEmailActivity 
-	extends SSSignInSignupBaseActivity 
+	extends SignInBaseActivity 
 	implements OnClickListener
 {
 	private static final String TAG = SignUpWithEmailActivity.class.getName();
@@ -85,17 +85,32 @@ public class SignUpWithEmailActivity
 	
 	
 	@Override
-	protected void updateUI(REQUEST_STATUS status) 
+	protected void updateUI(UIStatusEnum status) 
 	{
-		/* Have to have this method here since SSActivity has this method abstract */
+		super.updateUIBaseElements(status);
+
+		switch (status) 
+		{	
+			case SUCCEEDED_WITH_DATA:
+			{
+				// TODO NewArc - Do something here?
+				break;
+			}
+	
+			default:
+			{
+				// TODO NewArc - Do something here?
+				break;
+			}
+		}
 	}
 
 	
 	
 	@Override
-	protected void loadPage() 
+	protected void loadData() 
 	{
-		/* Have to have this method here since SSActivity has this method abstract */
+		// TODO NewArc - Do something here?
 	}
 
 	

@@ -1,6 +1,5 @@
 package com.millicom.mitv.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -29,10 +28,10 @@ import android.widget.Toast;
 
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.ContentTypeEnum;
+import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVSearchResult;
 import com.millicom.mitv.utilities.GenericUtils;
-import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.SearchPageListAdapter;
@@ -68,18 +67,48 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 		initSupportActionbar();
 	}
 
+	
+	
 	@Override
-	public void onResume() {
+	public void onResume() 
+	{
 		super.onResume();
+		
 		showKeyboard();
 	}
 
+	
+	
 	@Override
-	public void onPause() {
+	public void onPause() 
+	{
 		super.onPause();
-		hideKeyboard();
+		
+		GenericUtils.hideKeyboard(this);
+	}
+	
+	
+	
+	@Override
+	public void onDestroy() 
+	{
+		super.onDestroy();
+		
+		GenericUtils.hideKeyboard(this);
+	}
+	
+	
+
+	@Override
+	public void finish() 
+	{
+		GenericUtils.hideKeyboard(this);
+
+		super.finish();
 	}
 
+	
+	
 	private void initSupportActionbar() {
 		mActionBar = getSupportActionBar();
 		mActionBar.setDisplayShowTitleEnabled(false);
@@ -161,8 +190,11 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 		mSearchInstructionsContainer = (LinearLayout) findViewById(R.id.search_page_instruction_container);
 	}
 
+	
+	
 	@Override
-	public void showProgressLoading(boolean isLoading) {
+	public void showProgressLoading(boolean isLoading) 
+	{
 		if (isLoading) {
 			mProgressBar.setVisibility(View.VISIBLE);
 			mEditTextClearBtn.setVisibility(View.GONE);
@@ -172,40 +204,32 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 		}
 	}
 
+	
+	
 	@Override
-	public void isRecentListEmpty(boolean isEmpty) {
+	public void isRecentListEmpty(boolean isEmpty) 
+	{
 		mSearchInstructionsContainer.setVisibility(View.VISIBLE);
 	}
 
-	private void showKeyboard() {
-		mHandler.post(new Runnable() {
-			public void run() {
+	
+	
+	private void showKeyboard() 
+	{
+		mHandler.post(new Runnable() 
+		{
+			public void run() 
+			{
 				InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+				
 				inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-				 triggerAutoComplete();
+				
+				triggerAutoComplete();
 			}
 		});
 	}
 
-	private void hideKeyboard() {
-		InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-		if (inputMethodManager != null) {
-			inputMethodManager.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
-		}
-		
-}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		hideKeyboard();
-	}
-
-	@Override
-	public void finish() {
-		hideKeyboard();
-		super.finish();
-	}
+	
 
 	// Click listener for both recent list and search auto complete view
 	public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
@@ -264,8 +288,9 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 		if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 			triggerAutoComplete();
-			if (mEditTextSearch.getText().toString().length() >= 1) {
-				hideKeyboard();
+			if (mEditTextSearch.getText().toString().length() >= 1) 
+			{
+				GenericUtils.hideKeyboard(this);
 			}
 			return true;
 		}
@@ -282,31 +307,53 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 		}
 	}
 
+	
+	
 	@Override
-	public void onBackPressed() {
+	public void onBackPressed() 
+	{
 		super.onBackPressed();
+		
 		finish();
 	}
+	
+	
 
 	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
+	public void onConfigurationChanged(Configuration newConfig) 
+	{
 		super.onConfigurationChanged(newConfig);
 		
 	}
 
+	
+	
 	@Override
-	protected void updateUI(REQUEST_STATUS status) {
-		/*
-		 * Have to have this method here since SSActivity has this method
-		 * abstract
-		 */
+	protected void updateUI(UIStatusEnum status) 
+	{
+		super.updateUIBaseElements(status);
+
+		switch (status) 
+		{	
+			case SUCCEEDED_WITH_DATA:
+			{
+				// TODO NewArc - Do something here?
+				break;
+			}
+	
+			default:
+			{
+				// TODO NewArc - Do something here?
+				break;
+			}
+		}
 	}
 
+	
+	
 	@Override
-	protected void loadPage() {
-		/*
-		 * Have to have this method here since SSActivity has this method
-		 * abstract
-		 */
+	protected void loadData() 
+	{
+		// TODO NewArc - Implement this
 	}
 }

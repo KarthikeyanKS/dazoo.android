@@ -38,9 +38,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.utilities.RegularExpressionUtils;
 import com.mitv.Consts;
-import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.utilities.JSONUtilities;
@@ -48,7 +48,7 @@ import com.mitv.utilities.JSONUtilities;
 
 
 public class ResetPasswordActivity 
-	extends SSSignInSignupBaseActivity 
+	extends SignInBaseActivity 
 	implements OnClickListener
 {
 	private static final String TAG = ResetPasswordActivity.class.getName();
@@ -72,15 +72,38 @@ public class ResetPasswordActivity
 		initViews();
 	}
 	
+	
+	
 	@Override
-	protected void updateUI(REQUEST_STATUS status) {
-		/* Have to have this method here since SSActivity has this method abstract */
+	protected void updateUI(UIStatusEnum status) 
+	{
+		super.updateUIBaseElements(status);
+
+		switch (status) 
+		{	
+			case SUCCEEDED_WITH_DATA:
+			{
+				// TODO NewArc - Do something here?
+				break;
+			}
+	
+			default:
+			{
+				// TODO NewArc - Do something here?
+				break;
+			}
+		}
 	}
 
+	
+	
 	@Override
-	protected void loadPage() {
-		/* Have to have this method here since SSActivity has this method abstract */
+	protected void loadData() 
+	{
+		// TODO NewArc - Do something here?
 	}
+	
+	
 
 	private void initViews() {
 		mActionBar = getSupportActionBar();
