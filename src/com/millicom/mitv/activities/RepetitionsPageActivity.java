@@ -14,9 +14,9 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.millicom.mitv.ContentManager;
+import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.gson.TVProgram;
-import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.RepetitionsListAdapter;
@@ -60,7 +60,7 @@ public class RepetitionsPageActivity
 		initViews();
 
 		super.initCallbackLayouts();
-		loadPage();
+		loadData();
 	}
 
 	
@@ -97,30 +97,42 @@ public class RepetitionsPageActivity
 	
 	
 	@Override
-	protected void updateUI(REQUEST_STATUS status) 
+	protected void updateUI(UIStatusEnum status) 
 	{
-		if (super.requestIsSuccesfull(status)) 
-		{
-			mAdapter = new RepetitionsListAdapter(this, repeatingBroadcasts, repeatingProgram, runningBroadcast);
-			mListView.setAdapter(mAdapter);
-			mListView.setVisibility(View.VISIBLE);
+		super.updateUIBaseElements(status);
+
+		switch (status) 
+		{	
+			case SUCCEEDED_WITH_DATA:
+			{
+				mAdapter = new RepetitionsListAdapter(this, repeatingBroadcasts, repeatingProgram, runningBroadcast);
+				mListView.setAdapter(mAdapter);
+				mListView.setVisibility(View.VISIBLE);
+				break;
+			}
+	
+			default:
+			{
+				// Do nothing
+				break;
+			}
 		}
 	}
 
 	
 	
 	@Override
-	protected void loadPage()
+	protected void loadData()
 	{
-		updateUI(REQUEST_STATUS.LOADING);
+		updateUI(UIStatusEnum.LOADING);
 		
 		if (repeatingBroadcasts != null && repeatingBroadcasts.isEmpty() != true) 
 		{
-			updateUI(REQUEST_STATUS.SUCCESSFUL);
+			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
 		} 
 		else 
 		{
-			updateUI(REQUEST_STATUS.EMPTY_RESPONSE);
+			updateUI(UIStatusEnum.SUCCEEDED_WITH_EMPTY_DATA);
 		}
 	}
 

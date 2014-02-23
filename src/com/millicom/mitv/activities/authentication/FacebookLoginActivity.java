@@ -4,12 +4,14 @@ package com.millicom.mitv.activities.authentication;
 
 
 import java.util.Arrays;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.widget.Toast;
+
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
@@ -18,15 +20,15 @@ import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.millicom.mitv.activities.ActivityActivity;
 import com.millicom.mitv.activities.HomeActivity;
+import com.millicom.mitv.enums.UIStatusEnum;
 import com.mitv.Consts;
-import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 
 
 
 public class FacebookLoginActivity 
-	extends SSSignInSignupBaseActivity 
+	extends SignInBaseActivity 
 {
 	private static final String TAG = FacebookLoginActivity.class.getName();
 	
@@ -88,17 +90,32 @@ public class FacebookLoginActivity
 	
 	
 	@Override
-	protected void updateUI(REQUEST_STATUS status)
+	protected void updateUI(UIStatusEnum status)
 	{
-		/* Have to have this method here since SSActivity has this method abstract */
+		super.updateUIBaseElements(status);
+
+		switch (status) 
+		{	
+			case SUCCEEDED_WITH_DATA:
+			{
+				// TODO NewArc - Do something here?
+				break;
+			}
+	
+			default:
+			{
+				// TODO NewArc - Do something here?
+				break;
+			}
+		}
 	}
 
 	
 	
 	@Override
-	protected void loadPage() 
+	protected void loadData() 
 	{
-		/* Have to have this method here since SSActivity has this method abstract */
+		// TODO NewArc - Do something here?
 	}
 	
 	

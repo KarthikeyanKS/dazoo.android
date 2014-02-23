@@ -11,10 +11,10 @@ import android.widget.ListView;
 
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
+import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
-import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.PopularListAdapter;
@@ -45,7 +45,7 @@ public class PopularPageActivity extends BaseActivity implements OnClickListener
 		super.initCallbackLayouts();
 
 		/* Fetch popular broadcasts */
-		loadPage();
+		loadData();
 	}
 
 	private void initViews() {
@@ -59,32 +59,70 @@ public class PopularPageActivity extends BaseActivity implements OnClickListener
 		mListView = (ListView) findViewById(R.id.popular_list_listview);
 	}
 
+	
+	
 	@Override
-	protected void updateUI(REQUEST_STATUS status) {
-		if (super.requestIsSuccesfull(status)) {
-			Collections.sort(mPopularBroadcasts, new TVBroadcast.BroadcastComparatorByTime());
-			mAdapter = new PopularListAdapter(this, mPopularBroadcasts);
-			mListView.setAdapter(mAdapter);
-			mListView.setVisibility(View.VISIBLE);
+	protected void updateUI(UIStatusEnum status) 
+	{
+		super.updateUIBaseElements(status);
+
+		switch (status) 
+		{	
+			case SUCCEEDED_WITH_DATA:
+			{
+				Collections.sort(mPopularBroadcasts, new TVBroadcast.BroadcastComparatorByTime());
+				mAdapter = new PopularListAdapter(this, mPopularBroadcasts);
+				mListView.setAdapter(mAdapter);
+				mListView.setVisibility(View.VISIBLE);
+				break;
+			}
+	
+			default:
+			{
+				// Do nothing
+				break;
+			}
 		}
 	}
-
+	
+	
+	
 	@Override
-	public void onResult(FetchRequestResultEnum fetchRequestResult) {
-		if (fetchRequestResult.wasSuccessful()) {
-			mPopularBroadcasts = ContentManager.sharedInstance().getFromStoragePopularBroadcasts();
-			updateUI(REQUEST_STATUS.SUCCESSFUL);
-		} else {
-			// TODO handle this
-			updateUI(REQUEST_STATUS.FAILED);
-		}
-	}
-
-	@Override
-	protected void loadPage() {
-		updateUI(REQUEST_STATUS.LOADING);
+	protected void loadData() 
+	{
+		updateUI(UIStatusEnum.LOADING);
+		
 		ContentManager.sharedInstance().getElseFetchFromServicePopularBroadcasts(this, false);
 	}
+
+	
+	
+	@Override
+	public void onResult(FetchRequestResultEnum fetchRequestResult) 
+	{
+		super.onResult(fetchRequestResult);
+		
+		switch(fetchRequestResult)
+		{
+			case SUCCESS:
+			{
+				mPopularBroadcasts = ContentManager.sharedInstance().getFromStoragePopularBroadcasts();
+				
+				updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+				
+				break;
+			}
+			
+			default:
+			{
+				updateUI(UIStatusEnum.FAILED);
+				
+				break;
+			}
+		}
+	}
+
+	
 
 	// @Override
 	// protected void loadPage()

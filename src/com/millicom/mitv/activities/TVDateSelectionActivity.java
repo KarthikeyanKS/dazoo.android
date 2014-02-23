@@ -7,7 +7,6 @@ import android.support.v7.app.ActionBar;
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.models.TVDate;
-import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.adapters.ActionBarDropDownDateListAdapter;
 
 public abstract class TVDateSelectionActivity extends BaseActivity implements ActionBar.OnNavigationListener {
@@ -48,17 +47,4 @@ public abstract class TVDateSelectionActivity extends BaseActivity implements Ac
 			return true;
 		}
 	}
-		
-	@Override
-	protected void updateUI(REQUEST_STATUS status) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void loadPage() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

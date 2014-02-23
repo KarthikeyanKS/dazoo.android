@@ -16,10 +16,10 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.Consts;
-import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.RemindersListAdapter;
@@ -159,27 +159,58 @@ public class RemindersActivity
 		}
 	}
 
+	
+	
 	@Override
-	public void setValues(int count) {
+	public void setValues(int count) 
+	{
 		mIsChange = true;
+		
 		mCount = count;
 		
-		if(count == 0) {
+		if(count == 0) 
+		{
 			mErrorTv.setVisibility(View.VISIBLE);
-		} else {
+		} 
+		else 
+		{
 			mErrorTv.setVisibility(View.GONE);
 		}
 	}
 
+	
+	
 	@Override
-	protected void updateUI(REQUEST_STATUS status) {
+	protected void updateUI(UIStatusEnum status) 
+	{
+		super.updateUIBaseElements(status);
 
+		switch (status) 
+		{	
+			case SUCCEEDED_WITH_DATA:
+			{
+				// TODO NewArc - Do something here?
+				break;
+			}
+	
+			default:
+			{
+				// TODO NewArc - Do something here?
+				break;
+			}
+		}
 	}
 
+	
+	
 	@Override
-	protected void loadPage() {
+	protected void loadData() 
+	{
+		// TODO NewArc - Implement this
 	}
 
+	
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {

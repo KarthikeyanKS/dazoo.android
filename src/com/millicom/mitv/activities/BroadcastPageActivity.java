@@ -1,8 +1,10 @@
+
 package com.millicom.mitv.activities;
+
+
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -13,9 +15,9 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ScrollView;
 import android.widget.Toast;
-
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
+import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
@@ -24,11 +26,15 @@ import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelId;
 import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
-import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.tvguide.BroadcastMainBlockPopulator;
 
-public class BroadcastPageActivity extends BaseActivity implements ActivityCallbackListener {
+
+
+public class BroadcastPageActivity 
+	extends BaseActivity 
+	implements ActivityCallbackListener 
+{
 
 	private static final String TAG = BroadcastPageActivity.class.getName();
 
@@ -106,18 +112,41 @@ public class BroadcastPageActivity extends BaseActivity implements ActivityCallb
 	}
 
 	@Override
-	protected void updateUI(REQUEST_STATUS status) {
-		Log.d(TAG, "mIsBroadcast: " + mIsBroadcast + " mIsUpcoming: " + mIsUpcoming);
-		if (mIsBroadcast && mIsUpcoming && mIsRepeat) {
-			if (super.requestIsSuccesfull(status)) {
-				Log.d(TAG, "SUCCESSFUL");
+	protected void updateUI(UIStatusEnum status) 
+	{
+		super.updateUIBaseElements(status);
+
+		switch (status) 
+		{	
+			case SUCCEEDED_WITH_DATA:
+			{
 				populateBlocks();
+				break;
+			}
+	
+			default:
+			{
+				// Do nothing
+				break;
 			}
 		}
+		
+//		Log.d(TAG, "mIsBroadcast: " + mIsBroadcast + " mIsUpcoming: " + mIsUpcoming);
+//		
+//		if (mIsBroadcast && mIsUpcoming && mIsRepeat) 
+//		{
+//			if (super.requestIsSuccesfull(status)) 
+//			{
+//				Log.d(TAG, "SUCCESSFUL");
+//				populateBlocks();
+//			}
+//		}
 	}
 
+	
+	
 	@Override
-	protected void loadPage() {
+	protected void loadData() {
 		// try to load page again when network is up
 		
 		//TODO NewArc fetch TVBroadcastWithChannelInfo version of TVBroadcast object (instance: variable "broadcast") here? or make Backend send TVBroadcastWithChannelInfo version with TVGuide!
@@ -126,8 +155,9 @@ public class BroadcastPageActivity extends BaseActivity implements ActivityCallb
 //		}
 	}
 
-	private void loadStartPage() {
-		updateUI(REQUEST_STATUS.LOADING);
+	private void loadStartPage() 
+	{
+		updateUI(UIStatusEnum.LOADING);
 		
 		//TODO NewArc fetch TVBroadcastWithChannelInfo version of TVBroadcast object (instance: variable "broadcast") here? or make Backend send TVBroadcastWithChannelInfo version with TVGuide!
 		

@@ -8,10 +8,10 @@ import android.widget.Toast;
 
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
+import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.fragments.TVHolderFragment;
 import com.millicom.mitv.fragments.TVHolderFragment.OnViewPagerIndexChangedListener;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
-import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.utilities.OldDateUtilities;
 
@@ -41,7 +41,6 @@ public class HomeActivity extends TVDateSelectionActivity implements ActivityCal
 
 		ContentManager.sharedInstance().setSelectedHour(Integer.valueOf(OldDateUtilities.getCurrentHourString()));
 
-		loadPage();
 		initViews();
 
 		tryShowWelcomeToast();
@@ -79,23 +78,49 @@ public class HomeActivity extends TVDateSelectionActivity implements ActivityCal
 	}
 
 	@Override
-	protected void loadPage() {
+	protected void loadData() {
 		ContentManager.sharedInstance().getElseFetchFromServiceTVGuideUsingSelectedTVDate(this, false);
 	}
 	
 	@Override
-	protected void updateUI(REQUEST_STATUS status) {
-		if (super.requestIsSuccesfull(status)) {
-			attachFragment();
+	protected void updateUI(UIStatusEnum status) 
+	{
+		super.updateUIBaseElements(status);
+			
+		switch (status) 
+		{	
+			case SUCCEEDED_WITH_DATA:
+			{
+				attachFragment();
+				break;
+			}
+	
+			default:
+			{
+				// Do nothing
+				break;
+			}
 		}
 	}
 	
 	@Override
-	public void onResult(FetchRequestResultEnum fetchRequestResult) {
-		if (fetchRequestResult.wasSuccessful()) {
-			updateUI(REQUEST_STATUS.SUCCESSFUL);
-		} else {
-			updateUI(REQUEST_STATUS.FAILED);
+	public void onResult(FetchRequestResultEnum fetchRequestResult) 
+	{
+		super.onResult(fetchRequestResult);
+		
+		switch(fetchRequestResult)
+		{
+			case SUCCESS:
+			{
+				attachFragment();
+				break;
+			}
+			
+			default:
+			{
+				updateUI(UIStatusEnum.FAILED);
+				break;
+			}
 		}
 	}
 }

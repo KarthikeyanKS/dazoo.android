@@ -64,6 +64,16 @@ public abstract class GenericUtils
 	
 	
 	
+	public static boolean isActivityNotNullOrFinishing(Activity activity)
+	{
+		boolean activityNotNullOrFinishing = (activity != null && 
+											  activity.isFinishing() == false);
+		
+		return activityNotNullOrFinishing;
+	}
+	
+	
+	
     public static PackageInfo getPackageInfo(final Context context)
 	{
 		PackageInfo pInfo;

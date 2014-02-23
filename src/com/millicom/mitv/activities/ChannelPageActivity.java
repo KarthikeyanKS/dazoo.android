@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -15,6 +13,7 @@ import android.widget.ListView;
 
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
+import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
@@ -22,9 +21,7 @@ import com.millicom.mitv.models.TVDate;
 import com.millicom.mitv.models.gson.TVChannel;
 import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.TVChannelId;
-import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
-import com.mitv.adapters.ActionBarDropDownDateListAdapter;
 import com.mitv.adapters.ChannelPageListAdapter;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -88,8 +85,7 @@ public class ChannelPageActivity extends TVDateSelectionActivity implements Acti
 		super.initCallbackLayouts();
 
 		initViews();
-		loadPage();
-//		initBroadcastReceivers();
+		loadData();
 	}
 
 //	private void initBroadcastReceivers() {
@@ -257,6 +253,8 @@ public class ChannelPageActivity extends TVDateSelectionActivity implements Acti
 		});
 	}
 
+	
+	
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
@@ -264,21 +262,42 @@ public class ChannelPageActivity extends TVDateSelectionActivity implements Acti
 		finish();
 	}
 
+	
+	
 	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
+	public void onConfigurationChanged(Configuration newConfig) 
+	{
 		super.onConfigurationChanged(newConfig);
 
 	}
 
+	
+	
 	@Override
-	protected void updateUI(REQUEST_STATUS status) {
-		if (super.requestIsSuccesfull(status)) {
-			Log.d(TAG, "succesfull!!!!! ");
+	protected void updateUI(UIStatusEnum status) 
+	{
+		super.updateUIBaseElements(status);
+
+		switch (status) 
+		{	
+			case SUCCEEDED_WITH_DATA:
+			{
+				// TODO NewArc - Do something here?
+				break;
+			}
+	
+			default:
+			{
+				// TODO NewArc handle fail? done in super class already
+				break;
+			}
 		}
 	}
 
+	
+	
 	@Override
-	protected void loadPage() {
+	protected void loadData() {
 		channelGuide = ContentManager.sharedInstance().getFromStorageTVChannelGuideUsingTVChannelIdForSelectedDay(channelId);
 		ImageAware imageAware = new ImageViewAware(channelIconIv, false);
 		ImageLoader.getInstance().displayImage(channelGuide.getImageUrl(), imageAware);
@@ -299,10 +318,9 @@ public class ChannelPageActivity extends TVDateSelectionActivity implements Acti
 	@Override
 	public void onResult(FetchRequestResultEnum fetchRequestResult) {
 		if (fetchRequestResult.wasSuccessful()) {
-			// TODO NewArc, is this what we wanna do?
-			loadPage();
+			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
 		} else {
-			// TODO NewArc what to do here?
+			updateUI(UIStatusEnum.FAILED);
 		}
 
 	}

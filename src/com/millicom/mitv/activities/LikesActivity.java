@@ -17,10 +17,10 @@ import android.widget.TextView;
 
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
+import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.models.UserLike;
 import com.mitv.Consts;
-import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.LikesListAdapter;
@@ -61,15 +61,7 @@ public class LikesActivity extends BaseActivity implements ActivityCallbackListe
 		ContentManager.sharedInstance().getElseFetchFromServiceUserLikes(this, false);
 	}
 	
-	@Override
-	public void onResult(FetchRequestResultEnum fetchRequestResult) {
-		if(fetchRequestResult.wasSuccessful()) {
-			
-		} else {
-			mErrorTv.setVisibility(View.VISIBLE);
-		}
-		
-	}
+	
 
 	private void initLayout() {
 		mActionBar = getSupportActionBar();
@@ -98,14 +90,18 @@ public class LikesActivity extends BaseActivity implements ActivityCallbackListe
 		mErrorTv = (TextView) findViewById(R.id.likes_error_tv);
 	}
 
-	private void populateLayout() {
+	private void populateLayout() 
+	{
 		Collections.sort(mLikes, new UserLike.UserLikeComparatorByTitle());
 		mAdapter = new LikesListAdapter(this, mLikes, this);
 		mListView.setAdapter(mAdapter);
 	}
 
+	
+	
 	@Override
-	public void onBackPressed() {
+	public void onBackPressed() 
+	{
 		Intent returnIntent = new Intent();
 		if (mIsChange == true) {
 			setResult(Consts.INFO_UPDATE_LIKES, returnIntent);
@@ -116,78 +112,144 @@ public class LikesActivity extends BaseActivity implements ActivityCallbackListe
 		finish();
 	}
 
+	
+	
 	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
+	public void onConfigurationChanged(Configuration newConfig) 
+	{
 		super.onConfigurationChanged(newConfig);
 		
 	}
 
+	
+
 	@Override
-	public void onClick(View v) {
+	public void onClick(View v) 
+	{
 		int id = v.getId();
-		switch (id) {
-		case R.id.tab_tv_guide:
-			// tab to home page
-			Intent intentHome = new Intent(LikesActivity.this, HomeActivity.class);
-			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(intentHome);
-			
-			break;
-		case R.id.tab_activity:
-			// tab to home page
-			Intent intentActivity = new Intent(LikesActivity.this, ActivityActivity.class);
-			startActivity(intentActivity);
-			
-			break;
-		case R.id.tab_me:
-			Intent returnIntent = new Intent();
-			if (mIsChange == true) {
-				setResult(Consts.INFO_UPDATE_LIKES, returnIntent);
-				returnIntent.putExtra(Consts.INFO_UPDATE_LIKES_NUMBER, mCount);
-			}
-			finish();
-			
-			break;
+		
+		switch (id) 
+		{
+			case R.id.tab_tv_guide:
+				// tab to home page
+				Intent intentHome = new Intent(LikesActivity.this, HomeActivity.class);
+				intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivity(intentHome);
+				
+				break;
+			case R.id.tab_activity:
+				// tab to home page
+				Intent intentActivity = new Intent(LikesActivity.this, ActivityActivity.class);
+				startActivity(intentActivity);
+				
+				break;
+			case R.id.tab_me:
+				Intent returnIntent = new Intent();
+				if (mIsChange == true) {
+					setResult(Consts.INFO_UPDATE_LIKES, returnIntent);
+					returnIntent.putExtra(Consts.INFO_UPDATE_LIKES_NUMBER, mCount);
+				}
+				finish();
+				
+				break;
 		}
 	}
 
+	
+	
 	@Override
-	public void setCount(int count) {
+	public void setCount(int count) 
+	{
 		mIsChange = true;
+		
 		mCount = count;
 		
-		if(count == 0) {
+		if(count == 0) 
+		{
 			mErrorTv.setVisibility(View.VISIBLE);
-		} else {
+		} 
+		else 
+		{
 			mErrorTv.setVisibility(View.GONE);
 		}
 	}
 
-	@Override
-	protected void updateUI(REQUEST_STATUS status) {
-		
-	}
-
-	@Override
-	protected void loadPage() {
-	}
+	
 	
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		// Respond to the action bar's Up/Home button
-		// update the likes list on Up/Home button press too
-		case android.R.id.home:
-			
-			Intent upIntent = NavUtils.getParentActivityIntent(this);
-			if (mIsChange == true) {
-				setResult(Consts.INFO_UPDATE_LIKES, upIntent);
-				upIntent.putExtra(Consts.INFO_UPDATE_LIKES_NUMBER, mCount);
+	protected void updateUI(UIStatusEnum status) 
+	{
+		super.updateUIBaseElements(status);
+
+		switch (status) 
+		{	
+			case SUCCEEDED_WITH_DATA:
+			{
+				// TODO NewArc - Do something here?
+				break;
 			}
-			NavUtils.navigateUpTo(this, upIntent);
-			return true;
+	
+			default:
+			{
+				// Do nothing
+				break;
+			}
 		}
+	}
+
+	
+	
+	@Override
+	protected void loadData() 
+	{
+		// TODO NewArc - Do something here?
+	}
+	
+	
+	
+	@Override
+	public void onResult(FetchRequestResultEnum fetchRequestResult) 
+	{
+		super.onResult(fetchRequestResult);
+		
+		switch(fetchRequestResult)
+		{
+			case SUCCESS:
+			{
+				// TODO NewArc - Do something here?
+				break;
+			}
+			
+			default:
+			{
+				mErrorTv.setVisibility(View.VISIBLE);
+				break;
+			}
+		}
+	}
+	
+	
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) 
+	{
+		switch (item.getItemId()) 
+		{
+			// Respond to the action bar's Up/Home button
+			// update the likes list on Up/Home button press too
+			case android.R.id.home:
+			{
+				Intent upIntent = NavUtils.getParentActivityIntent(this);
+				if (mIsChange == true) {
+					setResult(Consts.INFO_UPDATE_LIKES, upIntent);
+					upIntent.putExtra(Consts.INFO_UPDATE_LIKES_NUMBER, mCount);
+				}
+				NavUtils.navigateUpTo(this, upIntent);
+				return true;
+			}
+		}
+		
 		return super.onOptionsItemSelected(item);
 	}
 }

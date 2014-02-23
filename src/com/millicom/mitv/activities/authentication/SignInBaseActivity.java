@@ -8,7 +8,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.millicom.mitv.activities.BaseActivity;
-import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 
 
@@ -16,11 +15,11 @@ import com.mitv.R;
 /*
  * This class hides the search icon for all sign up and sign in related activities
  * */
-public class SSSignInSignupBaseActivity 
+public abstract class SignInBaseActivity 
 	extends BaseActivity 
 {
 	@SuppressWarnings("unused")
-	private static final String TAG = SSSignInSignupBaseActivity.class.getName();
+	private static final String TAG = SignInBaseActivity.class.getName();
 	
 	
 	
@@ -38,14 +37,4 @@ public class SSSignInSignupBaseActivity
 		
 		return true;
 	}
-
-	
-	
-	@Override
-	protected void updateUI(REQUEST_STATUS status) {}
-
-	
-	
-	@Override
-	protected void loadPage() {}
 }

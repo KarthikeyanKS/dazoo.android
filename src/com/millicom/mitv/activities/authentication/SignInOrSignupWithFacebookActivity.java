@@ -12,14 +12,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
-import com.mitv.Consts.REQUEST_STATUS;
+import com.millicom.mitv.enums.UIStatusEnum;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 
 
 
 public class SignInOrSignupWithFacebookActivity 
-	extends SSSignInSignupBaseActivity
+	extends SignInBaseActivity
 {
 	@SuppressWarnings("unused")
 	private static final String TAG = SignInOrSignupWithFacebookActivity.class.getName();
@@ -46,17 +46,32 @@ public class SignInOrSignupWithFacebookActivity
 	
 	
 	@Override
-	protected void updateUI(REQUEST_STATUS status) 
+	protected void updateUI(UIStatusEnum status) 
 	{
-		/* Have to have this method here since SSActivity has this method abstract */
+		super.updateUIBaseElements(status);
+
+		switch (status) 
+		{	
+			case SUCCEEDED_WITH_DATA:
+			{
+				// TODO NewArc - Do something here?
+				break;
+			}
+	
+			default:
+			{
+				// TODO NewArc - Do something here?
+				break;
+			}
+		}
 	}
 
 	
 	
 	@Override
-	protected void loadPage() 
+	protected void loadData() 
 	{
-		/* Have to have this method here since SSActivity has this method abstract */
+		// TODO NewArc - Do something here?
 	}
 	
 	

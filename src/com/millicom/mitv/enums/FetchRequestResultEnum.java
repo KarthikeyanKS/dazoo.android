@@ -43,10 +43,17 @@ public enum FetchRequestResultEnum
    
    API_VERSION_TOO_OLD(
            1001,
-           "Your app version is too old.");
-   
-   
+           "Your app version is too old."),
+           
+   INTERNET_CONNECTION_AVAILABLE(
+           1002,
+           "Internet connection available"),
 
+   INTERNET_CONNECTION_NOT_AVAILABLE(
+           1003,
+           "Internet connection available");
+
+   
    private final int statusCode;
    private final String description;
 

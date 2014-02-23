@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.content.Context;
 import android.text.TextUtils;
 
 import com.millicom.mitv.enums.FetchRequestResultEnum;
@@ -142,7 +143,17 @@ public class ContentManager implements ContentCallbackListener {
 	}
 	
 
+	
 	/* PUBLIC FETCH METHODS WHERE IT DOES NOT MAKE ANY SENSE TO TRY FETCHING THE DATA FROM STORAGE */
+	
+	public void checkNetworkConnectivity(
+			ActivityCallbackListener activityCallBackListener,
+			Context context) 
+	{
+		apiClient.getNetworkConnectivityIsAvailable(activityCallBackListener, context);
+	}
+	
+	
 	public void fetchFromServiceAppData(ActivityCallbackListener activityCallBackListener, FetchDataProgressCallbackListener fetchDataProgressCallbackListener) 
 	{
 		this.fetchDataProgressCallbackListener = fetchDataProgressCallbackListener;
@@ -151,10 +162,13 @@ public class ContentManager implements ContentCallbackListener {
 	}
 	
 	
-	public void fetchFromServiceMoreActivityData(ActivityCallbackListener activityCallbackListener) {
+	public void fetchFromServiceMoreActivityData(ActivityCallbackListener activityCallbackListener) 
+	{
 		int offset = storage.getActivityFeed().size();
 		apiClient.getFeedItemsWithOffsetAndLimit(activityCallbackListener, offset, ACTIVITY_FEED_ITEMS_BATCH_FETCH_COUNT);
 	}
+	
+	
 	
 	/*
 	 * METHODS FOR "GETTING" THE DATA, EITHER FROM STORAGE, OR FETCHING FROM
@@ -236,12 +250,20 @@ public class ContentManager implements ContentCallbackListener {
 	@Override
 	public void onResult(ActivityCallbackListener activityCallBackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result,
 			Object content) {
-		switch (requestIdentifier) {
-		case APP_CONFIGURATION:
-		case APP_VERSION: {
-			handleAppDataResponse(activityCallBackListener, result, requestIdentifier, content);
-			break;
-		}
+		switch (requestIdentifier) 
+		{
+			case INTERNET_CONNECTIVITY:
+			{
+				handleInternetConnectionDataResponse(activityCallBackListener, result, requestIdentifier, content);
+				break;
+			}
+		
+			case APP_CONFIGURATION:
+			case APP_VERSION: 
+			{
+				handleAppDataResponse(activityCallBackListener, result, requestIdentifier, content);
+				break;
+			}
 		case TV_DATE:
 		case TV_TAG:
 		case TV_CHANNEL:
@@ -359,6 +381,24 @@ public class ContentManager implements ContentCallbackListener {
 		if(fetchDataProgressCallbackListener != null) {
 			int totalSteps = completedCountTVDataForProgressMessage + COMPLETED_COUNT_APP_DATA_THRESHOLD;
 			fetchDataProgressCallbackListener.onFetchDataProgress(totalSteps, message);
+		}
+	}
+	
+	
+	
+	private void handleInternetConnectionDataResponse(
+			ActivityCallbackListener activityCallBackListener,
+			FetchRequestResultEnum result,
+			RequestIdentifierEnum requestIdentifier,
+			Object content)
+	{
+		if(result.wasSuccessful())
+		{
+			activityCallBackListener.onResult(FetchRequestResultEnum.SUCCESS);
+		}
+		else 
+		{
+			activityCallBackListener.onResult(FetchRequestResultEnum.UNKNOWN_ERROR);
 		}
 	}
 	

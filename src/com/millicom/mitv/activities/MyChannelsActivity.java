@@ -27,7 +27,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.millicom.mitv.ContentManager;
-import com.mitv.Consts.REQUEST_STATUS;
+import com.millicom.mitv.enums.UIStatusEnum;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.adapters.MyChannelsListAdapter;
@@ -205,9 +205,9 @@ public class MyChannelsActivity
 		} 
 		else
 		{
-			updateUI(REQUEST_STATUS.LOADING);
+			updateUI(UIStatusEnum.LOADING);
 			
-			loadPage();
+			loadData();
 		}
 	}
 	
@@ -346,20 +346,30 @@ public class MyChannelsActivity
 	
 	
 	@Override
-	protected void updateUI(REQUEST_STATUS status) 
+	protected void updateUI(UIStatusEnum status) 
 	{
-		if (super.requestIsSuccesfull(status)) 
-		{
-			Log.d(TAG, "SUCCESSFUL");
-			
-			populateViews();
+		super.updateUIBaseElements(status);
+
+		switch (status) 
+		{	
+			case SUCCEEDED_WITH_DATA:
+			{
+				populateViews();
+				break;
+			}
+	
+			default:
+			{
+				// Do nothing
+				break;
+			}
 		}
 	}
 
 	
 	
 	@Override
-	protected void loadPage() 
+	protected void loadData() 
 	{
 		//TODO NO need to fetch data right? should already be in storage!
 //		ContentManager.sharedInstance().getElse
