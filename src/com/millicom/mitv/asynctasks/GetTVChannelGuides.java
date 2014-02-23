@@ -97,12 +97,6 @@ public class GetTVChannelGuides
 		/* TVTag id is used as key. STRANGEST JAVA BUG EVER: For some reason we MUST set the size of the map to 3 times as big as the expected
 		 * size of that map. We MUST set a size, else the values will be overwritten even though keys are not the same! */
 		HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> mapTagToTaggedBroadcastForDate = new HashMap<String, ArrayList<TVBroadcastWithChannelInfo>>(tvTagsAsStrings.size() * 3);
-
-		ArrayList<TVBroadcastWithChannelInfo> broadcastsForallCategoriesTag = new ArrayList<TVBroadcastWithChannelInfo>();
-		
-		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-		String allCategoriesTag = context.getResources().getString(R.string.all_categories_name);
-		mapTagToTaggedBroadcastForDate.put(allCategoriesTag, broadcastsForallCategoriesTag);
 		
 		for (TVChannelGuide tvChannelGuide : tvChannelGuides) {
 			TVChannelId tvChannelId = tvChannelGuide.getChannelId();
@@ -110,12 +104,6 @@ public class GetTVChannelGuides
 			ArrayList<TVBroadcast> broadcasts = new ArrayList<TVBroadcast>(tvChannelGuide.getBroadcasts());
 
 			for (TVBroadcast broadcast : broadcasts) {
-				/* Create TVBroadcastWithChannelInfo object using broadcast and TVChannel initialized above */
-				TVBroadcastWithChannelInfo broadCastWithChannelInfo = new TVBroadcastWithChannelInfo(broadcast);
-				broadCastWithChannelInfo.setChannel(tvChannel);
-				
-				/* Add the broadcast to the list of all TVChannelbroadcasts */
-				broadcastsForallCategoriesTag.add(broadCastWithChannelInfo);
 				
 				TVProgram program = broadcast.getProgram();
 
@@ -138,6 +126,10 @@ public class GetTVChannelGuides
 					if (broadcastsForTag == null) {
 						broadcastsForTag = new ArrayList<TVBroadcastWithChannelInfo>();
 					}
+					
+					/* Create TVBroadcastWithChannelInfo object using broadcast and TVChannel initialized above */
+					TVBroadcastWithChannelInfo broadCastWithChannelInfo = new TVBroadcastWithChannelInfo(broadcast);
+					broadCastWithChannelInfo.setChannel(tvChannel);
 
 					/* Add the broadcast for this tag to the list of tagged broadcasts for this tag */
 					broadcastsForTag.add(broadCastWithChannelInfo);
