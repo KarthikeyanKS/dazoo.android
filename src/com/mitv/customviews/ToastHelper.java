@@ -21,9 +21,7 @@ public class ToastHelper
 			final Context context,
 			final String message)
 	{
-		Toast toast = new Toast(context);
-		toast.setText(message);
-		toast.setDuration(Toast.LENGTH_LONG);
+		Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
 
 		LinearLayout linearLayout = (LinearLayout) toast.getView();
 		

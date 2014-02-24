@@ -73,23 +73,6 @@ public class FeedActivity
 			initStandardViews();
 			
 			initFeedViews();
-
-			StringBuilder sb = new StringBuilder();
-			sb.append(ContentManager.sharedInstance().getFromStorageUserFirstname());
-			sb.append(getResources().getString(R.string.success_account_created_text));
-			
-			ToastHelper.createAndShowToast(this, sb.toString());
-			
-			// else if (mIsFromSignup)
-			// {
-			// String signupText = getResources().getString(R.string.success_account_created_text);
-			//
-			// Toast toast = Toast.makeText(this, signupTitle + "\n" + signupText, Toast.LENGTH_LONG);
-			//
-			// ((TextView) ((LinearLayout)toast.getView()).getChildAt(0)).setGravity(Gravity.CENTER_HORIZONTAL);
-			//
-			// toast.show();
-			// }
 		}
 		else
 		{
@@ -107,6 +90,28 @@ public class FeedActivity
 	protected void onResume() 
 	{
 		super.onResume();
+		
+		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+		
+		if (isLoggedIn) 
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(ContentManager.sharedInstance().getFromStorageUserFirstname());
+			sb.append(getResources().getString(R.string.success_account_created_text));
+			
+			ToastHelper.createAndShowToast(this, sb.toString());
+		}
+		
+		// else if (mIsFromSignup)
+		// {
+		// String signupText = getResources().getString(R.string.success_account_created_text);
+		//
+		// Toast toast = Toast.makeText(this, signupTitle + "\n" + signupText, Toast.LENGTH_LONG);
+		//
+		// ((TextView) ((LinearLayout)toast.getView()).getChildAt(0)).setGravity(Gravity.CENTER_HORIZONTAL);
+		//
+		// toast.show();
+		// }
 	}	
 		
 	
