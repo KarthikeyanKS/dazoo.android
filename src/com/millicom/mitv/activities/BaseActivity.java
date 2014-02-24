@@ -154,10 +154,10 @@ public abstract class BaseActivity
 			
 			case R.id.tab_activity: 
 			{
-				if (!(this instanceof ActivityActivity))
+				if (!(this instanceof FeedActivity))
 				{
 					tabSelectedEnum = TabSelectedEnum.ACTIVITY_FEED;
-					Intent intentActivity = new Intent(this, ActivityActivity.class);
+					Intent intentActivity = new Intent(this, FeedActivity.class);
 					startActivity(intentActivity);
 					break;
 				}

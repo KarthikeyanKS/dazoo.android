@@ -21,7 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.millicom.mitv.ContentManager;
-import com.millicom.mitv.activities.ActivityActivity;
+import com.millicom.mitv.activities.FeedActivity;
 import com.millicom.mitv.activities.HomeActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
@@ -262,7 +262,7 @@ public class MiTVLoginActivity
 									
 									if (mIsFromActivity) 
 									{
-										intent = new Intent(MiTVLoginActivity.this, ActivityActivity.class);
+										intent = new Intent(MiTVLoginActivity.this, FeedActivity.class);
 									}
 									else 
 									{

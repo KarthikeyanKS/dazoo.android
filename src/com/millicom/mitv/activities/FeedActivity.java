@@ -1,8 +1,9 @@
+
 package com.millicom.mitv.activities;
 
-import java.util.ArrayList;
 
-import android.app.Activity;
+
+import java.util.ArrayList;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -17,7 +18,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.authentication.FacebookLoginActivity;
 import com.millicom.mitv.activities.authentication.MiTVLoginActivity;
@@ -29,13 +29,15 @@ import com.millicom.mitv.models.TVFeedItem;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.adapters.ActivityFeedAdapter;
+import com.mitv.customviews.CustomToast;
 
 
-public class ActivityActivity 
+
+public class FeedActivity 
 	extends BaseActivity 
 	implements OnClickListener, OnScrollListener 
 {
-	private static final String TAG = ActivityActivity.class.getName();
+	private static final String TAG = FeedActivity.class.getName();
 
 	
 	private RelativeLayout facebookContainer;
@@ -69,17 +71,12 @@ public class ActivityActivity
 			
 			initFeedViews();
 
-			// String signupTitle = String.format("%s %s", getResources().getString(R.string.success_account_created_title),
-			// SecondScreenApplication.getInstance().getUserFirstName());
-			//
-			// if (mIsFromLogin)
-			// {
-			// Toast toast = Toast.makeText(this, signupTitle, Toast.LENGTH_LONG);
-			//
-			// ((TextView) ((LinearLayout)toast.getView()).getChildAt(0)).setGravity(Gravity.CENTER_HORIZONTAL);
-			//
-			// toast.show();
-			// }
+			StringBuilder sb = new StringBuilder();
+			sb.append(ContentManager.sharedInstance().getFromStorageUserFirstname());
+			sb.append(getResources().getString(R.string.success_account_created_text));
+			
+			CustomToast.createAndShowToast(this, sb.toString());
+			
 			// else if (mIsFromSignup)
 			// {
 			// String signupText = getResources().getString(R.string.success_account_created_text);
@@ -90,8 +87,8 @@ public class ActivityActivity
 			//
 			// toast.show();
 			// }
-		} 
-		else 
+		}
+		else
 		{
 			setContentView(R.layout.layout_activity_not_logged_in_activity);
 
@@ -143,7 +140,6 @@ public class ActivityActivity
 	
 	private void initInactiveViews() 
 	{
-		// sign in
 		facebookContainer = (RelativeLayout) findViewById(R.id.activity_not_logged_in_facebook_container);
 		facebookContainer.setOnClickListener(this);
 
@@ -156,42 +152,45 @@ public class ActivityActivity
 	
 	
 
-	private void setAdapter() 
+	private void setListAdapter() 
 	{
 		ArrayList<TVFeedItem> activityFeed = ContentManager.sharedInstance().getFromStorageActivityFeedData();
 		
-		FeedItemTypeEnum itemType = activityFeed.get(0).getItemType();
-		
-		switch (itemType) 
+		if(activityFeed.isEmpty() == false)
 		{
-			case POPULAR_BROADCASTS:
+			FeedItemTypeEnum itemType = activityFeed.get(0).getItemType();
+			
+			switch (itemType) 
 			{
-				View header = getLayoutInflater().inflate(R.layout.block_feed_no_likes, null);
-				
-				listView.addHeaderView(header);
+				case POPULAR_BROADCASTS:
+				{
+					View header = getLayoutInflater().inflate(R.layout.block_feed_no_likes, null);
+					
+					listView.addHeaderView(header);
+	
+					greetingTv = (TextView) findViewById(R.id.block_feed_no_likes_greeting_tv);
+					
+					checkPopularBtn = (Button) findViewById(R.id.block_feed_no_likes_btn);
+					
+					checkPopularBtn.setOnClickListener(this);
+	
+					StringBuilder sb = new StringBuilder();
+					sb.append(getResources().getString(R.string.hello));
+					sb.append(" ");
+					sb.append(ContentManager.sharedInstance().getFromStorageUserFirstname());
+					sb.append(" ");
+					sb.append(ContentManager.sharedInstance().getFromStorageUserLastname());
+					sb.append(",");
+					
+					greetingTv.setText(sb.toString());
+					break;
+				}
 
-				greetingTv = (TextView) findViewById(R.id.block_feed_no_likes_greeting_tv);
-				
-				checkPopularBtn = (Button) findViewById(R.id.block_feed_no_likes_btn);
-				
-				checkPopularBtn.setOnClickListener(this);
-
-				StringBuilder sb = new StringBuilder();
-				sb.append(getResources().getString(R.string.hello));
-				sb.append(" ");
-				sb.append(ContentManager.sharedInstance().getFromStorageUserFirstname());
-				sb.append(" ");
-				sb.append(ContentManager.sharedInstance().getFromStorageUserLastname());
-				sb.append(",");
-				
-				greetingTv.setText(sb.toString());
-				break;
-			}
-
-			default:
-			{
-				// TODO NewArc - Do something here?
-				break;
+				default:
+				{
+					// TODO NewArc - Do something here?
+					break;
+				}
 			}
 		}
 
@@ -209,9 +208,18 @@ public class ActivityActivity
 	@Override
 	protected void loadData() 
 	{
-		updateUI(UIStatusEnum.LOADING);
+		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 		
-		ContentManager.sharedInstance().getElseFetchFromServiceActivityFeedData(this, false);
+		if(isLoggedIn)
+		{
+			updateUI(UIStatusEnum.LOADING);
+		
+			ContentManager.sharedInstance().getElseFetchFromServiceActivityFeedData(this, false);
+		}
+		else
+		{
+			updateUI(UIStatusEnum.SUCCEEDED_WITH_EMPTY_DATA);
+		}
 	}
 
 	
@@ -240,7 +248,7 @@ public class ActivityActivity
 		{	
 			case SUCCEEDED_WITH_DATA:
 			{
-				setAdapter();
+				setListAdapter();
 				break;
 			}
 			
@@ -264,12 +272,22 @@ public class ActivityActivity
 	
 
 	
-	private void showScrollSpinner(boolean aShow) 
+	private void showScrollSpinner(boolean show) 
 	{
 		if (listFooterView != null) 
 		{
-			// Show/hide the scroll spinner
-			listFooterView.setVisibility(aShow ? View.VISIBLE : View.GONE);
+			if(show)
+			{
+				listFooterView.setVisibility(View.VISIBLE);
+			}
+			else
+			{
+				listFooterView.setVisibility(View.GONE);
+			}
+		}
+		else
+		{
+			Log.w(TAG, "ListFooterView is null.");
 		}
 	}
 
@@ -283,50 +301,56 @@ public class ActivityActivity
 		
 		int id = v.getId();
 
-		switch (id) {
-		case R.id.activity_not_logged_in_facebook_container: {
-			Intent intent = new Intent(ActivityActivity.this, FacebookLoginActivity.class);
-
-			startActivity(intent);
-
-			finish();
-
-			break;
-		}
-
-		case R.id.activity_not_logged_in_signup_email_container: {
-			Intent intentSignUp = new Intent(ActivityActivity.this, SignUpWithEmailActivity.class);
-
-			intentSignUp.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
-
-			startActivity(intentSignUp);
-
-			break;
-		}
-
-		case R.id.activity_not_logged_in_login_btn: {
-			Intent intentLogin = new Intent(ActivityActivity.this, MiTVLoginActivity.class);
-
-			intentLogin.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
-
-			startActivity(intentLogin);
-
-			break;
-		}
-
-		case R.id.block_feed_no_likes_btn: {
-			Intent checkPopular = new Intent(ActivityActivity.this, PopularPageActivity.class);
-
-			startActivity(checkPopular);
-
-			break;
-		}
-
-		default: {
-			Log.w(TAG, "Unknown activity id: " + id);
-
-			break;
-		}
+		switch (id) 
+		{
+			case R.id.activity_not_logged_in_facebook_container: 
+			{
+				Intent intent = new Intent(FeedActivity.this, FacebookLoginActivity.class);
+	
+				startActivity(intent);
+	
+				finish();
+	
+				break;
+			}
+	
+			case R.id.activity_not_logged_in_signup_email_container:
+			{
+				Intent intentSignUp = new Intent(FeedActivity.this, SignUpWithEmailActivity.class);
+	
+				intentSignUp.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
+	
+				startActivity(intentSignUp);
+	
+				break;
+			}
+	
+			case R.id.activity_not_logged_in_login_btn: 
+			{
+				Intent intentLogin = new Intent(FeedActivity.this, MiTVLoginActivity.class);
+	
+				intentLogin.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
+	
+				startActivity(intentLogin);
+	
+				break;
+			}
+	
+			case R.id.block_feed_no_likes_btn: 
+			{
+				Intent checkPopular = new Intent(FeedActivity.this, PopularPageActivity.class);
+	
+				startActivity(checkPopular);
+	
+				break;
+			}
+	
+			default: 
+			{
+				Log.w(TAG, "Unknown activity id: " + id);
+	
+				break;
+			}
 		}
 	}
 	
@@ -347,14 +371,14 @@ public class ActivityActivity
 		if (totalItemCount > 0) 
 		{
 			// If scrolling past bottom and there is a next page of products to fetch
-			if ((firstVisibleItem + visibleItemCount >= totalItemCount) && !noMoreItems && noTask) 
+			
+			boolean pastTotalCount = (firstVisibleItem + visibleItemCount >= totalItemCount);
+			
+			if (pastTotalCount && !noMoreItems && noTask) 
 			{
-				Log.d(TAG, "reached last item");
-				
-				// Show the scroll spinner
 				showScrollSpinner(true);
 
-				if (noTask) 
+				if(noTask) 
 				{
 					ContentManager.sharedInstance().fetchFromServiceMoreActivityData(this);
 				}
@@ -363,13 +387,11 @@ public class ActivityActivity
 			} 
 			else 
 			{
-				// Hide the scroll spinner
 				showScrollSpinner(false);
 			}
 		} 
 		else 
 		{
-			// Hide the scroll spinner
 			showScrollSpinner(false);
 		}
 	}

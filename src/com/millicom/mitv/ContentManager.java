@@ -113,7 +113,8 @@ public class ContentManager
 		apiClient.getTVChannelsAll(activityCallBackListener);
 		apiClient.getDefaultTVChannelIds(activityCallBackListener);
 
-		if (storage.isLoggedIn()) {
+		if (storage.isLoggedIn()) 
+		{
 			apiClient.getUserTVChannelIds(activityCallBackListener);
 		}
 	}
@@ -129,22 +130,33 @@ public class ContentManager
 		fetchFromServiceTVGuideUsingTVDate(activityCallBackListener, tvDate);
 	}
 	
-	private void fetchFromServiceTVGuideUsingTVDate(ActivityCallbackListener activityCallBackListener, TVDate tvDate) {
+	
+	private void fetchFromServiceTVGuideUsingTVDate(ActivityCallbackListener activityCallBackListener, TVDate tvDate)
+	{
 		ArrayList<TVChannelId> tvChannelIds = storage.getTvChannelIdsUsed();
+		
 		apiClient.getTVChannelGuides(activityCallBackListener, tvDate, tvChannelIds);
 	}
 
-	private void fetchFromServiceActivityFeedData(ActivityCallbackListener activityCallBackListener) {
-		apiClient.getFeedItems(activityCallBackListener);
+	
+	
+	private void fetchFromServiceActivityFeedData(ActivityCallbackListener activityCallBackListener) 
+	{
+		apiClient.getUserTVFeedItems(activityCallBackListener);
 	}
 	
-	private void fetchFromServiceUserLikes(ActivityCallbackListener activityCallBackListener) {
+	
+	private void fetchFromServiceUserLikes(ActivityCallbackListener activityCallBackListener) 
+	{
 		apiClient.getUserLikes(activityCallBackListener);
 	}
 	
-	private void fetchFromServicePopularBroadcasts(ActivityCallbackListener activityCallbackListener) {
+	
+	private void fetchFromServicePopularBroadcasts(ActivityCallbackListener activityCallbackListener) 
+	{
 		apiClient.getTVBroadcastsPopular(activityCallbackListener);
 	}
+	
 	
 	private void fetchFromServiceUpcomingBroadcasts(ActivityCallbackListener activityCallBackListener, TVBroadcastWithChannelInfo broadcast) 
 	{
@@ -193,7 +205,8 @@ public class ContentManager
 	public void fetchFromServiceMoreActivityData(ActivityCallbackListener activityCallbackListener) 
 	{
 		int offset = storage.getActivityFeed().size();
-		apiClient.getFeedItemsWithOffsetAndLimit(activityCallbackListener, offset, ACTIVITY_FEED_ITEMS_BATCH_FETCH_COUNT);
+		
+		apiClient.getUserTVFeedItemsWithOffsetAndLimit(activityCallbackListener, offset, ACTIVITY_FEED_ITEMS_BATCH_FETCH_COUNT);
 	}
 	
 	
@@ -215,13 +228,19 @@ public class ContentManager
 		}
 	}
 
-	public void getElseFetchFromServiceActivityFeedData(ActivityCallbackListener activityCallBackListener, boolean forceDownload) {
-		if (!forceDownload && storage.containsActivityFeedData()) {
+	
+	public void getElseFetchFromServiceActivityFeedData(ActivityCallbackListener activityCallBackListener, boolean forceDownload) 
+	{
+		if (!forceDownload && storage.containsActivityFeedData()) 
+		{
 			activityCallBackListener.onResult(FetchRequestResultEnum.SUCCESS);
-		} else {
+		} 
+		else 
+		{
 			fetchFromServiceActivityFeedData(activityCallBackListener);
 		}
 	}
+	
 	
 	public void getElseFetchFromServiceTaggedBroadcastsForSelectedTVDate(ActivityCallbackListener activityCallBackListener, boolean forceDownload) {
 		TVDate tvDateSelected = getFromStorageTVDateSelected();
@@ -358,15 +377,18 @@ public class ContentManager
 				// TODO
 				break;
 			}
-			case USER_ACTIVITY_FEED_ITEM: {
+			case USER_ACTIVITY_FEED_ITEM: 
+			{
 				handleActivityFeedResponse(activityCallBackListener, result, content, false);
 				break;
 			}
-			case USER_ACTIVITY_FEED_ITEM_MORE: {
+			case USER_ACTIVITY_FEED_ITEM_MORE: 
+			{
 				handleActivityFeedResponse(activityCallBackListener, result, content, true);
 				break;
 			}
-			case POPULAR_ITEMS: {
+			case POPULAR_ITEMS: 
+			{
 				handleTVBroadcastsPopularBroadcastsResponse(activityCallBackListener, result, content);
 				break;
 			}
@@ -409,11 +431,12 @@ public class ContentManager
 			Object content, 
 			boolean fetchedMore) 
 	{
-		if (result.wasSuccessful() && content != null) 
+		if(result.wasSuccessful() && content != null) 
 		{
+			@SuppressWarnings("unchecked")
 			ArrayList<TVFeedItem> feedItems = (ArrayList<TVFeedItem>) content;
 			
-			if(fetchedMore) 
+			if(fetchedMore)
 			{
 				storage.addMoreActivityFeedItems(feedItems);
 			} 
@@ -421,12 +444,12 @@ public class ContentManager
 			{
 				storage.setActivityFeed(feedItems);
 			}
+			
 			activityCallBackListener.onResult(FetchRequestResultEnum.SUCCESS);
 		} 
 		else 
 		{
-			//TODO use some new "NO_CONTENT" enum here instead?
-			activityCallBackListener.onResult(FetchRequestResultEnum.UNKNOWN_ERROR);
+			activityCallBackListener.onResult(result);
 		}
 	}
 	
@@ -886,7 +909,8 @@ public class ContentManager
 		return userLastname;
 	}
 	
-	public String getFromStorageUserFirstname() {
+	public String getFromStorageUserFirstname() 
+	{
 		String userFirstname = storage.getUserFirstname();
 		return userFirstname;
 	}

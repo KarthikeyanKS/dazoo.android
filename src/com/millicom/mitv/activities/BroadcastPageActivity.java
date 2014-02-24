@@ -383,7 +383,7 @@ public class BroadcastPageActivity
 			// }
 
 			if (isFromActivity) {
-				NavUtils.navigateUpTo(this, new Intent(BroadcastPageActivity.this, ActivityActivity.class));
+				NavUtils.navigateUpTo(this, new Intent(BroadcastPageActivity.this, FeedActivity.class));
 			} else if (isFromProfile) {
 				NavUtils.navigateUpTo(this, new Intent(BroadcastPageActivity.this, MyProfileActivity.class));
 			}

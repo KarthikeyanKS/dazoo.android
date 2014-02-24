@@ -18,7 +18,7 @@ import com.facebook.Session;
 import com.facebook.Session.OpenRequest;
 import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
-import com.millicom.mitv.activities.ActivityActivity;
+import com.millicom.mitv.activities.FeedActivity;
 import com.millicom.mitv.activities.HomeActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
@@ -216,7 +216,7 @@ public class FacebookLoginActivity
 						{
 							Log.d(TAG, "Returning to ActivityActivity");
 							
-							intent = new Intent(FacebookLoginActivity.this, ActivityActivity.class);
+							intent = new Intent(FacebookLoginActivity.this, FeedActivity.class);
 						}
 						else
 						{

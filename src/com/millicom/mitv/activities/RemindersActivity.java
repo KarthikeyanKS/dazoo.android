@@ -183,7 +183,7 @@ public class RemindersActivity
 			break;
 		case R.id.tab_activity:
 			// tab to home page
-			Intent intentActivity = new Intent(RemindersActivity.this, ActivityActivity.class);
+			Intent intentActivity = new Intent(RemindersActivity.this, FeedActivity.class);
 			startActivity(intentActivity);
 			
 			break;
