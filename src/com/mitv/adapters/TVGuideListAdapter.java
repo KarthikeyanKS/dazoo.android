@@ -29,9 +29,9 @@ import com.millicom.mitv.activities.ChannelPageActivity;
 import com.millicom.mitv.enums.BroadcastTypeEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.models.TVBroadcast;
+import com.millicom.mitv.models.TVChannelGuide;
 import com.millicom.mitv.models.TVDate;
 import com.millicom.mitv.models.TVProgram;
-import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -47,6 +47,7 @@ public class TVGuideListAdapter
 	@SuppressWarnings("unused")
 	private static final String	TAG	= TVGuideListAdapter.class.getName();
 
+	
 	private LayoutInflater mLayoutInflater;
 	private Activity mActivity;
 	private TVDate mDate;
@@ -167,9 +168,7 @@ public class TVGuideListAdapter
 
 		if (broadcasts != null && broadcasts.size() > 0)
 		{
-			/* get the nearest broadcasts */
-
-			mIndexOfNearestBroadcast = guide.getClosestBroadcastIndexFromTime(broadcasts, mHour, mDate);
+			mIndexOfNearestBroadcast = TVBroadcast.getClosestBroadcastIndex(broadcasts, mHour, mDate, 0);
 
 			if (mIndexOfNearestBroadcast != -1) 
 			{

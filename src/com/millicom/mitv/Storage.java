@@ -15,6 +15,7 @@ import com.millicom.mitv.models.AppVersion;
 import com.millicom.mitv.models.RepeatingBroadcastsForBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVChannel;
+import com.millicom.mitv.models.TVChannelGuide;
 import com.millicom.mitv.models.TVChannelId;
 import com.millicom.mitv.models.TVDate;
 import com.millicom.mitv.models.TVFeedItem;
@@ -24,7 +25,6 @@ import com.millicom.mitv.models.UpcomingBroadcastsForBroadcast;
 import com.millicom.mitv.models.UserLike;
 import com.millicom.mitv.models.UserLoginData;
 import com.millicom.mitv.models.gson.AdAdzerkJSON;
-import com.millicom.mitv.models.gson.TVChannelGuide;
 
 
 

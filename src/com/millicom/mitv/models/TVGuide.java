@@ -1,8 +1,11 @@
+
 package com.millicom.mitv.models;
+
+
 
 import java.util.ArrayList;
 
-import com.millicom.mitv.models.gson.TVChannelGuide;
+
 
 /**
  * This is an object, not created using JSON.

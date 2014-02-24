@@ -21,6 +21,7 @@ import com.millicom.mitv.models.RepeatingBroadcastsForBroadcast;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVChannel;
+import com.millicom.mitv.models.TVChannelGuide;
 import com.millicom.mitv.models.TVChannelId;
 import com.millicom.mitv.models.TVDate;
 import com.millicom.mitv.models.TVFeedItem;
@@ -30,7 +31,6 @@ import com.millicom.mitv.models.TVTag;
 import com.millicom.mitv.models.UpcomingBroadcastsForBroadcast;
 import com.millicom.mitv.models.UserLike;
 import com.millicom.mitv.models.UserLoginData;
-import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.utilities.GenericUtils;
 import com.mitv.Consts;
 
@@ -746,10 +746,15 @@ public class ContentManager
 		return tvDateSelectedIndex;
 	}
 	
-	public boolean selectedTVDateIsToday() {
+	
+	public boolean selectedTVDateIsToday() 
+	{
 		TVDate tvDateSelected = getFromStorageTVDateSelected();
+		
 		boolean isToday = tvDateSelected.isToday();
+		
 		return isToday;
+	
 	}
 
 	private void setTVDateSelectedUsingIndex(int tvDateIndex) {

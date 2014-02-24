@@ -20,9 +20,9 @@ import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVChannel;
+import com.millicom.mitv.models.TVChannelGuide;
 import com.millicom.mitv.models.TVChannelId;
 import com.millicom.mitv.models.TVDate;
-import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.mitv.R;
 import com.mitv.adapters.ChannelPageListAdapter;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -56,7 +56,6 @@ public class ChannelPageActivity
 	// private int selectdTVHour;
 	// private boolean isReady = false;
 
-	// private boolean isToday = false;
 	// private boolean mIsLoggedIn = false,
 	// private Handler handler;
 
@@ -101,8 +100,6 @@ public class ChannelPageActivity
 	protected void onResume()
 	{
 		super.onResume();
-		
-		updateIsToday();
 		
 		initViews();
 	}
@@ -344,25 +341,5 @@ public class ChannelPageActivity
 				break;
 			}
 		}
-	}
-	
-	
-	
-	// TODO Dummy method
-	private void updateIsToday() 
-	{
-		// String tvDateToday = DateUtilities.todayDateAsTvDate();
-		// String tvDate = null;
-		// if(mTvDateSelected != null) {
-		// tvDate = mTvDateSelected.getDate();
-		// } else {
-		// tvDate = mDateTvGuide.getDate();
-		// }
-		//
-		// if (tvDate.equals(tvDateToday)) {
-		// mIsToday = true;
-		// } else {
-		// mIsToday = false;
-		// }
 	}
 }

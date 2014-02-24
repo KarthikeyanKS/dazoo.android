@@ -4,7 +4,7 @@ package com.millicom.mitv.models.gson;
 
 
 import java.lang.reflect.Type;
-import java.util.Comparator;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -178,18 +178,5 @@ public class UserLikeJSON
 	
 	public String getSportTypeId() {
 		return sportTypeId;
-	}
-	
-	
-	
-	//TODO Determine which of those dummy methods we need, and implement them
-	/* HERE COMES DUMMY METHODS, ALL OF THEM MAY NOT BE NEEDED, INVESTIGATE! */
-	public static class UserLikeComparatorByTitle implements Comparator<UserLikeJSON> 
-	{
-		@Override
-		public int compare(UserLikeJSON a, UserLikeJSON b) 
-		{
-			return a.getTitle().compareTo(b.getTitle());
-		}
 	}
 }
