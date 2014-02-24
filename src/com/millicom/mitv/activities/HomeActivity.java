@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.millicom.mitv.ContentManager;
@@ -95,9 +94,12 @@ public class HomeActivity
 	}
 	
 
+	
 	@Override
-	protected void removeActiveFragment() {
-		try {
+	protected void removeActiveFragment() 
+	{
+		try 
+		{	
 			if (activeFragment != null) {
 				getSupportFragmentManager().beginTransaction().remove(activeFragment).commitAllowingStateLoss();
 			}

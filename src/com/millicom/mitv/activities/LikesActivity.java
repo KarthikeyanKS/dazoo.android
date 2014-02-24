@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.millicom.mitv.ContentManager;
+import com.millicom.mitv.activities.base.BaseContentActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.models.UserLike;
@@ -30,7 +31,7 @@ import com.mitv.interfaces.LikesCountInterface;
 
 
 public class LikesActivity 
-	extends BaseActivity 
+	extends BaseContentActivity 
 	implements LikesCountInterface, OnClickListener 
 {
 	@SuppressWarnings("unused")

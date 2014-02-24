@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.HomeActivity;
+import com.millicom.mitv.activities.base.BaseLoginActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.utilities.RegularExpressionUtils;
@@ -143,6 +144,7 @@ public class MiTVUserLoginActivity
 			{
 				emailLoginEditText.setEnabled(false);
 				passwordLoginEditText.setEnabled(false);
+				miTVLoginButton.setEnabled(false);
 				break;
 			}
 			
@@ -167,6 +169,7 @@ public class MiTVUserLoginActivity
 				
 				emailLoginEditText.setEnabled(true);
 				passwordLoginEditText.setEnabled(true);
+				miTVLoginButton.setEnabled(true);
 				
 				break;
 			}
@@ -175,6 +178,7 @@ public class MiTVUserLoginActivity
 			{
 				emailLoginEditText.setEnabled(true);
 				passwordLoginEditText.setEnabled(true);
+				miTVLoginButton.setEnabled(true);
 				
 				Intent intent = new Intent(MiTVUserLoginActivity.this, returnActivity);
 
@@ -189,6 +193,7 @@ public class MiTVUserLoginActivity
 			{
 				emailLoginEditText.setEnabled(true);
 				passwordLoginEditText.setEnabled(true);
+				miTVLoginButton.setEnabled(true);
 				
 				passwordErrorTv.setText(getResources().getString(R.string.login_with_wrong_info));
 				passwordErrorTv.setVisibility(View.VISIBLE);

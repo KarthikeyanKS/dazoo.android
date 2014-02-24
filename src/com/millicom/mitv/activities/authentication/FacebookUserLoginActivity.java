@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 
 import com.millicom.mitv.activities.HomeActivity;
 import com.millicom.mitv.activities.MyChannelsActivity;
+import com.millicom.mitv.activities.base.BaseLoginActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.mitv.R;

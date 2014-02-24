@@ -24,6 +24,7 @@ import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.authentication.FacebookLoginActivity;
 import com.millicom.mitv.activities.authentication.MiTVUserLoginActivity;
 import com.millicom.mitv.activities.authentication.SignUpWithEmailActivity;
+import com.millicom.mitv.activities.base.BaseContentActivity;
 import com.millicom.mitv.enums.FeedItemTypeEnum;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
@@ -36,7 +37,7 @@ import com.mitv.customviews.ToastHelper;
 
 
 public class FeedActivity 
-	extends BaseActivity 
+	extends BaseContentActivity 
 	implements OnClickListener, OnScrollListener 
 {
 	private static final String TAG = FeedActivity.class.getName();

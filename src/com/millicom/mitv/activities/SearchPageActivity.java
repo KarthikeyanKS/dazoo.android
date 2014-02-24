@@ -30,6 +30,7 @@ import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.millicom.mitv.ContentManager;
+import com.millicom.mitv.activities.base.BaseActivity;
 import com.millicom.mitv.enums.ContentTypeEnum;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;

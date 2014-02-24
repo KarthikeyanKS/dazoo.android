@@ -3,14 +3,10 @@ package com.millicom.mitv.asynctasks;
 
 
 
-import java.util.Collections;
 import java.util.Locale;
-import java.util.Map;
 import java.util.TimeZone;
-
 import android.os.AsyncTask;
 import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -19,6 +15,7 @@ import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.http.HTTPCore;
 import com.millicom.mitv.http.HTTPCoreResponse;
+import com.millicom.mitv.http.HeaderParameters;
 import com.millicom.mitv.http.URLParameters;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
@@ -46,7 +43,7 @@ public abstract class AsyncTaskBase<T>
 	private String url;
 	
 	protected URLParameters urlParameters;
-	protected Map<String, String> headerParameters;
+	protected HeaderParameters headerParameters;
 	protected String bodyContentData;
 	
 	protected FetchRequestResultEnum requestResultStatus;
@@ -76,7 +73,7 @@ public abstract class AsyncTaskBase<T>
 			boolean isRelativeURL,
 			String url) 
 	{
-		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, clazzSingle, manualDeserialization, httpRequestType, isRelativeURL, url, new URLParameters(), Collections.<String, String> emptyMap(), null);
+		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, clazzSingle, manualDeserialization, httpRequestType, isRelativeURL, url, new URLParameters(), new HeaderParameters(), null);
 	}
 	
 	public AsyncTaskBase(
@@ -89,7 +86,7 @@ public abstract class AsyncTaskBase<T>
 			boolean isRelativeURL,
 			String url) 
 	{
-		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, isRelativeURL, url, new URLParameters(), Collections.<String, String> emptyMap(), null);
+		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, isRelativeURL, url, new URLParameters(), new HeaderParameters(), null);
 	}
 	
 	
@@ -105,7 +102,7 @@ public abstract class AsyncTaskBase<T>
 			boolean isRelativeURL,
 			String url,
 			URLParameters urlParameters,
-			Map<String, String> headerParameters,
+			HeaderParameters headerParameters,
 			String bodyContentData)
 	{
 		this.contentCallbackListener = contentCallbackListener;

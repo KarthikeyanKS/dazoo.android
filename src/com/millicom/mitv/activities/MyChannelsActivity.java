@@ -27,6 +27,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.millicom.mitv.ContentManager;
+import com.millicom.mitv.activities.base.BaseContentActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.mitv.R;
@@ -38,7 +39,7 @@ import com.mitv.storage.MiTVStore;
 
 
 public class MyChannelsActivity 
-	extends BaseActivity 
+	extends BaseContentActivity 
 	implements MyChannelsCountInterface, OnClickListener 
 {
 	private static final String TAG = MyChannelsActivity.class.getName();

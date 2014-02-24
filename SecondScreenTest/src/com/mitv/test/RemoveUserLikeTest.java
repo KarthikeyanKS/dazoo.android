@@ -3,8 +3,6 @@ package com.mitv.test;
 
 
 
-import java.util.Map;
-
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -13,6 +11,7 @@ import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.LikeTypeRequestEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
+import com.millicom.mitv.http.HeaderParameters;
 import com.millicom.mitv.http.URLParameters;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVChannelGuide;
@@ -65,7 +64,7 @@ public class RemoveUserLikeTest
 		
 		URLParameters urlParameters = new URLParameters();
 		
-		Map<String, String> headerParameters = getHeaderParametersWithUserToken(token);
+		HeaderParameters headerParameters = getHeaderParametersWithUserToken(token);
 		
 		HTTPCoreResponse httpCoreResponse = instance.executeRequest(HTTPRequestTypeEnum.HTTP_DELETE, url.toString(), urlParameters, headerParameters);
 				

@@ -20,6 +20,7 @@ import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.millicom.mitv.activities.base.BaseActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.mitv.R;
@@ -27,7 +28,7 @@ import com.mitv.customviews.FontTextView;
 
 
 
-public class AboutOrTermsActivity 
+public abstract class AboutOrTermsActivity 
 	extends BaseActivity 
 	implements OnClickListener 
 {

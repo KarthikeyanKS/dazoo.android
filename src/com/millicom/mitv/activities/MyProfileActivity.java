@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.authentication.MiTVUserLoginActivity;
 import com.millicom.mitv.activities.authentication.SignInOrSignupWithFacebookActivity;
+import com.millicom.mitv.activities.base.BaseActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.interfaces.ActivityWithTabs;

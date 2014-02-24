@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.millicom.mitv.ContentManager;
+import com.millicom.mitv.activities.base.BaseContentActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
@@ -20,7 +21,7 @@ import com.mitv.adapters.UpcomingEpisodesListAdapter;
 
 
 public class UpcomingEpisodesPageActivity 
-	extends BaseActivity 
+	extends BaseContentActivity 
 {
 	@SuppressWarnings("unused")
 	private static final String TAG = UpcomingEpisodesPageActivity.class.getName();

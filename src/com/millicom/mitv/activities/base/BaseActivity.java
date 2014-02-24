@@ -1,5 +1,5 @@
 
-package com.millicom.mitv.activities;
+package com.millicom.mitv.activities.base;
 
 
 
@@ -18,9 +18,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-
 import com.google.analytics.tracking.android.EasyTracker;
 import com.millicom.mitv.ContentManager;
+import com.millicom.mitv.activities.FeedActivity;
+import com.millicom.mitv.activities.HomeActivity;
+import com.millicom.mitv.activities.MyProfileActivity;
+import com.millicom.mitv.activities.SearchPageActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.TabSelectedEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
@@ -33,11 +36,12 @@ import com.mitv.manager.GATrackingManager;
 
 
 public abstract class BaseActivity 
-	extends ActionBarActivity 
+	extends ActionBarActivity
 	implements ActivityCallbackListener, OnClickListener 
 {
 	private static final String TAG = BaseActivity.class.getName();
 
+	
 	protected RelativeLayout tabTvGuide;
 	protected RelativeLayout tabActivity;
 	protected RelativeLayout tabProfile;
@@ -68,22 +72,43 @@ public abstract class BaseActivity
 	protected abstract void onDataAvailable(FetchRequestResultEnum fetchRequestResult);	
 
 	
+	
 	public void initTabViews() 
 	{
 		tabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
-		tabTvGuide.setOnClickListener(this);
-
+		
+		if(tabTvGuide != null)
+		{
+			tabTvGuide.setOnClickListener(this);
+		}
+		
 		tabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
-		tabActivity.setOnClickListener(this);
+		
+		if(tabActivity != null)
+		{
+			tabActivity.setOnClickListener(this);
+		}
 
 		tabProfile = (RelativeLayout) findViewById(R.id.tab_me);
-		tabProfile.setOnClickListener(this);
-
+	
+		if(tabProfile != null)
+		{
+			tabProfile.setOnClickListener(this);
+		}
+		
 		tabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
+		
+		if(tabDividerLeft != null)
+		{
+			tabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+		}
+		
 		tabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
 
-		tabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
-		tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+		if(tabDividerRight != null)
+		{
+			tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+		}
 
 		switch (tabSelectedEnum) 
 		{
@@ -104,6 +129,11 @@ public abstract class BaseActivity
 				tabSelectedWasMyProfile();
 				break;
 			}
+			
+			default:
+			{
+				Log.w(TAG, "Unknown tab selected");
+			}
 		}
 	}
 	
@@ -111,23 +141,60 @@ public abstract class BaseActivity
 	
 	private void tabSelectedWasTVGuide() 
 	{
-		tabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
-		tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
-		tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+		if(tabTvGuide != null)
+		{
+			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
+		}
+		
+		if(tabActivity != null)
+		{
+			tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+		}
+		
+		if(tabProfile != null)
+		{
+			tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+		}
 	}
+	
+	
 	
 	private void tabSelectedWasActivityFeed() 
 	{
-		tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
-		tabActivity.setBackgroundColor(getResources().getColor(R.color.red));
-		tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+		if(tabTvGuide != null)
+		{
+			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+		}
+		
+		if(tabActivity != null)
+		{
+			tabActivity.setBackgroundColor(getResources().getColor(R.color.red));
+		}
+		
+		if(tabProfile != null)
+		{
+			tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+		}
 	}
+	
+	
 	
 	private void tabSelectedWasMyProfile() 
 	{
-		tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
-		tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
-		tabProfile.setBackgroundColor(getResources().getColor(R.color.red));
+		if(tabTvGuide != null)
+		{
+			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+		}
+		
+		if(tabActivity != null)
+		{
+			tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+		}
+		
+		if(tabProfile != null)
+		{
+			tabProfile.setBackgroundColor(getResources().getColor(R.color.red));
+		}
 	}
 	
 	
@@ -252,10 +319,7 @@ public abstract class BaseActivity
 		initCallbackLayouts();
 		
 		initTabViews();
-		
-		loadDataWithConnectivityCheck();
 	}
-	
 	
 	
 	
@@ -410,30 +474,44 @@ public abstract class BaseActivity
 			{	
 				case LOADING:
 				{
-					requestLoadingLayout.setVisibility(View.VISIBLE);
+					if(requestLoadingLayout != null)
+					{
+						requestLoadingLayout.setVisibility(View.VISIBLE);
+					}
 					break;
 				}
 							
 				case NO_CONNECTION_AVAILABLE:
 				{
-					requestBadLayout.setVisibility(View.VISIBLE);
+					if(requestBadLayout != null)
+					{
+						requestBadLayout.setVisibility(View.VISIBLE);
+					}
 					break;
 				}
 				
 				case FAILED:
 				{
-					requestFailedLayout.setVisibility(View.VISIBLE);
-					break;
-				}
-				
-				case SUCCEEDED_WITH_DATA:
-				{
+					if(requestFailedLayout != null)
+					{
+						requestFailedLayout.setVisibility(View.VISIBLE);
+					}
 					break;
 				}
 				
 				case SUCCEEDED_WITH_EMPTY_DATA:
 				{
-					requestEmptyLayout.setVisibility(View.VISIBLE);
+					if(requestEmptyLayout != null)
+					{
+						requestEmptyLayout.setVisibility(View.VISIBLE);
+					}
+					break;
+				}
+				
+				case SUCCEEDED_WITH_DATA:
+				default:
+				{
+					// Success or other cases should be handled by the subclasses
 					break;
 				}
 			}

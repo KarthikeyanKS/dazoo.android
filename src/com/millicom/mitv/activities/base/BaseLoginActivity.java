@@ -1,5 +1,5 @@
 
-package com.millicom.mitv.activities.authentication;
+package com.millicom.mitv.activities.base;
 
 
 
@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.millicom.mitv.activities.BaseActivity;
 import com.mitv.R;
 
 
@@ -20,7 +19,6 @@ public abstract class BaseLoginActivity
 {
 	@SuppressWarnings("unused")
 	private static final String TAG = BaseLoginActivity.class.getName();
-	
 	
 	
 	@Override

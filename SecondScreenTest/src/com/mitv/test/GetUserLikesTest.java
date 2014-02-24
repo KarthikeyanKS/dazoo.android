@@ -5,7 +5,6 @@ package com.mitv.test;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import junit.framework.Assert;
 
@@ -17,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
+import com.millicom.mitv.http.HeaderParameters;
 import com.millicom.mitv.http.URLParameters;
 import com.millicom.mitv.models.UserLike;
 import com.millicom.mitv.models.UserLoginData;
@@ -75,7 +75,7 @@ public class GetUserLikesTest
 		
 		URLParameters urlParameters = new URLParameters();
 		
-		Map<String, String> headerParameters = getHeaderParametersWithUserToken(token);
+		HeaderParameters headerParameters = getHeaderParametersWithUserToken(token);
 		
 		HTTPCoreResponse httpCoreResponse = instance.executeRequest(HTTPRequestTypeEnum.HTTP_GET, url, urlParameters, headerParameters);
 		

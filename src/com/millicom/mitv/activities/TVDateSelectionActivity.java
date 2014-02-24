@@ -5,14 +5,16 @@ import java.util.ArrayList;
 import android.support.v7.app.ActionBar;
 
 import com.millicom.mitv.ContentManager;
+import com.millicom.mitv.activities.base.BaseContentActivity;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.models.TVDate;
 import com.mitv.adapters.ActionBarDropDownDateListAdapter;
 
-public abstract class TVDateSelectionActivity extends BaseActivity implements ActionBar.OnNavigationListener {
-
-
+public abstract class TVDateSelectionActivity 
+	extends BaseContentActivity 
+	implements ActionBar.OnNavigationListener 
+{
 	private ActionBarDropDownDateListAdapter dayAdapter;
 	protected ActivityCallbackListener activityCallbackListener;
 	private boolean onNavigationItemSelectedHasBeenCalledByOSYet = false;
@@ -22,8 +24,11 @@ public abstract class TVDateSelectionActivity extends BaseActivity implements Ac
 	protected abstract void attachFragment();
 	protected abstract void removeActiveFragment();
 		
+	
+	
 	@Override
-	public void setContentView(int layoutResID) {
+	public void setContentView(int layoutResID) 
+	{
 		super.setContentView(layoutResID);
 
 		ArrayList<TVDate> tvDates = ContentManager.sharedInstance().getFromStorageTVDates();
@@ -37,9 +42,13 @@ public abstract class TVDateSelectionActivity extends BaseActivity implements Ac
 		setActivityCallbackListener();
 	}
 	
+	
+	
 	@Override
-	public boolean onNavigationItemSelected(int position, long id) {
-		if (!onNavigationItemSelectedHasBeenCalledByOSYet) {
+	public boolean onNavigationItemSelected(int position, long id) 
+	{
+		if (!onNavigationItemSelectedHasBeenCalledByOSYet) 
+		{
 			int selectedTvDateIndex = ContentManager.sharedInstance().getFromStorageTVDateSelectedIndex();
 			dayAdapter.setSelectedIndex(selectedTvDateIndex);
 			actionBar.setSelectedNavigationItem(selectedTvDateIndex);
@@ -52,10 +61,15 @@ public abstract class TVDateSelectionActivity extends BaseActivity implements Ac
 		}
 	}
 	
-	private void fetchGuideForSelectedDay(int selectedDayIndex) {
+	
+	private void fetchGuideForSelectedDay(int selectedDayIndex) 
+	{
 		//TODO NewArc this was Added by Cyon to enable loading indicator when choosing another day in homeactivity, is there a smarter way to do it?
+		
 		removeActiveFragment();
+		
 		updateUI(UIStatusEnum.LOADING);
+		
 		ContentManager.sharedInstance().setTVDateSelectedUsingIndexAndFetchGuideForDay(activityCallbackListener, selectedDayIndex);
 	}
 }
