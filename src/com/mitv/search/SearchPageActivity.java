@@ -297,6 +297,7 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 				// If the channel is not within the loaded channels, ask user to add it
 				else {
 					Intent intentMyChannels = new Intent(SearchPageActivity.this, MyChannelsActivity.class);
+					intentMyChannels.putExtra(Consts.INTENT_EXTRA_SEARCHSTRING, channel.getName());
 					startActivity(intentMyChannels);
 				}
 			}

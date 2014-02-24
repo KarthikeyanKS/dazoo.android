@@ -25,7 +25,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
@@ -73,11 +72,18 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 	private ArrayList<String>			myChannelIds			= new ArrayList<String>();
 	private ArrayList<String>			mAllChannelsIds			= new ArrayList<String>();
 
+	private String 						mSearchString;
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_mychannels_activity);
 
-		
+		Intent intent = getIntent();
+		if (intent.hasExtra(Consts.INTENT_EXTRA_SEARCHSTRING)) {
+			mSearchString = intent.getExtras().getString(Consts.INTENT_EXTRA_SEARCHSTRING);
+		}
+
+
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
@@ -92,7 +98,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 		mActionBar = getSupportActionBar();
 		mActionBar.setTitle(getResources().getString(R.string.myprofile_my_channels));
 		mActionBar.setDisplayHomeAsUpEnabled(true);
-		
+
 		// styling bottom navigation tabs
 
 		mTabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
@@ -101,7 +107,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 		mTabActivity.setOnClickListener(this);
 		mTabProfile = (RelativeLayout) findViewById(R.id.tab_me);
 		mTabProfile.setOnClickListener(this);
-		
+
 		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
 		mTabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
 
@@ -159,9 +165,9 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 						in.hideSoftInputFromWindow(mSearchChannelInputEditText.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 					}
 					if (search.length() > 0) {
-						if (search.length() > 3) {
-							search = search.substring(0, 3);
-						}
+//						if (search.length() > 3) {
+//							search = search.substring(0, 3);
+//						}
 						mChannelInfoToDisplay.clear();
 						for (Map.Entry<String, Channel> entry : mChannelInfoMap.entrySet()) {
 							String key = entry.getKey();
@@ -190,6 +196,9 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 				public void onTextChanged(CharSequence s, int start, int before, int count) {
 				}
 			});
+			if (mSearchString != null && mSearchString.length() > 0) {
+				mSearchChannelInputEditText.setText(mSearchString);
+			}
 		} else {
 			updateUI(REQUEST_STATUS.LOADING);
 			loadPage();
@@ -245,14 +254,14 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 			returnIntent.putExtra(Consts.INFO_UPDATE_MYCHANNELS_NUMBER, mCount);
 		}
 		super.onBackPressed();
-		
+
 		finish();
 	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		
+
 	}
 
 	private boolean getUserMyChannelsIdsJSON() {
@@ -289,15 +298,15 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intentHome);
-			
+
 			break;
 		case R.id.tab_activity:
 			updateChannelList();
 			Intent intentActivity = new Intent(MyChannelsActivity.this, ActivityActivity.class);
 			startActivity(intentActivity);
-			
+
 			break;
-		case R.id.tab_me:
+		case R.id.tab_me: 
 			updateChannelList();
 			Intent returnIntent = new Intent();
 			if (mIsChanged == true) {
@@ -305,7 +314,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 				returnIntent.putExtra(Consts.INFO_UPDATE_MYCHANNELS_NUMBER, mCount);
 			}
 			finish();
-			
+
 			break;
 		}
 
