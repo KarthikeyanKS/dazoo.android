@@ -34,7 +34,8 @@
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:textSize="18sp"
-        android:textStyle="normal" />
+        android:textStyle="normal"
+        android:textCursorDrawable="@drawable/white_cursor" />
 
     <ProgressBar
         android:id="@+id/searchbar_progress"
