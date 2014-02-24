@@ -99,7 +99,8 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 
 	public void setup(Context context) {
 		this.activity = (Activity) context;
-		firstHourOfDay = ContentManager.sharedInstance().getFromStorageFirstHourOfTVDay();
+		int firstHourOfDay = ContentManager.sharedInstance().getFromStorageFirstHourOfTVDay();
+		SwipeClockBar.firstHourOfDay = firstHourOfDay;
 
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.swipe_clock_bar, this);
@@ -111,10 +112,10 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 
 		// TODO use this way of accessing the activity directly in the
 		// VerticalSeekBar class?
-		this.seekBar.setActivity(activity);
+		this.seekBar.setValues(activity, HOURS_PER_DAY, firstHourOfDay);
 		this.timeListView = (ListView) this.findViewById(R.id.timebar_listview);
 
-		this.hoursOfTheDay = generate24Hours();
+		SwipeClockBar.hoursOfTheDay = generate24Hours();
 
 		this.screenHeight = GenericUtils.getScreenHeight((Activity) context);
 		

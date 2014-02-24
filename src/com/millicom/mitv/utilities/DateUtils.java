@@ -386,9 +386,9 @@ public abstract class DateUtils
 		int milisecondsValue = 0;
 		int secondsValue = 0;
 		int minutesValue = 0;
-		int hoursValue = 0;
+		int hoursValue = hour;
 		
-		int firstHourOfTheDay = ContentManager.sharedInstance().getFromStorageAppConfiguration().getFirstHourOfDay();
+		int firstHourOfTheDay = ContentManager.sharedInstance().getFromStorageFirstHourOfTVDay();
 		
 		if(hour >= 0 && hour < firstHourOfTheDay) 
 		{
