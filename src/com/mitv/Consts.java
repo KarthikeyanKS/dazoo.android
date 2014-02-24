@@ -195,6 +195,7 @@ public abstract class Consts {
 
 	/* Profile extras */
 	public static final String	INTENT_EXTRA_FROM_PROFILE							= "com.mitv.intent.extra.from.profile";
+	public static final String	INTENT_EXTRA_SEARCHSTRING							= "com.mitv.intent.extra.searchstring";
 
 	/* Fragments extra arguments */
 	public static final String	FRAGMENT_EXTRA_TAG									= "com.mitv.fragment.extra.tag";

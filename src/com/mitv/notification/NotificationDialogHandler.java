@@ -10,31 +10,42 @@ import android.widget.TextView;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.model.Broadcast;
+import com.mitv.model.Program;
 
 public class NotificationDialogHandler {
-	
+
 	private static final String TAG = "NotificationDialogHandler";
-	
+
 	public Runnable answerYes = null;
 	public Runnable answerNo = null;
-	
+
 	public boolean showRemoveNotificationDialog(final Context context, Broadcast broadcast, final int notificationId, Runnable aProcedure, Runnable bProcedure) {
 		answerYes = aProcedure;
 		answerNo = bProcedure;
-		
+
+		String title = "";
+		Program program = broadcast.getProgram();
+		if (program != null) {
+			if (program.getSeries() == null) {
+				title = program.getTitle();
+			}
+			else {
+				title = program.getSeries().getName();
+			}
+		}
+
 		String reminderText = "";
 		if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(broadcast.getProgram().getProgramType())) {
-			reminderText = context.getString(R.string.reminder_text_remove) + broadcast.getProgram().getTitle() + ", " + context.getString(R.string.season) + " "
-					+ broadcast.getProgram().getSeason().getNumber() + " " + context.getString(R.string.episode) + " " + broadcast.getProgram().getEpisodeNumber() + "?";
-			
-			/* broadcast.getProgram().getSeries().getName() will not work. Check class: RemindersActivity.java. Series is null */
-			
-			
-		} else if (Consts.PROGRAM_TYPE_MOVIE.equals(broadcast.getProgram().getProgramType())) {
+			reminderText = context.getString(R.string.reminder_text_remove) + title + ", " + context.getString(R.string.season) + " "
+					+ broadcast.getProgram().getSeason().getNumber() + " " + context.getString(R.string.episode) + " " + broadcast.getProgram().getEpisodeNumber() + "?";		
+		} 
+		else if (Consts.PROGRAM_TYPE_MOVIE.equals(broadcast.getProgram().getProgramType())) {
 			reminderText = context.getString(R.string.reminder_text_remove) + broadcast.getProgram().getTitle() + "?";
-		} else if (Consts.PROGRAM_TYPE_OTHER.equals(broadcast.getProgram().getProgramType())) {
+		} 
+		else if (Consts.PROGRAM_TYPE_OTHER.equals(broadcast.getProgram().getProgramType())) {
 			reminderText = context.getString(R.string.reminder_text_remove) + broadcast.getProgram().getTitle() + "?";
-		} else if (Consts.PROGRAM_TYPE_SPORT.equals(broadcast.getProgram().getProgramType())) {
+		}
+		else if (Consts.PROGRAM_TYPE_SPORT.equals(broadcast.getProgram().getProgramType())) {
 			reminderText = context.getString(R.string.reminder_text_remove) + broadcast.getProgram().getTitle() + "?";
 		}
 
@@ -65,7 +76,7 @@ public class NotificationDialogHandler {
 				// remove the reminder
 				answerYes.run();
 				Log.d(TAG,"notificationId: " + notificationId);
-				
+
 				NotificationService.removeNotification(context, notificationId);
 				dialog.dismiss();
 			}

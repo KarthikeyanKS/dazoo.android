@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.Layout.Alignment;
 import android.text.StaticLayout;
@@ -43,9 +44,11 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 	private static final String TAG = "SwipeClockBar";
 	public static final int SCREEN_HEIGHT_SMALL = 320;
 	public static final int SCREEN_HEIGHT_TABLET = 1280;
-	
+	private static final int SELECTED_HOUR_TEXTVIEW_DISPLAY_TIME = 1200;
+
 	private Activity mActivity;
 	private VerticalSeekBar mSeekBar;
+	private LinearLayout mClockbarContainer;
 	private ListView mTimeListView;
 	private FontTextView mClockIconTextView;
 	private static List<Integer> mHours;
@@ -57,6 +60,8 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 	private boolean mIsToday;
 	private boolean mSmallScreenMode;
 	private int mScreenHeight;
+
+	private boolean mIsHighlighted = false;
 
 	public SwipeClockBar(Context context) {
 		super(context);
@@ -109,11 +114,28 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mInflater.inflate(R.layout.swipe_clock_bar, this);
-		
+
+		mClockbarContainer = (LinearLayout) this.findViewById(R.id.swipe_clock_bar_container);
+
 		this.mClockIconTextView = (FontTextView) this.findViewById(R.id.swipe_clock_bar_clock_icon_textview);
+		this.mClockIconTextView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				highlightClockbar();
+				final Handler handler = new Handler();
+				handler.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						dehighlightClockbar();
+					}
+				}, SELECTED_HOUR_TEXTVIEW_DISPLAY_TIME);
+			}
+		});
 
 		this.mSeekBar = (VerticalSeekBar) this.findViewById(R.id.timebar_seekbar);
 		this.mSeekBar.setOnSeekBarChangeListener(this);
+		this.mSeekBar.setParentClockbar(this);
 
 		// TODO use this way of accessing the activity directly in the
 		// VerticalSeekBar class?
@@ -128,11 +150,12 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 		} else {
 			mSmallScreenMode = false;
 		}
-		
+
 		if (mTimeListView != null) {
 			this.mListAdapter = new TimeListAdapter(mHoursPerDay, mFirstHourOfDay, mHours);
 			this.mTimeListView.setAdapter(mListAdapter);
 		}
+		mListAdapter.setSelectedHour(SecondScreenApplication.getInstance().getSelectedHour() - mFirstHourOfDay);
 
 		/*
 		 * Start the view as invisible, when the height is known, update the
@@ -148,7 +171,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 				TimeListAdapter timeListAdapter = ((TimeListAdapter) SwipeClockBar.this.mTimeListView.getAdapter());
 				timeListAdapter.setListViewHeight(selfHeigt);
 				timeListAdapter.notifyDataSetChanged();
-				
+
 				SwipeClockBar.removeOnGlobalLayoutListener(SwipeClockBar.this, this);
 				SwipeClockBar.this.setVisibility(View.VISIBLE);
 			}
@@ -170,8 +193,8 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 		List<Integer> hours = new ArrayList<Integer>();
 		int hour = mFirstHourOfDay;
 		for (int i = 0; i < mHoursPerDay; ++i) {
-				hours.add(hour);
-		
+			hours.add(hour);
+
 			hour = (hour + 1) % mHoursPerDay;
 		}
 
@@ -193,7 +216,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 		public void setListViewHeight(int listViewHeight) {
 			this.listViewHeight = listViewHeight;
 		}
-		
+
 		public TimeListAdapter(int hoursPerDay, int firstHourOfDay, List<Integer> hours) {
 			this(hoursPerDay, firstHourOfDay, hours, -1);
 		}
@@ -217,7 +240,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 			if (hours != null) {
 				count = hours.size();
 			}
-			
+
 			if (mSmallScreenMode) {
 				count = 12;
 				if(showOddHour()) {
@@ -231,7 +254,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 		public int getViewTypeCount() {
 			return 1;
 		}
-		
+
 
 		@Override
 		public Object getItem(int positionInListView) {
@@ -251,7 +274,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 			}
 			return hour;
 		}
-		
+
 		private int positionInListViewTo24Index(int positionInListView) {
 			int hourArrayIndex = positionInListView;
 			if ((positionInListView * 2) < index24OfSelectedHour) {
@@ -263,6 +286,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 					hourArrayIndex = (positionInListView - 1) * 2;
 				}
 			}
+			
 			return hourArrayIndex;
 		}
 
@@ -270,15 +294,15 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 		public long getItemId(int position) {
 			return -1;
 		}
-		
+
 		private boolean evenPosition(int position) {
 			return (position % 2 == 0);
 		}
-		
+
 		private boolean oddPosition(int position) {
 			return !evenPosition(position);
 		}
-		
+
 		private boolean showOddHour() {
 			return oddPosition(index24OfSelectedHour);
 		}
@@ -302,36 +326,44 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 			String hourString = String.format(SecondScreenApplication.getCurrentLocale(), "%02d", hour);
 			holder.textView.setText(hourString);
 
-			String fontName;
 			int colorId;
 
 			int indexToCheckForColor = position;
-				if(mSmallScreenMode) {
-					indexToCheckForColor = 2 * position;
+			if(mSmallScreenMode) {
+				indexToCheckForColor = 2 * position;
 				if (showOddHour()) {
 					indexToCheckForColor = positionInListViewTo24Index(position);
 				}
 			}
 
-			if (indexToCheckForColor == index24OfSelectedHour) {
-				colorId = R.color.white;
-				fontName = FontManager.FONT_BOLD;
-				rowView.setBackgroundColor(mActivity.getResources().getColor(R.color.grey4));
-			} else if (mIsToday && isEarlier(hour, Integer.parseInt(DateUtilities.getCurrentHourString()))) {
-				colorId = R.color.grey2;
-				fontName = FontManager.FONT_LIGHT;
-				rowView.setBackgroundColor(mActivity.getResources().getColor(R.color.transparent));
-			} else {
-				colorId = R.color.black;
-				fontName = FontManager.FONT_LIGHT;
-				rowView.setBackgroundColor(mActivity.getResources().getColor(R.color.transparent));
+			if (mIsHighlighted) {
+				if (indexToCheckForColor == index24OfSelectedHour) {
+					colorId = R.color.white;
+					rowView.setBackgroundColor(mActivity.getResources().getColor(R.color.red));
+				} else if (mIsToday && isEarlier(hour, Integer.parseInt(DateUtilities.getCurrentHourString()))) {
+					colorId = R.color.grey5;
+					rowView.setBackgroundColor(mActivity.getResources().getColor(R.color.transparent));
+				} else {
+					colorId = R.color.red;
+					rowView.setBackgroundColor(mActivity.getResources().getColor(R.color.transparent));
+				}
+			}
+			else {
+				if (indexToCheckForColor == index24OfSelectedHour) {
+					colorId = R.color.white;
+					rowView.setBackgroundColor(mActivity.getResources().getColor(R.color.grey4));
+				} else if (mIsToday && isEarlier(hour, Integer.parseInt(DateUtilities.getCurrentHourString()))) {
+					colorId = R.color.grey5;
+					rowView.setBackgroundColor(mActivity.getResources().getColor(R.color.transparent));
+				} else {
+					colorId = R.color.grey2;
+					rowView.setBackgroundColor(mActivity.getResources().getColor(R.color.transparent));
+				}
 			}
 
 			int textColor = mActivity.getResources().getColor(colorId);
-			Typeface textFont = FontManager.getTypefaceStatic(mActivity, fontName);
 
 			holder.textView.setTextColor(textColor);
-			holder.textView.setTypeface(textFont);
 
 			if (listViewHeight > 0) {
 				int cellHeight = listViewHeight / getCount();
@@ -343,16 +375,18 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 				params.height = cellHeight;
 				rowView.setLayoutParams(params);
 
-				// If this is the first view, calculate text size
-				if (mSavedTextSize < 0) {
-					mSavedTextSize = getTextSize(cellHeight, holder.textView, hourString);
+				// If this is the first view, calculate text size: DISABLED FOR NOW
+//				if (mSavedTextSize < 0) {
+//					mSavedTextSize = getTextSize(cellHeight, holder.textView, hourString);
 					if (mSmallScreenMode) {
 						mSavedTextSize = 12;
+						holder.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mSavedTextSize);
 					} else if (mScreenHeight >= SCREEN_HEIGHT_TABLET) {
 						mSavedTextSize = 34;
+						holder.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mSavedTextSize);
 					}
-				}
-				holder.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mSavedTextSize);
+//				}
+//								holder.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mSavedTextSize);
 
 				rowView.setVisibility(View.VISIBLE);
 			}
@@ -394,28 +428,28 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 
 			targetTextSize = lower;
 			textHeight = getTextHeight(text, textPaint, width, targetTextSize);
-			
+
 			return textHeight;
 		}
 	}
-	
+
 
 
 	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 		int hour = progressToHour(progress);
 		broadcastClockSelectionChanged(hour);
-		
+
 		int indexToStyle = progress;
-		
+
 		styleSelectedHour(indexToStyle);
 	}
-		
+
 	private void styleSelectedHour(int index) {
 		mListAdapter.setSelectedHour(index);
 		mListAdapter.notifyDataSetChanged();
 	}
-	
+
 
 	private void broadcastClockSelectionChanged(int hour) {
 		Intent intent = new Intent(Consts.INTENT_EXTRA_CLOCK_SELECTION);
@@ -448,7 +482,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 		StaticLayout layout = new StaticLayout(source, paint, width, Alignment.ALIGN_NORMAL, 1.0f, 0.0f, true);
 		return layout.getHeight();
 	}
-	
+
 	/* If first is earlier than second, return true. */
 	private boolean isEarlier(int first, int second) {
 		if (first < second && first >= mFirstHourOfDay) {
@@ -458,8 +492,22 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 			return false;
 		}
 	}
-	
+
 	public void setToday(boolean isToday) {
 		this.mIsToday = isToday;
+	}
+
+	public void highlightClockbar() {
+		mIsHighlighted = true;
+		mListAdapter.notifyDataSetChanged();
+		mClockIconTextView.setTextColor(getResources().getColor(R.color.red));
+		mClockbarContainer.setBackgroundResource(R.drawable.layout_rounded_corners_grey0_clockbar);
+	}
+
+	public void dehighlightClockbar() {
+		mIsHighlighted = false;
+		mListAdapter.notifyDataSetChanged();
+		mClockIconTextView.setTextColor(getResources().getColor(R.color.grey5));
+		mClockbarContainer.setBackgroundResource(R.color.transparent);
 	}
 }

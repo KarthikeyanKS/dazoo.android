@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 
 import com.mitv.R;
@@ -20,10 +21,13 @@ import com.mitv.manager.AppConfigurationManager;
 public class VerticalSeekBar extends SeekBar {
 
 	private static final String tag = "VerticalSeekBarSmallThumb (internal)";
-	private static final int SELECTED_HOUR_TEXTVIEW_DISPLAY_TIME = 1200;
-	
+	private static final int SELECTED_HOUR_TEXTVIEW_DISPLAY_TIME = 300;
+
 	private Activity activity;
 	private FontTextView selectedHourTextView;
+
+	private LinearLayout mContainerLayout;
+	private SwipeClockBar mParentClockBar;
 
 	public VerticalSeekBar(Context context) {
 		super(context);
@@ -42,7 +46,7 @@ public class VerticalSeekBar extends SeekBar {
 
 	private void setup() {
 	}
-	
+
 	public void setSelectedHourTextView(FontTextView selectedHourTextView) {
 		this.selectedHourTextView = selectedHourTextView;
 		selectedHourTextView.setVisibility(View.GONE);
@@ -65,14 +69,6 @@ public class VerticalSeekBar extends SeekBar {
 
 		selectedHourTextView.setText(hourString);
 		selectedHourTextView.setVisibility(View.VISIBLE);
-
-		final Handler handler = new Handler();
-		handler.postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				selectedHourTextView.setVisibility(View.GONE);
-			}
-		}, SELECTED_HOUR_TEXTVIEW_DISPLAY_TIME);
 	}
 
 	@Override
@@ -103,8 +99,17 @@ public class VerticalSeekBar extends SeekBar {
 
 			onSizeChanged(getWidth(), height, 0, 0);
 			updateTextViewText();
+			mParentClockBar.highlightClockbar();
 			break;
 		case MotionEvent.ACTION_UP: {
+			final Handler handler = new Handler();
+			handler.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					selectedHourTextView.setVisibility(View.GONE);
+				}
+			}, SELECTED_HOUR_TEXTVIEW_DISPLAY_TIME);
+			mParentClockBar.dehighlightClockbar();
 			break;
 		}
 		case MotionEvent.ACTION_CANCEL: {
@@ -119,5 +124,9 @@ public class VerticalSeekBar extends SeekBar {
 	/* Important to override, since width and height are switched!! */
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(h, w, oldh, oldw);
+	}
+
+	public void setParentClockbar(SwipeClockBar clockbar) {
+		this.mParentClockBar = clockbar;
 	}
 }
