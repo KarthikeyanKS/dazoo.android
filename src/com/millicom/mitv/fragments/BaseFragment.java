@@ -55,6 +55,12 @@ public abstract class BaseFragment
 	}
 	
 	
+	@Override
+	public void onResume() 
+	{	
+		super.onResume();
+		loadData();
+	}
 	
 	/*
 	 * This method checks for Internet connectivity on the background thread

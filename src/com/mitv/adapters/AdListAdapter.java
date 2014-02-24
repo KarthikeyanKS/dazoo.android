@@ -104,13 +104,13 @@ public class AdListAdapter<T> extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		int finalCount = items.size();
+		int finalCount = 0;
 		if (items != null) {
-			if(isAdsEnabled) {
+			finalCount = items.size();
+			if (isAdsEnabled) {
 				finalCount += getAdCount();
 			}
 		}
-
 		return finalCount;
 	}
 	

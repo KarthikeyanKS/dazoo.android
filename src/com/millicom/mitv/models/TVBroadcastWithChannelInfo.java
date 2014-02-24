@@ -72,19 +72,20 @@ public class TVBroadcastWithChannelInfo
 	{
 		int closestIndexFound = defaultValueIfNotFound;
 		
-		for(int i=0; i<broadcasts.size(); i++)
-		{
-			TVBroadcastWithChannelInfo broadcast = broadcasts.get(i);
-			
-			boolean hasNotAiredYetOrIsAiring = broadcast.hasNotAiredYet() || broadcast.isAiring();
-			
-			if(hasNotAiredYetOrIsAiring)
+		if(broadcasts != null) {
+			for(int i=0; i<broadcasts.size(); i++)
 			{
-				closestIndexFound = i;
-				break;
+				TVBroadcastWithChannelInfo broadcast = broadcasts.get(i);
+				
+				boolean hasNotAiredYetOrIsAiring = broadcast.hasNotAiredYet() || broadcast.isAiring();
+				
+				if(hasNotAiredYetOrIsAiring)
+				{
+					closestIndexFound = i;
+					break;
+				}
 			}
 		}
-		
 		return closestIndexFound;
 	}
 }

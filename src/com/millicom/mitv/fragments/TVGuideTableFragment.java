@@ -200,8 +200,6 @@ public class TVGuideTableFragment
 		// reset the activity whenever the view is recreated
 		activity = getActivity();
 		
-		loadData();
-
 		return rootView;
 	}
 	
@@ -229,29 +227,22 @@ public class TVGuideTableFragment
 	
 	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult) 
-	{
-		super.onResult(fetchRequestResult);
-		
+	{	
 		switch(fetchRequestResult)
 		{
 			case SUCCESS:
 			{
 				if (getResources().getString(R.string.all_categories_name).equals(tvTagDisplayName)) 
 				{
-					// mGuides = mitvStore.getChannelGuides(mTvDate.getDate());
 					TVGuide tvGuideForSelectedDay = ContentManager.sharedInstance().getFromStorageTVGuideForSelectedDay();
-					
-					// TODO scrap mGuides variable and use TVGuide instead?
 					tvChannelGuides = tvGuideForSelectedDay.getTvChannelGuides();
 				} 
 				else 
-				{
-					// mTaggedBroadcasts = mitvStore.getTaggedBroadcasts(mTvDate, mTag);
-					
+				{	
 					HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = ContentManager.sharedInstance().getFromStorageTaggedBroadcastsForSelectedTVDate();
-					
 					taggedBroadcasts = taggedBroadcastForDay.get(tvTagIdAsString);
 				}
+				updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
 				break;
 			}
 			
@@ -299,16 +290,18 @@ public class TVGuideTableFragment
 						public void run() {
 							ArrayList<TVBroadcast> toRemove = new ArrayList<TVBroadcast>();
 
-							for (int i = index; i < taggedBroadcasts.size(); i++) {
-								if (index < taggedBroadcasts.size() - 1 && index >= 0) {
-									if (taggedBroadcasts.get(i).hasEnded()) {
-										toRemove.add(taggedBroadcasts.get(i));
+							if(taggedBroadcasts != null) {
+								for (int i = index; i < taggedBroadcasts.size(); i++) {
+									if (index < taggedBroadcasts.size() - 1 && index >= 0) {
+										if (taggedBroadcasts.get(i).hasEnded()) {
+											toRemove.add(taggedBroadcasts.get(i));
+										}
 									}
 								}
-							}
-
-							for (TVBroadcast broadcast : toRemove) {
-								taggedBroadcasts.remove(broadcast);
+	
+								for (TVBroadcast broadcast : toRemove) {
+									taggedBroadcasts.remove(broadcast);
+								}
 							}
 						}
 					}.run();
