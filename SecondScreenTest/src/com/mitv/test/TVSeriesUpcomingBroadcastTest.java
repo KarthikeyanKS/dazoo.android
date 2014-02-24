@@ -16,8 +16,8 @@ import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVChannel;
+import com.millicom.mitv.models.TVChannelGuide;
 import com.millicom.mitv.models.TVProgram;
-import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.mitv.Consts;
 
 /**

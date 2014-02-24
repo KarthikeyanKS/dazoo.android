@@ -12,7 +12,7 @@ import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
-import com.millicom.mitv.models.gson.TVChannelGuide;
+import com.millicom.mitv.models.TVChannelGuide;
 import com.mitv.Consts;
 
 

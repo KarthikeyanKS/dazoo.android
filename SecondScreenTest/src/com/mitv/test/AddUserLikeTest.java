@@ -19,9 +19,9 @@ import com.millicom.mitv.enums.LikeTypeRequestEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.http.URLParameters;
 import com.millicom.mitv.models.TVBroadcast;
+import com.millicom.mitv.models.TVChannelGuide;
 import com.millicom.mitv.models.TVProgram;
 import com.millicom.mitv.models.UserLike;
-import com.millicom.mitv.models.gson.TVChannelGuide;
 import com.millicom.mitv.models.gson.serialization.UserLikeData;
 import com.mitv.Consts;
 
