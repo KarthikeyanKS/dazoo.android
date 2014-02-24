@@ -19,7 +19,7 @@ import com.mitv.R;
 
 
 public class SignInOrSignupWithFacebookActivity 
-	extends SignInBaseActivity
+	extends BaseLoginActivity
 {
 	@SuppressWarnings("unused")
 	private static final String TAG = SignInOrSignupWithFacebookActivity.class.getName();
@@ -162,7 +162,7 @@ public class SignInOrSignupWithFacebookActivity
 			@Override
 			public void onClick(View v)
 			{
-				Intent intent = new Intent(SignInOrSignupWithFacebookActivity.this, MiTVLoginActivity.class);
+				Intent intent = new Intent(SignInOrSignupWithFacebookActivity.this, MiTVUserLoginActivity.class);
 				
 				startActivity(intent);
 			}

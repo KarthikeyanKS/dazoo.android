@@ -48,7 +48,7 @@ import com.mitv.utilities.JSONUtilities;
 
 
 public class ResetPasswordActivity 
-	extends SignInBaseActivity 
+	extends BaseLoginActivity 
 	implements OnClickListener
 {
 	private static final String TAG = ResetPasswordActivity.class.getName();

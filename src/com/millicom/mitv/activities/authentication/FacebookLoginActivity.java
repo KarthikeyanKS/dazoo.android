@@ -28,7 +28,7 @@ import com.mitv.R;
 
 
 public class FacebookLoginActivity 
-	extends SignInBaseActivity 
+	extends BaseLoginActivity 
 {
 	private static final String TAG = FacebookLoginActivity.class.getName();
 	

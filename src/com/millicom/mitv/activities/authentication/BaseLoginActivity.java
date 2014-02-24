@@ -15,11 +15,11 @@ import com.mitv.R;
 /*
  * This class hides the search icon for all sign up and sign in related activities
  * */
-public abstract class SignInBaseActivity 
+public abstract class BaseLoginActivity 
 	extends BaseActivity 
 {
 	@SuppressWarnings("unused")
-	private static final String TAG = SignInBaseActivity.class.getName();
+	private static final String TAG = BaseLoginActivity.class.getName();
 	
 	
 	

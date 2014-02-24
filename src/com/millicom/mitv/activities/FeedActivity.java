@@ -20,7 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.authentication.FacebookLoginActivity;
-import com.millicom.mitv.activities.authentication.MiTVLoginActivity;
+import com.millicom.mitv.activities.authentication.MiTVUserLoginActivity;
 import com.millicom.mitv.activities.authentication.SignUpWithEmailActivity;
 import com.millicom.mitv.enums.FeedItemTypeEnum;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
@@ -29,7 +29,7 @@ import com.millicom.mitv.models.TVFeedItem;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.adapters.ActivityFeedAdapter;
-import com.mitv.customviews.CustomToast;
+import com.mitv.customviews.ToastHelper;
 
 
 
@@ -75,7 +75,7 @@ public class FeedActivity
 			sb.append(ContentManager.sharedInstance().getFromStorageUserFirstname());
 			sb.append(getResources().getString(R.string.success_account_created_text));
 			
-			CustomToast.createAndShowToast(this, sb.toString());
+			ToastHelper.createAndShowToast(this, sb.toString());
 			
 			// else if (mIsFromSignup)
 			// {
@@ -301,7 +301,7 @@ public class FeedActivity
 		
 		int id = v.getId();
 
-		switch (id) 
+		switch (id)
 		{
 			case R.id.activity_not_logged_in_facebook_container: 
 			{
@@ -318,7 +318,7 @@ public class FeedActivity
 			{
 				Intent intentSignUp = new Intent(FeedActivity.this, SignUpWithEmailActivity.class);
 	
-				intentSignUp.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
+				intentSignUp.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, this.getClass().getName());
 	
 				startActivity(intentSignUp);
 	
@@ -327,9 +327,9 @@ public class FeedActivity
 	
 			case R.id.activity_not_logged_in_login_btn: 
 			{
-				Intent intentLogin = new Intent(FeedActivity.this, MiTVLoginActivity.class);
+				Intent intentLogin = new Intent(FeedActivity.this, MiTVUserLoginActivity.class);
 	
-				intentLogin.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
+				intentLogin.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, this.getClass().getName());
 	
 				startActivity(intentLogin);
 	

@@ -37,7 +37,7 @@ import com.mitv.customviews.TextDrawable;
 
 
 public class SignUpWithEmailActivity 
-	extends SignInBaseActivity 
+	extends BaseLoginActivity 
 	implements OnClickListener
 {
 	private static final String TAG = SignUpWithEmailActivity.class.getName();

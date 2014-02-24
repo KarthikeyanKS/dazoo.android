@@ -17,7 +17,7 @@ import com.mitv.R;
 
 
 public class ResetPasswordFinalActivity 
-	extends SignInBaseActivity 
+	extends BaseLoginActivity 
 	implements OnClickListener
 {
 	@SuppressWarnings("unused")
@@ -119,7 +119,7 @@ public class ResetPasswordFinalActivity
 		{
 			case R.id.resetpassword_already_login_btn:
 			{
-				Intent intentSignIn = new Intent(ResetPasswordFinalActivity.this, MiTVLoginActivity.class);
+				Intent intentSignIn = new Intent(ResetPasswordFinalActivity.this, MiTVUserLoginActivity.class);
 				startActivity(intentSignIn);
 				break;
 			}

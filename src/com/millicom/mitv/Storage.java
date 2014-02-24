@@ -217,11 +217,15 @@ public class Storage
 		this.popularBroadcasts = popularFeed;
 	}
 
-	public String getUserToken() {
+	public String getUserToken() 
+	{
 		String userToken = null;
-		if(userData != null) {
+		
+		if(userData != null) 
+		{
 			userToken = userData.getToken();
 		}
+		
 		return userToken;
 	}
 	
