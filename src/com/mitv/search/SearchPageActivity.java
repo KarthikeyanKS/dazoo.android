@@ -167,7 +167,12 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				showProgressLoading(true);
+				if (mEditTextSearch.getText().toString().equals("")) {
+					showProgressLoading(false);
+				} else {
+					showProgressLoading(true);
+				}
+				
 			}
 
 			@Override
@@ -176,8 +181,12 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				mProgressBar.setVisibility(View.VISIBLE);
-				mEditTextClearBtn.setVisibility(View.GONE);
+				if (mEditTextSearch.getText().toString().equals("")) {
+					showProgressLoading(false);
+				} else {
+					showProgressLoading(true);
+				}
+				
 			}
 		});
 	}
@@ -204,7 +213,11 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 			mEditTextClearBtn.setVisibility(View.GONE);
 		} else {
 			mProgressBar.setVisibility(View.GONE);
-			mEditTextClearBtn.setVisibility(View.VISIBLE);
+			if (mEditTextSearch.getText().toString().equals("")) {
+				mEditTextClearBtn.setVisibility(View.GONE);
+			} else {
+				mEditTextClearBtn.setVisibility(View.VISIBLE);
+			}
 		}
 	}
 
