@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.graphics.drawable.ColorDrawable;
+import android.os.StrictMode;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -18,8 +19,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+
 import com.google.analytics.tracking.android.EasyTracker;
 import com.millicom.mitv.ContentManager;
+import com.millicom.mitv.activities.BroadcastPageActivity;
+import com.millicom.mitv.activities.ChannelPageActivity;
 import com.millicom.mitv.activities.FeedActivity;
 import com.millicom.mitv.activities.HomeActivity;
 import com.millicom.mitv.activities.MyProfileActivity;
@@ -138,7 +142,7 @@ public abstract class BaseActivity
 			}
 		} else {
 			/* Just created the activity */
-			if(this instanceof HomeActivity) {
+			if(this instanceof HomeActivity || this instanceof ChannelPageActivity || this instanceof BroadcastPageActivity) {
 				tabSelectedWasTVGuide();
 			} else if(this instanceof FeedActivity) {
 				tabSelectedWasActivityFeed();
@@ -280,7 +284,21 @@ public abstract class BaseActivity
 		}
 	}
 	
+	private void enableStrictMode() {
+		StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+		.detectDiskReads()
+		.detectDiskWrites()
+		.detectNetwork()   // or .detectAll() for all detectable problems
+		.penaltyLog()
+		.build());
 
+		StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+		.detectLeakedSqlLiteObjects()
+//		.detectLeakedClosableObjects()
+		.penaltyLog()
+		.penaltyDeath()
+		.build());
+	}
 
 	@Override
 	protected void onCreate(android.os.Bundle savedInstanceState) 
@@ -293,22 +311,9 @@ public abstract class BaseActivity
 
 		if(isDebugMode) 
 		{
-			// TODO Enable strict mode
-//			StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-//			.detectDiskReads()
-//			.detectDiskWrites()
-//			.detectNetwork()   // or .detectAll() for all detectable problems
-//			.penaltyLog()
-//			.build());
-//
-//			StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-//			.detectLeakedSqlLiteObjects()
-//			.detectLeakedClosableObjects()
-//			.penaltyLog()
-//			.penaltyDeath()
-//			.build());
+			// TODO NewArc Enable strict mode
+//			enableStrictMode();
 		}
-		// No need for else
 
 		super.onCreate(savedInstanceState);
 		
@@ -330,25 +335,8 @@ public abstract class BaseActivity
 		
 		initTabViews();
 	}
-	
-	
-	
-	@Override
-	protected void onPause() 
-	{
-		super.onPause();
-	}
 
-	
-	
-	@Override
-	public void onDestroy() 
-	{
-		super.onDestroy();
-	}
-	
-	
-	
+		
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) 
 	{

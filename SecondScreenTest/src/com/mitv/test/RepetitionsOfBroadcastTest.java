@@ -84,11 +84,11 @@ public class RepetitionsOfBroadcastTest extends TestBaseWithGuide {
 		
 		Assert.assertNotNull(broadcast.getBeginTime());
 		Assert.assertFalse(TextUtils.isEmpty(broadcast.getBeginTime()));
-		Assert.assertTrue(broadcast.getBeginTimeCalendar().get(Calendar.YEAR) > YEAR_OF_2000);
+		Assert.assertTrue(broadcast.getBeginTimeCalendarGMT().get(Calendar.YEAR) > YEAR_OF_2000);
 		
 		Assert.assertNotNull(broadcast.getEndTime());
 		Assert.assertFalse(TextUtils.isEmpty(broadcast.getEndTime()));
-		Assert.assertTrue(broadcast.getEndTimeCalendar().get(Calendar.YEAR) > YEAR_OF_2000);
+		Assert.assertTrue(broadcast.getEndTimeCalendarGMT().get(Calendar.YEAR) > YEAR_OF_2000);
 		
 		Assert.assertNotNull(broadcast.getBroadcastType());
 		Assert.assertTrue(broadcast.getBroadcastType() != BroadcastTypeEnum.UNKNOWN);

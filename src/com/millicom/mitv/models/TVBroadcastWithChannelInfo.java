@@ -25,8 +25,8 @@ public class TVBroadcastWithChannelInfo
 		this.endTime = broadcast.getEndTime();
 		this.broadcastType = broadcast.getBroadcastType();
 		this.shareUrl = broadcast.getShareUrl();
-		this.beginTimeCalendar = broadcast.getBeginTimeCalendar();
-		this.endTimeCalendar = broadcast.getEndTimeCalendar();
+		this.beginTimeCalendarGMT = broadcast.getBeginTimeCalendarGMT();
+		this.endTimeCalendarGMT = broadcast.getEndTimeCalendarGMT();
 	}
 	
 	
@@ -47,14 +47,14 @@ public class TVBroadcastWithChannelInfo
 	
 	public void setBeginTimeCalendar(Calendar beginTimeCalendar) 
 	{
-		this.beginTimeCalendar = beginTimeCalendar;
+		this.beginTimeCalendarGMT = beginTimeCalendar;
 	}
 
 	
 	
 	public void setEndTimeCalendar(Calendar endTimeCalendar) 
 	{
-		this.endTimeCalendar = endTimeCalendar;
+		this.endTimeCalendarGMT = endTimeCalendar;
 	}
 	
 	
