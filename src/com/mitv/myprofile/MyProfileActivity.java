@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -59,34 +60,17 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 
 		setContentView(R.layout.layout_my_profile);
 
-
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
-		String token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
-
-		if (token != null && TextUtils.isEmpty(token) != true) {
-			mIsLoggedIn = true;
-
-			mUserFirstName = ((SecondScreenApplication) getApplicationContext()).getUserFirstName();
-			mUserLastName = ((SecondScreenApplication) getApplicationContext()).getUserLastName();
-			mUserAvatarUrl = ((SecondScreenApplication) getApplicationContext()).getUserAvatarUrl();
-		}
-
 		initViews();
-		//		populateViews();
 	}
 
 	@Override
 	protected void onResume() {
+		Log.d("MyProfileActivity", "onResume");
 		populateViews();
 		super.onResume();
-	}
-	
-	@Override
-	protected void onPause() {
-		super.onPause();
-		finish();
 	}
 
 	private void initViews() {
@@ -158,6 +142,19 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 		NotificationDataSource notificationDataSource = new NotificationDataSource(this);
 		mReminderCountTv.setText("(" + String.valueOf(notificationDataSource.getNumberOfNotifications()) + ")");
 
+		String token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
+
+		if (token != null && TextUtils.isEmpty(token) != true) {
+			mIsLoggedIn = true;
+
+			mUserFirstName = ((SecondScreenApplication) getApplicationContext()).getUserFirstName();
+			mUserLastName = ((SecondScreenApplication) getApplicationContext()).getUserLastName();
+			mUserAvatarUrl = ((SecondScreenApplication) getApplicationContext()).getUserAvatarUrl();
+		}
+		else {
+			mIsLoggedIn = false;
+		}
+
 		if (mIsLoggedIn) {
 			mPersonalView.setVisibility(View.VISIBLE);
 			mSignInOrSignUpView.setVisibility(View.GONE);
@@ -169,7 +166,8 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 
 			if (MiTVStore.getInstance().getLikeIds() != null && MiTVStore.getInstance().getLikeIds().isEmpty() != true) {
 				mLikesCountTv.setText("(" + String.valueOf(MiTVStore.getInstance().getLikeIds().size()) + ")");
-			} else {
+			} 
+			else {
 				mLikesCountTv.setText("(0)");
 			}
 
@@ -179,11 +177,16 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 
 			if (mUserFirstName != null && mUserLastName != null && mUserFirstName.length() > 0 && mUserLastName.length() > 0) {
 				mUserNameTextView.setText(mUserFirstName + " " + mUserLastName);
-			} else {
+			} 
+			else {
 				mPersonalView.setVisibility(View.GONE);
 			}
 
-		} else {
+			mLikesContainer.setVisibility(View.VISIBLE);
+			mChannelsContainer.setVisibility(View.VISIBLE);
+			mLogoutContainer.setVisibility(View.VISIBLE);
+		} 
+		else {
 			mSignInOrSignUpView.setVisibility(View.VISIBLE);
 
 			mPersonalView.setVisibility(View.GONE);
@@ -192,7 +195,6 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 			mLogoutContainer.setVisibility(View.GONE);
 		}
 	}
-
 
 	@Override
 	public void onBackPressed() {
