@@ -153,7 +153,7 @@ public class TVGuideListAdapter extends AdListAdapter<TVChannelGuide> {
 
 					BroadcastTypeEnum broadcastType = broadcast.getBroadcastType();
 
-					String rowInfo = broadcast.getBeginTimeHourAndMinuteAsString();
+					String rowInfo = broadcast.getBeginTimeHourAndMinuteLocalAsString();
 
 					rowInfo += "   ";
 

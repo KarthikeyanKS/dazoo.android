@@ -95,7 +95,7 @@ public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelI
 				ImageAware imageAware = new ImageViewAware(holder.mImageIv, false);
 				ImageLoader.getInstance().displayImage(broadcastWithChannelInfo.getProgram().getImages().getPortrait().getMedium(), imageAware);
 
-				holder.mTimeTv.setText(broadcastWithChannelInfo.getBeginTimeHourAndMinuteAsString());
+				holder.mTimeTv.setText(broadcastWithChannelInfo.getBeginTimeHourAndMinuteLocalAsString());
 				holder.mChannelTv.setText(broadcastWithChannelInfo.getChannel().getName());
 
 				ProgramTypeEnum programType = broadcastWithChannelInfo.getProgram().getProgramType();
