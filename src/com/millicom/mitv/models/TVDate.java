@@ -54,11 +54,8 @@ public class TVDate
 
 	
 	
-	//TODO Determine which of those dummy methods we need, and implement them
-	/* HERE COMES DUMMY METHODS, ALL OF THEM MAY NOT BE NEEDED, INVESTIGATE! */
 	public boolean isToday() 
 	{
-		//TODO implement or delete me
-		return false;
+		return DateUtils.isToday(getDateCalendar());
 	}
 }

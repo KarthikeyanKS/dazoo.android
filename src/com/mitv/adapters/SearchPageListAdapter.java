@@ -153,7 +153,7 @@ public class SearchPageListAdapter
 			} 
 			else
 			{
-				timeString = closestBroadcastInTime.getStartsInTimeString();
+				timeString = closestBroadcastInTime.getStartingTimeAsString();
 			}
 		} 
 		else

@@ -134,6 +134,23 @@ public abstract class DateUtils
 	
 	
 	/**
+	 * Checks if the input calendar is today's day
+	 
+	 */
+	public static boolean isToday(final Calendar inputCalendar)
+	{
+		Calendar now = Calendar.getInstance();
+		
+		boolean isToday = (inputCalendar.get(Calendar.YEAR) == now.get(Calendar.YEAR) &&
+				   		   inputCalendar.get(Calendar.MONTH) == now.get(Calendar.MONTH) &&
+				   		   inputCalendar.get(Calendar.DAY_OF_MONTH) == now.get(Calendar.DAY_OF_MONTH));
+		
+		return isToday;
+	}
+	
+	
+	
+	/**
 	 * Builds a string representation for the day of the week of the input calendar.
 	 * The representation is localized using the current Locale from the context.
 	 * If the day of the week is either today or tomorrow, a localized representation is returned instead.

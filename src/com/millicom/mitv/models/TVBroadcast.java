@@ -430,8 +430,8 @@ public class TVBroadcast extends BroadcastJSON {
 	 * IF YOU CHANGE THIS METHOD YOU MUST CHANGE
 	 * ITS SIBLING METHOD HAVING THE SAME NAME.
 	 * 
-	 * SIBLING METHOD IS IN BROADCAST CLASS
-	 * WITH CHANNEL INFO THAT SUBCLASSES BROADCAST
+	 * SIBLING METHOD IS IN TVBROADCAST CLASS
+	 * WITH TVCHANNEL INFO THAT SUBCLASSES TVBROADCAST
 	 */
 	public static int getClosestBroadcastIndex(
 			final ArrayList<TVBroadcast> broadcasts,
@@ -486,7 +486,4 @@ public class TVBroadcast extends BroadcastJSON {
 			}
 		}
 	}
-	
-	//TODO NewArc replace by code Felipe is writing
-	public String getStartsInTimeString() {return null;}
 }
