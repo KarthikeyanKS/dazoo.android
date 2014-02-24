@@ -45,7 +45,6 @@ public class ChannelPageActivity
 	private ArrayList<TVBroadcast> currentAndUpcomingbroadcasts;
 	private ArrayList<TVDate> tvDates;
 	private int selectedTVDateIndex = -1;
-	private int indexOfNearestBroadcast;
 	
 	@Override
 	protected void setActivityCallbackListener()
@@ -144,7 +143,7 @@ public class ChannelPageActivity
 
 		
 		ArrayList<TVBroadcast> broadcasts = channelGuide.getBroadcasts();
-		indexOfNearestBroadcast = TVBroadcast.getClosestBroadcastIndex(broadcasts, 0);
+		int indexOfNearestBroadcast = TVBroadcast.getClosestBroadcastIndex(broadcasts, 0);
 		if (indexOfNearestBroadcast >= 0) 
 		{
 			currentAndUpcomingbroadcasts = TVBroadcast.getBroadcastsFromPosition(broadcasts, indexOfNearestBroadcast);
