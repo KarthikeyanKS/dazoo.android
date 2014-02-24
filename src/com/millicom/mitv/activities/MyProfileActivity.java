@@ -90,32 +90,6 @@ public class MyProfileActivity
 		populateViews();
 	}
 
-	
-	
-	@Override
-	public void initTabViews() 
-	{
-		tabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
-		tabTvGuide.setOnClickListener(this);
-
-		tabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
-		tabActivity.setOnClickListener(this);
-
-		tabProfile = (RelativeLayout) findViewById(R.id.tab_me);
-		tabProfile.setOnClickListener(this);
-
-		tabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
-		tabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
-
-		tabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
-		tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
-
-		tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
-		tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
-		tabProfile.setBackgroundColor(getResources().getColor(R.color.red));
-	}
-
-	
 
 	private void initViews() 
 	{
@@ -247,6 +221,8 @@ public class MyProfileActivity
 	@Override
 	public void onClick(View v) 
 	{
+		/* IMPORTANT to call super so that the BaseActivity can handle the tab clicking */
+		super.onClick(v);
 		int id = v.getId();
 		
 		switch (id) 

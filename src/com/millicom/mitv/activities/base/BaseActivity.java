@@ -57,7 +57,7 @@ public abstract class BaseActivity
 	private View requestBadLayout;
 	protected ActionBar actionBar;
 
-	private TabSelectedEnum tabSelectedEnum = TabSelectedEnum.TV_GUIDE;
+	private TabSelectedEnum tabSelectedEnum = TabSelectedEnum.NOT_SET;
 	
 	
 	/* Abstract Methods */
@@ -110,29 +110,40 @@ public abstract class BaseActivity
 			tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
 		}
 
-		switch (tabSelectedEnum) 
-		{
-			case TV_GUIDE: 
+		if(tabSelectedEnum != TabSelectedEnum.NOT_SET) {
+			switch (tabSelectedEnum) 
 			{
+				case TV_GUIDE: 
+				{
+					tabSelectedWasTVGuide();
+					break;
+				}
+				
+				case ACTIVITY_FEED:
+				{
+					tabSelectedWasActivityFeed();
+					break;
+				}
+				
+				case MY_PROFILE: 
+				{
+					tabSelectedWasMyProfile();
+					break;
+				}
+				
+				default:
+				{
+					Log.w(TAG, "Unknown tab selected");
+				}
+			}
+		} else {
+			/* Just created the activity */
+			if(this instanceof HomeActivity) {
 				tabSelectedWasTVGuide();
-				break;
-			}
-			
-			case ACTIVITY_FEED:
-			{
+			} else if(this instanceof FeedActivity) {
 				tabSelectedWasActivityFeed();
-				break;
-			}
-			
-			case MY_PROFILE: 
-			{
+			} else if(this instanceof MyProfileActivity) {
 				tabSelectedWasMyProfile();
-				break;
-			}
-			
-			default:
-			{
-				Log.w(TAG, "Unknown tab selected");
 			}
 		}
 	}
@@ -214,7 +225,6 @@ public abstract class BaseActivity
 					Intent intentActivity = new Intent(this, HomeActivity.class);
 					startActivity(intentActivity);
 				}
-				
 				break;
 			}
 			
@@ -225,8 +235,8 @@ public abstract class BaseActivity
 					tabSelectedEnum = TabSelectedEnum.ACTIVITY_FEED;
 					Intent intentActivity = new Intent(this, FeedActivity.class);
 					startActivity(intentActivity);
-					break;
 				}
+				break;
 			}
 			
 			case R.id.tab_me: 
@@ -236,8 +246,8 @@ public abstract class BaseActivity
 					tabSelectedEnum = TabSelectedEnum.MY_PROFILE;
 					Intent intentMe = new Intent(this, MyProfileActivity.class);
 					startActivity(intentMe);
-					break;
 				}
+				break;
 			}
 			
 			case R.id.request_failed_reload_button: 
