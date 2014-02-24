@@ -82,6 +82,12 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 		populateViews();
 		super.onResume();
 	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		finish();
+	}
 
 	private void initViews() {
 		mTabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
