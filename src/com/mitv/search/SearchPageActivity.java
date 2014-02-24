@@ -167,12 +167,9 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				if (mEditTextSearch.getText().toString().equals("")) {
+				if (mEditTextSearch.getText().length() <= mEditTextSearch.getThreshold()) {
 					showProgressLoading(false);
-				} else {
-					showProgressLoading(true);
-				}
-				
+				} 
 			}
 
 			@Override
@@ -181,12 +178,6 @@ public class SearchPageActivity extends SSActivity implements OnItemClickListene
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				if (mEditTextSearch.getText().toString().equals("")) {
-					showProgressLoading(false);
-				} else {
-					showProgressLoading(true);
-				}
-				
 			}
 		});
 	}
