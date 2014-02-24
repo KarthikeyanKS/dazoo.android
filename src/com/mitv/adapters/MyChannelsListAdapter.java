@@ -111,7 +111,14 @@ public class MyChannelsListAdapter extends BaseAdapter {
 				}
 			}
 		});
-		holder.mCheckBox.setChecked(mIsCheckedArray[position]);
+		
+//		holder.mCheckBox.setChecked(mIsCheckedArray[position]);
+		if (mCheckedChannelIds.contains(channel.getChannelId())) {
+			holder.mCheckBox.setChecked(true);
+		}
+		else {
+			holder.mCheckBox.setChecked(false);
+		}
 
 		return rowView;
 	}
