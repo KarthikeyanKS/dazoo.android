@@ -65,9 +65,8 @@ public abstract class BaseActivity
 	protected abstract void loadData();
 	
 	/* This method implementation should deal with changes after the data has been fetched */
-	protected abstract void onDataAvailable(FetchRequestResultEnum fetchRequestResult);
-	
-	
+	protected abstract void onDataAvailable(FetchRequestResultEnum fetchRequestResult);	
+
 	
 	public void initTabViews() 
 	{

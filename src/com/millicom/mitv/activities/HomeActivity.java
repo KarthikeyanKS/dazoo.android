@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.millicom.mitv.ContentManager;
@@ -78,8 +79,8 @@ public class HomeActivity
 	}
 	
 	
-	
-	private void attachFragment() 
+	@Override
+	protected void attachFragment() 
 	{
 		activeFragment = TVHolderFragment.newInstance(selectedTagIndex, new OnViewPagerIndexChangedListener() 
 		{
@@ -92,8 +93,19 @@ public class HomeActivity
 		
 		getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, activeFragment, null).commitAllowingStateLoss();
 	}
-
 	
+
+	@Override
+	protected void removeActiveFragment() {
+		try {
+			if (activeFragment != null) {
+				getSupportFragmentManager().beginTransaction().remove(activeFragment).commitAllowingStateLoss();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	
 	private void initViews() 
 	{

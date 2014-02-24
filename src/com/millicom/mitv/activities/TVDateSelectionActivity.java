@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.support.v7.app.ActionBar;
 
 import com.millicom.mitv.ContentManager;
+import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.models.TVDate;
 import com.mitv.adapters.ActionBarDropDownDateListAdapter;
@@ -17,6 +18,9 @@ public abstract class TVDateSelectionActivity extends BaseActivity implements Ac
 	private boolean onNavigationItemSelectedHasBeenCalledByOSYet = false;
 
 	protected abstract void setActivityCallbackListener();
+	
+	protected abstract void attachFragment();
+	protected abstract void removeActiveFragment();
 		
 	@Override
 	public void setContentView(int layoutResID) {
@@ -43,8 +47,15 @@ public abstract class TVDateSelectionActivity extends BaseActivity implements Ac
 			return true;
 		} else {
 			dayAdapter.setSelectedIndex(position);
-			ContentManager.sharedInstance().setTVDateSelectedUsingIndexAndFetchGuideForDay(activityCallbackListener, position);
+			fetchGuideForSelectedDay(position);
 			return true;
 		}
+	}
+	
+	private void fetchGuideForSelectedDay(int selectedDayIndex) {
+		//TODO NewArc this was Added by Cyon to enable loading indicator when choosing another day in homeactivity, is there a smarter way to do it?
+		removeActiveFragment();
+		updateUI(UIStatusEnum.LOADING);
+		ContentManager.sharedInstance().setTVDateSelectedUsingIndexAndFetchGuideForDay(activityCallbackListener, selectedDayIndex);
 	}
 }

@@ -5,6 +5,7 @@ package com.millicom.mitv.asynctasks;
 
 import java.util.Collections;
 import java.util.Map;
+
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.http.URLParameters;

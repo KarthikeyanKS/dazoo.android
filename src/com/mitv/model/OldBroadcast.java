@@ -9,15 +9,14 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
+
 import org.json.JSONObject;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-import com.millicom.mitv.utilities.DateUtils;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;

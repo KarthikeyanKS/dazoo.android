@@ -11,7 +11,6 @@ import java.util.TimeZone;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
-import com.millicom.mitv.asynctasks.AsyncTaskBase;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCore;
 import com.millicom.mitv.http.HTTPCoreResponse;
@@ -63,7 +62,7 @@ public class TestCore
 	
 	
 	
-	protected HTTPCoreResponse executeRequest(
+	public HTTPCoreResponse executeRequest(
 			final HTTPRequestTypeEnum httpRequestType,
 			final String url,
 			String bodyContentData)

@@ -1,7 +1,5 @@
 package com.mitv.model;
 
-import android.content.res.Configuration;
-
 import com.mitv.SecondScreenApplication;
 
 public class OldThreeImageResolutions {

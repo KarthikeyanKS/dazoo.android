@@ -1,10 +1,10 @@
 package com.mitv.storage;
 
-import com.mitv.model.OldTVTag;
-import com.mitv.model.OldTVDate;
-
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.mitv.model.OldTVDate;
+import com.mitv.model.OldTVTag;
 
 public class BroadcastKey implements Parcelable{
 

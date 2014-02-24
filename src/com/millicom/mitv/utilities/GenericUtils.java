@@ -6,8 +6,6 @@ package com.millicom.mitv.utilities;
 import java.util.Locale;
 import java.util.Random;
 
-import com.mitv.SecondScreenApplication;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -21,6 +19,8 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+
+import com.mitv.SecondScreenApplication;
 
 
 

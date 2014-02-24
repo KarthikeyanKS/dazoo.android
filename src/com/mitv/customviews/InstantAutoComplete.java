@@ -1,7 +1,5 @@
 package com.mitv.customviews;
 
-import com.mitv.manager.FontManager;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
@@ -13,6 +11,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
+
+import com.mitv.manager.FontManager;
 
 public class InstantAutoComplete extends AutoCompleteTextView {
 	

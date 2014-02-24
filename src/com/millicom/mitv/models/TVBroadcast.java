@@ -6,8 +6,10 @@ package com.millicom.mitv.models;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
+
 import android.content.Context;
 import android.content.res.Resources;
+
 import com.millicom.mitv.models.gson.BroadcastJSON;
 import com.millicom.mitv.utilities.DateUtils;
 import com.mitv.Consts;

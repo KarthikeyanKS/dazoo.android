@@ -4,10 +4,10 @@ import java.util.List;
 
 import android.util.Log;
 
+import com.millicom.mitv.models.TVChannelGuide;
 import com.millicom.mitv.models.TVChannelId;
 import com.millicom.mitv.models.TVDate;
 import com.millicom.mitv.models.UserLoginData;
-import com.millicom.mitv.models.gson.TVChannelGuide;
 
 /**
  * 
@@ -18,8 +18,11 @@ public class TestBaseWithGuide extends TestCore {
 	
 	
 	private static final String	TAG	= "TestBaseWithGuide";
-	
-	
+		
+	protected static List<TVChannelGuide> tvChannelGuides;
+	protected static List<TVDate> tvDates;
+	protected static List<TVChannelId> tvChannelIdsUser;
+	protected static String userToken;
 	
 	@Override
 	protected void setUp() 
@@ -42,12 +45,6 @@ public class TestBaseWithGuide extends TestCore {
 			Log.w(TAG, "Login has failed.");
 		}
 	}
-
-	
-	protected static List<TVChannelGuide> tvChannelGuides;
-	protected static List<TVDate> tvDates;
-	protected static List<TVChannelId> tvChannelIdsUser;
-	protected static String userToken;
 	
 	public static List<TVChannelGuide> getTVChannelGuides() {
 		if(tvChannelGuides == null) {

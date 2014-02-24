@@ -3,42 +3,6 @@ package com.mitv.manager;
 
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-import org.json.JSONArray;
-import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.support.v4.content.LocalBroadcastManager;
-import android.text.TextUtils;
-import android.util.Log;
-import com.millicom.mitv.activities.MyProfileActivity;
-import com.mitv.Consts;
-import com.mitv.LikeService;
-import com.mitv.R;
-import com.mitv.SecondScreenApplication;
-import com.mitv.asynctasks.AdzerkAdTask;
-import com.mitv.asynctasks.ApiVersionTask;
-import com.mitv.asynctasks.GetMyChannelsTask;
-import com.mitv.asynctasks.UpdateMyChannelsTask;
-import com.mitv.content.SSAppConfigurationPage;
-import com.mitv.content.SSChannelPage;
-import com.mitv.content.SSGuidePage;
-import com.mitv.content.SSPageCallback;
-import com.mitv.content.SSPageGetResult;
-import com.mitv.content.SSTagsPage;
-import com.mitv.content.SSTvDatePage;
-import com.mitv.interfaces.AdCallBackInterface;
-import com.mitv.interfaces.ApiVersionCallbackInterface;
-import com.mitv.model.OldBroadcast;
-import com.mitv.model.OldTVChannel;
-import com.mitv.model.OldTVChannelGuide;
-import com.mitv.model.OldTVTag;
-import com.mitv.model.OldTVDate;
-import com.mitv.storage.MiTVStore;
-import com.mitv.storage.MiTVStoreOperations;
 
 
 

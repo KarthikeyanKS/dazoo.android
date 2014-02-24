@@ -5,6 +5,7 @@ package com.millicom.mitv.asynctasks;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;

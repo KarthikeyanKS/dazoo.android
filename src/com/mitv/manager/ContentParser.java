@@ -11,20 +11,20 @@ import android.util.Log;
 import com.mitv.Consts;
 import com.mitv.model.OldAdzerkAd;
 import com.mitv.model.OldBroadcast;
-import com.mitv.model.OldTVChannel;
 import com.mitv.model.OldCredit;
-import com.mitv.model.OldTVLike;
 import com.mitv.model.OldMiTVLikeEntity;
-import com.mitv.model.OldTVFeedItem;
-import com.mitv.model.OldTVChannelGuide;
 import com.mitv.model.OldProgram;
 import com.mitv.model.OldProgramType;
 import com.mitv.model.OldSearchResult;
 import com.mitv.model.OldSeason;
 import com.mitv.model.OldSeries;
 import com.mitv.model.OldSportType;
-import com.mitv.model.OldTVTag;
+import com.mitv.model.OldTVChannel;
+import com.mitv.model.OldTVChannelGuide;
 import com.mitv.model.OldTVDate;
+import com.mitv.model.OldTVFeedItem;
+import com.mitv.model.OldTVLike;
+import com.mitv.model.OldTVTag;
 
 public class ContentParser {
 
