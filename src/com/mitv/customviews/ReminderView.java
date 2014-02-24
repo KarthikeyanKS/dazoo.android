@@ -78,7 +78,7 @@ public class ReminderView extends RelativeLayout implements OnClickListener {
 			} else {
 				mImageView.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
 			}
-			mContainer.setBackground(getResources().getDrawable(R.drawable.background_color_selector));
+			mContainer.setBackgroundResource(R.drawable.background_color_selector);
 		} else {
 			mImageView.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_dissabled));
 			mContainer.setBackgroundColor(getResources().getColor(R.color.transparent));
