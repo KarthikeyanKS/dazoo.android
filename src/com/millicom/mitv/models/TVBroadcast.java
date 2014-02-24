@@ -50,10 +50,8 @@ public class TVBroadcast extends BroadcastJSON {
 	public Calendar getBeginTimeCalendar() 
 	{
 		if(beginTimeCalendar == null) 
-		{
-			Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-			
-			beginTimeCalendar = DateUtils.convertFromStringToCalendar(beginTime, context);
+		{	
+			beginTimeCalendar = DateUtils.convertFromStringToCalendar(beginTime);
 		}
 		
 		return beginTimeCalendar;
@@ -68,10 +66,8 @@ public class TVBroadcast extends BroadcastJSON {
 	public Calendar getEndTimeCalendar()
 	{
 		if(endTimeCalendar == null)
-		{
-			Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-			
-			endTimeCalendar = DateUtils.convertFromStringToCalendar(endTime, context);
+		{	
+			endTimeCalendar = DateUtils.convertFromStringToCalendar(endTime);
 		}
 		
 		return endTimeCalendar;

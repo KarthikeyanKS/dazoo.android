@@ -30,13 +30,24 @@ public abstract class DateUtils
 	public static final long TOTAL_MILISECOUNDS_IN_ONE_DAY = TOTAL_MILISECOUNDS_IN_ONE_HOUR*24;
 	
 	
-	
 	/**
 	 * Converts a string input to a Calendar object
 	 * The input string format should be in the format: "yyyy-MM-dd'T'HH:mm:ss'Z'"
 	 * 
 	 */
 	public static Calendar convertFromStringToCalendar(
+			final String inputString)
+	{
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		return convertFromStringToCalendar(inputString, context);
+	}
+	
+	/**
+	 * Converts a string input to a Calendar object
+	 * The input string format should be in the format: "yyyy-MM-dd'T'HH:mm:ss'Z'"
+	 * 
+	 */
+	private static Calendar convertFromStringToCalendar(
 			final String inputString,
 			final Context context)
 	{
