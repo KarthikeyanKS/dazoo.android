@@ -5,14 +5,16 @@ package com.mitv.notification;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.mitv.Consts;
-import com.mitv.SecondScreenApplication;
-import com.mitv.model.NotificationDbItem;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+
+import com.mitv.Consts;
+import com.mitv.SecondScreenApplication;
+import com.mitv.model.NotificationDbItem;
 
 
 

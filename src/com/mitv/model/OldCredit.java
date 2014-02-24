@@ -2,10 +2,10 @@ package com.mitv.model;
 
 import org.json.JSONObject;
 
-import com.mitv.Consts;
-
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.mitv.Consts;
 
 public class OldCredit implements Parcelable{
 	

@@ -5,8 +5,6 @@ package com.millicom.mitv;
 
 import java.util.List;
 
-import android.content.Context;
-
 import com.millicom.mitv.asynctasks.CheckNetworkConnectivity;
 import com.millicom.mitv.asynctasks.GetAdsAdzerk;
 import com.millicom.mitv.asynctasks.GetAppConfigurationData;

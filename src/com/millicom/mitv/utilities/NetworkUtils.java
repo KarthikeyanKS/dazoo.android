@@ -12,13 +12,14 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
-import com.mitv.Consts;
-import com.mitv.SecondScreenApplication;
 
 import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.util.Log;
+
+import com.mitv.Consts;
+import com.mitv.SecondScreenApplication;
 
 
 

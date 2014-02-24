@@ -1,8 +1,6 @@
 package com.mitv.manager;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Log;
 
 import com.google.analytics.tracking.android.Fields;

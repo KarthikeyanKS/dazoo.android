@@ -4,6 +4,7 @@ package com.millicom.mitv.activities;
 
 
 import java.util.ArrayList;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -18,6 +19,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.authentication.FacebookLoginActivity;
 import com.millicom.mitv.activities.authentication.MiTVLoginActivity;

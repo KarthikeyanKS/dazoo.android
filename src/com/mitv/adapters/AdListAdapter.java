@@ -4,6 +4,7 @@ package com.mitv.adapters;
 
 
 import java.util.List;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -16,11 +17,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
 import com.mitv.R;
 import com.mitv.adapters.TVGuideListAdapter.ViewHolder;
-import com.mitv.interfaces.AdCallBackInterface;
 import com.mitv.manager.AppConfigurationManager;
-import com.mitv.manager.ApiClient;
 import com.mitv.model.OldAdzerkAd;
 import com.mitv.storage.MiTVStore;
 import com.nostra13.universalimageloader.core.ImageLoader;

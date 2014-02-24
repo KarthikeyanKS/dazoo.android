@@ -2,11 +2,9 @@ package com.mitv;
 
 
 
-import org.json.JSONException;
 import org.json.JSONObject;
+
 import android.content.Context;
-import android.text.TextUtils;
-import android.util.Log;
 
 
 

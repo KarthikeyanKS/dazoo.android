@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.support.v7.app.ActionBar;
 
 import com.millicom.mitv.ContentManager;
+import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.models.TVDate;
 import com.mitv.adapters.ActionBarDropDownDateListAdapter;
@@ -43,8 +44,13 @@ public abstract class TVDateSelectionActivity extends BaseActivity implements Ac
 			return true;
 		} else {
 			dayAdapter.setSelectedIndex(position);
-			ContentManager.sharedInstance().setTVDateSelectedUsingIndexAndFetchGuideForDay(activityCallbackListener, position);
+			fetchGuideForSelectedDay(position);
 			return true;
 		}
+	}
+	
+	private void fetchGuideForSelectedDay(int selectedDayIndex) {
+		updateUI(UIStatusEnum.LOADING);
+		ContentManager.sharedInstance().setTVDateSelectedUsingIndexAndFetchGuideForDay(activityCallbackListener, selectedDayIndex);
 	}
 }

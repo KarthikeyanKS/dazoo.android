@@ -6,10 +6,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.mitv.Consts;
-
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.mitv.Consts;
 
 public class OldProgram implements Parcelable {
 

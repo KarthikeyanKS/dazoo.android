@@ -16,7 +16,6 @@ import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.http.URLParameters;
-import com.millicom.mitv.models.TVChannelGuide;
 import com.millicom.mitv.models.TVChannelId;
 import com.mitv.Consts;
 

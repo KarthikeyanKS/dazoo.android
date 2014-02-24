@@ -13,13 +13,13 @@ import com.mitv.http.SSHttpClientGetResult;
 import com.mitv.manager.AppConfigurationManager;
 import com.mitv.manager.ContentParser;
 import com.mitv.model.OldBroadcast;
-import com.mitv.model.OldTVChannel;
-import com.mitv.model.OldTVChannelGuide;
 import com.mitv.model.OldLink;
 import com.mitv.model.OldProgramType;
 import com.mitv.model.OldSearchResult;
-import com.mitv.model.OldTVTag;
+import com.mitv.model.OldTVChannel;
+import com.mitv.model.OldTVChannelGuide;
 import com.mitv.model.OldTVDate;
+import com.mitv.model.OldTVTag;
 
 public abstract class SSPage {
 

@@ -5,8 +5,10 @@ package com.mitv.asynctasks;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -17,8 +19,10 @@ import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.SingleClientConnManager;
+
 import android.os.AsyncTask;
 import android.util.Log;
+
 import com.mitv.Consts;
 
 

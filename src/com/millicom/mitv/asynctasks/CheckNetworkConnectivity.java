@@ -5,6 +5,7 @@ package com.millicom.mitv.asynctasks;
 
 import android.os.AsyncTask;
 import android.util.Log;
+
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;

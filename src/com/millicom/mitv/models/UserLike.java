@@ -4,6 +4,7 @@ package com.millicom.mitv.models;
 
 
 import java.util.Comparator;
+
 import com.millicom.mitv.models.gson.UserLikeJSON;
 
 
