@@ -341,4 +341,9 @@ public class ChannelPageActivity
 			}
 		}
 	}
+	
+	@Override
+	protected void attachFragment(){/*Do nothing*/}
+	@Override
+	protected void removeActiveFragment(){/*Do nothing*/}
 }
