@@ -284,14 +284,6 @@ public class ChannelPageActivity
 	
 	
 	@Override
-	public void onConfigurationChanged(Configuration newConfig) 
-	{
-		super.onConfigurationChanged(newConfig);
-	}
-
-	
-	
-	@Override
 	protected void loadData() 
 	{
 		updateUI(UIStatusEnum.LOADING);
