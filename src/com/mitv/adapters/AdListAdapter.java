@@ -30,6 +30,10 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 public class AdListAdapter<T> extends BaseAdapter {
 
+	protected static final int VIEW_TYPE_AD = 0;
+	protected static final int VIEW_TYPE_STANDARD = 1;
+	protected static final int VIEW_TYPE_CUSTOM = 2;
+	
 	private String fragmentName;
 	private Activity activity;
 	private List<T> items;
@@ -227,9 +231,9 @@ public class AdListAdapter<T> extends BaseAdapter {
 	@Override
 	public int getItemViewType(int position) {
 		if(isAdPosition(position)) {
-			return 0;
+			return VIEW_TYPE_AD;
 		} else {
-			return 1;
+			return VIEW_TYPE_STANDARD;
 		}
 	}
 	

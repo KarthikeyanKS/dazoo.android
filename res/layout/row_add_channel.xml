@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
+    android:id="@+id/add_channel_space_container"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <com.mitv.customviews.FontTextView
+        android:id="@+id/row_add_channel_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_guide_add_channel"
+        android:textColor="@color/blue0"
+        android:textSize="16sp"
+        android:padding="20dp"
+        android:layout_margin="30dp"
+        android:background="@drawable/background_color_selector"
+        android:layout_centerInParent="true"
+        font:fonttextview="roboto_mitv_medium.ttf" />
+
+</RelativeLayout>

@@ -15,6 +15,9 @@
     <!-- HOMEPAGE : FILTERING BY DAY -->
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
+    
+    <!-- HOMEPAGE : ADDING CHANNEL INFO -->
+    <string name="tv_guide_add_channel">&#x03A3; Add channels to the guide</string>
 
     <!-- ICONS -->
 
@@ -33,6 +36,7 @@
     <string name="icon_activity"> 	&#x03A0;</string>
     <string name="icon_my_profile"> &#x03A1;</string>
     <string name="icon_movie"> 		&#x03A2;</string>
+    <string name="icon_add_channels">	&#x03A3;</string>
 
     <!-- Not used -->
 
