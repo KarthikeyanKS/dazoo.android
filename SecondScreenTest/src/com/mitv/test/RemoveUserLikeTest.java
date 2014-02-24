@@ -4,16 +4,19 @@ package com.mitv.test;
 
 
 import java.util.Map;
+
 import junit.framework.Assert;
+
 import org.junit.Test;
+
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.LikeTypeRequestEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.http.URLParameters;
 import com.millicom.mitv.models.TVBroadcast;
+import com.millicom.mitv.models.TVProgram;
 import com.millicom.mitv.models.gson.TVChannelGuide;
-import com.millicom.mitv.models.gson.TVProgram;
 import com.mitv.Consts;
 
 

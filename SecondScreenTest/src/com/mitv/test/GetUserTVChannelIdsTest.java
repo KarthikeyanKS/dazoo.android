@@ -19,8 +19,8 @@ import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.http.URLParameters;
+import com.millicom.mitv.models.TVChannelId;
 import com.millicom.mitv.models.UserLoginData;
-import com.millicom.mitv.models.gson.TVChannelId;
 import com.mitv.Consts;
 
 

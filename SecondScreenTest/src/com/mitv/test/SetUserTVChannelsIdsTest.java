@@ -6,15 +6,18 @@ package com.mitv.test;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import junit.framework.Assert;
+
 import org.junit.Test;
+
 import com.google.gson.Gson;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.http.URLParameters;
+import com.millicom.mitv.models.TVChannelId;
 import com.millicom.mitv.models.gson.TVChannelGuide;
-import com.millicom.mitv.models.gson.TVChannelId;
 import com.mitv.Consts;
 
 

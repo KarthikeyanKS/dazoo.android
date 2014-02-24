@@ -13,8 +13,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
-import com.millicom.mitv.models.gson.TVChannel;
-import com.millicom.mitv.models.gson.TVProgram;
+import com.millicom.mitv.models.TVChannel;
+import com.millicom.mitv.models.TVProgram;
 import com.mitv.Consts;
 
 
