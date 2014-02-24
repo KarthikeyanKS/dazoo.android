@@ -99,6 +99,10 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 		return hour;
 	}
 
+	public void setSelectedHourTextView(FontTextView selectedHourTextView) {
+		mSeekBar.setSelectedHourTextView(selectedHourTextView);
+	}
+
 	public void setup(Context context) {
 		this.mActivity = (Activity) context;
 		mFirstHourOfDay = AppConfigurationManager.getInstance().getFirstHourOfTVDay();
