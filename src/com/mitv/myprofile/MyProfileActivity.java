@@ -59,7 +59,7 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 
 		setContentView(R.layout.layout_my_profile);
 
-		
+
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
@@ -74,7 +74,13 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 		}
 
 		initViews();
+		//		populateViews();
+	}
+
+	@Override
+	protected void onResume() {
 		populateViews();
+		super.onResume();
 	}
 
 	private void initViews() {
@@ -149,7 +155,7 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 		if (mIsLoggedIn) {
 			mPersonalView.setVisibility(View.VISIBLE);
 			mSignInOrSignUpView.setVisibility(View.GONE);
-			
+
 			if (mUserAvatarUrl != null && TextUtils.isEmpty(mUserAvatarUrl) != true) {
 				ImageAware imageAware = new ImageViewAware(mAvatarImageView, false);
 				ImageLoader.getInstance().displayImage(mUserAvatarUrl, imageAware);
@@ -173,19 +179,19 @@ public class MyProfileActivity extends SSActivity implements OnClickListener {
 
 		} else {
 			mSignInOrSignUpView.setVisibility(View.VISIBLE);
-			
+
 			mPersonalView.setVisibility(View.GONE);
 			mLikesContainer.setVisibility(View.GONE);
 			mChannelsContainer.setVisibility(View.GONE);
 			mLogoutContainer.setVisibility(View.GONE);
 		}
 	}
-	
+
 
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		
+
 		finish();
 	}
 
