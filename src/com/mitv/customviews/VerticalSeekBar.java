@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 
 import com.mitv.R;
@@ -24,7 +25,10 @@ public class VerticalSeekBar extends SeekBar {
 	
 	private Activity activity;
 	private FontTextView selectedHourTextView;
-
+	
+	private LinearLayout mContainerLayout;
+	private SwipeClockBar mParentClockBar;
+	
 	public VerticalSeekBar(Context context) {
 		super(context);
 		setup();
@@ -103,8 +107,10 @@ public class VerticalSeekBar extends SeekBar {
 
 			onSizeChanged(getWidth(), height, 0, 0);
 			updateTextViewText();
+			mParentClockBar.highlightClockbar();
 			break;
 		case MotionEvent.ACTION_UP: {
+			mParentClockBar.dehighlightClockbar();
 			break;
 		}
 		case MotionEvent.ACTION_CANCEL: {
@@ -119,5 +125,9 @@ public class VerticalSeekBar extends SeekBar {
 	/* Important to override, since width and height are switched!! */
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(h, w, oldh, oldw);
+	}
+	
+	public void setParentClockbar(SwipeClockBar clockbar) {
+		this.mParentClockBar = clockbar;
 	}
 }
