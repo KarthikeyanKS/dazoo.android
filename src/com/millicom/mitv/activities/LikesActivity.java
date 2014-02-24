@@ -161,7 +161,7 @@ public class LikesActivity
 				
 			case R.id.tab_activity:
 			{
-				Intent intentActivity = new Intent(LikesActivity.this, ActivityActivity.class);
+				Intent intentActivity = new Intent(LikesActivity.this, FeedActivity.class);
 				startActivity(intentActivity);
 				break;
 			}

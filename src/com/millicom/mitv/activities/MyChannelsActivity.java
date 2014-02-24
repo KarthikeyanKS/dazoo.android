@@ -343,7 +343,7 @@ public class MyChannelsActivity
 		case R.id.tab_activity:
 			//TODO use content manager here instead
 //			tryToUpdateChannelList();
-			Intent intentActivity = new Intent(MyChannelsActivity.this, ActivityActivity.class);
+			Intent intentActivity = new Intent(MyChannelsActivity.this, FeedActivity.class);
 			startActivity(intentActivity);
 			
 			break;

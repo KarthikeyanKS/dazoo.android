@@ -131,13 +131,13 @@ public class APIClient
 	}
 	
 	
-	public void getFeedItems(ActivityCallbackListener activityCallBackListener) 
+	public void getUserTVFeedItems(ActivityCallbackListener activityCallBackListener) 
 	{
 		GetUserTVFeedItems getFeedItems = new GetUserTVFeedItems(contentCallbackListener, activityCallBackListener);
 		getFeedItems.execute();
 	}
 	
-	public void getFeedItemsWithOffsetAndLimit(ActivityCallbackListener activityCallbackListener, int offset, int limit)
+	public void getUserTVFeedItemsWithOffsetAndLimit(ActivityCallbackListener activityCallbackListener, int offset, int limit)
 	{
 		GetUserTVFeedItems getFeedItems = new GetUserTVFeedItems(contentCallbackListener, activityCallbackListener, offset, limit);
 		getFeedItems.execute();

@@ -62,7 +62,7 @@
 
         <!-- ACTIVITY PAGE -->
         <activity
-            android:name="com.millicom.mitv.activities.ActivityActivity"
+            android:name="com.millicom.mitv.activities.FeedActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
