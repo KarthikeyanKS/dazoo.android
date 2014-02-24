@@ -17,6 +17,7 @@ import android.util.Log;
 import com.millicom.mitv.ContentManager;
 import com.mitv.Consts;
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 
 
 
@@ -67,6 +68,30 @@ public abstract class DateUtils
 		}
 		
 		return cal;
+	}
+	
+	
+	/**
+	 * Get the current hour as a string
+	 * 
+	 * @param
+	 * @return current hour as string
+	 */
+	private static int getCurrentHour(Context context) {
+		Calendar now = Calendar.getInstance();
+
+		boolean showTimeOn24HourFormat = showTimeOn24HourFormat(context);
+		
+		int currentHour = now.get(Calendar.HOUR);
+		if(showTimeOn24HourFormat) {
+			currentHour = now.get(Calendar.HOUR_OF_DAY);
+		}
+		return currentHour;
+	}
+	
+	public static int getCurrentHour() {
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		return getCurrentHour(context);
 	}
 	
 	
@@ -151,6 +176,16 @@ public abstract class DateUtils
 	}
 	
 	
+	/**
+	 * Builds a string representation for the day of the week of the input calendar.
+	 * If the day of the week is either today or tomorrow, a localized representation is returned instead.
+	 *
+	 */
+	public static String buildDayOfTheWeekAsString(final Calendar inputCalendar)
+	{
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		return buildDayOfTheWeekAsString(inputCalendar, context);
+	}
 	
 	/**
 	 * Builds a string representation for the day of the week of the input calendar.
@@ -158,7 +193,7 @@ public abstract class DateUtils
 	 * If the day of the week is either today or tomorrow, a localized representation is returned instead.
 	 * 
 	 */
-	public static String buildDayOfTheWeekAsString(
+	private static String buildDayOfTheWeekAsString(
 			final Calendar inputCalendar,
 			final Context context)
 	{
@@ -225,25 +260,44 @@ public abstract class DateUtils
 		return timeOfDayAsString;
 	}
 	
+	/**
+	 * Builds a string representation for the time of the day (HH:mm), from the input calendar.
+	 * Using application context and always using the 24 hour setting of the phone
+	 * 
+	 */
+	public static String getHourAndMinuteCompositionAsString(final Calendar inputCalendar)
+	{
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		String hourAndMinuteCompositionAsString = getHourAndMinuteCompositionAsString(inputCalendar, true, context);
+		return hourAndMinuteCompositionAsString;
+	}
 	
+	public static boolean showTimeOn24HourFormat() {
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		return showTimeOn24HourFormat(context);
+	}
+	
+	private static boolean showTimeOn24HourFormat(Context context) {
+		boolean is24HourFormat = android.text.format.DateFormat.is24HourFormat(context);
+		return is24HourFormat;
+	}
 	
 	/**
 	 * Builds a string representation for the time of the day (HH:mm), from the input calendar.
 	 * It can be optionally set to either use or ignore the local device 24 hour setting.
 	 * 
 	 */
-	public static String getHourAndMinuteCompositionAsString(
+	private static String getHourAndMinuteCompositionAsString(
 			final Calendar inputCalendar,
-			final boolean use24HourSetting,
+			final boolean use24HourSettingsSetOnDevice,
 			final Context context)
 	{
 		String pattern;
 		
-		if(use24HourSetting)
+		if(use24HourSettingsSetOnDevice)
 		{
-			boolean is24HourFormat = android.text.format.DateFormat.is24HourFormat(context);
-			
-			if(is24HourFormat)
+			boolean showTimeOn24HourFormat = showTimeOn24HourFormat(context);
+			if(showTimeOn24HourFormat)
 			{
 				pattern = Consts.DATE_FORMAT_HOUR_AND_MINUTE;
 			}
@@ -269,13 +323,22 @@ public abstract class DateUtils
 	}
 	
 	
+	/**
+	 * Builds a string representation for the day and month (dd/MM) of the provided calendar. 
+	 * 
+	 */
+	public static String buildDayAndMonthCompositionAsString(final Calendar inputCalendar)
+	{
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		return buildDayAndMonthCompositionAsString(inputCalendar, context);
+	}
 	
 	
 	/**
 	 * Builds a string representation for the day and month (dd/MM) of the provided calendar. 
 	 * 
 	 */
-	public static String buildDayAndMonthCompositionAsString(
+	private static String buildDayAndMonthCompositionAsString(
 			final Calendar inputCalendar,
 			final Context context)
 	{

@@ -14,6 +14,7 @@ import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.fragments.TVHolderFragment;
 import com.millicom.mitv.fragments.TVHolderFragment.OnViewPagerIndexChangedListener;
+import com.millicom.mitv.utilities.DateUtils;
 import com.mitv.R;
 import com.mitv.utilities.OldDateUtilities;
 
@@ -51,7 +52,9 @@ public class HomeActivity
 
 		getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
-		ContentManager.sharedInstance().setSelectedHour(Integer.valueOf(OldDateUtilities.getCurrentHourString()));
+		/* Set the selected hour to the current hour */
+		int currentHour = DateUtils.getCurrentHour();
+		ContentManager.sharedInstance().setSelectedHour(currentHour);
 
 		initViews();
 
