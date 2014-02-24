@@ -22,15 +22,13 @@ public class TVDate
 	
 	
 	public TVDate(String dateRepresentation)
-	{
-		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-		
+	{	
 		this.id = dateRepresentation;
 		this.date = dateRepresentation;
 		
-		this.dateCalendar = DateUtils.convertFromStringToCalendar(dateRepresentation, context);
+		this.dateCalendar = DateUtils.convertFromStringToCalendar(dateRepresentation);
 		
-		this.displayName = DateUtils.buildDayOfTheWeekAsString(dateCalendar, context);
+		this.displayName = DateUtils.buildDayOfTheWeekAsString(dateCalendar);
 	}
 	
 	
@@ -38,10 +36,8 @@ public class TVDate
 	public Calendar getDateCalendar() 
 	{
 		if(dateCalendar == null) 
-		{
-			Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-			
-			dateCalendar = DateUtils.convertFromStringToCalendar(date, context);
+		{	
+			dateCalendar = DateUtils.convertFromStringToCalendar(date);
 		}
 		
 		return dateCalendar;

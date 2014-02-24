@@ -276,6 +276,15 @@ public class Storage
 	public AppConfiguration getAppConfigData() {
 		return appConfigData;
 	}
+	
+	public int getFirstHourOfTVDay() {
+		/* Default to value of 6 */
+		int firstHourOfTVDay = 6;
+		if(appConfigData != null) {
+			firstHourOfTVDay = appConfigData.getFirstHourOfDay();
+		}
+		return firstHourOfTVDay;
+	}
 
 	public void setAppConfigData(AppConfiguration appConfigData) {
 		this.appConfigData = appConfigData;

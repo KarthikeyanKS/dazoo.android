@@ -17,6 +17,7 @@ import android.util.Log;
 import com.millicom.mitv.ContentManager;
 import com.mitv.Consts;
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 
 
 
@@ -29,13 +30,24 @@ public abstract class DateUtils
 	public static final long TOTAL_MILISECOUNDS_IN_ONE_DAY = TOTAL_MILISECOUNDS_IN_ONE_HOUR*24;
 	
 	
-	
 	/**
 	 * Converts a string input to a Calendar object
 	 * The input string format should be in the format: "yyyy-MM-dd'T'HH:mm:ss'Z'"
 	 * 
 	 */
 	public static Calendar convertFromStringToCalendar(
+			final String inputString)
+	{
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		return convertFromStringToCalendar(inputString, context);
+	}
+	
+	/**
+	 * Converts a string input to a Calendar object
+	 * The input string format should be in the format: "yyyy-MM-dd'T'HH:mm:ss'Z'"
+	 * 
+	 */
+	private static Calendar convertFromStringToCalendar(
 			final String inputString,
 			final Context context)
 	{
@@ -70,6 +82,35 @@ public abstract class DateUtils
 	}
 	
 	
+	/**
+	 * Get the current hour as int
+	 * 
+	 * @param
+	 * @return current hour as int
+	 */
+	private static int getCurrentHour(boolean showTimeOn24HourFormat) {
+		Calendar now = Calendar.getInstance();
+		int currentHour = now.get(Calendar.HOUR);
+		if(showTimeOn24HourFormat) {
+			currentHour = now.get(Calendar.HOUR_OF_DAY);
+		}
+		return currentHour;
+	}
+	
+	private static int getCurrentHour(Context context) {
+		boolean showTimeOn24HourFormat = showTimeOn24HourFormat(context);
+		return getCurrentHour(showTimeOn24HourFormat);
+	}
+		
+	public static int getCurrentHourUseDevice24HourSettings() {
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		return getCurrentHour(context);
+	}
+	
+	public static int getCurrentHourOn24HourFormat() {
+		return getCurrentHour(true);
+	}
+		
 	
 	/**
 	 * Computes the total difference in minutes between the second Calendar object and the first Calendar object.
@@ -151,6 +192,16 @@ public abstract class DateUtils
 	}
 	
 	
+	/**
+	 * Builds a string representation for the day of the week of the input calendar.
+	 * If the day of the week is either today or tomorrow, a localized representation is returned instead.
+	 *
+	 */
+	public static String buildDayOfTheWeekAsString(final Calendar inputCalendar)
+	{
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		return buildDayOfTheWeekAsString(inputCalendar, context);
+	}
 	
 	/**
 	 * Builds a string representation for the day of the week of the input calendar.
@@ -158,7 +209,7 @@ public abstract class DateUtils
 	 * If the day of the week is either today or tomorrow, a localized representation is returned instead.
 	 * 
 	 */
-	public static String buildDayOfTheWeekAsString(
+	private static String buildDayOfTheWeekAsString(
 			final Calendar inputCalendar,
 			final Context context)
 	{
@@ -225,25 +276,44 @@ public abstract class DateUtils
 		return timeOfDayAsString;
 	}
 	
+	/**
+	 * Builds a string representation for the time of the day (HH:mm), from the input calendar.
+	 * Using application context and always using the 24 hour setting of the phone
+	 * 
+	 */
+	public static String getHourAndMinuteCompositionAsString(final Calendar inputCalendar)
+	{
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		String hourAndMinuteCompositionAsString = getHourAndMinuteCompositionAsString(inputCalendar, true, context);
+		return hourAndMinuteCompositionAsString;
+	}
 	
+	public static boolean showTimeOn24HourFormat() {
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		return showTimeOn24HourFormat(context);
+	}
+	
+	private static boolean showTimeOn24HourFormat(Context context) {
+		boolean is24HourFormat = android.text.format.DateFormat.is24HourFormat(context);
+		return is24HourFormat;
+	}
 	
 	/**
 	 * Builds a string representation for the time of the day (HH:mm), from the input calendar.
 	 * It can be optionally set to either use or ignore the local device 24 hour setting.
 	 * 
 	 */
-	public static String getHourAndMinuteCompositionAsString(
+	private static String getHourAndMinuteCompositionAsString(
 			final Calendar inputCalendar,
-			final boolean use24HourSetting,
+			final boolean use24HourSettingsSetOnDevice,
 			final Context context)
 	{
 		String pattern;
 		
-		if(use24HourSetting)
+		if(use24HourSettingsSetOnDevice)
 		{
-			boolean is24HourFormat = android.text.format.DateFormat.is24HourFormat(context);
-			
-			if(is24HourFormat)
+			boolean showTimeOn24HourFormat = showTimeOn24HourFormat(context);
+			if(showTimeOn24HourFormat)
 			{
 				pattern = Consts.DATE_FORMAT_HOUR_AND_MINUTE;
 			}
@@ -269,13 +339,22 @@ public abstract class DateUtils
 	}
 	
 	
+	/**
+	 * Builds a string representation for the day and month (dd/MM) of the provided calendar. 
+	 * 
+	 */
+	public static String buildDayAndMonthCompositionAsString(final Calendar inputCalendar)
+	{
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		return buildDayAndMonthCompositionAsString(inputCalendar, context);
+	}
 	
 	
 	/**
 	 * Builds a string representation for the day and month (dd/MM) of the provided calendar. 
 	 * 
 	 */
-	public static String buildDayAndMonthCompositionAsString(
+	private static String buildDayAndMonthCompositionAsString(
 			final Calendar inputCalendar,
 			final Context context)
 	{
@@ -307,9 +386,9 @@ public abstract class DateUtils
 		int milisecondsValue = 0;
 		int secondsValue = 0;
 		int minutesValue = 0;
-		int hoursValue = 0;
+		int hoursValue = hour;
 		
-		int firstHourOfTheDay = ContentManager.sharedInstance().getFromStorageAppConfiguration().getFirstHourOfDay();
+		int firstHourOfTheDay = ContentManager.sharedInstance().getFromStorageFirstHourOfTVDay();
 		
 		if(hour >= 0 && hour < firstHourOfTheDay) 
 		{

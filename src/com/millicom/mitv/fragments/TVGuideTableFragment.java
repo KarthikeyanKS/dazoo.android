@@ -53,7 +53,7 @@ public class TVGuideTableFragment
 	private String tvTagIdAsString;
 	private SwipeClockBar swipeClockBar;
 	private TVGuideListAdapter tvGuideListAdapter;
-	private boolean isToday = false;
+	private boolean isToday;
 	private ArrayList<TVBroadcastWithChannelInfo> taggedBroadcasts;
 	private TVGuideTagListAdapter tvTagListAdapter;
 	private int hour;
@@ -120,6 +120,8 @@ public class TVGuideTableFragment
 	{
 		super.onCreate(savedInstanceState);
 		
+		isToday = ContentManager.sharedInstance().selectedTVDateIsToday();
+		
 		initBroadcastReceivers();
 	}
 	
@@ -150,20 +152,9 @@ public class TVGuideTableFragment
 	{
 		super.onDetach();
 		
-		LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastReceiverClock);
+		unregisterBroadcastReceivers();
 	}
 
-	
-	
-	@Override
-	public void onDestroy() 
-	{
-		super.onDestroy();
-		
-		LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastReceiverClock);
-	}
-
-	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
@@ -183,8 +174,6 @@ public class TVGuideTableFragment
 
 			swipeClockBar = (SwipeClockBar) rootView.findViewById(R.id.tvguide_swype_clock_bar);
 			swipeClockBar.setHour(hour);
-
-			// TODO figure this out?
 			swipeClockBar.setToday(isToday);
 
 			registerBroadcastReceivers();

@@ -29,33 +29,32 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.millicom.mitv.ContentManager;
+import com.millicom.mitv.utilities.DateUtils;
 import com.millicom.mitv.utilities.GenericUtils;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.manager.AppConfigurationManager;
 import com.mitv.manager.FontManager;
-import com.mitv.utilities.OldDateUtilities;
 
 public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListener {
 
-	private static final String TAG = "SwipeClockBar";
+	private static final String TAG = SwipeClockBar.class.getName();
 	public static final int SCREEN_HEIGHT_SMALL = 320;
 	public static final int SCREEN_HEIGHT_TABLET = 1280;
+	private static final int HOURS_PER_DAY = 24;
 	
-	private Activity mActivity;
-	private VerticalSeekBar mSeekBar;
-	private ListView mTimeListView;
-	private FontTextView mClockIconTextView;
-	private static List<Integer> mHours;
-	private static final int mHoursPerDay = 24;
-	private static int mFirstHourOfDay;
-	private TimeListAdapter mListAdapter;
-	private LayoutInflater mInflater;
-	private float mSavedTextSize = -1;
-	private boolean mIsToday;
-	private boolean mSmallScreenMode;
-	private int mScreenHeight;
+	private Activity activity;
+	private VerticalSeekBar seekBar;
+	private ListView timeListView;
+	private FontTextView clockIconTextView;
+	private static List<Integer> hoursOfTheDay;
+	private static int firstHourOfDay;
+	private TimeListAdapter listAdapter;
+	private LayoutInflater inflater;
+	private float savedTextSize = -1;
+	private boolean isToday;
+	private boolean smallScreenMode;
+	private int screenHeight;
 
 	public SwipeClockBar(Context context) {
 		super(context);
@@ -78,56 +77,57 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 
 		/* If hour was found */
 		if (indexOfHour > 0) {
-			mSeekBar.setProgress(indexOfHour);
+			seekBar.setProgress(indexOfHour);
 		}
 	}
 
 	public static int hourToProgress(int hour) {
 		int index;
-		if (hour >= mFirstHourOfDay) {
-			index = (hour - mFirstHourOfDay) % mHoursPerDay;
+		if (hour >= firstHourOfDay) {
+			index = (hour - firstHourOfDay) % HOURS_PER_DAY;
 		}
 		else {
-			index = (mHoursPerDay - mFirstHourOfDay + hour);
+			index = (HOURS_PER_DAY - firstHourOfDay + hour);
 		}
 		return index;
 	}
 
 	public static int progressToHour(int progress) {
-		int hour = mHours.get(progress);
+		int hour = hoursOfTheDay.get(progress);
 		return hour;
 	}
 
 	public void setup(Context context) {
-		this.mActivity = (Activity) context;
-		mFirstHourOfDay = AppConfigurationManager.getInstance().getFirstHourOfTVDay();
+		this.activity = (Activity) context;
+		int firstHourOfDay = ContentManager.sharedInstance().getFromStorageFirstHourOfTVDay();
+		SwipeClockBar.firstHourOfDay = firstHourOfDay;
 
-		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		mInflater.inflate(R.layout.swipe_clock_bar, this);
+		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		inflater.inflate(R.layout.swipe_clock_bar, this);
 		
-		this.mClockIconTextView = (FontTextView) this.findViewById(R.id.swipe_clock_bar_clock_icon_textview);
+		this.clockIconTextView = (FontTextView) this.findViewById(R.id.swipe_clock_bar_clock_icon_textview);
 
-		this.mSeekBar = (VerticalSeekBar) this.findViewById(R.id.timebar_seekbar);
-		this.mSeekBar.setOnSeekBarChangeListener(this);
+		this.seekBar = (VerticalSeekBar) this.findViewById(R.id.timebar_seekbar);
+		this.seekBar.setOnSeekBarChangeListener(this);
 
 		// TODO use this way of accessing the activity directly in the
 		// VerticalSeekBar class?
-		this.mSeekBar.setActivity(mActivity);
-		this.mTimeListView = (ListView) this.findViewById(R.id.timebar_listview);
+		this.seekBar.setValues(activity, HOURS_PER_DAY, firstHourOfDay);
+		this.timeListView = (ListView) this.findViewById(R.id.timebar_listview);
 
-		this.mHours = generate24Hours();
+		SwipeClockBar.hoursOfTheDay = generate24Hours();
 
-		this.mScreenHeight = GenericUtils.getScreenHeight((Activity) context);
+		this.screenHeight = GenericUtils.getScreenHeight((Activity) context);
 		
-		if(mScreenHeight <= SCREEN_HEIGHT_SMALL) {
-			mSmallScreenMode = true;
+		if(screenHeight <= SCREEN_HEIGHT_SMALL) {
+			smallScreenMode = true;
 		} else {
-			mSmallScreenMode = false;
+			smallScreenMode = false;
 		}
 		
-		if (mTimeListView != null) {
-			this.mListAdapter = new TimeListAdapter(mHoursPerDay, mFirstHourOfDay, mHours);
-			this.mTimeListView.setAdapter(mListAdapter);
+		if (timeListView != null) {
+			this.listAdapter = new TimeListAdapter(HOURS_PER_DAY, firstHourOfDay, hoursOfTheDay);
+			this.timeListView.setAdapter(listAdapter);
 		}
 
 		/*
@@ -140,8 +140,8 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 			@Override
 			public void onGlobalLayout() {
 				// gets called after layout has been done but before it gets displayed, so we can get the height of the view
-				int selfHeigt = SwipeClockBar.this.mTimeListView.getHeight();
-				TimeListAdapter timeListAdapter = ((TimeListAdapter) SwipeClockBar.this.mTimeListView.getAdapter());
+				int selfHeigt = SwipeClockBar.this.timeListView.getHeight();
+				TimeListAdapter timeListAdapter = ((TimeListAdapter) SwipeClockBar.this.timeListView.getAdapter());
 				timeListAdapter.setListViewHeight(selfHeigt);
 				timeListAdapter.notifyDataSetChanged();
 				
@@ -164,11 +164,11 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 
 	private List<Integer> generate24Hours() {
 		List<Integer> hours = new ArrayList<Integer>();
-		int hour = mFirstHourOfDay;
-		for (int i = 0; i < mHoursPerDay; ++i) {
+		int hour = firstHourOfDay;
+		for (int i = 0; i < HOURS_PER_DAY; ++i) {
 				hours.add(hour);
 		
-			hour = (hour + 1) % mHoursPerDay;
+			hour = (hour + 1) % HOURS_PER_DAY;
 		}
 
 		return hours;
@@ -176,7 +176,9 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 
 	private class TimeListAdapter extends BaseAdapter {
 
-		private List<Integer> hours;
+		private static final int HOUR_COUNT_VISIBLE_IF_SMALL_SCREEN = 12;
+		
+		private List<Integer> hoursOfTheDay;
 		private int hoursPerDay = 24;
 		private int firstHourOfDay = 6;
 		private int listViewHeight;
@@ -198,7 +200,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 			this.index24OfSelectedHour = -1; /* not set */
 			this.hoursPerDay = hoursPerDay;
 			this.firstHourOfDay = firstHourOfDay;
-			this.hours = hours;
+			this.hoursOfTheDay = hours;
 			this.listViewHeight = listViewHeight;
 		}
 
@@ -210,12 +212,12 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 		@Override
 		public int getCount() {
 			int count = 0;
-			if (hours != null) {
-				count = hours.size();
+			if (hoursOfTheDay != null) {
+				count = hoursOfTheDay.size();
 			}
 			
-			if (mSmallScreenMode) {
-				count = 12;
+			if (smallScreenMode) {
+				count = HOUR_COUNT_VISIBLE_IF_SMALL_SCREEN;
 				if(showOddHour()) {
 					count++;
 				}
@@ -232,10 +234,10 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 		@Override
 		public Object getItem(int positionInListView) {
 			Integer hour = -1;
-			if (hours != null) {
+			if (hoursOfTheDay != null) {
 				int hourArrayIndex = positionInListView;
 
-				if (mSmallScreenMode) {
+				if (smallScreenMode) {
 					if (!showOddHour()) {
 						hourArrayIndex = positionInListView * 2;
 					} else {
@@ -243,11 +245,12 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 					}
 				}
 
-				hour = hours.get(hourArrayIndex);
+				hour = hoursOfTheDay.get(hourArrayIndex);
 			}
 			return hour;
 		}
 		
+		/* DO NOT TOUCH THIS 'ALGORITH' */
 		private int positionInListViewTo24Index(int positionInListView) {
 			int hourArrayIndex = positionInListView;
 			if ((positionInListView * 2) < index24OfSelectedHour) {
@@ -284,7 +287,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 			View rowView = convertView;
 
 			if (rowView == null) {
-				rowView = mInflater.inflate(R.layout.row_timebar, null);
+				rowView = inflater.inflate(R.layout.row_timebar, null);
 				ViewHolder viewHolder = new ViewHolder();
 				viewHolder.textView = (FontTextView) rowView.findViewById(R.id.row_timebar_textview);
 				rowView.setTag(viewHolder);
@@ -302,7 +305,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 			int colorId;
 
 			int indexToCheckForColor = position;
-				if(mSmallScreenMode) {
+				if(smallScreenMode) {
 					indexToCheckForColor = 2 * position;
 				if (showOddHour()) {
 					indexToCheckForColor = positionInListViewTo24Index(position);
@@ -312,19 +315,19 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 			if (indexToCheckForColor == index24OfSelectedHour) {
 				colorId = R.color.white;
 				fontName = FontManager.FONT_BOLD;
-				rowView.setBackgroundColor(mActivity.getResources().getColor(R.color.grey4));
-			} else if (mIsToday && isEarlier(hour, Integer.parseInt(OldDateUtilities.getCurrentHourString()))) {
+				rowView.setBackgroundColor(activity.getResources().getColor(R.color.grey4));
+			} else if (isToday && isEarlier(hour, DateUtils.getCurrentHourOn24HourFormat())) {
 				colorId = R.color.grey2;
 				fontName = FontManager.FONT_LIGHT;
-				rowView.setBackgroundColor(mActivity.getResources().getColor(R.color.transparent));
+				rowView.setBackgroundColor(activity.getResources().getColor(R.color.transparent));
 			} else {
 				colorId = R.color.black;
 				fontName = FontManager.FONT_LIGHT;
-				rowView.setBackgroundColor(mActivity.getResources().getColor(R.color.transparent));
+				rowView.setBackgroundColor(activity.getResources().getColor(R.color.transparent));
 			}
 
-			int textColor = mActivity.getResources().getColor(colorId);
-			Typeface textFont = FontManager.getTypefaceStatic(mActivity, fontName);
+			int textColor = activity.getResources().getColor(colorId);
+			Typeface textFont = FontManager.getTypefaceStatic(activity, fontName);
 
 			holder.textView.setTextColor(textColor);
 			holder.textView.setTypeface(textFont);
@@ -340,15 +343,15 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 				rowView.setLayoutParams(params);
 
 				// If this is the first view, calculate text size
-				if (mSavedTextSize < 0) {
-					mSavedTextSize = getTextSize(cellHeight, holder.textView, hourString);
-					if (mSmallScreenMode) {
-						mSavedTextSize = 12;
-					} else if (mScreenHeight >= SCREEN_HEIGHT_TABLET) {
-						mSavedTextSize = 34;
+				if (savedTextSize < 0) {
+					savedTextSize = getTextSize(cellHeight, holder.textView, hourString);
+					if (smallScreenMode) {
+						savedTextSize = 12;
+					} else if (screenHeight >= SCREEN_HEIGHT_TABLET) {
+						savedTextSize = 34;
 					}
 				}
-				holder.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mSavedTextSize);
+				holder.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, savedTextSize);
 
 				rowView.setVisibility(View.VISIBLE);
 			}
@@ -408,8 +411,8 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 	}
 		
 	private void styleSelectedHour(int index) {
-		mListAdapter.setSelectedHour(index);
-		mListAdapter.notifyDataSetChanged();
+		listAdapter.setSelectedHour(index);
+		listAdapter.notifyDataSetChanged();
 	}
 	
 
@@ -417,7 +420,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 		Intent intent = new Intent(Consts.INTENT_EXTRA_CLOCK_SELECTION);
 		intent.putExtra(Consts.INTENT_EXTRA_CLOCK_SELECTION_VALUE, hour);
 		ContentManager.sharedInstance().setSelectedHour(Integer.valueOf(hour));
-		LocalBroadcastManager.getInstance(mActivity.getBaseContext()).sendBroadcast(intent);
+		LocalBroadcastManager.getInstance(activity.getBaseContext()).sendBroadcast(intent);
 	}
 
 	@Override
@@ -447,7 +450,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 	
 	/* If first is earlier than second, return true. */
 	private boolean isEarlier(int first, int second) {
-		if (first < second && first >= mFirstHourOfDay) {
+		if (first < second && first >= firstHourOfDay) {
 			return true;
 		}
 		else {
@@ -456,6 +459,6 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 	}
 	
 	public void setToday(boolean isToday) {
-		this.mIsToday = isToday;
+		this.isToday = isToday;
 	}
 }

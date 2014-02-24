@@ -1,7 +1,4 @@
-
 package com.mitv.adapters;
-
-
 
 import java.util.ArrayList;
 
@@ -39,325 +36,266 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-
-
-public class TVGuideListAdapter 
-	extends AdListAdapter<TVChannelGuide> 
-{
+public class TVGuideListAdapter extends AdListAdapter<TVChannelGuide> {
 	@SuppressWarnings("unused")
-	private static final String	TAG	= TVGuideListAdapter.class.getName();
+	private static final String TAG = TVGuideListAdapter.class.getName();
 
-	
-	private LayoutInflater mLayoutInflater;
-	private Activity mActivity;
-	private TVDate mDate;
-	private int	mIndexOfNearestBroadcast;
-	private int	mHour;
+	private LayoutInflater layoutInflater;
+	private Activity activity;
+	private TVDate tvDate;
+	private int currentHour;
 	private int rowWidth = -1;
 
-	
-	
 	@SuppressLint("NewApi")
-	public TVGuideListAdapter(Activity activity, ArrayList<TVChannelGuide> guide, TVDate date, int hour, boolean isToday) 
-	{
+	public TVGuideListAdapter(Activity activity, ArrayList<TVChannelGuide> guide, TVDate date, int hour, boolean isToday) {
 		super(Consts.JSON_AND_FRAGMENT_KEY_GUIDE, activity, guide);
-		this.mActivity = activity;
-		this.mDate = date;
-		this.mHour = hour;
+		this.activity = activity;
+		this.tvDate = date;
+		this.currentHour = hour;
+
+		layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
-	
-	
-	
+
 	@Override
-	public int getViewTypeCount() 
-	{
+	public int getViewTypeCount() {
 		return super.getViewTypeCount() + 1;
 	}
-	
-	
-	
-	public View getViewForGuideCell(int position, View convertView, ViewGroup parent) 
-	{
+
+	public View getViewForGuideCell(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
-		
-		mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		
-		if (rowView == null) 
-		{
-			rowView = mLayoutInflater.inflate(R.layout.row_tvguide_list, null);
-			
+
+		if (rowView == null) {
+			rowView = layoutInflater.inflate(R.layout.row_tvguide_list, null);
+
 			ViewHolder viewHolder = new ViewHolder();
-			
-			viewHolder.mContainer = (RelativeLayout) rowView.findViewById(R.id.item_container);
-			viewHolder.mImageView = (ImageView) rowView.findViewById(R.id.tvguide_channel_iv);
-			viewHolder.mTextView = (TextView) rowView.findViewById(R.id.tvguide_program_line_live);
+
+			viewHolder.container = (RelativeLayout) rowView.findViewById(R.id.item_container);
+			viewHolder.channelLogo = (ImageView) rowView.findViewById(R.id.tvguide_channel_iv);
+			viewHolder.textView = (TextView) rowView.findViewById(R.id.tvguide_program_line_live);
 
 			rowView.setTag(viewHolder);
 		}
-		
+
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
-		
-		if (rowWidth < 0)
-		{
+
+		if (rowWidth < 0) {
 			/*
-			 * Start the view as invisible, when the height is known, update the
-			 * height of each row and change visibility to visible
+			 * Start the view as invisible, when the height is known, update the height of each row and change visibility to visible
 			 */
-			holder.mTextView.setVisibility(View.INVISIBLE);
-			holder.mTextView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener()
-			{
+			holder.textView.setVisibility(View.INVISIBLE);
+			holder.textView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 				@Override
-				public void onGlobalLayout()
-				{
+				public void onGlobalLayout() {
 					// gets called after layout has been done but before it gets displayed, so we can get the height of the view
-					int width = holder.mTextView.getWidth();
-					
+					int width = holder.textView.getWidth();
+
 					TVGuideListAdapter guideListAdapter = ((TVGuideListAdapter) TVGuideListAdapter.this);
-					
+
 					guideListAdapter.setRowWidth(width);
 					guideListAdapter.notifyDataSetChanged();
 
-					TVGuideListAdapter.removeOnGlobalLayoutListener(holder.mTextView, this);
-					
-					holder.mTextView.setVisibility(View.VISIBLE);
+					TVGuideListAdapter.removeOnGlobalLayoutListener(holder.textView, this);
+
+					holder.textView.setVisibility(View.VISIBLE);
 				}
-	
+
 			});
 		}
 
 		final TVChannelGuide guide = getItem(position);
 
-		if (guide.getImageUrl() != null)
-		{
-			ImageAware imageAware = new ImageViewAware(holder.mImageView, false);
-			
+		if (guide.getImageUrl() != null) {
+			ImageAware imageAware = new ImageViewAware(holder.channelLogo, false);
+
 			ImageLoader.getInstance().displayImage(guide.getImageUrl(), imageAware);
-		}
-		else
-		{
-			holder.mImageView.setImageResource(R.color.white);
+		} else {
+			holder.channelLogo.setImageResource(R.color.white);
 		}
 
-		holder.mContainer.setOnClickListener(new View.OnClickListener() 
-		{
+		holder.container.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View v)
-			{
-				Intent intent = new Intent(mActivity, ChannelPageActivity.class);
+			public void onClick(View v) {
+				Intent intent = new Intent(activity, ChannelPageActivity.class);
 				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, guide.getChannelId().getChannelId());
-//				intent.putExtra(Consts.INTENT_EXTRA_CHOSEN_DATE_TVGUIDE, mDate);
-//				intent.putExtra(Consts.INTENT_EXTRA_TV_GUIDE_HOUR, mHour);
-				
+				// intent.putExtra(Consts.INTENT_EXTRA_CHOSEN_DATE_TVGUIDE, mDate);
+				// intent.putExtra(Consts.INTENT_EXTRA_TV_GUIDE_HOUR, mHour);
+
 				ContentManager.sharedInstance().setSelectedTVChannelId(guide.getChannelId());
-				ContentManager.sharedInstance().setSelectedHour(mHour);
-				mActivity.startActivity(intent);
+				ContentManager.sharedInstance().setSelectedHour(currentHour);
+				activity.startActivity(intent);
 			}
 		});
 
 		ArrayList<TVBroadcast> broadcasts = guide.getBroadcasts();
 
-		String stringIconMovie = mActivity.getResources().getString(R.string.icon_movie) + " ";
-		
-		String stringIconLive = mActivity.getResources().getString(R.string.icon_live) + " ";
-		
+		String stringIconMovie = activity.getResources().getString(R.string.icon_movie) + " ";
+
+		String stringIconLive = activity.getResources().getString(R.string.icon_live) + " ";
+
 		String textForThreeBroadcasts = "";
-		
+
 		int textIndexToMarkAsOngoing = 0;
-		
+
 		int textStartIndexToMarkAsOngoing = 0;
 
-		if (broadcasts != null && broadcasts.size() > 0)
-		{
-			mIndexOfNearestBroadcast = TVBroadcast.getClosestBroadcastIndex(broadcasts, mHour, mDate, 0);
+		if (broadcasts != null && broadcasts.size() > 0) {
+			int indexOfNearestBroadcast = TVBroadcast.getClosestBroadcastIndex(broadcasts, currentHour, tvDate, 0);
 
-			if (mIndexOfNearestBroadcast != -1) 
-			{
-				ArrayList<TVBroadcast> nextBroadcasts = TVBroadcast.getBroadcastsFromPosition(broadcasts, mIndexOfNearestBroadcast, Consts.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
-			
-				for (int j = 0; j < Math.min(nextBroadcasts.size(), 3); j++) 
-				{
+			if (indexOfNearestBroadcast != -1) {
+				ArrayList<TVBroadcast> nextBroadcasts = TVBroadcast.getBroadcastsFromPosition(broadcasts, indexOfNearestBroadcast, Consts.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
+
+				for (int j = 0; j < Math.min(nextBroadcasts.size(), 3); j++) {
 					TVBroadcast broadcast = nextBroadcasts.get(j);
-					
+
 					TVProgram program = broadcast.getProgram();
-					
+
 					ProgramTypeEnum programType = program.getProgramType();
-					
+
 					BroadcastTypeEnum broadcastType = broadcast.getBroadcastType();
-					
+
 					String rowInfo = broadcast.getBeginTimeHourAndMinuteAsString();
-					
+
 					rowInfo += "   ";
-					
+
 					String showName = program.getTitle();
-					
-					switch (programType) 
-					{
-						case MOVIE: 
-						{
-							rowInfo += stringIconMovie;
-							break;
-						}
-						case TV_EPISODE: 
-						{
-							showName = program.getSeries().getName();
-							break;
-						}
-						default: 
-						{
-							if(broadcastType == BroadcastTypeEnum.LIVE) {
-								rowInfo += stringIconLive;
-							}
-							break;
-						}
+
+					switch (programType) {
+					case MOVIE: {
+						rowInfo += stringIconMovie;
+						break;
 					}
-	
+					case TV_EPISODE: {
+						showName = program.getSeries().getName();
+						break;
+					}
+					default: {
+						if (broadcastType == BroadcastTypeEnum.LIVE) {
+							rowInfo += stringIconLive;
+						}
+						break;
+					}
+					}
+
 					rowInfo += showName;
-									
-//					String programType = program.getProgramType();
-//					String broadcastType = broadcast.getBroadcastType();
-//					
-//
-//					if (Consts.PROGRAM_TYPE_MOVIE.equals(programType)) {
-//						rowInfo += stringIconMovie;
-//					} else if (Consts.BROADCAST_TYPE_LIVE.equals(broadcastType)) {
-//						rowInfo += stringIconLive;
-//					}
-//					
-//					String showName = null;
-//	                if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-//	                	showName = program.getSeries().getName();
-//                    } else {
-//                    }
-//					
-//					rowInfo += showName;
-					
-					TextPaint testPaint = holder.mTextView.getPaint();
-					
+
+					// String programType = program.getProgramType();
+					// String broadcastType = broadcast.getBroadcastType();
+					//
+					//
+					// if (Consts.PROGRAM_TYPE_MOVIE.equals(programType)) {
+					// rowInfo += stringIconMovie;
+					// } else if (Consts.BROADCAST_TYPE_LIVE.equals(broadcastType)) {
+					// rowInfo += stringIconLive;
+					// }
+					//
+					// String showName = null;
+					// if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+					// showName = program.getSeries().getName();
+					// } else {
+					// }
+					//
+					// rowInfo += showName;
+
+					TextPaint testPaint = holder.textView.getPaint();
+
 					float textWidth = testPaint.measureText(rowInfo);
-					
+
 					int limitIndex = rowInfo.length() - 1;
-					
+
 					boolean deletedChars = false;
-					
+
 					String toShow = "";
-					
-					if (rowWidth > 0)
-					{
+
+					if (rowWidth > 0) {
 						int maxTextWidth = (int) (rowWidth * 0.9);
-					
+
 						/* Calculate max amount of characters that fits */
-						while (textWidth > maxTextWidth && limitIndex > 0) 
-						{
+						while (textWidth > maxTextWidth && limitIndex > 0) {
 							deletedChars = true;
-							
+
 							limitIndex--;
-							
+
 							rowInfo = rowInfo.substring(0, limitIndex);
-							
+
 							textWidth = testPaint.measureText(rowInfo);
 						}
-						
+
 						String ellipsisString = "...";
-						
-						if (deletedChars) 
-						{
-							rowInfo = rowInfo.replace(rowInfo.substring(limitIndex-3, rowInfo.length()), ellipsisString);
+
+						if (deletedChars) {
+							rowInfo = rowInfo.replace(rowInfo.substring(limitIndex - 3, rowInfo.length()), ellipsisString);
 						}
-						
+
 						toShow = rowInfo;
 					}
 
-					if (broadcast.isBroadcastCurrentlyAiring()) 
-					{
+					if (broadcast.isBroadcastCurrentlyAiring()) {
 						textStartIndexToMarkAsOngoing = textForThreeBroadcasts.length();
-						
+
 						textIndexToMarkAsOngoing = textForThreeBroadcasts.length() + toShow.length();
 					}
-					
+
 					textForThreeBroadcasts += toShow + "\n";
 				}
-				
-				Spannable wordtoSpan = new SpannableString(textForThreeBroadcasts);     
-				
+
+				Spannable wordtoSpan = new SpannableString(textForThreeBroadcasts);
+
 				Resources resources = SecondScreenApplication.sharedInstance().getApplicationContext().getResources();
-				
-				if(textIndexToMarkAsOngoing > 0) 
-				{
+
+				if (textIndexToMarkAsOngoing > 0) {
 					wordtoSpan.setSpan(new ForegroundColorSpan(resources.getColor(R.color.red)), textStartIndexToMarkAsOngoing, textIndexToMarkAsOngoing, 0);
 				}
-				
-				wordtoSpan.setSpan(new ForegroundColorSpan(resources.getColor(R.color.grey3)), textIndexToMarkAsOngoing+1, wordtoSpan.length() , Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-			    
-				holder.mTextView.setText(wordtoSpan, TextView.BufferType.SPANNABLE);
-				
+
+				wordtoSpan.setSpan(new ForegroundColorSpan(resources.getColor(R.color.grey3)), textIndexToMarkAsOngoing + 1, wordtoSpan.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+				holder.textView.setText(wordtoSpan, TextView.BufferType.SPANNABLE);
+
 			}
 		}
-		
-		if (textForThreeBroadcasts.equals(""))
-		{
+
+		if (textForThreeBroadcasts.equals("")) {
 			rowView.setVisibility(View.INVISIBLE);
-		}
-		else
-		{
+		} else {
 			rowView.setVisibility(View.VISIBLE);
 		}
-		
+
 		return rowView;
 	}
-	
-	
-	
+
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent)
-	{
+	public View getView(int position, View convertView, ViewGroup parent) {
 		/* Superclass AdListAdapter will create view if this is a position of an ad. */
 		View rowView = super.getView(position, convertView, parent);
 
-		if(rowView == null)
-		{
+		if (rowView == null) {
 			rowView = getViewForGuideCell(position, convertView, parent);
 		}
-		
+
 		return rowView;
 	}
 
-	
-	
-	static class ViewHolder 
-	{
-		public RelativeLayout	mContainer;
-		public ImageView		mImageView;
-		public TextView			mTextView;
+	static class ViewHolder {
+		public RelativeLayout container;
+		public ImageView channelLogo;
+		public TextView textView;
 	}
 
-	
-	
-	public void refreshList(int selectedHour)
-	{
-		mHour = selectedHour;
+	public void refreshList(int selectedHour) {
+		currentHour = selectedHour;
 
-		ContentManager.sharedInstance().setSelectedHour(mHour);
+		ContentManager.sharedInstance().setSelectedHour(currentHour);
 		notifyDataSetChanged();
 	}
-	
-	
-	
-	public void setRowWidth(int width) 
-	{
+
+	public void setRowWidth(int width) {
 		this.rowWidth = width;
 	}
-	
-	
-	
+
 	@SuppressLint("NewApi")
-	public static void removeOnGlobalLayoutListener(View v, ViewTreeObserver.OnGlobalLayoutListener listener)
-	{
-		if (Build.VERSION.SDK_INT < 16) 
-		{
+	public static void removeOnGlobalLayoutListener(View v, ViewTreeObserver.OnGlobalLayoutListener listener) {
+		if (Build.VERSION.SDK_INT < 16) {
 			v.getViewTreeObserver().removeGlobalOnLayoutListener(listener);
-		} 
-		else 
-		{
+		} else {
 			v.getViewTreeObserver().removeOnGlobalLayoutListener(listener);
 		}
 	}

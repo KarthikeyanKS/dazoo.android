@@ -156,25 +156,25 @@ public class AdListAdapter<T> extends BaseAdapter {
 			if (rowView == null) {
 				rowView = mLayoutInflater.inflate(R.layout.ad_space, null);
 				ViewHolder viewHolder = new ViewHolder();
-				viewHolder.mContainer = (RelativeLayout) rowView.findViewById(R.id.ad_space_container);
-				viewHolder.mImageView = (ImageView) rowView.findViewById(R.id.ad_space_imageview);
+				viewHolder.container = (RelativeLayout) rowView.findViewById(R.id.ad_space_container);
+				viewHolder.channelLogo = (ImageView) rowView.findViewById(R.id.ad_space_imageview);
 
 				rowView.setTag(viewHolder);
 			}
 			final ViewHolder holder = (ViewHolder) rowView.getTag();
 			
-			if (holder.mImageView != null) {
+			if (holder.channelLogo != null) {
 				final OldAdzerkAd ad = getAdAtGlobalIndex(position);
 				if (ad != null) {
 					final String imageUrl = ad.getImageUrl();
 					final String impressionUrl = ad.getImpressionUrl();
-					final View separator = holder.mContainer.findViewById(R.id.ad_space_separator);
+					final View separator = holder.container.findViewById(R.id.ad_space_separator);
 					if (imageUrl != null) {
 						/* displayImage in UIL must run on main thread! */
 						activity.runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
-								ImageAware imageAware = new ImageViewAware(holder.mImageView, false);
+								ImageAware imageAware = new ImageViewAware(holder.channelLogo, false);
 								ImageLoader.getInstance().displayImage(imageUrl, imageAware, new ImageLoadingListener() {
 									@Override
 									public void onLoadingStarted(String imageUri, View view) {
@@ -202,13 +202,13 @@ public class AdListAdapter<T> extends BaseAdapter {
 							}
 						});
 					} else {
-						holder.mImageView.setVisibility(View.GONE);
+						holder.channelLogo.setVisibility(View.GONE);
 						separator.setVisibility(View.GONE);
 					}
 
 					final String clickUrl = ad.getClickUrl();
 					if (clickUrl != null) {
-						holder.mContainer.setOnClickListener(new View.OnClickListener() {
+						holder.container.setOnClickListener(new View.OnClickListener() {
 							@Override
 							public void onClick(View v) {
 								final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(clickUrl));

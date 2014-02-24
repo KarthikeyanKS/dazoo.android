@@ -17,7 +17,6 @@ import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.mitv.R;
-import com.mitv.manager.AppConfigurationManager;
 
 public class VerticalSeekBar extends SeekBar {
 
@@ -26,6 +25,8 @@ public class VerticalSeekBar extends SeekBar {
 	private Activity activity;
 	private Toast toast;
 	private CountDownTimer timer;
+	private int hoursPerDay;
+	private int firstHourOfDay;
 
 	public VerticalSeekBar(Context context) {
 		super(context);
@@ -45,9 +46,10 @@ public class VerticalSeekBar extends SeekBar {
 	private void setup() {
 	}
 
-	public void setActivity(Activity activity) {
+	public void setValues(Activity activity, int hoursPerDay, int firstHourOfDay) {
 		this.activity = activity;
-
+		this.hoursPerDay = hoursPerDay;
+		this.firstHourOfDay = firstHourOfDay;
 		LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View layout = inflater.inflate(R.layout.timebar_toast, (ViewGroup) activity.findViewById(R.id.timebar_toast_container));
 		this.toast = new Toast(activity.getApplicationContext());
@@ -55,10 +57,10 @@ public class VerticalSeekBar extends SeekBar {
 		toast.setDuration(Toast.LENGTH_LONG);
 		toast.setView(layout);
 	}
+	
+	
 
 	private void updateTextViewText() {
-		int hoursPerDay = 24;
-		int firstHourOfDay = AppConfigurationManager.getInstance().getFirstHourOfTVDay();
 		int hour = (getProgress() + firstHourOfDay) % hoursPerDay;
 
 		String hourString = String.format(Locale.getDefault(), "%02d:00", hour);

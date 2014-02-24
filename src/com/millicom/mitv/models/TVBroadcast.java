@@ -31,15 +31,16 @@ public class TVBroadcast extends BroadcastJSON {
 	private static final String TAG = TVBroadcast.class.getName();
 
 	private static final int NO_INT_VALUE_SET = -1;
-	private static final String NO_STRING_VALUE_SET = null;
 	
 	protected transient Calendar beginTimeCalendar;
 	protected transient Calendar endTimeCalendar;
 	private transient int durationInMinutes = NO_INT_VALUE_SET;
-	private transient String beginTimeDateRepresentation = NO_STRING_VALUE_SET;
-	private transient String beginTimeDayAndMonthRepresentation = NO_STRING_VALUE_SET;
-	private transient String beginTimeHourAndMinuteRepresentation = NO_STRING_VALUE_SET;
-	private transient String endTimeHourAndMinuteRepresentation = NO_STRING_VALUE_SET;
+	
+	/* IMPORTANT TO SET STRING TO NULL AND NOT EMPTY STRING */
+	private transient String beginTimeDateRepresentation = null;
+	private transient String beginTimeDayAndMonthRepresentation = null;
+	private transient String beginTimeHourAndMinuteRepresentation = null;
+	private transient String endTimeHourAndMinuteRepresentation = null;
 	
 	
 	
@@ -50,10 +51,8 @@ public class TVBroadcast extends BroadcastJSON {
 	public Calendar getBeginTimeCalendar() 
 	{
 		if(beginTimeCalendar == null) 
-		{
-			Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-			
-			beginTimeCalendar = DateUtils.convertFromStringToCalendar(beginTime, context);
+		{	
+			beginTimeCalendar = DateUtils.convertFromStringToCalendar(beginTime);
 		}
 		
 		return beginTimeCalendar;
@@ -68,10 +67,8 @@ public class TVBroadcast extends BroadcastJSON {
 	public Calendar getEndTimeCalendar()
 	{
 		if(endTimeCalendar == null)
-		{
-			Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-			
-			endTimeCalendar = DateUtils.convertFromStringToCalendar(endTime, context);
+		{	
+			endTimeCalendar = DateUtils.convertFromStringToCalendar(endTime);
 		}
 		
 		return endTimeCalendar;
@@ -199,7 +196,7 @@ public class TVBroadcast extends BroadcastJSON {
 	 */
 	public String getBeginTimeDateRepresentation() 
 	{
-		if(beginTimeDateRepresentation == NO_STRING_VALUE_SET)
+		if(beginTimeDateRepresentation == null)
 		{
 			Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
 			
@@ -216,11 +213,9 @@ public class TVBroadcast extends BroadcastJSON {
 	 */
 	public String getBeginTimeDayAndMonthAsString() 
 	{
-		if(beginTimeDayAndMonthRepresentation == NO_STRING_VALUE_SET)
+		if(beginTimeDayAndMonthRepresentation == null)
 		{
-			Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-		
-			beginTimeDayAndMonthRepresentation = DateUtils.buildDayAndMonthCompositionAsString(getBeginTimeCalendar(), context);
+			beginTimeDayAndMonthRepresentation = DateUtils.buildDayAndMonthCompositionAsString(getBeginTimeCalendar());
 		}
 		
 		return beginTimeDayAndMonthRepresentation;
@@ -233,11 +228,9 @@ public class TVBroadcast extends BroadcastJSON {
 	 */
 	public String getBeginTimeHourAndMinuteAsString()
 	{	
-		if(beginTimeHourAndMinuteRepresentation == NO_STRING_VALUE_SET)
+		if(beginTimeHourAndMinuteRepresentation == null)
 		{
-			Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-		
-			beginTimeHourAndMinuteRepresentation = DateUtils.getHourAndMinuteCompositionAsString(getBeginTimeCalendar(), true, context);
+			beginTimeHourAndMinuteRepresentation = DateUtils.getHourAndMinuteCompositionAsString(getBeginTimeCalendar());
 		}
 		
 		return beginTimeHourAndMinuteRepresentation;
@@ -249,11 +242,9 @@ public class TVBroadcast extends BroadcastJSON {
 	 */
 	public String getEndTimeHourAndMinuteAsString() 
 	{
-		if(endTimeHourAndMinuteRepresentation == NO_STRING_VALUE_SET)
+		if(endTimeHourAndMinuteRepresentation == null)
 		{
-			Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-		
-			endTimeHourAndMinuteRepresentation = DateUtils.getHourAndMinuteCompositionAsString(getEndTimeCalendar(), true, context);
+			endTimeHourAndMinuteRepresentation = DateUtils.getHourAndMinuteCompositionAsString(getEndTimeCalendar());
 		}
 		
 		return endTimeHourAndMinuteRepresentation;
@@ -266,10 +257,8 @@ public class TVBroadcast extends BroadcastJSON {
 	 * is today or tomorrow (per comparison with the current time)
 	 */
 	public String getBeginTimeDayOfTheWeekAsString() 
-	{
-		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-		
-		return DateUtils.buildDayOfTheWeekAsString(getBeginTimeCalendar(), context);
+	{	
+		return DateUtils.buildDayOfTheWeekAsString(getBeginTimeCalendar());
 	}
 
 	
@@ -279,10 +268,8 @@ public class TVBroadcast extends BroadcastJSON {
 	 * is today or tomorrow (per comparison with the current time)
 	 */
 	public String getBeginTimeDayOfTheWeekWithHourAndMinuteAsString()
-	{
-		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-		
-		String dayOfTheWeekAsString = DateUtils.buildDayOfTheWeekAsString(getBeginTimeCalendar(), context);
+	{	
+		String dayOfTheWeekAsString = DateUtils.buildDayOfTheWeekAsString(getBeginTimeCalendar());
 		
 		String timeOfDayAsString = getBeginTimeHourAndMinuteAsString();
 		
