@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:layout_width="match_parent"
@@ -14,6 +15,13 @@
         android:orientation="vertical"
         android:paddingBottom="10dp" >
 
+        <include
+	        android:id="@+id/login_loading_container"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        layout="@layout/layout_request_loading"
+	        android:orientation="vertical" />
+        
         <!-- FACEBOOK SIGN-IN BAR -->
 
         <RelativeLayout

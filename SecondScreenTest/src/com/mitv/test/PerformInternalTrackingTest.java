@@ -3,16 +3,12 @@ package com.mitv.test;
 
 
 
-import java.util.HashMap;
-import java.util.Map;
-
 import junit.framework.Assert;
-
 import org.junit.Test;
-
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
+import com.millicom.mitv.http.HeaderParameters;
 import com.millicom.mitv.http.URLParameters;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVChannelGuide;
@@ -51,7 +47,7 @@ public class PerformInternalTrackingTest
 		urlParameters.add(Consts.INTERNAL_TRACKING_QUERYSTRING_PARAMETER_KEY_VALUE, tvProgramId);
 		urlParameters.add(Consts.INTERNAL_TRACKING_QUERYSTRING_PARAMETER_KEY_UID, deviceId);
 		
-		Map<String, String> headerParameters = new HashMap<String, String>();
+		HeaderParameters headerParameters = new HeaderParameters();
 		
 		httpCoreResponse = executeRequest(HTTPRequestTypeEnum.HTTP_GET, url, urlParameters, headerParameters);
 	}

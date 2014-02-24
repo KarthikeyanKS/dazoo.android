@@ -20,6 +20,7 @@ import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.millicom.mitv.activities.FeedActivity;
 import com.millicom.mitv.activities.HomeActivity;
+import com.millicom.mitv.activities.base.BaseLoginActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.mitv.Consts;
@@ -28,7 +29,7 @@ import com.mitv.R;
 
 
 public class FacebookLoginActivity 
-	extends SignInBaseActivity 
+	extends BaseLoginActivity 
 {
 	private static final String TAG = FacebookLoginActivity.class.getName();
 	

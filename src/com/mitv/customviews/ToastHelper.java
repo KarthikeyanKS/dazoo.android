@@ -12,9 +12,9 @@ import android.widget.Toast;
 
 
 
-public class CustomToast 
+public class ToastHelper 
 {
-	private static final String TAG = CustomToast.class.getName();
+	private static final String TAG = ToastHelper.class.getName();
 	
 	
 	public static void createAndShowToast(

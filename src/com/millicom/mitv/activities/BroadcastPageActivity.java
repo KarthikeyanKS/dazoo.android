@@ -17,6 +17,7 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.millicom.mitv.ContentManager;
+import com.millicom.mitv.activities.base.BaseContentActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.models.TVBroadcast;
@@ -32,7 +33,7 @@ import com.mitv.tvguide.BroadcastMainBlockPopulator;
 
 
 public class BroadcastPageActivity 
-	extends BaseActivity
+	extends BaseContentActivity
 {
 	private static final String TAG = BroadcastPageActivity.class.getName();
 

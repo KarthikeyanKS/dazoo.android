@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import com.millicom.mitv.activities.base.BaseLoginActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.mitv.R;
@@ -19,7 +20,7 @@ import com.mitv.R;
 
 
 public class SignInOrSignupWithFacebookActivity 
-	extends SignInBaseActivity
+	extends BaseLoginActivity
 {
 	@SuppressWarnings("unused")
 	private static final String TAG = SignInOrSignupWithFacebookActivity.class.getName();
@@ -162,7 +163,7 @@ public class SignInOrSignupWithFacebookActivity
 			@Override
 			public void onClick(View v)
 			{
-				Intent intent = new Intent(SignInOrSignupWithFacebookActivity.this, MiTVLoginActivity.class);
+				Intent intent = new Intent(SignInOrSignupWithFacebookActivity.this, MiTVUserLoginActivity.class);
 				
 				startActivity(intent);
 			}

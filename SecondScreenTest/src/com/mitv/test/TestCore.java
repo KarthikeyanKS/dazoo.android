@@ -3,17 +3,14 @@ package com.mitv.test;
 
 
 
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 import java.util.TimeZone;
-
 import android.test.InstrumentationTestCase;
 import android.util.Log;
-
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCore;
 import com.millicom.mitv.http.HTTPCoreResponse;
+import com.millicom.mitv.http.HeaderParameters;
 import com.millicom.mitv.http.URLParameters;
 import com.millicom.mitv.models.gson.serialization.UserRegistrationData;
 import com.millicom.mitv.utilities.DateUtils;
@@ -69,7 +66,7 @@ public class TestCore
 	{
 		URLParameters urlParameters = new URLParameters();
 		
-		Map<String, String> headerParameters = new HashMap<String, String>();
+		HeaderParameters headerParameters = new HeaderParameters();
 		
 		HTTPCoreResponse httpCoreResponse = this.executeRequest(httpRequestType, url, urlParameters, headerParameters, bodyContentData);
 		
@@ -80,8 +77,9 @@ public class TestCore
 	protected HTTPCoreResponse executeRequestNoBody(
 			final HTTPRequestTypeEnum httpRequestType,
 			final String url,
-			final URLParameters urlParameters) {
-		Map<String, String> headerParameters = new HashMap<String, String>();
+			final URLParameters urlParameters) 
+	{
+		HeaderParameters headerParameters = new HeaderParameters();
 		
 		HTTPCoreResponse httpCoreResponse = this.executeRequest(httpRequestType, url, urlParameters, headerParameters, null);
 		
@@ -92,7 +90,7 @@ public class TestCore
 			final HTTPRequestTypeEnum httpRequestType,
 			final String url,
 			final URLParameters urlParameters,
-			final Map<String, String> headerParameters)
+			final HeaderParameters headerParameters)
 	{
 		HTTPCoreResponse httpCoreResponse = this.executeRequest(httpRequestType, url, urlParameters, headerParameters, null);
 		
@@ -105,7 +103,7 @@ public class TestCore
 			final HTTPRequestTypeEnum httpRequestType,
 			final String url,
 			final URLParameters urlParameters,
-			final Map<String, String> headerParameters,
+			final HeaderParameters headerParameters,
 			final String bodyContentData)
 	{
 		HTTPCore httpCore = HTTPCore.sharedInstance();
@@ -135,16 +133,16 @@ public class TestCore
 	
 	
 	
-	protected static Map<String, String> getHeaderParametersWithUserToken(String userToken)
+	protected static HeaderParameters getHeaderParametersWithUserToken(String userToken)
 	{
-		Map<String, String> headerParameters = new HashMap<String, String>(1);
+		HeaderParameters headerParameters = new HeaderParameters();
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append(Consts.USER_AUTHORIZATION_HEADER_VALUE_PREFIX);
 		sb.append(" ");
 		sb.append(userToken);
 		
-		headerParameters.put(Consts.USER_AUTHORIZATION_HEADER_KEY, sb.toString());
+		headerParameters.add(Consts.USER_AUTHORIZATION_HEADER_KEY, sb.toString());
 		
 		return headerParameters;
 	}

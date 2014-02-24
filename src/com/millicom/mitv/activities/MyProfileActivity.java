@@ -14,8 +14,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.millicom.mitv.ContentManager;
-import com.millicom.mitv.activities.authentication.MiTVLoginActivity;
+import com.millicom.mitv.activities.authentication.MiTVUserLoginActivity;
 import com.millicom.mitv.activities.authentication.SignInOrSignupWithFacebookActivity;
+import com.millicom.mitv.activities.base.BaseActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.interfaces.ActivityWithTabs;
@@ -273,7 +274,7 @@ public class MyProfileActivity
 		}
 
 		case R.id.myprofile_login_container: {
-			Intent intentLogin = new Intent(MyProfileActivity.this, MiTVLoginActivity.class);
+			Intent intentLogin = new Intent(MyProfileActivity.this, MiTVUserLoginActivity.class);
 			startActivity(intentLogin);
 
 			break;

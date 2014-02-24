@@ -77,7 +77,7 @@ public abstract class AsyncTaskWithUserToken<T>
 		}
 		
 		String headerValue = sb.toString();
-		headerParameters.put(Consts.USER_AUTHORIZATION_HEADER_KEY, headerValue);
+		headerParameters.add(Consts.USER_AUTHORIZATION_HEADER_KEY, headerValue);
 		
 		return super.doInBackground(params);
 	}

@@ -3,11 +3,9 @@ package com.millicom.mitv.asynctasks;
 
 
 
-import java.util.Collections;
-import java.util.Map;
-
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
+import com.millicom.mitv.http.HeaderParameters;
 import com.millicom.mitv.http.URLParameters;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
@@ -39,7 +37,7 @@ public abstract class AsyncTaskWithRelativeURL<T>
 			HTTPRequestTypeEnum httpRequestType,
 			String url) 
 	{
-		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, url, new URLParameters(), Collections.<String, String> emptyMap(), null);
+		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, url, new URLParameters(), new HeaderParameters(), null);
 	}
 	
 	
@@ -54,7 +52,7 @@ public abstract class AsyncTaskWithRelativeURL<T>
 			HTTPRequestTypeEnum httpRequestType,
 			String url) 
 	{
-		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, clazzSingle, manualDeserialization, httpRequestType, url, new URLParameters(), Collections.<String, String> emptyMap(), null);
+		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, clazzSingle, manualDeserialization, httpRequestType, url, new URLParameters(), new HeaderParameters(), null);
 	}
 
 	
@@ -69,7 +67,7 @@ public abstract class AsyncTaskWithRelativeURL<T>
 			HTTPRequestTypeEnum httpRequestType,
 			String url,
 			URLParameters urlParameters,
-			Map<String, String> headerParameters,
+			HeaderParameters headerParameters,
 			String bodyContentData)
 	{
 		super(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, clazzSingle, manualDeserialization, httpRequestType, true, url, urlParameters, headerParameters, bodyContentData);

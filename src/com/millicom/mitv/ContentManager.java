@@ -657,18 +657,24 @@ public class ContentManager
 		}
 	}
 
-	public void handleLoginResponse(ActivityCallbackListener activityCallBackListener, FetchRequestResultEnum result, Object content) {
-		if (result.wasSuccessful() && content != null) {
+	
+	public void handleLoginResponse(ActivityCallbackListener activityCallBackListener, FetchRequestResultEnum result, Object content)
+	{
+		if (result.wasSuccessful() && content != null) 
+		{
 			UserLoginData userData = (UserLoginData) content;
+			
 			storage.setUserData(userData);
 
 			fetchFromServiceTVDataOnUserStatusChange(activityCallBackListener);
-		} else {
-			//TODO handle this better?
-			activityCallBackListener.onResult(FetchRequestResultEnum.UNKNOWN_ERROR);
+		} 
+		else 
+		{
+			activityCallBackListener.onResult(result);
 		}
 	}
 
+	
 	public void handleLogoutResponse(ActivityCallbackListener activityCallBackListener) {
 		channelsChange = true;
 

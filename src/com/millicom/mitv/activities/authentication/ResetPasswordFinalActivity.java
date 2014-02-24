@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+import com.millicom.mitv.activities.base.BaseLoginActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.mitv.R;
@@ -17,7 +18,7 @@ import com.mitv.R;
 
 
 public class ResetPasswordFinalActivity 
-	extends SignInBaseActivity 
+	extends BaseLoginActivity 
 	implements OnClickListener
 {
 	@SuppressWarnings("unused")
@@ -119,7 +120,7 @@ public class ResetPasswordFinalActivity
 		{
 			case R.id.resetpassword_already_login_btn:
 			{
-				Intent intentSignIn = new Intent(ResetPasswordFinalActivity.this, MiTVLoginActivity.class);
+				Intent intentSignIn = new Intent(ResetPasswordFinalActivity.this, MiTVUserLoginActivity.class);
 				startActivity(intentSignIn);
 				break;
 			}

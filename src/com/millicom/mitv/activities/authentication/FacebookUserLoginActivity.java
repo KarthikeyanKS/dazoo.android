@@ -12,18 +12,19 @@ import android.widget.RelativeLayout;
 
 import com.millicom.mitv.activities.HomeActivity;
 import com.millicom.mitv.activities.MyChannelsActivity;
+import com.millicom.mitv.activities.base.BaseLoginActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.mitv.R;
 
 
 
-public class FacebookMiTVLoginActivity 
-	extends SignInBaseActivity 
+public class FacebookUserLoginActivity 
+	extends BaseLoginActivity 
 	implements OnClickListener 
 {
 	@SuppressWarnings("unused")
-	private static final String TAG = FacebookMiTVLoginActivity.class.getName();
+	private static final String TAG = FacebookUserLoginActivity.class.getName();
 
 	
 	private ActionBar mActionBar;
@@ -133,7 +134,7 @@ public class FacebookMiTVLoginActivity
 		{
 			case R.id.facebook_set_channels_container:
 			{
-				Intent intent = new Intent(FacebookMiTVLoginActivity.this, MyChannelsActivity.class);
+				Intent intent = new Intent(FacebookUserLoginActivity.this, MyChannelsActivity.class);
 				
 				startActivity(intent);
 				
@@ -143,7 +144,7 @@ public class FacebookMiTVLoginActivity
 			case R.id.facebook_skip_container:
 			{
 				// Go directly to Start page
-				Intent intentHome = new Intent(FacebookMiTVLoginActivity.this, HomeActivity.class);
+				Intent intentHome = new Intent(FacebookUserLoginActivity.this, HomeActivity.class);
 				
 				startActivity(intentHome);
 				

@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.http.HttpEntity;
@@ -74,7 +73,7 @@ public class HTTPCore
 			final HTTPRequestTypeEnum httpRequestType,
 			final String url,
 			final URLParameters urlParameters,
-			final Map<String, String> headerParameters,
+			final HeaderParameters headerParameters,
 			final String bodyContentData)
 	{
 		StringBuilder messageSB = new StringBuilder();
@@ -108,7 +107,7 @@ public class HTTPCore
 			final HTTPRequestTypeEnum httpRequestType,
 			final String url,
 			final URLParameters urlParameters,
-			final Map<String, String> headerParameters,
+			final HeaderParameters headerParameters,
 			final String acceptType,
 			final String contentType,
 			final String httpBodyData,
@@ -197,7 +196,7 @@ public class HTTPCore
 			final HTTPRequestTypeEnum httpRequestType,
 			final String serviceUrl,
 			final URLParameters urlParameters,
-			final Map<String, String> headerParameters,
+			final HeaderParameters headerParameters,
 			final String acceptType,
 			final String contentType,
 			final String httpBodyData)

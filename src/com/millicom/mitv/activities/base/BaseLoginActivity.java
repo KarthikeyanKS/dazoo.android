@@ -1,5 +1,5 @@
 
-package com.millicom.mitv.activities.authentication;
+package com.millicom.mitv.activities.base;
 
 
 
@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.millicom.mitv.activities.BaseActivity;
 import com.mitv.R;
 
 
@@ -15,12 +14,11 @@ import com.mitv.R;
 /*
  * This class hides the search icon for all sign up and sign in related activities
  * */
-public abstract class SignInBaseActivity 
+public abstract class BaseLoginActivity 
 	extends BaseActivity 
 {
 	@SuppressWarnings("unused")
-	private static final String TAG = SignInBaseActivity.class.getName();
-	
+	private static final String TAG = BaseLoginActivity.class.getName();
 	
 	
 	@Override
