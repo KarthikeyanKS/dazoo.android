@@ -53,7 +53,7 @@ public class HomeActivity
 		getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
 		/* Set the selected hour to the current hour */
-		int currentHour = DateUtils.getCurrentHour();
+		int currentHour = DateUtils.getCurrentHourOn24HourFormat();
 		ContentManager.sharedInstance().setSelectedHour(currentHour);
 
 		initViews();

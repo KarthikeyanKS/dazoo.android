@@ -83,16 +83,13 @@ public abstract class DateUtils
 	
 	
 	/**
-	 * Get the current hour as a string
+	 * Get the current hour as int
 	 * 
 	 * @param
-	 * @return current hour as string
+	 * @return current hour as int
 	 */
-	private static int getCurrentHour(Context context) {
+	private static int getCurrentHour(boolean showTimeOn24HourFormat) {
 		Calendar now = Calendar.getInstance();
-
-		boolean showTimeOn24HourFormat = showTimeOn24HourFormat(context);
-		
 		int currentHour = now.get(Calendar.HOUR);
 		if(showTimeOn24HourFormat) {
 			currentHour = now.get(Calendar.HOUR_OF_DAY);
@@ -100,12 +97,20 @@ public abstract class DateUtils
 		return currentHour;
 	}
 	
-	public static int getCurrentHour() {
+	private static int getCurrentHour(Context context) {
+		boolean showTimeOn24HourFormat = showTimeOn24HourFormat(context);
+		return getCurrentHour(showTimeOn24HourFormat);
+	}
+		
+	public static int getCurrentHourUseDevice24HourSettings() {
 		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
 		return getCurrentHour(context);
 	}
 	
-	
+	public static int getCurrentHourOn24HourFormat() {
+		return getCurrentHour(true);
+	}
+		
 	
 	/**
 	 * Computes the total difference in minutes between the second Calendar object and the first Calendar object.

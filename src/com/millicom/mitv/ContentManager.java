@@ -769,6 +769,10 @@ public class ContentManager
 		return tvDateSelectedIndex;
 	}
 	
+	public int getFromStorageFirstHourOfTVDay() {
+		int firstHourOfDay = storage.getFirstHourOfTVDay();
+		return firstHourOfDay;
+	}
 	
 	public boolean selectedTVDateIsToday() 
 	{
