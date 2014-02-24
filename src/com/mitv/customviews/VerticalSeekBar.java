@@ -17,7 +17,6 @@ import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.mitv.R;
-import com.mitv.manager.AppConfigurationManager;
 
 public class VerticalSeekBar extends SeekBar {
 
