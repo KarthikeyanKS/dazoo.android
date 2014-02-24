@@ -24,32 +24,51 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 public class ChannelPageListAdapter extends BaseAdapter {
 
-	private static final String		TAG				= "ChannelPageListAdapter";
+	private static final String TAG = ChannelPageListAdapter.class.getName();
 
-	private LayoutInflater			mLayoutInflater;
-	private Activity				mActivity;
-	private ArrayList<TVBroadcast>	mFollowingBroadcasts;
-
-	private int						mLastPosition	= -1;
+	private LayoutInflater			layoutInflater;
+	private Activity				activity;
+	private ArrayList<TVBroadcast>	currentAndUpcomingbroadcasts;
 	private ViewHolder				holder;
 
-	public ChannelPageListAdapter(Activity activity, ArrayList<TVBroadcast> followingBroadcasts) {
-		this.mFollowingBroadcasts = followingBroadcasts;
-		this.mActivity = activity;
+	private enum ChannelRowTypeEnum 
+	{
+		ON_AIR(0),
+		UP_COMING(1);
+		
+		private final int id;
+		ChannelRowTypeEnum(int id) {
+			this.id = id;
+		}
+		
+		public int getId() {
+			return id;
+		}
+	}
+	
+	public ChannelPageListAdapter(Activity activity, ArrayList<TVBroadcast> currentAndUpcomingbroadcasts) {
+		this.currentAndUpcomingbroadcasts = currentAndUpcomingbroadcasts;
+		this.activity = activity;
+
+		layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	@Override
 	public int getCount() {
-		if (mFollowingBroadcasts != null) {
-			return mFollowingBroadcasts.size();
-		} else return 0;
+		int count = 0;
+		if (currentAndUpcomingbroadcasts != null) {
+			count = currentAndUpcomingbroadcasts.size();
+		}
+		return count;
 	}
 
 	@Override
 	public TVBroadcast getItem(int position) {
-		if (mFollowingBroadcasts != null) {
-			return mFollowingBroadcasts.get(position);
-		} else return null;
+		TVBroadcast broadcast = null;
+		if (currentAndUpcomingbroadcasts != null) {
+			broadcast = currentAndUpcomingbroadcasts.get(position);
+		}
+		return broadcast;
 	}
 
 	@Override
@@ -58,7 +77,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 	}
 
 	public void notifyBroadcastEnded() {
-		mFollowingBroadcasts.remove(0);
+		currentAndUpcomingbroadcasts.remove(0);
 	}
 
 	@Override
@@ -70,25 +89,23 @@ public class ChannelPageListAdapter extends BaseAdapter {
 		ProgramTypeEnum programType = broadcast.getProgram().getProgramType();
 
 		if (rowView == null) {
-			mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			if (getItemViewType(position) == 0) {
-				rowView = mLayoutInflater.inflate(R.layout.row_channelpage_current_list_item, null);
+				rowView = layoutInflater.inflate(R.layout.row_channelpage_current_list_item, null);
 				ViewHolder viewHolder = new ViewHolder();
-				viewHolder.mTimeTv = (TextView) rowView.findViewById(R.id.channelpage_broadcast_details_time_tv);
-				viewHolder.mIconIv = (ImageView) rowView.findViewById(R.id.channelpage_broadcast_iv);
-				viewHolder.mTitleTv = (TextView) rowView.findViewById(R.id.channelpage_broadcast_details_title_tv);
-				viewHolder.mDescTv = (TextView) rowView.findViewById(R.id.channelpage_broadcast_details_text_tv);
+				viewHolder.startTime = (TextView) rowView.findViewById(R.id.channelpage_broadcast_details_time_tv);
+				viewHolder.logo = (ImageView) rowView.findViewById(R.id.channelpage_broadcast_iv);
+				viewHolder.title = (TextView) rowView.findViewById(R.id.channelpage_broadcast_details_title_tv);
+				viewHolder.description = (TextView) rowView.findViewById(R.id.channelpage_broadcast_details_text_tv);
 				// MC - The "extra" data fields for the current broadcast.
-				viewHolder.mTimeleftTv = (TextView) rowView.findViewById(R.id.channelpage_broadcast_timeleft);
-				viewHolder.mDurationPb = (ProgressBar) rowView.findViewById(R.id.channelpage_broadcast_details_progressbar);
-				viewHolder.mIconPb = (ProgressBar) rowView.findViewById(R.id.channelpage_broadcast_iv_progressbar);
+				viewHolder.timeLeft = (TextView) rowView.findViewById(R.id.channelpage_broadcast_timeleft);
+				viewHolder.durationProgressBar = (ProgressBar) rowView.findViewById(R.id.channelpage_broadcast_details_progressbar);
 				rowView.setTag(viewHolder);
 			} else {
-				rowView = mLayoutInflater.inflate(R.layout.row_channelpage_list_item, null);
+				rowView = layoutInflater.inflate(R.layout.row_channelpage_list_item, null);
 				ViewHolder viewHolder = new ViewHolder();
-				viewHolder.mTimeTv = (TextView) rowView.findViewById(R.id.channelpage_list_item_time_tv);
-				viewHolder.mTitleTv = (TextView) rowView.findViewById(R.id.channelpage_list_item_title_tv);
-				viewHolder.mDescTv = (TextView) rowView.findViewById(R.id.channelpage_list_item_description_tv);
+				viewHolder.startTime = (TextView) rowView.findViewById(R.id.channelpage_list_item_time_tv);
+				viewHolder.title = (TextView) rowView.findViewById(R.id.channelpage_list_item_title_tv);
+				viewHolder.description = (TextView) rowView.findViewById(R.id.channelpage_list_item_description_tv);
 				rowView.setTag(viewHolder);
 			}
 		}
@@ -98,101 +115,83 @@ public class ChannelPageListAdapter extends BaseAdapter {
 		if (broadcast != null) {
 			if (getItemViewType(position) == 0) {
 				// MC - Set the image for current broadcast.
-				ImageAware imageAware = new ImageViewAware(holder.mIconIv, false);
+				ImageAware imageAware = new ImageViewAware(holder.logo, false);
 				ImageLoader.getInstance().displayImage(broadcast.getProgram().getImages().getLandscape().getLarge(), imageAware);
 				
-				ProgressBarUtils.setupProgressBar(mActivity, broadcast, holder.mDurationPb, holder.mTimeleftTv);
+				ProgressBarUtils.setupProgressBar(activity, broadcast, holder.durationProgressBar, holder.timeLeft);
 			}
 
 			// MC - Set the begin time of the broadcast.
 
-			holder.mTimeTv.setText(broadcast.getBeginTimeHourAndMinuteAsString());
+			holder.startTime.setText(broadcast.getBeginTimeHourAndMinuteAsString());
 			String title = broadcast.getProgram().getTitle();
 			
 			if (programType != null) {
 				if (Consts.PROGRAM_TYPE_MOVIE.equals(programType)) {
-					holder.mTitleTv.setText(mActivity.getResources().getString(R.string.icon_movie) + " " + title);
-					holder.mDescTv.setText(broadcast.getProgram().getGenre() + " " + broadcast.getProgram().getYear());
+					holder.title.setText(activity.getResources().getString(R.string.icon_movie) + " " + title);
+					holder.description.setText(broadcast.getProgram().getGenre() + " " + broadcast.getProgram().getYear());
 				} else if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
 					int season = broadcast.getProgram().getSeason().getNumber();
 					int episode = broadcast.getProgram().getEpisodeNumber();
 					String seasonEpisode = "";
 					if (season > 0) {
-						seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + season + " ";
+						seasonEpisode += activity.getResources().getString(R.string.season) + " " + season + " ";
 					}
 					if (episode > 0) {
-						seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + episode;
+						seasonEpisode += activity.getResources().getString(R.string.episode) + " " + episode;
 					}
-					holder.mDescTv.setText(seasonEpisode);
-					holder.mTitleTv.setText(broadcast.getProgram().getSeries().getName());
+					holder.description.setText(seasonEpisode);
+					holder.title.setText(broadcast.getProgram().getSeries().getName());
 				} else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) {
 					if (Consts.BROADCAST_TYPE_LIVE.equals(broadcastType)) {
-						holder.mTitleTv.setText(mActivity.getResources().getString(R.string.icon_live) + " " + title);
-						holder.mDescTv.setText(broadcast.getProgram().getSportType().getName() + ": " + broadcast.getProgram().getTournament());
+						holder.title.setText(activity.getResources().getString(R.string.icon_live) + " " + title);
+						holder.description.setText(broadcast.getProgram().getSportType().getName() + ": " + broadcast.getProgram().getTournament());
 					} else {
-						holder.mDescTv.setText(broadcast.getProgram().getSportType().getName() + ": " + broadcast.getProgram().getTournament());
-						holder.mTitleTv.setText(title);
+						holder.description.setText(broadcast.getProgram().getSportType().getName() + ": " + broadcast.getProgram().getTournament());
+						holder.title.setText(title);
 					}
 				} else if (Consts.PROGRAM_TYPE_OTHER.equals(programType)) {
-					holder.mTitleTv.setText(title);
-					holder.mDescTv.setText(broadcast.getProgram().getCategory());
+					holder.title.setText(title);
+					holder.description.setText(broadcast.getProgram().getCategory());
 				}
 			} else {
-				holder.mTitleTv.setText("");
-				holder.mDescTv.setText("");
+				holder.title.setText("");
+				holder.description.setText("");
 			}
 		} else {
-			holder.mTimeTv.setText("");
-			holder.mTitleTv.setText("");
-			holder.mDescTv.setText("");
+			holder.startTime.setText("");
+			holder.title.setText("");
+			holder.description.setText("");
 		}
-		
-//		if (TextUtils.isEmpty(holder.mDescTv.getText().toString()) == false) {
-//			holder.mDescTv.setVisibility(View.VISIBLE);
-//		}
-//		else {
-//			holder.mDescTv.setVisibility(View.GONE);
-//		}
-
-		// animate the item - available for higher api levels only
-		// TranslateAnimation animation = null;
-		// if (position > mLastPosition) {
-		// animation = new TranslateAnimation(
-		// Animation.RELATIVE_TO_SELF,
-		// 0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
-		// Animation.RELATIVE_TO_SELF, 1.0f,
-		// Animation.RELATIVE_TO_SELF, 0.0f);
-		//
-		// animation.setDuration(1000);
-		// rowView.startAnimation(animation);
-		// mLastPosition = position;
-		// }
 
 		return rowView;
 	}
 
 	@Override
 	public int getViewTypeCount() {
-		return 2;
+		int viewTypeCount = ChannelRowTypeEnum.class.getEnumConstants().length;
+		return viewTypeCount;
 	}
 
 	@Override
 	public int getItemViewType(int position) {
+		ChannelRowTypeEnum rowType = ChannelRowTypeEnum.UP_COMING;
+		
 		TVBroadcast broadcast = getItem(position);
 		if (broadcast.isBroadcastCurrentlyAiring()) {
-			return 0;
+			rowType = ChannelRowTypeEnum.ON_AIR;
 		}
-		return 1;
+		return rowType.getId();
 	}
-
+	
 	static class ViewHolder {
-		TextView	mTimeTv;
-		ImageView	mIconIv;
-		TextView	mTitleTv;
-		TextView	mDescTv;
+		TextView	title;
+		TextView	description;
+		TextView	startTime;
+		TextView	timeLeft;
+		
+		ImageView	logo;
 
-		ProgressBar	mIconPb;
-		ProgressBar	mDurationPb;
-		TextView	mTimeleftTv;
+		ProgressBar	durationProgressBar;
 	}
 }
