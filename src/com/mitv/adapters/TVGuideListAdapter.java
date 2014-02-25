@@ -255,10 +255,10 @@ public class TVGuideListAdapter extends AdListAdapter<Guide> {
 	 */
 	public View createAddChannelsCell() {
 		View rowView = mLayoutInflater.inflate(R.layout.row_add_channel, null);
-		TextView addNewChannelsTextView = (TextView) rowView.findViewById(R.id.row_add_channel_text);
+		RelativeLayout relativeLayoutAddChannelsContainer = (RelativeLayout) rowView.findViewById(R.id.row_add_channel_container);
 		final String token = ((SecondScreenApplication) mActivity.getApplicationContext()).getAccessToken();
 		
-		addNewChannelsTextView.setOnClickListener(new TextView.OnClickListener() {
+		relativeLayoutAddChannelsContainer.setOnClickListener(new TextView.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
