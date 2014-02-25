@@ -30,7 +30,8 @@ public enum RequestIdentifierEnum {
 	INTERNAL_TRACKING(26),
 	USER_ACTIVITY_FEED_ITEM_MORE(27),
 	USER_ACTIVITY_FEED_LIKES(28),
-	INTERNET_CONNECTIVITY(29);
+	INTERNET_CONNECTIVITY(29),
+	USER_FACEBOOK(30);  /* This is used for facebook login with the facebook api */
 	
 	
 	

@@ -392,6 +392,7 @@ public class ContentManager
 			}
 			case USER_FB_TOKEN: 
 			{
+				handleUserTokenWithFacebookFBTokenResponse(activityCallBackListener, requestIdentifier, result, content);
 				break;
 			}
 			case USER_SET_CHANNELS: 
@@ -807,6 +808,24 @@ public class ContentManager
 	}
 
 	
+	public void handleUserTokenWithFacebookFBTokenResponse(ActivityCallbackListener activityCallBackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content)
+	{
+		if (result.wasSuccessful() && content != null) 
+		{
+			UserLoginData userData = (UserLoginData) content;
+			
+			storage.setUserData(userData);
+
+			fetchFromServiceTVDataOnUserStatusChange(activityCallBackListener);
+		} 
+		else 
+		{
+			activityCallBackListener.onResult(result, requestIdentifier);
+		}
+	}
+	
+	
+	
 	public void handleLoginResponse(ActivityCallbackListener activityCallBackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content)
 	{
 		if (result.wasSuccessful() && content != null) 
@@ -823,6 +842,7 @@ public class ContentManager
 		}
 	}
 
+	
 	
 	public void handleLogoutResponse(ActivityCallbackListener activityCallBackListener) {
 		channelsChange = true;
@@ -882,16 +902,24 @@ public class ContentManager
 	
 	/* USER METHODS REGARDING SIGNUP, LOGIN AND LOGOUT */
 	
-	public void performSignUp(ActivityCallbackListener activityCallBackListener, String email, String password, String firstname, String lastname) {
+	public void performSignUp(ActivityCallbackListener activityCallBackListener, String email, String password, String firstname, String lastname)
+	{
 		apiClient.performUserSignUp(activityCallBackListener, email, password, firstname, lastname);
 	}
 
-	public void performLogin(ActivityCallbackListener activityCallBackListener, String username, String password) {
+	public void performLogin(ActivityCallbackListener activityCallBackListener, String username, String password)
+	{
 		apiClient.performUserLogin(activityCallBackListener, username, password);
 	}
-
-	public void performLogout(ActivityCallbackListener activityCallBackListener) {
+	
+	public void performLogout(ActivityCallbackListener activityCallBackListener)
+	{
 		apiClient.performUserLogout(activityCallBackListener);
+	}
+	
+	public void getUserTokenWithFacebookFBToken(ActivityCallbackListener activityCallBackListener, String facebookToken) 
+	{
+		apiClient.getUserTokenUsingFBToken(activityCallBackListener, facebookToken);
 	}
 
 	public void performSetUserChannels(ActivityCallbackListener activityCallBackListener, List<TVChannelId> tvChannelIds) 
