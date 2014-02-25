@@ -91,29 +91,31 @@ public class FeedActivity
 	{
 		super.onResume();
 		
+		Intent intent = getIntent();
+		
+		boolean userHasJustLoggedIn;
+		
+		if (intent.hasExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN)) 
+		{
+			userHasJustLoggedIn = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, false);
+		}
+		else
+		{
+			userHasJustLoggedIn = false;
+		}
+		
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 		
-		if (isLoggedIn) 
+		if (isLoggedIn && userHasJustLoggedIn)
 		{
 			StringBuilder sb = new StringBuilder();
 			sb.append(ContentManager.sharedInstance().getFromStorageUserFirstname());
 			sb.append(getResources().getString(R.string.success_account_created_text));
-			
+
 			ToastHelper.createAndShowToast(this, sb.toString());
 		}
-		
-		// else if (mIsFromSignup)
-		// {
-		// String signupText = getResources().getString(R.string.success_account_created_text);
-		//
-		// Toast toast = Toast.makeText(this, signupTitle + "\n" + signupText, Toast.LENGTH_LONG);
-		//
-		// ((TextView) ((LinearLayout)toast.getView()).getChildAt(0)).setGravity(Gravity.CENTER_HORIZONTAL);
-		//
-		// toast.show();
-		// }
 	}	
-		
+	
 	
 	
 	private void initStandardViews() 
@@ -133,8 +135,6 @@ public class FeedActivity
 	{
 		listView = (ListView) findViewById(R.id.activity_listview);
 		
-		// mListFooter = (RelativeLayout) findViewById(R.id.activity_listview_footer);
-
 		LayoutInflater inflater = getLayoutInflater();
 		
 		listFooterView = (View) inflater.inflate(R.layout.row_loading_footerview, null);

@@ -18,6 +18,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.millicom.mitv.enums.FeedItemViewTypeEnum;
 import com.mitv.R;
 import com.mitv.adapters.TVGuideListAdapter.ViewHolder;
 import com.mitv.manager.AppConfigurationManager;
@@ -31,8 +32,9 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 
-public class AdListAdapter<T> extends BaseAdapter {
-
+public class AdListAdapter<T> 
+	extends BaseAdapter 
+{
 	private String fragmentName;
 	private Activity activity;
 	private List<T> items;
@@ -40,19 +42,24 @@ public class AdListAdapter<T> extends BaseAdapter {
 	private List<Integer> adFormats;
 	private int cellCountBetweenAdCells;
 	private boolean isAdsEnabled;
+
 	
-	public AdListAdapter(String fragmentName, Activity activity, List<T> items) {
+	
+	public AdListAdapter(String fragmentName, Activity activity, List<T> items) 
+	{
 		super();
+		
 		this.fragmentName = fragmentName;
+		
 		this.activity = activity;
 
 		this.adFormats = AppConfigurationManager.getInstance().getAdFormatsForFragment(fragmentName);
 		this.cellCountBetweenAdCells = AppConfigurationManager.getInstance().getCellsBetweenAdCellsCountForFragment(fragmentName);
 		
 		this.items = items;
-
 		
 		boolean globalAdsEnabled = AppConfigurationManager.getInstance().isAdsEnabled();
+		
 		boolean localAdsEnabled = (cellCountBetweenAdCells > 0);
 		
 		this.isAdsEnabled = globalAdsEnabled && localAdsEnabled;
@@ -68,6 +75,8 @@ public class AdListAdapter<T> extends BaseAdapter {
 			}
 		}
 	}
+	
+	
 	
 	private void downloadAds() 
 	{
@@ -103,31 +112,50 @@ public class AdListAdapter<T> extends BaseAdapter {
 	}
 
 	@Override
-	public int getCount() {
+	public int getCount() 
+	{
 		int finalCount = 0;
-		if (items != null) {
+		
+		if (items != null) 
+		{
 			finalCount = items.size();
-			if (isAdsEnabled) {
+			
+			if (isAdsEnabled) 
+			{
 				finalCount += getAdCount();
 			}
 		}
+		
 		return finalCount;
 	}
 	
-	public int getAdCount() {
+	
+	
+	public int getAdCount() 
+	{
 		int adCount = 0;
-		if(isAdsEnabled) {
+		
+		if(isAdsEnabled) 
+		{
 			adCount = (int) Math.floor(items.size()/cellCountBetweenAdCells);
 		}
+		
 		return adCount;
 	}
 
+	
+	
 	@Override
-	public T getItem(int position) {
+	public T getItem(int position) 
+	{
 		T item = null;
-		if (items != null) {
-			if(!isAdPosition(position)) {
+		
+		if (items != null) 
+		{
+			if(!isAdPosition(position))
+			{
 				int positionExcludingAds = positionExcludingAds(position);
+				
 				item = items.get(positionExcludingAds);
 			}
 		}
@@ -135,25 +163,37 @@ public class AdListAdapter<T> extends BaseAdapter {
 		return item;
 	}
 	
+	
+	
 	@Override
-	public int getViewTypeCount() {
+	public int getViewTypeCount() 
+	{
 		return 1;
 	}
 
+	
+	
 	@Override
-	public long getItemId(int position) {
+	public long getItemId(int position)
+	{
 		return -1;
 	}
 
+	
+	
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(int position, View convertView, ViewGroup parent) 
+	{
 		View rowView = null;
 		
-		if(isAdPosition(position)) {
+		if(isAdPosition(position))
+		{	
 			rowView = convertView;
+			
 			LayoutInflater mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			
-			if (rowView == null) {
+			if (rowView == null)
+			{
 				rowView = mLayoutInflater.inflate(R.layout.ad_space, null);
 				ViewHolder viewHolder = new ViewHolder();
 				viewHolder.container = (RelativeLayout) rowView.findViewById(R.id.ad_space_container);
@@ -161,35 +201,45 @@ public class AdListAdapter<T> extends BaseAdapter {
 
 				rowView.setTag(viewHolder);
 			}
+			
 			final ViewHolder holder = (ViewHolder) rowView.getTag();
 			
-			if (holder.channelLogo != null) {
+			if (holder.channelLogo != null) 
+			{
 				final OldAdzerkAd ad = getAdAtGlobalIndex(position);
-				if (ad != null) {
+				
+				if (ad != null) 
+				{
 					final String imageUrl = ad.getImageUrl();
+					
 					final String impressionUrl = ad.getImpressionUrl();
+					
 					final View separator = holder.container.findViewById(R.id.ad_space_separator);
-					if (imageUrl != null) {
+					
+					if (imageUrl != null) 
+					{
 						/* displayImage in UIL must run on main thread! */
-						activity.runOnUiThread(new Runnable() {
+						activity.runOnUiThread(new Runnable() 
+						{
 							@Override
-							public void run() {
+							public void run() 
+							{
 								ImageAware imageAware = new ImageViewAware(holder.channelLogo, false);
-								ImageLoader.getInstance().displayImage(imageUrl, imageAware, new ImageLoadingListener() {
+								
+								ImageLoader.getInstance().displayImage(imageUrl, imageAware, new ImageLoadingListener() 
+								{
 									@Override
-									public void onLoadingStarted(String imageUri, View view) {
-									}
+									public void onLoadingStarted(String imageUri, View view) {}
 
 									@Override
-									public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-									}
+									public void onLoadingFailed(String imageUri, View view, FailReason failReason) {}
 
 									@Override
-									public void onLoadingCancelled(String imageUri, View view) {
-									}
+									public void onLoadingCancelled(String imageUri, View view) {}
 
 									@Override
-									public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+									public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) 
+									{
 										/*
 										 * Register Ad as shown when image has loaded completely
 										 */
@@ -201,17 +251,25 @@ public class AdListAdapter<T> extends BaseAdapter {
 								});
 							}
 						});
-					} else {
+					} 
+					else 
+					{
 						holder.channelLogo.setVisibility(View.GONE);
+						
 						separator.setVisibility(View.GONE);
 					}
 
 					final String clickUrl = ad.getClickUrl();
-					if (clickUrl != null) {
-						holder.container.setOnClickListener(new View.OnClickListener() {
+					
+					if (clickUrl != null) 
+					{
+						holder.container.setOnClickListener(new View.OnClickListener() 
+						{
 							@Override
-							public void onClick(View v) {
+							public void onClick(View v) 
+							{
 								final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(clickUrl));
+								
 								activity.startActivity(intent);
 							}
 						});
@@ -223,42 +281,67 @@ public class AdListAdapter<T> extends BaseAdapter {
 		return rowView;
 	}
 	
-	private int globalIndexToAdIndex(int globalIndex) {
+	
+	
+	private int globalIndexToAdIndex(int globalIndex) 
+	{
 		int cellsPerAd = cellCountBetweenAdCells + 1;
+		
 		int adIndex = (globalIndex/cellsPerAd); //Zero indexedbc
+		
 		return adIndex;
 	}
 	
-	private OldAdzerkAd getAdAtGlobalIndex(int globalIndex) {
+	
+	
+	private OldAdzerkAd getAdAtGlobalIndex(int globalIndex) 
+	{
 		int adIndex = globalIndexToAdIndex(globalIndex);
+		
 		OldAdzerkAd ad = adItems.get(adIndex);
 		
 		return ad;
 	}
 		
+	
+	
 	@Override
-	public int getItemViewType(int position) {
-		if(isAdPosition(position)) {
-			return 0;
-		} else {
+	public int getItemViewType(int position) 
+	{
+		if(isAdPosition(position)) 
+		{
+			return FeedItemViewTypeEnum.ADS.getId();
+		} 
+		else 
+		{
 			return 1;
 		}
 	}
 	
-	public boolean isAdPosition(int position) {
+	
+	
+	public boolean isAdPosition(int position)
+	{
 		boolean isAdPosition = false;
 		
-		if(isAdsEnabled && position % (1 + cellCountBetweenAdCells) == cellCountBetweenAdCells) {
+		if(isAdsEnabled && position % (1 + cellCountBetweenAdCells) == cellCountBetweenAdCells)
+		{
 			isAdPosition = true;
 		}
 		
 		return isAdPosition;
 	}
 	
-	public int positionExcludingAds(int position) {
+	
+	
+	public int positionExcludingAds(int position)
+	{
 		int positionExcludingAds = position;
-		if(isAdsEnabled) {
+		
+		if(isAdsEnabled) 
+		{
 			int adsUntilThisPosition = (int) Math.floor((double)position / (double)(cellCountBetweenAdCells + 1));
+			
 			positionExcludingAds = position - adsUntilThisPosition;
 		}
 		return positionExcludingAds;

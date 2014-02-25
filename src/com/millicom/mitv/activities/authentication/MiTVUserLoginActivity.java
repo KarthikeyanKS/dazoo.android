@@ -186,7 +186,7 @@ public class MiTVUserLoginActivity
 				
 				Intent intent = new Intent(MiTVUserLoginActivity.this, returnActivity);
 
-				intent.putExtra(Consts.INTENT_EXTRA_LOG_IN_ACTION, true);
+				intent.putExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
 
 				startActivity(intent);
 				

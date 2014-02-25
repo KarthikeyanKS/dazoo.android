@@ -538,6 +538,11 @@ public abstract class BaseActivity
 		{
 			requestBadLayout.setVisibility(View.GONE);
 		}
+		
+		if(requestEmptyLayout != null)
+		{
+			requestEmptyLayout.setVisibility(View.GONE);
+		}
 	}
 
 	

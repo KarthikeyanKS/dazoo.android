@@ -1,5 +1,5 @@
 
-package com.mitv.test.failing;
+package com.mitv.test.standalone;
 
 
 

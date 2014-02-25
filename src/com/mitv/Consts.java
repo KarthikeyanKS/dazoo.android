@@ -197,11 +197,14 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_FROM_ACTIVITY							= "com.mitv.intent.extra.from.activity";
 	public static final String	INTENT_EXTRA_ACTIVITY_CARD_NUMBER					= "com.mitv.intent.extra.activity.card.number";
 
+	
+	public static final String	INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN			= "com.mitv.intent.extra.activity.user.just.logged.in";
+	
 	/* Profile extras */
 	public static final String	INTENT_EXTRA_FROM_PROFILE							= "com.mitv.intent.extra.from.profile";
 
 	/* Fragments extra arguments */
-	public static final String	FRAGMENT_EXTRA_TAG_DISPLAY_NAME									= "com.mitv.fragment.extra.tag.displayname";
+	public static final String	FRAGMENT_EXTRA_TAG_DISPLAY_NAME						= "com.mitv.fragment.extra.tag.displayname";
 	public static final String	FRAGMENT_EXTRA_TAG_ID								= "com.mitv.fragment.extra.tag.id";
 	public static final String	FRAGMENT_EXTRA_TVDATE								= "com.mitv.fragment.extra.tvdate";
 	public static final String	FRAGMENT_EXTRA_TVDATE_POSITION						= "com.mitv.fragment.extra.tvdate.position";
