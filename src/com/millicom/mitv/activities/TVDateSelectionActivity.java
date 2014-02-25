@@ -33,15 +33,20 @@ public abstract class TVDateSelectionActivity
 
 		ArrayList<TVDate> tvDates = ContentManager.sharedInstance().getFromStorageTVDates();
 		dayAdapter = new ActionBarDropDownDateListAdapter(tvDates);
-		int selectedDayIndex = ContentManager.sharedInstance().getFromStorageTVDateSelectedIndex();
-		dayAdapter.setSelectedIndex(selectedDayIndex);
-
+	
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		actionBar.setListNavigationCallbacks(dayAdapter, this);
 		
 		setActivityCallbackListener();
 	}
 	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		int selectedDayIndex = ContentManager.sharedInstance().getFromStorageTVDateSelectedIndex();
+		dayAdapter.setSelectedIndex(selectedDayIndex);
+		actionBar.setSelectedNavigationItem(selectedDayIndex);
+	}
 	
 	
 	@Override
@@ -49,27 +54,25 @@ public abstract class TVDateSelectionActivity
 	{
 		if (!onNavigationItemSelectedHasBeenCalledByOSYet) 
 		{
-			int selectedTvDateIndex = ContentManager.sharedInstance().getFromStorageTVDateSelectedIndex();
-			dayAdapter.setSelectedIndex(selectedTvDateIndex);
-			actionBar.setSelectedNavigationItem(selectedTvDateIndex);
 			onNavigationItemSelectedHasBeenCalledByOSYet = true;
-			return true;
 		} else {
 			dayAdapter.setSelectedIndex(position);
+			actionBar.setSelectedNavigationItem(position);
 			fetchGuideForSelectedDay(position);
-			return true;
 		}
+
+		return true;
 	}
 	
 	
 	private void fetchGuideForSelectedDay(int selectedDayIndex) 
 	{
 		//TODO NewArc this was Added by Cyon to enable loading indicator when choosing another day in homeactivity, is there a smarter way to do it?
-		
 		removeActiveFragment();
 		
 		updateUI(UIStatusEnum.LOADING);
 		
+		/* Sets the selected TV Date and fetches the guide */
 		ContentManager.sharedInstance().setTVDateSelectedUsingIndexAndFetchGuideForDay(activityCallbackListener, selectedDayIndex);
 	}
 }

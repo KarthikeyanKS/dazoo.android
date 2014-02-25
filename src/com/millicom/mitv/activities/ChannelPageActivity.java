@@ -60,6 +60,11 @@ public class ChannelPageActivity
 		
 		setContentView(R.layout.layout_channelpage_activity);
 
+		channelId = ContentManager.sharedInstance().getFromStorageSelectedTVChannelId();
+		channel = ContentManager.sharedInstance().getFromStorageTVChannelById(channelId);
+
+		tvDates = ContentManager.sharedInstance().getFromStorageTVDates();
+		
 		initViews();
 	}
 	
@@ -132,10 +137,6 @@ public class ChannelPageActivity
 	@Override
 	protected void loadData() 
 	{		
-		channelId = ContentManager.sharedInstance().getFromStorageSelectedTVChannelId();
-		channel = ContentManager.sharedInstance().getFromStorageTVChannelById(channelId);
-
-		tvDates = ContentManager.sharedInstance().getFromStorageTVDates();
 		channelGuide = ContentManager.sharedInstance().getFromStorageTVChannelGuideUsingTVChannelIdForSelectedDay(channelId);
 		
 		ImageAware imageAware = new ImageViewAware(channelIconIv, false);
@@ -159,7 +160,7 @@ public class ChannelPageActivity
 	{
 		if (fetchRequestResult.wasSuccessful()) 
 		{
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+			loadData();
 		} 
 		else 
 		{
@@ -193,5 +194,5 @@ public class ChannelPageActivity
 	@Override
 	protected void attachFragment(){/*Do nothing*/}
 	@Override
-	protected void removeActiveFragment(){/*Do nothing*/}
+	protected void removeActiveFragment(){}
 }
