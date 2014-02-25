@@ -219,11 +219,9 @@ public class RemindersListAdapter
 				@Override
 				public void onClick(View v) 
 				{
-					String broadcastUrl = Consts.URL_NOTIFY_BROADCAST_PREFIX + channel.getChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillis();
+					//TODO NewArc dont we have TVBroadcastWithChannelInfo here?
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_URL, broadcastUrl);
-					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_LOGO_URL, channel.getImageUrl());
-					intent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
+					intent.putExtra(Consts.INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO, true);
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_PROFILE, true);
 					mActivity.startActivity(intent);
 				}

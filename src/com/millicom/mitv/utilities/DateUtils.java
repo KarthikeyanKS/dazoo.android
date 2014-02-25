@@ -34,7 +34,7 @@ public abstract class DateUtils
 	 * The input string format should be in the format: "yyyy-MM-dd"
 	 * 
 	 */
-	public static Calendar convertFromYearMonthDayStringToCalendar(
+	public static Calendar convertFromYearAndDateStringToCalendar(
 			final String inputString)
 	{
 		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();

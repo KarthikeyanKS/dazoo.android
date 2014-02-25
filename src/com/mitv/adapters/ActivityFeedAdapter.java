@@ -274,7 +274,7 @@ public class ActivityFeedAdapter
 		ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 
 		intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
-		intent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, false);
+		intent.putExtra(Consts.INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO, false);
 
 		mActivity.startActivity(intent);
 	}

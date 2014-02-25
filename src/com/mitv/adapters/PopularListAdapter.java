@@ -231,7 +231,7 @@ public class PopularListAdapter extends BaseAdapter {
 					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId().getChannelId());
 					//TODO TMP DATA intercommunication
 //					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
-					intent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
+					intent.putExtra(Consts.INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO, true);
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
 
 					mActivity.startActivity(intent);

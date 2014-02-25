@@ -37,7 +37,7 @@ public class TVDate
 	{
 		if(dateCalendar == null) 
 		{	
-			dateCalendar = DateUtils.convertFromYearMonthDayStringToCalendar(date);
+			dateCalendar = DateUtils.convertFromYearAndDateStringToCalendar(date);
 		}
 		
 		return dateCalendar;

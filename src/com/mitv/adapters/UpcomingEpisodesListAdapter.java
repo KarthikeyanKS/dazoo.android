@@ -166,7 +166,7 @@ public class UpcomingEpisodesListAdapter extends BaseAdapter {
 					//TODO TMP DATA intercommunication
 //					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
-					intent.putExtra(Consts.INTENT_EXTRA_FROM_NOTIFICATION, true);
+					intent.putExtra(Consts.INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO, true);
 
 					mActivity.startActivity(intent);
 

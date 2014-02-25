@@ -209,6 +209,9 @@ public class ContentManager
 		apiClient.getUserTVFeedItemsWithOffsetAndLimit(activityCallbackListener, offset, ACTIVITY_FEED_ITEMS_BATCH_FETCH_COUNT);
 	}
 	
+	public void fetchFromServiceIndividualBroadcast(ActivityCallbackListener activityCallbackListener, TVChannelId channelId, long beginTimeInMillis) {
+		apiClient.getTVBroadcastDetails(activityCallbackListener, channelId, beginTimeInMillis);
+	}
 	
 	
 	/*
@@ -395,7 +398,7 @@ public class ContentManager
 			
 			case BROADCAST_DETAILS :
 			{
-				// TODO
+				handleBroadcastDetailsResponse(activityCallBackListener, result, content);
 				break;
 			}
 			case BROADCASTS_FROM_PROGRAMS :
@@ -636,6 +639,20 @@ public class ContentManager
 		if (result.wasSuccessful() && content != null) {
 			ArrayList<TVBroadcastWithChannelInfo> broadcastsPopular = (ArrayList<TVBroadcastWithChannelInfo>) content;
 			storage.setPopularBroadcasts(broadcastsPopular);
+			
+			activityCallBackListener.onResult(FetchRequestResultEnum.SUCCESS);
+		} else {
+			//TODO handle this better?
+			activityCallBackListener.onResult(FetchRequestResultEnum.UNKNOWN_ERROR);
+		}
+	}
+	
+	public void handleBroadcastDetailsResponse(ActivityCallbackListener activityCallBackListener, FetchRequestResultEnum result, Object content) {
+		if (result.wasSuccessful() && content != null) {
+			TVBroadcastWithChannelInfo broadcastWithChannelInfo = (TVBroadcastWithChannelInfo) content;
+			
+			//TODO NewArc, the "NonPersistentSelectedBroadcastWithChannelInfo" is used when clicking around in the app, should we use another one? Probably not! It is not needed Cyon thinks. This suits us just fine
+			storage.setNonPersistentSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 			
 			activityCallBackListener.onResult(FetchRequestResultEnum.SUCCESS);
 		} else {
