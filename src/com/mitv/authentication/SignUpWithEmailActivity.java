@@ -147,7 +147,7 @@ public class SignUpWithEmailActivity extends SSSignInSignupBaseActivity implemen
 		
 		mTermsWebLink = (FontTextView) findViewById(R.id.signup_terms_link);
 
-		String linkText = getString(R.string.terms_link);
+		String linkText = getString(R.string.sign_up_terms_link);
 		mTermsWebLink.setText(Html.fromHtml(linkText));
 		mTermsWebLink.setMovementMethod(LinkMovementMethod.getInstance());
 		stripUnderlines(mTermsWebLink);
