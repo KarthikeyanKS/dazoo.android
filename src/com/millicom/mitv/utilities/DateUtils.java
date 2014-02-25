@@ -28,20 +28,7 @@ public abstract class DateUtils
 	public static final long TOTAL_MILISECOUNDS_IN_ONE_MINUTE = 60000;
 	public static final long TOTAL_MILISECOUNDS_IN_ONE_HOUR = TOTAL_MILISECOUNDS_IN_ONE_MINUTE*60;
 	public static final long TOTAL_MILISECOUNDS_IN_ONE_DAY = TOTAL_MILISECOUNDS_IN_ONE_HOUR*24;
-	
-	/**
-	 * Converts timestamp on GMT format to Local
-	 * @param timestamp
-	 * @return
-	 */
-	public static final long convertTimeStampToLocalTime(long timestamp) {
-		Date gmtTime = new Date(timestamp);
-		Date localTime = new Date(gmtTime.getTime() + TimeZone.getDefault().getOffset(gmtTime.getTime()));
-		long localTimeLong = localTime.getTime();
-
-		return localTimeLong;
-	}
-	
+		
 	/**
 	 * Converts a string input to a Calendar object
 	 * The input string format should be in the format: "yyyy-MM-dd'T'HH:mm:ss'Z'"

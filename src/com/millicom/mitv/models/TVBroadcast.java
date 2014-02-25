@@ -85,9 +85,8 @@ public class TVBroadcast extends BroadcastJSON {
 	{
 		if(beginTimeCalendarLocal == null) 
 		{	
-			long beginTimeMillisLocal = DateUtils.convertTimeStampToLocalTime(beginTimeMillis);
 			Calendar beginTimeCalendarLocal = Calendar.getInstance();
-			beginTimeCalendarLocal.setTimeInMillis(beginTimeMillisLocal);
+			beginTimeCalendarLocal.setTimeInMillis(beginTimeMillis);
 			this.beginTimeCalendarLocal = beginTimeCalendarLocal;
 		}
 		
@@ -103,9 +102,8 @@ public class TVBroadcast extends BroadcastJSON {
 		if(endTimeCalendarLocal == null)
 		{	
 			long endTimeMillisGMT = getEndTimeCalendarGMT().getTimeInMillis();
-			long endTimeMillisLocal = DateUtils.convertTimeStampToLocalTime(endTimeMillisGMT);
 			Calendar endTimeCalendarLocal = Calendar.getInstance();
-			endTimeCalendarLocal.setTimeInMillis(endTimeMillisLocal);
+			endTimeCalendarLocal.setTimeInMillis(endTimeMillisGMT);
 			this.endTimeCalendarLocal = endTimeCalendarLocal;
 		}
 		
