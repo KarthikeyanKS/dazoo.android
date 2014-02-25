@@ -217,7 +217,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 			// if (MyChannelsService.updateMyChannelsList(userToken, JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.CHANNEL_CHANNEL_ID, newIdsList))) {
 
 			// do not allow dublications in the list of channels
-			HashSet myCheckedChannelsSet = new HashSet();
+			HashSet<String> myCheckedChannelsSet = new HashSet<String>();
 			myCheckedChannelsSet.addAll(mCheckedChannelsIds);
 			mCheckedChannelsIds.clear();
 			mCheckedChannelsIds.addAll(myCheckedChannelsSet);
