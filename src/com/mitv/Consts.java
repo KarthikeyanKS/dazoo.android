@@ -546,7 +546,7 @@ public abstract class Consts {
     public static final String USER_AUTHORIZATION_HEADER_VALUE_PREFIX = "Bearer";
     
     /* LOCALE TOKENS FOR HTTP REQUESTS */
-	public static final String HTTP_REQUEST_DATA_LOCALE = "lang";
+	public static final String HTTP_REQUEST_DATA_LOCALE = "Dazoo-Locale";
 	public static final String HTTP_REQUEST_DATA_TIME_ZONE_OFFSET = "timeZoneOffset";
     
     public static final int MAXIMUM_REMINDER_TIME_FOR_SHOW = 15;

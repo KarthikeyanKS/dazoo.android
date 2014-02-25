@@ -40,6 +40,7 @@ import android.widget.TextView;
 
 import com.millicom.mitv.activities.base.BaseLoginActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
+import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.utilities.RegularExpressionUtils;
 import com.mitv.Consts;
@@ -92,7 +93,7 @@ public class ResetPasswordActivity
 	
 	
 	@Override
-	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult) 
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
 		if (fetchRequestResult.wasSuccessful()) 
 		{

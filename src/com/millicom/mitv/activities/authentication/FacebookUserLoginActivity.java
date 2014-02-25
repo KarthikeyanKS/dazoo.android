@@ -14,6 +14,7 @@ import com.millicom.mitv.activities.HomeActivity;
 import com.millicom.mitv.activities.MyChannelsActivity;
 import com.millicom.mitv.activities.base.BaseLoginActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
+import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.mitv.R;
 
@@ -64,7 +65,7 @@ public class FacebookUserLoginActivity
 	
 	
 	@Override
-	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult) 
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
 		if (fetchRequestResult.wasSuccessful()) 
 		{

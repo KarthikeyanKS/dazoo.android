@@ -18,7 +18,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.millicom.mitv.enums.FeedItemViewTypeEnum;
 import com.mitv.R;
 import com.mitv.adapters.TVGuideListAdapter.ViewHolder;
 import com.mitv.manager.AppConfigurationManager;
@@ -310,7 +309,7 @@ public class AdListAdapter<T>
 	{
 		if(isAdPosition(position)) 
 		{
-			return FeedItemViewTypeEnum.ADS.getId();
+			return 0;
 		} 
 		else 
 		{

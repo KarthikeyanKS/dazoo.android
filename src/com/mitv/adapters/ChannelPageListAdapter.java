@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.millicom.mitv.enums.BroadcastTypeEnum;
+import com.millicom.mitv.enums.ChannelRowTypeEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.models.TVBroadcast;
 import com.mitv.Consts;
@@ -24,6 +25,7 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 public class ChannelPageListAdapter extends BaseAdapter {
 
+	@SuppressWarnings("unused")
 	private static final String TAG = ChannelPageListAdapter.class.getName();
 
 	private LayoutInflater			layoutInflater;
@@ -31,20 +33,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 	private ArrayList<TVBroadcast>	currentAndUpcomingbroadcasts;
 	private ViewHolder				holder;
 
-	private enum ChannelRowTypeEnum 
-	{
-		ON_AIR(0),
-		UP_COMING(1);
-		
-		private final int id;
-		ChannelRowTypeEnum(int id) {
-			this.id = id;
-		}
-		
-		public int getId() {
-			return id;
-		}
-	}
+	
 	
 	public ChannelPageListAdapter(Activity activity, ArrayList<TVBroadcast> currentAndUpcomingbroadcasts) {
 		this.currentAndUpcomingbroadcasts = currentAndUpcomingbroadcasts;

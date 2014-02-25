@@ -15,6 +15,7 @@ import android.widget.ListView;
 
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
+import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
@@ -155,7 +156,7 @@ public class ChannelPageActivity
 
 	
 	@Override
-	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult)
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier)
 	{
 		if (fetchRequestResult.wasSuccessful()) 
 		{

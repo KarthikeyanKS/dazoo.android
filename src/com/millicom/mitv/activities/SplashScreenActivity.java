@@ -16,6 +16,7 @@ import android.widget.Button;
 
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
+import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.Consts;
@@ -136,7 +137,7 @@ public class SplashScreenActivity
 
 	
 	@Override
-	public void onResult(final FetchRequestResultEnum fetchRequestResult) 
+	public void onResult(final FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
 		switch (fetchRequestResult) 
 		{

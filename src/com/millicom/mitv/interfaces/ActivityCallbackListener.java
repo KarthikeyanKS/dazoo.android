@@ -4,6 +4,7 @@ package com.millicom.mitv.interfaces;
 
 
 import com.millicom.mitv.enums.FetchRequestResultEnum;
+import com.millicom.mitv.enums.RequestIdentifierEnum;
 
 
 
@@ -20,8 +21,10 @@ public interface ActivityCallbackListener
 	 * Use this method to achieve navigation in the app, based on the result. 
 	 * Such as start another activity when data is downloaded or similar.
 	 * 
-	 * @param fetchRequestResult - this variable holds detailed information reguarding the result of the request. 
+	 * @param fetchRequestResult - This variable holds detailed information reguarding the result of the request. 
 	 * Either the request was sucessful, or not, then the reason is specified.
+	 * 
+	 * @param requestIdentifier - Thi variable holds the original request identifier for the request that was performed.
 	 */
-	public void onResult(final FetchRequestResultEnum fetchRequestResult);
+	public void onResult(final FetchRequestResultEnum fetchRequestResult, final RequestIdentifierEnum requestIdentifier);
 }

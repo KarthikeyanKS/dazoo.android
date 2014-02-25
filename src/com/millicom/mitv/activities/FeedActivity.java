@@ -27,11 +27,12 @@ import com.millicom.mitv.activities.authentication.SignUpWithEmailActivity;
 import com.millicom.mitv.activities.base.BaseContentActivity;
 import com.millicom.mitv.enums.FeedItemTypeEnum;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
+import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.models.TVFeedItem;
 import com.mitv.Consts;
 import com.mitv.R;
-import com.mitv.adapters.ActivityFeedAdapter;
+import com.mitv.adapters.FeedListAdapter;
 import com.mitv.customviews.ToastHelper;
 
 
@@ -52,7 +53,7 @@ public class FeedActivity
 	private Boolean noMoreItems = false;
 	private Boolean noTask = true;
 	private ListView listView;
-	private ActivityFeedAdapter adapter;
+	private FeedListAdapter adapter;
 	private View listFooterView;
 
 	public static Toast toast;
@@ -204,7 +205,7 @@ public class FeedActivity
 
 		listView.setOnScrollListener(this);
 		
-		adapter = new ActivityFeedAdapter(this, activityFeed);
+		adapter = new FeedListAdapter(this, activityFeed);
 		
 		listView.setAdapter(adapter);
 		
@@ -233,15 +234,63 @@ public class FeedActivity
 	
 	
 	@Override
-	protected void onDataAvailable(FetchRequestResultEnum fetchRequestResult) 
+	protected void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
-		if (fetchRequestResult.wasSuccessful()) 
+		switch (requestIdentifier) 
 		{
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
-		} 
-		else
-		{
-			updateUI(UIStatusEnum.FAILED);
+			case USER_ADD_LIKE:
+			{
+				if(fetchRequestResult.wasSuccessful())
+				{
+					// TODO NewArc - Complete likes
+//					StringBuilder sb = new StringBuilder();
+//					sb.append("");
+//					sb.append(getResources().getString(R.string.like_set_text));
+//					
+//					ToastHelper.createAndShowLikeToast(this, sb.toString());
+					
+//					holderBC.likeLikeIv.setImageDrawable(getResources().getDrawable(R.drawable.ic_like_selected));
+//				
+//					AnimationUtilities.animationSet(holderBC.likeLikeIv);
+				}
+				else
+				{
+					// Ignore for now
+				}
+				break;
+			}
+			
+			case USER_REMOVE_LIKE:
+			{
+				if(fetchRequestResult.wasSuccessful())
+				{
+					// TODO NewArc - Complete unlikes
+//					holderBC.likeLikeIv.setImageDrawable(getResources().getDrawable(R.drawable.ic_like_default));
+				}
+				else
+				{
+					// Ignore for now
+				}
+				break;
+			}
+			
+			case USER_ACTIVITY_FEED_ITEM:
+			{
+				if(fetchRequestResult.wasSuccessful())
+				{
+					updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+				}
+				else
+				{
+					updateUI(UIStatusEnum.FAILED);
+				}
+				break;
+			}
+						
+			default:
+			{
+				Log.w(TAG, "Unknown request identifier");
+			}
 		}
 	}
 	

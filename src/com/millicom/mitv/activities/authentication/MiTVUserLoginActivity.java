@@ -18,6 +18,7 @@ import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.HomeActivity;
 import com.millicom.mitv.activities.base.BaseLoginActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
+import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.utilities.RegularExpressionUtils;
 import com.mitv.Consts;
@@ -81,7 +82,7 @@ public class MiTVUserLoginActivity
 
 		initViews();
 		
-		// TODO - Remove this after tests
+		// TODO NewArc - Remove this after tests
 		emailLoginEditText.setText("junit_test@mi.tv");
 		passwordLoginEditText.setText("junit_test");
 	}
@@ -120,7 +121,7 @@ public class MiTVUserLoginActivity
 	
 	
 	@Override
-	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult) 
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
 		if (fetchRequestResult.wasSuccessful()) 
 		{

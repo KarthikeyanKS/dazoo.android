@@ -5,7 +5,6 @@ package com.mitv.adapters;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -20,9 +19,10 @@ import android.widget.TextView;
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.activities.PopularPageActivity;
+import com.millicom.mitv.activities.base.BaseActivity;
+import com.millicom.mitv.enums.ActivityFeedAdapterTypeEnum;
 import com.millicom.mitv.enums.FeedItemTypeEnum;
-import com.millicom.mitv.enums.FeedItemViewTypeEnum;
-import com.millicom.mitv.enums.LikeTypeResponseEnum;
+import com.millicom.mitv.enums.LikeTypeRequestEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVFeedItem;
@@ -39,15 +39,13 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 
-public class ActivityFeedAdapter 
-	extends AdListAdapter<TVFeedItem> 
+public class FeedListAdapter 
+	extends AdListAdapter<TVFeedItem>
 {
-	private static final String	TAG	= ActivityFeedAdapter.class.getName();
+	private static final String	TAG	= FeedListAdapter.class.getName();
 
 	
-	private static final int ACTIVITY_BLOCKS_TYPE_NUMBER = 5;
-	
-	private Activity activity;
+	private BaseActivity activity;
 	private ArrayList<TVFeedItem> feedItems;
 	private LayoutInflater layoutInflater;
 
@@ -55,7 +53,7 @@ public class ActivityFeedAdapter
 
 	
 	
-	public ActivityFeedAdapter(Activity activity, ArrayList<TVFeedItem> feedItems) 
+	public FeedListAdapter(BaseActivity activity, ArrayList<TVFeedItem> feedItems) 
 	{
 		super(Consts.JSON_AND_FRAGMENT_KEY_ACTIVITY, activity, feedItems);
 		
@@ -71,7 +69,60 @@ public class ActivityFeedAdapter
 	@Override
 	public int getViewTypeCount() 
 	{
-		return super.getViewTypeCount() + ACTIVITY_BLOCKS_TYPE_NUMBER;
+		int viewTypeCount = ActivityFeedAdapterTypeEnum.class.getEnumConstants().length;
+		
+		return viewTypeCount;
+	}
+	
+	
+	
+	@Override
+	public int getItemViewType(int position) 
+	{
+		final TVFeedItem tvFeedItem = getItem(position);
+		
+		if (tvFeedItem != null) 
+		{
+			FeedItemTypeEnum tvFeedItemType = tvFeedItem.getItemType();
+			
+			switch(tvFeedItemType)
+			{
+				case BROADCAST:
+				{
+					return ActivityFeedAdapterTypeEnum.BROADCAST.getId();
+				}
+				
+				case POPULAR_BROADCAST:
+				{
+					return ActivityFeedAdapterTypeEnum.POPULAR_BROADCAST.getId();
+				}
+				
+				case POPULAR_BROADCASTS:
+				{
+					return ActivityFeedAdapterTypeEnum.POPULAR_BROADCASTS.getId();
+				}
+				
+				case POPULAR_TWITTER:
+				{
+					return ActivityFeedAdapterTypeEnum.POPULAR_TWITTER.getId();
+				}
+				
+				case RECOMMENDED_BROADCAST:
+				{
+					return ActivityFeedAdapterTypeEnum.RECOMMENDED_BROADCAST.getId();
+				}
+				
+				default:
+				case UNKNOWN:
+				{
+					return ActivityFeedAdapterTypeEnum.ADS.getId();
+				}
+			}
+		} 
+		else 
+		{
+			return ActivityFeedAdapterTypeEnum.ADS.getId();
+		}
 	}
 	
 	
@@ -106,58 +157,7 @@ public class ActivityFeedAdapter
 		notifyDataSetChanged();
 	}
 
-	
-	
-	@Override
-	public int getItemViewType(int position) 
-	{
-		final TVFeedItem tvFeedItem = getItem(position);
-		
-		if (tvFeedItem != null) 
-		{
-			FeedItemTypeEnum tvFeedItemType = tvFeedItem.getItemType();
-			
-			switch(tvFeedItemType)
-			{
-				case BROADCAST:
-				{
-					return FeedItemViewTypeEnum.BROADCAST.getId();
-				}
-				
-				case POPULAR_BROADCAST:
-				{
-					return FeedItemViewTypeEnum.POPULAR_BROADCAST.getId();
-				}
-				
-				case POPULAR_BROADCASTS:
-				{
-					return FeedItemViewTypeEnum.POPULAR_BROADCASTS.getId();
-				}
-				
-				case POPULAR_TWITTER:
-				{
-					return FeedItemViewTypeEnum.POPULAR_TWITTER.getId();
-				}
-				
-				case RECOMMENDED_BROADCAST:
-				{
-					return FeedItemViewTypeEnum.RECOMMENDED_BROADCAST.getId();
-				}
-				
-				default:
-				case UNKNOWN:
-				{
-					return FeedItemViewTypeEnum.UNKNOWN.getId();
-				}
-			}
-		} 
-		else 
-		{
-			return super.getItemViewType(position);
-		}
-	}
-	
-	
+
 
 	public void populatePopularItemAtIndex(
 			PopularBroadcastsViewHolder viewHolder, 
@@ -219,21 +219,13 @@ public class ActivityFeedAdapter
 			
 			if (broadcast != null) 
 			{
-				final TVProgram program = broadcast.getProgram();
+				final TVProgram tvProgram = broadcast.getProgram();
 
-				ProgramTypeEnum programType = program.getProgramType();
+				ProgramTypeEnum programType = tvProgram.getProgramType();
 
 				ImageAware imageAware = new ImageViewAware(imageView, false);
-				ImageLoader.getInstance().displayImage(broadcast.getProgram().getImages().getPortrait().getMedium(), imageAware);
-
-				if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) 
-				{
-					title.setText(broadcast.getProgram().getSeries().getName());
-				} 
-				else 
-				{
-					title.setText(broadcast.getProgram().getTitle());
-				}
+				
+				ImageLoader.getInstance().displayImage(tvProgram.getImages().getPortrait().getMedium(), imageAware);
 
 				time.setText(broadcast.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
 
@@ -243,9 +235,9 @@ public class ActivityFeedAdapter
 				{
 					case TV_EPISODE:
 					{
-						Integer season = program.getSeason().getNumber();
+						Integer season = tvProgram.getSeason().getNumber();
 
-						int episode = program.getEpisodeNumber();
+						int episode = tvProgram.getEpisodeNumber();
 
 						StringBuilder seasonEpisode = new StringBuilder();
 						
@@ -265,34 +257,38 @@ public class ActivityFeedAdapter
 						}
 						
 						details.setText(seasonEpisode.toString());
+						title.setText(broadcast.getProgram().getSeries().getName());
 						break;
 					}
 					
 					case SPORT:
 					{
 						StringBuilder detailsSB = new StringBuilder();
-						detailsSB.append(program.getSportType().getName());
+						detailsSB.append(tvProgram.getSportType().getName());
 						detailsSB.append(" ");
-						detailsSB.append(program.getTournament());
+						detailsSB.append(tvProgram.getTournament());
 						
 						details.setText(detailsSB.toString());
+						title.setText(broadcast.getProgram().getTitle());
 						break;
 					}
 					
 					case MOVIE:
 					{
 						StringBuilder detailsSB = new StringBuilder();
-						detailsSB.append(program.getGenre());
+						detailsSB.append(tvProgram.getGenre());
 						detailsSB.append(" ");
-						detailsSB.append(program.getYear());
+						detailsSB.append(tvProgram.getYear());
 						
 						details.setText(detailsSB.toString());
+						title.setText(broadcast.getProgram().getTitle());
 						break;
 					}
 
 					case OTHER:
 					{
 						details.setText(broadcast.getProgram().getCategory());
+						title.setText(broadcast.getProgram().getTitle());
 						break;
 					}
 					
@@ -569,65 +565,7 @@ public class ActivityFeedAdapter
 				@Override
 				public void onClick(View v) 
 				{
-					//TOOD convert from program type to LikeType
-					LikeTypeResponseEnum likeType;// = LikeService.getLikeType(programType);
-
-					String programId, contentTitle;
-					
-					final ProgramTypeEnum programType = program.getProgramType();
-					
-					switch (programType) 
-					{
-						case TV_EPISODE:
-						{
-							programId = program.getSeries().getSeriesId();
-							contentTitle = program.getSeries().getName();
-							break;
-						}
-						
-						case SPORT:
-						{
-							programId = program.getSportType().getSportTypeId();
-							contentTitle = program.getSportType().getName();
-							break;
-						}
-						
-						default:
-						{
-							programId = program.getProgramId();
-							contentTitle = program.getTitle();
-						}
-					}
-
-					if (isLikedByUser == false) 
-					{
-						//TODO use ContentManager architecture for likes
-//						if (LikeService.addLike(programId, likeType)) {
-//							MiTVStore.getInstance().addLikeIdToList(programId);
-//
-//							ActivityActivity.toast = LikeService.showSetLikeToast(mActivity, contentTitle);
-//							holderBC.likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
-//
-//							AnimationUtilities.animationSet(holderBC.likeLikeIv);
-//
-//							mIsLiked = true;
-//						} else {
-//							// Toast.makeText(mActivity,
-//							// "Adding a like faced an error",
-//							// Toast.LENGTH_SHORT).show();
-//							Log.d(TAG, "!!! Adding a like faced an error !!!");
-//						}
-					} 
-					else 
-					{
-						//TODO use ContentManager architecture for likes
-//						LikeService.removeLike(likeType, programId);
-//						MiTVStore.getInstance().deleteLikeIdFromList(programId);
-//
-//						mIsLiked = false;
-//						holderBC.likeLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
-
-					}
+					userClickedLike(program, isLikedByUser);
 				}
 			});
 
@@ -636,7 +574,7 @@ public class ActivityFeedAdapter
 				@Override
 				public void onClick(View v)
 				{
-					ShareUtils.shareAction(
+					ShareUtils.startShareActivity(
 							activity, 
 							activity.getResources().getString(R.string.app_name), 
 							broadcast.getShareUrl(),
@@ -716,6 +654,50 @@ public class ActivityFeedAdapter
 		});
 
 		return rowView;
+	}
+	
+	
+	
+	private void userClickedLike(
+			final TVProgram tvProgram,
+			final boolean isCurrentlyLikedByUser)
+	{
+		LikeTypeRequestEnum likeType;
+		String contentId;
+		
+		ProgramTypeEnum programType = tvProgram.getProgramType();
+		
+		switch (programType) 
+		{
+			case TV_EPISODE:
+			{
+				likeType = LikeTypeRequestEnum.SERIES;
+				contentId = tvProgram.getSeries().getSeriesId();
+				break;
+			}
+			
+			case SPORT:
+			{
+				likeType = LikeTypeRequestEnum.PROGRAM;
+				contentId = tvProgram.getSportType().getSportTypeId();
+				break;
+			}
+			
+			default:
+			{
+				likeType = LikeTypeRequestEnum.PROGRAM;
+				contentId = tvProgram.getProgramId();
+			}
+		}
+
+		if (isCurrentlyLikedByUser) 
+		{
+			ContentManager.sharedInstance().removeUserLike(activity, likeType, contentId);
+		} 
+		else 
+		{
+			ContentManager.sharedInstance().addUserLike(activity, likeType, contentId);
+		}
 	}
 	
 	

@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import com.millicom.mitv.activities.base.BaseLoginActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
+import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.mitv.Consts;
 import com.mitv.R;
@@ -99,7 +100,7 @@ public class SignUpWithEmailActivity
 	
 	
 	@Override
-	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult) 
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
 		if (fetchRequestResult.wasSuccessful()) 
 		{

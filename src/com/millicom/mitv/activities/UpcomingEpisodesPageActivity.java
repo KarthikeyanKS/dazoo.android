@@ -13,6 +13,7 @@ import android.widget.ListView;
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.base.BaseContentActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
+import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.R;
@@ -91,7 +92,7 @@ public class UpcomingEpisodesPageActivity
 	
 	
 	@Override
-	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult) 
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
 		if (fetchRequestResult.wasSuccessful()) 
 		{

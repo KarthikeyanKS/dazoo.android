@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.millicom.mitv.activities.base.BaseActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
+import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.mitv.R;
 import com.mitv.customviews.FontTextView;
@@ -230,7 +231,7 @@ public abstract class AboutOrTermsActivity
 	
 	
 	@Override
-	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult) 
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
 		if (fetchRequestResult.wasSuccessful()) 
 		{

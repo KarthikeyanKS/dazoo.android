@@ -18,10 +18,25 @@ public class GetUserLikes extends AsyncTaskWithUserToken<UserLike[]>
 	
 	
 	
+	private static RequestIdentifierEnum getRequestIdentifier(boolean standaloneUserLikes)
+	{
+		if(standaloneUserLikes)
+		{
+			return RequestIdentifierEnum.USER_LIKES;
+		}
+		else
+		{
+			return RequestIdentifierEnum.USER_ACTIVITY_FEED_LIKES;
+		}
+	}
+	
+	
+	
 	public GetUserLikes(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener) 
+			ActivityCallbackListener activityCallBackListener,
+			boolean standaloneUserLikes) 
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_LIKES, UserLike[].class, UserLike.class, true, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+		super(contentCallbackListener, activityCallBackListener, getRequestIdentifier(standaloneUserLikes), UserLike[].class, UserLike.class, true, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
 	}
 }
