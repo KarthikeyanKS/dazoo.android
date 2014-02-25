@@ -6,14 +6,13 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Build;
-import android.support.v4.content.LocalBroadcastManager;
 import android.text.Layout.Alignment;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,9 +28,9 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.millicom.mitv.ContentManager;
+import com.millicom.mitv.interfaces.SwipeClockTimeSelectedCallbackListener;
 import com.millicom.mitv.utilities.DateUtils;
 import com.millicom.mitv.utilities.GenericUtils;
-import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.manager.FontManager;
@@ -42,10 +41,12 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 	public static final int SCREEN_HEIGHT_SMALL = 320;
 	public static final int SCREEN_HEIGHT_TABLET = 1280;
 	private static final int HOURS_PER_DAY = 24;
+	private static final int HOUR_NOT_FOUND_IN_LIST_OF_HOURS = -1;
 	
 	private Activity activity;
 	private VerticalSeekBar seekBar;
 	private ListView timeListView;
+	private SwipeClockTimeSelectedCallbackListener timeSelectedListener;
 	private FontTextView clockIconTextView;
 	private static List<Integer> hoursOfTheDay;
 	private static int firstHourOfDay;
@@ -76,13 +77,14 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 		int indexOfHour = hourToProgress(hour);
 
 		/* If hour was found */
-		if (indexOfHour > 0) {
+		if (indexOfHour > HOUR_NOT_FOUND_IN_LIST_OF_HOURS) {
 			seekBar.setProgress(indexOfHour);
+			styleSelectedHour(indexOfHour);
 		}
 	}
 
 	public static int hourToProgress(int hour) {
-		int index;
+		int index = HOUR_NOT_FOUND_IN_LIST_OF_HOURS;
 		if (hour >= firstHourOfDay) {
 			index = (hour - firstHourOfDay) % HOURS_PER_DAY;
 		}
@@ -95,6 +97,11 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 	public static int progressToHour(int progress) {
 		int hour = hoursOfTheDay.get(progress);
 		return hour;
+	}
+	
+	
+	public void setTimeSelectedListener(SwipeClockTimeSelectedCallbackListener timeSelectedListener) {
+		this.timeSelectedListener = timeSelectedListener;
 	}
 
 	public void setup(Context context) {
@@ -403,7 +410,10 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 		int hour = progressToHour(progress);
-		broadcastClockSelectionChanged(hour);
+		
+		if(timeSelectedListener != null) {
+			timeSelectedListener.onTimeChange(hour);
+		}
 		
 		int indexToStyle = progress;
 		
@@ -415,13 +425,6 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 		listAdapter.notifyDataSetChanged();
 	}
 	
-
-	private void broadcastClockSelectionChanged(int hour) {
-		Intent intent = new Intent(Consts.INTENT_EXTRA_CLOCK_SELECTION);
-		intent.putExtra(Consts.INTENT_EXTRA_CLOCK_SELECTION_VALUE, hour);
-		ContentManager.sharedInstance().setSelectedHour(Integer.valueOf(hour));
-		LocalBroadcastManager.getInstance(activity.getBaseContext()).sendBroadcast(intent);
-	}
 
 	@Override
 	public void onStartTrackingTouch(SeekBar arg0) {

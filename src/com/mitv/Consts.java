@@ -174,8 +174,8 @@ public abstract class Consts {
 //	public static final String	INTENT_EXTRA_REPEATING_BROADCASTS					= "com.mitv.intent.extra.repeating.broadcasts";
 //	public static final String	INTENT_EXTRA_REPEATING_PROGRAM						= "com.mitv.intent.extra.repeating.program";
 //	public static final String	INTENT_EXTRA_RUNNING_BROADCAST						= "com.mitv.intent.extra.repeating.runningBroadcast";
-	public static final String	INTENT_EXTRA_CLOCK_SELECTION						= "com.mitv.intent.extra.clock.selection";
-	public static final String	INTENT_EXTRA_CLOCK_SELECTION_VALUE					= "com.mitv.intent.extra.clock.selection.value";
+//	public static final String	INTENT_EXTRA_CLOCK_SELECTION						= "com.mitv.intent.extra.clock.selection";
+//	public static final String	INTENT_EXTRA_CLOCK_SELECTION_VALUE					= "com.mitv.intent.extra.clock.selection.value";
 //	public static final String	INTENT_EXTRA_TV_GUIDE_HOUR							= "com.mitv.intent.extra.tvguide.hour";
 	public static final String	INTENT_EXTRA_BAD_REQUEST							= "com.mitv.intent.extra.bad.request";
 

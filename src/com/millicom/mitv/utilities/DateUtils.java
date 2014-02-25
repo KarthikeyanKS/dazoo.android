@@ -28,17 +28,29 @@ public abstract class DateUtils
 	public static final long TOTAL_MILISECOUNDS_IN_ONE_MINUTE = 60000;
 	public static final long TOTAL_MILISECOUNDS_IN_ONE_HOUR = TOTAL_MILISECOUNDS_IN_ONE_MINUTE*60;
 	public static final long TOTAL_MILISECOUNDS_IN_ONE_DAY = TOTAL_MILISECOUNDS_IN_ONE_HOUR*24;
+	
+	/**
+	 * Converts a string input to a Calendar object
+	 * The input string format should be in the format: "yyyy-MM-dd"
+	 * 
+	 */
+	public static Calendar convertFromYearMonthDayStringToCalendar(
+			final String inputString)
+	{
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		return convertFromStringToCalendarWithFormat(Consts.DATE_FORMAT_DATE, inputString, context);
+	}
 		
 	/**
 	 * Converts a string input to a Calendar object
 	 * The input string format should be in the format: "yyyy-MM-dd'T'HH:mm:ss'Z'"
 	 * 
 	 */
-	public static Calendar convertFromStringToCalendar(
+	public static Calendar convertFromYearDateAndTimeStringToCalendar(
 			final String inputString)
 	{
 		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-		return convertFromStringToCalendar(inputString, context);
+		return convertFromYearDateAndTimeStringToCalendar(inputString, context);
 	}
 	
 	/**
@@ -46,7 +58,15 @@ public abstract class DateUtils
 	 * The input string format should be in the format: "yyyy-MM-dd'T'HH:mm:ss'Z'"
 	 * 
 	 */
-	private static Calendar convertFromStringToCalendar(
+	private static Calendar convertFromYearDateAndTimeStringToCalendar(
+			final String inputString,
+			final Context context)
+	{
+		return convertFromStringToCalendarWithFormat(Consts.ISO_DATE_FORMAT, inputString, context);
+	}
+	
+	private static Calendar convertFromStringToCalendarWithFormat(
+			final String dateFormatString,
 			final String inputString,
 			final Context context)
 	{
@@ -58,7 +78,7 @@ public abstract class DateUtils
 			
 			Locale locale = context.getResources().getConfiguration().locale;
 			
-			SimpleDateFormat dateFormat = getSimpleDateFormatWith(Consts.ISO_DATE_FORMAT, timeZone, locale);
+			SimpleDateFormat dateFormat = getSimpleDateFormatWith(dateFormatString, timeZone, locale);
 			
 			try 
 			{

@@ -22,7 +22,6 @@ import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVChannel;
 import com.millicom.mitv.models.TVChannelGuide;
 import com.millicom.mitv.models.TVChannelId;
-import com.millicom.mitv.models.TVDate;
 import com.mitv.R;
 import com.mitv.adapters.ChannelPageListAdapter;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -40,12 +39,8 @@ public class ChannelPageActivity
 	private ListView listView;
 	private ImageView channelIconIv;
 	private ChannelPageListAdapter listAdapter;
-	private TVChannelId channelId;
 	private TVChannelGuide channelGuide;
 	private TVChannel channel;
-	private ArrayList<TVBroadcast> currentAndUpcomingbroadcasts;
-	private ArrayList<TVDate> tvDates;
-	private int selectedTVDateIndex = -1;
 	
 	@Override
 	protected void setActivityCallbackListener()
@@ -61,6 +56,9 @@ public class ChannelPageActivity
 		
 		setContentView(R.layout.layout_channelpage_activity);
 
+		TVChannelId channelId = ContentManager.sharedInstance().getFromStorageSelectedTVChannelId();
+		channel = ContentManager.sharedInstance().getFromStorageTVChannelById(channelId);
+		
 		initViews();
 	}
 	
@@ -80,7 +78,7 @@ public class ChannelPageActivity
 
 	
 	
-	private void setFollowingBroadcasts() 
+	private void setFollowingBroadcasts(final ArrayList<TVBroadcast> currentAndUpcomingbroadcasts) 
 	{
 		listAdapter = new ChannelPageListAdapter(this, currentAndUpcomingbroadcasts);
 		
@@ -133,11 +131,7 @@ public class ChannelPageActivity
 	@Override
 	protected void loadData() 
 	{		
-		channelId = ContentManager.sharedInstance().getFromStorageSelectedTVChannelId();
-		channel = ContentManager.sharedInstance().getFromStorageTVChannelById(channelId);
-
-		tvDates = ContentManager.sharedInstance().getFromStorageTVDates();
-		channelGuide = ContentManager.sharedInstance().getFromStorageTVChannelGuideUsingTVChannelIdForSelectedDay(channelId);
+		channelGuide = ContentManager.sharedInstance().getFromStorageTVChannelGuideUsingTVChannelIdForSelectedDay(channel.getChannelId());
 		
 		ImageAware imageAware = new ImageViewAware(channelIconIv, false);
 		ImageLoader.getInstance().displayImage(channelGuide.getImageUrl(), imageAware);
@@ -147,8 +141,8 @@ public class ChannelPageActivity
 		int indexOfNearestBroadcast = TVBroadcast.getClosestBroadcastIndex(broadcasts, 0);
 		if (indexOfNearestBroadcast >= 0) 
 		{
-			currentAndUpcomingbroadcasts = TVBroadcast.getBroadcastsFromPosition(broadcasts, indexOfNearestBroadcast);
-			setFollowingBroadcasts();
+			ArrayList<TVBroadcast> currentAndUpcomingbroadcasts = TVBroadcast.getBroadcastsFromPosition(broadcasts, indexOfNearestBroadcast);
+			setFollowingBroadcasts(currentAndUpcomingbroadcasts);
 		}
 		
 		updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
@@ -160,7 +154,7 @@ public class ChannelPageActivity
 	{
 		if (fetchRequestResult.wasSuccessful()) 
 		{
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+			loadData();
 		} 
 		else 
 		{
@@ -194,5 +188,5 @@ public class ChannelPageActivity
 	@Override
 	protected void attachFragment(){/*Do nothing*/}
 	@Override
-	protected void removeActiveFragment(){/*Do nothing*/}
+	protected void removeActiveFragment(){}
 }

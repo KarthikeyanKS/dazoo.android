@@ -7,12 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +18,7 @@ import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
+import com.millicom.mitv.interfaces.SwipeClockTimeSelectedCallbackListener;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVChannelGuide;
@@ -40,7 +36,7 @@ import com.mitv.customviews.SwipeClockBar;
 
 public class TVGuideTableFragment 
 	extends BaseFragment 
-	implements ActivityCallbackListener
+	implements ActivityCallbackListener, SwipeClockTimeSelectedCallbackListener
 {
 	@SuppressWarnings("unused")
 	private static final String TAG = TVGuideTableFragment.class.getName();
@@ -59,44 +55,8 @@ public class TVGuideTableFragment
 	private TVGuideTagListAdapter tvTagListAdapter;
 	private int hour;
 	public HashMap<String, AdListAdapter> adapterMap;
-	private BroadcastReceiver broadcastReceiverClock;
 
-	
-	
-	private void initBroadcastReceivers() 
-	{
-		broadcastReceiverClock = new BroadcastReceiver() 
-		{
-			@Override
-			public void onReceive(Context context, Intent intent) 
-			{
-				if (intent.getAction() != null && intent.getAction().equals(Consts.INTENT_EXTRA_CLOCK_SELECTION)) 
-				{
-					hour = intent.getExtras().getInt(Consts.INTENT_EXTRA_CLOCK_SELECTION_VALUE);
-					
-					if (tvGuideListAdapter != null) 
-					{
-						tvGuideListAdapter.refreshList(Integer.valueOf(hour));
-					}
-				}
-			}
-		};
-	}
 
-	private void registerBroadcastReceivers() 
-	{
-		LocalBroadcastManager.getInstance(activity).registerReceiver(broadcastReceiverClock, new IntentFilter(Consts.INTENT_EXTRA_CLOCK_SELECTION));
-	}
-
-	
-	
-	private void unregisterBroadcastReceivers() 
-	{
-		LocalBroadcastManager.getInstance(activity).unregisterReceiver(broadcastReceiverClock);
-	}
-
-	
-	
 	public static TVGuideTableFragment newInstance(TVTag tag, TVDate date, HashMap<String, AdListAdapter> adapterMap)
 	{
 		TVGuideTableFragment fragment = new TVGuideTableFragment();
@@ -115,47 +75,28 @@ public class TVGuideTableFragment
 	}
 	
 	
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) 
-	{
-		super.onCreate(savedInstanceState);
-		
-		isToday = ContentManager.sharedInstance().selectedTVDateIsToday();
-		
-		initBroadcastReceivers();
-	}
-	
-	
-	
 	@Override
 	public void onResume() 
-	{
-		registerBroadcastReceivers();
-		
+	{	
 		super.onResume();
-	}
-	
-	
-	
-	@Override
-	public void onPause() 
-	{
-		unregisterBroadcastReceivers();
-		
-		super.onPause();
-	}
 
-	
-	
-	@Override
-	public void onDetach() 
-	{
-		super.onDetach();
-		
-		unregisterBroadcastReceivers();
+		updateSwipeClockBarWithDayAndTime();
 	}
+	
+	private void updateSwipeClockBarWithDayAndTime() {
+		if(swipeClockBar != null) {
+			isToday = ContentManager.sharedInstance().selectedTVDateIsToday();
+			if(isToday) {
+				hour = ContentManager.sharedInstance().getFromStorageSelectedHour();
+			} else {
+				hour = ContentManager.sharedInstance().getFromStorageFirstHourOfTVDay();
+			}
 
+			swipeClockBar.setHour(hour);
+			swipeClockBar.setToday(isToday);
+		}
+	}
+	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
@@ -168,16 +109,12 @@ public class TVGuideTableFragment
 
 		if (getResources().getString(R.string.all_categories_name).equals(tvTagDisplayName)) 
 		{
-			hour = ContentManager.sharedInstance().getFromStorageSelectedHour();
-
 			rootView = inflater.inflate(R.layout.fragment_tvguide_table, null);
 			tvGuideListView = (ListView) rootView.findViewById(R.id.tvguide_table_listview);
 
 			swipeClockBar = (SwipeClockBar) rootView.findViewById(R.id.tvguide_swype_clock_bar);
-			swipeClockBar.setHour(hour);
-			swipeClockBar.setToday(isToday);
-
-			registerBroadcastReceivers();
+			swipeClockBar.setTimeSelectedListener(this);
+			updateSwipeClockBarWithDayAndTime();
 		} 
 		else 
 		{
@@ -314,5 +251,15 @@ public class TVGuideTableFragment
 				break;
 			}
 		}		
+	}
+
+
+	@Override
+	public void onTimeChange(int hour) {
+		if (tvGuideListAdapter != null) 
+		{
+			tvGuideListAdapter.refreshList(hour);
+		}
+
 	}
 }

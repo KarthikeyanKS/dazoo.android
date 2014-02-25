@@ -26,7 +26,7 @@ public class TVDate
 		this.id = dateRepresentation;
 		this.date = dateRepresentation;
 		
-		this.dateCalendar = DateUtils.convertFromStringToCalendar(dateRepresentation);
+		this.dateCalendar = getDateCalendar();
 		
 		this.displayName = DateUtils.buildDayOfTheWeekAsString(dateCalendar);
 	}
@@ -37,7 +37,7 @@ public class TVDate
 	{
 		if(dateCalendar == null) 
 		{	
-			dateCalendar = DateUtils.convertFromStringToCalendar(date);
+			dateCalendar = DateUtils.convertFromYearMonthDayStringToCalendar(date);
 		}
 		
 		return dateCalendar;
