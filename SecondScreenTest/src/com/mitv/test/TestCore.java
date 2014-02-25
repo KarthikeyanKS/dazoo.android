@@ -20,7 +20,7 @@ import com.mitv.SecondScreenApplication;
 
 
 
-public class TestCore 
+public abstract class TestCore 
 	extends InstrumentationTestCase 
 {
 	private static final String TAG = TestCore.class.getName();

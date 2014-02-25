@@ -80,6 +80,10 @@ public class MiTVUserLoginActivity
 		isInvalidPassword = true;
 
 		initViews();
+		
+		// TODO - Remove this after tests
+		emailLoginEditText.setText("junit_test@mi.tv");
+		passwordLoginEditText.setText("junit_test");
 	}
 	
 	

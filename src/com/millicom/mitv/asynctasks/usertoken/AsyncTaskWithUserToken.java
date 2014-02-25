@@ -33,17 +33,21 @@ public abstract class AsyncTaskWithUserToken<T>
 		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, null, false, httpRequestType, urlSuffix);
 	}
 
-	public AsyncTaskWithUserToken(
-			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener, 
-			RequestIdentifierEnum requestIdentifier,
-			Class<T> clazz,
-			boolean manualDeserialization,
-			HTTPRequestTypeEnum httpRequestType,
-			String urlSuffix) 
-	{
-		super(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, urlSuffix);
-	}
+	
+	
+//	public AsyncTaskWithUserToken(
+//			ContentCallbackListener contentCallbackListener,
+//			ActivityCallbackListener activityCallBackListener, 
+//			RequestIdentifierEnum requestIdentifier,
+//			Class<T> clazz,
+//			boolean manualDeserialization,
+//			HTTPRequestTypeEnum httpRequestType,
+//			String urlSuffix) 
+//	{
+//		super(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, urlSuffix);
+//	}
+	
+	
 	
 	public AsyncTaskWithUserToken(
 			ContentCallbackListener contentCallbackListener,
@@ -57,6 +61,8 @@ public abstract class AsyncTaskWithUserToken<T>
 	{
 		super(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, clazzSingle, manualDeserialization, httpRequestType, urlSuffix);
 	}
+	
+	
 	
 	@Override
 	protected Void doInBackground(String... params) 

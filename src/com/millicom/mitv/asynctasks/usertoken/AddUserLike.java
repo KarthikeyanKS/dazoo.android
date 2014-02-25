@@ -30,7 +30,7 @@ public class AddUserLike
 			LikeTypeRequestEnum likeType,
 			String contentId) 
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_ADD_LIKE, UserLike.class, true, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
+		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_ADD_LIKE, UserLike.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
 		
 		UserLikeData postData = new UserLikeData();
 		postData.setLikeType(likeType);

@@ -59,35 +59,35 @@ public abstract class AsyncTaskBase<T>
 			boolean isRelativeURL,
 			String url) 
 	{
-		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, false, httpRequestType, isRelativeURL, url);
+		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, null, false, httpRequestType, isRelativeURL, url, new URLParameters(), new HeaderParameters(), null);
 	}
 	
-	public AsyncTaskBase(
-			ContentCallbackListener contentCallbackListener, 
-			ActivityCallbackListener activityCallBackListener,
-			RequestIdentifierEnum requestIdentifier, 
-			Class<T> clazz,
-			Class clazzSingle,
-			boolean manualDeserialization,
-			HTTPRequestTypeEnum httpRequestType,
-			boolean isRelativeURL,
-			String url) 
-	{
-		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, clazzSingle, manualDeserialization, httpRequestType, isRelativeURL, url, new URLParameters(), new HeaderParameters(), null);
-	}
-	
-	public AsyncTaskBase(
-			ContentCallbackListener contentCallbackListener, 
-			ActivityCallbackListener activityCallBackListener,
-			RequestIdentifierEnum requestIdentifier, 
-			Class<T> clazz,
-			boolean manualDeserialization,
-			HTTPRequestTypeEnum httpRequestType,
-			boolean isRelativeURL,
-			String url) 
-	{
-		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, isRelativeURL, url, new URLParameters(), new HeaderParameters(), null);
-	}
+//	public AsyncTaskBase(
+//			ContentCallbackListener contentCallbackListener, 
+//			ActivityCallbackListener activityCallBackListener,
+//			RequestIdentifierEnum requestIdentifier, 
+//			Class<T> clazz,
+//			Class clazzSingle,
+//			boolean manualDeserialization,
+//			HTTPRequestTypeEnum httpRequestType,
+//			boolean isRelativeURL,
+//			String url) 
+//	{
+//		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, clazzSingle, manualDeserialization, httpRequestType, isRelativeURL, url, new URLParameters(), new HeaderParameters(), null);
+//	}
+//	
+//	public AsyncTaskBase(
+//			ContentCallbackListener contentCallbackListener, 
+//			ActivityCallbackListener activityCallBackListener,
+//			RequestIdentifierEnum requestIdentifier, 
+//			Class<T> clazz,
+//			boolean manualDeserialization,
+//			HTTPRequestTypeEnum httpRequestType,
+//			boolean isRelativeURL,
+//			String url) 
+//	{
+//		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, isRelativeURL, url, new URLParameters(), new HeaderParameters(), null);
+//	}
 	
 	
 	
@@ -141,13 +141,19 @@ public abstract class AsyncTaskBase<T>
 		
 		try 
 		{
-			if(manualDeserialization) {
+			if(manualDeserialization) 
+			{
 				Object classIntance = null;
-				if(clazz.isArray()) {
+				
+				if(clazz.isArray())
+				{
 					classIntance = clazzSingle.newInstance();
-				} else {
+				} 
+				else 
+				{
 					classIntance = clazz.newInstance();
 				}
+				
 				gsonBuilder.registerTypeAdapter(clazz, classIntance);
 				gsonBuilder.excludeFieldsWithoutExposeAnnotation();
 			}
