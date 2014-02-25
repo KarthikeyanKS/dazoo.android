@@ -110,8 +110,9 @@ public class FeedActivity
 		if (isLoggedIn && userHasJustLoggedIn)
 		{
 			StringBuilder sb = new StringBuilder();
+			sb.append(getResources().getString(R.string.hello));
+			sb.append(" ");
 			sb.append(ContentManager.sharedInstance().getFromStorageUserFirstname());
-			sb.append(getResources().getString(R.string.success_account_created_text));
 
 			ToastHelper.createAndShowToast(this, sb.toString());
 		}

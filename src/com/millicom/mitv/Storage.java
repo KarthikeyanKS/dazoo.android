@@ -257,6 +257,16 @@ public class Storage
 		this.userLikes = userLikes;
 	}
 	
+	public void addUserLike(UserLike userLike) 
+	{
+		this.userLikes.add(userLike);
+	}
+	
+	public void removeUserLike(UserLike userLike) 
+	{
+		this.userLikes.remove(userLike);
+	}
+	
 	public HashMap<String, SparseArray<AdAdzerkJSON>> getFragmentToAdsMap() {
 		return fragmentToAdsMap;
 	}

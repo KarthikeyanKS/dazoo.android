@@ -564,6 +564,7 @@ public class ContentManager
 					ArrayList<TVFeedItem> feedItems = (ArrayList<TVFeedItem>) content;
 					storage.setActivityFeed(feedItems);
 					notifyFetchDataProgressListenerMessage("Fetched user activity feed");
+					break;
 				}
 				
 				case USER_ACTIVITY_FEED_ITEM_MORE:
@@ -586,13 +587,15 @@ public class ContentManager
 				default:
 				{
 					// Do nothing
+					break;
 				}
 			}
 			
 			if (completedCountTVActivityFeed >= COMPLETED_COUNT_FOR_TV_ACTIVITY_FEED_DATA_THRESHOLD) 
 			{
 				completedCountTVActivityFeed = 0;
-				activityCallBackListener.onResult(FetchRequestResultEnum.SUCCESS, requestIdentifier);
+				
+				activityCallBackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.USER_ACTIVITY_FEED_ITEM);
 			}
 		} 
 		else 
@@ -774,11 +777,14 @@ public class ContentManager
 	}
 	
 	
-	public void handleAddUserLikeResponse(ActivityCallbackListener activityCallBackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result) 
+	public void handleAddUserLikeResponse(ActivityCallbackListener activityCallBackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result)
 	{
 		if (result.wasSuccessful()) 
 		{
-			// Do nothing - Data is not saved locally
+			// TODO NewArc - Use storage for likes
+//			UserLike userLike = new UserLike();
+//			
+//			storage.addUserLike(userLike);
 		} 
 		else 
 		{
@@ -791,7 +797,8 @@ public class ContentManager
 	{
 		if (result.wasSuccessful()) 
 		{
-			// Do nothing - Data is not updated locally
+			// TODO NewArc - Use storage for likes
+//			storage.removeUserLike(userLike);
 		} 
 		else 
 		{
