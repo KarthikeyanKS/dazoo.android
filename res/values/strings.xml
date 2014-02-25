@@ -226,6 +226,7 @@
     <string name="login_with_wrong_format_email">Check if password was input right!</string>
     <string name="login_with_wrong_format_password">Check if e-mail was input right!</string>
     <string name="sign_up_terms_info">By signing up, you agree to the</string>
+    <string name="sign_up_terms_link"><![CDATA[<a href="http://www.mi.tv/terminos">Lee más aquí</a>]]></string>
     <string name="success_account_created_title">Hello, </string>
     <string name="success_account_created_text">Your account was created!</string>
 
