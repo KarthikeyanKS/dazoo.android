@@ -57,7 +57,7 @@
     <string name="myprofile_about_us">Acerca de</string>
     <string name="myprofile_have_account">¿Tienes cuenta?</string>
     <string name="myprofile_logged_in_as">Conectado como:</string>
-    <string name="myprofile_info">Regístrate para añadir tus programas favoritos</string>
+    <string name="myprofile_info">Regístrate para añadir tus programas y canales favoritos</string>
     <string name="myprofile_terms_of_use">Términos y Condiciones de Uso</string>
     <string name="myprofile_support_bar">SOPORTE</string>
     <string name="liked">Te gusta</string>
@@ -149,7 +149,7 @@
     <string name="sign_in">Inicia sesión</string>
     <string name="cancel">Cancelar</string>
     <string name="sign_in_to_title">¿No tienes cuenta?</string>
-    <string name="sign_in_to_text">Inicia sesión para añadir tus programas favoritos</string>
+    <string name="sign_in_to_text">Regístrate para añadir tus programas y canales favoritos</string>
     <string name="sign_up_with_email">Regístrate con tu correo electrónico</string>
     <string name="sign_up">Regístrate</string>
     <string name="already_registered">¿Ya estás registrado?</string>
@@ -187,7 +187,7 @@
     <string name="login_with_wrong_format">Algo se ve raro con la contraseña o tu correo electrónico.</string
     -->
     <string name="sign_up_terms_info">Al registrarte, aceptas las</string>
-    <string name="sign_up_terms_link"><![CDATA[<a href="http://www.mi.tv/terminos">Lee más aquí</a>]]></string>
+    <string name="sign_up_terms_link"><![CDATA[<a href="http://www.mi.tv/terminos">Términos y Condiciones de Uso</a>]]></string>
     <string name="success_account_created_title">Hola, </string>
     <string name="success_account_created_text">¡Tu cuenta ha sido creada con éxito!</string>
 
