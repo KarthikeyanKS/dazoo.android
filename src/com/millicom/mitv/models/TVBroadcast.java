@@ -55,7 +55,7 @@ public class TVBroadcast extends BroadcastJSON {
 	{
 		if(beginTimeCalendarGMT == null) 
 		{	
-			beginTimeCalendarGMT = DateUtils.convertFromStringToCalendar(beginTime);
+			beginTimeCalendarGMT = DateUtils.convertFromYearDateAndTimeStringToCalendar(beginTime);
 		}
 		
 		return beginTimeCalendarGMT;
@@ -71,7 +71,7 @@ public class TVBroadcast extends BroadcastJSON {
 	{
 		if(endTimeCalendarGMT == null)
 		{	
-			endTimeCalendarGMT = DateUtils.convertFromStringToCalendar(endTime);
+			endTimeCalendarGMT = DateUtils.convertFromYearDateAndTimeStringToCalendar(endTime);
 		}
 		
 		return endTimeCalendarGMT;
