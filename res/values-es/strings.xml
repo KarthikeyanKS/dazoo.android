@@ -85,6 +85,7 @@
     <string name="terms_header">Términos y Condiciones de Uso</string>
     <string name="terms_info">Puedes aprender más acerca de los términos y condiciones de uso relacionados con esta aplicación en nuestro sitio web.</string>
     <string name="terms_link"><![CDATA[<a href="http://www.mi.tv/terminos">Lee más aquí</a>]]></string>
+    <string name="terms_link_copy"><![CDATA[<a href="http://www.mi.tv/terminos">Lee más aquí</a>]]></string>
 
     <!-- BROADCAST PAGE -->
     <string name="cast_and_crew">Elenco</string>

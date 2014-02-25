@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
@@ -41,7 +42,6 @@ public class RepetitionsPageActivity extends SSActivity implements OnClickListen
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_repeating_list_activity);
-
 		
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
@@ -87,18 +87,7 @@ public class RepetitionsPageActivity extends SSActivity implements OnClickListen
 		mActionBar.setDisplayShowCustomEnabled(true);
 		mActionBar.setDisplayUseLogoEnabled(true);
 		mActionBar.setDisplayShowHomeEnabled(true);
-		
-		String type = mRunningBroadcast.getProgram().getProgramType();
-		if(type.equals(Consts.PROGRAM_TYPE_TV_EPISODE)) {
-			mActionBar.setTitle(getResources().getString(R.string.repetitions_episode));
-		} else if(type.equals(Consts.PROGRAM_TYPE_MOVIE)) {
-			mActionBar.setTitle(getResources().getString(R.string.repetitions_movie));
-		} else if(type.equals(Consts.PROGRAM_TYPE_SPORT)) {
-			mActionBar.setTitle(getResources().getString(R.string.repetitions_sport_event));
-		} else if(type.equals(Consts.PROGRAM_TYPE_OTHER)) {
-			mActionBar.setTitle(getResources().getString(R.string.repetitions_other));
-		}
-		
+				
 		mListView = (ListView) findViewById(R.id.repeating_list_listview);
 	}
 

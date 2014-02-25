@@ -4,10 +4,11 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -165,9 +166,26 @@ public class TrippleBroadcastBlockPopulator {
 
 		String titleString = null;
 		String showMoreString = null;
+		Program p = new Program();
+		Log.d("mmm", "programtype: "+ mRunningBroadcast.getProgram().getProgramType());
+		String programType = program.getProgramType();
+		Resources res = mActivity.getResources();
+		Log.d("mmm", "type:"+ programType);
+		
 		if(mUsedForRepetitions) {
-			titleString = mActivity.getResources().getString(R.string.repetitions_episode);
+			if(programType.equals(Consts.PROGRAM_TYPE_TV_EPISODE)) {
+				titleString = res.getString(R.string.repetitions_episode);
+			} else if(programType.equals(Consts.PROGRAM_TYPE_MOVIE)) {
+				titleString = res.getString(R.string.repetitions_movie);
+			} else if(programType.equals(Consts.PROGRAM_TYPE_SPORT)) {
+				titleString = res.getString(R.string.repetitions_sport_event);
+			} else if(programType.equals(Consts.PROGRAM_TYPE_OTHER)) {
+				titleString = res.getString(R.string.repetitions_other);
+			}
+
+			Log.d("mmm", "title:"+ titleString);
 			showMoreString = mActivity.getResources().getString(R.string.repetitions_more);
+			
 		} else {
 			titleString = mActivity.getResources().getString(R.string.upcoming_episodes);
 			showMoreString = mActivity.getResources().getString(R.string.upcoming_episodes_more);
