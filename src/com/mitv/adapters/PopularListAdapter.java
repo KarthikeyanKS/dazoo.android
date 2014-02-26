@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.sax.StartElementListener;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,7 +74,7 @@ public class PopularListAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 
-		final TVBroadcastWithChannelInfo broadcast = getItem(position);
+		final TVBroadcastWithChannelInfo broadcastWithChannelInfo = getItem(position);
 
 		View rowView = convertView;
 		if (rowView == null) {
@@ -98,12 +99,12 @@ public class PopularListAdapter extends BaseAdapter {
 		}
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
-		if (broadcast != null) {
+		if (broadcastWithChannelInfo != null) {
 
 			holder.mHeaderContainer.setVisibility(View.GONE);
-			if (position == 0 || broadcast.getBeginTimeDayAndMonthAsString().equals(
+			if (position == 0 || broadcastWithChannelInfo.getBeginTimeDayAndMonthAsString().equals(
 					(getItem(position - 1)).getBeginTimeDayAndMonthAsString()) == false) {
-				holder.mHeaderTv.setText(broadcast.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString() + " " + broadcast.getBeginTimeDayAndMonthAsString());
+				holder.mHeaderTv.setText(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString() + " " + broadcastWithChannelInfo.getBeginTimeDayAndMonthAsString());
 				holder.mHeaderContainer.setVisibility(View.VISIBLE);
 
 			}
@@ -126,27 +127,25 @@ public class PopularListAdapter extends BaseAdapter {
 
 				@Override
 				public void onClick(View v) {
-					// go to the corresponding Broadcast page
+					/* Go to the corresponding Broadcast page */
+					ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
-					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId().getChannelId());
-					//TODO TMP DATA intercommunication
-//					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
-					intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
+					//TODO NewArc set return activity?? For detecting tab coloring
+					mActivity.startActivity(intent);
 
 				}
 			});
 
 
 			ImageAware imageAware = new ImageViewAware(holder.mPosterIv, false);
-			ImageLoader.getInstance().displayImage(broadcast.getProgram().getImages().getPortrait().getMedium(), imageAware);
+			ImageLoader.getInstance().displayImage(broadcastWithChannelInfo.getProgram().getImages().getPortrait().getMedium(), imageAware);
 			
-			holder.mTimeTv.setText(broadcast.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
+			holder.mTimeTv.setText(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
 
-			holder.mChannelNameTv.setText(broadcast.getChannel().getName());
+			holder.mChannelNameTv.setText(broadcastWithChannelInfo.getChannel().getName());
 
-			if (broadcast.isBroadcastCurrentlyAiring()) {
-				ProgressBarUtils.setupProgressBar(mActivity, broadcast, holder.mProgressBar, holder.mProgressBarTitleTv);
+			if (broadcastWithChannelInfo.isBroadcastCurrentlyAiring()) {
+				ProgressBarUtils.setupProgressBar(mActivity, broadcastWithChannelInfo, holder.mProgressBar, holder.mProgressBarTitleTv);
 			} else {
 				holder.mProgressBar.setVisibility(View.GONE);
 				holder.mProgressBarTitleTv.setVisibility(View.GONE);
@@ -154,18 +153,18 @@ public class PopularListAdapter extends BaseAdapter {
 			
 			// different details about the broadcast program depending on the type
 
-			ProgramTypeEnum programType = broadcast.getProgram().getProgramType();
+			ProgramTypeEnum programType = broadcastWithChannelInfo.getProgram().getProgramType();
 			
 			if(programType == ProgramTypeEnum.TV_EPISODE) {
-				holder.mTitleTv.setText(broadcast.getProgram().getSeries().getName());
+				holder.mTitleTv.setText(broadcastWithChannelInfo.getProgram().getSeries().getName());
 			} else {
-				holder.mTitleTv.setText(broadcast.getProgram().getTitle());
+				holder.mTitleTv.setText(broadcastWithChannelInfo.getProgram().getTitle());
 			}
 			
 			switch (programType) {
 			case TV_EPISODE: {
-				String season = broadcast.getProgram().getSeason().getNumber().toString();
-				int episode = broadcast.getProgram().getEpisodeNumber();
+				String season = broadcastWithChannelInfo.getProgram().getSeason().getNumber().toString();
+				int episode = broadcastWithChannelInfo.getProgram().getEpisodeNumber();
 				String seasonEpisode = "";
 				if (!season.equals("0")) {
 					seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + season + " ";
@@ -177,15 +176,15 @@ public class PopularListAdapter extends BaseAdapter {
 				break;
 			}
 			case MOVIE: {
-				holder.mDetailsTv.setText(broadcast.getProgram().getGenre() + " " + broadcast.getProgram().getYear());
+				holder.mDetailsTv.setText(broadcastWithChannelInfo.getProgram().getGenre() + " " + broadcastWithChannelInfo.getProgram().getYear());
 				break;
 			}
 			case SPORT: {
-				holder.mDetailsTv.setText(broadcast.getProgram().getSportType().getName() + " " + broadcast.getProgram().getTournament());
+				holder.mDetailsTv.setText(broadcastWithChannelInfo.getProgram().getSportType().getName() + " " + broadcastWithChannelInfo.getProgram().getTournament());
 				break;
 			}
 			case OTHER: {
-				holder.mDetailsTv.setText(broadcast.getProgram().getCategory());
+				holder.mDetailsTv.setText(broadcastWithChannelInfo.getProgram().getCategory());
 				break;
 			}
 			default: {
@@ -227,8 +226,8 @@ public class PopularListAdapter extends BaseAdapter {
 				@Override
 				public void onClick(View v) {
 					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcast.getBeginTimeMillis());
-					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcast.getChannel().getChannelId().getChannelId());
+					intent.putExtra(Consts.INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS, broadcastWithChannelInfo.getBeginTimeMillis());
+					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, broadcastWithChannelInfo.getChannel().getChannelId().getChannelId());
 					//TODO TMP DATA intercommunication
 //					intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_CHOSEN_DATE, broadcast.getTvDateString());
 					intent.putExtra(Consts.INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO, true);

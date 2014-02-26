@@ -1,10 +1,12 @@
 package com.millicom.mitv.activities.base;
 
+import java.util.Stack;
+
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
@@ -20,8 +22,6 @@ import android.widget.RelativeLayout;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.millicom.mitv.ContentManager;
-import com.millicom.mitv.activities.BroadcastPageActivity;
-import com.millicom.mitv.activities.ChannelPageActivity;
 import com.millicom.mitv.activities.FeedActivity;
 import com.millicom.mitv.activities.HomeActivity;
 import com.millicom.mitv.activities.MyProfileActivity;
@@ -39,7 +39,8 @@ import com.mitv.manager.GATrackingManager;
 
 public abstract class BaseActivity extends ActionBarActivity implements ActivityCallbackListener, OnClickListener {
 	private static final String TAG = BaseActivity.class.getName();
-
+	private static Stack<Activity> activityStack = new Stack<Activity>();
+	
 	protected RelativeLayout tabTvGuide;
 	protected RelativeLayout tabActivity;
 	protected RelativeLayout tabProfile;
@@ -70,12 +71,71 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 	/* This method implementation should deal with changes after the data has been fetched */
 	protected abstract void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier);
 
+	@Override
+	protected void onCreate(android.os.Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		PackageInfo packageInfo = GenericUtils.getPackageInfo(this);
+
+		int flags = packageInfo.applicationInfo.flags;
+
+		boolean isDebugMode = (flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+
+		if (isDebugMode) {
+			// TODO NewArc Enable strict mode
+			// enableStrictMode();
+		}
+
+		Intent intent = getIntent();
+
+		if (intent.hasExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME)) {
+			String returnActivityClassName = intent.getExtras().getString(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME);
+
+			try {
+				returnActivity = Class.forName(returnActivityClassName);
+			} catch (ClassNotFoundException cnfex) {
+				Log.e(TAG, cnfex.getMessage(), cnfex);
+
+				returnActivity = HomeActivity.class;
+			}
+		} else {
+			returnActivity = HomeActivity.class;
+		}
+
+		EasyTracker.getInstance(this).activityStart(this);
+
+		String className = this.getClass().getName();
+
+		GATrackingManager.sendView(className);
+		
+		activityStack.push(this);
+	}
+
+	
+	private Activity getMostRecentTabActivity() {
+		Activity mostRecentTabActivity = null;
+		
+		/* Iterate through stack, start at top of stack */
+		for(int i = activityStack.size() - 1; i >= 0; --i) {
+		    Activity activityInStack = activityStack.get(i);
+		    
+		    /* Check if activityInStack is any of the three TabActivities */
+		    if(activityInStack instanceof HomeActivity || activityInStack instanceof FeedActivity|| activityInStack instanceof MyProfileActivity) {
+		    	mostRecentTabActivity = activityInStack;
+		    	break;
+			}
+		}
+		
+		return mostRecentTabActivity;
+	}
 	
 	public Class<?> getReturnActivity() {
 		return returnActivity;
 	}
 
 	public void initTabViews() {
+
+		Activity mostRecentTabActivity = getMostRecentTabActivity();
 		tabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
 
 		if (tabTvGuide != null) {
@@ -129,11 +189,11 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 			}
 		} else {
 			/* Just created the activity */
-			if (this instanceof HomeActivity) {
+			if (mostRecentTabActivity instanceof HomeActivity) {
 				tabSelectedWasTVGuide();
-			} else if (this instanceof FeedActivity) {
+			} else if (mostRecentTabActivity instanceof FeedActivity) {
 				tabSelectedWasActivityFeed();
-			} else if (this instanceof MyProfileActivity) {
+			} else if (mostRecentTabActivity instanceof MyProfileActivity) {
 				tabSelectedWasMyProfile();
 			}
 		}
@@ -248,43 +308,6 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 				.penaltyLog().penaltyDeath().build());
 	}
 
-	@Override
-	protected void onCreate(android.os.Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		PackageInfo packageInfo = GenericUtils.getPackageInfo(this);
-
-		int flags = packageInfo.applicationInfo.flags;
-
-		boolean isDebugMode = (flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
-
-		if (isDebugMode) {
-			// TODO NewArc Enable strict mode
-			// enableStrictMode();
-		}
-
-		Intent intent = getIntent();
-
-		if (intent.hasExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME)) {
-			String returnActivityClassName = intent.getExtras().getString(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME);
-
-			try {
-				returnActivity = Class.forName(returnActivityClassName);
-			} catch (ClassNotFoundException cnfex) {
-				Log.e(TAG, cnfex.getMessage(), cnfex);
-
-				returnActivity = HomeActivity.class;
-			}
-		} else {
-			returnActivity = HomeActivity.class;
-		}
-
-		EasyTracker.getInstance(this).activityStart(this);
-
-		String className = this.getClass().getName();
-
-		GATrackingManager.sendView(className);
-	}
 
 	@Override
 	protected void onResume() {
@@ -347,6 +370,16 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 		GATrackingManager.stopTrackingView(className);
 
 		EasyTracker.getInstance(this).activityStop(this);
+	}
+	
+	
+
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		
+		/* Remove activity from activitStack */
+		activityStack.pop();
 	}
 
 	@Override

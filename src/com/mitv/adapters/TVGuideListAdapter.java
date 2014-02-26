@@ -117,8 +117,6 @@ public class TVGuideListAdapter extends AdListAdapter<TVChannelGuide> {
 			public void onClick(View v) {
 				Intent intent = new Intent(activity, ChannelPageActivity.class);
 				intent.putExtra(Consts.INTENT_EXTRA_CHANNEL_ID, guide.getChannelId().getChannelId());
-				// intent.putExtra(Consts.INTENT_EXTRA_CHOSEN_DATE_TVGUIDE, mDate);
-				// intent.putExtra(Consts.INTENT_EXTRA_TV_GUIDE_HOUR, mHour);
 
 				ContentManager.sharedInstance().setSelectedTVChannelId(guide.getChannelId());
 				ContentManager.sharedInstance().setSelectedHour(currentHour);
@@ -177,24 +175,6 @@ public class TVGuideListAdapter extends AdListAdapter<TVChannelGuide> {
 					}
 
 					rowInfo += showName;
-
-					// String programType = program.getProgramType();
-					// String broadcastType = broadcast.getBroadcastType();
-					//
-					//
-					// if (Consts.PROGRAM_TYPE_MOVIE.equals(programType)) {
-					// rowInfo += stringIconMovie;
-					// } else if (Consts.BROADCAST_TYPE_LIVE.equals(broadcastType)) {
-					// rowInfo += stringIconLive;
-					// }
-					//
-					// String showName = null;
-					// if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-					// showName = program.getSeries().getName();
-					// } else {
-					// }
-					//
-					// rowInfo += showName;
 
 					TextPaint testPaint = holder.textView.getPaint();
 

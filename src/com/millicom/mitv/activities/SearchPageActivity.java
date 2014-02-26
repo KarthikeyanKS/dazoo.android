@@ -38,6 +38,7 @@ import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVSearchResult;
 import com.millicom.mitv.utilities.GenericUtils;
+import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.adapters.SearchPageListAdapter;
 import com.mitv.customviews.InstantAutoComplete;
@@ -268,6 +269,7 @@ public class SearchPageActivity
 		if(result.getEntityType() != ContentTypeEnum.CHANNEL) {
 			// open the detail view for the individual broadcast
 			Intent intent = new Intent(SearchPageActivity.this, BroadcastPageActivity.class);
+			intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, this.getClass().getName());
 	
 			// we take one position less as we have a header view
 			int adjustedPosition = position - 1;
