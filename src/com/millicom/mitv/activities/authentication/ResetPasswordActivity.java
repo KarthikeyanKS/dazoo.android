@@ -56,6 +56,7 @@ public class ResetPasswordActivity
 	private static final String TAG = ResetPasswordActivity.class.getName();
 	
 	
+	private ActionBar			actionBar;
 	private Button				mMiTVResetPassword;
 	private EditText			mEmailResetPasswordEditText;
 	private TextView			mErrorTextView;
@@ -171,11 +172,13 @@ public class ResetPasswordActivity
 						startActivity(intent);
 						finish();
 
-					} else if (Consts.BAD_RESPONSE == responseCode) {
+					} else if (Consts.BAD_RESPONSE == responseCode) 
+					{
 						//Toast.makeText(getApplicationContext(), "Error! Email is not found!", Toast.LENGTH_SHORT).show();
-						if (Consts.BAD_RESPONSE_STRING_EMAIL_NOT_FOUND.equals(mBadResponseString)) {
-							mErrorTextView.setText(getResources().getString(R.string.reset_password_email_not_found));
-						}
+//						if (Consts.BAD_RESPONSE_STRING_EMAIL_NOT_FOUND.equals(mBadResponseString)) 
+//						{
+//							mErrorTextView.setText(getResources().getString(R.string.reset_password_email_not_found));
+//						}
 						mEmailResetPasswordEditText.setEnabled(true);
 						Log.d(TAG, "Bad response: " + mBadResponseString);
 					}

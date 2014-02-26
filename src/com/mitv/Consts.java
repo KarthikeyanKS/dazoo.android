@@ -107,6 +107,7 @@ public abstract class Consts {
 	public static final int TVGUIDE_NUMBER_OF_CHANNELS_PER_PAGE		= 10;
 	public static final int PASSWORD_LENGTH_MIN						= 6;
 	public static final int PASSWORD_LENGTH_MAX						= 20;
+	public static final int USER_FIRSTNAME_LENGTH_MIN				= 1;
 	public static final int API_POPULAR_COUNT_DEFAULT				= 3;
 
 	public static String		BACK_STACK											= "com.mitv.back.stack";
@@ -210,13 +211,6 @@ public abstract class Consts {
 
 	public static final int		BAD_RESPONSE_TIMEOUT								= 500;
 	
-	/* Response strings*/
-	public static final String 	BAD_RESPONSE_STRING_EMAIL_ALREADY_TAKEN				= "Email already taken";
-	public static final String 	BAD_RESPONSE_STRING_NOT_REAL_EMAIL					= "Not a real email";
-	public static final String 	BAD_RESPONSE_STRING_PASSWORD_TOO_SHORT				= "Password not secure";
-	public static final String 	BAD_RESPONSE_STRING_FIRSTNAME_NOT_SUPPLIED			= "First name not supplied";
-	public static final String 	BAD_RESPONSE_STRING_EMAIL_NOT_FOUND					= "Email not found";
-
 	/* Notifications */
 	public static final int		NOTIFY_MINUTES_BEFORE_THE_BROADCAST2				= 15;
 	public static final String	NOTIFY_NUMBER										= "com.mitv.notify.number";
@@ -240,7 +234,6 @@ public abstract class Consts {
 	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_ID					= "channel_id";
 	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_NAME					= "channel_name";
 	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_LOGO_URL				= "channel_logo_url";
-//	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_BEGINTIME			= "broadcast_begintime";
 	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_BEGINTIMEMILLIS	= "begin_time_millis";
 
 	// =========================== CONTENT ================================
@@ -473,6 +466,7 @@ public abstract class Consts {
 	public static final String INTERNAL_TRACKING_QUERYSTRING_PARAMETER_KEY_VALUE = "value";
 	public static final String INTERNAL_TRACKING_QUERYSTRING_PARAMETER_KEY_UID = "uid";
 	
+	
 	/* JSON KEYS FOR DESERIALIZATION */
 	public static final String JSON_USER_LIKE_SERIES_SERIES_ID = "seriesId";
 	public static final String JSON_USER_LIKE_SPORT_TYPE_ID = "sportTypeId";
@@ -489,31 +483,37 @@ public abstract class Consts {
 	public static final String JSON_VERSIONS_KEY_PROMOTION = "promotion";
 	public static final String JSON_VERSIONS_KEY_ANDROID = "android";
 	
+	
 	/* REFRESH INTERVALS FOR LOCAL DATA */
 	public static final int LIKE_IDS_REFRESH_INTERVAL_IN_MINUTES 		= 1;
 	public static final int CHANNEL_IDS_REFRESH_INTERVAL_IN_MINUTES 	= 1;
+	
 	
 	/* HTTP CORE REQUEST TIMEOUT DEFAULT VALUES */
 	public static final int HTTP_CORE_CONNECTION_TIMEOUT_IN_MILISECONDS = 10000;
 	public static final int HTTP_CORE_SOCKET_TIMEOUT_IN_MILISECONDS = 10000;
 	
+	
 	/* NETWORK CONNECTIVITY CHECK CONFIGURATIONS */
 	public static final String HOST_NAME_FOR_CONNECTIVITY_CHECK = "http://www.google.com";
     public static final int HOST_TIMEOUT_IN_MILISECONDS_FOR_CONNECTIVITY_CHECK = 2000;
+    
     
     /* USER AUTHORIZATION TOKEN FOR HTTP REQUESTS */
     public static final String USER_AUTHORIZATION_HEADER_KEY = "Authorization";
     public static final String USER_AUTHORIZATION_HEADER_VALUE_PREFIX = "Bearer";
     
+    
     /* LOCALE TOKENS FOR HTTP REQUESTS */
 	public static final String HTTP_REQUEST_DATA_LOCALE = "Dazoo-Locale";
 	public static final String HTTP_REQUEST_DATA_TIME_ZONE_OFFSET = "timeZoneOffset";
 	
-	// APPLICATION FACEBOOK AUTH
+	
+	/* CONFIGURATIONS FOR THE FACEBOOK AUTHENTICATION */
 	public static final String APP_FACEBOOK_ID = "265897563561764";
 	public static final String APP_FACEBOOK_PERMISSIONS = "basic_info,email,user_photos,user_location,user_likes";
 	public static final int APP_FACEBOOK_SSO = 1000;
 	public static final String APP_URL_FACEBOOK_GRAPH_ME = "https://graph.facebook.com/me";
-    
+		
     public static final int MAXIMUM_REMINDER_TIME_FOR_SHOW = 15;
 }

@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.BroadcastPageActivity;
-import com.millicom.mitv.activities.authentication.SignInOrSignupWithFacebookActivity;
+import com.millicom.mitv.activities.authentication.SignUpSelectionActivity;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVProgram;
@@ -308,7 +308,7 @@ public class BroadcastMainBlockPopulator
 	public Runnable yesLoginProc() {
 		return new Runnable() {
 			public void run() {
-				Intent intent = new Intent(mActivity, SignInOrSignupWithFacebookActivity.class);
+				Intent intent = new Intent(mActivity, SignUpSelectionActivity.class);
 				mActivity.startActivity(intent);
 			}
 		};

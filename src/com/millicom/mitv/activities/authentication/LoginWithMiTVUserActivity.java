@@ -15,7 +15,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.millicom.mitv.ContentManager;
-import com.millicom.mitv.activities.HomeActivity;
 import com.millicom.mitv.activities.base.BaseLoginActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
@@ -23,24 +22,30 @@ import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.utilities.RegularExpressionUtils;
 import com.mitv.Consts;
 import com.mitv.R;
+import com.mitv.customviews.ToastHelper;
 
 
 
-public class MiTVUserLoginActivity 
+public class LoginWithMiTVUserActivity 
 	extends BaseLoginActivity 
 	implements OnClickListener 
 {
-	private static final String TAG = MiTVUserLoginActivity.class.getName();
+	private static final String TAG = LoginWithMiTVUserActivity.class.getName();
 	
-	private Button miTVLoginButton;
-	private Button forgetPasswordButton;
-	private EditText emailLoginEditText;
-	private EditText passwordLoginEditText;
+	
+	private ActionBar actionBar;
+	
 	private RelativeLayout facebookContainer;
-	private TextView passwordErrorTv;
-	private TextView emailErrorTv;
-		
-	private Class<?> returnActivity;
+	
+	private EditText emailEditText;
+	private EditText passwordEditText;
+	
+	private Button loginButton;
+	private Button forgetPasswordButton;
+	
+	private TextView emailErrorTextView;
+	private TextView passwordErrorTextView;
+	
 	private boolean isInvalidEmail;
 	private boolean isInvalidPassword;
 	
@@ -53,36 +58,10 @@ public class MiTVUserLoginActivity
 		
 		setContentView(R.layout.layout_mitvlogin_activity);
 		
-		Intent intent = getIntent();
-		
-		if (intent.hasExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME)) 
-		{
-			String returnActivityClassName = intent.getExtras().getString(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME);
-			
-			try 
-			{
-				returnActivity = Class.forName(returnActivityClassName);
-			} 
-			catch (ClassNotFoundException cnfex) 
-			{
-				Log.e(TAG, cnfex.getMessage(), cnfex);
-				
-				returnActivity = HomeActivity.class;
-			}
-		}
-		else
-		{
-			returnActivity = HomeActivity.class;
-		}
-		
 		isInvalidEmail = true;
 		isInvalidPassword = true;
 
 		initViews();
-		
-		// TODO NewArc - Remove this after tests
-		emailLoginEditText.setText("junit_test@mi.tv");
-		passwordLoginEditText.setText("junit_test");
 	}
 	
 	
@@ -110,8 +89,8 @@ public class MiTVUserLoginActivity
 		
 		updateUI(UIStatusEnum.LOADING);
 		
-		String username = emailLoginEditText.getText().toString();
-		String password = passwordLoginEditText.getText().toString();
+		String username = emailEditText.getText().toString();
+		String password = passwordEditText.getText().toString();
 		
 		ContentManager.sharedInstance().performLogin(this, username, password);
 	}
@@ -138,16 +117,14 @@ public class MiTVUserLoginActivity
 	{
 		super.updateUIBaseElements(status);
 
-		emailErrorTv.setVisibility(View.INVISIBLE);
-		passwordErrorTv.setVisibility(View.INVISIBLE);
+		emailErrorTextView.setVisibility(View.INVISIBLE);
+		passwordErrorTextView.setVisibility(View.INVISIBLE);
 		
 		switch (status)
 		{	
 			case LOADING:
 			{
-				emailLoginEditText.setEnabled(false);
-				passwordLoginEditText.setEnabled(false);
-				miTVLoginButton.setEnabled(false);
+				disableFields();
 				break;
 			}
 			
@@ -155,57 +132,70 @@ public class MiTVUserLoginActivity
 			{
 				if(isInvalidEmail)
 				{
-					emailErrorTv.setText(getResources().getString(R.string.login_with_wrong_format_password));
-					emailErrorTv.setVisibility(View.VISIBLE);
-					passwordErrorTv.setVisibility(View.INVISIBLE);
+					emailErrorTextView.setVisibility(View.VISIBLE);
 				}
 				else if(isInvalidPassword)
 				{
-					passwordErrorTv.setText(getResources().getString(R.string.login_with_wrong_format_email));
-					passwordErrorTv.setVisibility(View.VISIBLE);			
-					emailErrorTv.setVisibility(View.INVISIBLE);
+					passwordErrorTextView.setVisibility(View.VISIBLE);
 				}
 				else
 				{
-					Log.e(TAG, "Failed validation for unknown reasons.");
+					Log.w(TAG, "Failed validation for unknown reasons.");
 				}
 				
-				emailLoginEditText.setEnabled(true);
-				passwordLoginEditText.setEnabled(true);
-				miTVLoginButton.setEnabled(true);
+				enableFields();
 				
 				break;
 			}
 		
 			case SUCCEEDED_WITH_DATA:
 			{
-				emailLoginEditText.setEnabled(true);
-				passwordLoginEditText.setEnabled(true);
-				miTVLoginButton.setEnabled(true);
+				enableFields();
 				
-				Intent intent = new Intent(MiTVUserLoginActivity.this, returnActivity);
+				Intent intent = new Intent(LoginWithMiTVUserActivity.this, getReturnActivity());
 
 				intent.putExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
 
 				startActivity(intent);
 				
+				finish();
+				
+				break;
+			}
+			
+			case FAILED:
+			{
+				enableFields();
+				// TODO NewArc - Display appropriate failure to the user
+				ToastHelper.createAndShowToast(this, "Login was unsuccessful.");
 				break;
 			}
 	
 			default:
 			{
-				emailLoginEditText.setEnabled(true);
-				passwordLoginEditText.setEnabled(true);
-				miTVLoginButton.setEnabled(true);
-				
-				passwordErrorTv.setText(getResources().getString(R.string.login_with_wrong_info));
-				passwordErrorTv.setVisibility(View.VISIBLE);
-				
-				emailLoginEditText.setEnabled(true);
-				passwordLoginEditText.setEnabled(true);
+				enableFields();
+				Log.w(TAG, "Unhandled UI status.");
 				break;
 			}
 		}
+	}
+	
+	
+	
+	private void enableFields()
+	{
+		emailEditText.setEnabled(true);
+		passwordEditText.setEnabled(true);
+		loginButton.setEnabled(true);
+	}
+	
+	
+	
+	private void disableFields()
+	{
+		emailEditText.setEnabled(false);
+		passwordEditText.setEnabled(false);
+		loginButton.setEnabled(false);
 	}
 
 	
@@ -220,26 +210,30 @@ public class MiTVUserLoginActivity
 
 		actionBar.setTitle(getResources().getString(R.string.login));
 
-		facebookContainer = (RelativeLayout) findViewById(R.id.mitvlogin_facebook_container);
-		facebookContainer.setOnClickListener(this);
+		emailEditText = (EditText) findViewById(R.id.mitvlogin_login_email_edittext);
+		passwordEditText = (EditText) findViewById(R.id.mitvlogin_login_password_edittext);
 
-		miTVLoginButton = (Button) findViewById(R.id.mitvlogin_login_button);
-		miTVLoginButton.setOnClickListener(this);
-		emailLoginEditText = (EditText) findViewById(R.id.mitvlogin_login_email_edittext);
-		passwordLoginEditText = (EditText) findViewById(R.id.mitvlogin_login_password_edittext);
-
-		passwordErrorTv = (TextView) findViewById(R.id.mitvlogin_login_password_error_tv);
-		emailErrorTv = (TextView) findViewById(R.id.mitvlogin_login_email_error_tv);
-
+		loginButton = (Button) findViewById(R.id.mitvlogin_login_button);
+		loginButton.setOnClickListener(this);
+		
+		emailErrorTextView = (TextView) findViewById(R.id.mitvlogin_login_email_error_tv);
+		passwordErrorTextView = (TextView) findViewById(R.id.mitvlogin_login_password_error_tv);		
+		
+		emailErrorTextView.setText(getResources().getString(R.string.login_with_wrong_format_email));
+		passwordErrorTextView.setText(getResources().getString(R.string.login_with_wrong_format_password));
+		
 		forgetPasswordButton = (Button) findViewById(R.id.mitvlogin_forgot_password_button);
 		forgetPasswordButton.setOnClickListener(this);
+		
+		facebookContainer = (RelativeLayout) findViewById(R.id.mitvlogin_facebook_container);
+		facebookContainer.setOnClickListener(this);
 	}
 
 
 	
 	private boolean isEmailValid() 
 	{
-		String email = emailLoginEditText.getText().toString();
+		String email = emailEditText.getText().toString();
 		
 		boolean isValid = RegularExpressionUtils.checkEmail(email);
 		
@@ -250,21 +244,13 @@ public class MiTVUserLoginActivity
 	
 	private boolean isPasswordValid() 
 	{
-		String password = passwordLoginEditText.getText().toString();
+		String password = passwordEditText.getText().toString();
 		
 		boolean isValid = RegularExpressionUtils.checkPassword(password);
 		
 		return isValid;
 	}
 	
-	
-	
-	@Override
-	public void onBackPressed() 
-	{
-		super.onBackPressed();
-	}
-
 	
 	
 	@Override
@@ -276,14 +262,14 @@ public class MiTVUserLoginActivity
 		{
 			case R.id.mitvlogin_facebook_container:
 			{
-				Intent intent = new Intent(MiTVUserLoginActivity.this, FacebookLoginActivity.class);
+				Intent intent = new Intent(LoginWithMiTVUserActivity.this, LoginWithFacebookActivity.class);
 				startActivity(intent);
 				break;
 			}
 			
 			case R.id.mitvlogin_forgot_password_button:
 			{
-				Intent intent = new Intent(MiTVUserLoginActivity.this, ResetPasswordActivity.class);
+				Intent intent = new Intent(LoginWithMiTVUserActivity.this, ResetPasswordActivity.class);
 				startActivity(intent);
 				break;
 			}
@@ -292,7 +278,13 @@ public class MiTVUserLoginActivity
 			{
 				loadData();
 				break;
-			}		
+			}
+			
+			default:
+			{
+				Log.w(TAG, "Unhandled onClick.");
+				break;
+			}
 		}
 	}
 }

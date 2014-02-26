@@ -49,6 +49,9 @@ public abstract class AsyncTaskBase<T>
 	protected FetchRequestResultEnum requestResultStatus;
 	protected Object requestResultObjectContent;
 	
+	protected HTTPCoreResponse response;
+	
+	
 	
 	public AsyncTaskBase(
 			ContentCallbackListener contentCallbackListener, 
@@ -62,34 +65,7 @@ public abstract class AsyncTaskBase<T>
 		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, null, false, httpRequestType, isRelativeURL, url, new URLParameters(), new HeaderParameters(), null);
 	}
 	
-//	public AsyncTaskBase(
-//			ContentCallbackListener contentCallbackListener, 
-//			ActivityCallbackListener activityCallBackListener,
-//			RequestIdentifierEnum requestIdentifier, 
-//			Class<T> clazz,
-//			Class clazzSingle,
-//			boolean manualDeserialization,
-//			HTTPRequestTypeEnum httpRequestType,
-//			boolean isRelativeURL,
-//			String url) 
-//	{
-//		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, clazzSingle, manualDeserialization, httpRequestType, isRelativeURL, url, new URLParameters(), new HeaderParameters(), null);
-//	}
-//	
-//	public AsyncTaskBase(
-//			ContentCallbackListener contentCallbackListener, 
-//			ActivityCallbackListener activityCallBackListener,
-//			RequestIdentifierEnum requestIdentifier, 
-//			Class<T> clazz,
-//			boolean manualDeserialization,
-//			HTTPRequestTypeEnum httpRequestType,
-//			boolean isRelativeURL,
-//			String url) 
-//	{
-//		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, isRelativeURL, url, new URLParameters(), new HeaderParameters(), null);
-//	}
-	
-	
+
 	
 	public AsyncTaskBase(
 			ContentCallbackListener contentCallbackListener,
@@ -118,6 +94,7 @@ public abstract class AsyncTaskBase<T>
 		
 		this.requestResultStatus = FetchRequestResultEnum.UNKNOWN_ERROR;
 		this.requestResultObjectContent = null;
+		this.response = null;
 		
 		/* Add the locale to the header data */
 		Locale locale = SecondScreenApplication.getCurrentLocale();
@@ -130,7 +107,8 @@ public abstract class AsyncTaskBase<T>
 			Integer timeZoneOffsetInMinutes = Integer.valueOf(timeZoneOffsetInMinutesAsInt);
 		
 			headerParameters.add(Consts.HTTP_REQUEST_DATA_LOCALE, locale.toString());
-			headerParameters.add(Consts.HTTP_REQUEST_DATA_TIME_ZONE_OFFSET, timeZoneOffsetInMinutes.toString());
+			
+			urlParameters.add(Consts.HTTP_REQUEST_DATA_TIME_ZONE_OFFSET, timeZoneOffsetInMinutes.toString());
 		}
 		else
 		{
@@ -175,7 +153,7 @@ public abstract class AsyncTaskBase<T>
 	@Override
 	protected Void doInBackground(String... params) 
 	{
-		HTTPCoreResponse response = HTTPCore.sharedInstance().executeRequest(httpRequestType, url, urlParameters, headerParameters, bodyContentData);
+		response = HTTPCore.sharedInstance().executeRequest(httpRequestType, url, urlParameters, headerParameters, bodyContentData);
 		
 		requestResultStatus = FetchRequestResultEnum.getFetchRequestResultEnumFromCode(response.getStatusCode());
 		

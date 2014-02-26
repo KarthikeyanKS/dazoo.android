@@ -216,7 +216,7 @@
 
         <!-- SIGN IN -->
         <activity
-            android:name="com.millicom.mitv.activities.authentication.SignInOrSignupWithFacebookActivity"
+            android:name="com.millicom.mitv.activities.authentication.SignUpSelectionActivity"
             android:configChanges="keyboardHidden|orientation"
             android:parentActivityName="com.millicom.mitv.activities.MyProfileActivity"
             android:screenOrientation="portrait"
@@ -242,7 +242,7 @@
 
         <!-- MiTV LOGIN -->
         <activity
-            android:name="com.millicom.mitv.activities.authentication.MiTVUserLoginActivity"
+            android:name="com.millicom.mitv.activities.authentication.LoginWithMiTVUserActivity"
             android:configChanges="keyboardHidden|orientation"
             android:parentActivityName="com.millicom.mitv.activities.MyProfileActivity"
             android:screenOrientation="portrait"
@@ -255,7 +255,7 @@
 
         <!-- FACEBOOK LOGIN -->
         <activity
-            android:name="com.millicom.mitv.activities.authentication.FacebookLoginActivity"
+            android:name="com.millicom.mitv.activities.authentication.LoginWithFacebookActivity"
             android:configChanges="keyboardHidden|orientation"
             android:icon="@drawable/ic_nav_bar"
             android:screenOrientation="portrait"
@@ -268,7 +268,7 @@
         <activity
             android:name="com.millicom.mitv.activities.authentication.ResetPasswordActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.millicom.mitv.activities.authentication.MiTVUserLoginActivity"
+            android:parentActivityName="com.millicom.mitv.activities.authentication.LoginWithMiTVUserActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >

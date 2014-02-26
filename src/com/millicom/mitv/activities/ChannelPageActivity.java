@@ -22,6 +22,7 @@ import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVChannel;
 import com.millicom.mitv.models.TVChannelGuide;
 import com.millicom.mitv.models.TVChannelId;
+import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.adapters.ChannelPageListAdapter;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -89,6 +90,7 @@ public class ChannelPageActivity
 			{
 				// open the detail view for the individual broadcast
 				Intent intent = new Intent(ChannelPageActivity.this, BroadcastPageActivity.class);
+				intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, this.getClass().getName());
 
 				// we take one position less as we have a header view
 				int adjustedPosition = position - 1;

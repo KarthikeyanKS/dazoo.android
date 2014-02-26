@@ -768,6 +768,7 @@ public class ContentManager
 	{
 		if (result.wasSuccessful() && content != null) 
 		{
+			@SuppressWarnings("unchecked")
 			ArrayList<TVBroadcastWithChannelInfo> broadcastsPopular = (ArrayList<TVBroadcastWithChannelInfo>) content;
 			storage.setPopularBroadcasts(broadcastsPopular);
 			
@@ -868,7 +869,7 @@ public class ContentManager
 	{
 		if (result.wasSuccessful() && content != null)
 		{
-			// TODO change to use SignUpCompleteData object instead??
+			// TODO NewArc - Refactor to SignUpCompleteData object instead?
 			UserLoginData userData = (UserLoginData) content;
 			storage.setUserData(userData);
 

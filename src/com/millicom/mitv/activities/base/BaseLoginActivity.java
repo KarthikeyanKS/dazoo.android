@@ -17,10 +17,7 @@ import com.mitv.R;
 public abstract class BaseLoginActivity 
 	extends BaseActivity 
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = BaseLoginActivity.class.getName();
-
-	
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) 

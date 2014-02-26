@@ -9,13 +9,11 @@ import java.util.LinkedList;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.millicom.mitv.ContentManager;
-import com.millicom.mitv.activities.base.BaseActivity;
 import com.millicom.mitv.activities.base.BaseContentActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
@@ -36,6 +34,7 @@ import com.mitv.tvguide.BroadcastUpcomingBlockPopulator;
 public class BroadcastPageActivity 
 	extends BaseContentActivity
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = BroadcastPageActivity.class.getName();
 
 	private TVChannelId channelId;

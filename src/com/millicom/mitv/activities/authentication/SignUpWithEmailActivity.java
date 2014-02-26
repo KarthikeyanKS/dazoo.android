@@ -1,17 +1,15 @@
+
 package com.millicom.mitv.activities.authentication;
 
-import java.util.concurrent.ExecutionException;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.text.Editable;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.TextPaint;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.style.URLSpan;
@@ -21,124 +19,286 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
+import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.base.BaseLoginActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
+import com.millicom.mitv.utilities.RegularExpressionUtils;
 import com.mitv.Consts;
 import com.mitv.R;
-import com.mitv.asynctasks.MiTVRegistrationTask;
 import com.mitv.customviews.FontTextView;
 import com.mitv.customviews.TextDrawable;
+import com.mitv.customviews.ToastHelper;
 
-public class SignUpWithEmailActivity extends BaseLoginActivity implements OnClickListener {
+
+
+public class SignUpWithEmailActivity 
+	extends BaseLoginActivity 
+	implements OnClickListener
+{
 	private static final String TAG = SignUpWithEmailActivity.class.getName();
 
+	
+	private ActionBar actionBar;
+	
+	private FontTextView termsOfService;
+	private TextDrawable emailTextDrawable;
+	private TextDrawable passwordTextDrawable;
+	
+	
+	private EditText firstNameEditText;
+	private EditText lastNameEditText;
+	private EditText emailEditText;
+	private EditText passwordEditText;
+	
+	private Button signUpButton;
+	
 	private TextView firstnameErrorTextView;
 	private TextView lastnameErrorTextView;
 	private TextView emailErrorTextView;
 	private TextView passwordErrorTextView;
-	private FontTextView termsWebLink;
-	private EditText firstNameEditText;
-	private EditText lastNameEditText;
-	private EditText passwordRegisterEditText;
-	private EditText emailRegisterEditText;
-	private Button miTVRegisterButton;
-	private TextDrawable emailTextDrawable;
-	private TextDrawable passwordTextDrawable;
+	
+	private boolean isInvalidFirstname;
+	private boolean isInvalidLastname;
+	private boolean isInvalidEmail;
+	private boolean isInvalidPassword;
+	
+	private FetchRequestResultEnum fetchRequestResult;
 
-	private String userEmailRegister;
-	private String userPasswordRegister;
-	private String userFirstNameRegister;
-	private String userLastNameRegister;
-	private String mBadResponseString;
-	private boolean isFromActivity;
-
+	
+	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
-
+		
 		setContentView(R.layout.layout_signup_activity);
-
-		Intent intent = getIntent();
-
-		if (intent.hasExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY)) {
-			isFromActivity = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_FROM_ACTIVITY);
-		}
-
+		
+		isInvalidFirstname = true;
+		isInvalidLastname = true;
+		isInvalidEmail = true;
+		isInvalidPassword = true;
+		
 		initViews();
 	}
-
+	
+	
+	
 	@Override
-	protected void onResume() {
+	protected void onResume() 
+	{
 		super.onResume();
 	}
 
+	
+	
 	@Override
-	protected void loadData() {
-		// TODO NewArc - Do something here?
+	protected void loadData() 
+	{
+		isInvalidFirstname = (isFirstnameValid() == false);
+		isInvalidLastname = (isLastnameValid() == false);
+		isInvalidEmail = (isEmailValid() == false);
+		isInvalidPassword = (isPasswordValid() == false);
+		
+		if(isInvalidFirstname || isInvalidLastname || isInvalidEmail || isInvalidPassword)
+		{
+			updateUI(UIStatusEnum.FAILED_VALIDATION);
+			
+			return;
+		}
+		
+		updateUI(UIStatusEnum.LOADING);
+		
+		String firstname = firstNameEditText.getText().toString();
+		String lastname = lastNameEditText.getText().toString();
+		String email = emailEditText.getText().toString();
+		String password = passwordEditText.getText().toString();
+		
+		ContentManager.sharedInstance().performSignUp(this, email, password, firstname, lastname);
 	}
-
+	
+	
+	
 	@Override
-	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {
-		if (fetchRequestResult.wasSuccessful()) {
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
+	{
+		if (fetchRequestResult.wasSuccessful()) 
+		{
 			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
-		} else {
+		} 
+		else
+		{
+			this.fetchRequestResult = fetchRequestResult;
+			
 			updateUI(UIStatusEnum.FAILED);
 		}
 	}
+	
+
 
 	@Override
-	protected void updateUI(UIStatusEnum status) {
+	protected void updateUI(UIStatusEnum status) 
+	{
 		super.updateUIBaseElements(status);
 
-		switch (status) {
-		case SUCCEEDED_WITH_DATA: {
-			// TODO NewArc - Do something here?
-			break;
-		}
+		firstnameErrorTextView.setVisibility(View.INVISIBLE);
+		lastnameErrorTextView.setVisibility(View.INVISIBLE);
+		emailErrorTextView.setVisibility(View.INVISIBLE);
+		passwordErrorTextView.setVisibility(View.INVISIBLE);
+		
+		switch (status) 
+		{	
+			case LOADING:
+			{
+				disableFields();
+				break;
+			}
+			
+			case FAILED_VALIDATION:
+			{
+				if(isInvalidEmail)
+				{
+					emailErrorTextView.setVisibility(View.VISIBLE);
+				}
+				else if(isInvalidPassword)
+				{
+					passwordErrorTextView.setVisibility(View.VISIBLE);			
+				}
+				else if(isInvalidFirstname)
+				{
+					firstnameErrorTextView.setVisibility(View.VISIBLE);
+				}
+				else if(isInvalidLastname)
+				{
+					lastnameErrorTextView.setVisibility(View.VISIBLE);
+				}
+				else
+				{
+					Log.w(TAG, "Failed validation for unknown reasons.");
+				}
+				
+				enableFields();
+				
+				break;
+			}
+			
+			case SUCCEEDED_WITH_DATA:
+			{
+				enableFields();
+				
+				Intent intent = new Intent(SignUpWithEmailActivity.this, getReturnActivity());
 
-		default: {
-			// TODO NewArc - Do something here?
-			break;
-		}
+				intent.putExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
+
+				startActivity(intent);
+				
+				finish();
+				
+				break;
+			}
+			
+			case FAILED:
+			{
+				switch (fetchRequestResult) 
+				{
+					case USER_SIGN_UP_EMAIL_ALREADY_TAKEN:
+					{
+						emailErrorTextView.setVisibility(View.VISIBLE);
+						emailErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_already_registered));
+						
+						emailEditText.setBackgroundResource(R.drawable.edittext_activated);
+						emailEditText.requestFocus();
+						break;
+					}
+					
+					case USER_SIGN_UP_EMAIL_IS_INVALID:
+					{
+						emailErrorTextView.setVisibility(View.VISIBLE);
+						emailErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_incorrect));
+						
+						emailEditText.setBackgroundResource(R.drawable.edittext_activated);
+						emailEditText.requestFocus();
+						break;
+					}
+					
+					case USER_SIGN_UP_PASSWORD_TOO_SHORT:
+					{
+						passwordErrorTextView.setVisibility(View.VISIBLE);
+						
+						StringBuilder sb = new StringBuilder();
+						sb.append(getResources().getString(R.string.signup_with_email_error_passwordlength));
+						sb.append(" ");
+						sb.append(Consts.PASSWORD_LENGTH_MIN);
+						sb.append(" ");
+						sb.append(getResources().getString(R.string.signup_with_email_characters));
+						
+						passwordErrorTextView.setText(sb.toString());
+						
+						passwordEditText.setBackgroundResource(R.drawable.edittext_activated);	
+						passwordEditText.requestFocus();
+						break;
+					}
+					
+					case USER_SIGN_UP_FIRST_NAME_NOT_SUPLIED:
+					{
+						firstnameErrorTextView.setVisibility(View.VISIBLE);
+						
+						firstNameEditText.setBackgroundResource(R.drawable.edittext_activated);
+						firstNameEditText.requestFocus();
+						
+						break;
+					}
+					
+					default:
+					{
+						Log.w(TAG, "Unhandled fetch request result status.");
+						break;
+					}
+				}
+				
+				enableFields();
+				
+				// TODO NewArc - Display appropriate failure to the user
+				ToastHelper.createAndShowToast(this, "Login was unsuccessful.");
+				break;
+			}
+	
+			default:
+			{
+				enableFields();
+				Log.w(TAG, "Unhandled UI status.");
+				break;
+			}
 		}
 	}
-
-	private class URLSpanNoUnderline extends URLSpan {
-		public URLSpanNoUnderline(String url) {
-			super(url);
-		}
-
-		@Override
-		public void updateDrawState(TextPaint ds) {
-			super.updateDrawState(ds);
-
-			ds.setUnderlineText(false);
-		}
+	
+	
+	
+	private void enableFields()
+	{
+		firstNameEditText.setEnabled(true);
+		lastNameEditText.setEnabled(true);
+		emailEditText.setEnabled(true);
+		passwordEditText.setEnabled(true);
+		signUpButton.setEnabled(true);
 	}
-
-	private void stripUnderlines(TextView textView) {
-		Spannable s = (Spannable) textView.getText();
-
-		URLSpan[] spans = s.getSpans(0, s.length(), URLSpan.class);
-
-		for (URLSpan span : spans) {
-			int start = s.getSpanStart(span);
-			int end = s.getSpanEnd(span);
-
-			s.removeSpan(span);
-
-			span = new URLSpanNoUnderline(span.getURL());
-
-			s.setSpan(span, start, end, 0);
-		}
-
-		textView.setText(s);
+	
+	
+	
+	private void disableFields()
+	{
+		firstNameEditText.setEnabled(false);
+		lastNameEditText.setEnabled(false);
+		emailEditText.setEnabled(false);
+		passwordEditText.setEnabled(false);
+		signUpButton.setEnabled(false);
 	}
-
-	private void initViews() {
+	
+	
+	
+	private void initViews() 
+	{
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setDisplayUseLogoEnabled(true);
@@ -149,198 +309,203 @@ public class SignUpWithEmailActivity extends BaseLoginActivity implements OnClic
 
 		firstNameEditText = (EditText) findViewById(R.id.signup_firstname_edittext);
 		lastNameEditText = (EditText) findViewById(R.id.signup_lastname_edittext);
-		emailRegisterEditText = (EditText) findViewById(R.id.signup_email_edittext);
-		passwordRegisterEditText = (EditText) findViewById(R.id.signup_password_edittext);
+		emailEditText = (EditText) findViewById(R.id.signup_email_edittext);
+		passwordEditText = (EditText) findViewById(R.id.signup_password_edittext);
+		
 		firstnameErrorTextView = (TextView) findViewById(R.id.signup_error_firstname_textview);
 		lastnameErrorTextView = (TextView) findViewById(R.id.signup_error_lastname_textview);
 		emailErrorTextView = (TextView) findViewById(R.id.signup_error_email_textview);
 		passwordErrorTextView = (TextView) findViewById(R.id.signup_error_password_textview);
-		miTVRegisterButton = (Button) findViewById(R.id.signup_register_button);
-		miTVRegisterButton.setOnClickListener(this);
+		
+		firstnameErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_firstname));
+		lastnameErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_lastname));
+		emailErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_already_registered));
+		passwordErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_passwordlength));
+		
+		signUpButton = (Button) findViewById(R.id.signup_register_button);
+		signUpButton.setOnClickListener(this);
 
-		termsWebLink = (FontTextView) findViewById(R.id.signup_terms_link);
+		termsOfService = (FontTextView) findViewById(R.id.signup_terms_link);
 
 		String linkText = getString(R.string.terms_link);
-		termsWebLink.setText(Html.fromHtml(linkText));
-		termsWebLink.setMovementMethod(LinkMovementMethod.getInstance());
-		stripUnderlines(termsWebLink);
+		
+		termsOfService.setText(Html.fromHtml(linkText));
+		termsOfService.setMovementMethod(LinkMovementMethod.getInstance());
+		
+		stripUnderlines(termsOfService);
 
 		setTextWatchers();
 
 		// TODO: Static drawable background is not properly set, causing a flickering effect. Quickfix!
 		firstNameEditText.setBackgroundResource(R.drawable.edittext_standard);
 		lastNameEditText.setBackgroundResource(R.drawable.edittext_standard);
-		emailRegisterEditText.setBackgroundResource(R.drawable.edittext_standard);
-		passwordRegisterEditText.setBackgroundResource(R.drawable.edittext_standard);
+		emailEditText.setBackgroundResource(R.drawable.edittext_standard);
+		passwordEditText.setBackgroundResource(R.drawable.edittext_standard);
 	}
-
-	// Sets the TextWatchers for the extra drawable hints.
-	private void setTextWatchers() {
-		passwordTextDrawable = new TextDrawable(this);
-		passwordTextDrawable.setText(getResources().getString(R.string.signup_characters));
-		passwordTextDrawable.setTextColor(getResources().getColor(R.color.grey2));
-		passwordRegisterEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, passwordTextDrawable, null);
-
-		passwordRegisterEditText.addTextChangedListener(new TextWatcher() {
-			@Override
-			public void afterTextChanged(Editable s) {
-				if (passwordRegisterEditText.getText().toString().equals("")) {
-					passwordRegisterEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, passwordTextDrawable, null);
-				} else {
-					passwordRegisterEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-				}
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-			}
-		});
-
-		emailTextDrawable = new TextDrawable(this);
-		emailTextDrawable.setText(getResources().getString(R.string.signup_email_example));
-		emailTextDrawable.setTextColor(getResources().getColor(R.color.grey2));
-		emailRegisterEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, emailTextDrawable, null);
-
-		emailRegisterEditText.addTextChangedListener(new TextWatcher() {
-			@Override
-			public void afterTextChanged(Editable s) {
-				if (emailRegisterEditText.getText().toString().equals("")) {
-					emailRegisterEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, emailTextDrawable, null);
-				} else {
-					emailRegisterEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-				}
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-			}
-		});
+	
+	
+	
+	private boolean isFirstnameValid() 
+	{
+		String email = firstNameEditText.getText().toString();
+		
+		boolean isValid = RegularExpressionUtils.checkUserFirstname(email);
+		
+		return isValid;
 	}
+	
+	
+	
+	private boolean isLastnameValid() 
+	{
+		return true;
+	}
+	
+	
+	private boolean isEmailValid() 
+	{
+		String email = emailEditText.getText().toString();
+		
+		boolean isValid = RegularExpressionUtils.checkEmail(email);
+		
+		return isValid;
+	}
+	
+	
+	
+	private boolean isPasswordValid() 
+	{
+		String password = passwordEditText.getText().toString();
+		
+		boolean isValid = RegularExpressionUtils.checkPassword(password);
+		
+		return isValid;
+	}
+	
+	
+	
+	// TODO: What is this and why is it needed?
+	private class URLSpanNoUnderline extends URLSpan 
+	{
+		public URLSpanNoUnderline(String url) 
+		{
+			super(url);
+		}
 
-	@Override
-	public void onClick(View v) {
-		int id = v.getId();
-
-		switch (id) {
-		case R.id.signup_register_button:
-			firstNameEditText.setEnabled(false);
-			lastNameEditText.setEnabled(false);
-			emailRegisterEditText.setEnabled(false);
-			passwordRegisterEditText.setEnabled(false);
-
-			emailErrorTextView.setText("");
-			firstnameErrorTextView.setText("");
-			lastnameErrorTextView.setText("");
-			passwordErrorTextView.setText("");
-
-			firstNameEditText.setBackgroundResource(R.drawable.edittext_standard);
-			lastNameEditText.setBackgroundResource(R.drawable.edittext_standard);
-			emailRegisterEditText.setBackgroundResource(R.drawable.edittext_standard);
-			passwordRegisterEditText.setBackgroundResource(R.drawable.edittext_standard);
-
-			userEmailRegister = emailRegisterEditText.getText().toString();
-			userPasswordRegister = passwordRegisterEditText.getText().toString();
-			userFirstNameRegister = firstNameEditText.getText().toString();
-			userLastNameRegister = lastNameEditText.getText().toString();
-
-			MiTVRegistrationTask mitvRegisterTask = new MiTVRegistrationTask();
-
-
-			//TODO NewArc use new architechure
-			try {
-				// mitvToken = mitvRegisterTask.execute(userEmailRegister, userPasswordRegister, userFirstNameRegister,
-				// userLastNameRegister).get();
-				String responseStr = mitvRegisterTask.execute(userEmailRegister, userPasswordRegister, userFirstNameRegister, userLastNameRegister).get();
-				// if (responseStr != null && responseStr.isEmpty() != true) {
-				if (responseStr != null && TextUtils.isEmpty(responseStr) != true) {
-					JSONObject mitvRegJSON = new JSONObject(responseStr);
-//					String mitvToken = mitvRegJSON.optString(Consts.API_TOKEN);
-
-					// TODO do anything here
-					// if (mitvToken.isEmpty() != true && mitvToken.length() > 0) {
-					// if (mitvToken != null && TextUtils.isEmpty(mitvToken) != true) {
-					// ((SecondScreenApplication) getApplicationContext()).setAccessToken(mitvToken);
-					// if (AuthenticationService.storeUserInformation(this, mitvRegJSON)) {
-					// //Toast.makeText(getApplicationContext(), "Hello, " + ((SecondScreenApplication)
-					// getApplicationContext()).getUserFirstName(), Toast.LENGTH_SHORT).show();
-					// Log.d(TAG, "Hello, " + ((SecondScreenApplication) getApplicationContext()).getUserFirstName());
-					//
-					// // go to Start page
-					// Intent intent;
-					// if (mIsFromActivity) {
-					// intent = new Intent(SignUpWithEmailActivity.this, ActivityActivity.class);
-					// }
-					// else {
-					// intent = new Intent(SignUpWithEmailActivity.this, HomeActivity.class);
-					// }
-					// intent.putExtra(Consts.INTENT_EXTRA_SIGN_UP_ACTION, true);
-					// startActivity(intent);
-					// finish();
-					//
-					// } else {
-					// //Toast.makeText(getApplicationContext(), "Failed to fetch the user information from backend.",
-					// Toast.LENGTH_SHORT).show();
-					// Log.d(TAG, "!!! Failed to fetch the user information from backend !!!");
-					// }
-					// } else {
-					// //Toast.makeText(getApplicationContext(),
-					// "Error! Something went wrong while creating an account with MiTV. Please, try again later!",
-					// Toast.LENGTH_LONG).show();
-					// Log.d(TAG, "Error! Something went wrong while creating an account with MiTV. Please, try again later!");
-					// }
-				} else {
-					// Toast.makeText(getApplicationContext(),
-					// "Error! Something went wrong while creating an account with us. Please, try again later!",
-					// Toast.LENGTH_SHORT).show();
-					Log.d(TAG, "Error! MiTV Login: level response from backend");
-					firstNameEditText.setEnabled(true);
-					lastNameEditText.setEnabled(true);
-					emailRegisterEditText.setEnabled(true);
-					passwordRegisterEditText.setEnabled(true);
-
-					// Set error textviews and highlighting
-					if (mBadResponseString.equals(Consts.BAD_RESPONSE_STRING_EMAIL_ALREADY_TAKEN)) {
-						emailErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_already_registered));
-						emailRegisterEditText.setBackgroundResource(R.drawable.edittext_activated);
-						emailRegisterEditText.requestFocus();
-					} else if (mBadResponseString.equals(Consts.BAD_RESPONSE_STRING_NOT_REAL_EMAIL)) {
-						emailErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_incorrect));
-						emailRegisterEditText.setBackgroundResource(R.drawable.edittext_activated);
-						emailRegisterEditText.requestFocus();
-					} else if (mBadResponseString.equals(Consts.BAD_RESPONSE_STRING_PASSWORD_TOO_SHORT)) {
-						passwordErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_passwordlength) + " " + Consts.PASSWORD_LENGTH_MIN + " "
-								+ getResources().getString(R.string.signup_with_email_characters));
-						passwordRegisterEditText.setBackgroundResource(R.drawable.edittext_activated);
-						passwordRegisterEditText.requestFocus();
-					} else if (mBadResponseString.equals(Consts.BAD_RESPONSE_STRING_FIRSTNAME_NOT_SUPPLIED)) {
-						firstnameErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_firstname));
-						firstNameEditText.setBackgroundResource(R.drawable.edittext_activated);
-						firstNameEditText.requestFocus();
-					}
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (ExecutionException e) {
-				e.printStackTrace();
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			break;
+		@Override
+		public void updateDrawState(TextPaint ds)
+		{
+			super.updateDrawState(ds);
+			
+			ds.setUnderlineText(false);
 		}
 	}
 
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
+	
+	
+	// TODO: What is this and why is it needed?
+	private void stripUnderlines(TextView textView) 
+	{
+		Spannable s = (Spannable) textView.getText();
+		
+		URLSpan[] spans = s.getSpans(0, s.length(), URLSpan.class);
+		
+		for (URLSpan span : spans) 
+		{
+			int start = s.getSpanStart(span);
+			int end = s.getSpanEnd(span);
+			
+			s.removeSpan(span);
+			
+			span = new URLSpanNoUnderline(span.getURL());
+			
+			s.setSpan(span, start, end, 0);
+		}
+		
+		textView.setText(s);
+	}
 
-		finish();
+	
+	
+	private void setTextWatchers() 
+	{
+		passwordTextDrawable = new TextDrawable(this);
+		passwordTextDrawable.setText(getResources().getString(R.string.signup_characters));
+		passwordTextDrawable.setTextColor(getResources().getColor(R.color.grey2));
+		
+		passwordEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, passwordTextDrawable, null);
+		
+		passwordEditText.addTextChangedListener(new TextWatcher() 
+		{
+			@Override
+			public void afterTextChanged(Editable s) 
+			{
+				if (passwordEditText.getText().toString().equals(""))
+				{
+					passwordEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, passwordTextDrawable, null);
+				} 
+				else 
+				{
+					passwordEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+				}
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {}
+		});
+		
+		emailTextDrawable = new TextDrawable(this);
+		emailTextDrawable.setText(getResources().getString(R.string.signup_email_example));
+		emailTextDrawable.setTextColor(getResources().getColor(R.color.grey2));
+		
+		emailEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, emailTextDrawable, null);
+		
+		emailEditText.addTextChangedListener(new TextWatcher() 
+		{
+			@Override
+			public void afterTextChanged(Editable s) 
+			{
+				if (emailEditText.getText().toString().equals(""))
+				{
+					emailEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, emailTextDrawable, null);
+				} 
+				else 
+				{
+					emailEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+				}
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {}
+		});
+	}
+
+	
+	
+	@Override
+	public void onClick(View v)
+	{
+		int id = v.getId();
+		
+		switch (id) 
+		{
+			case R.id.signup_register_button:
+			{
+				loadData();
+				break;
+			}
+			
+			default:
+			{
+				Log.w(TAG, "Unhandled onClick.");
+				break;
+			}
+		}
 	}
 }
