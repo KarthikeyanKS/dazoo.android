@@ -294,7 +294,7 @@ public class BroadcastMainBlockPopulator
 
 			@Override
 			public void onClick(View v) {
-				ShareUtils.shareAction(mActivity, mActivity.getResources().getString(R.string.app_name), broadcast.getShareUrl(), mActivity.getResources().getString(R.string.share_action_title));
+				ShareUtils.startShareActivity(mActivity, mActivity.getResources().getString(R.string.app_name), broadcast.getShareUrl(), mActivity.getResources().getString(R.string.share_action_title));
 			}
 		});
 

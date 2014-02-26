@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.base.BaseActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
+import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVProgram;
@@ -54,7 +55,7 @@ public class RepetitionsPageActivity
 		setContentView(R.layout.layout_repeating_list_activity);
 
 		runningBroadcast = ContentManager.sharedInstance().getFromStorageSelectedBroadcastWithChannelInfo();
-		repeatingBroadcasts = ContentManager.sharedInstance().getFromStorageRepeatingBroadcasts(runningBroadcast);
+		repeatingBroadcasts = ContentManager.sharedInstance().getFromStorageRepeatingBroadcastsVerifyCorrect(runningBroadcast);
 
 		initViews();
 	}
@@ -146,7 +147,7 @@ public class RepetitionsPageActivity
 	
 	
 	@Override
-	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult) 
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
 		if (fetchRequestResult.wasSuccessful()) 
 		{

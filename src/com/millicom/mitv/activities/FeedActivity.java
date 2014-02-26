@@ -27,11 +27,12 @@ import com.millicom.mitv.activities.authentication.SignUpWithEmailActivity;
 import com.millicom.mitv.activities.base.BaseContentActivity;
 import com.millicom.mitv.enums.FeedItemTypeEnum;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
+import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.models.TVFeedItem;
 import com.mitv.Consts;
 import com.mitv.R;
-import com.mitv.adapters.ActivityFeedAdapter;
+import com.mitv.adapters.FeedListAdapter;
 import com.mitv.customviews.ToastHelper;
 
 
@@ -52,7 +53,7 @@ public class FeedActivity
 	private Boolean noMoreItems = false;
 	private Boolean noTask = true;
 	private ListView listView;
-	private ActivityFeedAdapter adapter;
+	private FeedListAdapter adapter;
 	private View listFooterView;
 
 	public static Toast toast;
@@ -91,29 +92,32 @@ public class FeedActivity
 	{
 		super.onResume();
 		
-		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+		Intent intent = getIntent();
 		
-		if (isLoggedIn) 
+		boolean userHasJustLoggedIn;
+		
+		if (intent.hasExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN)) 
 		{
-			StringBuilder sb = new StringBuilder();
-			sb.append(ContentManager.sharedInstance().getFromStorageUserFirstname());
-			sb.append(getResources().getString(R.string.success_account_created_text));
-			
-			ToastHelper.createAndShowToast(this, sb.toString());
+			userHasJustLoggedIn = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, false);
+		}
+		else
+		{
+			userHasJustLoggedIn = false;
 		}
 		
-		// else if (mIsFromSignup)
-		// {
-		// String signupText = getResources().getString(R.string.success_account_created_text);
-		//
-		// Toast toast = Toast.makeText(this, signupTitle + "\n" + signupText, Toast.LENGTH_LONG);
-		//
-		// ((TextView) ((LinearLayout)toast.getView()).getChildAt(0)).setGravity(Gravity.CENTER_HORIZONTAL);
-		//
-		// toast.show();
-		// }
-	}	
+		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 		
+		if (isLoggedIn && userHasJustLoggedIn)
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(getResources().getString(R.string.hello));
+			sb.append(" ");
+			sb.append(ContentManager.sharedInstance().getFromStorageUserFirstname());
+
+			ToastHelper.createAndShowToast(this, sb.toString());
+		}
+	}	
+	
 	
 	
 	private void initStandardViews() 
@@ -133,8 +137,6 @@ public class FeedActivity
 	{
 		listView = (ListView) findViewById(R.id.activity_listview);
 		
-		// mListFooter = (RelativeLayout) findViewById(R.id.activity_listview_footer);
-
 		LayoutInflater inflater = getLayoutInflater();
 		
 		listFooterView = (View) inflater.inflate(R.layout.row_loading_footerview, null);
@@ -204,7 +206,7 @@ public class FeedActivity
 
 		listView.setOnScrollListener(this);
 		
-		adapter = new ActivityFeedAdapter(this, activityFeed);
+		adapter = new FeedListAdapter(this, activityFeed);
 		
 		listView.setAdapter(adapter);
 		
@@ -233,15 +235,63 @@ public class FeedActivity
 	
 	
 	@Override
-	protected void onDataAvailable(FetchRequestResultEnum fetchRequestResult) 
+	protected void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
-		if (fetchRequestResult.wasSuccessful()) 
+		switch (requestIdentifier) 
 		{
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
-		} 
-		else
-		{
-			updateUI(UIStatusEnum.FAILED);
+			case USER_ADD_LIKE:
+			{
+				if(fetchRequestResult.wasSuccessful())
+				{
+					// TODO NewArc - Complete likes
+//					StringBuilder sb = new StringBuilder();
+//					sb.append("");
+//					sb.append(getResources().getString(R.string.like_set_text));
+//					
+//					ToastHelper.createAndShowLikeToast(this, sb.toString());
+					
+//					holderBC.likeLikeIv.setImageDrawable(getResources().getDrawable(R.drawable.ic_like_selected));
+//				
+//					AnimationUtilities.animationSet(holderBC.likeLikeIv);
+				}
+				else
+				{
+					// Ignore for now
+				}
+				break;
+			}
+			
+			case USER_REMOVE_LIKE:
+			{
+				if(fetchRequestResult.wasSuccessful())
+				{
+					// TODO NewArc - Complete unlikes
+//					holderBC.likeLikeIv.setImageDrawable(getResources().getDrawable(R.drawable.ic_like_default));
+				}
+				else
+				{
+					// Ignore for now
+				}
+				break;
+			}
+			
+			case USER_ACTIVITY_FEED_ITEM:
+			{
+				if(fetchRequestResult.wasSuccessful())
+				{
+					updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+				}
+				else
+				{
+					updateUI(UIStatusEnum.FAILED);
+				}
+				break;
+			}
+						
+			default:
+			{
+				Log.w(TAG, "Unknown request identifier");
+			}
 		}
 	}
 	

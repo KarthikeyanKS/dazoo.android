@@ -172,9 +172,9 @@ public class APIClient
 	}
 	
 	
-	public void getUserLikes(ActivityCallbackListener activityCallBackListener)
+	public void getUserLikes(ActivityCallbackListener activityCallBackListener, boolean standaLone)
 	{
-		GetUserLikes getUserLikes = new GetUserLikes(contentCallbackListener, activityCallBackListener);
+		GetUserLikes getUserLikes = new GetUserLikes(contentCallbackListener, activityCallBackListener, standaLone);
 		getUserLikes.execute();
 	}
 	

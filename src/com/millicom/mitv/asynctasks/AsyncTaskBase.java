@@ -129,8 +129,8 @@ public abstract class AsyncTaskBase<T>
 		
 			Integer timeZoneOffsetInMinutes = Integer.valueOf(timeZoneOffsetInMinutesAsInt);
 		
-			urlParameters.add(Consts.HTTP_REQUEST_DATA_LOCALE, locale.toString());
-			urlParameters.add(Consts.HTTP_REQUEST_DATA_TIME_ZONE_OFFSET, timeZoneOffsetInMinutes.toString());
+			headerParameters.add(Consts.HTTP_REQUEST_DATA_LOCALE, locale.toString());
+			headerParameters.add(Consts.HTTP_REQUEST_DATA_TIME_ZONE_OFFSET, timeZoneOffsetInMinutes.toString());
 		}
 		else
 		{
@@ -157,6 +157,7 @@ public abstract class AsyncTaskBase<T>
 				gsonBuilder.registerTypeAdapter(clazz, classIntance);
 				gsonBuilder.excludeFieldsWithoutExposeAnnotation();
 			}
+			
 			this.gson = gsonBuilder.create();
 		} 
 		catch (InstantiationException iex)

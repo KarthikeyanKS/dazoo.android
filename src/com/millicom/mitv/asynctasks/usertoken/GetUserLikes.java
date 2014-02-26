@@ -3,10 +3,14 @@ package com.millicom.mitv.asynctasks.usertoken;
 
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
+import com.millicom.mitv.models.TVChannelId;
 import com.millicom.mitv.models.UserLike;
 import com.mitv.Consts;
 
@@ -18,10 +22,40 @@ public class GetUserLikes extends AsyncTaskWithUserToken<UserLike[]>
 	
 	
 	
+	private static RequestIdentifierEnum getRequestIdentifier(boolean standaloneUserLikes)
+	{
+		if(standaloneUserLikes)
+		{
+			return RequestIdentifierEnum.USER_LIKES;
+		}
+		else
+		{
+			return RequestIdentifierEnum.USER_ACTIVITY_FEED_LIKES;
+		}
+	}
+	
+	
+	
 	public GetUserLikes(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener) 
+			ActivityCallbackListener activityCallBackListener,
+			boolean standaloneUserLikes) 
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_LIKES, UserLike[].class, UserLike.class, true, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+		super(contentCallbackListener, activityCallBackListener, getRequestIdentifier(standaloneUserLikes), UserLike[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+	}
+	
+	
+	
+	@Override
+	protected Void doInBackground(String... params) 
+	{
+		super.doInBackground(params);
+		 
+		/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
+		UserLike[] contentAsArray = (UserLike[]) requestResultObjectContent;
+		ArrayList<UserLike> contentAsArrayList = new ArrayList<UserLike>(Arrays.asList(contentAsArray));
+		requestResultObjectContent = contentAsArrayList;
+		 
+		return null;
 	}
 }

@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
+import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.fragments.TVHolderFragment;
 import com.millicom.mitv.fragments.TVHolderFragment.OnViewPagerIndexChangedListener;
@@ -133,7 +134,7 @@ public class HomeActivity
 	
 	
 	@Override
-	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult) 
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
 		if(fetchRequestResult.wasSuccessful())
 		{

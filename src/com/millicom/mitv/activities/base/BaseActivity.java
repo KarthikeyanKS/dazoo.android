@@ -29,6 +29,7 @@ import com.millicom.mitv.activities.HomeActivity;
 import com.millicom.mitv.activities.MyProfileActivity;
 import com.millicom.mitv.activities.SearchPageActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
+import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.TabSelectedEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
@@ -73,7 +74,7 @@ public abstract class BaseActivity
 	protected abstract void loadData();
 	
 	/* This method implementation should deal with changes after the data has been fetched */
-	protected abstract void onDataAvailable(FetchRequestResultEnum fetchRequestResult);	
+	protected abstract void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier);	
 
 	
 	
@@ -433,7 +434,7 @@ public abstract class BaseActivity
 	
 	
 	@Override
-	public final void onResult(FetchRequestResultEnum fetchRequestResult) 
+	public final void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier)
 	{
 		switch(fetchRequestResult)
 		{
@@ -452,7 +453,7 @@ public abstract class BaseActivity
 			default:
 			{
 				// The remaining cases should be handled by the subclasses
-				onDataAvailable(fetchRequestResult);
+				onDataAvailable(fetchRequestResult, requestIdentifier);
 				break;
 			}
 		}
@@ -537,6 +538,11 @@ public abstract class BaseActivity
 		if (requestBadLayout != null)
 		{
 			requestBadLayout.setVisibility(View.GONE);
+		}
+		
+		if(requestEmptyLayout != null)
+		{
+			requestEmptyLayout.setVisibility(View.GONE);
 		}
 	}
 

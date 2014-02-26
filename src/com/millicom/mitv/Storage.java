@@ -96,6 +96,14 @@ public class Storage
 		setTvDateSelectedIndex(0);
 	}
 	
+	public boolean containsTVBroadcastWithChannelInfo(TVChannelId channelId, long beginTimeMillis) {
+		boolean containsTVBroadcastWithChannelInfo = false;
+		if(nonPersistentSelectedBroadcastWithChannelInfo != null && nonPersistentSelectedBroadcastWithChannelInfo.getChannel().getChannelId().equals(channelId.getChannelId()) && beginTimeMillis == nonPersistentSelectedBroadcastWithChannelInfo.getBeginTimeMillis().longValue()) {
+			containsTVBroadcastWithChannelInfo = true;
+		}
+		return containsTVBroadcastWithChannelInfo;
+	}
+	
 	public String getWelcomeMessage() {
 		String welcomeMessage = "";
 		if(appConfigData != null) {
@@ -255,6 +263,16 @@ public class Storage
 
 	public void setUserLikes(ArrayList<UserLike> userLikes) {
 		this.userLikes = userLikes;
+	}
+	
+	public void addUserLike(UserLike userLike) 
+	{
+		this.userLikes.add(userLike);
+	}
+	
+	public void removeUserLike(UserLike userLike) 
+	{
+		this.userLikes.remove(userLike);
 	}
 	
 	public HashMap<String, SparseArray<AdAdzerkJSON>> getFragmentToAdsMap() {
@@ -483,12 +501,12 @@ public class Storage
 		this.nonPersistentUpcomingBroadcasts = nonPersistentUpcomingBroadcasts;
 	}
 	
-	public boolean containsUpcomingBroadcastsForBroadcast(TVBroadcastWithChannelInfo broadcast) {
+	public boolean containsUpcomingBroadcastsForBroadcast(String tvSeriesId) {
 		boolean containsUpcomingBroadcastsForBroadcast = false;
 		
 		if(nonPersistentUpcomingBroadcasts != null) {
-			TVBroadcastWithChannelInfo broadcastForUpcomingBroadcastsInStorage = nonPersistentUpcomingBroadcasts.getBroadcast();
-			containsUpcomingBroadcastsForBroadcast = broadcast.equals(broadcastForUpcomingBroadcastsInStorage);
+			String tvSeriesIdInStorage = nonPersistentUpcomingBroadcasts.getTvSeriesId();
+			containsUpcomingBroadcastsForBroadcast = tvSeriesId.equals(tvSeriesIdInStorage);
 		}
 		
 		return containsUpcomingBroadcastsForBroadcast;
@@ -502,12 +520,12 @@ public class Storage
 		this.nonPersistentRepeatingBroadcasts = nonPersistentRepeatingBroadcasts;
 	}
 	
-	public boolean containsRepeatingBroadcastsForBroadcast(TVBroadcastWithChannelInfo broadcast) {
+	public boolean containsRepeatingBroadcastsForBroadcast(String programId) {
 		boolean containsRepeatingBroadcastsForBroadcast = false;
 		
 		if(nonPersistentRepeatingBroadcasts != null) {
-			TVBroadcastWithChannelInfo broadcastForRepeatingBroadcastsInStorage = nonPersistentRepeatingBroadcasts.getBroadcast();
-			containsRepeatingBroadcastsForBroadcast = broadcast.equals(broadcastForRepeatingBroadcastsInStorage);
+			String programIdInStorage = nonPersistentRepeatingBroadcasts.getProgramId();
+			containsRepeatingBroadcastsForBroadcast = programId.equals(programIdInStorage);
 		}
 		
 		return containsRepeatingBroadcastsForBroadcast;

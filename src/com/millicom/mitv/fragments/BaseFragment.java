@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
+import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.utilities.GenericUtils;
@@ -45,7 +46,7 @@ public abstract class BaseFragment
 	protected abstract void loadData();
 	
 	/* This method implementation should deal with changes after the data has been fetched */
-	protected abstract void onDataAvailable(FetchRequestResultEnum fetchRequestResult);
+	protected abstract void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier);
 	
 	
 	
@@ -76,7 +77,7 @@ public abstract class BaseFragment
 	
 	
 	@Override
-	final public void onResult(FetchRequestResultEnum fetchRequestResult) 
+	final public void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
 		switch(fetchRequestResult)
 		{
@@ -95,7 +96,7 @@ public abstract class BaseFragment
 			default:
 			{
 				// The remaining cases should be handled by the subclasses
-				onDataAvailable(fetchRequestResult);
+				onDataAvailable(fetchRequestResult, requestIdentifier);
 				break;
 			}
 		}
