@@ -7,13 +7,12 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.URLSpan;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
@@ -30,7 +29,7 @@ import com.mitv.customviews.FontTextView;
 
 public abstract class AboutOrTermsActivity 
 	extends BaseActivity 
-	implements OnClickListener 
+	implements OnClickListener
 {
 	@SuppressWarnings("unused")
 	private static final String TAG = AboutOrTermsActivity.class.getName();
@@ -40,6 +39,7 @@ public abstract class AboutOrTermsActivity
 	private FontTextView headerTv;
 	private FontTextView infoTv;
 	private FontTextView linkTv;
+	private ActionBar actionBar;
 	private RelativeLayout versionNumberContainer;
 	private FontTextView versionNumberTv;
 
@@ -56,14 +56,13 @@ public abstract class AboutOrTermsActivity
 		initLayout();
 		
 		populateViews();
-		
-		super.initCallbackLayouts();
 	}
 
 	
 	
 	private void initLayout()
 	{
+		actionBar = getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		headerTv = (FontTextView) findViewById(R.id.about_and_terms_header);
@@ -73,6 +72,8 @@ public abstract class AboutOrTermsActivity
 		versionNumberContainer = (RelativeLayout) findViewById(R.id.about_and_terms_version_number_container);
 		versionNumberTv = (FontTextView) findViewById(R.id.about_and_terms_version_number_tv);
 	}
+
+	
 	
 	private void populateViews() 
 	{
@@ -122,6 +123,30 @@ public abstract class AboutOrTermsActivity
 		
 		stripUnderlines(linkTv);
 	}
+
+	
+	
+	@Override
+	public void onClick(View v) 
+	{
+		int id = v.getId();
+		
+		switch (id) 
+		{
+			case R.id.tab_tv_guide:
+			{
+				// tab to home page
+				Intent intentHome = new Intent(AboutOrTermsActivity.this, HomeActivity.class);
+				intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivity(intentHome);
+	
+				break;
+			}
+		}
+	}
+	
+	
 	
 	private class URLSpanNoUnderline extends URLSpan 
 	{
@@ -168,7 +193,7 @@ public abstract class AboutOrTermsActivity
 	@Override
 	protected void loadData() 
 	{
-		// TODO NewArc - Implement this
+		// Do nothing (no data to load on this activity)
 	}
 	
 	
@@ -176,14 +201,7 @@ public abstract class AboutOrTermsActivity
 	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
-		if (fetchRequestResult.wasSuccessful()) 
-		{
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
-		} 
-		else
-		{
-			updateUI(UIStatusEnum.FAILED);
-		}
+		// Do nothing (no data to load on this activity)
 	}
 
 	

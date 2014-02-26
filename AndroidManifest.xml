@@ -216,7 +216,7 @@
 
         <!-- SIGN IN -->
         <activity
-            android:name="com.millicom.mitv.activities.authentication.SignUpSelectionActivity"
+            android:name="com.millicom.mitv.activities.SignUpSelectionActivity"
             android:configChanges="keyboardHidden|orientation"
             android:parentActivityName="com.millicom.mitv.activities.MyProfileActivity"
             android:screenOrientation="portrait"

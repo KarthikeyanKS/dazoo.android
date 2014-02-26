@@ -1,5 +1,5 @@
 
-package com.millicom.mitv.activities.authentication;
+package com.millicom.mitv.activities;
 
 
 
@@ -11,20 +11,25 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
-import com.millicom.mitv.activities.base.BaseLoginActivity;
+import com.millicom.mitv.activities.authentication.LoginWithFacebookActivity;
+import com.millicom.mitv.activities.authentication.LoginWithMiTVUserActivity;
+import com.millicom.mitv.activities.authentication.SignUpWithEmailActivity;
+import com.millicom.mitv.activities.base.BaseActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
+import com.mitv.Consts;
 import com.mitv.R;
 
 
 
 public class SignUpSelectionActivity 
-	extends BaseLoginActivity
+	extends BaseActivity
 {
 	@SuppressWarnings("unused")
 	private static final String TAG = SignUpSelectionActivity.class.getName();
 
+	
 	private RelativeLayout facebookContainer;
 	private RelativeLayout signUpContainer;
 	private Button loginButton;
@@ -76,7 +81,7 @@ public class SignUpSelectionActivity
 	}
 	
 	
-		
+	
 	private void initViews() 
 	{
 		actionBar.setDisplayShowTitleEnabled(true);
@@ -96,6 +101,8 @@ public class SignUpSelectionActivity
 			{
 				Intent intent = new Intent(SignUpSelectionActivity.this, LoginWithFacebookActivity.class);
 				
+				intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, FeedActivity.class.getName());
+				
 				startActivity(intent);
 				
 				finish();
@@ -111,7 +118,11 @@ public class SignUpSelectionActivity
 			{
 				Intent intent = new Intent(SignUpSelectionActivity.this, SignUpWithEmailActivity.class);
 				
+				intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, FeedActivity.class.getName());
+				
 				startActivity(intent);
+				
+				finish();
 			}
 		});
 
@@ -124,7 +135,11 @@ public class SignUpSelectionActivity
 			{
 				Intent intent = new Intent(SignUpSelectionActivity.this, LoginWithMiTVUserActivity.class);
 				
+				intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, FeedActivity.class.getName());
+				
 				startActivity(intent);
+				
+				finish();
 			}
 		});
 	}

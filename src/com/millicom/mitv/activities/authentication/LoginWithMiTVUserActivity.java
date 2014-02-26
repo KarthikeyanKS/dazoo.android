@@ -5,7 +5,6 @@ package com.millicom.mitv.activities.authentication;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,9 +30,6 @@ public class LoginWithMiTVUserActivity
 	implements OnClickListener 
 {
 	private static final String TAG = LoginWithMiTVUserActivity.class.getName();
-	
-	
-	private ActionBar actionBar;
 	
 	private RelativeLayout facebookContainer;
 	

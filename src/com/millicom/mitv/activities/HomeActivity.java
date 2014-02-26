@@ -16,7 +16,6 @@ import com.millicom.mitv.fragments.TVHolderFragment;
 import com.millicom.mitv.fragments.TVHolderFragment.OnViewPagerIndexChangedListener;
 import com.millicom.mitv.utilities.DateUtils;
 import com.mitv.R;
-import com.mitv.utilities.OldDateUtilities;
 
 
 
@@ -57,13 +56,13 @@ public class HomeActivity
 		ContentManager.sharedInstance().setSelectedHour(currentHour);
 
 		initViews();
-
+		
 		tryShowWelcomeToast();
 		
 		/* HOCKEY-APP */
 		// checkForUpdates();
 	}
-
+	
 	
 	
 	private void tryShowWelcomeToast() 

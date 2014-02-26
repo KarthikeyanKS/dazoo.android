@@ -35,12 +35,13 @@ import com.millicom.mitv.utilities.GenericUtils;
 import com.millicom.mitv.utilities.NetworkUtils;
 import com.mitv.Consts;
 import com.mitv.R;
+import com.mitv.customviews.ToastHelper;
 import com.mitv.manager.GATrackingManager;
 
 public abstract class BaseActivity extends ActionBarActivity implements ActivityCallbackListener, OnClickListener {
 	private static final String TAG = BaseActivity.class.getName();
 	private static Stack<Activity> activityStack = new Stack<Activity>();
-	
+
 	protected RelativeLayout tabTvGuide;
 	protected RelativeLayout tabActivity;
 	protected RelativeLayout tabProfile;
@@ -60,6 +61,8 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 
 	private TabSelectedEnum tabSelectedEnum = TabSelectedEnum.NOT_SET;
 
+	private boolean userHasJustLoggedIn;
+
 	/* Abstract Methods */
 
 	/* This method implementation should update the user interface according to the received status */
@@ -74,61 +77,58 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 	@Override
 	protected void onCreate(android.os.Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
+		/* Enable debug mode */
 		PackageInfo packageInfo = GenericUtils.getPackageInfo(this);
-
 		int flags = packageInfo.applicationInfo.flags;
-
 		boolean isDebugMode = (flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
-
 		if (isDebugMode) {
 			// TODO NewArc Enable strict mode
 			// enableStrictMode();
 		}
 
-		Intent intent = getIntent();
+		/* Google Analytics Tracking */
+		EasyTracker.getInstance(this).activityStart(this);
+		String className = this.getClass().getName();
+		GATrackingManager.sendView(className);
 
-		if (intent.hasExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME)) {
-			String returnActivityClassName = intent.getExtras().getString(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME);
+		/* Log in states */
+		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+		if (isLoggedIn) {
+			Intent intent = getIntent();
 
-			try {
-				returnActivity = Class.forName(returnActivityClassName);
-			} catch (ClassNotFoundException cnfex) {
-				Log.e(TAG, cnfex.getMessage(), cnfex);
+			if (intent.hasExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN)) {
+				userHasJustLoggedIn = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, false);
 
-				returnActivity = HomeActivity.class;
+				intent.removeExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN);
+			} else {
+				userHasJustLoggedIn = false;
 			}
 		} else {
-			returnActivity = HomeActivity.class;
+			userHasJustLoggedIn = false;
 		}
 
-		EasyTracker.getInstance(this).activityStart(this);
-
-		String className = this.getClass().getName();
-
-		GATrackingManager.sendView(className);
-		
+		/* IMPORTANT add activity to activity stack */
 		activityStack.push(this);
 	}
 
-	
 	private Activity getMostRecentTabActivity() {
 		Activity mostRecentTabActivity = null;
-		
+
 		/* Iterate through stack, start at top of stack */
-		for(int i = activityStack.size() - 1; i >= 0; --i) {
-		    Activity activityInStack = activityStack.get(i);
-		    
-		    /* Check if activityInStack is any of the three TabActivities */
-		    if(activityInStack instanceof HomeActivity || activityInStack instanceof FeedActivity|| activityInStack instanceof MyProfileActivity) {
-		    	mostRecentTabActivity = activityInStack;
-		    	break;
+		for (int i = activityStack.size() - 1; i >= 0; --i) {
+			Activity activityInStack = activityStack.get(i);
+
+			/* Check if activityInStack is any of the three TabActivities */
+			if (activityInStack instanceof HomeActivity || activityInStack instanceof FeedActivity || activityInStack instanceof MyProfileActivity) {
+				mostRecentTabActivity = activityInStack;
+				break;
 			}
 		}
-		
+
 		return mostRecentTabActivity;
 	}
-	
+
 	public Class<?> getReturnActivity() {
 		return returnActivity;
 	}
@@ -279,10 +279,7 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 			} else {
 				loadData();
 			}
-
-			break;
 		}
-
 		case R.id.bad_request_reload_button: {
 			if (!NetworkUtils.isConnectedAndHostIsReachable()) {
 				updateUI(UIStatusEnum.FAILED);
@@ -295,20 +292,6 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 		}
 	}
 
-	private void enableStrictMode() {
-		StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads().detectDiskWrites().detectNetwork() // or
-																																// .detectAll()
-																																// for all
-																																// detectable
-																																// problems
-				.penaltyLog().build());
-
-		StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectLeakedSqlLiteObjects()
-		// .detectLeakedClosableObjects()
-				.penaltyLog().penaltyDeath().build());
-	}
-
-
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -316,6 +299,17 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 		initCallbackLayouts();
 
 		initTabViews();
+
+		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+
+		if (isLoggedIn && userHasJustLoggedIn) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(getResources().getString(R.string.hello));
+			sb.append(" ");
+			sb.append(ContentManager.sharedInstance().getFromStorageUserFirstname());
+
+			ToastHelper.createAndShowToast(this, sb.toString());
+		}
 	}
 
 	@Override
@@ -347,8 +341,7 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case android.R.id.home:
-		{
+		case android.R.id.home: {
 			/* Pressing the Home, which here is used as "up", should be same as pressing back */
 			onBackPressed();
 			return true;
@@ -378,13 +371,11 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 
 		EasyTracker.getInstance(this).activityStop(this);
 	}
-	
-	
 
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		
+
 		/* Remove activity from activitStack */
 		activityStack.pop();
 	}
