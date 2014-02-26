@@ -189,12 +189,12 @@ public class MiTVLoginActivity extends SSSignInSignupBaseActivity implements OnC
 									SecondScreenApplication.getInstance().clearActivityBacktrace();
 
 									Intent intent;
-									if (mIsFromActivity) {
-										intent = new Intent(MiTVLoginActivity.this, ActivityActivity.class);
-									}
-									else {
+//									if (mIsFromActivity) {
+//										intent = new Intent(MiTVLoginActivity.this, ActivityActivity.class);
+//									}
+//									else {
 										intent = new Intent(MiTVLoginActivity.this, HomeActivity.class);
-									}
+//									}
 									intent.putExtra(Consts.INTENT_EXTRA_LOG_IN_ACTION, true);
 
 									startActivity(intent);

@@ -38,6 +38,8 @@ public class UpcomingeEpisodesPageActivity extends SSActivity implements OnClick
 	private UpcomingEpisodesListAdapter	mAdapter;
 	private Broadcast 					mRunningBroadcast;
 	private ArrayList<Broadcast>		mUpcomingBroadcasts	= new ArrayList<Broadcast>();
+	private boolean	 					mIsFromActivity;
+	private boolean 					mIsFromProfile;
 	
 
 	@Override
@@ -52,6 +54,8 @@ public class UpcomingeEpisodesPageActivity extends SSActivity implements OnClick
 		Intent intent = getIntent();
 		mUpcomingBroadcasts = intent.getParcelableArrayListExtra(Consts.INTENT_EXTRA_UPCOMING_BROADCASTS);
 		mRunningBroadcast = intent.getParcelableExtra(Consts.INTENT_EXTRA_RUNNING_BROADCAST);
+		mIsFromActivity = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_FROM_ACTIVITY, false);
+		mIsFromProfile = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_FROM_PROFILE, false);
 
 		token = ((SecondScreenApplication) getApplicationContext()).getAccessToken();
 
@@ -68,16 +72,35 @@ public class UpcomingeEpisodesPageActivity extends SSActivity implements OnClick
 		mTabActivity.setOnClickListener(this);
 		mTabProfile = (RelativeLayout) findViewById(R.id.tab_me);
 		mTabProfile.setOnClickListener(this);
-
-		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
-		mTabActivity.setBackgroundColor(getResources().getColor(R.color.red));
-		mTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
 		
 		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
 		mTabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
 		
-		mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
-		mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+		if (mIsFromActivity) {
+			mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+			mTabActivity.setBackgroundColor(getResources().getColor(R.color.red));
+			mTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+
+			mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+			mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+
+		} else if (mIsFromProfile) {
+			mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+			mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+			mTabProfile.setBackgroundColor(getResources().getColor(R.color.red));
+
+			mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+			mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+
+		} else {
+			mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
+			mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+			mTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+
+			mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+			mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+
+		}
 
 		mActionBar = getSupportActionBar();
 		mActionBar.setDisplayHomeAsUpEnabled(true);

@@ -37,12 +37,14 @@ public class RepetitionsPageActivity extends SSActivity implements OnClickListen
 	private ArrayList<Broadcast>	mRepeatingBroadcasts	= new ArrayList<Broadcast>();
 	private Program					mRepeatingProgram;
 	private Broadcast				mRunningBroadcast;
+	private boolean	 				mIsFromActivity;
+	private boolean 				mIsFromProfile;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_repeating_list_activity);
-		
+
 		// add the activity to the list of running activities
 		SecondScreenApplication.getInstance().getActivityList().add(this);
 
@@ -50,7 +52,9 @@ public class RepetitionsPageActivity extends SSActivity implements OnClickListen
 		mRepeatingBroadcasts = intent.getParcelableArrayListExtra(Consts.INTENT_EXTRA_REPEATING_BROADCASTS);
 		mRepeatingProgram = intent.getParcelableExtra(Consts.INTENT_EXTRA_REPEATING_PROGRAM);
 		mRunningBroadcast = intent.getParcelableExtra(Consts.INTENT_EXTRA_RUNNING_BROADCAST);
-		
+		mIsFromActivity = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_FROM_ACTIVITY, false);
+		mIsFromProfile = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_FROM_PROFILE, false);
+
 		Broadcast tmpBrc = mRunningBroadcast;
 		Program tmpPrgFromBrc = tmpBrc.getProgram();
 		Program tmpPrg = mRepeatingProgram;
@@ -71,23 +75,42 @@ public class RepetitionsPageActivity extends SSActivity implements OnClickListen
 		mTabProfile = (RelativeLayout) findViewById(R.id.tab_me);
 		mTabProfile.setOnClickListener(this);
 
-		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
-		mTabActivity.setBackgroundColor(getResources().getColor(R.color.red));
-		mTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
-
 		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
 		mTabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
 
-		mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
-		mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+		if (mIsFromActivity) {
+			mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+			mTabActivity.setBackgroundColor(getResources().getColor(R.color.red));
+			mTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
 
+			mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+			mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+
+		} else if (mIsFromProfile) {
+			mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+			mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+			mTabProfile.setBackgroundColor(getResources().getColor(R.color.red));
+
+			mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+			mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+
+		} else {
+			mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
+			mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+			mTabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+
+			mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+			mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+
+		}
+		
 		mActionBar = getSupportActionBar();
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 		mActionBar.setDisplayShowTitleEnabled(true);
 		mActionBar.setDisplayShowCustomEnabled(true);
 		mActionBar.setDisplayUseLogoEnabled(true);
 		mActionBar.setDisplayShowHomeEnabled(true);
-				
+
 		mListView = (ListView) findViewById(R.id.repeating_list_listview);
 	}
 
@@ -113,7 +136,7 @@ public class RepetitionsPageActivity extends SSActivity implements OnClickListen
 
 	public void onBackPressed() {
 		super.onBackPressed();
-		
+
 	}
 
 	@Override
@@ -126,19 +149,19 @@ public class RepetitionsPageActivity extends SSActivity implements OnClickListen
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intentHome);
-			
+
 			break;
 		case R.id.tab_activity:
 			// tab to activity page
 			Intent intentActivity = new Intent(RepetitionsPageActivity.this, ActivityActivity.class);
 			startActivity(intentActivity);
-			
+
 			break;
 		case R.id.tab_me:
 			// tab to profile page
 			Intent intentMe = new Intent(RepetitionsPageActivity.this, MyProfileActivity.class);
 			startActivity(intentMe);
-			
+
 			break;
 		}
 	}

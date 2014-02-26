@@ -28,6 +28,8 @@ public class TrippleBroadcastBlockPopulator {
 	private ArrayList<Broadcast> mBroadcasts;
 	private ReminderView reminderViewOne, reminderViewTwo, reminderViewThree;
 	private View dividerView;
+	private boolean mIsFromActivity;
+	private boolean mIsFromProfile;
 
 
 	/* If false, then block populator is used for upcoming episodes */
@@ -212,12 +214,16 @@ public class TrippleBroadcastBlockPopulator {
 						intent.putParcelableArrayListExtra(Consts.INTENT_EXTRA_REPEATING_BROADCASTS, repeatingBroadcasts);
 						intent.putExtra(Consts.INTENT_EXTRA_REPEATING_PROGRAM, program);
 						intent.putExtra(Consts.INTENT_EXTRA_RUNNING_BROADCAST, mRunningBroadcast);
+						intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, mIsFromActivity);
+						intent.putExtra(Consts.INTENT_EXTRA_FROM_PROFILE, mIsFromProfile);
 						mActivity.startActivity(intent);
 					}
 					else {
 						Intent intent = new Intent(mActivity, UpcomingeEpisodesPageActivity.class);
 						intent.putParcelableArrayListExtra(Consts.INTENT_EXTRA_UPCOMING_BROADCASTS, repeatingBroadcasts);
 						intent.putExtra(Consts.INTENT_EXTRA_RUNNING_BROADCAST, mRunningBroadcast);
+						intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, mIsFromActivity);
+						intent.putExtra(Consts.INTENT_EXTRA_FROM_PROFILE, mIsFromProfile);
 						mActivity.startActivity(intent);
 					}
 				}
@@ -232,5 +238,10 @@ public class TrippleBroadcastBlockPopulator {
 			containerView.addView(topContentView, layoutParams);
 		}
 
+	}
+	
+	public void setOriginActivity(boolean isFromActivity, boolean isFromProfile) {
+		mIsFromActivity = isFromActivity;
+		mIsFromProfile = isFromProfile;
 	}
 }

@@ -304,12 +304,14 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 		if (mRepeatBroadcasts != null && mRepeatBroadcasts.isEmpty() != true) {
 			BroadcastRepetitionsBlockPopulator repeatitionsBlock = new BroadcastRepetitionsBlockPopulator(mActivity, mScrollView, mBroadcast);
 			repeatitionsBlock.createBlock(mRepeatBroadcasts, mBroadcast.getProgram());
+			repeatitionsBlock.setOriginActivity(mIsFromActivity, mIsFromProfile);
 		}
 
 		// upcoming episodes
 		if (mUpcomingBroadcasts != null && mUpcomingBroadcasts.isEmpty() != true) {
 			BroadcastUpcomingBlockPopulator upcomingBlock = new BroadcastUpcomingBlockPopulator(mActivity, mScrollView, mIsSeries, mBroadcast);
 			upcomingBlock.createBlock(mUpcomingBroadcasts, mBroadcast.getProgram());
+			upcomingBlock.setOriginActivity(mIsFromActivity, mIsFromProfile);
 		}
 
 		// cast & crew
