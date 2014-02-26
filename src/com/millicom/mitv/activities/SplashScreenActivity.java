@@ -50,7 +50,7 @@ public class SplashScreenActivity
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.hide();
 		
-		ContentManager.sharedInstance().fetchFromServiceAppData(this, this);
+		ContentManager.sharedInstance().getElseFetchFromServiceAppData(this, this, false);
 	}
 
 
@@ -132,6 +132,7 @@ public class SplashScreenActivity
 	{
 		Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
 		startActivity(intent);
+		finish();
 	}
 
 

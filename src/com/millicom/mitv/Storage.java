@@ -380,6 +380,16 @@ public class Storage
 		return taggedBroadcastForDay;
 	}
 	
+	public boolean containsAppConfigData() {
+		boolean containsAppConfig = (appConfigData != null);
+		return containsAppConfig;
+	}
+	
+	public boolean containsApiVersionData() {
+		boolean containsApiVersionData = (appVersionData != null);
+		return containsApiVersionData;
+	}
+	
 	public boolean containsTVDates() {
 		boolean containsTVDates = (tvDates != null && !tvDates.isEmpty());
 		return containsTVDates;

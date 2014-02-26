@@ -197,16 +197,7 @@ public class ContentManager
 		apiClient.getTVBroadcastDetails(activityCallbackListener, channelId, beginTimeInMillis);
 	}
 	
-	
-	/* PUBLIC FETCH METHODS WHERE IT DOES NOT MAKE ANY SENSE TO TRY FETCHING THE DATA FROM STORAGE */
-	
-	public void checkNetworkConnectivity(ActivityCallbackListener activityCallbackListener) 
-	{
-		apiClient.getNetworkConnectivityIsAvailable(activityCallbackListener);
-	}
-	
-	
-	public void fetchFromServiceAppData(ActivityCallbackListener activityCallbackListener, FetchDataProgressCallbackListener fetchDataProgressCallbackListener) 
+	private void fetchFromServiceAppData(ActivityCallbackListener activityCallbackListener, FetchDataProgressCallbackListener fetchDataProgressCallbackListener) 
 	{
 		this.fetchDataProgressCallbackListener = fetchDataProgressCallbackListener;
 		apiClient.getAppConfiguration(activityCallbackListener);
@@ -214,6 +205,13 @@ public class ContentManager
 	}
 	
 	
+	/* PUBLIC FETCH METHODS WHERE IT DOES NOT MAKE ANY SENSE TO TRY FETCHING THE DATA FROM STORAGE */
+	
+	public void checkNetworkConnectivity(ActivityCallbackListener activityCallbackListener) 
+	{
+		apiClient.getNetworkConnectivityIsAvailable(activityCallbackListener);
+	}
+		
 	public void fetchFromServiceMoreActivityData(ActivityCallbackListener activityCallbackListener) 
 	{
 		int offset = storage.getActivityFeed().size();
@@ -228,6 +226,16 @@ public class ContentManager
 	 * METHODS FOR "GETTING" THE DATA, EITHER FROM STORAGE, OR FETCHING FROM
 	 * BACKEND
 	 */
+	public void getElseFetchFromServiceAppData(ActivityCallbackListener activityCallbackListener, FetchDataProgressCallbackListener fetchDataProgressCallbackListener, boolean forceDownload) {
+		if(!forceDownload && storage.containsAppConfigData() && storage.containsApiVersionData()) {
+			notifyFetchDataProgressListenerMessage("Fetched app configuration data");
+			notifyFetchDataProgressListenerMessage("Fetched app version data");
+			getElseFetchFromServiceTVData(activityCallbackListener, RequestIdentifierEnum.TV_GUIDE, false);
+		} else {
+			fetchFromServiceAppData(activityCallbackListener, fetchDataProgressCallbackListener);
+		}
+	}
+	
 	public void getElseFetchFromServiceTVGuideUsingSelectedTVDate(ActivityCallbackListener activityCallbackListener, boolean forceDownload) {
 		TVDate tvDateSelected = getFromStorageTVDateSelected();
 		getElseFetchFromServiceTVGuideUsingTVDate(activityCallbackListener, forceDownload, tvDateSelected);
@@ -555,7 +563,7 @@ public class ContentManager
 				if (!apiTooOld) 
 				{
 					/* App version not too old, continue fetching tv data */
-					getElseFetchFromServiceTVData(activityCallbackListener, requestIdentifier, false);
+					getElseFetchFromServiceTVData(activityCallbackListener, RequestIdentifierEnum.TV_GUIDE, false);
 				} 
 				else 
 				{

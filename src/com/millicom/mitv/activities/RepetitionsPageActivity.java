@@ -59,17 +59,7 @@ public class RepetitionsPageActivity
 
 		initViews();
 	}
-	
-	
-	
-	@Override
-	protected void onResume() 
-	{
-		super.onResume();
-	}
-
-	
-	
+		
 	private void initViews() 
 	{
 		tabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
@@ -126,14 +116,6 @@ public class RepetitionsPageActivity
 			}
 		}
 	}
-	
-	
-	
-	public void onBackPressed() 
-	{
-		super.onBackPressed();
-	}
-	
 	
 	
 	@Override
