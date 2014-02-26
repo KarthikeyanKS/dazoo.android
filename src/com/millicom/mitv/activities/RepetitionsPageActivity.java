@@ -5,13 +5,10 @@ package com.millicom.mitv.activities;
 
 import java.util.ArrayList;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.base.BaseActivity;
@@ -31,20 +28,11 @@ public class RepetitionsPageActivity
 	@SuppressWarnings("unused")
 	private static final String TAG = RepetitionsPageActivity.class.getName();
 
-	private RelativeLayout tabTvGuide;
-	private RelativeLayout tabProfile;
-	private RelativeLayout tabActivity;
-	
-	private View tabDividerLeft;
-	private View tabDividerRight;
-	
 	private ListView listView;
 	private RepetitionsListAdapter listAdapter;
 	private ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts;
 	private TVProgram repeatingProgram;
 	private TVBroadcastWithChannelInfo runningBroadcast;
-
-	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -57,6 +45,7 @@ public class RepetitionsPageActivity
 		repeatingBroadcasts = ContentManager.sharedInstance().getFromStorageRepeatingBroadcastsVerifyCorrect(runningBroadcast);
 
 		initViews();
+		loadData();
 	}
 		
 	private void initViews() 
@@ -73,9 +62,7 @@ public class RepetitionsPageActivity
 	@Override
 	protected void loadData()
 	{
-		updateUI(UIStatusEnum.LOADING);
-		
-		// TODO Load data
+		updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
 	}
 	
 	
