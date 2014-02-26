@@ -76,25 +76,7 @@ public class SignUpSelectionActivity
 	}
 	
 	
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) 
-	{
-		switch (item.getItemId()) 
-		{
-			case android.R.id.home:
-			{
-				Intent upIntent = NavUtils.getParentActivityIntent(this);
-				startActivity(upIntent);
-				return true;
-			}
-		}
 		
-		return super.onOptionsItemSelected(item);
-	}
-
-	
-	
 	private void initViews() 
 	{
 		actionBar.setDisplayShowTitleEnabled(true);

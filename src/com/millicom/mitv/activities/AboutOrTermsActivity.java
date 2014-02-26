@@ -73,36 +73,6 @@ public abstract class AboutOrTermsActivity
 		versionNumberContainer = (RelativeLayout) findViewById(R.id.about_and_terms_version_number_container);
 		versionNumberTv = (FontTextView) findViewById(R.id.about_and_terms_version_number_tv);
 	}
-
-	
-	
-	@Override
-	public void onBackPressed() 
-	{
-		super.onBackPressed();
-	}
-	
-	
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) 
-	{
-		switch (item.getItemId()) 
-		{
-			// Respond to the action bar's Up/Home button
-			// update the likes list on Up/Home button press too
-			case android.R.id.home:
-			{
-				Intent upIntent = NavUtils.getParentActivityIntent(this);
-				NavUtils.navigateUpTo(this, upIntent);
-				return true;
-			}
-		}
-		
-		return super.onOptionsItemSelected(item);
-	}
-	
-	
 	
 	private void populateViews() 
 	{

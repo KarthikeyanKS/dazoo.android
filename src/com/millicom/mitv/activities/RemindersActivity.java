@@ -227,26 +227,4 @@ public class RemindersActivity
 			}
 		}
 	}
-
-	
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) 
-	{
-		switch (item.getItemId()) 
-		{
-		// Respond to the action bar's Up/Home button
-		// update the reminders list on Up/Home button press too
-		case android.R.id.home:
-
-			Intent upIntent = NavUtils.getParentActivityIntent(this);
-			if (mIsChange == true) {
-				setResult(Consts.INFO_UPDATE_REMINDERS, upIntent);
-				upIntent.putExtra(Consts.INFO_UPDATE_REMINDERS_NUMBER, mCount);
-			}
-			NavUtils.navigateUpTo(this, upIntent);
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
 }

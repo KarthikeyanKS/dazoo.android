@@ -20,6 +20,8 @@ public abstract class BaseContentActivity
 		
 		initTabViews();
 		
-		loadDataWithConnectivityCheck();
+		//TODO NewArc we probably don't want to check for internet connectivity at all, not even in onCreate?
+//		loadDataWithConnectivityCheck();
+		loadData();
 	}
 }

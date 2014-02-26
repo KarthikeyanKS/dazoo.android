@@ -347,6 +347,13 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+		case android.R.id.home:
+		{
+			/* Pressing the Home, which here is used as "up", should be same as pressing back */
+			onBackPressed();
+			return true;
+		}
+
 		case R.id.action_start_search: // Might be dead with actionView instead of icon...
 		{
 			Intent toSearchPage = new Intent(BaseActivity.this, SearchPageActivity.class);

@@ -388,35 +388,4 @@ public class MyChannelsActivity
 			}
 		}
 	}
-
-	
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) 
-	{
-		switch (item.getItemId()) 
-		{
-			// Respond to the action bar's Up/Home button
-			// update the channel list on Up/Home button press too
-			case android.R.id.home:
-			{
-//				tryToUpdateChannelList();
-				
-				Intent upIntent = NavUtils.getParentActivityIntent(this);
-				
-//				if(mIsChanged == true) 
-//				{
-//					setResult(Consts.INFO_UPDATE_MYCHANNELS, upIntent);
-//					
-//					upIntent.putExtra(Consts.INFO_UPDATE_MYCHANNELS_NUMBER, mCount);
-//				}
-//				
-				NavUtils.navigateUpTo(this, upIntent);
-				
-				return true;
-			}
-		}
-		
-		return super.onOptionsItemSelected(item);
-	}
 }

@@ -8,8 +8,6 @@ import java.util.LinkedList;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.view.MenuItem;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
@@ -39,8 +37,7 @@ public class BroadcastPageActivity
 
 	private TVChannelId channelId;
 	private long beginTimeInMillis;
-	private boolean isFromActivity = false;
-	private boolean isFromProfile = false;
+	private boolean hasPopulatedViews = false;
 	private TVBroadcastWithChannelInfo broadcastWithChannelInfo;
 	private ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts;
 	private ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts;
@@ -57,8 +54,6 @@ public class BroadcastPageActivity
 
 		Intent intent = getIntent();
 
-		isFromActivity = intent.getBooleanExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, false);
-		isFromProfile = intent.getBooleanExtra(Consts.INTENT_EXTRA_FROM_PROFILE, false);
 		boolean needToDownloadBroadcastWithChannelInfo = intent.getBooleanExtra(Consts.INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO, false);
 		
 		/* Used for when starting this activity from notification center in device or if you click on it from reminder list */
@@ -112,8 +107,9 @@ public class BroadcastPageActivity
 			{
 				/* Now we have broadcastWithChannelInfo object => notify backend that we have entered the broadcast page for this broadcast, observe: no tracking will be performed if broadcast was created from notification */
 				ContentManager.sharedInstance().performInternalTracking(broadcastWithChannelInfo);
-				
-				populateBlocks();
+				if(!hasPopulatedViews) {
+					populateBlocks();
+				}
 				break;
 			}
 	
@@ -130,7 +126,6 @@ public class BroadcastPageActivity
 	{
 		actionBar.setTitle(getResources().getString(R.string.broadcast_info));
 		actionBar.setDisplayHomeAsUpEnabled(true);
-
 		scrollView = (ScrollView) findViewById(R.id.broadcast_scroll);
 	}
 
@@ -142,6 +137,7 @@ public class BroadcastPageActivity
 	
 	private void populateBlocks()
 	{
+		hasPopulatedViews = true;
 		BroadcastMainBlockPopulator mainBlockPopulator = new BroadcastMainBlockPopulator(this, scrollView);
 
 		 mainBlockPopulator.createBlock(broadcastWithChannelInfo);
@@ -202,32 +198,5 @@ public class BroadcastPageActivity
 		super.onBackPressed();
 
 		finish();
-	}
-
-	
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) 
-	{
-		switch (item.getItemId())
-		{
-		// Respond to the action bar's Up/Home button
-		case android.R.id.home:
-			Intent upIntent = NavUtils.getParentActivityIntent(this);
-			if (isFromActivity) {
-				NavUtils.navigateUpTo(this, new Intent(BroadcastPageActivity.this, FeedActivity.class));
-			} else if (isFromProfile) {
-				NavUtils.navigateUpTo(this, new Intent(BroadcastPageActivity.this, MyProfileActivity.class));
-			}
-
-			else {
-				// This activity is part of this app's task, so simply
-				// navigate up to the logical parent activity.
-				NavUtils.navigateUpTo(this, upIntent);
-			}
-
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
 	}
 }
