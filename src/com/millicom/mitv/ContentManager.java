@@ -1194,7 +1194,7 @@ public class ContentManager
 	 * @param programId
 	 * @return
 	 */
-	public ArrayList<TVBroadcastWithChannelInfo> getFromStorageUpcomingBroadcasts(TVBroadcast broadcast) 
+	public ArrayList<TVBroadcastWithChannelInfo> getFromStorageUpcomingBroadcastsVerifyCorrect(TVBroadcast broadcast) 
 	{
 		//TODO NewArc check if null
 		String tvSeriesId = broadcast.getProgram().getSeries().getSeriesId();
