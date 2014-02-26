@@ -309,7 +309,7 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 		// upcoming episodes
 		if (mUpcomingBroadcasts != null && mUpcomingBroadcasts.isEmpty() != true) {
 			BroadcastUpcomingBlockPopulator upcomingBlock = new BroadcastUpcomingBlockPopulator(mActivity, mScrollView, mIsSeries, mBroadcast);
-			upcomingBlock.createBlock(mUpcomingBroadcasts, null);
+			upcomingBlock.createBlock(mUpcomingBroadcasts, mBroadcast.getProgram());
 		}
 
 		// cast & crew

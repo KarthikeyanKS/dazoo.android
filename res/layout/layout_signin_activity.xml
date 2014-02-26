@@ -183,16 +183,22 @@
 
             <com.mitv.customviews.FontButton
                 android:id="@+id/signin_login_btn"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/signin_already_registered_text_tv"
                 android:layout_marginBottom="5dp"
-                android:background="@drawable/background_color_selector"
-                android:gravity="center_horizontal"
+                android:background="@drawable/background_color_selector_login_link"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="-10dp"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:gravity="center_vertical|center_horizontal"
                 android:text="@string/login_here"
-                android:textColor="@color/blue1"
+                android:textColor="@color/blue2"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                font:fonttextview="roboto_mitv_bold.ttf"  />
+            
         </RelativeLayout>
     </RelativeLayout>
 
