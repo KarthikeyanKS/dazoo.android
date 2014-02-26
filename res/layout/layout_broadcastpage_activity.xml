@@ -16,18 +16,20 @@
     <!-- LAYOUT STATE CALLBACKS -->
 
     <include
+        android:id="@+id/callback_layouts_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/tab_selector_container"
+        android:layout_alignParentTop="true"
         layout="@layout/layout_request_callbacks_holder_layout"
-        android:background="@color/white"/>
+        android:background="@color/white" />
 
     <ScrollView
         android:id="@+id/broadcast_scroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_above="@id/tab_selector_container"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/callback_layouts_container"
         android:background="@color/white"
         android:fillViewport="true"
         android:orientation="vertical" >
@@ -36,8 +38,8 @@
             android:id="@+id/broacastpage_block_container_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" 
-            android:background="@color/grey1">
+            android:background="@color/grey1"
+            android:orientation="vertical" >
         </LinearLayout>
     </ScrollView>
 

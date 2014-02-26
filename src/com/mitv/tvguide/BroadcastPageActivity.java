@@ -5,7 +5,6 @@ import java.util.LinkedList;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -21,9 +20,9 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.mitv.Consts;
+import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.content.SSActivity;
 import com.mitv.content.SSBroadcastPage;
 import com.mitv.content.SSBroadcastsFromProgramPage;
@@ -64,6 +63,7 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 	private ScrollView				mScrollView;
 	private int						mActivityCardNumber;
 	public static Toast 			toast;
+	private RelativeLayout 			mCallbackLayoutContainer;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -110,9 +110,11 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 		if (super.requestIsSuccesfull(status)) {
 			if (mIsBroadcast && mIsUpcoming && mIsRepeat) {
 				Log.d(TAG, "SUCCESSFUL");
+				mCallbackLayoutContainer.setVisibility(View.GONE);
 				populateBlocks();
 			}
 			else {
+				mCallbackLayoutContainer.setVisibility(View.VISIBLE);
 				updateUI(REQUEST_STATUS.LOADING);
 			}
 		}
@@ -274,6 +276,8 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 
 		mBlockContainer = (LinearLayout) findViewById(R.id.broacastpage_block_container_layout);
 		mScrollView = (ScrollView) findViewById(R.id.broadcast_scroll);
+
+		mCallbackLayoutContainer = (RelativeLayout) findViewById(R.id.callback_layouts_container);
 	}
 
 	private void populateBlocks() {
