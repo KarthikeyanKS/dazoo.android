@@ -3,85 +3,98 @@
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:orientation="vertical" >
+    android:background="@color/grey1"
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp" >
 
-    <com.mitv.customviews.FontTextView
-        android:id="@+id/block_tripple_broadcast_title_textview"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/black"
-        android:textSize="@dimen/header_1"
-        font:fonttextview="roboto_mitv_medium.ttf" />
+        android:background="@color/white"
+        android:orientation="vertical" >
 
-    <!-- FIRST UPCOMING EPISODE -->
-    <include
-        android:id="@+id/block_broadcast_upcoming_one"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/block_tripple_broadcast_title_textview"
-        layout="@layout/element_block_broadcast_upcoming_or_repetition" />
+        <com.mitv.customviews.FontTextView
+            android:id="@+id/block_tripple_broadcast_title_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/header_1"
+            font:fonttextview="roboto_mitv_medium.ttf" />
 
-    <View
-        android:id="@+id/block_tripple_broadcast_one_bottom_divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_below="@id/block_broadcast_upcoming_one"
-        android:background="@color/grey1"
-        android:visibility="gone" />
+        <!-- FIRST UPCOMING EPISODE -->
 
-    <!-- SECOND UPCOMING EPISODE -->
-    <include
-        android:id="@+id/block_broadcast_upcoming_two"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/block_tripple_broadcast_one_bottom_divider"
-        layout="@layout/element_block_broadcast_upcoming_or_repetition" />
+        <include
+            android:id="@+id/block_broadcast_upcoming_one"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/block_tripple_broadcast_title_textview"
+            layout="@layout/element_block_broadcast_upcoming_or_repetition" />
 
-    <View
-        android:id="@+id/block_tripple_broadcast_two_bottom_divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_below="@id/block_broadcast_upcoming_two"
-        android:background="@color/grey1"
-        android:visibility="gone" />
+        <View
+            android:id="@+id/block_tripple_broadcast_one_bottom_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/block_broadcast_upcoming_one"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/grey1"
+            android:visibility="gone" />
 
-    <!-- THIRD UPCOMING EPISODE -->
-    <include
-        android:id="@+id/block_broadcast_upcoming_three"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/block_tripple_broadcast_two_bottom_divider"
-        layout="@layout/element_block_broadcast_upcoming_or_repetition" />
+        <!-- SECOND UPCOMING EPISODE -->
 
-    <View
-        android:id="@+id/block_tripple_broadcast_three_bottom_divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/block_broadcast_upcoming_three"
-        android:background="@color/grey1"
-        android:visibility="gone" />
+        <include
+            android:id="@+id/block_broadcast_upcoming_two"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/block_tripple_broadcast_one_bottom_divider"
+            layout="@layout/element_block_broadcast_upcoming_or_repetition" />
 
-    <com.mitv.customviews.FontTextView
-        android:id="@+id/block_tripple_broadcast_more_textview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/block_tripple_broadcast_three_bottom_divider"
-        android:layout_centerVertical="true"
-        android:gravity="left"
-        android:padding="10dp"
-        android:text="@string/upcoming_episodes_more"
-        android:textColor="@color/grey2"
-        android:background="@drawable/background_color_selector"
-        android:textSize="@dimen/header_3"
-        android:visibility="gone"
-        font:fonttextview="roboto_mitv_medium.ttf" />
+        <View
+            android:id="@+id/block_tripple_broadcast_two_bottom_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/block_broadcast_upcoming_two"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/grey1"
+            android:visibility="gone" />
+
+        <!-- THIRD UPCOMING EPISODE -->
+
+        <include
+            android:id="@+id/block_broadcast_upcoming_three"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/block_tripple_broadcast_two_bottom_divider"
+            layout="@layout/element_block_broadcast_upcoming_or_repetition" />
+
+        <View
+            android:id="@+id/block_tripple_broadcast_three_bottom_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/block_broadcast_upcoming_three"
+            android:background="@color/grey1"
+            android:visibility="gone" />
+
+        <com.mitv.customviews.FontTextView
+            android:id="@+id/block_tripple_broadcast_more_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/block_tripple_broadcast_three_bottom_divider"
+            android:layout_centerVertical="true"
+            android:background="@drawable/background_color_selector"
+            android:gravity="left"
+            android:padding="10dp"
+            android:text="@string/upcoming_episodes_more"
+            android:textColor="@color/grey2"
+            android:textSize="@dimen/header_3"
+            android:visibility="gone"
+            font:fonttextview="roboto_mitv_medium.ttf" />
+    </RelativeLayout>
 
 </RelativeLayout>

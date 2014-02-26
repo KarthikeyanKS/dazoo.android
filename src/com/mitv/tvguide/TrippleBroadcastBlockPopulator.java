@@ -232,10 +232,8 @@ public class TrippleBroadcastBlockPopulator {
 
 		topContentView.setVisibility(View.VISIBLE);
 
-		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-		layoutParams.setMargins(10, 0, 10, 10);
 		if (mBroadcasts.size() > 0) {
-			containerView.addView(topContentView, layoutParams);
+			containerView.addView(topContentView);
 		}
 
 	}
