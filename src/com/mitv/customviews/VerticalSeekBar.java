@@ -114,6 +114,8 @@ public class VerticalSeekBar extends SeekBar {
 		}
 		case MotionEvent.ACTION_CANCEL: {
 			Log.e(tag, "ACTION_CANCEL");
+			mParentClockBar.dehighlightClockbar();
+			selectedHourTextView.setVisibility(View.GONE);
 			break;
 		}
 		}

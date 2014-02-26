@@ -15,5 +15,5 @@
         android:layout_marginBottom="-4dp"
         android:textColor="@color/grey2"
         font:fonttextview="roboto_mitv_bold.ttf"
-        android:textSize="11sp" />
+        android:textSize="13sp" />
 </LinearLayout>
