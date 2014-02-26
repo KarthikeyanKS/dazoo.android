@@ -15,7 +15,6 @@ import android.widget.RelativeLayout;
 
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.authentication.LoginWithMiTVUserActivity;
-import com.millicom.mitv.activities.authentication.SignUpSelectionActivity;
 import com.millicom.mitv.activities.base.BaseActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;

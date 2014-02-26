@@ -1,5 +1,5 @@
 
-package com.millicom.mitv.activities.authentication;
+package com.millicom.mitv.activities;
 
 
 
@@ -11,8 +11,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
-import com.millicom.mitv.activities.FeedActivity;
-import com.millicom.mitv.activities.base.BaseLoginActivity;
+import com.millicom.mitv.activities.authentication.LoginWithFacebookActivity;
+import com.millicom.mitv.activities.authentication.LoginWithMiTVUserActivity;
+import com.millicom.mitv.activities.authentication.SignUpWithEmailActivity;
+import com.millicom.mitv.activities.base.BaseActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
@@ -22,7 +24,7 @@ import com.mitv.R;
 
 
 public class SignUpSelectionActivity 
-	extends BaseLoginActivity
+	extends BaseActivity
 {
 	@SuppressWarnings("unused")
 	private static final String TAG = SignUpSelectionActivity.class.getName();
@@ -78,24 +80,6 @@ public class SignUpSelectionActivity
 		// Do nothing (no data to load on this activity)
 	}
 	
-	
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) 
-	{
-		switch (item.getItemId()) 
-		{
-			case android.R.id.home:
-			{
-				Intent upIntent = NavUtils.getParentActivityIntent(this);
-				startActivity(upIntent);
-				return true;
-			}
-		}
-		
-		return super.onOptionsItemSelected(item);
-	}
-
 	
 	
 	private void initViews() 

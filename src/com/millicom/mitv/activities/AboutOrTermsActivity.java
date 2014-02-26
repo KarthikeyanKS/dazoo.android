@@ -7,14 +7,12 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.URLSpan;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
@@ -31,7 +29,7 @@ import com.mitv.customviews.FontTextView;
 
 public abstract class AboutOrTermsActivity 
 	extends BaseActivity 
-	implements OnClickListener 
+	implements OnClickListener
 {
 	@SuppressWarnings("unused")
 	private static final String TAG = AboutOrTermsActivity.class.getName();
@@ -58,8 +56,6 @@ public abstract class AboutOrTermsActivity
 		initLayout();
 		
 		populateViews();
-		
-		super.initCallbackLayouts();
 	}
 
 	
@@ -77,34 +73,6 @@ public abstract class AboutOrTermsActivity
 		versionNumberTv = (FontTextView) findViewById(R.id.about_and_terms_version_number_tv);
 	}
 
-	
-	
-	@Override
-	public void onBackPressed() 
-	{
-		super.onBackPressed();
-	}
-	
-	
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) 
-	{
-		switch (item.getItemId()) 
-		{
-			// Respond to the action bar's Up/Home button
-			// update the likes list on Up/Home button press too
-			case android.R.id.home:
-			{
-				Intent upIntent = NavUtils.getParentActivityIntent(this);
-				NavUtils.navigateUpTo(this, upIntent);
-				return true;
-			}
-		}
-		
-		return super.onOptionsItemSelected(item);
-	}
-	
 	
 	
 	private void populateViews() 
@@ -225,7 +193,7 @@ public abstract class AboutOrTermsActivity
 	@Override
 	protected void loadData() 
 	{
-		// TODO NewArc - Implement this
+		// Do nothing (no data to load on this activity)
 	}
 	
 	
@@ -233,14 +201,7 @@ public abstract class AboutOrTermsActivity
 	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
-		if (fetchRequestResult.wasSuccessful()) 
-		{
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
-		} 
-		else
-		{
-			updateUI(UIStatusEnum.FAILED);
-		}
+		// Do nothing (no data to load on this activity)
 	}
 
 	
