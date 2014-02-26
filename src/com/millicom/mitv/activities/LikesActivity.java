@@ -38,8 +38,6 @@ public class LikesActivity
 	@SuppressWarnings("unused")
 	private static final String TAG = LikesActivity.class.getName();
 	
-	
-	private ActionBar mActionBar;
 	private ListView mListView;
 	private LikesListAdapter mAdapter;
 	private RelativeLayout mTabTvGuide;
@@ -78,9 +76,8 @@ public class LikesActivity
 
 	private void initLayout() 
 	{
-		mActionBar = getSupportActionBar();
-		mActionBar.setTitle(getResources().getString(R.string.likes));
-		mActionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setTitle(getResources().getString(R.string.likes));
+		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		mTabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
 		mTabTvGuide.setOnClickListener(this);
@@ -140,53 +137,6 @@ public class LikesActivity
 	{
 		super.onConfigurationChanged(newConfig);
 	}
-
-	
-
-	@Override
-	public void onClick(View v) 
-	{
-		int id = v.getId();
-		
-		switch (id) 
-		{
-			case R.id.tab_tv_guide:
-			{
-				Intent intentHome = new Intent(LikesActivity.this, HomeActivity.class);
-				
-				intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				startActivity(intentHome);
-				
-				break;
-			}
-				
-			case R.id.tab_activity:
-			{
-				Intent intentActivity = new Intent(LikesActivity.this, FeedActivity.class);
-				startActivity(intentActivity);
-				break;
-			}
-				
-			case R.id.tab_me:
-			{
-				Intent returnIntent = new Intent();
-				
-				if (mIsChange == true) 
-				{
-					setResult(Consts.INFO_UPDATE_LIKES, returnIntent);
-					
-					returnIntent.putExtra(Consts.INFO_UPDATE_LIKES_NUMBER, mCount);
-				}
-				
-				finish();
-				
-				break;
-			}
-		}
-	}
-
-	
 	
 	@Override
 	public void setCount(int count) 

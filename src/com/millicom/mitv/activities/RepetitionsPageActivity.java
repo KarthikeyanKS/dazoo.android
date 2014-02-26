@@ -38,9 +38,8 @@ public class RepetitionsPageActivity
 	private View tabDividerLeft;
 	private View tabDividerRight;
 	
-	private ActionBar mActionBar;
-	private ListView mListView;
-	private RepetitionsListAdapter mAdapter;
+	private ListView listView;
+	private RepetitionsListAdapter listAdapter;
 	private ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts;
 	private TVProgram repeatingProgram;
 	private TVBroadcastWithChannelInfo runningBroadcast;
@@ -62,61 +61,14 @@ public class RepetitionsPageActivity
 		
 	private void initViews() 
 	{
-		tabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
-		tabTvGuide.setOnClickListener(this);
-		tabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
-		tabActivity.setOnClickListener(this);
-		tabProfile = (RelativeLayout) findViewById(R.id.tab_me);
-		tabProfile.setOnClickListener(this);
-
-		tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
-		tabActivity.setBackgroundColor(getResources().getColor(R.color.red));
-		tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
-
-		tabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
-		tabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
-
-		tabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
-		tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
-
-		mActionBar = getSupportActionBar();
-		mActionBar.setDisplayHomeAsUpEnabled(true);
-		mActionBar.setDisplayShowTitleEnabled(true);
-		mActionBar.setDisplayShowCustomEnabled(true);
-		mActionBar.setDisplayUseLogoEnabled(true);
-		mActionBar.setDisplayShowHomeEnabled(true);
-		mActionBar.setTitle(getResources().getString(R.string.repetitions));
-		mListView = (ListView) findViewById(R.id.repeating_list_listview);
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(true);
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setDisplayUseLogoEnabled(true);
+		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.setTitle(getResources().getString(R.string.repetitions));
+		listView = (ListView) findViewById(R.id.repeating_list_listview);
 	}
-
-	
-	
-	@Override
-	public void onClick(View v) 
-	{
-		int id = v.getId();
-
-		switch (id) 
-		{
-			case R.id.tab_tv_guide:
-			{
-				Intent intentHome = new Intent(RepetitionsPageActivity.this, HomeActivity.class);
-				
-				intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				
-				startActivity(intentHome);
-				
-				break;
-			}
-			
-			default:
-			{
-				// TODO Do something
-			}
-		}
-	}
-	
 	
 	@Override
 	protected void loadData()
@@ -152,9 +104,9 @@ public class RepetitionsPageActivity
 		{	
 			case SUCCEEDED_WITH_DATA:
 			{
-				mAdapter = new RepetitionsListAdapter(this, repeatingBroadcasts, repeatingProgram, runningBroadcast);
-				mListView.setAdapter(mAdapter);
-				mListView.setVisibility(View.VISIBLE);
+				listAdapter = new RepetitionsListAdapter(this, repeatingBroadcasts, repeatingProgram, runningBroadcast);
+				listView.setAdapter(listAdapter);
+				listView.setVisibility(View.VISIBLE);
 				break;
 			}
 	

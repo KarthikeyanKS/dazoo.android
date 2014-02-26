@@ -33,7 +33,6 @@ public class PopularPageActivity
 	private static final String TAG = PopularPageActivity.class.getName();
 
 	
-	private ActionBar mActionBar;
 	private ListView mListView;
 	private PopularListAdapter mAdapter;
 	private ArrayList<TVBroadcastWithChannelInfo> mPopularBroadcasts;
@@ -62,13 +61,12 @@ public class PopularPageActivity
 	
 	private void initViews() 
 	{
-		mActionBar = getSupportActionBar();
-		mActionBar.setDisplayHomeAsUpEnabled(true);
-		mActionBar.setDisplayShowTitleEnabled(true);
-		mActionBar.setDisplayShowCustomEnabled(true);
-		mActionBar.setDisplayUseLogoEnabled(true);
-		mActionBar.setDisplayShowHomeEnabled(true);
-		mActionBar.setTitle(getResources().getString(R.string.popular));
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(true);
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setDisplayUseLogoEnabled(true);
+		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.setTitle(getResources().getString(R.string.popular));
 		mListView = (ListView) findViewById(R.id.popular_list_listview);
 	}
 	

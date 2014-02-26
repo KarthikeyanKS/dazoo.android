@@ -48,7 +48,6 @@ public class FeedActivity
 	private TextView greetingTv;
 	private Button checkPopularBtn;
 	private Button loginBtn;
-	private ActionBar actionBar;
 	private Boolean noMoreItems = false;
 	private Boolean noTask = true;
 	private ListView listView;
@@ -120,9 +119,7 @@ public class FeedActivity
 	
 	
 	private void initStandardViews() 
-	{
-		actionBar = getSupportActionBar();
-		
+	{	
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setDisplayUseLogoEnabled(true);

@@ -8,7 +8,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBar;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.TextPaint;
@@ -41,7 +40,6 @@ public abstract class AboutOrTermsActivity
 	private FontTextView headerTv;
 	private FontTextView infoTv;
 	private FontTextView linkTv;
-	private ActionBar actionBar;
 	private RelativeLayout versionNumberContainer;
 	private FontTextView versionNumberTv;
 
@@ -66,7 +64,6 @@ public abstract class AboutOrTermsActivity
 	
 	private void initLayout()
 	{
-		actionBar = getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		headerTv = (FontTextView) findViewById(R.id.about_and_terms_header);
@@ -155,30 +152,6 @@ public abstract class AboutOrTermsActivity
 		
 		stripUnderlines(linkTv);
 	}
-
-	
-	
-	@Override
-	public void onClick(View v) 
-	{
-		int id = v.getId();
-		
-		switch (id) 
-		{
-			case R.id.tab_tv_guide:
-			{
-				// tab to home page
-				Intent intentHome = new Intent(AboutOrTermsActivity.this, HomeActivity.class);
-				intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				startActivity(intentHome);
-	
-				break;
-			}
-		}
-	}
-	
-	
 	
 	private class URLSpanNoUnderline extends URLSpan 
 	{

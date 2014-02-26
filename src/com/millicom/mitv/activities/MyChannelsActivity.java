@@ -45,8 +45,6 @@ public class MyChannelsActivity
 {
 	private static final String TAG = MyChannelsActivity.class.getName();
 
-	
-	private ActionBar mActionBar;
 	private Button mGetMyChannelsButton;
 	private Button mAddToMyChannelsButton;
 	private ListView mListView;
@@ -100,9 +98,8 @@ public class MyChannelsActivity
 	
 	private void initLayout()
 	{
-		mActionBar = getSupportActionBar();
-		mActionBar.setTitle(getResources().getString(R.string.myprofile_my_channels));
-		mActionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setTitle(getResources().getString(R.string.myprofile_my_channels));
+		actionBar.setDisplayHomeAsUpEnabled(true);
 		
 		// styling bottom navigation tabs
 
@@ -325,46 +322,6 @@ public class MyChannelsActivity
 	}
 	
 	
-
-	@Override
-	public void onClick(View v) 
-	{
-		int id = v.getId();
-		
-		switch (id) 
-		{
-			case R.id.tab_tv_guide:
-			//TODO use content manager here instead
-//			tryToUpdateChannelList();
-			Intent intentHome = new Intent(MyChannelsActivity.this, HomeActivity.class);
-			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(intentHome);
-			
-			break;
-		case R.id.tab_activity:
-			//TODO use content manager here instead
-//			tryToUpdateChannelList();
-			Intent intentActivity = new Intent(MyChannelsActivity.this, FeedActivity.class);
-			startActivity(intentActivity);
-			
-			break;
-		case R.id.tab_me:
-			//TODO use content manager here instead
-//			tryToUpdateChannelList();
-//			Intent returnIntent = new Intent();
-//			if (mIsChanged == true) {
-//				setResult(Consts.INFO_UPDATE_MYCHANNELS, returnIntent);
-//				returnIntent.putExtra(Consts.INFO_UPDATE_MYCHANNELS_NUMBER, mCount);
-//			}
-			finish();
-			
-			break;
-		}
-
-	}
-
-
 	
 	@Override
 	protected void loadData() 

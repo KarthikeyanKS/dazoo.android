@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,8 +40,6 @@ public class RemindersActivity
 	@SuppressWarnings("unused")
 	private static final String TAG = RemindersActivity.class.getName();
 	
-	
-	private ActionBar mActionBar;
 	private ListView mListView;
 	private RemindersListAdapter mAdapter;
 	private RelativeLayout mTabTvGuide;
@@ -79,9 +76,8 @@ public class RemindersActivity
 	
 	private void initLayout()
 	{
-		mActionBar = getSupportActionBar();
-		mActionBar.setTitle(getResources().getString(R.string.reminders));
-		mActionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setTitle(getResources().getString(R.string.reminders));
+		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		// styling bottom navigation tabs
 		
@@ -165,45 +161,6 @@ public class RemindersActivity
 		super.onConfigurationChanged(newConfig);
 		
 	}
-
-	
-	
-	@Override
-	public void onClick(View v) 
-	{
-		int id = v.getId();
-		
-		switch (id) 
-		{
-		case R.id.tab_tv_guide:
-			// tab to home page
-			Intent intentHome = new Intent(RemindersActivity.this, HomeActivity.class);
-			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(intentHome);
-			
-			break;
-		case R.id.tab_activity:
-			// tab to home page
-			Intent intentActivity = new Intent(RemindersActivity.this, FeedActivity.class);
-			startActivity(intentActivity);
-			
-			break;
-		case R.id.tab_me:
-			// tab to my profile page
-			Intent returnIntent = new Intent();
-			
-			if (mIsChange == true) 
-			{
-				setResult(Consts.INFO_UPDATE_REMINDERS, returnIntent);
-				returnIntent.putExtra(Consts.INFO_UPDATE_REMINDERS_NUMBER, mCount);
-			}
-			finish();
-			
-			break;
-		}
-	}
-
 	
 	
 	@Override

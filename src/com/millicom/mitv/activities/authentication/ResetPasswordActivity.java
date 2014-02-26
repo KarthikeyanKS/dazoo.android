@@ -56,7 +56,6 @@ public class ResetPasswordActivity
 	private static final String TAG = ResetPasswordActivity.class.getName();
 	
 	
-	private ActionBar			mActionBar;
 	private Button				mMiTVResetPassword;
 	private EditText			mEmailResetPasswordEditText;
 	private TextView			mErrorTextView;
@@ -132,14 +131,13 @@ public class ResetPasswordActivity
 
 	private void initViews()
 	{
-		mActionBar = getSupportActionBar();
-		mActionBar.setDisplayShowTitleEnabled(true);
-		mActionBar.setDisplayShowCustomEnabled(true);
-		mActionBar.setDisplayUseLogoEnabled(true);
-		mActionBar.setDisplayShowHomeEnabled(true);
-		mActionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(true);
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setDisplayUseLogoEnabled(true);
+		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.setDisplayHomeAsUpEnabled(true);
 
-		mActionBar.setTitle(getResources().getString(R.string.reset_password));
+		actionBar.setTitle(getResources().getString(R.string.reset_password));
 
 		mMiTVResetPassword = (Button) findViewById(R.id.resetpassword_button);
 		mMiTVResetPassword.setOnClickListener(this);

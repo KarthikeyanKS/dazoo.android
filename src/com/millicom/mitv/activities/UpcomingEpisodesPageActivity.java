@@ -27,7 +27,6 @@ public class UpcomingEpisodesPageActivity
 	@SuppressWarnings("unused")
 	private static final String TAG = UpcomingEpisodesPageActivity.class.getName();
 		
-	private ActionBar actionBar;
 	private ListView listView;
 	private UpcomingEpisodesListAdapter adapter;
 	private TVBroadcastWithChannelInfo runningBroadcast;
@@ -61,7 +60,6 @@ public class UpcomingEpisodesPageActivity
 	
 	private void initViews() 
 	{
-		actionBar = getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setDisplayShowCustomEnabled(true);

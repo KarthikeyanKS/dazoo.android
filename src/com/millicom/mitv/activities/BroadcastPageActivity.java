@@ -38,7 +38,6 @@ public class BroadcastPageActivity
 {
 	private static final String TAG = BroadcastPageActivity.class.getName();
 
-	private ActionBar actionBar;
 	private TVChannelId channelId;
 	private long beginTimeInMillis;
 	private boolean isFromActivity = false;
@@ -130,7 +129,6 @@ public class BroadcastPageActivity
 	
 	private void initViews()
 	{
-		actionBar = getSupportActionBar();
 		actionBar.setTitle(getResources().getString(R.string.broadcast_info));
 		actionBar.setDisplayHomeAsUpEnabled(true);
 

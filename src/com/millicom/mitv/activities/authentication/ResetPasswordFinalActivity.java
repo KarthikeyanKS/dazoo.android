@@ -26,10 +26,8 @@ public class ResetPasswordFinalActivity
 	private static final String TAG = ResetPasswordFinalActivity.class.getName();
 
 	
-	private ActionBar actionBar;
 	private Button loginBtn;
 
-	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -99,7 +97,6 @@ public class ResetPasswordFinalActivity
 	
 	private void initViews() 
 	{
-		actionBar = getSupportActionBar();
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setDisplayUseLogoEnabled(true);

@@ -53,16 +53,15 @@ public class SearchPageActivity
 	private static final String TAG = SearchPageActivity.class.getName();
 
 	
-	private SearchPageListAdapter mAutoCompleteAdapter;
-	private LinearLayout mSearchInstructionsContainer;
+	private SearchPageListAdapter autoCompleteAdapter;
+	private LinearLayout searchInstructionsContainer;
 
-	private ActionBar mActionBar;
-	private Menu mMenu;
-	private InstantAutoComplete mEditTextSearch;
-	private ImageView mEditTextClearBtn;
-	private ProgressBar mProgressBar;
+	private Menu menu;
+	private InstantAutoComplete editTextSearch;
+	private ImageView editTextClearBtn;
+	private ProgressBar progressBar;
 
-	private Handler mHandler = new Handler();
+	private Handler handler = new Handler();
 
 	
 	
@@ -124,11 +123,10 @@ public class SearchPageActivity
 	
 	private void initSupportActionbar() 
 	{
-		mActionBar = getSupportActionBar();
-		mActionBar.setDisplayShowTitleEnabled(false);
-		mActionBar.setDisplayUseLogoEnabled(true);
-		mActionBar.setDisplayHomeAsUpEnabled(true);
-		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayUseLogoEnabled(true);
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 	}
 
 	
@@ -146,7 +144,7 @@ public class SearchPageActivity
 		MenuItem searchField = menu.findItem(R.id.searchfield);
 		searchField.setVisible(true);
 		
-		this.mMenu = menu;
+		this.menu = menu;
 		
 		initAutoCompleteLayout();
 		initAutoCompleteListeners();
@@ -175,31 +173,31 @@ public class SearchPageActivity
 	
 	private void initAutoCompleteLayout()
 	{
-		MenuItem searchField = mMenu.findItem(R.id.searchfield);
+		MenuItem searchField = menu.findItem(R.id.searchfield);
 		
 		View searchFieldView = MenuItemCompat.getActionView(searchField);
 		
-		mProgressBar = (ProgressBar) searchFieldView.findViewById(R.id.searchbar_progress);
+		progressBar = (ProgressBar) searchFieldView.findViewById(R.id.searchbar_progress);
 		
-		mEditTextClearBtn = (ImageView) searchFieldView.findViewById(R.id.searchbar_clear);
+		editTextClearBtn = (ImageView) searchFieldView.findViewById(R.id.searchbar_clear);
 		
-		mEditTextSearch = (InstantAutoComplete) searchFieldView.findViewById(R.id.searchbar_edittext);
+		editTextSearch = (InstantAutoComplete) searchFieldView.findViewById(R.id.searchbar_edittext);
 		
-		mEditTextSearch.requestFocus();
+		editTextSearch.requestFocus();
 	}
 
 	
 	
 	private void initAutoCompleteListeners()
 	{
-		mEditTextClearBtn.setOnClickListener(this);
-		mEditTextSearch.setOnItemClickListener(this);
-		mEditTextSearch.setOnEditorActionListener(this);
+		editTextClearBtn.setOnClickListener(this);
+		editTextSearch.setOnItemClickListener(this);
+		editTextSearch.setOnEditorActionListener(this);
 
-		mEditTextSearch.setOnTouchListener(new OnTouchListener() {
+		editTextSearch.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				mEditTextSearch.showDropDown();
+				editTextSearch.showDropDown();
 				return false;
 			}
 		});
@@ -207,18 +205,18 @@ public class SearchPageActivity
 	}
 		
 	private void loadAutoCompleteView() {
-		mAutoCompleteAdapter = new SearchPageListAdapter(SearchPageActivity.this, this);
-		mEditTextSearch.setThreshold(1);
+		autoCompleteAdapter = new SearchPageListAdapter(SearchPageActivity.this, this);
+		editTextSearch.setThreshold(1);
 	
 		int width = GenericUtils.getScreenWidth(this);
 		
-		mEditTextSearch.setDropDownWidth(width);
-		mEditTextSearch.setAdapter(mAutoCompleteAdapter);
-		mEditTextSearch.setDropDownVerticalOffset(0);
+		editTextSearch.setDropDownWidth(width);
+		editTextSearch.setAdapter(autoCompleteAdapter);
+		editTextSearch.setDropDownVerticalOffset(0);
 	}
 
 	private void initMainLayout() {
-		mSearchInstructionsContainer = (LinearLayout) findViewById(R.id.search_page_instruction_container);
+		searchInstructionsContainer = (LinearLayout) findViewById(R.id.search_page_instruction_container);
 	}
 
 	
@@ -227,11 +225,11 @@ public class SearchPageActivity
 	public void showProgressLoading(boolean isLoading) 
 	{
 		if (isLoading) {
-			mProgressBar.setVisibility(View.VISIBLE);
-			mEditTextClearBtn.setVisibility(View.GONE);
+			progressBar.setVisibility(View.VISIBLE);
+			editTextClearBtn.setVisibility(View.GONE);
 		} else {
-			mProgressBar.setVisibility(View.GONE);
-			mEditTextClearBtn.setVisibility(View.VISIBLE);
+			progressBar.setVisibility(View.GONE);
+			editTextClearBtn.setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -240,14 +238,14 @@ public class SearchPageActivity
 	@Override
 	public void isRecentListEmpty(boolean isEmpty) 
 	{
-		mSearchInstructionsContainer.setVisibility(View.VISIBLE);
+		searchInstructionsContainer.setVisibility(View.VISIBLE);
 	}
 
 	
 	
 	private void showKeyboard() 
 	{
-		mHandler.post(new Runnable() 
+		handler.post(new Runnable() 
 		{
 			public void run() 
 			{
@@ -303,13 +301,13 @@ public class SearchPageActivity
 
 		switch (v.getId()) {
 		case R.id.searchbar_clear: {
-			mEditTextSearch.setText("");
-			mEditTextSearch.dismissDropDown();
-			mEditTextSearch.setAdapter(new SearchPageListAdapter(SearchPageActivity.this, this));
+			editTextSearch.setText("");
+			editTextSearch.dismissDropDown();
+			editTextSearch.setAdapter(new SearchPageListAdapter(SearchPageActivity.this, this));
 			break;
 		}
 		case R.id.searchbar_edittext: {
-			mEditTextSearch.showDropDown();
+			editTextSearch.showDropDown();
 			break;
 		}
 		}
@@ -319,7 +317,7 @@ public class SearchPageActivity
 	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 		if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 			triggerAutoComplete();
-			if (mEditTextSearch.getText().toString().length() >= 1) 
+			if (editTextSearch.getText().toString().length() >= 1) 
 			{
 				GenericUtils.hideKeyboard(this);
 			}
@@ -329,12 +327,12 @@ public class SearchPageActivity
 	}
 
 	private void triggerAutoComplete() {
-		if(mEditTextSearch != null) { 
-			String query = mEditTextSearch.getText().toString();
+		if(editTextSearch != null) { 
+			String query = editTextSearch.getText().toString();
 			int pos = query.length();
-			mEditTextSearch.setSelection(pos);
-			mAutoCompleteAdapter.getFilter().filter(query);
-			mEditTextSearch.showDropDown();
+			editTextSearch.setSelection(pos);
+			autoCompleteAdapter.getFilter().filter(query);
+			editTextSearch.showDropDown();
 		}
 	}
 

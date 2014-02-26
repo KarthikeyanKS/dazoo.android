@@ -4,10 +4,11 @@ package com.millicom.mitv.activities.authentication;
 
 
 import org.json.JSONObject;
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.util.Log;
+
 import com.androidquery.AQuery;
 import com.androidquery.auth.FacebookHandle;
 import com.androidquery.callback.AbstractAjaxCallback;
@@ -42,9 +43,6 @@ public class FacebookLoginActivity
 	private AQuery aq;
 	
 	private Class<?> returnActivity;
-	
-	private ActionBar actionBar;
-	
 
 	
 	@Override
@@ -76,7 +74,6 @@ public class FacebookLoginActivity
 			returnActivity = HomeActivity.class;
 		}
 		
-		actionBar = getSupportActionBar();
 		
 		actionBar.hide();
 	}

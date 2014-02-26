@@ -64,7 +64,6 @@ public class ChannelPageActivity
 	
 	private void initViews() 
 	{
-		actionBar = getSupportActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 

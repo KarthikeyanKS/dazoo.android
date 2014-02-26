@@ -5,7 +5,6 @@ package com.millicom.mitv.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,27 +37,29 @@ public class MyProfileActivity
 	@SuppressWarnings("unused")
 	private static final String TAG = MyProfileActivity.class.getName();
 
-	private String mUserFirstName;
-	private String mUserLastName;
-	private String mUserAvatarUrl;
-	private RelativeLayout mAboutContainer;
-	private RelativeLayout mTermsContainer;
+	private String userFirstName;
+	private String userLastName;
+	private String userAvatarUrl;
+	private RelativeLayout aboutContainer;
+	private RelativeLayout termsContainer;
 
 	/* ONLY USED WHEN NOT LOGGED IN */
-	private LinearLayout mSignInOrSignUpView;
-	private RelativeLayout mSignUpContainer;
-	private RelativeLayout mLoginContainer;
+	private LinearLayout signInOrSignUpView;
+	private RelativeLayout signUpContainer;
+	private RelativeLayout loginContainer;
 
 	/* ONLY USED WHEN LOGGED IN */
-	private RelativeLayout mPersonalView;
-	private ImageView mAvatarImageView;
-	private FontTextView mUserNameTextView;
-	private RelativeLayout mLikesContainer;
-	private RelativeLayout mChannelsContainer;
-	private RelativeLayout mRemindersContainer;
-	private RelativeLayout mLogoutContainer;
+	private RelativeLayout personalView;
+	private ImageView avatarImageView;
+	private FontTextView userNameTextView;
+	private RelativeLayout likesContainer;
+	private RelativeLayout channelsContainer;
+	private RelativeLayout remindersContainer;
+	private RelativeLayout logoutContainer;
 
-	private FontTextView mLikesCountTv, mChannelCountTv, mReminderCountTv;
+	private FontTextView likesCountTv;
+	private FontTextView channelCountTv;
+	private FontTextView reminderCountTv;
 
 	
 	
@@ -71,8 +72,8 @@ public class MyProfileActivity
 
 		if (ContentManager.sharedInstance().isLoggedIn()) 
 		{
-			mUserFirstName = ContentManager.sharedInstance().getFromStorageUserFirstname();
-			mUserLastName = ContentManager.sharedInstance().getFromStorageUserLastname();
+			userFirstName = ContentManager.sharedInstance().getFromStorageUserFirstname();
+			userLastName = ContentManager.sharedInstance().getFromStorageUserLastname();
 			
 			// TDOO from where do we get the avatar?
 			// mUserAvatarUrl = ((SecondScreenApplication) getApplicationContext()).getUserAvatarUrl();
@@ -94,7 +95,6 @@ public class MyProfileActivity
 
 	private void initViews() 
 	{
-		ActionBar actionBar = getSupportActionBar();
 		actionBar.setTitle(getResources().getString(R.string.myprofile_title));
 
 		actionBar.setDisplayShowTitleEnabled(true);
@@ -102,42 +102,42 @@ public class MyProfileActivity
 		actionBar.setDisplayUseLogoEnabled(true);
 		actionBar.setDisplayShowHomeEnabled(true);
 
-		mAboutContainer = (RelativeLayout) findViewById(R.id.myprofile_about_us_container);
-		mAboutContainer.setOnClickListener(this);
+		aboutContainer = (RelativeLayout) findViewById(R.id.myprofile_about_us_container);
+		aboutContainer.setOnClickListener(this);
 
-		mTermsContainer = (RelativeLayout) findViewById(R.id.myprofile_terms_of_use_container);
-		mTermsContainer.setOnClickListener(this);
+		termsContainer = (RelativeLayout) findViewById(R.id.myprofile_terms_of_use_container);
+		termsContainer.setOnClickListener(this);
 
 		/* ONLY USED WHEN NOT LOGGED IN */
-		mSignInOrSignUpView = (LinearLayout) findViewById(R.id.myprofile_sign_in_or_sign_up_container);
+		signInOrSignUpView = (LinearLayout) findViewById(R.id.myprofile_sign_in_or_sign_up_container);
 
-		mSignUpContainer = (RelativeLayout) findViewById(R.id.myprofile_signup_container);
-		mSignUpContainer.setOnClickListener(this);
+		signUpContainer = (RelativeLayout) findViewById(R.id.myprofile_signup_container);
+		signUpContainer.setOnClickListener(this);
 
-		mLoginContainer = (RelativeLayout) findViewById(R.id.myprofile_login_container);
-		mLoginContainer.setOnClickListener(this);
+		loginContainer = (RelativeLayout) findViewById(R.id.myprofile_login_container);
+		loginContainer.setOnClickListener(this);
 
 		/* ONLY USED WHEN LOGGED IN */
-		mPersonalView = (RelativeLayout) findViewById(R.id.myprofile_person_container_signed_in);
+		personalView = (RelativeLayout) findViewById(R.id.myprofile_person_container_signed_in);
 
-		mLikesCountTv = (FontTextView) findViewById(R.id.myprofile_likes_count_tv);
-		mChannelCountTv = (FontTextView) findViewById(R.id.myprofile_channels_count_tv);
-		mReminderCountTv = (FontTextView) findViewById(R.id.myprofile_reminders_count_tv);
+		likesCountTv = (FontTextView) findViewById(R.id.myprofile_likes_count_tv);
+		channelCountTv = (FontTextView) findViewById(R.id.myprofile_channels_count_tv);
+		reminderCountTv = (FontTextView) findViewById(R.id.myprofile_reminders_count_tv);
 
-		mLikesContainer = (RelativeLayout) findViewById(R.id.myprofile_likes_container);
-		mLikesContainer.setOnClickListener(this);
+		likesContainer = (RelativeLayout) findViewById(R.id.myprofile_likes_container);
+		likesContainer.setOnClickListener(this);
 
-		mChannelsContainer = (RelativeLayout) findViewById(R.id.myprofile_channels_container);
-		mChannelsContainer.setOnClickListener(this);
+		channelsContainer = (RelativeLayout) findViewById(R.id.myprofile_channels_container);
+		channelsContainer.setOnClickListener(this);
 
-		mRemindersContainer = (RelativeLayout) findViewById(R.id.myprofile_reminders_container);
-		mRemindersContainer.setOnClickListener(this);
+		remindersContainer = (RelativeLayout) findViewById(R.id.myprofile_reminders_container);
+		remindersContainer.setOnClickListener(this);
 
-		mLogoutContainer = (RelativeLayout) findViewById(R.id.myprofile_logout_container);
-		mLogoutContainer.setOnClickListener(this);
+		logoutContainer = (RelativeLayout) findViewById(R.id.myprofile_logout_container);
+		logoutContainer.setOnClickListener(this);
 
-		mAvatarImageView = (ImageView) findViewById(R.id.myprofile_avatar_iv);
-		mUserNameTextView = (FontTextView) findViewById(R.id.myprofile_name_tv);
+		avatarImageView = (ImageView) findViewById(R.id.myprofile_avatar_iv);
+		userNameTextView = (FontTextView) findViewById(R.id.myprofile_name_tv);
 	}
 
 	
@@ -145,18 +145,18 @@ public class MyProfileActivity
 	private void populateViews() 
 	{
 		NotificationDataSource notificationDataSource = new NotificationDataSource(this);
-		mReminderCountTv.setText("(" + String.valueOf(notificationDataSource.getNumberOfNotifications()) + ")");
+		reminderCountTv.setText("(" + String.valueOf(notificationDataSource.getNumberOfNotifications()) + ")");
 
 		if (ContentManager.sharedInstance().isLoggedIn())
 		{
-			mPersonalView.setVisibility(View.VISIBLE);
+			personalView.setVisibility(View.VISIBLE);
 			
-			mSignInOrSignUpView.setVisibility(View.GONE);
+			signInOrSignUpView.setVisibility(View.GONE);
 
-			if (mUserAvatarUrl != null && TextUtils.isEmpty(mUserAvatarUrl) != true) 
+			if (userAvatarUrl != null && TextUtils.isEmpty(userAvatarUrl) != true) 
 			{
-				ImageAware imageAware = new ImageViewAware(mAvatarImageView, false);
-				ImageLoader.getInstance().displayImage(mUserAvatarUrl, imageAware);
+				ImageAware imageAware = new ImageViewAware(avatarImageView, false);
+				ImageLoader.getInstance().displayImage(userAvatarUrl, imageAware);
 			}
 
 			// boolean refreshLikeIdsFromService =
@@ -170,9 +170,9 @@ public class MyProfileActivity
 			// }
 
 			if (MiTVStore.getInstance().getLikeIds() != null && MiTVStore.getInstance().getLikeIds().isEmpty() != true) {
-				mLikesCountTv.setText("(" + String.valueOf(MiTVStore.getInstance().getLikeIds().size()) + ")");
+				likesCountTv.setText("(" + String.valueOf(MiTVStore.getInstance().getLikeIds().size()) + ")");
 			} else {
-				mLikesCountTv.setText("(0)");
+				likesCountTv.setText("(0)");
 			}
 
 			// boolean refreshChannelIdsFromService =
@@ -186,24 +186,24 @@ public class MyProfileActivity
 			// No need for else
 
 			if (MiTVStore.getInstance().getChannelIds() != null && MiTVStore.getInstance().getChannelIds().isEmpty() != true) {
-				mChannelCountTv.setText("(" + String.valueOf(MiTVStore.getInstance().getChannelIds().size()) + ")");
+				channelCountTv.setText("(" + String.valueOf(MiTVStore.getInstance().getChannelIds().size()) + ")");
 			}
 
-			if (mUserFirstName != null && mUserLastName != null && mUserFirstName.length() > 0 && mUserLastName.length() > 0) {
-				mUserNameTextView.setText(mUserFirstName + " " + mUserLastName);
+			if (userFirstName != null && userLastName != null && userFirstName.length() > 0 && userLastName.length() > 0) {
+				userNameTextView.setText(userFirstName + " " + userLastName);
 			} else {
-				mPersonalView.setVisibility(View.GONE);
+				personalView.setVisibility(View.GONE);
 			}
 
 		} 
 		else 
 		{
-			mSignInOrSignUpView.setVisibility(View.VISIBLE);
+			signInOrSignUpView.setVisibility(View.VISIBLE);
 
-			mPersonalView.setVisibility(View.GONE);
-			mLikesContainer.setVisibility(View.GONE);
-			mChannelsContainer.setVisibility(View.GONE);
-			mLogoutContainer.setVisibility(View.GONE);
+			personalView.setVisibility(View.GONE);
+			likesContainer.setVisibility(View.GONE);
+			channelsContainer.setVisibility(View.GONE);
+			logoutContainer.setVisibility(View.GONE);
 		}
 	}
 

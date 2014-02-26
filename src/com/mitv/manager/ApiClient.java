@@ -608,7 +608,6 @@ public class ApiClient
 //		if (!isLoggedIn()) {
 //			Context applicationContext = application.getApplicationContext();
 //			Intent intent = new Intent(applicationContext, MyProfileActivity.class);
-//			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //			applicationContext.startActivity(intent);
 //		}
 //	}

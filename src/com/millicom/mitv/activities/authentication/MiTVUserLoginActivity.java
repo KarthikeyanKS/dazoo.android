@@ -32,8 +32,6 @@ public class MiTVUserLoginActivity
 {
 	private static final String TAG = MiTVUserLoginActivity.class.getName();
 	
-	
-	private ActionBar actionBar;
 	private Button miTVLoginButton;
 	private Button forgetPasswordButton;
 	private EditText emailLoginEditText;
@@ -214,7 +212,6 @@ public class MiTVUserLoginActivity
 	
 	private void initViews() 
 	{
-		actionBar = getSupportActionBar();
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setDisplayUseLogoEnabled(true);

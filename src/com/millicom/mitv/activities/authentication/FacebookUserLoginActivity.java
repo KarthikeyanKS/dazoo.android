@@ -27,8 +27,6 @@ public class FacebookUserLoginActivity
 	@SuppressWarnings("unused")
 	private static final String TAG = FacebookUserLoginActivity.class.getName();
 
-	
-	private ActionBar mActionBar;
 	private RelativeLayout mSetChannels;
 	private RelativeLayout mConnectWithFriends;
 	private RelativeLayout mTakeTour;
@@ -104,12 +102,11 @@ public class FacebookUserLoginActivity
 	
 	private void initViews() 
 	{
-		mActionBar = getSupportActionBar();
-		mActionBar.setDisplayShowTitleEnabled(true);
-		mActionBar.setDisplayShowCustomEnabled(true);
-		mActionBar.setDisplayUseLogoEnabled(true);
-		mActionBar.setDisplayShowHomeEnabled(true);
-		mActionBar.setTitle(getResources().getString(R.string.app_name));
+		actionBar.setDisplayShowTitleEnabled(true);
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setDisplayUseLogoEnabled(true);
+		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.setTitle(getResources().getString(R.string.app_name));
 
 		mSetChannels = (RelativeLayout) findViewById(R.id.facebook_set_channels_container);
 		mSetChannels.setOnClickListener(this);
