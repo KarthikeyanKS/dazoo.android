@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -114,7 +115,11 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 			}
 		} else {
 			timeString = mContext.getString(R.string.search_no_upcoming_broadcasts);
-		}	
+		}
+		
+		if(TextUtils.isEmpty(timeString)) {
+			Log.e(TAG, "bad");
+		}
 		
 		viewHolder.mTime.setTextColor(textColor);
 		viewHolder.mTime.setText(timeString);
@@ -158,21 +163,27 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 				spannable = getCustomFontSpannableUsingThreeStrings(beforeBold, toBold, afterBold);
 			}
 		}
+				
 		return spannable;
 	}
 	
-	private void setTitleString(ViewHolder viewHolder, String title, String matchedString) {
+	private boolean setTitleString(ViewHolder viewHolder, String title, String matchedString) {
 		Spannable spannable = getCustomFontSpannable(title, matchedString);
+		
+		boolean titleMatched = false;
 		
 		if(spannable != null) {
 			viewHolder.mTitle.setText(spannable);
+			titleMatched = true;
 		} else {
 			viewHolder.mTitle.setText(title);
 		}
+		
+		return titleMatched;
 	}
 	
-	private void setTitleString(ViewHolder viewHolder, String title) {
-		setTitleString(viewHolder, title, mQuery);
+	private boolean setTitleString(ViewHolder viewHolder, String title) {
+		return setTitleString(viewHolder, title, mQuery);
 	}
 		
 	private void populateProgramView(ViewHolder viewHolder, SearchResultItem resultItem, Program program) {
@@ -200,9 +211,15 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		setTimeString(viewHolder, resultItem);
 	}
 		
-	private void populateSeriesView(ViewHolder viewHolder, SearchResultItem resultItem, Series series) {
+	private void populateSeriesView(ViewHolder viewHolder, SearchResultItem resultItem, boolean fromProgram, Series series, Program program) {
 		Broadcast closestBroadcastInTime = resultItem.getNextBroadcast();
-		Program program = closestBroadcastInTime.getProgram();
+
+		if(!fromProgram) {
+			program = closestBroadcastInTime.getProgram();
+		} else {
+			series = program.getSeries();
+		}
+		
 		String episodeTitle = program.getTitle();
 		
 		StringBuilder sb = new StringBuilder(mContext.getString(R.string.search_result_tv_episode));
@@ -212,14 +229,19 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 		}
 		
 		String seriesString = sb.toString();
-		viewHolder.mType.setText(seriesString);
 		
 		String title = series.getName();
-		setTitleString(viewHolder, title);
+		boolean titleMatched = setTitleString(viewHolder, title);
+		if(titleMatched) {
+			viewHolder.mType.setText(seriesString);
+		} else {
+			Spannable episodeTitleAsSpannable = getCustomFontSpannable(seriesString, mQuery);
+			viewHolder.mType.setText(episodeTitleAsSpannable);
+		}
 
 		setTimeString(viewHolder, resultItem);
 	}
-	
+		
 	private void populateChannelView(ViewHolder viewHolder, Channel channel) {
 		viewHolder.mType.setText(mContext.getString(R.string.search_result_channel));
 		
@@ -254,12 +276,18 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 			switch (type) {
 			case PROGRAM: {
 				Program program = (Program) resultItem.getEntity();
-				populateProgramView(holder, resultItem, program);
+				
+				if(program.getSeries() != null) {
+					populateSeriesView(holder, resultItem, true, null, program);
+				} else {
+					populateProgramView(holder, resultItem, program);
+				}
+				
 				break;
 			}
 			case SERIES: {
 				Series series = (Series) resultItem.getEntity();
-				populateSeriesView(holder, resultItem, series);
+				populateSeriesView(holder, resultItem, false, series, null);
 				break;
 			}
 			case CHANNEL: {
