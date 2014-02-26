@@ -87,15 +87,7 @@ public class SignUpWithEmailActivity
 		passwordEditText.setText("Zxcvbnm00");
 	}
 	
-	
-	
-	@Override
-	protected void onResume() 
-	{
-		super.onResume();
-	}
 
-	
 	
 	@Override
 	protected void loadData() 

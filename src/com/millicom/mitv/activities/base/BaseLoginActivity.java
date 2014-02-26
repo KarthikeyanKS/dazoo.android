@@ -74,15 +74,7 @@ public abstract class BaseLoginActivity
 		return true;
 	}
 	
-	
-	
-	@Override
-	public void onBackPressed() 
-	{
-		super.onBackPressed();
-	}
-	
-	
+
 	
 	public Class<?> getReturnActivity()
 	{

@@ -35,7 +35,9 @@ import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.utilities.GenericUtils;
 import com.millicom.mitv.utilities.NetworkUtils;
+import com.mitv.Consts;
 import com.mitv.R;
+import com.mitv.customviews.ToastHelper;
 import com.mitv.manager.GATrackingManager;
 
 
@@ -63,6 +65,8 @@ public abstract class BaseActivity
 	protected ActionBar actionBar;
 
 	private TabSelectedEnum tabSelectedEnum = TabSelectedEnum.NOT_SET;
+	
+	private boolean userHasJustLoggedIn;
 	
 	
 	/* Abstract Methods */
@@ -301,9 +305,13 @@ public abstract class BaseActivity
 		.build());
 	}
 
+	
+	
 	@Override
-	protected void onCreate(android.os.Bundle savedInstanceState) 
+	protected void onCreate(android.os.Bundle savedInstanceState)
 	{
+		super.onCreate(savedInstanceState);
+		
 		PackageInfo packageInfo = GenericUtils.getPackageInfo(this);
 
 		int flags = packageInfo.applicationInfo.flags;
@@ -316,13 +324,33 @@ public abstract class BaseActivity
 //			enableStrictMode();
 		}
 
-		super.onCreate(savedInstanceState);
-		
 		EasyTracker.getInstance(this).activityStart(this);
 
 		String className = this.getClass().getName();
 		
 		GATrackingManager.sendView(className);
+		
+		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+		
+		if (isLoggedIn) 
+		{
+			Intent intent = getIntent();
+			
+			if (intent.hasExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN)) 
+			{
+				userHasJustLoggedIn = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, false);
+				
+				intent.removeExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN);
+			}
+			else
+			{
+				userHasJustLoggedIn = false;
+			}
+		}
+		else
+		{
+			userHasJustLoggedIn = false;
+		}
 	}
 	
 	
@@ -335,6 +363,18 @@ public abstract class BaseActivity
 		initCallbackLayouts();
 		
 		initTabViews();
+		
+		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+		
+		if (isLoggedIn && userHasJustLoggedIn)
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(getResources().getString(R.string.hello));
+			sb.append(" ");
+			sb.append(ContentManager.sharedInstance().getFromStorageUserFirstname());
+
+			ToastHelper.createAndShowToast(this, sb.toString());
+		}
 	}
 
 		

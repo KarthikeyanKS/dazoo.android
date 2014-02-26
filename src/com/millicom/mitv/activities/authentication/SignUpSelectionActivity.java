@@ -6,13 +6,12 @@ package com.millicom.mitv.activities.authentication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
-import com.millicom.mitv.activities.HomeActivity;
+import com.millicom.mitv.activities.FeedActivity;
 import com.millicom.mitv.activities.base.BaseLoginActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
@@ -29,8 +28,8 @@ public class SignUpSelectionActivity
 	private static final String TAG = SignUpSelectionActivity.class.getName();
 
 	
-	private ActionBar actionBar;
-	private RelativeLayout mFacebookContainer, signUpContainer;
+	private RelativeLayout facebookContainer;
+	private RelativeLayout signUpContainer;
 	private Button loginButton;
 
 	
@@ -101,7 +100,6 @@ public class SignUpSelectionActivity
 	
 	private void initViews() 
 	{
-		actionBar = getSupportActionBar();
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setDisplayUseLogoEnabled(true);
@@ -110,14 +108,16 @@ public class SignUpSelectionActivity
 
 		actionBar.setTitle(getResources().getString(R.string.sign_up));
 
-		mFacebookContainer = (RelativeLayout) findViewById(R.id.signin_facebook_container);
+		facebookContainer = (RelativeLayout) findViewById(R.id.signin_facebook_container);
 		
-		mFacebookContainer.setOnClickListener(new View.OnClickListener() 
+		facebookContainer.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v) 
 			{
 				Intent intent = new Intent(SignUpSelectionActivity.this, LoginWithFacebookActivity.class);
+				
+				intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, FeedActivity.class.getName());
 				
 				startActivity(intent);
 				
@@ -134,7 +134,11 @@ public class SignUpSelectionActivity
 			{
 				Intent intent = new Intent(SignUpSelectionActivity.this, SignUpWithEmailActivity.class);
 				
+				intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, FeedActivity.class.getName());
+				
 				startActivity(intent);
+				
+				finish();
 			}
 		});
 
@@ -147,7 +151,11 @@ public class SignUpSelectionActivity
 			{
 				Intent intent = new Intent(SignUpSelectionActivity.this, LoginWithMiTVUserActivity.class);
 				
+				intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, FeedActivity.class.getName());
+				
 				startActivity(intent);
+				
+				finish();
 			}
 		});
 	}

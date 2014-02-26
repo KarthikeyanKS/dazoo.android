@@ -32,7 +32,6 @@ import com.millicom.mitv.models.TVFeedItem;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.adapters.FeedListAdapter;
-import com.mitv.customviews.ToastHelper;
 
 
 
@@ -55,8 +54,6 @@ public class FeedActivity
 	private FeedListAdapter adapter;
 	private View listFooterView;
 
-	private boolean userHasJustLoggedIn;
-
 	
 	
 	@Override
@@ -73,19 +70,6 @@ public class FeedActivity
 			initStandardViews();
 			
 			initFeedViews();
-			
-			Intent intent = getIntent();
-			
-			if (intent.hasExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN)) 
-			{
-				userHasJustLoggedIn = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, false);
-				
-				intent.removeExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN);
-			}
-			else
-			{
-				userHasJustLoggedIn = false;
-			}
 		}
 		else
 		{
@@ -94,32 +78,9 @@ public class FeedActivity
 			initStandardViews();
 			
 			initInactiveViews();
-			
-			userHasJustLoggedIn = false;
 		}
 	}
 
-	
-	
-	@Override
-	protected void onResume() 
-	{
-		super.onResume();
-		
-		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
-		
-		if (isLoggedIn && userHasJustLoggedIn)
-		{
-			StringBuilder sb = new StringBuilder();
-			sb.append(getResources().getString(R.string.hello));
-			sb.append(" ");
-			sb.append(ContentManager.sharedInstance().getFromStorageUserFirstname());
-
-			ToastHelper.createAndShowToast(this, sb.toString());
-		}
-	}	
-	
-	
 	
 	private void initStandardViews() 
 	{
@@ -377,22 +338,22 @@ public class FeedActivity
 	
 			case R.id.activity_not_logged_in_signup_email_container:
 			{
-				Intent intentSignUp = new Intent(FeedActivity.this, SignUpWithEmailActivity.class);
+				Intent intent = new Intent(FeedActivity.this, SignUpWithEmailActivity.class);
 	
-				intentSignUp.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, this.getClass().getName());
+				intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, this.getClass().getName());
 	
-				startActivity(intentSignUp);
+				startActivity(intent);
 	
 				break;
 			}
 	
 			case R.id.activity_not_logged_in_login_btn: 
 			{
-				Intent intentLogin = new Intent(FeedActivity.this, LoginWithMiTVUserActivity.class);
+				Intent intent = new Intent(FeedActivity.this, LoginWithMiTVUserActivity.class);
 	
-				intentLogin.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, this.getClass().getName());
+				intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, this.getClass().getName());
 	
-				startActivity(intentLogin);
+				startActivity(intent);
 	
 				break;
 			}
