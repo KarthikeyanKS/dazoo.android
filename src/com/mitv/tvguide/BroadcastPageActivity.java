@@ -68,7 +68,7 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.layout_broadcastpage_activity);
 
 		mitvStore = MiTVStore.getInstance();
@@ -98,21 +98,22 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 		Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
 		initViews();
-
-		super.initCallbackLayouts();
-
 		loadStartPage();
-		
+
 		InternalTrackingManager.trackBroadcastStatic(mBroadcast);
 	}
-	
+
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
-		Log.d(TAG, "mIsBroadcast: " + mIsBroadcast + " mIsUpcoming: " + mIsUpcoming);
-		if (mIsBroadcast && mIsUpcoming && mIsRepeat) {
-			if (super.requestIsSuccesfull(status)) {
+		Log.d(TAG, "mIsBroadcast: " + mIsBroadcast + " mIsUpcoming: " + mIsUpcoming + " mIsRepeat: " + mIsRepeat);
+
+		if (super.requestIsSuccesfull(status)) {
+			if (mIsBroadcast && mIsUpcoming && mIsRepeat) {
 				Log.d(TAG, "SUCCESSFUL");
 				populateBlocks();
+			}
+			else {
+				updateUI(REQUEST_STATUS.LOADING);
 			}
 		}
 	}
@@ -210,7 +211,7 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 						mChannel = mitvStore.getChannelFromAll(mChannelId);
 						if (mChannel != null) {
 							mBroadcast.setChannel(mChannel);
-	
+
 						} else {
 							// otherwise - just use the id that we got with the notification intent
 							Channel channel = new Channel();
@@ -218,7 +219,7 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 							if (mChannelLogoUrl != null) {
 								channel.setAllImageUrls(mChannelLogoUrl);
 							}
-	
+
 							mBroadcast.setChannel(channel);
 						}
 					}
@@ -324,14 +325,14 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		
+
 		finish();
 	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		
+
 	}
 
 	@Override
@@ -383,19 +384,19 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intentHome);
-			
+
 			break;
 		case R.id.tab_activity:
 			// tab to activity page
 			Intent intentActivity = new Intent(BroadcastPageActivity.this, ActivityActivity.class);
 			startActivity(intentActivity);
-			
+
 			break;
 		case R.id.tab_me:
 			// tab to activity page
 			Intent intentMe = new Intent(BroadcastPageActivity.this, MyProfileActivity.class);
 			startActivity(intentMe);
-			
+
 			break;
 		}
 	}
