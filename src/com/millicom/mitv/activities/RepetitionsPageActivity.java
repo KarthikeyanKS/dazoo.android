@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ListView;
 
 import com.millicom.mitv.ContentManager;
@@ -16,23 +15,19 @@ import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
-import com.millicom.mitv.models.TVProgram;
 import com.mitv.R;
-import com.mitv.adapters.RepetitionsListAdapter;
+import com.mitv.adapters.UpcomingOrRepeatingBroadcastsListAdapter;
 
 
 public class RepetitionsPageActivity 
-	extends BaseActivity 
-	implements OnClickListener
+	extends BaseActivity
 {
 	@SuppressWarnings("unused")
 	private static final String TAG = RepetitionsPageActivity.class.getName();
 
 	private ListView listView;
-	private RepetitionsListAdapter listAdapter;
+	private UpcomingOrRepeatingBroadcastsListAdapter listAdapter;
 	private ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts;
-	private TVProgram repeatingProgram;
-	private TVBroadcastWithChannelInfo runningBroadcast;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -40,10 +35,8 @@ public class RepetitionsPageActivity
 		super.onCreate(savedInstanceState);
 	
 		setContentView(R.layout.layout_repeating_list_activity);
-
-		runningBroadcast = ContentManager.sharedInstance().getFromStorageSelectedBroadcastWithChannelInfo();
+		TVBroadcastWithChannelInfo runningBroadcast = ContentManager.sharedInstance().getFromStorageSelectedBroadcastWithChannelInfo();
 		repeatingBroadcasts = ContentManager.sharedInstance().getFromStorageRepeatingBroadcastsVerifyCorrect(runningBroadcast);
-
 		initViews();
 		loadData();
 	}
@@ -65,8 +58,6 @@ public class RepetitionsPageActivity
 		updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
 	}
 	
-	
-	
 	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
@@ -80,7 +71,12 @@ public class RepetitionsPageActivity
 		}
 	}
 	
-	
+	@Override
+	public void onBackPressed() 
+	{
+		super.onBackPressed();
+		finish();
+	}
 	
 	@Override
 	protected void updateUI(UIStatusEnum status) 
@@ -91,7 +87,7 @@ public class RepetitionsPageActivity
 		{	
 			case SUCCEEDED_WITH_DATA:
 			{
-				listAdapter = new RepetitionsListAdapter(this, repeatingBroadcasts, repeatingProgram, runningBroadcast);
+				listAdapter = new UpcomingOrRepeatingBroadcastsListAdapter(this, repeatingBroadcasts, false);
 				listView.setAdapter(listAdapter);
 				listView.setVisibility(View.VISIBLE);
 				break;

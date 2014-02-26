@@ -9,7 +9,7 @@
     <!-- HEADER -->
 
     <RelativeLayout
-        android:id="@+id/row_upcoming_episodes_header_container"
+        android:id="@+id/row_upcoming_or_repeating_header_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
@@ -17,7 +17,7 @@
         android:visibility="gone" >
 
         <com.mitv.customviews.FontTextView
-            android:id="@+id/row_upcoming_episodes_header_tv"
+            android:id="@+id/row_upcoming_or_repeating_header_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -35,10 +35,10 @@
     <!-- ITEM -->
 
     <LinearLayout
-        android:id="@+id/row_upcoming_episodes_listitem_info_container"
+        android:id="@+id/row_upcoming_or_repeating_listitem_info_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/row_upcoming_episodes_header_container"
+        android:layout_below="@id/row_upcoming_or_repeating_header_container"
         android:orientation="horizontal"
         android:padding="10dp" >
 
@@ -50,7 +50,7 @@
             android:orientation="vertical" >
 
             <com.mitv.customviews.FontTextView
-                android:id="@+id/row_upcoming_episodes_listitem_season_episode"
+                android:id="@+id/row_upcoming_or_repeating_listitem_season_episode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -59,20 +59,20 @@
                 android:textStyle="bold" />
 
             <com.mitv.customviews.FontTextView
-                android:id="@+id/row_upcoming_episodes_listitem_title_time"
+                android:id="@+id/row_upcoming_or_repeating_listitem_title_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/row_upcoming_episodes_listitem_season_episode"
+                android:layout_below="@id/row_upcoming_or_repeating_listitem_season_episode"
                 android:lineSpacingExtra="-1sp"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 font:fonttextview="roboto_mitv_medium.ttf" />
 
             <com.mitv.customviews.FontTextView
-                android:id="@+id/row_upcoming_episodes_listitem_channel"
+                android:id="@+id/row_upcoming_or_repeating_listitem_channel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/row_upcoming_episodes_listitem_title_time"
+                android:layout_below="@id/row_upcoming_or_repeating_listitem_title_time"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 font:fonttextview="roboto_mitv_medium.ttf" />
@@ -87,17 +87,17 @@
         <!-- REMIND BUTTON -->
 
         <com.mitv.customviews.ReminderView
-            android:id="@+id/row_upcoming_episodes_reminder_view"
+            android:id="@+id/row_upcoming_or_repeating_reminder_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.2" />
     </LinearLayout>
 
     <View
-        android:id="@+id/row_upcoming_episodes_listitem_bottom_divider"
+        android:id="@+id/row_upcoming_or_repeating_listitem_bottom_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/row_upcoming_episodes_listitem_info_container"
+        android:layout_below="@id/row_upcoming_or_repeating_listitem_info_container"
         android:background="@color/grey1" />
 
 </RelativeLayout>
