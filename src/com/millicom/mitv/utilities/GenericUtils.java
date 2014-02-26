@@ -3,18 +3,22 @@ package com.millicom.mitv.utilities;
 
 
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 import java.util.Random;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.Signature;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.IBinder;
 import android.telephony.TelephonyManager;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -54,6 +58,36 @@ public abstract class GenericUtils
             return randomNumber;
         }
     }
+	
+	
+	
+	@Deprecated
+	public static void logFacebookKeyHash(final Context context)
+	{
+		PackageInfo info;
+		
+		try 
+		{
+			info = context.getPackageManager().getPackageInfo("com.mitv", PackageManager.GET_SIGNATURES);
+			
+			for (Signature signature : info.signatures) 
+			{
+				MessageDigest md = MessageDigest.getInstance("SHA");
+				
+				md.update(signature.toByteArray());
+				
+				Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+			}
+		} 
+		catch (NameNotFoundException nnfex) 
+		{
+			Log.e(TAG, nnfex.getMessage(), nnfex);
+		} 
+		catch (NoSuchAlgorithmException nsex)
+		{
+			Log.e(TAG, nsex.getMessage(), nsex);
+		}
+	}
 	
 	
 	

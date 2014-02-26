@@ -425,6 +425,7 @@ public class ContentManager
 			}
 			case USER_FB_TOKEN: 
 			{
+				handleUserTokenWithFacebookFBTokenResponse(activityCallbackListener, requestIdentifier, result, content);
 				break;
 			}
 			case USER_SET_CHANNELS: 
@@ -916,6 +917,24 @@ public class ContentManager
 	}
 
 	
+	public void handleUserTokenWithFacebookFBTokenResponse(ActivityCallbackListener activityCallBackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content)
+	{
+		if (result.wasSuccessful() && content != null) 
+		{
+			UserLoginData userData = (UserLoginData) content;
+			
+			storage.setUserData(userData);
+
+			fetchFromServiceTVDataOnUserStatusChange(activityCallBackListener);
+		} 
+		else 
+		{
+			activityCallBackListener.onResult(result, requestIdentifier);
+		}
+	}
+	
+	
+	
 	public void handleLoginResponse(ActivityCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content)
 	{
 		if (result.wasSuccessful() && content != null) 
@@ -1001,6 +1020,11 @@ public class ContentManager
 
 	public void performLogout(ActivityCallbackListener activityCallbackListener) {
 		apiClient.performUserLogout(activityCallbackListener);
+	}
+	
+	public void getUserTokenWithFacebookFBToken(ActivityCallbackListener activityCallBackListener, String facebookToken) 
+	{
+		apiClient.getUserTokenUsingFBToken(activityCallBackListener, facebookToken);
 	}
 
 	public void performSetUserChannels(ActivityCallbackListener activityCallbackListener, List<TVChannelId> tvChannelIds) 

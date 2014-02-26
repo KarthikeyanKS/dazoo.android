@@ -19,6 +19,7 @@ public abstract class BaseLoginActivity
 {
 	@SuppressWarnings("unused")
 	private static final String TAG = BaseLoginActivity.class.getName();
+
 	
 	
 	@Override

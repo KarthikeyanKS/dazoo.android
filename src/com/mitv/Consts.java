@@ -158,7 +158,7 @@ public abstract class Consts {
 	public static final String	INTENT_EXTRA_FROM_ACTIVITY							= "com.mitv.intent.extra.from.activity";
 
 	
-	public static final String	INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN			= "com.mitv.intent.extra.activity.user.just.logged.in";
+	public static final String	INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN			= "com.mitv.intent.extra.activity.user.login.success";
 	
 	/* Profile extras */
 	public static final String	INTENT_EXTRA_FROM_PROFILE							= "com.mitv.intent.extra.from.profile";
@@ -508,6 +508,12 @@ public abstract class Consts {
     /* LOCALE TOKENS FOR HTTP REQUESTS */
 	public static final String HTTP_REQUEST_DATA_LOCALE = "Dazoo-Locale";
 	public static final String HTTP_REQUEST_DATA_TIME_ZONE_OFFSET = "timeZoneOffset";
+	
+	// APPLICATION FACEBOOK AUTH
+	public static final String APP_FACEBOOK_ID = "265897563561764";
+	public static final String APP_FACEBOOK_PERMISSIONS = "basic_info,email,user_photos,user_location,user_likes";
+	public static final int APP_FACEBOOK_SSO = 1000;
+	public static final String APP_URL_FACEBOOK_GRAPH_ME = "https://graph.facebook.com/me";
     
     public static final int MAXIMUM_REMINDER_TIME_FOR_SHOW = 15;
 }

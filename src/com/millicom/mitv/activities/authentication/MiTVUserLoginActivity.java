@@ -43,8 +43,8 @@ public class MiTVUserLoginActivity
 	private TextView emailErrorTv;
 		
 	private Class<?> returnActivity;
-	boolean isInvalidEmail;
-	boolean isInvalidPassword;
+	private boolean isInvalidEmail;
+	private boolean isInvalidPassword;
 	
 	
 	
@@ -57,7 +57,7 @@ public class MiTVUserLoginActivity
 		
 		Intent intent = getIntent();
 		
-		if (intent.hasExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY)) 
+		if (intent.hasExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME)) 
 		{
 			String returnActivityClassName = intent.getExtras().getString(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME);
 			

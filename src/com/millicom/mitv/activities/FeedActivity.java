@@ -18,7 +18,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.authentication.FacebookLoginActivity;
@@ -56,7 +55,7 @@ public class FeedActivity
 	private FeedListAdapter adapter;
 	private View listFooterView;
 
-	public static Toast toast;
+	private boolean userHasJustLoggedIn;
 
 	
 	
@@ -74,6 +73,17 @@ public class FeedActivity
 			initStandardViews();
 			
 			initFeedViews();
+			
+			Intent intent = getIntent();
+			
+			if (intent.hasExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN)) 
+			{
+				userHasJustLoggedIn = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, false);
+			}
+			else
+			{
+				userHasJustLoggedIn = false;
+			}
 		}
 		else
 		{
@@ -82,6 +92,8 @@ public class FeedActivity
 			initStandardViews();
 			
 			initInactiveViews();
+			
+			userHasJustLoggedIn = false;
 		}
 	}
 
@@ -91,19 +103,6 @@ public class FeedActivity
 	protected void onResume() 
 	{
 		super.onResume();
-		
-		Intent intent = getIntent();
-		
-		boolean userHasJustLoggedIn;
-		
-		if (intent.hasExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN)) 
-		{
-			userHasJustLoggedIn = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, false);
-		}
-		else
-		{
-			userHasJustLoggedIn = false;
-		}
 		
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 		
@@ -365,6 +364,8 @@ public class FeedActivity
 			{
 				Intent intent = new Intent(FeedActivity.this, FacebookLoginActivity.class);
 	
+				intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, this.getClass().getName());
+				
 				startActivity(intent);
 	
 				finish();

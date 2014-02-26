@@ -3,22 +3,17 @@ package com.millicom.mitv.activities.authentication;
 
 
 
-import java.util.Arrays;
-
-import android.app.Activity;
+import org.json.JSONObject;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
-import android.widget.Toast;
-
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.Session.OpenRequest;
-import com.facebook.SessionState;
-import com.facebook.model.GraphUser;
-import com.millicom.mitv.activities.FeedActivity;
+import com.androidquery.AQuery;
+import com.androidquery.auth.FacebookHandle;
+import com.androidquery.callback.AbstractAjaxCallback;
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
+import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.HomeActivity;
 import com.millicom.mitv.activities.base.BaseLoginActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
@@ -26,6 +21,7 @@ import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.mitv.Consts;
 import com.mitv.R;
+import com.mitv.customviews.ToastHelper;
 
 
 
@@ -33,14 +29,23 @@ public class FacebookLoginActivity
 	extends BaseLoginActivity 
 {
 	private static final String TAG = FacebookLoginActivity.class.getName();
-	
-	
-	private ActionBar				mActionBar;
-	private boolean 				mIsFromActivity;
-	
-	private Session.StatusCallback 	statusCallback;
 
+	private static final int AJAX_STATUS_OK = 200;
+	private static final int AJAX_STATUS_ERROR_400 = 400;
+	private static final int AJAX_STATUS_ERROR_401 = 401;
+	private static final int AJAX_STATUS_ERROR_403 = 403;
 	
+	
+	private static FacebookHandle facebookHandle;
+	
+	private String facebookToken;
+	private AQuery aq;
+	
+	private Class<?> returnActivity;
+	
+	private ActionBar actionBar;
+	
+
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
@@ -51,46 +56,39 @@ public class FacebookLoginActivity
 
 		Intent intent = getIntent();
 		
-		if (intent.hasExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY)) 
+		if (intent.hasExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME)) 
 		{
-			mIsFromActivity = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_FROM_ACTIVITY);
+			String returnActivityClassName = intent.getExtras().getString(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME);
+			
+			try 
+			{
+				returnActivity = Class.forName(returnActivityClassName);
+			} 
+			catch (ClassNotFoundException cnfex) 
+			{
+				Log.e(TAG, cnfex.getMessage(), cnfex);
+				
+				returnActivity = HomeActivity.class;
+			}
 		}
-
-		initViews();
-
-		// generation of the ssh key for the facebook
-//		PackageInfo info;
-//		try {
-//			info = getPackageManager().getPackageInfo("com.mitv", PackageManager.GET_SIGNATURES);
-//			for (Signature signature : info.signatures) {
-//				MessageDigest md = MessageDigest.getInstance("SHA");
-//				md.update(signature.toByteArray());
-//				Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-//			}
-//		} catch (NameNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (NoSuchAlgorithmException e) {
-//			e.printStackTrace();
-//		}
-		
-		statusCallback = new Session.StatusCallback() 
+		else
 		{
-		    @Override
-		    public void call(Session session, SessionState state, Exception exception) 
-		    {
-		        onSessionStateChange(session, state, exception);
-		    }
-		};
+			returnActivity = HomeActivity.class;
+		}
 		
-		openFacebookSession(this, true, statusCallback);
+		actionBar = getSupportActionBar();
+		
+		actionBar.hide();
 	}
 	
 	
-
+	
 	@Override
 	protected void onResume() 
 	{
 		super.onResume();
+		
+		performFacebookAuthentication();
 	}
 	
 	
@@ -98,7 +96,20 @@ public class FacebookLoginActivity
 	@Override
 	protected void loadData() 
 	{
-		// TODO NewArc - Do something here?
+		String facebookToken = getfacebookToken();
+		
+		if(facebookToken != null)
+		{
+			updateUI(UIStatusEnum.LOADING);
+			
+			ContentManager.sharedInstance().getUserTokenWithFacebookFBToken(this, facebookToken);
+		}
+		else
+		{
+			updateUI(UIStatusEnum.FAILED);
+			
+			Log.e(TAG, "Facebook token was null.");
+		}
 	}
 	
 	
@@ -107,9 +118,9 @@ public class FacebookLoginActivity
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
 		if (fetchRequestResult.wasSuccessful()) 
-		{
+		{	
 			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
-		} 
+		}
 		else
 		{
 			updateUI(UIStatusEnum.FAILED);
@@ -127,15 +138,135 @@ public class FacebookLoginActivity
 		{	
 			case SUCCEEDED_WITH_DATA:
 			{
-				// TODO NewArc - Do something here?
-				break;
+				Intent intent = new Intent(FacebookLoginActivity.this, returnActivity);
+
+				intent.putExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
+
+				startActivity(intent);
+				
+				finish();
 			}
 	
+			case FAILED:
 			default:
-			{
-				// TODO NewArc - Do something here?
-				break;
+			{				
+				// TODO - Hardcoded string
+				String message = "Login failed.";
+				
+				ToastHelper.createAndShowLikeToast(this, message);
+				
+				Intent intent = new Intent(FacebookLoginActivity.this, returnActivity);
+
+				startActivity(intent);
+				
+				finish();
 			}
+		}
+	}
+	
+	
+	
+	
+	private FacebookHandle getFacebookHandle()
+	{
+		if(facebookHandle == null)
+		{
+			facebookHandle = new FacebookHandle(this, Consts.APP_FACEBOOK_ID, Consts.APP_FACEBOOK_PERMISSIONS) 
+			{
+				@Override
+				public boolean expired(AbstractAjaxCallback<?, ?> cb, AjaxStatus status) 
+				{
+					int statusCode = status.getCode();
+					
+					switch (statusCode) 
+					{
+						case AJAX_STATUS_ERROR_400:
+						case AJAX_STATUS_ERROR_401:
+						case AJAX_STATUS_ERROR_403:
+						{
+							return true;
+						}
+		
+						default:
+						{
+							break;
+						}
+					}
+
+					return super.expired(cb, status);
+				}
+			};
+		}
+		
+		return facebookHandle;
+	}
+	
+	
+	
+	private String getfacebookToken()
+	{
+		if(facebookToken == null)
+		{
+			facebookToken = FacebookHandle.getToken(FacebookLoginActivity.this);
+		}
+		
+		return facebookToken;
+	}
+	
+	
+	
+	private void performFacebookAuthentication() 
+	{
+		FacebookHandle handle = getFacebookHandle();
+
+		if(handle != null)
+		{
+			handle.sso(Consts.APP_FACEBOOK_SSO);
+			
+			aq = new AQuery(this);
+	
+			AQuery aquery = aq.auth(handle);
+			
+			AjaxCallback<JSONObject> callback = new AjaxCallback<JSONObject>()
+			{
+				@Override
+				public void callback(String url, JSONObject json, AjaxStatus status) 
+				{	
+					int statusCode = status.getCode();
+					
+					switch(statusCode)
+					{
+						case AJAX_STATUS_OK:
+						{
+							loadData();
+							break;
+						}
+						
+						default:
+						{
+							Log.w(TAG, "Unhandled status code code: " + statusCode);
+							
+							updateUI(UIStatusEnum.FAILED);
+							break;
+						}
+					}
+				}
+				
+				
+				@Override
+				public void failure(int code, String message) 
+				{
+					Log.d(TAG, "Authorization was canceled by user");
+					
+					updateUI(UIStatusEnum.FAILED);
+				}
+			};
+			
+			aquery.ajax(Consts.APP_URL_FACEBOOK_GRAPH_ME, JSONObject.class, callback);
+		}
+		else
+		{
+			Log.e(TAG, "Facebook handle is null.");
 		}
 	}
 	
@@ -144,279 +275,38 @@ public class FacebookLoginActivity
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
-		super.onActivityResult(requestCode, resultCode, data);
-		
-		Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
-	}
-
-	
-	
-	private void initViews() 
-	{
-		mActionBar = getSupportActionBar();
-		
-		mActionBar.hide();
-	}
-	
-
-	
-	private void onSessionStateChange(
-			final Session session, 
-			SessionState state, 
-			Exception exception) 
-	{
-		switch(state)
+		switch (requestCode) 
 		{
-			/*
-			 * Indicates that the Session has not yet been opened and has no cached token. 
-			 * Opening a Session in this state will involve user interaction.
-			 */
-			case CREATED:
+			case Consts.APP_FACEBOOK_SSO:
 			{
-				Log.d(TAG, "Facebook state: CREATED");
-			}
-			break;
-			
-			/*
-			 * Indicates that the Session has not yet been opened and has a cached token. 
-			 * Opening a Session in this state will not involve user interaction. 
-			 * If you are using Session from an Android Service, you must provide a TokenCachingStrategy implementation that contains a valid token to the Session constructor. 
-			 * The resulting Session will be created in this state, and you can then safely call open, passing null for the Activity.
-			 */
-			case CREATED_TOKEN_LOADED:
-			{
-				Log.d(TAG, "Facebook state: CREATED_TOKEN_LOADED");
-			}
-			break;
-			
-			/*
-			 * Indicates that the Session is in the process of opening.
-			 */
-			case OPENING:
-			{
-				Log.d(TAG, "Facebook state: OPENING");
+				FacebookHandle handle = getFacebookHandle();
 				
-				// Do nothing
-			}
-			break;
-			
-			/*
-			 * Indicates that the Session is opened. In this state, the Session may be used with a Request
-			 */
-			case OPENED:
-			{
-				Log.d(TAG, "Facebook state: OPENED");
-				
-				Request request = Request.newMeRequest(session, new Request.GraphUserCallback() 
+				if (handle != null) 
 				{
-					@Override
-					public void onCompleted(GraphUser user, Response response) 
-					{
-						Intent intent;
-						
-						if(mIsFromActivity)
-						{
-							Log.d(TAG, "Returning to ActivityActivity");
-							
-							intent = new Intent(FacebookLoginActivity.this, FeedActivity.class);
-						}
-						else
-						{
-							Log.d(TAG, "Returning to HomeActivity");
-							
-							intent = new Intent(FacebookLoginActivity.this, HomeActivity.class);
-						}
-						
-						if (user != null)
-						{
-							String facebookSessionToken = session.getAccessToken();
-							
-							Log.d(TAG, "Facebook session token: " + facebookSessionToken);
-							
-							boolean tokenSuccessfullyObtained = getMiTVToken(facebookSessionToken);
-							
-							if(tokenSuccessfullyObtained) 
-							{
-								intent.putExtra(Consts.INTENT_EXTRA_LOG_IN_ACTION, true);
-								
-//								ContentManager.updateContent();
-							}
-							else
-							{
-								// TODO: Toast message is in english
-								Toast.makeText(FacebookLoginActivity.this, "Facebook login failed. Please try again later", Toast.LENGTH_SHORT).show();
-								
-								Log.d(TAG, "Failed to get token");
-							}
-						} 
-						else 
-						{
-							// TODO: Toast message is in english
-							Toast.makeText(FacebookLoginActivity.this, "Facebook login failed. Please try again later", Toast.LENGTH_SHORT).show();
-							
-							Log.d(TAG, "User is null");
-						}
-						
-						startActivity(intent);
-						
-						finish();
-					}
-				});
+					handle.onActivityResult(requestCode, resultCode, data);
+				}
+				else
+				{
+					Log.e(TAG, "Facebook handle is null.");
+				}
 				
-				request.executeAsync();
+				break;
 			}
-			break;
-			
-			/*
-			 * Indicates that the Session is opened and that the token has changed. 
-			 * In this state, the Session may be used with Request. 
-			 * Every time the token is updated, StatusCallback is called with this value.
-			 */
-			case OPENED_TOKEN_UPDATED:
-			{
-				Log.d(TAG, "Facebook state: OPENED_TOKEN_UPDATED");
-			}
-			break;
-			
-			/*
-			 * Indicates that the Session was closed normally.
-			 */
-			case CLOSED:
-			{
-				Log.d(TAG, "Facebook state: CLOSED");
-			}
-			break;
-			
-			/*
-			 * Indicates that the Session is closed, and that it was not closed normally. 
-			 * Typically this means that the open call failed, and the Exception parameter to StatusCallback will be non-null.
-			 */
-			case CLOSED_LOGIN_FAILED:
-			{
-				// TODO: Toast message is in english
-				Toast.makeText(this, "Facebook login failed. Please try again later", Toast.LENGTH_SHORT).show();
-				
-				Log.d(TAG, "Facebook state: CLOSED_LOGIN_FAILED");
-			}
-			break;
 			
 			default:
 			{
-				// TODO: Toast message is in english
-				Toast.makeText(this, "Facebook login failed. Please try again later", Toast.LENGTH_SHORT).show();
+				Log.w(TAG, "Unhandled request code: " + requestCode);
 				
-				Log.d(TAG, "Facebook state: ?");
+				break;
 			}
-			break;
 		}
 	}
-
 	
-	//TODO fix me
-	private boolean getMiTVToken(String facebookSessionToken)
+	
+	
+	@Override
+	public void onBackPressed() 
 	{
-//		if (facebookSessionToken.length() > 0) 
-//		{
-//			FacebookLoginTask facebookLoginTask = new FacebookLoginTask();
-//			
-//			try
-//			{
-//				String responseStr = facebookLoginTask.execute(facebookSessionToken).get();
-//				
-//				if (TextUtils.isEmpty(responseStr) != true)
-//				{
-//					JSONObject fbJSON = new JSONObject(responseStr);
-//					
-//					String facebookToken = fbJSON.getString(Consts.API_TOKEN);
-//					
-//					if (facebookToken != null && TextUtils.isEmpty(facebookToken) != true)
-//					{
-//						// Save access token in the application
-//						((SecondScreenApplication) getApplicationContext()).setAccessToken(facebookToken);
-//						
-//						Log.d(TAG, "Token: " + facebookToken + " is saved");
-//
-//						boolean result = AuthenticationService.storeUserInformation(FacebookLoginActivity.this, fbJSON);
-//						
-//						if (result) 
-//						{
-//							return true;
-//						} 
-//						else
-//						{
-//							// TODO : Log this
-//							return false;
-//						}
-//					}
-//					else
-//					{
-//						// TODO : Log this
-//						return false;
-//					}
-//				} 
-//				else 
-//				{
-//					// Toast.makeText(getApplicationContext(), "Error! Something went wrong while authorization via Facebook. Please, try again!", Toast.LENGTH_SHORT).show();
-//					Log.d(TAG, "Error! Something went wrong while authorization via Facebook. Please, try again!");
-//					
-//					return false;
-//				}
-//			} 
-//			catch (InterruptedException e) 
-//			{
-//				Log.d(TAG, e.getMessage(), e);
-//				
-//				return false;
-//			} 
-//			catch (ExecutionException e)
-//			{
-//				Log.d(TAG, e.getMessage(), e);
-//				
-//				return false;
-//			} 
-//			catch (JSONException e) 
-//			{
-//				Log.d(TAG, e.getMessage(), e);
-//				
-//				return false;
-//			}
-//		}
-//		else 
-//		{
-//			Log.d(TAG, "Error! Facebook authorization: level get Token from Facebook");
-//			
-//			return false;
-//		}
-		return false;
-	}
-	
-	
-
-	
-	private static Session openFacebookSession(
-			Activity activity, 
-			boolean allowLoginUI, 
-			Session.StatusCallback statusCallback)
-	{
-		OpenRequest openRequest = new OpenRequest(activity);
-		
-		openRequest.setPermissions(Arrays.asList("email"));
-		
-		openRequest.setCallback(statusCallback);
-		
-		Session session = new Session.Builder(activity).build();
-		
-		if (SessionState.CREATED_TOKEN_LOADED.equals(session.getState()) || allowLoginUI) 
-		{
-			Session.setActiveSession(session);
-			
-			session.openForRead(openRequest);
-
-			return session;
-		}
-		else
-		{
-			return null;
-		}
+		super.onBackPressed();
 	}
 }

@@ -31,7 +31,8 @@ public enum RequestIdentifierEnum {
 	USER_ACTIVITY_FEED_ITEM_MORE(27),
 	USER_ACTIVITY_FEED_LIKES(28),
 	INTERNET_CONNECTIVITY(29),
-	BROADCAST_PAGE_DATA(30);
+	USER_FACEBOOK(30),  /* This is used for facebook login with the facebook api */
+	BROADCAST_PAGE_DATA(31); /* This is used with the BroadcastPage only, for notifying that all data has been fetched */
 	
 	
 	
