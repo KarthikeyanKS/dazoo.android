@@ -121,7 +121,7 @@ public class ResetPasswordFinalActivity
 		{
 			case R.id.resetpassword_already_login_btn:
 			{
-				Intent intentSignIn = new Intent(ResetPasswordFinalActivity.this, MiTVUserLoginActivity.class);
+				Intent intentSignIn = new Intent(ResetPasswordFinalActivity.this, LoginWithMiTVUserActivity.class);
 				startActivity(intentSignIn);
 				break;
 			}

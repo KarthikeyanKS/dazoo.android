@@ -14,8 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.millicom.mitv.ContentManager;
-import com.millicom.mitv.activities.authentication.MiTVUserLoginActivity;
-import com.millicom.mitv.activities.authentication.SignInOrSignupWithFacebookActivity;
+import com.millicom.mitv.activities.authentication.LoginWithMiTVUserActivity;
+import com.millicom.mitv.activities.authentication.SignUpSelectionActivity;
 import com.millicom.mitv.activities.base.BaseActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
@@ -251,7 +251,7 @@ public class MyProfileActivity
 		}
 
 		case R.id.myprofile_login_container: {
-			Intent intentLogin = new Intent(MyProfileActivity.this, MiTVUserLoginActivity.class);
+			Intent intentLogin = new Intent(MyProfileActivity.this, LoginWithMiTVUserActivity.class);
 			startActivity(intentLogin);
 
 			break;
@@ -272,7 +272,7 @@ public class MyProfileActivity
 		}
 
 		case R.id.myprofile_signup_container: {
-			Intent intentLogin = new Intent(MyProfileActivity.this, SignInOrSignupWithFacebookActivity.class);
+			Intent intentLogin = new Intent(MyProfileActivity.this, SignUpSelectionActivity.class);
 			startActivity(intentLogin);
 
 			break;

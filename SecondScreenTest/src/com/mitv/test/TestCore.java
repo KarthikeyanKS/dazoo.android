@@ -119,7 +119,8 @@ public abstract class TestCore
 			Integer timeZoneOffsetInMinutes = Integer.valueOf(timeZoneOffsetInMinutesAsInt);
 		
 			headerParameters.add(Consts.HTTP_REQUEST_DATA_LOCALE, locale.toString());
-			headerParameters.add(Consts.HTTP_REQUEST_DATA_TIME_ZONE_OFFSET, timeZoneOffsetInMinutes.toString());
+			
+			urlParameters.add(Consts.HTTP_REQUEST_DATA_TIME_ZONE_OFFSET, timeZoneOffsetInMinutes.toString());
 		}
 		else
 		{

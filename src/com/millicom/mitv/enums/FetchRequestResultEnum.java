@@ -41,17 +41,25 @@ public enum FetchRequestResultEnum
            1000,
            "The service is temporarily unavailable."),
    
-   API_VERSION_TOO_OLD(
-           1001,
-           "Your app version is too old."),
+   API_VERSION_TOO_OLD(1001, "Your app version is too old."),
            
-   INTERNET_CONNECTION_AVAILABLE(
-           1002,
-           "Internet connection available"),
+   INTERNET_CONNECTION_AVAILABLE(1002, "Internet connection available"),
 
-   INTERNET_CONNECTION_NOT_AVAILABLE(
-           1003,
-           "Internet connection available");
+   INTERNET_CONNECTION_NOT_AVAILABLE(1003, "Internet connection available"),
+   
+   /* DO NOT change the string on those request enums. Those are NOT real errors returned by the server.
+    * The string is used in comparison to the response string.
+    * */
+   USER_SIGN_UP_EMAIL_ALREADY_TAKEN(1004, "Email already taken"),
+   
+   USER_SIGN_UP_EMAIL_IS_INVALID(1005, "Not a real email"),
+   
+   USER_SIGN_UP_PASSWORD_TOO_SHORT(1005, "Password not secure"),
+   
+   USER_SIGN_UP_FIRST_NAME_NOT_SUPLIED(1006, "First name not supplied"),
+   
+   USER_SIGN_UP_EMAIL_NOT_FOUND(1007, "Email not found");
+
 
    
    private final int statusCode;

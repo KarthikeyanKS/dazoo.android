@@ -56,7 +56,7 @@ public class ResetPasswordActivity
 	private static final String TAG = ResetPasswordActivity.class.getName();
 	
 	
-	private ActionBar			mActionBar;
+	private ActionBar			actionBar;
 	private Button				mMiTVResetPassword;
 	private EditText			mEmailResetPasswordEditText;
 	private TextView			mErrorTextView;
@@ -132,14 +132,13 @@ public class ResetPasswordActivity
 
 	private void initViews()
 	{
-		mActionBar = getSupportActionBar();
-		mActionBar.setDisplayShowTitleEnabled(true);
-		mActionBar.setDisplayShowCustomEnabled(true);
-		mActionBar.setDisplayUseLogoEnabled(true);
-		mActionBar.setDisplayShowHomeEnabled(true);
-		mActionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(true);
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setDisplayUseLogoEnabled(true);
+		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.setDisplayHomeAsUpEnabled(true);
 
-		mActionBar.setTitle(getResources().getString(R.string.reset_password));
+		actionBar.setTitle(getResources().getString(R.string.reset_password));
 
 		mMiTVResetPassword = (Button) findViewById(R.id.resetpassword_button);
 		mMiTVResetPassword.setOnClickListener(this);
@@ -173,11 +172,13 @@ public class ResetPasswordActivity
 						startActivity(intent);
 						finish();
 
-					} else if (Consts.BAD_RESPONSE == responseCode) {
+					} else if (Consts.BAD_RESPONSE == responseCode) 
+					{
 						//Toast.makeText(getApplicationContext(), "Error! Email is not found!", Toast.LENGTH_SHORT).show();
-						if (Consts.BAD_RESPONSE_STRING_EMAIL_NOT_FOUND.equals(mBadResponseString)) {
-							mErrorTextView.setText(getResources().getString(R.string.reset_password_email_not_found));
-						}
+//						if (Consts.BAD_RESPONSE_STRING_EMAIL_NOT_FOUND.equals(mBadResponseString)) 
+//						{
+//							mErrorTextView.setText(getResources().getString(R.string.reset_password_email_not_found));
+//						}
 						mEmailResetPasswordEditText.setEnabled(true);
 						Log.d(TAG, "Bad response: " + mBadResponseString);
 					}

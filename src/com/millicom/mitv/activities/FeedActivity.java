@@ -20,8 +20,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.millicom.mitv.ContentManager;
-import com.millicom.mitv.activities.authentication.FacebookLoginActivity;
-import com.millicom.mitv.activities.authentication.MiTVUserLoginActivity;
+import com.millicom.mitv.activities.authentication.LoginWithFacebookActivity;
+import com.millicom.mitv.activities.authentication.LoginWithMiTVUserActivity;
 import com.millicom.mitv.activities.authentication.SignUpWithEmailActivity;
 import com.millicom.mitv.activities.base.BaseContentActivity;
 import com.millicom.mitv.enums.FeedItemTypeEnum;
@@ -362,7 +362,7 @@ public class FeedActivity
 		{
 			case R.id.activity_not_logged_in_facebook_container: 
 			{
-				Intent intent = new Intent(FeedActivity.this, FacebookLoginActivity.class);
+				Intent intent = new Intent(FeedActivity.this, LoginWithFacebookActivity.class);
 	
 				intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, this.getClass().getName());
 				
@@ -386,7 +386,7 @@ public class FeedActivity
 	
 			case R.id.activity_not_logged_in_login_btn: 
 			{
-				Intent intentLogin = new Intent(FeedActivity.this, MiTVUserLoginActivity.class);
+				Intent intentLogin = new Intent(FeedActivity.this, LoginWithMiTVUserActivity.class);
 	
 				intentLogin.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, this.getClass().getName());
 	

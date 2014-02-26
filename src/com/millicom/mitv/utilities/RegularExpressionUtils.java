@@ -40,4 +40,14 @@ public abstract class RegularExpressionUtils
 		
 		return isValid;
 	}
+	
+	
+	
+	public static boolean checkUserFirstname(String firstname)
+	{
+		boolean isValid = (firstname != null) && 
+						  (firstname.length() >= Consts.USER_FIRSTNAME_LENGTH_MIN);
+		
+		return isValid;
+	}
 }

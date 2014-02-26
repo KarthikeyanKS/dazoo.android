@@ -4,17 +4,18 @@ package com.millicom.mitv.activities.authentication;
 
 
 import org.json.JSONObject;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
+
 import com.androidquery.AQuery;
 import com.androidquery.auth.FacebookHandle;
 import com.androidquery.callback.AbstractAjaxCallback;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.millicom.mitv.ContentManager;
-import com.millicom.mitv.activities.HomeActivity;
 import com.millicom.mitv.activities.base.BaseLoginActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
@@ -25,23 +26,16 @@ import com.mitv.customviews.ToastHelper;
 
 
 
-public class FacebookLoginActivity 
+public class LoginWithFacebookActivity 
 	extends BaseLoginActivity 
 {
-	private static final String TAG = FacebookLoginActivity.class.getName();
+	private static final String TAG = LoginWithFacebookActivity.class.getName();
 
 	private static final int AJAX_STATUS_OK = 200;
 	private static final int AJAX_STATUS_ERROR_400 = 400;
 	private static final int AJAX_STATUS_ERROR_401 = 401;
 	private static final int AJAX_STATUS_ERROR_403 = 403;
 	
-	
-	private static FacebookHandle facebookHandle;
-	
-	private String facebookToken;
-	private AQuery aq;
-	
-	private Class<?> returnActivity;
 	
 	private ActionBar actionBar;
 	
@@ -53,28 +47,6 @@ public class FacebookLoginActivity
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.layout_facebooklogin_activity);
-
-		Intent intent = getIntent();
-		
-		if (intent.hasExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME)) 
-		{
-			String returnActivityClassName = intent.getExtras().getString(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME);
-			
-			try 
-			{
-				returnActivity = Class.forName(returnActivityClassName);
-			} 
-			catch (ClassNotFoundException cnfex) 
-			{
-				Log.e(TAG, cnfex.getMessage(), cnfex);
-				
-				returnActivity = HomeActivity.class;
-			}
-		}
-		else
-		{
-			returnActivity = HomeActivity.class;
-		}
 		
 		actionBar = getSupportActionBar();
 		
@@ -96,7 +68,7 @@ public class FacebookLoginActivity
 	@Override
 	protected void loadData() 
 	{
-		String facebookToken = getfacebookToken();
+		String facebookToken = FacebookHandle.getToken(LoginWithFacebookActivity.this);
 		
 		if(facebookToken != null)
 		{
@@ -136,30 +108,40 @@ public class FacebookLoginActivity
 
 		switch (status) 
 		{	
+			case LOADING:
+			{
+				// Do nothing
+				break;
+			}
+			
 			case SUCCEEDED_WITH_DATA:
 			{
-				Intent intent = new Intent(FacebookLoginActivity.this, returnActivity);
+				Intent intent = new Intent(LoginWithFacebookActivity.this, getReturnActivity());
 
 				intent.putExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
 
 				startActivity(intent);
 				
 				finish();
+				
+				break;
 			}
 	
 			case FAILED:
 			default:
-			{				
+			{
 				// TODO - Hardcoded string
-				String message = "Login failed.";
+				String message = "Facebook login was unsuccessful.";
 				
 				ToastHelper.createAndShowLikeToast(this, message);
 				
-				Intent intent = new Intent(FacebookLoginActivity.this, returnActivity);
+				Intent intent = new Intent(LoginWithFacebookActivity.this, getReturnActivity());
 
 				startActivity(intent);
 				
 				finish();
+				
+				break;
 			}
 		}
 	}
@@ -169,51 +151,44 @@ public class FacebookLoginActivity
 	
 	private FacebookHandle getFacebookHandle()
 	{
-		if(facebookHandle == null)
+		FacebookHandle facebookHandle = new FacebookHandle(this, Consts.APP_FACEBOOK_ID, Consts.APP_FACEBOOK_PERMISSIONS) 
 		{
-			facebookHandle = new FacebookHandle(this, Consts.APP_FACEBOOK_ID, Consts.APP_FACEBOOK_PERMISSIONS) 
+			@Override
+			public boolean expired(AbstractAjaxCallback<?, ?> cb, AjaxStatus status) 
 			{
-				@Override
-				public boolean expired(AbstractAjaxCallback<?, ?> cb, AjaxStatus status) 
-				{
-					int statusCode = status.getCode();
-					
-					switch (statusCode) 
-					{
-						case AJAX_STATUS_ERROR_400:
-						case AJAX_STATUS_ERROR_401:
-						case AJAX_STATUS_ERROR_403:
-						{
-							return true;
-						}
-		
-						default:
-						{
-							break;
-						}
-					}
+				int statusCode = status.getCode();
 
-					return super.expired(cb, status);
+				switch (statusCode) 
+				{
+				case AJAX_STATUS_ERROR_400:
+				case AJAX_STATUS_ERROR_401:
+				case AJAX_STATUS_ERROR_403:
+				{
+					return true;
 				}
-			};
-		}
-		
+
+				default:
+				{
+					break;
+				}
+				}
+
+				return super.expired(cb, status);
+			}
+
+
+			@Override
+			public boolean reauth(final AbstractAjaxCallback<?, ?> cb) 
+			{
+				return super.reauth(cb);
+			}
+		};
+
 		return facebookHandle;
 	}
 	
 	
-	
-	private String getfacebookToken()
-	{
-		if(facebookToken == null)
-		{
-			facebookToken = FacebookHandle.getToken(FacebookLoginActivity.this);
-		}
-		
-		return facebookToken;
-	}
-	
-	
+
 	
 	private void performFacebookAuthentication() 
 	{
@@ -223,7 +198,7 @@ public class FacebookLoginActivity
 		{
 			handle.sso(Consts.APP_FACEBOOK_SSO);
 			
-			aq = new AQuery(this);
+			AQuery aq = new AQuery(this);
 	
 			AQuery aquery = aq.auth(handle);
 			
@@ -300,13 +275,5 @@ public class FacebookLoginActivity
 				break;
 			}
 		}
-	}
-	
-	
-	
-	@Override
-	public void onBackPressed() 
-	{
-		super.onBackPressed();
 	}
 }

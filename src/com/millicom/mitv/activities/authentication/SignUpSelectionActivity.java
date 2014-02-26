@@ -20,11 +20,11 @@ import com.mitv.R;
 
 
 
-public class SignInOrSignupWithFacebookActivity 
+public class SignUpSelectionActivity 
 	extends BaseLoginActivity
 {
 	@SuppressWarnings("unused")
-	private static final String TAG = SignInOrSignupWithFacebookActivity.class.getName();
+	private static final String TAG = SignUpSelectionActivity.class.getName();
 
 	
 	private ActionBar actionBar;
@@ -56,7 +56,7 @@ public class SignInOrSignupWithFacebookActivity
 	@Override
 	protected void loadData() 
 	{
-		// TODO NewArc - Do something here?
+		// Do nothing (no data to load on this activity)
 	}
 	
 	
@@ -64,14 +64,7 @@ public class SignInOrSignupWithFacebookActivity
 	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
-		if (fetchRequestResult.wasSuccessful()) 
-		{
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
-		} 
-		else
-		{
-			updateUI(UIStatusEnum.FAILED);
-		}
+		// Do nothing (no data to load on this activity)
 	}
 	
 	
@@ -81,20 +74,7 @@ public class SignInOrSignupWithFacebookActivity
 	{
 		super.updateUIBaseElements(status);
 
-		switch (status) 
-		{	
-			case SUCCEEDED_WITH_DATA:
-			{
-				// TODO NewArc - Do something here?
-				break;
-			}
-	
-			default:
-			{
-				// TODO NewArc - Do something here?
-				break;
-			}
-		}
+		// Do nothing (no data to load on this activity)
 	}
 	
 	
@@ -104,8 +84,6 @@ public class SignInOrSignupWithFacebookActivity
 	{
 		switch (item.getItemId()) 
 		{
-			// Respond to the action bar's Up/Home button
-			// update the likes list on Up/Home button press too
 			case android.R.id.home:
 			{
 				Intent upIntent = NavUtils.getParentActivityIntent(this);
@@ -137,7 +115,7 @@ public class SignInOrSignupWithFacebookActivity
 			@Override
 			public void onClick(View v) 
 			{
-				Intent intent = new Intent(SignInOrSignupWithFacebookActivity.this, FacebookLoginActivity.class);
+				Intent intent = new Intent(SignUpSelectionActivity.this, LoginWithFacebookActivity.class);
 				
 				startActivity(intent);
 				
@@ -152,7 +130,8 @@ public class SignInOrSignupWithFacebookActivity
 			@Override
 			public void onClick(View v) 
 			{
-				Intent intent = new Intent(SignInOrSignupWithFacebookActivity.this, SignUpWithEmailActivity.class);
+				Intent intent = new Intent(SignUpSelectionActivity.this, SignUpWithEmailActivity.class);
+				
 				startActivity(intent);
 			}
 		});
@@ -164,20 +143,10 @@ public class SignInOrSignupWithFacebookActivity
 			@Override
 			public void onClick(View v)
 			{
-				Intent intent = new Intent(SignInOrSignupWithFacebookActivity.this, MiTVUserLoginActivity.class);
+				Intent intent = new Intent(SignUpSelectionActivity.this, LoginWithMiTVUserActivity.class);
 				
 				startActivity(intent);
 			}
 		});
-	}
-
-	
-	
-	@Override
-	public void onBackPressed() 
-	{
-		super.onBackPressed();
-		
-		finish();
 	}
 }
