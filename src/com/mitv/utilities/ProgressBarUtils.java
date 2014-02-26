@@ -82,6 +82,7 @@ public class ProgressBarUtils
 				.append(minutesComponent)
 				.append(" ")
 				.append(minutesWord)
+				.append(" ")
 				.append(left);
 				
 			}
