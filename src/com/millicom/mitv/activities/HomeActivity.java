@@ -2,6 +2,7 @@ package com.millicom.mitv.activities;
 
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,8 +16,9 @@ import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.fragments.TVHolderFragment;
 import com.millicom.mitv.fragments.TVHolderFragment.OnViewPagerIndexChangedListener;
 import com.millicom.mitv.utilities.DateUtils;
+import com.mitv.Consts;
 import com.mitv.R;
-import com.mitv.utilities.OldDateUtilities;
+import com.mitv.customviews.ToastHelper;
 
 
 
@@ -32,6 +34,7 @@ public class HomeActivity
 	private int selectedTagIndex = 0;
 	private String welcomeMessage = "";
 	private boolean hasShowWelcomeToast = false;
+	private boolean userHasJustLoggedIn;
 
 
 	
@@ -58,6 +61,28 @@ public class HomeActivity
 
 		initViews();
 
+		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+		
+		if (isLoggedIn) 
+		{
+			Intent intent = getIntent();
+			
+			if (intent.hasExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN)) 
+			{
+				userHasJustLoggedIn = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, false);
+				
+				intent.removeExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN);
+			}
+			else
+			{
+				userHasJustLoggedIn = false;
+			}
+		}
+		else
+		{
+			userHasJustLoggedIn = false;
+		}
+		
 		tryShowWelcomeToast();
 		
 		/* HOCKEY-APP */

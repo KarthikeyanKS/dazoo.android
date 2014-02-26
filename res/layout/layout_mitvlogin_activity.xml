@@ -16,7 +16,7 @@
         android:paddingBottom="10dp" >
 
         <include
-	        android:id="@+id/login_loading_container"
+	        android:id="@+id/loading_container"
 	        android:layout_width="match_parent"
 	        android:layout_height="match_parent"
 	        layout="@layout/layout_request_loading"

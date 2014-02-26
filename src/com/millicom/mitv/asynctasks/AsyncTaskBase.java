@@ -98,21 +98,30 @@ public abstract class AsyncTaskBase<T>
 		
 		/* Add the locale to the header data */
 		Locale locale = SecondScreenApplication.getCurrentLocale();
+		
+		if(locale != null)
+		{
+			headerParameters.add(Consts.HTTP_REQUEST_DATA_LOCALE, locale.toString());
+		}
+		else
+		{
+			Log.w(TAG, "Locale has null value.");
+		}
+		
+		/* Add the timezone to the url parameters */
 		TimeZone timeZone = TimeZone.getDefault();
 		
-		if(locale != null && timeZone != null)
+		if(timeZone != null)
 		{
 			int timeZoneOffsetInMinutesAsInt = (int) (timeZone.getRawOffset() / DateUtils.TOTAL_MILISECOUNDS_IN_ONE_MINUTE);
-		
+			
 			Integer timeZoneOffsetInMinutes = Integer.valueOf(timeZoneOffsetInMinutesAsInt);
 		
-			headerParameters.add(Consts.HTTP_REQUEST_DATA_LOCALE, locale.toString());
-			
 			urlParameters.add(Consts.HTTP_REQUEST_DATA_TIME_ZONE_OFFSET, timeZoneOffsetInMinutes.toString());
 		}
 		else
 		{
-			Log.w(TAG, "Either locale or timeZone have null values.");
+			Log.w(TAG, "TimeZone has null value.");
 		}
 		
 		GsonBuilder gsonBuilder = new GsonBuilder();
@@ -157,22 +166,40 @@ public abstract class AsyncTaskBase<T>
 		
 		requestResultStatus = FetchRequestResultEnum.getFetchRequestResultEnumFromCode(response.getStatusCode());
 		
+		boolean wasSuccessful = requestResultStatus.wasSuccessful();
 		boolean hasResponseString = response.hasResponseString();
+		
+		/* 
+		 * This is a backend restriction and should be changed. 
+		 * In the future, appropriate error response codes should be returned.
+		 * Avoid parsing the object in order not to cause an exception
+		 */
+		if(requestResultStatus == FetchRequestResultEnum.BAD_REQUEST)
+		{
+			return null;
+		}
 		
 		if(hasResponseString)
 		{
 			String responseString = response.getResponseString();
 			
-			try
-			{
-				requestResultObjectContent = gson.fromJson(responseString, clazz);
+			if(wasSuccessful)
+			{	
+				try
+				{
+					requestResultObjectContent = gson.fromJson(responseString, clazz);
+				}
+				catch(JsonSyntaxException jsex)
+				{
+					Log.e(TAG, jsex.getMessage(), jsex);
+
+					requestResultStatus = FetchRequestResultEnum.UNKNOWN_ERROR;
+					requestResultObjectContent = null;
+				}
 			}
-			catch(JsonSyntaxException jsex)
+			else
 			{
-				Log.e(TAG, jsex.getMessage(), jsex);
-				
-				requestResultStatus = FetchRequestResultEnum.UNKNOWN_ERROR;
-				requestResultObjectContent = null;
+				requestResultObjectContent = new String(responseString);
 			}
 		}
 		else

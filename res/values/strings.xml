@@ -217,6 +217,7 @@
     <string name="or">or</string>
     <string name="signup_with_email_error_firstname">We\'d love to know your name</string>
     <string name="signup_with_email_error_lastname">We\'d love to know your last name</string>
+    <string name="signup_with_email_login_wrong_format_email">Check if e-mail was input right!</string>
     <string name="signup_with_email_error_email_incorrect">Please enter your email (e.g. example@mi.tv)</string>
     <string name="signup_with_email_error_email_already_registered">This e-mail is already used</string>
     <string name="signup_with_email_error_passwordlength">Your password must contain at least </string>

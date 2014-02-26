@@ -5,7 +5,6 @@ package com.millicom.mitv.activities.authentication;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.text.Editable;
 import android.text.Html;
 import android.text.Spannable;
@@ -39,8 +38,6 @@ public class SignUpWithEmailActivity
 {
 	private static final String TAG = SignUpWithEmailActivity.class.getName();
 
-	
-	private ActionBar actionBar;
 	
 	private FontTextView termsOfService;
 	private TextDrawable emailTextDrawable;
@@ -81,6 +78,13 @@ public class SignUpWithEmailActivity
 		isInvalidPassword = true;
 		
 		initViews();
+		
+		clearErrorFields();
+		
+		firstNameEditText.setText("Filipe");
+		lastNameEditText.setText("");
+		emailEditText.setText("e1147528@drdrb.com");
+		passwordEditText.setText("Zxcvbnm00");
 	}
 	
 	
@@ -142,10 +146,7 @@ public class SignUpWithEmailActivity
 	{
 		super.updateUIBaseElements(status);
 
-		firstnameErrorTextView.setVisibility(View.INVISIBLE);
-		lastnameErrorTextView.setVisibility(View.INVISIBLE);
-		emailErrorTextView.setVisibility(View.INVISIBLE);
-		passwordErrorTextView.setVisibility(View.INVISIBLE);
+		clearErrorFields();
 		
 		switch (status) 
 		{	
@@ -160,18 +161,27 @@ public class SignUpWithEmailActivity
 				if(isInvalidEmail)
 				{
 					emailErrorTextView.setVisibility(View.VISIBLE);
+					emailErrorTextView.setText(getResources().getString(R.string.signup_with_email_login_wrong_format_email));
+					emailEditText.setBackgroundResource(R.drawable.edittext_activated);
+					emailEditText.requestFocus();
 				}
 				else if(isInvalidPassword)
 				{
-					passwordErrorTextView.setVisibility(View.VISIBLE);			
+					passwordErrorTextView.setVisibility(View.VISIBLE);
+					passwordErrorTextView.setBackgroundResource(R.drawable.edittext_activated);
+					passwordErrorTextView.requestFocus();
 				}
 				else if(isInvalidFirstname)
 				{
 					firstnameErrorTextView.setVisibility(View.VISIBLE);
+					firstnameErrorTextView.setBackgroundResource(R.drawable.edittext_activated);
+					firstnameErrorTextView.requestFocus();
 				}
 				else if(isInvalidLastname)
 				{
 					lastnameErrorTextView.setVisibility(View.VISIBLE);
+					lastnameErrorTextView.setBackgroundResource(R.drawable.edittext_activated);
+					lastnameErrorTextView.requestFocus();
 				}
 				else
 				{
@@ -253,14 +263,12 @@ public class SignUpWithEmailActivity
 					default:
 					{
 						Log.w(TAG, "Unhandled fetch request result status.");
+						ToastHelper.createAndShowToast(this, "Login was unsuccessful.");
 						break;
 					}
 				}
 				
 				enableFields();
-				
-				// TODO NewArc - Display appropriate failure to the user
-				ToastHelper.createAndShowToast(this, "Login was unsuccessful.");
 				break;
 			}
 	
@@ -271,6 +279,21 @@ public class SignUpWithEmailActivity
 				break;
 			}
 		}
+	}
+	
+	
+	
+	private void clearErrorFields()
+	{
+		firstnameErrorTextView.setVisibility(View.INVISIBLE);
+		lastnameErrorTextView.setVisibility(View.INVISIBLE);
+		emailErrorTextView.setVisibility(View.INVISIBLE);
+		passwordErrorTextView.setVisibility(View.INVISIBLE);
+		
+		firstNameEditText.setBackgroundResource(R.drawable.edittext_standard);
+		lastNameEditText.setBackgroundResource(R.drawable.edittext_standard);
+		emailEditText.setBackgroundResource(R.drawable.edittext_standard);
+		passwordEditText.setBackgroundResource(R.drawable.edittext_standard);
 	}
 	
 	
@@ -335,12 +358,6 @@ public class SignUpWithEmailActivity
 		stripUnderlines(termsOfService);
 
 		setTextWatchers();
-
-		// TODO: Static drawable background is not properly set, causing a flickering effect. Quickfix!
-		firstNameEditText.setBackgroundResource(R.drawable.edittext_standard);
-		lastNameEditText.setBackgroundResource(R.drawable.edittext_standard);
-		emailEditText.setBackgroundResource(R.drawable.edittext_standard);
-		passwordEditText.setBackgroundResource(R.drawable.edittext_standard);
 	}
 	
 	
@@ -384,10 +401,9 @@ public class SignUpWithEmailActivity
 	
 	
 	
-	// TODO: What is this and why is it needed?
-	private class URLSpanNoUnderline extends URLSpan 
+	private class URLSpanWithoutUnderline extends URLSpan 
 	{
-		public URLSpanNoUnderline(String url) 
+		public URLSpanWithoutUnderline(String url) 
 		{
 			super(url);
 		}
@@ -417,7 +433,7 @@ public class SignUpWithEmailActivity
 			
 			s.removeSpan(span);
 			
-			span = new URLSpanNoUnderline(span.getURL());
+			span = new URLSpanWithoutUnderline(span.getURL());
 			
 			s.setSpan(span, start, end, 0);
 		}

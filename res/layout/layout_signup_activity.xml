@@ -12,7 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
-
+        
+        <include
+	       android:id="@+id/loading_container"
+	       android:layout_width="match_parent"
+	       android:layout_height="match_parent"
+	       layout="@layout/layout_request_loading"
+	       android:orientation="vertical" />
+     
         <com.mitv.customviews.FontEditText
             android:id="@+id/signup_firstname_edittext"
             android:layout_width="match_parent"

@@ -9,37 +9,21 @@ import java.io.Serializable;
 public enum FetchRequestResultEnum 
    implements Serializable
 {
-   SUCCESS(
-           200, 
-           "The service was successfully executed."),
+   SUCCESS(200, "The service was successfully executed."),
  
-   SUCCESS_WITH_NO_CONTENT(
-           204,
-           "The service was successfully executed."),
+   SUCCESS_WITH_NO_CONTENT(204, "The service was successfully executed."),
    
-   BAD_REQUEST(
-           400,
-           "The parking request is not valid."),
+   BAD_REQUEST(400, "The parking request is not valid."),
    
-   UNAUTHORIZED(
-           401, 
-           "The service is temporarily unavailable."),
+   UNAUTHORIZED(401, "The service is temporarily unavailable."),
    
-   FORBIDDEN(
-           403,
-           "The service is temporarily unavailable."), 
+   FORBIDDEN(403, "The service is temporarily unavailable."), 
    
-   NOT_FOUND(
-           404,
-           "The service is temporarily unavailable."),
+   NOT_FOUND(404, "The service is temporarily unavailable."),
    
-   UNPROCESSABLE_ENTITY(
-           422,
-           "An error occured while processing your parking request. Please try again later."),
+   UNPROCESSABLE_ENTITY(422, "An error occured while processing your parking request. Please try again later."),
    
-   UNKNOWN_ERROR(
-           1000,
-           "The service is temporarily unavailable."),
+   UNKNOWN_ERROR(1000, "The service is temporarily unavailable."),
    
    API_VERSION_TOO_OLD(1001, "Your app version is too old."),
            
@@ -47,9 +31,11 @@ public enum FetchRequestResultEnum
 
    INTERNET_CONNECTION_NOT_AVAILABLE(1003, "Internet connection available"),
    
-   /* DO NOT change the string on those request enums. Those are NOT real errors returned by the server.
+   /** 
+    * DO NOT change the string on these request enumerations. Those are NOT real errors returned by the server.
     * The string is used in comparison to the response string.
-    * */
+    *
+    */
    USER_SIGN_UP_EMAIL_ALREADY_TAKEN(1004, "Email already taken"),
    
    USER_SIGN_UP_EMAIL_IS_INVALID(1005, "Not a real email"),
