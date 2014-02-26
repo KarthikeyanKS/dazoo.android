@@ -242,7 +242,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 	protected void onStop() {
 		super.onStop();
 		// update channel list if user come back to the My Profile via Home Button
-		updateChannelList();
+//		updateChannelList();
 	}
 
 	@Override

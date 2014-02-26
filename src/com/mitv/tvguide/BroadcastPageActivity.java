@@ -106,16 +106,14 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
 		Log.d(TAG, "mIsBroadcast: " + mIsBroadcast + " mIsUpcoming: " + mIsUpcoming + " mIsRepeat: " + mIsRepeat);
-
-		if (super.requestIsSuccesfull(status)) {
-			if (mIsBroadcast && mIsUpcoming && mIsRepeat) {
+		if (status == REQUEST_STATUS.LOADING) {
+			super.requestIsSuccesfull(status);
+		}
+		else if (mIsBroadcast && mIsUpcoming && mIsRepeat) {
+			if (super.requestIsSuccesfull(status)) {
 				Log.d(TAG, "SUCCESSFUL");
 				mCallbackLayoutContainer.setVisibility(View.GONE);
 				populateBlocks();
-			}
-			else {
-				mCallbackLayoutContainer.setVisibility(View.VISIBLE);
-				updateUI(REQUEST_STATUS.LOADING);
 			}
 		}
 	}
