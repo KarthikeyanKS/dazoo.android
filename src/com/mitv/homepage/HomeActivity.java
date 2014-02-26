@@ -271,7 +271,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			removeActiveFragment();
 			MiTVStore.getInstance().clearAndReinitializeForMyChannels();
 			mChannelUpdate = true;
-			MiTVCore.getGuide(mDateSelectedIndex, false);
+			reloadPage();
 			mStateChanged = false;
 		} else {
 			Log.d(TAG, "We have resumed!");
