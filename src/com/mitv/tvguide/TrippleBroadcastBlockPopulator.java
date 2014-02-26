@@ -17,6 +17,7 @@ import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.activities.RepetitionsPageActivity;
 import com.millicom.mitv.activities.UpcomingEpisodesPageActivity;
+import com.millicom.mitv.models.RepeatingBroadcastsForBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVProgram;
 import com.mitv.Consts;

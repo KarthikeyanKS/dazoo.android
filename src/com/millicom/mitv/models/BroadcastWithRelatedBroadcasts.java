@@ -9,20 +9,13 @@ import java.util.ArrayList;
  *
  */
 public class BroadcastWithRelatedBroadcasts {
-	protected TVBroadcastWithChannelInfo broadcast;
 	protected ArrayList<TVBroadcastWithChannelInfo> relatedBroadcasts;
 	
-	public BroadcastWithRelatedBroadcasts(TVBroadcastWithChannelInfo broadcast, ArrayList<TVBroadcastWithChannelInfo> relatedBroadcasts) {
-		this.broadcast = broadcast;
+	public BroadcastWithRelatedBroadcasts(ArrayList<TVBroadcastWithChannelInfo> relatedBroadcasts) {
 		this.relatedBroadcasts = relatedBroadcasts;
 	}
 	
-	public TVBroadcastWithChannelInfo getBroadcast() {
-		return broadcast;
-	}
 	public ArrayList<TVBroadcastWithChannelInfo> getRelatedBroadcasts() {
 		return relatedBroadcasts;
 	}
-	
-	
 }

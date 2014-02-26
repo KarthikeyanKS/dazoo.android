@@ -137,48 +137,9 @@ public abstract class Consts {
 	public static final String	SECTION_ID_ME										= "secondscreen.section.me";
 
 	/* Data extra intents */
-	public static final String	INTENT_EXTRA_SECTION								= "com.mitv.intent.extra.section";
-	public static final String	INTENT_EXTRA_GUIDE									= "com.mitv.intent.extra.guide";
-	public static final String	INTENT_EXTRA_CHANNEL								= "com.mitv.intent.extra.channel";
-	public static final String	INTENT_EXTRA_CHANNEL_PAGE_LINK						= "com.mitv.intent.extra.channel.page.link";
 	public static final String	INTENT_EXTRA_CHANNEL_ID								= "com.mitv.intent.extra.channel.id";
-	public static final String	INTENT_EXTRA_CHANNEL_GUIDE							= "com.mitv.intent.extra.channel.guide";
-	public static final String	INTENT_EXTRA_CHANNEL_SORTING						= "com.mitv.intent.extra.channel.sorting";
-	public static final String	INTENT_EXTRA_CHANNEL_SORTING_VALUE					= "com.mitv.intent.extra.channel.sorting.value";
-	public static final String	INTENT_EXTRA_CHANNEL_CHOSEN_DATE					= "com.mitv.intent.extra.channel.chosen.date";
-	public static final String	INTENT_EXTRA_CHANNEL_LOGO_URL						= "com.mitv.intent.extra.channel.logo.url";
-	public static final String	INTENT_EXTRA_TVGUIDE_SORTING						= "com.mitv.intent.extra.tvguide.sorting";
-	public static final String	INTENT_EXTRA_TVGUIDE_SORTING_VALUE					= "com.mitv.intent.extra.tvguide.sorting.value";
-	public static final String	INTENT_EXTRA_TVGUIDE_SORTING_TYPE					= "com.mitv.intent.extra,tvguide.sorting.type";
-	public static final String	INTENT_EXTRA_TVGUIDE_PAGE_URL						= "com.mitv.intent.extra.tvguide.page.url";
-	public static final String	INTENT_EXTRA_TVGUIDE_TVDATE							= "com.mitv.intent.extra.tvguide.tvdate";
-//	public static final String	INTENT_EXTRA_CHOSEN_DATE_TVGUIDE					= "com.mitv.intent.extra.chosen.date.tvguide";
-	public static final String	INTENT_EXTRA_BROADCAST_OBJECT						= "com.mitv.intent.extra.broadcast.object";
 	public static final String	INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS			= "com.mitv.intent.extra.begintimeinmillis";
-	public static final String	INTENT_EXTRA_BROADCAST_URL							= "com.mitv.intent.extra.broadcast.url";
-	public static final String	INTENT_EXTRA_NOTIFICATION_TO_SET					= "com.mitv.intent.extra.notification.to.set";
-	public static final String	INTENT_EXTRA_NOTIFICATION_ID						= "com.mitv.intent.extra.notification.id";
-	public static final String	INTENT_EXTRA_CORE									= "com.mitv.intent.extra.core";
-	public static final String	INTENT_EXTRA_GUIDE_AVAILABLE						= "com.mitv.intent.extra.guide.available";
-	public static final String	INTENT_EXTRA_GUIDE_AVAILABLE_VALUE					= "com.mitv.intent.extra.guide.available.value";
-	public static final String	INTENT_EXTRA_TVGUIDE_SORTING_VALUE_POSITION			= "com.mitv.intent.extra.tvguide.sorting.value.position";
-	public static final String	INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE				= "com.mitv.intent.extra.channel.guide.available";
-	public static final String	INTENT_EXTRA_CHANNEL_GUIDE_AVAILABLE_VALUE			= "com.mitv.intent.extra.channel.guide.available.value";
-	public static final String	INTENT_EXTRA_TAG_GUIDE_AVAILABLE					= "com.mitv.intent.extra.tag.guide.available";
-	public static final String	INTENT_EXTRA_TAG_GUIDE_AVAILABLE_VALUE				= "com.mitv.intent.extra.tag.guide.available.value";
-	public static final String	INTENT_EXTRA_DATE_DATE								= "com.mitv.intent.extra.date.date";
-	public static final String	INTENT_EXTRA_MY_CHANNELS_CHANGED					= "com.mitv.intent.extra.my.channels.changed";
-	public static final String	INTENT_EXTRA_LOG_OUT_ACTION							= "com.mitv.intent.extra.log.out.action";
 	public static final String	INTENT_EXTRA_LOG_IN_ACTION							= "com.mitv.intent.extra.log.in.action";
-	public static final String	INTENT_EXTRA_SIGN_UP_ACTION							= "com.mitv.intent.extra.sign.up.action";
-//	public static final String	INTENT_EXTRA_UPCOMING_BROADCASTS					= "com.mitv.intent.extra.upcoming.broadcasts";
-//	public static final String	INTENT_EXTRA_REPEATING_BROADCASTS					= "com.mitv.intent.extra.repeating.broadcasts";
-//	public static final String	INTENT_EXTRA_REPEATING_PROGRAM						= "com.mitv.intent.extra.repeating.program";
-//	public static final String	INTENT_EXTRA_RUNNING_BROADCAST						= "com.mitv.intent.extra.repeating.runningBroadcast";
-//	public static final String	INTENT_EXTRA_CLOCK_SELECTION						= "com.mitv.intent.extra.clock.selection";
-//	public static final String	INTENT_EXTRA_CLOCK_SELECTION_VALUE					= "com.mitv.intent.extra.clock.selection.value";
-//	public static final String	INTENT_EXTRA_TV_GUIDE_HOUR							= "com.mitv.intent.extra.tvguide.hour";
-	public static final String	INTENT_EXTRA_BAD_REQUEST							= "com.mitv.intent.extra.bad.request";
 
 	/* Alarm extras */
 	public static final String	INTENT_NOTIFICATION									= "NOTIFICATION"; //WARNING do NOT change this without changing in the Android Manifest> <action android:name="NOTIFICATION" />
@@ -191,12 +152,11 @@ public abstract class Consts {
 	public static final String	INTENT_ALARM_EXTRA_DATE_DATE						= "com.mitv.intent.alarm.extra.date.date";
 	public static final String	INTENT_ALARM_EXTRA_BROADCAST_HOUR_AND_MINUTE_TIME	= "com.mitv.intent.alarm.extra.broadcast.time";
 
-	public static final String	INTENT_EXTRA_FROM_NOTIFICATION						= "com.mitv.intent.extra.from.notification";
+	public static final String	INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO	= "com.mitv.intent.extra.need.to.download.broadcast.with.channel.info";
 
 	/* Activity feed extras */
 	public static final String	INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME				= "com.mitv.intent.extra.from.activity";
 	public static final String	INTENT_EXTRA_FROM_ACTIVITY							= "com.mitv.intent.extra.from.activity";
-	public static final String	INTENT_EXTRA_ACTIVITY_CARD_NUMBER					= "com.mitv.intent.extra.activity.card.number";
 
 	
 	public static final String	INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN			= "com.mitv.intent.extra.activity.user.login.success";

@@ -3,20 +3,34 @@ package com.millicom.mitv.asynctasks;
 
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
+import com.millicom.mitv.models.RepeatingBroadcastsForBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
+import com.millicom.mitv.models.TVDate;
 import com.mitv.Consts;
 
 
-
+/**
+ * Fetches repetitions of a broadcasts
+ * @author consultant_hdme
+ *
+ */
 public class GetTVBroadcastsFromProgram 
-	extends AsyncTaskWithRelativeURL<TVBroadcastWithChannelInfo>
+	extends AsyncTaskWithRelativeURL<TVBroadcastWithChannelInfo[]>
 {
+	
+	private static String tvProgramId;
+	
 	private static String buildURL(String tvProgramId)
 	{
+		GetTVBroadcastsFromProgram.tvProgramId = tvProgramId;
+		
 		StringBuilder url = new StringBuilder();
 		url.append(Consts.URL_PROGRAMS);
 		url.append(tvProgramId);
@@ -32,6 +46,21 @@ public class GetTVBroadcastsFromProgram
 			ActivityCallbackListener activityCallBackListener,
 			String tvProgramId) 
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.BROADCASTS_FROM_PROGRAMS, TVBroadcastWithChannelInfo.class, HTTPRequestTypeEnum.HTTP_GET, buildURL(tvProgramId));
+		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.REPEATING_BROADCASTS_FOR_PROGRAMS, TVBroadcastWithChannelInfo[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(tvProgramId));
+	}
+	
+	@Override
+	protected Void doInBackground(String... params) {
+		super.doInBackground(params);
+
+		/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
+		TVBroadcastWithChannelInfo[] contentAsArray = (TVBroadcastWithChannelInfo[]) requestResultObjectContent;
+		ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts = new ArrayList<TVBroadcastWithChannelInfo>(Arrays.asList(contentAsArray));
+		
+		RepeatingBroadcastsForBroadcast repeatingBroadcastsObject = new RepeatingBroadcastsForBroadcast(tvProgramId, repeatingBroadcasts);
+		
+		requestResultObjectContent = repeatingBroadcastsObject;
+
+		return null;
 	}
 }

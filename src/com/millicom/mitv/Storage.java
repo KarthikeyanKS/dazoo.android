@@ -96,6 +96,14 @@ public class Storage
 		setTvDateSelectedIndex(0);
 	}
 	
+	public boolean containsTVBroadcastWithChannelInfo(TVChannelId channelId, long beginTimeMillis) {
+		boolean containsTVBroadcastWithChannelInfo = false;
+		if(nonPersistentSelectedBroadcastWithChannelInfo != null && nonPersistentSelectedBroadcastWithChannelInfo.getChannel().getChannelId().equals(channelId.getChannelId()) && beginTimeMillis == nonPersistentSelectedBroadcastWithChannelInfo.getBeginTimeMillis().longValue()) {
+			containsTVBroadcastWithChannelInfo = true;
+		}
+		return containsTVBroadcastWithChannelInfo;
+	}
+	
 	public String getWelcomeMessage() {
 		String welcomeMessage = "";
 		if(appConfigData != null) {
@@ -372,6 +380,16 @@ public class Storage
 		return taggedBroadcastForDay;
 	}
 	
+	public boolean containsAppConfigData() {
+		boolean containsAppConfig = (appConfigData != null);
+		return containsAppConfig;
+	}
+	
+	public boolean containsApiVersionData() {
+		boolean containsApiVersionData = (appVersionData != null);
+		return containsApiVersionData;
+	}
+	
 	public boolean containsTVDates() {
 		boolean containsTVDates = (tvDates != null && !tvDates.isEmpty());
 		return containsTVDates;
@@ -493,12 +511,12 @@ public class Storage
 		this.nonPersistentUpcomingBroadcasts = nonPersistentUpcomingBroadcasts;
 	}
 	
-	public boolean containsUpcomingBroadcastsForBroadcast(TVBroadcastWithChannelInfo broadcast) {
+	public boolean containsUpcomingBroadcastsForBroadcast(String tvSeriesId) {
 		boolean containsUpcomingBroadcastsForBroadcast = false;
 		
 		if(nonPersistentUpcomingBroadcasts != null) {
-			TVBroadcastWithChannelInfo broadcastForUpcomingBroadcastsInStorage = nonPersistentUpcomingBroadcasts.getBroadcast();
-			containsUpcomingBroadcastsForBroadcast = broadcast.equals(broadcastForUpcomingBroadcastsInStorage);
+			String tvSeriesIdInStorage = nonPersistentUpcomingBroadcasts.getTvSeriesId();
+			containsUpcomingBroadcastsForBroadcast = tvSeriesId.equals(tvSeriesIdInStorage);
 		}
 		
 		return containsUpcomingBroadcastsForBroadcast;
@@ -512,12 +530,12 @@ public class Storage
 		this.nonPersistentRepeatingBroadcasts = nonPersistentRepeatingBroadcasts;
 	}
 	
-	public boolean containsRepeatingBroadcastsForBroadcast(TVBroadcastWithChannelInfo broadcast) {
+	public boolean containsRepeatingBroadcastsForBroadcast(String programId) {
 		boolean containsRepeatingBroadcastsForBroadcast = false;
 		
 		if(nonPersistentRepeatingBroadcasts != null) {
-			TVBroadcastWithChannelInfo broadcastForRepeatingBroadcastsInStorage = nonPersistentRepeatingBroadcasts.getBroadcast();
-			containsRepeatingBroadcastsForBroadcast = broadcast.equals(broadcastForRepeatingBroadcastsInStorage);
+			String programIdInStorage = nonPersistentRepeatingBroadcasts.getProgramId();
+			containsRepeatingBroadcastsForBroadcast = programId.equals(programIdInStorage);
 		}
 		
 		return containsRepeatingBroadcastsForBroadcast;

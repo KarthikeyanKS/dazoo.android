@@ -24,14 +24,15 @@ public enum RequestIdentifierEnum {
 	TV_CHANNEL_IDS_DEFAULT(20),
 	USER_LOGOUT(21),
 	BROADCAST_DETAILS(22),
-	BROADCASTS_FROM_PROGRAMS(23),
+	REPEATING_BROADCASTS_FOR_PROGRAMS(23),
 	BROADCASTS_FROM_SERIES_UPCOMING(24),
 	SEARCH(25),
 	INTERNAL_TRACKING(26),
 	USER_ACTIVITY_FEED_ITEM_MORE(27),
 	USER_ACTIVITY_FEED_LIKES(28),
 	INTERNET_CONNECTIVITY(29),
-	USER_FACEBOOK(30);  /* This is used for facebook login with the facebook api */
+	USER_FACEBOOK(30),  /* This is used for facebook login with the facebook api */
+	BROADCAST_PAGE_DATA(31); /* This is used with the BroadcastPage only, for notifying that all data has been fetched */
 	
 	
 	

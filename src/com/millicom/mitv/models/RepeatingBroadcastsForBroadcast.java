@@ -4,7 +4,16 @@ import java.util.ArrayList;
 
 public class RepeatingBroadcastsForBroadcast extends BroadcastWithRelatedBroadcasts {
 	
-	public RepeatingBroadcastsForBroadcast(TVBroadcastWithChannelInfo broadcast, ArrayList<TVBroadcastWithChannelInfo> relatedBroadcasts) {
-		super(broadcast, relatedBroadcasts);
+	private String programId;
+	
+	public RepeatingBroadcastsForBroadcast(String programId, ArrayList<TVBroadcastWithChannelInfo> relatedBroadcasts) {
+		super(relatedBroadcasts);
+		this.programId = programId;
 	}
+
+	public String getProgramId() {
+		return programId;
+	}
+	
+	
 }
