@@ -163,7 +163,7 @@ public abstract class AsyncTaskBase<T>
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		Log.d(TAG, String.format("onPreExecute - Performing HTTP request: %d", requestIdentifier.toString()));
+		Log.d(TAG, String.format("onPreExecute - Performing HTTP request: %s", requestIdentifier.getDescription()));
 	}
 
 
@@ -197,7 +197,7 @@ public abstract class AsyncTaskBase<T>
 			{	
 				try
 				{
-					Log.d(TAG, String.format("doInBackground - Parsing JSON into model: %d (using GSON)", clazz.getName()));
+					Log.d(TAG, String.format("doInBackground - Parsing JSON into model: %s (using GSON)", clazz.getName()));
 					requestResultObjectContent = gson.fromJson(responseString, clazz);
 				}
 				catch(JsonSyntaxException jsex)
