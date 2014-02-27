@@ -1,7 +1,4 @@
-
 package com.millicom.mitv.activities.authentication;
-
-
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -29,7 +26,6 @@ import org.json.JSONObject;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -38,6 +34,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.base.BaseLoginActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
@@ -47,91 +44,74 @@ import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.utilities.JSONUtilities;
 
-
-
-public class ResetPasswordActivity 
-	extends BaseLoginActivity 
-	implements OnClickListener
-{
+public class ResetPasswordActivity extends BaseLoginActivity implements
+		OnClickListener {
 	private static final String TAG = ResetPasswordActivity.class.getName();
-	
-	
-	private ActionBar			actionBar;
-	private Button				mMiTVResetPassword;
-	private EditText			mEmailResetPasswordEditText;
-	private TextView			mErrorTextView;
-	private String 				mBadResponseString;
 
+	private Button miTVResetPassword;
+	private EditText emailResetPasswordEditText;
+	private TextView errorTextView;
 	
 	
+	private String badResponseString;
+
 	@Override
-	protected void onCreate(Bundle savedInstanceState) 
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.layout_resetpassword_activity);
-		
+
 		initViews();
 	}
-	
-	
-	
+
 	@Override
-	protected void onResume() 
-	{
-		super.onResume();
+	protected void loadData() {
+		
+		String email = emailResetPasswordEditText.getText().toString();
+		if(!TextUtils.isEmpty(email) && RegularExpressionUtils.checkEmail(email)) {
+			emailResetPasswordEditText.setEnabled(false); //TODO NewArc do we need to disable the edit text field???
+			ContentManager.sharedInstance().performResetPassword(this, email);
+		} else {
+			/* Password is either null, empty or invalid */
+			emailResetPasswordEditText.setEnabled(true); //TODO NewArc do we need to disable/reenable the edit text field???
+			
+			errorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_incorrect));
+		}
 	}
-	
-	
-	
+
 	@Override
-	protected void loadData() 
-	{
-		// TODO NewArc - Do something here?
-	}
-	
-	
-	
-	@Override
-	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
-	{
-		if (fetchRequestResult.wasSuccessful()) 
-		{
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
-		} 
-		else
-		{
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult,
+			RequestIdentifierEnum requestIdentifier) {
+		if (fetchRequestResult.wasSuccessful()) {
+			Intent intent = new Intent(ResetPasswordActivity.this, ResetPasswordFinalActivity.class);
+			startActivity(intent);
+		} else {
 			updateUI(UIStatusEnum.FAILED);
 		}
 	}
-	
-	
-	
+
 	@Override
-	protected void updateUI(UIStatusEnum status) 
-	{
+	protected void updateUI(UIStatusEnum status) {
 		super.updateUIBaseElements(status);
 
-		switch (status) 
-		{	
-			case SUCCEEDED_WITH_DATA:
-			{
-				// TODO NewArc - Do something here?
-				break;
-			}
-	
-			default:
-			{
-				// TODO NewArc - Do something here?
-				break;
-			}
+		switch (status) {
+		case SUCCEEDED_WITH_DATA: {
+			// TODO NewArc - Do something here?
+			break;
+		}
+		case FAILED: {
+			errorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_incorrect));
+			break;
+		}
+
+		default: {
+			// TODO NewArc - Do something here?
+			break;
+		}
 		}
 	}
-	
-	
 
-	private void initViews()
-	{
+	private void initViews() {
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setDisplayUseLogoEnabled(true);
@@ -140,112 +120,30 @@ public class ResetPasswordActivity
 
 		actionBar.setTitle(getResources().getString(R.string.reset_password));
 
-		mMiTVResetPassword = (Button) findViewById(R.id.resetpassword_button);
-		mMiTVResetPassword.setOnClickListener(this);
-		mEmailResetPasswordEditText = (EditText) findViewById(R.id.resetpassword_email_edittext);
-		
-		mErrorTextView = (TextView) findViewById(R.id.resetpassword_error_tv);
+		miTVResetPassword = (Button) findViewById(R.id.resetpassword_button);
+		miTVResetPassword.setOnClickListener(this);
+		emailResetPasswordEditText = (EditText) findViewById(R.id.resetpassword_email_edittext);
+
+		errorTextView = (TextView) findViewById(R.id.resetpassword_error_tv);
 	}
 
 	
 	
 	@Override
-	public void onClick(View v) 
-	{
+	public void onClick(View v) {
+		/*
+		 * IMPORTANT always call super.onClick for subclasses of BaseActivity,
+		 * else tabs wont work!
+		 */
+		super.onClick(v);
 		int id = v.getId();
-		
+
 		switch (id) {
 		case R.id.resetpassword_button:
-			String emailInput = mEmailResetPasswordEditText.getText().toString();
-			// if (emailInput != null && emailInput.isEmpty() != true && PatternCheck.checkEmail(emailInput) == true) {
-			if (emailInput != null && TextUtils.isEmpty(emailInput) != true && RegularExpressionUtils.checkEmail(emailInput) == true) {
-				mEmailResetPasswordEditText.setEnabled(false);
-				try {
-					ResetPasswordTask resetPasswordTask = new ResetPasswordTask();
-					int responseCode = resetPasswordTask.execute(emailInput).get();
-					Log.d(TAG, "responseCode: " + responseCode);
-					if (Consts.GOOD_RESPONSE_RESET_PASSWORD == responseCode || Consts.GOOD_RESPONSE == responseCode) {
-						//Toast.makeText(getApplicationContext(), "The password is successfully reset. Check your mailbox!", Toast.LENGTH_SHORT).show();
-						Log.d(TAG, "Password is reset");
-
-						Intent intent = new Intent(ResetPasswordActivity.this, ResetPasswordFinalActivity.class);
-						startActivity(intent);
-						finish();
-
-					} else if (Consts.BAD_RESPONSE == responseCode) 
-					{
-						//Toast.makeText(getApplicationContext(), "Error! Email is not found!", Toast.LENGTH_SHORT).show();
-//						if (Consts.BAD_RESPONSE_STRING_EMAIL_NOT_FOUND.equals(mBadResponseString)) 
-//						{
-//							mErrorTextView.setText(getResources().getString(R.string.reset_password_email_not_found));
-//						}
-						mEmailResetPasswordEditText.setEnabled(true);
-						Log.d(TAG, "Bad response: " + mBadResponseString);
-					}
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				} catch (ExecutionException e) {
-					e.printStackTrace();
-				}
-			} else {
-				mEmailResetPasswordEditText.setEnabled(true);
-				//Toast.makeText(getApplicationContext(), "Please enter a valid e-mail address", Toast.LENGTH_SHORT).show();
-				mErrorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_incorrect));
-				Log.d(TAG, "Email input is required");
-			}
+			loadData();
 			break;
 		}
 	}
 
-	private class ResetPasswordTask extends AsyncTask<String, Void, Integer> {
-
-		@Override
-		protected Integer doInBackground(String... params) {
-			try {
-				// HttpClient client = new DefaultHttpClient();
-				HttpClient client = new DefaultHttpClient();
-				HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
-				SchemeRegistry registry = new SchemeRegistry();
-				registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-
-				SSLSocketFactory socketFactory = SSLSocketFactory.getSocketFactory();
-				socketFactory.setHostnameVerifier(SSLSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
-				registry.register(new Scheme("https", socketFactory, 443));
-				SingleClientConnManager mgr = new SingleClientConnManager(client.getParams(), registry);
-
-				DefaultHttpClient httpClient = new DefaultHttpClient(mgr, client.getParams());
-				// Set verifier
-				HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
-				HttpPost httpPost = new HttpPost(Consts.URL_RESET_PASSWORD_SEND_EMAIL);
-
-				JSONObject holder = JSONUtilities.createJSONObjectWithKeysValues(Arrays.asList(Consts.API_EMAIL), Arrays.asList(params[0]));
-				StringEntity entity = new StringEntity(holder.toString());
-
-				httpPost.setEntity(entity);
-				httpPost.setHeader("Accept", "application/json");
-				httpPost.setHeader("Content-type", "application/json");
-
-				// HttpResponse response = client.execute(httpPost);
-				HttpResponse response = httpClient.execute(httpPost);
-				
-				int responseCode = response.getStatusLine().getStatusCode();
-				if (responseCode == Consts.GOOD_RESPONSE_RESET_PASSWORD ||  responseCode == Consts.GOOD_RESPONSE) {
-					return responseCode;
-				}
-				else if (responseCode == Consts.BAD_RESPONSE) {
-					HttpEntity httpentity = response.getEntity();
-					mBadResponseString = EntityUtils.toString(httpentity);
-					return responseCode;
-				}
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			} catch (ClientProtocolException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			return Consts.BAD_RESPONSE;
-		}
-	}
 
 }

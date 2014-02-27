@@ -61,15 +61,6 @@ public class LoginWithMiTVUserActivity
 	}
 	
 	
-	
-	@Override
-	protected void onResume() 
-	{
-		super.onResume();
-	}
-
-	
-	
 	@Override
 	protected void loadData() 
 	{

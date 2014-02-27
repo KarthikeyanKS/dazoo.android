@@ -15,11 +15,7 @@ public abstract class BaseContentActivity
 	protected void onResume() 
 	{
 		super.onResume();
-		
-		initCallbackLayouts();
-		
-		initTabViews();
-		
+				
 		//TODO NewArc we probably don't want to check for internet connectivity at all, not even in onCreate?
 //		loadDataWithConnectivityCheck();
 		loadData();

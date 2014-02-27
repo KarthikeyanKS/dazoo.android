@@ -53,85 +53,85 @@ public class APIClient
 	
 	
 	
-	public void getNetworkConnectivityIsAvailable(ActivityCallbackListener activityCallBackListener) 
+	public void getNetworkConnectivityIsAvailable(ActivityCallbackListener activityCallbackListener) 
 	{
-		CheckNetworkConnectivity checkNetworkConnectivity = new CheckNetworkConnectivity(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.INTERNET_CONNECTIVITY);
+		CheckNetworkConnectivity checkNetworkConnectivity = new CheckNetworkConnectivity(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.INTERNET_CONNECTIVITY);
 		checkNetworkConnectivity.execute();
 	}
 	
 	
 	
-	public void getAppConfiguration(ActivityCallbackListener activityCallBackListener) 
+	public void getAppConfiguration(ActivityCallbackListener activityCallbackListener) 
 	{
-		GetAppConfigurationData getAppConfigurationData = new GetAppConfigurationData(contentCallbackListener, activityCallBackListener);
+		GetAppConfigurationData getAppConfigurationData = new GetAppConfigurationData(contentCallbackListener, activityCallbackListener);
 		getAppConfigurationData.execute();
 	}
 	
 	
-	public void getAppVersion(ActivityCallbackListener activityCallBackListener) 
+	public void getAppVersion(ActivityCallbackListener activityCallbackListener) 
 	{
-		GetAppVersionData getAppVersionData = new GetAppVersionData(contentCallbackListener, activityCallBackListener);
+		GetAppVersionData getAppVersionData = new GetAppVersionData(contentCallbackListener, activityCallbackListener);
 		getAppVersionData.execute();
 	}
 	
 	
-	public void getAds(ActivityCallbackListener activityCallBackListener)
+	public void getAds(ActivityCallbackListener activityCallbackListener)
 	{
-		GetAdsAdzerk getAds = new GetAdsAdzerk(contentCallbackListener, activityCallBackListener);
+		GetAdsAdzerk getAds = new GetAdsAdzerk(contentCallbackListener, activityCallbackListener);
 		getAds.execute();
 	}
 	
 	
-	public void getTVTags(ActivityCallbackListener activityCallBackListener)
+	public void getTVTags(ActivityCallbackListener activityCallbackListener)
 	{
-		GetTVTags getTVTags = new GetTVTags(contentCallbackListener, activityCallBackListener);
+		GetTVTags getTVTags = new GetTVTags(contentCallbackListener, activityCallbackListener);
 		getTVTags.execute();
 	}
 	
 	
 	
-	public void getTVDates(ActivityCallbackListener activityCallBackListener) 
+	public void getTVDates(ActivityCallbackListener activityCallbackListener) 
 	{
-		GetTVDates getTVDates = new GetTVDates(contentCallbackListener, activityCallBackListener);
+		GetTVDates getTVDates = new GetTVDates(contentCallbackListener, activityCallbackListener);
 		getTVDates.execute();
 	}
 	
 	
 	
-	public void getTVChannelsAll(ActivityCallbackListener activityCallBackListener)
+	public void getTVChannelsAll(ActivityCallbackListener activityCallbackListener)
 	{
-		GetTVChannelsAll getTVChannelsAll = new GetTVChannelsAll(contentCallbackListener, activityCallBackListener);
+		GetTVChannelsAll getTVChannelsAll = new GetTVChannelsAll(contentCallbackListener, activityCallbackListener);
 		getTVChannelsAll.execute();
 	}
 	
 	
 	
-	public void getDefaultTVChannelIds(ActivityCallbackListener activityCallBackListener) 
+	public void getDefaultTVChannelIds(ActivityCallbackListener activityCallbackListener) 
 	{
-		GetTVChannelIdsDefault getTVChannelIdsDefault = new GetTVChannelIdsDefault(contentCallbackListener, activityCallBackListener);
+		GetTVChannelIdsDefault getTVChannelIdsDefault = new GetTVChannelIdsDefault(contentCallbackListener, activityCallbackListener);
 		getTVChannelIdsDefault.execute();
 	}
 	
 	
 	
-	public void getUserTVChannelIds(ActivityCallbackListener activityCallBackListener) 
+	public void getUserTVChannelIds(ActivityCallbackListener activityCallbackListener) 
 	{
-		GetUserTVChannelIds getUserTVChannelIds = new GetUserTVChannelIds(contentCallbackListener, activityCallBackListener);
+		GetUserTVChannelIds getUserTVChannelIds = new GetUserTVChannelIds(contentCallbackListener, activityCallbackListener);
 		getUserTVChannelIds.execute();
 	}
 	
 	
 	
-	public void performSetUserTVChannelIds(ActivityCallbackListener activityCallBackListener, List<TVChannelId> tvChannelIds) 
+	public void performSetUserTVChannelIds(ActivityCallbackListener activityCallbackListener, List<TVChannelId> tvChannelIds) 
 	{
-		SetUserTVChannelIds setUserTVChannelIds = new SetUserTVChannelIds(contentCallbackListener, activityCallBackListener, tvChannelIds);
+		SetUserTVChannelIds setUserTVChannelIds = new SetUserTVChannelIds(contentCallbackListener, activityCallbackListener, tvChannelIds);
 		setUserTVChannelIds.execute();
 	}
 	
 	
-	public void getUserTVFeedItems(ActivityCallbackListener activityCallBackListener) 
+	public void getUserTVFeedItems(ActivityCallbackListener activityCallbackListener) 
 	{
-		GetUserTVFeedItems getFeedItems = new GetUserTVFeedItems(contentCallbackListener, activityCallBackListener);
+		GetUserTVFeedItems getFeedItems = new GetUserTVFeedItems(contentCallbackListener, activityCallbackListener);
 		getFeedItems.execute();
 	}
 	
@@ -142,17 +142,17 @@ public class APIClient
 	}
 	
 	
-	public void getTVBroadcastDetails(ActivityCallbackListener activityCallBackListener, TVChannelId tvChannelId, long beginTime)
+	public void getTVBroadcastDetails(ActivityCallbackListener activityCallbackListener, TVChannelId tvChannelId, long beginTime)
 	{
-		GetTVBroadcastDetails getTVBroadcastDetails = new GetTVBroadcastDetails(contentCallbackListener, activityCallBackListener, tvChannelId, beginTime);
+		GetTVBroadcastDetails getTVBroadcastDetails = new GetTVBroadcastDetails(contentCallbackListener, activityCallbackListener, tvChannelId, beginTime);
 		getTVBroadcastDetails.execute();
 	}
 	
 	
 	
-	public void getTVBroadcastsFromSeries(ActivityCallbackListener activityCallBackListener, String tvSeriesId)
+	public void getTVBroadcastsFromSeries(ActivityCallbackListener activityCallbackListener, String tvSeriesId)
 	{
-		GetTVBroadcastsFromSeries getTVBroadcastsFromSeries = new GetTVBroadcastsFromSeries(contentCallbackListener, activityCallBackListener, tvSeriesId);
+		GetTVBroadcastsFromSeries getTVBroadcastsFromSeries = new GetTVBroadcastsFromSeries(contentCallbackListener, activityCallbackListener, tvSeriesId);
 		getTVBroadcastsFromSeries.execute();
 	}
 	
@@ -165,100 +165,100 @@ public class APIClient
 	
 	
 	
-	public void getTVBroadcastsFromProgram(ActivityCallbackListener activityCallBackListener, String tvProgramId)
+	public void getTVBroadcastsFromProgram(ActivityCallbackListener activityCallbackListener, String tvProgramId)
 	{
-		GetTVBroadcastsFromProgram getTVBroadcastsFromProgram = new GetTVBroadcastsFromProgram(contentCallbackListener, activityCallBackListener, tvProgramId);
+		GetTVBroadcastsFromProgram getTVBroadcastsFromProgram = new GetTVBroadcastsFromProgram(contentCallbackListener, activityCallbackListener, tvProgramId);
 		getTVBroadcastsFromProgram.execute();
 	}
 	
 	
-	public void getUserLikes(ActivityCallbackListener activityCallBackListener, boolean standaLone)
+	public void getUserLikes(ActivityCallbackListener activityCallbackListener, boolean standaLone)
 	{
-		GetUserLikes getUserLikes = new GetUserLikes(contentCallbackListener, activityCallBackListener, standaLone);
+		GetUserLikes getUserLikes = new GetUserLikes(contentCallbackListener, activityCallbackListener, standaLone);
 		getUserLikes.execute();
 	}
 	
 	
 	/* The content ID is either a seriesId, or a sportTypesId or programId */
-	public void addUserLike(ActivityCallbackListener activityCallBackListener, LikeTypeRequestEnum likeType, String contentId) 
+	public void addUserLike(ActivityCallbackListener activityCallbackListener, LikeTypeRequestEnum likeType, String contentId) 
 	{
-		AddUserLike addUserLikes = new AddUserLike(contentCallbackListener, activityCallBackListener, likeType, contentId);
+		AddUserLike addUserLikes = new AddUserLike(contentCallbackListener, activityCallbackListener, likeType, contentId);
 		addUserLikes.execute();
 	}
 
 	
 	/* The content ID is either a seriesId, or a sportTypesId or programId */
-	public void removeUserLike(ActivityCallbackListener activityCallBackListener, LikeTypeRequestEnum likeType, String contentId) 
+	public void removeUserLike(ActivityCallbackListener activityCallbackListener, LikeTypeRequestEnum likeType, String contentId) 
 	{
-		RemoveUserLike removeUserLike = new RemoveUserLike(contentCallbackListener, activityCallBackListener, likeType, contentId);
+		RemoveUserLike removeUserLike = new RemoveUserLike(contentCallbackListener, activityCallbackListener, likeType, contentId);
 		removeUserLike.execute();
 	}
 	
 	
-	public void getTVChannelGuides(ActivityCallbackListener activityCallBackListener, TVDate tvDate, List<TVChannelId> tvChannelIds)
+	public void getTVChannelGuides(ActivityCallbackListener activityCallbackListener, TVDate tvDate, List<TVChannelId> tvChannelIds)
 	{
-		GetTVChannelGuides getTvChannelGuides = new GetTVChannelGuides(contentCallbackListener, activityCallBackListener, tvDate, tvChannelIds);
+		GetTVChannelGuides getTvChannelGuides = new GetTVChannelGuides(contentCallbackListener, activityCallbackListener, tvDate, tvChannelIds);
 		getTvChannelGuides.execute();
 	}
 	
 	
-	public void PerformUserHasSeenAd(ActivityCallbackListener activityCallBackListener)
+	public void PerformUserHasSeenAd(ActivityCallbackListener activityCallbackListener)
 	{
 		// TODO - Set correct suffix
 		String url = "";
 				
-		PerformUserHasSeenAdAdzerk performUserHasSeenAd = new PerformUserHasSeenAdAdzerk(contentCallbackListener, activityCallBackListener, url);
+		PerformUserHasSeenAdAdzerk performUserHasSeenAd = new PerformUserHasSeenAdAdzerk(contentCallbackListener, activityCallbackListener, url);
 		performUserHasSeenAd.execute();
 	}
 	
 	
 	/* Uses the facebook token to get the MiTV token */
-	public void getUserTokenUsingFBToken(ActivityCallbackListener activityCallBackListener, String facebookToken) 
+	public void getUserTokenUsingFBToken(ActivityCallbackListener activityCallbackListener, String facebookToken) 
 	{
-		GetUserTokenUsingFBToken getUserTokenUsingFBToken = new GetUserTokenUsingFBToken(contentCallbackListener, activityCallBackListener, facebookToken);
+		GetUserTokenUsingFBToken getUserTokenUsingFBToken = new GetUserTokenUsingFBToken(contentCallbackListener, activityCallbackListener, facebookToken);
 		getUserTokenUsingFBToken.execute();
 	}
 	
 	
 	/* Email is used as username  */
-	public void performUserLogin(ActivityCallbackListener activityCallBackListener, String username, String password) 
+	public void performUserLogin(ActivityCallbackListener activityCallbackListener, String username, String password) 
 	{
-		PerformUserLogin performUserLogin = new PerformUserLogin(contentCallbackListener, activityCallBackListener, username, password);
+		PerformUserLogin performUserLogin = new PerformUserLogin(contentCallbackListener, activityCallbackListener, username, password);
 		performUserLogin.execute();
 	}
 	
 	
-	public void performUserSignUp(ActivityCallbackListener activityCallBackListener, String email, String password, String firstname, String lastname) 
+	public void performUserSignUp(ActivityCallbackListener activityCallbackListener, String email, String password, String firstname, String lastname) 
 	{
-		com.millicom.mitv.asynctasks.PerformUserSignUp PerformUserSignUp = new PerformUserSignUp(contentCallbackListener, activityCallBackListener, email, password, firstname, lastname);
+		com.millicom.mitv.asynctasks.PerformUserSignUp PerformUserSignUp = new PerformUserSignUp(contentCallbackListener, activityCallbackListener, email, password, firstname, lastname);
 		PerformUserSignUp.execute();
 	}
 	
 	
-	public void performUserPasswordResetSendEmail(ActivityCallbackListener activityCallBackListener, String email)
+	public void performUserPasswordResetSendEmail(ActivityCallbackListener activityCallbackListener, String email)
 	{
-		PerformUserPasswordResetSendEmail performUserPasswordResetSendEmail = new PerformUserPasswordResetSendEmail(contentCallbackListener, activityCallBackListener, email);
+		PerformUserPasswordResetSendEmail performUserPasswordResetSendEmail = new PerformUserPasswordResetSendEmail(contentCallbackListener, activityCallbackListener, email);
 		performUserPasswordResetSendEmail.execute();
 	}
 	
 	
-	public void performUserPasswordResetConfirmPassword(ActivityCallbackListener activityCallBackListener, String email, String newPassword, String resetPasswordToken)
+	public void performUserPasswordResetConfirmPassword(ActivityCallbackListener activityCallbackListener, String email, String newPassword, String resetPasswordToken)
 	{
-		PerformUserPasswordResetConfirmation performUserPasswordConfirmation = new PerformUserPasswordResetConfirmation(contentCallbackListener, activityCallBackListener, email, newPassword, resetPasswordToken);
+		PerformUserPasswordResetConfirmation performUserPasswordConfirmation = new PerformUserPasswordResetConfirmation(contentCallbackListener, activityCallbackListener, email, newPassword, resetPasswordToken);
 		performUserPasswordConfirmation.execute();
 	}
 	
 	
-	public void performUserLogout(ActivityCallbackListener activityCallBackListener) 
+	public void performUserLogout(ActivityCallbackListener activityCallbackListener) 
 	{
-		PerformUserLogout performuserLogout = new PerformUserLogout(contentCallbackListener, activityCallBackListener);
+		PerformUserLogout performuserLogout = new PerformUserLogout(contentCallbackListener, activityCallbackListener);
 		performuserLogout.execute();
 	}
 	
 
-	public void performInternalTracking(ActivityCallbackListener activityCallBackListener, String tvProgramId, String deviceId)
+	public void performInternalTracking(ActivityCallbackListener activityCallbackListener, String tvProgramId, String deviceId)
 	{
-		PerformInternalTracking performInternalTracking = new PerformInternalTracking(contentCallbackListener, activityCallBackListener, tvProgramId, deviceId);
+		PerformInternalTracking performInternalTracking = new PerformInternalTracking(contentCallbackListener, activityCallbackListener, tvProgramId, deviceId);
 		performInternalTracking.execute();
 	}
 }

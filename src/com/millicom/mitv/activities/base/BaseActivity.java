@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.graphics.drawable.ColorDrawable;
-import android.os.StrictMode;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -22,10 +21,12 @@ import android.widget.RelativeLayout;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.millicom.mitv.ContentManager;
+import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.activities.FeedActivity;
 import com.millicom.mitv.activities.HomeActivity;
 import com.millicom.mitv.activities.MyProfileActivity;
 import com.millicom.mitv.activities.SearchPageActivity;
+import com.millicom.mitv.activities.authentication.LoginWithFacebookActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.TabSelectedEnum;
@@ -92,10 +93,12 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 		String className = this.getClass().getName();
 		GATrackingManager.sendView(className);
 
+
+		Intent intent = getIntent();
+		
 		/* Log in states */
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 		if (isLoggedIn) {
-			Intent intent = getIntent();
 
 			if (intent.hasExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN)) {
 				userHasJustLoggedIn = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, false);
@@ -106,6 +109,27 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 			}
 		} else {
 			userHasJustLoggedIn = false;
+		}
+		
+		/* If return activity was specified set it! */
+		if (intent.hasExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME)) 
+		{
+			String returnActivityClassName = intent.getExtras().getString(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME);
+			
+			try 
+			{
+				returnActivity = Class.forName(returnActivityClassName);
+			} 
+			catch (ClassNotFoundException cnfex) 
+			{
+				Log.e(TAG, cnfex.getMessage(), cnfex);
+				
+				returnActivity = HomeActivity.class;
+			}
+		}
+		else
+		{
+			returnActivity = HomeActivity.class;
 		}
 
 		/* IMPORTANT add activity to activity stack */
@@ -376,8 +400,27 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 	public void onBackPressed() {
 		super.onBackPressed();
 
+		removeThisActivityFromStackIfTopOfStack();
+	}
+	
+	
+	
+	@Override
+	protected void onDestroy() {
+		/* If we have not been removed from the activityStack, remove us */
+		removeThisActivityFromStackIfTopOfStack();
+		super.onDestroy();
+	}
+
+	private void removeThisActivityFromStackIfTopOfStack() {
 		/* Remove activity from activitStack */
-		activityStack.pop();
+		
+		/* Discussion: not sure if needed, but better safe than sorry */
+		Activity activityInTopOfStack = activityStack.peek();
+		if(activityInTopOfStack == this) {
+			/* We are in the top of the stack, remove us from the stack */
+			activityStack.pop();
+		}
 	}
 
 	@Override
@@ -452,7 +495,7 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 				break;
 			}
 
-			case SUCCEEDED_WITH_EMPTY_DATA: {
+			case SUCCESS_WITH_NO_CONTENT: {
 				if (requestEmptyLayout != null) {
 					requestEmptyLayout.setVisibility(View.VISIBLE);
 				}
