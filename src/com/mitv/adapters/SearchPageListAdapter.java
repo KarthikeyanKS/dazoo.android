@@ -18,6 +18,7 @@ import android.widget.Filterable;
 import android.widget.LinearLayout;
 
 import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxCallback;
 import com.millicom.mitv.activities.SearchPageActivity;
 import com.millicom.mitv.enums.ContentTypeEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
@@ -341,6 +342,10 @@ public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implemen
 		return filter;
 	}
 
+	private class SearchAqueryCallback<T> extends AjaxCallback<T>{
+		
+	}
+	
 	public ArrayList<TVSearchResult> autocomplete(String q) {
 		((SearchPageActivity) context).runOnUiThread(new Runnable() {
 			@Override
