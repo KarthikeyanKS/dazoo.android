@@ -231,11 +231,16 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 			viewHolder.mType.setText(seriesString);
 		} else {
 			Spannable episodeTitleAsSpannable = getCustomFontSpannable(seriesString, mQuery);
-			viewHolder.mType.setText(episodeTitleAsSpannable);
+			if(episodeTitleAsSpannable != null) {
+				viewHolder.mType.setText(episodeTitleAsSpannable);
+			} else {
+				viewHolder.mType.setText(seriesString);
+			}
 		}
 
 		setTimeString(viewHolder, resultItem);
 	}
+	
 		
 	private void populateChannelView(ViewHolder viewHolder, Channel channel) {
 		viewHolder.mType.setText(mContext.getString(R.string.search_result_channel));
@@ -280,6 +285,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 				
 				holder.mTime.setVisibility(View.VISIBLE);
 				holder.mType.setVisibility(View.VISIBLE);
+				holder.mTitle.setVisibility(View.VISIBLE);
 				break;
 			}
 			case SERIES: {
@@ -287,6 +293,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 				populateSeriesView(holder, resultItem, false, series, null);
 				holder.mTime.setVisibility(View.VISIBLE);
 				holder.mType.setVisibility(View.VISIBLE);
+				holder.mTitle.setVisibility(View.VISIBLE);
 				break;
 			}
 			case CHANNEL: {

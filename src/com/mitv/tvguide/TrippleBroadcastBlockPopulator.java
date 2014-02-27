@@ -168,11 +168,8 @@ public class TrippleBroadcastBlockPopulator {
 
 		String titleString = null;
 		String showMoreString = null;
-		Program p = new Program();
-		Log.d("mmm", "programtype: "+ mRunningBroadcast.getProgram().getProgramType());
 		String programType = program.getProgramType();
 		Resources res = mActivity.getResources();
-		Log.d("mmm", "type:"+ programType);
 		
 		if(mUsedForRepetitions) {
 			if(programType.equals(Consts.PROGRAM_TYPE_TV_EPISODE)) {
@@ -185,7 +182,6 @@ public class TrippleBroadcastBlockPopulator {
 				titleString = res.getString(R.string.repetitions_other);
 			}
 
-			Log.d("mmm", "title:"+ titleString);
 			showMoreString = mActivity.getResources().getString(R.string.repetitions_more);
 			
 		} else {
