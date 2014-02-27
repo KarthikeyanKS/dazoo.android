@@ -141,7 +141,7 @@ public abstract class BaseFragment
 					break;
 				}
 				
-				case SUCCEEDED_WITH_EMPTY_DATA:
+				case SUCCESS_WITH_NO_CONTENT:
 				{
 					if (requestEmptyResponseLayout != null) 
 					{

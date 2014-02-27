@@ -187,7 +187,7 @@ public class FeedActivity
 		}
 		else
 		{
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_EMPTY_DATA);
+			updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
 		}
 	}
 

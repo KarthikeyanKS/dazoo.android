@@ -44,7 +44,9 @@ public enum FetchRequestResultEnum
    
    USER_SIGN_UP_FIRST_NAME_NOT_SUPLIED(1006, "First name not supplied"),
    
-   USER_SIGN_UP_EMAIL_NOT_FOUND(1007, "Email not found");
+   USER_SIGN_UP_EMAIL_NOT_FOUND(1007, "Email not found"), 
+   
+   USER_RESET_PASSWORD_UNKNOWN_ERROR(1008, "Error unknown, probably wrong email address entered"); // TODO NewArc Should we add specific error enums for reset password? Requires: support for this from backend.
 
 
    
