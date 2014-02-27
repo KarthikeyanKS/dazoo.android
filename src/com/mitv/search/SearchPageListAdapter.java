@@ -116,27 +116,6 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 			timeString = mContext.getString(R.string.search_no_upcoming_broadcasts);
 		}
 		
-		//Log.d("mmm", "timeString: "+timeString);
-		
-		//TODO REMOVE ME
-		if(TextUtils.isEmpty(timeString)) {
-			Log.e(TAG, "bad");
-			textColor = mContext.getResources().getColor(R.color.grey3);
-			if (closestBroadcastInTime != null) {
-				if (closestBroadcastInTime.isRunning()) {
-					timeString = mContext.getString(R.string.search_on_air_now);
-					textColor = mContext.getResources().getColor(R.color.red);
-				} else {
-					timeString = closestBroadcastInTime.getStartsInTimeString();
-				}
-			} else {
-				timeString = mContext.getString(R.string.search_no_upcoming_broadcasts);
-			}
-			
-		}//TODO remove above///////////////////////////////////////////////////////////////////////////////
-		
-		//timeString = "in 17 hours";
-		
 		viewHolder.mTime.setTextColor(textColor);
 		viewHolder.mTime.setText(timeString);
 	}
@@ -298,13 +277,16 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 				} else {
 					populateProgramView(holder, resultItem, program);
 				}
+				
 				holder.mTime.setVisibility(View.VISIBLE);
+				holder.mType.setVisibility(View.VISIBLE);
 				break;
 			}
 			case SERIES: {
 				Series series = (Series) resultItem.getEntity();
 				populateSeriesView(holder, resultItem, false, series, null);
 				holder.mTime.setVisibility(View.VISIBLE);
+				holder.mType.setVisibility(View.VISIBLE);
 				break;
 			}
 			case CHANNEL: {
@@ -312,6 +294,7 @@ public class SearchPageListAdapter extends ArrayAdapter<SearchResultItem> implem
 				populateChannelView(holder, channel);
 				break;
 			}
+
 			}
 		} else {
 			holder.mMetaDataContainer.setVisibility(View.GONE);
