@@ -477,7 +477,7 @@ public class ContentManager
 			}
 			case USER_RESET_PASSWORD_SEND_EMAIL: 
 			{
-				// TODO
+				handleResetPasswordSendEmailResponse(activityCallbackListener, requestIdentifier, result);
 				break;
 			}
 			case USER_RESET_PASSWORD_SEND_CONFIRM_PASSWORD: 
@@ -943,6 +943,16 @@ public class ContentManager
 	}
 
 	
+	public void handleResetPasswordSendEmailResponse(ActivityCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result) 
+	{
+		if(result.wasSuccessful()) {
+			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS_WITH_NO_CONTENT, requestIdentifier);
+		} else {
+			activityCallbackListener.onResult(FetchRequestResultEnum.USER_RESET_PASSWORD_UNKNOWN_ERROR, requestIdentifier);
+		}
+	}
+	
+	
 	public void handleUserTokenWithFacebookFBTokenResponse(ActivityCallbackListener activityCallBackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content)
 	{
 		if (result.wasSuccessful() && content != null) 
@@ -1032,8 +1042,7 @@ public class ContentManager
 		apiClient.removeUserLike(activityCallbackListener, likeType, contentId);
 	}
 	
-	
-	
+
 	/* USER METHODS REGARDING SIGNUP, LOGIN AND LOGOUT */
 	
 	public void performSignUp(ActivityCallbackListener activityCallbackListener, String email, String password, String firstname, String lastname) {
@@ -1046,6 +1055,10 @@ public class ContentManager
 
 	public void performLogout(ActivityCallbackListener activityCallbackListener) {
 		apiClient.performUserLogout(activityCallbackListener);
+	}
+	
+	public void performResetPassword(ActivityCallbackListener activityCallbackListener, String email) {
+		apiClient.performUserPasswordResetSendEmail(activityCallbackListener, email);
 	}
 	
 	public void getUserTokenWithFacebookFBToken(ActivityCallbackListener activityCallBackListener, String facebookToken) 

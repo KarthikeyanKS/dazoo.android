@@ -42,14 +42,6 @@ public class ResetPasswordFinalActivity
 	
 	
 	@Override
-	protected void onResume() 
-	{
-		super.onResume();
-	}
-
-	
-	
-	@Override
 	protected void loadData() 
 	{
 		// TODO NewArc - Do something here?
@@ -114,6 +106,9 @@ public class ResetPasswordFinalActivity
 	@Override
 	public void onClick(View v)
 	{
+		/* IMPORTANT always call super.onClick for subclasses of BaseActivity, else tabs wont work! */
+		super.onClick(v);
+		
 		switch (v.getId())
 		{
 			case R.id.resetpassword_already_login_btn:
