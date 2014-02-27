@@ -58,6 +58,8 @@ public class LoginWithMiTVUserActivity
 		isInvalidPassword = true;
 
 		initViews();
+		
+		clearErrorFields();
 	}
 	
 	
@@ -113,8 +115,7 @@ public class LoginWithMiTVUserActivity
 	{
 		super.updateUIBaseElements(status);
 
-		emailErrorTextView.setVisibility(View.INVISIBLE);
-		passwordErrorTextView.setVisibility(View.INVISIBLE);
+		clearErrorFields();
 		
 		switch (status)
 		{	
@@ -174,6 +175,14 @@ public class LoginWithMiTVUserActivity
 				break;
 			}
 		}
+	}
+	
+	
+	
+	private void clearErrorFields()
+	{
+		emailErrorTextView.setVisibility(View.INVISIBLE);
+		passwordErrorTextView.setVisibility(View.INVISIBLE);
 	}
 	
 	

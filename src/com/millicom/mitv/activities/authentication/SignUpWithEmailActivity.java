@@ -80,11 +80,6 @@ public class SignUpWithEmailActivity
 		initViews();
 		
 		clearErrorFields();
-		
-		firstNameEditText.setText("Filipe");
-		lastNameEditText.setText("");
-		emailEditText.setText("e1147528@drdrb.com");
-		passwordEditText.setText("Zxcvbnm00");
 	}
 	
 

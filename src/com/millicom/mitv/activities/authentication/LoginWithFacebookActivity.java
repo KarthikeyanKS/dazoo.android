@@ -160,17 +160,17 @@ public class LoginWithFacebookActivity
 
 				switch (statusCode) 
 				{
-				case AJAX_STATUS_ERROR_400:
-				case AJAX_STATUS_ERROR_401:
-				case AJAX_STATUS_ERROR_403:
-				{
-					return true;
-				}
-
-				default:
-				{
-					break;
-				}
+					case AJAX_STATUS_ERROR_400:
+					case AJAX_STATUS_ERROR_401:
+					case AJAX_STATUS_ERROR_403:
+					{
+						return true;
+					}
+	
+					default:
+					{
+						break;
+					}
 				}
 
 				return super.expired(cb, status);

@@ -112,7 +112,7 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 		activityStack.push(this);
 	}
 
-	private Activity getMostRecentTabActivity() {
+	public static Activity getMostRecentTabActivity() {
 		Activity mostRecentTabActivity = null;
 
 		/* Iterate through stack, start at top of stack */
