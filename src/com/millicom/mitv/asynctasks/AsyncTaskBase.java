@@ -159,6 +159,15 @@ public abstract class AsyncTaskBase<T>
 	
 	
 	
+	
+	@Override
+	protected void onPreExecute() {
+		super.onPreExecute();
+		Log.d(TAG, String.format("onPreExecute - Performing HTTP request: %s", requestIdentifier.getDescription()));
+	}
+
+
+
 	@Override
 	protected Void doInBackground(String... params) 
 	{
@@ -174,6 +183,7 @@ public abstract class AsyncTaskBase<T>
 		 * In the future, appropriate error response codes should be returned.
 		 * Avoid parsing the object in order not to cause an exception
 		 */
+		//TODO NewArc when support from Backend return appropriate error response
 		if(requestResultStatus == FetchRequestResultEnum.BAD_REQUEST)
 		{
 			return null;
@@ -187,6 +197,7 @@ public abstract class AsyncTaskBase<T>
 			{	
 				try
 				{
+					Log.d(TAG, String.format("doInBackground - Parsing JSON into model: %s (using GSON)", clazz.getName()));
 					requestResultObjectContent = gson.fromJson(responseString, clazz);
 				}
 				catch(JsonSyntaxException jsex)
@@ -215,6 +226,7 @@ public abstract class AsyncTaskBase<T>
 	@Override
 	protected void onPostExecute(Void result)
 	{
+		Log.d(TAG, String.format("onPostExecute - JSON parsing complete, notifying ContentManager"));
 		if(contentCallbackListener != null)
 		{
 			contentCallbackListener.onResult(activityCallBackListener, requestIdentifier, requestResultStatus, requestResultObjectContent);

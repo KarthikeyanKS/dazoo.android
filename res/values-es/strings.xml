@@ -173,6 +173,7 @@
     <string name="login_with_wrong_info">Algo se ve raro con la contraseña o tu correo electrónico</string>
     <string name="login_with_wrong_format_email">Algo se ve raro con la contraseña</string>
     <string name="login_with_wrong_format_password">Algo se ve raro con tu correo electrónico</string>
+    <string name="reset_password__email_does_not_exists">Este correo electronico no está registrado en el servicio</string>
     <!--
     string name="login_with_wrong_info">Algo se ve raro con la contraseña o tu correo electrónico.</string>
     <string name="login_with_wrong_format">Algo se ve raro con la contraseña o tu correo electrónico.</string

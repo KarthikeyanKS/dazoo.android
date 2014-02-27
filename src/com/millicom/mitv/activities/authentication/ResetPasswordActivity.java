@@ -100,7 +100,8 @@ public class ResetPasswordActivity extends BaseLoginActivity implements
 			break;
 		}
 		case FAILED: {
-			errorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_incorrect));
+			emailResetPasswordEditText.setEnabled(true);
+			errorTextView.setText(getResources().getString(R.string.reset_password__email_does_not_exists));
 			break;
 		}
 
