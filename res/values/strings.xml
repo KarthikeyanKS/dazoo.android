@@ -230,6 +230,7 @@
     <string name="sign_up_terms_info">By signing up, you agree to the</string>
     <string name="success_account_created_title">Hello, </string>
     <string name="success_account_created_text">Your account was created!</string>
+    <string name="reset_password__email_does_not_exists">This e-mail is not registered in our service</string>
 
     <!-- MY CHANNELS PAGE -->
     <string name="get_my_channels">Get My Channels</string>
