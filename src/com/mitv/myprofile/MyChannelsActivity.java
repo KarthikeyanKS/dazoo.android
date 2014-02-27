@@ -1,6 +1,7 @@
 package com.mitv.myprofile;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
@@ -137,6 +138,9 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 			for (int i = 0; i < mChannels.size(); i++) {
 				mChannelInfoMap.put(mChannels.get(i).getName().toLowerCase(Locale.getDefault()), mChannels.get(i));
 				mChannelInfoToDisplay.add(mChannels.get(i));
+			}
+			if (mChannelInfoToDisplay != null && mChannelInfoToDisplay.size() > 0) {
+				Collections.sort(mChannelInfoToDisplay, new Channel.ChannelComparatorByName());
 			}
 
 			mIsCheckedArray = new boolean[mAllChannelsIds.size()];
