@@ -116,7 +116,7 @@ public class LoginWithFacebookActivity
 			
 			case SUCCEEDED_WITH_DATA:
 			{
-				Intent intent = new Intent(LoginWithFacebookActivity.this, getReturnActivity());
+				Intent intent = new Intent(LoginWithFacebookActivity.this, getMostRecentTabActivity().getClass());
 
 				intent.putExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
 
@@ -135,7 +135,7 @@ public class LoginWithFacebookActivity
 				
 				ToastHelper.createAndShowLikeToast(this, message);
 				
-				Intent intent = new Intent(LoginWithFacebookActivity.this, getReturnActivity());
+				Intent intent = new Intent(LoginWithFacebookActivity.this, getMostRecentTabActivity().getClass());
 
 				startActivity(intent);
 				

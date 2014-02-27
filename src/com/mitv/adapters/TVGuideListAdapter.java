@@ -104,11 +104,14 @@ public class TVGuideListAdapter extends AdListAdapter<TVChannelGuide> {
 
 		final TVChannelGuide guide = getItem(position);
 
-		if (guide.getImageUrl() != null) {
+		if (guide.getImageUrl() != null) 
+		{
 			ImageAware imageAware = new ImageViewAware(holder.channelLogo, false);
 
 			ImageLoader.getInstance().displayImage(guide.getImageUrl(), imageAware);
-		} else {
+		} 
+		else 
+		{
 			holder.channelLogo.setImageResource(R.color.white);
 		}
 

@@ -9,7 +9,8 @@ import android.util.DisplayMetrics;
 
 
 
-public class ImageSetSizeJSON {
+public class ImageSetSizeJSON 
+{
 	@SuppressWarnings("unused")
 	private static final String TAG = ImageSetSizeJSON.class.getName();
 	
@@ -17,7 +18,7 @@ public class ImageSetSizeJSON {
 	protected String medium;
 	protected String large;	
 	
-	
+		
 	public ImageSetSizeJSON(
 			String small,
 			String medium,

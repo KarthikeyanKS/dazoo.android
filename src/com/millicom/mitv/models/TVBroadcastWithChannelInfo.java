@@ -6,7 +6,9 @@ package com.millicom.mitv.models;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import com.millicom.mitv.enums.BroadcastTypeEnum;
 import com.millicom.mitv.models.gson.TVBroadcastWithChannelInfoJSON;
+import com.mitv.model.NotificationDbItem;
 
 
 
@@ -20,13 +22,36 @@ public class TVBroadcastWithChannelInfo
 	public TVBroadcastWithChannelInfo(TVBroadcast broadcast)
 	{
 		this.program = broadcast.getProgram();
+		
 		this.beginTimeMillis = broadcast.getBeginTimeMillis();
+		
+		this.broadcastType = broadcast.getBroadcastType();
+		
 		this.beginTime = broadcast.getBeginTime();
 		this.endTime = broadcast.getEndTime();
-		this.broadcastType = broadcast.getBroadcastType();
-		this.shareUrl = broadcast.getShareUrl();
+		
 		this.beginTimeCalendarGMT = broadcast.getBeginTimeCalendarGMT();
 		this.endTimeCalendarGMT = broadcast.getEndTimeCalendarGMT();
+		
+		this.shareUrl = broadcast.getShareUrl();
+	}
+	
+	
+	
+	public TVBroadcastWithChannelInfo(NotificationDbItem item)
+	{
+		TVChannel tvChannel = new TVChannel(item);
+		this.channel = tvChannel;
+		
+		TVProgram tvProgram = new TVProgram(item);
+		this.program = tvProgram;
+		
+		String broadcastTypeAsString = item.getBroadcastType();
+		
+		this.broadcastType = BroadcastTypeEnum.getBroadcastTypeEnumFromStringRepresentation(broadcastTypeAsString);
+		this.beginTime = item.getBroadcastBeginTime();
+		this.endTime = item.getBroadcastEndTime();
+		this.shareUrl = item.getShareUrl();
 	}
 	
 	

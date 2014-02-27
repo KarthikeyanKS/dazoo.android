@@ -140,7 +140,7 @@ public class LoginWithMiTVUserActivity
 			{
 				enableFields();
 				
-				Intent intent = new Intent(LoginWithMiTVUserActivity.this, getReturnActivity());
+				Intent intent = new Intent(LoginWithMiTVUserActivity.this, getMostRecentTabActivity().getClass());
 
 				intent.putExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
 
@@ -260,6 +260,7 @@ public class LoginWithMiTVUserActivity
 			{
 				Intent intent = new Intent(LoginWithMiTVUserActivity.this, LoginWithFacebookActivity.class);
 				startActivity(intent);
+				finish();
 				break;
 			}
 			

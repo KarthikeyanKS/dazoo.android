@@ -159,7 +159,6 @@
                         android:layout_toRightOf="@id/myprofile_avatar_iv"
                         android:gravity="center_vertical"
                         android:maxLines="1"
-                        android:text="Johan Goras"
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         font:fonttextview="roboto_mitv_bold.ttf" />

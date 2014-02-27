@@ -27,19 +27,17 @@ import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.customviews.FontTextView;
 import com.mitv.notification.NotificationDataSource;
-import com.mitv.storage.MiTVStore;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 
 
-public class MyProfileActivity 
+public class UserProfileActivity 
 	extends BaseContentActivity 
 	implements ActivityWithTabs, OnClickListener 
 {
-	@SuppressWarnings("unused")
-	private static final String TAG = MyProfileActivity.class.getName();
+	private static final String TAG = UserProfileActivity.class.getName();
 
 	
 	private RelativeLayout aboutContainer;
@@ -80,9 +78,18 @@ public class MyProfileActivity
 	@Override
 	protected void loadData() 
 	{
-		updateUI(UIStatusEnum.LOADING);
+		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 		
-		ContentManager.sharedInstance().getElseFetchFromServiceMyProfileData(this, false);
+		if(isLoggedIn)
+		{
+			updateUI(UIStatusEnum.LOADING);
+			
+			ContentManager.sharedInstance().getElseFetchFromServiceUserLikes(this, false);
+		}
+		else
+		{
+			updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
+		}
 	}
 
 	
@@ -92,8 +99,29 @@ public class MyProfileActivity
 	{
 		if (fetchRequestResult.wasSuccessful()) 
 		{
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
-		} 
+			switch(requestIdentifier)
+			{
+				case USER_LIKES:
+				{
+					updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+					break;
+				}
+				
+				case TV_GUIDE:
+				{
+					Intent intent = new Intent(UserProfileActivity.this, HomeActivity.class);
+					intent.putExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT, true);
+					startActivity(intent);
+					break;
+				}
+				
+				default:
+				{
+					Log.w(TAG, "Unknown request identifier");
+					break;
+				}
+			}	
+		}
 		else
 		{
 			updateUI(UIStatusEnum.FAILED);
@@ -115,6 +143,7 @@ public class MyProfileActivity
 				break;
 			}
 			
+			case SUCCESS_WITH_NO_CONTENT:
 			case SUCCEEDED_WITH_DATA:
 			{
 				boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
@@ -266,9 +295,7 @@ public class MyProfileActivity
 		{
 			case R.id.myprofile_likes_container: 
 			{
-				Intent intent = new Intent(MyProfileActivity.this, LikesActivity.class);
-				
-				intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, this.getClass().getName());
+				Intent intent = new Intent(UserProfileActivity.this, LikesActivity.class);
 				
 				startActivityForResult(intent, 0);
 	
@@ -276,19 +303,15 @@ public class MyProfileActivity
 			}
 			case R.id.myprofile_channels_container: 
 			{
-				Intent intent = new Intent(MyProfileActivity.this, MyChannelsActivity.class);
-				
-				intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, this.getClass().getName());
-				
+				Intent intent = new Intent(UserProfileActivity.this, MyChannelsActivity.class);
+
 				startActivityForResult(intent, 2);
 	
 				break;
 			}
 			case R.id.myprofile_reminders_container:
 			{
-				Intent intent = new Intent(MyProfileActivity.this, RemindersActivity.class);
-				
-				intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, this.getClass().getName());
+				Intent intent = new Intent(UserProfileActivity.this, RemindersActivity.class);
 				
 				startActivityForResult(intent, 1);
 	
@@ -297,9 +320,7 @@ public class MyProfileActivity
 	
 			case R.id.myprofile_login_container: 
 			{
-				Intent intent = new Intent(MyProfileActivity.this, LoginWithMiTVUserActivity.class);
-				
-				intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, this.getClass().getName());
+				Intent intent = new Intent(UserProfileActivity.this, LoginWithMiTVUserActivity.class);
 				
 				startActivity(intent);
 	
@@ -308,9 +329,7 @@ public class MyProfileActivity
 	
 			case R.id.myprofile_terms_of_use_container:
 			{
-				Intent intent = new Intent(MyProfileActivity.this, TermsActivity.class);
-				
-				intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, this.getClass().getName());
+				Intent intent = new Intent(UserProfileActivity.this, TermsActivity.class);
 				
 				startActivity(intent);
 	
@@ -319,9 +338,7 @@ public class MyProfileActivity
 	
 			case R.id.myprofile_about_us_container: 
 			{
-				Intent intent = new Intent(MyProfileActivity.this, AboutUsActivity.class);
-				
-				intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, this.getClass().getName());
+				Intent intent = new Intent(UserProfileActivity.this, AboutUsActivity.class);
 				
 				startActivity(intent);
 	
@@ -330,9 +347,7 @@ public class MyProfileActivity
 	
 			case R.id.myprofile_signup_container: 
 			{
-				Intent intent = new Intent(MyProfileActivity.this, SignUpSelectionActivity.class);
-				
-				intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, this.getClass().getName());
+				Intent intent = new Intent(UserProfileActivity.this, SignUpSelectionActivity.class);
 				
 				startActivity(intent);
 	
@@ -343,8 +358,6 @@ public class MyProfileActivity
 			{
 				ContentManager.sharedInstance().performLogout(this);
 	
-				startActivity(new Intent(MyProfileActivity.this, HomeActivity.class));
-				
 				break;
 			}
 		}

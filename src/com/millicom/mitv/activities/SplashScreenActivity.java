@@ -70,11 +70,11 @@ public class SplashScreenActivity
 
 	
 	
-	private void checkForUpdates() 
-	{
-		// Remove this for store builds!
-		UpdateManager.register(this, Consts.HOCKEY_APP_TOKEN);
-	}
+//	private void checkForUpdates() 
+//	{
+//		// Remove this for store builds!
+//		UpdateManager.register(this, Consts.HOCKEY_APP_TOKEN);
+//	}
 
 	
 	

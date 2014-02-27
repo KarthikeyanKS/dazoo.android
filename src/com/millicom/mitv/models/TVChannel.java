@@ -4,12 +4,25 @@ package com.millicom.mitv.models;
 
 
 import com.millicom.mitv.models.gson.TVChannelJSON;
+import com.mitv.model.NotificationDbItem;
 
 
 
 public class TVChannel
 	extends TVChannelJSON
 {
+	public TVChannel()
+	{}
+	
+	
+	public TVChannel(NotificationDbItem item)
+	{
+		this.channelId = item.getChannelId();
+		this.name = item.getChannelName();
+		this.logo = new ImageSetSize(item);
+	}
+	
+	
 	public void setChannelId(String channelId) 
 	{
 		this.channelId = channelId;

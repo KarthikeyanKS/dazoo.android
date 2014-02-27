@@ -184,7 +184,7 @@ public class SignUpWithEmailActivity
 			{
 				enableFields();
 				
-				Intent intent = new Intent(SignUpWithEmailActivity.this, getReturnActivity());
+				Intent intent = new Intent(SignUpWithEmailActivity.this, getMostRecentTabActivity().getClass());
 
 				intent.putExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
 

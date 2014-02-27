@@ -29,7 +29,6 @@ import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
-import com.millicom.mitv.models.TVProgram;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.model.NotificationDbItem;
@@ -98,73 +97,8 @@ public class NotificationService
 
 		NotificationDataSource notificationDataSource = new NotificationDataSource(context);
 
-		NotificationDbItem dbNotification = new NotificationDbItem();
+		NotificationDbItem dbNotification = new NotificationDbItem(notificationId, broadcast);
 		
-		dbNotification.setNotificationId(notificationId);
-		dbNotification.setBroadcstUrl(Consts.URL_NOTIFY_BROADCAST_PREFIX + broadcast.getChannel().getChannelId() + Consts.NOTIFY_BROADCAST_URL_MIDDLE + broadcast.getBeginTimeMillis());
-		dbNotification.setProgramId(broadcast.getProgram().getProgramId());
-
-		TVProgram program = broadcast.getProgram();
-		
-		String titleString = null;
-
-		if(program.getSeries() != null)
-		{
-			titleString = program.getSeries().getName();
-		} 
-		else 
-		{
-			titleString = program.getTitle();
-		}
-
-		dbNotification.setProgramTitle(titleString);
-
-		ProgramTypeEnum programType = broadcast.getProgram().getProgramType();
-
-		switch (programType)
-		{
-			case MOVIE:
-			{
-				dbNotification.setProgramType(programType.toString());
-				dbNotification.setProgramYear(broadcast.getProgram().getYear());
-				dbNotification.setProgramGenre(broadcast.getProgram().getGenre());
-				break;
-			}
-			
-			case TV_EPISODE:
-			{
-				dbNotification.setProgramType(programType.toString());
-				dbNotification.setProgramSeason(broadcast.getProgram().getSeason().getNumber().toString());
-				dbNotification.setProgramEpisodeNumber(broadcast.getProgram().getEpisodeNumber());
-				break;
-			}
-			
-			case SPORT:
-			{
-				dbNotification.setProgramType(programType.toString());
-				dbNotification.setProgramCategory(broadcast.getProgram().getSportType().getName()); //Use category for sport type name 
-				dbNotification.setProgramGenre(broadcast.getProgram().getTournament()); //And genre for tournament name
-				break;
-			}
-			
-			case OTHER:
-			{
-				dbNotification.setProgramType(programType.toString());
-				dbNotification.setProgramCategory(broadcast.getProgram().getCategory());
-				break;
-			}
-
-			case UNKNOWN:
-			default:
-				// TODO - Do something?
-				break;
-		}
-		
-		dbNotification.setChannelName(broadcast.getChannel().getName());
-		dbNotification.setChannelId(broadcast.getChannel().getChannelId().getChannelId());
-		dbNotification.setChannelLogoUrl(broadcast.getChannel().getImageUrl());
-		dbNotification.setBroadcastBeginTimeMillisGmtAsString(String.valueOf(broadcast.getBeginTimeMillis()));
-
 		notificationDataSource.addNotification(dbNotification);
 	}
 

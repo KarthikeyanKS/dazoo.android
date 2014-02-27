@@ -21,12 +21,10 @@ import android.widget.RelativeLayout;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.millicom.mitv.ContentManager;
-import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.activities.FeedActivity;
 import com.millicom.mitv.activities.HomeActivity;
-import com.millicom.mitv.activities.MyProfileActivity;
 import com.millicom.mitv.activities.SearchPageActivity;
-import com.millicom.mitv.activities.authentication.LoginWithFacebookActivity;
+import com.millicom.mitv.activities.UserProfileActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.TabSelectedEnum;
@@ -58,11 +56,12 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 	private View requestBadLayout;
 	protected ActionBar actionBar;
 
-	private Class<?> returnActivity;
-
 	private TabSelectedEnum tabSelectedEnum = TabSelectedEnum.NOT_SET;
 
 	private boolean userHasJustLoggedIn;
+	private boolean userHasJustLoggedOut;
+	
+	
 
 	/* Abstract Methods */
 
@@ -93,45 +92,6 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 		String className = this.getClass().getName();
 		GATrackingManager.sendView(className);
 
-
-		Intent intent = getIntent();
-		
-		/* Log in states */
-		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
-		if (isLoggedIn) {
-
-			if (intent.hasExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN)) {
-				userHasJustLoggedIn = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, false);
-
-				intent.removeExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN);
-			} else {
-				userHasJustLoggedIn = false;
-			}
-		} else {
-			userHasJustLoggedIn = false;
-		}
-		
-		/* If return activity was specified set it! */
-		if (intent.hasExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME)) 
-		{
-			String returnActivityClassName = intent.getExtras().getString(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME);
-			
-			try 
-			{
-				returnActivity = Class.forName(returnActivityClassName);
-			} 
-			catch (ClassNotFoundException cnfex) 
-			{
-				Log.e(TAG, cnfex.getMessage(), cnfex);
-				
-				returnActivity = HomeActivity.class;
-			}
-		}
-		else
-		{
-			returnActivity = HomeActivity.class;
-		}
-
 		/* IMPORTANT add activity to activity stack */
 		activityStack.push(this);
 	}
@@ -144,7 +104,7 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 			Activity activityInStack = activityStack.get(i);
 
 			/* Check if activityInStack is any of the three TabActivities */
-			if (activityInStack instanceof HomeActivity || activityInStack instanceof FeedActivity || activityInStack instanceof MyProfileActivity) {
+			if (activityInStack instanceof HomeActivity || activityInStack instanceof FeedActivity || activityInStack instanceof UserProfileActivity) {
 				mostRecentTabActivity = activityInStack;
 				break;
 			}
@@ -152,11 +112,9 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 
 		return mostRecentTabActivity;
 	}
+	
 
-	public Class<?> getReturnActivity() {
-		return returnActivity;
-	}
-
+	
 	public void initTabViews() {
 
 		Activity mostRecentTabActivity = getMostRecentTabActivity();
@@ -217,7 +175,7 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 				tabSelectedWasTVGuide();
 			} else if (mostRecentTabActivity instanceof FeedActivity) {
 				tabSelectedWasActivityFeed();
-			} else if (mostRecentTabActivity instanceof MyProfileActivity) {
+			} else if (mostRecentTabActivity instanceof UserProfileActivity) {
 				tabSelectedWasMyProfile();
 			}
 		}
@@ -289,9 +247,9 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 		}
 
 		case R.id.tab_me: {
-			if (!(this instanceof MyProfileActivity)) {
+			if (!(this instanceof UserProfileActivity)) {
 				tabSelectedEnum = TabSelectedEnum.MY_PROFILE;
-				Intent intentMe = new Intent(this, MyProfileActivity.class);
+				Intent intentMe = new Intent(this, UserProfileActivity.class);
 				startActivity(intentMe);
 			}
 			break;
@@ -317,22 +275,65 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 	}
 
 	@Override
-	protected void onResume() {
+	protected void onResume() 
+	{
 		super.onResume();
 
 		initCallbackLayouts();
 
 		initTabViews();
 
+		Intent intent = getIntent();
+		
+		/* Log in states */
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+		
+		if (isLoggedIn) {
 
-		if (isLoggedIn && userHasJustLoggedIn) {
+			if (intent.hasExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN)) {
+				userHasJustLoggedIn = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, false);
+
+				intent.removeExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN);
+			} else {
+				userHasJustLoggedIn = false;
+			}
+		}
+		else 
+		{
+			userHasJustLoggedIn = false;
+			
+			if (intent.hasExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT)) 
+			{
+				userHasJustLoggedOut = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT, false);
+
+				intent.removeExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT);
+			} 
+			else 
+			{
+				userHasJustLoggedOut = false;
+			}
+			
+		}
+		
+		if (isLoggedIn && userHasJustLoggedIn) 
+		{
 			StringBuilder sb = new StringBuilder();
 			sb.append(getResources().getString(R.string.hello));
 			sb.append(" ");
 			sb.append(ContentManager.sharedInstance().getFromStorageUserFirstname());
 
 			ToastHelper.createAndShowToast(this, sb.toString());
+		}
+		else
+		{
+			if(userHasJustLoggedOut)
+			{
+				StringBuilder sb = new StringBuilder();
+				// TODO - Hardcoded string
+				sb.append("logout");
+
+				ToastHelper.createAndShowToast(this, sb.toString());
+			}
 		}
 	}
 

@@ -273,19 +273,6 @@ public class ContentManager
 	}
 	
 	
-	public void getElseFetchFromServiceMyProfileData(ActivityCallbackListener activityCallbackListener, boolean forceDownload)
-	{
-		if (!forceDownload && storage.containsTVChannelIdsUser() && storage.containsUserLikes()) 
-		{
-			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.USER_MY_PROFILE_DATA);
-		}
-		else
-		{
-			apiClient.getUserTVChannelIds(activityCallbackListener);
-			apiClient.getUserLikes(activityCallbackListener, false);
-		}
-	}
-	
 	
 	public void getElseFetchFromServiceTaggedBroadcastsForSelectedTVDate(ActivityCallbackListener activityCallbackListener, boolean forceDownload)
 	{
@@ -331,7 +318,7 @@ public class ContentManager
 	
 	public void getElseFetchFromServiceUserLikes(ActivityCallbackListener activityCallbackListener, boolean forceDownload) 
 	{
-		if (!forceDownload && storage.containsUserLikes()) 
+		if (!forceDownload && storage.containsUserLikes())
 		{
 			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.USER_LIKES);
 		} 
@@ -905,6 +892,8 @@ public class ContentManager
 			@SuppressWarnings("unchecked")
 			ArrayList<UserLike> userLikes = (ArrayList<UserLike>) content;
 			storage.setUserLikes(userLikes);
+			
+			activityCallbackListener.onResult(result, requestIdentifier);
 		}
 		else 
 		{
