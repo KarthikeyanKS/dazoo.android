@@ -934,7 +934,7 @@ public class ContentManager
 		if (result.wasSuccessful()) 
 		{
 			// TODO NewArc - Implement this
-			UserLike userLike = new UserLike(LikeTypeResponseEnum.PROGRAM, "");
+			UserLike userLike = new UserLike("", LikeTypeResponseEnum.PROGRAM, "");
 			
 			cache.removeUserLike(userLike);
 		} 
@@ -1352,6 +1352,13 @@ public class ContentManager
 		ArrayList<UserLike> userLikes = cache.getUserLikes();
 		return userLikes;
 	}
+	
+	
+	public boolean isContainedInUserLikes(UserLike userLike)
+	{
+		return cache.isInUserLikes(userLike);
+	}
+	
 	
 	// TODO NewArc remove this?
 	public TVChannel getFromCacheTVChannelById(String channelId)

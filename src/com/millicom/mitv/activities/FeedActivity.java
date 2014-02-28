@@ -157,7 +157,7 @@ public class FeedActivity
 
 				default:
 				{
-					// TODO NewArc - Do something here?
+					Log.w(TAG, "Unhandled item type.");
 					break;
 				}
 			}
@@ -197,43 +197,7 @@ public class FeedActivity
 	protected void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
 		switch (requestIdentifier) 
-		{
-			case USER_ADD_LIKE:
-			{
-				if(fetchRequestResult.wasSuccessful())
-				{
-					// TODO NewArc - Complete likes
-//					StringBuilder sb = new StringBuilder();
-//					sb.append("");
-//					sb.append(getResources().getString(R.string.like_set_text));
-//					
-//					ToastHelper.createAndShowLikeToast(this, sb.toString());
-					
-//					holderBC.likeLikeIv.setImageDrawable(getResources().getDrawable(R.drawable.ic_like_selected));
-//				
-//					AnimationUtilities.animationSet(holderBC.likeLikeIv);
-				}
-				else
-				{
-					// Ignore for now
-				}
-				break;
-			}
-			
-			case USER_REMOVE_LIKE:
-			{
-				if(fetchRequestResult.wasSuccessful())
-				{
-					// TODO NewArc - Complete unlikes
-//					holderBC.likeLikeIv.setImageDrawable(getResources().getDrawable(R.drawable.ic_like_default));
-				}
-				else
-				{
-					// Ignore for now
-				}
-				break;
-			}
-			
+		{			
 			case USER_ACTIVITY_FEED_ITEM:
 			{
 				if(fetchRequestResult.wasSuccessful())

@@ -5,6 +5,7 @@ package com.mitv.adapters;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -19,18 +20,22 @@ import android.widget.TextView;
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.activities.PopularPageActivity;
-import com.millicom.mitv.activities.base.BaseActivity;
 import com.millicom.mitv.enums.ActivityFeedAdapterTypeEnum;
 import com.millicom.mitv.enums.FeedItemTypeEnum;
+import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.LikeTypeRequestEnum;
+import com.millicom.mitv.enums.LikeTypeResponseEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
+import com.millicom.mitv.enums.RequestIdentifierEnum;
+import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVFeedItem;
 import com.millicom.mitv.models.TVProgram;
+import com.millicom.mitv.models.UserLike;
+import com.millicom.mitv.utilities.ToastHelper;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.customviews.ReminderView;
-import com.mitv.storage.MiTVStore;
 import com.mitv.utilities.ProgressBarUtils;
 import com.mitv.utilities.ShareUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -41,21 +46,18 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 public class FeedListAdapter 
 	extends AdListAdapter<TVFeedItem>
+	implements ActivityCallbackListener
 {
 	private static final String	TAG	= FeedListAdapter.class.getName();
 
-	
-	private BaseActivity baseActivity;
 	private ArrayList<TVFeedItem> feedItems;
 	private LayoutInflater layoutInflater;
-
 	
 	
-	public FeedListAdapter(BaseActivity activity, ArrayList<TVFeedItem> feedItems) 
+	
+	public FeedListAdapter(Activity activity, ArrayList<TVFeedItem> feedItems) 
 	{
 		super(Consts.JSON_AND_FRAGMENT_KEY_ACTIVITY, activity, feedItems);
-		
-		this.baseActivity = activity;
 		
 		this.feedItems = feedItems;
 
@@ -137,6 +139,53 @@ public class FeedListAdapter
 		}
 
 		return rowView;
+	}
+	
+	
+	
+	@Override
+	public void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
+	{
+		switch (requestIdentifier) 
+		{
+			case USER_ADD_LIKE:
+			{
+				if(fetchRequestResult.wasSuccessful())
+				{
+					StringBuilder sb = new StringBuilder();
+					// TODO - Hardcoded string
+					sb.append("The show");
+					sb.append(activity.getResources().getString(R.string.like_set_text));
+					
+					ToastHelper.createAndShowLikeToast(activity, sb.toString());
+					
+					notifyDataSetChanged();
+				}
+				else
+				{
+					Log.e(TAG, "Failed to add user like.");
+				}
+				break;
+			}
+			
+			case USER_REMOVE_LIKE:
+			{
+				if(fetchRequestResult.wasSuccessful())
+				{
+					notifyDataSetChanged();
+				}
+				else
+				{
+					Log.e(TAG, "Failed to remove user like.");
+				}
+				break;
+			}
+					
+			default:
+			{
+				Log.w(TAG, "Unknown request identifier");
+			}
+		}
 	}
 
 	
@@ -241,7 +290,7 @@ public class FeedListAdapter
 						
 						if(season.intValue() != 0)
 						{
-							seasonEpisode.append(baseActivity.getResources().getString(R.string.season));
+							seasonEpisode.append(activity.getResources().getString(R.string.season));
 							seasonEpisode.append(" ");
 							seasonEpisode.append(season);
 							seasonEpisode.append(" ");
@@ -249,7 +298,7 @@ public class FeedListAdapter
 						
 						if(episode > 0)
 						{
-							seasonEpisode.append(baseActivity.getResources().getString(R.string.episode));
+							seasonEpisode.append(activity.getResources().getString(R.string.episode));
 							seasonEpisode.append(" ");
 							seasonEpisode.append(episode);
 						}
@@ -303,7 +352,7 @@ public class FeedListAdapter
 
 				if (broadcast.isBroadcastCurrentlyAiring()) 
 				{
-					ProgressBarUtils.setupProgressBar(baseActivity, broadcast, progressBar, progressTextView);
+					ProgressBarUtils.setupProgressBar(activity, broadcast, progressBar, progressTextView);
 				} 
 
 				containerLayout.setOnClickListener(new View.OnClickListener() 
@@ -372,7 +421,7 @@ public class FeedListAdapter
 
 		if (rowView == null) 
 		{
-			rowView = LayoutInflater.from(baseActivity).inflate(R.layout.no_data, null);
+			rowView = LayoutInflater.from(activity).inflate(R.layout.no_data, null);
 		}
 		
 		return rowView;
@@ -423,13 +472,18 @@ public class FeedListAdapter
 
 			final ProgramTypeEnum programType = program.getProgramType();
 			
-			final boolean isLikedByUser;
+			
+			String title;
+			LikeTypeResponseEnum likeType;
+			String contentId;
 			
 			switch (programType) 
 			{
 				case TV_EPISODE:
 				{
-					isLikedByUser = MiTVStore.getInstance().isInTheLikesList(program.getSeries().getSeriesId());
+					title = program.getSeries().getName();
+					likeType = LikeTypeResponseEnum.SERIES;
+					contentId = program.getSeries().getSeriesId();
 					
 					Integer season = program.getSeason().getNumber();;
 					int episode = program.getEpisodeNumber();
@@ -438,7 +492,7 @@ public class FeedListAdapter
 
 					if(season.intValue() != 0)
 					{
-						seasonEpisode.append(baseActivity.getResources().getString(R.string.season));
+						seasonEpisode.append(activity.getResources().getString(R.string.season));
 						seasonEpisode.append(" ");
 						seasonEpisode.append(season);
 						seasonEpisode.append(" ");
@@ -446,7 +500,7 @@ public class FeedListAdapter
 					
 					if(episode > 0)
 					{
-						seasonEpisode.append(baseActivity.getResources().getString(R.string.episode));
+						seasonEpisode.append(activity.getResources().getString(R.string.episode));
 						seasonEpisode.append(" ");
 						seasonEpisode.append(episode);
 					}
@@ -463,7 +517,9 @@ public class FeedListAdapter
 				
 				case SPORT:
 				{
-					isLikedByUser = MiTVStore.getInstance().isInTheLikesList(program.getSportType().getSportTypeId());
+					title = program.getSportType().getName();
+					likeType = LikeTypeResponseEnum.SPORT_TYPE;
+					contentId = program.getSportType().getSportTypeId();
 					
 					StringBuilder detailsSB = new StringBuilder();
 					detailsSB.append(program.getSportType().getName());
@@ -474,18 +530,11 @@ public class FeedListAdapter
 					break;
 				}
 				
-				case OTHER:
-				{
-					isLikedByUser = MiTVStore.getInstance().isInTheLikesList(program.getProgramId());
-					
-					holderBC.titleTv.setText(program.getTitle());
-					holderBC.detailsTv.setText(program.getCategory());
-					break;
-				}
-				
 				case MOVIE:
 				{
-					isLikedByUser = MiTVStore.getInstance().isInTheLikesList(program.getProgramId());
+					title = program.getTitle();
+					likeType = LikeTypeResponseEnum.PROGRAM;
+					contentId = program.getProgramId();
 					
 					StringBuilder detailsSB = new StringBuilder();
 					detailsSB.append(program.getGenre());
@@ -497,15 +546,32 @@ public class FeedListAdapter
 					break;
 				}
 				
+				case OTHER:
+				{
+					title = program.getTitle();
+					likeType = LikeTypeResponseEnum.PROGRAM;
+					contentId = program.getProgramId();
+					
+					holderBC.titleTv.setText(program.getTitle());
+					holderBC.detailsTv.setText(program.getCategory());
+					break;
+				}
+				
 				case UNKNOWN:
 				default:
 				{
-					isLikedByUser = false;
+					title = program.getTitle();
+					likeType = LikeTypeResponseEnum.PROGRAM;
+					contentId = program.getProgramId();
 					
 					Log.w(TAG, "Unknown program type.");
 					break;
 				}
 			}
+			
+			UserLike userLikeToVerify = new UserLike(title, likeType, contentId);
+			
+			final boolean isLikedByUser = ContentManager.sharedInstance().isContainedInUserLikes(userLikeToVerify);
 			
 			FeedItemTypeEnum feedItemType = feedItem.getItemType();
 			
@@ -513,7 +579,7 @@ public class FeedListAdapter
 			{
 				case POPULAR_TWITTER:
 				{
-					holderBC.headerTv.setText(baseActivity.getResources().getString(R.string.icon_twitter) + " " + feedItem.getTitle());
+					holderBC.headerTv.setText(activity.getResources().getString(R.string.icon_twitter) + " " + feedItem.getTitle());
 					break;
 				}
 				
@@ -532,7 +598,7 @@ public class FeedListAdapter
 
 			if(broadcast.isBroadcastCurrentlyAiring()) 
 			{
-				ProgressBarUtils.setupProgressBar(baseActivity, broadcast, holderBC.progressBar, holderBC.progressbarTv);
+				ProgressBarUtils.setupProgressBar(activity, broadcast, holderBC.progressBar, holderBC.progressbarTv);
 			}
 			else
 			{
@@ -542,11 +608,11 @@ public class FeedListAdapter
 
 			if (isLikedByUser)
 			{
-				holderBC.likeLikeIv.setImageDrawable(baseActivity.getResources().getDrawable(R.drawable.ic_like_selected));
+				holderBC.likeLikeIv.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_like_selected));
 			}
 			else
 			{
-				holderBC.likeLikeIv.setImageDrawable(baseActivity.getResources().getDrawable(R.drawable.ic_like_default));
+				holderBC.likeLikeIv.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_like_default));
 			}
 			
 			holderBC.container.setOnClickListener(new View.OnClickListener() 
@@ -573,10 +639,10 @@ public class FeedListAdapter
 				public void onClick(View v)
 				{
 					ShareUtils.startShareActivity(
-							baseActivity, 
-							baseActivity.getResources().getString(R.string.app_name), 
+							activity, 
+							activity.getResources().getString(R.string.app_name), 
 							broadcast.getShareUrl(),
-							baseActivity.getResources().getString(R.string.share_action_title));
+							activity.getResources().getString(R.string.share_action_title));
 				}
 			});
 		}
@@ -645,9 +711,9 @@ public class FeedListAdapter
 			@Override
 			public void onClick(View v) 
 			{
-				Intent intent = new Intent(baseActivity, PopularPageActivity.class);
+				Intent intent = new Intent(activity, PopularPageActivity.class);
 				
-				baseActivity.startActivity(intent);
+				activity.startActivity(intent);
 			}
 		});
 
@@ -700,11 +766,11 @@ public class FeedListAdapter
 
 		if (isCurrentlyLikedByUser)
 		{
-			ContentManager.sharedInstance().removeUserLike(baseActivity, likeType, contentId);
+			ContentManager.sharedInstance().removeUserLike(this, likeType, contentId);
 		} 
 		else 
 		{
-			ContentManager.sharedInstance().addUserLike(baseActivity, likeType, contentId);
+			ContentManager.sharedInstance().addUserLike(this, likeType, contentId);
 		}
 	}
 	
@@ -712,8 +778,8 @@ public class FeedListAdapter
 	private void popularBroadcastClicked(TVBroadcastWithChannelInfo broadcastWithChannelInfo) 
 	{
 		ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
-		Intent intent = new Intent(baseActivity, BroadcastPageActivity.class);
-		baseActivity.startActivity(intent);
+		Intent intent = new Intent(activity, BroadcastPageActivity.class);
+		activity.startActivity(intent);
 	}
 	
 

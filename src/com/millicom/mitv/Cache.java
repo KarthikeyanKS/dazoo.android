@@ -284,11 +284,13 @@ public class Cache
 		this.userData = userData;
 	} 
 	
-	public ArrayList<UserLike> getUserLikes() {
+	public ArrayList<UserLike> getUserLikes() 
+	{
 		return userLikes;
 	}
 
-	public void setUserLikes(ArrayList<UserLike> userLikes) {
+	public void setUserLikes(ArrayList<UserLike> userLikes) 
+	{
 		this.userLikes = userLikes;
 	}
 	
@@ -318,6 +320,30 @@ public class Cache
 			this.userLikes.remove(indexToRemove);
 		}
 	}
+	
+	
+	
+	public boolean isInUserLikes(UserLike userLikeToCheck) 
+	{
+		boolean isContained = false;
+		
+		for(int i=0; i<userLikes.size(); i++)
+		{
+			UserLike userLike = userLikes.get(i);
+			
+			boolean isEqual = userLike.isEqual(userLikeToCheck);
+			
+			if(isEqual)
+			{
+				isContained = true;
+				break;
+			}
+		}
+		
+		return isContained;
+	}
+	
+	
 	
 	public HashMap<String, SparseArray<AdAdzerkJSON>> getFragmentToAdsMap() {
 		return fragmentToAdsMap;

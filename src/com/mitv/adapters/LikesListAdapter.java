@@ -1,9 +1,11 @@
+
 package com.mitv.adapters;
+
+
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
@@ -20,54 +22,82 @@ import com.mitv.R;
 import com.mitv.interfaces.LikesCountInterface;
 import com.mitv.storage.MiTVStore;
 
-@SuppressLint("DefaultLocale")
+
+
 public class LikesListAdapter 
 	extends BaseAdapter
 {
-	private static final String		TAG				= "LikesListAdapter";
+	private static final String	TAG	= LikesListAdapter.class.getName();
 
-	private LayoutInflater			mLayoutInflater;
-	private Activity				mActivity;
+	
+	private LayoutInflater layoutInflater;
+	private Activity activity;
 	private ArrayList<UserLike>	mLikes;
-	private LikesCountInterface		mInterface;
-	private String					mToken, mLikeIdToRemove, mLikeId;
-	private int						currentPosition	= -1;
+	private LikesCountInterface	 mInterface;
+	private String likeIdToRemove;
+	private String likeId;
+	private int	currentPosition;
 
-	public LikesListAdapter(Activity activity, ArrayList<UserLike> likes, LikesCountInterface likesInterface) {
+	
+	
+	public LikesListAdapter(Activity activity, ArrayList<UserLike> likes, LikesCountInterface likesInterface) 
+	{
 		this.mLikes = likes;
-		this.mActivity = activity;
-//		this.mToken = token;
+		this.activity = activity;
 		this.mInterface = likesInterface;
+		
+		this.currentPosition = -1;
 	}
 
+	
+	
 	@Override
-	public int getCount() {
-		if (mLikes != null) {
+	public int getCount() 
+	{
+		if (mLikes != null) 
+		{
 			return mLikes.size();
-		} else return 0;
+		} 
+		else
+		{
+			return 0;
+		}
 	}
 
+	
+	
 	@Override
-	public UserLike getItem(int position) {
-		if (mLikes != null) {
+	public UserLike getItem(int position)
+	{
+		if (mLikes != null)
+		{
 			return mLikes.get(position);
-		} else return null;
+		} 
+		else
+		{
+			return null;
+		}
 	}
 
+	
+	
 	@Override
-	public long getItemId(int arg0) {
+	public long getItemId(int arg0)
+	{
 		return -1;
 	}
 
+	
+	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 
 		if (rowView == null) {
-			mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			layoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 			ViewHolder viewHolder = new ViewHolder();
-			rowView = mLayoutInflater.inflate(R.layout.row_likes, null);
+			rowView = layoutInflater.inflate(R.layout.row_likes, null);
 			viewHolder.mHeaderContainer = (RelativeLayout) rowView.findViewById(R.id.row_likes_header_container);
 			viewHolder.mHeaderTv = (TextView) rowView.findViewById(R.id.row_likes_header_textview);
 			viewHolder.mInformationContainer = (RelativeLayout) rowView.findViewById(R.id.row_likes_text_container);
@@ -136,7 +166,62 @@ public class LikesListAdapter
 		return rowView;
 	}
 
-	public static class ViewHolder {
+	
+	
+	public Runnable yesProc() 
+	{
+		return new Runnable()
+		{
+			public void run() 
+			{
+				if (mLikes.size() > currentPosition) 
+				{
+					mLikes.remove(currentPosition);
+				}
+			
+				removeLikeId();
+				
+				mInterface.setCount(mLikes.size());
+				
+				notifyDataSetChanged();
+			}
+		};
+	}
+
+	
+	
+	public Runnable noProc()
+	{
+		return new Runnable()
+		{
+			public void run() 
+			{}
+		};
+	}
+
+	
+	
+	private void removeLikeId() 
+	{
+		Iterator iterator = MiTVStore.getInstance().getLikeIds().iterator();
+		
+		String strElement = "";
+		
+		while (iterator.hasNext()) 
+		{
+			strElement = (String) iterator.next();
+			
+			if (strElement.equals(likeId))
+			{
+				iterator.remove();
+			}
+		}
+	}
+	
+	
+	
+	private static class ViewHolder 
+	{
 		public RelativeLayout		mHeaderContainer;
 		public TextView			mHeaderTv;
 		public RelativeLayout	mInformationContainer;
@@ -146,38 +231,4 @@ public class LikesListAdapter
 		public ImageView		mButtonIcon;
 		public View				mDividerView;
 	}
-
-	public Runnable yesProc() {
-		return new Runnable() {
-			public void run() {
-				if (mLikes.size() > currentPosition) {
-					mLikes.remove(currentPosition);
-				}
-			
-				removeLikeId();
-				mInterface.setCount(mLikes.size());
-				notifyDataSetChanged();
-			}
-		};
-	}
-
-	public Runnable noProc() {
-		return new Runnable() {
-			public void run() {
-			}
-		};
-	}
-
-	private void removeLikeId() {
-
-		Iterator iterator = MiTVStore.getInstance().getLikeIds().iterator();
-		String strElement = "";
-		while (iterator.hasNext()) {
-			strElement = (String) iterator.next();
-			if (strElement.equals(mLikeId)) {
-				iterator.remove();
-			}
-		}
-	}
-
 }

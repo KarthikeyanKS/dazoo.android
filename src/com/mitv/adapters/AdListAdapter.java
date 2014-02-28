@@ -33,7 +33,8 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 public class AdListAdapter<T> 
 	extends BaseAdapter 
 {
-	private Activity activity;
+	protected Activity activity;
+	
 	private String fragmentName;
 	private List<T> items;
 	private SparseArray<AdAdzerk> adItems = new SparseArray<AdAdzerk>();

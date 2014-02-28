@@ -177,7 +177,8 @@ public class MiTVStore
 		return this.mLikeIds;
 	}
 
-	public boolean isInTheLikesList(String likeId) {
+	public boolean isInTheLikesList(String likeId) 
+	{
 		return this.mLikeIds.contains(likeId);
 	}
 
