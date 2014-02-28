@@ -5,7 +5,7 @@ package com.millicom.mitv.models;
 
 import android.util.Log;
 import com.millicom.mitv.models.gson.TVSeriesSeasonJSON;
-import com.mitv.model.NotificationDbItem;
+import com.mitv.notification.NotificationSQLElement;
 
 
 
@@ -21,7 +21,7 @@ public class TVSeriesSeason
 	
 	
 	
-	public TVSeriesSeason(NotificationDbItem item)
+	public TVSeriesSeason(NotificationSQLElement item)
 	{
 		String seasonNumberAsString = item.getProgramSeason();
 		

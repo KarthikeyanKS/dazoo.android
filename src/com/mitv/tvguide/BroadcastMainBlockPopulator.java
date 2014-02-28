@@ -21,10 +21,10 @@ import com.millicom.mitv.activities.SignUpSelectionActivity;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVProgram;
+import com.millicom.mitv.utilities.DialogHelper;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.customviews.ReminderView;
-import com.mitv.handlers.PromptSignInDialogHandler;
 import com.mitv.storage.MiTVStore;
 import com.mitv.utilities.ProgressBarUtils;
 import com.mitv.utilities.ShareUtils;
@@ -283,8 +283,8 @@ public class BroadcastMainBlockPopulator
 					if (BroadcastPageActivity.toast != null) {
 						BroadcastPageActivity.toast.cancel();
 					}
-					PromptSignInDialogHandler loginDlg = new PromptSignInDialogHandler();
-					loginDlg.showPromptSignInDialog(mActivity, yesLoginProc(), noLoginProc());
+
+					DialogHelper.showPromptSignInDialog(mActivity, yesLoginProc(), noLoginProc());
 				}
 
 			}

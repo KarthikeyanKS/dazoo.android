@@ -1,3 +1,4 @@
+
 package com.millicom.mitv.activities.base;
 
 import java.util.Stack;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.millicom.mitv.ContentManager;
@@ -32,9 +34,9 @@ import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.utilities.GenericUtils;
 import com.millicom.mitv.utilities.NetworkUtils;
+import com.millicom.mitv.utilities.ToastHelper;
 import com.mitv.Consts;
 import com.mitv.R;
-import com.mitv.customviews.ToastHelper;
 import com.mitv.manager.GATrackingManager;
 
 public abstract class BaseActivity extends ActionBarActivity implements ActivityCallbackListener, OnClickListener {
@@ -48,6 +50,7 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 	protected View tabDividerRight;
 
 	private View requestEmptyLayout;
+	private TextView requestEmptyLayoutDetails;
 	private View requestFailedLayout;
 	private View requestLoadingLayout;
 
@@ -545,12 +548,24 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 
 		requestEmptyLayout = (RelativeLayout) findViewById(R.id.request_empty_main_layout);
 
+		requestEmptyLayoutDetails = (TextView) findViewById(R.id.request_empty_details_tv);
+		
 		requestBadLayout = (RelativeLayout) findViewById(R.id.bad_request_main_layout);
 
 		requestBadButton = (Button) findViewById(R.id.bad_request_reload_button);
 
 		if (requestBadButton != null) {
 			requestBadButton.setOnClickListener(this);
+		}
+	}
+	
+	
+	
+	protected void setEmptyLayoutDetailsMessage(String message)
+	{
+		if(requestEmptyLayoutDetails != null)
+		{
+			requestEmptyLayoutDetails.setText(message);
 		}
 	}
 }

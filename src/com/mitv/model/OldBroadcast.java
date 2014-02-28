@@ -20,6 +20,7 @@ import android.util.Log;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.notification.NotificationSQLElement;
 import com.mitv.utilities.OldDateUtilities;
 
 
@@ -284,7 +285,7 @@ public class OldBroadcast implements Parcelable
 		dest.writeString(beginTimeStringLocalDayMonth);
 	}
 
-	public OldBroadcast(NotificationDbItem item) {
+	public OldBroadcast(NotificationSQLElement item) {
 //		String beginTimeStringLocal = item.getBroadcastBeginTimeStringLocal();
 //		this.setBeginTimeStringGmt(beginTimeStringLocal);
 //		String millisGmtString = item.getBroadcastBeginTimeInMillisGmtAsString();

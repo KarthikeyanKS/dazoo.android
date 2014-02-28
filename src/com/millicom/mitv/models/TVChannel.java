@@ -4,7 +4,7 @@ package com.millicom.mitv.models;
 
 
 import com.millicom.mitv.models.gson.TVChannelJSON;
-import com.mitv.model.NotificationDbItem;
+import com.mitv.notification.NotificationSQLElement;
 
 
 
@@ -15,7 +15,7 @@ public class TVChannel
 	{}
 	
 	
-	public TVChannel(NotificationDbItem item)
+	public TVChannel(NotificationSQLElement item)
 	{
 		this.channelId = item.getChannelId();
 		this.name = item.getChannelName();

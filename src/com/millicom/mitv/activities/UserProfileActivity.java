@@ -233,7 +233,7 @@ public class UserProfileActivity
 		
 		StringBuilder numberOfNotificationsSB = new StringBuilder();
 		numberOfNotificationsSB.append("(");
-		numberOfNotificationsSB.append(String.valueOf(notificationDataSource.getNumberOfNotifications()));
+		numberOfNotificationsSB.append(String.valueOf(notificationDataSource.getNotificationCount()));
 		numberOfNotificationsSB.append(")");
 		
 		reminderCountTv.setText(numberOfNotificationsSB.toString());

@@ -1,4 +1,4 @@
-package com.mitv;
+package com.mitv.asynctasks;
 
 
 
@@ -10,6 +10,7 @@ import android.content.Context;
 
 public class AuthenticationService 
 {
+	@SuppressWarnings("unused")
 	private static final String	TAG	= "AuthenticationService";
 
 	

@@ -8,7 +8,7 @@ import java.util.Calendar;
 
 import com.millicom.mitv.enums.BroadcastTypeEnum;
 import com.millicom.mitv.models.gson.TVBroadcastWithChannelInfoJSON;
-import com.mitv.model.NotificationDbItem;
+import com.mitv.notification.NotificationSQLElement;
 
 
 
@@ -38,7 +38,7 @@ public class TVBroadcastWithChannelInfo
 	
 	
 	
-	public TVBroadcastWithChannelInfo(NotificationDbItem item)
+	public TVBroadcastWithChannelInfo(NotificationSQLElement item)
 	{
 		TVChannel tvChannel = new TVChannel(item);
 		this.channel = tvChannel;
@@ -49,6 +49,7 @@ public class TVBroadcastWithChannelInfo
 		String broadcastTypeAsString = item.getBroadcastType();
 		
 		this.broadcastType = BroadcastTypeEnum.getBroadcastTypeEnumFromStringRepresentation(broadcastTypeAsString);
+		this.beginTimeMillis = item.getBroadcastBeginTimeInMilliseconds();
 		this.beginTime = item.getBroadcastBeginTime();
 		this.endTime = item.getBroadcastEndTime();
 		this.shareUrl = item.getShareUrl();

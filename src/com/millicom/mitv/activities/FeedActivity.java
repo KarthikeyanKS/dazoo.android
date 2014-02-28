@@ -115,6 +115,8 @@ public class FeedActivity
 
 		loginBtn = (Button) findViewById(R.id.activity_not_logged_in_login_btn);
 		loginBtn.setOnClickListener(this);
+		
+		setEmptyLayoutDetailsMessage("");
 	}
 	
 	

@@ -1,5 +1,5 @@
 
-package com.mitv.model;
+package com.mitv.notification;
 
 
 
@@ -13,18 +13,18 @@ import com.millicom.mitv.models.TVProgram;
 
 
 
-public class NotificationDbItem
+public class NotificationSQLElement
 	implements Serializable
 {
 	private static final long serialVersionUID = 8910021727806717494L;
 
 
-	private static final String	TAG	= NotificationDbItem.class.getName();
+	private static final String	TAG	= NotificationSQLElement.class.getName();
 
 	
 	private int notificationId;
 	
-	
+	private long broadcastBeginTimeInMilliseconds;
 	private String broadcastBeginTime;
 	private String broadcastEndTime;
 	private String broadcastType;
@@ -59,15 +59,17 @@ public class NotificationDbItem
 	
 	
 	/* For use only in the NotificationDataSource class */
-	public NotificationDbItem()
+	public NotificationSQLElement()
 	{}
 	
 	
-	public NotificationDbItem(
+	public NotificationSQLElement(
 			int notificationId,
 			TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo)
 	{
 		this.notificationId = notificationId;
+		
+		this.broadcastBeginTimeInMilliseconds = tvBroadcastWithChannelInfo.getBeginTimeMillis().longValue();
 		
 		TVProgram tvProgram = tvBroadcastWithChannelInfo.getProgram();
 		
@@ -444,5 +446,16 @@ public class NotificationDbItem
 
 	public void setShareUrl(String shareUrl) {
 		this.shareUrl = shareUrl;
+	}
+
+
+	public long getBroadcastBeginTimeInMilliseconds() {
+		return broadcastBeginTimeInMilliseconds;
+	}
+
+
+	public void setBroadcastBeginTimeInMilliseconds(
+			long broadcastBeginTimeInMilliseconds) {
+		this.broadcastBeginTimeInMilliseconds = broadcastBeginTimeInMilliseconds;
 	}
 }

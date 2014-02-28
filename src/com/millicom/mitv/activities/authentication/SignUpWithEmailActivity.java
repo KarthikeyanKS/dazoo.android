@@ -24,11 +24,11 @@ import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.utilities.RegularExpressionUtils;
+import com.millicom.mitv.utilities.ToastHelper;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.customviews.FontTextView;
 import com.mitv.customviews.TextDrawable;
-import com.mitv.customviews.ToastHelper;
 
 
 

@@ -221,6 +221,7 @@ public abstract class Consts {
 	public static final int		NOTIFICATION_DATABASE_VERSION						= 1;
 	public static final String	NOTIFICATION_DB_TABLE_NOTIFICATIONS					= "notifications";
 	public static final String	NOTIFICATION_DB_COLUMN_NOTIFICATION_ID				= "notification_id";
+	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_BEGIN_TIME_IN_MILISECONDS = "begin_time_miliseconds";
 	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_BEGIN_TIME			= "begin_time";
 	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_END_TIME			= "end_time";
 	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_TYPE				= "broadcast_type";
