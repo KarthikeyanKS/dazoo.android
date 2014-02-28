@@ -5,6 +5,7 @@ package com.millicom.mitv.models.sql;
 
 import java.io.Serializable;
 
+import android.database.Cursor;
 import android.util.Log;
 
 import com.millicom.mitv.enums.ProgramTypeEnum;
@@ -17,7 +18,6 @@ public class NotificationSQLElement
 	implements Serializable
 {
 	private static final long serialVersionUID = 8910021727806717494L;
-
 
 	private static final String	TAG	= NotificationSQLElement.class.getName();
 
@@ -58,9 +58,95 @@ public class NotificationSQLElement
 	private String sportTypeName;
 	
 	
-	/* For use only in the NotificationDataSource class */
-	public NotificationSQLElement()
-	{}
+	
+	public NotificationSQLElement(Cursor cursor)
+	{
+		if (cursor.getCount() > 0)
+		{
+			if (cursor.isNull(0) == false)
+			{
+				this.setNotificationId(cursor.getInt(0));
+				
+				this.setBroadcastBeginTimeInMilliseconds(cursor.getLong(1));
+				
+				this.setBroadcastBeginTime(cursor.getString(2));
+				
+				this.setBroadcastEndTime(cursor.getString(3));
+				
+				this.setBroadcastType(cursor.getString(4));
+				
+				this.setShareUrl(cursor.getString(5));
+				
+				this.setChannelId(cursor.getString(6));
+				
+				this.setChannelName(cursor.getString(7));
+				
+				this.setChannelLogoSmall(cursor.getString(8));
+				
+				this.setChannelLogoMedium(cursor.getString(9));
+				
+				this.setChannelLogoLarge(cursor.getString(10));
+				
+				this.setProgramId(cursor.getString(11));
+				
+				this.setProgramTitle(cursor.getString(12));
+
+				this.setProgramType(cursor.getString(13));
+				
+				this.setSynopsisShort(cursor.getString(14));
+				
+				this.setSynopsisLong(cursor.getString(15));
+				
+				this.setProgramTags(cursor.getString(16));
+				
+				this.setProgramCredits(cursor.getString(17));
+					
+				String programTypeAsString = cursor.getString(13);
+				
+				ProgramTypeEnum programType = ProgramTypeEnum.getLikeTypeEnumFromStringRepresentation(programTypeAsString);
+				
+				switch(programType)
+				{
+					case TV_EPISODE:
+					{
+						this.setProgramSeason(cursor.getString(18));
+						this.setProgramEpisodeNumber(cursor.getInt(19));
+						this.setSeriesId(cursor.getString(23));
+						this.setSeriesName(cursor.getString(24));
+						break;
+					}
+					
+					case SPORT:
+					{
+						this.setSportTypeId(cursor.getString(25));
+						this.setSportTypeName(cursor.getString(26));
+						this.setProgramGenre(cursor.getString(21));
+						break;
+					}
+					
+					case OTHER:
+					{
+						this.setProgramCategory(cursor.getString(22));
+						break;
+					}
+					
+					case MOVIE:
+					{
+						this.setProgramYear(cursor.getInt(20));
+						this.setProgramGenre(cursor.getString(21));
+						break;
+					}
+					
+					case UNKNOWN:
+					default:
+					{
+						Log.w(TAG, "Unhandled program type.");
+						break;
+					}
+				}
+			}
+		}
+	}
 	
 	
 	public NotificationSQLElement(

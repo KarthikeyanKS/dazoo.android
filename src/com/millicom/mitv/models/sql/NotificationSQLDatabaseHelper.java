@@ -12,7 +12,7 @@ import com.mitv.Consts;
 
 
 
-public class NotificationDatabaseHelper 
+public class NotificationSQLDatabaseHelper 
 	extends SQLiteOpenHelper 
 {
 	private static final String	DATABASE_CREATE	= 
@@ -46,7 +46,7 @@ public class NotificationDatabaseHelper
 			Consts.NOTIFICATION_DB_COLUMN_SPORT_TYPE_NAME + " TEXT " + ");";
 
 	
-	public NotificationDatabaseHelper(Context context) 
+	public NotificationSQLDatabaseHelper(Context context) 
 	{
 		super(context, Consts.NOTIFICATION_DATABASE_NAME, null, Consts.NOTIFICATION_DATABASE_VERSION);
 	}
@@ -64,7 +64,7 @@ public class NotificationDatabaseHelper
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
 	{
-		Log.w(NotificationDatabaseHelper.class.getName(), "Upgrading database from version " + oldVersion + " to " + newVersion + ", which will destroy all old data.");
+		Log.w(NotificationSQLDatabaseHelper.class.getName(), "Upgrading database from version " + oldVersion + " to " + newVersion + ", which will destroy all old data.");
 		
 		db.execSQL("DROP TABLE IF EXISTS " + Consts.NOTIFICATION_DATABASE_NAME);
 		

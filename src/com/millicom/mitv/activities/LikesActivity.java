@@ -20,13 +20,12 @@ import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.models.UserLike;
 import com.mitv.R;
 import com.mitv.adapters.LikesListAdapter;
-import com.mitv.interfaces.LikesCountInterface;
 
 
 
 public class LikesActivity 
 	extends BaseContentActivity 
-	implements LikesCountInterface, OnClickListener 
+	implements OnClickListener 
 {
 	@SuppressWarnings("unused")
 	private static final String TAG = LikesActivity.class.getName();
@@ -59,22 +58,7 @@ public class LikesActivity
 	}
 	
 	
-	
-	@Override
-	public void setCount(int count) 
-	{
-		if(count == 0) 
-		{
-			errorTv.setVisibility(View.VISIBLE);
-		} 
-		else 
-		{
-			errorTv.setVisibility(View.GONE);
-		}
-	}
-
-	
-	
+		
 	@Override
 	protected void loadData() 
 	{
@@ -113,7 +97,7 @@ public class LikesActivity
 				
 				Collections.sort(userLikes, new UserLike.UserLikeComparatorByTitle());
 				
-				listAdapter = new LikesListAdapter(this, userLikes, this);
+				listAdapter = new LikesListAdapter(this, userLikes);
 				
 				listView.setAdapter(listAdapter);
 				

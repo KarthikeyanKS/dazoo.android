@@ -294,10 +294,12 @@ public class Cache
 		this.userLikes = userLikes;
 	}
 	
+	
 	public void addUserLike(UserLike userLike) 
 	{
 		this.userLikes.add(userLike);
 	}
+	
 	
 	public void removeUserLike(UserLike userLikeToRemove) 
 	{
@@ -307,8 +309,7 @@ public class Cache
 		{
 			UserLike userLike = userLikes.get(i);
 			
-			if(userLike.getLikeType() == userLikeToRemove.getLikeType() &&
-			   userLike.getTitle().equals(userLikeToRemove.getTitle()))
+			if(userLike.equals(userLikeToRemove))
 			{
 				indexToRemove = i;
 				break;
@@ -322,7 +323,6 @@ public class Cache
 	}
 	
 	
-	
 	public boolean isInUserLikes(UserLike userLikeToCheck) 
 	{
 		boolean isContained = false;
@@ -331,7 +331,7 @@ public class Cache
 		{
 			UserLike userLike = userLikes.get(i);
 			
-			boolean isEqual = userLike.isEqual(userLikeToCheck);
+			boolean isEqual = userLike.equals(userLikeToCheck);
 			
 			if(isEqual)
 			{
@@ -342,7 +342,6 @@ public class Cache
 		
 		return isContained;
 	}
-	
 	
 	
 	public HashMap<String, SparseArray<AdAdzerkJSON>> getFragmentToAdsMap() {

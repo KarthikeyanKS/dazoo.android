@@ -12,7 +12,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.models.TVChannelId;
 import com.mitv.Consts;
 
@@ -24,13 +23,13 @@ public class NotificationDataSource
 
 	
 	
-	private NotificationDatabaseHelper dbHelper;
+	private NotificationSQLDatabaseHelper dbHelper;
 
 
 	
 	public NotificationDataSource(Context context) 
 	{
-		dbHelper = new NotificationDatabaseHelper(context);
+		dbHelper = new NotificationSQLDatabaseHelper(context);
 	}
 
 	
@@ -213,95 +212,8 @@ public class NotificationDataSource
 
 	private NotificationSQLElement setCursorValues(Cursor cursor) 
 	{
-		NotificationSQLElement notification = new NotificationSQLElement();
-		
-		if (cursor.getCount() > 0)
-		{
-			if (!cursor.isNull(0))
-			{
-				notification.setNotificationId(cursor.getInt(0));
+		NotificationSQLElement notification = new NotificationSQLElement(cursor);
 				
-				notification.setBroadcastBeginTimeInMilliseconds(cursor.getLong(1));
-				
-				notification.setBroadcastBeginTime(cursor.getString(2));
-				
-				notification.setBroadcastEndTime(cursor.getString(3));
-				
-				notification.setBroadcastType(cursor.getString(4));
-				
-				notification.setShareUrl(cursor.getString(5));
-				
-				notification.setChannelId(cursor.getString(6));
-				
-				notification.setChannelName(cursor.getString(7));
-				
-				notification.setChannelLogoSmall(cursor.getString(8));
-				
-				notification.setChannelLogoMedium(cursor.getString(9));
-				
-				notification.setChannelLogoLarge(cursor.getString(10));
-				
-				notification.setProgramId(cursor.getString(11));
-				
-				notification.setProgramTitle(cursor.getString(12));
-
-				notification.setProgramType(cursor.getString(13));
-				
-				notification.setSynopsisShort(cursor.getString(14));
-				
-				notification.setSynopsisLong(cursor.getString(15));
-				
-				notification.setProgramTags(cursor.getString(16));
-				
-				notification.setProgramCredits(cursor.getString(17));
-				
-				
-				String programTypeAsString = cursor.getString(13);
-				
-				ProgramTypeEnum programType = ProgramTypeEnum.getLikeTypeEnumFromStringRepresentation(programTypeAsString);
-				
-				switch(programType)
-				{
-					case TV_EPISODE:
-					{
-						notification.setProgramSeason(cursor.getString(18));
-						notification.setProgramEpisodeNumber(cursor.getInt(19));
-						notification.setSeriesId(cursor.getString(23));
-						notification.setSeriesName(cursor.getString(24));
-						break;
-					}
-					
-					case SPORT:
-					{
-						notification.setSportTypeId(cursor.getString(25));
-						notification.setSportTypeName(cursor.getString(26));
-						notification.setProgramGenre(cursor.getString(21));
-						break;
-					}
-					
-					case OTHER:
-					{
-						notification.setProgramCategory(cursor.getString(22));
-						break;
-					}
-					
-					case MOVIE:
-					{
-						notification.setProgramYear(cursor.getInt(20));
-						notification.setProgramGenre(cursor.getString(21));
-						break;
-					}
-					
-					case UNKNOWN:
-					default:
-					{
-						Log.w(TAG, "Unhandled program type.");
-						break;
-					}
-				}
-			}
-		}
-		
 		return notification;
 	}
 }

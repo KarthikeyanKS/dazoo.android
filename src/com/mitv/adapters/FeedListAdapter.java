@@ -50,6 +50,7 @@ public class FeedListAdapter
 {
 	private static final String	TAG	= FeedListAdapter.class.getName();
 
+	
 	private ArrayList<TVFeedItem> feedItems;
 	private LayoutInflater layoutInflater;
 	
@@ -190,22 +191,6 @@ public class FeedListAdapter
 
 	
 	
-	public void addItem(final TVFeedItem item) 
-	{
-		feedItems.add(item);
-		notifyDataSetChanged();
-	}
-
-	
-	
-	public void addItems(ArrayList<TVFeedItem> items) 
-	{
-		feedItems.addAll(items);
-		notifyDataSetChanged();
-	}
-
-
-
 	public void populatePopularItemAtIndex(
 			PopularBroadcastsViewHolder viewHolder, 
 			ArrayList<TVBroadcastWithChannelInfo> broadcasts, 
@@ -775,10 +760,13 @@ public class FeedListAdapter
 	}
 	
 	
+	
 	private void popularBroadcastClicked(TVBroadcastWithChannelInfo broadcastWithChannelInfo) 
 	{
 		ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+		
 		Intent intent = new Intent(activity, BroadcastPageActivity.class);
+		
 		activity.startActivity(intent);
 	}
 	
