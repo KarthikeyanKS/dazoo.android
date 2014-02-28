@@ -156,7 +156,6 @@ public abstract class Consts {
 
 	/* Activity feed extras */
 	public static final String	INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME				= "com.mitv.intent.extra.from.activity";
-	public static final String	INTENT_EXTRA_FROM_ACTIVITY							= "com.mitv.intent.extra.from.activity";
 
 	
 	public static final String	INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN			= "com.mitv.intent.extra.activity.user.login.success";
