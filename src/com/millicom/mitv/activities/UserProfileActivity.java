@@ -242,15 +242,15 @@ public class UserProfileActivity
 				
 		if (isLoggedIn)
 		{
-			String userAvatarImageURL = ContentManager.sharedInstance().getFromStorageUserAvatarImageURL();
+			String userAvatarImageURL = ContentManager.sharedInstance().getFromCacheUserAvatarImageURL();
 			
 			ImageAware imageAware = new ImageViewAware(avatarImageView, false);
 			
 			ImageLoader.getInstance().displayImage(userAvatarImageURL, imageAware);
 
 			
-			String userFirstname = ContentManager.sharedInstance().getFromStorageUserFirstname();
-			String userLastname = ContentManager.sharedInstance().getFromStorageUserLastname();
+			String userFirstname = ContentManager.sharedInstance().getFromCacheUserFirstname();
+			String userLastname = ContentManager.sharedInstance().getFromCacheUserLastname();
 			
 			StringBuilder sbUsernameText = new StringBuilder();
 			sbUsernameText.append(userFirstname);
@@ -260,7 +260,7 @@ public class UserProfileActivity
 			userNameTextView.setText(sbUsernameText.toString());
 			
 			
-			ArrayList<UserLike> userLikes = ContentManager.sharedInstance().getFromStorageUserLikes();
+			ArrayList<UserLike> userLikes = ContentManager.sharedInstance().getFromCacheUserLikes();
 			
 			StringBuilder userLikesSB = new StringBuilder();
 			userLikesSB.append("(");
@@ -270,7 +270,7 @@ public class UserProfileActivity
 			likesCountTv.setText(userLikesSB.toString());
 
 			
-			ArrayList<TVChannelId> userChannelIds = ContentManager.sharedInstance().getFromStorageTVChannelIdsUser();
+			ArrayList<TVChannelId> userChannelIds = ContentManager.sharedInstance().getFromCacheTVChannelIdsUser();
 			
 			StringBuilder userTVChannelIdsSB = new StringBuilder();
 			userTVChannelIdsSB.append("(");

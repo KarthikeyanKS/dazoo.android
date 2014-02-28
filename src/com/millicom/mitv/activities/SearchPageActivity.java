@@ -3,8 +3,9 @@ package com.millicom.mitv.activities;
 
 
 
+import java.util.ArrayList;
+
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.MenuItemCompat;
@@ -29,6 +30,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
+import com.androidquery.callback.AjaxCallback;
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.base.BaseActivity;
 import com.millicom.mitv.enums.ContentTypeEnum;
@@ -36,8 +38,10 @@ import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.interfaces.SearchInterface;
+import com.millicom.mitv.models.SearchResultsForQuery;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVSearchResult;
+import com.millicom.mitv.models.TVSearchResults;
 import com.millicom.mitv.utilities.GenericUtils;
 import com.mitv.Consts;
 import com.mitv.R;
@@ -241,7 +245,7 @@ public class SearchPageActivity
 				
 				inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 				
-				triggerAutoComplete();
+//				performSearchAndTriggerAutocomplete();
 			}
 		});
 	}
@@ -256,6 +260,7 @@ public class SearchPageActivity
 		if(result.getEntityType() != ContentTypeEnum.CHANNEL) {
 			// open the detail view for the individual broadcast
 			Intent intent = new Intent(SearchPageActivity.this, BroadcastPageActivity.class);
+			intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, this.getClass().getName());
 	
 			// we take one position less as we have a header view
 			int adjustedPosition = position - 1;
@@ -286,7 +291,8 @@ public class SearchPageActivity
 
 	@Override
 	public void onClick(View v) {
-
+		super.onClick(v);
+		
 		switch (v.getId()) {
 		case R.id.searchbar_clear: {
 			editTextSearch.setText("");
@@ -304,7 +310,7 @@ public class SearchPageActivity
 	@Override
 	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 		if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-			triggerAutoComplete();
+			performSearchAndTriggerAutocomplete();
 			if (editTextSearch.getText().toString().length() >= 1) 
 			{
 				GenericUtils.hideKeyboard(this);
@@ -314,33 +320,48 @@ public class SearchPageActivity
 		return false;
 	}
 
-	private void triggerAutoComplete() {
+
+	private void performSearchAndTriggerAutocomplete() {
 		if(editTextSearch != null) { 
-			String query = editTextSearch.getText().toString();
-			int pos = query.length();
-			editTextSearch.setSelection(pos);
-			autoCompleteAdapter.getFilter().filter(query);
-			editTextSearch.showDropDown();
+			String searchQuery = editTextSearch.getText().toString();
+			performSearch(searchQuery);
+
 		}
 	}
+		
+		private void triggerAutoComplete(String searchQuery) {
+			if(editTextSearch != null) { 
+				int pos = searchQuery.length();
+				editTextSearch.setSelection(pos);
+				autoCompleteAdapter.getFilter().filter(searchQuery);
+				editTextSearch.showDropDown();
+			}
+		}
 
+	public void performSearch(String searchQuery) {
+		setLoading(); //TODO NewArc set this sets loading in actionbar field, do it in view as well?
+		AjaxCallback<String> cb = new AjaxCallback<String>();
+		ContentManager.sharedInstance().getElseFetchFromServiceSearchResultForSearchQuery(this, false, cb, searchQuery);
+	}
 	
 	
 	@Override
 	public void onBackPressed() 
 	{
-		super.onBackPressed();
-		
+		super.onBackPressed();	
 		finish();
 	}
 	
+	private void setLoading() {
+		changeLoadingStatus(true);
+	}
 	
-
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) 
-	{
-		super.onConfigurationChanged(newConfig);
-		
+	private void setNotLoading() {
+		changeLoadingStatus(false);
+	}
+	
+	private void changeLoadingStatus(final boolean loading) {
+		showProgressLoading(loading);
 	}
 
 	
@@ -356,9 +377,19 @@ public class SearchPageActivity
 	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
+		setNotLoading();
 		if (fetchRequestResult.wasSuccessful()) 
 		{
 			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+			SearchResultsForQuery searchResultsForQuery = ContentManager.sharedInstance().getFromCacheSearchResults();
+			if(searchResultsForQuery != null) {
+				String searchQuery = searchResultsForQuery.getQueryString();
+				TVSearchResults searchResultsObject = searchResultsForQuery.getSearchResults();
+				
+				ArrayList<TVSearchResult> searchResultItems = new ArrayList<TVSearchResult>(searchResultsObject.getResults());
+				autoCompleteAdapter.setSearchResultItems(searchResultItems);
+				triggerAutoComplete(searchQuery);
+			}
 		} 
 		else
 		{

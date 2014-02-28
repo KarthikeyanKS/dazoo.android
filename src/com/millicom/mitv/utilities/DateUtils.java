@@ -137,7 +137,7 @@ public abstract class DateUtils
 	 * It can optionally be set to always return the absolute difference.
 	 * 
 	 */
-	public static int calculateDifferenceBetween(
+	public static Integer calculateDifferenceBetween(
 			final Calendar beginTimeCalendar, 
 			final Calendar endTimeCalendar,
 			final int differenceUnitType,
@@ -173,7 +173,8 @@ public abstract class DateUtils
 				
 		}
 		
-	    int difference = (int) (endTime - beginTime);
+		int defferenceAsInt = (int)(endTime - beginTime);
+	    Integer difference =  Integer.valueOf(defferenceAsInt);
 	    
 	    if(difference < 0 && 
 	       useAbslouteDifference == false)
@@ -407,7 +408,7 @@ public abstract class DateUtils
 		int minutesValue = 0;
 		int hoursValue = hour;
 		
-		int firstHourOfTheDay = ContentManager.sharedInstance().getFromStorageFirstHourOfTVDay();
+		int firstHourOfTheDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
 		
 		if(hour >= 0 && hour < firstHourOfTheDay) 
 		{

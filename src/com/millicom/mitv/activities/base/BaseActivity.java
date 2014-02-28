@@ -323,7 +323,7 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 			StringBuilder sb = new StringBuilder();
 			sb.append(getResources().getString(R.string.hello));
 			sb.append(" ");
-			sb.append(ContentManager.sharedInstance().getFromStorageUserFirstname());
+			sb.append(ContentManager.sharedInstance().getFromCacheUserFirstname());
 
 			ToastHelper.createAndShowToast(this, sb.toString());
 		}

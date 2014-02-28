@@ -14,7 +14,7 @@ public class OldSearchResult {
 	private ArrayList<OldSearchResultItem> items;
 
 	public OldSearchResult(JSONObject jsonObject) {
-		String suggestion = jsonObject.optString(Consts.JSON_KEY_SEARCH_RESULT_SUGGESTION);
+//		String suggestion = jsonObject.optString(Consts.JSON_KEY_SEARCH_RESULT_SUGGESTION);
 
 		ArrayList<OldSearchResultItem> items = new ArrayList<OldSearchResultItem>();
 		try {
@@ -35,11 +35,11 @@ public class OldSearchResult {
 			e.printStackTrace();
 		}
 		
-		String numberOfResultsString = jsonObject.optString(Consts.JSON_KEY_SEARCH_RESULT_NUMBER_OF_RESULTS);
+//		String numberOfResultsString = jsonObject.optString(Consts.JSON_KEY_SEARCH_RESULT_NUMBER_OF_RESULTS);
 		int numberOfResults = items.size();
-		if(numberOfResultsString != null && numberOfResultsString.length() > 0) {
-			numberOfResults = Integer.valueOf(numberOfResultsString);
-		}
+//		if(numberOfResultsString != null && numberOfResultsString.length() > 0) {
+//			numberOfResults = Integer.valueOf(numberOfResultsString);
+//		}
 		
 		this.setSuggestion(suggestion);
 		this.setNumberOfResults(numberOfResults);

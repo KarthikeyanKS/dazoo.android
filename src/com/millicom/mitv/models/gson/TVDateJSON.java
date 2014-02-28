@@ -25,4 +25,9 @@ public class TVDateJSON
 	{
 		return id;
 	}
+	
+	public String getDisplayName() 
+	{
+		return displayName;
+	}
 }

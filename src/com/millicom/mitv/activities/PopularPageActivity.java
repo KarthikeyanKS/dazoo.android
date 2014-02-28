@@ -63,7 +63,7 @@ public class PopularPageActivity extends BaseContentActivity implements
 		switch (fetchRequestResult) {
 		case SUCCESS: {
 			popularBroadcasts = ContentManager.sharedInstance()
-					.getFromStoragePopularBroadcasts();
+					.getFromCachePopularBroadcasts();
 
 			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
 

@@ -5,6 +5,7 @@ package com.millicom.mitv;
 
 import java.util.List;
 
+import com.androidquery.callback.AjaxCallback;
 import com.millicom.mitv.asynctasks.CheckNetworkConnectivity;
 import com.millicom.mitv.asynctasks.GetAdsAdzerk;
 import com.millicom.mitv.asynctasks.GetAppConfigurationData;
@@ -17,6 +18,7 @@ import com.millicom.mitv.asynctasks.GetTVChannelGuides;
 import com.millicom.mitv.asynctasks.GetTVChannelIdsDefault;
 import com.millicom.mitv.asynctasks.GetTVChannelsAll;
 import com.millicom.mitv.asynctasks.GetTVDates;
+import com.millicom.mitv.asynctasks.GetTVSearchResults;
 import com.millicom.mitv.asynctasks.GetTVTags;
 import com.millicom.mitv.asynctasks.PerformInternalTracking;
 import com.millicom.mitv.asynctasks.PerformUserHasSeenAdAdzerk;
@@ -201,8 +203,12 @@ public class APIClient
 		getTvChannelGuides.execute();
 	}
 	
+	public void getTVSearchResults(ActivityCallbackListener activityCallbackListener, AjaxCallback<String> ajaxCallback, String searchQuery) {
+		GetTVSearchResults getTVSearchResults = new GetTVSearchResults(contentCallbackListener, activityCallbackListener, ajaxCallback, searchQuery);
+		getTVSearchResults.execute();
+	}
 	
-	public void PerformUserHasSeenAd(ActivityCallbackListener activityCallbackListener)
+	public void performUserHasSeenAd(ActivityCallbackListener activityCallbackListener)
 	{
 		// TODO - Set correct suffix
 		String url = "";

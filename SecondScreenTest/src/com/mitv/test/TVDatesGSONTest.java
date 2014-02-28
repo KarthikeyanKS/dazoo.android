@@ -68,21 +68,7 @@ public class TVDatesGSONTest
 	public void testAllVariablesNotNull() {
 		Assert.assertNotNull(tvDates);
 		for (TVDate tvDate : tvDates) {
-			testTVDateObject(tvDate);
+			assertTrue(tvDate.areDataFieldsValid());
 		}
 	}
-
-	public static void testTVDateObject(TVDate tvDate) {
-		Assert.assertNotNull(tvDate);
-
-		Assert.assertNotNull(tvDate.getId());
-		Assert.assertFalse(TextUtils.isEmpty(tvDate.getId()));
-
-		Assert.assertNotNull(tvDate.getDateCalendar());
-		Assert.assertTrue(tvDate.getDateCalendar().getTimeInMillis() > YEAR_OF_2000);
-
-		Assert.assertNotNull(tvDate.getDisplayName());
-		Assert.assertFalse(TextUtils.isEmpty(tvDate.getDisplayName()));
-	}
-
 }

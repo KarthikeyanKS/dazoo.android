@@ -4,13 +4,15 @@ package com.millicom.mitv.models;
 
 
 import android.util.Log;
+
+import com.millicom.mitv.interfaces.GSONDataFieldValidation;
 import com.millicom.mitv.models.gson.TVSeriesSeasonJSON;
 import com.millicom.mitv.models.sql.NotificationSQLElement;
 
 
 
 public class TVSeriesSeason
-	extends TVSeriesSeasonJSON
+	extends TVSeriesSeasonJSON implements GSONDataFieldValidation
 {
 	private static final String TAG = TVSeriesSeason.class.getName();
 	
@@ -42,5 +44,11 @@ public class TVSeriesSeason
 	public void setNumber(Integer number) 
 	{
 		this.number = number;
+	}
+	
+	@Override
+	public boolean areDataFieldsValid() {
+		boolean areDataFieldsValid = (getNumber() != null);
+		return areDataFieldsValid;
 	}
 }

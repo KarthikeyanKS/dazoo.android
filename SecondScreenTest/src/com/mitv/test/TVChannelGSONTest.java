@@ -63,28 +63,7 @@ public class TVChannelGSONTest
 	@Test
 	public void testAllVariablesNotNull() {
 		for (TVChannel tvChannel : tvChannels) {
-			testTVChannelObject(tvChannel);
+			assertTrue(tvChannel.areDataFieldsValid());
 		}
-	}
-
-	public static void testTVChannelObject(TVChannel tvChannel) {
-		Assert.assertNotNull(tvChannel);
-
-		Assert.assertNotNull(tvChannel.getName());
-		Assert.assertFalse(TextUtils.isEmpty(tvChannel.getName()));
-
-		Assert.assertNotNull(tvChannel.getChannelId());
-
-		Assert.assertFalse(TextUtils.isEmpty(tvChannel.getChannelId().getChannelId()));
-		
-
-		Assert.assertNotNull(tvChannel.getLogo().getSmall());
-		Assert.assertFalse(TextUtils.isEmpty(tvChannel.getLogo().getSmall()));
-
-		Assert.assertNotNull(tvChannel.getLogo().getMedium());
-		Assert.assertFalse(TextUtils.isEmpty(tvChannel.getLogo().getMedium()));
-
-		Assert.assertNotNull(tvChannel.getLogo().getLarge());
-		Assert.assertFalse(TextUtils.isEmpty(tvChannel.getLogo().getLarge()));
 	}
 }

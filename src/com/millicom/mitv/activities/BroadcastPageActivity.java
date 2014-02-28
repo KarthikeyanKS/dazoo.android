@@ -65,7 +65,7 @@ public class BroadcastPageActivity
 			
 			channelId = new TVChannelId(channelIdAsString);
 		} else {
-			broadcastWithChannelInfo = ContentManager.sharedInstance().getFromStorageSelectedBroadcastWithChannelInfo();
+			broadcastWithChannelInfo = ContentManager.sharedInstance().getFromCacheSelectedBroadcastWithChannelInfo();
 		}
 
 
@@ -84,9 +84,9 @@ public class BroadcastPageActivity
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {
 		if (fetchRequestResult.wasSuccessful()) {
 			if (requestIdentifier == RequestIdentifierEnum.BROADCAST_PAGE_DATA) {
-				broadcastWithChannelInfo = ContentManager.sharedInstance().getFromStorageSelectedBroadcastWithChannelInfo();
-				repeatingBroadcasts = ContentManager.sharedInstance().getFromStorageRepeatingBroadcasts();
-				upcomingBroadcasts = ContentManager.sharedInstance().getFromStorageUpcomingBroadcasts();
+				broadcastWithChannelInfo = ContentManager.sharedInstance().getFromCacheSelectedBroadcastWithChannelInfo();
+				repeatingBroadcasts = ContentManager.sharedInstance().getFromCacheRepeatingBroadcasts();
+				upcomingBroadcasts = ContentManager.sharedInstance().getFromCacheUpcomingBroadcasts();
 
 				updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
 			}

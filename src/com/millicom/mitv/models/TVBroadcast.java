@@ -9,13 +9,16 @@ import java.util.Comparator;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.text.TextUtils;
+import android.util.Log;
 
+import com.millicom.mitv.enums.BroadcastTypeEnum;
+import com.millicom.mitv.interfaces.GSONDataFieldValidation;
 import com.millicom.mitv.models.gson.BroadcastJSON;
 import com.millicom.mitv.utilities.DateUtils;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.utilities.OldDateUtilities;
 
 
 
@@ -27,7 +30,7 @@ import com.mitv.utilities.OldDateUtilities;
  * @author consultant_hdme
  * 
  */
-public class TVBroadcast extends BroadcastJSON {
+public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidation {
 	@SuppressWarnings("unused")
 	private static final String TAG = TVBroadcast.class.getName();
 
@@ -37,7 +40,7 @@ public class TVBroadcast extends BroadcastJSON {
 	protected transient Calendar endTimeCalendarGMT;
 	protected transient Calendar beginTimeCalendarLocal;
 	protected transient Calendar endTimeCalendarLocal;
-	private transient int durationInMinutes = NO_INT_VALUE_SET;
+	private transient Integer durationInMinutes = NO_INT_VALUE_SET;
 	
 	/* IMPORTANT TO SET STRING TO NULL AND NOT EMPTY STRING */
 	private transient String beginTimeDateRepresentation = null;
@@ -122,7 +125,7 @@ public class TVBroadcast extends BroadcastJSON {
 
 	
 	
-	public int getBroadcastDurationInMinutes() 
+	public Integer getBroadcastDurationInMinutes() 
 	{
 		if(durationInMinutes == NO_INT_VALUE_SET)
 		{		    
@@ -134,22 +137,22 @@ public class TVBroadcast extends BroadcastJSON {
 	
 	
 	
-	public int getElapsedMinutesSinceBroadcastStarted() 
+	public Integer getElapsedMinutesSinceBroadcastStarted() 
 	{
 		Calendar now = Calendar.getInstance();
 		
-	    int elapsedMinutesSinceBroadcastStarted = DateUtils.calculateDifferenceBetween(getBeginTimeCalendarGMT(), now, Calendar.MINUTE, false, 0);
+		Integer elapsedMinutesSinceBroadcastStarted = DateUtils.calculateDifferenceBetween(getBeginTimeCalendarGMT(), now, Calendar.MINUTE, false, 0);
 	    
 	    return elapsedMinutesSinceBroadcastStarted;
 	}
 	
 	
 	
-	public int getRemainingMinutesUntilBroadcastEnds() 
+	public Integer getRemainingMinutesUntilBroadcastEnds() 
 	{	    
 	    Calendar now = Calendar.getInstance();
 		
-	    int elapsedMinutesSinceBroadcastStarted = DateUtils.calculateDifferenceBetween(now, getEndTimeCalendarGMT(), Calendar.MINUTE, false, 0);
+	    Integer elapsedMinutesSinceBroadcastStarted = DateUtils.calculateDifferenceBetween(now, getEndTimeCalendarGMT(), Calendar.MINUTE, false, 0);
 	    
 	    return elapsedMinutesSinceBroadcastStarted;
 	}
@@ -528,5 +531,38 @@ public class TVBroadcast extends BroadcastJSON {
 				return leftProgramName.compareTo(rightProgramName);
 			}
 		}
+	}
+
+
+
+	@Override
+	public boolean areDataFieldsValid() {
+		final int yearOf2000 = 2000;
+		boolean tvProgramOk = true;
+		if(getProgram() != null) {
+			tvProgramOk = getProgram().areDataFieldsValid();
+			if(!tvProgramOk) {
+				getProgram().areDataFieldsValid();
+			}
+		}
+		
+		
+		boolean broadcastFields = (tvProgramOk && (getBeginTimeMillis() != null) && 
+				!TextUtils.isEmpty(getBeginTime()) && !TextUtils.isEmpty(getEndTime()) &&
+				(getBroadcastType() != BroadcastTypeEnum.UNKNOWN) && !TextUtils.isEmpty(getShareUrl())
+				);
+		
+		boolean additionalFieldsOk = (
+				getBeginTimeCalendarGMT() != null && (getBeginTimeCalendarGMT().get(Calendar.YEAR) > yearOf2000)  && getEndTimeCalendarGMT() != null &&
+						(getEndTimeCalendarGMT().get(Calendar.YEAR) > yearOf2000) &&
+						getBeginTimeCalendarLocal() != null && (getBeginTimeCalendarLocal().get(Calendar.YEAR) > yearOf2000)  && getEndTimeCalendarLocal() != null &&
+						(getEndTimeCalendarLocal().get(Calendar.YEAR) > yearOf2000) && getBroadcastDurationInMinutes() != null &&
+						!TextUtils.isEmpty(getBeginTimeDateRepresentation()) && !TextUtils.isEmpty(getBeginTimeDayAndMonthAsString()) &&
+						!TextUtils.isEmpty(getBeginTimeHourAndMinuteLocalAsString()) && !TextUtils.isEmpty(getEndTimeHourAndMinuteLocalAsString())
+						);
+		
+		boolean areDataFieldsValid = broadcastFields && additionalFieldsOk;
+		
+		return areDataFieldsValid;
 	}
 }

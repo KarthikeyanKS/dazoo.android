@@ -62,13 +62,7 @@ public class PopularBroadcastTest
 	@Test
 	public void testAllVariablesNotNull() {
 		for(TVBroadcastWithChannelInfo popular : tvPopularBroadcastsWithChannelInfo) {
-			RepetitionsOfBroadcastTest.testBroadcast(popular);
-			
-			TVChannel tvChannel = popular.getChannel();
-			TVChannelGSONTest.testTVChannelObject(tvChannel);
-			
-			TVProgram tvProgram = popular.getProgram();
-			BroadcastsWithChannelInfoTest.testTVProgram(tvProgram);
+				assertTrue(popular.areDataFieldsValid());
 		}
 	}
 }

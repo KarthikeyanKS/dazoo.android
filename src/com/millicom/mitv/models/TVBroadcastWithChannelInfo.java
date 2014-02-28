@@ -6,15 +6,21 @@ package com.millicom.mitv.models;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import android.util.Log;
+
 import com.millicom.mitv.enums.BroadcastTypeEnum;
+import com.millicom.mitv.interfaces.GSONDataFieldValidation;
 import com.millicom.mitv.models.gson.TVBroadcastWithChannelInfoJSON;
 import com.millicom.mitv.models.sql.NotificationSQLElement;
 
 
 
 public class TVBroadcastWithChannelInfo 
-	extends TVBroadcastWithChannelInfoJSON 
+	extends TVBroadcastWithChannelInfoJSON implements GSONDataFieldValidation
 {
+	private static final String TAG = TVBroadcastWithChannelInfoJSON.class.getName();
+	
+	
 	public TVBroadcastWithChannelInfo(){}
 
 	
@@ -22,37 +28,13 @@ public class TVBroadcastWithChannelInfo
 	public TVBroadcastWithChannelInfo(TVBroadcast broadcast)
 	{
 		this.program = broadcast.getProgram();
-		
 		this.beginTimeMillis = broadcast.getBeginTimeMillis();
-		
-		this.broadcastType = broadcast.getBroadcastType();
-		
 		this.beginTime = broadcast.getBeginTime();
 		this.endTime = broadcast.getEndTime();
-		
+		this.broadcastType = broadcast.getBroadcastType();
+		this.shareUrl = broadcast.getShareUrl();
 		this.beginTimeCalendarGMT = broadcast.getBeginTimeCalendarGMT();
 		this.endTimeCalendarGMT = broadcast.getEndTimeCalendarGMT();
-		
-		this.shareUrl = broadcast.getShareUrl();
-	}
-	
-	
-	
-	public TVBroadcastWithChannelInfo(NotificationSQLElement item)
-	{
-		TVChannel tvChannel = new TVChannel(item);
-		this.channel = tvChannel;
-		
-		TVProgram tvProgram = new TVProgram(item);
-		this.program = tvProgram;
-		
-		String broadcastTypeAsString = item.getBroadcastType();
-		
-		this.broadcastType = BroadcastTypeEnum.getBroadcastTypeEnumFromStringRepresentation(broadcastTypeAsString);
-		this.beginTimeMillis = item.getBroadcastBeginTimeInMilliseconds();
-		this.beginTime = item.getBroadcastBeginTime();
-		this.endTime = item.getBroadcastEndTime();
-		this.shareUrl = item.getShareUrl();
 	}
 	
 	
@@ -114,4 +96,38 @@ public class TVBroadcastWithChannelInfo
 		}
 		return closestIndexFound;
 	}
+
+	public TVBroadcastWithChannelInfo(NotificationSQLElement item)
+	{
+		TVChannel tvChannel = new TVChannel(item);
+		this.channel = tvChannel;
+		
+		TVProgram tvProgram = new TVProgram(item);
+		this.program = tvProgram;
+		
+		String broadcastTypeAsString = item.getBroadcastType();
+		
+		this.broadcastType = BroadcastTypeEnum.getBroadcastTypeEnumFromStringRepresentation(broadcastTypeAsString);
+		this.beginTimeMillis = item.getBroadcastBeginTimeInMilliseconds();
+		this.beginTime = item.getBroadcastBeginTime();
+		this.endTime = item.getBroadcastEndTime();
+		this.shareUrl = item.getShareUrl();
+	}
+
+
+	@Override
+	public boolean areDataFieldsValid() {
+		boolean broadcastFieldsOK = super.areDataFieldsValid();
+		if(!broadcastFieldsOK) {
+			super.areDataFieldsValid();
+		}
+		TVChannel tvChannel = getChannel();
+		boolean channelFieldsOK = tvChannel.areDataFieldsValid();
+		
+		boolean areDataFieldsValid = broadcastFieldsOK && channelFieldsOK;
+		Log.d(TAG, String.format("broadcastFieldsOK: %s, channelFieldsOK> %s", broadcastFieldsOK ? "ok" : "fail", channelFieldsOK ? "ok" : "fail"));
+		return areDataFieldsValid;
+	}
+	
+	
 }
