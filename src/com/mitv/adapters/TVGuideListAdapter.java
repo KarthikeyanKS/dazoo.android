@@ -1,4 +1,7 @@
+
 package com.mitv.adapters;
+
+
 
 import java.util.ArrayList;
 
@@ -36,18 +39,26 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-public class TVGuideListAdapter extends AdListAdapter<TVChannelGuide> {
+
+
+public class TVGuideListAdapter 
+	extends AdListAdapter<TVChannelGuide>
+{
 	@SuppressWarnings("unused")
 	private static final String TAG = TVGuideListAdapter.class.getName();
 
+	
 	private LayoutInflater layoutInflater;
 	private Activity activity;
 	private TVDate tvDate;
 	private int currentHour;
 	private int rowWidth = -1;
 
+	
+	
 	@SuppressLint("NewApi")
-	public TVGuideListAdapter(Activity activity, ArrayList<TVChannelGuide> guide, TVDate date, int hour, boolean isToday) {
+	public TVGuideListAdapter(Activity activity, ArrayList<TVChannelGuide> guide, TVDate date, int hour, boolean isToday) 
+	{
 		super(Consts.JSON_AND_FRAGMENT_KEY_GUIDE, activity, guide);
 		this.activity = activity;
 		this.tvDate = date;
@@ -55,12 +66,17 @@ public class TVGuideListAdapter extends AdListAdapter<TVChannelGuide> {
 
 		layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
+	
+	
 
 	@Override
-	public int getViewTypeCount() {
+	public int getViewTypeCount()
+	{
 		return super.getViewTypeCount() + 1;
 	}
 
+	
+	
 	public View getViewForGuideCell(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 
@@ -274,8 +290,11 @@ public class TVGuideListAdapter extends AdListAdapter<TVChannelGuide> {
 		this.rowWidth = width;
 	}
 
+	
+	
 	@SuppressLint("NewApi")
-	public static void removeOnGlobalLayoutListener(View v, ViewTreeObserver.OnGlobalLayoutListener listener) {
+	public static void removeOnGlobalLayoutListener(View v, ViewTreeObserver.OnGlobalLayoutListener listener) 
+	{
 		if (Build.VERSION.SDK_INT < 16) {
 			v.getViewTreeObserver().removeGlobalOnLayoutListener(listener);
 		} else {

@@ -297,9 +297,26 @@ public class Cache
 		this.userLikes.add(userLike);
 	}
 	
-	public void removeUserLike(UserLike userLike) 
+	public void removeUserLike(UserLike userLikeToRemove) 
 	{
-		this.userLikes.remove(userLike);
+		int indexToRemove = -1;
+		
+		for(int i=0; i<userLikes.size(); i++)
+		{
+			UserLike userLike = userLikes.get(i);
+			
+			if(userLike.getLikeType() == userLikeToRemove.getLikeType() &&
+			   userLike.getTitle().equals(userLikeToRemove.getTitle()))
+			{
+				indexToRemove = i;
+				break;
+			}
+		}
+		
+		if(indexToRemove >= 0)
+		{
+			this.userLikes.remove(indexToRemove);
+		}
 	}
 	
 	public HashMap<String, SparseArray<AdAdzerkJSON>> getFragmentToAdsMap() {

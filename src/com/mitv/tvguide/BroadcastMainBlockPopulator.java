@@ -40,30 +40,28 @@ public class BroadcastMainBlockPopulator
 	private static final String	TAG	= BroadcastMainBlockPopulator.class.getName();
 
 	
-	private Activity mActivity;
-	private ScrollView mContainerView;
-	private ImageView mLikeIv;
-	private boolean	mIsLiked = false;
-	private String mProgramId;
-	private String mContentTitle;
-	private String mLikeType;
+	private Activity activity;
+	private ScrollView scrollView;
+	private ImageView likeIv;
+	
+	private String programId;
+	private String contentTitle;
 
 	
 	
-	public BroadcastMainBlockPopulator(Activity activity, ScrollView containerView)
+	public BroadcastMainBlockPopulator(Activity activity, ScrollView scrollView)
 	{
-		this.mActivity = activity;
-		
-		this.mContainerView = containerView;
+		this.activity = activity;
+		this.scrollView = scrollView;
 	}
 
 	
 	
 	public void createBlock(final TVBroadcastWithChannelInfo broadcast) 
 	{
-		LinearLayout containerView = (LinearLayout) mContainerView.findViewById(R.id.broacastpage_block_container_layout);
+		LinearLayout containerView = (LinearLayout) scrollView.findViewById(R.id.broacastpage_block_container_layout);
 
-		View topContentView = LayoutInflater.from(mActivity).inflate(R.layout.block_broadcastpage_main_content, null);
+		View topContentView = LayoutInflater.from(activity).inflate(R.layout.block_broadcastpage_main_content, null);
 		ImageView posterIv = (ImageView) topContentView.findViewById(R.id.block_broadcastpage_poster_iv);
 		ProgressBar posterPb = (ProgressBar) topContentView.findViewById(R.id.block_broadcastpage_poster_progressbar);
 		TextView titleTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_details_title_tv);
@@ -79,7 +77,7 @@ public class BroadcastMainBlockPopulator
 		ReminderView reminderView = (ReminderView) topContentView.findViewById(R.id.element_social_buttons_reminder);
 		reminderView.setBroadcast(broadcast);
 
-		mLikeIv = (ImageView) topContentView.findViewById(R.id.element_social_buttons_like_button_iv);
+		likeIv = (ImageView) topContentView.findViewById(R.id.element_social_buttons_like_button_iv);
 		ImageView mShareIv = (ImageView) topContentView.findViewById(R.id.element_social_buttons_share_button_iv);
 
 		RelativeLayout likeContainer = (RelativeLayout) topContentView.findViewById(R.id.element_social_buttons_like_button_container);
@@ -89,161 +87,168 @@ public class BroadcastMainBlockPopulator
 		TextView progressTxt = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_timeleft_tv);
 
 		TVProgram program = broadcast.getProgram();
-		ProgramTypeEnum programType = program.getProgramType();
-//		String programType = program.getProgramType();
 		
-		switch (programType) {
-			case TV_EPISODE: {
-				mProgramId = broadcast.getProgram().getSeries().getSeriesId();
-				mContentTitle = broadcast.getProgram().getSeries().getName();
-				if (!program.getSeason().getNumber().equals("0")) {
-					seasonTv.setText(mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " ");
+		ProgramTypeEnum programType = program.getProgramType();
+
+		switch (programType) 
+		{
+			case TV_EPISODE: 
+			{
+				programId = broadcast.getProgram().getSeries().getSeriesId();
+				contentTitle = broadcast.getProgram().getSeries().getName();
+				
+				if (!program.getSeason().getNumber().equals("0")) 
+				{
+					seasonTv.setText(activity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " ");
 					seasonTv.setVisibility(View.VISIBLE);
 				}
-				if (program.getEpisodeNumber() > 0) {
-					episodeTv.setText(mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(program.getEpisodeNumber()));
+				if (program.getEpisodeNumber() > 0) 
+				{
+					episodeTv.setText(activity.getResources().getString(R.string.episode) + " " + String.valueOf(program.getEpisodeNumber()));
 					episodeTv.setVisibility(View.VISIBLE);
 				}
-				if (program.getSeason().getNumber().equals("0") && program.getEpisodeNumber() == 0) {
+				if (program.getSeason().getNumber().equals("0") && program.getEpisodeNumber() == 0) 
+				{
 					episodeNameTv.setTextSize(18);
 				}
 	
 				titleTv.setText(program.getSeries().getName());
 				
 				String episodeName = program.getTitle();
-				if (episodeName.length() > 0) {
+				if (episodeName.length() > 0) 
+				{
 					episodeNameTv.setText(episodeName);
 					episodeNameTv.setVisibility(View.VISIBLE);
 				}
 				break;
 			}
-			case SPORT: {
-				mProgramId = broadcast.getProgram().getSportType().getSportTypeId();
-				mContentTitle = broadcast.getProgram().getSportType().getName();
+			case SPORT: 
+			{
+				programId = broadcast.getProgram().getSportType().getSportTypeId();
+				
+				contentTitle = broadcast.getProgram().getSportType().getName();
+				
 				titleTv.setText(program.getTitle());
-				if (program.getTournament() != null) {
+				
+				if (program.getTournament() != null) 
+				{
 					episodeNameTv.setText(program.getTournament());
 					episodeNameTv.setVisibility(View.VISIBLE);
-				} else {
+				} 
+				else 
+				{
 					episodeNameTv.setText(program.getSportType().getName());
 					episodeNameTv.setVisibility(View.VISIBLE);
 				}
 				break;
 			}
-			default: {
-				mContentTitle = broadcast.getProgram().getTitle();
-				mProgramId = broadcast.getProgram().getProgramId();
+			default: 
+			{
+				contentTitle = broadcast.getProgram().getTitle();
+				programId = broadcast.getProgram().getProgramId();
 				titleTv.setText(program.getTitle());
 				break;
 			}
 		}
-
-//		if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-//			mProgramId = broadcast.getProgram().getSeries().getSeriesId();
-//			mContentTitle = broadcast.getProgram().getSeries().getName();
-//			if (!program.getSeason().getNumber().equals("0")) {
-//				seasonTv.setText(mActivity.getResources().getString(R.string.season) + " " + program.getSeason().getNumber() + " ");
-//				seasonTv.setVisibility(View.VISIBLE);
-//			}
-//			if (program.getEpisodeNumber() > 0) {
-//				episodeTv.setText(mActivity.getResources().getString(R.string.episode) + " " + String.valueOf(program.getEpisodeNumber()));
-//				episodeTv.setVisibility(View.VISIBLE);
-//			}
-//			if (program.getSeason().getNumber().equals("0") && program.getEpisodeNumber() == 0) {
-//				episodeNameTv.setTextSize(18);
-//			}
-//
-//			titleTv.setText(program.getSeries().getName());
-//			
-//			String episodeName = program.getTitle();
-//			if (episodeName.length() > 0) {
-//				episodeNameTv.setText(episodeName);
-//				episodeNameTv.setVisibility(View.VISIBLE);
-//			}
-//
-//		} else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) {
-//			mProgramId = broadcast.getProgram().getSportType().getSportTypeId();
-//			mContentTitle = broadcast.getProgram().getSportType().getName();
-//			titleTv.setText(program.getTitle());
-//			if (program.getTournament() != null) {
-//				episodeNameTv.setText(program.getTournament());
-//				episodeNameTv.setVisibility(View.VISIBLE);
-//			} else {
-//				episodeNameTv.setText(program.getSportType().getName());
-//				episodeNameTv.setVisibility(View.VISIBLE);
-//			}
-//		} else {
-//			mContentTitle = broadcast.getProgram().getTitle();
-//			mProgramId = broadcast.getProgram().getProgramId();
-//			titleTv.setText(program.getTitle());
-//		}
 		
 		//TOOD use similar method to LikeService.getLikeType, but using new enums ProgramTypeEnum
-		mLikeType = null;//LikeService.getLikeType(programType);
+		String mLikeType = null;//LikeService.getLikeType(programType);
 
-		if (program.getImages().getPortrait().getLarge() != null && TextUtils.isEmpty(program.getImages().getPortrait().getLarge()) != true) {
+		if (program.getImages().getPortrait().getLarge() != null && TextUtils.isEmpty(program.getImages().getPortrait().getLarge()) != true)
+		{
 			ImageAware imageAware = new ImageViewAware(posterIv, false);
 			ImageLoader.getInstance().displayImage(program.getImages().getPortrait().getLarge(), imageAware);
 		}
 
-		if (broadcast.getChannel() != null) {
+		if (broadcast.getChannel() != null) 
+		{
 			ImageAware imageAware = new ImageViewAware(channelIv, false);
 			ImageLoader.getInstance().displayImage(broadcast.getChannel().getImageUrl(), imageAware);
 		}
 
-		// broadcast is currently on air: show progress
-		if (broadcast.isBroadcastCurrentlyAiring()) {
-			ProgressBarUtils.setupProgressBar(mActivity, broadcast, progressBar, progressTxt);
+		if (broadcast.isBroadcastCurrentlyAiring())   // broadcast is currently on air: show progress
+		{
+			ProgressBarUtils.setupProgressBar(activity, broadcast, progressBar, progressTxt);
 			timeTv.setVisibility(View.GONE);
 		}
-		// broadcast is in the future: show time
-		else {
+		else  // broadcast is in the future: show time
+		{
 			timeTv.setText(broadcast.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString() + " - " + broadcast.getEndTimeHourAndMinuteLocalAsString());
 		}
 
 		String synopsis = program.getSynopsisShort();
-		if (TextUtils.isEmpty(synopsis) == false) {
+		
+		if (TextUtils.isEmpty(synopsis) == false) 
+		{
 			synopsisTv.setText(program.getSynopsisShort());
 			synopsisTv.setVisibility(View.VISIBLE);
 		}
 
 		int duration = broadcast.getBroadcastDurationInMinutes();
+		
 		String extras = "";
-		if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-			extras = mActivity.getResources().getString(R.string.tv_series) + "  "
+		
+		if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType))
+		{
+			extras = activity.getResources().getString(R.string.tv_series) + "  "
 					+ ((program.getYear() == 0) ? "" : String.valueOf(program.getYear()) + "  ")
-					+ ((duration == 0) ? "" : duration + " " + mActivity.getResources().getString(R.string.minutes) + "  ")
+					+ ((duration == 0) ? "" : duration + " " + activity.getResources().getString(R.string.minutes) + "  ")
 					+ ((program.getGenre() == null) ? "" : (program.getGenre()));
-		} else if (Consts.PROGRAM_TYPE_MOVIE.equals(programType)) {
-			extras = mActivity.getResources().getString(R.string.movie) + "  " 
+		} 
+		else if (Consts.PROGRAM_TYPE_MOVIE.equals(programType)) 
+		{
+			extras = activity.getResources().getString(R.string.movie) + "  " 
 					+ ((program.getYear() == 0) ? "" : String.valueOf(program.getYear()) + "  ")
-					+ ((duration == 0) ? "" : duration + " " + mActivity.getResources().getString(R.string.minutes) + "  ")
+					+ ((duration == 0) ? "" : duration + " " + activity.getResources().getString(R.string.minutes) + "  ")
 					+ ((program.getGenre() == null) ? "" : (program.getGenre()));
-		} else if (Consts.PROGRAM_TYPE_OTHER.equals(programType)) {
+		} 
+		else if (Consts.PROGRAM_TYPE_OTHER.equals(programType))
+		{
 			extras = program.getCategory() + "  "
-					+ ((duration == 0) ? "" : duration + " " + mActivity.getResources().getString(R.string.minutes));
-		} else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) {
-			extras = mActivity.getResources().getString(R.string.sport) + "  "
-					+ ((duration == 0) ? "" : duration + " " + mActivity.getResources().getString(R.string.minutes) + "  ")
+					+ ((duration == 0) ? "" : duration + " " + activity.getResources().getString(R.string.minutes));
+		} 
+		else if (Consts.PROGRAM_TYPE_SPORT.equals(programType))
+		{
+			extras = activity.getResources().getString(R.string.sport) + "  "
+					+ ((duration == 0) ? "" : duration + " " + activity.getResources().getString(R.string.minutes) + "  ")
 					+ program.getSportType().getName();
 		}
+		
 		extraTv.setText(extras);
 		extraTv.setVisibility(View.VISIBLE);
 
-		if (ContentManager.sharedInstance().isLoggedIn()) {
+		final boolean mIsLiked;
+		
+		if (ContentManager.sharedInstance().isLoggedIn()) 
+		{
 			// mIsLiked = LikeService.isLiked(mToken, broadcast.getProgram().getProgramId());
-			mIsLiked = MiTVStore.getInstance().isInTheLikesList(mProgramId);
+			mIsLiked = MiTVStore.getInstance().isInTheLikesList(programId);
+		}
+		else
+		{
+			mIsLiked = false;
 		}
 
-		if (mIsLiked) mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_selected));
-		else mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
+		if (mIsLiked) 
+		{
+			likeIv.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_like_selected));
+		}
+		else
+		{
+			likeIv.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_like_default));
+		}
 
-		likeContainer.setOnClickListener(new View.OnClickListener() {
-
+		likeContainer.setOnClickListener(new View.OnClickListener()
+		{
 			@Override
-			public void onClick(View v) {
-				if (ContentManager.sharedInstance().isLoggedIn()) {
-					if (mIsLiked == false) {
+			public void onClick(View v)
+			{
+				boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+				
+				if(isLoggedIn) 
+				{
+					if (mIsLiked == false)
+					{
 						//TODO add like using new async task, THROUGH ContentManager
 //						if (LikeService.addLike(mProgramId, mLikeType)) {
 //							BroadcastPageActivity.toast = LikeService.showSetLikeToast(mActivity, mContentTitle);
@@ -280,60 +285,84 @@ public class BroadcastMainBlockPopulator
 				} 
 				else 
 				{
-					if (BroadcastPageActivity.toast != null) {
+					if (BroadcastPageActivity.toast != null) 
+					{
 						BroadcastPageActivity.toast.cancel();
 					}
 
-					DialogHelper.showPromptSignInDialog(mActivity, yesLoginProc(), noLoginProc());
+					DialogHelper.showPromptSignInDialog(activity, yesLoginProc(), noLoginProc());
 				}
 
 			}
 		});
 
-		shareContainer.setOnClickListener(new View.OnClickListener() {
-
+		shareContainer.setOnClickListener(new View.OnClickListener() 
+		{
 			@Override
-			public void onClick(View v) {
-				ShareUtils.startShareActivity(mActivity, mActivity.getResources().getString(R.string.app_name), broadcast.getShareUrl(), mActivity.getResources().getString(R.string.share_action_title));
+			public void onClick(View v) 
+			{
+				ShareUtils.startShareActivity(activity, activity.getResources().getString(R.string.app_name), broadcast.getShareUrl(), activity.getResources().getString(R.string.share_action_title));
 			}
 		});
 
 		topContentView.setVisibility(View.VISIBLE);
 
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+		
 		layoutParams.setMargins(20, 20, 20, 10);
+		
 		containerView.addView(topContentView, layoutParams);
 	}
 
-	public Runnable yesLoginProc() {
-		return new Runnable() {
-			public void run() {
-				Intent intent = new Intent(mActivity, SignUpSelectionActivity.class);
-				mActivity.startActivity(intent);
+	
+	
+	public Runnable yesLoginProc() 
+	{
+		return new Runnable() 
+		{
+			public void run()
+			{
+				Intent intent = new Intent(activity, SignUpSelectionActivity.class);
+				
+				activity.startActivity(intent);
 			}
 		};
 	}
 
-	public Runnable noLoginProc() {
-		return new Runnable() {
-			public void run() {
+	
+	
+	public Runnable noLoginProc() 
+	{
+		return new Runnable()
+		{
+			public void run() 
+			{
 			}
 		};
 	}
 
-	public Runnable yesLikeProc() {
-		return new Runnable() {
-			public void run() {
-				mLikeIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_like_default));
-				mIsLiked = false;
+	
+	
+	public Runnable yesLikeProc() 
+	{
+		return new Runnable() 
+		{
+			public void run()
+			{
+				likeIv.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_like_default));
+//				mIsLiked = false;
 			}
 		};
 	}
 
-	public Runnable noLikeProc() {
-		return new Runnable() {
-			public void run() {
-			}
+	
+	
+	public Runnable noLikeProc()
+	{
+		return new Runnable() 
+		{
+			public void run()
+			{}
 		};
 	}
 }

@@ -13,6 +13,7 @@ import android.util.Log;
 import com.androidquery.callback.AjaxCallback;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.LikeTypeRequestEnum;
+import com.millicom.mitv.enums.LikeTypeResponseEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
@@ -460,7 +461,7 @@ public class ContentManager
 			}
 			case USER_ADD_LIKE: 
 			{
-				handleAddUserLikeResponse(activityCallbackListener, requestIdentifier, result);
+				handleAddUserLikeResponse(activityCallbackListener, requestIdentifier, result, content);
 				break;
 			}
 			case USER_REMOVE_LIKE: 
@@ -895,7 +896,8 @@ public class ContentManager
 			cache.setUserData(userData);
 
 			fetchFromServiceTVDataOnUserStatusChange(activityCallbackListener);
-		} else 
+		} 
+		else 
 		{
 			activityCallbackListener.onResult(result, requestIdentifier);
 		}
@@ -906,7 +908,6 @@ public class ContentManager
 	{
 		if (result.wasSuccessful()) 
 		{
-			@SuppressWarnings("unchecked")
 			ArrayList<UserLike> userLikes = (ArrayList<UserLike>) content;
 			cache.setUserLikes(userLikes);
 			
@@ -915,19 +916,16 @@ public class ContentManager
 	}
 	
 	
-	public void handleAddUserLikeResponse(ActivityCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result)
+	public void handleAddUserLikeResponse(ActivityCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content)
 	{
 		if (result.wasSuccessful()) 
 		{
-			// TODO NewArc - Use storage for likes
-//			UserLike userLike = new UserLike();
-//			
-//			storage.addUserLike(userLike);
+			UserLike userLike = (UserLike) content;
+			
+			cache.addUserLike(userLike);
 		} 
-		else 
-		{
-			activityCallbackListener.onResult(result, requestIdentifier);
-		}
+		
+		activityCallbackListener.onResult(result, requestIdentifier);
 	}
 	
 	
@@ -935,21 +933,24 @@ public class ContentManager
 	{
 		if (result.wasSuccessful()) 
 		{
-			// TODO NewArc - Use storage for likes
-//			storage.removeUserLike(userLike);
+			// TODO NewArc - Implement this
+			UserLike userLike = new UserLike(LikeTypeResponseEnum.PROGRAM, "");
+			
+			cache.removeUserLike(userLike);
 		} 
-		else 
-		{
-			activityCallbackListener.onResult(result, requestIdentifier);
-		}
+		
+		activityCallbackListener.onResult(result, requestIdentifier);
 	}
 
 	
 	public void handleResetPasswordSendEmailResponse(ActivityCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result) 
 	{
-		if(result.wasSuccessful()) {
+		if(result.wasSuccessful()) 
+		{
 			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS_WITH_NO_CONTENT, requestIdentifier);
-		} else {
+		} 
+		else
+		{
 			activityCallbackListener.onResult(FetchRequestResultEnum.USER_RESET_PASSWORD_UNKNOWN_ERROR, requestIdentifier);
 		}
 	}
