@@ -18,11 +18,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.millicom.mitv.models.AdAdzerk;
 import com.mitv.R;
 import com.mitv.adapters.TVGuideListAdapter.ViewHolder;
 import com.mitv.manager.AppConfigurationManager;
-import com.mitv.model.OldAdzerkAd;
-import com.mitv.storage.MiTVStore;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
@@ -34,10 +33,10 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 public class AdListAdapter<T> 
 	extends BaseAdapter 
 {
-	private String fragmentName;
 	private Activity activity;
+	private String fragmentName;
 	private List<T> items;
-	private SparseArray<OldAdzerkAd> adItems = new SparseArray<OldAdzerkAd>();
+	private SparseArray<AdAdzerk> adItems = new SparseArray<AdAdzerk>();
 	private List<Integer> adFormats;
 	private int cellCountBetweenAdCells;
 	private boolean isAdsEnabled;
@@ -65,11 +64,11 @@ public class AdListAdapter<T>
 		
 		if (this.isAdsEnabled) 
 		{
-			adItems = MiTVStore.getInstance().getAdsForFragment(fragmentName);
+			// adItems = MiTVStore.getInstance().getAdsForFragment(fragmentName);
 			
 			if(adItems == null) 
 			{
-				adItems = new SparseArray<OldAdzerkAd>();
+				adItems = new SparseArray<AdAdzerk>();
 				downloadAds();
 			}
 		}
@@ -205,7 +204,7 @@ public class AdListAdapter<T>
 			
 			if (holder.channelLogo != null) 
 			{
-				final OldAdzerkAd ad = getAdAtGlobalIndex(position);
+				final AdAdzerk ad = getAdAtGlobalIndex(position);
 				
 				if (ad != null) 
 				{
@@ -293,11 +292,11 @@ public class AdListAdapter<T>
 	
 	
 	
-	private OldAdzerkAd getAdAtGlobalIndex(int globalIndex) 
+	private AdAdzerk getAdAtGlobalIndex(int globalIndex) 
 	{
 		int adIndex = globalIndexToAdIndex(globalIndex);
 		
-		OldAdzerkAd ad = adItems.get(adIndex);
+		AdAdzerk ad = adItems.get(adIndex);
 		
 		return ad;
 	}

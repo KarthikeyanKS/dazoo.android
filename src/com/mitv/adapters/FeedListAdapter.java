@@ -45,11 +45,9 @@ public class FeedListAdapter
 	private static final String	TAG	= FeedListAdapter.class.getName();
 
 	
-	private BaseActivity activity;
+	private BaseActivity baseActivity;
 	private ArrayList<TVFeedItem> feedItems;
 	private LayoutInflater layoutInflater;
-
-	
 
 	
 	
@@ -57,7 +55,7 @@ public class FeedListAdapter
 	{
 		super(Consts.JSON_AND_FRAGMENT_KEY_ACTIVITY, activity, feedItems);
 		
-		this.activity = activity;
+		this.baseActivity = activity;
 		
 		this.feedItems = feedItems;
 
@@ -243,7 +241,7 @@ public class FeedListAdapter
 						
 						if(season.intValue() != 0)
 						{
-							seasonEpisode.append(activity.getResources().getString(R.string.season));
+							seasonEpisode.append(baseActivity.getResources().getString(R.string.season));
 							seasonEpisode.append(" ");
 							seasonEpisode.append(season);
 							seasonEpisode.append(" ");
@@ -251,7 +249,7 @@ public class FeedListAdapter
 						
 						if(episode > 0)
 						{
-							seasonEpisode.append(activity.getResources().getString(R.string.episode));
+							seasonEpisode.append(baseActivity.getResources().getString(R.string.episode));
 							seasonEpisode.append(" ");
 							seasonEpisode.append(episode);
 						}
@@ -305,7 +303,7 @@ public class FeedListAdapter
 
 				if (broadcast.isBroadcastCurrentlyAiring()) 
 				{
-					ProgressBarUtils.setupProgressBar(activity, broadcast, progressBar, progressTextView);
+					ProgressBarUtils.setupProgressBar(baseActivity, broadcast, progressBar, progressTextView);
 				} 
 
 				containerLayout.setOnClickListener(new View.OnClickListener() 
@@ -374,7 +372,7 @@ public class FeedListAdapter
 
 		if (rowView == null) 
 		{
-			rowView = LayoutInflater.from(activity).inflate(R.layout.no_data, null);
+			rowView = LayoutInflater.from(baseActivity).inflate(R.layout.no_data, null);
 		}
 		
 		return rowView;
@@ -440,7 +438,7 @@ public class FeedListAdapter
 
 					if(season.intValue() != 0)
 					{
-						seasonEpisode.append(activity.getResources().getString(R.string.season));
+						seasonEpisode.append(baseActivity.getResources().getString(R.string.season));
 						seasonEpisode.append(" ");
 						seasonEpisode.append(season);
 						seasonEpisode.append(" ");
@@ -448,7 +446,7 @@ public class FeedListAdapter
 					
 					if(episode > 0)
 					{
-						seasonEpisode.append(activity.getResources().getString(R.string.episode));
+						seasonEpisode.append(baseActivity.getResources().getString(R.string.episode));
 						seasonEpisode.append(" ");
 						seasonEpisode.append(episode);
 					}
@@ -515,7 +513,7 @@ public class FeedListAdapter
 			{
 				case POPULAR_TWITTER:
 				{
-					holderBC.headerTv.setText(activity.getResources().getString(R.string.icon_twitter) + " " + feedItem.getTitle());
+					holderBC.headerTv.setText(baseActivity.getResources().getString(R.string.icon_twitter) + " " + feedItem.getTitle());
 					break;
 				}
 				
@@ -534,7 +532,7 @@ public class FeedListAdapter
 
 			if(broadcast.isBroadcastCurrentlyAiring()) 
 			{
-				ProgressBarUtils.setupProgressBar(activity, broadcast, holderBC.progressBar, holderBC.progressbarTv);
+				ProgressBarUtils.setupProgressBar(baseActivity, broadcast, holderBC.progressBar, holderBC.progressbarTv);
 			}
 			else
 			{
@@ -544,11 +542,11 @@ public class FeedListAdapter
 
 			if (isLikedByUser)
 			{
-				holderBC.likeLikeIv.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_like_selected));
+				holderBC.likeLikeIv.setImageDrawable(baseActivity.getResources().getDrawable(R.drawable.ic_like_selected));
 			}
 			else
 			{
-				holderBC.likeLikeIv.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_like_default));
+				holderBC.likeLikeIv.setImageDrawable(baseActivity.getResources().getDrawable(R.drawable.ic_like_default));
 			}
 			
 			holderBC.container.setOnClickListener(new View.OnClickListener() 
@@ -575,10 +573,10 @@ public class FeedListAdapter
 				public void onClick(View v)
 				{
 					ShareUtils.startShareActivity(
-							activity, 
-							activity.getResources().getString(R.string.app_name), 
+							baseActivity, 
+							baseActivity.getResources().getString(R.string.app_name), 
 							broadcast.getShareUrl(),
-							activity.getResources().getString(R.string.share_action_title));
+							baseActivity.getResources().getString(R.string.share_action_title));
 				}
 			});
 		}
@@ -647,9 +645,9 @@ public class FeedListAdapter
 			@Override
 			public void onClick(View v) 
 			{
-				Intent intent = new Intent(activity, PopularPageActivity.class);
+				Intent intent = new Intent(baseActivity, PopularPageActivity.class);
 				
-				activity.startActivity(intent);
+				baseActivity.startActivity(intent);
 			}
 		});
 
@@ -683,20 +681,30 @@ public class FeedListAdapter
 				break;
 			}
 			
-			default:
+			case MOVIE:
+			case OTHER:
 			{
 				likeType = LikeTypeRequestEnum.PROGRAM;
 				contentId = tvProgram.getProgramId();
 			}
+			
+			case UNKNOWN:
+			default:
+			{
+				likeType = LikeTypeRequestEnum.PROGRAM;
+				contentId = tvProgram.getProgramId();
+				
+				Log.w(TAG, "Using the default program type.");
+			}
 		}
 
-		if (isCurrentlyLikedByUser) 
+		if (isCurrentlyLikedByUser)
 		{
-			ContentManager.sharedInstance().removeUserLike(activity, likeType, contentId);
+			ContentManager.sharedInstance().removeUserLike(baseActivity, likeType, contentId);
 		} 
 		else 
 		{
-			ContentManager.sharedInstance().addUserLike(activity, likeType, contentId);
+			ContentManager.sharedInstance().addUserLike(baseActivity, likeType, contentId);
 		}
 	}
 	
@@ -704,8 +712,8 @@ public class FeedListAdapter
 	private void popularBroadcastClicked(TVBroadcastWithChannelInfo broadcastWithChannelInfo) 
 	{
 		ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
-		Intent intent = new Intent(activity, BroadcastPageActivity.class);
-		activity.startActivity(intent);
+		Intent intent = new Intent(baseActivity, BroadcastPageActivity.class);
+		baseActivity.startActivity(intent);
 	}
 	
 

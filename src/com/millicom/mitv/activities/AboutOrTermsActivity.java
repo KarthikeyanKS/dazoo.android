@@ -13,6 +13,7 @@ import android.text.Spannable;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.URLSpan;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
@@ -31,7 +32,6 @@ public abstract class AboutOrTermsActivity
 	extends BaseActivity 
 	implements OnClickListener
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = AboutOrTermsActivity.class.getName();
 
 	
@@ -77,10 +77,10 @@ public abstract class AboutOrTermsActivity
 	
 	private void populateViews() 
 	{
-		String title = "";
-		String headerText = "";
-		String infoText = "";
-		String linkText = "";
+		String title;
+		String headerText;
+		String infoText;
+		String linkText;
 		
 		if (isAboutView) 
 		{
@@ -91,16 +91,18 @@ public abstract class AboutOrTermsActivity
 			
 			versionNumberContainer.setVisibility(View.VISIBLE);
 			
-			String appVersion = "";
+			String appVersion;
 			
 			try 
 			{
 				PackageInfo pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
 				appVersion = getString(R.string.settings_version) + " " + pinfo.versionName;
 			} 
-			catch (NameNotFoundException e) 
+			catch (NameNotFoundException nnfex) 
 			{
-				e.printStackTrace();
+				appVersion = "";
+				
+				Log.e(TAG, nnfex.getMessage(), nnfex);
 			}
 			
 			versionNumberTv.setText(appVersion);
@@ -135,7 +137,6 @@ public abstract class AboutOrTermsActivity
 		{
 			case R.id.tab_tv_guide:
 			{
-				// tab to home page
 				Intent intentHome = new Intent(AboutOrTermsActivity.this, HomeActivity.class);
 				intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

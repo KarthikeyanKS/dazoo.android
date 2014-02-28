@@ -1,4 +1,7 @@
+
 package com.mitv.adapters;
+
+
 
 import java.util.ArrayList;
 
@@ -24,39 +27,55 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelInfo> {
 
+
+public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelInfo> 
+{
+	@SuppressWarnings("unused")
 	private static final String TAG = TVGuideTagListAdapter.class.getName();
 
+	
 	private LayoutInflater layoutInflater;
 	private Activity activity;
 	private ArrayList<TVBroadcastWithChannelInfo> taggedBroadcasts;
 	private int currentPosition;
 
-	public TVGuideTagListAdapter(Activity activity, String fragmentName, ArrayList<TVBroadcastWithChannelInfo> taggedBroadcasts, int currentPosition) {
+	
+	
+	public TVGuideTagListAdapter(Activity activity, String fragmentName, ArrayList<TVBroadcastWithChannelInfo> taggedBroadcasts, int currentPosition) 
+	{
 		super(fragmentName, activity, taggedBroadcasts);
 		this.taggedBroadcasts = taggedBroadcasts;
 		this.activity = activity;
 		this.currentPosition = currentPosition;
 	}
 
+	
+	
 	@Override
-	public int getViewTypeCount() {
+	public int getViewTypeCount() 
+	{
 		return super.getViewTypeCount() + 1;
 	}
 
+	
+	
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(int position, View convertView, ViewGroup parent)
+	{
 		/* Superclass AdListAdapter will create view if this is a position of an ad. */
 		View rowView = super.getView(position, convertView, parent);
 
-		if (rowView == null) {
+		if (rowView == null)
+		{
 			rowView = getViewForBroadCastCell(position, convertView, parent);
 		}
 
 		return rowView;
 	}
 
+	
+	
 	public View getViewForBroadCastCell(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 

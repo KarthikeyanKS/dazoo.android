@@ -235,8 +235,10 @@ public class TVGuideTableFragment
 
 					tvTagListAdapter = (TVGuideTagListAdapter) adapterMap.get(tvTagDisplayName);
 
-					if (tvTagListAdapter == null) {
+					if (tvTagListAdapter == null) 
+					{
 						tvTagListAdapter = new TVGuideTagListAdapter(activity, tvTagDisplayName, taggedBroadcasts, index);
+						
 						adapterMap.put(tvTagDisplayName, tvTagListAdapter);
 					}
 

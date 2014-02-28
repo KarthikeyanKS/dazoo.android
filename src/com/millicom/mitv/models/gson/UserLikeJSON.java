@@ -27,38 +27,38 @@ public class UserLikeJSON
 	 */
 	
 	@Expose
-	private String likeType;
+	protected String likeType;
 	
 	@Expose
-	private String title;
+	protected String title;
 	
 	/* This variable is used if likeType == "SERIES" */
 	@Expose (deserialize = false)
-	private String seriesId;
+	protected String seriesId;
 
 	/* This variable is used if likeType == "SPORT_TYPE" */
 	@Expose (deserialize = false)
-	private String sportTypeId;
+	protected String sportTypeId;
 	
 	/* This variable is used if likeType == "PROGRAM" */
 	@Expose (deserialize = false)
-	private String programType;
+	protected String programType;
 	
 	/* This variable is used if likeType == "PROGRAM" */
 	@Expose (deserialize = false)
-	private String programId;
+	protected String programId;
 	
 	/* This variable is used if likeType == "PROGRAM" and programType is "MOVIE" */
 	@Expose (deserialize = false)
-	private String genre;
+	protected String genre;
 	
 	/* This variable is used if likeType == "PROGRAM" and programType is "MOVIE" */
 	@Expose (deserialize = false)
-	private Integer year;
+	protected Integer year;
 	
 	/* This variable is used if likeType == "PROGRAM" and programType is "OTHER" */
 	@Expose (deserialize = false)
-	private String category;
+	protected String category;
 	
 	
 	

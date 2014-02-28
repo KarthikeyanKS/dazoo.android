@@ -42,14 +42,14 @@ public class FeedActivity
 	
 	private RelativeLayout facebookContainer;
 	private RelativeLayout signUpContainer;
-	private TextView greetingTv;
-	private Button checkPopularBtn;
-	private Button loginBtn;
-	private Boolean noMoreItems = false;
-	private Boolean noTask = true;
+	private Button checkPopularButton;
+	private Button loginButton;
 	private ListView listView;
-	private FeedListAdapter adapter;
+	private FeedListAdapter listAdapter;
 	private View listFooterView;
+	private TextView greetingTv;
+	
+	private Boolean noTask = true;
 
 	
 	
@@ -113,8 +113,8 @@ public class FeedActivity
 		signUpContainer = (RelativeLayout) findViewById(R.id.activity_not_logged_in_signup_email_container);
 		signUpContainer.setOnClickListener(this);
 
-		loginBtn = (Button) findViewById(R.id.activity_not_logged_in_login_btn);
-		loginBtn.setOnClickListener(this);
+		loginButton = (Button) findViewById(R.id.activity_not_logged_in_login_btn);
+		loginButton.setOnClickListener(this);
 		
 		setEmptyLayoutDetailsMessage("");
 	}
@@ -139,9 +139,9 @@ public class FeedActivity
 	
 					greetingTv = (TextView) findViewById(R.id.block_feed_no_likes_greeting_tv);
 					
-					checkPopularBtn = (Button) findViewById(R.id.block_feed_no_likes_btn);
+					checkPopularButton = (Button) findViewById(R.id.block_feed_no_likes_btn);
 					
-					checkPopularBtn.setOnClickListener(this);
+					checkPopularButton.setOnClickListener(this);
 	
 					StringBuilder sb = new StringBuilder();
 					sb.append(getResources().getString(R.string.hello));
@@ -165,9 +165,9 @@ public class FeedActivity
 
 		listView.setOnScrollListener(this);
 		
-		adapter = new FeedListAdapter(this, activityFeed);
+		listAdapter = new FeedListAdapter(this, activityFeed);
 		
-		listView.setAdapter(adapter);
+		listView.setAdapter(listAdapter);
 		
 		listView.setVisibility(View.VISIBLE);
 	}
@@ -385,7 +385,7 @@ public class FeedActivity
 			
 			boolean pastTotalCount = (firstVisibleItem + visibleItemCount >= totalItemCount);
 			
-			if (pastTotalCount && !noMoreItems && noTask) 
+			if (pastTotalCount && noTask) 
 			{
 				showScrollSpinner(true);
 
