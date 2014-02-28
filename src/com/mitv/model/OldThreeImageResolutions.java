@@ -1,5 +1,9 @@
 package com.mitv.model;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import com.mitv.SecondScreenApplication;
 
 public class OldThreeImageResolutions {
@@ -10,7 +14,8 @@ public class OldThreeImageResolutions {
 	
 	public String getImageUrl() {
 		int screenSize = SecondScreenApplication.sharedInstance().getScreenSizeMask();
-		boolean connectedToWifi = SecondScreenApplication.sharedInstance().isConnectedToWifi();
+		
+		boolean connectedToWifi = true; //SecondScreenApplication.sharedInstance().isConnectedToWifi();
 
 		String logoUrl;
 
@@ -55,6 +60,4 @@ public class OldThreeImageResolutions {
 	public void setImageUrlPortraitOrSquareHigh(String imageUrlPortraitOrSquareHigh) {
 		this.imageUrlHighRes = imageUrlPortraitOrSquareHigh;
 	}
-	
-	
 }

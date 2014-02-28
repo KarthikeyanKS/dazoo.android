@@ -5,12 +5,11 @@ package com.millicom.mitv.activities.authentication;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-import com.millicom.mitv.activities.base.BaseLoginActivity;
+import com.millicom.mitv.activities.base.BaseActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
@@ -18,12 +17,12 @@ import com.mitv.R;
 
 
 
-public class ResetPasswordFinalActivity 
-	extends BaseLoginActivity 
+public class ResetPasswordConfirmationActivity 
+	extends BaseActivity 
 	implements OnClickListener
 {
 	@SuppressWarnings("unused")
-	private static final String TAG = ResetPasswordFinalActivity.class.getName();
+	private static final String TAG = ResetPasswordConfirmationActivity.class.getName();
 
 	
 	private Button loginBtn;
@@ -113,7 +112,7 @@ public class ResetPasswordFinalActivity
 		{
 			case R.id.resetpassword_already_login_btn:
 			{
-				Intent intentSignIn = new Intent(ResetPasswordFinalActivity.this, LoginWithMiTVUserActivity.class);
+				Intent intentSignIn = new Intent(ResetPasswordConfirmationActivity.this, LoginWithMiTVUserActivity.class);
 				startActivity(intentSignIn);
 				break;
 			}

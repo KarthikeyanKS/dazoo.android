@@ -8,8 +8,10 @@ import java.util.Calendar;
 
 import android.util.Log;
 
+import com.millicom.mitv.enums.BroadcastTypeEnum;
 import com.millicom.mitv.interfaces.GSONDataFieldValidation;
 import com.millicom.mitv.models.gson.TVBroadcastWithChannelInfoJSON;
+import com.millicom.mitv.models.sql.NotificationSQLElement;
 
 
 
@@ -95,6 +97,22 @@ public class TVBroadcastWithChannelInfo
 		return closestIndexFound;
 	}
 
+	public TVBroadcastWithChannelInfo(NotificationSQLElement item)
+	{
+		TVChannel tvChannel = new TVChannel(item);
+		this.channel = tvChannel;
+		
+		TVProgram tvProgram = new TVProgram(item);
+		this.program = tvProgram;
+		
+		String broadcastTypeAsString = item.getBroadcastType();
+		
+		this.broadcastType = BroadcastTypeEnum.getBroadcastTypeEnumFromStringRepresentation(broadcastTypeAsString);
+		this.beginTimeMillis = item.getBroadcastBeginTimeInMilliseconds();
+		this.beginTime = item.getBroadcastBeginTime();
+		this.endTime = item.getBroadcastEndTime();
+		this.shareUrl = item.getShareUrl();
+	}
 
 
 	@Override

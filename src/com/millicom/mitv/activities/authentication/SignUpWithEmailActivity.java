@@ -18,22 +18,23 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import com.millicom.mitv.ContentManager;
-import com.millicom.mitv.activities.base.BaseLoginActivity;
+import com.millicom.mitv.activities.base.BaseActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.utilities.RegularExpressionUtils;
+import com.millicom.mitv.utilities.ToastHelper;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.customviews.FontTextView;
 import com.mitv.customviews.TextDrawable;
-import com.mitv.customviews.ToastHelper;
 
 
 
 public class SignUpWithEmailActivity 
-	extends BaseLoginActivity 
+	extends BaseActivity 
 	implements OnClickListener
 {
 	private static final String TAG = SignUpWithEmailActivity.class.getName();
@@ -80,11 +81,6 @@ public class SignUpWithEmailActivity
 		initViews();
 		
 		clearErrorFields();
-		
-		firstNameEditText.setText("Filipe");
-		lastNameEditText.setText("");
-		emailEditText.setText("e1147528@drdrb.com");
-		passwordEditText.setText("Zxcvbnm00");
 	}
 	
 
@@ -189,7 +185,7 @@ public class SignUpWithEmailActivity
 			{
 				enableFields();
 				
-				Intent intent = new Intent(SignUpWithEmailActivity.this, getReturnActivity());
+				Intent intent = new Intent(SignUpWithEmailActivity.this, getMostRecentTabActivity().getClass());
 
 				intent.putExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
 

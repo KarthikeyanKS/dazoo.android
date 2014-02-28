@@ -3,18 +3,23 @@ package com.millicom.mitv.models;
 
 
 
-import junit.framework.Assert;
+import java.util.ArrayList;
+
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.interfaces.GSONDataFieldValidation;
 import com.millicom.mitv.models.gson.TVProgramJSON;
+import com.millicom.mitv.models.sql.NotificationSQLElement;
 
 
 
 public class TVProgram
 	extends TVProgramJSON implements GSONDataFieldValidation
 {
+	private static final String TAG = TVProgram.class.getName();
+	
 	public void setProgramId(String programId) 
 	{
 		this.programId = programId;
@@ -56,6 +61,67 @@ public class TVProgram
 	}
 
 
+	public TVProgram(NotificationSQLElement item)
+	{
+		this.title = item.getProgramTitle();
+		this.synopsisShort = item.getSynopsisShort();
+		this.synopsisLong = item.getSynopsisLong();
+		
+		this.programId = item.getProgramId();
+		
+		ProgramTypeEnum programType = ProgramTypeEnum.getLikeTypeEnumFromStringRepresentation(item.getProgramType());
+		
+		this.programType = programType;
+		
+		switch(programType)
+		{
+			case TV_EPISODE:
+			{
+				this.series = new TVSeries(item);
+				this.season = new TVSeriesSeason(item);
+				this.episodeNumber = item.getProgramEpisodeNumber();
+				break;
+			}
+			
+			case SPORT:
+			{
+				this.sportType = new TVSportType(item);
+				this.genre = item.getProgramGenre();
+				break;
+			}
+			
+			case OTHER:
+			{
+				this.category = item.getProgramCategory();
+				break;
+			}
+			
+			case MOVIE:
+			{
+				this.year = item.getProgramYear();
+				this.genre = item.getProgramGenre();
+				break;
+			}
+			
+			case UNKNOWN:
+			default:
+			{
+				Log.w(TAG, "Unhandled program type.");
+				break;
+			}
+		}
+		
+		this.year = item.getProgramYear();
+
+		// TODO - Using empty image set representation as no data is available from the notification item.
+		this.images = new ImageSetOrientation();
+		
+		// TODO - Using empty tags representation as no data is available from the notification item.
+		this.tags = new ArrayList<String>();
+		
+		// TODO - Using empty TVCredit representation as no data is available from the notification item.
+		this.credits = new ArrayList<TVCredit>();
+	}
 
 	@Override
 	public boolean areDataFieldsValid() {

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.androidquery.callback.AjaxCallback;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
@@ -30,7 +31,6 @@ import com.millicom.mitv.models.TVDate;
 import com.millicom.mitv.models.TVFeedItem;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.TVGuideAndTaggedBroadcasts;
-import com.millicom.mitv.models.TVSearchResults;
 import com.millicom.mitv.models.TVTag;
 import com.millicom.mitv.models.UpcomingBroadcastsForBroadcast;
 import com.millicom.mitv.models.UserLike;
@@ -43,6 +43,8 @@ import com.mitv.Consts;
 public class ContentManager 
 	implements ContentCallbackListener 
 {
+	private static final String TAG = ContentManager.class.getName();
+	
 	private static ContentManager sharedInstance;
 	private Cache cache;
 	private APIClient apiClient;
@@ -766,7 +768,17 @@ public class ContentManager
 			cache.addTVGuideForSelectedDay(tvGuide);
 			cache.addTaggedBroadcastsForSelectedDay(mapTagToTaggedBroadcastForDate);
 
-			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, requestIdentifier);
+			/*
+			 * If the activityCallbackListener is null, then possibly the activity is already finished and there is no need to notify on the result.
+			 */
+			if(activityCallbackListener != null) 
+			{
+				activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, requestIdentifier);
+			}
+			else 
+			{
+				Log.w(TAG, "Activity callback is null.");
+			}
 		} 
 		else 
 		{
@@ -897,11 +909,9 @@ public class ContentManager
 			@SuppressWarnings("unchecked")
 			ArrayList<UserLike> userLikes = (ArrayList<UserLike>) content;
 			cache.setUserLikes(userLikes);
+			
 		}
-		else 
-		{
-			activityCallbackListener.onResult(result, requestIdentifier);
-		}
+		activityCallbackListener.onResult(result, requestIdentifier);
 	}
 	
 	
@@ -1329,6 +1339,18 @@ public class ContentManager
 		return userId;
 	}
 		
+	public String getFromCacheUserAvatarImageURL() 
+	{
+		String userId = cache.getUserAvatarImageURL();
+		return userId;
+	}
+	
+	
+	public ArrayList<UserLike> getFromCacheUserLikes()
+	{
+		ArrayList<UserLike> userLikes = cache.getUserLikes();
+		return userLikes;
+	}
 	
 	// TODO NewArc remove this?
 	public TVChannel getFromCacheTVChannelById(String channelId)

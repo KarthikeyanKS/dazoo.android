@@ -16,17 +16,16 @@ import android.widget.LinearLayout;
 import com.androidquery.AQuery;
 import com.millicom.mitv.enums.ContentTypeEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
+import com.millicom.mitv.interfaces.SearchInterface;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVChannel;
 import com.millicom.mitv.models.TVProgram;
 import com.millicom.mitv.models.TVSearchResult;
-import com.millicom.mitv.models.TVSearchResultEntity;
 import com.millicom.mitv.models.TVSeries;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.customviews.CustomTypefaceSpan;
 import com.mitv.customviews.FontTextView;
-import com.mitv.handlers.SearchActivityListeners;
 import com.mitv.manager.FontManager;
 
 public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implements Filterable {
@@ -38,10 +37,10 @@ public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implemen
 	private String lastSearch = "";
 	private Context context;
 	private AQuery aQuery;
-	private SearchActivityListeners viewListener;
+	private SearchInterface viewListener;
 	private static LayoutInflater inflater;
 
-	public SearchPageListAdapter(Context context, SearchActivityListeners listener) {
+	public SearchPageListAdapter(Context context, SearchInterface listener) {
 		super(context, 0);
 		this.context = context;
 		this.aQuery = new AQuery(context);

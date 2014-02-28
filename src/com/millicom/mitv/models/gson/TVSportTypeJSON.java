@@ -5,8 +5,8 @@ package com.millicom.mitv.models.gson;
 
 public class TVSportTypeJSON 
 {
-	private String sportTypeId;
-	private String name;
+	protected String sportTypeId;
+	protected String name;
 
 	
 	

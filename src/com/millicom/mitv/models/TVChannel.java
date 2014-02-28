@@ -8,12 +8,25 @@ import android.text.TextUtils;
 
 import com.millicom.mitv.interfaces.GSONDataFieldValidation;
 import com.millicom.mitv.models.gson.TVChannelJSON;
+import com.millicom.mitv.models.sql.NotificationSQLElement;
 
 
 
 public class TVChannel
 	extends TVChannelJSON implements GSONDataFieldValidation
 {
+	public TVChannel()
+	{}
+	
+	
+	public TVChannel(NotificationSQLElement item)
+	{
+		this.channelId = item.getChannelId();
+		this.name = item.getChannelName();
+		this.logo = new ImageSetSize(item);
+	}
+	
+	
 	public void setChannelId(String channelId) 
 	{
 		this.channelId = channelId;

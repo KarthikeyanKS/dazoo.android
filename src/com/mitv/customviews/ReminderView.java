@@ -1,4 +1,7 @@
+
 package com.mitv.customviews;
+
+
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,131 +14,169 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
+import com.millicom.mitv.models.sql.NotificationDataSource;
+import com.millicom.mitv.models.sql.NotificationSQLElement;
+import com.millicom.mitv.utilities.DialogHelper;
+import com.millicom.mitv.utilities.NotificationHelper;
+import com.millicom.mitv.utilities.ToastHelper;
 import com.mitv.Consts;
 import com.mitv.R;
-import com.mitv.handlers.NotificationDialogHandler;
-import com.mitv.model.NotificationDbItem;
-import com.mitv.notification.NotificationDataSource;
-import com.mitv.notification.NotificationService;
 import com.mitv.utilities.AnimationUtilities;
 
-public class ReminderView extends RelativeLayout implements OnClickListener {
 
+
+public class ReminderView 
+	extends RelativeLayout 
+	implements OnClickListener 
+{
 	private static final String TAG = ReminderView.class.toString();
 
-	private boolean mIsSet;
-	private TVBroadcastWithChannelInfo mBroadcast;
-	private Context mContext;
-	private Activity mActivity;
-	private int mNotificationId;
-	private NotificationDataSource mNotificationDataSource;
-	private ImageView mImageView;
-	private LayoutInflater mInflater;
+	
+	private LayoutInflater inflater;
+	private ImageView imageView;
+	private Activity activity;
+	private Context context;
+	private TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo;
+	private int notificationId;
+	private NotificationDataSource notificationDataSource;
+	private boolean isSet;
 
-	public ReminderView(Context context) {
+	
+	
+	public ReminderView(Context context)
+	{
 		super(context);
 		setup(context);
 	}
 
-	public ReminderView(Context context, AttributeSet attrs) {
-		super(context, attrs);
+	
+	
+	public ReminderView(Context context, AttributeSet attrs) 
+	{
+		super(context, attrs);		
 		setup(context);
 	}
 
-	public ReminderView(Context context, AttributeSet attrs, int defStyle) {
+	
+	
+	public ReminderView(Context context, AttributeSet attrs, int defStyle)
+	{
 		super(context, attrs, defStyle);
 		setup(context);
 	}
 
-	private void setup(Context context) {
-		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		mInflater.inflate(R.layout.element_reminder_view, this);
+	
+	
+	private void setup(Context context) 
+	{
+		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		inflater.inflate(R.layout.element_reminder_view, this);
 		
-		this.mImageView = (ImageView) this.findViewById(R.id.element_reminder_image_View);
-		this.mContext = context;
-		this.mActivity = (Activity) context;
-		this.mNotificationDataSource = new NotificationDataSource(mContext);
+		this.imageView = (ImageView) this.findViewById(R.id.element_reminder_image_View);
+		this.context = context;
+		this.activity = (Activity) context;
+		this.notificationDataSource = new NotificationDataSource(context);
 		
 		this.setClickable(true);
 		this.setOnClickListener(this);
 	}
 
+	
+	
 	public void setBroadcast(TVBroadcastWithChannelInfo broadcast) 
 	{
-		this.mBroadcast = broadcast;
+		this.tvBroadcastWithChannelInfo = broadcast;
 		
-		if (!mBroadcast.isAiring())
+		if (!tvBroadcastWithChannelInfo.isAiring())
 		{
-			NotificationDbItem dbItem = mNotificationDataSource.getNotification(mBroadcast.getChannel().getChannelId().getChannelId(), mBroadcast.getBeginTimeMillis());
+			NotificationSQLElement dbItem = notificationDataSource.getNotification(tvBroadcastWithChannelInfo.getChannel().getChannelId(), tvBroadcastWithChannelInfo.getBeginTime());
 
-			if (dbItem != null && dbItem.getNotificationId() != 0) {
+			if (dbItem != null && dbItem.getNotificationId() != 0) 
+			{
 				Log.d(TAG, "dbItem: " + dbItem.getProgramTitle() + " " + dbItem.getNotificationId());
-				mNotificationId = dbItem.getNotificationId();
-				mIsSet = true;
-			} else {
-				mIsSet = false;
+				
+				notificationId = dbItem.getNotificationId();
+				
+				isSet = true;
+			} 
+			else 
+			{
+				isSet = false;
 			}
-			if (mIsSet) {
-				mImageView.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
-			} else {
-				mImageView.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_default));
+			if (isSet) 
+			{
+				imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_reminder_selected));
+			} 
+			else 
+			{
+				imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_reminder_default));
 			}
 		} 
 		else 
 		{
-			mImageView.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_dissabled));
+			imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_reminder_dissabled));
 		}
 	}
+	
+	
 
 	@Override
 	public void onClick(View v) 
 	{
-		if(mBroadcast != null && !mBroadcast.isBroadcastAiringInOrInLessThan(Consts.MAXIMUM_REMINDER_TIME_FOR_SHOW)) 
+		if(tvBroadcastWithChannelInfo != null && !tvBroadcastWithChannelInfo.isBroadcastAiringInOrInLessThan(Consts.MAXIMUM_REMINDER_TIME_FOR_SHOW)) 
 		{
-			if (mIsSet == false) 
+			if (isSet == false) 
 			{
-				NotificationService.setAlarm(mContext, mBroadcast);
+				NotificationHelper.setAlarm(context, tvBroadcastWithChannelInfo);
 				
-				NotificationService.showSetNotificationToast(mActivity);
-				mImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_reminder_selected));
+				ToastHelper.showNotificationWasSetToast(activity);
+				
+				imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
-				NotificationDbItem dbItemRemind = mNotificationDataSource.getNotification(mBroadcast.getChannel().getChannelId().getChannelId(),
-						mBroadcast.getBeginTimeMillis());
-				mNotificationId = dbItemRemind.getNotificationId();
+				NotificationSQLElement dbItemRemind = notificationDataSource.getNotification(tvBroadcastWithChannelInfo.getChannel().getChannelId(), tvBroadcastWithChannelInfo.getBeginTime());
+				
+				notificationId = dbItemRemind.getNotificationId();
 
 				AnimationUtilities.animationSet(this);
 
-				mIsSet = true;
+				isSet = true;
 			} 
 			else 
 			{
-				if (mNotificationId != -1) {
-					if (NotificationService.sToast != null) {
-						NotificationService.sToast.cancel();
-					}
-					NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
-					notificationDlg.showRemoveNotificationDialog(mContext, mBroadcast, mNotificationId, yesNotificationProc(), noNotificationProc());
-				} else {
-					Log.d(TAG, "!!! Could not find such reminder in DB !!!");
+				if (notificationId != -1)
+				{
+					DialogHelper.showRemoveNotificationDialog(context, tvBroadcastWithChannelInfo, notificationId, yesNotificationProc(), noNotificationProc());
+				}
+				else
+				{
+					Log.w(TAG, "Could not find remainder in database.");
 				}
 			}
 		}
 	}
 
-	public Runnable yesNotificationProc() {
-		return new Runnable() {
-			public void run() {
-				ReminderView.this.mImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_reminder_default));
-				mIsSet = false;
+	
+	
+	public Runnable yesNotificationProc() 
+	{
+		return new Runnable()
+		{
+			public void run()
+			{
+				ReminderView.this.imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_reminder_default));
+				
+				isSet = false;
 			}
 		};
 	}
 
-	public Runnable noNotificationProc() {
-		return new Runnable() {
-			public void run() {
-			}
+	
+	
+	public Runnable noNotificationProc()
+	{
+		return new Runnable()
+		{
+			public void run(){}
 		};
 	}
-
 }

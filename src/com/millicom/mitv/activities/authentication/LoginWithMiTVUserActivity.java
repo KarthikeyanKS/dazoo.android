@@ -14,19 +14,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.millicom.mitv.ContentManager;
-import com.millicom.mitv.activities.base.BaseLoginActivity;
+import com.millicom.mitv.activities.base.BaseActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.utilities.RegularExpressionUtils;
+import com.millicom.mitv.utilities.ToastHelper;
 import com.mitv.Consts;
 import com.mitv.R;
-import com.mitv.customviews.ToastHelper;
 
 
 
 public class LoginWithMiTVUserActivity 
-	extends BaseLoginActivity 
+	extends BaseActivity 
 	implements OnClickListener 
 {
 	private static final String TAG = LoginWithMiTVUserActivity.class.getName();
@@ -58,6 +58,8 @@ public class LoginWithMiTVUserActivity
 		isInvalidPassword = true;
 
 		initViews();
+		
+		clearErrorFields();
 	}
 	
 	
@@ -104,8 +106,7 @@ public class LoginWithMiTVUserActivity
 	{
 		super.updateUIBaseElements(status);
 
-		emailErrorTextView.setVisibility(View.INVISIBLE);
-		passwordErrorTextView.setVisibility(View.INVISIBLE);
+		clearErrorFields();
 		
 		switch (status)
 		{	
@@ -139,7 +140,7 @@ public class LoginWithMiTVUserActivity
 			{
 				enableFields();
 				
-				Intent intent = new Intent(LoginWithMiTVUserActivity.this, getReturnActivity());
+				Intent intent = new Intent(LoginWithMiTVUserActivity.this, getMostRecentTabActivity().getClass());
 
 				intent.putExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
 
@@ -165,6 +166,14 @@ public class LoginWithMiTVUserActivity
 				break;
 			}
 		}
+	}
+	
+	
+	
+	private void clearErrorFields()
+	{
+		emailErrorTextView.setVisibility(View.INVISIBLE);
+		passwordErrorTextView.setVisibility(View.INVISIBLE);
 	}
 	
 	
@@ -251,12 +260,13 @@ public class LoginWithMiTVUserActivity
 			{
 				Intent intent = new Intent(LoginWithMiTVUserActivity.this, LoginWithFacebookActivity.class);
 				startActivity(intent);
+				finish();
 				break;
 			}
 			
 			case R.id.mitvlogin_forgot_password_button:
 			{
-				Intent intent = new Intent(LoginWithMiTVUserActivity.this, ResetPasswordActivity.class);
+				Intent intent = new Intent(LoginWithMiTVUserActivity.this, ResetPasswordSendEmailActivity.class);
 				startActivity(intent);
 				break;
 			}

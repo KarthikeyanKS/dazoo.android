@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 public class GetMyChannelsTask 
 	extends AsyncTask<String, Void, String> 
 {
+	@SuppressWarnings("unused")
 	private static final String	TAG	= "GetMyChannelsTask";
 	
 	

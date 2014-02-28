@@ -273,6 +273,12 @@ public class Cache
 	public String getUserId() {
 		return userData.getUser().getUserId();
 	}
+	
+	// TODO NewArc - This is a dummy method to obtain the user avatar image url
+	public String getUserAvatarImageURL() 
+	{
+		return "http://wiseheartdesign.com/images/articles/default-avatar.png";
+	}
 
 	public void setUserData(UserLoginData userData) {
 		this.userData = userData;
@@ -348,7 +354,7 @@ public class Cache
 
 	public void setTvChannelIdsUser(ArrayList<TVChannelId> tvChannelIdsUser) {
 		this.tvChannelIdsUser = tvChannelIdsUser;
-		setTvChannelIdsUsed(tvChannelIdsDefault);
+		setTvChannelIdsUsed(tvChannelIdsUser);
 	}
 
 	public ArrayList<TVChannelId> getTvChannelIdsUsed() {
@@ -424,6 +430,13 @@ public class Cache
 	public boolean containsTVChannels() {
 		boolean containsTVChannels = (tvChannels != null && !tvChannels.isEmpty());
 		return containsTVChannels;
+	}
+	
+	public boolean containsTVChannelIdsUser()
+	{
+		boolean containsTVChannelIdsUser = (tvChannelIdsUser != null && !tvChannelIdsUser.isEmpty());
+		
+		return containsTVChannelIdsUser;
 	}
 	
 	public boolean containsTVGuideForSelectedDay() {

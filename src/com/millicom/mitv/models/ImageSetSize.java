@@ -1,9 +1,29 @@
+
 package com.millicom.mitv.models;
 
+
+
 import com.millicom.mitv.models.gson.ImageSetSizeJSON;
+import com.millicom.mitv.models.sql.NotificationSQLElement;
 
-public class ImageSetSize extends ImageSetSizeJSON {
 
+
+public class ImageSetSize 
+	extends ImageSetSizeJSON 
+{
+	public ImageSetSize(){}
+	
+	
+	
+	public ImageSetSize(NotificationSQLElement item)
+	{
+		this.small = item.getChannelLogoSmall();
+		this.medium = item.getChannelLogoMedium();
+		this.large = item.getChannelLogoLarge();
+	}
+	
+
+	
 	public ImageSetSize(
 			String small,
 			String medium,
@@ -13,6 +33,4 @@ public class ImageSetSize extends ImageSetSizeJSON {
 		this.medium = medium;
 		this.large = large;
 	}
-	
-	public ImageSetSize(){}
 }

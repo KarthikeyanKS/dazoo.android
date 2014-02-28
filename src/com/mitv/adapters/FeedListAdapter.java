@@ -703,12 +703,8 @@ public class FeedListAdapter
 	
 	private void popularBroadcastClicked(TVBroadcastWithChannelInfo broadcastWithChannelInfo) 
 	{
-		Intent intent = new Intent(activity, BroadcastPageActivity.class);
 		ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
-
-		intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, true);
-		intent.putExtra(Consts.INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO, false);
-
+		Intent intent = new Intent(activity, BroadcastPageActivity.class);
 		activity.startActivity(intent);
 	}
 	

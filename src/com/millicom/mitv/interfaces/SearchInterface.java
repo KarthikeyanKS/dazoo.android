@@ -1,6 +1,10 @@
-package com.mitv.handlers;
 
-public interface SearchActivityListeners {
+package com.millicom.mitv.interfaces;
+
+
+
+public interface SearchInterface 
+{
 	public void showProgressLoading(boolean isLoading);
 
 	public void isRecentListEmpty(boolean isEmpty);

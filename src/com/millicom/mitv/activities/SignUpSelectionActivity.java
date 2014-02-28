@@ -5,8 +5,6 @@ package com.millicom.mitv.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -18,7 +16,6 @@ import com.millicom.mitv.activities.base.BaseActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
-import com.mitv.Consts;
 import com.mitv.R;
 
 
@@ -101,8 +98,6 @@ public class SignUpSelectionActivity
 			{
 				Intent intent = new Intent(SignUpSelectionActivity.this, LoginWithFacebookActivity.class);
 				
-				intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, FeedActivity.class.getName());
-				
 				startActivity(intent);
 				
 				finish();
@@ -118,8 +113,6 @@ public class SignUpSelectionActivity
 			{
 				Intent intent = new Intent(SignUpSelectionActivity.this, SignUpWithEmailActivity.class);
 				
-				intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, FeedActivity.class.getName());
-				
 				startActivity(intent);
 				
 				finish();
@@ -134,8 +127,6 @@ public class SignUpSelectionActivity
 			public void onClick(View v)
 			{
 				Intent intent = new Intent(SignUpSelectionActivity.this, LoginWithMiTVUserActivity.class);
-				
-				intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, FeedActivity.class.getName());
 				
 				startActivity(intent);
 				

@@ -156,14 +156,11 @@ public abstract class Consts {
 
 	/* Activity feed extras */
 	public static final String	INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME				= "com.mitv.intent.extra.from.activity";
-	public static final String	INTENT_EXTRA_FROM_ACTIVITY							= "com.mitv.intent.extra.from.activity";
 
 	
 	public static final String	INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN			= "com.mitv.intent.extra.activity.user.login.success";
+	public static final String	INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT			= "com.mitv.intent.extra.activity.user.logout.success";
 	
-	/* Profile extras */
-	public static final String	INTENT_EXTRA_FROM_PROFILE							= "com.mitv.intent.extra.from.profile";
-
 	/* Fragments extra arguments */
 	public static final String	FRAGMENT_EXTRA_TAG_DISPLAY_NAME						= "com.mitv.fragment.extra.tag.displayname";
 	public static final String	FRAGMENT_EXTRA_TAG_ID								= "com.mitv.fragment.extra.tag.id";
@@ -221,20 +218,34 @@ public abstract class Consts {
 	public static final int		NOTIFICATION_DATABASE_VERSION						= 1;
 	public static final String	NOTIFICATION_DB_TABLE_NOTIFICATIONS					= "notifications";
 	public static final String	NOTIFICATION_DB_COLUMN_NOTIFICATION_ID				= "notification_id";
-	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_URL				= "broadcast_url";
+	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_BEGIN_TIME_IN_MILISECONDS = "begin_time_miliseconds";
+	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_BEGIN_TIME			= "begin_time";
+	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_END_TIME			= "end_time";
+	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_TYPE				= "broadcast_type";
+	public static final String	NOTIFICATION_DB_COLUMN_SHARE_URL					= "share_url";
+	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_ID					= "channel_id";
+	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_NAME					= "channel_name";
+	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_LOGO_SMALL			= "channel_logo_small";
+	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_LOGO_MEDIUM			= "channel_logo_medium";
+	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_LOGO_LARGE			= "channel_logo_large";
 	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_ID					= "program_id";
 	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_TITLE				= "program_title";
 	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_TYPE					= "program_type";
-	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_SEASON				= "program_season";
-	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_EPISODE				= "program_episode";
-	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_YEAR					= "program_year";
-	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_TAG					= "program_tag";
-	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_GENRE				= "program_genre";
-	public static final String 	NOTIFICATION_DB_COLUMN_PROGRAM_CATEGORY				= "program_category";
-	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_ID					= "channel_id";
-	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_NAME					= "channel_name";
-	public static final String	NOTIFICATION_DB_COLUMN_CHANNEL_LOGO_URL				= "channel_logo_url";
-	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_BEGINTIMEMILLIS	= "begin_time_millis";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_SYNOPSIS_SHORT		= "program_synopsis_short";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_SYNOPSIS_LONG		= "program_synopsis_long";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_TAGS					= "program_tags";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_CREDITS				= "program_credits";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_SEASON 				= "program_season";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_EPISODE 				= "program_episode";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_YEAR 				= "program_year";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_GENRE 				= "program_genre";
+	public static final String	NOTIFICATION_DB_COLUMN_PROGRAM_CATEGORY 			= "program_category";
+	public static final String	NOTIFICATION_DB_COLUMN_SERIES_ID					= "series_id";
+	public static final String	NOTIFICATION_DB_COLUMN_SERIES_NAME					= "series_name";
+	public static final String	NOTIFICATION_DB_COLUMN_SPORT_TYPE_ID				= "sport_type_id";
+	public static final String	NOTIFICATION_DB_COLUMN_SPORT_TYPE_NAME				= "sport_type_name";
+	
+
 
 	// =========================== CONTENT ================================
 

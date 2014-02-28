@@ -7,51 +7,38 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.millicom.mitv.activities.base.BaseActivity;
+import com.millicom.mitv.activities.base.BaseContentActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
-import com.mitv.Consts;
+import com.millicom.mitv.models.sql.NotificationDataSource;
+import com.millicom.mitv.models.sql.NotificationSQLElement;
 import com.mitv.R;
 import com.mitv.adapters.RemindersListAdapter;
 import com.mitv.interfaces.RemindersCountInterface;
-import com.mitv.model.NotificationDbItem;
-import com.mitv.notification.NotificationDataSource;
 
 
 
 public class RemindersActivity 
-	extends BaseActivity 
+	extends BaseContentActivity 
 	implements RemindersCountInterface, OnClickListener
 {
 	@SuppressWarnings("unused")
 	private static final String TAG = RemindersActivity.class.getName();
 	
-	private ListView mListView;
-	private RemindersListAdapter mAdapter;
-	private RelativeLayout mTabTvGuide;
-	private RelativeLayout mTabActivity;
-	private RelativeLayout mTabProfile;
-	private View mTabDividerLeft;
-	private View mTabDividerRight;
-	private TextView mErrorTv;
 	
-	private int	mCount = 0;
-	private boolean	mIsChange = false;
-	
+	private ListView listView;
+	private RemindersListAdapter listAdapter;
+	private TextView errorTv;	
 
 	
 	
@@ -66,93 +53,17 @@ public class RemindersActivity
 	
 	
 	
-	@Override
-	protected void onResume() 
-	{
-		super.onResume();
-	}
-
-	
-	
 	private void initLayout()
 	{
 		actionBar.setTitle(getResources().getString(R.string.reminders));
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
-		// styling bottom navigation tabs
+		errorTv = (TextView) findViewById(R.id.reminders_error_tv);
+		listView = (ListView) findViewById(R.id.listview);
 		
-		mTabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
-		mTabTvGuide.setOnClickListener(this);
-		mTabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
-		mTabActivity.setOnClickListener(this);
-		mTabProfile = (RelativeLayout) findViewById(R.id.tab_me);
-		mTabProfile.setOnClickListener(this);
-
-		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
-		mTabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
-
-		mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
-		mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
-
-		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
-		mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
-		mTabProfile.setBackgroundColor(getResources().getColor(R.color.red));
-
-		mErrorTv = (TextView) findViewById(R.id.reminders_error_tv);
-		mListView = (ListView) findViewById(R.id.listview);
+		setEmptyLayoutDetailsMessage(getResources().getString(R.string.no_reminders));
 	}
-
 	
-	
-	private void populateViews() 
-	{
-		ArrayList<TVBroadcastWithChannelInfo> broadcasts = new ArrayList<TVBroadcastWithChannelInfo>();
-
-		NotificationDataSource notificationDataSource = new NotificationDataSource(this);
-		
-		List<NotificationDbItem> notificationList = notificationDataSource.getAllNotifications();
-		
-		for (int i = 0; i < notificationList.size(); i++) 
-		{
-			NotificationDbItem item = notificationList.get(i);
-			//TODO create some constructor for some Broadcast related class from database item...
-			
-			TVBroadcastWithChannelInfo broadcast = null;// = new Broadcast(item);
-			
-			broadcasts.add(broadcast);
-		}
-		
-		// If empty - show notification.
-		if (broadcasts.isEmpty())
-		{
-			mErrorTv.setVisibility(View.VISIBLE);
-		} 
-		else
-		{
-			// Sort the list of broadcasts by time.
-			Collections.sort(broadcasts, new TVBroadcast.BroadcastComparatorByTime());
-
-			mAdapter = new RemindersListAdapter(this, broadcasts, this);
-			mListView.setAdapter(mAdapter);
-		}
-	}
-
-	@Override
-	public void onBackPressed() 
-	{
-		Intent returnIntent = new Intent();
-		
-		if (mIsChange == true) 
-		{
-			setResult(Consts.INFO_UPDATE_REMINDERS, returnIntent);
-			returnIntent.putExtra(Consts.INFO_UPDATE_REMINDERS_NUMBER, mCount);
-		}
-		
-		super.onBackPressed();
-		
-		finish();
-	}
-
 	
 	
 	@Override
@@ -163,20 +74,17 @@ public class RemindersActivity
 	}
 	
 	
+	
 	@Override
 	public void setValues(int count) 
 	{
-		mIsChange = true;
-		
-		mCount = count;
-		
 		if(count == 0) 
 		{
-			mErrorTv.setVisibility(View.VISIBLE);
+			errorTv.setVisibility(View.VISIBLE);
 		} 
 		else 
 		{
-			mErrorTv.setVisibility(View.GONE);
+			errorTv.setVisibility(View.GONE);
 		}
 	}
 	
@@ -187,7 +95,33 @@ public class RemindersActivity
 	{
 		updateUI(UIStatusEnum.LOADING);
 		
-		// TODO NewArc - Implement this
+		ArrayList<TVBroadcastWithChannelInfo> tvBroadcasts = new ArrayList<TVBroadcastWithChannelInfo>();
+
+		NotificationDataSource notificationDataSource = new NotificationDataSource(this);
+
+		List<NotificationSQLElement> notificationList = notificationDataSource.getAllNotifications();
+
+		for (int i = 0; i < notificationList.size(); i++) 
+		{
+			NotificationSQLElement item = notificationList.get(i);
+
+			TVBroadcastWithChannelInfo broadcast = new TVBroadcastWithChannelInfo(item);
+
+			tvBroadcasts.add(broadcast);
+		}
+
+		if (tvBroadcasts.isEmpty())
+		{
+			updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
+		} 
+		else
+		{
+			Collections.sort(tvBroadcasts, new TVBroadcast.BroadcastComparatorByTime());
+
+			listAdapter = new RemindersListAdapter(this, tvBroadcasts, this);
+
+			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+		}
 	}
 	
 	
@@ -195,14 +129,7 @@ public class RemindersActivity
 	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
-		if (fetchRequestResult.wasSuccessful()) 
-		{
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
-		} 
-		else
-		{
-			updateUI(UIStatusEnum.FAILED);
-		}
+		// Do nothing (the reminders list is  populated in a synchronous way)
 	}
 	
 	
@@ -213,16 +140,16 @@ public class RemindersActivity
 		super.updateUIBaseElements(status);
 
 		switch (status) 
-		{	
+		{
 			case SUCCEEDED_WITH_DATA:
 			{
-				populateViews();
+				listView.setAdapter(listAdapter);
 				break;
 			}
 	
 			default:
 			{
-				// TODO NewArc - Do something here?
+				// Do nothing
 				break;
 			}
 		}

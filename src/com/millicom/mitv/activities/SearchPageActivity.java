@@ -37,6 +37,7 @@ import com.millicom.mitv.enums.ContentTypeEnum;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
+import com.millicom.mitv.interfaces.SearchInterface;
 import com.millicom.mitv.models.SearchResultsForQuery;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVSearchResult;
@@ -46,13 +47,12 @@ import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.adapters.SearchPageListAdapter;
 import com.mitv.customviews.InstantAutoComplete;
-import com.mitv.handlers.SearchActivityListeners;
 
 
 
 public class SearchPageActivity 
 	extends BaseActivity 
-	implements OnItemClickListener, OnEditorActionListener, OnClickListener, SearchActivityListeners 
+	implements OnItemClickListener, OnEditorActionListener, OnClickListener, SearchInterface 
 {
 	@SuppressWarnings("unused")
 	private static final String TAG = SearchPageActivity.class.getName();
