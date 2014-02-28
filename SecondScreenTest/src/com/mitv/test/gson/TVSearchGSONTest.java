@@ -1,5 +1,5 @@
 
-package com.mitv.test;
+package com.mitv.test.gson;
 
 
 
@@ -22,10 +22,10 @@ import com.mitv.Consts;
 
 
 
-public class TVSearchTest 
+public class TVSearchGSONTest 
 	extends TestCore
 {
-	private static final String	TAG	= TVSearchTest.class.getName();
+	private static final String	TAG	= TVSearchGSONTest.class.getName();
 
 	private TVSearchResults receivedData;
 	
@@ -73,23 +73,23 @@ public class TVSearchTest
 	}
 	
 	
-//	@Test
-//	public void testSearchForSeries() 
-//	{
-//		String seriesName = "los simpson";
-//		boolean executionWentWell = executeTVSearch(seriesName);
-//		assertTrue(executionWentWell);
-//		checkResult();
-//	}
+	@Test
+	public void testSearchForSeries() 
+	{
+		String seriesName = "los simpson";
+		boolean executionWentWell = executeTVSearch(seriesName);
+		assertTrue(executionWentWell);
+		checkResult();
+	}
 	
-//	@Test
-//	public void testSearchForProgram() 
-//	{
-//		String programName = "treehouse of horror";
-//		boolean executionWentWell = executeTVSearch(programName);
-//		assertTrue(executionWentWell);
-//		checkResult();
-//	}
+	@Test
+	public void testSearchForProgram() 
+	{
+		String programName = "treehouse of horror";
+		boolean executionWentWell = executeTVSearch(programName);
+		assertTrue(executionWentWell);
+		checkResult();
+	}
 	
 	@Test
 	public void testSearchForChannel() 

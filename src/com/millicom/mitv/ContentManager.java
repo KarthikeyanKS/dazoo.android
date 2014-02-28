@@ -249,7 +249,7 @@ public class ContentManager
 	
 	public void getElseFetchFromServiceSearchResultForSearchQuery(ActivityCallbackListener activityCallbackListener, boolean forceDownload, AjaxCallback<String> ajaxCallback, String searchQuery) {
 		if(!forceDownload && cache.containsSearchResultForQuery(searchQuery)) {
-			
+			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.SEARCH);
 		} else {
 			fetchFromServiceSearchResults(activityCallbackListener, ajaxCallback, searchQuery);
 		}

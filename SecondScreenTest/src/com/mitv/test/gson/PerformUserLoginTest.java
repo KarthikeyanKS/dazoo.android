@@ -1,5 +1,5 @@
 
-package com.mitv.test;
+package com.mitv.test.gson;
 
 
 
@@ -14,12 +14,12 @@ import com.google.gson.JsonSyntaxException;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.models.UserLoginData;
-import com.millicom.mitv.models.gson.serialization.UserFacebookTokenData;
+import com.millicom.mitv.models.gson.serialization.UserLoginDataPost;
 import com.mitv.Consts;
 
 
 
-public class GetUserTokenUsingFBTokenTest 
+public class PerformUserLoginTest 
 	extends TestCore
 {
 	private static final String	TAG	= "PerformUserLoginTest";
@@ -34,21 +34,20 @@ public class GetUserTokenUsingFBTokenTest
 	{
 		super.setUp();
 
-		receivedData = getUserToken();
+		receivedData = login();
 	}
 	
 	
 	
-	public static UserLoginData getUserToken()
+	public static UserLoginData login()
 	{
 		PerformUserLoginTest instance = new PerformUserLoginTest();
 		
-		String facebookToken = DEFAULT_TEST_USER_FACEBOOK_TOKEN;
-		
-		String url = Consts.URL_FACEBOOK_TOKEN;
+		String url = Consts.URL_LOGIN;
 
-		UserFacebookTokenData postData = new UserFacebookTokenData();
-		postData.setFacebookToken(facebookToken);
+		UserLoginDataPost postData = new UserLoginDataPost();
+		postData.setEmail(DEFAULT_TEST_USER_EMAIL);
+		postData.setPassword(DEFAULT_TEST_USER_PASSWORD);
 		
 		String bodyContentData = new Gson().toJson(postData);
 		

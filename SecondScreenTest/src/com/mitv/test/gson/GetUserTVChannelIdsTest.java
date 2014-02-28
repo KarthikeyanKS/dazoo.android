@@ -1,5 +1,5 @@
 
-package com.mitv.test;
+package com.mitv.test.gson;
 
 
 
@@ -10,6 +10,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -18,18 +19,18 @@ import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.http.HeaderParameters;
 import com.millicom.mitv.http.URLParameters;
-import com.millicom.mitv.models.UserLike;
+import com.millicom.mitv.models.TVChannelId;
 import com.millicom.mitv.models.UserLoginData;
 import com.mitv.Consts;
 
 
 
-public class GetUserLikesTest 
+public class GetUserTVChannelIdsTest 
 	extends TestCore
 {
-	private static final String	TAG	= "GetUserLikesTest";
+	private static final String	TAG	= "PerformUserLoginTest";
 	
-	private List<UserLike> receivedData;
+	private List<TVChannelId> receivedData;
 	
 	
 	
@@ -39,6 +40,15 @@ public class GetUserLikesTest
 	{
 		super.setUp();
 		
+		receivedData = getUserTVChannelIds();
+	}
+	
+	public static List<TVChannelId> getUserTVChannelIds() {
+		String token = getUserToken();
+		return getUserTVChannelIds(token);
+	}
+	
+	public static String getUserToken() {
 		String token = "";
 		
 		if(token.isEmpty())
@@ -51,27 +61,17 @@ public class GetUserLikesTest
 			}
 			// No need for else
 		}
-		// No need for else
 		
-		if(token.isEmpty() == false)
-		{
-			receivedData = getUserLikes(token);
-		}
-		else
-		{
-			Log.w(TAG, "Login has failed.");
-		}
+		return token;
 	}
 	
-	
-	
-	private static List<UserLike> getUserLikes(String token)
+	private static List<TVChannelId> getUserTVChannelIds(String token)
 	{
-		GetUserLikesTest instance = new GetUserLikesTest();
+		GetUserTVChannelIdsTest instance = new GetUserTVChannelIdsTest();
 		
-		List<UserLike> receivedData;
+		List<TVChannelId> receivedData;
 		
-		String url = Consts.URL_LIKES;
+		String url = Consts.URL_MY_CHANNEL_IDS;
 		
 		URLParameters urlParameters = new URLParameters();
 		
@@ -83,7 +83,7 @@ public class GetUserLikesTest
 				
 		try
 		{
-			receivedData = Arrays.asList(new Gson().fromJson(responseString, UserLike[].class));
+			receivedData = Arrays.asList(new Gson().fromJson(responseString, TVChannelId[].class));
 		}
 		catch(JsonSyntaxException jsex)
 		{
@@ -109,9 +109,10 @@ public class GetUserLikesTest
 	@Test
 	public void testAllVariablesNotNullOrEmpty() 
 	{
-		for(UserLike userLike : receivedData) 
+		for(TVChannelId tvChannelId : receivedData) 
 		{
-			AddUserLikeTest.testUserLikeDataFields(userLike);
+			Assert.assertNotNull(tvChannelId.getChannelId());
+			Assert.assertFalse(TextUtils.isEmpty(tvChannelId.getChannelId()));
 		}
 	}
 }

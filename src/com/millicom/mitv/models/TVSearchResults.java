@@ -12,6 +12,8 @@ import com.millicom.mitv.models.gson.TVSearchResultsJSON;
 public class TVSearchResults
 	extends TVSearchResultsJSON
 {
+	public TVSearchResults() {}
+	
 	public TVSearchResults(List<TVSearchResult> results) {
 		this.results = results;
 	}

@@ -541,9 +541,6 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 		boolean tvProgramOk = true;
 		if(getProgram() != null) {
 			tvProgramOk = getProgram().areDataFieldsValid();
-			if(!tvProgramOk) {
-				getProgram().areDataFieldsValid();
-			}
 		}
 		
 		

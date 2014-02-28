@@ -1,4 +1,4 @@
-package com.mitv.test;
+package com.mitv.test.gson;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -30,7 +30,7 @@ import com.mitv.Consts;
  * @author atsampikakis
  *
  */
-public class RepetitionsOfBroadcastTest extends TestBaseWithGuide {
+public class RepetitionsOfBroadcastGSONTest extends TestBaseWithGuide {
 	
 	private List<TVBroadcastWithChannelInfo> broadcastsWithChannelInfo;
 	private static final String	TAG	= "TVBroadcastProgramTest";

@@ -1,5 +1,5 @@
 
-package com.mitv.test;
+package com.mitv.test.gson;
 
 
 

@@ -1,5 +1,5 @@
 
-package com.mitv.test;
+package com.mitv.test.gson;
 
 
 
@@ -20,7 +20,7 @@ import com.mitv.Consts;
 
 
 
-public class RemoveUserLikeTest 
+public class RemoveUserLikeGSONTest 
 	extends TestBaseWithGuide
 {
 	@SuppressWarnings("unused")
@@ -53,7 +53,7 @@ public class RemoveUserLikeTest
 			LikeTypeRequestEnum likeType,
 			String entityId)
 	{
-		RemoveUserLikeTest instance = new RemoveUserLikeTest();
+		RemoveUserLikeGSONTest instance = new RemoveUserLikeGSONTest();
 		
 		StringBuilder url = new StringBuilder();
 		url.append(Consts.URL_LIKES);

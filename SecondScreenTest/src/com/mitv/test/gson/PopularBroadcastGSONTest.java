@@ -1,4 +1,4 @@
-package com.mitv.test;
+package com.mitv.test.gson;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +26,7 @@ import com.mitv.Consts;
  * @author atsampikakis
  *
  */
-public class PopularBroadcastTest 
+public class PopularBroadcastGSONTest 
 	extends TestCore 
 {
 	private static final String	TAG	= "TVBroadcastDetailsTest";

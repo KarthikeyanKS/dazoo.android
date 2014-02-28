@@ -1,4 +1,4 @@
-package com.mitv.test;
+package com.mitv.test.gson;
 
 import junit.framework.Assert;
 
@@ -24,7 +24,7 @@ import com.mitv.Consts;
  * @author atsampikakis
  *
  */
-public class TVBroadcastDetailsTest 
+public class TVBroadcastDetailsGSONTest 
 	extends TestBaseWithGuide 
 {
 	private static final String	TAG	= "TVBroadcastDetailsTest";

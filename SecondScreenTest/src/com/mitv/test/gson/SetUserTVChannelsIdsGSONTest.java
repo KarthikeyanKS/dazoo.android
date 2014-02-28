@@ -1,5 +1,5 @@
 
-package com.mitv.test;
+package com.mitv.test.gson;
 
 
 
@@ -21,7 +21,7 @@ import com.mitv.Consts;
 
 
 
-public class SetUserTVChannelsIdsTest 
+public class SetUserTVChannelsIdsGSONTest 
 	extends TestBaseWithGuide
 {
 	@SuppressWarnings("unused")
@@ -73,7 +73,7 @@ public class SetUserTVChannelsIdsTest
 			String token,
 			List<TVChannelId> channelIds)
 	{
-		SetUserTVChannelsIdsTest instance = new SetUserTVChannelsIdsTest();
+		SetUserTVChannelsIdsGSONTest instance = new SetUserTVChannelsIdsGSONTest();
 				
 		String url = Consts.URL_MY_CHANNEL_IDS;
 		
