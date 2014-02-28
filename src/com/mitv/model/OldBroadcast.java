@@ -286,83 +286,83 @@ public class OldBroadcast implements Parcelable
 
 	public OldBroadcast(NotificationDbItem item) {
 //		String beginTimeStringLocal = item.getBroadcastBeginTimeStringLocal();
-		this.setBeginTimeStringGmt(beginTimeStringLocal);
-		String millisGmtString = item.getBroadcastBeginTimeInMillisGmtAsString();
-		long millisGmt = Long.parseLong(millisGmtString);
-		this.setBeginTimeMillisGmt(millisGmt);
-
-		OldProgram program = new OldProgram();
-		program.setTitle(item.getProgramTitle());
-		String programType = item.getProgramType();
-		program.setProgramType(programType);
-
-		long millisLocal = OldDateUtilities.convertTimeStampToLocalTime(millisGmt);
-			
-		String beginTimeStringLocalHourAndMinute = OldDateUtilities.getTimeOfDayFormatted(millisLocal);
-		this.setBeginTimeStringLocalHourAndMinute(beginTimeStringLocalHourAndMinute);
-
-		try {
-			String beginTimeStringLocalDayMonth = OldDateUtilities.tvDateStringToDatePickerString(millisLocal);
-			this.setBeginTimeStringLocalDayMonth(beginTimeStringLocalDayMonth);
-
-			Date now = new Date();
-			Calendar today = Calendar.getInstance();
-			today.setTime(now);
-			
-			Calendar tomorrow = Calendar.getInstance();
-			tomorrow.setTime(now);
-			tomorrow.add(Calendar.DAY_OF_YEAR, 1);
-			
-			Calendar date = Calendar.getInstance();
-			date.setTimeInMillis(millisLocal);
-			
-			if (today.get(Calendar.YEAR) == date.get(Calendar.YEAR) && today.get(Calendar.DAY_OF_YEAR) == date.get(Calendar.DAY_OF_YEAR)) {
-				this.setDayOfWeekString(SecondScreenApplication.sharedInstance().getResources().getString(R.string.today));
-			}
-			else if (tomorrow.get(Calendar.YEAR) == date.get(Calendar.YEAR) && tomorrow.get(Calendar.DAY_OF_YEAR) == date.get(Calendar.DAY_OF_YEAR)) {
-				this.setDayOfWeekString(SecondScreenApplication.sharedInstance().getResources().getString(R.string.tomorrow));
-			}
-			else {
-				String dayOfWeekString = OldDateUtilities.isoStringToDayOfWeek(millisLocal);
-				dayOfWeekString = Character.toUpperCase(dayOfWeekString.charAt(0)) + dayOfWeekString.substring(1);
-				this.setDayOfWeekString(dayOfWeekString);
-			}
-
-			String dayOfWeekAndTimeString = new StringBuilder().append(dayOfWeekString).append(", ").append(beginTimeStringLocalHourAndMinute).toString();
-			this.setDayOfWeekWithTimeString(dayOfWeekAndTimeString);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-
-		if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
-			program.setEpisodeNumber(item.getProgramEpisodeNumber());
-			OldSeason season = new OldSeason();
-			season.setNumber(item.getProgramSeason());
-			program.setSeason(season);
-		} else if (Consts.PROGRAM_TYPE_MOVIE.equals(programType)) {
-			program.setYear(item.getProgramYear());
-			program.setGenre(item.getProgramGenre());
-		}
-		else if (Consts.PROGRAM_TYPE_OTHER.equals(programType)) {
-			program.setCategory(item.getProgramCategory());
-		}
-		else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) {
-			OldSportType sportType = new OldSportType();
-			sportType.setName(item.getProgramCategory()); //Use category for sport type name 
-			program.setSportType(sportType);
-			program.setTournament(item.getProgramGenre()); //And genre for tournament name
-		}
-
-		// program.setTags()
-
-		this.setProgram(program);
-
-		OldTVChannel channel = new OldTVChannel();
-		channel.setChannelId(item.getChannelId());
-		channel.setName(item.getChannelName());
-		channel.setAllImageUrls(item.getChannelLogoUrl());
-
-		this.setChannel(channel);
+//		this.setBeginTimeStringGmt(beginTimeStringLocal);
+//		String millisGmtString = item.getBroadcastBeginTimeInMillisGmtAsString();
+//		long millisGmt = Long.parseLong(millisGmtString);
+//		this.setBeginTimeMillisGmt(millisGmt);
+//
+//		OldProgram program = new OldProgram();
+//		program.setTitle(item.getProgramTitle());
+//		String programType = item.getProgramType();
+//		program.setProgramType(programType);
+//
+//		long millisLocal = OldDateUtilities.convertTimeStampToLocalTime(millisGmt);
+//			
+//		String beginTimeStringLocalHourAndMinute = OldDateUtilities.getTimeOfDayFormatted(millisLocal);
+//		this.setBeginTimeStringLocalHourAndMinute(beginTimeStringLocalHourAndMinute);
+//
+//		try {
+//			String beginTimeStringLocalDayMonth = OldDateUtilities.tvDateStringToDatePickerString(millisLocal);
+//			this.setBeginTimeStringLocalDayMonth(beginTimeStringLocalDayMonth);
+//
+//			Date now = new Date();
+//			Calendar today = Calendar.getInstance();
+//			today.setTime(now);
+//			
+//			Calendar tomorrow = Calendar.getInstance();
+//			tomorrow.setTime(now);
+//			tomorrow.add(Calendar.DAY_OF_YEAR, 1);
+//			
+//			Calendar date = Calendar.getInstance();
+//			date.setTimeInMillis(millisLocal);
+//			
+//			if (today.get(Calendar.YEAR) == date.get(Calendar.YEAR) && today.get(Calendar.DAY_OF_YEAR) == date.get(Calendar.DAY_OF_YEAR)) {
+//				this.setDayOfWeekString(SecondScreenApplication.sharedInstance().getResources().getString(R.string.today));
+//			}
+//			else if (tomorrow.get(Calendar.YEAR) == date.get(Calendar.YEAR) && tomorrow.get(Calendar.DAY_OF_YEAR) == date.get(Calendar.DAY_OF_YEAR)) {
+//				this.setDayOfWeekString(SecondScreenApplication.sharedInstance().getResources().getString(R.string.tomorrow));
+//			}
+//			else {
+//				String dayOfWeekString = OldDateUtilities.isoStringToDayOfWeek(millisLocal);
+//				dayOfWeekString = Character.toUpperCase(dayOfWeekString.charAt(0)) + dayOfWeekString.substring(1);
+//				this.setDayOfWeekString(dayOfWeekString);
+//			}
+//
+//			String dayOfWeekAndTimeString = new StringBuilder().append(dayOfWeekString).append(", ").append(beginTimeStringLocalHourAndMinute).toString();
+//			this.setDayOfWeekWithTimeString(dayOfWeekAndTimeString);
+//		} catch (ParseException e) {
+//			e.printStackTrace();
+//		}
+//
+//		if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType)) {
+//			program.setEpisodeNumber(item.getProgramEpisodeNumber());
+//			OldSeason season = new OldSeason();
+//			season.setNumber(item.getProgramSeason());
+//			program.setSeason(season);
+//		} else if (Consts.PROGRAM_TYPE_MOVIE.equals(programType)) {
+//			program.setYear(item.getProgramYear());
+//			program.setGenre(item.getProgramGenre());
+//		}
+//		else if (Consts.PROGRAM_TYPE_OTHER.equals(programType)) {
+//			program.setCategory(item.getProgramCategory());
+//		}
+//		else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) {
+//			OldSportType sportType = new OldSportType();
+//			sportType.setName(item.getProgramCategory()); //Use category for sport type name 
+//			program.setSportType(sportType);
+//			program.setTournament(item.getProgramGenre()); //And genre for tournament name
+//		}
+//
+//		// program.setTags()
+//
+//		this.setProgram(program);
+//
+//		OldTVChannel channel = new OldTVChannel();
+//		channel.setChannelId(item.getChannelId());
+//		channel.setName(item.getChannelName());
+//		channel.setAllImageUrls(item.getChannelLogoUrl());
+//
+//		this.setChannel(channel);
 	}
 
 	public void calculateAndSetTimeData() {

@@ -80,11 +80,6 @@ public class SignUpWithEmailActivity
 		initViews();
 		
 		clearErrorFields();
-		
-		firstNameEditText.setText("Filipe");
-		lastNameEditText.setText("");
-		emailEditText.setText("e1147528@drdrb.com");
-		passwordEditText.setText("Zxcvbnm00");
 	}
 	
 
@@ -189,7 +184,7 @@ public class SignUpWithEmailActivity
 			{
 				enableFields();
 				
-				Intent intent = new Intent(SignUpWithEmailActivity.this, getReturnActivity());
+				Intent intent = new Intent(SignUpWithEmailActivity.this, getMostRecentTabActivity().getClass());
 
 				intent.putExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
 

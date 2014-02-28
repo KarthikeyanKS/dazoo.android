@@ -58,6 +58,8 @@ public class LoginWithMiTVUserActivity
 		isInvalidPassword = true;
 
 		initViews();
+		
+		clearErrorFields();
 	}
 	
 	
@@ -104,8 +106,7 @@ public class LoginWithMiTVUserActivity
 	{
 		super.updateUIBaseElements(status);
 
-		emailErrorTextView.setVisibility(View.INVISIBLE);
-		passwordErrorTextView.setVisibility(View.INVISIBLE);
+		clearErrorFields();
 		
 		switch (status)
 		{	
@@ -139,7 +140,7 @@ public class LoginWithMiTVUserActivity
 			{
 				enableFields();
 				
-				Intent intent = new Intent(LoginWithMiTVUserActivity.this, getReturnActivity());
+				Intent intent = new Intent(LoginWithMiTVUserActivity.this, getMostRecentTabActivity().getClass());
 
 				intent.putExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
 
@@ -165,6 +166,14 @@ public class LoginWithMiTVUserActivity
 				break;
 			}
 		}
+	}
+	
+	
+	
+	private void clearErrorFields()
+	{
+		emailErrorTextView.setVisibility(View.INVISIBLE);
+		passwordErrorTextView.setVisibility(View.INVISIBLE);
 	}
 	
 	
@@ -251,6 +260,7 @@ public class LoginWithMiTVUserActivity
 			{
 				Intent intent = new Intent(LoginWithMiTVUserActivity.this, LoginWithFacebookActivity.class);
 				startActivity(intent);
+				finish();
 				break;
 			}
 			

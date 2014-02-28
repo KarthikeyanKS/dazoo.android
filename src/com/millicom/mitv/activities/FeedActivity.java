@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +28,6 @@ import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.models.TVFeedItem;
-import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.adapters.FeedListAdapter;
 
@@ -324,20 +322,14 @@ public class FeedActivity
 			{
 				Intent intent = new Intent(FeedActivity.this, LoginWithFacebookActivity.class);
 	
-				intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, this.getClass().getName());
-				
 				startActivity(intent);
-	
-				finish();
-	
+				
 				break;
 			}
 	
 			case R.id.activity_not_logged_in_signup_email_container:
 			{
 				Intent intent = new Intent(FeedActivity.this, SignUpWithEmailActivity.class);
-	
-				intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, this.getClass().getName());
 	
 				startActivity(intent);
 	
@@ -347,8 +339,6 @@ public class FeedActivity
 			case R.id.activity_not_logged_in_login_btn: 
 			{
 				Intent intent = new Intent(FeedActivity.this, LoginWithMiTVUserActivity.class);
-	
-				intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, this.getClass().getName());
 	
 				startActivity(intent);
 	

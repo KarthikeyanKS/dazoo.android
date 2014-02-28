@@ -8,8 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.text.TextUtils;
+import android.util.Log;
 
-import com.millicom.mitv.enums.FeedItemTypeEnum;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.LikeTypeRequestEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
@@ -41,6 +41,9 @@ import com.mitv.Consts;
 public class ContentManager 
 	implements ContentCallbackListener 
 {
+	private static final String TAG = ContentManager.class.getName();
+	
+	
 	private static ContentManager sharedInstance;
 	private Storage storage;
 	private APIClient apiClient;
@@ -128,11 +131,14 @@ public class ContentManager
 	}
 
 	
-	private void fetchFromServiceTVDataOnUserStatusChange(ActivityCallbackListener activityCallbackListener) {
+	private void fetchFromServiceTVDataOnUserStatusChange(ActivityCallbackListener activityCallbackListener) 
+	{
 		channelsChange = true;
 		apiClient.getUserTVChannelIds(activityCallbackListener);
 	}
+	
 
+	
 	private void fetchFromServiceTVGuideForSelectedDay(ActivityCallbackListener activityCallbackListener) {
 		TVDate tvDate = storage.getTvDateSelected();
 		fetchFromServiceTVGuideUsingTVDate(activityCallbackListener, tvDate);
@@ -267,6 +273,7 @@ public class ContentManager
 	}
 	
 	
+	
 	public void getElseFetchFromServiceTaggedBroadcastsForSelectedTVDate(ActivityCallbackListener activityCallbackListener, boolean forceDownload)
 	{
 		TVDate tvDateSelected = getFromStorageTVDateSelected();
@@ -311,7 +318,7 @@ public class ContentManager
 	
 	public void getElseFetchFromServiceUserLikes(ActivityCallbackListener activityCallbackListener, boolean forceDownload) 
 	{
-		if (!forceDownload && storage.containsUserLikes()) 
+		if (!forceDownload && storage.containsUserLikes())
 		{
 			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.USER_LIKES);
 		} 
@@ -693,19 +700,6 @@ public class ContentManager
 					notifyFetchDataProgressListenerMessage("Fetched tv channel id data");
 					break;
 				}
-				
-				case BROADCAST_DETAILS: {
-					// TODO
-					break;
-				}
-				case REPEATING_BROADCASTS_FOR_PROGRAMS: {
-					// TODO
-					break;
-				}
-				case BROADCASTS_FROM_SERIES_UPCOMING: {
-					// TODO
-					break;
-				}
 			}
 
 			int completedCountTVDataThreshold;
@@ -755,7 +749,17 @@ public class ContentManager
 			storage.addTVGuideForSelectedDay(tvGuide);
 			storage.addTaggedBroadcastsForSelectedDay(mapTagToTaggedBroadcastForDate);
 
-			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, requestIdentifier);
+			/*
+			 * If the activityCallbackListener is null, then possibly the activity is already finished and there is no need to notify on the result.
+			 */
+			if(activityCallbackListener != null) 
+			{
+				activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, requestIdentifier);
+			}
+			else 
+			{
+				Log.w(TAG, "Activity callback is null.");
+			}
 		} 
 		else 
 		{
@@ -888,6 +892,8 @@ public class ContentManager
 			@SuppressWarnings("unchecked")
 			ArrayList<UserLike> userLikes = (ArrayList<UserLike>) content;
 			storage.setUserLikes(userLikes);
+			
+			activityCallbackListener.onResult(result, requestIdentifier);
 		}
 		else 
 		{
@@ -1315,7 +1321,20 @@ public class ContentManager
 		String userId = storage.getUserId();
 		return userId;
 	}
-		
+	
+	public String getFromStorageUserAvatarImageURL() 
+	{
+		String userId = storage.getUserAvatarImageURL();
+		return userId;
+	}
+	
+	
+	public ArrayList<UserLike> getFromStorageUserLikes()
+	{
+		ArrayList<UserLike> userLikes = storage.getUserLikes();
+		return userLikes;
+	}
+			
 	
 	// TODO NewArc remove this?
 	public TVChannel getFromStorageTVChannelById(String channelId)

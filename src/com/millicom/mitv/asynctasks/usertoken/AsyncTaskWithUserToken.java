@@ -35,20 +35,6 @@ public abstract class AsyncTaskWithUserToken<T>
 
 	
 	
-//	public AsyncTaskWithUserToken(
-//			ContentCallbackListener contentCallbackListener,
-//			ActivityCallbackListener activityCallBackListener, 
-//			RequestIdentifierEnum requestIdentifier,
-//			Class<T> clazz,
-//			boolean manualDeserialization,
-//			HTTPRequestTypeEnum httpRequestType,
-//			String urlSuffix) 
-//	{
-//		super(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, null, manualDeserialization, httpRequestType, urlSuffix);
-//	}
-	
-	
-	
 	public AsyncTaskWithUserToken(
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener, 

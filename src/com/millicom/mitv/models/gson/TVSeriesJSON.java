@@ -5,8 +5,10 @@ package com.millicom.mitv.models.gson;
 
 public class TVSeriesJSON
 {
-	private String seriesId;
-	private String name;
+	protected String seriesId;
+	protected String name;
+	
+	
 	
 	public String getSeriesId() 
 	{

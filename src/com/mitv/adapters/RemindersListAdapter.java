@@ -238,9 +238,7 @@ public class RemindersListAdapter
 
 					NotificationDataSource notificationDataSource = new NotificationDataSource(mActivity);
 
-					NotificationDbItem notificationDbItem = new NotificationDbItem();
-					
-					notificationDbItem = notificationDataSource.getNotification(channel.getChannelId().getChannelId(), Long.valueOf(broadcast.getBeginTimeMillis()));
+					NotificationDbItem notificationDbItem = notificationDataSource.getNotification(channel.getChannelId().getChannelId(), Long.valueOf(broadcast.getBeginTimeMillis()));
 					
 					if (notificationDbItem != null) 
 					{

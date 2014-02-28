@@ -7,11 +7,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
@@ -24,7 +21,6 @@ import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
-import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.adapters.RemindersListAdapter;
 import com.mitv.interfaces.RemindersCountInterface;
@@ -48,10 +44,7 @@ public class RemindersActivity
 	private View mTabDividerLeft;
 	private View mTabDividerRight;
 	private TextView mErrorTv;
-	
-	private int	mCount = 0;
-	private boolean	mIsChange = false;
-	
+		
 
 	
 	
@@ -66,21 +59,11 @@ public class RemindersActivity
 	
 	
 	
-	@Override
-	protected void onResume() 
-	{
-		super.onResume();
-	}
-
-	
-	
 	private void initLayout()
 	{
 		actionBar.setTitle(getResources().getString(R.string.reminders));
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
-		// styling bottom navigation tabs
-		
 		mTabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
 		mTabTvGuide.setOnClickListener(this);
 		mTabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
@@ -115,21 +98,18 @@ public class RemindersActivity
 		for (int i = 0; i < notificationList.size(); i++) 
 		{
 			NotificationDbItem item = notificationList.get(i);
-			//TODO create some constructor for some Broadcast related class from database item...
 			
-			TVBroadcastWithChannelInfo broadcast = null;// = new Broadcast(item);
+			TVBroadcastWithChannelInfo broadcast = new TVBroadcastWithChannelInfo(item);
 			
 			broadcasts.add(broadcast);
 		}
 		
-		// If empty - show notification.
 		if (broadcasts.isEmpty())
 		{
 			mErrorTv.setVisibility(View.VISIBLE);
 		} 
 		else
 		{
-			// Sort the list of broadcasts by time.
 			Collections.sort(broadcasts, new TVBroadcast.BroadcastComparatorByTime());
 
 			mAdapter = new RemindersListAdapter(this, broadcasts, this);
@@ -137,21 +117,6 @@ public class RemindersActivity
 		}
 	}
 
-	@Override
-	public void onBackPressed() 
-	{
-		Intent returnIntent = new Intent();
-		
-		if (mIsChange == true) 
-		{
-			setResult(Consts.INFO_UPDATE_REMINDERS, returnIntent);
-			returnIntent.putExtra(Consts.INFO_UPDATE_REMINDERS_NUMBER, mCount);
-		}
-		
-		super.onBackPressed();
-		
-		finish();
-	}
 
 	
 	
@@ -163,13 +128,10 @@ public class RemindersActivity
 	}
 	
 	
+	
 	@Override
 	public void setValues(int count) 
 	{
-		mIsChange = true;
-		
-		mCount = count;
-		
 		if(count == 0) 
 		{
 			mErrorTv.setVisibility(View.VISIBLE);

@@ -116,7 +116,7 @@ public class LoginWithFacebookActivity
 			
 			case SUCCEEDED_WITH_DATA:
 			{
-				Intent intent = new Intent(LoginWithFacebookActivity.this, getReturnActivity());
+				Intent intent = new Intent(LoginWithFacebookActivity.this, getMostRecentTabActivity().getClass());
 
 				intent.putExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
 
@@ -135,7 +135,7 @@ public class LoginWithFacebookActivity
 				
 				ToastHelper.createAndShowLikeToast(this, message);
 				
-				Intent intent = new Intent(LoginWithFacebookActivity.this, getReturnActivity());
+				Intent intent = new Intent(LoginWithFacebookActivity.this, getMostRecentTabActivity().getClass());
 
 				startActivity(intent);
 				
@@ -160,17 +160,17 @@ public class LoginWithFacebookActivity
 
 				switch (statusCode) 
 				{
-				case AJAX_STATUS_ERROR_400:
-				case AJAX_STATUS_ERROR_401:
-				case AJAX_STATUS_ERROR_403:
-				{
-					return true;
-				}
-
-				default:
-				{
-					break;
-				}
+					case AJAX_STATUS_ERROR_400:
+					case AJAX_STATUS_ERROR_401:
+					case AJAX_STATUS_ERROR_403:
+					{
+						return true;
+					}
+	
+					default:
+					{
+						break;
+					}
 				}
 
 				return super.expired(cb, status);

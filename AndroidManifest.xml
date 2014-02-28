@@ -72,7 +72,6 @@
         <activity
             android:name="com.millicom.mitv.activities.PopularPageActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.mitv.activity.ActivityActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
@@ -82,7 +81,7 @@
 
         <!-- MYPROFILE ACTIVITY -->
         <activity
-            android:name="com.millicom.mitv.activities.MyProfileActivity"
+            android:name="com.millicom.mitv.activities.UserProfileActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -99,7 +98,6 @@
         <activity
             android:name="com.millicom.mitv.activities.LikesActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.millicom.mitv.activities.MyProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="adjustPan" >
@@ -112,7 +110,6 @@
         <activity
             android:name="com.millicom.mitv.activities.MyChannelsActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.millicom.mitv.activities.MyProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
@@ -124,7 +121,6 @@
         <activity
             android:name="com.millicom.mitv.activities.RemindersActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.millicom.mitv.activities.MyProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
@@ -170,7 +166,6 @@
             android:name="com.millicom.mitv.activities.BroadcastPageActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop"
-            android:parentActivityName="com.millicom.mitv.activities.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
@@ -182,7 +177,6 @@
         <activity
             android:name="com.millicom.mitv.activities.UpcomingEpisodesPageActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.millicom.mitv.activities.BroadcastPageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
@@ -194,7 +188,6 @@
         <activity
             android:name="com.millicom.mitv.activities.RepetitionsPageActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.millicom.mitv.activities.BroadcastPageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
@@ -206,7 +199,6 @@
         <activity
             android:name="com.millicom.mitv.activities.ChannelPageActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.millicom.mitv.activities.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ChannelPage" >
             <meta-data
@@ -218,7 +210,6 @@
         <activity
             android:name="com.millicom.mitv.activities.SignUpSelectionActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.millicom.mitv.activities.MyProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
@@ -231,7 +222,6 @@
         <activity
             android:name="com.millicom.mitv.activities.authentication.SignUpWithEmailActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.millicom.mitv.activities.MyProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
@@ -244,7 +234,6 @@
         <activity
             android:name="com.millicom.mitv.activities.authentication.LoginWithMiTVUserActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.millicom.mitv.activities.MyProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
@@ -268,7 +257,6 @@
         <activity
             android:name="com.millicom.mitv.activities.authentication.ResetPasswordActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.millicom.mitv.activities.authentication.LoginWithMiTVUserActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
@@ -281,7 +269,6 @@
         <activity
             android:name="com.millicom.mitv.activities.authentication.ResetPasswordFinalActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:parentActivityName="com.millicom.mitv.activities.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
