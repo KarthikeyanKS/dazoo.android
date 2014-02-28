@@ -4,10 +4,10 @@ package com.mitv.adapters;
 
 
 import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,25 +15,23 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVChannel;
 import com.millicom.mitv.models.TVProgram;
+import com.millicom.mitv.models.sql.NotificationDataSource;
+import com.millicom.mitv.models.sql.NotificationSQLElement;
 import com.millicom.mitv.utilities.DialogHelper;
-import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.interfaces.RemindersCountInterface;
-import com.mitv.notification.NotificationDataSource;
-import com.mitv.notification.NotificationSQLElement;
 
 
 
 public class RemindersListAdapter 
 	extends BaseAdapter
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = RemindersListAdapter.class.getName();
 
 	
@@ -42,7 +40,6 @@ public class RemindersListAdapter
 	private ArrayList<TVBroadcastWithChannelInfo> broadcasts;
 	private RemindersCountInterface	remindersCountInterface;
 	
-	private int	notificationId;
 	private int	currentPosition;
 
 	
@@ -65,7 +62,10 @@ public class RemindersListAdapter
 		{
 			return broadcasts.size();
 		} 
-		else return 0;
+		else 
+		{
+			return 0;
+		}
 	}
 
 	
@@ -122,119 +122,145 @@ public class RemindersListAdapter
 
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
 
-		final TVBroadcastWithChannelInfo broadcast = getItem(position);
+		final TVBroadcastWithChannelInfo broadcastWithChannelInfo = getItem(position);
 		
-		if (broadcast != null) 
+		if (broadcastWithChannelInfo != null)
 		{
-			final TVChannel channel = broadcast.getChannel();
-			
-			TVProgram program = broadcast.getProgram();
-
-			// If first or the previous broadcast is not the same date, show header.
+			// If first or the previous broadcast is not the same date, then show the header.
 			holder.mHeaderContainer.setVisibility(View.GONE);
 			
 			holder.mDividerView.setVisibility(View.VISIBLE);
 
 			int prevPos = Math.max(position - 1, 0);
-
-			int nextPos = Math.min(position + 1, (broadcasts.size() - 1));
 			
 			TVBroadcastWithChannelInfo broadcastPreviousPosition = getItem(prevPos);
 			
+			int nextPos = Math.min(position + 1, (broadcasts.size() - 1));
+			
 			TVBroadcastWithChannelInfo broadcastNextPosition = getItem(nextPos);
 
-			String stringCurrent = broadcast.getBeginTimeDayAndMonthAsString();
+			String stringCurrent = broadcastWithChannelInfo.getBeginTimeDayAndMonthAsString();
 			
 			String stringPrevious = broadcastPreviousPosition.getBeginTimeDayAndMonthAsString();
 			
 			String stringNext = broadcastNextPosition.getBeginTimeDayAndMonthAsString();
 
-			if ((position == 0) || !stringCurrent.equals(stringPrevious)) 
+			if ((position == 0) ||
+				stringCurrent.equals(stringPrevious) == false) 
 			{
-				holder.mHeaderTv.setText(broadcast.getBeginTimeDayOfTheWeekAsString() + " " + broadcast.getBeginTimeDayAndMonthAsString());
+				StringBuilder headerSB = new StringBuilder();
+				headerSB.append(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekAsString());
+				headerSB.append(" ");
+				headerSB.append(broadcastWithChannelInfo.getBeginTimeDayAndMonthAsString());
+				
+				holder.mHeaderTv.setText(headerSB.toString());
 				
 				holder.mHeaderContainer.setVisibility(View.VISIBLE);
 			}
 
-			if (position != (getCount() - 1) && !stringCurrent.equals(stringNext)) 
+			if (position != (getCount() - 1) && 
+				stringCurrent.equals(stringNext) == false) 
 			{
 				holder.mDividerView.setVisibility(View.GONE);
 			}
 
-			if (program != null)
+			TVProgram tvProgram = broadcastWithChannelInfo.getProgram();
+			
+			if (tvProgram != null)
 			{
-				holder.mBroadcastTitleTv.setText(program.getTitle());
+				holder.mBroadcastTitleTv.setText(tvProgram.getTitle());
 				
 				holder.mBroadcastDetailsTv.setVisibility(View.VISIBLE);
 
-				ProgramTypeEnum programType = program.getProgramType();
+				ProgramTypeEnum programType = tvProgram.getProgramType();
 				
-				if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programType))
+				switch(programType)
 				{
-					String season = broadcast.getProgram().getSeason().getNumber().toString();
-					
-					int seasonNumber = Integer.parseInt(season);
-					
-					int episode = broadcast.getProgram().getEpisodeNumber();
-					
-					String seasonEpisode = "";
-					
-					if (seasonNumber > 0) 
+					case TV_EPISODE:
 					{
-						seasonEpisode += activity.getResources().getString(R.string.season) + " " + season + " ";
+						StringBuilder seasonEpisodeSB = new StringBuilder();
+						
+						int season = broadcastWithChannelInfo.getProgram().getSeason().getNumber().intValue();
+						
+						if (season > 0) 
+						{
+							seasonEpisodeSB.append(activity.getResources().getString(R.string.season));
+							seasonEpisodeSB.append(" ");
+							seasonEpisodeSB.append(season);
+							seasonEpisodeSB.append(" ");
+						}
+						
+						int episode = broadcastWithChannelInfo.getProgram().getEpisodeNumber();
+						
+						if (episode > 0) 
+						{
+							seasonEpisodeSB.append(activity.getResources().getString(R.string.episode));
+							seasonEpisodeSB.append(" ");
+							seasonEpisodeSB.append(episode);
+							seasonEpisodeSB.append(" ");
+						}
+						
+						holder.mBroadcastDetailsTv.setText(seasonEpisodeSB.toString());
+						break;
 					}
 					
-					if (episode > 0) 
+					case MOVIE:
 					{
-						seasonEpisode += activity.getResources().getString(R.string.episode) + " " + episode;
+						holder.mBroadcastDetailsTv.setText(tvProgram.getGenre() + " " + tvProgram.getYear());
+						break;
 					}
 					
-					holder.mBroadcastDetailsTv.setText(seasonEpisode);
-				} 
-				else if (Consts.PROGRAM_TYPE_MOVIE.equals(programType)) 
-				{
-					holder.mBroadcastDetailsTv.setText(program.getGenre() + " " + program.getYear());
-				} 
-				else if (Consts.PROGRAM_TYPE_OTHER.equals(programType)) 
-				{
-					String category = program.getCategory();
-					holder.mBroadcastDetailsTv.setText(category);
-				} 
-				else if (Consts.PROGRAM_TYPE_SPORT.equals(programType)) 
-				{
-					if (program.getTournament() != null) 
+					case SPORT:
 					{
-						holder.mBroadcastDetailsTv.setText(program.getTournament());
+						if (tvProgram.getTournament() != null) 
+						{
+							holder.mBroadcastDetailsTv.setText(tvProgram.getTournament());
+						}
+						else 
+						{
+							holder.mBroadcastDetailsTv.setText(tvProgram.getSportType().getName());
+						}
+						break;
 					}
-					else 
+					
+					case OTHER:
 					{
-						holder.mBroadcastDetailsTv.setText(program.getSportType().getName());
+						String category = tvProgram.getCategory();
+						
+						holder.mBroadcastDetailsTv.setText(category);
+						break;
+					}
+					
+					case UNKNOWN:
+					default:
+					{
+						Log.w(TAG, "Unhandled program type.");
+						break;
 					}
 				}
 			}
+			
+			final TVChannel tvChannel = broadcastWithChannelInfo.getChannel();
 
-			if (channel != null) 
-			{
-				holder.mChannelTv.setText(channel.getName());
-			}
+			holder.mChannelTv.setText(tvChannel.getName());
 
-			holder.mBroadcastTimeTv.setText(broadcast.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
+			holder.mBroadcastTimeTv.setText(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
+			
+			holder.mReminderIconIv.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 			
 			holder.mInformationContainer.setOnClickListener(new View.OnClickListener() 
 			{
 				@Override
 				public void onClick(View v) 
 				{
-					//TODO NewArc dont we have TVBroadcastWithChannelInfo here?
+					ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+					
 					Intent intent = new Intent(activity, BroadcastPageActivity.class);
-					intent.putExtra(Consts.INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO, true);
-					intent.putExtra(Consts.INTENT_EXTRA_FROM_PROFILE, true);
+					
 					activity.startActivity(intent);
 				}
 			});
 
-			holder.mReminderIconIv.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_reminder_selected));
-			
 			holder.mReminderIconIv.setOnClickListener(new View.OnClickListener() 
 			{
 				@Override
@@ -243,18 +269,19 @@ public class RemindersListAdapter
 					currentPosition = (Integer) v.getTag();
 
 					NotificationDataSource notificationDataSource = new NotificationDataSource(activity);
-
-					NotificationSQLElement notificationDbItem = notificationDataSource.getNotification(channel.getChannelId().getChannelId(), broadcast.getBeginTime());
+	
+					NotificationSQLElement notificationDbItem = notificationDataSource.getNotification(tvChannel.getChannelId(), broadcastWithChannelInfo.getBeginTime());
 					
 					if (notificationDbItem != null) 
 					{
-						notificationId = notificationDbItem.getNotificationId();
+						int notificationId = notificationDbItem.getNotificationId();
 						
-						DialogHelper.showRemoveNotificationDialog(activity, broadcast, notificationId, confirmRemoval(), cancelRemoval());
+						DialogHelper.showRemoveNotificationDialog(activity, broadcastWithChannelInfo, notificationId, confirmRemoval(), cancelRemoval());
 					}
 				}
 			});
 		}
+		
 		return rowView;
 	}
 

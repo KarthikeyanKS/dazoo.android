@@ -4,7 +4,7 @@ package com.millicom.mitv.models;
 
 
 import com.millicom.mitv.models.gson.TVSeriesJSON;
-import com.mitv.notification.NotificationSQLElement;
+import com.millicom.mitv.models.sql.NotificationSQLElement;
 
 
 public class TVSeries

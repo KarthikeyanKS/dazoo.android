@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.millicom.mitv.activities.base.BaseContentActivity;
@@ -21,11 +20,11 @@ import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
+import com.millicom.mitv.models.sql.NotificationDataSource;
+import com.millicom.mitv.models.sql.NotificationSQLElement;
 import com.mitv.R;
 import com.mitv.adapters.RemindersListAdapter;
 import com.mitv.interfaces.RemindersCountInterface;
-import com.mitv.notification.NotificationDataSource;
-import com.mitv.notification.NotificationSQLElement;
 
 
 
@@ -36,16 +35,10 @@ public class RemindersActivity
 	@SuppressWarnings("unused")
 	private static final String TAG = RemindersActivity.class.getName();
 	
-	private RelativeLayout mTabTvGuide;
-	private RelativeLayout mTabActivity;
-	private RelativeLayout mTabProfile;
-	private View mTabDividerLeft;
-	private View mTabDividerRight;
-	private TextView mErrorTv;
 	
-	private ListView mListView;
-	private RemindersListAdapter mAdapter;
-		
+	private ListView listView;
+	private RemindersListAdapter listAdapter;
+	private TextView errorTv;	
 
 	
 	
@@ -65,25 +58,8 @@ public class RemindersActivity
 		actionBar.setTitle(getResources().getString(R.string.reminders));
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
-		mTabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
-		mTabTvGuide.setOnClickListener(this);
-		mTabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
-		mTabActivity.setOnClickListener(this);
-		mTabProfile = (RelativeLayout) findViewById(R.id.tab_me);
-		mTabProfile.setOnClickListener(this);
-
-		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
-		mTabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
-
-		mTabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
-		mTabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
-
-		mTabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
-		mTabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
-		mTabProfile.setBackgroundColor(getResources().getColor(R.color.red));
-
-		mErrorTv = (TextView) findViewById(R.id.reminders_error_tv);
-		mListView = (ListView) findViewById(R.id.listview);
+		errorTv = (TextView) findViewById(R.id.reminders_error_tv);
+		listView = (ListView) findViewById(R.id.listview);
 		
 		setEmptyLayoutDetailsMessage(getResources().getString(R.string.no_reminders));
 	}
@@ -104,11 +80,11 @@ public class RemindersActivity
 	{
 		if(count == 0) 
 		{
-			mErrorTv.setVisibility(View.VISIBLE);
+			errorTv.setVisibility(View.VISIBLE);
 		} 
 		else 
 		{
-			mErrorTv.setVisibility(View.GONE);
+			errorTv.setVisibility(View.GONE);
 		}
 	}
 	
@@ -142,7 +118,7 @@ public class RemindersActivity
 		{
 			Collections.sort(tvBroadcasts, new TVBroadcast.BroadcastComparatorByTime());
 
-			mAdapter = new RemindersListAdapter(this, tvBroadcasts, this);
+			listAdapter = new RemindersListAdapter(this, tvBroadcasts, this);
 
 			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
 		}
@@ -167,7 +143,7 @@ public class RemindersActivity
 		{
 			case SUCCEEDED_WITH_DATA:
 			{
-				mListView.setAdapter(mAdapter);
+				listView.setAdapter(listAdapter);
 				break;
 			}
 	

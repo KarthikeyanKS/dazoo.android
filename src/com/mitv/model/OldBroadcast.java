@@ -17,10 +17,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import com.millicom.mitv.models.sql.NotificationSQLElement;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.notification.NotificationSQLElement;
 import com.mitv.utilities.OldDateUtilities;
 
 

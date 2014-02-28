@@ -1,5 +1,5 @@
 
-package com.mitv.notification;
+package com.millicom.mitv.models.sql;
 
 
 

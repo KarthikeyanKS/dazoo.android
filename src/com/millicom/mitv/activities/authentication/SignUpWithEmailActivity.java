@@ -18,8 +18,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import com.millicom.mitv.ContentManager;
-import com.millicom.mitv.activities.base.BaseLoginActivity;
+import com.millicom.mitv.activities.base.BaseActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
@@ -33,7 +34,7 @@ import com.mitv.customviews.TextDrawable;
 
 
 public class SignUpWithEmailActivity 
-	extends BaseLoginActivity 
+	extends BaseActivity 
 	implements OnClickListener
 {
 	private static final String TAG = SignUpWithEmailActivity.class.getName();

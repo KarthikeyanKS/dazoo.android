@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.millicom.mitv.ContentManager;
-import com.millicom.mitv.activities.base.BaseLoginActivity;
+import com.millicom.mitv.activities.base.BaseActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
@@ -26,7 +26,7 @@ import com.mitv.R;
 
 
 public class LoginWithMiTVUserActivity 
-	extends BaseLoginActivity 
+	extends BaseActivity 
 	implements OnClickListener 
 {
 	private static final String TAG = LoginWithMiTVUserActivity.class.getName();
@@ -266,7 +266,7 @@ public class LoginWithMiTVUserActivity
 			
 			case R.id.mitvlogin_forgot_password_button:
 			{
-				Intent intent = new Intent(LoginWithMiTVUserActivity.this, ResetPasswordActivity.class);
+				Intent intent = new Intent(LoginWithMiTVUserActivity.this, ResetPasswordSendEmailActivity.class);
 				startActivity(intent);
 				break;
 			}

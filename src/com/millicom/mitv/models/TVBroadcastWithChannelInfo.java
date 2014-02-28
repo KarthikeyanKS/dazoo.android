@@ -8,7 +8,7 @@ import java.util.Calendar;
 
 import com.millicom.mitv.enums.BroadcastTypeEnum;
 import com.millicom.mitv.models.gson.TVBroadcastWithChannelInfoJSON;
-import com.mitv.notification.NotificationSQLElement;
+import com.millicom.mitv.models.sql.NotificationSQLElement;
 
 
 

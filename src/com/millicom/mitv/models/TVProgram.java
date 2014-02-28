@@ -9,7 +9,7 @@ import android.util.Log;
 
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.models.gson.TVProgramJSON;
-import com.mitv.notification.NotificationSQLElement;
+import com.millicom.mitv.models.sql.NotificationSQLElement;
 
 
 

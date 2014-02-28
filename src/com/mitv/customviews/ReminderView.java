@@ -14,13 +14,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
+import com.millicom.mitv.models.sql.NotificationDataSource;
+import com.millicom.mitv.models.sql.NotificationSQLElement;
 import com.millicom.mitv.utilities.DialogHelper;
+import com.millicom.mitv.utilities.NotificationHelper;
 import com.millicom.mitv.utilities.ToastHelper;
 import com.mitv.Consts;
 import com.mitv.R;
-import com.mitv.notification.NotificationDataSource;
-import com.mitv.notification.NotificationSQLElement;
-import com.mitv.notification.NotificationService;
 import com.mitv.utilities.AnimationUtilities;
 
 
@@ -89,7 +89,7 @@ public class ReminderView
 		
 		if (!tvBroadcastWithChannelInfo.isAiring())
 		{
-			NotificationSQLElement dbItem = notificationDataSource.getNotification(tvBroadcastWithChannelInfo.getChannel().getChannelId().getChannelId(), tvBroadcastWithChannelInfo.getBeginTime());
+			NotificationSQLElement dbItem = notificationDataSource.getNotification(tvBroadcastWithChannelInfo.getChannel().getChannelId(), tvBroadcastWithChannelInfo.getBeginTime());
 
 			if (dbItem != null && dbItem.getNotificationId() != 0) 
 			{
@@ -127,13 +127,13 @@ public class ReminderView
 		{
 			if (isSet == false) 
 			{
-				NotificationService.setAlarm(context, tvBroadcastWithChannelInfo);
+				NotificationHelper.setAlarm(context, tvBroadcastWithChannelInfo);
 				
 				ToastHelper.showNotificationWasSetToast(activity);
 				
 				imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
-				NotificationSQLElement dbItemRemind = notificationDataSource.getNotification(tvBroadcastWithChannelInfo.getChannel().getChannelId().getChannelId(), tvBroadcastWithChannelInfo.getBeginTime());
+				NotificationSQLElement dbItemRemind = notificationDataSource.getNotification(tvBroadcastWithChannelInfo.getChannel().getChannelId(), tvBroadcastWithChannelInfo.getBeginTime());
 				
 				notificationId = dbItemRemind.getNotificationId();
 
@@ -145,11 +145,6 @@ public class ReminderView
 			{
 				if (notificationId != -1)
 				{
-//					if (NotificationService.sToast != null)
-//					{
-//						NotificationService.sToast.cancel();
-//					}
-					
 					DialogHelper.showRemoveNotificationDialog(context, tvBroadcastWithChannelInfo, notificationId, yesNotificationProc(), noNotificationProc());
 				}
 				else

@@ -10,9 +10,9 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
-import com.mitv.notification.NotificationDataSource;
-import com.mitv.notification.NotificationSQLElement;
-import com.mitv.notification.NotificationService;
+import com.millicom.mitv.models.sql.NotificationDataSource;
+import com.millicom.mitv.models.sql.NotificationSQLElement;
+import com.millicom.mitv.utilities.NotificationHelper;
 
 
 
@@ -49,7 +49,7 @@ public class AlarmSetter
 			
 			TVBroadcastWithChannelInfo broadcast = new TVBroadcastWithChannelInfo(item);
 			
-			NotificationService.setAlarm(context, broadcast, item.getNotificationId());
+			NotificationHelper.setAlarm(context, broadcast, item.getNotificationId());
 		}
 	}
 }

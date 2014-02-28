@@ -1,5 +1,5 @@
 
-package com.mitv.notification;
+package com.millicom.mitv.utilities;
 
 
 import java.util.Calendar;
@@ -17,20 +17,24 @@ import android.support.v4.app.NotificationCompat;
 
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
+import com.millicom.mitv.models.sql.NotificationDataSource;
+import com.millicom.mitv.models.sql.NotificationSQLElement;
 import com.mitv.Consts;
 import com.mitv.R;
 
 
 
-public class NotificationService
+public class NotificationHelper
 {
 	@SuppressWarnings("unused")
-	private static final String	TAG	= NotificationService.class.getName();
+	private static final String	TAG	= NotificationHelper.class.getName();
 	
 		
-	public static void setAlarm(Context context, TVBroadcastWithChannelInfo broadcast, int notificationId)
+	public static void setAlarm(
+			final Context context, 
+			TVBroadcastWithChannelInfo broadcast, 
+			int notificationId)
 	{
-		// Call alarm manager to set the notification at the certain time
 		Intent intent = getAlarmIntent(notificationId, broadcast);
 
 		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -44,7 +48,9 @@ public class NotificationService
 	
 	
 	
-	public static void setAlarm(Context context, TVBroadcastWithChannelInfo broadcast) 
+	public static void setAlarm(
+			final Context context,
+			TVBroadcastWithChannelInfo broadcast) 
 	{
 		Random random = new Random();
 		

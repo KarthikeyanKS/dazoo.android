@@ -8,8 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.millicom.mitv.utilities.NotificationHelper;
 import com.mitv.Consts;
-import com.mitv.notification.NotificationService;
 
 
 
@@ -39,7 +39,7 @@ public class AlarmReceiver extends BroadcastReceiver
 			
 			Log.e(TAG,"AlarmReceiver: Notification id: " + String.valueOf(notificationId));
 			
-			NotificationService.showNotification(context, broadcastBeginTimeMillis, broadcastHourAndMinuteRepresentation, broadcastName, channelId, channelName, channelLogo, dateDate, notificationId);
+			NotificationHelper.showNotification(context, broadcastBeginTimeMillis, broadcastHourAndMinuteRepresentation, broadcastName, channelId, channelName, channelLogo, dateDate, notificationId);
 		}
 	}	
 }

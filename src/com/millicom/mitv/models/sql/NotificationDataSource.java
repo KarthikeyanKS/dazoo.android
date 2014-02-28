@@ -1,5 +1,5 @@
 
-package com.mitv.notification;
+package com.millicom.mitv.models.sql;
 
 
 
@@ -13,8 +13,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.millicom.mitv.enums.ProgramTypeEnum;
+import com.millicom.mitv.models.TVChannelId;
 import com.mitv.Consts;
-import com.mitv.SecondScreenApplication;
 
 
 
@@ -74,6 +74,8 @@ public class NotificationDataSource
 		values.put(Consts.NOTIFICATION_DB_COLUMN_SPORT_TYPE_ID, notification.getSportTypeId());
 		values.put(Consts.NOTIFICATION_DB_COLUMN_SPORT_TYPE_NAME, notification.getSportTypeName());
 		
+		database.insert(Consts.NOTIFICATION_DB_TABLE_NOTIFICATIONS, null, values);
+
 		database.close();
 	}
 	
@@ -113,13 +115,31 @@ public class NotificationDataSource
 
 	
 	
-	public NotificationSQLElement getNotification(final String tvChannelId, final String beginTime) 
+	public NotificationSQLElement getNotification(
+			final TVChannelId tvChannelId, 
+			final String beginTime) 
 	{
 		SQLiteDatabase database = dbHelper.getReadableDatabase();
 
-		String query = String.format(SecondScreenApplication.getCurrentLocale(), "SELECT * FROM %s WHERE %s = '%s' AND %s = '%s'", Consts.NOTIFICATION_DB_TABLE_NOTIFICATIONS, Consts.NOTIFICATION_DB_COLUMN_BROADCAST_BEGIN_TIME, beginTime, Consts.NOTIFICATION_DB_COLUMN_CHANNEL_ID, tvChannelId);
-
-		Cursor cursor = database.rawQuery(query, null);
+		String tvChannelIdString = tvChannelId.getChannelId();
+		
+		StringBuilder selectQuerySB = new StringBuilder();
+		selectQuerySB.append("SELECT * FROM ");
+		selectQuerySB.append(Consts.NOTIFICATION_DB_TABLE_NOTIFICATIONS);
+		selectQuerySB.append(" WHERE ");
+		selectQuerySB.append(Consts.NOTIFICATION_DB_COLUMN_BROADCAST_BEGIN_TIME);
+		selectQuerySB.append(" = ");
+		selectQuerySB.append("'");
+		selectQuerySB.append(beginTime);
+		selectQuerySB.append("'");
+		selectQuerySB.append(" AND ");
+		selectQuerySB.append(Consts.NOTIFICATION_DB_COLUMN_CHANNEL_ID);
+		selectQuerySB.append(" = ");
+		selectQuerySB.append("'");
+		selectQuerySB.append(tvChannelIdString);
+		selectQuerySB.append("'");
+		
+		Cursor cursor = database.rawQuery(selectQuerySB.toString(), null);
 		
 		if (cursor != null)
 		{

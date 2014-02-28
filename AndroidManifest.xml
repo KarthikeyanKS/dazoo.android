@@ -255,7 +255,7 @@
 
         <!-- PASSWORD RESET -->
         <activity
-            android:name="com.millicom.mitv.activities.authentication.ResetPasswordActivity"
+            android:name="com.millicom.mitv.activities.authentication.ResetPasswordSendEmailActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
@@ -267,7 +267,7 @@
 
         <!-- PASSWORD RESET FINAL -->
         <activity
-            android:name="com.millicom.mitv.activities.authentication.ResetPasswordFinalActivity"
+            android:name="com.millicom.mitv.activities.authentication.ResetPasswordConfirmationActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"

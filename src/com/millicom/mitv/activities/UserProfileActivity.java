@@ -23,10 +23,10 @@ import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.interfaces.ActivityWithTabs;
 import com.millicom.mitv.models.TVChannelId;
 import com.millicom.mitv.models.UserLike;
+import com.millicom.mitv.models.sql.NotificationDataSource;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.customviews.FontTextView;
-import com.mitv.notification.NotificationDataSource;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -43,12 +43,12 @@ public class UserProfileActivity
 	private RelativeLayout aboutContainer;
 	private RelativeLayout termsContainer;
 
-	/* ONLY USED WHEN NOT LOGGED IN */
+	/* Only used when the user is not logged in */
 	private LinearLayout signInOrSignUpView;
 	private RelativeLayout signUpContainer;
 	private RelativeLayout loginContainer;
 
-	/* ONLY USED WHEN LOGGED IN */
+	/* Only used when the user is logged in */
 	private RelativeLayout personalView;
 	private ImageView avatarImageView;
 	private FontTextView userNameTextView;

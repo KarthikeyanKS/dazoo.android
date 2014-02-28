@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.models.TVBroadcast;
 import com.mitv.R;
-import com.mitv.notification.NotificationService;
 
 
 
@@ -120,7 +119,7 @@ public class DialogHelper
 					answerYes.run();
 				}
 				
-				NotificationService.removeNotification(context, notificationId);
+				NotificationHelper.removeNotification(context, notificationId);
 				dialog.dismiss();
 			}
 		});

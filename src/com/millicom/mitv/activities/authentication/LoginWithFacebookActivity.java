@@ -16,7 +16,7 @@ import com.androidquery.callback.AbstractAjaxCallback;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.millicom.mitv.ContentManager;
-import com.millicom.mitv.activities.base.BaseLoginActivity;
+import com.millicom.mitv.activities.base.BaseActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
@@ -27,7 +27,7 @@ import com.mitv.R;
 
 
 public class LoginWithFacebookActivity 
-	extends BaseLoginActivity 
+	extends BaseActivity 
 {
 	private static final String TAG = LoginWithFacebookActivity.class.getName();
 

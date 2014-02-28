@@ -5,7 +5,7 @@ package com.millicom.mitv.models;
 
 import android.util.Log;
 import com.millicom.mitv.models.gson.TVSeriesSeasonJSON;
-import com.mitv.notification.NotificationSQLElement;
+import com.millicom.mitv.models.sql.NotificationSQLElement;
 
 
 
