@@ -71,8 +71,8 @@ public class MyProfileActivity
 
 		if (ContentManager.sharedInstance().isLoggedIn()) 
 		{
-			userFirstName = ContentManager.sharedInstance().getFromStorageUserFirstname();
-			userLastName = ContentManager.sharedInstance().getFromStorageUserLastname();
+			userFirstName = ContentManager.sharedInstance().getFromCacheUserFirstname();
+			userLastName = ContentManager.sharedInstance().getFromCacheUserLastname();
 			
 			// TDOO from where do we get the avatar?
 			// mUserAvatarUrl = ((SecondScreenApplication) getApplicationContext()).getUserAvatarUrl();

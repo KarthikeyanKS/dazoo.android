@@ -13,6 +13,7 @@ import android.util.SparseArray;
 import com.millicom.mitv.models.AppConfiguration;
 import com.millicom.mitv.models.AppVersion;
 import com.millicom.mitv.models.RepeatingBroadcastsForBroadcast;
+import com.millicom.mitv.models.SearchResultsForQuery;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVChannel;
 import com.millicom.mitv.models.TVChannelGuide;
@@ -28,7 +29,7 @@ import com.millicom.mitv.models.gson.AdAdzerkJSON;
 
 
 
-public class Storage 
+public class Cache 
 {
 	private ArrayList<TVTag> tvTags;
 	private ArrayList<TVDate> tvDates;
@@ -81,19 +82,39 @@ public class Storage
 	
 	/* NON-PERSISTENT USER DATA, USED FOR PASSING DATA BETWEEN ACTIVITIES */
 	private TVBroadcastWithChannelInfo nonPersistentSelectedBroadcastWithChannelInfo;
-//	private ArrayList<TVBroadcastWithChannelInfo> nonPersistentUpcomingBroadcasts;
-//	private ArrayList<TVBroadcastWithChannelInfo> nonPersistentRepeatingBroadcasts;
 	private UpcomingBroadcastsForBroadcast nonPersistentUpcomingBroadcasts;
 	private RepeatingBroadcastsForBroadcast nonPersistentRepeatingBroadcasts;
+	private SearchResultsForQuery nonPersistentSearchResultsForQuery;
 	private Integer nonPersistentSelectedHour;
 	private TVChannelId nonPersistentSelectedTVChannelId;
 		
 	/* Should only be used by the ContentManager */
-	public Storage() {
+	public Cache() {
 		this.tvGuides = new HashMap<String, TVGuide>();
 		
 		/* Default selected day to 0 */
 		setTvDateSelectedIndex(0);
+	}
+	
+	
+	
+	public SearchResultsForQuery getNonPersistentSearchResultsForQuery() {
+		return nonPersistentSearchResultsForQuery;
+	}
+
+	public void setNonPersistentSearchResultsForQuery(SearchResultsForQuery nonPersistentSearchResultsForQuery) {
+		this.nonPersistentSearchResultsForQuery = nonPersistentSearchResultsForQuery;
+	}
+
+	public boolean containsSearchResultForQuery(String searchQuery) {
+		boolean containsSearchResultForQuery = false;
+		if(nonPersistentSearchResultsForQuery != null) {
+			String queryUsedForResultsInStorage = nonPersistentSearchResultsForQuery.getQueryString();
+			if(queryUsedForResultsInStorage.equals(searchQuery)) {
+				containsSearchResultForQuery = true;
+			}
+		}
+		return containsSearchResultForQuery;
 	}
 	
 	public boolean containsTVBroadcastWithChannelInfo(TVChannelId channelId, long beginTimeMillis) {

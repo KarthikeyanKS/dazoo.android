@@ -6,13 +6,19 @@ package com.millicom.mitv.models;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import android.util.Log;
+
+import com.millicom.mitv.interfaces.GSONDataFieldValidation;
 import com.millicom.mitv.models.gson.TVBroadcastWithChannelInfoJSON;
 
 
 
 public class TVBroadcastWithChannelInfo 
-	extends TVBroadcastWithChannelInfoJSON 
+	extends TVBroadcastWithChannelInfoJSON implements GSONDataFieldValidation
 {
+	private static final String TAG = TVBroadcastWithChannelInfoJSON.class.getName();
+	
+	
 	public TVBroadcastWithChannelInfo(){}
 
 	
@@ -88,4 +94,22 @@ public class TVBroadcastWithChannelInfo
 		}
 		return closestIndexFound;
 	}
+
+
+
+	@Override
+	public boolean areDataFieldsValid() {
+		boolean broadcastFieldsOK = super.areDataFieldsValid();
+		if(!broadcastFieldsOK) {
+			super.areDataFieldsValid();
+		}
+		TVChannel tvChannel = getChannel();
+		boolean channelFieldsOK = tvChannel.areDataFieldsValid();
+		
+		boolean areDataFieldsValid = broadcastFieldsOK && channelFieldsOK;
+		Log.d(TAG, String.format("broadcastFieldsOK: %s, channelFieldsOK> %s", broadcastFieldsOK ? "ok" : "fail", channelFieldsOK ? "ok" : "fail"));
+		return areDataFieldsValid;
+	}
+	
+	
 }

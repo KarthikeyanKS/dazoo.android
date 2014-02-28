@@ -82,7 +82,7 @@ public class TVHolderFragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
 	{
 		View v = inflater.inflate(R.layout.fragment_tvguide_holder_layout, null);
-		tvTags = ContentManager.sharedInstance().getFromStorageTVTags();
+		tvTags = ContentManager.sharedInstance().getFromCacheTVTags();
 
 		viewPager = (ViewPager) v.findViewById(R.id.home_pager);
 		viewPager.setOffscreenPageLimit(tvTags.size());
@@ -134,7 +134,7 @@ public class TVHolderFragment
 	
 	private void setAdapter(int selectedIndex)
 	{
-		TVDate tvDate = ContentManager.sharedInstance().getFromStorageTVDateSelected();
+		TVDate tvDate = ContentManager.sharedInstance().getFromCacheTVDateSelected();
 		
 		pagerAdapter = new TagTypeFragmentStatePagerAdapter(getChildFragmentManager(), tvTags, tvDate);
 

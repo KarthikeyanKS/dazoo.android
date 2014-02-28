@@ -18,7 +18,7 @@ public class PerformUserLogout
 {
 	private static String buildURL()
 	{
-		String userToken = ContentManager.sharedInstance().getFromStorageUserToken();
+		String userToken = ContentManager.sharedInstance().getFromCacheUserToken();
 		
 		StringBuilder url = new StringBuilder();
 		url.append(Consts.URL_AUTH_TOKENS);

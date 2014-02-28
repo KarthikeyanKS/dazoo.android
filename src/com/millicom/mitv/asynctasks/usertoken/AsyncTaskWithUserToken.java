@@ -67,7 +67,7 @@ public abstract class AsyncTaskWithUserToken<T>
 	@Override
 	protected Void doInBackground(String... params) 
 	{
-		String userToken = ContentManager.sharedInstance().getFromStorageUserToken();
+		String userToken = ContentManager.sharedInstance().getFromCacheUserToken();
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append(Consts.USER_AUTHORIZATION_HEADER_VALUE_PREFIX);

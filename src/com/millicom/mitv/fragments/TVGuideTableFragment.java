@@ -87,9 +87,9 @@ public class TVGuideTableFragment
 		if(swipeClockBar != null) {
 			isToday = ContentManager.sharedInstance().selectedTVDateIsToday();
 			if(isToday) {
-				hour = ContentManager.sharedInstance().getFromStorageSelectedHour();
+				hour = ContentManager.sharedInstance().getFromCacheSelectedHour();
 			} else {
-				hour = ContentManager.sharedInstance().getFromStorageFirstHourOfTVDay();
+				hour = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
 			}
 
 			swipeClockBar.setHour(hour);
@@ -161,12 +161,12 @@ public class TVGuideTableFragment
 			{
 				if (getResources().getString(R.string.all_categories_name).equals(tvTagDisplayName)) 
 				{
-					TVGuide tvGuideForSelectedDay = ContentManager.sharedInstance().getFromStorageTVGuideForSelectedDay();
+					TVGuide tvGuideForSelectedDay = ContentManager.sharedInstance().getFromCacheTVGuideForSelectedDay();
 					tvChannelGuides = tvGuideForSelectedDay.getTvChannelGuides();
 				} 
 				else 
 				{	
-					HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = ContentManager.sharedInstance().getFromStorageTaggedBroadcastsForSelectedTVDate();
+					HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = ContentManager.sharedInstance().getFromCacheTaggedBroadcastsForSelectedTVDate();
 					taggedBroadcasts = taggedBroadcastForDay.get(tvTagIdAsString);
 				}
 				updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
@@ -198,7 +198,7 @@ public class TVGuideTableFragment
 					
 					if (tvGuideListAdapter == null) 
 					{
-						TVDate tvDateSelected = ContentManager.sharedInstance().getFromStorageTVDateSelected();
+						TVDate tvDateSelected = ContentManager.sharedInstance().getFromCacheTVDateSelected();
 						tvGuideListAdapter = new TVGuideListAdapter(activity, tvChannelGuides, tvDateSelected, hour, isToday);
 						adapterMap.put(tvTagDisplayName, tvGuideListAdapter);
 					}

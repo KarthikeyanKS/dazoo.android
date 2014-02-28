@@ -31,7 +31,7 @@ public abstract class TVDateSelectionActivity
 	{
 		super.setContentView(layoutResID);
 
-		ArrayList<TVDate> tvDates = ContentManager.sharedInstance().getFromStorageTVDates();
+		ArrayList<TVDate> tvDates = ContentManager.sharedInstance().getFromCacheTVDates();
 		dayAdapter = new ActionBarDropDownDateListAdapter(tvDates);
 	
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
@@ -43,7 +43,7 @@ public abstract class TVDateSelectionActivity
 	@Override
 	protected void onResume() {
 		super.onResume();
-		int selectedDayIndex = ContentManager.sharedInstance().getFromStorageTVDateSelectedIndex();
+		int selectedDayIndex = ContentManager.sharedInstance().getFromCacheTVDateSelectedIndex();
 		dayAdapter.setSelectedIndex(selectedDayIndex);
 		actionBar.setSelectedNavigationItem(selectedDayIndex);
 	}

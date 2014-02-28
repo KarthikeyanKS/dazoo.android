@@ -9,7 +9,7 @@ import java.util.List;
 
 import android.text.TextUtils;
 
-import com.millicom.mitv.enums.FeedItemTypeEnum;
+import com.androidquery.callback.AjaxCallback;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.LikeTypeRequestEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
@@ -20,6 +20,7 @@ import com.millicom.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.millicom.mitv.models.AppConfiguration;
 import com.millicom.mitv.models.AppVersion;
 import com.millicom.mitv.models.RepeatingBroadcastsForBroadcast;
+import com.millicom.mitv.models.SearchResultsForQuery;
 import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVChannel;
@@ -29,6 +30,7 @@ import com.millicom.mitv.models.TVDate;
 import com.millicom.mitv.models.TVFeedItem;
 import com.millicom.mitv.models.TVGuide;
 import com.millicom.mitv.models.TVGuideAndTaggedBroadcasts;
+import com.millicom.mitv.models.TVSearchResults;
 import com.millicom.mitv.models.TVTag;
 import com.millicom.mitv.models.UpcomingBroadcastsForBroadcast;
 import com.millicom.mitv.models.UserLike;
@@ -42,7 +44,7 @@ public class ContentManager
 	implements ContentCallbackListener 
 {
 	private static ContentManager sharedInstance;
-	private Storage storage;
+	private Cache cache;
 	private APIClient apiClient;
 	
 	private FetchDataProgressCallbackListener fetchDataProgressCallbackListener;
@@ -77,7 +79,7 @@ public class ContentManager
 	
 	private ContentManager() 
 	{
-		this.storage = new Storage();
+		this.cache = new Cache();
 		this.apiClient = new APIClient(this);
 	}
 
@@ -97,7 +99,7 @@ public class ContentManager
 	
 	private void getElseFetchFromServiceTVData(ActivityCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, boolean forceDownload) 
 	{
-		if(!forceDownload && storage.containsTVGuideForSelectedDay())
+		if(!forceDownload && cache.containsTVGuideForSelectedDay())
 		{
 			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, requestIdentifier);
 		} 
@@ -121,7 +123,7 @@ public class ContentManager
 		apiClient.getTVChannelsAll(activityCallbackListener);
 		apiClient.getDefaultTVChannelIds(activityCallbackListener);
 
-		if (storage.isLoggedIn()) 
+		if (cache.isLoggedIn()) 
 		{
 			apiClient.getUserTVChannelIds(activityCallbackListener);
 		}
@@ -134,14 +136,14 @@ public class ContentManager
 	}
 
 	private void fetchFromServiceTVGuideForSelectedDay(ActivityCallbackListener activityCallbackListener) {
-		TVDate tvDate = storage.getTvDateSelected();
+		TVDate tvDate = cache.getTvDateSelected();
 		fetchFromServiceTVGuideUsingTVDate(activityCallbackListener, tvDate);
 	}
 	
 	
 	private void fetchFromServiceTVGuideUsingTVDate(ActivityCallbackListener activityCallbackListener, TVDate tvDate)
 	{
-		ArrayList<TVChannelId> tvChannelIds = storage.getTvChannelIdsUsed();
+		ArrayList<TVChannelId> tvChannelIds = cache.getTvChannelIdsUsed();
 		
 		apiClient.getTVChannelGuides(activityCallbackListener, tvDate, tvChannelIds);
 	}
@@ -154,6 +156,10 @@ public class ContentManager
 		apiClient.getUserLikes(activityCallbackListener, false);
 	}
 	
+	
+	private void fetchFromServiceSearchResults(ActivityCallbackListener activityCallbackListener, AjaxCallback<String> ajaxCallback, String searchQuery) {
+		apiClient.getTVSearchResults(activityCallbackListener, ajaxCallback, searchQuery);
+	}
 	
 	private void fetchFromServiceUserLikes(ActivityCallbackListener activityCallbackListener) 
 	{
@@ -214,20 +220,17 @@ public class ContentManager
 		
 	public void fetchFromServiceMoreActivityData(ActivityCallbackListener activityCallbackListener) 
 	{
-		int offset = storage.getActivityFeed().size();
+		int offset = cache.getActivityFeed().size();
 		
 		apiClient.getUserTVFeedItemsWithOffsetAndLimit(activityCallbackListener, offset, ACTIVITY_FEED_ITEMS_BATCH_FETCH_COUNT);
 	}
-	
 
-	
-	
 	/*
 	 * METHODS FOR "GETTING" THE DATA, EITHER FROM STORAGE, OR FETCHING FROM
 	 * BACKEND
 	 */
 	public void getElseFetchFromServiceAppData(ActivityCallbackListener activityCallbackListener, FetchDataProgressCallbackListener fetchDataProgressCallbackListener, boolean forceDownload) {
-		if(!forceDownload && storage.containsAppConfigData() && storage.containsApiVersionData()) {
+		if(!forceDownload && cache.containsAppConfigData() && cache.containsApiVersionData()) {
 			notifyFetchDataProgressListenerMessage("Fetched app configuration data");
 			notifyFetchDataProgressListenerMessage("Fetched app version data");
 			getElseFetchFromServiceTVData(activityCallbackListener, RequestIdentifierEnum.TV_GUIDE, false);
@@ -237,13 +240,21 @@ public class ContentManager
 	}
 	
 	public void getElseFetchFromServiceTVGuideUsingSelectedTVDate(ActivityCallbackListener activityCallbackListener, boolean forceDownload) {
-		TVDate tvDateSelected = getFromStorageTVDateSelected();
+		TVDate tvDateSelected = getFromCacheTVDateSelected();
 		getElseFetchFromServiceTVGuideUsingTVDate(activityCallbackListener, forceDownload, tvDateSelected);
+	}
+	
+	public void getElseFetchFromServiceSearchResultForSearchQuery(ActivityCallbackListener activityCallbackListener, boolean forceDownload, AjaxCallback<String> ajaxCallback, String searchQuery) {
+		if(!forceDownload && cache.containsSearchResultForQuery(searchQuery)) {
+			
+		} else {
+			fetchFromServiceSearchResults(activityCallbackListener, ajaxCallback, searchQuery);
+		}
 	}
 	
 	public void getElseFetchFromServiceTVGuideUsingTVDate(ActivityCallbackListener activityCallbackListener, boolean forceDownload, TVDate tvDate)
 	{
-		if (!forceDownload && storage.containsTVGuideForTVDate(tvDate)) 
+		if (!forceDownload && cache.containsTVGuideForTVDate(tvDate)) 
 		{
 			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.TV_GUIDE);
 		} 
@@ -256,7 +267,7 @@ public class ContentManager
 	
 	public void getElseFetchFromServiceActivityFeedData(ActivityCallbackListener activityCallbackListener, boolean forceDownload) 
 	{
-		if (!forceDownload && storage.containsActivityFeedData() && storage.containsUserLikes()) 
+		if (!forceDownload && cache.containsActivityFeedData() && cache.containsUserLikes()) 
 		{
 			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.USER_ACTIVITY_FEED_ITEM);
 		} 
@@ -269,21 +280,21 @@ public class ContentManager
 	
 	public void getElseFetchFromServiceTaggedBroadcastsForSelectedTVDate(ActivityCallbackListener activityCallbackListener, boolean forceDownload)
 	{
-		TVDate tvDateSelected = getFromStorageTVDateSelected();
+		TVDate tvDateSelected = getFromCacheTVDateSelected();
 		getElseFetchFromServiceTaggedBroadcastsUsingTVDate(activityCallbackListener, forceDownload, tvDateSelected);
 	}
 	
 	
 	public void getElseFetchFromServiceTaggedBroadcastsUsingTVDate(ActivityCallbackListener activityCallbackListener, boolean forceDownload, TVDate tvDate) 
 	{
-		if (!forceDownload && storage.containsTaggedBroadcastsForTVDate(tvDate)) 
+		if (!forceDownload && cache.containsTaggedBroadcastsForTVDate(tvDate)) 
 		{
 			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.TV_GUIDE);
 		} 
 		else 
 		{
 			/* We don't have the tagged broadcasts, either they are not created/prepared using the TVGuide for this date, or we don't have the Guide (is that even possible?) */
-			if(storage.containsTVGuideForTVDate(tvDate)) 
+			if(cache.containsTVGuideForTVDate(tvDate)) 
 			{
 				/* We have the guide that the tagged broadcasts are using/based upon, but the tagged broadcasts are not created/prepared/sorted/initialized */
 				/* Actually this should never happen */
@@ -298,7 +309,7 @@ public class ContentManager
 	
 	public void getElseFetchFromServicePopularBroadcasts(ActivityCallbackListener activityCallbackListener, boolean forceDownload)
 	{
-		if (!forceDownload && storage.containsPopularBroadcasts()) 
+		if (!forceDownload && cache.containsPopularBroadcasts()) 
 		{
 			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.POPULAR_ITEMS);
 		} 
@@ -311,7 +322,7 @@ public class ContentManager
 	
 	public void getElseFetchFromServiceUserLikes(ActivityCallbackListener activityCallbackListener, boolean forceDownload) 
 	{
-		if (!forceDownload && storage.containsUserLikes()) 
+		if (!forceDownload && cache.containsUserLikes()) 
 		{
 			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.USER_LIKES);
 		} 
@@ -329,10 +340,10 @@ public class ContentManager
 	 * @param beginTimeInMillis
 	 */
 	public void getElseFetchFromServiceBroadcastPageData(ActivityCallbackListener activityCallbackListener, boolean forceDownload, TVBroadcastWithChannelInfo broadcastWithChannelInfo, TVChannelId channelId, long beginTimeInMillis) {
-		if (!forceDownload && (broadcastWithChannelInfo != null || storage.containsTVBroadcastWithChannelInfo(channelId, beginTimeInMillis))) 
+		if (!forceDownload && (broadcastWithChannelInfo != null || cache.containsTVBroadcastWithChannelInfo(channelId, beginTimeInMillis))) 
 		{
 			if(broadcastWithChannelInfo == null) {
-				broadcastWithChannelInfo = storage.getNonPersistentSelectedBroadcastWithChannelInfo();
+				broadcastWithChannelInfo = cache.getNonPersistentSelectedBroadcastWithChannelInfo();
 			}
 			handleBroadcastPageDataResponse(activityCallbackListener, RequestIdentifierEnum.BROADCAST_DETAILS, FetchRequestResultEnum.SUCCESS, broadcastWithChannelInfo);
 		} 
@@ -345,9 +356,9 @@ public class ContentManager
 	public void getElseFetchFromServiceUpcomingBroadcasts(ActivityCallbackListener activityCallbackListener, boolean forceDownload, TVBroadcastWithChannelInfo broadcastKey) 
 	{
 		//TODO NewArc check if program and then if series and then if seriesId is null?
-		if (!forceDownload && storage.containsUpcomingBroadcastsForBroadcast(broadcastKey.getProgram().getSeries().getSeriesId())) 
+		if (!forceDownload && cache.containsUpcomingBroadcastsForBroadcast(broadcastKey.getProgram().getSeries().getSeriesId())) 
 		{
-			UpcomingBroadcastsForBroadcast upcomingBroadcastsForBroadcast = storage.getNonPersistentUpcomingBroadcasts();
+			UpcomingBroadcastsForBroadcast upcomingBroadcastsForBroadcast = cache.getNonPersistentUpcomingBroadcasts();
 			handleBroadcastPageDataResponse(activityCallbackListener, RequestIdentifierEnum.BROADCASTS_FROM_SERIES_UPCOMING, FetchRequestResultEnum.SUCCESS, upcomingBroadcastsForBroadcast);
 		} 
 		else 
@@ -360,9 +371,9 @@ public class ContentManager
 	public void getElseFetchFromServiceRepeatingBroadcasts(ActivityCallbackListener activityCallbackListener, boolean forceDownload, TVBroadcastWithChannelInfo broadcastKey)
 	{
 		//TODO NewArc check if program and then if programId is null?
-		if (!forceDownload && storage.containsRepeatingBroadcastsForBroadcast(broadcastKey.getProgram().getProgramId())) 
+		if (!forceDownload && cache.containsRepeatingBroadcastsForBroadcast(broadcastKey.getProgram().getProgramId())) 
 		{
-			RepeatingBroadcastsForBroadcast repeatingBroadcastsForBroadcast = storage.getNonPersistentRepeatingBroadcasts();
+			RepeatingBroadcastsForBroadcast repeatingBroadcastsForBroadcast = cache.getNonPersistentRepeatingBroadcasts();
 			handleBroadcastPageDataResponse(activityCallbackListener, RequestIdentifierEnum.REPEATING_BROADCASTS_FOR_PROGRAMS, FetchRequestResultEnum.SUCCESS, repeatingBroadcastsForBroadcast);
 		} 
 		else 
@@ -487,7 +498,7 @@ public class ContentManager
 			}
 			case SEARCH:
 			{
-				// TODO
+				handleSearchResultResponse(activityCallbackListener, requestIdentifier, result, content);
 				break;
 			}
 			case INTERNAL_TRACKING:
@@ -538,13 +549,13 @@ public class ContentManager
 			{
 				case APP_CONFIGURATION: {
 					AppConfiguration appConfigData = (AppConfiguration) content;
-					storage.setAppConfigData(appConfigData);
+					cache.setAppConfigData(appConfigData);
 					notifyFetchDataProgressListenerMessage("Fetched app configuration data");
 					break;
 				}
 				case APP_VERSION: {
 					AppVersion appVersionData = (AppVersion) content;
-					storage.setAppVersionData(appVersionData);
+					cache.setAppVersionData(appVersionData);
 					notifyFetchDataProgressListenerMessage("Fetched app version data");
 					break;
 				}
@@ -557,7 +568,7 @@ public class ContentManager
 			if (completedCountAppData >= COMPLETED_COUNT_APP_DATA_THRESHOLD) 
 			{
 				completedCountAppData = 0;
-				String apiVersion = storage.getAppVersionData().getApiVersion();
+				String apiVersion = cache.getAppVersionData().getApiVersion();
 
 				boolean apiTooOld = checkApiVersion(apiVersion);
 				if (!apiTooOld) 
@@ -596,7 +607,7 @@ public class ContentManager
 				{
 					@SuppressWarnings("unchecked")
 					ArrayList<TVFeedItem> feedItems = (ArrayList<TVFeedItem>) content;
-					storage.setActivityFeed(feedItems);
+					cache.setActivityFeed(feedItems);
 					notifyFetchDataProgressListenerMessage("Fetched user activity feed");
 					break;
 				}
@@ -605,7 +616,7 @@ public class ContentManager
 				{
 					@SuppressWarnings("unchecked")
 					ArrayList<TVFeedItem> feedItems = (ArrayList<TVFeedItem>) content;
-					storage.addMoreActivityFeedItems(feedItems);
+					cache.addMoreActivityFeedItems(feedItems);
 					notifyFetchDataProgressListenerMessage("Fetched more data for the user activity feed");
 					break;
 				}
@@ -614,7 +625,7 @@ public class ContentManager
 				{
 					@SuppressWarnings("unchecked")
 					ArrayList<UserLike> userLikes = (ArrayList<UserLike>) content;
-					storage.setUserLikes(userLikes);
+					cache.setUserLikes(userLikes);
 					notifyFetchDataProgressListenerMessage("Fetched user likes");
 					break;
 				}
@@ -656,7 +667,7 @@ public class ContentManager
 				case TV_DATE:
 				{
 					ArrayList<TVDate> tvDates = (ArrayList<TVDate>) content;
-					storage.setTvDates(tvDates);
+					cache.setTvDates(tvDates);
 	
 					notifyFetchDataProgressListenerMessage("Fetched tv dates data");
 					break;
@@ -665,7 +676,7 @@ public class ContentManager
 				case TV_TAG: 
 				{
 					ArrayList<TVTag> tvTags = (ArrayList<TVTag>) content;
-					storage.setTvTags(tvTags);
+					cache.setTvTags(tvTags);
 					notifyFetchDataProgressListenerMessage("Fetched tv genres data");
 					break;
 				}
@@ -673,7 +684,7 @@ public class ContentManager
 				case TV_CHANNEL:
 				{
 					ArrayList<TVChannel> tvChannels = (ArrayList<TVChannel>) content;
-					storage.setTvChannels(tvChannels);
+					cache.setTvChannels(tvChannels);
 					notifyFetchDataProgressListenerMessage("Fetched tv channel data");
 					break;
 				}
@@ -681,7 +692,7 @@ public class ContentManager
 				case TV_CHANNEL_IDS_DEFAULT:
 				{
 					ArrayList<TVChannelId> tvChannelIdsDefault = (ArrayList<TVChannelId>) content;
-					storage.setTvChannelIdsDefault(tvChannelIdsDefault);
+					cache.setTvChannelIdsDefault(tvChannelIdsDefault);
 					notifyFetchDataProgressListenerMessage("Fetched tv channel id data");
 					break;
 				}
@@ -689,7 +700,7 @@ public class ContentManager
 				case TV_CHANNEL_IDS_USER:
 				{
 					ArrayList<TVChannelId> tvChannelIdsUser = (ArrayList<TVChannelId>) content;
-					storage.setTvChannelIdsUser(tvChannelIdsUser);
+					cache.setTvChannelIdsUser(tvChannelIdsUser);
 					notifyFetchDataProgressListenerMessage("Fetched tv channel id data");
 					break;
 				}
@@ -718,7 +729,7 @@ public class ContentManager
 			{
 				completedCountTVDataThreshold = COMPLETED_COUNT_TV_DATA_NOT_LOGGED_IN_THRESHOLD;
 				
-				if (storage.isLoggedIn())
+				if (cache.isLoggedIn())
 				{
 					completedCountTVDataThreshold = COMPLETED_COUNT_TV_DATA_LOGGED_IN_THRESHOLD;
 					
@@ -752,8 +763,8 @@ public class ContentManager
 			
 			notifyFetchDataProgressListenerMessage("Fetched tv guide data");
 			
-			storage.addTVGuideForSelectedDay(tvGuide);
-			storage.addTaggedBroadcastsForSelectedDay(mapTagToTaggedBroadcastForDate);
+			cache.addTVGuideForSelectedDay(tvGuide);
+			cache.addTaggedBroadcastsForSelectedDay(mapTagToTaggedBroadcastForDate);
 
 			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, requestIdentifier);
 		} 
@@ -770,7 +781,7 @@ public class ContentManager
 		{
 			@SuppressWarnings("unchecked")
 			ArrayList<TVBroadcastWithChannelInfo> broadcastsPopular = (ArrayList<TVBroadcastWithChannelInfo>) content;
-			storage.setPopularBroadcasts(broadcastsPopular);
+			cache.setPopularBroadcasts(broadcastsPopular);
 			
 			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, requestIdentifier);
 		}
@@ -780,25 +791,23 @@ public class ContentManager
 		}
 	}
 	
-//	public void handleIndividuaBroadcastDetailsRespons(ActivityCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content) {
-//		if (result.wasSuccessful() && content != null) {
-//			TVBroadcastWithChannelInfo broadcastWithChannelInfo = (TVBroadcastWithChannelInfo) content;
-//		
-//			storage.setNonPersistentSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
-//			
-//			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, requestIdentifier);
-//		} else {
-//			//TODO handle this better?
-//			activityCallbackListener.onResult(FetchRequestResultEnum.UNKNOWN_ERROR, requestIdentifier);
-//		}
-//	}
+	public void handleSearchResultResponse(ActivityCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content)
+	{
+		if (result.wasSuccessful() && content != null) 
+		{
+			SearchResultsForQuery searchResultForQuery = (SearchResultsForQuery) content;
+			cache.setNonPersistentSearchResultsForQuery(searchResultForQuery);
+			
+			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, requestIdentifier);
+		}
+		else 
+		{
+			activityCallbackListener.onResult(result, requestIdentifier);
+		}
+	}
 	
 	
 	/**
-	 * 	private static final int COMPLETED_COUNT_BROADCAST_PAGE_NO_UPCOMING_BROADCAST_THRESHOLD = 2;
-	private static final int COMPLETED_COUNT_BROADCAST_PAGE_WAIT_FOR_UPCOMING_BROADCAST_THRESHOLD = 3;
-	private int completedCountBroadcastPageDataThresholdUsed = COMPLETED_COUNT_BROADCAST_PAGE_NO_UPCOMING_BROADCAST_THRESHOLD;
-	private int completedCountBroadcastPageData = 0;
 	 * @param activityCallbackListener
 	 * @param requestIdentifier
 	 * @param result
@@ -813,7 +822,7 @@ public class ContentManager
 				if(content != null) {
 				TVBroadcastWithChannelInfo broadcastWithChannelInfo = (TVBroadcastWithChannelInfo) content;
 				
-				storage.setNonPersistentSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+				cache.setNonPersistentSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 				
 				/* Only fetch upcoming broadcasts if the broadcast is TV Episode */
 				if(broadcastWithChannelInfo.getProgram().getProgramType() == ProgramTypeEnum.TV_EPISODE) {
@@ -833,7 +842,7 @@ public class ContentManager
 				if(content != null) {
 					RepeatingBroadcastsForBroadcast repeatingBroadcasts = (RepeatingBroadcastsForBroadcast) content;
 				
-					storage.setNonPersistentRepeatingBroadcasts(repeatingBroadcasts);
+					cache.setNonPersistentRepeatingBroadcasts(repeatingBroadcasts);
 				}
 				break;
 			}
@@ -841,7 +850,7 @@ public class ContentManager
 				if(content != null) {
 					UpcomingBroadcastsForBroadcast upcomingBroadcast = (UpcomingBroadcastsForBroadcast) content;
 				
-					storage.setNonPersistentUpcomingBroadcasts(upcomingBroadcast);
+					cache.setNonPersistentUpcomingBroadcasts(upcomingBroadcast);
 				}
 				break;
 			}
@@ -871,7 +880,7 @@ public class ContentManager
 		{
 			// TODO NewArc - Refactor to SignUpCompleteData object instead?
 			UserLoginData userData = (UserLoginData) content;
-			storage.setUserData(userData);
+			cache.setUserData(userData);
 
 			fetchFromServiceTVDataOnUserStatusChange(activityCallbackListener);
 		} else 
@@ -887,7 +896,7 @@ public class ContentManager
 		{
 			@SuppressWarnings("unchecked")
 			ArrayList<UserLike> userLikes = (ArrayList<UserLike>) content;
-			storage.setUserLikes(userLikes);
+			cache.setUserLikes(userLikes);
 		}
 		else 
 		{
@@ -942,7 +951,7 @@ public class ContentManager
 		{
 			UserLoginData userData = (UserLoginData) content;
 			
-			storage.setUserData(userData);
+			cache.setUserData(userData);
 
 			fetchFromServiceTVDataOnUserStatusChange(activityCallBackListener);
 		} 
@@ -960,7 +969,7 @@ public class ContentManager
 		{
 			UserLoginData userData = (UserLoginData) content;
 			
-			storage.setUserData(userData);
+			cache.setUserData(userData);
 
 			fetchFromServiceTVDataOnUserStatusChange(activityCallbackListener);
 		} 
@@ -974,9 +983,9 @@ public class ContentManager
 	public void handleLogoutResponse(ActivityCallbackListener activityCallbackListener) {
 		channelsChange = true;
 
-		storage.clearUserData();
-		storage.clearTVChannelIdsUser();
-		storage.useDefaultChannelIds();
+		cache.clearUserData();
+		cache.clearTVChannelIdsUser();
+		cache.useDefaultChannelIds();
 
 		fetchFromServiceTVGuideForSelectedDay(activityCallbackListener);
 	}
@@ -1054,9 +1063,9 @@ public class ContentManager
 		apiClient.performSetUserTVChannelIds(activityCallbackListener, tvChannelIds);
 	}
 	
-	public ArrayList<TVChannelId> getFromStorageTVChannelIdsUser() 
+	public ArrayList<TVChannelId> getFromCacheTVChannelIdsUser() 
 	{
-		ArrayList<TVChannelId> tvChannelIdsUser = storage.getTvChannelIdsUsed();
+		ArrayList<TVChannelId> tvChannelIdsUser = cache.getTvChannelIdsUsed();
 		return tvChannelIdsUser;
 	}
 
@@ -1066,7 +1075,7 @@ public class ContentManager
 		setTVDateSelectedUsingIndex(tvDateIndex);
 
 		/* Fetch TVDate object from storage, using new TVDate index */
-		TVDate tvDate = storage.getTvDateSelected();
+		TVDate tvDate = cache.getTvDateSelected();
 
 		/*
 		 * Since selected TVDate has been changed, set/fetch the TVGuide for
@@ -1080,30 +1089,30 @@ public class ContentManager
 	/* GETTERS & SETTERS */
 	
 	/* TVDate getters and setters */
-	public TVDate getFromStorageTVDateSelected() 
+	public TVDate getFromCacheTVDateSelected() 
 	{
-		TVDate tvDateSelected = storage.getTvDateSelected();
+		TVDate tvDateSelected = cache.getTvDateSelected();
 		return tvDateSelected;
 	}
 	
 	
-	public int getFromStorageTVDateSelectedIndex() 
+	public int getFromCacheTVDateSelectedIndex() 
 	{
-		int tvDateSelectedIndex = storage.getTvDateSelectedIndex();
+		int tvDateSelectedIndex = cache.getTvDateSelectedIndex();
 		return tvDateSelectedIndex;
 	}
 	
 	
-	public int getFromStorageFirstHourOfTVDay() 
+	public int getFromCacheFirstHourOfTVDay() 
 	{
-		int firstHourOfDay = storage.getFirstHourOfTVDay();
+		int firstHourOfDay = cache.getFirstHourOfTVDay();
 		return firstHourOfDay;
 	}
 	
 	
 	public boolean selectedTVDateIsToday() 
 	{
-		TVDate tvDateSelected = getFromStorageTVDateSelected();
+		TVDate tvDateSelected = getFromCacheTVDateSelected();
 		
 		boolean isToday = tvDateSelected.isToday();
 		
@@ -1115,44 +1124,48 @@ public class ContentManager
 	private void setTVDateSelectedUsingIndex(int tvDateIndex) 
 	{
 		/* Update the index in the storage */
-		storage.setTvDateSelectedUsingIndex(tvDateIndex);
+		cache.setTvDateSelectedUsingIndex(tvDateIndex);
 	}
 
 	/* TVTags */
-	public ArrayList<TVTag> getFromStorageTVTags() 
+	public ArrayList<TVTag> getFromCacheTVTags() 
 	{
-		ArrayList<TVTag> tvTags = storage.getTvTags();
+		ArrayList<TVTag> tvTags = cache.getTvTags();
 		return tvTags;
 	}
 	
 	
 	/* TVChannelGuide */
-	public TVGuide getFromStorageTVGuideForSelectedDay() 
+	public TVGuide getFromCacheTVGuideForSelectedDay() 
 	{
-		TVDate tvDate = getFromStorageTVDateSelected();
-		TVGuide tvGuide = storage.getTVGuideUsingTVDate(tvDate);
+		TVDate tvDate = getFromCacheTVDateSelected();
+		TVGuide tvGuide = cache.getTVGuideUsingTVDate(tvDate);
 		return tvGuide;
 	}
 	
+	public SearchResultsForQuery getFromCacheSearchResults() {
+		SearchResultsForQuery searchResultForQuery = cache.getNonPersistentSearchResultsForQuery();
+		return searchResultForQuery;
+	}
 	
-	public AppConfiguration getFromStorageAppConfiguration()
+	public AppConfiguration getFromCacheAppConfiguration()
 	{
-		AppConfiguration appConfiguration = storage.getAppConfigData();
+		AppConfiguration appConfiguration = cache.getAppConfigData();
 		
 		return appConfiguration;
 	}
 	
 	
-	public TVChannelGuide getFromStorageTVChannelGuideUsingTVChannelIdForSelectedDay(TVChannelId tvChannelId) 
+	public TVChannelGuide getFromCacheTVChannelGuideUsingTVChannelIdForSelectedDay(TVChannelId tvChannelId) 
 	{
-		TVChannelGuide tvChannelGuide = storage.getTVChannelGuideUsingTVChannelIdForSelectedDay(tvChannelId);
+		TVChannelGuide tvChannelGuide = cache.getTVChannelGuideUsingTVChannelIdForSelectedDay(tvChannelId);
 		return tvChannelGuide;
 	}
 
 	
-	public ArrayList<TVFeedItem> getFromStorageActivityFeedData() 
+	public ArrayList<TVFeedItem> getFromCacheActivityFeedData() 
 	{
-		ArrayList<TVFeedItem> activityFeedData = storage.getActivityFeed();
+		ArrayList<TVFeedItem> activityFeedData = cache.getActivityFeed();
 		return activityFeedData;
 	}
 	
@@ -1168,15 +1181,15 @@ public class ContentManager
 	 * 
 	 * @return
 	 */
-	public String getFromStorageUserToken() 
+	public String getFromCacheUserToken() 
 	{
-		String userToken = storage.getUserToken();
+		String userToken = cache.getUserToken();
 		return userToken;
 	}
 	
 	public boolean isLoggedIn() 
 	{
-		boolean isLoggedIn = storage.isLoggedIn();
+		boolean isLoggedIn = cache.isLoggedIn();
 		return isLoggedIn;
 	}
 	
@@ -1189,7 +1202,7 @@ public class ContentManager
 		//TODO NewArc check if null
 		String tvSeriesId = broadcast.getProgram().getSeries().getSeriesId();
 		UpcomingBroadcastsForBroadcast upcomingBroadcastsObject = new UpcomingBroadcastsForBroadcast(tvSeriesId, upcomingBroadcasts);
-		storage.setNonPersistentUpcomingBroadcasts(upcomingBroadcastsObject);
+		cache.setNonPersistentUpcomingBroadcasts(upcomingBroadcastsObject);
 	}
 	
 	
@@ -1198,7 +1211,7 @@ public class ContentManager
 		//TODO NewArc check if null
 		String programId = broadcast.getProgram().getProgramId();
 		RepeatingBroadcastsForBroadcast repeatingBroadcastsObject = new RepeatingBroadcastsForBroadcast(programId, repeatingBroadcasts);
-		storage.setNonPersistentRepeatingBroadcasts(repeatingBroadcastsObject);
+		cache.setNonPersistentRepeatingBroadcasts(repeatingBroadcastsObject);
 	}
 	
 	/**
@@ -1207,14 +1220,14 @@ public class ContentManager
 	 * @param programId
 	 * @return
 	 */
-	public ArrayList<TVBroadcastWithChannelInfo> getFromStorageUpcomingBroadcastsVerifyCorrect(TVBroadcast broadcast) 
+	public ArrayList<TVBroadcastWithChannelInfo> getFromCacheUpcomingBroadcastsVerifyCorrect(TVBroadcast broadcast) 
 	{
 		//TODO NewArc check if null
 		String tvSeriesId = broadcast.getProgram().getSeries().getSeriesId();
 		ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts = null;
 		
-		if(storage.containsUpcomingBroadcastsForBroadcast(tvSeriesId)) {
-			UpcomingBroadcastsForBroadcast upcomingBroadcastsForBroadcast = storage.getNonPersistentUpcomingBroadcasts();
+		if(cache.containsUpcomingBroadcastsForBroadcast(tvSeriesId)) {
+			UpcomingBroadcastsForBroadcast upcomingBroadcastsForBroadcast = cache.getNonPersistentUpcomingBroadcasts();
 			if(upcomingBroadcastsForBroadcast != null) {
 				upcomingBroadcasts= upcomingBroadcastsForBroadcast.getRelatedBroadcasts();
 			}
@@ -1223,10 +1236,10 @@ public class ContentManager
 		return upcomingBroadcasts;
 	}
 	
-	public ArrayList<TVBroadcastWithChannelInfo> getFromStorageUpcomingBroadcasts() 
+	public ArrayList<TVBroadcastWithChannelInfo> getFromCacheUpcomingBroadcasts() 
 	{
 		ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts = null;
-		UpcomingBroadcastsForBroadcast upcomingBroadcastsForBroadcast = storage.getNonPersistentUpcomingBroadcasts();
+		UpcomingBroadcastsForBroadcast upcomingBroadcastsForBroadcast = cache.getNonPersistentUpcomingBroadcasts();
 		if(upcomingBroadcastsForBroadcast != null) {
 			upcomingBroadcasts= upcomingBroadcastsForBroadcast.getRelatedBroadcasts();
 		}
@@ -1240,12 +1253,12 @@ public class ContentManager
 	 * @param programId
 	 * @return
 	 */
-	public ArrayList<TVBroadcastWithChannelInfo> getFromStorageRepeatingBroadcastsVerifyCorrect(TVBroadcast broadcast) {
+	public ArrayList<TVBroadcastWithChannelInfo> getFromCacheRepeatingBroadcastsVerifyCorrect(TVBroadcast broadcast) {
 		//TODO NewArc check if null
 		String programId = broadcast.getProgram().getProgramId();
 		ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts = null;
-		if(storage.containsRepeatingBroadcastsForBroadcast(programId)) {
-			RepeatingBroadcastsForBroadcast repeatingBroadcastObject = storage.getNonPersistentRepeatingBroadcasts();
+		if(cache.containsRepeatingBroadcastsForBroadcast(programId)) {
+			RepeatingBroadcastsForBroadcast repeatingBroadcastObject = cache.getNonPersistentRepeatingBroadcasts();
 			if(repeatingBroadcastObject != null) {
 				repeatingBroadcasts = repeatingBroadcastObject.getRelatedBroadcasts();
 			}
@@ -1253,99 +1266,99 @@ public class ContentManager
 		return repeatingBroadcasts;
 	}
 	
-	public ArrayList<TVBroadcastWithChannelInfo> getFromStorageRepeatingBroadcasts() {
+	public ArrayList<TVBroadcastWithChannelInfo> getFromCacheRepeatingBroadcasts() {
 		ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts = null;
-		RepeatingBroadcastsForBroadcast repeatingBroadcastObject = storage.getNonPersistentRepeatingBroadcasts();
+		RepeatingBroadcastsForBroadcast repeatingBroadcastObject = cache.getNonPersistentRepeatingBroadcasts();
 		if(repeatingBroadcastObject != null) {
 			repeatingBroadcasts = repeatingBroadcastObject.getRelatedBroadcasts();
 		}return repeatingBroadcasts;
 	}
 		
 	public void setSelectedBroadcastWithChannelInfo(TVBroadcastWithChannelInfo selectedBroadcast) {
-		storage.setNonPersistentSelectedBroadcastWithChannelInfo(selectedBroadcast);
+		cache.setNonPersistentSelectedBroadcastWithChannelInfo(selectedBroadcast);
 	}
 	
-	public TVBroadcastWithChannelInfo getFromStorageSelectedBroadcastWithChannelInfo() {
-		TVBroadcastWithChannelInfo runningBroadcast = storage.getNonPersistentSelectedBroadcastWithChannelInfo();
+	public TVBroadcastWithChannelInfo getFromCacheSelectedBroadcastWithChannelInfo() {
+		TVBroadcastWithChannelInfo runningBroadcast = cache.getNonPersistentSelectedBroadcastWithChannelInfo();
 		return runningBroadcast;
 	}
 	
-	public HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> getFromStorageTaggedBroadcastsForSelectedTVDate() {
-		TVDate tvDate = getFromStorageTVDateSelected();
-		return getFromStorageTaggedBroadcastsUsingTVDate(tvDate);
+	public HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> getFromCacheTaggedBroadcastsForSelectedTVDate() {
+		TVDate tvDate = getFromCacheTVDateSelected();
+		return getFromCacheTaggedBroadcastsUsingTVDate(tvDate);
 	}
 	
-	public int getFromStorageSelectedHour() {
-		int selectedHour = storage.getNonPersistentSelectedHour();
+	public int getFromCacheSelectedHour() {
+		int selectedHour = cache.getNonPersistentSelectedHour();
 		return selectedHour;
 	}
 	
 	public void setSelectedHour(Integer selectedHour) {
-		storage.setNonPersistentSelectedHour(selectedHour);
+		cache.setNonPersistentSelectedHour(selectedHour);
 	}
 	
 	public void setSelectedTVChannelId(TVChannelId tvChannelId) 
 	{
-		storage.setNonPersistentTVChannelId(tvChannelId);
+		cache.setNonPersistentTVChannelId(tvChannelId);
 	}
 	
-	public TVChannelId getFromStorageSelectedTVChannelId() 
+	public TVChannelId getFromCacheSelectedTVChannelId() 
 	{
-		TVChannelId tvChannelId = storage.getNonPersistentTVChannelId();
+		TVChannelId tvChannelId = cache.getNonPersistentTVChannelId();
 		return tvChannelId;
 	}
 	
-	public String getFromStorageUserLastname() {
-		String userLastname = storage.getUserLastname();
+	public String getFromCacheUserLastname() {
+		String userLastname = cache.getUserLastname();
 		return userLastname;
 	}
 	
-	public String getFromStorageUserFirstname() 
+	public String getFromCacheUserFirstname() 
 	{
-		String userFirstname = storage.getUserFirstname();
+		String userFirstname = cache.getUserFirstname();
 		return userFirstname;
 	}
 	
-	public String getFromStorageUserEmail() {
-		String userEmail = storage.getUserEmail();
+	public String getFromCacheUserEmail() {
+		String userEmail = cache.getUserEmail();
 		return userEmail;
 	}
 	
-	public String getFromStorageUserId() {
-		String userId = storage.getUserId();
+	public String getFromCacheUserId() {
+		String userId = cache.getUserId();
 		return userId;
 	}
 		
 	
 	// TODO NewArc remove this?
-	public TVChannel getFromStorageTVChannelById(String channelId)
+	public TVChannel getFromCacheTVChannelById(String channelId)
 	{
 		TVChannelId tvChannelId = new TVChannelId(channelId);
-		return getFromStorageTVChannelById(tvChannelId);
+		return getFromCacheTVChannelById(tvChannelId);
 	}
 	
-	public TVChannel getFromStorageTVChannelById(TVChannelId tvChannelId)
+	public TVChannel getFromCacheTVChannelById(TVChannelId tvChannelId)
 	{
-		return storage.getTVChannelById(tvChannelId);
+		return cache.getTVChannelById(tvChannelId);
 	}
 	
-	public String getFromStorageWelcomeMessage() {
-		String welcomeMessage = storage.getWelcomeMessage();
+	public String getFromCacheWelcomeMessage() {
+		String welcomeMessage = cache.getWelcomeMessage();
 		return welcomeMessage;
 	}
 	
-	public HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> getFromStorageTaggedBroadcastsUsingTVDate(TVDate tvDate) {
-		HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcasts = storage.getTaggedBroadcastsUsingTVDate(tvDate);
+	public HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> getFromCacheTaggedBroadcastsUsingTVDate(TVDate tvDate) {
+		HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcasts = cache.getTaggedBroadcastsUsingTVDate(tvDate);
 		return taggedBroadcasts;
 	}
 	
-	public ArrayList<TVBroadcastWithChannelInfo> getFromStoragePopularBroadcasts() {
-		ArrayList<TVBroadcastWithChannelInfo> popularBroadcasts = storage.getPopularBroadcasts();
+	public ArrayList<TVBroadcastWithChannelInfo> getFromCachePopularBroadcasts() {
+		ArrayList<TVBroadcastWithChannelInfo> popularBroadcasts = cache.getPopularBroadcasts();
 		return popularBroadcasts;
 	}
 	
-	public ArrayList<TVDate> getFromStorageTVDates() {
-		 ArrayList<TVDate> tvDates = storage.getTvDates();
+	public ArrayList<TVDate> getFromCacheTVDates() {
+		 ArrayList<TVDate> tvDates = cache.getTvDates();
 		 return tvDates;
 	}
 

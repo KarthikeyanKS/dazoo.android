@@ -14,7 +14,7 @@ public class BroadcastJSON
 	protected Long beginTimeMillis;
 	protected String beginTime;
 	protected String endTime;
-	protected BroadcastTypeEnum broadcastType;
+	protected BroadcastTypeEnum broadcastType = BroadcastTypeEnum.UNKNOWN;
 	protected String shareUrl;
 		
 	

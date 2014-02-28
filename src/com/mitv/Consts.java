@@ -445,14 +445,13 @@ public abstract class Consts {
 	public static final String JSON_KEY_ADS_IMAGE_HEIGHT 			= "height";
 
 	/* JSON KEYS FOR SEARCH RESULTS */
-	public static final String JSON_KEY_SEARCH_RESULT_SUGGESTION		= "suggestion";
-	public static final String JSON_KEY_SEARCH_RESULT_NUMBER_OF_RESULTS	= "numberOfResults";
 	public static final String JSON_KEY_SEARCH_RESULT_RESULTS			= "results";
 	public static final String JSON_KEY_SEARCH_RESULT_ITEM_ENTITY		= "entity";
 	public static final String JSON_KEY_SEARCH_RESULT_ITEM_DISPLAY_TEXT	= "displayText";
 	public static final String JSON_KEY_SEARCH_RESULT_ITEM_ENTITY_TYPE	= "entityType";
 	public static final String JSON_KEY_SEARCH_ENTITY_BROADCASTS		= "broadcasts";
-	public static final String JSON_KEY_SEARCH_ENTITY_NAME				= "name";
+	public static final String JSON_KEY_SEARCH_ENTITY_SERIES_NAME		= "name";
+	public static final String JSON_KEY_SEARCH_ENTITY_SERIES_ID			= "id";
 	
 	/* QUERYSTRING KEYS USED IN SEARCH */
 	public static final String SEARCH_QUERYSTRING_PARAMETER_QUERY_KEY = "query";

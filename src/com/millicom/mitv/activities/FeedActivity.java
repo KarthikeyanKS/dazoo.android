@@ -123,7 +123,7 @@ public class FeedActivity
 
 	private void setListAdapter() 
 	{
-		ArrayList<TVFeedItem> activityFeed = ContentManager.sharedInstance().getFromStorageActivityFeedData();
+		ArrayList<TVFeedItem> activityFeed = ContentManager.sharedInstance().getFromCacheActivityFeedData();
 		
 		if(activityFeed.isEmpty() == false)
 		{
@@ -146,9 +146,9 @@ public class FeedActivity
 					StringBuilder sb = new StringBuilder();
 					sb.append(getResources().getString(R.string.hello));
 					sb.append(" ");
-					sb.append(ContentManager.sharedInstance().getFromStorageUserFirstname());
+					sb.append(ContentManager.sharedInstance().getFromCacheUserFirstname());
 					sb.append(" ");
-					sb.append(ContentManager.sharedInstance().getFromStorageUserLastname());
+					sb.append(ContentManager.sharedInstance().getFromCacheUserLastname());
 					sb.append(",");
 					
 					greetingTv.setText(sb.toString());

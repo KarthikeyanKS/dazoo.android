@@ -32,7 +32,7 @@ import com.mitv.Consts;
  */
 public class RepetitionsOfBroadcastTest extends TestBaseWithGuide {
 	
-	private List<TVBroadcastWithChannelInfo> tvProgramBroadcasts;
+	private List<TVBroadcastWithChannelInfo> broadcastsWithChannelInfo;
 	private static final String	TAG	= "TVBroadcastProgramTest";
 	
 	@Override
@@ -56,7 +56,7 @@ public class RepetitionsOfBroadcastTest extends TestBaseWithGuide {
 				
 		try
 		{
-			tvProgramBroadcasts = Arrays.asList(new Gson().fromJson(jsonString, TVBroadcastWithChannelInfo[].class));
+			broadcastsWithChannelInfo = Arrays.asList(new Gson().fromJson(jsonString, TVBroadcastWithChannelInfo[].class));
 		}
 		catch(JsonSyntaxException jsex)
 		{
@@ -66,34 +66,14 @@ public class RepetitionsOfBroadcastTest extends TestBaseWithGuide {
 
 	@Test
 	public void testNotNull() {
-		Assert.assertNotNull(tvProgramBroadcasts);
+		Assert.assertNotNull(broadcastsWithChannelInfo);
 	}
 	
 	@Test
 	public void testAllVariablesNotNull() {
-		for(TVBroadcastWithChannelInfo tvProgramBroadcast : tvProgramBroadcasts) {
-			TVChannel tvChannel = tvProgramBroadcast.getChannel();
-			TVChannelGSONTest.testTVChannelObject(tvChannel);
-			
-			testBroadcast(tvProgramBroadcast);
+		for(TVBroadcastWithChannelInfo broadcastWithChannelInfo : broadcastsWithChannelInfo) {
+			assertTrue(broadcastWithChannelInfo.areDataFieldsValid());
 		}
 	}
-	
-	public static void testBroadcast(TVBroadcast broadcast) {
-		Assert.assertNotNull(broadcast.getBeginTimeMillis());
-		
-		Assert.assertNotNull(broadcast.getBeginTime());
-		Assert.assertFalse(TextUtils.isEmpty(broadcast.getBeginTime()));
-		Assert.assertTrue(broadcast.getBeginTimeCalendarGMT().get(Calendar.YEAR) > YEAR_OF_2000);
-		
-		Assert.assertNotNull(broadcast.getEndTime());
-		Assert.assertFalse(TextUtils.isEmpty(broadcast.getEndTime()));
-		Assert.assertTrue(broadcast.getEndTimeCalendarGMT().get(Calendar.YEAR) > YEAR_OF_2000);
-		
-		Assert.assertNotNull(broadcast.getBroadcastType());
-		Assert.assertTrue(broadcast.getBroadcastType() != BroadcastTypeEnum.UNKNOWN);
-		
-		Assert.assertNotNull(broadcast.getShareUrl());
-		Assert.assertFalse(TextUtils.isEmpty(broadcast.getShareUrl()));
-	}
+
 }

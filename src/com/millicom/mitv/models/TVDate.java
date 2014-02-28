@@ -5,16 +5,18 @@ package com.millicom.mitv.models;
 
 import java.util.Calendar;
 
-import android.content.Context;
+import junit.framework.Assert;
 
+import android.text.TextUtils;
+
+import com.millicom.mitv.interfaces.GSONDataFieldValidation;
 import com.millicom.mitv.models.gson.TVDateJSON;
 import com.millicom.mitv.utilities.DateUtils;
-import com.mitv.SecondScreenApplication;
 
 
 
 public class TVDate 
-	extends TVDateJSON
+	extends TVDateJSON implements GSONDataFieldValidation
 {
 	@SuppressWarnings("unused")
 	private static final String TAG = TVDate.class.getName();
@@ -43,17 +45,22 @@ public class TVDate
 		return dateCalendar;
 	}
 
-	
-	
-	public String getDisplayName() 
-	{
-		return displayName;
-	}
 
-	
 	
 	public boolean isToday() 
 	{
 		return DateUtils.isToday(getDateCalendar());
+	}
+
+
+
+	@Override
+	public boolean areDataFieldsValid() {
+		final int yearOf2000 = 2000;
+
+		boolean areDataFieldsValid = (!TextUtils.isEmpty(getId()) && !TextUtils.isEmpty(getDisplayName()) && 
+				(getDateCalendar() != null) && getDateCalendar().get(Calendar.YEAR) > yearOf2000
+				);
+		return areDataFieldsValid;
 	}
 }

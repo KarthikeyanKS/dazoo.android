@@ -1,10 +1,6 @@
 package com.mitv.adapters;
 
 import java.util.ArrayList;
-import java.util.Locale;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.content.Context;
 import android.text.Spannable;
@@ -18,22 +14,19 @@ import android.widget.Filterable;
 import android.widget.LinearLayout;
 
 import com.androidquery.AQuery;
-import com.androidquery.callback.AjaxCallback;
-import com.millicom.mitv.activities.SearchPageActivity;
 import com.millicom.mitv.enums.ContentTypeEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVChannel;
 import com.millicom.mitv.models.TVProgram;
 import com.millicom.mitv.models.TVSearchResult;
+import com.millicom.mitv.models.TVSearchResultEntity;
 import com.millicom.mitv.models.TVSeries;
-import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.customviews.CustomTypefaceSpan;
 import com.mitv.customviews.FontTextView;
 import com.mitv.handlers.SearchActivityListeners;
-import com.mitv.http.SSHttpClient;
 import com.mitv.manager.FontManager;
 
 public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implements Filterable {
@@ -262,25 +255,27 @@ public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implemen
 			TVSearchResult resultItem = getItem(position);
 
 			ContentTypeEnum type = resultItem.getEntityType();
+			
+			
+			TVBroadcastWithChannelInfo broadcast = resultItem.getNextBroadcast();
 
-			// TODO NewArc fix TVSearchResultEntity to have support not only for series
-			// switch (type) {
-			// case PROGRAM: {
-			// TVProgram program = (TVProgram) resultItem.getEntity();
-			// populateProgramView(holder, resultItem, program);
-			// break;
-			// }
-			// case SERIES: {
-			// TVSeries series = (TVSeries) resultItem.getEntity();
-			// populateSeriesView(holder, resultItem, series);
-			// break;
-			// }
-			// case CHANNEL: {
-			// TVChannel channel = (TVChannel) resultItem.getEntity();
-			// populateChannelView(holder, channel);
-			// break;
-			// }
-			// }
+			 switch (type) {
+			 case PROGRAM: {
+			 TVProgram program = (TVProgram) broadcast.getProgram();
+			 populateProgramView(holder, resultItem, program);
+			 break;
+			 }
+			 case SERIES: {
+			 TVSeries series = (TVSeries) broadcast.getProgram().getSeries();
+			 populateSeriesView(holder, resultItem, series);
+			 break;
+			 }
+			 case CHANNEL: {
+			 TVChannel channel = (TVChannel) resultItem.getEntity().getChannel();
+			 populateChannelView(holder, channel);
+			 break;
+			 }
+			 }
 		} else {
 			holder.typeAndTimeContainer.setVisibility(View.GONE);
 			holder.title.setText(context.getString(R.string.search_empty));
@@ -296,9 +291,6 @@ public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implemen
 		public FontTextView time;
 	}
 
-	private void noSearchResult() {
-		// TODO do stuff
-	}
 
 	@Override
 	public Filter getFilter() {
@@ -307,26 +299,11 @@ public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implemen
 			protected FilterResults performFiltering(CharSequence constraint) {
 				FilterResults filterResults = new FilterResults();
 
-				if (constraint != null) {
-					queryString = constraint.toString().trim();
+			
+				// Assign the data to the FilterResults
+				filterResults.values = searchResultItems;
+				filterResults.count = searchResultItems.size();
 
-					if (!queryString.equals(lastSearch) && !(queryString.length() == 0)) {
-						// TODO NewArc finialize this!
-						// ContentManager.sharedInstance().performSearch();
-
-						// Retrieve the autocomplete results.
-						searchResultItems = autocomplete(constraint.toString());
-						lastSearch = queryString;
-					}
-
-					// Assign the data to the FilterResults
-					filterResults.values = searchResultItems;
-					filterResults.count = searchResultItems.size();
-
-					if (searchResultItems.size() == 0) {
-						noSearchResult();
-					}
-				}
 
 				return filterResults;
 			}
@@ -340,83 +317,5 @@ public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implemen
 		};
 
 		return filter;
-	}
-
-	private class SearchAqueryCallback<T> extends AjaxCallback<T>{
-		
-	}
-	
-	public ArrayList<TVSearchResult> autocomplete(String q) {
-		((SearchPageActivity) context).runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				if (viewListener != null) {
-					viewListener.showProgressLoading(true);
-				}
-			}
-		});
-
-		// TODO use ContentManager and approriate task for search
-		// MiTVCallback cb = null;//new MiTVCallback<String>() {
-		// @Override
-		// public void mitvCallback(String url, String json, AjaxStatus status) {
-		// switch (status.getCode()) {
-		// case Consts.GOOD_RESPONSE:
-		// Log.d(TAG, "Successful");
-		// break;
-		// case Consts.BAD_RESPONSE:
-		// Log.e(TAG, "bad resp");
-		// break;
-		// case Consts.BAD_RESPONSE_MISSING_TOKEN:
-		// Log.e(TAG, "bad resp missing token");
-		// break;
-		// case Consts.BAD_RESPONSE_INVALID_TOKEN:
-		// Log.e(TAG, "bad resp invalid token");
-		// break;
-		// case Consts.BAD_RESPONSE_TIMEOUT:
-		// Log.e(TAG, "bad resp timeout");
-		// break;
-		//
-		// default:
-		// break;
-		// }
-		//
-		// }
-		// };
-
-		String completeSearchUrl = String.format(Locale.getDefault(), Consts.URL_SEARCH_OLD, q);
-
-		completeSearchUrl = SSHttpClient.urlByAppendingLocaleAndTimezoneWithAndChar(completeSearchUrl);
-
-		// mAq.ajax(completeSearchUrl, String.class, -1, cb);
-		// cb.block();
-		// TODO NewArc use a-query?
-
-		String jsonString = null;// (String) cb.getResult();
-
-		JSONObject jsonFromString = null;
-
-		try {
-			jsonFromString = new JSONObject(jsonString);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-		}
-
-		// TVSearchResult searchResult = new TVSearchResult(jsonFromString); //gson.fromJson(result, SearchResult.class);
-		// ArrayList<TVSearchResult> resultItems = searchResult.getItems();
-
-		((SearchPageActivity) context).runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				if (viewListener != null) {
-					viewListener.showProgressLoading(false);
-				}
-			}
-		});
-
-		// return resultItems;
-		return null;
 	}
 }

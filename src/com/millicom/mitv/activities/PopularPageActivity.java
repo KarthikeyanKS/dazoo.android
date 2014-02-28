@@ -97,7 +97,7 @@ public class PopularPageActivity
 		{
 			case SUCCESS:
 			{
-				mPopularBroadcasts = ContentManager.sharedInstance().getFromStoragePopularBroadcasts();
+				mPopularBroadcasts = ContentManager.sharedInstance().getFromCachePopularBroadcasts();
 				
 				updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
 				
@@ -153,7 +153,7 @@ public class PopularPageActivity
 	// Log.d(TAG, "RESTORED POPULAR");
 	//
 	// // mPopularBroadcasts = MiTVStore.getInstance().getPopularFeed();
-	// mPopularBroadcasts = ContentManager.sharedInstance().getFromStoragePo
+	// mPopularBroadcasts = ContentManager.sharedInstance().getFromCachePo
 	//
 	// updateUI(REQUEST_STATUS.SUCCESSFUL);
 	// }

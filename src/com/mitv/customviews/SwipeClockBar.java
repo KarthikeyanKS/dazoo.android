@@ -106,7 +106,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 
 	public void setup(Context context) {
 		this.activity = (Activity) context;
-		int firstHourOfDay = ContentManager.sharedInstance().getFromStorageFirstHourOfTVDay();
+		int firstHourOfDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
 		SwipeClockBar.firstHourOfDay = firstHourOfDay;
 
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

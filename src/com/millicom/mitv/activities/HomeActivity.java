@@ -69,7 +69,7 @@ public class HomeActivity
 	{
 		if (!hasShowWelcomeToast) 
 		{
-			welcomeMessage = ContentManager.sharedInstance().getFromStorageWelcomeMessage();
+			welcomeMessage = ContentManager.sharedInstance().getFromCacheWelcomeMessage();
 
 			if (welcomeMessage != null && !TextUtils.isEmpty(welcomeMessage)) 
 			{

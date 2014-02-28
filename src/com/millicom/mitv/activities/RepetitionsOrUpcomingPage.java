@@ -36,12 +36,12 @@ public class RepetitionsOrUpcomingPage
 		super.onCreate(savedInstanceState);
 	
 		setContentView(R.layout.layout_repeating_list_activity);
-		TVBroadcastWithChannelInfo runningBroadcast = ContentManager.sharedInstance().getFromStorageSelectedBroadcastWithChannelInfo();
+		TVBroadcastWithChannelInfo runningBroadcast = ContentManager.sharedInstance().getFromCacheSelectedBroadcastWithChannelInfo();
 		if(this instanceof RepetitionsPageActivity) {
-			broadcasts = ContentManager.sharedInstance().getFromStorageRepeatingBroadcastsVerifyCorrect(runningBroadcast);
+			broadcasts = ContentManager.sharedInstance().getFromCacheRepeatingBroadcastsVerifyCorrect(runningBroadcast);
 			usedForUpcomingEpisodes = false;
 		} else {
-			broadcasts = ContentManager.sharedInstance().getFromStorageUpcomingBroadcastsVerifyCorrect(runningBroadcast);
+			broadcasts = ContentManager.sharedInstance().getFromCacheUpcomingBroadcastsVerifyCorrect(runningBroadcast);
 			usedForUpcomingEpisodes = true;
 		}
 		

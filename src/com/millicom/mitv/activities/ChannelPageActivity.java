@@ -57,8 +57,8 @@ public class ChannelPageActivity
 		
 		setContentView(R.layout.layout_channelpage_activity);
 
-		TVChannelId channelId = ContentManager.sharedInstance().getFromStorageSelectedTVChannelId();
-		channel = ContentManager.sharedInstance().getFromStorageTVChannelById(channelId);
+		TVChannelId channelId = ContentManager.sharedInstance().getFromCacheSelectedTVChannelId();
+		channel = ContentManager.sharedInstance().getFromCacheTVChannelById(channelId);
 		
 		initViews();
 	}
@@ -132,7 +132,7 @@ public class ChannelPageActivity
 	@Override
 	protected void loadData() 
 	{		
-		channelGuide = ContentManager.sharedInstance().getFromStorageTVChannelGuideUsingTVChannelIdForSelectedDay(channel.getChannelId());
+		channelGuide = ContentManager.sharedInstance().getFromCacheTVChannelGuideUsingTVChannelIdForSelectedDay(channel.getChannelId());
 		
 		ImageAware imageAware = new ImageViewAware(channelIconIv, false);
 		ImageLoader.getInstance().displayImage(channelGuide.getImageUrl(), imageAware);

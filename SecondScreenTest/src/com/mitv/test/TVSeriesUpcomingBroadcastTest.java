@@ -84,11 +84,11 @@ public class TVSeriesUpcomingBroadcastTest extends TestBaseWithGuide {
 
 	@Test
 	public void testAllVariablesNotNull() {
-		for (TVBroadcastWithChannelInfo tvProgramBroadcast : tvSeriesUpcomingBroadcasts) {
-			TVChannel tvChannel = tvProgramBroadcast.getChannel();
-			TVChannelGSONTest.testTVChannelObject(tvChannel);
+		for (TVBroadcastWithChannelInfo broadcastWithChannelInfo : tvSeriesUpcomingBroadcasts) {
+			TVChannel tvChannel = broadcastWithChannelInfo.getChannel();
+			assertTrue(tvChannel.areDataFieldsValid());
 
-			RepetitionsOfBroadcastTest.testBroadcast(tvProgramBroadcast);
+			assertTrue(broadcastWithChannelInfo.areDataFieldsValid());
 		}
 	}
 }

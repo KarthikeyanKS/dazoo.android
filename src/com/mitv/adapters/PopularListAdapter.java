@@ -49,7 +49,7 @@ public class PopularListAdapter extends BaseAdapter {
 
 //		mitvStore = MiTVStore.getInstance();
 //		mTvDates = mitvStore.getTvDates();
-		mTvDates = ContentManager.sharedInstance().getFromStorageTVDates();
+		mTvDates = ContentManager.sharedInstance().getFromCacheTVDates();
 	}
 
 	@Override
