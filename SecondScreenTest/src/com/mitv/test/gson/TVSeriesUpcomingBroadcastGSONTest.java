@@ -1,4 +1,4 @@
-package com.mitv.test;
+package com.mitv.test.gson;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,7 +28,7 @@ import com.mitv.Consts;
  * @author atsampikakis
  *
  */
-public class TVSeriesUpcomingBroadcastTest extends TestBaseWithGuide {
+public class TVSeriesUpcomingBroadcastGSONTest extends TestBaseWithGuide {
 
 	private List<TVBroadcastWithChannelInfo> tvSeriesUpcomingBroadcasts;
 	private static final String TAG = "TVSeriesUpcomingBroadcastTest";

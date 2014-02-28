@@ -1,5 +1,5 @@
 
-package com.mitv.test.standalone;
+package com.mitv.test.standalone.copy;
 
 
 
@@ -15,7 +15,7 @@ import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.http.HTTPCoreResponse;
 import com.millicom.mitv.models.gson.serialization.UserPasswordResetConfirmationData;
 import com.mitv.Consts;
-import com.mitv.test.TestCore;
+import com.mitv.test.gson.TestCore;
 
 
 

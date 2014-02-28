@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -27,32 +25,6 @@ public class InstantAutoComplete extends AutoCompleteTextView {
         super(context, attrs);
         setup(context);
         final Context contextFinal = context;
-        addTextChangedListener(new TextWatcher() {
-			
-			@Override
-			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void afterTextChanged(Editable arg0) 
-			{
-				/*
-				if(arg0.toString().length()<=0){
-					setTypeface(FontManager.getFontLight(contextFinal));
-	            } else {
-	            	setTypeface(FontManager.getFontBold(contextFinal));
-	            }
-	            */
-			}
-		});
     }
 
     public InstantAutoComplete(Context context, AttributeSet attrs, int defStyle) {

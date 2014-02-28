@@ -3,18 +3,14 @@ package com.millicom.mitv.asynctasks;
 
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import com.androidquery.callback.AjaxCallback;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
-import com.millicom.mitv.models.RepeatingBroadcastsForBroadcast;
 import com.millicom.mitv.models.SearchResultsForQuery;
-import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVSearchResults;
+import com.millicom.mitv.models.gson.TVSearchResultsJSON;
 import com.mitv.Consts;
 
 
@@ -33,7 +29,7 @@ public class GetTVSearchResults
 			AjaxCallback<String> ajaxCallback,
 			String searchQuery)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.SEARCH, TVSearchResults.class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.SEARCH, TVSearchResults.class, TVSearchResultsJSON.class, true, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
 		
 		this.ajaxCallback = ajaxCallback;
 		this.searchQuery = searchQuery;
@@ -48,7 +44,7 @@ public class GetTVSearchResults
 	protected Void doInBackground(String... params) {
 		super.doInBackground(params);
 		
-		ajaxCallback.block();
+//		ajaxCallback.block();
 
 		/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
 		TVSearchResults tvSearchResults = (TVSearchResults) requestResultObjectContent;

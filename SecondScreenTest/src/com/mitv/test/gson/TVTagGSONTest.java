@@ -1,5 +1,5 @@
 
-package com.mitv.test;
+package com.mitv.test.gson;
 
 
 
@@ -27,7 +27,7 @@ import com.mitv.Consts;
  * @author atsampikakis
  *
  */
-public class TVTagTest 
+public class TVTagGSONTest 
 	extends TestCore 
 {
 	private List<TVTag> tvTag;

@@ -13,7 +13,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.LinearLayout;
 
-import com.androidquery.AQuery;
 import com.millicom.mitv.enums.ContentTypeEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.interfaces.SearchInterface;
@@ -21,6 +20,7 @@ import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVChannel;
 import com.millicom.mitv.models.TVProgram;
 import com.millicom.mitv.models.TVSearchResult;
+import com.millicom.mitv.models.TVSearchResultEntity;
 import com.millicom.mitv.models.TVSeries;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -34,16 +34,13 @@ public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implemen
 
 	private ArrayList<TVSearchResult> searchResultItems;
 	private String queryString;
-	private String lastSearch = "";
 	private Context context;
-	private AQuery aQuery;
 	private SearchInterface viewListener;
 	private static LayoutInflater inflater;
 
 	public SearchPageListAdapter(Context context, SearchInterface listener) {
 		super(context, 0);
 		this.context = context;
-		this.aQuery = new AQuery(context);
 		this.viewListener = listener;
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
@@ -256,23 +253,24 @@ public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implemen
 			ContentTypeEnum type = resultItem.getEntityType();
 			
 			
-			TVBroadcastWithChannelInfo broadcast = resultItem.getNextBroadcast();
+			TVSearchResultEntity searchEntity = resultItem.getEntity();
 
 			 switch (type) {
 			 case PROGRAM: {
-			 TVProgram program = (TVProgram) broadcast.getProgram();
-			 populateProgramView(holder, resultItem, program);
-			 break;
+				TVProgram program = searchEntity.getProgram();
+			 	populateProgramView(holder, resultItem, program);
+			 	break;
 			 }
 			 case SERIES: {
-			 TVSeries series = (TVSeries) broadcast.getProgram().getSeries();
-			 populateSeriesView(holder, resultItem, series);
-			 break;
+				 TVBroadcastWithChannelInfo broadcast = resultItem.getNextBroadcast();
+				 TVSeries series = broadcast.getProgram().getSeries();
+				 populateSeriesView(holder, resultItem, series);
+				 break;
 			 }
 			 case CHANNEL: {
-			 TVChannel channel = (TVChannel) resultItem.getEntity().getChannel();
-			 populateChannelView(holder, channel);
-			 break;
+				 TVChannel channel = searchEntity.getChannel();
+				 populateChannelView(holder, channel);
+				 break;
 			 }
 			 }
 		} else {
@@ -298,12 +296,9 @@ public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implemen
 			protected FilterResults performFiltering(CharSequence constraint) {
 				FilterResults filterResults = new FilterResults();
 
-			
 				// Assign the data to the FilterResults
 				filterResults.values = searchResultItems;
 				filterResults.count = searchResultItems.size();
-
-
 				return filterResults;
 			}
 
