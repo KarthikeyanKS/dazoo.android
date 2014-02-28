@@ -21,12 +21,12 @@ import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVChannel;
 import com.millicom.mitv.models.TVProgram;
+import com.millicom.mitv.utilities.DialogHelper;
 import com.mitv.Consts;
 import com.mitv.R;
-import com.mitv.handlers.NotificationDialogHandler;
 import com.mitv.interfaces.RemindersCountInterface;
-import com.mitv.model.NotificationDbItem;
 import com.mitv.notification.NotificationDataSource;
+import com.mitv.notification.NotificationSQLElement;
 
 
 
@@ -36,20 +36,24 @@ public class RemindersListAdapter
 	@SuppressWarnings("unused")
 	private static final String TAG = RemindersListAdapter.class.getName();
 
-	private LayoutInflater mLayoutInflater;
-	private Activity mActivity;
-	private ArrayList<TVBroadcastWithChannelInfo> mBroadcasts;
-	private RemindersCountInterface	mInterface;
+	
+	private LayoutInflater layoutInflater;
+	private Activity activity;
+	private ArrayList<TVBroadcastWithChannelInfo> broadcasts;
+	private RemindersCountInterface	remindersCountInterface;
+	
 	private int	notificationId;
-	private int	currentPosition	= -1;
+	private int	currentPosition;
 
 	
 	
 	public RemindersListAdapter(Activity mActivity, ArrayList<TVBroadcastWithChannelInfo> mBroadcasts, RemindersCountInterface remindersInterface) 
 	{
-		this.mBroadcasts = mBroadcasts;
-		this.mActivity = mActivity;
-		this.mInterface = remindersInterface;
+		this.broadcasts = mBroadcasts;
+		this.activity = mActivity;
+		this.remindersCountInterface = remindersInterface;
+		
+		this.currentPosition = -1;
 	}
 
 	
@@ -57,9 +61,9 @@ public class RemindersListAdapter
 	@Override
 	public int getCount() 
 	{
-		if (mBroadcasts != null) 
+		if (broadcasts != null) 
 		{
-			return mBroadcasts.size();
+			return broadcasts.size();
 		} 
 		else return 0;
 	}
@@ -69,11 +73,14 @@ public class RemindersListAdapter
 	@Override
 	public TVBroadcastWithChannelInfo getItem(int position) 
 	{
-		if (mBroadcasts != null) 
+		if (broadcasts != null) 
 		{
-			return mBroadcasts.get(position);
+			return broadcasts.get(position);
 		} 
-		else return null;
+		else 
+		{
+			return null;	
+		}
 	}
 
 	
@@ -93,10 +100,9 @@ public class RemindersListAdapter
 
 		if (rowView == null) 
 		{
-			mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			layoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-			// inflate different layouts depending on the program type
-			rowView = mLayoutInflater.inflate(R.layout.row_reminders, null);
+			rowView = layoutInflater.inflate(R.layout.row_reminders, null);
 
 			ViewHolder viewHolder = new ViewHolder();
 			viewHolder.mHeaderContainer = (RelativeLayout) rowView.findViewById(R.id.row_reminders_header_container);
@@ -131,7 +137,7 @@ public class RemindersListAdapter
 
 			int prevPos = Math.max(position - 1, 0);
 
-			int nextPos = Math.min(position + 1, (mBroadcasts.size() - 1));
+			int nextPos = Math.min(position + 1, (broadcasts.size() - 1));
 			
 			TVBroadcastWithChannelInfo broadcastPreviousPosition = getItem(prevPos);
 			
@@ -175,12 +181,12 @@ public class RemindersListAdapter
 					
 					if (seasonNumber > 0) 
 					{
-						seasonEpisode += mActivity.getResources().getString(R.string.season) + " " + season + " ";
+						seasonEpisode += activity.getResources().getString(R.string.season) + " " + season + " ";
 					}
 					
 					if (episode > 0) 
 					{
-						seasonEpisode += mActivity.getResources().getString(R.string.episode) + " " + episode;
+						seasonEpisode += activity.getResources().getString(R.string.episode) + " " + episode;
 					}
 					
 					holder.mBroadcastDetailsTv.setText(seasonEpisode);
@@ -220,14 +226,14 @@ public class RemindersListAdapter
 				public void onClick(View v) 
 				{
 					//TODO NewArc dont we have TVBroadcastWithChannelInfo here?
-					Intent intent = new Intent(mActivity, BroadcastPageActivity.class);
+					Intent intent = new Intent(activity, BroadcastPageActivity.class);
 					intent.putExtra(Consts.INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO, true);
 					intent.putExtra(Consts.INTENT_EXTRA_FROM_PROFILE, true);
-					mActivity.startActivity(intent);
+					activity.startActivity(intent);
 				}
 			});
 
-			holder.mReminderIconIv.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_reminder_selected));
+			holder.mReminderIconIv.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 			
 			holder.mReminderIconIv.setOnClickListener(new View.OnClickListener() 
 			{
@@ -236,17 +242,15 @@ public class RemindersListAdapter
 				{
 					currentPosition = (Integer) v.getTag();
 
-					NotificationDataSource notificationDataSource = new NotificationDataSource(mActivity);
+					NotificationDataSource notificationDataSource = new NotificationDataSource(activity);
 
-					NotificationDbItem notificationDbItem = notificationDataSource.getNotification(channel.getChannelId().getChannelId(), Long.valueOf(broadcast.getBeginTimeMillis()));
+					NotificationSQLElement notificationDbItem = notificationDataSource.getNotification(channel.getChannelId().getChannelId(), broadcast.getBeginTime());
 					
 					if (notificationDbItem != null) 
 					{
 						notificationId = notificationDbItem.getNotificationId();
 						
-						NotificationDialogHandler notificationDlg = new NotificationDialogHandler();
-						
-						notificationDlg.showRemoveNotificationDialog(mActivity, broadcast, notificationId, yesProc(), noProc());
+						DialogHelper.showRemoveNotificationDialog(activity, broadcast, notificationId, confirmRemoval(), cancelRemoval());
 					}
 				}
 			});
@@ -266,23 +270,22 @@ public class RemindersListAdapter
 		public TextView	mBroadcastTimeTv;
 		public TextView	mChannelTv;
 		public ImageView mReminderIconIv;
-
 		public View	mDividerView;
 	}
 	
 	
 
-	public Runnable yesProc() 
+	public Runnable confirmRemoval() 
 	{
 		return new Runnable() 
 		{
 			public void run() 
 			{
-				if(currentPosition >= 0 && currentPosition < mBroadcasts.size()) 
+				if(currentPosition >= 0 && currentPosition < broadcasts.size()) 
 				{
-					mBroadcasts.remove(currentPosition);
+					broadcasts.remove(currentPosition);
 					
-					mInterface.setValues(mBroadcasts.size());
+					remindersCountInterface.setValues(broadcasts.size());
 					
 					notifyDataSetChanged();
 				}
@@ -292,11 +295,11 @@ public class RemindersListAdapter
 	
 	
 
-	public Runnable noProc() 
+	public Runnable cancelRemoval() 
 	{
 		return new Runnable() 
 		{
-			public void run() {}
+			public void run(){}
 		};
 	}
 }

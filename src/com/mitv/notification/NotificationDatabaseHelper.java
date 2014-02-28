@@ -18,6 +18,7 @@ public class NotificationDatabaseHelper
 	private static final String	DATABASE_CREATE	= 
 			"CREATE TABLE " + Consts.NOTIFICATION_DB_TABLE_NOTIFICATIONS + 
 			"(" + Consts.NOTIFICATION_DB_COLUMN_NOTIFICATION_ID + " INTEGER PRIMARY KEY, " + 
+			Consts.NOTIFICATION_DB_COLUMN_BROADCAST_BEGIN_TIME_IN_MILISECONDS + " INTEGER, " +
 			Consts.NOTIFICATION_DB_COLUMN_BROADCAST_BEGIN_TIME + " TEXT NOT NULL, " +
 			Consts.NOTIFICATION_DB_COLUMN_BROADCAST_END_TIME + " TEXT NOT NULL, " +
 			Consts.NOTIFICATION_DB_COLUMN_BROADCAST_TYPE + " TEXT, " +
@@ -63,7 +64,7 @@ public class NotificationDatabaseHelper
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
 	{
-		Log.w(NotificationDatabaseHelper.class.getName(), "Upgrading database from version " + oldVersion + " to " + newVersion + ", which will destroy all old data");
+		Log.w(NotificationDatabaseHelper.class.getName(), "Upgrading database from version " + oldVersion + " to " + newVersion + ", which will destroy all old data.");
 		
 		db.execSQL("DROP TABLE IF EXISTS " + Consts.NOTIFICATION_DATABASE_NAME);
 		

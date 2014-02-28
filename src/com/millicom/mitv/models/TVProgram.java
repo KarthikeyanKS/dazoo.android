@@ -9,7 +9,7 @@ import android.util.Log;
 
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.models.gson.TVProgramJSON;
-import com.mitv.model.NotificationDbItem;
+import com.mitv.notification.NotificationSQLElement;
 
 
 
@@ -25,7 +25,7 @@ public class TVProgram
 	
 	
 	
-	public TVProgram(NotificationDbItem item)
+	public TVProgram(NotificationSQLElement item)
 	{
 		this.title = item.getProgramTitle();
 		this.synopsisShort = item.getSynopsisShort();

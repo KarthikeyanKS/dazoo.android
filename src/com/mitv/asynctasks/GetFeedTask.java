@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 public class GetFeedTask 
 	extends AsyncTask<Void, Void, Boolean> 
 {
+	@SuppressWarnings("unused")
 	private static final String	TAG	= "GetFeedTask";
 	
 	

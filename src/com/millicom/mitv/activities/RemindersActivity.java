@@ -15,7 +15,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.millicom.mitv.activities.base.BaseActivity;
+import com.millicom.mitv.activities.base.BaseContentActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
@@ -24,26 +24,27 @@ import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.R;
 import com.mitv.adapters.RemindersListAdapter;
 import com.mitv.interfaces.RemindersCountInterface;
-import com.mitv.model.NotificationDbItem;
 import com.mitv.notification.NotificationDataSource;
+import com.mitv.notification.NotificationSQLElement;
 
 
 
 public class RemindersActivity 
-	extends BaseActivity 
+	extends BaseContentActivity 
 	implements RemindersCountInterface, OnClickListener
 {
 	@SuppressWarnings("unused")
 	private static final String TAG = RemindersActivity.class.getName();
 	
-	private ListView mListView;
-	private RemindersListAdapter mAdapter;
 	private RelativeLayout mTabTvGuide;
 	private RelativeLayout mTabActivity;
 	private RelativeLayout mTabProfile;
 	private View mTabDividerLeft;
 	private View mTabDividerRight;
 	private TextView mErrorTv;
+	
+	private ListView mListView;
+	private RemindersListAdapter mAdapter;
 		
 
 	
@@ -83,41 +84,10 @@ public class RemindersActivity
 
 		mErrorTv = (TextView) findViewById(R.id.reminders_error_tv);
 		mListView = (ListView) findViewById(R.id.listview);
+		
+		setEmptyLayoutDetailsMessage(getResources().getString(R.string.no_reminders));
 	}
-
 	
-	
-	private void populateViews() 
-	{
-		ArrayList<TVBroadcastWithChannelInfo> broadcasts = new ArrayList<TVBroadcastWithChannelInfo>();
-
-		NotificationDataSource notificationDataSource = new NotificationDataSource(this);
-		
-		List<NotificationDbItem> notificationList = notificationDataSource.getAllNotifications();
-		
-		for (int i = 0; i < notificationList.size(); i++) 
-		{
-			NotificationDbItem item = notificationList.get(i);
-			
-			TVBroadcastWithChannelInfo broadcast = new TVBroadcastWithChannelInfo(item);
-			
-			broadcasts.add(broadcast);
-		}
-		
-		if (broadcasts.isEmpty())
-		{
-			mErrorTv.setVisibility(View.VISIBLE);
-		} 
-		else
-		{
-			Collections.sort(broadcasts, new TVBroadcast.BroadcastComparatorByTime());
-
-			mAdapter = new RemindersListAdapter(this, broadcasts, this);
-			mListView.setAdapter(mAdapter);
-		}
-	}
-
-
 	
 	
 	@Override
@@ -149,7 +119,33 @@ public class RemindersActivity
 	{
 		updateUI(UIStatusEnum.LOADING);
 		
-		// TODO NewArc - Implement this
+		ArrayList<TVBroadcastWithChannelInfo> tvBroadcasts = new ArrayList<TVBroadcastWithChannelInfo>();
+
+		NotificationDataSource notificationDataSource = new NotificationDataSource(this);
+
+		List<NotificationSQLElement> notificationList = notificationDataSource.getAllNotifications();
+
+		for (int i = 0; i < notificationList.size(); i++) 
+		{
+			NotificationSQLElement item = notificationList.get(i);
+
+			TVBroadcastWithChannelInfo broadcast = new TVBroadcastWithChannelInfo(item);
+
+			tvBroadcasts.add(broadcast);
+		}
+
+		if (tvBroadcasts.isEmpty())
+		{
+			updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
+		} 
+		else
+		{
+			Collections.sort(tvBroadcasts, new TVBroadcast.BroadcastComparatorByTime());
+
+			mAdapter = new RemindersListAdapter(this, tvBroadcasts, this);
+
+			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+		}
 	}
 	
 	
@@ -157,14 +153,7 @@ public class RemindersActivity
 	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
-		if (fetchRequestResult.wasSuccessful()) 
-		{
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
-		} 
-		else
-		{
-			updateUI(UIStatusEnum.FAILED);
-		}
+		// Do nothing (the reminders list is  populated in a synchronous way)
 	}
 	
 	
@@ -175,16 +164,16 @@ public class RemindersActivity
 		super.updateUIBaseElements(status);
 
 		switch (status) 
-		{	
+		{
 			case SUCCEEDED_WITH_DATA:
 			{
-				populateViews();
+				mListView.setAdapter(mAdapter);
 				break;
 			}
 	
 			default:
 			{
-				// TODO NewArc - Do something here?
+				// Do nothing
 				break;
 			}
 		}

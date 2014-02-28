@@ -38,11 +38,65 @@ public class SecondScreenApplication
 	@SuppressWarnings("unused")
 	private static final String TAG = SecondScreenApplication.class.getName();
 	
+
+	private static String userAgent;
+	private static String session;
+	private static SecondScreenApplication	sInstance						= null;
+
+	private static int						sImageSizeThumbnailWidth		= 0;
+	private static int						sImageSizeThumbnailHeight		= 0;
+
+	private static int						sImageSizeLandscapeWidth		= 0;
+	private static int						sImageSizeLandscapeHeight		= 0;
+
+	private static int						sImageSizePosterWidth			= 0;
+	private static int						sImageSizePosterHeight			= 0;
+
+	private static int						sImageSizeGalleryWidth			= 0;
+	private static int						sImageSizeGalleryHeight			= 0;
+
+	private static final double				IMAGE_RATIO						= 1.78;	 // Magic number
+	private static final double				IMAGE_WIDTH_MULTIPLIER			= 0.35;
+	private static final double				POSTER_WIDTH_DIVIDER			= 2.1;
+	
+	public static final double				IMAGE_WIDTH_COEFFICIENT_POSTER	= 0.88;
+	public static final double				IMAGE_HEIGHT_COEFFICIENT_POSTER	= 1.4;
+	
+	private CheckApiVersionListener 		mCheckApiVersionListner;
+	private AppConfigurationListener		mAppConfigurationListener;
+	private boolean 						mIsFirstStart = true;
+	
+	
+	
+
+	// SharedPreferences used to save stuff
+	private static SharedPreferences		sSharedPreferences;
+	private static Editor					editor;
+
+	
+	
+	public SecondScreenApplication()
+	{}
+	
+	
+	
+	public static SecondScreenApplication sharedInstance() 
+	{
+		if (sInstance == null) 
+		{
+			sInstance = new SecondScreenApplication();
+		}
+		
+		return sInstance;
+	}
+	
+	
 	
 	public static interface CheckApiVersionListener 
 	{
 		public void onApiVersionChecked(boolean needsUpdate);
 	}
+	
 	
 	
 	public static interface AppConfigurationListener 
@@ -51,132 +105,9 @@ public class SecondScreenApplication
 	}
 	
 	
-	private static String userAgent;
-	private static String session;
-	private static SecondScreenApplication	sInstance						= null;
-
-	public static int						sImageSizeThumbnailWidth		= 0;
-	public static int						sImageSizeThumbnailHeight		= 0;
-
-	public static int						sImageSizeLandscapeWidth		= 0;
-	public static int						sImageSizeLandscapeHeight		= 0;
-
-	public static int						sImageSizePosterWidth			= 0;
-	public static int						sImageSizePosterHeight			= 0;
-
-	public static int						sImageSizeGalleryWidth			= 0;
-	public static int						sImageSizeGalleryHeight			= 0;
-
-	public static final double				IMAGE_RATIO						= 1.78;						// Magic number
-	public static final double				IMAGE_WIDTH_MULTIPLIER			= 0.35;
-
-	public static final double				IMAGE_WIDTH_COEFFICIENT_POSTER	= 0.88;
-	public static final double				IMAGE_HEIGHT_COEFFICIENT_POSTER	= 1.4;
-	private CheckApiVersionListener 		mCheckApiVersionListner;
-	private AppConfigurationListener		mAppConfigurationListener;
-
-	private final static double				POSTER_WIDTH_DIVIDER			= 2.1;
-	private boolean 						mIsFirstStart = true;
-
-	// SharedPreferences used to save stuff
-	private static SharedPreferences		sSharedPreferences;
-	private static Editor					editor;
-
-//	public void setCheckApiVersionListener(CheckApiVersionListener listener) {
-//		mCheckApiVersionListner = listener;
-//	}
-//	
-//	public void setAppConfigurationListener(AppConfigurationListener listener) {
-//		mAppConfigurationListener = listener;
-//	}
-//	
-//	
-//	
-//	public boolean isFirstStart() {
-//		return mIsFirstStart;
-//	}
-//	
-//	
-//	
-//	public void setisFirstStart(boolean isFirstStart)
-//	{
-//		mIsFirstStart = isFirstStart;
-//	}
 	
-	
-	
-	public SecondScreenApplication() {}
-	
-//	/**
-//	 * Get/Set User session from saved preferences
-//	 * 
-//	 * @return
-//	 */
-//	public static String getSession() {
-//		
-//		Log.i("SESSION", "Get stored session");
-//		if (session == null) {
-//			session = sSharedPreferences.getString(Consts.MITV_SESSION, null);
-//		}
-//		Log.i("SESSION", "Session: " + session);
-//		return session;
-//	}
-//
-//	public static void setSession(String session) {
-//		
-//		Log.i("SESSION", "Save cookie session");
-//		SecondScreenApplication.session = session;
-//		if (sSharedPreferences != null) {
-//			sSharedPreferences.edit().putString(Consts.MITV_SESSION, session).commit();
-//		}
-//	}
-
-//	/**
-//	 * Get default user agent
-//	 * 
-//	 * @return
-//	 */
-//	public static String getUserAgent() {
-//		if (userAgent == null) {
-//			userAgent = getDefaultUserAgent();
-//		}
-//		return userAgent;
-//	}
-
-//	private static String getDefaultUserAgent() {
-//		StringBuilder result = new StringBuilder(64);
-//		result.append("Dalvik/");
-//		result.append(System.getProperty("java.vm.version")); // such as 1.1.0
-//		result.append(" (Linux; U; Android ");
-//
-//		String version = Build.VERSION.RELEASE; // "1.0" or "3.4b5"
-//		result.append(version.length() > 0 ? version : "1.0");
-//
-//		// add the model for the release build
-//		if ("REL".equals(Build.VERSION.CODENAME)) {
-//			String model = Build.MODEL;
-//			if (model.length() > 0) {
-//				result.append("; ");
-//				result.append(model);
-//			}
-//		}
-//		String id = Build.ID; // "MASTER" or "M4-rc20"
-//		if (id.length() > 0) {
-//			result.append(" Build/");
-//			result.append(id);
-//		}
-//		result.append(")");
-//		return result.toString();
-//	}
-	
-	public static SecondScreenApplication sharedInstance() {
-		if (sInstance == null) {
-			sInstance = new SecondScreenApplication();
-		}
-		return sInstance;
-	}
-	
-	private File appWasPreinstalledFile() {
+	private File appWasPreinstalledFile()
+	{
 		String root = Environment.getExternalStorageDirectory().toString();
 		
 		String packageName = getPackageName();
@@ -184,149 +115,139 @@ public class SecondScreenApplication
 		String filePath = String.format(getCurrentLocale(), "%s/Android/data/%s/", root, packageName);
 		
 		File myDir = new File(filePath);
+		
 		myDir.mkdirs();
 
 		String fname = Consts.APP_WAS_PREINSTALLED_FILE_NAME;
+		
 		File file = new File(myDir, fname);
 		
 		return file;
 	}
 	
-	public boolean wasPreinstalledFileExists() {
+	
+	
+	public boolean wasPreinstalledFileExists() 
+	{
 		File file = appWasPreinstalledFile();
+		
 		boolean wasPreinstalledFileExists = file.exists();
 		
 		return wasPreinstalledFileExists;
 	}
 	
-	public void saveWasPreinstalledFile() {
+	
+	
+	public void saveWasPreinstalledFile()
+	{
 		File file = appWasPreinstalledFile();
-		if (!wasPreinstalledFileExists()) {
-			try {
+		
+		if (!wasPreinstalledFileExists())
+		{
+			try
+			{
 				FileOutputStream os = new FileOutputStream(file, true);
+				
 				OutputStreamWriter out = new OutputStreamWriter(os);
+				
 				out.close();
-			} catch (Exception e) {
+			} 
+			catch (Exception e)
+			{
 				e.printStackTrace();
 			}
 		}
 	}
 	
-	public static boolean applicationIsSystemApp(Context context) {
+	
+	
+	public static boolean applicationIsSystemApp(Context context)
+	{
 		String packageName = context.getPackageName();
-	    try {
+	    
+		try 
+		{
 	        ApplicationInfo applicationInfo = context.getPackageManager().getApplicationInfo(packageName, 0);        
+	        
 	        String appLocation = applicationInfo.publicSourceDir; 
+	        
 	        // OR String appLocation = applicationInfo.sourceDir;  
 	        // Both returns the same
 	        // if package is pre-installed then output will be /system/app/application_name.apk
 	        // if package is installed by user then output will be /data/app/application_name.apk
 
 	        // Check if package is system app 
-	        if (appLocation != null && appLocation.startsWith("/system/app/")) {
+	        if (appLocation != null && appLocation.startsWith("/system/app/"))
+	        {
 	            return true; 
 	        }
-	    } catch (NameNotFoundException e) {
+	    } 
+		catch (NameNotFoundException e) 
+		{
 	        e.printStackTrace(); // TODO Can handle as your logic
 	    }
 	    return false; 
 	}
 	
-	public static boolean applicationIsSystemAppUsingFlag(Context context) {
+	
+	
+	public static boolean applicationIsSystemAppUsingFlag(Context context) 
+	{
 		String packageName = context.getPackageName();
-	    try {
-	        ApplicationInfo applicationInfo = context.getPackageManager().getApplicationInfo(packageName, 0);   
+	    
+		try
+	    {
+	        ApplicationInfo applicationInfo = context.getPackageManager().getApplicationInfo(packageName, 0); 
+	        
 	        // FLAG_SYSTEM is only set to system applications, 
 	        // this will work even if application is installed in external storage
 
 	        // Check if package is system app 
-	        if ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
+	        if ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) 
+	        {
 	            return true; 
 	        }
-	    } catch (NameNotFoundException e) {
+	    } 
+		catch (NameNotFoundException e)
+		{	
 	        e.printStackTrace(); // TODO Can handle as your logic
 	    }
+		
 	    return false; 
 	}
 
-	public static Locale getCurrentLocale() {
+	
+	
+	public static Locale getCurrentLocale() 
+	{
 		Locale current = sharedInstance().getApplicationContext().getResources().getConfiguration().locale;
 		return current;
 	}
 
 	
-	public int getScreenSizeMask() {
+	
+	public int getScreenSizeMask() 
+	{
 		int screenSizeMask = getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
 		return screenSizeMask;
 	}
+
 	
-	public boolean isConnectedToWifi() {
-		ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
-		boolean isConnectedToWifi = false;
-		if (mWifi.isConnected()) {
-			isConnectedToWifi = true;
-		}
-		return isConnectedToWifi;
-	}
-
 	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
+	public void onConfigurationChanged(Configuration newConfig) 
+	{
 		super.onConfigurationChanged(newConfig);
 	}
 	
-	private void setupGoogleAnalytics() {
-		GATrackingManager.getInstance();
-	}
 	
-//	public boolean checkApiVersion() 
-//	{
-//		String apiVersion = getApiVersion();
-//		
-//		if (apiVersion != null && !TextUtils.isEmpty(apiVersion) && !apiVersion.equals(Consts.API_VERSION)) 
-//		{
-//			return true;
-//		}
-//		else 
-//		{
-//			return false;
-//		}
-//	}
 
 	@Override
-	public void onCreate() {
+	public void onCreate() 
+	{
 		super.onCreate();
-		sInstance = this;
 		
-		//TODO verify that we dont actually need this here, it is fetched from SplashScreenActivity, right?
-//		/* Fetch and update app configuration */
-//		ApiClient.getAppConfiguration(new AppConfigurationCallback() {
-//			@Override
-//			public void onAppConfigurationResult() {
-//				/* Initialize Google Analytics */
-//				boolean googleAnalyticsEnabled = AppConfigurationManager.getInstance().isGoogleAnalyticsEnabled();
-//				if(googleAnalyticsEnabled) {
-//					setupGoogleAnalytics();
-//				}
-//				if(mAppConfigurationListener != null) {
-//					mAppConfigurationListener.onAppConfigurationListener();
-//				}
-//			}
-//		});
-//		
-//		/* Fetch api version */
-//		ApiClient.getApiVersion(new ApiVersionCallbackInterface() {
-//			@Override
-//			public void onApiVersionResult() {
-//				setApiVersion(SSApiVersionPage.getInstance().getApiVersionString());
-//				boolean needsUpdate = checkApiVersion();
-//				if(mCheckApiVersionListner != null) {
-//					mCheckApiVersionListner.onApiVersionChecked(needsUpdate);
-//				}
-//			}
-//		});
-							
+		sInstance = this;
+									
 		// sSharedPreferences = getSharedPreferences(Consts.SHARED_PREFS_MAIN_NAME, Context.MODE_PRIVATE);
 		sSharedPreferences = new ObscuredSharedPreferences(this, this.getSharedPreferences(Consts.SHARED_PREFS_MAIN_NAME, Context.MODE_PRIVATE));
 
@@ -351,44 +272,166 @@ public class SecondScreenApplication
 		.build();
 		ImageLoader.getInstance().init(config);
 		
-
 		L.disableLogging();
 	}
 	
 
 	
-	public void setWasPreinstalled() {
+	public void setWasPreinstalled() 
+	{
 		editor = sSharedPreferences.edit();
+		
 		editor.putBoolean(Consts.APP_WAS_PREINSTALLED, true);
+		
 		editor.commit();
 	}
 	
-	public boolean getWasPreinstalled() {
+	
+	
+	public boolean getWasPreinstalled() 
+	{
 		return sSharedPreferences.getBoolean(Consts.APP_WAS_PREINSTALLED, false);
 	}
-
-//	/**
-//	 * Store user account access token
-//	 */
-//	public void setAccessToken(String token) {
-//		editor = sSharedPreferences.edit();
-//		editor.putString(Consts.USER_ACCOUNT_ACCESS_TOKEN, token);
-//		editor.commit();
-//	}
-
+	
+	
+	
 	/**
-	 * Retrieve user account access token
+	 * Calculate the sizes of the image thumbnails that are used across the app.
 	 */
-//	public String getAccessToken() {
-//		return sSharedPreferences.getString(Consts.USER_ACCOUNT_ACCESS_TOKEN, "");
+	@Deprecated
+	private void calculateSizes() 
+	{
+		WindowManager wm = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+		
+		Display display = wm.getDefaultDisplay();
+		
+		int widthFullSize = display.getWidth();
+
+		// Checks if we are in landscape
+		if (display.getWidth() > display.getHeight()) 
+		{
+			widthFullSize = display.getHeight();
+		}
+
+		sImageSizeLandscapeWidth = widthFullSize;
+		sImageSizeLandscapeHeight = (int) Math.ceil(widthFullSize / IMAGE_RATIO);
+
+		sImageSizeThumbnailWidth = (int) (widthFullSize * IMAGE_WIDTH_MULTIPLIER);
+		sImageSizeThumbnailHeight = (int) Math.ceil(sImageSizeThumbnailWidth / IMAGE_RATIO);
+
+		// Make room for the extra padding
+		sImageSizeGalleryWidth = widthFullSize - (int) getResources().getDimension(R.dimen.gallery_size_padding);
+		sImageSizeGalleryHeight = (int) Math.ceil(sImageSizeGalleryWidth / IMAGE_RATIO);
+
+		sImageSizePosterWidth = (int) Math.ceil(sImageSizeGalleryWidth / POSTER_WIDTH_DIVIDER);
+		sImageSizePosterHeight = (int) Math.ceil(sImageSizePosterWidth * IMAGE_HEIGHT_COEFFICIENT_POSTER);
+	}
+
+	
+	
+	
+//	private void setupGoogleAnalytics() 
+//	{
+//		GATrackingManager.getInstance();
 //	}
 	
-//	public static boolean isLoggedIn() {
-//		String authToken = getInstance().getAccessToken();
-//		boolean isLoggedIn = (authToken != null && TextUtils.isEmpty(authToken) != true);
-//		return isLoggedIn;
+//	public boolean checkApiVersion() 
+//	{
+//		String apiVersion = getApiVersion();
+//		
+//		if (apiVersion != null && !TextUtils.isEmpty(apiVersion) && !apiVersion.equals(Consts.API_VERSION)) 
+//		{
+//			return true;
+//		}
+//		else 
+//		{
+//			return false;
+//		}
 //	}
+	
+	
+//	public void setCheckApiVersionListener(CheckApiVersionListener listener) {
+//	mCheckApiVersionListner = listener;
+//}
+//
+//public void setAppConfigurationListener(AppConfigurationListener listener) {
+//	mAppConfigurationListener = listener;
+//}
+//
+//
+//
+//public boolean isFirstStart() {
+//	return mIsFirstStart;
+//}
+//
+//
+//
+//public void setisFirstStart(boolean isFirstStart)
+//{
+//	mIsFirstStart = isFirstStart;
+//}
+	
+///**
+// * Get/Set User session from saved preferences
+// * 
+// * @return
+// */
+//public static String getSession() {
+//	
+//	Log.i("SESSION", "Get stored session");
+//	if (session == null) {
+//		session = sSharedPreferences.getString(Consts.MITV_SESSION, null);
+//	}
+//	Log.i("SESSION", "Session: " + session);
+//	return session;
+//}
+//
+//public static void setSession(String session) {
+//	
+//	Log.i("SESSION", "Save cookie session");
+//	SecondScreenApplication.session = session;
+//	if (sSharedPreferences != null) {
+//		sSharedPreferences.edit().putString(Consts.MITV_SESSION, session).commit();
+//	}
+//}
 
+///**
+// * Get default user agent
+// * 
+// * @return
+// */
+//public static String getUserAgent() {
+//	if (userAgent == null) {
+//		userAgent = getDefaultUserAgent();
+//	}
+//	return userAgent;
+//}
+
+//private static String getDefaultUserAgent() {
+//	StringBuilder result = new StringBuilder(64);
+//	result.append("Dalvik/");
+//	result.append(System.getProperty("java.vm.version")); // such as 1.1.0
+//	result.append(" (Linux; U; Android ");
+//
+//	String version = Build.VERSION.RELEASE; // "1.0" or "3.4b5"
+//	result.append(version.length() > 0 ? version : "1.0");
+//
+//	// add the model for the release build
+//	if ("REL".equals(Build.VERSION.CODENAME)) {
+//		String model = Build.MODEL;
+//		if (model.length() > 0) {
+//			result.append("; ");
+//			result.append(model);
+//		}
+//	}
+//	String id = Build.ID; // "MASTER" or "M4-rc20"
+//	if (id.length() > 0) {
+//		result.append(" Build/");
+//		result.append(id);
+//	}
+//	result.append(")");
+//	return result.toString();
+//}	
 //	/**
 //	 * Store user email
 //	 */
@@ -549,35 +592,4 @@ public class SecondScreenApplication
 //		editor.putString(Consts.API_VERSION_SHARED_PREF, apiVersion);
 //		editor.commit();
 //	}
-	
-
-	/**
-	 * Calculate the sizes of the image thumbnails that are used across the app.
-	 */
-	private void calculateSizes() 
-	{
-		WindowManager wm = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
-		Display display = wm.getDefaultDisplay();
-		int widthFullSize = display.getWidth();
-		int heightFullSize = display.getHeight();
-
-		// Checks if we are in landscape
-		if (display.getWidth() > display.getHeight()) 
-		{
-			widthFullSize = display.getHeight();
-		}
-
-		sImageSizeLandscapeWidth = widthFullSize;
-		sImageSizeLandscapeHeight = (int) Math.ceil(widthFullSize / IMAGE_RATIO);
-
-		sImageSizeThumbnailWidth = (int) (widthFullSize * IMAGE_WIDTH_MULTIPLIER);
-		sImageSizeThumbnailHeight = (int) Math.ceil(sImageSizeThumbnailWidth / IMAGE_RATIO);
-
-		// Make room for the extra padding
-		sImageSizeGalleryWidth = widthFullSize - (int) getResources().getDimension(R.dimen.gallery_size_padding);
-		sImageSizeGalleryHeight = (int) Math.ceil(sImageSizeGalleryWidth / IMAGE_RATIO);
-
-		sImageSizePosterWidth = (int) Math.ceil(sImageSizeGalleryWidth / POSTER_WIDTH_DIVIDER);
-		sImageSizePosterHeight = (int) Math.ceil(sImageSizePosterWidth * IMAGE_HEIGHT_COEFFICIENT_POSTER);
-	}
 }

@@ -10,8 +10,8 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
-import com.mitv.model.NotificationDbItem;
 import com.mitv.notification.NotificationDataSource;
+import com.mitv.notification.NotificationSQLElement;
 import com.mitv.notification.NotificationService;
 
 
@@ -41,11 +41,11 @@ public class AlarmSetter
 		// Get the list of alarms
 		NotificationDataSource notificationDataSource = new NotificationDataSource(context);
 		
-		List<NotificationDbItem> notificationList = notificationDataSource.getAllNotifications();
+		List<NotificationSQLElement> notificationList = notificationDataSource.getAllNotifications();
 		
 		for(int i=0; i<notificationList.size(); i++)
 		{
-			NotificationDbItem item = notificationList.get(i);
+			NotificationSQLElement item = notificationList.get(i);
 			
 			TVBroadcastWithChannelInfo broadcast = new TVBroadcastWithChannelInfo(item);
 			

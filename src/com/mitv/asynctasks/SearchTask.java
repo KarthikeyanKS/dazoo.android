@@ -1,4 +1,4 @@
-package com.mitv;
+package com.mitv.asynctasks;
 
 import com.mitv.content.SSPageCallback;
 import com.mitv.content.SSPageGetResult;
@@ -7,6 +7,7 @@ import com.mitv.model.OldSearchResult;
 
 public class SearchTask { //extends AsyncTask<String, Void, Void> {
 
+	@SuppressWarnings("unused")
 	private static final String TAG = "SearchTask";
 	
 	public static interface SearchResultCallback {
