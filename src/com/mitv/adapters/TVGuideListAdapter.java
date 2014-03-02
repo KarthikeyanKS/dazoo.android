@@ -33,6 +33,7 @@ import com.millicom.mitv.models.TVBroadcast;
 import com.millicom.mitv.models.TVChannelGuide;
 import com.millicom.mitv.models.TVDate;
 import com.millicom.mitv.models.TVProgram;
+import com.millicom.mitv.utilities.DialogHelper;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -273,7 +274,7 @@ public class TVGuideListAdapter
 			}
 			//If there is no data, show message "No content is available". TODO: What to do here?
 			else {
-				holder.mTextView.setText(mActivity.getResources().getString(R.string.general_no_content_available));
+				holder.textView.setText(activity.getResources().getString(R.string.general_no_content_available));
 			}
 		}
 
@@ -307,10 +308,7 @@ public class TVGuideListAdapter
 
 				/* WHEN NOT LOGGED IN */
 				} else {
-					PromptSignInDialogHandler dialogNotLoggedIn = new PromptSignInDialogHandler();
-					
-					//TODO NewArcMerge use Filipes DialogHandler class here?
-					dialogNotLoggedIn.showPromptSignInDialog(activity, null, null);
+					DialogHelper.showPromptSignInDialog(activity, null, null);
 				}
 			}
 		});

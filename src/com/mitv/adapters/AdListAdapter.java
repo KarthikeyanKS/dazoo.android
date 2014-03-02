@@ -36,6 +36,7 @@ public class AdListAdapter<T> extends BaseAdapter {
 	protected static final int VIEW_TYPE_STANDARD = 1;
 	protected static final int VIEW_TYPE_CUSTOM = 2;
 	
+	private Activity activity;
 	private String fragmentName;
 	private List<T> items;
 	private SparseArray<AdAdzerk> adItems = new SparseArray<AdAdzerk>();

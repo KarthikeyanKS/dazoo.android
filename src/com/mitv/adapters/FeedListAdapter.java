@@ -52,13 +52,13 @@ public class FeedListAdapter
 
 	private ArrayList<TVFeedItem> feedItems;
 	private LayoutInflater layoutInflater;
-	
+	private Activity activity;
 	
 	
 	public FeedListAdapter(Activity activity, ArrayList<TVFeedItem> feedItems) 
 	{
 		super(Consts.JSON_AND_FRAGMENT_KEY_ACTIVITY, activity, feedItems);
-		
+		this.activity = activity;
 		this.feedItems = feedItems;
 
 		this.layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

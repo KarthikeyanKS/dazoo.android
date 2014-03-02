@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -16,6 +15,7 @@ import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.activities.RepetitionsPageActivity;
 import com.millicom.mitv.activities.UpcomingEpisodesPageActivity;
+import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVProgram;
 import com.mitv.Consts;
@@ -175,21 +175,31 @@ public class TrippleBroadcastBlockPopulator {
 		String titleString = null;
 
 		String showMoreString = null;
-		String programType = program.getProgramType();
-		Resources res = mActivity.getResources();
+		ProgramTypeEnum programType = program.getProgramType();
+		Resources res = activity.getResources();
 		
-		if(mUsedForRepetitions) {
-			if(programType.equals(Consts.PROGRAM_TYPE_TV_EPISODE)) {
+		if(usedForRepetitions) {
+			
+			switch (programType) {
+			case TV_EPISODE: {
 				titleString = res.getString(R.string.repetitions_episode);
-			} else if(programType.equals(Consts.PROGRAM_TYPE_MOVIE)) {
-				titleString = res.getString(R.string.repetitions_movie);
-			} else if(programType.equals(Consts.PROGRAM_TYPE_SPORT)) {
-				titleString = res.getString(R.string.repetitions_sport_event);
-			} else if(programType.equals(Consts.PROGRAM_TYPE_OTHER)) {
-				titleString = res.getString(R.string.repetitions_other);
+				break;
 			}
-
-			showMoreString = mActivity.getResources().getString(R.string.repetitions_more);
+			case MOVIE: {
+				titleString = res.getString(R.string.repetitions_movie);
+				break;
+			}
+			case SPORT: {
+				titleString = res.getString(R.string.repetitions_sport_event);
+				break;
+			}
+			case OTHER: {
+				titleString = res.getString(R.string.repetitions_other);
+				break;
+			}
+			}
+			
+			showMoreString = activity.getResources().getString(R.string.repetitions_more);
 			
 		} else {
 			titleString = activity.getResources().getString(R.string.upcoming_episodes);
@@ -238,7 +248,7 @@ public class TrippleBroadcastBlockPopulator {
 
 		topContentView.setVisibility(View.VISIBLE);
 
-		if (mBroadcasts.size() > 0) {
+		if (repeatingOrUpcomingBroadcasts.size() > 0) {
 			containerView.addView(topContentView);
 		}
 

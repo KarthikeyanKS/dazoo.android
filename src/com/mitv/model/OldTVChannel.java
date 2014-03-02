@@ -105,10 +105,10 @@ public class OldTVChannel extends OldThreeImageResolutions implements Parcelable
 		}
 	};
 	
-	public static class ChannelComparatorByName implements Comparator<Channel> {
+	public static class ChannelComparatorByName implements Comparator<OldTVChannel> {
 
 		@Override
-		public int compare(Channel lhs, Channel rhs) {
+		public int compare(OldTVChannel lhs, OldTVChannel rhs) {
 			return lhs.getName().compareTo(rhs.getName());
 		}
 	}
