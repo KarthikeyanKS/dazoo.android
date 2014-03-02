@@ -30,6 +30,7 @@ import com.mitv.R;
 import com.mitv.adapters.AdListAdapter;
 import com.mitv.adapters.TVGuideListAdapter;
 import com.mitv.adapters.TVGuideTagListAdapter;
+import com.mitv.customviews.FontTextView;
 import com.mitv.customviews.SwipeClockBar;
 
 
@@ -113,6 +114,8 @@ public class TVGuideTableFragment
 			tvGuideListView = (ListView) rootView.findViewById(R.id.tvguide_table_listview);
 
 			swipeClockBar = (SwipeClockBar) rootView.findViewById(R.id.tvguide_swype_clock_bar);
+			FontTextView selectedHourTextView = (FontTextView) rootView.findViewById(R.id.timebar_selected_hour_textview);
+			swipeClockBar.setSelectedHourTextView(selectedHourTextView);
 			swipeClockBar.setTimeSelectedListener(this);
 			updateSwipeClockBarWithDayAndTime();
 		} 
