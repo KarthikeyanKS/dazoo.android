@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -32,6 +34,8 @@ public class TrippleBroadcastBlockPopulator {
 	private ReminderView reminderViewTwo;
 	private ReminderView reminderViewThree;
 	private View dividerView;
+	private boolean mIsFromActivity;
+	private boolean mIsFromProfile;
 
 	/* If false, then block populator is used for upcoming episodes */
 	private boolean usedForRepetitions;
@@ -171,11 +175,22 @@ public class TrippleBroadcastBlockPopulator {
 		String titleString = null;
 
 		String showMoreString = null;
+		String programType = program.getProgramType();
+		Resources res = mActivity.getResources();
+		
+		if(mUsedForRepetitions) {
+			if(programType.equals(Consts.PROGRAM_TYPE_TV_EPISODE)) {
+				titleString = res.getString(R.string.repetitions_episode);
+			} else if(programType.equals(Consts.PROGRAM_TYPE_MOVIE)) {
+				titleString = res.getString(R.string.repetitions_movie);
+			} else if(programType.equals(Consts.PROGRAM_TYPE_SPORT)) {
+				titleString = res.getString(R.string.repetitions_sport_event);
+			} else if(programType.equals(Consts.PROGRAM_TYPE_OTHER)) {
+				titleString = res.getString(R.string.repetitions_other);
+			}
 
-		if (usedForRepetitions) {
-			titleString = activity.getResources().getString(R.string.repetitions);
-
-			showMoreString = activity.getResources().getString(R.string.repetitions_more);
+			showMoreString = mActivity.getResources().getString(R.string.repetitions_more);
+			
 		} else {
 			titleString = activity.getResources().getString(R.string.upcoming_episodes);
 
@@ -223,13 +238,14 @@ public class TrippleBroadcastBlockPopulator {
 
 		topContentView.setVisibility(View.VISIBLE);
 
-		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-		layoutParams.setMargins(20, 10, 20, 10);
-
-		if (broadcastsWithChannelInfo.size() > 0) {
-			layoutContainerView.addView(topContentView, layoutParams);
+		if (mBroadcasts.size() > 0) {
+			containerView.addView(topContentView);
 		}
 
+	}
+	
+	public void setOriginActivity(boolean isFromActivity, boolean isFromProfile) {
+		mIsFromActivity = isFromActivity;
+		mIsFromProfile = isFromProfile;
 	}
 }

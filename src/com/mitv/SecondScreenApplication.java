@@ -15,6 +15,7 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
+import android.graphics.BitmapFactory.Options;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
@@ -22,7 +23,6 @@ import android.view.Display;
 import android.view.WindowManager;
 
 import com.mitv.manager.GATrackingManager;
-import com.mitv.storage.ObscuredSharedPreferences;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -104,65 +104,7 @@ public class SecondScreenApplication
 		public void onAppConfigurationListener();
 	}
 	
-	
-	
-	private File appWasPreinstalledFile()
-	{
-		String root = Environment.getExternalStorageDirectory().toString();
-		
-		String packageName = getPackageName();
-		
-		String filePath = String.format(getCurrentLocale(), "%s/Android/data/%s/", root, packageName);
-		
-		File myDir = new File(filePath);
-		
-		myDir.mkdirs();
-
-		String fname = Consts.APP_WAS_PREINSTALLED_FILE_NAME;
-		
-		File file = new File(myDir, fname);
-		
-		return file;
-	}
-	
-	
-	
-	public boolean wasPreinstalledFileExists() 
-	{
-		File file = appWasPreinstalledFile();
-		
-		boolean wasPreinstalledFileExists = file.exists();
-		
-		return wasPreinstalledFileExists;
-	}
-	
-	
-	
-	public void saveWasPreinstalledFile()
-	{
-		File file = appWasPreinstalledFile();
-		
-		if (!wasPreinstalledFileExists())
-		{
-			try
-			{
-				FileOutputStream os = new FileOutputStream(file, true);
-				
-				OutputStreamWriter out = new OutputStreamWriter(os);
-				
-				out.close();
-			} 
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	
-	
-	public static boolean applicationIsSystemApp(Context context)
-	{
+	public static boolean applicationIsSystemApp(Context context) {
 		String packageName = context.getPackageName();
 	    
 		try 
@@ -257,6 +199,7 @@ public class SecondScreenApplication
 				
 		calculateSizes();
 		
+		// Imageloader for views where we dont want to reset the view, ex guide channel icons.
 		DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
 		.cacheInMemory(true)
 		.cacheOnDisc(true)
@@ -272,6 +215,24 @@ public class SecondScreenApplication
 		.build();
 		ImageLoader.getInstance().init(config);
 		
+		// Imageloader that reset views before loading
+//		DisplayImageOptions resetViewDisplayImageOptions = new DisplayImageOptions.Builder()
+//		.cacheInMemory(true)
+//		.cacheOnDisc(true)
+//		.resetViewBeforeLoading(true)
+//		.build();
+//		
+//		ImageLoaderConfiguration resetViewConfig = new ImageLoaderConfiguration.Builder(getApplicationContext())
+//		.defaultDisplayImageOptions(resetViewDisplayImageOptions)
+//		.memoryCache(new LruMemoryCache(2 * 1024 * 1024))
+//        .memoryCacheSize(2 * 1024 * 1024)
+//		.discCacheSize(50 * 1024 * 1024)
+//	    .discCacheFileCount(100)
+//		.tasksProcessingOrder(QueueProcessingType.LIFO)
+//		.build();
+//		ResetViewImageloader.getInstance().init(resetViewConfig);
+		
+
 		L.disableLogging();
 	}
 	

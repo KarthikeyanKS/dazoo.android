@@ -24,7 +24,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
@@ -37,7 +36,6 @@ import com.millicom.mitv.enums.ContentTypeEnum;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
-import com.millicom.mitv.interfaces.SearchInterface;
 import com.millicom.mitv.models.SearchResultsForQuery;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVSearchResult;
@@ -48,14 +46,13 @@ import com.mitv.R;
 import com.mitv.adapters.SearchPageListAdapter;
 import com.mitv.customviews.InstantAutoComplete;
 
-public class SearchPageActivity extends BaseActivity implements OnItemClickListener, OnEditorActionListener, OnClickListener, SearchInterface, TextWatcher {
+public class SearchPageActivity extends BaseActivity implements OnItemClickListener, OnEditorActionListener, OnClickListener, TextWatcher {
 	@SuppressWarnings("unused")
 	private static final String TAG = SearchPageActivity.class.getName();
 	
 	private static final int SEARCH_QUERY_LENGTH_THRESHOLD = 3;
 
 	private SearchPageListAdapter autoCompleteAdapter;
-	private LinearLayout searchInstructionsContainer;
 
 	private Menu menu;
 	private InstantAutoComplete editTextSearch;
@@ -72,36 +69,30 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-		initMainLayout();
-
 		initSupportActionbar();
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-
 		showKeyboard();
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-
 		GenericUtils.hideKeyboard(this);
 	}
 
 	@Override
 	public void onDestroy() {
-		super.onDestroy();
-
 		GenericUtils.hideKeyboard(this);
+		super.onDestroy();
 	}
 
 	@Override
 	public void finish() {
 		GenericUtils.hideKeyboard(this);
-
 		super.finish();
 	}
 
@@ -165,7 +156,7 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 	}
 
 	private void loadAutoCompleteView() {
-		autoCompleteAdapter = new SearchPageListAdapter(SearchPageActivity.this, this);
+		autoCompleteAdapter = new SearchPageListAdapter(this);
 		editTextSearch.setThreshold(1);
 
 		int width = GenericUtils.getScreenWidth(this);
@@ -175,11 +166,7 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 		editTextSearch.setDropDownVerticalOffset(0);
 	}
 
-	private void initMainLayout() {
-		searchInstructionsContainer = (LinearLayout) findViewById(R.id.search_page_instruction_container);
-	}
 
-	@Override
 	public void showProgressLoading(boolean isLoading) {
 		if (isLoading) {
 			progressBar.setVisibility(View.VISIBLE);
@@ -188,11 +175,6 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 			progressBar.setVisibility(View.GONE);
 			editTextClearBtn.setVisibility(View.VISIBLE);
 		}
-	}
-
-	@Override
-	public void isRecentListEmpty(boolean isEmpty) {
-		searchInstructionsContainer.setVisibility(View.VISIBLE);
 	}
 
 	private void showKeyboard() {
@@ -238,12 +220,6 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 		}
 	}
 
-	private void navigateUp() {
-		// Intent upIntent = NavUtils.getParentActivityIntent(this);
-		// NavUtils.navigateUpTo(this, upIntent);
-		finish();
-	}
-
 	@Override
 	public void onClick(View v) {
 		super.onClick(v);
@@ -252,7 +228,9 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 		case R.id.searchbar_clear: {
 			editTextSearch.setText("");
 			editTextSearch.dismissDropDown();
-			editTextSearch.setAdapter(new SearchPageListAdapter(SearchPageActivity.this, this));
+			
+			//TODO NewArc is this needed? Feels unnessary
+			editTextSearch.setAdapter(new SearchPageListAdapter(this));
 			break;
 		}
 		case R.id.searchbar_edittext: {
@@ -314,7 +292,7 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 
 	@Override
 	protected void loadData() {
-		// TODO NewArc - Implement this
+		// TODO NewArc - do we need anything here?
 	}
 
 	@Override
@@ -354,16 +332,10 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 	}
 
 	@Override
-	public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-		// TODO Auto-generated method stub
-
-	}
+	public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
 
 	@Override
-	public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-		// TODO Auto-generated method stub
-
-	}
+	public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
 
 	@Override
 	public void afterTextChanged(Editable editable) {

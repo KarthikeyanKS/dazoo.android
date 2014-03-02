@@ -1,5 +1,7 @@
 package com.mitv.model;
 
+import java.util.Comparator;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -102,6 +104,14 @@ public class OldTVChannel extends OldThreeImageResolutions implements Parcelable
 			return new OldTVChannel[size];
 		}
 	};
+	
+	public static class ChannelComparatorByName implements Comparator<Channel> {
+
+		@Override
+		public int compare(Channel lhs, Channel rhs) {
+			return lhs.getName().compareTo(rhs.getName());
+		}
+	}
 
 	@Override
 	public String toString() {

@@ -17,6 +17,9 @@
     <!-- HOMEPAGE : FILTERING BY DAY -->
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
+    
+    <!-- HOMEPAGE : ADDING CHANNEL INFO -->
+    <string name="tv_guide_add_channel">Add channels to the guide</string>
 
     <!-- ICONS -->
 
@@ -35,6 +38,7 @@
     <string name="icon_activity"> 	&#x03A0;</string>
     <string name="icon_my_profile"> &#x03A1;</string>
     <string name="icon_movie"> 		&#x03A2;</string>
+    <string name="icon_add_channels">	&#x03A3;</string>
 
     <!-- Not used -->
 
@@ -107,10 +111,10 @@
     <string name="reminders">My Reminders</string>
     <string name="likes">Likes</string>
     <string name="myprofile_my_channels">Set your channels</string>
-    <string name="myprofile_about_us">About us</string>
+    <string name="myprofile_about_us">About and Contact us</string>
     <string name="myprofile_have_account">Have an account?</string>
     <string name="myprofile_logged_in_as">Logged in as:</string>
-    <string name="myprofile_info">Add your favorite shows and get recommendations.</string>
+    <string name="myprofile_info">Add your favorite shows and channels to get better recommendations</string>
     <string name="myprofile_terms_of_use">Terms of Service</string>
     <string name="settings">Settings</string>
     <string name="myprofile_support_bar">SUPPORT</string>
@@ -131,7 +135,7 @@
     <string name="about_title">About</string>
     <string name="about_header">About this app</string>
     <string name="about_info">Mi.tv - we guide, inspire and socialise your TV experience so you never miss a thing!</string>
-    <string name="about_link"><![CDATA[<a href="http://www.mi.tv/acercade">See more info here</a>]]></string>
+    <string name="about_link"><![CDATA[<a href="http://www.mi.tv/acercade">See more info and contact us here</a>]]></string>
 
     <!-- TERMS ACTIVITY -->
     <string name="terms_title">Terms of Service</string>
@@ -156,7 +160,10 @@
     <string name="movie">Movie</string>
     <string name="sport">Sport</string>
     <string name="tv_series">TV Series</string>
-    <string name="repetitions">Repetitions</string>
+    <string name="repetitions_episode">Repetitions of this episode</string>
+    <string name="repetitions_movie">Repetitions of this movie</string>
+    <string name="repetitions_sport_event">Repetitions of this program</string>
+    <string name="repetitions_other">Repetitions of this program</string>
     <string name="repetitions_more">Show more repetitions</string>
     <string name="broadcast_info">Program info</string>
 
@@ -180,6 +187,7 @@
     <string name="login_with_mitv">Login</string>
     <string name="logout_from_mitv">Logout</string>
     <string name="hint_password">Password</string>
+    <string name="hint_password_min_chars">Password (min 6 chars)</string>
     <string name="hint_email">E-mail</string>
     <string name="hint_password_long">Password</string>
     <string name="hint_email_long">E-mail</string>
@@ -192,7 +200,7 @@
     <string name="sign_in">Log in</string>
     <string name="cancel">Cancel</string>
     <string name="sign_in_to_title">Don\'t have an account?</string>
-    <string name="sign_in_to_text">Sign up to add your favorite shows and get better personal recommendations.</string>
+    <string name="sign_in_to_text">Sign up to add your favorite shows and channels to get better recommendations</string>
     <string name="sign_up_with_email">Sign up with email</string>
     <string name="sign_up">Sign up</string>
     <string name="already_registered">Already registered?</string>
@@ -228,6 +236,7 @@
     <string name="login_with_wrong_format_email">Check if password was input right!</string>
     <string name="login_with_wrong_format_password">Check if e-mail was input right!</string>
     <string name="sign_up_terms_info">By signing up, you agree to the</string>
+    <string name="sign_up_terms_link"><![CDATA[<a href="http://www.mi.tv/terminos">Terms of Service</a>]]></string>
     <string name="success_account_created_title">Hello, </string>
     <string name="success_account_created_text">Your account was created!</string>
     <string name="reset_password__email_does_not_exists">This e-mail is not registered in our service</string>
@@ -275,7 +284,7 @@
     <string name="search_on_air_now">On air now</string>
     <string name="search_no_upcoming_broadcasts">No upcoming broadcasts</string>
     <string name="search_starts_in">in</string>
-    <string name="search_result_tv_episode">TV episode</string>
+    <string name="search_result_tv_episode">TV Episode</string>
     <string name="search_result_movie">Movie</string>
     <string name="search_result_series">TV Series</string>
     <string name="search_result_sport">Sport</string>

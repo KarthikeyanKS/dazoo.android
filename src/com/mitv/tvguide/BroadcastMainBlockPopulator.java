@@ -307,11 +307,7 @@ public class BroadcastMainBlockPopulator
 
 		topContentView.setVisibility(View.VISIBLE);
 
-		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-		
-		layoutParams.setMargins(20, 20, 20, 10);
-		
-		containerView.addView(topContentView, layoutParams);
+		containerView.addView(topContentView);
 	}
 
 	

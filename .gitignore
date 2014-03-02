@@ -35,5 +35,4 @@ local.properties
 *.dex
 
 .DS_Store
-
 project.properties

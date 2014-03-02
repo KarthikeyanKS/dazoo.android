@@ -34,7 +34,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:minWidth="200dp"
-        android:background="@drawable/layout_rounded_corners_grey"
+        android:background="@drawable/layout_rounded_corners_grey0"
         android:padding="8dp"
         android:text="@string/general_error_message_button"
         android:textColor="@color/white" />

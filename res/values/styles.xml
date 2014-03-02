@@ -62,7 +62,6 @@
 
     <!-- ACTIONBAR WITH BOLD WHITE TITLE -->
 
-
     <style name="WhiteTitleActionBar" parent="@style/Theme.AppCompat.Light">
         <item name="android:homeAsUpIndicator" tools:ignore="NewApi">@drawable/ic_up_indicator</item>
         <item name="android:actionBarStyle" tools:ignore="NewApi">@style/WhiteActionBar</item>

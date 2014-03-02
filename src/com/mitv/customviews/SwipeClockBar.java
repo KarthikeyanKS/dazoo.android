@@ -8,11 +8,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.os.Handler;
 import android.text.Layout.Alignment;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,9 +39,11 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 
 	private static final String TAG = SwipeClockBar.class.getName();
 	public static final int SCREEN_HEIGHT_SMALL = 320;
-	public static final int SCREEN_HEIGHT_TABLET = 1280;
+	public static final int SCREEN_HEIGHT_TABLET = 1920;
 	private static final int HOURS_PER_DAY = 24;
 	private static final int HOUR_NOT_FOUND_IN_LIST_OF_HOURS = -1;
+
+	private static final int SELECTED_HOUR_TEXTVIEW_DISPLAY_TIME = 1200;
 	
 	private Activity activity;
 	private VerticalSeekBar seekBar;
@@ -55,7 +57,11 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 	private float savedTextSize = -1;
 	private boolean isToday;
 	private boolean smallScreenMode;
+
+	private LinearLayout clockbarContainer;
 	private int screenHeight;
+
+	private boolean mIsHighlighted = false;
 
 	public SwipeClockBar(Context context) {
 		super(context);
@@ -104,6 +110,10 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 		this.timeSelectedListener = timeSelectedListener;
 	}
 
+	public void setSelectedHourTextView(FontTextView selectedHourTextView) {
+		seekBar.setSelectedHourTextView(selectedHourTextView);
+	}
+
 	public void setup(Context context) {
 		this.activity = (Activity) context;
 		int firstHourOfDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
@@ -111,15 +121,30 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.swipe_clock_bar, this);
-		
+
+		clockbarContainer = (LinearLayout) this.findViewById(R.id.swipe_clock_bar_container);
+
 		this.clockIconTextView = (FontTextView) this.findViewById(R.id.swipe_clock_bar_clock_icon_textview);
+		this.clockIconTextView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				highlightClockbar();
+				final Handler handler = new Handler();
+				handler.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						dehighlightClockbar();
+					}
+				}, SELECTED_HOUR_TEXTVIEW_DISPLAY_TIME);
+			}
+		});
 
 		this.seekBar = (VerticalSeekBar) this.findViewById(R.id.timebar_seekbar);
 		this.seekBar.setOnSeekBarChangeListener(this);
+		this.seekBar.setParentClockbar(this);
 
-		// TODO use this way of accessing the activity directly in the
-		// VerticalSeekBar class?
-		this.seekBar.setValues(activity, HOURS_PER_DAY, firstHourOfDay);
+		this.seekBar.setValues(HOURS_PER_DAY, firstHourOfDay);
 		this.timeListView = (ListView) this.findViewById(R.id.timebar_listview);
 
 		SwipeClockBar.hoursOfTheDay = generate24Hours();
@@ -151,7 +176,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 				TimeListAdapter timeListAdapter = ((TimeListAdapter) SwipeClockBar.this.timeListView.getAdapter());
 				timeListAdapter.setListViewHeight(selfHeigt);
 				timeListAdapter.notifyDataSetChanged();
-				
+
 				SwipeClockBar.removeOnGlobalLayoutListener(SwipeClockBar.this, this);
 				SwipeClockBar.this.setVisibility(View.VISIBLE);
 			}
@@ -198,7 +223,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 		public void setListViewHeight(int listViewHeight) {
 			this.listViewHeight = listViewHeight;
 		}
-		
+
 		public TimeListAdapter(int hoursPerDay, int firstHourOfDay, List<Integer> hours) {
 			this(hoursPerDay, firstHourOfDay, hours, -1);
 		}
@@ -236,7 +261,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 		public int getViewTypeCount() {
 			return 1;
 		}
-		
+
 
 		@Override
 		public Object getItem(int positionInListView) {
@@ -269,6 +294,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 					hourArrayIndex = (positionInListView - 1) * 2;
 				}
 			}
+			
 			return hourArrayIndex;
 		}
 
@@ -276,15 +302,15 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 		public long getItemId(int position) {
 			return -1;
 		}
-		
+
 		private boolean evenPosition(int position) {
 			return (position % 2 == 0);
 		}
-		
+
 		private boolean oddPosition(int position) {
 			return !evenPosition(position);
 		}
-		
+
 		private boolean showOddHour() {
 			return oddPosition(index24OfSelectedHour);
 		}
@@ -308,9 +334,10 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 			String hourString = String.format(SecondScreenApplication.getCurrentLocale(), "%02d", hour);
 			holder.textView.setText(hourString);
 
+			int textColorId;
+			int parentBackgroundColorId;
 			String fontName;
-			int colorId;
-
+			
 			int indexToCheckForColor = position;
 				if(smallScreenMode) {
 					indexToCheckForColor = 2 * position;
@@ -319,25 +346,45 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 				}
 			}
 
-			if (indexToCheckForColor == index24OfSelectedHour) {
-				colorId = R.color.white;
-				fontName = FontManager.FONT_BOLD;
-				rowView.setBackgroundColor(activity.getResources().getColor(R.color.grey4));
-			} else if (isToday && isEarlier(hour, DateUtils.getCurrentHourOn24HourFormat())) {
-				colorId = R.color.grey2;
-				fontName = FontManager.FONT_LIGHT;
-				rowView.setBackgroundColor(activity.getResources().getColor(R.color.transparent));
+			
+			if (mIsHighlighted) {
+				if (indexToCheckForColor == index24OfSelectedHour) {
+					fontName = FontManager.FONT_BOLD;
+					textColorId = R.color.white;
+					parentBackgroundColorId = R.color.red;
+				} else if (isToday && isEarlier(hour, DateUtils.getCurrentHourOn24HourFormat())) {
+					fontName = FontManager.FONT_LIGHT;
+					textColorId = R.color.grey5;
+					parentBackgroundColorId = R.color.transparent;
+				} else {
+					fontName = FontManager.FONT_LIGHT;
+					textColorId = R.color.red;
+					parentBackgroundColorId = R.color.transparent;
+				}
 			} else {
-				colorId = R.color.black;
-				fontName = FontManager.FONT_LIGHT;
-				rowView.setBackgroundColor(activity.getResources().getColor(R.color.transparent));
+				if (indexToCheckForColor == index24OfSelectedHour) {
+					fontName = FontManager.FONT_BOLD;
+					textColorId = R.color.white;
+					parentBackgroundColorId = R.color.grey4;
+				} else if (isToday && isEarlier(hour, DateUtils.getCurrentHourOn24HourFormat())) {
+					fontName = FontManager.FONT_LIGHT;
+					textColorId = R.color.grey5;
+					parentBackgroundColorId = R.color.transparent;
+				} else {
+					fontName = FontManager.FONT_LIGHT;
+					textColorId = R.color.grey2;
+					parentBackgroundColorId = R.color.transparent;
+				}
 			}
+			
 
-			int textColor = activity.getResources().getColor(colorId);
+			int textColor = activity.getResources().getColor(textColorId);
+			int parentBackgroundColor = activity.getResources().getColor(parentBackgroundColorId);
 			Typeface textFont = FontManager.getTypefaceStatic(activity, fontName);
 
 			holder.textView.setTextColor(textColor);
 			holder.textView.setTypeface(textFont);
+			rowView.setBackgroundColor(parentBackgroundColor);
 
 			if (listViewHeight > 0) {
 				int cellHeight = listViewHeight / getCount();
@@ -349,16 +396,19 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 				params.height = cellHeight;
 				rowView.setLayoutParams(params);
 
-				// If this is the first view, calculate text size
-				if (savedTextSize < 0) {
-					savedTextSize = getTextSize(cellHeight, holder.textView, hourString);
+				// If this is the first view, calculate text size: DISABLED FOR NOW
+//				if (mSavedTextSize < 0) {
+//					mSavedTextSize = getTextSize(cellHeight, holder.textView, hourString);
 					if (smallScreenMode) {
 						savedTextSize = 12;
-					} else if (screenHeight >= SCREEN_HEIGHT_TABLET) {
+						holder.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, savedTextSize);
+					} 
+					else if (screenHeight > SCREEN_HEIGHT_TABLET) {
 						savedTextSize = 34;
+						holder.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, savedTextSize);
 					}
-				}
-				holder.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, savedTextSize);
+//				}
+//								holder.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mSavedTextSize);
 
 				rowView.setVisibility(View.VISIBLE);
 			}
@@ -400,11 +450,11 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 
 			targetTextSize = lower;
 			textHeight = getTextHeight(text, textPaint, width, targetTextSize);
-			
+
 			return textHeight;
 		}
 	}
-	
+
 
 
 	@Override
@@ -416,15 +466,14 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 		}
 		
 		int indexToStyle = progress;
-		
+
 		styleSelectedHour(indexToStyle);
 	}
-		
+
 	private void styleSelectedHour(int index) {
 		listAdapter.setSelectedHour(index);
 		listAdapter.notifyDataSetChanged();
 	}
-	
 
 	@Override
 	public void onStartTrackingTouch(SeekBar arg0) {
@@ -450,7 +499,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 		StaticLayout layout = new StaticLayout(source, paint, width, Alignment.ALIGN_NORMAL, 1.0f, 0.0f, true);
 		return layout.getHeight();
 	}
-	
+
 	/* If first is earlier than second, return true. */
 	private boolean isEarlier(int first, int second) {
 		if (first < second && first >= firstHourOfDay) {
@@ -460,8 +509,22 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 			return false;
 		}
 	}
-	
+
 	public void setToday(boolean isToday) {
 		this.isToday = isToday;
+	}
+
+	public void highlightClockbar() {
+		mIsHighlighted = true;
+		listAdapter.notifyDataSetChanged();
+		clockIconTextView.setTextColor(getResources().getColor(R.color.red));
+		clockbarContainer.setBackgroundResource(R.drawable.layout_rounded_corners_grey0_clockbar);
+	}
+
+	public void dehighlightClockbar() {
+		mIsHighlighted = false;
+		listAdapter.notifyDataSetChanged();
+		clockIconTextView.setTextColor(getResources().getColor(R.color.grey5));
+		clockbarContainer.setBackgroundResource(R.color.transparent);
 	}
 }

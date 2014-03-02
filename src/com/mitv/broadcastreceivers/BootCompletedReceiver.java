@@ -1,8 +1,14 @@
 package com.mitv.broadcastreceivers;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.util.Locale;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Environment;
 
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.MapBuilder;
@@ -29,8 +35,8 @@ public class BootCompletedReceiver extends BroadcastReceiver {
 	        }
 	        
 	        /* Write file to external storage */
-	        boolean startedOnceBeforeExternalStorage = SecondScreenApplication.sharedInstance().wasPreinstalledFileExists();
-        	SecondScreenApplication.sharedInstance().saveWasPreinstalledFile();
+	        boolean startedOnceBeforeExternalStorage = wasPreinstalledFileExists();
+        	saveWasPreinstalledFile();
         	
         	/* IF this was the first time the app started, using Google Analytics send "Preinstalled user booted device" */
         	if(startedOnceBeforeSharedPrefs && startedOnceBeforeExternalStorage) {
@@ -50,23 +56,83 @@ public class BootCompletedReceiver extends BroadcastReceiver {
 	    }		
 	}
 	
-	
-	
-//	public static void setWasPreinstalled() {
-//		SecondScreenApplication application = SecondScreenApplication.getInstance();
-//		Context applicationContext = application.getApplicationContext();
-//		SharedPreferences sharedPreferences = applicationContext.getSharedPreferences(Consts.SHARED_PREFS_MAIN_NAME, Context.MODE_PRIVATE);
-//		SharedPreferences.Editor editor = sharedPreferences.edit();
-//		editor.putBoolean(Consts.PREFS_KEY_APP_WAS_PREINSTALLED, true);
-//		editor.commit();
+//	private static File appWasPreinstalledFileInternalStorage() {
+//		File file = null;
+//		
+//		ContextWrapper cw = new ContextWrapper(SecondScreenApplication.getInstance().getApplicationContext());
+//		File directory = cw.getDir("media", Context.MOD);
 //	}
-//
-//	public static boolean wasPreinstalled() {
-//		SecondScreenApplication application = SecondScreenApplication.getInstance();
-//		Context applicationContext = application.getApplicationContext();
-//		SharedPreferences sharedPreferences = applicationContext.getSharedPreferences(Consts.SHARED_PREFS_MAIN_NAME, Context.MODE_PRIVATE);
-//		boolean wasPreinstalled = sharedPreferences.getBoolean(Consts.PREFS_KEY_APP_WAS_PREINSTALLED, false);
-//
-//		return wasPreinstalled;
-//	}
+	
+	private static File appWasPreinstalledFile() {
+		File file = null;
+
+		if (isExternalStorageReadable()) {
+			String root = Environment.getExternalStorageDirectory().toString();
+			try {
+				Locale locale = SecondScreenApplication.getCurrentLocale();
+				if (locale == null) {
+					locale = Locale.getDefault();
+				}
+
+				String filePath = String.format(locale, "%s/Android/data/", root);
+
+				File myDir = new File(filePath);
+				myDir.mkdirs();
+
+				String fname = Consts.APP_WAS_PREINSTALLED_FILE_NAME;
+				file = new File(myDir, fname);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return file;
+	}
+	
+	private static boolean isExternalStorageWritable() {
+	    String state = Environment.getExternalStorageState();
+	    if (Environment.MEDIA_MOUNTED.equals(state)) {
+	        return true;
+	    }
+	    return false;
+	}
+	
+	public static boolean isExternalStorageReadable() {
+	    String state = Environment.getExternalStorageState();
+	    if (Environment.MEDIA_MOUNTED.equals(state) ||
+	        Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+	        return true;
+	    }
+	    return false;
+	}
+	
+	public static boolean wasPreinstalledFileExists() {
+		boolean wasPreinstalledFileExists = false;
+
+		if(isExternalStorageReadable()) {
+			File file = appWasPreinstalledFile();
+
+			if (file != null) {
+				wasPreinstalledFileExists = file.exists();
+			}
+		}
+		return wasPreinstalledFileExists;
+	}
+	
+	private static void saveWasPreinstalledFile() {
+		File file = appWasPreinstalledFile();
+		if (file != null) {
+			if (!wasPreinstalledFileExists()) {
+				if (isExternalStorageWritable()) {
+					try {
+						FileOutputStream os = new FileOutputStream(file, true);
+						OutputStreamWriter out = new OutputStreamWriter(os);
+						out.close();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
 }

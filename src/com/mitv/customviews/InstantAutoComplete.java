@@ -26,6 +26,12 @@ public class InstantAutoComplete extends AutoCompleteTextView {
         setup(context);
         final Context contextFinal = context;
     }
+    
+    @Override
+    public void onFilterComplete(int count) {
+//    	super.onFilterComplete(count);
+    	showDropDown(); //To always show dropdown, even if result is empty.
+    }
 
     public InstantAutoComplete(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);

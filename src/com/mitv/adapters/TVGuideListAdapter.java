@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.ChannelPageActivity;
+import com.millicom.mitv.activities.MyChannelsActivity;
 import com.millicom.mitv.enums.BroadcastTypeEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.models.TVBroadcast;
@@ -70,13 +71,33 @@ public class TVGuideListAdapter
 	
 
 	@Override
-	public int getViewTypeCount()
-	{
-		return super.getViewTypeCount() + 1;
+	public int getViewTypeCount() {
+		int viewTypeCount = super.getViewTypeCount();
+		
+		/* TVGuide view */
+		viewTypeCount++;
+		
+		/* "Add more channels" view */
+		viewTypeCount++;
+		
+		return viewTypeCount;
 	}
 
 	
+	private boolean isAddMoreChannelsCellPosition(int position) {
+		boolean isAddMoreChannelsCellPosition = (position == getCount() - 1);
+		return isAddMoreChannelsCellPosition;
+	}
 	
+	@Override
+	public int getItemViewType(int position) {
+		int itemViewType = super.getItemViewType(position);
+		if(itemViewType == VIEW_TYPE_STANDARD && isAddMoreChannelsCellPosition(position)) {
+			itemViewType = VIEW_TYPE_CUSTOM;
+		}
+		return itemViewType;
+	}
+
 	public View getViewForGuideCell(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 
@@ -250,6 +271,10 @@ public class TVGuideListAdapter
 				holder.textView.setText(wordtoSpan, TextView.BufferType.SPANNABLE);
 
 			}
+			//If there is no data, show message "No content is available". TODO: What to do here?
+			else {
+				holder.mTextView.setText(mActivity.getResources().getString(R.string.general_no_content_available));
+			}
 		}
 
 		if (textForThreeBroadcasts.equals("")) {
@@ -260,23 +285,83 @@ public class TVGuideListAdapter
 
 		return rowView;
 	}
+	
+	/**
+	 * "Add a channel" -row in the TV Guide. Will always appear last in list.
+	 * 
+	 * @return
+	 */
+	public View createAddChannelsCell() {
+		View rowView = layoutInflater.inflate(R.layout.row_add_channel, null);
+		RelativeLayout relativeLayoutAddChannelsContainer = (RelativeLayout) rowView.findViewById(R.id.row_add_channel_container);
+		
+		relativeLayoutAddChannelsContainer.setOnClickListener(new TextView.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				/* WHEN LOGGED IN */
+				if (ContentManager.sharedInstance().isLoggedIn()) {
+					Intent intentMyChannels = new Intent(activity, MyChannelsActivity.class);
+					activity.startActivity(intentMyChannels);
 
+				/* WHEN NOT LOGGED IN */
+				} else {
+					PromptSignInDialogHandler dialogNotLoggedIn = new PromptSignInDialogHandler();
+					
+					//TODO NewArcMerge use Filipes DialogHandler class here?
+					dialogNotLoggedIn.showPromptSignInDialog(activity, null, null);
+				}
+			}
+		});
+		
+		return rowView;
+	}
+	
+
+	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		/* Superclass AdListAdapter will create view if this is a position of an ad. */
 		View rowView = super.getView(position, convertView, parent);
 
-		if (rowView == null) {
-			rowView = getViewForGuideCell(position, convertView, parent);
+		if(rowView == null) {
+			int cellType = getItemViewType(position);
+			
+			switch (cellType) {
+				case VIEW_TYPE_STANDARD: {
+					rowView = getViewForGuideCell(position, convertView, parent);
+					break;
+				}
+				case VIEW_TYPE_CUSTOM: {
+					rowView = createAddChannelsCell();
+					break;
+				}
+			}
 		}
 
 		return rowView;
+	}
+	
+	@Override
+	public int getCount() {
+		int finalCount = super.getCount();
+		
+		/* Add one extra cell for: "Add channels" cell */
+		finalCount += 1;
+
+		return finalCount;
 	}
 
 	static class ViewHolder {
 		public RelativeLayout container;
 		public ImageView channelLogo;
 		public TextView textView;
+	}
+	
+	static class ViewHolderAddChannelCell {
+		public RelativeLayout	mContainer;
+		public TextView			mTextView;
 	}
 
 	public void refreshList(int selectedHour) {

@@ -40,7 +40,7 @@ public class ReminderView
 	private int notificationId;
 	private NotificationDataSource notificationDataSource;
 	private boolean isSet;
-
+	private View containerView;
 	
 	
 	public ReminderView(Context context)
@@ -65,12 +65,9 @@ public class ReminderView
 		setup(context);
 	}
 
-	
-	
-	private void setup(Context context) 
-	{
+	private void setup(Context context) {
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		inflater.inflate(R.layout.element_reminder_view, this);
+		this.containerView = inflater.inflate(R.layout.element_reminder_view, this);
 		
 		this.imageView = (ImageView) this.findViewById(R.id.element_reminder_image_View);
 		this.context = context;
@@ -111,10 +108,10 @@ public class ReminderView
 			{
 				imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_reminder_default));
 			}
-		} 
-		else 
-		{
-			imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_reminder_dissabled));
+			containerView.setBackgroundResource(R.drawable.background_color_selector);
+		} else {
+			imageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_reminder_dissabled));
+			containerView.setBackgroundColor(getResources().getColor(R.color.transparent));
 		}
 	}
 	

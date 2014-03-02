@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 
 import com.millicom.mitv.enums.ContentTypeEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
-import com.millicom.mitv.interfaces.SearchInterface;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVChannel;
 import com.millicom.mitv.models.TVProgram;
@@ -35,13 +34,11 @@ public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implemen
 	private ArrayList<TVSearchResult> searchResultItems;
 	private String queryString;
 	private Context context;
-	private SearchInterface viewListener;
 	private static LayoutInflater inflater;
 
-	public SearchPageListAdapter(Context context, SearchInterface listener) {
+	public SearchPageListAdapter(Context context) {
 		super(context, 0);
 		this.context = context;
-		this.viewListener = listener;
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
@@ -91,29 +88,6 @@ public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implemen
 		this.searchResultItems = searchResultItems;
 	}
 
-	private void setTimeString(ViewHolder viewHolder, TVSearchResult resultItem) {
-		TVBroadcastWithChannelInfo closestBroadcastInTime = resultItem.getNextBroadcast();
-
-		String timeString = "";
-
-		int textColor = context.getResources().getColor(R.color.grey3);
-
-		if (closestBroadcastInTime != null) {
-			if (closestBroadcastInTime.isBroadcastCurrentlyAiring()) {
-				timeString = context.getString(R.string.search_on_air_now);
-
-				textColor = context.getResources().getColor(R.color.red);
-			} else {
-				timeString = closestBroadcastInTime.getStartingTimeAsString();
-			}
-		} else {
-			timeString = context.getString(R.string.search_no_upcoming_broadcasts);
-		}
-
-		viewHolder.time.setTextColor(textColor);
-		viewHolder.time.setText(timeString);
-	}
-
 	private Spannable getCustomFontSpannableUsingThreeStrings(String beforeBold, String toBold, String afterBold) {
 		int partOneStart = 0;
 		int partOneEnd = beforeBold.length();
@@ -160,18 +134,48 @@ public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implemen
 		return spannable;
 	}
 
-	private void setTitleString(ViewHolder viewHolder, String title, String matchedString) {
+	//
+
+	private void setTimeString(ViewHolder viewHolder, TVSearchResult resultItem) {
+		TVBroadcastWithChannelInfo closestBroadcastInTime = resultItem.getNextBroadcast();
+
+		String timeString = "";
+
+		int textColor = context.getResources().getColor(R.color.grey3);
+
+		if (closestBroadcastInTime != null) {
+			if (closestBroadcastInTime.isBroadcastCurrentlyAiring()) {
+				timeString = context.getString(R.string.search_on_air_now);
+
+				textColor = context.getResources().getColor(R.color.red);
+			} else {
+				timeString = closestBroadcastInTime.getStartingTimeAsString();
+			}
+		} else {
+			timeString = context.getString(R.string.search_no_upcoming_broadcasts);
+		}
+
+		viewHolder.time.setTextColor(textColor);
+		viewHolder.time.setText(timeString);
+	}
+
+	private boolean setTitleString(ViewHolder viewHolder, String title, String matchedString) {
 		Spannable spannable = getCustomFontSpannable(title, matchedString);
+
+		boolean titleMatched = false;
 
 		if (spannable != null) {
 			viewHolder.title.setText(spannable);
+			titleMatched = true;
 		} else {
 			viewHolder.title.setText(title);
 		}
+
+		return titleMatched;
 	}
 
-	private void setTitleString(ViewHolder viewHolder, String title) {
-		setTitleString(viewHolder, title, queryString);
+	private boolean setTitleString(ViewHolder viewHolder, String title) {
+		return setTitleString(viewHolder, title, queryString);
 	}
 
 	private void populateProgramView(ViewHolder viewHolder, TVSearchResult resultItem, TVProgram program) {
@@ -201,7 +205,6 @@ public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implemen
 		viewHolder.type.setText(programTypeString);
 
 		String title = program.getTitle();
-
 		if (title.length() == 0) {
 			title = "No title";
 		}
@@ -211,11 +214,40 @@ public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implemen
 		setTimeString(viewHolder, resultItem);
 	}
 
-	private void populateSeriesView(ViewHolder viewHolder, TVSearchResult resultItem, TVSeries series) {
-		viewHolder.type.setText(context.getString(R.string.search_result_series));
+	private void populateSeriesView(ViewHolder viewHolder, TVSearchResult resultItem, boolean fromProgram) {
+		TVBroadcastWithChannelInfo closestBroadcastInTime = resultItem.getNextBroadcast();
+		TVSearchResultEntity searchResultEntity = resultItem.getEntity();
+
+		TVProgram program = null;
+		if (fromProgram) {
+			program = searchResultEntity.getProgram();
+		} else {
+			program = closestBroadcastInTime.getProgram();
+		}
+
+		TVSeries series = program.getSeries();
+		String episodeTitle = program.getTitle();
+
+		StringBuilder sb = new StringBuilder(context.getString(R.string.search_result_tv_episode));
+		if (!episodeTitle.isEmpty()) {
+			sb.append(" - ");
+			sb.append(episodeTitle);
+		}
+
+		String seriesString = sb.toString();
 
 		String title = series.getName();
-		setTitleString(viewHolder, title);
+		boolean titleMatched = setTitleString(viewHolder, title);
+		if (titleMatched) {
+			viewHolder.type.setText(seriesString);
+		} else {
+			Spannable episodeTitleAsSpannable = getCustomFontSpannable(seriesString, queryString);
+			if (episodeTitleAsSpannable != null) {
+				viewHolder.type.setText(episodeTitleAsSpannable);
+			} else {
+				viewHolder.type.setText(seriesString);
+			}
+		}
 
 		setTimeString(viewHolder, resultItem);
 	}
@@ -246,33 +278,41 @@ public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implemen
 
 		final ViewHolder holder = (ViewHolder) rowView.getTag();
 
+		holder.time.setVisibility(View.VISIBLE);
+		holder.type.setVisibility(View.VISIBLE);
+		holder.title.setVisibility(View.VISIBLE);
+
 		if (searchResultItems != null && searchResultItems.size() > 0) {
 			holder.typeAndTimeContainer.setVisibility(View.VISIBLE);
 			TVSearchResult resultItem = getItem(position);
 
 			ContentTypeEnum type = resultItem.getEntityType();
-			
-			
+
 			TVSearchResultEntity searchEntity = resultItem.getEntity();
 
-			 switch (type) {
-			 case PROGRAM: {
+			switch (type) {
+			case PROGRAM: {
 				TVProgram program = searchEntity.getProgram();
-			 	populateProgramView(holder, resultItem, program);
-			 	break;
-			 }
-			 case SERIES: {
-				 TVBroadcastWithChannelInfo broadcast = resultItem.getNextBroadcast();
-				 TVSeries series = broadcast.getProgram().getSeries();
-				 populateSeriesView(holder, resultItem, series);
-				 break;
-			 }
-			 case CHANNEL: {
-				 TVChannel channel = searchEntity.getChannel();
-				 populateChannelView(holder, channel);
-				 break;
-			 }
-			 }
+
+				if (program.getSeries() != null) {
+					populateSeriesView(holder, resultItem, true);
+				} else {
+					populateProgramView(holder, resultItem, program);
+				}
+
+				break;
+			}
+			case SERIES: {
+				populateSeriesView(holder, resultItem, false);
+				break;
+			}
+			case CHANNEL: {
+				TVChannel channel = searchEntity.getChannel();
+				populateChannelView(holder, channel);
+				break;
+			}
+
+			}
 		} else {
 			holder.typeAndTimeContainer.setVisibility(View.GONE);
 			holder.title.setText(context.getString(R.string.search_empty));
@@ -287,7 +327,6 @@ public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implemen
 		public FontTextView type;
 		public FontTextView time;
 	}
-
 
 	@Override
 	public Filter getFilter() {

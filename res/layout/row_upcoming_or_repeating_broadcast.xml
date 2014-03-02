@@ -40,6 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/row_upcoming_or_repeating_header_container"
         android:orientation="horizontal"
+        android:background="@drawable/background_color_selector"
         android:padding="10dp" >
 
         <RelativeLayout
@@ -82,6 +83,7 @@
             android:layout_width="1dp"
             android:layout_height="30dp"
             android:layout_margin="10dp"
+            android:layout_gravity="center"
             android:background="@color/grey1" />
 
         <!-- REMIND BUTTON -->
@@ -89,6 +91,7 @@
         <com.mitv.customviews.ReminderView
             android:id="@+id/row_upcoming_or_repeating_reminder_view"
             android:layout_width="0dp"
+            android:layout_gravity="center"
             android:layout_height="wrap_content"
             android:layout_weight="0.2" />
     </LinearLayout>

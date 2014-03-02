@@ -1,27 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <com.mitv.customviews.FontTextView
-        android:id="@+id/swipe_clock_bar_clock_icon_textview"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/swipe_clock_bar_container"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_gravity="center_horizontal"
-        android:textSize="26sp"
-        android:text="@string/icon_clock"
-        android:layout_marginTop="-8dp"
-        android:layout_marginBottom="-8dp"
-        android:textColor="@color/grey4"
-        font:fonttextview="roboto_mitv_medium.ttf" />
+        android:orientation="vertical"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="3dp" >
 
-    <include
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        layout="@layout/element_timebar"
-        android:fillViewport="true" />
+        <com.mitv.customviews.FontTextView
+            android:id="@+id/swipe_clock_bar_clock_icon_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="-3dp"
+            android:layout_marginTop="-6dp"
+            android:gravity="center"
+            android:text="@string/icon_clock"
+            android:textColor="@color/grey5"
+            android:textSize="26sp"
+            font:fonttextview="roboto_mitv_medium.ttf" />
 
-</LinearLayout>
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/element_timebar"
+            android:fillViewport="true" />
+    </LinearLayout>
+
+</RelativeLayout>

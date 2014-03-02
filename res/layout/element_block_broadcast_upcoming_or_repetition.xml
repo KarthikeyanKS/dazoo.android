@@ -3,17 +3,17 @@
     android:id="@+id/block_broadcast_upcoming_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/background_color_selector"
     android:baselineAligned="false"
     android:orientation="horizontal"
     android:padding="10dp"
+    android:background="@drawable/background_color_selector"
     android:visibility="gone" >
 
     <RelativeLayout
         android:id="@+id/block_tripple_broadcast_info_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="0.7"
+        android:layout_weight="0.8"
         android:orientation="vertical" >
 
         <com.mitv.customviews.FontTextView
@@ -46,23 +46,22 @@
             android:textColor="@color/black"
             android:textSize="@dimen/header_3" />
     </RelativeLayout>
+    
+    <View
+       android:id="@+id/block_tripple_broadcast_view_next_to_reminder_view"
+       android:layout_width="1dp"
+       android:layout_height="30dp"
+       android:layout_gravity="center"
+       android:background="@color/grey1" />
 
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginRight="-20dp"
-        android:layout_weight="0.3"
+        android:layout_weight="0.2"
         android:orientation="vertical"
         android:padding="5dp" >
-
-        <View
-            android:id="@+id/block_tripple_broadcast_view_next_to_reminder_view"
-            android:layout_width="1dp"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true"
-            android:layout_margin="10dp"
-            android:background="@color/grey1" />
 
         <!-- REMIND BUTTON -->
 
@@ -70,9 +69,7 @@
             android:id="@+id/block_tripple_broadcast_reminder_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@id/block_tripple_broadcast_view_next_to_reminder_view"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
+            android:layout_marginRight="12dp"
             android:padding="0dp" />
     </RelativeLayout>
 

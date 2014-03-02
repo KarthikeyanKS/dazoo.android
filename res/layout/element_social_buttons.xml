@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="1"
+        android:background="@drawable/background_color_selector"
         android:padding="10dp" >
 
         <ImageView
@@ -44,6 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="1"
+        android:background="@drawable/background_color_selector"
         android:padding="10dp" >
 
         <ImageView
@@ -76,6 +78,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_gravity="center"
+        android:background="@drawable/background_color_selector"
         android:layout_weight="1" />
 
 </LinearLayout>
