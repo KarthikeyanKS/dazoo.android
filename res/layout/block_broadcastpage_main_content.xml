@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:background="@color/grey1"
     android:orientation="vertical"
-    android:padding="10dp" >
+    android:padding="20dp" 
+    android:paddingBottom="10dp">
 
     <LinearLayout
         android:id="@+id/block_broadcastpage_main_content_container"
