@@ -5,8 +5,6 @@ package com.millicom.mitv.models;
 
 import java.util.Comparator;
 
-import android.util.Log;
-
 import com.millicom.mitv.enums.LikeTypeResponseEnum;
 import com.millicom.mitv.models.gson.UserLikeJSON;
 
@@ -15,6 +13,7 @@ import com.millicom.mitv.models.gson.UserLikeJSON;
 public class UserLike 
 	extends UserLikeJSON
 {
+	@SuppressWarnings("unused")
 	private static final String	TAG	= UserLike.class.getName();
 	
 	
@@ -48,71 +47,54 @@ public class UserLike
 	
 	
 	
-	public boolean isEqual(UserLike userlikeToCompare)
+	public String getContentId()
 	{
-		boolean isEqual = false;
+		String contentId;
 		
-		String titleToCompare =  userlikeToCompare.getTitle();
-		LikeTypeResponseEnum likeTypeToCompare = userlikeToCompare.getLikeType();
-		String contenIdToCompare;
-		
-		switch(likeTypeToCompare)
-		{
-			case PROGRAM:
-			{
-				contenIdToCompare = userlikeToCompare.getProgramId();
-				break;
-			}
-			
-			case SERIES:
-			{
-				contenIdToCompare = userlikeToCompare.getSeriesId();
-				break;
-			}
-			
-			case SPORT_TYPE:
-			{
-				contenIdToCompare = userlikeToCompare.getSportTypeId();
-				break;
-			}
-			default:
-			{
-				contenIdToCompare = "";
-				
-				Log.w(TAG, "Unhandled like type.");
-			}
-		}
-		
-		String title =  this.getTitle();
-		LikeTypeResponseEnum likeType = this.getLikeType();
-		String contenId;
+		LikeTypeResponseEnum likeType = getLikeType();
 		
 		switch(likeType)
 		{
 			case PROGRAM:
 			{
-				contenId = userlikeToCompare.getProgramId();
+				contentId = this.programId;
 				break;
 			}
 			
 			case SERIES:
 			{
-				contenId = userlikeToCompare.getSeriesId();
+				contentId = this.seriesId;
 				break;
 			}
 			
 			case SPORT_TYPE:
 			{
-				contenId = userlikeToCompare.getSportTypeId();
+				contentId = this.sportTypeId;
 				break;
 			}
+			
 			default:
 			{
-				contenId = "";
-				
-				Log.w(TAG, "Unhandled like type.");
+				contentId = "";
 			}
 		}
+		
+		return contentId;
+	}
+	
+	
+	
+	public boolean equals(UserLike userlikeToCompare)
+	{
+		boolean isEqual = false;
+		
+		String titleToCompare =  userlikeToCompare.getTitle();
+		LikeTypeResponseEnum likeTypeToCompare = userlikeToCompare.getLikeType();
+		String contenIdToCompare = userlikeToCompare.getContentId();
+				
+		String title =  this.getTitle();
+		LikeTypeResponseEnum likeType = this.getLikeType();
+		String contenId = this.getContentId();
 		
 		if(titleToCompare.equals(title) &&
 		  likeTypeToCompare == likeType &&

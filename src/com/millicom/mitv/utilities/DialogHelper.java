@@ -8,6 +8,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.models.TVBroadcast;
 import com.mitv.R;
@@ -23,7 +24,7 @@ public class DialogHelper
 
 	public static void showRemoveNotificationDialog(
 			final Context context, 
-			TVBroadcast broadcast, 
+			final TVBroadcast broadcast, 
 			final int notificationId, 
 			final Runnable aProcedure, 
 			final Runnable bProcedure)
@@ -127,14 +128,12 @@ public class DialogHelper
 		dialog.show();
 	}
 	
+
 	
-	
-	
-	
-	
-	
-	
-	public static void showRemoveLikeDialog(final Context context, final String entityId, final String likeType, Runnable aProcedure, Runnable bProcedure)
+	public static void showRemoveLikeDialog(
+			final Context context,
+			final Runnable aProcedure,
+			final Runnable bProcedure)
 	{
 		final Runnable answerYes = aProcedure;
 		final Runnable answerNo = bProcedure;
@@ -154,7 +153,11 @@ public class DialogHelper
 			@Override
 			public void onClick(View v) 
 			{
-				answerNo.run();
+				if(answerNo != null)
+				{
+					answerNo.run();
+				}
+				
 				dialog.dismiss();
 			}
 		});
@@ -164,9 +167,11 @@ public class DialogHelper
 			@Override
 			public void onClick(View v)
 			{
-				answerYes.run();
-				// TODO NewArc - Replace with our logic....
-				// LikeService.removeLike(likeType, entityId);
+				if(answerYes != null)
+				{
+					answerYes.run();
+				}
+				
 				dialog.dismiss();
 			}
 		});
@@ -176,7 +181,10 @@ public class DialogHelper
 	
 	
 	
-	public static void showPromptSignInDialog(final Context context, Runnable aProcedure, Runnable bProcedure) 
+	public static void showPromptSignInDialog(
+			final Context context, 
+			final Runnable aProcedure, 
+			final Runnable bProcedure) 
 	{
 		final Runnable answerYes = aProcedure;
 		final Runnable answerNo	= bProcedure;
@@ -193,7 +201,11 @@ public class DialogHelper
 			@Override
 			public void onClick(View v)
 			{
-				answerNo.run();
+				if(answerNo != null)
+				{
+					answerNo.run();
+				}
+				
 				dialog.dismiss();
 			}
 		});
@@ -203,7 +215,11 @@ public class DialogHelper
 			@Override
 			public void onClick(View v)
 			{
-				answerYes.run();
+				if(answerYes != null)
+				{
+					answerYes.run();
+				}
+				
 				dialog.dismiss();
 			}
 		});

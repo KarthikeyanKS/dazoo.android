@@ -9,10 +9,8 @@ import java.util.List;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.millicom.mitv.activities.base.BaseContentActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
@@ -24,13 +22,12 @@ import com.millicom.mitv.models.sql.NotificationDataSource;
 import com.millicom.mitv.models.sql.NotificationSQLElement;
 import com.mitv.R;
 import com.mitv.adapters.RemindersListAdapter;
-import com.mitv.interfaces.RemindersCountInterface;
 
 
 
 public class RemindersActivity 
 	extends BaseContentActivity 
-	implements RemindersCountInterface, OnClickListener
+	implements OnClickListener
 {
 	@SuppressWarnings("unused")
 	private static final String TAG = RemindersActivity.class.getName();
@@ -38,7 +35,6 @@ public class RemindersActivity
 	
 	private ListView listView;
 	private RemindersListAdapter listAdapter;
-	private TextView errorTv;	
 
 	
 	
@@ -58,7 +54,6 @@ public class RemindersActivity
 		actionBar.setTitle(getResources().getString(R.string.reminders));
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
-		errorTv = (TextView) findViewById(R.id.reminders_error_tv);
 		listView = (ListView) findViewById(R.id.listview);
 		
 		setEmptyLayoutDetailsMessage(getResources().getString(R.string.no_reminders));
@@ -71,21 +66,6 @@ public class RemindersActivity
 	{
 		super.onConfigurationChanged(newConfig);
 		
-	}
-	
-	
-	
-	@Override
-	public void setValues(int count) 
-	{
-		if(count == 0) 
-		{
-			errorTv.setVisibility(View.VISIBLE);
-		} 
-		else 
-		{
-			errorTv.setVisibility(View.GONE);
-		}
 	}
 	
 	
@@ -118,7 +98,7 @@ public class RemindersActivity
 		{
 			Collections.sort(tvBroadcasts, new TVBroadcast.BroadcastComparatorByTime());
 
-			listAdapter = new RemindersListAdapter(this, tvBroadcasts, this);
+			listAdapter = new RemindersListAdapter(this, tvBroadcasts);
 
 			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
 		}

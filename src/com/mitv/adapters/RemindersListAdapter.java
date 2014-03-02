@@ -4,6 +4,7 @@ package com.mitv.adapters;
 
 
 import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.enums.ProgramTypeEnum;
@@ -25,7 +27,6 @@ import com.millicom.mitv.models.sql.NotificationDataSource;
 import com.millicom.mitv.models.sql.NotificationSQLElement;
 import com.millicom.mitv.utilities.DialogHelper;
 import com.mitv.R;
-import com.mitv.interfaces.RemindersCountInterface;
 
 
 
@@ -38,18 +39,14 @@ public class RemindersListAdapter
 	private LayoutInflater layoutInflater;
 	private Activity activity;
 	private ArrayList<TVBroadcastWithChannelInfo> broadcasts;
-	private RemindersCountInterface	remindersCountInterface;
-	
 	private int	currentPosition;
 
 	
 	
-	public RemindersListAdapter(Activity mActivity, ArrayList<TVBroadcastWithChannelInfo> mBroadcasts, RemindersCountInterface remindersInterface) 
+	public RemindersListAdapter(Activity activity, ArrayList<TVBroadcastWithChannelInfo> mBroadcasts) 
 	{
 		this.broadcasts = mBroadcasts;
-		this.activity = mActivity;
-		this.remindersCountInterface = remindersInterface;
-		
+		this.activity = activity;		
 		this.currentPosition = -1;
 	}
 
@@ -276,7 +273,7 @@ public class RemindersListAdapter
 					{
 						int notificationId = notificationDbItem.getNotificationId();
 						
-						DialogHelper.showRemoveNotificationDialog(activity, broadcastWithChannelInfo, notificationId, confirmRemoval(), cancelRemoval());
+						DialogHelper.showRemoveNotificationDialog(activity, broadcastWithChannelInfo, notificationId, confirmRemoval(), null);
 					}
 				}
 			});
@@ -308,25 +305,18 @@ public class RemindersListAdapter
 		{
 			public void run() 
 			{
-				if(currentPosition >= 0 && currentPosition < broadcasts.size()) 
+				if(currentPosition >= 0 && 
+				   currentPosition < broadcasts.size()) 
 				{
 					broadcasts.remove(currentPosition);
 					
-					remindersCountInterface.setValues(broadcasts.size());
-					
 					notifyDataSetChanged();
 				}
+				else
+				{
+					Log.e(TAG, "Current position is out of bounds.");
+				}
 			}
-		};
-	}
-	
-	
-
-	public Runnable cancelRemoval() 
-	{
-		return new Runnable() 
-		{
-			public void run(){}
 		};
 	}
 }

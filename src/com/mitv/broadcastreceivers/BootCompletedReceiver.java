@@ -1,3 +1,4 @@
+
 package com.mitv.broadcastreceivers;
 
 import java.io.File;
@@ -18,19 +19,26 @@ import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.manager.AppConfigurationManager;
 
-public class BootCompletedReceiver extends BroadcastReceiver {
 
 
-	private static final String TAG = "BootCompletedReceiver";
+public class BootCompletedReceiver 
+	extends BroadcastReceiver 
+{
+	@SuppressWarnings("unused")
+	private static final String TAG = BootCompletedReceiver.class.getName();
+
+
 	
 	@Override
-	public void onReceive(Context context, Intent intent) {
-		if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
-
-
+	public void onReceive(Context context, Intent intent) 
+	{
+		if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) 
+		{
         	/* Write to Shared Preferences */
 	        boolean startedOnceBeforeSharedPrefs = SecondScreenApplication.sharedInstance().getWasPreinstalled();
-	        if(!startedOnceBeforeSharedPrefs) {
+	      
+	        if(!startedOnceBeforeSharedPrefs) 
+	        {
 	        	SecondScreenApplication.sharedInstance().setWasPreinstalled();
 	        }
 	        
@@ -38,14 +46,19 @@ public class BootCompletedReceiver extends BroadcastReceiver {
 	        boolean startedOnceBeforeExternalStorage = wasPreinstalledFileExists();
         	saveWasPreinstalledFile();
         	
+	        SecondScreenApplication.sharedInstance().saveWasPreinstalledFile();
+        	
         	/* IF this was the first time the app started, using Google Analytics send "Preinstalled user booted device" */
-        	if(startedOnceBeforeSharedPrefs && startedOnceBeforeExternalStorage) {
+        	if(startedOnceBeforeSharedPrefs && startedOnceBeforeExternalStorage) 
+        	{
 	        	String hardCodedTrackingId = context.getString(R.string.ga_trackingId_mitv_hardcoded);
+	        	
 	        	GoogleAnalytics googleAnalyticsInstance = GoogleAnalytics.getInstance(context);
-	    		Tracker tracker = googleAnalyticsInstance.getTracker(hardCodedTrackingId);
 	    		
+	        	Tracker tracker = googleAnalyticsInstance.getTracker(hardCodedTrackingId);
 	    		
 	    		String gaValue = Consts.GA_KEY_DEVICE_WITH_PREINSTALLED_APP_FIRST_BOOT;
+	    		
 	    		gaValue = AppConfigurationManager.replaceDashWithEnDash(gaValue);
 	    		
 	    		tracker.send(MapBuilder
@@ -56,12 +69,6 @@ public class BootCompletedReceiver extends BroadcastReceiver {
 	    }		
 	}
 	
-//	private static File appWasPreinstalledFileInternalStorage() {
-//		File file = null;
-//		
-//		ContextWrapper cw = new ContextWrapper(SecondScreenApplication.getInstance().getApplicationContext());
-//		File directory = cw.getDir("media", Context.MOD);
-//	}
 	
 	private static File appWasPreinstalledFile() {
 		File file = null;
