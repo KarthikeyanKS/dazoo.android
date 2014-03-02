@@ -27,7 +27,7 @@
             android:padding="5dp" >
 
             <com.mitv.customviews.FontTextView
-                android:id="@+id/mychannels_header_text_tv"
+                android:id="@+id/mychannels_selected_channel_text_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -39,7 +39,7 @@
                 android:id="@+id/mychannels_header_counter_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/mychannels_header_text_tv"
+                android:layout_toRightOf="@id/mychannels_selected_channel_text_textview"
                 android:textColor="@color/grey3"
                 android:textSize="16sp"
                 android:textStyle="bold" />
