@@ -323,6 +323,7 @@ public class Cache
 	}
 	
 	
+	//TODO NewArc Cyon @ Castro: isn't this too hard check? Should we not only check program id?
 	public boolean isInUserLikes(UserLike userLikeToCheck) 
 	{
 		boolean isContained = false;
