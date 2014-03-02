@@ -458,6 +458,7 @@ public class ContentManager
 			case USER_LIKES:
 			{
 				handleGetUserLikesResponse(activityCallbackListener, requestIdentifier, result, content);
+				break;
 			}
 			case USER_ADD_LIKE: 
 			{
@@ -750,8 +751,10 @@ public class ContentManager
 		} 
 		else 
 		{
-			//TODO handle this better?
-			activityCallbackListener.onResult(FetchRequestResultEnum.UNKNOWN_ERROR, requestIdentifier);
+			/* ActivityCallbackListener could be null if we came here from MyChannelsActiviy and performSetUserChannels was invoked just before that instance was destroyed (e.g. by "backPress") */
+			if(activityCallbackListener != null) {
+				activityCallbackListener.onResult(FetchRequestResultEnum.UNKNOWN_ERROR, requestIdentifier);
+			}
 		}
 	}
 
@@ -783,7 +786,12 @@ public class ContentManager
 		} 
 		else 
 		{
-			activityCallbackListener.onResult(result, requestIdentifier);
+			/*
+			 * If the activityCallbackListener is null, then possibly the activity is already finished and there is no need to notify on the result.
+			 */
+			if(activityCallbackListener != null) {
+				activityCallbackListener.onResult(result, requestIdentifier);
+			}
 		}
 	}
 	
@@ -1011,7 +1019,10 @@ public class ContentManager
 		} 
 		else 
 		{
-			activityCallbackListener.onResult(result, requestIdentifier);
+			/* ActivityCallbackListener could be null if we came here from MyChannelsActiviy and performSetUserChannels was invoked just before that instance was destroyed (e.g. by "backPress") */
+			if(activityCallbackListener != null) {
+				activityCallbackListener.onResult(result, requestIdentifier);
+			}
 		}
 	}
 	
@@ -1346,6 +1357,11 @@ public class ContentManager
 		return userId;
 	}
 	
+	
+	public ArrayList<TVChannel> getFromCacheTVChannelsAll() {
+		ArrayList<TVChannel> tvChannelsAll = cache.getTvChannels();
+		return tvChannelsAll;
+	}
 	
 	public ArrayList<UserLike> getFromCacheUserLikes()
 	{

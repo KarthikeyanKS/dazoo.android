@@ -1,6 +1,7 @@
 package com.mitv.adapters;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -12,33 +13,42 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.millicom.mitv.models.TVDate;
+import com.millicom.mitv.utilities.DateUtils;
 import com.mitv.R;
+import com.mitv.manager.FontManager;
 
 public class ActionBarDropDownDateListAdapter extends BaseAdapter implements SpinnerAdapter {
 
-	private static final String TAG = "ActionBarDropDownDateListAdapter";
-	private ArrayList<TVDate> mDays;
+	private static final String TAG = ActionBarDropDownDateListAdapter.class.getName();
+	private static final int NO_SELECTION = -1;
 
-	private int mSelectedIndex = -1;
+	private Context context;
+	private ArrayList<TVDate> tvDates;
 
-	public ActionBarDropDownDateListAdapter(ArrayList<TVDate> mDays) {
-		this.mDays = mDays;
+	private int selectedIndex = NO_SELECTION;
+
+	public ActionBarDropDownDateListAdapter(Context context, ArrayList<TVDate> mDays) {
+		this.context = context;
+		this.tvDates = mDays;
 	}
 
 	@Override
 	public int getCount() {
-		if (mDays != null) {
-			return mDays.size();
-		} else
-			return 0;
+		int count = 0;
+		if (tvDates != null) {
+			count = tvDates.size();
+		}
+		return count;
 	}
 
 	@Override
 	public TVDate getItem(int position) {
-		if (mDays != null) {
-			return mDays.get(position);
-		} else
-			return null;
+		TVDate tvDate = null;
+		if (tvDates != null) {
+			tvDate = tvDates.get(position);
+		}
+
+		return tvDate;
 	}
 
 	@Override
@@ -72,20 +82,19 @@ public class ActionBarDropDownDateListAdapter extends BaseAdapter implements Spi
 			dayName = (TextView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_item_name);
 			dayAndMonth = (TextView) row.findViewById(R.id.layout_actionbar_dropdown_list_date_item_number);
 
-			// make the selected text position bold
-			if (position == mSelectedIndex) {
-				dayName.setTypeface(null, Typeface.BOLD);
+			/* Make the selected text position bold */
+			if (position == selectedIndex) {
+				Typeface bold = FontManager.getFontBold(context);
+				dayName.setTypeface(bold);
 			}
 		}
 
-		// do not display when no selection
-		if (mSelectedIndex != -1) {
+		if (selectedIndex != NO_SELECTION) {
 			TVDate tvDate = getItem(position);
 			try {
+				Calendar calendar = tvDate.getDateCalendar();
 				dayName.setText(tvDate.getDisplayName());
-				// TODO NewArc use calendar from TVDate object as sketch below
-				// /Calendar calendar = tvDate.getCalendar();
-				// txtNumber.setText(DateUtils.buildDayAndMonthCompositionAsString(calendar);
+				dayAndMonth.setText(DateUtils.buildDayAndMonthCompositionAsString(calendar));
 			} catch (Exception e) {
 				e.printStackTrace();
 				dayName.setText("");
@@ -109,6 +118,6 @@ public class ActionBarDropDownDateListAdapter extends BaseAdapter implements Spi
 	}
 
 	public void setSelectedIndex(int index) {
-		this.mSelectedIndex = index;
+		this.selectedIndex = index;
 	}
 }
