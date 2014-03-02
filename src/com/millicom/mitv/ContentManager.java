@@ -458,6 +458,7 @@ public class ContentManager
 			case USER_LIKES:
 			{
 				handleGetUserLikesResponse(activityCallbackListener, requestIdentifier, result, content);
+				break;
 			}
 			case USER_ADD_LIKE: 
 			{
