@@ -147,7 +147,7 @@ public class SignUpWithEmailActivity extends SSSignInSignupBaseActivity implemen
 		
 		mTermsWebLink = (FontTextView) findViewById(R.id.signup_terms_link);
 
-		String linkText = getString(R.string.terms_link);
+		String linkText = getString(R.string.sign_up_terms_link);
 		mTermsWebLink.setText(Html.fromHtml(linkText));
 		mTermsWebLink.setMovementMethod(LinkMovementMethod.getInstance());
 		stripUnderlines(mTermsWebLink);
@@ -255,12 +255,12 @@ public class SignUpWithEmailActivity extends SSSignInSignupBaseActivity implemen
 
 							// go to Start page
 							Intent intent;
-							if (mIsFromActivity) {
-								intent = new Intent(SignUpWithEmailActivity.this, ActivityActivity.class);
-							}
-							else {
+//							if (mIsFromActivity) {
+//								intent = new Intent(SignUpWithEmailActivity.this, ActivityActivity.class);
+//							}
+//							else {
 								intent = new Intent(SignUpWithEmailActivity.this, HomeActivity.class);
-							}
+//							}
 							intent.putExtra(Consts.INTENT_EXTRA_SIGN_UP_ACTION, true);
 							startActivity(intent);
 							finish();

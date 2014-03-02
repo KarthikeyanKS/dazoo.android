@@ -4,19 +4,19 @@
     android:id="@+id/searchbar_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingRight="10dp"
-    android:orientation="horizontal" >
-    
-	<com.mitv.customviews.FontTextView 
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_centerVertical="true"
-	    android:layout_marginLeft="5dp"
-	    android:text="@string/icon_search"
-	    android:textSize="30sp"
-	    android:textColor="@color/white"
-	    font:fonttextview="roboto_mitv_medium.ttf" />
-	
+    android:orientation="horizontal"
+    android:paddingRight="10dp" >
+
+    <com.mitv.customviews.FontTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:text="@string/icon_search"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        font:fonttextview="roboto_mitv_medium.ttf" />
+
     <com.mitv.customviews.InstantAutoComplete
         android:id="@+id/searchbar_edittext"
         android:layout_width="match_parent"
@@ -29,12 +29,13 @@
         android:imeOptions="actionSearch"
         android:inputType="textFilter|textNoSuggestions"
         android:maxLines="1"
-        android:textColorHint="@color/white"
-        android:textStyle="normal"
+        android:paddingLeft="30dp"
         android:singleLine="true"
         android:textColor="@color/white"
+        android:textColorHint="@color/white"
         android:textSize="18sp"
-        android:paddingLeft="30dp" />
+        android:textStyle="normal"
+        android:textCursorDrawable="@drawable/white_cursor" />
 
     <ProgressBar
         android:id="@+id/searchbar_progress"
@@ -43,16 +44,20 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+	     android:layout_marginRight="8dp"
         android:visibility="gone" />
 
     <ImageView
-        android:id="@+id/searchbar_clear"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:clickable="true"
-        android:src="@drawable/cross_selector"
-        android:visibility="invisible" />
+	     android:id="@+id/searchbar_clear"
+	     android:layout_width="28dp"
+	     android:layout_height="28dp"
+	     android:padding="5dp"
+	     android:layout_marginRight="4dp"
+	     android:layout_alignParentRight="true"
+	     android:layout_centerVertical="true"
+	     android:clickable="true"
+	     android:src="@drawable/cross_selector"
+	     android:background="@drawable/background_color_selector_cross"
+	     android:visibility="invisible" />
 
 </RelativeLayout>

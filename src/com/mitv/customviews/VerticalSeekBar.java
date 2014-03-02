@@ -5,17 +5,15 @@ import java.util.Locale;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.os.CountDownTimer;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mitv.R;
 import com.mitv.manager.AppConfigurationManager;
@@ -23,10 +21,13 @@ import com.mitv.manager.AppConfigurationManager;
 public class VerticalSeekBar extends SeekBar {
 
 	private static final String tag = "VerticalSeekBarSmallThumb (internal)";
+	private static final int SELECTED_HOUR_TEXTVIEW_DISPLAY_TIME = 300;
 
 	private Activity activity;
-	private Toast toast;
-	private CountDownTimer timer;
+	private FontTextView selectedHourTextView;
+
+	private LinearLayout mContainerLayout;
+	private SwipeClockBar mParentClockBar;
 
 	public VerticalSeekBar(Context context) {
 		super(context);
@@ -46,39 +47,28 @@ public class VerticalSeekBar extends SeekBar {
 	private void setup() {
 	}
 
+	public void setSelectedHourTextView(FontTextView selectedHourTextView) {
+		this.selectedHourTextView = selectedHourTextView;
+		selectedHourTextView.setVisibility(View.GONE);
+	}
+
 	public void setActivity(Activity activity) {
 		this.activity = activity;
 
 		LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View layout = inflater.inflate(R.layout.timebar_toast, (ViewGroup) activity.findViewById(R.id.timebar_toast_container));
-		this.toast = new Toast(activity.getApplicationContext());
-		toast.setGravity(Gravity.CENTER, 0, 0);
-		toast.setDuration(Toast.LENGTH_LONG);
-		toast.setView(layout);
 	}
 
 	private void updateTextViewText() {
 		int hoursPerDay = 24;
-		int firstHourOfDay = AppConfigurationManager.getInstance().getFirstHourOfTVDay();
+		int firstHourOfDay = AppConfigurationManager.getInstance()
+				.getFirstHourOfTVDay();
 		int hour = (getProgress() + firstHourOfDay) % hoursPerDay;
 
 		String hourString = String.format(Locale.getDefault(), "%02d:00", hour);
 
-		FontTextView text = (FontTextView) toast.getView().findViewById(R.id.timebar_toast_textview);
-		text.setText(hourString);
-
-//		if (null == toast.getView().getWindowToken()) {
-			toast.show();
-			if (timer != null) {
-				Log.d(tag, "cancel timer");
-				timer.cancel();
-			}
-			timer = new CountDownTimer(9000, 1000) {
-				public void onTick(long millisUntilFinished) {toast.show();}
-				public void onFinish() {toast.show();}
-	
-			}.start();
-//		}
+		selectedHourTextView.setText(hourString);
+		selectedHourTextView.setVisibility(View.VISIBLE);
 	}
 
 	@Override
@@ -109,27 +99,23 @@ public class VerticalSeekBar extends SeekBar {
 
 			onSizeChanged(getWidth(), height, 0, 0);
 			updateTextViewText();
+			mParentClockBar.highlightClockbar();
 			break;
 		case MotionEvent.ACTION_UP: {
-			timer.cancel();
-			
-			new Runnable() {
+			final Handler handler = new Handler();
+			handler.postDelayed(new Runnable() {
 				@Override
 				public void run() {
-					try {
-						Thread.sleep(500);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					toast.cancel();
+					selectedHourTextView.setVisibility(View.GONE);
 				}
-			}.run();
-			
-			timer = null;
+			}, SELECTED_HOUR_TEXTVIEW_DISPLAY_TIME);
+			mParentClockBar.dehighlightClockbar();
 			break;
 		}
 		case MotionEvent.ACTION_CANCEL: {
 			Log.e(tag, "ACTION_CANCEL");
+			mParentClockBar.dehighlightClockbar();
+			selectedHourTextView.setVisibility(View.GONE);
 			break;
 		}
 		}
@@ -140,5 +126,9 @@ public class VerticalSeekBar extends SeekBar {
 	/* Important to override, since width and height are switched!! */
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(h, w, oldh, oldw);
+	}
+
+	public void setParentClockbar(SwipeClockBar clockbar) {
+		this.mParentClockBar = clockbar;
 	}
 }

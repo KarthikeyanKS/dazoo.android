@@ -141,7 +141,12 @@ public class SSHttpClient<T_Result> {
 			// If we have any input
 			if (requestUrl != null) {
 				
-				requestUrl = urlByAppendingLocaleAndTimezoneWithQuestionMark(requestUrl);
+				if (requestUrl.contains("?")) {
+					requestUrl = urlByAppendingLocaleAndTimezoneWithAndChar(requestUrl);
+				}
+				else {
+					requestUrl = urlByAppendingLocaleAndTimezoneWithQuestionMark(requestUrl);
+				}
 
 				Log.d(TAG, "Create http client");
 

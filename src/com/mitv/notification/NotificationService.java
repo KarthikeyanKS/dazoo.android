@@ -226,7 +226,7 @@ public class NotificationService {
 		else {
 			sToast.setGravity(Gravity.BOTTOM, 0, ((int) activity.getResources().getDimension(R.dimen.bottom_tabs_height) + 10)); //100
 		}
-		sToast.setDuration(Toast.LENGTH_SHORT);
+		sToast.setDuration(Toast.LENGTH_LONG);
 		sToast.setView(layout);
 		sToast.show();
 		return sToast;

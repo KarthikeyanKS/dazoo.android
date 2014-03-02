@@ -11,6 +11,7 @@ import android.os.Build;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,10 +26,13 @@ import android.widget.TextView;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.authentication.PromptSignInDialogHandler;
+import com.mitv.authentication.SignInOrSignupWithFacebookActivity;
 import com.mitv.model.Broadcast;
 import com.mitv.model.ChannelGuide;
 import com.mitv.model.Program;
 import com.mitv.model.TvDate;
+import com.mitv.myprofile.MyChannelsActivity;
 import com.mitv.tvguide.ChannelPageActivity;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -48,6 +52,7 @@ public class TVGuideListAdapter extends AdListAdapter<ChannelGuide> {
 	private int 				screenWidth;
 	private int 				rowWidth = -1;
 
+
 	@SuppressLint("NewApi")
 	public TVGuideListAdapter(Activity activity, ArrayList<ChannelGuide> guide, TvDate date, int hour, boolean isToday) {
 		super(Consts.JSON_AND_FRAGMENT_KEY_GUIDE, activity, guide);
@@ -56,17 +61,39 @@ public class TVGuideListAdapter extends AdListAdapter<ChannelGuide> {
 		this.mDate = date;
 		this.mHour = hour;
 		this.mIsToday = isToday;
+		mLayoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	
 	@Override
 	public int getViewTypeCount() {
-		return super.getViewTypeCount() + 1;
+		int viewTypeCount = super.getViewTypeCount();
+		
+		/* TVGuide view */
+		viewTypeCount++;
+		
+		/* "Add more channels" view */
+		viewTypeCount++;
+		
+		return viewTypeCount;
 	}
 	
+	private boolean isAddMoreChannelsCellPosition(int position) {
+		boolean isAddMoreChannelsCellPosition = (position == getCount() - 1);
+		return isAddMoreChannelsCellPosition;
+	}
+	
+	@Override
+	public int getItemViewType(int position) {
+		int itemViewType = super.getItemViewType(position);
+		if(itemViewType == VIEW_TYPE_STANDARD && isAddMoreChannelsCellPosition(position)) {
+			itemViewType = VIEW_TYPE_CUSTOM;
+		}
+		return itemViewType;
+	}
+
 	public View getViewForGuideCell(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 		
-		mLayoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 		if (rowView == null) {
 			rowView = mLayoutInflater.inflate(R.layout.row_tvguide_list, null);
@@ -197,7 +224,7 @@ public class TVGuideListAdapter extends AdListAdapter<ChannelGuide> {
 					textForThreeBroadcasts += toShow + "\n";
 				}
 				
-				Spannable wordtoSpan = new SpannableString(textForThreeBroadcasts);     
+				Spannable wordtoSpan = new SpannableString(textForThreeBroadcasts);
 				
 				Resources resources = SecondScreenApplication.getInstance().getApplicationContext().getResources();
 				if(textIndexToMarkAsOngoing > 0) {
@@ -223,21 +250,94 @@ public class TVGuideListAdapter extends AdListAdapter<ChannelGuide> {
 		return rowView;
 	}
 	
+	/**
+	 * "Add a channel" -row in the TV Guide. Will always appear last in list.
+	 * 
+	 * @return
+	 */
+	public View createAddChannelsCell() {
+		View rowView = mLayoutInflater.inflate(R.layout.row_add_channel, null);
+		RelativeLayout relativeLayoutAddChannelsContainer = (RelativeLayout) rowView.findViewById(R.id.row_add_channel_container);
+		final String token = ((SecondScreenApplication) mActivity.getApplicationContext()).getAccessToken();
+		
+		relativeLayoutAddChannelsContainer.setOnClickListener(new TextView.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				/* WHEN LOGGED IN */
+				if (token != null && TextUtils.isEmpty(token) != true) {
+					Intent intentMyChannels = new Intent(mActivity, MyChannelsActivity.class);
+					mActivity.startActivity(intentMyChannels);
+
+				/* WHEN NOT LOGGED IN */
+				} else {
+					PromptSignInDialogHandler dialogNotLoggedIn = new PromptSignInDialogHandler();
+					dialogNotLoggedIn.showPromptSignInDialog(mActivity, yesLoginProc(), noLoginProc());
+				}
+			}
+		});
+		
+		return rowView;
+	}
+	
+	public Runnable yesLoginProc() {
+		return new Runnable() {
+			public void run() {
+				Intent intent = new Intent(mActivity, SignInOrSignupWithFacebookActivity.class);
+				mActivity.startActivity(intent);
+			}
+		};
+	}
+
+	public Runnable noLoginProc() {
+		return new Runnable() {
+			public void run() {
+			}
+		};
+	}
+	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		/* Superclass AdListAdapter will create view if this is a position of an ad. */
 		View rowView = super.getView(position, convertView, parent);
 
 		if(rowView == null) {
-			rowView = getViewForGuideCell(position, convertView, parent);
+			int cellType = getItemViewType(position);
+			
+			switch (cellType) {
+				case VIEW_TYPE_STANDARD: {
+					rowView = getViewForGuideCell(position, convertView, parent);
+					break;
+				}
+				case VIEW_TYPE_CUSTOM: {
+					rowView = createAddChannelsCell();
+					break;
+				}
+			}
 		}
 		
 		return rowView;
+	}
+	
+	@Override
+	public int getCount() {
+		int finalCount = super.getCount();
+		
+		/* Add one extra cell for: "Add channels" cell */
+		finalCount += 1;
+
+		return finalCount;
 	}
 
 	static class ViewHolder {
 		public RelativeLayout	mContainer;
 		public ImageView		mImageView;
+		public TextView			mTextView;
+	}
+	
+	static class ViewHolderAddChannelCell {
+		public RelativeLayout	mContainer;
 		public TextView			mTextView;
 	}
 

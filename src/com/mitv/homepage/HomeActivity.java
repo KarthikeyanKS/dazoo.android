@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -73,8 +72,9 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 	private boolean 							showWelcomeToast = true;
 
 	private boolean 							mIsFromLogin, mIsFromSignup;
-	private BroadcastReceiver					mBroadcastReceiverBadRequest, mBroadcastReceiverMyChannels, mBroadcastReceiverContent, mBroadcastReceiverDate;
 	private int 								mLastDateSelectedIndex = 0;
+	private BroadcastReceiver					mBroadcastReceiverBadRequest, mBroadcastReceiverMyChannels, mBroadcastReceiverContent, mBroadcastReceiverDate;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -311,7 +311,7 @@ public class HomeActivity extends SSPageFragmentActivity implements OnClickListe
 			removeActiveFragment();
 			MiTVStore.getInstance().clearAndReinitializeForMyChannels();
 			mChannelUpdate = true;
-			MiTVCore.getGuide(mDateSelectedIndex, false);
+			reloadPage();
 			mStateChanged = false;
 		} else {
 			Log.d(TAG, "We have resumed!");

@@ -168,42 +168,6 @@ public class SecondScreenApplication extends Application {
 		return sInstance;
 	}
 	
-	private File appWasPreinstalledFile() {
-		String root = Environment.getExternalStorageDirectory().toString();
-		
-		String packageName = getPackageName();
-		
-		String filePath = String.format(getCurrentLocale(), "%s/Android/data/%s/", root, packageName);
-		
-		File myDir = new File(filePath);
-		myDir.mkdirs();
-
-		String fname = Consts.APP_WAS_PREINSTALLED_FILE_NAME;
-		File file = new File(myDir, fname);
-		
-		return file;
-	}
-	
-	public boolean wasPreinstalledFileExists() {
-		File file = appWasPreinstalledFile();
-		boolean wasPreinstalledFileExists = file.exists();
-		
-		return wasPreinstalledFileExists;
-	}
-	
-	public void saveWasPreinstalledFile() {
-		File file = appWasPreinstalledFile();
-		if (!wasPreinstalledFileExists()) {
-			try {
-				FileOutputStream os = new FileOutputStream(file, true);
-				OutputStreamWriter out = new OutputStreamWriter(os);
-				out.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
 	public static boolean applicationIsSystemApp(Context context) {
 		String packageName = context.getPackageName();
 	    try {

@@ -2,6 +2,8 @@ package com.mitv.authentication;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
@@ -25,11 +27,15 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.Signature;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 
 import com.facebook.Request;
@@ -151,12 +157,12 @@ public class FacebookLoginActivity extends SSSignInSignupBaseActivity {
 								// returning client
 								// go to start page
 								Intent intent;
-								if (mIsFromActivity) {
-									intent = new Intent(FacebookLoginActivity.this, ActivityActivity.class);
-								}
-								else {
+//								if (mIsFromActivity) {
+//									intent = new Intent(FacebookLoginActivity.this, ActivityActivity.class);
+//								}
+//								else {
 									intent = new Intent(FacebookLoginActivity.this, HomeActivity.class);
-								}
+//								}
 								intent.putExtra(Consts.INTENT_EXTRA_LOG_IN_ACTION, true);
 								startActivity(intent);
 								finish();

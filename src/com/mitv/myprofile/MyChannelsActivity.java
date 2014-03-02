@@ -1,6 +1,7 @@
 package com.mitv.myprofile;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
@@ -25,7 +26,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
@@ -72,6 +72,8 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 	private ArrayList<String>			myChannelIds			= new ArrayList<String>();
 	private ArrayList<String>			mAllChannelsIds			= new ArrayList<String>();
 
+	private String 						mSearchString;
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_mychannels_activity);
@@ -90,7 +92,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 		mActionBar = getSupportActionBar();
 		mActionBar.setTitle(getResources().getString(R.string.myprofile_my_channels));
 		mActionBar.setDisplayHomeAsUpEnabled(true);
-		
+
 		// styling bottom navigation tabs
 
 		mTabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
@@ -99,7 +101,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 		mTabActivity.setOnClickListener(this);
 		mTabProfile = (RelativeLayout) findViewById(R.id.tab_me);
 		mTabProfile.setOnClickListener(this);
-		
+
 		mTabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
 		mTabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
 
@@ -130,6 +132,9 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 				mChannelInfoMap.put(mChannels.get(i).getName().toLowerCase(Locale.getDefault()), mChannels.get(i));
 				mChannelInfoToDisplay.add(mChannels.get(i));
 			}
+			if (mChannelInfoToDisplay != null && mChannelInfoToDisplay.size() > 0) {
+				Collections.sort(mChannelInfoToDisplay, new Channel.ChannelComparatorByName());
+			}
 
 			mIsCheckedArray = new boolean[mAllChannelsIds.size()];
 
@@ -157,9 +162,9 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 						in.hideSoftInputFromWindow(mSearchChannelInputEditText.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 					}
 					if (search.length() > 0) {
-						if (search.length() > 3) {
-							search = search.substring(0, 3);
-						}
+//						if (search.length() > 3) {
+//							search = search.substring(0, 3);
+//						}
 						mChannelInfoToDisplay.clear();
 						for (Map.Entry<String, Channel> entry : mChannelInfoMap.entrySet()) {
 							String key = entry.getKey();
@@ -188,6 +193,9 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 				public void onTextChanged(CharSequence s, int start, int before, int count) {
 				}
 			});
+			if (mSearchString != null && mSearchString.length() > 0) {
+				mSearchChannelInputEditText.setText(mSearchString);
+			}
 		} else {
 			updateUI(REQUEST_STATUS.LOADING);
 			loadPage();
@@ -204,11 +212,11 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 		mCount = mCheckedChannelsIds.size();
 		if (MyChannelsService.updateMyChannelsList(JSONUtilities.createJSONArrayWithOneJSONObjectType(Consts.CHANNEL_CHANNEL_ID, mCheckedChannelsIds))) {
 
-			// clear guides
-			MiTVStore.getInstance().clearGuidesStorage();
-			// update the my channels list
-			MyChannelsService.getMyChannels();
-//			MiTVCore.getInstance(context, dateIndex)
+			// do not allow dublications in the list of channels
+			HashSet<String> myCheckedChannelsSet = new HashSet<String>();
+			myCheckedChannelsSet.addAll(mCheckedChannelsIds);
+			mCheckedChannelsIds.clear();
+			mCheckedChannelsIds.addAll(myCheckedChannelsSet);
 
 			LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(Consts.INTENT_EXTRA_MY_CHANNELS_CHANGED));
 
@@ -236,14 +244,14 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 			returnIntent.putExtra(Consts.INFO_UPDATE_MYCHANNELS_NUMBER, mCount);
 		}
 		super.onBackPressed();
-		
+
 		finish();
 	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		
+
 	}
 
 	private boolean getUserMyChannelsIdsJSON() {
@@ -278,13 +286,13 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intentHome);
-			
+
 			break;
 		case R.id.tab_activity:
 			tryToUpdateChannelList();
 			Intent intentActivity = new Intent(MyChannelsActivity.this, ActivityActivity.class);
 			startActivity(intentActivity);
-			
+
 			break;
 		case R.id.tab_me:
 			tryToUpdateChannelList();
@@ -294,7 +302,7 @@ public class MyChannelsActivity extends SSActivity implements MyChannelsCountInt
 				returnIntent.putExtra(Consts.INFO_UPDATE_MYCHANNELS_NUMBER, mCount);
 			}
 			finish();
-			
+
 			break;
 		}
 

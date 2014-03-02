@@ -28,6 +28,7 @@ import com.mitv.adapters.AdListAdapter;
 import com.mitv.adapters.TVGuideListAdapter;
 import com.mitv.adapters.TVGuideTagListAdapter;
 import com.mitv.content.SSPageFragment;
+import com.mitv.customviews.FontTextView;
 import com.mitv.customviews.SwipeClockBar;
 import com.mitv.model.Broadcast;
 import com.mitv.model.ChannelGuide;
@@ -57,7 +58,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 	private int						mHour;
 	private TextView				mCurrentHourTv;
 	public HashMap<String, AdListAdapter> adapterMap;
-	
+
 	public static TVGuideTableFragment newInstance(Tag tag, TvDate date, int position, HashMap<String, AdListAdapter> adapterMap) {
 
 		TVGuideTableFragment fragment = new TVGuideTableFragment();
@@ -85,7 +86,7 @@ public class TVGuideTableFragment extends SSPageFragment {
 		mTvDate = bundle.getParcelable(Consts.FRAGMENT_EXTRA_TVDATE);
 		mTvDatePosition = bundle.getInt(Consts.FRAGMENT_EXTRA_TVDATE_POSITION);
 		mTag = mitvStore.getTag(mTagStr);
-		
+
 		if (getResources().getString(R.string.all_categories_name).equals(mTagStr)) {
 
 			// check if it is a current day
@@ -108,6 +109,10 @@ public class TVGuideTableFragment extends SSPageFragment {
 			mSwipeClockBar = (SwipeClockBar) mRootView.findViewById(R.id.tvguide_swype_clock_bar);
 			mSwipeClockBar.setHour(mHour);
 			mSwipeClockBar.setToday(mIsToday);
+
+			FontTextView selectedHourTextView = (FontTextView) mRootView.findViewById(R.id.timebar_selected_hour_textview);
+			mSwipeClockBar.setSelectedHourTextView(selectedHourTextView);
+
 		} else {
 			mRootView = inflater.inflate(R.layout.fragment_tvguide_tag_type, null);
 			mTVGuideListView = (ListView) mRootView.findViewById(R.id.fragment_tvguide_type_tag_listview);
@@ -182,45 +187,42 @@ public class TVGuideTableFragment extends SSPageFragment {
 					mTVGuideListAdapter = new TVGuideListAdapter(mActivity, mGuides, mTvDate, mHour, mIsToday);
 					adapterMap.put(mTagStr, mTVGuideListAdapter);
 				}
-				
+
 				mTVGuideListView.setAdapter(mTVGuideListAdapter);
 				mTVGuideListAdapter.notifyDataSetChanged();
 				focusOnView();
 			} else {
 				final int index = Broadcast.getClosestBroadcastIndex(mTaggedBroadcasts);
 				//Remove all broadcasts that already ended
-				new Runnable() {
-					
-					@Override
-					public void run() {
-						ArrayList<Broadcast> toRemove = new ArrayList<Broadcast>();
-						for (int i = index; i < mTaggedBroadcasts.size(); i++) {
-							if(index < mTaggedBroadcasts.size()-1 && index >= 0) {
-								if (mTaggedBroadcasts.get(i).hasNotEnded() == false) {
-									toRemove.add(mTaggedBroadcasts.get(i));
-								}
-							}
-						}
-						for (Broadcast broadcast : toRemove) {
-							mTaggedBroadcasts.remove(broadcast);
+
+				ArrayList<Broadcast> toRemove = new ArrayList<Broadcast>();
+				for (int i = index; i < mTaggedBroadcasts.size(); i++) {
+					if(index < mTaggedBroadcasts.size()-1 && index >= 0) {
+						if (mTaggedBroadcasts.get(i).hasNotEnded() == false) {
+							toRemove.add(mTaggedBroadcasts.get(i));
 						}
 					}
-				}.run();
+				}
+				for (Broadcast broadcast : toRemove) {
+					mTaggedBroadcasts.remove(broadcast);
+				}
+
+
 				Log.d(TAG, "index: " + index);
-				
-				
+
+
 				mTVTagListAdapter = (TVGuideTagListAdapter) adapterMap.get(mTagStr);
 				if(mTVTagListAdapter == null) {
 					mTVTagListAdapter = new TVGuideTagListAdapter(mActivity, mTagStr, mTaggedBroadcasts, index, mTvDate);
 					adapterMap.put(mTagStr, mTVTagListAdapter);
 				}
-				
-				
+
+
 				mTVGuideListView.setAdapter(mTVTagListAdapter);
 			}
 		}
 	}
-	
+
 
 	BroadcastReceiver				mBroadcastReceiverClock	= new BroadcastReceiver() {
 		@Override

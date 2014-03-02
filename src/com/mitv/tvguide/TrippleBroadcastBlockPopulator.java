@@ -4,10 +4,11 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -27,6 +28,8 @@ public class TrippleBroadcastBlockPopulator {
 	private ArrayList<Broadcast> mBroadcasts;
 	private ReminderView reminderViewOne, reminderViewTwo, reminderViewThree;
 	private View dividerView;
+	private boolean mIsFromActivity;
+	private boolean mIsFromProfile;
 
 
 	/* If false, then block populator is used for upcoming episodes */
@@ -165,9 +168,22 @@ public class TrippleBroadcastBlockPopulator {
 
 		String titleString = null;
 		String showMoreString = null;
+		String programType = program.getProgramType();
+		Resources res = mActivity.getResources();
+		
 		if(mUsedForRepetitions) {
-			titleString = mActivity.getResources().getString(R.string.repetitions);
+			if(programType.equals(Consts.PROGRAM_TYPE_TV_EPISODE)) {
+				titleString = res.getString(R.string.repetitions_episode);
+			} else if(programType.equals(Consts.PROGRAM_TYPE_MOVIE)) {
+				titleString = res.getString(R.string.repetitions_movie);
+			} else if(programType.equals(Consts.PROGRAM_TYPE_SPORT)) {
+				titleString = res.getString(R.string.repetitions_sport_event);
+			} else if(programType.equals(Consts.PROGRAM_TYPE_OTHER)) {
+				titleString = res.getString(R.string.repetitions_other);
+			}
+
 			showMoreString = mActivity.getResources().getString(R.string.repetitions_more);
+			
 		} else {
 			titleString = mActivity.getResources().getString(R.string.upcoming_episodes);
 			showMoreString = mActivity.getResources().getString(R.string.upcoming_episodes_more);
@@ -194,12 +210,16 @@ public class TrippleBroadcastBlockPopulator {
 						intent.putParcelableArrayListExtra(Consts.INTENT_EXTRA_REPEATING_BROADCASTS, repeatingBroadcasts);
 						intent.putExtra(Consts.INTENT_EXTRA_REPEATING_PROGRAM, program);
 						intent.putExtra(Consts.INTENT_EXTRA_RUNNING_BROADCAST, mRunningBroadcast);
+						intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, mIsFromActivity);
+						intent.putExtra(Consts.INTENT_EXTRA_FROM_PROFILE, mIsFromProfile);
 						mActivity.startActivity(intent);
 					}
 					else {
 						Intent intent = new Intent(mActivity, UpcomingeEpisodesPageActivity.class);
 						intent.putParcelableArrayListExtra(Consts.INTENT_EXTRA_UPCOMING_BROADCASTS, repeatingBroadcasts);
 						intent.putExtra(Consts.INTENT_EXTRA_RUNNING_BROADCAST, mRunningBroadcast);
+						intent.putExtra(Consts.INTENT_EXTRA_FROM_ACTIVITY, mIsFromActivity);
+						intent.putExtra(Consts.INTENT_EXTRA_FROM_PROFILE, mIsFromProfile);
 						mActivity.startActivity(intent);
 					}
 				}
@@ -208,11 +228,14 @@ public class TrippleBroadcastBlockPopulator {
 
 		topContentView.setVisibility(View.VISIBLE);
 
-		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-		layoutParams.setMargins(10, 0, 10, 10);
 		if (mBroadcasts.size() > 0) {
-			containerView.addView(topContentView, layoutParams);
+			containerView.addView(topContentView);
 		}
 
+	}
+	
+	public void setOriginActivity(boolean isFromActivity, boolean isFromProfile) {
+		mIsFromActivity = isFromActivity;
+		mIsFromProfile = isFromProfile;
 	}
 }

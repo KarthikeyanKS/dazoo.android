@@ -5,7 +5,6 @@ import java.util.LinkedList;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -21,9 +20,9 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.mitv.Consts;
+import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.Consts.REQUEST_STATUS;
 import com.mitv.content.SSActivity;
 import com.mitv.content.SSBroadcastPage;
 import com.mitv.content.SSBroadcastsFromProgramPage;
@@ -64,11 +63,12 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 	private ScrollView				mScrollView;
 	private int						mActivityCardNumber;
 	public static Toast 			toast;
+	private RelativeLayout 			mCallbackLayoutContainer;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.layout_broadcastpage_activity);
 
 		mitvStore = MiTVStore.getInstance();
@@ -98,20 +98,21 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 		Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
 		initViews();
-
-		super.initCallbackLayouts();
-
 		loadStartPage();
-		
+
 		InternalTrackingManager.trackBroadcastStatic(mBroadcast);
 	}
-	
+
 	@Override
 	protected void updateUI(REQUEST_STATUS status) {
-		Log.d(TAG, "mIsBroadcast: " + mIsBroadcast + " mIsUpcoming: " + mIsUpcoming);
-		if (mIsBroadcast && mIsUpcoming && mIsRepeat) {
+		Log.d(TAG, "mIsBroadcast: " + mIsBroadcast + " mIsUpcoming: " + mIsUpcoming + " mIsRepeat: " + mIsRepeat);
+		if (status == REQUEST_STATUS.LOADING) {
+			super.requestIsSuccesfull(status);
+		}
+		else if (mIsBroadcast && mIsUpcoming && mIsRepeat) {
 			if (super.requestIsSuccesfull(status)) {
 				Log.d(TAG, "SUCCESSFUL");
+				mCallbackLayoutContainer.setVisibility(View.GONE);
 				populateBlocks();
 			}
 		}
@@ -208,7 +209,7 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 						mChannel = mitvStore.getChannelById(mChannelId);
 						if (mChannel != null) {
 							mBroadcast.setChannel(mChannel);
-	
+
 						} else {
 							// otherwise - just use the id that we got with the notification intent
 							Channel channel = new Channel();
@@ -216,7 +217,7 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 							if (mChannelLogoUrl != null) {
 								channel.setAllImageUrls(mChannelLogoUrl);
 							}
-	
+
 							mBroadcast.setChannel(channel);
 						}
 					}
@@ -271,6 +272,8 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 
 		mBlockContainer = (LinearLayout) findViewById(R.id.broacastpage_block_container_layout);
 		mScrollView = (ScrollView) findViewById(R.id.broadcast_scroll);
+
+		mCallbackLayoutContainer = (RelativeLayout) findViewById(R.id.callback_layouts_container);
 	}
 
 	private void populateBlocks() {
@@ -302,12 +305,14 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 		if (mRepeatBroadcasts != null && mRepeatBroadcasts.isEmpty() != true) {
 			BroadcastRepetitionsBlockPopulator repeatitionsBlock = new BroadcastRepetitionsBlockPopulator(mActivity, mScrollView, mBroadcast);
 			repeatitionsBlock.createBlock(mRepeatBroadcasts, mBroadcast.getProgram());
+			repeatitionsBlock.setOriginActivity(mIsFromActivity, mIsFromProfile);
 		}
 
 		// upcoming episodes
 		if (mUpcomingBroadcasts != null && mUpcomingBroadcasts.isEmpty() != true) {
 			BroadcastUpcomingBlockPopulator upcomingBlock = new BroadcastUpcomingBlockPopulator(mActivity, mScrollView, mIsSeries, mBroadcast);
-			upcomingBlock.createBlock(mUpcomingBroadcasts, null);
+			upcomingBlock.createBlock(mUpcomingBroadcasts, mBroadcast.getProgram());
+			upcomingBlock.setOriginActivity(mIsFromActivity, mIsFromProfile);
 		}
 
 		// cast & crew
@@ -320,14 +325,14 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		
+
 		finish();
 	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		
+
 	}
 
 	@Override
@@ -379,19 +384,19 @@ public class BroadcastPageActivity extends SSActivity implements OnClickListener
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intentHome);
-			
+
 			break;
 		case R.id.tab_activity:
 			// tab to activity page
 			Intent intentActivity = new Intent(BroadcastPageActivity.this, ActivityActivity.class);
 			startActivity(intentActivity);
-			
+
 			break;
 		case R.id.tab_me:
 			// tab to activity page
 			Intent intentMe = new Intent(BroadcastPageActivity.this, MyProfileActivity.class);
 			startActivity(intentMe);
-			
+
 			break;
 		}
 	}

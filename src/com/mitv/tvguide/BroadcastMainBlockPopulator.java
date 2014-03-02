@@ -236,9 +236,7 @@ public class BroadcastMainBlockPopulator {
 
 		topContentView.setVisibility(View.VISIBLE);
 
-		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-		layoutParams.setMargins(10, 10, 10, 10);
-		containerView.addView(topContentView, layoutParams);
+		containerView.addView(topContentView);
 	}
 
 	public Runnable yesLoginProc() {
