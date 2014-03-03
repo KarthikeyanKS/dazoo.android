@@ -4,7 +4,6 @@ package com.millicom.mitv.activities;
 
 
 import java.util.ArrayList;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,7 +16,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.authentication.LoginWithFacebookActivity;
 import com.millicom.mitv.activities.authentication.LoginWithMiTVUserActivity;
@@ -60,7 +58,28 @@ public class FeedActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		initViews();
+		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+		
+		if(isLoggedIn)
+		{
+			setContentView(R.layout.layout_activity_activity);
+
+			initLogedInViews();
+			
+			initStandardViews();
+			
+			currentlyShowingLoggedInLayout = true;
+		}
+		else
+		{
+			setContentView(R.layout.layout_activity_not_logged_in_activity);
+			
+			initNotLoggedInViews();
+			
+			initStandardViews();
+			
+			currentlyShowingLoggedInLayout = false;
+		}
 	}
 	
 	
@@ -70,13 +89,6 @@ public class FeedActivity
 	{
 		super.onResume();
 		
-		initViews();
-	}
-	
-	
-	
-	private void initViews()
-	{
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 		
 		if (isLoggedIn != currentlyShowingLoggedInLayout) 
@@ -89,6 +101,8 @@ public class FeedActivity
 				
 				initStandardViews();
 				
+				setTabViews();
+				
 				currentlyShowingLoggedInLayout = true;
 			}
 			else
@@ -99,12 +113,13 @@ public class FeedActivity
 				
 				initStandardViews();
 				
+				setTabViews();
+				
 				currentlyShowingLoggedInLayout = false;
 			}
-			
 		}
 	}
-
+	
 	
 	
 	private void initStandardViews() 

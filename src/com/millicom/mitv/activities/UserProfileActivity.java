@@ -242,7 +242,7 @@ public class UserProfileActivity
 				
 		if (isLoggedIn)
 		{
-			String userAvatarImageURL = ContentManager.sharedInstance().getFromCacheUserAvatarImageURL();
+			String userAvatarImageURL = ContentManager.sharedInstance().getFromCacheUserImageURL();
 			
 			ImageAware imageAware = new ImageViewAware(avatarImageView, false);
 			

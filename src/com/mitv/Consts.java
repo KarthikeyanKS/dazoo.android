@@ -218,7 +218,8 @@ public abstract class Consts {
 
 	/* Notifications database */
 	public static final String	NOTIFICATION_DATABASE_NAME							= "notifications.db";
-	public static final int		NOTIFICATION_DATABASE_VERSION						= 1;
+	/* The database version must be updated after a change in the database schema */
+	public static final int		NOTIFICATION_DATABASE_VERSION						= 2;
 	public static final String	NOTIFICATION_DB_TABLE_NOTIFICATIONS					= "notifications";
 	public static final String	NOTIFICATION_DB_COLUMN_NOTIFICATION_ID				= "notification_id";
 	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_BEGIN_TIME_IN_MILISECONDS = "begin_time_miliseconds";
@@ -526,7 +527,12 @@ public abstract class Consts {
 	public static final String APP_FACEBOOK_ID = "265897563561764";
 	public static final String APP_FACEBOOK_PERMISSIONS = "basic_info,email,user_photos,user_location,user_likes";
 	public static final int APP_FACEBOOK_SSO = 1000;
-	public static final String APP_URL_FACEBOOK_GRAPH_ME = "https://graph.facebook.com/me";
-		
+	public static final String APP_URL_FACEBOOK_GRAPH = "https://graph.facebook.com";
+	public static final String APP_URL_FACEBOOK_ME = "/me";
+	public static final String APP_URL_FACEBOOK_PICTURE_TYPE = "/picture?type=";
+	public static final String APP_URL_FACEBOOK_PICTURE_TYPE_SQUARE = "square";
+	public static final String APP_URL_FACEBOOK_DO_NOT_REDIRECT = "&redirect=false";
+	public static final String APP_URL_FACEBOOK_GRAPH_ME = APP_URL_FACEBOOK_GRAPH + APP_URL_FACEBOOK_ME;
+	
     public static final int MAXIMUM_REMINDER_TIME_FOR_SHOW = 15;
 }

@@ -72,6 +72,9 @@ public class Cache
 	private ArrayList<TVBroadcastWithChannelInfo> popularBroadcasts;
 	
 	private UserLoginData userData;
+	/* Only set when the user logs in from facebook */
+	private String userImageURL;
+	
 	private int tvDateSelectedIndex;
 	
 	private AppVersion appVersionData;
@@ -274,15 +277,19 @@ public class Cache
 		return userData.getUser().getUserId();
 	}
 	
-	// TODO NewArc - This is a dummy method to obtain the user avatar image url
-	public String getUserAvatarImageURL() 
+	public String getUserImageURL() 
 	{
-		return "http://wiseheartdesign.com/images/articles/default-avatar.png";
+		return userImageURL;
 	}
 
 	public void setUserData(UserLoginData userData) {
 		this.userData = userData;
 	} 
+	
+	public void setUserImageURL(String url)
+	{
+		this.userImageURL = url;
+	}
 	
 	public ArrayList<UserLike> getUserLikes() 
 	{
