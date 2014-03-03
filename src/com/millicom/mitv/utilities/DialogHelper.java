@@ -42,7 +42,7 @@ public class DialogHelper
 			case TV_EPISODE:
 			{
 				reminderSB.append(context.getString(R.string.reminder_text_remove));
-				reminderSB.append(broadcast.getProgram().getTitle());
+				reminderSB.append(broadcast.getProgram().getSeries().getName());
 				reminderSB.append(", ");
 				reminderSB.append(context.getString(R.string.season));
 				reminderSB.append(" ");

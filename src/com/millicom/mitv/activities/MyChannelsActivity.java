@@ -101,20 +101,25 @@ public class MyChannelsActivity
 	@Override
 	protected void onStop() 
 	{
-		updateMyChannels();
 		super.onStop();
+		finish();
+	}
+
+	@Override
+	public void onBackPressed() 
+	{
+		super.onBackPressed();	
+		finish();
 	}
 
 	
 	
 	@Override
-	public void onBackPressed() 
-	{
+	protected void onDestroy() {
 		updateMyChannels();
-		super.onBackPressed();
-		
-		finish();
+		super.onDestroy();
 	}
+
 
 	private void updateMyChannels() {
 		//TODO NewArc verify that changes to check channels Ids in adapter has propagted back to this variable here, should be "code by reference"!
