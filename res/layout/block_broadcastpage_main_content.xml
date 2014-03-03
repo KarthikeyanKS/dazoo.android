@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@color/grey1"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="10dp" >
 
     <LinearLayout
         android:id="@+id/block_broadcastpage_main_content_container"
@@ -28,8 +28,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:adjustViewBounds="true"
-                android:src="@drawable/loading_placeholder_horizontal"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                android:src="@drawable/loading_placeholder_horizontal" />
 
             <ProgressBar
                 android:id="@+id/block_broadcastpage_poster_progressbar"
@@ -73,59 +73,51 @@
 
             <com.mitv.customviews.FontTextView
                 android:id="@+id/block_broadcastpage_broadcast_details_title_tv"
+                style="@style/headercard1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="10dp"
-                android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_movie_iv"
-                android:textColor="@color/black"
-                android:textSize="24sp" />
-			
+                android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_movie_iv" />
+
             <RelativeLayout
                 android:id="@+id/block_broadcastpage_broadcast_details_seasonepisode_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_broadcastpage_broadcast_details_title_tv" >
-                
-	            <!-- SEASON -->
-	
-	            <com.mitv.customviews.FontTextView
-	                android:id="@+id/block_broadcastpage_broadcast_details_season_tv"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:lineSpacingExtra="0sp"
-	                android:textColor="@color/grey3"
-	                android:textSize="@dimen/header_3"
-	                android:visibility="gone"
-	                font:fonttextview="roboto_mitv_medium.ttf" />
-	
-	            <!-- EPISODE -->
-	
-	            <com.mitv.customviews.FontTextView
-	                android:id="@+id/block_broadcastpage_broadcast_details_episode_tv"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_season_tv"
-	                android:textColor="@color/grey3"
-	                android:textSize="@dimen/header_3"
-	                android:visibility="gone"
-	                font:fonttextview="roboto_mitv_medium.ttf" />
-            
+
+                <!-- SEASON -->
+
+                <com.mitv.customviews.FontTextView
+                    android:id="@+id/block_broadcastpage_broadcast_details_season_tv"
+                    style="@style/text1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="0sp"
+                    android:visibility="gone" />
+
+                <!-- EPISODE -->
+
+                <com.mitv.customviews.FontTextView
+                    android:id="@+id/block_broadcastpage_broadcast_details_episode_tv"
+                    style="@style/text1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_season_tv"
+                    android:visibility="gone" />
             </RelativeLayout>
 
             <!-- EPISODE NAME -->
 
             <com.mitv.customviews.FontTextView
                 android:id="@+id/block_broadcastpage_broadcast_details_episode_name_tv"
+                style="@style/text1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_broadcastpage_broadcast_details_seasonepisode_container"
                 android:layout_gravity="left"
                 android:layout_marginBottom="5dp"
-                android:textColor="@color/grey3"
-                android:textSize="@dimen/header_3"
-                android:visibility="gone"
-                font:fonttextview="roboto_mitv_medium.ttf" />
+                android:visibility="gone" />
 
             <!-- PROGRESSBAR CONTAINER -->
 
@@ -155,24 +147,20 @@
 
                     <com.mitv.customviews.FontTextView
                         android:id="@+id/block_broadcastpage_broadcast_timeleft_tv"
+                        style="@style/remaining"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:textColor="@color/red"
-                        android:textSize="@dimen/header_3"
-                        android:visibility="gone"
-                        font:fonttextview="roboto_mitv_medium.ttf" />
+                        android:visibility="gone" />
 
                     <!-- TIME -->
 
                     <com.mitv.customviews.FontTextView
                         android:id="@+id/block_broadcastpage_broadcast_details_time_tv"
+                        style="@style/header2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/header_3"
-                        font:fonttextview="roboto_mitv_medium.ttf" />
+                        android:layout_marginLeft="10dp" />
 
                     <ProgressBar
                         android:id="@+id/block_broadcastpage_broadcast_progressbar"
@@ -200,28 +188,24 @@
 
             <com.mitv.customviews.FontTextView
                 android:id="@+id/block_broadcastpage_broadcast_synopsis_tv"
+                style="@style/text1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/divider"
                 android:layout_gravity="left"
-				android:layout_marginBottom="10dp"
+                android:layout_marginBottom="10dp"
                 android:lineSpacingExtra="2sp"
-                android:textColor="@color/black"
-                android:textSize="@dimen/ingress"
-                android:visibility="gone"
-                font:fonttextview="roboto_mitv_medium.ttf" />
+                android:visibility="gone" />
 
             <com.mitv.customviews.FontTextView
                 android:id="@+id/block_broadcastpage_broadcast_extra_tv"
+                style="@style/meta2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_broadcastpage_broadcast_synopsis_tv"
                 android:layout_gravity="left"
                 android:paddingBottom="10dp"
-                android:textColor="@color/grey2"
-                android:textSize="@dimen/paragraph"
-                android:visibility="gone"
-                font:fonttextview="roboto_mitv_medium.ttf" />
+                android:visibility="gone" />
 
             <com.mitv.customviews.FontTextView
                 android:id="@+id/block_broadcastpage_broadcast_tags_tv"
