@@ -30,7 +30,7 @@ import com.millicom.mitv.asynctasks.usertoken.AddUserLike;
 import com.millicom.mitv.asynctasks.usertoken.GetUserLikes;
 import com.millicom.mitv.asynctasks.usertoken.GetUserTVChannelIds;
 import com.millicom.mitv.asynctasks.usertoken.GetUserTVFeedItems;
-import com.millicom.mitv.asynctasks.usertoken.GetUserTokenUsingFBToken;
+import com.millicom.mitv.asynctasks.usertoken.PerformUserLoginWithFacebookToken;
 import com.millicom.mitv.asynctasks.usertoken.PerformUserLogout;
 import com.millicom.mitv.asynctasks.usertoken.RemoveUserLike;
 import com.millicom.mitv.asynctasks.usertoken.SetUserTVChannelIds;
@@ -218,11 +218,10 @@ public class APIClient
 	}
 	
 	
-	/* Uses the facebook token to get the MiTV token */
-	public void getUserTokenUsingFBToken(ActivityCallbackListener activityCallbackListener, String facebookToken) 
+	public void performUserLoginWithFacebookToken(ActivityCallbackListener activityCallbackListener, String facebookToken) 
 	{
-		GetUserTokenUsingFBToken getUserTokenUsingFBToken = new GetUserTokenUsingFBToken(contentCallbackListener, activityCallbackListener, facebookToken);
-		getUserTokenUsingFBToken.execute();
+		PerformUserLoginWithFacebookToken performUserLoginWithFacebookToken = new PerformUserLoginWithFacebookToken(contentCallbackListener, activityCallbackListener, facebookToken);
+		performUserLoginWithFacebookToken.execute();
 	}
 	
 	

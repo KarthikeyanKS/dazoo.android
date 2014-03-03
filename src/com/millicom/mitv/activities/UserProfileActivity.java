@@ -70,7 +70,7 @@ public class UserProfileActivity
 
 		setContentView(R.layout.layout_my_profile);
 		
-		initViews();
+		initLayout();
 	}
 	
 	
@@ -179,7 +179,7 @@ public class UserProfileActivity
 	
 	
 	
-	private void initViews() 
+	private void initLayout() 
 	{
 		actionBar.setTitle(getResources().getString(R.string.myprofile_title));
 		actionBar.setDisplayShowTitleEnabled(true);
@@ -242,7 +242,7 @@ public class UserProfileActivity
 				
 		if (isLoggedIn)
 		{
-			String userAvatarImageURL = ContentManager.sharedInstance().getFromCacheUserAvatarImageURL();
+			String userAvatarImageURL = ContentManager.sharedInstance().getFromCacheUserImageURL();
 			
 			ImageAware imageAware = new ImageViewAware(avatarImageView, false);
 			

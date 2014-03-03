@@ -3,6 +3,7 @@ package com.millicom.mitv.activities.base;
 
 
 
+import java.util.EmptyStackException;
 import java.util.Stack;
 import android.app.Activity;
 import android.content.Intent;
@@ -204,12 +205,21 @@ public abstract class BaseActivity
 	/* Remove activity from activitStack */
 	private static void popActivityFromStackIfTopOfStack(Activity activity) 
 	{
-		Activity activityInTopOfStack = activityStack.peek();
+		Activity activityInTopOfStack;
 		
-		if(activityInTopOfStack == activity)
+		try
 		{
-			/* We are in the top of the stack, remove us from the stack */
-			activityStack.pop();
+			activityInTopOfStack = activityStack.peek();
+			
+			if(activityInTopOfStack == activity)
+			{
+				/* We are in the top of the stack, remove us from the stack */
+				activityStack.pop();
+			}
+		}
+		catch(EmptyStackException empstex)
+		{
+			Log.d(TAG, empstex.getMessage());
 		}
 	}
 	

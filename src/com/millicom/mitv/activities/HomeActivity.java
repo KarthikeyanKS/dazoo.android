@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
-import android.widget.Toast;
+import android.util.Log;
 
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
@@ -15,6 +15,7 @@ import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.fragments.TVHolderFragment;
 import com.millicom.mitv.fragments.TVHolderFragment.OnViewPagerIndexChangedListener;
 import com.millicom.mitv.utilities.DateUtils;
+import com.millicom.mitv.utilities.ToastHelper;
 import com.mitv.R;
 
 
@@ -22,14 +23,12 @@ import com.mitv.R;
 public class HomeActivity 
 	extends TVDateSelectionActivity
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = HomeActivity.class.getName();
 
 	
 	
 	private Fragment activeFragment;
 	private int selectedTagIndex = 0;
-	private String welcomeMessage = "";
 	private boolean hasShowWelcomeToast = false;
 
 
@@ -53,11 +52,12 @@ public class HomeActivity
 
 		/* Set the selected hour to the current hour */
 		int currentHour = DateUtils.getCurrentHourOn24HourFormat();
+		
 		ContentManager.sharedInstance().setSelectedHour(currentHour);
 
-		initViews();
+		initLayout();
 		
-		tryShowWelcomeToast();
+		showWelcomeToast();
 		
 		/* HOCKEY-APP */
 		// checkForUpdates();
@@ -65,15 +65,15 @@ public class HomeActivity
 	
 	
 	
-	private void tryShowWelcomeToast() 
+	private void showWelcomeToast() 
 	{
 		if (!hasShowWelcomeToast) 
 		{
-			welcomeMessage = ContentManager.sharedInstance().getFromCacheWelcomeMessage();
+			String welcomeMessage = ContentManager.sharedInstance().getFromCacheWelcomeMessage();
 
-			if (welcomeMessage != null && !TextUtils.isEmpty(welcomeMessage)) 
+			if (!TextUtils.isEmpty(welcomeMessage)) 
 			{
-				Toast.makeText(getApplicationContext(), welcomeMessage, Toast.LENGTH_LONG).show();
+				ToastHelper.createAndShowToast(this, welcomeMessage);
 			}
 
 			hasShowWelcomeToast = true;
@@ -103,16 +103,20 @@ public class HomeActivity
 	{
 		try 
 		{	
-			if (activeFragment != null) {
+			if (activeFragment != null) 
+			{
 				getSupportFragmentManager().beginTransaction().remove(activeFragment).commitAllowingStateLoss();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} 
+		catch (Exception e) 
+		{
+			Log.e(TAG , e.getMessage(), e);
 		}
 	}
 
 	
-	private void initViews() 
+	
+	private void initLayout() 
 	{
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayShowCustomEnabled(true);
