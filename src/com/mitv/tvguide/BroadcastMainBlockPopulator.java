@@ -23,6 +23,7 @@ import com.millicom.mitv.activities.SignUpSelectionActivity;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVProgram;
+import com.millicom.mitv.models.UserLike;
 import com.millicom.mitv.utilities.DialogHelper;
 import com.mitv.Consts;
 import com.mitv.R;
@@ -273,8 +274,8 @@ int duration = broadcastWithChannelInfo.getBroadcastDurationInMinutes();
 		boolean isLiked = false;
 		if (ContentManager.sharedInstance().isLoggedIn()) 
 		{
-			//TODO NewArc let ContentManager take programId to check if liked!
-//			isLiked = ContentManager.sharedInstance().isContainedInUserLikes()
+			UserLike userLikeFromBroascast = UserLike.userLikeFromBroadcast(broadcastWithChannelInfo);
+			isLiked = ContentManager.sharedInstance().isContainedInUserLikes(userLikeFromBroascast);
 			isLiked = false;
 		}
 		return isLiked;
@@ -287,6 +288,7 @@ int duration = broadcastWithChannelInfo.getBroadcastDurationInMinutes();
 		
 		switch (viewId) {
 		case R.id.element_social_buttons_like_button_container: {
+			UserLike userLikeFromBroascast = UserLike.userLikeFromBroadcast(broadcastWithChannelInfo);
 			boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 			
 			final boolean isLiked = isLiked(broadcastWithChannelInfo);

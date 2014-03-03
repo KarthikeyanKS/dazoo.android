@@ -2,6 +2,7 @@
 package com.millicom.mitv.enums;
 
 import com.google.gson.annotations.SerializedName;
+import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 
 
 
@@ -34,6 +35,26 @@ public enum LikeTypeResponseEnum
 		return id;
 	}
 	
+	public static LikeTypeResponseEnum getLikeTypeEnumFromBroadcast(TVBroadcastWithChannelInfo broadcastWithChannelInfo) {
+		ProgramTypeEnum programType = broadcastWithChannelInfo.getProgram().getProgramType();
+		LikeTypeResponseEnum likeTypeFromBroadcast = LikeTypeResponseEnum.PROGRAM;
+		switch (programType) {
+		case TV_EPISODE: {
+			likeTypeFromBroadcast = LikeTypeResponseEnum.SERIES;
+			break;
+		}
+		case SPORT: {
+			likeTypeFromBroadcast = LikeTypeResponseEnum.SPORT_TYPE;
+			break;
+		}
+		case MOVIE:
+		case OTHER: {
+			likeTypeFromBroadcast = LikeTypeResponseEnum.PROGRAM;
+			break;
+		}
+		}
+		return likeTypeFromBroadcast;
+	}
 
 
 	public static LikeTypeResponseEnum getLikeTypeEnumFromCode(int code)

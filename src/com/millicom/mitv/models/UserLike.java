@@ -16,8 +16,15 @@ public class UserLike
 	@SuppressWarnings("unused")
 	private static final String	TAG	= UserLike.class.getName();
 	
-	
-	
+	public static UserLike userLikeFromBroadcast(TVBroadcastWithChannelInfo broadcastWithChannelInfo) {
+		String title = broadcastWithChannelInfo.getProgram().getTitle();
+		LikeTypeResponseEnum likeTypeFromBroadcast = LikeTypeResponseEnum.getLikeTypeEnumFromBroadcast(broadcastWithChannelInfo);
+		String contentId = getContentIdFromBroadcast(broadcastWithChannelInfo);
+		
+		UserLike userLikeFromBroadcast = new UserLike(title, likeTypeFromBroadcast, contentId);
+		return userLikeFromBroadcast;
+	}
+		
 	public UserLike(String title, LikeTypeResponseEnum likeType, String contentId)
 	{
 		this.likeType = likeType.toString();	
@@ -45,7 +52,40 @@ public class UserLike
 		}
 	}
 	
-	
+	private static String getContentIdFromBroadcast(TVBroadcastWithChannelInfo broadcastWithChannelInfo) {
+		LikeTypeResponseEnum likeTypeFromBroadcast = LikeTypeResponseEnum.getLikeTypeEnumFromBroadcast(broadcastWithChannelInfo);
+		
+		String contentId;
+		
+		switch(likeTypeFromBroadcast)
+		{
+			case PROGRAM:
+			{
+				contentId = broadcastWithChannelInfo.getProgram().getProgramId();
+				break;
+			}
+			
+			case SERIES:
+			{
+				contentId = broadcastWithChannelInfo.getProgram().getSeries().getSeriesId();
+				break;
+			}
+			
+			case SPORT_TYPE:
+			{
+				contentId = broadcastWithChannelInfo.getProgram().getSportType().getSportTypeId();
+				break;
+			}
+			
+			default:
+			{
+				contentId = "";
+				break;
+			}
+		}
+		
+		return contentId;
+	}
 	
 	public String getContentId()
 	{

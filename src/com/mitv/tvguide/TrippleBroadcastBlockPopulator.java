@@ -249,7 +249,7 @@ public class TrippleBroadcastBlockPopulator {
 		topContentView.setVisibility(View.VISIBLE);
 
 		if (repeatingOrUpcomingBroadcasts.size() > 0) {
-			containerView.addView(topContentView);
+			layoutContainerView.addView(topContentView);
 		}
 
 	}
