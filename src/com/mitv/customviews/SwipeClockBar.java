@@ -61,7 +61,7 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 	private LinearLayout clockbarContainer;
 	private int screenHeight;
 
-	private boolean mIsHighlighted = false;
+	private boolean isHighlighted = false;
 
 	public SwipeClockBar(Context context) {
 		super(context);
@@ -336,7 +336,6 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 
 			int textColorId;
 			int parentBackgroundColorId;
-			String fontName;
 			
 			int indexToCheckForColor = position;
 				if(smallScreenMode) {
@@ -346,32 +345,25 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 				}
 			}
 
-			
-			if (mIsHighlighted) {
+			if (isHighlighted) {
 				if (indexToCheckForColor == index24OfSelectedHour) {
-					fontName = FontManager.FONT_BOLD;
 					textColorId = R.color.white;
 					parentBackgroundColorId = R.color.red;
 				} else if (isToday && isEarlier(hour, DateUtils.getCurrentHourOn24HourFormat())) {
-					fontName = FontManager.FONT_LIGHT;
 					textColorId = R.color.grey5;
 					parentBackgroundColorId = R.color.transparent;
 				} else {
-					fontName = FontManager.FONT_LIGHT;
 					textColorId = R.color.red;
 					parentBackgroundColorId = R.color.transparent;
 				}
 			} else {
 				if (indexToCheckForColor == index24OfSelectedHour) {
-					fontName = FontManager.FONT_BOLD;
 					textColorId = R.color.white;
 					parentBackgroundColorId = R.color.grey4;
 				} else if (isToday && isEarlier(hour, DateUtils.getCurrentHourOn24HourFormat())) {
-					fontName = FontManager.FONT_LIGHT;
 					textColorId = R.color.grey5;
 					parentBackgroundColorId = R.color.transparent;
 				} else {
-					fontName = FontManager.FONT_LIGHT;
 					textColorId = R.color.grey2;
 					parentBackgroundColorId = R.color.transparent;
 				}
@@ -380,10 +372,8 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 
 			int textColor = activity.getResources().getColor(textColorId);
 			int parentBackgroundColor = activity.getResources().getColor(parentBackgroundColorId);
-			Typeface textFont = FontManager.getTypefaceStatic(activity, fontName);
 
 			holder.textView.setTextColor(textColor);
-			holder.textView.setTypeface(textFont);
 			rowView.setBackgroundColor(parentBackgroundColor);
 
 			if (listViewHeight > 0) {
@@ -396,19 +386,12 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 				params.height = cellHeight;
 				rowView.setLayoutParams(params);
 
-				// If this is the first view, calculate text size: DISABLED FOR NOW
-//				if (mSavedTextSize < 0) {
-//					mSavedTextSize = getTextSize(cellHeight, holder.textView, hourString);
-					if (smallScreenMode) {
-						savedTextSize = 12;
-						holder.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, savedTextSize);
-					} 
-					else if (screenHeight > SCREEN_HEIGHT_TABLET) {
-						savedTextSize = 34;
-						holder.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, savedTextSize);
-					}
-//				}
-//								holder.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mSavedTextSize);
+				if (smallScreenMode) {
+					savedTextSize = 12;
+				} else if (screenHeight > SCREEN_HEIGHT_TABLET) {
+					savedTextSize = 34;
+				}
+				holder.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, savedTextSize);
 
 				rowView.setVisibility(View.VISIBLE);
 			}
@@ -417,41 +400,6 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 
 		private class ViewHolder {
 			public FontTextView textView;
-		}
-
-		private int getTextSize(int cellHeight, TextView textView, String string) {
-			int width = cellHeight;
-			int height = cellHeight;
-			CharSequence text = string;
-
-			// Get the text view's paint object
-			TextPaint textPaint = textView.getPaint();
-
-			float mMaxTextSize = 50;
-			float mMinTextSize = 12;
-
-			// Bisection method: fast & precise
-			float lower = mMinTextSize;
-			float upper = mMaxTextSize;
-
-			float targetTextSize = (lower + upper) / 2;
-			int textHeight = getTextHeight(text, textPaint, width, targetTextSize);
-
-			while (upper - lower > 1) {
-				targetTextSize = (lower + upper) / 2;
-				textHeight = getTextHeight(text, textPaint, width, targetTextSize);
-				if (textHeight > height) {
-					upper = targetTextSize;
-				}
-				else {
-					lower = targetTextSize;
-				}
-			}
-
-			targetTextSize = lower;
-			textHeight = getTextHeight(text, textPaint, width, targetTextSize);
-
-			return textHeight;
 		}
 	}
 
@@ -487,19 +435,6 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 
 	}
 
-	// Set the text size of the text paint object and use a static layout to render text off screen before measuring
-	private int getTextHeight(CharSequence source, TextPaint originalPaint, int width, float textSize) {
-		// modified: make a copy of the original TextPaint object for measuring
-		// (apparently the object gets modified while measuring, see also the
-		// docs for TextView.getPaint() (which states to access it read-only)
-		TextPaint paint = new TextPaint(originalPaint);
-		// Update the text paint object
-		paint.setTextSize(textSize);
-		// Measure using a static layout
-		StaticLayout layout = new StaticLayout(source, paint, width, Alignment.ALIGN_NORMAL, 1.0f, 0.0f, true);
-		return layout.getHeight();
-	}
-
 	/* If first is earlier than second, return true. */
 	private boolean isEarlier(int first, int second) {
 		if (first < second && first >= firstHourOfDay) {
@@ -515,14 +450,14 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 	}
 
 	public void highlightClockbar() {
-		mIsHighlighted = true;
+		isHighlighted = true;
 		listAdapter.notifyDataSetChanged();
 		clockIconTextView.setTextColor(getResources().getColor(R.color.red));
 		clockbarContainer.setBackgroundResource(R.drawable.layout_rounded_corners_grey0_clockbar);
 	}
 
 	public void dehighlightClockbar() {
-		mIsHighlighted = false;
+		isHighlighted = false;
 		listAdapter.notifyDataSetChanged();
 		clockIconTextView.setTextColor(getResources().getColor(R.color.grey5));
 		clockbarContainer.setBackgroundResource(R.color.transparent);
