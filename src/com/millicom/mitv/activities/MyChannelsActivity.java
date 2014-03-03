@@ -3,6 +3,7 @@ package com.millicom.mitv.activities;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -133,6 +134,12 @@ public class MyChannelsActivity
 	protected void loadData() 
 	{
 		allChannelObjects = ContentManager.sharedInstance().getFromCacheTVChannelsAll();
+		
+		/* Sort all channels by name */
+		if(allChannelObjects != null) {
+			Collections.sort(allChannelObjects, new TVChannel.ChannelComparatorByName());
+		}
+		
 		myChannelIds = ContentManager.sharedInstance().getFromCacheTVChannelIdsUser();
 		
 		checkedChannelIds = myChannelIds;
