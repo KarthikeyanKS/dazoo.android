@@ -1372,9 +1372,14 @@ public class ContentManager
 	
 	public boolean isContainedInUserLikes(UserLike userLike)
 	{
-		return cache.isInUserLikes(userLike);
+		boolean isContainedInUserLikes = cache.isInUserLikes(userLike);
+		return isContainedInUserLikes;
 	}
 	
+	public boolean isContainedInUsedChannelIds(TVChannelId channelId) {
+		boolean isContainedInUsedChannelIds = cache.isInUsedChannelIds(channelId);
+		return isContainedInUsedChannelIds;
+	}
 	
 	// TODO NewArc remove this?
 	public TVChannel getFromCacheTVChannelById(String channelId)

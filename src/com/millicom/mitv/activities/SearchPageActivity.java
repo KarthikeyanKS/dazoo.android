@@ -38,6 +38,7 @@ import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
 import com.millicom.mitv.models.SearchResultsForQuery;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
+import com.millicom.mitv.models.TVChannelId;
 import com.millicom.mitv.models.TVSearchResult;
 import com.millicom.mitv.models.TVSearchResults;
 import com.millicom.mitv.utilities.GenericUtils;
@@ -214,9 +215,19 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 				Toast.makeText(this, "No upcoming broadcast", Toast.LENGTH_SHORT).show();
 			}
 		} else {
-			Intent intentMyChannels = new Intent(SearchPageActivity.this, MyChannelsActivity.class);
-			startActivity(intentMyChannels);
-
+			TVChannelId channelId = result.getEntity().getChannel().getChannelId();
+			Intent intent;
+			if (ContentManager.sharedInstance().isContainedInUsedChannelIds(channelId)) {
+				ContentManager.sharedInstance().setSelectedTVChannelId(channelId);
+				intent = new Intent(SearchPageActivity.this, ChannelPageActivity.class);
+			} else {
+				if (ContentManager.sharedInstance().isLoggedIn()) {
+					intent = new Intent(SearchPageActivity.this, MyChannelsActivity.class);
+				} else {
+					intent = new Intent(SearchPageActivity.this, SignUpSelectionActivity.class);
+				}
+			}
+			startActivity(intent);
 		}
 	}
 
