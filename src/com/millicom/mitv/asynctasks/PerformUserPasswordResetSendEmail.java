@@ -18,7 +18,7 @@ import com.mitv.Consts;
 public class PerformUserPasswordResetSendEmail 
 	extends AsyncTaskWithRelativeURL<DummyData> 
 {
-	private static final String TAG = "PerformUserPasswordResetSendEmail";
+	private static final String TAG = PerformUserPasswordResetSendEmail.class.getName();
 	
 	private static final String URL_SUFFIX = Consts.URL_RESET_PASSWORD_SEND_EMAIL;
 	

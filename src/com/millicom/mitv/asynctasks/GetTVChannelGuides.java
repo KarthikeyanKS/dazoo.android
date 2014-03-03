@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import android.util.Log;
+
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
@@ -30,6 +32,8 @@ import com.mitv.Consts;
 public class GetTVChannelGuides 
 	extends AsyncTaskWithRelativeURL<TVChannelGuide[]>
 {	
+	private static final String TAG = GetTVChannelGuides.class.getName();
+	
 	private TVDate tvDate;
 	
 	
@@ -69,21 +73,28 @@ public class GetTVChannelGuides
 	@Override
 	protected Void doInBackground(String... params) 
 	{
-		/* Important to call super first, which creates the content, which in this case is */
 		super.doInBackground(params);
 		
-		TVChannelGuide[] contentAsArray = (TVChannelGuide[]) requestResultObjectContent;
-		
-		ArrayList<TVChannelGuide> tvChannelGuides = new ArrayList<TVChannelGuide>(Arrays.asList(contentAsArray));
-		
-		HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> mapTagToTaggedBroadcastForDate = createMapTagToTaggedBroadcastForDate(tvChannelGuides);
-		
-		TVGuide tvGuide = new TVGuide(tvDate, tvChannelGuides);
-		
-		TVGuideAndTaggedBroadcasts tvGuideAndTaggedBroadcasts = new TVGuideAndTaggedBroadcasts(tvGuide, mapTagToTaggedBroadcastForDate);
-		
 		/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
-		requestResultObjectContent = tvGuideAndTaggedBroadcasts;
+		if(requestResultObjectContent != null)
+		{
+			TVChannelGuide[] contentAsArray = (TVChannelGuide[]) requestResultObjectContent;
+			
+			ArrayList<TVChannelGuide> tvChannelGuides = new ArrayList<TVChannelGuide>(Arrays.asList(contentAsArray));
+			
+			HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> mapTagToTaggedBroadcastForDate = createMapTagToTaggedBroadcastForDate(tvChannelGuides);
+			
+			TVGuide tvGuide = new TVGuide(tvDate, tvChannelGuides);
+			
+			TVGuideAndTaggedBroadcasts tvGuideAndTaggedBroadcasts = new TVGuideAndTaggedBroadcasts(tvGuide, mapTagToTaggedBroadcastForDate);
+			
+			/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
+			requestResultObjectContent = tvGuideAndTaggedBroadcasts;
+		}
+		else
+		{
+			Log.w(TAG, "The requestResultObjectContent is null.");
+		}
 		
 		return null;
 	}

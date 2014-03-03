@@ -26,6 +26,8 @@ import com.millicom.mitv.models.UpcomingBroadcastsForBroadcast;
 import com.millicom.mitv.models.UserLike;
 import com.millicom.mitv.models.UserLoginData;
 import com.millicom.mitv.models.gson.AdAdzerkJSON;
+import com.millicom.mitv.utilities.AppDataUtils;
+import com.mitv.Consts;
 
 
 
@@ -92,13 +94,18 @@ public class Cache
 	private TVChannelId nonPersistentSelectedTVChannelId;
 		
 	/* Should only be used by the ContentManager */
-	public Cache() 
+	public Cache()
 	{
 		this.tvGuides = new HashMap<String, TVGuide>();
 		this.userLikes = new ArrayList<UserLike>();
 		
 		/* Default selected day to 0 */
 		setTvDateSelectedIndex(0);
+		
+		userImageURL = AppDataUtils.getPreference(Consts.SHARED_PREFERENCES_USER_IMAGE_URL, "");
+		
+		// TODO NewArc - What follows is a very ugly hack for saving the data on permanent storage. Replace with a proper implementation ASAP!
+		userData = (UserLoginData) AppDataUtils.loadData(Consts.SHARED_PREFERENCES_USER_DATA);
 	}
 	
 	
@@ -284,13 +291,29 @@ public class Cache
 		return userImageURL;
 	}
 
-	public void setUserData(UserLoginData userData) {
+	public void setUserData(UserLoginData userData) 
+	{
 		this.userData = userData;
+		
+		// TODO NewArc - What follows is a very ugly hack for saving the data on permanent storage. Replace with a proper implementation ASAP!
+		final UserLoginData userDataForStorage = this.userData;
+		
+		// Write to file on different thread to avoid blocking the UI thread
+		new Thread(
+		new Runnable() 
+		{
+			public void run() 
+			{
+				AppDataUtils.saveData(Consts.SHARED_PREFERENCES_USER_DATA, userDataForStorage);
+			}
+		}).start();
 	} 
 	
 	public void setUserImageURL(String url)
 	{
 		this.userImageURL = url;
+		
+		AppDataUtils.setPreference(Consts.SHARED_PREFERENCES_USER_IMAGE_URL, userImageURL);
 	}
 	
 	public ArrayList<UserLike> getUserLikes() 

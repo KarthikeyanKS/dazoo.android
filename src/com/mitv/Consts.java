@@ -15,8 +15,6 @@ public abstract class Consts {
 
 	public static final String MITV_SESSION							= "com.mitv.session";
 	
-	/* Shared preferences */
-	public static final String SHARED_PREFS_MAIN_NAME				= "com.mitv.shared.prefs";
 	public static final String USER_ACCOUNT_ACCESS_TOKEN			= "com.mitv.user.account.access.token";
 	public static final String USER_ACCOUNT_USER_ID					= "com.mitv.user.account.user.id";
 	public static final String USER_ACCOUNT_FIRST_NAME				= "com.mitv.user.first.name";
@@ -535,4 +533,10 @@ public abstract class Consts {
 	public static final String APP_URL_FACEBOOK_GRAPH_ME = APP_URL_FACEBOOK_GRAPH + APP_URL_FACEBOOK_ME;
 	
     public static final int MAXIMUM_REMINDER_TIME_FOR_SHOW = 15;
+    
+    
+    /* Shared preferences */
+	public static final String SHARED_PREFERENCES_NAME = "com.mitv.shared.preferences";
+	public static final String SHARED_PREFERENCES_USER_IMAGE_URL = "com.mitv.shared.preferences.user.image.url";
+	public static final String SHARED_PREFERENCES_USER_DATA = "com.mitv.shared.preferences.user.data";
 }

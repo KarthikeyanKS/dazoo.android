@@ -6,6 +6,8 @@ package com.millicom.mitv.asynctasks;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import android.util.Log;
+
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
@@ -25,6 +27,8 @@ import com.mitv.Consts;
 public class GetTVChannelIdsDefault
 	extends AsyncTaskWithRelativeURL<TVChannel[]> 
 {	
+	private static final String TAG = GetTVChannelIdsDefault.class.getName();
+	
 	private static final String URL_SUFFIX = Consts.URL_CHANNELS_DEFAULT;
 
 	
@@ -43,19 +47,26 @@ public class GetTVChannelIdsDefault
 		super.doInBackground(params);
 		 
 		/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
-		TVChannel[] channelObjectsAsArray = (TVChannel[]) requestResultObjectContent;
-		ArrayList<TVChannel> channelObjectsAsArrayList = new ArrayList<TVChannel>(Arrays.asList(channelObjectsAsArray));
-		
-		ArrayList<TVChannelId> tvChannelIds = new ArrayList<TVChannelId>();
-		
-		for(TVChannel tvChannel : channelObjectsAsArrayList) 
+		if(requestResultObjectContent != null)
 		{
-			TVChannelId tvChannelId = tvChannel.getChannelId();
-			tvChannelIds.add(tvChannelId);
-		} 
+			TVChannel[] channelObjectsAsArray = (TVChannel[]) requestResultObjectContent;
+			ArrayList<TVChannel> channelObjectsAsArrayList = new ArrayList<TVChannel>(Arrays.asList(channelObjectsAsArray));
+			
+			ArrayList<TVChannelId> tvChannelIds = new ArrayList<TVChannelId>();
+			
+			for(TVChannel tvChannel : channelObjectsAsArrayList) 
+			{
+				TVChannelId tvChannelId = tvChannel.getChannelId();
+				tvChannelIds.add(tvChannelId);
+			} 
+			
+			requestResultObjectContent = tvChannelIds;
+		}
+		else
+		{
+			Log.w(TAG, "The requestResultObjectContent is null.");
+		}
 		
-		requestResultObjectContent = tvChannelIds;
-		 
 		return null;
 	}
 }
