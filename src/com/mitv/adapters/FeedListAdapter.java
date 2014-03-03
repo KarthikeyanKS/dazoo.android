@@ -34,6 +34,7 @@ import com.millicom.mitv.models.UserLike;
 import com.millicom.mitv.utilities.ToastHelper;
 import com.mitv.Consts;
 import com.mitv.R;
+import com.mitv.customviews.LikeView;
 import com.mitv.customviews.ReminderView;
 import com.mitv.utilities.ProgressBarUtils;
 import com.mitv.utilities.ShareUtils;
@@ -438,8 +439,9 @@ public class FeedListAdapter
 			viewHolder.progressbarTv = (TextView) rowView.findViewById(R.id.block_feed_liked_timeleft_tv);
 			viewHolder.progressBar = (ProgressBar) rowView.findViewById(R.id.block_feed_liked_progressbar);
 
-			viewHolder.likeContainer = (RelativeLayout) rowView.findViewById(R.id.element_social_buttons_like_button_container);
-			viewHolder.likeLikeIv = (ImageView) rowView.findViewById(R.id.element_social_buttons_like_button_iv);
+			//viewHolder.likeContainer = (RelativeLayout) rowView.findViewById(R.id.element_social_buttons_like_button_container);
+			viewHolder.likeView = (LikeView) rowView.findViewById(R.id.element_social_buttons_like_view);
+			//viewHolder.likeLikeIv = (ImageView) rowView.findViewById(R.id.element_social_buttons_like_button_iv);
 			viewHolder.shareContainer = (RelativeLayout) rowView.findViewById(R.id.element_social_buttons_share_button_container);
 			viewHolder.shareIv = (ImageView) rowView.findViewById(R.id.element_social_buttons_share_button_iv);
 			viewHolder.reminderView = (ReminderView) rowView.findViewById(R.id.element_social_buttons_reminder);
@@ -590,14 +592,15 @@ public class FeedListAdapter
 				holderBC.progressBar.setVisibility(View.GONE);
 			}
 
-			if (isLikedByUser)
-			{
-				holderBC.likeLikeIv.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_like_selected));
-			}
-			else
-			{
-				holderBC.likeLikeIv.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_like_default));
-			}
+			holderBC.likeView.setBroadcast(broadcast); /////////////////////////////////////////////
+//			if (isLikedByUser)
+//			{
+//				holderBC.likeLikeIv.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_like_selected));
+//			}
+//			else
+//			{
+//				holderBC.likeLikeIv.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_like_default));
+//			}
 			
 			holderBC.container.setOnClickListener(new View.OnClickListener() 
 			{
@@ -608,14 +611,15 @@ public class FeedListAdapter
 				}
 			});
 
-			holderBC.likeContainer.setOnClickListener(new View.OnClickListener() 
-			{
-				@Override
-				public void onClick(View v) 
-				{
-					userClickedLike(program, isLikedByUser);
-				}
-			});
+			//holderBC.likeContainer.setOnClickListener(new View.OnClickListener()
+//			holderBC.likeView.setOnClickListener(new View.OnClickListener()
+//			{
+//				@Override
+//				public void onClick(View v) 
+//				{
+//					userClickedLike(program, isLikedByUser);
+//				}
+//			});
 
 			holderBC.shareContainer.setOnClickListener(new View.OnClickListener() 
 			{
@@ -747,11 +751,12 @@ public class FeedListAdapter
 		TextView		detailsTv;
 		TextView		progressbarTv;
 		ProgressBar		progressBar;
-		RelativeLayout	likeContainer;
+		//RelativeLayout	likeContainer;
 		ImageView		likeLikeIv;
 		RelativeLayout	shareContainer;
 		ImageView		shareIv;
-		ReminderView reminderView;
+		ReminderView 	reminderView;
+		LikeView 		likeView;
 	}
 
 	
