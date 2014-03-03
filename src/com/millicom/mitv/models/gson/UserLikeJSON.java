@@ -44,7 +44,6 @@ public class UserLikeJSON
 	@Expose (deserialize = false)
 	protected String programType;
 	
-	/* This variable is used if likeType == "PROGRAM" */
 	@Expose (deserialize = false)
 	protected String programId;
 	
@@ -52,7 +51,6 @@ public class UserLikeJSON
 	@Expose (deserialize = false)
 	protected String genre;
 	
-	/* This variable is used if likeType == "PROGRAM" and programType is "MOVIE" */
 	@Expose (deserialize = false)
 	protected Integer year;
 	
