@@ -1078,7 +1078,7 @@ public class ContentManager
 	
 	public void getUserTokenWithFacebookFBToken(ActivityCallbackListener activityCallBackListener, String facebookToken) 
 	{
-		apiClient.getUserTokenUsingFBToken(activityCallBackListener, facebookToken);
+		apiClient.performUserLoginWithFacebookToken(activityCallBackListener, facebookToken);
 	}
 
 	public void performSetUserChannels(ActivityCallbackListener activityCallbackListener, List<TVChannelId> tvChannelIds) 

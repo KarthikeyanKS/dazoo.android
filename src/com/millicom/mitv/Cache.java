@@ -92,8 +92,10 @@ public class Cache
 	private TVChannelId nonPersistentSelectedTVChannelId;
 		
 	/* Should only be used by the ContentManager */
-	public Cache() {
+	public Cache() 
+	{
 		this.tvGuides = new HashMap<String, TVGuide>();
+		this.userLikes = new ArrayList<UserLike>();
 		
 		/* Default selected day to 0 */
 		setTvDateSelectedIndex(0);
