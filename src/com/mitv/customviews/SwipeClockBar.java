@@ -350,21 +350,21 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 					textColorId = R.color.white;
 					parentBackgroundColorId = R.color.red;
 				} else if (isToday && isEarlier(hour, DateUtils.getCurrentHourOn24HourFormat())) {
-					textColorId = R.color.grey5;
+					textColorId = R.color.grey3;
 					parentBackgroundColorId = R.color.transparent;
 				} else {
-					textColorId = R.color.red;
+					textColorId = R.color.blue1;
 					parentBackgroundColorId = R.color.transparent;
 				}
 			} else {
 				if (indexToCheckForColor == index24OfSelectedHour) {
 					textColorId = R.color.white;
-					parentBackgroundColorId = R.color.grey4;
+					parentBackgroundColorId = R.color.red;
 				} else if (isToday && isEarlier(hour, DateUtils.getCurrentHourOn24HourFormat())) {
-					textColorId = R.color.grey5;
+					textColorId = R.color.grey2;
 					parentBackgroundColorId = R.color.transparent;
 				} else {
-					textColorId = R.color.grey2;
+					textColorId = R.color.grey3;
 					parentBackgroundColorId = R.color.transparent;
 				}
 			}
@@ -446,14 +446,12 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 	public void highlightClockbar() {
 		isHighlighted = true;
 		listAdapter.notifyDataSetChanged();
-		clockIconTextView.setTextColor(getResources().getColor(R.color.red));
 		clockbarContainer.setBackgroundResource(R.drawable.layout_rounded_corners_grey0_clockbar);
 	}
 
 	public void dehighlightClockbar() {
 		isHighlighted = false;
 		listAdapter.notifyDataSetChanged();
-		clockIconTextView.setTextColor(getResources().getColor(R.color.grey5));
 		clockbarContainer.setBackgroundResource(R.color.transparent);
 	}
 }

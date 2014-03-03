@@ -5,19 +5,22 @@
     <color name="black">#000000</color>
     <color name="black_light">#191c1d</color>
     <color name="white">#ffffff </color>
+    
     <color name="blue0">#1ba3f7</color>
     <color name="blue1">#1794e2</color>
     <color name="blue2">#1585C9</color>
     <color name="blue3">#2e6fb7</color>
+    
     <color name="yellow">#FF9C22</color>
     <color name="orange">#FF7800</color>
     <color name="red">#E8420C</color>
+    
     <color name="grey0">#F3F3F3</color>
     <color name="grey1">#D3D6DB</color>
-    <color name="grey2">#737E84</color>
-    <color name="grey3">#505658</color>
-    <color name="grey4">#32383C</color>
-    <color name="grey5">#b2b3b5</color>
+    <color name="grey2">#AFB2B8</color>
+    <color name="grey3">#737E84</color>
+    <color name="grey4">#505658</color>
+    <color name="grey5">#32383C</color>
        
     <color name="header_1">#000000</color>
     <color name="header_2">#000000</color>
