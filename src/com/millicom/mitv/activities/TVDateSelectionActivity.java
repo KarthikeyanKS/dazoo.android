@@ -1,8 +1,12 @@
+
 package com.millicom.mitv.activities;
+
+
 
 import java.util.ArrayList;
 
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBar.OnNavigationListener;
 
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.base.BaseContentActivity;
@@ -11,9 +15,11 @@ import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.models.TVDate;
 import com.mitv.adapters.ActionBarDropDownDateListAdapter;
 
+
+
 public abstract class TVDateSelectionActivity 
 	extends BaseContentActivity 
-	implements ActionBar.OnNavigationListener 
+	implements OnNavigationListener 
 {
 	private ActionBarDropDownDateListAdapter dayAdapter;
 	protected ActivityCallbackListener activityCallbackListener;
@@ -40,13 +46,21 @@ public abstract class TVDateSelectionActivity
 		setActivityCallbackListener();
 	}
 	
+	
+	
 	@Override
-	protected void onResume() {
+	protected void onResume() 
+	{
 		super.onResume();
+		
 		int selectedDayIndex = ContentManager.sharedInstance().getFromCacheTVDateSelectedIndex();
+		
 		dayAdapter.setSelectedIndex(selectedDayIndex);
+		
 		actionBar.setSelectedNavigationItem(selectedDayIndex);
 	}
+	
+	
 	
 	
 	@Override
@@ -55,7 +69,9 @@ public abstract class TVDateSelectionActivity
 		if (!onNavigationItemSelectedHasBeenCalledByOSYet) 
 		{
 			onNavigationItemSelectedHasBeenCalledByOSYet = true;
-		} else {
+		}
+		else 
+		{
 			dayAdapter.setSelectedIndex(position);
 			actionBar.setSelectedNavigationItem(position);
 			fetchGuideForSelectedDay(position);
@@ -63,6 +79,7 @@ public abstract class TVDateSelectionActivity
 
 		return true;
 	}
+	
 	
 	
 	private void fetchGuideForSelectedDay(int selectedDayIndex) 
