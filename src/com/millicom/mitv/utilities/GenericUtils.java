@@ -59,37 +59,7 @@ public abstract class GenericUtils
         }
     }
 	
-	
-	
-	@Deprecated
-	public static void logFacebookKeyHash(final Context context)
-	{
-		PackageInfo info;
-		
-		try 
-		{
-			info = context.getPackageManager().getPackageInfo("com.mitv", PackageManager.GET_SIGNATURES);
-			
-			for (Signature signature : info.signatures) 
-			{
-				MessageDigest md = MessageDigest.getInstance("SHA");
-				
-				md.update(signature.toByteArray());
-				
-				Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-			}
-		} 
-		catch (NameNotFoundException nnfex) 
-		{
-			Log.e(TAG, nnfex.getMessage(), nnfex);
-		} 
-		catch (NoSuchAlgorithmException nsex)
-		{
-			Log.e(TAG, nsex.getMessage(), nsex);
-		}
-	}
-	
-	
+
 	
 	public static Locale getCurrentLocale(final Context context)
 	{
@@ -246,7 +216,38 @@ public abstract class GenericUtils
 	
 	
 	
-	//TODO Change this to a pseudo unique own generated ID instead: http://stackoverflow.com/a/17625641
+	// TODO NewArc - Should we keep this?
+	@Deprecated
+	public static void logFacebookKeyHash(final Context context)
+	{
+		PackageInfo info;
+		
+		try 
+		{
+			info = context.getPackageManager().getPackageInfo("com.mitv", PackageManager.GET_SIGNATURES);
+			
+			for (Signature signature : info.signatures) 
+			{
+				MessageDigest md = MessageDigest.getInstance("SHA");
+				
+				md.update(signature.toByteArray());
+				
+				Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+			}
+		} 
+		catch (NameNotFoundException nnfex) 
+		{
+			Log.e(TAG, nnfex.getMessage(), nnfex);
+		} 
+		catch (NoSuchAlgorithmException nsex)
+		{
+			Log.e(TAG, nsex.getMessage(), nsex);
+		}
+	}
+	
+	
+	
+	// TODO NewArc - Change this to a pseudo unique own generated ID instead: http://stackoverflow.com/a/17625641
 	@Deprecated
 	public static String getDeviceId()
 	{

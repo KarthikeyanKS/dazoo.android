@@ -14,13 +14,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.base.BaseActivity;
-import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.LikeTypeResponseEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
-import com.millicom.mitv.enums.RequestIdentifierEnum;
-import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.models.UserLike;
 import com.millicom.mitv.utilities.DialogHelper;
 import com.mitv.R;
@@ -29,7 +26,6 @@ import com.mitv.R;
 
 public class LikesListAdapter 
 	extends BaseAdapter
-	implements ActivityCallbackListener
 {
 	private static final String	TAG	= LikesListAdapter.class.getName();
 
@@ -134,7 +130,17 @@ public class LikesListAdapter
 					{
 						case MOVIE:
 						{
-							holder.programTypeTv.setText(activity.getResources().getString(R.string.movie) + " " + userLike.getYear());
+							StringBuilder sb = new StringBuilder();
+							sb.append(activity.getResources().getString(R.string.movie));
+							
+							if(userLike.getYear() != 0) 
+							{
+								sb.append(" ");
+								sb.append(userLike.getYear());
+							}
+							
+							holder.programTypeTv.setText(sb.toString());
+							
 							break;
 						}
 						
@@ -146,7 +152,9 @@ public class LikesListAdapter
 						
 						default:
 						{
-							// TODO - Log this
+							holder.programTypeTv.setText(activity.getResources().getString(R.string.movie));
+							
+							Log.w(TAG, "Unhandled program type.");
 							break;
 						}
 					}
@@ -155,15 +163,7 @@ public class LikesListAdapter
 				
 				case SERIES:
 				{
-					if(userLike.getYear() != 0) 
-					{
-						holder.programTypeTv.setText(activity.getResources().getString(R.string.tv_series) + " " + userLike.getYear() + "-");
-					} 
-					else
-					{
-						holder.programTypeTv.setText(activity.getResources().getString(R.string.tv_series));
-					}
-					break;
+					holder.programTypeTv.setText(activity.getResources().getString(R.string.tv_series));
 				}
 				
 				case SPORT_TYPE:
@@ -174,6 +174,7 @@ public class LikesListAdapter
 				
 				default:
 				{
+					Log.w(TAG, "Unhandled like type.");
 					break;
 				}
 			}
@@ -193,17 +194,9 @@ public class LikesListAdapter
 		return rowView;
 	}
 	
-	
-	
-	@Override
-	public void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier)
-	{
-		// TODO Auto-generated method stub
-	}
 
 	
-	
-	private Runnable confirmProcedure(BaseActivity activity)
+	private Runnable confirmProcedure(final BaseActivity activity)
 	{
 		return new Runnable()
 		{
@@ -212,11 +205,9 @@ public class LikesListAdapter
 				if(currentPosition >= 0 && 
 				   currentPosition < userLikes.size()) 
 				{
-
 					UserLike userLike = getItem(currentPosition);
-
-					// TODO
-					//ContentManager.sharedInstance().removeUserLike(activity, userLike.getLikeType(), userLike.getContentId());
+					
+					ContentManager.sharedInstance().removeUserLike(activity, userLike);
 
 					notifyDataSetChanged();
 				}

@@ -25,7 +25,6 @@ import com.millicom.mitv.models.TVChannel;
 import com.millicom.mitv.models.TVChannelId;
 import com.mitv.R;
 import com.mitv.adapters.MyChannelsListAdapter;
-import com.mitv.customviews.FontTextView;
 import com.mitv.interfaces.MyChannelsCountInterface;
 
 

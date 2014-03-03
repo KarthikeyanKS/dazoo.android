@@ -6,7 +6,6 @@ package com.millicom.mitv.asynctasks.usertoken;
 import android.util.Log;
 
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
-import com.millicom.mitv.enums.LikeTypeRequestEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
@@ -27,14 +26,13 @@ public class AddUserLike
 	public AddUserLike(
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener,
-			LikeTypeRequestEnum likeType,
-			String contentId) 
+			UserLike userLike) 
 	{
 		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_ADD_LIKE, UserLike.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
 		
 		UserLikeData postData = new UserLikeData();
-		postData.setLikeType(likeType);
-		postData.setEntityId(contentId);
+		postData.setLikeType(userLike.getLikeTypeForRequest());
+		postData.setEntityId(userLike.getContentId());
 		
 		this.bodyContentData = gson.toJson(postData);
 		
@@ -43,7 +41,8 @@ public class AddUserLike
 
 
 	@Override
-	protected Void doInBackground(String... params) {
+	protected Void doInBackground(String... params) 
+	{
 		super.doInBackground(params);
 		
 		Log.d(TAG, "Should we cast return value here?");

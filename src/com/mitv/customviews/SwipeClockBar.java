@@ -424,16 +424,10 @@ public class SwipeClockBar extends LinearLayout implements OnSeekBarChangeListen
 	}
 
 	@Override
-	public void onStartTrackingTouch(SeekBar arg0) {
-		// TODO Auto-generated method stub
-
-	}
+	public void onStartTrackingTouch(SeekBar arg0) {}
 
 	@Override
-	public void onStopTrackingTouch(SeekBar arg0) {
-		// TODO Auto-generated method stub
-
-	}
+	public void onStopTrackingTouch(SeekBar arg0) {}
 
 	/* If first is earlier than second, return true. */
 	private boolean isEarlier(int first, int second) {

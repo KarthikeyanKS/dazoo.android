@@ -1,8 +1,12 @@
 
 package com.millicom.mitv.enums;
 
+
+
+import android.util.Log;
+
 import com.google.gson.annotations.SerializedName;
-import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
+import com.millicom.mitv.models.TVProgram;
 
 
 
@@ -17,6 +21,9 @@ public enum LikeTypeResponseEnum
 	@SerializedName("SPORT_TYPE")
 	SPORT_TYPE(2);
 	
+	
+
+	private static final String	TAG	= LikeTypeResponseEnum.class.getName();
 	
 	
 	private final int id;
@@ -35,27 +42,44 @@ public enum LikeTypeResponseEnum
 		return id;
 	}
 	
-	public static LikeTypeResponseEnum getLikeTypeEnumFromBroadcast(TVBroadcastWithChannelInfo broadcastWithChannelInfo) {
-		ProgramTypeEnum programType = broadcastWithChannelInfo.getProgram().getProgramType();
+	
+	public static LikeTypeResponseEnum getLikeTypeEnumFromTVProgram(TVProgram tvProgram) 
+	{
+		ProgramTypeEnum programType = tvProgram.getProgramType();
+		
 		LikeTypeResponseEnum likeTypeFromBroadcast = LikeTypeResponseEnum.PROGRAM;
-		switch (programType) {
-		case TV_EPISODE: {
-			likeTypeFromBroadcast = LikeTypeResponseEnum.SERIES;
-			break;
+		
+		switch (programType) 
+		{
+			case TV_EPISODE: 
+			{
+				likeTypeFromBroadcast = LikeTypeResponseEnum.SERIES;
+				break;
+			}
+			case SPORT: 
+			{
+				likeTypeFromBroadcast = LikeTypeResponseEnum.SPORT_TYPE;
+				break;
+			}
+			case MOVIE:
+			case OTHER: 
+			{
+				likeTypeFromBroadcast = LikeTypeResponseEnum.PROGRAM;
+				break;
+			}
+			
+			default:
+			{
+				likeTypeFromBroadcast = LikeTypeResponseEnum.PROGRAM;
+				Log.w(TAG, "Using the default program type.");
+				break;
+			}
 		}
-		case SPORT: {
-			likeTypeFromBroadcast = LikeTypeResponseEnum.SPORT_TYPE;
-			break;
-		}
-		case MOVIE:
-		case OTHER: {
-			likeTypeFromBroadcast = LikeTypeResponseEnum.PROGRAM;
-			break;
-		}
-		}
+		
 		return likeTypeFromBroadcast;
 	}
 
+	
 
 	public static LikeTypeResponseEnum getLikeTypeEnumFromCode(int code)
 	{
@@ -65,7 +89,6 @@ public enum LikeTypeResponseEnum
 			{
 				return result;
 			}
-			// No need for else
 		}
 
 		return LikeTypeResponseEnum.SERIES;

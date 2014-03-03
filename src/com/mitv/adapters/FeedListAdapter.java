@@ -23,7 +23,6 @@ import com.millicom.mitv.activities.PopularPageActivity;
 import com.millicom.mitv.enums.ActivityFeedAdapterTypeEnum;
 import com.millicom.mitv.enums.FeedItemTypeEnum;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
-import com.millicom.mitv.enums.LikeTypeRequestEnum;
 import com.millicom.mitv.enums.LikeTypeResponseEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
@@ -711,51 +710,15 @@ public class FeedListAdapter
 			final TVProgram tvProgram,
 			final boolean isCurrentlyLikedByUser)
 	{
-		LikeTypeRequestEnum likeType;
-		String contentId;
+		UserLike userLike = UserLike.userLikeFromTVProgram(tvProgram);
 		
-		ProgramTypeEnum programType = tvProgram.getProgramType();
-		
-		switch (programType) 
-		{
-			case TV_EPISODE:
-			{
-				likeType = LikeTypeRequestEnum.SERIES;
-				contentId = tvProgram.getSeries().getSeriesId();
-				break;
-			}
-			
-			case SPORT:
-			{
-				likeType = LikeTypeRequestEnum.PROGRAM;
-				contentId = tvProgram.getSportType().getSportTypeId();
-				break;
-			}
-			
-			case MOVIE:
-			case OTHER:
-			{
-				likeType = LikeTypeRequestEnum.PROGRAM;
-				contentId = tvProgram.getProgramId();
-			}
-			
-			case UNKNOWN:
-			default:
-			{
-				likeType = LikeTypeRequestEnum.PROGRAM;
-				contentId = tvProgram.getProgramId();
-				
-				Log.w(TAG, "Using the default program type.");
-			}
-		}
-
 		if (isCurrentlyLikedByUser)
 		{
-			ContentManager.sharedInstance().removeUserLike(this, likeType, contentId);
+			ContentManager.sharedInstance().removeUserLike(this, userLike);
 		} 
 		else 
 		{
-			ContentManager.sharedInstance().addUserLike(this, likeType, contentId);
+			ContentManager.sharedInstance().addUserLike(this, userLike);
 		}
 	}
 	

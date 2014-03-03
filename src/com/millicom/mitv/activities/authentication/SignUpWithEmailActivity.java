@@ -407,7 +407,7 @@ public class SignUpWithEmailActivity
 
 	
 	
-	// TODO: What is this and why is it needed?
+	// TODO NewArc - Is this really needed?
 	private void stripUnderlines(TextView textView) 
 	{
 		Spannable s = (Spannable) textView.getText();
