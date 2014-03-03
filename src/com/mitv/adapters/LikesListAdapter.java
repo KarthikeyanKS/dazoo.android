@@ -134,7 +134,17 @@ public class LikesListAdapter
 					{
 						case MOVIE:
 						{
-							holder.programTypeTv.setText(activity.getResources().getString(R.string.movie) + " " + userLike.getYear());
+							StringBuilder sb = new StringBuilder();
+							sb.append(activity.getResources().getString(R.string.movie));
+							
+							if(userLike.getYear() != 0) 
+							{
+								sb.append(" ");
+								sb.append(userLike.getYear());
+							}
+							
+							holder.programTypeTv.setText(sb.toString());
+							
 							break;
 						}
 						
@@ -146,7 +156,9 @@ public class LikesListAdapter
 						
 						default:
 						{
-							// TODO - Log this
+							holder.programTypeTv.setText(activity.getResources().getString(R.string.movie));
+							
+							Log.w(TAG, "Unhandled program type.");
 							break;
 						}
 					}
@@ -155,15 +167,7 @@ public class LikesListAdapter
 				
 				case SERIES:
 				{
-					if(userLike.getYear() != 0) 
-					{
-						holder.programTypeTv.setText(activity.getResources().getString(R.string.tv_series) + " " + userLike.getYear() + "-");
-					} 
-					else
-					{
-						holder.programTypeTv.setText(activity.getResources().getString(R.string.tv_series));
-					}
-					break;
+					holder.programTypeTv.setText(activity.getResources().getString(R.string.tv_series));
 				}
 				
 				case SPORT_TYPE:
@@ -174,6 +178,7 @@ public class LikesListAdapter
 				
 				default:
 				{
+					Log.w(TAG, "Unhandled like type.");
 					break;
 				}
 			}
