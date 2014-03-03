@@ -8,6 +8,7 @@ import com.mitv.R;
 import android.app.Activity;
 import android.content.Context;
 import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -59,17 +60,17 @@ public class ToastHelper
 			final Activity activity,
 			final String message)
 	{
+		Toast toast = new Toast(activity.getApplicationContext());
+		
 		LayoutInflater inflater = activity.getLayoutInflater();
 		
 		View layout = inflater.inflate(R.layout.toast_notification_and_like_set, (ViewGroup) activity.findViewById(R.id.notification_and_like_set_toast_container));
-
-		final Toast toast = new Toast(activity.getApplicationContext());
 
 		TextView text = (TextView) layout.findViewById(R.id.notification_and_like_set_toast_tv);
 		
 		text.setText(message);
 
-		if (android.os.Build.VERSION.SDK_INT >= 13) 
+		if(android.os.Build.VERSION.SDK_INT >= 13) 
 		{
 			toast.setGravity(Gravity.BOTTOM, 0, ((int) activity.getResources().getDimension(R.dimen.bottom_tabs_height) + 5)); //200
 		} 
@@ -78,8 +79,9 @@ public class ToastHelper
 			toast.setGravity(Gravity.BOTTOM, 0, ((int) activity.getResources().getDimension(R.dimen.bottom_tabs_height) + 5)); //100
 		}
 		
-		toast.setDuration(Toast.LENGTH_SHORT);
+		toast.setDuration(Toast.LENGTH_LONG);
 		toast.setView(layout);
+		
 		toast.show();
 	}
 	
@@ -87,24 +89,26 @@ public class ToastHelper
 	
 	public static void showNotificationWasSetToast(final Activity activity) 
 	{
+		Toast toast = new Toast(activity.getApplicationContext());
+		
 		LayoutInflater inflater = activity.getLayoutInflater();
 		
 		View layout = inflater.inflate(R.layout.toast_notification_and_like_set, (ViewGroup) activity.findViewById(R.id.notification_and_like_set_toast_container));
 
-		final Toast toast = new Toast(activity.getApplicationContext());
-		
-		String toastText = String.format("%s %s %s %s %s", 
-				activity.getResources().getString(R.string.reminder_text_set_top), 
-				"<b>", 
-				activity.getResources().getString(R.string.reminder_text_set_middle), 
-				"</b>", 
-				activity.getResources().getString(R.string.reminder_text_set_bottom));
-
 		TextView text = (TextView) layout.findViewById(R.id.notification_and_like_set_toast_tv);
 		
-		text.setText(Html.fromHtml(toastText));
+		StringBuilder sb = new StringBuilder();
+		sb.append(activity.getResources().getString(R.string.reminder_text_set_top));
+		sb.append(" <b> ");
+		sb.append(activity.getResources().getString(R.string.reminder_text_set_middle));
+		sb.append(" </b> ");
+		sb.append(activity.getResources().getString(R.string.reminder_text_set_bottom));
+		
+		Spanned spanned = Html.fromHtml(sb.toString());
+		
+		text.setText(spanned);
 
-		if (android.os.Build.VERSION.SDK_INT >= 13) 
+		if(android.os.Build.VERSION.SDK_INT >= 13) 
 		{
 			toast.setGravity(Gravity.BOTTOM, 0, ((int) activity.getResources().getDimension(R.dimen.bottom_tabs_height) + 10)); //200
 		} 
@@ -113,7 +117,7 @@ public class ToastHelper
 			toast.setGravity(Gravity.BOTTOM, 0, ((int) activity.getResources().getDimension(R.dimen.bottom_tabs_height) + 10)); //100
 		}
 		
-		toast.setDuration(Toast.LENGTH_SHORT);
+		toast.setDuration(Toast.LENGTH_LONG);
 		toast.setView(layout);
 		toast.show();
 	}

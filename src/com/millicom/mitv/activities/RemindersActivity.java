@@ -9,6 +9,7 @@ import java.util.List;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
 
@@ -29,7 +30,6 @@ public class RemindersActivity
 	extends BaseContentActivity 
 	implements OnClickListener
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = RemindersActivity.class.getName();
 	
 	
@@ -121,6 +121,12 @@ public class RemindersActivity
 
 		switch (status) 
 		{
+			case SUCCESS_WITH_NO_CONTENT:
+			{
+				// Do nothing (handled by parent activity)
+				break;
+			}
+		
 			case SUCCEEDED_WITH_DATA:
 			{
 				listView.setAdapter(listAdapter);
@@ -129,7 +135,7 @@ public class RemindersActivity
 	
 			default:
 			{
-				// Do nothing
+				Log.w(TAG, "Unhandled UIStatus");
 				break;
 			}
 		}

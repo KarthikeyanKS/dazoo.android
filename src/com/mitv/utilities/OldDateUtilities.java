@@ -45,7 +45,7 @@ public class OldDateUtilities {
 		return localTimeLong;
 	}
 	
-	//TODO verify that this uses correct time zone!
+
 	public static final String tvDateToMonthNumber(String tvDate){
 		SimpleDateFormat dfmInput = getDateFormat(Consts.DATE_FORMAT_DATE);
 		SimpleDateFormat dfmOutput = getDateFormat("MM");
@@ -63,7 +63,7 @@ public class OldDateUtilities {
 		return output;
 	}
 	
-	//TODO verify that this uses correct time zone!
+
 	public static String timeStringUsingTvDateAndHour(OldTVDate tvDate, int hour) {
 		SimpleDateFormat df = getDateFormat(Consts.ISO_DATE_FORMAT);
 		Date date = dateFromTvDateAndHour(tvDate, hour);
@@ -118,7 +118,7 @@ public class OldDateUtilities {
 		return output;
 	}
 	
-	//TODO scrap a lot of code in this and get current date using new Date() only?
+
 	public static final String todayDateAsTvDate(){
 		SimpleDateFormat dfmInput = getDateFormat(Consts.ISO_DATE_FORMAT);
 		String dateNow = dfmInput.format(new Date());
@@ -136,7 +136,7 @@ public class OldDateUtilities {
 		return output;
 	}
 	
-	//TODO verify that this uses correct time zone!
+
 	public static final String isoDateStringToTvDateString(String date) throws ParseException{
 		long time = isoStringToLong(date);
 		String output = isoDateToTvDateString(time);
@@ -149,7 +149,7 @@ public class OldDateUtilities {
 		return output;
 	}
 	
-	//TODO verify that this uses correct time zone!
+
 	public static boolean isTimeInFuture(String beginTime) throws ParseException {
 		SimpleDateFormat df = getDateFormat(Consts.ISO_DATE_FORMAT);
 		Date date = df.parse(beginTime);
@@ -469,7 +469,7 @@ public class OldDateUtilities {
 		return output;
 	}
 	
-	//TODO verify that this uses correct time zone!
+
 	/**
 	 * Get the current hour as a long
 	 * 
@@ -490,7 +490,7 @@ public class OldDateUtilities {
 		return time;
 	}
 
-	//TODO verify that this uses correct time zone!
+
 	/**
 	 * Get the current time as a long
 	 * 

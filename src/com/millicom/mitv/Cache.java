@@ -328,9 +328,8 @@ public class Cache
 	{
 		boolean isContained = false;
 		
-		for(int i=0; i<userLikes.size(); i++)
+		for(UserLike userLike : userLikes)
 		{
-			UserLike userLike = userLikes.get(i);
 			
 			boolean isEqual = userLike.equals(userLikeToCheck);
 			
@@ -342,6 +341,22 @@ public class Cache
 		}
 		
 		return isContained;
+	}
+	
+	public boolean isInUsedChannelIds(TVChannelId channelId)
+	{
+		boolean isContainedInUserChannels = false;
+		
+		for(TVChannelId channelIdTmp : tvChannelIdsUsed)
+		{
+			if(channelIdTmp.getChannelId().equals(channelId.getChannelId()))
+			{
+				isContainedInUserChannels = true;
+				break;
+			}
+		}
+		
+		return isContainedInUserChannels;
 	}
 	
 	

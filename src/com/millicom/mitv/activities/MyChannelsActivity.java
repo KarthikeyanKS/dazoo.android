@@ -3,6 +3,7 @@ package com.millicom.mitv.activities;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -24,7 +25,6 @@ import com.millicom.mitv.models.TVChannel;
 import com.millicom.mitv.models.TVChannelId;
 import com.mitv.R;
 import com.mitv.adapters.MyChannelsListAdapter;
-import com.mitv.customviews.FontTextView;
 import com.mitv.interfaces.MyChannelsCountInterface;
 
 
@@ -100,20 +100,25 @@ public class MyChannelsActivity
 	@Override
 	protected void onStop() 
 	{
-		updateMyChannels();
 		super.onStop();
+		finish();
+	}
+
+	@Override
+	public void onBackPressed() 
+	{
+		super.onBackPressed();	
+		finish();
 	}
 
 	
 	
 	@Override
-	public void onBackPressed() 
-	{
+	protected void onDestroy() {
 		updateMyChannels();
-		super.onBackPressed();
-		
-		finish();
+		super.onDestroy();
 	}
+
 
 	private void updateMyChannels() {
 		//TODO NewArc verify that changes to check channels Ids in adapter has propagted back to this variable here, should be "code by reference"!
@@ -133,6 +138,12 @@ public class MyChannelsActivity
 	protected void loadData() 
 	{
 		allChannelObjects = ContentManager.sharedInstance().getFromCacheTVChannelsAll();
+		
+		/* Sort all channels by name */
+		if(allChannelObjects != null) {
+			Collections.sort(allChannelObjects, new TVChannel.ChannelComparatorByName());
+		}
+		
 		myChannelIds = ContentManager.sharedInstance().getFromCacheTVChannelIdsUser();
 		
 		checkedChannelIds = myChannelIds;

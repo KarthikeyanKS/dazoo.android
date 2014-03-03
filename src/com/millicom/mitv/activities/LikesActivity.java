@@ -7,10 +7,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.base.BaseContentActivity;
@@ -25,15 +24,13 @@ import com.mitv.adapters.LikesListAdapter;
 
 public class LikesActivity 
 	extends BaseContentActivity 
-	implements OnClickListener 
+	implements OnClickListener
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = LikesActivity.class.getName();
 	
 	
 	private ListView listView;
 	private LikesListAdapter listAdapter;
-	private TextView errorTv;
 	
 	
 	
@@ -43,18 +40,19 @@ public class LikesActivity
 		
 		setContentView(R.layout.layout_likes_activity);
 		
-		initViews();
+		initLayout();
 	}
 	
 	
 	
-	private void initViews() 
+	private void initLayout() 
 	{
 		actionBar.setTitle(getResources().getString(R.string.likes));
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	
 		listView = (ListView) findViewById(R.id.listview);
-		errorTv = (TextView) findViewById(R.id.likes_error_tv);
+		
+		setEmptyLayoutDetailsMessage(getResources().getString(R.string.no_likes));
 	}
 	
 	
@@ -72,13 +70,37 @@ public class LikesActivity
 	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
-		if (fetchRequestResult.wasSuccessful()) 
+		switch(requestIdentifier)
 		{
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
-		} 
-		else
-		{
-			updateUI(UIStatusEnum.FAILED);
+			case USER_LIKES:
+			case USER_ADD_LIKE:
+			case USER_REMOVE_LIKE:
+			{
+				if (fetchRequestResult.wasSuccessful()) 
+				{
+					boolean cacheContainsLikes = (ContentManager.sharedInstance().getFromCacheUserLikes().isEmpty() == false);
+					
+					if(cacheContainsLikes)
+					{
+						updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+					}
+					else
+					{
+						updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
+					}
+				} 
+				else
+				{
+					updateUI(UIStatusEnum.FAILED);
+				}
+				break;
+			}
+			
+			default:
+			{
+				Log.w(TAG, "Unhandled request identifier.");
+				break;
+			}
 		}
 	}
 	
@@ -91,6 +113,12 @@ public class LikesActivity
 
 		switch (status) 
 		{	
+			case SUCCESS_WITH_NO_CONTENT:
+			{
+				// Do nothing (handled by parent activity)
+				break;
+			}
+		
 			case SUCCEEDED_WITH_DATA:
 			{
 				ArrayList<UserLike> userLikes = ContentManager.sharedInstance().getFromCacheUserLikes();
@@ -101,13 +129,12 @@ public class LikesActivity
 				
 				listView.setAdapter(listAdapter);
 				
-				errorTv.setVisibility(View.GONE);
 				break;
 			}
 	
 			default:
 			{
-				errorTv.setVisibility(View.VISIBLE);
+				Log.w(TAG, "Unhandled UIStatus");
 				break;
 			}
 		}

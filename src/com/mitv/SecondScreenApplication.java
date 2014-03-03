@@ -16,6 +16,7 @@ import android.os.Environment;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.millicom.mitv.utilities.GenericUtils;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -77,10 +78,12 @@ public class SecondScreenApplication extends Application {
 		public void onAppConfigurationListener();
 	}
 
-	public static boolean applicationIsSystemApp(Context context) {
+	public static boolean applicationIsSystemApp(Context context) 
+	{
 		String packageName = context.getPackageName();
 
-		try {
+		try 
+		{
 			ApplicationInfo applicationInfo = context.getPackageManager().getApplicationInfo(packageName, 0);
 
 			String appLocation = applicationInfo.publicSourceDir;
@@ -91,12 +94,16 @@ public class SecondScreenApplication extends Application {
 			// if package is installed by user then output will be /data/app/application_name.apk
 
 			// Check if package is system app
-			if (appLocation != null && appLocation.startsWith("/system/app/")) {
+			if (appLocation != null && appLocation.startsWith("/system/app/")) 
+			{
 				return true;
 			}
-		} catch (NameNotFoundException e) {
+		} 
+		catch (NameNotFoundException e) 
+		{
 			e.printStackTrace(); // TODO Can handle as your logic
 		}
+		
 		return false;
 	}
 

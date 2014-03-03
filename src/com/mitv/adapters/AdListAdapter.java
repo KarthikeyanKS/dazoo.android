@@ -81,7 +81,7 @@ public class AdListAdapter<T> extends BaseAdapter {
 	
 	private void downloadAds() 
 	{
-		//TODO USSE ContentManager here!!
+		// TODO NewArc - Use ContentManager for ads
 //		final int adCount = getAdCount();
 //		
 //		for(int i = 0; i < adCount; ++i) 

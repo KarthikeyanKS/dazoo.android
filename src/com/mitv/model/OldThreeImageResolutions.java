@@ -36,8 +36,7 @@ public class OldThreeImageResolutions {
 //		} else {
 //			logoUrl = imageUrlMediumRes;
 //		}
-		
-		//TODO use code above
+
 		logoUrl = imageUrlHighRes;
 		
 		return logoUrl;

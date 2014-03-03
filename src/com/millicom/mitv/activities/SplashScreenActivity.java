@@ -4,7 +4,6 @@ package com.millicom.mitv.activities;
 
 
 import net.hockeyapp.android.CrashManager;
-import net.hockeyapp.android.UpdateManager;
 import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;

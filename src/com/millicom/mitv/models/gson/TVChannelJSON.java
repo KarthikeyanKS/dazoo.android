@@ -43,11 +43,11 @@ public class TVChannelJSON
 	}
 
 
-	//TODO determine if those are good methods
+	// TODO NewArc -  Replace with an implementation that takes the screen resolution into account
 	/* Partially implemented method */
-	public String getImageUrl() 
+	public String getImageUrl()
 	{
-		//TODO use getImageURLForDensityDPI instead?
+		// Should we use getImageURLForDensityDPI instead?
 		//String imageUrl = logo.getImageURLForDensityDPI(densityDpi)
 		
 		return logo.getLarge();

@@ -24,7 +24,6 @@ public abstract class AnimationUtilities
 		ScaleAnimation animationDown = new ScaleAnimation((float) 1.1, (float)1.3, 1, 1, Animation.RELATIVE_TO_SELF, (float) 0.5, Animation.RELATIVE_TO_SELF, (float) 0.5);
 
 		animationDown.setDuration(30);
-		animationDown.setStartOffset(-3000); /* Think a delay of -3000 ms is the same as 0 ms. Cannot notice any difference. */
 		as.addAnimation(animationDown);
 		
 		v.startAnimation(as);
@@ -34,7 +33,7 @@ public abstract class AnimationUtilities
 	
 	public static void expand(final View v) 
 	{
-		v.measure(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+		v.measure(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		
 		final int targtetHeight = v.getMeasuredHeight();
 

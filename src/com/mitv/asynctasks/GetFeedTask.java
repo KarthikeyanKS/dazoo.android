@@ -30,8 +30,6 @@ public class GetFeedTask
 	
 	protected void onPostExecute(Boolean result) 
 	{
-		// TODO
-//		Log.d(TAG, "oN POST EXECUTE");
 //		if (result) 
 //		{
 //			if (activityFeed != null) 
@@ -132,7 +130,6 @@ public class GetFeedTask
 //
 //						for (int i = startIndex; i < endIndex; i++) 
 //						{
-//							// TODO
 //							//activityFeed.add(ContentParser.parseFeedItem(feedListJsonArray.getJSONObject(i)));
 //							result = true;
 //						}

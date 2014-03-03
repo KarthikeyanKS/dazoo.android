@@ -50,6 +50,8 @@ public class FeedActivity
 	private TextView greetingTv;
 	
 	private Boolean noTask = true;
+	
+	private boolean currentlyShowingLoggedInLayout;
 
 	
 	
@@ -57,27 +59,53 @@ public class FeedActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-
+		
+		initViews();
+	}
+	
+	
+	
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		
+		initViews();
+	}
+	
+	
+	
+	private void initViews()
+	{
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 		
-		if (isLoggedIn) 
+		if (isLoggedIn != currentlyShowingLoggedInLayout) 
 		{
-			setContentView(R.layout.layout_activity_activity);
+			if(isLoggedIn)
+			{
+				setContentView(R.layout.layout_activity_activity);
 
-			initStandardViews();
+				initLogedInViews();
+				
+				initStandardViews();
+				
+				currentlyShowingLoggedInLayout = true;
+			}
+			else
+			{
+				setContentView(R.layout.layout_activity_not_logged_in_activity);
+				
+				initNotLoggedInViews();
+				
+				initStandardViews();
+				
+				currentlyShowingLoggedInLayout = false;
+			}
 			
-			initFeedViews();
-		}
-		else
-		{
-			setContentView(R.layout.layout_activity_not_logged_in_activity);
-
-			initStandardViews();
-			
-			initInactiveViews();
 		}
 	}
 
+	
 	
 	private void initStandardViews() 
 	{	
@@ -90,7 +118,7 @@ public class FeedActivity
 
 	
 	
-	private void initFeedViews() 
+	private void initLogedInViews() 
 	{
 		listView = (ListView) findViewById(R.id.activity_listview);
 		
@@ -105,7 +133,7 @@ public class FeedActivity
 
 	
 	
-	private void initInactiveViews() 
+	private void initNotLoggedInViews() 
 	{
 		facebookContainer = (RelativeLayout) findViewById(R.id.activity_not_logged_in_facebook_container);
 		facebookContainer.setOnClickListener(this);

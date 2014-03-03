@@ -227,6 +227,7 @@ public abstract class AsyncTaskBase<T>
 	protected void onPostExecute(Void result)
 	{
 		Log.d(TAG, String.format("%s onPostExecute - JSON parsing complete, notifying ContentManager", clazz.getName()));
+		
 		if(contentCallbackListener != null)
 		{
 			contentCallbackListener.onResult(activityCallBackListener, requestIdentifier, requestResultStatus, requestResultObjectContent);

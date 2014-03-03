@@ -621,7 +621,6 @@ public class ApiClient
 //		application.setUserId(null);
 //		application.setUserExistringFlag(false);
 //		
-//		//TODO do something more effective here??
 //		MiTVStore.getInstance().clearChannelsAndIdsAndGuide();
 //		
 //
