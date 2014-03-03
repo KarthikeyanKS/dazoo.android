@@ -17,7 +17,7 @@ import com.mitv.Consts;
 
 public class GetUserLikes extends AsyncTaskWithUserToken<UserLike[]> 
 {
-	private static final String URL_SUFFIX = Consts.URL_LIKES;
+	private static final String URL_SUFFIX = Consts.URL_LIKES_WITH_UPCOMING;
 	
 	
 	

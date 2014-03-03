@@ -348,7 +348,9 @@ public abstract class Consts {
 	public static final String	LIKE_PROGRAM_PROGRAM_TYPE_MOVIE_YEAR			= "year";
 	public static final String	LIKE_SPORT_TYPE_SPORTTYPEID					= "sportTypeId";
 	public static final String	LIKE_SPORT_TYPE_TITLE							= "title";
+	
 	public static final String 	LIKE_NEXT_BROADCAST 							= "nextBroadcast";
+	public static final String 	LIKE_NEXT_BROADCAST_COUNT 						= "broadcastCount";
 	public static final String	LIKE_NEXT_BROADCAST_CHANNELID					= "channelId";
 	public static final String	LIKE_NEXT_BROADCAST_BEGINTIMEMILLIS			= "beginTimeMillis";
 

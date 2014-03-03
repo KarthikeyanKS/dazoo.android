@@ -18,6 +18,7 @@ import com.millicom.mitv.http.HeaderParameters;
 import com.millicom.mitv.http.URLParameters;
 import com.millicom.mitv.models.TVSearchResults;
 import com.millicom.mitv.models.gson.TVSearchResultsJSON;
+import com.millicom.mitv.utilities.RegularExpressionUtils;
 import com.mitv.Consts;
 
 
@@ -37,8 +38,9 @@ public class TVSearchGSONTest
 		URLParameters urlParameters = new URLParameters();
 		
 		StringBuilder querystringValueSB = new StringBuilder();
-		querystringValueSB.append(wordToSearchFor.trim());
-		querystringValueSB.append(Consts.SEARCH_WILDCARD);
+		wordToSearchFor = RegularExpressionUtils.escapeSpaceChars(wordToSearchFor);
+		wordToSearchFor = wordToSearchFor.trim();
+		querystringValueSB.append(wordToSearchFor);
 		
 		urlParameters.add(Consts.SEARCH_QUERYSTRING_PARAMETER_QUERY_KEY, querystringValueSB.toString());
 		
