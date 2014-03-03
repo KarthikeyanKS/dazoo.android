@@ -6,6 +6,8 @@ package com.millicom.mitv.asynctasks.usertoken;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import android.util.Log;
+
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
@@ -15,8 +17,10 @@ import com.mitv.Consts;
 
 
 
-public class GetUserLikes extends AsyncTaskWithUserToken<UserLike[]> 
+public class GetUserLikes 
+	extends AsyncTaskWithUserToken<UserLike[]> 
 {
+	private static final String TAG = GetUserLikes.class.getName();
 	private static final String URL_SUFFIX = Consts.URL_LIKES_WITH_UPCOMING;
 	
 	
@@ -51,10 +55,19 @@ public class GetUserLikes extends AsyncTaskWithUserToken<UserLike[]>
 		super.doInBackground(params);
 		 
 		/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
-		UserLike[] contentAsArray = (UserLike[]) requestResultObjectContent;
-		ArrayList<UserLike> contentAsArrayList = new ArrayList<UserLike>(Arrays.asList(contentAsArray));
-		requestResultObjectContent = contentAsArrayList;
-		 
+		if(requestResultObjectContent != null)
+		{
+			UserLike[] contentAsArray = (UserLike[]) requestResultObjectContent;
+			
+			ArrayList<UserLike> contentAsArrayList = new ArrayList<UserLike>(Arrays.asList(contentAsArray));
+			
+			requestResultObjectContent = contentAsArrayList;
+		}
+		else
+		{
+			Log.w(TAG, "The requestResultObjectContent is null.");
+		}
+		
 		return null;
 	}
 }
