@@ -55,7 +55,7 @@
         <!-- HOME ACTIVITY -->
         <activity
             android:name="com.millicom.mitv.activities.HomeActivity"
-            android:launchMode="singleTop"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/HomePage" >
         </activity>
@@ -64,10 +64,18 @@
         <activity
             android:name="com.millicom.mitv.activities.FeedActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleTop"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" />
 
+        <!-- MYPROFILE ACTIVITY -->
+        <activity
+            android:name="com.millicom.mitv.activities.UserProfileActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@style/WhiteTitleActionBar" />
+        
         <!-- POPULAR CONTENT PAGE -->
         <activity
             android:name="com.millicom.mitv.activities.PopularPageActivity"
@@ -78,14 +86,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.mitv.activity.ActivityActivity" />
         </activity>
-
-        <!-- MYPROFILE ACTIVITY -->
-        <activity
-            android:name="com.millicom.mitv.activities.UserProfileActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/WhiteTitleActionBar" />
 
         <!-- SEARCH PAGE -->
         <activity
