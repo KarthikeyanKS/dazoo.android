@@ -78,7 +78,7 @@ public class TrippleBroadcastBlockPopulator {
 
 			case 2: {
 				mContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_three);
-				
+
 				reminderViewThree = (ReminderView) mContainer.findViewById(R.id.block_tripple_broadcast_reminder_view);
 				reminderViewThree.setBroadcast(broadcastWithChannelInfo);
 
@@ -105,7 +105,10 @@ public class TrippleBroadcastBlockPopulator {
 			if (!usedForRepetitions) {
 				TVProgram programLocal = broadcastWithChannelInfo.getProgram();
 
-				if (Consts.PROGRAM_TYPE_TV_EPISODE.equals(programLocal.getProgramType())) {
+				ProgramTypeEnum programTypeEnum = programLocal.getProgramType();
+
+				switch (programTypeEnum) {
+				case TV_EPISODE: {
 					String season = programLocal.getSeason().getNumber().toString();
 
 					int episode = programLocal.getEpisodeNumber();
@@ -121,8 +124,12 @@ public class TrippleBroadcastBlockPopulator {
 					}
 
 					mSeasonEpisodeTv.setText(seasonEpisode);
-				} else {
+					break;
+				}
+				default: {
 					mSeasonEpisodeTv.setText(programLocal.getTitle());
+					break;
+				}
 				}
 
 				mSeasonEpisodeTv.setVisibility(View.VISIBLE);
@@ -177,9 +184,9 @@ public class TrippleBroadcastBlockPopulator {
 		String showMoreString = null;
 		ProgramTypeEnum programType = program.getProgramType();
 		Resources res = activity.getResources();
-		
-		if(usedForRepetitions) {
-			
+
+		if (usedForRepetitions) {
+
 			switch (programType) {
 			case TV_EPISODE: {
 				titleString = res.getString(R.string.repetitions_episode);
@@ -198,9 +205,9 @@ public class TrippleBroadcastBlockPopulator {
 				break;
 			}
 			}
-			
+
 			showMoreString = activity.getResources().getString(R.string.repetitions_more);
-			
+
 		} else {
 			titleString = activity.getResources().getString(R.string.upcoming_episodes);
 
@@ -253,7 +260,7 @@ public class TrippleBroadcastBlockPopulator {
 		}
 
 	}
-	
+
 	public void setOriginActivity(boolean isFromActivity, boolean isFromProfile) {
 		mIsFromActivity = isFromActivity;
 		mIsFromProfile = isFromProfile;
