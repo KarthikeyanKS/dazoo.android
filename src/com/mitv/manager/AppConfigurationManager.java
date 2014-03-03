@@ -181,7 +181,8 @@ public class AppConfigurationManager {
 		return jsonKeyAdFormatsActivity;
 	}
 	
-	public static void store(OldAppConfigurationData appConfigData) {
+	public static void store(OldAppConfigurationData appConfigData) 
+	{
 		//TODO implement me
 	} 
 	

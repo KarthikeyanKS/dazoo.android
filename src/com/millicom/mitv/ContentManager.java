@@ -12,8 +12,6 @@ import android.util.Log;
 
 import com.androidquery.callback.AjaxCallback;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
-import com.millicom.mitv.enums.LikeTypeRequestEnum;
-import com.millicom.mitv.enums.LikeTypeResponseEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
@@ -467,7 +465,7 @@ public class ContentManager
 			}
 			case USER_REMOVE_LIKE: 
 			{
-				handleRemoveUserLikeResponse(activityCallbackListener, requestIdentifier, result);
+				handleRemoveUserLikeResponse(activityCallbackListener, requestIdentifier, result, content);
 				break;
 			}
 			case USER_RESET_PASSWORD_SEND_EMAIL: 
@@ -888,9 +886,10 @@ public class ContentManager
 				activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.BROADCAST_PAGE_DATA);
 			}
 			
-		} else {
-			//TODO handle this better?
-			activityCallbackListener.onResult(FetchRequestResultEnum.UNKNOWN_ERROR, requestIdentifier);
+		} 
+		else 
+		{
+			activityCallbackListener.onResult(result, requestIdentifier);
 		}
 	}
 
@@ -937,12 +936,11 @@ public class ContentManager
 	}
 	
 	
-	public void handleRemoveUserLikeResponse(ActivityCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result) 
+	public void handleRemoveUserLikeResponse(ActivityCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content) 
 	{
 		if (result.wasSuccessful()) 
 		{
-			// TODO NewArc - Implement this
-			UserLike userLike = new UserLike("", LikeTypeResponseEnum.PROGRAM, "");
+			UserLike userLike = (UserLike) content;
 			
 			cache.removeUserLike(userLike);
 		} 
@@ -1045,15 +1043,15 @@ public class ContentManager
 	
 	/* USER METHODS REGARDING LIKES */
 	
-	public void addUserLike(ActivityCallbackListener activityCallbackListener, LikeTypeRequestEnum likeType, String contentId) 
+	public void addUserLike(ActivityCallbackListener activityCallbackListener, UserLike userLike) 
 	{
-		apiClient.addUserLike(activityCallbackListener, likeType, contentId);
+		apiClient.addUserLike(activityCallbackListener, userLike);
 	}
 	
 	
-	public void removeUserLike(ActivityCallbackListener activityCallbackListener, LikeTypeRequestEnum likeType, String contentId) 
+	public void removeUserLike(ActivityCallbackListener activityCallbackListener, UserLike userLike) 
 	{
-		apiClient.removeUserLike(activityCallbackListener, likeType, contentId);
+		apiClient.removeUserLike(activityCallbackListener, userLike);
 	}
 	
 

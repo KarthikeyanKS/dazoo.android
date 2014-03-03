@@ -91,8 +91,9 @@ public class TrippleBroadcastBlockPopulator {
 			TextView mTitleTimeTv = (TextView) mContainer.findViewById(R.id.block_tripple_broadcast_title_time);
 			TextView mChannelTv = (TextView) mContainer.findViewById(R.id.block_tripple_broadcast_channel);
 
-			if (usedForRepetitions) {
-				// TODO should we really set program here, why?
+			if (usedForRepetitions) 
+			{
+				// TODO NewArc - should we really set program here, why?
 				// broadcast.setProgram(program);
 			}
 

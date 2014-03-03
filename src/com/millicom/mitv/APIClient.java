@@ -34,12 +34,12 @@ import com.millicom.mitv.asynctasks.usertoken.GetUserTokenUsingFBToken;
 import com.millicom.mitv.asynctasks.usertoken.PerformUserLogout;
 import com.millicom.mitv.asynctasks.usertoken.RemoveUserLike;
 import com.millicom.mitv.asynctasks.usertoken.SetUserTVChannelIds;
-import com.millicom.mitv.enums.LikeTypeRequestEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.ContentCallbackListener;
 import com.millicom.mitv.models.TVChannelId;
 import com.millicom.mitv.models.TVDate;
+import com.millicom.mitv.models.UserLike;
 
 
 
@@ -182,17 +182,17 @@ public class APIClient
 	
 	
 	/* The content ID is either a seriesId, or a sportTypesId or programId */
-	public void addUserLike(ActivityCallbackListener activityCallbackListener, LikeTypeRequestEnum likeType, String contentId) 
+	public void addUserLike(ActivityCallbackListener activityCallbackListener, UserLike userLike) 
 	{
-		AddUserLike addUserLikes = new AddUserLike(contentCallbackListener, activityCallbackListener, likeType, contentId);
+		AddUserLike addUserLikes = new AddUserLike(contentCallbackListener, activityCallbackListener, userLike);
 		addUserLikes.execute();
 	}
 
 	
 	/* The content ID is either a seriesId, or a sportTypesId or programId */
-	public void removeUserLike(ActivityCallbackListener activityCallbackListener, LikeTypeRequestEnum likeType, String contentId) 
+	public void removeUserLike(ActivityCallbackListener activityCallbackListener, UserLike userLike) 
 	{
-		RemoveUserLike removeUserLike = new RemoveUserLike(contentCallbackListener, activityCallbackListener, likeType, contentId);
+		RemoveUserLike removeUserLike = new RemoveUserLike(contentCallbackListener, activityCallbackListener, userLike);
 		removeUserLike.execute();
 	}
 	
@@ -210,7 +210,7 @@ public class APIClient
 	
 	public void performUserHasSeenAd(ActivityCallbackListener activityCallbackListener)
 	{
-		// TODO - Set correct suffix
+		// TODO NewArc - Set correct suffix
 		String url = "";
 				
 		PerformUserHasSeenAdAdzerk performUserHasSeenAd = new PerformUserHasSeenAdAdzerk(contentCallbackListener, activityCallbackListener, url);

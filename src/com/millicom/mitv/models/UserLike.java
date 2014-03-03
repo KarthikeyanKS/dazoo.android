@@ -5,6 +5,9 @@ package com.millicom.mitv.models;
 
 import java.util.Comparator;
 
+import android.util.Log;
+
+import com.millicom.mitv.enums.LikeTypeRequestEnum;
 import com.millicom.mitv.enums.LikeTypeResponseEnum;
 import com.millicom.mitv.models.gson.UserLikeJSON;
 
@@ -13,18 +16,32 @@ import com.millicom.mitv.models.gson.UserLikeJSON;
 public class UserLike 
 	extends UserLikeJSON
 {
-	@SuppressWarnings("unused")
 	private static final String	TAG	= UserLike.class.getName();
 	
-	public static UserLike userLikeFromBroadcast(TVBroadcastWithChannelInfo broadcastWithChannelInfo) {
-		String title = broadcastWithChannelInfo.getProgram().getTitle();
-		LikeTypeResponseEnum likeTypeFromBroadcast = LikeTypeResponseEnum.getLikeTypeEnumFromBroadcast(broadcastWithChannelInfo);
-		String contentId = getContentIdFromBroadcast(broadcastWithChannelInfo);
+	
+	
+	public static UserLike userLikeFromTVProgram(TVProgram tvProgram)
+	{
+		String title = tvProgram.getTitle();
 		
-		UserLike userLikeFromBroadcast = new UserLike(title, likeTypeFromBroadcast, contentId);
-		return userLikeFromBroadcast;
+		LikeTypeResponseEnum likeTypeFromBroadcast = LikeTypeResponseEnum.getLikeTypeEnumFromTVProgram(tvProgram);
+		
+		String contentId = getContentIdFromTVProgram(tvProgram);
+		
+		UserLike userLikeFromTVProgram = new UserLike(title, likeTypeFromBroadcast, contentId);
+		
+		return userLikeFromTVProgram;
 	}
-		
+	
+	
+	
+	public static UserLike userLikeFromBroadcast(TVBroadcastWithChannelInfo broadcastWithChannelInfo)
+	{
+		return userLikeFromTVProgram(broadcastWithChannelInfo.getProgram());
+	}
+	
+	
+	
 	public UserLike(String title, LikeTypeResponseEnum likeType, String contentId)
 	{
 		this.likeType = likeType.toString();	
@@ -52,8 +69,10 @@ public class UserLike
 		}
 	}
 	
-	private static String getContentIdFromBroadcast(TVBroadcastWithChannelInfo broadcastWithChannelInfo) {
-		LikeTypeResponseEnum likeTypeFromBroadcast = LikeTypeResponseEnum.getLikeTypeEnumFromBroadcast(broadcastWithChannelInfo);
+	
+	private static String getContentIdFromTVProgram(TVProgram tvProgarm) 
+	{
+		LikeTypeResponseEnum likeTypeFromBroadcast = LikeTypeResponseEnum.getLikeTypeEnumFromTVProgram(tvProgarm);
 		
 		String contentId;
 		
@@ -61,24 +80,25 @@ public class UserLike
 		{
 			case PROGRAM:
 			{
-				contentId = broadcastWithChannelInfo.getProgram().getProgramId();
+				contentId = tvProgarm.getProgramId();
 				break;
 			}
 			
 			case SERIES:
 			{
-				contentId = broadcastWithChannelInfo.getProgram().getSeries().getSeriesId();
+				contentId = tvProgarm.getSeries().getSeriesId();
 				break;
 			}
 			
 			case SPORT_TYPE:
 			{
-				contentId = broadcastWithChannelInfo.getProgram().getSportType().getSportTypeId();
+				contentId = tvProgarm.getSportType().getSportTypeId();
 				break;
 			}
 			
 			default:
 			{
+				Log.w(TAG, "Unhandled like type.");
 				contentId = "";
 				break;
 			}
@@ -86,6 +106,8 @@ public class UserLike
 		
 		return contentId;
 	}
+	
+	
 	
 	public String getContentId()
 	{
@@ -115,11 +137,45 @@ public class UserLike
 			
 			default:
 			{
+				Log.w(TAG, "Unhandled like type.");
 				contentId = "";
+				break;
 			}
 		}
 		
 		return contentId;
+	}
+	
+	
+	
+	public LikeTypeRequestEnum getLikeTypeForRequest()
+	{
+		LikeTypeRequestEnum likeTypeRequest;
+		
+		switch (getLikeType())
+		{
+			case SERIES:
+			{
+				likeTypeRequest = LikeTypeRequestEnum.SERIES;
+				break;
+			}
+		
+			case PROGRAM:
+			case SPORT_TYPE:
+			{
+				likeTypeRequest = LikeTypeRequestEnum.PROGRAM;
+				break;
+			}
+			
+			default:
+			{
+				Log.w(TAG, "Unhandled like type.");
+				likeTypeRequest = LikeTypeRequestEnum.PROGRAM;
+				break;
+			}
+		}
+		
+		return likeTypeRequest;
 	}
 	
 	
