@@ -15,16 +15,16 @@ import com.mitv.Consts;
 
 
 
-public class GetUserTokenUsingFBToken 
+public class PerformUserLoginWithFacebookToken 
 	extends AsyncTaskWithUserToken<UserLoginData> 
 {
-	private static final String TAG = GetUserTokenUsingFBToken.class.getName();
+	private static final String TAG = PerformUserLoginWithFacebookToken.class.getName();
 	
 	private static final String URL_SUFFIX = Consts.URL_FACEBOOK_TOKEN;
 	
 	
 	
-	public GetUserTokenUsingFBToken(
+	public PerformUserLoginWithFacebookToken(
 			ContentCallbackListener contentCallbackListener,
 			ActivityCallbackListener activityCallBackListener,
 			String facebookToken) 

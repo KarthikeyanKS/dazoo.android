@@ -4,7 +4,6 @@ package com.millicom.mitv.activities;
 
 
 import java.util.ArrayList;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,7 +16,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.authentication.LoginWithFacebookActivity;
 import com.millicom.mitv.activities.authentication.LoginWithMiTVUserActivity;
@@ -50,6 +48,8 @@ public class FeedActivity
 	private TextView greetingTv;
 	
 	private Boolean noTask = true;
+	
+	private boolean currentlyShowingLoggedInLayout;
 
 	
 	
@@ -57,27 +57,70 @@ public class FeedActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-
+		
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 		
-		if (isLoggedIn) 
+		if(isLoggedIn)
 		{
 			setContentView(R.layout.layout_activity_activity);
 
+			initLogedInViews();
+			
 			initStandardViews();
 			
-			initFeedViews();
+			currentlyShowingLoggedInLayout = true;
 		}
 		else
 		{
 			setContentView(R.layout.layout_activity_not_logged_in_activity);
-
+			
+			initNotLoggedInViews();
+			
 			initStandardViews();
 			
-			initInactiveViews();
+			currentlyShowingLoggedInLayout = false;
 		}
 	}
+	
+	
+	
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		
+		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+		
+		if (isLoggedIn != currentlyShowingLoggedInLayout) 
+		{
+			if(isLoggedIn)
+			{
+				setContentView(R.layout.layout_activity_activity);
 
+				initLogedInViews();
+				
+				initStandardViews();
+				
+				setTabViews();
+				
+				currentlyShowingLoggedInLayout = true;
+			}
+			else
+			{
+				setContentView(R.layout.layout_activity_not_logged_in_activity);
+				
+				initNotLoggedInViews();
+				
+				initStandardViews();
+				
+				setTabViews();
+				
+				currentlyShowingLoggedInLayout = false;
+			}
+		}
+	}
+	
+	
 	
 	private void initStandardViews() 
 	{	
@@ -90,7 +133,7 @@ public class FeedActivity
 
 	
 	
-	private void initFeedViews() 
+	private void initLogedInViews() 
 	{
 		listView = (ListView) findViewById(R.id.activity_listview);
 		
@@ -105,7 +148,7 @@ public class FeedActivity
 
 	
 	
-	private void initInactiveViews() 
+	private void initNotLoggedInViews() 
 	{
 		facebookContainer = (RelativeLayout) findViewById(R.id.activity_not_logged_in_facebook_container);
 		facebookContainer.setOnClickListener(this);

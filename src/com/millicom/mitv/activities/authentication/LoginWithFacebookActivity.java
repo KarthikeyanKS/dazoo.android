@@ -3,6 +3,7 @@ package com.millicom.mitv.activities.authentication;
 
 
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
@@ -39,6 +40,10 @@ public class LoginWithFacebookActivity
 	
 	private ActionBar actionBar;
 	
+	private String facebookToken;
+	private String facebookId;
+	private String userProfileImageURL;
+	
 
 	
 	@Override
@@ -68,11 +73,14 @@ public class LoginWithFacebookActivity
 	@Override
 	protected void loadData() 
 	{
-		String facebookToken = FacebookHandle.getToken(LoginWithFacebookActivity.this);
+		facebookToken = FacebookHandle.getToken(LoginWithFacebookActivity.this);
 		
-		if(facebookToken != null)
+		if(facebookToken != null && 
+		   userProfileImageURL != null)
 		{
 			updateUI(UIStatusEnum.LOADING);
+			
+			ContentManager.sharedInstance().setUserImageURL(userProfileImageURL);
 			
 			ContentManager.sharedInstance().getUserTokenWithFacebookFBToken(this, facebookToken);
 		}
@@ -130,7 +138,7 @@ public class LoginWithFacebookActivity
 			case FAILED:
 			default:
 			{
-				// TODO - Hardcoded string
+				// TODO User Feedback - Hardcoded string for user message
 				String message = "Facebook login was unsuccessful.";
 				
 				ToastHelper.createAndShowLikeToast(this, message);
@@ -146,6 +154,37 @@ public class LoginWithFacebookActivity
 		}
 	}
 	
+	
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		switch (requestCode) 
+		{
+			case Consts.APP_FACEBOOK_SSO:
+			{
+				FacebookHandle handle = getFacebookHandle();
+				
+				if (handle != null) 
+				{
+					handle.onActivityResult(requestCode, resultCode, data);
+				}
+				else
+				{
+					Log.e(TAG, "Facebook handle is null.");
+				}
+				
+				break;
+			}
+			
+			default:
+			{
+				Log.w(TAG, "Unhandled request code: " + requestCode);
+				
+				break;
+			}
+		}
+	}
 	
 	
 	
@@ -202,42 +241,9 @@ public class LoginWithFacebookActivity
 	
 			AQuery aquery = aq.auth(handle);
 			
-			AjaxCallback<JSONObject> callback = new AjaxCallback<JSONObject>()
-			{
-				@Override
-				public void callback(String url, JSONObject json, AjaxStatus status) 
-				{	
-					int statusCode = status.getCode();
-					
-					switch(statusCode)
-					{
-						case AJAX_STATUS_OK:
-						{
-							loadData();
-							break;
-						}
-						
-						default:
-						{
-							Log.w(TAG, "Unhandled status code code: " + statusCode);
-							
-							updateUI(UIStatusEnum.FAILED);
-							break;
-						}
-					}
-				}
-				
-				
-				@Override
-				public void failure(int code, String message) 
-				{
-					Log.d(TAG, "Authorization was canceled by user");
-					
-					updateUI(UIStatusEnum.FAILED);
-				}
-			};
 			
-			aquery.ajax(Consts.APP_URL_FACEBOOK_GRAPH_ME, JSONObject.class, callback);
+			
+			aquery.ajax(Consts.APP_URL_FACEBOOK_GRAPH_ME, JSONObject.class, getFacebookAuthenticationCallback());
 		}
 		else
 		{
@@ -247,33 +253,132 @@ public class LoginWithFacebookActivity
 	
 	
 	
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data)
+	private AjaxCallback<JSONObject> getFacebookAuthenticationCallback()
 	{
-		switch (requestCode) 
+		AjaxCallback<JSONObject> callback = new AjaxCallback<JSONObject>()
 		{
-			case Consts.APP_FACEBOOK_SSO:
-			{
-				FacebookHandle handle = getFacebookHandle();
-				
-				if (handle != null) 
+			@Override
+			public void callback(String url, JSONObject json, AjaxStatus status) 
+			{	
+				int statusCode = status.getCode();
+
+				switch(statusCode)
 				{
-					handle.onActivityResult(requestCode, resultCode, data);
+					case AJAX_STATUS_OK:
+					{
+						try 
+						{
+							facebookId = json.getString("id");
+						} 
+						catch (JSONException jsex) 
+						{
+							Log.e(TAG, jsex.getMessage(), jsex);
+	
+							facebookId = null;
+						}
+	
+						getFacebookPicture();
+	
+						break;
+					}
+	
+					default:
+					{
+						Log.w(TAG, "Unhandled status code code: " + statusCode);
+	
+						updateUI(UIStatusEnum.FAILED);
+						break;
+					}
 				}
-				else
-				{
-					Log.e(TAG, "Facebook handle is null.");
-				}
-				
-				break;
 			}
+
+
+			@Override
+			public void failure(int code, String message) 
+			{
+				Log.d(TAG, "Authorization was canceled by user");
+
+				updateUI(UIStatusEnum.FAILED);
+			}
+		};
+		
+		return callback;
+	}
+	
+	
+	
+	private void getFacebookPicture()
+	{
+		FacebookHandle handle = getFacebookHandle();
+
+		if(handle != null && 
+		   facebookId != null)
+		{
+			handle.sso(Consts.APP_FACEBOOK_SSO);
 			
-			default:
-			{
-				Log.w(TAG, "Unhandled request code: " + requestCode);
-				
-				break;
-			}
+			AQuery aq = new AQuery(this);
+	
+			AQuery aquery = aq.auth(handle);
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append(Consts.APP_URL_FACEBOOK_GRAPH);
+			sb.append(Consts.REQUEST_QUERY_SEPARATOR);
+			sb.append(facebookId);
+			sb.append(Consts.APP_URL_FACEBOOK_PICTURE_TYPE);
+			sb.append(Consts.APP_URL_FACEBOOK_PICTURE_TYPE_SQUARE);
+			sb.append(Consts.APP_URL_FACEBOOK_DO_NOT_REDIRECT);
+			
+			aquery.ajax(sb.toString(), JSONObject.class, getFacebookPictureCallback());
 		}
+		else
+		{
+			Log.e(TAG, "Facebook handle or id are null.");
+		}
+	}
+	
+	
+	
+	private AjaxCallback<JSONObject> getFacebookPictureCallback()
+	{
+		AjaxCallback<JSONObject> callback = new AjaxCallback<JSONObject>()
+		{
+			@Override
+			public void callback(String url, JSONObject json, AjaxStatus status) 
+			{	
+				int statusCode = status.getCode();
+
+				switch(statusCode)
+				{
+					case AJAX_STATUS_OK:
+					{	
+						try 
+						{
+							JSONObject data = json.getJSONObject("data");
+	
+							userProfileImageURL = data.getString("url");
+						} 
+						catch (JSONException jsex) 
+						{
+							Log.e(TAG, jsex.getMessage(), jsex);
+	
+							userProfileImageURL = null;
+						}
+	
+						loadData();
+						break;
+					}
+	
+					default:
+					{
+						Log.w(TAG, "Unhandled status code code: " + statusCode);
+	
+						updateUI(UIStatusEnum.FAILED);
+						break;
+					}
+				}
+			}
+		};
+
+		return callback;
 	}
 }
