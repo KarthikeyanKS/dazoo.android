@@ -134,8 +134,13 @@ public class LikeView extends RelativeLayout implements ActivityCallbackListener
 			switch (requestIdentifier) {
 			case USER_ADD_LIKE: {
 				Log.d(TAG, "Successfully added like");
-				String message = tvBroadcastWithChannelInfo.getProgram().getTitle() + activity.getString(R.string.like_set_text);
-				ToastHelper.createAndShowLikeToast(activity, message);
+				
+				StringBuilder sb = new StringBuilder();
+				sb.append(R.string.like_set_text_row1);
+				sb.append(activity.getResources().getString(R.string.like_set_text_row2));
+				
+				ToastHelper.createAndShowLikeToast(activity, sb.toString());
+				
 				break;
 			}
 			case USER_REMOVE_LIKE: {

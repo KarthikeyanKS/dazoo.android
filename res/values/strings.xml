@@ -263,7 +263,8 @@
     <string name="reminder_text_remove">"Remove the reminder for "</string>
 
     <!-- LIKE SERVICE -->
-    <string name="like_set_text">" was added to your preferences"</string>
+    <string name="like_set_text_row1">"The show"</string>
+    <string name="like_set_text_row2">" was added to your preferences"</string>
     <string name="like_remove_text">"You no longer like this program? We\'ll adjust our recommendations for you."</string>
     <string name="no_likes">You haven\'t liked anything yet. \nStart liking shows to get better recommendations.</string>
 
