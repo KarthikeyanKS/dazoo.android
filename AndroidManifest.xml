@@ -4,8 +4,8 @@
     android:installLocation="preferExternal"
     android:largeHeap="true"
     android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
-    android:versionCode="75"
-    android:versionName="1.0.75" >
+    android:versionCode="76"
+    android:versionName="1.0.76" >
 
     <uses-sdk
         android:minSdkVersion="10"
@@ -165,7 +165,6 @@
         <activity
             android:name="com.millicom.mitv.activities.BroadcastPageActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data

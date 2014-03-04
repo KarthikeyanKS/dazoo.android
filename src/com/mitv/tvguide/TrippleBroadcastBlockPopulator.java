@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -22,7 +23,7 @@ import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.customviews.ReminderView;
 
-public class TrippleBroadcastBlockPopulator {
+public class TrippleBroadcastBlockPopulator implements OnClickListener {
 	@SuppressWarnings("unused")
 	private static String TAG = TrippleBroadcastBlockPopulator.class.getName();
 
@@ -52,22 +53,22 @@ public class TrippleBroadcastBlockPopulator {
 		if (broadcastList.size() > position && broadcastList.get(position) != null) {
 			final TVBroadcastWithChannelInfo broadcastWithChannelInfo = broadcastList.get(position);
 
-			LinearLayout mContainer = null;
+			LinearLayout container = null;
 
 			switch (position) {
 			case 0: {
-				mContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_one);
+				container = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_one);
 
-				reminderViewOne = (ReminderView) mContainer.findViewById(R.id.block_tripple_broadcast_reminder_view);
+				reminderViewOne = (ReminderView) container.findViewById(R.id.block_tripple_broadcast_reminder_view);
 				reminderViewOne.setBroadcast(broadcastWithChannelInfo);
 
 				break;
 			}
 
 			case 1: {
-				mContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_two);
+				container = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_two);
 
-				reminderViewTwo = (ReminderView) mContainer.findViewById(R.id.block_tripple_broadcast_reminder_view);
+				reminderViewTwo = (ReminderView) container.findViewById(R.id.block_tripple_broadcast_reminder_view);
 				reminderViewTwo.setBroadcast(broadcastWithChannelInfo);
 
 				dividerView = topContentView.findViewById(R.id.block_tripple_broadcast_one_bottom_divider);
@@ -77,9 +78,9 @@ public class TrippleBroadcastBlockPopulator {
 			}
 
 			case 2: {
-				mContainer = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_three);
+				container = (LinearLayout) topContentView.findViewById(R.id.block_broadcast_upcoming_three);
 
-				reminderViewThree = (ReminderView) mContainer.findViewById(R.id.block_tripple_broadcast_reminder_view);
+				reminderViewThree = (ReminderView) container.findViewById(R.id.block_tripple_broadcast_reminder_view);
 				reminderViewThree.setBroadcast(broadcastWithChannelInfo);
 
 				dividerView = topContentView.findViewById(R.id.block_tripple_broadcast_two_bottom_divider);
@@ -87,15 +88,15 @@ public class TrippleBroadcastBlockPopulator {
 			}
 			}
 
-			TextView mSeasonEpisodeTv = (TextView) mContainer.findViewById(R.id.block_tripple_broadcast_season_episode);
-			TextView mTitleTimeTv = (TextView) mContainer.findViewById(R.id.block_tripple_broadcast_title_time);
-			TextView mChannelTv = (TextView) mContainer.findViewById(R.id.block_tripple_broadcast_channel);
+			TextView seasonEpisodeTv = (TextView) container.findViewById(R.id.block_tripple_broadcast_season_episode);
+			TextView titleTimeTv = (TextView) container.findViewById(R.id.block_tripple_broadcast_title_time);
+			TextView channelTv = (TextView) container.findViewById(R.id.block_tripple_broadcast_channel);
 
-			mContainer.setVisibility(View.VISIBLE);
+			container.setVisibility(View.VISIBLE);
 
-			mTitleTimeTv.setText(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
+			titleTimeTv.setText(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
 
-			mChannelTv.setText(broadcastWithChannelInfo.getChannel().getName());
+			channelTv.setText(broadcastWithChannelInfo.getChannel().getName());
 
 			if (!usedForRepetitions) {
 				TVProgram programLocal = broadcastWithChannelInfo.getProgram();
@@ -118,29 +119,41 @@ public class TrippleBroadcastBlockPopulator {
 						seasonEpisode += activity.getResources().getString(R.string.episode) + " " + episode;
 					}
 
-					mSeasonEpisodeTv.setText(seasonEpisode);
+					seasonEpisodeTv.setText(seasonEpisode);
 					break;
 				}
 				default: {
-					mSeasonEpisodeTv.setText(programLocal.getTitle());
+					seasonEpisodeTv.setText(programLocal.getTitle());
 					break;
 				}
 				}
 
-				mSeasonEpisodeTv.setVisibility(View.VISIBLE);
+				seasonEpisodeTv.setVisibility(View.VISIBLE);
 			}
-
-			mContainer.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-
-					ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
-					Intent intent = new Intent(activity, BroadcastPageActivity.class);
-					activity.startActivity(intent);
-					activity.finish();
-				}
-			});
+			
+			container.setOnClickListener(this);
+			container.setTag(broadcastWithChannelInfo);
 		}
+	}
+	
+	@Override
+	public void onClick(View v) {
+		int viewId = v.getId();
+		switch (viewId) {
+		case R.id.block_broadcast_upcoming_one:
+		case R.id.block_broadcast_upcoming_two:
+		case R.id.block_broadcast_upcoming_three:{
+			TVBroadcastWithChannelInfo broadcastWithChannelInfo = (TVBroadcastWithChannelInfo) v.getTag();
+			ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+			Intent intent = new Intent(activity, BroadcastPageActivity.class);
+			activity.startActivity(intent);
+			break;
+		}
+		default: {
+			break;
+		}
+		}
+	
 	}
 
 	public void createBlock(final ArrayList<TVBroadcastWithChannelInfo> repeatingOrUpcomingBroadcasts) {

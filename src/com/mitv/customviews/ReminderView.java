@@ -35,7 +35,6 @@ public class ReminderView
 	private LayoutInflater inflater;
 	private ImageView imageView;
 	private Activity activity;
-	private Context context;
 	private TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo;
 	private int notificationId;
 	private NotificationDataSource notificationDataSource;
@@ -70,7 +69,6 @@ public class ReminderView
 		this.containerView = inflater.inflate(R.layout.element_reminder_view, this);
 		
 		this.imageView = (ImageView) this.findViewById(R.id.element_reminder_image_View);
-		this.context = context;
 		this.activity = (Activity) context;
 		this.notificationDataSource = new NotificationDataSource(context);
 		
@@ -102,11 +100,11 @@ public class ReminderView
 			}
 			if (isSet) 
 			{
-				imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_reminder_selected));
+				imageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 			} 
 			else 
 			{
-				imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_reminder_default));
+				imageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_reminder_default));
 			}
 			containerView.setBackgroundResource(R.drawable.background_color_selector);
 		} else {
@@ -124,11 +122,11 @@ public class ReminderView
 		{
 			if (isSet == false) 
 			{
-				NotificationHelper.setAlarm(context, tvBroadcastWithChannelInfo);
+				NotificationHelper.setAlarm(activity, tvBroadcastWithChannelInfo);
 				
 				ToastHelper.showNotificationWasSetToast(activity);
 				
-				imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_reminder_selected));
+				imageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_reminder_selected));
 
 				NotificationSQLElement dbItemRemind = notificationDataSource.getNotification(tvBroadcastWithChannelInfo.getChannel().getChannelId(), tvBroadcastWithChannelInfo.getBeginTime());
 				
@@ -142,7 +140,7 @@ public class ReminderView
 			{
 				if (notificationId != -1)
 				{
-					DialogHelper.showRemoveNotificationDialog(context, tvBroadcastWithChannelInfo, notificationId, yesNotificationProc(), noNotificationProc());
+					DialogHelper.showRemoveNotificationDialog(activity, tvBroadcastWithChannelInfo, notificationId, yesNotificationProc(), noNotificationProc());
 				}
 				else
 				{
@@ -160,7 +158,7 @@ public class ReminderView
 		{
 			public void run()
 			{
-				ReminderView.this.imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_reminder_default));
+				ReminderView.this.imageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_reminder_default));
 				
 				isSet = false;
 			}

@@ -170,7 +170,8 @@ public class Cache
 	}
 	
 	public TVGuide getTVGuideUsingTVDate(TVDate tvDate) {
-		TVGuide tvGuide = tvGuides.get(tvDate.getId());
+		String tvDateId = tvDate.getId();
+		TVGuide tvGuide = tvGuides.get(tvDateId);
 		return tvGuide;
 	}
 	

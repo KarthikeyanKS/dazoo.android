@@ -3,6 +3,7 @@ package com.millicom.mitv.utilities;
 
 
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
@@ -23,7 +24,7 @@ public class DialogHelper
 	
 
 	public static void showRemoveNotificationDialog(
-			final Context context, 
+			final Activity activity, 
 			final TVBroadcast broadcast, 
 			final int notificationId, 
 			final Runnable aProcedure, 
@@ -31,7 +32,7 @@ public class DialogHelper
 	{
 		final Runnable answerYes = aProcedure;
 		final Runnable answerNo = bProcedure;
-		final Dialog dialog = new Dialog(context, R.style.remove_notification_dialog);
+		final Dialog dialog = new Dialog(activity, R.style.remove_notification_dialog);
 		
 		StringBuilder reminderSB = new StringBuilder();
 		
@@ -41,14 +42,14 @@ public class DialogHelper
 		{
 			case TV_EPISODE:
 			{
-				reminderSB.append(context.getString(R.string.reminder_text_remove));
+				reminderSB.append(activity.getString(R.string.reminder_text_remove));
 				reminderSB.append(broadcast.getProgram().getSeries().getName());
 				reminderSB.append(", ");
-				reminderSB.append(context.getString(R.string.season));
+				reminderSB.append(activity.getString(R.string.season));
 				reminderSB.append(" ");
 				reminderSB.append(broadcast.getProgram().getSeason().getNumber());
 				reminderSB.append(", ");
-				reminderSB.append(context.getString(R.string.episode));
+				reminderSB.append(activity.getString(R.string.episode));
 				reminderSB.append(" ");
 				reminderSB.append(broadcast.getProgram().getEpisodeNumber());
 				reminderSB.append("?");
@@ -57,7 +58,7 @@ public class DialogHelper
 			
 			case MOVIE:
 			{
-				reminderSB.append(context.getString(R.string.reminder_text_remove));
+				reminderSB.append(activity.getString(R.string.reminder_text_remove));
 				reminderSB.append(broadcast.getProgram().getTitle());
 				reminderSB.append("?");
 				break;
@@ -65,7 +66,7 @@ public class DialogHelper
 			
 			case SPORT:
 			{
-				reminderSB.append(context.getString(R.string.reminder_text_remove));
+				reminderSB.append(activity.getString(R.string.reminder_text_remove));
 				reminderSB.append(broadcast.getProgram().getTitle());
 				reminderSB.append("?");
 				break;
@@ -73,7 +74,7 @@ public class DialogHelper
 			
 			case OTHER:
 			{
-				reminderSB.append(context.getString(R.string.reminder_text_remove));
+				reminderSB.append(activity.getString(R.string.reminder_text_remove));
 				reminderSB.append(broadcast.getProgram().getTitle());
 				reminderSB.append("?");
 				break;
@@ -82,7 +83,7 @@ public class DialogHelper
 			case UNKNOWN:
 			default:
 			{
-				reminderSB.append(context.getString(R.string.reminder_text_remove));
+				reminderSB.append(activity.getString(R.string.reminder_text_remove));
 				break;
 			}
 		}
@@ -120,24 +121,26 @@ public class DialogHelper
 					answerYes.run();
 				}
 				
-				NotificationHelper.removeNotification(context, notificationId);
+				NotificationHelper.removeNotification(activity, notificationId);
 				dialog.dismiss();
 			}
 		});
 		
-		dialog.show();
+		if(!activity.isFinishing()){
+			 dialog.show();
+		}
 	}
 	
 
 	
 	public static void showRemoveLikeDialog(
-			final Context context,
+			final Activity activity,
 			final Runnable aProcedure,
 			final Runnable bProcedure)
 	{
 		final Runnable answerYes = aProcedure;
 		final Runnable answerNo = bProcedure;
-		final Dialog dialog = new Dialog(context, R.style.remove_notification_dialog);
+		final Dialog dialog = new Dialog(activity, R.style.remove_notification_dialog);
 		
 		dialog.setContentView(R.layout.dialog_remove_notification);
 		dialog.setCancelable(false);
@@ -146,7 +149,7 @@ public class DialogHelper
 		Button yesButton = (Button) dialog.findViewById(R.id.dialog_remove_notification_button_yes);
 
 		TextView textView = (TextView) dialog.findViewById(R.id.dialog_remove_notification_tv);
-		textView.setText(context.getResources().getString(R.string.like_remove_text));
+		textView.setText(activity.getResources().getString(R.string.like_remove_text));
 
 		noButton.setOnClickListener(new View.OnClickListener() 
 		{
@@ -176,19 +179,21 @@ public class DialogHelper
 			}
 		});
 		
-		dialog.show();
+		if(!activity.isFinishing()){
+			 dialog.show();
+		}
 	}
 	
 	
 	
 	public static void showPromptSignInDialog(
-			final Context context, 
+			final Activity activity, 
 			final Runnable aProcedure, 
 			final Runnable bProcedure) 
 	{
 		final Runnable answerYes = aProcedure;
 		final Runnable answerNo	= bProcedure;
-		final Dialog dialog = new Dialog(context, R.style.remove_notification_dialog);
+		final Dialog dialog = new Dialog(activity, R.style.remove_notification_dialog);
 		
 		dialog.setContentView(R.layout.dialog_prompt_signin);
 		dialog.setCancelable(false);
@@ -224,6 +229,8 @@ public class DialogHelper
 			}
 		});
 		
-		dialog.show();
+		if(!activity.isFinishing()){
+			 dialog.show();
+		}
 	}
 }
