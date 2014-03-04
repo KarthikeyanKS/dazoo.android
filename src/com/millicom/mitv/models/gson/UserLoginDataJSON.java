@@ -3,18 +3,14 @@ package com.millicom.mitv.models.gson;
 
 
 
-import java.io.Serializable;
-
 import com.millicom.mitv.interfaces.GSONDataFieldValidation;
 import com.millicom.mitv.models.UserFieldsData;
 
 
 
 public class UserLoginDataJSON
-	implements GSONDataFieldValidation, Serializable
+	implements GSONDataFieldValidation
 {
-	private static final long serialVersionUID = -5672249990860974431L;
-	
 	/*
 	 * The names of these variables should not be changed unless the backend API call parameters changes too.
 	 */

@@ -19,7 +19,7 @@ import com.mitv.Consts;
 public class PerformUserSignUp 
 	extends AsyncTaskWithRelativeURL<UserLoginData> 
 {
-	private static final String TAG = PerformUserSignUp.class.getName();
+	private static final String TAG = "PerformUserSignUp";
 	
 	private static final String URL_SUFFIX = Consts.URL_REGISTER;
 	
@@ -51,7 +51,6 @@ public class PerformUserSignUp
 	@Override
 	protected void onPostExecute(Void result)
 	{
-		// TODO Backend support 
 		/* 
 		 * This is a backend restriction and should be changed. 
 		 * In the future, appropriate error response codes should be returned.

@@ -5,18 +5,16 @@ package com.millicom.mitv.models;
 
 import java.util.Comparator;
 
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.millicom.mitv.enums.LikeTypeRequestEnum;
 import com.millicom.mitv.enums.LikeTypeResponseEnum;
-import com.millicom.mitv.interfaces.GSONDataFieldValidation;
 import com.millicom.mitv.models.gson.UserLikeJSON;
 
 
 
 public class UserLike 
-	extends UserLikeJSON implements GSONDataFieldValidation
+	extends UserLikeJSON
 {
 	private static final String	TAG	= UserLike.class.getName();
 	
@@ -214,69 +212,4 @@ public class UserLike
 			return a.getTitle().compareTo(b.getTitle());
 		}
 	}
-
-
-
-	@Override
-	public boolean areDataFieldsValid() {
-		boolean commonFieldsOk = (
-				!TextUtils.isEmpty(getTitle()) && getLikeType() != null
-				);
-		
-		
-
-		boolean specificFieldsOk = false;
-		switch (getLikeType())
-		{
-			case SERIES:
-			{
-				specificFieldsOk = !TextUtils.isEmpty(getSeriesId());
-				break;
-			}
-			
-			case SPORT_TYPE:
-			{
-				specificFieldsOk = !TextUtils.isEmpty(getSportTypeId());
-				break;
-			}
-			
-			default:
-			case PROGRAM:
-			{
-				boolean programIdOk = !TextUtils.isEmpty(getProgramId()) && getProgramType() != null;
-				
-				boolean programSpecificFieldsOk = false;
-				switch (getProgramType()) 
-				{
-					case MOVIE:
-					{
-						programSpecificFieldsOk = getGenre() != null && !TextUtils.isEmpty(getProgramId()) && getYear() != null;
-						break;
-					}
-					
-					default:
-					case OTHER:
-					{
-						programSpecificFieldsOk = getCategory() != null;
-						break;
-					}
-				}
-
-				specificFieldsOk = programIdOk && programSpecificFieldsOk;
-				
-				break;
-			}
-		}
-		
-		boolean areDataFieldsValid = commonFieldsOk && specificFieldsOk;
-		
-		if(getBroadcastCount() != null && getBroadcastCount() > 0) {
-			boolean isNextBroadcastFieldsOk = getNextBroadcast().areDataFieldsValid();
-			areDataFieldsValid = areDataFieldsValid && isNextBroadcastFieldsOk;
-		}
-				
-		return areDataFieldsValid;
-	}
-	
-	
 }

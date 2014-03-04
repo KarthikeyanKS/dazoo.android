@@ -12,16 +12,14 @@ import com.millicom.mitv.models.TVProgram;
 
 public enum LikeTypeResponseEnum 
 {
-	UNKNOWN(0),
-	
 	@SerializedName("SERIES")
-	SERIES(1),
+	SERIES(0),
 	
 	@SerializedName("PROGRAM")
-	PROGRAM(2),
+	PROGRAM(1),
 	
 	@SerializedName("SPORT_TYPE")
-	SPORT_TYPE(3);
+	SPORT_TYPE(2);
 	
 	
 

@@ -148,7 +148,7 @@ public class SecondScreenApplication extends Application {
 
 		sInstance = this;
 
-		sSharedPreferences = getSharedPreferences(Consts.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+		sSharedPreferences = getSharedPreferences(Consts.SHARED_PREFS_MAIN_NAME, Context.MODE_PRIVATE);
 
 		calculateSizes();
 

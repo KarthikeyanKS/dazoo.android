@@ -5,6 +5,7 @@ package com.millicom.mitv.models;
 
 import java.util.Comparator;
 
+import junit.framework.Assert;
 import android.text.TextUtils;
 
 import com.millicom.mitv.interfaces.GSONDataFieldValidation;
@@ -16,19 +17,8 @@ import com.millicom.mitv.models.sql.NotificationSQLElement;
 public class TVChannel
 extends TVChannelJSON implements GSONDataFieldValidation
 {
-	protected transient TVChannelId tvChannelIdObject;
-	
-	public TVChannel(){}
-	
-	public TVChannelId getChannelId() 
-	{
-		if(tvChannelIdObject == null) 
-		{
-			tvChannelIdObject = new TVChannelId(channelId);
-		}
-		
-		return tvChannelIdObject;
-	}
+	public TVChannel()
+	{}
 
 
 	public TVChannel(NotificationSQLElement item)

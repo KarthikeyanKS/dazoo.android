@@ -4,6 +4,7 @@ package com.millicom.mitv.models.gson;
 
 
 import com.millicom.mitv.models.ImageSetSize;
+import com.millicom.mitv.models.TVChannelId;
 
 
 
@@ -12,6 +13,21 @@ public class TVChannelJSON
 	protected String channelId;
 	protected String name;
 	protected ImageSetSize logo;
+	
+	protected transient TVChannelId tvChannelIdObject;
+	
+	
+	
+	public TVChannelId getChannelId() 
+	{
+		if(tvChannelIdObject == null) 
+		{
+			tvChannelIdObject = new TVChannelId(channelId);
+		}
+		
+		return tvChannelIdObject;
+	}
+	
 	
 	
 	public String getName() 

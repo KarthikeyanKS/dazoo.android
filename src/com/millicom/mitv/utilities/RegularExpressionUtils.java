@@ -50,9 +50,4 @@ public abstract class RegularExpressionUtils
 		
 		return isValid;
 	}
-	
-	public static String escapeSpaceChars(String stringWithSpaceChars) {
-		String stringWithEscapedSpaceChars = stringWithSpaceChars.replaceAll(" ", "%20");
-		return stringWithEscapedSpaceChars;
-	}
 }

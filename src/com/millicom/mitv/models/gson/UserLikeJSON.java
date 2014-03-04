@@ -15,7 +15,6 @@ import com.google.gson.JsonParseException;
 import com.google.gson.annotations.Expose;
 import com.millicom.mitv.enums.LikeTypeResponseEnum;
 import com.millicom.mitv.enums.ProgramTypeEnum;
-import com.millicom.mitv.models.UserLikeNextBroadcast;
 import com.mitv.Consts;
 
 
@@ -32,13 +31,6 @@ public class UserLikeJSON
 	
 	@Expose
 	protected String title;
-	
-	@Expose (deserialize = false)
-	protected Integer broadcastCount;
-	
-	/* This will be null if broadcastCount == 0 */
-	@Expose (deserialize = false)
-	protected UserLikeNextBroadcast nextBroadcast;
 	
 	/* This variable is used if likeType == "SERIES" */
 	@Expose (deserialize = false)
@@ -90,17 +82,6 @@ public class UserLikeJSON
 		UserLikeJSON baseObject = gson.fromJson(jsonElement, UserLikeJSON.class);
 		
 		JsonObject jsonObject = jsonElement.getAsJsonObject();
-		
-		Integer broadcastCount = jsonObject.get(Consts.LIKE_NEXT_BROADCAST_COUNT).getAsInt();
-		
-		if(broadcastCount != null) {
-			baseObject.broadcastCount = broadcastCount;
-			if(baseObject.broadcastCount  > 0) {
-				JsonElement nextBroadcastJsonElement = jsonObject.get(Consts.LIKE_NEXT_BROADCAST);
-				UserLikeNextBroadcast userLikeNextBroadcast = new Gson().fromJson(nextBroadcastJsonElement, UserLikeNextBroadcast.class);
-				baseObject.nextBroadcast = userLikeNextBroadcast;
-			}
-		}
 
 		switch (baseObject.getLikeType())
 		{
@@ -108,7 +89,7 @@ public class UserLikeJSON
 			{
 				JsonElement jsonSeriesIdElement = jsonObject.get(Consts.JSON_USER_LIKE_SERIES_SERIES_ID);
 				
-				baseObject.seriesId = jsonSeriesIdElement.getAsString();
+				seriesId = jsonSeriesIdElement.getAsString();
 			}
 			break;
 			
@@ -116,7 +97,7 @@ public class UserLikeJSON
 			{
 				JsonElement jsonSportTypeElement = jsonObject.get(Consts.JSON_USER_LIKE_SPORT_TYPE_ID);
 				
-				baseObject.sportTypeId = jsonSportTypeElement.getAsString();
+				sportTypeId = jsonSportTypeElement.getAsString();
 			}
 			break;
 			
@@ -125,11 +106,11 @@ public class UserLikeJSON
 			{
 				JsonElement jsonProgramIdElement = jsonObject.get(Consts.JSON_USER_LIKE_PROGRAM_ID);
 				
-				baseObject.programId = jsonProgramIdElement.getAsString();
+				programId = jsonProgramIdElement.getAsString();
 				
 				JsonElement jsonProgramTypeElement = jsonObject.get(Consts.JSON_USER_LIKE_PROGRAM_TYPE);
 				
-				baseObject.programType = jsonProgramTypeElement.getAsString();
+				programType = jsonProgramTypeElement.getAsString();
 				
 				switch (this.getProgramType()) 
 				{
@@ -137,11 +118,11 @@ public class UserLikeJSON
 					{
 						JsonElement jsonGenreElement = jsonObject.get(Consts.JSON_USER_LIKE_PROGRAM_MOVIE_GENRE);
 						
-						baseObject.genre = jsonGenreElement.getAsString();
+						genre = jsonGenreElement.getAsString();
 						
 						JsonElement jsonYearElement = jsonObject.get(Consts.JSON_USER_LIKE_PROGRAM_MOVIE_YEAR);
 						
-						baseObject.year = jsonYearElement.getAsInt();
+						year = jsonYearElement.getAsInt();
 					}
 					break;
 					
@@ -150,7 +131,7 @@ public class UserLikeJSON
 					{
 						JsonElement jsonCategoryElement = jsonObject.get(Consts.JSON_USER_LIKE_PROGRAM_OTHER_CATEGORY);
 						
-						baseObject.category = jsonCategoryElement.getAsString();
+						category = jsonCategoryElement.getAsString();
 					}
 					break;
 				}
@@ -196,18 +177,4 @@ public class UserLikeJSON
 	public String getSportTypeId() {
 		return sportTypeId;
 	}
-
-
-
-	public Integer getBroadcastCount() {
-		return broadcastCount;
-	}
-
-
-
-	public UserLikeNextBroadcast getNextBroadcast() {
-		return nextBroadcast;
-	}
-	
-	
 }

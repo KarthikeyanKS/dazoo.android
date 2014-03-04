@@ -26,7 +26,7 @@ import com.mitv.utilities.JSONUtilities;
 public class AddLikeTask
 	extends AsyncTask<String, Void, Integer> 
 {
-	private static final String	TAG	= AddLikeTask.class.getName();
+	private static final String	TAG	= "AddLikeTask";
 	
 	
 	

@@ -6,8 +6,6 @@ package com.millicom.mitv.asynctasks.usertoken;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import android.util.Log;
-
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
@@ -20,8 +18,6 @@ import com.mitv.Consts;
 public class GetUserTVFeedItems
 	extends AsyncTaskWithUserToken<TVFeedItem[]> 
 {
-	private static final String TAG = GetUserTVFeedItems.class.getName();
-	
 	private static final String URL_SUFFIX = Consts.URL_ACTIVITY_FEED;
 	
 	
@@ -90,18 +86,9 @@ public class GetUserTVFeedItems
 		super.doInBackground(params);
 		 
 		/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
-		if(requestResultObjectContent != null)
-		{
-			TVFeedItem[] contentAsArray = (TVFeedItem[]) requestResultObjectContent;
-		
-			ArrayList<TVFeedItem> contentAsArrayList = new ArrayList<TVFeedItem>(Arrays.asList(contentAsArray));
-		
-			requestResultObjectContent = contentAsArrayList;
-		}
-		else
-		{
-			Log.w(TAG, "The requestResultObjectContent is null.");
-		}
+		TVFeedItem[] contentAsArray = (TVFeedItem[]) requestResultObjectContent;
+		ArrayList<TVFeedItem> contentAsArrayList = new ArrayList<TVFeedItem>(Arrays.asList(contentAsArray));
+		requestResultObjectContent = contentAsArrayList;
 		 
 		return null;
 	}
