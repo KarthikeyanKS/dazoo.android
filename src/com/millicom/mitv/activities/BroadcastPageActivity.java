@@ -86,6 +86,11 @@ public class BroadcastPageActivity
 			if (requestIdentifier == RequestIdentifierEnum.BROADCAST_PAGE_DATA) {
 				broadcastWithChannelInfo = ContentManager.sharedInstance().getFromCacheSelectedBroadcastWithChannelInfo();
 				repeatingBroadcasts = ContentManager.sharedInstance().getFromCacheRepeatingBroadcasts();
+				
+				for(TVBroadcastWithChannelInfo broadcastWithoutProgramInfo : repeatingBroadcasts) {
+					broadcastWithoutProgramInfo.setProgram(broadcastWithChannelInfo.getProgram());
+				}
+				
 				upcomingBroadcasts = ContentManager.sharedInstance().getFromCacheUpcomingBroadcasts();
 
 				updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
@@ -179,13 +184,13 @@ public class BroadcastPageActivity
 		 /* Repetitions */
 		 if (repeatingBroadcasts != null && !repeatingBroadcasts.isEmpty()) {
 			 BroadcastRepetitionsBlockPopulator repeatitionsBlock = new BroadcastRepetitionsBlockPopulator(this, scrollView, broadcastWithChannelInfo);
-			 repeatitionsBlock.createBlock(repeatingBroadcasts, broadcastWithChannelInfo.getProgram());
+			 repeatitionsBlock.createBlock(repeatingBroadcasts);
 		 }
 		
 		 /* upcoming episodes */
 		 if (upcomingBroadcasts != null && !upcomingBroadcasts.isEmpty()) {
 			 BroadcastUpcomingBlockPopulator upcomingBlock = new BroadcastUpcomingBlockPopulator(this, scrollView, true, broadcastWithChannelInfo);
-			 upcomingBlock.createBlock(upcomingBroadcasts, null);
+			 upcomingBlock.createBlock(upcomingBroadcasts);
 		 }
 	}
 
