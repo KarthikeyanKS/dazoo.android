@@ -60,7 +60,10 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 	}
 
 	private String getYearString(TVProgram program) {
-		String yearString = (program.getYear() == 0) ? "" : String.valueOf(program.getYear());
+		String yearString = "";
+		if(program != null && program.getYear() != null) {
+			yearString = (program.getYear() == 0) ? "" : String.valueOf(program.getYear());
+		}
 		return yearString;
 	}
 

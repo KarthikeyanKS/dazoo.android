@@ -114,7 +114,7 @@ public class LikeView extends RelativeLayout implements ActivityCallbackListener
 	public Runnable yesLikeProc() {
 		return new Runnable() {
 			public void run() {
-				setImageToLiked();
+				setImageToNotLiked();
 				isSet = false;
 			}
 		};
@@ -130,7 +130,6 @@ public class LikeView extends RelativeLayout implements ActivityCallbackListener
 	@Override
 	public void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {
 		
-		// TODO NewArc do something here??
 		if(fetchRequestResult.wasSuccessful()) {
 			switch (requestIdentifier) {
 			case USER_ADD_LIKE: {

@@ -147,8 +147,10 @@ public class FeedListAdapter
 	@Override
 	public void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
+		Log.d("mmm", "Kommer vi en in hiiiiiiiiiiiiiiiiiiiiiiiiiiiit");
 		switch (requestIdentifier) 
 		{
+		
 			case USER_ADD_LIKE:
 			{
 				if(fetchRequestResult.wasSuccessful())
@@ -439,9 +441,7 @@ public class FeedListAdapter
 			viewHolder.progressbarTv = (TextView) rowView.findViewById(R.id.block_feed_liked_timeleft_tv);
 			viewHolder.progressBar = (ProgressBar) rowView.findViewById(R.id.block_feed_liked_progressbar);
 
-			//viewHolder.likeContainer = (RelativeLayout) rowView.findViewById(R.id.element_social_buttons_like_button_container);
 			viewHolder.likeView = (LikeView) rowView.findViewById(R.id.element_social_buttons_like_view);
-			//viewHolder.likeLikeIv = (ImageView) rowView.findViewById(R.id.element_social_buttons_like_button_iv);
 			viewHolder.shareContainer = (RelativeLayout) rowView.findViewById(R.id.element_social_buttons_share_button_container);
 			viewHolder.shareIv = (ImageView) rowView.findViewById(R.id.element_social_buttons_share_button_iv);
 			viewHolder.reminderView = (ReminderView) rowView.findViewById(R.id.element_social_buttons_reminder);
@@ -555,10 +555,6 @@ public class FeedListAdapter
 				}
 			}
 			
-			UserLike userLikeToVerify = new UserLike(title, likeType, contentId);
-			
-			final boolean isLikedByUser = ContentManager.sharedInstance().isContainedInUserLikes(userLikeToVerify);
-			
 			FeedItemTypeEnum feedItemType = feedItem.getItemType();
 			
 			switch (feedItemType) 
@@ -592,15 +588,7 @@ public class FeedListAdapter
 				holderBC.progressBar.setVisibility(View.GONE);
 			}
 
-			holderBC.likeView.setBroadcast(broadcast); /////////////////////////////////////////////
-//			if (isLikedByUser)
-//			{
-//				holderBC.likeLikeIv.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_like_selected));
-//			}
-//			else
-//			{
-//				holderBC.likeLikeIv.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_like_default));
-//			}
+			holderBC.likeView.setBroadcast(broadcast);
 			
 			holderBC.container.setOnClickListener(new View.OnClickListener() 
 			{
@@ -610,16 +598,6 @@ public class FeedListAdapter
 					popularBroadcastClicked(broadcast);
 				}
 			});
-
-			//holderBC.likeContainer.setOnClickListener(new View.OnClickListener()
-//			holderBC.likeView.setOnClickListener(new View.OnClickListener()
-//			{
-//				@Override
-//				public void onClick(View v) 
-//				{
-//					userClickedLike(program, isLikedByUser);
-//				}
-//			});
 
 			holderBC.shareContainer.setOnClickListener(new View.OnClickListener() 
 			{
@@ -710,24 +688,6 @@ public class FeedListAdapter
 	
 	
 	
-	private void userClickedLike(
-			final TVProgram tvProgram,
-			final boolean isCurrentlyLikedByUser)
-	{
-		UserLike userLike = UserLike.userLikeFromTVProgram(tvProgram);
-		
-		if (isCurrentlyLikedByUser)
-		{
-			ContentManager.sharedInstance().removeUserLike(this, userLike);
-		} 
-		else 
-		{
-			ContentManager.sharedInstance().addUserLike(this, userLike);
-		}
-	}
-	
-	
-	
 	private void popularBroadcastClicked(TVBroadcastWithChannelInfo broadcastWithChannelInfo) 
 	{
 		ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
@@ -751,7 +711,6 @@ public class FeedListAdapter
 		TextView		detailsTv;
 		TextView		progressbarTv;
 		ProgressBar		progressBar;
-		//RelativeLayout	likeContainer;
 		ImageView		likeLikeIv;
 		RelativeLayout	shareContainer;
 		ImageView		shareIv;
