@@ -453,7 +453,11 @@ public class Cache
 
 	public void setTvChannelIdsDefault(ArrayList<TVChannelId> tvChannelIdsDefault) {
 		this.tvChannelIdsDefault = tvChannelIdsDefault;
-		setTvChannelIdsUsed(tvChannelIdsDefault);
+		
+		/* Only use the default ids if we are not logged in */
+		if(!isLoggedIn()) {
+			setTvChannelIdsUsed(tvChannelIdsDefault);
+		}
 	}
 
 	public void setTvChannelIdsUser(ArrayList<TVChannelId> tvChannelIdsUser) {

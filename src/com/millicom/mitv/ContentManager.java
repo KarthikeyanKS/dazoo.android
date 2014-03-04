@@ -69,7 +69,7 @@ public class ContentManager
 	private static final int COMPLETED_COUNT_TV_DATA_NOT_LOGGED_IN_THRESHOLD = 4;
 	private static final int COMPLETED_COUNT_TV_DATA_LOGGED_IN_THRESHOLD = 5;
 	private static final int COMPLETED_COUNT_FOR_TV_ACTIVITY_FEED_DATA_THRESHOLD = 2;
-	private static int completedCountTVDataForProgressMessage = COMPLETED_COUNT_TV_DATA_NOT_LOGGED_IN_THRESHOLD + 1; //+1 for guide and parsing of tagged broadcasts
+	private static int completedCountTVDataForProgressMessage = COMPLETED_COUNT_TV_DATA_NOT_LOGGED_IN_THRESHOLD + 1; //+
 	private int completedCountTVData = 0;
 	private int completedCountTVActivityFeed = 0;
 
@@ -83,6 +83,19 @@ public class ContentManager
 	{
 		this.cache = new Cache();
 		this.apiClient = new APIClient(this);
+		
+		/* 1 for guide and parsing of tagged broadcasts */
+		completedCountTVDataForProgressMessage = 1;
+		
+		if (cache.isLoggedIn())
+		{
+			/* Increase global threshold by 1 since we are logged in */
+			completedCountTVDataForProgressMessage += COMPLETED_COUNT_TV_DATA_LOGGED_IN_THRESHOLD;
+		}
+		else
+		{
+			completedCountTVDataForProgressMessage += COMPLETED_COUNT_TV_DATA_NOT_LOGGED_IN_THRESHOLD;
+		}
 	}
 
 	
@@ -735,9 +748,6 @@ public class ContentManager
 				if (cache.isLoggedIn())
 				{
 					completedCountTVDataThreshold = COMPLETED_COUNT_TV_DATA_LOGGED_IN_THRESHOLD;
-					
-					/* Increase global threshold by 1 since we are logged in */
-					completedCountTVDataForProgressMessage++;
 				}
 			}
 
@@ -749,7 +759,7 @@ public class ContentManager
 
 		} 
 		else 
-		{
+		{	
 			/* ActivityCallbackListener could be null if we came here from MyChannelsActiviy and performSetUserChannels was invoked just before that instance was destroyed (e.g. by "backPress") */
 			if(activityCallbackListener != null) {
 				activityCallbackListener.onResult(FetchRequestResultEnum.UNKNOWN_ERROR, requestIdentifier);
@@ -1005,11 +1015,6 @@ public class ContentManager
 	
 	public void handleLogoutResponse(ActivityCallbackListener activityCallbackListener) {
 		channelsChange = true;
-
-		cache.clearUserData();
-		cache.clearTVChannelIdsUser();
-		cache.useDefaultChannelIds();
-
 		fetchFromServiceTVGuideForSelectedDay(activityCallbackListener);
 	}
 	
@@ -1072,6 +1077,11 @@ public class ContentManager
 	}
 
 	public void performLogout(ActivityCallbackListener activityCallbackListener) {
+		/* Important, we need to clear the cache as well */
+		cache.clearUserData();
+		cache.clearTVChannelIdsUser();
+		cache.useDefaultChannelIds();
+		
 		apiClient.performUserLogout(activityCallbackListener);
 	}
 	
