@@ -14,7 +14,7 @@ public class AuthenticationService
 	private static final String	TAG	= "AuthenticationService";
 
 	
-	//TODO fix this... needed?
+	
 	public static boolean storeUserInformation(Context context, JSONObject jsonString) 
 	{
 //		String userDataString = jsonString.optString(Consts.API_USER);

@@ -147,7 +147,6 @@ public class FeedListAdapter
 	@Override
 	public void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
-		Log.d("mmm", "Kommer vi en in hiiiiiiiiiiiiiiiiiiiiiiiiiiiit");
 		switch (requestIdentifier) 
 		{
 		
@@ -156,9 +155,8 @@ public class FeedListAdapter
 				if(fetchRequestResult.wasSuccessful())
 				{
 					StringBuilder sb = new StringBuilder();
-					// TODO - Hardcoded string
-					sb.append("The show");
-					sb.append(activity.getResources().getString(R.string.like_set_text));
+					sb.append(R.string.like_set_text_row1);
+					sb.append(activity.getResources().getString(R.string.like_set_text_row2));
 					
 					ToastHelper.createAndShowLikeToast(activity, sb.toString());
 					

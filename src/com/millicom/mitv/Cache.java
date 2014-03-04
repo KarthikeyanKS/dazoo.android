@@ -355,14 +355,13 @@ public class Cache
 	}
 	
 	
-	//TODO NewArc Cyon @ Castro: isn't this too hard check? Should we not only check program id?
+	
 	public boolean isInUserLikes(UserLike userLikeToCheck) 
 	{
 		boolean isContained = false;
 		
 		for(UserLike userLike : userLikes)
 		{
-			
 			boolean isEqual = userLike.equals(userLikeToCheck);
 			
 			if(isEqual)
@@ -374,6 +373,8 @@ public class Cache
 		
 		return isContained;
 	}
+	
+	
 	
 	public boolean isInUsedChannelIds(TVChannelId channelId)
 	{
@@ -390,6 +391,7 @@ public class Cache
 		
 		return isContainedInUserChannels;
 	}
+	
 	
 	
 	public HashMap<String, SparseArray<AdAdzerkJSON>> getFragmentToAdsMap() {

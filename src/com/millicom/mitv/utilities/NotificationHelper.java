@@ -60,6 +60,7 @@ public class NotificationHelper
 		Intent intent = getAlarmIntent(notificationId, broadcast);
 
 		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+		
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, notificationId, intent, 0);
 
 		Calendar calendar = broadcast.getBroadcastBeginTimeForNotification();

@@ -216,7 +216,20 @@ public abstract class GenericUtils
 	
 	
 	
-	// TODO NewArc - Should we keep this?
+	public static int geDeviceDensityDPI()
+	{
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		
+		DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+		
+		int densityDpi = metrics.densityDpi;
+		
+		return densityDpi;
+	}
+	
+	
+	
+	// TODO Deprecated - Should we keep this?
 	@Deprecated
 	public static void logFacebookKeyHash(final Context context)
 	{

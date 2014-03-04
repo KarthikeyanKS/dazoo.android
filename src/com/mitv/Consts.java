@@ -537,8 +537,14 @@ public abstract class Consts {
     public static final int MAXIMUM_REMINDER_TIME_FOR_SHOW = 15;
     
     
-    /* Shared preferences */
+    /* Shared preferences for data storage */
 	public static final String SHARED_PREFERENCES_NAME = "com.mitv.shared.preferences";
 	public static final String SHARED_PREFERENCES_USER_IMAGE_URL = "com.mitv.shared.preferences.user.image.url";
 	public static final String SHARED_PREFERENCES_USER_DATA = "com.mitv.shared.preferences.user.data";
+	
+	
+	public static final boolean ENABLE_STRICT_MODE = false;
+	
+	/* CONFIGURATIONS FOR GOOGLE ANALYTICS */
+	public static final boolean USE_DEFAULT_GOOGLE_TRACKING_ID = true;
 }

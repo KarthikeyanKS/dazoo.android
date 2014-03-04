@@ -58,6 +58,7 @@ public class TVGuideTableFragment
 	public HashMap<String, AdListAdapter> adapterMap;
 
 
+	
 	public static TVGuideTableFragment newInstance(TVTag tag, TVDate date, HashMap<String, AdListAdapter> adapterMap)
 	{
 		TVGuideTableFragment fragment = new TVGuideTableFragment();
@@ -76,6 +77,7 @@ public class TVGuideTableFragment
 	}
 	
 	
+	
 	@Override
 	public void onResume() 
 	{	
@@ -84,12 +86,20 @@ public class TVGuideTableFragment
 		updateSwipeClockBarWithDayAndTime();
 	}
 	
-	private void updateSwipeClockBarWithDayAndTime() {
-		if(swipeClockBar != null) {
+	
+	
+	private void updateSwipeClockBarWithDayAndTime() 
+	{
+		if(swipeClockBar != null) 
+		{
 			isToday = ContentManager.sharedInstance().selectedTVDateIsToday();
-			if(isToday) {
+			
+			if(isToday) 
+			{
 				hour = ContentManager.sharedInstance().getFromCacheSelectedHour();
-			} else {
+			} 
+			else 
+			{
 				hour = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
 			}
 
