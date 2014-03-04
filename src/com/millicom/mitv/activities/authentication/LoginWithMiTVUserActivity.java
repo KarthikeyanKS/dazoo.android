@@ -154,7 +154,7 @@ public class LoginWithMiTVUserActivity
 			case FAILED:
 			{
 				enableFields();
-				// TODO NewArc - Display appropriate failure to the user
+				// TODO NewArc - Hardcoded string
 				ToastHelper.createAndShowToast(this, "Login was unsuccessful.");
 				break;
 			}

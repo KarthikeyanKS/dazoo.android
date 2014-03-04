@@ -23,30 +23,30 @@
 
     <!-- ICONS -->
 
-    <string name="icon_reminder"> 	&#x0393;</string>
-    <string name="icon_clock"> 		&#x0394;</string>
-    <string name="icon_letter"> 	&#x0395;</string>
-    <string name="icon_facebook"> 	&#x0396;</string>
-    <string name="icon_heart"> 		&#x0398;</string>
-    <string name="icon_live"> 		&#x0399;</string>
-    <string name="icon_blocks"> 	&#x039A;</string>
-    <string name="icon_search"> 	&#x039B;</string>
-    <string name="icon_settings"> 	&#x039C;</string>
+    <string name="icon_reminder" translatable="false"> 	&#x0393;</string>
+    <string name="icon_clock" translatable="false"> 		&#x0394;</string>
+    <string name="icon_letter" translatable="false"> 	&#x0395;</string>
+    <string name="icon_facebook" translatable="false"> 	&#x0396;</string>
+    <string name="icon_heart" translatable="false"> 		&#x0398;</string>
+    <string name="icon_live" translatable="false"> 		&#x0399;</string>
+    <string name="icon_blocks" translatable="false"> 	&#x039A;</string>
+    <string name="icon_search" translatable="false"> 	&#x039B;</string>
+    <string name="icon_settings" translatable="false"> 	&#x039C;</string>
     <!-- share should go here -->
-    <string name="icon_twitter"> 	&#x039E;</string>
-    <string name="icon_tvguide">	&#x039F;</string>
-    <string name="icon_activity"> 	&#x03A0;</string>
-    <string name="icon_my_profile"> &#x03A1;</string>
-    <string name="icon_movie"> 		&#x03A2;</string>
-    <string name="icon_add_channels">	&#x03A3;</string>
+    <string name="icon_twitter" translatable="false"> 	&#x039E;</string>
+    <string name="icon_tvguide" translatable="false">	&#x039F;</string>
+    <string name="icon_activity" translatable="false"> 	&#x03A0;</string>
+    <string name="icon_my_profile" translatable="false"> &#x03A1;</string>
+    <string name="icon_movie" translatable="false"> 		&#x03A2;</string>
+    <string name="icon_add_channels" translatable="false">	&#x03A3;</string>
 
     <!-- Not used -->
 
-    <string name="icon_trending"> 	&#x0397;</string>
-    <string name="icon_magnet"> 	&#x039B;</string>
-    <string name="icon_bookmark"> 	&#xE804;</string>
-    <string name="icon_pin"> 		&#xE800;</string>
-    <string name="icon_series"> 	&#xE801;</string>
+    <string name="icon_trending" translatable="false"> 	&#x0397;</string>
+    <string name="icon_magnet" translatable="false"> 	&#x039B;</string>
+    <string name="icon_bookmark" translatable="false"> 	&#xE804;</string>
+    <string name="icon_pin" translatable="false"> 		&#xE800;</string>
+    <string name="icon_series" translatable="false"> 	&#xE801;</string>
 
     <!-- <string name="icon_timetable">	&#x039F;</string> -->
     <!-- <string name="icon_live"> 		&#x0399; </string> -->
@@ -76,7 +76,7 @@
     <string name="all">All</string>
     <string name="all_categories_alias">all_categories</string>
     <string name="all_categories_name">"All programs"</string>
-    <string name="all_categories_id">ALL_CATEGORIES</string>
+    <string name="all_categories_id" translatable="false">ALL_CATEGORIES</string>
 
     <!-- CONTENT DESCRIPTION -->
     <string name="tv_guide_rating_icon">TV Guide content rating image</string>
@@ -150,7 +150,6 @@
     <string name="episode">Episode</string>
     <string name="minutes">min</string>
     <string name="left">left</string>
-    <string name="from">from</string>
     <string name="and">and</string>
     <string name="whatelseison_title">What else is on?</string>
     <string name="whatelseison_show_all_programs">Show all programs playing now</string>
@@ -206,7 +205,6 @@
     <string name="already_registered">Already registered?</string>
     <string name="login_with_email">Login with email</string>
     <string name="forgot_password">Forgot password?</string>
-    <string name="reset_password">Reset password</string>
     <string name="join">Sign up</string>
     <string name="forgot_your_password">Forgot your password?</string>
     <string name="reset_password_text">Enter your e-mail address and we\'ll send you instructions to reset your password.</string>
@@ -216,8 +214,6 @@
     <string name="reset_password_mail_spam_text">Can\'t find our email? Check your spam folder</string>
     <string name="submit">Continue</string>
     <string name="facebook_login_proceeds">Connecting to Facebook&#8230;</string>
-    <string name="success_account_created_title">Your account was created!</string>
-    <string name="success_account_created_text">You are now a mi.tv user</string>
     <string name="set_your_channels">Set your channels</string>
     <string name="connect_with_friends">Connect with friends</string>
     <string name="take_the_tour">Take a tour</string>

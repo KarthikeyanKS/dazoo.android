@@ -3,12 +3,7 @@ package com.millicom.mitv.models.gson;
 
 
 
-import com.millicom.mitv.interfaces.GSONDataFieldValidation;
-
-
-
 public class FacebookLoginDataJSON 
-	implements GSONDataFieldValidation
 {
 	protected String id;
 	protected String first_name;
@@ -22,15 +17,6 @@ public class FacebookLoginDataJSON
 	
 	public FacebookLoginDataJSON()
 	{}
-	
-	
-	
-	@Override
-	public boolean areDataFieldsValid() 
-	{
-		// TODO Auto-generated method stub
-		return false;
-	}
 	
 	
 	

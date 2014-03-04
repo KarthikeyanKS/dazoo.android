@@ -83,7 +83,6 @@
                     android:id="@+id/activity_not_logged_in_facebook_container"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_below="@id/activity_not_logged_in_signin_container"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/background_color_selector_login_facebook"
                     android:orientation="horizontal" >
