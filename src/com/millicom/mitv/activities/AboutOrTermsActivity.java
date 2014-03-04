@@ -216,13 +216,13 @@ public abstract class AboutOrTermsActivity
 		{	
 			case SUCCEEDED_WITH_DATA:
 			{
-				// TODO NewArc - Do something here?
+				// Do nothing
 				break;
 			}
 	
 			default:
 			{
-				// TODO NewArc - Do something here?
+				// Do nothing
 				break;
 			}
 		}

@@ -851,7 +851,9 @@ public class ContentManager
 				
 				/* Always fetch repeating, even though response can be empty */
 				ContentManager.sharedInstance().getElseFetchFromServiceRepeatingBroadcasts(activityCallbackListener, false, broadcastWithChannelInfo);
-				} else {
+				} 
+				else 
+				{
 					//TODO NewArc retry here instead?
 					activityCallbackListener.onResult(FetchRequestResultEnum.UNKNOWN_ERROR, requestIdentifier);
 				}

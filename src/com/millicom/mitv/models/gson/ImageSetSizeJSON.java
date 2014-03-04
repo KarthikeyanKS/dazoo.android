@@ -5,6 +5,8 @@ package com.millicom.mitv.models.gson;
 
 
 
+import com.millicom.mitv.utilities.GenericUtils;
+
 import android.util.DisplayMetrics;
 
 
@@ -14,11 +16,13 @@ public class ImageSetSizeJSON
 	@SuppressWarnings("unused")
 	private static final String TAG = ImageSetSizeJSON.class.getName();
 	
+	
 	protected String small;
 	protected String medium;
 	protected String large;	
 	
-		
+	
+	
 	public ImageSetSizeJSON(
 			String small,
 			String medium,
@@ -29,6 +33,8 @@ public class ImageSetSizeJSON
 		this.large = large;
 	}
 	
+	
+	
 	public ImageSetSizeJSON()
 	{
 		this.small = "";
@@ -36,9 +42,13 @@ public class ImageSetSizeJSON
 		this.large = "";
 	}
 	
-	public String getImageURLForDensityDPI(int densityDpi)
+	
+	
+	public String getImageURLForDeviceDensityDPI()
 	{
 		String imageURL = null;
+		
+		int densityDpi = GenericUtils.geDeviceDensityDPI();
 		
 		switch(densityDpi)
 		{
@@ -51,9 +61,12 @@ public class ImageSetSizeJSON
 				break;
 	
 			case DisplayMetrics.DENSITY_HIGH:
+			case DisplayMetrics.DENSITY_XHIGH:
+			case DisplayMetrics.DENSITY_XXHIGH:
+			case DisplayMetrics.DENSITY_XXXHIGH:
 				imageURL = large;
 				break;
-	
+				
 			default:
 				imageURL = large;
 				break;
@@ -61,6 +74,8 @@ public class ImageSetSizeJSON
 		
 		return imageURL;
 	}
+	
+	
 	
 	public String getSmall() {
 		return small;
@@ -74,6 +89,8 @@ public class ImageSetSizeJSON
 		return large;
 	}
 
+	
+	
 	@Override
 	public String toString()
 	{

@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -28,7 +29,6 @@ public class SplashScreenActivity
 	extends ActionBarActivity 
 	implements ActivityCallbackListener, FetchDataProgressCallbackListener
 {	
-	@SuppressWarnings("unused")
 	private static final String TAG = SplashScreenActivity.class.getName();
 	
 	
@@ -153,7 +153,7 @@ public class SplashScreenActivity
 			}
 			default:
 			{
-				// TODO show toast with error message? Implement a retry mechanism?
+				Log.w(TAG, "Unhandled fetch result rquest.");
 				break;
 			}
 		}

@@ -90,14 +90,11 @@ public abstract class BaseActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		/* Enable debug mode */
-		PackageInfo packageInfo = GenericUtils.getPackageInfo(this);
-		int flags = packageInfo.applicationInfo.flags;
-		boolean isDebugMode = (flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
-		if (isDebugMode) 
+		boolean enableStrictMode = Consts.ENABLE_STRICT_MODE;
+		
+		if (enableStrictMode) 
 		{
-			// TODO NewArc Enable strict mode
-			// enableStrictMode();
+			//enableStrictMode();
 		}
 
 		/* Google Analytics Tracking */
@@ -205,10 +202,8 @@ public abstract class BaseActivity
 	/* Remove activity from activitStack */
 	private static void popActivityFromStackIfTopOfStack(Activity activity) 
 	{
-		Activity activityInTopOfStack;
-		
-		try
-		{
+		Activity activityInTopOfStack = null;
+		if(!activityStack.isEmpty()) {
 			activityInTopOfStack = activityStack.peek();
 			
 			if(activityInTopOfStack == activity)
@@ -216,10 +211,6 @@ public abstract class BaseActivity
 				/* We are in the top of the stack, remove us from the stack */
 				activityStack.pop();
 			}
-		}
-		catch(EmptyStackException empstex)
-		{
-			Log.d(TAG, empstex.getMessage());
 		}
 	}
 	

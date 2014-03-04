@@ -181,6 +181,10 @@ public class TrippleBroadcastBlockPopulator {
 				titleString = res.getString(R.string.repetitions_other);
 				break;
 			}
+			default: {
+				/* Do nothing */
+				break;
+			}
 			}
 
 			showMoreString = activity.getResources().getString(R.string.repetitions_more);
