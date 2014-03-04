@@ -48,7 +48,7 @@ public class TrippleBroadcastBlockPopulator {
 		this.usedForRepetitions = usedForRepetitions;
 	}
 
-	public void populatePartOfBlock(final int position, ArrayList<TVBroadcastWithChannelInfo> broadcastList, final TVProgram program, View topContentView) {
+	public void populatePartOfBlock(final int position, ArrayList<TVBroadcastWithChannelInfo> broadcastList, View topContentView) {
 		if (broadcastList.size() > position && broadcastList.get(position) != null) {
 			final TVBroadcastWithChannelInfo broadcastWithChannelInfo = broadcastList.get(position);
 
@@ -90,12 +90,6 @@ public class TrippleBroadcastBlockPopulator {
 			TextView mSeasonEpisodeTv = (TextView) mContainer.findViewById(R.id.block_tripple_broadcast_season_episode);
 			TextView mTitleTimeTv = (TextView) mContainer.findViewById(R.id.block_tripple_broadcast_title_time);
 			TextView mChannelTv = (TextView) mContainer.findViewById(R.id.block_tripple_broadcast_channel);
-
-			if (usedForRepetitions) 
-			{
-				// TODO NewArc - should we really set program here, why?
-				// broadcast.setProgram(program);
-			}
 
 			mContainer.setVisibility(View.VISIBLE);
 
@@ -149,31 +143,13 @@ public class TrippleBroadcastBlockPopulator {
 		}
 	}
 
-	public void createBlock(final ArrayList<TVBroadcastWithChannelInfo> repeatingOrUpcomingBroadcasts, final TVProgram program) {
+	public void createBlock(final ArrayList<TVBroadcastWithChannelInfo> repeatingOrUpcomingBroadcasts) {
 		/* Remove running broadcast */
-
-		boolean foundRunningBroadcast = false;
-
-		int indexOfRunningBroadcast = 0;
-
-		for (int i = 0; i < repeatingOrUpcomingBroadcasts.size(); ++i) {
-			TVBroadcastWithChannelInfo repeatingBroadcast = repeatingOrUpcomingBroadcasts.get(i);
-
-			if (repeatingBroadcast.equals(runningBroadcast)) {
-				foundRunningBroadcast = true;
-				indexOfRunningBroadcast = i;
-				break;
-			}
-		}
-
-		if (foundRunningBroadcast) {
-			repeatingOrUpcomingBroadcasts.remove(indexOfRunningBroadcast);
-		}
-
+		repeatingOrUpcomingBroadcasts.remove(runningBroadcast);
+	
 		broadcastsWithChannelInfo = repeatingOrUpcomingBroadcasts;
 
-		// the same layout as for the Upcoming Episodes for series is used, as the elements are the same, except for the
-		// title
+		/* The same layout as for the Upcoming Episodes for series is used, as the elements are the same, except for the title */
 		LinearLayout layoutContainerView = (LinearLayout) containerView.findViewById(R.id.broacastpage_block_container_layout);
 
 		View topContentView = LayoutInflater.from(activity).inflate(R.layout.block_broadcastpage_upcoming_or_repetition_layout, null);
@@ -183,7 +159,7 @@ public class TrippleBroadcastBlockPopulator {
 		String titleString = null;
 
 		String showMoreString = null;
-		ProgramTypeEnum programType = program.getProgramType();
+		ProgramTypeEnum programType = runningBroadcast.getProgram().getProgramType();
 		Resources res = activity.getResources();
 
 		if (usedForRepetitions) {
@@ -217,9 +193,9 @@ public class TrippleBroadcastBlockPopulator {
 
 		title.setText(titleString);
 
-		populatePartOfBlock(0, repeatingOrUpcomingBroadcasts, program, topContentView);
-		populatePartOfBlock(1, repeatingOrUpcomingBroadcasts, program, topContentView);
-		populatePartOfBlock(2, repeatingOrUpcomingBroadcasts, program, topContentView);
+		populatePartOfBlock(0, repeatingOrUpcomingBroadcasts, topContentView);
+		populatePartOfBlock(1, repeatingOrUpcomingBroadcasts, topContentView);
+		populatePartOfBlock(2, repeatingOrUpcomingBroadcasts, topContentView);
 
 		if (repeatingOrUpcomingBroadcasts.size() > 3) {
 			View divider = (View) topContentView.findViewById(R.id.block_tripple_broadcast_three_bottom_divider);
