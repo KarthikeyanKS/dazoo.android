@@ -28,6 +28,7 @@ import com.millicom.mitv.models.UserLoginData;
 import com.millicom.mitv.models.gson.AdAdzerkJSON;
 import com.millicom.mitv.utilities.AppDataUtils;
 import com.mitv.Consts;
+import com.mitv.adapters.AdListAdapter;
 
 
 
@@ -65,6 +66,10 @@ public class Cache
 	 * */
 	private HashMap<String, HashMap<String, ArrayList<TVBroadcastWithChannelInfo>>> taggedBroadcastsForAllDays;
 	
+	/* This Map is a collection of listAdapters used by HomeActivity in order to save the downloaded ads associated with each listadapter for listviews */
+	@SuppressWarnings("rawtypes")
+	private HashMap<String, AdListAdapter> adapterMap;
+	
 	private ArrayList<UserLike> userLikes;
 	
 	private Calendar likeIdsFetchedTimestamp;
@@ -97,6 +102,7 @@ public class Cache
 	public Cache()
 	{
 		this.tvGuides = new HashMap<String, TVGuide>();
+		this.adapterMap = new HashMap<String, AdListAdapter>();
 		this.userLikes = new ArrayList<UserLike>();
 		
 		/* Default selected day to 0 */
@@ -172,6 +178,19 @@ public class Cache
 		TVDate tvDate = tvDates.get(0);
 		TVGuide tvGuide = tvGuides.get(tvDate.getId());
 		return tvGuide;
+	}
+	
+	public HashMap<String, AdListAdapter> getAdapterMap() {
+		return adapterMap;
+	}
+	
+	public void addAdapterForKey(String key, AdListAdapter adlistAdapter) {
+		adapterMap.put(key, adlistAdapter);
+	}
+	
+	public AdListAdapter getAdapterForKey(String key) {
+		AdListAdapter adapter = adapterMap.get(key);
+		return adapter;
 	}
 
 	public ArrayList<TVTag> getTvTags() {

@@ -55,15 +55,16 @@ public class TVGuideTableFragment
 	private ArrayList<TVBroadcastWithChannelInfo> taggedBroadcasts;
 	private TVGuideTagListAdapter tvTagListAdapter;
 	private int hour;
+	@SuppressWarnings("rawtypes")
 	public HashMap<String, AdListAdapter> adapterMap;
 
 
 	
-	public static TVGuideTableFragment newInstance(TVTag tag, TVDate date, HashMap<String, AdListAdapter> adapterMap)
+	public static TVGuideTableFragment newInstance(TVTag tag, TVDate date)
 	{
 		TVGuideTableFragment fragment = new TVGuideTableFragment();
 		
-		fragment.adapterMap = adapterMap;
+		fragment.adapterMap = ContentManager.sharedInstance().getFromCacheAdapterMap();
 		
 		Bundle bundle = new Bundle();
 		

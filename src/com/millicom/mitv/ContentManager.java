@@ -36,6 +36,7 @@ import com.millicom.mitv.models.UserLike;
 import com.millicom.mitv.models.UserLoginData;
 import com.millicom.mitv.utilities.GenericUtils;
 import com.mitv.Consts;
+import com.mitv.adapters.AdListAdapter;
 
 
 
@@ -1194,6 +1195,22 @@ public class ContentManager
 		return activityFeedData;
 	}
 	
+	@SuppressWarnings("rawtypes")
+	public HashMap<String, AdListAdapter> getFromCacheAdapterMap() {
+		HashMap<String, AdListAdapter> adapterMap = cache.getAdapterMap();
+		return adapterMap;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public AdListAdapter getFromCacheAdapterForKey(String key) {
+		AdListAdapter adapter = cache.getAdapterForKey(key);
+		return adapter;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public void addAdapterForKey(String key, AdListAdapter adlistAdapter) {
+		cache.addAdapterForKey(key, adlistAdapter);
+	}
 	
 	
 	/* UserToken related methods */
