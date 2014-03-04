@@ -180,19 +180,11 @@ public class Cache
 		return tvGuide;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public HashMap<String, AdListAdapter> getAdapterMap() {
 		return adapterMap;
 	}
 	
-	public void addAdapterForKey(String key, AdListAdapter adlistAdapter) {
-		adapterMap.put(key, adlistAdapter);
-	}
-	
-	public AdListAdapter getAdapterForKey(String key) {
-		AdListAdapter adapter = adapterMap.get(key);
-		return adapter;
-	}
-
 	public ArrayList<TVTag> getTvTags() {
 		return tvTags;
 	}

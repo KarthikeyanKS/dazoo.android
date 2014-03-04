@@ -1200,19 +1200,7 @@ public class ContentManager
 		HashMap<String, AdListAdapter> adapterMap = cache.getAdapterMap();
 		return adapterMap;
 	}
-	
-	@SuppressWarnings("rawtypes")
-	public AdListAdapter getFromCacheAdapterForKey(String key) {
-		AdListAdapter adapter = cache.getAdapterForKey(key);
-		return adapter;
-	}
-	
-	@SuppressWarnings("rawtypes")
-	public void addAdapterForKey(String key, AdListAdapter adlistAdapter) {
-		cache.addAdapterForKey(key, adlistAdapter);
-	}
-	
-	
+		
 	/* UserToken related methods */
 	
 	/**
