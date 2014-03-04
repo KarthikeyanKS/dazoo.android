@@ -116,6 +116,9 @@ public abstract class AsyncTaskBase<T>
 			int timeZoneOffsetInMinutesAsInt = (int) (timeZone.getRawOffset() / DateUtils.TOTAL_MILISECOUNDS_IN_ONE_MINUTE);
 			
 			Integer timeZoneOffsetInMinutes = Integer.valueOf(timeZoneOffsetInMinutesAsInt);
+			
+			//TODO NewArc check that this is what we want to do!
+			timeZoneOffsetInMinutes = ((-1) * timeZoneOffsetInMinutes);
 		
 			urlParameters.add(Consts.HTTP_REQUEST_DATA_TIME_ZONE_OFFSET, timeZoneOffsetInMinutes.toString());
 		}

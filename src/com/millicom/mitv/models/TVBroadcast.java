@@ -38,8 +38,8 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 	
 	protected transient Calendar beginTimeCalendarGMT;
 	protected transient Calendar endTimeCalendarGMT;
-	protected transient Calendar beginTimeCalendarLocal;
-	protected transient Calendar endTimeCalendarLocal;
+//	protected transient Calendar beginTimeCalendarLocal;
+//	protected transient Calendar endTimeCalendarLocal;
 	private transient Integer durationInMinutes = NO_INT_VALUE_SET;
 	
 	/* IMPORTANT TO SET STRING TO NULL AND NOT EMPTY STRING */
@@ -80,38 +80,38 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 		return endTimeCalendarGMT;
 	}
 
-	/**
-	 * Lazy instantiated variable
-	 * @return The begin time of the broadcast, if available. Otherwise, the current time
-	 */
-	public Calendar getBeginTimeCalendarLocal() 
-	{
-		if(beginTimeCalendarLocal == null) 
-		{	
-			Calendar beginTimeCalendarLocal = Calendar.getInstance();
-			beginTimeCalendarLocal.setTimeInMillis(beginTimeMillis);
-			this.beginTimeCalendarLocal = beginTimeCalendarLocal;
-		}
-		
-		return beginTimeCalendarLocal;
-	}
-	
-	/**
-	 * Lazy instantiated variable
-	 * @return The end time of the broadcast, if available. Otherwise, the current time
-	 */
-	public Calendar getEndTimeCalendarLocal()
-	{
-		if(endTimeCalendarLocal == null)
-		{	
-			long endTimeMillisGMT = getEndTimeCalendarGMT().getTimeInMillis();
-			Calendar endTimeCalendarLocal = Calendar.getInstance();
-			endTimeCalendarLocal.setTimeInMillis(endTimeMillisGMT);
-			this.endTimeCalendarLocal = endTimeCalendarLocal;
-		}
-		
-		return endTimeCalendarLocal;
-	}
+//	/**
+//	 * Lazy instantiated variable
+//	 * @return The begin time of the broadcast, if available. Otherwise, the current time
+//	 */
+//	public Calendar getBeginTimeCalendarLocal() 
+//	{
+//		if(beginTimeCalendarLocal == null) 
+//		{	
+//			Calendar beginTimeCalendarLocal = Calendar.getInstance();
+//			beginTimeCalendarLocal.setTimeInMillis(beginTimeMillis);
+//			this.beginTimeCalendarLocal = beginTimeCalendarLocal;
+//		}
+//		
+//		return beginTimeCalendarLocal;
+//	}
+//	
+//	/**
+//	 * Lazy instantiated variable
+//	 * @return The end time of the broadcast, if available. Otherwise, the current time
+//	 */
+//	public Calendar getEndTimeCalendarLocal()
+//	{
+//		if(endTimeCalendarLocal == null)
+//		{	
+//			long endTimeMillisGMT = getEndTimeCalendarGMT().getTimeInMillis();
+//			Calendar endTimeCalendarLocal = Calendar.getInstance();
+//			endTimeCalendarLocal.setTimeInMillis(endTimeMillisGMT);
+//			this.endTimeCalendarLocal = endTimeCalendarLocal;
+//		}
+//		
+//		return endTimeCalendarLocal;
+//	}
 	
 	
 	public boolean isBroadcastCurrentlyAiring() 
@@ -291,7 +291,7 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 	public String getBeginTimeHourAndMinuteLocalAsString() {
 		if(beginTimeHourAndMinuteRepresentation == null)
 		{
-			beginTimeHourAndMinuteRepresentation = DateUtils.getHourAndMinuteCompositionAsString(getBeginTimeCalendarLocal());
+			beginTimeHourAndMinuteRepresentation = DateUtils.getHourAndMinuteCompositionAsString(getBeginTimeCalendarGMT());
 		}
 		
 		return beginTimeHourAndMinuteRepresentation;
@@ -302,7 +302,7 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 	public String getEndTimeHourAndMinuteLocalAsString() {
 		if(endTimeHourAndMinuteRepresentation == null)
 		{
-			endTimeHourAndMinuteRepresentation = DateUtils.getHourAndMinuteCompositionAsString(getEndTimeCalendarLocal());
+			endTimeHourAndMinuteRepresentation = DateUtils.getHourAndMinuteCompositionAsString(getEndTimeCalendarGMT());
 		}
 		
 		return endTimeHourAndMinuteRepresentation;
@@ -551,9 +551,10 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 		
 		boolean additionalFieldsOk = (
 				getBeginTimeCalendarGMT() != null && (getBeginTimeCalendarGMT().get(Calendar.YEAR) > yearOf2000)  && getEndTimeCalendarGMT() != null &&
-						(getEndTimeCalendarGMT().get(Calendar.YEAR) > yearOf2000) &&
-						getBeginTimeCalendarLocal() != null && (getBeginTimeCalendarLocal().get(Calendar.YEAR) > yearOf2000)  && getEndTimeCalendarLocal() != null &&
-						(getEndTimeCalendarLocal().get(Calendar.YEAR) > yearOf2000) && getBroadcastDurationInMinutes() != null &&
+						(getEndTimeCalendarGMT().get(Calendar.YEAR) > yearOf2000)
+//						&& getBeginTimeCalendarLocal() != null && (getBeginTimeCalendarLocal().get(Calendar.YEAR) > yearOf2000)  && getEndTimeCalendarLocal() != null &&
+//						(getEndTimeCalendarLocal().get(Calendar.YEAR) > yearOf2000)  &&
+						&& getBroadcastDurationInMinutes() != null &&
 						!TextUtils.isEmpty(getBeginTimeDateRepresentation()) && !TextUtils.isEmpty(getBeginTimeDayAndMonthAsString()) &&
 						!TextUtils.isEmpty(getBeginTimeHourAndMinuteLocalAsString()) && !TextUtils.isEmpty(getEndTimeHourAndMinuteLocalAsString())
 						);
