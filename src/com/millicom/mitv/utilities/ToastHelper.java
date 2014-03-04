@@ -58,7 +58,7 @@ public class ToastHelper
 	
 	public static void createAndShowLikeToast(
 			final Activity activity,
-			String message)
+			final String message)
 	{
 		Toast toast = new Toast(activity.getApplicationContext());
 		

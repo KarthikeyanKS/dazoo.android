@@ -18,7 +18,7 @@ import com.mitv.Consts;
 public class GetAppVersionData 
 	extends AsyncTaskWithRelativeURL<AppVersionJSON[]> 
 {
-	private static final String TAG = "GetAppVersionData";
+	private static final String TAG = GetAppVersionData.class.getName();
 	
 	private static final String URL_SUFFIX = Consts.URL_API_VERSION;
 	

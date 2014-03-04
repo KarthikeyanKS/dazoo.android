@@ -48,7 +48,7 @@ public class RemoveUserLikeGSONTest
 	
 	
 	
-	private static HTTPCoreResponse removeUserLike(
+	public static HTTPCoreResponse removeUserLike(
 			String token,
 			LikeTypeRequestEnum likeType,
 			String entityId)

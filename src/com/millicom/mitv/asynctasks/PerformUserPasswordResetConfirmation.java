@@ -18,7 +18,7 @@ import com.mitv.Consts;
 public class PerformUserPasswordResetConfirmation 
 	extends AsyncTaskWithRelativeURL<DummyData> 
 {
-	private static final String TAG = "PerformUserPasswordConfirmation";
+	private static final String TAG = PerformUserPasswordResetConfirmation.class.getName();
 	
 	private static final String URL_SUFFIX = Consts.URL_RESET_AND_CONFIRM_PASSWORD;
 	

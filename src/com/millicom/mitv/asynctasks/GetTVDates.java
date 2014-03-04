@@ -6,6 +6,8 @@ package com.millicom.mitv.asynctasks;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import android.util.Log;
+
 import com.millicom.mitv.enums.HTTPRequestTypeEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
@@ -18,6 +20,8 @@ import com.mitv.Consts;
 public class GetTVDates 
 	extends AsyncTaskWithRelativeURL<TVDate[]> 
 {	
+	private static final String TAG = GetTVDates.class.getName();
+	
 	private static final String URL_SUFFIX = Consts.URL_DATES;
 
 	
@@ -29,13 +33,23 @@ public class GetTVDates
 	}
 	
 	@Override
-	protected Void doInBackground(String... params) {
+	protected Void doInBackground(String... params) 
+	{
 		super.doInBackground(params);
 
 		/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
-		TVDate[] contentAsArray = (TVDate[]) requestResultObjectContent;
-		ArrayList<TVDate> contentAsArrayList = new ArrayList<TVDate>(Arrays.asList(contentAsArray));
-		requestResultObjectContent = contentAsArrayList;
+		if(requestResultObjectContent != null)
+		{
+			TVDate[] contentAsArray = (TVDate[]) requestResultObjectContent;
+			
+			ArrayList<TVDate> contentAsArrayList = new ArrayList<TVDate>(Arrays.asList(contentAsArray));
+		
+			requestResultObjectContent = contentAsArrayList;
+		}
+		else
+		{
+			Log.w(TAG, "The requestResultObjectContent is null.");
+		}
 
 		return null;
 	}

@@ -27,7 +27,6 @@ import com.millicom.mitv.models.UserLike;
 import com.millicom.mitv.utilities.DialogHelper;
 import com.mitv.Consts;
 import com.mitv.R;
-import com.mitv.customviews.LikeView;
 import com.mitv.customviews.ReminderView;
 import com.mitv.storage.MiTVStore;
 import com.mitv.utilities.ProgressBarUtils;
@@ -87,9 +86,12 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 		TextView tagsTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_tags_tv);
 
 		ReminderView reminderView = (ReminderView) topContentView.findViewById(R.id.element_social_buttons_reminder);
+		reminderView.setBroadcast(broadcastWithChannelInfo);
 
-		LikeView likeView = (LikeView) topContentView.findViewById(R.id.element_social_buttons_like_view);
+		likeIv = (ImageView) topContentView.findViewById(R.id.element_social_buttons_like_button_iv);
+		ImageView mShareIv = (ImageView) topContentView.findViewById(R.id.element_social_buttons_share_button_iv);
 
+		RelativeLayout likeContainer = (RelativeLayout) topContentView.findViewById(R.id.element_social_buttons_like_button_container);
 		RelativeLayout shareContainer = (RelativeLayout) topContentView.findViewById(R.id.element_social_buttons_share_button_container);
 
 		ProgressBar progressBar = (ProgressBar) topContentView.findViewById(R.id.block_broadcastpage_broadcast_progressbar);
@@ -242,31 +244,71 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 			synopsisTv.setText(program.getSynopsisShort());
 			synopsisTv.setVisibility(View.VISIBLE);
 		}
-		
-		/* Set tag with broadcast object so that we can get that object from the view in onClickListener and perform add or remove reminder for broadcast */
-		reminderView.setBroadcast(broadcastWithChannelInfo);
-		
+
+
+		final boolean isLiked = isLiked(broadcastWithChannelInfo);
+
+		if (isLiked) 
+		{
+			likeIv.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_like_selected));
+		}
+		else
+		{
+			likeIv.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_like_default));
+		}
+
 		/* Set tag with broadcast object so that we can get that object from the view in onClickListener and perform add or remove like for broadcast */
-		likeView.setBroadcast(broadcastWithChannelInfo);
-		
+		likeContainer.setTag(broadcastWithChannelInfo);
+
 		/* Set tag with broadcast object so that we can get that object from the view in onClickListener and perform share for broadcast */
 		shareContainer.setTag(broadcastWithChannelInfo);
 
+		likeContainer.setOnClickListener(this);
 		shareContainer.setOnClickListener(this);
 
 		topContentView.setVisibility(View.VISIBLE);
 
 		containerView.addView(topContentView);
 	}
-	
 
-	
+	private boolean isLiked(TVBroadcastWithChannelInfo broadcastWithChannelInfo) {
+		boolean isLiked = false;
+		if (ContentManager.sharedInstance().isLoggedIn()) 
+		{
+			UserLike userLikeFromBroascast = UserLike.userLikeFromBroadcast(broadcastWithChannelInfo);
+			isLiked = ContentManager.sharedInstance().isContainedInUserLikes(userLikeFromBroascast);
+			isLiked = false;
+		}
+		return isLiked;
+	}
+
 	@Override
 	public void onClick(View v) {
 		int viewId = v.getId();
 		TVBroadcastWithChannelInfo broadcastWithChannelInfo = (TVBroadcastWithChannelInfo) v.getTag();
 
 		switch (viewId) {
+		case R.id.element_social_buttons_like_button_container: {
+			UserLike userLikeFromBroascast = UserLike.userLikeFromBroadcast(broadcastWithChannelInfo);
+			boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+
+			final boolean isLiked = isLiked(broadcastWithChannelInfo);
+
+			if (isLoggedIn) {
+				if (isLiked) {
+					// TODO NewArc remove like using new async task, THROUGH ContentManager
+				} else {
+					// TODO NewArc add like using new async task, THROUGH ContentManager
+				}
+			} else {
+				if (BroadcastPageActivity.toast != null) {
+					BroadcastPageActivity.toast.cancel();
+				}
+				DialogHelper.showPromptSignInDialog(activity, yesLoginProc(), noLoginProc());
+			}
+			break;
+
+		}
 		case R.id.element_social_buttons_share_button_container: {
 			ShareUtils.startShareActivity(activity, activity.getResources().getString(R.string.app_name), broadcastWithChannelInfo.getShareUrl(), activity.getResources().getString(R.string.share_action_title));
 			break;
