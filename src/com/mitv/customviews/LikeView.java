@@ -90,9 +90,11 @@ public class LikeView extends RelativeLayout implements ActivityCallbackListener
 			if (isLiked) {
 				ContentManager.sharedInstance().removeUserLike(this, likeFromBroadcast);
 				setImageToNotLiked();
+				isSet = false;
 			} else {
 				AnimationUtilities.animationSet(this);
 				setImageToLiked();
+				isSet = true;
 				ContentManager.sharedInstance().addUserLike(this, likeFromBroadcast);
 			}
 		} else {
@@ -136,7 +138,7 @@ public class LikeView extends RelativeLayout implements ActivityCallbackListener
 				Log.d(TAG, "Successfully added like");
 				
 				StringBuilder sb = new StringBuilder();
-				sb.append(R.string.like_set_text_row1);
+				sb.append(activity.getResources().getString(R.string.like_set_text_row1));
 				sb.append(activity.getResources().getString(R.string.like_set_text_row2));
 				
 				ToastHelper.createAndShowLikeToast(activity, sb.toString());

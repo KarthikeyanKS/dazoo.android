@@ -147,49 +147,7 @@ public class FeedListAdapter
 	@Override
 	public void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
-		switch (requestIdentifier) 
-		{
-		
-			case USER_ADD_LIKE:
-			{
-				if(fetchRequestResult.wasSuccessful())
-				{
-					StringBuilder sb = new StringBuilder();
-					sb.append(R.string.like_set_text_row1);
-					sb.append(activity.getResources().getString(R.string.like_set_text_row2));
-					
-					ToastHelper.createAndShowLikeToast(activity, sb.toString());
-					
-					notifyDataSetChanged();
-				}
-				else
-				{
-					Log.e(TAG, "Failed to add user like.");
-				}
-				break;
-			}
-			
-			case USER_REMOVE_LIKE:
-			{
-				if(fetchRequestResult.wasSuccessful())
-				{
-					notifyDataSetChanged();
-				}
-				else
-				{
-					Log.e(TAG, "Failed to remove user like.");
-				}
-				break;
-			}
-					
-			default:
-			{
-				Log.w(TAG, "Unknown request identifier");
-			}
-		}
 	}
-
-	
 	
 	public void populatePopularItemAtIndex(
 			PopularBroadcastsViewHolder viewHolder, 
