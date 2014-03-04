@@ -205,10 +205,8 @@ public abstract class BaseActivity
 	/* Remove activity from activitStack */
 	private static void popActivityFromStackIfTopOfStack(Activity activity) 
 	{
-		Activity activityInTopOfStack;
-		
-		try
-		{
+		Activity activityInTopOfStack = null;
+		if(!activityStack.isEmpty()) {
 			activityInTopOfStack = activityStack.peek();
 			
 			if(activityInTopOfStack == activity)
@@ -216,10 +214,6 @@ public abstract class BaseActivity
 				/* We are in the top of the stack, remove us from the stack */
 				activityStack.pop();
 			}
-		}
-		catch(EmptyStackException empstex)
-		{
-			Log.d(TAG, empstex.getMessage());
 		}
 	}
 	
