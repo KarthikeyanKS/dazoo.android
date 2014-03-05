@@ -4,6 +4,8 @@ package com.millicom.mitv;
 
 
 import java.util.List;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 import com.androidquery.callback.AjaxCallback;
 import com.millicom.mitv.asynctasks.CheckNetworkConnectivity;
@@ -45,12 +47,80 @@ import com.millicom.mitv.models.UserLike;
 
 public class APIClient
 {	
+	private static final int  pool_executor_default_core_pool_size  = 7;
+	private static final int  pool_executor_default_max_pool_size   = 10;
+	private static final long pool_executor_default_keep_alive_time = 5000L;
+	
+	
 	private ContentCallbackListener contentCallbackListener;
+	private CustomThreadedPoolExecutor poolExecutor;
+	
 	
 	
 	public APIClient(ContentCallbackListener contentCallbackListener) 
 	{
 		this.contentCallbackListener = contentCallbackListener;
+		
+		this.poolExecutor = new CustomThreadedPoolExecutor(
+				pool_executor_default_core_pool_size,
+				pool_executor_default_max_pool_size,
+				pool_executor_default_keep_alive_time,
+                TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<Runnable>());
+	}
+	
+
+	
+	public void getInitialData(ActivityCallbackListener activityCallbackListener, boolean isUserLoggedIn)
+	{
+		GetAppConfigurationData getAppConfigurationData = new GetAppConfigurationData(contentCallbackListener, activityCallbackListener);
+		GetAppVersionData getAppVersionData = new GetAppVersionData(contentCallbackListener, activityCallbackListener);
+		GetTVTags getTVTags = new GetTVTags(contentCallbackListener, activityCallbackListener);
+		GetTVDates getTVDates = new GetTVDates(contentCallbackListener, activityCallbackListener);
+		GetTVChannelsAll getTVChannelsAll = new GetTVChannelsAll(contentCallbackListener, activityCallbackListener);
+		GetTVChannelIdsDefault getTVChannelIdsDefault = new GetTVChannelIdsDefault(contentCallbackListener, activityCallbackListener);
+		
+		getAppConfigurationData.executeOnExecutor(poolExecutor);
+		getAppVersionData.executeOnExecutor(poolExecutor);
+		getTVTags.executeOnExecutor(poolExecutor);
+		getTVDates.executeOnExecutor(poolExecutor);
+		getTVChannelsAll.executeOnExecutor(poolExecutor);
+		getTVChannelIdsDefault.executeOnExecutor(poolExecutor);
+		
+		if(isUserLoggedIn)
+		{
+			GetUserTVChannelIds getUserTVChannelIds = new GetUserTVChannelIds(contentCallbackListener, activityCallbackListener);
+			getUserTVChannelIds.executeOnExecutor(poolExecutor);
+		}
+	}
+	
+	
+	
+	public void getTVChannelGuideOnPoolExecutor(ActivityCallbackListener activityCallbackListener, TVDate tvDate, List<TVChannelId> tvChannelIds)
+	{
+		GetTVChannelGuides getTvChannelGuides = new GetTVChannelGuides(contentCallbackListener, activityCallbackListener, tvDate, tvChannelIds);
+		getTvChannelGuides.executeOnExecutor(poolExecutor);
+	}
+	
+	
+	
+	public void cancelAllPendingRequests()
+	{
+		poolExecutor.shutdown();
+	}
+	
+	
+	
+	public boolean arePendingRequestsCanceled()
+	{
+		return (poolExecutor.isShutdown() || poolExecutor.isTerminated() || poolExecutor.isTerminating());
+	}
+	
+	
+	
+	public boolean areAllTasksDone()
+	{
+		return poolExecutor.areAllTasksDone();
 	}
 	
 	
@@ -60,7 +130,6 @@ public class APIClient
 		CheckNetworkConnectivity checkNetworkConnectivity = new CheckNetworkConnectivity(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.INTERNET_CONNECTIVITY);
 		checkNetworkConnectivity.execute();
 	}
-	
 	
 	
 	public void getAppConfiguration(ActivityCallbackListener activityCallbackListener) 
