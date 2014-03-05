@@ -402,13 +402,15 @@ public abstract class DateUtils
 	
 	
 	/**
-	 * Builds a calendar from a specific date, sets the hour to the specified value and the minutes, seconds and milliseconds to zero
+	 * Builds a calendar from a specific date, sets the hour to the specified value and the minutes, seconds and milliseconds to the current time values
+	 * 
 	 * 
 	 */
-	public static Calendar buildCalendarWithDateAndSpecificHour(
+	public static Calendar buildCalendarWithTVDateAndSpecificHour(
 			final Calendar inputCalendar, 
 			final int hour) 
 	{
+		Calendar now = Calendar.getInstance();
 		Calendar calendar = (Calendar) inputCalendar.clone();
 		
 
@@ -427,6 +429,8 @@ public abstract class DateUtils
 		}
 		
 		calendar.set(Calendar.HOUR_OF_DAY, hoursValue);
+		calendar.set(Calendar.MINUTE, now.get(Calendar.MINUTE));
+		calendar.set(Calendar.SECOND, now.get(Calendar.SECOND));
 		
 		return calendar;
 	}

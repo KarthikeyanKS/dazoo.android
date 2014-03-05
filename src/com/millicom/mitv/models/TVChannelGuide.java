@@ -97,7 +97,7 @@ public class TVChannelGuide
 	{
 		int closestIndexFound = defaultValueIfNotFound;
 		
-		Calendar tvDateWithHourCalendar = DateUtils.buildCalendarWithDateAndSpecificHour(tvDate.getDateCalendar(), hour);
+		Calendar tvDateWithHourCalendar = DateUtils.buildCalendarWithTVDateAndSpecificHour(tvDate.getDateCalendar(), hour);
 		
 		for(int i = 0; i < broadcasts.size(); ++i)
 		{
