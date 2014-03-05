@@ -411,9 +411,7 @@ public abstract class DateUtils
 	{
 		Calendar calendar = (Calendar) inputCalendar.clone();
 		
-		int milisecondsValue = 0;
-		int secondsValue = 0;
-		int minutesValue = 0;
+
 		int hoursValue = hour;
 		
 		int firstHourOfTheDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
@@ -429,9 +427,6 @@ public abstract class DateUtils
 		}
 		
 		calendar.set(Calendar.HOUR_OF_DAY, hoursValue);
-		calendar.set(Calendar.MINUTE, minutesValue);
-		calendar.set(Calendar.SECOND, secondsValue);
-		calendar.set(Calendar.MILLISECOND, milisecondsValue);
 		
 		return calendar;
 	}
@@ -445,12 +440,9 @@ public abstract class DateUtils
 	 */
 	private static SimpleDateFormat getSimpleDateFormatWith(
 			final String pattern,
-//			final TimeZone timeZone,
 			final Locale locale) 
 	{
 		SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, locale);
-		
-//		dateFormat.setTimeZone(timeZone);
 		
 		return dateFormat;
 	}

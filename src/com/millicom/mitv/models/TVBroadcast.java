@@ -36,10 +36,8 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 
 	private static final int NO_INT_VALUE_SET = -1;
 	
-	protected transient Calendar beginTimeCalendarGMT;
-	protected transient Calendar endTimeCalendarGMT;
-//	protected transient Calendar beginTimeCalendarLocal;
-//	protected transient Calendar endTimeCalendarLocal;
+	protected transient Calendar beginTimeCalendarLocal;
+	protected transient Calendar endTimeCalendarLocal;
 	private transient Integer durationInMinutes = NO_INT_VALUE_SET;
 	
 	/* IMPORTANT TO SET STRING TO NULL AND NOT EMPTY STRING */
@@ -51,74 +49,65 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 	
 	
 	/**
-	 * Lazy instantiated variable
 	 * @return The begin time of the broadcast, if available. Otherwise, the current time
 	 */
 	public Calendar getBeginTimeCalendarGMT() 
 	{
-		if(beginTimeCalendarGMT == null) 
-		{	
-			beginTimeCalendarGMT = DateUtils.convertFromYearDateAndTimeStringToCalendar(beginTime);
-		}
-		
+		Calendar beginTimeCalendarGMT = DateUtils.convertFromYearDateAndTimeStringToCalendar(beginTime);
 		return beginTimeCalendarGMT;
 	}
 
 	
 	
 	/**
-	 * Lazy instantiated variable
 	 * @return The end time of the broadcast, if available. Otherwise, the current time
 	 */
 	public Calendar getEndTimeCalendarGMT()
 	{
-		if(endTimeCalendarGMT == null)
-		{	
-			endTimeCalendarGMT = DateUtils.convertFromYearDateAndTimeStringToCalendar(endTime);
-		}
-		
+		Calendar endTimeCalendarGMT = DateUtils.convertFromYearDateAndTimeStringToCalendar(endTime);
 		return endTimeCalendarGMT;
 	}
 
-//	/**
-//	 * Lazy instantiated variable
-//	 * @return The begin time of the broadcast, if available. Otherwise, the current time
-//	 */
-//	public Calendar getBeginTimeCalendarLocal() 
-//	{
-//		if(beginTimeCalendarLocal == null) 
-//		{	
-//			Calendar beginTimeCalendarLocal = Calendar.getInstance();
-//			beginTimeCalendarLocal.setTimeInMillis(beginTimeMillis);
-//			this.beginTimeCalendarLocal = beginTimeCalendarLocal;
-//		}
-//		
-//		return beginTimeCalendarLocal;
-//	}
-//	
-//	/**
-//	 * Lazy instantiated variable
-//	 * @return The end time of the broadcast, if available. Otherwise, the current time
-//	 */
-//	public Calendar getEndTimeCalendarLocal()
-//	{
-//		if(endTimeCalendarLocal == null)
-//		{	
-//			long endTimeMillisGMT = getEndTimeCalendarGMT().getTimeInMillis();
-//			Calendar endTimeCalendarLocal = Calendar.getInstance();
-//			endTimeCalendarLocal.setTimeInMillis(endTimeMillisGMT);
-//			this.endTimeCalendarLocal = endTimeCalendarLocal;
-//		}
-//		
-//		return endTimeCalendarLocal;
-//	}
+	/**
+	 * Lazy instantiated variable
+	 * @return The begin time of the broadcast, if available. Otherwise, the current time
+	 */
+	public Calendar getBeginTimeCalendarLocal() 
+	{
+		if(beginTimeCalendarLocal == null) 
+		{	
+			beginTimeCalendarLocal = getBeginTimeCalendarGMT();
+			
+			int timeZoneOffsetInMinutes = DateUtils.getTimeZoneOffsetInMinutes();
+			beginTimeCalendarLocal.add(Calendar.MINUTE, timeZoneOffsetInMinutes);
+		}
+		
+		return beginTimeCalendarLocal;
+	}
+	
+	/**
+	 * Lazy instantiated variable
+	 * @return The end time of the broadcast, if available. Otherwise, the current time
+	 */
+	public Calendar getEndTimeCalendarLocal()
+	{
+		if(endTimeCalendarLocal == null)
+		{	
+			endTimeCalendarLocal = getEndTimeCalendarGMT();
+			
+			int timeZoneOffsetInMinutes = DateUtils.getTimeZoneOffsetInMinutes();
+			endTimeCalendarLocal.add(Calendar.MINUTE, timeZoneOffsetInMinutes);
+		}
+		
+		return endTimeCalendarLocal;
+	}
 	
 	
 	public boolean isBroadcastCurrentlyAiring() 
 	{
 		Calendar now = Calendar.getInstance();
 		
-		boolean isRunning = getBeginTimeCalendarGMT().before(now) && getEndTimeCalendarGMT().after(now);		
+		boolean isRunning = getBeginTimeCalendarLocal().before(now) && getEndTimeCalendarLocal().after(now);		
 
 		return isRunning;
 	}
@@ -129,7 +118,7 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 	{
 		if(durationInMinutes == NO_INT_VALUE_SET)
 		{		    
-		    durationInMinutes = DateUtils.calculateDifferenceBetween(getBeginTimeCalendarGMT(), getEndTimeCalendarGMT(), Calendar.MINUTE, false, 0);
+		    durationInMinutes = DateUtils.calculateDifferenceBetween(getBeginTimeCalendarLocal(), getEndTimeCalendarLocal(), Calendar.MINUTE, false, 0);
 		}
 
 	    return durationInMinutes;
@@ -141,7 +130,7 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 	{
 		Calendar now = Calendar.getInstance();
 		
-		Integer elapsedMinutesSinceBroadcastStarted = DateUtils.calculateDifferenceBetween(getBeginTimeCalendarGMT(), now, Calendar.MINUTE, false, 0);
+		Integer elapsedMinutesSinceBroadcastStarted = DateUtils.calculateDifferenceBetween(getBeginTimeCalendarLocal(), now, Calendar.MINUTE, false, 0);
 	    
 	    return elapsedMinutesSinceBroadcastStarted;
 	}
@@ -152,7 +141,7 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 	{	    
 	    Calendar now = Calendar.getInstance();
 		
-	    Integer elapsedMinutesSinceBroadcastStarted = DateUtils.calculateDifferenceBetween(now, getEndTimeCalendarGMT(), Calendar.MINUTE, false, 0);
+	    Integer elapsedMinutesSinceBroadcastStarted = DateUtils.calculateDifferenceBetween(now, getEndTimeCalendarLocal(), Calendar.MINUTE, false, 0);
 	    
 	    return elapsedMinutesSinceBroadcastStarted;
 	}
@@ -162,7 +151,7 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 	
 	public Calendar getBroadcastBeginTimeForNotification()
 	{
-		Calendar calendar = (Calendar) getBeginTimeCalendarGMT().clone();
+		Calendar calendar = (Calendar) getBeginTimeCalendarLocal().clone();
 
 		int minutesBeforeNotify = Consts.NOTIFY_MINUTES_BEFORE_THE_BROADCAST2;
 		
@@ -175,7 +164,7 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 	
 	public boolean isBroadcastAiringInOrInLessThan(int minutes) 
 	{
-		Calendar beginTimeWithincrement = (Calendar) getBeginTimeCalendarGMT().clone();
+		Calendar beginTimeWithincrement = (Calendar) getBeginTimeCalendarLocal().clone();
 		beginTimeWithincrement.add(Calendar.MINUTE, minutes);
 		
 		Calendar now = Calendar.getInstance();
@@ -189,7 +178,7 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 	
 	public boolean isEndTimeAfter(Calendar inputCalendar)
 	{
-		boolean isEndTimeAfterInputCalendar = getEndTimeCalendarGMT().after(inputCalendar);
+		boolean isEndTimeAfterInputCalendar = getEndTimeCalendarLocal().after(inputCalendar);
 
 		return isEndTimeAfterInputCalendar;
 	}
@@ -200,7 +189,7 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 	{
 		Calendar now = Calendar.getInstance();
 
-		boolean isAiring = getBeginTimeCalendarGMT().before(now) && getEndTimeCalendarGMT().after(now);
+		boolean isAiring = getBeginTimeCalendarLocal().before(now) && getEndTimeCalendarLocal().after(now);
 
 		return isAiring;
 	}
@@ -211,7 +200,7 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 	{
 		Calendar now = Calendar.getInstance();
 		
-		boolean hasEnded = now.after(getEndTimeCalendarGMT());
+		boolean hasEnded = now.after(getEndTimeCalendarLocal());
 		
 		return hasEnded;
 	}
@@ -222,7 +211,7 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 	{
 		Calendar now = Calendar.getInstance();
 		
-		boolean hasNotAiredYet = now.before(getBeginTimeCalendarGMT());
+		boolean hasNotAiredYet = now.before(getBeginTimeCalendarLocal());
 		
 		return hasNotAiredYet;
 	}
@@ -238,7 +227,7 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 		{
 			Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
 			
-			beginTimeDateRepresentation = DateUtils.buildDateCompositionAsString(getBeginTimeCalendarGMT(), context);
+			beginTimeDateRepresentation = DateUtils.buildDateCompositionAsString(getBeginTimeCalendarLocal(), context);
 		}
 		
 		return beginTimeDateRepresentation;
@@ -253,7 +242,7 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 	{
 		if(beginTimeDayAndMonthRepresentation == null)
 		{
-			beginTimeDayAndMonthRepresentation = DateUtils.buildDayAndMonthCompositionAsString(getBeginTimeCalendarGMT());
+			beginTimeDayAndMonthRepresentation = DateUtils.buildDayAndMonthCompositionAsString(getBeginTimeCalendarLocal());
 		}
 		
 		return beginTimeDayAndMonthRepresentation;
@@ -268,7 +257,7 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 	{	
 		if(beginTimeHourAndMinuteRepresentation == null)
 		{
-			beginTimeHourAndMinuteRepresentation = DateUtils.getHourAndMinuteCompositionAsString(getBeginTimeCalendarGMT());
+			beginTimeHourAndMinuteRepresentation = DateUtils.getHourAndMinuteCompositionAsString(getBeginTimeCalendarLocal());
 		}
 		
 		return beginTimeHourAndMinuteRepresentation;
@@ -281,7 +270,7 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 	{
 		if(endTimeHourAndMinuteRepresentation == null)
 		{
-			endTimeHourAndMinuteRepresentation = DateUtils.getHourAndMinuteCompositionAsString(getEndTimeCalendarGMT());
+			endTimeHourAndMinuteRepresentation = DateUtils.getHourAndMinuteCompositionAsString(getEndTimeCalendarLocal());
 		}
 		
 		return endTimeHourAndMinuteRepresentation;
@@ -291,7 +280,7 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 	public String getBeginTimeHourAndMinuteLocalAsString() {
 		if(beginTimeHourAndMinuteRepresentation == null)
 		{
-			beginTimeHourAndMinuteRepresentation = DateUtils.getHourAndMinuteCompositionAsString(getBeginTimeCalendarGMT());
+			beginTimeHourAndMinuteRepresentation = DateUtils.getHourAndMinuteCompositionAsString(getBeginTimeCalendarLocal());
 		}
 		
 		return beginTimeHourAndMinuteRepresentation;
@@ -302,7 +291,7 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 	public String getEndTimeHourAndMinuteLocalAsString() {
 		if(endTimeHourAndMinuteRepresentation == null)
 		{
-			endTimeHourAndMinuteRepresentation = DateUtils.getHourAndMinuteCompositionAsString(getEndTimeCalendarGMT());
+			endTimeHourAndMinuteRepresentation = DateUtils.getHourAndMinuteCompositionAsString(getEndTimeCalendarLocal());
 		}
 		
 		return endTimeHourAndMinuteRepresentation;
@@ -315,7 +304,7 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 	 */
 	public String getBeginTimeDayOfTheWeekAsString() 
 	{	
-		return DateUtils.buildDayOfTheWeekAsString(getBeginTimeCalendarGMT());
+		return DateUtils.buildDayOfTheWeekAsString(getBeginTimeCalendarLocal());
 	}
 
 	
@@ -326,7 +315,7 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 	 */
 	public String getBeginTimeDayOfTheWeekWithHourAndMinuteAsString()
 	{	
-		String dayOfTheWeekAsString = DateUtils.buildDayOfTheWeekAsString(getBeginTimeCalendarGMT());
+		String dayOfTheWeekAsString = DateUtils.buildDayOfTheWeekAsString(getBeginTimeCalendarLocal());
 		
 		String timeOfDayAsString = getBeginTimeHourAndMinuteLocalAsString();
 		
@@ -353,7 +342,7 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 		
 		Calendar now = Calendar.getInstance();
 
-		int daysLeft = DateUtils.calculateDifferenceBetween(getBeginTimeCalendarGMT(), now, Calendar.DAY_OF_MONTH, false, 0);
+		int daysLeft = DateUtils.calculateDifferenceBetween(getBeginTimeCalendarLocal(), now, Calendar.DAY_OF_MONTH, false, 0);
 
 		if(daysLeft > 0)
 		{
@@ -365,7 +354,7 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 		} 
 		else 
 		{
-			int hoursLeft = DateUtils.calculateDifferenceBetween(getBeginTimeCalendarGMT(), now, Calendar.HOUR_OF_DAY, false, 0);
+			int hoursLeft = DateUtils.calculateDifferenceBetween(getBeginTimeCalendarLocal(), now, Calendar.HOUR_OF_DAY, false, 0);
 
 			if(hoursLeft > 0) 
 			{
@@ -377,7 +366,7 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 			} 
 			else 
 			{
-				int minutesLeft = DateUtils.calculateDifferenceBetween(getBeginTimeCalendarGMT(), now, Calendar.MINUTE, false, 0);
+				int minutesLeft = DateUtils.calculateDifferenceBetween(getBeginTimeCalendarLocal(), now, Calendar.MINUTE, false, 0);
 
 				if(minutesLeft > 0) 
 				{
@@ -397,110 +386,6 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 		
 		return sb.toString();
 	}
-	
-
-	
-	/*
-	 * STATIC UTILITY METHODS
-	 */
-	
-	public static ArrayList<TVBroadcast> getBroadcastsFromPosition(
-			final ArrayList<TVBroadcast> broadcasts, 
-			final int startIndex) 
-	{
-		return getBroadcastsFromPosition(broadcasts, startIndex, broadcasts.size());
-	}
-	
-	
-
-	public static ArrayList<TVBroadcast> getBroadcastsFromPosition(
-			final ArrayList<TVBroadcast> broadcasts, 
-			final int startIndex,
-			final int maximumBrodacasts) 
-	{
-		ArrayList<TVBroadcast> broadcastsToReturn = new ArrayList<TVBroadcast>(maximumBrodacasts);
-
-		if(startIndex >= 0 && 
-		   startIndex < broadcasts.size())
-		{
-			for(int i=startIndex; i<broadcasts.size(); i++)
-			{
-				if(broadcastsToReturn.size() < maximumBrodacasts)
-				{
-					TVBroadcast broadcast = broadcasts.get(i);
-					
-					broadcastsToReturn.add(broadcast);
-				}
-				else
-				{
-					break;
-				}
-			}
-		}
-		
-		return broadcastsToReturn;
-	}
-	
-	
-	
-	public static int getClosestBroadcastIndex(
-			final ArrayList<TVBroadcast> broadcasts, 
-			final int hour, 
-			final TVDate tvDate,
-			final int defaultValueIfNotFound)
-	{
-		int closestIndexFound = defaultValueIfNotFound;
-		
-		Calendar tvDateWithHourCalendar = DateUtils.buildCalendarWithDateAndSpecificHour(tvDate.getDateCalendar(), hour);
-		
-		for(int i=0; i<broadcasts.size(); i++)
-		{
-			TVBroadcast broadcast = broadcasts.get(i);
-			
-			boolean isEndTimeAfterTvDateWithHour = broadcast.isEndTimeAfter(tvDateWithHourCalendar);
-			
-			if(isEndTimeAfterTvDateWithHour)
-			{
-				closestIndexFound = i;
-				break;
-			}
-		}
-		
-		return closestIndexFound;
-	}
-	
-	
-	
-	/**
-	 * WARNING WARNING! DUPLICATION OF CODE!
-	 * IF YOU CHANGE THIS METHOD YOU MUST CHANGE
-	 * ITS SIBLING METHOD HAVING THE SAME NAME.
-	 * 
-	 * SIBLING METHOD IS IN TVBROADCAST CLASS
-	 * WITH TVCHANNEL INFO THAT SUBCLASSES TVBROADCAST
-	 */
-	public static int getClosestBroadcastIndex(
-			final ArrayList<TVBroadcast> broadcasts,
-			final int defaultValueIfNotFound) 
-	{
-		int closestIndexFound = defaultValueIfNotFound;
-		
-		for(int i=0; i<broadcasts.size(); i++)
-		{
-			TVBroadcast broadcast = broadcasts.get(i);
-			
-			boolean hasNotAiredYetOrIsAiring = broadcast.hasNotAiredYet() || broadcast.isAiring();
-			
-			if(hasNotAiredYetOrIsAiring)
-			{
-				closestIndexFound = i;
-				break;
-			}
-		}
-		
-		return closestIndexFound;
-	}
-	
 		
 
 	/* 
@@ -550,11 +435,12 @@ public class TVBroadcast extends BroadcastJSON implements GSONDataFieldValidatio
 				);
 		
 		boolean additionalFieldsOk = (
-				getBeginTimeCalendarGMT() != null && (getBeginTimeCalendarGMT().get(Calendar.YEAR) > yearOf2000)  && getEndTimeCalendarGMT() != null &&
-						(getEndTimeCalendarGMT().get(Calendar.YEAR) > yearOf2000)
-//						&& getBeginTimeCalendarLocal() != null && (getBeginTimeCalendarLocal().get(Calendar.YEAR) > yearOf2000)  && getEndTimeCalendarLocal() != null &&
-//						(getEndTimeCalendarLocal().get(Calendar.YEAR) > yearOf2000)  &&
-						&& getBroadcastDurationInMinutes() != null &&
+//				getBeginTimeCalendarGMT() != null && (
+//						getBeginTimeCalendarGMT().get(Calendar.YEAR) > yearOf2000)  && getEndTimeCalendarGMT() != null &&
+//						(getEndTimeCalendarGMT().get(Calendar.YEAR) > yearOf2000) &&
+						getBeginTimeCalendarLocal() != null && (getBeginTimeCalendarLocal().get(Calendar.YEAR) > yearOf2000)  && getEndTimeCalendarLocal() != null &&
+						(getEndTimeCalendarLocal().get(Calendar.YEAR) > yearOf2000)  &&
+						getBroadcastDurationInMinutes() != null &&
 						!TextUtils.isEmpty(getBeginTimeDateRepresentation()) && !TextUtils.isEmpty(getBeginTimeDayAndMonthAsString()) &&
 						!TextUtils.isEmpty(getBeginTimeHourAndMinuteLocalAsString()) && !TextUtils.isEmpty(getEndTimeHourAndMinuteLocalAsString())
 						);
