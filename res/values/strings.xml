@@ -175,8 +175,8 @@
         <item quantity="other">days</item>
     </plurals>
     <plurals name="left">
-        <item quantity="one">Queda</item>
-        <item quantity="other">Quedan</item>
+        <item quantity="one">left</item>
+        <item quantity="other">left</item>
     </plurals>
 
     <!-- LOGIN PAGE -->
