@@ -2,19 +2,15 @@
 package com.mitv.broadcastreceivers;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.util.Locale;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Environment;
 
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.google.analytics.tracking.android.Tracker;
-import com.millicom.mitv.utilities.AppDataUtils;
+import com.millicom.mitv.utilities.FileUtils;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -42,12 +38,12 @@ public class BootCompletedReceiver
 	        	SecondScreenApplication.sharedInstance().setWasPreinstalled();
 	        }
 	        
+	        File file = appWasPreinstalledFile();
+	        
 	        /* Write file to external storage */
-	        boolean startedOnceBeforeExternalStorage = wasPreinstalledFileExists();
+	        boolean startedOnceBeforeExternalStorage = FileUtils.fileExists(file);
         	
-	        saveWasPreinstalledFile();
-        	
-	        SecondScreenApplication.sharedInstance().saveWasPreinstalledFile();
+	        FileUtils.saveFile(file);
         	
         	/* IF this was the first time the app started, using Google Analytics send "Preinstalled user booted device" */
         	if(startedOnceBeforeSharedPrefs && startedOnceBeforeExternalStorage) 
@@ -72,87 +68,10 @@ public class BootCompletedReceiver
 	
 	
 	
-	private static File appWasPreinstalledFile() 
+	private static File appWasPreinstalledFile()
 	{
-		File file = null;
-
-		if (AppDataUtils.isExternalStorageReadable()) 
-		{
-			String root = Environment.getExternalStorageDirectory().toString();
-			
-			try
-			{
-				Locale locale = SecondScreenApplication.getCurrentLocale();
-				
-				if (locale == null)
-				{
-					locale = Locale.getDefault();
-				}
-
-				String filePath = String.format(locale, "%s/Android/data/", root);
-
-				File myDir = new File(filePath);
-				
-				myDir.mkdirs();
-
-				String fname = Consts.APP_WAS_PREINSTALLED_FILE_NAME;
-				
-				file = new File(myDir, fname);
-			} 
-			catch (Exception e) 
-			{
-				e.printStackTrace();
-			}
-		}
-
+		File file = FileUtils.getFile(Consts.APP_WAS_PREINSTALLED_FILE_NAME);
 		return file;
 	}
 	
-	
-	
-	private static boolean wasPreinstalledFileExists() 
-	{
-		boolean wasPreinstalledFileExists = false;
-
-		if(AppDataUtils.isExternalStorageReadable()) 
-		{
-			File file = appWasPreinstalledFile();
-
-			if (file != null) 
-			{
-				wasPreinstalledFileExists = file.exists();
-			}
-		}
-		
-		return wasPreinstalledFileExists;
-	}
-	
-	
-	
-	private static void saveWasPreinstalledFile() 
-	{
-		File file = appWasPreinstalledFile();
-		
-		if (file != null) 
-		{
-			if (!wasPreinstalledFileExists()) 
-			{
-				if (AppDataUtils.isExternalStorageWritable()) 
-				{
-					try 
-					{
-						FileOutputStream os = new FileOutputStream(file, true);
-						
-						OutputStreamWriter out = new OutputStreamWriter(os);
-						
-						out.close();
-					} 
-					catch (Exception e)
-					{
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-	}
 }

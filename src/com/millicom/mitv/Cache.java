@@ -153,6 +153,7 @@ public class Cache
 		
 	public boolean isLoggedIn() {
 		boolean isLoggedIn = !TextUtils.isEmpty(getUserToken());
+		
 		return isLoggedIn;
 	}
 	
@@ -440,6 +441,7 @@ public class Cache
 	}
 	
 	public void clearUserData() {
+		AppDataUtils.clearStorageCompletely();
 		userData = null;
 	}
 	
