@@ -134,9 +134,8 @@ public class SplashScreenActivity
 		sb.append(fetchedDataCount + "/" + totalSteps);
 		sb.append(" - ");
 		sb.append(message);
-		String progressMessage = sb.toString();
 		
-		progressTextView.setText(progressMessage);
+		progressTextView.setText(sb.toString());
 	}
 }
 

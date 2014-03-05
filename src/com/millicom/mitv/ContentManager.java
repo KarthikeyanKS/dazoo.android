@@ -6,10 +6,6 @@ package com.millicom.mitv;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -84,6 +80,8 @@ public class ContentManager
 	private int completedCountBroadcastPageData = 0;
 	
 	
+	private static int COMPLETED_COUNT_FOR_INITIAL_CALL_NOT_LOGGED_IN = 7;
+	private static int COMPLETED_COUNT_FOR_INITIAL_CALL_LOGGED_IN = 8;
 	
 	private boolean completedAppConfigurationRequest;
 	private boolean completedAppVersionRequest;
@@ -129,16 +127,18 @@ public class ContentManager
 	
 	public void fetchFromServiceInitialCall(ActivityCallbackListener activityCallbackListener, FetchDataProgressCallbackListener fetchDataProgressCallbackListener)
 	{
+		this.completedAppConfigurationRequest = false;
+		this.completedAppVersionRequest = false;
+		
+		this.completedTVDatesRequest = false;
+		this.completedTVChannelIdsDefaultRequest = false;
+		this.completedTVChannelIdsUserRequest = false;
+		
+		this.completedTVGuideRequest = false;
+		
+		this.fetchDataProgressCallbackListener = fetchDataProgressCallbackListener;
+		
 		boolean isUserLoggedIn = cache.isLoggedIn();
-		
-		completedAppConfigurationRequest = false;
-		completedAppVersionRequest = false;
-		
-		completedTVDatesRequest = false;
-		completedTVChannelIdsDefaultRequest = false;
-		completedTVChannelIdsUserRequest = false;
-		
-		completedTVGuideRequest = false;
 		
 		apiClient.getInitialData(activityCallbackListener, isUserLoggedIn);
 	}
@@ -158,6 +158,17 @@ public class ContentManager
 			return;
 		}
 		
+		int totalStepsCount;
+		
+		if(cache.isLoggedIn())
+		{
+			totalStepsCount = COMPLETED_COUNT_FOR_INITIAL_CALL_LOGGED_IN;
+		}
+		else
+		{
+			totalStepsCount = COMPLETED_COUNT_FOR_INITIAL_CALL_NOT_LOGGED_IN;
+		}
+		
 		switch (requestIdentifier) 
 		{
 			case APP_CONFIGURATION: 
@@ -170,7 +181,7 @@ public class ContentManager
 					
 					completedAppConfigurationRequest = true;
 					
-					notifyFetchDataProgressListenerMessage("Fetched app configuration data");
+					notifyFetchDataProgressListenerMessage(totalStepsCount, "Fetched app configuration data");
 				}
 				else
 				{
@@ -189,7 +200,7 @@ public class ContentManager
 					
 					completedAppVersionRequest = true;
 					
-					notifyFetchDataProgressListenerMessage("Fetched app version data");
+					notifyFetchDataProgressListenerMessage(totalStepsCount, "Fetched app version data");
 				}
 				else
 				{
@@ -207,7 +218,7 @@ public class ContentManager
 					ArrayList<TVDate> tvDates = (ArrayList<TVDate>) content;
 					cache.setTvDates(tvDates);
 					
-					notifyFetchDataProgressListenerMessage("Fetched tv dates data");
+					notifyFetchDataProgressListenerMessage(totalStepsCount, "Fetched tv dates data");
 					
 					if((completedTVChannelIdsDefaultRequest && !cache.isLoggedIn()) || 
 					   (completedTVChannelIdsUserRequest && cache.isLoggedIn()))
@@ -232,7 +243,7 @@ public class ContentManager
 					
 					cache.setTvChannelIdsDefault(tvChannelIdsDefault);
 					
-					notifyFetchDataProgressListenerMessage("Fetched tv channel id data");
+					notifyFetchDataProgressListenerMessage(totalStepsCount, "Fetched tv channel id data");
 					
 					if(completedTVDatesRequest && !cache.isLoggedIn())
 					{
@@ -256,7 +267,7 @@ public class ContentManager
 					
 					cache.setTvChannelIdsUser(tvChannelIdsUser);
 					
-					notifyFetchDataProgressListenerMessage("Fetched tv channel id data");
+					notifyFetchDataProgressListenerMessage(totalStepsCount, "Fetched tv channel id data");
 					
 					if(completedTVDatesRequest && cache.isLoggedIn())
 					{
@@ -278,7 +289,7 @@ public class ContentManager
 					
 					cache.setTvTags(tvTags);
 					
-					notifyFetchDataProgressListenerMessage("Fetched tv genres data");
+					notifyFetchDataProgressListenerMessage(totalStepsCount, "Fetched tv genres data");
 				}
 				break;
 			}
@@ -291,7 +302,7 @@ public class ContentManager
 					
 					cache.setTvChannels(tvChannels);
 					
-					notifyFetchDataProgressListenerMessage("Fetched tv channel data");
+					notifyFetchDataProgressListenerMessage(totalStepsCount, "Fetched tv channel data");
 				}
 				break;
 			}
@@ -308,7 +319,7 @@ public class ContentManager
 					
 					HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> mapTagToTaggedBroadcastForDate = tvGuideAndTaggedBroadcasts.getMapTagToTaggedBroadcastForDate();
 					
-					notifyFetchDataProgressListenerMessage("Fetched tv guide data");
+					notifyFetchDataProgressListenerMessage(totalStepsCount, "Fetched tv guide data");
 					
 					cache.addTVGuideForSelectedDay(tvGuide);
 					cache.addTaggedBroadcastsForSelectedDay(mapTagToTaggedBroadcastForDate);
@@ -341,6 +352,10 @@ public class ContentManager
 				apiClient.cancelAllPendingRequests();
 				
 				activityCallbackListener.onResult(resultToReturn, RequestIdentifierEnum.TV_GUIDE);
+			}
+			else
+			{
+				Log.w(TAG, "There are pending tasks still running.");
 			}
 		}
 	}
@@ -488,8 +503,6 @@ public class ContentManager
 	{
 		if(!forceDownload && cache.containsAppConfigData() && cache.containsApiVersionData()) 
 		{
-			notifyFetchDataProgressListenerMessage("Fetched app configuration data");
-			notifyFetchDataProgressListenerMessage("Fetched app version data");
 			getElseFetchFromServiceTVData(activityCallbackListener, RequestIdentifierEnum.TV_GUIDE, false);
 		} 
 		else 
@@ -778,68 +791,22 @@ public class ContentManager
 	
 	
 	
+	private void notifyFetchDataProgressListenerMessage(int totalSteps, String message) 
+	{
+		if(fetchDataProgressCallbackListener != null) 
+		{
+			fetchDataProgressCallbackListener.onFetchDataProgress(totalSteps, message);
+		}
+	}
+	
+	
+	
 	private void handleInternetConnectionDataResponse(
 			ActivityCallbackListener activityCallbackListener,
 			RequestIdentifierEnum requestIdentifier,
 			FetchRequestResultEnum result)
 	{
 		activityCallbackListener.onResult(result, requestIdentifier);
-	}
-	
-	
-	
-	private void handleAppDataResponse(
-			ActivityCallbackListener activityCallbackListener,
-			RequestIdentifierEnum requestIdentifier,
-			FetchRequestResultEnum result,
-			Object content) 
-	{
-		if(result.wasSuccessful() && content != null) 
-		{
-			completedCountAppData++;
-
-			switch (requestIdentifier) 
-			{
-				case APP_CONFIGURATION: {
-					AppConfiguration appConfigData = (AppConfiguration) content;
-					cache.setAppConfigData(appConfigData);
-					notifyFetchDataProgressListenerMessage("Fetched app configuration data");
-					break;
-				}
-				case APP_VERSION: {
-					AppVersion appVersionData = (AppVersion) content;
-					cache.setAppVersionData(appVersionData);
-					notifyFetchDataProgressListenerMessage("Fetched app version data");
-					break;
-				}
-				default: {
-					// Do nothing
-					break;
-				}
-			}
-
-			if (completedCountAppData >= COMPLETED_COUNT_APP_DATA_THRESHOLD) 
-			{
-				completedCountAppData = 0;
-				String apiVersion = cache.getAppVersionData().getApiVersion();
-
-				boolean apiTooOld = checkApiVersion(apiVersion);
-				if (!apiTooOld) 
-				{
-					/* App version not too old, continue fetching tv data */
-					getElseFetchFromServiceTVData(activityCallbackListener, RequestIdentifierEnum.TV_GUIDE, false);
-				} 
-				else 
-				{
-					activityCallbackListener.onResult(FetchRequestResultEnum.API_VERSION_TOO_OLD, requestIdentifier);
-				}
-			}
-		} 
-		else 
-		{
-			//TODO handle this better?
-			activityCallbackListener.onResult(FetchRequestResultEnum.UNKNOWN_ERROR, requestIdentifier);
-		}
 	}
 	
 	
