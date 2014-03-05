@@ -56,7 +56,7 @@ public class GetTVSearchResults
 	{
 		super.doInBackground(params);
 		
-		if(requestResultObjectContent != null)
+		if(requestResultStatus.wasSuccessful() && requestResultObjectContent != null)
 		{
 	//		ajaxCallback.block();
 	

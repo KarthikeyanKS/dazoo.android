@@ -42,7 +42,7 @@ public class GetTVTags
 	{
 		super.doInBackground(params);
 
-		if(requestResultObjectContent != null)
+		if(requestResultStatus.wasSuccessful() && requestResultObjectContent != null)
 		{
 			/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
 			TVTag[] contentAsArray = (TVTag[]) requestResultObjectContent;
