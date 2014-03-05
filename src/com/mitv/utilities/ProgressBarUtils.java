@@ -42,24 +42,26 @@ public class ProgressBarUtils
 		
 		Resources res = mActivity.getResources();
 		
-		String left = res.getString(R.string.left);
+	
 		String and = res.getString(R.string.and);
 		String minutesWord = res.getString(R.string.minutes);
+		String leftWordSingular = res.getString(R.string.left);
 		String hourWordQuantified;
 		
 			
 		if (minutesLeft > MINUTES_PER_HOUR) 
 		{
+			
 			int hours = minutesLeft / MINUTES_PER_HOUR;
 			int minutesComponent = minutesLeft % MINUTES_PER_HOUR;
 			
 			hourWordQuantified = res.getQuantityString(R.plurals.hour, hours);
 			
 			if(isSpanish()) {
-				left = res.getQuantityString(R.string.left, hours);
+				String leftWordQuantifiedByHours = res.getQuantityString(R.plurals.left, hours);
 				
 				sb
-				.append(left)
+				.append(leftWordQuantifiedByHours)
 				.append(" ")
 				.append(hours)
 				.append(" ")
@@ -83,13 +85,15 @@ public class ProgressBarUtils
 				.append(" ")
 				.append(minutesWord)
 				.append(" ")
-				.append(left);
+				.append(leftWordSingular);
 				
 			}
-		} else {
+		} else {			
 			if(isSpanish()) {
+				String leftWordQuantifiedByMinutes = res.getQuantityString(R.plurals.left, minutesLeft);
+				
 				sb
-				.append(left)
+				.append(leftWordQuantifiedByMinutes)
 				.append(" ")
 				.append(minutesLeft)
 				.append(" ")
@@ -100,7 +104,7 @@ public class ProgressBarUtils
 				.append(" ")
 				.append(minutesWord)
 				.append(" ")
-				.append(left);
+				.append(leftWordSingular);
 			}
 		}
 		progressBarText = sb.toString();

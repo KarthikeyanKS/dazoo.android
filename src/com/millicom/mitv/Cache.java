@@ -159,6 +159,7 @@ public class Cache
 		
 	public synchronized boolean isLoggedIn() {
 		boolean isLoggedIn = !TextUtils.isEmpty(getUserToken());
+		
 		return isLoggedIn;
 	}
 	
@@ -452,7 +453,7 @@ public class Cache
 	}
 	
 	public void clearUserData() {
-		AppDataUtils.clearAllPreferences();
+		AppDataUtils.clearStorageCompletely();
 		userData = null;
 	}
 	

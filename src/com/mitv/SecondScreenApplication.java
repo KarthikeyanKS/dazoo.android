@@ -16,6 +16,7 @@ import android.os.Environment;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.millicom.mitv.utilities.FileUtils;
 import com.millicom.mitv.utilities.GenericUtils;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -192,47 +193,6 @@ public class SecondScreenApplication extends Application {
 		return sSharedPreferences.getBoolean(Consts.APP_WAS_PREINSTALLED, false);
 	}
 
-	private File appWasPreinstalledFile() {
-		String root = Environment.getExternalStorageDirectory().toString();
-
-		String packageName = getPackageName();
-
-		String filePath = String.format(getCurrentLocale(), "%s/Android/data/%s/", root, packageName);
-
-		File myDir = new File(filePath);
-
-		myDir.mkdirs();
-
-		String fname = Consts.APP_WAS_PREINSTALLED_FILE_NAME;
-
-		File file = new File(myDir, fname);
-
-		return file;
-	}
-
-	public boolean wasPreinstalledFileExists() {
-		File file = appWasPreinstalledFile();
-
-		boolean wasPreinstalledFileExists = file.exists();
-
-		return wasPreinstalledFileExists;
-	}
-
-	public void saveWasPreinstalledFile() {
-		File file = appWasPreinstalledFile();
-
-		if (!wasPreinstalledFileExists()) {
-			try {
-				FileOutputStream os = new FileOutputStream(file, true);
-
-				OutputStreamWriter out = new OutputStreamWriter(os);
-
-				out.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
 
 	/**
 	 * Calculate the sizes of the image thumbnails that are used across the app.

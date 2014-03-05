@@ -6,6 +6,7 @@ package com.millicom.mitv.activities.authentication;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -124,7 +125,8 @@ public class LoginWithFacebookActivity
 			
 			case SUCCEEDED_WITH_DATA:
 			{
-				Intent intent = new Intent(LoginWithFacebookActivity.this, getMostRecentTabActivity().getClass());
+				Activity mostRecentTabActivity = getMostRecentTabActivity();
+				Intent intent = new Intent(LoginWithFacebookActivity.this, mostRecentTabActivity.getClass());
 
 				intent.putExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
 
