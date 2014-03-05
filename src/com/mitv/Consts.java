@@ -217,7 +217,7 @@ public abstract class Consts {
 	/* Notifications database */
 	public static final String	NOTIFICATION_DATABASE_NAME							= "notifications.db";
 	/* The database version must be updated after a change in the database schema */
-	public static final int		NOTIFICATION_DATABASE_VERSION						= 2;
+	public static final int		NOTIFICATION_DATABASE_VERSION						= 3;
 	public static final String	NOTIFICATION_DB_TABLE_NOTIFICATIONS					= "notifications";
 	public static final String	NOTIFICATION_DB_COLUMN_NOTIFICATION_ID				= "notification_id";
 	public static final String	NOTIFICATION_DB_COLUMN_BROADCAST_BEGIN_TIME_IN_MILISECONDS = "begin_time_miliseconds";

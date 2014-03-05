@@ -150,8 +150,10 @@ public class ContentManager
 		apiClient.getUserTVChannelIds(activityCallbackListener);
 	}
 
-	private void fetchFromServiceTVGuideForSelectedDay(ActivityCallbackListener activityCallbackListener) {
+	private void fetchFromServiceTVGuideForSelectedDay(ActivityCallbackListener activityCallbackListener) 
+	{
 		TVDate tvDate = cache.getTvDateSelected();
+		
 		fetchFromServiceTVGuideUsingTVDate(activityCallbackListener, tvDate);
 	}
 	
@@ -244,12 +246,19 @@ public class ContentManager
 	 * METHODS FOR "GETTING" THE DATA, EITHER FROM STORAGE, OR FETCHING FROM
 	 * BACKEND
 	 */
-	public void getElseFetchFromServiceAppData(ActivityCallbackListener activityCallbackListener, FetchDataProgressCallbackListener fetchDataProgressCallbackListener, boolean forceDownload) {
-		if(!forceDownload && cache.containsAppConfigData() && cache.containsApiVersionData()) {
+	public void getElseFetchFromServiceAppData(
+			ActivityCallbackListener activityCallbackListener, 
+			FetchDataProgressCallbackListener fetchDataProgressCallbackListener, 
+			boolean forceDownload) 
+	{
+		if(!forceDownload && cache.containsAppConfigData() && cache.containsApiVersionData()) 
+		{
 			notifyFetchDataProgressListenerMessage("Fetched app configuration data");
 			notifyFetchDataProgressListenerMessage("Fetched app version data");
 			getElseFetchFromServiceTVData(activityCallbackListener, RequestIdentifierEnum.TV_GUIDE, false);
-		} else {
+		} 
+		else 
+		{
 			fetchFromServiceAppData(activityCallbackListener, fetchDataProgressCallbackListener);
 		}
 	}

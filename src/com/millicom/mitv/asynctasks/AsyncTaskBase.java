@@ -109,23 +109,8 @@ public abstract class AsyncTaskBase<T>
 		}
 		
 		/* Add the timezone to the url parameters */
-		TimeZone timeZone = TimeZone.getDefault();
-		
-		if(timeZone != null)
-		{
-			int timeZoneOffsetInMinutesAsInt = (int) (timeZone.getRawOffset() / DateUtils.TOTAL_MILISECOUNDS_IN_ONE_MINUTE);
-			
-			Integer timeZoneOffsetInMinutes = Integer.valueOf(timeZoneOffsetInMinutesAsInt);
-			
-			//TODO NewArc check that this is what we want to do!
-			timeZoneOffsetInMinutes = ((-1) * timeZoneOffsetInMinutes);
-		
-			urlParameters.add(Consts.HTTP_REQUEST_DATA_TIME_ZONE_OFFSET, timeZoneOffsetInMinutes.toString());
-		}
-		else
-		{
-			Log.w(TAG, "TimeZone has null value.");
-		}
+		Integer timeZoneOffsetInMinutes = DateUtils.getTimeZoneOffsetInMinutes();
+		urlParameters.add(Consts.HTTP_REQUEST_DATA_TIME_ZONE_OFFSET, timeZoneOffsetInMinutes.toString());
 		
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		
