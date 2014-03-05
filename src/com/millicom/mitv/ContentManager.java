@@ -80,15 +80,15 @@ public class ContentManager
 	private int completedCountBroadcastPageData = 0;
 	
 	
+	/*
+	 * The total completed data fetch count needed for the initial data loading
+	 */
 	private static int COMPLETED_COUNT_FOR_INITIAL_CALL_NOT_LOGGED_IN = 7;
 	private static int COMPLETED_COUNT_FOR_INITIAL_CALL_LOGGED_IN = 8;
-	
-	private boolean completedAppConfigurationRequest;
-	private boolean completedAppVersionRequest;
+
 	private boolean completedTVDatesRequest;
 	private boolean completedTVChannelIdsDefaultRequest;
 	private boolean completedTVChannelIdsUserRequest;
-	private boolean completedTVGuideRequest;
 	
 	
 	
@@ -126,21 +126,16 @@ public class ContentManager
 	
 	
 	public void fetchFromServiceInitialCall(ActivityCallbackListener activityCallbackListener, FetchDataProgressCallbackListener fetchDataProgressCallbackListener)
-	{
-		this.completedAppConfigurationRequest = false;
-		this.completedAppVersionRequest = false;
-		
+	{		
 		this.completedTVDatesRequest = false;
 		this.completedTVChannelIdsDefaultRequest = false;
 		this.completedTVChannelIdsUserRequest = false;
-		
-		this.completedTVGuideRequest = false;
 		
 		this.fetchDataProgressCallbackListener = fetchDataProgressCallbackListener;
 		
 		boolean isUserLoggedIn = cache.isLoggedIn();
 		
-		apiClient.getInitialData(activityCallbackListener, isUserLoggedIn);
+		apiClient.getInitialDataOnPoolExecutor(activityCallbackListener, isUserLoggedIn);
 	}
 	
 	
@@ -151,6 +146,8 @@ public class ContentManager
 			FetchRequestResultEnum result,
 			Object content) 
 	{
+		apiClient.incrementCompletedTasks();
+		
 		FetchRequestResultEnum resultToReturn = result;
 		
 		if(apiClient.arePendingRequestsCanceled())
@@ -170,7 +167,7 @@ public class ContentManager
 		}
 		
 		switch (requestIdentifier) 
-		{
+		{			
 			case APP_CONFIGURATION: 
 			{
 				if(result.wasSuccessful() && content != null) 
@@ -178,8 +175,6 @@ public class ContentManager
 					AppConfiguration appConfigData = (AppConfiguration) content;
 					
 					cache.setAppConfigData(appConfigData);
-					
-					completedAppConfigurationRequest = true;
 					
 					notifyFetchDataProgressListenerMessage(totalStepsCount, "Fetched app configuration data");
 				}
@@ -197,8 +192,6 @@ public class ContentManager
 					AppVersion appVersionData = (AppVersion) content;
 					
 					cache.setAppVersionData(appVersionData);
-					
-					completedAppVersionRequest = true;
 					
 					notifyFetchDataProgressListenerMessage(totalStepsCount, "Fetched app version data");
 				}
@@ -311,8 +304,6 @@ public class ContentManager
 			{
 				if(result.wasSuccessful() && content != null) 
 				{
-					completedTVGuideRequest = true;
-					
 					TVGuideAndTaggedBroadcasts tvGuideAndTaggedBroadcasts = (TVGuideAndTaggedBroadcasts) content;
 
 					TVGuide tvGuide = tvGuideAndTaggedBroadcasts.getTvGuide();
@@ -334,7 +325,7 @@ public class ContentManager
 			}
 		}
 		
-		if(apiClient.areAllTasksDone())
+		if(apiClient.areAllTasksCompleted())
 		{
 			if(activityCallbackListener != null)
 			{
@@ -355,7 +346,7 @@ public class ContentManager
 			}
 			else
 			{
-				Log.w(TAG, "There are pending tasks still running.");
+				Log.d(TAG, "There are pending tasks still running.");
 			}
 		}
 	}

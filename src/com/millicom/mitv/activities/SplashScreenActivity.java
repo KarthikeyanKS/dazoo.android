@@ -95,7 +95,9 @@ public class SplashScreenActivity
 	private void startPrimaryActivity() 
 	{
 		Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
+		
 		startActivity(intent);
+		
 		finish();
 	}
 
@@ -109,6 +111,11 @@ public class SplashScreenActivity
 			case SUCCESS: 
 			{
 				startPrimaryActivity();
+				break;
+			}
+			case INTERNET_CONNECTION_NOT_AVAILABLE:
+			{
+				DialogHelper.showMandatoryFirstTimeInternetConnection(this);
 				break;
 			}
 			case API_VERSION_TOO_OLD: 

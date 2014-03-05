@@ -3,11 +3,9 @@ package com.millicom.mitv;
 
 
 
-import java.util.HashMap;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
 import android.os.AsyncTask;
 
 
@@ -15,9 +13,8 @@ import android.os.AsyncTask;
 public class CustomThreadedPoolExecutor 
 	extends ThreadPoolExecutor
 {
-	HashMap<String, AsyncTask<String, Void, Void> > pendingTasks;
-	HashMap<String, AsyncTask<String, Void, Void> > runningTasks;
-	HashMap<String, AsyncTask<String, Void, Void> > completedTasks;
+	private int totalTasks;
+	private int totalCompletedTasks;
 	
 
 	
@@ -30,16 +27,24 @@ public class CustomThreadedPoolExecutor
 	{
 		super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue);
 		
-		this.pendingTasks = new HashMap<String, AsyncTask<String, Void, Void> >();
-		this.runningTasks = new HashMap<String, AsyncTask<String, Void, Void> >();
-		this.completedTasks = new HashMap<String, AsyncTask<String, Void, Void> >();
+		this.totalTasks = 0;
+		this.totalCompletedTasks = 0;
 	}
 	
 	
 	
-	public void addRunnable(String runnableID, AsyncTask<String, Void, Void>  task)
+	public void addAndExecuteTask(AsyncTask<String, Void, Void>  task)
 	{	
-		pendingTasks.put(runnableID, task);
+		totalTasks++;
+		
+		task.executeOnExecutor(this);
+	}
+	
+	
+	
+	public void incrementCompletedTasks()
+	{
+		totalCompletedTasks++;
 	}
 	
 	
@@ -60,9 +65,9 @@ public class CustomThreadedPoolExecutor
 	
 	
 	
-	public boolean areAllTasksDone()
+	public boolean areAllTasksCompleted()
 	{
-		boolean areAllTasksDone = (this.getCompletedTaskCount() >= this.getTaskCount());
+		boolean areAllTasksDone = (totalCompletedTasks >= totalTasks);
 		
 		return areAllTasksDone;
 	}

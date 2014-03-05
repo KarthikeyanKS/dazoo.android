@@ -71,7 +71,7 @@ public class APIClient
 	
 
 	
-	public void getInitialData(ActivityCallbackListener activityCallbackListener, boolean isUserLoggedIn)
+	public void getInitialDataOnPoolExecutor(ActivityCallbackListener activityCallbackListener, boolean isUserLoggedIn)
 	{
 		GetAppConfigurationData getAppConfigurationData = new GetAppConfigurationData(contentCallbackListener, activityCallbackListener);
 		GetAppVersionData getAppVersionData = new GetAppVersionData(contentCallbackListener, activityCallbackListener);
@@ -80,17 +80,18 @@ public class APIClient
 		GetTVChannelsAll getTVChannelsAll = new GetTVChannelsAll(contentCallbackListener, activityCallbackListener);
 		GetTVChannelIdsDefault getTVChannelIdsDefault = new GetTVChannelIdsDefault(contentCallbackListener, activityCallbackListener);
 		
-		getAppConfigurationData.executeOnExecutor(poolExecutor);
-		getAppVersionData.executeOnExecutor(poolExecutor);
-		getTVTags.executeOnExecutor(poolExecutor);
-		getTVDates.executeOnExecutor(poolExecutor);
-		getTVChannelsAll.executeOnExecutor(poolExecutor);
-		getTVChannelIdsDefault.executeOnExecutor(poolExecutor);
-		
+		poolExecutor.addAndExecuteTask(getAppConfigurationData);
+		poolExecutor.addAndExecuteTask(getAppVersionData);
+		poolExecutor.addAndExecuteTask(getTVTags);
+		poolExecutor.addAndExecuteTask(getTVDates);
+		poolExecutor.addAndExecuteTask(getTVChannelsAll);
+		poolExecutor.addAndExecuteTask(getTVChannelIdsDefault);
+				
 		if(isUserLoggedIn)
 		{
 			GetUserTVChannelIds getUserTVChannelIds = new GetUserTVChannelIds(contentCallbackListener, activityCallbackListener);
-			getUserTVChannelIds.executeOnExecutor(poolExecutor);
+			
+			poolExecutor.addAndExecuteTask(getUserTVChannelIds);
 		}
 	}
 	
@@ -118,9 +119,16 @@ public class APIClient
 	
 	
 	
-	public boolean areAllTasksDone()
+	public void incrementCompletedTasks()
 	{
-		return poolExecutor.areAllTasksDone();
+		poolExecutor.incrementCompletedTasks();
+	}
+	
+	
+	
+	public boolean areAllTasksCompleted()
+	{
+		return poolExecutor.areAllTasksCompleted();
 	}
 	
 	

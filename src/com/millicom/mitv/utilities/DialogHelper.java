@@ -275,4 +275,31 @@ public class DialogHelper
 			 dialog.show();
 		}
 	}
+	
+	
+	
+	// TODO - Implement this view and retry button
+	public static void showMandatoryFirstTimeInternetConnection(final Activity activity) 
+	{
+		final Dialog dialog = new Dialog(activity, R.style.remove_notification_dialog);
+		
+		dialog.setContentView(R.layout.dialog_prompt_update);
+		dialog.setCancelable(false);
+
+		Button okButton = (Button) dialog.findViewById(R.id.dialog_prompt_update_button);
+		
+		okButton.setOnClickListener(new View.OnClickListener() 
+		{
+			@Override
+			public void onClick(View v)
+			{
+				
+			}
+		});
+		
+		if(!activity.isFinishing())
+		{
+			 dialog.show();
+		}
+	}
 }
