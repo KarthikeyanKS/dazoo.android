@@ -90,7 +90,7 @@ public class GetUserTVFeedItems
 		super.doInBackground(params);
 		 
 		/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
-		if(requestResultObjectContent != null)
+		if(requestResultStatus.wasSuccessful() && requestResultObjectContent != null)
 		{
 			TVFeedItem[] contentAsArray = (TVFeedItem[]) requestResultObjectContent;
 		

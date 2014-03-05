@@ -65,6 +65,22 @@ public abstract class DateUtils
 		return convertFromStringToCalendarWithFormat(Consts.ISO_DATE_FORMAT, inputString, context);
 	}
 	
+	public static Integer getTimeZoneOffsetInMinutes() {
+		Integer timeZoneOffsetInMinutes = 0;
+		TimeZone timeZone = TimeZone.getDefault();
+		
+		if(timeZone != null)
+		{
+			int timeZoneOffsetInMinutesAsInt = (int) (timeZone.getRawOffset() / DateUtils.TOTAL_MILISECOUNDS_IN_ONE_MINUTE);		
+			timeZoneOffsetInMinutes = Integer.valueOf(timeZoneOffsetInMinutesAsInt);
+		}
+		else
+		{
+			Log.w(TAG, "TimeZone has null value.");
+		}
+		return timeZoneOffsetInMinutes;
+	}
+	
 	private static Calendar convertFromStringToCalendarWithFormat(
 			final String dateFormatString,
 			final String inputString,
@@ -386,18 +402,18 @@ public abstract class DateUtils
 	
 	
 	/**
-	 * Builds a calendar from a specific date, sets the hour to the specified value and the minutes, seconds and milliseconds to zero
+	 * Builds a calendar from a specific date, sets the hour to the specified value and the minutes, seconds and milliseconds to the current time values
+	 * 
 	 * 
 	 */
-	public static Calendar buildCalendarWithDateAndSpecificHour(
+	public static Calendar buildCalendarWithTVDateAndSpecificHour(
 			final Calendar inputCalendar, 
 			final int hour) 
 	{
+		Calendar now = Calendar.getInstance();
 		Calendar calendar = (Calendar) inputCalendar.clone();
 		
-		int milisecondsValue = 0;
-		int secondsValue = 0;
-		int minutesValue = 0;
+
 		int hoursValue = hour;
 		
 		int firstHourOfTheDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
@@ -413,9 +429,8 @@ public abstract class DateUtils
 		}
 		
 		calendar.set(Calendar.HOUR_OF_DAY, hoursValue);
-		calendar.set(Calendar.MINUTE, minutesValue);
-		calendar.set(Calendar.SECOND, secondsValue);
-		calendar.set(Calendar.MILLISECOND, milisecondsValue);
+		calendar.set(Calendar.MINUTE, now.get(Calendar.MINUTE));
+		calendar.set(Calendar.SECOND, now.get(Calendar.SECOND));
 		
 		return calendar;
 	}
@@ -429,12 +444,9 @@ public abstract class DateUtils
 	 */
 	private static SimpleDateFormat getSimpleDateFormatWith(
 			final String pattern,
-//			final TimeZone timeZone,
 			final Locale locale) 
 	{
 		SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, locale);
-		
-//		dateFormat.setTimeZone(timeZone);
 		
 		return dateFormat;
 	}

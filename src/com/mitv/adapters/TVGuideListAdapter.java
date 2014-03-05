@@ -165,8 +165,6 @@ public class TVGuideListAdapter
 			}
 		});
 
-		ArrayList<TVBroadcast> broadcasts = guide.getBroadcasts();
-
 		String stringIconMovie = activity.getResources().getString(R.string.icon_movie) + " ";
 
 		String stringIconLive = activity.getResources().getString(R.string.icon_live) + " ";
@@ -177,14 +175,12 @@ public class TVGuideListAdapter
 
 		int textStartIndexToMarkAsOngoing = 0;
 
-		if (broadcasts != null && broadcasts.size() > 0) {
-			int indexOfNearestBroadcast = TVBroadcast.getClosestBroadcastIndex(broadcasts, currentHour, tvDate, 0);
+		if (guide.hasBroadcasts()) {
+			ArrayList<TVBroadcast> nextBroadcasts = guide.getCurrentAndTwoUpcomingBroadcastsUsingSelectedDayAndHour(currentHour, tvDate);
 
-			if (indexOfNearestBroadcast != -1) {
-				ArrayList<TVBroadcast> nextBroadcasts = TVBroadcast.getBroadcastsFromPosition(broadcasts, indexOfNearestBroadcast, Consts.TV_GUIDE_NEXT_PROGRAMS_NUMBER);
-
-				for (int j = 0; j < Math.min(nextBroadcasts.size(), 3); j++) {
-					TVBroadcast broadcast = nextBroadcasts.get(j);
+			if (nextBroadcasts != null &&  !nextBroadcasts.isEmpty()) {
+				for (int i = 0; i < Math.min(nextBroadcasts.size(), 3); i++) {
+					TVBroadcast broadcast = nextBroadcasts.get(i);
 
 					TVProgram program = broadcast.getProgram();
 

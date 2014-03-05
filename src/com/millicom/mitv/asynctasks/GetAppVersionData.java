@@ -38,7 +38,7 @@ public class GetAppVersionData
 	{
 		super.doInBackground(params);
 		
-		if(requestResultObjectContent != null)
+		if(requestResultStatus.wasSuccessful() && requestResultObjectContent != null)
 		{
 			AppVersionJSON[] appVersionDataRawList = (AppVersionJSON[]) requestResultObjectContent;
 			

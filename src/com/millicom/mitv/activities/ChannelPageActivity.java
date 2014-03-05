@@ -135,16 +135,14 @@ public class ChannelPageActivity
 		ImageAware imageAware = new ImageViewAware(channelIconIv, false);
 		ImageLoader.getInstance().displayImage(channelGuide.getImageUrl(), imageAware);
 
+		ArrayList<TVBroadcast> currentAndUpcomingbroadcasts = channelGuide.getCurrentAndUpcomingBroadcastsUsingCurrentTime();
 		
-		ArrayList<TVBroadcast> broadcasts = channelGuide.getBroadcasts();
-		int indexOfNearestBroadcast = TVBroadcast.getClosestBroadcastIndex(broadcasts, 0);
-		if (indexOfNearestBroadcast >= 0) 
-		{
-			ArrayList<TVBroadcast> currentAndUpcomingbroadcasts = TVBroadcast.getBroadcastsFromPosition(broadcasts, indexOfNearestBroadcast);
+		if(currentAndUpcomingbroadcasts != null && !currentAndUpcomingbroadcasts.isEmpty()) {
 			setFollowingBroadcasts(currentAndUpcomingbroadcasts);
+			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+		} else {
+			updateUI(UIStatusEnum.FAILED);
 		}
-		
-		updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
 	}
 
 	

@@ -13,7 +13,7 @@ import com.millicom.mitv.models.TVChannel;
 public class TVChannelGuideJSON 
 	extends TVChannel
 {
-	private ArrayList<TVBroadcast> broadcasts;
+	protected ArrayList<TVBroadcast> broadcasts;
 
 	
 	

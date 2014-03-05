@@ -451,7 +451,8 @@ public class Cache
 		this.appConfigData = appConfigData;
 	}
 	
-	public synchronized void clearUserData() {
+	public void clearUserData() {
+		AppDataUtils.clearAllPreferences();
 		userData = null;
 	}
 	
