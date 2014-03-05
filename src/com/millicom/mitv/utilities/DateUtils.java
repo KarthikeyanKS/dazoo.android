@@ -65,6 +65,22 @@ public abstract class DateUtils
 		return convertFromStringToCalendarWithFormat(Consts.ISO_DATE_FORMAT, inputString, context);
 	}
 	
+	public static Integer getTimeZoneOffsetInMinutes() {
+		Integer timeZoneOffsetInMinutes = 0;
+		TimeZone timeZone = TimeZone.getDefault();
+		
+		if(timeZone != null)
+		{
+			int timeZoneOffsetInMinutesAsInt = (int) (timeZone.getRawOffset() / DateUtils.TOTAL_MILISECOUNDS_IN_ONE_MINUTE);		
+			timeZoneOffsetInMinutes = Integer.valueOf(timeZoneOffsetInMinutesAsInt);
+		}
+		else
+		{
+			Log.w(TAG, "TimeZone has null value.");
+		}
+		return timeZoneOffsetInMinutes;
+	}
+	
 	private static Calendar convertFromStringToCalendarWithFormat(
 			final String dateFormatString,
 			final String inputString,
