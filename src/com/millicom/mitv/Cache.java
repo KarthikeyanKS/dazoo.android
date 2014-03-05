@@ -440,6 +440,7 @@ public class Cache
 	}
 	
 	public void clearUserData() {
+		AppDataUtils.clearAllPreferences();
 		userData = null;
 	}
 	
