@@ -1,5 +1,7 @@
 package com.mitv.manager;
 
+import java.io.File;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -7,6 +9,7 @@ import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.google.analytics.tracking.android.Tracker;
+import com.millicom.mitv.utilities.FileUtils;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
@@ -78,7 +81,10 @@ public class GATrackingManager
 		this.tracker = googleAnalyticsInstance.getTracker(trackingId);
 		
 		boolean preinstalledCheckingSharedPrefs	= SecondScreenApplication.sharedInstance().getWasPreinstalled();
-		boolean preinstalledCheckingExternalStorage = SecondScreenApplication.sharedInstance().wasPreinstalledFileExists();
+		
+		File file = FileUtils.getFile(Consts.APP_WAS_PREINSTALLED_FILE_NAME);
+		boolean preinstalledCheckingExternalStorage = FileUtils.fileExists(file);
+		
     	boolean preinstalledUsingSystemAppDetectionCheckLocation = SecondScreenApplication.applicationIsSystemApp(context);
     	boolean preinstalledUsingSystemAppDetectionCheckFlag = SecondScreenApplication.applicationIsSystemAppUsingFlag(context);
     	
