@@ -64,9 +64,13 @@ public class NotificationSQLDatabaseHelper
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
 	{
-		Log.w(NotificationSQLDatabaseHelper.class.getName(), "Upgrading database from version " + oldVersion + " to " + newVersion + ", which will destroy all old data.");
+		Log.d(NotificationSQLDatabaseHelper.class.getName(), "Upgrading database from version " + oldVersion + " to " + newVersion + ", which will destroy all old notification data.");
 		
-		db.execSQL("DROP TABLE IF EXISTS " + Consts.NOTIFICATION_DATABASE_NAME);
+		StringBuilder sb = new StringBuilder();
+		sb.append("DROP TABLE IF EXISTS ");
+		sb.append(Consts.NOTIFICATION_DB_TABLE_NOTIFICATIONS);
+		
+		db.execSQL(sb.toString());
 		
 		onCreate(db);
 	}

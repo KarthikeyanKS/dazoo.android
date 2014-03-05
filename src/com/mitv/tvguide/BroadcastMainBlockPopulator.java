@@ -219,7 +219,7 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 		if (program.getImages().getPortrait().getLarge() != null && TextUtils.isEmpty(program.getImages().getPortrait().getLarge()) != true)
 		{
 			ImageAware imageAware = new ImageViewAware(posterIv, false);
-			ImageLoader.getInstance().displayImage(program.getImages().getPortrait().getLarge(), imageAware);
+			ImageLoader.getInstance().displayImage(program.getImages().getLandscape().getLarge(), imageAware);
 		}
 
 		if (broadcastWithChannelInfo.getChannel() != null) 
