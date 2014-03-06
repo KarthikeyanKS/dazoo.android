@@ -90,6 +90,7 @@ public class Cache
 	/* Ads */
 	private HashMap<String, SparseArray<AdAdzerkJSON>> fragmentToAdsMap;
 	
+	
 	/* NON-PERSISTENT USER DATA, USED FOR PASSING DATA BETWEEN ACTIVITIES */
 	private TVBroadcastWithChannelInfo nonPersistentSelectedBroadcastWithChannelInfo;
 	private UpcomingBroadcastsForBroadcast nonPersistentUpcomingBroadcasts;
@@ -98,12 +99,17 @@ public class Cache
 	private Integer nonPersistentSelectedHour;
 	private TVChannelId nonPersistentSelectedTVChannelId;
 		
+	
+	
 	/* Should only be used by the ContentManager */
 	public Cache()
 	{
 		this.tvGuides = new HashMap<String, TVGuide>();
 		this.adapterMap = new HashMap<String, AdListAdapter>();
 		this.userLikes = new ArrayList<UserLike>();
+		
+		this.appVersionData = null;
+		this.appConfigData = null;
 		
 		/* Default selected day to 0 */
 		setTvDateSelectedIndex(0);
@@ -135,7 +141,7 @@ public class Cache
 		return containsSearchResultForQuery;
 	}
 	
-	public boolean containsTVBroadcastWithChannelInfo(TVChannelId channelId, long beginTimeMillis) {
+	public synchronized boolean containsTVBroadcastWithChannelInfo(TVChannelId channelId, long beginTimeMillis) {
 		boolean containsTVBroadcastWithChannelInfo = false;
 		if(nonPersistentSelectedBroadcastWithChannelInfo != null && nonPersistentSelectedBroadcastWithChannelInfo.getChannel().getChannelId().equals(channelId.getChannelId()) && beginTimeMillis == nonPersistentSelectedBroadcastWithChannelInfo.getBeginTimeMillis().longValue()) {
 			containsTVBroadcastWithChannelInfo = true;
@@ -143,7 +149,7 @@ public class Cache
 		return containsTVBroadcastWithChannelInfo;
 	}
 	
-	public String getWelcomeMessage() {
+	public synchronized String getWelcomeMessage() {
 		String welcomeMessage = "";
 		if(appConfigData != null) {
 			welcomeMessage = appConfigData.getWelcomeToast();
@@ -151,68 +157,68 @@ public class Cache
 		return welcomeMessage;
 	}
 		
-	public boolean isLoggedIn() {
+	public synchronized boolean isLoggedIn() {
 		boolean isLoggedIn = !TextUtils.isEmpty(getUserToken());
 		
 		return isLoggedIn;
 	}
 	
-	public HashMap<String, TVGuide> getTvGuides() {
+	public synchronized HashMap<String, TVGuide> getTvGuides() {
 		return tvGuides;
 	}
 	
-	public void addTVGuideForSelectedDay(TVGuide tvGuide) {
+	public synchronized void addTVGuideForSelectedDay(TVGuide tvGuide) {
 		TVDate tvDate = getTvDateSelected();
 		addTVGuide(tvDate, tvGuide);
 	}
 	
-	public void addTVGuide(TVDate tvDate, TVGuide tvGuide) {
+	public synchronized void addTVGuide(TVDate tvDate, TVGuide tvGuide) {
 		this.tvGuides.put(tvDate.getId(), tvGuide);
 	}
 	
-	public TVGuide getTVGuideUsingTVDate(TVDate tvDate) {
+	public synchronized TVGuide getTVGuideUsingTVDate(TVDate tvDate) {
 		String tvDateId = tvDate.getId();
 		TVGuide tvGuide = tvGuides.get(tvDateId);
 		return tvGuide;
 	}
 	
-	public TVGuide getTVGuideForToday() {
+	public synchronized TVGuide getTVGuideForToday() {
 		TVDate tvDate = tvDates.get(0);
 		TVGuide tvGuide = tvGuides.get(tvDate.getId());
 		return tvGuide;
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public HashMap<String, AdListAdapter> getAdapterMap() {
+	public synchronized HashMap<String, AdListAdapter> getAdapterMap() {
 		return adapterMap;
 	}
 	
-	public ArrayList<TVTag> getTvTags() {
+	public synchronized ArrayList<TVTag> getTvTags() {
 		return tvTags;
 	}
 
-	public void setTvTags(ArrayList<TVTag> tvTags) {
+	public synchronized void setTvTags(ArrayList<TVTag> tvTags) {
 		this.tvTags = tvTags;
 	}
 
-	public ArrayList<TVDate> getTvDates() {
+	public synchronized ArrayList<TVDate> getTvDates() {
 		return tvDates;
 	}
 
-	public void setTvDates(ArrayList<TVDate> tvDates) {
+	public synchronized void setTvDates(ArrayList<TVDate> tvDates) {
 		this.tvDates = tvDates;
 	}
 
-	public ArrayList<TVChannel> getTvChannels() {
+	public synchronized ArrayList<TVChannel> getTvChannels() {
 		return tvChannels;
 	}
 
-	public void setTvChannels(ArrayList<TVChannel> tvChannels) {
+	public synchronized void setTvChannels(ArrayList<TVChannel> tvChannels) {
 		this.tvChannels = tvChannels;
 	}
 	
 	//TODO dont iterate through a list, change tvChannels to a Map instead?
-	public TVChannel getTVChannelById(TVChannelId tvChannelId) 
+	public synchronized TVChannel getTVChannelById(TVChannelId tvChannelId) 
 	{
 		for(TVChannel tvChannel : tvChannels) 
 		{
@@ -225,33 +231,33 @@ public class Cache
 		return null;
 	}
 
-	public Calendar getLikeIdsFetchedTimestamp() {
+	public synchronized Calendar getLikeIdsFetchedTimestamp() {
 		return likeIdsFetchedTimestamp;
 	}
 
-	public void setLikeIdsFetchedTimestamp(Calendar likeIdsFetchedTimestamp) {
+	public synchronized void setLikeIdsFetchedTimestamp(Calendar likeIdsFetchedTimestamp) {
 		this.likeIdsFetchedTimestamp = likeIdsFetchedTimestamp;
 	}
 
-	public Calendar getUserChannelIdsFetchedTimestamp() {
+	public synchronized Calendar getUserChannelIdsFetchedTimestamp() {
 		return userChannelIdsFetchedTimestamp;
 	}
 
-	public void setUserChannelIdsFetchedTimestamp(Calendar userChannelIdsFetchedTimestamp) {
+	public synchronized void setUserChannelIdsFetchedTimestamp(Calendar userChannelIdsFetchedTimestamp) {
 		this.userChannelIdsFetchedTimestamp = userChannelIdsFetchedTimestamp;
 	}
 
-	public ArrayList<TVFeedItem> getActivityFeed() {
+	public synchronized ArrayList<TVFeedItem> getActivityFeed() {
 		return activityFeed;
 	}
 
-	public void setActivityFeed(ArrayList<TVFeedItem> activityFeed) {
+	public synchronized void setActivityFeed(ArrayList<TVFeedItem> activityFeed) {
 		this.activityFeed = activityFeed;
 	}
 	
 	
 	
-	public void addMoreActivityFeedItems(ArrayList<TVFeedItem> additionalActivityFeedItems) 
+	public synchronized void addMoreActivityFeedItems(ArrayList<TVFeedItem> additionalActivityFeedItems) 
 	{
 		if(this.activityFeed == null)
 		{
@@ -263,15 +269,15 @@ public class Cache
 
 	
 	
-	public ArrayList<TVBroadcastWithChannelInfo> getPopularBroadcasts() {
+	public synchronized ArrayList<TVBroadcastWithChannelInfo> getPopularBroadcasts() {
 		return popularBroadcasts;
 	}
 
-	public void setPopularBroadcasts(ArrayList<TVBroadcastWithChannelInfo> popularFeed) {
+	public synchronized void setPopularBroadcasts(ArrayList<TVBroadcastWithChannelInfo> popularFeed) {
 		this.popularBroadcasts = popularFeed;
 	}
 
-	public String getUserToken() 
+	public synchronized String getUserToken() 
 	{
 		String userToken = null;
 		
@@ -283,28 +289,30 @@ public class Cache
 		return userToken;
 	}
 	
-	public String getUserLastname() {
+	public synchronized String getUserLastname() {
 		return userData.getUser().getLastName();
 	}
 	
-	public String getUserFirstname() {
+	public synchronized String getUserFirstname() {
 		return userData.getUser().getFirstName();
 	}
 	
-	public String getUserEmail() {
+	public synchronized String getUserEmail() {
 		return userData.getUser().getEmail();
 	}
 	
-	public String getUserId() {
+	public synchronized String getUserId() {
 		return userData.getUser().getUserId();
 	}
 	
-	public String getUserImageURL() 
+	
+	public synchronized String getUserImageURL() 
 	{
 		return userImageURL;
 	}
 
-	public void setUserData(UserLoginData userData) 
+	
+	public synchronized void setUserData(UserLoginData userData) 
 	{
 		this.userData = userData;
 		
@@ -322,31 +330,34 @@ public class Cache
 		}).start();
 	} 
 	
-	public void setUserImageURL(String url)
+	
+	public synchronized void setUserImageURL(String url)
 	{
 		this.userImageURL = url;
 		
 		AppDataUtils.setPreference(Consts.SHARED_PREFERENCES_USER_IMAGE_URL, userImageURL);
 	}
 	
-	public ArrayList<UserLike> getUserLikes() 
+	
+	public synchronized ArrayList<UserLike> getUserLikes() 
 	{
 		return userLikes;
 	}
 
-	public void setUserLikes(ArrayList<UserLike> userLikes) 
+	
+	public synchronized void setUserLikes(ArrayList<UserLike> userLikes) 
 	{
 		this.userLikes = userLikes;
 	}
 	
 	
-	public void addUserLike(UserLike userLike) 
+	public synchronized void addUserLike(UserLike userLike) 
 	{
 		this.userLikes.add(userLike);
 	}
 	
 	
-	public void removeUserLike(UserLike userLikeToRemove) 
+	public synchronized void removeUserLike(UserLike userLikeToRemove) 
 	{
 		int indexToRemove = -1;
 		
@@ -369,7 +380,7 @@ public class Cache
 	
 	
 	
-	public boolean isInUserLikes(UserLike userLikeToCheck) 
+	public synchronized boolean isInUserLikes(UserLike userLikeToCheck) 
 	{
 		boolean isContained = false;
 		
@@ -389,7 +400,7 @@ public class Cache
 	
 	
 	
-	public boolean isInUsedChannelIds(TVChannelId channelId)
+	public synchronized boolean isInUsedChannelIds(TVChannelId channelId)
 	{
 		boolean isContainedInUserChannels = false;
 		
@@ -406,28 +417,29 @@ public class Cache
 	}
 	
 	
-	
+	/* TODO Should this be synchronized? */
 	public HashMap<String, SparseArray<AdAdzerkJSON>> getFragmentToAdsMap() {
 		return fragmentToAdsMap;
 	}
 
+	/* TODO Should this be synchronized? */
 	public void setFragmentToAdsMap(HashMap<String, SparseArray<AdAdzerkJSON>> mFragmentToAdsMap) {
 		this.fragmentToAdsMap = mFragmentToAdsMap;
 	}
 
-	public AppVersion getAppVersionData() {
+	public synchronized AppVersion getAppVersionData() {
 		return appVersionData;
 	}
 
-	public void setAppVersionData(AppVersion appVersionData) {
+	public synchronized void setAppVersionData(AppVersion appVersionData) {
 		this.appVersionData = appVersionData;
 	}
 
-	public AppConfiguration getAppConfigData() {
+	public synchronized AppConfiguration getAppConfigData() {
 		return appConfigData;
 	}
 	
-	public int getFirstHourOfTVDay() {
+	public synchronized int getFirstHourOfTVDay() {
 		/* Default to value of 6 */
 		int firstHourOfTVDay = 6;
 		if(appConfigData != null) {
@@ -436,7 +448,7 @@ public class Cache
 		return firstHourOfTVDay;
 	}
 
-	public void setAppConfigData(AppConfiguration appConfigData) {
+	public synchronized void setAppConfigData(AppConfiguration appConfigData) {
 		this.appConfigData = appConfigData;
 	}
 	
@@ -445,15 +457,15 @@ public class Cache
 		userData = null;
 	}
 	
-	public void clearTVChannelIdsUser() {
+	public synchronized void clearTVChannelIdsUser() {
 		tvChannelIdsUser.clear();
 	}
 	
-	public void useDefaultChannelIds() {
+	public synchronized void useDefaultChannelIds() {
 		this.tvChannelIdsUsed = tvChannelIdsDefault;
 	}
 
-	public void setTvChannelIdsDefault(ArrayList<TVChannelId> tvChannelIdsDefault) {
+	public synchronized void setTvChannelIdsDefault(ArrayList<TVChannelId> tvChannelIdsDefault) {
 		this.tvChannelIdsDefault = tvChannelIdsDefault;
 		
 		/* Only use the default ids if we are not logged in */
@@ -467,11 +479,11 @@ public class Cache
 		setTvChannelIdsUsed(tvChannelIdsUser);
 	}
 
-	public ArrayList<TVChannelId> getTvChannelIdsUsed() {
+	public synchronized ArrayList<TVChannelId> getTvChannelIdsUsed() {
 		return tvChannelIdsUsed;
 	}
 
-	public void setTvChannelIdsUsed(ArrayList<TVChannelId> tvChannelIdsUsed) {
+	public synchronized void setTvChannelIdsUsed(ArrayList<TVChannelId> tvChannelIdsUsed) {
 		this.tvChannelIdsUsed = tvChannelIdsUsed;
 	}
 	
@@ -480,7 +492,7 @@ public class Cache
 		return getTVChannelGuideUsingTVChannelIdAndTVDate(tvChannelId, selectedTVDate);
 	}
 	
-	public TVChannelGuide getTVChannelGuideUsingTVChannelIdAndTVDate(TVChannelId tvChannelId, TVDate tvDate) {
+	public synchronized TVChannelGuide getTVChannelGuideUsingTVChannelIdAndTVDate(TVChannelId tvChannelId, TVDate tvDate) {
 		TVGuide tvGuide = getTVGuideUsingTVDate(tvDate);
 		ArrayList<TVChannelGuide> tvChannelGuides = tvGuide.getTvChannelGuides();
 		
@@ -496,60 +508,70 @@ public class Cache
 		return tvChannelGuideFound;
 	}
 		
-	public HashMap<String, HashMap<String, ArrayList<TVBroadcastWithChannelInfo>>> getTaggedBroadcastsForAllDays() {
+	public synchronized HashMap<String, HashMap<String, ArrayList<TVBroadcastWithChannelInfo>>> getTaggedBroadcastsForAllDays() {
 		return taggedBroadcastsForAllDays;
 	}
 	
-	public void addTaggedBroadcastsForSelectedDay(HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay) {
+	public synchronized void addTaggedBroadcastsForSelectedDay(HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay) 
+	{
 		TVDate tvDate = getTvDateSelected();
 		addTaggedBroadcastsForDay(taggedBroadcastForDay, tvDate);
 	}
 	
-	public void addTaggedBroadcastsForDay(HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay, TVDate tvDate) {
+	public synchronized void addTaggedBroadcastsForDay(HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay, TVDate tvDate) 
+	{
 		if(taggedBroadcastsForAllDays == null) {
 			taggedBroadcastsForAllDays = new HashMap<String, HashMap<String, ArrayList<TVBroadcastWithChannelInfo>>>();
 		}
 		taggedBroadcastsForAllDays.put(tvDate.getId(), taggedBroadcastForDay);
 	}
 	
-	public HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> getTaggedBroadcastsUsingTVDate(TVDate tvDateAsKey) {
+	public synchronized HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> getTaggedBroadcastsUsingTVDate(TVDate tvDateAsKey) 
+	{
 		HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = taggedBroadcastsForAllDays.get(tvDateAsKey.getId());
 		return taggedBroadcastForDay;
 	}
 	
-	public boolean containsAppConfigData() {
+	
+	
+	public synchronized boolean containsAppConfigData() 
+	{
 		boolean containsAppConfig = (appConfigData != null);
 		return containsAppConfig;
 	}
 	
-	public boolean containsApiVersionData() {
+	
+	
+	public synchronized boolean containsApiVersionData()
+	{
 		boolean containsApiVersionData = (appVersionData != null);
 		return containsApiVersionData;
 	}
 	
-	public boolean containsTVDates() {
+	public boolean containsTVDates() 
+	{
 		boolean containsTVDates = (tvDates != null && !tvDates.isEmpty());
 		return containsTVDates;
 	}
 	
-	public boolean containsTVTags() {
+	public synchronized boolean containsTVTags() {
 		boolean containsTVTags = (tvTags != null && !tvTags.isEmpty());
 		return containsTVTags;
 	}
 	
-	public boolean containsTVChannels() {
+	public synchronized boolean containsTVChannels() {
 		boolean containsTVChannels = (tvChannels != null && !tvChannels.isEmpty());
 		return containsTVChannels;
 	}
 	
-	public boolean containsTVChannelIdsUser()
+	public synchronized boolean containsTVChannelIdsUser()
 	{
 		boolean containsTVChannelIdsUser = (tvChannelIdsUser != null && !tvChannelIdsUser.isEmpty());
 		
 		return containsTVChannelIdsUser;
 	}
 	
-	public boolean containsTVGuideForSelectedDay() {
+	public synchronized boolean containsTVGuideForSelectedDay() {
 		TVDate tvDate = getTvDateSelected();
 		boolean containsTVGuideForSelectedDay = false;
 		if(tvDate != null) {
@@ -558,13 +580,13 @@ public class Cache
 		return containsTVGuideForSelectedDay;
 	}
 	
-	public boolean containsTVGuideForTVDate(TVDate tvDate) {
+	public synchronized boolean containsTVGuideForTVDate(TVDate tvDate) {
 		TVGuide tvGuide = getTVGuideUsingTVDate(tvDate);
 		boolean containsTVGuideForTVDate = (tvGuide != null);
 		return containsTVGuideForTVDate;
 	}
 	
-	public boolean containsTaggedBroadcastsForTVDate(TVDate tvDate) {
+	public synchronized boolean containsTaggedBroadcastsForTVDate(TVDate tvDate) {
 		boolean containsTaggedBroadcastsForTVDate = false;
 		if(taggedBroadcastsForAllDays != null) {
 			containsTaggedBroadcastsForTVDate = taggedBroadcastsForAllDays.containsKey(tvDate.getId());
@@ -572,17 +594,17 @@ public class Cache
 		return containsTaggedBroadcastsForTVDate;
 	}
 	
-	public boolean containsActivityFeedData() {
+	public synchronized boolean containsActivityFeedData() {
 		boolean containsActivityFeedData = (activityFeed != null && !activityFeed.isEmpty());
 		return containsActivityFeedData;
 	}
 	
-	public boolean containsPopularBroadcasts() {
+	public synchronized boolean containsPopularBroadcasts() {
 		boolean containsPopularBroadcasts = (popularBroadcasts != null && !popularBroadcasts.isEmpty());
 		return containsPopularBroadcasts;
 	}
 	
-	public boolean containsUserLikes() {
+	public synchronized boolean containsUserLikes() {
 		boolean containsUserLikes = (userLikes != null && !userLikes.isEmpty());
 		return containsUserLikes;
 	}
@@ -593,11 +615,11 @@ public class Cache
 	 * but rather an index (0-6). So this method is probably used by the
 	 * @param tvDateSelectedIndex
 	 */
-	public void setTvDateSelectedIndex(int tvDateSelectedIndex) {
+	public synchronized void setTvDateSelectedIndex(int tvDateSelectedIndex) {
 		this.tvDateSelectedIndex = tvDateSelectedIndex;
 	}
 	
-	public TVDate getTvDateSelected() {
+	public synchronized TVDate getTvDateSelected() {
 		TVDate tvDateSelected = null;
 		if(tvDates != null) {
 			tvDateSelected = tvDates.get(tvDateSelectedIndex);
@@ -605,11 +627,11 @@ public class Cache
 		return tvDateSelected;
 	}
 	
-	public int getTvDateSelectedIndex() {
+	public synchronized int getTvDateSelectedIndex() {
 		return tvDateSelectedIndex;
 	}
 	
-	public void setTvDateSelectedUsingIndex(int tvDateSelectedIndex) {
+	public synchronized void setTvDateSelectedUsingIndex(int tvDateSelectedIndex) {
 		setTvDateSelectedIndex(tvDateSelectedIndex);
 	}
 	

@@ -4,21 +4,18 @@ package com.millicom.mitv.activities;
 
 
 import net.hockeyapp.android.CrashManager;
-import android.app.Dialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 
 import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.FetchDataProgressCallbackListener;
+import com.millicom.mitv.utilities.DialogHelper;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.customviews.FontTextView;
@@ -49,7 +46,7 @@ public class SplashScreenActivity
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.hide();
 		
-		ContentManager.sharedInstance().getElseFetchFromServiceAppData(this, this, false);
+		ContentManager.sharedInstance().fetchFromServiceInitialCall(this, this);
 	}
 
 
@@ -77,38 +74,6 @@ public class SplashScreenActivity
 
 	
 	
-	public void showUpdateDialog() 
-	{
-		final Dialog dialog = new Dialog(this, R.style.remove_notification_dialog);
-		
-		dialog.setContentView(R.layout.dialog_prompt_update);
-		dialog.setCancelable(false);
-
-		Button okButton = (Button) dialog.findViewById(R.id.dialog_prompt_update_button);
-		
-		okButton.setOnClickListener(new View.OnClickListener() 
-		{
-			@Override
-			public void onClick(View v)
-			{
-				final String appPackageName = getPackageName(); 
-				
-				try 
-				{
-					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-				} 
-				catch (android.content.ActivityNotFoundException anfe) 
-				{
-					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)));
-				}
-			}
-		});
-		
-		dialog.show();
-	}
-
-	
-	
 	@Override
 	protected void onResume() 
 	{
@@ -130,7 +95,9 @@ public class SplashScreenActivity
 	private void startPrimaryActivity() 
 	{
 		Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
+		
 		startActivity(intent);
+		
 		finish();
 	}
 
@@ -146,9 +113,14 @@ public class SplashScreenActivity
 				startPrimaryActivity();
 				break;
 			}
+			case INTERNET_CONNECTION_NOT_AVAILABLE:
+			{
+				DialogHelper.showMandatoryFirstTimeInternetConnection(this);
+				break;
+			}
 			case API_VERSION_TOO_OLD: 
 			{
-				showUpdateDialog();
+				DialogHelper.showMandatoryAppUpdateDialog(this);
 				break;
 			}
 			default:
@@ -169,9 +141,8 @@ public class SplashScreenActivity
 		sb.append(fetchedDataCount + "/" + totalSteps);
 		sb.append(" - ");
 		sb.append(message);
-		String progressMessage = sb.toString();
 		
-		progressTextView.setText(progressMessage);
+		progressTextView.setText(sb.toString());
 	}
 }
 

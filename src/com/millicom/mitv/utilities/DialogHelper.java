@@ -5,7 +5,8 @@ package com.millicom.mitv.utilities;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -179,7 +180,8 @@ public class DialogHelper
 			}
 		});
 		
-		if(!activity.isFinishing()){
+		if(!activity.isFinishing())
+		{
 			 dialog.show();
 		}
 	}
@@ -229,7 +231,74 @@ public class DialogHelper
 			}
 		});
 		
-		if(!activity.isFinishing()){
+		if(!activity.isFinishing())
+		{
+			 dialog.show();
+		}
+	}
+	
+	
+	
+	public static void showMandatoryAppUpdateDialog(final Activity activity) 
+	{
+		final Dialog dialog = new Dialog(activity, R.style.remove_notification_dialog);
+		
+		dialog.setContentView(R.layout.dialog_prompt_update);
+		dialog.setCancelable(false);
+
+		Button okButton = (Button) dialog.findViewById(R.id.dialog_prompt_update_button);
+		
+		okButton.setOnClickListener(new View.OnClickListener() 
+		{
+			@Override
+			public void onClick(View v)
+			{
+				final String appPackageName = activity.getPackageName(); 
+				
+				try 
+				{
+					Uri uri = Uri.parse("market://details?id=" + appPackageName);
+					
+					activity.startActivity(new Intent(Intent.ACTION_VIEW, uri));
+				} 
+				catch (android.content.ActivityNotFoundException anfe) 
+				{
+					Uri uri = Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName);
+					
+					activity.startActivity(new Intent(Intent.ACTION_VIEW, uri));
+				}
+			}
+		});
+		
+		if(!activity.isFinishing())
+		{
+			 dialog.show();
+		}
+	}
+	
+	
+	
+	// TODO - Implement this view and retry button
+	public static void showMandatoryFirstTimeInternetConnection(final Activity activity) 
+	{
+		final Dialog dialog = new Dialog(activity, R.style.remove_notification_dialog);
+		
+		dialog.setContentView(R.layout.dialog_prompt_update);
+		dialog.setCancelable(false);
+
+		Button okButton = (Button) dialog.findViewById(R.id.dialog_prompt_update_button);
+		
+		okButton.setOnClickListener(new View.OnClickListener() 
+		{
+			@Override
+			public void onClick(View v)
+			{
+				
+			}
+		});
+		
+		if(!activity.isFinishing())
+		{
 			 dialog.show();
 		}
 	}
