@@ -14,29 +14,29 @@
 	<bool name="ga_debug" translatable="false">false</bool>
 
     <!-- The screen names that will appear in your reporting -->
-    <string name="com.millicom.mitv.activities.AboutOrTermsActivity">AboutOrTerms</string>
-    <string name="com.millicom.mitv.activities.AboutUsActivity">AboutUs</string>
-    <string name="com.millicom.mitv.activities.BroadcastPageActivity">BroadcastPage</string>
-	<string name="com.millicom.mitv.activities.ChannelPageActivity">ChannelPage</string>
-	<string name="com.millicom.mitv.activities.FeedActivity">Feed</string>
-	<string name="com.millicom.mitv.activities.HomeActivity">Home</string>
-	<string name="com.millicom.mitv.activities.LikesActivity">Likes</string>
-	<string name="com.millicom.mitv.activities.MyChannelsActivity">MyChannels</string>
-	<string name="com.millicom.mitv.activities.PopularPageActivity">PopularPage</string>
-	<string name="com.millicom.mitv.activities.RemindersActivity">Reminders</string>
-	<string name="com.millicom.mitv.activities.RepetitionsOrUpcomingPage">RepetitionsOrUpcoming</string>
-	<string name="com.millicom.mitv.activities.RepetitionsPageActivity">RepetitionsPage</string>
-	<string name="com.millicom.mitv.activities.SearchPageActivity">SearchPage</string>
-	<string name="com.millicom.mitv.activities.SignUpSelectionActivity">SignUpSelection</string>
-	<string name="com.millicom.mitv.activities.SplashScreenActivity">SplashScreen</string>
-	<string name="com.millicom.mitv.activities.TermsActivity">Terms</string>
-	<string name="com.millicom.mitv.activities.TVDateSelectionActivity">TVDateSelection</string>
-	<string name="com.millicom.mitv.activities.UpcomingEpisodesPageActivity">UpcomingEpisodesPage</string>
-	<string name="com.millicom.mitv.activities.UserProfileActivity">UserProfile</string>
-	<string name="com.millicom.mitv.activities.authentication.LoginWithFacebookActivity">LoginWithFacebook</string>
-	<string name="com.millicom.mitv.activities.authentication.LoginWithMiTVUserActivity">LoginWithMiTVUser</string>
-	<string name="com.millicom.mitv.activities.authentication.ResetPasswordConfirmationActivity">ResetPasswordConfirmation</string>
-	<string name="com.millicom.mitv.activities.authentication.ResetPasswordSendEmailActivity">ResetPasswordSendEmail</string>
-	<string name="com.millicom.mitv.activities.authentication.SignUpWithEmailActivity">SignUpWithEmail</string>
+    <string name="com.mitv.activities.AboutOrTermsActivity">AboutOrTerms</string>
+    <string name="com.mitv.activities.AboutUsActivity">AboutUs</string>
+    <string name="com.mitv.activities.BroadcastPageActivity">BroadcastPage</string>
+	<string name="com.mitv.activities.ChannelPageActivity">ChannelPage</string>
+	<string name="com.mitv.activities.FeedActivity">Feed</string>
+	<string name="com.mitv.activities.HomeActivity">Home</string>
+	<string name="com.mitv.activities.LikesActivity">Likes</string>
+	<string name="com.mitv.activities.MyChannelsActivity">MyChannels</string>
+	<string name="com.mitv.activities.PopularPageActivity">PopularPage</string>
+	<string name="com.mitv.activities.RemindersActivity">Reminders</string>
+	<string name="com.mitv.activities.RepetitionsOrUpcomingPage">RepetitionsOrUpcoming</string>
+	<string name="com.mitv.activities.RepetitionsPageActivity">RepetitionsPage</string>
+	<string name="com.mitv.activities.SearchPageActivity">SearchPage</string>
+	<string name="com.mitv.activities.SignUpSelectionActivity">SignUpSelection</string>
+	<string name="com.mitv.activities.SplashScreenActivity">SplashScreen</string>
+	<string name="com.mitv.activities.TermsActivity">Terms</string>
+	<string name="com.mitv.activities.TVDateSelectionActivity">TVDateSelection</string>
+	<string name="com.mitv.activities.UpcomingEpisodesPageActivity">UpcomingEpisodesPage</string>
+	<string name="com.mitv.activities.UserProfileActivity">UserProfile</string>
+	<string name="com.mitv.activities.authentication.LoginWithFacebookActivity">LoginWithFacebook</string>
+	<string name="com.mitv.activities.authentication.LoginWithMiTVUserActivity">LoginWithMiTVUser</string>
+	<string name="com.mitv.activities.authentication.ResetPasswordConfirmationActivity">ResetPasswordConfirmation</string>
+	<string name="com.mitv.activities.authentication.ResetPasswordSendEmailActivity">ResetPasswordSendEmail</string>
+	<string name="com.mitv.activities.authentication.SignUpWithEmailActivity">SignUpWithEmail</string>
 
 </resources>

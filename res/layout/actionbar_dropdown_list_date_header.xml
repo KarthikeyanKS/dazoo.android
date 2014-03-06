@@ -9,7 +9,7 @@
     android:weightSum="1.0"
     android:gravity="center_vertical" >
 
-    <com.mitv.customviews.FontTextView
+    <com.mitv.ui.elements.FontTextView
         android:id="@+id/layout_actionbar_dropdown_list_date_header_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
         android:textSize="@dimen/action_bar_header_font_size"
         font:fonttextview="roboto_mitv_bold.ttf" />
 
-    <com.mitv.customviews.FontTextView
+    <com.mitv.ui.elements.FontTextView
         android:id="@+id/layout_actionbar_dropdown_list_date_header_number"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

@@ -15,7 +15,7 @@
         android:background="@color/grey1"
         android:visibility="gone" >
 
-        <com.mitv.customviews.FontTextView
+        <com.mitv.ui.elements.FontTextView
             android:id="@+id/row_reminders_header_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
 
             <!-- TITLE -->
 
-            <com.mitv.customviews.FontTextView
+            <com.mitv.ui.elements.FontTextView
                 android:id="@+id/row_reminders_text_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
 
             <!-- TIME AND DATE -->
 
-            <com.mitv.customviews.FontTextView
+            <com.mitv.ui.elements.FontTextView
                 android:id="@+id/row_reminders_text_time_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
 
             <!-- CHANNEL -->
 
-            <com.mitv.customviews.FontTextView
+            <com.mitv.ui.elements.FontTextView
                 android:id="@+id/row_reminders_text_channel_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
 
             <!-- DETAILS - SEASON - EPISODE -->
 
-            <com.mitv.customviews.FontTextView
+            <com.mitv.ui.elements.FontTextView
                 android:id="@+id/row_reminders_text_details_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

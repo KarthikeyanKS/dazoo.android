@@ -9,7 +9,7 @@
     android:orientation="vertical" 
     android:padding="10dp">
 
-    <com.mitv.customviews.FontTextView
+    <com.mitv.ui.elements.FontTextView
         android:id="@+id/block_feed_no_likes_greeting_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
         android:textStyle="bold"
         font:fontbutton="roboto_mitv_medium.ttf" />
 
-    <com.mitv.customviews.FontTextView
+    <com.mitv.ui.elements.FontTextView
         android:id="@+id/block_feed_no_likes_text_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
         android:textStyle="bold"
         font:fonttextview="roboto_mitv_medium.ttf" />
     
-     <com.mitv.customviews.FontButton
+     <com.mitv.ui.elements.FontButton
         android:id="@+id/block_feed_no_likes_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

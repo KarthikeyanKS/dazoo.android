@@ -16,7 +16,7 @@
         android:background="@color/grey0"
         android:visibility="gone" >
 
-        <com.mitv.customviews.FontTextView
+        <com.mitv.ui.elements.FontTextView
             android:id="@+id/row_upcoming_or_repeating_header_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
             android:layout_weight="0.8"
             android:orientation="vertical" >
 
-            <com.mitv.customviews.FontTextView
+            <com.mitv.ui.elements.FontTextView
                 android:id="@+id/row_upcoming_or_repeating_listitem_season_episode"
                 style="@style/header2"
                 android:layout_width="wrap_content"
@@ -58,7 +58,7 @@
                 android:layout_marginBottom="10dp"
                 android:textStyle="bold" />
 
-            <com.mitv.customviews.FontTextView
+            <com.mitv.ui.elements.FontTextView
                 android:id="@+id/row_upcoming_or_repeating_listitem_title_time"
                 style="@style/text1"
                 android:layout_width="wrap_content"
@@ -66,7 +66,7 @@
                 android:layout_below="@id/row_upcoming_or_repeating_listitem_season_episode"
                 android:lineSpacingExtra="-1sp" />
 
-            <com.mitv.customviews.FontTextView
+            <com.mitv.ui.elements.FontTextView
                 android:id="@+id/row_upcoming_or_repeating_listitem_channel"
                 style="@style/text1"
                 android:layout_width="wrap_content"
@@ -83,7 +83,7 @@
 
         <!-- REMIND BUTTON -->
 
-        <com.mitv.customviews.ReminderView
+        <com.mitv.ui.elements.ReminderView
             android:id="@+id/row_upcoming_or_repeating_reminder_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

@@ -7,7 +7,7 @@
     android:background="@color/white"
     android:orientation="vertical" >
 
-    <com.mitv.customviews.FontTextView
+    <com.mitv.ui.elements.FontTextView
         android:id="@+id/dialog_prompt_update_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
         android:padding="5dp"
         android:textColor="@color/black"
         android:textSize="@dimen/header_2"
-        android:text="Please check your internet connection" />
+        android:text="@string/dialog_prompt_check_internet_connection" />
 
     <View
         android:id="@+id/dialog_prompt_update_divider"
@@ -27,14 +27,14 @@
         android:background="@color/grey1" />
 
 
-	<com.mitv.customviews.FontButton
+	<com.mitv.ui.elements.FontButton
 	    android:id="@+id/dialog_prompt_retry_button"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:layout_below="@id/dialog_prompt_update_divider"
 	    android:padding="10dp"
 	    android:background="@color/white"
-	    android:text="Retry"
+	    android:text="@string/dialog_prompt_check_internet_connection_retry_buttom"
 	    android:textColor="@color/black"
 	    android:textSize="@dimen/header_3" 
 	    android:textStyle="bold"/>

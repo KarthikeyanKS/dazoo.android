@@ -256,21 +256,17 @@
     <string name="reminder_text_set_top">A reminder was set</string>
     <string name="reminder_text_set_middle">15 minutes</string>
     <string name="reminder_text_set_bottom">before on air</string>
-    <string name="reminder_text_set">A reminder was set 15 minutes before on air</string>
     <string name="reminder_text_remove">Remove the reminder for </string>
 
     <!-- LIKE SERVICE -->
     <string name="like_set_text_row1">The show</string>
     <string name="like_set_text_row2"> was added to your preferences</string>
-    <string name="like_set_text"> was added to your preferences</string>
     <string name="like_remove_text">You no longer like this program? We\'ll adjust our recommendations for you.</string>
     <string name="no_likes">You haven\'t liked anything yet. \nStart liking shows to get better recommendations.</string>
 
     <!-- ACTIVITY PAGE -->
-    <string name="login_for_activity">Get personal recommendations\n here by signing in</string>
     <string name="popular_now">Popular now</string>
     <string name="show_all">Show all popular this week</string>
-    <string name="from">from</string>
     <string name="know_more">Let us know what shows you like and get better recommendations</string>
     <string name="check_popular">Check out Some Popular Shows</string>
     <string name="hello">Hello</string>
@@ -285,7 +281,6 @@
     <string name="search_starts_in">in</string>
     <string name="search_result_tv_episode">TV Episode</string>
     <string name="search_result_movie">Movie</string>
-    <string name="search_result_series">TV Series</string>
     <string name="search_result_sport">Sport</string>
     <string name="search_result_channel">Channel</string>
 
@@ -293,4 +288,8 @@
     <string name="dialog_prompt_update_text">You must update mi.tv to the latest version!</string>
     <string name="dialog_prompt_update_google_play">Go to Google play</string>
 
+    
+    <string name="dialog_prompt_check_internet_connection">Please check your internet connection</string> 
+    <string name="dialog_prompt_check_internet_connection_retry_buttom">Retry</string> 
+    
 </resources>

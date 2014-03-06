@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_color_selector" >
@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
-        android:background="@color/white" >
+        android:background="@color/white" 
+        android:baselineAligned="false">
 
         <RelativeLayout
             android:id="@+id/row_block_recommended_icon_container"
@@ -43,7 +44,7 @@
             android:layout_weight="0.6"
             android:orientation="vertical" >
 
-            <com.mitv.customviews.FontTextView
+            <com.mitv.ui.elements.FontTextView
                 android:id="@+id/row_block_recommended_text_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -63,7 +64,7 @@
                 android:layout_toRightOf="@id/row_block_recommended_text_title_tv"
                 android:visibility="gone" />
 
-            <com.mitv.customviews.FontTextView
+            <com.mitv.ui.elements.FontTextView
                 android:id="@+id/row_block_recommended_text_details_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

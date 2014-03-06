@@ -7,7 +7,7 @@
 
     <!-- LIKE BUTTON -->
     
-	<com.mitv.customviews.LikeView
+	<com.mitv.ui.elements.LikeView
     	android:id="@+id/element_social_buttons_like_view"
     	android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -65,7 +65,7 @@
 
     <!-- REMIND BUTTON -->
 
-    <com.mitv.customviews.ReminderView
+    <com.mitv.ui.elements.ReminderView
         android:id="@+id/element_social_buttons_reminder"
         android:layout_width="0dp"
         android:layout_height="match_parent"

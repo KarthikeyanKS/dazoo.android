@@ -16,7 +16,7 @@
         android:background="@drawable/background_color_selector"
         android:addStatesFromChildren="true" >
         
-       	<com.mitv.customviews.FontTextView
+       	<com.mitv.ui.elements.FontTextView
        	    android:id="@+id/row_add_channel_icon"
        	    android:layout_width="wrap_content"
        	    android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
        	    android:textSize="25sp"
        	    font:fonttextview="roboto_mitv_medium.ttf" />
 	
-	    <com.mitv.customviews.FontTextView
+	    <com.mitv.ui.elements.FontTextView
 	        android:id="@+id/row_add_channel_text"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"

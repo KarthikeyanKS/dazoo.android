@@ -30,7 +30,7 @@ public class SecondScreenApplication
 
 	
 	
-	private SecondScreenApplication() {}
+	public SecondScreenApplication() {}
 
 	
 	

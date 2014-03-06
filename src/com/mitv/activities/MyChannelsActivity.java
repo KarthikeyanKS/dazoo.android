@@ -4,6 +4,7 @@ package com.mitv.activities;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Locale;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -25,6 +26,7 @@ import com.mitv.interfaces.MyChannelsCountInterface;
 import com.mitv.listadapters.MyChannelsListAdapter;
 import com.mitv.models.TVChannel;
 import com.mitv.models.TVChannelId;
+import com.mitv.utilities.LanguageUtils;
 
 
 
@@ -203,9 +205,14 @@ public class MyChannelsActivity
 		if (!TextUtils.isEmpty(search)) {
 			
 			/* Go through list of all channels and add channels which name contains the searched string */
-			for(TVChannel tvChannel : allChannelObjects) {
+			for(TVChannel tvChannel : allChannelObjects) 
+			{
 				String channelName = tvChannel.getName();
-				if (channelName.toLowerCase().contains(search.toLowerCase())) {
+				
+				Locale locale = LanguageUtils.getCurrentLocale();
+				
+				if (channelName.toLowerCase(locale).contains(search.toLowerCase(locale))) 
+				{
 					channelsMatchingSearch.add(tvChannel);
 				}
 			}

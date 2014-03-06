@@ -15,7 +15,7 @@
         android:gravity="center_horizontal"
         android:src="@drawable/ic_error_state_mitv" />
 
-    <com.mitv.customviews.FontTextView
+    <com.mitv.ui.elements.FontTextView
         android:id="@+id/request_failed_details_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
         android:textColor="@color/black"
         android:textSize="14sp" />
 
-    <com.mitv.customviews.FontButton
+    <com.mitv.ui.elements.FontButton
         android:id="@+id/request_failed_reload_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -14,7 +14,7 @@
         android:paddingLeft="40dp"
         android:paddingRight="40dp" >
 
-        <com.mitv.customviews.FontTextView
+        <com.mitv.ui.elements.FontTextView
             android:id="@+id/search_page_search_icon_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
             android:textSize="140sp"
             font:fonttextview="roboto_mitv_medium.ttf" />
 
-        <com.mitv.customviews.FontTextView
+        <com.mitv.ui.elements.FontTextView
             android:id="@+id/search_page_instruction_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -15,7 +15,7 @@
         android:layout_margin="5dp" 
         android:layout_alignParentLeft="true"/>
 
-    <com.mitv.customviews.FontTextView
+    <com.mitv.ui.elements.FontTextView
         android:id="@+id/row_mychannels_channel_text_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

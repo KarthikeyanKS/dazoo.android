@@ -16,7 +16,7 @@
         android:layout_weight="0.8"
         android:orientation="vertical" >
 
-        <com.mitv.customviews.FontTextView
+        <com.mitv.ui.elements.FontTextView
             android:id="@+id/block_tripple_broadcast_season_episode"
             style="@style/header2"
             android:layout_width="wrap_content"
@@ -25,7 +25,7 @@
             android:gravity="left"
             android:visibility="gone" />
 
-        <com.mitv.customviews.FontTextView
+        <com.mitv.ui.elements.FontTextView
             android:id="@+id/block_tripple_broadcast_title_time"
             style="@style/text1"
             android:layout_width="wrap_content"
@@ -34,7 +34,7 @@
             android:gravity="left"
             android:lineSpacingExtra="0sp" />
 
-        <com.mitv.customviews.FontTextView
+        <com.mitv.ui.elements.FontTextView
             android:id="@+id/block_tripple_broadcast_channel"
             style="@style/text1"
             android:layout_width="wrap_content"
@@ -61,7 +61,7 @@
 
         <!-- REMIND BUTTON -->
 
-        <com.mitv.customviews.ReminderView
+        <com.mitv.ui.elements.ReminderView
             android:id="@+id/block_tripple_broadcast_reminder_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
