@@ -89,6 +89,7 @@ public class ContentManager
 	private boolean completedTVDatesRequest;
 	private boolean completedTVChannelIdsDefaultRequest;
 	private boolean completedTVChannelIdsUserRequest;
+	private boolean isFetchingTVGuide;
 	
 	
 	
@@ -130,6 +131,7 @@ public class ContentManager
 		this.completedTVDatesRequest = false;
 		this.completedTVChannelIdsDefaultRequest = false;
 		this.completedTVChannelIdsUserRequest = false;
+		this.isFetchingTVGuide = false;
 		
 		this.fetchDataProgressCallbackListener = fetchDataProgressCallbackListener;
 		
@@ -213,9 +215,12 @@ public class ContentManager
 					
 					notifyFetchDataProgressListenerMessage(totalStepsCount, "Fetched tv dates data");
 					
-					if((completedTVChannelIdsDefaultRequest && !cache.isLoggedIn()) || 
+					if(!isFetchingTVGuide && 
+					   (completedTVChannelIdsDefaultRequest && !cache.isLoggedIn()) || 
 					   (completedTVChannelIdsUserRequest && cache.isLoggedIn()))
 					{
+						isFetchingTVGuide = true;
+						
 						TVDate tvDate = cache.getTvDateSelected();
 						
 						ArrayList<TVChannelId> tvChannelIds = cache.getTvChannelIdsUsed();
@@ -238,8 +243,10 @@ public class ContentManager
 					
 					notifyFetchDataProgressListenerMessage(totalStepsCount, "Fetched tv channel id data");
 					
-					if(completedTVDatesRequest && !cache.isLoggedIn())
+					if(!isFetchingTVGuide && completedTVDatesRequest && !cache.isLoggedIn())
 					{
+						isFetchingTVGuide = true;
+						
 						TVDate tvDate = cache.getTvDateSelected();
 						
 						ArrayList<TVChannelId> tvChannelIds = cache.getTvChannelIdsUsed();
@@ -262,8 +269,10 @@ public class ContentManager
 					
 					notifyFetchDataProgressListenerMessage(totalStepsCount, "Fetched tv channel id data");
 					
-					if(completedTVDatesRequest && cache.isLoggedIn())
+					if(!isFetchingTVGuide && completedTVDatesRequest && cache.isLoggedIn())
 					{
+						isFetchingTVGuide = true;
+						
 						TVDate tvDate = cache.getTvDateSelected();
 						
 						ArrayList<TVChannelId> tvChannelIds = cache.getTvChannelIdsUsed();

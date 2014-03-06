@@ -100,7 +100,8 @@ public class APIClient
 	public void getTVChannelGuideOnPoolExecutor(ActivityCallbackListener activityCallbackListener, TVDate tvDate, List<TVChannelId> tvChannelIds)
 	{
 		GetTVChannelGuides getTvChannelGuides = new GetTVChannelGuides(contentCallbackListener, activityCallbackListener, tvDate, tvChannelIds);
-		getTvChannelGuides.executeOnExecutor(poolExecutor);
+		
+		poolExecutor.addAndExecuteTask(getTvChannelGuides);
 	}
 	
 	
