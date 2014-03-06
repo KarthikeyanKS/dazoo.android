@@ -11,11 +11,9 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
-import com.millicom.mitv.models.TVChannel;
-import com.millicom.mitv.models.TVProgram;
-import com.mitv.Consts;
+import com.mitv.Constants;
+import com.mitv.http.HTTPCoreResponse;
+import com.mitv.models.TVBroadcastWithChannelInfo;
 
 
 /**
@@ -37,7 +35,7 @@ public class PopularBroadcastGSONTest
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		String url = Consts.URL_POPULAR;
+		String url = Constants.URL_POPULAR;
 		
 		HTTPCoreResponse httpCoreResponse = executeRequestGet(url);
 		

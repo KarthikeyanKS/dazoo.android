@@ -5,18 +5,20 @@ package com.mitv.test.gson;
 
 import java.util.Locale;
 import java.util.TimeZone;
+
 import android.test.InstrumentationTestCase;
 import android.util.Log;
-import com.millicom.mitv.enums.HTTPRequestTypeEnum;
-import com.millicom.mitv.http.HTTPCore;
-import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.http.HeaderParameters;
-import com.millicom.mitv.http.URLParameters;
-import com.millicom.mitv.models.gson.serialization.UserRegistrationData;
-import com.millicom.mitv.utilities.DateUtils;
-import com.millicom.mitv.utilities.GenericUtils;
-import com.mitv.Consts;
-import com.mitv.SecondScreenApplication;
+
+import com.mitv.Constants;
+import com.mitv.enums.HTTPRequestTypeEnum;
+import com.mitv.http.HTTPCore;
+import com.mitv.http.HTTPCoreResponse;
+import com.mitv.http.HeaderParameters;
+import com.mitv.http.URLParameters;
+import com.mitv.models.gson.serialization.UserRegistrationData;
+import com.mitv.utilities.DateUtils;
+import com.mitv.utilities.GenericUtils;
+import com.mitv.utilities.LanguageUtils;
 
 
 
@@ -109,7 +111,7 @@ public abstract class TestCore
 		HTTPCore httpCore = HTTPCore.sharedInstance();
 		
 		/* Add the locale to the header data */
-		Locale locale = SecondScreenApplication.getCurrentLocale();
+		Locale locale = LanguageUtils.getCurrentLocale();
 		TimeZone timeZone = TimeZone.getDefault();
 		
 		if(locale != null && timeZone != null)
@@ -118,9 +120,9 @@ public abstract class TestCore
 		
 			Integer timeZoneOffsetInMinutes = Integer.valueOf(timeZoneOffsetInMinutesAsInt);
 		
-			headerParameters.add(Consts.HTTP_REQUEST_DATA_LOCALE, locale.toString());
+			headerParameters.add(Constants.HTTP_REQUEST_DATA_LOCALE, locale.toString());
 			
-			urlParameters.add(Consts.HTTP_REQUEST_DATA_TIME_ZONE_OFFSET, timeZoneOffsetInMinutes.toString());
+			urlParameters.add(Constants.HTTP_REQUEST_DATA_TIME_ZONE_OFFSET, timeZoneOffsetInMinutes.toString());
 		}
 		else
 		{
@@ -139,11 +141,11 @@ public abstract class TestCore
 		HeaderParameters headerParameters = new HeaderParameters();
 		
 		StringBuilder sb = new StringBuilder();
-		sb.append(Consts.USER_AUTHORIZATION_HEADER_VALUE_PREFIX);
+		sb.append(Constants.USER_AUTHORIZATION_HEADER_VALUE_PREFIX);
 		sb.append(" ");
 		sb.append(userToken);
 		
-		headerParameters.add(Consts.USER_AUTHORIZATION_HEADER_KEY, sb.toString());
+		headerParameters.add(Constants.USER_AUTHORIZATION_HEADER_KEY, sb.toString());
 		
 		return headerParameters;
 	}

@@ -15,7 +15,7 @@
         android:background="@color/grey4"
         android:visibility="gone" >
 
-        <com.mitv.customviews.FontTextView
+        <com.mitv.ui.elements.FontTextView
             android:id="@+id/row_likes_header_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,7 +40,8 @@
         android:layout_below="@id/row_likes_header_container"
         android:background="@color/white"
         android:orientation="horizontal"
-        android:padding="10dp" >
+        android:padding="10dp" 
+        android:baselineAligned="false">
 
         <RelativeLayout
             android:id="@+id/row_likes_text_container"
@@ -52,7 +53,7 @@
 
             <!-- TITLE -->
 
-            <com.mitv.customviews.FontTextView
+            <com.mitv.ui.elements.FontTextView
                 android:id="@+id/row_likes_text_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -66,7 +67,7 @@
 
             <!-- DETAILS -->
 
-            <com.mitv.customviews.FontTextView
+            <com.mitv.ui.elements.FontTextView
                 android:id="@+id/row_likes_text_details_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -93,7 +93,7 @@
 
                         <!-- TITLE -->
 
-                        <com.mitv.customviews.FontTextView
+                        <com.mitv.ui.elements.FontTextView
                             android:id="@+id/block_broadcastpage_broadcast_details_title_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -105,7 +105,7 @@
 
                         <!-- SEASON -->
 
-                        <com.mitv.customviews.FontTextView
+                        <com.mitv.ui.elements.FontTextView
                             android:id="@+id/block_broadcastpage_broadcast_details_season_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -117,7 +117,7 @@
 
                         <!-- EPISODE -->
 
-                        <com.mitv.customviews.FontTextView
+                        <com.mitv.ui.elements.FontTextView
                             android:id="@+id/block_broadcastpage_broadcast_details_episode_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -130,7 +130,7 @@
 
                         <!-- EPISODE NAME -->
 
-                        <com.mitv.customviews.FontTextView
+                        <com.mitv.ui.elements.FontTextView
                             android:id="@+id/block_broadcastpage_broadcast_details_episode_name_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -174,7 +174,7 @@
 
                                 <!-- TIME LEFT -->
 
-                                <com.mitv.customviews.FontTextView
+                                <com.mitv.ui.elements.FontTextView
                                     android:id="@+id/block_broadcastpage_broadcast_progress_timeleft_tv"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -184,7 +184,7 @@
 
                                 <!-- DATE -->
 
-                                <com.mitv.customviews.FontTextView
+                                <com.mitv.ui.elements.FontTextView
                                     android:id="@+id/block_broadcastpage_broadcast_details_date_tv"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -194,7 +194,7 @@
 
                                 <!-- TIME -->
 
-                                <com.mitv.customviews.FontTextView
+                                <com.mitv.ui.elements.FontTextView
                                     android:id="@+id/block_broadcastpage_broadcast_details_time_tv"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -226,7 +226,7 @@
 
                         <!-- SYNOPSIS -->
 
-                        <com.mitv.customviews.FontTextView
+                        <com.mitv.ui.elements.FontTextView
                             android:id="@+id/block_broadcastpage_broadcast_details_synopsis_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -238,7 +238,7 @@
 
                         <!-- CATEGORY -->
 
-                        <com.mitv.customviews.FontTextView
+                        <com.mitv.ui.elements.FontTextView
                             android:id="@+id/block_broadcastpage_broadcast_details_category_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -250,7 +250,7 @@
 
                         <!-- YEAR -->
 
-                        <com.mitv.customviews.FontTextView
+                        <com.mitv.ui.elements.FontTextView
                             android:id="@+id/block_broadcastpage_broadcast_details_year_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -265,7 +265,7 @@
 
                         <!-- COUNTRY -->
 
-                        <com.mitv.customviews.FontTextView
+                        <com.mitv.ui.elements.FontTextView
                             android:id="@+id/block_broadcastpage_broadcast_details_country_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -280,7 +280,7 @@
 
                         <!-- DURATION -->
 
-                        <com.mitv.customviews.FontTextView
+                        <com.mitv.ui.elements.FontTextView
                             android:id="@+id/block_broadcastpage_broadcast_details_duration_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -294,7 +294,7 @@
 
                         <!-- GENRE -->
 
-                        <com.mitv.customviews.FontTextView
+                        <com.mitv.ui.elements.FontTextView
                             android:id="@+id/block_broadcastpage_broadcast_details_genre_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -306,7 +306,7 @@
 
                         <!-- PARENTAL RATING -->
 
-                        <com.mitv.customviews.FontTextView
+                        <com.mitv.ui.elements.FontTextView
                             android:id="@+id/block_broadcastpage_broadcast_details_parental_rating_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -399,7 +399,7 @@
                         </RelativeLayout>
 
                         <!-- REMIND BUTTON -->
-                        <com.mitv.customviews.ReminderView
+                        <com.mitv.ui.elements.ReminderView
                             android:id="@+id/row_upcoming_episodes_reminder_view"
                             android:layout_weight="3"
                             android:layout_height="32dp"

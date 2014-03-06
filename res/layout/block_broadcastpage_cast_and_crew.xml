@@ -1,14 +1,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:id="@+id/block_cast_and_crew_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    android:background="@color/white"
     android:orientation="vertical" >
 
-    <com.mitv.customviews.FontTextView
+    <com.mitv.ui.elements.FontTextView
         android:id="@+id/block_cast_and_crew_title_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,7 +33,7 @@
         android:layout_below="@id/listview"
         android:background="@color/white">
         
-        <com.mitv.customviews.FontButton
+        <com.mitv.ui.elements.FontButton
             android:id="@+id/block_cast_and_crew_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -10,13 +10,11 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import android.text.TextUtils;
-
 import com.google.gson.Gson;
-import com.millicom.mitv.enums.HTTPRequestTypeEnum;
-import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.models.TVChannel;
-import com.mitv.Consts;
+import com.mitv.Constants;
+import com.mitv.enums.HTTPRequestTypeEnum;
+import com.mitv.http.HTTPCoreResponse;
+import com.mitv.models.TVChannel;
 
 
 /**
@@ -40,7 +38,7 @@ public class TVChannelGSONTest
 	{
 		super.setUp();
 		
-		String url = Consts.URL_CHANNELS_ALL;
+		String url = Constants.URL_CHANNELS_ALL;
 		
 		HTTPCoreResponse httpCoreResponse = executeRequest(HTTPRequestTypeEnum.HTTP_GET, url);
 		

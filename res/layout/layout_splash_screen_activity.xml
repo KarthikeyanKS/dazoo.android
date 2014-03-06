@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     xmlns:tools="http://schemas.android.com/tools"
@@ -21,7 +23,7 @@
             android:background="@color/transparent"
             android:src="@drawable/splash_logo" />
 
-        <com.mitv.customviews.FontTextView
+        <com.mitv.ui.elements.FontTextView
             android:id="@+id/splash_screen_activity_info_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -47,7 +49,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp" />
         
-        <com.mitv.customviews.FontTextView
+        <com.mitv.ui.elements.FontTextView
             android:id="@+id/splash_screen_activity_progress_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

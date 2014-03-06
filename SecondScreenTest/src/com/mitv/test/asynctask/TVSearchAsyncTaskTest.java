@@ -8,13 +8,13 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.androidquery.callback.AjaxCallback;
-import com.millicom.mitv.asynctasks.GetTVSearchResults;
-import com.millicom.mitv.enums.FetchRequestResultEnum;
-import com.millicom.mitv.enums.RequestIdentifierEnum;
-import com.millicom.mitv.interfaces.ActivityCallbackListener;
-import com.millicom.mitv.interfaces.ContentCallbackListener;
-import com.millicom.mitv.models.SearchResultsForQuery;
-import com.millicom.mitv.models.TVSearchResults;
+import com.mitv.asynctasks.GetTVSearchResults;
+import com.mitv.enums.FetchRequestResultEnum;
+import com.mitv.enums.RequestIdentifierEnum;
+import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ContentCallbackListener;
+import com.mitv.models.SearchResultsForQuery;
+import com.mitv.models.TVSearchResults;
 
 
 

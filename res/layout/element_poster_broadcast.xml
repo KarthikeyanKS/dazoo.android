@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:id="@+id/element_poster_broadcast_container"
@@ -15,7 +16,7 @@
         android:background="@color/grey1"
         android:visibility="gone" >
 
-        <com.mitv.customviews.FontTextView
+        <com.mitv.ui.elements.FontTextView
             android:id="@+id/element_poster_broadcast_header_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,7 +37,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/element_poster_broadcast_header_container"
-        android:orientation="horizontal" >
+        android:orientation="horizontal" 
+        android:baselineAligned="false">
 
         <!-- IMAGE CONTAINER -->
 
@@ -72,7 +74,7 @@
 
             <!-- TITLE -->
 
-            <com.mitv.customviews.FontTextView
+            <com.mitv.ui.elements.FontTextView
                 android:id="@+id/element_poster_broadcast_title_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -87,7 +89,7 @@
 
             <!-- TIME -->
 
-            <com.mitv.customviews.FontTextView
+            <com.mitv.ui.elements.FontTextView
                 android:id="@+id/element_poster_broadcast_time_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -100,7 +102,7 @@
 
             <!-- CHANNEL -->
 
-            <com.mitv.customviews.FontTextView
+            <com.mitv.ui.elements.FontTextView
                 android:id="@+id/element_poster_broadcast_channel_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -113,7 +115,7 @@
 
             <!-- TYPE -->
 
-            <com.mitv.customviews.FontTextView
+            <com.mitv.ui.elements.FontTextView
                 android:id="@+id/element_poster_broadcast_type_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -126,7 +128,7 @@
 
             <!-- TIME LEFT -->
 
-            <com.mitv.customviews.FontTextView
+            <com.mitv.ui.elements.FontTextView
                 android:id="@+id/element_poster_broadcast_timeleft_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

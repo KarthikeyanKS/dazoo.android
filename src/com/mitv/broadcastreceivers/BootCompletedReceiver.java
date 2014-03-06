@@ -1,6 +1,8 @@
 
 package com.mitv.broadcastreceivers;
 
+
+
 import java.io.File;
 
 import android.content.BroadcastReceiver;
@@ -10,11 +12,11 @@ import android.content.Intent;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.google.analytics.tracking.android.Tracker;
-import com.millicom.mitv.utilities.FileUtils;
-import com.mitv.Consts;
+import com.mitv.AppConfigurationManager;
+import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.manager.AppConfigurationManager;
+import com.mitv.utilities.FileUtils;
 
 
 
@@ -54,12 +56,12 @@ public class BootCompletedReceiver
 	    		
 	        	Tracker tracker = googleAnalyticsInstance.getTracker(hardCodedTrackingId);
 	    		
-	    		String gaValue = Consts.GA_KEY_DEVICE_WITH_PREINSTALLED_APP_FIRST_BOOT;
+	    		String gaValue = Constants.GA_KEY_DEVICE_WITH_PREINSTALLED_APP_FIRST_BOOT;
 	    		
 	    		gaValue = AppConfigurationManager.replaceDashWithEnDash(gaValue);
 	    		
 	    		tracker.send(MapBuilder
-	    				  .createEvent(Consts.GA_EVENT_KEY_SYSTEM_EVENT, "OnBoot", gaValue, null) 	// Set any additional fields for this hit.
+	    				  .createEvent(Constants.GA_EVENT_KEY_SYSTEM_EVENT, "OnBoot", gaValue, null) 	// Set any additional fields for this hit.
 	    				  .build()                                   			// Build and return the Map to the send method.
 	    				);
         	}
@@ -70,7 +72,7 @@ public class BootCompletedReceiver
 	
 	private static File appWasPreinstalledFile()
 	{
-		File file = FileUtils.getFile(Consts.APP_WAS_PREINSTALLED_FILE_NAME);
+		File file = FileUtils.getFile(Constants.APP_WAS_PREINSTALLED_FILE_NAME);
 		return file;
 	}
 	

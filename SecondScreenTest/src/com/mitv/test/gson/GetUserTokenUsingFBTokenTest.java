@@ -11,11 +11,11 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.millicom.mitv.enums.HTTPRequestTypeEnum;
-import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.models.UserLoginData;
-import com.millicom.mitv.models.gson.serialization.UserFacebookTokenData;
-import com.mitv.Consts;
+import com.mitv.Constants;
+import com.mitv.enums.HTTPRequestTypeEnum;
+import com.mitv.http.HTTPCoreResponse;
+import com.mitv.models.UserLoginData;
+import com.mitv.models.gson.serialization.UserFacebookTokenData;
 
 
 
@@ -45,7 +45,7 @@ public class GetUserTokenUsingFBTokenTest
 		
 		String facebookToken = DEFAULT_TEST_USER_FACEBOOK_TOKEN;
 		
-		String url = Consts.URL_FACEBOOK_TOKEN;
+		String url = Constants.URL_FACEBOOK_TOKEN;
 
 		UserFacebookTokenData postData = new UserFacebookTokenData();
 		postData.setFacebookToken(facebookToken);

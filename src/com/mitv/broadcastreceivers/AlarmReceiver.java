@@ -8,8 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.millicom.mitv.utilities.NotificationHelper;
-import com.mitv.Consts;
+import com.mitv.Constants;
+import com.mitv.ui.helpers.NotificationHelper;
 
 
 
@@ -23,18 +23,18 @@ public class AlarmReceiver
 	@Override
 	public void onReceive(Context context, Intent intent)
 	{
-		if(intent.getAction().equals(Consts.INTENT_NOTIFICATION)) 
+		if(intent.getAction().equals(Constants.INTENT_NOTIFICATION)) 
 		{
-			int notificationId = intent.getIntExtra(Consts.INTENT_ALARM_EXTRA_NOTIFICIATION_ID, 0);
+			int notificationId = intent.getIntExtra(Constants.INTENT_ALARM_EXTRA_NOTIFICIATION_ID, 0);
 			
-			long broadcastBeginTimeMillis = intent.getLongExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_BEGINTIMEMILLIS, 0);
+			long broadcastBeginTimeMillis = intent.getLongExtra(Constants.INTENT_ALARM_EXTRA_BROADCAST_BEGINTIMEMILLIS, 0);
 			
-			String broadcastName = intent.getStringExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_NAME);
-			String channelId = intent.getStringExtra(Consts.INTENT_ALARM_EXTRA_CHANNELID);
-			String channelName = intent.getStringExtra(Consts.INTENT_ALARM_EXTRA_CHANNEL_NAME);
-			String channelLogo = intent.getStringExtra(Consts.INTENT_ALARM_EXTRA_CHANNEL_LOGO_URL);
-			String dateDate = intent.getStringExtra(Consts.INTENT_ALARM_EXTRA_DATE_DATE);
-			String broadcastHourAndMinuteRepresentation = intent.getStringExtra(Consts.INTENT_ALARM_EXTRA_BROADCAST_HOUR_AND_MINUTE_TIME);
+			String broadcastName = intent.getStringExtra(Constants.INTENT_ALARM_EXTRA_BROADCAST_NAME);
+			String channelId = intent.getStringExtra(Constants.INTENT_ALARM_EXTRA_CHANNELID);
+			String channelName = intent.getStringExtra(Constants.INTENT_ALARM_EXTRA_CHANNEL_NAME);
+			String channelLogo = intent.getStringExtra(Constants.INTENT_ALARM_EXTRA_CHANNEL_LOGO_URL);
+			String dateDate = intent.getStringExtra(Constants.INTENT_ALARM_EXTRA_DATE_DATE);
+			String broadcastHourAndMinuteRepresentation = intent.getStringExtra(Constants.INTENT_ALARM_EXTRA_BROADCAST_HOUR_AND_MINUTE_TIME);
 								
 			Log.d(TAG,"AlarmReceiver: broadcastBeginTimeMillis: " + String.valueOf(broadcastBeginTimeMillis));
 			Log.d(TAG,"AlarmReceiver: channelId: "+ channelId);

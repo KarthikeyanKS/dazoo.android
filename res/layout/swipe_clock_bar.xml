@@ -13,7 +13,7 @@
         android:layout_centerHorizontal="true"
         android:layout_margin="3dp" >
 
-        <com.mitv.customviews.FontTextView
+        <com.mitv.ui.elements.FontTextView
             android:id="@+id/swipe_clock_bar_clock_icon_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

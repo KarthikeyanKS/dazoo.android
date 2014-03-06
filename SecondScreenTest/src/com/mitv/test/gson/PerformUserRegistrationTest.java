@@ -12,11 +12,11 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.millicom.mitv.enums.HTTPRequestTypeEnum;
-import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.models.UserLoginData;
-import com.millicom.mitv.models.gson.serialization.UserRegistrationData;
-import com.mitv.Consts;
+import com.mitv.Constants;
+import com.mitv.enums.HTTPRequestTypeEnum;
+import com.mitv.http.HTTPCoreResponse;
+import com.mitv.models.UserLoginData;
+import com.mitv.models.gson.serialization.UserRegistrationData;
 
 
 
@@ -42,7 +42,7 @@ public class PerformUserRegistrationTest
 	
 	private void register()
 	{
-		String url = Consts.URL_REGISTER;
+		String url = Constants.URL_REGISTER;
 		
 		UserRegistrationData postData = getNewRandomUserData();
 		

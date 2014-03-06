@@ -4,17 +4,19 @@ package com.mitv.test.gson;
 
 
 import junit.framework.Assert;
+
 import org.junit.Test;
-import com.millicom.mitv.enums.FetchRequestResultEnum;
-import com.millicom.mitv.enums.HTTPRequestTypeEnum;
-import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.http.HeaderParameters;
-import com.millicom.mitv.http.URLParameters;
-import com.millicom.mitv.models.TVBroadcast;
-import com.millicom.mitv.models.TVChannelGuide;
-import com.millicom.mitv.models.TVProgram;
-import com.millicom.mitv.utilities.GenericUtils;
-import com.mitv.Consts;
+
+import com.mitv.Constants;
+import com.mitv.enums.FetchRequestResultEnum;
+import com.mitv.enums.HTTPRequestTypeEnum;
+import com.mitv.http.HTTPCoreResponse;
+import com.mitv.http.HeaderParameters;
+import com.mitv.http.URLParameters;
+import com.mitv.models.TVBroadcast;
+import com.mitv.models.TVChannelGuide;
+import com.mitv.models.TVProgram;
+import com.mitv.utilities.GenericUtils;
 
 
 
@@ -38,14 +40,14 @@ public class PerformInternalTrackingTest
 		
 		String deviceId = GenericUtils.getDeviceId();
 		
-		String url = Consts.URL_INTERNAL_TRACKING;
+		String url = Constants.URL_INTERNAL_TRACKING;
 		
 		URLParameters urlParameters = new URLParameters();
 		
-		urlParameters.add(Consts.INTERNAL_TRACKING_QUERYSTRING_PARAMETER_VERB_KEY, Consts.INTERNAL_TRACKING_QUERYSTRING_PARAMETER_VERB_VALUE_VIEWS);
-		urlParameters.add(Consts.INTERNAL_TRACKING_QUERYSTRING_PARAMETER_KEY_KEY, Consts.INTERNAL_TRACKING_QUERYSTRING_PARAMETER_VALUE_PROGRAM_ID);
-		urlParameters.add(Consts.INTERNAL_TRACKING_QUERYSTRING_PARAMETER_KEY_VALUE, tvProgramId);
-		urlParameters.add(Consts.INTERNAL_TRACKING_QUERYSTRING_PARAMETER_KEY_UID, deviceId);
+		urlParameters.add(Constants.INTERNAL_TRACKING_QUERYSTRING_PARAMETER_VERB_KEY, Constants.INTERNAL_TRACKING_QUERYSTRING_PARAMETER_VERB_VALUE_VIEWS);
+		urlParameters.add(Constants.INTERNAL_TRACKING_QUERYSTRING_PARAMETER_KEY_KEY, Constants.INTERNAL_TRACKING_QUERYSTRING_PARAMETER_VALUE_PROGRAM_ID);
+		urlParameters.add(Constants.INTERNAL_TRACKING_QUERYSTRING_PARAMETER_KEY_VALUE, tvProgramId);
+		urlParameters.add(Constants.INTERNAL_TRACKING_QUERYSTRING_PARAMETER_KEY_UID, deviceId);
 		
 		HeaderParameters headerParameters = new HeaderParameters();
 		

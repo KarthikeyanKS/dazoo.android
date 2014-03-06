@@ -15,13 +15,13 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.millicom.mitv.enums.HTTPRequestTypeEnum;
-import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.http.HeaderParameters;
-import com.millicom.mitv.http.URLParameters;
-import com.millicom.mitv.models.TVFeedItem;
-import com.millicom.mitv.models.UserLoginData;
-import com.mitv.Consts;
+import com.mitv.Constants;
+import com.mitv.enums.HTTPRequestTypeEnum;
+import com.mitv.http.HTTPCoreResponse;
+import com.mitv.http.HeaderParameters;
+import com.mitv.http.URLParameters;
+import com.mitv.models.TVFeedItem;
+import com.mitv.models.UserLoginData;
 
 
 
@@ -65,7 +65,7 @@ public class GetUserTVFeedItemsTest
 		
 		List<TVFeedItem> receivedData;
 		
-		String url = Consts.URL_ACTIVITY_FEED;
+		String url = Constants.URL_ACTIVITY_FEED;
 		
 		URLParameters urlParameters = new URLParameters();
 		

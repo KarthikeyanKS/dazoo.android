@@ -24,7 +24,7 @@
      
  
 
-        <com.mitv.customviews.FontEditText
+        <com.mitv.ui.elements.FontEditText
             android:id="@+id/signup_firstname_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
             android:textSize="16sp"
             android:background="@drawable/edittext_standard" />
         
-		<com.mitv.customviews.FontTextView
+		<com.mitv.ui.elements.FontTextView
             android:id="@+id/signup_error_firstname_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
             android:gravity="center"
         	font:fonttextview="roboto_mitv_medium.ttf" />
 
-        <com.mitv.customviews.FontEditText
+        <com.mitv.ui.elements.FontEditText
             android:id="@+id/signup_lastname_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
             android:textSize="16sp"
             android:background="@drawable/edittext_standard" />
         
-		<com.mitv.customviews.FontTextView
+		<com.mitv.ui.elements.FontTextView
             android:id="@+id/signup_error_lastname_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
             android:gravity="center"
         	font:fonttextview="roboto_mitv_medium.ttf" />
 
-        <com.mitv.customviews.FontEditText
+        <com.mitv.ui.elements.FontEditText
             android:id="@+id/signup_email_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
             android:textSize="16sp"
             android:background="@drawable/edittext_standard" />
         
-		<com.mitv.customviews.FontTextView
+		<com.mitv.ui.elements.FontTextView
             android:id="@+id/signup_error_email_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -108,7 +108,7 @@
             android:gravity="center"
         	font:fonttextview="roboto_mitv_medium.ttf" />
 
-        <com.mitv.customviews.FontEditText
+        <com.mitv.ui.elements.FontEditText
             android:id="@+id/signup_password_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -123,7 +123,7 @@
             android:textSize="16sp"
             android:background="@drawable/edittext_standard" />
 
-        <com.mitv.customviews.FontTextView
+        <com.mitv.ui.elements.FontTextView
             android:id="@+id/signup_error_password_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -136,7 +136,7 @@
             android:gravity="center" 
         	font:fonttextview="roboto_mitv_medium.ttf" />
         
-        <com.mitv.customviews.FontTextView
+        <com.mitv.ui.elements.FontTextView
             android:id="@+id/signup_terms_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -151,7 +151,7 @@
             android:text="@string/sign_up_terms_info"
         	font:fonttextview="roboto_mitv_medium.ttf" />
         
-         <com.mitv.customviews.FontTextView
+         <com.mitv.ui.elements.FontTextView
             android:id="@+id/signup_terms_link"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -167,7 +167,7 @@
             android:text="@string/terms_link"
         	font:fonttextview="roboto_mitv_bold.ttf" />
 
-        <com.mitv.customviews.FontButton
+        <com.mitv.ui.elements.FontButton
             android:id="@+id/signup_register_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -7,25 +7,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import junit.framework.Assert;
-
-import org.junit.Test;
-
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.millicom.mitv.enums.HTTPRequestTypeEnum;
-import com.millicom.mitv.enums.LikeTypeRequestEnum;
-import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.http.HeaderParameters;
-import com.millicom.mitv.http.URLParameters;
-import com.millicom.mitv.models.TVBroadcast;
-import com.millicom.mitv.models.TVChannelGuide;
-import com.millicom.mitv.models.TVProgram;
-import com.millicom.mitv.models.UserLike;
-import com.millicom.mitv.models.gson.serialization.UserLikeData;
-import com.mitv.Consts;
+import com.mitv.Constants;
+import com.mitv.enums.HTTPRequestTypeEnum;
+import com.mitv.enums.LikeTypeRequestEnum;
+import com.mitv.http.HTTPCoreResponse;
+import com.mitv.http.HeaderParameters;
+import com.mitv.http.URLParameters;
+import com.mitv.models.TVBroadcast;
+import com.mitv.models.TVChannelGuide;
+import com.mitv.models.TVProgram;
+import com.mitv.models.UserLike;
+import com.mitv.models.gson.serialization.UserLikeData;
 
 
 
@@ -105,7 +101,7 @@ public class UserLikeTestBase
 	{
 		UserLikeTestBase instance = new UserLikeTestBase();
 				
-		String url = Consts.URL_LIKES;
+		String url = Constants.URL_LIKES;
 		
 		URLParameters urlParameters = new URLParameters();
 		

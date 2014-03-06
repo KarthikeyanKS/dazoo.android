@@ -10,12 +10,10 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import android.text.TextUtils;
-
 import com.google.gson.Gson;
-import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.models.TVDate;
-import com.mitv.Consts;
+import com.mitv.Constants;
+import com.mitv.http.HTTPCoreResponse;
+import com.mitv.models.TVDate;
 
 /**
  * This class tests the fetched dates. Returns a list of date objects.
@@ -42,7 +40,7 @@ public class TVDatesGSONTest
 	public static List<TVDate> testFetchTVDates() {
 		TVDatesGSONTest instance = new TVDatesGSONTest();
 
-		String url = Consts.URL_DATES;
+		String url = Constants.URL_DATES;
 		
 	
 		HTTPCoreResponse httpCoreResponse = instance.executeRequestGet(url);

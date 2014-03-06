@@ -35,7 +35,7 @@
         android:layout_below="@id/channelpage_broadcast_image_frame"
         android:orientation="vertical" >
 
-        <com.mitv.customviews.FontTextView
+        <com.mitv.ui.elements.FontTextView
             android:id="@+id/channelpage_broadcast_details_time_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
             android:textStyle="bold"
             font:fonttextview="roboto_mitv_medium.ttf" />
 
-        <com.mitv.customviews.FontTextView
+        <com.mitv.ui.elements.FontTextView
             android:id="@+id/channelpage_broadcast_details_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
             android:textStyle="bold"
             font:fonttextview="roboto_mitv_medium.ttf" />
 
-        <com.mitv.customviews.FontTextView
+        <com.mitv.ui.elements.FontTextView
             android:id="@+id/channelpage_broadcast_timeleft"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -85,7 +85,7 @@
             android:progressDrawable="@drawable/progress_horizontal"
             android:visibility="visible" />
 
-        <com.mitv.customviews.FontTextView
+        <com.mitv.ui.elements.FontTextView
             android:id="@+id/channelpage_broadcast_details_text_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
