@@ -25,7 +25,6 @@ import com.mitv.R;
 import com.mitv.customviews.LikeView;
 import com.mitv.customviews.ReminderView;
 import com.mitv.utilities.ProgressBarUtils;
-import com.mitv.utilities.ShareUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -270,7 +269,7 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 
 		switch (viewId) {
 		case R.id.element_social_buttons_share_button_container: {
-			ShareUtils.startShareActivity(activity, activity.getResources().getString(R.string.app_name), broadcastWithChannelInfo.getShareUrl(), activity.getResources().getString(R.string.share_action_title));
+			GenericUtils.startShareActivity(activity, activity.getResources().getString(R.string.app_name), broadcastWithChannelInfo.getShareUrl(), activity.getResources().getString(R.string.share_action_title));
 			break;
 
 		}

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources tools:ignore="TypographyDashes" xmlns:tools="https://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="TypographyDashes">
 
     <!-- Being overriden by ID from configuration call -->
     <string name="ga_trackingId_mitv_hardcoded" translatable="false">UA-46899989-1</string>

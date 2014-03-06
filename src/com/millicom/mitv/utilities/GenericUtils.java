@@ -10,6 +10,7 @@ import java.util.Random;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -31,6 +32,9 @@ import com.mitv.SecondScreenApplication;
 public abstract class GenericUtils 
 {
 	private static final String TAG = GenericUtils.class.getName();
+	
+	
+	private static final String TEXT_PLAIN = "text/plain";
 	
 	
 	
@@ -58,6 +62,23 @@ public abstract class GenericUtils
             return randomNumber;
         }
     }
+	
+	
+	
+	public static void startShareActivity(
+			final Activity activity, 
+			final String subject, 
+			final String shareBody, 
+			final String title) 
+	{	
+		Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+		
+		intent.setType(TEXT_PLAIN);
+		intent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
+		intent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+		
+		activity.startActivity(Intent.createChooser(intent, title));		
+	}
 	
 
 	

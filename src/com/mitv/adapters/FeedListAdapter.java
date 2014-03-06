@@ -31,13 +31,13 @@ import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVFeedItem;
 import com.millicom.mitv.models.TVProgram;
 import com.millicom.mitv.models.UserLike;
+import com.millicom.mitv.utilities.GenericUtils;
 import com.millicom.mitv.utilities.ToastHelper;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.customviews.LikeView;
 import com.mitv.customviews.ReminderView;
 import com.mitv.utilities.ProgressBarUtils;
-import com.mitv.utilities.ShareUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -560,7 +560,7 @@ public class FeedListAdapter
 				@Override
 				public void onClick(View v)
 				{
-					ShareUtils.startShareActivity(
+					GenericUtils.startShareActivity(
 							activity, 
 							activity.getResources().getString(R.string.app_name), 
 							broadcast.getShareUrl(),

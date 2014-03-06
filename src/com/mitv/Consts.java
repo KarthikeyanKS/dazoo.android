@@ -530,7 +530,7 @@ public abstract class Consts {
 	public static final String APP_URL_FACEBOOK_GRAPH = "https://graph.facebook.com";
 	public static final String APP_URL_FACEBOOK_ME = "/me";
 	public static final String APP_URL_FACEBOOK_PICTURE_TYPE = "/picture?type=";
-	public static final String APP_URL_FACEBOOK_PICTURE_TYPE_SQUARE = "square";
+	public static final String APP_URL_FACEBOOK_PICTURE_TYPE_NORMAL = "normal";
 	public static final String APP_URL_FACEBOOK_DO_NOT_REDIRECT = "&redirect=false";
 	public static final String APP_URL_FACEBOOK_GRAPH_ME = APP_URL_FACEBOOK_GRAPH + APP_URL_FACEBOOK_ME;
 	

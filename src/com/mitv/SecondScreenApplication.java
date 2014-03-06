@@ -1,10 +1,9 @@
+
 package com.mitv;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.util.Locale;
 
+
+import java.util.Locale;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,18 +11,17 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
-import android.os.Environment;
 import android.view.Display;
 import android.view.WindowManager;
 
-import com.millicom.mitv.utilities.FileUtils;
-import com.millicom.mitv.utilities.GenericUtils;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.utils.L;
+
+
 
 public class SecondScreenApplication extends Application {
 	@SuppressWarnings("unused")

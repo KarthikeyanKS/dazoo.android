@@ -327,7 +327,7 @@ public class LoginWithFacebookActivity
 			sb.append(Consts.REQUEST_QUERY_SEPARATOR);
 			sb.append(facebookId);
 			sb.append(Consts.APP_URL_FACEBOOK_PICTURE_TYPE);
-			sb.append(Consts.APP_URL_FACEBOOK_PICTURE_TYPE_SQUARE);
+			sb.append(Consts.APP_URL_FACEBOOK_PICTURE_TYPE_NORMAL);
 			sb.append(Consts.APP_URL_FACEBOOK_DO_NOT_REDIRECT);
 			
 			aquery.ajax(sb.toString(), JSONObject.class, getFacebookPictureCallback());

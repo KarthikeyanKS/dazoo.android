@@ -13,7 +13,8 @@ import android.util.Log;
 
 import com.mitv.Consts;
 import com.mitv.SecondScreenApplication;
-import com.mitv.model.OldAppConfigurationData;
+
+
 
 public class AppConfigurationManager {
 
@@ -181,10 +182,6 @@ public class AppConfigurationManager {
 		return jsonKeyAdFormatsActivity;
 	}
 	
-	public static void store(OldAppConfigurationData appConfigData) 
-	{
-		//TODO implement me
-	} 
 	
 	public void updateConfiguration(JSONObject configurationJSONObject) {
 		if (configurationJSONObject != null) {
