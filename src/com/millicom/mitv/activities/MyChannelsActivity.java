@@ -11,7 +11,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -33,10 +32,9 @@ public class MyChannelsActivity
 	extends BaseContentActivity 
 	implements MyChannelsCountInterface, OnClickListener, TextWatcher
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = MyChannelsActivity.class.getName();
 
-	private Button getMyChannelsButton;
-	private Button addToMyChannelsButton;
 	private ListView listView;
 	private TextView channelCountTextView;
 
