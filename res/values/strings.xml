@@ -4,6 +4,7 @@
     <!-- APP ID SETTINGS -->
     <string name="app_name" translatable="false">mi.tv</string>
     <string name="app_id" translatable="false">265897563561764</string>
+    <string name="noImageContentDescription" translatable="false"></string>
     
     <string name="yes">Yes</string>
     <string name="no">No</string>
@@ -75,7 +76,7 @@
     <string name="tv_guide">TV Guide</string>
     <string name="all">All</string>
     <string name="all_categories_alias">all_categories</string>
-    <string name="all_categories_name">"All programs"</string>
+    <string name="all_categories_name">All programs</string>
     <string name="all_categories_id" translatable="false">ALL_CATEGORIES</string>
 
     <!-- CONTENT DESCRIPTION -->
@@ -256,12 +257,13 @@
     <string name="reminder_text_set_middle">15 minutes</string>
     <string name="reminder_text_set_bottom">before on air</string>
     <string name="reminder_text_set">A reminder was set 15 minutes before on air</string>
-    <string name="reminder_text_remove">"Remove the reminder for "</string>
+    <string name="reminder_text_remove">Remove the reminder for </string>
 
     <!-- LIKE SERVICE -->
-    <string name="like_set_text_row1">"The show"</string>
-    <string name="like_set_text_row2">" was added to your preferences"</string>
-    <string name="like_remove_text">"You no longer like this program? We\'ll adjust our recommendations for you."</string>
+    <string name="like_set_text_row1">The show</string>
+    <string name="like_set_text_row2"> was added to your preferences</string>
+    <string name="like_set_text"> was added to your preferences</string>
+    <string name="like_remove_text">You no longer like this program? We\'ll adjust our recommendations for you.</string>
     <string name="no_likes">You haven\'t liked anything yet. \nStart liking shows to get better recommendations.</string>
 
     <!-- ACTIVITY PAGE -->

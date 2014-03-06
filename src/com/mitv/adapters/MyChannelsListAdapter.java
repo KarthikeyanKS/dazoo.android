@@ -13,11 +13,11 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.millicom.mitv.interfaces.MyChannelsCountInterface;
 import com.millicom.mitv.models.TVChannel;
 import com.millicom.mitv.models.TVChannelId;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
-import com.mitv.interfaces.MyChannelsCountInterface;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
