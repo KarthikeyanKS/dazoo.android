@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,19 +17,13 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.millicom.mitv.ContentManager;
-import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.activities.SignUpSelectionActivity;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVProgram;
-import com.millicom.mitv.models.UserLike;
-import com.millicom.mitv.utilities.DialogHelper;
-import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.customviews.LikeView;
 import com.mitv.customviews.ReminderView;
-import com.mitv.storage.MiTVStore;
 import com.mitv.utilities.ProgressBarUtils;
 import com.mitv.utilities.ShareUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -80,7 +73,6 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 		ImageView posterIv = (ImageView) topContentView.findViewById(R.id.block_broadcastpage_poster_iv);
 		ProgressBar posterPb = (ProgressBar) topContentView.findViewById(R.id.block_broadcastpage_poster_progressbar);
 		TextView contentTitleTextView = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_details_title_tv);
-		TextView titleTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_details_episode_name_tv);
 		TextView seasonTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_details_season_tv);
 		TextView episodeTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_details_episode_tv);
 		TextView episodeNameTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_details_episode_name_tv);
@@ -134,7 +126,7 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 				episodeNameTv.setTextSize(18);
 			}
 
-			titleTv.setText(program.getTitle());
+			episodeNameTv.setText(program.getTitle());
 
 			String episodeName = program.getTitle();
 			if (episodeName.length() > 0) 
@@ -178,7 +170,7 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 			programId = broadcastWithChannelInfo.getProgram().getSportType().getSportTypeId();
 
 			contentTitleTextView.setText(contentTitle);
-			titleTv.setText(program.getTitle());
+			episodeNameTv.setText(program.getTitle());
 
 			if (program.getTournament() != null) 
 			{
