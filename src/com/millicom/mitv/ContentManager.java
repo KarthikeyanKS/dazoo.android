@@ -35,7 +35,6 @@ import com.millicom.mitv.models.UpcomingBroadcastsForBroadcast;
 import com.millicom.mitv.models.UserLike;
 import com.millicom.mitv.models.UserLoginData;
 import com.millicom.mitv.utilities.GenericUtils;
-import com.mitv.Consts;
 import com.mitv.adapters.AdListAdapter;
 
 
@@ -58,7 +57,6 @@ public class ContentManager
 	 * fetching the TV data
 	 */
 	private static final int COMPLETED_COUNT_APP_DATA_THRESHOLD = 2;
-	private int completedCountAppData = 0;
 	private boolean channelsChange = false;
 
 	/*
@@ -977,44 +975,6 @@ public class ContentManager
 			}
 		}
 	}
-
-//	private void handleTVChannelGuidesForSelectedDayResponse(ActivityCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content) 
-//	{
-//		if (result.wasSuccessful() && content != null)
-//		{
-//			TVGuideAndTaggedBroadcasts tvGuideAndTaggedBroadcasts = (TVGuideAndTaggedBroadcasts) content;
-//
-//			TVGuide tvGuide = tvGuideAndTaggedBroadcasts.getTvGuide();
-//			HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> mapTagToTaggedBroadcastForDate = tvGuideAndTaggedBroadcasts.getMapTagToTaggedBroadcastForDate();
-//			
-//			notifyFetchDataProgressListenerMessage("Fetched tv guide data");
-//			
-//			cache.addTVGuideForSelectedDay(tvGuide);
-//			cache.addTaggedBroadcastsForSelectedDay(mapTagToTaggedBroadcastForDate);
-//
-//			/*
-//			 * If the activityCallbackListener is null, then possibly the activity is already finished and there is no need to notify on the result.
-//			 */
-//			if(activityCallbackListener != null) 
-//			{
-//				activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, requestIdentifier);
-//			}
-//			else 
-//			{
-//				Log.w(TAG, "Activity callback is null.");
-//			}
-//		} 
-//		else 
-//		{
-//			/*
-//			 * If the activityCallbackListener is null, then possibly the activity is already finished and there is no need to notify on the result.
-//			 */
-//			if(activityCallbackListener != null) {
-//				activityCallbackListener.onResult(result, requestIdentifier);
-//			}
-//		}
-//	}
-	
 	
 	public void handleTVBroadcastsPopularBroadcastsResponse(ActivityCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content)
 	{
