@@ -342,7 +342,7 @@ public class TVBroadcast
 		
 		Calendar now = Calendar.getInstance();
 
-		int daysLeft = DateUtils.calculateDifferenceBetween(getBeginTimeCalendarLocal(), now, Calendar.DAY_OF_MONTH, false, 0);
+		int daysLeft = DateUtils.calculateDifferenceBetween(now, getBeginTimeCalendarLocal(), Calendar.DAY_OF_MONTH, false, 0);
 
 		if(daysLeft > 0)
 		{
@@ -354,7 +354,7 @@ public class TVBroadcast
 		} 
 		else 
 		{
-			int hoursLeft = DateUtils.calculateDifferenceBetween(getBeginTimeCalendarLocal(), now, Calendar.HOUR_OF_DAY, false, 0);
+			int hoursLeft = DateUtils.calculateDifferenceBetween(now, getBeginTimeCalendarLocal(), Calendar.HOUR_OF_DAY, false, 0);
 
 			if(hoursLeft > 0) 
 			{
@@ -366,7 +366,7 @@ public class TVBroadcast
 			} 
 			else 
 			{
-				int minutesLeft = DateUtils.calculateDifferenceBetween(getBeginTimeCalendarLocal(), now, Calendar.MINUTE, false, 0);
+				int minutesLeft = DateUtils.calculateDifferenceBetween(now, getBeginTimeCalendarLocal(), Calendar.MINUTE, false, 0);
 
 				if(minutesLeft > 0) 
 				{

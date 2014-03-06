@@ -15,6 +15,7 @@ import com.google.gson.annotations.Expose;
 import com.mitv.Constants;
 import com.mitv.enums.ContentTypeEnum;
 import com.mitv.interfaces.GSONDataFieldValidation;
+import com.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.models.TVChannel;
 import com.mitv.models.TVProgram;
 import com.mitv.models.TVSearchResult;
@@ -74,6 +75,13 @@ public class TVSearchResultJSON implements GSONDataFieldValidation, JsonDeserial
 		gsonDependingOnType = gsonBuilderDependingOnType.create();
 		entityDependingOnType = gsonDependingOnType.fromJson(jsonElementEntity, TVSearchResultEntity.class);
 		searchResult.entity = entityDependingOnType;
+		
+		/* This is sort of an ugly fix to fix the fact that backend returns broadcasts without program data, if search result was of type program */
+		if(entityTypeEnum == ContentTypeEnum.PROGRAM) {
+			for(TVBroadcastWithChannelInfo broadcast : entityDependingOnType.getBroadcasts()) {
+				broadcast.setProgram(entityDependingOnType.getProgram());
+			}
+		}
 
 		return searchResult;
 	}
