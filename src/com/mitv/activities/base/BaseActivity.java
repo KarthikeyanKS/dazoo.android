@@ -32,7 +32,6 @@ import com.mitv.activities.SearchPageActivity;
 import com.mitv.activities.UserProfileActivity;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.enums.TabSelectedEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ActivityCallbackListener;
 import com.mitv.ui.helpers.ToastHelper;
@@ -64,13 +63,9 @@ public abstract class BaseActivity
 	private View requestBadLayout;
 	protected ActionBar actionBar;
 
-	private static TabSelectedEnum tabSelectedEnum = TabSelectedEnum.NOT_SET;
-
 	private boolean userHasJustLoggedIn;
 	private boolean userHasJustLoggedOut;
 	
-	
-
 	/* Abstract Methods */
 
 	/* This method implementation should update the user interface according to the received status */
@@ -82,7 +77,6 @@ public abstract class BaseActivity
 	/* This method implementation should deal with changes after the data has been fetched */
 	protected abstract void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier);
 
-	
 	
 	@Override
 	protected void onCreate(android.os.Bundle savedInstanceState) 
@@ -102,17 +96,17 @@ public abstract class BaseActivity
 		GATrackingManager.sendView(className);
 
 		initCallbackLayouts();
-		
-		/* IMPORTANT add activity to activity stack */
-		pushActivityToStack(this);
 	}
 	
-	
+
 	
 	@Override
 	protected void onResume() 
 	{
 		super.onResume();
+
+		/* IMPORTANT add activity to activity stack */
+		pushActivityToStack(this);
 
 		setTabViews();
 
@@ -172,85 +166,106 @@ public abstract class BaseActivity
 		}
 	}
 	
+
 	
+	private static void pushActivityToStack(Activity activity) {
+		/* If activity is tab activity, move it to the top */
+		if (isTabActivity(activity)) 
+		{
+			removeFromStack(activity);
+		}
+		activityStack.push(activity);
+		
+		printActivityStack();
+	};
 	
-	private static void pushActivityToStack(Activity activity)
-	{
-		if (activity instanceof HomeActivity || activity instanceof FeedActivity || activity instanceof UserProfileActivity)
-		{
-			if(activityStack.contains(activity))
-			{
-				activityStack.remove(activity);
-			}
-			
-			int mostRecentTabActivityIndex = getMostRecentTabActivityIndex();
-
-			int indexToInsert = mostRecentTabActivityIndex+1;
-
-			activityStack.insertElementAt(activity, indexToInsert);
-
-		}
-		else
-		{
-			activityStack.push(activity);
-		}
+	/* Used for debugging only */
+	private static void printActivityStack() {
+		Log.d(TAG, ".");
+		Log.d(TAG, ".");
+		Log.d(TAG, "---<<<*** ActivityStack ***>>>---");
+		for (int i = activityStack.size() - 1; i >= 0; --i) {
+            Activity activityInStack = activityStack.get(i);
+            Log.d(TAG, activityInStack.getClass().getSimpleName());
+        }
 	}
-	
 	
 	
 	/* Remove activity from activitStack */
-	private static void popActivityFromStackIfTopOfStack(Activity activity) 
+	private static void removeFromStack(Activity activity) 
 	{
-		Activity activityInTopOfStack = null;
-		if(!activityStack.isEmpty()) {
-			activityInTopOfStack = activityStack.peek();
-			
-			if(activityInTopOfStack == activity)
-			{
-				/* We are in the top of the stack, remove us from the stack */
-				activityStack.pop();
-			}
-		}
-	}
-	
-
-	
-	public static Activity getMostRecentTabActivity() 
-	{
-		int mostRecentTabActivityIndex = getMostRecentTabActivityIndex();
-		
-		Activity mostRecentTabActivity = null;
-		
-		if(mostRecentTabActivityIndex >= 0 && mostRecentTabActivityIndex < activityStack.size())
+		if(activityStack.contains(activity))
 		{
-			mostRecentTabActivity = activityStack.get(mostRecentTabActivityIndex);
+			activityStack.remove(activity);
 		}
-
-		return mostRecentTabActivity;
 	}
 	
+
+	
+//	public static Activity getMostRecentTabActivity() 
+//	{
+//		int mostRecentTabActivityIndex = getMostRecentTabActivityIndex();
+//		
+//		Activity mostRecentTabActivity = null;
+//		
+//		if(mostRecentTabActivityIndex >= 0 && mostRecentTabActivityIndex < activityStack.size())
+//		{
+//			mostRecentTabActivity = activityStack.get(mostRecentTabActivityIndex);
+//		}
+//
+//		return mostRecentTabActivity;
+//	}
+	
+	 public static Activity getMostRecentTabActivity() {
+	        Activity mostRecentTabActivity = null;
+
+	        /* Iterate through stack, start at top of stack */
+	        for (int i = activityStack.size() - 1; i >= 0; --i) {
+	            Activity activityInStack = activityStack.get(i);
+
+	            /* Check if activityInStack is any of the three TabActivities */
+	            if (isTabActivity(activityInStack))  
+	            {
+	                mostRecentTabActivity = activityInStack;
+	                break;
+	            }
+	        }
+
+	        return mostRecentTabActivity;
+	    }
 	
 	
-	private static int getMostRecentTabActivityIndex() 
-	{
-		int mostRecentTabActivityIndex = -1;
-
-		/* Iterate through stack, start at top of stack */
-		for (int i = activityStack.size() - 1; i >= 0; --i) 
-		{
-			Activity activityInStack = activityStack.get(i);
-
-			/* Check if activityInStack is any of the three TabActivities */
-			if (activityInStack instanceof HomeActivity || activityInStack instanceof FeedActivity || activityInStack instanceof UserProfileActivity) 
-			{
-				mostRecentTabActivityIndex = i;
-				break;
-			}
-		}
-
-		return mostRecentTabActivityIndex;
+	
+//	private static int getMostRecentTabActivityIndex() 
+//	{
+//		int mostRecentTabActivityIndex = -1;
+//
+//		/* Iterate through stack, start at top of stack */
+//		for (int i = activityStack.size() - 1; i >= 0; --i) 
+//		{
+//			Activity activityInStack = activityStack.get(i);
+//
+//			/* Check if activityInStack is any of the three TabActivities */
+//			if (isTabActivity(activityInStack)) 
+//			{
+//				mostRecentTabActivityIndex = i;
+//				break;
+//			}
+//		}
+//
+//		return mostRecentTabActivityIndex;
+//	}
+	
+	private boolean thisIsTabActivity() {
+		return isTabActivity(this);
 	}
 	
+	private static boolean isTabActivity(Activity activity) {
+		boolean isTabActivity = (activity instanceof HomeActivity || 
+				activity instanceof FeedActivity || 
+				activity instanceof UserProfileActivity);
+		return isTabActivity;
+	}
 
 	
 	public void setTabViews() 
@@ -290,28 +305,7 @@ public abstract class BaseActivity
 			tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
 		}
 
-		switch (tabSelectedEnum) 
-		{
-			case TV_GUIDE: 
-			{
-				setSelectedTabAsTVGuide();
-				break;
-			}
-	
-			case ACTIVITY_FEED: 
-			{
-				setSelectedTabAsActivityFeed();
-				break;
-			}
-	
-			case MY_PROFILE: 
-			{
-				setSelectedTabAsUserProfile();
-				break;
-			}
-	
-			case NOT_SET:
-			{
+
 				Activity mostRecentTabActivity = getMostRecentTabActivity();
 				
 				if (mostRecentTabActivity instanceof HomeActivity) 
@@ -330,19 +324,11 @@ public abstract class BaseActivity
 				{
 					Log.w(TAG, "Unknown activity tab");
 				}
-				break;
-			}
-	
-			default: 
-			{
-				Log.w(TAG, "Unknown tab selected");
-			}
-		}
 	}
 	
 	
 
-	private void setSelectedTabAsTVGuide() 
+	protected void setSelectedTabAsTVGuide() 
 	{
 		if (tabTvGuide != null) 
 		{
@@ -362,7 +348,7 @@ public abstract class BaseActivity
 
 	
 	
-	private void setSelectedTabAsActivityFeed()
+	protected void setSelectedTabAsActivityFeed()
 	{
 		if (tabTvGuide != null) 
 		{
@@ -382,7 +368,7 @@ public abstract class BaseActivity
 
 	
 	
-	private void setSelectedTabAsUserProfile() 
+	protected void setSelectedTabAsUserProfile() 
 	{
 		if (tabTvGuide != null) 
 		{
@@ -407,15 +393,17 @@ public abstract class BaseActivity
 	{
 		int id = v.getId();
 
+		boolean changedTab = false;
+		
 		switch (id) 
 		{
 			case R.id.tab_tv_guide: 
 			{
 				if (!(this instanceof HomeActivity)) 
 				{
-					tabSelectedEnum = TabSelectedEnum.TV_GUIDE;
 					Intent intentActivity = new Intent(this, HomeActivity.class);
 					startActivity(intentActivity);
+					changedTab = true;
 				}
 				break;
 			}
@@ -424,9 +412,9 @@ public abstract class BaseActivity
 			{
 				if (!(this instanceof FeedActivity))
 				{
-					tabSelectedEnum = TabSelectedEnum.ACTIVITY_FEED;
 					Intent intentActivity = new Intent(this, FeedActivity.class);
 					startActivity(intentActivity);
+					changedTab = true;
 				}
 				break;
 			}
@@ -435,9 +423,9 @@ public abstract class BaseActivity
 			{
 				if (!(this instanceof UserProfileActivity))
 				{
-					tabSelectedEnum = TabSelectedEnum.MY_PROFILE;
 					Intent intentMe = new Intent(this, UserProfileActivity.class);
 					startActivity(intentMe);
+					changedTab = true;
 				}
 				break;
 			}
@@ -461,6 +449,11 @@ public abstract class BaseActivity
 			{
 				Log.w(TAG, "Unknown tab selected");
 			}
+		}
+		
+		/* If we changed tabs, and the activity we came from (this) was not a tabActivity (i.e. this is an instance of BroadcastPage or ChannelPage etc) then finish the activity! */
+		if(!thisIsTabActivity() && changedTab) {
+			this.finish();
 		}
 	}
 
@@ -545,7 +538,7 @@ public abstract class BaseActivity
 	{
 		super.onBackPressed();
 
-		popActivityFromStackIfTopOfStack(this);
+		removeFromStack(this);
 	}
 	
 	
@@ -553,7 +546,7 @@ public abstract class BaseActivity
 	@Override
 	protected void onDestroy() 
 	{
-		popActivityFromStackIfTopOfStack(this);
+		removeFromStack(this);
 	
 		super.onDestroy();
 	}

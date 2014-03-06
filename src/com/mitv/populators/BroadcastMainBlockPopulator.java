@@ -73,7 +73,6 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 		ImageView posterIv = (ImageView) topContentView.findViewById(R.id.block_broadcastpage_poster_iv);
 		ProgressBar posterPb = (ProgressBar) topContentView.findViewById(R.id.block_broadcastpage_poster_progressbar);
 		TextView contentTitleTextView = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_details_title_tv);
-		TextView titleTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_details_episode_name_tv);
 		TextView seasonTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_details_season_tv);
 		TextView episodeTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_details_episode_tv);
 		TextView episodeNameTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_details_episode_name_tv);
@@ -127,7 +126,7 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 				episodeNameTv.setTextSize(18);
 			}
 
-			titleTv.setText(program.getTitle());
+			episodeNameTv.setText(program.getTitle());
 
 			String episodeName = program.getTitle();
 			if (episodeName.length() > 0) 
@@ -171,7 +170,7 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 			programId = broadcastWithChannelInfo.getProgram().getSportType().getSportTypeId();
 
 			contentTitleTextView.setText(contentTitle);
-			titleTv.setText(program.getTitle());
+			episodeNameTv.setText(program.getTitle());
 
 			if (program.getTournament() != null) 
 			{
