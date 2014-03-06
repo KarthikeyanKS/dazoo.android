@@ -17,7 +17,7 @@
 
     <!-- android:thumb="@drawable/ic_timebar_active_gradient" -->
 
-    <com.mitv.customviews.VerticalSeekBar
+    <com.mitv.ui.elements.VerticalSeekBar
         android:id="@+id/timebar_seekbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

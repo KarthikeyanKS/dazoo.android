@@ -27,7 +27,7 @@
         android:textColor="@color/black"
         android:textSize="14sp" />
 
-    <com.mitv.customviews.FontTextButton
+    <com.mitv.ui.elements.FontButton
         android:id="@+id/content_failed_reload_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -11,14 +11,14 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.millicom.mitv.enums.ProgramTypeEnum;
-import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.models.TVBroadcast;
-import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
-import com.millicom.mitv.models.TVChannel;
-import com.millicom.mitv.models.TVChannelGuide;
-import com.millicom.mitv.models.TVProgram;
-import com.mitv.Consts;
+import com.mitv.Constants;
+import com.mitv.enums.ProgramTypeEnum;
+import com.mitv.http.HTTPCoreResponse;
+import com.mitv.models.TVBroadcast;
+import com.mitv.models.TVBroadcastWithChannelInfo;
+import com.mitv.models.TVChannel;
+import com.mitv.models.TVChannelGuide;
+import com.mitv.models.TVProgram;
 
 /**
  * This class tests the fetched upcoming broadcasts from series. Returns a list of fields from broadcast, channel object and program object.
@@ -43,9 +43,9 @@ public class TVSeriesUpcomingBroadcastGSONTest extends TestBaseWithGuide {
 		if (seriesId != null) {
 
 			StringBuilder sb = new StringBuilder();
-			sb.append(Consts.URL_SERIES);
+			sb.append(Constants.URL_SERIES);
 			sb.append(seriesId);
-			sb.append(Consts.API_UPCOMING_BROADCASTS);
+			sb.append(Constants.API_UPCOMING_BROADCASTS);
 			String url = sb.toString();
 
 			HTTPCoreResponse httpCoreResponse = executeRequestGet(url);

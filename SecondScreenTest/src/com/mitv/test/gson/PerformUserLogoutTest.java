@@ -7,13 +7,13 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import com.millicom.mitv.enums.FetchRequestResultEnum;
-import com.millicom.mitv.enums.HTTPRequestTypeEnum;
-import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.http.HeaderParameters;
-import com.millicom.mitv.http.URLParameters;
-import com.millicom.mitv.models.UserLoginData;
-import com.mitv.Consts;
+import com.mitv.Constants;
+import com.mitv.enums.FetchRequestResultEnum;
+import com.mitv.enums.HTTPRequestTypeEnum;
+import com.mitv.http.HTTPCoreResponse;
+import com.mitv.http.HeaderParameters;
+import com.mitv.http.URLParameters;
+import com.mitv.models.UserLoginData;
 
 
 
@@ -57,7 +57,7 @@ public class PerformUserLogoutTest
 		PerformUserLogoutTest instance = new PerformUserLogoutTest();
 		
 		StringBuilder url = new StringBuilder();
-		url.append(Consts.URL_AUTH_TOKENS);
+		url.append(Constants.URL_AUTH_TOKENS);
 		url.append(token);
 		
 		URLParameters urlParameters = new URLParameters();

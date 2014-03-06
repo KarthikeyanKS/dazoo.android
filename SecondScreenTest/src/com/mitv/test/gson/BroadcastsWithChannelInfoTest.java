@@ -4,23 +4,15 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.millicom.mitv.enums.ProgramTypeEnum;
-import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.models.ImageSetOrientation;
-import com.millicom.mitv.models.TVBroadcast;
-import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
-import com.millicom.mitv.models.TVChannel;
-import com.millicom.mitv.models.TVChannelGuide;
-import com.millicom.mitv.models.TVCredit;
-import com.millicom.mitv.models.TVProgram;
-import com.millicom.mitv.models.TVSeries;
-import com.millicom.mitv.models.TVSeriesSeason;
-import com.mitv.Consts;
+import com.mitv.Constants;
+import com.mitv.http.HTTPCoreResponse;
+import com.mitv.models.TVBroadcast;
+import com.mitv.models.TVBroadcastWithChannelInfo;
+import com.mitv.models.TVChannelGuide;
 
 
 /**
@@ -48,11 +40,11 @@ public class BroadcastsWithChannelInfoTest
 		Long beginTimeMillis = broadcast.getBeginTimeMillis();
 		
 		StringBuilder sb = new StringBuilder();
-		sb.append(Consts.URL_CHANNELS_ALL);
-		sb.append(Consts.REQUEST_QUERY_SEPARATOR);
+		sb.append(Constants.URL_CHANNELS_ALL);
+		sb.append(Constants.REQUEST_QUERY_SEPARATOR);
 		sb.append(channelId);
-		sb.append(Consts.API_BROADCASTS);
-		sb.append(Consts.REQUEST_QUERY_SEPARATOR);
+		sb.append(Constants.API_BROADCASTS);
+		sb.append(Constants.REQUEST_QUERY_SEPARATOR);
 		sb.append(beginTimeMillis);
 		String url = sb.toString();
 		

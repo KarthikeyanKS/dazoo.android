@@ -13,10 +13,10 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
-import com.millicom.mitv.enums.HTTPRequestTypeEnum;
-import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.models.AppConfiguration;
-import com.mitv.Consts;
+import com.mitv.Constants;
+import com.mitv.enums.HTTPRequestTypeEnum;
+import com.mitv.http.HTTPCoreResponse;
+import com.mitv.models.AppConfiguration;
 
 
 
@@ -35,7 +35,7 @@ public class AppConfigurationTest
 	{
 		super.setUp();
 		
-		String url = Consts.URL_CONFIGURATION;
+		String url = Constants.URL_CONFIGURATION;
 		
 		HTTPCoreResponse httpCoreResponse = executeRequest(HTTPRequestTypeEnum.HTTP_GET, url);
 		

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:id="@+id/tvguide_table_container"
@@ -24,7 +25,7 @@
             android:paddingRight="4dp"
             android:scrollbars="none" />
         
-       <com.mitv.customviews.FontTextView
+       <com.mitv.ui.elements.FontTextView
         android:id="@+id/timebar_selected_hour_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,7 +36,7 @@
         android:textSize="40sp"
         font:fonttextview="roboto_mitv_medium.ttf" />
 
-        <com.mitv.customviews.SwipeClockBar
+        <com.mitv.ui.elements.SwipeClockBar
             android:id="@+id/tvguide_swype_clock_bar"
             android:layout_width="30dp"
             android:layout_height="match_parent"

@@ -3,7 +3,6 @@
     android:id="@+id/channelpage_channel_icon_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
     android:orientation="vertical" >
 
     <ImageView

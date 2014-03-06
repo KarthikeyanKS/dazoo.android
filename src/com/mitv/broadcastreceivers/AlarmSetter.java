@@ -9,10 +9,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
-import com.millicom.mitv.models.sql.NotificationDataSource;
-import com.millicom.mitv.models.sql.NotificationSQLElement;
-import com.millicom.mitv.utilities.NotificationHelper;
+import com.mitv.models.TVBroadcastWithChannelInfo;
+import com.mitv.models.sql.NotificationDataSource;
+import com.mitv.models.sql.NotificationSQLElement;
+import com.mitv.ui.helpers.NotificationHelper;
 
 
 

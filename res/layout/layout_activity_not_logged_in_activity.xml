@@ -35,7 +35,7 @@
 
             <!-- TITLES -->
 
-            <com.mitv.customviews.FontTextView
+            <com.mitv.ui.elements.FontTextView
                 android:id="@+id/activity_not_logged_in_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
                 android:textStyle="bold"
                 font:fonttextview="roboto_mitv_bold.ttf" />
 
-            <com.mitv.customviews.FontTextView
+            <com.mitv.ui.elements.FontTextView
                 android:id="@+id/activity_not_logged_in_title_details"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
 	                    android:orientation="horizontal" 
 	                    android:layout_centerInParent="true">
 	                    
-                        <com.mitv.customviews.FontTextView
+                        <com.mitv.ui.elements.FontTextView
 	                        android:id="@+id/activity_not_logged_in_signin_facebook_icon"
 	                        android:layout_width="wrap_content"
 	                        android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
 	                        android:textSize="34sp"
 	                		font:fonttextview="roboto_mitv_bold.ttf"/>
 
-	                    <com.mitv.customviews.FontTextView
+	                    <com.mitv.ui.elements.FontTextView
 	                        android:id="@+id/activity_not_logged_in_signin_facebook_tv"
 	                        android:layout_width="wrap_content"
 	                        android:layout_height="wrap_content"
@@ -138,7 +138,7 @@
                         android:layout_centerVertical="true"
                         android:background="@color/grey1" />
 
-                    <com.mitv.customviews.FontTextView
+                    <com.mitv.ui.elements.FontTextView
                         android:id="@+id/signin_or_textview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -164,7 +164,7 @@
                     android:padding="10dp"
                     android:minHeight="50dp" >
 
-                    <com.mitv.customviews.FontTextView
+                    <com.mitv.ui.elements.FontTextView
                         android:id="@+id/activity_not_logged_in_signup_email_title_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -196,7 +196,7 @@
                     android:layout_below="@id/activity_not_logged_in_divider"
                     android:orientation="vertical" >
 
-                    <com.mitv.customviews.FontTextView
+                    <com.mitv.ui.elements.FontTextView
                         android:id="@+id/activity_not_logged_in_already_registered_text_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -208,7 +208,7 @@
                         android:textStyle="bold"
                 		font:fonttextview="roboto_mitv_bold.ttf" />
 
-                    <com.mitv.customviews.FontButton
+                    <com.mitv.ui.elements.FontButton
                         android:id="@+id/activity_not_logged_in_login_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

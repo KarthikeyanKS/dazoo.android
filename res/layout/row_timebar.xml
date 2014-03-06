@@ -6,7 +6,7 @@
     android:background="@color/transparent"
     android:orientation="vertical" >
 
-    <com.mitv.customviews.FontTextView
+    <com.mitv.ui.elements.FontTextView
         android:id="@+id/row_timebar_textview"	
         android:layout_width="match_parent"
         android:layout_height="match_parent"

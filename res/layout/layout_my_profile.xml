@@ -45,7 +45,7 @@
                         android:baselineAligned="false"
                         android:orientation="vertical" >
 
-                        <com.mitv.customviews.FontTextView
+                        <com.mitv.ui.elements.FontTextView
                             android:id="@+id/myprofile_have_an_account"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
                             android:textSize="18sp"
                             font:fonttextview="roboto_mitv_bold.ttf" />
 
-                        <com.mitv.customviews.FontTextView
+                        <com.mitv.ui.elements.FontTextView
                             android:id="@+id/myprofile_signup_info"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -85,7 +85,7 @@
                             android:background="@drawable/background_color_selector_signup_login_box"
                             android:orientation="horizontal" >
 
-                            <com.mitv.customviews.FontTextView
+                            <com.mitv.ui.elements.FontTextView
                                 android:id="@+id/myprofile_signup_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -106,7 +106,7 @@
                             android:background="@drawable/background_color_selector_login_link"
                             android:orientation="horizontal" >
 
-                            <com.mitv.customviews.FontTextView
+                            <com.mitv.ui.elements.FontTextView
                                 android:id="@+id/myprofile_login_container_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -139,7 +139,7 @@
                         android:layout_marginRight="20dp"
                         android:src="@color/red" />
 
-                    <com.mitv.customviews.FontTextView
+                    <com.mitv.ui.elements.FontTextView
                         android:id="@+id/myprofile_logged_in_as"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -151,7 +151,7 @@
                         android:textSize="14sp"
                         font:fonttextview="roboto_mitv_light.ttf" />
 
-                    <com.mitv.customviews.FontTextView
+                    <com.mitv.ui.elements.FontTextView
                         android:id="@+id/myprofile_name_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -179,7 +179,7 @@
                 android:orientation="horizontal"
                 android:padding="10dp" >
 
-                <com.mitv.customviews.FontTextView
+                <com.mitv.ui.elements.FontTextView
                     android:id="@+id/myprofile_likes_icon_tv"
                     android:layout_width="@dimen/myprofile_items_width_of_logo"
                     android:layout_height="wrap_content"
@@ -191,7 +191,7 @@
                     android:textSize="26sp"
                     font:fonttextview="roboto_mitv_medium.ttf" />
 
-                <com.mitv.customviews.FontTextView
+                <com.mitv.ui.elements.FontTextView
                     android:id="@+id/myprofile_likes_title_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -201,7 +201,7 @@
                     android:textSize="18sp"
                     font:fonttextview="roboto_mitv_bold.ttf" />
 
-                <com.mitv.customviews.FontTextView
+                <com.mitv.ui.elements.FontTextView
                     android:id="@+id/myprofile_likes_count_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -224,7 +224,7 @@
                 android:orientation="horizontal"
                 android:padding="10dp" >
 
-                <com.mitv.customviews.FontTextView
+                <com.mitv.ui.elements.FontTextView
                     android:id="@+id/myprofile_channels_icon_tv"
                     android:layout_width="@dimen/myprofile_items_width_of_logo"
                     android:layout_height="wrap_content"
@@ -236,7 +236,7 @@
                     android:textSize="26sp"
                     font:fonttextview="roboto_mitv_medium.ttf" />
 
-                <com.mitv.customviews.FontTextView
+                <com.mitv.ui.elements.FontTextView
                     android:id="@+id/myprofile_channels_title_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -246,7 +246,7 @@
                     android:textSize="18sp"
                     font:fonttextview="roboto_mitv_bold.ttf" />
 
-                <com.mitv.customviews.FontTextView
+                <com.mitv.ui.elements.FontTextView
                     android:id="@+id/myprofile_channels_count_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -269,7 +269,7 @@
                 android:orientation="horizontal"
                 android:padding="10dp" >
 
-                <com.mitv.customviews.FontTextView
+                <com.mitv.ui.elements.FontTextView
                     android:id="@+id/myprofile_reminders_icon_tv"
                     android:layout_width="@dimen/myprofile_items_width_of_logo"
                     android:layout_height="wrap_content"
@@ -281,7 +281,7 @@
                     android:textSize="26sp"
                     font:fonttextview="roboto_mitv_medium.ttf" />
 
-                <com.mitv.customviews.FontTextView
+                <com.mitv.ui.elements.FontTextView
                     android:id="@+id/myprofile_reminders_title_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -291,7 +291,7 @@
                     android:textSize="18sp"
                     font:fonttextview="roboto_mitv_bold.ttf" />
 
-                <com.mitv.customviews.FontTextView
+                <com.mitv.ui.elements.FontTextView
                     android:id="@+id/myprofile_reminders_count_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -318,7 +318,7 @@
                     android:layout_centerVertical="true"
                     android:background="@color/grey2" />
 
-                <com.mitv.customviews.FontTextView
+                <com.mitv.ui.elements.FontTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -346,7 +346,7 @@
                 android:orientation="horizontal"
                 android:padding="10dp" >
 
-                <com.mitv.customviews.FontTextView
+                <com.mitv.ui.elements.FontTextView
                     android:id="@+id/myprofile_about_us_title_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -370,7 +370,7 @@
                 android:orientation="horizontal"
                 android:padding="10dp" >
 
-                <com.mitv.customviews.FontTextView
+                <com.mitv.ui.elements.FontTextView
                     android:id="@+id/myprofile_terms_of_use_title_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -390,7 +390,7 @@
                 android:background="@drawable/background_color_selector_logout_box"
                 android:orientation="horizontal" >
 
-                <com.mitv.customviews.FontTextView
+                <com.mitv.ui.elements.FontTextView
                     android:id="@+id/myprofile_logout_container_text"
                     android:layout_width="wrap_content"
                 	android:padding="10dp"

@@ -15,14 +15,14 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.millicom.mitv.enums.FetchRequestResultEnum;
-import com.millicom.mitv.enums.HTTPRequestTypeEnum;
-import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.http.HeaderParameters;
-import com.millicom.mitv.http.URLParameters;
-import com.millicom.mitv.models.UserLike;
-import com.millicom.mitv.models.UserLoginData;
-import com.mitv.Consts;
+import com.mitv.Constants;
+import com.mitv.enums.FetchRequestResultEnum;
+import com.mitv.enums.HTTPRequestTypeEnum;
+import com.mitv.http.HTTPCoreResponse;
+import com.mitv.http.HeaderParameters;
+import com.mitv.http.URLParameters;
+import com.mitv.models.UserLike;
+import com.mitv.models.UserLoginData;
 
 
 
@@ -94,7 +94,7 @@ public class GetUserLikesGSONTest
 		
 		List<UserLike> receivedData;
 		
-		String url = Consts.URL_LIKES_WITH_UPCOMING;
+		String url = Constants.URL_LIKES_WITH_UPCOMING;
 		
 		URLParameters urlParameters = new URLParameters();
 		

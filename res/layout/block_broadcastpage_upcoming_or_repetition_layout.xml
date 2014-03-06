@@ -14,7 +14,7 @@
         android:background="@color/white"
         android:orientation="vertical" >
 
-        <com.mitv.customviews.FontTextView
+        <com.mitv.ui.elements.FontTextView
             android:id="@+id/block_tripple_broadcast_title_textview"
             style="@style/headercard2"
             android:layout_width="match_parent"
@@ -78,7 +78,7 @@
             android:background="@color/grey1"
             android:visibility="gone" />
 
-        <com.mitv.customviews.FontTextView
+        <com.mitv.ui.elements.FontTextView
             android:id="@+id/block_tripple_broadcast_more_textview"
             style="@style/meta1"
             android:layout_width="match_parent"
