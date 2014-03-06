@@ -195,26 +195,10 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 
 		TVSearchResult result = (TVSearchResult) adapterView.getItemAtPosition(position);
 
-		if (result.getEntityType() != ContentTypeEnum.CHANNEL) {
-			// open the detail view for the individual broadcast
-			Intent intent = new Intent(SearchPageActivity.this, BroadcastPageActivity.class);
-			intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, this.getClass().getName());
+		ContentTypeEnum resultResultType = result.getEntityType();
 
-			// we take one position less as we have a header view
-			int adjustedPosition = position - 1;
-			if (adjustedPosition < 0) {
-				/* Don't allow negative values */
-				adjustedPosition = 0;
-			}
-
-			TVBroadcastWithChannelInfo nextBroadcast = result.getNextBroadcast();
-			if (nextBroadcast != null) {
-				ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(nextBroadcast);
-				startActivity(intent);
-			} else {
-				Toast.makeText(this, "No upcoming broadcast", Toast.LENGTH_SHORT).show();
-			}
-		} else {
+		switch (resultResultType) {
+		case CHANNEL: {
 			TVChannelId channelId = result.getEntity().getChannel().getChannelId();
 			Intent intent;
 			if (ContentManager.sharedInstance().isContainedInUsedChannelIds(channelId)) {
@@ -228,6 +212,21 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 				}
 			}
 			startActivity(intent);
+			break;
+		}
+		default: {
+			/* Open the detail view for the individual broadcast */
+			TVBroadcastWithChannelInfo nextBroadcast = result.getNextBroadcast();
+			if (nextBroadcast != null) {
+				Intent intent = new Intent(SearchPageActivity.this, BroadcastPageActivity.class);
+				intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, this.getClass().getName());
+				ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(nextBroadcast);
+				startActivity(intent);
+			} else {
+				Toast.makeText(this, "No upcoming broadcast", Toast.LENGTH_SHORT).show();
+			}
+			break;
+		}
 		}
 	}
 
