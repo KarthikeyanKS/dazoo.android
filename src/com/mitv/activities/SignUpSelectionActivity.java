@@ -98,6 +98,10 @@ public class SignUpSelectionActivity
 			{
 				Intent intent = new Intent(SignUpSelectionActivity.this, LoginWithFacebookActivity.class);
 				
+				if(intent.hasExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME)) {
+					intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, getReturnActivity().getName());
+				}
+				
 				startActivity(intent);
 				
 				finish();

@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
+import android.preference.PreferenceManager.OnActivityResultListener;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextPaint;
@@ -305,12 +306,30 @@ public class TVGuideListAdapter
 
 				/* WHEN NOT LOGGED IN */
 				} else {
-					DialogHelper.showPromptSignInDialog(activity, null, null);
+					DialogHelper.showPromptSignInDialog(activity, yesSigninOrSignUpBlock(), noSignInOrSignUpBlock());
 				}
 			}
 		});
 		
 		return rowView;
+	}
+	
+	public Runnable yesSigninOrSignUpBlock() {
+		return new Runnable() {
+			public void run() {
+				Intent intent = new Intent(activity, UserProfileActivity.class);
+				Log.d("mmm", "This activity: " + MyChannelsActivity.class.getName());
+				intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, MyChannelsActivity.class.getName());
+				activity.startActivity(intent);
+			}
+		};
+	}
+
+	public Runnable noSignInOrSignUpBlock() {
+		return new Runnable() {
+			public void run() {
+			}
+		};
 	}
 	
 

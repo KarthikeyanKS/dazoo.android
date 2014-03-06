@@ -61,6 +61,7 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 	private boolean userHasJustLoggedOut;
 
 	private Class<?> returnActivity;
+	boolean test;
 
 	/* Abstract Methods */
 
@@ -151,6 +152,7 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 		}
 
 		/* If return activity was specified set it! */
+		test = intent.hasExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME);
 		if (intent.hasExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME)) {
 			String returnActivityClassName = intent.getExtras().getString(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME);
 			try {
@@ -158,13 +160,16 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 			} catch (Exception e) {
 				Log.e(TAG, e.getMessage(), e);
 
-				returnActivity = UpcomingEpisodesPageActivity.class;
+				returnActivity = HomeActivity.class;
 			}
 		} else {
-			returnActivity = UpcomingEpisodesPageActivity.class;
+			returnActivity = HomeActivity.class;
 		}
 	}
 	
+	public Class<?> getReturnActivity() {
+        return returnActivity;
+    }
 
 	
 	private static void pushActivityToStack(Activity activity) {
