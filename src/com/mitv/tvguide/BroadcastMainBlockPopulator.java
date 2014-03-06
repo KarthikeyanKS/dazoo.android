@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -52,7 +53,6 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 	private String contentTitle;
 
 
-
 	public BroadcastMainBlockPopulator(Activity activity, ScrollView scrollView)
 	{
 		this.activity = activity;
@@ -79,7 +79,8 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 		View topContentView = LayoutInflater.from(activity).inflate(R.layout.block_broadcastpage_main_content, null);
 		ImageView posterIv = (ImageView) topContentView.findViewById(R.id.block_broadcastpage_poster_iv);
 		ProgressBar posterPb = (ProgressBar) topContentView.findViewById(R.id.block_broadcastpage_poster_progressbar);
-		TextView titleTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_details_title_tv);
+		TextView contentTitleTextView = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_details_title_tv);
+		TextView titleTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_details_episode_name_tv);
 		TextView seasonTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_details_season_tv);
 		TextView episodeTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_details_episode_tv);
 		TextView episodeNameTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_details_episode_name_tv);
@@ -113,8 +114,10 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 		switch (programType) 
 		{
 		case TV_EPISODE: {
-			contentTitle = broadcastWithChannelInfo.getProgram().getSeries().getName();
+			contentTitle = program.getSeries().getName();
 			programId = broadcastWithChannelInfo.getProgram().getSeries().getSeriesId();
+			
+			contentTitleTextView.setText(contentTitle);
 
 			if (!program.getSeason().getNumber().equals("0")) 
 			{
@@ -131,7 +134,7 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 				episodeNameTv.setTextSize(18);
 			}
 
-			titleTv.setText(program.getSeries().getName());
+			titleTv.setText(program.getTitle());
 
 			String episodeName = program.getTitle();
 			if (episodeName.length() > 0) 
@@ -153,8 +156,11 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 			break;
 		}
 		case MOVIE: {
-			contentTitle = broadcastWithChannelInfo.getProgram().getTitle();
+			contentTitle = program.getTitle();
+
 			programId = broadcastWithChannelInfo.getProgram().getProgramId();
+			
+			contentTitleTextView.setText(contentTitle);
 
 			extrasStringBuilder.append(res.getString(R.string.movie))
 			.append(" ")
@@ -168,9 +174,10 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 			break;
 		}
 		case SPORT: {
-			contentTitle = broadcastWithChannelInfo.getProgram().getSportType().getName();
+			contentTitle = broadcastWithChannelInfo.getProgram().getTitle();
 			programId = broadcastWithChannelInfo.getProgram().getSportType().getSportTypeId();
 
+			contentTitleTextView.setText(contentTitle);
 			titleTv.setText(program.getTitle());
 
 			if (program.getTournament() != null) 
@@ -209,7 +216,7 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 		}
 		}
 
-		titleTv.setText(program.getTitle());
+		contentTitleTextView.setText(contentTitle);
 
 		String extras = extrasStringBuilder.toString();
 		extraTv.setText(extras);
