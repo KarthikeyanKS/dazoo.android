@@ -1,8 +1,6 @@
-
 package com.millicom.mitv.activities.base;
 
-
-
+import java.util.EmptyStackException;
 import java.util.Stack;
 
 import android.app.Activity;
@@ -26,6 +24,7 @@ import com.millicom.mitv.ContentManager;
 import com.millicom.mitv.activities.FeedActivity;
 import com.millicom.mitv.activities.HomeActivity;
 import com.millicom.mitv.activities.SearchPageActivity;
+import com.millicom.mitv.activities.UpcomingEpisodesPageActivity;
 import com.millicom.mitv.activities.UserProfileActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
@@ -38,12 +37,7 @@ import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.manager.GATrackingManager;
 
-
-
-public abstract class BaseActivity 
-	extends ActionBarActivity
-	implements ActivityCallbackListener, OnClickListener 
-{
+public abstract class BaseActivity extends ActionBarActivity implements ActivityCallbackListener, OnClickListener {
 	private static final String TAG = BaseActivity.class.getName();
 	private static Stack<Activity> activityStack = new Stack<Activity>();
 
@@ -65,7 +59,9 @@ public abstract class BaseActivity
 
 	private boolean userHasJustLoggedIn;
 	private boolean userHasJustLoggedOut;
-	
+
+	private Class<?> returnActivity;
+
 	/* Abstract Methods */
 
 	/* This method implementation should update the user interface according to the received status */
@@ -77,17 +73,14 @@ public abstract class BaseActivity
 	/* This method implementation should deal with changes after the data has been fetched */
 	protected abstract void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier);
 
-	
 	@Override
-	protected void onCreate(android.os.Bundle savedInstanceState) 
-	{
+	protected void onCreate(android.os.Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		boolean enableStrictMode = Consts.ENABLE_STRICT_MODE;
-		
-		if (enableStrictMode) 
-		{
-			//enableStrictMode();
+
+		if (enableStrictMode) {
+			// enableStrictMode();
 		}
 
 		/* Google Analytics Tracking */
@@ -97,12 +90,9 @@ public abstract class BaseActivity
 
 		initCallbackLayouts();
 	}
-	
 
-	
 	@Override
-	protected void onResume() 
-	{
+	protected void onResume() {
 		super.onResume();
 
 		/* IMPORTANT add activity to activity stack */
@@ -111,58 +101,59 @@ public abstract class BaseActivity
 		setTabViews();
 
 		Intent intent = getIntent();
-		
+
 		/* Log in states */
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
-		
-		if (isLoggedIn) 
-		{
-			if (intent.hasExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN)) 
-			{
+
+		if (isLoggedIn) {
+			if (intent.hasExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN)) {
 				userHasJustLoggedIn = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, false);
 
 				intent.removeExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN);
-			} 
-			else 
-			{
+			} else {
 				userHasJustLoggedIn = false;
 			}
-		}
-		else 
-		{
+		} else {
 			userHasJustLoggedIn = false;
-			
-			if (intent.hasExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT)) 
-			{
+
+			if (intent.hasExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT)) {
 				userHasJustLoggedOut = intent.getExtras().getBoolean(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT, false);
 
 				intent.removeExtra(Consts.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT);
-			} 
-			else 
-			{
+			} else {
 				userHasJustLoggedOut = false;
 			}
 		}
-		
-		if (isLoggedIn && userHasJustLoggedIn) 
-		{
+
+		if (isLoggedIn && userHasJustLoggedIn) {
 			StringBuilder sb = new StringBuilder();
 			sb.append(getResources().getString(R.string.hello));
 			sb.append(" ");
 			sb.append(ContentManager.sharedInstance().getFromCacheUserFirstname());
 
 			ToastHelper.createAndShowToast(this, sb.toString());
-		}
-		else
-		{
-			if(userHasJustLoggedOut)
-			{
+		} else {
+			if (userHasJustLoggedOut) {
 				StringBuilder sb = new StringBuilder();
 				// TODO NewArc - Hardcoded string for logout action
 				sb.append("logout");
 
 				ToastHelper.createAndShowToast(this, sb.toString());
 			}
+		}
+
+		/* If return activity was specified set it! */
+		if (intent.hasExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME)) {
+			String returnActivityClassName = intent.getExtras().getString(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME);
+			try {
+				returnActivity = Class.forName(returnActivityClassName);
+			} catch (Exception e) {
+				Log.e(TAG, e.getMessage(), e);
+
+				returnActivity = UpcomingEpisodesPageActivity.class;
+			}
+		} else {
+			returnActivity = UpcomingEpisodesPageActivity.class;
 		}
 	}
 	
@@ -189,8 +180,7 @@ public abstract class BaseActivity
             Log.d(TAG, activityInStack.getClass().getSimpleName());
         }
 	}
-	
-	
+
 	/* Remove activity from activitStack */
 	private static void removeFromStack(Activity activity) 
 	{
@@ -199,7 +189,6 @@ public abstract class BaseActivity
 			activityStack.remove(activity);
 		}
 	}
-	
 
 	
 //	public static Activity getMostRecentTabActivity() 
@@ -267,41 +256,34 @@ public abstract class BaseActivity
 		return isTabActivity;
 	}
 
-	
-	public void setTabViews() 
-	{
+	public void setTabViews() {
 		tabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
 
-		if (tabTvGuide != null) 
-		{
+		if (tabTvGuide != null) {
 			tabTvGuide.setOnClickListener(this);
 		}
 
 		tabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
 
-		if (tabActivity != null) 
-		{
+		if (tabActivity != null) {
 			tabActivity.setOnClickListener(this);
 		}
 
 		tabProfile = (RelativeLayout) findViewById(R.id.tab_me);
 
-		if (tabProfile != null) 
-		{
+		if (tabProfile != null) {
 			tabProfile.setOnClickListener(this);
 		}
 
 		tabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
 
-		if (tabDividerLeft != null) 
-		{
+		if (tabDividerLeft != null) {
 			tabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
 		}
 
 		tabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
 
-		if (tabDividerRight != null) 
-		{
+		if (tabDividerRight != null) {
 			tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
 		}
 
@@ -325,8 +307,6 @@ public abstract class BaseActivity
 					Log.w(TAG, "Unknown activity tab");
 				}
 	}
-	
-	
 
 	protected void setSelectedTabAsTVGuide() 
 	{
@@ -335,13 +315,11 @@ public abstract class BaseActivity
 			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
 		}
 
-		if (tabActivity != null) 
-		{
+		if (tabActivity != null) {
 			tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
 		}
 
-		if (tabProfile != null) 
-		{
+		if (tabProfile != null) {
 			tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
 		}
 	}
@@ -355,13 +333,11 @@ public abstract class BaseActivity
 			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 		}
 
-		if (tabActivity != null)
-		{
+		if (tabActivity != null) {
 			tabActivity.setBackgroundColor(getResources().getColor(R.color.red));
 		}
 
-		if (tabProfile != null)
-		{	
+		if (tabProfile != null) {
 			tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
 		}
 	}
@@ -375,22 +351,17 @@ public abstract class BaseActivity
 			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 		}
 
-		if (tabActivity != null) 
-		{
+		if (tabActivity != null) {
 			tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
 		}
 
-		if (tabProfile != null) 
-		{
+		if (tabProfile != null) {
 			tabProfile.setBackgroundColor(getResources().getColor(R.color.red));
 		}
 	}
 
-	
-	
 	@Override
-	public void onClick(View v) 
-	{
+	public void onClick(View v) {
 		int id = v.getId();
 
 		boolean changedTab = false;
@@ -429,26 +400,17 @@ public abstract class BaseActivity
 				}
 				break;
 			}
-	
-			case R.id.request_failed_reload_button:
-			case R.id.bad_request_reload_button:
-			{
-				if (!NetworkUtils.isConnectedAndHostIsReachable())
-				{
-					updateUI(UIStatusEnum.FAILED);
-				}
-				else
-				{
-					loadData();
-				}
-	
-				break;
+
+		case R.id.request_failed_reload_button:
+		case R.id.bad_request_reload_button: {
+			if (!NetworkUtils.isConnectedAndHostIsReachable()) {
+				updateUI(UIStatusEnum.FAILED);
+			} else {
+				loadData();
 			}
-			
-			default: 
-			{
-				Log.w(TAG, "Unknown tab selected");
-			}
+
+			break;
+		}
 		}
 		
 		/* If we changed tabs, and the activity we came from (this) was not a tabActivity (i.e. this is an instance of BroadcastPage or ChannelPage etc) then finish the activity! */
@@ -457,11 +419,8 @@ public abstract class BaseActivity
 		}
 	}
 
-	
-	
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
+	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 
 		inflater.inflate(R.menu.actionbar_menu, menu);
@@ -470,13 +429,11 @@ public abstract class BaseActivity
 
 		View seachIconView = MenuItemCompat.getActionView(searchIcon);
 
-		seachIconView.setOnClickListener(new OnClickListener()
-		{
+		seachIconView.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) 
-			{
+			public void onClick(View v) {
 				Intent toSearchPage = new Intent(BaseActivity.this, SearchPageActivity.class);
-				
+
 				startActivity(toSearchPage);
 			}
 		});
@@ -488,40 +445,31 @@ public abstract class BaseActivity
 		return super.onCreateOptionsMenu(menu);
 	}
 
-	
-	
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
-		switch (item.getItemId()) 
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home: {
+			/* Pressing the Home, which here is used as "up", should be same as pressing back */
+			onBackPressed();
+			return true;
+		}
+
+		case R.id.action_start_search: // Might be dead with actionView instead of icon...
 		{
-			case android.R.id.home: 
-			{
-				/* Pressing the Home, which here is used as "up", should be same as pressing back */
-				onBackPressed();
-				return true;
-			}
-	
-			case R.id.action_start_search: // Might be dead with actionView instead of icon...
-			{
-				Intent toSearchPage = new Intent(BaseActivity.this, SearchPageActivity.class);
-				startActivity(toSearchPage);
-	
-				return true;
-			}
-	
-			default: 
-			{
-				return super.onOptionsItemSelected(item);
-			}
+			Intent toSearchPage = new Intent(BaseActivity.this, SearchPageActivity.class);
+			startActivity(toSearchPage);
+
+			return true;
+		}
+
+		default: {
+			return super.onOptionsItemSelected(item);
+		}
 		}
 	}
-	
-	
 
 	@Override
-	protected void onStop()
-	{
+	protected void onStop() {
 		super.onStop();
 
 		String className = this.getClass().getName();
@@ -531,18 +479,13 @@ public abstract class BaseActivity
 		EasyTracker.getInstance(this).activityStop(this);
 	}
 
-	
-	
 	@Override
-	public void onBackPressed() 
-	{
+	public void onBackPressed() {
 		super.onBackPressed();
 
 		removeFromStack(this);
 	}
-	
-	
-	
+
 	@Override
 	protected void onDestroy() 
 	{
@@ -551,11 +494,8 @@ public abstract class BaseActivity
 		super.onDestroy();
 	}
 
-	
-	
 	@Override
-	public void setContentView(int layoutResID) 
-	{
+	public void setContentView(int layoutResID) {
 		super.setContentView(layoutResID);
 
 		actionBar = getSupportActionBar();
@@ -568,24 +508,18 @@ public abstract class BaseActivity
 		initCallbackLayouts();
 	}
 
-	
-	
 	/*
 	 * This method checks for Internet connectivity on the background thread
 	 */
-	protected void loadDataWithConnectivityCheck() 
-	{
+	protected void loadDataWithConnectivityCheck() {
 		updateUI(UIStatusEnum.LOADING);
 
 		ContentManager.sharedInstance().checkNetworkConnectivity(this);
 	}
 
-	
-	
 	@Override
 	public final void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {
-		switch (fetchRequestResult) 
-		{
+		switch (fetchRequestResult) {
 		case INTERNET_CONNECTION_AVAILABLE: {
 			loadData();
 			break;
@@ -604,10 +538,7 @@ public abstract class BaseActivity
 		}
 	}
 
-	
-	
-	protected void updateUIBaseElements(UIStatusEnum status) 
-	{
+	protected void updateUIBaseElements(UIStatusEnum status) {
 		boolean activityNotNullOrFinishing = GenericUtils.isActivityNotNullOrFinishing(this);
 
 		if (activityNotNullOrFinishing) {
@@ -652,11 +583,8 @@ public abstract class BaseActivity
 			Log.w(TAG, "Activity is null or finishing. No UI elements will be changed.");
 		}
 	}
-	
-	
 
-	private void hideRequestStatusLayouts() 
-	{
+	private void hideRequestStatusLayouts() {
 		if (requestFailedLayout != null) {
 			requestFailedLayout.setVisibility(View.GONE);
 		}
@@ -674,16 +602,12 @@ public abstract class BaseActivity
 		}
 	}
 
-	
-	
-	private void initCallbackLayouts() 
-	{
+	private void initCallbackLayouts() {
 		requestFailedLayout = (RelativeLayout) findViewById(R.id.request_failed_main_layout);
 
 		requestFailedButton = (Button) findViewById(R.id.request_failed_reload_button);
 
-		if (requestFailedButton != null) 
-		{
+		if (requestFailedButton != null) {
 			requestFailedButton.setOnClickListener(this);
 		}
 
@@ -692,23 +616,18 @@ public abstract class BaseActivity
 		requestEmptyLayout = (RelativeLayout) findViewById(R.id.request_empty_main_layout);
 
 		requestEmptyLayoutDetails = (TextView) findViewById(R.id.request_empty_details_tv);
-		
+
 		requestBadLayout = (RelativeLayout) findViewById(R.id.bad_request_main_layout);
 
 		requestBadButton = (Button) findViewById(R.id.bad_request_reload_button);
 
-		if (requestBadButton != null) 
-		{
+		if (requestBadButton != null) {
 			requestBadButton.setOnClickListener(this);
 		}
 	}
-	
-	
-	
-	protected void setEmptyLayoutDetailsMessage(String message)
-	{
-		if(requestEmptyLayoutDetails != null)
-		{
+
+	protected void setEmptyLayoutDetailsMessage(String message) {
+		if (requestEmptyLayoutDetails != null) {
 			requestEmptyLayoutDetails.setText(message);
 		}
 	}
