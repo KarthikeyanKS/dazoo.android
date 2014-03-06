@@ -547,4 +547,7 @@ public abstract class Constants
 	
 	/* CONFIGURATIONS FOR GOOGLE ANALYTICS */
 	public static final boolean USE_DEFAULT_GOOGLE_TRACKING_ID = true;
+	
+	
+	public static final String ALL_CATEGORIES_TAG = "All programs";
 }
