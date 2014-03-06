@@ -19,6 +19,7 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.listadapters.LikesListAdapter;
 import com.mitv.models.UserLike;
+import com.mitv.models.comparators.UserLikeComparatorByTitle;
 
 
 
@@ -123,7 +124,7 @@ public class LikesActivity
 			{
 				ArrayList<UserLike> userLikes = ContentManager.sharedInstance().getFromCacheUserLikes();
 				
-				Collections.sort(userLikes, new UserLike.UserLikeComparatorByTitle());
+				Collections.sort(userLikes, new UserLikeComparatorByTitle());
 				
 				listAdapter = new LikesListAdapter(this, userLikes);
 				

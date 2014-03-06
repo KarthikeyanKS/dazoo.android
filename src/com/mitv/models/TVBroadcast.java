@@ -4,7 +4,6 @@ package com.mitv.models;
 
 
 import java.util.Calendar;
-import java.util.Comparator;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -388,39 +387,8 @@ public class TVBroadcast
 		return sb.toString();
 	}
 		
-
-	/* 
-	 * Comparison of the broadcasts is done using the begin time of each one 
-	 * 
-	 * */
-	public static class BroadcastComparatorByTime 
-		implements Comparator<TVBroadcast> 
-	{
-		@Override
-		public int compare(TVBroadcast lhs, TVBroadcast rhs) 
-		{
-			long left = lhs.getBeginTimeMillis();
-			long right = rhs.getBeginTimeMillis();
-
-			if (left > right) 
-			{
-				return 1;
-			} 
-			else if (left < right) 
-			{
-				return -1;
-			} 
-			else 
-			{
-				String leftProgramName = lhs.getProgram().getTitle();
-				String rightProgramName = rhs.getProgram().getTitle();
-				return leftProgramName.compareTo(rightProgramName);
-			}
-		}
-	}
-
-
-
+	
+	
 	@Override
 	public boolean areDataFieldsValid() {
 		final int yearOf2000 = 2000;

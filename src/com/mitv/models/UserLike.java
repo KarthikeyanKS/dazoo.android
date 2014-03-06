@@ -3,8 +3,6 @@ package com.mitv.models;
 
 
 
-import java.util.Comparator;
-
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -203,20 +201,9 @@ public class UserLike
 		
 		return isEqual;
 	}
-	
-	
-	
-	public static class UserLikeComparatorByTitle implements Comparator<UserLikeJSON> 
-	{	
-		@Override
-		public int compare(UserLikeJSON a, UserLikeJSON b) 
-		{
-			return a.getTitle().compareTo(b.getTitle());
-		}
-	}
 
 
-
+	
 	@Override
 	public boolean areDataFieldsValid() {
 		boolean commonFieldsOk = (

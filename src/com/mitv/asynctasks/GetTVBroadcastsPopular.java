@@ -13,8 +13,8 @@ import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ActivityCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
-import com.mitv.models.TVBroadcast;
 import com.mitv.models.TVBroadcastWithChannelInfo;
+import com.mitv.models.comparators.TVBroadcastComparatorByTime;
 
 
 
@@ -59,7 +59,7 @@ public class GetTVBroadcastsPopular
 			}
 			
 			/* Sort the broadcasts according to start time */
-			Collections.sort(contentAsArrayList, new TVBroadcast.BroadcastComparatorByTime());
+			Collections.sort(contentAsArrayList, new TVBroadcastComparatorByTime());
 			
 			requestResultObjectContent = contentAsArrayList;
 		}

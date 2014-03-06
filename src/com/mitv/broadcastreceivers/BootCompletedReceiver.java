@@ -12,11 +12,11 @@ import android.content.Intent;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.google.analytics.tracking.android.Tracker;
-import com.mitv.AppConfigurationManager;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.utilities.FileUtils;
+import com.mitv.utilities.GenericUtils;
 
 
 
@@ -58,7 +58,7 @@ public class BootCompletedReceiver
 	    		
 	    		String gaValue = Constants.GA_KEY_DEVICE_WITH_PREINSTALLED_APP_FIRST_BOOT;
 	    		
-	    		gaValue = AppConfigurationManager.replaceDashWithEnDash(gaValue);
+	    		gaValue = GenericUtils.replaceDashWithEnDash(gaValue);
 	    		
 	    		tracker.send(MapBuilder
 	    				  .createEvent(Constants.GA_EVENT_KEY_SYSTEM_EVENT, "OnBoot", gaValue, null) 	// Set any additional fields for this hit.

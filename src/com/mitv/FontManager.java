@@ -16,7 +16,7 @@ public class FontManager
 	private static final String TAG = FontManager.class.getName();
 	
 	
-	private static FontManager selfInstance;
+	private static FontManager instance;
 	private HashMap<String, Typeface> fontMap;
 	
 	
@@ -37,12 +37,12 @@ public class FontManager
 	
 	public static FontManager getInstance() 
 	{
-		if (selfInstance == null) 
+		if (instance == null) 
 		{
-			selfInstance = new FontManager();
+			instance = new FontManager();
 		}
 		
-		return selfInstance;
+		return instance;
 	}
 
 	

@@ -5,6 +5,7 @@ package com.mitv.asynctasks;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,6 +27,7 @@ import com.mitv.models.TVGuide;
 import com.mitv.models.TVGuideAndTaggedBroadcasts;
 import com.mitv.models.TVProgram;
 import com.mitv.models.TVTag;
+import com.mitv.models.comparators.TVBroadcastComparatorByTime;
 
 
 
@@ -137,7 +139,8 @@ public class GetTVChannelGuides
 				 * list could be ["movie", "children"] if it is a movie for children, then this child movie will be both in the tagged
 				 * broadcasts for children shows and in the list of movies
 				 */
-				for (String tagName : filteredTagNames) {
+				for (String tagName : filteredTagNames) 
+				{
 					/* Fetch current list of broadcasts for this tag */
 					ArrayList<TVBroadcastWithChannelInfo> broadcastsForTag = mapTagToTaggedBroadcastForDate.get(tagName);
 
@@ -152,6 +155,8 @@ public class GetTVChannelGuides
 
 					/* Add the broadcast for this tag to the list of tagged broadcasts for this tag */
 					broadcastsForTag.add(broadCastWithChannelInfo);
+					
+					Collections.sort(broadcastsForTag, new TVBroadcastComparatorByTime());
 
 					/* Put back the list of tagged broadcasts for this tag */
 					mapTagToTaggedBroadcastForDate.put(tagName, broadcastsForTag);

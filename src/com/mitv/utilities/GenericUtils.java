@@ -250,7 +250,7 @@ public abstract class GenericUtils
 	
 	
 	
-	// TODO Deprecated - Should we keep this?
+	// TODO NewArc Deprecated - Should we keep this?
 	@Deprecated
 	public static void logFacebookKeyHash(final Context context)
 	{
@@ -279,6 +279,27 @@ public abstract class GenericUtils
 		}
 	}
 	
+	
+	
+	
+	// TODO NewArc Deprecated - Should we keep this?
+	@Deprecated
+	public static String replaceDashWithEnDash(String googleAnalyticsTrackingId) 
+	{
+		String replacedOrSame = googleAnalyticsTrackingId;
+		
+		boolean containsWrong = googleAnalyticsTrackingId.contains("-");
+		
+		if (containsWrong) 
+		{
+			Log.w(TAG, String.format(LanguageUtils.getCurrentLocale(), "GoogleAnalytics TrackingID (%s) contains ordinary dash instead of 'en dash' => replacing with 'en dash' chars!", googleAnalyticsTrackingId));
+			
+			replacedOrSame = googleAnalyticsTrackingId.replace("-", "�");
+		}
+		
+		return replacedOrSame;
+	}
+
 	
 	
 	// TODO NewArc - Change this to a pseudo unique own generated ID instead: http://stackoverflow.com/a/17625641
