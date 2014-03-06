@@ -97,17 +97,21 @@ public abstract class NetworkUtils
 	
 	
 	
+	/* 
+	 * Please note: This method will block the interface if invoked on the UI thread
+	 *  
+	 */
 	public static Boolean isConnectedAndHostIsReachable()
 	{
-		final Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-		
-		return isConnected(context) && isHostReachable();
+		return isConnected() && isHostReachable();
 	}
 	
 	
 	
-	private static boolean isConnected(final Context context)
+	public static boolean isConnected()
     {
+		final Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		
 		boolean isConnected = false;
 		
     	ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Activity.CONNECTIVITY_SERVICE);

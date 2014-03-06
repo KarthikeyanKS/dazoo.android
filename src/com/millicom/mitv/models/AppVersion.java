@@ -68,4 +68,15 @@ public class AppVersion
 		
 		return value;
 	}
+	
+	
+	
+	public boolean isAPIVersionSupported() 
+	{
+		String apiVersion = this.getApiVersion();
+		
+		boolean isAPIVersionSupported = apiVersion.equalsIgnoreCase(Consts.SUPPORTED_API_VERSION);
+
+		return isAPIVersionSupported;
+	}
 }

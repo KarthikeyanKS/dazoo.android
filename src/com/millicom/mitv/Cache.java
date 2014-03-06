@@ -427,10 +427,26 @@ public class Cache
 		this.fragmentToAdsMap = mFragmentToAdsMap;
 	}
 
-	public synchronized AppVersion getAppVersionData() {
+	
+	public synchronized AppVersion getAppVersionData() 
+	{
 		return appVersionData;
 	}
+	
+	
+	public synchronized boolean isAPIVersionSupported() 
+	{
+		boolean isAPIVersionSupported = false;
+		
+		if(appVersionData != null)
+		{
+			isAPIVersionSupported = getAppVersionData().isAPIVersionSupported();
+		}
+		
+		return isAPIVersionSupported;
+	}
 
+	
 	public synchronized void setAppVersionData(AppVersion appVersionData) {
 		this.appVersionData = appVersionData;
 	}
