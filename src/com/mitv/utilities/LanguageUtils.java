@@ -7,6 +7,7 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.content.res.Resources;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -18,16 +19,22 @@ import com.mitv.models.TVBroadcast;
 
 public abstract class LanguageUtils
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = LanguageUtils.class.getName();
 	
 	
 	
 	public static Locale getCurrentLocale()
 	{
-		Locale current = SecondScreenApplication.sharedInstance().getApplicationContext().getResources().getConfiguration().locale;
+		Locale locale = SecondScreenApplication.sharedInstance().getApplicationContext().getResources().getConfiguration().locale;
 		
-		return current;
+		if(locale == null)
+		{
+			locale = Locale.getDefault();
+			
+			Log.w(TAG, "Using default locale.");
+		}
+		
+		return locale;
 	}
 	
 	

@@ -4,7 +4,6 @@ package com.mitv.populators;
 
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -18,7 +17,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.mitv.R;
-import com.mitv.activities.SignUpSelectionActivity;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.models.TVProgram;
@@ -105,7 +103,8 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 
 		switch (programType) 
 		{
-		case TV_EPISODE: {
+		case TV_EPISODE: 
+		{
 			contentTitle = program.getSeries().getName();
 			programId = broadcastWithChannelInfo.getProgram().getSeries().getSeriesId();
 			
@@ -264,69 +263,20 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 
 	
 	@Override
-	public void onClick(View v) {
+	public void onClick(View v) 
+	{
 		int viewId = v.getId();
+		
 		TVBroadcastWithChannelInfo broadcastWithChannelInfo = (TVBroadcastWithChannelInfo) v.getTag();
 
-		switch (viewId) {
-		case R.id.element_social_buttons_share_button_container: {
-			GenericUtils.startShareActivity(activity, activity.getResources().getString(R.string.app_name), broadcastWithChannelInfo.getShareUrl(), activity.getResources().getString(R.string.share_action_title));
-			break;
-
+		switch (viewId)
+		{
+			case R.id.element_social_buttons_share_button_container: 
+			{
+				GenericUtils.startShareActivity(activity, activity.getResources().getString(R.string.app_name), broadcastWithChannelInfo.getShareUrl(), activity.getResources().getString(R.string.share_action_title));
+				break;
+	
+			}
 		}
-		}
-
-	}
-
-
-
-	public Runnable yesLoginProc() 
-	{
-		return new Runnable() 
-		{
-			public void run()
-			{
-				Intent intent = new Intent(activity, SignUpSelectionActivity.class);
-
-				activity.startActivity(intent);
-			}
-		};
-	}
-
-
-
-	public Runnable noLoginProc() 
-	{
-		return new Runnable()
-		{
-			public void run() 
-			{
-			}
-		};
-	}
-
-
-
-	public Runnable yesLikeProc() 
-	{
-		return new Runnable() 
-		{
-			public void run()
-			{
-				likeIv.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_like_default));
-				//				mIsLiked = false;
-			}
-		};
-	}
-
-
-
-	public Runnable noLikeProc()
-	{
-		return new Runnable() 
-		{
-			public void run()
-			{}
-		};
 	}
 }

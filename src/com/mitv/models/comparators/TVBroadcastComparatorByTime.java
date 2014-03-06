@@ -29,6 +29,7 @@ public class TVBroadcastComparatorByTime
 		{
 			String leftProgramName = lhs.getProgram().getTitle();
 			String rightProgramName = rhs.getProgram().getTitle();
+			
 			return leftProgramName.compareTo(rightProgramName);
 		}
 	}

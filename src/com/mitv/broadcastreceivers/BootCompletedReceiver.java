@@ -40,7 +40,7 @@ public class BootCompletedReceiver
 	        	SecondScreenApplication.sharedInstance().setWasPreinstalled();
 	        }
 	        
-	        File file = appWasPreinstalledFile();
+	        File file = FileUtils.getFile(Constants.APP_WAS_PREINSTALLED_FILE_NAME);
 	        
 	        /* Write file to external storage */
 	        boolean startedOnceBeforeExternalStorage = FileUtils.fileExists(file);
@@ -66,14 +66,5 @@ public class BootCompletedReceiver
 	    				);
         	}
 	    }		
-	}
-	
-	
-	
-	private static File appWasPreinstalledFile()
-	{
-		File file = FileUtils.getFile(Constants.APP_WAS_PREINSTALLED_FILE_NAME);
-		return file;
-	}
-	
+	}	
 }
