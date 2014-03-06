@@ -16,6 +16,7 @@ import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.interfaces.ActivityCallbackListener;
 import com.millicom.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.millicom.mitv.utilities.DialogHelper;
+import com.millicom.mitv.utilities.NetworkUtils;
 import com.mitv.Consts;
 import com.mitv.R;
 import com.mitv.customviews.FontTextView;
@@ -46,17 +47,18 @@ public class SplashScreenActivity
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.hide();
 		
-		ContentManager.sharedInstance().fetchFromServiceInitialCall(this, this);
+		boolean isConnected = NetworkUtils.isConnected();
+		
+		if(isConnected)
+		{
+			ContentManager.sharedInstance().fetchFromServiceInitialCall(this, this);
+		}
+		else
+		{
+			DialogHelper.showMandatoryFirstTimeInternetConnection(this);
+		}
 	}
 
-
-	
-	@Override
-	protected void onPause() 
-	{
-		super.onPause();
-	}
-	
 	
 
 	private void checkForCrashes() 
@@ -82,15 +84,7 @@ public class SplashScreenActivity
 		checkForCrashes();
 	}
 
-	
-	
-	@Override
-	public void onDestroy() 
-	{
-		super.onDestroy();
-	}
-
-	
+		
 	
 	private void startPrimaryActivity() 
 	{
@@ -125,13 +119,14 @@ public class SplashScreenActivity
 			}
 			default:
 			{
-				Log.w(TAG, "Unhandled fetch result rquest.");
+				DialogHelper.showMandatoryFirstTimeInternetConnection(this);
 				break;
 			}
 		}
 	}
-
-
+	
+	
+	
 	@Override
 	public void onFetchDataProgress(int totalSteps, String message) 
 	{

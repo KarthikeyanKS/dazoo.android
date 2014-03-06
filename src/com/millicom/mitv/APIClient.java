@@ -60,19 +60,15 @@ public class APIClient
 	public APIClient(ContentCallbackListener contentCallbackListener) 
 	{
 		this.contentCallbackListener = contentCallbackListener;
-		
-		this.poolExecutor = new CustomThreadedPoolExecutor(
-				pool_executor_default_core_pool_size,
-				pool_executor_default_max_pool_size,
-				pool_executor_default_keep_alive_time,
-                TimeUnit.MILLISECONDS,
-                new LinkedBlockingQueue<Runnable>());
+
 	}
 	
 
 	
 	public void getInitialDataOnPoolExecutor(ActivityCallbackListener activityCallbackListener, boolean isUserLoggedIn)
 	{
+		resetPoolExecutor();
+		
 		GetAppConfigurationData getAppConfigurationData = new GetAppConfigurationData(contentCallbackListener, activityCallbackListener);
 		GetAppVersionData getAppVersionData = new GetAppVersionData(contentCallbackListener, activityCallbackListener);
 		GetTVTags getTVTags = new GetTVTags(contentCallbackListener, activityCallbackListener);
@@ -102,6 +98,29 @@ public class APIClient
 		GetTVChannelGuides getTvChannelGuides = new GetTVChannelGuides(contentCallbackListener, activityCallbackListener, tvDate, tvChannelIds);
 		
 		poolExecutor.addAndExecuteTask(getTvChannelGuides);
+	}
+	
+	
+	
+	private void resetPoolExecutor()
+	{
+		if(poolExecutor != null)
+		{
+			if(poolExecutor.isShutdown() == false)
+			{
+				poolExecutor.shutdownNow();
+			}
+
+			poolExecutor.purge();
+			poolExecutor.resetTaskCount();
+		}
+		
+		this.poolExecutor = new CustomThreadedPoolExecutor(
+				pool_executor_default_core_pool_size,
+				pool_executor_default_max_pool_size,
+				pool_executor_default_keep_alive_time,
+                TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<Runnable>());
 	}
 	
 	

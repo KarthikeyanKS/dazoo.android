@@ -27,8 +27,7 @@ public class CustomThreadedPoolExecutor
 	{
 		super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue);
 		
-		this.totalTasks = 0;
-		this.totalCompletedTasks = 0;
+		this.resetTaskCount();
 	}
 	
 	
@@ -61,6 +60,14 @@ public class CustomThreadedPoolExecutor
 	public void afterExecute(Runnable r, Throwable t)
 	{
 		super.afterExecute(r, t);
+	}
+	
+	
+	
+	public void resetTaskCount()
+	{
+		totalTasks = 0;
+		totalCompletedTasks = 0;
 	}
 	
 	
