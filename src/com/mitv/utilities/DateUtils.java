@@ -26,9 +26,9 @@ public abstract class DateUtils
 	private static final String TAG = DateUtils.class.getName();
 	
 	public static final int TOTAL_MINUTES_IN_ONE_HOUR = 60;
-	public static final long TOTAL_MILISECOUNDS_IN_ONE_MINUTE = 60000;
-	public static final long TOTAL_MILISECOUNDS_IN_ONE_HOUR = TOTAL_MILISECOUNDS_IN_ONE_MINUTE*60;
-	public static final long TOTAL_MILISECOUNDS_IN_ONE_DAY = TOTAL_MILISECOUNDS_IN_ONE_HOUR*24;
+	public static final long TOTAL_MILLISECONDS_IN_ONE_MINUTE = 60000;
+	public static final long TOTAL_MILLISECONDS_IN_ONE_HOUR = TOTAL_MILLISECONDS_IN_ONE_MINUTE*60;
+	public static final long TOTAL_MILLISECONDS_IN_ONE_DAY = TOTAL_MILLISECONDS_IN_ONE_HOUR*24;
 	
 	/**
 	 * Converts a string input to a Calendar object
@@ -72,7 +72,7 @@ public abstract class DateUtils
 		
 		if(timeZone != null)
 		{
-			int timeZoneOffsetInMinutesAsInt = (int) (timeZone.getRawOffset() / DateUtils.TOTAL_MILISECOUNDS_IN_ONE_MINUTE);		
+			int timeZoneOffsetInMinutesAsInt = (int) (timeZone.getRawOffset() / DateUtils.TOTAL_MILLISECONDS_IN_ONE_MINUTE);		
 			timeZoneOffsetInMinutes = Integer.valueOf(timeZoneOffsetInMinutesAsInt);
 		}
 		else
@@ -166,30 +166,30 @@ public abstract class DateUtils
 		{
 			case Calendar.DAY_OF_MONTH:
 			{
-				beginTime = beginTimeCalendar.getTimeInMillis() / TOTAL_MILISECOUNDS_IN_ONE_DAY;
-				endTime = endTimeCalendar.getTimeInMillis() / TOTAL_MILISECOUNDS_IN_ONE_DAY;
+				beginTime = beginTimeCalendar.getTimeInMillis() / TOTAL_MILLISECONDS_IN_ONE_DAY;
+				endTime = endTimeCalendar.getTimeInMillis() / TOTAL_MILLISECONDS_IN_ONE_DAY;
 				break;
 			}
 			
 			case Calendar.HOUR_OF_DAY:
 			{
-				beginTime = beginTimeCalendar.getTimeInMillis() / TOTAL_MILISECOUNDS_IN_ONE_MINUTE;
-				endTime = endTimeCalendar.getTimeInMillis() / TOTAL_MILISECOUNDS_IN_ONE_MINUTE;
+				beginTime = beginTimeCalendar.getTimeInMillis() / TOTAL_MILLISECONDS_IN_ONE_HOUR;
+				endTime = endTimeCalendar.getTimeInMillis() / TOTAL_MILLISECONDS_IN_ONE_HOUR;
 				break;
 			}
 			
 			default:
 			case Calendar.MINUTE:
 			{
-				beginTime = beginTimeCalendar.getTimeInMillis() / TOTAL_MILISECOUNDS_IN_ONE_MINUTE;
-				endTime = endTimeCalendar.getTimeInMillis() / TOTAL_MILISECOUNDS_IN_ONE_MINUTE;
+				beginTime = beginTimeCalendar.getTimeInMillis() / TOTAL_MILLISECONDS_IN_ONE_MINUTE;
+				endTime = endTimeCalendar.getTimeInMillis() / TOTAL_MILLISECONDS_IN_ONE_MINUTE;
 				break;
 			}
 				
 		}
 		
-		int defferenceAsInt = (int)(endTime - beginTime);
-	    Integer difference =  Integer.valueOf(defferenceAsInt);
+		int differenceAsInt = (int)(endTime - beginTime);
+	    Integer difference =  Integer.valueOf(differenceAsInt);
 	    
 	    if(difference < 0 && 
 	       useAbslouteDifference == false)
