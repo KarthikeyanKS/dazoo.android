@@ -11,14 +11,14 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.google.gson.Gson;
-import com.millicom.mitv.enums.HTTPRequestTypeEnum;
-import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.http.URLParameters;
-import com.millicom.mitv.models.TVBroadcast;
-import com.millicom.mitv.models.TVChannelGuide;
-import com.millicom.mitv.models.TVChannelId;
-import com.millicom.mitv.models.TVDate;
-import com.mitv.Consts;
+import com.mitv.Constants;
+import com.mitv.enums.HTTPRequestTypeEnum;
+import com.mitv.http.HTTPCoreResponse;
+import com.mitv.http.URLParameters;
+import com.mitv.models.TVBroadcast;
+import com.mitv.models.TVChannelGuide;
+import com.mitv.models.TVChannelId;
+import com.mitv.models.TVDate;
 
 /**
  * This class tests the fetching Guide data. Returns a list of objects containing fields from channel, list of broadcasts (with fields from broadcast and program object).
@@ -47,8 +47,8 @@ public class TVChannelGuidesGSONTest
 		
 		TVDate tvDateToday = tvDates.get(0);
 		
-		StringBuilder sb = new StringBuilder(Consts.URL_GUIDE);
-		sb.append(Consts.REQUEST_QUERY_SEPARATOR);
+		StringBuilder sb = new StringBuilder(Constants.URL_GUIDE);
+		sb.append(Constants.REQUEST_QUERY_SEPARATOR);
 		sb.append(tvDateToday.getId());
 		String url = sb.toString();
 		
@@ -58,7 +58,7 @@ public class TVChannelGuidesGSONTest
 		for(TVChannelId tvChannelId : tvChannelIdsUser) 
 		{
 			String tvChannelIdAsString = tvChannelId.getChannelId();
-			urlParameters.add(Consts.API_CHANNEL_ID, tvChannelIdAsString);
+			urlParameters.add(Constants.API_CHANNEL_ID, tvChannelIdAsString);
 		}
 		
 		HTTPCoreResponse httpCoreResponse = instance.executeRequestNoBody(HTTPRequestTypeEnum.HTTP_GET, url, urlParameters);

@@ -8,12 +8,12 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.millicom.mitv.enums.HTTPRequestTypeEnum;
-import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.models.TVBroadcast;
-import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
-import com.millicom.mitv.models.TVChannelGuide;
-import com.mitv.Consts;
+import com.mitv.Constants;
+import com.mitv.enums.HTTPRequestTypeEnum;
+import com.mitv.http.HTTPCoreResponse;
+import com.mitv.models.TVBroadcast;
+import com.mitv.models.TVBroadcastWithChannelInfo;
+import com.mitv.models.TVChannelGuide;
 
 
 /**
@@ -45,11 +45,11 @@ public class TVBroadcastDetailsGSONTest
 		Long beginTimeMillis = broadcast.getBeginTimeMillis();
 		
 		StringBuilder url = new StringBuilder();
-		url.append(Consts.URL_CHANNELS_ALL);
-		url.append(Consts.REQUEST_QUERY_SEPARATOR);
+		url.append(Constants.URL_CHANNELS_ALL);
+		url.append(Constants.REQUEST_QUERY_SEPARATOR);
 		url.append(channelId);
-		url.append(Consts.API_BROADCASTS);
-		url.append(Consts.REQUEST_QUERY_SEPARATOR);
+		url.append(Constants.API_BROADCASTS);
+		url.append(Constants.REQUEST_QUERY_SEPARATOR);
 		url.append(beginTimeMillis);
 		
 		HTTPCoreResponse httpCoreResponse = executeRequest(HTTPRequestTypeEnum.HTTP_GET, url.toString());

@@ -12,14 +12,14 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
-import com.millicom.mitv.enums.HTTPRequestTypeEnum;
-import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.http.HeaderParameters;
-import com.millicom.mitv.http.URLParameters;
-import com.millicom.mitv.models.TVSearchResults;
-import com.millicom.mitv.models.gson.TVSearchResultsJSON;
-import com.millicom.mitv.utilities.RegularExpressionUtils;
-import com.mitv.Consts;
+import com.mitv.Constants;
+import com.mitv.enums.HTTPRequestTypeEnum;
+import com.mitv.http.HTTPCoreResponse;
+import com.mitv.http.HeaderParameters;
+import com.mitv.http.URLParameters;
+import com.mitv.models.TVSearchResults;
+import com.mitv.models.gson.TVSearchResultsJSON;
+import com.mitv.utilities.RegularExpressionUtils;
 
 
 
@@ -33,7 +33,7 @@ public class TVSearchGSONTest
 	
 	private boolean executeTVSearch(String wordToSearchFor)
 	{
-		String url = Consts.URL_SEARCH;
+		String url = Constants.URL_SEARCH;
 		
 		URLParameters urlParameters = new URLParameters();
 		
@@ -42,7 +42,7 @@ public class TVSearchGSONTest
 		wordToSearchFor = wordToSearchFor.trim();
 		querystringValueSB.append(wordToSearchFor);
 		
-		urlParameters.add(Consts.SEARCH_QUERYSTRING_PARAMETER_QUERY_KEY, querystringValueSB.toString());
+		urlParameters.add(Constants.SEARCH_QUERYSTRING_PARAMETER_QUERY_KEY, querystringValueSB.toString());
 		
 		HeaderParameters headerParameters = new HeaderParameters();
 		

@@ -281,7 +281,7 @@
         <activity android:name="net.hockeyapp.android.FeedbackActivity" />
 
         <receiver
-            android:name="com.mitv.broadcastreceivers.AlarmReceiver"
+            android:name="com.millicom.mitv.broadcastreceivers.AlarmReceiver"
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
@@ -289,7 +289,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="com.mitv.broadcastreceivers.AlarmSetter"
+            android:name="com.millicom.mitv.broadcastreceivers.AlarmSetterarmSetter"
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
@@ -297,7 +297,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="com.mitv.broadcastreceivers.BootCompletedReceiver"
+            android:name="com.millicom.mitv.broadcastreceivers.BootCompletedReceiver"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED" >

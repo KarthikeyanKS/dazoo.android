@@ -10,11 +10,10 @@ import org.junit.Test;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.millicom.mitv.enums.FetchRequestResultEnum;
-import com.millicom.mitv.enums.HTTPRequestTypeEnum;
-import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.models.gson.serialization.UserPasswordResetConfirmationData;
-import com.mitv.Consts;
+import com.mitv.Constants;
+import com.mitv.enums.HTTPRequestTypeEnum;
+import com.mitv.http.HTTPCoreResponse;
+import com.mitv.models.gson.serialization.UserPasswordResetConfirmationData;
 import com.mitv.test.gson.TestCore;
 
 
@@ -34,7 +33,7 @@ public class PerformUserPasswordResetConfirmationTest
 	{
 		super.setUp();
 
-		String url = Consts.URL_RESET_AND_CONFIRM_PASSWORD;
+		String url = Constants.URL_RESET_AND_CONFIRM_PASSWORD;
 		
 		// This is the token that is received in the email address you specified in the password recovery step 1
 		String emailToken = "";

@@ -7,16 +7,16 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import com.millicom.mitv.enums.FetchRequestResultEnum;
-import com.millicom.mitv.enums.HTTPRequestTypeEnum;
-import com.millicom.mitv.enums.LikeTypeRequestEnum;
-import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.http.HeaderParameters;
-import com.millicom.mitv.http.URLParameters;
-import com.millicom.mitv.models.TVBroadcast;
-import com.millicom.mitv.models.TVChannelGuide;
-import com.millicom.mitv.models.TVProgram;
-import com.mitv.Consts;
+import com.mitv.Constants;
+import com.mitv.enums.FetchRequestResultEnum;
+import com.mitv.enums.HTTPRequestTypeEnum;
+import com.mitv.enums.LikeTypeRequestEnum;
+import com.mitv.http.HTTPCoreResponse;
+import com.mitv.http.HeaderParameters;
+import com.mitv.http.URLParameters;
+import com.mitv.models.TVBroadcast;
+import com.mitv.models.TVChannelGuide;
+import com.mitv.models.TVProgram;
 
 
 
@@ -56,10 +56,10 @@ public class RemoveUserLikeGSONTest
 		RemoveUserLikeGSONTest instance = new RemoveUserLikeGSONTest();
 		
 		StringBuilder url = new StringBuilder();
-		url.append(Consts.URL_LIKES);
-		url.append(Consts.REQUEST_QUERY_SEPARATOR);
+		url.append(Constants.URL_LIKES);
+		url.append(Constants.REQUEST_QUERY_SEPARATOR);
 		url.append(likeType);
-		url.append(Consts.REQUEST_QUERY_SEPARATOR);
+		url.append(Constants.REQUEST_QUERY_SEPARATOR);
 		url.append(entityId);
 		
 		URLParameters urlParameters = new URLParameters();

@@ -15,13 +15,13 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.millicom.mitv.enums.HTTPRequestTypeEnum;
-import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.http.HeaderParameters;
-import com.millicom.mitv.http.URLParameters;
-import com.millicom.mitv.models.TVChannelId;
-import com.millicom.mitv.models.UserLoginData;
-import com.mitv.Consts;
+import com.mitv.Constants;
+import com.mitv.enums.HTTPRequestTypeEnum;
+import com.mitv.http.HTTPCoreResponse;
+import com.mitv.http.HeaderParameters;
+import com.mitv.http.URLParameters;
+import com.mitv.models.TVChannelId;
+import com.mitv.models.UserLoginData;
 
 
 
@@ -71,7 +71,7 @@ public class GetUserTVChannelIdsTest
 		
 		List<TVChannelId> receivedData;
 		
-		String url = Consts.URL_MY_CHANNEL_IDS;
+		String url = Constants.URL_MY_CHANNEL_IDS;
 		
 		URLParameters urlParameters = new URLParameters();
 		

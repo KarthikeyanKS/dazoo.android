@@ -4,14 +4,18 @@ package com.mitv.test.gson;
 
 import java.util.Arrays;
 import java.util.List;
+
 import junit.framework.Assert;
+
 import org.junit.Test;
+
 import android.text.TextUtils;
+
 import com.google.gson.Gson;
-import com.millicom.mitv.enums.HTTPRequestTypeEnum;
-import com.millicom.mitv.http.HTTPCoreResponse;
-import com.millicom.mitv.models.gson.AppVersionJSON;
-import com.mitv.Consts;
+import com.mitv.Constants;
+import com.mitv.enums.HTTPRequestTypeEnum;
+import com.mitv.http.HTTPCoreResponse;
+import com.mitv.models.gson.AppVersionJSON;
 
 
 
@@ -28,7 +32,7 @@ public class AppVersionTest
 	{
 		super.setUp();
 		
-		String url = Consts.URL_API_VERSION;
+		String url = Constants.URL_API_VERSION;
 		
 		HTTPCoreResponse httpCoreResponse = executeRequest(HTTPRequestTypeEnum.HTTP_GET, url);
 		
