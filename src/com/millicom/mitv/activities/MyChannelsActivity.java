@@ -20,11 +20,11 @@ import com.millicom.mitv.activities.base.BaseContentActivity;
 import com.millicom.mitv.enums.FetchRequestResultEnum;
 import com.millicom.mitv.enums.RequestIdentifierEnum;
 import com.millicom.mitv.enums.UIStatusEnum;
+import com.millicom.mitv.interfaces.MyChannelsCountInterface;
 import com.millicom.mitv.models.TVChannel;
 import com.millicom.mitv.models.TVChannelId;
 import com.mitv.R;
 import com.mitv.adapters.MyChannelsListAdapter;
-import com.mitv.interfaces.MyChannelsCountInterface;
 
 
 

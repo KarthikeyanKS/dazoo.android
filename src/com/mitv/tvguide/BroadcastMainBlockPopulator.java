@@ -17,21 +17,15 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.millicom.mitv.ContentManager;
-import com.millicom.mitv.activities.BroadcastPageActivity;
 import com.millicom.mitv.activities.SignUpSelectionActivity;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVProgram;
-import com.millicom.mitv.models.UserLike;
-import com.millicom.mitv.utilities.DialogHelper;
-import com.mitv.Consts;
+import com.millicom.mitv.utilities.GenericUtils;
 import com.mitv.R;
 import com.mitv.customviews.LikeView;
 import com.mitv.customviews.ReminderView;
-import com.mitv.storage.MiTVStore;
 import com.mitv.utilities.ProgressBarUtils;
-import com.mitv.utilities.ShareUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -50,7 +44,6 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 
 	private String programId;
 	private String contentTitle;
-
 
 
 	public BroadcastMainBlockPopulator(Activity activity, ScrollView scrollView)
@@ -79,7 +72,7 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 		View topContentView = LayoutInflater.from(activity).inflate(R.layout.block_broadcastpage_main_content, null);
 		ImageView posterIv = (ImageView) topContentView.findViewById(R.id.block_broadcastpage_poster_iv);
 		ProgressBar posterPb = (ProgressBar) topContentView.findViewById(R.id.block_broadcastpage_poster_progressbar);
-		TextView titleTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_details_title_tv);
+		TextView contentTitleTextView = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_details_title_tv);
 		TextView seasonTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_details_season_tv);
 		TextView episodeTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_details_episode_tv);
 		TextView episodeNameTv = (TextView) topContentView.findViewById(R.id.block_broadcastpage_broadcast_details_episode_name_tv);
@@ -113,8 +106,10 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 		switch (programType) 
 		{
 		case TV_EPISODE: {
-			contentTitle = broadcastWithChannelInfo.getProgram().getSeries().getName();
+			contentTitle = program.getSeries().getName();
 			programId = broadcastWithChannelInfo.getProgram().getSeries().getSeriesId();
+			
+			contentTitleTextView.setText(contentTitle);
 
 			if (!program.getSeason().getNumber().equals("0")) 
 			{
@@ -131,7 +126,7 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 				episodeNameTv.setTextSize(18);
 			}
 
-			titleTv.setText(program.getSeries().getName());
+			episodeNameTv.setText(program.getTitle());
 
 			String episodeName = program.getTitle();
 			if (episodeName.length() > 0) 
@@ -153,8 +148,11 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 			break;
 		}
 		case MOVIE: {
-			contentTitle = broadcastWithChannelInfo.getProgram().getTitle();
+			contentTitle = program.getTitle();
+
 			programId = broadcastWithChannelInfo.getProgram().getProgramId();
+			
+			contentTitleTextView.setText(contentTitle);
 
 			extrasStringBuilder.append(res.getString(R.string.movie))
 			.append(" ")
@@ -168,10 +166,11 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 			break;
 		}
 		case SPORT: {
-			contentTitle = broadcastWithChannelInfo.getProgram().getSportType().getName();
+			contentTitle = broadcastWithChannelInfo.getProgram().getTitle();
 			programId = broadcastWithChannelInfo.getProgram().getSportType().getSportTypeId();
 
-			titleTv.setText(program.getTitle());
+			contentTitleTextView.setText(contentTitle);
+			episodeNameTv.setText(program.getTitle());
 
 			if (program.getTournament() != null) 
 			{
@@ -209,7 +208,7 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 		}
 		}
 
-		titleTv.setText(program.getTitle());
+		contentTitleTextView.setText(contentTitle);
 
 		String extras = extrasStringBuilder.toString();
 		extraTv.setText(extras);
@@ -271,7 +270,7 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 
 		switch (viewId) {
 		case R.id.element_social_buttons_share_button_container: {
-			ShareUtils.startShareActivity(activity, activity.getResources().getString(R.string.app_name), broadcastWithChannelInfo.getShareUrl(), activity.getResources().getString(R.string.share_action_title));
+			GenericUtils.startShareActivity(activity, activity.getResources().getString(R.string.app_name), broadcastWithChannelInfo.getShareUrl(), activity.getResources().getString(R.string.share_action_title));
 			break;
 
 		}

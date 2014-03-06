@@ -11,7 +11,7 @@ public abstract class Consts {
 
 	public static final String	TESTFLIGHT_TOKEN					= "343b5e95-cc27-4e8e-8a0d-ff5f7a181c5c";
 	public static final String	HOCKEY_APP_TOKEN					= "c90b5331b5a7086d88d98021508f2c16";
-	public static final String 	API_VERSION							= "1.0.0";
+	public static final String 	SUPPORTED_API_VERSION				= "1.0.0";
 
 	public static final String MITV_SESSION							= "com.mitv.session";
 	
@@ -530,7 +530,7 @@ public abstract class Consts {
 	public static final String APP_URL_FACEBOOK_GRAPH = "https://graph.facebook.com";
 	public static final String APP_URL_FACEBOOK_ME = "/me";
 	public static final String APP_URL_FACEBOOK_PICTURE_TYPE = "/picture?type=";
-	public static final String APP_URL_FACEBOOK_PICTURE_TYPE_SQUARE = "square";
+	public static final String APP_URL_FACEBOOK_PICTURE_TYPE_NORMAL = "normal";
 	public static final String APP_URL_FACEBOOK_DO_NOT_REDIRECT = "&redirect=false";
 	public static final String APP_URL_FACEBOOK_GRAPH_ME = APP_URL_FACEBOOK_GRAPH + APP_URL_FACEBOOK_ME;
 	

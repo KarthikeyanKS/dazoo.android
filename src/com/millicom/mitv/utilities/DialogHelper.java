@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.millicom.mitv.ContentManager;
+import com.millicom.mitv.activities.SplashScreenActivity;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.models.TVBroadcast;
 import com.mitv.R;
@@ -278,22 +280,25 @@ public class DialogHelper
 	
 	
 	
-	// TODO - Implement this view and retry button
-	public static void showMandatoryFirstTimeInternetConnection(final Activity activity) 
+	public static void showMandatoryFirstTimeInternetConnection(final SplashScreenActivity activity) 
 	{
 		final Dialog dialog = new Dialog(activity, R.style.remove_notification_dialog);
 		
-		dialog.setContentView(R.layout.dialog_prompt_update);
+		dialog.setContentView(R.layout.dialog_prompt_no_connection);
 		dialog.setCancelable(false);
 
-		Button okButton = (Button) dialog.findViewById(R.id.dialog_prompt_update_button);
+		final Button retryButton = (Button) dialog.findViewById(R.id.dialog_prompt_retry_button);
 		
-		okButton.setOnClickListener(new View.OnClickListener() 
+		retryButton.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v)
 			{
+				ContentManager.sharedInstance().fetchFromServiceInitialCall(activity, activity);
 				
+				retryButton.setEnabled(false);
+				
+				dialog.dismiss();
 			}
 		});
 		

@@ -187,6 +187,7 @@ public abstract class AsyncTaskBase<T>
 				{
 					Log.d(TAG, String.format("%s doInBackground - Parsing JSON into model (using GSON)", clazz.getName()));
 					requestResultObjectContent = gson.fromJson(responseString, clazz);
+					Log.d(TAG, String.format("%s doInBackground - After parsing JSON into model (using GSON)", clazz.getName()));
 				}
 				catch(JsonSyntaxException jsex)
 				{

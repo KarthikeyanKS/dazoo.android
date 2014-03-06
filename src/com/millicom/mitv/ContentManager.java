@@ -89,6 +89,8 @@ public class ContentManager
 	private boolean completedTVDatesRequest;
 	private boolean completedTVChannelIdsDefaultRequest;
 	private boolean completedTVChannelIdsUserRequest;
+	private boolean isFetchingTVGuide;
+	private boolean isAPIVersionTooOld;
 	
 	
 	
@@ -130,6 +132,8 @@ public class ContentManager
 		this.completedTVDatesRequest = false;
 		this.completedTVChannelIdsDefaultRequest = false;
 		this.completedTVChannelIdsUserRequest = false;
+		this.isFetchingTVGuide = false;
+		this.isAPIVersionTooOld = false;
 		
 		this.fetchDataProgressCallbackListener = fetchDataProgressCallbackListener;
 		
@@ -147,8 +151,6 @@ public class ContentManager
 			Object content) 
 	{
 		apiClient.incrementCompletedTasks();
-		
-		FetchRequestResultEnum resultToReturn = result;
 		
 		if(apiClient.arePendingRequestsCanceled())
 		{
@@ -178,10 +180,6 @@ public class ContentManager
 					
 					notifyFetchDataProgressListenerMessage(totalStepsCount, "Fetched app configuration data");
 				}
-				else
-				{
-					resultToReturn = FetchRequestResultEnum.API_VERSION_TOO_OLD;
-				}
 				break;
 			}
 			
@@ -194,10 +192,13 @@ public class ContentManager
 					cache.setAppVersionData(appVersionData);
 					
 					notifyFetchDataProgressListenerMessage(totalStepsCount, "Fetched app version data");
-				}
-				else
-				{
-					resultToReturn = FetchRequestResultEnum.API_VERSION_TOO_OLD;
+				
+					boolean isAPIVersionSupported = cache.isAPIVersionSupported();
+					
+					if(isAPIVersionSupported == false)
+					{
+						isAPIVersionTooOld = true;
+					}
 				}
 				break;
 			}
@@ -213,9 +214,12 @@ public class ContentManager
 					
 					notifyFetchDataProgressListenerMessage(totalStepsCount, "Fetched tv dates data");
 					
-					if((completedTVChannelIdsDefaultRequest && !cache.isLoggedIn()) || 
+					if(!isFetchingTVGuide && 
+					   (completedTVChannelIdsDefaultRequest && !cache.isLoggedIn()) || 
 					   (completedTVChannelIdsUserRequest && cache.isLoggedIn()))
 					{
+						isFetchingTVGuide = true;
+						
 						TVDate tvDate = cache.getTvDateSelected();
 						
 						ArrayList<TVChannelId> tvChannelIds = cache.getTvChannelIdsUsed();
@@ -238,8 +242,10 @@ public class ContentManager
 					
 					notifyFetchDataProgressListenerMessage(totalStepsCount, "Fetched tv channel id data");
 					
-					if(completedTVDatesRequest && !cache.isLoggedIn())
+					if(!isFetchingTVGuide && completedTVDatesRequest && !cache.isLoggedIn())
 					{
+						isFetchingTVGuide = true;
+						
 						TVDate tvDate = cache.getTvDateSelected();
 						
 						ArrayList<TVChannelId> tvChannelIds = cache.getTvChannelIdsUsed();
@@ -262,8 +268,10 @@ public class ContentManager
 					
 					notifyFetchDataProgressListenerMessage(totalStepsCount, "Fetched tv channel id data");
 					
-					if(completedTVDatesRequest && cache.isLoggedIn())
+					if(!isFetchingTVGuide && completedTVDatesRequest && cache.isLoggedIn())
 					{
+						isFetchingTVGuide = true;
+						
 						TVDate tvDate = cache.getTvDateSelected();
 						
 						ArrayList<TVChannelId> tvChannelIds = cache.getTvChannelIdsUsed();
@@ -325,6 +333,14 @@ public class ContentManager
 			}
 		}
 		
+		if(isAPIVersionTooOld)
+		{
+			apiClient.cancelAllPendingRequests();
+			
+			activityCallbackListener.onResult(FetchRequestResultEnum.API_VERSION_TOO_OLD, RequestIdentifierEnum.TV_GUIDE);
+		}
+		
+		
 		if(apiClient.areAllTasksCompleted())
 		{
 			if(activityCallbackListener != null)
@@ -342,7 +358,7 @@ public class ContentManager
 			{
 				apiClient.cancelAllPendingRequests();
 				
-				activityCallbackListener.onResult(resultToReturn, RequestIdentifierEnum.TV_GUIDE);
+				activityCallbackListener.onResult(result, RequestIdentifierEnum.TV_GUIDE);
 			}
 			else
 			{
@@ -1631,21 +1647,5 @@ public class ContentManager
 	public ArrayList<TVDate> getFromCacheTVDates() {
 		 ArrayList<TVDate> tvDates = cache.getTvDates();
 		 return tvDates;
-	}
-
-	
-	
-	/* HELPER METHODS */
-	
-	public boolean checkApiVersion(String apiVersion) 
-	{
-		if(!TextUtils.isEmpty(apiVersion) && !apiVersion.equals(Consts.API_VERSION)) 
-		{
-			return true;
-		} 
-		else 
-		{
-			return false;
-		}
 	}
 }

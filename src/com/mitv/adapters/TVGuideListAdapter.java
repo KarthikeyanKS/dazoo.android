@@ -15,6 +15,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextPaint;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -316,6 +317,9 @@ public class TVGuideListAdapter
 	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		
+		Log.d(TAG, "Fetching index " + position);
+		
 		/* Superclass AdListAdapter will create view if this is a position of an ad. */
 		View rowView = super.getView(position, convertView, parent);
 
