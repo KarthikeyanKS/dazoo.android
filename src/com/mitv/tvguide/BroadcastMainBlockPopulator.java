@@ -21,6 +21,7 @@ import com.millicom.mitv.activities.SignUpSelectionActivity;
 import com.millicom.mitv.enums.ProgramTypeEnum;
 import com.millicom.mitv.models.TVBroadcastWithChannelInfo;
 import com.millicom.mitv.models.TVProgram;
+import com.millicom.mitv.utilities.GenericUtils;
 import com.mitv.R;
 import com.mitv.customviews.LikeView;
 import com.mitv.customviews.ReminderView;
