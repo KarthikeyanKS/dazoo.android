@@ -64,7 +64,7 @@ public class TVGuideTableFragment
 	{
 		TVGuideTableFragment fragment = new TVGuideTableFragment();
 		
-		fragment.adapterMap = ContentManager.sharedInstance().getFromCacheAdapterMap();
+		fragment.adapterMap = new HashMap<String, AdListAdapter>();//ContentManager.sharedInstance().getFromCacheAdapterMap();
 		
 		Bundle bundle = new Bundle();
 		
