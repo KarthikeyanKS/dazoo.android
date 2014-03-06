@@ -52,6 +52,12 @@ public class BroadcastPageActivity
 
 		setContentView(R.layout.layout_broadcastpage_activity);
 
+		initViews();
+	}
+	
+	@Override
+	protected void onResume() {
+		
 		Intent intent = getIntent();
 
 		boolean needToDownloadBroadcastWithChannelInfo = intent.getBooleanExtra(Consts.INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO, false);
@@ -68,8 +74,7 @@ public class BroadcastPageActivity
 			broadcastWithChannelInfo = ContentManager.sharedInstance().getFromCacheSelectedBroadcastWithChannelInfo();
 		}
 
-
-		initViews();
+		super.onResume();
 	}
 	
 	

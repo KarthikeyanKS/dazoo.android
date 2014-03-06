@@ -56,12 +56,19 @@ public class ChannelPageActivity
 		
 		setContentView(R.layout.layout_channelpage_activity);
 
-		TVChannelId channelId = ContentManager.sharedInstance().getFromCacheSelectedTVChannelId();
-		channel = ContentManager.sharedInstance().getFromCacheTVChannelById(channelId);
-		
 		initViews();
 	}
 	
+	
+	
+	@Override
+	protected void onResume() {
+		TVChannelId channelId = ContentManager.sharedInstance().getFromCacheSelectedTVChannelId();
+		channel = ContentManager.sharedInstance().getFromCacheTVChannelById(channelId);
+		super.onResume();
+	}
+
+
 	private void initViews() 
 	{
 		actionBar.setDisplayShowTitleEnabled(false);
