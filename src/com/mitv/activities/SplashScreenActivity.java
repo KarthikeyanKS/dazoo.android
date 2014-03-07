@@ -52,17 +52,7 @@ public class SplashScreenActivity
 	protected void onResume() 
 	{
 		super.onResume();		
-		
-		if(Constants.USE_HOCKEY_APP_CRASH_REPORTS)
-		{
-			checkForCrashes();
-		}
-		
-		if(Constants.USE_HOCKEY_APP_UPDATE_NOTIFICATIONS)
-		{
-			checkForUpdates();
-		}
-		
+				
 		boolean isConnected = NetworkUtils.isConnected();
 		
 		if(isConnected)
@@ -74,25 +64,7 @@ public class SplashScreenActivity
 			updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
 		}
 	}
-	
-
-	
-	// Do not use this in Google Play builds
-	private void checkForCrashes() 
-	{
-		CrashManager.register(this, Constants.HOCKEY_APP_TOKEN);
-	}
-
-	
-	
-	// Do not use this in Google Play builds
-	private void checkForUpdates() 
-	{
-		UpdateManager.register(this, Constants.HOCKEY_APP_TOKEN);
-	}
-
-	
-	
+		
 	private void startPrimaryActivity() 
 	{
 		Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);

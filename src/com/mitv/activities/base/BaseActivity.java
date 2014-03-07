@@ -1,7 +1,4 @@
-
 package com.mitv.activities.base;
-
-
 
 import java.util.Stack;
 
@@ -38,12 +35,7 @@ import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
 
-
-
-public abstract class BaseActivity 
-	extends ActionBarActivity
-	implements ActivityCallbackListener, OnClickListener 
-{
+public abstract class BaseActivity extends ActionBarActivity implements ActivityCallbackListener, OnClickListener {
 	private static final String TAG = BaseActivity.class.getName();
 	private static Stack<Activity> activityStack = new Stack<Activity>();
 
@@ -65,7 +57,7 @@ public abstract class BaseActivity
 
 	private boolean userHasJustLoggedIn;
 	private boolean userHasJustLoggedOut;
-	
+
 	/* Abstract Methods */
 
 	/* This method implementation should update the user interface according to the received status */
@@ -77,17 +69,14 @@ public abstract class BaseActivity
 	/* This method implementation should deal with changes after the data has been fetched */
 	protected abstract void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier);
 
-	
 	@Override
-	protected void onCreate(android.os.Bundle savedInstanceState) 
-	{
+	protected void onCreate(android.os.Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		boolean enableStrictMode = Constants.ENABLE_STRICT_MODE;
-		
-		if (enableStrictMode) 
-		{
-			//enableStrictMode();
+
+		if (enableStrictMode) {
+			// enableStrictMode();
 		}
 
 		/* Google Analytics Tracking */
@@ -97,12 +86,9 @@ public abstract class BaseActivity
 
 		initCallbackLayouts();
 	}
-	
 
-	
 	@Override
-	protected void onResume() 
-	{
+	protected void onResume() {
 		super.onResume();
 
 		/* IMPORTANT add activity to activity stack */
@@ -111,52 +97,39 @@ public abstract class BaseActivity
 		setTabViews();
 
 		Intent intent = getIntent();
-		
+
 		/* Log in states */
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
-		
-		if (isLoggedIn) 
-		{
-			if (intent.hasExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN)) 
-			{
+
+		if (isLoggedIn) {
+			if (intent.hasExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN)) {
 				userHasJustLoggedIn = intent.getExtras().getBoolean(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, false);
 
 				intent.removeExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN);
-			} 
-			else 
-			{
+			} else {
 				userHasJustLoggedIn = false;
 			}
-		}
-		else 
-		{
+		} else {
 			userHasJustLoggedIn = false;
-			
-			if (intent.hasExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT)) 
-			{
+
+			if (intent.hasExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT)) {
 				userHasJustLoggedOut = intent.getExtras().getBoolean(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT, false);
 
 				intent.removeExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT);
-			} 
-			else 
-			{
+			} else {
 				userHasJustLoggedOut = false;
 			}
 		}
-		
-		if (isLoggedIn && userHasJustLoggedIn) 
-		{
+
+		if (isLoggedIn && userHasJustLoggedIn) {
 			StringBuilder sb = new StringBuilder();
 			sb.append(getResources().getString(R.string.hello));
 			sb.append(" ");
 			sb.append(ContentManager.sharedInstance().getFromCacheUserFirstname());
 
 			ToastHelper.createAndShowToast(this, sb.toString());
-		}
-		else
-		{
-			if(userHasJustLoggedOut)
-			{
+		} else {
+			if (userHasJustLoggedOut) {
 				StringBuilder sb = new StringBuilder();
 				// TODO NewArc - Hardcoded string for logout action
 				sb.append("logout");
@@ -165,303 +138,200 @@ public abstract class BaseActivity
 			}
 		}
 	}
-	
 
-	
 	private static void pushActivityToStack(Activity activity) {
 		/* If activity is tab activity, move it to the top */
-		if (isTabActivity(activity)) 
-		{
+		if (isTabActivity(activity)) {
 			removeFromStack(activity);
 		}
 		activityStack.push(activity);
-		
+
 		printActivityStack();
 	};
-	
+
 	/* Used for debugging only */
 	private static void printActivityStack() {
 		Log.d(TAG, ".");
 		Log.d(TAG, ".");
 		Log.d(TAG, "---<<<*** ActivityStack ***>>>---");
 		for (int i = activityStack.size() - 1; i >= 0; --i) {
-            Activity activityInStack = activityStack.get(i);
-            Log.d(TAG, activityInStack.getClass().getSimpleName());
-        }
+			Activity activityInStack = activityStack.get(i);
+			Log.d(TAG, activityInStack.getClass().getSimpleName());
+		}
 	}
-	
-	
+
 	/* Remove activity from activitStack */
-	private static void removeFromStack(Activity activity) 
-	{
-		if(activityStack.contains(activity))
-		{
+	private static void removeFromStack(Activity activity) {
+		if (activityStack.contains(activity)) {
 			activityStack.remove(activity);
 		}
 	}
-	
 
-	
-//	public static Activity getMostRecentTabActivity() 
-//	{
-//		int mostRecentTabActivityIndex = getMostRecentTabActivityIndex();
-//		
-//		Activity mostRecentTabActivity = null;
-//		
-//		if(mostRecentTabActivityIndex >= 0 && mostRecentTabActivityIndex < activityStack.size())
-//		{
-//			mostRecentTabActivity = activityStack.get(mostRecentTabActivityIndex);
-//		}
-//
-//		return mostRecentTabActivity;
-//	}
-	
-	 public static Activity getMostRecentTabActivity() {
-	        Activity mostRecentTabActivity = null;
+	public static Activity getMostRecentTabActivity() {
+		Activity mostRecentTabActivity = null;
 
-	        /* Iterate through stack, start at top of stack */
-	        for (int i = activityStack.size() - 1; i >= 0; --i) {
-	            Activity activityInStack = activityStack.get(i);
+		/* Iterate through stack, start at top of stack */
+		for (int i = activityStack.size() - 1; i >= 0; --i) {
+			Activity activityInStack = activityStack.get(i);
 
-	            /* Check if activityInStack is any of the three TabActivities */
-	            if (isTabActivity(activityInStack))  
-	            {
-	                mostRecentTabActivity = activityInStack;
-	                break;
-	            }
-	        }
+			/* Check if activityInStack is any of the three TabActivities */
+			if (isTabActivity(activityInStack)) {
+				mostRecentTabActivity = activityInStack;
+				break;
+			}
+		}
 
-	        return mostRecentTabActivity;
-	    }
-	
-	
-	
-//	private static int getMostRecentTabActivityIndex() 
-//	{
-//		int mostRecentTabActivityIndex = -1;
-//
-//		/* Iterate through stack, start at top of stack */
-//		for (int i = activityStack.size() - 1; i >= 0; --i) 
-//		{
-//			Activity activityInStack = activityStack.get(i);
-//
-//			/* Check if activityInStack is any of the three TabActivities */
-//			if (isTabActivity(activityInStack)) 
-//			{
-//				mostRecentTabActivityIndex = i;
-//				break;
-//			}
-//		}
-//
-//		return mostRecentTabActivityIndex;
-//	}
-	
+		return mostRecentTabActivity;
+	}
+
 	private boolean thisIsTabActivity() {
 		return isTabActivity(this);
 	}
-	
+
 	private static boolean isTabActivity(Activity activity) {
-		boolean isTabActivity = (activity instanceof HomeActivity || 
-				activity instanceof FeedActivity || 
-				activity instanceof UserProfileActivity);
+		boolean isTabActivity = (activity instanceof HomeActivity || activity instanceof FeedActivity || activity instanceof UserProfileActivity);
 		return isTabActivity;
 	}
 
-	
-	public void setTabViews() 
-	{
+	public void setTabViews() {
 		tabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
 
-		if (tabTvGuide != null) 
-		{
+		if (tabTvGuide != null) {
 			tabTvGuide.setOnClickListener(this);
 		}
 
 		tabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
 
-		if (tabActivity != null) 
-		{
+		if (tabActivity != null) {
 			tabActivity.setOnClickListener(this);
 		}
 
 		tabProfile = (RelativeLayout) findViewById(R.id.tab_me);
 
-		if (tabProfile != null) 
-		{
+		if (tabProfile != null) {
 			tabProfile.setOnClickListener(this);
 		}
 
 		tabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
 
-		if (tabDividerLeft != null) 
-		{
+		if (tabDividerLeft != null) {
 			tabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
 		}
 
 		tabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
 
-		if (tabDividerRight != null) 
-		{
+		if (tabDividerRight != null) {
 			tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
 		}
 
+		Activity mostRecentTabActivity = getMostRecentTabActivity();
 
-				Activity mostRecentTabActivity = getMostRecentTabActivity();
-				
-				if (mostRecentTabActivity instanceof HomeActivity) 
-				{
-					setSelectedTabAsTVGuide();
-				}
-				else if (mostRecentTabActivity instanceof FeedActivity) 
-				{
-					setSelectedTabAsActivityFeed();
-				} 
-				else if (mostRecentTabActivity instanceof UserProfileActivity)
-				{
-					setSelectedTabAsUserProfile();
-				}
-				else
-				{
-					Log.w(TAG, "Unknown activity tab");
-				}
+		if (mostRecentTabActivity instanceof HomeActivity) {
+			setSelectedTabAsTVGuide();
+		} else if (mostRecentTabActivity instanceof FeedActivity) {
+			setSelectedTabAsActivityFeed();
+		} else if (mostRecentTabActivity instanceof UserProfileActivity) {
+			setSelectedTabAsUserProfile();
+		} else {
+			Log.w(TAG, "Unknown activity tab");
+		}
 	}
-	
-	
 
-	protected void setSelectedTabAsTVGuide() 
-	{
-		if (tabTvGuide != null) 
-		{
+	protected void setSelectedTabAsTVGuide() {
+		if (tabTvGuide != null) {
 			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
 		}
 
-		if (tabActivity != null) 
-		{
+		if (tabActivity != null) {
 			tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
 		}
 
-		if (tabProfile != null) 
-		{
+		if (tabProfile != null) {
 			tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
 		}
 	}
 
-	
-	
-	protected void setSelectedTabAsActivityFeed()
-	{
-		if (tabTvGuide != null) 
-		{
+	protected void setSelectedTabAsActivityFeed() {
+		if (tabTvGuide != null) {
 			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 		}
 
-		if (tabActivity != null)
-		{
+		if (tabActivity != null) {
 			tabActivity.setBackgroundColor(getResources().getColor(R.color.red));
 		}
 
-		if (tabProfile != null)
-		{	
+		if (tabProfile != null) {
 			tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
 		}
 	}
 
-	
-	
-	protected void setSelectedTabAsUserProfile() 
-	{
-		if (tabTvGuide != null) 
-		{
+	protected void setSelectedTabAsUserProfile() {
+		if (tabTvGuide != null) {
 			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 		}
 
-		if (tabActivity != null) 
-		{
+		if (tabActivity != null) {
 			tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
 		}
 
-		if (tabProfile != null) 
-		{
+		if (tabProfile != null) {
 			tabProfile.setBackgroundColor(getResources().getColor(R.color.red));
 		}
 	}
 
-	
-	
 	@Override
-	public void onClick(View v) 
-	{
+	public void onClick(View v) {
 		int id = v.getId();
 
 		boolean changedTab = false;
-		
-		switch (id) 
-		{
-			case R.id.tab_tv_guide: 
-			{
-				if (!(this instanceof HomeActivity)) 
-				{
-					Intent intentActivity = new Intent(this, HomeActivity.class);
-					startActivity(intentActivity);
-					changedTab = true;
-				}
-				break;
+
+		switch (id) {
+		case R.id.tab_tv_guide: {
+			if (!(this instanceof HomeActivity)) {
+				Intent intentActivity = new Intent(this, HomeActivity.class);
+				startActivity(intentActivity);
+				changedTab = true;
 			}
-	
-			case R.id.tab_activity: 
-			{
-				if (!(this instanceof FeedActivity))
-				{
-					Intent intentActivity = new Intent(this, FeedActivity.class);
-					startActivity(intentActivity);
-					changedTab = true;
-				}
-				break;
-			}
-	
-			case R.id.tab_me:
-			{
-				if (!(this instanceof UserProfileActivity))
-				{
-					Intent intentMe = new Intent(this, UserProfileActivity.class);
-					startActivity(intentMe);
-					changedTab = true;
-				}
-				break;
-			}
-	
-			case R.id.request_failed_reload_button:
-			case R.id.bad_request_reload_button:
-			{
-				if (!NetworkUtils.isConnectedAndHostIsReachable())
-				{
-					updateUI(UIStatusEnum.FAILED);
-				}
-				else
-				{
-					loadData();
-				}
-	
-				break;
-			}
-			
-			default: 
-			{
-				Log.w(TAG, "Unknown tab selected");
-			}
+			break;
 		}
-		
-		/* If we changed tabs, and the activity we came from (this) was not a tabActivity (i.e. this is an instance of BroadcastPage or ChannelPage etc) then finish the activity! */
-		if(!thisIsTabActivity() && changedTab) {
-			this.finish();
+
+		case R.id.tab_activity: {
+			if (!(this instanceof FeedActivity)) {
+				Intent intentActivity = new Intent(this, FeedActivity.class);
+				startActivity(intentActivity);
+				changedTab = true;
+			}
+			break;
+		}
+
+		case R.id.tab_me: {
+			if (!(this instanceof UserProfileActivity)) {
+				Intent intentMe = new Intent(this, UserProfileActivity.class);
+				startActivity(intentMe);
+				changedTab = true;
+			}
+			break;
+		}
+
+		case R.id.request_failed_reload_button:
+		case R.id.bad_request_reload_button: {
+			if (!NetworkUtils.isConnectedAndHostIsReachable()) {
+				updateUI(UIStatusEnum.FAILED);
+			} else {
+				loadData();
+			}
+
+			break;
+		}
+
+		default: {
+			Log.w(TAG, "Unknown tab selected");
+		}
 		}
 	}
 
-	
-	
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
+	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 
 		inflater.inflate(R.menu.actionbar_menu, menu);
@@ -470,13 +340,11 @@ public abstract class BaseActivity
 
 		View seachIconView = MenuItemCompat.getActionView(searchIcon);
 
-		seachIconView.setOnClickListener(new OnClickListener()
-		{
+		seachIconView.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) 
-			{
+			public void onClick(View v) {
 				Intent toSearchPage = new Intent(BaseActivity.this, SearchPageActivity.class);
-				
+
 				startActivity(toSearchPage);
 			}
 		});
@@ -488,40 +356,31 @@ public abstract class BaseActivity
 		return super.onCreateOptionsMenu(menu);
 	}
 
-	
-	
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
-		switch (item.getItemId()) 
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home: {
+			/* Pressing the Home, which here is used as "up", should be same as pressing back */
+			onBackPressed();
+			return true;
+		}
+
+		case R.id.action_start_search: // Might be dead with actionView instead of icon...
 		{
-			case android.R.id.home: 
-			{
-				/* Pressing the Home, which here is used as "up", should be same as pressing back */
-				onBackPressed();
-				return true;
-			}
-	
-			case R.id.action_start_search: // Might be dead with actionView instead of icon...
-			{
-				Intent toSearchPage = new Intent(BaseActivity.this, SearchPageActivity.class);
-				startActivity(toSearchPage);
-	
-				return true;
-			}
-	
-			default: 
-			{
-				return super.onOptionsItemSelected(item);
-			}
+			Intent toSearchPage = new Intent(BaseActivity.this, SearchPageActivity.class);
+			startActivity(toSearchPage);
+
+			return true;
+		}
+
+		default: {
+			return super.onOptionsItemSelected(item);
+		}
 		}
 	}
-	
-	
 
 	@Override
-	protected void onStop()
-	{
+	protected void onStop() {
 		super.onStop();
 
 		String className = this.getClass().getName();
@@ -531,31 +390,22 @@ public abstract class BaseActivity
 		EasyTracker.getInstance(this).activityStop(this);
 	}
 
-	
-	
 	@Override
-	public void onBackPressed() 
-	{
+	public void onBackPressed() {
 		super.onBackPressed();
 
 		removeFromStack(this);
 	}
-	
-	
-	
+
 	@Override
-	protected void onDestroy() 
-	{
+	protected void onDestroy() {
 		removeFromStack(this);
-	
+
 		super.onDestroy();
 	}
 
-	
-	
 	@Override
-	public void setContentView(int layoutResID) 
-	{
+	public void setContentView(int layoutResID) {
 		super.setContentView(layoutResID);
 
 		actionBar = getSupportActionBar();
@@ -568,31 +418,22 @@ public abstract class BaseActivity
 		initCallbackLayouts();
 	}
 
-	
-	
 	/*
 	 * This method checks for Internet connectivity before loading data
 	 */
-	protected void loadDataWithConnectivityCheck() 
-	{
+	protected void loadDataWithConnectivityCheck() {
 		boolean isConnected = NetworkUtils.isConnected();
-		
-		if(isConnected)
-		{
+
+		if (isConnected) {
 			loadData();
-		}
-		else 
-		{
+		} else {
 			updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
 		}
 	}
 
-	
-	
 	@Override
 	public final void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {
-		switch (fetchRequestResult) 
-		{
+		switch (fetchRequestResult) {
 		case INTERNET_CONNECTION_AVAILABLE: {
 			loadData();
 			break;
@@ -611,10 +452,7 @@ public abstract class BaseActivity
 		}
 	}
 
-	
-	
-	protected void updateUIBaseElements(UIStatusEnum status) 
-	{
+	protected void updateUIBaseElements(UIStatusEnum status) {
 		boolean activityNotNullOrFinishing = GenericUtils.isActivityNotNullOrFinishing(this);
 
 		if (activityNotNullOrFinishing) {
@@ -659,11 +497,8 @@ public abstract class BaseActivity
 			Log.w(TAG, "Activity is null or finishing. No UI elements will be changed.");
 		}
 	}
-	
-	
 
-	private void hideRequestStatusLayouts() 
-	{
+	private void hideRequestStatusLayouts() {
 		if (requestFailedLayout != null) {
 			requestFailedLayout.setVisibility(View.GONE);
 		}
@@ -681,16 +516,12 @@ public abstract class BaseActivity
 		}
 	}
 
-	
-	
-	private void initCallbackLayouts() 
-	{
+	private void initCallbackLayouts() {
 		requestFailedLayout = (RelativeLayout) findViewById(R.id.request_failed_main_layout);
 
 		requestFailedButton = (Button) findViewById(R.id.request_failed_reload_button);
 
-		if (requestFailedButton != null) 
-		{
+		if (requestFailedButton != null) {
 			requestFailedButton.setOnClickListener(this);
 		}
 
@@ -699,23 +530,18 @@ public abstract class BaseActivity
 		requestEmptyLayout = (RelativeLayout) findViewById(R.id.request_empty_main_layout);
 
 		requestEmptyLayoutDetails = (TextView) findViewById(R.id.request_empty_details_tv);
-		
+
 		requestBadLayout = (RelativeLayout) findViewById(R.id.bad_request_main_layout);
 
 		requestBadButton = (Button) findViewById(R.id.bad_request_reload_button);
 
-		if (requestBadButton != null) 
-		{
+		if (requestBadButton != null) {
 			requestBadButton.setOnClickListener(this);
 		}
 	}
-	
-	
-	
-	protected void setEmptyLayoutDetailsMessage(String message)
-	{
-		if(requestEmptyLayoutDetails != null)
-		{
+
+	protected void setEmptyLayoutDetailsMessage(String message) {
+		if (requestEmptyLayoutDetails != null) {
 			requestEmptyLayoutDetails.setText(message);
 		}
 	}

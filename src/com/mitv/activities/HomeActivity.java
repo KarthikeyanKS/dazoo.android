@@ -2,11 +2,15 @@ package com.mitv.activities;
 
 
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.UpdateManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.mitv.Constants;
 import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -59,6 +63,16 @@ public class HomeActivity
 	{
 		super.onResume();
 		
+		if(Constants.USE_HOCKEY_APP_CRASH_REPORTS)
+		{
+			hockeyAppCheckForCrashes();
+		}
+		
+		if(Constants.USE_HOCKEY_APP_UPDATE_NOTIFICATIONS)
+		{
+			hockeyAppCheckForUpdates();
+		}
+		
 		int currentHour = DateUtils.getCurrentHourOn24HourFormat();
 		
 		ContentManager.sharedInstance().setSelectedHour(currentHour);
@@ -66,6 +80,20 @@ public class HomeActivity
 		showWelcomeToast();
 	}
 	
+	
+	/* Do not use this in Google Play builds */
+	private void hockeyAppCheckForCrashes() 
+	{
+		CrashManager.register(this, Constants.HOCKEY_APP_TOKEN);
+	}
+
+	
+	
+	/* Do not use this in Google Play builds */
+	private void hockeyAppCheckForUpdates() 
+	{
+		UpdateManager.register(this, Constants.HOCKEY_APP_TOKEN);
+	}
 	
 	
 	private void showWelcomeToast() 
