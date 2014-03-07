@@ -1,5 +1,7 @@
+
 package com.mitv.activities.base;
 
+import java.util.EmptyStackException;
 import java.util.Stack;
 
 import android.app.Activity;
@@ -25,12 +27,15 @@ import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.activities.FeedActivity;
 import com.mitv.activities.HomeActivity;
+import com.mitv.activities.MyChannelsActivity;
 import com.mitv.activities.SearchPageActivity;
+import com.mitv.activities.UpcomingEpisodesPageActivity;
 import com.mitv.activities.UserProfileActivity;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.models.UpcomingBroadcastsForBroadcast;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
@@ -86,6 +91,7 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 
 		initCallbackLayouts();
 	}
+	
 
 	@Override
 	protected void onResume() {
@@ -138,7 +144,7 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 			}
 		}
 	}
-
+	
 	private static void pushActivityToStack(Activity activity) {
 		/* If activity is tab activity, move it to the top */
 		if (isTabActivity(activity)) {

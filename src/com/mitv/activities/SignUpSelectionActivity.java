@@ -5,10 +5,12 @@ package com.mitv.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.activities.authentication.LoginWithFacebookActivity;
 import com.mitv.activities.authentication.LoginWithMiTVUserActivity;

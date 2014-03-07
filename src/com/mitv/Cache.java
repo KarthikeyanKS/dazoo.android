@@ -97,6 +97,7 @@ public class Cache
 	private SearchResultsForQuery nonPersistentSearchResultsForQuery;
 	private Integer nonPersistentSelectedHour;
 	private TVChannelId nonPersistentSelectedTVChannelId;
+	private Class<?> returnActivity;
 		
 	
 	
@@ -121,6 +122,18 @@ public class Cache
 	
 	
 	
+	public Class<?> getReturnActivity() {
+		return returnActivity;
+	}
+
+	public void setReturnActivity(Class<?> returnActivity) {
+		this.returnActivity = returnActivity;
+	}
+	
+	public void clearReturnActivity() {
+		setReturnActivity(null);
+	}
+
 	public SearchResultsForQuery getNonPersistentSearchResultsForQuery() {
 		return nonPersistentSearchResultsForQuery;
 	}

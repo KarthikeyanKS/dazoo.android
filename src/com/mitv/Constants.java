@@ -12,47 +12,39 @@ public abstract class Constants
 	public static final String	TESTFLIGHT_TOKEN					= "343b5e95-cc27-4e8e-8a0d-ff5f7a181c5c";
 	public static final String	HOCKEY_APP_TOKEN					= "c90b5331b5a7086d88d98021508f2c16";
 	public static final String 	SUPPORTED_API_VERSION				= "1.0.0";
-
-	public static final String MITV_SESSION							= "com.mitv.session";
 	
-	public static final String USER_ACCOUNT_ACCESS_TOKEN			= "com.mitv.user.account.access.token";
-	public static final String USER_ACCOUNT_USER_ID					= "com.mitv.user.account.user.id";
-	public static final String USER_ACCOUNT_FIRST_NAME				= "com.mitv.user.first.name";
-	public static final String USER_ACCOUNT_LAST_NAME				= "com.mitv.user.last.name";
-	public static final String USER_ACCOUNT_EXISTING_FLAG			= "com.mitv.user.existing.flag";
-	public static final String USER_ACCOUNT_EMAIL					= "com.mitv.user.account.email";
-	public static final String USER_ACCOUNT_PASSWORD				= "com.mitv.user.account.password";
-	public static final String USER_ACCOUNT_AVATAR_URL				= "com.mitv.user.account.avatar.url";
-	public static final String USER_ACCOUNT_MY_CHANNELS_IDS_JSON	= "com.mitv.user.account.my.channels.ids.json";
-	public static final String TV_GUIDE_HOUR						= "com.mitv.tv.guide.hour";
-	public static final String HOMEPAGE_AGAIN						= "com.mitv.homepage.again";
-	public static final String API_VERSION_SHARED_PREF				= "com.mitv.api.version";
 	public static final String APP_WAS_PREINSTALLED_FILE_NAME		= "59b039d2c0c0a7fbe163";
 
 	/* API URLs */
 	public static final String HTTP_SCHEME							= "http://";
 	public static final String HTTPS_SCHEME							= "https://";
 	public static final String JSON_MIME_TYPE 						= "application/json";
+	public static final String BACKEND_ENVIRONMENT_MITV 			= "mi.tv/";
+	public static final String BACKEND_ENVIRONMENT_GITRGITR 		= "gitrgitr.com/";
+
+	/* SETTINGS FOR BACKEND ENVIVORONEMT AND HTTPS SCHEME */
+	public static final String HTTP_SCHEME_USED						= HTTP_SCHEME;
+	public static final String BACKEND_ENVIRONMENT_USED 			= BACKEND_ENVIRONMENT_GITRGITR;
 	
-	public static final String URL_MITV_BASE						= "android.api.mi.tv/";
-	public static final String URL_GITR_BASE						= "android.api.gitrgitr.com/";
-	public static final String BASE_API_URL_USED 					= URL_MITV_BASE;
-	public static final String URL_SERVER_SECURE 					= HTTPS_SCHEME + BASE_API_URL_USED;
-	public static final String URL_SERVER							= HTTP_SCHEME + BASE_API_URL_USED;
-//	public static String 	   URL_INTERNAL_TRACKING 				= HTTP_SCHEME + "tracking.gitrgitr.com/track/unique?verb=views&key=program_id&value=%s&uid=%s";
-	public static String 	   URL_INTERNAL_TRACKING_OLD 			= HTTP_SCHEME + "tracking.mi.tv/track/unique?verb=views&key=program_id&value=%s&uid=%s";
-	public static String 	   URL_INTERNAL_TRACKING 				= HTTP_SCHEME + "tracking.mi.tv/track/unique";
+	/* "Static", don't need to change those */
+	public static final String URL_BACKEND_BASE_API					= "android.api.";
+	public static final String URL_BACKEND_BASE_INTERNAL_TRACKING	= "tracking.";
+	public static final String BASE_API_URL_USED 					= URL_BACKEND_BASE_API + BACKEND_ENVIRONMENT_USED;;
+	public static final String URL_SERVER							= HTTP_SCHEME_USED + BASE_API_URL_USED;
+	public static final String URL_SERVER_SECURE					= HTTPS_SCHEME + BASE_API_URL_USED;
+	public static String URL_INTERNAL_TRACKING_SUFFIX				= "track/unique";
+	public static String URL_INTERNAL_TRACKING						= HTTP_SCHEME_USED + URL_BACKEND_BASE_INTERNAL_TRACKING + BACKEND_ENVIRONMENT_USED + URL_INTERNAL_TRACKING_SUFFIX;
 	
 	
 	public static final String URL_GUIDE 							= URL_SERVER + "epg/guide";
 	public static final String URL_DATES 							= URL_SERVER + "epg/dates";
 	public static final String URL_CHANNELS_ALL 					= URL_SERVER + "epg/channels";
 	public static final String URL_CHANNELS_DEFAULT 				= URL_SERVER + "epg/channels/default";
-	public static final String URL_FACEBOOK_TOKEN 					= URL_SERVER + "auth/login/facebook";
-	public static final String URL_LOGIN 							= URL_SERVER + "auth/login/dazoo";
-	public static final String URL_REGISTER 						= URL_SERVER + "auth/login/dazoo/register";
-	public static final String URL_RESET_PASSWORD_SEND_EMAIL		= URL_SERVER + "auth/login/dazoo/sendResetPasswordEmail";
-	public static final String URL_RESET_AND_CONFIRM_PASSWORD 		= URL_SERVER + "auth/login/dazoo/resetPassword";
+	public static final String URL_FACEBOOK_TOKEN 					= URL_SERVER_SECURE + "auth/login/facebook";
+	public static final String URL_LOGIN 							= URL_SERVER_SECURE + "auth/login/dazoo";
+	public static final String URL_REGISTER 						= URL_SERVER_SECURE + "auth/login/dazoo/register";
+	public static final String URL_RESET_PASSWORD_SEND_EMAIL		= URL_SERVER_SECURE + "auth/login/dazoo/sendResetPasswordEmail";
+	public static final String URL_RESET_AND_CONFIRM_PASSWORD 		= URL_SERVER_SECURE + "auth/login/dazoo/resetPassword";
 	public static final String URL_TAGS_PAGE 						= URL_SERVER + "epg/tags/visible";
 	public static final String URL_MY_CHANNEL_IDS 					= URL_SERVER + "my/channels";
 	public static final String URL_LIKES 							= URL_SERVER + "my/likes";
@@ -106,32 +98,12 @@ public abstract class Constants
 	public static final int USER_FIRSTNAME_LENGTH_MIN				= 1;
 	public static final int API_POPULAR_COUNT_DEFAULT				= 3;
 
-	public static String		BACK_STACK											= "com.mitv.back.stack";
-
 	public static final String	ISO_DATE_FORMAT										= "yyyy-MM-dd'T'HH:mm:ss'Z'";
 	public static final String	DATE_FORMAT_DATE									= "yyyy-MM-dd";
 	public static final String	DATE_FORMAT_HOUR_AND_MINUTE							= "HH:mm";
 	public static final String	DATE_FORMAT_HOUR_AND_MINUTE_WITH_AM_PM				= "HH:mm a";
 	public static final String	DATE_FORMAT_DAY_AND_MONTH							= "dd/MM";
 	
-	
-	/* Activity page content block types */
-	public static final String	BLOCK_TYPE_PRODUCT_TV								= "com.mitv.content.product.tv";
-	public static final String	BLOCK_TYPE_PRODUCT_MOVIE							= "com.mitv.content.product.movie";
-	public static final String	BLOCK_TYPE_PRODUCT_SPORT							= "com.mitv.content.product.sport";
-	public static final String	BLOCK_TYPE_PRODUCT_KIDS								= "com.mitv.content.product.kids";
-	public static final String	BLOCK_TYPE_PRODUCT_RECOMMENDED_LIST					= "com.mitv.content.product.list.recommended";
-
-	/* Broadcast intents */
-	public static final String	BROADCAST_SORTING_SELECTED							= "com.broadcast.sorting.selected";
-	public static final String	BROADCAST_FORCE_RELOAD								= "com.broadcast.only.downloads";
-	public static final String	BROADCAST_HOMEPAGE									= "com.broadcast.homepage";
-
-	/* Section Ids */
-	public static final String	SECTION_ID_TVGUIDE									= "secondscreen.section.tvguide";
-	public static final String	SECTION_ID_ACTIVITY									= "secondscreen.section.activity";
-	public static final String	SECTION_ID_ME										= "secondscreen.section.me";
-
 	/* Data extra intents */
 	public static final String	INTENT_EXTRA_CHANNEL_ID								= "com.mitv.intent.extra.channel.id";
 	public static final String	INTENT_EXTRA_BROADCAST_BEGINTIMEINMILLIS			= "com.mitv.intent.extra.begintimeinmillis";
@@ -149,10 +121,6 @@ public abstract class Constants
 	public static final String	INTENT_ALARM_EXTRA_BROADCAST_HOUR_AND_MINUTE_TIME	= "com.mitv.intent.alarm.extra.broadcast.time";
 
 	public static final String	INTENT_EXTRA_NEED_TO_DOWNLOAD_BROADCAST_WITH_CHANNEL_INFO	= "com.mitv.intent.extra.need.to.download.broadcast.with.channel.info";
-
-	/* Activity feed extras */
-	public static final String	INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME				= "com.mitv.intent.extra.from.activity";
-
 	
 	public static final String	INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN			= "com.mitv.intent.extra.activity.user.login.success";
 	public static final String	INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT			= "com.mitv.intent.extra.activity.user.logout.success";
@@ -164,54 +132,13 @@ public abstract class Constants
 	/* Fragments extra arguments */
 	public static final String	FRAGMENT_EXTRA_TAG_DISPLAY_NAME						= "com.mitv.fragment.extra.tag.displayname";
 	public static final String	FRAGMENT_EXTRA_TAG_ID								= "com.mitv.fragment.extra.tag.id";
-	public static final String	FRAGMENT_EXTRA_TVDATE								= "com.mitv.fragment.extra.tvdate";
-	public static final String	FRAGMENT_EXTRA_TVDATE_POSITION						= "com.mitv.fragment.extra.tvdate.position";
-
-	/* Custom data types */
-	public static final String	VALUE_TYPE_PROGRAMTYPE								= "com.mitv.value.type.programtype";
-	public static final String	VALUE_TYPE_TVDATE									= "com.mitv.value.type.tvdate";
-	public static final String	VALUE_TYPE_TAG										= "com.mitv.value.type.tag";
 
 	/* TVGuide */
 	public static final int		TV_GUIDE_NEXT_PROGRAMS_NUMBER						= 3;
-	public static final String	TV_GUIDE_PAGE_NUMBER								= "com.mitv.tvguide.page.number";
-
-	public static final String	IMAGE_MACHINE_SECURITY_KEY							= "24567hright";
-
-	/* Parcelable bundles */
-	public static final String	PARCELABLE_CHANNELS_LIST							= "com.parcelable.channels.list";
-	public static final String	PARCELABLE_TV_DATES_LIST							= "com.parcelable.dates.list";
-	public static final String	PARCELABLE_PROGRAM_TYPES_LIST						= "com.parcelable.categories.list";
-	public static final String	PARCELABLE_TAGS_LIST								= "com.parcelable.tags.list";
-
-	/* Activity's requests to update calling fragment */
-	public static final int		INFO_UPDATE_REMINDERS								= 1;
-	public static final int		INFO_UPDATE_LIKES									= 11;
-	public static final int		INFO_NO_UPDATE_REMINDERS							= 0;
-	public static final int		INFO_NO_UPDATE_LIKES								= 10;
-	public static final int		INFO_UPDATE_LOGOUT									= 111;
-	public static final int		INFO_UPDATE_MYCHANNELS								= 1111;
-	public static final String	INFO_UPDATE_LIKES_NUMBER							= "com.mitv.info.update.likes.number";
-	public static final String	INFO_UPDATE_REMINDERS_NUMBER						= "com.mitv.info.update.reminders.number";
-	public static final String	INFO_UPDATE_MYCHANNELS_NUMBER						= "com.mitv.info.update.mychannels.number";
-
-	/* Response codes */
-	public static final int		GOOD_RESPONSE										= 200;
-	public static final int		GOOD_RESPONSE_RESET_PASSWORD						= 204;
-	public static final int		GOOD_RESPONSE_CHANNELS_ARE_ADDED					= 204;
-	public static final int		GOOD_RESPONSE_LIKE_IS_DELETED						= 204;
-
-	public static final int		BAD_RESPONSE										= 400;
-	public static final int		BAD_RESPONSE_MISSING_TOKEN							= 401;
-	public static final int		BAD_RESPONSE_INVALID_TOKEN							= 403;
-	public static final int		BAD_RESPONSE_PROGRAM_SERIES_NOT_FOUND				= 400;
-
-	public static final int		BAD_RESPONSE_TIMEOUT								= 500;
 	
 	/* Notifications */
 	public static final int		NOTIFY_MINUTES_BEFORE_THE_BROADCAST2				= 15;
-	public static final String	NOTIFY_NUMBER										= "com.mitv.notify.number";
-	public static final String	NOTIFY_BROADCAST_URL_MIDDLE							= "/broadcasts/";
+
 
 	/* Notifications database */
 	public static final String	NOTIFICATION_DATABASE_NAME							= "notifications.db";
@@ -256,7 +183,7 @@ public abstract class Constants
 	public static final String	PROGRAM_TITLE									= "title";
 	public static final String	PROGRAM_SYNOPSIS_SHORT						= "synopsisShort";
 	public static final String	PROGRAM_SYNOPSISS_LONG						= "synopsisLong";
-	// public static final String PROGRAM_POSTER = "poster";
+
 	public static final String	PROGRAM_IMAGES								= "images";
 	public static final String	PROGRAM_TAGS									= "tags";
 	public static final String	PROGRAM_CREDITS								= "credits";

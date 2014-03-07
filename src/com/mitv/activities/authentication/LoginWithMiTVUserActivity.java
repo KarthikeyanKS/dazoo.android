@@ -3,6 +3,7 @@ package com.mitv.activities.authentication;
 
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -140,12 +141,12 @@ public class LoginWithMiTVUserActivity
 			{
 				enableFields();
 				
-				Intent intent = new Intent(LoginWithMiTVUserActivity.this, getMostRecentTabActivity().getClass());
-
-				intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
-
-				startActivity(intent);
-				
+				if(!ContentManager.sharedInstance().tryStartReturnActivity(this)) {
+					Activity mostRecentTabActivity = getMostRecentTabActivity();
+					Intent intent = new Intent(LoginWithMiTVUserActivity.this, mostRecentTabActivity.getClass());
+					intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
+					startActivity(intent);
+				}				
 				finish();
 				
 				break;
