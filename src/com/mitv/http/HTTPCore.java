@@ -96,7 +96,7 @@ public class HTTPCore
 				0,
 				new String(),
 				new String(),
-				false);
+				true);
 
 		return response;
 	}
