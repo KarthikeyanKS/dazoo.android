@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:background="@color/grey4"
+        android:background="@color/grey0"
         android:visibility="gone" >
 
         <com.mitv.ui.elements.FontTextView
@@ -25,10 +25,10 @@
             android:layout_marginTop="15dp"
             android:gravity="left"
             android:textAllCaps="true"
-            android:textColor="@color/grey2"
-            android:textSize="18sp"
+            android:textColor="@color/grey3"
+            android:textSize="20sp"
             android:textStyle="bold"
-            font:fonttextview="roboto_mitv_medium.ttf" />
+            font:fonttextview="roboto_mitv_light.ttf" />
     </RelativeLayout>
 
     <!-- LIKES CONTAINER -->
@@ -39,9 +39,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/row_likes_header_container"
         android:background="@color/white"
+        android:baselineAligned="false"
         android:orientation="horizontal"
-        android:padding="10dp" 
-        android:baselineAligned="false">
+        android:padding="10dp" >
 
         <RelativeLayout
             android:id="@+id/row_likes_text_container"
@@ -55,15 +55,11 @@
 
             <com.mitv.ui.elements.FontTextView
                 android:id="@+id/row_likes_text_title_tv"
+                style="@style/header2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="0dp"
                 android:gravity="left"
-                android:lines="1"
-                android:textColor="@color/black"
-                android:textSize="@dimen/header_2"
-                android:textStyle="bold" />
+                android:lines="1" />
 
             <!-- DETAILS -->
 
@@ -74,8 +70,7 @@
                 android:layout_below="@id/row_likes_text_title_tv"
                 android:gravity="left"
                 android:lines="1"
-                android:textColor="@color/grey2"
-                android:textSize="@dimen/ingress" />
+                style="@style/text1" />
         </RelativeLayout>
 
         <!-- BUTTON CONTAINER -->

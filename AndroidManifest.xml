@@ -112,6 +112,7 @@
             android:name="com.mitv.activities.MyChannelsActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
+            android:launchMode="singleInstance"
             android:theme="@style/WhiteTitleActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -6,74 +6,75 @@
     android:layout_height="wrap_content"
     android:background="@color/grey1"
     android:orientation="vertical" >
-    
-    <RelativeLayout 
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent"
-	    android:background="@color/white"
-	    android:orientation="vertical"
-	    android:layout_marginLeft="10dp"
-	    android:layout_marginRight="10dp">
 
-	    <!-- HEADER -->
-	
-	    <com.mitv.ui.elements.FontTextView
-	        android:id="@+id/block_popular_header_tv"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_marginLeft="10dp"
-	        android:layout_marginRight="10dp"
-	        android:layout_marginTop="10dp"
-	        android:text="@string/popular_now"
-	        android:textSize="22sp"
-	        font:fonttextview="roboto_mitv_medium.ttf" />
-	    
-		<!-- ITEM 1 -->
-	    <include
-	        android:id="@+id/block_popular_element_one"
-	    	android:layout_width="match_parent"
-	    	android:layout_height="wrap_content"
-	        android:layout_below="@id/block_popular_header_tv"
-	        layout="@layout/element_popular_list_item" />
-	    
-	    <!-- ITEM 2 -->
-	    <include
-	        android:id="@+id/block_popular_element_two"
-	    	android:layout_width="match_parent"
-	    	android:layout_height="wrap_content"
-	    	android:layout_below="@id/block_popular_element_one"
-	        layout="@layout/element_popular_list_item" />
-	    
-	    <!-- ITEM 3 -->
-	    <include
-	        android:id="@+id/block_popular_element_three"
-	    	android:layout_width="match_parent"
-	    	android:layout_height="wrap_content"
-	        android:layout_below="@id/block_popular_element_two"
-	        layout="@layout/element_popular_list_item" />
-	
-	    <!-- FOOTER -->
-	
-	    <RelativeLayout
-	        android:id="@+id/block_popular_show_more_container"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_below="@id/block_popular_element_three"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <!-- HEADER -->
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/block_popular_header_tv"
+            style="@style/headercard2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/popular_now" />
+
+        <!-- ITEM 1 -->
+
+        <include
+            android:id="@+id/block_popular_element_one"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/block_popular_header_tv"
+            layout="@layout/element_popular_list_item" />
+
+        <!-- ITEM 2 -->
+
+        <include
+            android:id="@+id/block_popular_element_two"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/block_popular_element_one"
+            layout="@layout/element_popular_list_item" />
+
+        <!-- ITEM 3 -->
+
+        <include
+            android:id="@+id/block_popular_element_three"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/block_popular_element_two"
+            layout="@layout/element_popular_list_item" />
+
+        <!-- FOOTER -->
+
+        <RelativeLayout
+            android:id="@+id/block_popular_show_more_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/block_popular_element_three"
             android:background="@drawable/background_color_selector"
-	        android:orientation="vertical"
-	        android:padding="10dp" >
-	
-	        <com.mitv.ui.elements.FontTextView
-	            android:id="@+id/block_popular_show_more_btn"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:layout_alignParentLeft="true"
-	            android:text="@string/show_all"
-	            android:textSize="@dimen/header_3" 
-	            android:textColor="@color/grey2"
-	        	font:fonttextview="roboto_mitv_medium.ttf"/>
-	    </RelativeLayout>
-    
+            android:orientation="vertical"
+            android:padding="10dp" >
+
+            <com.mitv.ui.elements.FontTextView
+                android:id="@+id/block_popular_show_more_btn"
+                style="@style/meta1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="@string/show_all" />
+        </RelativeLayout>
     </RelativeLayout>
 
 </RelativeLayout>

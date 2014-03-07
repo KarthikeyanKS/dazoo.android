@@ -45,8 +45,8 @@
             android:id="@+id/block_broadcastpage_broadcast_details_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" >
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp" >
 
             <!-- TRENDING ICON TODO: SPECIFY SOURCE -->
 
@@ -90,7 +90,7 @@
 
                 <com.mitv.ui.elements.FontTextView
                     android:id="@+id/block_broadcastpage_broadcast_details_season_tv"
-                    style="@style/text1"
+                    style="@style/header2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:lineSpacingExtra="0sp"
@@ -100,7 +100,7 @@
 
                 <com.mitv.ui.elements.FontTextView
                     android:id="@+id/block_broadcastpage_broadcast_details_episode_tv"
-                    style="@style/text1"
+                    style="@style/header2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/block_broadcastpage_broadcast_details_season_tv"

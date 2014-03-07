@@ -45,8 +45,7 @@
                 android:layout_marginTop="100dp"
                 android:text="@string/activity_page"
                 android:textColor="@color/white"
-                android:textSize="@dimen/header_1"
-                android:textStyle="bold"
+                android:textSize="24sp"
                 font:fonttextview="roboto_mitv_bold.ttf" />
 
             <com.mitv.ui.elements.FontTextView
@@ -60,9 +59,8 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/activity_page_subtitle"
                 android:textColor="@color/white"
-                android:textSize="@dimen/header_2"
-                android:textStyle="bold"
-                font:fonttextview="roboto_mitv_bold.ttf" />
+                android:textSize="18sp"
+                font:fonttextview="roboto_mitv_light.ttf" />
 
             <!-- LOGIN BLOCK -->
 
@@ -74,6 +72,7 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/layout_rounded_corners_white"
                 android:orientation="vertical"
+                android:paddingBottom="10dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp" >
 
@@ -86,38 +85,36 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/background_color_selector_login_facebook"
                     android:orientation="horizontal" >
-                    
-                    <RelativeLayout
-	                    android:layout_width="wrap_content"
-	                    android:layout_height="match_parent"
-	                    android:orientation="horizontal" 
-	                    android:layout_centerInParent="true">
-	                    
-                        <com.mitv.ui.elements.FontTextView
-	                        android:id="@+id/activity_not_logged_in_signin_facebook_icon"
-	                        android:layout_width="wrap_content"
-	                        android:layout_height="wrap_content"
-	                        android:layout_marginRight="5dp"
-	                        android:layout_centerVertical="true"
-	                        android:text="@string/icon_facebook"
-	                        android:textColor="@color/white"
-	                        android:textSize="34sp"
-	                		font:fonttextview="roboto_mitv_bold.ttf"/>
 
-	                    <com.mitv.ui.elements.FontTextView
-	                        android:id="@+id/activity_not_logged_in_signin_facebook_tv"
-	                        android:layout_width="wrap_content"
-	                        android:layout_height="wrap_content"
-	                        android:layout_toRightOf="@id/activity_not_logged_in_signin_facebook_icon"
-	                        android:layout_centerVertical="true"
-	                        android:text="@string/login_with_facebook"
-	                        android:textColor="@color/white"
-	                        android:textSize="18sp"
-	                        android:textStyle="bold"
-	                		font:fonttextview="roboto_mitv_bold.ttf" />
-						
-					</RelativeLayout>
-					
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:orientation="horizontal" >
+
+                        <com.mitv.ui.elements.FontTextView
+                            android:id="@+id/activity_not_logged_in_signin_facebook_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="5dp"
+                            android:text="@string/icon_facebook"
+                            android:textColor="@color/white"
+                            android:textSize="34sp"
+                            font:fonttextview="roboto_mitv_bold.ttf" />
+
+                        <com.mitv.ui.elements.FontTextView
+                            android:id="@+id/activity_not_logged_in_signin_facebook_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@id/activity_not_logged_in_signin_facebook_icon"
+                            android:text="@string/login_with_facebook"
+                            android:textColor="@color/white"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            font:fonttextview="roboto_mitv_bold.ttf" />
+                    </RelativeLayout>
                 </RelativeLayout>
 
                 <!-- OR BAR -->
@@ -127,8 +124,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/activity_not_logged_in_facebook_container"
-                    android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
                     android:orientation="horizontal" >
 
                     <View
@@ -144,12 +141,13 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:layout_centerVertical="true"
-    					android:background="@color/white"
+                        android:background="@color/white"
                         android:padding="5dp"
                         android:text="@string/or"
-                        android:textColor="@color/grey2"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/grey1"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        font:fonttextview="roboto_mitv_bold.ttf" />
                 </RelativeLayout>
 
                 <!-- SIGN UP WITH EMAIL BAR -->
@@ -160,9 +158,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/activity_not_logged_in_or_container"
                     android:background="@drawable/background_color_selector_signup_login_box"
+                    android:minHeight="50dp"
                     android:orientation="vertical"
-                    android:padding="10dp"
-                    android:minHeight="50dp" >
+                    android:padding="10dp" >
 
                     <com.mitv.ui.elements.FontTextView
                         android:id="@+id/activity_not_logged_in_signup_email_title_tv"
@@ -172,9 +170,9 @@
                         android:gravity="center_vertical|center_horizontal"
                         android:text="@string/sign_up_with_email"
                         android:textColor="@color/white"
-                        android:textSize="18sp"
+                        android:textSize="14sp"
                         android:textStyle="bold"
-              		  	font:fonttextview="roboto_mitv_bold.ttf" />
+                        font:fonttextview="roboto_mitv_bold.ttf" />
                 </RelativeLayout>
 
                 <View
@@ -198,32 +196,34 @@
 
                     <com.mitv.ui.elements.FontTextView
                         android:id="@+id/activity_not_logged_in_already_registered_text_tv"
+                        style="@style/meta2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
                         android:gravity="center_horizontal"
-                        android:text="@string/already_registered"
-                        android:textColor="@color/grey2"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                		font:fonttextview="roboto_mitv_bold.ttf" />
+                        android:text="@string/already_registered" />
 
-                    <com.mitv.ui.elements.FontButton
+                    <RelativeLayout
                         android:id="@+id/activity_not_logged_in_login_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/activity_not_logged_in_already_registered_text_tv"
-                        android:layout_centerInParent="true"
-                        android:layout_marginTop="-5dp"
-                        android:paddingLeft="50dp"
-                        android:paddingRight="50dp"
+                        android:layout_centerHorizontal="true"
                         android:background="@drawable/background_color_selector_login_link"
-                        android:gravity="center_vertical|center_horizontal"
-                        android:text="@string/login_here"
-                        android:textColor="@color/blue2"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                		font:fonttextview="roboto_mitv_bold.ttf" />
+                        android:orientation="horizontal" >
+
+                        <com.mitv.ui.elements.FontTextView
+                            android:id="@+id/mitvlogin_forgot_password_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:padding="10dp"
+                            android:text="@string/login_here"
+                            android:textColor="@color/blue2"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            font:fonttextview="roboto_mitv_medium.ttf" />
+                    </RelativeLayout>
                 </RelativeLayout>
             </RelativeLayout>
         </RelativeLayout>

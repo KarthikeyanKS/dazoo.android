@@ -43,7 +43,7 @@ public class FeedActivity
 	private RelativeLayout facebookContainer;
 	private RelativeLayout signUpContainer;
 	private Button checkPopularButton;
-	private Button loginButton;
+	private RelativeLayout loginButton;
 	private ListView listView;
 	private FeedListAdapter listAdapter;
 	private View listFooterView;
@@ -158,7 +158,7 @@ public class FeedActivity
 		signUpContainer = (RelativeLayout) findViewById(R.id.activity_not_logged_in_signup_email_container);
 		signUpContainer.setOnClickListener(this);
 
-		loginButton = (Button) findViewById(R.id.activity_not_logged_in_login_btn);
+		loginButton = (RelativeLayout) findViewById(R.id.activity_not_logged_in_login_btn);
 		loginButton.setOnClickListener(this);
 		
 		setEmptyLayoutDetailsMessage("");

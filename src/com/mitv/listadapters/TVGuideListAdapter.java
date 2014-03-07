@@ -227,7 +227,7 @@ public class TVGuideListAdapter
 					String toShow = "";
 
 					if (rowWidth > 0) {
-						int maxTextWidth = (int) (rowWidth * 0.9);
+						int maxTextWidth = (int) (rowWidth * 0.95);
 
 						/* Calculate max amount of characters that fits */
 						while (textWidth > maxTextWidth && limitIndex > 0) {
@@ -266,7 +266,7 @@ public class TVGuideListAdapter
 					wordtoSpan.setSpan(new ForegroundColorSpan(resources.getColor(R.color.red)), textStartIndexToMarkAsOngoing, textIndexToMarkAsOngoing, 0);
 				}
 
-				wordtoSpan.setSpan(new ForegroundColorSpan(resources.getColor(R.color.grey3)), textIndexToMarkAsOngoing + 1, wordtoSpan.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+				wordtoSpan.setSpan(new ForegroundColorSpan(resources.getColor(R.color.grey4)), textIndexToMarkAsOngoing + 1, wordtoSpan.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 				holder.textView.setText(wordtoSpan, TextView.BufferType.SPANNABLE);
 
@@ -320,7 +320,7 @@ public class TVGuideListAdapter
 			public void run() {
 				Intent intent = new Intent(activity, UserProfileActivity.class);
 				
-				intent.putExtra(Constants.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, MyChannelsActivity.class.getName());
+				ContentManager.sharedInstance().setReturnActivity(MyChannelsActivity.class);
 				
 				activity.startActivity(intent);
 			}

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:id="@+id/element_poster_broadcast_container"
@@ -8,12 +7,12 @@
     android:background="@drawable/background_color_selector"
     android:orientation="vertical" >
 
-      <RelativeLayout
+    <RelativeLayout
         android:id="@+id/element_poster_broadcast_header_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:background="@color/grey1"
+        android:background="@color/grey0"
         android:visibility="gone" >
 
         <com.mitv.ui.elements.FontTextView
@@ -21,24 +20,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:gravity="left"
-            android:textAllCaps="true"
-            android:textColor="@color/grey4"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
             android:layout_marginLeft="10dp"
-            font:fonttextview="roboto_mitv_medium.ttf" />
+            android:layout_marginTop="15dp"
+            android:gravity="left"
+            android:textAllCaps="true"
+            android:textColor="@color/grey3"
+            android:textSize="20sp"
+            font:fonttextview="roboto_mitv_light.ttf" />
     </RelativeLayout>
-    
+
     <LinearLayout
         android:id="@+id/element_poster_broadcast_info_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/element_poster_broadcast_header_container"
-        android:orientation="horizontal" 
-        android:baselineAligned="false">
+        android:baselineAligned="false"
+        android:orientation="horizontal" >
 
         <!-- IMAGE CONTAINER -->
 
@@ -57,7 +55,7 @@
                 android:clickable="false"
                 android:focusableInTouchMode="false"
                 android:padding="10dp"
-            android:src="@drawable/loading_placeholder_vertical" />
+                android:src="@drawable/loading_placeholder_vertical" />
         </RelativeLayout>
 
         <!-- INFO CONTAINER -->
@@ -76,69 +74,58 @@
 
             <com.mitv.ui.elements.FontTextView
                 android:id="@+id/element_poster_broadcast_title_tv"
+                style="@style/header2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                android:textSize="@dimen/header_2"
-                android:textStyle="bold"
-                font:fonttextview="roboto_mitv_medium.ttf" />
+                android:singleLine="true" />
 
             <!-- TIME -->
 
             <com.mitv.ui.elements.FontTextView
                 android:id="@+id/element_poster_broadcast_time_tv"
+                style="@style/text1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/element_poster_broadcast_title_tv"
                 android:lineSpacingExtra="-1sp"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                android:textSize="@dimen/ingress"
-                font:fonttextview="roboto_mitv_medium.ttf" />
+                android:singleLine="true" />
 
             <!-- CHANNEL -->
 
             <com.mitv.ui.elements.FontTextView
                 android:id="@+id/element_poster_broadcast_channel_tv"
+                style="@style/text1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/element_poster_broadcast_time_tv"
                 android:layout_marginBottom="5dp"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                android:textSize="@dimen/ingress"
-                font:fonttextview="roboto_mitv_medium.ttf" />
+                android:singleLine="true" />
 
             <!-- TYPE -->
 
             <com.mitv.ui.elements.FontTextView
                 android:id="@+id/element_poster_broadcast_type_tv"
+                style="@style/meta1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/element_poster_broadcast_channel_tv"
                 android:layout_marginBottom="5dp"
-                android:singleLine="true"
-                android:textColor="@color/grey2"
-                android:textSize="@dimen/ingress"
-                font:fonttextview="roboto_mitv_medium.ttf" />
+                android:singleLine="true" />
 
             <!-- TIME LEFT -->
 
             <com.mitv.ui.elements.FontTextView
                 android:id="@+id/element_poster_broadcast_timeleft_tv"
+                style="@style/remaining"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/element_poster_broadcast_type_tv"
                 android:lineSpacingExtra="-2sp"
                 android:singleLine="true"
-                android:textColor="@color/red"
-                android:textSize="@dimen/paragraph"
-                android:visibility="gone" 
-                font:fonttextview="roboto_mitv_medium.ttf" />
+                android:visibility="gone" />
 
             <!-- PROGRESS BAR -->
 

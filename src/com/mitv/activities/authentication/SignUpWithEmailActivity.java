@@ -185,19 +185,13 @@ public class SignUpWithEmailActivity
 			case SUCCEEDED_WITH_DATA:
 			{
 				enableFields();
-				Intent intent = null;
-				
-				if(getReturnActivity() != null) {
-					intent = new Intent(SignUpWithEmailActivity.this, getReturnActivity());
-					
-				} else {
+				if(!ContentManager.sharedInstance().tryStartReturnActivity(this)) {
 					Activity mostRecentTabActivity = getMostRecentTabActivity();
-					intent = new Intent(SignUpWithEmailActivity.this, mostRecentTabActivity.getClass());
+					Intent intent = new Intent(SignUpWithEmailActivity.this, mostRecentTabActivity.getClass());
 					intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
+					startActivity(intent);
 				}
 
-				startActivity(intent);
-				
 				finish();
 				
 				break;
@@ -352,7 +346,7 @@ public class SignUpWithEmailActivity
 		
 		stripUnderlines(termsOfService);
 
-		setTextWatchers();
+//		setTextWatchers(); //TODO: Remove this when it feels appropriate. TextDrawable was buggy.
 	}
 	
 	

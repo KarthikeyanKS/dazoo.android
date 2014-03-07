@@ -38,7 +38,7 @@ public class LoginWithMiTVUserActivity
 	private EditText passwordEditText;
 	
 	private Button loginButton;
-	private Button forgetPasswordButton;
+	private RelativeLayout forgetPasswordButton;
 	
 	private TextView emailErrorTextView;
 	private TextView passwordErrorTextView;
@@ -140,19 +140,13 @@ public class LoginWithMiTVUserActivity
 			case SUCCEEDED_WITH_DATA:
 			{
 				enableFields();
-				Intent intent = null;
 				
-				if(getReturnActivity() != null) {
-					intent = new Intent(LoginWithMiTVUserActivity.this, getReturnActivity());
-					
-				} else {
+				if(!ContentManager.sharedInstance().tryStartReturnActivity(this)) {
 					Activity mostRecentTabActivity = getMostRecentTabActivity();
-					intent = new Intent(LoginWithMiTVUserActivity.this, mostRecentTabActivity.getClass());
+					Intent intent = new Intent(LoginWithMiTVUserActivity.this, mostRecentTabActivity.getClass());
 					intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
-				}
-
-				startActivity(intent);
-				
+					startActivity(intent);
+				}				
 				finish();
 				
 				break;
@@ -225,7 +219,7 @@ public class LoginWithMiTVUserActivity
 		emailErrorTextView.setText(getResources().getString(R.string.login_with_wrong_format_email));
 		passwordErrorTextView.setText(getResources().getString(R.string.login_with_wrong_format_password));
 		
-		forgetPasswordButton = (Button) findViewById(R.id.mitvlogin_forgot_password_button);
+		forgetPasswordButton = (RelativeLayout) findViewById(R.id.mitvlogin_forgot_password_button);
 		forgetPasswordButton.setOnClickListener(this);
 		
 		facebookContainer = (RelativeLayout) findViewById(R.id.mitvlogin_facebook_container);

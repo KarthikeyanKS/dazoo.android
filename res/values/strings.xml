@@ -215,7 +215,7 @@
     <string name="connect_with_friends">Connect with friends</string>
     <string name="take_the_tour">Take a tour</string>
     <string name="skip">Skip</string>
-    <string name="or">or</string>
+    <string name="or">OR</string>
     <string name="signup_with_email_error_firstname">We\'d love to know your name</string>
     <string name="signup_with_email_error_lastname">We\'d love to know your last name</string>
     <string name="signup_with_email_login_wrong_format_email">Check if e-mail was input right!</string>

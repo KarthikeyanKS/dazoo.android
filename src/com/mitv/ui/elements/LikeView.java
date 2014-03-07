@@ -135,6 +135,7 @@ public class LikeView extends RelativeLayout implements ActivityCallbackListener
 				
 				StringBuilder sb = new StringBuilder();
 				sb.append(activity.getResources().getString(R.string.like_set_text_row1));
+				sb.append(" ");
 				sb.append(activity.getResources().getString(R.string.like_set_text_row2));
 				
 				ToastHelper.createAndShowLikeToast(activity, sb.toString());

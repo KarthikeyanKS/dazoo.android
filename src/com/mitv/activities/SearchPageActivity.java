@@ -223,7 +223,6 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 			TVBroadcastWithChannelInfo nextBroadcast = result.getNextBroadcast();
 			if (nextBroadcast != null) {
 				Intent intent = new Intent(SearchPageActivity.this, BroadcastPageActivity.class);
-				intent.putExtra(Constants.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, this.getClass().getName());
 				ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(nextBroadcast);
 				startActivity(intent);
 			} else {

@@ -20,11 +20,11 @@
             android:paddingBottom="20dp" >
 
             <LinearLayout
-                android:orientation="vertical"
-                android:baselineAligned="false"
                 android:id="@+id/myprofile_header_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="vertical" >
 
                 <LinearLayout
                     android:id="@+id/myprofile_sign_in_or_sign_up_container"
@@ -47,26 +47,22 @@
 
                         <com.mitv.ui.elements.FontTextView
                             android:id="@+id/myprofile_have_an_account"
+                            style="@style/header2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
                             android:maxLines="1"
-                            android:text="@string/myprofile_have_account"
-                            android:textColor="@color/black"
-                            android:textSize="18sp"
-                            font:fonttextview="roboto_mitv_bold.ttf" />
+                            android:text="@string/myprofile_have_account" />
 
                         <com.mitv.ui.elements.FontTextView
                             android:id="@+id/myprofile_signup_info"
+                            style="@style/meta1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:gravity="center_vertical"
                             android:maxLines="3"
-                            android:text="@string/myprofile_info"
-                            android:textColor="@color/black"
-                            android:textSize="14sp"
-                            font:fonttextview="roboto_mitv_light.ttf" />
+                            android:text="@string/myprofile_info" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -93,7 +89,7 @@
                                 android:gravity="center_vertical|center_horizontal"
                                 android:text="@string/sign_up"
                                 android:textColor="@color/white"
-                                android:textSize="18sp"
+                                android:textSize="14sp"
                                 android:textStyle="bold"
                                 font:fonttextview="roboto_mitv_bold.ttf" />
                         </RelativeLayout>
@@ -114,7 +110,7 @@
                                 android:gravity="center_vertical|center_horizontal"
                                 android:text="@string/login"
                                 android:textColor="@color/blue2"
-                                android:textSize="18sp"
+                                android:textSize="14sp"
                                 android:textStyle="bold"
                                 font:fonttextview="roboto_mitv_bold.ttf" />
                         </RelativeLayout>
@@ -139,29 +135,31 @@
                         android:layout_marginRight="20dp"
                         android:src="@color/red" />
 
-                    <com.mitv.ui.elements.FontTextView
-                        android:id="@+id/myprofile_logged_in_as"
+                    <RelativeLayout
+                        android:id="@+id/myprofile_logged_in_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/myprofile_avatar_iv"
-                        android:gravity="center_vertical"
-                        android:maxLines="1"
-                        android:text="@string/myprofile_logged_in_as"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"
-                        font:fonttextview="roboto_mitv_light.ttf" />
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/myprofile_avatar_iv" >
 
-                    <com.mitv.ui.elements.FontTextView
-                        android:id="@+id/myprofile_name_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/myprofile_logged_in_as"
-                        android:layout_toRightOf="@id/myprofile_avatar_iv"
-                        android:gravity="center_vertical"
-                        android:maxLines="1"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        font:fonttextview="roboto_mitv_bold.ttf" />
+                        <com.mitv.ui.elements.FontTextView
+                            android:id="@+id/myprofile_logged_in_as"
+                            style="@style/meta2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="@string/myprofile_logged_in_as" />
+
+                        <com.mitv.ui.elements.FontTextView
+                            android:id="@+id/myprofile_name_tv"
+                            style="@style/header3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/myprofile_logged_in_as"
+                            android:gravity="center_vertical"
+                            android:maxLines="1" />
+                    </RelativeLayout>
                 </RelativeLayout>
             </LinearLayout>
 
@@ -188,21 +186,22 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
                     android:text="@string/icon_heart"
+                    android:textColor="@color/grey3"
                     android:textSize="26sp"
                     font:fonttextview="roboto_mitv_medium.ttf" />
 
                 <com.mitv.ui.elements.FontTextView
                     android:id="@+id/myprofile_likes_title_tv"
+                    style="@style/header3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/myprofile_likes_icon_tv"
-                    android:text="@string/likes"
-                    android:textSize="18sp"
-                    font:fonttextview="roboto_mitv_bold.ttf" />
+                    android:text="@string/likes" />
 
                 <com.mitv.ui.elements.FontTextView
                     android:id="@+id/myprofile_likes_count_tv"
+                    style="@style/meta2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -233,21 +232,22 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
                     android:text="@string/icon_blocks"
+                    android:textColor="@color/grey3"
                     android:textSize="26sp"
                     font:fonttextview="roboto_mitv_medium.ttf" />
 
                 <com.mitv.ui.elements.FontTextView
                     android:id="@+id/myprofile_channels_title_tv"
+                    style="@style/header3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/myprofile_channels_icon_tv"
-                    android:text="@string/myprofile_my_channels"
-                    android:textSize="18sp"
-                    font:fonttextview="roboto_mitv_bold.ttf" />
+                    android:text="@string/myprofile_my_channels" />
 
                 <com.mitv.ui.elements.FontTextView
                     android:id="@+id/myprofile_channels_count_tv"
+                    style="@style/meta2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -278,21 +278,22 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
                     android:text="@string/icon_reminder"
+                    android:textColor="@color/grey3"
                     android:textSize="26sp"
                     font:fonttextview="roboto_mitv_medium.ttf" />
 
                 <com.mitv.ui.elements.FontTextView
                     android:id="@+id/myprofile_reminders_title_tv"
+                    style="@style/header3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/myprofile_reminders_icon_tv"
-                    android:text="@string/reminders"
-                    android:textSize="18sp"
-                    font:fonttextview="roboto_mitv_bold.ttf" />
+                    android:text="@string/reminders" />
 
                 <com.mitv.ui.elements.FontTextView
                     android:id="@+id/myprofile_reminders_count_tv"
+                    style="@style/meta2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -348,12 +349,11 @@
 
                 <com.mitv.ui.elements.FontTextView
                     android:id="@+id/myprofile_about_us_title_tv"
+                    style="@style/header3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="@string/myprofile_about_us"
-                    android:textSize="18sp"
-                    font:fonttextview="roboto_mitv_bold.ttf" />
+                    android:text="@string/myprofile_about_us" />
             </RelativeLayout>
 
             <!-- TERMS & CONDITIONS -->
@@ -372,12 +372,11 @@
 
                 <com.mitv.ui.elements.FontTextView
                     android:id="@+id/myprofile_terms_of_use_title_tv"
+                    style="@style/header3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="@string/myprofile_terms_of_use"
-                    android:textSize="18sp"
-                    font:fonttextview="roboto_mitv_bold.ttf" />
+                    android:text="@string/myprofile_terms_of_use" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -393,15 +392,13 @@
                 <com.mitv.ui.elements.FontTextView
                     android:id="@+id/myprofile_logout_container_text"
                     android:layout_width="wrap_content"
-                	android:padding="10dp"
                     android:layout_height="wrap_content"
-                    android:minHeight="50dp"
                     android:layout_centerInParent="true"
                     android:gravity="center_vertical|center_horizontal"
-                   	android:text="@string/logout_from_mitv"
+                    android:padding="10dp"
+                    android:text="@string/logout_from_mitv"
                     android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
+                    android:textSize="14sp"
                     font:fonttextview="roboto_mitv_bold.ttf" />
             </RelativeLayout>
         </RelativeLayout>

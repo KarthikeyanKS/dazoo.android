@@ -1,9 +1,10 @@
 
 package com.mitv.activities;
 
+
+
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -65,7 +66,16 @@ public class UserProfileActivity extends BaseContentActivity implements Activity
 	
 
 	@Override
-	protected void loadData() {
+	protected void onResume() {
+		super.onResume();
+		populateViews();
+	}
+
+
+
+	@Override
+	protected void loadData() 
+	{
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 
 		if (isLoggedIn) {
@@ -225,22 +235,28 @@ public class UserProfileActivity extends BaseContentActivity implements Activity
 			userNameTextView.setText(sbUsernameText.toString());
 
 			ArrayList<UserLike> userLikes = ContentManager.sharedInstance().getFromCacheUserLikes();
-
-			StringBuilder userLikesSB = new StringBuilder();
-			userLikesSB.append("(");
-			userLikesSB.append(userLikes.size());
-			userLikesSB.append(")");
-
-			likesCountTv.setText(userLikesSB.toString());
+			if (userLikes != null && !userLikes.isEmpty()) {
+				StringBuilder userLikesSB = new StringBuilder();
+				userLikesSB.append("(");
+				userLikesSB.append(userLikes.size());
+				userLikesSB.append(")");
+				likesCountTv.setText(userLikesSB.toString());
+				likesCountTv.setVisibility(View.VISIBLE);
+			} else {
+				likesCountTv.setVisibility(View.GONE);
+			}
 
 			ArrayList<TVChannelId> userChannelIds = ContentManager.sharedInstance().getFromCacheTVChannelIdsUser();
-
-			StringBuilder userTVChannelIdsSB = new StringBuilder();
-			userTVChannelIdsSB.append("(");
-			userTVChannelIdsSB.append(userChannelIds.size());
-			userTVChannelIdsSB.append(")");
-
-			channelCountTv.setText(userTVChannelIdsSB.toString());
+			if (userChannelIds != null && !userChannelIds.isEmpty()) {
+				StringBuilder userTVChannelIdsSB = new StringBuilder();
+				userTVChannelIdsSB.append("(");
+				userTVChannelIdsSB.append(userChannelIds.size());
+				userTVChannelIdsSB.append(")");
+				channelCountTv.setText(userTVChannelIdsSB.toString());
+				channelCountTv.setVisibility(View.VISIBLE);
+			} else {
+				channelCountTv.setVisibility(View.GONE);
+			}
 		}
 	}
 

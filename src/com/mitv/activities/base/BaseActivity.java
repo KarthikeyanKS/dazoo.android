@@ -63,8 +63,6 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 	private boolean userHasJustLoggedIn;
 	private boolean userHasJustLoggedOut;
 
-	private Class<?> returnActivity;
-
 	/* Abstract Methods */
 
 	/* This method implementation should update the user interface according to the received status */
@@ -93,6 +91,7 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 
 		initCallbackLayouts();
 	}
+	
 
 	@Override
 	protected void onResume() {
@@ -144,27 +143,8 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 				ToastHelper.createAndShowToast(this, sb.toString());
 			}
 		}
-
-		/* If return activity was specified set it! */
-		if (intent.hasExtra(Constants.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME)) {
-			String returnActivityClassName = intent.getExtras().getString(Constants.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME);
-			
-			try {
-				returnActivity = Class.forName(returnActivityClassName);
-			} catch (Exception e) {
-				Log.e(TAG, e.getMessage(), e);
-
-				returnActivity = HomeActivity.class;
-			}
-		} else {
-			/* Do nothing! */
-		}
 	}
 	
-	public Class<?> getReturnActivity() {
-        return returnActivity;
-    }
-
 	private static void pushActivityToStack(Activity activity) {
 		/* If activity is tab activity, move it to the top */
 		if (isTabActivity(activity)) {
