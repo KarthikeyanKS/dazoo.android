@@ -72,6 +72,7 @@ public class PopularListAdapter extends BaseAdapter {
 			ViewHolder viewHolder = new ViewHolder();
 			viewHolder.headerContainer = (RelativeLayout) rowView.findViewById(R.id.element_poster_broadcast_header_container);
 			viewHolder.headerTv = (TextView) rowView.findViewById(R.id.element_poster_broadcast_header_tv);
+			viewHolder.dividerView = (View) rowView.findViewById(R.id.element_poster_broadcast_divider);
 			viewHolder.container = (RelativeLayout) rowView.findViewById(R.id.element_poster_broadcast_container);
 			viewHolder.posterIv = (ImageView) rowView.findViewById(R.id.element_poster_broadcast_image_iv);
 			viewHolder.titleTv = (TextView) rowView.findViewById(R.id.element_poster_broadcast_title_tv);
@@ -91,12 +92,27 @@ public class PopularListAdapter extends BaseAdapter {
 		if (broadcastWithChannelInfo != null) {
 
 			holder.headerContainer.setVisibility(View.GONE);
+			holder.dividerView.setVisibility(View.VISIBLE);
+			
 			if (position == 0
 					|| broadcastWithChannelInfo.getBeginTimeDayAndMonthAsString().equals((getItem(position - 1)).getBeginTimeDayAndMonthAsString()) == false) {
-				holder.headerTv.setText(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString() + " "
-						+ broadcastWithChannelInfo.getBeginTimeDayAndMonthAsString());
+				StringBuilder headerSB = new StringBuilder();
+				headerSB.append(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekAsString());
+				headerSB.append(" ");
+				headerSB.append(broadcastWithChannelInfo.getBeginTimeDayAndMonthAsString());
+
+				holder.headerTv.setText(headerSB.toString());
 				holder.headerContainer.setVisibility(View.VISIBLE);
 
+			}
+
+			int nextPos = Math.min(position + 1, (getCount() - 1));
+			TVBroadcastWithChannelInfo broadcastNextPosition = getItem(nextPos);
+			String stringCurrent = broadcastWithChannelInfo.getBeginTimeDayAndMonthAsString();
+			String stringNext = broadcastNextPosition.getBeginTimeDayAndMonthAsString();
+
+			if (position != (getCount() - 1) && stringCurrent.equals(stringNext) == false) {
+				holder.dividerView.setVisibility(View.GONE);
 			}
 
 			holder.container.setOnClickListener(new View.OnClickListener() {
@@ -170,7 +186,7 @@ public class PopularListAdapter extends BaseAdapter {
 			}
 			}
 
-		
+
 			holder.container.setOnClickListener(new View.OnClickListener() {
 
 				@Override
@@ -187,6 +203,7 @@ public class PopularListAdapter extends BaseAdapter {
 	public static class ViewHolder {
 		RelativeLayout headerContainer;
 		TextView headerTv;
+		View dividerView;
 		RelativeLayout container;
 		ImageView posterIv;
 		ProgressBar imageProgressBar;

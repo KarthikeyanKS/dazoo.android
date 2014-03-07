@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:id="@+id/mychannels_list_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,7 +14,8 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:focusableInTouchMode="true"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:paddingBottom="10dp" >
 
         <RelativeLayout
             android:id="@+id/mychannels_header_selected_container"
@@ -28,37 +28,54 @@
 
             <com.mitv.ui.elements.FontTextView
                 android:id="@+id/mychannels_selected_channel_text_textview"
+                style="@style/meta1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="@string/selected_channels"
-                android:textColor="@color/grey3"
-                android:textSize="16sp" />
+                android:text="@string/selected_channels" />
 
             <com.mitv.ui.elements.FontTextView
                 android:id="@+id/mychannels_header_counter_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/mychannels_selected_channel_text_textview"
-                android:textColor="@color/grey3"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textColor="@color/grey2"
+                android:textSize="14sp"
+                font:fonttextview="roboto_mitv_bold.ttf" />
         </RelativeLayout>
 
-        <com.mitv.ui.elements.FontEditText
-            android:id="@+id/mychannels_header_search_ev"
+        <RelativeLayout
+            android:id="@+id/mychannels_search_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/mychannels_header_selected_container"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="5dp"
-            android:drawableLeft="@drawable/ic_search_default"
-            android:hint="@string/search_channels" 
-            android:drawablePadding="10dp"
-            android:imeOptions="actionDone"
-            android:singleLine="true"
-            android:background="@drawable/edittext_standard" />
+            android:layout_margin="10dp" >
+
+            <com.mitv.ui.elements.FontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:text="@string/icon_search"
+                android:textColor="@color/blue1"
+                android:textSize="30sp"
+                font:fonttextview="roboto_mitv_medium.ttf" />
+
+            <com.mitv.ui.elements.FontEditText
+                android:id="@+id/mychannels_header_search_ev"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/edittext_standard"
+                android:drawablePadding="10dp"
+                android:hint="@string/search_channels"
+                android:imeOptions="actionDone"
+                android:paddingLeft="30dp"
+                android:singleLine="true"
+                android:textColorHint="@color/blue1"
+                android:textSize="18sp"
+                font:fontedittext="roboto_mitv_regular.ttf" />
+        </RelativeLayout>
     </RelativeLayout>
 
     <!-- BOTTOM NAVIGATION TABS -->

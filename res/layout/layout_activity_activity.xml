@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/activity_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/grey1"
-    android:orientation="vertical">
+    android:orientation="vertical" >
 
-  <!-- BOTTOM NAVIGATION TABS -->
+    <!-- BOTTOM NAVIGATION TABS -->
 
     <include
         android:id="@+id/tab_selector_container"
         android:layout_alignParentBottom="true"
         layout="@layout/block_bottom_tabs" />
-    
+
     <!-- LAYOUT STATE CALLBACKS -->
-    
+
     <include
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -44,7 +43,9 @@
     </com.mitv.content.activity.FeedScrollView
     -->
 
-    <!--  RelativeLayout
+
+    <!--
+    RelativeLayout
         android:id="@+id/activity_listview_footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -57,7 +58,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginTop="12dp" />
-    </RelativeLayout-->
+    </RelativeLayout
+    -->
 
     <ListView
         android:id="@+id/activity_listview"
@@ -68,7 +70,6 @@
         android:background="@color/grey1"
         android:cacheColorHint="@null"
         android:divider="@android:color/transparent"
-        android:dividerHeight="10dp"
         android:visibility="gone" />
 
 </RelativeLayout>

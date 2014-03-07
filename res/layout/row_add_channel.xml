@@ -2,43 +2,41 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:id="@+id/add_channel_space_container"
-    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:padding="15dp" >
-    
+
     <RelativeLayout
         android:id="@+id/row_add_channel_container"
-        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:layout_centerInParent="true"
+        android:addStatesFromChildren="true"
         android:background="@drawable/background_color_selector"
-        android:addStatesFromChildren="true" >
-        
-       	<com.mitv.ui.elements.FontTextView
-       	    android:id="@+id/row_add_channel_icon"
-       	    android:layout_width="wrap_content"
-       	    android:layout_height="wrap_content"
-       	    android:layout_centerVertical="true"
-       	    android:text="@string/icon_add_channels"
-       	    android:textColor="@color/blue0"
-       	    android:textSize="25sp"
-       	    font:fonttextview="roboto_mitv_medium.ttf" />
-	
-	    <com.mitv.ui.elements.FontTextView
-	        android:id="@+id/row_add_channel_text"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/tv_guide_add_channel"
-	        android:textColor="@color/blue0"
-	        android:layout_marginLeft="20dp"
-	        android:layout_marginTop="5dp"
-	        android:textSize="16sp"
-	        font:fonttextview="roboto_mitv_medium.ttf" />
-        
+        android:padding="10dp" >
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/row_add_channel_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/icon_add_channels"
+            android:textColor="@color/blue0"
+            android:textSize="25sp"
+            font:fonttextview="roboto_mitv_medium.ttf" />
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/row_add_channel_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/tv_guide_add_channel"
+            android:textColor="@color/blue0"
+            android:textSize="16sp"
+            font:fonttextview="roboto_mitv_medium.ttf" />
     </RelativeLayout>
-    
- 	
 
 </RelativeLayout>

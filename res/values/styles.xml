@@ -101,12 +101,13 @@
         <item name="android:textColor">@drawable/custom_tab_indicator_text_color</item>
     </style>
 
-    <style name="CustomUnderlinePageIndicator">
+    <!-- NOT USED
+    style name="CustomUnderlinePageIndicator">
         <item name="selectedColor">@color/grey2</item>
         <item name="android:background">@color/grey2</item>
         <item name="fadeLength">1000</item>
         <item name="fadeDelay">1000</item>
-    </style>
+    </style-->
 
     <!-- Homepage Tabs -->
     <style name="homepage_tab_selector" parent="@android:style/TextAppearance">
@@ -173,13 +174,13 @@
 
     <style name="meta1">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/grey3</item>
+        <item name="android:textColor">@color/grey2</item>
         <item name="fonttextview">roboto_mitv_regular.ttf</item>
     </style>
 
     <style name="meta2">
         <item name="android:textSize">13sp</item>
-        <item name="android:textColor">@color/grey3</item>
+        <item name="android:textColor">@color/grey2</item>
         <item name="fonttextview">roboto_mitv_regular.ttf</item>
     </style>
 

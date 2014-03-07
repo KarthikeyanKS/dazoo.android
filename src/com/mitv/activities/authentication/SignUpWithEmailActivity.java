@@ -345,7 +345,7 @@ public class SignUpWithEmailActivity
 		
 		stripUnderlines(termsOfService);
 
-		setTextWatchers();
+//		setTextWatchers(); //TODO: Remove this when it feels appropriate. TextDrawable was buggy.
 	}
 	
 	

@@ -4,7 +4,7 @@
 	<dimen name="bottom_tabs_height">48dp</dimen>
     
 	<!-- font sizes -->
-	<dimen name="action_bar_header_font_size">18sp</dimen>
+	<dimen name="action_bar_header_font_size">16sp</dimen>
 	<dimen name="bottom_tabs_font_size">12sp</dimen>
 	<dimen name="header_1">22sp</dimen>
 	<dimen name="header_2">18sp</dimen>

@@ -30,6 +30,7 @@
     <color name="subtext">#666666</color>
     <color name="links">#E8420C</color>
     
+    <color name="home_divider">#E5E5E5</color>
     <color name="tab_divider_selected">#ba3b07</color>
     <color name="tab_divider_default">#eb8117</color>
     

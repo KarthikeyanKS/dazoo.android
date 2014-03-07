@@ -10,11 +10,18 @@
         android:layout_height="44dp"
         android:layout_alignParentTop="true" />
 
+    <View
+        android:id="@+id/home_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/home_indicator"
+        android:background="@color/home_divider" />
+
     <com.imbryk.viewPager.LoopViewPager
         android:id="@+id/home_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/home_indicator"
+        android:layout_below="@id/home_divider"
         android:visibility="gone" />
 
 </RelativeLayout>
