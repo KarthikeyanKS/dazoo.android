@@ -318,7 +318,7 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 				TVSearchResults searchResultsObject = searchResultsForQuery.getSearchResults();
 
 				ArrayList<TVSearchResult> searchResultItems = new ArrayList<TVSearchResult>(searchResultsObject.getResults());
-				autoCompleteAdapter.setSearchResultItems(searchResultItems);
+				autoCompleteAdapter.setSearchResultItemsForQueryString(searchResultItems, searchQuery);
 				triggerAutoComplete(searchQuery);
 			}
 		} else {
