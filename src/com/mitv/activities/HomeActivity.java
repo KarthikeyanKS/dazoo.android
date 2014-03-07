@@ -49,17 +49,21 @@ public class HomeActivity
 
 		getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
-		/* Set the selected hour to the current hour */
+		initLayout();		
+	}
+	
+	
+	
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		
 		int currentHour = DateUtils.getCurrentHourOn24HourFormat();
 		
 		ContentManager.sharedInstance().setSelectedHour(currentHour);
-
-		initLayout();
 		
 		showWelcomeToast();
-		
-		/* HOCKEY-APP */
-		// checkForUpdates();
 	}
 	
 	

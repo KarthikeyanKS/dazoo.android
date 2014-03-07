@@ -16,8 +16,6 @@ public abstract class BaseContentActivity
 	{
 		super.onResume();
 				
-		//TODO NewArc we probably don't want to check for internet connectivity at all, not even in onCreate?
-//		loadDataWithConnectivityCheck();
-		loadData();
+		loadDataWithConnectivityCheck();
 	}
 }

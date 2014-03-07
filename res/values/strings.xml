@@ -74,10 +74,6 @@
 
     <!-- HOMEPAGE : FILTER BY CATEGORY -->
     <string name="tv_guide">TV Guide</string>
-    <string name="all">All</string>
-    <string name="all_categories_alias">all_categories</string>
-    <string name="all_categories_name">All programs</string>
-    <string name="all_categories_id" translatable="false">ALL_CATEGORIES</string>
 
     <!-- CONTENT DESCRIPTION -->
     <string name="tv_guide_rating_icon">TV Guide content rating image</string>

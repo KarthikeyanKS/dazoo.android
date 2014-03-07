@@ -119,7 +119,9 @@ public class TVGuideTableFragment
 		
 		tvTagIdAsString = bundle.getString(Constants.FRAGMENT_EXTRA_TAG_ID);
 
-		if (getResources().getString(R.string.all_categories_name).equals(tvTagDisplayName)) 
+		boolean isAllCategoriesTag = tvTagDisplayName.equals(Constants.ALL_CATEGORIES_TAG);
+		
+		if (isAllCategoriesTag) 
 		{
 			rootView = inflater.inflate(R.layout.fragment_tvguide_table, null);
 			tvGuideListView = (ListView) rootView.findViewById(R.id.tvguide_table_listview);
@@ -138,7 +140,7 @@ public class TVGuideTableFragment
 		
 		super.initRequestCallbackLayouts(rootView);
 
-		// reset the activity whenever the view is recreated
+		// Important: Reset the activity whenever the view is recreated
 		activity = getActivity();
 		
 		return rootView;
@@ -154,7 +156,9 @@ public class TVGuideTableFragment
 		tvChannelGuides = null;
 		taggedBroadcasts = null;
 
-		if (getResources().getString(R.string.all_categories_name).equals(tvTagDisplayName)) 
+		boolean isAllCategoriesTag = tvTagDisplayName.equals(Constants.ALL_CATEGORIES_TAG);
+		
+		if (isAllCategoriesTag) 
 		{
 			ContentManager.sharedInstance().getElseFetchFromServiceTVGuideUsingSelectedTVDate(this, false);
 		} 
@@ -173,7 +177,9 @@ public class TVGuideTableFragment
 		{
 			case SUCCESS:
 			{
-				if (getResources().getString(R.string.all_categories_name).equals(tvTagDisplayName)) 
+				boolean isAllCategoriesTag = tvTagDisplayName.equals(Constants.ALL_CATEGORIES_TAG);
+				
+				if (isAllCategoriesTag) 
 				{
 					TVGuide tvGuideForSelectedDay = ContentManager.sharedInstance().getFromCacheTVGuideForSelectedDay();
 					tvChannelGuides = tvGuideForSelectedDay.getTvChannelGuides();
@@ -206,7 +212,9 @@ public class TVGuideTableFragment
 		{	
 			case SUCCEEDED_WITH_DATA:
 			{
-				if (getResources().getString(R.string.all_categories_name).equals(tvTagDisplayName)) 
+				boolean isAllCategoriesTag = tvTagDisplayName.equals(Constants.ALL_CATEGORIES_TAG);
+				
+				if(isAllCategoriesTag) 
 				{
 					tvGuideListAdapter = (TVGuideListAdapter) adapterMap.get(tvTagDisplayName);
 					
@@ -218,6 +226,7 @@ public class TVGuideTableFragment
 					}
 
 					tvGuideListView.setAdapter(tvGuideListAdapter);
+					
 					tvGuideListAdapter.notifyDataSetChanged();
 				} 
 				else 
@@ -225,22 +234,28 @@ public class TVGuideTableFragment
 					final int index = TVBroadcastWithChannelInfo.getClosestBroadcastIndex(taggedBroadcasts, 0);
 
 					// Remove all broadcasts that already ended
-					new Runnable() {
-
+					new Runnable() 
+					{
 						@Override
-						public void run() {
+						public void run() 
+						{
 							ArrayList<TVBroadcast> toRemove = new ArrayList<TVBroadcast>();
 
-							if(taggedBroadcasts != null) {
-								for (int i = index; i < taggedBroadcasts.size(); i++) {
-									if (index < taggedBroadcasts.size() - 1 && index >= 0) {
-										if (taggedBroadcasts.get(i).hasEnded()) {
+							if(taggedBroadcasts != null) 
+							{
+								for (int i = index; i < taggedBroadcasts.size(); i++)
+								{
+									if (index < taggedBroadcasts.size() - 1 && index >= 0) 
+									{
+										if (taggedBroadcasts.get(i).hasEnded()) 
+										{
 											toRemove.add(taggedBroadcasts.get(i));
 										}
 									}
 								}
 	
-								for (TVBroadcast broadcast : toRemove) {
+								for (TVBroadcast broadcast : toRemove) 
+								{
 									taggedBroadcasts.remove(broadcast);
 								}
 							}
@@ -271,11 +286,11 @@ public class TVGuideTableFragment
 
 
 	@Override
-	public void onTimeChange(int hour) {
+	public void onTimeChange(int hour)
+	{
 		if (tvGuideListAdapter != null) 
 		{
 			tvGuideListAdapter.refreshList(hour);
 		}
-
 	}
 }

@@ -15,7 +15,7 @@ import com.mitv.Constants;
 public class NotificationSQLDatabaseHelper 
 	extends SQLiteOpenHelper 
 {
-	private static final String	DATABASE_CREATE	= 
+	private static final String	DATABASE_CREATE_QUERY	= 
 			"CREATE TABLE " + Constants.NOTIFICATION_DB_TABLE_NOTIFICATIONS + 
 			"(" + Constants.NOTIFICATION_DB_COLUMN_NOTIFICATION_ID + " INTEGER PRIMARY KEY, " + 
 			Constants.NOTIFICATION_DB_COLUMN_BROADCAST_BEGIN_TIME_IN_MILISECONDS + " INTEGER, " +
@@ -56,7 +56,7 @@ public class NotificationSQLDatabaseHelper
 	@Override
 	public void onCreate(SQLiteDatabase db)
 	{
-		db.execSQL(DATABASE_CREATE);
+		db.execSQL(DATABASE_CREATE_QUERY);
 	}
 
 	

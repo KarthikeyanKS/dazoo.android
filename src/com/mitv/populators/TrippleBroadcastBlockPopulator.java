@@ -22,10 +22,13 @@ import com.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.models.TVProgram;
 import com.mitv.ui.elements.ReminderView;
 
-public class TrippleBroadcastBlockPopulator implements OnClickListener {
+public class TrippleBroadcastBlockPopulator 
+	implements OnClickListener 
+{
 	@SuppressWarnings("unused")
 	private static String TAG = TrippleBroadcastBlockPopulator.class.getName();
 
+	
 	private Activity activity;
 	private ScrollView containerView;
 	private TVBroadcastWithChannelInfo runningBroadcast;
@@ -254,7 +257,10 @@ public class TrippleBroadcastBlockPopulator implements OnClickListener {
 
 	}
 
-	public void setOriginActivity(boolean isFromActivity, boolean isFromProfile) {
+	
+	
+	public void setOriginActivity(boolean isFromActivity, boolean isFromProfile) 
+	{
 		mIsFromActivity = isFromActivity;
 		mIsFromProfile = isFromProfile;
 	}

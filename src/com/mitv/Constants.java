@@ -545,6 +545,10 @@ public abstract class Constants
 	
 	public static final boolean ENABLE_STRICT_MODE = false;
 	
-	/* CONFIGURATIONS FOR GOOGLE ANALYTICS */
+	/* CONFIGURATIONS FOR RELEASE */
 	public static final boolean USE_DEFAULT_GOOGLE_TRACKING_ID = true;
+	public static final boolean USE_HOCKEY_APP_CRASH_REPORTS = true;
+	public static final boolean USE_HOCKEY_APP_UPDATE_NOTIFICATIONS = false;
+	
+	public static final String ALL_CATEGORIES_TAG = "All programs";
 }

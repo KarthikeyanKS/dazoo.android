@@ -571,13 +571,20 @@ public abstract class BaseActivity
 	
 	
 	/*
-	 * This method checks for Internet connectivity on the background thread
+	 * This method checks for Internet connectivity before loading data
 	 */
 	protected void loadDataWithConnectivityCheck() 
 	{
-		updateUI(UIStatusEnum.LOADING);
-
-		ContentManager.sharedInstance().checkNetworkConnectivity(this);
+		boolean isConnected = NetworkUtils.isConnected();
+		
+		if(isConnected)
+		{
+			loadData();
+		}
+		else 
+		{
+			updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
+		}
 	}
 
 	

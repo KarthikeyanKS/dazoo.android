@@ -3,6 +3,7 @@ package com.mitv.ui.helpers;
 
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Random;
 
 import android.app.AlarmManager;
@@ -29,8 +30,26 @@ public class NotificationHelper
 	@SuppressWarnings("unused")
 	private static final String	TAG	= NotificationHelper.class.getName();
 	
+	
+	
+	public static void scheduleAlarms(final Context context) 
+	{
+		NotificationDataSource notificationDataSource = new NotificationDataSource(context);
 		
-	public static void setAlarm(
+		List<NotificationSQLElement> notificationList = notificationDataSource.getAllNotifications();
+		
+		for(NotificationSQLElement element : notificationList)
+		{
+			TVBroadcastWithChannelInfo broadcast = new TVBroadcastWithChannelInfo(element);
+			
+			NotificationHelper.scheduleAlarm(context, broadcast, element.getNotificationId());
+		}
+	}
+	
+	
+	
+		
+	private static void scheduleAlarm(
 			final Context context, 
 			TVBroadcastWithChannelInfo broadcast, 
 			int notificationId)
@@ -48,7 +67,7 @@ public class NotificationHelper
 	
 	
 	
-	public static void setAlarm(
+	public static void scheduleAlarm(
 			final Context context,
 			TVBroadcastWithChannelInfo broadcast) 
 	{
@@ -56,7 +75,6 @@ public class NotificationHelper
 		
 		int notificationId = random.nextInt(Integer.MAX_VALUE);
 		
-		// Call alarm manager to set the notification at the certain time
 		Intent intent = getAlarmIntent(notificationId, broadcast);
 
 		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -95,7 +113,7 @@ public class NotificationHelper
 	
 	
 	public static void showNotification(
-			Context context, 
+			final Context context, 
 			long broadcastBeginTimeMillis, 
 			String broadcastHourAndMinuteRepresentation, 
 			String broadcastName, 
@@ -136,7 +154,7 @@ public class NotificationHelper
 
 	
 	
-	public static void removeNotification(Context context, int notificationId) 
+	public static void removeNotification(final Context context, final int notificationId) 
 	{
 		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		

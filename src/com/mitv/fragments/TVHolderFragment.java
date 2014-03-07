@@ -82,12 +82,15 @@ public class TVHolderFragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
 	{
 		View v = inflater.inflate(R.layout.fragment_tvguide_holder_layout, null);
+		
 		tvTags = ContentManager.sharedInstance().getFromCacheTVTags();
 
 		viewPager = (ViewPager) v.findViewById(R.id.home_pager);
 		viewPager.setOffscreenPageLimit(tvTags.size());
 		viewPager.setEnabled(false);
+		
 		pageTabIndicator = (TabPageIndicator) v.findViewById(R.id.home_indicator);
+		
 		setAdapter(selectedTabIndex);
 
 		return v;

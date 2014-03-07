@@ -23,15 +23,13 @@ public abstract class FileUtils
 	{
 		File file = null;
 
-		if (isExternalStorageReadable()) {
+		if (isExternalStorageReadable()) 
+		{
 			String root = Environment.getExternalStorageDirectory().toString();
 
-			try {
+			try 
+			{
 				Locale locale = LanguageUtils.getCurrentLocale();
-
-				if (locale == null) {
-					locale = Locale.getDefault();
-				}
 
 				String filePath = String.format(locale, "%s/Android/data/", root);
 
@@ -40,7 +38,9 @@ public abstract class FileUtils
 				myDir.mkdirs();
 
 				file = new File(myDir, fileName);
-			} catch (Exception e) {
+			} 
+			catch (Exception e) 
+			{
 				e.printStackTrace();
 			}
 		}

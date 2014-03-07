@@ -90,7 +90,6 @@ public class GetTVChannelGuides
 			
 			TVGuideAndTaggedBroadcasts tvGuideAndTaggedBroadcasts = new TVGuideAndTaggedBroadcasts(tvGuide, mapTagToTaggedBroadcastForDate);
 			
-			/* IMPORTANT, PLEASE OBSERVE, CHANGING CLASS OF CONTENT TO NOT REFLECT TYPE SPECIFIED IN CONSTRUCTOR CALL TO SUPER */
 			requestResultObjectContent = tvGuideAndTaggedBroadcasts;
 		}
 		else
