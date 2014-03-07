@@ -92,6 +92,7 @@
             android:name="com.mitv.activities.SearchPageActivity"
             android:configChanges="keyboard|orientation"
             android:screenOrientation="portrait"
+            android:launchMode="singleInstance"
             android:theme="@style/WhiteTitleActionBar" />
 
         <!-- LIKES -->

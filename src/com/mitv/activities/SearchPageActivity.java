@@ -59,6 +59,7 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 	private InstantAutoCompleteView editTextSearch;
 	private ImageView editTextClearBtn;
 	private ProgressBar progressBar;
+	private String searchQuery;
 
 	private Handler handler = new Handler();
 
@@ -77,6 +78,7 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 	public void onResume() {
 		super.onResume();
 		showKeyboard();
+		triggerAutoComplete();
 	}
 
 	@Override
@@ -269,8 +271,8 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 		}
 	}
 
-	private void triggerAutoComplete(String searchQuery) {
-		if (editTextSearch != null) {
+	private void triggerAutoComplete() {
+		if (editTextSearch != null && searchQuery != null) {
 			int pos = editTextSearch.getText().toString().length();
 			editTextSearch.setSelection(pos);
 			autoCompleteAdapter.getFilter().filter(searchQuery);
@@ -319,7 +321,8 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 
 				ArrayList<TVSearchResult> searchResultItems = new ArrayList<TVSearchResult>(searchResultsObject.getResults());
 				autoCompleteAdapter.setSearchResultItemsForQueryString(searchResultItems, searchQuery);
-				triggerAutoComplete(searchQuery);
+				this.searchQuery = searchQuery;
+				triggerAutoComplete();
 			}
 		} else {
 			updateUI(UIStatusEnum.FAILED);
