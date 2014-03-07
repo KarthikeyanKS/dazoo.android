@@ -31,6 +31,7 @@ public abstract class Constants
 	public static final String URL_BACKEND_BASE_INTERNAL_TRACKING	= "tracking.";
 	public static final String BASE_API_URL_USED 					= URL_BACKEND_BASE_API + BACKEND_ENVIRONMENT_USED;;
 	public static final String URL_SERVER							= HTTP_SCHEME_USED + BASE_API_URL_USED;
+	public static final String URL_SERVER_SECURE					= HTTPS_SCHEME + BASE_API_URL_USED;
 	public static String URL_INTERNAL_TRACKING_SUFFIX				= "track/unique";
 	public static String URL_INTERNAL_TRACKING						= HTTP_SCHEME_USED + URL_BACKEND_BASE_INTERNAL_TRACKING + BACKEND_ENVIRONMENT_USED + URL_INTERNAL_TRACKING_SUFFIX;
 	
@@ -39,11 +40,11 @@ public abstract class Constants
 	public static final String URL_DATES 							= URL_SERVER + "epg/dates";
 	public static final String URL_CHANNELS_ALL 					= URL_SERVER + "epg/channels";
 	public static final String URL_CHANNELS_DEFAULT 				= URL_SERVER + "epg/channels/default";
-	public static final String URL_FACEBOOK_TOKEN 					= URL_SERVER + "auth/login/facebook";
-	public static final String URL_LOGIN 							= URL_SERVER + "auth/login/dazoo";
-	public static final String URL_REGISTER 						= URL_SERVER + "auth/login/dazoo/register";
-	public static final String URL_RESET_PASSWORD_SEND_EMAIL		= URL_SERVER + "auth/login/dazoo/sendResetPasswordEmail";
-	public static final String URL_RESET_AND_CONFIRM_PASSWORD 		= URL_SERVER + "auth/login/dazoo/resetPassword";
+	public static final String URL_FACEBOOK_TOKEN 					= URL_SERVER_SECURE + "auth/login/facebook";
+	public static final String URL_LOGIN 							= URL_SERVER_SECURE + "auth/login/dazoo";
+	public static final String URL_REGISTER 						= URL_SERVER_SECURE + "auth/login/dazoo/register";
+	public static final String URL_RESET_PASSWORD_SEND_EMAIL		= URL_SERVER_SECURE + "auth/login/dazoo/sendResetPasswordEmail";
+	public static final String URL_RESET_AND_CONFIRM_PASSWORD 		= URL_SERVER_SECURE + "auth/login/dazoo/resetPassword";
 	public static final String URL_TAGS_PAGE 						= URL_SERVER + "epg/tags/visible";
 	public static final String URL_MY_CHANNEL_IDS 					= URL_SERVER + "my/channels";
 	public static final String URL_LIKES 							= URL_SERVER + "my/likes";
