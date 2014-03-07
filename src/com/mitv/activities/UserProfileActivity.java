@@ -1,10 +1,9 @@
 
 package com.mitv.activities;
 
-
-
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,15 +30,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-
-
-public class UserProfileActivity 
-	extends BaseContentActivity 
-	implements ActivityWithTabs, OnClickListener 
-{
+public class UserProfileActivity extends BaseContentActivity implements ActivityWithTabs, OnClickListener {
 	private static final String TAG = UserProfileActivity.class.getName();
 
-	
 	private RelativeLayout aboutContainer;
 	private RelativeLayout termsContainer;
 
@@ -61,39 +54,29 @@ public class UserProfileActivity
 	private FontTextView channelCountTv;
 	private FontTextView reminderCountTv;
 
-	
-	
 	@Override
-	public void onCreate(Bundle savedInstanceState) 
-	{
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.layout_my_profile);
-		
+
 		initLayout();
 	}
 	
-	
-	
+
 	@Override
-	protected void loadData() 
-	{
+	protected void loadData() {
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
-		
-		if(isLoggedIn)
-		{
+
+		if (isLoggedIn) {
 			updateUI(UIStatusEnum.LOADING);
-			
+
 			ContentManager.sharedInstance().getElseFetchFromServiceUserLikes(this, false);
-		}
-		else
-		{
+		} else {
 			updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
 		}
 	}
 
-	
-	
 	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
@@ -127,60 +110,47 @@ public class UserProfileActivity
 			updateUI(UIStatusEnum.FAILED);
 		}
 	}
-	
-	
-	
+
 	@Override
-	protected void updateUI(UIStatusEnum status) 
-	{
+	protected void updateUI(UIStatusEnum status) {
 		super.updateUIBaseElements(status);
 
-		switch (status) 
-		{	
-			case LOADING:
-			{
-				// Do nothing
-				break;
+		switch (status) {
+		case LOADING: {
+			// Do nothing
+			break;
+		}
+
+		case SUCCESS_WITH_NO_CONTENT:
+		case SUCCEEDED_WITH_DATA: {
+			boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+
+			if (isLoggedIn) {
+				signInOrSignUpView.setVisibility(View.GONE);
+				personalView.setVisibility(View.VISIBLE);
+				likesContainer.setVisibility(View.VISIBLE);
+				channelsContainer.setVisibility(View.VISIBLE);
+				logoutContainer.setVisibility(View.VISIBLE);
+			} else {
+				signInOrSignUpView.setVisibility(View.VISIBLE);
+				personalView.setVisibility(View.GONE);
+				likesContainer.setVisibility(View.GONE);
+				channelsContainer.setVisibility(View.GONE);
+				logoutContainer.setVisibility(View.GONE);
 			}
-			
-			case SUCCESS_WITH_NO_CONTENT:
-			case SUCCEEDED_WITH_DATA:
-			{
-				boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
-				
-				if (isLoggedIn)
-				{
-					signInOrSignUpView.setVisibility(View.GONE);
-					personalView.setVisibility(View.VISIBLE);
-					likesContainer.setVisibility(View.VISIBLE);
-					channelsContainer.setVisibility(View.VISIBLE);
-					logoutContainer.setVisibility(View.VISIBLE);
-				}
-				else
-				{
-					signInOrSignUpView.setVisibility(View.VISIBLE);
-					personalView.setVisibility(View.GONE);
-					likesContainer.setVisibility(View.GONE);
-					channelsContainer.setVisibility(View.GONE);
-					logoutContainer.setVisibility(View.GONE);
-				}
-				
-				populateViews();
-				break;
-			}
-	
-			default:
-			{
-				Log.w(TAG, "Unhandled UI status.");
-				break;
-			}
+
+			populateViews();
+			break;
+		}
+
+		default: {
+			Log.w(TAG, "Unhandled UI status.");
+			break;
+		}
 		}
 	}
-	
-	
-	
-	private void initLayout() 
-	{
+
+	private void initLayout() {
 		actionBar.setTitle(getResources().getString(R.string.myprofile_title));
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setDisplayShowCustomEnabled(true);
@@ -198,7 +168,7 @@ public class UserProfileActivity
 
 		/* ONLY USED WHEN LOGGED IN */
 		personalView = (RelativeLayout) findViewById(R.id.myprofile_person_container_signed_in);
-		
+
 		signUpContainer = (RelativeLayout) findViewById(R.id.myprofile_signup_container);
 		signUpContainer.setOnClickListener(this);
 
@@ -225,141 +195,106 @@ public class UserProfileActivity
 		userNameTextView = (FontTextView) findViewById(R.id.myprofile_name_tv);
 	}
 
-	
-	
-	private void populateViews() 
-	{
+	private void populateViews() {
 		NotificationDataSource notificationDataSource = new NotificationDataSource(this);
-		
+
 		StringBuilder numberOfNotificationsSB = new StringBuilder();
 		numberOfNotificationsSB.append("(");
 		numberOfNotificationsSB.append(String.valueOf(notificationDataSource.getNotificationCount()));
 		numberOfNotificationsSB.append(")");
-		
+
 		reminderCountTv.setText(numberOfNotificationsSB.toString());
 
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
-				
-		if (isLoggedIn)
-		{
+
+		if (isLoggedIn) {
 			String userAvatarImageURL = ContentManager.sharedInstance().getFromCacheUserImageURL();
-			
+
 			ImageAware imageAware = new ImageViewAware(avatarImageView, false);
-			
+
 			ImageLoader.getInstance().displayImage(userAvatarImageURL, imageAware);
 
-			
 			String userFirstname = ContentManager.sharedInstance().getFromCacheUserFirstname();
 			String userLastname = ContentManager.sharedInstance().getFromCacheUserLastname();
-			
+
 			StringBuilder sbUsernameText = new StringBuilder();
 			sbUsernameText.append(userFirstname);
 			sbUsernameText.append(" ");
 			sbUsernameText.append(userLastname);
-			
+
 			userNameTextView.setText(sbUsernameText.toString());
-			
-			
+
 			ArrayList<UserLike> userLikes = ContentManager.sharedInstance().getFromCacheUserLikes();
-			
+
 			StringBuilder userLikesSB = new StringBuilder();
 			userLikesSB.append("(");
 			userLikesSB.append(userLikes.size());
 			userLikesSB.append(")");
-			
+
 			likesCountTv.setText(userLikesSB.toString());
 
-			
 			ArrayList<TVChannelId> userChannelIds = ContentManager.sharedInstance().getFromCacheTVChannelIdsUser();
-			
+
 			StringBuilder userTVChannelIdsSB = new StringBuilder();
 			userTVChannelIdsSB.append("(");
 			userTVChannelIdsSB.append(userChannelIds.size());
 			userTVChannelIdsSB.append(")");
-			
+
 			channelCountTv.setText(userTVChannelIdsSB.toString());
 		}
 	}
-	
-	
-	
+
 	@Override
-	public void onClick(View v) 
-	{
+	public void onClick(View v) {
 		/* IMPORTANT to call super so that the BaseActivity can handle the tab clicking */
 		super.onClick(v);
-		
-		int id = v.getId();
-		
-		switch (id) 
-		{
-			case R.id.myprofile_likes_container: 
-			{
-				Intent intent = new Intent(UserProfileActivity.this, LikesActivity.class);
-				
-				startActivityForResult(intent, 0);
-	
-				break;
-			}
-			case R.id.myprofile_channels_container: 
-			{
-				Intent intent = new Intent(UserProfileActivity.this, MyChannelsActivity.class);
 
-				startActivityForResult(intent, 2);
-	
-				break;
-			}
-			case R.id.myprofile_reminders_container:
-			{
-				Intent intent = new Intent(UserProfileActivity.this, RemindersActivity.class);
-				
-				startActivityForResult(intent, 1);
-	
-				break;
-			}
-	
-			case R.id.myprofile_login_container: 
-			{
-				Intent intent = new Intent(UserProfileActivity.this, LoginWithMiTVUserActivity.class);
-				
-				startActivity(intent);
-	
-				break;
-			}
-	
-			case R.id.myprofile_terms_of_use_container:
-			{
-				Intent intent = new Intent(UserProfileActivity.this, TermsActivity.class);
-				
-				startActivity(intent);
-	
-				break;
-			}
-	
-			case R.id.myprofile_about_us_container: 
-			{
-				Intent intent = new Intent(UserProfileActivity.this, AboutUsActivity.class);
-				
-				startActivity(intent);
-	
-				break;
-			}
-	
-			case R.id.myprofile_signup_container: 
-			{
-				Intent intent = new Intent(UserProfileActivity.this, SignUpSelectionActivity.class);
-				
-				startActivity(intent);
-	
-				break;
-			}
-	
-			case R.id.myprofile_logout_container: 
-			{
-				ContentManager.sharedInstance().performLogout(this);
-	
-				break;
-			}
+		int id = v.getId();
+
+		Intent intent = null;
+
+		switch (id) {
+		case R.id.myprofile_likes_container: {
+			intent = new Intent(UserProfileActivity.this, LikesActivity.class);
+			break;
+		}
+		case R.id.myprofile_channels_container: {
+			intent = new Intent(UserProfileActivity.this, MyChannelsActivity.class);
+			break;
+		}
+		case R.id.myprofile_reminders_container: {
+			intent = new Intent(UserProfileActivity.this, RemindersActivity.class);
+			break;
+		}
+
+		case R.id.myprofile_login_container: {
+			intent = new Intent(UserProfileActivity.this, LoginWithMiTVUserActivity.class);
+			break;
+		}
+
+		case R.id.myprofile_terms_of_use_container: {
+			intent = new Intent(UserProfileActivity.this, TermsActivity.class);
+			break;
+		}
+
+		case R.id.myprofile_about_us_container: {
+			intent = new Intent(UserProfileActivity.this, AboutUsActivity.class);
+			break;
+		}
+
+		case R.id.myprofile_signup_container: {
+			intent = new Intent(UserProfileActivity.this, SignUpSelectionActivity.class);
+			break;
+		}
+
+		case R.id.myprofile_logout_container: {
+			ContentManager.sharedInstance().performLogout(this);
+			break;
+		}
+		}
+
+		if (intent != null) {
+			startActivity(intent);
 		}
 	}
 }

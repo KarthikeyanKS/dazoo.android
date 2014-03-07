@@ -1,5 +1,7 @@
+
 package com.mitv.activities.base;
 
+import java.util.EmptyStackException;
 import java.util.Stack;
 
 import android.app.Activity;
@@ -25,12 +27,15 @@ import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.activities.FeedActivity;
 import com.mitv.activities.HomeActivity;
+import com.mitv.activities.MyChannelsActivity;
 import com.mitv.activities.SearchPageActivity;
+import com.mitv.activities.UpcomingEpisodesPageActivity;
 import com.mitv.activities.UserProfileActivity;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.models.UpcomingBroadcastsForBroadcast;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
@@ -57,6 +62,8 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 
 	private boolean userHasJustLoggedIn;
 	private boolean userHasJustLoggedOut;
+
+	private Class<?> returnActivity;
 
 	/* Abstract Methods */
 
@@ -137,7 +144,26 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 				ToastHelper.createAndShowToast(this, sb.toString());
 			}
 		}
+
+		/* If return activity was specified set it! */
+		if (intent.hasExtra(Constants.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME)) {
+			String returnActivityClassName = intent.getExtras().getString(Constants.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME);
+			
+			try {
+				returnActivity = Class.forName(returnActivityClassName);
+			} catch (Exception e) {
+				Log.e(TAG, e.getMessage(), e);
+
+				returnActivity = HomeActivity.class;
+			}
+		} else {
+			/* Do nothing! */
+		}
 	}
+	
+	public Class<?> getReturnActivity() {
+        return returnActivity;
+    }
 
 	private static void pushActivityToStack(Activity activity) {
 		/* If activity is tab activity, move it to the top */
