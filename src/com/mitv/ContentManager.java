@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -1510,5 +1512,32 @@ public class ContentManager
 	public ArrayList<TVDate> getFromCacheTVDates() {
 		 ArrayList<TVDate> tvDates = cache.getTvDates();
 		 return tvDates;
+	}
+	
+	public void setReturnActivity(Class<?> returnActivity) {
+		cache.setReturnActivity(returnActivity);
+	}
+	
+	public Class<?> getReturnActivity() {
+		Class<?> returnActivity = cache.getReturnActivity();
+		return returnActivity;
+	}
+	
+	/**
+	 * This method tries to start the return activity stored in the cache, if null it does nothing and returns false
+	 * else it starts the activity and sets it to null and returns true
+	 * @param caller
+	 * @return
+	 */
+	public boolean tryStartReturnActivity(Activity caller) {
+		boolean returnActivityWasSet = getReturnActivity() != null;
+		
+		if(returnActivityWasSet) {
+			Intent intent = new Intent(caller, getReturnActivity());
+			cache.clearReturnActivity();
+			caller.startActivity(intent);
+		}
+		
+		return returnActivityWasSet;
 	}
 }

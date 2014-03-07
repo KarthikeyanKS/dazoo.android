@@ -125,18 +125,12 @@ public class LoginWithFacebookActivity
 			
 			case SUCCEEDED_WITH_DATA:
 			{
-				Intent intent = null;
-				
-				if(getReturnActivity() != null) {
-					intent = new Intent(LoginWithFacebookActivity.this, getReturnActivity());
-					
-				} else {
+				if(!ContentManager.sharedInstance().tryStartReturnActivity(this)) {
 					Activity mostRecentTabActivity = getMostRecentTabActivity();
-					intent = new Intent(LoginWithFacebookActivity.this, mostRecentTabActivity.getClass());
+					Intent intent = new Intent(LoginWithFacebookActivity.this, mostRecentTabActivity.getClass());
 					intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
+					startActivity(intent);
 				}
-
-				startActivity(intent);
 				
 				finish();
 				

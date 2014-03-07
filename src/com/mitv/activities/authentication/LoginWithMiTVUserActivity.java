@@ -140,19 +140,13 @@ public class LoginWithMiTVUserActivity
 			case SUCCEEDED_WITH_DATA:
 			{
 				enableFields();
-				Intent intent = null;
 				
-				if(getReturnActivity() != null) {
-					intent = new Intent(LoginWithMiTVUserActivity.this, getReturnActivity());
-					
-				} else {
+				if(!ContentManager.sharedInstance().tryStartReturnActivity(this)) {
 					Activity mostRecentTabActivity = getMostRecentTabActivity();
-					intent = new Intent(LoginWithMiTVUserActivity.this, mostRecentTabActivity.getClass());
+					Intent intent = new Intent(LoginWithMiTVUserActivity.this, mostRecentTabActivity.getClass());
 					intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
-				}
-
-				startActivity(intent);
-				
+					startActivity(intent);
+				}				
 				finish();
 				
 				break;

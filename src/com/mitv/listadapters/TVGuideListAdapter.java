@@ -320,7 +320,7 @@ public class TVGuideListAdapter
 			public void run() {
 				Intent intent = new Intent(activity, UserProfileActivity.class);
 				
-				intent.putExtra(Constants.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, MyChannelsActivity.class.getName());
+				ContentManager.sharedInstance().setReturnActivity(MyChannelsActivity.class);
 				
 				activity.startActivity(intent);
 			}
