@@ -118,6 +118,7 @@ public class TVHolderFragment
 	public void onPageSelected(int pos) 
 	{
 		selectedTabIndex = pos;
+		
 		viewPagerIndexChangedListener.onIndexSelected(selectedTabIndex);
 	}
 
@@ -142,16 +143,16 @@ public class TVHolderFragment
 		pagerAdapter = new TagTypeFragmentStatePagerAdapter(getChildFragmentManager(), tvTags, tvDate);
 
 		viewPager.setAdapter(pagerAdapter);
+		//viewPager.setOffscreenPageLimit(1);
 		pagerAdapter.notifyDataSetChanged();
+		
 		viewPager.setCurrentItem(selectedIndex);
-
 		viewPager.setVisibility(View.VISIBLE);
+		
 		pageTabIndicator.setVisibility(View.VISIBLE);
-
 		pageTabIndicator.setViewPager(viewPager);
 		pageTabIndicator.notifyDataSetChanged();
 		pageTabIndicator.setCurrentItem(selectedIndex);
-
 		pageTabIndicator.setOnPageChangeListener(this);
 	}
 }

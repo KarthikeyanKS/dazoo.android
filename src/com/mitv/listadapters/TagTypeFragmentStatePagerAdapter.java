@@ -16,44 +16,62 @@ import com.mitv.models.TVTag;
 
 
 
-public class TagTypeFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
-
+public class TagTypeFragmentStatePagerAdapter
+	extends FragmentStatePagerAdapter 
+{
 	@SuppressWarnings("unused")
 	private static final String TAG = TagTypeFragmentStatePagerAdapter.class.getName();
-	private ArrayList<TVTag> mTags;
-	private TVDate mTvDate;
-	private FragmentManager fm;
+	
+	
+	private ArrayList<TVTag> tags;
+	private TVDate tvDate;
+	
+	// TODO newArc Complete this
+	private ArrayList<TVGuideTableFragment> tvGuideTableFragments;
 
 	
 	
-	public TagTypeFragmentStatePagerAdapter(FragmentManager fm, ArrayList<TVTag> tags, TVDate tvDate) {
+	public TagTypeFragmentStatePagerAdapter(FragmentManager fm, ArrayList<TVTag> tags, TVDate tvDate) 
+	{
 		super(fm);
-		this.fm = fm;
-		this.mTags = tags;
-		this.mTvDate = tvDate;
+		
+		this.tags = tags;
+		this.tvDate = tvDate;
 	}
 
+	
+	
 	@Override
-	public Fragment getItem(int position) {
+	public Fragment getItem(int position) 
+	{
 		position = LoopViewPager.toRealPosition(position, getCount());
 		
-		return TVGuideTableFragment.newInstance(mTags.get(position), mTvDate);
+		return TVGuideTableFragment.newInstance(tags.get(position), tvDate);
 	}
 	
+	
+	
 	@Override
-	public CharSequence getPageTitle(int position) {
-		TVTag tvTag = mTags.get(position % mTags.size());
+	public CharSequence getPageTitle(int position) 
+	{
+		TVTag tvTag = tags.get(position % tags.size());
+		
 		return tvTag.getDisplayName();
 	}
 
-	@Override
-	public int getCount() {
-		return mTags.size();
-	}
+	
 	
 	@Override
-	public int getItemPosition(Object object) {
+	public int getCount() 
+	{
+		return tags.size();
+	}
+	
+	
+	
+	@Override
+	public int getItemPosition(Object object) 
+	{
 	    return POSITION_NONE;
 	}
 }
-
