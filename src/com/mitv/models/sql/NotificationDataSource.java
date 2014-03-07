@@ -192,7 +192,7 @@ public class NotificationDataSource
 		
 		if (cursor.moveToFirst())
 		{
-			do 
+			do
 			{
 				NotificationSQLElement notification = setCursorValues(cursor);
 				

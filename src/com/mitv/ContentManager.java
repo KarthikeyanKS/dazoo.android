@@ -633,7 +633,10 @@ public class ContentManager
 	public void getElseFetchFromServiceUpcomingBroadcasts(ActivityCallbackListener activityCallbackListener, boolean forceDownload, TVBroadcastWithChannelInfo broadcastKey) 
 	{
 		//TODO NewArc check if program and then if series and then if seriesId is null?
-		if (!forceDownload && cache.containsUpcomingBroadcastsForBroadcast(broadcastKey.getProgram().getSeries().getSeriesId())) 
+		if (!forceDownload && 
+				broadcastKey.getProgram() != null && 
+				broadcastKey.getProgram().getSeries() != null &&
+				cache.containsUpcomingBroadcastsForBroadcast(broadcastKey.getProgram().getSeries().getSeriesId())) 
 		{
 			UpcomingBroadcastsForBroadcast upcomingBroadcastsForBroadcast = cache.getNonPersistentUpcomingBroadcasts();
 			handleBroadcastPageDataResponse(activityCallbackListener, RequestIdentifierEnum.BROADCASTS_FROM_SERIES_UPCOMING, FetchRequestResultEnum.SUCCESS, upcomingBroadcastsForBroadcast);
@@ -647,8 +650,7 @@ public class ContentManager
 	
 	public void getElseFetchFromServiceRepeatingBroadcasts(ActivityCallbackListener activityCallbackListener, boolean forceDownload, TVBroadcastWithChannelInfo broadcastKey)
 	{
-		//TODO NewArc check if program and then if programId is null?
-		if (!forceDownload && cache.containsRepeatingBroadcastsForBroadcast(broadcastKey.getProgram().getProgramId())) 
+		if (!forceDownload && broadcastKey.getProgram() != null && cache.containsRepeatingBroadcastsForBroadcast(broadcastKey.getProgram().getProgramId())) 
 		{
 			RepeatingBroadcastsForBroadcast repeatingBroadcastsForBroadcast = cache.getNonPersistentRepeatingBroadcasts();
 			handleBroadcastPageDataResponse(activityCallbackListener, RequestIdentifierEnum.REPEATING_BROADCASTS_FOR_PROGRAMS, FetchRequestResultEnum.SUCCESS, repeatingBroadcastsForBroadcast);
@@ -875,106 +877,7 @@ public class ContentManager
 		}
 	}
 	
-
-
-	private void handleTVDataResponse(
-			ActivityCallbackListener activityCallbackListener,
-			RequestIdentifierEnum requestIdentifier, 
-			FetchRequestResultEnum result,
-			Object content) 
-	{
-		if (result.wasSuccessful() && content != null)
-		{
-			completedCountTVData++;
 	
-			switch (requestIdentifier) 
-			{
-				case TV_DATE:
-				{
-					ArrayList<TVDate> tvDates = (ArrayList<TVDate>) content;
-					cache.setTvDates(tvDates);
-	
-					notifyFetchDataProgressListenerMessage("Fetched tv dates data");
-					break;
-				}
-	
-				case TV_TAG: 
-				{
-					ArrayList<TVTag> tvTags = (ArrayList<TVTag>) content;
-					cache.setTvTags(tvTags);
-					notifyFetchDataProgressListenerMessage("Fetched tv genres data");
-					break;
-				}
-				
-				case TV_CHANNEL:
-				{
-					ArrayList<TVChannel> tvChannels = (ArrayList<TVChannel>) content;
-					cache.setTvChannels(tvChannels);
-					notifyFetchDataProgressListenerMessage("Fetched tv channel data");
-					break;
-				}
-				
-				case TV_CHANNEL_IDS_DEFAULT:
-				{
-					ArrayList<TVChannelId> tvChannelIdsDefault = (ArrayList<TVChannelId>) content;
-					cache.setTvChannelIdsDefault(tvChannelIdsDefault);
-					notifyFetchDataProgressListenerMessage("Fetched tv channel id data");
-					break;
-				}
-				
-				case TV_CHANNEL_IDS_USER:
-				{
-					ArrayList<TVChannelId> tvChannelIdsUser = (ArrayList<TVChannelId>) content;
-					cache.setTvChannelIdsUser(tvChannelIdsUser);
-					notifyFetchDataProgressListenerMessage("Fetched tv channel id data");
-					break;
-				}
-				
-				case BROADCAST_DETAILS: {
-					// TODO
-					break;
-				}
-				case REPEATING_BROADCASTS_FOR_PROGRAMS: {
-					// TODO
-					break;
-				}
-				case BROADCASTS_FROM_SERIES_UPCOMING: {
-					// TODO
-					break;
-				}
-			}
-
-			int completedCountTVDataThreshold;
-			if (channelsChange) 
-			{
-				channelsChange = false;
-				completedCountTVDataThreshold = COMPLETED_COUNT_TV_DATA_CHANNEL_CHANGE_THRESHOLD;
-			} 
-			else
-			{
-				completedCountTVDataThreshold = COMPLETED_COUNT_TV_DATA_NOT_LOGGED_IN_THRESHOLD;
-				
-				if (cache.isLoggedIn())
-				{
-					completedCountTVDataThreshold = COMPLETED_COUNT_TV_DATA_LOGGED_IN_THRESHOLD;
-				}
-			}
-
-			if (completedCountTVData >= completedCountTVDataThreshold) 
-			{
-				completedCountTVData = 0;
-				fetchFromServiceTVGuideForSelectedDay(activityCallbackListener);
-			}
-
-		} 
-		else 
-		{	
-			/* ActivityCallbackListener could be null if we came here from MyChannelsActiviy and performSetUserChannels was invoked just before that instance was destroyed (e.g. by "backPress") */
-			if(activityCallbackListener != null) {
-				activityCallbackListener.onResult(FetchRequestResultEnum.UNKNOWN_ERROR, requestIdentifier);
-			}
-		}
-	}
 	
 	public void handleTVBroadcastsPopularBroadcastsResponse(ActivityCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content)
 	{
@@ -1021,18 +924,18 @@ public class ContentManager
 			switch (requestIdentifier) {
 			case BROADCAST_DETAILS: {
 				if(content != null) {
-				TVBroadcastWithChannelInfo broadcastWithChannelInfo = (TVBroadcastWithChannelInfo) content;
-				
-				cache.setNonPersistentSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
-				
-				/* Only fetch upcoming broadcasts if the broadcast is TV Episode */
-				if(broadcastWithChannelInfo.getProgram().getProgramType() == ProgramTypeEnum.TV_EPISODE) {
-					completedCountBroadcastPageDataThresholdUsed = COMPLETED_COUNT_BROADCAST_PAGE_WAIT_FOR_UPCOMING_BROADCAST_THRESHOLD;
-					ContentManager.sharedInstance().getElseFetchFromServiceUpcomingBroadcasts(activityCallbackListener, false, broadcastWithChannelInfo);
-				}
-				
-				/* Always fetch repeating, even though response can be empty */
-				ContentManager.sharedInstance().getElseFetchFromServiceRepeatingBroadcasts(activityCallbackListener, false, broadcastWithChannelInfo);
+					TVBroadcastWithChannelInfo broadcastWithChannelInfo = (TVBroadcastWithChannelInfo) content;
+					
+					cache.setNonPersistentSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
+					
+					/* Only fetch upcoming broadcasts if the broadcast is TV Episode */
+					if(broadcastWithChannelInfo.getProgram() != null && broadcastWithChannelInfo.getProgram().getProgramType() == ProgramTypeEnum.TV_EPISODE) {
+						completedCountBroadcastPageDataThresholdUsed = COMPLETED_COUNT_BROADCAST_PAGE_WAIT_FOR_UPCOMING_BROADCAST_THRESHOLD;
+						ContentManager.sharedInstance().getElseFetchFromServiceUpcomingBroadcasts(activityCallbackListener, false, broadcastWithChannelInfo);
+					}
+					
+					/* Always fetch repeating, even though response can be empty */
+					ContentManager.sharedInstance().getElseFetchFromServiceRepeatingBroadcasts(activityCallbackListener, false, broadcastWithChannelInfo);
 				} 
 				else 
 				{

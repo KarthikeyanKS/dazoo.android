@@ -18,9 +18,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.mitv.listadapters.TVGuideListAdapter.ViewHolder;
-import com.mitv.AppConfigurationManager;
+import com.mitv.ContentManager;
 import com.mitv.R;
+import com.mitv.listadapters.TVGuideListAdapter.ViewHolder;
 import com.mitv.models.AdAdzerk;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -54,16 +54,16 @@ public class AdListAdapter<T> extends BaseAdapter {
 		
 		this.activity = activity;
 
-		this.adFormats = AppConfigurationManager.getInstance().getAdFormatsForFragment(fragmentName);
-		this.cellCountBetweenAdCells = AppConfigurationManager.getInstance().getCellsBetweenAdCellsCountForFragment(fragmentName);
+		this.adFormats = ContentManager.sharedInstance().getFromCacheAppConfiguration().getAdzerkFormatsForAndroidGuide();
+		this.cellCountBetweenAdCells = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCellCountBetweenAdCells();
 		
 		this.items = items;
 		
-		boolean globalAdsEnabled = AppConfigurationManager.getInstance().isAdsEnabled();
+		boolean globalAdsEnabled = ContentManager.sharedInstance().getFromCacheAppConfiguration().isAdsEnabled();
 		
 		boolean localAdsEnabled = (cellCountBetweenAdCells > 0);
 		
-		this.isAdsEnabled = globalAdsEnabled && localAdsEnabled;
+		this.isAdsEnabled = (globalAdsEnabled && localAdsEnabled);
 		
 		if (this.isAdsEnabled) 
 		{
@@ -111,6 +111,8 @@ public class AdListAdapter<T> extends BaseAdapter {
 //			});
 //		}
 	}
+	
+	
 
 	@Override
 	public int getCount() 

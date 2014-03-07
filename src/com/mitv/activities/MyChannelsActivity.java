@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -26,6 +27,7 @@ import com.mitv.interfaces.MyChannelsCountInterface;
 import com.mitv.listadapters.MyChannelsListAdapter;
 import com.mitv.models.TVChannel;
 import com.mitv.models.TVChannelId;
+import com.mitv.models.comparators.TVChannelComparatorByName;
 import com.mitv.utilities.LanguageUtils;
 
 
@@ -140,8 +142,9 @@ public class MyChannelsActivity
 		allChannelObjects = ContentManager.sharedInstance().getFromCacheTVChannelsAll();
 		
 		/* Sort all channels by name */
-		if(allChannelObjects != null) {
-			Collections.sort(allChannelObjects, new TVChannel.ChannelComparatorByName());
+		if(allChannelObjects != null) 
+		{
+			Collections.sort(allChannelObjects, new TVChannelComparatorByName());
 		}
 		
 		myChannelIds = ContentManager.sharedInstance().getFromCacheTVChannelIdsUser();
@@ -192,18 +195,27 @@ public class MyChannelsActivity
 	}
 	
 	@Override
-	public void afterTextChanged(Editable editable) {
+	public void afterTextChanged(Editable editable)
+	{
 		String search = editable.toString();
-		if (search.contains(System.getProperty("line.separator"))) {
+		
+		if (search.contains(System.getProperty("line.separator"))) 
+		{	
 			search = search.replace(System.getProperty("line.separator"), "");
+			
 			searchChannelField.setText(search);
-			InputMethodManager in = (InputMethodManager) getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
+			
+			getApplicationContext();
+			
+			InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			
 			in.hideSoftInputFromWindow(searchChannelField.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 		}
 
 		channelsMatchingSearch.clear();
-		if (!TextUtils.isEmpty(search)) {
-			
+		
+		if (!TextUtils.isEmpty(search)) 
+		{	
 			/* Go through list of all channels and add channels which name contains the searched string */
 			for(TVChannel tvChannel : allChannelObjects) 
 			{
@@ -216,7 +228,9 @@ public class MyChannelsActivity
 					channelsMatchingSearch.add(tvChannel);
 				}
 			}
-		} else {
+		} 
+		else 
+		{
 			/* If search string is empty show all channel objects */
 			channelsMatchingSearch.addAll(allChannelObjects);
 		}

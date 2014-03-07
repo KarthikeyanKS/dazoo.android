@@ -6,12 +6,9 @@ package com.mitv.asynctasks;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.mitv.Constants;
-import com.mitv.R;
-import com.mitv.SecondScreenApplication;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ActivityCallbackListener;
@@ -49,10 +46,7 @@ public class GetTVTags
 			
 			ArrayList<TVTag> contentAsArrayList = new ArrayList<TVTag>(Arrays.asList(contentAsArray));
 			
-			/* Manually add the tag for "ALL CATEGORIES" */
-			Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-			
-			String allCategoriesTag = context.getResources().getString(R.string.all_categories_name);
+			String allCategoriesTag = Constants.ALL_CATEGORIES_TAG;
 			
 			TVTag allCategoriesTVTag = new TVTag(allCategoriesTag, allCategoriesTag);
 			

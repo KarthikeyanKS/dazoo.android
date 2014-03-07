@@ -50,7 +50,6 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 public class TVGuideListAdapter 
 	extends AdListAdapter<TVChannelGuide>
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = TVGuideListAdapter.class.getName();
 
 	

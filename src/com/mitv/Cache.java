@@ -416,13 +416,16 @@ public class Cache
 	}
 	
 	
-	/* TODO Should this be synchronized? */
-	public HashMap<String, SparseArray<AdAdzerkJSON>> getFragmentToAdsMap() {
+	
+	public synchronized HashMap<String, SparseArray<AdAdzerkJSON>> getFragmentToAdsMap() 
+	{
 		return fragmentToAdsMap;
 	}
 
-	/* TODO Should this be synchronized? */
-	public void setFragmentToAdsMap(HashMap<String, SparseArray<AdAdzerkJSON>> mFragmentToAdsMap) {
+
+	
+	public synchronized void setFragmentToAdsMap(HashMap<String, SparseArray<AdAdzerkJSON>> mFragmentToAdsMap) 
+	{
 		this.fragmentToAdsMap = mFragmentToAdsMap;
 	}
 

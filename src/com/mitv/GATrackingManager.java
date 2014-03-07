@@ -67,7 +67,7 @@ public class GATrackingManager
 	
 	public void updateConfiguration() 
 	{
-		String trackingId = AppConfigurationManager.getInstance().getGoogleAnalyticsTrackingId();
+		String trackingId = ContentManager.sharedInstance().getFromCacheAppConfiguration().getGoogleAnalyticsTrackingId();
 		
 		boolean useDefaultGATrackingID = Constants.USE_DEFAULT_GOOGLE_TRACKING_ID;
 		
@@ -93,7 +93,7 @@ public class GATrackingManager
     	String wasPreinstalledSystemAppLocation = preinstalledUsingSystemAppDetectionCheckLocation ? Constants.PREFS_KEY_APP_WAS_PREINSTALLED : Constants.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
     	String wasPreinstalledSystemAppFlag = preinstalledUsingSystemAppDetectionCheckFlag ? Constants.PREFS_KEY_APP_WAS_PREINSTALLED : Constants.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
 				
-		double sampleRateDecimal = AppConfigurationManager.getInstance().getGoogleAnalyticsSampleRate();
+		double sampleRateDecimal = ContentManager.sharedInstance().getFromCacheAppConfiguration().getGoogleAnalyticsSampleRate();
 		
 		if(sampleRateDecimal == 0) 
 		{

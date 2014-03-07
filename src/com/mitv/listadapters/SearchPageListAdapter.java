@@ -89,8 +89,9 @@ public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implemen
 		return searchResultItems;
 	}
 
-	public void setSearchResultItems(ArrayList<TVSearchResult> searchResultItems) {
+	public void setSearchResultItemsForQueryString(ArrayList<TVSearchResult> searchResultItems, String queryString) {
 		this.searchResultItems = searchResultItems;
+		this.queryString = queryString;
 	}
 
 	private Spannable getCustomFontSpannableUsingThreeStrings(String beforeBold, String toBold, String afterBold) {
@@ -139,8 +140,6 @@ public class SearchPageListAdapter extends ArrayAdapter<TVSearchResult> implemen
 
 		return spannable;
 	}
-
-	//
 
 	private void setTimeString(ViewHolder viewHolder, TVSearchResult resultItem) {
 		TVBroadcastWithChannelInfo closestBroadcastInTime = resultItem.getNextBroadcast();

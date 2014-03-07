@@ -79,12 +79,11 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 	@Override
 	protected void onCreate(android.os.Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		boolean enableStrictMode = Constants.ENABLE_STRICT_MODE;
-		
-		if (enableStrictMode) 
-		{
-			//enableStrictMode();
+
+		if (enableStrictMode) {
+			// enableStrictMode();
 		}
 
 		/* Google Analytics Tracking */
@@ -108,30 +107,23 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 
 		/* Log in states */
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
-		
-		if (isLoggedIn) 
-		{
-			if (intent.hasExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN)) 
-			{
+
+		if (isLoggedIn) {
+			if (intent.hasExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN)) {
 				userHasJustLoggedIn = intent.getExtras().getBoolean(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, false);
 
 				intent.removeExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN);
-			} 
-			else 
-			{
+			} else {
 				userHasJustLoggedIn = false;
 			}
 		} else {
 			userHasJustLoggedIn = false;
-			
-			if (intent.hasExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT)) 
-			{
+
+			if (intent.hasExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT)) {
 				userHasJustLoggedOut = intent.getExtras().getBoolean(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT, false);
 
 				intent.removeExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT);
-			} 
-			else 
-			{
+			} else {
 				userHasJustLoggedOut = false;
 			}
 		}
@@ -173,110 +165,57 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
         return returnActivity;
     }
 
-	
 	private static void pushActivityToStack(Activity activity) {
 		/* If activity is tab activity, move it to the top */
-		if (isTabActivity(activity)) 
-		{
+		if (isTabActivity(activity)) {
 			removeFromStack(activity);
 		}
 		activityStack.push(activity);
-		
+
 		printActivityStack();
 	};
-	
+
 	/* Used for debugging only */
 	private static void printActivityStack() {
 		Log.d(TAG, ".");
 		Log.d(TAG, ".");
 		Log.d(TAG, "---<<<*** ActivityStack ***>>>---");
 		for (int i = activityStack.size() - 1; i >= 0; --i) {
-            Activity activityInStack = activityStack.get(i);
-            Log.d(TAG, activityInStack.getClass().getSimpleName());
-        }
+			Activity activityInStack = activityStack.get(i);
+			Log.d(TAG, activityInStack.getClass().getSimpleName());
+		}
 	}
 
 	/* Remove activity from activitStack */
-	private static void removeFromStack(Activity activity) 
-	{
-		if(activityStack.contains(activity))
-		{
+	private static void removeFromStack(Activity activity) {
+		if (activityStack.contains(activity)) {
 			activityStack.remove(activity);
 		}
 	}
 
-	
-	
-//	public static Activity getMostRecentTabActivity() 
-//	{
-//		int mostRecentTabActivityIndex = getMostRecentTabActivityIndex();
-//		
-//		Activity mostRecentTabActivity = null;
-//		
-//		if(mostRecentTabActivityIndex >= 0 && mostRecentTabActivityIndex < activityStack.size())
-//		{
-//			mostRecentTabActivity = activityStack.get(mostRecentTabActivityIndex);
-//		}
-//
-//		return mostRecentTabActivity;
-//	}
-	
-	 @Override
-	public void startActivity(Intent intent) {
-		if(returnActivity != null) {
-			intent.putExtra(Constants.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, returnActivity.getName());
+	public static Activity getMostRecentTabActivity() {
+		Activity mostRecentTabActivity = null;
+
+		/* Iterate through stack, start at top of stack */
+		for (int i = activityStack.size() - 1; i >= 0; --i) {
+			Activity activityInStack = activityStack.get(i);
+
+			/* Check if activityInStack is any of the three TabActivities */
+			if (isTabActivity(activityInStack)) {
+				mostRecentTabActivity = activityInStack;
+				break;
+			}
 		}
-		super.startActivity(intent);
+
+		return mostRecentTabActivity;
 	}
 
-	public static Activity getMostRecentTabActivity() {
-	        Activity mostRecentTabActivity = null;
-
-	        /* Iterate through stack, start at top of stack */
-	        for (int i = activityStack.size() - 1; i >= 0; --i) {
-	            Activity activityInStack = activityStack.get(i);
-
-	            /* Check if activityInStack is any of the three TabActivities */
-	            if (isTabActivity(activityInStack))  
-	            {
-	                mostRecentTabActivity = activityInStack;
-	                break;
-	            }
-	        }
-
-	        return mostRecentTabActivity;
-	    }
-	
-	
-	
-//	private static int getMostRecentTabActivityIndex() 
-//	{
-//		int mostRecentTabActivityIndex = -1;
-//
-//		/* Iterate through stack, start at top of stack */
-//		for (int i = activityStack.size() - 1; i >= 0; --i) 
-//		{
-//			Activity activityInStack = activityStack.get(i);
-//
-//			/* Check if activityInStack is any of the three TabActivities */
-//			if (isTabActivity(activityInStack)) 
-//			{
-//				mostRecentTabActivityIndex = i;
-//				break;
-//			}
-//		}
-//
-//		return mostRecentTabActivityIndex;
-//	}
-	
 	private boolean thisIsTabActivity() {
 		return isTabActivity(this);
 	}
-	
+
 	private static boolean isTabActivity(Activity activity) {
-		boolean isTabActivity = (activity instanceof HomeActivity || 
-				activity instanceof FeedActivity || 
-				activity instanceof UserProfileActivity);
+		boolean isTabActivity = (activity instanceof HomeActivity || activity instanceof FeedActivity || activity instanceof UserProfileActivity);
 		return isTabActivity;
 	}
 
@@ -311,31 +250,21 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 			tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
 		}
 
+		Activity mostRecentTabActivity = getMostRecentTabActivity();
 
-				Activity mostRecentTabActivity = getMostRecentTabActivity();
-				
-				if (mostRecentTabActivity instanceof HomeActivity) 
-				{
-					setSelectedTabAsTVGuide();
-				}
-				else if (mostRecentTabActivity instanceof FeedActivity) 
-				{
-					setSelectedTabAsActivityFeed();
-				} 
-				else if (mostRecentTabActivity instanceof UserProfileActivity)
-				{
-					setSelectedTabAsUserProfile();
-				}
-				else
-				{
-					Log.w(TAG, "Unknown activity tab");
-				}
+		if (mostRecentTabActivity instanceof HomeActivity) {
+			setSelectedTabAsTVGuide();
+		} else if (mostRecentTabActivity instanceof FeedActivity) {
+			setSelectedTabAsActivityFeed();
+		} else if (mostRecentTabActivity instanceof UserProfileActivity) {
+			setSelectedTabAsUserProfile();
+		} else {
+			Log.w(TAG, "Unknown activity tab");
+		}
 	}
 
-	protected void setSelectedTabAsTVGuide() 
-	{
-		if (tabTvGuide != null) 
-		{
+	protected void setSelectedTabAsTVGuide() {
+		if (tabTvGuide != null) {
 			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
 		}
 
@@ -348,12 +277,8 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 		}
 	}
 
-	
-	
-	protected void setSelectedTabAsActivityFeed()
-	{
-		if (tabTvGuide != null) 
-		{
+	protected void setSelectedTabAsActivityFeed() {
+		if (tabTvGuide != null) {
 			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 		}
 
@@ -366,12 +291,8 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 		}
 	}
 
-	
-	
-	protected void setSelectedTabAsUserProfile() 
-	{
-		if (tabTvGuide != null) 
-		{
+	protected void setSelectedTabAsUserProfile() {
+		if (tabTvGuide != null) {
 			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 		}
 
@@ -389,41 +310,34 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 		int id = v.getId();
 
 		boolean changedTab = false;
-		
-		switch (id) 
-		{
-			case R.id.tab_tv_guide: 
-			{
-				if (!(this instanceof HomeActivity)) 
-				{
-					Intent intentActivity = new Intent(this, HomeActivity.class);
-					startActivity(intentActivity);
-					changedTab = true;
-				}
-				break;
+
+		switch (id) {
+		case R.id.tab_tv_guide: {
+			if (!(this instanceof HomeActivity)) {
+				Intent intentActivity = new Intent(this, HomeActivity.class);
+				startActivity(intentActivity);
+				changedTab = true;
 			}
-	
-			case R.id.tab_activity: 
-			{
-				if (!(this instanceof FeedActivity))
-				{
-					Intent intentActivity = new Intent(this, FeedActivity.class);
-					startActivity(intentActivity);
-					changedTab = true;
-				}
-				break;
+			break;
+		}
+
+		case R.id.tab_activity: {
+			if (!(this instanceof FeedActivity)) {
+				Intent intentActivity = new Intent(this, FeedActivity.class);
+				startActivity(intentActivity);
+				changedTab = true;
 			}
-	
-			case R.id.tab_me:
-			{
-				if (!(this instanceof UserProfileActivity))
-				{
-					Intent intentMe = new Intent(this, UserProfileActivity.class);
-					startActivity(intentMe);
-					changedTab = true;
-				}
-				break;
+			break;
+		}
+
+		case R.id.tab_me: {
+			if (!(this instanceof UserProfileActivity)) {
+				Intent intentMe = new Intent(this, UserProfileActivity.class);
+				startActivity(intentMe);
+				changedTab = true;
 			}
+			break;
+		}
 
 		case R.id.request_failed_reload_button:
 		case R.id.bad_request_reload_button: {
@@ -435,11 +349,10 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 
 			break;
 		}
+
+		default: {
+			Log.w(TAG, "Unknown tab selected");
 		}
-		
-		/* If we changed tabs, and the activity we came from (this) was not a tabActivity (i.e. this is an instance of BroadcastPage or ChannelPage etc) then finish the activity! */
-		if(!thisIsTabActivity() && changedTab) {
-			this.finish();
 		}
 	}
 
@@ -511,10 +424,9 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 	}
 
 	@Override
-	protected void onDestroy() 
-	{
+	protected void onDestroy() {
 		removeFromStack(this);
-	
+
 		super.onDestroy();
 	}
 
@@ -533,12 +445,16 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 	}
 
 	/*
-	 * This method checks for Internet connectivity on the background thread
+	 * This method checks for Internet connectivity before loading data
 	 */
 	protected void loadDataWithConnectivityCheck() {
-		updateUI(UIStatusEnum.LOADING);
+		boolean isConnected = NetworkUtils.isConnected();
 
-		ContentManager.sharedInstance().checkNetworkConnectivity(this);
+		if (isConnected) {
+			loadData();
+		} else {
+			updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
+		}
 	}
 
 	@Override

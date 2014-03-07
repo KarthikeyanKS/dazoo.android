@@ -122,7 +122,7 @@ public class ReminderView
 		{
 			if (isSet == false) 
 			{
-				NotificationHelper.setAlarm(activity, tvBroadcastWithChannelInfo);
+				NotificationHelper.scheduleAlarm(activity, tvBroadcastWithChannelInfo);
 				
 				ToastHelper.showNotificationWasSetToast(activity);
 				

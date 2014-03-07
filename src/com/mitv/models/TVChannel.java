@@ -3,10 +3,7 @@ package com.mitv.models;
 
 
 
-import java.util.Comparator;
-
 import android.text.TextUtils;
-
 import com.mitv.interfaces.GSONDataFieldValidation;
 import com.mitv.models.gson.TVChannelJSON;
 import com.mitv.models.sql.NotificationSQLElement;
@@ -64,18 +61,12 @@ public class TVChannel
 
 
 	@Override
-	public boolean areDataFieldsValid() {
+	public boolean areDataFieldsValid() 
+	{
 		boolean areDataFieldsValid = (!TextUtils.isEmpty(getName()) && getChannelId() != null && !TextUtils.isEmpty(getChannelId().getChannelId()) && 
 				getLogo() != null && !TextUtils.isEmpty(getLogo().getSmall()) && !TextUtils.isEmpty(getLogo().getMedium()) && 
 				!TextUtils.isEmpty(getLogo().getLarge()));
 
 		return areDataFieldsValid;
-	}
-
-	public static class ChannelComparatorByName implements Comparator<TVChannel> {
-		@Override
-		public int compare(TVChannel lhs, TVChannel rhs) {
-			return lhs.getName().compareTo(rhs.getName());
-		}
 	}
 }

@@ -4,7 +4,6 @@ package com.mitv.models;
 
 
 import java.util.Calendar;
-import java.util.Comparator;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -343,7 +342,7 @@ public class TVBroadcast
 		
 		Calendar now = Calendar.getInstance();
 
-		int daysLeft = DateUtils.calculateDifferenceBetween(getBeginTimeCalendarLocal(), now, Calendar.DAY_OF_MONTH, false, 0);
+		int daysLeft = DateUtils.calculateDifferenceBetween(now, getBeginTimeCalendarLocal(), Calendar.DAY_OF_MONTH, false, 0);
 
 		if(daysLeft > 0)
 		{
@@ -355,7 +354,7 @@ public class TVBroadcast
 		} 
 		else 
 		{
-			int hoursLeft = DateUtils.calculateDifferenceBetween(getBeginTimeCalendarLocal(), now, Calendar.HOUR_OF_DAY, false, 0);
+			int hoursLeft = DateUtils.calculateDifferenceBetween(now, getBeginTimeCalendarLocal(), Calendar.HOUR_OF_DAY, false, 0);
 
 			if(hoursLeft > 0) 
 			{
@@ -367,7 +366,7 @@ public class TVBroadcast
 			} 
 			else 
 			{
-				int minutesLeft = DateUtils.calculateDifferenceBetween(getBeginTimeCalendarLocal(), now, Calendar.MINUTE, false, 0);
+				int minutesLeft = DateUtils.calculateDifferenceBetween(now, getBeginTimeCalendarLocal(), Calendar.MINUTE, false, 0);
 
 				if(minutesLeft > 0) 
 				{
@@ -388,39 +387,8 @@ public class TVBroadcast
 		return sb.toString();
 	}
 		
-
-	/* 
-	 * Comparison of the broadcasts is done using the begin time of each one 
-	 * 
-	 * */
-	public static class BroadcastComparatorByTime 
-		implements Comparator<TVBroadcast> 
-	{
-		@Override
-		public int compare(TVBroadcast lhs, TVBroadcast rhs) 
-		{
-			long left = lhs.getBeginTimeMillis();
-			long right = rhs.getBeginTimeMillis();
-
-			if (left > right) 
-			{
-				return 1;
-			} 
-			else if (left < right) 
-			{
-				return -1;
-			} 
-			else 
-			{
-				String leftProgramName = lhs.getProgram().getTitle();
-				String rightProgramName = rhs.getProgram().getTitle();
-				return leftProgramName.compareTo(rightProgramName);
-			}
-		}
-	}
-
-
-
+	
+	
 	@Override
 	public boolean areDataFieldsValid() {
 		final int yearOf2000 = 2000;

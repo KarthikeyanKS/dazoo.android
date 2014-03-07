@@ -59,6 +59,7 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 	private InstantAutoCompleteView editTextSearch;
 	private ImageView editTextClearBtn;
 	private ProgressBar progressBar;
+	private String searchQuery;
 
 	private Handler handler = new Handler();
 
@@ -77,6 +78,7 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 	public void onResume() {
 		super.onResume();
 		showKeyboard();
+		triggerAutoComplete();
 	}
 
 	@Override
@@ -195,26 +197,12 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 
 		TVSearchResult result = (TVSearchResult) adapterView.getItemAtPosition(position);
 
-		if (result.getEntityType() != ContentTypeEnum.CHANNEL) {
-			// open the detail view for the individual broadcast
-			Intent intent = new Intent(SearchPageActivity.this, BroadcastPageActivity.class);
-			intent.putExtra(Constants.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, this.getClass().getName());
 
-			// we take one position less as we have a header view
-			int adjustedPosition = position - 1;
-			if (adjustedPosition < 0) {
-				/* Don't allow negative values */
-				adjustedPosition = 0;
-			}
+		ContentTypeEnum resultResultType = result.getEntityType();
 
-			TVBroadcastWithChannelInfo nextBroadcast = result.getNextBroadcast();
-			if (nextBroadcast != null) {
-				ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(nextBroadcast);
-				startActivity(intent);
-			} else {
-				Toast.makeText(this, "No upcoming broadcast", Toast.LENGTH_SHORT).show();
-			}
-		} else {
+
+		switch (resultResultType) {
+		case CHANNEL: {
 			TVChannelId channelId = result.getEntity().getChannel().getChannelId();
 			Intent intent;
 			if (ContentManager.sharedInstance().isContainedInUsedChannelIds(channelId)) {
@@ -228,6 +216,21 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 				}
 			}
 			startActivity(intent);
+			break;
+		}
+		default: {
+			/* Open the detail view for the individual broadcast */
+			TVBroadcastWithChannelInfo nextBroadcast = result.getNextBroadcast();
+			if (nextBroadcast != null) {
+				Intent intent = new Intent(SearchPageActivity.this, BroadcastPageActivity.class);
+				intent.putExtra(Constants.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, this.getClass().getName());
+				ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(nextBroadcast);
+				startActivity(intent);
+			} else {
+				Toast.makeText(this, "No upcoming broadcast", Toast.LENGTH_SHORT).show();
+			}
+			break;
+		}
 		}
 	}
 
@@ -268,8 +271,8 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 		}
 	}
 
-	private void triggerAutoComplete(String searchQuery) {
-		if (editTextSearch != null) {
+	private void triggerAutoComplete() {
+		if (editTextSearch != null && searchQuery != null) {
 			int pos = editTextSearch.getText().toString().length();
 			editTextSearch.setSelection(pos);
 			autoCompleteAdapter.getFilter().filter(searchQuery);
@@ -317,8 +320,9 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 				TVSearchResults searchResultsObject = searchResultsForQuery.getSearchResults();
 
 				ArrayList<TVSearchResult> searchResultItems = new ArrayList<TVSearchResult>(searchResultsObject.getResults());
-				autoCompleteAdapter.setSearchResultItems(searchResultItems);
-				triggerAutoComplete(searchQuery);
+				autoCompleteAdapter.setSearchResultItemsForQueryString(searchResultItems, searchQuery);
+				this.searchQuery = searchQuery;
+				triggerAutoComplete();
 			}
 		} else {
 			updateUI(UIStatusEnum.FAILED);
