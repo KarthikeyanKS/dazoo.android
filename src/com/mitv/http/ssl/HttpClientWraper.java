@@ -10,13 +10,18 @@ import javax.net.ssl.X509TrustManager;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
+
+import android.util.Log;
+
+import com.mitv.http.HTTPCore;
 
 
 
 public abstract class HttpClientWraper
 {
+	private static final String TAG = HTTPCore.class.getName();
+	
 	private static String TLS_PROTOCOL = "TLS";
 	private static String HTTPS_SCHEMA = "https";
 	private static int HTTPS_PORT = 443;
@@ -32,11 +37,7 @@ public abstract class HttpClientWraper
 
             ctx.init(null, new TrustManager[]{tm}, null);
 
-            // X509HostnameVerifier verifier = new CustomHostnameVerifier();
-            
-            SSLSocketFactory ssf = SSLSocketFactory.getSocketFactory();
-
-            // new SSLSocketFactory(ctx, verifier);
+            CustomSSLSocketFactory ssf =  new CustomSSLSocketFactory(ctx);
             
             ClientConnectionManager ccm = base.getConnectionManager();
 
@@ -50,6 +51,8 @@ public abstract class HttpClientWraper
         }
         catch(Exception e)
         {
+        	Log.e(TAG, e.getMessage(), e);
+        	
             return base;
         }
     }
