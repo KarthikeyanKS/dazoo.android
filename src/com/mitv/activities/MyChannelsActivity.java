@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -98,13 +99,6 @@ public class MyChannelsActivity
 		}
 	}
 	
-	
-	@Override
-	protected void onStop() 
-	{
-		super.onStop();
-		finish();
-	}
 
 	@Override
 	public void onBackPressed() 
@@ -113,17 +107,15 @@ public class MyChannelsActivity
 		finish();
 	}
 
-	
-	
 	@Override
-	protected void onDestroy() {
+	public void onPause() 
+	{
 		updateMyChannels();
-		super.onDestroy();
+		super.onPause();
 	}
-
+	
 
 	private void updateMyChannels() {
-		//TODO NewArc verify that changes to check channels Ids in adapter has propagted back to this variable here, should be "code by reference"!
 		ContentManager.sharedInstance().performSetUserChannels(this, checkedChannelIds);
 	}
 
