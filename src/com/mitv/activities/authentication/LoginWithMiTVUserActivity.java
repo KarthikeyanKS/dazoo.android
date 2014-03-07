@@ -3,6 +3,7 @@ package com.mitv.activities.authentication;
 
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -139,10 +140,16 @@ public class LoginWithMiTVUserActivity
 			case SUCCEEDED_WITH_DATA:
 			{
 				enableFields();
+				Intent intent = null;
 				
-				Intent intent = new Intent(LoginWithMiTVUserActivity.this, getMostRecentTabActivity().getClass());
-
-				intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
+				if(getReturnActivity() != null) {
+					intent = new Intent(LoginWithMiTVUserActivity.this, getReturnActivity());
+					
+				} else {
+					Activity mostRecentTabActivity = getMostRecentTabActivity();
+					intent = new Intent(LoginWithMiTVUserActivity.this, mostRecentTabActivity.getClass());
+					intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
+				}
 
 				startActivity(intent);
 				

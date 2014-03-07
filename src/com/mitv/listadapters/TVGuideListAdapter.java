@@ -31,7 +31,9 @@ import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.ChannelPageActivity;
+import com.mitv.activities.HomeActivity;
 import com.mitv.activities.MyChannelsActivity;
+import com.mitv.activities.UserProfileActivity;
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.models.TVBroadcast;
@@ -318,8 +320,9 @@ public class TVGuideListAdapter
 		return new Runnable() {
 			public void run() {
 				Intent intent = new Intent(activity, UserProfileActivity.class);
-				Log.d("mmm", "This activity: " + MyChannelsActivity.class.getName());
-				intent.putExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, MyChannelsActivity.class.getName());
+				
+				intent.putExtra(Constants.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, MyChannelsActivity.class.getName());
+				
 				activity.startActivity(intent);
 			}
 		};

@@ -27,12 +27,15 @@ import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.activities.FeedActivity;
 import com.mitv.activities.HomeActivity;
+import com.mitv.activities.MyChannelsActivity;
 import com.mitv.activities.SearchPageActivity;
+import com.mitv.activities.UpcomingEpisodesPageActivity;
 import com.mitv.activities.UserProfileActivity;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.models.UpcomingBroadcastsForBroadcast;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
@@ -61,7 +64,6 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 	private boolean userHasJustLoggedOut;
 
 	private Class<?> returnActivity;
-	boolean test;
 
 	/* Abstract Methods */
 
@@ -152,9 +154,9 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 		}
 
 		/* If return activity was specified set it! */
-		test = intent.hasExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME);
-		if (intent.hasExtra(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME)) {
-			String returnActivityClassName = intent.getExtras().getString(Consts.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME);
+		if (intent.hasExtra(Constants.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME)) {
+			String returnActivityClassName = intent.getExtras().getString(Constants.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME);
+			
 			try {
 				returnActivity = Class.forName(returnActivityClassName);
 			} catch (Exception e) {
@@ -163,7 +165,7 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 				returnActivity = HomeActivity.class;
 			}
 		} else {
-			returnActivity = HomeActivity.class;
+			/* Do nothing! */
 		}
 	}
 	
@@ -204,6 +206,7 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 	}
 
 	
+	
 //	public static Activity getMostRecentTabActivity() 
 //	{
 //		int mostRecentTabActivityIndex = getMostRecentTabActivityIndex();
@@ -218,7 +221,15 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 //		return mostRecentTabActivity;
 //	}
 	
-	 public static Activity getMostRecentTabActivity() {
+	 @Override
+	public void startActivity(Intent intent) {
+		if(returnActivity != null) {
+			intent.putExtra(Constants.INTENT_EXTRA_RETURN_ACTIVITY_CLASS_NAME, returnActivity.getName());
+		}
+		super.startActivity(intent);
+	}
+
+	public static Activity getMostRecentTabActivity() {
 	        Activity mostRecentTabActivity = null;
 
 	        /* Iterate through stack, start at top of stack */
