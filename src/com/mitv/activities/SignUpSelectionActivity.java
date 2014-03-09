@@ -31,7 +31,7 @@ public class SignUpSelectionActivity
 	
 	private RelativeLayout facebookContainer;
 	private RelativeLayout signUpContainer;
-	private Button loginButton;
+	private RelativeLayout loginButton;
 
 	
 	
@@ -121,7 +121,7 @@ public class SignUpSelectionActivity
 			}
 		});
 
-		loginButton = (Button) findViewById(R.id.signin_login_btn);
+		loginButton = (RelativeLayout) findViewById(R.id.signin_login_btn);
 		
 		loginButton.setOnClickListener(new View.OnClickListener() 
 		{

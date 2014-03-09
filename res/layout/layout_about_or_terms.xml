@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:layout_width="match_parent"
@@ -18,34 +17,28 @@
 
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/about_and_terms_header"
+            style="@style/header2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            font:fonttextview="roboto_mitv_bold.ttf" />
+            android:gravity="left" />
 
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/about_and_terms_info"
+            style="@style/text1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:gravity="left"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            font:fonttextview="roboto_mitv_regular.ttf" />
+            android:gravity="left" />
 
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/about_and_terms_link"
+            style="@style/meta1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:gravity="left"
             android:linksClickable="true"
-            android:text="@string/terms_link"
-            android:textColorLink="@color/grey2"
-            android:textSize="16sp"
-            font:fonttextview="roboto_mitv_medium.ttf" />
+            android:text="@string/terms_link" />
     </LinearLayout>
 
     <RelativeLayout
@@ -56,8 +49,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:visibility="gone"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:visibility="gone" >
 
         <View
             android:layout_width="match_parent"

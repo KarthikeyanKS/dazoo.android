@@ -105,15 +105,12 @@
 
                         <com.mitv.ui.elements.FontTextView
                             android:id="@+id/activity_not_logged_in_signin_facebook_tv"
+                            style="@style/whitetextbutton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_toRightOf="@id/activity_not_logged_in_signin_facebook_icon"
-                            android:text="@string/login_with_facebook"
-                            android:textColor="@color/white"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            font:fonttextview="roboto_mitv_bold.ttf" />
+                            android:text="@string/login_with_facebook" />
                     </RelativeLayout>
                 </RelativeLayout>
 
@@ -164,15 +161,12 @@
 
                     <com.mitv.ui.elements.FontTextView
                         android:id="@+id/activity_not_logged_in_signup_email_title_tv"
+                        style="@style/whitetextbutton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:gravity="center_vertical|center_horizontal"
-                        android:text="@string/sign_up_with_email"
-                        android:textColor="@color/white"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        font:fonttextview="roboto_mitv_bold.ttf" />
+                        android:text="@string/sign_up_with_email" />
                 </RelativeLayout>
 
                 <View
@@ -213,16 +207,13 @@
 
                         <com.mitv.ui.elements.FontTextView
                             android:id="@+id/mitvlogin_forgot_password_text"
+                            style="@style/bluetextbutton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:gravity="center_vertical|center_horizontal"
                             android:padding="10dp"
-                            android:text="@string/login_here"
-                            android:textColor="@color/blue2"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            font:fonttextview="roboto_mitv_medium.ttf" />
+                            android:text="@string/login_here" />
                     </RelativeLayout>
                 </RelativeLayout>
             </RelativeLayout>
