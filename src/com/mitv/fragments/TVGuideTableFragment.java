@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,6 @@ public class TVGuideTableFragment
 	extends BaseFragment 
 	implements ActivityCallbackListener, SwipeClockTimeSelectedCallbackListener
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = TVGuideTableFragment.class.getName();
 
 	
@@ -86,16 +86,6 @@ public class TVGuideTableFragment
 	
 	
 	
-	@Override
-	public void onResume() 
-	{	
-		super.onResume();
-
-		updateSwipeClockBarWithDayAndTime();
-	}
-	
-	
-	
 	private void updateSwipeClockBarWithDayAndTime() 
 	{
 		if(swipeClockBar != null) 
@@ -117,12 +107,15 @@ public class TVGuideTableFragment
 	}
 	
 	
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
 	{
 		Bundle bundle = getArguments();
 		
 		tvTagDisplayName = bundle.getString(Constants.FRAGMENT_EXTRA_TAG_DISPLAY_NAME);
+		
+		Log.d(TAG, "Fragment view " + tvTagDisplayName + " was created");
 		
 		tvTagIdAsString = bundle.getString(Constants.FRAGMENT_EXTRA_TAG_ID);
 
@@ -139,7 +132,7 @@ public class TVGuideTableFragment
 			swipeClockBar.setTimeSelectedListener(this);
 			updateSwipeClockBarWithDayAndTime();
 		} 
-		else 
+		else
 		{
 			rootView = inflater.inflate(R.layout.fragment_tvguide_tag_type, null);
 			tvGuideListView = (ListView) rootView.findViewById(R.id.fragment_tvguide_type_tag_listview);
@@ -151,6 +144,26 @@ public class TVGuideTableFragment
 		activity = getActivity();
 		
 		return rootView;
+	}
+	
+	
+	
+	@Override
+	public void onDestroyView()
+	{
+		super.onDestroyView();
+		
+		Log.d(TAG, "Fragment view " + tvTagDisplayName + " was destroyed,");
+	}
+	
+	
+	
+	@Override
+	public void onResume() 
+	{	
+		super.onResume();
+
+		updateSwipeClockBarWithDayAndTime();
 	}
 	
 	

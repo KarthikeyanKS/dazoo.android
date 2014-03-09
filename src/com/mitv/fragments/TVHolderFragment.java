@@ -7,13 +7,12 @@ import java.util.ArrayList;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.imbryk.viewPager.LoopViewPager;
 import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.listadapters.TagTypeFragmentStatePagerAdapter;
@@ -32,14 +31,16 @@ public class TVHolderFragment
 	
 	private static final String BUNDLE_INFO_STARTING_INDEX = "BUNDLE_INFO_STARTING_INDEX";
 
-	
-	private PagerAdapter pagerAdapter;
-	private int selectedTabIndex = 0;
-	private TabPageIndicator pageTabIndicator;
-	private ArrayList<TVTag> tvTags;
-	private ViewPager viewPager;
 	private static OnViewPagerIndexChangedListener viewPagerIndexChangedListener;
-
+	
+	private TabPageIndicator pageTabIndicator;
+	private LoopViewPager viewPager;
+	
+	private TagTypeFragmentStatePagerAdapter pagerAdapter;
+	private int selectedTabIndex = 0;
+	
+	private ArrayList<TVTag> tvTags;
+	
 	
 	
 	public interface OnViewPagerIndexChangedListener 
@@ -85,9 +86,7 @@ public class TVHolderFragment
 		
 		tvTags = ContentManager.sharedInstance().getFromCacheTVTags();
 
-		viewPager = (ViewPager) v.findViewById(R.id.home_pager);
-		viewPager.setOffscreenPageLimit(tvTags.size());
-		viewPager.setEnabled(false);
+		viewPager = (LoopViewPager) v.findViewById(R.id.home_pager);
 		
 		pageTabIndicator = (TabPageIndicator) v.findViewById(R.id.home_indicator);
 		
@@ -143,11 +142,13 @@ public class TVHolderFragment
 		pagerAdapter = new TagTypeFragmentStatePagerAdapter(getChildFragmentManager(), tvTags, tvDate);
 
 		viewPager.setAdapter(pagerAdapter);
-		//viewPager.setOffscreenPageLimit(1);
-		pagerAdapter.notifyDataSetChanged();
-		
+		viewPager.setOffscreenPageLimit(1);
+		viewPager.setBoundaryCaching(true);
 		viewPager.setCurrentItem(selectedIndex);
 		viewPager.setVisibility(View.VISIBLE);
+		viewPager.setEnabled(false);
+		
+		pagerAdapter.notifyDataSetChanged();
 		
 		pageTabIndicator.setVisibility(View.VISIBLE);
 		pageTabIndicator.setViewPager(viewPager);
