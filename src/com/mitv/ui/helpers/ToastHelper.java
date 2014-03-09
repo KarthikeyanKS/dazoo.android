@@ -79,7 +79,7 @@ public class ToastHelper
 			toast.setGravity(Gravity.BOTTOM, 0, ((int) activity.getResources().getDimension(R.dimen.bottom_tabs_height) + 5)); //100
 		}
 		
-		toast.setDuration(Toast.LENGTH_LONG);
+		toast.setDuration(Toast.LENGTH_SHORT);
 		toast.setView(layout);
 		
 		toast.show();
@@ -117,7 +117,7 @@ public class ToastHelper
 			toast.setGravity(Gravity.BOTTOM, 0, ((int) activity.getResources().getDimension(R.dimen.bottom_tabs_height) + 10)); //100
 		}
 		
-		toast.setDuration(Toast.LENGTH_LONG);
+		toast.setDuration(Toast.LENGTH_SHORT);
 		toast.setView(layout);
 		toast.show();
 	}
