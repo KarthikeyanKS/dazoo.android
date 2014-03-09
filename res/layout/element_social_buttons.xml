@@ -6,14 +6,14 @@
     android:orientation="horizontal" >
 
     <!-- LIKE BUTTON -->
-    
-	<com.mitv.ui.elements.LikeView
-    	android:id="@+id/element_social_buttons_like_view"
-    	android:layout_width="0dp"
+
+    <com.mitv.ui.elements.LikeView
+        android:id="@+id/element_social_buttons_like_view"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:background="@drawable/background_color_selector"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:background="@drawable/background_color_selector" />
 
     <!-- DIVIDER -->
 
@@ -28,7 +28,7 @@
             android:layout_centerInParent="true"
             android:background="@color/grey1" />
     </RelativeLayout>
-    
+
     <!-- SHARE BUTTON -->
 
     <RelativeLayout
@@ -47,6 +47,18 @@
             android:layout_centerInParent="true"
             android:layout_margin="5dp"
             android:src="@drawable/ic_share_default" />
+
+        <!--
+        com.mitv.ui.elements.FontTextView
+        android:id="@+id/element_social_buttons_share_button_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/icon_heart"
+        android:textColor="@color/grey4"
+        android:textSize="30sp"
+        font:fonttextview="roboto_mitv_regular.ttf" /
+        -->
     </RelativeLayout>
 
     <!-- DIVIDER -->
@@ -70,7 +82,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:background="@drawable/background_color_selector"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:background="@drawable/background_color_selector" />
 
 </LinearLayout>
