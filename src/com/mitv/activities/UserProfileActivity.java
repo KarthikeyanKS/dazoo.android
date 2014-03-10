@@ -54,6 +54,7 @@ public class UserProfileActivity extends BaseContentActivity implements Activity
 	private FontTextView likesCountTv;
 	private FontTextView channelCountTv;
 	private FontTextView reminderCountTv;
+	private boolean isLoggedIn;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,7 @@ public class UserProfileActivity extends BaseContentActivity implements Activity
 	@Override
 	protected void onResume() {
 		super.onResume();
+		isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 		populateViews();
 	}
 
@@ -100,7 +102,7 @@ public class UserProfileActivity extends BaseContentActivity implements Activity
 					break;
 				}
 				
-				case TV_GUIDE:
+				case TV_GUIDE_INITIAL_CALL:
 				{
 					Intent intent = new Intent(UserProfileActivity.this, HomeActivity.class);
 					intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT, true);
@@ -133,21 +135,9 @@ public class UserProfileActivity extends BaseContentActivity implements Activity
 
 		case SUCCESS_WITH_NO_CONTENT:
 		case SUCCEEDED_WITH_DATA: {
-			boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+			
 
-			if (isLoggedIn) {
-				signInOrSignUpView.setVisibility(View.GONE);
-				personalView.setVisibility(View.VISIBLE);
-				likesContainer.setVisibility(View.VISIBLE);
-				channelsContainer.setVisibility(View.VISIBLE);
-				logoutContainer.setVisibility(View.VISIBLE);
-			} else {
-				signInOrSignUpView.setVisibility(View.VISIBLE);
-				personalView.setVisibility(View.GONE);
-				likesContainer.setVisibility(View.GONE);
-				channelsContainer.setVisibility(View.GONE);
-				logoutContainer.setVisibility(View.GONE);
-			}
+
 
 			populateViews();
 			break;
@@ -206,6 +196,21 @@ public class UserProfileActivity extends BaseContentActivity implements Activity
 	}
 
 	private void populateViews() {
+		if (isLoggedIn) {
+			signInOrSignUpView.setVisibility(View.GONE);
+			personalView.setVisibility(View.VISIBLE);
+			likesContainer.setVisibility(View.VISIBLE);
+			channelsContainer.setVisibility(View.VISIBLE);
+			logoutContainer.setVisibility(View.VISIBLE);
+		} else {
+			signInOrSignUpView.setVisibility(View.VISIBLE);
+			personalView.setVisibility(View.GONE);
+			likesContainer.setVisibility(View.GONE);
+			channelsContainer.setVisibility(View.GONE);
+			logoutContainer.setVisibility(View.GONE);
+		}
+		
+		
 		NotificationDataSource notificationDataSource = new NotificationDataSource(this);
 
 		StringBuilder numberOfNotificationsSB = new StringBuilder();
@@ -260,6 +265,14 @@ public class UserProfileActivity extends BaseContentActivity implements Activity
 		}
 	}
 
+	private void performLogout() {
+		/* Important that the user gets the direct feedback when logging out, assume that the logout to the BE succeeds */
+		isLoggedIn = false;
+		ContentManager.sharedInstance().performLogout(this);
+		
+		populateViews();
+	}
+	
 	@Override
 	public void onClick(View v) {
 		/* IMPORTANT to call super so that the BaseActivity can handle the tab clicking */
@@ -304,7 +317,7 @@ public class UserProfileActivity extends BaseContentActivity implements Activity
 		}
 
 		case R.id.myprofile_logout_container: {
-			ContentManager.sharedInstance().performLogout(this);
+			performLogout();
 			break;
 		}
 		}

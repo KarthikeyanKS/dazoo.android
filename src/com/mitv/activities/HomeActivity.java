@@ -29,7 +29,6 @@ public class HomeActivity
 	private static final String TAG = HomeActivity.class.getName();
 
 	
-	
 	private Fragment activeFragment;
 	private int selectedTagIndex = 0;
 	private boolean hasShowWelcomeToast = false;
@@ -81,6 +80,7 @@ public class HomeActivity
 	}
 	
 	
+	
 	/* Do not use this in Google Play builds */
 	private void hockeyAppCheckForCrashes() 
 	{
@@ -94,6 +94,7 @@ public class HomeActivity
 	{
 		UpdateManager.register(this, Constants.HOCKEY_APP_TOKEN);
 	}
+	
 	
 	
 	private void showWelcomeToast() 
@@ -112,17 +113,21 @@ public class HomeActivity
 	}
 	
 	
+	
 	@Override
 	protected void attachFragment() 
 	{
-		activeFragment = TVHolderFragment.newInstance(selectedTagIndex, new OnViewPagerIndexChangedListener() 
+		if(activeFragment == null)
 		{
-			@Override
-			public void onIndexSelected(int position) 
+			activeFragment = TVHolderFragment.newInstance(selectedTagIndex, new OnViewPagerIndexChangedListener() 
 			{
-				selectedTagIndex = position;
-			}
-		});
+				@Override
+				public void onIndexSelected(int position) 
+				{
+					selectedTagIndex = position;
+				}
+			});
+		}
 		
 		getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, activeFragment, null).commitAllowingStateLoss();
 	}

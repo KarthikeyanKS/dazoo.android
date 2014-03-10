@@ -9,7 +9,7 @@
 
     <uses-sdk
         android:minSdkVersion="10"
-        android:targetSdkVersion="19"/>
+        android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -26,7 +26,7 @@
         android:normalScreens="true"
         android:resizeable="true"
         android:smallScreens="true" />
-    
+
     <application
         android:name="com.mitv.SecondScreenApplication"
         android:allowBackup="true"
@@ -34,9 +34,8 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:theme="@android:style/Theme.Light.NoTitleBar">
-        
-        
+        android:theme="@android:style/Theme.Light.NoTitleBar" >
+
         <!-- SPLASH SCREEN ACTIVITY -->
         <activity
             android:name="com.mitv.activities.SplashScreenActivity"
@@ -50,7 +49,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
 
         <!-- HOME ACTIVITY -->
         <activity
@@ -75,92 +73,77 @@
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" />
-        
+
         <!-- POPULAR CONTENT PAGE -->
         <activity
             android:name="com.mitv.activities.PopularPageActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.activity.ActivityActivity" />
         </activity>
 
         <!-- SEARCH PAGE -->
         <activity
             android:name="com.mitv.activities.SearchPageActivity"
             android:configChanges="keyboard|orientation"
-            android:screenOrientation="portrait"
             android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" />
 
         <!-- LIKES -->
         <activity
             android:name="com.mitv.activities.LikesActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="adjustPan" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.myprofile.MyProfileActivity" />
         </activity>
 
         <!-- MY CHANNELS -->
         <activity
             android:name="com.mitv.activities.MyChannelsActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"
             android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.myprofile.MyProfileActivity" />
         </activity>
 
         <!-- REMINDERS -->
         <activity
             android:name="com.mitv.activities.RemindersActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.myprofile.MyProfileActivity" />
         </activity>
 
         <!-- TERMS -->
         <activity
             android:name="com.mitv.activities.TermsActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.myprofile.MyProfileActivity" />
         </activity>
 
         <!-- About -->
         <activity
             android:name="com.mitv.activities.AboutUsActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.myprofile.MyProfileActivity" />
         </activity>
 
         <!-- About OR Terms -->
         <activity
             android:name="com.mitv.activities.AboutOrTermsActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.myprofile.MyProfileActivity" />
         </activity>
 
         <!-- BROADCAST PAGE -->
@@ -169,78 +152,62 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.homepage.HomeActivity" />
         </activity>
 
         <!-- UPCOMING EPISODES PAGE -->
         <activity
             android:name="com.mitv.activities.UpcomingEpisodesPageActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.tvguide.BroadcastPageActivity" />
         </activity>
 
         <!-- REPEATITIONS PAGE -->
         <activity
             android:name="com.mitv.activities.RepetitionsPageActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.tvguide.BroadcastPageActivity" />
         </activity>
-        
+
         <!-- REPEATITIONS OR UPCOMING PAGE -->
         <activity
             android:name="com.mitv.activities.RepetitionsOrUpcomingPage"
             android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.tvguide.BroadcastPageActivity" />
         </activity>
 
         <!-- CHANNEL PAGE -->
         <activity
             android:name="com.mitv.activities.ChannelPageActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"
             android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
             android:theme="@style/ChannelPage" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.homepage.HomeActivity" />
         </activity>
 
         <!-- SIGN IN -->
         <activity
             android:name="com.mitv.activities.SignUpSelectionActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.myprofile.MyProfileActivity" />
         </activity>
 
         <!-- SIGN UP -->
         <activity
             android:name="com.mitv.activities.authentication.SignUpWithEmailActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.myprofile.MyProfileActivity" />
         </activity>
 
         <!-- MiTV LOGIN -->
@@ -250,9 +217,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.myprofile.MyProfileActivity" />
         </activity>
 
         <!-- FACEBOOK LOGIN -->
@@ -263,31 +227,26 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light"
             android:windowSoftInputMode="stateHidden" />
-        <!-- android:theme="@style/Theme.Sherlock.Light" -->
 
 
         <!-- PASSWORD RESET -->
         <activity
             android:name="com.mitv.activities.authentication.ResetPasswordSendEmailActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.authentication.MiTVLoginActivity" />
         </activity>
 
         <!-- PASSWORD RESET FINAL -->
         <activity
             android:name="com.mitv.activities.authentication.ResetPasswordConfirmationActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mitv.homepage.HomeActivity" />
         </activity>
 
         <!-- HOCKEY APP ACTIVITIES -->
@@ -324,5 +283,5 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/app_id" />
     </application>
-    
+
 </manifest>
