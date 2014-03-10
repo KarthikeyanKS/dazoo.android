@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.mitv.R;
 import com.mitv.activities.base.BaseActivity;
@@ -25,7 +26,7 @@ public class ResetPasswordConfirmationActivity
 	private static final String TAG = ResetPasswordConfirmationActivity.class.getName();
 
 	
-	private Button loginBtn;
+	private RelativeLayout loginBtn;
 
 	
 	@Override
@@ -96,7 +97,7 @@ public class ResetPasswordConfirmationActivity
 
 		actionBar.setTitle(getResources().getString(R.string.reset_password));
 
-		loginBtn = (Button) findViewById(R.id.resetpassword_already_login_btn);
+		loginBtn = (RelativeLayout) findViewById(R.id.resetpassword_already_login_btn);
 		loginBtn.setOnClickListener(this);
 	}
 

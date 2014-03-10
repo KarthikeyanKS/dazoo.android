@@ -31,6 +31,7 @@ public abstract class AsyncTaskBase<T>
 {	
 	private static final String TAG = AsyncTaskBase.class.getName();
 	
+	
 	private ContentCallbackListener contentCallbackListener;
 	private ActivityCallbackListener activityCallBackListener;
 	private RequestIdentifierEnum requestIdentifier;

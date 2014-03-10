@@ -100,7 +100,7 @@ public class UserProfileActivity extends BaseContentActivity implements Activity
 					break;
 				}
 				
-				case TV_GUIDE:
+				case TV_GUIDE_INITIAL_CALL:
 				{
 					Intent intent = new Intent(UserProfileActivity.this, HomeActivity.class);
 					intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_OUT, true);

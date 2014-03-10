@@ -131,17 +131,15 @@ public abstract class AboutOrTermsActivity
 	@Override
 	public void onClick(View v) 
 	{
+		/* IMPORTANT to call super so that the BaseActivity can handle the tab clicking */
+		super.onClick(v);
+		
 		int id = v.getId();
 		
 		switch (id) 
 		{
-			case R.id.tab_tv_guide:
+			default:
 			{
-				Intent intentHome = new Intent(AboutOrTermsActivity.this, HomeActivity.class);
-				intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				intentHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				startActivity(intentHome);
-	
 				break;
 			}
 		}

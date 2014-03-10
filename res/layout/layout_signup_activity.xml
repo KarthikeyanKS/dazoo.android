@@ -40,6 +40,7 @@
 
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/signup_error_firstname_textview"
+            style="@style/error"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/signup_firstname_edittext"
@@ -47,9 +48,7 @@
             android:layout_marginRight="30dp"
             android:layout_marginTop="-10dp"
             android:gravity="center"
-            android:padding="8dp"
-            android:textColor="@color/red"
-            font:fonttextview="roboto_mitv_medium.ttf" />
+            android:padding="8dp" />
 
         <com.mitv.ui.elements.FontEditText
             android:id="@+id/signup_lastname_edittext"
@@ -69,6 +68,7 @@
 
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/signup_error_lastname_textview"
+            style="@style/error"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/signup_lastname_edittext"
@@ -76,9 +76,7 @@
             android:layout_marginRight="30dp"
             android:layout_marginTop="-10dp"
             android:gravity="center"
-            android:padding="8dp"
-            android:textColor="@color/red"
-            font:fonttextview="roboto_mitv_medium.ttf" />
+            android:padding="8dp" />
 
         <com.mitv.ui.elements.FontEditText
             android:id="@+id/signup_email_edittext"
@@ -98,6 +96,7 @@
 
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/signup_error_email_textview"
+            style="@style/error"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/signup_email_edittext"
@@ -105,9 +104,7 @@
             android:layout_marginRight="30dp"
             android:layout_marginTop="-10dp"
             android:gravity="center"
-            android:padding="8dp"
-            android:textColor="@color/red"
-            font:fonttextview="roboto_mitv_medium.ttf" />
+            android:padding="8dp" />
 
         <com.mitv.ui.elements.FontEditText
             android:id="@+id/signup_password_edittext"
@@ -127,6 +124,7 @@
 
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/signup_error_password_textview"
+            style="@style/error"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/signup_password_edittext"
@@ -134,9 +132,7 @@
             android:layout_marginRight="30dp"
             android:layout_marginTop="-10dp"
             android:gravity="center"
-            android:padding="8dp"
-            android:textColor="@color/red"
-            font:fonttextview="roboto_mitv_medium.ttf" />
+            android:padding="8dp" />
 
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/signup_terms_info"
@@ -167,6 +163,7 @@
 
         <com.mitv.ui.elements.FontButton
             android:id="@+id/signup_register_button"
+            style="@style/whitetextbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/signup_terms_link"
@@ -178,11 +175,7 @@
             android:background="@drawable/background_color_selector_signup_login_box"
             android:lines="1"
             android:padding="10dp"
-            android:text="@string/join"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            font:fonttextview="roboto_mitv_bold.ttf" />
+            android:text="@string/join" />
     </RelativeLayout>
 
 </ScrollView>

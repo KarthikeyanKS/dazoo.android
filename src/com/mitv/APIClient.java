@@ -6,7 +6,6 @@ package com.mitv;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
-
 import com.androidquery.callback.AjaxCallback;
 import com.mitv.asynctasks.CheckNetworkConnectivity;
 import com.mitv.asynctasks.GetAdsAdzerk;
@@ -96,7 +95,7 @@ public class APIClient
 	
 	public void getTVChannelGuideOnPoolExecutor(ActivityCallbackListener activityCallbackListener, TVDate tvDate, List<TVChannelId> tvChannelIds)
 	{
-		GetTVChannelGuides getTvChannelGuides = new GetTVChannelGuides(contentCallbackListener, activityCallbackListener, tvDate, tvChannelIds);
+		GetTVChannelGuides getTvChannelGuides = new GetTVChannelGuides(contentCallbackListener, activityCallbackListener, false, tvDate, tvChannelIds);
 		
 		poolExecutor.addAndExecuteTask(getTvChannelGuides);
 	}
@@ -297,7 +296,7 @@ public class APIClient
 	
 	public void getTVChannelGuides(ActivityCallbackListener activityCallbackListener, TVDate tvDate, List<TVChannelId> tvChannelIds)
 	{
-		GetTVChannelGuides getTvChannelGuides = new GetTVChannelGuides(contentCallbackListener, activityCallbackListener, tvDate, tvChannelIds);
+		GetTVChannelGuides getTvChannelGuides = new GetTVChannelGuides(contentCallbackListener, activityCallbackListener, true, tvDate, tvChannelIds);
 		getTvChannelGuides.execute();
 	}
 	
