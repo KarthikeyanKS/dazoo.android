@@ -4,7 +4,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.widget.EditText;
 
 import com.mitv.R;
-import com.mitv.homepage.HomeActivity;
+import com.mitv.activities.SplashScreenActivity;
 import com.robotium.solo.Solo;
 import com.robotium.solo.Solo.Config;
 
@@ -18,13 +18,13 @@ import com.robotium.solo.Solo.Config;
  * -e class com.mitv.homepage.HomeActivityTest \
  * com.mitv.tests/android.test.InstrumentationTestRunner
  */
-public class HomeActivityTest extends ActivityInstrumentationTestCase2<HomeActivity> {
+public class HomeActivityTest extends ActivityInstrumentationTestCase2<SplashScreenActivity> {
 	final int TIMEOUT_SMALL = 1000;
 	final int TIMEOUT_LARGE = 8000;
 	
 	private Solo solo;
     public HomeActivityTest() {
-        super(HomeActivity.class);
+        super(SplashScreenActivity.class);
     }
 
     
@@ -32,25 +32,22 @@ public class HomeActivityTest extends ActivityInstrumentationTestCase2<HomeActiv
     protected void setUp() throws Exception {
     	Config config = new Config();
     	config.shouldScroll = true;
-    	config.timeout_small = 1000;
-    	config.timeout_large = 8000;
+    	config.timeout_small = TIMEOUT_SMALL;
+    	config.timeout_large = TIMEOUT_LARGE;
     	config.useJavaScriptToClickWebElements = true;
     	
     	solo = new Solo(getInstrumentation(), getActivity());
+    	//getActivity();
     }
     
     @Override
     protected void tearDown() throws Exception {
     	solo.finishOpenedActivities();
     }
-    
-//    public void test() throws Exception {
-//    	solo.sleep(5000);
-//    	solo.clickOnView(solo.getView(R.id.action_start_search));
-//    	solo.sleep(10000);
-//	}
+  
     
     public void test_login() throws Exception {
+    	
     	solo.sleep(TIMEOUT_LARGE);
     	
     	solo.waitForView(solo.getView(R.id.tab_me));
@@ -65,8 +62,6 @@ public class HomeActivityTest extends ActivityInstrumentationTestCase2<HomeActiv
     	solo.clickOnView(solo.getView(R.id.mitvlogin_login_button));
     	
     	solo.sleep(TIMEOUT_LARGE);
-    	
-    	solo.waitForView(solo.getView(R.id.home_container));
     	
     	
     }
