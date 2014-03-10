@@ -52,15 +52,12 @@
 
                 <com.mitv.ui.elements.FontTextView
                     android:id="@+id/mitvlogin_facebook_tv"
+                    style="@style/whitetextbutton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/mitvlogin_facebook_icon"
-                    android:text="@string/login_with_facebook"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    font:fonttextview="roboto_mitv_bold.ttf" />
+                    android:text="@string/login_with_facebook" />
             </RelativeLayout>
         </RelativeLayout>
 
@@ -115,6 +112,7 @@
 
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/mitvlogin_login_email_error_tv"
+            style="@style/error"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/mitvlogin_login_email_edittext"
@@ -122,9 +120,7 @@
             android:layout_marginRight="30dp"
             android:layout_marginTop="-10dp"
             android:gravity="center"
-            android:padding="8dp"
-            android:textColor="@color/red"
-            font:fonttextview="roboto_mitv_medium.ttf" />
+            android:padding="8dp" />
 
         <com.mitv.ui.elements.FontEditText
             android:id="@+id/mitvlogin_login_password_edittext"
@@ -144,6 +140,7 @@
 
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/mitvlogin_login_password_error_tv"
+            style="@style/error"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/mitvlogin_login_password_edittext"
@@ -151,12 +148,11 @@
             android:layout_marginRight="30dp"
             android:layout_marginTop="-10dp"
             android:gravity="center"
-            android:padding="8dp"
-            android:textColor="@color/red"
-            font:fonttextview="roboto_mitv_medium.ttf" />
+            android:padding="8dp" />
 
         <com.mitv.ui.elements.FontButton
             android:id="@+id/mitvlogin_login_button"
+            style="@style/whitetextbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/mitvlogin_login_password_error_tv"
@@ -167,11 +163,7 @@
             android:layout_marginTop="5dp"
             android:background="@drawable/background_color_selector_signup_login_box"
             android:padding="10dp"
-            android:text="@string/login_with_mitv"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            font:fonttextview="roboto_mitv_bold.ttf" />
+            android:text="@string/login_with_mitv" />
 
         <!-- DIVIDER -->
 
@@ -213,16 +205,13 @@
 
                 <com.mitv.ui.elements.FontTextView
                     android:id="@+id/mitvlogin_forgot_password_text"
+                    style="@style/bluetextbutton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:gravity="center_vertical|center_horizontal"
                     android:padding="10dp"
-                    android:text="@string/reset_password"
-                    android:textColor="@color/blue2"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    font:fonttextview="roboto_mitv_medium.ttf" />
+                    android:text="@string/reset_password" />
             </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>

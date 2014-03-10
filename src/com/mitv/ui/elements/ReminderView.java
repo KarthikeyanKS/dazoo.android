@@ -33,7 +33,7 @@ public class ReminderView
 
 	
 	private LayoutInflater inflater;
-	private ImageView imageView;
+	private FontTextView iconView;
 	private Activity activity;
 	private TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo;
 	private int notificationId;
@@ -68,7 +68,7 @@ public class ReminderView
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.containerView = inflater.inflate(R.layout.element_reminder_view, this);
 		
-		this.imageView = (ImageView) this.findViewById(R.id.element_reminder_image_View);
+		this.iconView = (FontTextView) this.findViewById(R.id.element_reminder_image_View);
 		this.activity = (Activity) context;
 		this.notificationDataSource = new NotificationDataSource(context);
 		
@@ -100,15 +100,15 @@ public class ReminderView
 			}
 			if (isSet) 
 			{
-				imageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_reminder_selected));
+				iconView.setTextColor(getResources().getColor(R.color.blue1));
 			} 
 			else 
 			{
-				imageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_reminder_default));
+				iconView.setTextColor(getResources().getColor(R.color.grey4));
 			}
 			containerView.setBackgroundResource(R.drawable.background_color_selector);
 		} else {
-			imageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_reminder_dissabled));
+			iconView.setTextColor(getResources().getColor(R.color.grey1));
 			containerView.setBackgroundColor(getResources().getColor(R.color.transparent));
 		}
 	}
@@ -126,7 +126,7 @@ public class ReminderView
 				
 				ToastHelper.showNotificationWasSetToast(activity);
 				
-				imageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_reminder_selected));
+				iconView.setTextColor(getResources().getColor(R.color.blue1));
 
 				NotificationSQLElement dbItemRemind = notificationDataSource.getNotification(tvBroadcastWithChannelInfo.getChannel().getChannelId(), tvBroadcastWithChannelInfo.getBeginTime());
 				
@@ -158,7 +158,7 @@ public class ReminderView
 		{
 			public void run()
 			{
-				ReminderView.this.imageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_reminder_default));
+				iconView.setTextColor(getResources().getColor(R.color.grey4));
 				
 				isSet = false;
 			}

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:fillViewport="true"
     android:orientation="vertical" >
 
@@ -16,16 +16,16 @@
 
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/signin_title_tv"
+            style="@style/header2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_margin="10dp"
-            android:text="@string/sign_in_to_title"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:text="@string/sign_in_to_title" />
 
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/signin_text_tv"
+            style="@style/meta1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/signin_title_tv"
@@ -33,16 +33,13 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:text="@string/sign_in_to_text"
-            android:textColor="@color/grey2"
-            android:textSize="18sp" />
+            android:text="@string/sign_in_to_text" />
 
         <View
             android:id="@+id/signin_container_divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@id/signin_text_tv"
-            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:background="@color/grey1" />
 
@@ -78,19 +75,14 @@
 
                 <com.mitv.ui.elements.FontTextView
                     android:id="@+id/mitvlogin_facebook_tv"
+                    style="@style/whitetextbutton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/mitvlogin_facebook_icon"
-                    android:text="@string/login_with_facebook"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    font:fonttextview="roboto_mitv_bold.ttf" />
+                    android:text="@string/login_with_facebook" />
             </RelativeLayout>
         </RelativeLayout>
-
-
 
         <!-- OR BAR -->
 
@@ -99,6 +91,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/signin_facebook_container"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal" >
 
             <View
@@ -117,9 +111,10 @@
                 android:background="@color/white"
                 android:padding="5dp"
                 android:text="@string/or"
-                android:textColor="@color/grey2"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textColor="@color/grey1"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                font:fonttextview="roboto_mitv_bold.ttf" />
         </RelativeLayout>
 
         <!-- SIGN UP WITH EMAIL BAR -->
@@ -129,23 +124,19 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_below="@id/signin_or_container"
-            android:layout_marginBottom="10dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="10dp"
             android:background="@drawable/background_color_selector_signup_login_box"
             android:orientation="horizontal" >
 
             <com.mitv.ui.elements.FontTextView
                 android:id="@+id/signin_signup_email_title_tv"
+                style="@style/whitetextbutton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center_vertical|center_horizontal"
-                android:text="@string/sign_up_with_email"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:text="@string/sign_up_with_email" />
         </RelativeLayout>
 
         <!-- DIVIDER -->
@@ -156,7 +147,7 @@
             android:layout_height="1dp"
             android:layout_below="@id/signin_signup_email_container"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:background="@color/grey1"
             android:padding="10dp" />
 
@@ -171,34 +162,32 @@
 
             <com.mitv.ui.elements.FontTextView
                 android:id="@+id/signin_already_registered_text_tv"
+                style="@style/meta2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_margin="10dp"
                 android:gravity="center_vertical|center_horizontal"
-                android:text="@string/already_registered"
-                android:textColor="@color/grey2"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:text="@string/already_registered" />
 
-            <com.mitv.ui.elements.FontButton
+            <RelativeLayout
                 android:id="@+id/signin_login_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/signin_already_registered_text_tv"
-                android:layout_marginBottom="5dp"
+                android:layout_centerHorizontal="true"
                 android:background="@drawable/background_color_selector_login_link"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="-10dp"
-                android:paddingLeft="50dp"
-                android:paddingRight="50dp"
-                android:gravity="center_vertical|center_horizontal"
-                android:text="@string/login_here"
-                android:textColor="@color/blue2"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                font:fonttextview="roboto_mitv_bold.ttf"  />
-            
+                android:orientation="horizontal" >
+
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/mitvlogin_forgot_password_text"
+                    style="@style/bluetextbutton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:padding="10dp"
+                    android:text="@string/login_here" />
+            </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
 

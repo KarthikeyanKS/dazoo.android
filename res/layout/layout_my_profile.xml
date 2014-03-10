@@ -83,15 +83,12 @@
 
                             <com.mitv.ui.elements.FontTextView
                                 android:id="@+id/myprofile_signup_text"
+                                style="@style/whitetextbutton"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_centerInParent="true"
                                 android:gravity="center_vertical|center_horizontal"
-                                android:text="@string/sign_up"
-                                android:textColor="@color/white"
-                                android:textSize="14sp"
-                                android:textStyle="bold"
-                                font:fonttextview="roboto_mitv_bold.ttf" />
+                                android:text="@string/sign_up" />
                         </RelativeLayout>
 
                         <RelativeLayout
@@ -104,15 +101,12 @@
 
                             <com.mitv.ui.elements.FontTextView
                                 android:id="@+id/myprofile_login_container_text"
+                                style="@style/bluetextbutton"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_centerInParent="true"
                                 android:gravity="center_vertical|center_horizontal"
-                                android:text="@string/login"
-                                android:textColor="@color/blue2"
-                                android:textSize="14sp"
-                                android:textStyle="bold"
-                                font:fonttextview="roboto_mitv_bold.ttf" />
+                                android:text="@string/login" />
                         </RelativeLayout>
                     </LinearLayout>
                 </LinearLayout>

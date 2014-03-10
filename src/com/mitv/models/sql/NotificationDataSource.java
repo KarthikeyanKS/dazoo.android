@@ -41,7 +41,7 @@ public class NotificationDataSource
 		ContentValues values = new ContentValues();
 		
 		values.put(Constants.NOTIFICATION_DB_COLUMN_NOTIFICATION_ID, notification.getNotificationId());
-		values.put(Constants.NOTIFICATION_DB_COLUMN_BROADCAST_BEGIN_TIME_IN_MILISECONDS, notification.getBroadcastBeginTime());
+		values.put(Constants.NOTIFICATION_DB_COLUMN_BROADCAST_BEGIN_TIME_IN_MILISECONDS, notification.getBroadcastBeginTimeInMilliseconds());
 		values.put(Constants.NOTIFICATION_DB_COLUMN_BROADCAST_BEGIN_TIME, notification.getBroadcastBeginTime());
 		values.put(Constants.NOTIFICATION_DB_COLUMN_BROADCAST_END_TIME, notification.getBroadcastEndTime());
 		values.put(Constants.NOTIFICATION_DB_COLUMN_BROADCAST_TYPE, notification.getBroadcastType());

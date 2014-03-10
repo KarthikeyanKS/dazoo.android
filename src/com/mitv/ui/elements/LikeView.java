@@ -26,7 +26,7 @@ public class LikeView extends RelativeLayout implements ActivityCallbackListener
 	private static final String TAG = LikeView.class.toString();
 
 	private LayoutInflater inflater;
-	private ImageView imageView;
+	private FontTextView iconView;
 	private Activity activity;
 	private Context context;
 	private TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo;
@@ -53,7 +53,7 @@ public class LikeView extends RelativeLayout implements ActivityCallbackListener
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.containerView = inflater.inflate(R.layout.element_like_view, this);
 
-		this.imageView = (ImageView) this.findViewById(R.id.element_like_image_View);
+		this.iconView = (FontTextView) this.findViewById(R.id.element_like_image_View);
 		this.context = context;
 		this.activity = (Activity) context;
 
@@ -102,11 +102,11 @@ public class LikeView extends RelativeLayout implements ActivityCallbackListener
 	}
 	
 	private void setImageToLiked() {
-		imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_like_selected));
+		iconView.setTextColor(getResources().getColor(R.color.blue1));
 	}
 	
 	private void setImageToNotLiked() {
-		imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_like_default));
+		iconView.setTextColor(getResources().getColor(R.color.grey4));
 	}
 
 	public Runnable yesLikeProc() {
