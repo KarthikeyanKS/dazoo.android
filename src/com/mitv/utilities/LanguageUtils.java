@@ -23,6 +23,18 @@ public abstract class LanguageUtils
 	
 	
 	
+	/*
+	 * This method returns an ISO8601 compliant locale
+	 */
+	public static Locale getISO8601Locale()
+	{
+		Locale locale = new Locale("en", "dk");
+		
+		return locale;
+	}
+	
+	
+	
 	public static Locale getCurrentLocale()
 	{
 		Locale locale = SecondScreenApplication.sharedInstance().getApplicationContext().getResources().getConfiguration().locale;

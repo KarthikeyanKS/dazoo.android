@@ -55,7 +55,7 @@
         <!-- HOME ACTIVITY -->
         <activity
             android:name="com.mitv.activities.HomeActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/HomePage" >
         </activity>
@@ -64,7 +64,7 @@
         <activity
             android:name="com.mitv.activities.FeedActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" />
 
@@ -72,7 +72,7 @@
         <activity
             android:name="com.mitv.activities.UserProfileActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" />
         
@@ -80,6 +80,7 @@
         <activity
             android:name="com.mitv.activities.PopularPageActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
         </activity>
@@ -89,7 +90,7 @@
             android:name="com.mitv.activities.SearchPageActivity"
             android:configChanges="keyboard|orientation"
             android:screenOrientation="portrait"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTask"
             android:theme="@style/WhiteTitleActionBar" />
 
         <!-- LIKES -->

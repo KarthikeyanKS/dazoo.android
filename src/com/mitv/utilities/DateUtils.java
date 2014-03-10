@@ -39,12 +39,14 @@ public abstract class DateUtils
 			final String inputString)
 	{
 		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		
 		return convertFromStringToCalendarWithFormat(Constants.DATE_FORMAT_DATE, inputString, context);
 	}
 		
+	
 	/**
 	 * Converts a string input to a Calendar object
-	 * The input string format should be in the format: "yyyy-MM-dd'T'HH:mm:ss'Z'"
+	 * The input string format should be in the ISO 8601 date format: "yyyy-MM-dd'T'HH:mm:ss'Z'"
 	 * 
 	 */
 	public static Calendar convertFromYearDateAndTimeStringToCalendar(
@@ -54,19 +56,22 @@ public abstract class DateUtils
 		return convertFromYearDateAndTimeStringToCalendar(inputString, context);
 	}
 	
+	
 	/**
 	 * Converts a string input to a Calendar object
-	 * The input string format should be in the format: "yyyy-MM-dd'T'HH:mm:ss'Z'"
+	 * The input string format should be in the ISO 8601 date format: "yyyy-MM-dd'T'HH:mm:ss'Z'"
 	 * 
 	 */
 	private static Calendar convertFromYearDateAndTimeStringToCalendar(
 			final String inputString,
 			final Context context)
 	{
-		return convertFromStringToCalendarWithFormat(Constants.ISO_DATE_FORMAT, inputString, context);
+		return convertFromStringToCalendarWithFormat(Constants.ISO_8601_DATE_FORMAT, inputString, context);
 	}
 	
-	public static Integer getTimeZoneOffsetInMinutes() {
+	
+	public static Integer getTimeZoneOffsetInMinutes()
+	{
 		Integer timeZoneOffsetInMinutes = 0;
 		TimeZone timeZone = TimeZone.getDefault();
 		
@@ -82,19 +87,18 @@ public abstract class DateUtils
 		return timeZoneOffsetInMinutes;
 	}
 	
+	
+	
 	private static Calendar convertFromStringToCalendarWithFormat(
 			final String dateFormatString,
 			final String inputString,
 			final Context context)
 	{
-		Calendar cal = Calendar.getInstance();
+		Calendar cal = getNow();
 		
 		if (!TextUtils.isEmpty(inputString))
 		{
-		
-			Locale locale = context.getResources().getConfiguration().locale;
-			
-			SimpleDateFormat dateFormat = getSimpleDateFormatWith(dateFormatString, locale);
+			SimpleDateFormat dateFormat = getSimpleDateFormatWith(dateFormatString);
 			
 			try 
 			{
@@ -116,32 +120,45 @@ public abstract class DateUtils
 	}
 	
 	
+	
 	/**
 	 * Get the current hour as int
 	 * 
 	 * @param
 	 * @return current hour as int
 	 */
-	private static int getCurrentHour(boolean showTimeOn24HourFormat) {
-		Calendar now = Calendar.getInstance();
+	private static int getCurrentHour(boolean showTimeOn24HourFormat) 
+	{
+		Calendar now = getNow();
+		
 		int currentHour = now.get(Calendar.HOUR);
-		if(showTimeOn24HourFormat) {
+		
+		if(showTimeOn24HourFormat) 
+		{
 			currentHour = now.get(Calendar.HOUR_OF_DAY);
 		}
+		
 		return currentHour;
 	}
 	
-	private static int getCurrentHour(Context context) {
-		boolean showTimeOn24HourFormat = showTimeOn24HourFormat(context);
+	
+	private static int getCurrentHour(Context context) 
+	{
+		boolean showTimeOn24HourFormat = showTimeOn24HourFormat();
+		
 		return getCurrentHour(showTimeOn24HourFormat);
 	}
 		
-	public static int getCurrentHourUseDevice24HourSettings() {
+	
+	public static int getCurrentHourUseDevice24HourSettings()
+	{
 		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
 		return getCurrentHour(context);
 	}
 	
-	public static int getCurrentHourOn24HourFormat() {
+	
+	public static int getCurrentHourOn24HourFormat()
+	{
 		return getCurrentHour(true);
 	}
 		
@@ -217,7 +234,7 @@ public abstract class DateUtils
 	 */
 	public static boolean isToday(final Calendar inputCalendar)
 	{
-		Calendar now = Calendar.getInstance();
+		Calendar now = getNow();
 		
 		boolean isToday = (inputCalendar.get(Calendar.YEAR) == now.get(Calendar.YEAR) &&
 				   		   inputCalendar.get(Calendar.MONTH) == now.get(Calendar.MONTH) &&
@@ -250,7 +267,9 @@ public abstract class DateUtils
 	{
 		String dayOfTheWeekAsString;
 		
-		Calendar now = Calendar.getInstance();
+		Locale locale = LanguageUtils.getCurrentLocale();
+		
+		Calendar now = getNow();
 		
     	boolean isToday = false;
     	boolean isTomorrow = false;
@@ -280,8 +299,6 @@ public abstract class DateUtils
 		}
 		else
 		{
-			Locale locale = context.getResources().getConfiguration().locale;
-			
 			dayOfTheWeekAsString = inputCalendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, locale);
 		}
 		
@@ -300,9 +317,7 @@ public abstract class DateUtils
 	{
 		String pattern = Constants.DATE_FORMAT_DATE;
 		
-		Locale locale = context.getResources().getConfiguration().locale;
-		
-		SimpleDateFormat formatter = getSimpleDateFormatWith(pattern, locale);
+		SimpleDateFormat formatter = getSimpleDateFormatWith(pattern);
 		
 		String timeOfDayAsString = formatter.format(inputCalendar.getTime());
 		
@@ -321,15 +336,21 @@ public abstract class DateUtils
 		return hourAndMinuteCompositionAsString;
 	}
 	
-	public static boolean showTimeOn24HourFormat() {
-		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-		return showTimeOn24HourFormat(context);
+	
+	
+	public static boolean showTimeOn24HourFormat() 
+	{
+		return true;
 	}
 	
-	private static boolean showTimeOn24HourFormat(Context context) {
-		boolean is24HourFormat = android.text.format.DateFormat.is24HourFormat(context);
-		return is24HourFormat;
-	}
+	
+	
+//	private static boolean showTimeOn24HourFormat(Context context) 
+//	{
+//		boolean is24HourFormat = android.text.format.DateFormat.is24HourFormat(context);
+//		
+//		return is24HourFormat;
+//	}
 	
 	/**
 	 * Builds a string representation for the time of the day (HH:mm), from the input calendar.
@@ -345,7 +366,8 @@ public abstract class DateUtils
 		
 		if(use24HourSettingsSetOnDevice)
 		{
-			boolean showTimeOn24HourFormat = showTimeOn24HourFormat(context);
+			boolean showTimeOn24HourFormat = showTimeOn24HourFormat();
+			
 			if(showTimeOn24HourFormat)
 			{
 				pattern = Constants.DATE_FORMAT_HOUR_AND_MINUTE;
@@ -360,9 +382,7 @@ public abstract class DateUtils
 			pattern = Constants.DATE_FORMAT_HOUR_AND_MINUTE;
 		}
 		
-		Locale locale = context.getResources().getConfiguration().locale;
-		
-		SimpleDateFormat formatter = getSimpleDateFormatWith(pattern, locale);
+		SimpleDateFormat formatter = getSimpleDateFormatWith(pattern);
 		
 		String timeOfDayAsString = formatter.format(inputCalendar.getTime());
 		
@@ -377,6 +397,7 @@ public abstract class DateUtils
 	public static String buildDayAndMonthCompositionAsString(final Calendar inputCalendar)
 	{
 		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		
 		return buildDayAndMonthCompositionAsString(inputCalendar, context);
 	}
 	
@@ -390,10 +411,8 @@ public abstract class DateUtils
 			final Context context)
 	{
 		String pattern = Constants.DATE_FORMAT_DAY_AND_MONTH;
-		
-		Locale locale = context.getResources().getConfiguration().locale;
-		
-		SimpleDateFormat formatter = getSimpleDateFormatWith(pattern, locale);
+				
+		SimpleDateFormat formatter = getSimpleDateFormatWith(pattern);
 		
 		String timeOfDayAsString = formatter.format(inputCalendar.getTime());
 		
@@ -411,10 +430,10 @@ public abstract class DateUtils
 			final Calendar inputCalendar, 
 			final int hour) 
 	{
-		Calendar now = Calendar.getInstance();
+		Calendar now = getNow();
+		
 		Calendar calendar = (Calendar) inputCalendar.clone();
 		
-
 		int hoursValue = hour;
 		
 		int firstHourOfTheDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
@@ -438,15 +457,24 @@ public abstract class DateUtils
 	
 	
 	
+	public static Calendar getNow()
+	{
+		Locale locale = LanguageUtils.getISO8601Locale();
+		
+		Calendar now = Calendar.getInstance(locale);
+		
+		return now;
+	}
+	
 	
 	/**
 	 * Generates a SimpleDateFormat instance with a set pattern, timeZone and locale
 	 * 
 	 */
-	private static SimpleDateFormat getSimpleDateFormatWith(
-			final String pattern,
-			final Locale locale) 
+	private static SimpleDateFormat getSimpleDateFormatWith(final String pattern) 
 	{
+		Locale locale = LanguageUtils.getCurrentLocale();
+		
 		SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, locale);
 		
 		return dateFormat;
