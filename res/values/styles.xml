@@ -206,12 +206,11 @@
         <item name="fonttextview">roboto_mitv_bold.ttf</item>
         <item name="fontbutton">roboto_mitv_bold.ttf</item>
     </style>
-    
-        <style name="error">
+
+    <style name="error">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/red</item>
         <item name="fonttextview">roboto_mitv_regular.ttf</item>
     </style>
-    
 
 </resources>

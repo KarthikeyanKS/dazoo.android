@@ -216,6 +216,38 @@
                             android:text="@string/login_here" />
                     </RelativeLayout>
                 </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/activity_not_logged_in_terms_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/activity_not_logged_in_already_registered_container"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical" >
+
+                    <com.mitv.ui.elements.FontTextView
+                        android:id="@+id/activity_not_logged_in_terms_info"
+                        style="@style/meta2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/sign_up_terms_info" />
+
+                    <com.mitv.ui.elements.FontTextView
+                        android:id="@+id/activity_not_logged_in_terms_link"
+                        style="@style/meta2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="3dp"
+                        android:layout_toRightOf="@id/activity_not_logged_in_terms_info"
+                        android:linksClickable="true"
+                        android:text="@string/sign_up_terms_link"
+                        android:textColorLink="@color/grey3"
+                        android:textStyle="bold"
+                        font:fonttextview="roboto_mitv_bold.ttf" />
+                </RelativeLayout>
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>

@@ -4,6 +4,7 @@ package com.mitv.activities.authentication;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,7 +16,9 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.URLSpan;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -41,10 +44,7 @@ public class SignUpWithEmailActivity
 	private static final String TAG = SignUpWithEmailActivity.class.getName();
 
 	
-	private FontTextView termsOfService;
-	private TextDrawable emailTextDrawable;
-	private TextDrawable passwordTextDrawable;
-	
+//	private FontTextView termsOfService;
 	
 	private EditText firstNameEditText;
 	private EditText lastNameEditText;
@@ -157,20 +157,20 @@ public class SignUpWithEmailActivity
 				else if(isInvalidPassword)
 				{
 					passwordErrorTextView.setVisibility(View.VISIBLE);
-					passwordErrorTextView.setBackgroundResource(R.drawable.edittext_activated);
-					passwordErrorTextView.requestFocus();
+					passwordEditText.setBackgroundResource(R.drawable.edittext_activated);
+					passwordEditText.requestFocus();
 				}
 				else if(isInvalidFirstname)
 				{
 					firstnameErrorTextView.setVisibility(View.VISIBLE);
-					firstnameErrorTextView.setBackgroundResource(R.drawable.edittext_activated);
-					firstnameErrorTextView.requestFocus();
+					firstNameEditText.setBackgroundResource(R.drawable.edittext_activated);
+					firstNameEditText.requestFocus();
 				}
 				else if(isInvalidLastname)
 				{
 					lastnameErrorTextView.setVisibility(View.VISIBLE);
-					lastnameErrorTextView.setBackgroundResource(R.drawable.edittext_activated);
-					lastnameErrorTextView.requestFocus();
+					lastNameEditText.setBackgroundResource(R.drawable.edittext_activated);
+					lastNameEditText.requestFocus();
 				}
 				else
 				{
@@ -337,16 +337,17 @@ public class SignUpWithEmailActivity
 		signUpButton = (Button) findViewById(R.id.signup_register_button);
 		signUpButton.setOnClickListener(this);
 
-		termsOfService = (FontTextView) findViewById(R.id.signup_terms_link);
+//		termsOfService = (FontTextView) findViewById(R.id.signup_terms_link);
+//
+//		String linkText = getString(R.string.sign_up_terms_link);
+//		
+//		termsOfService.setText(Html.fromHtml(linkText));
+//		termsOfService.setMovementMethod(LinkMovementMethod.getInstance());
+//		
+//		stripUnderlines(termsOfService);
 
-		String linkText = getString(R.string.terms_link);
-		
-		termsOfService.setText(Html.fromHtml(linkText));
-		termsOfService.setMovementMethod(LinkMovementMethod.getInstance());
-		
-		stripUnderlines(termsOfService);
-
-//		setTextWatchers(); //TODO: Remove this when it feels appropriate. TextDrawable was buggy.
+		// Show software keyboard
+		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 	}
 	
 	
@@ -390,108 +391,46 @@ public class SignUpWithEmailActivity
 	
 	
 	
-	private class URLSpanWithoutUnderline extends URLSpan 
-	{
-		public URLSpanWithoutUnderline(String url) 
-		{
-			super(url);
-		}
+//	private class URLSpanWithoutUnderline extends URLSpan 
+//	{
+//		public URLSpanWithoutUnderline(String url) 
+//		{
+//			super(url);
+//		}
+//
+//		@Override
+//		public void updateDrawState(TextPaint ds)
+//		{
+//			super.updateDrawState(ds);
+//			
+//			ds.setUnderlineText(false);
+//		}
+//	}
+//
+//	
+//	
+//	// TODO NewArc - Is this really needed?
+//	private void stripUnderlines(TextView textView) 
+//	{
+//		Spannable s = (Spannable) textView.getText();
+//		
+//		URLSpan[] spans = s.getSpans(0, s.length(), URLSpan.class);
+//		
+//		for (URLSpan span : spans) 
+//		{
+//			int start = s.getSpanStart(span);
+//			int end = s.getSpanEnd(span);
+//			
+//			s.removeSpan(span);
+//			
+//			span = new URLSpanWithoutUnderline(span.getURL());
+//			
+//			s.setSpan(span, start, end, 0);
+//		}
+//		
+//		textView.setText(s);
+//	}
 
-		@Override
-		public void updateDrawState(TextPaint ds)
-		{
-			super.updateDrawState(ds);
-			
-			ds.setUnderlineText(false);
-		}
-	}
-
-	
-	
-	// TODO NewArc - Is this really needed?
-	private void stripUnderlines(TextView textView) 
-	{
-		Spannable s = (Spannable) textView.getText();
-		
-		URLSpan[] spans = s.getSpans(0, s.length(), URLSpan.class);
-		
-		for (URLSpan span : spans) 
-		{
-			int start = s.getSpanStart(span);
-			int end = s.getSpanEnd(span);
-			
-			s.removeSpan(span);
-			
-			span = new URLSpanWithoutUnderline(span.getURL());
-			
-			s.setSpan(span, start, end, 0);
-		}
-		
-		textView.setText(s);
-	}
-
-	
-	
-	private void setTextWatchers() 
-	{
-		passwordTextDrawable = new TextDrawable(this);
-		passwordTextDrawable.setText(getResources().getString(R.string.signup_characters));
-		passwordTextDrawable.setTextColor(getResources().getColor(R.color.grey2));
-		
-		passwordEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, passwordTextDrawable, null);
-		
-		passwordEditText.addTextChangedListener(new TextWatcher() 
-		{
-			@Override
-			public void afterTextChanged(Editable s) 
-			{
-				if (passwordEditText.getText().toString().equals(""))
-				{
-					passwordEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, passwordTextDrawable, null);
-				} 
-				else 
-				{
-					passwordEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-				}
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {}
-		});
-		
-		emailTextDrawable = new TextDrawable(this);
-		emailTextDrawable.setText(getResources().getString(R.string.signup_email_example));
-		emailTextDrawable.setTextColor(getResources().getColor(R.color.grey2));
-		
-		emailEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, emailTextDrawable, null);
-		
-		emailEditText.addTextChangedListener(new TextWatcher() 
-		{
-			@Override
-			public void afterTextChanged(Editable s) 
-			{
-				if (emailEditText.getText().toString().equals(""))
-				{
-					emailEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, emailTextDrawable, null);
-				} 
-				else 
-				{
-					emailEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-				}
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {}
-		});
-	}
-
-	
 	
 	@Override
 	public void onClick(View v)

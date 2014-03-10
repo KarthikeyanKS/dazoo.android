@@ -5,10 +5,16 @@ package com.mitv.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.URLSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.mitv.Constants;
 import com.mitv.R;
@@ -19,6 +25,7 @@ import com.mitv.activities.base.BaseActivity;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
+import com.mitv.ui.elements.FontTextView;
 
 
 
@@ -32,6 +39,7 @@ public class SignUpSelectionActivity
 	private RelativeLayout facebookContainer;
 	private RelativeLayout signUpContainer;
 	private RelativeLayout loginButton;
+	private FontTextView termsOfService;
 
 	
 	
@@ -135,5 +143,52 @@ public class SignUpSelectionActivity
 				finish();
 			}
 		});
+		
+		termsOfService = (FontTextView) findViewById(R.id.signin_terms_link);
+
+		String linkText = getString(R.string.sign_up_terms_link);
+		
+		termsOfService.setText(Html.fromHtml(linkText));
+		termsOfService.setMovementMethod(LinkMovementMethod.getInstance());
+		
+		stripUnderlines(termsOfService);
+	}
+	
+	private class URLSpanWithoutUnderline extends URLSpan 
+	{
+		public URLSpanWithoutUnderline(String url) 
+		{
+			super(url);
+		}
+
+		@Override
+		public void updateDrawState(TextPaint ds)
+		{
+			super.updateDrawState(ds);
+			
+			ds.setUnderlineText(false);
+		}
+	}
+	
+	// TODO NewArc - Is this really needed?
+	private void stripUnderlines(TextView textView) 
+	{
+		Spannable s = (Spannable) textView.getText();
+		
+		URLSpan[] spans = s.getSpans(0, s.length(), URLSpan.class);
+		
+		for (URLSpan span : spans) 
+		{
+			int start = s.getSpanStart(span);
+			int end = s.getSpanEnd(span);
+			
+			s.removeSpan(span);
+			
+			span = new URLSpanWithoutUnderline(span.getURL());
+			
+			s.setSpan(span, start, end, 0);
+		}
+		
+		textView.setText(s);
 	}
 }
