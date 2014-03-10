@@ -1132,9 +1132,6 @@ public class ContentManager
 			UserLoginData userData = (UserLoginData) content;
 			
 			cache.setUserData(userData);
-
-			// TODO Backend support - The image is set to and empty url, since the backend does not return an image for the user
-			cache.setUserImageURL("");
 			
 			fetchFromServiceTVDataOnUserStatusChange(activityCallbackListener);
 		} 
@@ -1501,19 +1498,10 @@ public class ContentManager
 		return userId;
 	}
 	
-	
-	public void setUserImageURL(String url) 
-	{
-		cache.setUserImageURL(url);
+	public String getFromCacheUserProfileImage() {
+		String userId = cache.getUserProfileImageUrl();
+		return userId;
 	}
-	
-	
-	public String getFromCacheUserImageURL() 
-	{
-		String userImageURL = cache.getUserImageURL();
-		return userImageURL;
-	}
-	
 	
 	public ArrayList<TVChannel> getFromCacheTVChannelsAll() {
 		ArrayList<TVChannel> tvChannelsAll = cache.getTvChannels();

@@ -54,6 +54,7 @@ public class UserProfileActivity extends BaseContentActivity implements Activity
 	private FontTextView likesCountTv;
 	private FontTextView channelCountTv;
 	private FontTextView reminderCountTv;
+	
 	private boolean isLoggedIn;
 
 	@Override
@@ -136,9 +137,6 @@ public class UserProfileActivity extends BaseContentActivity implements Activity
 		case SUCCESS_WITH_NO_CONTENT:
 		case SUCCEEDED_WITH_DATA: {
 			
-
-
-
 			populateViews();
 			break;
 		}
@@ -222,8 +220,9 @@ public class UserProfileActivity extends BaseContentActivity implements Activity
 
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 
-		if (isLoggedIn) {
-			String userAvatarImageURL = ContentManager.sharedInstance().getFromCacheUserImageURL();
+		if (isLoggedIn) 
+		{
+			String userAvatarImageURL = ContentManager.sharedInstance().getFromCacheUserProfileImage();
 
 			ImageAware imageAware = new ImageViewAware(avatarImageView, false);
 

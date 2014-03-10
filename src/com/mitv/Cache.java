@@ -78,8 +78,6 @@ public class Cache
 	private ArrayList<TVBroadcastWithChannelInfo> popularBroadcasts;
 	
 	private UserLoginData userData;
-	/* Only set when the user logs in from facebook */
-	private String userImageURL;
 	
 	private int tvDateSelectedIndex;
 	
@@ -114,8 +112,6 @@ public class Cache
 		
 		/* Default selected day to 0 */
 		setTvDateSelectedIndex(0);
-		
-		userImageURL = AppDataUtils.getPreference(Constants.SHARED_PREFERENCES_USER_IMAGE_URL, "");
 		
 		// TODO NewArc - What follows is a very ugly hack for saving the data on permanent storage. Replace with a proper implementation ASAP!
 		userData = (UserLoginData) AppDataUtils.loadData(Constants.SHARED_PREFERENCES_USER_DATA);
@@ -327,10 +323,8 @@ public class Cache
 		return userData.getUser().getUserId();
 	}
 	
-	
-	public synchronized String getUserImageURL() 
-	{
-		return userImageURL;
+	public synchronized String getUserProfileImageUrl() {
+		return userData.getProfileImage().getUrl();
 	}
 
 	
@@ -351,14 +345,6 @@ public class Cache
 			}
 		}).start();
 	} 
-	
-	
-	public synchronized void setUserImageURL(String url)
-	{
-		this.userImageURL = url;
-		
-		AppDataUtils.setPreference(Constants.SHARED_PREFERENCES_USER_IMAGE_URL, userImageURL);
-	}
 	
 	
 	public synchronized ArrayList<UserLike> getUserLikes() 
