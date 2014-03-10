@@ -499,7 +499,9 @@ public class Cache
 	}
 	
 	public synchronized void clearTVChannelIdsUser() {
-		tvChannelIdsUser.clear();
+		if(tvChannelIdsUser != null) {
+			tvChannelIdsUser.clear();
+		}
 	}
 	
 	public synchronized void useDefaultChannelIds() {
