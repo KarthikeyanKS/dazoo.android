@@ -9,7 +9,7 @@
 
     <uses-sdk
         android:minSdkVersion="10"
-        android:targetSdkVersion="19" />
+        android:targetSdkVersion="19"/>
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -26,7 +26,7 @@
         android:normalScreens="true"
         android:resizeable="true"
         android:smallScreens="true" />
-
+    
     <application
         android:name="com.mitv.SecondScreenApplication"
         android:allowBackup="true"
@@ -34,8 +34,9 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:theme="@android:style/Theme.Light.NoTitleBar" >
-
+        android:theme="@android:style/Theme.Light.NoTitleBar">
+        
+        
         <!-- SPLASH SCREEN ACTIVITY -->
         <activity
             android:name="com.mitv.activities.SplashScreenActivity"
@@ -50,10 +51,11 @@
             </intent-filter>
         </activity>
 
+
         <!-- HOME ACTIVITY -->
         <activity
             android:name="com.mitv.activities.HomeActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/HomePage" >
         </activity>
@@ -62,7 +64,7 @@
         <activity
             android:name="com.mitv.activities.FeedActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" />
 
@@ -70,15 +72,15 @@
         <activity
             android:name="com.mitv.activities.UserProfileActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" />
-
+        
         <!-- POPULAR CONTENT PAGE -->
         <activity
             android:name="com.mitv.activities.PopularPageActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
         </activity>
@@ -87,15 +89,14 @@
         <activity
             android:name="com.mitv.activities.SearchPageActivity"
             android:configChanges="keyboard|orientation"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@style/WhiteTitleActionBar" />
 
         <!-- LIKES -->
         <activity
             android:name="com.mitv.activities.LikesActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="adjustPan" >
@@ -105,8 +106,8 @@
         <activity
             android:name="com.mitv.activities.MyChannelsActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
+            android:launchMode="singleInstance"
             android:theme="@style/WhiteTitleActionBar" >
         </activity>
 
@@ -114,7 +115,6 @@
         <activity
             android:name="com.mitv.activities.RemindersActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
         </activity>
@@ -123,7 +123,6 @@
         <activity
             android:name="com.mitv.activities.TermsActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
         </activity>
@@ -132,7 +131,6 @@
         <activity
             android:name="com.mitv.activities.AboutUsActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
         </activity>
@@ -141,7 +139,6 @@
         <activity
             android:name="com.mitv.activities.AboutOrTermsActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
         </activity>
@@ -158,7 +155,6 @@
         <activity
             android:name="com.mitv.activities.UpcomingEpisodesPageActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
         </activity>
@@ -167,16 +163,14 @@
         <activity
             android:name="com.mitv.activities.RepetitionsPageActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
         </activity>
-
+        
         <!-- REPEATITIONS OR UPCOMING PAGE -->
         <activity
             android:name="com.mitv.activities.RepetitionsOrUpcomingPage"
             android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" >
         </activity>
@@ -185,8 +179,8 @@
         <activity
             android:name="com.mitv.activities.ChannelPageActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
+            android:launchMode="singleInstance"
             android:theme="@style/ChannelPage" >
         </activity>
 
@@ -194,7 +188,6 @@
         <activity
             android:name="com.mitv.activities.SignUpSelectionActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
@@ -204,7 +197,6 @@
         <activity
             android:name="com.mitv.activities.authentication.SignUpWithEmailActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
@@ -227,13 +219,13 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light"
             android:windowSoftInputMode="stateHidden" />
+        <!-- android:theme="@style/Theme.Sherlock.Light" -->
 
 
         <!-- PASSWORD RESET -->
         <activity
             android:name="com.mitv.activities.authentication.ResetPasswordSendEmailActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
@@ -243,7 +235,6 @@
         <activity
             android:name="com.mitv.activities.authentication.ResetPasswordConfirmationActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
@@ -283,5 +274,5 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/app_id" />
     </application>
-
+    
 </manifest>

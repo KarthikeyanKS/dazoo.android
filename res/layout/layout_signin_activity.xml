@@ -52,7 +52,7 @@
             android:layout_below="@id/signin_container_divider"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/background_color_selector_login_facebook"
             android:orientation="horizontal" >
 
@@ -179,7 +179,7 @@
                 android:orientation="horizontal" >
 
                 <com.mitv.ui.elements.FontTextView
-                    android:id="@+id/mitvlogin_forgot_password_text"
+                    android:id="@+id/signin_forgot_password_text"
                     style="@style/bluetextbutton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -188,6 +188,38 @@
                     android:padding="10dp"
                     android:text="@string/login_here" />
             </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/signin_terms_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/signin_already_registered_container"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:orientation="vertical" >
+
+            <com.mitv.ui.elements.FontTextView
+                android:id="@+id/signin_terms_info"
+                style="@style/meta2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/sign_up_terms_info" />
+
+            <com.mitv.ui.elements.FontTextView
+                android:id="@+id/signin_terms_link"
+                style="@style/meta2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="3dp"
+                android:layout_toRightOf="@id/signin_terms_info"
+                android:linksClickable="true"
+                android:text="@string/sign_up_terms_link"
+                android:textColorLink="@color/grey3"
+                android:textStyle="bold"
+                font:fonttextview="roboto_mitv_bold.ttf" />
         </RelativeLayout>
     </RelativeLayout>
 

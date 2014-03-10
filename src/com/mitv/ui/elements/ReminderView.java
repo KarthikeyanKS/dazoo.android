@@ -118,7 +118,9 @@ public class ReminderView
 	@Override
 	public void onClick(View v) 
 	{
-		if(tvBroadcastWithChannelInfo != null && !tvBroadcastWithChannelInfo.isBroadcastAiringInOrInLessThan(Constants.MAXIMUM_REMINDER_TIME_FOR_SHOW)) 
+		if(tvBroadcastWithChannelInfo != null && 
+		   tvBroadcastWithChannelInfo.isAiring() == false &&
+		   tvBroadcastWithChannelInfo.isBroadcastAiringInOrInLessThan(Constants.MAXIMUM_REMINDER_TIME_FOR_SHOW)) 
 		{
 			if (isSet == false) 
 			{
