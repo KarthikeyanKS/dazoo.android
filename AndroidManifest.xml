@@ -214,7 +214,6 @@
         <activity
             android:name="com.mitv.activities.authentication.LoginWithMiTVUserActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar"
             android:windowSoftInputMode="stateHidden" >
@@ -228,7 +227,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light"
             android:windowSoftInputMode="stateHidden" />
-        <!-- android:theme="@style/Theme.Sherlock.Light" -->
 
 
         <!-- PASSWORD RESET -->

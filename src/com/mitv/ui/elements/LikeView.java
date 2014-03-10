@@ -28,7 +28,7 @@ public class LikeView extends RelativeLayout implements ActivityCallbackListener
 	private static final String TAG = LikeView.class.toString();
 
 	private LayoutInflater inflater;
-	private ImageView imageView;
+	private FontTextView iconView;
 	private BaseActivity activity;
 	private Context context;
 	private TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo;
