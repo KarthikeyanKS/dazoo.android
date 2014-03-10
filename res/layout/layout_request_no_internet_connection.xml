@@ -1,12 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
-    android:id="@+id/bad_request_main_layout"
+    android:id="@+id/no_connection_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
 
     <ImageView
-        android:id="@+id/bad_request_iv"
+        android:id="@+id/no_connection_request_iv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -15,22 +17,34 @@
         android:src="@drawable/ic_error_state_mitv" />
 
     <com.mitv.ui.elements.FontTextView
-        android:id="@+id/bad_request_details_tv"
+        android:id="@+id/no_connection_request_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/bad_request_iv"
+        android:layout_below="@id/no_connection_request_iv"
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
-        android:text="@string/general_error_message_message"
+        android:text="@string/connection_failed_title"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        font:fonttextview="roboto_mitv_medium.ttf" />
+    
+    <com.mitv.ui.elements.FontTextView
+        android:id="@+id/no_connection_request_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/no_connection_request_title"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:text="@string/connection_failed_message"
         android:textColor="@color/black"
         android:textSize="14sp"
         font:fonttextview="roboto_mitv_medium.ttf" />
 
     <com.mitv.ui.elements.FontButton
-        android:id="@+id/bad_request_reload_button"
+        android:id="@+id/no_connection_reload_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/bad_request_details_tv"
+        android:layout_below="@id/no_connection_request_message"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:minWidth="250dp"

@@ -3,13 +3,9 @@ package com.mitv.activities;
 
 
 
-import net.hockeyapp.android.CrashManager;
-import net.hockeyapp.android.UpdateManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.mitv.Constants;
 import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -65,15 +61,6 @@ public class SplashScreenActivity
 		}
 	}
 		
-	private void startPrimaryActivity() 
-	{
-		Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
-		
-		startActivity(intent);
-		
-		finish();
-	}
-
 
 	
 	@Override
@@ -82,7 +69,9 @@ public class SplashScreenActivity
 		fetchedDataCount++;
 		
 		StringBuilder sb = new StringBuilder();
-		sb.append(fetchedDataCount + "/" + totalSteps);
+		sb.append(fetchedDataCount);
+		sb.append("/");
+		sb.append(totalSteps);
 		sb.append(" - ");
 		sb.append(message);
 		
@@ -130,25 +119,30 @@ public class SplashScreenActivity
 	{
 		switch (status) 
 		{
-			case SUCCEEDED_WITH_DATA: 
-			{
-				startPrimaryActivity();
-				break;
-			}
-			
 			case FAILED_VALIDATION:
 			{
 				DialogHelper.showMandatoryAppUpdateDialog(this);
 				break;
 			}
 			
+			case SUCCEEDED_WITH_DATA: 
 			case NO_CONNECTION_AVAILABLE:
 			default:
 			{
-				DialogHelper.showMandatoryFirstTimeInternetConnection(this);
+				startPrimaryActivity();
 				break;
 			}
 		}
 	}
+	
+	
+	
+	private void startPrimaryActivity() 
+	{
+		Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
+		
+		startActivity(intent);
+		
+		finish();
+	}
 }
-

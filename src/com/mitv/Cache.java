@@ -198,9 +198,12 @@ public class Cache
 		this.tvGuides.put(tvDate.getId(), tvGuide);
 	}
 	
-	public synchronized TVGuide getTVGuideUsingTVDate(TVDate tvDate) {
+	public synchronized TVGuide getTVGuideUsingTVDate(TVDate tvDate) 
+	{
 		String tvDateId = tvDate.getId();
+		
 		TVGuide tvGuide = tvGuides.get(tvDateId);
+		
 		return tvGuide;
 	}
 	
@@ -623,9 +626,12 @@ public class Cache
 		return containsTVGuideForSelectedDay;
 	}
 	
-	public synchronized boolean containsTVGuideForTVDate(TVDate tvDate) {
+	public synchronized boolean containsTVGuideForTVDate(TVDate tvDate) 
+	{
 		TVGuide tvGuide = getTVGuideUsingTVDate(tvDate);
+		
 		boolean containsTVGuideForTVDate = (tvGuide != null);
+		
 		return containsTVGuideForTVDate;
 	}
 	

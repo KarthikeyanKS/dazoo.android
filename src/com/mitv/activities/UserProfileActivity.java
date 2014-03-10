@@ -13,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 
 import com.mitv.Constants;
 import com.mitv.ContentManager;
@@ -31,7 +32,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-public class UserProfileActivity extends BaseContentActivity implements ActivityWithTabs, OnClickListener {
+public class UserProfileActivity 
+	extends BaseContentActivity 
+	implements ActivityWithTabs, OnClickListener 
+{
 	private static final String TAG = UserProfileActivity.class.getName();
 
 	private RelativeLayout aboutContainer;
@@ -43,6 +47,7 @@ public class UserProfileActivity extends BaseContentActivity implements Activity
 	private RelativeLayout loginContainer;
 
 	/* Only used when the user is logged in */
+	private ScrollView scrollView;
 	private RelativeLayout personalView;
 	private ImageView avatarImageView;
 	private FontTextView userNameTextView;
@@ -56,8 +61,11 @@ public class UserProfileActivity extends BaseContentActivity implements Activity
 	private FontTextView reminderCountTv;
 	private boolean isLoggedIn;
 
+	
+	
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.layout_my_profile);
@@ -66,10 +74,14 @@ public class UserProfileActivity extends BaseContentActivity implements Activity
 	}
 	
 
+	
 	@Override
-	protected void onResume() {
+	protected void onResume() 
+	{
 		super.onResume();
+		
 		isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+		
 		populateViews();
 	}
 
@@ -80,15 +92,20 @@ public class UserProfileActivity extends BaseContentActivity implements Activity
 	{
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 
-		if (isLoggedIn) {
+		if (isLoggedIn) 
+		{
 			updateUI(UIStatusEnum.LOADING);
 
 			ContentManager.sharedInstance().getElseFetchFromServiceUserLikes(this, false);
-		} else {
+		} 
+		else
+		{
 			updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
 		}
 	}
 
+	
+	
 	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
@@ -123,40 +140,55 @@ public class UserProfileActivity extends BaseContentActivity implements Activity
 		}
 	}
 
+	
+	
 	@Override
-	protected void updateUI(UIStatusEnum status) {
+	protected void updateUI(UIStatusEnum status) 
+	{
 		super.updateUIBaseElements(status);
 
-		switch (status) {
-		case LOADING: {
-			// Do nothing
-			break;
-		}
-
-		case SUCCESS_WITH_NO_CONTENT:
-		case SUCCEEDED_WITH_DATA: {
+		switch (status) 
+		{
+			case LOADING: 
+			{
+				// Do nothing
+				break;
+			}
 			
-
-
-
-			populateViews();
-			break;
-		}
-
-		default: {
-			Log.w(TAG, "Unhandled UI status.");
-			break;
-		}
+			case NO_CONNECTION_AVAILABLE:
+			{
+				scrollView.setVisibility(View.GONE);
+				break;
+			}
+	
+			case SUCCESS_WITH_NO_CONTENT:
+			case SUCCEEDED_WITH_DATA: 
+			{
+				scrollView.setVisibility(View.VISIBLE);
+				populateViews();
+				break;
+			}
+	
+			default: 
+			{
+				Log.w(TAG, "Unhandled UI status.");
+				break;
+			}
 		}
 	}
 
-	private void initLayout() {
+	
+	
+	private void initLayout() 
+	{
 		actionBar.setTitle(getResources().getString(R.string.myprofile_title));
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setDisplayUseLogoEnabled(true);
 		actionBar.setDisplayShowHomeEnabled(true);
 
+		scrollView = (ScrollView) findViewById(R.id.scrollView);
+		
 		aboutContainer = (RelativeLayout) findViewById(R.id.myprofile_about_us_container);
 		aboutContainer.setOnClickListener(this);
 
@@ -195,14 +227,20 @@ public class UserProfileActivity extends BaseContentActivity implements Activity
 		userNameTextView = (FontTextView) findViewById(R.id.myprofile_name_tv);
 	}
 
-	private void populateViews() {
-		if (isLoggedIn) {
+	
+	
+	private void populateViews() 
+	{
+		if (isLoggedIn) 
+		{
 			signInOrSignUpView.setVisibility(View.GONE);
 			personalView.setVisibility(View.VISIBLE);
 			likesContainer.setVisibility(View.VISIBLE);
 			channelsContainer.setVisibility(View.VISIBLE);
 			logoutContainer.setVisibility(View.VISIBLE);
-		} else {
+		} 
+		else 
+		{
 			signInOrSignUpView.setVisibility(View.VISIBLE);
 			personalView.setVisibility(View.GONE);
 			likesContainer.setVisibility(View.GONE);
@@ -210,19 +248,19 @@ public class UserProfileActivity extends BaseContentActivity implements Activity
 			logoutContainer.setVisibility(View.GONE);
 		}
 		
-		
 		NotificationDataSource notificationDataSource = new NotificationDataSource(this);
 
 		StringBuilder numberOfNotificationsSB = new StringBuilder();
 		numberOfNotificationsSB.append("(");
-		numberOfNotificationsSB.append(String.valueOf(notificationDataSource.getNotificationCount()));
+		numberOfNotificationsSB.append(notificationDataSource.getNotificationCount());
 		numberOfNotificationsSB.append(")");
 
 		reminderCountTv.setText(numberOfNotificationsSB.toString());
 
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 
-		if (isLoggedIn) {
+		if (isLoggedIn) 
+		{
 			String userAvatarImageURL = ContentManager.sharedInstance().getFromCacheUserImageURL();
 
 			ImageAware imageAware = new ImageViewAware(avatarImageView, false);
@@ -240,26 +278,34 @@ public class UserProfileActivity extends BaseContentActivity implements Activity
 			userNameTextView.setText(sbUsernameText.toString());
 
 			ArrayList<UserLike> userLikes = ContentManager.sharedInstance().getFromCacheUserLikes();
-			if (userLikes != null && !userLikes.isEmpty()) {
+			
+			if (userLikes != null && !userLikes.isEmpty()) 
+			{
 				StringBuilder userLikesSB = new StringBuilder();
 				userLikesSB.append("(");
 				userLikesSB.append(userLikes.size());
 				userLikesSB.append(")");
 				likesCountTv.setText(userLikesSB.toString());
 				likesCountTv.setVisibility(View.VISIBLE);
-			} else {
+			} 
+			else 
+			{
 				likesCountTv.setVisibility(View.GONE);
 			}
 
 			ArrayList<TVChannelId> userChannelIds = ContentManager.sharedInstance().getFromCacheTVChannelIdsUser();
-			if (userChannelIds != null && !userChannelIds.isEmpty()) {
+			
+			if (userChannelIds != null && !userChannelIds.isEmpty()) 
+			{
 				StringBuilder userTVChannelIdsSB = new StringBuilder();
 				userTVChannelIdsSB.append("(");
 				userTVChannelIdsSB.append(userChannelIds.size());
 				userTVChannelIdsSB.append(")");
 				channelCountTv.setText(userTVChannelIdsSB.toString());
 				channelCountTv.setVisibility(View.VISIBLE);
-			} else {
+			} 
+			else 
+			{
 				channelCountTv.setVisibility(View.GONE);
 			}
 		}

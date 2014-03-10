@@ -1,7 +1,8 @@
 
 package com.mitv.activities.base;
 
-import java.util.EmptyStackException;
+
+
 import java.util.Stack;
 
 import android.app.Activity;
@@ -28,20 +29,22 @@ import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.activities.FeedActivity;
 import com.mitv.activities.HomeActivity;
-import com.mitv.activities.MyChannelsActivity;
 import com.mitv.activities.SearchPageActivity;
-import com.mitv.activities.UpcomingEpisodesPageActivity;
 import com.mitv.activities.UserProfileActivity;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ActivityCallbackListener;
-import com.mitv.models.UpcomingBroadcastsForBroadcast;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
 
-public abstract class BaseActivity extends ActionBarActivity implements ActivityCallbackListener, OnClickListener {
+
+
+public abstract class BaseActivity 
+	extends ActionBarActivity 
+	implements ActivityCallbackListener, OnClickListener 
+{
 	private static final String TAG = BaseActivity.class.getName();
 	private static Stack<Activity> activityStack = new Stack<Activity>();
 
@@ -51,15 +54,14 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 	protected View tabDividerLeft;
 	protected View tabDividerRight;
 
-	private View requestEmptyLayout;
+	private RelativeLayout requestEmptyLayout;
 	private TextView requestEmptyLayoutDetails;
-	private View requestFailedLayout;
-	private View requestLoadingLayout;
+	private RelativeLayout requestLoadingLayout;
+	private RelativeLayout requestNoInternetConnectionLayout;
+	private Button requestrequestNoInternetConnectionRetryButton;
 
-	private Button requestFailedButton;
-	private Button requestBadButton;
-	private View requestBadLayout;
 	protected ActionBar actionBar;
+	protected View seachIconView;
 
 	private boolean userHasJustLoggedIn;
 	private boolean userHasJustLoggedOut;
@@ -300,75 +302,85 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 		}
 	}
 
+	
+	
 	@Override
-	public void onClick(View v) {
+	public void onClick(View v) 
+	{
 		int id = v.getId();
 
 		boolean changedTab = false;
 
-		switch (id) {
-		case R.id.tab_tv_guide: {
-			if (!(this instanceof HomeActivity)) {
-				Intent intentActivity = new Intent(this, HomeActivity.class);
-				startActivity(intentActivity);
-				changedTab = true;
+		switch (id) 
+		{
+			case R.id.tab_tv_guide: 
+			{
+				if (!(this instanceof HomeActivity)) 
+				{	
+					Intent intentActivity = new Intent(this, HomeActivity.class);
+					startActivity(intentActivity);
+					changedTab = true;
+				}
+				break;
 			}
-			break;
-		}
-
-		case R.id.tab_activity: {
-			if (!(this instanceof FeedActivity)) {
-				Intent intentActivity = new Intent(this, FeedActivity.class);
-				startActivity(intentActivity);
-				changedTab = true;
+	
+			case R.id.tab_activity: {
+				if (!(this instanceof FeedActivity)) {
+					Intent intentActivity = new Intent(this, FeedActivity.class);
+					startActivity(intentActivity);
+					changedTab = true;
+				}
+				break;
 			}
-			break;
-		}
-
-		case R.id.tab_me: {
-			if (!(this instanceof UserProfileActivity)) {
-				Intent intentMe = new Intent(this, UserProfileActivity.class);
-				startActivity(intentMe);
-				changedTab = true;
+	
+			case R.id.tab_me: {
+				if (!(this instanceof UserProfileActivity)) {
+					Intent intentMe = new Intent(this, UserProfileActivity.class);
+					startActivity(intentMe);
+					changedTab = true;
+				}
+				break;
 			}
-			break;
-		}
-
-		case R.id.request_failed_reload_button:
-		case R.id.bad_request_reload_button: {
-			if (!NetworkUtils.isConnectedAndHostIsReachable()) {
-				updateUI(UIStatusEnum.FAILED);
-			} else {
-				loadData();
+	
+			case R.id.no_connection_reload_button:
+			{
+				loadDataWithConnectivityCheck();
+	
+				break;
 			}
-
-			break;
-		}
-
-		default: {
-			Log.w(TAG, "Unknown tab selected");
-		}
+	
+			default: 
+			{
+				Log.w(TAG, "Unknown onClick action");
+			}
 		}
 	}
+	
+	
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu) 
+	{
 		MenuInflater inflater = getMenuInflater();
 
 		inflater.inflate(R.menu.actionbar_menu, menu);
 
 		MenuItem searchIcon = menu.findItem(R.id.action_start_search);
 
-		View seachIconView = MenuItemCompat.getActionView(searchIcon);
+		seachIconView = MenuItemCompat.getActionView(searchIcon);
 
-		seachIconView.setOnClickListener(new OnClickListener() {
+		seachIconView.setOnClickListener(new OnClickListener() 
+		{
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v) 
+			{
 				Intent toSearchPage = new Intent(BaseActivity.this, SearchPageActivity.class);
 
 				startActivity(toSearchPage);
 			}
 		});
+		
+		//seachIconView.setVisibility(View.GONE);
 
 		MenuItem searchFieldItem = menu.findItem(R.id.searchfield);
 
@@ -377,8 +389,11 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 		return super.onCreateOptionsMenu(menu);
 	}
 
+	
+	
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onOptionsItemSelected(MenuItem item) 
+	{
 		switch (item.getItemId()) {
 		case android.R.id.home: {
 			/* Pressing the Home, which here is used as "up", should be same as pressing back */
@@ -442,12 +457,27 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 	/*
 	 * This method checks for Internet connectivity before loading data
 	 */
-	protected void loadDataWithConnectivityCheck() {
+	protected void loadDataWithConnectivityCheck() 
+	{
 		boolean isConnected = NetworkUtils.isConnected();
 
-		if (isConnected) {
-			loadData();
-		} else {
+		if (isConnected) 
+		{
+			boolean hasInitialData = ContentManager.sharedInstance().getFromCacheHasInitialData();
+			
+			if(hasInitialData)
+			{
+				loadData();
+			}
+			else
+			{
+				updateUI(UIStatusEnum.LOADING);
+				
+				ContentManager.sharedInstance().fetchFromServiceInitialCall(this, null);
+			}
+		} 
+		else 
+		{
 			updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
 		}
 	}
@@ -465,104 +495,135 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 			break;
 		}
 
-		default: {
-			// The remaining cases should be handled by the subclasses
-			onDataAvailable(fetchRequestResult, requestIdentifier);
+		default: 
+		{
+			if(requestIdentifier == RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL)
+			{
+				loadData();
+			}
+			else
+			{
+				// The remaining cases should be handled by the subclasses
+				onDataAvailable(fetchRequestResult, requestIdentifier);
+			}
 			break;
 		}
 		}
 	}
 
-	protected void updateUIBaseElements(UIStatusEnum status) {
+	protected void updateUIBaseElements(UIStatusEnum status) 
+	{
 		boolean activityNotNullOrFinishing = GenericUtils.isActivityNotNullOrFinishing(this);
-
-		if (activityNotNullOrFinishing) {
+		
+		if (activityNotNullOrFinishing) 
+		{
 			hideRequestStatusLayouts();
-
-			switch (status) {
-			case LOADING: {
-				if (requestLoadingLayout != null) {
-					requestLoadingLayout.setVisibility(View.VISIBLE);
+			
+			switch (status) 
+			{
+				case LOADING: 
+				{
+					if (requestLoadingLayout != null)
+					{
+						requestLoadingLayout.setVisibility(View.VISIBLE);
+					}
+					break;
 				}
-				break;
-			}
-
-			case NO_CONNECTION_AVAILABLE: {
-				if (requestBadLayout != null) {
-					requestBadLayout.setVisibility(View.VISIBLE);
+	
+				case NO_CONNECTION_AVAILABLE:
+				case FAILED:
+				{
+					if(seachIconView != null)
+					{
+						seachIconView.setVisibility(View.GONE);
+					}
+					
+					if (requestNoInternetConnectionLayout != null)
+					{
+						requestNoInternetConnectionLayout.setVisibility(View.VISIBLE);
+					}
+					break;
 				}
-				break;
-			}
-
-			case FAILED: {
-				if (requestFailedLayout != null) {
-					requestFailedLayout.setVisibility(View.VISIBLE);
+	
+				case SUCCESS_WITH_NO_CONTENT:
+				{
+					if(seachIconView != null)
+					{
+						seachIconView.setVisibility(View.VISIBLE);
+					}
+					
+					if (requestEmptyLayout != null)
+					{
+						requestEmptyLayout.setVisibility(View.VISIBLE);
+					}
+					break;
 				}
-				break;
-			}
-
-			case SUCCESS_WITH_NO_CONTENT: {
-				if (requestEmptyLayout != null) {
-					requestEmptyLayout.setVisibility(View.VISIBLE);
+	
+				case SUCCEEDED_WITH_DATA:
+				default:
+				{
+					if(seachIconView != null)
+					{
+						seachIconView.setVisibility(View.VISIBLE);
+					}
+					
+					// Success or other cases should be handled by the subclasses
+					break;
 				}
-				break;
 			}
-
-			case SUCCEEDED_WITH_DATA:
-			default: {
-				// Success or other cases should be handled by the subclasses
-				break;
-			}
-			}
-		} else {
+		} 
+		else 
+		{
 			Log.w(TAG, "Activity is null or finishing. No UI elements will be changed.");
 		}
 	}
+	
+	
 
-	private void hideRequestStatusLayouts() {
-		if (requestFailedLayout != null) {
-			requestFailedLayout.setVisibility(View.GONE);
-		}
-
-		if (requestLoadingLayout != null) {
+	private void hideRequestStatusLayouts() 
+	{
+		if (requestLoadingLayout != null) 
+		{
 			requestLoadingLayout.setVisibility(View.GONE);
 		}
-
-		if (requestBadLayout != null) {
-			requestBadLayout.setVisibility(View.GONE);
+		
+		if(requestNoInternetConnectionLayout != null)
+		{
+			requestNoInternetConnectionLayout.setVisibility(View.GONE);
 		}
 
-		if (requestEmptyLayout != null) {
+		if (requestEmptyLayout != null) 
+		{
 			requestEmptyLayout.setVisibility(View.GONE);
 		}
 	}
+	
+	
 
-	private void initCallbackLayouts() {
-		requestFailedLayout = (RelativeLayout) findViewById(R.id.request_failed_main_layout);
-
-		requestFailedButton = (Button) findViewById(R.id.request_failed_reload_button);
-
-		if (requestFailedButton != null) {
-			requestFailedButton.setOnClickListener(this);
-		}
-
+	private void initCallbackLayouts() 
+	{
 		requestLoadingLayout = (RelativeLayout) findViewById(R.id.request_loading_main_layout);
 
 		requestEmptyLayout = (RelativeLayout) findViewById(R.id.request_empty_main_layout);
 
 		requestEmptyLayoutDetails = (TextView) findViewById(R.id.request_empty_details_tv);
-
-		requestBadLayout = (RelativeLayout) findViewById(R.id.bad_request_main_layout);
-
-		requestBadButton = (Button) findViewById(R.id.bad_request_reload_button);
-
-		if (requestBadButton != null) {
-			requestBadButton.setOnClickListener(this);
+		
+		requestNoInternetConnectionLayout = (RelativeLayout) findViewById(R.id.no_connection_layout);
+		
+		requestrequestNoInternetConnectionRetryButton = (Button) findViewById(R.id.no_connection_reload_button);
+		
+		if (requestrequestNoInternetConnectionRetryButton != null) 
+		{
+			requestrequestNoInternetConnectionRetryButton.setOnClickListener(this);
 		}
 	}
 
-	protected void setEmptyLayoutDetailsMessage(String message) {
-		if (requestEmptyLayoutDetails != null) {
+	
+	
+	protected void setEmptyLayoutDetailsMessage(String message) 
+	{
+		if (requestEmptyLayoutDetails != null)
+		{
 			requestEmptyLayoutDetails.setText(message);
 		}
 	}

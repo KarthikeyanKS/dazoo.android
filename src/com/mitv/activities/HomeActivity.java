@@ -196,7 +196,14 @@ public class HomeActivity
 		{	
 			case SUCCEEDED_WITH_DATA:
 			{
+				showDaySelection();
 				attachFragment();
+				break;
+			}
+			
+			case NO_CONNECTION_AVAILABLE:
+			{
+				hideDaySelection();
 				break;
 			}
 	

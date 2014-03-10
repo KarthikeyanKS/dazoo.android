@@ -280,31 +280,31 @@ public class DialogHelper
 	
 	
 	
-	public static void showMandatoryFirstTimeInternetConnection(final SplashScreenActivity activity) 
-	{
-		final Dialog dialog = new Dialog(activity, R.style.remove_notification_dialog);
-		
-		dialog.setContentView(R.layout.dialog_prompt_no_connection);
-		dialog.setCancelable(false);
-
-		final Button retryButton = (Button) dialog.findViewById(R.id.dialog_prompt_retry_button);
-		
-		retryButton.setOnClickListener(new View.OnClickListener() 
-		{
-			@Override
-			public void onClick(View v)
-			{
-				ContentManager.sharedInstance().fetchFromServiceInitialCall(activity, activity);
-				
-				retryButton.setEnabled(false);
-				
-				dialog.dismiss();
-			}
-		});
-		
-		if(!activity.isFinishing())
-		{
-			 dialog.show();
-		}
-	}
+//	public static void showMandatoryFirstTimeInternetConnection(final SplashScreenActivity activity) 
+//	{
+//		final Dialog dialog = new Dialog(activity, R.style.remove_notification_dialog);
+//		
+//		dialog.setContentView(R.layout.dialog_prompt_no_connection);
+//		dialog.setCancelable(false);
+//
+//		final Button retryButton = (Button) dialog.findViewById(R.id.dialog_prompt_retry_button);
+//		
+//		retryButton.setOnClickListener(new View.OnClickListener() 
+//		{
+//			@Override
+//			public void onClick(View v)
+//			{
+//				ContentManager.sharedInstance().fetchFromServiceInitialCall(activity, activity);
+//				
+//				retryButton.setEnabled(false);
+//				
+//				dialog.dismiss();
+//			}
+//		});
+//		
+//		if(!activity.isFinishing())
+//		{
+//			 dialog.show();
+//		}
+//	}
 }
