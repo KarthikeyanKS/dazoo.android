@@ -403,8 +403,18 @@ public class ContentManager
 
 	
 	private void fetchFromServiceTVDataOnUserStatusChange(ActivityCallbackListener activityCallbackListener) {
+		/* Handle TV Channel & Guide data, after login */
 		channelsChange = true;
 		apiClient.getUserTVChannelIds(activityCallbackListener);
+		
+		/* Add like if any was set */
+		UserLike likeToAddAfterLogin = cache.getLikeToAddAfterLogin();
+		if(likeToAddAfterLogin != null) {
+			/* Passing null because the login views should not care about if the like was successfully added or not.
+			 * According to the current architecture we MUST not allow the method onDataAvailable to be called in LoginViews,
+			 * since pattern with returnActivity and method tryStartReturnActivity will break */
+			addUserLike(null, likeToAddAfterLogin);
+		}
 	}
 
 	private void fetchFromServiceTVGuideForSelectedDay(ActivityCallbackListener activityCallbackListener) 
@@ -1021,7 +1031,9 @@ public class ContentManager
 			cache.addUserLike(userLike);
 		} 
 		
-		activityCallbackListener.onResult(result, requestIdentifier);
+		if(activityCallbackListener != null) {
+			activityCallbackListener.onResult(result, requestIdentifier);
+		}
 	}
 	
 	
@@ -1540,4 +1552,10 @@ public class ContentManager
 		
 		return returnActivityWasSet;
 	}
+	
+	public void setLikeToAddAfterLogin(UserLike userLikeToAdd) {
+		cache.setLikeToAddAfterLogin(userLikeToAdd);
+	}
+	
+
 }

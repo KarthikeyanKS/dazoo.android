@@ -97,7 +97,8 @@ public class Cache
 	private SearchResultsForQuery nonPersistentSearchResultsForQuery;
 	private Integer nonPersistentSelectedHour;
 	private TVChannelId nonPersistentSelectedTVChannelId;
-	private Class<?> returnActivity;
+	private Class<?> nonPersistentReturnActivity;
+	private UserLike nonPersistentLikeToAddAfterLogin;
 		
 	
 	
@@ -120,14 +121,23 @@ public class Cache
 		userData = (UserLoginData) AppDataUtils.loadData(Constants.SHARED_PREFERENCES_USER_DATA);
 	}
 	
+
 	
 	
+	public UserLike getLikeToAddAfterLogin() {
+		return nonPersistentLikeToAddAfterLogin;
+	}
+
+	public void setLikeToAddAfterLogin(UserLike likeToAddAfterLogin) {
+		this.nonPersistentLikeToAddAfterLogin = likeToAddAfterLogin;
+	}
+
 	public Class<?> getReturnActivity() {
-		return returnActivity;
+		return nonPersistentReturnActivity;
 	}
 
 	public void setReturnActivity(Class<?> returnActivity) {
-		this.returnActivity = returnActivity;
+		this.nonPersistentReturnActivity = returnActivity;
 	}
 	
 	public void clearReturnActivity() {

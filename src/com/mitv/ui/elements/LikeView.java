@@ -1,7 +1,7 @@
 package com.mitv.ui.elements;
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +13,8 @@ import android.widget.RelativeLayout;
 import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.activities.BroadcastPageActivity;
+import com.mitv.activities.SignUpSelectionActivity;
+import com.mitv.activities.base.BaseActivity;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ActivityCallbackListener;
@@ -27,7 +29,7 @@ public class LikeView extends RelativeLayout implements ActivityCallbackListener
 
 	private LayoutInflater inflater;
 	private ImageView imageView;
-	private Activity activity;
+	private BaseActivity activity;
 	private Context context;
 	private TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo;
 	private boolean isSet;
@@ -55,7 +57,7 @@ public class LikeView extends RelativeLayout implements ActivityCallbackListener
 
 		this.imageView = (ImageView) this.findViewById(R.id.element_like_image_View);
 		this.context = context;
-		this.activity = (Activity) context;
+		this.activity = (BaseActivity) context;
 
 		this.setClickable(true);
 		this.setOnClickListener(this);
@@ -75,24 +77,35 @@ public class LikeView extends RelativeLayout implements ActivityCallbackListener
 
 		containerView.setBackgroundResource(R.drawable.background_color_selector);
 	}
+	
+	private void removeLike() {
+		ContentManager.sharedInstance().removeUserLike(this, likeFromBroadcast);
+		DialogHelper.showRemoveLikeDialog(activity, yesRemoveLike(), NoRemoveLike());
+		setImageToNotLiked();
+		isSet = false;
+	}
+	
+	private void addLike() {
+		AnimationUtils.animationSet(this);
+		setImageToLiked();
+		isSet = true;
+		ContentManager.sharedInstance().addUserLike(this, likeFromBroadcast);
+	}
 
 	@Override
 	public void onClick(View v) {
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 
 		final boolean isLiked = ContentManager.sharedInstance().isContainedInUserLikes(likeFromBroadcast);
+		isSet = isLiked;
 
 		if (isLoggedIn) {
 			if (isLiked) {
-				ContentManager.sharedInstance().removeUserLike(this, likeFromBroadcast);
-				setImageToNotLiked();
-				isSet = false;
+				removeLike();
 			} else {
-				AnimationUtils.animationSet(this);
-				setImageToLiked();
-				isSet = true;
-				ContentManager.sharedInstance().addUserLike(this, likeFromBroadcast);
+				addLike();
 			}
+			
 		} else {
 			if (BroadcastPageActivity.toast != null) {
 				BroadcastPageActivity.toast.cancel();
@@ -108,16 +121,45 @@ public class LikeView extends RelativeLayout implements ActivityCallbackListener
 	private void setImageToNotLiked() {
 		imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_like_default));
 	}
-
-	public Runnable yesLikeProc() {
+	
+	/* Remove like dialog */
+	public Runnable yesRemoveLike() {
 		return new Runnable() {
 			public void run() {
+				ContentManager.sharedInstance().removeUserLike(activity, likeFromBroadcast);
 				setImageToNotLiked();
 				isSet = false;
 			}
 		};
 	}
+	
+	/* Remove like dialog */
+	public Runnable NoRemoveLike() {
+		return new Runnable() {
+			public void run() {
+			}
+		};
+	}
 
+	/* Sign in dialog */
+	public Runnable yesLikeProc() {
+		return new Runnable() {
+			public void run() {
+				/* We are not logged in, but we want the Like to be added after we log in, so set it
+				 * After login is complete the ContentManager will perform the adding of the like to backend */
+				ContentManager.sharedInstance().setLikeToAddAfterLogin(likeFromBroadcast);
+				
+				Intent intent = new Intent(activity, SignUpSelectionActivity.class);
+				
+				/* After login is complete we want to return to this activity */
+				ContentManager.sharedInstance().setReturnActivity(activity.getClass());
+				
+				activity.startActivity(intent);
+			}
+		};
+	}
+
+	/* Sign in dialog */
 	public Runnable noLikeProc() {
 		return new Runnable() {
 			public void run() {

@@ -33,6 +33,7 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.activities.ChannelPageActivity;
 import com.mitv.activities.HomeActivity;
 import com.mitv.activities.MyChannelsActivity;
+import com.mitv.activities.SignUpSelectionActivity;
 import com.mitv.activities.UserProfileActivity;
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
@@ -318,7 +319,7 @@ public class TVGuideListAdapter
 	public Runnable yesSigninOrSignUpBlock() {
 		return new Runnable() {
 			public void run() {
-				Intent intent = new Intent(activity, UserProfileActivity.class);
+				Intent intent = new Intent(activity, SignUpSelectionActivity.class);
 				
 				ContentManager.sharedInstance().setReturnActivity(MyChannelsActivity.class);
 				
