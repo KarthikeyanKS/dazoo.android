@@ -143,9 +143,14 @@ public class NotificationDataSource
 		if (cursor != null)
 		{
 			cursor.moveToFirst();
+			
 			database.close();
 			
-			return setCursorValues(cursor);
+			NotificationSQLElement notification = new NotificationSQLElement(cursor);
+			
+			cursor.close();
+			
+			return notification;
 		} 
 		else
 		{
@@ -194,7 +199,7 @@ public class NotificationDataSource
 		{
 			do
 			{
-				NotificationSQLElement notification = setCursorValues(cursor);
+				NotificationSQLElement notification = new NotificationSQLElement(cursor);
 				
 				notifications.add(notification);
 			} 
@@ -206,14 +211,5 @@ public class NotificationDataSource
 		database.close();
 
 		return notifications;
-	}
-
-	
-
-	private NotificationSQLElement setCursorValues(Cursor cursor) 
-	{
-		NotificationSQLElement notification = new NotificationSQLElement(cursor);
-				
-		return notification;
 	}
 }

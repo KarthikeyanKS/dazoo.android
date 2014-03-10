@@ -7,6 +7,7 @@ import java.util.Stack;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.os.StrictMode;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -75,13 +76,27 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 	protected abstract void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier);
 
 	@Override
-	protected void onCreate(android.os.Bundle savedInstanceState) {
+	protected void onCreate(android.os.Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
 
 		boolean enableStrictMode = Constants.ENABLE_STRICT_MODE;
 
-		if (enableStrictMode) {
-			// enableStrictMode();
+		if (enableStrictMode) 
+		{
+			 StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+             .detectDiskReads()
+             .detectDiskWrites()
+             .detectNetwork()   // or .detectAll() for all detectable problems
+             .penaltyLog()
+             .build());
+     
+			 StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+             .detectLeakedSqlLiteObjects()
+             .detectLeakedClosableObjects()
+             .penaltyLog()
+             //.penaltyDeath()
+             .build());
 		}
 
 		/* Google Analytics Tracking */

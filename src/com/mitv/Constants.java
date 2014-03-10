@@ -98,7 +98,7 @@ public abstract class Constants
 	public static final int USER_FIRSTNAME_LENGTH_MIN				= 1;
 	public static final int API_POPULAR_COUNT_DEFAULT				= 3;
 
-	public static final String	ISO_DATE_FORMAT										= "yyyy-MM-dd'T'HH:mm:ss'Z'";
+	public static final String	ISO_8601_DATE_FORMAT								= "yyyy-MM-dd'T'HH:mm:ss'Z'";
 	public static final String	DATE_FORMAT_DATE									= "yyyy-MM-dd";
 	public static final String	DATE_FORMAT_HOUR_AND_MINUTE							= "HH:mm";
 	public static final String	DATE_FORMAT_HOUR_AND_MINUTE_WITH_AM_PM				= "HH:mm a";
@@ -470,7 +470,7 @@ public abstract class Constants
 	public static final String SHARED_PREFERENCES_APP_WAS_PREINSTALLED = "com.mitv.app.preinstalled";
 	
 	
-	public static final boolean ENABLE_STRICT_MODE = false;
+	public static final boolean ENABLE_STRICT_MODE = true;
 	
 	/* CONFIGURATIONS FOR RELEASE */
 	public static final boolean USE_DEFAULT_GOOGLE_TRACKING_ID = true;

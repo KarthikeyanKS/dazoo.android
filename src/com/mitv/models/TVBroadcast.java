@@ -105,7 +105,7 @@ public class TVBroadcast
 	
 	public boolean isBroadcastCurrentlyAiring() 
 	{
-		Calendar now = Calendar.getInstance();
+		Calendar now = DateUtils.getNow();
 		
 		boolean isRunning = getBeginTimeCalendarLocal().before(now) && getEndTimeCalendarLocal().after(now);		
 
@@ -128,7 +128,7 @@ public class TVBroadcast
 	
 	public Integer getElapsedMinutesSinceBroadcastStarted() 
 	{
-		Calendar now = Calendar.getInstance();
+		Calendar now = DateUtils.getNow();
 		
 		Integer elapsedMinutesSinceBroadcastStarted = DateUtils.calculateDifferenceBetween(getBeginTimeCalendarLocal(), now, Calendar.MINUTE, false, 0);
 	    
@@ -139,7 +139,7 @@ public class TVBroadcast
 	
 	public Integer getRemainingMinutesUntilBroadcastEnds() 
 	{	    
-	    Calendar now = Calendar.getInstance();
+	    Calendar now = DateUtils.getNow();
 		
 	    Integer elapsedMinutesSinceBroadcastStarted = DateUtils.calculateDifferenceBetween(now, getEndTimeCalendarLocal(), Calendar.MINUTE, false, 0);
 	    
@@ -167,7 +167,7 @@ public class TVBroadcast
 		Calendar beginTimeWithincrement = (Calendar) getBeginTimeCalendarLocal().clone();
 		beginTimeWithincrement.add(Calendar.MINUTE, minutes);
 		
-		Calendar now = Calendar.getInstance();
+		Calendar now = DateUtils.getNow();
 				
 		boolean isBroadcastStartingInPeriod = beginTimeWithincrement.before(now);
 	    
@@ -187,7 +187,7 @@ public class TVBroadcast
 	
 	public boolean isAiring() 
 	{
-		Calendar now = Calendar.getInstance();
+		Calendar now = DateUtils.getNow();
 
 		boolean isAiring = getBeginTimeCalendarLocal().before(now) && getEndTimeCalendarLocal().after(now);
 
@@ -198,7 +198,7 @@ public class TVBroadcast
 	
 	public boolean hasEnded()
 	{
-		Calendar now = Calendar.getInstance();
+		Calendar now = DateUtils.getNow();
 		
 		boolean hasEnded = now.after(getEndTimeCalendarLocal());
 		
@@ -209,7 +209,7 @@ public class TVBroadcast
 	
 	public boolean hasNotAiredYet()
 	{
-		Calendar now = Calendar.getInstance();
+		Calendar now = DateUtils.getNow();
 		
 		boolean hasNotAiredYet = now.before(getBeginTimeCalendarLocal());
 		
@@ -249,33 +249,7 @@ public class TVBroadcast
 	}
 	
 	
-	
-	/*
-	 * Returns a string representation of the begin time calendar in the format "HH:mm" or "HH:mm a"
-	 */
-	private String getBeginTimeHourAndMinuteGMTAsString()
-	{	
-		if(beginTimeHourAndMinuteRepresentation == null)
-		{
-			beginTimeHourAndMinuteRepresentation = DateUtils.getHourAndMinuteCompositionAsString(getBeginTimeCalendarLocal());
-		}
 		
-		return beginTimeHourAndMinuteRepresentation;
-	}
-	
-	/*
-	 * Returns a string representation of the end time calendar in the format "HH:mm" or "HH:mm a"
-	 */
-	private String getEndTimeHourAndMinuteGMTAsString() 
-	{
-		if(endTimeHourAndMinuteRepresentation == null)
-		{
-			endTimeHourAndMinuteRepresentation = DateUtils.getHourAndMinuteCompositionAsString(getEndTimeCalendarLocal());
-		}
-		
-		return endTimeHourAndMinuteRepresentation;
-	}
-	
 	//TODO NewArc finish me!
 	public String getBeginTimeHourAndMinuteLocalAsString() {
 		if(beginTimeHourAndMinuteRepresentation == null)
@@ -340,7 +314,7 @@ public class TVBroadcast
 		
 		StringBuilder sb = new StringBuilder();
 		
-		Calendar now = Calendar.getInstance();
+		Calendar now = DateUtils.getNow();
 
 		int daysLeft = DateUtils.calculateDifferenceBetween(now, getBeginTimeCalendarLocal(), Calendar.DAY_OF_MONTH, false, 0);
 
