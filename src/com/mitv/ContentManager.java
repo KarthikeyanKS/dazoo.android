@@ -211,7 +211,7 @@ public class ContentManager
 					
 					cache.setAppConfigData(appConfigData);
 					
-					notifyFetchDataProgressListenerMessage(totalStepsCount, "Fetched app configuration data");
+					notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_configuration_data));
 				}
 				break;
 			}
@@ -224,7 +224,7 @@ public class ContentManager
 					
 					cache.setAppVersionData(appVersionData);
 					
-					notifyFetchDataProgressListenerMessage(totalStepsCount, "Fetched app version data");
+					notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_app_version_data));
 				
 					boolean isAPIVersionSupported = cache.isAPIVersionSupported();
 					
@@ -246,7 +246,7 @@ public class ContentManager
 					ArrayList<TVDate> tvDates = (ArrayList<TVDate>) content;
 					cache.setTvDates(tvDates);
 					
-					notifyFetchDataProgressListenerMessage(totalStepsCount, "Fetched tv dates data");
+					notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_tv_dates_data));
 					
 					if(!isFetchingTVGuide && 
 					   (completedTVChannelIdsDefaultRequest && !cache.isLoggedIn()) || 
@@ -275,7 +275,7 @@ public class ContentManager
 					
 					cache.setTvChannelIdsDefault(tvChannelIdsDefault);
 					
-					notifyFetchDataProgressListenerMessage(totalStepsCount, "Fetched tv channel id data");
+					notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_tv_channel_id_data));
 					
 					if(!isFetchingTVGuide && completedTVDatesRequest && !cache.isLoggedIn())
 					{
@@ -302,7 +302,7 @@ public class ContentManager
 					
 					cache.setTvChannelIdsUser(tvChannelIdsUser);
 					
-					notifyFetchDataProgressListenerMessage(totalStepsCount, "Fetched tv channel id data");
+					notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_tv_channel_id_data));
 					
 					if(!isFetchingTVGuide && completedTVDatesRequest && cache.isLoggedIn())
 					{
@@ -327,7 +327,7 @@ public class ContentManager
 					
 					cache.setTvTags(tvTags);
 					
-					notifyFetchDataProgressListenerMessage(totalStepsCount, "Fetched tv genres data");
+					notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_tv_genres_data));
 				}
 				break;
 			}
@@ -341,7 +341,7 @@ public class ContentManager
 					
 					cache.setTvChannels(tvChannels);
 					
-					notifyFetchDataProgressListenerMessage(totalStepsCount, "Fetched tv channel data");
+					notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_tv_channel_data));
 				}
 				break;
 			}
@@ -352,7 +352,7 @@ public class ContentManager
 				{
 					TVGuide tvGuide = (TVGuide) content;
 					
-					notifyFetchDataProgressListenerMessage(totalStepsCount, "Fetched tv guide data");
+					notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_tv_guide_data));
 					
 					cache.addTVGuideForSelectedDay(tvGuide);
 				}
@@ -873,7 +873,7 @@ public class ContentManager
 					@SuppressWarnings("unchecked")
 					ArrayList<TVFeedItem> feedItems = (ArrayList<TVFeedItem>) content;
 					cache.setActivityFeed(feedItems);
-					notifyFetchDataProgressListenerMessage("Fetched user activity feed");
+					notifyFetchDataProgressListenerMessage(SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_activityfeed));
 					break;
 				}
 				
@@ -882,7 +882,7 @@ public class ContentManager
 					@SuppressWarnings("unchecked")
 					ArrayList<TVFeedItem> feedItems = (ArrayList<TVFeedItem>) content;
 					cache.addMoreActivityFeedItems(feedItems);
-					notifyFetchDataProgressListenerMessage("Fetched more data for the user activity feed");
+					notifyFetchDataProgressListenerMessage(SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_activityfeed_more));
 					break;
 				}
 				
@@ -891,7 +891,7 @@ public class ContentManager
 					@SuppressWarnings("unchecked")
 					ArrayList<UserLike> userLikes = (ArrayList<UserLike>) content;
 					cache.setUserLikes(userLikes);
-					notifyFetchDataProgressListenerMessage("Fetched user likes");
+					notifyFetchDataProgressListenerMessage(SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_user_likes));
 					break;
 				}
 				default:
