@@ -12,7 +12,8 @@ import com.mitv.R;
 
 public class FontButton extends Button {
 
-	private static final String TAG = "FontButton";
+	@SuppressWarnings("unused")
+	private static final String TAG = FontButton.class.getName();
 
 	public FontButton(Context context) {
 		super(context);

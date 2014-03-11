@@ -6,7 +6,8 @@ import android.view.View;
 
 public class AdSpace extends View {
 
-		private static final String TAG = "FontTextView";
+		@SuppressWarnings("unused")
+		private static final String TAG = AdSpace.class.getName();
 
 		public AdSpace(Context context) {
 			super(context);

@@ -18,7 +18,7 @@ import com.mitv.models.gson.serialization.UserLoginDataPost;
 public class PerformUserLoginWithCredentials 
 	extends AsyncTaskWithRelativeURL<UserLoginData> 
 {
-	private static final String TAG = "PerformUserLogin";
+	private static final String TAG = PerformUserLoginWithCredentials.class.getName();
 	
 	private static final String URL_SUFFIX = Constants.URL_LOGIN;
 	

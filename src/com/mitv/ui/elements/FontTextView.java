@@ -12,7 +12,8 @@ import com.mitv.R;
 
 public class FontTextView extends TextView {
 
-	private static final String TAG = "FontTextView";
+	@SuppressWarnings("unused")
+	private static final String TAG = FontTextView.class.getName();
 
 	public FontTextView(Context context) {
 		super(context);
