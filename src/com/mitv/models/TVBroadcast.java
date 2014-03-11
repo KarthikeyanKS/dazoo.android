@@ -36,7 +36,7 @@ public class TVBroadcast
 
 	private static final int NO_INT_VALUE_SET = -1;
 	
-	protected transient Calendar beginTimeCalendarLocal;
+	protected transient Calendar beginTimeCalendarLocal; // TODO: Evaluate cost of usage of calendars
 	protected transient Calendar endTimeCalendarLocal;
 	private transient Integer durationInMinutes = NO_INT_VALUE_SET;
 	

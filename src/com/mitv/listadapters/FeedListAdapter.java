@@ -397,7 +397,7 @@ public class FeedListAdapter
 
 			viewHolder.likeView = (LikeView) rowView.findViewById(R.id.element_social_buttons_like_view);
 			viewHolder.shareContainer = (RelativeLayout) rowView.findViewById(R.id.element_social_buttons_share_button_container);
-			viewHolder.shareIv = (ImageView) rowView.findViewById(R.id.element_social_buttons_share_button_iv);
+			viewHolder.shareIv = (RelativeLayout) rowView.findViewById(R.id.element_social_buttons_share_button_container);
 			viewHolder.reminderView = (ReminderView) rowView.findViewById(R.id.element_social_buttons_reminder);
 
 			viewHolder.container.setTag(Integer.valueOf(position));
@@ -667,7 +667,7 @@ public class FeedListAdapter
 		ProgressBar		progressBar;
 		ImageView		likeLikeIv;
 		RelativeLayout	shareContainer;
-		ImageView		shareIv;
+		RelativeLayout	shareIv;
 		ReminderView 	reminderView;
 		LikeView 		likeView;
 	}

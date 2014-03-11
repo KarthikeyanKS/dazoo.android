@@ -43,7 +43,6 @@ public class LoginWithFacebookActivity
 	
 	private String facebookToken;
 	private String facebookId;
-	private String userProfileImageURL;
 	
 
 	
@@ -76,12 +75,9 @@ public class LoginWithFacebookActivity
 	{
 		facebookToken = FacebookHandle.getToken(LoginWithFacebookActivity.this);
 		
-		if(facebookToken != null && 
-		   userProfileImageURL != null)
+		if(facebookToken != null)
 		{
 			updateUI(UIStatusEnum.LOADING);
-			
-			ContentManager.sharedInstance().setUserImageURL(userProfileImageURL);
 			
 			ContentManager.sharedInstance().getUserTokenWithFacebookFBToken(this, facebookToken);
 		}
@@ -140,7 +136,7 @@ public class LoginWithFacebookActivity
 					intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
 					startActivity(intent);
 				} else {
-					Log.d(TAG, "hmm");
+					// TODO NewArc: Do we need to do something here???
 				}
 				
 				finish();
@@ -290,8 +286,7 @@ public class LoginWithFacebookActivity
 							facebookId = null;
 						}
 	
-						getFacebookPicture();
-	
+						loadData();
 						break;
 					}
 	
@@ -315,83 +310,6 @@ public class LoginWithFacebookActivity
 			}
 		};
 		
-		return callback;
-	}
-	
-	
-	
-	private void getFacebookPicture()
-	{
-		FacebookHandle handle = getFacebookHandle();
-
-		if(handle != null && 
-		   facebookId != null)
-		{
-			handle.sso(Constants.APP_FACEBOOK_SSO);
-			
-			AQuery aq = new AQuery(this);
-	
-			AQuery aquery = aq.auth(handle);
-			
-			StringBuilder sb = new StringBuilder();
-			sb.append(Constants.APP_URL_FACEBOOK_GRAPH);
-			sb.append(Constants.REQUEST_QUERY_SEPARATOR);
-			sb.append(facebookId);
-			sb.append(Constants.APP_URL_FACEBOOK_PICTURE_TYPE);
-			sb.append(Constants.APP_URL_FACEBOOK_PICTURE_TYPE_NORMAL);
-			sb.append(Constants.APP_URL_FACEBOOK_DO_NOT_REDIRECT);
-			
-			aquery.ajax(sb.toString(), JSONObject.class, getFacebookPictureCallback());
-		}
-		else
-		{
-			Log.e(TAG, "Facebook handle or id are null.");
-		}
-	}
-	
-	
-	
-	private AjaxCallback<JSONObject> getFacebookPictureCallback()
-	{
-		AjaxCallback<JSONObject> callback = new AjaxCallback<JSONObject>()
-		{
-			@Override
-			public void callback(String url, JSONObject json, AjaxStatus status) 
-			{	
-				int statusCode = status.getCode();
-
-				switch(statusCode)
-				{
-					case AJAX_STATUS_OK:
-					{	
-						try 
-						{
-							JSONObject data = json.getJSONObject("data");
-	
-							userProfileImageURL = data.getString("url");
-						} 
-						catch (JSONException jsex) 
-						{
-							Log.e(TAG, jsex.getMessage(), jsex);
-	
-							userProfileImageURL = null;
-						}
-	
-						loadData();
-						break;
-					}
-	
-					default:
-					{
-						Log.w(TAG, "Unhandled status code code: " + statusCode);
-	
-						updateUI(UIStatusEnum.FAILED);
-						break;
-					}
-				}
-			}
-		};
-
 		return callback;
 	}
 }

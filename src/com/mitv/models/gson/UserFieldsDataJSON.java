@@ -6,6 +6,7 @@ package com.mitv.models.gson;
 import java.io.Serializable;
 
 import com.mitv.interfaces.GSONDataFieldValidation;
+import com.mitv.models.ProfileImage;
 
 
 
@@ -56,7 +57,7 @@ public class UserFieldsDataJSON
 	}
 
 
-	
+
 	public boolean isCreated() {
 		return created;
 	}

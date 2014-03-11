@@ -59,6 +59,7 @@ public class UserProfileActivity
 	private FontTextView likesCountTv;
 	private FontTextView channelCountTv;
 	private FontTextView reminderCountTv;
+	
 	private boolean isLoggedIn;
 
 	
@@ -270,7 +271,7 @@ public class UserProfileActivity
 
 		if (isLoggedIn) 
 		{
-			String userAvatarImageURL = ContentManager.sharedInstance().getFromCacheUserImageURL();
+			String userAvatarImageURL = ContentManager.sharedInstance().getFromCacheUserProfileImage();
 
 			ImageAware imageAware = new ImageViewAware(avatarImageView, false);
 
