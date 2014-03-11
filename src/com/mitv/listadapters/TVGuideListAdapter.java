@@ -244,7 +244,7 @@ public class TVGuideListAdapter
 						String ellipsisString = "...";
 
 						if (deletedChars) {
-							rowInfo = rowInfo.replace(rowInfo.substring(limitIndex - 3, rowInfo.length()), ellipsisString);
+							rowInfo = rowInfo.substring(0, limitIndex - 4) + ellipsisString;
 						}
 
 						toShow = rowInfo;
