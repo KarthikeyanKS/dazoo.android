@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:id="@+id/element_social_buttons_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -37,28 +38,17 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:background="@drawable/background_color_selector"
-        android:padding="10dp" >
+        android:background="@drawable/background_color_selector" >
 
-        <ImageView
+        <com.mitv.ui.elements.FontTextView
             android:id="@+id/element_social_buttons_share_button_iv"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_margin="5dp"
-            android:src="@drawable/ic_share_default" />
-
-        <!--
-        com.mitv.ui.elements.FontTextView
-        android:id="@+id/element_social_buttons_share_button_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/icon_heart"
-        android:textColor="@color/grey4"
-        android:textSize="30sp"
-        font:fonttextview="roboto_mitv_regular.ttf" /
-        -->
+            android:text="@string/icon_share"
+            android:textColor="@color/grey4"
+            android:textSize="30sp"
+            font:fonttextview="roboto_mitv_regular.ttf" />
     </RelativeLayout>
 
     <!-- DIVIDER -->

@@ -104,7 +104,7 @@ public class BuildTVBroadcastsForTags
 		/* TVTag id is used as key. STRANGEST JAVA BUG EVER: For some reason we MUST set the size of the map to 3 times as big as the expected
 		 * size of that map. We MUST set a size, else the values will be overwritten even though keys are not the same! */
 		HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> mapTagToTaggedBroadcastForDate = new HashMap<String, ArrayList<TVBroadcastWithChannelInfo>>(tvTagsAsStrings.size() * 3);
-		
+		double startTime = System.currentTimeMillis();
 		for (TVChannelGuide tvChannelGuide : tvChannelGuides) 
 		{
 			TVChannelId tvChannelId = tvChannelGuide.getChannelId();
@@ -145,17 +145,27 @@ public class BuildTVBroadcastsForTags
 					/* Add the broadcast for this tag to the list of tagged broadcasts for this tag */
 					broadcastsForTag.add(broadCastWithChannelInfo);
 					
-					Collections.sort(broadcastsForTag, new TVBroadcastComparatorByTime());
+//					Collections.sort(broadcastsForTag, new TVBroadcastComparatorByTime());
 
 					/* Put back the list of tagged broadcasts for this tag */
 					mapTagToTaggedBroadcastForDate.put(tagName, broadcastsForTag);
 				}
 			}
+			
+
+		}
+		for (String tag : tvTagsAsStrings) {
+			ArrayList<TVBroadcastWithChannelInfo> broadcastsForTag = mapTagToTaggedBroadcastForDate.get(tag);
+
+			if (broadcastsForTag != null) {
+				Collections.sort(broadcastsForTag, new TVBroadcastComparatorByTime());
+			}
 		}
 
+        double endTime = System.currentTimeMillis();
+        Log.d(TAG, "Time:" + (endTime-startTime));
 		return mapTagToTaggedBroadcastForDate;
 	}
-	
 	
 	
 	private ArrayList<String> tvTagIds() 
