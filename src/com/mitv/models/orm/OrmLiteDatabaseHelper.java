@@ -1,5 +1,5 @@
 
-package com.mitv.models.sql;
+package com.mitv.models.orm;
 
 
 

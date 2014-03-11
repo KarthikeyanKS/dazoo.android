@@ -6,11 +6,8 @@ package com.mitv;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.SparseArray;
-
 import com.mitv.models.AppConfiguration;
 import com.mitv.models.AppVersion;
 import com.mitv.models.RepeatingBroadcastsForBroadcast;
