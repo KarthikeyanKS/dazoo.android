@@ -320,9 +320,7 @@ public abstract class BaseActivity
 	public void onClick(View v) 
 	{
 		int id = v.getId();
-
-		boolean changedTab = false;
-
+		
 		switch (id) 
 		{
 			case R.id.tab_tv_guide: 
@@ -331,7 +329,6 @@ public abstract class BaseActivity
 				{	
 					Intent intentActivity = new Intent(this, HomeActivity.class);
 					startActivity(intentActivity);
-					changedTab = true;
 				}
 				break;
 			}
@@ -342,7 +339,6 @@ public abstract class BaseActivity
 				{
 					Intent intentActivity = new Intent(this, FeedActivity.class);
 					startActivity(intentActivity);
-					changedTab = true;
 				}
 				break;
 			}
@@ -353,7 +349,6 @@ public abstract class BaseActivity
 				{
 					Intent intentMe = new Intent(this, UserProfileActivity.class);
 					startActivity(intentMe);
-					changedTab = true;
 				}
 				break;
 			}

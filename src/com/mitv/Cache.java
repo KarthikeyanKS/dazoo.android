@@ -9,9 +9,7 @@ import java.util.HashMap;
 
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.SparseArray;
 
-import com.mitv.listadapters.AdListAdapter;
 import com.mitv.models.AppConfiguration;
 import com.mitv.models.AppVersion;
 import com.mitv.models.RepeatingBroadcastsForBroadcast;
@@ -27,7 +25,6 @@ import com.mitv.models.TVTag;
 import com.mitv.models.UpcomingBroadcastsForBroadcast;
 import com.mitv.models.UserLike;
 import com.mitv.models.UserLoginData;
-import com.mitv.models.gson.AdAdzerkJSON;
 import com.mitv.utilities.AppDataUtils;
 
 
@@ -67,11 +64,7 @@ public class Cache
 	 * 
 	 * */
 	private HashMap<String, HashMap<String, ArrayList<TVBroadcastWithChannelInfo>>> taggedBroadcastsForAllDays;
-	
-	/* This Map is a collection of listAdapters used by HomeActivity in order to save the downloaded ads associated with each listadapter for listviews */
-	@SuppressWarnings("rawtypes")
-//	private HashMap<String, AdListAdapter> adapterMap;
-	
+		
 	private ArrayList<UserLike> userLikes;
 	
 	private Calendar likeIdsFetchedTimestamp;
@@ -86,11 +79,7 @@ public class Cache
 	
 	private AppVersion appVersionData;
 	private AppConfiguration appConfigData;
-		
-	/* Ads */
-	private HashMap<String, SparseArray<AdAdzerkJSON>> fragmentToAdsMap;
-	
-	
+			
 	/* NON-PERSISTENT USER DATA, USED FOR PASSING DATA BETWEEN ACTIVITIES */
 	private boolean nonPersistentFlagUpdatingGuide;
 	
@@ -258,10 +247,6 @@ public class Cache
 		return getTVGuideUsingTVDate(tvDate);
 	}
 	
-	@SuppressWarnings("rawtypes")
-//	public synchronized HashMap<String, AdListAdapter> getAdapterMap() {
-//		return adapterMap;
-//	}
 	
 	public synchronized ArrayList<TVTag> getTvTags() {
 		return tvTags;
@@ -476,20 +461,6 @@ public class Cache
 		return isContainedInUserChannels;
 	}
 	
-	
-	
-	public synchronized HashMap<String, SparseArray<AdAdzerkJSON>> getFragmentToAdsMap() 
-	{
-		return fragmentToAdsMap;
-	}
-
-
-	
-	public synchronized void setFragmentToAdsMap(HashMap<String, SparseArray<AdAdzerkJSON>> mFragmentToAdsMap) 
-	{
-		this.fragmentToAdsMap = mFragmentToAdsMap;
-	}
-
 	
 	public synchronized AppVersion getAppVersionData() 
 	{
