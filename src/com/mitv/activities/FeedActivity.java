@@ -311,17 +311,6 @@ public class FeedActivity
 		}
 	}
 	
-
-	
-	@Override
-	public void onBackPressed() 
-	{
-		super.onBackPressed();
-
-		finish();
-	}
-	
-
 	
 	private void showScrollSpinner(boolean show) 
 	{
