@@ -1513,18 +1513,22 @@ public class ContentManager
 	 */
 	public ArrayList<TVBroadcastWithChannelInfo> getFromCacheUpcomingBroadcastsVerifyCorrect(TVBroadcast broadcast) 
 	{
-		//TODO NewArc check if null
-		String tvSeriesId = broadcast.getProgram().getSeries().getSeriesId();
-		ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts = null;
-		
-		if(cache.containsUpcomingBroadcastsForBroadcast(tvSeriesId)) {
-			UpcomingBroadcastsForBroadcast upcomingBroadcastsForBroadcast = cache.getNonPersistentUpcomingBroadcasts();
-			if(upcomingBroadcastsForBroadcast != null) {
-				upcomingBroadcasts= upcomingBroadcastsForBroadcast.getRelatedBroadcasts();
+		if (broadcast.getProgram().getSeries() == null) {
+			return null;
+			
+		} else {
+			String tvSeriesId = broadcast.getProgram().getSeries().getSeriesId();
+			ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts = null;
+			
+			if(cache.containsUpcomingBroadcastsForBroadcast(tvSeriesId)) {
+				UpcomingBroadcastsForBroadcast upcomingBroadcastsForBroadcast = cache.getNonPersistentUpcomingBroadcasts();
+				if(upcomingBroadcastsForBroadcast != null) {
+					upcomingBroadcasts= upcomingBroadcastsForBroadcast.getRelatedBroadcasts();
+				}
 			}
+			
+			return upcomingBroadcasts;
 		}
-		
-		return upcomingBroadcasts;
 	}
 	
 	public ArrayList<TVBroadcastWithChannelInfo> getFromCacheUpcomingBroadcasts() 

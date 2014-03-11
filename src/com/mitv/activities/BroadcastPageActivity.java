@@ -104,13 +104,13 @@ public class BroadcastPageActivity
 		if (fetchRequestResult.wasSuccessful()) {
 			if (requestIdentifier == RequestIdentifierEnum.BROADCAST_PAGE_DATA) {
 				broadcastWithChannelInfo = ContentManager.sharedInstance().getFromCacheSelectedBroadcastWithChannelInfo();
-				repeatingBroadcasts = ContentManager.sharedInstance().getFromCacheRepeatingBroadcasts();
+				repeatingBroadcasts = ContentManager.sharedInstance().getFromCacheRepeatingBroadcastsVerifyCorrect(broadcastWithChannelInfo);
 				
 				for(TVBroadcastWithChannelInfo broadcastWithoutProgramInfo : repeatingBroadcasts) {
 					broadcastWithoutProgramInfo.setProgram(broadcastWithChannelInfo.getProgram());
 				}
 				
-				upcomingBroadcasts = ContentManager.sharedInstance().getFromCacheUpcomingBroadcasts();
+				upcomingBroadcasts = ContentManager.sharedInstance().getFromCacheUpcomingBroadcastsVerifyCorrect(broadcastWithChannelInfo);
 
 				updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
 			}
