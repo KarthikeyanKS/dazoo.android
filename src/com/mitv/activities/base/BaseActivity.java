@@ -220,6 +220,12 @@ public abstract class BaseActivity
 		
 		printActivityStack();
 	}
+	
+	private static void removeActivitiesThatRequiresLoginFromStack(Activity activity) {
+		if(activity instanceof BaseActivityLoginRequired) {
+			removeFromStackOnDestroy(activity);
+		}
+	}
 
 	public static Activity getMostRecentTabActivity() {
 		Activity mostRecentTabActivity = null;
@@ -556,16 +562,20 @@ public abstract class BaseActivity
 				updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
 				break;
 			}
-			
 			case SUCCESS:
 			default:
-			{
+			{		
 				if(requestIdentifier == RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL)
 				{
 					loadData();
 				}
 				else
 				{
+					if(requestIdentifier == RequestIdentifierEnum.USER_LOGOUT) {
+						/* When logged out go through stack and delete any activity that requires us to be logged in */
+						removeActivitiesThatRequiresLoginFromStack(this);
+					}
+					
 					boolean isConnected = NetworkUtils.isConnected();
 					
 					if(hasEnoughDataToShowContent() && isConnected == false)

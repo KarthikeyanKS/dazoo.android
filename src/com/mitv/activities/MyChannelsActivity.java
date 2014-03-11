@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -20,7 +19,7 @@ import android.widget.TextView;
 
 import com.mitv.ContentManager;
 import com.mitv.R;
-import com.mitv.activities.base.BaseContentActivity;
+import com.mitv.activities.base.BaseActivityLoginRequired;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
@@ -34,7 +33,7 @@ import com.mitv.utilities.LanguageUtils;
 
 
 public class MyChannelsActivity 
-	extends BaseContentActivity 
+	extends BaseActivityLoginRequired 
 	implements MyChannelsCountInterface, OnClickListener, TextWatcher
 {
 	@SuppressWarnings("unused")

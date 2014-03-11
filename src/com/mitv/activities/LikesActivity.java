@@ -13,7 +13,7 @@ import android.widget.ListView;
 
 import com.mitv.ContentManager;
 import com.mitv.R;
-import com.mitv.activities.base.BaseContentActivity;
+import com.mitv.activities.base.BaseActivityLoginRequired;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
@@ -24,7 +24,7 @@ import com.mitv.models.comparators.UserLikeComparatorByTitle;
 
 
 public class LikesActivity 
-	extends BaseContentActivity 
+	extends BaseActivityLoginRequired 
 	implements OnClickListener
 {
 	private static final String TAG = LikesActivity.class.getName();
