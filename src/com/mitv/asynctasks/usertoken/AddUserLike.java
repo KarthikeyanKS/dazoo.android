@@ -25,10 +25,10 @@ public class AddUserLike
 	
 	public AddUserLike(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener,
+			ActivityCallbackListener activityCallbackListener,
 			UserLike userLike) 
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_ADD_LIKE, UserLike.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_ADD_LIKE, UserLike.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
 		
 		UserLikeData postData = new UserLikeData();
 		postData.setLikeType(userLike.getLikeTypeForRequest());

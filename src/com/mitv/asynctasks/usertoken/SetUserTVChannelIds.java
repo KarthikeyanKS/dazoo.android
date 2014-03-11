@@ -29,10 +29,10 @@ public class SetUserTVChannelIds
 	
 	public SetUserTVChannelIds(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener,
+			ActivityCallbackListener activityCallbackListener,
 			List<TVChannelId> channelIds) 
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_SET_CHANNELS, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_SET_CHANNELS, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
 				
 		this.bodyContentData = gson.toJson(channelIds);
 		

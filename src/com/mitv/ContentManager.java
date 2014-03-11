@@ -9,14 +9,17 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.CursorJoiner.Result;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.androidquery.callback.AjaxCallback;
+import com.mitv.activities.HomeActivity;
 import com.mitv.asynctasks.local.BuildTVBroadcastsForTags;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
+import com.mitv.fragments.TVGuideTableFragment;
 import com.mitv.interfaces.ActivityCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
@@ -37,7 +40,9 @@ import com.mitv.models.TVTag;
 import com.mitv.models.UpcomingBroadcastsForBroadcast;
 import com.mitv.models.UserLike;
 import com.mitv.models.UserLoginData;
+import com.mitv.models.comparators.TVChannelIdComparatorById;
 import com.mitv.utilities.GenericUtils;
+import com.mitv.utilities.ListUtils;
 
 
 
@@ -92,7 +97,20 @@ public class ContentManager
 	private boolean isFetchingTVGuide;
 	private boolean isAPIVersionTooOld;
 	
+	private static final int COMPLETED_COUNT_FOR_UPDATE_CHANNELS_AND_GUIDE_THRESHOLD = 2;
+	private static int completedCountForUpdateChannelsAndGuide = 0;
 	
+	/* The scenario where the user change his/her channels in the MyChannelsActivity, the changes are sent to
+	 * ContentManager (this class) and some the calls to backend are made in order to set the new channel ids list
+	 * and also fetch the guides for new channels. The ActivityCallbackListener will in that case be MyChannelsActivity
+	 * which, by the way, may be null since it was a "temporary" activity in the sense that we returned from it and it 
+	 * probably will be destroyed by the OS. Anyhow, if the user exited the MyChannelsActivity and went directly to the
+	 * HomeActivity (or fast enough for the two calls to the backend to not have finished), then the GUI will be loading
+	 * but when the two calls have finished, we have no way of notifying the HomeActivity telling it that the two backend
+	 * calls have finished. The architecture is not using the broadcast receiver pattern to notify activities of events
+	 * in the ContentManager, so this is an UGLY solution to have a way of telling the HomeActivity that the data has 
+	 * finished downloading. */
+	private ActivityCallbackListener allProgramsTVGuideTableFragmentCallbackListener;
 	
 	private ContentManager() 
 	{
@@ -147,7 +165,6 @@ public class ContentManager
 	}
 	
 	
-	
 	private void handleBuildTVBroadcastsForTagsResponse(ActivityCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content)
 	{
 		@SuppressWarnings("unchecked")
@@ -156,6 +173,10 @@ public class ContentManager
 		cache.addTaggedBroadcastsForSelectedDay(mapTagToTaggedBroadcastForDate);
 		
 		activityCallbackListener.onResult(result, requestIdentifier);
+		
+		if(allProgramsTVGuideTableFragmentCallbackListener != null) {
+			allProgramsTVGuideTableFragmentCallbackListener.onResult(result, requestIdentifier);
+		}
 	}
 	
 	
@@ -291,7 +312,7 @@ public class ContentManager
 				break;
 			}
 			
-			case TV_CHANNEL_IDS_USER:
+			case TV_CHANNEL_IDS_USER_INITIAL_CALL:
 			{
 				if(result.wasSuccessful() && content != null) 
 				{
@@ -354,7 +375,7 @@ public class ContentManager
 					
 					notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_tv_guide_data));
 					
-					cache.addTVGuideForSelectedDay(tvGuide);
+					cache.addNewTVChannelGuidesForSelectedDayUsingTvGuide(tvGuide);
 				}
 				break;
 			}
@@ -402,8 +423,6 @@ public class ContentManager
 		}
 	}
 		
-	
-	
 	/*
 	 * METHODS FOR FETCHING DATA FROM BACKEND USING THE API CLIENT, NEVER USE
 	 * THOSE EXTERNALLY, ALL SHOULD BE PRIVATE
@@ -418,7 +437,7 @@ public class ContentManager
 
 		if (cache.isLoggedIn()) 
 		{
-			apiClient.getUserTVChannelIds(activityCallbackListener);
+			apiClient.getUserTVChannelIds(activityCallbackListener, false);
 		}
 	}
 
@@ -426,7 +445,7 @@ public class ContentManager
 	private void fetchFromServiceTVDataOnUserStatusChange(ActivityCallbackListener activityCallbackListener) {
 		/* Handle TV Channel & Guide data, after login */
 		channelsChange = true;
-		apiClient.getUserTVChannelIds(activityCallbackListener);
+		apiClient.getUserTVChannelIds(activityCallbackListener, true);
 		
 		/* Add like if any was set */
 		UserLike likeToAddAfterLogin = cache.getLikeToAddAfterLogin();
@@ -446,12 +465,22 @@ public class ContentManager
 		fetchFromServiceTVGuideUsingTVDate(activityCallbackListener, tvDate);
 	}
 	
+	private void fetchFromServiceTVGuideUsingTVChannelIds(ActivityCallbackListener activityCallbackListener, ArrayList<TVChannelId> tvChannelIds) 
+	{
+		TVDate tvDate = cache.getTvDateSelected();
+		
+		fetchFromServiceTVGuideUsingTVDateAndTVChannelIds(activityCallbackListener, tvDate, tvChannelIds);
+	}
+	
+	private void fetchFromServiceTVGuideUsingTVDateAndTVChannelIds(ActivityCallbackListener activityCallbackListener, TVDate tvDate, ArrayList<TVChannelId> tvChannelIds)
+	{
+		apiClient.getTVChannelGuides(activityCallbackListener, tvDate, tvChannelIds);
+	}
 	
 	private void fetchFromServiceTVGuideUsingTVDate(ActivityCallbackListener activityCallbackListener, TVDate tvDate)
 	{
 		ArrayList<TVChannelId> tvChannelIds = cache.getTvChannelIdsUsed();
-		
-		apiClient.getTVChannelGuides(activityCallbackListener, tvDate, tvChannelIds);
+		fetchFromServiceTVGuideUsingTVDateAndTVChannelIds(activityCallbackListener, tvDate, tvChannelIds);
 	}
 	
 	
@@ -536,6 +565,11 @@ public class ContentManager
 	
 	public void getElseFetchFromServiceTVGuideUsingSelectedTVDate(ActivityCallbackListener activityCallbackListener, boolean forceDownload) 
 	{
+		/* Initialize our homeActivityCallbackListener */
+		if(activityCallbackListener instanceof TVGuideTableFragment) {
+			allProgramsTVGuideTableFragmentCallbackListener = activityCallbackListener;
+		}
+		
 		TVDate tvDateSelected = getFromCacheTVDateSelected();
 		
 		getElseFetchFromServiceTVGuideUsingTVDate(activityCallbackListener, forceDownload, tvDateSelected);
@@ -563,7 +597,9 @@ public class ContentManager
 		} 
 		else 
 		{
-			fetchFromServiceTVGuideUsingTVDate(activityCallbackListener, tvDate);
+			if(!isUpdatingGuide()) {
+				fetchFromServiceTVGuideUsingTVDate(activityCallbackListener, tvDate);
+			}
 		}
 	}
 
@@ -711,10 +747,15 @@ public class ContentManager
 			case TV_TAG:
 			case TV_CHANNEL:
 			case TV_CHANNEL_IDS_DEFAULT:
-			case TV_CHANNEL_IDS_USER:
+			case TV_CHANNEL_IDS_USER_INITIAL_CALL:
 			case TV_GUIDE_INITIAL_CALL: 
 			{
 				handleInitialDataResponse(activityCallbackListener, requestIdentifier, result, content);
+				break;
+			}
+			
+			case TV_CHANNEL_IDS_USER_STANDALONE: {
+				handleTVChannelIdsUserResponse(activityCallbackListener, requestIdentifier, result, content);
 				break;
 			}
 			
@@ -917,22 +958,28 @@ public class ContentManager
 	
 	
 	
-	private void handleTVChannelGuidesForSelectedDayResponse(ActivityCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content)
-    {
-        if (result.wasSuccessful() && content != null)
-        {
-            TVGuide tvGuide = (TVGuide) content;
+	private void handleTVChannelGuidesForSelectedDayResponse(ActivityCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content) {
+		if (result.wasSuccessful() && content != null) {
+			TVGuide tvGuide = (TVGuide) content;
 
-            cache.addTVGuideForSelectedDay(tvGuide);
-            
-            buildTVBroadcastsForTags(activityCallbackListener);
-        }
-        else
-        {
-            activityCallbackListener.onResult(result, requestIdentifier);
-        }
-    }
-	
+			cache.addNewTVChannelGuidesForSelectedDayUsingTvGuide(tvGuide);
+
+			cache.purgeTaggedBroadcastForDay(tvGuide.getTvDate());
+			
+			buildTVBroadcastsForTags(activityCallbackListener);
+		} else {
+			activityCallbackListener.onResult(result, requestIdentifier);
+		}
+		checkIfChannelAndGuideUpdateIsComplete();
+	}
+
+	private void checkIfChannelAndGuideUpdateIsComplete() {
+		completedCountForUpdateChannelsAndGuide++;
+		if (completedCountForUpdateChannelsAndGuide >= COMPLETED_COUNT_FOR_UPDATE_CHANNELS_AND_GUIDE_THRESHOLD) {
+			completedCountForUpdateChannelsAndGuide = 0;
+			cache.setUpdatingGuide(false);
+		}
+	}
 	
 	
 	public void handleTVBroadcastsPopularBroadcastsResponse(ActivityCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content)
@@ -1107,7 +1154,7 @@ public class ContentManager
 	}
 	
 	
-	public void handleUserTokenWithFacebookFBTokenResponse(ActivityCallbackListener activityCallBackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content)
+	public void handleUserTokenWithFacebookFBTokenResponse(ActivityCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content)
 	{
 		if (result.wasSuccessful() && content != null) 
 		{
@@ -1115,14 +1162,74 @@ public class ContentManager
 			
 			cache.setUserData(userData);
 
-			fetchFromServiceTVDataOnUserStatusChange(activityCallBackListener);
+			fetchFromServiceTVDataOnUserStatusChange(activityCallbackListener);
 		} 
 		else 
 		{
-			activityCallBackListener.onResult(result, requestIdentifier);
+			activityCallbackListener.onResult(result, requestIdentifier);
 		}
 	}
 	
+	/**
+	 * 
+	 * @param activityCallbackListener
+	 * @param requestIdentifier
+	 * @param result
+	 * @param content
+	 */
+	private void handleTVChannelIdsUserResponse(ActivityCallbackListener activityCallbackListener,
+			RequestIdentifierEnum requestIdentifier,
+			FetchRequestResultEnum result,
+			Object content) 
+	{
+		if (result.wasSuccessful() && content != null) 
+		{
+			/* Get the TVChannelIds from cache */
+			ArrayList<TVChannelId> tvChannelIdsUserCache = getFromCacheTVChannelIdsUser();
+			
+			@SuppressWarnings("unchecked")
+			ArrayList<TVChannelId> tvChannelIdsUserBackend = (ArrayList<TVChannelId>) content;
+			
+			/* Compare those from cache with those in the response, they should be the same, since
+			 *  MyChannelsActivity is calling method setNewTVChannelIdsAndFetchGuide
+			 *  which is setting the ids to the cache */
+			if(!isUpdatingGuide()) {
+				cache.setTvChannelIdsUser(tvChannelIdsUserBackend);
+				if(activityCallbackListener != null) {
+					activityCallbackListener.onResult(result, requestIdentifier);
+				}
+			} else {
+				if(!ListUtils.deepEquals(tvChannelIdsUserCache, tvChannelIdsUserBackend, new TVChannelIdComparatorById())) {
+					Log.e(TAG, "Id from backend is not same as from cache, this is not suppose to happen if ");
+				}
+			}
+		} 
+		else 
+		{
+			if(activityCallbackListener != null) {
+				activityCallbackListener.onResult(result, requestIdentifier);
+			}
+		}
+		
+		checkIfChannelAndGuideUpdateIsComplete();
+	}
+	
+
+
+	public void setNewTVChannelIdsAndFetchGuide(ActivityCallbackListener activityCallbackListener, ArrayList<TVChannelId> tvChannelIdsOnlyNewOnes, ArrayList<TVChannelId> tvChannelIdsAll) {
+		/* The change of guide will only affect the selected day, getElseFetchFromServiceTVGuideUsingTVDate will check the cache, and the cache verifies that we have all
+		 * the TVChannelGuides for the selected channels. */
+		TVDate tvDate = getFromCacheTVDateSelected();
+		
+		/* Perform setting of TVChannelIds against backend, and fetch only the TVGuide for the new channels */
+		apiClient.setNewTVChannelIdsAndFetchGuide(activityCallbackListener, tvDate, tvChannelIdsOnlyNewOnes, tvChannelIdsAll);
+		
+		/* Directly set the TVChannelIds in the Cache to directly update the UserProfileActivity GUI */
+		cache.setTvChannelIdsUser(tvChannelIdsAll);
+		
+		/* Set the flag "updatingGuide" to true */
+		cache.setUpdatingGuide(true);
+	}
 	
 	
 	public void handleLoginResponse(ActivityCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content)
@@ -1218,9 +1325,9 @@ public class ContentManager
 		apiClient.performUserPasswordResetSendEmail(activityCallbackListener, email);
 	}
 	
-	public void getUserTokenWithFacebookFBToken(ActivityCallbackListener activityCallBackListener, String facebookToken) 
+	public void getUserTokenWithFacebookFBToken(ActivityCallbackListener activityCallbackListener, String facebookToken) 
 	{
-		apiClient.performUserLoginWithFacebookToken(activityCallBackListener, facebookToken);
+		apiClient.performUserLoginWithFacebookToken(activityCallbackListener, facebookToken);
 	}
 
 	public void performSetUserChannels(ActivityCallbackListener activityCallbackListener, List<TVChannelId> tvChannelIds) 
@@ -1406,10 +1513,10 @@ public class ContentManager
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public HashMap<String, AdListAdapter> getFromCacheAdapterMap() {
-		HashMap<String, AdListAdapter> adapterMap = cache.getAdapterMap();
-		return adapterMap;
-	}
+//	public HashMap<String, AdListAdapter> getFromCacheAdapterMap() {
+//		HashMap<String, AdListAdapter> adapterMap = cache.getAdapterMap();
+//		return adapterMap;
+//	}
 		
 	/* UserToken related methods */
 	
@@ -1596,14 +1703,7 @@ public class ContentManager
 		boolean isContainedInUsedChannelIds = cache.isInUsedChannelIds(channelId);
 		return isContainedInUsedChannelIds;
 	}
-	
-	// TODO NewArc remove this?
-	public TVChannel getFromCacheTVChannelById(String channelId)
-	{
-		TVChannelId tvChannelId = new TVChannelId(channelId);
-		return getFromCacheTVChannelById(tvChannelId);
-	}
-	
+		
 	public TVChannel getFromCacheTVChannelById(TVChannelId tvChannelId)
 	{
 		return cache.getTVChannelById(tvChannelId);
@@ -1660,5 +1760,14 @@ public class ContentManager
 		cache.setLikeToAddAfterLogin(userLikeToAdd);
 	}
 	
+	public boolean isUpdatingGuide() {
+		boolean isUpdatingGuide = cache.isUpdatingGuide();
+		return isUpdatingGuide;
+	}
+
+
+	public void setUpdatingGuide(boolean updatingGuide) {
+		cache.setUpdatingGuide(updatingGuide);
+	}
 
 }

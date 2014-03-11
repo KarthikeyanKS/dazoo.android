@@ -17,7 +17,7 @@ import com.mitv.models.UserLoginData;
 public class TestBaseWithGuide extends TestCore {
 	
 	
-	private static final String	TAG	= "TestBaseWithGuide";
+	private static final String	TAG	= TestBaseWithGuide.class.getName();
 		
 	protected static List<TVChannelGuide> tvChannelGuides;
 	protected static List<TVDate> tvDates;

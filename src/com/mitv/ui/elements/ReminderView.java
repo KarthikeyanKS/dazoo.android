@@ -82,7 +82,8 @@ public class ReminderView
 	{
 		this.tvBroadcastWithChannelInfo = broadcast;
 		
-		if (!tvBroadcastWithChannelInfo.isAiring())
+		if (!tvBroadcastWithChannelInfo.isAiring() &&
+			tvBroadcastWithChannelInfo.isBroadcastAiringInOrInLessThan(Constants.MAXIMUM_REMINDER_TIME_FOR_SHOW) == false)
 		{
 			NotificationSQLElement dbItem = notificationDataSource.getNotification(tvBroadcastWithChannelInfo.getChannel().getChannelId(), tvBroadcastWithChannelInfo.getBeginTime());
 
@@ -118,10 +119,12 @@ public class ReminderView
 	@Override
 	public void onClick(View v) 
 	{
+		
 		if(tvBroadcastWithChannelInfo != null && 
 		   tvBroadcastWithChannelInfo.isAiring() == false &&
-		   tvBroadcastWithChannelInfo.isBroadcastAiringInOrInLessThan(Constants.MAXIMUM_REMINDER_TIME_FOR_SHOW)) 
+		   tvBroadcastWithChannelInfo.isBroadcastAiringInOrInLessThan(Constants.MAXIMUM_REMINDER_TIME_FOR_SHOW) == false) 
 		{
+			
 			if (isSet == false) 
 			{
 				NotificationHelper.scheduleAlarm(activity, tvBroadcastWithChannelInfo);

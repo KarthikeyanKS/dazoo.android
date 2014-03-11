@@ -60,18 +60,10 @@ public class TVGuideTableFragment
 	
 	private ArrayList<TVBroadcastWithChannelInfo> taggedBroadcasts;
 	private TVGuideTagListAdapter tvTagListAdapter;
-	
-	
-	@SuppressWarnings("rawtypes")
-	public HashMap<String, AdListAdapter> adapterMap;
-
-
-	
+		
 	public static TVGuideTableFragment newInstance(TVTag tag, TVDate date)
 	{
 		TVGuideTableFragment fragment = new TVGuideTableFragment();
-		
-		fragment.adapterMap = new HashMap<String, AdListAdapter>();//ContentManager.sharedInstance().getFromCacheAdapterMap();
 		
 		Bundle bundle = new Bundle();
 		
@@ -235,17 +227,9 @@ public class TVGuideTableFragment
 				
 				if(isAllCategoriesTag) 
 				{
-					tvGuideListAdapter = (TVGuideListAdapter) adapterMap.get(tvTagDisplayName);
-					
-					if (tvGuideListAdapter == null) 
-					{
-						TVDate tvDateSelected = ContentManager.sharedInstance().getFromCacheTVDateSelected();
-						
-						tvGuideListAdapter = new TVGuideListAdapter(activity, tvChannelGuides, tvDateSelected, hour, isToday);
-						
-						adapterMap.put(tvTagDisplayName, tvGuideListAdapter);
-					}
-
+					TVDate tvDateSelected = ContentManager.sharedInstance().getFromCacheTVDateSelected();
+					tvGuideListAdapter = new TVGuideListAdapter(activity, tvChannelGuides, tvDateSelected, hour, isToday);
+				
 					tvGuideListView.setAdapter(tvGuideListAdapter);
 					
 					tvGuideListAdapter.notifyDataSetChanged();
@@ -257,15 +241,8 @@ public class TVGuideTableFragment
 					RemoveAlreadyEndedBroadcastsTask removeAlreadyEndedBroadcastsTask = new RemoveAlreadyEndedBroadcastsTask(startIndex);
 					removeAlreadyEndedBroadcastsTask.run();
 					
-					tvTagListAdapter = (TVGuideTagListAdapter) adapterMap.get(tvTagDisplayName);
-
-					if (tvTagListAdapter == null) 
-					{
-						tvTagListAdapter = new TVGuideTagListAdapter(activity, tvTagDisplayName, taggedBroadcasts, startIndex);
+					tvTagListAdapter = new TVGuideTagListAdapter(activity, tvTagDisplayName, taggedBroadcasts, startIndex);
 						
-						adapterMap.put(tvTagDisplayName, tvTagListAdapter);
-					}
-
 					tvGuideListView.setAdapter(tvTagListAdapter);
 				}
 				break;

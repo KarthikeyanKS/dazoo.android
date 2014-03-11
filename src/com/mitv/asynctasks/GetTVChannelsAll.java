@@ -28,9 +28,9 @@ public class GetTVChannelsAll
 	
 	public GetTVChannelsAll(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener)
+			ActivityCallbackListener activityCallbackListener)
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.TV_CHANNEL, TVChannel[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.TV_CHANNEL, TVChannel[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
 	}
 	
 	

@@ -15,9 +15,9 @@ public class PerformUserHasSeenAdAdzerk
 {	
 	public PerformUserHasSeenAdAdzerk(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener,
+			ActivityCallbackListener activityCallbackListener,
 			String url) 
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.ADS_ADZERK_SEEN, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, false, url);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.ADS_ADZERK_SEEN, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, false, url);
 	}
 }

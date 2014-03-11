@@ -5,7 +5,6 @@ package com.mitv.activities;
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import com.mitv.Constants;
@@ -28,7 +27,7 @@ public class HomeActivity
 	private static final String TAG = HomeActivity.class.getName();
 
 	
-	private Fragment activeFragment;
+	private TVHolderFragment activeFragment;
 	private int selectedTagIndex = 0;
 	private boolean hasShowWelcomeToast = false;
 
@@ -76,6 +75,10 @@ public class HomeActivity
 		ContentManager.sharedInstance().setSelectedHour(currentHour);
 		
 		showWelcomeToast();
+		
+		if(ContentManager.sharedInstance().isUpdatingGuide()) {
+			updateUI(UIStatusEnum.LOADING);
+		}
 	}
 	
 	

@@ -24,20 +24,20 @@ public abstract class AsyncTaskWithUserToken<T>
 	
 	public AsyncTaskWithUserToken(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener, 
+			ActivityCallbackListener activityCallbackListener, 
 			RequestIdentifierEnum requestIdentifier,
 			Class<T> clazz,
 			HTTPRequestTypeEnum httpRequestType,
 			String urlSuffix) 
 	{
-		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, null, false, httpRequestType, urlSuffix);
+		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, false, httpRequestType, urlSuffix);
 	}
 
 	
 	
 	public AsyncTaskWithUserToken(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener, 
+			ActivityCallbackListener activityCallbackListener, 
 			RequestIdentifierEnum requestIdentifier,
 			Class<T> clazz,
 			Class clazzSingle,
@@ -45,7 +45,7 @@ public abstract class AsyncTaskWithUserToken<T>
 			HTTPRequestTypeEnum httpRequestType,
 			String urlSuffix) 
 	{
-		super(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, clazzSingle, manualDeserialization, httpRequestType, urlSuffix);
+		super(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, clazzSingle, manualDeserialization, httpRequestType, urlSuffix);
 	}
 	
 	

@@ -33,7 +33,7 @@ public abstract class AsyncTaskBase<T>
 	
 	
 	private ContentCallbackListener contentCallbackListener;
-	private ActivityCallbackListener activityCallBackListener;
+	private ActivityCallbackListener activityCallbackListener;
 	private RequestIdentifierEnum requestIdentifier;
 	
 	protected Gson gson;   // This is protected due to its use in classes that need to serialize data into the bodyContentData
@@ -57,21 +57,21 @@ public abstract class AsyncTaskBase<T>
 	
 	public AsyncTaskBase(
 			ContentCallbackListener contentCallbackListener, 
-			ActivityCallbackListener activityCallBackListener,
+			ActivityCallbackListener activityCallbackListener,
 			RequestIdentifierEnum requestIdentifier, 
 			Class<T> clazz,
 			HTTPRequestTypeEnum httpRequestType,
 			boolean isRelativeURL,
 			String url) 
 	{
-		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, null, false, httpRequestType, isRelativeURL, url, new URLParameters(), new HeaderParameters(), null);
+		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, false, httpRequestType, isRelativeURL, url, new URLParameters(), new HeaderParameters(), null);
 	}
 	
 
 	
 	public AsyncTaskBase(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener,
+			ActivityCallbackListener activityCallbackListener,
 			RequestIdentifierEnum requestIdentifier,
 			Class<T> clazz,
 			Class clazzSingle,
@@ -84,7 +84,7 @@ public abstract class AsyncTaskBase<T>
 			String bodyContentData)
 	{
 		this.contentCallbackListener = contentCallbackListener;
-		this.activityCallBackListener = activityCallBackListener;
+		this.activityCallbackListener = activityCallbackListener;
 		this.requestIdentifier = requestIdentifier;
 		this.clazz = clazz;
 		this.httpRequestType = httpRequestType;
@@ -221,7 +221,7 @@ public abstract class AsyncTaskBase<T>
 		
 		if(contentCallbackListener != null)
 		{
-			contentCallbackListener.onResult(activityCallBackListener, requestIdentifier, requestResultStatus, requestResultObjectContent);
+			contentCallbackListener.onResult(activityCallbackListener, requestIdentifier, requestResultStatus, requestResultObjectContent);
 		}
 		else
 		{

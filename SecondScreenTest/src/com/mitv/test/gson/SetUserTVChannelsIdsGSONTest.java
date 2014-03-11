@@ -28,18 +28,18 @@ public class SetUserTVChannelsIdsGSONTest
 	private static final String	TAG	= "SetUserTVChannelsIdsTest";
 	
 	/* CHILDREN */
-	private static final String TV_CHANNEL_ID_NICKELODEON = "42994506-3e64-4d31-b268-c5c4e7e7c00c";
+	private static final String TV_CHANNEL_ID_NICKELODEON = "co_0f903a27-84ea-4117-a6aa-7777d7fd7b1d";
 	
 	/* SERIES */
-	private static final String TV_CHANNEL_ID_HBO = "708d90ab-8e3a-422e-90df-85f51852e114";
-	private static final String TV_CHANNEL_ID_AXN = "6eb7eacd-7956-4ff8-a326-7d4b201bbfc6";
+	private static final String TV_CHANNEL_ID_HBO = "co_6b1df59d-bb2d-455e-a007-8565788bc048";
+	private static final String TV_CHANNEL_ID_AXN = "co_57df7605-098f-47a0-a36d-8148f7f36ca8";
 	
 	/* SPORTS */
-	private static final String TV_CHANNEL_ID_ESPN = "ce96a0cf-ce34-41ef-85b5-e8d0446ecd6b";
+	private static final String TV_CHANNEL_ID_ESPN = "co_8a59310b-f558-48e3-8dcf-d59afc9e5ac3";
 	
 	/* MOVIES */
-	private static final String TV_CHANNEL_ID_CINEMA_PLUS = "eebe4ecb-412d-4c16-b11a-56709b8df4fe";
-	private static final String TV_CHANNEL_ID_FILM_ZONE = "dd6d36f9-a2d3-416d-b72d-194624d322e0";
+	private static final String TV_CHANNEL_ID_CINEMA_PLUS = "co_1745af76-5a69-42b0-94bf-2021d548e108";
+	private static final String TV_CHANNEL_ID_FILM_ZONE = "co_a36f4478-eddf-406f-96b5-76eb88b358fd";
 	
 	
 	private HTTPCoreResponse httpCoreResponse;

@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -20,7 +19,7 @@ import android.widget.TextView;
 
 import com.mitv.ContentManager;
 import com.mitv.R;
-import com.mitv.activities.base.BaseContentActivity;
+import com.mitv.activities.base.BaseActivityLoginRequired;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
@@ -29,12 +28,14 @@ import com.mitv.listadapters.MyChannelsListAdapter;
 import com.mitv.models.TVChannel;
 import com.mitv.models.TVChannelId;
 import com.mitv.models.comparators.TVChannelComparatorByName;
+import com.mitv.models.comparators.TVChannelIdComparatorById;
 import com.mitv.utilities.LanguageUtils;
+import com.mitv.utilities.ListUtils;
 
 
 
 public class MyChannelsActivity 
-	extends BaseContentActivity 
+	extends BaseActivityLoginRequired 
 	implements MyChannelsCountInterface, OnClickListener, TextWatcher
 {
 	@SuppressWarnings("unused")
@@ -118,7 +119,28 @@ public class MyChannelsActivity
 	
 
 	private void updateMyChannels() {
-		ContentManager.sharedInstance().performSetUserChannels(this, checkedChannelIds);
+		if(channelsHaveChanged()) {
+			ArrayList<TVChannelId> tvChannelsForNewGuides = getOnlyNewTVChannelIds();
+			ContentManager.sharedInstance().setNewTVChannelIdsAndFetchGuide(this, tvChannelsForNewGuides, checkedChannelIds);
+		}
+	}
+	
+	private ArrayList<TVChannelId> getOnlyNewTVChannelIds() {
+		ArrayList<TVChannelId> idsInCache = ContentManager.sharedInstance().getFromCacheTVChannelIdsUser();
+		ArrayList<TVChannelId> onlyNewTVChannelIdsIfAny = new ArrayList<TVChannelId>();
+		for(TVChannelId channelId : checkedChannelIds) {
+			if(!idsInCache.contains(channelId)) {
+				onlyNewTVChannelIdsIfAny.add(channelId);
+			}
+		}
+		return onlyNewTVChannelIdsIfAny;
+	}
+	
+	private boolean channelsHaveChanged() {
+		ArrayList<TVChannelId> idsInCache = ContentManager.sharedInstance().getFromCacheTVChannelIdsUser();
+		boolean listIdentical = ListUtils.deepEquals(idsInCache, checkedChannelIds, new TVChannelIdComparatorById());
+		boolean channelsHaveChanged = !listIdentical;
+		return channelsHaveChanged;
 	}
 
 	
@@ -128,8 +150,7 @@ public class MyChannelsActivity
 		channelCountTextView.setText(" " + String.valueOf(count));
 	}
 	
-	
-	
+
 	@Override
 	protected void loadData() 
 	{
@@ -141,7 +162,8 @@ public class MyChannelsActivity
 			Collections.sort(allChannelObjects, new TVChannelComparatorByName());
 		}
 		
-		myChannelIds = ContentManager.sharedInstance().getFromCacheTVChannelIdsUser();
+		/* Important, we need a copy, not the referenced list, since we dont want to change it. */
+		myChannelIds = new ArrayList<TVChannelId>(ContentManager.sharedInstance().getFromCacheTVChannelIdsUser());
 		
 		checkedChannelIds = myChannelIds;
 		channelsMatchingSearch = new ArrayList<TVChannel>(allChannelObjects);

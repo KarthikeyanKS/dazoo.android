@@ -207,7 +207,7 @@ public class UserLike
 	@Override
 	public boolean areDataFieldsValid() {
 		boolean commonFieldsOk = (
-				!TextUtils.isEmpty(getTitle()) && getLikeType() != null
+				getTitle() != null && getLikeType() != null
 				);
 		
 		
