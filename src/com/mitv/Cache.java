@@ -49,6 +49,9 @@ public class Cache
 	/* Maps a day to a TVGuide, G, using the id of the TVDate as key. G may contain TVChannelGuides for TVChannels that the user have removed from her channel list */
 	private HashMap<String, TVGuide> tvGuidesAll;
 	
+	/* This map has the same structure as 'tvGuidesAll' but it only contains the guides that should be presented to the user */
+	private HashMap<String, TVGuide> tvGuidesMy;
+	
 	/* Key for the wrapping Map, wMap, is the id from the TVDate, which gets you an inner Map, iMap, which key is a TVTag
 	 * The value stored in iMap is a list of "tagged" broadcasts for the TVTag provided as key to iMap. 
 	 * E.g.
@@ -100,7 +103,6 @@ public class Cache
 		this.nonPersistentFlagUpdatingGuide = false;
 		
 		this.tvGuidesAll = new HashMap<String, TVGuide>();
-//		this.adapterMap = new HashMap<String, AdListAdapter>();
 		this.userLikes = new ArrayList<UserLike>();
 		
 		this.appVersionData = null;
@@ -193,6 +195,8 @@ public class Cache
 	}
 	
 	public synchronized void addNewTVChannelGuidesUsingDayAndTvGuide(TVDate tvDate, TVGuide tvGuide) {
+		clearTVGuidesMy();
+		
 		TVGuide guideForAllChannels = getTVGuideUsingTVDateNonFiltered(tvDate);
 		
 		if(guideForAllChannels != null) {
@@ -201,8 +205,19 @@ public class Cache
 				ArrayList<TVChannelGuide> allChannelGuides = guideForAllChannels.getTvChannelGuides();
 				ArrayList<TVChannelGuide> newChannelGuides = tvGuide.getTvChannelGuides();
 				
-				/* Add all the new TVChannel Guides to the list */
+				/* Add all the new TVChannel Guides to the list, results in duplicates sometimes */
+				//TODO NewArc fix duplicates problem, happens when logged in then log out and fetching default channels
 				allChannelGuides.addAll(newChannelGuides);
+				
+				ArrayList<TVChannelGuide> allChannelGuidesWithoutDuplicates = new ArrayList<TVChannelGuide>();
+				for(TVChannelGuide channelGuide : allChannelGuides) {
+					if(!allChannelGuidesWithoutDuplicates.contains(channelGuide)) {
+						allChannelGuidesWithoutDuplicates.add(channelGuide);
+					} else {
+						Log.d(TAG, "Duplicate");
+					}
+				}
+				guideForAllChannels.setTvChannelGuides(allChannelGuidesWithoutDuplicates);
 			} else {
 				Log.e(TAG, "TVDate for new guide and existing don't match, but they should");
 			}
@@ -226,18 +241,30 @@ public class Cache
 	 * @return
 	 */
 	public synchronized TVGuide getTVGuideUsingTVDate(TVDate tvDate) {
-		TVGuide guideForAllChannels = getTVGuideUsingTVDateNonFiltered(tvDate);
-	
-		ArrayList<TVChannelGuide> allChannelGuides = guideForAllChannels.getTvChannelGuides();
-		ArrayList<TVChannelGuide> myChannelGuides = new ArrayList<TVChannelGuide>();
-
-		for(TVChannelGuide channelGuide : allChannelGuides) {
-			if(tvChannelIdsUsed.contains(channelGuide.getChannelId())) {
-				myChannelGuides.add(channelGuide); 
-			}
+		if (tvGuidesMy == null) {
+			tvGuidesMy = new HashMap<String, TVGuide>();
 		}
 
-		TVGuide guideForWithMyChannels = new TVGuide(tvDate, myChannelGuides);
+		TVGuide guideForWithMyChannels = tvGuidesMy.get(tvDate.getId());
+
+		if (guideForWithMyChannels == null) {
+
+			TVGuide guideForAllChannels = getTVGuideUsingTVDateNonFiltered(tvDate);
+
+			if(guideForAllChannels != null) {
+				ArrayList<TVChannelGuide> allChannelGuides = guideForAllChannels.getTvChannelGuides();
+				ArrayList<TVChannelGuide> myChannelGuides = new ArrayList<TVChannelGuide>();
+	
+				for (TVChannelGuide channelGuide : allChannelGuides) {
+					if (tvChannelIdsUsed.contains(channelGuide.getChannelId())) {
+						myChannelGuides.add(channelGuide);
+					}
+				}
+	
+				guideForWithMyChannels = new TVGuide(tvDate, myChannelGuides);
+				tvGuidesMy.put(tvDate.getId(), guideForWithMyChannels);
+			}
+		}
 
 		return guideForWithMyChannels;
 	}
@@ -537,6 +564,14 @@ public class Cache
 
 	public synchronized void setTvChannelIdsUsed(ArrayList<TVChannelId> tvChannelIdsUsed) {
 		this.tvChannelIdsUsed = tvChannelIdsUsed;
+		
+		/* When changing to use another list as TVChannel ids, then we must clear the list of the TVGuides that should be presented to the user
+		 * since the guide is dependent on the tv channel ids. */
+		clearTVGuidesMy();
+	}
+	
+	private void clearTVGuidesMy() {
+		tvGuidesMy = null;
 	}
 	
 	public TVChannelGuide getTVChannelGuideUsingTVChannelIdForSelectedDay(TVChannelId tvChannelId) {
