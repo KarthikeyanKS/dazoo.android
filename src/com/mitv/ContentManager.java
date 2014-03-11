@@ -19,6 +19,7 @@ import com.mitv.asynctasks.local.BuildTVBroadcastsForTags;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
+import com.mitv.fragments.TVGuideTableFragment;
 import com.mitv.interfaces.ActivityCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
@@ -107,9 +108,9 @@ public class ContentManager
 	 * HomeActivity (or fast enough for the two calls to the backend to not have finished), then the GUI will be loading
 	 * but when the two calls have finished, we have no way of notifying the HomeActivity telling it that the two backend
 	 * calls have finished. The architecture is not using the broadcast receiver pattern to notify activities of events
-	 * in the ContentManager, so this is un UGLY solution to have a way of telling the HomeActivity that the data has 
+	 * in the ContentManager, so this is an UGLY solution to have a way of telling the HomeActivity that the data has 
 	 * finished downloading. */
-	private ActivityCallbackListener homeActivityCallbackListener;
+	private ActivityCallbackListener allProgramsTVGuideTableFragmentCallbackListener;
 	
 	private ContentManager() 
 	{
@@ -172,6 +173,10 @@ public class ContentManager
 		cache.addTaggedBroadcastsForSelectedDay(mapTagToTaggedBroadcastForDate);
 		
 		activityCallbackListener.onResult(result, requestIdentifier);
+		
+		if(allProgramsTVGuideTableFragmentCallbackListener != null) {
+			allProgramsTVGuideTableFragmentCallbackListener.onResult(result, requestIdentifier);
+		}
 	}
 	
 	
@@ -561,8 +566,8 @@ public class ContentManager
 	public void getElseFetchFromServiceTVGuideUsingSelectedTVDate(ActivityCallbackListener activityCallbackListener, boolean forceDownload) 
 	{
 		/* Initialize our homeActivityCallbackListener */
-		if(activityCallbackListener instanceof HomeActivity) {
-			homeActivityCallbackListener = activityCallbackListener;
+		if(activityCallbackListener instanceof TVGuideTableFragment) {
+			allProgramsTVGuideTableFragmentCallbackListener = activityCallbackListener;
 		}
 		
 		TVDate tvDateSelected = getFromCacheTVDateSelected();
@@ -961,11 +966,7 @@ public class ContentManager
 
 			cache.purgeTaggedBroadcastForDay(tvGuide.getTvDate());
 			
-			if(homeActivityCallbackListener != null) {
-				buildTVBroadcastsForTags(homeActivityCallbackListener);
-			} else {
-				buildTVBroadcastsForTags(activityCallbackListener);
-			}
+			buildTVBroadcastsForTags(activityCallbackListener);
 		} else {
 			activityCallbackListener.onResult(result, requestIdentifier);
 		}
