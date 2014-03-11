@@ -52,6 +52,8 @@ public class PopularPageActivity extends BaseContentActivity implements
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
+		
+		finish();
 	}
 
 	@Override

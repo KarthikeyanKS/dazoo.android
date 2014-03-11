@@ -161,12 +161,16 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 	}
 	
 	private static void pushActivityToStack(Activity activity) {
-		/* If activity is tab activity, move it to the top */
-		if (isTabActivity(activity)) {
-			removeFromStack(activity);
+		
+		/* If we got to this activity using the backpress button, then the Android OS will resume the latest activity, since we are
+		 * pushing the activity to the stack in this method, we need to make sure that we are pushing ourselves to the stack if we already are in top
+		 * of it. */
+		if (activityStack.isEmpty()) {
+			activityStack.push(activity);
+		} else if (activityStack.peek() != activity) {
+			activityStack.push(activity);
 		}
-		activityStack.push(activity);
-
+		
 		printActivityStack();
 	};
 
@@ -175,6 +179,7 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 		Log.d(TAG, ".");
 		Log.d(TAG, ".");
 		Log.d(TAG, "---<<<*** ActivityStack ***>>>---");
+		
 		for (int i = activityStack.size() - 1; i >= 0; --i) {
 			Activity activityInStack = activityStack.get(i);
 			Log.d(TAG, activityInStack.getClass().getSimpleName());
@@ -183,9 +188,28 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 
 	/* Remove activity from activitStack */
 	private static void removeFromStack(Activity activity) {
+		
 		if (activityStack.contains(activity)) {
-			activityStack.remove(activity);
+			if (activityStack.peek() == activity) {
+				
+				int positionToRemove = activityStack.size() - 1;
+				activityStack.removeElementAt(positionToRemove);
+			}
 		}
+	}
+	
+	/**
+	 * This if e.g. singleTask Activity HomeActivity gets destroyed by OS, remove all occurences in the activity stack
+	 */
+	private static void removeFromStackOnDestroy(Activity activity) {
+		
+		for (int i = 0; i < activityStack.size(); ++i) {
+			if (activityStack.contains(activity)) {
+				activityStack.remove(activity);
+			}
+		}
+		
+		printActivityStack();
 	}
 
 	public static Activity getMostRecentTabActivity() {
@@ -420,7 +444,7 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 
 	@Override
 	protected void onDestroy() {
-		removeFromStack(this);
+		removeFromStackOnDestroy(this);
 
 		super.onDestroy();
 	}
