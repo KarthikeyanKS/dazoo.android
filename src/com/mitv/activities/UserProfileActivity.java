@@ -101,7 +101,7 @@ public class UserProfileActivity
 		} 
 		else
 		{
-			updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
+			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
 		}
 	}
 	
