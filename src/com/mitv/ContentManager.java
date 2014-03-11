@@ -1234,13 +1234,69 @@ public class ContentManager
 		return tvChannelIdsUser;
 	}
 	
+	
+	
+	
 	public boolean getFromCacheHasInitialData()
 	{
-		// TODO NewArc - This verification is incomplete 
-		boolean hasInitialData = cache.containsAppConfigData();
-				
+		boolean hasInitialData = cache.containsAppConfigData() && 
+								 cache.containsAppVersionData() &&
+								 cache.containsTVDates() && 
+								 cache.containsTVTags() &&
+								 cache.containsTVChannels() &&
+								 cache.containsTVGuideForSelectedDay();
+		
 		return hasInitialData;
 	}
+	
+	
+	
+	public boolean getFromCacheHasUserLikes()
+	{
+		return cache.containsUserLikes();
+	}
+	
+	
+	public boolean getFromCacheHasActivityFeed()
+	{
+		return cache.containsActivityFeedData();
+	}
+	
+	
+	public boolean getFromCacheHasTVGuideForSelectedTVDate()
+	{
+		TVDate tvDate = cache.getTvDateSelected();
+		
+		if(tvDate != null)
+		{
+			return cache.containsTVGuideForTVDate(tvDate);
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	
+	
+	public boolean getFromCacheHasTVBroadcastWithChannelInfo(TVChannelId channelId, long beginTimeInMillis)
+	{
+		return cache.containsTVBroadcastWithChannelInfo(channelId, beginTimeInMillis);
+	}
+	
+	
+	
+	public boolean getFromCacheHasTVChannelGuideUsingTVChannelIdForSelectedDay(TVChannelId tvChannelId)
+	{
+		return cache.containsTVChannelGuideUsingTVChannelIdForSelectedDay(tvChannelId);
+	}
+	
+	
+	public boolean getFromCacheHasPopularBroadcasts()
+	{
+		return cache.containsPopularBroadcasts();
+	}
+
 	
 
 	public void setTVDateSelectedUsingIndexAndFetchGuideForDay(ActivityCallbackListener activityCallbackListener, int tvDateIndex) 

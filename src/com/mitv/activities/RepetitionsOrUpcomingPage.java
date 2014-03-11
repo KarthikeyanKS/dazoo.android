@@ -48,7 +48,8 @@ public class RepetitionsOrUpcomingPage
 		initViews();
 		loadData();
 	}
-		
+	
+	
 	private void initViews() 
 	{
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -66,6 +67,7 @@ public class RepetitionsOrUpcomingPage
 		actionBar.setTitle(title);
 		listView = (ListView) findViewById(R.id.repeating_list_listview);
 	}
+	
 	
 	@Override
 	protected void loadData()
@@ -96,12 +98,14 @@ public class RepetitionsOrUpcomingPage
 		}
 	}
 	
+	
 	@Override
 	public void onBackPressed() 
 	{
 		super.onBackPressed();
 		finish();
 	}
+	
 	
 	@Override
 	protected void updateUI(UIStatusEnum status) 

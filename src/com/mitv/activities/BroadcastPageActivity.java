@@ -8,7 +8,6 @@ import java.util.LinkedList;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
@@ -24,11 +23,9 @@ import com.mitv.models.TVBroadcast;
 import com.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.models.TVChannelId;
 import com.mitv.models.TVProgram;
-import com.mitv.models.UserLike;
 import com.mitv.populators.BroadcastMainBlockPopulator;
 import com.mitv.populators.BroadcastRepetitionsBlockPopulator;
 import com.mitv.populators.BroadcastUpcomingBlockPopulator;
-import com.mitv.ui.elements.LikeView;
 
 
 
@@ -85,6 +82,7 @@ public class BroadcastPageActivity
 	protected void loadData() 
 	{
 		updateUI(UIStatusEnum.LOADING);
+		
 		ContentManager.sharedInstance().getElseFetchFromServiceBroadcastPageData(this, false, broadcastWithChannelInfo, channelId, beginTimeInMillis);
 	}
 	
@@ -93,8 +91,7 @@ public class BroadcastPageActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		// TODO NewArc - Implement this
-		return false;
+		return ContentManager.sharedInstance().getFromCacheHasTVBroadcastWithChannelInfo(channelId, beginTimeInMillis);
 	}
 	
 	

@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
-import android.util.Log;
-
 import com.mitv.Constants;
 import com.mitv.ContentManager;
 import com.mitv.R;
@@ -26,6 +24,7 @@ import com.mitv.utilities.DateUtils;
 public class HomeActivity 
 	extends TVDateSelectionActivity
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = HomeActivity.class.getName();
 
 	
@@ -52,7 +51,7 @@ public class HomeActivity
 
 		getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
-		initLayout();		
+		initLayout();
 	}
 	
 	
@@ -143,18 +142,11 @@ public class HomeActivity
 	@Override
 	protected void removeActiveFragment() 
 	{
-		try 
-		{	
-			if (activeFragment != null) 
-			{
-				getSupportFragmentManager().beginTransaction().remove(activeFragment).commitAllowingStateLoss();
-				
-				activeFragment = null;
-			}
-		} 
-		catch (Exception e) 
+		if (activeFragment != null) 
 		{
-			Log.e(TAG , e.getMessage(), e);
+			getSupportFragmentManager().beginTransaction().remove(activeFragment).commitAllowingStateLoss();
+
+			activeFragment = null;
 		}
 	}
 
@@ -183,8 +175,7 @@ public class HomeActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		// TODO NewArc - Implement this
-		return false;
+		return ContentManager.sharedInstance().getFromCacheHasTVGuideForSelectedTVDate();
 	}
 	
 	

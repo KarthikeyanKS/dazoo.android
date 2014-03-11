@@ -68,8 +68,7 @@ public class PopularPageActivity extends BaseContentActivity implements
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		// TODO NewArc - Implement this
-		return false;
+		return ContentManager.sharedInstance().getFromCacheHasPopularBroadcasts();
 	}
 	
 	

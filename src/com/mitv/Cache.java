@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.SparseArray;
 
 import com.mitv.listadapters.AdListAdapter;
@@ -33,6 +34,9 @@ import com.mitv.utilities.AppDataUtils;
 
 public class Cache 
 {
+	private static final String TAG = Cache.class.getName();
+	
+	
 	private ArrayList<TVTag> tvTags;
 	private ArrayList<TVDate> tvDates;
 	private ArrayList<TVChannelId> tvChannelIdsDefault;
@@ -105,7 +109,6 @@ public class Cache
 	{
 		this.tvGuides = new HashMap<String, TVGuide>();
 		this.adapterMap = new HashMap<String, AdListAdapter>();
-		this.userLikes = new ArrayList<UserLike>();
 		
 		this.appVersionData = null;
 		this.appConfigData = null;
@@ -364,28 +367,42 @@ public class Cache
 	
 	public synchronized void addUserLike(UserLike userLike) 
 	{
-		this.userLikes.add(userLike);
+		if(userLikes != null)
+		{
+			this.userLikes.add(userLike);
+		}
+		else
+		{
+			Log.w(TAG, "Attempted to add user like without data in cache.");
+		}
 	}
 	
 	
 	public synchronized void removeUserLike(UserLike userLikeToRemove) 
 	{
-		int indexToRemove = -1;
-		
-		for(int i=0; i<userLikes.size(); i++)
+		if(userLikes != null)
 		{
-			UserLike userLike = userLikes.get(i);
+			int indexToRemove = -1;
 			
-			if(userLike.equals(userLikeToRemove))
+			for(int i=0; i<userLikes.size(); i++)
 			{
-				indexToRemove = i;
-				break;
+				UserLike userLike = userLikes.get(i);
+				
+				if(userLike.equals(userLikeToRemove))
+				{
+					indexToRemove = i;
+					break;
+				}
+			}
+			
+			if(indexToRemove >= 0)
+			{
+				this.userLikes.remove(indexToRemove);
 			}
 		}
-		
-		if(indexToRemove >= 0)
+		else
 		{
-			this.userLikes.remove(indexToRemove);
+			Log.w(TAG, "Attempted to remove user like without data in cache.");
 		}
 	}
 	
@@ -395,14 +412,17 @@ public class Cache
 	{
 		boolean isContained = false;
 		
-		for(UserLike userLike : userLikes)
+		if(userLikes != null)
 		{
-			boolean isEqual = userLike.equals(userLikeToCheck);
-			
-			if(isEqual)
+			for(UserLike userLike : userLikes)
 			{
-				isContained = true;
-				break;
+				boolean isEqual = userLike.equals(userLikeToCheck);
+				
+				if(isEqual)
+				{
+					isContained = true;
+					break;
+				}
 			}
 		}
 		
@@ -524,6 +544,24 @@ public class Cache
 		return getTVChannelGuideUsingTVChannelIdAndTVDate(tvChannelId, selectedTVDate);
 	}
 	
+	
+	public boolean containsTVChannelGuideUsingTVChannelIdForSelectedDay(TVChannelId tvChannelId) 
+	{
+		boolean containsTVChannelGuideUsingTVChannelIdForSelectedDay = false;
+		
+		TVDate selectedTVDate = getTvDateSelected();
+		
+		if(selectedTVDate != null)
+		{
+			TVChannelGuide guide = getTVChannelGuideUsingTVChannelIdAndTVDate(tvChannelId, selectedTVDate);
+			
+			containsTVChannelGuideUsingTVChannelIdForSelectedDay = (guide == null);
+		}
+		
+		return containsTVChannelGuideUsingTVChannelIdForSelectedDay;
+	}
+	
+	
 	public synchronized TVChannelGuide getTVChannelGuideUsingTVChannelIdAndTVDate(TVChannelId tvChannelId, TVDate tvDate) {
 		TVGuide tvGuide = getTVGuideUsingTVDate(tvDate);
 		ArrayList<TVChannelGuide> tvChannelGuides = tvGuide.getTvChannelGuides();
@@ -574,6 +612,15 @@ public class Cache
 	
 	
 	
+	public synchronized boolean containsAppVersionData() 
+	{
+		boolean containsAppVersionData = (appVersionData != null);
+		
+		return containsAppVersionData;
+	}
+	
+	
+	
 	public synchronized boolean containsApiVersionData()
 	{
 		boolean containsApiVersionData = (appVersionData != null);
@@ -603,12 +650,17 @@ public class Cache
 		return containsTVChannelIdsUser;
 	}
 	
-	public synchronized boolean containsTVGuideForSelectedDay() {
+	public synchronized boolean containsTVGuideForSelectedDay() 
+	{
 		TVDate tvDate = getTvDateSelected();
+		
 		boolean containsTVGuideForSelectedDay = false;
-		if(tvDate != null) {
+		
+		if(tvDate != null) 
+		{
 			containsTVGuideForSelectedDay = containsTVGuideForTVDate(tvDate);
 		}
+		
 		return containsTVGuideForSelectedDay;
 	}
 	
@@ -640,7 +692,7 @@ public class Cache
 	}
 	
 	public synchronized boolean containsUserLikes() {
-		boolean containsUserLikes = (userLikes != null && !userLikes.isEmpty());
+		boolean containsUserLikes = (userLikes != null);
 		return containsUserLikes;
 	}
 

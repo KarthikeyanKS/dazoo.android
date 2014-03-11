@@ -116,8 +116,7 @@ public class SignUpWithEmailActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		// TODO NewArc - Implement this
-		return false;
+		return true;
 	}
 	
 	

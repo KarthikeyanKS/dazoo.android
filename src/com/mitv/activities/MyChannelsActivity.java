@@ -107,6 +107,8 @@ public class MyChannelsActivity
 		finish();
 	}
 
+	
+	
 	@Override
 	public void onPause() 
 	{

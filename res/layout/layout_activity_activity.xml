@@ -32,5 +32,9 @@
         android:cacheColorHint="@null"
         android:divider="@android:color/transparent"
         android:visibility="gone" />
+    
+    <include
+        android:layout_above="@id/tab_selector_container"
+        layout="@layout/layout_undo_bar" />
 
 </RelativeLayout>

@@ -24,10 +24,10 @@ public abstract class Constants
 
 	/* SETTINGS FOR BACKEND ENVIVORONEMT AND HTTPS SCHEME */
 	public static final String HTTP_SCHEME_USED						= HTTP_SCHEME;
-	public static final String BACKEND_ENVIRONMENT_USED 			= BACKEND_ENVIRONMENT_GITRGITR;
+	public static final String BACKEND_ENVIRONMENT_USED 			= BACKEND_ENVIRONMENT_MITV;
 	
 	/* "Static", don't need to change those */
-	public static final String URL_BACKEND_BASE_API					= "android.api.";
+	public static final String URL_BACKEND_BASE_API					= "api.";
 	public static final String URL_BACKEND_BASE_INTERNAL_TRACKING	= "tracking.";
 	public static final String BASE_API_URL_USED 					= URL_BACKEND_BASE_API + BACKEND_ENVIRONMENT_USED;;
 	public static final String URL_SERVER							= HTTP_SCHEME_USED + BASE_API_URL_USED;

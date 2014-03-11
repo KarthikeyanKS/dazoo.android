@@ -109,8 +109,7 @@ public class RemindersActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		// TODO NewArc - Implement this
-		return false;
+		return true;
 	}
 	
 	
