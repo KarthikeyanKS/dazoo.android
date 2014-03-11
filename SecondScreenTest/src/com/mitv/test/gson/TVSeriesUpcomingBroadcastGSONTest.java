@@ -30,8 +30,10 @@ import com.mitv.models.TVProgram;
  */
 public class TVSeriesUpcomingBroadcastGSONTest extends TestBaseWithGuide {
 
+	private static final String TAG = TVSeriesUpcomingBroadcastGSONTest.class.getName();
+	
+	
 	private List<TVBroadcastWithChannelInfo> tvSeriesUpcomingBroadcasts;
-	private static final String TAG = "TVSeriesUpcomingBroadcastTest";
 
 	@Override
 	protected void setUp() throws Exception {

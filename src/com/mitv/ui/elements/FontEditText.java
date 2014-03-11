@@ -12,7 +12,7 @@ import com.mitv.R;
 
 public class FontEditText extends EditText {
 
-	private static final String TAG = "FontEditText";
+	private static final String TAG = FontEditText.class.getName();
 
 	public FontEditText(Context context) {
 		super(context);

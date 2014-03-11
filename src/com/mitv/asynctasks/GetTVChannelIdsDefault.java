@@ -34,9 +34,9 @@ public class GetTVChannelIdsDefault
 	
 	public GetTVChannelIdsDefault(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener) 
+			ActivityCallbackListener activityCallbackListener) 
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.TV_CHANNEL_IDS_DEFAULT, TVChannel[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.TV_CHANNEL_IDS_DEFAULT, TVChannel[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
 	}
 	
 	

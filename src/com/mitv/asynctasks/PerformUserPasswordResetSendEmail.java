@@ -26,10 +26,10 @@ public class PerformUserPasswordResetSendEmail
 	
 	public PerformUserPasswordResetSendEmail(
 			ContentCallbackListener contentCallbackListener, 
-			ActivityCallbackListener activityCallBackListener,
+			ActivityCallbackListener activityCallbackListener,
 			String email)
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_RESET_PASSWORD_SEND_EMAIL, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_RESET_PASSWORD_SEND_EMAIL, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
 		
 		UserPasswordResetPasswordData postData = new UserPasswordResetPasswordData();
 		postData.setEmail(email);

@@ -26,12 +26,12 @@ public class PerformUserPasswordResetConfirmation
 	
 	public PerformUserPasswordResetConfirmation(
 			ContentCallbackListener contentCallbackListener, 
-			ActivityCallbackListener activityCallBackListener,
+			ActivityCallbackListener activityCallbackListener,
 			String email,
 			String newPassword,
 			String resetPasswordToken) 
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_RESET_PASSWORD_SEND_CONFIRM_PASSWORD, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_RESET_PASSWORD_SEND_CONFIRM_PASSWORD, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
 		
 		UserPasswordResetConfirmationData postData = new UserPasswordResetConfirmationData();
 		postData.setEmail(email);

@@ -378,9 +378,6 @@ public class TVBroadcast
 				);
 		
 		boolean additionalFieldsOk = (
-//				getBeginTimeCalendarGMT() != null && (
-//						getBeginTimeCalendarGMT().get(Calendar.YEAR) > yearOf2000)  && getEndTimeCalendarGMT() != null &&
-//						(getEndTimeCalendarGMT().get(Calendar.YEAR) > yearOf2000) &&
 						getBeginTimeCalendarLocal() != null && (getBeginTimeCalendarLocal().get(Calendar.YEAR) > yearOf2000)  && getEndTimeCalendarLocal() != null &&
 						(getEndTimeCalendarLocal().get(Calendar.YEAR) > yearOf2000)  &&
 						getBroadcastDurationInMinutes() != null &&

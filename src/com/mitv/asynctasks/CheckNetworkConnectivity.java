@@ -20,7 +20,7 @@ public class CheckNetworkConnectivity
 	private static final String TAG = CheckNetworkConnectivity.class.getName();
 	
 	private ContentCallbackListener contentCallbackListener;
-	private ActivityCallbackListener activityCallBackListener;
+	private ActivityCallbackListener activityCallbackListener;
 	private RequestIdentifierEnum requestIdentifier;
 	
 	private Boolean isConnectedAndHostIsReachable;
@@ -29,11 +29,11 @@ public class CheckNetworkConnectivity
 	
 	public CheckNetworkConnectivity(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener,
+			ActivityCallbackListener activityCallbackListener,
 			RequestIdentifierEnum requestIdentifier)
 	{
 		this.contentCallbackListener = contentCallbackListener;
-		this.activityCallBackListener = activityCallBackListener;
+		this.activityCallbackListener = activityCallbackListener;
 		this.requestIdentifier = requestIdentifier;
 		
 		this.isConnectedAndHostIsReachable = false;
@@ -58,11 +58,11 @@ public class CheckNetworkConnectivity
 		{
 			if(isConnectedAndHostIsReachable)
 			{
-				contentCallbackListener.onResult(activityCallBackListener, requestIdentifier, FetchRequestResultEnum.INTERNET_CONNECTION_AVAILABLE, isConnectedAndHostIsReachable);
+				contentCallbackListener.onResult(activityCallbackListener, requestIdentifier, FetchRequestResultEnum.INTERNET_CONNECTION_AVAILABLE, isConnectedAndHostIsReachable);
 			}
 			else
 			{
-				contentCallbackListener.onResult(activityCallBackListener, requestIdentifier, FetchRequestResultEnum.INTERNET_CONNECTION_NOT_AVAILABLE, isConnectedAndHostIsReachable);
+				contentCallbackListener.onResult(activityCallbackListener, requestIdentifier, FetchRequestResultEnum.INTERNET_CONNECTION_NOT_AVAILABLE, isConnectedAndHostIsReachable);
 			}
 		}
 		else

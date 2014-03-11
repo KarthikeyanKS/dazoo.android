@@ -66,7 +66,7 @@ public class TVSearchAsyncTaskTest implements ContentCallbackListener
 
 
 	@Override
-	public void onResult(ActivityCallbackListener activityCallBackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content) {
+	public void onResult(ActivityCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content) {
 		Assert.assertTrue(result.wasSuccessful());
 		SearchResultsForQuery searchResultForQuery = (SearchResultsForQuery) content;
 		Assert.assertNotNull(searchResultForQuery);
