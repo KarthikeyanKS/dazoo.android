@@ -144,8 +144,16 @@ public class MyChannelsActivity
 		checkedChannelIds = myChannelIds;
 		channelsMatchingSearch = new ArrayList<TVChannel>(allChannelObjects);
 		
-		updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
-		
+		updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);	
+	}
+	
+	
+	
+	@Override
+	protected boolean hasEnoughDataToShowContent()
+	{
+		// TODO NewArc - Implement this
+		return false;
 	}
 	
 	

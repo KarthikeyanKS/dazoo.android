@@ -35,6 +35,7 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
@@ -61,11 +62,12 @@ public abstract class BaseActivity
 	private Button requestrequestNoInternetConnectionRetryButton;
 
 	protected ActionBar actionBar;
-	protected View seachIconView;
 
 	private boolean userHasJustLoggedIn;
 	private boolean userHasJustLoggedOut;
+	
 
+	
 	/* Abstract Methods */
 
 	/* This method implementation should update the user interface according to the received status */
@@ -74,6 +76,9 @@ public abstract class BaseActivity
 	/* This method implementation should load all the necessary data from the webservice */
 	protected abstract void loadData();
 
+	/* This method implementation should return true if all the data necessary to show the content view can be obtained from cache without the need of external service calls */
+	protected abstract boolean hasEnoughDataToShowContent();
+	
 	/* This method implementation should deal with changes after the data has been fetched */
 	protected abstract void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier);
 
@@ -109,9 +114,11 @@ public abstract class BaseActivity
 		initCallbackLayouts();
 	}
 	
+	
 
 	@Override
-	protected void onResume() {
+	protected void onResume() 
+	{
 		super.onResume();
 
 		/* IMPORTANT add activity to activity stack */
@@ -207,10 +214,15 @@ public abstract class BaseActivity
 		return mostRecentTabActivity;
 	}
 
-	private boolean thisIsTabActivity() {
+	
+	
+	private boolean thisIsTabActivity() 
+	{
 		return isTabActivity(this);
 	}
 
+	
+	
 	private static boolean isTabActivity(Activity activity) {
 		boolean isTabActivity = (activity instanceof HomeActivity || activity instanceof FeedActivity || activity instanceof UserProfileActivity);
 		return isTabActivity;
@@ -324,8 +336,10 @@ public abstract class BaseActivity
 				break;
 			}
 	
-			case R.id.tab_activity: {
-				if (!(this instanceof FeedActivity)) {
+			case R.id.tab_activity: 
+			{
+				if (!(this instanceof FeedActivity)) 
+				{
 					Intent intentActivity = new Intent(this, FeedActivity.class);
 					startActivity(intentActivity);
 					changedTab = true;
@@ -333,8 +347,10 @@ public abstract class BaseActivity
 				break;
 			}
 	
-			case R.id.tab_me: {
-				if (!(this instanceof UserProfileActivity)) {
+			case R.id.tab_me: 
+			{
+				if (!(this instanceof UserProfileActivity)) 
+				{
 					Intent intentMe = new Intent(this, UserProfileActivity.class);
 					startActivity(intentMe);
 					changedTab = true;
@@ -367,7 +383,7 @@ public abstract class BaseActivity
 
 		MenuItem searchIcon = menu.findItem(R.id.action_start_search);
 
-		seachIconView = MenuItemCompat.getActionView(searchIcon);
+		View seachIconView = MenuItemCompat.getActionView(searchIcon);
 
 		seachIconView.setOnClickListener(new OnClickListener() 
 		{
@@ -380,8 +396,6 @@ public abstract class BaseActivity
 			}
 		});
 		
-		//seachIconView.setVisibility(View.GONE);
-
 		MenuItem searchFieldItem = menu.findItem(R.id.searchfield);
 
 		searchFieldItem.setVisible(false);
@@ -394,29 +408,34 @@ public abstract class BaseActivity
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) 
 	{
-		switch (item.getItemId()) {
-		case android.R.id.home: {
-			/* Pressing the Home, which here is used as "up", should be same as pressing back */
-			onBackPressed();
-			return true;
-		}
-
-		case R.id.action_start_search: // Might be dead with actionView instead of icon...
+		switch (item.getItemId()) 
 		{
-			Intent toSearchPage = new Intent(BaseActivity.this, SearchPageActivity.class);
-			startActivity(toSearchPage);
-
-			return true;
-		}
-
-		default: {
-			return super.onOptionsItemSelected(item);
-		}
+			case android.R.id.home: 
+			{
+				/* Pressing the Home, which here is used as "up", should be same as pressing back */
+				onBackPressed();
+				return true;
+			}
+	
+			case R.id.action_start_search: // Might be dead with actionView instead of icon...
+			{
+				Intent toSearchPage = new Intent(BaseActivity.this, SearchPageActivity.class);
+				startActivity(toSearchPage);
+	
+				return true;
+			}
+	
+			default: 
+			{
+				return super.onOptionsItemSelected(item);
+			}
 		}
 	}
 
+	
 	@Override
-	protected void onStop() {
+	protected void onStop() 
+	{
 		super.onStop();
 
 		String className = this.getClass().getName();
@@ -426,22 +445,28 @@ public abstract class BaseActivity
 		EasyTracker.getInstance(this).activityStop(this);
 	}
 
+	
 	@Override
-	public void onBackPressed() {
+	public void onBackPressed() 
+	{
 		super.onBackPressed();
 
 		removeFromStack(this);
 	}
 
+	
 	@Override
-	protected void onDestroy() {
+	protected void onDestroy() 
+	{
 		removeFromStack(this);
 
 		super.onDestroy();
 	}
 
+	
 	@Override
-	public void setContentView(int layoutResID) {
+	public void setContentView(int layoutResID) 
+	{
 		super.setContentView(layoutResID);
 
 		actionBar = getSupportActionBar();
@@ -454,10 +479,11 @@ public abstract class BaseActivity
 		initCallbackLayouts();
 	}
 
+	
 	/*
 	 * This method checks for Internet connectivity before loading data
 	 */
-	protected void loadDataWithConnectivityCheck() 
+	public void loadDataWithConnectivityCheck() 
 	{
 		boolean isConnected = NetworkUtils.isConnected();
 
@@ -478,39 +504,61 @@ public abstract class BaseActivity
 		} 
 		else 
 		{
-			updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
-		}
-	}
-
-	@Override
-	public final void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {
-		switch (fetchRequestResult) {
-		case INTERNET_CONNECTION_AVAILABLE: {
-			loadData();
-			break;
-		}
-
-		case INTERNET_CONNECTION_NOT_AVAILABLE: {
-			updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
-			break;
-		}
-
-		default: 
-		{
-			if(requestIdentifier == RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL)
+			if(hasEnoughDataToShowContent())
 			{
 				loadData();
 			}
 			else
 			{
-				// The remaining cases should be handled by the subclasses
-				onDataAvailable(fetchRequestResult, requestIdentifier);
+				updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
 			}
-			break;
-		}
 		}
 	}
 
+	
+	
+	@Override
+	public final void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
+	{
+		switch (fetchRequestResult) 
+		{
+			case INTERNET_CONNECTION_AVAILABLE: 
+			{
+				loadData();
+				break;
+			}
+	
+			case INTERNET_CONNECTION_NOT_AVAILABLE: 
+			{
+				updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
+				break;
+			}
+			
+			case SUCCESS:
+			default:
+			{
+				if(requestIdentifier == RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL)
+				{
+					loadData();
+				}
+				else
+				{
+					boolean isConnected = NetworkUtils.isConnected();
+					
+					if(hasEnoughDataToShowContent() && isConnected == false)
+					{
+						DialogHelper.showNoInternetConnectionDialog(this, 2000);
+					}
+					
+					onDataAvailable(fetchRequestResult, requestIdentifier);
+				}
+				break;
+			}
+		}
+	}
+
+	
+	
 	protected void updateUIBaseElements(UIStatusEnum status) 
 	{
 		boolean activityNotNullOrFinishing = GenericUtils.isActivityNotNullOrFinishing(this);
@@ -533,11 +581,6 @@ public abstract class BaseActivity
 				case NO_CONNECTION_AVAILABLE:
 				case FAILED:
 				{
-					if(seachIconView != null)
-					{
-						seachIconView.setVisibility(View.GONE);
-					}
-					
 					if (requestNoInternetConnectionLayout != null)
 					{
 						requestNoInternetConnectionLayout.setVisibility(View.VISIBLE);
@@ -547,11 +590,6 @@ public abstract class BaseActivity
 	
 				case SUCCESS_WITH_NO_CONTENT:
 				{
-					if(seachIconView != null)
-					{
-						seachIconView.setVisibility(View.VISIBLE);
-					}
-					
 					if (requestEmptyLayout != null)
 					{
 						requestEmptyLayout.setVisibility(View.VISIBLE);
@@ -562,11 +600,6 @@ public abstract class BaseActivity
 				case SUCCEEDED_WITH_DATA:
 				default:
 				{
-					if(seachIconView != null)
-					{
-						seachIconView.setVisibility(View.VISIBLE);
-					}
-					
 					// Success or other cases should be handled by the subclasses
 					break;
 				}

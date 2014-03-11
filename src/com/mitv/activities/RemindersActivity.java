@@ -107,6 +107,15 @@ public class RemindersActivity
 	
 	
 	@Override
+	protected boolean hasEnoughDataToShowContent()
+	{
+		// TODO NewArc - Implement this
+		return false;
+	}
+	
+	
+	
+	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
 		// Do nothing (the reminders list is  populated in a synchronous way)

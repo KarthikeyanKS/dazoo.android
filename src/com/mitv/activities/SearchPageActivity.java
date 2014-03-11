@@ -307,6 +307,17 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 	protected void loadData() {
 		// TODO NewArc - do we need anything here?
 	}
+	
+	
+	
+	@Override
+	protected boolean hasEnoughDataToShowContent()
+	{
+		// TODO NewArc - Implement this
+		return true;
+	}
+	
+	
 
 	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {

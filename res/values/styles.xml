@@ -124,6 +124,11 @@
     <style name="remove_notification_dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
+    
+    <!-- Notification Dialog -->
+    <style name="no_connection_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
 
     <style name="remove_notification_dialog_title" parent="@android:style/TextAppearance.DialogWindowTitle">
         <item name="android:gravity">center</item>

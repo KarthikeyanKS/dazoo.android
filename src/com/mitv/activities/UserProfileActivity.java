@@ -103,6 +103,15 @@ public class UserProfileActivity
 			updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
 		}
 	}
+	
+	
+	
+	@Override
+	protected boolean hasEnoughDataToShowContent()
+	{
+		// TODO NewArc - Implement this
+		return false;
+	}
 
 	
 	
@@ -151,7 +160,7 @@ public class UserProfileActivity
 		{
 			case LOADING: 
 			{
-				// Do nothing
+				scrollView.setVisibility(View.GONE);
 				break;
 			}
 			
