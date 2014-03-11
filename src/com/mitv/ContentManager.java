@@ -559,7 +559,7 @@ public class ContentManager
 	{
 		if (!forceDownload && cache.containsTVGuideForTVDate(tvDate)) 
 		{
-			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL);
+			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.TV_GUIDE_STANDALONE);
 		} 
 		else 
 		{
@@ -1233,6 +1233,15 @@ public class ContentManager
 		ArrayList<TVChannelId> tvChannelIdsUser = cache.getTvChannelIdsUsed();
 		return tvChannelIdsUser;
 	}
+	
+	public boolean getFromCacheHasInitialData()
+	{
+		// TODO NewArc - This verification is incomplete 
+		boolean hasInitialData = cache.containsAppConfigData();
+				
+		return hasInitialData;
+	}
+	
 
 	public void setTVDateSelectedUsingIndexAndFetchGuideForDay(ActivityCallbackListener activityCallbackListener, int tvDateIndex) 
 	{
@@ -1318,6 +1327,12 @@ public class ContentManager
 		AppConfiguration appConfiguration = cache.getAppConfigData();
 		
 		return appConfiguration;
+	}
+	
+	
+	public boolean getFromCacheHasAppConfiguration()
+	{
+		return (getFromCacheAppConfiguration() != null);
 	}
 	
 	

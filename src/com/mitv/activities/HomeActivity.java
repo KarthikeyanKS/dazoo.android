@@ -117,6 +117,8 @@ public class HomeActivity
 	@Override
 	protected void attachFragment() 
 	{
+		FragmentManager fm = getSupportFragmentManager();
+		
 		if(activeFragment == null)
 		{
 			activeFragment = TVHolderFragment.newInstance(selectedTagIndex, new OnViewPagerIndexChangedListener() 
@@ -127,9 +129,13 @@ public class HomeActivity
 					selectedTagIndex = position;
 				}
 			});
+			
+			fm.beginTransaction().replace(R.id.fragment_container, activeFragment, null).commit();
 		}
-		
-		getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, activeFragment, null).commitAllowingStateLoss();
+		else
+		{
+			fm.beginTransaction().attach(activeFragment).commit();
+		}
 	}
 	
 
@@ -142,6 +148,8 @@ public class HomeActivity
 			if (activeFragment != null) 
 			{
 				getSupportFragmentManager().beginTransaction().remove(activeFragment).commitAllowingStateLoss();
+				
+				activeFragment = null;
 			}
 		} 
 		catch (Exception e) 
@@ -173,6 +181,15 @@ public class HomeActivity
 	
 	
 	@Override
+	protected boolean hasEnoughDataToShowContent()
+	{
+		// TODO NewArc - Implement this
+		return false;
+	}
+	
+	
+	
+	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
 		if(fetchRequestResult.wasSuccessful())
@@ -196,7 +213,14 @@ public class HomeActivity
 		{	
 			case SUCCEEDED_WITH_DATA:
 			{
+				showDaySelection();
 				attachFragment();
+				break;
+			}
+			
+			case NO_CONNECTION_AVAILABLE:
+			{
+				hideDaySelection();
 				break;
 			}
 	

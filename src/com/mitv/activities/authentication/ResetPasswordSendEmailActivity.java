@@ -67,6 +67,15 @@ public class ResetPasswordSendEmailActivity
 			errorTextView.setText(getResources().getString(R.string.signup_with_email_error_email_incorrect));
 		}
 	}
+	
+	
+	
+	@Override
+	protected boolean hasEnoughDataToShowContent()
+	{
+		// TODO NewArc - Implement this
+		return false;
+	}
 
 	
 	

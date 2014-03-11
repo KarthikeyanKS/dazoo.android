@@ -73,6 +73,16 @@ public class RepetitionsOrUpcomingPage
 		updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
 	}
 	
+	
+	
+	@Override
+	protected boolean hasEnoughDataToShowContent()
+	{
+		return true;
+	}
+	
+	
+	
 	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{

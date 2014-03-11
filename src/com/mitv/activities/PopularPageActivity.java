@@ -56,13 +56,25 @@ public class PopularPageActivity extends BaseContentActivity implements
 		finish();
 	}
 
+	
 	@Override
-	protected void loadData() {
+	protected void loadData() 
+	{
 		updateUI(UIStatusEnum.LOADING);
 
-		ContentManager.sharedInstance()
-				.getElseFetchFromServicePopularBroadcasts(this, false);
+		ContentManager.sharedInstance().getElseFetchFromServicePopularBroadcasts(this, false);
 	}
+	
+	
+	
+	@Override
+	protected boolean hasEnoughDataToShowContent()
+	{
+		// TODO NewArc - Implement this
+		return false;
+	}
+	
+	
 
 	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult,

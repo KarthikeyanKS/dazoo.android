@@ -470,10 +470,10 @@ public abstract class Constants
 	public static final String SHARED_PREFERENCES_APP_WAS_PREINSTALLED = "com.mitv.app.preinstalled";
 	
 	
-	public static final boolean ENABLE_STRICT_MODE = true;
+	public static final boolean ENABLE_STRICT_MODE = false;
 	
 	/* CONFIGURATIONS FOR RELEASE */
-	public static final boolean USE_DEFAULT_GOOGLE_TRACKING_ID = true;
+	public static final boolean FORCE_DEFAULT_GOOGLE_TRACKING_ID = true;
 	public static final boolean USE_HOCKEY_APP_CRASH_REPORTS = true;
 	public static final boolean USE_HOCKEY_APP_UPDATE_NOTIFICATIONS = false;
 	

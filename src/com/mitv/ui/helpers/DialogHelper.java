@@ -3,6 +3,9 @@ package com.mitv.ui.helpers;
 
 
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -11,9 +14,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.mitv.ContentManager;
 import com.mitv.R;
-import com.mitv.activities.SplashScreenActivity;
+import com.mitv.activities.base.BaseActivity;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.models.TVBroadcast;
 
@@ -280,23 +282,23 @@ public class DialogHelper
 	
 	
 	
-	public static void showMandatoryFirstTimeInternetConnection(final SplashScreenActivity activity) 
+	public static void showNoInternetConnectionDialog(
+			final BaseActivity activity,
+			final int dismissAfterMiliseconds)
 	{
-		final Dialog dialog = new Dialog(activity, R.style.remove_notification_dialog);
+		final Dialog dialog = new Dialog(activity, R.style.no_connection_dialog);
 		
 		dialog.setContentView(R.layout.dialog_prompt_no_connection);
 		dialog.setCancelable(false);
 
-		final Button retryButton = (Button) dialog.findViewById(R.id.dialog_prompt_retry_button);
+		final Button retryButton = (Button) dialog.findViewById(R.id.dialog_no_connection_retry_button);
 		
 		retryButton.setOnClickListener(new View.OnClickListener() 
 		{
 			@Override
 			public void onClick(View v)
 			{
-				ContentManager.sharedInstance().fetchFromServiceInitialCall(activity, activity);
-				
-				retryButton.setEnabled(false);
+				activity.loadDataWithConnectivityCheck();
 				
 				dialog.dismiss();
 			}
@@ -305,6 +307,20 @@ public class DialogHelper
 		if(!activity.isFinishing())
 		{
 			 dialog.show();
+			 
+			 final Timer timer = new Timer();
+             
+			 TimerTask timerTask = new TimerTask() 
+             {
+                 public void run() 
+                 {
+                	 dialog.dismiss();
+                     
+                	 timer.cancel();
+                 }
+             };
+			 
+			 timer.schedule(timerTask, dismissAfterMiliseconds);
 		}
 	}
 }

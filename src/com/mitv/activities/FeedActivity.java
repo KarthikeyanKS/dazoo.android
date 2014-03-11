@@ -251,6 +251,15 @@ public class FeedActivity
 			updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
 		}
 	}
+	
+	
+	
+	@Override
+	protected boolean hasEnoughDataToShowContent()
+	{
+		// TODO NewArc - Implement this
+		return false;
+	}
 
 	
 	

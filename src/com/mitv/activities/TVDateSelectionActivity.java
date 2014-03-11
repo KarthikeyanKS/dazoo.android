@@ -22,6 +22,7 @@ public abstract class TVDateSelectionActivity
 	implements OnNavigationListener 
 {
 	private ActionBarDropDownDateListAdapter dayAdapter;
+	
 	protected ActivityCallbackListener activityCallbackListener;
 	private boolean onNavigationItemSelectedHasBeenCalledByOSYet = false;
 
@@ -37,14 +38,39 @@ public abstract class TVDateSelectionActivity
 	{
 		super.setContentView(layoutResID);
 
-		ArrayList<TVDate> tvDates = ContentManager.sharedInstance().getFromCacheTVDates();
-		
-		dayAdapter = new ActionBarDropDownDateListAdapter(this, tvDates);
-	
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-		actionBar.setListNavigationCallbacks(dayAdapter, this);
+		showDaySelection();
 		
 		setActivityCallbackListener();
+	}
+	
+	
+	
+	protected void hideDaySelection()
+	{
+		int currentNavigationMode = actionBar.getNavigationMode();
+		
+		if(currentNavigationMode != ActionBar.NAVIGATION_MODE_STANDARD)
+		{
+			actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		}
+	}
+	
+	
+	
+	protected void showDaySelection()
+	{
+		int currentNavigationMode = actionBar.getNavigationMode();
+		
+		if(currentNavigationMode != ActionBar.NAVIGATION_MODE_LIST)
+		{
+			ArrayList<TVDate> tvDates = ContentManager.sharedInstance().getFromCacheTVDates();
+			
+			dayAdapter = new ActionBarDropDownDateListAdapter(this, tvDates);
+			
+			actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+			
+			actionBar.setListNavigationCallbacks(dayAdapter, this);
+		}
 	}
 	
 	
@@ -54,11 +80,23 @@ public abstract class TVDateSelectionActivity
 	{
 		super.onResume();
 		
-		int selectedDayIndex = ContentManager.sharedInstance().getFromCacheTVDateSelectedIndex();
-		
-		dayAdapter.setSelectedIndex(selectedDayIndex);
-		
-		actionBar.setSelectedNavigationItem(selectedDayIndex);
+		switch(actionBar.getNavigationMode())
+		{
+			case ActionBar.NAVIGATION_MODE_LIST:
+			{
+				int selectedDayIndex = ContentManager.sharedInstance().getFromCacheTVDateSelectedIndex();
+				
+				dayAdapter.setSelectedIndex(selectedDayIndex);
+				
+				actionBar.setSelectedNavigationItem(selectedDayIndex);
+				break;
+			}
+			
+			default:
+			{
+				// Do nothing
+			}
+		}
 	}
 	
 	
@@ -75,9 +113,21 @@ public abstract class TVDateSelectionActivity
 		{
 			dayAdapter.setSelectedIndex(position);
 			
-			actionBar.setSelectedNavigationItem(position);
-			
-			fetchGuideForSelectedDay(position);
+			switch(actionBar.getNavigationMode())
+			{
+				case ActionBar.NAVIGATION_MODE_LIST:
+				{
+					actionBar.setSelectedNavigationItem(position);
+					
+					fetchGuideForSelectedDay(position);
+					break;
+				}
+				
+				default:
+				{
+					// Do nothing
+				}
+			}
 		}
 
 		return true;

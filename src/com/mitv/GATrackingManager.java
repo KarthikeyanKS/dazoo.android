@@ -67,15 +67,21 @@ public class GATrackingManager
 	
 	public void updateConfiguration() 
 	{
-		String trackingId = ContentManager.sharedInstance().getFromCacheAppConfiguration().getGoogleAnalyticsTrackingId();
+		String trackingId;
 		
-		boolean useDefaultGATrackingID = Constants.USE_DEFAULT_GOOGLE_TRACKING_ID;
+		boolean cacheHasAppConfiguration = ContentManager.sharedInstance().getFromCacheHasAppConfiguration();
 		
-		if(useDefaultGATrackingID || trackingId == null || trackingId.isEmpty()) 
+		boolean forceDefaultGATrackingID = Constants.FORCE_DEFAULT_GOOGLE_TRACKING_ID;
+		
+		if(cacheHasAppConfiguration && !forceDefaultGATrackingID)
+		{
+			trackingId = ContentManager.sharedInstance().getFromCacheAppConfiguration().getGoogleAnalyticsTrackingId();
+		}
+		else
 		{
 			trackingId = context.getString(R.string.ga_trackingId_mitv_hardcoded);
 		}
-
+		
 		GoogleAnalytics googleAnalyticsInstance = GoogleAnalytics.getInstance(context);
 		
 		this.tracker = googleAnalyticsInstance.getTracker(trackingId);
@@ -92,13 +98,17 @@ public class GATrackingManager
 		String wasPreinstalledExternalStorage = preinstalledCheckingExternalStorage ? Constants.PREFS_KEY_APP_WAS_PREINSTALLED : Constants.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
     	String wasPreinstalledSystemAppLocation = preinstalledUsingSystemAppDetectionCheckLocation ? Constants.PREFS_KEY_APP_WAS_PREINSTALLED : Constants.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
     	String wasPreinstalledSystemAppFlag = preinstalledUsingSystemAppDetectionCheckFlag ? Constants.PREFS_KEY_APP_WAS_PREINSTALLED : Constants.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
-				
-		double sampleRateDecimal = ContentManager.sharedInstance().getFromCacheAppConfiguration().getGoogleAnalyticsSampleRate();
-		
-		if(sampleRateDecimal == 0) 
+			
+    	double sampleRateDecimal;
+    	
+    	if(cacheHasAppConfiguration)
 		{
-			sampleRateDecimal = 1.0d;
+    		sampleRateDecimal = ContentManager.sharedInstance().getFromCacheAppConfiguration().getGoogleAnalyticsSampleRate();
 		}
+    	else
+    	{
+    		sampleRateDecimal = context.getResources().getInteger(R.integer.ga_sampleRateHardcoded);
+    	}
 		
 		double sampleRateAsPercentage = sampleRateDecimal * 100.0d;
 		

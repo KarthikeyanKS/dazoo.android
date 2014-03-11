@@ -5,9 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-	<include layout="@layout/layout_request_empty"/>
-   	<include layout="@layout/layout_request_failed_main"/>
    	<include layout="@layout/layout_request_loading"/>
-   	<include layout="@layout/layout_request_bad_request"/>
+   	<include layout="@layout/layout_request_empty"/>
+   	<include layout="@layout/layout_request_no_internet_connection"/>
    	
 </RelativeLayout>
