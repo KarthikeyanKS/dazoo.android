@@ -118,8 +118,10 @@ public class BroadcastPageActivity
 		{	
 			case SUCCEEDED_WITH_DATA:
 			{				
-				purgeView();
-				populateBlocks();
+//				purgeView();
+				if(!hasPopulatedViews) {
+					populateBlocks();
+				}
 				break;
 			}
 	
@@ -146,23 +148,18 @@ public class BroadcastPageActivity
 	}
 	
 	private void purgeView() {
-		if(hasPopulatedViews) {
-//			scrollView.removeAllViews();
+//		if(hasPopulatedViews) {
+//			scrollView = (ScrollView) findViewById(R.id.broadcast_scroll);
 //			scrollView.updateViewLayout(scrollView, null);
-			
-			/* TODO: NewArc - This is the wrong way to do this
-			 * Error: BroadcastMainBlockPopulator row: containerView.addView(topContentView);
-			 * Error: containerView is null */
-			startActivity(this.getIntent());
-		}
+//		}
 	}
 	
 	private void populateBlocks()
 	{
 		hasPopulatedViews = true;
-		BroadcastMainBlockPopulator mainBlockPopulator = new BroadcastMainBlockPopulator(this, scrollView);
+		BroadcastMainBlockPopulator mainBlockPopulator = new BroadcastMainBlockPopulator(this);
 		
-		mainBlockPopulator.createBlock(broadcastWithChannelInfo);
+		mainBlockPopulator.createBlock(scrollView, broadcastWithChannelInfo);
 
 		 //TODO NewArc should we remove those irrelevant broadcasts in the AsynkTask (GetTVBroadcastsFromSeries) instead?
 		/* Remove upcoming broadcasts with season 0 and episode 0 */

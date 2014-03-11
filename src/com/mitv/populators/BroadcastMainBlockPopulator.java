@@ -44,10 +44,9 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 	private String contentTitle;
 
 
-	public BroadcastMainBlockPopulator(Activity activity, ScrollView scrollView)
+	public BroadcastMainBlockPopulator(Activity activity)
 	{
 		this.activity = activity;
-		this.scrollView = scrollView;
 	}
 
 	private String getYearString(TVProgram program) {
@@ -63,8 +62,9 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 		return genreString;
 	}
 
-	public void createBlock(final TVBroadcastWithChannelInfo broadcastWithChannelInfo) 
+	public void createBlock(ScrollView scrollView, final TVBroadcastWithChannelInfo broadcastWithChannelInfo) 
 	{
+		this.scrollView = scrollView;
 		LinearLayout containerView = (LinearLayout) scrollView.findViewById(R.id.broacastpage_block_container_layout);
 
 		View topContentView = LayoutInflater.from(activity).inflate(R.layout.block_broadcastpage_main_content, null);
