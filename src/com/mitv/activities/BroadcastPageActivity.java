@@ -8,6 +8,7 @@ import java.util.LinkedList;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
@@ -23,9 +24,11 @@ import com.mitv.models.TVBroadcast;
 import com.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.models.TVChannelId;
 import com.mitv.models.TVProgram;
+import com.mitv.models.UserLike;
 import com.mitv.populators.BroadcastMainBlockPopulator;
 import com.mitv.populators.BroadcastRepetitionsBlockPopulator;
 import com.mitv.populators.BroadcastUpcomingBlockPopulator;
+import com.mitv.ui.elements.LikeView;
 
 
 
@@ -43,7 +46,7 @@ public class BroadcastPageActivity
 	private ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts;
 	private ScrollView scrollView;
 	public static Toast toast;
-	
+	boolean isLiked = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -114,12 +117,9 @@ public class BroadcastPageActivity
 		switch (status) 
 		{	
 			case SUCCEEDED_WITH_DATA:
-			{
-				/* Now we have broadcastWithChannelInfo object => notify backend that we have entered the broadcast page for this broadcast, observe: no tracking will be performed if broadcast was created from notification */
-				ContentManager.sharedInstance().performInternalTracking(broadcastWithChannelInfo);
-				if(!hasPopulatedViews) {
-					populateBlocks();
-				}
+			{				
+				purgeView();
+				populateBlocks();
 				break;
 			}
 	
@@ -145,12 +145,24 @@ public class BroadcastPageActivity
 		return isProgramIrrelevantAndShouldBeDeleted;
 	}
 	
+	private void purgeView() {
+		if(hasPopulatedViews) {
+//			scrollView.removeAllViews();
+//			scrollView.updateViewLayout(scrollView, null);
+			
+			/* TODO: NewArc - This is the wrong way to do this
+			 * Error: BroadcastMainBlockPopulator row: containerView.addView(topContentView);
+			 * Error: containerView is null */
+			startActivity(this.getIntent());
+		}
+	}
+	
 	private void populateBlocks()
 	{
 		hasPopulatedViews = true;
 		BroadcastMainBlockPopulator mainBlockPopulator = new BroadcastMainBlockPopulator(this, scrollView);
-
-		 mainBlockPopulator.createBlock(broadcastWithChannelInfo);
+		
+		mainBlockPopulator.createBlock(broadcastWithChannelInfo);
 
 		 //TODO NewArc should we remove those irrelevant broadcasts in the AsynkTask (GetTVBroadcastsFromSeries) instead?
 		/* Remove upcoming broadcasts with season 0 and episode 0 */
