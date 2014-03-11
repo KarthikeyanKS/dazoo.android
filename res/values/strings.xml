@@ -296,8 +296,8 @@
     <string name="dialog_prompt_update_text">You must update mi.tv to the latest version!</string>
     <string name="dialog_prompt_update_google_play">Go to Google play</string>
 
-    
+    <!-- NO CONNECTION CUSTOM DIALOG -->
     <string name="dialog_prompt_check_internet_connection">Please check your internet connection</string> 
-    <string name="dialog_prompt_check_internet_connection_retry_buttom">Retry</string> 
+    <string name="dialog_prompt_check_internet_connection_button">Retry</string> 
     
 </resources>

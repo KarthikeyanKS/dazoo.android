@@ -3,9 +3,6 @@ package com.mitv.ui.helpers;
 
 
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -13,9 +10,7 @@ import android.net.Uri;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.mitv.R;
-import com.mitv.activities.base.BaseActivity;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.models.TVBroadcast;
 
@@ -24,8 +19,8 @@ import com.mitv.models.TVBroadcast;
 public class DialogHelper 
 {
 	@SuppressWarnings("unused")
-	private static final String	TAG	= DialogHelper.class.getName();
-		
+	private static final String	TAG	= DialogHelper.class.getName();		
+	
 	
 
 	public static void showRemoveNotificationDialog(
@@ -277,50 +272,6 @@ public class DialogHelper
 		if(!activity.isFinishing())
 		{
 			 dialog.show();
-		}
-	}
-	
-	
-	
-	public static void showNoInternetConnectionDialog(
-			final BaseActivity activity,
-			final int dismissAfterMiliseconds)
-	{
-		final Dialog dialog = new Dialog(activity, R.style.no_connection_dialog);
-		
-		dialog.setContentView(R.layout.dialog_prompt_no_connection);
-		dialog.setCancelable(false);
-
-		final Button retryButton = (Button) dialog.findViewById(R.id.dialog_no_connection_retry_button);
-		
-		retryButton.setOnClickListener(new View.OnClickListener() 
-		{
-			@Override
-			public void onClick(View v)
-			{
-				activity.loadDataWithConnectivityCheck();
-				
-				dialog.dismiss();
-			}
-		});
-		
-		if(!activity.isFinishing())
-		{
-			 dialog.show();
-			 
-			 final Timer timer = new Timer();
-             
-			 TimerTask timerTask = new TimerTask() 
-             {
-                 public void run() 
-                 {
-                	 dialog.dismiss();
-                     
-                	 timer.cancel();
-                 }
-             };
-			 
-			 timer.schedule(timerTask, dismissAfterMiliseconds);
 		}
 	}
 }

@@ -23,16 +23,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <!--
-                  ImageView
-                android:id="@+id/activity_poster"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                android:src="@color/grey1" /
-            -->
-
-
             <!-- TITLES -->
 
             <com.mitv.ui.elements.FontTextView
@@ -263,5 +253,9 @@
         android:layout_height="match_parent"
         android:layout_above="@id/tab_selector_container"
         layout="@layout/layout_request_callbacks_holder_main_layout" />
+    
+    <include
+        android:layout_above="@id/tab_selector_container"
+        layout="@layout/layout_undo_bar" />
 
 </RelativeLayout>

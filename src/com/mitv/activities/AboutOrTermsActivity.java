@@ -3,7 +3,6 @@ package com.mitv.activities;
 
 
 
-import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.mitv.R;
 import com.mitv.activities.base.BaseActivity;
 import com.mitv.enums.FetchRequestResultEnum;

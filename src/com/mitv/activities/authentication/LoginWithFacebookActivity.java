@@ -3,7 +3,6 @@ package com.mitv.activities.authentication;
 
 
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -42,7 +41,6 @@ public class LoginWithFacebookActivity
 	private ActionBar actionBar;
 	
 	private String facebookToken;
-	private String facebookId;
 	
 
 	
@@ -94,7 +92,6 @@ public class LoginWithFacebookActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		// TODO NewArc - Implement this
 		return false;
 	}
 	
@@ -275,17 +272,6 @@ public class LoginWithFacebookActivity
 				{
 					case AJAX_STATUS_OK:
 					{
-						try 
-						{
-							facebookId = json.getString("id");
-						} 
-						catch (JSONException jsex) 
-						{
-							Log.e(TAG, jsex.getMessage(), jsex);
-	
-							facebookId = null;
-						}
-	
 						loadData();
 						break;
 					}

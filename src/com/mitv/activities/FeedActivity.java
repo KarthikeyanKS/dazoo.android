@@ -257,8 +257,19 @@ public class FeedActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		// TODO NewArc - Implement this
-		return false;
+		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+		
+		if(isLoggedIn)
+		{
+			boolean hasEnoughDataToShowContent = ContentManager.sharedInstance().getFromCacheHasActivityFeed() && 
+												 ContentManager.sharedInstance().getFromCacheHasUserLikes();
+			
+			return hasEnoughDataToShowContent;
+		}
+		else
+		{
+			return true;
+		}
 	}
 
 	

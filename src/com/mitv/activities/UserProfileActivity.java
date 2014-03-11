@@ -110,8 +110,16 @@ public class UserProfileActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		// TODO NewArc - Implement this
-		return false;
+		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+
+		if (isLoggedIn) 
+		{
+			return ContentManager.sharedInstance().getFromCacheHasUserLikes();
+		}
+		else
+		{
+			return true;
+		}
 	}
 
 	

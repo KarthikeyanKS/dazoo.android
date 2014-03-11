@@ -73,8 +73,7 @@ public class ResetPasswordSendEmailActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		// TODO NewArc - Implement this
-		return false;
+		return true;
 	}
 
 	

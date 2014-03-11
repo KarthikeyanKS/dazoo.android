@@ -8,6 +8,7 @@ import java.util.Stack;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Parcelable;
 import android.os.StrictMode;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
@@ -35,7 +36,8 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ActivityCallbackListener;
-import com.mitv.ui.helpers.DialogHelper;
+import com.mitv.ui.elements.UndoBarController;
+import com.mitv.ui.elements.UndoBarController.UndoListener;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
@@ -44,7 +46,7 @@ import com.mitv.utilities.NetworkUtils;
 
 public abstract class BaseActivity 
 	extends ActionBarActivity 
-	implements ActivityCallbackListener, OnClickListener 
+	implements ActivityCallbackListener, OnClickListener, UndoListener 
 {
 	private static final String TAG = BaseActivity.class.getName();
 	private static Stack<Activity> activityStack = new Stack<Activity>();
@@ -60,9 +62,10 @@ public abstract class BaseActivity
 	private RelativeLayout requestLoadingLayout;
 	private RelativeLayout requestNoInternetConnectionLayout;
 	private Button requestrequestNoInternetConnectionRetryButton;
-
+	
 	protected ActionBar actionBar;
-
+	private UndoBarController undoBarController;
+	
 	private boolean userHasJustLoggedIn;
 	private boolean userHasJustLoggedOut;
 	
@@ -94,7 +97,7 @@ public abstract class BaseActivity
 			 StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
              .detectDiskReads()
              .detectDiskWrites()
-             .detectNetwork()   // or .detectAll() for all detectable problems
+             .detectNetwork()
              .penaltyLog()
              .build());
      
@@ -110,9 +113,15 @@ public abstract class BaseActivity
 		EasyTracker.getInstance(this).activityStart(this);
 		String className = this.getClass().getName();
 		GATrackingManager.sendView(className);
-
-		initCallbackLayouts();
 	}
+	
+	
+	
+	@Override
+    public void onUndo(Parcelable token) 
+	{
+		loadDataWithConnectivityCheck();
+    }
 	
 	
 
@@ -123,7 +132,7 @@ public abstract class BaseActivity
 
 		/* IMPORTANT add activity to activity stack */
 		pushActivityToStack(this);
-
+		
 		setTabViews();
 
 		Intent intent = getIntent();
@@ -507,7 +516,7 @@ public abstract class BaseActivity
 	/*
 	 * This method checks for Internet connectivity before loading data
 	 */
-	public void loadDataWithConnectivityCheck() 
+	protected void loadDataWithConnectivityCheck() 
 	{
 		boolean isConnected = NetworkUtils.isConnected();
 
@@ -575,7 +584,14 @@ public abstract class BaseActivity
 					
 					if(hasEnoughDataToShowContent() && isConnected == false)
 					{
-						DialogHelper.showNoInternetConnectionDialog(this, 2000);
+						if(undoBarController != null)
+						{
+							undoBarController.showUndoBar(true, getString(R.string.dialog_prompt_check_internet_connection), null);
+						}
+						else
+						{
+							Log.w(TAG, "Undo bar component is null.");
+						}
 					}
 					
 					onDataAvailable(fetchRequestResult, requestIdentifier);
@@ -676,6 +692,17 @@ public abstract class BaseActivity
 		if (requestrequestNoInternetConnectionRetryButton != null) 
 		{
 			requestrequestNoInternetConnectionRetryButton.setOnClickListener(this);
+		}
+		
+		View undoBarlayoutView = findViewById(R.id.undobar);
+		
+		if(undoBarlayoutView != null)
+		{
+			undoBarController = new UndoBarController(undoBarlayoutView, this);
+		}
+		else
+		{
+			Log.w(TAG, "Undo bar element not present.");
 		}
 	}
 

@@ -140,14 +140,19 @@ public class ChannelPageActivity
 		channelGuide = ContentManager.sharedInstance().getFromCacheTVChannelGuideUsingTVChannelIdForSelectedDay(channel.getChannelId());
 		
 		ImageAware imageAware = new ImageViewAware(channelIconIv, false);
+		
 		ImageLoader.getInstance().displayImage(channelGuide.getImageUrl(), imageAware);
 
 		ArrayList<TVBroadcast> currentAndUpcomingbroadcasts = channelGuide.getCurrentAndUpcomingBroadcastsUsingCurrentTime();
 		
-		if(currentAndUpcomingbroadcasts != null && !currentAndUpcomingbroadcasts.isEmpty()) {
+		if(currentAndUpcomingbroadcasts != null && !currentAndUpcomingbroadcasts.isEmpty()) 
+		{
 			setFollowingBroadcasts(currentAndUpcomingbroadcasts);
+			
 			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
-		} else {
+		} 
+		else 
+		{
 			updateUI(UIStatusEnum.FAILED);
 		}
 	}
@@ -157,8 +162,7 @@ public class ChannelPageActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		// TODO NewArc - Implement this
-		return false;
+		return ContentManager.sharedInstance().getFromCacheHasTVChannelGuideUsingTVChannelIdForSelectedDay(channel.getChannelId());
 	}
 
 	
