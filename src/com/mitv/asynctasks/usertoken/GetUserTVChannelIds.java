@@ -28,12 +28,28 @@ public class GetUserTVChannelIds
 	
 	public GetUserTVChannelIds(
 			final ContentCallbackListener contentCallbackListener,
-			final ActivityCallbackListener activityCallBackListener) 
+			final ActivityCallbackListener activityCallbackListener,
+			boolean standalone) 
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.TV_CHANNEL_IDS_USER, TVChannelId[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), TVChannelId[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
 	}
 	
 	
+	private static RequestIdentifierEnum getRequestIdentifier(boolean standalone)
+	{
+		RequestIdentifierEnum requestIdentifier;
+		
+		if(standalone)
+		{
+			requestIdentifier = RequestIdentifierEnum.TV_CHANNEL_IDS_USER_STANDALONE;
+		}
+		else
+		{
+			requestIdentifier = RequestIdentifierEnum.TV_CHANNEL_IDS_USER_INITIAL_CALL;
+		}
+		
+		return requestIdentifier;
+	}
 	
 	@Override
 	protected Void doInBackground(String... params) 

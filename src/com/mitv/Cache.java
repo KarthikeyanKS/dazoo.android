@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.SparseArray;
 
 import com.mitv.listadapters.AdListAdapter;
@@ -33,6 +34,8 @@ import com.mitv.utilities.AppDataUtils;
 
 public class Cache 
 {
+	private static final String TAG = Cache.class.getName();
+	
 	private ArrayList<TVTag> tvTags;
 	private ArrayList<TVDate> tvDates;
 	private ArrayList<TVChannelId> tvChannelIdsDefault;
@@ -46,8 +49,8 @@ public class Cache
 	/* Should contain ALL channels provided by the backend, some hundreds or so */
 	private ArrayList<TVChannel> tvChannels;
 	
-	/* Key is the id from the TVDate */
-	private HashMap<String, TVGuide> tvGuides;
+	/* Maps a day to a TVGuide, G, using the id of the TVDate as key. G may contain TVChannelGuides for TVChannels that the user have removed from her channel list */
+	private HashMap<String, TVGuide> tvGuidesAll;
 	
 	/* Key for the wrapping Map, wMap, is the id from the TVDate, which gets you an inner Map, iMap, which key is a TVTag
 	 * The value stored in iMap is a list of "tagged" broadcasts for the TVTag provided as key to iMap. 
@@ -67,7 +70,7 @@ public class Cache
 	
 	/* This Map is a collection of listAdapters used by HomeActivity in order to save the downloaded ads associated with each listadapter for listviews */
 	@SuppressWarnings("rawtypes")
-	private HashMap<String, AdListAdapter> adapterMap;
+//	private HashMap<String, AdListAdapter> adapterMap;
 	
 	private ArrayList<UserLike> userLikes;
 	
@@ -89,6 +92,8 @@ public class Cache
 	
 	
 	/* NON-PERSISTENT USER DATA, USED FOR PASSING DATA BETWEEN ACTIVITIES */
+	private boolean nonPersistentFlagUpdatingGuide;
+	
 	private TVBroadcastWithChannelInfo nonPersistentSelectedBroadcastWithChannelInfo;
 	private UpcomingBroadcastsForBroadcast nonPersistentUpcomingBroadcasts;
 	private RepeatingBroadcastsForBroadcast nonPersistentRepeatingBroadcasts;
@@ -103,8 +108,10 @@ public class Cache
 	/* Should only be used by the ContentManager */
 	public Cache()
 	{
-		this.tvGuides = new HashMap<String, TVGuide>();
-		this.adapterMap = new HashMap<String, AdListAdapter>();
+		this.nonPersistentFlagUpdatingGuide = false;
+		
+		this.tvGuidesAll = new HashMap<String, TVGuide>();
+//		this.adapterMap = new HashMap<String, AdListAdapter>();
 		this.userLikes = new ArrayList<UserLike>();
 		
 		this.appVersionData = null;
@@ -120,6 +127,16 @@ public class Cache
 
 	
 	
+	public boolean isUpdatingGuide() {
+		return nonPersistentFlagUpdatingGuide;
+	}
+
+
+	public void setUpdatingGuide(boolean nonPersistentFlagUpdatingGuide) {
+		this.nonPersistentFlagUpdatingGuide = nonPersistentFlagUpdatingGuide;
+	}
+
+
 	public UserLike getLikeToAddAfterLogin() {
 		return nonPersistentLikeToAddAfterLogin;
 	}
@@ -181,38 +198,70 @@ public class Cache
 		return isLoggedIn;
 	}
 	
-	public synchronized HashMap<String, TVGuide> getTvGuides() {
-		return tvGuides;
-	}
-	
-	public synchronized void addTVGuideForSelectedDay(TVGuide tvGuide) {
+	public synchronized void addNewTVChannelGuidesForSelectedDayUsingTvGuide(TVGuide tvGuide) {
 		TVDate tvDate = getTvDateSelected();
-		addTVGuide(tvDate, tvGuide);
+		addNewTVChannelGuidesUsingDayAndTvGuide(tvDate, tvGuide);
 	}
 	
-	public synchronized void addTVGuide(TVDate tvDate, TVGuide tvGuide) {
-		this.tvGuides.put(tvDate.getId(), tvGuide);
+	public synchronized void addNewTVChannelGuidesUsingDayAndTvGuide(TVDate tvDate, TVGuide tvGuide) {
+		TVGuide guideForAllChannels = getTVGuideUsingTVDateNonFiltered(tvDate);
+		
+		if(guideForAllChannels != null) {
+			/* Maybe unnecessary safety check to verify that the guides are for the same day */
+			if(tvGuide.getTvDate().equals(guideForAllChannels.getTvDate())) {
+				ArrayList<TVChannelGuide> allChannelGuides = guideForAllChannels.getTvChannelGuides();
+				ArrayList<TVChannelGuide> newChannelGuides = tvGuide.getTvChannelGuides();
+				
+				/* Add all the new TVChannel Guides to the list */
+				allChannelGuides.addAll(newChannelGuides);
+			} else {
+				Log.e(TAG, "TVDate for new guide and existing don't match, but they should");
+			}
+		} else {
+			guideForAllChannels = tvGuide;
+		}
+		this.tvGuidesAll.put(tvDate.getId(), guideForAllChannels);
 	}
 	
-	public synchronized TVGuide getTVGuideUsingTVDate(TVDate tvDate) 
-	{
+	private TVGuide getTVGuideUsingTVDateNonFiltered(TVDate tvDate) {
 		String tvDateId = tvDate.getId();
+		TVGuide guideForAllChannels = tvGuidesAll.get(tvDateId);
 		
-		TVGuide tvGuide = tvGuides.get(tvDateId);
-		
-		return tvGuide;
+		return guideForAllChannels;
+	}
+	
+	/**
+	 * This method return the TVGuide for specified TVDate, but before returning the TVGuide
+	 * the TVChannelGuides for channels that the user has not selected are filtered out
+	 * @param tvDate
+	 * @return
+	 */
+	public synchronized TVGuide getTVGuideUsingTVDate(TVDate tvDate) {
+		TVGuide guideForAllChannels = getTVGuideUsingTVDateNonFiltered(tvDate);
+	
+		ArrayList<TVChannelGuide> allChannelGuides = guideForAllChannels.getTvChannelGuides();
+		ArrayList<TVChannelGuide> myChannelGuides = new ArrayList<TVChannelGuide>();
+
+		for(TVChannelGuide channelGuide : allChannelGuides) {
+			if(tvChannelIdsUsed.contains(channelGuide.getChannelId())) {
+				myChannelGuides.add(channelGuide); 
+			}
+		}
+
+		TVGuide guideForWithMyChannels = new TVGuide(tvDate, myChannelGuides);
+
+		return guideForWithMyChannels;
 	}
 	
 	public synchronized TVGuide getTVGuideForToday() {
 		TVDate tvDate = tvDates.get(0);
-		TVGuide tvGuide = tvGuides.get(tvDate.getId());
-		return tvGuide;
+		return getTVGuideUsingTVDate(tvDate);
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public synchronized HashMap<String, AdListAdapter> getAdapterMap() {
-		return adapterMap;
-	}
+//	public synchronized HashMap<String, AdListAdapter> getAdapterMap() {
+//		return adapterMap;
+//	}
 	
 	public synchronized ArrayList<TVTag> getTvTags() {
 		return tvTags;
@@ -564,6 +613,11 @@ public class Cache
 		return taggedBroadcastForDay;
 	}
 	
+	public synchronized void purgeTaggedBroadcastForDay(TVDate tvDate) 
+	{
+		taggedBroadcastsForAllDays.remove(tvDate.getId());
+	}
+	
 	
 	
 	public synchronized boolean containsAppConfigData() 
@@ -612,11 +666,29 @@ public class Cache
 		return containsTVGuideForSelectedDay;
 	}
 	
-	public synchronized boolean containsTVGuideForTVDate(TVDate tvDate) 
-	{
+	/* Verifies that the TVGuide we have (if any) contains a TVChannelGuide for all
+	 * tv channels we have in tvChannelIdsUsed */
+	public synchronized boolean containsTVGuideForTVDate(TVDate tvDate) {
+		boolean containsTVGuideForTVDate = true;
 		TVGuide tvGuide = getTVGuideUsingTVDate(tvDate);
 		
-		boolean containsTVGuideForTVDate = (tvGuide != null);
+		if(tvGuide != null) {
+			ArrayList<TVChannelGuide> channelGuides = tvGuide.getTvChannelGuides();
+			
+			ArrayList<TVChannelId> channelIdsFromChannelGuides = new ArrayList<TVChannelId>();
+			for(TVChannelGuide channelGuide : channelGuides) {
+				channelIdsFromChannelGuides.add(channelGuide.getChannelId());
+			}
+	
+			for(TVChannelId tvChannelId : tvChannelIdsUsed) {
+				if(!channelIdsFromChannelGuides.contains(tvChannelId)) {
+					containsTVGuideForTVDate = false;
+					break;
+				}
+			}
+		} else {
+			containsTVGuideForTVDate = false;
+		}
 		
 		return containsTVGuideForTVDate;
 	}
@@ -674,45 +746,27 @@ public class Cache
 	/**
 	 * Non-persistent
 	 */
-	public Integer getNonPersistentSelectedHour() {
+	public synchronized Integer getNonPersistentSelectedHour() {
 		return nonPersistentSelectedHour;
 	}
 	
-	public void setNonPersistentSelectedHour(Integer seletectedHour) {
+	public synchronized void setNonPersistentSelectedHour(Integer seletectedHour) {
 		this.nonPersistentSelectedHour = seletectedHour;
 	}
-	
-//	public void setNonPersistentDataUpcomingBroadcast(ArrayList<TVBroadcastWithChannelInfo> nonPersistentUpcomingBroadcasts) {
-//		this.nonPersistentUpcomingBroadcasts = nonPersistentUpcomingBroadcasts;
-//	}
-//	
-//	public void setNonPersistentDataRepeatingBroadcast(ArrayList<TVBroadcastWithChannelInfo> nonPersistentRepeatingBroadcasts) {
-//		this.nonPersistentRepeatingBroadcasts = nonPersistentRepeatingBroadcasts;
-//	}
-//	
-//	public ArrayList<TVBroadcastWithChannelInfo> getNonPersistentDataRepeatingBroadcast() {
-//		return nonPersistentRepeatingBroadcasts;
-//	}
-//	
-//	public ArrayList<TVBroadcastWithChannelInfo> getNonPersistentDataUpcomingBroadcast() {
-//		return nonPersistentUpcomingBroadcasts;
-//	}
-	
-	
-		
-	public void setNonPersistentSelectedBroadcastWithChannelInfo(TVBroadcastWithChannelInfo nonPersistentSelectedBroadcastWithChannelInfo) {
+			
+	public synchronized void setNonPersistentSelectedBroadcastWithChannelInfo(TVBroadcastWithChannelInfo nonPersistentSelectedBroadcastWithChannelInfo) {
 		this.nonPersistentSelectedBroadcastWithChannelInfo = nonPersistentSelectedBroadcastWithChannelInfo;
 	}
 	
-	public UpcomingBroadcastsForBroadcast getNonPersistentUpcomingBroadcasts() {
+	public synchronized UpcomingBroadcastsForBroadcast getNonPersistentUpcomingBroadcasts() {
 		return nonPersistentUpcomingBroadcasts;
 	}
 
-	public void setNonPersistentUpcomingBroadcasts(UpcomingBroadcastsForBroadcast nonPersistentUpcomingBroadcasts) {
+	public synchronized void setNonPersistentUpcomingBroadcasts(UpcomingBroadcastsForBroadcast nonPersistentUpcomingBroadcasts) {
 		this.nonPersistentUpcomingBroadcasts = nonPersistentUpcomingBroadcasts;
 	}
 	
-	public boolean containsUpcomingBroadcastsForBroadcast(String tvSeriesId) {
+	public synchronized boolean containsUpcomingBroadcastsForBroadcast(String tvSeriesId) {
 		boolean containsUpcomingBroadcastsForBroadcast = false;
 		
 		if(nonPersistentUpcomingBroadcasts != null) {
@@ -723,15 +777,15 @@ public class Cache
 		return containsUpcomingBroadcastsForBroadcast;
 	}
 
-	public RepeatingBroadcastsForBroadcast getNonPersistentRepeatingBroadcasts() {
+	public synchronized RepeatingBroadcastsForBroadcast getNonPersistentRepeatingBroadcasts() {
 		return nonPersistentRepeatingBroadcasts;
 	}
 		
-	public void setNonPersistentRepeatingBroadcasts(RepeatingBroadcastsForBroadcast nonPersistentRepeatingBroadcasts) {
+	public synchronized void setNonPersistentRepeatingBroadcasts(RepeatingBroadcastsForBroadcast nonPersistentRepeatingBroadcasts) {
 		this.nonPersistentRepeatingBroadcasts = nonPersistentRepeatingBroadcasts;
 	}
 	
-	public boolean containsRepeatingBroadcastsForBroadcast(String programId) {
+	public synchronized boolean containsRepeatingBroadcastsForBroadcast(String programId) {
 		boolean containsRepeatingBroadcastsForBroadcast = false;
 		
 		if(nonPersistentRepeatingBroadcasts != null) {
@@ -742,15 +796,15 @@ public class Cache
 		return containsRepeatingBroadcastsForBroadcast;
 	}
 
-	public TVBroadcastWithChannelInfo getNonPersistentSelectedBroadcastWithChannelInfo() {
+	public synchronized TVBroadcastWithChannelInfo getNonPersistentSelectedBroadcastWithChannelInfo() {
 		return nonPersistentSelectedBroadcastWithChannelInfo;
 	}
 	
-	public void setNonPersistentTVChannelId(TVChannelId tvChannelId) {
+	public synchronized void setNonPersistentTVChannelId(TVChannelId tvChannelId) {
 		this.nonPersistentSelectedTVChannelId = tvChannelId;
 	}
 	
-	public TVChannelId getNonPersistentTVChannelId() {
+	public synchronized TVChannelId getNonPersistentTVChannelId() {
 		return nonPersistentSelectedTVChannelId;
 	}
 }

@@ -77,6 +77,10 @@ public class HomeActivity
 		ContentManager.sharedInstance().setSelectedHour(currentHour);
 		
 		showWelcomeToast();
+		
+		if(ContentManager.sharedInstance().isUpdatingGuide()) {
+			updateUI(UIStatusEnum.LOADING);
+		}
 	}
 	
 	

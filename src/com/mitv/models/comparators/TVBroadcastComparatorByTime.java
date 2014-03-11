@@ -3,13 +3,12 @@ package com.mitv.models.comparators;
 
 
 
-import java.util.Comparator;
 import com.mitv.models.TVBroadcast;
 
 
 
 public class TVBroadcastComparatorByTime 
-	implements Comparator<TVBroadcast> 
+	extends BaseComparator<TVBroadcast> 
 {
 	@Override
 	public int compare(TVBroadcast lhs, TVBroadcast rhs) 

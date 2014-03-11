@@ -3,6 +3,7 @@ package com.mitv;
 
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -85,13 +86,21 @@ public class APIClient
 				
 		if(isUserLoggedIn)
 		{
-			GetUserTVChannelIds getUserTVChannelIds = new GetUserTVChannelIds(contentCallbackListener, activityCallbackListener);
+			GetUserTVChannelIds getUserTVChannelIds = new GetUserTVChannelIds(contentCallbackListener, activityCallbackListener, false);
 			
 			poolExecutor.addAndExecuteTask(getUserTVChannelIds);
 		}
 	}
 	
-	
+	public void setNewTVChannelIdsAndFetchGuide(ActivityCallbackListener activityCallbackListener, TVDate tvDate, ArrayList<TVChannelId> tvChannelIdsOnlyNewOnes, ArrayList<TVChannelId> tvChannelIdsAll) {
+		resetPoolExecutor();
+		
+		GetTVChannelGuides getNewGuides = new GetTVChannelGuides(contentCallbackListener, activityCallbackListener, true, tvDate, tvChannelIdsOnlyNewOnes);
+		SetUserTVChannelIds setUserTVChanelIds = new SetUserTVChannelIds(contentCallbackListener, null, tvChannelIdsAll);
+		
+		poolExecutor.addAndExecuteTask(getNewGuides);
+		poolExecutor.addAndExecuteTask(setUserTVChanelIds);
+	}
 	
 	public void getTVChannelGuideOnPoolExecutor(ActivityCallbackListener activityCallbackListener, TVDate tvDate, List<TVChannelId> tvChannelIds)
 	{
@@ -212,10 +221,14 @@ public class APIClient
 	}
 	
 	
-	
-	public void getUserTVChannelIds(ActivityCallbackListener activityCallbackListener) 
+	/**
+	 * 
+	 * @param activityCallbackListener
+	 * @param standalone
+	 */
+	public void getUserTVChannelIds(ActivityCallbackListener activityCallbackListener, boolean standalone) 
 	{
-		GetUserTVChannelIds getUserTVChannelIds = new GetUserTVChannelIds(contentCallbackListener, activityCallbackListener);
+		GetUserTVChannelIds getUserTVChannelIds = new GetUserTVChannelIds(contentCallbackListener, activityCallbackListener, standalone);
 		getUserTVChannelIds.execute();
 	}
 	

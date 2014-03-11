@@ -26,10 +26,10 @@ public class PerformUserLoginWithFacebookToken
 	
 	public PerformUserLoginWithFacebookToken(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener,
+			ActivityCallbackListener activityCallbackListener,
 			String facebookToken) 
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_FB_TOKEN, UserLoginData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_FB_TOKEN, UserLoginData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
 		
 		UserFacebookTokenData userFacebookTokenData = new UserFacebookTokenData();
 		userFacebookTokenData.setFacebookToken(facebookToken);

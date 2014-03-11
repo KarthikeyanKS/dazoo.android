@@ -27,13 +27,13 @@ public class PerformUserSignUp
 	
 	public PerformUserSignUp(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener,
+			ActivityCallbackListener activityCallbackListener,
 			String email,
 			String password,
 			String firstname,
 			String lastname)
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_SIGN_UP, UserLoginData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_SIGN_UP, UserLoginData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
 		
 		UserRegistrationData postData = new UserRegistrationData();
 		postData.setEmail(email);

@@ -34,7 +34,7 @@ public class BuildTVBroadcastsForTags
 	
 	private ArrayList<TVChannelGuide> tvChannelGuides;
 	private ContentCallbackListener contentCallbackListener;
-	private ActivityCallbackListener activityCallBackListener;
+	private ActivityCallbackListener activityCallbackListener;
 	private Object requestResultObjectContent;
 	
 	
@@ -43,11 +43,11 @@ public class BuildTVBroadcastsForTags
 	public BuildTVBroadcastsForTags(
 			ArrayList<TVChannelGuide> tvChannelGuides,
 			ContentCallbackListener contentCallbackListener, 
-			ActivityCallbackListener activityCallBackListener)
+			ActivityCallbackListener activityCallbackListener)
 	{
 		this.tvChannelGuides = tvChannelGuides;
 		this.contentCallbackListener = contentCallbackListener;
-		this.activityCallBackListener = activityCallBackListener;
+		this.activityCallbackListener = activityCallbackListener;
 	}
 	
 	
@@ -81,7 +81,7 @@ public class BuildTVBroadcastsForTags
 		
 		if(contentCallbackListener != null)
 		{
-			contentCallbackListener.onResult(activityCallBackListener, RequestIdentifierEnum.TV_BROADCASTS_FOR_TAGS, FetchRequestResultEnum.SUCCESS, requestResultObjectContent);
+			contentCallbackListener.onResult(activityCallbackListener, RequestIdentifierEnum.TV_BROADCASTS_FOR_TAGS, FetchRequestResultEnum.SUCCESS, requestResultObjectContent);
 		}
 		else
 		{

@@ -26,9 +26,9 @@ public class GetAppVersionData
 	
 	public GetAppVersionData(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener)
+			ActivityCallbackListener activityCallbackListener)
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.APP_VERSION, AppVersionJSON[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.APP_VERSION, AppVersionJSON[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
 	}
 	
 	
