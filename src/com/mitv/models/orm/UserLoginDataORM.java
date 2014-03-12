@@ -122,6 +122,20 @@ public class UserLoginDataORM
 		}
 	}
 	
+	
+	
+	public void delete()
+	{
+		try 
+		{
+			deleteById("userId", userId);
+		}
+		catch (SQLException sqlex) 
+		{
+			Log.w(TAG, sqlex.getMessage(), sqlex);
+		}
+	}
+	
 
 	
 	public String getToken() {

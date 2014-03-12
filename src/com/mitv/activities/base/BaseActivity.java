@@ -9,6 +9,7 @@ import java.util.Stack;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.os.StrictMode;
 import android.support.v4.view.MenuItemCompat;
@@ -91,33 +92,18 @@ public abstract class BaseActivity
 	/* This method implementation should deal with changes after the data has been fetched */
 	protected abstract void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier);
 
+	
+	
 	@Override
-	protected void onCreate(android.os.Bundle savedInstanceState) 
+	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
 
-		boolean enableStrictMode = Constants.ENABLE_STRICT_MODE;
-
-		if (enableStrictMode) 
-		{
-			 StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-             .detectDiskReads()
-             .detectDiskWrites()
-             .detectNetwork()
-             .penaltyLog()
-             .penaltyFlashScreen()
-             .build());
-     
-			 StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-             .detectLeakedSqlLiteObjects()
-             .detectLeakedClosableObjects()
-             .penaltyLog()
-             .build());
-		}
-
 		/* Google Analytics Tracking */
 		EasyTracker.getInstance(this).activityStart(this);
+		
 		String className = this.getClass().getName();
+		
 		GATrackingManager.sendView(className);
 	}
 	

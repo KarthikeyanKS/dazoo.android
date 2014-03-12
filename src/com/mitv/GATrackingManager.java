@@ -13,6 +13,7 @@ import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.google.analytics.tracking.android.Tracker;
 import com.mitv.utilities.FileUtils;
+import com.mitv.utilities.NetworkUtils;
 
 
 
@@ -86,7 +87,7 @@ public class GATrackingManager
 		
 		this.tracker = googleAnalyticsInstance.getTracker(trackingId);
 		
-		boolean preinstalledCheckingSharedPrefs	= SecondScreenApplication.sharedInstance().getWasPreinstalled();
+		boolean preinstalledCheckingSharedPrefs	= SecondScreenApplication.sharedInstance().isAppPreinstalled();
 		
 		File file = FileUtils.getFile(Constants.APP_WAS_PREINSTALLED_FILE_NAME);
 		boolean preinstalledCheckingExternalStorage = FileUtils.fileExists(file);
@@ -167,6 +168,18 @@ public class GATrackingManager
 		);
 
 		Log.d(TAG, "GATrackingManager: sendView, viewName: " + viewName);
+	}
+	
+	
+	
+	
+	public void sendUserNetworkTypeEvent()
+	{
+		String activeNetworkTypeName = NetworkUtils.getActiveNetworkTypeAsString();
+		
+		tracker.send(MapBuilder
+				.createEvent(Constants.GA_EVENT_KEY_SYSTEM_EVENT, Constants.GA_KEY_APP_CURRENT_USER_NETWORK_FLAG, activeNetworkTypeName, null)
+				.build());
 	}
 	
 	

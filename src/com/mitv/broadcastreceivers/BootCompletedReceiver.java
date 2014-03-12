@@ -33,11 +33,11 @@ public class BootCompletedReceiver
 	{
 		if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) 
 		{
-	        boolean startedOnceBeforeSharedPrefs = SecondScreenApplication.sharedInstance().getWasPreinstalled();
+	        boolean startedOnceBeforeSharedPrefs = SecondScreenApplication.sharedInstance().isAppPreinstalled();
 	      
 	        if(!startedOnceBeforeSharedPrefs) 
 	        {
-	        	SecondScreenApplication.sharedInstance().setWasPreinstalled();
+	        	SecondScreenApplication.sharedInstance().setAppAsPreinstalled();
 	        }
 	        
 	        File file = FileUtils.getFile(Constants.APP_WAS_PREINSTALLED_FILE_NAME);
