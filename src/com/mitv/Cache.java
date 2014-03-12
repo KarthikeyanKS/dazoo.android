@@ -576,6 +576,15 @@ public class Cache
 	}
 
 	public synchronized ArrayList<TVChannelId> getTvChannelIdsUsed() {
+		if(tvChannelIdsUsed == null) {
+			if(tvChannelIdsDefault != null) {
+				tvChannelIdsUsed = tvChannelIdsDefault;
+			} else {
+				if(tvChannelIdsUser != null) {
+					tvChannelIdsUsed = tvChannelIdsUser;
+				}
+			}
+		}
 		return tvChannelIdsUsed;
 	}
 

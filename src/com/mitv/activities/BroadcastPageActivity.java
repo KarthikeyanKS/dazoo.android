@@ -91,7 +91,11 @@ public class BroadcastPageActivity
 	@Override
 	protected boolean hasEnoughDataToShowContent()
 	{
-		return ContentManager.sharedInstance().getFromCacheHasTVBroadcastWithChannelInfo(channelId, beginTimeInMillis);
+		boolean hasEnoughDataToShowContent = false;
+		if(broadcastWithChannelInfo != null) {
+			hasEnoughDataToShowContent = true;
+		}
+		return hasEnoughDataToShowContent;
 	}
 	
 	
