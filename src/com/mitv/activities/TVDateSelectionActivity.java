@@ -159,7 +159,7 @@ public abstract class TVDateSelectionActivity
 	
 	private void fetchGuideForSelectedDay(int selectedDayIndex) 
 	{
-		//TODO NewArc this was Added by Cyon to enable loading indicator when choosing another day in homeactivity, is there a smarter way to do it?
+		//TODO NewArc this was added to enable loading indicator when choosing another day in homeactivity, is there a smarter way to do it?
 		removeActiveFragment();
 		
 		updateUI(UIStatusEnum.LOADING);

@@ -37,9 +37,7 @@ import com.mitv.models.TVTag;
 import com.mitv.models.UpcomingBroadcastsForBroadcast;
 import com.mitv.models.UserLike;
 import com.mitv.models.UserLoginData;
-import com.mitv.models.comparators.TVChannelIdComparatorById;
 import com.mitv.utilities.GenericUtils;
-import com.mitv.utilities.ListUtils;
 
 
 
@@ -91,10 +89,7 @@ public class ContentManager
 	private boolean completedTVChannelIdsUserRequest;
 	private boolean isFetchingTVGuide;
 	private boolean isAPIVersionTooOld;
-	
-	private static final int COMPLETED_COUNT_FOR_UPDATE_CHANNELS_AND_GUIDE_THRESHOLD = 2;
-	private static int completedCountForUpdateChannelsAndGuide = 0;
-	
+		
 	/* The scenario where the user change his/her channels in the MyChannelsActivity, the changes are sent to
 	 * ContentManager (this class) and some the calls to backend are made in order to set the new channel ids list
 	 * and also fetch the guides for new channels. The ActivityCallbackListener will in that case be MyChannelsActivity
@@ -165,19 +160,19 @@ public class ContentManager
 		@SuppressWarnings("unchecked")
 		HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> mapTagToTaggedBroadcastForDate = (HashMap<String, ArrayList<TVBroadcastWithChannelInfo>>) content;
 		
+		Log.d(TAG, "PROFILING: handleBuildTVBroadcastsForTagsResponse: addTaggedBroadcastsForSelectedDay");
+		
 		cache.addTaggedBroadcastsForSelectedDay(mapTagToTaggedBroadcastForDate);
 		
 		activityCallbackListener.onResult(result, requestIdentifier);
-		
-		if(allProgramsTVGuideTableFragmentCallbackListener != null) {
-			allProgramsTVGuideTableFragmentCallbackListener.onResult(result, requestIdentifier);
-		}
 	}
 	
 	
 	
 	public void fetchFromServiceInitialCall(ActivityCallbackListener activityCallbackListener, FetchDataProgressCallbackListener fetchDataProgressCallbackListener)
 	{		
+		Log.d(TAG, "PROFILING: fetchFromServiceInitialCall");
+		
 		this.completedTVDatesRequest = false;
 		this.completedTVChannelIdsDefaultRequest = false;
 		this.completedTVChannelIdsUserRequest = false;
@@ -370,6 +365,7 @@ public class ContentManager
 					
 					notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_tv_guide_data));
 					
+					Log.d(TAG, "PROFILING: handleInitialDataResponse: addNewTVChannelGuidesForSelectedDayUsingTvGuide");
 					cache.addNewTVChannelGuidesForSelectedDayUsingTvGuide(tvGuide);
 				}
 				break;
@@ -438,6 +434,8 @@ public class ContentManager
 
 	
 	private void fetchFromServiceTVDataOnUserStatusChange(ActivityCallbackListener activityCallbackListener) {
+		Log.d(TAG, "PROFILING: fetchFromServiceTVDataOnUserStatusChange");
+		
 		/* Handle TV Channel & Guide data, after login */
 		apiClient.getUserTVChannelIds(activityCallbackListener, true);
 		
@@ -475,8 +473,10 @@ public class ContentManager
 	{
 		ArrayList<TVChannelId> tvChannelIds = cache.getTvChannelIdsUsed();
 		if(tvChannelIds != null) {
+			Log.d(TAG, "PROFILING: fetchFromServiceTVGuideUsingTVDate: fetchFromServiceTVGuideUsingTVDateAndTVChannelIds");
 			fetchFromServiceTVGuideUsingTVDateAndTVChannelIds(activityCallbackListener, tvDate, tvChannelIds);
 		} else {
+			Log.d(TAG, "PROFILING: fetchFromServiceTVGuideUsingTVDate: channel Ids null");
 			activityCallbackListener.onResult(FetchRequestResultEnum.UNKNOWN_ERROR, RequestIdentifierEnum.TV_GUIDE_STANDALONE);
 		}
 	}
@@ -957,25 +957,20 @@ public class ContentManager
 		if (result.wasSuccessful() && content != null) {
 			TVGuide tvGuide = (TVGuide) content;
 
+
+			Log.d(TAG, "PROFILING: handleTVChannelGuidesForSelectedDayResponse: addNewTVChannelGuidesForSelectedDayUsingTvGuide");
 			cache.addNewTVChannelGuidesForSelectedDayUsingTvGuide(tvGuide);
 
 			cache.purgeTaggedBroadcastForDay(tvGuide.getTvDate());
 			
-			buildTVBroadcastsForTags(activityCallbackListener);
-		} else {
-			activityCallbackListener.onResult(result, requestIdentifier);
-		}
-		checkIfChannelAndGuideUpdateIsComplete();
-	}
-
-	private void checkIfChannelAndGuideUpdateIsComplete() {
-		completedCountForUpdateChannelsAndGuide++;
-		if (completedCountForUpdateChannelsAndGuide >= COMPLETED_COUNT_FOR_UPDATE_CHANNELS_AND_GUIDE_THRESHOLD) {
-			completedCountForUpdateChannelsAndGuide = 0;
 			cache.setUpdatingGuide(false);
+			
+			if(allProgramsTVGuideTableFragmentCallbackListener != null) {
+				allProgramsTVGuideTableFragmentCallbackListener.onResult(result, requestIdentifier);
+			}
 		}
+		activityCallbackListener.onResult(result, requestIdentifier);
 	}
-	
 	
 	public void handleTVBroadcastsPopularBroadcastsResponse(ActivityCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content)
 	{
@@ -1168,7 +1163,8 @@ public class ContentManager
 	}
 	
 	/**
-	 * 
+	 * Standalone version, we will get here if we just logged in (MiTV or Facebook) or SignedUp (is a kind of login).
+	 * This method is not used for the initial data fetching
 	 * @param activityCallbackListener
 	 * @param requestIdentifier
 	 * @param result
@@ -1180,35 +1176,20 @@ public class ContentManager
 			Object content) 
 	{
 		if (result.wasSuccessful() && content != null) 
-		{
-			/* Get the TVChannelIds from cache */
-			ArrayList<TVChannelId> tvChannelIdsUserCache = getFromCacheTVChannelIdsUser();
-			
+		{			
 			@SuppressWarnings("unchecked")
 			ArrayList<TVChannelId> tvChannelIdsUserBackend = (ArrayList<TVChannelId>) content;
+	
+			/* Store the TVChannelIds for the user to the cache (which also sets them to "used") */
+			cache.setTvChannelIdsUser(tvChannelIdsUserBackend);
 			
-			/* Compare those from cache with those in the response, they should be the same, since
-			 *  MyChannelsActivity is calling method setNewTVChannelIdsAndFetchGuide
-			 *  which is setting the ids to the cache */
-			if(!isUpdatingGuide()) {
-				cache.setTvChannelIdsUser(tvChannelIdsUserBackend);
-				if(activityCallbackListener != null) {
-					activityCallbackListener.onResult(result, requestIdentifier);
-				}
-			} else {
-				if(!ListUtils.deepEquals(tvChannelIdsUserCache, tvChannelIdsUserBackend, new TVChannelIdComparatorById())) {
-					Log.e(TAG, "Id from backend is not same as from cache, this is not suppose to happen if ");
-				}
-			}
+			/* Now we have the TVChannelIds for the user => fetch guide */
+			fetchFromServiceTVGuideForSelectedDay(activityCallbackListener);
 		} 
-		else 
-		{
-			if(activityCallbackListener != null) {
-				activityCallbackListener.onResult(result, requestIdentifier);
-			}
+	
+		if(activityCallbackListener != null) {
+			activityCallbackListener.onResult(result, requestIdentifier);
 		}
-		
-		checkIfChannelAndGuideUpdateIsComplete();
 	}
 	
 
@@ -1256,7 +1237,7 @@ public class ContentManager
 	{
 		if (result.wasSuccessful()) 
 		{
-			fetchFromServiceTVDataOnUserStatusChange(activityCallbackListener);
+			Log.d(TAG, "No need to do anything");
 		} 
 		else 
 		{
@@ -1305,10 +1286,13 @@ public class ContentManager
 	}
 
 	public void performLogin(ActivityCallbackListener activityCallbackListener, String username, String password) {
+		Log.d(TAG, "PROFILING: performLogin:");
 		apiClient.performUserLogin(activityCallbackListener, username, password);
 	}
 
 	public void performLogout(ActivityCallbackListener activityCallbackListener) {
+		Log.d(TAG, "PROFILING: performLogout:");
+		
 		/* Important, we need to clear the cache as well */
 		cache.clearUserData();
 		cache.clearTVChannelIdsUser();

@@ -233,6 +233,7 @@ public class TVGuideTableFragment
 					tvGuideListView.setAdapter(tvGuideListAdapter);
 					
 					tvGuideListAdapter.notifyDataSetChanged();
+					Log.d(TAG, "PROFILING: updateUI:SUCCEEDED_WITH_DATA");
 				}
 				else 
 				{
