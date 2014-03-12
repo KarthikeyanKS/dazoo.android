@@ -18,6 +18,7 @@ import com.mitv.Constants;
 import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
+import com.mitv.models.TVDate;
 
 
 
@@ -35,12 +36,51 @@ public abstract class DateUtils
 	 * The input string format should be in the format: "yyyy-MM-dd"
 	 * 
 	 */
-	public static Calendar convertFromYearAndDateStringToCalendar(
-			final String inputString)
+	public static Calendar convertFromYearAndDateStringToCalendar(final String inputString)
 	{
 		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
 		
 		return convertFromStringToCalendarWithFormat(Constants.DATE_FORMAT_DATE, inputString, context);
+	}
+	
+	/**
+	 * Creates a Calendar object from the string representation of a TVDate. The calendar
+	 * represents the start time of the TV Day. 
+	 * The hour component is set to start hour of the TV days, provided from backend (but here read from cache).
+	 * The minute, second and millisecond components are all set to 0.
+	 * The input string format should be in the format: "yyyy-MM-dd"
+	 */
+	public static Calendar getCalendarForStartOfTVDay(final String inputString)
+	{
+		Calendar startOfTVDayCalendar = convertFromYearAndDateStringToCalendar(inputString);
+		int firstHourOfTVDay = ContentManager.sharedInstance().getFromCacheFirstHourOfTVDay();
+		
+		startOfTVDayCalendar.set(Calendar.HOUR_OF_DAY, firstHourOfTVDay);
+		startOfTVDayCalendar.set(Calendar.MINUTE, 0);
+		startOfTVDayCalendar.set(Calendar.SECOND, 0);
+		startOfTVDayCalendar.set(Calendar.MILLISECOND, 0);
+		
+		return startOfTVDayCalendar;
+	}
+	
+	/**
+	 * Creates a Calendar object from the string representation of a TVDate. The calendar
+	 * represents the end time of the TV Day. 
+	 */
+	public static Calendar getCalendarForEndOfTVDayUsingStartCalendar(final Calendar startOfTVDateCalendar)
+	{
+		/* Make a copy of the start calendar */
+		Calendar endOfTVDayCalendar = (Calendar) startOfTVDateCalendar.clone();
+		
+		/* Increase day by one */
+		endOfTVDayCalendar.add(Calendar.DATE, 1);
+		/* Decrease minute and second and millisecond by one, by decreasing the millisecond by 1. 
+		 * Please note that this REQUIRES that the minute, second and millisecond components have
+		 * all been sent to 0 in the constructor for the startOfTVDay method */
+		endOfTVDayCalendar.add(Calendar.MILLISECOND,- 1);
+		
+		
+		return endOfTVDayCalendar;
 	}
 		
 	
@@ -228,11 +268,7 @@ public abstract class DateUtils
 	
 	
 	
-	/**
-	 * Checks if the input calendar is today's day
-	 
-	 */
-	public static boolean isToday(final Calendar inputCalendar)
+	public static boolean isTodayUsingCalendar(final Calendar inputCalendar)
 	{
 		Calendar now = getNow();
 		
@@ -241,6 +277,23 @@ public abstract class DateUtils
 				   		   inputCalendar.get(Calendar.DAY_OF_MONTH) == now.get(Calendar.DAY_OF_MONTH));
 		
 		return isToday;
+	}
+	
+	/**
+	 * Checks if TVDate is today, according to the 
+	 * @param tvDate
+	 * @return
+	 */
+	public static boolean isTodayUsingTVDate(final TVDate tvDate) {
+		Calendar now = getNow();
+		Calendar startOfTVDay = tvDate.getStartOfTVDayCalendar();
+		Calendar endOfTVDay = tvDate.getEndOfTVDayCalendar();
+		
+		
+		boolean isTVDateNow = startOfTVDay.before(now) && endOfTVDay.after(now);
+
+		return isTVDateNow;
+
 	}
 	
 	
@@ -427,12 +480,12 @@ public abstract class DateUtils
 	 * 
 	 */
 	public static Calendar buildCalendarWithTVDateAndSpecificHour(
-			final Calendar inputCalendar, 
+			final TVDate tvDate, 
 			final int hour) 
 	{
 		Calendar now = getNow();
 		
-		Calendar calendar = (Calendar) inputCalendar.clone();
+		Calendar startOfTVDate = (Calendar) tvDate.getStartOfTVDayCalendar().clone();
 		
 		int hoursValue = hour;
 		
@@ -440,7 +493,7 @@ public abstract class DateUtils
 		
 		if(hour >= 0 && hour < firstHourOfTheDay) 
 		{
-			calendar.add(Calendar.DAY_OF_MONTH, 1);
+			startOfTVDate.add(Calendar.DATE, 1);
 		}
 		
 		if(hour < 0)
@@ -448,11 +501,11 @@ public abstract class DateUtils
 			hoursValue = 0;
 		}
 		
-		calendar.set(Calendar.HOUR_OF_DAY, hoursValue);
-		calendar.set(Calendar.MINUTE, now.get(Calendar.MINUTE));
-		calendar.set(Calendar.SECOND, now.get(Calendar.SECOND));
+		startOfTVDate.set(Calendar.HOUR_OF_DAY, hoursValue);
+		startOfTVDate.set(Calendar.MINUTE, now.get(Calendar.MINUTE));
+		startOfTVDate.set(Calendar.SECOND, now.get(Calendar.SECOND));
 		
-		return calendar;
+		return startOfTVDate;
 	}
 	
 	

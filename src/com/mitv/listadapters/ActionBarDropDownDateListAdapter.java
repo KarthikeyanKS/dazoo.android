@@ -96,7 +96,7 @@ public class ActionBarDropDownDateListAdapter extends BaseAdapter implements Spi
 		if (selectedIndex != NO_SELECTION) {
 			TVDate tvDate = getItem(position);
 			try {
-				Calendar calendar = tvDate.getDateCalendar();
+				Calendar calendar = tvDate.getStartOfTVDayCalendar();
 				dayName.setText(tvDate.getDisplayName());
 				dayAndMonth.setText(DateUtils.buildDayAndMonthCompositionAsString(calendar));
 			} catch (Exception e) {

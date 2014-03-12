@@ -32,6 +32,7 @@ import com.mitv.models.orm.base.AbstractOrmLiteClass;
 
 public class Cache 
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = Cache.class.getName();
 	
 	
