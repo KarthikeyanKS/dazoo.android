@@ -101,13 +101,18 @@ public class BroadcastPageActivity
 	
 
 	@Override
-	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {
-		if (fetchRequestResult.wasSuccessful()) {
-			if (requestIdentifier == RequestIdentifierEnum.BROADCAST_PAGE_DATA) {
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
+	{
+		if (fetchRequestResult.wasSuccessful()) 
+		{
+			if (requestIdentifier == RequestIdentifierEnum.BROADCAST_PAGE_DATA) 
+			{
 				broadcastWithChannelInfo = ContentManager.sharedInstance().getFromCacheSelectedBroadcastWithChannelInfo();
+				
 				repeatingBroadcasts = ContentManager.sharedInstance().getFromCacheRepeatingBroadcastsVerifyCorrect(broadcastWithChannelInfo);
 				
-				for(TVBroadcastWithChannelInfo broadcastWithoutProgramInfo : repeatingBroadcasts) {
+				for(TVBroadcastWithChannelInfo broadcastWithoutProgramInfo : repeatingBroadcasts) 
+				{
 					broadcastWithoutProgramInfo.setProgram(broadcastWithChannelInfo.getProgram());
 				}
 				
@@ -115,7 +120,9 @@ public class BroadcastPageActivity
 
 				updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
 			}
-		} else {
+		} 
+		else 
+		{
 			updateUI(UIStatusEnum.FAILED);
 		}
 	}
@@ -131,7 +138,8 @@ public class BroadcastPageActivity
 			case SUCCEEDED_WITH_DATA:
 			{				
 //				purgeView();
-				if(!hasPopulatedViews) {
+				if(!hasPopulatedViews) 
+				{
 					populateBlocks();
 				}
 				break;

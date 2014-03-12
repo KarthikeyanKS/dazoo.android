@@ -8,14 +8,46 @@ import java.util.ArrayList;
  * @author consultant_hdme
  *
  */
-public class BroadcastWithRelatedBroadcasts {
+public class BroadcastWithRelatedBroadcasts 
+{
 	protected ArrayList<TVBroadcastWithChannelInfo> relatedBroadcasts;
 	
-	public BroadcastWithRelatedBroadcasts(ArrayList<TVBroadcastWithChannelInfo> relatedBroadcasts) {
+	public BroadcastWithRelatedBroadcasts(ArrayList<TVBroadcastWithChannelInfo> relatedBroadcasts) 
+	{
 		this.relatedBroadcasts = relatedBroadcasts;
 	}
 	
-	public ArrayList<TVBroadcastWithChannelInfo> getRelatedBroadcasts() {
+	
+	
+	public ArrayList<TVBroadcastWithChannelInfo> getRelatedBroadcasts() 
+	{
 		return relatedBroadcasts;
+	}
+	
+	
+	
+	public ArrayList<TVBroadcastWithChannelInfo> getRelatedBroadcastsWithExclusions(TVBroadcast tvBroadcast) 
+	{
+		TVBroadcastWithChannelInfo TVBroadcastWithChannelInfoToExclude = null;
+		
+		for(TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo : relatedBroadcasts)
+		{
+			if(tvBroadcastWithChannelInfo.getBeginTimeMillis().equals(tvBroadcast.getBeginTimeMillis()))
+			{
+				TVBroadcastWithChannelInfoToExclude = tvBroadcastWithChannelInfo;
+			}
+		}
+		
+		if(TVBroadcastWithChannelInfoToExclude != null)
+		{
+			ArrayList<TVBroadcastWithChannelInfo> tvBroadcastWithChannelInfoList = new ArrayList<TVBroadcastWithChannelInfo>(relatedBroadcasts);
+			tvBroadcastWithChannelInfoList.remove(TVBroadcastWithChannelInfoToExclude);
+			
+			return tvBroadcastWithChannelInfoList;
+		}
+		else
+		{
+			return relatedBroadcasts;
+		}
 	}
 }

@@ -27,11 +27,9 @@ public class DialogHelper
 			final Activity activity, 
 			final TVBroadcast broadcast, 
 			final int notificationId, 
-			final Runnable aProcedure, 
-			final Runnable bProcedure)
+			final Runnable yesProcedure, 
+			final Runnable noProcedure)
 	{
-		final Runnable answerYes = aProcedure;
-		final Runnable answerNo = bProcedure;
 		final Dialog dialog = new Dialog(activity, R.style.remove_notification_dialog);
 		
 		StringBuilder reminderSB = new StringBuilder();
@@ -102,9 +100,9 @@ public class DialogHelper
 			@Override
 			public void onClick(View v) 
 			{
-				if(answerNo != null)
+				if(noProcedure != null)
 				{
-					answerNo.run();
+					noProcedure.run();
 				}
 				
 				dialog.dismiss();
@@ -116,9 +114,9 @@ public class DialogHelper
 			@Override
 			public void onClick(View v)
 			{
-				if(answerYes != null)
+				if(yesProcedure != null)
 				{
-					answerYes.run();
+					yesProcedure.run();
 				}
 				
 				NotificationHelper.removeNotification(activity, notificationId);
@@ -135,11 +133,9 @@ public class DialogHelper
 	
 	public static void showRemoveLikeDialog(
 			final Activity activity,
-			final Runnable aProcedure,
-			final Runnable bProcedure)
+			final Runnable yesProcedure,
+			final Runnable noProcedure)
 	{
-		final Runnable answerYes = aProcedure;
-		final Runnable answerNo = bProcedure;
 		final Dialog dialog = new Dialog(activity, R.style.remove_notification_dialog);
 		
 		dialog.setContentView(R.layout.dialog_remove_notification);
@@ -156,9 +152,9 @@ public class DialogHelper
 			@Override
 			public void onClick(View v) 
 			{
-				if(answerNo != null)
+				if(noProcedure != null)
 				{
-					answerNo.run();
+					noProcedure.run();
 				}
 				
 				dialog.dismiss();
@@ -170,9 +166,9 @@ public class DialogHelper
 			@Override
 			public void onClick(View v)
 			{
-				if(answerYes != null)
+				if(yesProcedure != null)
 				{
-					answerYes.run();
+					yesProcedure.run();
 				}
 				
 				dialog.dismiss();
@@ -189,11 +185,9 @@ public class DialogHelper
 	
 	public static void showPromptSignInDialog(
 			final Activity activity, 
-			final Runnable aProcedure, 
-			final Runnable bProcedure) 
+			final Runnable yesProcedure, 
+			final Runnable noProcedure) 
 	{
-		final Runnable answerYes = aProcedure;
-		final Runnable answerNo	= bProcedure;
 		final Dialog dialog = new Dialog(activity, R.style.remove_notification_dialog);
 		
 		dialog.setContentView(R.layout.dialog_prompt_signin);
@@ -207,9 +201,9 @@ public class DialogHelper
 			@Override
 			public void onClick(View v)
 			{
-				if(answerNo != null)
+				if(noProcedure != null)
 				{
-					answerNo.run();
+					noProcedure.run();
 				}
 				
 				dialog.dismiss();
@@ -221,9 +215,9 @@ public class DialogHelper
 			@Override
 			public void onClick(View v)
 			{
-				if(answerYes != null)
+				if(yesProcedure != null)
 				{
-					answerYes.run();
+					yesProcedure.run();
 				}
 				
 				dialog.dismiss();
@@ -254,18 +248,22 @@ public class DialogHelper
 			{
 				final String appPackageName = activity.getPackageName(); 
 				
+				Uri uri;
+				
 				try 
 				{
-					Uri uri = Uri.parse("market://details?id=" + appPackageName);
+					String marketUrl = activity.getString(R.string.market_url_for_google_play_market_details);
 					
-					activity.startActivity(new Intent(Intent.ACTION_VIEW, uri));
+					uri = Uri.parse(marketUrl + appPackageName);
 				} 
 				catch (android.content.ActivityNotFoundException anfe) 
 				{
-					Uri uri = Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName);
+					String marketUrl = activity.getString(R.string.http_url_for_google_play_market_details);
 					
-					activity.startActivity(new Intent(Intent.ACTION_VIEW, uri));
+					uri = Uri.parse(marketUrl + appPackageName);
 				}
+				
+				activity.startActivity(new Intent(Intent.ACTION_VIEW, uri));
 			}
 		});
 		

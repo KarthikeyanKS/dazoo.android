@@ -1591,9 +1591,11 @@ public class ContentManager
 	{
 		ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts = null;
 		UpcomingBroadcastsForBroadcast upcomingBroadcastsForBroadcast = cache.getNonPersistentUpcomingBroadcasts();
-		if(upcomingBroadcastsForBroadcast != null) {
+		if(upcomingBroadcastsForBroadcast != null) 
+		{
 			upcomingBroadcasts= upcomingBroadcastsForBroadcast.getRelatedBroadcasts();
 		}
+		
 		return upcomingBroadcasts;
 	}
 	
@@ -1604,27 +1606,41 @@ public class ContentManager
 	 * @param programId
 	 * @return
 	 */
-	public ArrayList<TVBroadcastWithChannelInfo> getFromCacheRepeatingBroadcastsVerifyCorrect(TVBroadcast broadcast) {
+	public ArrayList<TVBroadcastWithChannelInfo> getFromCacheRepeatingBroadcastsVerifyCorrect(TVBroadcast broadcast) 
+	{
 		//TODO NewArc check if null
 		String programId = broadcast.getProgram().getProgramId();
+		
 		ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts = null;
-		if(cache.containsRepeatingBroadcastsForBroadcast(programId)) {
+		
+		if(cache.containsRepeatingBroadcastsForBroadcast(programId)) 
+		{
 			RepeatingBroadcastsForBroadcast repeatingBroadcastObject = cache.getNonPersistentRepeatingBroadcasts();
-			if(repeatingBroadcastObject != null) {
-				repeatingBroadcasts = repeatingBroadcastObject.getRelatedBroadcasts();
+			
+			if(repeatingBroadcastObject != null) 
+			{
+				repeatingBroadcasts = repeatingBroadcastObject.getRelatedBroadcastsWithExclusions(broadcast);
 			}
 		}
+		
 		return repeatingBroadcasts;
 	}
 	
-	public ArrayList<TVBroadcastWithChannelInfo> getFromCacheRepeatingBroadcasts() {
+	
+	public ArrayList<TVBroadcastWithChannelInfo> getFromCacheRepeatingBroadcasts() 
+	{
 		ArrayList<TVBroadcastWithChannelInfo> repeatingBroadcasts = null;
 		RepeatingBroadcastsForBroadcast repeatingBroadcastObject = cache.getNonPersistentRepeatingBroadcasts();
-		if(repeatingBroadcastObject != null) {
-			repeatingBroadcasts = repeatingBroadcastObject.getRelatedBroadcasts();
-		}return repeatingBroadcasts;
-	}
 		
+		if(repeatingBroadcastObject != null) 
+		{
+			repeatingBroadcasts = repeatingBroadcastObject.getRelatedBroadcasts();
+		}
+		
+		return repeatingBroadcasts;
+	}
+	
+	
 	public void setSelectedBroadcastWithChannelInfo(TVBroadcastWithChannelInfo selectedBroadcast) {
 		cache.setNonPersistentSelectedBroadcastWithChannelInfo(selectedBroadcast);
 	}
