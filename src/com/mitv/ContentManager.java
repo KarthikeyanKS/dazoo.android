@@ -107,7 +107,7 @@ public class ContentManager
 	 * finished downloading. */
 	private ActivityCallbackListener allProgramsTVGuideTableFragmentCallbackListener;
 	
-	private ContentManager() 
+	private ContentManager()
 	{
 		this.cache = new Cache();
 		this.apiClient = new APIClient(this);
@@ -136,6 +136,13 @@ public class ContentManager
 		}
 		
 		return sharedInstance;
+	}
+	
+	
+	
+	public void clearAllPersistentCacheData()
+	{
+		cache.clearAllPersistentCacheData();
 	}
 	
 	
@@ -1309,7 +1316,8 @@ public class ContentManager
 		apiClient.performUserLogin(activityCallbackListener, username, password);
 	}
 
-	public void performLogout(ActivityCallbackListener activityCallbackListener) {
+	public void performLogout(ActivityCallbackListener activityCallbackListener) 
+	{
 		/* Important, we need to clear the cache as well */
 		cache.clearUserData();
 		cache.clearTVChannelIdsUser();

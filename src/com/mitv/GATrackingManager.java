@@ -87,7 +87,7 @@ public class GATrackingManager
 		
 		this.tracker = googleAnalyticsInstance.getTracker(trackingId);
 		
-		boolean preinstalledCheckingSharedPrefs	= SecondScreenApplication.sharedInstance().getWasPreinstalled();
+		boolean preinstalledCheckingSharedPrefs	= SecondScreenApplication.sharedInstance().isAppPreinstalled();
 		
 		File file = FileUtils.getFile(Constants.APP_WAS_PREINSTALLED_FILE_NAME);
 		boolean preinstalledCheckingExternalStorage = FileUtils.fileExists(file);

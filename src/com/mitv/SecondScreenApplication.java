@@ -12,6 +12,7 @@ import android.os.StrictMode;
 import android.util.Log;
 
 import com.mitv.utilities.AppDataUtils;
+import com.mitv.utilities.GenericUtils;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -145,6 +146,19 @@ public class SecondScreenApplication
              .build());
 		}
 		
+		if(isCurrentVersionAnUpgradeFromInstalledVersion())
+		{
+			ContentManager.sharedInstance().clearAllPersistentCacheData();
+			
+			AppDataUtils.clearAllPreferences();
+			
+			setInstalledAppVersionToCurrentVersion();
+		}
+		else
+		{
+			setInstalledAppVersionToCurrentVersion();
+		}
+		
 		// Imageloader that reset views before loading
 		// DisplayImageOptions resetViewDisplayImageOptions = new DisplayImageOptions.Builder()
 		// .cacheInMemory(true)
@@ -173,15 +187,55 @@ public class SecondScreenApplication
 	
 	
 	
-	public void setWasPreinstalled() 
+	public void setAppAsPreinstalled() 
 	{
 		AppDataUtils.setPreference(Constants.SHARED_PREFERENCES_APP_WAS_PREINSTALLED, true);
 	}
 
 	
-	
-	public boolean getWasPreinstalled() 
+	public boolean isAppPreinstalled() 
 	{
 		return AppDataUtils.getPreference(Constants.SHARED_PREFERENCES_APP_WAS_PREINSTALLED, false);
+	}
+	
+	
+	private String getCurrentAppVersion()
+	{
+		return GenericUtils.getCurrentAppVersion();
+	}
+	
+	
+	private String getInstalledAppVersion()
+	{
+		return AppDataUtils.getPreference(Constants.SHARED_PREFERENCES_APP_INSTALLED_VERSION, "");
+	}
+	
+	
+	private void setInstalledAppVersionToCurrentVersion()
+	{
+		String currentVersion = getCurrentAppVersion();
+		
+		AppDataUtils.setPreference(Constants.SHARED_PREFERENCES_APP_INSTALLED_VERSION, currentVersion);
+	}
+	
+	
+	private boolean isCurrentVersionAnUpgradeFromInstalledVersion()
+	{
+		boolean isCurrentVersionAnUpgradeFromInstalledVersion;
+		
+		String installedAppVersion = getInstalledAppVersion();
+		
+		String currentAppVersion = getCurrentAppVersion();
+		
+		if(installedAppVersion.isEmpty() || currentAppVersion.isEmpty())
+		{
+			return false;
+		}
+		else
+		{
+			isCurrentVersionAnUpgradeFromInstalledVersion = installedAppVersion.equalsIgnoreCase(currentAppVersion);
+		}
+		
+		return isCurrentVersionAnUpgradeFromInstalledVersion;
 	}
 }

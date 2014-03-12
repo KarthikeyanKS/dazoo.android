@@ -4,7 +4,6 @@ package com.mitv;
 
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 
 import android.content.Context;
@@ -28,7 +27,6 @@ import com.mitv.models.UserLike;
 import com.mitv.models.UserLoginData;
 import com.mitv.models.orm.UserLoginDataORM;
 import com.mitv.models.orm.base.AbstractOrmLiteClass;
-import com.mitv.utilities.AppDataUtils;
 
 
 
@@ -119,6 +117,13 @@ public class Cache
 		AbstractOrmLiteClass.initDB(context, "millicom.db", 1, null);
 		
 		userData = UserLoginDataORM.getUserLoginData();
+	}
+	
+	
+	
+	public void clearAllPersistentCacheData()
+	{
+		// TODO NewArc - Implement this
 	}
 	
 	
@@ -543,8 +548,11 @@ public class Cache
 		this.appConfigData = appConfigData;
 	}
 	
-	public void clearUserData() {
-		AppDataUtils.clearStorageCompletely();
+	public void clearUserData() 
+	{
+		UserLoginDataORM userLoginDataORM = new UserLoginDataORM(userData);
+		userLoginDataORM.delete();
+		
 		userData = null;
 	}
 	

@@ -112,8 +112,10 @@ public abstract class GenericUtils
 	
 	
 	
-    public static PackageInfo getPackageInfo(final Context context)
+    public static PackageInfo getPackageInfo()
 	{
+    	Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+    	
 		PackageInfo pInfo;
     	
 		try 
@@ -129,6 +131,13 @@ public abstract class GenericUtils
 		
 		return pInfo;
 	}
+    
+    
+    
+    public static String getCurrentAppVersion()
+    {
+		return getPackageInfo().versionName;
+    }
     
     
     
