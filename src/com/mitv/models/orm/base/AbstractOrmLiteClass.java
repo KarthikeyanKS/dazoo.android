@@ -1,5 +1,5 @@
 
-package com.mitv.models.orm;
+package com.mitv.models.orm.base;
 
 
 
@@ -9,7 +9,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.table.TableUtils;
-import com.mitv.models.orm.OrmLiteDatabaseHelper.Upgrader;
+import com.mitv.models.orm.base.OrmLiteDatabaseHelper.Upgrader;
 
 import java.sql.SQLException;
 import java.util.HashMap;

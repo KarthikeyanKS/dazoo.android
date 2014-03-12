@@ -1,18 +1,23 @@
+
 package com.mitv.models.orm;
 
+
+
 import java.util.ArrayList;
-import java.util.Date;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.models.ImageSetSize;
 import com.mitv.models.TVBroadcastWithChannelInfo;
-import com.mitv.models.TVChannel;
 import com.mitv.models.TVCredit;
 import com.mitv.models.TVProgram;
+import com.mitv.models.orm.base.AbstractOrmLiteClassWithAsyncSave;
 
-public class TVBroadcastWithChannelInfoORM extends AbstractOrmLiteClass<TVBroadcastWithChannelInfoORM> {
+
+
+public class TVBroadcastWithChannelInfoORM 
+	extends AbstractOrmLiteClassWithAsyncSave<TVBroadcastWithChannelInfoORM> {
 	
 	
 	/* TVChannel */
@@ -125,14 +130,7 @@ public class TVBroadcastWithChannelInfoORM extends AbstractOrmLiteClass<TVBroadc
 	protected BroadcastTypeEnum broadcastType;
 	
 	@DatabaseField()
-	protected String shareUrl;
-	
-	
-	
-	/* Date */
-	@DatabaseField(columnName = "modifydate")
-	public Date modifydate;
-	
+	protected String shareUrl;	
 	
 	
 	
@@ -194,13 +192,4 @@ public class TVBroadcastWithChannelInfoORM extends AbstractOrmLiteClass<TVBroadc
 		this.broadcastType = tvBroadcastWithChannelInfo.getBroadcastType();
 		this.shareUrl = tvBroadcastWithChannelInfo.getShareUrl();
 	}
-
-	@Override
-	protected void onBeforeSave() {
-		this.modifydate = new Date();
-	}
-
-	@Override
-	protected void onAfterSave() {}
-
 }

@@ -18,11 +18,11 @@ public class UserFieldsDataJSON
 	/*
 	 * The names of these variables should not be changed unless the backend API call parameters changes too.
 	 */
-	private String userId;
-	private String email;
-	private String firstName;
-	private String lastName;
-	private boolean created;
+	protected String userId;
+	protected String email;
+	protected String firstName;
+	protected String lastName;
+	protected boolean created;
 	
 	
 	

@@ -6,8 +6,11 @@ package com.mitv;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.mitv.models.AppConfiguration;
 import com.mitv.models.AppVersion;
 import com.mitv.models.RepeatingBroadcastsForBroadcast;
@@ -23,6 +26,8 @@ import com.mitv.models.TVTag;
 import com.mitv.models.UpcomingBroadcastsForBroadcast;
 import com.mitv.models.UserLike;
 import com.mitv.models.UserLoginData;
+import com.mitv.models.orm.UserLoginDataORM;
+import com.mitv.models.orm.base.AbstractOrmLiteClass;
 import com.mitv.utilities.AppDataUtils;
 
 
@@ -31,10 +36,6 @@ public class Cache
 {
 	private static final String TAG = Cache.class.getName();
 	
-	private ArrayList<TVTag> tvTags;
-	private ArrayList<TVDate> tvDates;
-	private ArrayList<TVChannelId> tvChannelIdsDefault;
-	private ArrayList<TVChannelId> tvChannelIdsUser;
 	
 	/* We only need to use this variable, and not "tvChannelIdsDefault" or "tvChannelIdsUser",
 	 * "tvChannelIdsUsed" will hold either of those variables above mentioned. When you login/logout
@@ -50,6 +51,26 @@ public class Cache
 	/* This map has the same structure as 'tvGuidesAll' but it only contains the guides that should be presented to the user */
 	private HashMap<String, TVGuide> tvGuidesMy;
 	
+	/* PERSISTENT USER DATA, WILL BE SAVED TO STORAGE ON EACH SET */
+	private UserLoginData userData;
+	private ArrayList<UserLike> userLikes;
+	
+	private AppVersion appVersionData;
+	private AppConfiguration appConfigData;
+	
+	private ArrayList<TVTag> tvTags;
+	private ArrayList<TVDate> tvDates;
+	private ArrayList<TVChannelId> tvChannelIdsDefault;
+	private ArrayList<TVChannelId> tvChannelIdsUser;
+	
+	private ArrayList<TVFeedItem> activityFeed;
+	private ArrayList<TVBroadcastWithChannelInfo> popularBroadcasts;
+	
+	
+	
+	
+	/* NON-PERSISTENT USER DATA, USED FOR PASSING DATA BETWEEN ACTIVITIES */
+	
 	/* Key for the wrapping Map, wMap, is the id from the TVDate, which gets you an inner Map, iMap, which key is a TVTag
 	 * The value stored in iMap is a list of "tagged" broadcasts for the TVTag provided as key to iMap. 
 	 * E.g.
@@ -64,26 +85,10 @@ public class Cache
 	 * "SPORT" = [BroadcastX, BroadcastY]} 
 	 * 
 	 * */
-	private HashMap<String, HashMap<String, ArrayList<TVBroadcastWithChannelInfo>>> taggedBroadcastsForAllDays;
-		
-	private ArrayList<UserLike> userLikes;
+	private HashMap<String, HashMap<String, ArrayList<TVBroadcastWithChannelInfo>>> nonPersistentTaggedBroadcastsForAllDays;
 	
-	private Calendar likeIdsFetchedTimestamp;
-	private Calendar userChannelIdsFetchedTimestamp;
-	
-	private ArrayList<TVFeedItem> activityFeed;
-	private ArrayList<TVBroadcastWithChannelInfo> popularBroadcasts;
-	
-	private UserLoginData userData;
-	
-	private int tvDateSelectedIndex;
-	
-	private AppVersion appVersionData;
-	private AppConfiguration appConfigData;
-			
-	/* NON-PERSISTENT USER DATA, USED FOR PASSING DATA BETWEEN ACTIVITIES */
+	private int nonPersistentTVDateSelectedIndex;
 	private boolean nonPersistentFlagUpdatingGuide;
-	
 	private TVBroadcastWithChannelInfo nonPersistentSelectedBroadcastWithChannelInfo;
 	private UpcomingBroadcastsForBroadcast nonPersistentUpcomingBroadcasts;
 	private RepeatingBroadcastsForBroadcast nonPersistentRepeatingBroadcasts;
@@ -109,8 +114,11 @@ public class Cache
 		/* Default selected day to 0 */
 		setTvDateSelectedIndex(0);
 		
-		// TODO NewArc - What follows is a very ugly hack for saving the data on permanent storage. Replace with a proper implementation ASAP!
-		userData = (UserLoginData) AppDataUtils.loadData(Constants.SHARED_PREFERENCES_USER_DATA);
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		
+		AbstractOrmLiteClass.initDB(context, "millicom.db", 1, null);
+		
+		userData = UserLoginDataORM.getUserLoginData();
 	}
 	
 	
@@ -310,27 +318,15 @@ public class Cache
 		return null;
 	}
 
-	public synchronized Calendar getLikeIdsFetchedTimestamp() {
-		return likeIdsFetchedTimestamp;
-	}
 
-	public synchronized void setLikeIdsFetchedTimestamp(Calendar likeIdsFetchedTimestamp) {
-		this.likeIdsFetchedTimestamp = likeIdsFetchedTimestamp;
-	}
-
-	public synchronized Calendar getUserChannelIdsFetchedTimestamp() {
-		return userChannelIdsFetchedTimestamp;
-	}
-
-	public synchronized void setUserChannelIdsFetchedTimestamp(Calendar userChannelIdsFetchedTimestamp) {
-		this.userChannelIdsFetchedTimestamp = userChannelIdsFetchedTimestamp;
-	}
-
-	public synchronized ArrayList<TVFeedItem> getActivityFeed() {
+	public synchronized ArrayList<TVFeedItem> getActivityFeed() 
+	{
 		return activityFeed;
 	}
 
-	public synchronized void setActivityFeed(ArrayList<TVFeedItem> activityFeed) {
+	
+	public synchronized void setActivityFeed(ArrayList<TVFeedItem> activityFeed) 
+	{
 		this.activityFeed = activityFeed;
 	}
 	
@@ -356,6 +352,7 @@ public class Cache
 		this.popularBroadcasts = popularFeed;
 	}
 
+	
 	public synchronized String getUserToken() 
 	{
 		String userToken = null;
@@ -368,23 +365,33 @@ public class Cache
 		return userToken;
 	}
 	
-	public synchronized String getUserLastname() {
+	
+	public synchronized String getUserLastname()
+	{
 		return userData.getUser().getLastName();
 	}
 	
-	public synchronized String getUserFirstname() {
+	
+	public synchronized String getUserFirstname()
+	{
 		return userData.getUser().getFirstName();
 	}
 	
-	public synchronized String getUserEmail() {
+	
+	public synchronized String getUserEmail()
+	{
 		return userData.getUser().getEmail();
 	}
 	
-	public synchronized String getUserId() {
+	
+	public synchronized String getUserId()
+	{
 		return userData.getUser().getUserId();
 	}
 	
-	public synchronized String getUserProfileImageUrl() {
+	
+	public synchronized String getUserProfileImageUrl() 
+	{
 		return userData.getProfileImage().getUrl();
 	}
 
@@ -393,19 +400,9 @@ public class Cache
 	{
 		this.userData = userData;
 		
-		// TODO NewArc - What follows is a very ugly hack for saving the data on permanent storage. Replace with a proper implementation ASAP!
-		final UserLoginData userDataForStorage = this.userData;
-		
-		// Write to file on different thread to avoid blocking the UI thread
-		new Thread(
-		new Runnable() 
-		{
-			public void run() 
-			{
-				AppDataUtils.saveData(Constants.SHARED_PREFERENCES_USER_DATA, userDataForStorage);
-			}
-		}).start();
-	} 
+		UserLoginDataORM userLoginDataORM = new UserLoginDataORM(userData);
+		userLoginDataORM.saveInAsyncTask();
+	}
 	
 	
 	public synchronized ArrayList<UserLike> getUserLikes() 
@@ -640,7 +637,7 @@ public class Cache
 	}
 		
 	public synchronized HashMap<String, HashMap<String, ArrayList<TVBroadcastWithChannelInfo>>> getTaggedBroadcastsForAllDays() {
-		return taggedBroadcastsForAllDays;
+		return nonPersistentTaggedBroadcastsForAllDays;
 	}
 	
 	public synchronized void addTaggedBroadcastsForSelectedDay(HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay) 
@@ -651,21 +648,21 @@ public class Cache
 	
 	public synchronized void addTaggedBroadcastsForDay(HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay, TVDate tvDate) 
 	{
-		if(taggedBroadcastsForAllDays == null) {
-			taggedBroadcastsForAllDays = new HashMap<String, HashMap<String, ArrayList<TVBroadcastWithChannelInfo>>>();
+		if(nonPersistentTaggedBroadcastsForAllDays == null) {
+			nonPersistentTaggedBroadcastsForAllDays = new HashMap<String, HashMap<String, ArrayList<TVBroadcastWithChannelInfo>>>();
 		}
-		taggedBroadcastsForAllDays.put(tvDate.getId(), taggedBroadcastForDay);
+		nonPersistentTaggedBroadcastsForAllDays.put(tvDate.getId(), taggedBroadcastForDay);
 	}
 	
 	public synchronized HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> getTaggedBroadcastsUsingTVDate(TVDate tvDateAsKey) 
 	{
-		HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = taggedBroadcastsForAllDays.get(tvDateAsKey.getId());
+		HashMap<String, ArrayList<TVBroadcastWithChannelInfo>> taggedBroadcastForDay = nonPersistentTaggedBroadcastsForAllDays.get(tvDateAsKey.getId());
 		return taggedBroadcastForDay;
 	}
 	
 	public synchronized void purgeTaggedBroadcastForDay(TVDate tvDate) 
 	{
-		taggedBroadcastsForAllDays.remove(tvDate.getId());
+		nonPersistentTaggedBroadcastsForAllDays.remove(tvDate.getId());
 	}
 	
 	
@@ -759,8 +756,8 @@ public class Cache
 	
 	public synchronized boolean containsTaggedBroadcastsForTVDate(TVDate tvDate) {
 		boolean containsTaggedBroadcastsForTVDate = false;
-		if(taggedBroadcastsForAllDays != null) {
-			containsTaggedBroadcastsForTVDate = taggedBroadcastsForAllDays.containsKey(tvDate.getId());
+		if(nonPersistentTaggedBroadcastsForAllDays != null) {
+			containsTaggedBroadcastsForTVDate = nonPersistentTaggedBroadcastsForAllDays.containsKey(tvDate.getId());
 		}
 		return containsTaggedBroadcastsForTVDate;
 	}
@@ -787,19 +784,19 @@ public class Cache
 	 * @param tvDateSelectedIndex
 	 */
 	public synchronized void setTvDateSelectedIndex(int tvDateSelectedIndex) {
-		this.tvDateSelectedIndex = tvDateSelectedIndex;
+		this.nonPersistentTVDateSelectedIndex = tvDateSelectedIndex;
 	}
 	
 	public synchronized TVDate getTvDateSelected() {
 		TVDate tvDateSelected = null;
 		if(tvDates != null) {
-			tvDateSelected = tvDates.get(tvDateSelectedIndex);
+			tvDateSelected = tvDates.get(nonPersistentTVDateSelectedIndex);
 		}
 		return tvDateSelected;
 	}
 	
 	public synchronized int getTvDateSelectedIndex() {
-		return tvDateSelectedIndex;
+		return nonPersistentTVDateSelectedIndex;
 	}
 	
 	public synchronized void setTvDateSelectedUsingIndex(int tvDateSelectedIndex) {
