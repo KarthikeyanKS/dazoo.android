@@ -410,6 +410,7 @@ public class Cache
 	
 	public synchronized ArrayList<UserLike> getUserLikes() 
 	{
+		//
 		return userLikes;
 	}
 
@@ -417,6 +418,8 @@ public class Cache
 	public synchronized void setUserLikes(ArrayList<UserLike> userLikes) 
 	{
 		this.userLikes = userLikes;
+		
+		//
 	}
 	
 	
