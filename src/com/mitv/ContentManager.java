@@ -9,12 +9,10 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.CursorJoiner.Result;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.androidquery.callback.AjaxCallback;
-import com.mitv.activities.HomeActivity;
 import com.mitv.asynctasks.local.BuildTVBroadcastsForTags;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.ProgramTypeEnum;
@@ -23,7 +21,6 @@ import com.mitv.fragments.TVGuideTableFragment;
 import com.mitv.interfaces.ActivityCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
-import com.mitv.listadapters.AdListAdapter;
 import com.mitv.models.AppConfiguration;
 import com.mitv.models.AppVersion;
 import com.mitv.models.RepeatingBroadcastsForBroadcast;
@@ -64,18 +61,16 @@ public class ContentManager
 	 * fetching the TV data
 	 */
 	private static final int COMPLETED_COUNT_APP_DATA_THRESHOLD = 2;
-	private boolean channelsChange = false;
 
 	/*
 	 * The total completed data fetch count needed in order to proceed with
 	 * fetching the TV guide, using TV data
 	 */
-	private static final int COMPLETED_COUNT_TV_DATA_CHANNEL_CHANGE_THRESHOLD = 1;
 	private static final int COMPLETED_COUNT_TV_DATA_NOT_LOGGED_IN_THRESHOLD = 4;
 	private static final int COMPLETED_COUNT_TV_DATA_LOGGED_IN_THRESHOLD = 5;
 	private static final int COMPLETED_COUNT_FOR_TV_ACTIVITY_FEED_DATA_THRESHOLD = 2;
 	private static int completedCountTVDataForProgressMessage = COMPLETED_COUNT_TV_DATA_NOT_LOGGED_IN_THRESHOLD + 1; //+
-	private int completedCountTVData = 0;
+
 	private int completedCountTVActivityFeed = 0;
 
 	/* Variables for fetching of BroadcastPage data */
@@ -444,7 +439,6 @@ public class ContentManager
 	
 	private void fetchFromServiceTVDataOnUserStatusChange(ActivityCallbackListener activityCallbackListener) {
 		/* Handle TV Channel & Guide data, after login */
-		channelsChange = true;
 		apiClient.getUserTVChannelIds(activityCallbackListener, true);
 		
 		/* Add like if any was set */
@@ -480,7 +474,11 @@ public class ContentManager
 	private void fetchFromServiceTVGuideUsingTVDate(ActivityCallbackListener activityCallbackListener, TVDate tvDate)
 	{
 		ArrayList<TVChannelId> tvChannelIds = cache.getTvChannelIdsUsed();
-		fetchFromServiceTVGuideUsingTVDateAndTVChannelIds(activityCallbackListener, tvDate, tvChannelIds);
+		if(tvChannelIds != null) {
+			fetchFromServiceTVGuideUsingTVDateAndTVChannelIds(activityCallbackListener, tvDate, tvChannelIds);
+		} else {
+			activityCallbackListener.onResult(FetchRequestResultEnum.UNKNOWN_ERROR, RequestIdentifierEnum.TV_GUIDE_STANDALONE);
+		}
 	}
 	
 	
@@ -1250,7 +1248,6 @@ public class ContentManager
 
 	
 	public void handleLogoutResponse(ActivityCallbackListener activityCallbackListener) {
-		channelsChange = true;
 		fetchFromServiceTVGuideForSelectedDay(activityCallbackListener);
 	}
 	
