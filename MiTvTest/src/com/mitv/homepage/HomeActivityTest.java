@@ -1,69 +1,76 @@
 package com.mitv.homepage;
 
 import android.test.ActivityInstrumentationTestCase2;
-import android.widget.EditText;
 
 import com.mitv.R;
-import com.mitv.activities.SplashScreenActivity;
+import com.mitv.activities.HomeActivity;
 import com.robotium.solo.Solo;
 import com.robotium.solo.Solo.Config;
 
-/**
- * This is a simple framework for a test of an Application.  See
- * {@link android.test.ApplicationTestCase ApplicationTestCase} for more information on
- * how to write and extend Application tests.
- * <p/>
- * To run this test, you can type:
- * adb shell am instrument -w \
- * -e class com.mitv.homepage.HomeActivityTest \
- * com.mitv.tests/android.test.InstrumentationTestRunner
- */
-public class HomeActivityTest extends ActivityInstrumentationTestCase2<SplashScreenActivity> {
-	final int TIMEOUT_SMALL = 1000;
-	final int TIMEOUT_LARGE = 8000;
+public class HomeActivityTest extends ActivityInstrumentationTestCase2<HomeActivity>{
 	
-	private Solo solo;
-    public HomeActivityTest() {
-        super(SplashScreenActivity.class);
-    }
+	private final int TIMEOUT_SMALL = 1000;
+	private final int TIMEOUT_LARGE = 8000;
 
-    
-    @Override
-    protected void setUp() throws Exception {
-    	Config config = new Config();
-    	config.shouldScroll = true;
-    	config.timeout_small = TIMEOUT_SMALL;
-    	config.timeout_large = TIMEOUT_LARGE;
-    	config.useJavaScriptToClickWebElements = true;
-    	
-    	solo = new Solo(getInstrumentation(), getActivity());
-    	//getActivity();
-    }
-    
-    @Override
+	private Solo solo;
+	public HomeActivityTest() {
+		super(HomeActivity.class);
+	}
+	@Override
+	protected void setUp() throws Exception {
+		Config config = new Config();
+		config.shouldScroll = true;
+		config.timeout_small = TIMEOUT_SMALL;
+		config.timeout_large = TIMEOUT_LARGE;
+		config.useJavaScriptToClickWebElements = true;
+
+		solo = new Solo(getInstrumentation(), getActivity());
+		//getActivity();
+	}
+	
+	@Override
     protected void tearDown() throws Exception {
     	solo.finishOpenedActivities();
     }
-  
-    
-    public void test_login() throws Exception {
-    	
-    	solo.sleep(TIMEOUT_LARGE);
-    	
-    	solo.waitForView(solo.getView(R.id.tab_me));
-    	solo.clickOnView(solo.getView(R.id.tab_me));
-    	
-    	solo.waitForView(solo.getView(R.id.myprofile_login_container_text));
-    	solo.clickOnView(solo.getView(R.id.myprofile_login_container_text));
-    	
-    	solo.waitForView(solo.getView(R.id.mitvlogin_login_email_edittext));
-    	solo.typeText((EditText) solo.getView(R.id.mitvlogin_login_email_edittext), "test1@test.se");
-    	solo.typeText((EditText) solo.getView(R.id.mitvlogin_login_password_edittext), "asdqwe");
-    	solo.clickOnView(solo.getView(R.id.mitvlogin_login_button));
-    	
-    	solo.sleep(TIMEOUT_LARGE);
-    	
-    	
-    }
-    
+	
+	public void test_swipe_to_switch() throws Exception{
+		solo.sleep(TIMEOUT_SMALL);
+		
+		solo.waitForView(solo.getView(R.id.tab_tv_guide));
+		solo.clickOnView(solo.getView(R.id.tab_tv_guide));
+		
+		solo.waitForView(solo.getView(R.id.tvguide_list_container));
+		
+		
+		solo.scrollToSide(solo.RIGHT, (float) 0.9);
+		assertTrue(solo.getText("Pelis").isSelected());
+		solo.sleep(TIMEOUT_SMALL);
+		
+		solo.scrollToSide(solo.RIGHT, (float) 0.9);
+		assertTrue(solo.getText("Series").isSelected());
+		solo.sleep(TIMEOUT_SMALL);
+		
+		solo.scrollToSide(solo.RIGHT, (float) 0.9);
+		assertTrue(solo.getText("Deportes").isSelected());
+		solo.sleep(TIMEOUT_SMALL);
+		
+		solo.scrollToSide(solo.LEFT, (float) 0.9);
+		assertTrue(solo.getText("Series").isSelected());
+		solo.sleep(TIMEOUT_SMALL);
+	}
+
+	public void test_click_to_switch() throws Exception{
+		solo.sleep(TIMEOUT_SMALL);
+		solo.clickOnView(solo.getText("Series"));
+		assertTrue(solo.getText("Series").isSelected());
+		solo.sleep(TIMEOUT_SMALL);
+		
+		solo.clickOnView(solo.getText("Deportes"));
+		assertTrue(solo.getText("Deportes").isSelected());
+		solo.sleep(TIMEOUT_SMALL);
+		
+		solo.clickOnView(solo.getText("Pelis"));
+		assertTrue(solo.getText("Pelis").isSelected());
+		solo.sleep(TIMEOUT_SMALL);
+	}
 }

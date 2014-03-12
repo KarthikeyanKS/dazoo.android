@@ -45,34 +45,39 @@ public class MyProfileActivityTest extends ActivityInstrumentationTestCase2<User
     	solo.finishOpenedActivities();
     }
     
-//    public void test() throws Exception {
-//    	solo.sleep(5000);
-//    	solo.clickOnView(solo.getView(R.id.action_start_search));
-//    	solo.sleep(10000);
-//	}
-    
     public void test_login() throws Exception {
 //    	solo.sleep(TIMEOUT_LARGE);
-    	
-    	solo.waitForView(solo.getView(R.id.myprofile_logout_container));
-    	solo.clickOnView(solo.getView(R.id.myprofile_logout_container));
-    	
-    	solo.sleep(TIMEOUT_LARGE);
+    	solo.sleep(TIMEOUT_SMALL);
     	
     	solo.waitForView(solo.getView(R.id.tab_me));
     	solo.clickOnView(solo.getView(R.id.tab_me));
     	
-    	solo.waitForView(solo.getView(R.id.myprofile_login_container_text));
+    	solo.waitForView(R.id.myprofile_login_container_text);
     	solo.clickOnView(solo.getView(R.id.myprofile_login_container_text));
     	
-    	solo.waitForView(solo.getView(R.id.mitvlogin_login_email_edittext));
+    	solo.sleep(TIMEOUT_SMALL);
+    	
+    	solo.waitForView(R.id.mitvlogin_login_email_edittext);
     	solo.typeText((EditText) solo.getView(R.id.mitvlogin_login_email_edittext), "test1@test.se");
     	solo.typeText((EditText) solo.getView(R.id.mitvlogin_login_password_edittext), "asdqwe");
+    	solo.sleep(TIMEOUT_SMALL);
     	solo.clickOnView(solo.getView(R.id.mitvlogin_login_button));
     	
-    	solo.sleep(TIMEOUT_LARGE);
-    	
-        //solo.waitForView(solo.getView(R.id.home_container));
+    	solo.waitForView(solo.getView(R.id.myprofile_header_container));
+    	solo.sleep(TIMEOUT_SMALL);
     }
     
+    public void test_logout() throws Exception {
+    	solo.sleep(TIMEOUT_SMALL);
+    	solo.waitForView(solo.getView(R.id.tab_me));
+    	solo.clickOnView(solo.getView(R.id.tab_me));
+    	
+    	solo.waitForView(R.id.myprofile_logout_container);
+    	solo.clickOnView(solo.getView(R.id.myprofile_logout_container));
+    	
+    	solo.sleep(TIMEOUT_SMALL);
+    	
+    	solo.waitForView(solo.getView(R.id.home_container));
+    	solo.sleep(TIMEOUT_SMALL);
+    }
 }
