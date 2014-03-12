@@ -6,9 +6,10 @@ package com.mitv.utilities;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.mitv.Constants;
@@ -19,6 +20,49 @@ import com.mitv.SecondScreenApplication;
 public abstract class NetworkUtils
 {	
 	private static final String TAG = NetworkUtils.class.getName();
+	
+	
+	
+	
+	public static String getActiveNetworkTypeAsString()
+	{
+		String activeNetworkTypeAsString = "Unknown";
+		
+		final Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		
+		ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		
+		if(cm != null)
+		{
+			NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+			
+			if(networkInfo != null)
+			{
+				int activeNetworkType = networkInfo.getType();
+				
+				switch(activeNetworkType)
+				{
+					case ConnectivityManager.TYPE_MOBILE:
+					{
+						TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+						
+						activeNetworkTypeAsString = tm.getNetworkOperatorName();
+						
+						break;
+					}
+					
+					case ConnectivityManager.TYPE_WIFI:
+					default:
+					{
+						activeNetworkTypeAsString = networkInfo.getTypeName();
+						break;
+					}
+				}
+			}
+		}
+		
+		return activeNetworkTypeAsString;
+	}
 	
 	
 	
@@ -39,7 +83,7 @@ public abstract class NetworkUtils
 		
 		boolean isConnected = false;
 		
-    	ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Activity.CONNECTIVITY_SERVICE);
+    	ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         
     	isConnected = (cm != null && 
     				   cm.getActiveNetworkInfo() != null && 

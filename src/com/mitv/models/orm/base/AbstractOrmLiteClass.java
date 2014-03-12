@@ -56,13 +56,19 @@ public abstract class AbstractOrmLiteClass<T>
 	protected abstract void onAfterSave();
 
 	protected Dao<? extends AbstractOrmLiteClass<?>, ?> getDao()
-			throws SQLException {
+			throws SQLException 
+	{
 		Dao<? extends AbstractOrmLiteClass<?>, ?> dao = null;
-		if (!hmClassDao.containsKey(this.getClass())) {
+		
+		if (!hmClassDao.containsKey(this.getClass())) 
+		{
 			dao = OrmLiteDatabaseHelper.getInstance().getDao(this.getClass());
+			
 			hmClassDao.put(this.getClass(), dao);
+			
 			createTableIfNeeded();
 		}
+		
 		dao = hmClassDao.get(this.getClass());
 		return dao;
 	}

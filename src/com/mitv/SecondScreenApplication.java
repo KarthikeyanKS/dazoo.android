@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
+import android.os.StrictMode;
 import android.util.Log;
 
 import com.mitv.utilities.AppDataUtils;
@@ -115,12 +116,34 @@ public class SecondScreenApplication
 		DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisc(true).build();
 
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext()).defaultDisplayImageOptions(displayImageOptions)
-				.memoryCache(new LruMemoryCache(2 * 1024 * 1024)).memoryCacheSize(2 * 1024 * 1024).discCacheSize(50 * 1024 * 1024).discCacheFileCount(100)
+				.memoryCache(new LruMemoryCache(2 * 1024 * 1024))
+				.memoryCacheSize(2 * 1024 * 1024)
+				.discCacheSize(50 * 1024 * 1024)
+				.discCacheFileCount(100)
 				.tasksProcessingOrder(QueueProcessingType.LIFO).build();
 		
 		ImageLoader.getInstance().init(config);
 
 		L.disableLogging();
+		
+		boolean enableStrictMode = Constants.ENABLE_STRICT_MODE;
+
+		if (enableStrictMode) 
+		{
+			 StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+             .detectDiskReads()
+             .detectDiskWrites()
+             .detectNetwork()
+             .penaltyLog()
+             .penaltyFlashScreen()
+             .build());
+     
+			 StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+             .detectLeakedSqlLiteObjects()
+             .detectLeakedClosableObjects()
+             .penaltyLog()
+             .build());
+		}
 		
 		// Imageloader that reset views before loading
 		// DisplayImageOptions resetViewDisplayImageOptions = new DisplayImageOptions.Builder()

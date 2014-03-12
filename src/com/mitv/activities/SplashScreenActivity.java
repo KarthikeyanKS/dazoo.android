@@ -6,7 +6,10 @@ package com.mitv.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.google.analytics.tracking.android.EasyTracker;
 import com.mitv.ContentManager;
+import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
@@ -40,6 +43,13 @@ public class SplashScreenActivity
 		setContentView(R.layout.layout_splash_screen_activity);
 		
 		progressTextView = (FontTextView) findViewById(R.id.splash_screen_activity_progress_text);
+		
+		/* Google Analytics Tracking */
+		EasyTracker.getInstance(this).activityStart(this);
+		
+		String className = this.getClass().getName();
+		
+		GATrackingManager.sendView(className);
 	}
 
 	
@@ -53,6 +63,8 @@ public class SplashScreenActivity
 		
 		if(isConnected)
 		{
+			GATrackingManager.getInstance().sendUserNetworkTypeEvent();
+			
 			loadData();
 		}
 		else 
