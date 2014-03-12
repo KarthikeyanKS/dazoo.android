@@ -29,6 +29,7 @@ import com.mitv.utilities.AppDataUtils;
 
 public class Cache 
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = Cache.class.getName();
 	
 	private ArrayList<TVTag> tvTags;

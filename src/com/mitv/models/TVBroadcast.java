@@ -107,7 +107,7 @@ public class TVBroadcast
 	{
 		Calendar now = DateUtils.getNow();
 		
-		boolean isRunning = getBeginTimeCalendarLocal().before(now) && getEndTimeCalendarLocal().after(now);		
+		boolean isRunning = getBeginTimeCalendarLocal().before(now) && getEndTimeCalendarLocal().after(now);
 
 		return isRunning;
 	}

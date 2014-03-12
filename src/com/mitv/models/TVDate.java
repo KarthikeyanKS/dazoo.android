@@ -19,7 +19,8 @@ public class TVDate
 {
 	@SuppressWarnings("unused")
 	private static final String TAG = TVDate.class.getName();
-	
+	protected Calendar startOfTVDayCalendar;
+	protected Calendar endOfTVDayCalendar;
 	
 	
 	public TVDate(String dateRepresentation)
@@ -27,28 +28,40 @@ public class TVDate
 		this.id = dateRepresentation;
 		this.date = dateRepresentation;
 		
-		this.dateCalendar = getDateCalendar();
+		this.startOfTVDayCalendar = getStartOfTVDayCalendar();
+		this.endOfTVDayCalendar = getEndOfTVDayCalendar();
 		
-		this.displayName = DateUtils.buildDayOfTheWeekAsString(dateCalendar);
+		this.displayName = DateUtils.buildDayOfTheWeekAsString(startOfTVDayCalendar);
 	}
 	
 	
 	
-	public Calendar getDateCalendar() 
+	public Calendar getStartOfTVDayCalendar() 
 	{
-		if(dateCalendar == null) 
+		if(startOfTVDayCalendar == null) 
 		{	
-			dateCalendar = DateUtils.convertFromYearAndDateStringToCalendar(date);
+			startOfTVDayCalendar = DateUtils.getCalendarForStartOfTVDay(date);
 		}
 		
-		return dateCalendar;
+		return startOfTVDayCalendar;
+	}
+	
+	public Calendar getEndOfTVDayCalendar() 
+	{
+		if(endOfTVDayCalendar == null) 
+		{	
+			endOfTVDayCalendar = DateUtils.getCalendarForEndOfTVDayUsingStartCalendar(getStartOfTVDayCalendar());
+		}
+		
+		return endOfTVDayCalendar;
 	}
 
 
 	
 	public boolean isToday() 
 	{
-		return DateUtils.isToday(getDateCalendar());
+		boolean isToday = DateUtils.isTodayUsingTVDate(this);
+		return isToday;
 	}
 
 
@@ -58,7 +71,8 @@ public class TVDate
 		final int yearOf2000 = 2000;
 
 		boolean areDataFieldsValid = (!TextUtils.isEmpty(getId()) && !TextUtils.isEmpty(getDisplayName()) && 
-				(getDateCalendar() != null) && getDateCalendar().get(Calendar.YEAR) > yearOf2000
+				(getStartOfTVDayCalendar() != null) && getStartOfTVDayCalendar().get(Calendar.YEAR) > yearOf2000 &&
+				getEndOfTVDayCalendar() != null && getEndOfTVDayCalendar().get(Calendar.YEAR) > yearOf2000
 				);
 		return areDataFieldsValid;
 	}

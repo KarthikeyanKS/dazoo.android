@@ -70,19 +70,13 @@ public class HomeActivity
 			hockeyAppCheckForUpdates();
 		}
 		
-		int currentHour = DateUtils.getCurrentHourOn24HourFormat();
-		
-		ContentManager.sharedInstance().setSelectedHour(currentHour);
-		
 		showWelcomeToast();
 		
 		if(ContentManager.sharedInstance().isUpdatingGuide()) {
 			updateUI(UIStatusEnum.LOADING);
 		}
 	}
-	
-	
-	
+		
 	/* Do not use this in Google Play builds */
 	private void hockeyAppCheckForCrashes() 
 	{
