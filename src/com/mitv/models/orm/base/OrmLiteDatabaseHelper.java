@@ -1,5 +1,5 @@
 
-package com.mitv.models.orm;
+package com.mitv.models.orm.base;
 
 
 

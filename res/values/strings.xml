@@ -6,6 +6,11 @@
     <string name="app_id" translatable="false">265897563561764</string>
     <string name="noImageContentDescription" translatable="false"></string>
     
+     <!-- GOOGLE PLAY MARKET URLS -->
+    <string name="market_url_for_google_play_market_details" translatable="false">market://details?id=</string> 
+    <string name="http_url_for_google_play_market_details" translatable="false">http://play.google.com/store/apps/details?id=</string> 
+    
+ 
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
@@ -299,5 +304,5 @@
     <!-- NO CONNECTION CUSTOM DIALOG -->
     <string name="dialog_prompt_check_internet_connection">Please check your internet connection</string> 
     <string name="dialog_prompt_check_internet_connection_button">Retry</string> 
-    
+       
 </resources>

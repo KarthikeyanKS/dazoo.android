@@ -105,13 +105,13 @@ public abstract class BaseActivity
              .detectDiskWrites()
              .detectNetwork()
              .penaltyLog()
+             .penaltyFlashScreen()
              .build());
      
 			 StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
              .detectLeakedSqlLiteObjects()
              .detectLeakedClosableObjects()
              .penaltyLog()
-             //.penaltyDeath()
              .build());
 		}
 
