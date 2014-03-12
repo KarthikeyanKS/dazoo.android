@@ -113,7 +113,6 @@ public class Cache
 		userData = (UserLoginData) AppDataUtils.loadData(Constants.SHARED_PREFERENCES_USER_DATA);
 	}
 	
-
 	
 	
 	public boolean isUpdatingGuide() {

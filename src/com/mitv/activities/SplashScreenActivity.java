@@ -100,7 +100,7 @@ public class SplashScreenActivity
 			
 			case API_VERSION_TOO_OLD: 
 			{
-				updateUI(UIStatusEnum.FAILED_VALIDATION);
+				updateUI(UIStatusEnum.API_VERSION_TOO_OLD);
 				break;
 			}
 			
@@ -119,7 +119,7 @@ public class SplashScreenActivity
 	{
 		switch (status) 
 		{
-			case FAILED_VALIDATION:
+			case API_VERSION_TOO_OLD:
 			{
 				DialogHelper.showMandatoryAppUpdateDialog(this);
 				break;

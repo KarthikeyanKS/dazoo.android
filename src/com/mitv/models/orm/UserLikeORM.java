@@ -8,6 +8,7 @@ import java.util.Date;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.mitv.enums.LikeTypeResponseEnum;
+import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.models.UserLike;
 import com.mitv.models.UserLikeNextBroadcast;
 
@@ -40,7 +41,7 @@ public class UserLikeORM
 	
 	/* This variable is used if likeType == "PROGRAM" */
 	@DatabaseField()
-	protected String programType;
+	protected ProgramTypeEnum programType;
 	
 	@DatabaseField()
 	protected String programId;
@@ -67,12 +68,18 @@ public class UserLikeORM
 		this.likeType = userLike.getLikeType();
 		this.title = userLike.getTitle();
 		this.broadcastCount = userLike.getBroadcastCount();
-		
-		// TODO NewArc - Implement this. Is this the best way?
+		this.nextBroadcast = userLike.getNextBroadcast();
+		this.seriesId = userLike.getSeriesId();
+		this.sportTypeId = userLike.getSportTypeId();
+		this.programType = userLike.getProgramType();
+		this.programId = userLike.getProgramId();
+		this.genre = userLike.getGenre();
+		this.year = userLike.getYear();
+		this.category = userLike.getCategory();
 	}
+	
 
-
-
+	
 	@Override
 	protected void onBeforeSave()
 	{

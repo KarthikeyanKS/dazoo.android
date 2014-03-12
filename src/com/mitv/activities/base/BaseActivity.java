@@ -38,6 +38,7 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ActivityCallbackListener;
 import com.mitv.ui.elements.UndoBarController;
 import com.mitv.ui.elements.UndoBarController.UndoListener;
+import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
@@ -566,6 +567,12 @@ public abstract class BaseActivity
 				updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
 				break;
 			}
+			
+			case API_VERSION_TOO_OLD:
+			{
+				break;
+			}
+			
 			case SUCCESS:
 			default:
 			{		
@@ -619,6 +626,12 @@ public abstract class BaseActivity
 					{
 						requestLoadingLayout.setVisibility(View.VISIBLE);
 					}
+					break;
+				}
+				
+				case API_VERSION_TOO_OLD:
+				{
+					DialogHelper.showMandatoryAppUpdateDialog(this);
 					break;
 				}
 	
