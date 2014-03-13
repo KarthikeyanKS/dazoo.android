@@ -3,10 +3,12 @@ package com.mitv.listadapters;
 
 
 
-import java.util.ArrayList;
+import java.util.List;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+
 import com.imbryk.viewPager.LoopViewPager;
 import com.mitv.fragments.TVGuideTableFragment;
 import com.mitv.models.TVDate;
@@ -21,12 +23,12 @@ public class TagTypeFragmentStatePagerAdapter
 	private static final String TAG = TagTypeFragmentStatePagerAdapter.class.getName();
 	
 	
-	private ArrayList<TVTag> tvTags;
+	private List<TVTag> tvTags;
 	private TVDate tvDate;
 
 	
 	
-	public TagTypeFragmentStatePagerAdapter(FragmentManager fm, ArrayList<TVTag> tags, TVDate tvDate) 
+	public TagTypeFragmentStatePagerAdapter(FragmentManager fm, List<TVTag> tags, TVDate tvDate) 
 	{
 		super(fm);
 		

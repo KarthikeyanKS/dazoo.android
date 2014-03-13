@@ -18,10 +18,9 @@ import com.mitv.asynctasks.local.BuildTVBroadcastsForTags;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.fragments.TVGuideTableFragment;
-import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.models.AppConfiguration;
 import com.mitv.models.AppVersion;
 import com.mitv.models.RepeatingBroadcastsForBroadcast;
@@ -43,7 +42,7 @@ import com.mitv.utilities.GenericUtils;
 
 
 public class ContentManager 
-	implements ContentCallbackListener 
+	implements ContentCallbackListener
 {
 	private static final String TAG = ContentManager.class.getName();
 	
@@ -139,7 +138,8 @@ public class ContentManager
 		}
 	}
 	
-	public static ContentManager sharedInstance() 
+	
+	public synchronized static ContentManager sharedInstance() 
 	{
 		if (sharedInstance == null) 
 		{
@@ -149,13 +149,16 @@ public class ContentManager
 		return sharedInstance;
 	}
 	
+	
 	public boolean isUpdatingGuide() {
 		return isUpdatingGuide;
 	}
 	
-	public void clearAllPersistentCacheData()
+	
+	
+	public static void clearAllPersistentCacheData()
 	{
-		cache.clearAllPersistentCacheData();
+		Cache.clearAllPersistentCacheData();
 	}
 	
 	
@@ -291,7 +294,7 @@ public class ContentManager
 						
 						TVDate tvDate = cache.getTvDateSelected();
 						
-						ArrayList<TVChannelId> tvChannelIds = cache.getTvChannelIdsUsed();
+						List<TVChannelId> tvChannelIds = cache.getTvChannelIdsUsed();
 						
 						apiClient.getTVChannelGuideOnPoolExecutor(activityCallbackListener, tvDate, tvChannelIds);
 					}
@@ -318,7 +321,7 @@ public class ContentManager
 						
 						TVDate tvDate = cache.getTvDateSelected();
 						
-						ArrayList<TVChannelId> tvChannelIds = cache.getTvChannelIdsUsed();
+						List<TVChannelId> tvChannelIds = cache.getTvChannelIdsUsed();
 						
 						apiClient.getTVChannelGuideOnPoolExecutor(activityCallbackListener, tvDate, tvChannelIds);
 					}
@@ -345,7 +348,7 @@ public class ContentManager
 						
 						TVDate tvDate = cache.getTvDateSelected();
 						
-						ArrayList<TVChannelId> tvChannelIds = cache.getTvChannelIdsUsed();
+						List<TVChannelId> tvChannelIds = cache.getTvChannelIdsUsed();
 						
 						apiClient.getTVChannelGuideOnPoolExecutor(activityCallbackListener, tvDate, tvChannelIds);
 					}
@@ -457,23 +460,32 @@ public class ContentManager
 		fetchFromServiceTVGuideUsingTVDate(activityCallbackListener, tvDate);
 	}
 		
-	private void fetchFromServiceTVGuideUsingTVDateAndTVChannelIds(ViewCallbackListener activityCallbackListener, TVDate tvDate, ArrayList<TVChannelId> tvChannelIds)
+	private void fetchFromServiceTVGuideUsingTVDateAndTVChannelIds(ViewCallbackListener activityCallbackListener, TVDate tvDate, List<TVChannelId> tvChannelIds)
 	{
 		registerListenerForRequest(RequestIdentifierEnum.TV_GUIDE_STANDALONE, activityCallbackListener);
-		if(!isUpdatingGuide) {
+		
+		if(!isUpdatingGuide) 
+		{
 			isUpdatingGuide = true;
+			
 			apiClient.getTVChannelGuides(activityCallbackListener, tvDate, tvChannelIds);
 		}
 	}
 	
 	private void fetchFromServiceTVGuideUsingTVDate(ViewCallbackListener activityCallbackListener, TVDate tvDate)
 	{
-		ArrayList<TVChannelId> tvChannelIds = cache.getTvChannelIdsUsed();
-		if(tvChannelIds != null) {
+		List<TVChannelId> tvChannelIds = cache.getTvChannelIdsUsed();
+		
+		if(tvChannelIds != null) 
+		{
 			Log.d(TAG, "PROFILING: fetchFromServiceTVGuideUsingTVDate: fetchFromServiceTVGuideUsingTVDateAndTVChannelIds");
+			
 			fetchFromServiceTVGuideUsingTVDateAndTVChannelIds(activityCallbackListener, tvDate, tvChannelIds);
-		} else {
+		} 
+		else 
+		{
 			Log.d(TAG, "PROFILING: fetchFromServiceTVGuideUsingTVDate: channel Ids null");
+			
 			activityCallbackListener.onResult(FetchRequestResultEnum.UNKNOWN_ERROR, RequestIdentifierEnum.TV_GUIDE_STANDALONE);
 		}
 	}
@@ -1301,9 +1313,10 @@ public class ContentManager
 		apiClient.performSetUserTVChannelIds(activityCallbackListener, tvChannelIds);
 	}
 	
-	public ArrayList<TVChannelId> getFromCacheTVChannelIdsUser() 
+	public List<TVChannelId> getFromCacheTVChannelIdsUser() 
 	{
-		ArrayList<TVChannelId> tvChannelIdsUser = cache.getTvChannelIdsUsed();
+		List<TVChannelId> tvChannelIdsUser = cache.getTvChannelIdsUsed();
+		
 		return tvChannelIdsUser;
 	}
 	
@@ -1431,9 +1444,10 @@ public class ContentManager
 	}
 
 	/* TVTags */
-	public ArrayList<TVTag> getFromCacheTVTags() 
+	public List<TVTag> getFromCacheTVTags() 
 	{
-		ArrayList<TVTag> tvTags = cache.getTvTags();
+		List<TVTag> tvTags = cache.getTvTags();
+		
 		return tvTags;
 	}
 	
@@ -1661,14 +1675,19 @@ public class ContentManager
 		return userId;
 	}
 	
-	public ArrayList<TVChannel> getFromCacheTVChannelsAll() {
-		ArrayList<TVChannel> tvChannelsAll = cache.getTvChannels();
+	
+	public List<TVChannel> getFromCacheTVChannelsAll()
+	{
+		List<TVChannel> tvChannelsAll = cache.getTvChannels();
+		
 		return tvChannelsAll;
 	}
 	
-	public ArrayList<UserLike> getFromCacheUserLikes()
+	
+	public List<UserLike> getFromCacheUserLikes()
 	{
-		ArrayList<UserLike> userLikes = cache.getUserLikes();
+		List<UserLike> userLikes = cache.getUserLikes();
+		
 		return userLikes;
 	}
 	
@@ -1704,8 +1723,10 @@ public class ContentManager
 		return popularBroadcasts;
 	}
 	
-	public ArrayList<TVDate> getFromCacheTVDates() {
-		 ArrayList<TVDate> tvDates = cache.getTvDates();
+	public List<TVDate> getFromCacheTVDates() 
+	{
+		 List<TVDate> tvDates = cache.getTvDates();
+		 
 		 return tvDates;
 	}
 	

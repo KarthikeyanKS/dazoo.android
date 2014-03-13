@@ -6,6 +6,7 @@ package com.mitv.asynctasks.local;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -13,8 +14,8 @@ import android.util.Log;
 import com.mitv.ContentManager;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.models.TVBroadcast;
 import com.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.models.TVChannel;
@@ -170,7 +171,7 @@ public class BuildTVBroadcastsForTags
 	
 	private ArrayList<String> tvTagIds() 
 	{
-		ArrayList<TVTag> tvTags = ContentManager.sharedInstance().getFromCacheTVTags();
+		List<TVTag> tvTags = ContentManager.sharedInstance().getFromCacheTVTags();
 		
 		ArrayList<String> tvTagsAsString = new ArrayList<String>();
 		

@@ -3,7 +3,7 @@ package com.mitv.fragments;
 
 
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -39,7 +39,7 @@ public class TVHolderFragment
 	private TagTypeFragmentStatePagerAdapter pagerAdapter;
 	private int selectedTabIndex = 0;
 	
-	private ArrayList<TVTag> tvTags;
+	private List<TVTag> tvTags;
 	
 	
 	

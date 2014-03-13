@@ -3,9 +3,6 @@ package com.mitv.models.gson;
 
 
 
-
-
-
 public class TVDateJSON 
 {
 	protected String id;
@@ -27,10 +24,8 @@ public class TVDateJSON
 	}
 
 
-
-
-
-	
-	
-	
+	public String getDate() 
+	{
+		return date;
+	}
 }

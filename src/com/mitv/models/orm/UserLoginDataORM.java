@@ -138,13 +138,15 @@ public class UserLoginDataORM
 	
 
 	
-	public String getToken() {
+	public String getToken() 
+	{
 		return token;
 	}
 
 
 
-	public String getUserId() {
+	public String getUserId() 
+	{
 		return userId;
 	}
 

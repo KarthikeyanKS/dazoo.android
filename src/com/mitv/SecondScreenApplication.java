@@ -146,18 +146,14 @@ public class SecondScreenApplication
              .build());
 		}
 		
-		if(isCurrentVersionAnUpgradeFromInstalledVersion())
+		if(Constants.FORCE_DATABASE_FLUSH || isCurrentVersionAnUpgradeFromInstalledVersion())
 		{
-			ContentManager.sharedInstance().clearAllPersistentCacheData();
+			ContentManager.clearAllPersistentCacheData();
 			
 			AppDataUtils.clearAllPreferences();
-			
-			setInstalledAppVersionToCurrentVersion();
 		}
-		else
-		{
-			setInstalledAppVersionToCurrentVersion();
-		}
+
+		setInstalledAppVersionToCurrentVersion();
 		
 		// Imageloader that reset views before loading
 		// DisplayImageOptions resetViewDisplayImageOptions = new DisplayImageOptions.Builder()
@@ -233,7 +229,7 @@ public class SecondScreenApplication
 		}
 		else
 		{
-			isCurrentVersionAnUpgradeFromInstalledVersion = installedAppVersion.equalsIgnoreCase(currentAppVersion);
+			isCurrentVersionAnUpgradeFromInstalledVersion = (installedAppVersion.equalsIgnoreCase(currentAppVersion) == false);
 		}
 		
 		return isCurrentVersionAnUpgradeFromInstalledVersion;

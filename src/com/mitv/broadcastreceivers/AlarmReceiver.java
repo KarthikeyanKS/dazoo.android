@@ -23,7 +23,7 @@ public class AlarmReceiver
 	@Override
 	public void onReceive(Context context, Intent intent)
 	{
-		if(intent.getAction().equals(Constants.INTENT_NOTIFICATION)) 
+		if(intent.getAction().equals(Constants.INTENT_NOTIFICATION))
 		{
 			int notificationId = intent.getIntExtra(Constants.INTENT_ALARM_EXTRA_NOTIFICIATION_ID, 0);
 			

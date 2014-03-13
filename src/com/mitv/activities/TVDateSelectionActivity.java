@@ -3,7 +3,7 @@ package com.mitv.activities;
 
 
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.OnNavigationListener;
@@ -72,7 +72,7 @@ public abstract class TVDateSelectionActivity
 	{
 		onNavigationItemSelectedHasBeenCalledByOSYet = false;
 		
-		ArrayList<TVDate> tvDates = ContentManager.sharedInstance().getFromCacheTVDates();
+		List<TVDate> tvDates = ContentManager.sharedInstance().getFromCacheTVDates();
 
 		dayAdapter = new ActionBarDropDownDateListAdapter(this, tvDates);
 

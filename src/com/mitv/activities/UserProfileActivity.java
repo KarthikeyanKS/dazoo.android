@@ -3,7 +3,7 @@ package com.mitv.activities;
 
 
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -295,7 +295,7 @@ public class UserProfileActivity
 
 			userNameTextView.setText(sbUsernameText.toString());
 
-			ArrayList<UserLike> userLikes = ContentManager.sharedInstance().getFromCacheUserLikes();
+			List<UserLike> userLikes = ContentManager.sharedInstance().getFromCacheUserLikes();
 			
 			if (userLikes != null && !userLikes.isEmpty()) 
 			{
@@ -311,7 +311,7 @@ public class UserProfileActivity
 				likesCountTv.setVisibility(View.GONE);
 			}
 
-			ArrayList<TVChannelId> userChannelIds = ContentManager.sharedInstance().getFromCacheTVChannelIdsUser();
+			List<TVChannelId> userChannelIds = ContentManager.sharedInstance().getFromCacheTVChannelIdsUser();
 			
 			if (userChannelIds != null && !userChannelIds.isEmpty()) 
 			{

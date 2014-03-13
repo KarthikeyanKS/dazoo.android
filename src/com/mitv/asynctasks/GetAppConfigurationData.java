@@ -23,6 +23,6 @@ public class GetAppConfigurationData
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.APP_CONFIGURATION, AppConfiguration.class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.APP_CONFIGURATION, AppConfiguration.class, true, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
 	}
 }

@@ -9,6 +9,7 @@ import android.text.TextUtils;
 
 import com.mitv.interfaces.GSONDataFieldValidation;
 import com.mitv.models.gson.TVDateJSON;
+import com.mitv.models.orm.TVDateORM;
 import com.mitv.utilities.DateUtils;
 
 
@@ -27,11 +28,33 @@ public class TVDate
 	{	
 		this.id = dateRepresentation;
 		this.date = dateRepresentation;
+		this.displayName = DateUtils.buildDayOfTheWeekAsString(getStartOfTVDayCalendar());
+	}
+	
+	
+	
+	public TVDate(TVDateORM tvDateORM)
+	{
+		this.id =  tvDateORM.getId();
+		this.date = tvDateORM.getDisplayName();
 		
-		this.startOfTVDayCalendar = getStartOfTVDayCalendar();
-		this.endOfTVDayCalendar = getEndOfTVDayCalendar();
+		/* This field will be set to null, as it needs to be recalculated */
+		this.displayName = null;
+	}
+	
+	
+	
+	@Override
+	public String getDisplayName() 
+	{
+		String displayName = super.getDisplayName();
 		
-		this.displayName = DateUtils.buildDayOfTheWeekAsString(startOfTVDayCalendar);
+		if(displayName == null) 
+		{
+			this.displayName = DateUtils.buildDayOfTheWeekAsString(getStartOfTVDayCalendar());
+		}
+		
+		return displayName;
 	}
 	
 	

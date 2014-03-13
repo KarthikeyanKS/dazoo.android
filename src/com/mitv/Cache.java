@@ -68,7 +68,7 @@ public class Cache
 	
 	
 	
-	public void clearAllPersistentCacheData()
+	public static void clearAllPersistentCacheData()
 	{
 		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
 		

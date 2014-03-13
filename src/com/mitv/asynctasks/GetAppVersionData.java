@@ -4,15 +4,13 @@ package com.mitv.asynctasks;
 
 
 import android.util.Log;
-
 import com.mitv.Constants;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.models.AppVersion;
 import com.mitv.models.AppVersionElement;
-import com.mitv.models.gson.AppVersionJSON;
 
 
 
