@@ -155,20 +155,7 @@ public class SignUpWithEmailActivity
 			
 			case FAILED_VALIDATION:
 			{
-				if(isInvalidEmail)
-				{
-					emailErrorTextView.setVisibility(View.VISIBLE);
-					emailErrorTextView.setText(getResources().getString(R.string.signup_with_email_login_wrong_format_email));
-					emailEditText.setBackgroundResource(R.drawable.edittext_activated);
-					emailEditText.requestFocus();
-				}
-				else if(isInvalidPassword)
-				{
-					passwordErrorTextView.setVisibility(View.VISIBLE);
-					passwordEditText.setBackgroundResource(R.drawable.edittext_activated);
-					passwordEditText.requestFocus();
-				}
-				else if(isInvalidFirstname)
+				if(isInvalidFirstname)
 				{
 					firstnameErrorTextView.setVisibility(View.VISIBLE);
 					firstNameEditText.setBackgroundResource(R.drawable.edittext_activated);
@@ -179,6 +166,27 @@ public class SignUpWithEmailActivity
 					lastnameErrorTextView.setVisibility(View.VISIBLE);
 					lastNameEditText.setBackgroundResource(R.drawable.edittext_activated);
 					lastNameEditText.requestFocus();
+				}
+				else if(isInvalidEmail)
+				{
+					emailErrorTextView.setVisibility(View.VISIBLE);
+					emailErrorTextView.setText(getResources().getString(R.string.signup_with_email_login_wrong_format_email));
+					emailEditText.setBackgroundResource(R.drawable.edittext_activated);
+					emailEditText.requestFocus();
+				}
+				else if(isInvalidPassword)
+				{
+					StringBuilder sb = new StringBuilder();
+					sb.append(getResources().getString(R.string.signup_with_email_error_passwordlength));
+					sb.append(" ");
+					sb.append(Constants.PASSWORD_LENGTH_MIN);
+					sb.append(" ");
+					sb.append(getResources().getString(R.string.signup_with_email_characters));
+					
+					passwordErrorTextView.setText(sb.toString());
+					passwordErrorTextView.setVisibility(View.VISIBLE);
+					passwordEditText.setBackgroundResource(R.drawable.edittext_activated);
+					passwordEditText.requestFocus();
 				}
 				else
 				{
