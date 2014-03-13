@@ -19,36 +19,36 @@ import com.google.gson.JsonParseException;
 public class AppConfigurationJSON
 	implements JsonDeserializer<AppConfigurationJSON>
 {
-	private int firstHourOfDay;
-	private String welcomeToast;
+	protected int firstHourOfDay;
+	protected String welcomeToast;
 
 	/* Ad configuration */
-	private boolean adsEnabled;
-	private int adzerkNetworkId;
-	private int adzerkSiteId;
-	private int adzerkLevel;
-	private List<Integer> adzerkFormats;
-	private List<Integer> adzerkFormatsForActivity;
-	private List<Integer> adzerkFormatsForAndroidGuide;
+	protected boolean adsEnabled;
+	protected int adzerkNetworkId;
+	protected int adzerkSiteId;
+	protected int adzerkLevel;
+	protected List<Integer> adzerkFormats;
+	protected List<Integer> adzerkFormatsForActivity;
+	protected List<Integer> adzerkFormatsForAndroidGuide;
 	
 	
 	/* Google Analytics configuration */
-	private double googleAnalyticsSampleRate;
-	private boolean googleAnalyticsEnabled;
-	private String googleAnalyticsTrackingId;
+	protected double googleAnalyticsSampleRate;
+	protected boolean googleAnalyticsEnabled;
+	protected String googleAnalyticsTrackingId;
 	
 	
 	/* Cell count configuration */
-	private int activityCellCountBetweenAdCells;
-	private int cellCountBetweenAdCells;
+	protected int activityCellCountBetweenAdCells;
+	protected int cellCountBetweenAdCells;
 	
 	
 	/* Facebook configuration */
-	private String facebookAppID;
+	protected String facebookAppID;
 	
 	
 	/* Tracking configuration */
-	private String trackingDomain;
+	protected String trackingDomain;
 	
 	
 	

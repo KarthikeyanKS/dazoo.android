@@ -21,21 +21,24 @@ import com.mitv.models.orm.base.OrmLiteDatabaseHelper.Upgrader;
 
 public abstract class AbstractOrmLiteClass<T> 
 {
-	private static final String LOG = AbstractOrmLiteClass.class.getSimpleName();
+	private static final String TAG = AbstractOrmLiteClass.class.getSimpleName();
 
-	
 	
 	private static OrmLiteDatabaseHelper ormLiteDbHelper;
 
 	private static HashMap<Class<?>, Dao<? extends AbstractOrmLiteClass<?>, ?>> hmClassDao = new HashMap<Class<?>, Dao<? extends AbstractOrmLiteClass<?>, ?>>();
+	
 	private static HashMap<Class<?>, RuntimeExceptionDao<? extends AbstractOrmLiteClass<?>, ?>> hmRuntimeDao = new HashMap<Class<?>, RuntimeExceptionDao<? extends AbstractOrmLiteClass<?>, ?>>();
 
-	public static void initDB(Context context) {
+	
+	
+	public static void initDB(Context context) 
+	{
 		if (ormLiteDbHelper == null) {
 			ormLiteDbHelper = new OrmLiteDatabaseHelper(context);
 			ormLiteDbHelper.getWritableDatabase();
-			Log.d(LOG, "OrmLite Class Has Been Initialized");
-			Log.d(LOG, OrmLiteDatabaseHelper.DATABASE_NAME + " (version "
+			Log.d(TAG, "OrmLite Class Has Been Initialized");
+			Log.d(TAG, OrmLiteDatabaseHelper.DATABASE_NAME + " (version "
 					+ OrmLiteDatabaseHelper.DATABASE_VERSION
 					+ ") has been created (if needed).");
 		}
@@ -47,8 +50,8 @@ public abstract class AbstractOrmLiteClass<T>
 			ormLiteDbHelper = new OrmLiteDatabaseHelper(context, databaseName,
 					databaseVersion, upgrader);
 			ormLiteDbHelper.getWritableDatabase();
-			Log.d(LOG, "OrmLite Class Has Been Initialized");
-			Log.d(LOG, databaseName + " (version " + databaseVersion
+			Log.d(TAG, "OrmLite Class Has Been Initialized");
+			Log.d(TAG, databaseName + " (version " + databaseVersion
 					+ ") has been created (if needed).");
 		}
 	}
@@ -87,11 +90,14 @@ public abstract class AbstractOrmLiteClass<T>
 		return runtimeDao;
 	}
 
-	private void createTableIfNeeded() {
-		try {
-			TableUtils.createTableIfNotExists(OrmLiteDatabaseHelper
-					.getInstance().getConnectionSource(), this.getClass());
-		} catch (SQLException e) {
+	private void createTableIfNeeded() 
+	{
+		try 
+		{
+			TableUtils.createTableIfNotExists(OrmLiteDatabaseHelper.getInstance().getConnectionSource(), this.getClass());
+		} 
+		catch (SQLException e) 
+		{
 			e.printStackTrace();
 		}
 	}
@@ -141,6 +147,23 @@ public abstract class AbstractOrmLiteClass<T>
 		((Dao<AbstractOrmLiteClass<T>, ?>) getDao()).refresh(this);
 	}
 
+	
+	
+	public int clearTable()
+	{
+		try
+		{
+			int rows = TableUtils.clearTable(OrmLiteDatabaseHelper.getInstance().getConnectionSource(), this.getClass());
+			
+			return rows;
+		}
+		catch(SQLException sqlex)
+		{
+			Log.e(TAG, sqlex.getMessage(), sqlex);
+			
+			return 0;
+		}
+	}
 
 	
 	public void deleteById(String field, String id)

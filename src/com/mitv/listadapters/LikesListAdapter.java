@@ -165,6 +165,7 @@ public class LikesListAdapter
 				case SERIES:
 				{
 					holder.programTypeTv.setText(activity.getResources().getString(R.string.tv_series));
+					break;
 				}
 				
 				case SPORT_TYPE:
