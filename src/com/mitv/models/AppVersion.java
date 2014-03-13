@@ -3,30 +3,46 @@ package com.mitv.models;
 
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import com.mitv.Constants;
 import com.mitv.models.gson.AppVersionJSON;
+import com.mitv.models.orm.AppVersionElementORM;
 
 
 
 public class AppVersion 
 {
-	private List<AppVersionJSON> appVersionDataParts;
+	private List<AppVersionElement> appVersionDataParts;
 
 	
 	
-	public AppVersion(AppVersionJSON[] appVersionDataParts)
+	public AppVersion(AppVersionElement[] appVersionDataParts)
 	{
 		this.appVersionDataParts = Arrays.asList(appVersionDataParts);
 	}
 	
 	
 	
-	public AppVersion(List<AppVersionJSON> appVersionDataParts)
+	public AppVersion(List<AppVersionElement> appVersionDataParts)
 	{
 		this.appVersionDataParts = appVersionDataParts;
+	}
+	
+	
+	
+	public AppVersion(List<AppVersionElementORM> AppVersionElementsORM, boolean ex)
+	{
+		this.appVersionDataParts = new ArrayList<AppVersionElement>(AppVersionElementsORM.size());
+		
+		for(AppVersionElementORM appVersionORMElement : AppVersionElementsORM)
+		{
+			AppVersionElement appVersionElement = new AppVersionElement(appVersionORMElement);
+			
+			appVersionDataParts.add(appVersionElement);
+		}
 	}
 	
 	
@@ -78,5 +94,12 @@ public class AppVersion
 		boolean isAPIVersionSupported = apiVersion.equalsIgnoreCase(Constants.SUPPORTED_API_VERSION);
 
 		return isAPIVersionSupported;
+	}
+
+
+
+	public List<AppVersionElement> getAppVersionDataParts() 
+	{
+		return appVersionDataParts;
 	}
 }
