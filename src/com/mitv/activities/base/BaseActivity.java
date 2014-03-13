@@ -37,7 +37,7 @@ import com.mitv.activities.UserProfileActivity;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.models.TVDate;
 import com.mitv.ui.elements.UndoBarController;
 import com.mitv.ui.elements.UndoBarController.UndoListener;
@@ -51,7 +51,7 @@ import com.mitv.utilities.NetworkUtils;
 
 public abstract class BaseActivity 
 	extends ActionBarActivity 
-	implements ActivityCallbackListener, OnClickListener, UndoListener 
+	implements ViewCallbackListener, OnClickListener, UndoListener 
 {
 	private static final String TAG = BaseActivity.class.getName();
 	private static final int TV_DATE_NOT_FOUND = -1;

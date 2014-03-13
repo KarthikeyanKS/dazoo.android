@@ -11,7 +11,7 @@ import android.support.v7.app.ActionBar.OnNavigationListener;
 import com.mitv.ContentManager;
 import com.mitv.activities.base.BaseContentActivity;
 import com.mitv.enums.UIStatusEnum;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.listadapters.ActionBarDropDownDateListAdapter;
 import com.mitv.models.TVDate;
 
@@ -24,7 +24,7 @@ public abstract class TVDateSelectionActivity
 	private ActionBarDropDownDateListAdapter dayAdapter;
 	private boolean onNavigationItemSelectedHasBeenCalledByOSYet;
 	
-	protected ActivityCallbackListener activityCallbackListener;
+	protected ViewCallbackListener activityCallbackListener;
 	
 	
 	/* Abstract methods */
@@ -119,7 +119,26 @@ public abstract class TVDateSelectionActivity
 		}
 	}
 	
-	
+	@Override
+	protected void updateUI(UIStatusEnum status) 
+	{
+		super.updateUIBaseElements(status);
+			
+		switch (status) 
+		{	
+			case SUCCEEDED_WITH_DATA:
+			{			
+				showDaySelection();
+				break;
+			}
+			
+			case NO_CONNECTION_AVAILABLE:
+			{
+				hideDaySelection();
+				break;
+			}
+		}
+	}
 	
 	
 	@Override

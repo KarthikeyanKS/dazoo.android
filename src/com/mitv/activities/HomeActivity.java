@@ -195,28 +195,17 @@ public class HomeActivity
 	@Override
 	protected void updateUI(UIStatusEnum status) 
 	{
+		super.updateUI(status);
 		super.updateUIBaseElements(status);
 			
 		switch (status) 
 		{	
 			case SUCCEEDED_WITH_DATA:
-			{
-				showDaySelection();
+			{			
 				attachFragment();
 				break;
 			}
-			
-			case NO_CONNECTION_AVAILABLE:
-			{
-				hideDaySelection();
-				break;
-			}
-	
-			default:
-			{
-				// Do nothing
-				break;
-			}
+			default:{/*Do nothing*/break;}
 		}
 	}
 }

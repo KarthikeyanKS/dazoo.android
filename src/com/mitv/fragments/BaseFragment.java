@@ -18,14 +18,14 @@ import com.mitv.R;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.utilities.GenericUtils;
 
 
 
 public abstract class BaseFragment 
 	extends Fragment
-	implements ActivityCallbackListener, OnClickListener
+	implements ViewCallbackListener, OnClickListener
 {
 	private static final String TAG = BaseFragment.class.getName();
 

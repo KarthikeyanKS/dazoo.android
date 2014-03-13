@@ -18,7 +18,7 @@ import com.mitv.http.HTTPCore;
 import com.mitv.http.HTTPCoreResponse;
 import com.mitv.http.HeaderParameters;
 import com.mitv.http.URLParameters;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.LanguageUtils;
@@ -33,7 +33,7 @@ public abstract class AsyncTaskBase<T>
 	
 	
 	private ContentCallbackListener contentCallbackListener;
-	private ActivityCallbackListener activityCallbackListener;
+	private ViewCallbackListener activityCallbackListener;
 	private RequestIdentifierEnum requestIdentifier;
 	
 	protected Gson gson;   // This is protected due to its use in classes that need to serialize data into the bodyContentData
@@ -57,7 +57,7 @@ public abstract class AsyncTaskBase<T>
 	
 	public AsyncTaskBase(
 			ContentCallbackListener contentCallbackListener, 
-			ActivityCallbackListener activityCallbackListener,
+			ViewCallbackListener activityCallbackListener,
 			RequestIdentifierEnum requestIdentifier, 
 			Class<T> clazz,
 			HTTPRequestTypeEnum httpRequestType,
@@ -71,7 +71,7 @@ public abstract class AsyncTaskBase<T>
 	
 	public AsyncTaskBase(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallbackListener,
+			ViewCallbackListener activityCallbackListener,
 			RequestIdentifierEnum requestIdentifier,
 			Class<T> clazz,
 			Class clazzSingle,

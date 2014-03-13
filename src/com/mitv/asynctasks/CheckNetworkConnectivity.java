@@ -8,7 +8,7 @@ import android.util.Log;
 
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.utilities.NetworkUtils;
 
@@ -20,7 +20,7 @@ public class CheckNetworkConnectivity
 	private static final String TAG = CheckNetworkConnectivity.class.getName();
 	
 	private ContentCallbackListener contentCallbackListener;
-	private ActivityCallbackListener activityCallbackListener;
+	private ViewCallbackListener activityCallbackListener;
 	private RequestIdentifierEnum requestIdentifier;
 	
 	private Boolean isConnectedAndHostIsReachable;
@@ -29,7 +29,7 @@ public class CheckNetworkConnectivity
 	
 	public CheckNetworkConnectivity(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallbackListener,
+			ViewCallbackListener activityCallbackListener,
 			RequestIdentifierEnum requestIdentifier)
 	{
 		this.contentCallbackListener = contentCallbackListener;

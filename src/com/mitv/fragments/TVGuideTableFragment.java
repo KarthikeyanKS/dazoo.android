@@ -20,7 +20,7 @@ import com.mitv.R;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.SwipeClockTimeSelectedCallbackListener;
 import com.mitv.listadapters.AdListAdapter;
 import com.mitv.listadapters.TVGuideListAdapter;
@@ -38,7 +38,7 @@ import com.mitv.ui.elements.SwipeClockBar;
 
 public class TVGuideTableFragment 
 	extends BaseFragment 
-	implements ActivityCallbackListener, SwipeClockTimeSelectedCallbackListener
+	implements ViewCallbackListener, SwipeClockTimeSelectedCallbackListener
 {
 	private static final String TAG = TVGuideTableFragment.class.getName();
 
@@ -174,7 +174,7 @@ public class TVGuideTableFragment
 		} 
 		else 
 		{
-			ContentManager.sharedInstance().getElseFetchFromServiceTaggedBroadcastsForSelectedTVDate(this, false);
+			ContentManager.sharedInstance().getElseBuildTaggedBroadcastsForSelectedTVDate(this, tvTagDisplayName);
 		}
 	}
 	

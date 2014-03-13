@@ -87,7 +87,6 @@ public class Cache
 	private HashMap<String, HashMap<String, ArrayList<TVBroadcastWithChannelInfo>>> nonPersistentTaggedBroadcastsForAllDays;
 	
 	private int nonPersistentTVDateSelectedIndex;
-	private boolean nonPersistentFlagUpdatingGuide;
 	private TVBroadcastWithChannelInfo nonPersistentSelectedBroadcastWithChannelInfo;
 	private UpcomingBroadcastsForBroadcast nonPersistentUpcomingBroadcasts;
 	private RepeatingBroadcastsForBroadcast nonPersistentRepeatingBroadcasts;
@@ -102,7 +101,6 @@ public class Cache
 	/* Should only be used by the ContentManager */
 	public Cache()
 	{
-		this.nonPersistentFlagUpdatingGuide = false;
 		
 		this.tvGuidesAll = new HashMap<String, TVGuide>();
 		this.userLikes = new ArrayList<UserLike>();
@@ -127,18 +125,6 @@ public class Cache
 		// TODO NewArc - Implement this
 	}
 	
-	
-	
-	public boolean isUpdatingGuide() {
-		return nonPersistentFlagUpdatingGuide;
-	}
-
-
-	public void setUpdatingGuide(boolean nonPersistentFlagUpdatingGuide) {
-		this.nonPersistentFlagUpdatingGuide = nonPersistentFlagUpdatingGuide;
-	}
-
-
 	public UserLike getLikeToAddAfterLogin() {
 		return nonPersistentLikeToAddAfterLogin;
 	}
@@ -671,7 +657,9 @@ public class Cache
 	
 	public synchronized void purgeTaggedBroadcastForDay(TVDate tvDate) 
 	{
-		nonPersistentTaggedBroadcastsForAllDays.remove(tvDate.getId());
+		if(nonPersistentTaggedBroadcastsForAllDays != null) {
+			nonPersistentTaggedBroadcastsForAllDays.remove(tvDate.getId());
+		}
 	}
 	
 	

@@ -10,7 +10,7 @@ import com.mitv.ContentManager;
 import com.mitv.asynctasks.AsyncTaskWithRelativeURL;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
 
 
@@ -24,7 +24,7 @@ public abstract class AsyncTaskWithUserToken<T>
 	
 	public AsyncTaskWithUserToken(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallbackListener, 
+			ViewCallbackListener activityCallbackListener, 
 			RequestIdentifierEnum requestIdentifier,
 			Class<T> clazz,
 			HTTPRequestTypeEnum httpRequestType,
@@ -37,7 +37,7 @@ public abstract class AsyncTaskWithUserToken<T>
 	
 	public AsyncTaskWithUserToken(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallbackListener, 
+			ViewCallbackListener activityCallbackListener, 
 			RequestIdentifierEnum requestIdentifier,
 			Class<T> clazz,
 			Class clazzSingle,
