@@ -141,6 +141,12 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/block_feed_liked_divider"
                 layout="@layout/element_social_buttons" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/block_feed_social_items"
+                android:background="@color/grey2" />
         </RelativeLayout>
     </RelativeLayout>
 
