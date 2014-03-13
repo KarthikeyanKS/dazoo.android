@@ -241,15 +241,15 @@ public class APIClient
 	}
 	
 	
-	public void getUserTVFeedItems(ViewCallbackListener activityCallbackListener) 
+	public void getUserTVFeedItemsInitial(ViewCallbackListener activityCallbackListener) 
 	{
-		GetUserTVFeedItems getFeedItems = new GetUserTVFeedItems(contentCallbackListener, activityCallbackListener);
+		GetUserTVFeedItems getFeedItems = new GetUserTVFeedItems(contentCallbackListener, activityCallbackListener, 0, Constants.FEED_ACTIVITY_FEED_ITEM_INITIAL_COUNT);
 		getFeedItems.execute();
 	}
 	
-	public void getUserTVFeedItemsWithOffsetAndLimit(ViewCallbackListener activityCallbackListener, int offset, int limit)
+	public void getUserTVFeedItemsWithOffsetAndLimit(ViewCallbackListener activityCallbackListener, int offset)
 	{
-		GetUserTVFeedItems getFeedItems = new GetUserTVFeedItems(contentCallbackListener, activityCallbackListener, offset, limit);
+		GetUserTVFeedItems getFeedItems = new GetUserTVFeedItems(contentCallbackListener, activityCallbackListener, offset, Constants.FEED_ACTIVITY_FEED_ITEM_MORE_COUNT);
 		getFeedItems.execute();
 	}
 	

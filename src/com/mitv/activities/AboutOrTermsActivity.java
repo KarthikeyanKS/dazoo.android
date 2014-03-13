@@ -8,21 +8,19 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.Html;
-import android.text.Spannable;
-import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
-import android.text.style.URLSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
+
 import com.mitv.R;
 import com.mitv.activities.base.BaseActivity;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.ui.elements.FontTextView;
+import com.mitv.utilities.HyperLinkUtils;
 
 
 
@@ -121,7 +119,7 @@ public abstract class AboutOrTermsActivity
 		linkTv.setText(Html.fromHtml(linkText));
 		linkTv.setMovementMethod(LinkMovementMethod.getInstance());
 		
-		stripUnderlines(linkTv);
+		HyperLinkUtils.stripUnderlines(linkTv);
 	}
 
 	
@@ -143,55 +141,9 @@ public abstract class AboutOrTermsActivity
 		}
 	}
 	
-	
-	
-	private class URLSpanNoUnderline extends URLSpan 
-	{
-		public URLSpanNoUnderline(String url)
-		{
-			super(url);
-		}
-
-		@Override
-		public void updateDrawState(TextPaint ds) 
-		{
-			super.updateDrawState(ds);
-			
-			ds.setUnderlineText(false);
-		}
-	}
-
-	
-	
-	private void stripUnderlines(TextView textView) 
-	{
-		Spannable s = (Spannable) textView.getText();
 		
-		URLSpan[] spans = s.getSpans(0, s.length(), URLSpan.class);
-		
-		for (URLSpan span : spans) 
-		{
-			int start = s.getSpanStart(span);
-			
-			int end = s.getSpanEnd(span);
-			
-			s.removeSpan(span);
-			
-			span = new URLSpanNoUnderline(span.getURL());
-			
-			s.setSpan(span, start, end, 0);
-		}
-		
-		textView.setText(s);
-	}
-
-	
-	
 	@Override
-	protected void loadData() 
-	{
-		// Do nothing (no data to load on this activity)
-	}
+	protected void loadData() {/* Do nothing (no data to load on this activity) */}
 	
 	
 	
@@ -204,10 +156,7 @@ public abstract class AboutOrTermsActivity
 	
 	
 	@Override
-	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
-	{
-		// Do nothing (no data to load on this activity)
-	}
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {/* Do nothing (no data to load on this activity) */}
 
 	
 
@@ -215,20 +164,5 @@ public abstract class AboutOrTermsActivity
 	protected void updateUI(UIStatusEnum status) 
 	{
 		super.updateUIBaseElements(status);
-
-		switch (status) 
-		{	
-			case SUCCEEDED_WITH_DATA:
-			{
-				// Do nothing
-				break;
-			}
-	
-			default:
-			{
-				// Do nothing
-				break;
-			}
-		}
 	}
 }

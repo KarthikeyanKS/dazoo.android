@@ -153,7 +153,7 @@ public class TVBroadcast
 	{
 		Calendar calendar = (Calendar) getBeginTimeCalendarLocal().clone();
 
-		int minutesBeforeNotify = Constants.NOTIFY_MINUTES_BEFORE_THE_BROADCAST2;
+		int minutesBeforeNotify = Constants.NOTIFY_MINUTES_BEFORE_THE_BROADCAST;
 		
 		calendar.add(Calendar.MINUTE, -minutesBeforeNotify);
 		
