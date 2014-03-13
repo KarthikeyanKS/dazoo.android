@@ -44,8 +44,6 @@ public class AdListAdapter<T> extends BaseAdapter {
 	private int cellCountBetweenAdCells;
 	private boolean isAdsEnabled;
 
-	
-	
 	public AdListAdapter(String fragmentName, Activity activity, List<T> items) 
 	{
 		super();
@@ -77,7 +75,10 @@ public class AdListAdapter<T> extends BaseAdapter {
 		}
 	}
 	
-	
+
+	public void setItems(List<T> items) {
+		this.items = items;
+	}
 	
 	private void downloadAds() 
 	{

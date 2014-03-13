@@ -85,7 +85,7 @@ public abstract class BaseActivity
 	private boolean userHasJustLoggedIn;
 	private boolean userHasJustLoggedOut;
 	
-
+	protected RequestIdentifierEnum latestRequest;
 	
 	/* Abstract Methods */
 
@@ -644,6 +644,7 @@ public abstract class BaseActivity
 	@Override
 	public final void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
+		this.latestRequest = requestIdentifier;
 		switch (fetchRequestResult) 
 		{
 			case INTERNET_CONNECTION_AVAILABLE: 

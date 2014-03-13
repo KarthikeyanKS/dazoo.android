@@ -806,11 +806,14 @@ public class ContentManager
 				// TODO
 				break;
 			}
+			case USER_ACTIVITY_FEED_ITEM_MORE: {
+				handleActivityFeedMoreItemsResponse(activityCallbackListener, requestIdentifier, result, content);
+				break;
+			}
 			case USER_ACTIVITY_FEED_ITEM:
-			case USER_ACTIVITY_FEED_ITEM_MORE:
 			case USER_ACTIVITY_FEED_LIKES:
 			{
-				handleActivityFeedResponse(activityCallbackListener, requestIdentifier, result, content);
+				handleActivityFeedInitalFetchResponse(activityCallbackListener, requestIdentifier, result, content);
 				break;
 			}
 			case POPULAR_ITEMS: 
@@ -879,12 +882,30 @@ public class ContentManager
 		activityCallbackListener.onResult(result, requestIdentifier);
 	}
 	
-	
-	
-	private void handleActivityFeedResponse(
+	private void handleActivityFeedMoreItemsResponse(
 			ViewCallbackListener activityCallbackListener,
 			RequestIdentifierEnum requestIdentifier,
-			FetchRequestResultEnum result, 
+			FetchRequestResultEnum result,
+			Object content)
+	{
+		if(result.wasSuccessful() && content != null) 
+		{
+			@SuppressWarnings("unchecked")
+			ArrayList<TVFeedItem> feedItems = (ArrayList<TVFeedItem>) content;
+			cache.addMoreActivityFeedItems(feedItems);
+			isFetchingFeedItems = false;
+			
+			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, requestIdentifier);
+		} else {
+			//TODO handle this better?
+			activityCallbackListener.onResult(FetchRequestResultEnum.UNKNOWN_ERROR, requestIdentifier);
+		}
+	}
+	
+	private void handleActivityFeedInitalFetchResponse(
+			ViewCallbackListener activityCallbackListener,
+			RequestIdentifierEnum requestIdentifier,
+			FetchRequestResultEnum result,
 			Object content)
 	{
 		completedCountTVActivityFeed++;
@@ -902,17 +923,6 @@ public class ContentManager
 					notifyFetchDataProgressListenerMessage(SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_activityfeed));
 					break;
 				}
-				
-				case USER_ACTIVITY_FEED_ITEM_MORE:
-				{
-					@SuppressWarnings("unchecked")
-					ArrayList<TVFeedItem> feedItems = (ArrayList<TVFeedItem>) content;
-					cache.addMoreActivityFeedItems(feedItems);
-					isFetchingFeedItems = false;
-					notifyFetchDataProgressListenerMessage(SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_activityfeed_more));
-					break;
-				}
-				
 				case USER_ACTIVITY_FEED_LIKES:
 				{
 					@SuppressWarnings("unchecked")
@@ -928,7 +938,7 @@ public class ContentManager
 			{
 				completedCountTVActivityFeed = 0;
 				
-				activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.USER_ACTIVITY_FEED_ITEM);
+				activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, RequestIdentifierEnum.USER_ACTIVITY_FEED_INITIAL_DATA);
 			}
 		} 
 		else 
