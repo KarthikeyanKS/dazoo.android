@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -128,28 +129,35 @@ public class ChannelPageListAdapter extends BaseAdapter {
 				int season = broadcast.getProgram().getSeason().getNumber();
 				int episode = broadcast.getProgram().getEpisodeNumber();
 				String seasonEpisode = "";
+				
 				if (season > 0) {
 					seasonEpisode += activity.getResources().getString(R.string.season) + " " + season + " ";
 				}
 				if (episode > 0) {
 					seasonEpisode += activity.getResources().getString(R.string.episode) + " " + episode;
 				}
+				
 				holder.description.setText(seasonEpisode);
 				holder.title.setText(broadcast.getProgram().getSeries().getName());
 				break;
 			}
 			case SPORT: {
-				if (Constants.BROADCAST_TYPE_LIVE.equals(broadcastType)) {
+				if (Constants.BROADCAST_TYPE_LIVE.equals(broadcastType.toString())) {
 					holder.title.setText(activity.getResources().getString(R.string.icon_live) + " " + title);
-					holder.description.setText(broadcast.getProgram().getSportType().getName() + ": " + broadcast.getProgram().getTournament());
 				} else {
-					holder.description.setText(broadcast.getProgram().getSportType().getName() + ": " + broadcast.getProgram().getTournament());
 					holder.title.setText(title);
 				}
+
+				holder.description.setText(broadcast.getProgram().getSportType().getName() + ": " + broadcast.getProgram().getTournament());
 				break;
 			}
 			case OTHER: {
-				holder.title.setText(title);
+				if (Constants.BROADCAST_TYPE_LIVE.equals(broadcastType.toString()))  {
+					holder.title.setText(activity.getResources().getString(R.string.icon_live) + " " + title);
+				} else {
+					holder.title.setText(title);
+				}
+				
 				holder.description.setText(broadcast.getProgram().getCategory());
 				break;
 			}
