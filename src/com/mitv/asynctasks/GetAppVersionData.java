@@ -17,7 +17,7 @@ import com.mitv.models.gson.AppVersionJSON;
 
 
 public class GetAppVersionData 
-	extends AsyncTaskWithRelativeURL<AppVersionJSON[]> 
+	extends AsyncTaskWithRelativeURL<AppVersionElement[]> 
 {
 	private static final String TAG = GetAppVersionData.class.getName();
 	
@@ -29,7 +29,7 @@ public class GetAppVersionData
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.APP_VERSION, AppVersionJSON[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.APP_VERSION, AppVersionElement[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
 	}
 	
 	
