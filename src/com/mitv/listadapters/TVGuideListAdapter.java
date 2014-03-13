@@ -278,11 +278,11 @@ public class TVGuideListAdapter
 			}
 		}
 
-		if (textForThreeBroadcasts.equals("")) {
-			rowView.setVisibility(View.INVISIBLE);
-		} else {
-			rowView.setVisibility(View.VISIBLE);
-		}
+//		if (textForThreeBroadcasts.equals("")) {
+//			rowView.setVisibility(View.INVISIBLE);
+//		} else {
+//			rowView.setVisibility(View.VISIBLE);
+//		}
 
 		return rowView;
 	}

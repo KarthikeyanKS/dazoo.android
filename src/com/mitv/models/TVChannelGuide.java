@@ -30,7 +30,7 @@ public class TVChannelGuide
 			final int hour, 
 			final TVDate tvDate,
 			int howManyIncludingCurrent) {
-		int indexOfNearestBroadcast = getClosestBroadcastIndex(hour, tvDate, 0);
+		int indexOfNearestBroadcast = getClosestBroadcastIndex(hour, tvDate, -1);
 		ArrayList<TVBroadcast> threeNextBroadcasts = getBroadcastsFromPosition(indexOfNearestBroadcast, howManyIncludingCurrent);
 		return threeNextBroadcasts;
 	}
