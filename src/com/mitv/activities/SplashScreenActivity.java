@@ -106,7 +106,7 @@ public class SplashScreenActivity
 		{
 			case SUCCESS: 
 			{
-				updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 				break;
 			}
 			
@@ -137,7 +137,7 @@ public class SplashScreenActivity
 				break;
 			}
 			
-			case SUCCEEDED_WITH_DATA: 
+			case SUCCESS_WITH_CONTENT: 
 			case NO_CONNECTION_AVAILABLE:
 			default:
 			{

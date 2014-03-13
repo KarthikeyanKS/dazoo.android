@@ -33,7 +33,7 @@
     <color name="home_divider">#E5E5E5</color>
     <color name="tab_divider_selected">#ba3b07</color>
     <color name="tab_divider_default">#eb8117</color>
-    <color name="tab_unselected">#88FFFFFF</color>
+    <color name="tab_unselected">#C9FFFFFF</color>
     <color name="tab_dropshadow">#A64E00</color>
     
     <color name="facebook_blue">#3B5998</color>

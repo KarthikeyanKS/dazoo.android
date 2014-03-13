@@ -149,7 +149,7 @@ public class ChannelPageActivity
 		{
 			setFollowingBroadcasts(currentAndUpcomingbroadcasts);
 			
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 		} 
 		else 
 		{

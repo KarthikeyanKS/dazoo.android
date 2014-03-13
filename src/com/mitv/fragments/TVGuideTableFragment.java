@@ -200,7 +200,7 @@ public class TVGuideTableFragment
 					taggedBroadcasts = taggedBroadcastForDay.get(tvTagIdAsString);
 				}
 				
-				updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 				break;
 			}
 			
@@ -221,7 +221,7 @@ public class TVGuideTableFragment
 
 		switch (status) 
 		{	
-			case SUCCEEDED_WITH_DATA:
+			case SUCCESS_WITH_CONTENT:
 			{
 				boolean isAllCategoriesTag = tvTagDisplayName.equals(Constants.ALL_CATEGORIES_TAG);
 				

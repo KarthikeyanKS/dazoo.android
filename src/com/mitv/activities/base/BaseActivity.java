@@ -8,6 +8,7 @@ import java.util.Stack;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -27,6 +28,7 @@ import android.widget.TextView;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.mitv.Constants;
 import com.mitv.ContentManager;
+import com.mitv.FontManager;
 import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.activities.FeedActivity;
@@ -363,61 +365,88 @@ public abstract class BaseActivity
 
 	protected void setSelectedTabAsTVGuide() {
 		if (tabTvGuide != null) {
-			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+//			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
 			tabTvGuideIcon.setTextColor(getResources().getColor(R.color.white));
 			tabTvGuideText.setTextColor(getResources().getColor(R.color.white));
+			tabTvGuideIcon.setShadowLayer(2, 2, 2, getResources().getColor(R.color.tab_dropshadow));
+			tabTvGuideText.setShadowLayer(2, 2, 2, getResources().getColor(R.color.tab_dropshadow));
+
+			Typeface bold = FontManager.getFontBold(getApplicationContext());
+			tabTvGuideText.setTypeface(bold);
 		}
 
 		if (tabActivity != null) {
-			tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+//			tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
 			tabActivityIcon.setTextColor(getResources().getColor(R.color.tab_unselected));
 			tabActivityText.setTextColor(getResources().getColor(R.color.tab_unselected));
+			tabActivityIcon.setShadowLayer(0, 0, 0, 0);
+			tabActivityText.setShadowLayer(0, 0, 0, 0);
 		}
 
 		if (tabProfile != null) {
-			tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+//			tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
 			tabProfileIcon.setTextColor(getResources().getColor(R.color.tab_unselected));
 			tabProfileText.setTextColor(getResources().getColor(R.color.tab_unselected));
+			tabProfileIcon.setShadowLayer(0, 0, 0, 0);
+			tabProfileText.setShadowLayer(0, 0, 0, 0);
 		}
 	}
 
 	protected void setSelectedTabAsActivityFeed() {
 		if (tabTvGuide != null) {
-			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+//			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 			tabTvGuideIcon.setTextColor(getResources().getColor(R.color.tab_unselected));
 			tabTvGuideText.setTextColor(getResources().getColor(R.color.tab_unselected));
+			tabTvGuideIcon.setShadowLayer(0, 0, 0, 0);
+			tabTvGuideText.setShadowLayer(0, 0, 0, 0);
 		}
 
 		if (tabActivity != null) {
-			tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+//			tabActivity.setBackgroundColor(getResources().getColor(R.color.red));
 			tabActivityIcon.setTextColor(getResources().getColor(R.color.white));
 			tabActivityText.setTextColor(getResources().getColor(R.color.white));
+			tabActivityIcon.setShadowLayer(2, 2, 2, getResources().getColor(R.color.tab_dropshadow));
+			tabActivityText.setShadowLayer(2, 2, 2, getResources().getColor(R.color.tab_dropshadow));
+			
+			Typeface bold = FontManager.getFontBold(getApplicationContext());
+			tabActivityText.setTypeface(bold);
 		}
 
 		if (tabProfile != null) {
-			tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+//			tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
 			tabProfileIcon.setTextColor(getResources().getColor(R.color.tab_unselected));
 			tabProfileText.setTextColor(getResources().getColor(R.color.tab_unselected));
+			tabProfileIcon.setShadowLayer(0, 0, 0, 0);
+			tabProfileText.setShadowLayer(0, 0, 0, 0);
 		}
 	}
 
 	protected void setSelectedTabAsUserProfile() {
 		if (tabTvGuide != null) {
-			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+//			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
 			tabTvGuideIcon.setTextColor(getResources().getColor(R.color.tab_unselected));
 			tabTvGuideText.setTextColor(getResources().getColor(R.color.tab_unselected));
+			tabTvGuideIcon.setShadowLayer(0, 0, 0, 0);
+			tabTvGuideText.setShadowLayer(0, 0, 0, 0);
 		}
 
 		if (tabActivity != null) {
-			tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+//			tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
 			tabActivityIcon.setTextColor(getResources().getColor(R.color.tab_unselected));
 			tabActivityText.setTextColor(getResources().getColor(R.color.tab_unselected));
+			tabActivityIcon.setShadowLayer(0, 0, 0, 0);
+			tabActivityText.setShadowLayer(0, 0, 0, 0);
 		}
 
 		if (tabProfile != null) {
-			tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+//			tabProfile.setBackgroundColor(getResources().getColor(R.color.red));
 			tabProfileIcon.setTextColor(getResources().getColor(R.color.white));
 			tabProfileText.setTextColor(getResources().getColor(R.color.white));
+			tabProfileIcon.setShadowLayer(2, 2, 2, getResources().getColor(R.color.tab_dropshadow));
+			tabProfileText.setShadowLayer(2, 2, 2, getResources().getColor(R.color.tab_dropshadow));
+			
+			Typeface bold = FontManager.getFontBold(getApplicationContext());
+			tabProfileText.setTypeface(bold);
 		}
 	}
 
@@ -721,7 +750,7 @@ public abstract class BaseActivity
 					break;
 				}
 	
-				case SUCCEEDED_WITH_DATA:
+				case SUCCESS_WITH_CONTENT:
 				default:
 				{
 					// Success or other cases should be handled by the subclasses

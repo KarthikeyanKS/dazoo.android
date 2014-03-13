@@ -100,7 +100,7 @@ public class RemindersActivity
 
 			listAdapter = new RemindersListAdapter(this, tvBroadcasts);
 
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 		}
 	}
 	
@@ -135,7 +135,7 @@ public class RemindersActivity
 				break;
 			}
 		
-			case SUCCEEDED_WITH_DATA:
+			case SUCCESS_WITH_CONTENT:
 			{
 				listView.setAdapter(listAdapter);
 				break;

@@ -91,7 +91,7 @@ public class LikesActivity
 					
 					if(cacheContainsLikes)
 					{
-						updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+						updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 					}
 					else
 					{
@@ -128,7 +128,7 @@ public class LikesActivity
 				break;
 			}
 		
-			case SUCCEEDED_WITH_DATA:
+			case SUCCESS_WITH_CONTENT:
 			{
 				List<UserLike> userLikes = ContentManager.sharedInstance().getFromCacheUserLikes();
 				

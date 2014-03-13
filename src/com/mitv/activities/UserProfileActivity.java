@@ -101,7 +101,7 @@ public class UserProfileActivity
 		} 
 		else
 		{
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 		}
 	}
 	
@@ -133,7 +133,7 @@ public class UserProfileActivity
 			{
 				case USER_LIKES:
 				{
-					updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+					updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 					break;
 				}
 				
@@ -180,10 +180,10 @@ public class UserProfileActivity
 			}
 	
 			case SUCCESS_WITH_NO_CONTENT:
-			case SUCCEEDED_WITH_DATA: 
+			case SUCCESS_WITH_CONTENT: 
 			{
 				scrollView.setVisibility(View.VISIBLE);
-				populateViews();
+				updateUserLikesGUI();
 				break;
 			}
 	
@@ -294,22 +294,8 @@ public class UserProfileActivity
 			sbUsernameText.append(userLastname);
 
 			userNameTextView.setText(sbUsernameText.toString());
-
-			List<UserLike> userLikes = ContentManager.sharedInstance().getFromCacheUserLikes();
 			
-			if (userLikes != null && !userLikes.isEmpty()) 
-			{
-				StringBuilder userLikesSB = new StringBuilder();
-				userLikesSB.append("(");
-				userLikesSB.append(userLikes.size());
-				userLikesSB.append(")");
-				likesCountTv.setText(userLikesSB.toString());
-				likesCountTv.setVisibility(View.VISIBLE);
-			} 
-			else 
-			{
-				likesCountTv.setVisibility(View.GONE);
-			}
+			updateUserLikesGUI();
 
 			List<TVChannelId> userChannelIds = ContentManager.sharedInstance().getFromCacheTVChannelIdsUser();
 			
@@ -326,6 +312,24 @@ public class UserProfileActivity
 			{
 				channelCountTv.setVisibility(View.GONE);
 			}
+		}
+	}
+	
+	private void updateUserLikesGUI() {
+		ArrayList<UserLike> userLikes = ContentManager.sharedInstance().getFromCacheUserLikes();
+		
+		if (userLikes != null && !userLikes.isEmpty()) 
+		{
+			StringBuilder userLikesSB = new StringBuilder();
+			userLikesSB.append("(");
+			userLikesSB.append(userLikes.size());
+			userLikesSB.append(")");
+			likesCountTv.setText(userLikesSB.toString());
+			likesCountTv.setVisibility(View.VISIBLE);
+		} 
+		else 
+		{
+			likesCountTv.setVisibility(View.GONE);
 		}
 	}
 

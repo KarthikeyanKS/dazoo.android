@@ -102,7 +102,7 @@ public class LoginWithFacebookActivity
 	{
 		if (fetchRequestResult.wasSuccessful()) 
 		{	
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 		}
 		else
 		{
@@ -125,7 +125,7 @@ public class LoginWithFacebookActivity
 				break;
 			}
 			
-			case SUCCEEDED_WITH_DATA:
+			case SUCCESS_WITH_CONTENT:
 			{
 				if(!ContentManager.sharedInstance().tryStartReturnActivity(this)) {
 					Activity mostRecentTabActivity = getMostRecentTabActivity();

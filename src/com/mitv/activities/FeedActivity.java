@@ -8,10 +8,7 @@ import java.util.ArrayList;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
-import android.text.Spannable;
-import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
-import android.text.style.URLSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +33,7 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.listadapters.FeedListAdapter;
 import com.mitv.models.TVFeedItem;
 import com.mitv.ui.elements.FontTextView;
+import com.mitv.utilities.HyperLinkUtils;
 
 
 
@@ -173,7 +171,7 @@ public class FeedActivity
 		termsOfService.setText(Html.fromHtml(linkText));
 		termsOfService.setMovementMethod(LinkMovementMethod.getInstance());
 		
-		stripUnderlines(termsOfService);
+		HyperLinkUtils.stripUnderlines(termsOfService);
 		
 		setEmptyLayoutDetailsMessage("");
 	}
@@ -184,7 +182,7 @@ public class FeedActivity
 	{
 		ArrayList<TVFeedItem> activityFeed = ContentManager.sharedInstance().getFromCacheActivityFeedData();
 		
-		if(activityFeed.isEmpty() == false)
+		if(!activityFeed.isEmpty())
 		{
 			FeedItemTypeEnum itemType = activityFeed.get(0).getItemType();
 			
@@ -282,7 +280,7 @@ public class FeedActivity
 			{
 				if(fetchRequestResult.wasSuccessful())
 				{
-					updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+					updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 				}
 				else
 				{
@@ -305,19 +303,17 @@ public class FeedActivity
 	{
 		super.updateUIBaseElements(status);
 		
+		showScrollSpinner(false);
+		
 		switch (status) 
 		{	
-			case SUCCEEDED_WITH_DATA:
+			case SUCCESS_WITH_CONTENT:
 			{
 				setListAdapter();
 				break;
 			}
 			
-			default:
-			{
-				// Do nothing
-				break;
-			}
+			default: {/* Do nothing */break;}
 		}
 	}
 	
@@ -399,16 +395,9 @@ public class FeedActivity
 	}
 	
 
-	
-	
 	@Override
-	public void onScrollStateChanged(AbsListView view, int scrollState) 
-	{
-		// TODO NewArc - Do something here?
-	}
+	public void onScrollStateChanged(AbsListView view, int scrollState) {/* Do nothing */}
 
-	
-	
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) 
 	{
@@ -421,46 +410,8 @@ public class FeedActivity
 			if (pastTotalCount) 
 			{
 				showScrollSpinner(true);
-				ContentManager.sharedInstance().fetchFromServiceMoreActivityData(this);
+				ContentManager.sharedInstance().fetchFromServiceMoreActivityData(this, totalItemCount);
 			} 
 		}
-	}
-	
-	private class URLSpanWithoutUnderline extends URLSpan 
-	{
-		public URLSpanWithoutUnderline(String url) 
-		{
-			super(url);
-		}
-
-		@Override
-		public void updateDrawState(TextPaint ds)
-		{
-			super.updateDrawState(ds);
-			
-			ds.setUnderlineText(false);
-		}
-	}
-	
-	// TODO NewArc - Is this really needed?
-	private void stripUnderlines(TextView textView) 
-	{
-		Spannable s = (Spannable) textView.getText();
-		
-		URLSpan[] spans = s.getSpans(0, s.length(), URLSpan.class);
-		
-		for (URLSpan span : spans) 
-		{
-			int start = s.getSpanStart(span);
-			int end = s.getSpanEnd(span);
-			
-			s.removeSpan(span);
-			
-			span = new URLSpanWithoutUnderline(span.getURL());
-			
-			s.setSpan(span, start, end, 0);
-		}
-		
-		textView.setText(s);
 	}
 }

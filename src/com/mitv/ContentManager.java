@@ -52,8 +52,6 @@ public class ContentManager
 	
 	private FetchDataProgressCallbackListener fetchDataProgressCallbackListener;
 	
-	private static final int ACTIVITY_FEED_ITEMS_BATCH_FETCH_COUNT = 10;
-
 	/*
 	 * The total completed data fetch count needed in order to proceed with
 	 * fetching the TV data
@@ -92,6 +90,7 @@ public class ContentManager
 	
 	private boolean isUpdatingGuide;
 	private boolean isBuildingTaggedBroadcasts;
+	private boolean isFetchingFeedItems;
 			
 	private HashMap<RequestIdentifierEnum, ArrayList<ViewCallbackListener>> mapRequestToCallbackListeners;
 	
@@ -493,7 +492,7 @@ public class ContentManager
 	
 	private void fetchFromServiceActivityFeedData(ViewCallbackListener activityCallbackListener) 
 	{
-		apiClient.getUserTVFeedItems(activityCallbackListener);
+		apiClient.getUserTVFeedItemsInitial(activityCallbackListener);
 		apiClient.getUserLikes(activityCallbackListener, false);
 	}
 	
@@ -558,11 +557,13 @@ public class ContentManager
 	}
 		
 	
-	public void fetchFromServiceMoreActivityData(ViewCallbackListener activityCallbackListener) 
+	public void fetchFromServiceMoreActivityData(ViewCallbackListener activityCallbackListener, int offset) 
 	{
-		int offset = cache.getActivityFeed().size();
-		
-		apiClient.getUserTVFeedItemsWithOffsetAndLimit(activityCallbackListener, offset, ACTIVITY_FEED_ITEMS_BATCH_FETCH_COUNT);
+		if (!isFetchingFeedItems) {
+			isFetchingFeedItems = true;
+			Log.d(TAG, "FEEDS: count " + offset);
+			apiClient.getUserTVFeedItemsWithOffsetAndLimit(activityCallbackListener, offset);
+		}
 	}
 
 	/*
@@ -909,6 +910,7 @@ public class ContentManager
 					@SuppressWarnings("unchecked")
 					ArrayList<TVFeedItem> feedItems = (ArrayList<TVFeedItem>) content;
 					cache.setActivityFeed(feedItems);
+					isFetchingFeedItems = false;
 					notifyFetchDataProgressListenerMessage(SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_activityfeed));
 					break;
 				}
@@ -918,6 +920,7 @@ public class ContentManager
 					@SuppressWarnings("unchecked")
 					ArrayList<TVFeedItem> feedItems = (ArrayList<TVFeedItem>) content;
 					cache.addMoreActivityFeedItems(feedItems);
+					isFetchingFeedItems = false;
 					notifyFetchDataProgressListenerMessage(SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_activityfeed_more));
 					break;
 				}

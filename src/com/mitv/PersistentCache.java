@@ -70,7 +70,6 @@ public class PersistentCache
 	public PersistentCache()
 	{
 		this.tvGuidesAll = new HashMap<String, TVGuide>();
-		this.userLikes = new ArrayList<UserLike>();
 			
 		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
 		
@@ -243,7 +242,6 @@ public class PersistentCache
 	
 	public synchronized List<UserLike> getUserLikes() 
 	{
-		//
 		return userLikes;
 	}
 
@@ -251,8 +249,6 @@ public class PersistentCache
 	public synchronized void setUserLikes(final List<UserLike> userLikes) 
 	{
 		this.userLikes = userLikes;
-		
-		//
 	}
 	
 	

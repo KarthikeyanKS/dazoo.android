@@ -48,7 +48,7 @@ public class FeedListAdapter
 {
 	private static final String	TAG	= FeedListAdapter.class.getName();
 
-	
+	@SuppressWarnings("unused")
 	private ArrayList<TVFeedItem> feedItems;
 	private LayoutInflater layoutInflater;
 	private Activity activity;

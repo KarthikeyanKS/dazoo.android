@@ -1,30 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="155dp"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_color_selector_day_selector_adapter_item"
-    android:padding="15dp" >
+    android:background="@color/grey1"
+    android:paddingLeft="1dp"
+    android:paddingRight="1dp" >
 
-    <com.mitv.ui.elements.FontTextView
-        android:id="@+id/layout_actionbar_dropdown_list_date_item_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:background="@color/transparent"
-        android:textColor="@drawable/text_color_selector_day_selector_adapter_item"
-        android:textSize="13sp" />
+    <RelativeLayout
+        android:layout_width="155dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_color_selector_day_selector_adapter_item"
+        android:padding="15dp" >
 
-    <com.mitv.ui.elements.FontTextView
-        android:id="@+id/layout_actionbar_dropdown_list_date_item_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@id/layout_actionbar_dropdown_list_date_item_number"
-        android:background="@color/transparent"
-        android:textColor="@drawable/text_color_selector_day_selector_adapter_item"
-        android:textSize="@dimen/ingress" />
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/layout_actionbar_dropdown_list_date_item_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@color/transparent"
+            android:textColor="@drawable/text_color_selector_day_selector_adapter_item"
+            android:textSize="13sp" />
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/layout_actionbar_dropdown_list_date_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/layout_actionbar_dropdown_list_date_item_number"
+            android:background="@color/transparent"
+            android:textColor="@drawable/text_color_selector_day_selector_adapter_item"
+            android:textSize="@dimen/ingress" />
+    </RelativeLayout>
 
 </RelativeLayout>

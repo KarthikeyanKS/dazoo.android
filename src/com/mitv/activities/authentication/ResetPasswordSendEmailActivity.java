@@ -102,7 +102,7 @@ public class ResetPasswordSendEmailActivity
 
 		switch (status) 
 		{
-			case SUCCEEDED_WITH_DATA: 
+			case SUCCESS_WITH_CONTENT: 
 			{
 				// TODO NewArc - Do something here?
 				break;
