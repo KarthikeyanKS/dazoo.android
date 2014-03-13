@@ -25,6 +25,8 @@ import com.mitv.models.TVTag;
 import com.mitv.models.UpcomingBroadcastsForBroadcast;
 import com.mitv.models.UserLike;
 import com.mitv.models.UserLoginData;
+import com.mitv.models.orm.AppConfigurationORM;
+import com.mitv.models.orm.AppVersionORM;
 import com.mitv.models.orm.UserLoginDataORM;
 import com.mitv.models.orm.base.AbstractOrmLiteClass;
 
@@ -32,7 +34,6 @@ import com.mitv.models.orm.base.AbstractOrmLiteClass;
 
 public class Cache 
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = Cache.class.getName();
 	
 	
@@ -55,7 +56,7 @@ public class Cache
 	private ArrayList<UserLike> userLikes;
 	
 	private AppVersion appVersionData;
-	private AppConfiguration appConfigData;
+	private AppConfiguration appConfigurationData;
 	
 	private ArrayList<TVTag> tvTags;
 	private ArrayList<TVDate> tvDates;
@@ -105,24 +106,25 @@ public class Cache
 		this.tvGuidesAll = new HashMap<String, TVGuide>();
 		this.userLikes = new ArrayList<UserLike>();
 		
-		this.appVersionData = null;
-		this.appConfigData = null;
-		
 		/* Default selected day to 0 */
 		setTvDateSelectedIndex(0);
 		
 		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
 		
-		AbstractOrmLiteClass.initDB(context, "millicom.db", 1, null);
+		AbstractOrmLiteClass.initDB(context, Constants.CACHE_DATABASE_NAME, Constants.CACHE_DATABASE_VERSION, null);
 		
-		userData = UserLoginDataORM.getUserLoginData();
+		this.appVersionData = AppVersionORM.getAppVersion();
+		this.appConfigurationData = AppConfigurationORM.getAppConfiguration();
+		this.userData = UserLoginDataORM.getUserLoginData();
 	}
 	
 	
 	
 	public void clearAllPersistentCacheData()
 	{
-		// TODO NewArc - Implement this
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		
+		context.deleteDatabase(Constants.CACHE_DATABASE_NAME);
 	}
 	
 	public UserLike getLikeToAddAfterLogin() {
@@ -174,8 +176,8 @@ public class Cache
 	
 	public synchronized String getWelcomeMessage() {
 		String welcomeMessage = "";
-		if(appConfigData != null) {
-			welcomeMessage = appConfigData.getWelcomeToast();
+		if(appConfigurationData != null) {
+			welcomeMessage = appConfigurationData.getWelcomeToast();
 		}
 		return welcomeMessage;
 	}
@@ -495,45 +497,48 @@ public class Cache
 	}
 	
 	
-	public synchronized AppVersion getAppVersionData() 
-	{
-		return appVersionData;
-	}
-	
-	
 	public synchronized boolean isAPIVersionSupported() 
 	{
 		boolean isAPIVersionSupported = false;
 		
 		if(appVersionData != null)
 		{
-			isAPIVersionSupported = getAppVersionData().isAPIVersionSupported();
+			isAPIVersionSupported = appVersionData.isAPIVersionSupported();
 		}
 		
 		return isAPIVersionSupported;
 	}
 
 	
-	public synchronized void setAppVersionData(AppVersion appVersionData) {
+	
+	public synchronized void setAppVersionData(AppVersion appVersionData) 
+	{
 		this.appVersionData = appVersionData;
+		
+		AppVersionORM.createAndSaveInAsyncTask(appVersionData);
 	}
 
+	
 	public synchronized AppConfiguration getAppConfigData() {
-		return appConfigData;
+		return appConfigurationData;
 	}
 	
 	public synchronized int getFirstHourOfTVDay() {
 		/* Default to value of 6 */
 		int firstHourOfTVDay = 6;
-		if(appConfigData != null) {
-			firstHourOfTVDay = appConfigData.getFirstHourOfDay();
+		if(appConfigurationData != null) {
+			firstHourOfTVDay = appConfigurationData.getFirstHourOfDay();
 		}
 		return firstHourOfTVDay;
 	}
 
-	public synchronized void setAppConfigData(AppConfiguration appConfigData) {
-		this.appConfigData = appConfigData;
+	
+	public synchronized void setAppConfigData(AppConfiguration appConfigData) 
+	{
+		
+		this.appConfigurationData = appConfigData;
 	}
+	
 	
 	public void clearUserData() 
 	{
@@ -666,7 +671,7 @@ public class Cache
 	
 	public synchronized boolean containsAppConfigData() 
 	{
-		boolean containsAppConfig = (appConfigData != null);
+		boolean containsAppConfig = (appConfigurationData != null);
 		return containsAppConfig;
 	}
 	

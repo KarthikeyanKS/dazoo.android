@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="@string/icon_heart"
-        android:textColor="@color/grey4"
+        android:textColor="@color/grey3"
         android:textSize="30sp"
         font:fonttextview="roboto_mitv_regular.ttf" />
 

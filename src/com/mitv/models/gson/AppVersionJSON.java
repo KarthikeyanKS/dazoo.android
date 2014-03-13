@@ -9,10 +9,9 @@ import java.util.Date;
 
 public class AppVersionJSON
 {
-
-	private String name;
-	private String value;
-	private Date expires;
+	protected String name;
+	protected String value;
+	protected Date expires;
 	
 	
 	
@@ -21,7 +20,7 @@ public class AppVersionJSON
 	 */
 	public AppVersionJSON()
 	{}
-	
+		
 	
 	
 	public boolean hasExpires()

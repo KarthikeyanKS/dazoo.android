@@ -119,7 +119,7 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 	}
 	
 	private void setImageToNotLiked() {
-		iconView.setTextColor(getResources().getColor(R.color.grey4));
+		iconView.setTextColor(getResources().getColor(R.color.grey3));
 	}
 	
 	/* Remove like dialog */

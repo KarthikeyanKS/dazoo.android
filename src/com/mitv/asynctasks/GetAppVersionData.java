@@ -11,6 +11,7 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.models.AppVersion;
+import com.mitv.models.AppVersionElement;
 import com.mitv.models.gson.AppVersionJSON;
 
 
@@ -40,7 +41,7 @@ public class GetAppVersionData
 		
 		if(requestResultStatus.wasSuccessful() && requestResultObjectContent != null)
 		{
-			AppVersionJSON[] appVersionDataRawList = (AppVersionJSON[]) requestResultObjectContent;
+			AppVersionElement[] appVersionDataRawList = (AppVersionElement[]) requestResultObjectContent;
 			
 			AppVersion appVersionDataObject = new AppVersion(appVersionDataRawList);
 			
