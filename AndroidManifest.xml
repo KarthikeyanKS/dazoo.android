@@ -65,7 +65,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/WhiteTitleActionBar" />
+            android:theme="@style/WhiteTitleActionBarNoUp" />
 
         <!-- MYPROFILE ACTIVITY -->
         <activity
@@ -73,7 +73,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/WhiteTitleActionBar" />
+            android:theme="@style/WhiteTitleActionBarNoUp" />
         
         <!-- POPULAR CONTENT PAGE -->
         <activity

@@ -39,6 +39,7 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ActivityCallbackListener;
 import com.mitv.models.TVDate;
+import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.elements.UndoBarController;
 import com.mitv.ui.elements.UndoBarController.UndoListener;
 import com.mitv.ui.helpers.DialogHelper;
@@ -59,8 +60,14 @@ public abstract class BaseActivity
 	private static Stack<Activity> activityStack = new Stack<Activity>();
 
 	protected RelativeLayout tabTvGuide;
+	protected FontTextView tabTvGuideIcon;
+	protected FontTextView tabTvGuideText;
 	protected RelativeLayout tabActivity;
+	protected FontTextView tabActivityIcon;
+	protected FontTextView tabActivityText;
 	protected RelativeLayout tabProfile;
+	protected FontTextView tabProfileIcon;
+	protected FontTextView tabProfileText;
 	protected View tabDividerLeft;
 	protected View tabDividerRight;
 
@@ -300,34 +307,40 @@ public abstract class BaseActivity
 
 	public void setTabViews() {
 		tabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
+		tabTvGuideIcon = (FontTextView) findViewById(R.id.element_tab_icon_guide);
+		tabTvGuideText = (FontTextView) findViewById(R.id.element_tab_text_guide);
 
 		if (tabTvGuide != null) {
 			tabTvGuide.setOnClickListener(this);
 		}
 
 		tabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
+		tabActivityIcon = (FontTextView) findViewById(R.id.element_tab_icon_activity);
+		tabActivityText = (FontTextView) findViewById(R.id.element_tab_text_activity);
 
 		if (tabActivity != null) {
 			tabActivity.setOnClickListener(this);
 		}
 
 		tabProfile = (RelativeLayout) findViewById(R.id.tab_me);
+		tabProfileIcon = (FontTextView) findViewById(R.id.element_tab_icon_me);
+		tabProfileText = (FontTextView) findViewById(R.id.element_tab_text_me);
 
 		if (tabProfile != null) {
 			tabProfile.setOnClickListener(this);
 		}
 
-		tabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
+//		tabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
+//
+//		if (tabDividerLeft != null) {
+//			tabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+//		}
 
-		if (tabDividerLeft != null) {
-			tabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
-		}
-
-		tabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
-
-		if (tabDividerRight != null) {
-			tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
-		}
+//		tabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
+//
+//		if (tabDividerRight != null) {
+//			tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+//		}
 
 		Activity mostRecentTabActivity = getMostRecentTabActivity();
 
@@ -344,43 +357,61 @@ public abstract class BaseActivity
 
 	protected void setSelectedTabAsTVGuide() {
 		if (tabTvGuide != null) {
-			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
+			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+			tabTvGuideIcon.setTextColor(getResources().getColor(R.color.white));
+			tabTvGuideText.setTextColor(getResources().getColor(R.color.white));
 		}
 
 		if (tabActivity != null) {
 			tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+			tabActivityIcon.setTextColor(getResources().getColor(R.color.tab_unselected));
+			tabActivityText.setTextColor(getResources().getColor(R.color.tab_unselected));
 		}
 
 		if (tabProfile != null) {
 			tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+			tabProfileIcon.setTextColor(getResources().getColor(R.color.tab_unselected));
+			tabProfileText.setTextColor(getResources().getColor(R.color.tab_unselected));
 		}
 	}
 
 	protected void setSelectedTabAsActivityFeed() {
 		if (tabTvGuide != null) {
 			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+			tabTvGuideIcon.setTextColor(getResources().getColor(R.color.tab_unselected));
+			tabTvGuideText.setTextColor(getResources().getColor(R.color.tab_unselected));
 		}
 
 		if (tabActivity != null) {
-			tabActivity.setBackgroundColor(getResources().getColor(R.color.red));
+			tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+			tabActivityIcon.setTextColor(getResources().getColor(R.color.white));
+			tabActivityText.setTextColor(getResources().getColor(R.color.white));
 		}
 
 		if (tabProfile != null) {
 			tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+			tabProfileIcon.setTextColor(getResources().getColor(R.color.tab_unselected));
+			tabProfileText.setTextColor(getResources().getColor(R.color.tab_unselected));
 		}
 	}
 
 	protected void setSelectedTabAsUserProfile() {
 		if (tabTvGuide != null) {
 			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+			tabTvGuideIcon.setTextColor(getResources().getColor(R.color.tab_unselected));
+			tabTvGuideText.setTextColor(getResources().getColor(R.color.tab_unselected));
 		}
 
 		if (tabActivity != null) {
 			tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+			tabActivityIcon.setTextColor(getResources().getColor(R.color.tab_unselected));
+			tabActivityText.setTextColor(getResources().getColor(R.color.tab_unselected));
 		}
 
 		if (tabProfile != null) {
-			tabProfile.setBackgroundColor(getResources().getColor(R.color.red));
+			tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+			tabProfileIcon.setTextColor(getResources().getColor(R.color.white));
+			tabProfileText.setTextColor(getResources().getColor(R.color.white));
 		}
 	}
 

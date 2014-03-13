@@ -105,7 +105,7 @@ public class ReminderView
 			} 
 			else 
 			{
-				iconView.setTextColor(getResources().getColor(R.color.grey4));
+				iconView.setTextColor(getResources().getColor(R.color.grey3));
 			}
 			containerView.setBackgroundResource(R.drawable.background_color_selector);
 		} else {
@@ -163,7 +163,7 @@ public class ReminderView
 		{
 			public void run()
 			{
-				iconView.setTextColor(getResources().getColor(R.color.grey4));
+				iconView.setTextColor(getResources().getColor(R.color.grey3));
 				
 				isSet = false;
 			}

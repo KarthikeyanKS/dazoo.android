@@ -68,18 +68,18 @@
 
             <com.mitv.ui.elements.FontTextView
                 android:id="@+id/row_upcoming_or_repeating_listitem_channel"
-                style="@style/text1"
+                style="@style/meta1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/row_upcoming_or_repeating_listitem_title_time" />
         </RelativeLayout>
 
-        <View
+        <!--View
             android:layout_width="1dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:background="@color/grey1" />
+            android:background="@color/grey1" /-->
 
         <!-- REMIND BUTTON -->
 
