@@ -32,6 +32,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 	private Activity				activity;
 	private ArrayList<TVBroadcast>	currentAndUpcomingbroadcasts;
 	private ViewHolder				holder;
+	private boolean					isAiring = false;
 
 	
 	
@@ -102,18 +103,20 @@ public class ChannelPageListAdapter extends BaseAdapter {
 		holder = (ViewHolder) rowView.getTag();
 
 		if (broadcast != null) {
+			String title = broadcast.getProgram().getTitle();
+			
 			if (getItemViewType(position) == 0) {
 				// MC - Set the image for current broadcast.
 				ImageAware imageAware = new ImageViewAware(holder.logo, false);
 				ImageLoader.getInstance().displayImage(broadcast.getProgram().getImages().getLandscape().getLarge(), imageAware);
 				
 				LanguageUtils.setupProgressBar(activity, broadcast, holder.durationProgressBar, holder.timeLeft);
+				isAiring = true;
 			}
 
 			// MC - Set the begin time of the broadcast.
 
 			holder.startTime.setText(broadcast.getBeginTimeHourAndMinuteLocalAsString());
-			String title = broadcast.getProgram().getTitle();
 			
 			switch (programType) {
 			case MOVIE: {
@@ -158,9 +161,20 @@ public class ChannelPageListAdapter extends BaseAdapter {
 				break;
 			}
 			}
+			
+			setOnGoingElementRed();
 		}
 			
 		return rowView;
+	}
+	
+	/* If a show is airing, we set it to be red */
+	private void setOnGoingElementRed() {
+		if (isAiring) {
+			holder.title.setTextColor(activity.getResources().getColor(R.color.red));
+			holder.startTime.setTextColor(activity.getResources().getColor(R.color.red));
+			isAiring = false;
+		}
 	}
 
 	@Override
