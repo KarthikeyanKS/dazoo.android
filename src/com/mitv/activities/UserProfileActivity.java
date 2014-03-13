@@ -183,7 +183,7 @@ public class UserProfileActivity
 			case SUCCEEDED_WITH_DATA: 
 			{
 				scrollView.setVisibility(View.VISIBLE);
-				populateViews();
+				updateUserLikesGUI();
 				break;
 			}
 	
@@ -294,22 +294,8 @@ public class UserProfileActivity
 			sbUsernameText.append(userLastname);
 
 			userNameTextView.setText(sbUsernameText.toString());
-
-			ArrayList<UserLike> userLikes = ContentManager.sharedInstance().getFromCacheUserLikes();
 			
-			if (userLikes != null && !userLikes.isEmpty()) 
-			{
-				StringBuilder userLikesSB = new StringBuilder();
-				userLikesSB.append("(");
-				userLikesSB.append(userLikes.size());
-				userLikesSB.append(")");
-				likesCountTv.setText(userLikesSB.toString());
-				likesCountTv.setVisibility(View.VISIBLE);
-			} 
-			else 
-			{
-				likesCountTv.setVisibility(View.GONE);
-			}
+			updateUserLikesGUI();
 
 			ArrayList<TVChannelId> userChannelIds = ContentManager.sharedInstance().getFromCacheTVChannelIdsUser();
 			
@@ -326,6 +312,24 @@ public class UserProfileActivity
 			{
 				channelCountTv.setVisibility(View.GONE);
 			}
+		}
+	}
+	
+	private void updateUserLikesGUI() {
+		ArrayList<UserLike> userLikes = ContentManager.sharedInstance().getFromCacheUserLikes();
+		
+		if (userLikes != null && !userLikes.isEmpty()) 
+		{
+			StringBuilder userLikesSB = new StringBuilder();
+			userLikesSB.append("(");
+			userLikesSB.append(userLikes.size());
+			userLikesSB.append(")");
+			likesCountTv.setText(userLikesSB.toString());
+			likesCountTv.setVisibility(View.VISIBLE);
+		} 
+		else 
+		{
+			likesCountTv.setVisibility(View.GONE);
 		}
 	}
 
