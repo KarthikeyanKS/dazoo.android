@@ -179,7 +179,6 @@
             android:name="com.mitv.activities.ChannelPageActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:launchMode="singleInstance"
             android:theme="@style/ChannelPage" >
         </activity>
 
