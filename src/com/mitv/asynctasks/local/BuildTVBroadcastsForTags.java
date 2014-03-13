@@ -13,7 +13,7 @@ import android.util.Log;
 import com.mitv.ContentManager;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.models.TVBroadcast;
 import com.mitv.models.TVBroadcastWithChannelInfo;
@@ -34,7 +34,7 @@ public class BuildTVBroadcastsForTags
 	
 	private ArrayList<TVChannelGuide> tvChannelGuides;
 	private ContentCallbackListener contentCallbackListener;
-	private ActivityCallbackListener activityCallbackListener;
+	private ViewCallbackListener activityCallbackListener;
 	private Object requestResultObjectContent;
 	
 	
@@ -43,7 +43,7 @@ public class BuildTVBroadcastsForTags
 	public BuildTVBroadcastsForTags(
 			ArrayList<TVChannelGuide> tvChannelGuides,
 			ContentCallbackListener contentCallbackListener, 
-			ActivityCallbackListener activityCallbackListener)
+			ViewCallbackListener activityCallbackListener)
 	{
 		this.tvChannelGuides = tvChannelGuides;
 		this.contentCallbackListener = contentCallbackListener;

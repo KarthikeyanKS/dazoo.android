@@ -145,7 +145,7 @@
                         android:layout_height="50dp"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="20dp"
-                        android:src="@color/red" />
+                        android:src="@drawable/loading_placeholder_horizontal" />
 
                     <RelativeLayout
                         android:id="@+id/myprofile_logged_in_container"

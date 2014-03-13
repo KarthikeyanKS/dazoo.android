@@ -28,7 +28,7 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.LikeTypeResponseEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.models.TVFeedItem;
 import com.mitv.models.TVProgram;
@@ -44,7 +44,7 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 public class FeedListAdapter 
 	extends AdListAdapter<TVFeedItem>
-	implements ActivityCallbackListener
+	implements ViewCallbackListener
 {
 	private static final String	TAG	= FeedListAdapter.class.getName();
 

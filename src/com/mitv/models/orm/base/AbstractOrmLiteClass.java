@@ -67,7 +67,7 @@ public abstract class AbstractOrmLiteClass<T>
 		
 		if (!hmClassDao.containsKey(this.getClass())) 
 		{
-			dao = OrmLiteDatabaseHelper.getInstance().getDao(this.getClass());
+			dao = (Dao<? extends AbstractOrmLiteClass<?>, ?>) OrmLiteDatabaseHelper.getInstance().getDao(this.getClass());
 			
 			hmClassDao.put(this.getClass(), dao);
 			

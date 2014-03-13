@@ -7,7 +7,7 @@ import com.mitv.Constants;
 import com.mitv.ContentManager;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.models.UserLoginData;
 
@@ -31,7 +31,7 @@ public class PerformUserLogout
 	
 	public PerformUserLogout(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallbackListener) 
+			ViewCallbackListener activityCallbackListener) 
 	{
 		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_LOGOUT, UserLoginData.class, HTTPRequestTypeEnum.HTTP_DELETE, buildURL());
 	}

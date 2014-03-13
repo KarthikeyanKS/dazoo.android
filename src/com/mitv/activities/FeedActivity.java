@@ -56,8 +56,6 @@ public class FeedActivity
 	private View listFooterView;
 	private TextView greetingTv;
 	
-	private Boolean noTask = true;
-	
 	private boolean currentlyShowingLoggedInLayout;
 
 	
@@ -278,7 +276,8 @@ public class FeedActivity
 	protected void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
 		switch (requestIdentifier) 
-		{			
+		{		
+			case USER_ACTIVITY_FEED_ITEM_MORE:
 			case USER_ACTIVITY_FEED_ITEM:
 			{
 				if(fetchRequestResult.wasSuccessful())
@@ -413,31 +412,17 @@ public class FeedActivity
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) 
 	{
+		showScrollSpinner(false);
 		if (totalItemCount > 0) 
 		{
 			// If scrolling past bottom and there is a next page of products to fetch
-			
 			boolean pastTotalCount = (firstVisibleItem + visibleItemCount >= totalItemCount);
 			
-			if (pastTotalCount && noTask) 
+			if (pastTotalCount) 
 			{
 				showScrollSpinner(true);
-
-				if(noTask) 
-				{
-					ContentManager.sharedInstance().fetchFromServiceMoreActivityData(this);
-				}
-				
-				noTask = false;
+				ContentManager.sharedInstance().fetchFromServiceMoreActivityData(this);
 			} 
-			else 
-			{
-				showScrollSpinner(false);
-			}
-		} 
-		else 
-		{
-			showScrollSpinner(false);
 		}
 	}
 	

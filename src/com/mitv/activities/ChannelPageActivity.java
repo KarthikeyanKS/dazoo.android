@@ -185,22 +185,8 @@ public class ChannelPageActivity
 	@Override
 	protected void updateUI(UIStatusEnum status) 
 	{
+		super.updateUI(status);
 		super.updateUIBaseElements(status);
-
-		switch (status) 
-		{	
-			case SUCCEEDED_WITH_DATA:
-			{
-				// TODO NewArc - Do something here?
-				break;
-			}
-	
-			default:
-			{
-				// TODO NewArc handle fail? done in super class already
-				break;
-			}
-		}
 	}
 	
 	@Override

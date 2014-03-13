@@ -16,9 +16,9 @@
 
     <!-- HOMEPAGE : TABS -->
 
-    <string name="tab_tv_guide">TV GUIDE</string>
-    <string name="tab_activity">ACTIVITY</string>
-    <string name="tab_me">ME</string>
+    <string name="tab_tv_guide">TV Guide</string>
+    <string name="tab_activity">Activity</string>
+    <string name="tab_me">My profile</string>
 
     <!-- HOMEPAGE : FILTERING BY DAY -->
     <string name="today">Today</string>
@@ -243,8 +243,8 @@
     <string name="signup_characters">at least 6 characters</string>
     <string name="signup_email_example">example@abc.com</string>
     <string name="login_with_wrong_info">Email or password were incorrect.</string>
-    <string name="login_with_wrong_format_email">Check if password was input right!</string>
-    <string name="login_with_wrong_format_password">Check if e-mail was input right!</string>
+    <string name="login_with_wrong_format_email">Check if e-mail was input right!</string>
+    <string name="login_with_wrong_format_password">Check if password was input right!</string>
     <string name="sign_up_terms_info">By signing up, you agree to the</string>
     <string name="sign_up_terms_link"><![CDATA[<a href="http://www.mi.tv/terminos">Terms of Service</a>]]></string>
     <string name="success_account_created_title">Hello, </string>

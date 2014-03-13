@@ -14,7 +14,7 @@ import com.mitv.R;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.DialogHelper;
@@ -24,7 +24,7 @@ import com.mitv.utilities.NetworkUtils;
 
 public class SplashScreenActivity 
 	extends Activity 
-	implements ActivityCallbackListener, FetchDataProgressCallbackListener
+	implements ViewCallbackListener, FetchDataProgressCallbackListener
 {	
 	@SuppressWarnings("unused")
 	private static final String TAG = SplashScreenActivity.class.getName();
