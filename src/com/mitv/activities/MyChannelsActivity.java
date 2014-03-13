@@ -4,6 +4,7 @@ package com.mitv.activities;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
 import android.content.Context;
@@ -49,7 +50,7 @@ public class MyChannelsActivity
 	private MyChannelsListAdapter adapter;
 	
 
-	private ArrayList<TVChannel> allChannelObjects = new ArrayList<TVChannel>();
+	private List<TVChannel> allChannelObjects = new ArrayList<TVChannel>();
 	private ArrayList<TVChannelId> myChannelIds = new ArrayList<TVChannelId>();
 	
 	/* The channels that have been checked, initialized to: myChannelIds */
@@ -126,7 +127,7 @@ public class MyChannelsActivity
 	}
 	
 	private ArrayList<TVChannelId> getOnlyNewTVChannelIds() {
-		ArrayList<TVChannelId> idsInCache = ContentManager.sharedInstance().getFromCacheTVChannelIdsUser();
+		List<TVChannelId> idsInCache = ContentManager.sharedInstance().getFromCacheTVChannelIdsUser();
 		ArrayList<TVChannelId> onlyNewTVChannelIdsIfAny = new ArrayList<TVChannelId>();
 		for(TVChannelId channelId : checkedChannelIds) {
 			if(!idsInCache.contains(channelId)) {
@@ -137,7 +138,7 @@ public class MyChannelsActivity
 	}
 	
 	private boolean channelsHaveChanged() {
-		ArrayList<TVChannelId> idsInCache = ContentManager.sharedInstance().getFromCacheTVChannelIdsUser();
+		List<TVChannelId> idsInCache = ContentManager.sharedInstance().getFromCacheTVChannelIdsUser();
 		boolean listIdentical = ListUtils.deepEquals(idsInCache, checkedChannelIds, new TVChannelIdComparatorById());
 		boolean channelsHaveChanged = !listIdentical;
 		return channelsHaveChanged;

@@ -27,7 +27,6 @@ public class AppVersionORM
 	
 	
 	
-	
 	public static AppVersion getAppVersion()
 	{
 		return AppVersionElementORM.getAppVersion();

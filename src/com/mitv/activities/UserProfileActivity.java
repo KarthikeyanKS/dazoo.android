@@ -3,7 +3,7 @@ package com.mitv.activities;
 
 
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -297,7 +297,7 @@ public class UserProfileActivity
 			
 			updateUserLikesGUI();
 
-			ArrayList<TVChannelId> userChannelIds = ContentManager.sharedInstance().getFromCacheTVChannelIdsUser();
+			List<TVChannelId> userChannelIds = ContentManager.sharedInstance().getFromCacheTVChannelIdsUser();
 			
 			if (userChannelIds != null && !userChannelIds.isEmpty()) 
 			{
@@ -315,8 +315,9 @@ public class UserProfileActivity
 		}
 	}
 	
-	private void updateUserLikesGUI() {
-		ArrayList<UserLike> userLikes = ContentManager.sharedInstance().getFromCacheUserLikes();
+	private void updateUserLikesGUI() 
+	{
+		List<UserLike> userLikes = ContentManager.sharedInstance().getFromCacheUserLikes();
 		
 		if (userLikes != null && !userLikes.isEmpty()) 
 		{

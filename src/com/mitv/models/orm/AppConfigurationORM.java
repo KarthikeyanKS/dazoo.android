@@ -8,7 +8,9 @@ import java.util.List;
 
 import android.util.Log;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.mitv.models.AppConfiguration;
 import com.mitv.models.orm.base.AbstractOrmLiteClassWithAsyncSave;
@@ -40,14 +42,14 @@ public class AppConfigurationORM
 	@DatabaseField()
 	private int adzerkLevel;
 	
-	@DatabaseField()
-	private List<Integer> adzerkFormats;
+	@ForeignCollectionField(eager = true)
+	private ForeignCollection<AdzerkFormatORM> adzerkFormats;
 	
-	@DatabaseField()
-	private List<Integer> adzerkFormatsForActivity;
+	@ForeignCollectionField(eager = true)
+	private ForeignCollection<AdzerkFormatForActivityORM> adzerkFormatsForActivity;
 	
-	@DatabaseField()
-	private List<Integer> adzerkFormatsForAndroidGuide;
+	@ForeignCollectionField(eager = true)
+	private ForeignCollection<AdzerkFormatForAndroidGuideORM> adzerkFormatsForAndroidGuide;
 	
 	@DatabaseField()
 	private double googleAnalyticsSampleRate;
@@ -85,9 +87,58 @@ public class AppConfigurationORM
 		 this.adzerkNetworkId = appConfiguration.getAdzerkNetworkId();
 		 this.adzerkSiteId = appConfiguration.getAdzerkSiteId();
 		 this.adzerkLevel = appConfiguration.getAdzerkLevel();
-		 this.adzerkFormats = appConfiguration.getAdzerkFormats();
-		 this.adzerkFormatsForActivity = appConfiguration.getAdzerkFormatsForActivity();
-		 this.adzerkFormatsForAndroidGuide = appConfiguration.getAdzerkFormatsForAndroidGuide();
+		 
+		 try 
+		 {
+			 this.adzerkFormats = getDao().getEmptyForeignCollection("adzerkFormats");
+		 } 
+		 catch (SQLException e) 
+		 {
+			 // TODO Auto-generated catch block
+			 e.printStackTrace();
+		 }
+
+		 for(Integer element : appConfiguration.getAdzerkFormats())
+		 {
+			 AdzerkFormatORM ormElement = new AdzerkFormatORM(element);
+
+			 this.adzerkFormats.add(ormElement);
+		 }
+
+		 try 
+		 {
+			 this.adzerkFormatsForActivity = getDao().getEmptyForeignCollection("adzerkFormatsForActivity");
+		 } 
+		 catch (SQLException e) 
+		 {
+			 // TODO Auto-generated catch block
+			 e.printStackTrace();
+		 }
+
+		 for(Integer element : appConfiguration.getAdzerkFormatsForActivity())
+		 {
+			 AdzerkFormatForActivityORM ormElement = new AdzerkFormatForActivityORM(element);
+
+			 this.adzerkFormatsForActivity.add(ormElement);
+		 }
+
+		 try 
+		 {
+			 this.adzerkFormatsForAndroidGuide = getDao().getEmptyForeignCollection("adzerkFormatsForAndroidGuide");
+		 } 
+		 catch (SQLException e) 
+		 {
+			 // TODO Auto-generated catch block
+			 e.printStackTrace();
+		 }
+		 
+		 for(Integer element : appConfiguration.getAdzerkFormatsForAndroidGuide())
+		 {
+			 AdzerkFormatForAndroidGuideORM ormElement = new AdzerkFormatForAndroidGuideORM(element);
+			 
+			 this.adzerkFormatsForAndroidGuide.add(ormElement);
+		 }
+		 
 		 this.googleAnalyticsSampleRate = appConfiguration.getGoogleAnalyticsSampleRate();
 		 this.googleAnalyticsEnabled = appConfiguration.isGoogleAnalyticsEnabled();
 		 this.googleAnalyticsTrackingId = appConfiguration.getGoogleAnalyticsTrackingId();
@@ -186,19 +237,22 @@ public class AppConfigurationORM
 
 
 
-	public List<Integer> getAdzerkFormats() {
+	public ForeignCollection<AdzerkFormatORM> getAdzerkFormats() 
+	{
 		return adzerkFormats;
 	}
 
 
 
-	public List<Integer> getAdzerkFormatsForActivity() {
+	public ForeignCollection<AdzerkFormatForActivityORM> getAdzerkFormatsForActivity() 
+	{
 		return adzerkFormatsForActivity;
 	}
 
 
 
-	public List<Integer> getAdzerkFormatsForAndroidGuide() {
+	public ForeignCollection<AdzerkFormatForAndroidGuideORM> getAdzerkFormatsForAndroidGuide() 
+	{
 		return adzerkFormatsForAndroidGuide;
 	}
 

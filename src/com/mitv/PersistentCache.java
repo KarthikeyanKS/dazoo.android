@@ -1,7 +1,11 @@
+
 package com.mitv;
+
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -19,8 +23,9 @@ import com.mitv.models.TVGuide;
 import com.mitv.models.TVTag;
 import com.mitv.models.UserLike;
 import com.mitv.models.UserLoginData;
-import com.mitv.models.orm.AppConfigurationORM;
 import com.mitv.models.orm.AppVersionORM;
+import com.mitv.models.orm.TVDateORM;
+import com.mitv.models.orm.TVTagORM;
 import com.mitv.models.orm.UserLoginDataORM;
 import com.mitv.models.orm.base.AbstractOrmLiteClass;
 
@@ -33,10 +38,10 @@ public class PersistentCache
 	/* We only need to use this variable, and not "tvChannelIdsDefault" or "tvChannelIdsUser",
 	 * "tvChannelIdsUsed" will hold either of those variables above mentioned. When you login/logout
 	 * the data held by this variable will change between those two. */
-	private ArrayList<TVChannelId> tvChannelIdsUsed;
+	private List<TVChannelId> tvChannelIdsUsed;
 	
 	/* Should contain ALL channels provided by the backend, some hundreds or so */
-	private ArrayList<TVChannel> tvChannels;
+	private List<TVChannel> tvChannels;
 	
 	/* Maps a day to a TVGuide, G, using the id of the TVDate as key. G may contain TVChannelGuides for TVChannels that the user have removed from her channel list */
 	private HashMap<String, TVGuide> tvGuidesAll;
@@ -46,15 +51,15 @@ public class PersistentCache
 	
 	/* PERSISTENT USER DATA, WILL BE SAVED TO STORAGE ON EACH SET */
 	private UserLoginData userData;
-	private ArrayList<UserLike> userLikes;
+	private List<UserLike> userLikes;
 	
 	private AppVersion appVersionData;
 	private AppConfiguration appConfigurationData;
 	
-	private ArrayList<TVTag> tvTags;
-	private ArrayList<TVDate> tvDates;
-	private ArrayList<TVChannelId> tvChannelIdsDefault;
-	private ArrayList<TVChannelId> tvChannelIdsUser;
+	private List<TVTag> tvTags;
+	private List<TVDate> tvDates;
+	private List<TVChannelId> tvChannelIdsDefault;
+	private List<TVChannelId> tvChannelIdsUser;
 	
 	private ArrayList<TVFeedItem> activityFeed;
 	private ArrayList<TVBroadcastWithChannelInfo> popularBroadcasts;
@@ -70,9 +75,12 @@ public class PersistentCache
 		
 		AbstractOrmLiteClass.initDB(context, Constants.CACHE_DATABASE_NAME, Constants.CACHE_DATABASE_VERSION, null);
 		
-		this.appVersionData = null; AppVersionORM.getAppVersion();
+		this.appVersionData = AppVersionORM.getAppVersion();
 		this.appConfigurationData = null; //AppConfigurationORM.getAppConfiguration();
 		this.userData = UserLoginDataORM.getUserLoginData();
+		
+		this.tvTags = TVTagORM.getTVTags();
+		this.tvDates = TVDateORM.getTVDates();
 	}
 	
 	
@@ -104,6 +112,7 @@ public class PersistentCache
 	public synchronized boolean containsAppConfigData() 
 	{
 		boolean containsAppConfig = (appConfigurationData != null);
+		
 		return containsAppConfig;
 	}
 	
@@ -231,19 +240,19 @@ public class PersistentCache
 	
 	/* USER LIKES */
 	
-	public synchronized ArrayList<UserLike> getUserLikes() 
+	public synchronized List<UserLike> getUserLikes() 
 	{
 		return userLikes;
 	}
 
 	
-	public synchronized void setUserLikes(ArrayList<UserLike> userLikes) 
+	public synchronized void setUserLikes(final List<UserLike> userLikes) 
 	{
 		this.userLikes = userLikes;
 	}
 	
 	
-	public synchronized void addUserLike(UserLike userLike) 
+	public synchronized void addUserLike(final UserLike userLike) 
 	{
 		if(userLikes != null)
 		{
@@ -256,7 +265,7 @@ public class PersistentCache
 	}
 	
 	
-	public synchronized void removeUserLike(UserLike userLikeToRemove) 
+	public synchronized void removeUserLike(final UserLike userLikeToRemove) 
 	{
 		if(userLikes != null)
 		{
@@ -286,7 +295,7 @@ public class PersistentCache
 	
 	
 	
-	public synchronized boolean isInUserLikes(UserLike userLikeToCheck) 
+	public synchronized boolean isInUserLikes(final UserLike userLikeToCheck) 
 	{
 		boolean isContained = false;
 		
@@ -311,7 +320,7 @@ public class PersistentCache
 	
 	/* APP VERSION */
 	
-	public synchronized void setAppVersionData(AppVersion appVersionData) 
+	public synchronized void setAppVersionData(final AppVersion appVersionData) 
 	{
 		this.appVersionData = appVersionData;
 		
@@ -354,12 +363,11 @@ public class PersistentCache
 	
 	/* APP CONFIGURATION */
 	
-	public synchronized void setAppConfigData(AppConfiguration appConfigurationData) 
+	public synchronized void setAppConfigData(final AppConfiguration appConfigurationData) 
 	{
 		this.appConfigurationData = appConfigurationData;
 		
-		//AppConfigurationORM appConfigurationORM = new AppConfigurationORM(appConfigurationData);
-		//appConfigurationORM.saveInAsyncTask();
+		//new AppConfigurationORM(appConfigurationData).saveInAsyncTask();
 	}
 	
 	
@@ -380,30 +388,34 @@ public class PersistentCache
 	
 	/* TV TAGS */
 	
-	public synchronized ArrayList<TVTag> getTvTags() 
+	public synchronized List<TVTag> getTvTags() 
 	{
 		return tvTags;
 	}
 	
 	
-	public synchronized void setTvTags(ArrayList<TVTag> tvTags) 
+	public synchronized void setTvTags(final List<TVTag> tvTags) 
 	{
 		this.tvTags = tvTags;
+		
+		TVTagORM.createAndSaveInAsyncTask(tvTags);
 	}
 	
 	
 	
 	/* TV DATES */
 	
-	public synchronized ArrayList<TVDate> getTvDates() 
+	public synchronized List<TVDate> getTvDates() 
 	{
 		return tvDates;
 	}
 	
 
-	public synchronized void setTvDates(ArrayList<TVDate> tvDates) 
+	public synchronized void setTvDates(final List<TVDate> tvDates) 
 	{
 		this.tvDates = tvDates;
+		
+		TVDateORM.createAndSaveInAsyncTask(tvDates);
 	}
 	
 	
@@ -423,13 +435,13 @@ public class PersistentCache
 	
 	/* TV CHANNELS */
 	
-	public synchronized ArrayList<TVChannel> getTvChannels() 
+	public synchronized List<TVChannel> getTvChannels() 
 	{
 		return tvChannels;
 	}
 
 	
-	public synchronized void setTvChannels(ArrayList<TVChannel> tvChannels) 
+	public synchronized void setTvChannels(final List<TVChannel> tvChannels) 
 	{
 		this.tvChannels = tvChannels;
 	}
@@ -495,7 +507,7 @@ public class PersistentCache
 	
 	/* TV CHANNEL IDS USED */
 	
-	public synchronized ArrayList<TVChannelId> getTvChannelIdsUsed() 
+	public synchronized List<TVChannelId> getTvChannelIdsUsed() 
 	{
 		if(tvChannelIdsUsed == null) 
 		{
@@ -516,7 +528,7 @@ public class PersistentCache
 	}
 	
 	
-	public synchronized void setTvChannelIdsUsed(ArrayList<TVChannelId> tvChannelIdsUsed) 
+	public synchronized void setTvChannelIdsUsed(List<TVChannelId> tvChannelIdsUsed) 
 	{
 		this.tvChannelIdsUsed = tvChannelIdsUsed;
 		
@@ -561,7 +573,7 @@ public class PersistentCache
 	}
 
 	
-	public synchronized void setTvChannelIdsDefault(ArrayList<TVChannelId> tvChannelIdsDefault) 
+	public synchronized void setTvChannelIdsDefault(List<TVChannelId> tvChannelIdsDefault) 
 	{
 		this.tvChannelIdsDefault = tvChannelIdsDefault;
 		

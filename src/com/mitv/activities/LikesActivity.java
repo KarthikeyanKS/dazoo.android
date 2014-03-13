@@ -3,8 +3,8 @@ package com.mitv.activities;
 
 
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -130,7 +130,7 @@ public class LikesActivity
 		
 			case SUCCESS_WITH_CONTENT:
 			{
-				ArrayList<UserLike> userLikes = ContentManager.sharedInstance().getFromCacheUserLikes();
+				List<UserLike> userLikes = ContentManager.sharedInstance().getFromCacheUserLikes();
 				
 				Collections.sort(userLikes, new UserLikeComparatorByTitle());
 				

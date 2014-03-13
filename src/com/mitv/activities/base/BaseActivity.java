@@ -3,7 +3,7 @@ package com.mitv.activities.base;
 
 
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 import android.app.Activity;
@@ -12,7 +12,6 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.os.StrictMode;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -202,13 +201,20 @@ public abstract class BaseActivity
 		}
 	}
 	
-	private int getIndexOfTodayFromTVDates() {
+	private int getIndexOfTodayFromTVDates() 
+	{
 		int indexOfTodayFromTVDates = TV_DATE_NOT_FOUND;
-		ArrayList<TVDate> tvDates = ContentManager.sharedInstance().getFromCacheTVDates();
-		for(int i = 0; i < tvDates.size(); ++i) {
+		
+		List<TVDate> tvDates = ContentManager.sharedInstance().getFromCacheTVDates();
+		
+		for(int i = 0; i < tvDates.size(); ++i) 
+		{
 			TVDate tvDate = tvDates.get(i);
+			
 			boolean isTVDateNow = DateUtils.isTodayUsingTVDate(tvDate);
-			if(isTVDateNow) {
+			
+			if(isTVDateNow) 
+			{
 				indexOfTodayFromTVDates = i;
 				break;
 			}
