@@ -135,7 +135,7 @@ public class SecondScreenApplication
              .detectDiskReads()
              .detectDiskWrites()
              .detectNetwork()
-             .penaltyLog()
+//             .penaltyLog()
              .penaltyFlashScreen()
              .build());
      
