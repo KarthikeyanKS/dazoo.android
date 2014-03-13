@@ -101,7 +101,7 @@ public class UserProfileActivity
 		} 
 		else
 		{
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 		}
 	}
 	
@@ -133,7 +133,7 @@ public class UserProfileActivity
 			{
 				case USER_LIKES:
 				{
-					updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+					updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 					break;
 				}
 				
@@ -180,7 +180,7 @@ public class UserProfileActivity
 			}
 	
 			case SUCCESS_WITH_NO_CONTENT:
-			case SUCCEEDED_WITH_DATA: 
+			case SUCCESS_WITH_CONTENT: 
 			{
 				scrollView.setVisibility(View.VISIBLE);
 				populateViews();

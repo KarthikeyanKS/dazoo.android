@@ -280,7 +280,7 @@ public class FeedActivity
 			{
 				if(fetchRequestResult.wasSuccessful())
 				{
-					updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+					updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 				}
 				else
 				{
@@ -307,17 +307,13 @@ public class FeedActivity
 		
 		switch (status) 
 		{	
-			case SUCCEEDED_WITH_DATA:
+			case SUCCESS_WITH_CONTENT:
 			{
 				setListAdapter();
 				break;
 			}
 			
-			default:
-			{
-				// Do nothing
-				break;
-			}
+			default: {/* Do nothing */break;}
 		}
 	}
 	
@@ -414,7 +410,7 @@ public class FeedActivity
 			if (pastTotalCount) 
 			{
 				showScrollSpinner(true);
-				ContentManager.sharedInstance().fetchFromServiceMoreActivityData(this);
+				ContentManager.sharedInstance().fetchFromServiceMoreActivityData(this, totalItemCount);
 			} 
 		}
 	}

@@ -72,7 +72,7 @@ public class RepetitionsOrUpcomingPage
 	@Override
 	protected void loadData()
 	{
-		updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+		updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 	}
 	
 	
@@ -90,7 +90,7 @@ public class RepetitionsOrUpcomingPage
 	{
 		if (fetchRequestResult.wasSuccessful()) 
 		{
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 		} 
 		else
 		{
@@ -114,7 +114,7 @@ public class RepetitionsOrUpcomingPage
 
 		switch (status) 
 		{	
-			case SUCCEEDED_WITH_DATA:
+			case SUCCESS_WITH_CONTENT:
 			{
 				listAdapter = new UpcomingOrRepeatingBroadcastsListAdapter(this, broadcasts, usedForUpcomingEpisodes);
 				listView.setAdapter(listAdapter);

@@ -323,7 +323,7 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {
 		setNotLoading();
 		if (fetchRequestResult.wasSuccessful()) {
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 			SearchResultsForQuery searchResultsForQuery = ContentManager.sharedInstance().getFromCacheSearchResults();
 			if (searchResultsForQuery != null) {
 				String searchQuery = searchResultsForQuery.getQueryString();
@@ -344,7 +344,7 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 		super.updateUIBaseElements(status);
 
 		switch (status) {
-		case SUCCEEDED_WITH_DATA: {
+		case SUCCESS_WITH_CONTENT: {
 			// TODO NewArc - Do something here?
 			break;
 		}

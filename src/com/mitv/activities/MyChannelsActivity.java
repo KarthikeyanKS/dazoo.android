@@ -168,7 +168,7 @@ public class MyChannelsActivity
 		checkedChannelIds = myChannelIds;
 		channelsMatchingSearch = new ArrayList<TVChannel>(allChannelObjects);
 		
-		updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);	
+		updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);	
 	}
 	
 	
@@ -187,7 +187,7 @@ public class MyChannelsActivity
 	{
 		if (fetchRequestResult.wasSuccessful()) 
 		{
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 		} 
 		else
 		{
@@ -204,7 +204,7 @@ public class MyChannelsActivity
 
 		switch (status) 
 		{	
-			case SUCCEEDED_WITH_DATA:
+			case SUCCESS_WITH_CONTENT:
 			{
 				populateViews();
 				break;

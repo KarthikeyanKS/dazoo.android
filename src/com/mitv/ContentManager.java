@@ -545,11 +545,10 @@ public class ContentManager
 	}
 		
 	
-	public void fetchFromServiceMoreActivityData(ViewCallbackListener activityCallbackListener) 
+	public void fetchFromServiceMoreActivityData(ViewCallbackListener activityCallbackListener, int offset) 
 	{
 		if (!isFetchingFeedItems) {
 			isFetchingFeedItems = true;
-			int offset = cache.getActivityFeed().size();
 			Log.d(TAG, "FEEDS: count " + offset);
 			apiClient.getUserTVFeedItemsWithOffsetAndLimit(activityCallbackListener, offset);
 		}

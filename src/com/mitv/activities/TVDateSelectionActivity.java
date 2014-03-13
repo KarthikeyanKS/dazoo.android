@@ -126,7 +126,7 @@ public abstract class TVDateSelectionActivity
 			
 		switch (status) 
 		{	
-			case SUCCEEDED_WITH_DATA:
+			case SUCCESS_WITH_CONTENT:
 			{			
 				showDaySelection();
 				break;

@@ -744,7 +744,7 @@ public abstract class BaseActivity
 					break;
 				}
 	
-				case SUCCEEDED_WITH_DATA:
+				case SUCCESS_WITH_CONTENT:
 				default:
 				{
 					// Success or other cases should be handled by the subclasses

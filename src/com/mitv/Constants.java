@@ -137,7 +137,10 @@ public abstract class Constants
 	public static final int		TV_GUIDE_NEXT_PROGRAMS_NUMBER						= 3;
 	
 	/* Notifications */
-	public static final int		NOTIFY_MINUTES_BEFORE_THE_BROADCAST2				= 15;
+	public static final int		NOTIFY_MINUTES_BEFORE_THE_BROADCAST					= 15;
+	
+	public static final int		FEED_ACTIVITY_FEED_ITEM_INITIAL_COUNT				= 10;
+	public static final int		FEED_ACTIVITY_FEED_ITEM_MORE_COUNT					= 5;
 
 
 	/* Notifications database */
