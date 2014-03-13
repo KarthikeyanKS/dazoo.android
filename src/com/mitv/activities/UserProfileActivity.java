@@ -315,8 +315,9 @@ public class UserProfileActivity
 		}
 	}
 	
-	private void updateUserLikesGUI() {
-		ArrayList<UserLike> userLikes = ContentManager.sharedInstance().getFromCacheUserLikes();
+	private void updateUserLikesGUI() 
+	{
+		List<UserLike> userLikes = ContentManager.sharedInstance().getFromCacheUserLikes();
 		
 		if (userLikes != null && !userLikes.isEmpty()) 
 		{
