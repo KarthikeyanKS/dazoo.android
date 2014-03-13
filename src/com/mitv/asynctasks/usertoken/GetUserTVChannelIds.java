@@ -11,7 +11,7 @@ import android.util.Log;
 import com.mitv.Constants;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.models.TVChannelId;
 
@@ -28,7 +28,7 @@ public class GetUserTVChannelIds
 	
 	public GetUserTVChannelIds(
 			final ContentCallbackListener contentCallbackListener,
-			final ActivityCallbackListener activityCallbackListener,
+			final ViewCallbackListener activityCallbackListener,
 			boolean standalone) 
 	{
 		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(standalone), TVChannelId[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);

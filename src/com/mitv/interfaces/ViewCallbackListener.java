@@ -8,7 +8,7 @@ import com.mitv.enums.RequestIdentifierEnum;
 
 
 
-public interface ActivityCallbackListener 
+public interface ViewCallbackListener 
 {	
 	/** 
 	 * This method is called from the ContentManager when all the 

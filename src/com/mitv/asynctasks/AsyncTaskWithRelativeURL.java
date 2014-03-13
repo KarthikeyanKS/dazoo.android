@@ -7,7 +7,7 @@ import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.http.HeaderParameters;
 import com.mitv.http.URLParameters;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
 
 
@@ -17,7 +17,7 @@ public abstract class AsyncTaskWithRelativeURL<T>
 {
 	public AsyncTaskWithRelativeURL(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallbackListener,
+			ViewCallbackListener activityCallbackListener,
 			RequestIdentifierEnum requestIdentifier,
 			Class<T> clazz,
 			HTTPRequestTypeEnum httpRequestType,
@@ -30,7 +30,7 @@ public abstract class AsyncTaskWithRelativeURL<T>
 	
 	public AsyncTaskWithRelativeURL(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallbackListener,
+			ViewCallbackListener activityCallbackListener,
 			RequestIdentifierEnum requestIdentifier,
 			Class<T> clazz,
 			boolean manualDeserialization,
@@ -44,7 +44,7 @@ public abstract class AsyncTaskWithRelativeURL<T>
 	
 	public AsyncTaskWithRelativeURL(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallbackListener,
+			ViewCallbackListener activityCallbackListener,
 			RequestIdentifierEnum requestIdentifier,
 			Class<T> clazz,
 			Class clazzSingle,
@@ -59,7 +59,7 @@ public abstract class AsyncTaskWithRelativeURL<T>
 	
 	public AsyncTaskWithRelativeURL(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallbackListener,
+			ViewCallbackListener activityCallbackListener,
 			RequestIdentifierEnum requestIdentifier,
 			Class<T> clazz,
 			Class clazzSingle,

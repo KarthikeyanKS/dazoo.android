@@ -12,7 +12,7 @@ import android.util.Log;
 import com.mitv.Constants;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.models.TVChannelGuide;
 import com.mitv.models.TVChannelId;
@@ -62,7 +62,7 @@ public class GetTVChannelGuides
 	
 	public GetTVChannelGuides(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallbackListener,
+			ViewCallbackListener activityCallbackListener,
 			boolean standalone,
 			TVDate tvDate,
 			List<TVChannelId> tvChannelIds) 

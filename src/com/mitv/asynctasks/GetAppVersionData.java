@@ -8,7 +8,7 @@ import android.util.Log;
 import com.mitv.Constants;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.models.AppVersion;
 import com.mitv.models.gson.AppVersionJSON;
@@ -26,7 +26,7 @@ public class GetAppVersionData
 	
 	public GetAppVersionData(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallbackListener)
+			ViewCallbackListener activityCallbackListener)
 	{
 		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.APP_VERSION, AppVersionJSON[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
 	}

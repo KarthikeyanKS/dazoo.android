@@ -17,14 +17,14 @@ import com.mitv.activities.SignUpSelectionActivity;
 import com.mitv.activities.base.BaseActivity;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.models.UserLike;
 import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.AnimationUtils;
 
-public class LikeView extends RelativeLayout implements ActivityCallbackListener, OnClickListener {
+public class LikeView extends RelativeLayout implements ViewCallbackListener, OnClickListener {
 	private static final String TAG = LikeView.class.toString();
 
 	private LayoutInflater inflater;
