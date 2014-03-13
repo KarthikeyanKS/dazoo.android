@@ -3,11 +3,13 @@ package com.mitv.activities.base;
 
 
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.os.StrictMode;
 import android.support.v4.view.MenuItemCompat;
@@ -36,10 +38,12 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.models.TVDate;
 import com.mitv.ui.elements.UndoBarController;
 import com.mitv.ui.elements.UndoBarController.UndoListener;
 import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.ui.helpers.ToastHelper;
+import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
 
@@ -50,6 +54,8 @@ public abstract class BaseActivity
 	implements ActivityCallbackListener, OnClickListener, UndoListener 
 {
 	private static final String TAG = BaseActivity.class.getName();
+	private static final int TV_DATE_NOT_FOUND = -1;
+	
 	private static Stack<Activity> activityStack = new Stack<Activity>();
 
 	protected RelativeLayout tabTvGuide;
@@ -86,33 +92,18 @@ public abstract class BaseActivity
 	/* This method implementation should deal with changes after the data has been fetched */
 	protected abstract void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier);
 
+	
+	
 	@Override
-	protected void onCreate(android.os.Bundle savedInstanceState) 
+	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
 
-		boolean enableStrictMode = Constants.ENABLE_STRICT_MODE;
-
-		if (enableStrictMode) 
-		{
-			 StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-             .detectDiskReads()
-             .detectDiskWrites()
-             .detectNetwork()
-             .penaltyLog()
-             .penaltyFlashScreen()
-             .build());
-     
-			 StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-             .detectLeakedSqlLiteObjects()
-             .detectLeakedClosableObjects()
-             .penaltyLog()
-             .build());
-		}
-
 		/* Google Analytics Tracking */
 		EasyTracker.getInstance(this).activityStart(this);
+		
 		String className = this.getClass().getName();
+		
 		GATrackingManager.sendView(className);
 	}
 	
@@ -136,6 +127,8 @@ public abstract class BaseActivity
 		
 		setTabViews();
 
+		handleTimeAndDayOnResume();
+		
 		Intent intent = getIntent();
 
 		/* Log in states */
@@ -178,6 +171,43 @@ public abstract class BaseActivity
 			}
 		}
 	}
+	
+	private void handleTimeAndDayOnResume() {
+		/* Handle time */
+		int currentHour = DateUtils.getCurrentHourOn24HourFormat();
+		ContentManager.sharedInstance().setSelectedHour(currentHour);
+		
+		/* Handle day */
+		int indexOfTodayFromTVDates = getIndexOfTodayFromTVDates();
+
+		/* Index is not 0, means that the day have changed since the app was launched last time =>
+		refetch all the data	*/
+		if(indexOfTodayFromTVDates != TV_DATE_NOT_FOUND) {
+			if(indexOfTodayFromTVDates != 0) {
+				ContentManager.sharedInstance().fetchFromServiceInitialCall(this, null);
+			}
+		} else {
+			Log.w(TAG, "Could not find TVDate in list, this probably means that the user have manually set the date to somewhere more than" +
+					"7 days away in time => refecth initial data");
+			ContentManager.sharedInstance().fetchFromServiceInitialCall(this, null);
+		}
+	}
+	
+	private int getIndexOfTodayFromTVDates() {
+		int indexOfTodayFromTVDates = TV_DATE_NOT_FOUND;
+		ArrayList<TVDate> tvDates = ContentManager.sharedInstance().getFromCacheTVDates();
+		for(int i = 0; i < tvDates.size(); ++i) {
+			TVDate tvDate = tvDates.get(i);
+			boolean isTVDateNow = DateUtils.isTodayUsingTVDate(tvDate);
+			if(isTVDateNow) {
+				indexOfTodayFromTVDates = i;
+				break;
+			}
+		}
+
+		return indexOfTodayFromTVDates;
+	}
+
 	
 	private static void pushActivityToStack(Activity activity) {
 		

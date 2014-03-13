@@ -107,7 +107,7 @@ public class ContentManager
 	 * finished downloading. */
 	private ActivityCallbackListener allProgramsTVGuideTableFragmentCallbackListener;
 	
-	private ContentManager() 
+	private ContentManager()
 	{
 		this.cache = new Cache();
 		this.apiClient = new APIClient(this);
@@ -136,6 +136,13 @@ public class ContentManager
 		}
 		
 		return sharedInstance;
+	}
+	
+	
+	
+	public void clearAllPersistentCacheData()
+	{
+		cache.clearAllPersistentCacheData();
 	}
 	
 	
@@ -856,6 +863,7 @@ public class ContentManager
 				handleBuildTVBroadcastsForTagsResponse(activityCallbackListener, requestIdentifier, result, content);
 				break;
 			}
+			default:{/* do nothing */break;}
 		}
 	}
 
@@ -933,11 +941,7 @@ public class ContentManager
 					notifyFetchDataProgressListenerMessage(SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_user_likes));
 					break;
 				}
-				default:
-				{
-					// Do nothing
-					break;
-				}
+				default:{/* do nothing */break;}
 			}
 			
 			if (completedCountTVActivityFeed >= COMPLETED_COUNT_FOR_TV_ACTIVITY_FEED_DATA_THRESHOLD) 
@@ -1061,6 +1065,7 @@ public class ContentManager
 				}
 				break;
 			}
+			default:{/* do nothing */break;}
 			}
 			
 			if (completedCountBroadcastPageData >= completedCountBroadcastPageDataThresholdUsed) 
@@ -1103,6 +1108,7 @@ public class ContentManager
 	{
 		if (result.wasSuccessful()) 
 		{
+			@SuppressWarnings("unchecked")
 			ArrayList<UserLike> userLikes = (ArrayList<UserLike>) content;
 			cache.setUserLikes(userLikes);
 			
@@ -1309,7 +1315,8 @@ public class ContentManager
 		apiClient.performUserLogin(activityCallbackListener, username, password);
 	}
 
-	public void performLogout(ActivityCallbackListener activityCallbackListener) {
+	public void performLogout(ActivityCallbackListener activityCallbackListener) 
+	{
 		/* Important, we need to clear the cache as well */
 		cache.clearUserData();
 		cache.clearTVChannelIdsUser();

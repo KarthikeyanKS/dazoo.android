@@ -347,6 +347,7 @@ public abstract class Constants
 	public static final String GA_KEY_APP_WAS_PREINSTALLED_EXTERNAL_STORAGE			= "APP_WAS_PREINSTALLED_EXTERNAL_STORAGE";
 	public static final String GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_LOCATION		= "APP_WAS_PREINSTALLED_SYSTEM_APP_LOCATION";
 	public static final String GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_FLAG			= "APP_WAS_PREINSTALLED_SYSTEM_APP_FLAG";
+	public static final String GA_KEY_APP_CURRENT_USER_NETWORK_FLAG					= "APP_CURRENT_USER_NETWORK_FLAG";
 	public static final String GA_EVENT_KEY_SYSTEM_EVENT							= "SystemEvent";
 
 	public static final String GA_KEY_APP_VERSION									= "APP_VERSION";
@@ -468,14 +469,13 @@ public abstract class Constants
 	public static final String SHARED_PREFERENCES_USER_IMAGE_URL = "com.mitv.shared.preferences.user.image.url";
 	public static final String SHARED_PREFERENCES_USER_DATA = "com.mitv.shared.preferences.user.data";
 	public static final String SHARED_PREFERENCES_APP_WAS_PREINSTALLED = "com.mitv.app.preinstalled";
-	
-	
-	public static final boolean ENABLE_STRICT_MODE = false;
+	public static final String SHARED_PREFERENCES_APP_INSTALLED_VERSION = "com.mitv.app.installed.version";
 	
 	/* CONFIGURATIONS FOR RELEASE */
 	public static final boolean FORCE_DEFAULT_GOOGLE_TRACKING_ID = true;
 	public static final boolean USE_HOCKEY_APP_CRASH_REPORTS = true;
 	public static final boolean USE_HOCKEY_APP_UPDATE_NOTIFICATIONS = false;
+	public static final boolean ENABLE_STRICT_MODE = false;
 	
 	public static final String ALL_CATEGORIES_TAG = "All programs";
 }

@@ -3,17 +3,19 @@ package com.mitv.models.orm.base;
 
 
 
-import android.content.Context;
-import android.util.Log;
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.RuntimeExceptionDao;
-import com.j256.ormlite.stmt.QueryBuilder;
-import com.j256.ormlite.table.TableUtils;
-import com.mitv.models.orm.base.OrmLiteDatabaseHelper.Upgrader;
-
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
+
+import android.content.Context;
+import android.util.Log;
+
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.RuntimeExceptionDao;
+import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.table.TableUtils;
+import com.mitv.models.orm.base.OrmLiteDatabaseHelper.Upgrader;
 
 
 
@@ -56,13 +58,19 @@ public abstract class AbstractOrmLiteClass<T>
 	protected abstract void onAfterSave();
 
 	protected Dao<? extends AbstractOrmLiteClass<?>, ?> getDao()
-			throws SQLException {
+			throws SQLException 
+	{
 		Dao<? extends AbstractOrmLiteClass<?>, ?> dao = null;
-		if (!hmClassDao.containsKey(this.getClass())) {
+		
+		if (!hmClassDao.containsKey(this.getClass())) 
+		{
 			dao = OrmLiteDatabaseHelper.getInstance().getDao(this.getClass());
+			
 			hmClassDao.put(this.getClass(), dao);
+			
 			createTableIfNeeded();
 		}
+		
 		dao = hmClassDao.get(this.getClass());
 		return dao;
 	}
@@ -134,4 +142,14 @@ public abstract class AbstractOrmLiteClass<T>
 	}
 
 
+	
+	public void deleteById(String field, String id)
+			throws SQLException
+	{
+		DeleteBuilder<? extends AbstractOrmLiteClass<?>, ?> deleteBuilder = getDao().deleteBuilder();
+		
+		deleteBuilder.where().eq(field, id);
+        
+		deleteBuilder.delete();
+	}
 }

@@ -93,14 +93,6 @@ public abstract class AppDataUtils
 	}
 	
 	
-	public static void clearStorageCompletely() {
-		/* Clear data stored in SharedPrefs */
-		clearAllPreferences();
-		
-		/* Delete files */
-		deleteUserData(Constants.SHARED_PREFERENCES_USER_DATA);
-	}
-	
 	
 	public static void clearPreference(final String name)
 	{
@@ -159,89 +151,6 @@ public abstract class AppDataUtils
 	
 	
 	
-	public static Object loadData(final String filename) {
-		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-
-		Object object = null;
-
-		ObjectInputStream in = null;
-
-		FileInputStream fis = null;
-
-		try {
-			fis = context.getApplicationContext().openFileInput(filename);
-
-			in = new ObjectInputStream(fis);
-
-			object = in.readObject();
-		} catch (FileNotFoundException fnfex) {
-			// Do not log this exception
-		} catch (Exception e) {
-			Log.e(TAG, e.getMessage(), e);
-		} finally {
-			try {
-				if (fis != null) {
-					fis.close();
-				}
-				// No need for else
-
-				if (in != null) {
-					in.close();
-				}
-				// No need for else
-			} catch (Exception e) {
-				Log.e(TAG, e.getMessage(), e);
-			}
-		}
-
-		return object;
-	}
-	
-	
-	
-	public static boolean deleteUserData(final String filename) {
-		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-
-		boolean successfullyDeleted  = context.deleteFile(filename);
-		
-		return successfullyDeleted;
-	}
-
-	
-	
-	public static void saveData(final String filename, final Object object) {
-		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
-
-		FileOutputStream fout = null;
-
-		ObjectOutputStream out = null;
-
-		try {
-			fout = context.openFileOutput(filename, Context.MODE_PRIVATE);
-
-			out = new ObjectOutputStream(fout);
-
-			out.writeObject(object);
-
-			out.flush();
-		} catch (IOException ioex) {
-			Log.e(TAG, ioex.getMessage(), ioex);
-		} finally {
-			try {
-				if (out != null) {
-					out.close();
-				}
-				// No need for else
-
-				if (fout != null) {
-					fout.close();
-				}
-				// No need for else
-			} catch (Exception e) {
-				// Do nothing here
-			}
-		}
-	}
 	
 }
 

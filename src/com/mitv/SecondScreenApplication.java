@@ -8,9 +8,11 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
+import android.os.StrictMode;
 import android.util.Log;
 
 import com.mitv.utilities.AppDataUtils;
+import com.mitv.utilities.GenericUtils;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -115,12 +117,47 @@ public class SecondScreenApplication
 		DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisc(true).build();
 
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext()).defaultDisplayImageOptions(displayImageOptions)
-				.memoryCache(new LruMemoryCache(2 * 1024 * 1024)).memoryCacheSize(2 * 1024 * 1024).discCacheSize(50 * 1024 * 1024).discCacheFileCount(100)
+				.memoryCache(new LruMemoryCache(2 * 1024 * 1024))
+				.memoryCacheSize(2 * 1024 * 1024)
+				.discCacheSize(50 * 1024 * 1024)
+				.discCacheFileCount(100)
 				.tasksProcessingOrder(QueueProcessingType.LIFO).build();
 		
 		ImageLoader.getInstance().init(config);
 
 		L.disableLogging();
+		
+		boolean enableStrictMode = Constants.ENABLE_STRICT_MODE;
+
+		if (enableStrictMode) 
+		{
+			 StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+             .detectDiskReads()
+             .detectDiskWrites()
+             .detectNetwork()
+             .penaltyLog()
+             .penaltyFlashScreen()
+             .build());
+     
+			 StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+             .detectLeakedSqlLiteObjects()
+             .detectLeakedClosableObjects()
+             .penaltyLog()
+             .build());
+		}
+		
+		if(isCurrentVersionAnUpgradeFromInstalledVersion())
+		{
+			ContentManager.sharedInstance().clearAllPersistentCacheData();
+			
+			AppDataUtils.clearAllPreferences();
+			
+			setInstalledAppVersionToCurrentVersion();
+		}
+		else
+		{
+			setInstalledAppVersionToCurrentVersion();
+		}
 		
 		// Imageloader that reset views before loading
 		// DisplayImageOptions resetViewDisplayImageOptions = new DisplayImageOptions.Builder()
@@ -150,15 +187,55 @@ public class SecondScreenApplication
 	
 	
 	
-	public void setWasPreinstalled() 
+	public void setAppAsPreinstalled() 
 	{
 		AppDataUtils.setPreference(Constants.SHARED_PREFERENCES_APP_WAS_PREINSTALLED, true);
 	}
 
 	
-	
-	public boolean getWasPreinstalled() 
+	public boolean isAppPreinstalled() 
 	{
 		return AppDataUtils.getPreference(Constants.SHARED_PREFERENCES_APP_WAS_PREINSTALLED, false);
+	}
+	
+	
+	private String getCurrentAppVersion()
+	{
+		return GenericUtils.getCurrentAppVersion();
+	}
+	
+	
+	private String getInstalledAppVersion()
+	{
+		return AppDataUtils.getPreference(Constants.SHARED_PREFERENCES_APP_INSTALLED_VERSION, "");
+	}
+	
+	
+	private void setInstalledAppVersionToCurrentVersion()
+	{
+		String currentVersion = getCurrentAppVersion();
+		
+		AppDataUtils.setPreference(Constants.SHARED_PREFERENCES_APP_INSTALLED_VERSION, currentVersion);
+	}
+	
+	
+	private boolean isCurrentVersionAnUpgradeFromInstalledVersion()
+	{
+		boolean isCurrentVersionAnUpgradeFromInstalledVersion;
+		
+		String installedAppVersion = getInstalledAppVersion();
+		
+		String currentAppVersion = getCurrentAppVersion();
+		
+		if(installedAppVersion.isEmpty() || currentAppVersion.isEmpty())
+		{
+			return false;
+		}
+		else
+		{
+			isCurrentVersionAnUpgradeFromInstalledVersion = installedAppVersion.equalsIgnoreCase(currentAppVersion);
+		}
+		
+		return isCurrentVersionAnUpgradeFromInstalledVersion;
 	}
 }
