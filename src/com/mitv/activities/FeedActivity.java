@@ -229,6 +229,11 @@ public class FeedActivity
 		listView.setVisibility(View.VISIBLE);
 	}
 	
+	private void updateListAdapter() {
+		ArrayList<TVFeedItem> activityFeed = ContentManager.sharedInstance().getFromCacheActivityFeedData();
+		listAdapter.setFeedItems(activityFeed);
+		listAdapter.notifyDataSetChanged();
+	}
 	
 	
 	@Override
@@ -276,7 +281,7 @@ public class FeedActivity
 		switch (requestIdentifier) 
 		{		
 			case USER_ACTIVITY_FEED_ITEM_MORE:
-			case USER_ACTIVITY_FEED_ITEM:
+			case USER_ACTIVITY_FEED_INITIAL_DATA:
 			{
 				if(fetchRequestResult.wasSuccessful())
 				{
@@ -309,7 +314,11 @@ public class FeedActivity
 		{	
 			case SUCCESS_WITH_CONTENT:
 			{
-				setListAdapter();
+				if(latestRequest == RequestIdentifierEnum.USER_ACTIVITY_FEED_INITIAL_DATA) {
+					setListAdapter();
+				} else {
+					updateListAdapter();
+				}
 				break;
 			}
 			

@@ -16,9 +16,7 @@ import com.mitv.models.orm.AppConfigurationORM;
 public class AppConfiguration 
 	extends AppConfigurationJSON
 {
-	public AppConfiguration()
-	{}
-	
+	public AppConfiguration(){}
 	
 	public AppConfiguration(AppConfigurationORM ormData)
 	{

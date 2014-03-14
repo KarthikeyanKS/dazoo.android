@@ -35,8 +35,8 @@ public enum RequestIdentifierEnum {
 	BROADCAST_PAGE_DATA(31, "Broadcast page data"), /* This is used with the BroadcastPage only, for notifying that all data has been fetched */
 	TV_BROADCASTS_FOR_TAGS(32, "TV Broadcasts for tags processing"),
 	TV_GUIDE_STANDALONE(33, "TV Guide call for standlone calls"),  /* This identifier will be used when refetching the guide due to a channel change, or forcing a refetch */
-	TV_CHANNEL_IDS_USER_STANDALONE(34, "TV Channel IDs user for standalone calls"); /* Used when start app as not logged in and then login in, need to update the TV Channels Ids */
-	
+	TV_CHANNEL_IDS_USER_STANDALONE(34, "TV Channel IDs user for standalone calls"), /* Used when start app as not logged in and then login in, need to update the TV Channels Ids */
+	USER_ACTIVITY_FEED_INITIAL_DATA(35, "Feed items and likes for FeedActivity");
 	
 	
 	private final int id;
