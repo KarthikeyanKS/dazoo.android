@@ -207,16 +207,18 @@ public abstract class BaseActivity
 		
 		List<TVDate> tvDates = ContentManager.sharedInstance().getFromCacheTVDates();
 		
-		for(int i = 0; i < tvDates.size(); ++i) 
-		{
-			TVDate tvDate = tvDates.get(i);
-			
-			boolean isTVDateNow = DateUtils.isTodayUsingTVDate(tvDate);
-			
-			if(isTVDateNow) 
+		if(tvDates != null) {
+			for(int i = 0; i < tvDates.size(); ++i) 
 			{
-				indexOfTodayFromTVDates = i;
-				break;
+				TVDate tvDate = tvDates.get(i);
+				
+				boolean isTVDateNow = DateUtils.isTodayUsingTVDate(tvDate);
+				
+				if(isTVDateNow) 
+				{
+					indexOfTodayFromTVDates = i;
+					break;
+				}
 			}
 		}
 
