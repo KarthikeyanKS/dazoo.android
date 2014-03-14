@@ -39,7 +39,6 @@ import com.mitv.models.TVChannelGuide;
 import com.mitv.models.TVDate;
 import com.mitv.models.TVProgram;
 import com.mitv.ui.helpers.DialogHelper;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
@@ -152,7 +151,7 @@ public class TVGuideListAdapter
 		{
 			ImageAware imageAware = new ImageViewAware(holder.channelLogo, false);
 
-			ImageLoader.getInstance().displayImage(guide.getImageUrl(), imageAware);
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().getImageLoader().displayImage(guide.getImageUrl(), imageAware);
 		} 
 		else 
 		{

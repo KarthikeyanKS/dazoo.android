@@ -17,6 +17,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.models.TVProgram;
@@ -217,13 +218,14 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 		if (program.getImages().getPortrait().getLarge() != null && TextUtils.isEmpty(program.getImages().getPortrait().getLarge()) != true)
 		{
 			ImageAware imageAware = new ImageViewAware(posterIv, false);
-			ImageLoader.getInstance().displayImage(program.getImages().getLandscape().getLarge(), imageAware);
+			
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().getImageLoader().displayImage(program.getImages().getLandscape().getLarge(), imageAware);
 		}
 
 		if (broadcastWithChannelInfo.getChannel() != null) 
 		{
 			ImageAware imageAware = new ImageViewAware(channelIv, false);
-			ImageLoader.getInstance().displayImage(broadcastWithChannelInfo.getChannel().getImageUrl(), imageAware);
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().getImageLoader().displayImage(broadcastWithChannelInfo.getChannel().getImageUrl(), imageAware);
 		}
 
 		if (broadcastWithChannelInfo.isBroadcastCurrentlyAiring())   /* Broadcast is currently on air: show progress */

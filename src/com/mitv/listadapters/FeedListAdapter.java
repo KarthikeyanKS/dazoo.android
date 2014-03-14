@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.mitv.Constants;
 import com.mitv.ContentManager;
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.activities.BroadcastPageActivity;
 import com.mitv.activities.PopularPageActivity;
 import com.mitv.enums.ActivityFeedAdapterTypeEnum;
@@ -217,7 +218,7 @@ public class FeedListAdapter
 
 				ImageAware imageAware = new ImageViewAware(imageView, false);
 				
-				ImageLoader.getInstance().displayImage(tvProgram.getImages().getPortrait().getMedium(), imageAware);
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().getImageLoader().displayImage(tvProgram.getImages().getPortrait().getMedium(), imageAware);
 
 				time.setText(broadcast.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
 
@@ -531,7 +532,7 @@ public class FeedListAdapter
 			
 			ImageAware imageAware = new ImageViewAware(holderBC.landscapeIv, false);
 			
-			ImageLoader.getInstance().displayImage(program.getImages().getLandscape().getLarge(), imageAware);
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().getImageLoader().displayImage(program.getImages().getLandscape().getLarge(), imageAware);
 
 			holderBC.timeTv.setText(broadcast.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
 			holderBC.channelTv.setText(broadcast.getChannel().getName());

@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.mitv.Constants;
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.ChannelRowTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
@@ -109,7 +110,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 			if (getItemViewType(position) == 0) {
 				// MC - Set the image for current broadcast.
 				ImageAware imageAware = new ImageViewAware(holder.logo, false);
-				ImageLoader.getInstance().displayImage(broadcast.getProgram().getImages().getLandscape().getLarge(), imageAware);
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().getImageLoader().displayImage(broadcast.getProgram().getImages().getLandscape().getLarge(), imageAware);
 				
 				LanguageUtils.setupProgressBar(activity, broadcast, holder.durationProgressBar, holder.timeLeft);
 				isAiring = true;

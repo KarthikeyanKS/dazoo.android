@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 
 import com.mitv.ContentManager;
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.activities.base.BaseActivity;
 import com.mitv.listadapters.TVGuideListAdapter.ViewHolder;
 import com.mitv.models.AdAdzerk;
@@ -231,7 +232,7 @@ public class AdListAdapter<T> extends BaseAdapter {
 							{
 								ImageAware imageAware = new ImageViewAware(holder.channelLogo, false);
 								
-								ImageLoader.getInstance().displayImage(imageUrl, imageAware, new ImageLoadingListener() 
+								SecondScreenApplication.sharedInstance().getImageLoaderManager().getImageLoader().displayImage(imageUrl, imageAware, new ImageLoadingListener() 
 								{
 									@Override
 									public void onLoadingStarted(String imageUri, View view) {}
@@ -248,9 +249,10 @@ public class AdListAdapter<T> extends BaseAdapter {
 										/*
 										 * Register Ad as shown when image has loaded completely
 										 */
-										if (impressionUrl != null) {
+										if (impressionUrl != null)
+										{
 											/* Let the image loader send the request, since it caches requests which is good */
-											ImageLoader.getInstance().displayImage(impressionUrl, new ImageView(activity.getApplicationContext()));
+											SecondScreenApplication.sharedInstance().getImageLoaderManager().getImageLoader().displayImage(impressionUrl, new ImageView(activity.getApplicationContext()));
 										}
 									}
 								});

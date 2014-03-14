@@ -15,6 +15,7 @@ import android.widget.ListView;
 
 import com.mitv.ContentManager;
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
@@ -141,7 +142,7 @@ public class ChannelPageActivity
 		
 		ImageAware imageAware = new ImageViewAware(channelIconIv, false);
 		
-		ImageLoader.getInstance().displayImage(channelGuide.getImageUrl(), imageAware);
+		SecondScreenApplication.sharedInstance().getImageLoaderManager().getImageLoader().displayImage(channelGuide.getImageUrl(), imageAware);
 
 		ArrayList<TVBroadcast> currentAndUpcomingbroadcasts = channelGuide.getCurrentAndUpcomingBroadcastsUsingCurrentTime();
 		

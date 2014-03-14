@@ -14,12 +14,6 @@ import android.util.Log;
 
 import com.mitv.utilities.AppDataUtils;
 import com.mitv.utilities.GenericUtils;
-import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.utils.L;
 
 
 
@@ -116,22 +110,11 @@ public class SecondScreenApplication
 		/* Initial call to AppDataUtils, in order to initialize the SharedPreferences object */
 		AppDataUtils.sharedInstance(this);
 		
+		/* Initial call to ImageLoaderManager, in order to configure the image loader objects */
+		ImageLoaderManager.sharedInstance(this);
+		
 		instance = this;
 
-		// Used in views where we don't want to reset the view itself
-		DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisc(true).build();
-
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext()).defaultDisplayImageOptions(displayImageOptions)
-				.memoryCache(new LruMemoryCache(2 * 1024 * 1024))
-				.memoryCacheSize(2 * 1024 * 1024)
-				.discCacheSize(50 * 1024 * 1024)
-				.discCacheFileCount(100)
-				.tasksProcessingOrder(QueueProcessingType.LIFO).build();
-		
-		ImageLoader.getInstance().init(config);
-
-		L.disableLogging();
-		
 		boolean enableStrictMode = Constants.ENABLE_STRICT_MODE;
 
 		if (enableStrictMode) 
@@ -205,23 +188,6 @@ public class SecondScreenApplication
 		}
 
 		setInstalledAppVersionToCurrentVersion();
-		
-		// Imageloader that reset views before loading
-		// DisplayImageOptions resetViewDisplayImageOptions = new DisplayImageOptions.Builder()
-		// .cacheInMemory(true)
-		// .cacheOnDisc(true)
-		// .resetViewBeforeLoading(true)
-		// .build();
-		//
-		// ImageLoaderConfiguration resetViewConfig = new ImageLoaderConfiguration.Builder(getApplicationContext())
-		// .defaultDisplayImageOptions(resetViewDisplayImageOptions)
-		// .memoryCache(new LruMemoryCache(2 * 1024 * 1024))
-		// .memoryCacheSize(2 * 1024 * 1024)
-		// .discCacheSize(50 * 1024 * 1024)
-		// .discCacheFileCount(100)
-		// .tasksProcessingOrder(QueueProcessingType.LIFO)
-		// .build();
-		// ResetViewImageloader.getInstance().init(resetViewConfig);
 	}
 	
 
@@ -232,6 +198,11 @@ public class SecondScreenApplication
 		super.onConfigurationChanged(newConfig);
 	}
 	
+	
+	public ImageLoaderManager getImageLoaderManager()
+	{
+		return ImageLoaderManager.sharedInstance(this); 
+	}
 	
 	
 	public void setAppAsPreinstalled() 

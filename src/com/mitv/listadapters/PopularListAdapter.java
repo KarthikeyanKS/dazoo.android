@@ -17,11 +17,11 @@ import android.widget.TextView;
 
 import com.mitv.ContentManager;
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.activities.BroadcastPageActivity;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.utilities.LanguageUtils;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
@@ -130,7 +130,7 @@ public class PopularListAdapter extends BaseAdapter {
 			});
 
 			ImageAware imageAware = new ImageViewAware(holder.posterIv, false);
-			ImageLoader.getInstance().displayImage(broadcastWithChannelInfo.getProgram().getImages().getPortrait().getMedium(), imageAware);
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().getImageLoader().displayImage(broadcastWithChannelInfo.getProgram().getImages().getPortrait().getMedium(), imageAware);
 
 			holder.timeTv.setText(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
 

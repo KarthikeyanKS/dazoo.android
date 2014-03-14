@@ -18,6 +18,7 @@ import android.widget.ScrollView;
 import com.mitv.Constants;
 import com.mitv.ContentManager;
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.activities.authentication.LoginWithMiTVUserActivity;
 import com.mitv.activities.base.BaseContentActivity;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -28,7 +29,6 @@ import com.mitv.models.TVChannelId;
 import com.mitv.models.UserLike;
 import com.mitv.models.sql.NotificationDataSource;
 import com.mitv.ui.elements.FontTextView;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
@@ -283,7 +283,7 @@ public class UserProfileActivity
 
 			ImageAware imageAware = new ImageViewAware(avatarImageView, false);
 
-			ImageLoader.getInstance().displayImage(userAvatarImageURL, imageAware);
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().getImageLoader().displayImage(userAvatarImageURL, imageAware);
 
 			String userFirstname = ContentManager.sharedInstance().getFromCacheUserFirstname();
 			String userLastname = ContentManager.sharedInstance().getFromCacheUserLastname();

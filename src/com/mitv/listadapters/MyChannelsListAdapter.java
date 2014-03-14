@@ -97,7 +97,7 @@ public class MyChannelsListAdapter
 		holder.channelName.setText(channel.getName());
 
 		ImageAware imageAware = new ImageViewAware(holder.channelLogo, false);
-		ImageLoader.getInstance().displayImage(channel.getImageUrl(), imageAware);
+		SecondScreenApplication.sharedInstance().getImageLoaderManager().getImageLoader().displayImage(channel.getImageUrl(), imageAware);
 
 		boolean checked = false;
 		if (checkedChannelIds.contains(channel.getChannelId())) {
