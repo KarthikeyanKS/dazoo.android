@@ -39,8 +39,8 @@ public class AppConfigurationJSON
 	
 	
 	/* Cell count configuration */
-	protected int activityCellCountBetweenAdCells;
-	protected int cellCountBetweenAdCells;
+	protected int feedActivityCellCountBetweenAdCells;
+	protected int guideFragmentCellCountBetweenAdCells;
 	
 	
 	/* Facebook configuration */
@@ -91,7 +91,7 @@ public class AppConfigurationJSON
 		
 		jsonElement = jsonObject.get("android.activity.cellCountBetweenAdCells");
 		
-		activityCellCountBetweenAdCells = jsonElement.getAsInt();
+		feedActivityCellCountBetweenAdCells = jsonElement.getAsInt();
 		
 		jsonElement = jsonObject.get("adzerkSiteId");
 		
@@ -210,7 +210,7 @@ public class AppConfigurationJSON
 		
 		jsonElement = jsonObject.get("android.guide.cellCountBetweenAdCells");
 		
-		cellCountBetweenAdCells = jsonElement.getAsInt();
+		guideFragmentCellCountBetweenAdCells = jsonElement.getAsInt();
 		
 		return this;
 	}
@@ -288,19 +288,6 @@ public class AppConfigurationJSON
 	}
 
 
-
-	public int getActivityCellCountBetweenAdCells() {
-		return activityCellCountBetweenAdCells;
-	}
-
-
-
-	public int getCellCountBetweenAdCells() {
-		return cellCountBetweenAdCells;
-	}
-
-
-
 	public String getFacebookAppID() {
 		return facebookAppID;
 	}
@@ -310,4 +297,18 @@ public class AppConfigurationJSON
 	public String getTrackingDomain() {
 		return trackingDomain;
 	}
+
+
+
+	public int getFeedActivityCellCountBetweenAdCells() {
+		return feedActivityCellCountBetweenAdCells;
+	}
+
+
+
+	public int getGuideFragmentCellCountBetweenAdCells() {
+		return guideFragmentCellCountBetweenAdCells;
+	}
+
+	
 }

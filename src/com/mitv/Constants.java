@@ -1,6 +1,8 @@
 
 package com.mitv;
 
+import com.mitv.activities.FeedActivity;
+
 
 
 /**
@@ -338,8 +340,7 @@ public abstract class Constants
 	public static final String JSON_KEY_API_VERSION_VALUE 							= "value";
 	
 	/* This CANNOT be changed since they are used as part of JSON_KEY, should be: guide, activity */
-	public static final String JSON_AND_FRAGMENT_KEY_GUIDE 							= "guide";
-	public static final String JSON_AND_FRAGMENT_KEY_ACTIVITY 						= "activity";
+	public static final String JSON_AND_FRAGMENT_KEY_ACTIVITY 						= FeedActivity.class.getName();
 	
 	/* PREFERENCES KEYS */
 	public static final String PREFS_KEY_APP_WAS_PREINSTALLED						= "APP_WAS_PREINSTALLED";
