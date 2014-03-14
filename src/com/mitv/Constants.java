@@ -475,6 +475,7 @@ public abstract class Constants
 	public static final String SHARED_PREFERENCES_APP_INSTALLED_VERSION = "com.mitv.app.installed.version";
 	
 	/* CONFIGURATIONS FOR RELEASE */
+	public static final boolean IS_PREINSTALLED_VERSION = false;
 	public static final String CACHE_DATABASE_NAME = "com.mitv.cache.db";
 	public static final int CACHE_DATABASE_VERSION = 1;
 	public static final boolean FORCE_DATABASE_FLUSH = true;

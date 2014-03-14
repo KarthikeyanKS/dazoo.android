@@ -33,23 +33,24 @@ public class BootCompletedReceiver
 	{
 		if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) 
 		{
+			/* Will only be false first time app boots */
 	        boolean startedOnceBeforeSharedPrefs = SecondScreenApplication.sharedInstance().isAppPreinstalled();
-	      
-	        if(!startedOnceBeforeSharedPrefs) 
-	        {
-	        	SecondScreenApplication.sharedInstance().setAppAsPreinstalled();
-	        }
-	        
+	              
 	        File file = FileUtils.getFile(Constants.APP_WAS_PREINSTALLED_FILE_NAME);
 	        
-	        /* Write file to external storage */
+	        /* Will only be false first time app boots */
 	        boolean startedOnceBeforeExternalStorage = FileUtils.fileExists(file);
+	        
+	        /* Write file to external storage */
+	        if(Constants.IS_PREINSTALLED_VERSION) {
+	        	SecondScreenApplication.sharedInstance().setAppAsPreinstalled();
+	        	FileUtils.saveFile(file);
+	        }
         	
-	        FileUtils.saveFile(file);
-        	
-        	/* IF this was the first time the app started, using Google Analytics send "Preinstalled user booted device" */
-        	if(startedOnceBeforeSharedPrefs && startedOnceBeforeExternalStorage) 
+        	/* If this was the first time the app started, using Google Analytics send "Preinstalled user booted device" */
+        	if(!startedOnceBeforeSharedPrefs && !startedOnceBeforeExternalStorage) 
         	{
+        		/* Will only get here first time app boots */
 	        	String hardCodedTrackingId = context.getString(R.string.ga_trackingId_mitv_hardcoded);
 	        	
 	        	GoogleAnalytics googleAnalyticsInstance = GoogleAnalytics.getInstance(context);
