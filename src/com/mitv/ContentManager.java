@@ -284,11 +284,6 @@ public class ContentManager
 					ArrayList<TVDate> tvDates = (ArrayList<TVDate>) content;
 					cache.setTvDates(tvDates);
 					
-					if(BaseActivity.isAppWentToBg) {
-						BaseActivity.isAppWentToBg = false;
-						BaseActivity.mockAndSetTVDates();
-					}
-					
 					notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_tv_dates_data));
 					
 					if(!isFetchingTVGuide && 
@@ -1787,9 +1782,4 @@ public class ContentManager
 		cache.setLikeToAddAfterLogin(userLikeToAdd);
 	}
 	
-	//TODO REMOVE ME
-	@Deprecated
-	public void setMockedTVDates(ArrayList<TVDate> mockedTVDates){
-		cache.setTvDates(mockedTVDates);
-	}
 }
