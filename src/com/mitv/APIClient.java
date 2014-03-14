@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
+
 import com.androidquery.callback.AjaxCallback;
 import com.mitv.asynctasks.CheckNetworkConnectivity;
 import com.mitv.asynctasks.GetAdsAdzerk;
@@ -37,8 +38,8 @@ import com.mitv.asynctasks.usertoken.PerformUserLogout;
 import com.mitv.asynctasks.usertoken.RemoveUserLike;
 import com.mitv.asynctasks.usertoken.SetUserTVChannelIds;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.models.TVChannelId;
 import com.mitv.models.TVDate;
 import com.mitv.models.UserLike;
@@ -51,6 +52,11 @@ public class APIClient
 	private static final int  pool_executor_default_max_pool_size   = 10;
 	private static final long pool_executor_default_keep_alive_time = 5000L;
 	
+	
+//	if (Build.VERSION.SDK_INT < 11) 
+//	{
+//		
+//	}
 	
 	private ContentCallbackListener contentCallbackListener;
 	private CustomThreadedPoolExecutor poolExecutor;

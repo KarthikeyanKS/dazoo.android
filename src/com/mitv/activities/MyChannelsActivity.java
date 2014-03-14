@@ -60,6 +60,7 @@ public class MyChannelsActivity
 	private ArrayList<TVChannel> channelsMatchingSearch = new ArrayList<TVChannel>();
 	
 	
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
