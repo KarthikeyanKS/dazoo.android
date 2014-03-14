@@ -904,10 +904,15 @@ public class ContentManager
 		{
 			@SuppressWarnings("unchecked")
 			ArrayList<TVFeedItem> feedItems = (ArrayList<TVFeedItem>) content;
-			cache.addMoreActivityFeedItems(feedItems);
-			isFetchingFeedItems = false;
 			
-			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, requestIdentifier);
+			if(feedItems.isEmpty()) {
+				activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS_WITH_NO_CONTENT, requestIdentifier);
+			} else {
+				cache.addMoreActivityFeedItems(feedItems);
+				isFetchingFeedItems = false;
+			
+				activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, requestIdentifier);
+			}
 		} else {
 			//TODO handle this better?
 			activityCallbackListener.onResult(FetchRequestResultEnum.UNKNOWN_ERROR, requestIdentifier);

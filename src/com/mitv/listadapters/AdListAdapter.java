@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 
 import com.mitv.ContentManager;
 import com.mitv.R;
+import com.mitv.activities.base.BaseActivity;
 import com.mitv.listadapters.TVGuideListAdapter.ViewHolder;
 import com.mitv.models.AdAdzerk;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -53,7 +54,7 @@ public class AdListAdapter<T> extends BaseAdapter {
 		this.activity = activity;
 
 		this.adFormats = ContentManager.sharedInstance().getFromCacheAppConfiguration().getAdzerkFormatsForAndroidGuide();
-		this.cellCountBetweenAdCells = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCellCountBetweenAdCells();
+		this.cellCountBetweenAdCells = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCellCountBetweenAdCellsUsingActivityName(fragmentName);
 		
 		this.items = items;
 		

@@ -61,10 +61,10 @@ public class AppConfigurationORM
 	private String googleAnalyticsTrackingId;
 	
 	@DatabaseField()
-	private int activityCellCountBetweenAdCells;
+	private int feedActivityCellCountBetweenAdCells;
 	
 	@DatabaseField()
-	private int cellCountBetweenAdCells;
+	private int guideFragmentCellCountBetweenAdCells;
 	
 	@DatabaseField()
 	private String facebookAppID;
@@ -142,8 +142,8 @@ public class AppConfigurationORM
 		 this.googleAnalyticsSampleRate = appConfiguration.getGoogleAnalyticsSampleRate();
 		 this.googleAnalyticsEnabled = appConfiguration.isGoogleAnalyticsEnabled();
 		 this.googleAnalyticsTrackingId = appConfiguration.getGoogleAnalyticsTrackingId();
-		 this.activityCellCountBetweenAdCells = appConfiguration.getActivityCellCountBetweenAdCells();
-		 this.cellCountBetweenAdCells = appConfiguration.getCellCountBetweenAdCells();
+		 this.feedActivityCellCountBetweenAdCells = appConfiguration.getFeedActivityCellCountBetweenAdCells();
+		 this.guideFragmentCellCountBetweenAdCells = appConfiguration.getGuideFragmentCellCountBetweenAdCells();
 		 this.facebookAppID = appConfiguration.getFacebookAppID();
 		 this.trackingDomain = appConfiguration.getTrackingDomain();
 	}
@@ -275,15 +275,13 @@ public class AppConfigurationORM
 	}
 
 
-
-	public int getActivityCellCountBetweenAdCells() {
-		return activityCellCountBetweenAdCells;
+	public int getFeedActivityCellCountBetweenAdCells() {
+		return feedActivityCellCountBetweenAdCells;
 	}
 
 
-
-	public int getCellCountBetweenAdCells() {
-		return cellCountBetweenAdCells;
+	public int getHomeActivityCellCountBetweenAdCells() {
+		return guideFragmentCellCountBetweenAdCells;
 	}
 
 
