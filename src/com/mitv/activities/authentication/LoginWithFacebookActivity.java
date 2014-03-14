@@ -41,7 +41,7 @@ public class LoginWithFacebookActivity
 	private ActionBar actionBar;
 	
 	private String facebookToken;
-	
+	private boolean loginResponseHandled;
 
 	
 	@Override
@@ -62,7 +62,7 @@ public class LoginWithFacebookActivity
 	protected void onResume() 
 	{
 		super.onResume();
-		
+		loginResponseHandled = false;
 		performFacebookAuthentication();
 	}
 	
@@ -127,7 +127,7 @@ public class LoginWithFacebookActivity
 			
 			case SUCCESS_WITH_CONTENT:
 			{
-				if(!ContentManager.sharedInstance().tryStartReturnActivity(this)) {
+				if(!ContentManager.sharedInstance().tryStartReturnActivity(this) && !loginResponseHandled) {
 					Activity mostRecentTabActivity = getMostRecentTabActivity();
 					Intent intent = new Intent(LoginWithFacebookActivity.this, mostRecentTabActivity.getClass());
 					intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
@@ -135,6 +135,8 @@ public class LoginWithFacebookActivity
 				} else {
 					// TODO NewArc: Do we need to do something here???
 				}
+				
+				loginResponseHandled = true;
 				
 				finish();
 				
