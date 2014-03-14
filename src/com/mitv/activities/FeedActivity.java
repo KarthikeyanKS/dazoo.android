@@ -53,6 +53,7 @@ public class FeedActivity
 	private FeedListAdapter listAdapter;
 	private View listFooterView;
 	private TextView greetingTv;
+	private boolean reachedEnd;
 	
 	private boolean currentlyShowingLoggedInLayout;
 
@@ -62,10 +63,8 @@ public class FeedActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-		
-		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
-		
-		if(isLoggedIn)
+			
+		if(ContentManager.sharedInstance().isLoggedIn())
 		{
 			setContentView(R.layout.layout_activity_activity);
 
@@ -180,7 +179,7 @@ public class FeedActivity
 
 	private void setListAdapter() 
 	{
-		ArrayList<TVFeedItem> activityFeed = ContentManager.sharedInstance().getFromCacheActivityFeedData();
+		ArrayList<TVFeedItem> activityFeed = getFromCacheFeedItems();
 		
 		if(!activityFeed.isEmpty())
 		{
@@ -230,9 +229,14 @@ public class FeedActivity
 	}
 	
 	private void updateListAdapter() {
-		ArrayList<TVFeedItem> activityFeed = ContentManager.sharedInstance().getFromCacheActivityFeedData();
+		ArrayList<TVFeedItem> activityFeed = getFromCacheFeedItems();
 		listAdapter.setFeedItems(activityFeed);
 		listAdapter.notifyDataSetChanged();
+	}
+	
+	private ArrayList<TVFeedItem> getFromCacheFeedItems() {		
+		ArrayList<TVFeedItem> activityFeed = ContentManager.sharedInstance().getFromCacheActivityFeedData();
+		return activityFeed;
 	}
 	
 	
@@ -285,7 +289,11 @@ public class FeedActivity
 			{
 				if(fetchRequestResult.wasSuccessful())
 				{
-					updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+					if(fetchRequestResult == FetchRequestResultEnum.SUCCESS) {
+						updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+					} else {
+						updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
+					}
 				}
 				else
 				{
@@ -301,7 +309,12 @@ public class FeedActivity
 		}
 	}
 	
-	
+	private void reachedEndOfFeedItems() {
+		reachedEnd = true;
+		if(listFooterView != null) {
+			listFooterView.setVisibility(View.GONE);
+		}
+	}
 	
 	@Override
 	protected void updateUI(UIStatusEnum status) 
@@ -320,6 +333,11 @@ public class FeedActivity
 					updateListAdapter();
 				}
 				break;
+			}
+			case SUCCESS_WITH_NO_CONTENT: {
+				if(ContentManager.sharedInstance().isLoggedIn()) {
+					reachedEndOfFeedItems();
+				}
 			}
 			
 			default: {/* Do nothing */break;}
@@ -416,7 +434,7 @@ public class FeedActivity
 			// If scrolling past bottom and there is a next page of products to fetch
 			boolean pastTotalCount = (firstVisibleItem + visibleItemCount >= totalItemCount);
 			
-			if (pastTotalCount) 
+			if (pastTotalCount && !reachedEnd) 
 			{
 				showScrollSpinner(true);
 				ContentManager.sharedInstance().fetchFromServiceMoreActivityData(this, totalItemCount);
