@@ -184,21 +184,22 @@ public class UserLike
 	{
 		boolean isEqual = false;
 		
-		String titleToCompare =  userlikeToCompare.getTitle();
-		LikeTypeResponseEnum likeTypeToCompare = userlikeToCompare.getLikeType();
-		String contenIdToCompare = userlikeToCompare.getContentId();
-				
-		String title =  this.getTitle();
-		LikeTypeResponseEnum likeType = this.getLikeType();
-		String contenId = this.getContentId();
-		
-		if(titleToCompare.equals(title) &&
-		  likeTypeToCompare == likeType &&
-		  contenIdToCompare.equals(contenId))
-		{
-			isEqual = true;
+		if(userlikeToCompare != null) {
+			String titleToCompare =  userlikeToCompare.getTitle();
+			LikeTypeResponseEnum likeTypeToCompare = userlikeToCompare.getLikeType();
+			String contenIdToCompare = userlikeToCompare.getContentId();
+					
+			String title =  this.getTitle();
+			LikeTypeResponseEnum likeType = this.getLikeType();
+			String contenId = this.getContentId();
+			
+			if(titleToCompare.equals(title) &&
+			  likeTypeToCompare == likeType &&
+			  contenIdToCompare.equals(contenId))
+			{
+				isEqual = true;
+			}
 		}
-		
 		return isEqual;
 	}
 
