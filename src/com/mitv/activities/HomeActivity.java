@@ -7,6 +7,7 @@ import net.hockeyapp.android.UpdateManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
+
 import com.mitv.Constants;
 import com.mitv.ContentManager;
 import com.mitv.R;
@@ -16,7 +17,6 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.fragments.TVHolderFragment;
 import com.mitv.fragments.TVHolderFragment.OnViewPagerIndexChangedListener;
 import com.mitv.ui.helpers.ToastHelper;
-import com.mitv.utilities.DateUtils;
 
 
 

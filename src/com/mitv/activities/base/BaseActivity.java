@@ -170,10 +170,10 @@ public abstract class BaseActivity
 
 			ToastHelper.createAndShowToast(this, sb.toString());
 		} else {
-			if (userHasJustLoggedOut) {
+			if (userHasJustLoggedOut) 
+			{
 				StringBuilder sb = new StringBuilder();
-				// TODO NewArc - Hardcoded string for logout action
-				sb.append("logout");
+				sb.append(getString(R.string.logout_succeeded));
 
 				ToastHelper.createAndShowToast(this, sb.toString());
 			}

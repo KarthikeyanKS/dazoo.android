@@ -33,7 +33,8 @@ public class SecondScreenApplication
 
 	
 	
-	public SecondScreenApplication() {}
+	public SecondScreenApplication() 
+	{}
 
 	
 	
@@ -89,7 +90,7 @@ public class SecondScreenApplication
 			ApplicationInfo applicationInfo = context.getPackageManager().getApplicationInfo(packageName, 0);
 
 			// FLAG_SYSTEM is only set to system applications,
-			// this will work even if application is installed in external storage
+			// This should work even if application is installed in external storage
 
 			// Check if package is system app
 			if ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) 
@@ -112,6 +113,9 @@ public class SecondScreenApplication
 	{
 		super.onCreate();
 
+		/* Initial call to AppDataUtils, in order to initialize the SharedPreferences object */
+		AppDataUtils.sharedInstance(this);
+		
 		instance = this;
 
 		// Used in views where we don't want to reset the view itself
@@ -148,7 +152,7 @@ public class SecondScreenApplication
 				.detectDiskReads()
 				.detectDiskWrites()
 				.detectNetwork()
-				//.penaltyLog()
+				.penaltyLog()
 				.penaltyFlashScreen()
 				.build();
 			}
@@ -158,7 +162,7 @@ public class SecondScreenApplication
 				.detectDiskReads()
 				.detectDiskWrites()
 				.detectNetwork()
-				//.penaltyLog()
+				.penaltyLog()
 				.build();
 			}
 
@@ -179,14 +183,14 @@ public class SecondScreenApplication
 				vmPolicy = new StrictMode.VmPolicy.Builder()
 				.detectLeakedSqlLiteObjects()
 				.detectLeakedClosableObjects()
-				.penaltyLog()
+				//.penaltyLog()
 				.build();
 			}
 			else
 			{
 				vmPolicy = new StrictMode.VmPolicy.Builder()
 				.detectLeakedSqlLiteObjects()
-				.penaltyLog()
+				//.penaltyLog()
 				.build();
 			}
 			
@@ -197,7 +201,7 @@ public class SecondScreenApplication
 		{
 			ContentManager.clearAllPersistentCacheData();
 			
-			AppDataUtils.clearAllPreferences();
+			AppDataUtils.sharedInstance(this).clearAllPreferences();
 		}
 
 		setInstalledAppVersionToCurrentVersion();
@@ -232,13 +236,13 @@ public class SecondScreenApplication
 	
 	public void setAppAsPreinstalled() 
 	{
-		AppDataUtils.setPreference(Constants.SHARED_PREFERENCES_APP_WAS_PREINSTALLED, true);
+		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_WAS_PREINSTALLED, true);
 	}
 
 	
 	public boolean isAppPreinstalled() 
 	{
-		return AppDataUtils.getPreference(Constants.SHARED_PREFERENCES_APP_WAS_PREINSTALLED, false);
+		return AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_WAS_PREINSTALLED, false);
 	}
 	
 	
@@ -250,7 +254,7 @@ public class SecondScreenApplication
 	
 	private String getInstalledAppVersion()
 	{
-		return AppDataUtils.getPreference(Constants.SHARED_PREFERENCES_APP_INSTALLED_VERSION, "");
+		return AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_INSTALLED_VERSION, "");
 	}
 	
 	
@@ -258,7 +262,7 @@ public class SecondScreenApplication
 	{
 		String currentVersion = getCurrentAppVersion();
 		
-		AppDataUtils.setPreference(Constants.SHARED_PREFERENCES_APP_INSTALLED_VERSION, currentVersion);
+		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_INSTALLED_VERSION, currentVersion);
 	}
 	
 	
