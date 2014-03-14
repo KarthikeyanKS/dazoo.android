@@ -162,7 +162,7 @@ public class BroadcastPageActivity
 				
 				upcomingBroadcasts = ContentManager.sharedInstance().getFromCacheUpcomingBroadcastsVerifyCorrect(broadcastWithChannelInfo);
 
-				updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 			} else {
 				Log.d(TAG, "other request");
 			}
