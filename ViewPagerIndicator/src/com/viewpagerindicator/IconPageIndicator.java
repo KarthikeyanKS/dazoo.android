@@ -41,11 +41,14 @@ public class IconPageIndicator extends HorizontalScrollView implements PageIndic
     private Runnable mIconSelector;
     private int mSelectedIndex;
 
-    public IconPageIndicator(Context context) {
+    
+    public IconPageIndicator(Context context) 
+    {
         this(context, null);
     }
 
-    public IconPageIndicator(Context context, AttributeSet attrs) {
+    public IconPageIndicator(Context context, AttributeSet attrs) 
+    {
         super(context, attrs);
         setHorizontalScrollBarEnabled(false);
 
@@ -65,6 +68,7 @@ public class IconPageIndicator extends HorizontalScrollView implements PageIndic
                 mIconSelector = null;
             }
         };
+        
         post(mIconSelector);
     }
 

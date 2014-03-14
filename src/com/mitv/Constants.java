@@ -479,7 +479,7 @@ public abstract class Constants
 	public static final boolean IS_PREINSTALLED_VERSION = false;
 	public static final String CACHE_DATABASE_NAME = "com.mitv.cache.db";
 	public static final int CACHE_DATABASE_VERSION = 1;
-	public static final boolean FORCE_DATABASE_FLUSH = true;
+	public static final boolean FORCE_DATABASE_FLUSH = false;
 	public static final boolean FORCE_DEFAULT_GOOGLE_TRACKING_ID = true;
 	public static final boolean USE_HOCKEY_APP_CRASH_REPORTS = true;
 	public static final boolean USE_HOCKEY_APP_UPDATE_NOTIFICATIONS = false;

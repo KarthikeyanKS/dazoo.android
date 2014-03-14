@@ -181,7 +181,7 @@ public abstract class GenericUtils
     {
 		int screenWidth = 0;
 		
-		if (Build.VERSION.SDK_INT >= 11) 
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) 
 		{
 	        Point size = new Point();
 	        
@@ -216,7 +216,7 @@ public abstract class GenericUtils
 	{
 		int screenHeight = 0;
 		
-		if (Build.VERSION.SDK_INT >= 11) 
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) 
 		{
 	        Point size = new Point();
 	      

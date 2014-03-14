@@ -67,43 +67,58 @@ public class SwipeClockBar
 
 	private boolean isHighlighted = false;
 
-	public SwipeClockBar(Context context) {
+	
+	
+	public SwipeClockBar(Context context) 
+	{
 		super(context);
 		setup(context);
 	}
 
-	public SwipeClockBar(Context context, AttributeSet attrs) {
+	
+	public SwipeClockBar(Context context, AttributeSet attrs) 
+	{
 		super(context, attrs);
 		setup(context);
 	}
 
-	@SuppressLint("NewApi")
-	public SwipeClockBar(Context context, AttributeSet attrs, int defStyle) {
+	
+	public SwipeClockBar(Context context, AttributeSet attrs, int defStyle) 
+	{
 		super(context, attrs, defStyle);
 		setup(context);
 	}
 
-	public void setHour(int hour) {
+	
+	public void setHour(int hour) 
+	{
 		int indexOfHour = hourToProgress(hour);
 
 		/* If hour was found */
-		if (indexOfHour > HOUR_NOT_FOUND_IN_LIST_OF_HOURS) {
+		if (indexOfHour > HOUR_NOT_FOUND_IN_LIST_OF_HOURS) 
+		{
 			seekBar.setProgress(indexOfHour);
 			styleSelectedHour(indexOfHour);
 		}
 	}
 
-	public static int hourToProgress(int hour) {
+	
+	public static int hourToProgress(int hour) 
+	{
 		int index = HOUR_NOT_FOUND_IN_LIST_OF_HOURS;
-		if (hour >= firstHourOfDay) {
+		
+		if (hour >= firstHourOfDay) 
+		{
 			index = (hour - firstHourOfDay) % HOURS_PER_DAY;
 		}
-		else {
+		else 
+		{
 			index = (HOURS_PER_DAY - firstHourOfDay + hour);
 		}
 		return index;
 	}
 
+	
 	public static int progressToHour(int progress) {
 		int hour = hoursOfTheDay.get(progress);
 		return hour;
@@ -189,20 +204,30 @@ public class SwipeClockBar
 
 	}
 
+	
 	@SuppressLint("NewApi")
-	public static void removeOnGlobalLayoutListener(View v, ViewTreeObserver.OnGlobalLayoutListener listener) {
-		if (Build.VERSION.SDK_INT < 16) {
+	public static void removeOnGlobalLayoutListener(View v, ViewTreeObserver.OnGlobalLayoutListener listener) 
+	{
+		if (Build.VERSION.SDK_INT < 16) 
+		{
 			v.getViewTreeObserver().removeGlobalOnLayoutListener(listener);
-		} else {
+		} 
+		else 
+		{
 			v.getViewTreeObserver().removeOnGlobalLayoutListener(listener);
 		}
 	}
 
-	private List<Integer> generate24Hours() {
+	
+	private List<Integer> generate24Hours() 
+	{
 		List<Integer> hours = new ArrayList<Integer>();
+		
 		int hour = firstHourOfDay;
-		for (int i = 0; i < HOURS_PER_DAY; ++i) {
-				hours.add(hour);
+		
+		for (int i = 0; i < HOURS_PER_DAY; ++i) 
+		{
+			hours.add(hour);
 		
 			hour = (hour + 1) % HOURS_PER_DAY;
 		}
@@ -210,8 +235,10 @@ public class SwipeClockBar
 		return hours;
 	}	
 
-	private class TimeListAdapter extends BaseAdapter {
-
+	
+	private class TimeListAdapter 
+		extends BaseAdapter 
+	{
 		private static final int HOUR_COUNT_VISIBLE_IF_SMALL_SCREEN = 12;
 		
 		private List<Integer> hoursOfTheDay;
@@ -323,7 +350,8 @@ public class SwipeClockBar
 		public View getView(int position, View convertView, ViewGroup parent) {
 			View rowView = convertView;
 
-			if (rowView == null) {
+			if (rowView == null) 
+			{
 				rowView = inflater.inflate(R.layout.row_timebar, null);
 				ViewHolder viewHolder = new ViewHolder();
 				viewHolder.textView = (FontTextView) rowView.findViewById(R.id.row_timebar_textview);
@@ -333,7 +361,9 @@ public class SwipeClockBar
 			ViewHolder holder = (ViewHolder) rowView.getTag();
 
 			final int hour = (Integer) getItem(position);
+			
 			rowView.setVisibility(View.INVISIBLE);
+			
 			// Set the text
 			String hourString = String.format(LanguageUtils.getCurrentLocale(), "%02d", hour);
 			holder.textView.setText(hourString);
@@ -410,10 +440,12 @@ public class SwipeClockBar
 
 
 	@Override
-	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+	{
 		int hour = progressToHour(progress);
 		
-		if(timeSelectedListener != null) {
+		if(timeSelectedListener != null) 
+		{
 			timeSelectedListener.onTimeChange(hour);
 		}
 		
@@ -422,38 +454,53 @@ public class SwipeClockBar
 		styleSelectedHour(indexToStyle);
 	}
 
-	private void styleSelectedHour(int index) {
+	
+	private void styleSelectedHour(int index) 
+	{
 		listAdapter.setSelectedHour(index);
 		listAdapter.notifyDataSetChanged();
 	}
 
+	
 	@Override
 	public void onStartTrackingTouch(SeekBar arg0) {}
 
+	
 	@Override
 	public void onStopTrackingTouch(SeekBar arg0) {}
 
+	
+	
 	/* If first is earlier than second, return true. */
-	private boolean isEarlier(int first, int second) {
-		if (first < second && first >= firstHourOfDay) {
+	private boolean isEarlier(int first, int second) 
+	{
+		if (first < second && first >= firstHourOfDay) 
+		{
 			return true;
 		}
-		else {
+		else 
+		{
 			return false;
 		}
 	}
 
-	public void setToday(boolean isToday) {
+	
+	public void setToday(boolean isToday) 
+	{
 		this.isToday = isToday;
 	}
 
-	public void highlightClockbar() {
+	
+	public void highlightClockbar()
+	{
 		isHighlighted = true;
 		listAdapter.notifyDataSetChanged();
 		clockbarContainer.setBackgroundResource(R.drawable.layout_rounded_corners_grey0_clockbar);
 	}
 
-	public void dehighlightClockbar() {
+	
+	public void dehighlightClockbar() 
+	{
 		isHighlighted = false;
 		listAdapter.notifyDataSetChanged();
 		clockbarContainer.setBackgroundResource(R.color.transparent);

@@ -6,7 +6,10 @@ package com.mitv;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
+import android.os.Build;
 
 
 
@@ -32,11 +35,19 @@ public class CustomThreadedPoolExecutor
 	
 	
 	
+	@SuppressLint("NewApi")
 	public void addAndExecuteTask(AsyncTask<String, Void, Void>  task)
 	{	
 		totalTasks++;
 		
-		task.executeOnExecutor(this);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) 
+		{
+			task.executeOnExecutor(this);
+		}
+		else
+		{
+			task.execute();
+		}
 	}
 	
 	
