@@ -283,7 +283,7 @@ public class UserProfileActivity
 
 			ImageAware imageAware = new ImageViewAware(avatarImageView, false);
 
-			SecondScreenApplication.sharedInstance().getImageLoaderManager().getImageLoader().displayImage(userAvatarImageURL, imageAware);
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(userAvatarImageURL, imageAware);
 
 			String userFirstname = ContentManager.sharedInstance().getFromCacheUserFirstname();
 			String userLastname = ContentManager.sharedInstance().getFromCacheUserLastname();

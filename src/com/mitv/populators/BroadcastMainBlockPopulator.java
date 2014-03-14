@@ -25,7 +25,6 @@ import com.mitv.ui.elements.LikeView;
 import com.mitv.ui.elements.ReminderView;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.LanguageUtils;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
@@ -219,13 +218,13 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 		{
 			ImageAware imageAware = new ImageViewAware(posterIv, false);
 			
-			SecondScreenApplication.sharedInstance().getImageLoaderManager().getImageLoader().displayImage(program.getImages().getLandscape().getLarge(), imageAware);
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(program.getImages().getLandscape().getLarge(), imageAware);
 		}
 
 		if (broadcastWithChannelInfo.getChannel() != null) 
 		{
 			ImageAware imageAware = new ImageViewAware(channelIv, false);
-			SecondScreenApplication.sharedInstance().getImageLoaderManager().getImageLoader().displayImage(broadcastWithChannelInfo.getChannel().getImageUrl(), imageAware);
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(broadcastWithChannelInfo.getChannel().getImageUrl(), imageAware);
 		}
 
 		if (broadcastWithChannelInfo.isBroadcastCurrentlyAiring())   /* Broadcast is currently on air: show progress */

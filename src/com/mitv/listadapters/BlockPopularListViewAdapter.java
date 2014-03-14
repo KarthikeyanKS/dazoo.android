@@ -21,7 +21,6 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.activities.BroadcastPageActivity;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.models.TVBroadcastWithChannelInfo;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
@@ -87,7 +86,7 @@ public class BlockPopularListViewAdapter extends BaseAdapter {
 			// different details about the broadcast program depending on the type
 
 			ImageAware imageAware = new ImageViewAware(holder.mPoster, false);
-			SecondScreenApplication.sharedInstance().getImageLoaderManager().getImageLoader().displayImage(broadcastWithChannelInfo.getProgram().getImages().getPortrait().getMedium(), imageAware);
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(broadcastWithChannelInfo.getProgram().getImages().getPortrait().getMedium(), imageAware);
 			
 			//TODO NewArc veryfy that getBeginTimeDayOfTheWeekWithHourAndMinuteAsString is what we want here
 			holder.mTime.setText(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());

@@ -21,7 +21,6 @@ import com.mitv.SecondScreenApplication;
 import com.mitv.interfaces.MyChannelsCountInterface;
 import com.mitv.models.TVChannel;
 import com.mitv.models.TVChannelId;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
@@ -97,7 +96,7 @@ public class MyChannelsListAdapter
 		holder.channelName.setText(channel.getName());
 
 		ImageAware imageAware = new ImageViewAware(holder.channelLogo, false);
-		SecondScreenApplication.sharedInstance().getImageLoaderManager().getImageLoader().displayImage(channel.getImageUrl(), imageAware);
+		SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(channel.getImageUrl(), imageAware);
 
 		boolean checked = false;
 		if (checkedChannelIds.contains(channel.getChannelId())) {

@@ -25,7 +25,6 @@ import com.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.models.TVChannel;
 import com.mitv.models.TVChannelGuide;
 import com.mitv.models.TVChannelId;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
@@ -142,7 +141,7 @@ public class ChannelPageActivity
 		
 		ImageAware imageAware = new ImageViewAware(channelIconIv, false);
 		
-		SecondScreenApplication.sharedInstance().getImageLoaderManager().getImageLoader().displayImage(channelGuide.getImageUrl(), imageAware);
+		SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(channelGuide.getImageUrl(), imageAware);
 
 		ArrayList<TVBroadcast> currentAndUpcomingbroadcasts = channelGuide.getCurrentAndUpcomingBroadcastsUsingCurrentTime();
 		

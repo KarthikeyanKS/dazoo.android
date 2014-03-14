@@ -130,7 +130,7 @@ public class PopularListAdapter extends BaseAdapter {
 			});
 
 			ImageAware imageAware = new ImageViewAware(holder.posterIv, false);
-			SecondScreenApplication.sharedInstance().getImageLoaderManager().getImageLoader().displayImage(broadcastWithChannelInfo.getProgram().getImages().getPortrait().getMedium(), imageAware);
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(broadcastWithChannelInfo.getProgram().getImages().getPortrait().getMedium(), imageAware);
 
 			holder.timeTv.setText(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
 

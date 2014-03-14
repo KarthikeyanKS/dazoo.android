@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,6 @@ import com.mitv.enums.ChannelRowTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.models.TVBroadcast;
 import com.mitv.utilities.LanguageUtils;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
@@ -110,7 +108,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 			if (getItemViewType(position) == 0) {
 				// MC - Set the image for current broadcast.
 				ImageAware imageAware = new ImageViewAware(holder.logo, false);
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().getImageLoader().displayImage(broadcast.getProgram().getImages().getLandscape().getLarge(), imageAware);
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(broadcast.getProgram().getImages().getLandscape().getLarge(), imageAware);
 				
 				LanguageUtils.setupProgressBar(activity, broadcast, holder.durationProgressBar, holder.timeLeft);
 				isAiring = true;

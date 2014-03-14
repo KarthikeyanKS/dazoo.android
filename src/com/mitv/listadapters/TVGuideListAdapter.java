@@ -151,7 +151,7 @@ public class TVGuideListAdapter
 		{
 			ImageAware imageAware = new ImageViewAware(holder.channelLogo, false);
 
-			SecondScreenApplication.sharedInstance().getImageLoaderManager().getImageLoader().displayImage(guide.getImageUrl(), imageAware);
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithDefaultOptions(guide.getImageUrl(), imageAware);
 		} 
 		else 
 		{

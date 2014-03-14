@@ -37,7 +37,6 @@ import com.mitv.ui.elements.LikeView;
 import com.mitv.ui.elements.ReminderView;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.LanguageUtils;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
@@ -218,7 +217,7 @@ public class FeedListAdapter
 
 				ImageAware imageAware = new ImageViewAware(imageView, false);
 				
-				SecondScreenApplication.sharedInstance().getImageLoaderManager().getImageLoader().displayImage(tvProgram.getImages().getPortrait().getMedium(), imageAware);
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(tvProgram.getImages().getPortrait().getMedium(), imageAware);
 
 				time.setText(broadcast.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
 
@@ -532,7 +531,7 @@ public class FeedListAdapter
 			
 			ImageAware imageAware = new ImageViewAware(holderBC.landscapeIv, false);
 			
-			SecondScreenApplication.sharedInstance().getImageLoaderManager().getImageLoader().displayImage(program.getImages().getLandscape().getLarge(), imageAware);
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(program.getImages().getLandscape().getLarge(), imageAware);
 
 			holderBC.timeTv.setText(broadcast.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
 			holderBC.channelTv.setText(broadcast.getChannel().getName());
