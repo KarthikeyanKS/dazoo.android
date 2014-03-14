@@ -155,9 +155,11 @@ public class BroadcastPageActivity
 				
 				repeatingBroadcasts = ContentManager.sharedInstance().getFromCacheRepeatingBroadcastsVerifyCorrect(broadcastWithChannelInfo);
 				
-				for(TVBroadcastWithChannelInfo broadcastWithoutProgramInfo : repeatingBroadcasts) 
-				{
-					broadcastWithoutProgramInfo.setProgram(broadcastWithChannelInfo.getProgram());
+				if(repeatingBroadcasts != null) {
+					for(TVBroadcastWithChannelInfo broadcastWithoutProgramInfo : repeatingBroadcasts) 
+					{
+						broadcastWithoutProgramInfo.setProgram(broadcastWithChannelInfo.getProgram());
+					}
 				}
 				
 				upcomingBroadcasts = ContentManager.sharedInstance().getFromCacheUpcomingBroadcastsVerifyCorrect(broadcastWithChannelInfo);
