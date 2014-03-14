@@ -554,74 +554,8 @@ public abstract class BaseActivity extends ActionBarActivity implements ViewCall
 		GATrackingManager.stopTrackingView(className);
 
 		EasyTracker.getInstance(this).activityStop(this);
-
-		// TODO REMOVE ME
-		applicationDidEnterBackground();
 	}
 
-	public void applicationDidEnterBackground() {
-		if (!isWindowFocused) {
-			isAppWentToBg = true;
-			Toast.makeText(getApplicationContext(), "App is Going to Background", Toast.LENGTH_SHORT).show();
-		}
-	}
-	
-	// TODO REMOVE ME
-	public static boolean isAppWentToBg = false;
-	public static boolean isWindowFocused = false;
-	public static boolean isMenuOpened = false;
-	public static boolean isBackPressed = false;
-
-
-	
-	//TODO REMOVE ME
-	public static void mockAndSetTVDates() {
-		//Create mocked TVDates and set them
-		ArrayList<TVDate> tvDates = new ArrayList<TVDate>(ContentManager.sharedInstance().getFromCacheTVDates());
-		
-
-		ArrayList<TVDate> mockedTVDates = new ArrayList<TVDate>();
-		
-		TVDate firstTVDate = tvDates.get(0);
-		TVDate lastTVDate = null;
-		TVDate mockedTVDate = null;
-		for(int i = 1; i <  tvDates.size(); i++) {
-			TVDate tvDate = tvDates.get(i);
-			
-			if(lastTVDate == null) {
-				 mockedTVDate = new TVDate(tvDate.getId(), firstTVDate.getDisplayName());
-			} else {
-				mockedTVDate = new TVDate(tvDate.getId(), lastTVDate.getDisplayName());
-			}
-			mockedTVDates.add(mockedTVDate);
-			
-			lastTVDate = tvDate;
-		}
-		
-		ContentManager.sharedInstance().setMockedTVDates(mockedTVDates);
-	}
-
-
-	@Override
-	public void onWindowFocusChanged(boolean hasFocus) {
-
-		isWindowFocused = hasFocus;
-
-		if (isBackPressed && !hasFocus) {
-			isBackPressed = false;
-			isWindowFocused = true;
-		}
-
-		super.onWindowFocusChanged(hasFocus);
-	}
-
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-
-		removeFromStack(this);
-		isBackPressed = true;
-	}
 
 	@Override
 	protected void onDestroy() {

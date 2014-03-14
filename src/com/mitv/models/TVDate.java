@@ -31,18 +31,6 @@ public class TVDate
 		this.displayName = DateUtils.buildDayOfTheWeekAsString(getStartOfTVDayCalendar());
 	}
 	
-	/**
-	 * REMOVE THIS METHOD!! ONLY USED FOR TEST!!!!!!
-	 * 
-	 */
-	public TVDate(String dateRepresentation, String displayName) {
-		//TODO REMOVE ME
-		
-		this.id = dateRepresentation;
-		this.date = dateRepresentation;
-		this.displayName = displayName;
-	}
-		
 	
 	public TVDate(TVDateORM tvDateORM)
 	{

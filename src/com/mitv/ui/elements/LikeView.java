@@ -67,6 +67,12 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 		this.tvBroadcastWithChannelInfo = broadcast;
 		this.likeFromBroadcast = UserLike.userLikeFromBroadcast(broadcast);
 
+		updateImage();
+
+		containerView.setBackgroundResource(R.drawable.background_color_selector);
+	}
+	
+	public void updateImage() {
 		if (ContentManager.sharedInstance().isContainedInUserLikes(likeFromBroadcast)) {
 			isSet = true;
 			setImageToLiked();
@@ -74,8 +80,6 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 			isSet = false;
 			setImageToNotLiked();
 		}
-
-		containerView.setBackgroundResource(R.drawable.background_color_selector);
 	}
 	
 	private void removeLike() {
@@ -123,7 +127,7 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 	}
 	
 	/* Remove like dialog */
-	public Runnable yesRemoveLike() {
+	private Runnable yesRemoveLike() {
 		return new Runnable() {
 			public void run() {
 				ContentManager.sharedInstance().removeUserLike(activity, likeFromBroadcast);
@@ -134,7 +138,7 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 	}
 	
 	/* Remove like dialog */
-	public Runnable NoRemoveLike() {
+	private Runnable NoRemoveLike() {
 		return new Runnable() {
 			public void run() {
 			}
@@ -142,7 +146,7 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 	}
 
 	/* Sign in dialog */
-	public Runnable yesLikeProc() {
+	private Runnable yesLikeProc() {
 		return new Runnable() {
 			public void run() {
 				/* We are not logged in, but we want the Like to be added after we log in, so set it
@@ -160,7 +164,7 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 	}
 
 	/* Sign in dialog */
-	public Runnable noLikeProc() {
+	private Runnable noLikeProc() {
 		return new Runnable() {
 			public void run() {
 			}
