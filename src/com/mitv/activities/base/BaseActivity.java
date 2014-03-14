@@ -158,10 +158,10 @@ public abstract class BaseActivity extends ActionBarActivity implements ViewCall
 
 			ToastHelper.createAndShowToast(this, sb.toString());
 		} else {
-			if (userHasJustLoggedOut) {
+			if (userHasJustLoggedOut) 
+			{
 				StringBuilder sb = new StringBuilder();
-				// TODO NewArc - Hardcoded string for logout action
-				sb.append("logout");
+				sb.append(getString(R.string.logout_succeeded));
 
 				ToastHelper.createAndShowToast(this, sb.toString());
 			}
@@ -213,15 +213,19 @@ public abstract class BaseActivity extends ActionBarActivity implements ViewCall
 		int indexOfTodayFromTVDates = TV_DATE_NOT_FOUND;
 
 		List<TVDate> tvDates = ContentManager.sharedInstance().getFromCacheTVDates();
-
-		for (int i = 0; i < tvDates.size(); ++i) {
-			TVDate tvDate = tvDates.get(i);
-
-			boolean isTVDateNow = DateUtils.isTodayUsingTVDate(tvDate);
-
-			if (isTVDateNow) {
-				indexOfTodayFromTVDates = i;
-				break;
+		
+		if(tvDates != null) {
+			for(int i = 0; i < tvDates.size(); ++i) 
+			{
+				TVDate tvDate = tvDates.get(i);
+				
+				boolean isTVDateNow = DateUtils.isTodayUsingTVDate(tvDate);
+				
+				if(isTVDateNow) 
+				{
+					indexOfTodayFromTVDates = i;
+					break;
+				}
 			}
 		}
 

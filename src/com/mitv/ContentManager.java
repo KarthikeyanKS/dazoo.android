@@ -910,10 +910,15 @@ public class ContentManager
 		{
 			@SuppressWarnings("unchecked")
 			ArrayList<TVFeedItem> feedItems = (ArrayList<TVFeedItem>) content;
-			cache.addMoreActivityFeedItems(feedItems);
-			isFetchingFeedItems = false;
 			
-			activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, requestIdentifier);
+			if(feedItems.isEmpty()) {
+				activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS_WITH_NO_CONTENT, requestIdentifier);
+			} else {
+				cache.addMoreActivityFeedItems(feedItems);
+				isFetchingFeedItems = false;
+			
+				activityCallbackListener.onResult(FetchRequestResultEnum.SUCCESS, requestIdentifier);
+			}
 		} else {
 			//TODO handle this better?
 			activityCallbackListener.onResult(FetchRequestResultEnum.UNKNOWN_ERROR, requestIdentifier);
@@ -1269,11 +1274,13 @@ public class ContentManager
 	/* This method does not require any ActivityCallbackListener, "fire and forget". */
 	public void performInternalTracking(TVBroadcastWithChannelInfo broadcast) 
 	{
-		if(broadcast != null && broadcast.getProgram() != null && broadcast.getProgram().getProgramId() != null && !TextUtils.isEmpty(broadcast.getProgram().getProgramId())) 
+		if(broadcast != null && 
+		   broadcast.getProgram() != null && 
+		   broadcast.getProgram().getProgramId() != null && 
+		   !TextUtils.isEmpty(broadcast.getProgram().getProgramId())) 
 		{
 			String tvProgramId = broadcast.getProgram().getProgramId();
 			
-			//TODO NewArc use a better method for device id!
 			String deviceId = GenericUtils.getDeviceId();
 			
 			apiClient.performInternalTracking(null, tvProgramId, deviceId);

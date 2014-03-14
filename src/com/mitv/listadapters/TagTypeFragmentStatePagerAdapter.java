@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.imbryk.viewPager.LoopViewPager;
+import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.fragments.TVGuideTableFragment;
 import com.mitv.models.TVDate;
 import com.mitv.models.TVTag;
@@ -68,8 +70,7 @@ public class TagTypeFragmentStatePagerAdapter
 		}
 		else
 		{
-			// TODO NewArc - Hardcoded string
-			displayName = "Unknown";
+			displayName = SecondScreenApplication.sharedInstance().getString(R.string.unknown_tab);
 		}
 		
 		return displayName;

@@ -167,12 +167,15 @@ public class BroadcastPageActivity
 		return isProgramIrrelevantAndShouldBeDeleted;
 	}
 	
-	private void purgeView() {
+	
+	private void purgeView() 
+	{
 //		if(hasPopulatedViews) {
 //			scrollView = (ScrollView) findViewById(R.id.broadcast_scroll);
 //			scrollView.updateViewLayout(scrollView, null);
 //		}
 	}
+	
 	
 	private void populateBlocks()
 	{

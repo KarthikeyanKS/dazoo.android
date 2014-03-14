@@ -144,8 +144,7 @@ public class LoginWithFacebookActivity
 			case FAILED:
 			default:
 			{
-				// TODO User Feedback - Hardcoded string for user message
-				String message = "Facebook login was unsuccessful.";
+				String message = getString(R.string.facebook_login_failed);
 				
 				ToastHelper.createAndShowLikeToast(this, message);
 				

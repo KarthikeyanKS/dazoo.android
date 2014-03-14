@@ -1,6 +1,8 @@
 
 package com.mitv;
 
+import com.mitv.activities.FeedActivity;
+
 
 
 /**
@@ -15,9 +17,11 @@ public abstract class Constants
 	
 	public static final String APP_WAS_PREINSTALLED_FILE_NAME		= "59b039d2c0c0a7fbe163";
 
-	/* API URLs */
+	/* HTTP and HTTPS schemas */
 	public static final String HTTP_SCHEME							= "http://";
 	public static final String HTTPS_SCHEME							= "https://";
+	
+	/* API URLs */
 	public static final String JSON_MIME_TYPE 						= "application/json";
 	public static final String BACKEND_ENVIRONMENT_MITV 			= "mi.tv/";
 	public static final String BACKEND_ENVIRONMENT_GITRGITR 		= "gitrgitr.com/";
@@ -338,8 +342,7 @@ public abstract class Constants
 	public static final String JSON_KEY_API_VERSION_VALUE 							= "value";
 	
 	/* This CANNOT be changed since they are used as part of JSON_KEY, should be: guide, activity */
-	public static final String JSON_AND_FRAGMENT_KEY_GUIDE 							= "guide";
-	public static final String JSON_AND_FRAGMENT_KEY_ACTIVITY 						= "activity";
+	public static final String JSON_AND_FRAGMENT_KEY_ACTIVITY 						= FeedActivity.class.getName();
 	
 	/* PREFERENCES KEYS */
 	public static final String PREFS_KEY_APP_WAS_PREINSTALLED						= "APP_WAS_PREINSTALLED";
@@ -464,8 +467,11 @@ public abstract class Constants
 	public static final String APP_URL_FACEBOOK_DO_NOT_REDIRECT = "&redirect=false";
 	public static final String APP_URL_FACEBOOK_GRAPH_ME = APP_URL_FACEBOOK_GRAPH + APP_URL_FACEBOOK_ME;
 	
+	/* CONFIGURATIONS FOR SEARCH */
+	public static final int SEARCH_QUERY_LENGTH_THRESHOLD = 3;
+	
+	/* CONFIGURATIONS FOR REMINDERS */
     public static final int MAXIMUM_REMINDER_TIME_FOR_SHOW = 15;
-    
     
     /* Shared preferences for data storage */
 	public static final String SHARED_PREFERENCES_NAME = "com.mitv.shared.preferences";

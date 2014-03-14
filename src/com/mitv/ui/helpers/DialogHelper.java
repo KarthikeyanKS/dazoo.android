@@ -250,7 +250,7 @@ public class DialogHelper
 				
 				Uri uri;
 				
-				try 
+				try
 				{
 					String marketUrl = activity.getString(R.string.market_url_for_google_play_market_details);
 					

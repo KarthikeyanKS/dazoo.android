@@ -422,7 +422,7 @@ public abstract class PersistentCache
 	
 	public synchronized TVDate getTvDateAtIndex(int index) 
 	{
-		if(tvDates != null)
+		if(tvDates != null && !tvDates.isEmpty())
 		{
 			return tvDates.get(index);
 		}
