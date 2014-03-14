@@ -3,8 +3,11 @@ package com.mitv;
 
 
 
+import android.app.AlarmManager;
 import android.app.Application;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
@@ -12,6 +15,7 @@ import android.os.Build;
 import android.os.StrictMode;
 import android.util.Log;
 
+import com.mitv.activities.SplashScreenActivity;
 import com.mitv.utilities.AppDataUtils;
 import com.mitv.utilities.GenericUtils;
 
@@ -42,7 +46,6 @@ public class SecondScreenApplication
 		return instance;
 	}
 
-	
 
 	public static boolean applicationIsSystemApp(Context context) 
 	{
@@ -256,4 +259,5 @@ public class SecondScreenApplication
 		
 		return isCurrentVersionAnUpgradeFromInstalledVersion;
 	}
+
 }
