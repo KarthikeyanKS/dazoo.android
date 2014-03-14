@@ -8,6 +8,6 @@
 	<classpathentry kind="lib" path="libs/gson-2.2.4.jar"/>
 	<classpathentry kind="lib" path="libs/HockeySDK-3.0.1.jar"/>
 	<classpathentry kind="lib" path="libs/libGoogleAnalyticsServices.jar"/>
-	<classpathentry kind="lib" path="libs/universal-image-loader-1.9.0-with-sources.jar"/>
+	<classpathentry kind="lib" path="libs/universal-image-loader-1.9.1-with-sources.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
