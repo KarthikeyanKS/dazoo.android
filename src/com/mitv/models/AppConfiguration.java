@@ -6,12 +6,7 @@ package com.mitv.models;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import android.app.Activity;
-
 import com.mitv.Constants;
-import com.mitv.activities.FeedActivity;
-import com.mitv.activities.HomeActivity;
-import com.mitv.activities.base.BaseActivity;
 import com.mitv.models.gson.AppConfigurationJSON;
 import com.mitv.models.orm.AdzerkFormatForActivityORM;
 import com.mitv.models.orm.AdzerkFormatForAndroidGuideORM;

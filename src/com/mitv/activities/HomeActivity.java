@@ -126,11 +126,11 @@ public class HomeActivity
 				}
 			});
 			
-			fm.beginTransaction().replace(R.id.fragment_container, activeFragment, null).commit();
+			fm.beginTransaction().replace(R.id.fragment_container, activeFragment, null).commitAllowingStateLoss();
 		}
 		else
 		{
-			fm.beginTransaction().attach(activeFragment).commit();
+			fm.beginTransaction().attach(activeFragment).commitAllowingStateLoss();
 		}
 	}
 	
