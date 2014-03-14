@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.androidquery.callback.AjaxCallback;
+import com.mitv.activities.base.BaseActivity;
 import com.mitv.asynctasks.local.BuildTVBroadcastsForTags;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.ProgramTypeEnum;
@@ -282,6 +283,11 @@ public class ContentManager
 					@SuppressWarnings("unchecked")
 					ArrayList<TVDate> tvDates = (ArrayList<TVDate>) content;
 					cache.setTvDates(tvDates);
+					
+					if(BaseActivity.isAppWentToBg) {
+						BaseActivity.isAppWentToBg = false;
+						BaseActivity.mockAndSetTVDates();
+					}
 					
 					notifyFetchDataProgressListenerMessage(totalStepsCount, SecondScreenApplication.sharedInstance().getResources().getString(R.string.response_tv_dates_data));
 					
@@ -1772,5 +1778,11 @@ public class ContentManager
 	
 	public void setLikeToAddAfterLogin(UserLike userLikeToAdd) {
 		cache.setLikeToAddAfterLogin(userLikeToAdd);
+	}
+	
+	//TODO REMOVE ME
+	@Deprecated
+	public void setMockedTVDates(ArrayList<TVDate> mockedTVDates){
+		cache.setTvDates(mockedTVDates);
 	}
 }
