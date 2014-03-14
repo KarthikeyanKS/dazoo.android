@@ -23,15 +23,12 @@ import com.mitv.models.TVGuide;
 import com.mitv.models.TVTag;
 import com.mitv.models.UserLike;
 import com.mitv.models.UserLoginData;
-import com.mitv.models.orm.AppVersionORM;
-import com.mitv.models.orm.TVDateORM;
-import com.mitv.models.orm.TVTagORM;
 import com.mitv.models.orm.UserLoginDataORM;
 import com.mitv.models.orm.base.AbstractOrmLiteClass;
 
 
 
-public class PersistentCache
+public abstract class PersistentCache
 {
 	private static final String TAG = PersistentCache.class.getName();
 	
@@ -75,12 +72,12 @@ public class PersistentCache
 		
 		AbstractOrmLiteClass.initDB(context, Constants.CACHE_DATABASE_NAME, Constants.CACHE_DATABASE_VERSION, null);
 		
-		this.appVersionData = AppVersionORM.getAppVersion();
+		this.appVersionData = null; //AppVersionORM.getAppVersion();
 		this.appConfigurationData = null; //AppConfigurationORM.getAppConfiguration();
 		this.userData = UserLoginDataORM.getUserLoginData();
 		
-		this.tvTags = TVTagORM.getTVTags();
-		this.tvDates = TVDateORM.getTVDates();
+		this.tvTags = null; //TVTagORM.getTVTags();
+		this.tvDates = null; //TVDateORM.getTVDates();
 	}
 	
 	
@@ -324,7 +321,8 @@ public class PersistentCache
 	{
 		this.appVersionData = appVersionData;
 		
-		AppVersionORM.createAndSaveInAsyncTask(appVersionData);
+		// TODO NewArc - Enable persistence
+		//AppVersionORM.createAndSaveInAsyncTask(appVersionData);
 	}
 
 	
@@ -367,6 +365,7 @@ public class PersistentCache
 	{
 		this.appConfigurationData = appConfigurationData;
 		
+		// TODO NewArc - Enable persistence
 		//new AppConfigurationORM(appConfigurationData).saveInAsyncTask();
 	}
 	
@@ -398,7 +397,8 @@ public class PersistentCache
 	{
 		this.tvTags = tvTags;
 		
-		TVTagORM.createAndSaveInAsyncTask(tvTags);
+		// TODO NewArc - Enable persistence
+		//TVTagORM.createAndSaveInAsyncTask(tvTags);
 	}
 	
 	
@@ -415,7 +415,8 @@ public class PersistentCache
 	{
 		this.tvDates = tvDates;
 		
-		TVDateORM.createAndSaveInAsyncTask(tvDates);
+		// TODO NewArc - Enable persistence
+		//TVDateORM.createAndSaveInAsyncTask(tvDates);
 	}
 	
 	

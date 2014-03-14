@@ -5,6 +5,7 @@ package com.mitv.ui.elements;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
@@ -28,15 +29,24 @@ public class UndoBarController
     // State objects
     private Parcelable mUndoToken;
     private CharSequence mUndoMessage;
-
-    public interface UndoListener {
+    
+    
+    
+    public interface UndoListener 
+    {
         void onUndo(Parcelable token);
     }
 
+    
     public UndoBarController(View undoBarView, UndoListener undoListener) 
     {
         mBarView = undoBarView;
-        mBarAnimator = mBarView.animate();
+        
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+        {
+        	mBarAnimator = mBarView.animate();
+        }
+        
         mUndoListener = undoListener;
 
         mMessageView = (TextView) mBarView.findViewById(R.id.undobar_message);
@@ -67,9 +77,18 @@ public class UndoBarController
                 mBarView.getResources().getInteger(R.integer.undobar_hide_delay));
 
         mBarView.setVisibility(View.VISIBLE);
-        if (immediate) {
+        
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB)
+        {
+        	return;
+        }
+        
+        if (immediate)
+        {
             mBarView.setAlpha(1);
-        } else {
+        } 
+        else 
+        {
             mBarAnimator.cancel();
             mBarAnimator
                     .alpha(1)
@@ -79,16 +98,29 @@ public class UndoBarController
                     .setListener(null);
         }
     }
+    
 
-    public void hideUndoBar(boolean immediate) {
+    public void hideUndoBar(boolean immediate) 
+    {
         mHideHandler.removeCallbacks(mHideRunnable);
-        if (immediate) {
+     
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB)
+        {
+        	mBarView.setVisibility(View.GONE);
+        	mUndoMessage = null;
+        	mUndoToken = null;
+        	return;
+        }
+        
+        if (immediate)
+        {
             mBarView.setVisibility(View.GONE);
             mBarView.setAlpha(0);
             mUndoMessage = null;
             mUndoToken = null;
-
-        } else {
+        } 
+        else 
+        {
             mBarAnimator.cancel();
             mBarAnimator
                     .alpha(0)
@@ -105,25 +137,34 @@ public class UndoBarController
         }
     }
 
-    public void onSaveInstanceState(Bundle outState) {
+    
+    public void onSaveInstanceState(Bundle outState) 
+    {
         outState.putCharSequence("undo_message", mUndoMessage);
         outState.putParcelable("undo_token", mUndoToken);
     }
 
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
+    
+    public void onRestoreInstanceState(Bundle savedInstanceState) 
+    {
+        if (savedInstanceState != null) 
+        {
             mUndoMessage = savedInstanceState.getCharSequence("undo_message");
             mUndoToken = savedInstanceState.getParcelable("undo_token");
 
-            if (mUndoToken != null || !TextUtils.isEmpty(mUndoMessage)) {
+            if (mUndoToken != null || !TextUtils.isEmpty(mUndoMessage)) 
+            {
                 showUndoBar(true, mUndoMessage, mUndoToken);
             }
         }
     }
 
-    private Runnable mHideRunnable = new Runnable() {
+    
+    private Runnable mHideRunnable = new Runnable() 
+    {
         @Override
-        public void run() {
+        public void run() 
+        {
             hideUndoBar(false);
         }
     };

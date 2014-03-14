@@ -3,18 +3,9 @@ package com.mitv.utilities;
 
 
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.Set;
-
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
-
 import com.mitv.Constants;
 import com.mitv.SecondScreenApplication;
 
@@ -22,6 +13,7 @@ import com.mitv.SecondScreenApplication;
 
 public abstract class AppDataUtils 
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = AppDataUtils.class.getName();
 	
 	
@@ -148,9 +140,4 @@ public abstract class AppDataUtils
 		
 		prefEditor.commit();
 	}
-	
-	
-	
-	
 }
-

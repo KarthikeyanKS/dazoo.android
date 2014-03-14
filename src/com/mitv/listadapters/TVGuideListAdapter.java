@@ -11,7 +11,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
-import android.preference.PreferenceManager.OnActivityResultListener;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextPaint;
@@ -31,10 +30,8 @@ import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.ChannelPageActivity;
-import com.mitv.activities.HomeActivity;
 import com.mitv.activities.MyChannelsActivity;
 import com.mitv.activities.SignUpSelectionActivity;
-import com.mitv.activities.UserProfileActivity;
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.models.TVBroadcast;
@@ -62,7 +59,6 @@ public class TVGuideListAdapter
 
 	
 	
-	@SuppressLint("NewApi")
 	public TVGuideListAdapter(Activity activity, ArrayList<TVChannelGuide> guide, TVDate date, int hour, boolean isToday) 
 	{
 		super(Constants.JSON_AND_FRAGMENT_KEY_GUIDE, activity, guide);
@@ -76,7 +72,8 @@ public class TVGuideListAdapter
 	
 
 	@Override
-	public int getViewTypeCount() {
+	public int getViewTypeCount() 
+	{
 		int viewTypeCount = super.getViewTypeCount();
 		
 		/* TVGuide view */
@@ -89,13 +86,18 @@ public class TVGuideListAdapter
 	}
 
 	
-	private boolean isAddMoreChannelsCellPosition(int position) {
+	
+	private boolean isAddMoreChannelsCellPosition(int position) 
+	{
 		boolean isAddMoreChannelsCellPosition = (position == getCount() - 1);
+		
 		return isAddMoreChannelsCellPosition;
 	}
 	
+	
 	@Override
-	public int getItemViewType(int position) {
+	public int getItemViewType(int position) 
+	{
 		int itemViewType = super.getItemViewType(position);
 		if(itemViewType == VIEW_TYPE_STANDARD && isAddMoreChannelsCellPosition(position)) {
 			itemViewType = VIEW_TYPE_CUSTOM;
@@ -394,9 +396,12 @@ public class TVGuideListAdapter
 	@SuppressLint("NewApi")
 	public static void removeOnGlobalLayoutListener(View v, ViewTreeObserver.OnGlobalLayoutListener listener) 
 	{
-		if (Build.VERSION.SDK_INT < 16) {
+		if (Build.VERSION.SDK_INT < 16) 
+		{
 			v.getViewTreeObserver().removeGlobalOnLayoutListener(listener);
-		} else {
+		} 
+		else 
+		{
 			v.getViewTreeObserver().removeOnGlobalLayoutListener(listener);
 		}
 	}

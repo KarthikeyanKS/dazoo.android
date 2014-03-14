@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.StrictMode;
 import android.util.Log;
 
@@ -131,19 +132,65 @@ public class SecondScreenApplication
 
 		if (enableStrictMode) 
 		{
-			 StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-             .detectDiskReads()
-             .detectDiskWrites()
-             .detectNetwork()
-             //.penaltyLog()
-             .penaltyFlashScreen()
-             .build());
-     
-			 StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-             .detectLeakedSqlLiteObjects()
-             .detectLeakedClosableObjects()
-             .penaltyLog()
-             .build());
+			StrictMode.ThreadPolicy threadPolicy;
+			
+			/* The following policies are not available prior to API Level 11:
+			 * 
+			 *  detectCustomSlowCalls()
+			 *  penaltyDeathOnNetwork()
+			 *  penaltyFlashScreen()
+			 *  permitCustomSlowCalls()
+			 *  
+			 **/
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) 
+			{
+				threadPolicy = new StrictMode.ThreadPolicy.Builder()
+				.detectDiskReads()
+				.detectDiskWrites()
+				.detectNetwork()
+				//.penaltyLog()
+				.penaltyFlashScreen()
+				.build();
+			}
+			else
+			{
+				threadPolicy = new StrictMode.ThreadPolicy.Builder()
+				.detectDiskReads()
+				.detectDiskWrites()
+				.detectNetwork()
+				//.penaltyLog()
+				.build();
+			}
+
+			StrictMode.setThreadPolicy(threadPolicy);
+
+			StrictMode.VmPolicy vmPolicy;
+			
+			/* The following policies are not available prior to API Level 11:
+			 * 
+			 *  detectActivityLeaks()
+			 *  detectFileUriExposure()
+			 *  detectLeakedClosableObjects()
+			 *  detectLeakedRegistrationObjects()
+			 *  
+			 **/
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) 
+			{
+				vmPolicy = new StrictMode.VmPolicy.Builder()
+				.detectLeakedSqlLiteObjects()
+				.detectLeakedClosableObjects()
+				.penaltyLog()
+				.build();
+			}
+			else
+			{
+				vmPolicy = new StrictMode.VmPolicy.Builder()
+				.detectLeakedSqlLiteObjects()
+				.penaltyLog()
+				.build();
+			}
+			
+			StrictMode.setVmPolicy(vmPolicy);
 		}
 		
 		if(Constants.FORCE_DATABASE_FLUSH || isCurrentVersionAnUpgradeFromInstalledVersion())

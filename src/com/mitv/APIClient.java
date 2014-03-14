@@ -53,10 +53,7 @@ public class APIClient
 	private static final long pool_executor_default_keep_alive_time = 5000L;
 	
 	
-//	if (Build.VERSION.SDK_INT < 11) 
-//	{
-//		
-//	}
+	
 	
 	private ContentCallbackListener contentCallbackListener;
 	private CustomThreadedPoolExecutor poolExecutor;
@@ -89,7 +86,7 @@ public class APIClient
 		poolExecutor.addAndExecuteTask(getTVDates);
 		poolExecutor.addAndExecuteTask(getTVChannelsAll);
 		poolExecutor.addAndExecuteTask(getTVChannelIdsDefault);
-				
+		
 		if(isUserLoggedIn)
 		{
 			GetUserTVChannelIds getUserTVChannelIds = new GetUserTVChannelIds(contentCallbackListener, activityCallbackListener, false);
@@ -97,6 +94,8 @@ public class APIClient
 			poolExecutor.addAndExecuteTask(getUserTVChannelIds);
 		}
 	}
+	
+	
 	
 	public void setNewTVChannelIdsAndFetchGuide(ViewCallbackListener activityCallbackListener, TVDate tvDate, ArrayList<TVChannelId> tvChannelIdsOnlyNewOnes, ArrayList<TVChannelId> tvChannelIdsAll) {
 		resetPoolExecutor();
@@ -107,6 +106,8 @@ public class APIClient
 		poolExecutor.addAndExecuteTask(getNewGuides);
 		poolExecutor.addAndExecuteTask(setUserTVChanelIds);
 	}
+	
+	
 	
 	public void getTVChannelGuideOnPoolExecutor(ViewCallbackListener activityCallbackListener, TVDate tvDate, List<TVChannelId> tvChannelIds)
 	{
