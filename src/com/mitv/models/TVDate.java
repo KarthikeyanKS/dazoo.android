@@ -32,7 +32,6 @@ public class TVDate
 	}
 	
 	
-	
 	public TVDate(TVDateORM tvDateORM)
 	{
 		this.id =  tvDateORM.getId();

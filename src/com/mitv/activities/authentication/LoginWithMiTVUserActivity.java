@@ -163,8 +163,10 @@ public class LoginWithMiTVUserActivity
 			case FAILED:
 			{
 				enableFields();
-				// TODO NewArc - Hardcoded string
-				ToastHelper.createAndShowToast(this, "Login was unsuccessful.");
+				
+				String message = getString(R.string.login_with_email_failed);
+				
+				ToastHelper.createAndShowToast(this, message);
 				break;
 			}
 	

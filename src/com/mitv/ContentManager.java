@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.androidquery.callback.AjaxCallback;
+import com.mitv.activities.base.BaseActivity;
 import com.mitv.asynctasks.local.BuildTVBroadcastsForTags;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.ProgramTypeEnum;
@@ -1268,11 +1269,13 @@ public class ContentManager
 	/* This method does not require any ActivityCallbackListener, "fire and forget". */
 	public void performInternalTracking(TVBroadcastWithChannelInfo broadcast) 
 	{
-		if(broadcast != null && broadcast.getProgram() != null && broadcast.getProgram().getProgramId() != null && !TextUtils.isEmpty(broadcast.getProgram().getProgramId())) 
+		if(broadcast != null && 
+		   broadcast.getProgram() != null && 
+		   broadcast.getProgram().getProgramId() != null && 
+		   !TextUtils.isEmpty(broadcast.getProgram().getProgramId())) 
 		{
 			String tvProgramId = broadcast.getProgram().getProgramId();
 			
-			//TODO NewArc use a better method for device id!
 			String deviceId = GenericUtils.getDeviceId();
 			
 			apiClient.performInternalTracking(null, tvProgramId, deviceId);
@@ -1778,4 +1781,5 @@ public class ContentManager
 	public void setLikeToAddAfterLogin(UserLike userLikeToAdd) {
 		cache.setLikeToAddAfterLogin(userLikeToAdd);
 	}
+	
 }

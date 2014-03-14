@@ -251,14 +251,10 @@ public abstract class PersistentCache
 	
 	public synchronized void addUserLike(final UserLike userLike) 
 	{
-		if(userLikes != null)
-		{
-			this.userLikes.add(userLike);
+		if(userLikes == null) {
+			userLikes = new ArrayList<UserLike>();
 		}
-		else
-		{
-			Log.w(TAG, "Attempted to add user like without data in cache.");
-		}
+		this.userLikes.add(userLike);
 	}
 	
 	

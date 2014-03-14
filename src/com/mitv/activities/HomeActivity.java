@@ -7,16 +7,17 @@ import net.hockeyapp.android.UpdateManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
+
 import com.mitv.Constants;
 import com.mitv.ContentManager;
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.fragments.TVHolderFragment;
 import com.mitv.fragments.TVHolderFragment.OnViewPagerIndexChangedListener;
 import com.mitv.ui.helpers.ToastHelper;
-import com.mitv.utilities.DateUtils;
 
 
 
@@ -58,6 +59,7 @@ public class HomeActivity
 	@Override
 	protected void onResume()
 	{
+		
 		super.onResume();
 		
 		if(Constants.USE_HOCKEY_APP_CRASH_REPORTS)
