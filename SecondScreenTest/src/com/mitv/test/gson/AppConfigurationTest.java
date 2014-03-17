@@ -102,9 +102,9 @@ public class AppConfigurationTest
 		Assert.assertNotNull(receivedData.getGoogleAnalyticsTrackingId());
 		Assert.assertFalse(TextUtils.isEmpty(receivedData.getGoogleAnalyticsTrackingId()));
 
-		Assert.assertNotNull(receivedData.getActivityCellCountBetweenAdCells());
+		Assert.assertNotNull(receivedData.getFeedActivityCellCountBetweenAdCells());
 		
-		Assert.assertNotNull(receivedData.getCellCountBetweenAdCells());
+		Assert.assertNotNull(receivedData.getGuideFragmentCellCountBetweenAdCells());
 
 		Assert.assertNotNull(receivedData.getFacebookAppID());
 		Assert.assertFalse(TextUtils.isEmpty(receivedData.getFacebookAppID()));

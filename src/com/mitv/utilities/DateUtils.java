@@ -389,7 +389,13 @@ public abstract class DateUtils
 		return hourAndMinuteCompositionAsString;
 	}
 	
-	
+	public static String calendarToStringForDebug(final Calendar inputCalendar) {
+		Date dateFromCalendar = inputCalendar.getTime();
+		SimpleDateFormat formatter = getSimpleDateFormatWith(Constants.CALENDAR_TO_STRING_FOR_DEBUG);
+		String toString = formatter.format(dateFromCalendar);
+		
+		return toString;
+	}
 	
 	public static boolean showTimeOn24HourFormat() 
 	{
