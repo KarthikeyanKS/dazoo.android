@@ -20,6 +20,35 @@
             android:layout_height="match_parent"
             layout="@layout/layout_request_loading"
             android:orientation="vertical" />
+        
+       <com.mitv.ui.elements.FontTextView
+            android:id="@+id/login_page_title"
+            style="@style/header2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_margin="10dp"
+            android:text="@string/login_page_title" />
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/login_page_text"
+            style="@style/meta1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/login_page_title"
+            android:layout_gravity="left"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="@string/login_page_text" />
+
+        <View
+            android:id="@+id/mitvlogin_container_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/login_page_text"
+            android:layout_marginTop="10dp"
+            android:background="@color/grey1" />
 
         <!-- FACEBOOK SIGN-IN BAR -->
 
@@ -29,7 +58,8 @@
             android:layout_height="50dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_below="@id/mitvlogin_container_divider"
             android:background="@drawable/background_color_selector_login_facebook"
             android:orientation="horizontal" >
 
@@ -68,6 +98,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/mitvlogin_facebook_container"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal" >
 
             <View
@@ -150,7 +182,8 @@
             android:gravity="center"
             android:padding="8dp" />
 
-        <com.mitv.ui.elements.FontButton
+        <!--
+            com.mitv.ui.elements.FontButton
             android:id="@+id/mitvlogin_login_button"
             style="@style/whitetextbutton"
             android:layout_width="wrap_content"
@@ -163,7 +196,47 @@
             android:layout_marginTop="5dp"
             android:background="@drawable/background_color_selector_signup_login_box"
             android:padding="10dp"
-            android:text="@string/login_with_mitv" />
+            android:text="@string/login_with_mitv" /
+        -->
+
+        <RelativeLayout
+            android:id="@+id/mitvlogin_login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_below="@id/mitvlogin_login_password_error_tv"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/background_color_selector_signup_login_box"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_centerHorizontal="true" >
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:orientation="horizontal" >
+
+                <ProgressBar
+                    android:id="@+id/mitvlogin_progressbar"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:visibility="gone" />
+
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/mitvlogin_login_button_tv"
+                    style="@style/whitetextbutton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/mitvlogin_progressbar"
+                    android:text="@string/login_with_mitv" />
+            </RelativeLayout>
+        </RelativeLayout>
 
         <!-- DIVIDER -->
 

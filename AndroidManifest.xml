@@ -211,7 +211,7 @@
             android:icon="@drawable/ic_nav_bar"
             android:screenOrientation="portrait"
             android:launchMode="standard"
-            android:theme="@style/Theme.AppCompat.Light"
+            android:theme="@style/WhiteTitleActionBarNoUp"
             android:windowSoftInputMode="stateHidden" />
 
         <!-- PASSWORD RESET -->
