@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +32,8 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.listadapters.FeedListAdapter;
 import com.mitv.models.TVFeedItem;
+import com.mitv.ui.elements.FontTextView;
+import com.mitv.utilities.HyperLinkUtils;
 
 
 
@@ -44,12 +48,12 @@ public class FeedActivity
 	private RelativeLayout signUpContainer;
 	private Button checkPopularButton;
 	private RelativeLayout loginButton;
+	private FontTextView termsOfService;
 	private ListView listView;
 	private FeedListAdapter listAdapter;
 	private View listFooterView;
 	private TextView greetingTv;
-	
-	private Boolean noTask = true;
+	private boolean reachedEnd;
 	
 	private boolean currentlyShowingLoggedInLayout;
 
@@ -59,10 +63,8 @@ public class FeedActivity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-		
-		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
-		
-		if(isLoggedIn)
+			
+		if(ContentManager.sharedInstance().isLoggedIn())
 		{
 			setContentView(R.layout.layout_activity_activity);
 
@@ -161,6 +163,15 @@ public class FeedActivity
 		loginButton = (RelativeLayout) findViewById(R.id.activity_not_logged_in_login_btn);
 		loginButton.setOnClickListener(this);
 		
+		termsOfService = (FontTextView) findViewById(R.id.activity_not_logged_in_terms_link);
+
+		String linkText = getString(R.string.sign_up_terms_link);
+		
+		termsOfService.setText(Html.fromHtml(linkText));
+		termsOfService.setMovementMethod(LinkMovementMethod.getInstance());
+		
+		HyperLinkUtils.stripUnderlines(termsOfService);
+		
 		setEmptyLayoutDetailsMessage("");
 	}
 	
@@ -168,9 +179,9 @@ public class FeedActivity
 
 	private void setListAdapter() 
 	{
-		ArrayList<TVFeedItem> activityFeed = ContentManager.sharedInstance().getFromCacheActivityFeedData();
+		ArrayList<TVFeedItem> activityFeed = getFromCacheFeedItems();
 		
-		if(activityFeed.isEmpty() == false)
+		if(!activityFeed.isEmpty())
 		{
 			FeedItemTypeEnum itemType = activityFeed.get(0).getItemType();
 			
@@ -217,6 +228,16 @@ public class FeedActivity
 		listView.setVisibility(View.VISIBLE);
 	}
 	
+	private void updateListAdapter() {
+		ArrayList<TVFeedItem> activityFeed = getFromCacheFeedItems();
+		listAdapter.setFeedItems(activityFeed);
+		listAdapter.notifyDataSetChanged();
+	}
+	
+	private ArrayList<TVFeedItem> getFromCacheFeedItems() {		
+		ArrayList<TVFeedItem> activityFeed = ContentManager.sharedInstance().getFromCacheActivityFeedData();
+		return activityFeed;
+	}
 	
 	
 	@Override
@@ -235,6 +256,26 @@ public class FeedActivity
 			updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
 		}
 	}
+	
+	
+	
+	@Override
+	protected boolean hasEnoughDataToShowContent()
+	{
+		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
+		
+		if(isLoggedIn)
+		{
+			boolean hasEnoughDataToShowContent = ContentManager.sharedInstance().getFromCacheHasActivityFeed() && 
+												 ContentManager.sharedInstance().getFromCacheHasUserLikes();
+			
+			return hasEnoughDataToShowContent;
+		}
+		else
+		{
+			return true;
+		}
+	}
 
 	
 	
@@ -242,12 +283,17 @@ public class FeedActivity
 	protected void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
 		switch (requestIdentifier) 
-		{			
-			case USER_ACTIVITY_FEED_ITEM:
+		{		
+			case USER_ACTIVITY_FEED_ITEM_MORE:
+			case USER_ACTIVITY_FEED_INITIAL_DATA:
 			{
 				if(fetchRequestResult.wasSuccessful())
 				{
-					updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+					if(fetchRequestResult == FetchRequestResultEnum.SUCCESS) {
+						updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+					} else {
+						updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
+					}
 				}
 				else
 				{
@@ -263,40 +309,41 @@ public class FeedActivity
 		}
 	}
 	
-	
+	private void reachedEndOfFeedItems() {
+		reachedEnd = true;
+		if(listFooterView != null) {
+			listFooterView.setVisibility(View.GONE);
+		}
+	}
 	
 	@Override
 	protected void updateUI(UIStatusEnum status) 
 	{
 		super.updateUIBaseElements(status);
 		
+		showScrollSpinner(false);
+		
 		switch (status) 
 		{	
-			case SUCCEEDED_WITH_DATA:
+			case SUCCESS_WITH_CONTENT:
 			{
-				setListAdapter();
+				if(latestRequest == RequestIdentifierEnum.USER_ACTIVITY_FEED_INITIAL_DATA) {
+					setListAdapter();
+				} else {
+					updateListAdapter();
+				}
 				break;
+			}
+			case SUCCESS_WITH_NO_CONTENT: {
+				if(ContentManager.sharedInstance().isLoggedIn()) {
+					reachedEndOfFeedItems();
+				}
 			}
 			
-			default:
-			{
-				// Do nothing
-				break;
-			}
+			default: {/* Do nothing */break;}
 		}
 	}
 	
-
-	
-	@Override
-	public void onBackPressed() 
-	{
-		super.onBackPressed();
-
-		finish();
-	}
-	
-
 	
 	private void showScrollSpinner(boolean show) 
 	{
@@ -375,44 +422,23 @@ public class FeedActivity
 	}
 	
 
-	
-	
 	@Override
-	public void onScrollStateChanged(AbsListView view, int scrollState) 
-	{
-		// TODO NewArc - Do something here?
-	}
+	public void onScrollStateChanged(AbsListView view, int scrollState) {/* Do nothing */}
 
-	
-	
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) 
 	{
+		showScrollSpinner(false);
 		if (totalItemCount > 0) 
 		{
 			// If scrolling past bottom and there is a next page of products to fetch
-			
 			boolean pastTotalCount = (firstVisibleItem + visibleItemCount >= totalItemCount);
 			
-			if (pastTotalCount && noTask) 
+			if (pastTotalCount && !reachedEnd) 
 			{
 				showScrollSpinner(true);
-
-				if(noTask) 
-				{
-					ContentManager.sharedInstance().fetchFromServiceMoreActivityData(this);
-				}
-				
-				noTask = false;
+				ContentManager.sharedInstance().fetchFromServiceMoreActivityData(this, totalItemCount);
 			} 
-			else 
-			{
-				showScrollSpinner(false);
-			}
-		} 
-		else 
-		{
-			showScrollSpinner(false);
 		}
 	}
 }

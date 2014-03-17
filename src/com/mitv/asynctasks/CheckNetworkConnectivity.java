@@ -8,7 +8,7 @@ import android.util.Log;
 
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.utilities.NetworkUtils;
 
@@ -20,7 +20,7 @@ public class CheckNetworkConnectivity
 	private static final String TAG = CheckNetworkConnectivity.class.getName();
 	
 	private ContentCallbackListener contentCallbackListener;
-	private ActivityCallbackListener activityCallBackListener;
+	private ViewCallbackListener activityCallbackListener;
 	private RequestIdentifierEnum requestIdentifier;
 	
 	private Boolean isConnectedAndHostIsReachable;
@@ -29,11 +29,11 @@ public class CheckNetworkConnectivity
 	
 	public CheckNetworkConnectivity(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener,
+			ViewCallbackListener activityCallbackListener,
 			RequestIdentifierEnum requestIdentifier)
 	{
 		this.contentCallbackListener = contentCallbackListener;
-		this.activityCallBackListener = activityCallBackListener;
+		this.activityCallbackListener = activityCallbackListener;
 		this.requestIdentifier = requestIdentifier;
 		
 		this.isConnectedAndHostIsReachable = false;
@@ -58,11 +58,11 @@ public class CheckNetworkConnectivity
 		{
 			if(isConnectedAndHostIsReachable)
 			{
-				contentCallbackListener.onResult(activityCallBackListener, requestIdentifier, FetchRequestResultEnum.INTERNET_CONNECTION_AVAILABLE, isConnectedAndHostIsReachable);
+				contentCallbackListener.onResult(activityCallbackListener, requestIdentifier, FetchRequestResultEnum.INTERNET_CONNECTION_AVAILABLE, isConnectedAndHostIsReachable);
 			}
 			else
 			{
-				contentCallbackListener.onResult(activityCallBackListener, requestIdentifier, FetchRequestResultEnum.INTERNET_CONNECTION_NOT_AVAILABLE, isConnectedAndHostIsReachable);
+				contentCallbackListener.onResult(activityCallbackListener, requestIdentifier, FetchRequestResultEnum.INTERNET_CONNECTION_NOT_AVAILABLE, isConnectedAndHostIsReachable);
 			}
 		}
 		else

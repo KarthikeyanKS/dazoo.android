@@ -8,7 +8,7 @@ import android.util.Log;
 import com.mitv.Constants;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.models.UserLoginData;
 import com.mitv.models.gson.serialization.UserLoginDataPost;
@@ -18,7 +18,7 @@ import com.mitv.models.gson.serialization.UserLoginDataPost;
 public class PerformUserLoginWithCredentials 
 	extends AsyncTaskWithRelativeURL<UserLoginData> 
 {
-	private static final String TAG = "PerformUserLogin";
+	private static final String TAG = PerformUserLoginWithCredentials.class.getName();
 	
 	private static final String URL_SUFFIX = Constants.URL_LOGIN;
 	
@@ -26,11 +26,11 @@ public class PerformUserLoginWithCredentials
 	
 	public PerformUserLoginWithCredentials(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener,
+			ViewCallbackListener activityCallbackListener,
 			String username,
 			String password) 
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_LOGIN, UserLoginData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_LOGIN, UserLoginData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
 		
 		UserLoginDataPost postData = new UserLoginDataPost();
 		postData.setEmail(username);

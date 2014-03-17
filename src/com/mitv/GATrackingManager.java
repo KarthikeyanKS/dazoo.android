@@ -13,6 +13,7 @@ import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.google.analytics.tracking.android.Tracker;
 import com.mitv.utilities.FileUtils;
+import com.mitv.utilities.NetworkUtils;
 
 
 
@@ -67,20 +68,26 @@ public class GATrackingManager
 	
 	public void updateConfiguration() 
 	{
-		String trackingId = ContentManager.sharedInstance().getFromCacheAppConfiguration().getGoogleAnalyticsTrackingId();
+		String trackingId;
 		
-		boolean useDefaultGATrackingID = Constants.USE_DEFAULT_GOOGLE_TRACKING_ID;
+		boolean cacheHasAppConfiguration = ContentManager.sharedInstance().getFromCacheHasAppConfiguration();
 		
-		if(useDefaultGATrackingID || trackingId == null || trackingId.isEmpty()) 
+		boolean forceDefaultGATrackingID = Constants.FORCE_DEFAULT_GOOGLE_TRACKING_ID;
+		
+		if(cacheHasAppConfiguration && !forceDefaultGATrackingID)
+		{
+			trackingId = ContentManager.sharedInstance().getFromCacheAppConfiguration().getGoogleAnalyticsTrackingId();
+		}
+		else
 		{
 			trackingId = context.getString(R.string.ga_trackingId_mitv_hardcoded);
 		}
-
+		
 		GoogleAnalytics googleAnalyticsInstance = GoogleAnalytics.getInstance(context);
 		
 		this.tracker = googleAnalyticsInstance.getTracker(trackingId);
 		
-		boolean preinstalledCheckingSharedPrefs	= SecondScreenApplication.sharedInstance().getWasPreinstalled();
+		boolean preinstalledCheckingSharedPrefs	= SecondScreenApplication.sharedInstance().isAppPreinstalled();
 		
 		File file = FileUtils.getFile(Constants.APP_WAS_PREINSTALLED_FILE_NAME);
 		boolean preinstalledCheckingExternalStorage = FileUtils.fileExists(file);
@@ -92,13 +99,17 @@ public class GATrackingManager
 		String wasPreinstalledExternalStorage = preinstalledCheckingExternalStorage ? Constants.PREFS_KEY_APP_WAS_PREINSTALLED : Constants.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
     	String wasPreinstalledSystemAppLocation = preinstalledUsingSystemAppDetectionCheckLocation ? Constants.PREFS_KEY_APP_WAS_PREINSTALLED : Constants.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
     	String wasPreinstalledSystemAppFlag = preinstalledUsingSystemAppDetectionCheckFlag ? Constants.PREFS_KEY_APP_WAS_PREINSTALLED : Constants.PREFS_KEY_APP_WAS_NOT_PREINSTALLED;
-				
-		double sampleRateDecimal = ContentManager.sharedInstance().getFromCacheAppConfiguration().getGoogleAnalyticsSampleRate();
-		
-		if(sampleRateDecimal == 0) 
+			
+    	double sampleRateDecimal;
+    	
+    	if(cacheHasAppConfiguration)
 		{
-			sampleRateDecimal = 1.0d;
+    		sampleRateDecimal = ContentManager.sharedInstance().getFromCacheAppConfiguration().getGoogleAnalyticsSampleRate();
 		}
+    	else
+    	{
+    		sampleRateDecimal = context.getResources().getInteger(R.integer.ga_sampleRateHardcoded);
+    	}
 		
 		double sampleRateAsPercentage = sampleRateDecimal * 100.0d;
 		
@@ -157,6 +168,18 @@ public class GATrackingManager
 		);
 
 		Log.d(TAG, "GATrackingManager: sendView, viewName: " + viewName);
+	}
+	
+	
+	
+	
+	public void sendUserNetworkTypeEvent()
+	{
+		String activeNetworkTypeName = NetworkUtils.getActiveNetworkTypeAsString();
+		
+		tracker.send(MapBuilder
+				.createEvent(Constants.GA_EVENT_KEY_SYSTEM_EVENT, Constants.GA_KEY_APP_CURRENT_USER_NETWORK_FLAG, activeNetworkTypeName, null)
+				.build());
 	}
 	
 	

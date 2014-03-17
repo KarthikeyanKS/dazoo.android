@@ -11,9 +11,8 @@
         android:id="@+id/signup_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:paddingBottom="10dp" >
 
         <include
             android:id="@+id/loading_container"
@@ -134,39 +133,12 @@
             android:gravity="center"
             android:padding="8dp" />
 
-        <com.mitv.ui.elements.FontTextView
-            android:id="@+id/signup_terms_info"
-            style="@style/meta2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/signup_error_password_textview"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="-10dp"
-            android:gravity="center"
-            android:padding="8dp"
-            android:text="@string/sign_up_terms_info" />
-
-        <com.mitv.ui.elements.FontTextView
-            android:id="@+id/signup_terms_link"
-            style="@style/meta1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/signup_terms_info"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="-10dp"
-            android:gravity="center"
-            android:linksClickable="true"
-            android:padding="8dp"
-            android:text="@string/terms_link" />
-
         <com.mitv.ui.elements.FontButton
             android:id="@+id/signup_register_button"
             style="@style/whitetextbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/signup_terms_link"
+            android:layout_below="@id/signup_error_password_textview"
             android:layout_centerInParent="true"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="30dp"

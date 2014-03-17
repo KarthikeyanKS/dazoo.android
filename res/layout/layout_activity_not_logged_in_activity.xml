@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:id="@+id/activity_not_logged_in_container"
@@ -23,16 +24,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <!--
-                  ImageView
-                android:id="@+id/activity_poster"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                android:src="@color/grey1" /
-            -->
-
-
             <!-- TITLES -->
 
             <com.mitv.ui.elements.FontTextView
@@ -56,7 +47,7 @@
                 android:layout_gravity="left"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:text="@string/activity_page_subtitle"
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -216,6 +207,38 @@
                             android:text="@string/login_here" />
                     </RelativeLayout>
                 </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/activity_not_logged_in_terms_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/activity_not_logged_in_already_registered_container"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical" >
+
+                    <com.mitv.ui.elements.FontTextView
+                        android:id="@+id/activity_not_logged_in_terms_info"
+                        style="@style/meta2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/sign_up_terms_info" />
+
+                    <com.mitv.ui.elements.FontTextView
+                        android:id="@+id/activity_not_logged_in_terms_link"
+                        style="@style/meta2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="3dp"
+                        android:layout_toRightOf="@id/activity_not_logged_in_terms_info"
+                        android:linksClickable="true"
+                        android:text="@string/sign_up_terms_link"
+                        android:textColorLink="@color/grey3"
+                        android:textStyle="bold"
+                        font:fonttextview="roboto_mitv_bold.ttf" />
+                </RelativeLayout>
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
@@ -230,6 +253,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/tab_selector_container"
-        layout="@layout/layout_request_callbacks_holder_layout" />
+        layout="@layout/layout_request_callbacks_holder_main_layout" />
+    
+    <include
+        android:layout_above="@id/tab_selector_container"
+        layout="@layout/layout_undo_bar" />
 
 </RelativeLayout>

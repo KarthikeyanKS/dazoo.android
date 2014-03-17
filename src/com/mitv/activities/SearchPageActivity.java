@@ -1,4 +1,7 @@
+
 package com.mitv.activities;
+
+
 
 import java.util.ArrayList;
 
@@ -47,12 +50,16 @@ import com.mitv.models.TVSearchResults;
 import com.mitv.ui.elements.InstantAutoCompleteView;
 import com.mitv.utilities.GenericUtils;
 
-public class SearchPageActivity extends BaseActivity implements OnItemClickListener, OnEditorActionListener, OnClickListener, TextWatcher {
+
+
+public class SearchPageActivity 
+	extends BaseActivity 
+	implements OnItemClickListener, OnEditorActionListener, OnClickListener, TextWatcher 
+{
 	@SuppressWarnings("unused")
 	private static final String TAG = SearchPageActivity.class.getName();
-	
-	private static final int SEARCH_QUERY_LENGTH_THRESHOLD = 3;
 
+	
 	private SearchPageListAdapter autoCompleteAdapter;
 
 	private Menu menu;
@@ -63,8 +70,10 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 
 	private Handler handler = new Handler();
 
+	
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.layout_searchpage_activity);
@@ -74,6 +83,7 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 		initSupportActionbar();
 	}
 
+	
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -307,54 +317,87 @@ public class SearchPageActivity extends BaseActivity implements OnItemClickListe
 	protected void loadData() {
 		// TODO NewArc - do we need anything here?
 	}
+	
+	
+	
+	@Override
+	protected boolean hasEnoughDataToShowContent()
+	{
+		// TODO NewArc - Implement this
+		return true;
+	}
+	
+	
 
 	@Override
-	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
+	{
 		setNotLoading();
-		if (fetchRequestResult.wasSuccessful()) {
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+		
+		if (fetchRequestResult.wasSuccessful()) 
+		{
+			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+			
 			SearchResultsForQuery searchResultsForQuery = ContentManager.sharedInstance().getFromCacheSearchResults();
-			if (searchResultsForQuery != null) {
+			
+			if (searchResultsForQuery != null) 
+			{
 				String searchQuery = searchResultsForQuery.getQueryString();
+				
 				TVSearchResults searchResultsObject = searchResultsForQuery.getSearchResults();
 
 				ArrayList<TVSearchResult> searchResultItems = new ArrayList<TVSearchResult>(searchResultsObject.getResults());
+				
 				autoCompleteAdapter.setSearchResultItemsForQueryString(searchResultItems, searchQuery);
+				
 				this.searchQuery = searchQuery;
+				
 				triggerAutoComplete();
 			}
-		} else {
+		} 
+		else 
+		{
 			updateUI(UIStatusEnum.FAILED);
 		}
 	}
 
+	
 	@Override
-	protected void updateUI(UIStatusEnum status) {
+	protected void updateUI(UIStatusEnum status) 
+	{
 		super.updateUIBaseElements(status);
 
-		switch (status) {
-		case SUCCEEDED_WITH_DATA: {
-			// TODO NewArc - Do something here?
-			break;
-		}
-
-		default: {
-			// TODO NewArc - Do something here?
-			break;
-		}
+		switch (status)
+		{
+			case SUCCESS_WITH_CONTENT: 
+			{
+				// TODO NewArc - Do something here?
+				break;
+			}
+	
+			default: {
+				// TODO NewArc - Do something here?
+				break;
+			}
 		}
 	}
 
+	
 	@Override
 	public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
 
+	
 	@Override
 	public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
 
+	
 	@Override
-	public void afterTextChanged(Editable editable) {
+	public void afterTextChanged(Editable editable) 
+	{
 		String searchQuery = editable.toString();
-		if(!TextUtils.isEmpty(searchQuery) && searchQuery.length() >= SEARCH_QUERY_LENGTH_THRESHOLD) {
+		
+		if(!TextUtils.isEmpty(searchQuery) && searchQuery.length() >= Constants.SEARCH_QUERY_LENGTH_THRESHOLD) 
+		{
 			performSearchAndTriggerAutocomplete();
 		}
 	}

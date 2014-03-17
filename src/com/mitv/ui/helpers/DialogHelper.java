@@ -10,10 +10,7 @@ import android.net.Uri;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.mitv.ContentManager;
 import com.mitv.R;
-import com.mitv.activities.SplashScreenActivity;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.models.TVBroadcast;
 
@@ -22,19 +19,17 @@ import com.mitv.models.TVBroadcast;
 public class DialogHelper 
 {
 	@SuppressWarnings("unused")
-	private static final String	TAG	= DialogHelper.class.getName();
-		
+	private static final String	TAG	= DialogHelper.class.getName();		
+	
 	
 
 	public static void showRemoveNotificationDialog(
 			final Activity activity, 
 			final TVBroadcast broadcast, 
 			final int notificationId, 
-			final Runnable aProcedure, 
-			final Runnable bProcedure)
+			final Runnable yesProcedure, 
+			final Runnable noProcedure)
 	{
-		final Runnable answerYes = aProcedure;
-		final Runnable answerNo = bProcedure;
 		final Dialog dialog = new Dialog(activity, R.style.remove_notification_dialog);
 		
 		StringBuilder reminderSB = new StringBuilder();
@@ -105,9 +100,9 @@ public class DialogHelper
 			@Override
 			public void onClick(View v) 
 			{
-				if(answerNo != null)
+				if(noProcedure != null)
 				{
-					answerNo.run();
+					noProcedure.run();
 				}
 				
 				dialog.dismiss();
@@ -119,9 +114,9 @@ public class DialogHelper
 			@Override
 			public void onClick(View v)
 			{
-				if(answerYes != null)
+				if(yesProcedure != null)
 				{
-					answerYes.run();
+					yesProcedure.run();
 				}
 				
 				NotificationHelper.removeNotification(activity, notificationId);
@@ -138,11 +133,9 @@ public class DialogHelper
 	
 	public static void showRemoveLikeDialog(
 			final Activity activity,
-			final Runnable aProcedure,
-			final Runnable bProcedure)
+			final Runnable yesProcedure,
+			final Runnable noProcedure)
 	{
-		final Runnable answerYes = aProcedure;
-		final Runnable answerNo = bProcedure;
 		final Dialog dialog = new Dialog(activity, R.style.remove_notification_dialog);
 		
 		dialog.setContentView(R.layout.dialog_remove_notification);
@@ -159,9 +152,9 @@ public class DialogHelper
 			@Override
 			public void onClick(View v) 
 			{
-				if(answerNo != null)
+				if(noProcedure != null)
 				{
-					answerNo.run();
+					noProcedure.run();
 				}
 				
 				dialog.dismiss();
@@ -173,9 +166,9 @@ public class DialogHelper
 			@Override
 			public void onClick(View v)
 			{
-				if(answerYes != null)
+				if(yesProcedure != null)
 				{
-					answerYes.run();
+					yesProcedure.run();
 				}
 				
 				dialog.dismiss();
@@ -192,11 +185,9 @@ public class DialogHelper
 	
 	public static void showPromptSignInDialog(
 			final Activity activity, 
-			final Runnable aProcedure, 
-			final Runnable bProcedure) 
+			final Runnable yesProcedure, 
+			final Runnable noProcedure) 
 	{
-		final Runnable answerYes = aProcedure;
-		final Runnable answerNo	= bProcedure;
 		final Dialog dialog = new Dialog(activity, R.style.remove_notification_dialog);
 		
 		dialog.setContentView(R.layout.dialog_prompt_signin);
@@ -210,9 +201,9 @@ public class DialogHelper
 			@Override
 			public void onClick(View v)
 			{
-				if(answerNo != null)
+				if(noProcedure != null)
 				{
-					answerNo.run();
+					noProcedure.run();
 				}
 				
 				dialog.dismiss();
@@ -224,9 +215,9 @@ public class DialogHelper
 			@Override
 			public void onClick(View v)
 			{
-				if(answerYes != null)
+				if(yesProcedure != null)
 				{
-					answerYes.run();
+					yesProcedure.run();
 				}
 				
 				dialog.dismiss();
@@ -257,48 +248,22 @@ public class DialogHelper
 			{
 				final String appPackageName = activity.getPackageName(); 
 				
-				try 
+				Uri uri;
+				
+				try
 				{
-					Uri uri = Uri.parse("market://details?id=" + appPackageName);
+					String marketUrl = activity.getString(R.string.market_url_for_google_play_market_details);
 					
-					activity.startActivity(new Intent(Intent.ACTION_VIEW, uri));
+					uri = Uri.parse(marketUrl + appPackageName);
 				} 
 				catch (android.content.ActivityNotFoundException anfe) 
 				{
-					Uri uri = Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName);
+					String marketUrl = activity.getString(R.string.http_url_for_google_play_market_details);
 					
-					activity.startActivity(new Intent(Intent.ACTION_VIEW, uri));
+					uri = Uri.parse(marketUrl + appPackageName);
 				}
-			}
-		});
-		
-		if(!activity.isFinishing())
-		{
-			 dialog.show();
-		}
-	}
-	
-	
-	
-	public static void showMandatoryFirstTimeInternetConnection(final SplashScreenActivity activity) 
-	{
-		final Dialog dialog = new Dialog(activity, R.style.remove_notification_dialog);
-		
-		dialog.setContentView(R.layout.dialog_prompt_no_connection);
-		dialog.setCancelable(false);
-
-		final Button retryButton = (Button) dialog.findViewById(R.id.dialog_prompt_retry_button);
-		
-		retryButton.setOnClickListener(new View.OnClickListener() 
-		{
-			@Override
-			public void onClick(View v)
-			{
-				ContentManager.sharedInstance().fetchFromServiceInitialCall(activity, activity);
 				
-				retryButton.setEnabled(false);
-				
-				dialog.dismiss();
+				activity.startActivity(new Intent(Intent.ACTION_VIEW, uri));
 			}
 		});
 		

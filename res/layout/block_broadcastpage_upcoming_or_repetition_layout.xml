@@ -88,12 +88,15 @@
             android:layout_centerVertical="true"
             android:background="@drawable/background_color_selector"
             android:gravity="left"
-            android:paddingBottom="10dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="10dp"
+            android:padding="15dp"
             android:text="@string/upcoming_episodes_more"
             android:visibility="gone" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/block_tripple_broadcast_more_textview"
+            android:background="@color/grey2" />
     </RelativeLayout>
 
 </RelativeLayout>

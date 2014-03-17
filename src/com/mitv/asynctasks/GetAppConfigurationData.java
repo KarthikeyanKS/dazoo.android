@@ -6,7 +6,7 @@ package com.mitv.asynctasks;
 import com.mitv.Constants;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.models.AppConfiguration;
 
@@ -21,8 +21,8 @@ public class GetAppConfigurationData
 	
 	public GetAppConfigurationData(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener)
+			ViewCallbackListener activityCallbackListener)
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.APP_CONFIGURATION, AppConfiguration.class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.APP_CONFIGURATION, AppConfiguration.class, true, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
 	}
 }

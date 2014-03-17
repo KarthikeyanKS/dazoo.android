@@ -1,12 +1,15 @@
-
 package com.mitv.activities.base;
 
-import java.util.EmptyStackException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -19,49 +22,64 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.mitv.Constants;
 import com.mitv.ContentManager;
+import com.mitv.FontManager;
 import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.activities.FeedActivity;
 import com.mitv.activities.HomeActivity;
-import com.mitv.activities.MyChannelsActivity;
 import com.mitv.activities.SearchPageActivity;
-import com.mitv.activities.UpcomingEpisodesPageActivity;
+import com.mitv.activities.SplashScreenActivity;
 import com.mitv.activities.UserProfileActivity;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
-import com.mitv.interfaces.ActivityCallbackListener;
-import com.mitv.models.UpcomingBroadcastsForBroadcast;
+import com.mitv.interfaces.ViewCallbackListener;
+import com.mitv.models.TVDate;
+import com.mitv.ui.elements.FontTextView;
+import com.mitv.ui.elements.UndoBarController;
+import com.mitv.ui.elements.UndoBarController.UndoListener;
+import com.mitv.ui.helpers.DialogHelper;
 import com.mitv.ui.helpers.ToastHelper;
+import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
 
-public abstract class BaseActivity extends ActionBarActivity implements ActivityCallbackListener, OnClickListener {
+public abstract class BaseActivity extends ActionBarActivity implements ViewCallbackListener, OnClickListener, UndoListener {
 	private static final String TAG = BaseActivity.class.getName();
+	private static final int TV_DATE_NOT_FOUND = -1;
+
 	private static Stack<Activity> activityStack = new Stack<Activity>();
 
 	protected RelativeLayout tabTvGuide;
+	protected FontTextView tabTvGuideIcon;
+	protected FontTextView tabTvGuideText;
 	protected RelativeLayout tabActivity;
+	protected FontTextView tabActivityIcon;
+	protected FontTextView tabActivityText;
 	protected RelativeLayout tabProfile;
+	protected FontTextView tabProfileIcon;
+	protected FontTextView tabProfileText;
 	protected View tabDividerLeft;
 	protected View tabDividerRight;
 
-	private View requestEmptyLayout;
+	private RelativeLayout requestEmptyLayout;
 	private TextView requestEmptyLayoutDetails;
-	private View requestFailedLayout;
-	private View requestLoadingLayout;
+	private RelativeLayout requestLoadingLayout;
+	private RelativeLayout requestNoInternetConnectionLayout;
+	private Button requestrequestNoInternetConnectionRetryButton;
 
-	private Button requestFailedButton;
-	private Button requestBadButton;
-	private View requestBadLayout;
 	protected ActionBar actionBar;
+	private UndoBarController undoBarController;
 
 	private boolean userHasJustLoggedIn;
 	private boolean userHasJustLoggedOut;
+
+	protected RequestIdentifierEnum latestRequest;
 
 	/* Abstract Methods */
 
@@ -71,36 +89,41 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 	/* This method implementation should load all the necessary data from the webservice */
 	protected abstract void loadData();
 
+	/*
+	 * This method implementation should return true if all the data necessary to show the content view can be obtained
+	 * from cache without the need of external service calls
+	 */
+	protected abstract boolean hasEnoughDataToShowContent();
+
 	/* This method implementation should deal with changes after the data has been fetched */
 	protected abstract void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier);
 
 	@Override
-	protected void onCreate(android.os.Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		boolean enableStrictMode = Constants.ENABLE_STRICT_MODE;
-
-		if (enableStrictMode) {
-			// enableStrictMode();
-		}
 
 		/* Google Analytics Tracking */
 		EasyTracker.getInstance(this).activityStart(this);
-		String className = this.getClass().getName();
-		GATrackingManager.sendView(className);
 
-		initCallbackLayouts();
+		String className = this.getClass().getName();
+
+		GATrackingManager.sendView(className);
 	}
-	
+
+	@Override
+	public void onUndo(Parcelable token) {
+		loadDataWithConnectivityCheck();
+	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-
 		/* IMPORTANT add activity to activity stack */
 		pushActivityToStack(this);
 
 		setTabViews();
+
+		handleTimeAndDayOnResume();
 
 		Intent intent = getIntent();
 
@@ -135,22 +158,92 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 
 			ToastHelper.createAndShowToast(this, sb.toString());
 		} else {
-			if (userHasJustLoggedOut) {
+			if (userHasJustLoggedOut) 
+			{
 				StringBuilder sb = new StringBuilder();
-				// TODO NewArc - Hardcoded string for logout action
-				sb.append("logout");
+				sb.append(getString(R.string.logout_succeeded));
 
 				ToastHelper.createAndShowToast(this, sb.toString());
 			}
 		}
 	}
-	
-	private static void pushActivityToStack(Activity activity) {
-		/* If activity is tab activity, move it to the top */
-		if (isTabActivity(activity)) {
-			removeFromStack(activity);
+
+	private void handleTimeAndDayOnResume() {
+		/* Handle time */
+		int currentHour = DateUtils.getCurrentHourOn24HourFormat();
+		ContentManager.sharedInstance().setSelectedHour(currentHour);
+
+
+		
+		/* Handle day */
+		int indexOfTodayFromTVDates = getIndexOfTodayFromTVDates();
+		
+		/*
+		 * Index is not 0, means that the day have changed since the app was launched last time => refetch all the data
+		 */
+		if (indexOfTodayFromTVDates != TV_DATE_NOT_FOUND) {
+			if (indexOfTodayFromTVDates != 0) {
+				restartTheApp();
+			}
+		} else {
+			Log.w(TAG, "Could not find TVDate in list, this probably means that the user have manually set the date to somewhere more than"
+					+ "7 days away in time => refecth initial data");
+			restartTheApp();
 		}
-		activityStack.push(activity);
+	}
+	
+	private void restartTheApp() {
+		killAllActivitiesExceptThis();
+		Intent intent = new Intent(this, SplashScreenActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent);
+		finish();
+	}
+	
+	private void killAllActivitiesExceptThis() {
+		//TODO NewArc Clear cache??
+		for(Activity activity : activityStack) {
+			if(!activity.equals(this)) {
+				activity.finish();
+			}
+		}
+	}
+
+	private int getIndexOfTodayFromTVDates() {
+		int indexOfTodayFromTVDates = TV_DATE_NOT_FOUND;
+
+		List<TVDate> tvDates = ContentManager.sharedInstance().getFromCacheTVDates();
+		
+		if(tvDates != null) {
+			for(int i = 0; i < tvDates.size(); ++i) 
+			{
+				TVDate tvDate = tvDates.get(i);
+				
+				boolean isTVDateNow = DateUtils.isTodayUsingTVDate(tvDate);
+				
+				if(isTVDateNow) 
+				{
+					indexOfTodayFromTVDates = i;
+					break;
+				}
+			}
+		}
+
+		return indexOfTodayFromTVDates;
+	}
+
+	private static void pushActivityToStack(Activity activity) {
+
+		/*
+		 * If we got to this activity using the backpress button, then the Android OS will resume the latest activity,
+		 * since we are pushing the activity to the stack in this method, we need to make sure that we are pushing
+		 * ourselves to the stack if we already are in top of it.
+		 */
+		if (activityStack.isEmpty()) {
+			activityStack.push(activity);
+		} else if (activityStack.peek() != activity) {
+			activityStack.push(activity);
+		}
 
 		printActivityStack();
 	};
@@ -160,6 +253,7 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 		Log.d(TAG, ".");
 		Log.d(TAG, ".");
 		Log.d(TAG, "---<<<*** ActivityStack ***>>>---");
+
 		for (int i = activityStack.size() - 1; i >= 0; --i) {
 			Activity activityInStack = activityStack.get(i);
 			Log.d(TAG, activityInStack.getClass().getSimpleName());
@@ -168,8 +262,33 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 
 	/* Remove activity from activitStack */
 	private static void removeFromStack(Activity activity) {
+
 		if (activityStack.contains(activity)) {
-			activityStack.remove(activity);
+			if (activityStack.peek() == activity) {
+
+				int positionToRemove = activityStack.size() - 1;
+				activityStack.removeElementAt(positionToRemove);
+			}
+		}
+	}
+
+	/**
+	 * This if e.g. singleTask Activity HomeActivity gets destroyed by OS, remove all occurences in the activity stack
+	 */
+	private static void removeFromStackOnDestroy(Activity activity) {
+
+		for (int i = 0; i < activityStack.size(); ++i) {
+			if (activityStack.contains(activity)) {
+				activityStack.remove(activity);
+			}
+		}
+
+		printActivityStack();
+	}
+
+	private static void removeActivitiesThatRequiresLoginFromStack(Activity activity) {
+		if (activity instanceof BaseActivityLoginRequired) {
+			removeFromStackOnDestroy(activity);
 		}
 	}
 
@@ -201,34 +320,40 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 
 	public void setTabViews() {
 		tabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
+		tabTvGuideIcon = (FontTextView) findViewById(R.id.element_tab_icon_guide);
+		tabTvGuideText = (FontTextView) findViewById(R.id.element_tab_text_guide);
 
 		if (tabTvGuide != null) {
 			tabTvGuide.setOnClickListener(this);
 		}
 
 		tabActivity = (RelativeLayout) findViewById(R.id.tab_activity);
+		tabActivityIcon = (FontTextView) findViewById(R.id.element_tab_icon_activity);
+		tabActivityText = (FontTextView) findViewById(R.id.element_tab_text_activity);
 
 		if (tabActivity != null) {
 			tabActivity.setOnClickListener(this);
 		}
 
 		tabProfile = (RelativeLayout) findViewById(R.id.tab_me);
+		tabProfileIcon = (FontTextView) findViewById(R.id.element_tab_icon_me);
+		tabProfileText = (FontTextView) findViewById(R.id.element_tab_text_me);
 
 		if (tabProfile != null) {
 			tabProfile.setOnClickListener(this);
 		}
 
-		tabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
+		// tabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
+		//
+		// if (tabDividerLeft != null) {
+		// tabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
+		// }
 
-		if (tabDividerLeft != null) {
-			tabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
-		}
-
-		tabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
-
-		if (tabDividerRight != null) {
-			tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
-		}
+		// tabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
+		//
+		// if (tabDividerRight != null) {
+		// tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
+		// }
 
 		Activity mostRecentTabActivity = getMostRecentTabActivity();
 
@@ -245,43 +370,88 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 
 	protected void setSelectedTabAsTVGuide() {
 		if (tabTvGuide != null) {
-			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
+			// tabTvGuide.setBackgroundColor(getResources().getColor(R.color.red));
+			tabTvGuideIcon.setTextColor(getResources().getColor(R.color.white));
+			tabTvGuideText.setTextColor(getResources().getColor(R.color.white));
+			tabTvGuideIcon.setShadowLayer(2, 2, 2, getResources().getColor(R.color.tab_dropshadow));
+			tabTvGuideText.setShadowLayer(2, 2, 2, getResources().getColor(R.color.tab_dropshadow));
+
+			Typeface bold = FontManager.getFontBold(getApplicationContext());
+			tabTvGuideText.setTypeface(bold);
 		}
 
 		if (tabActivity != null) {
-			tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+			// tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+			tabActivityIcon.setTextColor(getResources().getColor(R.color.tab_unselected));
+			tabActivityText.setTextColor(getResources().getColor(R.color.tab_unselected));
+			tabActivityIcon.setShadowLayer(0, 0, 0, 0);
+			tabActivityText.setShadowLayer(0, 0, 0, 0);
 		}
 
 		if (tabProfile != null) {
-			tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+			// tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+			tabProfileIcon.setTextColor(getResources().getColor(R.color.tab_unselected));
+			tabProfileText.setTextColor(getResources().getColor(R.color.tab_unselected));
+			tabProfileIcon.setShadowLayer(0, 0, 0, 0);
+			tabProfileText.setShadowLayer(0, 0, 0, 0);
 		}
 	}
 
 	protected void setSelectedTabAsActivityFeed() {
 		if (tabTvGuide != null) {
-			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+			// tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+			tabTvGuideIcon.setTextColor(getResources().getColor(R.color.tab_unselected));
+			tabTvGuideText.setTextColor(getResources().getColor(R.color.tab_unselected));
+			tabTvGuideIcon.setShadowLayer(0, 0, 0, 0);
+			tabTvGuideText.setShadowLayer(0, 0, 0, 0);
 		}
 
 		if (tabActivity != null) {
-			tabActivity.setBackgroundColor(getResources().getColor(R.color.red));
+			// tabActivity.setBackgroundColor(getResources().getColor(R.color.red));
+			tabActivityIcon.setTextColor(getResources().getColor(R.color.white));
+			tabActivityText.setTextColor(getResources().getColor(R.color.white));
+			tabActivityIcon.setShadowLayer(2, 2, 2, getResources().getColor(R.color.tab_dropshadow));
+			tabActivityText.setShadowLayer(2, 2, 2, getResources().getColor(R.color.tab_dropshadow));
+
+			Typeface bold = FontManager.getFontBold(getApplicationContext());
+			tabActivityText.setTypeface(bold);
 		}
 
 		if (tabProfile != null) {
-			tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+			// tabProfile.setBackgroundColor(getResources().getColor(R.color.yellow));
+			tabProfileIcon.setTextColor(getResources().getColor(R.color.tab_unselected));
+			tabProfileText.setTextColor(getResources().getColor(R.color.tab_unselected));
+			tabProfileIcon.setShadowLayer(0, 0, 0, 0);
+			tabProfileText.setShadowLayer(0, 0, 0, 0);
 		}
 	}
 
 	protected void setSelectedTabAsUserProfile() {
 		if (tabTvGuide != null) {
-			tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+			// tabTvGuide.setBackgroundColor(getResources().getColor(R.color.yellow));
+			tabTvGuideIcon.setTextColor(getResources().getColor(R.color.tab_unselected));
+			tabTvGuideText.setTextColor(getResources().getColor(R.color.tab_unselected));
+			tabTvGuideIcon.setShadowLayer(0, 0, 0, 0);
+			tabTvGuideText.setShadowLayer(0, 0, 0, 0);
 		}
 
 		if (tabActivity != null) {
-			tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+			// tabActivity.setBackgroundColor(getResources().getColor(R.color.yellow));
+			tabActivityIcon.setTextColor(getResources().getColor(R.color.tab_unselected));
+			tabActivityText.setTextColor(getResources().getColor(R.color.tab_unselected));
+			tabActivityIcon.setShadowLayer(0, 0, 0, 0);
+			tabActivityText.setShadowLayer(0, 0, 0, 0);
 		}
 
 		if (tabProfile != null) {
-			tabProfile.setBackgroundColor(getResources().getColor(R.color.red));
+			// tabProfile.setBackgroundColor(getResources().getColor(R.color.red));
+			tabProfileIcon.setTextColor(getResources().getColor(R.color.white));
+			tabProfileText.setTextColor(getResources().getColor(R.color.white));
+			tabProfileIcon.setShadowLayer(2, 2, 2, getResources().getColor(R.color.tab_dropshadow));
+			tabProfileText.setShadowLayer(2, 2, 2, getResources().getColor(R.color.tab_dropshadow));
+
+			Typeface bold = FontManager.getFontBold(getApplicationContext());
+			tabProfileText.setTypeface(bold);
 		}
 	}
 
@@ -289,14 +459,11 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 	public void onClick(View v) {
 		int id = v.getId();
 
-		boolean changedTab = false;
-
 		switch (id) {
 		case R.id.tab_tv_guide: {
 			if (!(this instanceof HomeActivity)) {
 				Intent intentActivity = new Intent(this, HomeActivity.class);
 				startActivity(intentActivity);
-				changedTab = true;
 			}
 			break;
 		}
@@ -305,7 +472,6 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 			if (!(this instanceof FeedActivity)) {
 				Intent intentActivity = new Intent(this, FeedActivity.class);
 				startActivity(intentActivity);
-				changedTab = true;
 			}
 			break;
 		}
@@ -314,24 +480,18 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 			if (!(this instanceof UserProfileActivity)) {
 				Intent intentMe = new Intent(this, UserProfileActivity.class);
 				startActivity(intentMe);
-				changedTab = true;
 			}
 			break;
 		}
 
-		case R.id.request_failed_reload_button:
-		case R.id.bad_request_reload_button: {
-			if (!NetworkUtils.isConnectedAndHostIsReachable()) {
-				updateUI(UIStatusEnum.FAILED);
-			} else {
-				loadData();
-			}
+		case R.id.no_connection_reload_button: {
+			loadDataWithConnectivityCheck();
 
 			break;
 		}
 
 		default: {
-			Log.w(TAG, "Unknown tab selected");
+			Log.w(TAG, "Unknown onClick action");
 		}
 		}
 	}
@@ -396,16 +556,10 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 		EasyTracker.getInstance(this).activityStop(this);
 	}
 
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-
-		removeFromStack(this);
-	}
 
 	@Override
 	protected void onDestroy() {
-		removeFromStack(this);
+		removeFromStackOnDestroy(this);
 
 		super.onDestroy();
 	}
@@ -431,14 +585,26 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 		boolean isConnected = NetworkUtils.isConnected();
 
 		if (isConnected) {
-			loadData();
+			boolean hasInitialData = ContentManager.sharedInstance().getFromCacheHasInitialData();
+
+			if (hasInitialData) {
+				loadData();
+			} else {
+				updateUI(UIStatusEnum.LOADING);
+				ContentManager.sharedInstance().fetchFromServiceInitialCall(this, null);
+			}
 		} else {
-			updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
+			if (hasEnoughDataToShowContent()) {
+				loadData();
+			} else {
+				updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
+			}
 		}
 	}
-
+	
 	@Override
 	public final void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {
+		this.latestRequest = requestIdentifier;
 		switch (fetchRequestResult) {
 		case INTERNET_CONNECTION_AVAILABLE: {
 			loadData();
@@ -450,9 +616,32 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 			break;
 		}
 
+		case API_VERSION_TOO_OLD: {
+			break;
+		}
+
+		case SUCCESS:
 		default: {
-			// The remaining cases should be handled by the subclasses
-			onDataAvailable(fetchRequestResult, requestIdentifier);
+			if (requestIdentifier == RequestIdentifierEnum.TV_GUIDE_INITIAL_CALL) {
+				loadData();
+			} else {
+				if (requestIdentifier == RequestIdentifierEnum.USER_LOGOUT) {
+					/* When logged out go through stack and delete any activity that requires us to be logged in */
+					removeActivitiesThatRequiresLoginFromStack(this);
+				}
+
+				boolean isConnected = NetworkUtils.isConnected();
+
+				if (hasEnoughDataToShowContent() && isConnected == false) {
+					if (undoBarController != null) {
+						undoBarController.showUndoBar(true, getString(R.string.dialog_prompt_check_internet_connection), null);
+					} else {
+						Log.w(TAG, "Undo bar component is null.");
+					}
+				}
+
+				onDataAvailable(fetchRequestResult, requestIdentifier);
+			}
 			break;
 		}
 		}
@@ -472,16 +661,15 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 				break;
 			}
 
-			case NO_CONNECTION_AVAILABLE: {
-				if (requestBadLayout != null) {
-					requestBadLayout.setVisibility(View.VISIBLE);
-				}
+			case API_VERSION_TOO_OLD: {
+				DialogHelper.showMandatoryAppUpdateDialog(this);
 				break;
 			}
 
+			case NO_CONNECTION_AVAILABLE:
 			case FAILED: {
-				if (requestFailedLayout != null) {
-					requestFailedLayout.setVisibility(View.VISIBLE);
+				if (requestNoInternetConnectionLayout != null) {
+					requestNoInternetConnectionLayout.setVisibility(View.VISIBLE);
 				}
 				break;
 			}
@@ -493,7 +681,7 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 				break;
 			}
 
-			case SUCCEEDED_WITH_DATA:
+			case SUCCESS_WITH_CONTENT:
 			default: {
 				// Success or other cases should be handled by the subclasses
 				break;
@@ -505,16 +693,12 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 	}
 
 	private void hideRequestStatusLayouts() {
-		if (requestFailedLayout != null) {
-			requestFailedLayout.setVisibility(View.GONE);
-		}
-
 		if (requestLoadingLayout != null) {
 			requestLoadingLayout.setVisibility(View.GONE);
 		}
 
-		if (requestBadLayout != null) {
-			requestBadLayout.setVisibility(View.GONE);
+		if (requestNoInternetConnectionLayout != null) {
+			requestNoInternetConnectionLayout.setVisibility(View.GONE);
 		}
 
 		if (requestEmptyLayout != null) {
@@ -523,26 +707,26 @@ public abstract class BaseActivity extends ActionBarActivity implements Activity
 	}
 
 	private void initCallbackLayouts() {
-		requestFailedLayout = (RelativeLayout) findViewById(R.id.request_failed_main_layout);
-
-		requestFailedButton = (Button) findViewById(R.id.request_failed_reload_button);
-
-		if (requestFailedButton != null) {
-			requestFailedButton.setOnClickListener(this);
-		}
-
 		requestLoadingLayout = (RelativeLayout) findViewById(R.id.request_loading_main_layout);
 
 		requestEmptyLayout = (RelativeLayout) findViewById(R.id.request_empty_main_layout);
 
 		requestEmptyLayoutDetails = (TextView) findViewById(R.id.request_empty_details_tv);
 
-		requestBadLayout = (RelativeLayout) findViewById(R.id.bad_request_main_layout);
+		requestNoInternetConnectionLayout = (RelativeLayout) findViewById(R.id.no_connection_layout);
 
-		requestBadButton = (Button) findViewById(R.id.bad_request_reload_button);
+		requestrequestNoInternetConnectionRetryButton = (Button) findViewById(R.id.no_connection_reload_button);
 
-		if (requestBadButton != null) {
-			requestBadButton.setOnClickListener(this);
+		if (requestrequestNoInternetConnectionRetryButton != null) {
+			requestrequestNoInternetConnectionRetryButton.setOnClickListener(this);
+		}
+
+		View undoBarlayoutView = findViewById(R.id.undobar);
+
+		if (undoBarlayoutView != null) {
+			undoBarController = new UndoBarController(undoBarlayoutView, this);
+		} else {
+			Log.w(TAG, "Undo bar element not present.");
 		}
 	}
 

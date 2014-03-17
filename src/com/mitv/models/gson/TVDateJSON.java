@@ -3,19 +3,11 @@ package com.mitv.models.gson;
 
 
 
-import java.util.Calendar;
-
-
-
 public class TVDateJSON 
 {
 	protected String id;
 	protected String date;
 	protected String displayName;
-	
-	protected transient Calendar dateCalendar;
-	
-	
 	
 	public TVDateJSON()
 	{}
@@ -29,5 +21,11 @@ public class TVDateJSON
 	public String getDisplayName() 
 	{
 		return displayName;
+	}
+
+
+	public String getDate() 
+	{
+		return date;
 	}
 }

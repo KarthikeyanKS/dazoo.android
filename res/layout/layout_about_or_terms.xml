@@ -38,7 +38,10 @@
             android:layout_marginTop="5dp"
             android:gravity="left"
             android:linksClickable="true"
-            android:text="@string/terms_link" />
+            android:text="@string/terms_link"
+            android:textColorLink="@color/grey3"
+            android:textStyle="bold"
+            font:fonttextview="roboto_mitv_bold.ttf" />
     </LinearLayout>
 
     <RelativeLayout
@@ -70,7 +73,7 @@
             android:textColor="@color/grey2"
             android:textSize="13sp"
             android:textStyle="bold"
-            font:fonttextview="roboto_mitv_medium.ttf" />
+            font:fonttextview="roboto_mitv_bold.ttf" />
     </RelativeLayout>
 
     <include

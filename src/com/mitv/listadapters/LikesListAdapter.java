@@ -3,7 +3,7 @@ package com.mitv.listadapters;
 
 
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import android.util.Log;
@@ -33,12 +33,12 @@ public class LikesListAdapter
 	
 	private LayoutInflater layoutInflater;
 	private BaseActivity activity;
-	private ArrayList<UserLike>	userLikes;
+	private List<UserLike>	userLikes;
 	private int	currentPosition;
 
 	
 	
-	public LikesListAdapter(BaseActivity activity, ArrayList<UserLike> userLikes) 
+	public LikesListAdapter(BaseActivity activity, List<UserLike> userLikes) 
 	{
 		this.userLikes = userLikes;
 		this.activity = activity;		
@@ -165,6 +165,7 @@ public class LikesListAdapter
 				case SERIES:
 				{
 					holder.programTypeTv.setText(activity.getResources().getString(R.string.tv_series));
+					break;
 				}
 				
 				case SPORT_TYPE:

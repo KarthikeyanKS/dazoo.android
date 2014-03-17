@@ -6,7 +6,7 @@ package com.mitv.asynctasks.usertoken;
 import com.mitv.Constants;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.models.DummyData;
 import com.mitv.models.UserLike;
@@ -36,10 +36,10 @@ public class RemoveUserLike
 	
 	public RemoveUserLike(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener,
+			ViewCallbackListener activityCallbackListener,
 			UserLike userLike)
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_REMOVE_LIKE, DummyData.class, HTTPRequestTypeEnum.HTTP_DELETE, buildURL(userLike));
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_REMOVE_LIKE, DummyData.class, HTTPRequestTypeEnum.HTTP_DELETE, buildURL(userLike));
 		
 		this.userLike = userLike;
 	}

@@ -11,7 +11,7 @@ import com.androidquery.callback.AjaxCallback;
 import com.mitv.asynctasks.GetTVSearchResults;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.models.SearchResultsForQuery;
 import com.mitv.models.TVSearchResults;
@@ -66,7 +66,7 @@ public class TVSearchAsyncTaskTest implements ContentCallbackListener
 
 
 	@Override
-	public void onResult(ActivityCallbackListener activityCallBackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content) {
+	public void onResult(ViewCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content) {
 		Assert.assertTrue(result.wasSuccessful());
 		SearchResultsForQuery searchResultForQuery = (SearchResultsForQuery) content;
 		Assert.assertNotNull(searchResultForQuery);

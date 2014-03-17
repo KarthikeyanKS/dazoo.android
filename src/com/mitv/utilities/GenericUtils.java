@@ -112,8 +112,10 @@ public abstract class GenericUtils
 	
 	
 	
-    public static PackageInfo getPackageInfo(final Context context)
+    public static PackageInfo getPackageInfo()
 	{
+    	Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+    	
 		PackageInfo pInfo;
     	
 		try 
@@ -129,6 +131,13 @@ public abstract class GenericUtils
 		
 		return pInfo;
 	}
+    
+    
+    
+    public static String getCurrentAppVersion()
+    {
+		return getPackageInfo().versionName;
+    }
     
     
     
@@ -172,7 +181,7 @@ public abstract class GenericUtils
     {
 		int screenWidth = 0;
 		
-		if (Build.VERSION.SDK_INT >= 11) 
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) 
 		{
 	        Point size = new Point();
 	        
@@ -207,7 +216,7 @@ public abstract class GenericUtils
 	{
 		int screenHeight = 0;
 		
-		if (Build.VERSION.SDK_INT >= 11) 
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) 
 		{
 	        Point size = new Point();
 	      

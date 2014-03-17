@@ -3,8 +3,8 @@ package com.mitv.listadapters;
 
 
 
-import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -14,24 +14,31 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
-import com.mitv.utilities.DateUtils;
+
 import com.mitv.FontManager;
 import com.mitv.R;
 import com.mitv.models.TVDate;
+import com.mitv.utilities.DateUtils;
 
 
 
-public class ActionBarDropDownDateListAdapter extends BaseAdapter implements SpinnerAdapter {
-
+public class ActionBarDropDownDateListAdapter 
+	extends BaseAdapter 
+	implements SpinnerAdapter 
+{
+	@SuppressWarnings("unused")
 	private static final String TAG = ActionBarDropDownDateListAdapter.class.getName();
+	
+	
 	private static final int NO_SELECTION = -1;
 
 	private Context context;
-	private ArrayList<TVDate> tvDates;
+	private List<TVDate> tvDates;
 
 	private int selectedIndex = NO_SELECTION;
 
-	public ActionBarDropDownDateListAdapter(Context context, ArrayList<TVDate> mDays) {
+	public ActionBarDropDownDateListAdapter(Context context, List<TVDate> mDays) 
+	{
 		this.context = context;
 		this.tvDates = mDays;
 	}
@@ -96,7 +103,7 @@ public class ActionBarDropDownDateListAdapter extends BaseAdapter implements Spi
 		if (selectedIndex != NO_SELECTION) {
 			TVDate tvDate = getItem(position);
 			try {
-				Calendar calendar = tvDate.getDateCalendar();
+				Calendar calendar = tvDate.getStartOfTVDayCalendar();
 				dayName.setText(tvDate.getDisplayName());
 				dayAndMonth.setText(DateUtils.buildDayAndMonthCompositionAsString(calendar));
 			} catch (Exception e) {

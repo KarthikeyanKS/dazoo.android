@@ -12,70 +12,80 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:background="@color/yellow"
         android:gravity="center_vertical"
         android:orientation="vertical" >
 
         <com.mitv.ui.elements.FontTextView
-            android:id="@+id/elemement_tab_icon_guide"
+            android:id="@+id/element_tab_icon_guide"
             style="@style/TabsIcon"
             android:layout_marginTop="@dimen/tab_margin_to_icon"
             android:text="@string/icon_tvguide" />
 
         <com.mitv.ui.elements.FontTextView
+            android:id="@+id/element_tab_text_guide"
             style="@style/TabsText"
-            android:layout_below="@id/elemement_tab_icon_guide"
+            android:layout_below="@id/element_tab_icon_guide"
             android:layout_marginTop="@dimen/tab_margin_between_icon_and_text"
             android:text="@string/tab_tv_guide" />
     </RelativeLayout>
 
-    <View
+    <!--
+        View
         android:id="@+id/tab_left_divider_container"
         android:layout_width="1dp"
-        android:layout_height="@dimen/bottom_tabs_height" />
+        android:layout_height="@dimen/bottom_tabs_height" /
+    -->
 
     <RelativeLayout
         android:id="@+id/tab_activity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:background="@color/yellow"
         android:gravity="center_vertical"
         android:orientation="vertical" >
 
         <com.mitv.ui.elements.FontTextView
-            android:id="@+id/elemement_tab_icon_activity"
+            android:id="@+id/element_tab_icon_activity"
             style="@style/TabsIcon"
             android:layout_marginTop="@dimen/tab_margin_to_icon"
             android:text="@string/icon_activity" />
 
         <com.mitv.ui.elements.FontTextView
+            android:id="@+id/element_tab_text_activity"
             style="@style/TabsText"
-            android:layout_below="@id/elemement_tab_icon_activity"
+            android:layout_below="@id/element_tab_icon_activity"
             android:layout_marginTop="@dimen/tab_margin_between_icon_and_text"
             android:text="@string/tab_activity" />
     </RelativeLayout>
 
-    <View
+    <!--
+        View
         android:id="@+id/tab_right_divider_container"
         android:layout_width="1dp"
-        android:layout_height="@dimen/bottom_tabs_height" />
+        android:layout_height="@dimen/bottom_tabs_height" /
+    -->
 
     <RelativeLayout
         android:id="@+id/tab_me"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:background="@color/yellow"
         android:gravity="center_vertical"
         android:orientation="vertical" >
 
         <com.mitv.ui.elements.FontTextView
-            android:id="@+id/elemement_tab_icon_me"
+            android:id="@+id/element_tab_icon_me"
             style="@style/TabsIcon"
             android:layout_marginTop="@dimen/tab_margin_to_icon"
             android:text="@string/icon_my_profile" />
 
         <com.mitv.ui.elements.FontTextView
+            android:id="@+id/element_tab_text_me"
             style="@style/TabsText"
-            android:layout_below="@id/elemement_tab_icon_me"
+            android:layout_below="@id/element_tab_icon_me"
             android:layout_marginTop="@dimen/tab_margin_between_icon_and_text"
             android:text="@string/tab_me" />
     </RelativeLayout>

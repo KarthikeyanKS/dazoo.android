@@ -19,36 +19,36 @@ import com.google.gson.JsonParseException;
 public class AppConfigurationJSON
 	implements JsonDeserializer<AppConfigurationJSON>
 {
-	private int firstHourOfDay;
-	private String welcomeToast;
+	protected int firstHourOfDay;
+	protected String welcomeToast;
 
 	/* Ad configuration */
-	private boolean adsEnabled;
-	private int adzerkNetworkId;
-	private int adzerkSiteId;
-	private int adzerkLevel;
-	private List<Integer> adzerkFormats;
-	private List<Integer> adzerkFormatsForActivity;
-	private List<Integer> adzerkFormatsForAndroidGuide;
+	protected boolean adsEnabled;
+	protected int adzerkNetworkId;
+	protected int adzerkSiteId;
+	protected int adzerkLevel;
+	protected List<Integer> adzerkFormats;
+	protected List<Integer> adzerkFormatsForActivity;
+	protected List<Integer> adzerkFormatsForAndroidGuide;
 	
 	
 	/* Google Analytics configuration */
-	private double googleAnalyticsSampleRate;
-	private boolean googleAnalyticsEnabled;
-	private String googleAnalyticsTrackingId;
+	protected double googleAnalyticsSampleRate;
+	protected boolean googleAnalyticsEnabled;
+	protected String googleAnalyticsTrackingId;
 	
 	
 	/* Cell count configuration */
-	private int activityCellCountBetweenAdCells;
-	private int cellCountBetweenAdCells;
+	protected int feedActivityCellCountBetweenAdCells;
+	protected int guideFragmentCellCountBetweenAdCells;
 	
 	
 	/* Facebook configuration */
-	private String facebookAppID;
+	protected String facebookAppID;
 	
 	
 	/* Tracking configuration */
-	private String trackingDomain;
+	protected String trackingDomain;
 	
 	
 	
@@ -91,7 +91,7 @@ public class AppConfigurationJSON
 		
 		jsonElement = jsonObject.get("android.activity.cellCountBetweenAdCells");
 		
-		activityCellCountBetweenAdCells = jsonElement.getAsInt();
+		feedActivityCellCountBetweenAdCells = jsonElement.getAsInt();
 		
 		jsonElement = jsonObject.get("adzerkSiteId");
 		
@@ -210,7 +210,7 @@ public class AppConfigurationJSON
 		
 		jsonElement = jsonObject.get("android.guide.cellCountBetweenAdCells");
 		
-		cellCountBetweenAdCells = jsonElement.getAsInt();
+		guideFragmentCellCountBetweenAdCells = jsonElement.getAsInt();
 		
 		return this;
 	}
@@ -288,19 +288,6 @@ public class AppConfigurationJSON
 	}
 
 
-
-	public int getActivityCellCountBetweenAdCells() {
-		return activityCellCountBetweenAdCells;
-	}
-
-
-
-	public int getCellCountBetweenAdCells() {
-		return cellCountBetweenAdCells;
-	}
-
-
-
 	public String getFacebookAppID() {
 		return facebookAppID;
 	}
@@ -310,4 +297,18 @@ public class AppConfigurationJSON
 	public String getTrackingDomain() {
 		return trackingDomain;
 	}
+
+
+
+	public int getFeedActivityCellCountBetweenAdCells() {
+		return feedActivityCellCountBetweenAdCells;
+	}
+
+
+
+	public int getGuideFragmentCellCountBetweenAdCells() {
+		return guideFragmentCellCountBetweenAdCells;
+	}
+
+	
 }

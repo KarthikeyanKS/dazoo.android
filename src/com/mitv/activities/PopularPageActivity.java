@@ -52,15 +52,28 @@ public class PopularPageActivity extends BaseContentActivity implements
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
+		
+		finish();
 	}
 
+	
 	@Override
-	protected void loadData() {
+	protected void loadData() 
+	{
 		updateUI(UIStatusEnum.LOADING);
 
-		ContentManager.sharedInstance()
-				.getElseFetchFromServicePopularBroadcasts(this, false);
+		ContentManager.sharedInstance().getElseFetchFromServicePopularBroadcasts(this, false);
 	}
+	
+	
+	
+	@Override
+	protected boolean hasEnoughDataToShowContent()
+	{
+		return ContentManager.sharedInstance().getFromCacheHasPopularBroadcasts();
+	}
+	
+	
 
 	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult,
@@ -70,7 +83,7 @@ public class PopularPageActivity extends BaseContentActivity implements
 			popularBroadcasts = ContentManager.sharedInstance()
 					.getFromCachePopularBroadcasts();
 
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 
 			break;
 		}
@@ -88,7 +101,7 @@ public class PopularPageActivity extends BaseContentActivity implements
 		super.updateUIBaseElements(status);
 
 		switch (status) {
-		case SUCCEEDED_WITH_DATA: {
+		case SUCCESS_WITH_CONTENT: {
 			adapter = new PopularListAdapter(this, popularBroadcasts);
 			listView.setAdapter(adapter);
 			listView.setVisibility(View.VISIBLE);

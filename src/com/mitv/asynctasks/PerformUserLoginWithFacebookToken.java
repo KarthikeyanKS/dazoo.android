@@ -8,7 +8,7 @@ import android.util.Log;
 import com.mitv.Constants;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.models.UserLoginData;
 import com.mitv.models.gson.serialization.UserFacebookTokenData;
@@ -26,10 +26,10 @@ public class PerformUserLoginWithFacebookToken
 	
 	public PerformUserLoginWithFacebookToken(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener,
+			ViewCallbackListener activityCallbackListener,
 			String facebookToken) 
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_FB_TOKEN, UserLoginData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_FB_TOKEN, UserLoginData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
 		
 		UserFacebookTokenData userFacebookTokenData = new UserFacebookTokenData();
 		userFacebookTokenData.setFacebookToken(facebookToken);

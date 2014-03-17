@@ -6,14 +6,19 @@
     <string name="app_id" translatable="false">265897563561764</string>
     <string name="noImageContentDescription" translatable="false"></string>
     
+     <!-- GOOGLE PLAY MARKET URLS -->
+    <string name="market_url_for_google_play_market_details" translatable="false">market://details?id=</string> 
+    <string name="http_url_for_google_play_market_details" translatable="false">http://play.google.com/store/apps/details?id=</string> 
+    
+ 
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
     <!-- HOMEPAGE : TABS -->
 
-    <string name="tab_tv_guide">TV GUIDE</string>
-    <string name="tab_activity">ACTIVITY</string>
-    <string name="tab_me">ME</string>
+    <string name="tab_tv_guide">TV Guide</string>
+    <string name="tab_activity">Activity</string>
+    <string name="tab_me">My profile</string>
 
     <!-- HOMEPAGE : FILTERING BY DAY -->
     <string name="today">Today</string>
@@ -24,24 +29,22 @@
 
     <!-- ICONS -->
 
-    <string name="icon_reminder" translatable="false"> 	&#x0393;</string>
+    <string name="icon_reminder" translatable="false"> 		&#x0393;</string>
     <string name="icon_clock" translatable="false"> 		&#x0394;</string>
-    <string name="icon_letter" translatable="false"> 	&#x0395;</string>
-    <string name="icon_facebook" translatable="false"> 	&#x0396;</string>
+    <string name="icon_letter" translatable="false"> 		&#x0395;</string>
+    <string name="icon_facebook" translatable="false"> 		&#x0396;</string>
     <string name="icon_heart" translatable="false"> 		&#x0398;</string>
-    <string name="icon_live" translatable="false"> 		&#x0399;</string>
-    <string name="icon_blocks" translatable="false"> 	&#x039A;</string>
-    <string name="icon_search" translatable="false"> 	&#x039B;</string>
-    <string name="icon_settings" translatable="false"> 	&#x039C;</string>
-    <!-- share should go here -->
-    <string name="icon_twitter" translatable="false"> 	&#x039E;</string>
-    <string name="icon_tvguide" translatable="false">	&#x039F;</string>
-    <string name="icon_activity" translatable="false"> 	&#x03A0;</string>
-    <string name="icon_my_profile" translatable="false"> &#x03A1;</string>
+    <string name="icon_live" translatable="false"> 			&#x0399;</string>
+    <string name="icon_blocks" translatable="false"> 		&#x039A;</string>
+    <string name="icon_search" translatable="false"> 		&#x039B;</string>
+    <string name="icon_settings" translatable="false"> 		&#x039C;</string>
+    <string name="icon_share" translatable="false">			&#x039D;</string>
+    <string name="icon_twitter" translatable="false"> 		&#x039E;</string>
+    <string name="icon_tvguide" translatable="false">		&#x039F;</string>
+    <string name="icon_activity" translatable="false"> 		&#x03A0;</string>
+    <string name="icon_my_profile" translatable="false"> 	&#x03A1;</string>
     <string name="icon_movie" translatable="false"> 		&#x03A2;</string>
     <string name="icon_add_channels" translatable="false">	&#x03A3;</string>
-
-    <!-- Not used -->
 
     <string name="icon_trending" translatable="false"> 	&#x0397;</string>
     <string name="icon_magnet" translatable="false"> 	&#x039B;</string>
@@ -49,31 +52,24 @@
     <string name="icon_pin" translatable="false"> 		&#xE800;</string>
     <string name="icon_series" translatable="false"> 	&#xE801;</string>
 
-    <!-- <string name="icon_timetable">	&#x039F;</string> -->
-    <!-- <string name="icon_live"> 		&#x0399; </string> -->
-    <!-- <string name="icon_movie"> 		&#x03A2;</string> -->
-    <!-- <string name="icon_settings"> 	&#x039C;</string> -->
-    <!-- <string name="icon_magnet"> 	&#x039B;</string> -->
-    <!-- <string name="icon_series"> 	&#xE801;</string> -->
-    <!-- <string name="icon_letter"> 	&#x0395;</string> -->
-    <!-- <string name="icon_feed"> 		&#x03A0;</string> -->
-    <!-- <string name="icon_search"> 	&#xE812;</string> -->
-    <!-- <string name="icon_pin"> 		&#xE800;</string> -->
-    <!-- <string name="icon_me"> 		&#x03A1;</string> -->
-    <!-- <string name="icon_facebook"> 	&#x0396;</string> -->
-    <!-- <string name="icon_heart"> 		&#x0398;</string> -->
-    <!-- <string name="icon_trending"> 	&#x0397;</string> -->
-    <!-- <string name="icon_clock"> 		&#x0394;</string> -->
-    <!-- <string name="icon_twitter"> 	&#x039E;</string> -->
-    <!-- <string name="icon_blocks"> 	&#x039A;</string> -->
-    <!-- <string name="icon_bookmark"> 	&#xE804;</string> -->
-
-
     <!-- SPLASH SCREEN ACTIVITY -->
     <string name="splash_screen_activity_text">We guide, inspire and socialize your TV experience so you never miss a thing</string>
+    
+    <!-- CONTENTMANAGER RESPONSE MESSAGES -->
+    <string name="response_activityfeed">Fetched user activity feed</string>
+    <string name="response_activityfeed_more">Fetched more data for the user activity feed</string>
+    <string name="response_configuration_data">Fetched app configuration data</string>
+    <string name="response_app_version_data">Fetched app version data</string>
+    <string name="response_tv_dates_data">Fetched tv dates data</string>
+    <string name="response_tv_channel_id_data">Fetched tv channel id data</string>
+    <string name="response_tv_genres_data">Fetched tv genres data</string>
+    <string name="response_tv_channel_data">Fetched tv channel data</string>
+    <string name="response_tv_guide_data">Fetched tv guide data</string>
+    <string name="response_user_likes">Fetched user likes</string>
 
     <!-- HOMEPAGE : FILTER BY CATEGORY -->
     <string name="tv_guide">TV Guide</string>
+    <string name="unknown_tab">Unknown</string>
 
     <!-- CONTENT DESCRIPTION -->
     <string name="tv_guide_rating_icon">TV Guide content rating image</string>
@@ -182,6 +178,7 @@
     <string name="login_with_twitter">Login with Twitter</string>
     <string name="login_with_mitv">Login</string>
     <string name="logout_from_mitv">Logout</string>
+    <string name="logout_succeeded">Logout</string>
     <string name="hint_password">Password</string>
     <string name="hint_password_min_chars">Password (min 6 chars)</string>
     <string name="hint_email">E-mail</string>
@@ -201,6 +198,7 @@
     <string name="sign_up">Sign up</string>
     <string name="already_registered">Already registered?</string>
     <string name="login_with_email">Login with email</string>
+    <string name="login_with_email_failed">Login was unsuccessful.</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="join">Sign up</string>
     <string name="forgot_your_password">Forgot your password?</string>
@@ -211,6 +209,7 @@
     <string name="reset_password_mail_spam_text">Can\'t find our email? Check your spam folder</string>
     <string name="submit">Continue</string>
     <string name="facebook_login_proceeds">Connecting to Facebook&#8230;</string>
+    <string name="facebook_login_failed">Facebook login was unsuccessful.</string>
     <string name="set_your_channels">Set your channels</string>
     <string name="connect_with_friends">Connect with friends</string>
     <string name="take_the_tour">Take a tour</string>
@@ -226,8 +225,8 @@
     <string name="signup_characters">at least 6 characters</string>
     <string name="signup_email_example">example@abc.com</string>
     <string name="login_with_wrong_info">Email or password were incorrect.</string>
-    <string name="login_with_wrong_format_email">Check if password was input right!</string>
-    <string name="login_with_wrong_format_password">Check if e-mail was input right!</string>
+    <string name="login_with_wrong_format_email">Check if e-mail was input right!</string>
+    <string name="login_with_wrong_format_password">Check if password was input right!</string>
     <string name="sign_up_terms_info">By signing up, you agree to the</string>
     <string name="sign_up_terms_link"><![CDATA[<a href="http://www.mi.tv/terminos">Terms of Service</a>]]></string>
     <string name="success_account_created_title">Hello, </string>
@@ -284,8 +283,8 @@
     <string name="dialog_prompt_update_text">You must update mi.tv to the latest version!</string>
     <string name="dialog_prompt_update_google_play">Go to Google play</string>
 
-    
+    <!-- NO CONNECTION CUSTOM DIALOG -->
     <string name="dialog_prompt_check_internet_connection">Please check your internet connection</string> 
-    <string name="dialog_prompt_check_internet_connection_retry_buttom">Retry</string> 
-    
+    <string name="dialog_prompt_check_internet_connection_button">Retry</string> 
+       
 </resources>

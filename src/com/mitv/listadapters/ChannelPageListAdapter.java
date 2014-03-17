@@ -14,12 +14,12 @@ import android.widget.TextView;
 
 import com.mitv.Constants;
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.ChannelRowTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.models.TVBroadcast;
 import com.mitv.utilities.LanguageUtils;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
@@ -32,6 +32,7 @@ public class ChannelPageListAdapter extends BaseAdapter {
 	private Activity				activity;
 	private ArrayList<TVBroadcast>	currentAndUpcomingbroadcasts;
 	private ViewHolder				holder;
+	private boolean					isAiring = false;
 
 	
 	
@@ -102,18 +103,20 @@ public class ChannelPageListAdapter extends BaseAdapter {
 		holder = (ViewHolder) rowView.getTag();
 
 		if (broadcast != null) {
+			String title = broadcast.getProgram().getTitle();
+			
 			if (getItemViewType(position) == 0) {
 				// MC - Set the image for current broadcast.
 				ImageAware imageAware = new ImageViewAware(holder.logo, false);
-				ImageLoader.getInstance().displayImage(broadcast.getProgram().getImages().getLandscape().getLarge(), imageAware);
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(broadcast.getProgram().getImages().getLandscape().getLarge(), imageAware);
 				
 				LanguageUtils.setupProgressBar(activity, broadcast, holder.durationProgressBar, holder.timeLeft);
+				isAiring = true;
 			}
 
 			// MC - Set the begin time of the broadcast.
 
 			holder.startTime.setText(broadcast.getBeginTimeHourAndMinuteLocalAsString());
-			String title = broadcast.getProgram().getTitle();
 			
 			switch (programType) {
 			case MOVIE: {
@@ -125,28 +128,35 @@ public class ChannelPageListAdapter extends BaseAdapter {
 				int season = broadcast.getProgram().getSeason().getNumber();
 				int episode = broadcast.getProgram().getEpisodeNumber();
 				String seasonEpisode = "";
+				
 				if (season > 0) {
 					seasonEpisode += activity.getResources().getString(R.string.season) + " " + season + " ";
 				}
 				if (episode > 0) {
 					seasonEpisode += activity.getResources().getString(R.string.episode) + " " + episode;
 				}
+				
 				holder.description.setText(seasonEpisode);
 				holder.title.setText(broadcast.getProgram().getSeries().getName());
 				break;
 			}
 			case SPORT: {
-				if (Constants.BROADCAST_TYPE_LIVE.equals(broadcastType)) {
+				if (Constants.BROADCAST_TYPE_LIVE.equals(broadcastType.toString())) {
 					holder.title.setText(activity.getResources().getString(R.string.icon_live) + " " + title);
-					holder.description.setText(broadcast.getProgram().getSportType().getName() + ": " + broadcast.getProgram().getTournament());
 				} else {
-					holder.description.setText(broadcast.getProgram().getSportType().getName() + ": " + broadcast.getProgram().getTournament());
 					holder.title.setText(title);
 				}
+
+				holder.description.setText(broadcast.getProgram().getSportType().getName() + ": " + broadcast.getProgram().getTournament());
 				break;
 			}
 			case OTHER: {
-				holder.title.setText(title);
+				if (Constants.BROADCAST_TYPE_LIVE.equals(broadcastType.toString()))  {
+					holder.title.setText(activity.getResources().getString(R.string.icon_live) + " " + title);
+				} else {
+					holder.title.setText(title);
+				}
+				
 				holder.description.setText(broadcast.getProgram().getCategory());
 				break;
 			}
@@ -158,9 +168,20 @@ public class ChannelPageListAdapter extends BaseAdapter {
 				break;
 			}
 			}
+			
+			setOnGoingElementRed();
 		}
 			
 		return rowView;
+	}
+	
+	/* If a show is airing, we set it to be red */
+	private void setOnGoingElementRed() {
+		if (isAiring) {
+			holder.title.setTextColor(activity.getResources().getColor(R.color.red));
+			holder.startTime.setTextColor(activity.getResources().getColor(R.color.red));
+			isAiring = false;
+		}
 	}
 
 	@Override

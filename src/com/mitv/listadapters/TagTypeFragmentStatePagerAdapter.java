@@ -3,57 +3,92 @@ package com.mitv.listadapters;
 
 
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.imbryk.viewPager.LoopViewPager;
+import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.fragments.TVGuideTableFragment;
 import com.mitv.models.TVDate;
 import com.mitv.models.TVTag;
 
 
 
-public class TagTypeFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
-
+public class TagTypeFragmentStatePagerAdapter
+	extends FragmentStatePagerAdapter 
+{
 	@SuppressWarnings("unused")
 	private static final String TAG = TagTypeFragmentStatePagerAdapter.class.getName();
-	private ArrayList<TVTag> mTags;
-	private TVDate mTvDate;
-	private FragmentManager fm;
+	
+	
+	private List<TVTag> tvTags;
+	private TVDate tvDate;
 
 	
 	
-	public TagTypeFragmentStatePagerAdapter(FragmentManager fm, ArrayList<TVTag> tags, TVDate tvDate) {
+	public TagTypeFragmentStatePagerAdapter(FragmentManager fm, List<TVTag> tags, TVDate tvDate) 
+	{
 		super(fm);
-		this.fm = fm;
-		this.mTags = tags;
-		this.mTvDate = tvDate;
-	}
-
-	@Override
-	public Fragment getItem(int position) {
-		position = LoopViewPager.toRealPosition(position, getCount());
 		
-		return TVGuideTableFragment.newInstance(mTags.get(position), mTvDate);
+		this.tvTags = tags;
+		this.tvDate = tvDate;
 	}
 	
+	
+	
 	@Override
-	public CharSequence getPageTitle(int position) {
-		TVTag tvTag = mTags.get(position % mTags.size());
-		return tvTag.getDisplayName();
+	public Fragment getItem(int position)
+	{
+		int realPosition = LoopViewPager.toRealPosition(position, getCount());
+		
+		TVTag tvTag = tvTags.get(realPosition);
+		
+		/* This instance will only be created when needed by the pager adapter */
+		TVGuideTableFragment tvGuideTableFragment = TVGuideTableFragment.newInstance(tvTag, tvDate);
+		
+		return tvGuideTableFragment;
+	}
+	
+	
+	
+	@Override
+	public CharSequence getPageTitle(int position) 
+	{
+		String displayName;
+		
+		if(getCount() > 0)
+		{	
+			int realPosition = position % getCount();
+			
+			TVTag tvTag = tvTags.get(realPosition);
+			
+			displayName = tvTag.getDisplayName();
+		}
+		else
+		{
+			displayName = SecondScreenApplication.sharedInstance().getString(R.string.unknown_tab);
+		}
+		
+		return displayName;
 	}
 
-	@Override
-	public int getCount() {
-		return mTags.size();
-	}
+	
 	
 	@Override
-	public int getItemPosition(Object object) {
-	    return POSITION_NONE;
+	public int getCount() 
+	{
+		return tvTags.size();
+	}
+	
+	
+	
+	@Override
+	public int getItemPosition(Object object) 
+	{
+	    return POSITION_UNCHANGED;
 	}
 }
-

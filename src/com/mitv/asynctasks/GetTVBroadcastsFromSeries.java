@@ -11,7 +11,7 @@ import android.util.Log;
 import com.mitv.Constants;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.models.UpcomingBroadcastsForBroadcast;
@@ -47,10 +47,10 @@ public class GetTVBroadcastsFromSeries
 	
 	public GetTVBroadcastsFromSeries(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener,
+			ViewCallbackListener activityCallbackListener,
 			String tvSeriesId) 
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.BROADCASTS_FROM_SERIES_UPCOMING, TVBroadcastWithChannelInfo[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(tvSeriesId));
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.BROADCASTS_FROM_SERIES_UPCOMING, TVBroadcastWithChannelInfo[].class, HTTPRequestTypeEnum.HTTP_GET, buildURL(tvSeriesId));
 	}
 	
 	

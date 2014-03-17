@@ -8,15 +8,11 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
+import android.os.Build;
+import android.os.StrictMode;
 import android.util.Log;
-
 import com.mitv.utilities.AppDataUtils;
-import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.utils.L;
+import com.mitv.utilities.GenericUtils;
 
 
 
@@ -30,7 +26,8 @@ public class SecondScreenApplication
 
 	
 	
-	public SecondScreenApplication() {}
+	public SecondScreenApplication() 
+	{}
 
 	
 	
@@ -44,7 +41,6 @@ public class SecondScreenApplication
 		return instance;
 	}
 
-	
 
 	public static boolean applicationIsSystemApp(Context context) 
 	{
@@ -86,7 +82,7 @@ public class SecondScreenApplication
 			ApplicationInfo applicationInfo = context.getPackageManager().getApplicationInfo(packageName, 0);
 
 			// FLAG_SYSTEM is only set to system applications,
-			// this will work even if application is installed in external storage
+			// This should work even if application is installed in external storage
 
 			// Check if package is system app
 			if ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) 
@@ -109,35 +105,87 @@ public class SecondScreenApplication
 	{
 		super.onCreate();
 
+		/* Initial call to AppDataUtils, in order to initialize the SharedPreferences object */
+		AppDataUtils.sharedInstance(this);
+		
+		/* Initial call to ImageLoaderManager, in order to configure the image loader objects */
+		ImageLoaderManager.sharedInstance(this);
+		
 		instance = this;
 
-		// Used in views where we don't want to reset the view itself
-		DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisc(true).build();
+		boolean enableStrictMode = Constants.ENABLE_STRICT_MODE;
 
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext()).defaultDisplayImageOptions(displayImageOptions)
-				.memoryCache(new LruMemoryCache(2 * 1024 * 1024)).memoryCacheSize(2 * 1024 * 1024).discCacheSize(50 * 1024 * 1024).discCacheFileCount(100)
-				.tasksProcessingOrder(QueueProcessingType.LIFO).build();
-		
-		ImageLoader.getInstance().init(config);
+		if (enableStrictMode) 
+		{
+			StrictMode.ThreadPolicy threadPolicy;
+			
+			/* The following policies are not available prior to API Level 11:
+			 * 
+			 *  detectCustomSlowCalls()
+			 *  penaltyDeathOnNetwork()
+			 *  penaltyFlashScreen()
+			 *  permitCustomSlowCalls()
+			 *  
+			 **/
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) 
+			{
+				threadPolicy = new StrictMode.ThreadPolicy.Builder()
+				.detectDiskReads()
+				.detectDiskWrites()
+				.detectNetwork()
+				.penaltyLog()
+				.penaltyFlashScreen()
+				.build();
+			}
+			else
+			{
+				threadPolicy = new StrictMode.ThreadPolicy.Builder()
+				.detectDiskReads()
+				.detectDiskWrites()
+				.detectNetwork()
+				.penaltyLog()
+				.build();
+			}
 
-		L.disableLogging();
+			StrictMode.setThreadPolicy(threadPolicy);
+
+			StrictMode.VmPolicy vmPolicy;
+			
+			/* The following policies are not available prior to API Level 11:
+			 * 
+			 *  detectActivityLeaks()
+			 *  detectFileUriExposure()
+			 *  detectLeakedClosableObjects()
+			 *  detectLeakedRegistrationObjects()
+			 *  
+			 **/
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) 
+			{
+				vmPolicy = new StrictMode.VmPolicy.Builder()
+				.detectLeakedSqlLiteObjects()
+				.detectLeakedClosableObjects()
+				//.penaltyLog()
+				.build();
+			}
+			else
+			{
+				vmPolicy = new StrictMode.VmPolicy.Builder()
+				.detectLeakedSqlLiteObjects()
+				//.penaltyLog()
+				.build();
+			}
+			
+			StrictMode.setVmPolicy(vmPolicy);
+		}
 		
-		// Imageloader that reset views before loading
-		// DisplayImageOptions resetViewDisplayImageOptions = new DisplayImageOptions.Builder()
-		// .cacheInMemory(true)
-		// .cacheOnDisc(true)
-		// .resetViewBeforeLoading(true)
-		// .build();
-		//
-		// ImageLoaderConfiguration resetViewConfig = new ImageLoaderConfiguration.Builder(getApplicationContext())
-		// .defaultDisplayImageOptions(resetViewDisplayImageOptions)
-		// .memoryCache(new LruMemoryCache(2 * 1024 * 1024))
-		// .memoryCacheSize(2 * 1024 * 1024)
-		// .discCacheSize(50 * 1024 * 1024)
-		// .discCacheFileCount(100)
-		// .tasksProcessingOrder(QueueProcessingType.LIFO)
-		// .build();
-		// ResetViewImageloader.getInstance().init(resetViewConfig);
+		if(Constants.FORCE_DATABASE_FLUSH || isCurrentVersionAnUpgradeFromInstalledVersion())
+		{
+			ContentManager.clearAllPersistentCacheData();
+			
+			AppDataUtils.sharedInstance(this).clearAllPreferences();
+		}
+
+		setInstalledAppVersionToCurrentVersion();
 	}
 	
 
@@ -149,16 +197,62 @@ public class SecondScreenApplication
 	}
 	
 	
-	
-	public void setWasPreinstalled() 
+	public ImageLoaderManager getImageLoaderManager()
 	{
-		AppDataUtils.setPreference(Constants.SHARED_PREFERENCES_APP_WAS_PREINSTALLED, true);
+		return ImageLoaderManager.sharedInstance(this); 
+	}
+	
+	
+	public void setAppAsPreinstalled() 
+	{
+		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_WAS_PREINSTALLED, true);
 	}
 
 	
-	
-	public boolean getWasPreinstalled() 
+	public boolean isAppPreinstalled() 
 	{
-		return AppDataUtils.getPreference(Constants.SHARED_PREFERENCES_APP_WAS_PREINSTALLED, false);
+		return AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_WAS_PREINSTALLED, false);
 	}
+	
+	
+	private String getCurrentAppVersion()
+	{
+		return GenericUtils.getCurrentAppVersion();
+	}
+	
+	
+	private String getInstalledAppVersion()
+	{
+		return AppDataUtils.sharedInstance(this).getPreference(Constants.SHARED_PREFERENCES_APP_INSTALLED_VERSION, "");
+	}
+	
+	
+	private void setInstalledAppVersionToCurrentVersion()
+	{
+		String currentVersion = getCurrentAppVersion();
+		
+		AppDataUtils.sharedInstance(this).setPreference(Constants.SHARED_PREFERENCES_APP_INSTALLED_VERSION, currentVersion);
+	}
+	
+	
+	private boolean isCurrentVersionAnUpgradeFromInstalledVersion()
+	{
+		boolean isCurrentVersionAnUpgradeFromInstalledVersion;
+		
+		String installedAppVersion = getInstalledAppVersion();
+		
+		String currentAppVersion = getCurrentAppVersion();
+		
+		if(installedAppVersion.isEmpty() || currentAppVersion.isEmpty())
+		{
+			return false;
+		}
+		else
+		{
+			isCurrentVersionAnUpgradeFromInstalledVersion = (installedAppVersion.equalsIgnoreCase(currentAppVersion) == false);
+		}
+		
+		return isCurrentVersionAnUpgradeFromInstalledVersion;
+	}
+
 }

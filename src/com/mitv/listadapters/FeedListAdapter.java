@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.mitv.Constants;
 import com.mitv.ContentManager;
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.activities.BroadcastPageActivity;
 import com.mitv.activities.PopularPageActivity;
 import com.mitv.enums.ActivityFeedAdapterTypeEnum;
@@ -28,7 +29,7 @@ import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.LikeTypeResponseEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.models.TVFeedItem;
 import com.mitv.models.TVProgram;
@@ -36,7 +37,6 @@ import com.mitv.ui.elements.LikeView;
 import com.mitv.ui.elements.ReminderView;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.LanguageUtils;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
@@ -44,15 +44,14 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 public class FeedListAdapter 
 	extends AdListAdapter<TVFeedItem>
-	implements ActivityCallbackListener
+	implements ViewCallbackListener
 {
 	private static final String	TAG	= FeedListAdapter.class.getName();
 
-	
+	@SuppressWarnings("unused")
 	private ArrayList<TVFeedItem> feedItems;
 	private LayoutInflater layoutInflater;
 	private Activity activity;
-	
 	
 	public FeedListAdapter(Activity activity, ArrayList<TVFeedItem> feedItems) 
 	{
@@ -61,6 +60,11 @@ public class FeedListAdapter
 		this.feedItems = feedItems;
 
 		this.layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	}
+
+	public void setFeedItems(ArrayList<TVFeedItem> feedItems) {
+		super.setItems(feedItems);
+		this.feedItems = feedItems;
 	}
 
 	
@@ -213,7 +217,7 @@ public class FeedListAdapter
 
 				ImageAware imageAware = new ImageViewAware(imageView, false);
 				
-				ImageLoader.getInstance().displayImage(tvProgram.getImages().getPortrait().getMedium(), imageAware);
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(tvProgram.getImages().getPortrait().getMedium(), imageAware);
 
 				time.setText(broadcast.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
 
@@ -397,7 +401,7 @@ public class FeedListAdapter
 
 			viewHolder.likeView = (LikeView) rowView.findViewById(R.id.element_social_buttons_like_view);
 			viewHolder.shareContainer = (RelativeLayout) rowView.findViewById(R.id.element_social_buttons_share_button_container);
-			viewHolder.shareIv = (ImageView) rowView.findViewById(R.id.element_social_buttons_share_button_iv);
+			viewHolder.shareIv = (RelativeLayout) rowView.findViewById(R.id.element_social_buttons_share_button_container);
 			viewHolder.reminderView = (ReminderView) rowView.findViewById(R.id.element_social_buttons_reminder);
 
 			viewHolder.container.setTag(Integer.valueOf(position));
@@ -527,7 +531,7 @@ public class FeedListAdapter
 			
 			ImageAware imageAware = new ImageViewAware(holderBC.landscapeIv, false);
 			
-			ImageLoader.getInstance().displayImage(program.getImages().getLandscape().getLarge(), imageAware);
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(program.getImages().getLandscape().getLarge(), imageAware);
 
 			holderBC.timeTv.setText(broadcast.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
 			holderBC.channelTv.setText(broadcast.getChannel().getName());
@@ -667,7 +671,7 @@ public class FeedListAdapter
 		ProgressBar		progressBar;
 		ImageView		likeLikeIv;
 		RelativeLayout	shareContainer;
-		ImageView		shareIv;
+		RelativeLayout	shareIv;
 		ReminderView 	reminderView;
 		LikeView 		likeView;
 	}

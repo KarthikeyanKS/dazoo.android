@@ -26,17 +26,17 @@ public class UpcomingOrRepeatingBroadcastsListAdapter extends BaseAdapter {
 
 	private LayoutInflater layoutInflater;
 	private Activity activity;
-	private ArrayList<TVBroadcastWithChannelInfo> broadcasts;
+	private final ArrayList<TVBroadcastWithChannelInfo> broadcasts;
 	private boolean usedForUpcomingEpisodes; /* else used for repeating... */
 
-	public UpcomingOrRepeatingBroadcastsListAdapter(Activity activity, ArrayList<TVBroadcastWithChannelInfo> upcomingBroadcasts, boolean usedForUpcomingEpisodes) {
+	public UpcomingOrRepeatingBroadcastsListAdapter(Activity activity, ArrayList<TVBroadcastWithChannelInfo> broadcasts, boolean usedForUpcomingEpisodes) {
 		layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.usedForUpcomingEpisodes = usedForUpcomingEpisodes;
 		
 		boolean foundRunningBroadcast = false;
 		int indexOfRunningBroadcast = 0;
-		for (int i = 0; i < upcomingBroadcasts.size(); ++i) {
-			TVBroadcastWithChannelInfo upcomingBroadcast = upcomingBroadcasts.get(i);
+		for (int i = 0; i < broadcasts.size(); ++i) {
+			TVBroadcastWithChannelInfo upcomingBroadcast = broadcasts.get(i);
 			if (upcomingBroadcast.isAiring()) {
 				foundRunningBroadcast = true;
 				indexOfRunningBroadcast = i;
@@ -45,10 +45,10 @@ public class UpcomingOrRepeatingBroadcastsListAdapter extends BaseAdapter {
 		}
 
 		if (foundRunningBroadcast) {
-			upcomingBroadcasts.remove(indexOfRunningBroadcast);
+			broadcasts.remove(indexOfRunningBroadcast);
 		}
 
-		this.broadcasts = upcomingBroadcasts;
+		this.broadcasts = new ArrayList<TVBroadcastWithChannelInfo>(broadcasts);
 		this.activity = activity;
 	}
 

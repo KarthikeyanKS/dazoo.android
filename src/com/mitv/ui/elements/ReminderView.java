@@ -82,7 +82,8 @@ public class ReminderView
 	{
 		this.tvBroadcastWithChannelInfo = broadcast;
 		
-		if (!tvBroadcastWithChannelInfo.isAiring())
+		if (!tvBroadcastWithChannelInfo.isAiring() &&
+			tvBroadcastWithChannelInfo.isBroadcastAiringInOrInLessThan(Constants.MAXIMUM_REMINDER_TIME_FOR_SHOW) == false)
 		{
 			NotificationSQLElement dbItem = notificationDataSource.getNotification(tvBroadcastWithChannelInfo.getChannel().getChannelId(), tvBroadcastWithChannelInfo.getBeginTime());
 
@@ -104,7 +105,7 @@ public class ReminderView
 			} 
 			else 
 			{
-				iconView.setTextColor(getResources().getColor(R.color.grey4));
+				iconView.setTextColor(getResources().getColor(R.color.grey3));
 			}
 			containerView.setBackgroundResource(R.drawable.background_color_selector);
 		} else {
@@ -118,8 +119,12 @@ public class ReminderView
 	@Override
 	public void onClick(View v) 
 	{
-		if(tvBroadcastWithChannelInfo != null && !tvBroadcastWithChannelInfo.isBroadcastAiringInOrInLessThan(Constants.MAXIMUM_REMINDER_TIME_FOR_SHOW)) 
+		
+		if(tvBroadcastWithChannelInfo != null && 
+		   tvBroadcastWithChannelInfo.isAiring() == false &&
+		   tvBroadcastWithChannelInfo.isBroadcastAiringInOrInLessThan(Constants.MAXIMUM_REMINDER_TIME_FOR_SHOW) == false) 
 		{
+			
 			if (isSet == false) 
 			{
 				NotificationHelper.scheduleAlarm(activity, tvBroadcastWithChannelInfo);
@@ -158,7 +163,7 @@ public class ReminderView
 		{
 			public void run()
 			{
-				iconView.setTextColor(getResources().getColor(R.color.grey4));
+				iconView.setTextColor(getResources().getColor(R.color.grey3));
 				
 				isSet = false;
 			}

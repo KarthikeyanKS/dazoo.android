@@ -8,7 +8,7 @@ import android.util.Log;
 import com.mitv.Constants;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.models.DummyData;
 import com.mitv.models.gson.serialization.UserPasswordResetConfirmationData;
@@ -26,12 +26,12 @@ public class PerformUserPasswordResetConfirmation
 	
 	public PerformUserPasswordResetConfirmation(
 			ContentCallbackListener contentCallbackListener, 
-			ActivityCallbackListener activityCallBackListener,
+			ViewCallbackListener activityCallbackListener,
 			String email,
 			String newPassword,
 			String resetPasswordToken) 
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_RESET_PASSWORD_SEND_CONFIRM_PASSWORD, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_RESET_PASSWORD_SEND_CONFIRM_PASSWORD, DummyData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
 		
 		UserPasswordResetConfirmationData postData = new UserPasswordResetConfirmationData();
 		postData.setEmail(email);

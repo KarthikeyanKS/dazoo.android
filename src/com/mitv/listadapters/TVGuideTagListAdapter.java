@@ -20,11 +20,11 @@ import android.widget.TextView;
 import com.mitv.Constants;
 import com.mitv.ContentManager;
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.activities.BroadcastPageActivity;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.utilities.LanguageUtils;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
@@ -32,7 +32,6 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelInfo> 
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = TVGuideTagListAdapter.class.getName();
 
 	
@@ -115,7 +114,7 @@ public class TVGuideTagListAdapter extends AdListAdapter<TVBroadcastWithChannelI
 				}
 
 				ImageAware imageAware = new ImageViewAware(holder.mImageIv, false);
-				ImageLoader.getInstance().displayImage(broadcastWithChannelInfo.getProgram().getImages().getPortrait().getMedium(), imageAware);
+				SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(broadcastWithChannelInfo.getProgram().getImages().getPortrait().getMedium(), imageAware);
 
 				holder.mTimeTv.setText(broadcastWithChannelInfo.getBeginTimeHourAndMinuteLocalAsString());
 				holder.mChannelTv.setText(broadcastWithChannelInfo.getChannel().getName());

@@ -3,7 +3,6 @@ package com.mitv.activities.authentication;
 
 
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -42,9 +41,7 @@ public class LoginWithFacebookActivity
 	private ActionBar actionBar;
 	
 	private String facebookToken;
-	private String facebookId;
-	private String userProfileImageURL;
-	
+	private boolean loginResponseHandled;
 
 	
 	@Override
@@ -65,7 +62,7 @@ public class LoginWithFacebookActivity
 	protected void onResume() 
 	{
 		super.onResume();
-		
+		loginResponseHandled = false;
 		performFacebookAuthentication();
 	}
 	
@@ -76,12 +73,9 @@ public class LoginWithFacebookActivity
 	{
 		facebookToken = FacebookHandle.getToken(LoginWithFacebookActivity.this);
 		
-		if(facebookToken != null && 
-		   userProfileImageURL != null)
+		if(facebookToken != null)
 		{
 			updateUI(UIStatusEnum.LOADING);
-			
-			ContentManager.sharedInstance().setUserImageURL(userProfileImageURL);
 			
 			ContentManager.sharedInstance().getUserTokenWithFacebookFBToken(this, facebookToken);
 		}
@@ -96,11 +90,19 @@ public class LoginWithFacebookActivity
 	
 	
 	@Override
+	protected boolean hasEnoughDataToShowContent()
+	{
+		return false;
+	}
+	
+	
+	
+	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
 		if (fetchRequestResult.wasSuccessful()) 
 		{	
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 		}
 		else
 		{
@@ -123,14 +125,18 @@ public class LoginWithFacebookActivity
 				break;
 			}
 			
-			case SUCCEEDED_WITH_DATA:
+			case SUCCESS_WITH_CONTENT:
 			{
-				if(!ContentManager.sharedInstance().tryStartReturnActivity(this)) {
+				if(!ContentManager.sharedInstance().tryStartReturnActivity(this) && !loginResponseHandled) {
 					Activity mostRecentTabActivity = getMostRecentTabActivity();
 					Intent intent = new Intent(LoginWithFacebookActivity.this, mostRecentTabActivity.getClass());
 					intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
 					startActivity(intent);
+				} else {
+					// TODO NewArc: Do we need to do something here???
 				}
+				
+				loginResponseHandled = true;
 				
 				finish();
 				
@@ -140,8 +146,7 @@ public class LoginWithFacebookActivity
 			case FAILED:
 			default:
 			{
-				// TODO User Feedback - Hardcoded string for user message
-				String message = "Facebook login was unsuccessful.";
+				String message = getString(R.string.facebook_login_failed);
 				
 				ToastHelper.createAndShowLikeToast(this, message);
 				
@@ -268,19 +273,7 @@ public class LoginWithFacebookActivity
 				{
 					case AJAX_STATUS_OK:
 					{
-						try 
-						{
-							facebookId = json.getString("id");
-						} 
-						catch (JSONException jsex) 
-						{
-							Log.e(TAG, jsex.getMessage(), jsex);
-	
-							facebookId = null;
-						}
-	
-						getFacebookPicture();
-	
+						loadData();
 						break;
 					}
 	
@@ -304,83 +297,6 @@ public class LoginWithFacebookActivity
 			}
 		};
 		
-		return callback;
-	}
-	
-	
-	
-	private void getFacebookPicture()
-	{
-		FacebookHandle handle = getFacebookHandle();
-
-		if(handle != null && 
-		   facebookId != null)
-		{
-			handle.sso(Constants.APP_FACEBOOK_SSO);
-			
-			AQuery aq = new AQuery(this);
-	
-			AQuery aquery = aq.auth(handle);
-			
-			StringBuilder sb = new StringBuilder();
-			sb.append(Constants.APP_URL_FACEBOOK_GRAPH);
-			sb.append(Constants.REQUEST_QUERY_SEPARATOR);
-			sb.append(facebookId);
-			sb.append(Constants.APP_URL_FACEBOOK_PICTURE_TYPE);
-			sb.append(Constants.APP_URL_FACEBOOK_PICTURE_TYPE_NORMAL);
-			sb.append(Constants.APP_URL_FACEBOOK_DO_NOT_REDIRECT);
-			
-			aquery.ajax(sb.toString(), JSONObject.class, getFacebookPictureCallback());
-		}
-		else
-		{
-			Log.e(TAG, "Facebook handle or id are null.");
-		}
-	}
-	
-	
-	
-	private AjaxCallback<JSONObject> getFacebookPictureCallback()
-	{
-		AjaxCallback<JSONObject> callback = new AjaxCallback<JSONObject>()
-		{
-			@Override
-			public void callback(String url, JSONObject json, AjaxStatus status) 
-			{	
-				int statusCode = status.getCode();
-
-				switch(statusCode)
-				{
-					case AJAX_STATUS_OK:
-					{	
-						try 
-						{
-							JSONObject data = json.getJSONObject("data");
-	
-							userProfileImageURL = data.getString("url");
-						} 
-						catch (JSONException jsex) 
-						{
-							Log.e(TAG, jsex.getMessage(), jsex);
-	
-							userProfileImageURL = null;
-						}
-	
-						loadData();
-						break;
-					}
-	
-					default:
-					{
-						Log.w(TAG, "Unhandled status code code: " + statusCode);
-	
-						updateUI(UIStatusEnum.FAILED);
-						break;
-					}
-				}
-			}
-		};
-
 		return callback;
 	}
 }

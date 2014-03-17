@@ -15,6 +15,7 @@ import android.widget.ListView;
 
 import com.mitv.ContentManager;
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
@@ -24,7 +25,6 @@ import com.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.models.TVChannel;
 import com.mitv.models.TVChannelGuide;
 import com.mitv.models.TVChannelId;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
@@ -140,18 +140,32 @@ public class ChannelPageActivity
 		channelGuide = ContentManager.sharedInstance().getFromCacheTVChannelGuideUsingTVChannelIdForSelectedDay(channel.getChannelId());
 		
 		ImageAware imageAware = new ImageViewAware(channelIconIv, false);
-		ImageLoader.getInstance().displayImage(channelGuide.getImageUrl(), imageAware);
+		
+		SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(channelGuide.getImageUrl(), imageAware);
 
 		ArrayList<TVBroadcast> currentAndUpcomingbroadcasts = channelGuide.getCurrentAndUpcomingBroadcastsUsingCurrentTime();
 		
-		if(currentAndUpcomingbroadcasts != null && !currentAndUpcomingbroadcasts.isEmpty()) {
+		if(currentAndUpcomingbroadcasts != null && !currentAndUpcomingbroadcasts.isEmpty()) 
+		{
 			setFollowingBroadcasts(currentAndUpcomingbroadcasts);
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
-		} else {
+			
+			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
+		} 
+		else 
+		{
 			updateUI(UIStatusEnum.FAILED);
 		}
 	}
+	
+	
+	
+	@Override
+	protected boolean hasEnoughDataToShowContent()
+	{
+		return ContentManager.sharedInstance().getFromCacheHasTVChannelGuideUsingTVChannelIdForSelectedDay(channel.getChannelId());
+	}
 
+	
 	
 	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier)
@@ -171,22 +185,8 @@ public class ChannelPageActivity
 	@Override
 	protected void updateUI(UIStatusEnum status) 
 	{
+		super.updateUI(status);
 		super.updateUIBaseElements(status);
-
-		switch (status) 
-		{	
-			case SUCCEEDED_WITH_DATA:
-			{
-				// TODO NewArc - Do something here?
-				break;
-			}
-	
-			default:
-			{
-				// TODO NewArc handle fail? done in super class already
-				break;
-			}
-		}
 	}
 	
 	@Override

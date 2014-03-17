@@ -3,19 +3,18 @@ package com.mitv.activities;
 
 
 
-import net.hockeyapp.android.CrashManager;
-import net.hockeyapp.android.UpdateManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.mitv.Constants;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.mitv.ContentManager;
+import com.mitv.GATrackingManager;
 import com.mitv.R;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.FetchDataProgressCallbackListener;
 import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.DialogHelper;
@@ -25,7 +24,7 @@ import com.mitv.utilities.NetworkUtils;
 
 public class SplashScreenActivity 
 	extends Activity 
-	implements ActivityCallbackListener, FetchDataProgressCallbackListener
+	implements ViewCallbackListener, FetchDataProgressCallbackListener
 {	
 	@SuppressWarnings("unused")
 	private static final String TAG = SplashScreenActivity.class.getName();
@@ -44,6 +43,13 @@ public class SplashScreenActivity
 		setContentView(R.layout.layout_splash_screen_activity);
 		
 		progressTextView = (FontTextView) findViewById(R.id.splash_screen_activity_progress_text);
+		
+		/* Google Analytics Tracking */
+		EasyTracker.getInstance(this).activityStart(this);
+		
+		String className = this.getClass().getName();
+		
+		GATrackingManager.sendView(className);
 	}
 
 	
@@ -57,6 +63,8 @@ public class SplashScreenActivity
 		
 		if(isConnected)
 		{
+			GATrackingManager.getInstance().sendUserNetworkTypeEvent();
+			
 			loadData();
 		}
 		else 
@@ -65,15 +73,6 @@ public class SplashScreenActivity
 		}
 	}
 		
-	private void startPrimaryActivity() 
-	{
-		Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
-		
-		startActivity(intent);
-		
-		finish();
-	}
-
 
 	
 	@Override
@@ -82,7 +81,9 @@ public class SplashScreenActivity
 		fetchedDataCount++;
 		
 		StringBuilder sb = new StringBuilder();
-		sb.append(fetchedDataCount + "/" + totalSteps);
+		sb.append(fetchedDataCount);
+		sb.append("/");
+		sb.append(totalSteps);
 		sb.append(" - ");
 		sb.append(message);
 		
@@ -105,13 +106,13 @@ public class SplashScreenActivity
 		{
 			case SUCCESS: 
 			{
-				updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 				break;
 			}
 			
 			case API_VERSION_TOO_OLD: 
 			{
-				updateUI(UIStatusEnum.FAILED_VALIDATION);
+				updateUI(UIStatusEnum.API_VERSION_TOO_OLD);
 				break;
 			}
 			
@@ -130,25 +131,30 @@ public class SplashScreenActivity
 	{
 		switch (status) 
 		{
-			case SUCCEEDED_WITH_DATA: 
-			{
-				startPrimaryActivity();
-				break;
-			}
-			
-			case FAILED_VALIDATION:
+			case API_VERSION_TOO_OLD:
 			{
 				DialogHelper.showMandatoryAppUpdateDialog(this);
 				break;
 			}
 			
+			case SUCCESS_WITH_CONTENT: 
 			case NO_CONNECTION_AVAILABLE:
 			default:
 			{
-				DialogHelper.showMandatoryFirstTimeInternetConnection(this);
+				startPrimaryActivity();
 				break;
 			}
 		}
 	}
+	
+	
+	
+	private void startPrimaryActivity() 
+	{
+		Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
+		
+		startActivity(intent);
+		
+		finish();
+	}
 }
-

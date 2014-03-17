@@ -6,6 +6,7 @@ package com.mitv.models.gson;
 import java.io.Serializable;
 
 import com.mitv.interfaces.GSONDataFieldValidation;
+import com.mitv.models.ProfileImage;
 
 
 
@@ -17,11 +18,11 @@ public class UserFieldsDataJSON
 	/*
 	 * The names of these variables should not be changed unless the backend API call parameters changes too.
 	 */
-	private String userId;
-	private String email;
-	private String firstName;
-	private String lastName;
-	private boolean created;
+	protected String userId;
+	protected String email;
+	protected String firstName;
+	protected String lastName;
+	protected boolean created;
 	
 	
 	
@@ -56,7 +57,7 @@ public class UserFieldsDataJSON
 	}
 
 
-	
+
 	public boolean isCreated() {
 		return created;
 	}

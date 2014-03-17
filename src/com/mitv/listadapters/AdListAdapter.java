@@ -20,9 +20,9 @@ import android.widget.RelativeLayout;
 
 import com.mitv.ContentManager;
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.listadapters.TVGuideListAdapter.ViewHolder;
 import com.mitv.models.AdAdzerk;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
@@ -44,8 +44,6 @@ public class AdListAdapter<T> extends BaseAdapter {
 	private int cellCountBetweenAdCells;
 	private boolean isAdsEnabled;
 
-	
-	
 	public AdListAdapter(String fragmentName, Activity activity, List<T> items) 
 	{
 		super();
@@ -55,7 +53,7 @@ public class AdListAdapter<T> extends BaseAdapter {
 		this.activity = activity;
 
 		this.adFormats = ContentManager.sharedInstance().getFromCacheAppConfiguration().getAdzerkFormatsForAndroidGuide();
-		this.cellCountBetweenAdCells = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCellCountBetweenAdCells();
+		this.cellCountBetweenAdCells = ContentManager.sharedInstance().getFromCacheAppConfiguration().getCellCountBetweenAdCellsUsingActivityName(fragmentName);
 		
 		this.items = items;
 		
@@ -77,7 +75,10 @@ public class AdListAdapter<T> extends BaseAdapter {
 		}
 	}
 	
-	
+
+	public void setItems(List<T> items) {
+		this.items = items;
+	}
 	
 	private void downloadAds() 
 	{
@@ -229,7 +230,7 @@ public class AdListAdapter<T> extends BaseAdapter {
 							{
 								ImageAware imageAware = new ImageViewAware(holder.channelLogo, false);
 								
-								ImageLoader.getInstance().displayImage(imageUrl, imageAware, new ImageLoadingListener() 
+								SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(imageUrl, imageAware, new ImageLoadingListener() 
 								{
 									@Override
 									public void onLoadingStarted(String imageUri, View view) {}
@@ -246,9 +247,10 @@ public class AdListAdapter<T> extends BaseAdapter {
 										/*
 										 * Register Ad as shown when image has loaded completely
 										 */
-										if (impressionUrl != null) {
+										if (impressionUrl != null)
+										{
 											/* Let the image loader send the request, since it caches requests which is good */
-											ImageLoader.getInstance().displayImage(impressionUrl, new ImageView(activity.getApplicationContext()));
+											SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(impressionUrl, new ImageView(activity.getApplicationContext()));
 										}
 									}
 								});

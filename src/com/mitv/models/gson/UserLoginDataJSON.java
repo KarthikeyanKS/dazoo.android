@@ -3,23 +3,21 @@ package com.mitv.models.gson;
 
 
 
-import java.io.Serializable;
-
 import com.mitv.interfaces.GSONDataFieldValidation;
+import com.mitv.models.ProfileImage;
 import com.mitv.models.UserFieldsData;
 
 
 
 public class UserLoginDataJSON
-	implements GSONDataFieldValidation, Serializable
+	implements GSONDataFieldValidation
 {
-	private static final long serialVersionUID = -5672249990860974431L;
-	
 	/*
 	 * The names of these variables should not be changed unless the backend API call parameters changes too.
 	 */
 	protected String token;
 	protected UserFieldsData user;
+	protected ProfileImage profileImage;
 	
 	
 	
@@ -35,13 +33,16 @@ public class UserLoginDataJSON
 	}
 
 
-
 	public UserFieldsData getUser() {
 		return user;
 	}
 
-
 	
+	public ProfileImage getProfileImage() {
+		return profileImage;
+	}
+
+
 	@Override
 	public boolean areDataFieldsValid() 
 	{

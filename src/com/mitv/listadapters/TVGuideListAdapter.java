@@ -11,7 +11,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
-import android.preference.PreferenceManager.OnActivityResultListener;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextPaint;
@@ -31,9 +30,8 @@ import com.mitv.ContentManager;
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.activities.ChannelPageActivity;
-import com.mitv.activities.HomeActivity;
 import com.mitv.activities.MyChannelsActivity;
-import com.mitv.activities.UserProfileActivity;
+import com.mitv.activities.SignUpSelectionActivity;
 import com.mitv.enums.BroadcastTypeEnum;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.models.TVBroadcast;
@@ -41,7 +39,6 @@ import com.mitv.models.TVChannelGuide;
 import com.mitv.models.TVDate;
 import com.mitv.models.TVProgram;
 import com.mitv.ui.helpers.DialogHelper;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
@@ -61,10 +58,9 @@ public class TVGuideListAdapter
 
 	
 	
-	@SuppressLint("NewApi")
 	public TVGuideListAdapter(Activity activity, ArrayList<TVChannelGuide> guide, TVDate date, int hour, boolean isToday) 
 	{
-		super(Constants.JSON_AND_FRAGMENT_KEY_GUIDE, activity, guide);
+		super(Constants.ALL_CATEGORIES_TAG, activity, guide);
 		this.activity = activity;
 		this.tvDate = date;
 		this.currentHour = hour;
@@ -75,7 +71,8 @@ public class TVGuideListAdapter
 	
 
 	@Override
-	public int getViewTypeCount() {
+	public int getViewTypeCount() 
+	{
 		int viewTypeCount = super.getViewTypeCount();
 		
 		/* TVGuide view */
@@ -88,13 +85,18 @@ public class TVGuideListAdapter
 	}
 
 	
-	private boolean isAddMoreChannelsCellPosition(int position) {
+	
+	private boolean isAddMoreChannelsCellPosition(int position) 
+	{
 		boolean isAddMoreChannelsCellPosition = (position == getCount() - 1);
+		
 		return isAddMoreChannelsCellPosition;
 	}
 	
+	
 	@Override
-	public int getItemViewType(int position) {
+	public int getItemViewType(int position) 
+	{
 		int itemViewType = super.getItemViewType(position);
 		if(itemViewType == VIEW_TYPE_STANDARD && isAddMoreChannelsCellPosition(position)) {
 			itemViewType = VIEW_TYPE_CUSTOM;
@@ -149,7 +151,7 @@ public class TVGuideListAdapter
 		{
 			ImageAware imageAware = new ImageViewAware(holder.channelLogo, false);
 
-			ImageLoader.getInstance().displayImage(guide.getImageUrl(), imageAware);
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithDefaultOptions(guide.getImageUrl(), imageAware);
 		} 
 		else 
 		{
@@ -243,7 +245,7 @@ public class TVGuideListAdapter
 						String ellipsisString = "...";
 
 						if (deletedChars) {
-							rowInfo = rowInfo.replace(rowInfo.substring(limitIndex - 3, rowInfo.length()), ellipsisString);
+							rowInfo = rowInfo.substring(0, limitIndex - 4) + ellipsisString;
 						}
 
 						toShow = rowInfo;
@@ -275,12 +277,6 @@ public class TVGuideListAdapter
 			else {
 				holder.textView.setText(activity.getResources().getString(R.string.general_no_content_available));
 			}
-		}
-
-		if (textForThreeBroadcasts.equals("")) {
-			rowView.setVisibility(View.INVISIBLE);
-		} else {
-			rowView.setVisibility(View.VISIBLE);
 		}
 
 		return rowView;
@@ -318,7 +314,7 @@ public class TVGuideListAdapter
 	public Runnable yesSigninOrSignUpBlock() {
 		return new Runnable() {
 			public void run() {
-				Intent intent = new Intent(activity, UserProfileActivity.class);
+				Intent intent = new Intent(activity, SignUpSelectionActivity.class);
 				
 				ContentManager.sharedInstance().setReturnActivity(MyChannelsActivity.class);
 				
@@ -399,9 +395,12 @@ public class TVGuideListAdapter
 	@SuppressLint("NewApi")
 	public static void removeOnGlobalLayoutListener(View v, ViewTreeObserver.OnGlobalLayoutListener listener) 
 	{
-		if (Build.VERSION.SDK_INT < 16) {
+		if (Build.VERSION.SDK_INT < 16) 
+		{
 			v.getViewTreeObserver().removeGlobalOnLayoutListener(listener);
-		} else {
+		} 
+		else 
+		{
 			v.getViewTreeObserver().removeOnGlobalLayoutListener(listener);
 		}
 	}

@@ -5,12 +5,11 @@ package com.mitv.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 
-import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.activities.authentication.LoginWithFacebookActivity;
 import com.mitv.activities.authentication.LoginWithMiTVUserActivity;
@@ -19,6 +18,8 @@ import com.mitv.activities.base.BaseActivity;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
+import com.mitv.ui.elements.FontTextView;
+import com.mitv.utilities.HyperLinkUtils;
 
 
 
@@ -27,14 +28,12 @@ public class SignUpSelectionActivity
 {
 	@SuppressWarnings("unused")
 	private static final String TAG = SignUpSelectionActivity.class.getName();
-
 	
 	private RelativeLayout facebookContainer;
 	private RelativeLayout signUpContainer;
 	private RelativeLayout loginButton;
+	private FontTextView termsOfService;
 
-	
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -46,28 +45,21 @@ public class SignUpSelectionActivity
 	}
 	
 	
+	@Override
+	protected void loadData() {/* Do nothing (no data to load on this activity) */}
+	
+	
 	
 	@Override
-	protected void onResume() 
+	protected boolean hasEnoughDataToShowContent()
 	{
-		super.onResume();
+		return true;
 	}
 	
 	
 	
 	@Override
-	protected void loadData() 
-	{
-		// Do nothing (no data to load on this activity)
-	}
-	
-	
-	
-	@Override
-	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
-	{
-		// Do nothing (no data to load on this activity)
-	}
+	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {/* Do nothing (no data to load on this activity) */}
 	
 	
 	
@@ -75,8 +67,6 @@ public class SignUpSelectionActivity
 	protected void updateUI(UIStatusEnum status) 
 	{
 		super.updateUIBaseElements(status);
-
-		// Do nothing (no data to load on this activity)
 	}
 	
 	
@@ -135,5 +125,14 @@ public class SignUpSelectionActivity
 				finish();
 			}
 		});
+		
+		termsOfService = (FontTextView) findViewById(R.id.signin_terms_link);
+
+		String linkText = getString(R.string.sign_up_terms_link);
+		
+		termsOfService.setText(Html.fromHtml(linkText));
+		termsOfService.setMovementMethod(LinkMovementMethod.getInstance());
+		
+		HyperLinkUtils.stripUnderlines(termsOfService);
 	}
 }

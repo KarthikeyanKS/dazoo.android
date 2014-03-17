@@ -71,18 +71,11 @@ public class TVChannelGuidesGSONTest
 		return tvChannelGuides;
 	}
 
-	
-	
-	@Test
-	public void testNotNull() 
-	{
-		Assert.assertNotNull(tvChannelGuides);
-		Assert.assertFalse(tvChannelGuides.isEmpty());
-	}
 
 	@Test
 	public void testAllVariablesNotNull() {
 		Assert.assertNotNull(tvChannelGuides);
+		Assert.assertFalse(tvChannelGuides.isEmpty());
 		for (TVChannelGuide tvChannelGuide : tvChannelGuides) {
 			List<TVBroadcast> broadcastsForTVChannel = tvChannelGuide.getBroadcasts();
 			for(TVBroadcast broadcast : broadcastsForTVChannel) {

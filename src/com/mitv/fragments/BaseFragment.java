@@ -18,22 +18,24 @@ import com.mitv.R;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.utilities.GenericUtils;
 
 
 
 public abstract class BaseFragment 
 	extends Fragment
-	implements ActivityCallbackListener, OnClickListener
+	implements ViewCallbackListener, OnClickListener
 {
 	private static final String TAG = BaseFragment.class.getName();
 
 	
-	public RelativeLayout requestFailedLayout;
-	public RelativeLayout requestLoadingLayout;
-	public RelativeLayout requestEmptyResponseLayout;
-	public Button requestFailedButton;
+	
+	private RelativeLayout requestEmptyLayout;
+	private RelativeLayout requestLoadingLayout;
+	private RelativeLayout requestNoInternetConnectionLayout;
+	private Button requestrequestNoInternetConnectionRetryButton;
+
 
 	
 	
@@ -57,12 +59,16 @@ public abstract class BaseFragment
 	}
 	
 	
+	
 	@Override
 	public void onResume() 
 	{	
 		super.onResume();
+		
 		loadData();
 	}
+	
+	
 	
 	/*
 	 * This method checks for Internet connectivity on the background thread
@@ -128,26 +134,28 @@ public abstract class BaseFragment
 				case NO_CONNECTION_AVAILABLE:
 				case FAILED:
 				{
-					if (requestFailedLayout != null) 
+					if (requestNoInternetConnectionLayout != null) 
 					{
-						requestFailedLayout.setVisibility(View.VISIBLE);
-						requestFailedLayout.startAnimation(anim);
+						requestNoInternetConnectionLayout.setVisibility(View.VISIBLE);
+						requestNoInternetConnectionLayout.startAnimation(anim);
 					}
-					break;
-				}
-				
-				case SUCCEEDED_WITH_DATA:
-				{
 					break;
 				}
 				
 				case SUCCESS_WITH_NO_CONTENT:
 				{
-					if (requestEmptyResponseLayout != null) 
+					if (requestEmptyLayout != null) 
 					{
-						requestEmptyResponseLayout.setVisibility(View.VISIBLE);
-						requestEmptyResponseLayout.startAnimation(anim);
+						requestEmptyLayout.setVisibility(View.VISIBLE);
+						requestEmptyLayout.startAnimation(anim);
 					}
+					break;
+				}
+				
+				case SUCCESS_WITH_CONTENT:
+				default:
+				{
+					// Success or other cases should be handled by the subclasses
 					break;
 				}
 			}
@@ -164,33 +172,38 @@ public abstract class BaseFragment
 	// Set the initial state of all request layouts to GONE
 	public void hideRequestStatusLayouts() 
 	{
-		if (requestFailedLayout != null)
-		{
-			requestFailedLayout.setVisibility(View.GONE);
-		}
-		
-		if (requestLoadingLayout != null)
+		if (requestLoadingLayout != null) 
 		{
 			requestLoadingLayout.setVisibility(View.GONE);
 		}
 		
-		if (requestEmptyResponseLayout != null)
+		if(requestNoInternetConnectionLayout != null)
 		{
-			requestEmptyResponseLayout.setVisibility(View.GONE);
+			requestNoInternetConnectionLayout.setVisibility(View.GONE);
+		}
+
+		if (requestEmptyLayout != null) 
+		{
+			requestEmptyLayout.setVisibility(View.GONE);
 		}
 	}
 	
 	
 	
-	public void initRequestCallbackLayouts(View v) 
+	public void initRequestCallbackLayouts(View view) 
 	{
-		requestFailedLayout = (RelativeLayout) v.findViewById(R.id.request_failed_main_layout);
-		requestFailedButton = (Button) v.findViewById(R.id.request_failed_reload_button);
-		requestFailedButton.setOnClickListener(this);
+		requestLoadingLayout = (RelativeLayout) view.findViewById(R.id.request_loading_main_layout);
 
-		requestEmptyResponseLayout = (RelativeLayout) v.findViewById(R.id.request_empty_main_layout);
+		requestEmptyLayout = (RelativeLayout) view.findViewById(R.id.request_empty_main_layout);
+
+		requestNoInternetConnectionLayout = (RelativeLayout) view.findViewById(R.id.no_connection_layout);
 		
-		requestLoadingLayout = (RelativeLayout) v.findViewById(R.id.request_loading_main_layout);
+		requestrequestNoInternetConnectionRetryButton = (Button) view.findViewById(R.id.no_connection_reload_button);
+		
+		if (requestrequestNoInternetConnectionRetryButton != null) 
+		{
+			requestrequestNoInternetConnectionRetryButton.setOnClickListener(this);
+		}
 	}
 	
 	
@@ -202,9 +215,16 @@ public abstract class BaseFragment
 
 		switch (id)
 		{
-			case R.id.request_failed_reload_button:
+			case R.id.no_connection_reload_button:
 			{
 				loadDataWithConnectivityCheck();
+				break;
+			}
+			
+			default: 
+			{
+				Log.w(TAG, "Unknown onClick action");
+				break;
 			}
 		}
 	}

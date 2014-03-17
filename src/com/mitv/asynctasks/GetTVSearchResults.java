@@ -9,7 +9,7 @@ import com.androidquery.callback.AjaxCallback;
 import com.mitv.Constants;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.models.SearchResultsForQuery;
 import com.mitv.models.TVSearchResults;
@@ -32,7 +32,7 @@ public class GetTVSearchResults
 	
 	public GetTVSearchResults(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallbackListener,
+			ViewCallbackListener activityCallbackListener,
 			AjaxCallback<String> ajaxCallback,
 			String searchQuery)
 	{

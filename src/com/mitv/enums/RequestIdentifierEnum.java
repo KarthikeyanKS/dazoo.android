@@ -4,7 +4,7 @@ public enum RequestIdentifierEnum {
 	TV_DATE(0, "TV Dates"),
 	TV_TAG(1, "TV Tags"),
 	TV_CHANNEL(2, "TV Channel objects"),
-	TV_GUIDE(3, "TV Guide"),
+	TV_GUIDE_INITIAL_CALL(3, "TV Guide for the initial app call"),
 	APP_CONFIGURATION(4, "App config"),
 	APP_VERSION(5, "App/Api version data"),
 	ADS_ADZERK_GET(6, "Ad adzerk get"),
@@ -13,7 +13,7 @@ public enum RequestIdentifierEnum {
 	USER_SIGN_UP(9, "User sign up"),
 	USER_FB_TOKEN(10, "User token from BE using Facebook token"), /* This is used when fetching a MiTV token from BE, using a FB token */
 	USER_LIKES(11, "User likes"),
-	TV_CHANNEL_IDS_USER(12, "TV Channel IDs user"),
+	TV_CHANNEL_IDS_USER_INITIAL_CALL(12, "TV Channel IDs user inital call only"), /* Only use when fetching data from splash screen */
 	USER_SET_CHANNELS(13, "User set channels"),
 	USER_ADD_LIKE(14, "User add like"),
 	USER_REMOVE_LIKE(15, "User remove like"),
@@ -32,8 +32,11 @@ public enum RequestIdentifierEnum {
 	USER_ACTIVITY_FEED_LIKES(28, "User activity feed likes"),
 	INTERNET_CONNECTIVITY(29, "Internet connectivity check"),
 	USER_FACEBOOK(30, "User login Facebook"),  /* This is used for facebook login with the facebook api */
-	BROADCAST_PAGE_DATA(31, "Broadcast page data"); /* This is used with the BroadcastPage only, for notifying that all data has been fetched */
-	
+	BROADCAST_PAGE_DATA(31, "Broadcast page data"), /* This is used with the BroadcastPage only, for notifying that all data has been fetched */
+	TV_BROADCASTS_FOR_TAGS(32, "TV Broadcasts for tags processing"),
+	TV_GUIDE_STANDALONE(33, "TV Guide call for standlone calls"),  /* This identifier will be used when refetching the guide due to a channel change, or forcing a refetch */
+	TV_CHANNEL_IDS_USER_STANDALONE(34, "TV Channel IDs user for standalone calls"), /* Used when start app as not logged in and then login in, need to update the TV Channels Ids */
+	USER_ACTIVITY_FEED_INITIAL_DATA(35, "Feed items and likes for FeedActivity");
 	
 	
 	private final int id;

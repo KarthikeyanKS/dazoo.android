@@ -88,11 +88,19 @@ public class LoginWithMiTVUserActivity
 	
 	
 	@Override
+	protected boolean hasEnoughDataToShowContent()
+	{
+		return true;
+	}
+	
+	
+	
+	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
 		if (fetchRequestResult.wasSuccessful()) 
 		{
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 		} 
 		else
 		{
@@ -137,7 +145,7 @@ public class LoginWithMiTVUserActivity
 				break;
 			}
 		
-			case SUCCEEDED_WITH_DATA:
+			case SUCCESS_WITH_CONTENT:
 			{
 				enableFields();
 				
@@ -155,8 +163,10 @@ public class LoginWithMiTVUserActivity
 			case FAILED:
 			{
 				enableFields();
-				// TODO NewArc - Hardcoded string
-				ToastHelper.createAndShowToast(this, "Login was unsuccessful.");
+				
+				String message = getString(R.string.login_with_email_failed);
+				
+				ToastHelper.createAndShowToast(this, message);
 				break;
 			}
 	

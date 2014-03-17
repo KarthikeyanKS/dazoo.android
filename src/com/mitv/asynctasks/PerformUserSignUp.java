@@ -9,7 +9,7 @@ import com.mitv.Constants;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.models.UserLoginData;
 import com.mitv.models.gson.serialization.UserRegistrationData;
@@ -27,13 +27,13 @@ public class PerformUserSignUp
 	
 	public PerformUserSignUp(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener,
+			ViewCallbackListener activityCallbackListener,
 			String email,
 			String password,
 			String firstname,
 			String lastname)
 	{
-		super(contentCallbackListener, activityCallBackListener, RequestIdentifierEnum.USER_SIGN_UP, UserLoginData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_SIGN_UP, UserLoginData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
 		
 		UserRegistrationData postData = new UserRegistrationData();
 		postData.setEmail(email);

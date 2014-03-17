@@ -50,11 +50,20 @@ public class ResetPasswordConfirmationActivity
 	
 	
 	@Override
+	protected boolean hasEnoughDataToShowContent()
+	{
+		// TODO NewArc - Implement this
+		return false;
+	}
+	
+	
+	
+	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
 		if (fetchRequestResult.wasSuccessful()) 
 		{
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 		} 
 		else
 		{
@@ -71,7 +80,7 @@ public class ResetPasswordConfirmationActivity
 
 		switch (status) 
 		{	
-			case SUCCEEDED_WITH_DATA:
+			case SUCCESS_WITH_CONTENT:
 			{
 				// TODO NewArc - Do something here?
 				break;

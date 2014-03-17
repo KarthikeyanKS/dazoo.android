@@ -40,19 +40,19 @@
 
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/block_tripple_broadcast_channel"
-            style="@style/text1"
+            style="@style/meta1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/block_tripple_broadcast_title_time"
             android:gravity="left" />
     </RelativeLayout>
 
-    <View
+    <!--View
         android:id="@+id/block_tripple_broadcast_view_next_to_reminder_view"
         android:layout_width="1dp"
         android:layout_height="30dp"
         android:layout_gravity="center"
-        android:background="@color/grey1" />
+        android:background="@color/grey1" /-->
 
     <RelativeLayout
         android:layout_width="0dp"

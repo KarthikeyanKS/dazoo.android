@@ -24,5 +24,5 @@ public interface ContentCallbackListener
 	 * @param result - This contains information about the result of the request, either success or some detail about how it failed.
 	 * @param content - the data object/model, parsed from JSON. Can be null if 'successful' = false, but never otherwise.
 	 */
-	public void onResult(ActivityCallbackListener activityCallBackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content);
+	public void onResult(ViewCallbackListener activityCallbackListener, RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result, Object content);
 }

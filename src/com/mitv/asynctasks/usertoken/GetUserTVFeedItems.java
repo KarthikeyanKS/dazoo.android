@@ -11,7 +11,7 @@ import android.util.Log;
 import com.mitv.Constants;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.models.TVFeedItem;
 
@@ -42,20 +42,20 @@ public class GetUserTVFeedItems
 	
 	public GetUserTVFeedItems(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener)
+			ViewCallbackListener activityCallbackListener)
 	{
-		this(contentCallbackListener, activityCallBackListener, false, 0, false, 0);
+		this(contentCallbackListener, activityCallbackListener, false, 0, false, 0);
 	}
 	
 	
 	
 	public GetUserTVFeedItems(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener,
+			ViewCallbackListener activityCallbackListener,
 			int itemStartIndex,
 			int itemLimit)
 	{
-		this(contentCallbackListener, activityCallBackListener, true, itemStartIndex, true, itemLimit);
+		this(contentCallbackListener, activityCallbackListener, true, itemStartIndex, true, itemLimit);
 	}
 	
 	
@@ -63,13 +63,13 @@ public class GetUserTVFeedItems
 	
 	private GetUserTVFeedItems(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener,
+			ViewCallbackListener activityCallbackListener,
 			boolean useItemStartIndex,
 			int itemStartIndex,
 			boolean useItemLimit,
 			int itemLimit)
 	{
-		super(contentCallbackListener, activityCallBackListener, getRequestIdentifier(itemStartIndex), TVFeedItem[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, getRequestIdentifier(itemStartIndex), TVFeedItem[].class, HTTPRequestTypeEnum.HTTP_GET, URL_SUFFIX);
 		
 		if(useItemStartIndex)
 		{

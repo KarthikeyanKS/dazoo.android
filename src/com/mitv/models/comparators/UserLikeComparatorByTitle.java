@@ -3,13 +3,12 @@ package com.mitv.models.comparators;
 
 
 
-import java.util.Comparator;
 import com.mitv.models.gson.UserLikeJSON;
 
 
 
 public class UserLikeComparatorByTitle 
-	implements Comparator<UserLikeJSON> 
+extends BaseComparator<UserLikeJSON> 
 {	
 	@Override
 	public int compare(UserLikeJSON a, UserLikeJSON b) 

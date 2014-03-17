@@ -18,7 +18,7 @@ import com.mitv.http.HTTPCore;
 import com.mitv.http.HTTPCoreResponse;
 import com.mitv.http.HeaderParameters;
 import com.mitv.http.URLParameters;
-import com.mitv.interfaces.ActivityCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
 import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.LanguageUtils;
@@ -31,8 +31,9 @@ public abstract class AsyncTaskBase<T>
 {	
 	private static final String TAG = AsyncTaskBase.class.getName();
 	
+	
 	private ContentCallbackListener contentCallbackListener;
-	private ActivityCallbackListener activityCallBackListener;
+	private ViewCallbackListener activityCallbackListener;
 	private RequestIdentifierEnum requestIdentifier;
 	
 	protected Gson gson;   // This is protected due to its use in classes that need to serialize data into the bodyContentData
@@ -56,21 +57,21 @@ public abstract class AsyncTaskBase<T>
 	
 	public AsyncTaskBase(
 			ContentCallbackListener contentCallbackListener, 
-			ActivityCallbackListener activityCallBackListener,
+			ViewCallbackListener activityCallbackListener,
 			RequestIdentifierEnum requestIdentifier, 
 			Class<T> clazz,
 			HTTPRequestTypeEnum httpRequestType,
 			boolean isRelativeURL,
 			String url) 
 	{
-		this(contentCallbackListener, activityCallBackListener, requestIdentifier, clazz, null, false, httpRequestType, isRelativeURL, url, new URLParameters(), new HeaderParameters(), null);
+		this(contentCallbackListener, activityCallbackListener, requestIdentifier, clazz, null, false, httpRequestType, isRelativeURL, url, new URLParameters(), new HeaderParameters(), null);
 	}
 	
 
 	
 	public AsyncTaskBase(
 			ContentCallbackListener contentCallbackListener,
-			ActivityCallbackListener activityCallBackListener,
+			ViewCallbackListener activityCallbackListener,
 			RequestIdentifierEnum requestIdentifier,
 			Class<T> clazz,
 			Class clazzSingle,
@@ -83,7 +84,7 @@ public abstract class AsyncTaskBase<T>
 			String bodyContentData)
 	{
 		this.contentCallbackListener = contentCallbackListener;
-		this.activityCallBackListener = activityCallBackListener;
+		this.activityCallbackListener = activityCallbackListener;
 		this.requestIdentifier = requestIdentifier;
 		this.clazz = clazz;
 		this.httpRequestType = httpRequestType;
@@ -220,7 +221,7 @@ public abstract class AsyncTaskBase<T>
 		
 		if(contentCallbackListener != null)
 		{
-			contentCallbackListener.onResult(activityCallBackListener, requestIdentifier, requestResultStatus, requestResultObjectContent);
+			contentCallbackListener.onResult(activityCallbackListener, requestIdentifier, requestResultStatus, requestResultObjectContent);
 		}
 		else
 		{

@@ -3,8 +3,8 @@ package com.mitv.activities;
 
 
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -13,7 +13,7 @@ import android.widget.ListView;
 
 import com.mitv.ContentManager;
 import com.mitv.R;
-import com.mitv.activities.base.BaseContentActivity;
+import com.mitv.activities.base.BaseActivityLoginRequired;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
@@ -24,7 +24,7 @@ import com.mitv.models.comparators.UserLikeComparatorByTitle;
 
 
 public class LikesActivity 
-	extends BaseContentActivity 
+	extends BaseActivityLoginRequired 
 	implements OnClickListener
 {
 	private static final String TAG = LikesActivity.class.getName();
@@ -69,6 +69,14 @@ public class LikesActivity
 	
 	
 	@Override
+	protected boolean hasEnoughDataToShowContent()
+	{
+		return ContentManager.sharedInstance().getFromCacheHasUserLikes();
+	}
+	
+	
+	
+	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
 		switch(requestIdentifier)
@@ -83,7 +91,7 @@ public class LikesActivity
 					
 					if(cacheContainsLikes)
 					{
-						updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+						updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 					}
 					else
 					{
@@ -120,9 +128,9 @@ public class LikesActivity
 				break;
 			}
 		
-			case SUCCEEDED_WITH_DATA:
+			case SUCCESS_WITH_CONTENT:
 			{
-				ArrayList<UserLike> userLikes = ContentManager.sharedInstance().getFromCacheUserLikes();
+				List<UserLike> userLikes = ContentManager.sharedInstance().getFromCacheUserLikes();
 				
 				Collections.sort(userLikes, new UserLikeComparatorByTitle());
 				

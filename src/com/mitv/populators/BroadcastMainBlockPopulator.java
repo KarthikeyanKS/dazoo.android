@@ -17,6 +17,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.models.TVProgram;
@@ -24,7 +25,6 @@ import com.mitv.ui.elements.LikeView;
 import com.mitv.ui.elements.ReminderView;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.LanguageUtils;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
@@ -44,10 +44,9 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 	private String contentTitle;
 
 
-	public BroadcastMainBlockPopulator(Activity activity, ScrollView scrollView)
+	public BroadcastMainBlockPopulator(Activity activity)
 	{
 		this.activity = activity;
-		this.scrollView = scrollView;
 	}
 
 	private String getYearString(TVProgram program) {
@@ -63,8 +62,9 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 		return genreString;
 	}
 
-	public void createBlock(final TVBroadcastWithChannelInfo broadcastWithChannelInfo) 
+	public void createBlock(ScrollView scrollView, final TVBroadcastWithChannelInfo broadcastWithChannelInfo) 
 	{
+		this.scrollView = scrollView;
 		LinearLayout containerView = (LinearLayout) scrollView.findViewById(R.id.broacastpage_block_container_layout);
 
 		View topContentView = LayoutInflater.from(activity).inflate(R.layout.block_broadcastpage_main_content, null);
@@ -217,13 +217,14 @@ public class BroadcastMainBlockPopulator implements OnClickListener
 		if (program.getImages().getPortrait().getLarge() != null && TextUtils.isEmpty(program.getImages().getPortrait().getLarge()) != true)
 		{
 			ImageAware imageAware = new ImageViewAware(posterIv, false);
-			ImageLoader.getInstance().displayImage(program.getImages().getLandscape().getLarge(), imageAware);
+			
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(program.getImages().getLandscape().getLarge(), imageAware);
 		}
 
 		if (broadcastWithChannelInfo.getChannel() != null) 
 		{
 			ImageAware imageAware = new ImageViewAware(channelIv, false);
-			ImageLoader.getInstance().displayImage(broadcastWithChannelInfo.getChannel().getImageUrl(), imageAware);
+			SecondScreenApplication.sharedInstance().getImageLoaderManager().displayImageWithResetViewOptions(broadcastWithChannelInfo.getChannel().getImageUrl(), imageAware);
 		}
 
 		if (broadcastWithChannelInfo.isBroadcastCurrentlyAiring())   /* Broadcast is currently on air: show progress */

@@ -1,6 +1,8 @@
 
 package com.mitv;
 
+import com.mitv.activities.FeedActivity;
+
 
 
 /**
@@ -15,19 +17,21 @@ public abstract class Constants
 	
 	public static final String APP_WAS_PREINSTALLED_FILE_NAME		= "59b039d2c0c0a7fbe163";
 
-	/* API URLs */
+	/* HTTP and HTTPS schemas */
 	public static final String HTTP_SCHEME							= "http://";
 	public static final String HTTPS_SCHEME							= "https://";
+	
+	/* API URLs */
 	public static final String JSON_MIME_TYPE 						= "application/json";
 	public static final String BACKEND_ENVIRONMENT_MITV 			= "mi.tv/";
 	public static final String BACKEND_ENVIRONMENT_GITRGITR 		= "gitrgitr.com/";
 
 	/* SETTINGS FOR BACKEND ENVIVORONEMT AND HTTPS SCHEME */
 	public static final String HTTP_SCHEME_USED						= HTTP_SCHEME;
-	public static final String BACKEND_ENVIRONMENT_USED 			= BACKEND_ENVIRONMENT_GITRGITR;
+	public static final String BACKEND_ENVIRONMENT_USED 			= BACKEND_ENVIRONMENT_MITV;
 	
 	/* "Static", don't need to change those */
-	public static final String URL_BACKEND_BASE_API					= "android.api.";
+	public static final String URL_BACKEND_BASE_API					= "api.";
 	public static final String URL_BACKEND_BASE_INTERNAL_TRACKING	= "tracking.";
 	public static final String BASE_API_URL_USED 					= URL_BACKEND_BASE_API + BACKEND_ENVIRONMENT_USED;;
 	public static final String URL_SERVER							= HTTP_SCHEME_USED + BASE_API_URL_USED;
@@ -98,7 +102,7 @@ public abstract class Constants
 	public static final int USER_FIRSTNAME_LENGTH_MIN				= 1;
 	public static final int API_POPULAR_COUNT_DEFAULT				= 3;
 
-	public static final String	ISO_DATE_FORMAT										= "yyyy-MM-dd'T'HH:mm:ss'Z'";
+	public static final String	ISO_8601_DATE_FORMAT								= "yyyy-MM-dd'T'HH:mm:ss'Z'";
 	public static final String	DATE_FORMAT_DATE									= "yyyy-MM-dd";
 	public static final String	DATE_FORMAT_HOUR_AND_MINUTE							= "HH:mm";
 	public static final String	DATE_FORMAT_HOUR_AND_MINUTE_WITH_AM_PM				= "HH:mm a";
@@ -137,7 +141,10 @@ public abstract class Constants
 	public static final int		TV_GUIDE_NEXT_PROGRAMS_NUMBER						= 3;
 	
 	/* Notifications */
-	public static final int		NOTIFY_MINUTES_BEFORE_THE_BROADCAST2				= 15;
+	public static final int		NOTIFY_MINUTES_BEFORE_THE_BROADCAST					= 15;
+	
+	public static final int		FEED_ACTIVITY_FEED_ITEM_INITIAL_COUNT				= 10;
+	public static final int		FEED_ACTIVITY_FEED_ITEM_MORE_COUNT					= 5;
 
 
 	/* Notifications database */
@@ -335,8 +342,7 @@ public abstract class Constants
 	public static final String JSON_KEY_API_VERSION_VALUE 							= "value";
 	
 	/* This CANNOT be changed since they are used as part of JSON_KEY, should be: guide, activity */
-	public static final String JSON_AND_FRAGMENT_KEY_GUIDE 							= "guide";
-	public static final String JSON_AND_FRAGMENT_KEY_ACTIVITY 						= "activity";
+	public static final String JSON_AND_FRAGMENT_KEY_ACTIVITY 						= FeedActivity.class.getName();
 	
 	/* PREFERENCES KEYS */
 	public static final String PREFS_KEY_APP_WAS_PREINSTALLED						= "APP_WAS_PREINSTALLED";
@@ -347,6 +353,7 @@ public abstract class Constants
 	public static final String GA_KEY_APP_WAS_PREINSTALLED_EXTERNAL_STORAGE			= "APP_WAS_PREINSTALLED_EXTERNAL_STORAGE";
 	public static final String GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_LOCATION		= "APP_WAS_PREINSTALLED_SYSTEM_APP_LOCATION";
 	public static final String GA_KEY_APP_WAS_PREINSTALLED_SYSTEM_APP_FLAG			= "APP_WAS_PREINSTALLED_SYSTEM_APP_FLAG";
+	public static final String GA_KEY_APP_CURRENT_USER_NETWORK_FLAG					= "APP_CURRENT_USER_NETWORK_FLAG";
 	public static final String GA_EVENT_KEY_SYSTEM_EVENT							= "SystemEvent";
 
 	public static final String GA_KEY_APP_VERSION									= "APP_VERSION";
@@ -460,22 +467,28 @@ public abstract class Constants
 	public static final String APP_URL_FACEBOOK_DO_NOT_REDIRECT = "&redirect=false";
 	public static final String APP_URL_FACEBOOK_GRAPH_ME = APP_URL_FACEBOOK_GRAPH + APP_URL_FACEBOOK_ME;
 	
+	/* CONFIGURATIONS FOR SEARCH */
+	public static final int SEARCH_QUERY_LENGTH_THRESHOLD = 3;
+	
+	/* CONFIGURATIONS FOR REMINDERS */
     public static final int MAXIMUM_REMINDER_TIME_FOR_SHOW = 15;
-    
     
     /* Shared preferences for data storage */
 	public static final String SHARED_PREFERENCES_NAME = "com.mitv.shared.preferences";
 	public static final String SHARED_PREFERENCES_USER_IMAGE_URL = "com.mitv.shared.preferences.user.image.url";
 	public static final String SHARED_PREFERENCES_USER_DATA = "com.mitv.shared.preferences.user.data";
 	public static final String SHARED_PREFERENCES_APP_WAS_PREINSTALLED = "com.mitv.app.preinstalled";
-	
-	
-	public static final boolean ENABLE_STRICT_MODE = false;
+	public static final String SHARED_PREFERENCES_APP_INSTALLED_VERSION = "com.mitv.app.installed.version";
 	
 	/* CONFIGURATIONS FOR RELEASE */
-	public static final boolean USE_DEFAULT_GOOGLE_TRACKING_ID = true;
+	public static final boolean IS_PREINSTALLED_VERSION = false;
+	public static final String CACHE_DATABASE_NAME = "com.mitv.cache.db";
+	public static final int CACHE_DATABASE_VERSION = 1;
+	public static final boolean FORCE_DATABASE_FLUSH = false;
+	public static final boolean FORCE_DEFAULT_GOOGLE_TRACKING_ID = true;
 	public static final boolean USE_HOCKEY_APP_CRASH_REPORTS = true;
 	public static final boolean USE_HOCKEY_APP_UPDATE_NOTIFICATIONS = false;
+	public static final boolean ENABLE_STRICT_MODE = true;
 	
 	public static final String ALL_CATEGORIES_TAG = "All programs";
 }

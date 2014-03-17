@@ -6,16 +6,10 @@ package com.mitv.activities.authentication;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.Html;
-import android.text.Spannable;
-import android.text.TextPaint;
-import android.text.TextWatcher;
-import android.text.method.LinkMovementMethod;
-import android.text.style.URLSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -27,8 +21,6 @@ import com.mitv.activities.base.BaseActivity;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
-import com.mitv.ui.elements.FontTextView;
-import com.mitv.ui.elements.TextDrawable;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.RegularExpressionUtils;
 
@@ -39,12 +31,6 @@ public class SignUpWithEmailActivity
 	implements OnClickListener
 {
 	private static final String TAG = SignUpWithEmailActivity.class.getName();
-
-	
-	private FontTextView termsOfService;
-	private TextDrawable emailTextDrawable;
-	private TextDrawable passwordTextDrawable;
-	
 	
 	private EditText firstNameEditText;
 	private EditText lastNameEditText;
@@ -65,7 +51,6 @@ public class SignUpWithEmailActivity
 	
 	private FetchRequestResultEnum fetchRequestResult;
 
-	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -114,11 +99,19 @@ public class SignUpWithEmailActivity
 	
 	
 	@Override
+	protected boolean hasEnoughDataToShowContent()
+	{
+		return true;
+	}
+	
+	
+	
+	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
 		if (fetchRequestResult.wasSuccessful()) 
 		{
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 		} 
 		else
 		{
@@ -147,7 +140,19 @@ public class SignUpWithEmailActivity
 			
 			case FAILED_VALIDATION:
 			{
-				if(isInvalidEmail)
+				if(isInvalidFirstname)
+				{
+					firstnameErrorTextView.setVisibility(View.VISIBLE);
+					firstNameEditText.setBackgroundResource(R.drawable.edittext_activated);
+					firstNameEditText.requestFocus();
+				}
+				else if(isInvalidLastname)
+				{
+					lastnameErrorTextView.setVisibility(View.VISIBLE);
+					lastNameEditText.setBackgroundResource(R.drawable.edittext_activated);
+					lastNameEditText.requestFocus();
+				}
+				else if(isInvalidEmail)
 				{
 					emailErrorTextView.setVisibility(View.VISIBLE);
 					emailErrorTextView.setText(getResources().getString(R.string.signup_with_email_login_wrong_format_email));
@@ -156,21 +161,17 @@ public class SignUpWithEmailActivity
 				}
 				else if(isInvalidPassword)
 				{
+					StringBuilder sb = new StringBuilder();
+					sb.append(getResources().getString(R.string.signup_with_email_error_passwordlength));
+					sb.append(" ");
+					sb.append(Constants.PASSWORD_LENGTH_MIN);
+					sb.append(" ");
+					sb.append(getResources().getString(R.string.signup_with_email_characters));
+					
+					passwordErrorTextView.setText(sb.toString());
 					passwordErrorTextView.setVisibility(View.VISIBLE);
-					passwordErrorTextView.setBackgroundResource(R.drawable.edittext_activated);
-					passwordErrorTextView.requestFocus();
-				}
-				else if(isInvalidFirstname)
-				{
-					firstnameErrorTextView.setVisibility(View.VISIBLE);
-					firstnameErrorTextView.setBackgroundResource(R.drawable.edittext_activated);
-					firstnameErrorTextView.requestFocus();
-				}
-				else if(isInvalidLastname)
-				{
-					lastnameErrorTextView.setVisibility(View.VISIBLE);
-					lastnameErrorTextView.setBackgroundResource(R.drawable.edittext_activated);
-					lastnameErrorTextView.requestFocus();
+					passwordEditText.setBackgroundResource(R.drawable.edittext_activated);
+					passwordEditText.requestFocus();
 				}
 				else
 				{
@@ -182,7 +183,7 @@ public class SignUpWithEmailActivity
 				break;
 			}
 			
-			case SUCCEEDED_WITH_DATA:
+			case SUCCESS_WITH_CONTENT:
 			{
 				enableFields();
 				if(!ContentManager.sharedInstance().tryStartReturnActivity(this)) {
@@ -337,16 +338,8 @@ public class SignUpWithEmailActivity
 		signUpButton = (Button) findViewById(R.id.signup_register_button);
 		signUpButton.setOnClickListener(this);
 
-		termsOfService = (FontTextView) findViewById(R.id.signup_terms_link);
-
-		String linkText = getString(R.string.terms_link);
-		
-		termsOfService.setText(Html.fromHtml(linkText));
-		termsOfService.setMovementMethod(LinkMovementMethod.getInstance());
-		
-		stripUnderlines(termsOfService);
-
-//		setTextWatchers(); //TODO: Remove this when it feels appropriate. TextDrawable was buggy.
+		// Show software keyboard
+		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 	}
 	
 	
@@ -387,115 +380,12 @@ public class SignUpWithEmailActivity
 		
 		return isValid;
 	}
-	
-	
-	
-	private class URLSpanWithoutUnderline extends URLSpan 
-	{
-		public URLSpanWithoutUnderline(String url) 
-		{
-			super(url);
-		}
-
-		@Override
-		public void updateDrawState(TextPaint ds)
-		{
-			super.updateDrawState(ds);
-			
-			ds.setUnderlineText(false);
-		}
-	}
-
-	
-	
-	// TODO NewArc - Is this really needed?
-	private void stripUnderlines(TextView textView) 
-	{
-		Spannable s = (Spannable) textView.getText();
 		
-		URLSpan[] spans = s.getSpans(0, s.length(), URLSpan.class);
-		
-		for (URLSpan span : spans) 
-		{
-			int start = s.getSpanStart(span);
-			int end = s.getSpanEnd(span);
-			
-			s.removeSpan(span);
-			
-			span = new URLSpanWithoutUnderline(span.getURL());
-			
-			s.setSpan(span, start, end, 0);
-		}
-		
-		textView.setText(s);
-	}
-
-	
-	
-	private void setTextWatchers() 
-	{
-		passwordTextDrawable = new TextDrawable(this);
-		passwordTextDrawable.setText(getResources().getString(R.string.signup_characters));
-		passwordTextDrawable.setTextColor(getResources().getColor(R.color.grey2));
-		
-		passwordEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, passwordTextDrawable, null);
-		
-		passwordEditText.addTextChangedListener(new TextWatcher() 
-		{
-			@Override
-			public void afterTextChanged(Editable s) 
-			{
-				if (passwordEditText.getText().toString().equals(""))
-				{
-					passwordEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, passwordTextDrawable, null);
-				} 
-				else 
-				{
-					passwordEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-				}
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {}
-		});
-		
-		emailTextDrawable = new TextDrawable(this);
-		emailTextDrawable.setText(getResources().getString(R.string.signup_email_example));
-		emailTextDrawable.setTextColor(getResources().getColor(R.color.grey2));
-		
-		emailEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, emailTextDrawable, null);
-		
-		emailEditText.addTextChangedListener(new TextWatcher() 
-		{
-			@Override
-			public void afterTextChanged(Editable s) 
-			{
-				if (emailEditText.getText().toString().equals(""))
-				{
-					emailEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, emailTextDrawable, null);
-				} 
-				else 
-				{
-					emailEditText.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-				}
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {}
-		});
-	}
-
-	
-	
 	@Override
 	public void onClick(View v)
 	{
+		/* If we ever want to add tabs to this view, tabs wont work if not calling super. Does not break anything if we dont have tabs though. */
+		super.onClick(v);
 		int id = v.getId();
 		
 		switch (id) 

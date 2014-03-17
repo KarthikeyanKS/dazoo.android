@@ -13,6 +13,6 @@
         android:cacheColorHint="@null"
         android:divider="@null" />
 
-    <include layout="@layout/layout_request_callbacks_holder_layout" />
+    <include layout="@layout/layout_request_callbacks_holder_main_layout" />
 
 </RelativeLayout>

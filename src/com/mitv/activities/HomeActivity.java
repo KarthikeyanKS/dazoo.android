@@ -5,32 +5,30 @@ package com.mitv.activities;
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.mitv.Constants;
 import com.mitv.ContentManager;
 import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.fragments.TVHolderFragment;
 import com.mitv.fragments.TVHolderFragment.OnViewPagerIndexChangedListener;
 import com.mitv.ui.helpers.ToastHelper;
-import com.mitv.utilities.DateUtils;
 
 
 
 public class HomeActivity 
 	extends TVDateSelectionActivity
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = HomeActivity.class.getName();
 
 	
-	
-	private Fragment activeFragment;
+	private TVHolderFragment activeFragment;
 	private int selectedTagIndex = 0;
 	private boolean hasShowWelcomeToast = false;
 
@@ -53,7 +51,7 @@ public class HomeActivity
 
 		getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
-		initLayout();		
+		initLayout();
 	}
 	
 	
@@ -61,6 +59,7 @@ public class HomeActivity
 	@Override
 	protected void onResume()
 	{
+		
 		super.onResume();
 		
 		if(Constants.USE_HOCKEY_APP_CRASH_REPORTS)
@@ -73,14 +72,13 @@ public class HomeActivity
 			hockeyAppCheckForUpdates();
 		}
 		
-		int currentHour = DateUtils.getCurrentHourOn24HourFormat();
-		
-		ContentManager.sharedInstance().setSelectedHour(currentHour);
-		
 		showWelcomeToast();
+		
+		if(ContentManager.sharedInstance().isUpdatingGuide()) {
+			updateUI(UIStatusEnum.LOADING);
+		}
 	}
-	
-	
+		
 	/* Do not use this in Google Play builds */
 	private void hockeyAppCheckForCrashes() 
 	{
@@ -94,6 +92,7 @@ public class HomeActivity
 	{
 		UpdateManager.register(this, Constants.HOCKEY_APP_TOKEN);
 	}
+	
 	
 	
 	private void showWelcomeToast() 
@@ -112,19 +111,29 @@ public class HomeActivity
 	}
 	
 	
+	
 	@Override
 	protected void attachFragment() 
 	{
-		activeFragment = TVHolderFragment.newInstance(selectedTagIndex, new OnViewPagerIndexChangedListener() 
-		{
-			@Override
-			public void onIndexSelected(int position) 
-			{
-				selectedTagIndex = position;
-			}
-		});
+		FragmentManager fm = getSupportFragmentManager();
 		
-		getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, activeFragment, null).commitAllowingStateLoss();
+		if(activeFragment == null)
+		{
+			activeFragment = TVHolderFragment.newInstance(selectedTagIndex, new OnViewPagerIndexChangedListener() 
+			{
+				@Override
+				public void onIndexSelected(int position) 
+				{
+					selectedTagIndex = position;
+				}
+			});
+			
+			fm.beginTransaction().replace(R.id.fragment_container, activeFragment, null).commitAllowingStateLoss();
+		}
+		else
+		{
+			fm.beginTransaction().attach(activeFragment).commitAllowingStateLoss();
+		}
 	}
 	
 
@@ -132,16 +141,11 @@ public class HomeActivity
 	@Override
 	protected void removeActiveFragment() 
 	{
-		try 
-		{	
-			if (activeFragment != null) 
-			{
-				getSupportFragmentManager().beginTransaction().remove(activeFragment).commitAllowingStateLoss();
-			}
-		} 
-		catch (Exception e) 
+		if (activeFragment != null) 
 		{
-			Log.e(TAG , e.getMessage(), e);
+			getSupportFragmentManager().beginTransaction().remove(activeFragment).commitAllowingStateLoss();
+
+			activeFragment = null;
 		}
 	}
 
@@ -168,11 +172,19 @@ public class HomeActivity
 	
 	
 	@Override
+	protected boolean hasEnoughDataToShowContent()
+	{
+		return ContentManager.sharedInstance().getFromCacheHasTVGuideForSelectedTVDate();
+	}
+	
+	
+	
+	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
 		if(fetchRequestResult.wasSuccessful())
 		{
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 		} 
 		else 
 		{
@@ -185,21 +197,17 @@ public class HomeActivity
 	@Override
 	protected void updateUI(UIStatusEnum status) 
 	{
+		super.updateUI(status);
 		super.updateUIBaseElements(status);
 			
 		switch (status) 
 		{	
-			case SUCCEEDED_WITH_DATA:
-			{
+			case SUCCESS_WITH_CONTENT:
+			{			
 				attachFragment();
 				break;
 			}
-	
-			default:
-			{
-				// Do nothing
-				break;
-			}
+			default:{/*Do nothing*/break;}
 		}
 	}
 }

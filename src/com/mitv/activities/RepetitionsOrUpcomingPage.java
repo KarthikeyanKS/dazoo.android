@@ -48,7 +48,8 @@ public class RepetitionsOrUpcomingPage
 		initViews();
 		loadData();
 	}
-		
+	
+	
 	private void initViews() 
 	{
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -67,24 +68,36 @@ public class RepetitionsOrUpcomingPage
 		listView = (ListView) findViewById(R.id.repeating_list_listview);
 	}
 	
+	
 	@Override
 	protected void loadData()
 	{
-		updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+		updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 	}
+	
+	
+	
+	@Override
+	protected boolean hasEnoughDataToShowContent()
+	{
+		return true;
+	}
+	
+	
 	
 	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{
 		if (fetchRequestResult.wasSuccessful()) 
 		{
-			updateUI(UIStatusEnum.SUCCEEDED_WITH_DATA);
+			updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 		} 
 		else
 		{
 			updateUI(UIStatusEnum.FAILED);
 		}
 	}
+	
 	
 	@Override
 	public void onBackPressed() 
@@ -93,6 +106,7 @@ public class RepetitionsOrUpcomingPage
 		finish();
 	}
 	
+	
 	@Override
 	protected void updateUI(UIStatusEnum status) 
 	{
@@ -100,7 +114,7 @@ public class RepetitionsOrUpcomingPage
 
 		switch (status) 
 		{	
-			case SUCCEEDED_WITH_DATA:
+			case SUCCESS_WITH_CONTENT:
 			{
 				listAdapter = new UpcomingOrRepeatingBroadcastsListAdapter(this, broadcasts, usedForUpcomingEpisodes);
 				listView.setAdapter(listAdapter);

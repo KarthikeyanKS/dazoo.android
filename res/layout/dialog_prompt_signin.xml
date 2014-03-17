@@ -56,12 +56,12 @@
         android:layout_below="@id/dialog_prompt_signin_buttons_divider"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="5dp" >
+        android:padding="10dp" >
 
         <com.mitv.ui.elements.FontButton
             android:id="@+id/dialog_prompt_signin_button_cancel"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
         	android:background="@drawable/background_color_selector"
             android:text="@string/cancel"
@@ -77,7 +77,7 @@
         <com.mitv.ui.elements.FontButton
             android:id="@+id/dialog_prompt_signin_button_signin"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
         	android:background="@drawable/background_color_selector"
             android:text="@string/sign_up"
