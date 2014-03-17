@@ -3,7 +3,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/request_failed_main_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:visibility="gone">
 
     <ImageView
         android:id="@+id/request_failed_iv"
@@ -21,7 +22,7 @@
         android:layout_below="@id/request_failed_iv"
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
-        android:text="@string/error_connection_lost"
+        android:text="@string/general_error_message_message"
         android:textColor="@color/black"
         android:textSize="14sp" />
 

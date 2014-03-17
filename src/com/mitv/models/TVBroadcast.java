@@ -295,6 +295,14 @@ public class TVBroadcast
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append(dayOfTheWeekAsString);
+		
+		if (dayOfTheWeekAsString.equalsIgnoreCase(SecondScreenApplication.sharedInstance().getApplicationContext().getString(R.string.today)) == false &&
+			dayOfTheWeekAsString.equalsIgnoreCase(SecondScreenApplication.sharedInstance().getApplicationContext().getString(R.string.tomorrow)) == false) {
+			String dayAndMonthString = getBeginTimeDayAndMonthAsString();
+			sb.append(" ");
+			sb.append(dayAndMonthString);
+		}
+
 		sb.append(", ");
 		sb.append(timeOfDayAsString);
 		
@@ -361,6 +369,30 @@ public class TVBroadcast
 		return sb.toString();
 	}
 		
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((beginTimeMillis == null) ? 0 : beginTimeMillis.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BroadcastJSON other = (BroadcastJSON) obj;
+		if (beginTimeMillis == null) {
+			if (other.getBeginTimeMillis() != null)
+				return false;
+		} else if (!beginTimeMillis.equals(other.getBeginTimeMillis()))
+			return false;
+		return true;
+	}
 	
 	
 	@Override

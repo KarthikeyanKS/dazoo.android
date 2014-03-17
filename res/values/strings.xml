@@ -34,7 +34,7 @@
     <string name="icon_letter" translatable="false"> 		&#x0395;</string>
     <string name="icon_facebook" translatable="false"> 		&#x0396;</string>
     <string name="icon_heart" translatable="false"> 		&#x0398;</string>
-    <string name="icon_live" translatable="false"> 			&#x0399;</string>
+    <string name="icon_live"> 								&#x03A4;</string>
     <string name="icon_blocks" translatable="false"> 		&#x039A;</string>
     <string name="icon_search" translatable="false"> 		&#x039B;</string>
     <string name="icon_settings" translatable="false"> 		&#x039C;</string>
@@ -56,16 +56,16 @@
     <string name="splash_screen_activity_text">We guide, inspire and socialize your TV experience so you never miss a thing</string>
     
     <!-- CONTENTMANAGER RESPONSE MESSAGES -->
-    <string name="response_activityfeed">Fetched user activity feed</string>
-    <string name="response_activityfeed_more">Fetched more data for the user activity feed</string>
-    <string name="response_configuration_data">Fetched app configuration data</string>
-    <string name="response_app_version_data">Fetched app version data</string>
-    <string name="response_tv_dates_data">Fetched tv dates data</string>
-    <string name="response_tv_channel_id_data">Fetched tv channel id data</string>
-    <string name="response_tv_genres_data">Fetched tv genres data</string>
-    <string name="response_tv_channel_data">Fetched tv channel data</string>
-    <string name="response_tv_guide_data">Fetched tv guide data</string>
-    <string name="response_user_likes">Fetched user likes</string>
+    <string name="response_activityfeed">Loading recommendation feed</string>
+    <string name="response_activityfeed_more">Loading user activity feed</string>
+    <string name="response_configuration_data">Loaded app info</string>
+    <string name="response_app_version_data">Loaded version info</string>
+    <string name="response_tv_dates_data">Loaded date info</string>
+    <string name="response_tv_channel_id_data">Loaded tv channel info </string>
+    <string name="response_tv_genres_data">Loaded genres info</string>
+    <string name="response_tv_channel_data">Loaded all tv channels</string>
+    <string name="response_tv_guide_data">Loaded tv schedule </string>
+    <string name="response_user_likes">Loaded account info</string>
 
     <!-- HOMEPAGE : FILTER BY CATEGORY -->
     <string name="tv_guide">TV Guide</string>

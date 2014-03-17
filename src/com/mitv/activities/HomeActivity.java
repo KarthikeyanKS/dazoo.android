@@ -18,6 +18,7 @@ import com.mitv.enums.UIStatusEnum;
 import com.mitv.fragments.TVHolderFragment;
 import com.mitv.fragments.TVHolderFragment.OnViewPagerIndexChangedListener;
 import com.mitv.ui.helpers.ToastHelper;
+import com.mitv.utilities.GenericUtils;
 
 
 
@@ -113,26 +114,21 @@ public class HomeActivity
 	
 	
 	@Override
-	protected void attachFragment() 
-	{
-		FragmentManager fm = getSupportFragmentManager();
-		
-		if(activeFragment == null)
-		{
-			activeFragment = TVHolderFragment.newInstance(selectedTagIndex, new OnViewPagerIndexChangedListener() 
-			{
-				@Override
-				public void onIndexSelected(int position) 
-				{
-					selectedTagIndex = position;
-				}
-			});
-			
-			fm.beginTransaction().replace(R.id.fragment_container, activeFragment, null).commitAllowingStateLoss();
-		}
-		else
-		{
-			fm.beginTransaction().attach(activeFragment).commitAllowingStateLoss();
+	protected void attachFragment() {
+		if (GenericUtils.isActivityNotNullOrFinishing(this)) {
+			FragmentManager fm = getSupportFragmentManager();
+			if (activeFragment == null) {
+				activeFragment = TVHolderFragment.newInstance(selectedTagIndex, new OnViewPagerIndexChangedListener() {
+					@Override
+					public void onIndexSelected(int position) {
+						selectedTagIndex = position;
+					}
+				});
+
+				fm.beginTransaction().replace(R.id.fragment_container, activeFragment, null).commitAllowingStateLoss();
+			} else {
+				fm.beginTransaction().attach(activeFragment).commitAllowingStateLoss();
+			}
 		}
 	}
 	
