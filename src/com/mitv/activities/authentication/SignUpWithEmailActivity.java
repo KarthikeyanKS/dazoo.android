@@ -357,7 +357,11 @@ public class SignUpWithEmailActivity
 	
 	private boolean isLastnameValid() 
 	{
-		return true;
+		String name = lastNameEditText.getText().toString();
+		
+		boolean isValid = RegularExpressionUtils.checkUserLastname(name);
+		
+		return isValid;
 	}
 	
 	

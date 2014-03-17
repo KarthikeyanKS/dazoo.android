@@ -52,6 +52,14 @@ public abstract class RegularExpressionUtils
 	}
 	
 	
+	public static boolean checkUserLastname(String lastname)
+	{
+		boolean isValid = (lastname != null) && 
+						  (lastname.length() >= Constants.USER_LASTNAME_LENGTH_MIN);
+		
+		return isValid;
+	}
+	
 	
 	public static String escapeSpaceChars(String stringWithSpaceChars) 
 	{
