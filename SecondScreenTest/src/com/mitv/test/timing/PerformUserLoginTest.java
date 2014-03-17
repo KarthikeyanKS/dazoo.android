@@ -39,7 +39,7 @@ public class PerformUserLoginTest
 
 		for(int i=0; i<400; i++)
 		{
-			receivedData = login(false);
+			receivedData = login(true);
 		}
 	}
 	

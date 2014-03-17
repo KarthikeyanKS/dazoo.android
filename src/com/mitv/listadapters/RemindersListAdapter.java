@@ -198,6 +198,7 @@ public class RemindersListAdapter
 						}
 						
 						holder.mBroadcastDetailsTv.setText(seasonEpisodeSB.toString());
+						holder.mBroadcastTitleTv.setText(tvProgram.getSeries().getName());
 						break;
 					}
 					

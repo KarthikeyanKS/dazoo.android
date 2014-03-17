@@ -346,9 +346,9 @@ public class SignUpWithEmailActivity
 	
 	private boolean isFirstnameValid() 
 	{
-		String email = firstNameEditText.getText().toString();
+		String name = firstNameEditText.getText().toString();
 		
-		boolean isValid = RegularExpressionUtils.checkUserFirstname(email);
+		boolean isValid = RegularExpressionUtils.checkUserFirstname(name);
 		
 		return isValid;
 	}
