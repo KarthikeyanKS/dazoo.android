@@ -353,6 +353,7 @@ public abstract class DateUtils
 		else
 		{
 			dayOfTheWeekAsString = inputCalendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, locale);
+			dayOfTheWeekAsString = Character.toUpperCase(dayOfTheWeekAsString.charAt(0)) + dayOfTheWeekAsString.substring(1);
 		}
 		
 		return dayOfTheWeekAsString;

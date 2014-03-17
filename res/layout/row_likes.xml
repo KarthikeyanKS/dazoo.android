@@ -93,13 +93,13 @@
                 android:layout_margin="5dp"
                 android:src="@drawable/ic_like_selected" />
 
-            <View
+            <!--View
                 android:layout_width="1dp"
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_margin="10dp"
                 android:layout_toLeftOf="@id/row_likes_button_iv"
-                android:background="@color/grey1" />
+                android:background="@color/grey1" /-->
         </RelativeLayout>
     </LinearLayout>
 
