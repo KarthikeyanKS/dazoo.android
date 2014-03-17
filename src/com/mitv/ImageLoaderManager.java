@@ -30,10 +30,21 @@ public class ImageLoaderManager
 	
 	
 	
+	public static ImageLoaderManager sharedInstance(Context context) 
+	{
+		if (instance == null) 
+		{
+			instance = new ImageLoaderManager(context);
+		}
+
+		return instance;
+	}
+	
+	
+	
 	private ImageLoaderManager(final Context context)
 	{
 		ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(context)
-			//.defaultDisplayImageOptions()
 			.memoryCache(new LruMemoryCache(2 * 1024 * 1024))
 			.memoryCacheSize(2 * 1024 * 1024)
 			.discCacheSize(50 * 1024 * 1024)
@@ -49,13 +60,36 @@ public class ImageLoaderManager
 	
 	
 	
-	public void displayImageWithDefaultOptions(String url, ImageAware imageAware)
+	/* Used in views where we don't want to reset the view itself */
+	private DisplayImageOptions getDisplayImageDefaultOptions()
 	{
-		// Used in views where we don't want to reset the view itself
 		DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
 		.cacheInMemory(true)
 		.cacheOnDisc(true)
 		.build();
+
+		return displayImageOptions;
+	}
+	
+	
+	
+	/* Used when views are reset before loading */
+	private DisplayImageOptions getDisplayImageWithResetViewOptions()
+	{	
+		DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
+		.cacheInMemory(true)
+		.cacheOnDisc(true)
+		.resetViewBeforeLoading(true)
+		.build();
+
+		return displayImageOptions;
+	}
+	
+	
+	
+	public void displayImageWithDefaultOptions(String url, ImageAware imageAware)
+	{
+		DisplayImageOptions displayImageOptions = getDisplayImageDefaultOptions();
 		
 		imageLoader.displayImage(url, imageAware, displayImageOptions);
 	}
@@ -64,11 +98,7 @@ public class ImageLoaderManager
 	
 	public void displayImageWithDefaultOptions(String url, ImageAware imageAware, ImageLoadingListener imageLoadingListener)
 	{
-		// Used in views where we don't want to reset the view itself
-		DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
-		.cacheInMemory(true)
-		.cacheOnDisc(true)
-		.build();
+		DisplayImageOptions displayImageOptions = getDisplayImageDefaultOptions();
 		
 		imageLoader.displayImage(url, imageAware, displayImageOptions, imageLoadingListener);
 	}
@@ -77,11 +107,7 @@ public class ImageLoaderManager
 	
 	public void displayImageWithDefaultOptions(String url, ImageView imageView)
 	{
-		// Used in views where we don't want to reset the view itself
-		DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
-		.cacheInMemory(true)
-		.cacheOnDisc(true)
-		.build();
+		DisplayImageOptions displayImageOptions = getDisplayImageDefaultOptions();
 		
 		imageLoader.displayImage(url, imageView, displayImageOptions);
 	}
@@ -90,12 +116,7 @@ public class ImageLoaderManager
 	
 	public void displayImageWithResetViewOptions(String url, ImageAware imageAware, ImageLoadingListener imageLoadingListener)
 	{
-		// Used when views are reset before loading
-		DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
-		.cacheInMemory(true)
-		.cacheOnDisc(true)
-		.resetViewBeforeLoading(true)
-		.build();
+		DisplayImageOptions displayImageOptions = getDisplayImageWithResetViewOptions();
 		
 		imageLoader.displayImage(url, imageAware, displayImageOptions, imageLoadingListener);
 	}
@@ -104,12 +125,7 @@ public class ImageLoaderManager
 	
 	public void displayImageWithResetViewOptions(String url, ImageAware imageAware)
 	{
-		// Used when views are reset before loading
-		DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
-		.cacheInMemory(true)
-		.cacheOnDisc(true)
-		.resetViewBeforeLoading(true)
-		.build();
+		DisplayImageOptions displayImageOptions = getDisplayImageWithResetViewOptions();
 		
 		imageLoader.displayImage(url, imageAware, displayImageOptions);
 	}
@@ -118,25 +134,8 @@ public class ImageLoaderManager
 	
 	public void displayImageWithResetViewOptions(String url, ImageView imageView)
 	{
-		// Used when views are reset before loading
-		DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
-		.cacheInMemory(true)
-		.cacheOnDisc(true)
-		.resetViewBeforeLoading(true)
-		.build();
+		DisplayImageOptions displayImageOptions = getDisplayImageWithResetViewOptions();
 		
 		imageLoader.displayImage(url, imageView, displayImageOptions);
-	}
-	
-
-		
-	public static ImageLoaderManager sharedInstance(Context context) 
-	{
-		if (instance == null) 
-		{
-			instance = new ImageLoaderManager(context);
-		}
-
-		return instance;
 	}
 }

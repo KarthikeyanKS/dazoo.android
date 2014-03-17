@@ -3,7 +3,9 @@
 <LinearLayout 
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/undobar" 
-    style="@style/UndoBar">
+    style="@style/UndoBar"
+    android:layout_marginBottom="50dp"
+    android:layout_alignParentBottom="true">
 		<TextView android:id="@+id/undobar_message" style="@style/UndoBarMessage" />
-    	<Button android:id="@+id/undobar_button" style="@style/UndoBarButton" />
+    	<Button android:id="@+id/undobar_button" style="@style/UndoBarButton"/>
 </LinearLayout>

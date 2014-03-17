@@ -61,6 +61,29 @@ public abstract class LanguageUtils
 	
 	
 	
+	public static String capitalize(
+			final String input,
+			final Locale locale)
+	{
+		StringBuilder sb = new StringBuilder();
+		
+		if(input != null && 
+		   input.isEmpty() == false)
+		{
+			String firstChar = input.substring(0, 1);
+			
+			String remainingString = input.substring(1);
+			
+			sb.append(firstChar.toUpperCase(locale));
+			sb.append(remainingString);
+		}
+		
+		return sb.toString();
+	}
+	
+	
+	
+	
 	public static void setupProgressBar(
 			Activity activity, 
 			TVBroadcast broadcast, 

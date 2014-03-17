@@ -1,6 +1,8 @@
+
 package com.mitv.activities.base;
 
-import java.util.ArrayList;
+
+
 import java.util.List;
 import java.util.Stack;
 
@@ -22,7 +24,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.mitv.Constants;
@@ -49,7 +50,12 @@ import com.mitv.utilities.DateUtils;
 import com.mitv.utilities.GenericUtils;
 import com.mitv.utilities.NetworkUtils;
 
-public abstract class BaseActivity extends ActionBarActivity implements ViewCallbackListener, OnClickListener, UndoListener {
+
+
+public abstract class BaseActivity 
+	extends ActionBarActivity 
+	implements ViewCallbackListener, OnClickListener, UndoListener 
+{
 	private static final String TAG = BaseActivity.class.getName();
 	private static final int TV_DATE_NOT_FOUND = -1;
 
@@ -111,7 +117,17 @@ public abstract class BaseActivity extends ActionBarActivity implements ViewCall
 	}
 
 	@Override
-	public void onUndo(Parcelable token) {
+	public void onUndo(Parcelable token) 
+	{
+		if (undoBarController != null) 
+		{
+			undoBarController.hideUndoBar(true);
+		} 
+		else 
+		{
+			Log.w(TAG, "Undo bar component is null.");
+		}
+		
 		loadDataWithConnectivityCheck();
 	}
 

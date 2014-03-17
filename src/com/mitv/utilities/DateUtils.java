@@ -353,6 +353,9 @@ public abstract class DateUtils
 		else
 		{
 			dayOfTheWeekAsString = inputCalendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, locale);
+			
+			/* The first character is always capitalized, per UX team request */
+			dayOfTheWeekAsString = LanguageUtils.capitalize(dayOfTheWeekAsString, locale);
 		}
 		
 		return dayOfTheWeekAsString;

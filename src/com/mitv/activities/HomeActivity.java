@@ -11,7 +11,6 @@ import android.text.TextUtils;
 import com.mitv.Constants;
 import com.mitv.ContentManager;
 import com.mitv.R;
-import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;

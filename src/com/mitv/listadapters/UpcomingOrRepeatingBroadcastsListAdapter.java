@@ -102,28 +102,41 @@ public class UpcomingOrRepeatingBroadcastsListAdapter extends BaseAdapter {
 			holder.reminderView.setBroadcast(broadcastWithChannelInfo);
 
 			holder.headerContainer.setVisibility(View.GONE);
+			
 			holder.divider.setVisibility(View.VISIBLE);
-			if (position == 0 || broadcastWithChannelInfo.getBeginTimeDayAndMonthAsString().equals((getItem(position - 1)).getBeginTimeDayAndMonthAsString()) == false) {
+			
+			if (position == 0 || broadcastWithChannelInfo.getBeginTimeDayAndMonthAsString().equals((getItem(position - 1)).getBeginTimeDayAndMonthAsString()) == false) 
+			{
 				holder.header.setText(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekAsString() + " " + broadcastWithChannelInfo.getBeginTimeDayAndMonthAsString());
 				holder.headerContainer.setVisibility(View.VISIBLE);
 			}
-			if (position != (getCount() - 1) && broadcastWithChannelInfo.getBeginTimeDayAndMonthAsString().equals((getItem(position + 1)).getBeginTimeDayAndMonthAsString()) == false) {
+			if (position != (getCount() - 1) && broadcastWithChannelInfo.getBeginTimeDayAndMonthAsString().equals((getItem(position + 1)).getBeginTimeDayAndMonthAsString()) == false)
+			{
 				holder.divider.setVisibility(View.GONE);
 			}
 
-			if (usedForUpcomingEpisodes) {
-				// Set season and episode
-				String season = broadcastWithChannelInfo.getProgram().getSeason().getNumber().toString();
+			if (usedForUpcomingEpisodes) 
+			{
+				int season = broadcastWithChannelInfo.getProgram().getSeason().getNumber().intValue();
+				
 				int episode = broadcastWithChannelInfo.getProgram().getEpisodeNumber();
+				
 				String seasonEpisode = "";
-				if (!season.equals("0")) {
+				
+				if (season != 0) 
+				{
 					seasonEpisode += activity.getResources().getString(R.string.season) + " " + season + " ";
 				}
-				if (episode > 0) {
+				
+				if (episode > 0) 
+				{
 					seasonEpisode += activity.getResources().getString(R.string.episode) + " " + episode;
 				}
+				
 				holder.seasonEpisodeTv.setText(seasonEpisode);
-			} else {
+			} 
+			else 
+			{
 				holder.seasonEpisodeTv.setVisibility(View.GONE);
 			}
 			
@@ -131,15 +144,19 @@ public class UpcomingOrRepeatingBroadcastsListAdapter extends BaseAdapter {
 
 			// Set channel
 			String channel = broadcastWithChannelInfo.getChannel().getName();
-			if (channel != null) {
+			
+			if (channel != null) 
+			{
 				holder.channelTv.setText(channel);
 			}
 
-			holder.container.setOnClickListener(new View.OnClickListener() {
-
+			holder.container.setOnClickListener(new View.OnClickListener()
+			{
 				@Override
-				public void onClick(View v) {
+				public void onClick(View v) 
+				{
 					Intent intent = new Intent(activity, BroadcastPageActivity.class);
+					
 					ContentManager.sharedInstance().setSelectedBroadcastWithChannelInfo(broadcastWithChannelInfo);
 
 					activity.startActivity(intent);

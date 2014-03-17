@@ -38,6 +38,7 @@ public class UndoBarController
     }
 
     
+    
     public UndoBarController(View undoBarView, UndoListener undoListener) 
     {
         mBarView = undoBarView;
@@ -52,14 +53,14 @@ public class UndoBarController
         mMessageView = (TextView) mBarView.findViewById(R.id.undobar_message);
         
         mBarView.findViewById(R.id.undobar_button).setOnClickListener(new View.OnClickListener() 
-                {
-                    @Override
-                    public void onClick(View view)
-                    {
-                        hideUndoBar(false);
-                        mUndoListener.onUndo(mUndoToken);
-                    }
-                });
+        {
+        	@Override
+        	public void onClick(View view)
+        	{
+        		hideUndoBar(false);
+        		mUndoListener.onUndo(mUndoToken);
+        	}
+        });
 
         hideUndoBar(true);
     }
@@ -126,9 +127,11 @@ public class UndoBarController
                     .alpha(0)
                     .setDuration(mBarView.getResources()
                             .getInteger(android.R.integer.config_shortAnimTime))
-                    .setListener(new AnimatorListenerAdapter() {
+                    .setListener(new AnimatorListenerAdapter() 
+                    {
                         @Override
-                        public void onAnimationEnd(Animator animation) {
+                        public void onAnimationEnd(Animator animation)
+                        {
                             mBarView.setVisibility(View.GONE);
                             mUndoMessage = null;
                             mUndoToken = null;
@@ -159,6 +162,7 @@ public class UndoBarController
         }
     }
 
+    
     
     private Runnable mHideRunnable = new Runnable() 
     {

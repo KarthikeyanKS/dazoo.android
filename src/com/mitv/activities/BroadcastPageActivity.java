@@ -51,7 +51,6 @@ public class BroadcastPageActivity
 	extends BaseContentActivity
 	implements OnClickListener
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = BroadcastPageActivity.class.getName();
 
 	private TVChannelId channelId;
