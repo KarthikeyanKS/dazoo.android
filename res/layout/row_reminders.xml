@@ -110,13 +110,16 @@
             android:background="@drawable/background_color_selector_white"
             android:orientation="horizontal" >
 
-            <ImageView
+            <com.mitv.ui.elements.FontTextView
                 android:id="@+id/row_reminders_notification_iv"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/icon_reminder"
+                android:textColor="@color/grey3"
+                android:textSize="30sp"
+                android:lines="1"
                 android:layout_margin="10dp"
-                android:src="@drawable/ic_reminder_selected" />
+                font:fonttextview="roboto_mitv_regular.ttf" />
         </RelativeLayout>
     </LinearLayout>
 

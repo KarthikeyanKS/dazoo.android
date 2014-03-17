@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.mitv.Constants;
@@ -64,15 +63,19 @@ public class ReminderView
 		setup(context);
 	}
 
-	private void setup(Context context) {
+	
+	private void setup(Context context) 
+	{
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		
 		this.containerView = inflater.inflate(R.layout.element_reminder_view, this);
 		
 		this.iconView = (FontTextView) this.findViewById(R.id.element_reminder_image_View);
+		
 		this.activity = (Activity) context;
+		
 		this.notificationDataSource = new NotificationDataSource(context);
 	}
-
 	
 	
 	public void setBroadcast(TVBroadcastWithChannelInfo broadcast) 
@@ -97,7 +100,7 @@ public class ReminderView
 			{
 				isSet = false;
 			}
-			if (isSet) 
+			if (isSet)
 			{
 				iconView.setTextColor(getResources().getColor(R.color.blue1));
 			} 

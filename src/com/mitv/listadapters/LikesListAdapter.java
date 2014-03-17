@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -98,15 +97,10 @@ public class LikesListAdapter
 			
 			rowView = layoutInflater.inflate(R.layout.row_likes, null);
 			
-			viewHolder.headerContainer = (RelativeLayout) rowView.findViewById(R.id.row_likes_header_container);
-			viewHolder.headerTv = (TextView) rowView.findViewById(R.id.row_likes_header_textview);
-			viewHolder.informationContainer = (RelativeLayout) rowView.findViewById(R.id.row_likes_text_container);
 			viewHolder.programTitleTv = (TextView) rowView.findViewById(R.id.row_likes_text_title_tv);
 			viewHolder.programTypeTv = (TextView) rowView.findViewById(R.id.row_likes_text_details_tv);
 			viewHolder.buttonContainer = (RelativeLayout) rowView.findViewById(R.id.row_likes_button_container);
-			viewHolder.buttonIcon = (ImageView) rowView.findViewById(R.id.row_likes_button_iv);
 			viewHolder.buttonContainer.setTag(Integer.valueOf(position));
-			viewHolder.dividerView = (View) rowView.findViewById(R.id.row_likes_header_divider);
 			
 			rowView.setTag(viewHolder);
 		}
@@ -225,13 +219,8 @@ public class LikesListAdapter
 	
 	private static class ViewHolder 
 	{
-		public RelativeLayout headerContainer;
-		public TextView	headerTv;
-		public RelativeLayout informationContainer;
 		public TextView programTitleTv;
 		public TextView programTypeTv;
 		public RelativeLayout buttonContainer;
-		public ImageView buttonIcon;
-		public View	dividerView;
 	}
 }
