@@ -129,12 +129,15 @@ public class ContentManager
 	private void notifyListenersOfRequestResult(RequestIdentifierEnum requestIdentifier, FetchRequestResultEnum result) {
 		ArrayList<ViewCallbackListener> listenerList = mapRequestToCallbackListeners.get(requestIdentifier);
 		
-		/* Remove any null listener */
-		listenerList.removeAll(Collections.singleton(null));
-		
-		for(ViewCallbackListener listener : listenerList) {
-			Log.d(TAG, String.format("PROFILING: notifyListenersOfRequestResult: listener: %s request: %s, result: %s", listener.getClass().getSimpleName(), requestIdentifier.getDescription(), result.getDescription()));
-			listener.onResult(result, requestIdentifier);
+		if(listenerList != null) {
+			
+			/* Remove any null listener */
+			listenerList.removeAll(Collections.singleton(null));
+			
+			for(ViewCallbackListener listener : listenerList) {
+				Log.d(TAG, String.format("PROFILING: notifyListenersOfRequestResult: listener: %s request: %s, result: %s", listener.getClass().getSimpleName(), requestIdentifier.getDescription(), result.getDescription()));
+				listener.onResult(result, requestIdentifier);
+			}
 		}
 	}
 	
