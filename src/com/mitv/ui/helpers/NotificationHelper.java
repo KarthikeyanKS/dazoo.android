@@ -19,6 +19,7 @@ import android.support.v4.app.NotificationCompat;
 import com.mitv.Constants;
 import com.mitv.R;
 import com.mitv.activities.BroadcastPageActivity;
+import com.mitv.enums.ProgramTypeEnum;
 import com.mitv.models.TVBroadcastWithChannelInfo;
 import com.mitv.models.sql.NotificationDataSource;
 import com.mitv.models.sql.NotificationSQLElement;
@@ -96,6 +97,14 @@ public class NotificationHelper
 	
 	private static Intent getAlarmIntent(int notificationId, TVBroadcastWithChannelInfo broadcast) 
 	{
+		String broadcastName = "";
+		if (broadcast.getProgram().getProgramType() == ProgramTypeEnum.TV_EPISODE) {
+			broadcastName = broadcast.getProgram().getSeries().getName();
+		}
+		else {
+			broadcastName = broadcast.getProgram().getTitle();
+		}
+		
 		Intent intent = new Intent(Constants.INTENT_NOTIFICATION);
 
 		intent.putExtra(Constants.INTENT_ALARM_EXTRA_BROADCAST_BEGINTIMEMILLIS, broadcast.getBeginTimeMillis());
@@ -103,7 +112,7 @@ public class NotificationHelper
 		intent.putExtra(Constants.INTENT_ALARM_EXTRA_NOTIFICIATION_ID, notificationId);
 		intent.putExtra(Constants.INTENT_ALARM_EXTRA_CHANNEL_NAME, broadcast.getChannel().getName());
 		intent.putExtra(Constants.INTENT_ALARM_EXTRA_CHANNEL_LOGO_URL, broadcast.getChannel().getImageUrl());
-		intent.putExtra(Constants.INTENT_ALARM_EXTRA_BROADCAST_NAME, broadcast.getProgram().getTitle());
+		intent.putExtra(Constants.INTENT_ALARM_EXTRA_BROADCAST_NAME, broadcastName);
 		intent.putExtra(Constants.INTENT_ALARM_EXTRA_BROADCAST_HOUR_AND_MINUTE_TIME, broadcast.getBeginTimeHourAndMinuteLocalAsString());
 		intent.putExtra(Constants.INTENT_ALARM_EXTRA_DATE_DATE, broadcast.getBeginTimeDateRepresentation());
 		

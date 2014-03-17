@@ -378,6 +378,7 @@ public abstract class BaseActivity extends ActionBarActivity implements ViewCall
 
 			Typeface bold = FontManager.getFontBold(getApplicationContext());
 			tabTvGuideText.setTypeface(bold);
+			tabTvGuideText.setTextSize(11);
 		}
 
 		if (tabActivity != null) {
@@ -415,6 +416,7 @@ public abstract class BaseActivity extends ActionBarActivity implements ViewCall
 
 			Typeface bold = FontManager.getFontBold(getApplicationContext());
 			tabActivityText.setTypeface(bold);
+			tabActivityText.setTextSize(11);
 		}
 
 		if (tabProfile != null) {
@@ -452,6 +454,7 @@ public abstract class BaseActivity extends ActionBarActivity implements ViewCall
 
 			Typeface bold = FontManager.getFontBold(getApplicationContext());
 			tabProfileText.setTypeface(bold);
+			tabProfileText.setTextSize(11);
 		}
 	}
 
