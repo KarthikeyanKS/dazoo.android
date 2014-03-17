@@ -295,12 +295,6 @@ public class SearchPageActivity
 		ContentManager.sharedInstance().getElseFetchFromServiceSearchResultForSearchQuery(this, false, cb, searchQuery);
 	}
 
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-		finish();
-	}
-
 	private void setLoading() {
 		changeLoadingStatus(true);
 	}
