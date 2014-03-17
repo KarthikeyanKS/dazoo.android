@@ -192,7 +192,7 @@ public abstract class BaseActivity extends ActionBarActivity implements ViewCall
 		}
 	}
 	
-	private void restartTheApp() {
+	private void restartTheApp() {		
 		killAllActivitiesExceptThis();
 		Intent intent = new Intent(this, SplashScreenActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -342,18 +342,6 @@ public abstract class BaseActivity extends ActionBarActivity implements ViewCall
 		if (tabProfile != null) {
 			tabProfile.setOnClickListener(this);
 		}
-
-		// tabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
-		//
-		// if (tabDividerLeft != null) {
-		// tabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
-		// }
-
-		// tabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
-		//
-		// if (tabDividerRight != null) {
-		// tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
-		// }
 
 		Activity mostRecentTabActivity = getMostRecentTabActivity();
 
