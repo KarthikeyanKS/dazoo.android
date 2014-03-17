@@ -36,16 +36,9 @@ public class ChannelPageActivityTest extends ActivityInstrumentationTestCase2<Ho
     }
 	
 	public void test_reminder() throws Exception {
-		solo.sleep(TIMEOUT_SMALL);
+		solo.sleep(TIMEOUT_SMALL);	
+		gotoChannelPage();
 		
-		solo.waitForView(solo.getView(R.id.item_container));
-		solo.clickOnView(((ListView)solo.getView(R.id.tvguide_table_listview)).getChildAt(0));
-		solo.sleep(TIMEOUT_SMALL);
-		
-		solo.waitForView(solo.getView(R.id.channelpage_channel_icon_container));
-		solo.clickOnView(((ListView)solo.getView(R.id.listview)).getChildAt(2));
-		
-		solo.waitForView(solo.getView(R.id.block_broadcastpage_poster_container));
 		solo.clickOnView(solo.getView(R.id.element_social_buttons_reminder));
 		solo.sleep(TIMEOUT_SMALL);
 		
@@ -63,4 +56,25 @@ public class ChannelPageActivityTest extends ActivityInstrumentationTestCase2<Ho
 		
 		solo.sleep(TIMEOUT_SMALL);
 	}
-}
+	
+	public void test_share() throws Exception {
+		solo.sleep(TIMEOUT_SMALL);
+		gotoChannelPage();
+		
+		solo.clickOnView(solo.getView(R.id.element_social_buttons_share_button_container));
+		solo.sleep(TIMEOUT_LARGE);
+		solo.goBack();
+		solo.sleep(TIMEOUT_SMALL);
+		
+	}
+	
+	private void gotoChannelPage() {
+		solo.waitForView(solo.getView(R.id.item_container));
+		solo.clickOnView(((ListView)solo.getView(R.id.tvguide_table_listview)).getChildAt(0));
+		solo.sleep(TIMEOUT_SMALL);
+		
+		solo.waitForView(solo.getView(R.id.channelpage_channel_icon_container));
+		solo.clickOnView(((ListView)solo.getView(R.id.listview)).getChildAt(2));
+		solo.waitForView(solo.getView(R.id.block_broadcastpage_poster_container));
+	}
+ }
