@@ -20,6 +20,35 @@
             android:layout_height="match_parent"
             layout="@layout/layout_request_loading"
             android:orientation="vertical" />
+        
+       <com.mitv.ui.elements.FontTextView
+            android:id="@+id/login_page_title"
+            style="@style/header2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_margin="10dp"
+            android:text="@string/login_page_title" />
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/login_page_text"
+            style="@style/meta1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/login_page_title"
+            android:layout_gravity="left"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="@string/login_page_text" />
+
+        <View
+            android:id="@+id/mitvlogin_container_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/login_page_text"
+            android:layout_marginTop="10dp"
+            android:background="@color/grey1" />
 
         <!-- FACEBOOK SIGN-IN BAR -->
 
@@ -29,7 +58,8 @@
             android:layout_height="50dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_below="@id/mitvlogin_container_divider"
             android:background="@drawable/background_color_selector_login_facebook"
             android:orientation="horizontal" >
 
@@ -68,6 +98,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/mitvlogin_facebook_container"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal" >
 
             <View

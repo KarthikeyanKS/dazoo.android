@@ -173,6 +173,8 @@
     </plurals>
 
     <!-- LOGIN PAGE -->
+    <string name="login_page_title">Have an account?</string>
+    <string name="login_page_text">Login to add your favorite shows and channels and get better recommendations</string>
     <string name="login_with_facebook">Login with Facebook</string>
     <string name="logout_from_facebook">Logout</string>
     <string name="login_with_twitter">Login with Twitter</string>
