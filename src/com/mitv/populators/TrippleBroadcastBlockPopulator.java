@@ -141,11 +141,14 @@ public class TrippleBroadcastBlockPopulator
 	
 					dividerView = topContentView.findViewById(R.id.block_tripple_broadcast_two_bottom_divider);
 					dividerView.setVisibility(View.VISIBLE);
+					
+					break;
 				}
 				
 				default:
 				{
 					Log.w(TAG, "Unhandled position.");
+					break;
 				}
 			}
 

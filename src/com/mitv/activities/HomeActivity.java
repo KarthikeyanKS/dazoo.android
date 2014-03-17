@@ -74,11 +74,14 @@ public class HomeActivity
 		
 		showWelcomeToast();
 		
-		if(ContentManager.sharedInstance().isUpdatingGuide()) {
+		if(ContentManager.sharedInstance().isUpdatingGuide()) 
+		{
 			updateUI(UIStatusEnum.LOADING);
 		}
 	}
 		
+	
+	
 	/* Do not use this in Google Play builds */
 	private void hockeyAppCheckForCrashes() 
 	{

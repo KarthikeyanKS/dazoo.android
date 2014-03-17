@@ -148,8 +148,10 @@ public class TVProgram
 		/* Test depending on programType */
 		ProgramTypeEnum programType = getProgramType();
 		boolean typeDependantFieldsOk = false;
-		switch (programType) {
-			case MOVIE: {
+		switch (programType) 
+		{
+			case MOVIE: 
+			{
 				typeDependantFieldsOk = ((getYear() != null) && !TextUtils.isEmpty(getGenre()));
 				break;
 			}

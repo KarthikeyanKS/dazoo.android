@@ -6,8 +6,6 @@ package com.mitv.activities.base;
 import java.util.List;
 import java.util.Stack;
 
-import net.hockeyapp.android.UpdateInfoListener;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -59,10 +57,13 @@ public abstract class BaseActivity
 	implements ViewCallbackListener, OnClickListener, UndoListener 
 {
 	private static final String TAG = BaseActivity.class.getName();
+	
 	private static final int TV_DATE_NOT_FOUND = -1;
 
 	private static Stack<Activity> activityStack = new Stack<Activity>();
 
+	
+	
 	protected RelativeLayout tabTvGuide;
 	protected FontTextView tabTvGuideIcon;
 	protected FontTextView tabTvGuideText;
@@ -91,6 +92,8 @@ public abstract class BaseActivity
 
 	protected RequestIdentifierEnum latestRequest;
 
+	
+	
 	/* Abstract Methods */
 
 	/* This method implementation should update the user interface according to the received status */
@@ -108,8 +111,11 @@ public abstract class BaseActivity
 	/* This method implementation should deal with changes after the data has been fetched */
 	protected abstract void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier);
 
+	
+	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
 
 		/* Google Analytics Tracking */
@@ -120,6 +126,7 @@ public abstract class BaseActivity
 		GATrackingManager.sendView(className);
 	}
 
+	
 	@Override
 	public void onUndo(Parcelable token) 
 	{
@@ -135,9 +142,12 @@ public abstract class BaseActivity
 		loadDataWithConnectivityCheck();
 	}
 
+	
 	@Override
-	protected void onResume() {
+	protected void onResume() 
+	{
 		super.onResume();
+		
 		/* IMPORTANT add activity to activity stack */
 		pushActivityToStack(this);
 
@@ -188,7 +198,9 @@ public abstract class BaseActivity
 		}
 	}
 
-	private void handleTimeAndDayOnResume() {
+	
+	private void handleTimeAndDayOnResume() 
+	{
 		/* Handle time */
 		int currentHour = DateUtils.getCurrentHourOn24HourFormat();
 		ContentManager.sharedInstance().setSelectedHour(currentHour);
@@ -596,26 +608,37 @@ public abstract class BaseActivity
 	/*
 	 * This method checks for Internet connectivity before loading data
 	 */
-	protected void loadDataWithConnectivityCheck() {
+	protected void loadDataWithConnectivityCheck() 
+	{
 		boolean isConnected = NetworkUtils.isConnected();
 
-		if (isConnected) {
+		if (isConnected) 
+		{
 			boolean hasInitialData = ContentManager.sharedInstance().getFromCacheHasInitialData();
 
-			if (hasInitialData) {
+			if (hasInitialData) 
+			{
 				loadData();
-			} else {
+			} 
+			else 
+			{
 				updateUI(UIStatusEnum.LOADING);
 				ContentManager.sharedInstance().fetchFromServiceInitialCall(this, null);
 			}
-		} else {
-			if (hasEnoughDataToShowContent()) {
+		} 
+		else 
+		{
+			if (hasEnoughDataToShowContent()) 
+			{
 				loadData();
-			} else {
+			} 
+			else 
+			{
 				updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
 			}
 		}
 	}
+	
 	
 	@Override
 	public final void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {
