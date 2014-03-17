@@ -295,6 +295,14 @@ public class TVBroadcast
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append(dayOfTheWeekAsString);
+		
+		if (dayOfTheWeekAsString.equalsIgnoreCase(SecondScreenApplication.sharedInstance().getApplicationContext().getString(R.string.today)) == false &&
+			dayOfTheWeekAsString.equalsIgnoreCase(SecondScreenApplication.sharedInstance().getApplicationContext().getString(R.string.tomorrow)) == false) {
+			String dayAndMonthString = getBeginTimeDayAndMonthAsString();
+			sb.append(" ");
+			sb.append(dayAndMonthString);
+		}
+
 		sb.append(", ");
 		sb.append(timeOfDayAsString);
 		
