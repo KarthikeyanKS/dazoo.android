@@ -77,7 +77,7 @@ public class MyProfileActivityTest extends ActivityInstrumentationTestCase2<User
     	
     	solo.sleep(TIMEOUT_SMALL);
     	
-    	solo.waitForView(solo.getView(R.id.home_container));
+    	solo.waitForView(solo.getView(R.id.activity_container));
     	solo.sleep(TIMEOUT_SMALL);
     }
 }
