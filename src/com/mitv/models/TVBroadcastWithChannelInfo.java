@@ -157,18 +157,5 @@ public class TVBroadcastWithChannelInfo
 		boolean areDataFieldsValid = broadcastFieldsOK && channelFieldsOK;
 		Log.d(TAG, String.format("broadcastFieldsOK: %s, channelFieldsOK> %s", broadcastFieldsOK ? "ok" : "fail", channelFieldsOK ? "ok" : "fail"));
 		return areDataFieldsValid;
-	}
-	
-	@Override
-	public boolean equals(Object o) {
-		TVBroadcastWithChannelInfo another = (TVBroadcastWithChannelInfo) o;
-		if (this.getBeginTimeMillis().equals(another.getBeginTimeMillis()) &&
-				this.getChannel().getChannelId().equals(another.getChannel().getChannelId())) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-	
+	}	
 }
