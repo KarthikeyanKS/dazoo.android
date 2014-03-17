@@ -6,11 +6,13 @@ package com.mitv.utilities;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.models.TVBroadcast;
@@ -37,7 +39,9 @@ public abstract class LanguageUtils
 	
 	public static Locale getCurrentLocale()
 	{
-		Locale locale = SecondScreenApplication.sharedInstance().getApplicationContext().getResources().getConfiguration().locale;
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		
+		Locale locale = context.getResources().getConfiguration().locale;
 		
 		if(locale == null)
 		{

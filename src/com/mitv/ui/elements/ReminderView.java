@@ -71,9 +71,6 @@ public class ReminderView
 		this.iconView = (FontTextView) this.findViewById(R.id.element_reminder_image_View);
 		this.activity = (Activity) context;
 		this.notificationDataSource = new NotificationDataSource(context);
-		
-		this.setClickable(true);
-		this.setOnClickListener(this);
 	}
 
 	
@@ -82,7 +79,8 @@ public class ReminderView
 	{
 		this.tvBroadcastWithChannelInfo = broadcast;
 		
-		if (!tvBroadcastWithChannelInfo.isAiring() &&
+		if (tvBroadcastWithChannelInfo != null && 
+			tvBroadcastWithChannelInfo.isAiring() == false &&
 			tvBroadcastWithChannelInfo.isBroadcastAiringInOrInLessThan(Constants.MAXIMUM_REMINDER_TIME_FOR_SHOW) == false)
 		{
 			NotificationSQLElement dbItem = notificationDataSource.getNotification(tvBroadcastWithChannelInfo.getChannel().getChannelId(), tvBroadcastWithChannelInfo.getBeginTime());
@@ -107,10 +105,18 @@ public class ReminderView
 			{
 				iconView.setTextColor(getResources().getColor(R.color.grey3));
 			}
+			
 			containerView.setBackgroundResource(R.drawable.background_color_selector);
-		} else {
+			
+			this.setClickable(true);
+			this.setOnClickListener(this);
+		} 
+		else 
+		{
 			iconView.setTextColor(getResources().getColor(R.color.grey1));
 			containerView.setBackgroundColor(getResources().getColor(R.color.transparent));
+			
+			this.setClickable(false);
 		}
 	}
 	
@@ -119,45 +125,38 @@ public class ReminderView
 	@Override
 	public void onClick(View v) 
 	{
-		
-		if(tvBroadcastWithChannelInfo != null && 
-		   tvBroadcastWithChannelInfo.isAiring() == false &&
-		   tvBroadcastWithChannelInfo.isBroadcastAiringInOrInLessThan(Constants.MAXIMUM_REMINDER_TIME_FOR_SHOW) == false) 
+		if (isSet == false) 
 		{
-			
-			if (isSet == false) 
+			NotificationHelper.scheduleAlarm(activity, tvBroadcastWithChannelInfo);
+
+			ToastHelper.showNotificationWasSetToast(activity);
+
+			iconView.setTextColor(getResources().getColor(R.color.blue1));
+
+			NotificationSQLElement dbItemRemind = notificationDataSource.getNotification(tvBroadcastWithChannelInfo.getChannel().getChannelId(), tvBroadcastWithChannelInfo.getBeginTime());
+
+			notificationId = dbItemRemind.getNotificationId();
+
+			AnimationUtils.animationSet(this);
+
+			isSet = true;
+		} 
+		else 
+		{
+			if (notificationId != -1)
 			{
-				NotificationHelper.scheduleAlarm(activity, tvBroadcastWithChannelInfo);
-				
-				ToastHelper.showNotificationWasSetToast(activity);
-				
-				iconView.setTextColor(getResources().getColor(R.color.blue1));
-
-				NotificationSQLElement dbItemRemind = notificationDataSource.getNotification(tvBroadcastWithChannelInfo.getChannel().getChannelId(), tvBroadcastWithChannelInfo.getBeginTime());
-				
-				notificationId = dbItemRemind.getNotificationId();
-
-				AnimationUtils.animationSet(this);
-
-				isSet = true;
-			} 
-			else 
+				DialogHelper.showRemoveNotificationDialog(activity, tvBroadcastWithChannelInfo, notificationId, yesNotificationProcedure(), null);
+			}
+			else
 			{
-				if (notificationId != -1)
-				{
-					DialogHelper.showRemoveNotificationDialog(activity, tvBroadcastWithChannelInfo, notificationId, yesNotificationProc(), noNotificationProc());
-				}
-				else
-				{
-					Log.w(TAG, "Could not find remainder in database.");
-				}
+				Log.w(TAG, "Could not find remainder in database.");
 			}
 		}
 	}
 
 	
 	
-	public Runnable yesNotificationProc() 
+	public Runnable yesNotificationProcedure() 
 	{
 		return new Runnable()
 		{
@@ -167,16 +166,6 @@ public class ReminderView
 				
 				isSet = false;
 			}
-		};
-	}
-
-	
-	
-	public Runnable noNotificationProc()
-	{
-		return new Runnable()
-		{
-			public void run(){}
 		};
 	}
 }
