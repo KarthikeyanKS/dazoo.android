@@ -156,6 +156,9 @@ public class BroadcastPageActivity
 				broadcastWithChannelInfo = ContentManager.sharedInstance().getFromCacheSelectedBroadcastWithChannelInfo();
 				
 				repeatingBroadcasts = ContentManager.sharedInstance().getFromCacheRepeatingBroadcastsVerifyCorrect(broadcastWithChannelInfo);
+				if (repeatingBroadcasts != null) {
+					repeatingBroadcasts = new ArrayList<TVBroadcastWithChannelInfo>(repeatingBroadcasts);
+				}
 				
 				if(repeatingBroadcasts != null) {
 					for(TVBroadcastWithChannelInfo broadcastWithoutProgramInfo : repeatingBroadcasts) 
@@ -165,6 +168,9 @@ public class BroadcastPageActivity
 				}
 				
 				upcomingBroadcasts = ContentManager.sharedInstance().getFromCacheUpcomingBroadcastsVerifyCorrect(broadcastWithChannelInfo);
+				if (upcomingBroadcasts != null) {
+					upcomingBroadcasts = new ArrayList<TVBroadcastWithChannelInfo>(upcomingBroadcasts);
+				}
 
 				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 			} else {
@@ -355,7 +361,6 @@ public class BroadcastPageActivity
 			.append(getYearString(program))
 			.append(" ")
 			.append(durationString)
-			.append(" ")
 			.append(minutesString)
 			.append(" ")
 			.append(getGenreString(program));
@@ -371,7 +376,6 @@ public class BroadcastPageActivity
 			.append(getYearString(program))
 			.append(" ")
 			.append(durationString)
-			.append(" ")
 			.append(minutesString)
 			.append(" ")
 			.append(getGenreString(program));
@@ -397,7 +401,6 @@ public class BroadcastPageActivity
 			extrasStringBuilder.append(res.getString(R.string.sport))
 			.append(" ")
 			.append(durationString)
-			.append(" ")
 			.append(minutesString)
 			.append(" ")
 			.append(program.getSportType().getName());
@@ -409,7 +412,6 @@ public class BroadcastPageActivity
 			extrasStringBuilder.append(program.getCategory())
 			.append(" ")
 			.append(durationString)
-			.append(" ")
 			.append(minutesString);
 			break;
 		}
