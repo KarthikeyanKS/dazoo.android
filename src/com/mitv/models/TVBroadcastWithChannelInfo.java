@@ -115,6 +115,35 @@ public class TVBroadcastWithChannelInfo
 		this.shareUrl = item.getShareUrl();
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((channel == null) ? 0 : channel.hashCode());
+		return result;
+	}
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TVBroadcastWithChannelInfoJSON other = (TVBroadcastWithChannelInfoJSON) obj;
+		if (channel == null) {
+			if (other.getChannel() != null) {
+				return false;
+			}
+		} else if (!channel.equals(other.getChannel())) {
+			return false;
+		}
+		return true;
+	}
+	
 
 	@Override
 	public boolean areDataFieldsValid() {
@@ -128,18 +157,5 @@ public class TVBroadcastWithChannelInfo
 		boolean areDataFieldsValid = broadcastFieldsOK && channelFieldsOK;
 		Log.d(TAG, String.format("broadcastFieldsOK: %s, channelFieldsOK> %s", broadcastFieldsOK ? "ok" : "fail", channelFieldsOK ? "ok" : "fail"));
 		return areDataFieldsValid;
-	}
-	
-	@Override
-	public boolean equals(Object o) {
-		TVBroadcastWithChannelInfo another = (TVBroadcastWithChannelInfo) o;
-		if (this.getBeginTimeMillis().equals(another.getBeginTimeMillis()) &&
-				this.getChannel().getChannelId().equals(another.getChannel().getChannelId())) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-	
+	}	
 }

@@ -131,7 +131,7 @@ public class TVGuideListAdapter
 				public void onGlobalLayout() {
 					// gets called after layout has been done but before it gets displayed, so we can get the height of the view
 					int width = holder.textView.getWidth();
-
+					
 					TVGuideListAdapter guideListAdapter = ((TVGuideListAdapter) TVGuideListAdapter.this);
 
 					guideListAdapter.setRowWidth(width);
@@ -215,7 +215,7 @@ public class TVGuideListAdapter
 						break;
 					}
 					}
-
+					
 					rowInfo += showName;
 
 					TextPaint testPaint = holder.textView.getPaint();
@@ -228,7 +228,15 @@ public class TVGuideListAdapter
 
 					String toShow = "";
 
-					if (rowWidth > 0) {
+					/*
+					 * If we have showName = "Wow! Wow! Wubbzy!"; and no icon in string to show.
+					 * We get this line on two rows. No characters are deleted.
+					 * This:
+					 * textWidth > maxTextWidth && limitIndex > 0
+					 * is false..
+					 */
+					
+					if (rowWidth > 0) {			
 						int maxTextWidth = (int) (rowWidth * 0.95);
 
 						/* Calculate max amount of characters that fits */
