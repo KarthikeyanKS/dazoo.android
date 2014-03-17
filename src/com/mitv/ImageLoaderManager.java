@@ -64,6 +64,9 @@ public class ImageLoaderManager
 	private DisplayImageOptions getDisplayImageDefaultOptions()
 	{
 		DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
+		.showImageOnLoading(R.drawable.loading_placeholder_vertical)
+        .showImageForEmptyUri(R.drawable.loading_placeholder_vertical)
+        .showImageOnFail(R.drawable.loading_placeholder_vertical)
 		.cacheInMemory(true)
 		.cacheOnDisc(true)
 		.build();
@@ -77,6 +80,9 @@ public class ImageLoaderManager
 	private DisplayImageOptions getDisplayImageWithResetViewOptions()
 	{	
 		DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
+		.showImageOnLoading(R.drawable.loading_placeholder_vertical)
+        .showImageForEmptyUri(R.drawable.loading_placeholder_vertical)
+        .showImageOnFail(R.drawable.loading_placeholder_vertical)
 		.cacheInMemory(true)
 		.cacheOnDisc(true)
 		.resetViewBeforeLoading(true)
