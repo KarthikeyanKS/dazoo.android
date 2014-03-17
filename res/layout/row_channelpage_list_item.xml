@@ -29,10 +29,7 @@
             style="@style/header2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:textColor="@color/black"
-            android:textSize="@dimen/header_3"
-            font:fonttextview="roboto_mitv_medium.ttf" />
+            android:singleLine="true" />
 
         <com.mitv.ui.elements.FontTextView
             android:id="@+id/channelpage_list_item_description_tv"

@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 
 import com.mitv.Constants;
 import com.mitv.ContentManager;
+import com.mitv.FontManager;
 import com.mitv.R;
 import com.mitv.activities.base.BaseContentActivity;
 import com.mitv.enums.FetchRequestResultEnum;
@@ -154,6 +156,9 @@ public class BroadcastPageActivity
 				broadcastWithChannelInfo = ContentManager.sharedInstance().getFromCacheSelectedBroadcastWithChannelInfo();
 				
 				repeatingBroadcasts = ContentManager.sharedInstance().getFromCacheRepeatingBroadcastsVerifyCorrect(broadcastWithChannelInfo);
+				if (repeatingBroadcasts != null) {
+					repeatingBroadcasts = new ArrayList<TVBroadcastWithChannelInfo>(repeatingBroadcasts);
+				}
 				
 				if(repeatingBroadcasts != null) {
 					for(TVBroadcastWithChannelInfo broadcastWithoutProgramInfo : repeatingBroadcasts) 
@@ -163,6 +168,9 @@ public class BroadcastPageActivity
 				}
 				
 				upcomingBroadcasts = ContentManager.sharedInstance().getFromCacheUpcomingBroadcastsVerifyCorrect(broadcastWithChannelInfo);
+				if (upcomingBroadcasts != null) {
+					upcomingBroadcasts = new ArrayList<TVBroadcastWithChannelInfo>(upcomingBroadcasts);
+				}
 
 				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
 			} else {
@@ -322,7 +330,7 @@ public class BroadcastPageActivity
 			
 			contentTitleTextView.setText(contentTitle);
 
-			if (!program.getSeason().getNumber().equals("0")) 
+			if (program.getSeason().getNumber() > 0) 
 			{
 				seasonTv.setText(res.getString(R.string.season) + " " + program.getSeason().getNumber() + " ");
 				seasonTv.setVisibility(View.VISIBLE);
@@ -332,9 +340,11 @@ public class BroadcastPageActivity
 				episodeTv.setText(res.getString(R.string.episode) + " " + String.valueOf(program.getEpisodeNumber()));
 				episodeTv.setVisibility(View.VISIBLE);
 			}
-			if (program.getSeason().getNumber().equals("0") && program.getEpisodeNumber() == 0) 
+			if (program.getSeason().getNumber() == 0 && program.getEpisodeNumber() == 0) 
 			{
-				episodeNameTv.setTextSize(18);
+				Typeface bold = FontManager.getFontBold(getApplicationContext());
+				episodeNameTv.setTypeface(bold);
+				episodeNameTv.setTextSize(16);
 			}
 
 			episodeNameTv.setText(program.getTitle());
@@ -351,7 +361,6 @@ public class BroadcastPageActivity
 			.append(getYearString(program))
 			.append(" ")
 			.append(durationString)
-			.append(" ")
 			.append(minutesString)
 			.append(" ")
 			.append(getGenreString(program));
@@ -367,7 +376,6 @@ public class BroadcastPageActivity
 			.append(getYearString(program))
 			.append(" ")
 			.append(durationString)
-			.append(" ")
 			.append(minutesString)
 			.append(" ")
 			.append(getGenreString(program));
@@ -393,7 +401,6 @@ public class BroadcastPageActivity
 			extrasStringBuilder.append(res.getString(R.string.sport))
 			.append(" ")
 			.append(durationString)
-			.append(" ")
 			.append(minutesString)
 			.append(" ")
 			.append(program.getSportType().getName());
@@ -405,7 +412,6 @@ public class BroadcastPageActivity
 			extrasStringBuilder.append(program.getCategory())
 			.append(" ")
 			.append(durationString)
-			.append(" ")
 			.append(minutesString);
 			break;
 		}

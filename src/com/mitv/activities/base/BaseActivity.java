@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import net.hockeyapp.android.UpdateInfoListener;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -71,7 +73,9 @@ public abstract class BaseActivity extends ActionBarActivity implements ViewCall
 	private TextView requestEmptyLayoutDetails;
 	private RelativeLayout requestLoadingLayout;
 	private RelativeLayout requestNoInternetConnectionLayout;
-	private Button requestrequestNoInternetConnectionRetryButton;
+	private RelativeLayout requestFailedLayout;
+	private Button requestNoInternetConnectionRetryButton;
+	private Button requestFailedRetryButton;
 
 	protected ActionBar actionBar;
 	private UndoBarController undoBarController;
@@ -186,13 +190,11 @@ public abstract class BaseActivity extends ActionBarActivity implements ViewCall
 				restartTheApp();
 			}
 		} else {
-			Log.w(TAG, "Could not find TVDate in list, this probably means that the user have manually set the date to somewhere more than"
-					+ "7 days away in time => refecth initial data");
-			restartTheApp();
+			updateUI(UIStatusEnum.FAILED);
 		}
 	}
 	
-	private void restartTheApp() {
+	private void restartTheApp() {		
 		killAllActivitiesExceptThis();
 		Intent intent = new Intent(this, SplashScreenActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -343,18 +345,6 @@ public abstract class BaseActivity extends ActionBarActivity implements ViewCall
 			tabProfile.setOnClickListener(this);
 		}
 
-		// tabDividerLeft = (View) findViewById(R.id.tab_left_divider_container);
-		//
-		// if (tabDividerLeft != null) {
-		// tabDividerLeft.setBackgroundColor(getResources().getColor(R.color.tab_divider_selected));
-		// }
-
-		// tabDividerRight = (View) findViewById(R.id.tab_right_divider_container);
-		//
-		// if (tabDividerRight != null) {
-		// tabDividerRight.setBackgroundColor(getResources().getColor(R.color.tab_divider_default));
-		// }
-
 		Activity mostRecentTabActivity = getMostRecentTabActivity();
 
 		if (mostRecentTabActivity instanceof HomeActivity) {
@@ -378,6 +368,7 @@ public abstract class BaseActivity extends ActionBarActivity implements ViewCall
 
 			Typeface bold = FontManager.getFontBold(getApplicationContext());
 			tabTvGuideText.setTypeface(bold);
+			tabTvGuideText.setTextSize(11);
 		}
 
 		if (tabActivity != null) {
@@ -415,6 +406,7 @@ public abstract class BaseActivity extends ActionBarActivity implements ViewCall
 
 			Typeface bold = FontManager.getFontBold(getApplicationContext());
 			tabActivityText.setTypeface(bold);
+			tabActivityText.setTextSize(11);
 		}
 
 		if (tabProfile != null) {
@@ -452,6 +444,7 @@ public abstract class BaseActivity extends ActionBarActivity implements ViewCall
 
 			Typeface bold = FontManager.getFontBold(getApplicationContext());
 			tabProfileText.setTypeface(bold);
+			tabProfileText.setTextSize(11);
 		}
 	}
 
@@ -487,6 +480,12 @@ public abstract class BaseActivity extends ActionBarActivity implements ViewCall
 		case R.id.no_connection_reload_button: {
 			loadDataWithConnectivityCheck();
 
+			break;
+		}
+		
+		case R.id.request_failed_reload_button: {
+			updateUI(UIStatusEnum.LOADING);
+			ContentManager.sharedInstance().fetchFromServiceInitialCall(this, null);
 			break;
 		}
 
@@ -666,8 +665,14 @@ public abstract class BaseActivity extends ActionBarActivity implements ViewCall
 				break;
 			}
 
-			case NO_CONNECTION_AVAILABLE:
-			case FAILED: {
+			case FAILED:{
+				if (requestFailedLayout != null) {
+					requestFailedLayout.setVisibility(View.VISIBLE);
+				}
+				break;
+			}
+			
+			case NO_CONNECTION_AVAILABLE: {
 				if (requestNoInternetConnectionLayout != null) {
 					requestNoInternetConnectionLayout.setVisibility(View.VISIBLE);
 				}
@@ -704,6 +709,10 @@ public abstract class BaseActivity extends ActionBarActivity implements ViewCall
 		if (requestEmptyLayout != null) {
 			requestEmptyLayout.setVisibility(View.GONE);
 		}
+		
+		if(requestFailedLayout != null) {
+			requestFailedLayout.setVisibility(View.GONE);
+		}
 	}
 
 	private void initCallbackLayouts() {
@@ -714,11 +723,19 @@ public abstract class BaseActivity extends ActionBarActivity implements ViewCall
 		requestEmptyLayoutDetails = (TextView) findViewById(R.id.request_empty_details_tv);
 
 		requestNoInternetConnectionLayout = (RelativeLayout) findViewById(R.id.no_connection_layout);
+		
+		requestFailedLayout = (RelativeLayout) findViewById(R.id.request_failed_main_layout);
+		
+		requestFailedRetryButton = (Button) findViewById(R.id.request_failed_reload_button);
+		
+		if(requestFailedRetryButton != null) {
+			requestFailedRetryButton.setOnClickListener(this);
+		}
 
-		requestrequestNoInternetConnectionRetryButton = (Button) findViewById(R.id.no_connection_reload_button);
+		requestNoInternetConnectionRetryButton = (Button) findViewById(R.id.no_connection_reload_button);
 
-		if (requestrequestNoInternetConnectionRetryButton != null) {
-			requestrequestNoInternetConnectionRetryButton.setOnClickListener(this);
+		if (requestNoInternetConnectionRetryButton != null) {
+			requestNoInternetConnectionRetryButton.setOnClickListener(this);
 		}
 
 		View undoBarlayoutView = findViewById(R.id.undobar);
