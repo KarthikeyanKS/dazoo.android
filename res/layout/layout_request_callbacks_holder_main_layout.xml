@@ -7,6 +7,7 @@
 
    	<include layout="@layout/layout_request_loading"/>
    	<include layout="@layout/layout_request_empty"/>
+   	<include layout="@layout/layout_request_failed"/>
    	<include layout="@layout/layout_request_no_internet_connection"/>
 
 </RelativeLayout>

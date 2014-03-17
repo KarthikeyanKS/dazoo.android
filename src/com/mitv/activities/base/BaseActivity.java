@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import net.hockeyapp.android.UpdateInfoListener;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -71,7 +73,9 @@ public abstract class BaseActivity extends ActionBarActivity implements ViewCall
 	private TextView requestEmptyLayoutDetails;
 	private RelativeLayout requestLoadingLayout;
 	private RelativeLayout requestNoInternetConnectionLayout;
-	private Button requestrequestNoInternetConnectionRetryButton;
+	private RelativeLayout requestFailedLayout;
+	private Button requestNoInternetConnectionRetryButton;
+	private Button requestFailedRetryButton;
 
 	protected ActionBar actionBar;
 	private UndoBarController undoBarController;
@@ -186,9 +190,7 @@ public abstract class BaseActivity extends ActionBarActivity implements ViewCall
 				restartTheApp();
 			}
 		} else {
-			Log.w(TAG, "Could not find TVDate in list, this probably means that the user have manually set the date to somewhere more than"
-					+ "7 days away in time => refecth initial data");
-			restartTheApp();
+			updateUI(UIStatusEnum.FAILED);
 		}
 	}
 	
@@ -477,6 +479,12 @@ public abstract class BaseActivity extends ActionBarActivity implements ViewCall
 
 			break;
 		}
+		
+		case R.id.request_failed_reload_button: {
+			updateUI(UIStatusEnum.LOADING);
+			ContentManager.sharedInstance().fetchFromServiceInitialCall(this, null);
+			break;
+		}
 
 		default: {
 			Log.w(TAG, "Unknown onClick action");
@@ -654,8 +662,14 @@ public abstract class BaseActivity extends ActionBarActivity implements ViewCall
 				break;
 			}
 
-			case NO_CONNECTION_AVAILABLE:
-			case FAILED: {
+			case FAILED:{
+				if (requestFailedLayout != null) {
+					requestFailedLayout.setVisibility(View.VISIBLE);
+				}
+				break;
+			}
+			
+			case NO_CONNECTION_AVAILABLE: {
 				if (requestNoInternetConnectionLayout != null) {
 					requestNoInternetConnectionLayout.setVisibility(View.VISIBLE);
 				}
@@ -692,6 +706,10 @@ public abstract class BaseActivity extends ActionBarActivity implements ViewCall
 		if (requestEmptyLayout != null) {
 			requestEmptyLayout.setVisibility(View.GONE);
 		}
+		
+		if(requestFailedLayout != null) {
+			requestFailedLayout.setVisibility(View.GONE);
+		}
 	}
 
 	private void initCallbackLayouts() {
@@ -702,11 +720,19 @@ public abstract class BaseActivity extends ActionBarActivity implements ViewCall
 		requestEmptyLayoutDetails = (TextView) findViewById(R.id.request_empty_details_tv);
 
 		requestNoInternetConnectionLayout = (RelativeLayout) findViewById(R.id.no_connection_layout);
+		
+		requestFailedLayout = (RelativeLayout) findViewById(R.id.request_failed_main_layout);
+		
+		requestFailedRetryButton = (Button) findViewById(R.id.request_failed_reload_button);
+		
+		if(requestFailedRetryButton != null) {
+			requestFailedRetryButton.setOnClickListener(this);
+		}
 
-		requestrequestNoInternetConnectionRetryButton = (Button) findViewById(R.id.no_connection_reload_button);
+		requestNoInternetConnectionRetryButton = (Button) findViewById(R.id.no_connection_reload_button);
 
-		if (requestrequestNoInternetConnectionRetryButton != null) {
-			requestrequestNoInternetConnectionRetryButton.setOnClickListener(this);
+		if (requestNoInternetConnectionRetryButton != null) {
+			requestNoInternetConnectionRetryButton.setOnClickListener(this);
 		}
 
 		View undoBarlayoutView = findViewById(R.id.undobar);
