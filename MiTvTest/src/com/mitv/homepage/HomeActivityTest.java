@@ -34,7 +34,7 @@ public class HomeActivityTest extends ActivityInstrumentationTestCase2<HomeActiv
     }
 	
 	public void test_swipe_to_switch() throws Exception{
-		solo.sleep(TIMEOUT_SMALL);
+		
 		
 		solo.waitForView(solo.getView(R.id.tab_tv_guide));
 		solo.clickOnView(solo.getView(R.id.tab_tv_guide));
@@ -44,33 +44,33 @@ public class HomeActivityTest extends ActivityInstrumentationTestCase2<HomeActiv
 		
 		solo.scrollToSide(solo.RIGHT, (float) 0.9);
 		assertTrue(solo.getText("Pelis").isSelected());
-		solo.sleep(TIMEOUT_SMALL);
+		
 		
 		solo.scrollToSide(solo.RIGHT, (float) 0.9);
 		assertTrue(solo.getText("Series").isSelected());
-		solo.sleep(TIMEOUT_SMALL);
+		
 		
 		solo.scrollToSide(solo.RIGHT, (float) 0.9);
 		assertTrue(solo.getText("Deportes").isSelected());
-		solo.sleep(TIMEOUT_SMALL);
+		
 		
 		solo.scrollToSide(solo.LEFT, (float) 0.9);
 		assertTrue(solo.getText("Series").isSelected());
-		solo.sleep(TIMEOUT_SMALL);
+		
 	}
 
 	public void test_click_to_switch() throws Exception{
-		solo.sleep(TIMEOUT_SMALL);
+		
 		solo.clickOnView(solo.getText("Series"));
 		assertTrue(solo.getText("Series").isSelected());
-		solo.sleep(TIMEOUT_SMALL);
+		
 		
 		solo.clickOnView(solo.getText("Deportes"));
 		assertTrue(solo.getText("Deportes").isSelected());
-		solo.sleep(TIMEOUT_SMALL);
+		
 		
 		solo.clickOnView(solo.getText("Pelis"));
 		assertTrue(solo.getText("Pelis").isSelected());
-		solo.sleep(TIMEOUT_SMALL);
+		
 	}
 }
