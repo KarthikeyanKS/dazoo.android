@@ -267,7 +267,8 @@ public class TVGuideListAdapter
 
 					textForThreeBroadcasts += toShow + "\n";
 				}
-
+				textForThreeBroadcasts += "\n\n";
+				
 				Spannable wordtoSpan = new SpannableString(textForThreeBroadcasts);
 
 				Resources resources = SecondScreenApplication.sharedInstance().getApplicationContext().getResources();
@@ -283,8 +284,11 @@ public class TVGuideListAdapter
 			}
 			//If there is no data, show message "No content is available". TODO: What to do here?
 			else {
-				holder.textView.setText(activity.getResources().getString(R.string.general_no_content_available));
+				holder.textView.setText(activity.getResources().getString(R.string.general_no_content_available) + "\n\n");
 			}
+		}
+		else {
+			holder.textView.setText(activity.getResources().getString(R.string.general_no_content_available) + "\n\n");
 		}
 
 		return rowView;

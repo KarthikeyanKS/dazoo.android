@@ -52,8 +52,7 @@ public class LoginWithFacebookActivity
 		setContentView(R.layout.layout_facebooklogin_activity);
 		
 		actionBar = getSupportActionBar();
-		
-		actionBar.hide();
+		actionBar.setDisplayShowTitleEnabled(false);
 	}
 	
 	
