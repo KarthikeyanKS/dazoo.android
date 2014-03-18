@@ -193,8 +193,10 @@ public abstract class GenericUtils
         {
             sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
         }
+        
+        Locale locale = LanguageUtils.getCurrentLocale();
  
-        return sb.toString().toUpperCase();
+        return sb.toString().toUpperCase(locale);
     }
     
     
