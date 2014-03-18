@@ -18,7 +18,8 @@ public class UserLike
 {
 	private static final String	TAG	= UserLike.class.getName();
 	
-	
+	protected String contentId;
+	protected boolean wasAddedManually = false;
 	
 	public static UserLike userLikeFromTVProgram(TVProgram tvProgram)
 	{
@@ -46,6 +47,7 @@ public class UserLike
 	{
 		this.likeType = likeType.toString();	
 		this.title = title;
+		this.wasAddedManually = true;
 		
 		switch(likeType)
 		{
@@ -69,6 +71,9 @@ public class UserLike
 		}
 	}
 	
+	public boolean wasAddedManually() {
+		return wasAddedManually;
+	}
 	
 	private static String getContentIdFromTVProgram(TVProgram tvProgarm) 
 	{
@@ -111,35 +116,36 @@ public class UserLike
 	
 	public String getContentId()
 	{
-		String contentId;
+		if(contentId == null) {
 		
 		LikeTypeResponseEnum likeType = getLikeType();
 		
 		switch(likeType)
 		{
-			case PROGRAM:
-			{
-				contentId = this.programId;
-				break;
-			}
-			
-			case SERIES:
-			{
-				contentId = this.seriesId;
-				break;
-			}
-			
-			case SPORT_TYPE:
-			{
-				contentId = this.sportTypeId;
-				break;
-			}
-			
-			default:
-			{
-				Log.w(TAG, "Unhandled like type.");
-				contentId = "";
-				break;
+				case PROGRAM:
+				{
+					contentId = this.programId;
+					break;
+				}
+				
+				case SERIES:
+				{
+					contentId = this.seriesId;
+					break;
+				}
+				
+				case SPORT_TYPE:
+				{
+					contentId = this.sportTypeId;
+					break;
+				}
+				
+				default:
+				{
+					Log.w(TAG, "Unhandled like type.");
+					contentId = "";
+					break;
+				}
 			}
 		}
 		
@@ -179,28 +185,38 @@ public class UserLike
 	}
 	
 	
-	
-	public boolean equals(UserLike userlikeToCompare)
-	{
-		boolean isEqual = false;
-		
-		if(userlikeToCompare != null) {
-			String titleToCompare =  userlikeToCompare.getTitle();
-			LikeTypeResponseEnum likeTypeToCompare = userlikeToCompare.getLikeType();
-			String contenIdToCompare = userlikeToCompare.getContentId();
-					
-			String title =  this.getTitle();
-			LikeTypeResponseEnum likeType = this.getLikeType();
-			String contenId = this.getContentId();
-			
-			if(titleToCompare.equals(title) &&
-			  likeTypeToCompare == likeType &&
-			  contenIdToCompare.equals(contenId))
-			{
-				isEqual = true;
-			}
-		}
-		return isEqual;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((likeType == null) ? 0 : likeType.hashCode());
+		result = prime * result + ((getContentId() == null) ? 0 : getContentId().hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		return result;
+	}
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UserLike other = (UserLike) obj;
+		if (getLikeType() == null) {
+			if (other.getLikeType() != null)
+				return false;
+		} else if (!getLikeType().equals(other.getLikeType()))
+			return false;
+		if (getContentId() == null) {
+			if (other.getContentId() != null)
+				return false;
+		} else if (!getContentId().equals(other.getContentId()))
+			return false;
+		return true;
 	}
 
 

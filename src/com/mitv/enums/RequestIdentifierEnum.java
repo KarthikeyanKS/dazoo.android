@@ -25,7 +25,7 @@ public enum RequestIdentifierEnum {
 	USER_LOGOUT(21, "User logout"),
 	BROADCAST_DETAILS(22, "Broadcast details (with channel info"),
 	REPEATING_BROADCASTS_FOR_PROGRAMS(23, "Repeating broadcasts for program"),
-	BROADCASTS_FROM_SERIES_UPCOMING(24, "Upcoming broadcast for series"),
+	UPCOMING_BROADCASTS_FOR_SERIES(24, "Upcoming broadcast for series"),
 	SEARCH(25, "search"),
 	INTERNAL_TRACKING(26, "Internal tracking"),
 	USER_ACTIVITY_FEED_ITEM_MORE(27, "User activity feed item more"),

@@ -5,15 +5,17 @@ package com.mitv.asynctasks.usertoken;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import android.util.Log;
 
 import com.mitv.Constants;
 import com.mitv.enums.HTTPRequestTypeEnum;
 import com.mitv.enums.RequestIdentifierEnum;
-import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.interfaces.ContentCallbackListener;
+import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.models.TVFeedItem;
+import com.mitv.models.comparators.TVFeedItemComparatorByTime;
 
 
 
@@ -95,6 +97,8 @@ public class GetUserTVFeedItems
 			TVFeedItem[] contentAsArray = (TVFeedItem[]) requestResultObjectContent;
 		
 			ArrayList<TVFeedItem> contentAsArrayList = new ArrayList<TVFeedItem>(Arrays.asList(contentAsArray));
+			
+			Collections.sort(contentAsArrayList, new TVFeedItemComparatorByTime());
 		
 			requestResultObjectContent = contentAsArrayList;
 		}

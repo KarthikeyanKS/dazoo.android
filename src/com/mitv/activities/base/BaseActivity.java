@@ -125,6 +125,10 @@ public abstract class BaseActivity
 
 		GATrackingManager.sendView(className);
 	}
+	
+	protected void registerAsListenerForRequest(RequestIdentifierEnum requestIdentifier) {
+		ContentManager.sharedInstance().registerListenerForRequest(requestIdentifier, this);
+	}
 
 	
 	@Override
@@ -671,6 +675,8 @@ public abstract class BaseActivity
 	
 	@Override
 	public final void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {
+		Log.d(TAG, String.format("onDataAvailable FetchRequestResult: %s requestId: %s", fetchRequestResult.getDescription(), requestIdentifier.getDescription()));
+		
 		this.latestRequest = requestIdentifier;
 		switch (fetchRequestResult) {
 		case INTERNET_CONNECTION_AVAILABLE: {
@@ -715,6 +721,8 @@ public abstract class BaseActivity
 	}
 
 	protected void updateUIBaseElements(UIStatusEnum status) {
+		Log.d(TAG, String.format("updateUIBaseElements, status: %s", status.getDescription()));
+
 		boolean activityNotNullOrFinishing = GenericUtils.isActivityNotNullOrFinishing(this);
 
 		if (activityNotNullOrFinishing) {

@@ -131,10 +131,6 @@ public class LoginWithFacebookActivity
 					intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
 					startActivity(intent);
 				}
-				else
-				{
-					// TODO NewArc: Do we need to do something here???
-				}
 				
 				loginResponseHandled = true;
 				
