@@ -5,242 +5,246 @@
     android:id="@+id/activity_not_logged_in_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@drawable/poster_activity"
     android:orientation="vertical" >
 
     <!-- android:layout_below="@id/tvguide_table_side_clock_iv" -->
 
-    <ScrollView
+	<ScrollView
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:layout_above="@id/tab_selector_container"
+	        android:layout_alignParentRight="true"
+	        android:background="@drawable/poster_activity"
+	        android:fillViewport="true"
+	        android:orientation="vertical" >
+	        
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/tab_selector_container"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/poster_activity"
-        android:fillViewport="true"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="30dp"
         android:orientation="vertical" >
+        
+        <!-- TITLES -->
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/activity_not_logged_in_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:paddingTop="10dp"
+            android:text="@string/activity_page"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            font:fonttextview="roboto_mitv_bold.ttf" />
+
+        <com.mitv.ui.elements.FontTextView
+            android:id="@+id/activity_not_logged_in_title_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_not_logged_in_title"
+            android:layout_gravity="left"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/activity_page_subtitle"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            font:fonttextview="roboto_mitv_light.ttf" />
+
+        <!-- LOGIN BLOCK -->
 
         <RelativeLayout
+            android:id="@+id/activity_not_logged_in_signin_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_below="@id/activity_not_logged_in_title_details"
+            android:layout_margin="10dp"
+            android:background="@drawable/layout_rounded_corners_white"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
 
-            <!-- TITLES -->
-
-            <com.mitv.ui.elements.FontTextView
-                android:id="@+id/activity_not_logged_in_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="100dp"
-                android:text="@string/activity_page"
-                android:textColor="@color/white"
-                android:textSize="24sp"
-                font:fonttextview="roboto_mitv_bold.ttf" />
-
-            <com.mitv.ui.elements.FontTextView
-                android:id="@+id/activity_not_logged_in_title_details"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/activity_not_logged_in_title"
-                android:layout_gravity="left"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="10dp"
-                android:text="@string/activity_page_subtitle"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                font:fonttextview="roboto_mitv_light.ttf" />
-
-            <!-- LOGIN BLOCK -->
+            <!-- FACEBOOK SIGN-IN BAR -->
 
             <RelativeLayout
-                android:id="@+id/activity_not_logged_in_signin_container"
+                android:id="@+id/activity_not_logged_in_facebook_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/activity_not_logged_in_title_details"
-                android:layout_margin="10dp"
-                android:background="@drawable/layout_rounded_corners_white"
-                android:orientation="vertical"
-                android:paddingBottom="10dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp" >
-
-                <!-- FACEBOOK SIGN-IN BAR -->
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/background_color_selector_login_facebook"
+                android:orientation="horizontal" >
 
                 <RelativeLayout
-                    android:id="@+id/activity_not_logged_in_facebook_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/background_color_selector_login_facebook"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
                     android:orientation="horizontal" >
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true"
-                        android:orientation="horizontal" >
-
-                        <com.mitv.ui.elements.FontTextView
-                            android:id="@+id/activity_not_logged_in_signin_facebook_icon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="5dp"
-                            android:text="@string/icon_facebook"
-                            android:textColor="@color/white"
-                            android:textSize="34sp"
-                            font:fonttextview="roboto_mitv_bold.ttf" />
-
-                        <com.mitv.ui.elements.FontTextView
-                            android:id="@+id/activity_not_logged_in_signin_facebook_tv"
-                            style="@style/whitetextbutton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_toRightOf="@id/activity_not_logged_in_signin_facebook_icon"
-                            android:text="@string/login_with_facebook" />
-                    </RelativeLayout>
-                </RelativeLayout>
-
-                <!-- OR BAR -->
-
-                <RelativeLayout
-                    android:id="@+id/activity_not_logged_in_or_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/activity_not_logged_in_facebook_container"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal" >
-
-                    <View
-                        android:id="@+id/container_or_divider"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_centerVertical="true"
-                        android:background="@color/grey1" />
 
                     <com.mitv.ui.elements.FontTextView
-                        android:id="@+id/signin_or_textview"
+                        android:id="@+id/activity_not_logged_in_signin_facebook_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
                         android:layout_centerVertical="true"
-                        android:background="@color/white"
-                        android:padding="5dp"
-                        android:text="@string/or"
-                        android:textColor="@color/grey1"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
+                        android:layout_marginRight="5dp"
+                        android:text="@string/icon_facebook"
+                        android:textColor="@color/white"
+                        android:textSize="34sp"
                         font:fonttextview="roboto_mitv_bold.ttf" />
-                </RelativeLayout>
-
-                <!-- SIGN UP WITH EMAIL BAR -->
-
-                <RelativeLayout
-                    android:id="@+id/activity_not_logged_in_signup_email_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/activity_not_logged_in_or_container"
-                    android:background="@drawable/background_color_selector_signup_login_box"
-                    android:minHeight="50dp"
-                    android:orientation="vertical"
-                    android:padding="10dp" >
 
                     <com.mitv.ui.elements.FontTextView
-                        android:id="@+id/activity_not_logged_in_signup_email_title_tv"
+                        android:id="@+id/activity_not_logged_in_signin_facebook_tv"
                         style="@style/whitetextbutton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/activity_not_logged_in_signin_facebook_icon"
+                        android:text="@string/login_with_facebook" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <!-- OR BAR -->
+
+            <RelativeLayout
+                android:id="@+id/activity_not_logged_in_or_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_not_logged_in_facebook_container"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal" >
+
+                <View
+                    android:id="@+id/container_or_divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_centerVertical="true"
+                    android:background="@color/grey1" />
+
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/signin_or_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:background="@color/white"
+                    android:padding="5dp"
+                    android:text="@string/or"
+                    android:textColor="@color/grey1"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    font:fonttextview="roboto_mitv_bold.ttf" />
+            </RelativeLayout>
+
+            <!-- SIGN UP WITH EMAIL BAR -->
+
+            <RelativeLayout
+                android:id="@+id/activity_not_logged_in_signup_email_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_not_logged_in_or_container"
+                android:background="@drawable/background_color_selector_signup_login_box"
+                android:minHeight="50dp"
+                android:orientation="vertical"
+                android:padding="10dp" >
+
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/activity_not_logged_in_signup_email_title_tv"
+                    style="@style/whitetextbutton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="@string/sign_up_with_email" />
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/activity_not_logged_in_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/activity_not_logged_in_signup_email_container"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/grey1" />
+
+            <!-- ALREADY REGISTERED BOX -->
+
+            <RelativeLayout
+                android:id="@+id/activity_not_logged_in_already_registered_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_not_logged_in_divider"
+                android:orientation="vertical" >
+
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/activity_not_logged_in_already_registered_text_tv"
+                    style="@style/meta2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="@string/already_registered" />
+
+                <RelativeLayout
+                    android:id="@+id/activity_not_logged_in_login_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/activity_not_logged_in_already_registered_text_tv"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/background_color_selector_login_link"
+                    android:orientation="horizontal" >
+
+                    <com.mitv.ui.elements.FontTextView
+                        android:id="@+id/mitvlogin_forgot_password_text"
+                        style="@style/bluetextbutton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:gravity="center_vertical|center_horizontal"
-                        android:text="@string/sign_up_with_email" />
-                </RelativeLayout>
-
-                <View
-                    android:id="@+id/activity_not_logged_in_divider"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_below="@id/activity_not_logged_in_signup_email_container"
-                    android:layout_centerVertical="true"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="15dp"
-                    android:background="@color/grey1" />
-
-                <!-- ALREADY REGISTERED BOX -->
-
-                <RelativeLayout
-                    android:id="@+id/activity_not_logged_in_already_registered_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/activity_not_logged_in_divider"
-                    android:orientation="vertical" >
-
-                    <com.mitv.ui.elements.FontTextView
-                        android:id="@+id/activity_not_logged_in_already_registered_text_tv"
-                        style="@style/meta2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:text="@string/already_registered" />
-
-                    <RelativeLayout
-                        android:id="@+id/activity_not_logged_in_login_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/activity_not_logged_in_already_registered_text_tv"
-                        android:layout_centerHorizontal="true"
-                        android:background="@drawable/background_color_selector_login_link"
-                        android:orientation="horizontal" >
-
-                        <com.mitv.ui.elements.FontTextView
-                            android:id="@+id/mitvlogin_forgot_password_text"
-                            style="@style/bluetextbutton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:gravity="center_vertical|center_horizontal"
-                            android:padding="10dp"
-                            android:text="@string/login_here" />
-                    </RelativeLayout>
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/activity_not_logged_in_terms_container"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/activity_not_logged_in_already_registered_container"
-                    android:layout_centerHorizontal="true"
-                    android:layout_margin="10dp"
-                    android:orientation="vertical" >
-
-                    <com.mitv.ui.elements.FontTextView
-                        android:id="@+id/activity_not_logged_in_terms_info"
-                        style="@style/meta2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="@string/sign_up_terms_info" />
-
-                    <com.mitv.ui.elements.FontTextView
-                        android:id="@+id/activity_not_logged_in_terms_link"
-                        style="@style/meta2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="3dp"
-                        android:layout_toRightOf="@id/activity_not_logged_in_terms_info"
-                        android:linksClickable="true"
-                        android:text="@string/sign_up_terms_link"
-                        android:textColorLink="@color/grey3"
-                        android:textStyle="bold"
-                        font:fonttextview="roboto_mitv_bold.ttf" />
+                        android:padding="10dp"
+                        android:text="@string/login_here" />
                 </RelativeLayout>
             </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/activity_not_logged_in_terms_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_not_logged_in_already_registered_container"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="10dp"
+                android:orientation="vertical" >
+
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/activity_not_logged_in_terms_info"
+                    style="@style/meta2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/sign_up_terms_info" />
+
+                <com.mitv.ui.elements.FontTextView
+                    android:id="@+id/activity_not_logged_in_terms_link"
+                    style="@style/meta2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="3dp"
+                    android:layout_below="@id/activity_not_logged_in_terms_info"
+                    android:linksClickable="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/sign_up_terms_link"
+                    android:textColorLink="@color/grey3"
+                    android:textStyle="bold"
+                    font:fonttextview="roboto_mitv_bold.ttf" />
+            </RelativeLayout>
         </RelativeLayout>
+        
+    </RelativeLayout>
     </ScrollView>
     
     <!-- NAVIGATION TABS -->
