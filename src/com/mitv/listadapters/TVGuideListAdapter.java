@@ -60,7 +60,7 @@ public class TVGuideListAdapter
 	
 	public TVGuideListAdapter(Activity activity, ArrayList<TVChannelGuide> guide, TVDate date, int hour, boolean isToday) 
 	{
-		super(Constants.ALL_CATEGORIES_TAG, activity, guide);
+		super(Constants.ALL_CATEGORIES_TAG_ID, activity, guide);
 		this.activity = activity;
 		this.tvDate = date;
 		this.currentHour = hour;

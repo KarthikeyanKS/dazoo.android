@@ -3,6 +3,11 @@ package com.mitv.models;
 
 
 
+import android.content.Context;
+
+import com.mitv.Constants;
+import com.mitv.R;
+import com.mitv.SecondScreenApplication;
 import com.mitv.models.gson.TVTagJSON;
 import com.mitv.models.orm.TVTagORM;
 
@@ -23,5 +28,12 @@ public class TVTag
 	{
 		this.id = data.getId();
 		this.displayName = data.getDisplayName();
+	}
+	
+	public static TVTag getAllCategoriesTVTag() {
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		String displayName = context.getString(R.string.all_categories_tv_tag);
+		TVTag allCategoriesTag = new TVTag(Constants.ALL_CATEGORIES_TAG_ID, displayName);
+		return allCategoriesTag;
 	}
 }

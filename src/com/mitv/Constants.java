@@ -492,5 +492,5 @@ public abstract class Constants
 	public static final boolean USE_HOCKEY_APP_UPDATE_NOTIFICATIONS = false;
 	public static final boolean ENABLE_STRICT_MODE = true;
 	
-	public static final String ALL_CATEGORIES_TAG = "All programs";
+	public static final String ALL_CATEGORIES_TAG_ID = "all_categories";
 }

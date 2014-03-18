@@ -24,7 +24,7 @@ public class AppConfiguration
 		activityNameToCellCountBetweenAdCells = new HashMap<String, Integer>();
 		
 		String feedActivityName = Constants.JSON_AND_FRAGMENT_KEY_ACTIVITY;
-		String guideFragmentName = Constants.ALL_CATEGORIES_TAG;
+		String guideFragmentName = Constants.ALL_CATEGORIES_TAG_ID;
 		
 		activityNameToCellCountBetweenAdCells.put(feedActivityName, feedActivityCellCountBetweenAdCells);
 		activityNameToCellCountBetweenAdCells.put(guideFragmentName, guideFragmentCellCountBetweenAdCells);
