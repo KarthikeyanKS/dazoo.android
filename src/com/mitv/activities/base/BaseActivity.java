@@ -339,16 +339,25 @@ public abstract class BaseActivity
 		return mostRecentTabActivity;
 	}
 
-	private boolean thisIsTabActivity() {
+	
+	
+	private boolean isTabActivity() 
+	{
 		return isTabActivity(this);
 	}
 
-	private static boolean isTabActivity(Activity activity) {
+	
+	
+	private static boolean isTabActivity(Activity activity) 
+	{
 		boolean isTabActivity = (activity instanceof HomeActivity || activity instanceof FeedActivity || activity instanceof UserProfileActivity);
 		return isTabActivity;
 	}
 
-	public void setTabViews() {
+	
+	
+	public void setTabViews()
+	{
 		tabTvGuide = (RelativeLayout) findViewById(R.id.tab_tv_guide);
 		tabTvGuideIcon = (FontTextView) findViewById(R.id.element_tab_icon_guide);
 		tabTvGuideText = (FontTextView) findViewById(R.id.element_tab_text_guide);
@@ -590,7 +599,27 @@ public abstract class BaseActivity
 
 		super.onDestroy();
 	}
+	
+	
+	
+	@Override
+	public void onBackPressed() 
+	{
+		if(isTabActivity())
+		{
+		    Intent intent = new Intent(Intent.ACTION_MAIN);
+		    intent.addCategory(Intent.CATEGORY_HOME);
+		    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		    startActivity(intent);
+		}
+		else
+		{
+			super.onBackPressed();
+		}
+	}
+	
 
+	
 	@Override
 	public void setContentView(int layoutResID) {
 		super.setContentView(layoutResID);

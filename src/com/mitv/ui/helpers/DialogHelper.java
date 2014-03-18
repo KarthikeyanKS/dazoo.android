@@ -41,6 +41,7 @@ public class DialogHelper
 			case TV_EPISODE:
 			{
 				reminderSB.append(activity.getString(R.string.reminder_text_remove));
+				reminderSB.append(" ");
 				reminderSB.append(broadcast.getProgram().getSeries().getName());
 				reminderSB.append(", ");
 				reminderSB.append(activity.getString(R.string.season));
@@ -57,6 +58,7 @@ public class DialogHelper
 			case MOVIE:
 			{
 				reminderSB.append(activity.getString(R.string.reminder_text_remove));
+				reminderSB.append(" ");
 				reminderSB.append(broadcast.getProgram().getTitle());
 				reminderSB.append("?");
 				break;
@@ -65,6 +67,7 @@ public class DialogHelper
 			case SPORT:
 			{
 				reminderSB.append(activity.getString(R.string.reminder_text_remove));
+				reminderSB.append(" ");
 				reminderSB.append(broadcast.getProgram().getTitle());
 				reminderSB.append("?");
 				break;
@@ -73,6 +76,7 @@ public class DialogHelper
 			case OTHER:
 			{
 				reminderSB.append(activity.getString(R.string.reminder_text_remove));
+				reminderSB.append(" ");
 				reminderSB.append(broadcast.getProgram().getTitle());
 				reminderSB.append("?");
 				break;
@@ -82,6 +86,7 @@ public class DialogHelper
 			default:
 			{
 				reminderSB.append(activity.getString(R.string.reminder_text_remove));
+				reminderSB.append(" ");
 				break;
 			}
 		}

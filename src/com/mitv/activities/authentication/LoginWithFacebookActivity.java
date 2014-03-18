@@ -6,6 +6,7 @@ package com.mitv.activities.authentication;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -33,9 +34,6 @@ public class LoginWithFacebookActivity
 	private static final String TAG = LoginWithFacebookActivity.class.getName();
 
 	private static final int AJAX_STATUS_OK = 200;
-	private static final int AJAX_STATUS_ERROR_400 = 400;
-	private static final int AJAX_STATUS_ERROR_401 = 401;
-	private static final int AJAX_STATUS_ERROR_403 = 403;
 	
 	
 	private ActionBar actionBar;
@@ -126,12 +124,15 @@ public class LoginWithFacebookActivity
 			
 			case SUCCESS_WITH_CONTENT:
 			{
-				if(!ContentManager.sharedInstance().tryStartReturnActivity(this) && !loginResponseHandled) {
+				if(!ContentManager.sharedInstance().tryStartReturnActivity(this) && !loginResponseHandled) 
+				{
 					Activity mostRecentTabActivity = getMostRecentTabActivity();
 					Intent intent = new Intent(LoginWithFacebookActivity.this, mostRecentTabActivity.getClass());
 					intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
 					startActivity(intent);
-				} else {
+				}
+				else
+				{
 					// TODO NewArc: Do we need to do something here???
 				}
 				
@@ -201,23 +202,6 @@ public class LoginWithFacebookActivity
 			@Override
 			public boolean expired(AbstractAjaxCallback<?, ?> cb, AjaxStatus status) 
 			{
-				int statusCode = status.getCode();
-
-				switch (statusCode) 
-				{
-					case AJAX_STATUS_ERROR_400:
-					case AJAX_STATUS_ERROR_401:
-					case AJAX_STATUS_ERROR_403:
-					{
-						return true;
-					}
-	
-					default:
-					{
-						break;
-					}
-				}
-
 				return super.expired(cb, status);
 			}
 
@@ -226,6 +210,15 @@ public class LoginWithFacebookActivity
 			public boolean reauth(final AbstractAjaxCallback<?, ?> cb) 
 			{
 				return super.reauth(cb);
+			}
+			
+			
+			@Override
+			protected synchronized void failure(Context context, int code, String message)
+			{
+				updateUI(UIStatusEnum.FAILED);
+				
+				super.failure(context, code, message);
 			}
 		};
 
@@ -246,8 +239,6 @@ public class LoginWithFacebookActivity
 			AQuery aq = new AQuery(this);
 	
 			AQuery aquery = aq.auth(handle);
-			
-			
 			
 			aquery.ajax(Constants.APP_URL_FACEBOOK_GRAPH_ME, JSONObject.class, getFacebookAuthenticationCallback());
 		}

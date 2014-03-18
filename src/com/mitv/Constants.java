@@ -45,7 +45,8 @@ public abstract class Constants
 	public static final String URL_CHANNELS_ALL 					= URL_SERVER + "epg/channels";
 	public static final String URL_CHANNELS_DEFAULT 				= URL_SERVER + "epg/channels/default";
 	public static final String URL_FACEBOOK_TOKEN 					= URL_SERVER_SECURE + "auth/login/facebook";
-	public static final String URL_LOGIN 							= URL_SERVER_SECURE + "auth/login/dazoo";
+	public static final String URL_LOGIN_WITH_PLAINTEXT_PASSWORD 	= URL_SERVER_SECURE + "auth/login/dazoo";
+	public static final String URL_LOGIN_WITH_HASH 					= URL_SERVER_SECURE + "auth/login/dazoo2";
 	public static final String URL_REGISTER 						= URL_SERVER_SECURE + "auth/login/dazoo/register";
 	public static final String URL_RESET_PASSWORD_SEND_EMAIL		= URL_SERVER_SECURE + "auth/login/dazoo/sendResetPasswordEmail";
 	public static final String URL_RESET_AND_CONFIRM_PASSWORD 		= URL_SERVER_SECURE + "auth/login/dazoo/resetPassword";

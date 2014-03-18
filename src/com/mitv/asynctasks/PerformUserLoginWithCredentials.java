@@ -20,7 +20,20 @@ public class PerformUserLoginWithCredentials
 {
 	private static final String TAG = PerformUserLoginWithCredentials.class.getName();
 	
-	private static final String URL_SUFFIX = Constants.URL_LOGIN;
+	
+	
+	private static String getUrl(boolean usingHashedPassword)
+	{
+		if(usingHashedPassword)
+		{
+			return Constants.URL_LOGIN_WITH_HASH;
+		}
+		else
+		{
+			return Constants.URL_LOGIN_WITH_PLAINTEXT_PASSWORD;
+		}
+	}
+	
 	
 	
 	
@@ -28,9 +41,10 @@ public class PerformUserLoginWithCredentials
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener,
 			String username,
-			String password) 
+			String password,
+			boolean usingHashedPassword) 
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_LOGIN, UserLoginData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_LOGIN, UserLoginData.class, HTTPRequestTypeEnum.HTTP_POST, getUrl(usingHashedPassword));
 		
 		UserLoginDataPost postData = new UserLoginDataPost();
 		postData.setEmail(username);

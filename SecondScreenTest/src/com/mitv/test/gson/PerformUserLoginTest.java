@@ -43,7 +43,7 @@ public class PerformUserLoginTest
 	{
 		PerformUserLoginTest instance = new PerformUserLoginTest();
 		
-		String url = Constants.URL_LOGIN;
+		String url = Constants.URL_LOGIN_WITH_PLAINTEXT_PASSWORD;
 
 		UserLoginDataPost postData = new UserLoginDataPost();
 		postData.setEmail(DEFAULT_TEST_USER_EMAIL);
