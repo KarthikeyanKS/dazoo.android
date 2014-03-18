@@ -42,7 +42,7 @@ public class PerformUserRegistrationTest
 	
 	private void register()
 	{
-		String url = Constants.URL_REGISTER;
+		String url = Constants.URL_REGISTER_WITH_PLAINTEXT_PASSWORD;
 		
 		UserRegistrationData postData = getNewRandomUserData();
 		
