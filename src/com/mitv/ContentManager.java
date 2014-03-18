@@ -1343,7 +1343,9 @@ public class ContentManager
 		apiClient.performUserLogin(activityCallbackListener, data, true);
 	}
 
-	public void performLogout(ViewCallbackListener activityCallbackListener) {
+	
+	public void performLogout(ViewCallbackListener activityCallbackListener) 
+	{
 		Log.d(TAG, "PROFILING: performLogout:");
 		
 		/* Important, we need to clear the cache as well */
@@ -1354,9 +1356,12 @@ public class ContentManager
 		apiClient.performUserLogout(activityCallbackListener);
 	}
 	
-	public void performResetPassword(ViewCallbackListener activityCallbackListener, String email) {
+	
+	public void performResetPassword(ViewCallbackListener activityCallbackListener, String email) 
+	{
 		apiClient.performUserPasswordResetSendEmail(activityCallbackListener, email);
 	}
+	
 	
 	public void getUserTokenWithFacebookFBToken(ViewCallbackListener activityCallbackListener, String facebookToken) 
 	{

@@ -59,7 +59,9 @@ public class LoginWithFacebookActivity
 	protected void onResume() 
 	{
 		super.onResume();
+		
 		loginResponseHandled = false;
+		
 		performFacebookAuthentication();
 	}
 	

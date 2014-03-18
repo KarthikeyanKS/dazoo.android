@@ -115,7 +115,7 @@ public class HomeActivity
 
 			if (!TextUtils.isEmpty(welcomeMessage)) 
 			{
-				ToastHelper.createAndShowToast(this, welcomeMessage);
+				ToastHelper.createAndShowToast(this, welcomeMessage, false);
 			}
 
 			hasShowWelcomeToast = true;
