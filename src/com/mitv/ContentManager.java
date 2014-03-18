@@ -1320,9 +1320,14 @@ public class ContentManager
 		apiClient.performUserSignUp(activityCallbackListener, email, password, firstname, lastname);
 	}
 
-	public void performLogin(ViewCallbackListener activityCallbackListener, String username, String password) {
+	public void performLogin(ViewCallbackListener activityCallbackListener, String username, String password) 
+	{
 		Log.d(TAG, "PROFILING: performLogin:");
-		apiClient.performUserLogin(activityCallbackListener, username, password);
+		
+		// TODO NewArc - Use password hahsing mechanism
+		String passwordHash = GenericUtils.getSHA512PasswordHash(password);
+		
+		apiClient.performUserLogin(activityCallbackListener, username, password, false);
 	}
 
 	public void performLogout(ViewCallbackListener activityCallbackListener) {

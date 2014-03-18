@@ -562,11 +562,16 @@ public class FeedListAdapter
 				@Override
 				public void onClick(View v)
 				{
+					StringBuilder sb = new StringBuilder();
+					sb.append(activity.getString(R.string.share_comment));
+					sb.append(" ");
+					sb.append(broadcast.getShareUrl());
+					
 					GenericUtils.startShareActivity(
 							activity, 
-							activity.getResources().getString(R.string.app_name), 
-							broadcast.getShareUrl(),
-							activity.getResources().getString(R.string.share_action_title));
+							activity.getString(R.string.app_name),
+							sb.toString(),
+							activity.getString(R.string.share_action_title));
 				}
 			});
 		}

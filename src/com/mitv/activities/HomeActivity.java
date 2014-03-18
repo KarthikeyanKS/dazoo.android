@@ -4,6 +4,7 @@ package com.mitv.activities;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
@@ -81,7 +82,14 @@ public class HomeActivity
 			updateUI(UIStatusEnum.LOADING);
 		}
 	}
-		
+	
+	
+	
+	protected void onSaveInstanceState(Bundle bundle) 
+	{
+		  super.onSaveInstanceState(bundle);
+	}
+	
 	
 	
 	/* Do not use this in Google Play builds */
