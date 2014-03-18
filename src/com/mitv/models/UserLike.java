@@ -216,11 +216,6 @@ public class UserLike
 				return false;
 		} else if (!getContentId().equals(other.getContentId()))
 			return false;
-		if (title == null) {
-			if (other.title != null)
-				return false;
-		} else if (!title.equals(other.title))
-			return false;
 		return true;
 	}
 
