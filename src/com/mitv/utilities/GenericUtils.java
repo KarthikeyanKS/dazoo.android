@@ -259,8 +259,7 @@ public abstract class GenericUtils
 	
 	
 	
-	// TODO NewArc Deprecated - Should we keep this?
-	@Deprecated
+	/* Only use when adding a new computer to Facebook */
 	public static void logFacebookKeyHash(final Context context)
 	{
 		PackageInfo info;

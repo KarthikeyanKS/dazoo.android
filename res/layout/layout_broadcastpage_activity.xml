@@ -5,22 +5,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <!-- BOTTOM NAVIGATION TABS -->
-
-    <include
-        android:id="@+id/tab_selector_container"
-        android:layout_alignParentBottom="true"
-        layout="@layout/block_bottom_tabs" />
-
-    <!-- LAYOUT STATE CALLBACKS -->
-
-    <include
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/tab_selector_container"
-        layout="@layout/layout_request_callbacks_holder_main_layout"
-        android:background="@color/white"/>
-
     <ScrollView
         android:id="@+id/broadcast_scroll"
         android:layout_width="match_parent"
@@ -29,7 +13,6 @@
         android:background="@color/white"
         android:fillViewport="true"
         android:orientation="vertical" >
-
         <LinearLayout
             android:id="@+id/broacastpage_block_container_layout"
             android:layout_width="match_parent"
@@ -38,5 +21,21 @@
             android:background="@color/grey1">
         </LinearLayout>
     </ScrollView>
+    
+    <!-- NAVIGATION TABS -->
+    <include
+        layout="@layout/block_bottom_tabs"
+        android:id="@+id/tab_selector_container"
+        android:layout_alignParentBottom="true"/>
+    
+    <!-- ERROR, NO CONTENT, NO CONNECTION VIEWS -->
+    <include
+        layout="@layout/layout_request_callbacks_holder_main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/tab_selector_container"/>
+    
+    <!-- UNDO BAR -->
+    <include layout="@layout/layout_undo_bar" />
 
 </RelativeLayout>

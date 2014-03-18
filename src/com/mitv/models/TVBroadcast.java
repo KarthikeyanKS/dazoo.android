@@ -164,12 +164,10 @@ public class TVBroadcast
 	
 	public boolean isBroadcastAiringInOrInLessThan(int minutes) 
 	{
-		Calendar beginTimeWithincrement = (Calendar) getBeginTimeCalendarLocal().clone();
-		beginTimeWithincrement.add(Calendar.MINUTE, minutes);
+		Calendar nowWithIncrement = (Calendar) DateUtils.getNow().clone();
+		nowWithIncrement.add(Calendar.MINUTE, minutes);
 		
-		Calendar now = DateUtils.getNow();
-				
-		boolean isBroadcastStartingInPeriod = beginTimeWithincrement.before(now);
+		boolean isBroadcastStartingInPeriod = getBeginTimeCalendarLocal().before(nowWithIncrement);
 	    
 	    return isBroadcastStartingInPeriod;
 	}
@@ -360,8 +358,7 @@ public class TVBroadcast
 				} 
 				else 
 				{
-					// TODO NewArc - Move this into resources
-					sb.append("Has finished");
+					sb.append(res.getString(R.string.search_result_broadcast_has_finished));
 				}
 			}
 		}

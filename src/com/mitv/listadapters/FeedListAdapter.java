@@ -347,7 +347,7 @@ public class FeedListAdapter
 			
 			case POPULAR_BROADCASTS:
 			{
-				ArrayList<TVBroadcastWithChannelInfo> broadcasts = new ArrayList<TVBroadcastWithChannelInfo>(feedItem.getBroadcasts());
+				ArrayList<TVBroadcastWithChannelInfo> broadcasts = feedItem.getBroadcasts();
 				
 				if (broadcasts != null && broadcasts.size() > 0) 
 				{

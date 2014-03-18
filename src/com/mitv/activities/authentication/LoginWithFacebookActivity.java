@@ -52,8 +52,7 @@ public class LoginWithFacebookActivity
 		setContentView(R.layout.layout_facebooklogin_activity);
 		
 		actionBar = getSupportActionBar();
-		
-		actionBar.hide();
+		actionBar.setDisplayShowTitleEnabled(false);
 	}
 	
 	
@@ -132,8 +131,6 @@ public class LoginWithFacebookActivity
 					Intent intent = new Intent(LoginWithFacebookActivity.this, mostRecentTabActivity.getClass());
 					intent.putExtra(Constants.INTENT_EXTRA_ACTIVITY_USER_JUST_LOGGED_IN, true);
 					startActivity(intent);
-				} else {
-					// TODO NewArc: Do we need to do something here???
 				}
 				
 				loginResponseHandled = true;

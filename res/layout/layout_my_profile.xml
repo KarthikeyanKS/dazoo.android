@@ -3,26 +3,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:font="http://schemas.android.com/apk/res/com.mitv"
     android:id="@+id/activity_container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:background="@color/grey1"
     android:orientation="vertical" >
-
-    <include
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/tab_selector_container"
-        layout="@layout/layout_request_callbacks_holder_main_layout"
-        android:orientation="vertical" />
-    
-    <include
-        android:id="@+id/tab_selector_container"
-        android:layout_alignParentBottom="true"
-        layout="@layout/block_bottom_tabs" />
-    
-    <include
-        android:layout_above="@id/tab_selector_container"
-        layout="@layout/layout_undo_bar" />
     
     <ScrollView
         android:id="@+id/scrollView"
@@ -415,5 +399,21 @@
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
+    
+    <!-- NAVIGATION TABS -->
+    <include
+        android:id="@+id/tab_selector_container"
+        android:layout_alignParentBottom="true"
+        layout="@layout/block_bottom_tabs" />
+    
+    <!-- ERROR, NO CONTENT, NO CONNECTION VIEWS -->
+     <include
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/tab_selector_container"
+        layout="@layout/layout_request_callbacks_holder_main_layout"/>
+    
+     <!-- UNDO BAR -->
+     <include layout="@layout/layout_undo_bar" />
 
 </RelativeLayout>

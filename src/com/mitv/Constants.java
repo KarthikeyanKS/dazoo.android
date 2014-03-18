@@ -100,6 +100,7 @@ public abstract class Constants
 	public static final int PASSWORD_LENGTH_MIN						= 6;
 	public static final int PASSWORD_LENGTH_MAX						= 20;
 	public static final int USER_FIRSTNAME_LENGTH_MIN				= 1;
+	public static final int USER_LASTNAME_LENGTH_MIN				= 1;
 	public static final int API_POPULAR_COUNT_DEFAULT				= 3;
 
 	public static final String	ISO_8601_DATE_FORMAT								= "yyyy-MM-dd'T'HH:mm:ss'Z'";

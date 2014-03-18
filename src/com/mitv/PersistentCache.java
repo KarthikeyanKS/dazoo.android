@@ -254,31 +254,36 @@ public abstract class PersistentCache
 		if(userLikes == null) {
 			userLikes = new ArrayList<UserLike>();
 		}
-		this.userLikes.add(userLike);
+		if(!userLikes.contains(userLike)) {
+			this.userLikes.add(userLike);
+		} else {
+			/* Already in list, check if like in list was manually added */
+			int index = userLikes.indexOf(userLike);
+			UserLike tmp = userLikes.get(index);
+			
+			if(tmp.wasAddedManually() && !userLike.wasAddedManually()) {
+				/* The current like in the list was added manually, means it is missing some fields,
+				 * and the userLike to add has those fields => replace */
+				userLikes.set(index, userLike);
+			}
+		}
 	}
 	
+	public synchronized void removeManuallyAddedUserLikes() {
+		ArrayList<UserLike> userLikesToRemove = new ArrayList<UserLike>();
+		for(UserLike userLike : userLikes) {
+			if(userLike.wasAddedManually()) {
+				userLikesToRemove.add(userLike);
+			}
+		}
+		userLikesToRemove.removeAll(userLikesToRemove);
+	}
 	
 	public synchronized void removeUserLike(final UserLike userLikeToRemove) 
 	{
 		if(userLikes != null)
 		{
-			int indexToRemove = -1;
-			
-			for(int i=0; i<userLikes.size(); i++)
-			{
-				UserLike userLike = userLikes.get(i);
-				
-				if(userLike.equals(userLikeToRemove))
-				{
-					indexToRemove = i;
-					break;
-				}
-			}
-			
-			if(indexToRemove >= 0)
-			{
-				this.userLikes.remove(indexToRemove);
-			}
+			userLikes.remove(userLikeToRemove);
 		}
 		else
 		{
@@ -294,16 +299,7 @@ public abstract class PersistentCache
 		
 		if(userLikes != null)
 		{
-			for(UserLike userLike : userLikes)
-			{
-				boolean isEqual = userLike.equals(userLikeToCheck);
-				
-				if(isEqual)
-				{
-					isContained = true;
-					break;
-				}
-			}
+			isContained = userLikes.contains(userLikeToCheck);
 		}
 		
 		return isContained;

@@ -168,12 +168,6 @@
             android:gravity="center"
             android:orientation="vertical" >
 
-            <ImageView
-                android:id="@+id/block_feed_recommended_like_button_iv"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_margin="7dp"
-                android:src="@drawable/ic_like_default" />
         </LinearLayout>
 
         <!-- SEPARATOR -->
@@ -201,12 +195,16 @@
             android:gravity="center"
             android:padding="5dp" >
 
-            <ImageView
-                android:id="@+id/block_feed_recommended_share_button_iv"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_margin="7dp"
-                android:src="@drawable/ic_share_default" />
+            <com.mitv.ui.elements.FontTextView
+	            android:id="@+id/block_feed_recommended_share_button_iv"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_margin="7dp"
+	            android:text="@string/icon_share"
+	            android:textColor="@color/grey3"
+	            android:textSize="30sp"
+	            font:fonttextview="roboto_mitv_regular.ttf" />
+
         </LinearLayout>
 
         <!-- SEPARATOR -->

@@ -53,7 +53,6 @@ public class BroadcastPageActivity
 	extends BaseContentActivity
 	implements OnClickListener
 {
-	@SuppressWarnings("unused")
 	private static final String TAG = BroadcastPageActivity.class.getName();
 
 	private TVChannelId channelId;
@@ -92,7 +91,7 @@ public class BroadcastPageActivity
 
 		initViews();
 	}
-	
+		
 	@Override
 	protected void onResume() {
 		
@@ -151,8 +150,8 @@ public class BroadcastPageActivity
 	{
 		if (fetchRequestResult.wasSuccessful()) 
 		{
-			if (requestIdentifier == RequestIdentifierEnum.BROADCAST_PAGE_DATA) 
-			{
+			switch (requestIdentifier) {
+			case BROADCAST_PAGE_DATA: {
 				broadcastWithChannelInfo = ContentManager.sharedInstance().getFromCacheSelectedBroadcastWithChannelInfo();
 				
 				repeatingBroadcasts = ContentManager.sharedInstance().getFromCacheRepeatingBroadcastsVerifyCorrect(broadcastWithChannelInfo);
@@ -173,9 +172,20 @@ public class BroadcastPageActivity
 				}
 
 				updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
-			} else {
-				Log.d(TAG, "other request");
+				break;
+
 			}
+			case USER_ADD_LIKE: {
+				updateStatusOfLikeView();
+				break;
+
+			}
+			default: {
+				Log.d(TAG, "other request");
+				/* do nothing */break;
+			}
+			}
+			
 		} 
 		else 
 		{
@@ -201,7 +211,7 @@ public class BroadcastPageActivity
 	
 			default:
 			{
-				// Do nothing
+				Log.d(TAG, "updateUI - case not handled");
 				break;
 			}
 		}

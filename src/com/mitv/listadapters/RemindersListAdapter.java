@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,6 +25,7 @@ import com.mitv.models.TVChannel;
 import com.mitv.models.TVProgram;
 import com.mitv.models.sql.NotificationDataSource;
 import com.mitv.models.sql.NotificationSQLElement;
+import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.DialogHelper;
 
 
@@ -109,7 +109,7 @@ public class RemindersListAdapter
 			viewHolder.mBroadcastDetailsTv = (TextView) rowView.findViewById(R.id.row_reminders_text_details_tv);
 			viewHolder.mBroadcastTimeTv = (TextView) rowView.findViewById(R.id.row_reminders_text_time_tv);
 			viewHolder.mChannelTv = (TextView) rowView.findViewById(R.id.row_reminders_text_channel_tv);
-			viewHolder.mReminderIconIv = (ImageView) rowView.findViewById(R.id.row_reminders_notification_iv);
+			viewHolder.mReminderIconIv = (FontTextView) rowView.findViewById(R.id.row_reminders_notification_iv);
 			viewHolder.mReminderIconIv.setTag(Integer.valueOf(position));
 
 			viewHolder.mDividerView = (View) rowView.findViewById(R.id.row_reminders_header_divider);
@@ -244,7 +244,7 @@ public class RemindersListAdapter
 
 			holder.mBroadcastTimeTv.setText(broadcastWithChannelInfo.getBeginTimeDayOfTheWeekWithHourAndMinuteAsString());
 			
-			holder.mReminderIconIv.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_reminder_selected));
+			holder.mReminderIconIv.setTextColor(activity.getResources().getColor(R.color.blue1));
 			
 			holder.mInformationContainer.setOnClickListener(new View.OnClickListener() 
 			{
@@ -294,7 +294,7 @@ public class RemindersListAdapter
 		public TextView	mBroadcastDetailsTv;
 		public TextView	mBroadcastTimeTv;
 		public TextView	mChannelTv;
-		public ImageView mReminderIconIv;
+		public FontTextView mReminderIconIv;
 		public View	mDividerView;
 	}
 	

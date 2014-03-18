@@ -49,10 +49,10 @@
             android:id="@+id/signin_facebook_container"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_below="@id/signin_container_divider"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="15dp"
+            android:layout_below="@id/signin_container_divider"
             android:background="@drawable/background_color_selector_login_facebook"
             android:orientation="horizontal" >
 

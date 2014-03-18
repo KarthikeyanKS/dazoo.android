@@ -91,8 +91,6 @@ public class FeedActivity
 	@Override
 	protected void onResume()
 	{
-		super.onResume();
-		
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 		
 		if (isLoggedIn != currentlyShowingLoggedInLayout) 
@@ -122,6 +120,9 @@ public class FeedActivity
 				currentlyShowingLoggedInLayout = false;
 			}
 		}
+		
+		/* Since the FeedActivity view alternates between two views, the super.onResumne() must be called only after setting the correct content view */
+		super.onResume();
 	}
 	
 	
@@ -284,14 +285,18 @@ public class FeedActivity
 	{
 		switch (requestIdentifier) 
 		{		
-			case USER_ACTIVITY_FEED_ITEM_MORE:
 			case USER_ACTIVITY_FEED_INITIAL_DATA:
+			case USER_ACTIVITY_FEED_ITEM:
+			case USER_ACTIVITY_FEED_ITEM_MORE:
 			{
 				if(fetchRequestResult.wasSuccessful())
 				{
-					if(fetchRequestResult == FetchRequestResultEnum.SUCCESS) {
+					if(fetchRequestResult == FetchRequestResultEnum.SUCCESS) 
+					{
 						updateUI(UIStatusEnum.SUCCESS_WITH_CONTENT);
-					} else {
+					} 
+					else 
+					{
 						updateUI(UIStatusEnum.SUCCESS_WITH_NO_CONTENT);
 					}
 				}
@@ -327,15 +332,33 @@ public class FeedActivity
 		{	
 			case SUCCESS_WITH_CONTENT:
 			{
-				if(latestRequest == RequestIdentifierEnum.USER_ACTIVITY_FEED_INITIAL_DATA) {
-					setListAdapter();
-				} else {
-					updateListAdapter();
+				switch (latestRequest) 
+				{		
+					case USER_ACTIVITY_FEED_INITIAL_DATA:
+					case USER_ACTIVITY_FEED_ITEM:
+					{
+						setListAdapter();
+						break;
+					}
+					
+					case USER_ACTIVITY_FEED_ITEM_MORE:
+					{
+						updateListAdapter();
+					}
+								
+					default:
+					{
+						Log.w(TAG, "Unknown request identifier");
+					}
 				}
+				
 				break;
 			}
-			case SUCCESS_WITH_NO_CONTENT: {
-				if(ContentManager.sharedInstance().isLoggedIn()) {
+			
+			case SUCCESS_WITH_NO_CONTENT: 
+			{
+				if(ContentManager.sharedInstance().isLoggedIn()) 
+				{
 					reachedEndOfFeedItems();
 				}
 			}

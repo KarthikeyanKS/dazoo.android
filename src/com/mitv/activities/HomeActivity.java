@@ -11,7 +11,6 @@ import android.text.TextUtils;
 import com.mitv.Constants;
 import com.mitv.ContentManager;
 import com.mitv.R;
-import com.mitv.SecondScreenApplication;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
@@ -53,6 +52,8 @@ public class HomeActivity
 		getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
 		initLayout();
+		
+		registerAsListenerForRequest(RequestIdentifierEnum.TV_GUIDE_STANDALONE);
 	}
 	
 	
@@ -75,11 +76,14 @@ public class HomeActivity
 		
 		showWelcomeToast();
 		
-		if(ContentManager.sharedInstance().isUpdatingGuide()) {
+		if(ContentManager.sharedInstance().isUpdatingGuide()) 
+		{
 			updateUI(UIStatusEnum.LOADING);
 		}
 	}
 		
+	
+	
 	/* Do not use this in Google Play builds */
 	private void hockeyAppCheckForCrashes() 
 	{
