@@ -60,6 +60,8 @@ public abstract class BaseActivity
 	
 	private static final int TV_DATE_NOT_FOUND = -1;
 
+	private static final int SELECTED_TAB_FONT_SIZE = 12;
+	
 	private static Stack<Activity> activityStack = new Stack<Activity>();
 
 	
@@ -411,7 +413,7 @@ public abstract class BaseActivity
 
 			Typeface bold = FontManager.getFontBold(getApplicationContext());
 			tabTvGuideText.setTypeface(bold);
-			tabTvGuideText.setTextSize(11);
+			tabTvGuideText.setTextSize(SELECTED_TAB_FONT_SIZE);
 		}
 
 		if (tabActivity != null) {
@@ -449,7 +451,7 @@ public abstract class BaseActivity
 
 			Typeface bold = FontManager.getFontBold(getApplicationContext());
 			tabActivityText.setTypeface(bold);
-			tabActivityText.setTextSize(11);
+			tabActivityText.setTextSize(SELECTED_TAB_FONT_SIZE);
 		}
 
 		if (tabProfile != null) {
@@ -487,7 +489,7 @@ public abstract class BaseActivity
 
 			Typeface bold = FontManager.getFontBold(getApplicationContext());
 			tabProfileText.setTypeface(bold);
-			tabProfileText.setTextSize(11);
+			tabProfileText.setTextSize(SELECTED_TAB_FONT_SIZE);
 		}
 	}
 

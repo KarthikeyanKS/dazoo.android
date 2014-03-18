@@ -21,27 +21,31 @@ public class PerformUserSignUp
 {
 	private static final String TAG = PerformUserSignUp.class.getName();
 	
-	private static final String URL_SUFFIX = Constants.URL_REGISTER;
+	
+	
+	private static String getUrl(boolean usingHashedPassword)
+	{
+		if(usingHashedPassword)
+		{
+			return Constants.URL_REGISTER_WITH_HASHED_PASSWORD;
+		}
+		else
+		{
+			return Constants.URL_REGISTER_WITH_PLAINTEXT_PASSWORD;
+		}
+	}
 	
 	
 	
 	public PerformUserSignUp(
 			ContentCallbackListener contentCallbackListener,
 			ViewCallbackListener activityCallbackListener,
-			String email,
-			String password,
-			String firstname,
-			String lastname)
+			UserRegistrationData userRegistrationData,
+			boolean usingHashedPassword)
 	{
-		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_SIGN_UP, UserLoginData.class, HTTPRequestTypeEnum.HTTP_POST, URL_SUFFIX);
+		super(contentCallbackListener, activityCallbackListener, RequestIdentifierEnum.USER_SIGN_UP, UserLoginData.class, HTTPRequestTypeEnum.HTTP_POST, getUrl(usingHashedPassword));
 		
-		UserRegistrationData postData = new UserRegistrationData();
-		postData.setEmail(email);
-		postData.setPassword(password);
-		postData.setFirstName(firstname);
-		postData.setLastName(lastname);
-		
-		this.bodyContentData = gson.toJson(postData);
+		this.bodyContentData = gson.toJson(userRegistrationData);
 		
 		Log.v(TAG, "Gson data for request: " + bodyContentData);
 	}

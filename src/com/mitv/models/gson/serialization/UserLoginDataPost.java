@@ -1,6 +1,8 @@
 
 package com.mitv.models.gson.serialization;
 
+import com.mitv.utilities.GenericUtils;
+
 
 
 public class UserLoginDataPost
@@ -18,6 +20,13 @@ public class UserLoginDataPost
 	 */
 	public UserLoginDataPost()
 	{}
+	
+	
+	
+	public String getPasswordHash()
+	{
+		return GenericUtils.getSHA512PasswordHash(password);
+	}
 	
 	
 	
