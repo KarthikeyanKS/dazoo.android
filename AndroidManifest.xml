@@ -88,7 +88,7 @@
         <activity
             android:name="com.mitv.activities.SearchPageActivity"
             android:configChanges="keyboard|orientation"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/WhiteTitleActionBar" />
 

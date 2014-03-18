@@ -197,7 +197,7 @@ public class SearchPageActivity
 
 				inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 
-				// performSearchAndTriggerAutocomplete();
+				 performSearchAndTriggerAutocomplete();
 			}
 		});
 	}
