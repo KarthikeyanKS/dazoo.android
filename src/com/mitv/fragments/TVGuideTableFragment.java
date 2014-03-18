@@ -180,6 +180,14 @@ public class TVGuideTableFragment
 	
 	
 	@Override
+	protected boolean hasEnoughDataToShowContent()
+	{
+		return ContentManager.sharedInstance().getFromCacheHasTVGuideForSelectedTVDate();
+	}
+	
+	
+	
+	@Override
 	public void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) 
 	{	
 		switch(fetchRequestResult)

@@ -6,11 +6,13 @@ package com.mitv.utilities;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.mitv.R;
 import com.mitv.SecondScreenApplication;
 import com.mitv.models.TVBroadcast;
@@ -37,7 +39,9 @@ public abstract class LanguageUtils
 	
 	public static Locale getCurrentLocale()
 	{
-		Locale locale = SecondScreenApplication.sharedInstance().getApplicationContext().getResources().getConfiguration().locale;
+		Context context = SecondScreenApplication.sharedInstance().getApplicationContext();
+		
+		Locale locale = context.getResources().getConfiguration().locale;
 		
 		if(locale == null)
 		{
@@ -56,6 +60,29 @@ public abstract class LanguageUtils
 		boolean isCurrentLocaleSpanish = (getCurrentLocale().getLanguage().endsWith("es"));
 		
 		return isCurrentLocaleSpanish;
+	}
+	
+	
+	
+	
+	public static String capitalize(
+			final String input,
+			final Locale locale)
+	{
+		StringBuilder sb = new StringBuilder();
+		
+		if(input != null && 
+		   input.isEmpty() == false)
+		{
+			String firstChar = input.substring(0, 1);
+			
+			String remainingString = input.substring(1);
+			
+			sb.append(firstChar.toUpperCase(locale));
+			sb.append(remainingString);
+		}
+		
+		return sb.toString();
 	}
 	
 	

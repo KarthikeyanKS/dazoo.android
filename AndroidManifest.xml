@@ -4,8 +4,8 @@
     android:installLocation="preferExternal"
     android:largeHeap="true"
     android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
-    android:versionCode="89"
-    android:versionName="1.0.89" >
+    android:versionCode="92"
+    android:versionName="1.0.92" >
 
     <uses-sdk
         android:minSdkVersion="10"
@@ -211,7 +211,7 @@
             android:icon="@drawable/ic_nav_bar"
             android:screenOrientation="portrait"
             android:launchMode="standard"
-            android:theme="@style/Theme.AppCompat.Light"
+            android:theme="@style/WhiteTitleActionBarNoUp"
             android:windowSoftInputMode="stateHidden" />
 
         <!-- PASSWORD RESET -->

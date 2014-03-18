@@ -20,6 +20,7 @@ import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
 import com.mitv.interfaces.ViewCallbackListener;
 import com.mitv.utilities.GenericUtils;
+import com.mitv.utilities.NetworkUtils;
 
 
 
@@ -38,7 +39,6 @@ public abstract class BaseFragment
 
 
 	
-	
 	/* Abstract Methods */
 	
 	/* This method implementation should update the user interface according to the received status */
@@ -46,6 +46,12 @@ public abstract class BaseFragment
 
 	/* This method implementation should load all the necessary data from the webservice */
 	protected abstract void loadData();
+	
+	/*
+	 * This method implementation should return true if all the data necessary to show the content view can be obtained
+	 * from cache without the need of external service calls
+	 */
+	protected abstract boolean hasEnoughDataToShowContent();
 	
 	/* This method implementation should deal with changes after the data has been fetched */
 	protected abstract void onDataAvailable(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier);
@@ -75,9 +81,33 @@ public abstract class BaseFragment
 	 */
 	protected void loadDataWithConnectivityCheck()
 	{
-		updateUI(UIStatusEnum.LOADING);
-		
-		ContentManager.sharedInstance().checkNetworkConnectivity(this);
+		boolean isConnected = NetworkUtils.isConnected();
+
+		if (isConnected) 
+		{
+			boolean hasInitialData = ContentManager.sharedInstance().getFromCacheHasInitialData();
+
+			if (hasInitialData) 
+			{
+				loadData();
+			} 
+			else 
+			{
+				updateUI(UIStatusEnum.LOADING);
+				ContentManager.sharedInstance().fetchFromServiceInitialCall(this, null);
+			}
+		} 
+		else 
+		{
+			if (hasEnoughDataToShowContent()) 
+			{
+				loadData();
+			} 
+			else 
+			{
+				updateUI(UIStatusEnum.NO_CONNECTION_AVAILABLE);
+			}
+		}
 	}
 	
 	

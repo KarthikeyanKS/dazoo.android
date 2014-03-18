@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import com.mitv.activities.base.BaseActivity;
 import com.mitv.enums.FetchRequestResultEnum;
 import com.mitv.enums.RequestIdentifierEnum;
 import com.mitv.enums.UIStatusEnum;
+import com.mitv.ui.elements.FontTextView;
 import com.mitv.ui.helpers.ToastHelper;
 import com.mitv.utilities.RegularExpressionUtils;
 
@@ -37,7 +39,9 @@ public class LoginWithMiTVUserActivity
 	private EditText emailEditText;
 	private EditText passwordEditText;
 	
-	private Button loginButton;
+	private RelativeLayout loginButton;
+	private ProgressBar loginButtonProgressBar;
+	private FontTextView loginButtonTextView;
 	private RelativeLayout forgetPasswordButton;
 	
 	private TextView emailErrorTextView;
@@ -122,6 +126,7 @@ public class LoginWithMiTVUserActivity
 			case LOADING:
 			{
 				disableFields();
+				showLoginSpinner();
 				break;
 			}
 			
@@ -141,13 +146,14 @@ public class LoginWithMiTVUserActivity
 				}
 				
 				enableFields();
-				
+				hideLoginSpinner();
 				break;
 			}
 		
 			case SUCCESS_WITH_CONTENT:
 			{
 				enableFields();
+				hideLoginSpinner();
 				
 //				if(!ContentManager.sharedInstance().tryStartReturnActivity(this)) {
 //					Activity mostRecentTabActivity = getMostRecentTabActivity();
@@ -163,6 +169,7 @@ public class LoginWithMiTVUserActivity
 			case FAILED:
 			{
 				enableFields();
+				hideLoginSpinner();
 				
 				String message = getString(R.string.login_with_email_failed);
 				
@@ -173,6 +180,7 @@ public class LoginWithMiTVUserActivity
 			default:
 			{
 				enableFields();
+				hideLoginSpinner();
 				Log.w(TAG, "Unhandled UI status.");
 				break;
 			}
@@ -204,6 +212,16 @@ public class LoginWithMiTVUserActivity
 		passwordEditText.setEnabled(false);
 		loginButton.setEnabled(false);
 	}
+	
+	private void showLoginSpinner() {
+		loginButtonProgressBar.setVisibility(View.VISIBLE);
+		loginButtonTextView.setText(getResources().getString(R.string.loading_text_login_button));
+	}
+	
+	private void hideLoginSpinner() {
+		loginButtonProgressBar.setVisibility(View.GONE);
+		loginButtonTextView.setText(getResources().getString(R.string.login_with_mitv));
+	}
 
 	
 	
@@ -220,8 +238,10 @@ public class LoginWithMiTVUserActivity
 		emailEditText = (EditText) findViewById(R.id.mitvlogin_login_email_edittext);
 		passwordEditText = (EditText) findViewById(R.id.mitvlogin_login_password_edittext);
 
-		loginButton = (Button) findViewById(R.id.mitvlogin_login_button);
+		loginButton = (RelativeLayout) findViewById(R.id.mitvlogin_login_button);
 		loginButton.setOnClickListener(this);
+		loginButtonProgressBar = (ProgressBar) findViewById(R.id.mitvlogin_progressbar);
+		loginButtonTextView = (FontTextView) findViewById(R.id.mitvlogin_login_button_tv);
 		
 		emailErrorTextView = (TextView) findViewById(R.id.mitvlogin_login_email_error_tv);
 		passwordErrorTextView = (TextView) findViewById(R.id.mitvlogin_login_password_error_tv);		

@@ -56,16 +56,16 @@
     <string name="splash_screen_activity_text">We guide, inspire and socialize your TV experience so you never miss a thing</string>
     
     <!-- CONTENTMANAGER RESPONSE MESSAGES -->
-    <string name="response_activityfeed">Fetched user activity feed</string>
-    <string name="response_activityfeed_more">Fetched more data for the user activity feed</string>
-    <string name="response_configuration_data">Fetched app configuration data</string>
-    <string name="response_app_version_data">Fetched app version data</string>
-    <string name="response_tv_dates_data">Fetched tv dates data</string>
-    <string name="response_tv_channel_id_data">Fetched tv channel id data</string>
-    <string name="response_tv_genres_data">Fetched tv genres data</string>
-    <string name="response_tv_channel_data">Fetched tv channel data</string>
-    <string name="response_tv_guide_data">Fetched tv guide data</string>
-    <string name="response_user_likes">Fetched user likes</string>
+    <string name="response_activityfeed">Loading recommendation feed</string>
+    <string name="response_activityfeed_more">Loading user activity feed</string>
+    <string name="response_configuration_data">Loaded app info</string>
+    <string name="response_app_version_data">Loaded version info</string>
+    <string name="response_tv_dates_data">Loaded date info</string>
+    <string name="response_tv_channel_id_data">Loaded tv channel info </string>
+    <string name="response_tv_genres_data">Loaded genres info</string>
+    <string name="response_tv_channel_data">Loaded all tv channels</string>
+    <string name="response_tv_guide_data">Loaded tv schedule </string>
+    <string name="response_user_likes">Loaded account info</string>
 
     <!-- HOMEPAGE : FILTER BY CATEGORY -->
     <string name="tv_guide">TV Guide</string>
@@ -173,6 +173,8 @@
     </plurals>
 
     <!-- LOGIN PAGE -->
+    <string name="login_page_title">Have an account?</string>
+    <string name="login_page_text">Login to add your favorite shows and channels and get better recommendations</string>
     <string name="login_with_facebook">Login with Facebook</string>
     <string name="logout_from_facebook">Logout</string>
     <string name="login_with_twitter">Login with Twitter</string>
@@ -232,6 +234,9 @@
     <string name="success_account_created_title">Hello, </string>
     <string name="success_account_created_text">Your account was created!</string>
     <string name="reset_password__email_does_not_exists">This e-mail is not registered in our service</string>
+    
+    <!-- LOADING TEXTS -->
+    <string name="loading_text_login_button">Logging in</string>
 
     <!-- MY CHANNELS PAGE -->
     <string name="get_my_channels">Get My Channels</string>
@@ -285,7 +290,7 @@
     <string name="dialog_prompt_update_google_play">Go to Google play</string>
 
     <!-- NO CONNECTION CUSTOM DIALOG -->
-    <string name="dialog_prompt_check_internet_connection">Please check your internet connection</string> 
+    <string name="dialog_prompt_check_internet_connection">No connection</string> 
     <string name="dialog_prompt_check_internet_connection_button">Retry</string> 
        
 </resources>

@@ -5,7 +5,8 @@
     android:id="@+id/no_connection_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:visibility="gone">
 
     <ImageView
         android:id="@+id/no_connection_request_iv"

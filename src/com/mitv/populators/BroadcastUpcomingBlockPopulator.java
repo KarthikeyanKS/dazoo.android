@@ -1,9 +1,14 @@
+
 package com.mitv.populators;
+
+
 
 import android.app.Activity;
 import android.widget.ScrollView;
 
 import com.mitv.models.TVBroadcastWithChannelInfo;
+
+
 
 public class BroadcastUpcomingBlockPopulator 
 	extends TrippleBroadcastBlockPopulator 
