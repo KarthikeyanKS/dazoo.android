@@ -297,8 +297,17 @@ public class BroadcastMainBlockPopulator
 			case R.id.element_social_buttons_share_button_container: 
 			{
 				TVBroadcastWithChannelInfo broadcastWithChannelInfo = (TVBroadcastWithChannelInfo) v.getTag();
+			
+				StringBuilder sb = new StringBuilder();
+				sb.append(activity.getString(R.string.share_comment));
+				sb.append(" ");
+				sb.append(broadcastWithChannelInfo.getShareUrl());
 				
-				GenericUtils.startShareActivity(activity, activity.getResources().getString(R.string.app_name), broadcastWithChannelInfo.getShareUrl(), activity.getResources().getString(R.string.share_action_title));
+				GenericUtils.startShareActivity(
+						activity,
+						activity.getString(R.string.app_name), 
+						sb.toString(),
+						activity.getString(R.string.share_action_title));
 				
 				break;
 			}

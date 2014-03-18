@@ -250,13 +250,14 @@
 
     <!-- SHARE PROVIDER -->
     <string name="share_action_title">Share via&#8230;</string>
+    <string name="share_comment">Check out this program</string>
 
     <!-- NOTIFICATION SERVICE -->
 
     <string name="reminder_text_set_top">A reminder was set</string>
     <string name="reminder_text_set_middle">15 minutes</string>
     <string name="reminder_text_set_bottom">before on air</string>
-    <string name="reminder_text_remove">Remove the reminder for </string>
+    <string name="reminder_text_remove">Remove the reminder for</string>
 
     <!-- LIKE SERVICE -->
     <string name="like_set_text_row1">The show</string>
