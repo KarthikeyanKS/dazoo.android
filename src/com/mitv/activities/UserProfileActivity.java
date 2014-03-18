@@ -84,6 +84,10 @@ public class UserProfileActivity
 		isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 		
 		populateViews();
+		
+		registerAsListenerForRequest(RequestIdentifierEnum.USER_ADD_LIKE);
+		registerAsListenerForRequest(RequestIdentifierEnum.USER_REMOVE_LIKE);
+		registerAsListenerForRequest(RequestIdentifierEnum.USER_LIKES);
 	}
 
 

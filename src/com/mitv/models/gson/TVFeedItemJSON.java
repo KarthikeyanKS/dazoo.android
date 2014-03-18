@@ -20,15 +20,15 @@ public class TVFeedItemJSON
 	 * The names of these variables should not be changed unless the backend API call parameters changes too.
 	 */
 
-	private String itemType;
+	protected String itemType;
 	
-	private String title;
+	protected String title;
 	
 	/* This variable is used if itemType == "BROADCAST" or itemType == "RECOMMENDED_BROADCAST" or itemType == "POPULAR_BROADCAST" or itemType == "POPULAR_TWITTER" */
-	private TVBroadcastWithChannelInfo broadcast;
+	protected TVBroadcastWithChannelInfo broadcast;
 	
 	/* This variable is used if itemType == "POPULAR_BROADCASTS" */
-	private List<TVBroadcastWithChannelInfo> broadcasts;
+	protected List<TVBroadcastWithChannelInfo> broadcasts;
 	
 	
 	
@@ -57,12 +57,5 @@ public class TVFeedItemJSON
 	public TVBroadcastWithChannelInfo getBroadcast()
 	{
 		return broadcast;
-	}
-
-
-
-	public List<TVBroadcastWithChannelInfo> getBroadcasts() 
-	{
-		return broadcasts;
 	}
 }

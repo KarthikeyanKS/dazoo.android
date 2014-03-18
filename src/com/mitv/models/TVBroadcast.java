@@ -360,8 +360,7 @@ public class TVBroadcast
 				} 
 				else 
 				{
-					// TODO NewArc - Move this into resources
-					sb.append("Has finished");
+					sb.append(res.getString(R.string.search_result_broadcast_has_finished));
 				}
 			}
 		}

@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.mitv.ContentManager;
@@ -30,11 +29,9 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 	private LayoutInflater inflater;
 	private FontTextView iconView;
 	private BaseActivity activity;
-	private Context context;
-	private TVBroadcastWithChannelInfo tvBroadcastWithChannelInfo;
-	private boolean isSet;
 	private View containerView;
 	private UserLike likeFromBroadcast;
+	private ViewCallbackListener viewCallbackListener;
 
 	public LikeView(Context context) {
 		super(context);
@@ -56,15 +53,14 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 		this.containerView = inflater.inflate(R.layout.element_like_view, this);
 
 		this.iconView = (FontTextView) this.findViewById(R.id.element_like_image_View);
-		this.context = context;
 		this.activity = (BaseActivity) context;
+		this.viewCallbackListener = (ViewCallbackListener) context;
 
 		this.setClickable(true);
 		this.setOnClickListener(this);
 	}
 
 	public void setBroadcast(TVBroadcastWithChannelInfo broadcast) {
-		this.tvBroadcastWithChannelInfo = broadcast;
 		this.likeFromBroadcast = UserLike.userLikeFromBroadcast(broadcast);
 
 		updateImage();
@@ -74,10 +70,8 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 	
 	public void updateImage() {
 		if (ContentManager.sharedInstance().isContainedInUserLikes(likeFromBroadcast)) {
-			isSet = true;
 			setImageToLiked();
 		} else {
-			isSet = false;
 			setImageToNotLiked();
 		}
 	}
@@ -86,13 +80,11 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 		ContentManager.sharedInstance().removeUserLike(this, likeFromBroadcast);
 		DialogHelper.showRemoveLikeDialog(activity, yesRemoveLike(), NoRemoveLike());
 		setImageToNotLiked();
-		isSet = false;
 	}
 	
 	private void addLike() {
 		AnimationUtils.animationSet(this);
 		setImageToLiked();
-		isSet = true;
 		ContentManager.sharedInstance().addUserLike(this, likeFromBroadcast);
 	}
 
@@ -101,7 +93,6 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 		boolean isLoggedIn = ContentManager.sharedInstance().isLoggedIn();
 
 		final boolean isLiked = ContentManager.sharedInstance().isContainedInUserLikes(likeFromBroadcast);
-		isSet = isLiked;
 
 		if (isLoggedIn) {
 			if (isLiked) {
@@ -132,7 +123,6 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 			public void run() {
 				ContentManager.sharedInstance().removeUserLike(activity, likeFromBroadcast);
 				setImageToNotLiked();
-				isSet = false;
 			}
 		};
 	}
@@ -173,6 +163,7 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 
 	@Override
 	public void onResult(FetchRequestResultEnum fetchRequestResult, RequestIdentifierEnum requestIdentifier) {
+		viewCallbackListener.onResult(fetchRequestResult, requestIdentifier);
 		
 		if(fetchRequestResult.wasSuccessful()) {
 			switch (requestIdentifier) {
@@ -192,6 +183,7 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 				Log.d(TAG, "Successfully removed like");
 				break;
 			}
+			default:{/* Do nothing */break;}
 			}
 		} else {
 			switch (requestIdentifier) {
@@ -205,6 +197,7 @@ public class LikeView extends RelativeLayout implements ViewCallbackListener, On
 				setImageToLiked();
 				break;
 			}
+			default:{/* Do nothing */break;}
 			}
 		}
 		
