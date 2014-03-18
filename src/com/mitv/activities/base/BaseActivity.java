@@ -75,6 +75,7 @@ public abstract class BaseActivity
 	protected FontTextView tabProfileText;
 	protected View tabDividerLeft;
 	protected View tabDividerRight;
+	protected View undoBarlayoutView;
 
 	private RelativeLayout requestEmptyLayout;
 	private TextView requestEmptyLayoutDetails;
@@ -137,6 +138,7 @@ public abstract class BaseActivity
 		if (undoBarController != null) 
 		{
 			undoBarController.hideUndoBar(true);
+			undoBarController = new UndoBarController(undoBarlayoutView, this);
 		} 
 		else 
 		{
@@ -707,7 +709,7 @@ public abstract class BaseActivity
 
 				if (hasEnoughDataToShowContent() && isConnected == false) {
 					if (undoBarController != null) {
-						undoBarController.showUndoBar(true, getString(R.string.dialog_prompt_check_internet_connection), null);
+						undoBarController.showUndoBar(false, getString(R.string.dialog_prompt_check_internet_connection), null);
 					} else {
 						Log.w(TAG, "Undo bar component is null.");
 					}
@@ -814,7 +816,7 @@ public abstract class BaseActivity
 			requestNoInternetConnectionRetryButton.setOnClickListener(this);
 		}
 
-		View undoBarlayoutView = findViewById(R.id.undobar);
+		undoBarlayoutView = findViewById(R.id.undobar);
 
 		if (undoBarlayoutView != null) {
 			undoBarController = new UndoBarController(undoBarlayoutView, this);
