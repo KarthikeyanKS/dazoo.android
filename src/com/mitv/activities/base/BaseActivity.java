@@ -692,7 +692,7 @@ public abstract class BaseActivity
 	}
 
 	protected void updateUIBaseElements(UIStatusEnum status) {
-		Log.d(TAG, String.format("updateUIBaseElements, status: ", status.getDescription()));
+		Log.d(TAG, String.format("updateUIBaseElements, status: %s", status.getDescription()));
 
 		boolean activityNotNullOrFinishing = GenericUtils.isActivityNotNullOrFinishing(this);
 

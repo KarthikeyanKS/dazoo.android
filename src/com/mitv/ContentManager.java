@@ -1405,7 +1405,13 @@ public class ContentManager
 		}
 	}
 	
+	public boolean getFromCacheHasUserTVChannelIds() {
+		return cache.containsTVChannelIdsUser();
+	}
 	
+	public boolean getFromCacheHasTVChannelsAll() {
+		return cache.containsTVChannels();
+	}
 	
 	public boolean getFromCacheHasTVBroadcastWithChannelInfo(TVChannelId channelId, long beginTimeInMillis)
 	{
@@ -1776,29 +1782,30 @@ public class ContentManager
 		cache.setReturnActivity(returnActivity);
 	}
 	
-	public Class<?> getReturnActivity() {
-		Class<?> returnActivity = cache.getReturnActivity();
-		return returnActivity;
-	}
-	
 	/**
 	 * This method tries to start the return activity stored in the cache, if null it does nothing and returns false
 	 * else it starts the activity and sets it to null and returns true
 	 * @param caller
 	 * @return
 	 */
-//	public boolean tryStartReturnActivity(Activity caller) {
-//		boolean returnActivityWasSet = getReturnActivity() != null;
-//		
-//		if(returnActivityWasSet) {
-//			Intent intent = new Intent(caller, getReturnActivity());
-//			cache.clearReturnActivity();
-//			caller.startActivity(intent);
-//		}
-//		
-//		return returnActivityWasSet;
-//	}
+	public boolean tryStartReturnActivity(Activity caller) {
+		boolean returnActivityWasSet = getReturnActivity() != null;
+		
+		if(returnActivityWasSet) {
+			Intent intent = new Intent(caller, getReturnActivity());
+			cache.clearReturnActivity();
+			caller.startActivity(intent);
+		}
+		
+		return returnActivityWasSet;
+	}
+
 	
+	public Class<?> getReturnActivity() {
+		Class<?> returnActivity = cache.getReturnActivity();
+		return returnActivity;
+	}
+		
 	public void setLikeToAddAfterLogin(UserLike userLikeToAdd) {
 		cache.setLikeToAddAfterLogin(userLikeToAdd);
 	}

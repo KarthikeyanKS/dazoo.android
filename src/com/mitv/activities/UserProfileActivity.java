@@ -72,6 +72,8 @@ public class UserProfileActivity
 		setContentView(R.layout.layout_my_profile);
 
 		initLayout();
+		
+		registerAsListenerForRequest(RequestIdentifierEnum.TV_CHANNEL_IDS_USER_STANDALONE);
 	}
 	
 
